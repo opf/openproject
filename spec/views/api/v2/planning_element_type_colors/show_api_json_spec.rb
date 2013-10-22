@@ -28,50 +28,40 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/planning_element_type_colors/show.api.rsb' do
-  before do
-    view.extend TimelinesHelper
-  end
+describe 'api/v2/planning_element_type_colors/show.api.rabl' do
 
   before do
-    params[:format] = 'xml'
+    params[:format] = 'json'
   end
 
   describe 'with an assigned color' do
-    let(:color) { FactoryGirl.build(:color) }
+    let(:color) { FactoryGirl.build(:color,
+                                    :id       => 1,
+                                    :name     => 'Awesometastic color',
+                                    :hexcode  => '#FFFFFF',
+                                    :position => 10,
+
+                                    :created_at => Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
+                                    :updated_at => Time.parse('Fri Jan 07 12:35:00 +0100 2011')) }
+
+
+    before do
+      assign(:color, color)
+      render
+    end
+
+    subject { response.body }
 
     it 'renders a color document' do
-      assign(:color, color)
-
-      render
-
-      response.should have_selector('color', :count => 1)
+      should have_json_path('color')
     end
 
-    it 'renders the _color template once' do
-      assign(:color, color)
+    it 'renders the detail information about the color' do
+      puts subject
+      expected_json = {name: "Awesometastic color", hexcode: '#FFFFFF', position: 10}.to_json
 
-      view.should_receive(:render).once.with(hash_including(:partial => '/api/v2/planning_element_type_colors/color.api')).and_return('')
-
-      # in order to enable calling the original render method
-      # despite should_receive expectations
-      view.should_receive(:render).once.with(hash_including(:template => "api/v2/planning_element_type_colors/show"), {})
-                                  .and_call_original
-
-      render
+      should be_json_eql(expected_json).at_path('color')
     end
 
-    it 'passes the color as local var to the partial' do
-      assign(:color, color)
-
-      view.should_receive(:render).once.with(hash_including(:object => color)).and_return('')
-
-      # in order to enable calling the original render method
-      # despite should_receive expectations
-      view.should_receive(:render).once.with(hash_including(:template => "api/v2/planning_element_type_colors/show"), {})
-                                  .and_call_original
-
-      render
-    end
   end
 end

@@ -26,8 +26,13 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-api.array :colors, :size => @colors.size do
-  @colors.each do |color|
-    render(:partial => '/api/v2/planning_element_type_colors/color.api', :object => color)
-  end
+object @color
+attributes :id, :name, :position, :hexcode
+
+node :created_at, if: ->(color){color.created_at.present?} do |color|
+  color.created_at.utc
+end
+
+node :updated_at, if: ->(color){color.updated_at.present?} do |color|
+  color.created_at.utc
 end

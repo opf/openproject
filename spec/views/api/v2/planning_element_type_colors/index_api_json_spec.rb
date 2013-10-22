@@ -26,4 +26,40 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-render(:partial => '/api/v2/planning_element_type_colors/color.api', :object => @color)
+require File.expand_path('../../../../../spec_helper', __FILE__)
+
+describe 'api/v2/planning_element_type_colors/index.api.rabl' do
+
+  before do
+    params[:format] = 'json'
+  end
+
+  describe 'with no colors available' do
+    it 'renders an empty colors document' do
+      assign(:colors, [])
+      render
+
+      response.should have_json_size(0).at_path("colors")
+    end
+  end
+
+  describe 'with 3 colors available' do
+    let(:colors) {
+      [
+        FactoryGirl.build(:color),
+        FactoryGirl.build(:color),
+        FactoryGirl.build(:color)
+      ]
+    }
+
+    before do
+      assign(:colors, colors)
+      render
+    end
+
+    it 'renders a colors document with the size 3 of array' do
+      response.should have_json_size(3).at_path("colors")
+    end
+
+  end
+end

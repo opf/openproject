@@ -26,14 +26,5 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-api.color do
-  api.id(color.id)
-
-  api.name(color.name)
-  api.hexcode(color.hexcode)
-
-  api.position(color.position)
-
-  api.created_at(color.created_at.utc) if color.created_at
-  api.updated_at(color.updated_at.utc) if color.updated_at
-end
+collection @colors => :colors
+extends '/api/v2/planning_element_type_colors/color'

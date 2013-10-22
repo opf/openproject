@@ -29,17 +29,13 @@
 object @project
 attributes :id, :name, :identifier, :description, :project_type_id
 
-node :view_planning_elements do |project|
-  User.current.allowed_to?(:view_work_packages, project)
+node :permissions do |project|
+  { view_planning_elements: User.current.allowed_to?(:view_work_packages, project),
+    edit_planning_elements: User.current.allowed_to?(:edit_work_packages, project),
+    delete_planning_elements: User.current.allowed_to?(:delete_work_packages, project)
+  }
 end
 
-node :edit_planning_elements do |project|
-  User.current.allowed_to?(:edit_work_packages, project)
-end
-
-node :delete_planning_elements do |project|
-  User.current.allowed_to?(:delete_work_packages, project)
-end
 
 node :parent, if: lambda{|project| visible_parent_project(project).present?} do |project|
   child :parent do
