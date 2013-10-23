@@ -1,0 +1,33 @@
+noscript > div {
+  font-size: 12px;
+  font-weight: normal;
+
+  background: #FFC38C url(<%= asset_path 'webalys/warning.png' %>) 22px 18px no-repeat;
+  border-bottom: 1px solid black;
+
+  padding-left: 55px;
+  padding-top: 18px;
+  padding-bottom: 12px;
+  padding-right: 18px;
+}
+
+noscript h1 {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+noscript p {
+  width: 800px;
+}
+
+noscript > div * {
+  width: 800px;
+}
+
+noscript h2 {
+  text-align: left;
+  font-size: 12px;
+  font-weight: bold;
+  border-bottom: 0;
+  margin: 0;
+}

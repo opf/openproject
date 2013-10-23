@@ -460,7 +460,6 @@ de:
   description_category_reassign: "Neue Kategorie wählen"
   description_message_content: "Nachrichteninhalt"
   description_my_project: "Sie sind Mitglied"
-  description_noscript: "Sie müssen JavaScript aktiveren, um OpenProject nutzen zu können!"
   description_notes: "Kommentare"
   description_option_toggle: "Optionen aus/einblenden"
   description_parent_work_package: "Übergeordnetes Arbeitspaket"
@@ -518,6 +517,10 @@ de:
 
   gui_validation_error: "1 Fehler"
   gui_validation_error_plural: "%{count} Fehler"
+
+  noscript_description: "Sie müssen JavaScript aktiveren, um OpenProject nutzen zu können!"
+  noscript_heading: "JavaScript deaktiviert"
+  noscript_learn_more: "Weitere Informationen"
 
   js:
     logoff: "Sie wurden ausgeloggt."
