@@ -34,6 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1916` Work package update screen is closed when attached file is deleted
 * `#1935` Fixed bug: Default submenu for wiki pages is wrong (Configure menu item)
 * `#2371` Add support for IE10 to Timelines
+* `#2423` [Issue Tracker] Several Internal Errors when there is no default work package status
 * `#2448` Accelerate work package updates
 * `#2479` Remove TinyMCE spike
 
