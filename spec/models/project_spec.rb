@@ -173,10 +173,15 @@ describe Project do
     let(:project) { FactoryGirl.create(:project_with_types) }
     let(:copy) { Project.new }
 
-    it "should be able to be copied" do
+    before do
       copy.name = "foo"
       copy.identifier = "foo"
       copy.copy(project)
+    end
+
+    subject { copy }
+
+    it "should be able to be copied" do
 
       copy.should be_valid
       copy.should_not be_new_record
@@ -195,13 +200,15 @@ describe Project do
       copy = Project.new
       copy.name = "foo"
       copy.identifier = "foo"
-      return copy
+      copy
+    end
+
+    before do
+      copy.send :copy_attributes, project
+      copy.save
     end
 
     it "should copy all relevant attributes from another project" do
-      copy.send :copy_attributes, project
-      copy.save
-
       copy.types.should == project.types
       copy.work_package_custom_fields.should == project.work_package_custom_fields
     end
@@ -215,11 +222,11 @@ describe Project do
       copy.identifier = "foo"
       copy.copy_attributes(project)
       copy.save
-      return copy
+      copy
     end
 
     describe :copy_work_packages do
-      it "should copy work_packages from another project" do
+      before do
         wp1 = FactoryGirl.create(:work_package, :project => project)
         wp2 = FactoryGirl.create(:work_package, :project => project)
         wp3 = FactoryGirl.create(:work_package, :project => project)
@@ -228,24 +235,29 @@ describe Project do
         wp1.category = FactoryGirl.create(:category, :project => project)
         wp1.fixed_version = FactoryGirl.create(:version, :project => project)
         [wp1, wp2, wp3].each { |wp| project.work_packages << wp }
+
         copy.send :copy_work_packages, project
         copy.save
-
-        copy.work_packages.count.should == project.work_packages.count
       end
+
+      subject { copy.work_packages.count }
+
+      it { should == project.work_packages.count }
     end
 
     describe :copy_timelines do
-      it "should copy timelines from another project" do
+      before do
         timeline = FactoryGirl.create(:timeline, :project => project)
         # set options to nil, is known to have been buggy
         timeline.send :write_attribute, :options, nil
 
         copy.send(:copy_timelines, project)
         copy.save
-
-        copy.timelines.count.should == project.timelines.count
       end
+
+      subject { copy.timelines.count }
+
+      it { should == project.timelines.count }
     end
   end
 end
