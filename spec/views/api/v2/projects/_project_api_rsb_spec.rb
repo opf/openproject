@@ -131,7 +131,7 @@ describe 'api/v2/projects/_project.api' do
       it 'contains a parent element with name and id attributes' do
         render
 
-        response.should have_selector('project parent[name=Parent][id="102"][identifier=parent]', :count => 1)
+        response.should have_selector("project parent[name=Parent][id='#{parent_project.id}'][identifier=parent]", :count => 1)
       end
     end
   end
