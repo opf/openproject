@@ -124,7 +124,7 @@ describe 'api/v2/projects/_project.api' do
   end
 
   describe 'with a project having a parent project' do
-    let(:parent_project) { FactoryGirl.create(:project, :id => 102, :name => 'Parent', :identifier => 'parent') }
+    let(:parent_project) { FactoryGirl.create(:project, :name => 'Parent', :identifier => 'parent') }
     let(:project) { FactoryGirl.create(:project).tap { |p| p.move_to_child_of(parent_project.id)} }
 
     describe 'project node' do
@@ -137,7 +137,7 @@ describe 'api/v2/projects/_project.api' do
   end
 
   describe 'with a project having an invisible parent project' do
-    let(:parent_project) { FactoryGirl.create(:project, :id => 103, :name => 'Parent', :identifier => 'parent', :is_public => false) }
+    let(:parent_project) { FactoryGirl.create(:project, :name => 'Parent', :identifier => 'parent', :is_public => false) }
     let(:project) { FactoryGirl.create(:project).tap { |p| p.move_to_child_of(parent_project.id)} }
 
     describe 'project node' do
