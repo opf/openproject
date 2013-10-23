@@ -29,9 +29,9 @@
 FactoryGirl.define do
   factory :user do
     ignore do
-        member_in_project nil
-        member_in_projects nil
-        member_through_role nil
+      member_in_project nil
+      member_in_projects nil
+      member_through_role nil
     end
     firstname 'Bob'
     lastname 'Bobbit'
@@ -75,7 +75,7 @@ FactoryGirl.define do
     factory :deleted_user, :class => DeletedUser do
       status User::STATUSES[:builtin]
     end
-    
+
     factory :locked_user do
       firstname 'Locked'
       lastname 'User'
@@ -83,7 +83,7 @@ FactoryGirl.define do
       sequence(:mail) {|n| "bob#{n}.bobbit@bob.com" }
       password 'adminADMIN!'
       password_confirmation 'adminADMIN!'
-     status User::STATUSES[:locked]
-   end
+      status User::STATUSES[:locked]
+    end
   end
 end

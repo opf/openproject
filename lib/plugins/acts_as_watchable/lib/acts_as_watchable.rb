@@ -86,7 +86,7 @@ module Redmine
         end
 
         def possible_watcher_users
-          User.all.tap do |users|
+          User.not_builtin.tap do |users|
             if respond_to?(:visible?)
               users.select! {|user| possible_watcher?(user)}
             else
