@@ -57,11 +57,13 @@ class Watcher < ActiveRecord::Base
   protected
 
   def validate_active_user
+    # TODO add informative error message
     return if user.blank?
     errors.add :user_id, :invalid unless user.active?
   end
 
   def validate_user_allowed_to_watch
+    # TODO add informative error message
     return if user.blank? || watchable.blank?
     errors.add :user_id, :invalid unless watchable.possible_watcher?(user)
   end
