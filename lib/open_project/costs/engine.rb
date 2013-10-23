@@ -57,7 +57,7 @@ module OpenProject::Costs
       require_dependency 'open_project/costs/patches/i18n_patch'
     end
 
-    initializer :append_migrations do |app|
+    initializer 'costs.append_migrations' do |app|
       unless app.root.to_s.match root.to_s
         config.paths["db/migrate"].expanded.each do |expanded_path|
           app.config.paths["db/migrate"] << expanded_path

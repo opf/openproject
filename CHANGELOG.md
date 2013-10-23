@@ -1,5 +1,6 @@
 # Changelog
 
+* `#2545` Migrated old plugin settings
 * `#2402` Squash old migrations
 
 ## 5.0.1.pre7

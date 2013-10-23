@@ -25,7 +25,7 @@
         <%= form_for cost_type, :url => toggle_delete_cost_type_path(cost_type),
                                 :html => { :id => "restore_cost_type_#{cost_type.id}",
                                            :class => "restore_cost_type" } do |f| %>
-          <%= image_submit_tag "webalys/unlock.png" , :alt => l(:button_unlock), :title => l(:button_unlock) %>
+          <%= image_submit_tag "webalys/locked_un.png" , :alt => l(:button_unlock), :title => l(:button_unlock) %>
         <% end %>
       </td>
     </tr>

@@ -48,7 +48,7 @@ class CostObjectsController < ApplicationController
 
     condition = Project.allowed_to_condition(User.current,
                                              :view_cost_objects,
-                                             :project => @project),
+                                             :project => @project)
 
 
     @cost_objects = CostObject.order(sort_clause)
