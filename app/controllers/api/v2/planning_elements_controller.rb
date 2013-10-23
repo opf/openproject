@@ -177,11 +177,12 @@ module Api
       end
 
       def planning_comparison?
-        params[:at_time]
+        params[:at_time].present?
       end
 
       def current_work_packages(projects)
         work_packages = WorkPackage.for_projects(projects).without_deleted
+                                   .includes(:status, :project, :type)
 
         if params[:f]
           query = Query.new
