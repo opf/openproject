@@ -36,9 +36,9 @@ class ProjectsController < ApplicationController
 
   before_filter :disable_api
   before_filter :find_project, :except => [ :index, :level_list, :new, :create ]
-  before_filter :authorize, :only => [ :show, :settings, :edit, :update, :modules, :types, :copy, :copy_project ]
+  before_filter :authorize, :only => [ :show, :settings, :edit, :update, :modules, :types ]
   before_filter :authorize_global, :only => [:new, :create]
-  before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
+  before_filter :require_admin, :only => [ :archive, :unarchive, :destroy ]
   before_filter :jump_to_project_menu_item, :only => :show
   before_filter :load_project_settings, :only => :settings
   before_filter :determine_base
