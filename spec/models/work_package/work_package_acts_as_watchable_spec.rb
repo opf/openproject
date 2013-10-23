@@ -32,40 +32,60 @@ describe WorkPackage do
   let(:project) { FactoryGirl.create(:project) }
   let(:work_package) { FactoryGirl.create(:work_package,
                                           project: project) }
-  let(:role) { FactoryGirl.create(:role,
-                                  permissions: [:view_work_packages]) }
+  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
 
-  let(:user) { FactoryGirl.create(:user) }
+  let(:non_member_user) { FactoryGirl.create(:user) }
   let(:project_member) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
-
   let!(:watching_user) do
     FactoryGirl.create(:user, member_in_project: project, member_through_role: role).tap {|user| Watcher.create(watchable: work_package, user: user)}
   end
 
   describe '#possible_watcher_users' do
+    subject { work_package.possible_watcher_users }
+
     let!(:admin){ FactoryGirl.create(:admin) }
     let!(:anonymous_user){ FactoryGirl.create(:anonymous) }
 
-    it 'contains exactly those users who are allowed to view work packages' do
-      users_allowed_to_view_work_packages = User.all.select{ |u| u.allowed_to?(:view_work_packages, project) }
-      work_package.possible_watcher_users.sort.should == Array.wrap(users_allowed_to_view_work_packages).sort
+    shared_examples 'it provides possible watchers' do
+      it 'contains exactly those users who are allowed to view work packages' do
+        users_allowed_to_view_work_packages = User.all.select{ |u| u.allowed_to?(:view_work_packages, project) }
+        work_package.possible_watcher_users.sort.should == Array.wrap(users_allowed_to_view_work_packages).sort
+      end
     end
 
-    subject { work_package.possible_watcher_users }
+    context 'when it is a public project' do
+      it_behaves_like 'it provides possible watchers'
 
-    it { should_not include(anonymous_user) }
+      it { should include(admin) }
+      it { should include(project_member) }
 
-    it { should include(admin) }
+      context 'and the non member role has the permission to view work packages' do
+        let(:non_member_role) { Role.find_by_name('Non member') }
 
+        before do
+          non_member_role.add_permission! :view_work_packages
+        end
+
+        it { should include(non_member_user) }
+      end
+
+      context 'and the anonymous role has the permission to view work packages' do
+        let!(:anonymous_role) { FactoryGirl.create :anonymous_role, permissions: [:view_work_packages] } # 'project granting candidate' for anonymous user
+
+        it { should_not include(anonymous_user) }
+      end
+    end
 
     context 'when it is a private project' do
       before do
         project.update_attributes is_public: false
       end
 
-      it { should_not include(user) }
+      it_behaves_like 'it provides possible watchers'
 
       it { should include(project_member) }
+      it { should_not include(non_member_user) }
+      it { should_not include(anonymous_user) }
     end
   end
 
@@ -79,6 +99,7 @@ describe WorkPackage do
         role.remove_permission! :view_work_packages
         work_package.reload
       end
+
       it { should_not include(watching_user.mail) }
     end
   end
