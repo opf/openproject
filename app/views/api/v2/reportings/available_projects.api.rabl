@@ -25,23 +25,18 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+collection @elements => :projects
 
-api.array :projects, api_meta(:size => @elements.size) do
-  @elements.each do |element|
-    project = element[:project]
+node do |element|
+  project = element[:project]
+  level   = element[:level]
 
-    api.project do
-      api.id(project.id)
-      api.name(project.name)
-      api.identifier(project.identifier)
-
-      api.level(element[:level])
-
-      api.created_on(project.created_on.utc.iso8601) if project.created_on
-      api.updated_on(project.updated_on.utc.iso8601) if project.updated_on
-
-      api.disabled(@disabled.include? project)
-
-    end
-  end
+  available_projects = { id: project.id,
+                         name: project.name,
+                         identifier: project.identifier,
+                         level: level,
+                         created_on: project.created_on.utc.iso8601,
+                         updated_on: project.updated_on.utc.iso8601,
+                         disabled: @disabled.include?(project)
+                        }
 end
