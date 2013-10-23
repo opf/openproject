@@ -135,7 +135,7 @@ input#openid_url { background: url(<%= asset_path 'openid-bg.gif' %>) no-repeat;
 .clear:after{ content: "."; display: block; height: 0; clear: both; visibility: hidden; }
 
 /***** Links *****/
-a, a:link, a:visited, input.input-as-link {
+a, a:link, input.input-as-link {
   text-decoration: none;
   color: #6a0406;
   font-weight: bold;
@@ -152,7 +152,7 @@ input.input-as-link {
 }
 a img{ border: 0; }
 
-a.issue.closed, a.issue.closed:link, a.issue.closed:visited {
+a.issue.closed, a.issue.closed:link, a.issue.closed {
   text-decoration: line-through;
 }
 
@@ -666,10 +666,9 @@ span.errorSpan input {
 
 div.flash {margin-top: 8px;}
 
-div.flash.error a, div.flash.warning a, div.flash.notice a, #errorExplanation a ,
-div.flash.error a:link, div.flash.warning a:link, div.flash.notice a:link, #errorExplanation a:link ,
-div.flash.error a:hover, div.flash.warning a:hover, div.flash.notice a:hover, #errorExplanation a:hover ,
-div.flash.error a:visited, div.flash.warning a:visited, div.flash.notice a:visited, #errorExplanation a:visited {
+div.flash.error a, div.flash.warning a, div.flash.notice a, #errorExplanation a,
+div.flash.error a:link, div.flash.warning a:link, div.flash.notice a:link, #errorExplanation a:link,
+div.flash.error a:hover, div.flash.warning a:hover, div.flash.notice a:hover, #errorExplanation a:hover {
   font: bold bold bold 12px/1.5 arial,'lucida grandriale','lucida sans unicode',tahom,sans-serif;
   color: #333;
   text-decoration: none;
@@ -2354,7 +2353,7 @@ div#sidebar > h3:first-child {
   margin-top: 0px;
 }
 
-#sidebar a, #sidebar a:link, #sidebar a:visited {
+#sidebar a, #sidebar a:link {
   color: #6a0406;
   font-weight: bold;
   height: auto;
@@ -3205,7 +3204,7 @@ li a.home:hover  {
 }
 
 /***** Links *****/  /* TODO */
-a, a:link, a:visited, input.input-as-link {
+a, a:link, input.input-as-link {
   color: #008BD0;
 }
 a:hover, a:active {
@@ -3396,7 +3395,7 @@ a.atom {
   padding: 0px;
   margin-bottom: 8px;
 }
-#sidebar a, #sidebar a:link, #sidebar a:visited {
+#sidebar a, #sidebar a:link {
   color: #008BD0;
   font-weight: bold;
   height: auto;

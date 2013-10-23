@@ -25,9 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 See doc/COPYRIGHT.rdoc for more details.
 
-++#%>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+++#%><!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="<%= I18n.locale.to_s %>" xml:lang="<%= I18n.locale.to_s %>">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -35,7 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <meta name="description" content="<%= Redmine::Info.app_name %>" />
 <meta name="keywords" content="issue,bug,type" />
 <meta name="current_menu_item" content="<%= current_menu_item %>" />
-<%= csrf_meta_tag %>
+<%= csrf_meta_tags %>
 <%= favicon_link_tag 'favicon.ico' %>
 <%= stylesheet_link_tag current_theme.stylesheet_manifest, :media => "all" %>
 <%= javascript_include_tag 'application' %>
@@ -46,9 +44,9 @@ See doc/COPYRIGHT.rdoc for more details.
 <!-- page specific tags -->
 <%= content_for(:header_tags) if content_for?(:header_tags) %>
 </head>
-<noscript><%=l(:description_noscript)%></noscript>
 <% show_decoration = params["layout"].nil? %>
 <body class="<%= body_css_classes %>">
+<noscript><%=l(:description_noscript)%></noscript>
 <div id="wrapper">
   <% if show_decoration %>
     <div id="top-menu">
