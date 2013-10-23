@@ -90,6 +90,7 @@ describe WorkPackage do
 
       before do
         project.update_attributes is_public: false
+        work_package.reload
       end
 
       it_behaves_like 'it provides possible watchers'
