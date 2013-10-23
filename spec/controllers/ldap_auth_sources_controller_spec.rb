@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
@@ -27,28 +26,27 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../test_helper', __FILE__)
+require File.expand_path('../../spec_helper', __FILE__)
 
-class LdapAuthSourcesControllerTest < ActionController::TestCase
-  fixtures :all
+describe LdapAuthSourcesController do
+  let(:current_user) { FactoryGirl.create(:admin) }
 
-  def setup
-    super
-    @request.session[:user_id] = 1
+  before do
+    User.stub(:current).and_return current_user
   end
 
-  context "get :new" do
-    setup do
+  describe "new" do
+    before do
       get :new
     end
 
-    should_assign_to :auth_source
-    should respond_with :success
-    should render_template :new
+    it { expect(assigns(:auth_source)).not_to be_nil }
+    it { should respond_with :success }
+    it { should render_template :new }
 
-    should "initilize a new AuthSource" do
-      assert_equal LdapAuthSource, assigns(:auth_source).class
-      assert assigns(:auth_source).new_record?
+    it "initializes a new AuthSource" do
+      expect(assigns(:auth_source).class).to eq LdapAuthSource
+      expect(assigns(:auth_source)).to be_new_record
     end
   end
 end
