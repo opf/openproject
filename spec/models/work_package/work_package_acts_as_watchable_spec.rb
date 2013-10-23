@@ -53,6 +53,18 @@ describe WorkPackage do
       end
     end
 
+    shared_context 'non member role has the permission to view work packages' do
+      let(:non_member_role) { Role.find_by_name('Non member') }
+
+      before do
+        non_member_role.add_permission! :view_work_packages
+      end
+    end
+
+    shared_context 'anonymous role has the permission to view work packages' do
+      let!(:anonymous_role) { FactoryGirl.create :anonymous_role, permissions: [:view_work_packages] } # 'project granting candidate' for anonymous user
+    end
+
     context 'when it is a public project' do
       it_behaves_like 'it provides possible watchers'
 
@@ -60,23 +72,22 @@ describe WorkPackage do
       it { should include(project_member) }
 
       context 'and the non member role has the permission to view work packages' do
-        let(:non_member_role) { Role.find_by_name('Non member') }
-
-        before do
-          non_member_role.add_permission! :view_work_packages
-        end
+        include_context 'non member role has the permission to view work packages'
 
         it { should include(non_member_user) }
       end
 
       context 'and the anonymous role has the permission to view work packages' do
-        let!(:anonymous_role) { FactoryGirl.create :anonymous_role, permissions: [:view_work_packages] } # 'project granting candidate' for anonymous user
+        include_context 'anonymous role has the permission to view work packages'
 
         it { should_not include(anonymous_user) }
       end
     end
 
     context 'when it is a private project' do
+      include_context 'non member role has the permission to view work packages'
+      include_context 'anonymous role has the permission to view work packages'
+
       before do
         project.update_attributes is_public: false
       end
