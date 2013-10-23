@@ -96,6 +96,8 @@ describe WorkPackage do
       it_behaves_like 'it provides possible watchers'
 
       it { should include(project_member) }
+      it { should include(admin) }
+
       it { should_not include(non_member_user) }
       it { should_not include(anonymous_user) }
     end
