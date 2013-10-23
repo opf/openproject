@@ -518,10 +518,6 @@ de:
   gui_validation_error: "1 Fehler"
   gui_validation_error_plural: "%{count} Fehler"
 
-  noscript_description: "Sie müssen JavaScript aktiveren, um OpenProject nutzen zu können!"
-  noscript_heading: "JavaScript deaktiviert"
-  noscript_learn_more: "Weitere Informationen"
-
   js:
     logoff: "Sie wurden ausgeloggt."
     redirect_login: "Wollen Sie auf die Login-Seite weitergeleitet werden?"
@@ -994,6 +990,10 @@ de:
   mail_subject_wiki_content_updated: "Wiki-Seite '%{id}' erfolgreich aktualisiert"
 
   more_actions: "Weitere Funktionen"
+
+  noscript_description: "Sie müssen JavaScript aktiveren, um OpenProject nutzen zu können!"
+  noscript_heading: "JavaScript deaktiviert"
+  noscript_learn_more: "Weitere Informationen"
 
   notice_account_activated: "Ihr Konto ist aktiviert. Sie können sich jetzt anmelden."
   notice_account_inactive: "Ihr Konto ist nicht aktiviert. Zur Aktivierung folgen Sie bitte dem Link, der Ihnen bei der Registrierung per E-Mail zugeschickt wurde."
