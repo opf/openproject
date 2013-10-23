@@ -47,7 +47,7 @@ describe WorkPackage do
     let!(:anonymous_user){ FactoryGirl.create(:anonymous) }
 
     shared_examples 'it provides possible watchers' do
-      it 'contains exactly those users who are allowed to view work packages' do
+      example 'and contains exactly those users who are allowed to view work packages' do
         users_allowed_to_view_work_packages = User.all.select{ |u| u.allowed_to?(:view_work_packages, project) }
         work_package.possible_watcher_users.sort.should == Array.wrap(users_allowed_to_view_work_packages).sort
       end
