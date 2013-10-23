@@ -25,33 +25,32 @@
  *
  * See doc/COPYRIGHT.rdoc for more details.  ++*/
 
-#account-nav {
-  background: white;
+
+.account-nav {
   display: block;
 }
 
 #logo {
   float: left;
-  width: 245px;
-  height: 43px;
-  background: url(image-path('logo_openproject.png')) no-repeat 19px 8px;
+  width: 270px;
+  height: 55px;
+  background: url(image-path('logo_openproject_white.png')) no-repeat 19px 8px #06799F;
 }
 
 #header {
-  background-color: white;
-  height: 43px;
+  height: 55px;
   font: arial,19px,white;
   min-width: 1000px;
 }
 #header ul {
-  line-height: 43px;
+  line-height: 55px;
   float: left;
   font-size: 13px;
   font-family: "Arial", Arial, sans-serif;
   font-style: normal;
   font-weight: normal;
   color: #ffffff;
-  height: 43px;
+  height: 55px;
   border-top: 0;
   position: relative;
 }
@@ -61,7 +60,6 @@
 }
 #header li {
   float: left;
-  border-right: 1px solid #450308;
   position: relative;
   z-index: 5;
 }
@@ -150,14 +148,14 @@ li a.help:hover {
   padding-right: 35px;
   color: #000000;
 }
-#account-nav li{
+.account-nav li{
   padding: 0;
 }
-#account-nav li a {
+.account-nav li a {
   display: block;
   padding: 0px 9px 0px;
 }
-#account-nav li > ul > li {
+.account-nav li > ul > li {
   max-width: 350px;
 }
 #header .search_field {
@@ -258,36 +256,20 @@ div#optional_login_fields {
   white-space: nowrap;
   margin-left: 2px;
 }
-#account-nav li > a {
+.account-nav li > a {
   height: 30px;
   line-height: 29px;
   zoom: 1;
 }
 
-#account-nav > li {
+.account-nav > li {
   margin-left: 3px;
   margin-right: 3px;
   border-right: 0px solid;
   height: 26px;
   margin-top: 17px;
-  -moz-border-radius-topleft: 6px;
-  -moz-border-radius-topright: 6px;
-  -webkit-border-top-left-radius: 6px;
-  -webkit-border-top-right-radius: 6px;
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
-  -moz-border-radius-bottomleft: 0px;
-  -moz-border-radius-bottomright: 0px;
-  -webkit-border-bottom-left-radius: 0px;
-  -webkit-border-bottom-right-radius: 0px;
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
 
-  /* Shadow definitions except IE - does not work while other filters are active */
-  -moz-box-shadow: 0px 0px 2px #888;
-  -webkit-box-shadow: 0px 0px 2px #888;
   zoom: 1;
-  background: url(image_path('topmenu_sprite.png')) repeat-x;
 }
 
 #header li > ul {
@@ -325,7 +307,7 @@ li a.home:hover  {
   color: white;
 }
 
-#account-nav > li:hover, #account-nav > li.drop-down.open {
+.account-nav > li:hover, .account-nav > li.drop-down.open {
   background: url(image-path('topmenu_sprite.png')) repeat-x;
   background-position: 0px -28px;
 }

@@ -34,7 +34,6 @@ See doc/COPYRIGHT.rdoc for more details.
 #main-menu ul {
   margin: 0;
   padding: 0;
-  border-right: 1px solid #ddd;
 }
 #main-menu ul.menu_root li {
   float: none;
@@ -66,20 +65,6 @@ See doc/COPYRIGHT.rdoc for more details.
 #main.nosidebar #sidebar{ display: none; }
 #main.nosidebar #content{ width: auto }
 
-#footer {
-  font-size: 0.9em;
-  color: #aaa;
-  z-index: 20;
-  text-align: right;
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  height: 1.5em;
-  padding: 0;
-  right: 2px;
-  clear: both;
-  padding-right: 15px;
-}
 
 #login-form table {margin-top: 5em; padding: 1em; margin-left: auto; margin-right: auto; border: 2px solid #FDBF3B; background-color: #FFEBC1; }
 #login-form table td {padding: 6px;}
@@ -1197,7 +1182,7 @@ a:hover {
 
 #main-menu {bottom: auto;  left: 6px; margin-right: -500px;}
 #main-menu {
-  width: 185px;
+  width: 270px;
   height: 100%;
   float: left;
   left: 0;
@@ -1221,11 +1206,9 @@ a:hover {
   background: #f3f3f3;
 }
 #main-menu ul.menu_root li {
-  border-top: 1px solid #f5f5f5;
-  border-bottom: 1px solid #e2e2e2;
   position: relative;
   min-height: 23px;
-  background-color: #e9e9e9;
+  background-color: none;
 }
 #main-menu ul.menu_root li li {
   border: 0;
@@ -1242,11 +1225,11 @@ a:hover {
 }
 #main-menu a {
   text-decoration: none;
-  line-height: 23px;
+  line-height: 40px;
   display: block;
   position: relative;
-  height: 23px;
-  color: #333333;
+  height: 40px;
+  color: #BBBBBB;
   font-weight: normal;
   font-size: 13px;
   font-family: "Arial", Arial, sans-serif;
@@ -1340,10 +1323,10 @@ a:hover {
  * This section includes the layout and styles for the main content area.
  ------------------------------------------------------------------------------*/
 #main {
-  background: white;
+  background-color: #053242;
   position: relative;
   z-index: 20;
-  padding-bottom: 50px;
+  padding-bottom: 0;
   overflow: auto;
 }
 
@@ -1351,10 +1334,11 @@ h1.title {
   margin: 12px 24px 9px;
 }
 #content {
-  margin: 0 15px 10px 187px;
+  margin: 0 0 0 270px;
   padding: 10px;
   width: auto;
   overflow: hidden;
+  min-height: 350px;
 }
 #content .title-bar {
   position: relative;
@@ -2474,14 +2458,13 @@ ul.action_menu_more {
   position: relative;
 }
 #toggle-project-menu {
-  height: 15px;
-  width: 184px;
-  border-bottom: 1px solid #DDD;
-  border-right: 1px solid #DDD;
-  background-color: #E9E9E9;
+  height: 40px;
+  width: 270px;
+  border: none;
+  background-color: #053242;
 }
 #toggle-project-menu:hover {
-  background-color: #D8D8D8;
+  background-color: #04232F;
 }
 #toggle-project-menu.show, #main-menu.hidden {
   width: 15px;
@@ -2497,7 +2480,7 @@ ul.action_menu_more {
 
   /* Arrow left */
   background-image: url(<%= asset_path 'double_arrows_grey_white_sprite.png' %>);
-  background-position: 148px -91px;
+  background-position: 230px -91px;
   background-repeat: no-repeat;
 }
 #main-menu #toggle-project-menu.show a.navigation-toggler {
@@ -2511,7 +2494,7 @@ ul.action_menu_more {
 }
 #main-menu #toggle-project-menu a.navigation-toggler:hover {
   /* Arrow left white */
-  background-position: 148px -58px;
+  background-position: 230px -58px;
   background-repeat: no-repeat;
 }
 #main-menu #toggle-project-menu.show a.navigation-toggler:hover {
@@ -2858,7 +2841,7 @@ body.theme-Dtag .buttons .apply {
   color: #008BD0;
 }
 #header li.drop-down li > a:hover, #main-menu ul.menu_root li a.selected, #main-menu ul.menu_root li a:hover {
-  background-color:  #24b3e7;
+  background-color:  #04232F;
 }
 #content table th a:hover {
   color: #008BD0;

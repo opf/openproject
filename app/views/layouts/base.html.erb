@@ -64,23 +64,18 @@ See doc/COPYRIGHT.rdoc for more details.
       <div id="header">
         <div id="logo"></div>
         <div id="top-menu-items">
-          <%= render :partial => 'search/mini_form' %>
+          <%= render_top_menu_left %>
+          <div class="top-menu-items-right">
+            <%= render :partial => 'search/mini_form' %>
 
-          <h1 class="hidden-for-sighted">
-            <%= l(:label_top_menu) %>
-          </h1>
+            <h1 class="hidden-for-sighted">
+              <%= l(:label_top_menu) %>
+            </h1>
 
-          <%= render_top_menu %>
+            <%= render_top_menu_right %>
+          </div>
         </div>
       </div>
-
-      <div id="breadcrumb">
-        <h1>
-          <%= you_are_here_info %>
-          <%= full_breadcrumb %>
-        </h1>
-      </div>
-      <%= javascript_tag('jQuery(function($) { $("div#breadcrumb ul.breadcrumb").adjustBreadcrumbToWindowSize(); });') %>
     </div>
   <% end %>
 
@@ -106,7 +101,16 @@ See doc/COPYRIGHT.rdoc for more details.
 
       <%= expand_current_menu %>
     <% end %>
+    <div id="breadcrumb" class="<%= (side_displayed) ? '' : "nosidebar" %>">
+      <h1>
+        <%= you_are_here_info %>
+        <%= full_breadcrumb %>
+      </h1>
+    </div>
+    <%# javascript_tag('jQuery(function($) { $("div#breadcrumb ul.breadcrumb").adjustBreadcrumbToWindowSize(); });') %>
+
     <div class="<%= (side_displayed) ? '' : "nosidebar" %>" id="content">
+
       <h1 class="hidden-for-sighted"><%= l(:label_content) %></h1>
       <%= render_flash_messages %>
 
@@ -121,7 +125,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <% if (show_decoration) %>
     <div id="footer">
-      <%= footer_content %>
+      <div class="footer-content">
+        <%= footer_content %>
+      </div>
     </div>
   <% end %>
 

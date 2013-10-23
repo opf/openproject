@@ -48,7 +48,7 @@
   };
 
   var go_my_page = function(){
-    var my_page = $('#account-nav .my-page');
+    var my_page = $('.account-nav .my-page');
     if (my_page.size() === 1) {
       my_page[0].click();
     }
