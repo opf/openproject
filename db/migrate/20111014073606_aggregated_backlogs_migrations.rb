@@ -1,4 +1,5 @@
 require Rails.root.join("db","migrate","migration_utils","migration_squasher").to_s
+require Rails.root.join("db","migrate","migration_utils","setting_renamer").to_s
 require 'open_project/plugins/migration_mapping'
 # This migration aggregates the migrations detailed in MIGRATION_FILES
 class AggregatedBacklogsMigrations < ActiveRecord::Migration
@@ -44,6 +45,7 @@ class AggregatedBacklogsMigrations < ActiveRecord::Migration
         end
       end
     end
+    Migration::SettingRenamer.rename("plugin_backlogs","plugin_openproject_backlogs")
   end
 
   def down
