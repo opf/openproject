@@ -443,7 +443,7 @@ de:
     unterstützt. Sie können einen Teil des Tickettitels schreiben und
     bekommen eine Liste von möglichen Tickets angezeigt. Wählen Sie mit
     den Pfeiltasten den gewünschten Eintrag und bestätigen Sie mit Tab
-    oder Enter. Sie können aber auch die Ticketnummer direkt eintragen."
+    oder Enter. Sie können aber auch die Ticketnummer direkt eintragen.
   description_available_columns: "Verfügbare Spalten"
   description_choose_project: "Projekte"
   description_compare_from: "Vergleiche von Version"

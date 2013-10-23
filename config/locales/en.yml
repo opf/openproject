@@ -439,7 +439,11 @@ en:
 
   description_active: "Active?"
   description_attachment_toggle: "Show/Hide attachments"
-  description_autocomplete: "This field uses autocomplete. While typing the title of a work package you will receive a list of possible candidates. Choose one using the arrow up and arrow down key and select it with tab or enter. Alternatively you can enter the work package number directly."
+  description_autocomplete: >
+    This field uses autocomplete. While typing the title of a work
+    package you will receive a list of possible candidates. Choose one
+    using the arrow up and arrow down key and select it with tab or
+    enter. Alternatively you can enter the work package number directly.
   description_available_columns: "Available Columns"
   description_choose_project: "Projects"
   description_compare_from: "Compare from version"
