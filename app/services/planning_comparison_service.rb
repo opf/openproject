@@ -40,19 +40,9 @@ SQL
 
     # 1 either filter the ids using the given filter or pluck all work_package-ids from the project
     work_package_ids = if filter.has_key? :f
-                         work_package_scope = WorkPackage.scoped
-                                                         .joins(:status)
-                                                         .joins(:project) #no idea, why query doesn't provide these joins itself...
-                                                         .for_projects(projects)
-                                                         .without_deleted
-
-                         query = Query.new
-                         query.add_filters(filter[:f], filter[:op], filter[:v])
-                         #TODO teach query to fetch only ids
-                         work_package_scope.with_query(query)
-                                           .pluck(:id)
+                         filtered_work_packages(projects, filter)
                        else
-                         WorkPackage.for_projects(projects).pluck(:id)
+                         unfiltered_work_packages(projects)
                        end
 
     # 2 fetch latest journal-entries for the given time
@@ -66,16 +56,33 @@ SQL
   end
 
   protected
+
+    def self.filtered_work_packages(projects, filter)
+      work_package_scope = WorkPackage.scoped
+                                      .joins(:status)
+                                      .joins(:project) # query doesn't provide these joins itself...
+                                      .for_projects(projects)
+                                      .without_deleted
+
+      query = Query.new
+      query.add_filters(filter[:f], filter[:op], filter[:v])
+
+      work_package_scope.with_query(query)
+                        .pluck(:id)
+    end
+
+    def self.unfiltered_work_packages(projects)
+      WorkPackage.for_projects(projects).pluck(:id)
+    end
+
     # This is a very crude way to work around n+1-issues, that are
     # introduced by the json/xml-rendering
     # the simple .includes does not work the work due to the find_by_sql
     def self.restore_references(work_packages)
-      project_ids, parent_ids, type_ids, status_ids = resolve_reference_ids(work_packages)
 
-      projects  = Hash[Project.find(project_ids).map {|wp| [wp.id,wp]}]
-      types     = Hash[Type.find(type_ids).map{|type| [type.id,type]}]
-      statuses  = Hash[Status.find(status_ids).map{|status| [status.id,status]}]
-
+      projects = resolve_projects(work_packages)
+      types    = resolve_types(work_packages)
+      statuses = resolve_statuses(work_packages)
 
       work_packages.each do |wp|
         wp.project = projects[wp.project_id]
@@ -87,15 +94,19 @@ SQL
 
     end
 
-    def self.resolve_reference_ids(work_packages)
-      # TODO faster ways to do this without stepping numerous times through the workpackages?!
-      # Or simply wait until we finally throw out the redundant references out of the json/xml-rendering??!
+    def self.resolve_projects(work_packages)
       project_ids = work_packages.map(&:project_id).uniq.compact
-      type_ids = work_packages.map(&:type_id).uniq.compact
-      status_ids = work_packages.map(&:status_id).uniq.compact
-      parent_ids = work_packages.map(&:parent_id).uniq.compact
-
-      return project_ids, parent_ids, type_ids,status_ids
-
+      projects  = Hash[Project.find(project_ids).map {|wp| [wp.id,wp]}]
     end
+
+    def self.resolve_types(work_packages)
+      type_ids  = work_packages.map(&:type_id).uniq.compact
+      types     = Hash[Type.find(type_ids).map{|type| [type.id,type]}]
+    end
+
+    def self.resolve_statuses(work_packages)
+      status_ids = work_packages.map(&:status_id).uniq.compact
+      statuses  = Hash[Status.find(status_ids).map{|status| [status.id,status]}]
+    end
+
 end

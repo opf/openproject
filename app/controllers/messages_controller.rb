@@ -73,11 +73,14 @@ class MessagesController < ApplicationController
       m.author = User.current
       m.board = @board
     end
+
     @message.safe_attributes = params[:message]
+
+    @message.attach_files(params[:attachments])
+
     if @message.save
       call_hook(:controller_messages_new_after_save, { :params => params, :message => @message})
-      attachments = Attachment.attach_files(@message, params[:attachments])
-      render_attachment_warning_if_needed(@message)
+
       redirect_to topic_path(@message)
     else
       render :action => 'new'
@@ -111,10 +114,12 @@ class MessagesController < ApplicationController
   # Edit a message
   def update
     (render_403; return false) unless @message.editable_by?(User.current)
+
     @message.safe_attributes = params[:message]
+
+    @message.attach_files(params[:attachments])
+
     if @message.save
-      attachments = Attachment.attach_files(@message, params[:attachments])
-      render_attachment_warning_if_needed(@message)
       flash[:notice] = l(:notice_successful_update)
       @message.reload
       redirect_to topic_path(@message.root, :r => (@message.parent_id && @message.id))

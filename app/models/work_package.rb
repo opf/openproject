@@ -36,6 +36,8 @@ class WorkPackage < ActiveRecord::Base
   include WorkPackage::SchedulingRules
   include WorkPackage::StatusTransitions
 
+  include OpenProject::Journal::AttachmentHelper
+
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   include Redmine::SafeAttributes
 
@@ -140,6 +142,8 @@ class WorkPackage < ActiveRecord::Base
   ###################################################
   acts_as_attachable :after_add => :attachments_changed,
                      :after_remove => :attachments_changed
+
+  after_validation :set_attachments_error_details, if: lambda {|work_package| work_package.errors.messages.has_key? :attachments}
 
   # Mapping attributes, that are passed in as id's onto their respective associations
   # (eg. type=4711 onto type=Type.find(4711))
@@ -281,13 +285,6 @@ class WorkPackage < ActiveRecord::Base
     !due_date.nil? && (due_date < Date.today) && !status.is_closed?
   end
 
-  # ACTS AS ATTACHABLE
-  # Callback on attachment deletion
-  def attachments_changed(obj)
-    add_journal
-    save!
-  end
-
   # ACTS AS JOURNALIZED
   def activity_type
     "work_packages"
@@ -407,13 +404,9 @@ class WorkPackage < ActiveRecord::Base
 
     update_by(user, attributes)
 
-    if save
-      # as attach_files always saves an attachment right away
-      # it is not possible to stage attaching and check for
-      # valid. If this would be possible, we could check
-      # for this along with update_attributes
-      attachments = Attachment.attach_files(self, raw_attachments)
-    end
+    attach_files(raw_attachments)
+
+    save
   end
 
   def update_by(user, attributes)
@@ -1001,4 +994,9 @@ class WorkPackage < ActiveRecord::Base
   end
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+  def set_attachments_error_details
+    if invalid_attachment = self.attachments.detect{|a| !a.valid?}
+      errors.messages[:attachments].first << " - #{invalid_attachment.errors.full_messages.first}"
+    end
+  end
 end

@@ -1047,9 +1047,9 @@ describe WorkPackage do
       raw_attachments = [double('attachment')]
       attachment = FactoryGirl.build(:attachment)
 
-      Attachment.should_receive(:attach_files)
-                .with(instance, raw_attachments)
-                .and_return(attachment)
+      instance.should_receive(:attach_files)
+              .with(raw_attachments)
+              .and_return(attachment)
 
       instance.update_by!(user, { :attachments => raw_attachments })
     end

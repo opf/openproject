@@ -128,11 +128,10 @@ class WorkPackagesController < ApplicationController
 
     WorkPackageObserver.instance.send_notification = send_notifications?
 
+    work_package.attach_files(params[:attachments])
+
     if work_package.save
       flash[:notice] = I18n.t(:notice_successful_create)
-
-      Attachment.attach_files(work_package, params[:attachments])
-      render_attachment_warning_if_needed(work_package)
 
       call_hook(:controller_work_package_new_after_save, { :params => params, :work_package => work_package })
 
