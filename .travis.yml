@@ -29,6 +29,9 @@
 language: ruby
 rvm:
   - 1.9.3
+branches:
+  only:
+    - feature/rails3
 env:
   # mysql2
   - "TEST_SUITE=cucumber         RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
