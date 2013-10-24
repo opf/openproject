@@ -809,6 +809,7 @@ Timeline = {
       var dataEnhancer = this;
 
       jQuery.each(dataEnhancer.getElements(Timeline.Reporting), function (i, reporting) {
+        // TODO this somehow didn't make the change to reporting_to_project_id and project_id.
         var project  = dataEnhancer.getElement(Timeline.Project, reporting.reporting_to_project.id);
         var reporter = dataEnhancer.getElement(Timeline.Project, reporting.project.id);
 
@@ -836,13 +837,13 @@ Timeline = {
     };
 
     DataEnhancer.prototype.augmentProjectsWithProjectTypesAndAssociations = function () {
-      var dataEnhancer    = this;
+      var dataEnhancer = this;
 
       jQuery.each(dataEnhancer.getElements(Timeline.Project), function (i, e) {
 
         // project_type ← project
         if (e.project_type !== undefined) {
-          var project_type = dataEnhancer.getElement(Timeline.ProjectType, e.project_type.id);
+          var project_type = dataEnhancer.getElement(Timeline.ProjectType, e.project_type_id);
 
           if (project_type) {
             e.project_type = project_type;
@@ -908,29 +909,27 @@ Timeline = {
     };
 
     DataEnhancer.prototype.augmentPlanningElementWithType = function (pe) {
-        // planning_element → planning_element_type
-        if (pe.planning_element_type) {
-          pe.planning_element_type = this.getElement(Timeline.PlanningElementType,
-                                                            pe.planning_element_type.id);
-        }
-        else {
-          pe.planning_element_type = undefined;
-        }
+      // planning_element → planning_element_type
+      if (pe.type_id) {
+        pe.planning_element_type = this.getElement(Timeline.PlanningElementType,
+                                                   pe.type_id);
+      }
+      delete pe.type_id;
     };
 
     DataEnhancer.prototype.augmentPlanningElementWithProject = function (pe) {
-        var project = this.getElement(Timeline.Project, pe.project.id);
+      var project = this.getElement(Timeline.Project, pe.project_id);
 
-        // there might not be such a project, due to insufficient rights
-        // and the fact that some user with more rights originally created
-        // the report.
-        if (!project) {
-          // TODO some flag indicating that something is wrong/missing.
-          return;
-        }
+      // there might not be such a project, due to insufficient rights
+      // and the fact that some user with more rights originally created
+      // the report.
+      if (!project) {
+        // TODO some flag indicating that something is wrong/missing.
+        return;
+      }
 
-        // planning_element → project
-        pe.project = project;
+      // planning_element → project
+      pe.project = project;
     };
 
     DataEnhancer.prototype.augmentPlanningElementWithParent = function (pe) {
