@@ -51,7 +51,10 @@
         this.opts.ajax.url = this.element.attr("data-ajaxURL");
       }
       if (!($(this.element).attr("data-values") === "" || $(this.element).attr("data-values") === null || $(this.element).attr("data-values") === undefined)) {
-        this.opts.data.results = JSON.parse($(this.element).attr('data-values'));
+        this.opts.data.results = JSON.parse($(this.element).attr('data-values')).map(function (e) {
+          e.text = e.text || e.name;
+          return e;
+        });
         delete this.opts.ajax;
       }
     },
