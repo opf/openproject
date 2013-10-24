@@ -481,7 +481,6 @@ de:
 
   enumeration_activities: "Aktivitäten (Zeiterfassung)"
   enumeration_work_package_priorities: "Arbeitspaket-Prioritäten"
-  enumeration_planning_element_statuses: "Planungselement-Status"
   enumeration_reported_project_statuses: "Gemeldeter Projekt-Status"
   enumeration_system_activity: "System-Aktivität"
 

@@ -26,17 +26,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class PlanningElementStatus < Enumeration
+class PlanningElementStatus < ActiveRecord::Base
   unloadable
 
   has_many :planning_elements, :class_name  => "PlanningElement",
                                :foreign_key => 'planning_element_status_id'
-
-  OptionName = :enumeration_planning_element_statuses
-
-  def option_name
-    OptionName
-  end
 
   def objects_count
     planning_elements.count
