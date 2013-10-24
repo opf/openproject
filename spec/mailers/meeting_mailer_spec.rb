@@ -20,28 +20,24 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe MeetingMailer do
+  let(:role) { FactoryGirl.create(:role, permissions: [:view_meetings]) }
+  let(:project) { FactoryGirl.create(:project) }
+  let(:author) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
+  let(:watcher1) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
+  let(:watcher2) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
+  let(:meeting) { FactoryGirl.create(:meeting, author: author, project: project) }
+  let(:meeting_agenda) do
+    FactoryGirl.create(:meeting_agenda, meeting: meeting)
+  end
+
   before(:each) do
-    @role = FactoryGirl.create(:role, :permissions => [:view_meetings])
-    @content = FactoryGirl.create(:meeting_agenda)
-    @author = @content.meeting.author
-    @project = @content.meeting.project
-    @watcher1 = FactoryGirl.create(:user)
-    @watcher2 = FactoryGirl.create(:user)
-    @project.add_member @author, [@role]
-    @project.add_member @watcher1, [@role]
-    @project.add_member @watcher2, [@role]
-
-    @participants = [@content.meeting.participants.build(:user => @watcher1, :invited => true, :attended => false),
-                     @content.meeting.participants.build(:user => @watcher2, :invited => true, :attended => false)]
-
-    @project.save!
-    @content.meeting.save!
-
-    @content.meeting.watcher_users true
+    @participants = [meeting.participants.build(user: watcher1, invited: true, attended: false),
+                     meeting.participants.build(user: watcher2, invited: true, attended: false)]
+    meeting.save!
   end
 
   describe "content_for_review" do
-    let(:mail) { MeetingMailer.content_for_review @content, 'agenda' }
+    let(:mail) { MeetingMailer.content_for_review meeting_agenda, 'agenda' }
     # this is needed to call module functions from Redmine::I18n
     let(:i18n) do
       class A
@@ -53,13 +49,13 @@ describe MeetingMailer do
 
 
     it "renders the headers" do
-      mail.subject.should include(@content.meeting.project.name)
-      mail.subject.should include(@content.meeting.title)
-      mail.to.should include(@author.mail)
+      mail.subject.should include(meeting.project.name)
+      mail.subject.should include(meeting.title)
+      mail.to.should include(author.mail)
       mail.from.should eq([Setting.mail_from])
-      mail.cc.should_not include(@author.mail)
-      mail.cc.should include(@watcher1.mail)
-      mail.cc.should include(@watcher2.mail)
+      mail.cc.should_not include(author.mail)
+      mail.cc.should include(watcher1.mail)
+      mail.cc.should include(watcher2.mail)
     end
 
     it "renders the text body" do
@@ -72,13 +68,13 @@ describe MeetingMailer do
   end
 
   def check_meeting_mail_content(body)
-      body.should include(@content.meeting.project.name)
-      body.should include(@content.meeting.title)
-      body.should include(i18n.format_date @content.meeting.start_date)
-      body.should include(i18n.format_time @content.meeting.start_time, false)
-      body.should include(i18n.format_time @content.meeting.end_time, false)
-      body.should include(@participants[0].name)
-      body.should include(@participants[1].name)
+    body.should include(meeting.project.name)
+    body.should include(meeting.title)
+    body.should include(i18n.format_date meeting.start_date)
+    body.should include(i18n.format_time meeting.start_time, false)
+    body.should include(i18n.format_time meeting.end_time, false)
+    body.should include(@participants[0].name)
+    body.should include(@participants[1].name)
   end
 
   def save_and_open_mail_html_body(mail)
