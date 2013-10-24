@@ -33,10 +33,13 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1738` Forum problem when no description given.
 * `#1916` Work package update screen is closed when attached file is deleted
 * `#1935` Fixed bug: Default submenu for wiki pages is wrong (Configure menu item)
+* `#2009` No journal entry created for attachments if the attachment is added on container creation
 * `#2371` Add support for IE10 to Timelines
 * `#2448` Accelerate work package updates
+* `#2464` No initial attachment journal for messages
 * `#2479` Remove TinyMCE spike
 * `#2557` Highlight changes of any work package attribute available in the timelines table  
+* `#2559` Migrate existing IssueCustomFields to WorkPackageCustomFields
 * Fix compatibility with old mail configuration
 
 ## 3.0.0pre22

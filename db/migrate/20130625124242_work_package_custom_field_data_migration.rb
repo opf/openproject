@@ -26,27 +26,30 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
-  factory :journal do
-    created_at Time.now
-    sequence(:version) {|n| n}
+class WorkPackageCustomFieldDataMigration < ActiveRecord::Migration
+  def self.up
+    ActiveRecord::Base.connection.execute <<-SQL
+        UPDATE #{custom_fields_table}
+        SET type = #{quote_value('WorkPackageCustomfield')}
+        WHERE type = #{quote_value('IssueCustomField')}
+      SQL
+  end
 
-    factory :work_package_journal, class: Journal do
-      journable_type "WorkPackage"
-      activity_type "work_packages"
-      data FactoryGirl.build(:journal_work_package_journal)
-    end
+  def self.down
+    ActiveRecord::Base.connection.execute <<-SQL
+        UPDATE #{custom_fields_table}
+        SET type = #{quote_value('IssueCustomField')}
+        WHERE type = #{quote_value('WorkPackageCustomfield')}
+      SQL
+  end
 
-    factory :wiki_content_journal, class: Journal do
-      journable_type "WikiContent"
-      activity_type "wiki_edits"
-      data FactoryGirl.build(:journal_wiki_content_journal)
-    end
+  private
 
-    factory :message_journal, class: Journal do
-      journable_type "Message"
-      activity_type "messages"
-      data FactoryGirl.build(:journal_message_journal)
-    end
+  def custom_fields_table
+    @settings_table ||= ActiveRecord::Base.connection.quote_table_name('custom_fields')
+  end
+
+  def quote_value s
+    ActiveRecord::Base.connection.quote(s)
   end
 end
