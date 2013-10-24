@@ -119,7 +119,9 @@ module Api
 
       # Filters
       def find_all_projects_by_project_id
-        if params[:project_id] !~ /,/
+        if !params[:project_id] then
+          @planning_elements = WorkPackage.find_all_by_id(params[:ids])
+        elsif params[:project_id] !~ /,/
           find_project_by_project_id         unless performed?
           authorize                          unless performed?
           assign_planning_elements(@project) unless performed?
