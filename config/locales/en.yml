@@ -208,6 +208,7 @@ en:
           identical_projects: "can not be created from one project to itself"
           project_association_not_allowed: "does not allow associations"
         work_package:
+          is_not_a_valid_target_for_time_entries: "Work package #%{id} is not a valid target for reassigning the time entries."
           attributes:
             due_date:
               not_start_date: "is not on start date, although this is required for milestones"

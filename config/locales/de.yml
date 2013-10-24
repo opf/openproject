@@ -205,6 +205,7 @@ de:
         before_or_equal_to: "muss vor oder gleich %{date} sein"
       models:
         work_package:
+          is_not_a_valid_target_for_time_entries: "Arbeitspaket #%{id} ist kein gültiges Ziel für die Zuordnug der Zeiterfassungseinträge."
           attributes:
             due_date:
               not_start_date: "ist nicht am Startdatum, obwohl die bei Meilensteinen Pflicht ist"

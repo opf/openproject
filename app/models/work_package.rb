@@ -35,6 +35,7 @@ class WorkPackage < ActiveRecord::Base
   include WorkPackage::Validations
   include WorkPackage::SchedulingRules
   include WorkPackage::StatusTransitions
+  include WorkPackage::TimeEntries
 
   include OpenProject::Journal::AttachmentHelper
 

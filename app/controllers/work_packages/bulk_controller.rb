@@ -29,7 +29,7 @@
 
 class WorkPackages::BulkController < ApplicationController
   before_filter :disable_api
-  before_filter :find_work_packages, only: [:edit, :update]
+  before_filter :find_work_packages
   before_filter :authorize
 
   include JournalsHelper
@@ -67,41 +67,36 @@ class WorkPackages::BulkController < ApplicationController
   end
 
   def destroy
-    @hours = TimeEntry.sum(:hours, :conditions => ['work_package_id IN (?)', @work_packages]).to_f
-    if @hours > 0
-      case params[:todo]
-      when 'destroy'
-        # nothing to do
-      when 'nullify'
-        update_time_entries('work_package_id = NULL', @work_packages)
-      when 'reassign'
-        reassign_to = @project.work_packages.find_by_id(params[:reassign_to_id])
-        if reassign_to.nil?
-          flash.now[:error] = l(:error_work_package_not_found_in_project)
-          return
-        else
-          update_time_entries("work_package_id = #{reassign_to_id.id}", @work_packages)
-        end
-      else
-        # display the destroy form if it's a user request
-        return unless api_request?
-      end
-    end
+    unless WorkPackage.cleanup_time_entries_if_required(@work_packages, current_user, params[:to_do])
 
-    @work_packages.each do |work_package|
-      begin
-        work_package.reload.destroy
-      rescue ::ActiveRecord::RecordNotFound # raised by #reload if work package no longer exists
-        # nothing to do, work package was already deleted (eg. by a parent)
+      respond_to do |format|
+        format.html { render :locals => { work_packages: @work_packages,
+                                          time_entries: TimeEntry.on_work_packages(@work_packages) }
+                    }
       end
-    end
 
-    respond_to do |format|
-      format.html { redirect_back_or_default(project_work_packages_path(@project)) }
+    else
+
+      destroy_work_packages(@work_packages)
+
+      respond_to do |format|
+        format.html { redirect_back_or_default(project_work_packages_path(@work_packages.first.project)) }
+      end
     end
   end
 
 private
+
+  def destroy_work_packages(work_packages)
+    @work_packages.each do |work_package|
+      begin
+        work_package.reload.destroy
+      rescue ::ActiveRecord::RecordNotFound
+        # raised by #reload if work package no longer exists
+        # nothing to do, work package was already deleted (eg. by a parent)
+      end
+    end
+  end
 
   def parse_params_for_bulk_work_package_attributes(params)
     attributes = (params[:work_package] || {}).reject {|k,v| v.blank?}

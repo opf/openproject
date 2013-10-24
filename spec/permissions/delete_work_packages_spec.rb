@@ -34,9 +34,3 @@ describe WorkPackages::BulkController, "delete_work_packages permission", type: 
 
   check_permission_required_for('work_packages/bulk#destroy', :delete_work_packages)
 end
-
-describe WorkPackagesController, "delete_work_packages permission", type: :controller do
-  include PermissionSpecs
-
-  check_permission_required_for('work_packages#destroy', :delete_work_packages)
-end

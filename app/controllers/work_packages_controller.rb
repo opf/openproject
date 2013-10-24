@@ -38,9 +38,8 @@ class WorkPackagesController < ApplicationController
   include SortHelper
   include PaginationHelper
 
-  accept_key_auth :index, :show, :create, :update, :destroy
+  accept_key_auth :index, :show, :create, :update
 
-  before_filter :find_work_packages, :only => [:destroy]
   before_filter :disable_api
   before_filter :not_found_unless_work_package,
                 :project,
@@ -180,39 +179,6 @@ class WorkPackagesController < ApplicationController
     else
       edit
     end
-  end
-
-  def destroy
-    @hours = TimeEntry.sum(:hours, :conditions => ['work_package_id IN (?)', work_package]).to_f
-    if @hours > 0
-      case params[:todo]
-      when 'destroy'
-        # nothing to do
-      when 'nullify'
-        update_time_entries('work_package_id = NULL', work_packages)
-      when 'reassign'
-        reassign_to = @project.work_packages.find_by_id(params[:reassign_to_id])
-        if reassign_to.nil?
-          flash.now[:error] = l(:error_work_package_not_found_in_project)
-          return
-        else
-          update_time_entries("work_package_id = #{reassign_to_id.id}", work_packages)
-        end
-      else
-        # display the destroy form if it's a user request
-        return unless api_request?
-      end
-    end
-
-    work_package.destroy
-
-    respond_to do |format|
-      format.html { redirect_back_or_default(project_work_packages_path(@project)) }
-    end
-  end
-
-  def update_time_entries(work_packages, action)
-    TimeEntry.update_all(action, ['work_package_id IN (?)', work_package])
   end
 
   def index

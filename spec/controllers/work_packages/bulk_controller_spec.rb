@@ -76,6 +76,8 @@ describe WorkPackages::BulkController do
                                             custom_field_values: { custom_field_1.id => custom_field_value },
                                             project: project_2) }
 
+  let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package) }
+
   before do
     custom_field_1
     member_1
@@ -404,6 +406,49 @@ describe WorkPackages::BulkController do
         let(:delivery_size) { 0 }
 
         it_behaves_like :delivered
+      end
+    end
+  end
+
+  describe :destroy do
+    let(:params) { { "ids" => "1", "to_do" => "blubs" } }
+
+    before do
+      controller.should_receive(:find_work_packages) do
+        controller.instance_variable_set(:@work_packages, [stub_work_package])
+      end
+
+      controller.should_receive(:authorize)
+    end
+
+    describe 'w/ the cleanup beeing successful' do
+      before do
+        stub_work_package.should_receive(:reload).and_return(stub_work_package)
+        stub_work_package.should_receive(:destroy)
+
+        WorkPackage.should_receive(:cleanup_time_entries_if_required).with([stub_work_package], user, params["to_do"]).and_return true
+
+        as_logged_in_user(user) do
+          delete :destroy, params
+        end
+      end
+
+      it 'should redirect to the project' do
+        response.should redirect_to(project_work_packages_path(stub_work_package.project))
+      end
+    end
+
+    describe 'w/o the cleanup beeing successful' do
+      before do
+        WorkPackage.should_receive(:cleanup_time_entries_if_required).with([stub_work_package], user, params["to_do"]).and_return false
+
+        as_logged_in_user(user) do
+          delete :destroy, params
+        end
+      end
+
+      it 'should redirect to the project' do
+        response.should render_template('destroy')
       end
     end
   end

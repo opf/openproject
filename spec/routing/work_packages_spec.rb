@@ -104,10 +104,4 @@ describe WorkPackagesController do
                                              :action => 'update',
                                              :id => '1' )
   end
-
-  it "should connect DELETE /work_packages/1 to work_packages#destroy" do
-    delete("/work_packages/1").should route_to( :controller => 'work_packages',
-                                                :action => 'destroy',
-                                                :id => '1' )
-  end
 end

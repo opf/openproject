@@ -57,6 +57,8 @@ class TimeEntry < ActiveRecord::Base
     :conditions => Project.allowed_to_condition(args.first || User.current, :view_time_entries)
   }}
 
+  scope :on_work_packages, ->(work_packages) { where(work_package_id: work_packages) }
+
   after_initialize :set_default_activity
   before_validation :set_default_project
 
