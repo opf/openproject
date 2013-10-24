@@ -141,9 +141,7 @@ class WorkPackage < ActiveRecord::Base
   acts_as_attachable :after_add => :attachments_changed,
                      :after_remove => :attachments_changed
 
-  validate do |work_package|
-    set_attachments_error_details(work_package) if errors.messages.has_key? :attachments
-  end
+  after_validation :set_attachments_error_details, if: lambda {|work_package| work_package.errors.messages.has_key? :attachments}
 
   # Mapping attributes, that are passed in as id's onto their respective associations
   # (eg. type=4711 onto type=Type.find(4711))
@@ -1003,8 +1001,9 @@ class WorkPackage < ActiveRecord::Base
   end
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-  def set_attachments_error_details(work_package)
-    work_package.attachments.each do |attachment|
+  def set_attachments_error_details
+    # Remark: the pseudo loop is already refactored in the next pull request
+    self.attachments.each do |attachment|
       next if attachment.valid?
       errors.messages[:attachments].first << " - #{attachment.errors.full_messages.first}"
       break
