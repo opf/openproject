@@ -37,6 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2371` Add support for IE10 to Timelines
 * `#2448` Accelerate work package updates
 * `#2479` Remove TinyMCE spike
+* `#2559` Migrate existing IssueCustomFields to WorkPackageCustomFields
 * Fix compatibility with old mail configuration
 
 ## 3.0.0pre22
