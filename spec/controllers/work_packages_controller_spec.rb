@@ -345,7 +345,7 @@ describe WorkPackagesController do
         it 'should attach attachments if those are provided' do
           params[:attachments] = 'attachment-blubs-data'
 
-          Attachment.should_receive(:attach_files).with(stub_work_package, params[:attachments])
+          stub_work_package.should_receive(:attach_files).with(params[:attachments])
           controller.stub(:render_attachment_warning_if_needed)
 
           call_action
@@ -757,6 +757,125 @@ describe WorkPackagesController do
 
         it { should be_success }
         it { should render_template('edit') }
+      end
+    end
+  end
+
+  let(:filename) { "test1.test" }
+
+  describe :create do
+    let(:type) { FactoryGirl.create :type }
+    let(:project) { FactoryGirl.create :project,
+                                       types: [type] }
+    let(:status) { FactoryGirl.create :default_status }
+    let(:priority) { FactoryGirl.create :priority }
+
+    context :attachments do
+      let(:new_work_package) { FactoryGirl.build(:work_package,
+                                                 project: project,
+                                                 type: type,
+                                                 description: "Description",
+                                                 priority: priority) }
+      let(:params) { { project_id: project.id,
+                       attachments: { file: { file: filename,
+                                              description: '' } } } }
+
+      before do
+        controller.stub(:work_package).and_return(new_work_package)
+        controller.should_receive(:authorize).and_return(true)
+
+        Attachment.any_instance.stub(:filename).and_return(filename)
+        Attachment.any_instance.stub(:copy_file_to_destination)
+      end
+
+      # see ticket #2009 on OpenProject.org
+      context "new attachment on new work package" do
+        before { post 'create', params }
+
+        describe :journal do
+          let(:attachment_id) { "attachments_#{new_work_package.attachments.first.id}".to_sym }
+
+          subject { new_work_package.journals.last.changed_data }
+
+          it { should have_key attachment_id }
+
+          it { subject[attachment_id].should eq([nil, filename]) }
+        end
+      end
+
+      context "invalid attachment" do
+        let(:max_filesize) { Setting.attachment_max_size.to_i.kilobytes }
+
+        before do
+          Attachment.any_instance.stub(:filesize).and_return(max_filesize + 1)
+
+          post :create, params
+        end
+
+        describe :view do
+          subject { response }
+
+          it { should render_template('work_packages/new', formats: ["html"]) }
+        end
+
+        describe :error do
+          subject { new_work_package.errors.messages }
+
+          it { should have_key(:attachments) }
+
+          it { subject[:attachments] =~ /too long/ }
+        end
+      end
+    end
+  end
+
+  describe :update do
+    let(:type) { FactoryGirl.create :type }
+    let(:project) { FactoryGirl.create :project,
+                                       types: [type] }
+    let(:status) { FactoryGirl.create :default_status }
+    let(:priority) { FactoryGirl.create :priority }
+
+    context :attachments do
+      let(:work_package) { FactoryGirl.build(:work_package,
+                                             project: project,
+                                             type: type,
+                                             description: "Description",
+                                             priority: priority) }
+      let(:params) { { id: work_package.id,
+                       work_package: { attachments: { '1' =>  { file: filename,
+                                                                description: '' } } } } }
+
+      before do
+        controller.stub(:work_package).and_return(work_package)
+        controller.should_receive(:authorize).and_return(true)
+
+        Attachment.any_instance.stub(:filename).and_return(filename)
+        Attachment.any_instance.stub(:copy_file_to_destination)
+      end
+
+      context "invalid attachment" do
+        let(:max_filesize) { Setting.attachment_max_size.to_i.kilobytes }
+
+        before do
+          Attachment.any_instance.stub(:filesize).and_return(max_filesize + 1)
+
+          post :update, params
+        end
+
+        describe :view do
+          subject { response }
+
+          it { should render_template('work_packages/edit', formats: ["html"]) }
+        end
+
+        describe :error do
+          subject { work_package.errors.messages }
+
+          it { should have_key(:attachments) }
+
+          it { subject[:attachments] =~ /too long/ }
+        end
       end
     end
   end
