@@ -55,8 +55,8 @@ Feature: Deleting work packages
 
     Then I should be on the bulk destroy page of work packages
 
-    When I choose "Reassign reported hours to this work package:"
-    And I fill in the id of work package "wp2" into "to_do_reassign_to_id"
+    When I choose "Reassign reported hours to"
+    And I fill in the id of work package "wp2" into "work package"
     And I submit the form by the "Apply" button
 
     Then I should be on the work packages index page of the project called "ecookbook"
