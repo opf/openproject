@@ -165,7 +165,7 @@ module Api
           @planning_elements = convert_to_struct(historical_work_packages(projects))
         else
           @planning_elements = convert_to_struct(current_work_packages(projects))
-          # only for current work_packages, the array of children-ids must be reconstructed
+          # only for current work_packages, the array of child-ids must be reconstructed
           # for historical packages, the re-wiring is not needed
           rewire_ancestors
         end
@@ -251,9 +251,9 @@ module Api
           end
         end
 
-        # we explicitly need to re-construct the array of children-ids
+        # we explicitly need to re-construct the array of child-ids
         @planning_elements.each do |pe|
-          pe.children_ids = @planning_elements.select {|child| child.parent_id == pe.id}
+          pe.child_ids = @planning_elements.select {|child| child.parent_id == pe.id}
                                               .map(&:id)
         end
 
