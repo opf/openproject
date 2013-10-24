@@ -73,6 +73,7 @@ module Redmine
               file = attachment['file']
               next unless file && file.size > 0
               self.attachments.build(file: file,
+                                     container: self,
                                      description: attachment['description'].to_s.strip,
                                      author: User.current)
             end
