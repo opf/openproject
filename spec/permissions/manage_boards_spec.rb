@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
@@ -27,9 +26,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class AddForcePasswordChangeToUser < ActiveRecord::Migration
-  def change
-    add_column :users, :force_password_change, :boolean, :default => false
-    User.reset_column_information
-  end
+require File.expand_path('../../spec_helper', __FILE__)
+require File.expand_path('../../support/permission_specs', __FILE__)
+
+describe BoardsController, "manage_boards permission", :type => :controller do
+  include PermissionSpecs
+
+  check_permission_required_for('boards#create', :manage_boards)
 end

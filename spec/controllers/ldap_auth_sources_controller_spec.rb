@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
@@ -27,9 +26,27 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class AddForcePasswordChangeToUser < ActiveRecord::Migration
-  def change
-    add_column :users, :force_password_change, :boolean, :default => false
-    User.reset_column_information
+require File.expand_path('../../spec_helper', __FILE__)
+
+describe LdapAuthSourcesController do
+  let(:current_user) { FactoryGirl.create(:admin) }
+
+  before do
+    User.stub(:current).and_return current_user
+  end
+
+  describe "new" do
+    before do
+      get :new
+    end
+
+    it { expect(assigns(:auth_source)).not_to be_nil }
+    it { should respond_with :success }
+    it { should render_template :new }
+
+    it "initializes a new AuthSource" do
+      expect(assigns(:auth_source).class).to eq LdapAuthSource
+      expect(assigns(:auth_source)).to be_new_record
+    end
   end
 end

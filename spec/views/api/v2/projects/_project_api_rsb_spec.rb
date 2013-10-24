@@ -124,20 +124,20 @@ describe 'api/v2/projects/_project.api' do
   end
 
   describe 'with a project having a parent project' do
-    let(:parent_project) { FactoryGirl.create(:project, :id => 102, :name => 'Parent', :identifier => 'parent') }
+    let(:parent_project) { FactoryGirl.create(:project, :name => 'Parent', :identifier => 'parent') }
     let(:project) { FactoryGirl.create(:project).tap { |p| p.move_to_child_of(parent_project.id)} }
 
     describe 'project node' do
       it 'contains a parent element with name and id attributes' do
         render
 
-        response.should have_selector('project parent[name=Parent][id="102"][identifier=parent]', :count => 1)
+        response.should have_selector("project parent[name=Parent][id='#{parent_project.id}'][identifier=parent]", :count => 1)
       end
     end
   end
 
   describe 'with a project having an invisible parent project' do
-    let(:parent_project) { FactoryGirl.create(:project, :id => 103, :name => 'Parent', :identifier => 'parent', :is_public => false) }
+    let(:parent_project) { FactoryGirl.create(:project, :name => 'Parent', :identifier => 'parent', :is_public => false) }
     let(:project) { FactoryGirl.create(:project).tap { |p| p.move_to_child_of(parent_project.id)} }
 
     describe 'project node' do

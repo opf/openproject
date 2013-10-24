@@ -130,8 +130,8 @@ de:
       reporting:
         created_at: "Angelegt"
         reported_project_status_comment: "Status-Kommentar"
-        reported_project_status_id: "Projekt-Status"
-        reporting_to_project_id: "Beziehung zu Projekt"
+        reported_project_status: "Projekt-Status"
+        reporting_to_project: "Beziehung zu Projekt"
       type:
         is_in_roadmap: "In der Roadmap anzeigen"
         in_aggregation: "In der Aggregation anzeigen"

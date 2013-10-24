@@ -29,9 +29,15 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
-* `#959` Too many available responsibles returned for filtering in timelines
+* `#959`  Too many available responsibles returned for filtering in Timelines
+* `#1738` Forum problem when no description given.
+* `#1916` Work package update screen is closed when attached file is deleted
 * `#1935` Fixed bug: Default submenu for wiki pages is wrong (Configure menu item)
 * `#2009` No journal entry created for attachments if the attachment is added on container creation
+* `#2371` Add support for IE10 to Timelines
+* `#2448` Accelerate work package updates
+* `#2479` Remove TinyMCE spike
+* Fix compatibility with old mail configuration
 
 ## 3.0.0pre22
 
