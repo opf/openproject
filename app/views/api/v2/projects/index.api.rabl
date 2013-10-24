@@ -27,5 +27,32 @@
 #++
 
 collection @projects => "projects"
-extends "api/v2/projects/project"
+attributes :id,
+           :name,
+           :identifier,
+           :description,
+           :project_type_id,
+           :parent_id,
+           :responsible_id
+
+
+node :planning_element_type_ids, if: lambda{|project| project.types.present? } do |project|
+  project.types.map(&:id)
+end
+
+node :project_associations, unless: lambda{|project| project.project_associations.visible.empty?} do |project|
+  project.project_associations.visible.map do |project_association|
+    other_project = project_association.project(project)
+    {id: project_association.id,
+     project: {id: other_project.id,
+               identifier: other_project.identifier,
+               name: other_project.name}
+    }
+  end
+end
+
+node :created_on, if: lambda{|project| project.created_on.present?} {|project| project.created_on.utc.iso8601}
+node :updated_on, if: lambda{|project| project.updated_on.present?} {|project| project.updated_on.utc.iso8601}
+
+
 
