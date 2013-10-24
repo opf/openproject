@@ -1979,6 +1979,9 @@ Timeline = {
         return this.responsible.name;
       }
     },
+    getAssignedName: function () {
+      return;
+    },
     getSubElements: function() {
       var result = [];
 
@@ -2254,6 +2257,11 @@ Timeline = {
     getResponsibleName: function()  {
       if (this.responsible && this.responsible.name) {
         return this.responsible.name;
+      }
+    },
+    getAssignedName: function () {
+      if (this.assigned_to && this.assigned_to.name) {
+        return this.assigned_to.name;
       }
     },
     getParent: function() {
@@ -3812,6 +3820,7 @@ Timeline = {
       "type": "getTypeName",
       "status": "getStatusName",
       "responsible": "getResponsibleName",
+      "assigned_to": "getAssignedName",
       "project": "getProjectName"
     };
 

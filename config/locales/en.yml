@@ -1353,6 +1353,7 @@ en:
         date: "date"
         default: "default"
       column:
+        assigned_to: "Assignee"
         type: "Type"
         due_date: "End date"
         name: "Name"
