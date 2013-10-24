@@ -304,7 +304,7 @@ Timeline = {
         timeline.reload();
       });
 
-      timelineLoader = this.provideTimelineLoader()
+      timelineLoader = this.provideTimelineLoader();
 
       jQuery(timelineLoader).on('complete', jQuery.proxy(function(e, data) {
         jQuery.extend(this, data);
@@ -329,7 +329,7 @@ Timeline = {
   reload: function() {
     delete this.lefthandTree;
 
-    var timelineLoader = this.provideTimelineLoader()
+    var timelineLoader = this.provideTimelineLoader();
 
     jQuery(timelineLoader).on('complete', jQuery.proxy(function (e, data) {
 
@@ -471,7 +471,7 @@ Timeline = {
 
     FilterQueryStringBuilder.prototype.prepareAdditionalQueryData = function(key, value) {
       this.queryStringParts.push({name: key, value: value});
-    }
+    };
 
     FilterQueryStringBuilder.prototype.prepareFilterDataForKeyAndArrayOfValues = function(key, value) {
       jQuery.each(value, jQuery.proxy( function(i, e) {
@@ -480,9 +480,11 @@ Timeline = {
     };
 
     FilterQueryStringBuilder.prototype.buildFilterDataForValue = function(key, value) {
-      return value instanceof Array ?
-        this.prepareFilterDataForKeyAndArrayOfValues(key, value) :
+      if (value instanceof Array) {
+        this.prepareFilterDataForKeyAndArrayOfValues(key, value);
+      } else {
         this.prepareFilterDataForKeyAndValue(key, value);
+      }
     };
 
     FilterQueryStringBuilder.prototype.registerKeyAndValue = function(key, value) {
@@ -766,7 +768,8 @@ Timeline = {
     };
 
     DataEnhancer.prototype.setElement = function (type, id, element) {
-      return this.data[type.identifier][id] = element;
+      this.data[type.identifier][id] = element;
+      return this.data[type.identifier][id];
     };
 
     DataEnhancer.prototype.getProject = function () {
@@ -963,7 +966,7 @@ Timeline = {
         var pe = dataEnhancer.getElement(Timeline.PlanningElement, e.id);
         var pet = pe.getPlanningElementType();
 
-        pe.vertical = this.timeline.verticalPlanningElementIds().indexOf(pe.id) != -1;
+        pe.vertical = this.timeline.verticalPlanningElementIds().indexOf(pe.id) !== -1;
         //this.timeline.optionsfalse || Math.random() < 0.5 || (pet && pet.is_milestone);
       });
     };
@@ -1077,7 +1080,7 @@ Timeline = {
 
       this.loader.register(Timeline.Reporting.identifier,
                            { url : url });
-    },
+    };
 
     TimelineLoader.prototype.registerGlobalElements = function () {
 
@@ -1181,10 +1184,11 @@ Timeline = {
         );
 
         // load historical planning elements.
+        // TODO: load historical PEs here!
         if (this.options.target_time) {
           this.loader.register(
             Timeline.HistoricalPlanningElement.identifier + '_IDS_' + i,
-            { url : planningElementPrefix +
+            { url : projectPrefix +
                     '/planning_elements.json?ids=' +
                     planningElementIdsOfPacket.join(',') },
             { storeIn: Timeline.HistoricalPlanningElement.identifier,
@@ -1790,15 +1794,15 @@ Timeline = {
           var dataBGrouping = b.getFirstLevelGroupingData();
 
           // order first level grouping.
-          if (dataAGrouping.id != dataBGrouping.id) {
+          if (parseInt(dataAGrouping.id, 10) !== parseInt(dataBGrouping.id, 10)) {
             /** other is always at bottom */
-            if (dataAGrouping.id == 0) {
+            if (parseInt(dataAGrouping.id, 10) === 0) {
               return 1;
-            } else if (dataBGrouping.id == 0) {
+            } else if (parseInt(dataBGrouping.id, 10) === 0) {
               return -1;
             }
 
-            if (timeline.options.grouping_one_sort == 1) {
+            if (parseInt(timeline.options.grouping_one_sort, 10) === 1) {
               ag = dataAGrouping.number;
               bg = dataBGrouping.number;
             } else {
@@ -1831,7 +1835,7 @@ Timeline = {
           dc = -1;
         }
 
-        identifier_methods = [a, b].map(function(e) { return e.hasOwnProperty("subject") ? "subject" : "name" })
+        var identifier_methods = [a, b].map(function(e) { return e.hasOwnProperty("subject") ? "subject" : "name"; });
 
         if (!a.identifierLower) {
           a.identifierLower = a[identifier_methods[0]].toLowerCase();
@@ -1849,7 +1853,7 @@ Timeline = {
         }
 
         if (a.hasSecondLevelGroupingAdjustment && b.hasSecondLevelGroupingAdjustment) {
-          if (timeline.options.grouping_two_sort == 1) {
+          if (parseInt(timeline.options.grouping_two_sort, 10) === 1) {
             if (dc !== 0) {
               return dc;
             }
@@ -1857,7 +1861,7 @@ Timeline = {
             if (nc !== 0) {
               return nc;
             }
-          } else if (timeline.options.grouping_two_sort == 2) {
+          } else if (parseInt(timeline.options.grouping_two_sort, 10) === 2) {
             if (nc !== 0) {
               return nc;
             }
@@ -1868,7 +1872,7 @@ Timeline = {
           }
         }
 
-        if (timeline.options.project_sort == 1 && a.is(Timeline.Project) && b.is(Timeline.Project)) {
+        if (parseInt(timeline.options.project_sort, 10) === 1 && a.is(Timeline.Project) && b.is(Timeline.Project)) {
           if (nc !== 0) {
             return nc;
           }
@@ -2801,6 +2805,8 @@ Timeline = {
       var has_one_date = this.hasOneDate();
       var has_start_date = this.hasStartDate();
 
+      var hoverElement;
+
       color = this.getColor();
 
       if (has_one_date) {
@@ -2817,7 +2823,7 @@ Timeline = {
             'stroke-dasharray': '- '
           });
 
-          var hoverElement = paper.rect(
+          hoverElement = paper.rect(
             left + scale.day / 2 - 2 * Timeline.HOVER_THRESHOLD,
             timeline.decoHeight(), // 8px margin-top
             4 * Timeline.HOVER_THRESHOLD,
@@ -2840,7 +2846,7 @@ Timeline = {
             'opacity': 0.2
           });
 
-          var hoverElement = paper.rect(
+          hoverElement = paper.rect(
             left - Timeline.HOVER_THRESHOLD,
             timeline.decoHeight(), // 8px margin-top
             width + 2 * Timeline.HOVER_THRESHOLD,
@@ -3098,7 +3104,8 @@ Timeline = {
       } else {
         this.childNodes.push(node);
       }
-      return node.parentNode = this;
+      node.parentNode = this;
+      return node.parentNode;
     },
     removeChild: function(node) {
       var result;
@@ -3126,7 +3133,8 @@ Timeline = {
       return this.expanded;
     },
     setExpand: function(state) {
-      return this.expanded = state;
+      this.expanded = state;
+      return this.expanded;
     },
     expand: function() {
       return this.setExpand(true);
@@ -4566,7 +4574,7 @@ Timeline = {
   getRelativeVerticalBottomOffset: function(offset) {
     var result;
     result = this.getRelativeVerticalOffset(offset);
-    if (offset.find("div").length == 1) {
+    if (offset.find("div").length === 1) {
       result -= jQuery(offset.find("div")[0]).height();
     }
     if (offset !== undefined)
