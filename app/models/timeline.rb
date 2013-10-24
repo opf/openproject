@@ -102,11 +102,12 @@ class Timeline < ActiveRecord::Base
   ]
 
   @@available_columns = [
-    "type",
     "start_date",
     "due_date",
+    "type",
+    "status",
     "responsible",
-    "status"
+    "assigned_to"
   ]
 
   @@available_zoom_factors = [

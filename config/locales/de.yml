@@ -1347,6 +1347,7 @@ de:
     edit_project_type: "Projekt-Typ bearbeiten"
     edit_thing: "Bearbeiten"
     edit_timeline: "Zeitplan-Report bearbeiten"
+    empty: "(leer)"
     enable_planning_element_in_project: 'Planungselement-Typ "%{type}" aktivieren'
     end: "Abschluss"
     errors:
@@ -1363,6 +1364,7 @@ de:
         date: "Datum"
         default: "Default"
       column:
+        assigned_to: "Zugewiesen an"
         type: "Typ"
         due_date: "Abschlussdatum"
         name: "Name"

@@ -38,6 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2448` Accelerate work package updates
 * `#2464` No initial attachment journal for messages
 * `#2479` Remove TinyMCE spike
+* `#2557` Highlight changes of any work package attribute available in the timelines table  
 * `#2559` Migrate existing IssueCustomFields to WorkPackageCustomFields
 * Fix compatibility with old mail configuration
 

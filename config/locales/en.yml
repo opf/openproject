@@ -1336,6 +1336,7 @@ en:
     edit_project_type: "Edit project type"
     edit_thing: "Edit"
     edit_timeline: "Edit timeline report"
+    empty: "(empty)"
     enable_planning_element_in_project: 'Enable planning element type "%{type}"'
     end: "End"
     errors:
@@ -1352,6 +1353,7 @@ en:
         date: "date"
         default: "default"
       column:
+        assigned_to: "Assignee"
         type: "Type"
         due_date: "End date"
         name: "Name"
