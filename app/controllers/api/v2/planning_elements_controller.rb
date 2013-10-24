@@ -117,44 +117,64 @@ module Api
 
       protected
 
+      def filter_authorized_projects
+        # authorize
+        # Ignoring projects, where user has no view_work_packages permission.
+        permission = params[:controller].sub api_version, ''
+        @projects = @projects.select do |project|
+          User.current.allowed_to?({:controller => permission,
+                                    :action     => params[:action]},
+                                    project)
+        end
+      end
+
+      def load_multiple_projects(ids, identifiers)
+        @projects = []
+        @projects |= Project.all(:conditions => {:id => ids}) unless ids.empty?
+        @projects |= Project.all(:conditions => {:identifier => identifiers}) unless identifiers.empty?
+      end
+
+      def projects_contain_certain_ids_and_identifiers(ids, identifiers)
+        (@projects.map(&:id) & ids).size == ids.size &&
+        (@projects.map(&:identifier) & identifiers).size == identifiers.size
+      end
+
+      def find_single_project
+        find_project_by_project_id         unless performed?
+        authorize                          unless performed?
+        assign_planning_elements(@project) unless performed?
+      end
+
+      def find_multiple_projects
+        # find_project_by_project_id
+        ids, identifiers = params[:project_id].split(/,/).map(&:strip).partition { |s| s =~ /^\d*$/ }
+        ids = ids.map(&:to_i).sort
+        identifiers = identifiers.sort
+
+        load_multiple_projects(ids, identifiers)
+
+        if !projects_contain_certain_ids_and_identifiers(ids, identifiers)
+          # => not all projects could be found
+          render_404
+          return
+        end
+
+        filter_authorized_projects
+
+        if @projects.blank?
+          @planning_elements = []
+          return
+        end
+
+        assign_planning_elements(@projects)
+      end
+
       # Filters
       def find_all_projects_by_project_id
         if params[:project_id] !~ /,/
-          find_project_by_project_id         unless performed?
-          authorize                          unless performed?
-          assign_planning_elements(@project) unless performed?
+          find_single_project
         else
-          # find_project_by_project_id
-          ids, identifiers = params[:project_id].split(/,/).map(&:strip).partition { |s| s =~ /^\d*$/ }
-          ids = ids.map(&:to_i).sort
-          identifiers = identifiers.sort
-
-          @projects = []
-          @projects |= Project.all(:conditions => {:id => ids}) unless ids.empty?
-          @projects |= Project.all(:conditions => {:identifier => identifiers}) unless identifiers.empty?
-
-          if (@projects.map(&:id) & ids).size != ids.size ||
-             (@projects.map(&:identifier) & identifiers).size != identifiers.size
-            # => not all projects could be found
-            render_404
-            return
-          end
-
-          # authorize
-          # Ignoring projects, where user has no view_work_packages permission.
-          permission = params[:controller].sub api_version, ''
-          @projects = @projects.select do |project|
-            User.current.allowed_to?({:controller => permission,
-                                      :action     => params[:action]},
-                                      project)
-          end
-
-          if @projects.blank?
-            @planning_elements = []
-            return
-          end
-
-          assign_planning_elements(@projects)
+          find_multiple_projects
         end
       end
 
@@ -255,6 +275,29 @@ module Api
         end
       end
 
+      def get_first_unfiltered_ancestor(pe)
+        ancestors = @planning_elements.select{|candidate| candidate.lft < pe.lft && candidate.rgt > pe.rgt }
+        # the greatest lower boundary is the first ancestor not filtered
+        ancestors.sort_by{|ancestor| ancestor.lft }.last
+      end
+
+      def pe_remove_filtered_children(pe)
+        # remove all children, that are not present in the filtered set
+        pe.children = pe.children.select {|child| @filtered_ids.include? child.id} unless pe.children.empty?
+      end
+
+      def pe_rewrite_parent(pe)
+        # re-wire the parent of this pe to the first ancestor found in the filtered set
+        if pe.parent_id && !@filtered_ids.include?(pe.parent_id)
+          pe.parent = get_first_unfiltered_ancestor(pe)
+        end
+      end
+
+      def pe_rewire_ancestors(pe)
+        pe_remove_filtered_children(pe)
+        pe_rewrite_parent(pe)
+      end
+
       # Filtering work_packages can destroy the parent-child-relationships
       # of work_packages. If parents are removed, the relationships need
       # to be rewired to the first ancestor in the ancestor-chain.
@@ -267,19 +310,10 @@ module Api
       # to see the respective cases that need to be handled properly by this rewiring,
       # @see features/planning_elements/filter.feature
       def rewire_ancestors
-        filtered_ids = @planning_elements.map(&:id)
+        @filtered_ids = @planning_elements.map(&:id)
 
         @planning_elements.each do |pe|
-          # remove all children, that are not present in the filtered set
-          pe.children = pe.children.select {|child| filtered_ids.include? child.id} unless pe.children.empty?
-          # re-wire the parent of this pe to the first ancestor found in the filtered set
-          # re-wiring is only needed, when there is actually a parent, and the parent has been filtered out
-          if pe.parent_id && !filtered_ids.include?(pe.parent_id)
-            ancestors = @planning_elements.select{|candidate| candidate.lft < pe.lft && candidate.rgt > pe.rgt }
-            # the greatest lower boundary is the first ancestor not filtered
-            pe.parent = ancestors.sort_by{|ancestor| ancestor.lft }.last
-          end
-
+          pe_rewire_ancestors(pe)
         end
       end
     end
