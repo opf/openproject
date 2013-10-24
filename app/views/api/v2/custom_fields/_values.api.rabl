@@ -26,9 +26,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-api.array :custom_fields, api_meta(:size => custom_field_values.size) do
-  custom_field_values.each do |custom_field_value|
-    render :partial => '/api/v2/custom_fields/custom_field_value.api',
-        :locals => {:custom_field_value => custom_field_value}
-  end
+collection @values => :custom_fields
+
+node :name do |value|
+  value.custom_field.name
+end
+
+attributes :value
+
+node :id do |value|
+  value.custom_field.id
 end
