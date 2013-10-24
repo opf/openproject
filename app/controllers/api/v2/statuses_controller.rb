@@ -38,9 +38,6 @@ module Api
       include ::Api::V2::ApiController
       rescue_from ActiveRecord::RecordNotFound, with: lambda{render_404}
 
-      extend Pagination::Controller
-      paginate_model Status
-
       unloadable
 
       before_filter :require_login

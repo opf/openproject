@@ -120,34 +120,6 @@ class AttachmentsControllerTest < ActionController::TestCase
     assert_redirected_to '/login?back_url=http%3A%2F%2Ftest.host%2Fattachments%2F7%2Fdownload'
   end
 
-  def test_destroy_issue_attachment
-    issue = WorkPackage.find(3)
-    issue.recreate_initial_journal!
-
-    @request.session[:user_id] = 2
-
-    assert_difference 'issue.attachments.count', -1 do
-      delete :destroy, :id => 1
-    end
-    # no referrer
-    issue.reload
-    assert_redirected_to '/projects/ecookbook'
-    assert_nil Attachment.find_by_id(1)
-
-    j = issue.journals.last
-
-    assert_equal [:attachments_1], j.details.keys
-    assert_equal 'error281.txt', j.details[:attachments_1].first
-  end
-
-  def test_destroy_wiki_page_attachment
-    @request.session[:user_id] = 2
-    assert_difference 'Attachment.count', -1 do
-      delete :destroy, :id => 3
-      assert_response 302
-    end
-  end
-
   def test_destroy_without_permission
     delete :destroy, :id => 3
     assert_redirected_to '/login?back_url=http%3A%2F%2Ftest.host%2Fattachments%2F3'

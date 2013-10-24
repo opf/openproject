@@ -32,7 +32,7 @@ class TypesController < ApplicationController
 
   layout 'admin'
 
-  before_filter :require_admin, :except => [:index, :show, :paginate_planning_element_types]
+  before_filter :require_admin, :except => [:index, :show]
 
   def index
     @types = Type.without_standard

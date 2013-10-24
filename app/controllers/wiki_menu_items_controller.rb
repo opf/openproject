@@ -87,14 +87,19 @@ class WikiMenuItemsController < ApplicationController
 
   def get_data_from_params(params)
     @project = Project.find(params[:project_id])
-
     @page_title = params[:id]
-    @page = WikiPage.find_by_title_and_wiki_id(@page_title, @project.wiki.id)
+    wiki_id = @project.wiki.id
 
+    @page = WikiPage.find_by_title_and_wiki_id(@page_title, wiki_id)
+    @wiki_menu_item = WikiMenuItem.find_or_initialize_by_wiki_id_and_title(wiki_id, @page_title)
+    possible_parent_menu_items = WikiMenuItem.main_items(wiki_id) - [@wiki_menu_item]
 
-    @wiki_menu_item = WikiMenuItem.find_or_initialize_by_wiki_id_and_title(@page.wiki.id, @page_title)
+    @parent_menu_item_options = possible_parent_menu_items.map {|item| [item.name, item.id]}
 
-    @possible_parent_menu_items = WikiMenuItem.main_items(@page.wiki.id) - [@wiki_menu_item]
-    @possible_parent_menu_items.map! {|item| [item.name, item.id]}
+    @selected_parent_menu_item_id = if @wiki_menu_item.parent
+      @wiki_menu_item.parent.id
+    else
+      @page.nearest_parent_menu_item(:is_main_item => true).try :id
+    end
   end
 end

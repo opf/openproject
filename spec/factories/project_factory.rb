@@ -40,7 +40,7 @@ FactoryGirl.define do
     end
 
     factory :public_project do
-      is_public true
+      is_public true # Remark: is_public defaults to true
     end
 
     factory :project_with_types do

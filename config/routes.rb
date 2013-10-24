@@ -59,28 +59,12 @@ OpenProject::Application.routes.draw do
 
       resources :authentication
       resources :planning_element_journals
-      resources :statuses do
-        collection do
-          get :paginate_statuses
-        end
-      end
+      resources :statuses
       resources :colors, :controller => 'planning_element_type_colors'
-      resources :planning_element_types do
-        collection do
-          get :paginate_planning_element_types
-        end
-      end
+      resources :planning_element_types
       resources :planning_elements
-      resources :project_types do
-        collection do
-          get :paginate_project_types
-        end
-      end
-      resources :reported_project_statuses do
-        collection do
-          get :paginate_reported_project_statuses
-        end
-      end
+      resources :project_types
+      resources :reported_project_statuses
       resources :statuses, :only => [:index, :show]
       resources :timelines
 
@@ -96,6 +80,18 @@ OpenProject::Application.routes.draw do
         resources :statuses, :only => [:index, :show]
       end
 
+
+      namespace :pagination, :as => 'paginate' do
+        [:users,
+         :principals,
+         :statuses,
+         :types,
+         :project_types,
+         :reported_project_statuses,
+         :projects].each do |model|
+          resources model, :only => [:index]
+        end
+      end
     end
   end
 
@@ -272,27 +268,6 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  # this is to support global actions on issues and
-  # for backwards compatibility
-  namespace :issues do
-    # have a global autocompleter for issues
-    # TODO: make this ressourceful
-    match 'auto_complete' => 'auto_completes#issues', :via => [:get, :post], :format => false
-
-    # TODO: separate routes and action for get and post
-    match 'context_menu' => 'context_menus#issues', :via => [:get, :post], :format => false
-  end
-
-  resources :issues, :only => [] do
-    namespace :time_entries do
-      resource :report, :controller => 'reports', :only => [:show]
-    end
-
-    resources :time_entries, :controller => 'timelog'
-
-    resources :relations, :controller => 'relations', :only => [:create, :destroy]
-  end
-
   namespace :work_packages do
     match 'auto_complete' => 'auto_completes#index', :via => [:get, :post], :format => false
     match 'context_menu' => 'context_menus#index', :via => [:get, :post], :format => false
@@ -450,17 +425,6 @@ OpenProject::Application.routes.draw do
 
   resources :planning_element_statuses, :controller => 'planning_element_statuses'
 
-  resources :planning_element_types, :controller => 'planning_element_types' do
-    collection do
-      get :paginate_planning_element_types
-    end
-    member do
-      get :confirm_destroy
-      get :move
-      post :move
-    end
-  end
-
   resources :project_types, :controller => 'project_types' do
     member do
       get :confirm_destroy
@@ -473,14 +437,6 @@ OpenProject::Application.routes.draw do
   end
 
   resources :projects, :only => [:index, :show], :controller => 'projects' do
-    resources :planning_element_types, :controller => 'planning_element_types' do
-      member do
-        get :confirm_destroy
-        get :move
-        post :move
-      end
-    end
-
     resources :planning_elements,      :controller => 'planning_elements' do
       collection do
         get :all
@@ -505,19 +461,9 @@ OpenProject::Application.routes.draw do
     end
 
     resources :timelines,              :controller => 'timelines'
-
-    resources :principals, :controller => 'timelines_principals' do
-      collection do
-        get :paginate_principals
-      end
-    end
   end
 
-  resources :reported_project_statuses, :controller => 'reported_project_statuses' do
-    collection do
-      get :paginate_reported_project_statuses
-    end
-  end
+  resources :reported_project_statuses, :controller => 'reported_project_statuses'
 
   # Install the default route as the lowest priority.
   match '/:controller(/:action(/:id))'

@@ -32,7 +32,6 @@ module Api
     class ProjectTypesController < ProjectTypesController
 
       include ::Api::V2::ApiController
-      paginate_model ProjectType
 
       def index
         @project_types = ProjectType.all

@@ -27,8 +27,6 @@
 #++
 
 class ProjectTypesController < ApplicationController
-  extend Pagination::Controller
-  paginate_model ProjectType
 
   unloadable
   helper :timelines

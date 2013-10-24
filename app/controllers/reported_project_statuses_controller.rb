@@ -30,9 +30,6 @@ class ReportedProjectStatusesController < ApplicationController
   unloadable
   helper :timelines
 
-  extend Pagination::Controller
-  paginate_model ReportedProjectStatus
-
   before_filter :disable_api
   before_filter :require_login
   before_filter :determine_base

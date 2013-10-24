@@ -501,24 +501,22 @@ module ApplicationHelper
 
     edit = !!options.delete(:edit)
     # don't return html in edit mode when textile or text formatting is enabled
-    return text if edit && Setting.text_formatting.to_s != 'xml'
+    return text if edit
     project = options[:project] || @project || (obj && obj.respond_to?(:project) ? obj.project : nil)
     only_path = options.delete(:only_path) == false ? false : true
 
     text = Redmine::WikiFormatting.to_html(Setting.text_formatting, text, :object => obj, :attribute => attr, :edit => edit) { |macro, args| exec_macro(macro, obj, args, :view => self, :edit => edit) }
 
-    unless edit #do not perform production modifications on edit-html
-      #TODO: transform modifications into WikiFormatting Helper, or at least ask the helper if he wants his stuff to be modified
-      @parsed_headings = []
-      text = parse_non_pre_blocks(text) do |text|
-        [:parse_inline_attachments, :parse_wiki_links, :parse_redmine_links, :parse_headings, :parse_relative_urls].each do |method_name|
-          send method_name, text, project, obj, attr, only_path, options
-        end
+    #TODO: transform modifications into WikiFormatting Helper, or at least ask the helper if he wants his stuff to be modified
+    @parsed_headings = []
+    text = parse_non_pre_blocks(text) do |text|
+      [:parse_inline_attachments, :parse_wiki_links, :parse_redmine_links, :parse_headings, :parse_relative_urls].each do |method_name|
+        send method_name, text, project, obj, attr, only_path, options
       end
+    end
 
-      if @parsed_headings.any?
-        replace_toc(text, @parsed_headings)
-      end
+    if @parsed_headings.any?
+      replace_toc(text, @parsed_headings)
     end
 
     text.html_safe

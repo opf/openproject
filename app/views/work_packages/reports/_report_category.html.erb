@@ -28,14 +28,11 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <h3>
-  <%= WorkPackage.human_attribute_name(detail) %>&nbsp;&nbsp;
+  <%= WorkPackage.human_attribute_name(report.report_type) %>&nbsp;&nbsp;
   <%= link_to image_tag('webalys/zoom_in.png',
-                        :alt    => l(:text_analyze, :subject => WorkPackage.human_attribute_name(detail)),
-                        :title  => l(:text_analyze, :subject => WorkPackage.human_attribute_name(detail))),
-              :action => 'report_details', :detail => detail %>
+                        :alt    => l(:text_analyze, :subject => WorkPackage.human_attribute_name(report.report_type)),
+                        :title  => l(:text_analyze, :subject => WorkPackage.human_attribute_name(report.report_type))),
+              :action => 'report_details', :detail => report.report_type %>
 </h3>
-<%= render :partial => 'report', :locals => { :data => data,
-                                              :field_name => field_name,
-                                              :statuses => [],
-                                              :rows => rows } %>
+<%= render :partial => 'report', :locals => { :report => report } %>
 <br />

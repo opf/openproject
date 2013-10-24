@@ -215,33 +215,33 @@ Feature: Filtering work packages via the api
   # Always make sure, that historical tests are tagged with @timetravel:
   # otherwise the time remains frozen for other features!!!
   Scenario: looking up historical data
-    Given the date is "2010/01/01"
+    Given the date is "2014/01/01"
     And there are the following work packages in project "sample_project":
       | subject          | type  | responsible |
       | work_package#1   | Task  | bob         |
       | work_package#2   | Task  | peter       |
       | work_package#3   | Task  | pamela      |
-    Given the date is "2010/02/01"
+    Given the date is "2014/02/01"
     And the work_package "work_package#3" is updated with the following:
       | type        | Story       |
       | responsible | bob         |
-    Given the date is "2010/03/01"
-    And I call the work_package-api on project "sample_project" at time "2010/01/03" and filter for types "Story"
+    Given the date is "2014/03/01"
+    And I call the work_package-api on project "sample_project" at time "2014/01/03" and filter for types "Story"
     Then the json-response should include 1 work package
     And the json-response for work_package "work_package#3" should have the type "Task"
     And the json-response for work_package "work_package#3" should have the responsible "pamela"
 
   Scenario: comparing due dates
-    Given the date is "2010/01/01"
+    Given the date is "2014/01/01"
     And there are the following work packages in project "sample_project":
       | subject          | type  | responsible | due_date   |
-      | work_package#1   | Task  | bob         | 2010/01/15 |
-    Given the date is "2010/02/01"
+      | work_package#1   | Task  | bob         | 2014/01/15 |
+    Given the date is "2014/02/01"
     And the work_package "work_package#1" is updated with the following:
       | type        | Story       |
       | responsible | pamela      |
-      | due_date    | 2010/01/20  |
-    Given the date is "2010/03/01"
-    And I call the work_package-api on project "sample_project" at time "2010/01/03" and filter for types "Story"
-    Then the json-response for work_package "work_package#1" should have the due_date "2010/01/15"
-    And the work package "work_package#1" has the due_date "2010/01/20"
+      | due_date    | 2014/01/20  |
+    Given the date is "2014/03/01"
+    And I call the work_package-api on project "sample_project" at time "2014/01/03" and filter for types "Story"
+    Then the json-response for work_package "work_package#1" should have the due_date "2014/01/15"
+    And the work package "work_package#1" has the due_date "2014/01/20"
