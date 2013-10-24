@@ -13,16 +13,6 @@ GIT
       i18n
 
 GIT
-  remote: https://github.com/globalize/globalize.git
-  revision: 6ad3de9f257a27ece3e026fce36c8cf8a410a4f7
-  branch: 3-0-stable
-  specs:
-    globalize3 (0.3.0)
-      activemodel (>= 3.0.0)
-      activerecord (>= 3.0.0)
-      paper_trail (~> 2)
-
-GIT
   remote: https://github.com/rails/prototype_legacy_helper.git
   revision: a2cd95c3e3c1a4f7a9566efdab5ce59c886cb05f
   specs:
@@ -139,6 +129,10 @@ GEM
     formatador (0.2.4)
     gherkin (2.12.1)
       multi_json (~> 1.3)
+    globalize3 (0.3.0)
+      activemodel (>= 3.0.0)
+      activerecord (>= 3.0.0)
+      paper_trail (~> 2)
     guard (1.8.0)
       formatador (>= 0.2.4)
       listen (>= 1.0.0)
@@ -374,7 +368,7 @@ DEPENDENCIES
   factory_girl_rails (~> 4.0)
   faker
   fastercsv (~> 1.5.0)
-  globalize3!
+  globalize3
   guard-cucumber
   guard-rspec
   guard-test
