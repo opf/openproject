@@ -679,6 +679,7 @@ Timeline = {
     DataEnhancer.BasicTypes = function () {
       return [
         Timeline.Color,
+        Timeline.Status,
         Timeline.PlanningElementType,
         Timeline.HistoricalPlanningElement,
         Timeline.PlanningElement,
@@ -721,7 +722,7 @@ Timeline = {
         this.augmentProjectsWithProjectTypesAndAssociations();
 
         this.augmentPlanningElementsWithHistoricalData();
-        this.augmentPlanningElementsWithProjectAndParentAndChildInformation();
+        this.augmentPlanningElementsWithAllKindsOfStuff();
         this.augmentPlanningElementsWithVerticalityData();
 
         return this.data;
@@ -908,6 +909,15 @@ Timeline = {
       dataEnhancer.setElementMap(Timeline.HistoricalPlanningElement, undefined);
     };
 
+    DataEnhancer.prototype.augmentPlanningElementWithStatus = function (pe) {
+      // planning_element → planning_element_type
+      if (pe.status_id) {
+        pe.status = this.getElement(Timeline.Status,
+                                    pe.status_id);
+      }
+      delete pe.status_id;
+    };
+
     DataEnhancer.prototype.augmentPlanningElementWithType = function (pe) {
       // planning_element → planning_element_type
       if (pe.type_id) {
@@ -958,14 +968,16 @@ Timeline = {
       }
     };
 
-    DataEnhancer.prototype.augmentPlanningElementsWithProjectAndParentAndChildInformation = function () {
+    DataEnhancer.prototype.augmentPlanningElementsWithAllKindsOfStuff = function () {
       var dataEnhancer = this;
 
       jQuery.each(dataEnhancer.getElements(Timeline.PlanningElement), function (i, e) {
+        dataEnhancer.augmentPlanningElementWithStatus(e);
         dataEnhancer.augmentPlanningElementWithType(e);
         dataEnhancer.augmentPlanningElementWithProject(e);
         dataEnhancer.augmentPlanningElementWithParent(e);
         if (e.historical_element) {
+          dataEnhancer.augmentPlanningElementWithStatus(e.historical_element);
           dataEnhancer.augmentPlanningElementWithType(e.historical_element);
         }
       });
@@ -1096,6 +1108,9 @@ Timeline = {
 
     TimelineLoader.prototype.registerGlobalElements = function () {
 
+      this.loader.register(
+          Timeline.Status.identifier,
+          { url : this.globalPrefix + '/statuses.json' });
       this.loader.register(
           Timeline.PlanningElementType.identifier,
           { url : this.globalPrefix + '/planning_element_types.json' });
@@ -1601,6 +1616,25 @@ Timeline = {
     all: function(timeline) {
       // collect all colors
       var r = timeline.colors;
+      var result = [];
+      for (var key in r) {
+        if (r.hasOwnProperty(key)) {
+          result.push(r[key]);
+        }
+      }
+      return result;
+    }
+  },
+
+  // ╭───────────────────────────────────────────────────────────────────╮
+  // │ Timeline.Status                                                   │
+  // ╰───────────────────────────────────────────────────────────────────╯
+
+  Status: {
+    identifier: 'statuses',
+    all: function(timeline) {
+      // collect all reportings.
+      var r = timeline.statuses;
       var result = [];
       for (var key in r) {
         if (r.hasOwnProperty(key)) {
@@ -2290,8 +2324,8 @@ Timeline = {
       }
     },
     getStatusName: function () {
-      if (this.planning_element_status) {
-        return this.planning_element_status.name;
+      if (this.status) {
+        return this.status.name;
       }
     },
     getProjectName: function () {
