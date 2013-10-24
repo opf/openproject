@@ -37,10 +37,12 @@ class Principal < ActiveRecord::Base
   has_many :projects, :through => :memberships
   has_many :categories, :foreign_key => 'assigned_to_id', :dependent => :nullify
 
-  # Groups and active users
-  scope :active, :conditions => "#{Principal.table_name}.type='Group' OR (#{Principal.table_name}.type='User' AND #{Principal.table_name}.status = 1)"
+  # TODO: The constants are misplaced in the subclass
+  scope :active, -> { where(status: User::STATUSES[:active]) }
 
-  scope :active_or_registered, :conditions => "#{Principal.table_name}.type='Group' OR (#{Principal.table_name}.type='User' AND (#{Principal.table_name}.status = 1 OR #{Principal.table_name}.status = 2))"
+  scope :active_or_registered, -> { where(status: [User::STATUSES[:active], User::STATUSES[:registered]]) }
+
+  scope :active_or_registered_like, ->(query) { active_or_registered.like(query) }
 
   scope :not_in_project, lambda { |project| {:conditions => "id NOT IN (select m.user_id FROM members as m where m.project_id = #{project.id})"}}
 
@@ -68,16 +70,12 @@ class Principal < ActiveRecord::Base
 
   before_create :set_default_empty_values
 
-  def self.search_scope(query)
-    active_or_registered.like(query)
-  end
-
   def name(formatter = nil)
     to_s
   end
 
   def self.possible_members(criteria, limit)
-    Principal.active_or_registered.like(criteria).find(:all, :limit => limit)
+    Principal.active_or_registered_like(criteria).limit(limit)
   end
 
   def self.paginate_scope!(scope, options = {})
@@ -87,11 +85,7 @@ class Principal < ActiveRecord::Base
   end
 
   def self.search_scope_without_project(project, query)
-    search_scope(query).not_in_project(project)
-  end
-
-  def self.search_scope(query)
-    active_or_registered.like(query)
+    active_or_registered_like(query).not_in_project(project)
   end
 
   def status_name

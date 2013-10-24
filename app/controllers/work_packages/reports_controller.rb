@@ -29,67 +29,27 @@
 
 class WorkPackages::ReportsController < ApplicationController
   menu_item :summary_field, :only => [:report, :report_details]
-  before_filter :find_project_by_project_id, :authorize, :find_statuses
+  before_filter :find_project_by_project_id, :authorize
 
   def report
-    @types = @project.types
-    @versions = @project.shared_versions.sort
-    @priorities = IssuePriority.all
-    @categories = @project.categories
-    @assignees = @project.members.collect { |m| m.user }.sort
-    @authors = @project.members.collect { |m| m.user }.sort
-    @subprojects = @project.descendants.visible
+    reports_service = Reports::ReportsService.new(@project)
 
-    @work_packages_by_type = WorkPackage.by_type(@project)
-    @work_packages_by_version = WorkPackage.by_version(@project)
-    @work_packages_by_priority = WorkPackage.by_priority(@project)
-    @work_packages_by_category = WorkPackage.by_category(@project)
-    @work_packages_by_assigned_to = WorkPackage.by_assigned_to(@project)
-    @work_packages_by_author = WorkPackage.by_author(@project)
-    @work_packages_by_subproject = WorkPackage.by_subproject(@project) || []
+    @type_report      = reports_service.report_for("type")
+    @priority_report  = reports_service.report_for("priority")
+    @assignee_report  = reports_service.report_for("assigned_to")
+    @author_report    = reports_service.report_for("author")
+    @version_report   = reports_service.report_for("version")
+    @subproject_report= reports_service.report_for("subproject")
+    @category_report  = reports_service.report_for("category")
+
   end
 
   def report_details
-    case params[:detail]
-    when "type"
-      @field = "type_id"
-      @rows = @project.types
-      @data = WorkPackage.by_type(@project)
-      @report_title = WorkPackage.human_attribute_name(:type)
-    when "version"
-      @field = "fixed_version_id"
-      @rows = @project.shared_versions.sort
-      @data = WorkPackage.by_version(@project)
-      @report_title = WorkPackage.human_attribute_name(:version)
-    when "priority"
-      @field = "priority_id"
-      @rows = IssuePriority.all
-      @data = WorkPackage.by_priority(@project)
-      @report_title = WorkPackage.human_attribute_name(:priority)
-    when "category"
-      @field = "category_id"
-      @rows = @project.categories
-      @data = WorkPackage.by_category(@project)
-      @report_title = WorkPackage.human_attribute_name(:category)
-    when "assigned_to"
-      @field = "assigned_to_id"
-      @rows = @project.members.collect { |m| m.user }.sort
-      @data = WorkPackage.by_assigned_to(@project)
-      @report_title = WorkPackage.human_attribute_name(:assigned_to)
-    when "author"
-      @field = "author_id"
-      @rows = @project.members.collect { |m| m.user }.sort
-      @data = WorkPackage.by_author(@project)
-      @report_title = WorkPackage.human_attribute_name(:author)
-    when "subproject"
-      @field = "project_id"
-      @rows = @project.descendants.visible
-      @data = WorkPackage.by_subproject(@project) || []
-      @report_title = l(:label_subproject_plural)
-    end
+    @report = Reports::ReportsService.new(@project)
+                                     .report_for(params[:detail])
 
     respond_to do |format|
-      if @field
+      if @report
         format.html {}
       else
         format.html { redirect_to report_project_work_packages_path(@project) }
@@ -99,11 +59,9 @@ class WorkPackages::ReportsController < ApplicationController
 
   private
 
-  def find_statuses
-    @statuses = Status.find(:all, :order => 'position')
-  end
-
   def default_breadcrumb
     l(:label_summary)
   end
+
+
 end

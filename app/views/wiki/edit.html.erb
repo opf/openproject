@@ -43,7 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
                        { :url => { :controller => '/wiki', :action => 'preview', :project_id => @project, :id => @page.title },
                          :method => :post,
                          :update => 'preview',
-                         :before => 'var form_data = Form.serialize("wiki_form", true); form_data._method="post";if (typeof(tinyMCE) != "undefined") { tinyMCE.get("content_text").save(); }',
+                         :before => 'var form_data = Form.serialize("wiki_form", true); form_data._method="post";',
                          :with => "$H(form_data).toQueryString()",
                          :complete => "Element.scrollTo('preview')"
                        }, :accesskey => accesskey(:preview) %></p>

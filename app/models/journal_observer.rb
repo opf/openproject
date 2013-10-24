@@ -46,7 +46,7 @@ class JournalObserver < ActiveRecord::Observer
       recipients = issue.recipients + issue.watcher_recipients
       users = User.find_all_by_mails(recipients.uniq)
       users.each do |user|
-        UserMailer.issue_updated(user, journal).deliver
+        UserMailer.delay.issue_updated(user, journal)
       end
     end
   end

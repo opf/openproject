@@ -177,8 +177,7 @@ namespace :copyright do
   desc "Update the copyright on .css source files"
   task :update_css, :arg1 do |task, args|
     excluded = ["app/assets/stylesheets/reset.css",
-                "lib/assets",
-                "app/assets/javascripts/tinymce"]
+                "lib/assets"]
 
     rewrite_copyright("css", excluded, :css, args[:arg1])
   end
@@ -203,8 +202,6 @@ namespace :copyright do
                 "app/assets/javascripts/date-en-US.js",
                 "app/assets/javascripts/raphael.js",
                 "app/assets/javascripts/raphael-min.js",
-                "app/assets/javascripts/tinymce/",
-                "app/assets/javascripts/calendar/",
                 "app/assets/javascripts/jstoolbar/"]
 
     rewrite_copyright("js", excluded, :js, args[:arg1])
@@ -213,7 +210,6 @@ namespace :copyright do
   desc "Update the copyright on .js.erb source files"
   task :update_js_erb, :arg1 do |task, args|
     excluded = ["lib/assets",
-                "app/assets/javascripts/tinymce/",
                 "app/assets/javascripts/calendar/",
                 "app/assets/javascripts/jstoolbar"]
 
@@ -246,8 +242,7 @@ namespace :copyright do
 
   desc "Update the copyright on .html source files"
   task :update_html, :arg1 do |task, args|
-    excluded = ["app/assets/javascripts/tinymce/",
-                "lib/assets/javascripts/qunit/"]
+    excluded = ["lib/assets/javascripts/qunit/"]
     rewrite_copyright("html", excluded, :html, args[:arg1])
   end
 

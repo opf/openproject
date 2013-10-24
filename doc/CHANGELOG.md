@@ -29,17 +29,28 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#959`  Too many available responsibles returned for filtering in Timelines
+* `#1738` Forum problem when no description given.
+* `#1888` Add project status comparison for all direct work package attributes 
+* `#1916` Work package update screen is closed when attached file is deleted
+* `#1935` Fixed bug: Default submenu for wiki pages is wrong (Configure menu item)
+* `#2371` Add support for IE10 to Timelines
+* `#2448` Accelerate work package updates
+* `#2479` Remove TinyMCE spike
+* Fix compatibility with old mail configuration
+
+## 3.0.0pre22
+
 * `#1348` User status has no database index
 * `#1854` Breadcrumbs arrows missing in Chrome
-* `#1885` Extend Timelines UI for status information
-* `#1886` Consider status in Timelines' Project Planning Comparison
-* `#1888` Add project status comparison for all direct work package attributes 
+* `#1935` Default submenu for wiki pages is wrong (Configure menu item)
 * `#1991` Migrate text references to issues/planning elements
 * `#2297` Fix APIv2 for planning elements
 * `#2304` Introduce keyboard shortcuts
 * `#2334` Deselecting all types in project configuration creates 500
 * `#2336` Cukes for timelines start/end date comparison
 * `#2340` Develop migration mechanism for renamed plugins
+* `#2374` Refactoring of ReportsController
 * `#2383` [Performance] planning_elements_controller still has an n+1-query for the responsible
 * `#2384` Replace bundles svg graph with gem
 * `#2386` Remove timelines_journals_helper

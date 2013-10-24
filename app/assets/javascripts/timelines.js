@@ -4269,8 +4269,17 @@ Timeline = {
         var chart = timeline.getUiRoot().find('.tl-chart');
         chart.css({ display: 'none'});
       }
+      timeline.adjustScrollingForChangedContent();
     });
   },
+
+  adjustScrollingForChangedContent: function() {
+    var current_height = Math.max(jQuery("body").height(), jQuery("#content").height());
+    if(current_height < jQuery(window).scrollTop()) {
+      jQuery(window).scrollTop(current_height - jQuery(window).height());
+    }
+  },
+
   rebuildTree: function() {
     var where = this.getUiRoot().find('.tl-left-main');
     var tree = this.getLefthandTree();
@@ -4891,9 +4900,10 @@ Timeline = {
     var timeline = this;
     var scale = timeline.getScale();
     var beginning = timeline.getBeginning();
+    var ms_in_a_day = 86400000; // 24 * 60 * 60 * 1000
 
     var todayPosition = (timeline.getDaysBetween(beginning, Date.today())) * scale.day;
-    todayPosition += (Date.now() - Date.today()) / Date.DAY * scale.day;
+    todayPosition += (Date.now() - Date.today()) / ms_in_a_day * scale.day;
 
     var decoHeight = timeline.decoHeight();
 
@@ -4912,7 +4922,7 @@ Timeline = {
 
     var setDate = function () {
       var newTodayPosition = (timeline.getDaysBetween(beginning, Date.today())) * scale.day;
-      newTodayPosition += (Date.now() - Date.today()) / Date.DAY * scale.day;
+      newTodayPosition += (Date.now() - Date.today()) / ms_in_a_day * scale.day;
 
       if (Math.abs(newTodayPosition - todayPosition) > 0.1) {
         currentTimeElement.transform(

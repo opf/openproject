@@ -52,11 +52,6 @@ gem 'color-tools', '~> 1.3.0', :require => 'color'
 
 gem "ruby-progressbar"
 
-gem 'tinymce-rails'
-gem 'tinymce-rails-langs'
-
-gem 'loofah'
-
 # to generate html-diffs (e.g. for wiki comparison)
 gem 'htmldiff'
 
