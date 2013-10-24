@@ -36,6 +36,8 @@ class WorkPackage < ActiveRecord::Base
   include WorkPackage::SchedulingRules
   include WorkPackage::StatusTransitions
 
+  include OpenProject::Journal::AttachmentHelper
+
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   include Redmine::SafeAttributes
 
@@ -281,15 +283,6 @@ class WorkPackage < ActiveRecord::Base
   # Returns true if the work_package is overdue
   def overdue?
     !due_date.nil? && (due_date < Date.today) && !status.is_closed?
-  end
-
-  # ACTS AS ATTACHABLE
-  # Callback on attachment deletion
-  def attachments_changed(obj)
-    unless new_record?
-      add_journal
-      save
-    end
   end
 
   # ACTS AS JOURNALIZED
@@ -1002,11 +995,8 @@ class WorkPackage < ActiveRecord::Base
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   def set_attachments_error_details
-    # Remark: the pseudo loop is already refactored in the next pull request
-    self.attachments.each do |attachment|
-      next if attachment.valid?
-      errors.messages[:attachments].first << " - #{attachment.errors.full_messages.first}"
-      break
+    if invalid_attachment = self.attachments.detect{|a| !a.valid?}
+      errors.messages[:attachments].first << " - #{invalid_attachment.errors.full_messages.first}"
     end
   end
 end

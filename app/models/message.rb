@@ -29,10 +29,13 @@
 
 class Message < ActiveRecord::Base
   include Redmine::SafeAttributes
+  include OpenProject::Journal::AttachmentHelper
+
   belongs_to :board
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   acts_as_tree :counter_cache => :replies_count, :order => "#{Message.table_name}.created_on ASC"
-  acts_as_attachable
+  acts_as_attachable after_add: :attachments_changed,
+                     after_remove: :attachments_changed
   belongs_to :last_reply, :class_name => 'Message', :foreign_key => 'last_reply_id'
 
   acts_as_journalized :event_title => Proc.new {|o| "#{o.journal.journable.board.name}: #{o.journal.journable.subject}"},
