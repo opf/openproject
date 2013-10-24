@@ -38,9 +38,7 @@ module Api
             :limit => params[:limit]
 
         @custom_fields.each do |field|
-          def field.visible_projects
-            @visible_projects ||= Project.visible.all :conditions => ["id IN (?)", project_ids]
-          end
+          with_visible_projects(field)
         end
 
         respond_to do |format|
@@ -49,11 +47,20 @@ module Api
       end
 
       def show
-        @custom_field = CustomField.find params[:id]
+        @custom_field = with_visible_projects(CustomField.find params[:id])
 
         respond_to do |format|
           format.api
         end
+      end
+
+      protected
+
+      def with_visible_projects(custom_field)
+        def custom_field.visible_projects
+          @visible_projects ||= Project.visible.all :conditions => ["id IN (?)", project_ids]
+        end
+        custom_field
       end
 
     end

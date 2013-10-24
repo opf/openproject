@@ -26,4 +26,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-render :partial => '/api/v2/custom_fields/custom_field.api', :object => @custom_field
+collection @custom_fields => :custom_fields
+
+extends "api/v2/custom_fields/show"

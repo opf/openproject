@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/custom_fields/index.api.rsb' do
+describe 'api/v2/custom_fields/index.api.rabl' do
   before do
     params[:format] = 'xml'
   end

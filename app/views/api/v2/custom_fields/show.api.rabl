@@ -26,8 +26,33 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-api.array :custom_fields, api_meta(:size => @custom_fields.size) do
-  @custom_fields.each do |custom_field|
-    render :partial => '/api/v2/custom_fields/custom_field.api', :object => custom_field
+object @custom_field => :custom_field
+
+custom_field = @custom_field || locals[:object]
+
+attributes :id, :name, :field_format, :regexp, :min_length, :max_length, :is_required,
+  :is_filter, :searchable, :is_for_all, :position, :editable, :visible
+
+code :customized_type do |cf|
+  if custom_field.is_a? WorkPackageCustomField
+    "planning_element" # work packages are known as planning elements in v2
+  else
+    custom_field.type.gsub(/CustomField$/, '').underscore
+  end
+end
+
+if custom_field.field_format == 'list' && !custom_field.possible_values.empty?
+  child :possible_values => :possible_values do
+    attributes :to_s => :value
+  end
+end
+
+if custom_field.is_a? WorkPackageCustomField
+  child :types do
+    attributes :id, :name
+  end
+
+  child :visible_projects => :projects do
+    attributes :id, :name
   end
 end
