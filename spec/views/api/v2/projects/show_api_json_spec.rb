@@ -212,14 +212,14 @@ describe 'api/v2/projects/show.api.rabl' do
 
 
     it 'contains 3 planning_element_types' do
-      should have_json_size(3).at_path("project/planning_element_types")
+      should have_json_size(3).at_path("project/types")
     end
 
 
     it 'renders the corrent name, color, is_milestone for a planning_element_type' do
       expected_json = {name: "SampleType", is_milestone: true, color: {hexcode: "#FF0000", name: "red"}}.to_json
 
-      should be_json_eql(expected_json).at_path("project/planning_element_types/0")
+      should be_json_eql(expected_json).at_path("project/types/0")
     end
 
   end

@@ -36,18 +36,17 @@ attributes :id,
            :responsible_id
 
 
-node :planning_element_type_ids, if: lambda{|project| project.types.present? } do |project|
+node :type_ids, if: lambda{|project| project.types.present? } do |project|
   project.types.map(&:id)
 end
 
-node :project_associations, unless: lambda{|project| project.project_associations.visible.empty?} do |project|
-  project.project_associations.visible.map do |project_association|
-    other_project = project_association.project(project)
+node :project_associations, if: lambda{|project| has_associations?(project)} do |project|
+  associations_for_project(project).map do |project_association|
+    other_project_id = project_association.project_a_id == project.id ? project_association.project_b_id : project_association.project_b_id
+
     {id: project_association.id,
-     project: {id: other_project.id,
-               identifier: other_project.identifier,
-               name: other_project.name}
-    }
+     to_project_id: other_project_id,
+     description: project_association.description}
   end
 end
 

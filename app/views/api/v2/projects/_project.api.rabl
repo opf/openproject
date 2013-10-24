@@ -56,7 +56,7 @@ end
 node :created_on, if: lambda{|project| project.created_on.present?} {|project| project.created_on.utc.iso8601}
 node :updated_on, if: lambda{|project| project.updated_on.present?} {|project| project.updated_on.utc.iso8601}
 
-node :planning_element_types, if: lambda{|project| project.types.present? } do |project|
+node :types, if: lambda{|project| project.types.present? } do |project|
   project.types.map do |type|
     type_hash = {id: type.id,
                  name: type.name,
