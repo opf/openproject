@@ -31,12 +31,12 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#959`  Too many available responsibles returned for filtering in Timelines
 * `#1738` Forum problem when no description given.
-* `#1888` Add project status comparison for all direct work package attributes 
 * `#1916` Work package update screen is closed when attached file is deleted
 * `#1935` Fixed bug: Default submenu for wiki pages is wrong (Configure menu item)
 * `#2371` Add support for IE10 to Timelines
 * `#2448` Accelerate work package updates
 * `#2479` Remove TinyMCE spike
+* `#2557` Highlight changes of any work package attribute available in the timelines table  
 * Fix compatibility with old mail configuration
 
 ## 3.0.0pre22
