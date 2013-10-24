@@ -35,6 +35,7 @@ class WorkPackage < ActiveRecord::Base
   include WorkPackage::Validations
   include WorkPackage::SchedulingRules
   include WorkPackage::StatusTransitions
+  include WorkPackage::AskBeforeDestruction
   include WorkPackage::TimeEntries
 
   include OpenProject::Journal::AttachmentHelper
@@ -145,6 +146,10 @@ class WorkPackage < ActiveRecord::Base
                      :after_remove => :attachments_changed
 
   after_validation :set_attachments_error_details, if: lambda {|work_package| work_package.errors.messages.has_key? :attachments}
+
+  associated_to_ask_before_destruction TimeEntry,
+                                       ->(work_packages) { TimeEntry.on_work_packages(work_packages).count > 0 },
+                                       self.method(:cleanup_time_entries_before_destruction_of)
 
   # Mapping attributes, that are passed in as id's onto their respective associations
   # (eg. type=4711 onto type=Type.find(4711))

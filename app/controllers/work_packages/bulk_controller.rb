@@ -67,11 +67,11 @@ class WorkPackages::BulkController < ApplicationController
   end
 
   def destroy
-    unless WorkPackage.cleanup_time_entries_if_required(@work_packages, current_user, params[:to_do])
+    unless WorkPackage.cleanup_associated_before_destructing_if_required(@work_packages, current_user, params[:to_do])
 
       respond_to do |format|
         format.html { render :locals => { work_packages: @work_packages,
-                                          time_entries: TimeEntry.on_work_packages(@work_packages) }
+                                          associated: WorkPackage.associated_classes_to_address_before_destruction_of(@work_packages) }
                     }
       end
 
@@ -88,7 +88,7 @@ class WorkPackages::BulkController < ApplicationController
 private
 
   def destroy_work_packages(work_packages)
-    @work_packages.each do |work_package|
+    work_packages.each do |work_package|
       begin
         work_package.reload.destroy
       rescue ::ActiveRecord::RecordNotFound

@@ -52,16 +52,27 @@ describe WorkPackage do
   let(:time_entry2) { FactoryGirl.build(:time_entry, :work_package => work_package2,
                                                      :project => work_package2.project) }
 
-  describe :time_entry_hours_on do
+  describe :cleanup_action_required_before_destructing? do
     describe 'w/ the work package having a time entry' do
       before do
         work_package
-        time_entry.hours = 10.0
         time_entry.save!
       end
 
-      it "should calculate the sum of the work_package's time entries" do
-        WorkPackage.time_entry_hours_on(work_package).should == 10.0
+      it "should be true" do
+        WorkPackage.cleanup_action_required_before_destructing?(work_package).should be_true
+      end
+    end
+
+    describe 'w/ two work packages having a time entry' do
+      before do
+        work_package
+        time_entry.save!
+        time_entry2.save!
+      end
+
+      it "should be true" do
+        WorkPackage.cleanup_action_required_before_destructing?([work_package, work_package2]).should be_true
       end
     end
 
@@ -70,27 +81,36 @@ describe WorkPackage do
         work_package
       end
 
-      it "should calculate the sum of the work_package's time entries" do
-        WorkPackage.time_entry_hours_on(work_package).should == 0.0
-      end
-    end
-
-    describe 'w/ two work packages having a time entry' do
-      before do
-        work_package
-        time_entry.hours = 10.0
-        time_entry2.hours = 10.0
-        time_entry.save!
-        time_entry2.save!
-      end
-
-      it "should calculate the sum of the work_packages' time entries" do
-        WorkPackage.time_entry_hours_on([work_package, work_package2]).should == 20.0
+      it "should be false" do
+        WorkPackage.cleanup_action_required_before_destructing?(work_package).should be_false
       end
     end
   end
 
-  describe :cleanup_time_entries_if_required do
+  describe :associated_classes_to_address_before_destructing? do
+    describe 'w/ the work package having a time entry' do
+      before do
+        work_package
+        time_entry.save!
+      end
+
+      it "should be have 'TimeEntry' as class to address" do
+        WorkPackage.associated_classes_to_address_before_destruction_of(work_package).should == [TimeEntry]
+      end
+    end
+
+    describe 'w/o the work package having a time entry' do
+      before do
+        work_package
+      end
+
+      it "should be empty" do
+        WorkPackage.associated_classes_to_address_before_destruction_of(work_package).should be_empty
+      end
+    end
+  end
+
+  describe :cleanup_associated_before_destructing_if_required do
     before do
       work_package.save!
 
@@ -99,7 +119,7 @@ describe WorkPackage do
     end
 
     describe 'w/o a cleanup beeing necessary' do
-      let(:action) { WorkPackage.cleanup_time_entries_if_required(work_package, user, :action => 'reassign') }
+      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, :action => 'reassign') }
 
       before do
         time_entry.destroy
@@ -111,7 +131,7 @@ describe WorkPackage do
     end
 
     describe 'w/ "destroy" as action' do
-      let(:action) { WorkPackage.cleanup_time_entries_if_required(work_package, user, :action => 'destroy') }
+      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, :action => 'destroy') }
 
       it 'should return true' do
         action.should be_true
@@ -126,7 +146,7 @@ describe WorkPackage do
     end
 
     describe 'w/o an action' do
-      let(:action) { WorkPackage.cleanup_time_entries_if_required(work_package, user) }
+      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user) }
 
       it 'should return true' do
         action.should be_true
@@ -141,7 +161,7 @@ describe WorkPackage do
     end
 
     describe 'w/ "nullify" as action' do
-      let(:action) { WorkPackage.cleanup_time_entries_if_required(work_package, user, :action => 'nullify') }
+      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, :action => 'nullify') }
 
       it 'should return true' do
         action.should be_true
@@ -157,7 +177,7 @@ describe WorkPackage do
 
     describe 'w/ "reassign" as action
               w/ reassigning to a valid work_package' do
-      let(:action) { WorkPackage.cleanup_time_entries_if_required(work_package, user, :action => 'reassign', :reassign_to_id => work_package2.id) }
+      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, :action => 'reassign', :reassign_to_id => work_package2.id) }
 
       before do
         work_package2.save!
@@ -187,7 +207,7 @@ describe WorkPackage do
 
     describe 'w/ "reassign" as action
               w/ reassigning to a work_package the user is not allowed to see' do
-      let(:action) { WorkPackage.cleanup_time_entries_if_required(work_package, user, :action => 'reassign', :reassign_to_id => work_package2.id) }
+      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, :action => 'reassign', :reassign_to_id => work_package2.id) }
 
       before do
         work_package2.save!
@@ -207,7 +227,7 @@ describe WorkPackage do
 
     describe 'w/ "reassign" as action
               w/ reassigning to a non existing work package' do
-      let(:action) { WorkPackage.cleanup_time_entries_if_required(work_package, user, :action => 'reassign', :reassign_to_id => 0) }
+      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, :action => 'reassign', :reassign_to_id => 0) }
 
       it 'should return true' do
         action.should be_false
@@ -218,12 +238,18 @@ describe WorkPackage do
 
         time_entry.reload
         time_entry.work_package_id.should == work_package.id
+      end
+
+      it 'should set an error on work packages' do
+        action
+
+        work_package.errors.get(:base).should == [I18n.t(:'activerecord.errors.models.work_package.is_not_a_valid_target_for_time_entries', id: 0)]
       end
     end
 
     describe 'w/ "reassign" as action
               w/o providing a reassignment id' do
-      let(:action) { WorkPackage.cleanup_time_entries_if_required(work_package, user, :action => 'reassign') }
+      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, :action => 'reassign') }
 
       it 'should return true' do
         action.should be_false
@@ -235,10 +261,17 @@ describe WorkPackage do
         time_entry.reload
         time_entry.work_package_id.should == work_package.id
       end
+
+      it 'should set an error on work packages' do
+        action
+
+        work_package.errors.get(:base).should == [I18n.t(:'activerecord.errors.models.work_package.is_not_a_valid_target_for_time_entries', id: nil)]
+      end
+
     end
 
     describe 'w/ an invalid option' do
-      let(:action) { WorkPackage.cleanup_time_entries_if_required(work_package, user, :action => 'bogus') }
+      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, :action => 'bogus') }
 
       it 'should return false' do
         action.should be_false
@@ -246,7 +279,7 @@ describe WorkPackage do
     end
 
     describe 'w/ nil as invalid option' do
-      let(:action) { WorkPackage.cleanup_time_entries_if_required(work_package, user, nil) }
+      let(:action) { WorkPackage.cleanup_associated_before_destructing_if_required(work_package, user, nil) }
 
       it 'should return false' do
         action.should be_false

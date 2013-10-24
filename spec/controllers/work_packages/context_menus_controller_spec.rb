@@ -235,7 +235,7 @@ describe WorkPackages::ContextMenusController do
     end
 
     shared_examples_for :delete do
-      let(:delete_link) { "/work_packages?#{ids_link}" }
+      let(:delete_link) { "/work_packages/bulk?#{ids_link}" }
 
       before { get :index, ids: ids }
 

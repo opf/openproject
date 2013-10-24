@@ -35,21 +35,9 @@ module WorkPackage::TimeEntries
 
   module ClassMethods
 
-    def time_entry_hours_on(work_packages)
-      TimeEntry.on_work_packages(work_packages).sum(:hours).to_f
-    end
-
-    def cleanup_time_entries_if_required(work_packages, user, to_do = { :action => 'destroy'})
-      cleanup_required = cleanup_action_required_on?(work_packages)
-
-      (!cleanup_required ||
-       (cleanup_required &&
-        cleanup_time_entries(work_packages, user, to_do)))
-    end
-
     protected
 
-    def cleanup_time_entries(work_packages, user, to_do = { :action => 'destroy'} )
+    def cleanup_time_entries_before_destruction_of(work_packages, user, to_do = { :action => 'destroy'} )
       return false unless to_do.present?
 
       case to_do[:action]
@@ -75,14 +63,6 @@ module WorkPackage::TimeEntries
       else
         false
       end
-    end
-
-    def cleanup_action_required_on?(work_packages)
-      WorkPackage.time_entry_hours_on(work_packages) > 0
-    end
-
-    def valid_time_entries_cleanup_actions
-      @valid_time_entries_cleanup_actions ||= ['destroy', 'nullify', 'reassign']
     end
 
     def update_time_entries(work_packages, action)

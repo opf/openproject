@@ -37,6 +37,7 @@ Feature: Deleting work packages
     And there is a role "manager" with the following permissions:
       | view_work_packages   |
       | delete_work_packages |
+      | view_time_entries    |
       | edit_time_entries    |
     And the user "manager" is a "manager" in the project "ecookbook"
     And there are the following work packages in project "ecookbook":
@@ -55,7 +56,7 @@ Feature: Deleting work packages
 
     Then I should be on the bulk destroy page of work packages
 
-    When I choose "Reassign reported hours to"
+    When I choose "Reassign"
     And I fill in the id of work package "wp2" into "work package"
     And I submit the form by the "Apply" button
 

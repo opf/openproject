@@ -9,27 +9,29 @@
 
   <div class="box">
 
-    <p>
-      <strong><%= l(:text_destroy_time_entries_question, :hours => number_with_precision(time_entries.sum(:hours), :precision => 2)) %></strong>
+    <%= work_package_associations_to_address(associated) %>
+
+    <p class="bold">
+      <%= l(:text_destroy_what_to_do) %>
     </p>
 
     <%= fields_for :to_do do |f| %>
       <p>
 
         <%= f.radio_button 'action', 'destroy' %>
-        <%= f.label 'action_destroy', l(:text_destroy_time_entries) %>
+        <%= f.label 'action_destroy', l(:text_destroy) %>
 
       </p>
       <p>
 
         <%= f.radio_button 'action' , 'nullify' %>
-        <%= f.label 'action_nullify', l(:text_assign_time_entries_to_project) %>
+        <%= f.label 'action_nullify', l(:text_assign_to_project) %>
 
       </p>
       <p>
 
         <%= f.radio_button 'action', 'reassign', :onclick => 'if(jQuery("#to_do_action_reassign").prop("checked")) { jQuery("#to_do_reassign_to_id").focus(); }' %>
-        <%= f.label 'action_reassign', l(:text_reassign_time_entries) %>
+        <%= f.label 'action_reassign', l(:text_reassign) %>
 
         <%= f.label 'reassign_to_id', l(:text_reassign_to) %>
         <%= f.text_field 'reassign_to_id', :value => params[:reassign_to_id], :size => 6, :onfocus => 'jQuery("#to_do_action_reassign").prop("checked", true);' %>

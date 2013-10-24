@@ -426,7 +426,7 @@ describe WorkPackages::BulkController do
         stub_work_package.should_receive(:reload).and_return(stub_work_package)
         stub_work_package.should_receive(:destroy)
 
-        WorkPackage.should_receive(:cleanup_time_entries_if_required).with([stub_work_package], user, params["to_do"]).and_return true
+        WorkPackage.should_receive(:cleanup_associated_before_destructing_if_required).with([stub_work_package], user, params["to_do"]).and_return true
 
         as_logged_in_user(user) do
           delete :destroy, params
@@ -440,7 +440,7 @@ describe WorkPackages::BulkController do
 
     describe 'w/o the cleanup beeing successful' do
       before do
-        WorkPackage.should_receive(:cleanup_time_entries_if_required).with([stub_work_package], user, params["to_do"]).and_return false
+        WorkPackage.should_receive(:cleanup_associated_before_destructing_if_required).with([stub_work_package], user, params["to_do"]).and_return false
 
         as_logged_in_user(user) do
           delete :destroy, params
