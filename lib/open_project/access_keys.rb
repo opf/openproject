@@ -29,11 +29,11 @@
 
 module OpenProject
   module AccessKeys
-    ACCESSKEYS = {:edit => '3',
-                  :preview => '1',
+    ACCESSKEYS = {:preview => '1',
+                  :new_issue => '2',
+                  :edit => '3',
                   :quick_search => '4',
-                  :help => '6',
-                  :new_issue => '2'
+                  :help => '6'
                  }.freeze unless const_defined?(:ACCESSKEYS)
 
     def self.key_for(action)
