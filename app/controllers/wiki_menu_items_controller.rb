@@ -58,18 +58,7 @@ class WikiMenuItemsController < ApplicationController
         @wiki_menu_item.parent_id = parent_wiki_menu_item
       elsif wiki_menu_setting == 'main_item'
         @wiki_menu_item.parent_id = nil
-
-        if params[:wiki_menu_item][:new_wiki_page] == "1"
-          @wiki_menu_item.new_wiki_page = true
-        elsif params[:wiki_menu_item][:new_wiki_page] == "0"
-          @wiki_menu_item.new_wiki_page = false
-        end
-
-        if params[:wiki_menu_item][:index_page] == "1"
-          @wiki_menu_item.index_page = true
-        elsif params[:wiki_menu_item][:index_page] == "0"
-          @wiki_menu_item.index_page = false
-        end
+        assign_wiki_menu_item_params @wiki_menu_item
       end
     end
 
@@ -100,6 +89,20 @@ class WikiMenuItemsController < ApplicationController
       @wiki_menu_item.parent.id
     else
       @page.nearest_parent_menu_item(:is_main_item => true).try :id
+    end
+  end
+
+  def assign_wiki_menu_item_params(menu_item)
+    if params[:wiki_menu_item][:new_wiki_page] == "1"
+      menu_item.new_wiki_page = true
+    elsif params[:wiki_menu_item][:new_wiki_page] == "0"
+      menu_item.new_wiki_page = false
+    end
+
+    if params[:wiki_menu_item][:index_page] == "1"
+      menu_item.index_page = true
+    elsif params[:wiki_menu_item][:index_page] == "0"
+      menu_item.index_page = false
     end
   end
 end
