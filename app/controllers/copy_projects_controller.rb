@@ -40,15 +40,19 @@ class CopyProjectsController < ApplicationController
       @project = Project.new
       @project.safe_attributes = params[:project]
       @project.enabled_module_names = params[:enabled_modules]
-      if validate_parent_id && @project.copy_associations(@source_project, :only => params[:only])
+      if @project.save && validate_parent_id
         @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
-        flash[:notice] = l(:notice_successful_create)
-        redirect_to :controller => '/projects', :action => 'settings', :id => @project
-      elsif !@project.valid?
+        if @project.copy_associations(@source_project, :only => params[:only])
+          flash[:notice] = l(:notice_successful_create)
+        end
         # Project was created
-        # But some objects were not copied due to validation failures
-        # (eg. issues from disabled types)
-        # TODO: inform about that
+        # But some objects might not have been copied due to validation failures
+        errors = (@project.compiled_errors.flatten + [@project.errors]).map(&:full_messages).flatten
+        flash[:error] = errors if errors.present?
+        redirect_to :controller => '/projects', :action => 'settings', :id => @project
+      else
+        # Project was not created
+        flash[:error] = @project.errors.full_messages
         redirect_to :back
       end
     end

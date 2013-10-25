@@ -74,6 +74,10 @@ module CopyModel
             if (self.respond_to?(:"copy_#{name}") || self.private_methods.include?(:"copy_#{name}"))
               self.reload
               self.send(:"copy_#{name}", model)
+              # Array(nil) => [], works around nil values of has_one associations
+              (Array(self.send(name)).map do |instance|
+                compiled_errors << instance.errors unless instance.valid?
+              end)
             end
           end
           self
@@ -105,6 +109,14 @@ module CopyModel
 
     def copy_precedence
       self.class.copy_precedence
+    end
+
+    def compiled_errors
+      @compiled_errors ||= []
+    end
+
+    def compiled_errors=(errors)
+      @compiled_errors = errors
     end
   end
 
