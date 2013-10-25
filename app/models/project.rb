@@ -960,6 +960,9 @@ class Project < ActiveRecord::Base
       end
     end
 
+    # reload all work_packages in our map, they might be modified by movement in their tree
+    work_packages_map.each { |_,v| v.reload }
+
     # Relations after in case issues related each other
     project.work_packages.each do |issue|
       new_issue = work_packages_map[issue.id]
@@ -976,8 +979,8 @@ class Project < ActiveRecord::Base
         if new_relation.to.nil? && Setting.cross_project_work_package_relations?
           new_relation.to = source_relation.to
         end
-        new_relation.to.reload if new_relation.to
-        new_issue.relations_from << new_relation
+        new_relation.from = new_issue
+        new_relation.save
       end
 
       issue.relations_to.each do |source_relation|
@@ -987,8 +990,8 @@ class Project < ActiveRecord::Base
         if new_relation.from.nil? && Setting.cross_project_work_package_relations?
           new_relation.from = source_relation.from
         end
-        new_relation.from.reload if new_relation.from
-        new_issue.relations_to << new_relation
+        new_relation.to = new_issue
+        new_relation.save
       end
     end
   end
