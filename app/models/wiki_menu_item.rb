@@ -39,13 +39,15 @@ class WikiMenuItem < ActiveRecord::Base
      :order => 'id ASC'}
   }
 
-  attr_accessible :name, :title
+  attr_accessible :name, :title, :wiki_id
 
   validates_presence_of :title
   validates_format_of :title, :with => /\A[^,\.\/\?\;\|\:]*\z/
   validates_uniqueness_of :title, :scope => :wiki_id
 
   validates_presence_of :name
+
+  before_destroy :ensure_presence_of_another_main_item
 
   def item_class
     title.dasherize
@@ -83,5 +85,15 @@ class WikiMenuItem < ActiveRecord::Base
 
   def is_sub_item?
     !parent_id.nil?
+  end
+
+  def is_only_main_item?
+    self.class.main_items(wiki.id) == [self]
+  end
+
+  def ensure_presence_of_another_main_item
+    if is_only_main_item? && wiki_page = WikiPage.main_pages(wiki.id).reject{|page| page.title == title}.first
+      self.class.find_or_create_by_wiki_id_and_title(wiki.id, wiki_page.title, name: wiki_page.title)
+    end
   end
 end
