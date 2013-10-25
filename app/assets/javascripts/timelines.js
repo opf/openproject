@@ -1666,7 +1666,7 @@ Timeline = {
     },
     hiddenForTimeFrame: function () {
       var types = this.timeline.options.planning_element_time_types;
-      if (!types) {
+      if (!types || types.length === 0) {
         return false;
       }
 
