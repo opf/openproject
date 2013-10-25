@@ -862,6 +862,7 @@ en:
   label_start_to_end: "start to end"
   label_start_to_start: "start to start"
   label_statistics: "Statistics"
+  label_status: "Status"
   label_stay_logged_in: "Stay logged in"
   label_string: "Text"
   label_subproject_new: "New subproject"
