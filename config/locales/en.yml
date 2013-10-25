@@ -969,6 +969,8 @@ en:
   label_keyboard_shortcut_go_calendar: "Go to project calendar"
   label_keyboard_shortcut_go_news: "Go to project news"
   label_keyboard_shortcut_go_timelines: "Go to timelines"
+  label_keyboard_shortcut_go_edit: "Go to edit the current item"
+  label_keyboard_shortcut_go_preview: "Go to preview the current edit"
   label_keyboard_shortcut_new_work_package: "Create new work package"
 
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"

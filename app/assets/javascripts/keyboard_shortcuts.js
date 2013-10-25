@@ -90,6 +90,20 @@
     }
   };
 
+  var go_edit = function(){
+    edit_link = $('[accesskey=3]')[0];
+    if (edit_link !== undefined) {
+      edit_link.click();
+    }
+  };
+
+  var go_preview = function(){
+    preview_link = $('[accesskey=1]')[0];
+    if (preview_link !== undefined) {
+      preview_link.click();
+    }
+  };
+
   var new_work_package = function(){
     if (we_are_in_project()) {
       menu_sidebar().find('.new-work-package')[0].click();
@@ -115,6 +129,8 @@
   Mousetrap.bind('g c',   function(){ go_calendar();      return false; });
   Mousetrap.bind('g n',   function(){ go_news();          return false; });
   Mousetrap.bind('g t',   function(){ go_timelines();     return false; });
+  Mousetrap.bind('g e',   function(){ go_edit();          return false; });
+  Mousetrap.bind('g p',   function(){ go_preview();       return false; });
 
   Mousetrap.bind('n w p', function(){ new_work_package(); return false; });
 
