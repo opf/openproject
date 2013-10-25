@@ -69,8 +69,8 @@ describe '/api/v2/users/index.api.rabl' do
 
     it 'renders both users' do
 
-      should be_json_eql({firstname:'Peter', lastname:'Test'}.to_json).at_path("users/0")
-      should be_json_eql({firstname:'Mary', lastname:'Test'}.to_json).at_path("users/1")
+      should be_json_eql({firstname:'Peter', lastname:'Test', name: "Peter Test"}.to_json).at_path("users/0")
+      should be_json_eql({firstname:'Mary', lastname:'Test', name: "Mary Test"}.to_json).at_path("users/1")
 
 
     end

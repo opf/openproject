@@ -31,5 +31,6 @@ collection @users => "users"
 # make sure that the security is super-tight
 attributes :id,
            :firstname,
-           :lastname
+           :lastname,
+           :name
 
