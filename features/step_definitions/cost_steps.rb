@@ -1,7 +1,7 @@
 Given /^the project "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y)$/ do |project, count|
   p = Project.find_by_name(project) || Project.find_by_identifier(project)
   as_admin count do
-    ce = CostEntry.generate
+    ce = FactoryGirl.build(:cost_entry)
     ce.project = p
     ce.work_package = FactoryGirl.create(:work_package, project: p)
     ce.save!
@@ -48,7 +48,7 @@ Given /^the project "([^\"]+)" has (\d+) [Cc]ost(?: )?[Ee]ntr(?:ies|y) with the 
   p = Project.find_by_name(project) || Project.find_by_identifier(project)
   i = FactoryGirl.create(:work_package, project: p)
   as_admin count do
-    ce = CostEntry.generate
+    ce = FactorGirl.build(:cost_entry)
     ce.project = p
     ce.work_package = i
     send_table_to_object(ce, table)

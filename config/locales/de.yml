@@ -46,6 +46,11 @@ de:
         other: "Kostenarten"
       material_budget_item: "Stück"
       rate: "Satz"
+    errors:
+      models:
+        work_package:
+          is_not_a_valid_target_for_cost_entries: "Arbeitspaket #%{id} ist kein gültiges Ziel für die Zuordnug der Stückkosteneinträge."
+          nullify_is_not_valid_for_cost_entries: "Stückkosten können keinem Projekt zugeordnet werden."
   attributes:
     budget: "Geplante Kosten"
     comment: "Kommentar"

@@ -82,7 +82,7 @@ module OpenProject::Costs
       require_dependency 'open_project/costs/patches/version_patch'
       require_dependency 'open_project/costs/patches/permitted_params_patch'
 
-      # Controller Patchesopen_project/costs/patches/
+      # Controller Patches
       require_dependency 'open_project/costs/patches/application_controller_patch'
       require_dependency 'open_project/costs/patches/work_packages_controller_patch'
       require_dependency 'open_project/costs/patches/projects_controller_patch'

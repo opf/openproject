@@ -31,12 +31,54 @@ module OpenProject::Costs::Patches::WorkPackagePatch
         @spent_hours ||= self.time_entries.visible(User.current).sum(:hours) || 0
       end
 
-      #safe_attributes "cost_object_id"
+      associated_to_ask_before_destruction CostEntry,
+                                           ->(work_packages) { CostEntry.on_work_packages(work_packages).count > 0 },
+                                          self.method(:cleanup_cost_entries_before_destruction_of)
     end
+
   end
 
   module ClassMethods
 
+    protected
+
+    def cleanup_cost_entries_before_destruction_of(work_packages, user, to_do = { :action => 'destroy'} )
+      return false unless to_do.present?
+
+      case to_do[:action]
+      when 'destroy'
+        true
+        # nothing to do
+      when 'nullify'
+        Array(work_packages).each do |wp|
+          wp.errors.add(:base, :nullify_is_not_valid_for_cost_entries)
+        end
+
+        false
+      when 'reassign'
+        reassign_to = WorkPackage.includes(:project)
+                                 .where(Project.allowed_to_condition(user, :edit_cost_entries))
+                                 .find_by_id(to_do[:reassign_to_id])
+
+        if reassign_to.nil?
+          Array(work_packages).each do |wp|
+            wp.errors.add(:base, :is_not_a_valid_target_for_cost_entries, id: to_do[:reassign_to_id])
+          end
+
+          false
+        else
+          WorkPackage.update_cost_entries(work_packages, "work_package_id = #{reassign_to.id}, project_id = #{reassign_to.project_id}")
+        end
+      else
+        false
+      end
+    end
+
+    protected
+
+    def update_cost_entries(work_packages, action)
+      CostEntry.update_all(action, ['work_package_id IN (?)', work_packages])
+    end
   end
 
   module InstanceMethods

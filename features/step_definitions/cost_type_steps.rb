@@ -1,5 +1,5 @@
 Given /^there is 1 cost type with the following:$/ do |table|
-  ct = CostType.generate
+  ct = FactoryGirl.build(:cost_type)
   send_table_to_object(ct, table, {
     :cost_rate => Proc.new do |o,v|
       FactoryGirl.create(:cost_rate, :rate => v,

@@ -46,6 +46,11 @@ en:
         other: "Cost types"
       material_budget_item: "Unit"
       rate: "Rate"
+    errors:
+      models:
+        work_package:
+          is_not_a_valid_target_for_cost_entries: "Work package #%{id} is not a valid target for reassigning the cost entries."
+          nullify_is_not_valid_for_cost_entries: "Cost entries can not be assigned to a project."
   attributes:
     budget: "Planned costs"
     comment: "Comment"
