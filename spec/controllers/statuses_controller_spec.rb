@@ -85,13 +85,43 @@ describe StatusesController do
   describe :edit do
     let(:template) { 'edit' }
 
-    before do
-      status
+    context :default do
+      let!(:status_default) { FactoryGirl.create(:status,
+                                                 is_default: true) }
 
-      get :edit, id: status.id
+      before { get :edit, id: status_default.id }
+
+      it_behaves_like :response
+
+      describe :view do
+        render_views
+
+        it do
+          assert_no_tag tag: 'p',
+                        content: Status.human_attribute_name(:is_default)
+        end
+      end
     end
 
-    it_behaves_like :response
+    context 'no_default' do
+      before do
+        status
+
+        get :edit, id: status.id
+      end
+
+      it_behaves_like :response
+
+      describe :view do
+        render_views
+
+        it do
+          assert_tag tag: 'p',
+                     content: Status.human_attribute_name(:is_default)
+        end
+      end
+    end
+
   end
 
   describe :update do

@@ -80,7 +80,7 @@ end
 
 And(/^the json\-response should say that "(.*?)" has (\d+) child(ren)?$/) do |parent_name, nr_of_children,plural|
   parent = child = lookup_work_package(parent_name)
-  expect(parent["children_ids"].size).to eql nr_of_children.to_i
+  expect(parent["child_ids"].size).to eql nr_of_children.to_i
 end
 
 And(/^the work package "(.*?)" has the due_date "(.*?)"$/) do |work_package_name, due_date|

@@ -99,7 +99,7 @@ gem "i18n-js", :git => "https://github.com/fnando/i18n-js.git", :ref => '8801f8d
 
 group :test do
   gem 'shoulda'
-  gem 'object-daddy', :git => 'https://github.com/awebneck/object_daddy.git'
+  gem 'object-daddy', '~> 1.1.0'
   gem 'mocha', '~> 0.13.1', :require => false
   gem "launchy", "~> 2.3.0"
   gem "factory_girl_rails", "~> 4.0"

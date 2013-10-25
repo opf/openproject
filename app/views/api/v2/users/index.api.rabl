@@ -26,32 +26,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-collection @projects => "projects"
+collection @users => "users"
+# we give out only the bare-bones-infos about the users: If more is needed (e.g. mail),
+# make sure that the security is super-tight
 attributes :id,
-           :name,
-           :identifier,
-           :description,
-           :project_type_id,
-           :parent_id,
-           :responsible_id
-
-
-node :type_ids, if: lambda{|project| project.types.present? } do |project|
-  project.types.map(&:id)
-end
-
-node :project_associations, if: lambda{|project| has_associations?(project)} do |project|
-  associations_for_project(project).map do |project_association|
-    other_project_id = project_association.project_a_id == project.id ? project_association.project_b_id : project_association.project_b_id
-
-    {id: project_association.id,
-     to_project_id: other_project_id,
-     description: project_association.description}
-  end
-end
-
-node :created_on, if: lambda{|project| project.created_on.present?} {|project| project.created_on.utc.iso8601}
-node :updated_on, if: lambda{|project| project.updated_on.present?} {|project| project.updated_on.utc.iso8601}
-
-
+           :firstname,
+           :lastname,
+           :name
 

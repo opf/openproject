@@ -1,10 +1,4 @@
 GIT
-  remote: https://github.com/awebneck/object_daddy.git
-  revision: cf5abf001cdbd14b47a3b51421446717a3183f0a
-  specs:
-    object-daddy (1.1.0)
-
-GIT
   remote: https://github.com/fnando/i18n-js.git
   revision: 8801f8d17ef96c48a7a0269e251fcf1648c8f441
   ref: 8801f8d17ef96c48a7a0269e251fcf1648c8f441
@@ -187,6 +181,7 @@ GEM
     mysql2 (0.3.11)
     net-ldap (0.2.2)
     nokogiri (1.5.9)
+    object-daddy (1.1.1)
     oj (2.1.6)
     paper_trail (2.7.2)
       activerecord (~> 3.0)
@@ -385,7 +380,7 @@ DEPENDENCIES
   mysql
   mysql2 (~> 0.3.11)
   net-ldap (~> 0.2.2)
-  object-daddy!
+  object-daddy (~> 1.1.0)
   oj
   pg
   prototype-rails

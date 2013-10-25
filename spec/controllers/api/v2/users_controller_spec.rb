@@ -26,55 +26,52 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../../../../spec_helper', __FILE__)
+require 'spec_helper'
 
-describe '/api/v2/projects/index.api.rabl' do
+describe Api::V2::UsersController do
+  let(:current_user) { FactoryGirl.create(:admin) }
 
   before do
-    params[:format] = 'json'
+    User.stub(:current).and_return current_user
   end
 
-  subject {response.body}
-  describe 'with no project available' do
-    it 'renders an empty projects document' do
-      assign(:projects, [])
+  describe 'index.json' do
+    describe 'with 3 visible users' do
 
-      render
+      before do
+        3.times do
+          FactoryGirl.create(:user)
+        end
 
-      should have_json_size(0).at_path('projects')
-    end
-  end
+        get 'index', :format => 'json'
+      end
 
+      it 'returns 3 users' do
+        assigns(:users).size.should eql 3+1 # the admin is also available, when all users are selected
+      end
 
-  describe 'with some projects available' do
-    let(:projects) {
-      [
-        FactoryGirl.build(:project, :name => 'P1'),
-        FactoryGirl.build(:project, :name => 'P2'),
-        FactoryGirl.build(:project, :name => 'P3')
-      ]
-    }
-
-    before do
-      # stub out helpers that are defined on the controller
-      view.stub(:has_associations?).and_return false
-      assign(:projects, projects)
-      render
+      it 'renders the index template' do
+        response.should render_template('api/v2/users/index', :formats => ["api"])
+      end
     end
 
-    subject { response.body }
+    describe 'search for ids' do
+      let (:user_1) {FactoryGirl.create(:user)}
+      let (:user_2) {FactoryGirl.create(:user)}
 
-    it 'renders a projects document with the size of 3 of type array' do
-      should have_json_size(3).at_path('projects')
+      it 'returns the users for requested ids' do
+        get 'index', ids: "#{user_1.id},#{user_2.id}", :format => 'json'
+
+        found_users = assigns(:users)
+
+        found_users.size.should eql 2
+        found_users.should include user_1,user_2
+
+
+      end
+
     end
 
-    it 'renders all three projects' do
-
-      should be_json_eql('P1'.to_json).at_path("projects/0/name")
-      should be_json_eql('P2'.to_json).at_path("projects/1/name")
-      should be_json_eql('P3'.to_json).at_path("projects/2/name")
-
-    end
 
 
   end
