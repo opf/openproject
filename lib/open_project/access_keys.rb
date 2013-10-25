@@ -33,6 +33,7 @@ module OpenProject
                   :new_issue => '2',
                   :edit => '3',
                   :quick_search => '4',
+                  :project_search => '5',
                   :help => '6'
                  }.freeze unless const_defined?(:ACCESSKEYS)
 
