@@ -67,6 +67,10 @@ class WikiPage < ActiveRecord::Base
     :joins => "LEFT JOIN #{WikiContent.table_name} ON #{WikiContent.table_name}.page_id = #{WikiPage.table_name}.id"
   }
 
+  scope :main_pages, lambda {|wiki_id|
+    { conditions: {wiki_id: wiki_id, parent_id: nil} }
+  }
+
   # Wiki pages that are protected by default
   DEFAULT_PROTECTED_PAGES = %w(sidebar)
 
