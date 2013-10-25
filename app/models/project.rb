@@ -976,7 +976,7 @@ class Project < ActiveRecord::Base
         if new_relation.to.nil? && Setting.cross_project_work_package_relations?
           new_relation.to = source_relation.to
         end
-        new_relation.to.reload
+        new_relation.to.reload if new_relation.to
         new_issue.relations_from << new_relation
       end
 
@@ -987,7 +987,7 @@ class Project < ActiveRecord::Base
         if new_relation.from.nil? && Setting.cross_project_work_package_relations?
           new_relation.from = source_relation.from
         end
-        new_relation.from.reload
+        new_relation.from.reload if new_relation.from
         new_issue.relations_to << new_relation
       end
     end
