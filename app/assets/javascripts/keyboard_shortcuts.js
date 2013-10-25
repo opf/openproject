@@ -97,6 +97,13 @@
     }
   };
 
+  var open_more_menu = function(){
+    more_menu = $('[accesskey=7]')[0];
+    if (more_menu !== undefined) {
+      more_menu.click();
+    }
+  };
+
   var go_preview = function(){
     preview_link = $('[accesskey=1]')[0];
     if (preview_link !== undefined) {
@@ -163,6 +170,7 @@
   Mousetrap.bind('n w p', function(){ new_work_package();    return false; });
   Mousetrap.bind('j',     function(){ focus_previous_item(); return false; });
   Mousetrap.bind('k',     function(){ focus_next_item();     return false; });
+  Mousetrap.bind('m',     function(){ open_more_menu();      return false; });
 
   Mousetrap.bind('s p',   function(){ search_project();      return false; });
   Mousetrap.bind('s g',   function(){ search_global();       return false; });
@@ -171,7 +179,7 @@
 jQuery(function(){
   // simulated hover effect on table lists when using the keyboard
   var tables = jQuery('table.list');
-  if (tables.size() === 0) { return; };
+  if (tables.size() === 0) { return; }
   tables.on('blur', 'tr *', function(){
     jQuery(this).parents('table.list tr').removeClass('keyboard_hover');
   });
