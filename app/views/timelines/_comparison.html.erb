@@ -92,32 +92,6 @@ See doc/COPYRIGHT.rdoc for more details.
               :date => absolute_text + absolute_calendar).html_safe %>
 
       </p>
-      <p class="tl-form-overflow">
-
-        <%= label_tag 'timeline_options_comparison_historical',
-                      l('timelines.filter.comparison.historical') %>
-
-        <%= radio_button("timeline[options]",
-                         :comparison,
-                         'historical',
-                         :checked => (timeline.comparison == 'historical')) %>
-
-        <% historical_text1 = text_field_tag "timeline[options][compare_to_historical_one]",
-                                             timeline.options["compare_to_historical_one"],
-                                             :size => 10
-           historical_calendar1 = calendar_for('timeline_options_compare_to_historical_one')
-
-           historical_text2 = text_field_tag "timeline[options][compare_to_historical_two]",
-                                             timeline.options["compare_to_historical_two"],
-                                             :size => 10
-           historical_calendar2 = calendar_for('timeline_options_compare_to_historical_two')
-        %>
-
-        <%= l('timelines.filter.comparison.compare_historical',
-              :startdate => historical_text1 + historical_calendar1 ,
-              :enddate => historical_text2 + historical_calendar2).html_safe %>
-
-      </p>
     </div>
   </div>
 </fieldset>

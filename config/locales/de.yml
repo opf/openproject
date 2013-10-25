@@ -1377,12 +1377,10 @@ de:
       comparisons: "Planungsvergleiche"
       comparison:
         absolute: "Absolut"
-        historical: "Historisch"
         none: "Kein Planungsvergleich"
         relative: "Relativ"
         compare_relative: "Vergleiche aktuelle Planung mit vor %{timespan}"
         compare_absolute: "Vergleiche aktuelle Planung mit %{date}"
-        compare_historical: "Vergleiche %{startdate} mit %{enddate}"
       time_relative:
         days: "Tagen"
         weeks: "Wochen"

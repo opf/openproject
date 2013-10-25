@@ -1366,12 +1366,10 @@ en:
       comparisons: "Comparisons"
       comparison:
         absolute: "Absolute"
-        historical: "Historical"
         none: "None"
         relative: "Relative"
         compare_relative: "Compare current planning to %{timespan} ago"
         compare_absolute: "Compare current planning to %{date}"
-        compare_historical: "Compare %{startdate} to %{enddate}"
       time_relative:
         days: "days"
         weeks: "weeks"
@@ -1396,7 +1394,7 @@ en:
       types: "Show types"
       status: "Show status"
 
-      project_time_filter: "Projects with a Planning Element of a certain type in a certain timeframe"
+      project_time_filter: "Projects with a planning element of a certain type in a certain timeframe"
       project_time_filter_historical: "from %{startdate} to %{enddate}"
       project_time_filter_relative: "from %{startspan}%{startspanunit} ago, to %{endspan}%{endspanunit} from now"
       project_filters: "Filter projects"
