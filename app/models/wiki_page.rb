@@ -75,6 +75,9 @@ class WikiPage < ActiveRecord::Base
   DEFAULT_PROTECTED_PAGES = %w(sidebar)
 
   after_destroy :delete_wiki_menu_item
+  after_destroy do |wiki_page|
+    wiki_page.wiki.project.disable_module(:wiki) if is_only_wiki_page?
+  end
 
   def check_and_mark_as_protected
     if new_record? && DEFAULT_PROTECTED_PAGES.include?(title.to_s.downcase)
@@ -252,6 +255,10 @@ class WikiPage < ActiveRecord::Base
 
   def validate_same_project
     errors.add(:parent_title, :not_same_project) if parent && (parent.wiki_id != wiki_id)
+  end
+
+  def is_only_wiki_page?
+    wiki.pages.reject {|page| page == self}.empty?
   end
 end
 
