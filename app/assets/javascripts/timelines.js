@@ -875,12 +875,10 @@ Timeline = {
         }
 
         // project → parent
-        if (e.parent) {
-          e.parent = dataEnhancer.getElement(Timeline.Project, e.parent.id);
+        if (e.parent_id) {
+          e.parent = dataEnhancer.getElement(Timeline.Project, e.parent_id);
         }
-        else {
-          e.parent = undefined;
-        }
+        delete e.parent_id;
       });
     };
 
