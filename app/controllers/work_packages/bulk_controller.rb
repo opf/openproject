@@ -120,4 +120,8 @@ private
                         :ids => '#' + unsaved_work_package_ids.join(', #'))
     end
   end
+
+  def default_breadcrumb
+    l(:label_work_package_plural)
+  end
 end
