@@ -547,7 +547,8 @@ en:
       create_planning_select_project: "Project:"
       really_close_dialog: "Do you really want to close the dialog and loose the entered data?"
       filter:
-        none: "(none)"
+        noneElement: "(none)"
+        noneSelection: "(none)"
 
   label_account: "Account"
   label_activity: "Activity"
@@ -1386,7 +1387,8 @@ en:
       grouping_two: "Second grouping criterion"
       grouping_two_phrase: "Has a dependency to project type"
       hide_chart: "Hide chart"
-      none: "(none)"
+      noneElement: "(none)"
+      noneSelection: "(none)"
       outline: "Intitial outline expansion"
       parent: "Show subprojects of"
       planning_element_filters: "Filter planning elements"
