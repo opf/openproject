@@ -58,6 +58,7 @@ OpenProject::Application.routes.draw do
     namespace :v2 do
 
       resources :authentication
+      resources :users, only: [:index]
       resources :planning_element_journals
       resources :statuses do
         collection do
