@@ -59,6 +59,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2557` Highlight changes of any work package attribute available in the timelines table
 * `#2559` Migrate existing IssueCustomFields to WorkPackageCustomFields
 * `#2575` Regular expressions should use \A and \z instead of ^ and $
+* `#2577` [Timelines] Users are not displayed in timelines table after recent API version. 
 * Fix compatibility with old mail configuration
 
 ## 3.0.0pre22
