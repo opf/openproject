@@ -38,6 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2026` 404 error when letters are entered in category Work Package
 * `#2371` Add support for IE10 to Timelines
 * `#2423` [Issue Tracker] Several Internal Errors when there is no default work package status
+* `#2427` [Issue Tracker] Cannot delete work package priority 
 * `#2433` [Timelines] Empty timeline report not displayed initially
 * `#2448` Accelerate work package updates
 * `#2464` No initial attachment journal for messages

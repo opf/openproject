@@ -50,7 +50,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <td style="width:15%;"><%= reorder_links('enumeration', {:action => 'update', :id => enumeration}, :method => :put) %></td>
   <td class="buttons">
     <%= link_to l(:button_delete), { :action => 'destroy', :id => enumeration },
-                :method => :post,
+                :method => :delete,
                 :confirm => l(:text_are_you_sure),
                 :class => 'icon icon-del' %>
   </td>
