@@ -831,7 +831,7 @@ $(window).resize(function() {
 });
 
 $(window).bind('resizeEnd', function() {
-    jQuery("div#breadcrumb ul.breadcrumb").adjustBreadcrumbToWindowSize();
+    //jQuery("div#breadcrumb ul.breadcrumb").adjustBreadcrumbToWindowSize();
 });
 
   $.fn.mySlide = function(callback) {
