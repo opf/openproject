@@ -117,44 +117,64 @@ module Api
 
       protected
 
+      def filter_authorized_projects
+        # authorize
+        # Ignoring projects, where user has no view_work_packages permission.
+        permission = params[:controller].sub api_version, ''
+        @projects = @projects.select do |project|
+          User.current.allowed_to?({:controller => permission,
+                                    :action     => params[:action]},
+                                    project)
+        end
+      end
+
+      def load_multiple_projects(ids, identifiers)
+        @projects = []
+        @projects |= Project.all(:conditions => {:id => ids}) unless ids.empty?
+        @projects |= Project.all(:conditions => {:identifier => identifiers}) unless identifiers.empty?
+      end
+
+      def projects_contain_certain_ids_and_identifiers(ids, identifiers)
+        (@projects.map(&:id) & ids).size == ids.size &&
+        (@projects.map(&:identifier) & identifiers).size == identifiers.size
+      end
+
+      def find_single_project
+        find_project_by_project_id         unless performed?
+        authorize                          unless performed?
+        assign_planning_elements(@project) unless performed?
+      end
+
+      def find_multiple_projects
+        # find_project_by_project_id
+        ids, identifiers = params[:project_id].split(/,/).map(&:strip).partition { |s| s =~ /^\d*$/ }
+        ids = ids.map(&:to_i).sort
+        identifiers = identifiers.sort
+
+        load_multiple_projects(ids, identifiers)
+
+        if !projects_contain_certain_ids_and_identifiers(ids, identifiers)
+          # => not all projects could be found
+          render_404
+          return
+        end
+
+        filter_authorized_projects
+
+        if @projects.blank?
+          @planning_elements = []
+          return
+        end
+
+        assign_planning_elements(@projects)
+      end
+
       # Filters
       def find_all_projects_by_project_id
         if params[:project_id] !~ /,/
-          find_project_by_project_id         unless performed?
-          authorize                          unless performed?
-          assign_planning_elements(@project) unless performed?
+          find_single_project
         else
-          # find_project_by_project_id
-          ids, identifiers = params[:project_id].split(/,/).map(&:strip).partition { |s| s =~ /^\d*$/ }
-          ids = ids.map(&:to_i).sort
-          identifiers = identifiers.sort
-
-          @projects = []
-          @projects |= Project.all(:conditions => {:id => ids}) unless ids.empty?
-          @projects |= Project.all(:conditions => {:identifier => identifiers}) unless identifiers.empty?
-
-          if (@projects.map(&:id) & ids).size != ids.size ||
-             (@projects.map(&:identifier) & identifiers).size != identifiers.size
-            # => not all projects could be found
-            render_404
-            return
-          end
-
-          # authorize
-          # Ignoring projects, where user has no view_work_packages permission.
-          permission = params[:controller].sub api_version, ''
-          @projects = @projects.select do |project|
-            User.current.allowed_to?({:controller => permission,
-                                      :action     => params[:action]},
-                                      project)
-          end
-
-          if @projects.blank?
-            @planning_elements = []
-            return
-          end
-
-          assign_planning_elements(@projects)
+          find_multiple_projects
         end
       end
 
