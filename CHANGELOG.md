@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.1.pre6
+
+* fix minor css alignment issue
+
 ## 0.0.1.pre5
 
 * `#2210` Remove custom implementation of date picker and use core version instead.
