@@ -30,7 +30,7 @@ de:
         material_costs: "Stückkosten"
         overall_costs: "Gesamtkosten"
         spent_costs: "Gebuchte Kosten"
-        spent_hours: "Gebuchte Stunden"
+        spent_hours: "Aufgewendete Zeit"
         spent_units: "Gebuchte Einheiten"
       rate:
         rate: "Satz"
@@ -46,6 +46,11 @@ de:
         other: "Kostenarten"
       material_budget_item: "Stück"
       rate: "Satz"
+    errors:
+      models:
+        work_package:
+          is_not_a_valid_target_for_cost_entries: "Arbeitspaket #%{id} ist kein gültiges Ziel für die Zuordnug der Stückkosteneinträge."
+          nullify_is_not_valid_for_cost_entries: "Stückkosten können keinem Projekt zugeordnet werden."
   attributes:
     budget: "Geplante Kosten"
     comment: "Kommentar"

@@ -26,6 +26,8 @@ class CostEntry < ActiveRecord::Base
     }
   }
 
+  scope :on_work_packages, ->(work_packages) { where(work_package_id: work_packages) }
+
   def self.visible_condition(user, project)
     %Q{ (#{Project.allowed_to_condition(user, :view_cost_entries, :project => project)} OR
          (#{Project.allowed_to_condition(user, :view_own_cost_entries, :project => project)} AND #{CostEntry.table_name}.user_id = #{user.id})) }

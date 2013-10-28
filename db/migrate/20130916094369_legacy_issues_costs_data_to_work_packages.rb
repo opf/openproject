@@ -14,6 +14,8 @@ require Rails.root.join("db","migrate","migration_utils","utils").to_s
 class LegacyIssuesCostsDataToWorkPackages < ActiveRecord::Migration
 
   def up
+    return unless migration_applicable?
+
     execute <<-SQL
       UPDATE work_packages
       SET cost_object_id = (SELECT legacy_issues.cost_object_id
@@ -24,6 +26,8 @@ class LegacyIssuesCostsDataToWorkPackages < ActiveRecord::Migration
   end
 
   def down
+    return unless migration_applicable?
+
     execute <<-SQL
       UPDATE legacy_issues
       SET cost_object_id = (SELECT work_packages.cost_object_id
@@ -31,5 +35,12 @@ class LegacyIssuesCostsDataToWorkPackages < ActiveRecord::Migration
                             WHERE work_packages.id = legacy_issues.id
                             LIMIT 1)
     SQL
+  end
+
+  private
+
+  def migration_applicable?
+    ActiveRecord::Base.connection.table_exists?('legacy_issues') &&
+    ActiveRecord::Base.connection.columns('legacy_issues').map(&:name).include?('cost_object_id')
   end
 end
