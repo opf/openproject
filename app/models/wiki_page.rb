@@ -76,7 +76,7 @@ class WikiPage < ActiveRecord::Base
 
   after_destroy :delete_wiki_menu_item
   after_destroy do |wiki_page|
-    wiki_page.wiki.project.disable_module(:wiki) if is_only_wiki_page?
+    wiki_page.wiki.project.disable_module(:wiki) and wiki_page.wiki.destroy if is_only_wiki_page?
   end
 
   def check_and_mark_as_protected
