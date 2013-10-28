@@ -29,6 +29,16 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#2221` [Accessibility] enhance keyboard shortcuts
+* `#2348` [Timelines] Using planning element filter and filtering for status "New" leads always to plus-sign in front of work packages
+* `#2357` [Timelines] Change API v2 serialization to minimize redundant data
+* `#2380` [Timelines] Change API v2 serialization to maximize concatenation speed
+* `#2420` Migrate the remaining views of api/v2 to rabl
+* `#2478` Timeline with lots of work packages doesn`t load
+* `#2577` [Timelines] Users are not displayed in timelines table after recent API version
+
+## 3.0.0pre23
+
 * `#709`  Added test for double custom field validation error messages
 * `#902`  Spelling Mistake: Timelines Report Configuration
 * `#959`  Too many available responsibles returned for filtering in Timelines
@@ -36,15 +46,11 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1916` Work package update screen is closed when attached file is deleted
 * `#1935` Fixed bug: Default submenu for wiki pages is wrong (Configure menu item)
 * `#2009` No journal entry created for attachments if the attachment is added on container creation
+* `#2221` [Accessibility] enhance keyboard shortcuts
 * `#2026` 404 error when letters are entered in category Work Package
 * `#2129` Repository: clicking on file results in 500
-* `#2221` [Accessibility] enhance keyboard shortcuts
-* `#2348` [Timelines] Using planning element filter and filtering for status "New" leads always to plus-sign in front of work packages
-* `#2357` [Timelines] Change API v2 serialization to minimize redundant data
 * `#2371` Add support for IE10 to Timelines
-* `#2380` [Timelines] Change API v2 serialization to maximize concatenation speed
 * `#2400` Cannot delete work package
-* `#2420` Migrate the remaining views of api/v2 to rabl
 * `#2423` [Issue Tracker] Several Internal Errors when there is no default work package status
 * `#2426` [Core] Enumerations for planning elements
 * `#2427` [Issue Tracker] Cannot delete work package priority
@@ -52,14 +58,12 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2448` Accelerate work package updates
 * `#2464` No initial attachment journal for messages
 * `#2470` [Timelines] Vertical planning elements which are not displayed horizontally are not shown in timeline report
-* `#2478` Timeline with lots of work packages doesn`t load
 * `#2479` Remove TinyMCE spike
 * `#2521` XSS: MyPage on unfiltered WorkPackage Subject
 * `#2548` Migrated core settings
 * `#2557` Highlight changes of any work package attribute available in the timelines table
 * `#2559` Migrate existing IssueCustomFields to WorkPackageCustomFields
 * `#2575` Regular expressions should use \A and \z instead of ^ and $
-* `#2577` [Timelines] Users are not displayed in timelines table after recent API version. 
 * Fix compatibility with old mail configuration
 
 ## 3.0.0pre22
