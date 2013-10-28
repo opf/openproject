@@ -854,11 +854,6 @@ module ApplicationHelper
       all_languages.collect{|lang| [ ll(lang.to_s, :general_lang_name), lang.to_s]}.sort{|x,y| x.last <=> y.last }
   end
 
-  def label_tag_for(name, option_tags = nil, options = {})
-    label_text = l(("field_"+field.to_s.gsub(/\_id\z/, "")).to_sym) + (options.delete(:required) ? @template.content_tag("span", " *", :class => "required"): "")
-    content_tag("label", label_text)
-  end
-
   def labelled_tabular_form_for(record, options = {}, &block)
     options.reverse_merge!(:builder => TabularFormBuilder, :lang => current_language, :html => {})
     options[:html][:class] = 'tabular' unless options[:html].has_key?(:class)
