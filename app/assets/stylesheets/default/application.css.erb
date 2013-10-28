@@ -1163,8 +1163,6 @@ td.username img.gravatar {
 
 h2 img { vertical-align: middle; }
 
-.hascontextmenu { cursor: context-menu; }
-
 /* Merged from the new layout #263 */
 /**
  * ToC
@@ -2156,60 +2154,6 @@ td.issue div.issue-wrap-outer {
   position: relative;
 }
 
-#context-menu {
-  position: absolute;
-  left: -7px;
-  top: -7px;
-  padding: 6px;
-  z-index: 21;
-}
-
-#context-menu ul {
-  width: 140px;
-  position: absolute;
-  left: -7px;
-  z-index: 20;
-  display: block;
-  /* From .menu */
-  background: #f4f4f4;
-  border: 1px solid #afafaf;
-
-}
-#context-menu li {
-  padding: 6px !important;
-  background-position: 6px center;
-  background-repeat: no-repeat;
-  cursor: pointer;
-  /* From .menu */
-  border-top: 1px solid #fff !important;
-  border-bottom: 1px solid #ddd !important;
-}
-
-#context-menu li.folder div.submenu {
-  background: url(<%= asset_path 'arrow-right.png' %>) no-repeat right;
-  position: absolute;
-  height: 9px;
-  width: 7px;
-  top: 11px;
-  right: 6px;
-}
-#context-menu li.folder ul {
-  display: none;
-  left: 140px;
-  top: -1px;
-  width: auto;
-  z-index: 19;
-}
-#context-menu li li {
-  padding: 6px 12px;
-  width: auto;
-  display: block;
-  white-space: nowrap;
-}
-#context-menu li:hover ul {
-  display: block;
-}
-
 .button-large ul {
   position: absolute;
   right: -1px;
@@ -2607,13 +2551,6 @@ a.has-thumb.active {
 }
 a.has-thumb img {
   z-index: 1001;
-}
-
-/* max height on menus */
-#context-menu li.assigned > ul {
-  max-height: 250px;
-  overflow-x: hidden;
-  overflow-y: auto;
 }
 
 /* Make icons non repeating */
