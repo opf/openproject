@@ -33,7 +33,7 @@
 # files.
 
 
-unless ARGV.any? {|a| a =~ /^gems/} # Don't load anything when running the gems:* tasks
+unless ARGV.any? {|a| a =~ /\Agems/} # Don't load anything when running the gems:* tasks
 
 begin
   require 'shellwords'

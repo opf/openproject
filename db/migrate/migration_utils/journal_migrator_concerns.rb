@@ -97,7 +97,7 @@ module Migration
         # attachments123 if the attachment was added
         # attachments_123 if the attachment was removed
         #
-        @attachment_key_regexp ||= /attachments_?(\d+)$/
+        @attachment_key_regexp ||= /attachments_?(\d+)\z/
       end
     end
 

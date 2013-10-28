@@ -147,7 +147,7 @@ module Api
 
       def find_multiple_projects
         # find_project_by_project_id
-        ids, identifiers = params[:project_id].split(/,/).map(&:strip).partition { |s| s =~ /^\d*$/ }
+        ids, identifiers = params[:project_id].split(/,/).map(&:strip).partition { |s| s =~ /\A\d*\z/ }
         ids = ids.map(&:to_i).sort
         identifiers = identifiers.sort
 

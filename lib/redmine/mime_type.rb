@@ -90,7 +90,7 @@ module Redmine
     # returns mime type for name or nil if unknown
     def self.of(name)
       return nil unless name
-      m = name.to_s.match(/(^|\.)([^\.]+)$/)
+      m = name.to_s.match(/(\A|\.)([^\.]+)\z/)
       EXTENSIONS[m[2].downcase] if m
     end
 

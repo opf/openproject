@@ -625,7 +625,7 @@ module ApplicationHelper
       link_project = project
       esc, all, page, title = $1, $2, $3, $5
       if esc.nil?
-        if page =~ /^([^\:]+)\:(.*)$/
+        if page =~ /\A([^\:]+)\:(.*)\z/
           link_project = Project.find_by_identifier($1) || Project.find_by_name($1)
           page = $2
           title ||= $1 if page.blank?
@@ -634,7 +634,7 @@ module ApplicationHelper
         if link_project && link_project.wiki
           # extract anchor
           anchor = nil
-          if page =~ /^(.+?)\#(.+)$/
+          if page =~ /\A(.+?)\#(.+)\z/
             page, anchor = $1, $2
           end
           # check if page exists
@@ -739,7 +739,7 @@ module ApplicationHelper
           end
         elsif sep == ':'
           # removes the double quotes if any
-          name = identifier.gsub(%r{^"(.*)"$}, "\\1")
+          name = identifier.gsub(%r{\A"(.*)"\z}, "\\1")
           case prefix
           when 'version'
             if project && version = project.versions.visible.find_by_name(name)
@@ -754,7 +754,7 @@ module ApplicationHelper
             end
           when 'source', 'export'
             if project && project.repository && User.current.allowed_to?(:browse_repository, project)
-              name =~ %r{^[/\\]*(.*?)(@([0-9a-f]+))?(#(L\d+))?$}
+              name =~ %r{\A[/\\]*(.*?)(@([0-9a-f]+))?(#(L\d+))?\z}
               path, rev, anchor = $1, $3, $5
               link = link_to h("#{project_prefix}#{prefix}:#{name}"), {:controller => '/repositories', :action => 'entry', :project_id => project,
                                                       :path => to_path_param(path),
@@ -855,7 +855,7 @@ module ApplicationHelper
   end
 
   def label_tag_for(name, option_tags = nil, options = {})
-    label_text = l(("field_"+field.to_s.gsub(/\_id$/, "")).to_sym) + (options.delete(:required) ? @template.content_tag("span", " *", :class => "required"): "")
+    label_text = l(("field_"+field.to_s.gsub(/\_id\z/, "")).to_sym) + (options.delete(:required) ? @template.content_tag("span", " *", :class => "required"): "")
     content_tag("label", label_text)
   end
 

@@ -76,7 +76,7 @@ module ChiliProject
         version = ActiveRecord::Base.connection.select_value('SELECT VERSION()')
       when :postgresql
         version = ActiveRecord::Base.connection.select_value('SELECT version()')
-        raw ? version : version.match(/^PostgreSQL (\S+)/i)[1]
+        raw ? version : version.match(/\APostgreSQL (\S+)/i)[1]
       when :sqlite
         if Object.const_defined?('RUBY_ENGINE') && ::RUBY_ENGINE == 'jruby'
           Jdbc::SQLite3::VERSION

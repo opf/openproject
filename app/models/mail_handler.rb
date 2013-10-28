@@ -57,7 +57,7 @@ class MailHandler < ActionMailer::Base
   cattr_accessor :ignored_emails_headers
   @@ignored_emails_headers = {
     'X-Auto-Response-Suppress' => 'oof',
-    'Auto-Submitted' => /^auto-/
+    'Auto-Submitted' => /\Aauto-/
   }
 
   # Processes incoming emails
@@ -363,7 +363,7 @@ class MailHandler < ActionMailer::Base
     user.random_password!
     user.language = Setting.default_language
 
-    names = fullname.blank? ? email_address.gsub(/@.*$/, '').split('.') : fullname.split
+    names = fullname.blank? ? email_address.gsub(/@.*\z/, '').split('.') : fullname.split
     user.firstname = names.shift
     user.lastname = names.join(' ')
     user.lastname = '-' if user.lastname.blank?
@@ -381,7 +381,7 @@ class MailHandler < ActionMailer::Base
   def self.create_user_from_email(email)
     from = email.header['from'].to_s
     addr, name = from, nil
-    if m = from.match(/^"?(.+?)"?\s+<(.+@.+)>$/)
+    if m = from.match(/\A"?(.+?)"?\s+<(.+@.+)>\z/)
       addr, name = m[2], m[1]
     end
     if addr.present?

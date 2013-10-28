@@ -37,7 +37,7 @@ module ActiveRecord
     def self.human_attribute_name(attr, options = {})
       begin
         options_with_raise = {:raise => true, :default => false}.merge options
-        attr = attr.to_s.gsub(/_id$/, '')
+        attr = attr.to_s.gsub(/_id\z/, '')
         super(attr, options_with_raise)
       rescue I18n::MissingTranslationData => e
         included_in_general_attributes = I18n.t('attributes').keys.map(&:to_s).include? attr

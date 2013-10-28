@@ -99,7 +99,7 @@ class Project < ActiveRecord::Base
   validates_length_of :homepage, :maximum => 255
   validates_length_of :identifier, :in => 1..IDENTIFIER_MAX_LENGTH
   # donwcase letters, digits, dashes but not digits only
-  validates_format_of :identifier, :with => /^(?!\d+$)[a-z0-9\-_]*$/, :if => Proc.new { |p| p.identifier_changed? }
+  validates_format_of :identifier, :with => /\A(?!\d+$)[a-z0-9\-_]*\z/, :if => Proc.new { |p| p.identifier_changed? }
   # reserved words
   validates_exclusion_of :identifier, :in => RESERVED_IDENTIFIERS
 
@@ -408,7 +408,7 @@ class Project < ActiveRecord::Base
   end
 
   def self.find(*args)
-    if args.first && args.first.is_a?(String) && !args.first.match(/^\d*$/)
+    if args.first && args.first.is_a?(String) && !args.first.match(/\A\d*\z/)
       project = find_by_identifier(*args)
       raise ActiveRecord::RecordNotFound, "Couldn't find Project with identifier=#{args.first}" if project.nil?
       project
@@ -425,7 +425,7 @@ class Project < ActiveRecord::Base
 
   def to_param
     # id is used for projects with a numeric identifier (compatibility)
-    @to_param ||= (identifier.to_s =~ %r{^\d*$} ? id : identifier)
+    @to_param ||= (identifier.to_s =~ %r{\A\d*\z} ? id : identifier)
   end
 
   def active?
@@ -633,7 +633,7 @@ class Project < ActiveRecord::Base
     when summary.present?
       summary
     when description.present?
-      description.gsub(/^(.{#{length}}[^\n\r]*).*$/m, '\1...').strip
+      description.gsub(/\A(.{#{length}}[^\n\r]*).*\z/m, '\1...').strip
     else
       ""
     end

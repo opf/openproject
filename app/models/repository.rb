@@ -150,7 +150,7 @@ class Repository < ActiveRecord::Base
   def find_changeset_by_name(name)
     name = name.to_s
     return nil if name.blank?
-    changesets.find(:first, :conditions => (name.match(/^\d*$/) ? ["revision = ?", name] : ["revision LIKE ?", name + '%']))
+    changesets.find(:first, :conditions => (name.match(/\A\d*\z/) ? ["revision = ?", name] : ["revision LIKE ?", name + '%']))
   end
 
   def latest_changeset
@@ -211,7 +211,7 @@ class Repository < ActiveRecord::Base
       c = changesets.find(:first, :conditions => {:committer => committer}, :include => :user)
       if c && c.user
         user = c.user
-      elsif committer.strip =~ /^([^<]+)(<(.*)>)?$/
+      elsif committer.strip =~ /\A([^<]+)(<(.*)>)?\z/
         username, email = $1.strip, $3
         u = User.find_by_login(username)
         u ||= User.find_by_mail(email) unless email.blank?

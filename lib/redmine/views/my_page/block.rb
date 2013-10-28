@@ -48,7 +48,7 @@ module Redmine
               end
             end.compact
           ).inject({}) do |h,file|
-            name = File.basename(file).split('.').first.gsub(/^_/, '')
+            name = File.basename(file).split('.').first.gsub(/\A_/, '')
             h[name] = ("label_" + name).to_sym
             h
           end

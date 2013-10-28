@@ -170,7 +170,7 @@ module Redmine
 
         def without_leading_slash(path)
           path ||= ''
-          path.gsub(%r{^/+}, '')
+          path.gsub(%r{\A/+}, '')
         end
 
         def without_trailling_slash(path)
@@ -190,7 +190,7 @@ module Redmine
 
         def target(path)
           path ||= ''
-          base = path.match(/^\//) ? root_url : url
+          base = path.match(/\A\//) ? root_url : url
           shell_quote("#{base}/#{path}".gsub(/[?<>\*]/, ''))
         end
 

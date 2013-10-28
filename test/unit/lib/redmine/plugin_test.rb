@@ -83,7 +83,7 @@ class Redmine::PluginTest < ActiveSupport::TestCase
         requires_openproject('< 0.9', ">= 98.0.0")
       end
 
-      test.assert requires_openproject("~> #{Redmine::VERSION.to_semver.gsub(/\d+$/, '0')}")
+      test.assert requires_openproject("~> #{Redmine::VERSION.to_semver.gsub(/\d+\z/, '0')}")
     end
   end
 

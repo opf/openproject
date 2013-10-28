@@ -362,7 +362,7 @@ module WorkPackage::PdfExporter
 
     def textstring(s)
       # Format a text string
-      if s =~ /^</  # This means the string is hex-dumped.
+      if s =~ /\A</  # This means the string is hex-dumped.
         return s
       else
         return '('+escape(s)+')'
@@ -416,7 +416,7 @@ module WorkPackage::PdfExporter
 
     def textstring(s)
       # Format a text string
-      if s =~ /^</  # This means the string is hex-dumped.
+      if s =~ /\A</  # This means the string is hex-dumped.
         return s
       else
         return '('+escape(s)+')'
