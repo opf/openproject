@@ -39,7 +39,9 @@ class EnumerationsController < ApplicationController
 
   def new
     begin
-      @enumeration = params[:type].constantize.new
+      klass = params[:type].constantize
+      raise NameError unless klass.ancestors.include? Enumeration
+      @enumeration = klass.new
     rescue NameError
       @enumeration = Enumeration.new
     end
