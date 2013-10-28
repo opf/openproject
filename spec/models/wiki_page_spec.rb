@@ -63,6 +63,10 @@ describe WikiPage do
       it 'deactivates the wiki module' do
         project.module_enabled?(:wiki).should be_false
       end
+
+      it 'destroys the project wiki' do
+        project.wiki.should be_nil
+      end
     end
 
     context 'when one of two wiki pages is destroyed' do
@@ -74,6 +78,10 @@ describe WikiPage do
 
       it 'does not deactivate the wiki module' do
         project.module_enabled?(:wiki).should be_true
+      end
+
+      it 'does not destroy the project wiki' do
+        project.wiki.should be_present
       end
     end
   end
