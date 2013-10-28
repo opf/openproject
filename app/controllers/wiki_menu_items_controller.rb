@@ -72,6 +72,25 @@ class WikiMenuItemsController < ApplicationController
     end
   end
 
+  def replace_main_menu_item
+    wiki_page_title = params[:id]
+    @possible_wiki_pages = @project.wiki.pages.all(:include => :parent).reject{|page| page.title == wiki_page_title || page.menu_item.present? && page.menu_item.is_main_item?}
+  end
+
+  def create_main_menu_item
+    page = WikiPage.find params[:wiki_page][:id]
+    wiki = @project.wiki
+
+    menu_item = if item = page.menu_item
+      item.tap {|item| item.parent_id = nil}
+    else
+      wiki.wiki_menu_items.build(title: page.title, name: page.pretty_title)
+    end
+    menu_item.save
+
+    redirect_to project_wiki_path(@project, wiki.start_page)
+  end
+
   private
 
   def get_data_from_params(params)

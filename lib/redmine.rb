@@ -164,6 +164,7 @@ Redmine::AccessControl.map do |map|
     map.permission :delete_wiki_pages_attachments, {}
     map.permission :protect_wiki_pages, {:wiki => :protect}, :require => :member
     map.permission :list_attachments, {:wiki => :list_attachments}, :require => :member
+    map.permission :replace_main_wiki_menu_item, {:wiki_menu_items => [:replace_main_menu_item, :create_main_menu_item]}, :require => :member
   end
 
   map.project_module :repository do |map|
