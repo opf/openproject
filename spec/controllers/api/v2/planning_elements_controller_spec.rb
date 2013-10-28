@@ -134,14 +134,16 @@ describe Api::V2::PlanningElementsController do
         describe 'w/ the current user being a member with view_work_packages permissions' do
           become_member_with_view_planning_element_permissions
 
+          before do
+            get 'index', :ids => [], :format => 'xml'
+          end
+
           describe 'w/o any planning elements within the project' do
             it 'assigns an empty planning_elements array' do
-              get 'index', :ids => [], :format => 'xml'
               assigns(:planning_elements).should == []
             end
 
             it 'renders the index builder template' do
-              get 'index', :ids => [], :format => 'xml'
               response.should render_template('planning_elements/index', :formats => ["api"])
             end
           end
@@ -153,15 +155,14 @@ describe Api::V2::PlanningElementsController do
                 FactoryGirl.create(:work_package, :project_id => project.id),
                 FactoryGirl.create(:work_package, :project_id => project.id)
               ]
+              get 'index', :ids => @created_planning_elements.map(&:id), :format => 'xml'
             end
 
             it 'assigns a planning_elements array containing all three elements' do
-              get 'index', :ids => @created_planning_elements.map(&:id), :format => 'xml'
               assigns(:planning_elements).should =~ @created_planning_elements
             end
 
             it 'renders the index builder template' do
-              get 'index', :ids => @created_planning_elements.map(&:id), :format => 'xml'
               response.should render_template('planning_elements/index', :formats => ["api"])
             end
           end
@@ -251,14 +252,16 @@ describe Api::V2::PlanningElementsController do
         describe 'w/ the current user being a member with view_work_packages permissions' do
           become_member_with_view_planning_element_permissions
 
+          before do
+            get 'index', :project_id => project.id, :format => 'xml'
+          end
+
           describe 'w/o any planning elements within the project' do
             it 'assigns an empty planning_elements array' do
-              get 'index', :project_id => project.id, :format => 'xml'
               assigns(:planning_elements).should == []
             end
 
             it 'renders the index builder template' do
-              get 'index', :project_id => project.id, :format => 'xml'
               response.should render_template('planning_elements/index', :formats => ["api"])
             end
           end
@@ -270,15 +273,14 @@ describe Api::V2::PlanningElementsController do
                 FactoryGirl.create(:work_package, :project_id => project.id),
                 FactoryGirl.create(:work_package, :project_id => project.id)
               ]
+              get 'index', :project_id => project.id, :format => 'xml'
             end
 
             it 'assigns a planning_elements array containing all three elements' do
-              get 'index', :project_id => project.id, :format => 'xml'
               assigns(:planning_elements).should =~ @created_planning_elements
             end
 
             it 'renders the index builder template' do
-              get 'index', :project_id => project.id, :format => 'xml'
               response.should render_template('planning_elements/index', :formats => ["api"])
             end
           end
@@ -303,14 +305,16 @@ describe Api::V2::PlanningElementsController do
         describe 'w/ a project in the list, the current user may not access' do
           before { project_a; project_b }
           become_non_member { [project_b] }
+          before do
+            get 'index', :project_id => 'project_a,project_b', :format => 'xml'
+          end
+
 
           it 'assigns an empty planning_elements array' do
-            get 'index', :project_id => 'project_a,project_b', :format => 'xml'
             assigns(:planning_elements).should == []
           end
 
           it 'renders the index builder template' do
-            get 'index', :project_id => 'project_a,project_b', :format => 'xml'
             response.should render_template('planning_elements/index', :formats => ["api"])
           end
         end
@@ -318,14 +322,16 @@ describe Api::V2::PlanningElementsController do
         describe 'w/ the current user being a member with view_work_packages permission' do
           become_member_with_view_planning_element_permissions { [project_a, project_b] }
 
+          before do
+            get 'index', :project_id => 'project_a,project_b', :format => 'xml'
+          end
+
           describe 'w/o any planning elements within the project' do
             it 'assigns an empty planning_elements array' do
-              get 'index', :project_id => 'project_a,project_b', :format => 'xml'
               assigns(:planning_elements).should == []
             end
 
             it 'renders the index builder template' do
-              get 'index', :project_id => 'project_a,project_b', :format => 'xml'
               response.should render_template('planning_elements/index', :formats => ["api"])
             end
           end
@@ -340,15 +346,14 @@ describe Api::V2::PlanningElementsController do
               # adding another planning element, just to make sure, that the
               # result set is properly filtered
               FactoryGirl.create(:work_package, :project_id => project_c.id)
+              get 'index', :project_id => 'project_a,project_b', :format => 'xml'
             end
 
             it 'assigns a planning_elements array containing all three elements' do
-              get 'index', :project_id => 'project_a,project_b', :format => 'xml'
               assigns(:planning_elements).should =~ @created_planning_elements
             end
 
             it 'renders the index builder template' do
-              get 'index', :project_id => 'project_a,project_b', :format => 'xml'
               response.should render_template('planning_elements/index', :formats => ["api"])
             end
           end
