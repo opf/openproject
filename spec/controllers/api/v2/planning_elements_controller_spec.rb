@@ -229,7 +229,7 @@ describe Api::V2::PlanningElementsController do
     describe 'w/ list of projects' do
       describe 'w/ an unknown project' do
         it 'renders a 404 Not Found page' do
-          get 'index', :project_id => '4711', :format => 'xml'
+          get 'index', :project_id => 'project_x,project_b', :format => 'xml'
 
           response.response_code.should == 404
         end
