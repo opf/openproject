@@ -38,14 +38,19 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2009` No journal entry created for attachments if the attachment is added on container creation
 * `#2026` 404 error when letters are entered in category Work Package
 * `#2221` [Accessibility] enhance keyboard shortcuts
+* `#2348` [Timelines] Using planning element filter and filtering for status "New" leads always to plus-sign in front of work packages
+* `#2357` [Timelines] Change API v2 serialization to minimize redundant data
 * `#2371` Add support for IE10 to Timelines
+* `#2380` [Timelines] Change API v2 serialization to maximize concatenation speed
 * `#2400` Cannot delete work package
+* `#2420` Migrate the remaining views of api/v2 to rabl
 * `#2423` [Issue Tracker] Several Internal Errors when there is no default work package status
 * `#2426` [Core] Enumerations for planning elements
 * `#2427` [Issue Tracker] Cannot delete work package priority
 * `#2433` [Timelines] Empty timeline report not displayed initially
 * `#2448` Accelerate work package updates
 * `#2464` No initial attachment journal for messages
+* `#2478` Timeline with lots of work packages doesn`t load
 * `#2479` Remove TinyMCE spike
 * `#2521` XSS: MyPage on unfiltered WorkPackage Subject
 * `#2548` Migrated core settings
