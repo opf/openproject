@@ -38,7 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </li>
 <% else %>
   <li class="edit">
-    <%= context_menu_link l(:button_edit), work_package_bulk_edit_path(:ids => @work_packages.collect(&:id)),
+    <%= context_menu_link l(:button_edit), edit_work_packages_bulk_path(:ids => @work_packages.collect(&:id)),
 	                                         :class => 'icon-edit',
                                            :disabled => !@can[:edit] %>
   </li>
@@ -151,7 +151,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </li>
 
   <li class="delete">
-    <%= context_menu_link l(:button_delete), work_packages_path(:ids => @work_packages.collect(&:id)),
+    <%= context_menu_link l(:button_delete), work_packages_bulk_path(:ids => @work_packages.collect(&:id)),
                                              :method => :delete,
                                              :confirm => l(:text_work_packages_destroy_confirmation),
                                              :class => 'context_item',

@@ -577,4 +577,20 @@ module WorkPackagesHelper
       WorkPackageAttribute.new(:"work_package_#{value.id}", field)
     end
   end
+
+  def work_package_associations_to_address(associated)
+    ret = "".html_safe
+
+    ret += content_tag(:p, l(:text_destroy_with_associated), :class => "bold" )
+
+    ret += content_tag(:ul) do
+      associated.inject("".html_safe) do |list, associated_class|
+        list += content_tag(:li, associated_class.model_name.human, :class => "decorated")
+
+        list
+      end
+    end
+
+    ret
+  end
 end

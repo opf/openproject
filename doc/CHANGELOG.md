@@ -38,6 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2026` 404 error when letters are entered in category Work Package
 * `#2221` [Accessibility] enhance keyboard shortcuts
 * `#2371` Add support for IE10 to Timelines
+* `#2400` Cannot delete work package
 * `#2423` [Issue Tracker] Several Internal Errors when there is no default work package status
 * `#2426` [Core] Enumerations for planning elements 
 * `#2427` [Issue Tracker] Cannot delete work package priority 

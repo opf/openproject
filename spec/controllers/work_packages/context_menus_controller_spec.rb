@@ -89,7 +89,7 @@ describe WorkPackages::ContextMenusController do
     end
 
     shared_examples_for :bulk_edit do
-      let(:edit_link) { "/work_package_bulk/edit?#{ids_link}" }
+      let(:edit_link) { "/work_packages/bulk/edit?#{ids_link}" }
 
       it_behaves_like :edit_impl
     end
@@ -126,7 +126,7 @@ describe WorkPackages::ContextMenusController do
         get :index, ids: ids
       end
 
-      let(:status_link) { "/work_package_bulk/update?#{ids_link}"\
+      let(:status_link) { "/work_packages/bulk?#{ids_link}"\
                           "&amp;work_package%5Bstatus_id%5D=#{status_2.id}" }
 
       it do
@@ -139,7 +139,7 @@ describe WorkPackages::ContextMenusController do
 
     shared_examples_for :priority do
       let(:priority_immediate) { FactoryGirl.create(:priority_immediate) }
-      let(:priority_link) { "/work_package_bulk/update?#{ids_link}"\
+      let(:priority_link) { "/work_packages/bulk?#{ids_link}"\
                             "&amp;work_package%5Bpriority_id%5D=#{priority_immediate.id}" }
 
       before do
@@ -161,9 +161,9 @@ describe WorkPackages::ContextMenusController do
                                            project: project_1) }
       let(:version_2) { FactoryGirl.create(:version,
                                            project: project_1) }
-      let(:version_link_1) { "/work_package_bulk/update?#{ids_link}"\
+      let(:version_link_1) { "/work_packages/bulk?#{ids_link}"\
                              "&amp;work_package%5Bfixed_version_id%5D=#{version_1.id}" }
-      let(:version_link_2) { "/work_package_bulk/update?#{ids_link}"\
+      let(:version_link_2) { "/work_packages/bulk?#{ids_link}"\
                              "&amp;work_package%5Bfixed_version_id%5D=#{version_2.id}" }
 
       before do
@@ -182,7 +182,7 @@ describe WorkPackages::ContextMenusController do
     end
 
     shared_examples_for :assigned_to do
-      let(:assigned_to_link) { "/work_package_bulk/update?#{ids_link}"\
+      let(:assigned_to_link) { "/work_packages/bulk?#{ids_link}"\
                                "&amp;work_package%5Bassigned_to_id%5D=#{user.id}" }
 
       before { get :index, ids: ids }
@@ -212,7 +212,7 @@ describe WorkPackages::ContextMenusController do
     shared_examples_for :copy do
       let(:copy_link) { "/work_packages/move/new?copy_options%5Bcopy%5D=t&amp;"\
                         "#{ids_link}" }
-      
+
       before { get :index, ids: ids }
 
       it do
@@ -235,7 +235,7 @@ describe WorkPackages::ContextMenusController do
     end
 
     shared_examples_for :delete do
-      let(:delete_link) { "/work_packages?#{ids_link}" }
+      let(:delete_link) { "/work_packages/bulk?#{ids_link}" }
 
       before { get :index, ids: ids }
 
