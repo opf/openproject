@@ -1,5 +1,7 @@
 # Changelog
 
+## 4.0.0.pre7
+
 * `#2449` Squash old migrations
 * `#2517` XSS: unescaped fields in cost report view (cost log comment, work package title)
 
