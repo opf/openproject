@@ -97,7 +97,7 @@ module WorkPackagesHelper
 
     parts[:link] << h(package.kind.to_s) if options[:type]
 
-    parts[:link] << "##{package.id}" if options[:id]
+    parts[:link] << "##{h(package.id)}" if options[:id]
 
     # Hidden link part
 
@@ -119,7 +119,7 @@ module WorkPackagesHelper
                   subject
                 end
 
-      parts[:suffix] << subject
+      parts[:suffix] << h(subject)
     end
 
     # title part
