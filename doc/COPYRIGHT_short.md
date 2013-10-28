@@ -1,4 +1,3 @@
-<%#-- copyright
 OpenProject is a project management system.
 Copyright (C) 2011-2013 the OpenProject Foundation (OPF)
 
@@ -15,14 +14,3 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 See doc/COPYRIGHT.md for more details.
-
-++#%>
-
-<h3><%= l(:label_calendar) %></h3>
-
-<% calendar = Redmine::Helpers::Calendar.new(Date.today, current_language, :week)
-   calendar.events = WorkPackage.visible.find :all,
-                                              :conditions => ["#{WorkPackage.table_name}.project_id in (#{@user.projects.collect{|m| m.id}.join(',')}) AND ((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?))", calendar.startdt, calendar.enddt, calendar.startdt, calendar.enddt],
-                                              :include => [:project, :type, :priority, :assigned_to] unless @user.projects.empty? %>
-
-<%= render :partial => 'common/calendar', :locals => {:calendar => calendar } %>

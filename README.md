@@ -2,13 +2,13 @@ OpenProject My Project Page PlugIn
 ==================================
 
 This plugin provides a customizable view of the Project-Overview-Page, very similar
-to the "My Page" in Core.
+to the "My Page" in the OpenProject Core.
 
 Requirements
 ------------
 
-The meetings plugin currently requires the OpenProject Core in
-version 3.0.0pre14 or newer.
+The My Project Page plugin currently requires the OpenProject Core in
+version 3.0.0pre23 or newer.
 
 
 Installation
@@ -25,8 +25,6 @@ Afterwards, run:
 `bundle install`
 
 This plugin contains migrations. To migrate the database, run:
-
-`rake openproject_my_project_page:install:migrations`
 
 `rake db:migrate`
 
