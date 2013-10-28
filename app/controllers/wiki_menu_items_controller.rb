@@ -96,7 +96,6 @@ class WikiMenuItemsController < ApplicationController
   private
 
   def get_data_from_params(params)
-    @project = Project.find(params[:project_id])
     @page_title = params[:id]
     wiki_id = @project.wiki.id
 
