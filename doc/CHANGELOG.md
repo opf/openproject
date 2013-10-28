@@ -29,18 +29,28 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#709`  Added test for double custom field validation error messages
+* `#902`  Spelling Mistake: Timelines Report Configuration
 * `#959`  Too many available responsibles returned for filtering in Timelines
 * `#1738` Forum problem when no description given.
 * `#1916` Work package update screen is closed when attached file is deleted
 * `#1935` Fixed bug: Default submenu for wiki pages is wrong (Configure menu item)
 * `#2009` No journal entry created for attachments if the attachment is added on container creation
 * `#2026` 404 error when letters are entered in category Work Package
+* `#2221` [Accessibility] enhance keyboard shortcuts
 * `#2371` Add support for IE10 to Timelines
+* `#2400` Cannot delete work package
+* `#2423` [Issue Tracker] Several Internal Errors when there is no default work package status
+* `#2426` [Core] Enumerations for planning elements
+* `#2427` [Issue Tracker] Cannot delete work package priority
+* `#2433` [Timelines] Empty timeline report not displayed initially
 * `#2448` Accelerate work package updates
 * `#2464` No initial attachment journal for messages
 * `#2470` [Timelines] Vertical planning elements which are not displayed horizontally are not shown in timeline report 
 * `#2479` Remove TinyMCE spike
-* `#2557` Highlight changes of any work package attribute available in the timelines table  
+* `#2521` XSS: MyPage on unfiltered WorkPackage Subject
+* `#2548` Migrated core settings
+* `#2557` Highlight changes of any work package attribute available in the timelines table
 * `#2559` Migrate existing IssueCustomFields to WorkPackageCustomFields
 * Fix compatibility with old mail configuration
 

@@ -57,7 +57,7 @@ describe ApplicationHelper do
         OpenProject::Footer.content = nil
       end
 
-      it { footer_content.should == I18n.t(:text_powered_by, :link => link_to(Redmine::Info.app_name, Redmine::Info.url)) }
+      it { footer_content.should == I18n.t(:text_powered_by, :link => link_to(OpenProject::Info.app_name, OpenProject::Info.url)) }
     end
 
     context "string as additional footer content" do
@@ -66,7 +66,7 @@ describe ApplicationHelper do
         OpenProject::Footer.add_content("openproject","footer")
       end
 
-      it { footer_content.include?(I18n.t(:text_powered_by, :link => link_to(Redmine::Info.app_name, Redmine::Info.url))).should be_true  }
+      it { footer_content.include?(I18n.t(:text_powered_by, :link => link_to(OpenProject::Info.app_name, OpenProject::Info.url))).should be_true  }
       it { footer_content.include?("<span class=\"footer_openproject\">footer</span>").should be_true  }
     end
 

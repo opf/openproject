@@ -100,7 +100,8 @@ module ApplicationHelper
     link_to l(:label_preview),
               url,
               :id => id,
-              :class => 'preview'
+              :class => 'preview',
+              :accesskey => accesskey(:preview)
 
   end
 
@@ -265,7 +266,7 @@ module ApplicationHelper
 
   def join_flash_messages(messages)
     if messages.respond_to?(:join)
-      messages.join('<br />').html_safe 
+      messages.join('<br />').html_safe
     else
       messages
     end
@@ -477,7 +478,7 @@ module ApplicationHelper
   end
 
   def accesskey(s)
-    Redmine::AccessKeys.key_for s
+    OpenProject::AccessKeys.key_for s
   end
 
   # Formats text according to system settings.
@@ -953,12 +954,12 @@ module ApplicationHelper
       ret += content_tag :ul do
 		    args[:collection].collect do |(s, name)|
           content_tag :li do
-            context_menu_link (name || s), work_package_bulk_update_path(:ids => args[:updated_object_ids],
-                                                                         :work_package => { db_attribute => s },
-                                                                         :back_url => args[:back_url]),
-                                                                         :method => :put,
-                                                                         :selected => args[:selected].call(s),
-                                                                         :disabled => args[:disabled].call(s)
+            context_menu_link (name || s), work_packages_bulk_path(:ids => args[:updated_object_ids],
+                                                                   :work_package => { db_attribute => s },
+                                                                   :back_url => args[:back_url]),
+                                           :method => :put,
+                                           :selected => args[:selected].call(s),
+                                           :disabled => args[:disabled].call(s)
           end
         end.join.html_safe
       end
@@ -1075,8 +1076,8 @@ module ApplicationHelper
   #
   def footer_content
     elements = []
-    elements << I18n.t(:text_powered_by, :link => link_to(Redmine::Info.app_name,
-                                                          Redmine::Info.url))
+    elements << I18n.t(:text_powered_by, :link => link_to(OpenProject::Info.app_name,
+                                                          OpenProject::Info.url))
     unless OpenProject::Footer.content.nil?
       OpenProject::Footer.content.each do |name, value|
         content = value.respond_to?(:call) ? value.call : value

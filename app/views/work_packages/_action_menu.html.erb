@@ -46,10 +46,9 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= li_unless_nil(link_to_if_authorized l(:button_move), {:controller => '/work_packages/moves', :action => 'new', :work_package_id => controller.work_package}, :class => 'icon icon-move') %>
 
   <%= li_unless_nil(link_to_if_authorized l(:button_delete),
-                                          { :controller => '/work_packages',
+                                          { :controller => '/work_packages/bulk',
                                             :action => 'destroy',
-                                            :id => controller.work_package,
-                                            :todo => 'destroy' },
+                                            :ids => [work_package.id] },
                                           :confirm => (controller.work_package.leaf? ? l(:text_are_you_sure) : l(:text_are_you_sure_with_children)),
                                           :method => :delete ,
                                           :class => 'icon icon-del' ) %>

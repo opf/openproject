@@ -35,7 +35,7 @@ class Timeline < ActiveRecord::Base
     end
 
     def name
-      @name ||= ::I18n.t('timelines.filter.none')
+      @name ||= ::I18n.t('timelines.filter.noneElement')
     end
 
   end

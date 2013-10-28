@@ -64,12 +64,12 @@ module Migration
                            COLUMNS,
                            find_work_packages_with_missing_initial_attachment(legacy_journal_type,
                                                                               result),
-                           filter(legacy_journal_type))
+                           journal_filter(legacy_journal_type))
 
       result.flatten
     end
 
-    def filter(legacy_journal_type)
+    def journal_filter(legacy_journal_type)
       "type = '#{legacy_journal_type}' AND changed_data LIKE '%attachments%'"
     end
 

@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
@@ -26,4 +27,19 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-InstanceFinder.register(PlanningElementStatus, Proc.new { |name| PlanningElementStatus.find_by_name(name) })
+module OpenProject
+  module AccessKeys
+    ACCESSKEYS = {:preview => '1',
+                  :new_issue => '2',
+                  :edit => '3',
+                  :quick_search => '4',
+                  :project_search => '5',
+                  :help => '6',
+                  :more_menu => '7'
+                 }.freeze unless const_defined?(:ACCESSKEYS)
+
+    def self.key_for(action)
+      ACCESSKEYS[action]
+    end
+  end
+end

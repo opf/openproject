@@ -27,9 +27,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackageBulkController < ApplicationController
+class WorkPackages::BulkController < ApplicationController
   before_filter :disable_api
-  before_filter :find_work_packages, only: [:edit, :update]
+  before_filter :find_work_packages
   before_filter :authorize
 
   include JournalsHelper
@@ -66,7 +66,37 @@ class WorkPackageBulkController < ApplicationController
     redirect_back_or_default({controller: '/work_packages', action: :index, project_id: @project})
   end
 
+  def destroy
+    unless WorkPackage.cleanup_associated_before_destructing_if_required(@work_packages, current_user, params[:to_do])
+
+      respond_to do |format|
+        format.html { render :locals => { work_packages: @work_packages,
+                                          associated: WorkPackage.associated_classes_to_address_before_destruction_of(@work_packages) }
+                    }
+      end
+
+    else
+
+      destroy_work_packages(@work_packages)
+
+      respond_to do |format|
+        format.html { redirect_back_or_default(project_work_packages_path(@work_packages.first.project)) }
+      end
+    end
+  end
+
 private
+
+  def destroy_work_packages(work_packages)
+    work_packages.each do |work_package|
+      begin
+        work_package.reload.destroy
+      rescue ::ActiveRecord::RecordNotFound
+        # raised by #reload if work package no longer exists
+        # nothing to do, work package was already deleted (eg. by a parent)
+      end
+    end
+  end
 
   def parse_params_for_bulk_work_package_attributes(params)
     attributes = (params[:work_package] || {}).reject {|k,v| v.blank?}
@@ -89,5 +119,9 @@ private
                         :total => work_packages.size,
                         :ids => '#' + unsaved_work_package_ids.join(', #'))
     end
+  end
+
+  def default_breadcrumb
+    l(:label_work_package_plural)
   end
 end

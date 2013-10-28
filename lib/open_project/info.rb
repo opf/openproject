@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
@@ -26,32 +27,20 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Api
-  module V2
-
-    class PlanningElementStatusesController < PlanningElementStatusesController
-      unloadable
-      helper :timelines
-
-      include ::Api::V2::ApiController
-
-      accept_key_auth :index, :show
-
-      def index
-        @planning_element_statuses = PlanningElementStatus.active
-        respond_to do |format|
-          format.api
-        end
+module OpenProject
+  module Info
+    class << self
+      def app_name; Setting.software_name end
+      def url; Setting.software_url end
+      def help_url
+        "https://www.openproject.org/projects/openproject/wiki/Support"
       end
+      def versioned_name; "#{app_name} #{Redmine::VERSION.to_semver}" end
 
-      def show
-        @planning_element_status = PlanningElementStatus.active.find(params[:id])
-        respond_to do |format|
-          format.api
-        end
+      # Creates the url string to a specific Redmine issue
+      def issue(issue_id)
+        url + 'issues/' + issue_id.to_s
       end
     end
-
   end
 end
-

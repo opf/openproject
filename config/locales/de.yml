@@ -80,12 +80,6 @@ de:
         value: "Wert"
       enumeration:
         active: "Aktiv"
-      issue:
-        parent_issue: "Übergeordnete Aufgabe"
-        subproject: "Unterprojekt von"
-        time_entries: "Logzeit"
-        type: "Typ"
-        watcher: "Beobachter"
       relation:
         delay: "Pufferzeit"
         from: "Arbeitspaket"
@@ -171,6 +165,11 @@ de:
         progress: "% erledigt"
         responsible: "Planungsverantwortlicher"
         spent_time: "Aufgewendete Zeit"
+        parent_issue: "Übergeordnete Aufgabe"
+        subproject: "Unterprojekt von"
+        time_entries: "Logzeit"
+        type: "Typ"
+        watcher: "Beobachter"
     errors:
       messages:
         accepted: "muss akzeptiert werden"
@@ -206,6 +205,7 @@ de:
         before_or_equal_to: "muss vor oder gleich %{date} sein"
       models:
         work_package:
+          is_not_a_valid_target_for_time_entries: "Arbeitspaket #%{id} ist kein gültiges Ziel für die Zuordnug der Zeiterfassungseinträge."
           attributes:
             due_date:
               not_start_date: "ist nicht am Startdatum, obwohl die bei Meilensteinen Pflicht ist"
@@ -481,7 +481,6 @@ de:
 
   enumeration_activities: "Aktivitäten (Zeiterfassung)"
   enumeration_work_package_priorities: "Arbeitspaket-Prioritäten"
-  enumeration_planning_element_statuses: "Planungselement-Status"
   enumeration_reported_project_statuses: "Gemeldeter Projekt-Status"
   enumeration_system_activity: "System-Aktivität"
 
@@ -544,7 +543,8 @@ de:
       due_date: "Abschlussdatum"
       error: "Ein Fehler ist aufgetreten."
       filter:
-        none: "(keines)"
+        noneElement: "(keines)"
+        noneSelection: "(keine)"
       name: "Name"
       project_status: "Projekt-Status"
       project_type: "Projekt-Typ"
@@ -866,6 +866,7 @@ de:
   label_start_to_end: "Anfang bis Ende"
   label_start_to_start: "Anfang bis Anfang"
   label_statistics: "Statistiken"
+  label_status: "Status"
   label_stay_logged_in: "Angemeldet bleiben"
   label_string: "Text"
   label_subproject_new: "Neues Unterprojekt"
@@ -962,6 +963,7 @@ de:
   label_keyboard_shortcut_help_heading: "Vorhandene Tastaturkürzel"
   label_keyboard_shortcut_within_project: "Innerhalb von Projekten:"
   label_keyboard_shortcut_global_shortcuts: "Globale Tastaturkürzel:"
+  label_keyboard_shortcut_some_pages_only: " Tastenkürzel auf speziellen Seiten:"
   label_keyboard_shortcut_search_global: "OpenProject weite Suche"
   label_keyboard_shortcut_search_project: "Projektsuche"
   label_keyboard_shortcut_go_my_page: "Gehe zu Meiner Seite'"
@@ -974,6 +976,11 @@ de:
   label_keyboard_shortcut_go_news: "Gehe zu den Projekt News"
   label_keyboard_shortcut_go_timelines: "Gehe zur Zeitpläne Seite"
   label_keyboard_shortcut_new_work_package: "Erstelle neues Arbeitspacket"
+  label_keyboard_shortcut_go_edit: "Gehe zur Bearbeiten-Ansicht (nur auf Detailseiten)"
+  label_keyboard_shortcut_open_more_menu: "Öffne 'Weitere-Aktionen' Menü (nur auf Detailseiten)"
+  label_keyboard_shortcut_go_preview: "Gehe zur Vorschau (nur auf Editieren-Seiten)"
+  label_keyboard_shortcut_focus_previous_item: "Fokussiere vorheriges Listenelement (nur bei einigen Listen)"
+  label_keyboard_shortcut_focus_next_item: "Fokussiere nächstes Listenelement (nur bei einigen Listen)"
 
   mail_body_account_activation_request: "Ein neuer Benutzer (%{value}) hat sich registriert. Sein Konto wartet auf Ihre Genehmigung:"
   mail_body_account_information: "Ihre Konto-Informationen"
@@ -1246,15 +1253,16 @@ de:
   text_analyze: "Weiter analysieren: %{subject}"
   text_are_you_sure: "Sind Sie sicher?"
   text_are_you_sure_with_children: "Lösche Aufgabe und alle Unteraufgaben?"
-  text_assign_time_entries_to_project: "Gebuchte Aufwände dem Projekt zuweisen"
+  text_assign_to_project: "Dem Projekt zuweisen"
   text_caracters_maximum: "Max. %{count} Zeichen."
   text_caracters_minimum: "Muss mindestens %{count} Zeichen lang sein."
   text_comma_separated: "Mehrere Werte erlaubt (durch Komma getrennt)."
   text_custom_field_possible_values_info: "Eine Zeile pro Wert"
   text_default_administrator_account_changed: "Administrator-Kennwort geändert"
   text_default_encoding: "Default: UTF-8"
-  text_destroy_time_entries: "Gebuchte Aufwände löschen"
-  text_destroy_time_entries_question: "Es wurden bereits %{hours} Stunden auf dieses Ticket gebucht. Was soll mit den Aufwänden geschehen?"
+  text_destroy: "Löschen"
+  text_destroy_with_associated: "Es sind weitere Datenobjekte mit den bzw. dem zu löschenden Arbeitpaket(en) verbunden. Es handelt sich dabei um Objekte der folgenden Typen:"
+  text_destroy_what_to_do: "Was soll mit den Objekten geschehen?"
   text_diff_truncated: "... Dieser Diff wurde abgeschnitten, weil er die maximale Anzahl anzuzeigender Zeilen überschreitet."
   text_email_delivery_not_configured: "Der SMTP-Server ist nicht konfiguriert, und Mailbenachrichtigungen sind ausgeschaltet.\nNehmen Sie die Einstellungen für Ihren SMTP-Server in config/configuration.yml vor und starten Sie die Applikation neu."
   text_enumeration_category_reassign_to: "Die Objekte statt dessen diesem Wert zuordnen:"
@@ -1289,7 +1297,8 @@ de:
   text_powered_by: "Powered by %{link}"
   text_project_destroy_confirmation: "Sind Sie sicher, dass sie das Projekt löschen wollen?"
   text_project_identifier_info: "Kleinbuchstaben (a-z), Ziffern, Binde- und Unterstriche erlaubt, muss mit einem Kleinbuchstaben beginnen.<br />Einmal gespeichert, kann die Kennung nicht mehr geändert werden."
-  text_reassign_time_entries: "Gebuchte Aufwände diesem Ticket zuweisen:"
+  text_reassign: "Neu zuweisen an"
+  text_reassign_to: "Ziel-Arbeitspaket:"
   text_regexp_info: "z. B. ^[A-Z0-9]+$"
   text_repository_usernames_mapping: "Bitte legen Sie die Zuordnung der OpenProject-Benutzer zu den Benutzernamen der Commit-Log-Meldungen des Projektarchivs fest.\nBenutzer mit identischen OpenProject- und Projektarchiv-Benutzernamen oder -E-Mail-Adressen werden automatisch zugeordnet."
   text_rmagick_available: "RMagick verfügbar (optional)"
@@ -1375,12 +1384,10 @@ de:
       comparisons: "Planungsvergleiche"
       comparison:
         absolute: "Absolut"
-        historical: "Historisch"
         none: "Kein Planungsvergleich"
         relative: "Relativ"
         compare_relative: "Vergleiche aktuelle Planung mit vor %{timespan}"
         compare_absolute: "Vergleiche aktuelle Planung mit %{date}"
-        compare_historical: "Vergleiche %{startdate} mit %{enddate}"
       time_relative:
         days: "Tagen"
         weeks: "Wochen"
@@ -1396,7 +1403,8 @@ de:
       grouping_two: "Zweites Gruppierungskriterium"
       grouping_two_phrase: "Hat eine Abhängigkeit zu Projekttyp"
       hide_chart: "Diagramm ausblenden"
-      none: "(keines)"
+      noneElement: "(keines)"
+      noneSelection: "(keine)"
       outline: "Zu Beginn angezeigte Hierarchie"
       parent: "Zeige Unterprojekte von"
       planning_element_filters: "Planungselemente filtern"
