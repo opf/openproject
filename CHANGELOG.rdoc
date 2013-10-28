@@ -1,4 +1,6 @@
 
+= 3.0.4.pre9
+
 * `#2545` Migrated old plugin settings
 * `#2461` Fixed saving of setting for version fold status
 * `#2413` Squashed old migrations
