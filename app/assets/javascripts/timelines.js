@@ -4979,7 +4979,7 @@ Timeline = {
     // construct tooltip content information.
 
     info += "<b>";
-    info += this.escape(renderable.name);
+    info += this.escape(renderable.subject);
     info += "</b>";
     if (renderable.is(Timeline.PlanningElement)) {
       info += " (*" + renderable.id + ")";

@@ -47,6 +47,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2433` [Timelines] Empty timeline report not displayed initially
 * `#2448` Accelerate work package updates
 * `#2464` No initial attachment journal for messages
+* `#2470` [Timelines] Vertical planning elements which are not displayed horizontally are not shown in timeline report 
 * `#2479` Remove TinyMCE spike
 * `#2521` XSS: MyPage on unfiltered WorkPackage Subject
 * `#2548` Migrated core settings

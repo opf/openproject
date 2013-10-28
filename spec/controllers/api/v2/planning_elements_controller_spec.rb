@@ -108,80 +108,127 @@ describe Api::V2::PlanningElementsController do
   describe 'index.xml' do
     become_admin
 
-    describe 'w/o a given project' do
-      it 'renders a 404 Not Found page' do
-        get 'index', :format => 'xml'
+    describe 'w/ list of ids' do
+      describe 'w/ an unknown work package id' do
+        it 'renders an empty list' do
+          get 'index', :ids => ['4711'], :format => 'xml'
 
-        response.response_code.should == 404
-      end
-    end
-
-    describe 'w/ an unknown project' do
-      it 'renders a 404 Not Found page' do
-        get 'index', :project_id => '4711', :format => 'xml'
-
-        response.response_code.should == 404
-      end
-    end
-
-    describe 'w/ a known project' do
-      let(:project) { FactoryGirl.create(:project, :identifier => 'test_project') }
-
-      describe 'w/o being a member or administrator' do
-        become_non_member
-
-        it 'renders a 403 Forbidden page' do
-          get 'index', :project_id => project.identifier, :format => 'xml'
-
-          response.response_code.should == 403
+          assigns(:planning_elements).should == []
         end
       end
 
-      describe 'w/ the current user being a member with view_work_packages permissions' do
-        become_member_with_view_planning_element_permissions
+      describe 'w/ known work package ids in one project' do
+        let(:project) { FactoryGirl.create(:project, :identifier => 'test_project') }
+        let(:work_package) { FactoryGirl.create(:work_package, :project_id => project.id) }
 
-        describe 'w/o any planning elements within the project' do
-          it 'assigns an empty planning_elements array' do
-            get 'index', :project_id => project.id, :format => 'xml'
+        describe 'w/o being a member or administrator' do
+          become_non_member
+
+          it 'renders an empty list' do
+            get 'index', :ids => [work_package.id], :format => 'xml'
+
             assigns(:planning_elements).should == []
           end
+        end
 
-          it 'renders the index builder template' do
-            get 'index', :project_id => project.id, :format => 'xml'
-            response.should render_template('planning_elements/index', :formats => ["api"])
+        describe 'w/ the current user being a member with view_work_packages permissions' do
+          become_member_with_view_planning_element_permissions
+
+          before do
+            get 'index', :ids => [], :format => 'xml'
+          end
+
+          describe 'w/o any planning elements within the project' do
+            it 'assigns an empty planning_elements array' do
+              assigns(:planning_elements).should == []
+            end
+
+            it 'renders the index builder template' do
+              response.should render_template('planning_elements/index', :formats => ["api"])
+            end
+          end
+
+          describe 'w/ 3 planning elements within the project' do
+            before do
+              @created_planning_elements = [
+                FactoryGirl.create(:work_package, :project_id => project.id),
+                FactoryGirl.create(:work_package, :project_id => project.id),
+                FactoryGirl.create(:work_package, :project_id => project.id)
+              ]
+              get 'index', :ids => @created_planning_elements.map(&:id), :format => 'xml'
+            end
+
+            it 'assigns a planning_elements array containing all three elements' do
+              assigns(:planning_elements).should =~ @created_planning_elements
+            end
+
+            it 'renders the index builder template' do
+              response.should render_template('planning_elements/index', :formats => ["api"])
+            end
+          end
+        end
+      end
+
+      describe 'w/ known work package ids in multiple projects' do
+        let(:project_a) { FactoryGirl.create(:project, :identifier => 'project_a') }
+        let(:project_b) { FactoryGirl.create(:project, :identifier => 'project_b') }
+        let(:project_c) { FactoryGirl.create(:project, :identifier => 'project_c') }
+        before do
+          @project_a_wps = [
+            FactoryGirl.create(:work_package, :project_id => project_a.id),
+            FactoryGirl.create(:work_package, :project_id => project_a.id),
+          ]
+          @project_b_wps = [
+            FactoryGirl.create(:work_package, :project_id => project_b.id),
+            FactoryGirl.create(:work_package, :project_id => project_b.id),
+          ]
+          @project_c_wps = [
+            FactoryGirl.create(:work_package, :project_id => project_c.id),
+            FactoryGirl.create(:work_package, :project_id => project_c.id)
+          ]
+        end
+
+        describe 'w/ an unknown pe in the list' do
+          become_admin { [project_a, project_b] }
+
+          it 'renders only existing work packages' do
+            get 'index', :ids => [@project_a_wps[0].id, @project_b_wps[0].id, '4171', '5555'], :format => 'xml'
+
+            assigns(:planning_elements).should =~ [@project_a_wps[0], @project_b_wps[0]]
           end
         end
 
-        describe 'w/ 3 planning elements within the project' do
-          before do
-            @created_planning_elements = [
-              FactoryGirl.create(:work_package, :project_id => project.id),
-              FactoryGirl.create(:work_package, :project_id => project.id),
-              FactoryGirl.create(:work_package, :project_id => project.id)
-            ]
+        describe 'w/ an inaccessible pe in the list' do
+          become_member_with_view_planning_element_permissions { [project_a, project_b] }
+          become_non_member { [project_c] }
+
+          it 'renders only accessable work packages' do
+            get 'index', :ids => [@project_a_wps[0].id, @project_b_wps[0].id, @project_c_wps[0].id, @project_c_wps[1].id], :format => 'xml'
+
+            assigns(:planning_elements).should =~ [@project_a_wps[0], @project_b_wps[0]]
           end
 
-          it 'assigns a planning_elements array containing all three elements' do
-            get 'index', :project_id => project.id, :format => 'xml'
-            assigns(:planning_elements).should =~ @created_planning_elements
-          end
+          it 'renders only accessable work packages' do
+            get 'index', :ids => [@project_c_wps[0].id, @project_c_wps[1].id], :format => 'xml'
 
-          it 'renders the index builder template' do
-            get 'index', :project_id => project.id, :format => 'xml'
-            response.should render_template('planning_elements/index', :formats => ["api"])
+            assigns(:planning_elements).should =~ []
           end
+        end
+
+        describe 'w/ multiple work packages in multiple projects' do
+          become_member_with_view_planning_element_permissions { [project_a, project_b, project_c] }
+
+          it 'renders all work packages' do
+            get 'index', :ids => (@project_a_wps + @project_b_wps + @project_c_wps).map(&:id), :format => 'xml'
+
+            assigns(:planning_elements).should =~ (@project_a_wps + @project_b_wps + @project_c_wps)
+          end          
         end
       end
     end
 
-    describe 'w/ multiple known projects' do
-      let(:project_a) { FactoryGirl.create(:project, :identifier => 'project_a') }
-      let(:project_b) { FactoryGirl.create(:project, :identifier => 'project_b') }
-      let(:project_c) { FactoryGirl.create(:project, :identifier => 'project_c') }
-
-      describe 'w/ an unknown project in the list' do
-        become_admin { [project_a, project_b] }
-
+    describe 'w/ list of projects' do
+      describe 'w/ an unknown project' do
         it 'renders a 404 Not Found page' do
           get 'index', :project_id => 'project_x,project_b', :format => 'xml'
 
@@ -189,56 +236,126 @@ describe Api::V2::PlanningElementsController do
         end
       end
 
-      describe 'w/ a project in the list, the current user may not access' do
-        before { project_a; project_b }
-        become_non_member { [project_b] }
+      describe 'w/ a known project' do
+        let(:project) { FactoryGirl.create(:project, :identifier => 'test_project') }
 
-        it 'assigns an empty planning_elements array' do
-          get 'index', :project_id => 'project_a,project_b', :format => 'xml'
-          assigns(:planning_elements).should == []
+        describe 'w/o being a member or administrator' do
+          become_non_member
+
+          it 'renders a 403 Forbidden page' do
+            get 'index', :project_id => project.identifier, :format => 'xml'
+
+            response.response_code.should == 403
+          end
         end
 
-        it 'renders the index builder template' do
-          get 'index', :project_id => 'project_a,project_b', :format => 'xml'
-          response.should render_template('planning_elements/index', :formats => ["api"])
+        describe 'w/ the current user being a member with view_work_packages permissions' do
+          become_member_with_view_planning_element_permissions
+
+          before do
+            get 'index', :project_id => project.id, :format => 'xml'
+          end
+
+          describe 'w/o any planning elements within the project' do
+            it 'assigns an empty planning_elements array' do
+              assigns(:planning_elements).should == []
+            end
+
+            it 'renders the index builder template' do
+              response.should render_template('planning_elements/index', :formats => ["api"])
+            end
+          end
+
+          describe 'w/ 3 planning elements within the project' do
+            before do
+              @created_planning_elements = [
+                FactoryGirl.create(:work_package, :project_id => project.id),
+                FactoryGirl.create(:work_package, :project_id => project.id),
+                FactoryGirl.create(:work_package, :project_id => project.id)
+              ]
+              get 'index', :project_id => project.id, :format => 'xml'
+            end
+
+            it 'assigns a planning_elements array containing all three elements' do
+              assigns(:planning_elements).should =~ @created_planning_elements
+            end
+
+            it 'renders the index builder template' do
+              response.should render_template('planning_elements/index', :formats => ["api"])
+            end
+          end
         end
       end
 
-      describe 'w/ the current user being a member with view_work_packages permission' do
-        become_member_with_view_planning_element_permissions { [project_a, project_b] }
+      describe 'w/ multiple known projects' do
+        let(:project_a) { FactoryGirl.create(:project, :identifier => 'project_a') }
+        let(:project_b) { FactoryGirl.create(:project, :identifier => 'project_b') }
+        let(:project_c) { FactoryGirl.create(:project, :identifier => 'project_c') }
 
-        describe 'w/o any planning elements within the project' do
-          it 'assigns an empty planning_elements array' do
+        describe 'w/ an unknown project in the list' do
+          become_admin { [project_a, project_b] }
+
+          it 'renders a 404 Not Found page' do
+            get 'index', :project_id => 'project_x,project_b', :format => 'xml'
+
+            response.response_code.should == 404
+          end
+        end
+
+        describe 'w/ a project in the list, the current user may not access' do
+          before { project_a; project_b }
+          become_non_member { [project_b] }
+          before do
             get 'index', :project_id => 'project_a,project_b', :format => 'xml'
+          end
+
+
+          it 'assigns an empty planning_elements array' do
             assigns(:planning_elements).should == []
           end
 
           it 'renders the index builder template' do
-            get 'index', :project_id => 'project_a,project_b', :format => 'xml'
             response.should render_template('planning_elements/index', :formats => ["api"])
           end
         end
 
-        describe 'w/ 1 planning element in project_a and 2 in project_b' do
+        describe 'w/ the current user being a member with view_work_packages permission' do
+          become_member_with_view_planning_element_permissions { [project_a, project_b] }
+
           before do
-            @created_planning_elements = [
-              FactoryGirl.create(:work_package, :project_id => project_a.id),
-              FactoryGirl.create(:work_package, :project_id => project_b.id),
-              FactoryGirl.create(:work_package, :project_id => project_b.id)
-            ]
-            # adding another planning element, just to make sure, that the
-            # result set is properly filtered
-            FactoryGirl.create(:work_package, :project_id => project_c.id)
+            get 'index', :project_id => 'project_a,project_b', :format => 'xml'
           end
 
-          it 'assigns a planning_elements array containing all three elements' do
-            get 'index', :project_id => 'project_a,project_b', :format => 'xml'
-            assigns(:planning_elements).should =~ @created_planning_elements
+          describe 'w/o any planning elements within the project' do
+            it 'assigns an empty planning_elements array' do
+              assigns(:planning_elements).should == []
+            end
+
+            it 'renders the index builder template' do
+              response.should render_template('planning_elements/index', :formats => ["api"])
+            end
           end
 
-          it 'renders the index builder template' do
-            get 'index', :project_id => 'project_a,project_b', :format => 'xml'
-            response.should render_template('planning_elements/index', :formats => ["api"])
+          describe 'w/ 1 planning element in project_a and 2 in project_b' do
+            before do
+              @created_planning_elements = [
+                FactoryGirl.create(:work_package, :project_id => project_a.id),
+                FactoryGirl.create(:work_package, :project_id => project_b.id),
+                FactoryGirl.create(:work_package, :project_id => project_b.id)
+              ]
+              # adding another planning element, just to make sure, that the
+              # result set is properly filtered
+              FactoryGirl.create(:work_package, :project_id => project_c.id)
+              get 'index', :project_id => 'project_a,project_b', :format => 'xml'
+            end
+
+            it 'assigns a planning_elements array containing all three elements' do
+              assigns(:planning_elements).should =~ @created_planning_elements
+            end
+
+            it 'renders the index builder template' do
+              response.should render_template('planning_elements/index', :formats => ["api"])
+            end
           end
         end
       end
