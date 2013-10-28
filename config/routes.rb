@@ -422,8 +422,6 @@ OpenProject::Application.routes.draw do
      end
   end
 
-  resources :planning_element_statuses, :controller => 'planning_element_statuses'
-
   resources :project_types, :controller => 'project_types' do
     member do
       get :confirm_destroy

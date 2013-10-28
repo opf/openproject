@@ -47,14 +47,6 @@ Given /^I am working in the [tT]imeline "([^"]*)" of the project called "([^"]*)
   @timeline_name = timeline_name
 end
 
-Given /^there are the following planning element statuses:$/ do |table|
-  table.map_headers! { |header| header.underscore.gsub(' ', '_') }
-
-  table.hashes.each do |type_attributes|
-    FactoryGirl.create(:planning_element_status, type_attributes)
-  end
-end
-
 Given /^there are the following reported project statuses:$/ do |table|
   table.map_headers! { |header| header.underscore.gsub(' ', '_') }
 

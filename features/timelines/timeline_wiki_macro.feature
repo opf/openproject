@@ -82,9 +82,6 @@ Feature: Timeline Wiki Macro
       And the user "manager" is a "loser"
       And the user "mrtimeline" is a "god"
 
-      And there are the following planning element statuses:
-          | Name   |
-          | closed |
       And there are the following work packages:
           | Subject  | Start date | Due date   | description         | status | responsible |
           | January  | 2012-01-01 | 2012-01-31 | Avocado Grande      | closed | manager     |
