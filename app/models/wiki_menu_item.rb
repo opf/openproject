@@ -47,8 +47,6 @@ class WikiMenuItem < ActiveRecord::Base
 
   validates_presence_of :name
 
-  before_destroy :ensure_presence_of_another_main_item
-
   def item_class
     title.dasherize
   end
@@ -89,11 +87,5 @@ class WikiMenuItem < ActiveRecord::Base
 
   def is_only_main_item?
     self.class.main_items(wiki.id) == [self]
-  end
-
-  def ensure_presence_of_another_main_item
-    if is_only_main_item? && wiki_page = WikiPage.main_pages(wiki.id).reject{|page| page.title == title}.first
-      self.class.find_or_create_by_wiki_id_and_title(wiki.id, wiki_page.title, name: wiki_page.title)
-    end
   end
 end
