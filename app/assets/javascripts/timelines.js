@@ -843,7 +843,7 @@ Timeline = {
       jQuery.each(dataEnhancer.getElements(Timeline.Project), function (i, e) {
 
         // project_type ← project
-        if (e.project_type !== undefined) {
+        if (e.project_type_id !== undefined) {
           var project_type = dataEnhancer.getElement(Timeline.ProjectType, e.project_type_id);
 
           if (project_type) {
@@ -862,7 +862,7 @@ Timeline = {
             a.timeline = dataEnhancer.timeline;
             a.origin = e;
 
-            other = dataEnhancer.getElement(Timeline.Project, a.project.id);
+            other = dataEnhancer.getElement(Timeline.Project, a.to_project_id);
             if (other) {
               a.project = other;
               dataEnhancer.setElement(
