@@ -55,6 +55,10 @@ Timeline = {
   LOAD_ERROR_TIMEOUT: 60000,
   DISPLAY_ERROR_DELAY: 2000,
   PROJECT_ID_BLOCK_SIZE: 100,
+  USER_ATTRIBUTES: {
+    PROJECT: ["responsible_id"],
+    PLANNING_ELEMENT: ["responsible_id", "assigned_to_id"]
+  },
 
   defaults: {
     artificial_load_delay:          0,   // no delay
@@ -686,7 +690,8 @@ Timeline = {
         Timeline.ProjectType,
         Timeline.Project,
         Timeline.ProjectAssociation,
-        Timeline.Reporting
+        Timeline.Reporting,
+        Timeline.User
       ];
     };
 
@@ -837,10 +842,31 @@ Timeline = {
       });
     };
 
+    DataEnhancer.prototype.augmentElementAttributesWithUser = function (e, attributes) {
+      if (this.data[Timeline.User.identifier]) {
+        var k, curAttr;
+        for (k = 0; k < attributes.length; k += 1) {
+          curAttr = attributes[k];
+          if (e[curAttr]) {
+            e[curAttr.replace(/_id$/, "")] = this.getElement(Timeline.User,
+                                              e[curAttr]);
+          }
+
+          delete e[curAttr];
+        }
+      }
+    };
+
+    DataEnhancer.prototype.augmentProjectElementWithUser = function (p) {
+      this.augmentElementAttributesWithUser(p, Timeline.USER_ATTRIBUTES.PROJECT);
+    };
+
     DataEnhancer.prototype.augmentProjectsWithProjectTypesAndAssociations = function () {
       var dataEnhancer = this;
 
       jQuery.each(dataEnhancer.getElements(Timeline.Project), function (i, e) {
+
+        dataEnhancer.augmentProjectElementWithUser(e);
 
         // project_type ← project
         if (e.project_type_id !== undefined) {
@@ -916,6 +942,10 @@ Timeline = {
       delete pe.status_id;
     };
 
+    DataEnhancer.prototype.augmentPlanningElementWithUser = function (pe) {
+      this.augmentElementAttributesWithUser(pe, Timeline.USER_ATTRIBUTES.PLANNING_ELEMENT);
+    };
+
     DataEnhancer.prototype.augmentPlanningElementWithType = function (pe) {
       // planning_element → planning_element_type
       if (pe.type_id) {
@@ -974,6 +1004,7 @@ Timeline = {
         dataEnhancer.augmentPlanningElementWithType(e);
         dataEnhancer.augmentPlanningElementWithProject(e);
         dataEnhancer.augmentPlanningElementWithParent(e);
+        dataEnhancer.augmentPlanningElementWithUser(e);
         if (e.historical_element) {
           dataEnhancer.augmentPlanningElementWithStatus(e.historical_element);
           dataEnhancer.augmentPlanningElementWithType(e.historical_element);
@@ -1130,6 +1161,20 @@ Timeline = {
                     '/projects.json?ids=' +
                     project_ids_of_packet.join(',')},
             { storeIn : Timeline.Project.identifier }
+          );
+      });
+    };
+
+    TimelineLoader.prototype.registerUsers = function (ids) {
+
+      this.inChunks(ids, function (user_ids_of_packet, i) {
+
+        this.loader.register(
+            Timeline.User.identifier + '_' + i,
+            { url : this.globalPrefix +
+                    '/users.json?ids=' +
+                    user_ids_of_packet.join(',')},
+            { storeIn : Timeline.User.identifier }
           );
       });
     };
@@ -1294,6 +1339,34 @@ Timeline = {
       return necessaryIDs;
     };
 
+    function addUserIDsFromElementAttributes(results, attributes, element) {
+      var k, userid;
+      for (k = 0;  k < attributes.length; k += 1) {
+        userid = element[attributes[k]];
+        if (userid && results.indexOf(userid) === -1) {
+          results.push(userid);
+        }
+      }
+    }
+
+    function addUserIDsForElementsByAttribute(results, attributes, elements) {
+      var i, keys = Object.keys(elements), current;
+      for (i = 0; i < keys.length; i += 1) {
+        current = elements[keys[i]];
+
+        addUserIDsFromElementAttributes(results, attributes, current);
+      }
+    }
+
+    TimelineLoader.prototype.getUsersToLoad = function () {
+      var results = [];
+
+      addUserIDsForElementsByAttribute(results, Timeline.USER_ATTRIBUTES.PLANNING_ELEMENT, this.data.planning_elements);
+      addUserIDsForElementsByAttribute(results, Timeline.USER_ATTRIBUTES.PROJECT, this.data.projects);
+
+      return results;
+    };
+
     TimelineLoader.prototype.getRelevantProjectIdsBasedOnReportings = function () {
       var i,
           relevantProjectIds = [this.options.project_id];
@@ -1370,6 +1443,22 @@ Timeline = {
       return false;
     };
 
+    TimelineLoader.prototype.shouldLoadUsers = function (lastLoaded) {
+      if (this.doneLoading(Timeline.Project) &&
+          this.doneLoading(Timeline.Reporting) &&
+          this.doneLoading(Timeline.ProjectType) &&
+          this.doneLoading(Timeline.PlanningElement)) {
+
+        // this will not work for pes from another project (like vertical pes)!
+        // but as we do not display users for this data currently,
+        // we will not add them yet
+        this.shouldLoadUsers = function () { return false; };
+
+        return true;
+      }
+      return false;
+    };
+
     TimelineLoader.prototype.shouldLoadRemainingPlanningElements = function (lastLoaded) {
 
       if (this.doneLoading(Timeline.Project) &&
@@ -1394,6 +1483,8 @@ Timeline = {
         this.registerPlanningElements(this.getRelevantProjectIdsBasedOnProjects());
       } else if (this.shouldLoadRemainingPlanningElements(identifier)) {
         this.registerPlanningElementsByID(this.getRemainingPlanningElements());
+      } else if (this.shouldLoadUsers(identifier)) {
+        this.registerUsers(this.getUsersToLoad());
       }
 
       this.loader.load();
@@ -1665,6 +1756,13 @@ Timeline = {
   // ╭───────────────────────────────────────────────────────────────────╮
   // │ Timeline.Project                                                  │
   // ╰───────────────────────────────────────────────────────────────────╯
+
+  User: {
+    is: function(t) {
+      return Timeline.User.identifier === t.identifier;
+    },
+    identifier: 'users'
+  },
 
   Project: {
     is: function(t) {
