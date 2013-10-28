@@ -41,17 +41,14 @@ node :type_ids, if: lambda{|project| project.types.present? } do |project|
 end
 
 node :project_associations, if: lambda{|project| has_associations?(project)} do |project|
-  associations_for_project(project).map do |project_association|
-    other_project_id = project_association.project_a_id == project.id ? project_association.project_b_id : project_association.project_b_id
+  associations_for_project(project).map do |association|
+    other_id = [association.project_a_id, association.project_b_id].find { |id| id != project.id }
 
-    {id: project_association.id,
-     to_project_id: other_project_id,
-     description: project_association.description}
+    {id: association.id,
+     to_project_id: other_id,
+     description: association.description}
   end
 end
 
 node :created_on, if: lambda{|project| project.created_on.present?} {|project| project.created_on.utc.iso8601}
 node :updated_on, if: lambda{|project| project.updated_on.present?} {|project| project.updated_on.utc.iso8601}
-
-
-

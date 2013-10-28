@@ -30,6 +30,3 @@ object @project
 node :project do |project|
   partial "api/v2/projects/project", object: project
 end
-
-
-
