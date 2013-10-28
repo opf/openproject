@@ -58,7 +58,7 @@ module Migration
         MESSAGE
       end
 
-      self.journable_class ||= self.type.gsub(/Journal$/, "")
+      self.journable_class ||= self.type.gsub(/Journal\z/, "")
     end
 
     def run

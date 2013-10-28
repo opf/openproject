@@ -37,6 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1935` Fixed bug: Default submenu for wiki pages is wrong (Configure menu item)
 * `#2009` No journal entry created for attachments if the attachment is added on container creation
 * `#2026` 404 error when letters are entered in category Work Package
+* `#2129` Repository: clicking on file results in 500
 * `#2221` [Accessibility] enhance keyboard shortcuts
 * `#2348` [Timelines] Using planning element filter and filtering for status "New" leads always to plus-sign in front of work packages
 * `#2357` [Timelines] Change API v2 serialization to minimize redundant data
@@ -50,12 +51,14 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2433` [Timelines] Empty timeline report not displayed initially
 * `#2448` Accelerate work package updates
 * `#2464` No initial attachment journal for messages
+* `#2470` [Timelines] Vertical planning elements which are not displayed horizontally are not shown in timeline report
 * `#2478` Timeline with lots of work packages doesn`t load
 * `#2479` Remove TinyMCE spike
 * `#2521` XSS: MyPage on unfiltered WorkPackage Subject
 * `#2548` Migrated core settings
 * `#2557` Highlight changes of any work package attribute available in the timelines table
 * `#2559` Migrate existing IssueCustomFields to WorkPackageCustomFields
+* `#2575` Regular expressions should use \A and \z instead of ^ and $
 * Fix compatibility with old mail configuration
 
 ## 3.0.0pre22

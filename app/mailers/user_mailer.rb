@@ -279,7 +279,7 @@ class UserMailer < ActionMailer::Base
     end
 
     hash = "openproject.#{object.class.name.demodulize.underscore}-#{object.id}.#{timestamp.strftime("%Y%m%d%H%M%S")}"
-    host = Setting.mail_from.to_s.gsub(%r{^.*@}, '')
+    host = Setting.mail_from.to_s.gsub(%r{\A.*@}, '')
     host = "#{::Socket.gethostname}.openproject" if host.empty?
     "#{hash}@#{host}"
   end
@@ -312,7 +312,7 @@ private
     if Redmine::Utils.relative_url_root.blank?
       Setting.host_name
     else
-      Setting.host_name.to_s.gsub(%r{\/.*$}, '')
+      Setting.host_name.to_s.gsub(%r{\/.*\z}, '')
     end
   end
 

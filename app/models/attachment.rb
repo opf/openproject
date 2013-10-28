@@ -150,7 +150,7 @@ class Attachment < ActiveRecord::Base
   end
 
   def image?
-    self.filename =~ /\.(jpe?g|gif|png)$/i
+    self.filename =~ /\.(jpe?g|gif|png)\z/i
   end
 
   def is_text?
@@ -158,7 +158,7 @@ class Attachment < ActiveRecord::Base
   end
 
   def is_diff?
-    self.filename =~ /\.(patch|diff)$/i
+    self.filename =~ /\.(patch|diff)\z/i
   end
 
   # Returns true if the file is readable
@@ -197,7 +197,7 @@ private
 
   def sanitize_filename(value)
     # get only the filename, not the whole path
-    just_filename = value.gsub(/^.*(\\|\/)/, '')
+    just_filename = value.gsub(/\A.*(\\|\/)/, '')
     # NOTE: File.basename doesn't work right with Windows paths on Unix
     # INCORRECT: just_filename = File.basename(value.gsub('\\\\', '/'))
 
@@ -209,12 +209,12 @@ private
   def self.disk_filename(filename)
     timestamp = DateTime.now.strftime("%y%m%d%H%M%S")
     ascii = ''
-    if filename =~ %r{^[a-zA-Z0-9_\.\-]*$}
+    if filename =~ %r{\A[a-zA-Z0-9_\.\-]*\z}
       ascii = filename
     else
       ascii = Digest::MD5.hexdigest(filename)
       # keep the extension if any
-      ascii << $1 if filename =~ %r{(\.[a-zA-Z0-9]+)$}
+      ascii << $1 if filename =~ %r{(\.[a-zA-Z0-9]+)\z}
     end
     while File.exist?(File.join(@@storage_path, "#{timestamp}_#{ascii}"))
       timestamp.succ!

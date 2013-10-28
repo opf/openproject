@@ -93,7 +93,7 @@ module JournalsHelper
           # it assumes that there is a quoted action on the controller
           # currently rendering the view
           # the quote link should somehow be supplied
-          controller_name = controller.class.to_s.underscore.gsub(/_controller$/,"").to_sym
+          controller_name = controller.class.to_s.underscore.gsub(/_controller\z/,"").to_sym
           l << link_to(image_tag('webalys/quote.png', :alt => l(:button_quote), :title => l(:button_quote)),
                                                 { :controller => controller_name,
                                                   :action => 'quoted',

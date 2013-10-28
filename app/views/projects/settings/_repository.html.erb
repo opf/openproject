@@ -41,10 +41,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="contextual">
 <% if @repository && !@repository.new_record? %>
-<%= link_to(l(:label_user_plural), {:controller => '/repositories', :action => 'committers', :id => @project}, :class => 'icon icon-user') %>
-<%= link_to(l(:button_delete), {:controller => '/repositories', :action => 'destroy', :id => @project},
+<%= link_to(l(:label_user_plural), {:controller => '/repositories', :action => 'committers', :project_id => @project}, :class => 'icon icon-user') %>
+<%= link_to(l(:button_delete), project_repository_path(@project),
             :confirm => l(:text_are_you_sure),
-            :method => :post,
+            :method => :delete,
             :class => 'icon icon-del') %>
 <% end %>
 </div>

@@ -95,7 +95,7 @@ module Redmine::Acts::Journalized
       # the method name (sans "=") as the key. If given a getter method name, will attempt to
       # a value from the +options+ hash for that key. If the key doesn't exist, defers to +super+.
       def method_missing(symbol, *args)
-        if (method = symbol.to_s).sub!(/\=$/, '')
+        if (method = symbol.to_s).sub!(/\=\z/, '')
           options[method.to_sym] = args.first
         else
           options.fetch(method.to_sym, super)

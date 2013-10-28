@@ -145,7 +145,7 @@ module Api
 
       def find_multiple_projects
         # find_project_by_project_id
-        ids, identifiers = params[:project_id].split(/,/).map(&:strip).partition { |s| s =~ /^\d*$/ }
+        ids, identifiers = params[:project_id].split(/,/).map(&:strip).partition { |s| s =~ /\A\d*\z/ }
         ids = ids.map(&:to_i).sort
         identifiers = identifiers.sort
 
@@ -169,7 +169,9 @@ module Api
 
       # Filters
       def find_all_projects_by_project_id
-        if params[:project_id] !~ /,/
+        if !params[:project_id] and params[:ids] then
+          @planning_elements = WorkPackage.visible(User.current).find_all_by_id(params[:ids])
+        elsif params[:project_id] !~ /,/
           find_single_project
         else
           find_multiple_projects

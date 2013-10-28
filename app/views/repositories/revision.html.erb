@@ -42,7 +42,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end -%>
   &#187;&nbsp;
 
-  <%= form_tag({:controller => '/repositories', :action => 'revision', :id => @project, :rev => nil}, :method => :get) do %>
+  <%= form_tag({:controller => '/repositories', :action => 'revision', :project_id => @project}, :method => :get) do %>
     <%= text_field_tag 'rev', @rev, :size => 8 %>
     <%= submit_tag 'OK', :name => nil %>
   <% end %>
@@ -58,8 +58,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if @changeset.work_packages.visible.any? %>
 <h3><%= l(:label_related_work_packages) %></h3>
 <ul>
-<% @changeset.issues.visible.each do |issue| %>
-  <li><%= link_to_work_package issue %></li>
+<% @changeset.work_packages.visible.each do |work_package| %>
+  <li><%= link_to_work_package work_package %></li>
 <% end %>
 </ul>
 <% end %>
@@ -74,7 +74,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <li class="change change-D"><%= l(:label_deleted) %></li>
 </ul>
 
-<p><%= link_to(l(:label_view_diff), :action => 'diff', :id => @project, :path => "", :rev => @changeset.identifier) if @changeset.changes.any? %></p>
+<p><%= link_to(l(:label_view_diff), :action => 'diff', :project_id => @project, :path => nil, :rev => @changeset.identifier) if @changeset.changes.any? %></p>
 
 <div class="changeset-changes">
 <%= render_changeset_changes %>

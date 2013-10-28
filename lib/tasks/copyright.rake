@@ -75,17 +75,17 @@ namespace :copyright do
   def copyright_regexp(format)
     case format
     when :ruby, :rb
-      /^(?<shebang>#![^\n]+\n)?#--\s*copyright.*?\+\+/m
+      /\A(?<shebang>#![^\n]+\n)?#--\s*copyright.*?\+\+/m
     when :js, :css
-      /^(?<shebang>#![^\n]+\n)?\/\/--\s*copyright.*?\/\/\+\+/m
+      /\A(?<shebang>#![^\n]+\n)?\/\/--\s*copyright.*?\/\/\+\+/m
     when :erb
-      /^(?<shebang>#![^\n]+\n)?<%#--\s*copyright.*?\+\+#%>/m
+      /\A(?<shebang>#![^\n]+\n)?<%#--\s*copyright.*?\+\+#%>/m
     when :rdoc
-      /(?<shebang>)?-{10}\n={4} copyright\n\n[\s\S]*?\+\+\n-{10}\n$/
+      /(?<shebang>)?-{10}\n={4} copyright\n\n[\s\S]*?\+\+\n-{10}\n\z/
     when :md, :html
-      /^(?<shebang>#![^\n]+\n)?<!----\s*copyright.*?\+\+-->/m
+      /\A(?<shebang>#![^\n]+\n)?<!----\s*copyright.*?\+\+-->/m
     when :sql
-      /^(?<shebang>#![^\n]+\n)?-- --\s*copyright.*?\+\+/m
+      /\A(?<shebang>#![^\n]+\n)?-- --\s*copyright.*?\+\+/m
     else
       raise "Undefined format #{format}"
     end

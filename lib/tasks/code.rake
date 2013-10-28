@@ -40,7 +40,7 @@ namespace :code do
 
       # handle files in chunks of 50 to avoid too long command lines
       while (slice = files.slice!(0, 50)).present?
-        system('ruby', '-i', '-pe', 'gsub(/\s+$/,"\n")', *slice)
+        system('ruby', '-i', '-pe', 'gsub(/\s+\z/,"\n")', *slice)
       end
     end
   end

@@ -185,10 +185,10 @@ describe ApplicationHelper do
                                             :repository => repository,
                                             :comments => 'This commit fixes #1, #2 and references #1 & #3' }
       let(:changeset_link) { link_to("r#{changeset1.revision}",
-                                     {:controller => 'repositories', :action => 'revision', :id => identifier, :rev => changeset1.revision},
+                                     {:controller => 'repositories', :action => 'revision', :project_id => identifier, :rev => changeset1.revision},
                                      :class => 'changeset', :title => 'My very first commit') }
       let(:changeset_link2) { link_to("r#{changeset2.revision}",
-                                      {:controller => 'repositories', :action => 'revision', :id => identifier, :rev => changeset2.revision},
+                                      {:controller => 'repositories', :action => 'revision', :project_id => identifier, :rev => changeset2.revision},
                                       :class => 'changeset', :title => 'This commit fixes #1, #2 and references #1 & #3') }
 
       before do
@@ -477,8 +477,8 @@ describe ApplicationHelper do
 
     context "Redmine links" do
       let(:repository) { FactoryGirl.create :repository, :project => project }
-      let(:source_url) { {:controller => 'repositories', :action => 'entry', :id => identifier, :path => ['some', 'file']} }
-      let(:source_url_with_ext) { {:controller => 'repositories', :action => 'entry', :id => identifier, :path => ['some', 'file.ext']} }
+      let(:source_url) { {:controller => 'repositories', :action => 'entry', :project_id => identifier, :path => 'some/file'} }
+      let(:source_url_with_ext) { {:controller => 'repositories', :action => 'entry', :project_id => identifier, :path => 'some/file.ext'} }
 
       before do
         project.repository = repository

@@ -38,7 +38,7 @@ class Redmine::UnifiedDiffTest < ActiveSupport::TestCase
     diff = Redmine::UnifiedDiff.new(read_diff_fixture('subversion.diff'))
     # number of files
     assert_equal 4, diff.size
-    assert diff.detect {|file| file.file_name =~ %r{^config/settings.yml}}
+    assert diff.detect {|file| file.file_name =~ %r{\Aconfig/settings.yml}}
   end
 
   def test_truncate_diff

@@ -36,7 +36,7 @@ module Api
         options = {:order => 'lft'}
 
         if params[:ids]
-          ids, identifiers = params[:ids].split(/,/).map(&:strip).partition { |s| s =~ /^\d*$/ }
+          ids, identifiers = params[:ids].split(/,/).map(&:strip).partition { |s| s =~ /\A\d*\z/ }
           ids = ids.map(&:to_i).sort
           identifiers = identifiers.sort
 

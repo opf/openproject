@@ -1665,7 +1665,7 @@ def MakeFont(fontfile, afmfile, enc = 'cp1252', patch = {}, type = 'TrueType')
 
     # Find font type
     if fontfile then
-        ext = File.extname(fontfile).downcase.sub(/^\./, '')
+        ext = File.extname(fontfile).downcase.sub(/\A\./, '')
 
         if ext == 'ttf' then
             type = 'TrueType'

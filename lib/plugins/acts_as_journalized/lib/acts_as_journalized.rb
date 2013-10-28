@@ -165,9 +165,9 @@ module Redmine
 
             options.each_pair do |k, v|
               case
-              when k.to_s =~ /^activity_(.+)$/
+              when k.to_s =~ /\Aactivity_(.+)\z/
                 activity_hash[$1.to_sym] = v
-              when k.to_s =~ /^event_(.+)$/
+              when k.to_s =~ /\Aevent_(.+)\z/
                 event_hash[$1.to_sym] = v
               else
                 journal_hash[k.to_sym] = v

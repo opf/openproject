@@ -204,7 +204,7 @@ class CustomField < ActiveRecord::Base
   end
 
   def self.customized_class
-    self.name =~ /^(.+)CustomField$/
+    self.name =~ /\A(.+)CustomField\z/
     begin; $1.constantize; rescue nil; end
   end
 
