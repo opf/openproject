@@ -36,6 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1935` Fixed bug: Default submenu for wiki pages is wrong (Configure menu item)
 * `#2009` No journal entry created for attachments if the attachment is added on container creation
 * `#2026` 404 error when letters are entered in category Work Package
+* `#2221` [Accessibility] enhance keyboard shortcuts
 * `#2371` Add support for IE10 to Timelines
 * `#2423` [Issue Tracker] Several Internal Errors when there is no default work package status
 * `#2426` [Core] Enumerations for planning elements 

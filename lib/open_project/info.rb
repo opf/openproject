@@ -27,13 +27,13 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Redmine
+module OpenProject
   module Info
     class << self
       def app_name; Setting.software_name end
       def url; Setting.software_url end
       def help_url
-        "https://www.openproject.org/projects/support"
+        "https://www.openproject.org/projects/openproject/wiki/Support"
       end
       def versioned_name; "#{app_name} #{Redmine::VERSION.to_semver}" end
 
