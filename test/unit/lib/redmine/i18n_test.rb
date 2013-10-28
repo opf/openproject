@@ -91,13 +91,13 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     now = Time.parse('2011-02-20 15:45:22')
     with_settings :time_format => '' do
       with_settings :date_format => '' do
-        assert_equal '02/20/2011 03:45 pm', format_time(now)
-        assert_equal '03:45 pm', format_time(now, false)
+        assert_equal '02/20/2011 03:45 PM', format_time(now)
+        assert_equal '03:45 PM', format_time(now, false)
       end
 
       with_settings :date_format => '%Y-%m-%d' do
-        assert_equal '2011-02-20 03:45 pm', format_time(now)
-        assert_equal '03:45 pm', format_time(now, false)
+        assert_equal '2011-02-20 03:45 PM', format_time(now)
+        assert_equal '03:45 PM', format_time(now, false)
       end
     end
   end
@@ -105,19 +105,23 @@ class Redmine::I18nTest < ActiveSupport::TestCase
   def test_time_format
     set_language_if_valid 'en'
     now = Time.now
-    Setting.date_format = '%d %m %Y'
-    Setting.time_format = '%H %M'
-    assert_equal now.strftime('%d %m %Y %H %M'), format_time(now)
-    assert_equal now.strftime('%H %M'), format_time(now, false)
+    with_settings :time_format => '%H %M' do
+      with_settings :date_format => '%d %m %Y' do
+        assert_equal now.strftime('%d %m %Y %H %M'), format_time(now)
+        assert_equal now.strftime('%H %M'), format_time(now, false)
+      end
+    end
   end
 
   def test_utc_time_format
     set_language_if_valid 'en'
     now = Time.now
-    Setting.date_format = '%d %m %Y'
-    Setting.time_format = '%H %M'
-    assert_equal now.strftime('%d %m %Y %H %M'), format_time(now.utc)
-    assert_equal now.strftime('%H %M'), format_time(now.utc, false)
+    with_settings :time_format => '%H %M' do
+      with_settings :date_format => '%d %m %Y' do
+        assert_equal now.strftime('%d %m %Y %H %M'), format_time(now.utc)
+        assert_equal now.strftime('%H %M'), format_time(now.utc, false)
+      end
+    end
   end
 
   def test_number_to_human_size_for_each_language
