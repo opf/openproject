@@ -42,7 +42,7 @@ class WikiMenuItem < ActiveRecord::Base
   attr_accessible :name, :title
 
   validates_presence_of :title
-  validates_format_of :title, :with => /^[^,\.\/\?\;\|\:]*$/
+  validates_format_of :title, :with => /\A[^,\.\/\?\;\|\:]*\z/
   validates_uniqueness_of :title, :scope => :wiki_id
 
   validates_presence_of :name

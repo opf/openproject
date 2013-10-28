@@ -45,7 +45,7 @@ class PlanningElementTypeColor < ActiveRecord::Base
   validates_presence_of :name, :hexcode
 
   validates_length_of :name, :maximum => 255, :unless => lambda { |e| e.name.blank? }
-  validates_format_of :hexcode, :with => /^#[0-9A-F]{6}$/, :unless => lambda { |e| e.hexcode.blank? }
+  validates_format_of :hexcode, :with => /\A#[0-9A-F]{6}\z/, :unless => lambda { |e| e.hexcode.blank? }
 
   def self.ms_project_colors
     # Colors should be limited to the ones in MS Project.

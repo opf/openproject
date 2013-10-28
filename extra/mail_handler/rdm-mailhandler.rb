@@ -149,7 +149,7 @@ class RedmineMailHandler
   end
 
   def submit(email)
-    uri = url.gsub(%r{/*$}, '') + '/mail_handler'
+    uri = url.gsub(%r{/*\z}, '') + '/mail_handler'
 
     headers = { 'User-Agent' => "Redmine mail handler/#{VERSION}" }
 

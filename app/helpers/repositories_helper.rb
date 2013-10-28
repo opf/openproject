@@ -210,7 +210,7 @@ module RepositoriesHelper
   end
 
   def without_leading_slash(path)
-    path.gsub(%r{^/+}, '')
+    path.gsub(%r{\A/+}, '')
   end
 
   def subversion_field_tags(form, repository)

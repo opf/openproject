@@ -40,7 +40,7 @@ class CustomFieldsController < ApplicationController
 
   def new
     @custom_field = begin
-      if params[:type].to_s.match(/.+CustomField$/)
+      if params[:type].to_s.match(/.+CustomField\z/)
         params[:type].to_s.constantize.new(params[:custom_field])
       end
     rescue

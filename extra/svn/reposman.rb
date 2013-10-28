@@ -150,7 +150,7 @@ if $command.nil?
   end
 end
 
-$svn_url += "/" if $svn_url and not $svn_url.match(/\/$/)
+$svn_url += "/" if $svn_url and not $svn_url.match(/\/\z/)
 
 if ($redmine_host.empty? or $repos_base.empty?)
   puts "Required argument missing. Type 'reposman.rb --help' for usage."
@@ -173,8 +173,8 @@ end
 
 log("querying Redmine for projects...", :level => 1);
 
-$redmine_host.gsub!(/^/, "http://") unless $redmine_host.match("^https?://")
-$redmine_host.gsub!(/\/$/, '')
+$redmine_host.gsub!(/\A/, "http://") unless $redmine_host.match("\Ahttps?://")
+$redmine_host.gsub!(/\/\z/, '')
 
 Project.site = "#{$redmine_host}/sys";
 
@@ -226,7 +226,7 @@ projects.each do |project|
   if project.identifier.empty?
     log("\tno identifier for project #{project.name}")
     next
-  elsif not project.identifier.match(/^[a-z0-9\-_]+$/)
+  elsif not project.identifier.match(/\A[a-z0-9\-_]+\z/)
     log("\tinvalid identifier for project #{project.name} : #{project.identifier}");
     next;
   end

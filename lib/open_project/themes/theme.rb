@@ -65,13 +65,13 @@ module OpenProject
 
       # 'OpenProject::Themes::GoofyTheme' => :'goofy'
       def identifier
-        @identifier ||= self.class.to_s.gsub(/Theme$/, '').demodulize.underscore.dasherize.to_sym
+        @identifier ||= self.class.to_s.gsub(/Theme\z/, '').demodulize.underscore.dasherize.to_sym
       end
       attr_writer :identifier
 
       # 'OpenProject::Themes::GoofyTheme' => 'Goofy'
       def name
-        @name ||= self.class.to_s.gsub(/Theme$/, '').demodulize.titleize
+        @name ||= self.class.to_s.gsub(/Theme\z/, '').demodulize.titleize
       end
 
       def stylesheet_manifest
@@ -103,7 +103,7 @@ module OpenProject
         source.in?(overridden_images)
       end
 
-      URI_REGEXP = %r{^[-a-z]+://|^(?:cid|data):|^//}
+      URI_REGEXP = %r{\A[-a-z]+://|\A(?:cid|data):|\A//}
 
       def path_to_image(source)
         return source if source =~ URI_REGEXP

@@ -78,7 +78,7 @@ module Redmine
             e1 = scm_encode(@path_encoding, 'UTF-8', e_utf8)
             if File.exist?(t1) and # paranoid test
                   %w{file directory}.include?(File.ftype(t1)) and # avoid special types
-                  not File.basename(e1).match(/^\.+$/) # avoid . and ..
+                  not File.basename(e1).match(/\A\.+\z/) # avoid . and ..
               p1         = File.readable?(t1) ? relative_path : ""
               utf_8_path = scm_encode('UTF-8', @path_encoding, p1)
               entries <<

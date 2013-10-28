@@ -146,7 +146,7 @@ describe PaginationHelper do
       let(:total_entries) { 0 }
 
       it "should be empty" do
-        pagination.should have_selector(".pagination", :text => /^$/)
+        pagination.should have_selector(".pagination", :text => /\A\z/)
       end
     end
   end

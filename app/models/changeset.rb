@@ -250,7 +250,7 @@ class Changeset < ActiveRecord::Base
   end
 
   def split_comments
-    comments =~ /\A(.+?)\r?\n(.*)$/m
+    comments =~ /\A(.+?)\r?\n(.*)\z/m
     @short_comments = $1 || comments
     @long_comments = $2.to_s.strip
     return @short_comments, @long_comments

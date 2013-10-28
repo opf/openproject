@@ -55,7 +55,7 @@ namespace :locales do
 
       missing_keys.each do |key|
         {key => en_strings[key]}.to_yaml.each_line do |line|
-          next if line =~ /^---/ || line.empty?
+          next if line =~ /\A---/ || line.empty?
           puts "  #{line}"
           lang << "  #{line}"
         end
@@ -136,7 +136,7 @@ END_DESC
       File.open(path, 'a') do |file|
         adds.each do |kv|
           Hash[*kv].to_yaml.each_line do |line|
-            file.puts "  #{line}" unless (line =~ /^---/ || line.empty?)
+            file.puts "  #{line}" unless (line =~ /\A---/ || line.empty?)
           end
         end
       end

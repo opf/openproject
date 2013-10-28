@@ -246,7 +246,7 @@ class Query < ActiveRecord::Base
 
   def add_short_filter(field, expression)
     return unless expression
-    parms = expression.scan(/^(o|c|!\*|!|\*)?(.*)$/).first
+    parms = expression.scan(/\A(o|c|!\*|!|\*)?(.*)\z/).first
     add_filter field, (parms[0] || "="), [parms[1] || ""]
   end
 
@@ -273,7 +273,7 @@ class Query < ActiveRecord::Base
 
   def label_for(field)
     label = available_filters[field][:name] if available_filters.has_key?(field)
-    label ||= field.gsub(/\_id$/, "")
+    label ||= field.gsub(/\_id\z/, "")
   end
 
   def available_columns
@@ -442,7 +442,7 @@ class Query < ActiveRecord::Base
       end
 
       sql = ''
-      if field =~ /^cf_(\d+)$/
+      if field =~ /\Acf_(\d+)\z/
         # custom field
         db_table = CustomValue.table_name
         db_field = 'value'

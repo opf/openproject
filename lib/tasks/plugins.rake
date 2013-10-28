@@ -46,9 +46,9 @@ class PluginSourceAnnotationExtractor < SourceAnnotationExtractor
         results.update(find_in(item))
       elsif item =~ /(hook|test)\.rb/
         # skip
-      elsif item =~ /\.(builder|(r(?:b|xml|js)))$/
-        results.update(extract_annotations_from(item, /\s*(#{tag})\(?\s*(.*)$/))
-      elsif item =~ /\.(rhtml|erb)$/
+      elsif item =~ /\.(builder|(r(?:b|xml|js)))\z/
+        results.update(extract_annotations_from(item, /\s*(#{tag})\(?\s*(.*)\z/))
+      elsif item =~ /\.(rhtml|erb)\z/
         results.update(extract_annotations_from(item, /<%=\s*\s*(#{tag})\(?\s*(.*?)\s*%>/))
       end
     end

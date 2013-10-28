@@ -530,7 +530,7 @@ class ApplicationController < ActionController::Base
     if value
       parts = value.split(/,\s*/)
       parts.each {|part|
-        if m = %r{^([^\s,]+?)(?:;\s*q=(\d+(?:\.\d+)?))?$}.match(part)
+        if m = %r{\A([^\s,]+?)(?:;\s*q=(\d+(?:\.\d+)?))?\z}.match(part)
           val = m[1]
           q = (m[2] or 1).to_f
           tmp.push([val, q])
