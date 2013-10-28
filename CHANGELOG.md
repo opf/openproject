@@ -1,5 +1,7 @@
 # Changelog
 
+## 3.0.0.pre8
+
 * `#2451` Squash old migrations
 
 ## 3.0.0.pre7
