@@ -73,21 +73,21 @@ module ReportingHelper
     when :activity_id                           then mapped value, Enumeration, "<i>#{l(:caption_material_costs)}</i>"
     when :project_id                            then link_to_project Project.find(value.to_i)
     when :user_id, :assigned_to_id, :author_id  then link_to_user(User.find_by_id(value.to_i) || DeletedUser.first)
-    when :tyear, :units                         then value.to_s
-    when :tweek                                 then "#{l(:label_week)} ##{value}"
+    when :tyear, :units                         then h(value.to_s)
+    when :tweek                                 then "#{l(:label_week)} ##{h value}"
     when :tmonth                                then month_name(value.to_i)
-    when :category_id                           then Category.find(value.to_i).name
+    when :category_id                           then h(Category.find(value.to_i).name)
     when :cost_type_id                          then mapped value, CostType, l(:caption_labor)
     when :cost_object_id                        then cost_object_link value
     when :work_package_id                       then link_to_work_package(WorkPackage.find(value.to_i))
     when :spent_on                              then format_date(value.to_date)
-    when :type_id                               then Type.find(value.to_i).name
+    when :type_id                               then h(Type.find(value.to_i).name)
     when :week                                  then "#{l(:label_week)} #%s" % value.to_i.modulo(100)
-    when :priority_id                           then IssuePriority.find(value.to_i).name
-    when :fixed_version_id                      then Version.find(value.to_i).name
+    when :priority_id                           then h(IssuePriority.find(value.to_i).name)
+    when :fixed_version_id                      then h(Version.find(value.to_i).name)
     when :singleton_value                       then ""
-    when :status_id                             then Status.find(value.to_i).name
-    else value.to_s
+    when :status_id                             then h(Status.find(value.to_i).name)
+    else h(value.to_s)
     end
   end
 
