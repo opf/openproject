@@ -303,7 +303,8 @@ class WikiController < ApplicationController
       end
     end
     @page.destroy
-    redirect_to :action => 'index', :project_id => @project
+
+    redirect_to @wiki.pages.any? ? {:action => 'index', :project_id => @project} : project_path(@project)
   end
 
   # Export wiki to a single html file
