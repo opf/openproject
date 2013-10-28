@@ -105,19 +105,23 @@ class Redmine::I18nTest < ActiveSupport::TestCase
   def test_time_format
     set_language_if_valid 'en'
     now = Time.now
-    Setting.date_format = '%d %m %Y'
-    Setting.time_format = '%H %M'
-    assert_equal now.strftime('%d %m %Y %H %M'), format_time(now)
-    assert_equal now.strftime('%H %M'), format_time(now, false)
+    with_settings :time_format => '%H %M' do
+      with_settings :date_format => '%d %m %Y' do
+        assert_equal now.strftime('%d %m %Y %H %M'), format_time(now)
+        assert_equal now.strftime('%H %M'), format_time(now, false)
+      end
+    end
   end
 
   def test_utc_time_format
     set_language_if_valid 'en'
     now = Time.now
-    Setting.date_format = '%d %m %Y'
-    Setting.time_format = '%H %M'
-    assert_equal now.strftime('%d %m %Y %H %M'), format_time(now.utc)
-    assert_equal now.strftime('%H %M'), format_time(now.utc, false)
+    with_settings :time_format => '%H %M' do
+      with_settings :date_format => '%d %m %Y' do
+        assert_equal now.strftime('%d %m %Y %H %M'), format_time(now.utc)
+        assert_equal now.strftime('%H %M'), format_time(now.utc, false)
+      end
+    end
   end
 
   def test_number_to_human_size_for_each_language
