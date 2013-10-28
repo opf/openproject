@@ -1,5 +1,7 @@
 # Changelog
 
+## 1.0.1.pre2
+
 * `#2459` Squashed old migrations
 
 ## 1.0.1.pre1
