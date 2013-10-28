@@ -9,8 +9,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'pp'
-
 require_relative 'migration_utils/timelines'
 
 class MigrateTimelinesOptions < ActiveRecord::Migration
@@ -116,9 +114,8 @@ class MigrateTimelinesOptions < ActiveRecord::Migration
                                                     .map { |p| p.strip }
 
     unless vertical_pes.empty?
-      mapped_pes = vertical_pes.map! { |v| pe_id_map[v] }
-
-      mapped_pes.delete_if { |v| v.nil? }
+      mapped_pes = vertical_pes.map { |v| pe_id_map[v] }
+                               .compact
 
       timelines_opts[VERTICAL_PE_TYPES] = mapped_pes.join(',')
     end
