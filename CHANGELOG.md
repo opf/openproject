@@ -20,6 +20,8 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+## 3.0.4
+
 * `#2463` Squashed old migrations
 
 ## 3.0.3
