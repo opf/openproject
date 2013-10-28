@@ -27,13 +27,15 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Redmine
+module OpenProject
   module AccessKeys
-    ACCESSKEYS = {:edit => '3',
-                  :preview => '1',
+    ACCESSKEYS = {:preview => '1',
+                  :new_issue => '2',
+                  :edit => '3',
                   :quick_search => '4',
+                  :project_search => '5',
                   :help => '6',
-                  :new_issue => '2'
+                  :more_menu => '7'
                  }.freeze unless const_defined?(:ACCESSKEYS)
 
     def self.key_for(action)

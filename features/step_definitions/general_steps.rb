@@ -123,60 +123,6 @@ Given /^(?:the )?[pP]roject "([^\"]*)" does not use the following [mM]odules:$/ 
   p.reload
 end
 
-Given /^the [Uu]ser "([^\"]*)" is a "([^\"]*)" (?:in|of) the [Pp]roject "([^\"]*)"$/ do |user, role, project|
-  u = User.find_by_login(user)
-  r = Role.find_by_name(role)
-  p = Project.find_by_name(project) || Project.find_by_identifier(project)
-  as_admin do
-    Member.new.tap do |m|
-      m.user = u
-      m.privacy_unnecessary = true if plugin_loaded?("redmine_dtag_privacy")
-      m.roles << r
-      m.project = p
-    end.save!
-  end
-end
-
-Given /^there is a [rR]ole "([^\"]*)"$/ do |name|
-  Role.spawn.tap { |r| r.name = name }.save! unless Role.find_by_name(name)
-end
-
-Given /^there are the following roles:$/ do |table|
-  table.raw.flatten.each do |name|
-    FactoryGirl.create(:role, :name => name) unless Role.find_by_name(name)
-  end
-end
-
-Given /^the [rR]ole "([^\"]*)" may have the following [rR]ights:$/ do |role, table|
-  r = Role.find_by_name(role)
-  raise "No such role was defined: #{role}" unless r
-  as_admin do
-    available_perms = Redmine::AccessControl.permissions.collect(&:name)
-    r.permissions = []
-
-    table.raw.each do |_perm|
-      perm = _perm.first
-      unless perm.blank?
-        perm = perm.gsub(" ", "_").underscore.to_sym
-        if available_perms.include?(:"#{perm}")
-          r.permissions << perm
-        end
-      end
-    end
-
-    r.save!
-  end
-end
-
-Given /^the [rR]ole "(.+?)" has no (?:[Pp]ermissions|[Rr]ights)$/ do |role_name|
-  role = Role.find_by_name(role_name)
-  raise "No such role was defined: #{role_name}" unless role
-  as_admin do
-    role.permissions = []
-    role.save!
-  end
-end
-
 Given /^the [Uu]ser "([^\"]*)" has 1 time [eE]ntry$/ do |user|
   u = User.find_by_login user
   p = u.projects.last
@@ -383,10 +329,6 @@ Given /^the [pP]roject uses the following modules:$/ do |table|
 end
 
 
-Given /^the user "(.*?)" is a "([^\"]*?)"$/ do |user, role|
-  step %Q{the user "#{user}" is a "#{role}" in the project "#{get_project.name}"}
-end
-
 Given /^the [pP]roject(?: "([^\"]*)")? has the following types:$/ do |project_name, table|
   p = get_project(project_name)
   table.hashes.each_with_index do |t, i|
@@ -502,4 +444,3 @@ end
 def plugin_loaded?(name)
   Redmine::Plugin.all.detect {|x| x.id == name.to_sym}.present?
 end
-

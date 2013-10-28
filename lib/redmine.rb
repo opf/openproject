@@ -109,7 +109,7 @@ Redmine::AccessControl.map do |map|
                                          :work_packages => [:new, :new_type, :preview, :create] }
     map.permission :move_work_packages, {:'work_packages/moves' => [:new, :create]}, :require => :loggedin
     map.permission :edit_work_packages, { :issues => [:edit, :update, :update_form],
-                                          :work_package_bulk => [:edit, :update],
+                                          :'work_packages/bulk' => [:edit, :update],
                                           :work_packages => [:edit, :update, :new_type, :preview, :quoted],
                                           :journals => :preview,
                                           :planning_elements => [:new, :create, :edit, :update],
@@ -119,6 +119,7 @@ Redmine::AccessControl.map do |map|
     map.permission :edit_own_work_package_notes, {:journals => [:edit, :update]}, :require => :loggedin
     map.permission :delete_work_packages, {:issues => :destroy,
                                            :work_packages => :destroy,
+                                          :'work_packages/bulk' => :destroy,
                                            :planning_elements => [:confirm_destroy,
                                                                   :destroy,
                                                                   :destroy_all,
@@ -227,7 +228,7 @@ Redmine::MenuManager.map :top_menu do |menu|
   menu.push :my_page, { :controller => '/my', :action => 'page' }, :if => Proc.new { User.current.logged? }
   # projects menu will be added by Redmine::MenuManager::TopMenuHelper#render_projects_top_menu_node
   menu.push :administration, { :controller => '/admin', :action => 'projects' }, :if => Proc.new { User.current.admin? }, :last => true
-  menu.push :help, Redmine::Info.help_url, :last => true, :caption => "?", :html => { :accesskey => Redmine::AccessKeys.key_for(:help) }
+  menu.push :help, OpenProject::Info.help_url, :last => true, :caption => "?", :html => { :accesskey => OpenProject::AccessKeys.key_for(:help) }
 end
 
 Redmine::MenuManager.map :account_menu do |menu|
@@ -282,7 +283,7 @@ Redmine::MenuManager.map :project_menu do |menu|
 
   menu.push :work_packages, { :controller => '/work_packages', :action => 'index' }, :param => :project_id, :caption => :label_work_package_plural
   menu.push :new_work_package, { :controller => '/work_packages', :action => 'new'}, :param => :project_id, :caption => :label_work_package_new, :parent => :work_packages,
-                                                                                     :html => { :accesskey => Redmine::AccessKeys.key_for(:new_work_package) }
+                                                                                     :html => { :accesskey => OpenProject::AccessKeys.key_for(:new_work_package) }
   menu.push :summary_field, {:controller => '/issues/reports', :action => 'report'}, :param => :project_id, :caption => :label_workflow_summary, :parent => :work_packages
   menu.push :calendar, { :controller => '/work_packages/calendars', :action => 'index' }, :param => :project_id, :caption => :label_calendar
   menu.push :news, { :controller => '/news', :action => 'index' }, :param => :project_id, :caption => :label_news_plural

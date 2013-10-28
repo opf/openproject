@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackageBulkController do
+describe WorkPackages::BulkController do
   let(:user) { FactoryGirl.create(:user) }
   let(:custom_field_value) { '125' }
   let(:custom_field_1) { FactoryGirl.create(:work_package_custom_field,
@@ -75,6 +75,8 @@ describe WorkPackageBulkController do
                                             status: status,
                                             custom_field_values: { custom_field_1.id => custom_field_value },
                                             project: project_2) }
+
+  let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package) }
 
   before do
     custom_field_1
@@ -177,12 +179,10 @@ describe WorkPackageBulkController do
 
         it { should be_redirect }
 
-        it { should redirect_to(controller: 'work_packages',
-                                action: :index,
-                                project_id: project_1.identifier) }
+        it { should redirect_to(project_work_packages_path(project_1)) }
       end
     end
-    
+
     shared_context :update_request do
       before do
         put :update,
@@ -406,6 +406,49 @@ describe WorkPackageBulkController do
         let(:delivery_size) { 0 }
 
         it_behaves_like :delivered
+      end
+    end
+  end
+
+  describe :destroy do
+    let(:params) { { "ids" => "1", "to_do" => "blubs" } }
+
+    before do
+      controller.should_receive(:find_work_packages) do
+        controller.instance_variable_set(:@work_packages, [stub_work_package])
+      end
+
+      controller.should_receive(:authorize)
+    end
+
+    describe 'w/ the cleanup beeing successful' do
+      before do
+        stub_work_package.should_receive(:reload).and_return(stub_work_package)
+        stub_work_package.should_receive(:destroy)
+
+        WorkPackage.should_receive(:cleanup_associated_before_destructing_if_required).with([stub_work_package], user, params["to_do"]).and_return true
+
+        as_logged_in_user(user) do
+          delete :destroy, params
+        end
+      end
+
+      it 'should redirect to the project' do
+        response.should redirect_to(project_work_packages_path(stub_work_package.project))
+      end
+    end
+
+    describe 'w/o the cleanup beeing successful' do
+      before do
+        WorkPackage.should_receive(:cleanup_associated_before_destructing_if_required).with([stub_work_package], user, params["to_do"]).and_return false
+
+        as_logged_in_user(user) do
+          delete :destroy, params
+        end
+      end
+
+      it 'should redirect to the project' do
+        response.should render_template('destroy')
       end
     end
   end

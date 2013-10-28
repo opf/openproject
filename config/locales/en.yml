@@ -79,12 +79,6 @@ en:
         value: "Value"
       enumeration:
         active: "Active"
-      issue:
-        parent_issue: "Parent"
-        subproject: "Subproject"
-        time_entries: "Log time"
-        type: "Type"
-        watcher: "Watcher"
       relation:
         delay: "Delay"
         from: "Work Package"
@@ -173,6 +167,10 @@ en:
         progress: "% done"
         responsible: "Responsible"
         spent_time: "Spent time"
+        subproject: "Subproject"
+        time_entries: "Log time"
+        type: "Type"
+        watcher: "Watcher"
     errors:
       messages:
         accepted: "must be accepted"
@@ -210,6 +208,7 @@ en:
           identical_projects: "can not be created from one project to itself"
           project_association_not_allowed: "does not allow associations"
         work_package:
+          is_not_a_valid_target_for_time_entries: "Work package #%{id} is not a valid target for reassigning the time entries."
           attributes:
             due_date:
               not_start_date: "is not on start date, although this is required for milestones"
@@ -959,6 +958,7 @@ en:
   label_keyboard_shortcut_help_heading: "Available Keyboard Shortcuts"
   label_keyboard_shortcut_within_project: "Project related shortcuts:"
   label_keyboard_shortcut_global_shortcuts: "Global shortcuts:"
+  label_keyboard_shortcut_some_pages_only: "Special shortcuts:"
   label_keyboard_shortcut_search_global: "Global search"
   label_keyboard_shortcut_search_project: "Find a project"
   label_keyboard_shortcut_go_my_page: "Go to My Page"
@@ -971,6 +971,11 @@ en:
   label_keyboard_shortcut_go_news: "Go to project news"
   label_keyboard_shortcut_go_timelines: "Go to timelines"
   label_keyboard_shortcut_new_work_package: "Create new work package"
+  label_keyboard_shortcut_go_edit: "Go to edit the current item (on detail pages only)"
+  label_keyboard_shortcut_open_more_menu: "Open more-menu (on detail pages only)"
+  label_keyboard_shortcut_go_preview: "Go to preview the current edit (on edit pages only)"
+  label_keyboard_shortcut_focus_previous_item: "Focus previous list element (on some lists only)"
+  label_keyboard_shortcut_focus_next_item: "Focus next list element (on some lists only)"
 
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
   mail_body_account_information: "Your account information"
@@ -1233,15 +1238,16 @@ en:
   text_analyze: "Further analyze: %{subject}"
   text_are_you_sure: "Are you sure?"
   text_are_you_sure_with_children: "Delete work package and all child work packages?"
-  text_assign_time_entries_to_project: "Assign reported hours to the project"
+  text_assign_to_project: "Assign to the project"
   text_caracters_maximum: "%{count} characters maximum."
   text_caracters_minimum: "Must be at least %{count} characters long."
   text_comma_separated: "Multiple values allowed (comma separated)."
   text_custom_field_possible_values_info: "One line for each value"
   text_default_administrator_account_changed: "Default administrator account changed"
   text_default_encoding: "Default: UTF-8"
-  text_destroy_time_entries: "Delete reported hours"
-  text_destroy_time_entries_question: "%{hours} hours were reported on the work package you are about to delete. What do you want to do?"
+  text_destroy: "Delete"
+  text_destroy_with_associated: "There are additional objects assossociated with the work package(s) that are to be deleted. Those objects are of the following types:"
+  text_destroy_what_to_do: "What do you want to do?"
   text_diff_truncated: "... This diff was truncated because it exceeds the maximum size that can be displayed."
   text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/configuration.yml and restart the application to enable them."
   text_enumeration_category_reassign_to: "Reassign them to this value:"
@@ -1273,7 +1279,8 @@ en:
   text_powered_by: "Powered by %{link}"
   text_project_destroy_confirmation: "Are you sure you want to delete this project and related data?"
   text_project_identifier_info: "Only lower case letters (a-z), numbers, dashes and underscores are allowed, must start with a lower case letter.<br />Once saved, the identifier cannot be changed."
-  text_reassign_time_entries: "Reassign reported hours to this work package:"
+  text_reassign: "Reassign to"
+  text_reassign_to: "work package:"
   text_regexp_info: "eg. ^[A-Z0-9]+$"
   text_repository_usernames_mapping: "Select or update the OpenProject user mapped to each username found in the repository log.\nUsers with the same OpenProject and repository username or email are automatically mapped."
   text_rmagick_available: "RMagick available (optional)"
@@ -1365,12 +1372,10 @@ en:
       comparisons: "Comparisons"
       comparison:
         absolute: "Absolute"
-        historical: "Historical"
         none: "None"
         relative: "Relative"
         compare_relative: "Compare current planning to %{timespan} ago"
         compare_absolute: "Compare current planning to %{date}"
-        compare_historical: "Compare %{startdate} to %{enddate}"
       time_relative:
         days: "days"
         weeks: "weeks"
@@ -1395,7 +1400,7 @@ en:
       types: "Show types"
       status: "Show status"
 
-      project_time_filter: "Projects with a Planning Element of a certain type in a certain timeframe"
+      project_time_filter: "Projects with a planning element of a certain type in a certain timeframe"
       project_time_filter_historical: "from %{startdate} to %{enddate}"
       project_time_filter_relative: "from %{startspan}%{startspanunit} ago, to %{endspan}%{endspanunit} from now"
       project_filters: "Filter projects"
