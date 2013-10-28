@@ -4082,7 +4082,7 @@ Timeline = {
 
       containers[currentContainer++].append(
         jQuery(icon
-          .replace(/%t/, timeline.i18n('timelines.new_planning_element'))
+          .replace(/%t/, timeline.i18n('timelines.new_work_package'))
           .replace(/%c/, 'icon icon-add')
         ).click(function(e) {
           e.stopPropagation();

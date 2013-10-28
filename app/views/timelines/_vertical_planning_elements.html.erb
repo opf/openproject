@@ -29,14 +29,14 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <fieldset id="filter_comparison" class="header_collapsible collapsible collapsed">
   <legend title="<%=l(:description_filter_toggle)%>", onclick="toggleFieldset(this);">
-    <a href="javascript:"><%= l('timelines.vertical_planning_elements') %></a>
+    <a href="javascript:"><%= l('timelines.vertical_work_package') %></a>
   </legend>
 
   <div style="display:none;">
     <div>
       <p class="tl-form-overflow">
         <%= label_tag :timeline_options_vertical_planning_elements,
-                      l('timelines.vertical_planning_elements') %>
+                      l('timelines.vertical_work_package') %>
         <%= text_field_tag "timeline[options][vertical_planning_elements]",
                            timeline.options["vertical_planning_elements"],
                            :size => 60, :class => "twoBlocks" %>

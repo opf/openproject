@@ -885,7 +885,6 @@ de:
   label_this_year: "aktuelles Jahr"
   label_time_entry_plural: "Benötigte Zeit"
   label_time_tracking: "Zeiterfassung"
-  label_planning_element_plural: "Planungselemente"
   label_today: "heute"
   label_top_menu: "Hauptmenu"
   label_topic_plural: "Themen"
@@ -1359,7 +1358,7 @@ de:
     edit_thing: "Bearbeiten"
     edit_timeline: "Zeitplan-Report bearbeiten"
     empty: "(leer)"
-    enable_planning_element_in_project: 'Planungselement-Typ "%{type}" aktivieren'
+    enable_type_in_project: 'Typ "%{type}" aktivieren'
     end: "Abschluss"
     errors:
       not_implemented: "Der Zeitplan-Report konnte nicht gezeichnet werden, da eine noch nicht implementierte Funktionalität benutzt wird."
@@ -1394,7 +1393,7 @@ de:
         days: "Tagen"
         weeks: "Wochen"
         months: "Monaten"
-      exclude_own_planning_elements: "Planungselemente dieses Projektes ausblenden"
+      exclude_own_work_packages: "Arbeitspackete dieses Projektes ausblenden"
       exclude_reporters: "Andere Projekte ausblenden"
       exclude_empty: "Leere Projekte ausblenden"
       grouping: "Gruppierung"
@@ -1409,10 +1408,10 @@ de:
       noneSelection: "(keine)"
       outline: "Zu Beginn angezeigte Hierarchie"
       parent: "Zeige Unterprojekte von"
-      planning_element_filters: "Planungselemente filtern"
-      planning_element_responsible: "Planungselemente von diesem Planungsverantwortlichen anzeigen"
+      work_package_filters: "Arbeitspackete filtern"
+      work_package_responsible: "Arbeitspackete von diesem Planungsverantwortlichen anzeigen"
 
-      project_time_filter: "Projekte mit Planungselementen eines Typs in einem Zeitfenster"
+      project_time_filter: "Projekte mit Arbeitspacket eines Typs in einem Zeitfenster"
       project_time_filter_historical: "von %{startdate} bis %{enddate}"
       project_time_filter_relative: "vor %{startspan}%{startspanunit} bis in %{endspan}%{endspanunit}"
       project_filters: "Projekte filtern"
@@ -1429,7 +1428,7 @@ de:
     history: "Historie"
     new_association: "Neue Abhängigkeit"
     new_color: "Neue Farbe"
-    new_planning_element: "Neues Planungselement"
+    new_work_package: "Neues Arbeitspacket"
     new_project_type: "Neuer Projekt-Typ"
     new_reporting: "Neuer Statusbericht"
     new_timeline: "Neuer Zeitplan-Report"
@@ -1453,8 +1452,7 @@ de:
       reports: "Zeitplan-Reporte"
       timelines: "Zeitpläne"
 
-    planning_element_could_not_be_saved: "Planungselement konnte nicht gespeichert werden"
-    planning_elements_are_displayed_in_aggregations: "Planungselemente werden in Aggregation angezeigt"
+    work_packages_are_displayed_in_aggregations: "Arbeitspackete werden in Aggregation angezeigt"
     project_association_new: "Projekt-Abhängigkeit hinzufügen"
     project_association_new_for_with: "Anlegen der Projekt-Abhängigkeit von “%{project_a}” zu"
     project_association_with_other: "Projekt-Abhängigkeit zwischen “%{project_a}” und “%{project_b}”"
@@ -1474,11 +1472,7 @@ de:
       show: "Statusbericht: %{comment}"
     really_delete_color: >
       Möchten Sie die folgende Farbe wirklich löschen?
-      Planungselement-Typen, die diese Farbe verwenden, bleiben erhalten.
-    really_delete_all_planning_elements: >
-      Möchten Sie wirklich alle folgenden Planungselemente und ihre
-      Kind-Elemente permanent löschen? Diese Operation kann nicht rückgängig
-      gemacht werden.
+      Typen, die diese Farbe verwenden, bleiben erhalten.
     really_delete_project_association_between_project_a_and_project_b: >
       Möchten Sie die Projekt-Abhängigkeit zwischen „%{project_a}“ und
       „%{project_b}“ wirklich löschen?
@@ -1487,7 +1481,7 @@ de:
       Projekte dieses Typs bleiben erhalten.
     really_delete_timeline: >
       Möchten Sie dieses Zeitplan-Report wirklich löschen?
-      Planungselemente dieses Reports bleiben erhalten.
+      Arbeitspackete dieses Reports bleiben erhalten.
     really_delete_reporting: >
       Möchten Sie diesen Statusbericht wirklich löschen?
       Vorherige gemeldete Statusberichte gehen dabei verloren.
@@ -1495,12 +1489,8 @@ de:
     timeline: "Zeitplan-Report"
     timelines: "Zeitplan-Reporte"
     settings: "Timelines"
-    used_in_x_planning_elements:
-      one:   "Wird in %{count} Planungselement verwendet"
-      other: "Wird in %{count} Planungselementen verwendet"
-    vertical_planning_elements: "Vertikale Planungselemente"
+    vertical_work_package: "Vertikale Arbeitspackete"
     without_project_type: "Ohne Projekt-Typ"
-    you_are_viewing_all_planning_elements_in_this_project: "Sie sehen alle Planungselemente innerhalb dieses Projekts"
     you_are_viewing_the_selected_timeline: "Sie sehen den ausgewählten Zeitplan-Report"
     zoom:
       in: "Mehr Details"

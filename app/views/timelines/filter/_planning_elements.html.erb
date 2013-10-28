@@ -29,14 +29,14 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <fieldset id="planning_element_filters" class="header_collapsible collapsible collapsed">
   <legend title="<%=l(:description_filter_toggle)%>", onclick="toggleFieldset(this);">
-    <a href="javascript:"><%= l('timelines.filter.planning_element_filters') %></a>
+    <a href="javascript:"><%= l('timelines.filter.work_package_filters') %></a>
   </legend>
 
   <div style="display:none;">
     <div>
       <p class="tl-form-overflow">
         <%= label_tag :timeline_options_exclude_own_planning_elements,
-                      l('timelines.filter.exclude_own_planning_elements') %>
+                      l('timelines.filter.exclude_own_work_packages') %>
 
         <%= check_box_tag("timeline[options][exclude_own_planning_elements]",
                           :yes,
@@ -98,7 +98,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
       <p class="tl-form-overflow">
         <%= label_tag 'timeline_options_planning_element_responsibles',
-                      l("timelines.filter.planning_element_responsible") %>
+                      l("timelines.filter.work_package_responsible") %>
 
         <% if User.current.impaired? %>
           <%= select("timeline[options]",
