@@ -1476,15 +1476,18 @@ Timeline = {
     TimelineLoader.prototype.checkDependencies = function (identifier) {
       if (this.shouldLoadReportings(identifier)) {
         this.registerProjects(this.getRelevantProjectIdsBasedOnReportings());
-      }
-      else if (this.shouldLoadPlanningElements(identifier)) {
+      } else if (this.shouldLoadPlanningElements(identifier)) {
         this.data = this.dataEnhancer.enhance(this.data);
 
         this.registerPlanningElements(this.getRelevantProjectIdsBasedOnProjects());
-      } else if (this.shouldLoadRemainingPlanningElements(identifier)) {
-        this.registerPlanningElementsByID(this.getRemainingPlanningElements());
-      } else if (this.shouldLoadUsers(identifier)) {
-        this.registerUsers(this.getUsersToLoad());
+      } else {
+        if (this.shouldLoadRemainingPlanningElements(identifier)) {
+          this.registerPlanningElementsByID(this.getRemainingPlanningElements());
+        }
+
+        if (this.shouldLoadUsers(identifier)) {
+         this.registerUsers(this.getUsersToLoad());
+        }
       }
 
       this.loader.load();
