@@ -29,15 +29,17 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h2><%= t(:label_select_main_menu_item) %></h2>
 
-<%= labelled_tabular_form_for :wiki_page, url: { action: 'create_main_menu_item' } do |f| %>
+<%= labelled_tabular_form_for :wiki_page, url: { action: 'replace_main_menu_item' } do |f| %>
   <div class="box">
     <p>
       <%= f.select :id,
             "<option value=''></option>".html_safe + wiki_page_options_for_select(@possible_wiki_pages),
             {label: WikiPage.human_attribute_name(:title) },
-            {size: "#{@possible_wiki_pages.size + 1}", class: "main-menu-item-select"} %>
+            {size: "#{@possible_wiki_pages.size + 1}", class: 'main-menu-item-select'} %>
     </p>
 
   </div>
+
+
   <%= submit_tag t(:button_save) %>
 <% end %>

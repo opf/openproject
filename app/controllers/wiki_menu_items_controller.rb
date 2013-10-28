@@ -48,7 +48,13 @@ class WikiMenuItemsController < ApplicationController
     get_data_from_params(params)
 
     if wiki_menu_setting == 'no_item'
-      @wiki_menu_item.destroy unless @wiki_menu_item.nil?
+      unless @wiki_menu_item.nil?
+        if @wiki_menu_item.is_only_main_item?
+          redirect_to(select_main_menu_item_project_wiki_path(@project, @page_title)) and return
+        else
+          @wiki_menu_item.destroy
+        end
+      end
     else
       @wiki_menu_item.wiki_id = @page.wiki.id
       @wiki_menu_item.name = params[:wiki_menu_item][:name]
@@ -72,23 +78,19 @@ class WikiMenuItemsController < ApplicationController
     end
   end
 
-  def replace_main_menu_item
+  def select_main_menu_item
     wiki_page_title = params[:id]
     @possible_wiki_pages = @project.wiki.pages.all(:include => :parent).reject{|page| page.title == wiki_page_title || page.menu_item.present? && page.menu_item.is_main_item?}
   end
 
-  def create_main_menu_item
-    page = WikiPage.find params[:wiki_page][:id]
-    wiki = @project.wiki
-
-    menu_item = if item = page.menu_item
-      item.tap {|item| item.parent_id = nil}
-    else
-      wiki.wiki_menu_items.build(title: page.title, name: page.pretty_title)
+  def replace_main_menu_item
+    if page = WikiPage.find(params[:wiki_page][:id])
+      create_main_menu_item_for_wiki_page(page)
     end
-    menu_item.save
 
-    redirect_to project_wiki_path(@project, wiki.start_page)
+    page.menu_item.destroy
+
+    redirect_to action: :edit, id: page.title
   end
 
   private
@@ -123,5 +125,16 @@ class WikiMenuItemsController < ApplicationController
     elsif params[:wiki_menu_item][:index_page] == "0"
       menu_item.index_page = false
     end
+  end
+
+  def create_main_menu_item_for_wiki_page(page)
+    wiki = page.wiki
+
+    menu_item = if item = page.menu_item
+      item.tap {|item| item.parent_id = nil}
+    else
+      wiki.wiki_menu_items.build(title: page.title, name: page.pretty_title)
+    end
+    menu_item.save
   end
 end
