@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.0pre23
+
 * `#709`  Added test for double custom field validation error messages
 * `#902`  Spelling Mistake: Timelines Report Configuration
 * `#959`  Too many available responsibles returned for filtering in Timelines
