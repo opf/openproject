@@ -146,7 +146,7 @@ module ApplicationHelper
     text = options.delete(:text) || format_revision(revision)
     rev = revision.respond_to?(:identifier) ? revision.identifier : revision
 
-    link_to(h(text), {:controller => '/repositories', :action => 'revision', :id => project, :rev => rev},
+    link_to(h(text), {:controller => '/repositories', :action => 'revision', :project_id => project, :rev => rev},
             :title => l(:label_revision_id, format_revision(revision)))
   end
 
@@ -700,7 +700,7 @@ module ApplicationHelper
         if prefix.nil? && sep == 'r'
           # project.changesets.visible raises an SQL error because of a double join on repositories
           if project && project.repository && (changeset = Changeset.visible.find_by_repository_id_and_revision(project.repository.id, identifier))
-            link = link_to(h("#{project_prefix}r#{identifier}"), {:only_path => only_path, :controller => '/repositories', :action => 'revision', :id => project, :rev => changeset.revision},
+            link = link_to(h("#{project_prefix}r#{identifier}"), {:only_path => only_path, :controller => '/repositories', :action => 'revision', :project_id => project, :rev => changeset.revision},
                                       :class => 'changeset',
                                       :title => truncate_single_line(changeset.comments, :length => 100))
           end
@@ -748,7 +748,7 @@ module ApplicationHelper
             end
           when 'commit'
             if project && project.repository && (changeset = Changeset.visible.find(:first, :conditions => ["repository_id = ? AND scmid LIKE ?", project.repository.id, "#{name}%"]))
-              link = link_to h("#{project_prefix}#{name}"), {:only_path => only_path, :controller => '/repositories', :action => 'revision', :id => project, :rev => changeset.identifier},
+              link = link_to h("#{project_prefix}#{name}"), {:only_path => only_path, :controller => '/repositories', :action => 'revision', :project_id => project, :rev => changeset.identifier},
                                            :class => 'changeset',
                                            :title => truncate_single_line(h(changeset.comments), :length => 100)
             end
@@ -756,7 +756,7 @@ module ApplicationHelper
             if project && project.repository && User.current.allowed_to?(:browse_repository, project)
               name =~ %r{^[/\\]*(.*?)(@([0-9a-f]+))?(#(L\d+))?$}
               path, rev, anchor = $1, $3, $5
-              link = link_to h("#{project_prefix}#{prefix}:#{name}"), {:controller => '/repositories', :action => 'entry', :id => project,
+              link = link_to h("#{project_prefix}#{prefix}:#{name}"), {:controller => '/repositories', :action => 'entry', :project_id => project,
                                                       :path => to_path_param(path),
                                                       :rev => rev,
                                                       :anchor => anchor,

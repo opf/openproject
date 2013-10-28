@@ -42,7 +42,7 @@ describe RepositoriesController do
 
   describe 'commits per author graph' do
     before do
-      get :graph, :id => project.identifier, :graph => 'commits_per_author'
+      get :graph, :project_id => project.identifier, :graph => 'commits_per_author'
     end
 
     context 'requested by an authorized user' do
@@ -69,7 +69,7 @@ describe RepositoriesController do
 
   describe 'stats' do
     before do
-      get :stats, :id => project.identifier
+      get :stats, :project_id => project.identifier
     end
 
     describe 'requested by a user with view_commit_author_statistics permission' do

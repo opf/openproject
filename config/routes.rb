@@ -232,6 +232,39 @@ OpenProject::Application.routes.draw do
     resources :members, :only => [:create, :update, :destroy], :shallow => true do
       get :autocomplete, :on => :collection
     end
+
+    resource :repository, :only => [:destroy] do
+      get :edit #needed as show is configured manually with a wildcard
+      post :edit
+      get :committers
+      post :committers
+      get :graph
+      get :revisions
+
+      get "/statistics", :action => :stats, :as => 'stats'
+
+      get '(/revisions/:rev)/diff.:format', :action => :diff
+      get '(/revisions/:rev)/diff(/*path)', :action => :diff,
+                                            :format => false
+
+      get '(/revisions/:rev)/:format/*path', :action => :entry,
+                                             :format => /raw/,
+                                             :rev => /[a-z0-9\.\-_]+/
+
+      %w{diff annotate changes entry browse}.each do |action|
+        get "(/revisions/:rev)/#{action}(/*path)", :format => false,
+                                                   :action => action,
+                                                   :rev => /[a-z0-9\.\-_]+/
+      end
+
+      get '/revision(/:rev)', :rev => /[a-z0-9\.\-_]+/,
+                              :action => :revision
+
+      get '(/revisions/:rev)(/*path)', :action => :show,
+                                       :format => false,
+                                       :rev => /[a-z0-9\.\-_]+/
+
+    end
   end
 
   #TODO: evaluate whether this can be turned into a namespace
@@ -345,29 +378,6 @@ OpenProject::Application.routes.draw do
     resource :preview, :controller => 'news/previews', :only => [:create]
   end
 
-  scope :controller => 'repositories' do
-    scope :via => :get do
-      match '/projects/:id/repository', :action => :show
-      match '/projects/:id/repository/edit', :action => :edit
-      match '/projects/:id/repository/statistics', :action => :stats
-      match '/projects/:id/repository/committers', :action => :committers
-      match '/projects/:id/repository/graph', :action => :graph
-      match '/projects/:id/repository/diff', :action => :diff
-      match '/projects/:id/repository/revisions', :action => :revisions
-      match '/projects/:id/repository/revisions.:format', :action => :revisions
-      match '/projects/:id/repository/revisions/:rev', :action => :revision
-      match '/projects/:id/repository/revisions/:rev/diff/*path(.:format)', :action => :diff
-      match '/projects/:id/repository/revisions/:rev/raw/*path', :action => :entry, :kind => 'raw', :rev => /[a-z0-9\.\-_]+/
-      match '/projects/:id/repository/revisions/:rev/:action/*path', :rev => /[a-z0-9\.\-_]+/
-      match '/projects/:id/repository/raw/*path', :action => :entry, :kind => 'raw'
-      # TODO: why the following route is required?
-      match '/projects/:id/repository/entry/*path', :action => :entry
-      match '/projects/:id/repository/:action/*path'
-    end
-
-    match '/projects/:id/repository/:action', :via => :post
-  end
-
 
   resources :attachments, :only => [:show, :destroy], :format => false do
     member do
@@ -381,16 +391,6 @@ OpenProject::Application.routes.draw do
   scope :constraints => { :id => /\d+/, :filename => /[^\/]*/ } do
     match "/attachments/download/:id/:filename" => redirect("/attachments/%{id}/download/%{filename}"), :format => false
     match "/attachments/download/:id" => redirect("/attachments/%{id}/download"), :format => false
-  end
-
-  #left old routes at the bottom for backwards compat
-  scope :controller => 'repositories' do
-    match '/repositories/browse/:id/*path', :action => 'browse', :as => 'repositories_show'
-    match '/repositories/changes/:id/*path', :action => 'changes', :as => 'repositories_changes'
-    match '/repositories/diff/:id/*path', :action => 'diff', :as => 'repositories_diff'
-    match '/repositories/entry/:id/*path', :action => 'entry', :as => 'repositories_entry'
-    match '/repositories/annotate/:id/*path', :action => 'annotate', :as => 'repositories_entry'
-    match '/repositories/revision/:id/:rev', :action => 'revision'
   end
 
   scope :controller => 'sys' do

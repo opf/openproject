@@ -74,7 +74,7 @@ module RepositoriesHelper
       dirs = change.path.to_s.split('/').select {|d| !d.blank?}
       path = ''
       dirs.each do |dir|
-        path += '/' + dir
+        path += with_leading_slash(dir)
         p[:s] ||= {}
         p = p[:s]
         p[path] ||= {}
@@ -96,26 +96,26 @@ module RepositoriesHelper
       text = File.basename(h(file))
       if s = tree[file][:s]
         style << ' folder'
-        path_param = to_path_param(@repository.relative_path(file))
+        path_param = without_leading_slash(to_path_param(@repository.relative_path(file)))
         text = link_to(h(text), :controller => '/repositories',
                              :action => 'show',
-                             :id => @project,
+                             :project_id => @project,
                              :path => path_param,
                              :rev => @changeset.identifier)
         output << "<li class='#{style}'>#{text}</li>"
         output << render_changes_tree(s)
       elsif c = tree[file][:c]
         style << " change-#{c.action}"
-        path_param = to_path_param(@repository.relative_path(c.path))
+        path_param = without_leading_slash(to_path_param(@repository.relative_path(c.path)))
         text = link_to(h(text), :controller => '/repositories',
                              :action => 'entry',
-                             :id => @project,
+                             :project_id => @project,
                              :path => path_param,
                              :rev => @changeset.identifier) unless c.action == 'D'
         text << raw(" - #{h(c.revision)}") unless c.revision.blank?
         text << raw(' (' + link_to(l(:label_diff), :controller => '/repositories',
                                        :action => 'diff',
-                                       :id => @project,
+                                       :project_id => @project,
                                        :path => path_param,
                                        :rev => @changeset.identifier) + ') ') if c.action == 'M'
         text << raw(' ' + content_tag('span', h(c.from_path), :class => 'copied-from')) unless c.from_path.blank?
