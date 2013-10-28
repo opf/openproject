@@ -74,7 +74,7 @@ Feature: Create new meetings
         And I click on "Create"
        Then I should see "Successful creation."
         And I should see "FSR Sitzung 123"
-        And I should see "03/28/2013 01:30 pm - 03:00 pm"
+        And I should see "03/28/2013 01:30 PM - 03:00 PM"
 
   Examples:
     | t_zone |
