@@ -114,7 +114,7 @@ module OpenProject::Costs
 
           settings Engine.settings
 
-          requires_openproject ">= 3.0.0pre21"
+          requires_openproject ">= 3.0.0pre23"
 
           # register our custom permissions
           project_module :costs_module do

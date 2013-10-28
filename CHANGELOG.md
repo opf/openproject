@@ -1,5 +1,7 @@
 # Changelog
 
+## 5.0.1.pre8
+
 * `#2402` Squash old migrations
 * `#2545` Migrated old plugin settings
 * `#2570` Work package deletion no longer handles cost entries
