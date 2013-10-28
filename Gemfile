@@ -28,14 +28,15 @@
 
 source 'https://rubygems.org'
 
-gem "rails", "~> 3.2.14"
+gem "rails", "~> 3.2.15"
 
 gem "coderay", "~> 1.0.5"
 gem "rubytree", "~> 0.8.3"
 gem "rdoc", ">= 2.4.2"
 # Needed only on RUBY_VERSION = 1.8, ruby 1.9+ compatible interpreters should bring their csv
 gem "fastercsv", "~> 1.5.0", :platforms => [:ruby_18, :jruby, :mingw_18]
-gem 'globalize3'
+# master includes the uniqueness validator, formerly patched in config/initializers/globalize3_patch.rb
+gem 'globalize3', :git => 'https://github.com/globalize/globalize.git', :branch => '3-0-stable'
 gem "delayed_job_active_record" # that's how delayed job's readme recommends it
 
 gem 'request_store'
