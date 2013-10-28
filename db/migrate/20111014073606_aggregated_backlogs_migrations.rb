@@ -9,6 +9,11 @@ class AggregatedBacklogsMigrations < ActiveRecord::Migration
     @issues_table_exists = ActiveRecord::Base.connection.tables.include? 'issues'
   end
 
+  REPLACED = {
+    "story_trackers" => "story_types",
+    "task_tracker" => "task_type"
+  }
+
   MIGRATION_FILES = <<-MIGRATIONS
     011_create_stories_tasks_sprints_and_burndown.rb
     017_change_issue_position_column.rb
@@ -46,11 +51,14 @@ class AggregatedBacklogsMigrations < ActiveRecord::Migration
       end
     end
     Migration::SettingRenamer.rename("plugin_backlogs","plugin_openproject_backlogs")
+    require 'pry';binding.pry
+    # Rename Tracker to Type
+    Setting['plugin_openproject_backlogs'] = replace(Setting['plugin_openproject_backlogs'], REPLACED)
   end
 
   def down
     drop_table "version_settings"
-    dtop_table "issue_done_statuses_for_project"
+    drop_table "issue_done_statuses_for_project"
     if(@issues_table_exists)
       change_table "issues" do |t|
         remove_column "position"
@@ -58,6 +66,21 @@ class AggregatedBacklogsMigrations < ActiveRecord::Migration
         remove_column "remaining_hours"
       end
     end
+    Setting['plugin_openproject_backlogs'] = replace(Setting['plugin_openproject_backlogs'], REPLACED.invert)
+  end
+
+  private
+
+  def replace(hash,mapping)
+    Hash[hash.map { |k,v| [mapping[k] || k, v] }]
+  end
+
+  def settings_table
+    @settings_table ||= ActiveRecord::Base.connection.quote_table_name('settings')
+  end
+
+  def quote_value s
+    ActiveRecord::Base.connection.quote(s)
   end
 end
 
