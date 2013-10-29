@@ -233,9 +233,13 @@ class PermittedParams < Struct.new(:params, :user)
                                                       :planning_element_status_id,
                                                       :parent_id,
                                                       :responsible_id,
-                                                      :custom_fields => [
+                                                      :custom_fields => [ #json
                                                                           :id,
-                                                                          :value
+                                                                          :value,
+                                                                          :custom_field => [ # xml
+                                                                                             :id,
+                                                                                             :value
+                                                                                           ]
                                                                         ]
                                                     ],
                                :planning_element_type => [
