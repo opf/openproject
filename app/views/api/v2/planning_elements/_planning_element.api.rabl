@@ -26,28 +26,61 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-collection @planning_elements => :planning_elements
-attributes :id,
-           :subject,
-           :description,
-           :done_ratio,
-           :estimated_hours,
-           :project_id,
-           :type_id,
-           :category_id,
-           :priority_id,
-           :fixed_version_id,
-           :status_id,
-           :parent_id,
-           :child_ids,
-           :responsible_id,
-           :author_id,
-           :assigned_to_id
+# This is an intentional duplication from index.api.rabl: rabl has performance-issues with
+# extend/partials (@see https://github.com/nesquena/rabl/issues/500)
+# which drastically affects the performance of inline vs. partials: as the planning-elements are
+# highly performance-critical, we need to live with this duplication until these issues are solved.
+object @planning_element
+attributes :id, :subject, :description, :project_id, :parent_id, :status_id, :type_id
 
 node :start_date, :if => lambda{|pe| pe.start_date.present?} { |pe| pe.start_date.to_formatted_s(:db) }
 node :due_date, :if => lambda{|pe| pe.due_date.present?} {|pe| pe.due_date.to_formatted_s(:db) }
 
 node :created_at, if: lambda{|pe| pe.created_at.present?} {|pe| pe.created_at.utc}
 node :updated_at, if: lambda{|pe| pe.updated_at.present?} {|pe| pe.updated_at.utc}
+
+node :destroyed, id: lambda{|pe| pe.destroyed?} {true}
+
+child :project do
+  attributes :id, :identifier, :name
+end
+
+node :parent, if: lambda{|pe| pe.parent.present?} do |pe|
+  child :parent => :parent do
+    attributes :id, :subject
+  end
+end
+
+child :type do
+  attributes :id, :name
+end
+
+child :status do
+  attributes :id, :name
+end
+
+node :children, unless: lambda{|pe| pe.children.empty?} do |pe|
+  pe.children.to_a.map { |wp| { id: wp.id, subject: wp.subject}}
+end
+
+node :responsible, if: lambda{|pe| pe.responsible.present?} do |pe|
+  child :responsible => :responsible do
+    attributes :id, :name
+  end
+end
+
+node :assigned_to, if: lambda{|pe| pe.assigned_to.present?} do |pe|
+  child(:assigned_to => :assigned_to) do
+    attributes :id, :name
+  end
+end
+
+
+node :journals, if: lambda{|pe| include_journals?} do |pe|
+  pe.journals.map do |journal|
+    partial "api/v2/planning_element_journals/journal", object: journal
+  end
+end
+
 
 

@@ -26,28 +26,29 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-collection @planning_elements => :planning_elements
+collection @projects => "projects"
 attributes :id,
-           :subject,
+           :name,
+           :identifier,
            :description,
-           :done_ratio,
-           :estimated_hours,
-           :project_id,
-           :type_id,
-           :category_id,
-           :priority_id,
-           :fixed_version_id,
-           :status_id,
+           :project_type_id,
            :parent_id,
-           :child_ids,
-           :responsible_id,
-           :author_id,
-           :assigned_to_id
-
-node :start_date, :if => lambda{|pe| pe.start_date.present?} { |pe| pe.start_date.to_formatted_s(:db) }
-node :due_date, :if => lambda{|pe| pe.due_date.present?} {|pe| pe.due_date.to_formatted_s(:db) }
-
-node :created_at, if: lambda{|pe| pe.created_at.present?} {|pe| pe.created_at.utc}
-node :updated_at, if: lambda{|pe| pe.updated_at.present?} {|pe| pe.updated_at.utc}
+           :responsible_id
 
 
+node :type_ids, if: lambda{|project| project.types.present? } do |project|
+  project.types.map(&:id)
+end
+
+node :project_associations, if: lambda{|project| has_associations?(project)} do |project|
+  associations_for_project(project).map do |association|
+    other_id = [association.project_a_id, association.project_b_id].find { |id| id != project.id }
+
+    {id: association.id,
+     to_project_id: other_id,
+     description: association.description}
+  end
+end
+
+node :created_on, if: lambda{|project| project.created_on.present?} {|project| project.created_on.utc.iso8601}
+node :updated_on, if: lambda{|project| project.updated_on.present?} {|project| project.updated_on.utc.iso8601}

@@ -26,28 +26,42 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-collection @planning_elements => :planning_elements
-attributes :id,
-           :subject,
-           :description,
-           :done_ratio,
-           :estimated_hours,
-           :project_id,
-           :type_id,
-           :category_id,
-           :priority_id,
-           :fixed_version_id,
-           :status_id,
-           :parent_id,
-           :child_ids,
-           :responsible_id,
-           :author_id,
-           :assigned_to_id
+require File.expand_path('../../../../../spec_helper', __FILE__)
 
-node :start_date, :if => lambda{|pe| pe.start_date.present?} { |pe| pe.start_date.to_formatted_s(:db) }
-node :due_date, :if => lambda{|pe| pe.due_date.present?} {|pe| pe.due_date.to_formatted_s(:db) }
+describe 'api/v2/planning_element_type_colors/show.api.rabl' do
 
-node :created_at, if: lambda{|pe| pe.created_at.present?} {|pe| pe.created_at.utc}
-node :updated_at, if: lambda{|pe| pe.updated_at.present?} {|pe| pe.updated_at.utc}
+  before do
+    params[:format] = 'json'
+  end
+
+  describe 'with an assigned color' do
+    let(:color) { FactoryGirl.build(:color,
+                                    :id       => 1,
+                                    :name     => 'Awesometastic color',
+                                    :hexcode  => '#FFFFFF',
+                                    :position => 10,
+
+                                    :created_at => Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
+                                    :updated_at => Time.parse('Fri Jan 07 12:35:00 +0100 2011')) }
 
 
+    before do
+      assign(:color, color)
+      render
+    end
+
+    subject { response.body }
+
+    it 'renders a color document' do
+      should have_json_path('color')
+    end
+
+    it 'renders the detail information about the color' do
+      puts subject
+      expected_json = {name: "Awesometastic color", hexcode: '#FFFFFF', position: 10}.to_json
+
+      should be_json_eql(expected_json).at_path('color')
+    end
+
+  end
+end

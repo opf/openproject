@@ -43,7 +43,14 @@ module Api
           options[:conditions] = ["id IN (?) OR identifier IN (?)", ids, identifiers]
         end
 
-        @projects = @base.visible.all(options)
+        @projects = @base.visible
+                         .includes(:types)
+                         .all(options)
+
+        @projects_by_id = Hash[@projects.map{|p| [p.id,p]}]
+
+        build_associations unless @projects.empty?
+
         respond_to do |format|
           format.api
         end
@@ -61,6 +68,36 @@ module Api
 
       def find_project
         @project = Project.find(params[:id])
+      end
+
+      def build_associations
+        association_attributes = ProjectAssociation.with_projects(@projects_by_id.keys)
+                                                   .map(&:attributes)
+
+        associations = association_attributes.map{|attributes| OpenStruct.new(attributes)}
+
+        @associations_by_id ={}
+        associations.each do |a|
+          @associations_by_id[a.project_a_id] ||= []
+          @associations_by_id[a.project_a_id] << a
+
+          @associations_by_id[a.project_b_id] ||= []
+          @associations_by_id[a.project_b_id] << a
+
+        end
+
+      end
+
+      # Helpers
+      helper_method :has_associations?
+      helper_method :associations_for_project
+
+      def has_associations?(project)
+        @associations_by_id[project.id].present?
+      end
+
+      def associations_for_project(project)
+        @associations_by_id[project.id]
       end
 
     end

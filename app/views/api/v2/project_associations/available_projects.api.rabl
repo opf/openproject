@@ -25,29 +25,18 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+collection @elements => :projects
 
-collection @planning_elements => :planning_elements
-attributes :id,
-           :subject,
-           :description,
-           :done_ratio,
-           :estimated_hours,
-           :project_id,
-           :type_id,
-           :category_id,
-           :priority_id,
-           :fixed_version_id,
-           :status_id,
-           :parent_id,
-           :child_ids,
-           :responsible_id,
-           :author_id,
-           :assigned_to_id
+node do |element|
+  project = element[:project]
+  level   = element[:level]
 
-node :start_date, :if => lambda{|pe| pe.start_date.present?} { |pe| pe.start_date.to_formatted_s(:db) }
-node :due_date, :if => lambda{|pe| pe.due_date.present?} {|pe| pe.due_date.to_formatted_s(:db) }
-
-node :created_at, if: lambda{|pe| pe.created_at.present?} {|pe| pe.created_at.utc}
-node :updated_at, if: lambda{|pe| pe.updated_at.present?} {|pe| pe.updated_at.utc}
-
-
+  {id:   project.id,
+   name: project.name,
+   identifier: project.identifier,
+   level: level,
+   created_on: project.created_on.utc.iso8601,
+   updated_on: project.updated_on.utc.iso8601,
+   disabled: @disabled.include?(project)
+  }
+end

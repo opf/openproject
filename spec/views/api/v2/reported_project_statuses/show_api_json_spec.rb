@@ -26,28 +26,39 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-collection @planning_elements => :planning_elements
-attributes :id,
-           :subject,
-           :description,
-           :done_ratio,
-           :estimated_hours,
-           :project_id,
-           :type_id,
-           :category_id,
-           :priority_id,
-           :fixed_version_id,
-           :status_id,
-           :parent_id,
-           :child_ids,
-           :responsible_id,
-           :author_id,
-           :assigned_to_id
+require File.expand_path('../../../../../spec_helper', __FILE__)
 
-node :start_date, :if => lambda{|pe| pe.start_date.present?} { |pe| pe.start_date.to_formatted_s(:db) }
-node :due_date, :if => lambda{|pe| pe.due_date.present?} {|pe| pe.due_date.to_formatted_s(:db) }
+describe 'api/v2/reported_project_statuses/show.api.rabl' do
 
-node :created_at, if: lambda{|pe| pe.created_at.present?} {|pe| pe.created_at.utc}
-node :updated_at, if: lambda{|pe| pe.updated_at.present?} {|pe| pe.updated_at.utc}
+  before do
+    params[:format] = 'json'
+  end
+
+  describe 'with an assigned reported_project_status' do
+    let(:reported_project_status) { FactoryGirl.build(:reported_project_status,
+                                                      :id         => 1,
+                                                      :name       => 'Awesometastic reported_project_status',
+                                                      :is_default => true,
+                                                      :position   => 10) }
 
 
+    before do
+      assign(:reported_project_status, reported_project_status)
+      render
+    end
+
+    subject {response.body}
+
+    it 'renders a reported_project_status document' do
+      should have_json_path('reported_project_status')
+    end
+
+    it 'should render the details of the reported project-status' do
+      expected_json = {name: "Awesometastic reported_project_status", is_default: true, position: 10}.to_json
+
+      should be_json_eql(expected_json).at_path('reported_project_status')
+
+    end
+
+  end
+end

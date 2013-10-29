@@ -26,28 +26,55 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-collection @planning_elements => :planning_elements
-attributes :id,
-           :subject,
-           :description,
-           :done_ratio,
-           :estimated_hours,
-           :project_id,
-           :type_id,
-           :category_id,
-           :priority_id,
-           :fixed_version_id,
-           :status_id,
-           :parent_id,
-           :child_ids,
-           :responsible_id,
-           :author_id,
-           :assigned_to_id
+require File.expand_path('../../../../../spec_helper', __FILE__)
 
-node :start_date, :if => lambda{|pe| pe.start_date.present?} { |pe| pe.start_date.to_formatted_s(:db) }
-node :due_date, :if => lambda{|pe| pe.due_date.present?} {|pe| pe.due_date.to_formatted_s(:db) }
+describe '/api/v2/users/index.api.rabl' do
 
-node :created_at, if: lambda{|pe| pe.created_at.present?} {|pe| pe.created_at.utc}
-node :updated_at, if: lambda{|pe| pe.updated_at.present?} {|pe| pe.updated_at.utc}
+  before do
+    params[:format] = 'json'
+  end
+
+  subject {response.body}
+
+  describe 'with no project available' do
+    it 'renders an empty projects document' do
+      assign(:projects, [])
+
+      render
+
+      should have_json_size(0).at_path('users')
+    end
+  end
 
 
+  describe 'with some projects available' do
+    let(:users) {
+      [
+          FactoryGirl.build(:user, :firstname => 'Peter', :lastname => "Test"),
+          FactoryGirl.build(:user, :firstname => 'Mary', :lastname => "Test"),
+      ]
+    }
+
+    before do
+      # stub out helpers that are defined on the controller
+      assign(:users, users)
+      render
+    end
+
+    subject { response.body }
+
+    it 'renders a projects document with the size of 3 of type array' do
+      should have_json_size(2).at_path('users')
+    end
+
+    it 'renders both users' do
+
+      should be_json_eql({firstname:'Peter', lastname:'Test', name: "Peter Test"}.to_json).at_path("users/0")
+      should be_json_eql({firstname:'Mary', lastname:'Test', name: "Mary Test"}.to_json).at_path("users/1")
+
+
+    end
+
+
+  end
+end

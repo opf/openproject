@@ -26,28 +26,40 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-collection @planning_elements => :planning_elements
-attributes :id,
-           :subject,
-           :description,
-           :done_ratio,
-           :estimated_hours,
-           :project_id,
-           :type_id,
-           :category_id,
-           :priority_id,
-           :fixed_version_id,
-           :status_id,
-           :parent_id,
-           :child_ids,
-           :responsible_id,
-           :author_id,
-           :assigned_to_id
+require File.expand_path('../../../../../spec_helper', __FILE__)
 
-node :start_date, :if => lambda{|pe| pe.start_date.present?} { |pe| pe.start_date.to_formatted_s(:db) }
-node :due_date, :if => lambda{|pe| pe.due_date.present?} {|pe| pe.due_date.to_formatted_s(:db) }
+describe 'api/v2/project_associations/index.api.rabl' do
 
-node :created_at, if: lambda{|pe| pe.created_at.present?} {|pe| pe.created_at.utc}
-node :updated_at, if: lambda{|pe| pe.updated_at.present?} {|pe| pe.updated_at.utc}
+  before do
+    params[:format] = 'json'
+  end
 
+  describe 'with no project_associations available' do
+    it 'renders an empty project_associations document' do
+      assign(:project_associations, [])
+      render
 
+      response.should have_json_size(0).at_path('project_associations')
+    end
+  end
+
+  describe 'with 3 project_associations available' do
+    let(:project_associations) do
+      [
+        FactoryGirl.build(:project_association),
+        FactoryGirl.build(:project_association),
+        FactoryGirl.build(:project_association)
+      ]
+    end
+
+    before do
+      assign(:project_associations, project_associations)
+      render
+    end
+
+    it 'renders a project_associations document with the size 3 of array' do
+      response.should have_json_size(3).at_path('project_associations')
+    end
+
+  end
+end
