@@ -134,7 +134,9 @@ module Redmine::MenuManager::TopMenuHelper
       items_for_more_level = []
       help_menu = nil
       menu_items_for(:top_menu) do |item|
-        if item.name == :home || item.name == :my_page
+        if item.name == :home
+
+        elsif  item.name == :my_page
           items_for_main_level << item
         elsif item.name == :help
           help_menu = item

@@ -62,7 +62,9 @@ See doc/COPYRIGHT.rdoc for more details.
   <% if show_decoration %>
     <div id="top-menu">
       <div id="header">
-        <div id="logo"></div>
+        <div id="logo">
+          <%= link_to(image_tag(asset_path('logo_openproject_white.png'), :alt => I18n.t('label_home')), home_url, :class => 'home-link') %>
+        </div>
         <div id="top-menu-items">
           <%= render_top_menu_left %>
           <div class="top-menu-items-right">

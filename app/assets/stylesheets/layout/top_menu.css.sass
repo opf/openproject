@@ -25,23 +25,51 @@
  *
  * See doc/COPYRIGHT.rdoc for more details.  ++*/
 
+@mixin header-fonts
+  color: #fff
+  font-size: 14px
+  font-family: 'LatoRegular', 'Lucida Grande', Helvetica, Arial, sans-serif
+  font-weight: normal
+
 #top-menu
   background-color: #3493B3
-  color: #fff
   height: 55px
-  font-size: 0.8em
   padding: 0px
   z-index: 21
   position: relative
+  a,span,div,li,ul
+    font-family: 'LatoRegular', 'Lucida Grande', Helvetica, Arial, sans-serif
   ul
     margin: 0
+    margin-top: 12px
     padding: 0
+    float: left
+    height: 43px
+    border-top: 0
+    position: relative
   li
     float: left
     list-style-type: none
-    margin: 0px 0px 0px 0px
-    padding: 0px 0px 0px 0px
     white-space: nowrap
+    position: relative
+    z-index: 5
+    padding: 0
+    > a
+      height: 30px
+      line-height: 29px
+      zoom: 1
+      @include header-fonts
+    > ul
+      top: 31px
+      display: none
+      position: absolute
+      height: auto
+      min-width: 270px
+      left: -1px
+      z-index: 20
+      border: 1px solid #b7b7b7
+      border-top: 0px
+      background-color: #FFFFFF
   #loggedas
     float: right
     margin-right: 0.5em
@@ -58,4 +86,3 @@
 #top-menu.open
   z-index: 5
 
-@import "layout/header"

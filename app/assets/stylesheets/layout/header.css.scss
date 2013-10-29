@@ -34,59 +34,30 @@
   float: left;
   width: 270px;
   height: 55px;
-  background: url(image-path('logo_openproject_white.png')) no-repeat 19px 8px #06799F;
+  background-color: #06799F;
+  .home-link {
+    margin-top: 13px;
+    display: block;
+    padding-left: 20px;
+  }
 }
 
 #header {
   height: 55px;
-  font: arial,19px,white;
   min-width: 1000px;
 }
-#header ul {
-  line-height: 55px;
-  float: left;
-  font-size: 13px;
-  font-family: "Arial", Arial, sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  color: #ffffff;
-  height: 55px;
-  border-top: 0;
-  position: relative;
-}
 
-#header ul#account-info {
-  margin-right: 15px;
-}
-#header li {
-  float: left;
-  position: relative;
-  z-index: 5;
-}
-#header li:last-child {
-  border-right: 0px;
-}
-#header li > a {
-  text-decoration: none;
-  color: #FFFFFF;
-  height: 43px;
-  font-weight: normal;
-}
 #header li.drop-down select {
   width: 100%;
 }
 #header li.drop-down > a {
-  /* Arrow down white */
   background-image: url(image-path('top_menu_arrow_grey_white_sprite.png'));
   background-position: right -40px;
   background-repeat: no-repeat;
   padding-right: 35px;
 }
-#header li > a:hover {
-  background-color: #700407;
-}
+
 #header li.drop-down > a:hover {
-  /* Arrow down grey */
   background-image: url(image-path('top_menu_arrow_grey_white_sprite.png'));
   background-position: right -2px;
   background-repeat: no-repeat;
@@ -99,35 +70,7 @@
   color: #222222;
 }
 #header li.drop-down li > a:hover, #main-menu ul.menu_root li a.selected, #main-menu ul.menu_root li a:hover  {
-  -moz-border-radius-topleft: 5px;
-  -moz-border-radius-topright: 5px;
-  -webkit-border-top-left-radius: 5px;
-  -webkit-border-top-right-radius: 5px;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  -moz-border-radius-bottomleft: 5px;
-  -moz-border-radius-bottomright: 5px;
-  -webkit-border-bottom-left-radius: 5px;
-  -webkit-border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-  background-color: #7F7F7F;
-  font-weight: bold;
   color: #FFFFFF;
-}
-li a.home {
-  text-indent: -999em;
-  width: 20px;
-  height: 43px;
-
-  /* Home Black */
-  background-image: url(image-path('home_black_white_sprite.png'));
-  background-position: center -3px;
-  background-repeat: no-repeat;
-}
-
-li a.home:hover {
-  background-position: center -35px;
 }
 
 li a.help {
@@ -136,20 +79,18 @@ li a.help {
   height: 43px;
 
   background-image: url(image-path('question_mark_black_white_sprite.png'));
-  background-position: center -48px;
+  background-position: center -13px;
   background-repeat: no-repeat;
 }
+
 li a.help:hover {
-  background-position: center -13px;
+  background-position: center -48px;
 }
 
 #header li.drop-down.open > a {
   background: #FFFFFF url(image-path('arrow-down-grey.png')) no-repeat right center;
   padding-right: 35px;
   color: #000000;
-}
-.account-nav li{
-  padding: 0;
 }
 .account-nav li a {
   display: block;
@@ -190,17 +131,6 @@ input:-moz-placeholder {
   top: 0px;
   z-index: 21;
 }
-#header li > ul {
-  display: none;
-  position: absolute;
-  height: auto;
-  min-width: 270px;
-  left: -1px;
-  z-index: 20;
-  border: 1px solid #b7b7b7;
-  border-top: 0px;
-  background-color: #FFFFFF;
-}
 #header li.last-child > ul {
   left: auto;
   right: -1px;
@@ -217,7 +147,6 @@ input:-moz-placeholder {
   position: static;
   color: #222222;
   font-size: 13px;
-  font-family: "Arial", Arial, sans-serif;
   font-style: normal;
   font-weight: normal;
   margin-top: 3px;
@@ -256,24 +185,12 @@ div#optional_login_fields {
   white-space: nowrap;
   margin-left: 2px;
 }
-.account-nav li > a {
-  height: 30px;
-  line-height: 29px;
-  zoom: 1;
-}
-
 .account-nav > li {
   margin-left: 3px;
   margin-right: 3px;
   border-right: 0px solid;
-  height: 26px;
-  margin-top: 17px;
 
   zoom: 1;
-}
-
-#header li > ul {
-  top: 29px;
 }
 
 
@@ -287,11 +204,6 @@ li a.home:hover  {
   background-position: center -11px;
 }
 
-
-#header li > a {
-  height: 30px;
-  color: #222222;
-}
 
 #header li.drop-down > a {
   padding-right: 35px;
@@ -307,15 +219,9 @@ li a.home:hover  {
   color: white;
 }
 
-.account-nav > li:hover, .account-nav > li.drop-down.open {
-  background: url(image-path('topmenu_sprite.png')) repeat-x;
-  background-position: 0px -28px;
-}
-
-
 #header li.drop-down > a:hover, #header li.drop-down > a {
   background-image: url(image-path('top_menu_arrow_black_white_sprite.png'));
-  background-position: right -10px;
+  background-position: right -48px;
   background-color: transparent;
 }
 
