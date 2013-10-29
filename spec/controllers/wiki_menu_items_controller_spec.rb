@@ -36,7 +36,7 @@ describe WikiMenuItemsController do
   let(:wiki) { project.wiki }
 
   let(:wiki_page) { FactoryGirl.create(:wiki_page, :wiki => wiki) } # first wiki page without child pages
-  let!(:top_level_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :wiki => wiki, :title => wiki_page.title) }
+  let!(:top_level_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :with_menu_item_options, :wiki => wiki, :title => wiki_page.title) }
  
   before :each do
     # log in user
@@ -93,13 +93,13 @@ describe WikiMenuItemsController do
     end
   end
 
-  shared_context 'there is one more wiki page with a child page' do
+  shared_context 'when there is one more wiki page with a child page' do
     let!(:another_wiki_page) { FactoryGirl.create(:wiki_page, :wiki => wiki) } # second wiki page with two child pages
     let!(:child_page) { FactoryGirl.create(:wiki_page, :parent => another_wiki_page, :wiki => wiki) }
   end
 
   describe :select_main_menu_item do
-    include_context 'there is one more wiki page with a child page'
+    include_context 'when there is one more wiki page with a child page'
 
     before { get :select_main_menu_item, project_id: project, id: wiki_page.title }
     subject { assigns['possible_wiki_pages'] }
@@ -112,9 +112,10 @@ describe WikiMenuItemsController do
   end
 
   describe :replace_main_menu_item do
-    include_context 'there is one more wiki page with a child page'
+    include_context 'when there is one more wiki page with a child page'
 
     let(:selected_page) { child_page }
+    let(:new_menu_item) { selected_page.menu_item }
 
     before do
       post :replace_main_menu_item, project_id: project,
@@ -129,6 +130,10 @@ describe WikiMenuItemsController do
     it 'creates a new main menu item for the selected wiki page' do
       selected_page.menu_item.should be_present
       selected_page.menu_item.parent.should be_nil
+    end
+
+    it 'transfers the menu item options to the selected wiki page' do
+      new_menu_item.options.should == { index_page: true, new_wiki_page: true }
     end
   end
 end

@@ -84,12 +84,14 @@ class WikiMenuItemsController < ApplicationController
   end
 
   def replace_main_menu_item
+    current_page = WikiPage.find params[:id]
+    current_menu_item = current_page.menu_item
+
     if page = WikiPage.find(params[:wiki_page][:id])
-      create_main_menu_item_for_wiki_page(page)
+      create_main_menu_item_for_wiki_page(page, current_menu_item.options)
     end
 
-    current_page = WikiPage.find params[:id]
-    current_page.menu_item.destroy
+    current_menu_item.destroy
 
     redirect_to action: :edit, id: current_page.title
   end
@@ -127,7 +129,7 @@ class WikiMenuItemsController < ApplicationController
     end
   end
 
-  def create_main_menu_item_for_wiki_page(page)
+  def create_main_menu_item_for_wiki_page(page, options={})
     wiki = page.wiki
 
     menu_item = if item = page.menu_item
@@ -135,6 +137,8 @@ class WikiMenuItemsController < ApplicationController
     else
       wiki.wiki_menu_items.build(title: page.title, name: page.pretty_title)
     end
+
+    menu_item.options = options
     menu_item.save
   end
 end

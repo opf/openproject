@@ -32,5 +32,10 @@ FactoryGirl.define do
 
     sequence(:name) {|n| "Item No. #{n}" }
     sequence(:title) {|n| "Wiki Title #{n}" }
+
+    trait :with_menu_item_options do
+      index_page true
+      new_wiki_page true
+    end
   end
 end
