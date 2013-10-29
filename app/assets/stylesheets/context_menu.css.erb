@@ -27,7 +27,15 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++*/
 
-#context-menu { position: absolute; z-index: 40; font-size: 0.9em;}
+
+#context-menu {
+  position: absolute;
+  font-size: 0.9em;
+  left: -7px;
+  top: -7px;
+  padding: 6px;
+  z-index: 21;
+}
 
 #context-menu ul, #context-menu li, #context-menu a {
 	display:block;
@@ -37,55 +45,8 @@ See doc/COPYRIGHT.rdoc for more details.
 }
 
 #context-menu ul {
-	width:150px;
-	border-top:1px solid #ddd;
-	border-left:1px solid #ddd;
-	border-bottom:1px solid #777;
-	border-right:1px solid #777;
-	background:white;
-	list-style:none;
-  position:relative;
-}
-
-#context-menu li {
-	position:relative;
-	padding:1px;
-	z-index:39;
-	border:1px solid white;
-}
-#context-menu li.folder ul { position:absolute; left:168px; /* IE6 */ top:-2px; max-height:300px; overflow:hidden; overflow-y: auto; }
-#context-menu li.folder>ul { left:148px; }
-
-#context-menu.reverse-y li.folder>ul { top:auto; bottom:0; }
-#context-menu.reverse-x li.folder ul { left:auto; right:168px; /* IE6 */ }
-#context-menu.reverse-x li.folder>ul { right:148px; }
-
-#context-menu a {
-	text-decoration:none !important;
-	background-repeat: no-repeat;
-	background-position: 1px 50%;
-	padding: 1px 0px 1px 20px;
-	width:100%; /* IE */
-}
-#context-menu li>a { width:auto; } /* others */
-#context-menu a.disabled, #context-menu a.disabled:hover {color: #ccc;}
-#context-menu li a.submenu { background:url("../images/bullet_arrow_right.png") right no-repeat; }
-#context-menu li:hover { border:1px solid gray; background-color:#eee; }
-#context-menu a:hover {color:#2A5685;}
-#context-menu li.folder:hover { z-index:40; }
-#context-menu ul ul, #context-menu  li:hover ul ul { display:none; }
-#context-menu li:hover ul, #context-menu li:hover li:hover ul {	display:block; }
-
-#context-menu {
-  position: absolute;
-  left: -7px;
-  top: -7px;
-  padding: 6px;
-  z-index: 21;
-}
-
-#context-menu ul {
   width: 140px;
+	list-style:none;
   position: absolute;
   left: -7px;
   z-index: 20;
@@ -95,14 +56,62 @@ See doc/COPYRIGHT.rdoc for more details.
   border: 1px solid #afafaf;
 
 }
+
 #context-menu li {
-  padding: 6px !important;
+	position:relative;
+	padding:1px;
+  padding: 6px;
+	z-index:39;
+	border:1px solid white;
   background-position: 6px center;
   background-repeat: no-repeat;
   cursor: pointer;
   /* From .menu */
-  border-top: 1px solid #fff !important;
-  border-bottom: 1px solid #ddd !important;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+#context-menu.reverse-y li.folder>ul { top:auto; bottom:0; }
+#context-menu.reverse-x li.folder ul { left:auto; right:168px; /* IE6 */ }
+#context-menu.reverse-x li.folder>ul { right:148px; }
+
+#context-menu a {
+  border: none;
+	background-repeat: no-repeat;
+	background-position: 1px 50%;
+	padding: 1px 10px 1px 20px;
+	width:100%; /* IE */
+}
+
+#context-menu li>a {  /* others */
+  width:auto;
+}
+
+#context-menu a.disabled, #context-menu a.disabled:hover {
+  color: #ccc;
+}
+
+#context-menu li:hover {
+  border: 1px solid gray;
+  background-color:#eee;
+}
+
+#context-menu a:hover {
+  color:#2A5685;
+  border: none;
+  background-color:#f4f4f4;
+}
+
+#context-menu li.folder:hover {
+  z-index:40;
+}
+
+#context-menu ul ul, #context-menu  li:hover ul ul {
+ display:none;
+}
+
+#context-menu li:hover ul, #context-menu li:hover li:hover ul {
+  display:block;
 }
 
 #context-menu li.folder div.submenu {
@@ -113,8 +122,13 @@ See doc/COPYRIGHT.rdoc for more details.
   top: 11px;
   right: 6px;
 }
+
 #context-menu li.folder ul {
   display: none;
+  position:absolute;
+  max-height:300px;
+  overflow-x:hidden;
+  overflow-y: auto;
   left: 140px;
   top: -1px;
   width: auto;
