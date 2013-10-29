@@ -53,4 +53,13 @@ describe QueryMenuItemsController do
       response.should redirect_to edit_query_menu_item_path(project, public_query, @query_menu_item)
     end
   end
+
+  describe '#destroy' do
+    let(:query_menu_item) { public_query.create_query_menu_item name: public_query.name, title: public_query.name }
+
+    it 'destroys the query_menu_item' do
+      delete :destroy, id: query_menu_item, project_id: project, query_id: public_query
+      MenuItems::QueryMenuItem.exists?(query_menu_item.id).should be_false
+    end
+  end
 end
