@@ -37,6 +37,7 @@ module OpenProject
       'autologin_cookie_path'   => '/',
       'autologin_cookie_secure' => false,
       'database_cipher_key'     => nil,
+      'session_storage'         => 'cookie',
       'scm_git_command'         => nil,
       'scm_subversion_command'  => nil,
 

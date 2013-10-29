@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#1718` Invalidate sessions on server-side on logout
+
 ## 3.0.0pre28
 
 * `#1910` New menu structure for pages of timelines module
