@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#1749` Prevent JSON Hijacking
 * `#2580` Fixed some unlikely remote code executions
 
 ## 3.0.0pre23
