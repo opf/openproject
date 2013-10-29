@@ -87,7 +87,7 @@ class WikiMenuItemsController < ApplicationController
     current_page = WikiPage.find params[:id]
     current_menu_item = current_page.menu_item
 
-    if page = WikiPage.find(params[:wiki_page][:id])
+    if page = WikiPage.find_by_id(params[:wiki_page][:id])
       create_main_menu_item_for_wiki_page(page, current_menu_item.options)
     end
 
