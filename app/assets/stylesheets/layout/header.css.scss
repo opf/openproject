@@ -73,19 +73,6 @@
   color: #FFFFFF;
 }
 
-li a.help {
-  text-indent: -999em;
-  width: 20px;
-  height: 43px;
-
-  background-image: url(image-path('question_mark_black_white_sprite.png'));
-  background-position: center -13px;
-  background-repeat: no-repeat;
-}
-
-li a.help:hover {
-  background-position: center -48px;
-}
 
 #header li.drop-down.open > a {
   background: #FFFFFF url(image-path('arrow-down-grey.png')) no-repeat right center;
@@ -239,4 +226,10 @@ li a.home:hover  {
 #header li.drop-down > ul {
   -moz-box-shadow: 1px 1px 2px #aaa;
   -webkit-box-shadow: 1px 1px 2px #aaa;
+}
+
+li a.help {
+  width: 20px;
+  height: 43px;
+  padding-right: 6px;
 }

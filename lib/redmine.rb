@@ -225,11 +225,10 @@ Redmine::AccessControl.map do |map|
 end
 
 Redmine::MenuManager.map :top_menu do |menu|
-  menu.push :home, :home_path
-  menu.push :my_page, { :controller => '/my', :action => 'page' }, :if => Proc.new { User.current.logged? }
+  menu.push :my_page, { :controller => '/my', :action => 'page' }, :html => {:'data-icon' => '5'}, :if => Proc.new { User.current.logged? }
   # projects menu will be added by Redmine::MenuManager::TopMenuHelper#render_projects_top_menu_node
   menu.push :administration, { :controller => '/admin', :action => 'projects' }, :if => Proc.new { User.current.admin? }, :last => true
-  menu.push :help, OpenProject::Info.help_url, :last => true, :caption => "?", :html => { :accesskey => OpenProject::AccessKeys.key_for(:help) }
+  menu.push :help, OpenProject::Info.help_url, :last => true, :caption => I18n.t('label_help'), :html => { :accesskey => OpenProject::AccessKeys.key_for(:help), :'data-icon' => 'L'}
 end
 
 Redmine::MenuManager.map :account_menu do |menu|
@@ -276,19 +275,23 @@ Redmine::MenuManager.map :admin_menu do |menu|
 end
 
 Redmine::MenuManager.map :project_menu do |menu|
-  menu.push :overview, { :controller => '/projects', :action => 'show' }
+  menu.push :overview, { :controller => '/projects', :action => 'show' },
+                       :html => {:'data-icon2' => '7'}
 
   menu.push :activity, { :controller => '/activities', :action => 'index' },
                        :param => :project_id,
-                       :if => Proc.new { |p| p.module_enabled?("activity") }
+                       :if => Proc.new { |p| p.module_enabled?("activity") },
+                       :html => {:'data-icon2' => 'a'}
 
   menu.push :roadmap, { :controller => '/versions', :action => 'index' },
                       :param => :project_id,
-                      :if => Proc.new { |p| p.shared_versions.any? }
+                      :if => Proc.new { |p| p.shared_versions.any? },
+                      :html => {:'data-icon2' => '0'}
 
   menu.push :work_packages, { :controller => '/work_packages', :action => 'index' },
                             :param => :project_id,
-                            :caption => :label_work_package_plural
+                            :caption => :label_work_package_plural,
+                            :html => {:'data-icon2' => 'c'}
 
   menu.push :new_work_package, { :controller => '/work_packages', :action => 'new'},
                                :param => :project_id,
@@ -305,7 +308,8 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :timelines,
             {:controller => '/timelines', :action => 'index'},
             :param => :project_id,
-            :caption => :'timelines.project_menu.timelines'
+            :caption => :'timelines.project_menu.timelines',
+            :html => {:'data-icon2' => 'f'}
 
   menu.push :reportings,
             {:controller => '/reportings', :action => 'index'},
@@ -321,11 +325,13 @@ Redmine::MenuManager.map :project_menu do |menu|
 
   menu.push :calendar, { :controller => '/work_packages/calendars', :action => 'index' },
                        :param => :project_id,
-                       :caption => :label_calendar
+                       :caption => :label_calendar,
+                       :html => {:'data-icon2' => 'K'}
 
   menu.push :news, { :controller => '/news', :action => 'index' },
                    :param => :project_id,
-                   :caption => :label_news_plural
+                   :caption => :label_news_plural,
+                   :html => {:'data-icon2' => '2'}
 
   menu.push :new_news, { :controller => '/news', :action => 'new' },
                        :param => :project_id,
@@ -336,17 +342,18 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :boards, { :controller => '/boards', :action => 'index', :id => nil },
                      :param => :project_id,
                      :if => Proc.new { |p| p.boards.any? },
-                     :caption => :label_board_plural
+                     :caption => :label_board_plural,
+                     :html => {:'data-icon2' => 'x'}
 
   menu.push :repository, { :controller => '/repositories', :action => 'show' },
                          :param => :project_id,
-                         :if => Proc.new { |p| p.repository && !p.repository.new_record? }
+                         :if => Proc.new { |p| p.repository && !p.repository.new_record? },
+                         :html => {:'data-icon2' => 'o'}
 
   menu.push :settings, { :controller => '/projects', :action => 'settings' },
                        :caption => :label_project_settings,
-                       :last => true
-
-
+                       :last => true,
+                       :html => {:'data-icon2' => 'T'}
 end
 
 Redmine::Activity.map do |activity|

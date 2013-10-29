@@ -54,7 +54,8 @@ module Redmine::MenuManager::TopMenuHelper
                       { :controller => '/projects',
                         :action => 'index' },
                       :title => l(:label_project_plural),
-                      :access_key => OpenProject::AccessKeys.key_for(:project_search)
+                      :access_key => OpenProject::AccessKeys.key_for(:project_search),
+                      :'data-icon' => 'g'
 
     if User.current.impaired?
       content_tag :li do
@@ -98,7 +99,7 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_module_top_menu_node(items = more_top_menu_items)
-    render_drop_down_menu_node link_to(l(:label_modules), "#", :title => l(:label_modules)),
+    render_drop_down_menu_node link_to(l(:label_modules), "#", :title => l(:label_modules), :'data-icon' => 'M'),
                                items,
                                :id => "more-menu"
   end
@@ -134,9 +135,7 @@ module Redmine::MenuManager::TopMenuHelper
       items_for_more_level = []
       help_menu = nil
       menu_items_for(:top_menu) do |item|
-        if item.name == :home
-
-        elsif  item.name == :my_page
+        if item.name == :my_page
           items_for_main_level << item
         elsif item.name == :help
           help_menu = item
