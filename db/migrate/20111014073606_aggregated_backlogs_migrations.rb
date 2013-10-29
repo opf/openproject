@@ -51,7 +51,6 @@ class AggregatedBacklogsMigrations < ActiveRecord::Migration
       end
     end
     Migration::SettingRenamer.rename("plugin_backlogs","plugin_openproject_backlogs")
-    require 'pry';binding.pry
     # Rename Tracker to Type
     Setting['plugin_openproject_backlogs'] = replace(Setting['plugin_openproject_backlogs'], REPLACED)
   end
