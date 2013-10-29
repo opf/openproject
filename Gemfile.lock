@@ -24,6 +24,7 @@ GIT
 
 GEM
   remote: https://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     actionmailer (3.2.15)
       actionpack (= 3.2.15)
@@ -224,6 +225,8 @@ GEM
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
+    rack-protection (1.5.1)
+      rack
     rack-ssl (1.3.3)
       rack
     rack-test (0.6.2)
@@ -399,6 +402,7 @@ DEPENDENCIES
   pry-rescue
   pry-stack_explorer
   rabl
+  rack-protection
   rack_session_access
   rails (~> 3.2.15)
   rails-dev-tweaks (~> 0.6.1)
