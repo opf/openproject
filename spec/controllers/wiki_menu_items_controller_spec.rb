@@ -35,20 +35,8 @@ describe WikiMenuItemsController do
   let(:project) { FactoryGirl.create(:project).reload } # a wiki is created for project, but the object doesn't know of it (FIXME?)
   let(:wiki) { project.wiki }
 
-  # wiki pages
   let(:wiki_page) { FactoryGirl.create(:wiki_page, :wiki => wiki) } # first wiki page without child pages
   let!(:top_level_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :wiki => wiki, :title => wiki_page.title) }
-  let(:another_wiki_page) { FactoryGirl.create(:wiki_page, :wiki => wiki) } # second wiki page with two child pages
-  let!(:another_wiki_page_top_level_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :wiki => wiki, :title => another_wiki_page.title) }
-
-  # child pages of another_wiki_page
-  let(:child_page) { FactoryGirl.create(:wiki_page, :parent => another_wiki_page, :wiki => wiki) }
-  let!(:child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :wiki => wiki, :title => child_page.title) }
-  let(:another_child_page) { FactoryGirl.create(:wiki_page, :parent => another_wiki_page, :wiki => wiki) }
-  let!(:another_child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :wiki => wiki, :title => another_child_page.title, :parent => top_level_wiki_menu_item) }
-
-  let(:grand_child_page) { FactoryGirl.create(:wiki_page, :parent => child_page, :wiki => wiki) }
-  let!(:grand_child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :wiki => wiki, :title => grand_child_page.title) }
  
   before :each do
     # log in user
@@ -56,6 +44,19 @@ describe WikiMenuItemsController do
   end
 
   describe :edit do
+    # more wiki pages with menu items
+    let(:another_wiki_page) { FactoryGirl.create(:wiki_page, :wiki => wiki) } # second wiki page with two child pages
+    let!(:another_wiki_page_top_level_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :wiki => wiki, :title => another_wiki_page.title) }
+
+    # child pages of another_wiki_page
+    let(:child_page) { FactoryGirl.create(:wiki_page, :parent => another_wiki_page, :wiki => wiki) }
+    let!(:child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :wiki => wiki, :title => child_page.title) }
+    let(:another_child_page) { FactoryGirl.create(:wiki_page, :parent => another_wiki_page, :wiki => wiki) }
+    let!(:another_child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :wiki => wiki, :title => another_child_page.title, :parent => top_level_wiki_menu_item) }
+
+    let(:grand_child_page) { FactoryGirl.create(:wiki_page, :parent => child_page, :wiki => wiki) }
+    let!(:grand_child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :wiki => wiki, :title => grand_child_page.title) }
+
     context 'when no parent wiki menu item has been configured yet' do
       context 'and it is a child page' do
         before { get :edit, project_id: project.id, id: child_page.title }
@@ -89,6 +90,45 @@ describe WikiMenuItemsController do
       it 'preselects the parent wiki menu item that is already assigned' do
         assigns['selected_parent_menu_item_id'].should == top_level_wiki_menu_item.id
       end
+    end
+  end
+
+  shared_context 'there is one more wiki page with a child page' do
+    let!(:another_wiki_page) { FactoryGirl.create(:wiki_page, :wiki => wiki) } # second wiki page with two child pages
+    let!(:child_page) { FactoryGirl.create(:wiki_page, :parent => another_wiki_page, :wiki => wiki) }
+  end
+
+  describe :select_main_menu_item do
+    include_context 'there is one more wiki page with a child page'
+
+    before { get :select_main_menu_item, project_id: project, id: wiki_page.title }
+    subject { assigns['possible_wiki_pages'] }
+
+    context 'when selecting a new wiki page to replace the current main menu item' do
+      it { should include another_wiki_page }
+      it { should include child_page }
+      it { should_not include wiki_page }
+    end
+  end
+
+  describe :replace_main_menu_item do
+    include_context 'there is one more wiki page with a child page'
+
+    let(:selected_page) { child_page }
+
+    before do
+      post :replace_main_menu_item, project_id: project,
+                                    id: wiki_page.id,
+                                    wiki_page: { id: selected_page.id }
+    end
+
+    it 'destroys the current wiki menu item' do
+      wiki_page.menu_item.should be_nil
+    end
+
+    it 'creates a new main menu item for the selected wiki page' do
+      selected_page.menu_item.should be_present
+      selected_page.menu_item.parent.should be_nil
     end
   end
 end

@@ -50,7 +50,7 @@ class WikiMenuItemsController < ApplicationController
     if wiki_menu_setting == 'no_item'
       unless @wiki_menu_item.nil?
         if @wiki_menu_item.is_only_main_item?
-          redirect_to(select_main_menu_item_project_wiki_path(@project, @page_title)) and return
+          redirect_to(select_main_menu_item_project_wiki_path(@project, @page.id)) and return
         else
           @wiki_menu_item.destroy
         end
@@ -88,9 +88,10 @@ class WikiMenuItemsController < ApplicationController
       create_main_menu_item_for_wiki_page(page)
     end
 
-    page.menu_item.destroy
+    current_page = WikiPage.find params[:id]
+    current_page.menu_item.destroy
 
-    redirect_to action: :edit, id: page.title
+    redirect_to action: :edit, id: current_page.title
   end
 
   private
