@@ -31,7 +31,8 @@ class MigrateRemainingCoreSettings < ActiveRecord::Migration
     "tracker" => "type",
     "issue_status_updated" => "status_updated",
     "issue_status" => "status",
-    "issue_field" => "field"
+    "issue_field" => "field",
+    "updated_on" => "updated_at"
   }
   def self.up
     # Delete old plugin settings no longer needed
