@@ -32,14 +32,16 @@ module Api
 
       include ::Api::V2::ApiController
 
-      def index
-        @custom_fields = CustomField.find :all,
-            :offset => params[:offset],
-            :limit => params[:limit]
+      before_filter :require_permissions
 
-        @custom_fields.each do |field|
-          with_visible_projects(field)
-        end
+      def index
+        wp_fields = WorkPackageCustomField.find :all,
+          :include => [:translations, :projects, :types]
+        other_fields = CustomField.find :all,
+          :include => :translations,
+          :conditions => "type != 'WorkPackageCustomField'"
+
+        @custom_fields = (wp_fields + other_fields).sort_by(&:id)
 
         respond_to do |format|
           format.api
@@ -47,7 +49,7 @@ module Api
       end
 
       def show
-        @custom_field = with_visible_projects(CustomField.find params[:id])
+        @custom_field = CustomField.find params[:id], :include => :translations
 
         respond_to do |format|
           format.api
@@ -56,11 +58,8 @@ module Api
 
       protected
 
-      def with_visible_projects(custom_field)
-        def custom_field.visible_projects
-          @visible_projects ||= Project.visible.all :conditions => ["id IN (?)", project_ids]
-        end
-        custom_field
+      def require_permissions
+        deny_access unless User.current.allowed_to? :edit_project, nil, :global => true
       end
 
     end

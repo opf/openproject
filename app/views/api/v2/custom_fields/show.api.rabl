@@ -52,7 +52,7 @@ if custom_field.is_a? WorkPackageCustomField
     attributes :id, :name
   end
 
-  child :visible_projects => :projects do
+  child custom_field.projects.select(&:visible?) => :projects do
     attributes :id, :name
   end
 end
