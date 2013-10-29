@@ -152,7 +152,7 @@ Redmine::AccessControl.map do |map|
 
   map.project_module :wiki do |map|
     map.permission :manage_wiki, {:wikis => [:edit, :destroy]}, :require => :member
-    map.permission :manage_wiki_menu, {:wiki_menu_items => [:edit, :update]}, :require => :member
+    map.permission :manage_wiki_menu, {:wiki_menu_items => [:edit, :update, :select_main_menu_item, :replace_main_menu_item]}, :require => :member
     map.permission :rename_wiki_pages, {:wiki => :rename}, :require => :member
     map.permission :change_wiki_parent_page, {:wiki => [:edit_parent_page, :update_parent_page]},
                    :require => :member
@@ -164,7 +164,6 @@ Redmine::AccessControl.map do |map|
     map.permission :delete_wiki_pages_attachments, {}
     map.permission :protect_wiki_pages, {:wiki => :protect}, :require => :member
     map.permission :list_attachments, {:wiki => :list_attachments}, :require => :member
-    map.permission :replace_main_wiki_menu_item, {:wiki_menu_items => [:select_main_menu_item, :replace_main_menu_item]}, :require => :member
   end
 
   map.project_module :repository do |map|

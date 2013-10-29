@@ -29,15 +29,14 @@
 Feature: Wiki menu items
   Background:
     Given there is 1 project with the following:
-      | name        | Awesome Project      |
-      | identifier  | awesome-project      |
+      | name        | Awesome Project |
+      | identifier  | awesome-project |
     And there is a role "member"
     And the role "member" may have the following rights:
-      | view_wiki_pages             |
-      | edit_wiki_pages             |
-      | delete_wiki_pages           |
-      | manage_wiki_menu            |
-      | replace_main_wiki_menu_item |
+      | view_wiki_pages   |
+      | edit_wiki_pages   |
+      | delete_wiki_pages |
+      | manage_wiki_menu  |
     And there is 1 user with the following:
       | login | bob |
     And the user "bob" is a "member" in the project "Awesome Project"
