@@ -317,6 +317,34 @@ describe ApplicationHelper do
 
         it { should eq("<p>##{issue.id}.</p>") }
       end
+
+      context "Cyclic Description Links" do
+        let(:issue2) { FactoryGirl.create :work_package,
+                                         :project => project,
+                                         :author => project_member,
+                                         :type => project.types.first }
+
+        before do
+          issue2.description = "####{issue.id}"
+          issue2.save!
+          issue.description = "####{issue2.id}"
+          issue.save!
+        end
+
+        subject { textilizable issue, :description }
+
+        it "doesn't replace description links with a cycle" do
+          expect(subject).to match("###{issue.id}")
+        end
+      end
+
+      context "Description links" do
+        subject { textilizable issue, :description }
+
+        it "replaces the macro with the issue description" do
+          expect(subject).to eq("<p>#{issue.description}</p>")
+        end
+      end
     end
 
     context "Project links" do
@@ -500,7 +528,7 @@ describe ApplicationHelper do
           # escaping
           '!source:/some/file'          => 'source:/some/file',
           # invalid expressions
-          'source:'                     => 'source:',
+          'source:'                     => 'source:'
         }
       end
 
