@@ -30,7 +30,7 @@ class WorkPackageCustomFieldDataMigration < ActiveRecord::Migration
   def self.up
     ActiveRecord::Base.connection.execute <<-SQL
         UPDATE #{custom_fields_table}
-        SET type = #{quote_value('WorkPackageCustomfield')}
+        SET type = #{quote_value('WorkPackageCustomField')}
         WHERE type = #{quote_value('IssueCustomField')}
       SQL
   end
@@ -39,7 +39,7 @@ class WorkPackageCustomFieldDataMigration < ActiveRecord::Migration
     ActiveRecord::Base.connection.execute <<-SQL
         UPDATE #{custom_fields_table}
         SET type = #{quote_value('IssueCustomField')}
-        WHERE type = #{quote_value('WorkPackageCustomfield')}
+        WHERE type = #{quote_value('WorkPackageCustomField')}
       SQL
   end
 
