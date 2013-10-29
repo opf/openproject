@@ -39,7 +39,7 @@ class QueryMenuItemsController < ApplicationController
 			flash[:error] = l(:error_menu_item_not_created)
 		end
 
-		redirect_to query_path
+		redirect_to edit_query_menu_item_path(@project, @query, @query_menu_item)
 	end
 
 	def update
