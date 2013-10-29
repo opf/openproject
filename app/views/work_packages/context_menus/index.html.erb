@@ -51,7 +51,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if @allowed_statuses.present? %>
   <% params = default_params.merge(:collection => @statuses,
                                    :attribute => 'status',
-                                   :title => WorkPackage.human_attribute_name(:status),
                                    :selected => lambda { |status| (@work_package && status == @work_package.status) },
                                    :disabled => lambda { |status| !(@can[:update] && @allowed_statuses.include?(status)) }) %>
   <%= context_menu_entry(params) %>
@@ -60,7 +59,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <% unless @types.nil? %>
   <% params = default_params.merge(:collection => @types,
                                    :attribute => 'type',
-                                   :title => WorkPackage.human_attribute_name(:type),
                                    :selected => lambda { |type| (@work_package && type == @work_package.type) },
                                    :disabled => lambda { |type| !@can[:edit] }) %>
   <%= context_menu_entry(params) %>
@@ -68,7 +66,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <% params = default_params.merge(:collection => @priorities,
                                    :attribute => 'priority',
-                                   :title => WorkPackage.human_attribute_name(:priority),
                                    :selected => lambda { |priority| (@work_package && priority == @work_package.priority) },
                                    :disabled => lambda { |priority| !@can[:edit] || @work_packages.detect { |i| !i.leaf? } }) %>
   <%= context_menu_entry(params) %>
@@ -78,7 +75,6 @@ See doc/COPYRIGHT.rdoc for more details.
   <% versions = versions.map{ |v| [v, format_version_name(v)] } << [nil, l(:label_none)]%>
   <% params = default_params.merge(:collection => versions,
                                    :attribute => 'fixed_version',
-                                   :title => WorkPackage.human_attribute_name(:fixed_version),
                                    :selected => lambda { |version| (@work_package && version == @work_package.fixed_version) },
                                    :disabled => lambda { |version| !@can[:update] }) %>
   <%= context_menu_entry(params) %>
@@ -88,7 +84,6 @@ See doc/COPYRIGHT.rdoc for more details.
   <% assignables = @assignables.dup << [nil, l(:label_none)] %>
   <% params = default_params.merge(:collection => assignables,
                                    :attribute => 'assigned_to',
-                                   :title => WorkPackage.human_attribute_name(:assigned_to),
                                    :selected => lambda { |user| @work_package && user == @work_package.assigned_to },
                                    :disabled => lambda { |user| !@can[:update] }) %>
   <%= context_menu_entry(params) %>
@@ -98,7 +93,6 @@ See doc/COPYRIGHT.rdoc for more details.
   <% categories << [nil, l(:label_none)] %>
   <% params = default_params.merge(:collection => categories,
                                    :attribute => 'category',
-                                   :title => WorkPackage.human_attribute_name(:category),
                                    :selected => lambda { |category| @work_package && category == @work_package.category },
                                    :disabled => lambda { |category| !@can[:update] }) %>
   <%= context_menu_entry(params) %>
@@ -107,7 +101,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if WorkPackage.use_field_for_done_ratio? %>
   <% params = default_params.merge(:collection => (0..10).map{ |x| x * 10 },
                                    :attribute => 'done_ratio',
-                                   :title => WorkPackage.human_attribute_name(:done_ratio),
                                    :db_attribute => 'done_ratio',
                                    :selected => lambda { |ratio| @work_package && ratio == @work_package.done_ratio },
                                    :disabled => lambda { |ratio| !@can[:edit] || @work_packages.detect { |i| !i.leaf? } }) %>

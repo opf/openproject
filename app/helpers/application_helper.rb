@@ -911,60 +911,6 @@ module ApplicationHelper
     end
   end
 
-  def context_menu(url)
-    unless @context_menu_included
-      if l(:direction) == 'rtl'
-        content_for :header_tags do
-          stylesheet_link_tag('context_menu_rtl')
-        end
-      end
-      @context_menu_included = true
-    end
-    javascript_tag "new ContextMenu('#{ url_for(url) }')"
-  end
-
-  def context_menu_link(name, url, options={})
-    options[:class] ||= ''
-    if options.delete(:selected)
-      options[:class] << ' icon-checked disabled'
-      options[:disabled] = true
-    end
-    if options.delete(:disabled)
-      options.delete(:method)
-      options.delete(:confirm)
-      options.delete(:onclick)
-      options[:class] << ' disabled'
-      url = '#'
-    end
-    link_to h(name), url, options
-  end
-
-  # TODO: need a decorator to clean this up
-  def context_menu_entry(args)
-    db_attribute = args[:db_attribute] || "#{args[:attribute]}_id"
-
-    content_tag :li, :class => "folder #{args[:attribute]}" do
-      ret = link_to((args[:title] || l(:"field_#{args[:attribute]}")), "#", :class => "context_item")
-
-      ret += content_tag :ul do
-		    args[:collection].collect do |(s, name)|
-          content_tag :li do
-            context_menu_link (name || s), work_packages_bulk_path(:ids => args[:updated_object_ids],
-                                                                   :work_package => { db_attribute => s },
-                                                                   :back_url => args[:back_url]),
-                                           :method => :put,
-                                           :selected => args[:selected].call(s),
-                                           :disabled => args[:disabled].call(s)
-          end
-        end.join.html_safe
-      end
-
-      ret += content_tag :div, '', :class => "submenu"
-
-      ret
-    end
-  end
-
   def calendar_for(field_id)
     include_calendar_headers_tags
     javascript_tag("jQuery('##{field_id}').datepicker();")
