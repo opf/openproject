@@ -78,6 +78,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% versions = versions.map{ |v| [v, format_version_name(v)] } << [nil, l(:label_none)]%>
   <% params = default_params.merge(:collection => versions,
                                    :attribute => 'fixed_version',
+                                   :title => WorkPackage.human_attribute_name(:fixed_version),
                                    :selected => lambda { |version| (@work_package && version == @work_package.fixed_version) },
                                    :disabled => lambda { |version| !@can[:update] }) %>
   <%= context_menu_entry(params) %>
