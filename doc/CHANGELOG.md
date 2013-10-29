@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#1749` Prevent JSON Hijacking
+* `#2281` The context menu is not correctly displayed
 * `#2580` Fixed some unlikely remote code executions
 
 ## 3.0.0pre23
