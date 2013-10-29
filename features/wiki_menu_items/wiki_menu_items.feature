@@ -33,10 +33,11 @@ Feature: Wiki menu items
       | identifier  | awesome-project      |
     And there is a role "member"
     And the role "member" may have the following rights:
-      | view_wiki_pages   |
-      | edit_wiki_pages   |
-      | delete_wiki_pages |
-      | manage_wiki_menu  |
+      | view_wiki_pages             |
+      | edit_wiki_pages             |
+      | delete_wiki_pages           |
+      | manage_wiki_menu            |
+      | replace_main_wiki_menu_item |
     And there is 1 user with the following:
       | login | bob |
     And the user "bob" is a "member" in the project "Awesome Project"
@@ -117,3 +118,19 @@ Feature: Wiki menu items
     And I choose "Do not show this wikipage in project navigation"
     And I press "Save"
     Then I should not see "Wiki" within "#main-menu"
+
+    @javascript
+  Scenario: When I delete the last wiki page with a menu item I can select a new menu item and the menu item is replaced
+    Given the project "Awesome Project" has a wiki menu item with the following:
+      | title | AwesomePage |
+      | name  | AwesomePage |
+    And the wiki menu item of the wiki page "Wiki" of project "Awesome Project" has been deleted
+    When I go to the wiki page "AwesomePage" for the project called "Awesome Project"
+    And I click on "More functions"
+    And I click on "Configure menu item"
+    And I choose "Do not show this wikipage in project navigation"
+    And I press "Save"
+    And I select "Wiki" from "main-menu-item-select"
+    And I press "Save"
+    Then I should not see "AwesomePage" within "#main-menu"
+    Then I should see "Wiki" within "#main-menu"
