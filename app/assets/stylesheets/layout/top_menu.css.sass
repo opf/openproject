@@ -91,9 +91,34 @@
       min-width: 270px
       left: -1px
       z-index: 20
-      border: 1px solid #b7b7b7
+      border: 2px solid #D0D0D0
       border-top: 0px
       background-color: #FFFFFF
+  li.open > a
+    position: relative
+    top: 0px
+    z-index: 21
+  li.last-child > ul
+    left: auto
+    right: -1px
+  li li
+    float: none
+    white-space: nowrap
+  li.drop-down select
+    width: 100%
+  li.drop-down > a
+    padding-right: 30px
+    background: url(image-path('top_menu_arrow_grey_white_sprite.png')) right -48px no-repeat
+  li.drop-down > a:hover
+    background: #06799F url(image-path('top_menu_arrow_grey_white_sprite.png')) right -48px no-repeat
+    padding-right: 30px
+  li.drop-down.open > a
+  li.drop-down li > a
+    color: #555555
+  li.drop-down li > a:hover
+    background: #06799F
+    color: #FFFFFF  
+    
   #loggedas
     float: right
     margin-right: 0.5em
@@ -129,6 +154,8 @@
     display: inline
     color: #06799F
     padding: 0
+    font-family: 'LatoRegular', 'Lucida Grande', Helvetica, Arial, sans-serif
+    font-weight: normal
   #nav-login-content table td
     padding: 3px
   #optional_login_fields
