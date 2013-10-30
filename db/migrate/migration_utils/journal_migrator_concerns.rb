@@ -33,6 +33,8 @@ module Migration
       def migrate_attachments(to_insert, legacy_journal, journal_id)
         attachments = to_insert.keys.select { |d| d =~ attachment_key_regexp }
 
+        attachments = remove_attachments_deleted_in_current_version attachments, to_insert
+
         attachments.each do |key|
 
           attachment_id = attachment_key_regexp.match(key)[1]
@@ -86,6 +88,22 @@ module Migration
 
         end
 
+      end
+
+      def remove_attachments_deleted_in_current_version(attachments, to_insert)
+        attachments_to_add_remove = []
+
+        attachments.each do |key|
+          attachment_id = attachment_key_regexp.match(key)[1]
+          attachments_to_add_remove << key
+          removed_filename, _ = *to_insert[key]
+
+          if removed_filename
+            attachments_to_add_remove.delete_if { |k, v| k =~ /attachments#{attachment_id}/ }
+          end
+        end
+
+        attachments_to_add_remove
       end
 
       def attachable_table_name
