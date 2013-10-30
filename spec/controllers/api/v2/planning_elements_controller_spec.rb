@@ -222,7 +222,7 @@ describe Api::V2::PlanningElementsController do
             get 'index', :ids => (@project_a_wps + @project_b_wps + @project_c_wps).map(&:id), :format => 'xml'
 
             assigns(:planning_elements).should =~ (@project_a_wps + @project_b_wps + @project_c_wps)
-          end          
+          end
         end
       end
     end
@@ -272,7 +272,9 @@ describe Api::V2::PlanningElementsController do
                 FactoryGirl.create(:work_package, :project_id => project.id),
                 FactoryGirl.create(:work_package, :project_id => project.id),
                 FactoryGirl.create(:work_package, :project_id => project.id)
-              ]
+              ].map do |model|
+                OpenStruct.new(model.attributes).tap { |s| s.child_ids = [] }
+              end
               get 'index', :project_id => project.id, :format => 'xml'
             end
 
@@ -342,7 +344,9 @@ describe Api::V2::PlanningElementsController do
                 FactoryGirl.create(:work_package, :project_id => project_a.id),
                 FactoryGirl.create(:work_package, :project_id => project_b.id),
                 FactoryGirl.create(:work_package, :project_id => project_b.id)
-              ]
+              ].map do |model|
+                OpenStruct.new(model.attributes).tap { |s| s.child_ids = [] }
+              end
               # adding another planning element, just to make sure, that the
               # result set is properly filtered
               FactoryGirl.create(:work_package, :project_id => project_c.id)
