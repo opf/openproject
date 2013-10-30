@@ -281,7 +281,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :activity, { :controller => '/activities', :action => 'index' },
                        :param => :project_id,
                        :if => Proc.new { |p| p.module_enabled?("activity") },
-                       :html => {:'data-icon2' => 'a'}
+                       :html => {:'data-icon2' => 'k'}
 
   menu.push :roadmap, { :controller => '/versions', :action => 'index' },
                       :param => :project_id,
