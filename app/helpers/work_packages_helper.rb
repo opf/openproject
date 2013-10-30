@@ -131,9 +131,6 @@ module WorkPackagesHelper
 
     # combining
 
-    require 'pry'
-    binding.pry if package.id == 959
-
     prefix = parts[:prefix].join(" ")
     suffix = parts[:suffix].join(" ")
     link = parts[:link].join(" ").strip
