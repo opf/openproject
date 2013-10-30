@@ -67,8 +67,6 @@ class AddPlanningElementTypePropertiesToType < ActiveRecord::Migration
     remove_column :types, :updated_at
 
     change_column :types, :name, :string, :limit => 30, :default => "", :null => false
-
-    remove_index :types, :name => :index_types_on_color_id
   end
 
 end

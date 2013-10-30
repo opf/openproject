@@ -54,6 +54,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2464` No initial attachment journal for messages
 * `#2470` [Timelines] Vertical planning elements which are not displayed horizontally are not shown in timeline report
 * `#2479` Remove TinyMCE spike
+* `#2508` Migrated former user passwords (from OpenProject 2.x strong_passwords plugin)
 * `#2521` XSS: MyPage on unfiltered WorkPackage Subject
 * `#2548` Migrated core settings
 * `#2557` Highlight changes of any work package attribute available in the timelines table
