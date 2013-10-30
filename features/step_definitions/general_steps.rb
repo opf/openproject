@@ -344,6 +344,26 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following types:$/ do |project_na
   end
 end
 
+Given(/^the user "([^\"]+)" has the following queries by type in the project "(.*?)":$/) do |login, project_name, table|
+  u = User.find_by_login login
+  p = get_project(project_name)
+
+  table.hashes.each_with_index do |t, i|
+    types = Type.find_all_by_name(t['type_value']).map {|type| type.id.to_s}
+    p.queries.create(user_id: u.id, name: t['name'], filters:  {type_id: {operator: "=", values: types} })
+  end
+end
+
+Given(/^the user "([^\"]+)" has the following query menu items in the project "(.*?)":$/) do |login, project_name, table|
+  u = User.find_by_login login
+  p = get_project(project_name)
+
+  table.hashes.each_with_index do |t, i|
+    query = p.queries.find_by_name t['navigatable']
+    MenuItems::QueryMenuItem.create name: t['name'], title: t['title'], navigatable_id: query.id
+  end
+end
+
 When(/^I wait for "(.*?)" minutes$/) do |number_of_minutes|
  page.set_rack_session(updated_at: Time.now - number_of_minutes.to_i.minutes)
 end
