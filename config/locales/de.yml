@@ -137,6 +137,7 @@ de:
   label_rate_plural: "Sätze"
   label_status_finished: "Abgeschlossen"
   label_units: "Einheiten"
+  label_user: "Benutzer"
   label_until: "bis"
   label_valid_from: "Gültig ab"
   label_variable_cost_object: "Variables Budget"
