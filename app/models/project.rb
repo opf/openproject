@@ -611,8 +611,20 @@ class Project < ActiveRecord::Base
 
   # Returns an array of all custom fields enabled for project issues
   # (explictly associated custom fields and custom fields enabled for all projects)
-  def all_work_package_custom_fields
-    @all_work_package_custom_fields ||= (WorkPackageCustomField.for_all + work_package_custom_fields).uniq.sort
+  #
+  # Supports the :include option.
+  def all_work_package_custom_fields(options = {})
+    @all_work_package_custom_fields ||= (
+      WorkPackageCustomField.for_all(options) + (
+        if options.include? :include
+          WorkPackageCustomField.joins(:projects)
+            .where(:projects => {:id => self.id})
+            .includes(options[:include]) # use #preload instead of #includes if join gets too big
+        else
+          work_package_custom_fields
+        end
+      )
+    ).uniq.sort
   end
 
   def project

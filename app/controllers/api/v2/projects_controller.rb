@@ -67,7 +67,7 @@ module Api
       end
 
       def planning_element_custom_fields
-        @custom_fields = @project.all_work_package_custom_fields
+        @custom_fields = @project.all_work_package_custom_fields :include => [:projects, :types, :translations]
 
         respond_to do |format|
           format.api
