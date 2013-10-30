@@ -86,29 +86,6 @@
 .account-nav li > ul > li {
   max-width: 350px;
 }
-#header .search_field {
-  position: relative;
-  border: 0;
-  border-radius: 25px;
-  -webkit-border-radius: 25px;
-  background: #FFFFFF url(image-path('magnifier.png')) no-repeat 94% center;
-  top: 6px;
-  width: 140px;
-  outline: 0px;
-  padding: 7px 30px 7px 10px;
-  font-family: 'LatoRegular', 'Lucida Grande', Helvetica, Arial, sans-serif;
-  color: #000000;
-}
-input::-webkit-input-placeholder {
-  color: #000000;  
-}
-input:-moz-placeholder {
-  color: #000000;
- }
-#search {
-  margin: 7px 25px 0 0;
-  float: left;
-}
 #header li.open > a {
   position: relative;
   top: 0px;
@@ -140,34 +117,6 @@ input:-moz-placeholder {
   line-height: 15px;
 }
 
-#nav-login-content {
-  position: relative;
-  position-top: 44px;
-  float: right;
-  background: white;
-  border: 0px solid #194E60;
-  border-top: 0;
-  padding-left: 5px;
-  padding-top: 5px;
-  padding-right: 10px;
-  padding-bottom: 8px;
-  color: #333333;
-  line-height: 19px;
-}
-#nav-login-content  input[type=text], #nav-login-content input[type=password] {
-  height: 20px;
-  width: 150px;
-}
-#nav-login-content  div a {
-  display: inline;
-  color: #333333;
-  padding: 0;
-}
-div#optional_login_fields {
-  top: 10px;
-  white-space: nowrap;
-  margin-left: 2px;
-}
 .account-nav > li {
   margin-left: 3px;
   margin-right: 3px;
