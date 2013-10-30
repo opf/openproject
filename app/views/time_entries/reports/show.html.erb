@@ -43,6 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= hidden_field_tag 'criterias[]', criteria, :id => nil %>
   <% end %>
   <%= render :partial => 'timelog/date_range' %>
+  <%= render 'timelog/time_entry_tabs' %>
 
   <p><label for='columns'><%= l(:label_details) %></label>: <%= select_tag 'columns', options_for_select([[l(:label_year), 'year'],
                                                                             [l(:label_month), 'month'],

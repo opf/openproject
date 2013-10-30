@@ -1,0 +1,9 @@
+<div class="tabs">
+  <% url_params = @free_period ? { :from => @from, :to => @to } : { :period => params[:period] } %>
+  <ul>
+    <li><%= link_to(l(:label_details), polymorphic_time_entries_path(@issue || @project),
+                                       :class => (request.path == polymorphic_time_entries_path(@issue || @project) ? 'selected' : nil)) %></li>
+    <li><%= link_to(l(:label_report), polymorphic_time_entries_report_path(@issue || @project),
+                                      :class => (request.path == polymorphic_time_entries_report_path(@issue || @project) ? 'selected' : nil)) %></li>
+  </ul>
+</div>

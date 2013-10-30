@@ -42,6 +42,8 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= render :partial => 'date_range' %>
 <% end %>
 
+<%= render 'time_entry_tabs' %>
+
 <div class="total-hours">
 <p><%= l(:label_total) %>: <%= html_hours(l_hours(@total_hours)) %></p>
 </div>
