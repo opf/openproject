@@ -36,12 +36,14 @@ module Api
 
       def index
         wp_fields = WorkPackageCustomField.find :all,
-          :include => [:translations, :projects, :types]
+          :include => [:translations, :projects, :types],
+          :order => :id
         other_fields = CustomField.find :all,
           :include => :translations,
-          :conditions => "type != 'WorkPackageCustomField'"
+          :conditions => "type != 'WorkPackageCustomField'",
+          :order => [:type, :id]
 
-        @custom_fields = (wp_fields + other_fields).sort_by(&:id)
+        @custom_fields = wp_fields + other_fields
 
         respond_to do |format|
           format.api
