@@ -46,13 +46,6 @@ describe WorkPackage do
     let!(:admin){ FactoryGirl.create(:admin) }
     let!(:anonymous_user){ FactoryGirl.create(:anonymous) }
 
-    shared_examples 'it provides possible watchers' do
-      example 'and contains exactly those users who are allowed to view work packages' do
-        users_allowed_to_view_work_packages = User.all.select{ |u| u.allowed_to?(:view_work_packages, project) }
-        work_package.possible_watcher_users.sort.should == Array.wrap(users_allowed_to_view_work_packages).sort
-      end
-    end
-
     shared_context 'non member role has the permission to view work packages' do
       let(:non_member_role) { Role.find_by_name('Non member') }
 
@@ -66,7 +59,10 @@ describe WorkPackage do
     end
 
     context 'when it is a public project' do
-      it_behaves_like 'it provides possible watchers'
+      it 'contains non-anonymous users who are allowed to view work packages' do
+        users_allowed_to_view_work_packages = User.not_builtin.select{ |u| u.allowed_to?(:view_work_packages, project) }
+        work_package.possible_watcher_users.sort.should == users_allowed_to_view_work_packages.sort
+      end
 
       it { should include(admin) }
       it { should include(project_member) }
@@ -93,11 +89,14 @@ describe WorkPackage do
         work_package.reload
       end
 
-      it_behaves_like 'it provides possible watchers'
+      it 'contains project members who are allowed to view work packages' do
+        users_allowed_to_view_work_packages = project.users.select{ |u| u.allowed_to?(:view_work_packages, project) }
+        work_package.possible_watcher_users.sort.should == users_allowed_to_view_work_packages.sort
+      end
 
       it { should include(project_member) }
-      it { should include(admin) }
 
+      it { should_not include(admin) }
       it { should_not include(non_member_user) }
       it { should_not include(anonymous_user) }
     end

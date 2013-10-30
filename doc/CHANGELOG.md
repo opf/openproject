@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#416`  Fix: Too many users selectable as watchers
 * `#2697` Fix: Missing migration of planning element watchers
 * `#2564` Support custom fields in REST API v2 for work packages and projects
 * `#2567` [Timelines] Select2 selection shows double escaped character
@@ -82,7 +83,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2597` [Roadmap] Missing english/german closed percentage label
 * `#2604` [Migration] Attachable journals incorrect
 * `#2608` [Activity] Clicking on Atom-feed in activity leads to 500 error
-* Add rake task for changing timestamps in the database to UTC
+* `#2598` Add rake task for changing timestamps in the database to UTC
 
 ## 3.0.0pre23
 
