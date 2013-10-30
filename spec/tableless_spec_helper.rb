@@ -27,54 +27,5 @@
 #++
 
 class Tableless < ActiveRecord::Base
-  # attr_accessor :attributes, :attributes_cache
-
-  def initialize
-    super
-    self.id = self.class.next_id
-    self.class.instances << self
-  end
-
-  def self.columns
-    @columns ||= [];
-  end
-
-  def self.column(name, sql_type = nil, default = nil, null = true)
-    columns << ActiveRecord::ConnectionAdapters::Column.new(name.to_s, default,
-      sql_type.to_s, null)
-  end
-
-  # Override the save method to prevent exceptions.
-  def save(validate = true)
-    validate ? valid? : true
-  end
-
-  def reload
-    true
-  end
-
-  # id == -1 means no id has been assigned, yet
-  def self.last_id
-    @last_id ||= -1
-    @last_id
-  end
-
-  def self.next_id
-    @last_id = last_id + 1
-  end
-
-  def self.instances
-    @instances ||= []
-  end
-
-  def self.find(instance)
-    @instances.detect { |i| i.id == instance }
-  end
-
-  def self.inherited(subclass)
-    subclass.instance_variable_set("@columns", columns)
-    super
-  end
-
-  column :id, :integer
+  has_no_table :database => :pretend_success
 end
