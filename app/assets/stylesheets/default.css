@@ -32,6 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
  * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
  * the top of the compiled file, but it's generally better to create a new file per style scope.
  *
+ *= require fonts/lato
  *= require fonts/openproject_icon_font
  *= require application
  *= require layout/base
