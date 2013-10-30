@@ -72,6 +72,8 @@ gem 'oj'
 # will need to be removed once we are on rails4 as it will be part of the rails4 core
 gem 'strong_parameters'
 
+gem 'rack-protection'
+
 group :production do
   # we use dalli as standard memcache client remove this if you don't
   # requires memcached 1.4+
