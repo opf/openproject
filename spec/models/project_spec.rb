@@ -227,22 +227,23 @@ describe Project do
 
     describe :copy_work_packages do
       before do
-        wp1 = FactoryGirl.create(:work_package, :project => project)
-        wp2 = FactoryGirl.create(:work_package, :project => project)
-        wp3 = FactoryGirl.create(:work_package, :project => project)
+        version = FactoryGirl.create(:version, :project => project)
+        wp1 = FactoryGirl.create(:work_package, :project => project, :fixed_version => version)
+        wp2 = FactoryGirl.create(:work_package, :project => project, :fixed_version => version)
+        wp3 = FactoryGirl.create(:work_package, :project => project, :fixed_version => version)
         relation = FactoryGirl.create(:relation, :from => wp1, :to => wp2)
         wp1.parent = wp3
         wp1.category = FactoryGirl.create(:category, :project => project)
-        wp1.fixed_version = FactoryGirl.create(:version, :project => project)
         [wp1, wp2, wp3].each { |wp| project.work_packages << wp }
 
         copy.send :copy_work_packages, project
         copy.save
       end
 
-      subject { copy.work_packages.count }
-
-      it { should == project.work_packages.count }
+      it do
+        copy.work_packages.each { |wp| wp.should(be_valid) && wp.fixed_version.should(be_nil) }
+        copy.work_packages.count.should == project.work_packages.count
+      end
     end
 
     describe :copy_timelines do
