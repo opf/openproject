@@ -37,7 +37,10 @@ module Api
       before_filter :require_permissions, :only => :planning_element_custom_fields
 
       def index
-        options = {:order => 'lft'}
+        options = {
+          :order => 'lft',
+          :include => :custom_values
+        }
 
         if params[:ids]
           ids, identifiers = params[:ids].split(/,/).map(&:strip).partition { |s| s =~ /\A\d*\z/ }
