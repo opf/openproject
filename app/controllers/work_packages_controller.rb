@@ -34,6 +34,16 @@ class WorkPackagesController < ApplicationController
 
   menu_item :new_work_package, :only => [:new, :create]
 
+  current_menu_item :index do |controller|
+    query = controller.instance_variable_get :"@query"
+
+    if query.persisted? && current = query.query_menu_item.try(:name)
+      current.to_sym
+    else
+      :work_packages
+    end
+  end
+
   include QueriesHelper
   include SortHelper
   include PaginationHelper
@@ -389,16 +399,6 @@ class WorkPackagesController < ApplicationController
     end
 
     work_package.add_time_entry(attributes)
-  end
-
-  # Override method from menu_controller mix in to select query menu items, which aren't currently distinguished by their action names
-  def current_menu_item
-    if !@current_menu_item_determined && action_name == 'index' && @query.persisted? && current = @query.query_menu_item.try(:name)
-      @current_menu_item_determined = true
-      @current_menu_item = current.to_sym
-    else
-      super
-    end
   end
 
   protected
