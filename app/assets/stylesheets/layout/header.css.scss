@@ -88,29 +88,25 @@
 }
 #header .search_field {
   position: relative;
-  border: 0px;
-  color: #4b4b4b;
-  background: none;
+  border: 0;
+  border-radius: 25px;
+  -webkit-border-radius: 25px;
+  background: #FFFFFF url(image-path('magnifier.png')) no-repeat 94% center;
   top: 6px;
-  width: 119px;
-  left: 8px;
+  width: 140px;
   outline: 0px;
-}
-#header #search_wrap {
-  background: transparent url(image-path('webalys/search.png')) no-repeat;
-  width: 162px;
-  height: 30px;
-  margin-right: 15px;
-  margin-top: 6px;
-  margin-bottom: 4px;
+  padding: 7px 30px 7px 10px;
+  font-family: 'LatoRegular', 'Lucida Grande', Helvetica, Arial, sans-serif;
+  color: #000000;
 }
 input::-webkit-input-placeholder {
-  color:    white;
+  color: #000000;  
 }
 input:-moz-placeholder {
-  color:    white;
-}
+  color: #000000;
+ }
 #search {
+  margin: 7px 25px 0 0;
   float: left;
 }
 #header li.open > a {
