@@ -1341,6 +1341,24 @@ describe WorkPackage do
       # assert that there is only one error
       expect(work_package.errors.size).to eq 1
       expect(work_package.errors_on(:custom_values).size).to eq 1
+	end
+  end
+
+  describe :copy_from do
+    let(:project) { FactoryGirl.create(:project) }
+    let(:work_package) do
+      work_package = FactoryGirl.create(:work_package, project: project)
+      5.times do
+        FactoryGirl.create(:watcher, user: FactoryGirl.create(:user, member_in_project: project), watchable: work_package)
+      end
+      work_package
+    end
+
+    it "should produce valid watchers on unsaved work_packages" do
+      copy = WorkPackage.new.copy_from(work_package)
+      copy.should be_valid
+      copy.watchers.each { |w| w.should be_valid }
     end
   end
 end
+
