@@ -596,6 +596,7 @@ en:
   label_calendar: "Calendar"
   label_calendar_show: "Show Calendar"
   label_category: "Category"
+  label_select_main_menu_item: Select new main menu item
   label_change_plural: "Changes"
   label_change_properties: "Change properties"
   label_change_status: "Change status"

@@ -39,7 +39,7 @@ class WikiMenuItem < ActiveRecord::Base
      :order => 'id ASC'}
   }
 
-  attr_accessible :name, :title
+  attr_accessible :name, :title, :wiki_id
 
   validates_presence_of :title
   validates_format_of :title, :with => /\A[^,\.\/\?\;\|\:]*\z/
@@ -83,5 +83,9 @@ class WikiMenuItem < ActiveRecord::Base
 
   def is_sub_item?
     !parent_id.nil?
+  end
+
+  def is_only_main_item?
+    self.class.main_items(wiki.id) == [self]
   end
 end

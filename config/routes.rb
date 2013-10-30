@@ -201,6 +201,8 @@ OpenProject::Application.routes.draw do
         post :protect
         post :add_attachment
         get  :list_attachments
+        get :select_main_menu_item, to: 'wiki_menu_items#select_main_menu_item'
+        post :replace_main_menu_item, to: 'wiki_menu_items#replace_main_menu_item'
       end
     end
     # as routes for index and show are swapped

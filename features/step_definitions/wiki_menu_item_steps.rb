@@ -26,16 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
-  factory :wiki_menu_item do
-    wiki
-
-    sequence(:name) {|n| "Item No. #{n}" }
-    sequence(:title) {|n| "Wiki Title #{n}" }
-
-    trait :with_menu_item_options do
-      index_page true
-      new_wiki_page true
-    end
-  end
+Given /^the wiki menu item of the wiki page "(.*?)" of project "(.*?)" has been deleted$/ do |item_name, project_name|
+  project = Project.find_by_name project_name
+  WikiPage.where(title: item_name, wiki_id: project.wiki.id).first.delete_wiki_menu_item
 end

@@ -601,6 +601,7 @@ de:
   label_calendar: "Kalender"
   label_calendar_show: "Kalender anzeigen"
   label_category: "Kategorie"
+  label_select_main_menu_item: Neuen Hauptmenüpunkt auwählen
   label_change_plural: "Änderungen"
   label_change_properties: "Eigenschaften ändern"
   label_change_status: "Statuswechsel"
