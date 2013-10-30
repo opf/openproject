@@ -25,6 +25,18 @@
  *
  * See doc/COPYRIGHT.rdoc for more details.  ++*/
 
+@mixin breadcrumb-font($color)
+  color: $color
+  font-size: 12px
+  font-family: 'LatoRegular', 'Lucida Grande', Helvetica, Arial, sans-serif
+  font-weight: normal
+ 
+@mixin breadcrumb-font-bold($color)
+  color: $color
+  font-size: 12px
+  font-family: 'LatoBold', 'Lucida Grande', Helvetica, Arial, sans-serif
+  font-weight: normal
+
 #breadcrumb
   height: 40px
   overflow: hidden
@@ -38,26 +50,19 @@
   position: relative
   &.nosidebar
     margin-left: 0
+    ul
+      margin: 0 0 0 0
   &.hidden-navigation
     margin-left: 15px
 
   h1
-    height: 16px
-    line-height: 16px
-    border-bottom: 1px #d9d9d9
-    color: #333333
-    font-family: "Arial", Arial, sans-serif
-    font-style: normal
-    font-weight: normal
-    font-size: 11px
-    margin-top: 12px
     margin-bottom: 0px
     margin-left: 20px
+    @include breadcrumb-font(#555555)
 
   a
-    font-weight: normal
+    @include breadcrumb-font-bold(#555555)
     text-decoration: none
-    color: #333333
     &:hover
       text-decoration: underline
   li
@@ -67,20 +72,22 @@
       max-width: 40px
 
 ul.breadcrumb
-  list-style-image: url(image-path('breadcrumb-list.png'))
+  list-style: none
   list-style-position: outside
   width: 10000px
+  height: 40px  
+  line-height: 40px  
 
 #breadcrumb ul.breadcrumb li.first-breadcrumb-element
   margin-left: 0
+  height: 40px  
+  line-height: 40px 
 
 #breadcrumb ul.breadcrumb li
   float: left
-  margin-left: 20px
-
+  margin: 0 0 0 10px
+  padding: 0 30px 0 0
+  background: url(image-path('breadcrumb-list.png')) no-repeat right center
+  
 #breadcrumb a.breadcrumb-project-title
-  font-weight: bold
-  font-size: 13px
-
-
-
+	
