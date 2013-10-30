@@ -1,0 +1,278 @@
+/*-- copyright
+ * OpenProject is a project management system.
+ * Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 3.
+ *
+ * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+ * Copyright (C) 2006-2013 Jean-Philippe Lang
+ * Copyright (C) 2010-2013 the ChiliProject Team
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * See doc/COPYRIGHT.rdoc for more details.  ++*/
+
+$main_menu_bg_color: #053242
+$main_menu_bg_hover_selected_color: #04232F
+$main_menu_folded_width: 15px
+
+#main-menu
+  bottom: auto
+  left: 6px
+  width: 270px
+  float: left
+  left: 0
+  background-color: $main_menu_bg_color
+  ul
+    margin: 0
+    padding: 0
+
+    &.menu_root
+      li
+        float: none
+        list-style-type: none
+        margin: 0px
+        padding: 0px 0px 0px 0px
+        white-space: nowrap
+        position: relative
+        min-height: 23px
+
+        a
+          display: block
+          text-decoration: none
+          font-weight: normal
+          background: none
+          margin: 6px
+          padding: 0 0 0 20px
+
+          &:hover, &.selected
+            color: #555
+            text-decoration: none
+            background-color: $main_menu_bg_hover_selected_color
+
+        li
+          border: 0
+          a span
+            font-weight: normal
+            color: #999
+            float: right
+            padding-right: 9px
+          li
+            padding: 0
+            width: 100%
+            border-bottom: 1px solid #DDDDDD
+            border-top: 1px solid #FFFFFF
+            &:first-child
+              border-top: 0
+            a span
+              padding: 0
+    ul
+      display: none
+      background-color: $main_menu_bg_color
+      padding-top: 1px
+      padding-bottom: 1px
+      &.menu-children.unattached
+        border-top: 1px solid #ddd
+
+      ul
+        position: absolute
+        left: 185px
+        z-index: 20
+        width: 100%
+        top: 0
+        border: 1px solid #AFAFAF
+        background: #f3f3f3
+  a
+    text-decoration: none
+    line-height: 40px
+    display: block
+    position: relative
+    height: 40px
+    color: #BBBBBB
+    font-weight: normal
+    font-size: 13px
+    font-family: "Arial", Arial, sans-serif
+    font-style: normal
+
+  .toggler
+    position: absolute
+    right: 0
+    top: 0
+    width: 40px
+    height: 25px
+    background-image: url(image-path('double_arrows_grey_white_sprite.png'))
+    background-position: 10px -1px
+
+  &.hidden
+    width: $main_menu_folded_width
+
+  #toggle-project-menu
+    height: 40px
+    width: 270px
+    border: none
+    background-color: $main_menu_bg_color
+    &:hover
+      background-color: $main_menu_bg_hover_selected_color
+
+    &.show
+      width: $main_menu_folded_width
+      a.navigation-toggler
+        width: $main_menu_folded_width
+        height: 100%
+
+        /* Arrow right */
+        background-image: url(image-path('double_arrows_grey_white_sprite.png'))
+        background-position: -8px -200px
+        background-repeat: no-repeat
+
+        &:hover
+          /* Arrow right white */
+          background-position: -39px -200px
+          background-repeat: no-repeat
+
+    a.navigation-toggler
+      position: relative
+      float: right
+      width: 100%
+      height: 15px
+
+      /* Arrow left */
+      background-image: url(image-path('double_arrows_grey_white_sprite.png'))
+      background-position: 230px -91px
+      background-repeat: no-repeat
+
+      &:hover
+        /* Arrow left white */
+        background-position: 230px -58px
+        background-repeat: no-repeat
+
+  .toggle-follow
+    position: absolute
+    width: 120px
+    height: 25px
+
+
+#menu-sidebar.hidden
+  display: none
+
+#sidebar
+  padding: 10px 10px 2px 20px
+  width: auto
+  color: #4b4b4b
+  font-weight: normal
+  font-size: 12px
+  font-style: normal
+  font-family: "Arial", Arial, sans-serif
+
+  h3
+    color: #4b4b4b
+    font-weight: bold
+    font-size: 14px
+    font-family: "Arial", Arial, sans-serif
+    font-style: normal
+    margin: 0px
+    padding: 0px
+    margin-top: 20px
+    margin-bottom: 8px
+
+  > h3:first-child
+    margin-top: 0px
+
+  a, a:link
+    color: #008BD0
+    font-weight: bold
+    font-size: 12px
+    height: auto
+    display: inline
+    position: static
+    font-style: normal
+    line-height: 1.5
+
+  a:hover
+    text-decoration: underline
+
+  input.button-small
+    margin-top: 6px
+
+  ul
+    border: none
+    overflow-x: hidden
+    li
+      border: none
+    li a
+      padding: 0px
+
+
+
+/* this part is just copied from application.css with needed changes for sass
+ * should be refactored with the rest of the main_menu css*/
+
+#main-menu ul.menu_root li .open .toggler
+  /* Arrow up */
+  background-image: url(image-path('double_arrows_grey_white_sprite.png'))
+  background-position: 10px -26px
+
+#main-menu ul.menu_root li .selected.open .toggler, #main-menu ul.menu_root li .open:hover .toggler
+  /* Arrow up white */
+  background-image: url(image-path('double_arrows_grey_white_sprite.png'))
+  background-position: 10px -159px
+
+#main-menu ul.menu_root li a:hover .toggler, #main-menu ul.menu_root li .selected .toggler
+  /* Arrow down white */
+  background-image: url(image-path('double_arrows_grey_white_sprite.png'))
+  background-position: 10px -120px
+
+
+#main-menu ul.menu_root li li .toggler
+  display: none
+
+#main-menu ul.menu_root li li li a
+  padding: 0 12px
+
+#main-menu ul.menu_root li li ul.profile-box li
+  padding: 6px 12px
+
+#main-menu ul.menu_root li li ul.profile-box li a
+  display: inline
+  padding: 0
+  color: #226D81
+  line-height: 1.5
+
+#main-menu ul.menu_root li li ul.profile-box li a:hover
+  text-decoration: underline
+
+
+/* Mimic ".icon .icon-time" */
+#main-menu ul.menu_root li a.time-details, #main-menu ul.menu_root li a.billable-time-details, #main-menu ul.menu_root li a.overhead-time-details
+  background-image: url(image-path('webalys/time.png'))
+  background-position: 30px 40%
+  background-repeat: no-repeat
+  padding-left: 50px
+
+#main-menu p.password
+  font-weight: bold
+  margin: 25px 0
+
+#main-menu ul.menu_root li li a
+  padding-left: 30px
+  padding-right: 3px
+  text-indent: -6px
+  letter-spacing: -.01em
+
+#main-menu ul.menu_root li a.time-details, #main-menu ul.menu_root li a.overhead-time-details, #main-menu ul.menu_root li a.billable-time-details
+  padding-left: 40px
+  background-position: 12px 45%
+

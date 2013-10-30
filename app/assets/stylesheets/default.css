@@ -39,6 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
  *= require layout/top_menu
  *= require layout/header
  *= require content/breadcrumb
+ *= require content/main_menu
  *= require default/application
  *= require layout/footer
  */

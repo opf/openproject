@@ -30,28 +30,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 /***** Layout *****/
 
-
-#main-menu ul {
-  margin: 0;
-  padding: 0;
-}
-#main-menu ul.menu_root li {
-  float: none;
-  list-style-type: none;
-  margin: 0px;
-  padding: 0px 0px 0px 0px;
-  white-space: nowrap;
-}
-#main-menu ul.menu_root li a {
-  display: block;
-  text-decoration: none;
-  font-weight: normal;
-  background: none;
-  margin: 0;
-  padding: 0 0 0 24px;
-}
-#main-menu ul.menu_root li a:hover {color: #555; text-decoration: none;}
-
 #content {
   width: 75%;
   background-color: #fff;
@@ -1164,157 +1142,6 @@ a:hover {
   text-decoration: underline;
 }
 
-/*-------------------------------------------------------------------------------
- * =01 - Header
- *
- * This section includes the site logo, main navigation background, and styles
- * the header and navigation links.
- ------------------------------------------------------------------------------*/
-
-
-
-/*-------------------------------------------------------------------------------
- * =02 - Main Menu
- *
- * This section includes the layout and styles for the left navigation column.
- ------------------------------------------------------------------------------*/
-
-#main-menu {bottom: auto;  left: 6px; margin-right: -500px;}
-#main-menu {
-  width: 270px;
-  float: left;
-  left: 0;
-  background-color: #053242;
-  height: 100%;
-}
-#main-menu ul ul {
-  display: none;
-  background-color: white;
-  padding-top: 1px;
-  padding-bottom: 1px;
-}
-#main-menu ul ul.menu-children.unattached {
-  border-top: 1px solid #ddd;
-}
-#main-menu ul ul ul {
-  position: absolute;
-  left: 185px;
-  z-index: 20;
-  width: 100%;
-  top: 0;
-  border: 1px solid #AFAFAF;
-  background: #f3f3f3;
-}
-#main-menu ul.menu_root li {
-  position: relative;
-  min-height: 23px;
-  background-color: none;
-}
-#main-menu ul.menu_root li li {
-  border: 0;
-  background-color: white;
-}
-#main-menu ul.menu_root li li li {
-  padding: 0;
-  width: 100%;
-  border-bottom: 1px solid #DDDDDD;
-  border-top: 1px solid #FFFFFF;
-}
-#main-menu ul.menu_root li li li:first-child {
-  border-top: 0;
-}
-#main-menu a {
-  text-decoration: none;
-  line-height: 40px;
-  display: block;
-  position: relative;
-  height: 40px;
-  color: #BBBBBB;
-  font-weight: normal;
-  font-size: 13px;
-  font-family: "Arial", Arial, sans-serif;
-  font-style: normal;
-}
-#main-menu ul.menu_root li a {
-  margin: 6px;
-  font-weight: bold;
-  padding: 0 0 0 20px;
-}
-#main-menu a.selected, #main-menu a:hover {
-}
-#main-menu ul.menu_root li li a {
-  font-weight: normal;
-}
-#main-menu ul.menu_root li li.current a {
-  font-weight: bold;
-}
-#main-menu ul.menu_root li li a span {
-  font-weight: normal;
-  color: #999;
-  float: right;
-  padding-right: 9px;
-}
-#main-menu ul.menu_root li li li a span {
-  padding: 0;
-}
-#main-menu .toggler {
-  position: absolute;
-  right: 0px;
-  top: 0px;
-  width: 40px;
-  height: 25px;
-}
-#main-menu .toggler {
-  /* Arrow down */
-  background-image: url(<%= asset_path 'double_arrows_grey_white_sprite.png' %>);
-  background-position: 10px -1px;
-}
-
-#main-menu ul.menu_root li .open .toggler {
-  /* Arrow up */
-  background-image: url(<%= asset_path 'double_arrows_grey_white_sprite.png' %>);
-  background-position: 10px -26px;
-}
-#main-menu ul.menu_root li .selected.open .toggler, #main-menu ul.menu_root li .open:hover .toggler {
-  /* Arrow up white */
-  background-image: url(<%= asset_path 'double_arrows_grey_white_sprite.png' %>);
-  background-position: 10px -159px;
-}
-#main-menu ul.menu_root li a:hover .toggler, #main-menu ul.menu_root li .selected .toggler {
-  /* Arrow down white */
-  background-image: url(<%= asset_path 'double_arrows_grey_white_sprite.png' %>);
-  background-position: 10px -120px;
-}
-
-#main-menu ul.menu_root li li .toggler {
-  display: none;
-}
-#main-menu ul.menu_root li li li a {
-  padding: 0 12px;
-}
-#main-menu ul.menu_root li li ul.profile-box li {
-  padding: 6px 12px;
-}
-#main-menu ul.menu_root li li ul.profile-box li a {
-  display: inline;
-  padding: 0;
-  color: #226D81;
-  line-height: 1.5;
-}
-#main-menu ul.menu_root li li ul.profile-box li a:hover {
-  text-decoration: underline;
-}
-
-/* Mimic ".icon .icon-time" */
-#main-menu ul.menu_root li a.time-details, #main-menu ul.menu_root li a.billable-time-details, #main-menu ul.menu_root li a.overhead-time-details {
-  background-image: url(<%= asset_path '../../webalys/time.png' %>);
-  background-position: 30px 40%;
-  background-repeat: no-repeat;
-  padding-left: 50px;
-}
-
-#main-menu p.password { font-weight: bold; margin: 25px 0; }
-
 
 
 /*-------------------------------------------------------------------------------
@@ -1939,62 +1766,6 @@ div.issue div#relations {
   margin-top: 25px;
 }
 
-/* sidebar cleanup */
-#sidebar {
-  padding: 10px 10px 2px 20px;
-  width: auto;
-  color: #333333;
-  font-weight: normal;
-  font-size: 11px;
-  font-family: "Arial", Arial, sans-serif;
-  font-style: normal;
-}
-
-#sidebar h3 {
-  color: #333333;
-  font-weight: bold;
-  font-size: 14px;
-  font-family: "Arial", Arial, sans-serif;
-  font-style: normal;
-  margin: 0px;
-  padding: 0px;
-  margin-top: 20px;
-  margin-bottom: 8px;
-}
-
-div#sidebar > h3:first-child {
-  margin-top: 0px;
-}
-
-#sidebar a, #sidebar a:link {
-  color: #6a0406;
-  font-weight: bold;
-  height: auto;
-  display: inline;
-  position: static;
-  font-style: normal;
-  line-height: 1.5;
-}
-#sidebar a:hover {
-  text-decoration: underline;
-}
-#sidebar input.button-small {
-  margin-top: 6px;
-}
-#sidebar ul {border: none; overflow-x: hidden;}
-#sidebar li {border: none; }
-#sidebar li a {padding: 0px; }
-
-#main-menu ul.menu_root li li a {
-  padding-left: 30px;
-  padding-right: 3px;
-  text-indent: -6px;
-  letter-spacing: -.01em;
-}
-#main-menu ul.menu_root li a.time-details, #main-menu ul.menu_root li a.overhead-time-details, #main-menu ul.menu_root li a.billable-time-details {
-  padding-left: 40px;
-  background-position: 12px 45%;
-}
 
 /* custom query page */
 #content .box fieldset {
@@ -2144,13 +1915,6 @@ tr.time-entry {
   background: url(<%= asset_path 'webalys/edit.png' %>) no-repeat;
 }
 
-
-/* -- New #main-menu toggle CSS */
-#main-menu .toggle-follow {
-  position: absolute;
-  width: 120px;
-  height: 25px;
-}
 
 /* comments */
 .wiki ol li {
@@ -2457,50 +2221,8 @@ ul.action_menu_more {
 #lower-title-bar ul.action_menu_main > li.drop-down {
   position: relative;
 }
-#toggle-project-menu {
-  height: 40px;
-  width: 270px;
-  border: none;
-  background-color: #053242;
-}
-#toggle-project-menu:hover {
-  background-color: #04232F;
-}
-#toggle-project-menu.show, #main-menu.hidden {
-  width: 15px;
-}
 #content.hidden-navigation {
   margin-left: 15px;
-}
-#main-menu #toggle-project-menu a.navigation-toggler {
-  position: relative;
-  float: right;
-  width: 100%;
-  height: 15px;
-
-  /* Arrow left */
-  background-image: url(<%= asset_path 'double_arrows_grey_white_sprite.png' %>);
-  background-position: 230px -91px;
-  background-repeat: no-repeat;
-}
-#main-menu #toggle-project-menu.show a.navigation-toggler {
-  width: 15px;
-  height: 100%;
-
-  /* Arrow right */
-  background-image: url(<%= asset_path 'double_arrows_grey_white_sprite.png' %>);
-  background-position: -8px -200px;
-  background-repeat: no-repeat;
-}
-#main-menu #toggle-project-menu a.navigation-toggler:hover {
-  /* Arrow left white */
-  background-position: 230px -58px;
-  background-repeat: no-repeat;
-}
-#main-menu #toggle-project-menu.show a.navigation-toggler:hover {
-  /* Arrow right white */
-  background-position: -39px -200px;
-  background-repeat: no-repeat;
 }
 
 .pagination .previous_page {
@@ -2796,43 +2518,6 @@ a.atom {
   background-image: url(<%= asset_path 'webalys/time.png' %>) !important;
 }
 
-#main-menu ul.menu-root li li a {
-  overflow: hidden;
-}
-#sidebar {
-  padding: 10px 10px 2px 20px;
-  width: auto;
-  color: #4b4b4b;
-  font-weight: normal;
-  font-size: 12px;
-  font-style: normal;
-}
-#sidebar h3 {
-  color: #4b4b4b;
-  font-weight: bold;
-  font-style: normal;
-  padding: 0px;
-  margin-bottom: 8px;
-}
-#sidebar a, #sidebar a:link {
-  color: #008BD0;
-  font-weight: bold;
-  height: auto;
-  display: inline;
-  position: static;
-  font-size: 12px;
-  font-style: normal;
-  line-height: 1.5;
-}
-#sidebar a:hover {
-  text-decoration: underline;
-}
-#sidebar input.button-small {
-  margin-top: 6px;
-}
-#sidebar ul {border: none; overflow-x: hidden;}
-#sidebar li {border: none; }
-#sidebar li a {padding: 0px; }
 body.theme-Bsp .buttons .apply,
 body.theme-Dtag .buttons .apply {
   background-color:  #24b3e7;
@@ -2840,9 +2525,7 @@ body.theme-Dtag .buttons .apply {
 .title-bar .title-bar-actions .contextual a.icon:hover {
   color: #008BD0;
 }
-#main-menu ul.menu_root li a.selected, #main-menu ul.menu_root li a:hover {
-  background-color:  #04232F;
-}
+
 #content table th a:hover {
   color: #008BD0;
 }
