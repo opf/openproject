@@ -35,6 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2580` Fixed some unlikely remote code executions
 * `#2596` [Roadmap] Closed tickets are not striked out
 * `#2597` [Roadmap] Missing english/german closed percentage label 
+* `#2604` [Migration] Attachable journals incorrect
 
 ## 3.0.0pre23
 
