@@ -25,8 +25,8 @@
  *
  * See doc/COPYRIGHT.rdoc for more details.  ++*/
 
-@mixin header-fonts
-  color: #fff
+@mixin header-fonts($color)
+  color: $color
   font-size: 14px
   font-family: 'LatoRegular', 'Lucida Grande', Helvetica, Arial, sans-serif
   font-weight: normal
@@ -38,7 +38,7 @@
   z-index: 21
   position: relative
   a,span,div,li,ul
-    font-family: 'LatoRegular', 'Lucida Grande', Helvetica, Arial, sans-serif
+    @include header-fonts(#fff)
   ul
     margin: 0
     margin-top: 12px
@@ -58,7 +58,7 @@
       height: 30px
       line-height: 29px
       zoom: 1
-      @include header-fonts
+      @include header-fonts(#fff)
     > ul
       top: 31px
       display: none
