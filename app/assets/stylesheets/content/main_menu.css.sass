@@ -29,6 +29,13 @@ $main_menu_bg_color: #053242
 $main_menu_bg_hover_selected_color: #04232F
 $main_menu_folded_width: 15px
 
+@mixin default-transition
+  -webkit-transition: all 500ms ease-in-out 0s
+  -moz-transition: all 500ms ease-in-out 0s
+  -ms-transition: all 500ms ease-in-out 0s
+  -o-transition: all 500ms ease-in-out 0s
+  transition: all 500ms ease-in-out 0s
+
 #main-menu
   bottom: auto
   left: 6px
@@ -55,13 +62,17 @@ $main_menu_folded_width: 15px
           text-decoration: none
           font-weight: normal
           background: none
-          margin: 6px
           padding: 0 0 0 20px
+          color: #BBBBBB
+          border-left: 4px solid $main_menu_bg_color
+          @include default-transition
 
           &:hover, &.selected
-            color: #555
             text-decoration: none
             background-color: $main_menu_bg_hover_selected_color
+            border-left: 4px solid #AAAAAA
+          &.selected
+            color: #FFFFFF
 
         li
           border: 0
@@ -103,9 +114,9 @@ $main_menu_folded_width: 15px
     height: 40px
     color: #BBBBBB
     font-weight: normal
-    font-size: 13px
-    font-family: "Arial", Arial, sans-serif
+    font-size: 15px
     font-style: normal
+    font-family: 'LatoRegular','Lucida Grande',Helvetica,Arial,sans-serif
 
   .toggler
     position: absolute

@@ -47,10 +47,6 @@
   min-width: 1000px;
 }
 
-#main-menu ul.menu_root li a.selected, #main-menu ul.menu_root li a:hover  {
-  color: #FFFFFF;
-}
-
 .account-nav li a {
   display: block;
   padding: 0px 9px 0px;
@@ -79,7 +75,7 @@ li a.home:hover  {
 }
 
 
-#main-menu ul.menu-root li a.selected, #main-menu ul.menu-root li a:hover, #header .chzn-container .chzn-results .highlighted {
+#header .chzn-container .chzn-results .highlighted {
   background-color:  #24b3e7;
 }
 
