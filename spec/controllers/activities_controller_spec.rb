@@ -64,5 +64,24 @@ describe ActivitiesController do
         response.should render_template 'common/error'
       end
     end
+
+    describe :atom_feed do
+      let(:user) { FactoryGirl.create(:user) }
+      let(:project) { FactoryGirl.create(:project) }
+      let!(:wp_1) { FactoryGirl.create(:work_package,
+                                       project: project,
+                                       author: user) }
+      let!(:wp_2) { FactoryGirl.create(:work_package,
+                                       project: project,
+                                       author: user) }
+      let(:params) { { project_id: project.id,
+                       format: :atom } }
+
+      before { get :index, params }
+
+      it { expect(assigns(:items).count).to eq(2) }
+
+      it { expect(response).to render_template("common/feed") }
+    end
   end
 end
