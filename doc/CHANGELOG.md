@@ -41,15 +41,16 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2420` Migrate the remaining views of api/v2 to rabl
 * `#2478` Timeline with lots of work packages doesn`t load
 * `#2525` Project Settings: Forums: Move up/down result in 404
-* `#2576` [Timelines] Double scrollbar in modal for Chrome 
+* `#2576` [Timelines] Double scrollbar in modal for Chrome
 * `#2577` [Timelines] Users are not displayed in timelines table after recent API version
 * `#2579` [Core] Report of spent time (without cost reporting) results in 404
 * `#2580` Fixed some unlikely remote code executions
 * `#2592` Search: Clicking on 'Next' results in 500
 * `#2596` [Roadmap] Closed tickets are not striked out
-* `#2597` [Roadmap] Missing english/german closed percentage label 
+* `#2597` [Roadmap] Missing english/german closed percentage label
 * `#2604` [Migration] Attachable journals incorrect
 * `#2608` [Activity] Clicking on Atom-feed in activity leads to 500 error
+* Add rake task for changing timestamps in the database to UTC
 
 ## 3.0.0pre23
 
