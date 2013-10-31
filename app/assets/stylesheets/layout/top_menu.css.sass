@@ -65,10 +65,9 @@
     color: #000000
   ul
     margin: 0
-    margin-top: 12px
     padding: 0
     float: left
-    height: 43px
+    height: 55px
     border-top: 0
     position: relative
   li
@@ -79,13 +78,16 @@
     z-index: 5
     padding: 0
     > a
-      height: 30px
-      line-height: 29px
+      height: 55px
+      line-height: 55px
       zoom: 1
       @include header-fonts(#fff)
       text-decoration: none
+      padding: 0 18px 0 10px
+    > a:hover
+      background: #06799F
     > ul
-      top: 31px
+      top: 55px
       display: none
       position: absolute
       height: auto
@@ -95,6 +97,12 @@
       border: 2px solid #E0E0E0
       border-top: 0px
       background-color: #FFFFFF
+      li  a
+        height: 30px
+        line-height: 30px
+      li
+        float: none
+        white-space: nowrap
   li.open > a
     position: relative
     top: 0px
@@ -102,17 +110,13 @@
   li.last-child > ul
     left: auto
     right: -1px
-  li li
-    float: none
-    white-space: nowrap
   li.drop-down select
     width: 100%
   li.drop-down > a
-    padding-right: 30px
-    background: url(image-path('top_menu_arrow_grey_white_sprite.png')) right -48px no-repeat
+    padding-right: 35px
+    background: url(image-path('top_menu_arrow_grey_white_sprite.png')) 95% -35px no-repeat
   li.drop-down > a:hover
-    background: #06799F url(image-path('top_menu_arrow_grey_white_sprite.png')) right -48px no-repeat
-    padding-right: 30px
+    background: #06799F url(image-path('top_menu_arrow_grey_white_sprite.png')) 95% -35px no-repeat
   li.drop-down.open > a
   li.drop-down li > a
     color: #555555
@@ -167,7 +171,6 @@
   float: right
 
 #top-menu-items
-  padding-right: 15px
   padding-top: 0px
   .top-menu-items-right
     float: right
