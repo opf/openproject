@@ -26,12 +26,20 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../spec_helper', __FILE__)
-require File.expand_path('../../support/permission_specs', __FILE__)
+require 'spec_helper'
 
-describe BoardsController, "manage_boards permission", :type => :controller do
-  include PermissionSpecs
+describe BoardsController do
+  it "should connect GET /projects/:project/boards/:board/move to boards#move" do
+    get("/projects/1/boards/1/move").should route_to(controller: 'boards',
+                                                     action: 'move',
+                                                     project_id: '1',
+                                                     id: '1')
+  end
 
-  check_permission_required_for('boards#create', :manage_boards)
-  check_permission_required_for('boards#move', :manage_boards)
+  it "should connect POST /projects/:project/boards/:board/move to boards#move" do
+    post("/projects/1/boards/1/move").should route_to(controller: 'boards',
+                                                      action: 'move',
+                                                      project_id: '1',
+                                                      id: '1')
+  end
 end

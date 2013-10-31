@@ -97,6 +97,20 @@ class BoardsController < ApplicationController
     end
   end
 
+  def move
+    if @board.update_attributes(permitted_params.board_move)
+      flash[:notice] = l(:notice_successful_update)
+    else
+      flash.now[:error] = l('board_could_not_be_saved')
+      render :action => 'edit'
+    end
+    redirect_to controller: :projects,
+                action: "settings",
+                tab: "boards",
+                id: @board.project_id
+  end
+
+
   def destroy
     @board.destroy
     redirect_to_settings_in_projects

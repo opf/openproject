@@ -227,7 +227,13 @@ OpenProject::Application.routes.draw do
 
     resources :activity, :activities, :only => :index, :controller => 'activities'
 
-    resources :boards
+    resources :boards do
+      member do
+        get :confirm_destroy
+        get :move
+        post :move
+      end
+    end
 
     resources :categories, :except => [:index, :show], :shallow => true
 

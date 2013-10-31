@@ -84,4 +84,33 @@ describe BoardsController do
       end
     end
   end
+
+  describe :move do
+    let(:project) { FactoryGirl.create(:project) }
+    let!(:board_1) { FactoryGirl.create(:board,
+                                        project: project,
+                                        position: 1) }
+    let!(:board_2) { FactoryGirl.create(:board,
+                                        project: project,
+                                        position: 2) }
+
+    before { @controller.stub(:authorize).and_return(true) }
+
+    describe :higher do
+      let(:move_to) { 'higher' }
+
+      before do
+        post 'move', id: board_2.id,
+                     project_id: board_2.project_id,
+                     board: { move_to: move_to }
+      end
+
+      it { expect(board_2.reload.position).to eq(1) }
+
+      it { expect(response).to be_redirect }
+
+      it { expect(response).to redirect_to(settings_project_path(project)) }
+    end
+
+  end
 end

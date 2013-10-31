@@ -1340,6 +1340,7 @@ de:
       project_types: "Projekt-Typen"
     add_project_association: "Projekt-Abhängigkeit erstellen"
     associations: "Abhängigkeiten"
+    board_could_not_be_saved: "Forum konnte nicht gespeichert werden"
     button_delete_all: "Alle löschen"
     change: "Planungsveränderung"
     children: "Kind-Elemente"

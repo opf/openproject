@@ -32,6 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2593` Work Package Summary missing
 * `#1749` Prevent JSON Hijacking
 * `#2281` The context menu is not correctly displayed
+* `#2525` Project Settings: Forums: Move up/down result in 404
 * `#2363` When all wiki pages have been deleted new wiki pages cannot be created
 * `#2579` [Core] Report of spent time (without cost reporting) results in 404
 * `#2580` Fixed some unlikely remote code executions
