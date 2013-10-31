@@ -55,14 +55,6 @@
   max-width: 350px;
 }
 
-.account-nav > li {
-  margin-left: 3px;
-  margin-right: 3px;
-  border-right: 0px solid;
-
-  zoom: 1;
-}
-
 
 li a.home  {
   background-image: url(image-path('home_black_white_sprite.png'));
@@ -77,11 +69,4 @@ li a.home:hover  {
 
 #header .chzn-container .chzn-results .highlighted {
   background-color:  #24b3e7;
-}
-
-
-li a.help {
-  width: 20px;
-  height: 43px;
-  padding-right: 6px;
 }
