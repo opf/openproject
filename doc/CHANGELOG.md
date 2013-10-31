@@ -47,6 +47,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2596` [Roadmap] Closed tickets are not striked out
 * `#2597` [Roadmap] Missing english/german closed percentage label 
 * `#2604` [Migration] Attachable journals incorrect
+* Add rake task for changing timestamps in the database to UTC
 
 ## 3.0.0pre23
 
