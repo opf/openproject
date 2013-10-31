@@ -12,8 +12,9 @@
     <% unless possible_cost_objects.empty? -%>
       <% possible_cost_objects.each do |co| -%>
         <li>
-        <%= context_menu_link co.subject, {:controller => '/issues', :action => 'bulk_edit', :ids => issues.collect(&:id), 'cost_object_id' => co, :back_url => back}, :method => :post,
-          :selected => (issue && co == issue.cost_object), :disabled => !can[:edit] %>
+        <%= context_menu_link(co.subject, work_packages_bulk_path(ids: issues.collect(&:id),
+                             work_package: { "cost_object_id" => co}, back_url: back), method: :put,
+                             selected: (@work_package && co == @work_package.cost_object), disabled: !can[:edit]) %>
         </li>
       <% end -%>
     <% else -%>
