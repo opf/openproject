@@ -83,6 +83,7 @@
       line-height: 29px
       zoom: 1
       @include header-fonts(#fff)
+      text-decoration: none
     > ul
       top: 31px
       display: none
@@ -91,7 +92,7 @@
       min-width: 270px
       left: -1px
       z-index: 20
-      border: 2px solid #D0D0D0
+      border: 2px solid #E0E0E0
       border-top: 0px
       background-color: #FFFFFF
   li.open > a
@@ -115,10 +116,10 @@
   li.drop-down.open > a
   li.drop-down li > a
     color: #555555
+    padding: 0 15px
   li.drop-down li > a:hover
     background: #06799F
     color: #FFFFFF  
-    
   #loggedas
     float: right
     margin-right: 0.5em
@@ -130,8 +131,8 @@
     background: #FFFFFF
     border: 0px solid #194E60
     border-top: 0
-    padding: 10px
     line-height: 19px
+    padding: 10px
     @include header-pulldown-fonts(#555555)
   #nav-login-content input[type=text]
     height: 16px
@@ -161,7 +162,7 @@
   #optional_login_fields
     white-space: nowrap
     margin: 5px 0 0 3px
-
+  
 #quick-search
   float: right
 
@@ -173,3 +174,35 @@
 #top-menu.open
   z-index: 5
 
+#select2-drop
+  margin: 0 0 0 -2px
+  border: 2px solid #E0E0E0
+  border-top: 0
+  @include header-pulldown-fonts(#555555)
+  li
+    padding: 0 10px
+  
+.select2-search
+  background: #E0E0E0
+  margin: 0px 0 10px 0
+  
+.select2-search input
+  background: #FFFFFF url(image-path('magnifier.png')) no-repeat 94% center
+  margin: 10px 10px
+  padding: 9px 7px 9px 10px
+  border: none
+  border-radius: 25px
+  -webkit-border-radius: 25px
+  width: 92%
+
+.select2-results
+  margin: 0
+  padding: 0
+    
+.select2-highlighted
+  background: #06799F !important
+  border-radius: 0 !important
+  font-family: 'LatoBold', 'Lucida Grande', Helvetica, Arial, sans-serif !important
+  font-weight: normal !important
+
+ 
