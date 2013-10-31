@@ -299,7 +299,7 @@ de:
     updated_on: "Aktualisiert"
     user: "Benutzer"
     version: "Version"
-    work_package: "Arbeitspacket"
+    work_package: "Arbeitspaket"
 
   button_add: "Hinzufügen"
   button_add_watcher: "Beobachter hinzufügen"
@@ -569,7 +569,7 @@ de:
   label_age: "Geändert vor"
   label_ago: "vor"
   label_all: "alle"
-  label_all_work_packages: "alle Arbeitspackete"
+  label_all_work_packages: "alle Arbeitspakete"
   label_all_time: "gesamter Zeitraum"
   label_all_words: "Alle Wörter"
   label_and_its_subprojects: "%{value} und dessen Unterprojekte"
@@ -969,13 +969,13 @@ de:
   label_keyboard_shortcut_go_my_page: "Gehe zu Meiner Seite'"
   label_keyboard_shortcut_show_help: "Zeige diese Liste der Tastaturkürzel"
   label_keyboard_shortcut_go_overview: "Gehe zu Projektübersicht"
-  label_keyboard_shortcut_go_work_package: "Gehe zur Arbeitspacket Seite"
+  label_keyboard_shortcut_go_work_package: "Gehe zur Arbeitspaket Seite"
   label_keyboard_shortcut_go_wiki: "Gehe zum Projekt Wiki"
   label_keyboard_shortcut_go_activity: "Gehe zur Projekt Aktivität"
   label_keyboard_shortcut_go_calendar: "Gehe zum Projekt Kalender"
   label_keyboard_shortcut_go_news: "Gehe zu den Projekt News"
   label_keyboard_shortcut_go_timelines: "Gehe zur Zeitpläne Seite"
-  label_keyboard_shortcut_new_work_package: "Erstelle neues Arbeitspacket"
+  label_keyboard_shortcut_new_work_package: "Erstelle neues Arbeitspaket"
   label_keyboard_shortcut_go_edit: "Gehe zur Bearbeiten-Ansicht (nur auf Detailseiten)"
   label_keyboard_shortcut_open_more_menu: "Öffne 'Weitere-Aktionen' Menü (nur auf Detailseiten)"
   label_keyboard_shortcut_go_preview: "Gehe zur Vorschau (nur auf Editieren-Seiten)"
@@ -1393,7 +1393,7 @@ de:
         days: "Tagen"
         weeks: "Wochen"
         months: "Monaten"
-      exclude_own_work_packages: "Arbeitspackete dieses Projektes ausblenden"
+      exclude_own_work_packages: "Arbeitspakete dieses Projektes ausblenden"
       exclude_reporters: "Andere Projekte ausblenden"
       exclude_empty: "Leere Projekte ausblenden"
       grouping: "Gruppierung"
@@ -1408,10 +1408,10 @@ de:
       noneSelection: "(keine)"
       outline: "Zu Beginn angezeigte Hierarchie"
       parent: "Zeige Unterprojekte von"
-      work_package_filters: "Arbeitspackete filtern"
-      work_package_responsible: "Arbeitspackete von diesem Planungsverantwortlichen anzeigen"
+      work_package_filters: "Arbeitspakete filtern"
+      work_package_responsible: "Arbeitspakete von diesem Planungsverantwortlichen anzeigen"
 
-      project_time_filter: "Projekte mit Arbeitspacket eines Typs in einem Zeitfenster"
+      project_time_filter: "Projekte mit Arbeitspaket eines Typs in einem Zeitfenster"
       project_time_filter_historical: "von %{startdate} bis %{enddate}"
       project_time_filter_relative: "vor %{startspan}%{startspanunit} bis in %{endspan}%{endspanunit}"
       project_filters: "Projekte filtern"
@@ -1428,7 +1428,7 @@ de:
     history: "Historie"
     new_association: "Neue Abhängigkeit"
     new_color: "Neue Farbe"
-    new_work_package: "Neues Arbeitspacket"
+    new_work_package: "Neues Arbeitspaket"
     new_project_type: "Neuer Projekt-Typ"
     new_reporting: "Neuer Statusbericht"
     new_timeline: "Neuer Zeitplan-Report"
@@ -1452,7 +1452,7 @@ de:
       reports: "Zeitplan-Reporte"
       timelines: "Zeitpläne"
 
-    work_packages_are_displayed_in_aggregations: "Arbeitspackete werden in Aggregation angezeigt"
+    work_packages_are_displayed_in_aggregations: "Arbeitspakete werden in Aggregation angezeigt"
     project_association_new: "Projekt-Abhängigkeit hinzufügen"
     project_association_new_for_with: "Anlegen der Projekt-Abhängigkeit von “%{project_a}” zu"
     project_association_with_other: "Projekt-Abhängigkeit zwischen “%{project_a}” und “%{project_b}”"
@@ -1481,7 +1481,7 @@ de:
       Projekte dieses Typs bleiben erhalten.
     really_delete_timeline: >
       Möchten Sie dieses Zeitplan-Report wirklich löschen?
-      Arbeitspackete dieses Reports bleiben erhalten.
+      Arbeitspakete dieses Reports bleiben erhalten.
     really_delete_reporting: >
       Möchten Sie diesen Statusbericht wirklich löschen?
       Vorherige gemeldete Statusberichte gehen dabei verloren.
@@ -1489,7 +1489,7 @@ de:
     timeline: "Zeitplan-Report"
     timelines: "Zeitplan-Reporte"
     settings: "Timelines"
-    vertical_work_package: "Vertikale Arbeitspackete"
+    vertical_work_package: "Vertikale Arbeitspakete"
     without_project_type: "Ohne Projekt-Typ"
     you_are_viewing_the_selected_timeline: "Sie sehen den ausgewählten Zeitplan-Report"
     zoom:
