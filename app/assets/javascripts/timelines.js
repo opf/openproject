@@ -971,8 +971,8 @@ Timeline = {
     };
 
     DataEnhancer.prototype.augmentPlanningElementWithParent = function (pe) {
-      if (pe.parent) {
-        var parent = this.getElement(Timeline.PlanningElement, pe.parent.id);
+      if (pe.parent_id) {
+        var parent = this.getElement(Timeline.PlanningElement, pe.parent_id);
 
         if (parent !== undefined) {
 
