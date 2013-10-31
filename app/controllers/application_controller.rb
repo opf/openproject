@@ -498,10 +498,18 @@ class ApplicationController < ActionController::Base
 
   def render_feed(items, options={})
     @items = items || []
-    @items.sort! {|x,y| y.event_datetime <=> x.event_datetime }
+    @items.sort! {|x,y| sort_feed_items(x, y) }
     @items = @items.slice(0, Setting.feeds_limit.to_i)
     @title = options[:title] || Setting.app_title
     render :template => "common/feed", :layout => false, :content_type => 'application/atom+xml'
+  end
+
+  def sort_feed_items(x, y)
+    if x.respond_to? :data
+      y.data.event_datetime <=> x.data.event_datetime
+    else
+      y.event_datetime <=> x.event_datetime
+    end
   end
 
   def self.accept_key_auth(*actions)
