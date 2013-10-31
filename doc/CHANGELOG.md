@@ -32,6 +32,8 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2593` Work Package Summary missing
 * `#1749` Prevent JSON Hijacking
 * `#2281` The context menu is not correctly displayed
+* `#2525` Project Settings: Forums: Move up/down result in 404
+* `#2535` [Forum] Atom feed on the forum's overview-page doesn't work
 * `#2348` [Timelines] Using planning element filter and filtering for status "New" leads always to plus-sign in front of work packages
 * `#2357` [Timelines] Change API v2 serialization to minimize redundant data
 * `#2363` When all wiki pages have been deleted new wiki pages cannot be created
