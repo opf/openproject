@@ -231,6 +231,7 @@ var ModalHelper = (function() {
     var calculatedHeight = jQuery(window).height() * 0.8;
     this.modalIframe = modalHelper.writeIframe(modalDiv);
 
+    modalDiv.css('overflow', 'hidden');
     modalDiv.attr("height", calculatedHeight);
     this.modalIframe.attr("height", calculatedHeight);
 
