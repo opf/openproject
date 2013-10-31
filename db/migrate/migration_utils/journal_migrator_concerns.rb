@@ -77,17 +77,18 @@ module Migration
         end
       end
 
-      def remove_attachments_deleted_in_current_version(attachments, to_insert)
-        attachments_to_add_remove = []
-        attachments.each do |key|
-          attachment_id = attachment_key_regexp.match(key)[1]
-          attachments_to_add_remove << key
-          removed_filename, _ = *to_insert[key]
-          if removed_filename
-            attachments_to_add_remove.delete_if { |k, v| k =~ /attachments#{attachment_id}/ }
-          end
+      # sometimes there are attachments, which were deleted in a later journal entry
+      # there is not need to add those attachments, so we filter them out here
+      def remove_attachments_deleted_in_current_version(attachments, journal_to_insert)
+        deleted_attachments = attachments.select do |key|
+          # journal_to_insert[key] is of the form
+          # [nil, "filename.ext"] when the attachment was added
+          # ["filename.ext", nil] when the attachment was removed
+          journal_to_insert[key].first
         end
-        attachments_to_add_remove
+        attachments.reject do |key|
+          deleted_attachments.any? {|del_key| key =~ /attachments#{del_key[attachment_key_regexp,1]}/ }
+        end
       end
 
       def attachable_table_name
