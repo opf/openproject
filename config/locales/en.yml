@@ -1328,6 +1328,7 @@ en:
       timelines: "Timelines"
     add_project_association: "Add dependency"
     associations: "Dependencies"
+    board_could_not_be_saved: "Board could not be saved"
     button_delete_all: "Delete all"
     change: "Change in planning"
     children: "Child elements"
