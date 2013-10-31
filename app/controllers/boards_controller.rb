@@ -104,7 +104,10 @@ class BoardsController < ApplicationController
       flash.now[:error] = l('board_could_not_be_saved')
       render :action => 'edit'
     end
-    redirect_to settings_project_path(@board.project)
+    redirect_to controller: :projects,
+                action: "settings",
+                tab: "boards",
+                id: @board.project_id
   end
 
 
