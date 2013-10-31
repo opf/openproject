@@ -26,28 +26,42 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-collection @planning_elements => :planning_elements
-attributes :id,
-           :subject,
-           :description,
-           :done_ratio,
-           :estimated_hours,
-           :project_id,
-           :type_id,
-           :category_id,
-           :priority_id,
-           :fixed_version_id,
-           :status_id,
-           :parent_id,
-           :child_ids,
-           :responsible_id,
-           :author_id,
-           :assigned_to_id
+require File.expand_path('../../../../../spec_helper', __FILE__)
 
-node :start_date, :if => lambda{|pe| pe.start_date.present?} { |pe| pe.start_date.to_formatted_s(:db) }
-node :due_date, :if => lambda{|pe| pe.due_date.present?} {|pe| pe.due_date.to_formatted_s(:db) }
+describe 'api/v2/reported_project_statuses/index.api.rabl' do
 
-node :created_at, if: lambda{|pe| pe.created_at.present?} {|pe| pe.created_at.utc}
-node :updated_at, if: lambda{|pe| pe.updated_at.present?} {|pe| pe.updated_at.utc}
+  before do
+    params[:format] = 'json'
+  end
 
+  describe 'with no reported_project_statuses available' do
+    it 'renders an empty reported_project_statuses document' do
+      assign(:reported_project_statuses, [])
 
+      render
+
+      response.should have_json_size(0).at_path('reported_project_statuses')
+    end
+  end
+
+  describe 'with 3 reported_project_statuses available' do
+    let(:reported_project_statuses) do
+      [
+        FactoryGirl.build(:reported_project_status),
+        FactoryGirl.build(:reported_project_status),
+        FactoryGirl.build(:reported_project_status)
+      ]
+
+    end
+
+    before do
+      assign(:reported_project_statuses, reported_project_statuses )
+      render
+    end
+
+    it 'renders a reported_project_statuses document with the size 3 of array' do
+      response.should have_json_size(3).at_path('reported_project_statuses')
+    end
+
+  end
+end

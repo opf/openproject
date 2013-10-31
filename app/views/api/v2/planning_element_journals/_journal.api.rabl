@@ -26,28 +26,35 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-collection @planning_elements => :planning_elements
-attributes :id,
-           :subject,
-           :description,
-           :done_ratio,
-           :estimated_hours,
-           :project_id,
-           :type_id,
-           :category_id,
-           :priority_id,
-           :fixed_version_id,
-           :status_id,
-           :parent_id,
-           :child_ids,
-           :responsible_id,
-           :author_id,
-           :assigned_to_id
+object @journal
+attributes :notes
+node :id do |journal|
+  journal.version
+end
 
-node :start_date, :if => lambda{|pe| pe.start_date.present?} { |pe| pe.start_date.to_formatted_s(:db) }
-node :due_date, :if => lambda{|pe| pe.due_date.present?} {|pe| pe.due_date.to_formatted_s(:db) }
+node :user do |journal|
+  {id: journal.user.id, name: journal.user.name}
+end
 
-node :created_at, if: lambda{|pe| pe.created_at.present?} {|pe| pe.created_at.utc}
-node :updated_at, if: lambda{|pe| pe.updated_at.present?} {|pe| pe.updated_at.utc}
+node :changes do |journal|
+    journal.changed_data.map do |attribute, changes|
+      user_friendly_attribute, old, new = user_friendly_change(journal, attribute)
+      {
+          technical: {
+              name: attribute.to_s,
+              old:  changes.first,
+              new:  changes.last
+          },
+          user_friendly: {
+              name: user_friendly_attribute,
+              old:  old,
+              new:  new
+          }
+      }
+    end
 
+end
 
+node :created_on do |journal|
+  journal.created_at.utc.iso8601
+end

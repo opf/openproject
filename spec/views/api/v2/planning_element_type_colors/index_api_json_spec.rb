@@ -26,28 +26,40 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-collection @planning_elements => :planning_elements
-attributes :id,
-           :subject,
-           :description,
-           :done_ratio,
-           :estimated_hours,
-           :project_id,
-           :type_id,
-           :category_id,
-           :priority_id,
-           :fixed_version_id,
-           :status_id,
-           :parent_id,
-           :child_ids,
-           :responsible_id,
-           :author_id,
-           :assigned_to_id
+require File.expand_path('../../../../../spec_helper', __FILE__)
 
-node :start_date, :if => lambda{|pe| pe.start_date.present?} { |pe| pe.start_date.to_formatted_s(:db) }
-node :due_date, :if => lambda{|pe| pe.due_date.present?} {|pe| pe.due_date.to_formatted_s(:db) }
+describe 'api/v2/planning_element_type_colors/index.api.rabl' do
 
-node :created_at, if: lambda{|pe| pe.created_at.present?} {|pe| pe.created_at.utc}
-node :updated_at, if: lambda{|pe| pe.updated_at.present?} {|pe| pe.updated_at.utc}
+  before do
+    params[:format] = 'json'
+  end
 
+  describe 'with no colors available' do
+    it 'renders an empty colors document' do
+      assign(:colors, [])
+      render
 
+      response.should have_json_size(0).at_path("colors")
+    end
+  end
+
+  describe 'with 3 colors available' do
+    let(:colors) {
+      [
+        FactoryGirl.build(:color),
+        FactoryGirl.build(:color),
+        FactoryGirl.build(:color)
+      ]
+    }
+
+    before do
+      assign(:colors, colors)
+      render
+    end
+
+    it 'renders a colors document with the size 3 of array' do
+      response.should have_json_size(3).at_path("colors")
+    end
+
+  end
+end

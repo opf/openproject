@@ -32,9 +32,15 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2593` Work Package Summary missing
 * `#1749` Prevent JSON Hijacking
 * `#2281` The context menu is not correctly displayed
-* `#2525` Project Settings: Forums: Move up/down result in 404
+* `#2348` [Timelines] Using planning element filter and filtering for status "New" leads always to plus-sign in front of work packages
+* `#2357` [Timelines] Change API v2 serialization to minimize redundant data
 * `#2363` When all wiki pages have been deleted new wiki pages cannot be created
+* `#2380` [Timelines] Change API v2 serialization to maximize concatenation speed
+* `#2420` Migrate the remaining views of api/v2 to rabl
+* `#2478` Timeline with lots of work packages doesn`t load
+* `#2525` Project Settings: Forums: Move up/down result in 404
 * `#2576` [Timelines] Double scrollbar in modal for Chrome 
+* `#2577` [Timelines] Users are not displayed in timelines table after recent API version
 * `#2579` [Core] Report of spent time (without cost reporting) results in 404
 * `#2580` Fixed some unlikely remote code executions
 * `#2592` Search: Clicking on 'Next' results in 500
@@ -51,9 +57,9 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1916` Work package update screen is closed when attached file is deleted
 * `#1935` Fixed bug: Default submenu for wiki pages is wrong (Configure menu item)
 * `#2009` No journal entry created for attachments if the attachment is added on container creation
-* `#2221` [Accessibility] enhance keyboard shortcuts
 * `#2026` 404 error when letters are entered in category Work Package
 * `#2129` Repository: clicking on file results in 500
+* `#2221` [Accessibility] enhance keyboard shortcuts
 * `#2371` Add support for IE10 to Timelines
 * `#2400` Cannot delete work package
 * `#2423` [Issue Tracker] Several Internal Errors when there is no default work package status

@@ -39,17 +39,25 @@ Feature: Timeline Comparison View Tests
           | delete_work_packages      |
           | view_reportings           |
           | view_project_associations |
+
+      And there is a project named "Volatile Planning"
+      And I am working in project "Volatile Planning"
+      And the user "manager" is a "manager"
+      And I am already logged in as "manager"
+
       And there are the following status:
           | name        | default |
           | new         | true    |
-          | in progress | false   |
-          | closed      | false   |
-      And there is a project named "Volatile Planning"
-      And I am working in project "Volatile Planning"
+          | in progress | true    |
+          | closed      | true    |
+      And the project "Volatile Planning" has the following types:
+          | name    | position |
+          | Bug     | 1        |
+          | Feature | 2        |
+      And the type "Bug" has the default workflow for the role "manager"
+
       And the project uses the following modules:
           | timelines |
-      And the user "manager" is a "manager"
-      And I am already logged in as "manager"
       And there are the following work packages were added "three weeks ago":
           | Subject  | Start date | Due date   |
           | January  | 2014-01-01 | 2014-01-31 |
@@ -77,6 +85,7 @@ Feature: Timeline Comparison View Tests
      Then I should see the work package "May" has not moved
       And I should see the work package "February" has moved
       And I should see the work package "May" has not changed "Status"
+
       And I should see the work package "February" has changed "Status"
       And I should not see the work package "January" in the timeline
 

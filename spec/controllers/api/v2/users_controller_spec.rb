@@ -26,28 +26,53 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-collection @planning_elements => :planning_elements
-attributes :id,
-           :subject,
-           :description,
-           :done_ratio,
-           :estimated_hours,
-           :project_id,
-           :type_id,
-           :category_id,
-           :priority_id,
-           :fixed_version_id,
-           :status_id,
-           :parent_id,
-           :child_ids,
-           :responsible_id,
-           :author_id,
-           :assigned_to_id
+require 'spec_helper'
 
-node :start_date, :if => lambda{|pe| pe.start_date.present?} { |pe| pe.start_date.to_formatted_s(:db) }
-node :due_date, :if => lambda{|pe| pe.due_date.present?} {|pe| pe.due_date.to_formatted_s(:db) }
+describe Api::V2::UsersController do
+  let(:current_user) { FactoryGirl.create(:admin) }
 
-node :created_at, if: lambda{|pe| pe.created_at.present?} {|pe| pe.created_at.utc}
-node :updated_at, if: lambda{|pe| pe.updated_at.present?} {|pe| pe.updated_at.utc}
+  before do
+    User.stub(:current).and_return current_user
+  end
+
+  describe 'index.json' do
+    describe 'with 3 visible users' do
+
+      before do
+        3.times do
+          FactoryGirl.create(:user)
+        end
+
+        get 'index', :format => 'json'
+      end
+
+      it 'returns 3 users' do
+        assigns(:users).size.should eql 3+1 # the admin is also available, when all users are selected
+      end
+
+      it 'renders the index template' do
+        response.should render_template('api/v2/users/index', :formats => ["api"])
+      end
+    end
+
+    describe 'search for ids' do
+      let (:user_1) {FactoryGirl.create(:user)}
+      let (:user_2) {FactoryGirl.create(:user)}
+
+      it 'returns the users for requested ids' do
+        get 'index', ids: "#{user_1.id},#{user_2.id}", :format => 'json'
+
+        found_users = assigns(:users)
+
+        found_users.size.should eql 2
+        found_users.should include user_1,user_2
 
 
+      end
+
+    end
+
+
+
+  end
+end
