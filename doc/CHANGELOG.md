@@ -32,6 +32,8 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2593` Work Package Summary missing
 * `#1749` Prevent JSON Hijacking
 * `#2281` The context menu is not correctly displayed
+* `#2525` Project Settings: Forums: Move up/down result in 404
+* `#2535` [Forum] Atom feed on the forum's overview-page doesn't work
 * `#2348` [Timelines] Using planning element filter and filtering for status "New" leads always to plus-sign in front of work packages
 * `#2357` [Timelines] Change API v2 serialization to minimize redundant data
 * `#2363` When all wiki pages have been deleted new wiki pages cannot be created
@@ -39,14 +41,15 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2420` Migrate the remaining views of api/v2 to rabl
 * `#2478` Timeline with lots of work packages doesn`t load
 * `#2525` Project Settings: Forums: Move up/down result in 404
-* `#2576` [Timelines] Double scrollbar in modal for Chrome 
+* `#2576` [Timelines] Double scrollbar in modal for Chrome
 * `#2577` [Timelines] Users are not displayed in timelines table after recent API version
 * `#2579` [Core] Report of spent time (without cost reporting) results in 404
 * `#2580` Fixed some unlikely remote code executions
 * `#2592` Search: Clicking on 'Next' results in 500
 * `#2596` [Roadmap] Closed tickets are not striked out
-* `#2597` [Roadmap] Missing english/german closed percentage label 
+* `#2597` [Roadmap] Missing english/german closed percentage label
 * `#2604` [Migration] Attachable journals incorrect
+* `#2608` [Activity] Clicking on Atom-feed in activity leads to 500 error
 * Add rake task for changing timestamps in the database to UTC
 
 ## 3.0.0pre23
