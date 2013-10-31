@@ -92,12 +92,11 @@ $main_menu_folded_width: 15px
               padding: 0
     ul
       display: none
-      background-color: $main_menu_bg_color
       padding-top: 1px
       padding-bottom: 1px
       &.menu-children.unattached
         border-top: 1px solid #ddd
-
+      
       ul
         position: absolute
         left: 185px
@@ -106,6 +105,22 @@ $main_menu_folded_width: 15px
         top: 0
         border: 1px solid #AFAFAF
         background: #f3f3f3
+        
+    ul.menu-children
+      background: #04232F
+      li
+        padding: 0
+      li a
+        font-size: 13px
+        line-height: 30px
+        height: 30px
+        border: none
+        padding: 0 0 0 61px
+      li a:hover
+        border: none
+      li a.selected
+        border: none !important
+        
   a
     text-decoration: none
     line-height: 40px
@@ -124,9 +139,17 @@ $main_menu_folded_width: 15px
     top: 0
     width: 40px
     height: 25px
-    background-image: url(image-path('double_arrows_grey_white_sprite.png'))
-    background-position: 10px -1px
-
+    background: url(image-path('double_arrows_grey_white_sprite.png')) 0px 6px no-repeat
+  
+  li .open
+    background: #04232F !important
+    border-left: 4px solid #AAAAAA !important
+  li .open .toggler
+    background: url(image-path('double_arrows_grey_white_sprite.png')) 0px -18px
+    
+  li .selected.open .toggler, li .open:hover .toggler
+    background: url(image-path('double_arrows_grey_white_sprite.png')) 0px -151px
+      
   &.hidden
     width: $main_menu_folded_width
 
@@ -145,10 +168,8 @@ $main_menu_folded_width: 15px
         height: 100%
 
         /* Arrow right */
-        background-image: url(image-path('double_arrows_grey_white_sprite.png'))
-        background-position: -8px -200px
-        background-repeat: no-repeat
-
+        background: url(image-path('double_arrows_grey_white_sprite.png')) -8px -200px no-repeat
+                
         &:hover
           /* Arrow right white */
           background-position: -39px -200px
@@ -159,6 +180,7 @@ $main_menu_folded_width: 15px
       float: right
       width: 100%
       height: 15px
+      margin: 11px 0 0 0
 
       /* Arrow left */
       background-image: url(image-path('double_arrows_grey_white_sprite.png'))
@@ -173,8 +195,7 @@ $main_menu_folded_width: 15px
   .toggle-follow
     position: absolute
     width: 120px
-    height: 25px
-
+    
 
 #menu-sidebar.hidden
   display: none
@@ -231,21 +252,6 @@ $main_menu_folded_width: 15px
 /* this part is just copied from application.css with needed changes for sass
  * should be refactored with the rest of the main_menu css*/
 
-#main-menu ul.menu_root li .open .toggler
-  /* Arrow up */
-  background-image: url(image-path('double_arrows_grey_white_sprite.png'))
-  background-position: 10px -26px
-
-#main-menu ul.menu_root li .selected.open .toggler, #main-menu ul.menu_root li .open:hover .toggler
-  /* Arrow up white */
-  background-image: url(image-path('double_arrows_grey_white_sprite.png'))
-  background-position: 10px -159px
-
-#main-menu ul.menu_root li a:hover .toggler, #main-menu ul.menu_root li .selected .toggler
-  /* Arrow down white */
-  background-image: url(image-path('double_arrows_grey_white_sprite.png'))
-  background-position: 10px -120px
-
 
 #main-menu ul.menu_root li li .toggler
   display: none
@@ -277,11 +283,7 @@ $main_menu_folded_width: 15px
   font-weight: bold
   margin: 25px 0
 
-#main-menu ul.menu_root li li a
-  padding-left: 30px
-  padding-right: 3px
-  text-indent: -6px
-  letter-spacing: -.01em
+
 
 #main-menu ul.menu_root li a.time-details, #main-menu ul.menu_root li a.overhead-time-details, #main-menu ul.menu_root li a.billable-time-details
   padding-left: 40px
