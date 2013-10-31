@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#2564` Support custom fields in REST API v2 for work packages and projects
+
 ## 3.0.0pre26
 
 * `#2624` [Journals] Fix: Work package journals that migrated from legacy planning elements lack default references
@@ -55,7 +57,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#2593` Work Package Summary missing
 * `#1749` Prevent JSON Hijacking
-* `#2564` Support custom fields in REST API v2 for work packages and projects
 * `#2281` The context menu is not correctly displayed
 * `#2525` Project Settings: Forums: Move up/down result in 404
 * `#2535` [Forum] Atom feed on the forum's overview-page doesn't work
