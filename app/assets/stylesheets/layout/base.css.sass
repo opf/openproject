@@ -42,9 +42,13 @@ body
   background: white
 
 #wrapper
-  background: none
+  background: url(image-path('sidebar_bg.png')) repeat-y 0 0
   min-height: 100%
   position: relative
+  &.nosidebar
+    background: none
+  &.hidden-navigation
+    background-position: -255px 0
 
 h1
   margin: 0
@@ -60,3 +64,10 @@ h4, .wiki h3
   padding: 0px 10px 1px 0px
   margin-bottom: 5px
   border-bottom: 1px dotted #bbbbbb
+
+#main
+  position: relative
+  z-index: 20
+  padding-bottom: 155px
+  overflow: auto
+

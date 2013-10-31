@@ -907,6 +907,7 @@ $(window).bind('resizeEnd', function() {
 
   var toggle_navigation = function() {
     var height = $(document).height() - $('#main-menu').offset().top - 32;
+    $('#wrapper').toggleClass('hidden-navigation');
     $('#main-menu, #menu-sidebar').toggleClass('hidden');
     $('#content, #breadcrumb').toggleClass('hidden-navigation');
     $('#toggle-project-menu').removeAttr("style").toggleClass('show');
