@@ -37,9 +37,9 @@
     }
 
     $().topShelf({
-      title: "Your browser is not supported",
-      message: "The browser you are using is no longer supported by OpenProject. Please update your browser.",
-      link: "Learn more",
+      title: I18n.t("js.unsupported_browser.title"),
+      message: I18n.t("js.unsupported_browser.message"),
+      link: I18n.t("js.unsupported_browser.learn_more"),
       url: "https://www.openproject.org/unsupported_browser"
     });
 

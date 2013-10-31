@@ -519,6 +519,10 @@ de:
   gui_validation_error_plural: "%{count} Fehler"
 
   js:
+    unsupported_browser:
+      title: "Dein Browser wird nicht unterstützt"
+      message: "Du verwendest einen veralteten Browser, der von OpenProject nicht mehr unterstützt wird. Bitte aktualisiere deinen Browser."
+      learn_more: "Mehr erfahren"
     logoff: "Sie wurden ausgeloggt."
     redirect_login: "Wollen Sie auf die Login-Seite weitergeleitet werden?"
     ajax:
