@@ -32,6 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2593` Work Package Summary missing
 * `#1749` Prevent JSON Hijacking
 * `#2281` The context menu is not correctly displayed
+* `#2525` Project Settings: Forums: Move up/down result in 404
 * `#2580` Fixed some unlikely remote code executions
 * `#2596` [Roadmap] Closed tickets are not striked out
 * `#2597` [Roadmap] Missing english/german closed percentage label 
