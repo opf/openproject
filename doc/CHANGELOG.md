@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#2618` Fix: When issues are renamed to work packages all watcher assignments are lost
+
 ## 3.0.0pre24
 
 * `#2593` Work Package Summary missing
