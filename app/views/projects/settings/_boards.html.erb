@@ -43,7 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <td><%=h board.description %></td>
     <td class="small-icons" align="center">
     <% if authorize_for("boards", "edit") %>
-      <%= reorder_links('board', {:controller => '/boards', :action => 'edit', :project_id => @project, :id => board}) %>
+      <%= reorder_links('board', {:controller => '/boards', :action => 'move', :project_id => @project, :id => board}) %>
     <% end %>
     </td>
     <td class="buttons">
