@@ -74,14 +74,35 @@ describe ActivitiesController do
       let!(:wp_2) { FactoryGirl.create(:work_package,
                                        project: project,
                                        author: user) }
-      let(:params) { { project_id: project.id,
-                       format: :atom } }
 
-      before { get :index, params }
+      context :work_package do
+        let(:params) { { project_id: project.id,
+                         format: :atom } }
 
-      it { expect(assigns(:items).count).to eq(2) }
+        before { get :index, params }
 
-      it { expect(response).to render_template("common/feed") }
+        it { expect(assigns(:items).count).to eq(2) }
+
+        it { expect(response).to render_template("common/feed") }
+      end
+
+      context :boards do
+        let(:board) { FactoryGirl.create(:board,
+                                         project: project) }
+        let!(:message_1) { FactoryGirl.create(:message,
+                                              board: board) }
+        let!(:message_2) { FactoryGirl.create(:message,
+                                              board: board) }
+        let(:params) { { project_id: project.id,
+                         show_messages: 1,
+                         format: :atom } }
+
+        before { get :index, params }
+
+        it { expect(assigns(:items).count).to eq(2) }
+
+        it { expect(response).to render_template("common/feed") }
+      end
     end
   end
 end
