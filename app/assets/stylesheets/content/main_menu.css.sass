@@ -36,6 +36,11 @@ $main_menu_folded_width: 15px
   -o-transition: all 500ms ease-in-out 0s
   transition: all 500ms ease-in-out 0s
 
+@mixin main-menu-font
+  font-style: normal
+  font-family: 'LatoRegular','Lucida Grande',Helvetica,Arial,sans-serif
+
+
 #main-menu
   bottom: auto
   left: 6px
@@ -131,7 +136,7 @@ $main_menu_folded_width: 15px
     font-weight: normal
     font-size: 15px
     font-style: normal
-    font-family: 'LatoRegular','Lucida Grande',Helvetica,Arial,sans-serif
+    @include main-menu-font
 
   .toggler
     position: absolute
@@ -201,43 +206,49 @@ $main_menu_folded_width: 15px
   display: none
 
 #sidebar
-  padding: 10px 10px 2px 20px
+  margin: 30px 0 0 0
+  padding: 0px 30px 0 30px
   width: auto
-  color: #4b4b4b
-  font-weight: normal
+  color: #FFFFFF
   font-size: 12px
-  font-style: normal
-  font-family: "Arial", Arial, sans-serif
-
+  @include main-menu-font
+  
   h3
-    color: #4b4b4b
-    font-weight: bold
-    font-size: 14px
-    font-family: "Arial", Arial, sans-serif
-    font-style: normal
-    margin: 0px
-    padding: 0px
-    margin-top: 20px
-    margin-bottom: 8px
+    display: block
+    border: none
+    border-top: 1px solid #1f4654
+    color: #FFFFFF
+    font-weight: normal
+    font-size: 16px
+    margin: 0px 0 8px 0
+    padding: 30px 0 0 0
+    
+    text-transform: uppercase
 
   > h3:first-child
     margin-top: 0px
 
   a, a:link
-    color: #008BD0
-    font-weight: bold
+    color: #FFFFFF
     font-size: 12px
-    height: auto
     display: inline
     position: static
-    font-style: normal
-    line-height: 1.5
+    text-decoration: underline
 
   a:hover
     text-decoration: underline
 
   input.button-small
-    margin-top: 6px
+    margin-top: 14px
+    background: #FFFFFF
+    border-radius: 25px
+    -webkit-border-radius: 25px
+    padding: 3px 7px
+    color: #222
+    border: none
+    cursor: pointer
+    @include main-menu-font
+    
 
   ul
     border: none
