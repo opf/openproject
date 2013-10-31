@@ -98,6 +98,7 @@ describe BoardsController do
 
     describe :higher do
       let(:move_to) { 'higher' }
+      let(:redirect_url) { "http://test.host/projects/#{project.id}/settings/boards" }
 
       before do
         post 'move', id: board_2.id,
@@ -109,7 +110,7 @@ describe BoardsController do
 
       it { expect(response).to be_redirect }
 
-      it { expect(response).to redirect_to(settings_project_path(project)) }
+      it { expect(response).to redirect_to(redirect_url) }
     end
 
   end
