@@ -108,7 +108,7 @@ jQuery(document).ready(function ($) {
       dateFormat: 'yy-mm-dd',
       showButtonPanel: true,
       calculateWeek: function (d) {
-        if (d.getDay() !== 1) {
+        if (d.getDay() > 1) {
           d.setDate(d.getDate() - d.getDay() + 1);
         }
         return $.datepicker.iso8601Week(d);
