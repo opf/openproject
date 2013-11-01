@@ -101,13 +101,13 @@ describe WikiMenuItemsController do
   describe :select_main_menu_item do
     include_context 'when there is one more wiki page with a child page'
 
-    before { get :select_main_menu_item, project_id: project, id: wiki_page.title }
+    before { get :select_main_menu_item, project_id: project, id: wiki_page.id }
     subject { assigns['possible_wiki_pages'] }
 
     context 'when selecting a new wiki page to replace the current main menu item' do
       it { should include another_wiki_page }
       it { should include child_page }
-      it { should_not include wiki_page }
+      it { should include wiki_page }
     end
   end
 
