@@ -278,7 +278,14 @@ module Migration
     def deserialize_changed_data(journal)
       changed_data = journal["changed_data"]
       return Hash.new if changed_data.nil?
-      YAML.load(changed_data)
+
+      current_yamler = YAML::ENGINE.yamler
+      begin
+        YAML::ENGINE.yamler = 'syck'
+        YAML.load(changed_data)
+      ensure
+        YAML::ENGINE.yamler = current_yamler
+      end
     end
 
     def deserialize_journal(journal)
