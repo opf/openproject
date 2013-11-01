@@ -83,6 +83,17 @@ See doc/COPYRIGHT.rdoc for more details.
 	width:100%; /* IE */
 }
 
+/* this one is here to counter the declaration to
+display all links having an icon (black, non bold)
+as opposed to links not having one (blue, bold).
+As long as that is defined there will be an inconsistency.
+But at least the context menu is consistent with this statement. */
+
+#context-menu a.icon {
+  color: #008BD0;
+  font-weight: bold;
+}
+
 #context-menu li>a {  /* others */
   width:auto;
 }
@@ -99,7 +110,6 @@ See doc/COPYRIGHT.rdoc for more details.
 #context-menu a:hover {
   color:#2A5685;
   border: none;
-  background-color:#f4f4f4;
 }
 
 #context-menu li.folder:hover {
@@ -126,7 +136,7 @@ See doc/COPYRIGHT.rdoc for more details.
 #context-menu li.folder ul {
   display: none;
   position:absolute;
-  max-height:300px;
+  max-height:400px;
   overflow-x:hidden;
   overflow-y: auto;
   left: 140px;
@@ -134,20 +144,16 @@ See doc/COPYRIGHT.rdoc for more details.
   width: auto;
   z-index: 19;
 }
+
 #context-menu li li {
   padding: 6px 12px;
   width: auto;
   display: block;
   white-space: nowrap;
 }
+
 #context-menu li:hover ul {
   display: block;
-}
-/* max height on menus */
-#context-menu li.assigned > ul {
-  max-height: 250px;
-  overflow-x: hidden;
-  overflow-y: auto;
 }
 
 .hascontextmenu { cursor: context-menu; }
