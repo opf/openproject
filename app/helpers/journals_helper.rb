@@ -110,7 +110,11 @@ module JournalsHelper
 
     content = ''
     content << content_tag('div', links.join(' '),{ :class => 'contextual' }, false) unless links.empty?
-    content << content_tag('div', textilizable(journal, :notes), :class => 'wikicontent', "data-user" => journal.journable.author)
+    attachments = model.try(:attachments) || []
+    content << content_tag('div',
+                           textilizable(journal, :notes, :attachments => attachments),
+                           :class => 'wikicontent',
+                           "data-user" => journal.journable.author)
 
     css_classes = "wiki"
     css_classes << " editable" if editable
