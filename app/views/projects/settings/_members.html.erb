@@ -99,7 +99,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </tbody>
 </table>
 
-<%= pagination_links_full @members, :params => { :tab => 'members' } %>
+<%= pagination_links_full @members, params: { tab: 'members' }.merge(@pagination_url_options || {}) %>
 
 <% else %>
 <p class="nodata members"><%= l(:label_no_data) %></p>
