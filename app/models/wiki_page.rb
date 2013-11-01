@@ -75,9 +75,6 @@ class WikiPage < ActiveRecord::Base
   DEFAULT_PROTECTED_PAGES = %w(sidebar)
 
   after_destroy :delete_wiki_menu_item
-  after_destroy do |wiki_page|
-    wiki_page.wiki.project.disable_module(:wiki) and wiki_page.wiki.destroy if is_only_wiki_page?
-  end
 
   def check_and_mark_as_protected
     if new_record? && DEFAULT_PROTECTED_PAGES.include?(title.to_s.downcase)
@@ -86,7 +83,7 @@ class WikiPage < ActiveRecord::Base
   end
 
   def delete_wiki_menu_item
-    self.menu_item.destroy if self.menu_item
+    self.menu_item.destroy if self.menu_item && !is_only_wiki_page?
   end
 
   def visible?(user=User.current)

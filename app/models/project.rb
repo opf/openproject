@@ -730,12 +730,6 @@ class Project < ActiveRecord::Base
     enabled_modules.collect(&:name)
   end
 
-  def disable_module(module_name)
-    if module_enabled? module_name
-      self.enabled_module_names = enabled_module_names - [module_name.to_s]
-    end
-  end
-
   safe_attributes 'name',
     'description',
     'summary',
