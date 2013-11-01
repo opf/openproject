@@ -63,6 +63,8 @@ class JournalManager
       current = journable.send(association).map {|a| { key.to_s => a.send(id), value.to_s => a.send(value)} }
       predecessor = journable.journals.last.send(journal_assoc_name).map(&:attributes)
 
+      current = remove_empty_associations(current, value.to_s)
+
       merged_journals = JournalManager.merge_reference_journals_by_id current, predecessor, key.to_s
 
       changes.merge! JournalManager.added_references(merged_journals, association.to_s, value.to_s)
@@ -73,6 +75,10 @@ class JournalManager
     else
       false
     end
+  end
+
+  def self.remove_empty_associations(associations, value)
+    associations.reject { |h| h.has_key?(value) && h[value].blank? }
   end
 
   def self.merge_reference_journals_by_id(current, predecessor, key)
@@ -225,7 +231,7 @@ class JournalManager
   end
 
   def self.create_custom_field_data(journable, journal)
-    journable.custom_values.each do |cv|
+    journable.custom_values.select { |c| !c.value.blank? }.each do |cv|
       journal.customizable_journals.build custom_field_id: cv.custom_field_id, value: cv.value
     end
   end
