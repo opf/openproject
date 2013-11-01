@@ -734,7 +734,8 @@ module ApplicationHelper
           end
         elsif sep == '###'
           oid = identifier.to_i
-          if work_package = WorkPackage.visible.find_by_id(oid, :include => :status)
+          work_package = WorkPackage.visible.find_by_id(oid, :include => :status)
+          if work_package && obj && !(attr == :description && obj.id == work_package.id)
             link = work_package_quick_info_with_description(work_package)
           end
         elsif sep == ':'
