@@ -78,6 +78,8 @@ JS
     respond_to do |format|
       format.html { redirect_to :controller => '/projects', :action => 'settings', :tab => 'members', :id => @project, :page => params[:page] }
       format.js {
+        @pagination_url_options = {controller: 'projects', action: 'settings', id: @project}
+
         render(:update) { |page|
           if params[:membership]
             @user = member.user
