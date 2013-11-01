@@ -281,6 +281,9 @@ module Migration
 
       current_yamler = YAML::ENGINE.yamler
       begin
+        # The change to 'syck' ensures that legacy data is correctly read from
+        # the 'legacy_journals' table. Otherwise, we would end up with false
+        # encoded data in the new journal.
         YAML::ENGINE.yamler = 'syck'
         YAML.load(changed_data)
       ensure
