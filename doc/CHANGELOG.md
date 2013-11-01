@@ -36,6 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2623` [Journals] Images in journal notes are not displayed
 * Improved newline handling for journals
 * Improved custom field comparison for journals
+* Respect journal data serialized with legacy YAML engine 'syck'
 
 ## 3.0.0pre24
 
