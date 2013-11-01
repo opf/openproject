@@ -29,11 +29,9 @@
 
 class MigrateDefaultValuesInWorkPackageJournals < ActiveRecord::Migration
 
-  def journal_fields
-    %w(author_id status_id priority_id)
-  end
-
   def up
+
+    raise "This migration does not yet support MySQL." unless postgres?
 
     journal_fields.each do |field|
 
@@ -56,4 +54,13 @@ class MigrateDefaultValuesInWorkPackageJournals < ActiveRecord::Migration
   def down
     # Up migration probably is repeatable, and the destroyed data is gone.
   end
+
+  def journal_fields
+    %w(author_id status_id priority_id)
+  end
+
+  def postgres?
+    ActiveRecord::Base.connection.instance_values["config"][:adapter] == "postgresql"
+  end
+
 end
