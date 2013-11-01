@@ -880,7 +880,6 @@ en:
   label_this_year: "this year"
   label_time_entry_plural: "Spent time"
   label_time_tracking: "Time tracking"
-  label_planning_element_plural: "Planning elements"
   label_today: "today"
   label_top_menu: "Top Menu"
   label_topic_plural: "Topics"
@@ -1347,7 +1346,7 @@ en:
     edit_thing: "Edit"
     edit_timeline: "Edit timeline report"
     empty: "(empty)"
-    enable_planning_element_in_project: 'Enable planning element type "%{type}"'
+    enable_type_in_project: 'Enable type "%{type}"'
     end: "End"
     errors:
       not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
@@ -1382,7 +1381,7 @@ en:
         days: "days"
         weeks: "weeks"
         months: "months"
-      exclude_own_planning_elements: "Hide planning elements from this project"
+      exclude_own_work_packages: "Hide work packages from this project"
       exclude_reporters: "Hide other projects"
       exclude_empty: "Hide empty projects"
       grouping: "Grouping"
@@ -1397,12 +1396,12 @@ en:
       noneSelection: "(none)"
       outline: "Intitial outline expansion"
       parent: "Show subprojects of"
-      planning_element_filters: "Filter planning elements"
-      planning_element_responsible: "Show planning elements with responsible"
+      work_package_filters: "Filter work packages"
+      work_package_responsible: "Show work packages with responsible"
       types: "Show types"
       status: "Show status"
 
-      project_time_filter: "Projects with a planning element of a certain type in a certain timeframe"
+      project_time_filter: "Projects with a work package of a certain type in a certain timeframe"
       project_time_filter_historical: "from %{startdate} to %{enddate}"
       project_time_filter_relative: "from %{startspan}%{startspanunit} ago, to %{endspan}%{endspanunit} from now"
       project_filters: "Filter projects"
@@ -1417,7 +1416,7 @@ en:
     history: "History"
     new_color: "New color"
     new_association: "New dependency"
-    new_planning_element: "New planning element"
+    new_work_package: "New work package"
     new_project_type: "New project type"
     new_reporting: "New reporting"
     new_timeline: "New timeline report"
@@ -1444,9 +1443,8 @@ en:
       edit: "Edit status: %{comment}"
       show: "Status: %{comment}"
 
-    planning_element_could_not_be_saved: "Planning element could not be saved"
     planning_element_update: "Update: %{title}"
-    planning_elements_are_displayed_in_aggregations: "Planning elements are displayed in aggregations"
+    work_packages_are_displayed_in_aggregations: "Work packages are displayed in aggregations"
     project_association_new: Add project dependency
     project_association_new_for_with: Set dependency for “%{project_a}” with
     project_association_with_other: "Project dependency between “%{project_a}” and “%{project_b}”"
@@ -1457,10 +1455,7 @@ en:
     properties: "Properties"
     really_delete_color: >
       Are you sure, you want to delete the following color?
-      Planning element types using this color will not be deleted.
-    really_delete_all_planning_elements: >
-      Are you sure, you want to permanently delete all the following planning elements and all
-      its child elements? You cannot undo this operation.
+      Types using this color will not be deleted.
     really_delete_project_association_between_project_a_and_project_b: >
       Are you sure, you want to delete the dependency between “%{project_a}” and
       “%{project_b}”?
@@ -1469,7 +1464,7 @@ en:
       Projects using this type will not be deleted.
     really_delete_timeline: >
       Are you sure, you want to delete the following timeline report?
-      Planning elements shown in this timeline report will not be
+      Work packages shown in this timeline report will not be
       deleted.
     really_delete_reporting: >
       Are you sure, you want to delete the following reporting?
@@ -1478,12 +1473,8 @@ en:
     timeline: "Timeline report"
     timelines: "Timeline reports"
     settings: "Timelines"
-    used_in_x_planning_elements:
-      one:   "Used in %{count} planning element"
-      other: "Used in %{count} planning elements"
-    vertical_planning_elements: "Vertical planning elements"
+    vertical_work_package: "Vertical work packages"
     without_project_type: "Without project type"
-    you_are_viewing_all_planning_elements_in_this_project: "You are viewing all planning elements in this project"
     you_are_viewing_the_selected_timeline: "You are viewing the selected timeline report"
     zoom:
       in: "Zoom in"
