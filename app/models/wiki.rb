@@ -50,6 +50,8 @@ class Wiki < ActiveRecord::Base
 
   safe_attributes 'start_page'
 
+  after_create :create_menu_item_for_start_page
+
   def visible?(user=User.current)
     !user.nil? && user.allowed_to?(:view_wiki_pages, project)
   end
@@ -106,5 +108,12 @@ class Wiki < ActiveRecord::Base
     # upcase the first letter
     title = (title.slice(0..0).upcase + (title.slice(1..-1) || '')) if title
     title
+  end
+
+  def create_menu_item_for_start_page
+    wiki_menu_item = wiki_menu_items.find_or_initialize_by_title start_page, name: 'Wiki'
+    wiki_menu_item.new_wiki_page = true
+    wiki_menu_item.index_page = true
+    wiki_menu_item.save!
   end
 end

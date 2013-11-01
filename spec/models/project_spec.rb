@@ -149,4 +149,23 @@ describe Project do
       expect { Project.find_visible(user, project.id) }.to raise_error ActiveRecord::RecordNotFound
     end
   end
+
+  context 'when the wiki module is enabled' do
+    let(:project) { FactoryGirl.create(:project, :without_wiki) }
+
+    before :each do
+      project.enabled_module_names = project.enabled_module_names | ['wiki']
+      project.save
+      project.reload
+    end
+
+    it 'creates a wiki' do
+      project.wiki.should be_present
+    end
+
+    it 'creates a wiki menu item named like the default start page' do
+      project.wiki.wiki_menu_items.should be_one
+      project.wiki.wiki_menu_items.first.title.should == project.wiki.start_page
+    end
+  end
 end

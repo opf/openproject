@@ -70,8 +70,9 @@ describe WikiPage do
         wiki_page.destroy
       end
 
-      it 'does not ensure that there is still a wiki menu item' do
-        wiki.wiki_menu_items.should be_empty
+      it 'ensures that there is still a wiki menu item named like the wiki start page' do
+        wiki.wiki_menu_items.should be_one
+        wiki.wiki_menu_items.first.name.should == wiki.start_page
       end
     end
   end
