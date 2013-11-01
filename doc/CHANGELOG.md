@@ -38,6 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2618` Fix: When issues are renamed to work packages all watcher assignments are lost
 * `#2623` [Journals] Images in journal notes are not displayed
 * `#2624` [Journals] Work package journals that migrated from legacy planning elements lack default references.
+* `#2625` [Membership] Page not found when editing member and display more pages
 * Improved newline handling for journals
 * Improved custom field comparison for journals
 * Respect journal data serialized with legacy YAML engine 'syck'
