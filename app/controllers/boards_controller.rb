@@ -93,7 +93,10 @@ class BoardsController < ApplicationController
 
   def update
     if @board.update_attributes(params[:board])
+      flash[:notice] = l(:notice_successful_update)
       redirect_to_settings_in_projects
+    else
+      render :edit
     end
   end
 
