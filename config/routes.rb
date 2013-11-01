@@ -58,6 +58,7 @@ OpenProject::Application.routes.draw do
     namespace :v2 do
 
       resources :authentication
+      resources :users, only: [:index]
       resources :planning_element_journals
       resources :statuses
       resources :colors, :controller => 'planning_element_type_colors'
@@ -70,6 +71,7 @@ OpenProject::Application.routes.draw do
 
       resources :projects do
         resources :planning_elements
+        resources :planning_element_types
         resources :reportings do
           get :available_projects, :on => :collection
         end
@@ -98,6 +100,7 @@ OpenProject::Application.routes.draw do
   match '/help/:ctrl/:page' => 'help#index'
 
   resources :types
+  resources :search, :controller => 'search', :only => ['index']
 
   # only providing routes for journals when there are multiple subclasses of journals
   # all subclasses will look for the journals routes
@@ -201,6 +204,8 @@ OpenProject::Application.routes.draw do
         post :protect
         post :add_attachment
         get  :list_attachments
+        get :select_main_menu_item, to: 'wiki_menu_items#select_main_menu_item'
+        post :replace_main_menu_item, to: 'wiki_menu_items#replace_main_menu_item'
       end
     end
     # as routes for index and show are swapped
@@ -225,12 +230,51 @@ OpenProject::Application.routes.draw do
 
     resources :activity, :activities, :only => :index, :controller => 'activities'
 
-    resources :boards
+    resources :boards do
+      member do
+        get :confirm_destroy
+        get :move
+        post :move
+      end
+    end
 
     resources :categories, :except => [:index, :show], :shallow => true
 
     resources :members, :only => [:create, :update, :destroy], :shallow => true do
       get :autocomplete, :on => :collection
+    end
+
+    resource :repository, :only => [:destroy] do
+      get :edit #needed as show is configured manually with a wildcard
+      post :edit
+      get :committers
+      post :committers
+      get :graph
+      get :revisions
+
+      get "/statistics", :action => :stats, :as => 'stats'
+
+      get '(/revisions/:rev)/diff.:format', :action => :diff
+      get '(/revisions/:rev)/diff(/*path)', :action => :diff,
+                                            :format => false
+
+      get '(/revisions/:rev)/:format/*path', :action => :entry,
+                                             :format => /raw/,
+                                             :rev => /[a-z0-9\.\-_]+/
+
+      %w{diff annotate changes entry browse}.each do |action|
+        get "(/revisions/:rev)/#{action}(/*path)", :format => false,
+                                                   :action => action,
+                                                   :rev => /[a-z0-9\.\-_]+/
+      end
+
+      get '/revision(/:rev)', :rev => /[a-z0-9\.\-_]+/,
+                              :action => :revision
+
+      get '(/revisions/:rev)(/*path)', :action => :show,
+                                       :format => false,
+                                       :rev => /[a-z0-9\.\-_]+/
+
     end
   end
 
@@ -271,11 +315,7 @@ OpenProject::Application.routes.draw do
     match 'auto_complete' => 'auto_completes#index', :via => [:get, :post], :format => false
     match 'context_menu' => 'context_menus#index', :via => [:get, :post], :format => false
     resources :calendar, :controller => 'calendars', :only => [:index]
-  end
-
-  namespace :work_package_bulk do
-    get :edit, :format => false
-    put :update, :format => false
+    resource :bulk, :controller => 'bulk', :only => [:edit, :update, :destroy]
   end
 
   resources :work_packages, :only => [:show, :edit, :update, :index] do
@@ -290,11 +330,11 @@ OpenProject::Application.routes.draw do
     # move individual wp
     resource :move, :controller => 'work_packages/moves', :only => [:new, :create]
 
-    resources :time_entries, :controller => 'timelog'
     # this duplicate mapping is required for the timelog_helper
     namespace :time_entries do
       resource :report, :controller => 'reports'
     end
+    resources :time_entries, :controller => 'timelog'
   end
 
   resources :versions, :only => [:show, :edit, :update, :destroy] do
@@ -349,29 +389,6 @@ OpenProject::Application.routes.draw do
     resource :preview, :controller => 'news/previews', :only => [:create]
   end
 
-  scope :controller => 'repositories' do
-    scope :via => :get do
-      match '/projects/:id/repository', :action => :show
-      match '/projects/:id/repository/edit', :action => :edit
-      match '/projects/:id/repository/statistics', :action => :stats
-      match '/projects/:id/repository/committers', :action => :committers
-      match '/projects/:id/repository/graph', :action => :graph
-      match '/projects/:id/repository/diff', :action => :diff
-      match '/projects/:id/repository/revisions', :action => :revisions
-      match '/projects/:id/repository/revisions.:format', :action => :revisions
-      match '/projects/:id/repository/revisions/:rev', :action => :revision
-      match '/projects/:id/repository/revisions/:rev/diff/*path(.:format)', :action => :diff
-      match '/projects/:id/repository/revisions/:rev/raw/*path', :action => :entry, :kind => 'raw', :rev => /[a-z0-9\.\-_]+/
-      match '/projects/:id/repository/revisions/:rev/:action/*path', :rev => /[a-z0-9\.\-_]+/
-      match '/projects/:id/repository/raw/*path', :action => :entry, :kind => 'raw'
-      # TODO: why the following route is required?
-      match '/projects/:id/repository/entry/*path', :action => :entry
-      match '/projects/:id/repository/:action/*path'
-    end
-
-    match '/projects/:id/repository/:action', :via => :post
-  end
-
 
   resources :attachments, :only => [:show, :destroy], :format => false do
     member do
@@ -385,16 +402,6 @@ OpenProject::Application.routes.draw do
   scope :constraints => { :id => /\d+/, :filename => /[^\/]*/ } do
     match "/attachments/download/:id/:filename" => redirect("/attachments/%{id}/download/%{filename}"), :format => false
     match "/attachments/download/:id" => redirect("/attachments/%{id}/download"), :format => false
-  end
-
-  #left old routes at the bottom for backwards compat
-  scope :controller => 'repositories' do
-    match '/repositories/browse/:id/*path', :action => 'browse', :as => 'repositories_show'
-    match '/repositories/changes/:id/*path', :action => 'changes', :as => 'repositories_changes'
-    match '/repositories/diff/:id/*path', :action => 'diff', :as => 'repositories_diff'
-    match '/repositories/entry/:id/*path', :action => 'entry', :as => 'repositories_entry'
-    match '/repositories/annotate/:id/*path', :action => 'annotate', :as => 'repositories_entry'
-    match '/repositories/revision/:id/:rev', :action => 'revision'
   end
 
   scope :controller => 'sys' do
@@ -421,8 +428,6 @@ OpenProject::Application.routes.draw do
        post :move
      end
   end
-
-  resources :planning_element_statuses, :controller => 'planning_element_statuses'
 
   resources :project_types, :controller => 'project_types' do
     member do

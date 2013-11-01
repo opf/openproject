@@ -55,7 +55,7 @@ jQuery(document).ready(function($) {
     $("#timeline_options_planning_element_responsibles"),
     $("#timeline_options_grouping_two_selection")
   ].each(function (item) {
-    $(item).timelinesAutocomplete({ ajax: {null_element: {id: -1, name: I18n.t("js.timelines.filter.none")}} });
+    $(item).timelinesAutocomplete({ ajax: {null_element: {id: -1, name: I18n.t("js.timelines.filter.noneElement")}} });
   });
 
   [
@@ -104,7 +104,7 @@ jQuery(document).ready(function($) {
       query        : OpenProject.Helpers.Search.projectQueryWithHierarchy(
                           jQuery.proxy(openProject, 'fetchProjects'),
                           20),
-      ajax: {null_element: {id: -1, name: I18n.t("js.timelines.filter.none")}}
+      ajax: {null_element: {id: -1, name: I18n.t("js.timelines.filter.noneElement")}}
     });
   });
 
@@ -121,7 +121,7 @@ jQuery(document).ready(function($) {
       query        : OpenProject.Helpers.Search.projectQueryWithHierarchy(
                           jQuery.proxy(openProject, 'fetchProjects'),
                           20),
-      ajax: {null_element: {id: -1, name: I18n.t("js.timelines.filter.none")}}
+      ajax: {null_element: {id: -1, name: I18n.t("js.timelines.filter.noneElement")}}
     });
   });
 

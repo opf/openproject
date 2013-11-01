@@ -27,6 +27,12 @@
 #++
 
 class CreateUserPasswords < ActiveRecord::Migration
+
+  def initialize
+    super
+    @former_passwords_table_exists = ActiveRecord::Base.connection.tables.include? 'former_user_passwords'
+  end
+
   def up
     create_table :user_passwords do |t|
       t.integer :user_id, :null => false
@@ -35,6 +41,17 @@ class CreateUserPasswords < ActiveRecord::Migration
       t.timestamps
     end
     add_index :user_passwords, :user_id
+
+    #if the plugin strong passwords was installed, we also transfer its
+    #stored former passwords of the users
+    if @former_passwords_table_exists
+      ActiveRecord::Base.connection.execute <<-SQL
+        INSERT INTO user_passwords (user_id, hashed_password, salt, created_at, updated_at)
+        SELECT user_id, hashed_password, salt, created_at, updated_at FROM former_user_passwords
+        ORDER BY id
+      SQL
+      drop_table :former_user_passwords
+    end
 
     begin
       # because of the circular dependencies between User, Principal and Project
@@ -56,13 +73,17 @@ class CreateUserPasswords < ActiveRecord::Migration
     change_table :users do |t|
       t.remove :hashed_password, :salt
     end
+    User.reset_column_information
   end
 
   def down
+    # we dont recreate the former_user_passwords_table here, since there is no Rails3
+    # version of the old strong passwords plugin
     change_table :users do |t|
       t.string :hashed_password, :limit => 40
       t.string :salt, :limit => 60
     end
+    User.reset_column_information
 
     begin
       User.record_timestamps = false

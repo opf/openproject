@@ -46,7 +46,7 @@ class Wiki < ActiveRecord::Base
   attr_protected :project_id
 
   validates_presence_of :start_page
-  validates_format_of :start_page, :with => /^[^,\.\/\?\;\|\:]*$/
+  validates_format_of :start_page, :with => /\A[^,\.\/\?\;\|\:]*\z/
 
   safe_attributes 'start_page'
 
@@ -87,7 +87,7 @@ class Wiki < ActiveRecord::Base
   #   Wiki.find_page("foo:bar")
   def self.find_page(title, options = {})
     project = options[:project]
-    if title.to_s =~ %r{^([^\:]+)\:(.*)$}
+    if title.to_s =~ %r{\A([^\:]+)\:(.*)\z}
       project_identifier, title = $1, $2
       project = Project.find_by_identifier(project_identifier) || Project.find_by_name(project_identifier)
     end

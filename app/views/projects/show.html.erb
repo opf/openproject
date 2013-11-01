@@ -101,7 +101,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <p><span class="icon icon-time"><%= l_hours(@total_hours) %></span></p>
     <p>
       <%= link_to(l(:label_details), {:controller => '/timelog', :action => 'index', :project_id => @project}) %> |
-      <%= link_to(l(:label_report), {:controller => '/time_entry_reports', :action => 'report', :project_id => @project}) %>
+      <%= link_to(l(:label_report), project_time_entries_report_path(@project)) %>
       <% if authorize_for('timelog', 'new') %>
         | <%= link_to l(:button_log_time), {:controller => '/timelog', :action => 'new', :project_id => @project} %>
       <% end %>

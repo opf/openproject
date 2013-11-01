@@ -40,12 +40,13 @@ class CustomFieldsController < ApplicationController
 
   def new
     @custom_field = begin
-      if params[:type].to_s.match(/.+CustomField$/)
-        params[:type].to_s.constantize.new(params[:custom_field])
+      if params[:type].to_s.match(/.+CustomField\z/)
+        klass = params[:type].to_s.constantize
+        klass.new(params[:custom_field]) if klass.ancestors.include? CustomField
       end
     rescue
     end
-    (redirect_to(:action => 'index'); return) unless @custom_field.is_a?(CustomField)
+    (redirect_to(:action => 'index'); return) unless @custom_field
 
     if request.post? and @custom_field.save
       flash[:notice] = l(:notice_successful_create)

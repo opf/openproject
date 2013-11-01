@@ -340,7 +340,7 @@ module WorkPackage::PdfExporter
       set_language_if_valid lang
       @font_for_content = 'FreeSans'
       @font_for_footer  = 'FreeSans'
-      SetCreator(Redmine::Info.app_name)
+      SetCreator(OpenProject::Info.app_name)
       SetFont(@font_for_content)
     end
 
@@ -362,7 +362,7 @@ module WorkPackage::PdfExporter
 
     def textstring(s)
       # Format a text string
-      if s =~ /^</  # This means the string is hex-dumped.
+      if s =~ /\A</  # This means the string is hex-dumped.
         return s
       else
         return '('+escape(s)+')'
@@ -394,7 +394,7 @@ module WorkPackage::PdfExporter
       @font_for_content = 'Arial'
       @font_for_footer  = 'Helvetica'
 
-      SetCreator(Redmine::Info.app_name)
+      SetCreator(OpenProject::Info.app_name)
       SetFont(@font_for_content)
     end
 
@@ -416,7 +416,7 @@ module WorkPackage::PdfExporter
 
     def textstring(s)
       # Format a text string
-      if s =~ /^</  # This means the string is hex-dumped.
+      if s =~ /\A</  # This means the string is hex-dumped.
         return s
       else
         return '('+escape(s)+')'

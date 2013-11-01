@@ -36,6 +36,7 @@ Feature: Menu items
     And there is a role "member"
     And the role "member" may have the following rights:
       | view_calendar  |
+      | view_work_packages  |
     And there is 1 user with the following:
       | login | bob |
     And the user "bob" is a "member" in the project "Awesome Project"
@@ -44,3 +45,13 @@ Feature: Menu items
   Scenario: Calendar menu should be visible when calendar is activated
     When I go to the overview page of the project "Awesome Project"
     Then I should see "Calendar" within "#main-menu"
+
+  @javascript
+  Scenario: Work Packages Summary should be visible and accessible
+    When I go to the overview page of the project "Awesome Project"
+    And I click on "Work packages" within "#main-menu"
+    Then I should see "Summary" within "#main-menu"
+
+    When I click on "Summary" within "#main-menu"
+    Then I should see "Summary" within "#content"
+

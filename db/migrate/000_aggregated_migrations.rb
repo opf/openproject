@@ -863,7 +863,7 @@ class AggregatedMigrations < ActiveRecord::Migration
 
   def aggregated_versions
     @@aggregated_versions ||= @@migrations.split.map do |m|
-      m.gsub(/_.*$/, '').to_i
+      m.gsub(/_.*\z/, '').to_i
     end
   end
 

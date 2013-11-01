@@ -61,6 +61,11 @@ var ModalHelper = (function() {
 
         // close when body is clicked
         body.on("click", ".ui-widget-overlay", jQuery.proxy(modalHelper.close, modalHelper));
+        body.on("keyup", function (e) {
+          if (e.which == 27) {
+            modalHelper.close();
+          }
+        });
 
         ModalHelper._done = true;
       } else {
@@ -95,6 +100,12 @@ var ModalHelper = (function() {
       if (body.html() !== "") {
         this.hideLoadingModal();
         this.loadingModal = false;
+
+        body.on("keyup", function (e) {
+          if (e.which == 27) {
+            modalHelper.close();
+          }
+        });
 
         modalDiv.data('changed', false);
 
@@ -220,6 +231,7 @@ var ModalHelper = (function() {
     var calculatedHeight = jQuery(window).height() * 0.8;
     this.modalIframe = modalHelper.writeIframe(modalDiv);
 
+    modalDiv.css('overflow', 'hidden');
     modalDiv.attr("height", calculatedHeight);
     this.modalIframe.attr("height", calculatedHeight);
 

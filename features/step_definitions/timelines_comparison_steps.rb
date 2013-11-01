@@ -26,8 +26,31 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-def getWPRowByName(name)
+def get_timeline_row_by_name(name)
   find("a", :text => name).find(:xpath, "./ancestor::tr")
+end
+
+def get_timeline_cell(name, valueName)
+  wpRow = get_timeline_row_by_name(name)
+  index = get_timelines_row_number_by_name(valueName)
+
+  wpRow.all(:xpath, "./td")[index]
+end
+
+def get_timelines_row_number_by_name(name)
+  result = -1
+
+  th = find("table.tl-main-table").find(:xpath, "./thead/tr/th[text()='#{name}']")
+  ths = find("table.tl-main-table").all(:xpath, "./thead/tr/th")
+
+  for i in 0..ths.length do
+     if  ths[i] == th then
+      result = i
+      break
+     end
+  end
+
+  result
 end
 
 Given(/^there are the following work packages were added "(.*?)"(?: in project "([^"]*)")?:$/) do |time, project_name, table|
@@ -54,18 +77,20 @@ Given(/^the work package "(.*?)" was changed "(.*?)" to:$/) do |name, time, tabl
     target_time = 1.weeks.ago
   when "two weeks ago"
     target_time = 2.weeks.ago
+  when "three weeks ago"
+    target_time = 3.weeks.ago
   else
     target_time = Time.now
   end
 
   Timecop.freeze(target_time) do
 
-    #TODO provide generic support for all possible values.
-    work_package = WorkPackage.find_by_subject(name)
-    work_package.subject = table.hashes.first[:subject]
-    work_package.start_date = table.hashes.first[:start_date]
-    work_package.due_date = table.hashes.first[:due_date]
-    work_package.save!
+    timeline = WorkPackage.find_by_subject(name)
+    table.hashes.first.each do | key, value |
+      timeline[key] = value
+    end
+
+    timeline.save!
 
   end
 end
@@ -83,15 +108,19 @@ When(/^I set the timeline to compare "now" to "(.*?) days ago"$/) do |time|
 end
 
 Then(/^I should see the work package "(.*?)" has not moved$/) do |name|
-  row = getWPRowByName(name)
+  row = get_timeline_row_by_name(name)
   row.should_not have_selector(".tl-icon-changed");
 end
 
 Then(/^I should see the work package "(.*?)" has moved$/) do |name|
-  row = getWPRowByName(name)
+  row = get_timeline_row_by_name(name)
   row.should have_selector(".tl-icon-changed");
 end
 
-Then(/^I should not see the work package "(.*?)"$/) do |arg1|
-  pending # express the regexp above with the code you wish you had
+Then(/^I should see the work package "(.*?)" has not changed "(.*?)"$/) do |name, column_name|
+  expect(get_timeline_cell(name, column_name)).to have_no_css(".tl-icon-changed")
+end
+
+Then(/^I should see the work package "(.*?)" has changed "(.*?)"$/) do |name, column_name|
+  expect(get_timeline_cell(name, column_name)).to have_css(".tl-icon-changed")
 end

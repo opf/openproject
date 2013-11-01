@@ -35,6 +35,10 @@ class WorkPackage < ActiveRecord::Base
   include WorkPackage::Validations
   include WorkPackage::SchedulingRules
   include WorkPackage::StatusTransitions
+  include WorkPackage::AskBeforeDestruction
+  include WorkPackage::TimeEntries
+
+  include OpenProject::Journal::AttachmentHelper
 
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   include Redmine::SafeAttributes
@@ -124,6 +128,7 @@ class WorkPackage < ActiveRecord::Base
 
   acts_as_searchable :columns => ['subject', "#{table_name}.description", "#{Journal.table_name}.notes"],
                      :include => [:project, :journals],
+                     :date_column => "#{quoted_table_name}.created_at",
                      # sort by id so that limited eager loading doesn't break with postgresql
                      :order_column => "#{table_name}.id"
 
@@ -140,6 +145,12 @@ class WorkPackage < ActiveRecord::Base
   ###################################################
   acts_as_attachable :after_add => :attachments_changed,
                      :after_remove => :attachments_changed
+
+  after_validation :set_attachments_error_details, if: lambda {|work_package| work_package.errors.messages.has_key? :attachments}
+
+  associated_to_ask_before_destruction TimeEntry,
+                                       ->(work_packages) { TimeEntry.on_work_packages(work_packages).count > 0 },
+                                       self.method(:cleanup_time_entries_before_destruction_of)
 
   # Mapping attributes, that are passed in as id's onto their respective associations
   # (eg. type=4711 onto type=Type.find(4711))
@@ -220,13 +231,6 @@ class WorkPackage < ActiveRecord::Base
   # after_save hook, we rely on after_save and a specific version here.
   after_save :reload_lock_and_timestamps, :if => Proc.new { |wp| wp.lock_version == 0 }
 
-  def description=(description)
-    # Bug #501: browsers might swap the line endings causing a Journal.
-    if description.nil? || description.gsub(/\r\n?/,"\n") != self.description
-      write_attribute :description, description
-    end
-  end
-
   # Returns a SQL conditions string used to find all work units visible by the specified user
   def self.visible_condition(user, options={})
     Project.allowed_to_condition(user, :view_work_packages, options)
@@ -279,13 +283,6 @@ class WorkPackage < ActiveRecord::Base
   # Returns true if the work_package is overdue
   def overdue?
     !due_date.nil? && (due_date < Date.today) && !status.is_closed?
-  end
-
-  # ACTS AS ATTACHABLE
-  # Callback on attachment deletion
-  def attachments_changed(obj)
-    add_journal
-    save!
   end
 
   # ACTS AS JOURNALIZED
@@ -407,13 +404,9 @@ class WorkPackage < ActiveRecord::Base
 
     update_by(user, attributes)
 
-    if save
-      # as attach_files always saves an attachment right away
-      # it is not possible to stage attaching and check for
-      # valid. If this would be possible, we could check
-      # for this along with update_attributes
-      attachments = Attachment.attach_files(self, raw_attachments)
-    end
+    attach_files(raw_attachments)
+
+    save
   end
 
   def update_by(user, attributes)
@@ -1001,4 +994,9 @@ class WorkPackage < ActiveRecord::Base
   end
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+  def set_attachments_error_details
+    if invalid_attachment = self.attachments.detect{|a| !a.valid?}
+      errors.messages[:attachments].first << " - #{invalid_attachment.errors.full_messages.first}"
+    end
+  end
 end

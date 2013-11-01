@@ -85,7 +85,8 @@ module WorkPackagesHelper
               :hidden_link => [],
               :link => [],
               :suffix => [],
-              :title => [] }
+              :title => [],
+              :css_class => ['issue'] }
 
     # Prefix part
 
@@ -97,7 +98,7 @@ module WorkPackagesHelper
 
     parts[:link] << h(package.kind.to_s) if options[:type]
 
-    parts[:link] << "##{package.id}" if options[:id]
+    parts[:link] << "##{h(package.id)}" if options[:id]
 
     # Hidden link part
 
@@ -105,6 +106,8 @@ module WorkPackagesHelper
       parts[:hidden_link] << content_tag(:span,
                                          t(:label_closed_work_packages),
                                          :class => "hidden-for-sighted")
+
+      parts[:css_class] << 'closed'
     end
 
     # Suffix part
@@ -119,7 +122,7 @@ module WorkPackagesHelper
                   subject
                 end
 
-      parts[:suffix] << subject
+      parts[:suffix] << h(subject)
     end
 
     # title part
@@ -133,6 +136,7 @@ module WorkPackagesHelper
     link = parts[:link].join(" ").strip
     hidden_link = parts[:hidden_link].join("")
     title = parts[:title].join(" ")
+    css_class = parts[:css_class].join(" ")
 
     text = if options[:all_link]
              link_text = [prefix, link].reject(&:empty?).join(" - ")
@@ -141,13 +145,15 @@ module WorkPackagesHelper
 
              link_to(link_text.html_safe,
                      work_package_path(package),
-                     :title => title)
+                     :title => title,
+                     :class => css_class)
            else
              link_text = [hidden_link, link].reject(&:empty?).join("")
 
              html_link = link_to(link_text.html_safe,
                                  work_package_path(package),
-                                 :title => title)
+                                 :title => title,
+                                 :class => css_class)
 
              [[prefix, html_link].reject(&:empty?).join(" - "),
               suffix].reject(&:empty?).join(": ")
@@ -576,5 +582,21 @@ module WorkPackagesHelper
 
       WorkPackageAttribute.new(:"work_package_#{value.id}", field)
     end
+  end
+
+  def work_package_associations_to_address(associated)
+    ret = "".html_safe
+
+    ret += content_tag(:p, l(:text_destroy_with_associated), :class => "bold" )
+
+    ret += content_tag(:ul) do
+      associated.inject("".html_safe) do |list, associated_class|
+        list += content_tag(:li, associated_class.model_name.human, :class => "decorated")
+
+        list
+      end
+    end
+
+    ret
   end
 end

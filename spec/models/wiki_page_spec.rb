@@ -29,9 +29,11 @@
 require 'spec_helper'
 
 describe WikiPage do
+  let(:project) { FactoryGirl.create(:project).reload } # a wiki is created for project, but the object doesn't know of it (FIXME?)
+  let(:wiki) { project.wiki }
+  let(:wiki_page) { FactoryGirl.create(:wiki_page, :wiki => wiki) }
+
   describe '#nearest_parent_menu_item' do
-    let(:wiki_page) { FactoryGirl.create(:wiki_page) }
-    let(:wiki) { wiki_page.wiki }
     let!(:wiki_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :wiki => wiki, :title => wiki_page.title) }
     let(:child_page) { FactoryGirl.create(:wiki_page, :parent => wiki_page, :wiki => wiki) }
     let!(:child_page_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :wiki => wiki, :title => child_page.title, :parent => wiki_page_wiki_menu_item) }
@@ -47,6 +49,39 @@ describe WikiPage do
     context 'when called with {is_main_item => true}' do
       it 'returns the menu item of the grand parent if the menu item of its parent is not a main item' do
         grand_child_page.nearest_parent_menu_item(is_main_item: true).should == wiki_page_wiki_menu_item
+      end
+    end
+  end
+
+  describe '#destroy' do
+    context 'when the only wiki page is destroyed' do
+      before do
+        wiki_page.destroy
+        project.reload
+      end
+
+      it 'deactivates the wiki module' do
+        project.module_enabled?(:wiki).should be_false
+      end
+
+      it 'destroys the project wiki' do
+        project.wiki.should be_nil
+      end
+    end
+
+    context 'when one of two wiki pages is destroyed' do
+      before do
+        another_wiki_page = FactoryGirl.create(:wiki_page, :wiki => wiki)
+        wiki_page.destroy
+        project.reload
+      end
+
+      it 'does not deactivate the wiki module' do
+        project.module_enabled?(:wiki).should be_true
+      end
+
+      it 'does not destroy the project wiki' do
+        project.wiki.should be_present
       end
     end
   end

@@ -31,9 +31,9 @@ See doc/COPYRIGHT.rdoc for more details.
 div.changeset-changes ul { margin: 0; padding: 0; }
 div.changeset-changes ul > ul { margin-left: 18px; padding: 0; }
 
-li.change { 
+li.change {
     list-style-type:none;
-    background-image: url(../images/bullet_black.png); 
+    background-image: url(../assets/bullet_black.png);
     background-position: 1px 1px;
     background-repeat: no-repeat;
     padding-top: 1px;
@@ -41,14 +41,14 @@ li.change {
     padding-left: 20px;
     margin: 0;
 }
-li.change.folder { background-image: url(../images/folder_open.png); }
-li.change.folder.change-A { background-image: url(../images/folder_open_add.png); }
-li.change.folder.change-M { background-image: url(../images/folder_open_orange.png); }
-li.change.change-A { background-image: url(../images/bullet_add.png); }
-li.change.change-M { background-image: url(../images/bullet_orange.png); }
-li.change.change-C { background-image: url(../images/bullet_blue.png); }
-li.change.change-R { background-image: url(../images/bullet_purple.png); }
-li.change.change-D { background-image: url(../images/bullet_delete.png); }
+li.change.folder { background-image: url(../assets/folder_open.png); }
+li.change.folder.change-A { background-image: url(../assets/folder_open_add.png); }
+li.change.folder.change-M { background-image: url(../assets/folder_open_orange.png); }
+li.change.change-A { background-image: url(../assets/bullet_add.png); }
+li.change.change-M { background-image: url(../assets/bullet_orange.png); }
+li.change.change-C { background-image: url(../assets/bullet_blue.png); }
+li.change.change-R { background-image: url(../assets/bullet_purple.png); }
+li.change.change-D { background-image: url(../assets/bullet_delete.png); }
 
 li.change .copied-from { font-style: italic; color: #999; font-size: 0.9em; }
 li.change .copied-from:before { content: " - "}
@@ -100,7 +100,7 @@ table.annotate td.revision {
     padding-left: 1em;
     background: inherit;
 }
-    
+
 table.annotate td.author {
     text-align: center;
     border-right: 1px solid #d7d7d7;

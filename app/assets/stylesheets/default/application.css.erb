@@ -135,7 +135,7 @@ input#openid_url { background: url(<%= asset_path 'openid-bg.gif' %>) no-repeat;
 .clear:after{ content: "."; display: block; height: 0; clear: both; visibility: hidden; }
 
 /***** Links *****/
-a, a:link, a:visited, input.input-as-link {
+a, a:link, input.input-as-link {
   text-decoration: none;
   color: #6a0406;
   font-weight: bold;
@@ -152,7 +152,7 @@ input.input-as-link {
 }
 a img{ border: 0; }
 
-a.issue.closed, a.issue.closed:link, a.issue.closed:visited {
+a.issue.closed, a.issue.closed:link, a.issue.closed {
   text-decoration: line-through;
 }
 
@@ -270,8 +270,8 @@ tr.group a.toggle-all { color: #aaa; font-size: 80%; font-weight: normal; displa
 tr.group:hover a.toggle-all { display: inline;}
 a.toggle-all:hover {text-decoration: none;}
 
-table.list tbody tr:hover { background-color: #ffffdd; }
-table.list tbody tr.group:hover { background-color: inherit; }
+table.list tbody tr:hover, table.list tr.keyboard_hover { background-color: #ffff99 !important; }
+table.list tbody tr.group:hover, table.list tr.group.keyboard_hover { background-color: inherit !important; }
 table td {padding: 2px;}
 table p {margin: 0;}
 
@@ -666,10 +666,9 @@ span.errorSpan input {
 
 div.flash {margin-top: 8px;}
 
-div.flash.error a, div.flash.warning a, div.flash.notice a, #errorExplanation a ,
-div.flash.error a:link, div.flash.warning a:link, div.flash.notice a:link, #errorExplanation a:link ,
-div.flash.error a:hover, div.flash.warning a:hover, div.flash.notice a:hover, #errorExplanation a:hover ,
-div.flash.error a:visited, div.flash.warning a:visited, div.flash.notice a:visited, #errorExplanation a:visited {
+div.flash.error a, div.flash.warning a, div.flash.notice a, #errorExplanation a,
+div.flash.error a:link, div.flash.warning a:link, div.flash.notice a:link, #errorExplanation a:link,
+div.flash.error a:hover, div.flash.warning a:hover, div.flash.notice a:hover, #errorExplanation a:hover {
   font: bold bold bold 12px/1.5 arial,'lucida grandriale','lucida sans unicode',tahom,sans-serif;
   color: #333;
   text-decoration: none;
@@ -1163,8 +1162,6 @@ td.username img.gravatar {
 }
 
 h2 img { vertical-align: middle; }
-
-.hascontextmenu { cursor: context-menu; }
 
 /* Merged from the new layout #263 */
 /**
@@ -2157,60 +2154,6 @@ td.issue div.issue-wrap-outer {
   position: relative;
 }
 
-#context-menu {
-  position: absolute;
-  left: -7px;
-  top: -7px;
-  padding: 6px;
-  z-index: 21;
-}
-
-#context-menu ul {
-  width: 140px;
-  position: absolute;
-  left: -7px;
-  z-index: 20;
-  display: block;
-  /* From .menu */
-  background: #f4f4f4;
-  border: 1px solid #afafaf;
-
-}
-#context-menu li {
-  padding: 6px !important;
-  background-position: 6px center;
-  background-repeat: no-repeat;
-  cursor: pointer;
-  /* From .menu */
-  border-top: 1px solid #fff !important;
-  border-bottom: 1px solid #ddd !important;
-}
-
-#context-menu li.folder div.submenu {
-  background: url(<%= asset_path 'arrow-right.png' %>) no-repeat right;
-  position: absolute;
-  height: 9px;
-  width: 7px;
-  top: 11px;
-  right: 6px;
-}
-#context-menu li.folder ul {
-  display: none;
-  left: 140px;
-  top: -1px;
-  width: auto;
-  z-index: 19;
-}
-#context-menu li li {
-  padding: 6px 12px;
-  width: auto;
-  display: block;
-  white-space: nowrap;
-}
-#context-menu li:hover ul {
-  display: block;
-}
-
 .button-large ul {
   position: absolute;
   right: -1px;
@@ -2354,7 +2297,7 @@ div#sidebar > h3:first-child {
   margin-top: 0px;
 }
 
-#sidebar a, #sidebar a:link, #sidebar a:visited {
+#sidebar a, #sidebar a:link {
   color: #6a0406;
   font-weight: bold;
   height: auto;
@@ -2407,6 +2350,10 @@ div#sidebar > h3:first-child {
   clear: left;
   float: left;
   width: 170px;
+}
+.box li.decorated {
+  margin-left: 20px;
+  list-style: disc outside none;
 }
 fieldset#columns table {
   width: auto;
@@ -2604,13 +2551,6 @@ a.has-thumb.active {
 }
 a.has-thumb img {
   z-index: 1001;
-}
-
-/* max height on menus */
-#context-menu li.assigned > ul {
-  max-height: 250px;
-  overflow-x: hidden;
-  overflow-y: auto;
 }
 
 /* Make icons non repeating */
@@ -3205,7 +3145,7 @@ li a.home:hover  {
 }
 
 /***** Links *****/  /* TODO */
-a, a:link, a:visited, input.input-as-link {
+a, a:link, input.input-as-link {
   color: #008BD0;
 }
 a:hover, a:active {
@@ -3396,7 +3336,7 @@ a.atom {
   padding: 0px;
   margin-bottom: 8px;
 }
-#sidebar a, #sidebar a:link, #sidebar a:visited {
+#sidebar a, #sidebar a:link {
   color: #008BD0;
   font-weight: bold;
   height: auto;
@@ -3461,4 +3401,8 @@ h4.comment {
 
 h4.comment img {
   margin-right: 3px;
+}
+
+.bold {
+  font-weight: bold;
 }

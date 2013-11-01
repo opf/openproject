@@ -64,7 +64,3 @@ Feature: Viewing the wiki index page
     When I go to the wiki index page below the "ParentWikiPage" page of the project called "project1"
     Then I should see "Index by title" within "#content"
     And there should be no menu item selected
-
-
-
-

@@ -130,19 +130,36 @@ describe OpenProject::Configuration do
           "domain" => "example.net"
       }}}
     }
-    before do
-      OpenProject::Configuration.send(:convert_old_email_settings, settings,
-                                      :disable_deprecation_message => true)
+
+    context 'with delivery_method' do
+      before do
+        OpenProject::Configuration.send(:convert_old_email_settings, settings,
+                                        :disable_deprecation_message => true)
+      end
+
+      it 'should adopt the delivery method' do
+        settings['email_delivery_method'].should == :smtp
+      end
+
+      it 'should convert smtp settings' do
+        settings['smtp_address'].should == 'smtp.example.net'
+        settings['smtp_port'].should == 25
+        settings['smtp_domain'].should == 'example.net'
+      end
     end
 
-    it 'should adopt the delivery method' do
-      settings['email_delivery_method'].should == :smtp
-    end
+    context 'without delivery_method' do
+      before do
+        settings['email_delivery'].delete('delivery_method')
+        OpenProject::Configuration.send(:convert_old_email_settings, settings,
+                                        :disable_deprecation_message => true)
+      end
 
-    it 'should convert smtp settings' do
-      settings['smtp_address'].should == 'smtp.example.net'
-      settings['smtp_port'].should == 25
-      settings['smtp_domain'].should == 'example.net'
+      it 'should convert smtp settings' do
+        settings['smtp_address'].should == 'smtp.example.net'
+        settings['smtp_port'].should == 25
+        settings['smtp_domain'].should == 'example.net'
+      end
     end
   end
 

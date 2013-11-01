@@ -29,10 +29,64 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
-* `#2479` Remove TinyMCE spike
-* `#959` Too many available responsibles returned for filtering in timelines
+* `#2574` Fix: Invalid filter options and outdated names in timeline report form
+* `#2618` Fix: When issues are renamed to work packages all watcher assignments are lost
+* Improved newline handling for journals
+
+## 3.0.0pre24
+
+* `#2593` Work Package Summary missing
+* `#1749` Prevent JSON Hijacking
+* `#2281` The context menu is not correctly displayed
+* `#2525` Project Settings: Forums: Move up/down result in 404
+* `#2535` [Forum] Atom feed on the forum's overview-page doesn't work
+* `#2348` [Timelines] Using planning element filter and filtering for status "New" leads always to plus-sign in front of work packages
+* `#2357` [Timelines] Change API v2 serialization to minimize redundant data
+* `#2363` When all wiki pages have been deleted new wiki pages cannot be created
+* `#2380` [Timelines] Change API v2 serialization to maximize concatenation speed
+* `#2420` Migrate the remaining views of api/v2 to rabl
+* `#2478` Timeline with lots of work packages doesn`t load
+* `#2525` Project Settings: Forums: Move up/down result in 404
+* `#2576` [Timelines] Double scrollbar in modal for Chrome
+* `#2577` [Timelines] Users are not displayed in timelines table after recent API version
+* `#2579` [Core] Report of spent time (without cost reporting) results in 404
+* `#2580` Fixed some unlikely remote code executions
+* `#2592` Search: Clicking on 'Next' results in 500
+* `#2596` [Roadmap] Closed tickets are not striked out
+* `#2597` [Roadmap] Missing english/german closed percentage label
+* `#2604` [Migration] Attachable journals incorrect
+* `#2608` [Activity] Clicking on Atom-feed in activity leads to 500 error
+* Add rake task for changing timestamps in the database to UTC
+
+## 3.0.0pre23
+
+* `#709`  Added test for double custom field validation error messages
+* `#902`  Spelling Mistake: Timelines Report Configuration
+* `#959`  Too many available responsibles returned for filtering in Timelines
+* `#1738` Forum problem when no description given.
 * `#1916` Work package update screen is closed when attached file is deleted
 * `#1935` Fixed bug: Default submenu for wiki pages is wrong (Configure menu item)
+* `#2009` No journal entry created for attachments if the attachment is added on container creation
+* `#2026` 404 error when letters are entered in category Work Package
+* `#2129` Repository: clicking on file results in 500
+* `#2221` [Accessibility] enhance keyboard shortcuts
+* `#2371` Add support for IE10 to Timelines
+* `#2400` Cannot delete work package
+* `#2423` [Issue Tracker] Several Internal Errors when there is no default work package status
+* `#2426` [Core] Enumerations for planning elements
+* `#2427` [Issue Tracker] Cannot delete work package priority
+* `#2433` [Timelines] Empty timeline report not displayed initially
+* `#2448` Accelerate work package updates
+* `#2464` No initial attachment journal for messages
+* `#2470` [Timelines] Vertical planning elements which are not displayed horizontally are not shown in timeline report
+* `#2479` Remove TinyMCE spike
+* `#2508` Migrated former user passwords (from OpenProject 2.x strong_passwords plugin)
+* `#2521` XSS: MyPage on unfiltered WorkPackage Subject
+* `#2548` Migrated core settings
+* `#2557` Highlight changes of any work package attribute available in the timelines table
+* `#2559` Migrate existing IssueCustomFields to WorkPackageCustomFields
+* `#2575` Regular expressions should use \A and \z instead of ^ and $
+* Fix compatibility with old mail configuration
 
 ## 3.0.0pre22
 

@@ -100,7 +100,8 @@ module ApplicationHelper
     link_to l(:label_preview),
               url,
               :id => id,
-              :class => 'preview'
+              :class => 'preview',
+              :accesskey => accesskey(:preview)
 
   end
 
@@ -145,7 +146,7 @@ module ApplicationHelper
     text = options.delete(:text) || format_revision(revision)
     rev = revision.respond_to?(:identifier) ? revision.identifier : revision
 
-    link_to(h(text), {:controller => '/repositories', :action => 'revision', :id => project, :rev => rev},
+    link_to(h(text), {:controller => '/repositories', :action => 'revision', :project_id => project, :rev => rev},
             :title => l(:label_revision_id, format_revision(revision)))
   end
 
@@ -265,7 +266,7 @@ module ApplicationHelper
 
   def join_flash_messages(messages)
     if messages.respond_to?(:join)
-      messages.join('<br />').html_safe 
+      messages.join('<br />').html_safe
     else
       messages
     end
@@ -477,7 +478,7 @@ module ApplicationHelper
   end
 
   def accesskey(s)
-    Redmine::AccessKeys.key_for s
+    OpenProject::AccessKeys.key_for s
   end
 
   # Formats text according to system settings.
@@ -624,7 +625,7 @@ module ApplicationHelper
       link_project = project
       esc, all, page, title = $1, $2, $3, $5
       if esc.nil?
-        if page =~ /^([^\:]+)\:(.*)$/
+        if page =~ /\A([^\:]+)\:(.*)\z/
           link_project = Project.find_by_identifier($1) || Project.find_by_name($1)
           page = $2
           title ||= $1 if page.blank?
@@ -633,7 +634,7 @@ module ApplicationHelper
         if link_project && link_project.wiki
           # extract anchor
           anchor = nil
-          if page =~ /^(.+?)\#(.+)$/
+          if page =~ /\A(.+?)\#(.+)\z/
             page, anchor = $1, $2
           end
           # check if page exists
@@ -699,7 +700,7 @@ module ApplicationHelper
         if prefix.nil? && sep == 'r'
           # project.changesets.visible raises an SQL error because of a double join on repositories
           if project && project.repository && (changeset = Changeset.visible.find_by_repository_id_and_revision(project.repository.id, identifier))
-            link = link_to(h("#{project_prefix}r#{identifier}"), {:only_path => only_path, :controller => '/repositories', :action => 'revision', :id => project, :rev => changeset.revision},
+            link = link_to(h("#{project_prefix}r#{identifier}"), {:only_path => only_path, :controller => '/repositories', :action => 'revision', :project_id => project, :rev => changeset.revision},
                                       :class => 'changeset',
                                       :title => truncate_single_line(changeset.comments, :length => 100))
           end
@@ -738,7 +739,7 @@ module ApplicationHelper
           end
         elsif sep == ':'
           # removes the double quotes if any
-          name = identifier.gsub(%r{^"(.*)"$}, "\\1")
+          name = identifier.gsub(%r{\A"(.*)"\z}, "\\1")
           case prefix
           when 'version'
             if project && version = project.versions.visible.find_by_name(name)
@@ -747,15 +748,15 @@ module ApplicationHelper
             end
           when 'commit'
             if project && project.repository && (changeset = Changeset.visible.find(:first, :conditions => ["repository_id = ? AND scmid LIKE ?", project.repository.id, "#{name}%"]))
-              link = link_to h("#{project_prefix}#{name}"), {:only_path => only_path, :controller => '/repositories', :action => 'revision', :id => project, :rev => changeset.identifier},
+              link = link_to h("#{project_prefix}#{name}"), {:only_path => only_path, :controller => '/repositories', :action => 'revision', :project_id => project, :rev => changeset.identifier},
                                            :class => 'changeset',
                                            :title => truncate_single_line(h(changeset.comments), :length => 100)
             end
           when 'source', 'export'
             if project && project.repository && User.current.allowed_to?(:browse_repository, project)
-              name =~ %r{^[/\\]*(.*?)(@([0-9a-f]+))?(#(L\d+))?$}
+              name =~ %r{\A[/\\]*(.*?)(@([0-9a-f]+))?(#(L\d+))?\z}
               path, rev, anchor = $1, $3, $5
-              link = link_to h("#{project_prefix}#{prefix}:#{name}"), {:controller => '/repositories', :action => 'entry', :id => project,
+              link = link_to h("#{project_prefix}#{prefix}:#{name}"), {:controller => '/repositories', :action => 'entry', :project_id => project,
                                                       :path => to_path_param(path),
                                                       :rev => rev,
                                                       :anchor => anchor,
@@ -853,11 +854,6 @@ module ApplicationHelper
       all_languages.collect{|lang| [ ll(lang.to_s, :general_lang_name), lang.to_s]}.sort{|x,y| x.last <=> y.last }
   end
 
-  def label_tag_for(name, option_tags = nil, options = {})
-    label_text = l(("field_"+field.to_s.gsub(/\_id$/, "")).to_sym) + (options.delete(:required) ? @template.content_tag("span", " *", :class => "required"): "")
-    content_tag("label", label_text)
-  end
-
   def labelled_tabular_form_for(record, options = {}, &block)
     options.reverse_merge!(:builder => TabularFormBuilder, :lang => current_language, :html => {})
     options[:html][:class] = 'tabular' unless options[:html].has_key?(:class)
@@ -912,60 +908,6 @@ module ApplicationHelper
   def checked_image(checked=true)
     if checked
       image_tag('webalys/check.png', :alt => l(:label_checked), :title => l(:label_checked))
-    end
-  end
-
-  def context_menu(url)
-    unless @context_menu_included
-      if l(:direction) == 'rtl'
-        content_for :header_tags do
-          stylesheet_link_tag('context_menu_rtl')
-        end
-      end
-      @context_menu_included = true
-    end
-    javascript_tag "new ContextMenu('#{ url_for(url) }')"
-  end
-
-  def context_menu_link(name, url, options={})
-    options[:class] ||= ''
-    if options.delete(:selected)
-      options[:class] << ' icon-checked disabled'
-      options[:disabled] = true
-    end
-    if options.delete(:disabled)
-      options.delete(:method)
-      options.delete(:confirm)
-      options.delete(:onclick)
-      options[:class] << ' disabled'
-      url = '#'
-    end
-    link_to h(name), url, options
-  end
-
-  # TODO: need a decorator to clean this up
-  def context_menu_entry(args)
-    db_attribute = args[:db_attribute] || "#{args[:attribute]}_id"
-
-    content_tag :li, :class => "folder #{args[:attribute]}" do
-      ret = link_to((args[:title] || l(:"field_#{args[:attribute]}")), "#", :class => "context_item")
-
-      ret += content_tag :ul do
-		    args[:collection].collect do |(s, name)|
-          content_tag :li do
-            context_menu_link (name || s), work_package_bulk_update_path(:ids => args[:updated_object_ids],
-                                                                         :work_package => { db_attribute => s },
-                                                                         :back_url => args[:back_url]),
-                                                                         :method => :put,
-                                                                         :selected => args[:selected].call(s),
-                                                                         :disabled => args[:disabled].call(s)
-          end
-        end.join.html_safe
-      end
-
-      ret += content_tag :div, '', :class => "submenu"
-
-      ret
     end
   end
 
@@ -1075,8 +1017,8 @@ module ApplicationHelper
   #
   def footer_content
     elements = []
-    elements << I18n.t(:text_powered_by, :link => link_to(Redmine::Info.app_name,
-                                                          Redmine::Info.url))
+    elements << I18n.t(:text_powered_by, :link => link_to(OpenProject::Info.app_name,
+                                                          OpenProject::Info.url))
     unless OpenProject::Footer.content.nil?
       OpenProject::Footer.content.each do |name, value|
         content = value.respond_to?(:call) ? value.call : value

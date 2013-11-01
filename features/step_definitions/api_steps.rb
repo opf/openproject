@@ -52,13 +52,15 @@ Then(/^the json\-response should( not)? contain a work_package "(.*?)"$/) do |ne
 end
 
 And(/^the json\-response for work_package "(.*?)" should have the type "(.*?)"$/) do |work_package_name, type_name|
+  type = Type.where(name: type_name).first
   work_package = lookup_work_package(work_package_name)
-  expect(work_package["planning_element_type"]["name"]).to eql type_name
+  expect(work_package["type_id"]).to eql type.id
 end
 
 And(/^the json\-response for work_package "(.*?)" should have the responsible "(.*?)"$/) do |work_package_name, responsible_name|
+  responsible = User.where(login: responsible_name).first
   work_package = lookup_work_package(work_package_name)
-  expect(work_package["responsible"]["name"]).to eql responsible_name
+  expect(work_package["responsible_id"]).to eql responsible.id
 end
 Then(/^the json\-response for work_package "(.*?)" should have the due_date "(.*?)"$/) do |work_package_name, due_date|
   work_package = lookup_work_package(work_package_name)
@@ -66,8 +68,9 @@ Then(/^the json\-response for work_package "(.*?)" should have the due_date "(.*
 end
 
 And(/^the json\-response should say that "(.*?)" is parent of "(.*?)"$/) do |parent_name, child_name|
+  parent = WorkPackage.where(subject: parent_name).first
   child = lookup_work_package(child_name)
-  expect(child["parent"]["subject"]).to eql parent_name
+  expect(child["parent_id"]).to eql parent.id
 end
 
 And(/^the json\-response should say that "(.*?)" has no parent$/) do |child_name|
@@ -77,7 +80,7 @@ end
 
 And(/^the json\-response should say that "(.*?)" has (\d+) child(ren)?$/) do |parent_name, nr_of_children,plural|
   parent = child = lookup_work_package(parent_name)
-  expect(parent["children"].size).to eql nr_of_children.to_i
+  expect(parent["child_ids"].size).to eql nr_of_children.to_i
 end
 
 And(/^the work package "(.*?)" has the due_date "(.*?)"$/) do |work_package_name, due_date|

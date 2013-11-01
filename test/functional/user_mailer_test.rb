@@ -106,7 +106,10 @@ class UserMailerTest < ActionMailer::TestCase
                     :text => "##{related_issue.id}"
       # link to a changeset
       assert_select 'a[href=?][title=?]',
-                    "https://mydomain.foo/projects/#{project.identifier}/repository/revisions/#{changeset.revision}",
+                    url_for(:controller => 'repositories',
+                            :action => 'revision',
+                            :project_id => project,
+                            :rev => changeset.revision),
                     'This commit fixes #1, #2 and references #1 and #3',
                     :text => "r#{changeset.revision}"
       # link to an attachment
@@ -144,7 +147,10 @@ class UserMailerTest < ActionMailer::TestCase
                     :text => "##{related_issue.id}"
       # link to a changeset
       assert_select 'a[href=?][title=?]',
-                    "http://mydomain.foo/rdm/projects/#{project.identifier}/repository/revisions/#{changeset.revision}",
+                    url_for(:controller => 'repositories',
+                            :action => 'revision',
+                            :project_id => project,
+                            :rev => changeset.revision),
                     'This commit fixes #1, #2 and references #1 and #3',
                     :text => "r#{changeset.revision}"
       # link to an attachment
@@ -185,7 +191,10 @@ class UserMailerTest < ActionMailer::TestCase
                     :text => "##{related_issue.id}"
       # link to a changeset
       assert_select 'a[href=?][title=?]',
-                    "http://mydomain.foo/rdm/projects/#{project.identifier}/repository/revisions/#{changeset.revision}",
+                    url_for(:controller => 'repositories',
+                            :action => 'revision',
+                            :project_id => project,
+                            :rev => changeset.revision),
                     'This commit fixes #1, #2 and references #1 and #3',
                     :text => "r#{changeset.revision}"
       # link to an attachment
@@ -538,5 +547,10 @@ private
     ActionMailer::Base.deliveries = [] # remove issue-created mails
 
     [project, user, related_issue, issue, changeset, attachment, journal]
+  end
+
+  def url_for(options)
+    options.merge!({ :host => Setting.host_name, :protocol => Setting.protocol })
+    Rails.application.routes.url_helpers.url_for options
   end
 end

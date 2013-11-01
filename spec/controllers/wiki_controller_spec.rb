@@ -49,7 +49,7 @@ describe WikiController do
 
       # creating pages
       @existing_page = FactoryGirl.create(:wiki_page, :wiki_id => @project.wiki.id,
-                                                      :title   => 'ExisitingPage')
+                                                      :title   => 'ExistingPage')
 
       # creating page contents
       FactoryGirl.create(:wiki_content, :page_id   => @existing_page.id,
@@ -187,7 +187,31 @@ describe WikiController do
         end
       end
     end
-  end
+
+    describe 'destroy' do
+      describe 'successful action' do
+        context 'when it is not the only wiki page' do
+          let(:wiki) { @project.wiki }
+
+          before do
+            another_wiki_page = FactoryGirl.create :wiki_page, wiki: wiki
+          end
+
+          it 'redirects to wiki#index' do
+            delete :destroy, project_id: @project, id: @existing_page
+            response.should redirect_to action: 'index', project_id: @project
+          end
+        end
+
+        context 'when it is the only wiki page' do
+          it 'redirects to projects#show' do
+            delete :destroy, project_id: @project, id: @existing_page
+            response.should redirect_to project_path(@project)
+          end
+        end
+      end
+    end
+  end # describe 'actions'
 
   describe 'view related stuff' do
     render_views

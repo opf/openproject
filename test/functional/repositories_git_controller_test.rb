@@ -64,7 +64,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     def test_browse_root
       @repository.fetch_changesets
       @repository.reload
-      get :show, :id => 3
+      get :show, :project_id => 3
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
@@ -85,7 +85,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     def test_browse_branch
       @repository.fetch_changesets
       @repository.reload
-      get :show, :id => 3, :rev => 'test_branch'
+      get :show, :project_id => 3, :rev => 'test_branch'
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
@@ -105,7 +105,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
         "tag00.lightweight",
         "tag01.annotated",
        ].each do |t1|
-        get :show, :id => 3, :rev => t1
+        get :show, :project_id => 3, :rev => t1
         assert_response :success
         assert_template 'show'
         assert_not_nil assigns(:entries)
@@ -118,7 +118,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     def test_browse_directory
       @repository.fetch_changesets
       @repository.reload
-      get :show, :id => 3, :path => 'images'
+      get :show, :project_id => 3, :path => 'images'
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
@@ -134,7 +134,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     def test_browse_at_given_revision
       @repository.fetch_changesets
       @repository.reload
-      get :show, :id => 3, :path => 'images', :rev => '7234cb2750b63f47bff735edc50a1c0a433c2518'
+      get :show, :project_id => 3, :path => 'images', :rev => '7234cb2750b63f47bff735edc50a1c0a433c2518'
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entries)
@@ -144,14 +144,14 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     end
 
     def test_changes
-      get :changes, :id => 3, :path => 'images/edit.png'
+      get :changes, :project_id => 3, :path => 'images/edit.png'
       assert_response :success
       assert_template 'changes'
       assert_tag :tag => 'h2', :content => 'edit.png'
     end
 
     def test_entry_show
-      get :entry, :id => 3, :path => 'sources/watchers_controller.rb'
+      get :entry, :project_id => 3, :path => 'sources/watchers_controller.rb'
       assert_response :success
       assert_template 'entry'
       # Line 19
@@ -162,14 +162,14 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     end
 
     def test_entry_download
-      get :entry, :id => 3, :path => 'sources/watchers_controller.rb', :format => 'raw'
+      get :entry, :project_id => 3, :path => 'sources/watchers_controller.rb', :format => 'raw'
       assert_response :success
       # File content
       assert @response.body.include?('WITHOUT ANY WARRANTY')
     end
 
     def test_directory_entry
-      get :entry, :id => 3, :path => 'sources'
+      get :entry, :project_id => 3, :path => 'sources'
       assert_response :success
       assert_template 'show'
       assert_not_nil assigns(:entry)
@@ -181,7 +181,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       @repository.reload
 
       # Full diff of changeset 2f9c0091
-      get :diff, :id => 3, :rev => '2f9c0091c754a91af7a9c478e36556b4bde8dcf7'
+      get :diff, :project_id => 3, :rev => '2f9c0091c754a91af7a9c478e36556b4bde8dcf7'
       assert_response :success
       assert_template 'diff'
       # Line 22 removed
@@ -197,7 +197,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @repository.reload
 
-      get :diff, :id => 3, :rev    => '61b685fbe55ab05b5ac68402d5720c1a6ac973d1',
+      get :diff, :project_id => 3, :rev    => '61b685fbe55ab05b5ac68402d5720c1a6ac973d1',
                            :rev_to => '2f9c0091c754a91af7a9c478e36556b4bde8dcf7'
       assert_response :success
       assert_template 'diff'
@@ -208,7 +208,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     end
 
     def test_annotate
-      get :annotate, :id => 3, :path => 'sources/watchers_controller.rb'
+      get :annotate, :project_id => 3, :path => 'sources/watchers_controller.rb'
       assert_response :success
       assert_template 'annotate'
       # Line 23, changeset 2f9c0091
@@ -221,14 +221,14 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     def test_annotate_at_given_revision
       @repository.fetch_changesets
       @repository.reload
-      get :annotate, :id => 3, :rev => 'deff7', :path => 'sources/watchers_controller.rb'
+      get :annotate, :project_id => 3, :rev => 'deff7', :path => 'sources/watchers_controller.rb'
       assert_response :success
       assert_template 'annotate'
       assert_tag :tag => 'h2', :content => /@ deff712f/
     end
 
     def test_annotate_binary_file
-      get :annotate, :id => 3, :path => 'images/edit.png'
+      get :annotate, :project_id => 3, :path => 'images/edit.png'
       assert_response 500
       assert_tag :tag => 'p', :attributes => { :id => /errorExplanation/ },
                               :content => /cannot be annotated/
@@ -238,7 +238,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @repository.reload
       ['61b685fbe55ab05b5ac68402d5720c1a6ac973d1', '61b685f'].each do |r|
-        get :revision, :id => 3, :rev => r
+        get :revision, :project_id => 3, :rev => r
         assert_response :success
         assert_template 'revision'
       end
@@ -248,7 +248,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       @repository.fetch_changesets
       @repository.reload
       ['', ' ', nil].each do |r|
-        get :revision, :id => 3, :rev => r
+        get :revision, :project_id => 3, :rev => r
         assert_response 404
         assert_error_tag :content => /was not found/
       end

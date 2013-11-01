@@ -50,6 +50,8 @@ class JournalManager
     current = valid_journal_attributes type, journable.attributes
     predecessor = journable.journals.last.data.journaled_attributes
 
+    current = normalize_newlines(current)
+
     return predecessor.map{|k,v| current[k.to_s] != v}
                       .inject(false) { |r, c| r || c }
   end
@@ -134,6 +136,8 @@ class JournalManager
       extended_journal_attributes[:user_id] = user.id
     end
 
+    journal_attributes[:changed_data] = normalize_newlines(journal_attributes[:changed_data])
+
     journal = journable.journals.build extended_journal_attributes
     journal.data = create_journal_data journal.id, type, valid_journal_attributes(type, journal_attributes[:changed_data])
 
@@ -191,6 +195,11 @@ class JournalManager
   end
 
   private
+
+  def self.normalize_newlines(data)
+    data.each_with_object({}) { |e, h| h[e[0]] = (e[1].kind_of?(String) ? e[1].gsub(/\r\n/,"\n")
+                                                                        : e[1]) }
+  end
 
   def self.journal_class_name(type)
     "#{base_class(type).name}Journal"

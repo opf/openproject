@@ -150,14 +150,16 @@ module OpenProject
       # options:
       # disable_deprecation_message - used by testing
       def convert_old_email_settings(config, options={})
-        if config['email_delivery'] and config['email_delivery']['delivery_method']
+        if config['email_delivery']
           unless options[:disable_deprecation_message]
             ActiveSupport::Deprecation.warn 'Deprecated mail delivery settings used. Please ' +
                                             'update them in config/configuration.yml or use ' +
                                             'environment variables. See doc/CONFIGURATION.md for ' +
                                             'more information.'
           end
-          config['email_delivery_method'] = config['email_delivery']['delivery_method']
+
+          config['email_delivery_method'] = config['email_delivery']['delivery_method'] || :smtp
+
           ['sendmail', 'smtp'].each do |settings_type|
             settings_key = "#{settings_type}_settings"
             if config['email_delivery'][settings_key]

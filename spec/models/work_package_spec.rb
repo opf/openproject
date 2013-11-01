@@ -1047,9 +1047,9 @@ describe WorkPackage do
       raw_attachments = [double('attachment')]
       attachment = FactoryGirl.build(:attachment)
 
-      Attachment.should_receive(:attach_files)
-                .with(instance, raw_attachments)
-                .and_return(attachment)
+      instance.should_receive(:attach_files)
+              .with(raw_attachments)
+              .and_return(attachment)
 
       instance.update_by!(user, { :attachments => raw_attachments })
     end
@@ -1310,6 +1310,37 @@ describe WorkPackage do
         work_package.reload
         work_package.done_ratio.should == 0
       end
+    end
+  end
+
+  describe 'custom fields' do
+    it 'should not duplicate error messages when invalid' do
+      cf1 = FactoryGirl.create(:work_package_custom_field, :is_required => true)
+      cf2 = FactoryGirl.create(:work_package_custom_field, :is_required => true)
+
+      # create work_package with one required custom field
+      work_package = FactoryGirl.create :work_package
+      work_package.project.work_package_custom_fields << cf1
+      work_package.type.custom_fields << cf1
+
+      # set that custom field with a value, should be fine
+      work_package.custom_field_values = {cf1.id => 'test'}
+      work_package.save!; work_package.reload
+
+      # is it fine?
+      expect(work_package).to be_valid
+
+      # now give the work_package another required custom field, but don't assign a value
+      work_package.project.work_package_custom_fields << cf2
+      work_package.type.custom_fields << cf2
+      work_package.custom_field_values # #custom_field_values needs to be touched
+
+      # that should not be valid
+      expect(work_package).to_not be_valid
+
+      # assert that there is only one error
+      expect(work_package.errors.size).to eq 1
+      expect(work_package.errors_on(:custom_values).size).to eq 1
     end
   end
 end

@@ -79,12 +79,6 @@ en:
         value: "Value"
       enumeration:
         active: "Active"
-      issue:
-        parent_issue: "Parent"
-        subproject: "Subproject"
-        time_entries: "Log time"
-        type: "Type"
-        watcher: "Watcher"
       relation:
         delay: "Delay"
         from: "Work Package"
@@ -173,6 +167,10 @@ en:
         progress: "% done"
         responsible: "Responsible"
         spent_time: "Spent time"
+        subproject: "Subproject"
+        time_entries: "Log time"
+        type: "Type"
+        watcher: "Watcher"
     errors:
       messages:
         accepted: "must be accepted"
@@ -210,6 +208,7 @@ en:
           identical_projects: "can not be created from one project to itself"
           project_association_not_allowed: "does not allow associations"
         work_package:
+          is_not_a_valid_target_for_time_entries: "Work package #%{id} is not a valid target for reassigning the time entries."
           attributes:
             due_date:
               not_start_date: "is not on start date, although this is required for milestones"
@@ -481,7 +480,6 @@ en:
   enumeration_activities: "Activities (time tracking)"
   enumeration_work_package_priorities: "Work package priorities"
   enumeration_system_activity: "System Activity"
-  enumeration_planning_element_statuses: "Planning element status"
   enumeration_reported_project_statuses: "Reported project status"
 
   error_can_not_archive_project: "This project cannot be archived"
@@ -554,7 +552,8 @@ en:
       create_planning_select_project: "Project:"
       really_close_dialog: "Do you really want to close the dialog and loose the entered data?"
       filter:
-        none: "(none)"
+        noneElement: "(none)"
+        noneSelection: "(none)"
 
   label_account: "Account"
   label_activity: "Activity"
@@ -604,6 +603,7 @@ en:
   label_calendar: "Calendar"
   label_calendar_show: "Show Calendar"
   label_category: "Category"
+  label_select_main_menu_item: Select new main menu item
   label_change_plural: "Changes"
   label_change_properties: "Change properties"
   label_change_status: "Change status"
@@ -869,6 +869,7 @@ en:
   label_start_to_end: "start to end"
   label_start_to_start: "start to start"
   label_statistics: "Statistics"
+  label_status: "Status"
   label_stay_logged_in: "Stay logged in"
   label_string: "Text"
   label_subproject_new: "New subproject"
@@ -886,7 +887,6 @@ en:
   label_this_year: "this year"
   label_time_entry_plural: "Spent time"
   label_time_tracking: "Time tracking"
-  label_planning_element_plural: "Planning elements"
   label_today: "today"
   label_top_menu: "Top Menu"
   label_topic_plural: "Topics"
@@ -965,6 +965,7 @@ en:
   label_keyboard_shortcut_help_heading: "Available Keyboard Shortcuts"
   label_keyboard_shortcut_within_project: "Project related shortcuts:"
   label_keyboard_shortcut_global_shortcuts: "Global shortcuts:"
+  label_keyboard_shortcut_some_pages_only: "Special shortcuts:"
   label_keyboard_shortcut_search_global: "Global search"
   label_keyboard_shortcut_search_project: "Find a project"
   label_keyboard_shortcut_go_my_page: "Go to My Page"
@@ -977,6 +978,11 @@ en:
   label_keyboard_shortcut_go_news: "Go to project news"
   label_keyboard_shortcut_go_timelines: "Go to timelines"
   label_keyboard_shortcut_new_work_package: "Create new work package"
+  label_keyboard_shortcut_go_edit: "Go to edit the current item (on detail pages only)"
+  label_keyboard_shortcut_open_more_menu: "Open more-menu (on detail pages only)"
+  label_keyboard_shortcut_go_preview: "Go to preview the current edit (on edit pages only)"
+  label_keyboard_shortcut_focus_previous_item: "Focus previous list element (on some lists only)"
+  label_keyboard_shortcut_focus_next_item: "Focus next list element (on some lists only)"
 
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
   mail_body_account_information: "Your account information"
@@ -1243,15 +1249,16 @@ en:
   text_analyze: "Further analyze: %{subject}"
   text_are_you_sure: "Are you sure?"
   text_are_you_sure_with_children: "Delete work package and all child work packages?"
-  text_assign_time_entries_to_project: "Assign reported hours to the project"
+  text_assign_to_project: "Assign to the project"
   text_caracters_maximum: "%{count} characters maximum."
   text_caracters_minimum: "Must be at least %{count} characters long."
   text_comma_separated: "Multiple values allowed (comma separated)."
   text_custom_field_possible_values_info: "One line for each value"
   text_default_administrator_account_changed: "Default administrator account changed"
   text_default_encoding: "Default: UTF-8"
-  text_destroy_time_entries: "Delete reported hours"
-  text_destroy_time_entries_question: "%{hours} hours were reported on the work package you are about to delete. What do you want to do?"
+  text_destroy: "Delete"
+  text_destroy_with_associated: "There are additional objects assossociated with the work package(s) that are to be deleted. Those objects are of the following types:"
+  text_destroy_what_to_do: "What do you want to do?"
   text_diff_truncated: "... This diff was truncated because it exceeds the maximum size that can be displayed."
   text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/configuration.yml and restart the application to enable them."
   text_enumeration_category_reassign_to: "Reassign them to this value:"
@@ -1283,7 +1290,8 @@ en:
   text_powered_by: "Powered by %{link}"
   text_project_destroy_confirmation: "Are you sure you want to delete this project and related data?"
   text_project_identifier_info: "Only lower case letters (a-z), numbers, dashes and underscores are allowed, must start with a lower case letter.<br />Once saved, the identifier cannot be changed."
-  text_reassign_time_entries: "Reassign reported hours to this work package:"
+  text_reassign: "Reassign to"
+  text_reassign_to: "work package:"
   text_regexp_info: "eg. ^[A-Z0-9]+$"
   text_repository_usernames_mapping: "Select or update the OpenProject user mapped to each username found in the repository log.\nUsers with the same OpenProject and repository username or email are automatically mapped."
   text_rmagick_available: "RMagick available (optional)"
@@ -1330,6 +1338,7 @@ en:
       timelines: "Timelines"
     add_project_association: "Add dependency"
     associations: "Dependencies"
+    board_could_not_be_saved: "Board could not be saved"
     button_delete_all: "Delete all"
     change: "Change in planning"
     children: "Child elements"
@@ -1347,7 +1356,8 @@ en:
     edit_project_type: "Edit project type"
     edit_thing: "Edit"
     edit_timeline: "Edit timeline report"
-    enable_planning_element_in_project: 'Enable planning element type "%{type}"'
+    empty: "(empty)"
+    enable_type_in_project: 'Enable type "%{type}"'
     end: "End"
     errors:
       not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
@@ -1363,6 +1373,7 @@ en:
         date: "date"
         default: "default"
       column:
+        assigned_to: "Assignee"
         type: "Type"
         due_date: "End date"
         name: "Name"
@@ -1373,17 +1384,15 @@ en:
       comparisons: "Comparisons"
       comparison:
         absolute: "Absolute"
-        historical: "Historical"
         none: "None"
         relative: "Relative"
         compare_relative: "Compare current planning to %{timespan} ago"
         compare_absolute: "Compare current planning to %{date}"
-        compare_historical: "Compare %{startdate} to %{enddate}"
       time_relative:
         days: "days"
         weeks: "weeks"
         months: "months"
-      exclude_own_planning_elements: "Hide planning elements from this project"
+      exclude_own_work_packages: "Hide work packages from this project"
       exclude_reporters: "Hide other projects"
       exclude_empty: "Hide empty projects"
       grouping: "Grouping"
@@ -1394,15 +1403,16 @@ en:
       grouping_two: "Second grouping criterion"
       grouping_two_phrase: "Has a dependency to project type"
       hide_chart: "Hide chart"
-      none: "(none)"
+      noneElement: "(none)"
+      noneSelection: "(none)"
       outline: "Intitial outline expansion"
       parent: "Show subprojects of"
-      planning_element_filters: "Filter planning elements"
-      planning_element_responsible: "Show planning elements with responsible"
+      work_package_filters: "Filter work packages"
+      work_package_responsible: "Show work packages with responsible"
       types: "Show types"
       status: "Show status"
 
-      project_time_filter: "Projects with a Planning Element of a certain type in a certain timeframe"
+      project_time_filter: "Projects with a work package of a certain type in a certain timeframe"
       project_time_filter_historical: "from %{startdate} to %{enddate}"
       project_time_filter_relative: "from %{startspan}%{startspanunit} ago, to %{endspan}%{endspanunit} from now"
       project_filters: "Filter projects"
@@ -1417,7 +1427,7 @@ en:
     history: "History"
     new_color: "New color"
     new_association: "New dependency"
-    new_planning_element: "New planning element"
+    new_work_package: "New work package"
     new_project_type: "New project type"
     new_reporting: "New reporting"
     new_timeline: "New timeline report"
@@ -1444,9 +1454,8 @@ en:
       edit: "Edit status: %{comment}"
       show: "Status: %{comment}"
 
-    planning_element_could_not_be_saved: "Planning element could not be saved"
     planning_element_update: "Update: %{title}"
-    planning_elements_are_displayed_in_aggregations: "Planning elements are displayed in aggregations"
+    work_packages_are_displayed_in_aggregations: "Work packages are displayed in aggregations"
     project_association_new: Add project dependency
     project_association_new_for_with: Set dependency for “%{project_a}” with
     project_association_with_other: "Project dependency between “%{project_a}” and “%{project_b}”"
@@ -1457,10 +1466,7 @@ en:
     properties: "Properties"
     really_delete_color: >
       Are you sure, you want to delete the following color?
-      Planning element types using this color will not be deleted.
-    really_delete_all_planning_elements: >
-      Are you sure, you want to permanently delete all the following planning elements and all
-      its child elements? You cannot undo this operation.
+      Types using this color will not be deleted.
     really_delete_project_association_between_project_a_and_project_b: >
       Are you sure, you want to delete the dependency between “%{project_a}” and
       “%{project_b}”?
@@ -1469,7 +1475,7 @@ en:
       Projects using this type will not be deleted.
     really_delete_timeline: >
       Are you sure, you want to delete the following timeline report?
-      Planning elements shown in this timeline report will not be
+      Work packages shown in this timeline report will not be
       deleted.
     really_delete_reporting: >
       Are you sure, you want to delete the following reporting?
@@ -1478,12 +1484,8 @@ en:
     timeline: "Timeline report"
     timelines: "Timeline reports"
     settings: "Timelines"
-    used_in_x_planning_elements:
-      one:   "Used in %{count} planning element"
-      other: "Used in %{count} planning elements"
-    vertical_planning_elements: "Vertical planning elements"
+    vertical_work_package: "Vertical work packages"
     without_project_type: "Without project type"
-    you_are_viewing_all_planning_elements_in_this_project: "You are viewing all planning elements in this project"
     you_are_viewing_the_selected_timeline: "You are viewing the selected timeline report"
     zoom:
       in: "Zoom in"

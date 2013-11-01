@@ -147,6 +147,10 @@ class PermittedParams < Struct.new(:params, :user)
                                          :responsible_id)
   end
 
+  def board_move
+    params.require(:board).permit(*self.class.permitted_attributes[:board_move])
+  end
+
   protected
 
   def custom_field_values(key)
@@ -255,7 +259,8 @@ class PermittedParams < Struct.new(:params, :user)
                                           :project_ids => [],
                                           :custom_field_ids => []
                                         ],
-                               :type_move => [:move_to]
+                               :type_move => [:move_to],
+                               :board_move => [:move_to]
                             }
   end
 end

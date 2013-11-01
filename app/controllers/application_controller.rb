@@ -380,16 +380,6 @@ class ApplicationController < ActionController::Base
     render_404
   end
 
-  # TODO: remove this once all subclasses use find_work_packages
-  def find_issues
-    @issues = WorkPackage.find_all_by_id(params[:id] || params[:ids])
-    raise ActiveRecord::RecordNotFound if @issues.empty?
-    @projects = @issues.collect(&:project).compact.uniq
-    @project = @projects.first if @projects.size == 1
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
   # Check if project is unique before bulk operations
   def check_project_uniqueness
     unless @project
@@ -508,10 +498,18 @@ class ApplicationController < ActionController::Base
 
   def render_feed(items, options={})
     @items = items || []
-    @items.sort! {|x,y| y.event_datetime <=> x.event_datetime }
+    @items.sort! {|x,y| sort_feed_items(x, y) }
     @items = @items.slice(0, Setting.feeds_limit.to_i)
     @title = options[:title] || Setting.app_title
     render :template => "common/feed", :layout => false, :content_type => 'application/atom+xml'
+  end
+
+  def sort_feed_items(x, y)
+    if x.respond_to? :data
+      y.data.event_datetime <=> x.data.event_datetime
+    else
+      y.event_datetime <=> x.event_datetime
+    end
   end
 
   def self.accept_key_auth(*actions)
@@ -530,7 +528,7 @@ class ApplicationController < ActionController::Base
     if value
       parts = value.split(/,\s*/)
       parts.each {|part|
-        if m = %r{^([^\s,]+?)(?:;\s*q=(\d+(?:\.\d+)?))?$}.match(part)
+        if m = %r{\A([^\s,]+?)(?:;\s*q=(\d+(?:\.\d+)?))?\z}.match(part)
           val = m[1]
           q = (m[2] or 1).to_f
           tmp.push([val, q])

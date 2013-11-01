@@ -31,6 +31,7 @@ class TimelogController < ApplicationController
   menu_item :issues
 
   before_filter :disable_api
+  before_filter :find_work_package, :only => [:new, :create]
   before_filter :find_project, :only => [:new, :create]
   before_filter :find_time_entry, :only => [:show, :edit, :update, :destroy]
   before_filter :authorize, :except => [:index]
@@ -107,6 +108,7 @@ class TimelogController < ApplicationController
     @time_entry.safe_attributes = params[:time_entry]
 
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
+
     render :action => 'edit'
   end
 
@@ -175,7 +177,8 @@ class TimelogController < ApplicationController
     redirect_to :action => 'index', :project_id => @time_entry.project
   end
 
-private
+  private
+
   def find_time_entry
     @time_entry = TimeEntry.find(params[:id])
     unless @time_entry.editable_by?(User.current)
@@ -188,20 +191,32 @@ private
   end
 
   def find_project
-    if (issue_id = (params[:issue_id] || params[:time_entry] && params[:time_entry][:issue_id])).present?
-      @issue = WorkPackage.find(issue_id)
-      @project = @issue.project
-    elsif (work_package_id = (params[:work_package_id] || params[:time_entry] && params[:time_entry][:work_package_id])).present?
-      @issue = WorkPackage.find(work_package_id)
-      @project = @issue.project
-    elsif (project_id = (params[:project_id] || params[:time_entry] && params[:time_entry][:project_id])).present?
-      @project = Project.find(project_id)
-    else
-      render_404
-      return false
-    end
+    @project = Project.find(project_id_from_params) if @project.nil?
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def project_id_from_params
+    if params.has_key?(:project_id)
+      project_id = params[:project_id]
+    elsif params.has_key?(:time_entry) && params[:time_entry].has_key?(:project_id)
+      project_id = params[:time_entry][:project_id]
+    end
+  end
+
+  def find_work_package
+    @issue = work_package_from_params
+    @project = @issue.project unless @issue.nil?
+  end
+
+  def work_package_from_params
+    if params.has_key?(:work_package_id)
+      work_package_id = params[:work_package_id]
+    elsif params.has_key?(:time_entry) && params[:time_entry].has_key?(:work_package_id)
+      work_package_id = params[:time_entry][:work_package_id]
+    end
+
+    WorkPackage.find_by_id work_package_id
   end
 
   def find_optional_project

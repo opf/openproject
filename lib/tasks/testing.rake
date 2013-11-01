@@ -73,7 +73,7 @@ namespace :test do
     task :update do
       require 'fileutils'
       Dir.glob("tmp/test/*_repository").each do |dir|
-        next unless File.basename(dir) =~ %r{^(.+)_repository$} && File.directory?(dir)
+        next unless File.basename(dir) =~ %r{\A(.+)_repository\z} && File.directory?(dir)
         scm = $1
         next unless fixture = Dir.glob("test/fixtures/repositories/#{scm}_repository.*").first
         next if File.stat(dir).ctime > File.stat(fixture).mtime

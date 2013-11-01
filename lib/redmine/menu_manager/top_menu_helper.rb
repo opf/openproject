@@ -45,9 +45,11 @@ module Redmine::MenuManager::TopMenuHelper
 
     return "" if User.current.number_of_known_projects.zero?
 
-    heading = link_to l(:label_project_plural), { :controller => '/projects',
-                                                  :action => 'index' },
-                                                :title => l(:label_project_plural)
+    heading = link_to l(:label_project_plural),
+                      { :controller => '/projects',
+                        :action => 'index' },
+                      :title => l(:label_project_plural),
+                      :access_key => OpenProject::AccessKeys.key_for(:project_search)
 
     if User.current.impaired?
       content_tag :li do

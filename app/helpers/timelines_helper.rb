@@ -260,7 +260,7 @@ module TimelinesHelper
   end
 
   def none_option
-    result = [[l('timelines.filter.none'), -1]]
+    result = [[l('timelines.filter.noneSelection'), -1]]
   end
 
   def filter_select_i18n_array_with_index_and_none(array, i18n_prefix)

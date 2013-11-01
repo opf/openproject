@@ -39,12 +39,25 @@ Feature: Timeline Comparison View Tests
           | delete_work_packages      |
           | view_reportings           |
           | view_project_associations |
+
       And there is a project named "Volatile Planning"
       And I am working in project "Volatile Planning"
-      And the project uses the following modules:
-          | timelines |
       And the user "manager" is a "manager"
       And I am already logged in as "manager"
+
+      And there are the following status:
+          | name        | default |
+          | new         | true    |
+          | in progress | true    |
+          | closed      | true    |
+      And the project "Volatile Planning" has the following types:
+          | name    | position |
+          | Bug     | 1        |
+          | Feature | 2        |
+      And the type "Bug" has the default workflow for the role "manager"
+
+      And the project uses the following modules:
+          | timelines |
       And there are the following work packages were added "three weeks ago":
           | Subject  | Start date | Due date   |
           | January  | 2014-01-01 | 2014-01-31 |
@@ -52,21 +65,28 @@ Feature: Timeline Comparison View Tests
           | March    | 2014-03-01 | 2014-03-31 |
           | April    | 2014-04-01 | 2014-04-30 |
       And the work package "February" was changed "two weeks ago" to:
-          | Subject  | Start date | Due date   |
-          | May      | 2014-05-01 | 2014-05-31 |
+          | Subject  | Start date | Due date   | status id |
+          | May      | 2014-05-01 | 2014-05-31 | 3         |
       And the work package "January" was changed "one week ago" to:
-          | Subject  | Start date | Due date   |
-          | February | 2014-02-01 | 2014-02-28 |
+          | Subject  | Start date | Due date   | status id |
+          | February | 2014-02-01 | 2014-02-28 | 3         |
 
   @javascript
   Scenario: nine days comparison
     Given I am working in the timeline "Changes" of the project called "Volatile Planning"
      When there is a timeline "Changes" for project "Volatile Planning"
       And I set the timeline to compare "now" to "9 days ago"
+      And I set the columns shown in the timeline to:
+        | start_date |
+        | due_date   |
+        | status     |
       And I go to the page of the timeline "Changes" of the project called "Volatile Planning"
       And I wait for timeline to load table
      Then I should see the work package "May" has not moved
       And I should see the work package "February" has moved
+      And I should see the work package "May" has not changed "Status"
+
+      And I should see the work package "February" has changed "Status"
       And I should not see the work package "January" in the timeline
 
   @javascript
@@ -74,8 +94,15 @@ Feature: Timeline Comparison View Tests
     Given I am working in the timeline "Changes" of the project called "Volatile Planning"
      When there is a timeline "Changes" for project "Volatile Planning"
       And I set the timeline to compare "now" to "16 days ago"
+      And I set the columns shown in the timeline to:
+        | start_date |
+        | due_date   |
+        | status     |
       And I go to the page of the timeline "Changes" of the project called "Volatile Planning"
       And I wait for timeline to load table
      Then I should see the work package "May" has moved
       And I should see the work package "February" has moved
+      And I should see the work package "May" has changed "Status"
+      And I should see the work package "February" has changed "Status"
       And I should not see the work package "January" in the timeline
+

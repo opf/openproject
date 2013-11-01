@@ -42,5 +42,11 @@ FactoryGirl.define do
       activity_type "wiki_edits"
       data FactoryGirl.build(:journal_wiki_content_journal)
     end
+
+    factory :message_journal, class: Journal do
+      journable_type "Message"
+      activity_type "messages"
+      data FactoryGirl.build(:journal_message_journal)
+    end
   end
 end

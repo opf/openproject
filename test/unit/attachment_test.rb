@@ -63,7 +63,7 @@ class AttachmentTest < ActiveSupport::TestCase
   end
 
   def test_diskfilename
-    assert Attachment.disk_filename("test_file.txt") =~ /^\d{12}_test_file.txt$/
+    assert Attachment.disk_filename("test_file.txt") =~ /\A\d{12}_test_file.txt\z/
     assert_equal 'test_file.txt', Attachment.disk_filename("test_file.txt")[13..-1]
     assert_equal '770c509475505f37c2b8fb6030434d6b.txt', Attachment.disk_filename("test_accentué.txt")[13..-1]
     assert_equal 'f8139524ebb8f32e51976982cd20a85d', Attachment.disk_filename("test_accentué")[13..-1]

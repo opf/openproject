@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-gem "rails", "~> 3.2.14"
+gem "rails", "~> 3.2.15"
 
 gem "coderay", "~> 1.0.5"
 gem "rubytree", "~> 0.8.3"
@@ -72,6 +72,8 @@ gem 'oj'
 # will need to be removed once we are on rails4 as it will be part of the rails4 core
 gem 'strong_parameters'
 
+gem 'rack-protection'
+
 group :production do
   # we use dalli as standard memcache client remove this if you don't
   # requires memcached 1.4+
@@ -100,7 +102,7 @@ gem "i18n-js", :git => "https://github.com/fnando/i18n-js.git", :ref => '8801f8d
 
 group :test do
   gem 'shoulda'
-  gem 'object-daddy', :git => 'https://github.com/awebneck/object_daddy.git'
+  gem 'object-daddy', '~> 1.1.0'
   gem 'mocha', '~> 0.13.1', :require => false
   gem "launchy", "~> 2.3.0"
   gem "factory_girl_rails", "~> 4.0"

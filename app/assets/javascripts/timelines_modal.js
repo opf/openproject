@@ -40,21 +40,13 @@ ModalHelper.prototype.create = function(projectId) {
   //create the modal by using the html the url gives us.
   modalHelper.createModal(url);
 };
+
 ModalHelper.prototype.setupTimeline = function(timeline, options) {
   this.timeline = timeline;
   this.options = options;
 
   // every-time initialization
   jQuery(timeline).on('dataLoaded', function() {
-    var projects = timeline.projects;
-    var project;
-    for (project in projects) {
-      if (projects.hasOwnProperty(project)) {
-        if (projects[project].permissions.edit_planning_elements === true) {
-          jQuery('#newPlanning').show();
-          break;
-        }
-      }
-    }
+    jQuery('#newPlanning').show();
   });
 };

@@ -44,33 +44,39 @@ class RepositoriesControllerTest < ActionController::TestCase
   end
 
   def test_revisions
-    get :revisions, :id => 1
+    get :revisions, :project_id => 1
     assert_response :success
     assert_template 'revisions'
     assert_not_nil assigns(:changesets)
   end
 
   def test_revision
-    get :revision, :id => 1, :rev => 1
+    get :revision, :project_id => 1, :rev => 1
     assert_response :success
     assert_not_nil assigns(:changeset)
     assert_equal "1", assigns(:changeset).revision
   end
 
-  def test_revision_with_before_nil_and_afer_normal
-    get :revision, {:id => 1, :rev => 1}
+  def test_revision_with_before_nil_and_after_normal
+    get :revision, {:project_id => 1, :rev => 1}
     assert_response :success
     assert_template 'revision'
     assert_no_tag :tag => "div", :attributes => { :class => "contextual" },
-      :child => { :tag => "a", :attributes => { :href => '/projects/ecookbook/repository/revisions/0'}
-    }
+      :child => { :tag => "a", :attributes => { :href => @controller.url_for(:only_path => true,
+                                                                             :controller => 'repositories',
+                                                                             :action => 'revision',
+                                                                             :project_id => 'ecookbook',
+                                                                             :rev => '0') } }
     assert_tag :tag => "div", :attributes => { :class => "contextual" },
-        :child => { :tag => "a", :attributes => { :href => '/projects/ecookbook/repository/revisions/2'}
-    }
+      :child => { :tag => "a", :attributes => { :href => @controller.url_for(:only_path => true,
+                                                                             :controller => 'repositories',
+                                                                             :action => 'revision',
+                                                                             :project_id => 'ecookbook',
+                                                                             :rev => '2') } }
   end
 
   def test_graph_commits_per_month
-    get :graph, :id => 1, :graph => 'commits_per_month'
+    get :graph, :project_id => 1, :graph => 'commits_per_month'
     assert_response :success
     assert_equal 'image/svg+xml', @response.content_type
   end
@@ -86,7 +92,7 @@ class RepositoriesControllerTest < ActionController::TestCase
         :comments => 'Committed by foo.'
      )
 
-    get :committers, :id => 1
+    get :committers, :project_id => 1
     assert_response :success
     assert_template 'committers'
 
@@ -114,7 +120,7 @@ class RepositoriesControllerTest < ActionController::TestCase
             :comments => 'Committed by foo.'
           )
     assert_no_difference "Changeset.count(:conditions => 'user_id = 3')" do
-      post :committers, :id => 1, :committers => { '0' => ['foo', '2'], '1' => ['dlopper', '3']}
+      post :committers, :project_id => 1, :committers => { '0' => ['foo', '2'], '1' => ['dlopper', '3']}
       assert_redirected_to '/projects/ecookbook/repository/committers'
       assert_equal User.find(2), c.reload.user
     end

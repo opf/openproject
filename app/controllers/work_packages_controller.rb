@@ -38,9 +38,8 @@ class WorkPackagesController < ApplicationController
   include SortHelper
   include PaginationHelper
 
-  accept_key_auth :index, :show, :create, :update, :destroy
+  accept_key_auth :index, :show, :create, :update
 
-  before_filter :find_work_packages, :only => [:destroy]
   before_filter :disable_api
   before_filter :not_found_unless_work_package,
                 :project,
@@ -128,11 +127,10 @@ class WorkPackagesController < ApplicationController
 
     WorkPackageObserver.instance.send_notification = send_notifications?
 
+    work_package.attach_files(params[:attachments])
+
     if work_package.save
       flash[:notice] = I18n.t(:notice_successful_create)
-
-      Attachment.attach_files(work_package, params[:attachments])
-      render_attachment_warning_if_needed(work_package)
 
       call_hook(:controller_work_package_new_after_save, { :params => params, :work_package => work_package })
 
@@ -180,39 +178,6 @@ class WorkPackagesController < ApplicationController
       show
     else
       edit
-    end
-  end
-
-  def destroy
-    @hours = TimeEntry.sum(:hours, :conditions => ['work_package_id IN (?)', work_package]).to_f
-    if @hours > 0
-      case params[:todo]
-      when 'destroy'
-        # nothing to do
-      when 'nullify'
-        TimeEntry.update_all('work_package_id = NULL', ['work_package_id IN (?)', work_package])
-      when 'reassign'
-        reassign_to = @project.work_packages.find_by_id(params[:reassign_to_id])
-        if reassign_to.nil?
-          flash.now[:error] = l(:error_work_package_not_found_in_project)
-          return
-        else
-          TimeEntry.update_all("work_package_id = #{reassign_to.id}", ['work_package_id IN (?)', work_package])
-        end
-      else
-        # display the destroy form if it's a user request
-        return unless api_request?
-      end
-    end
-
-    begin
-      work_package.reload.destroy
-    rescue ::ActiveRecord::RecordNotFound # raised by #reload if work package no longer exists
-      # nothing to do, work package was already deleted (eg. by a parent)
-    end
-
-    respond_to do |format|
-      format.html { redirect_back_or_default(controller: '/work_packages', action: 'index', project_id: @project) }
     end
   end
 

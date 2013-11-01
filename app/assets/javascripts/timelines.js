@@ -55,6 +55,10 @@ Timeline = {
   LOAD_ERROR_TIMEOUT: 60000,
   DISPLAY_ERROR_DELAY: 2000,
   PROJECT_ID_BLOCK_SIZE: 100,
+  USER_ATTRIBUTES: {
+    PROJECT: ["responsible_id"],
+    PLANNING_ELEMENT: ["responsible_id", "assigned_to_id"]
+  },
 
   defaults: {
     artificial_load_delay:          0,   // no delay
@@ -304,7 +308,7 @@ Timeline = {
         timeline.reload();
       });
 
-      timelineLoader = this.provideTimelineLoader()
+      timelineLoader = this.provideTimelineLoader();
 
       jQuery(timelineLoader).on('complete', jQuery.proxy(function(e, data) {
         jQuery.extend(this, data);
@@ -329,7 +333,7 @@ Timeline = {
   reload: function() {
     delete this.lefthandTree;
 
-    var timelineLoader = this.provideTimelineLoader()
+    var timelineLoader = this.provideTimelineLoader();
 
     jQuery(timelineLoader).on('complete', jQuery.proxy(function (e, data) {
 
@@ -471,7 +475,7 @@ Timeline = {
 
     FilterQueryStringBuilder.prototype.prepareAdditionalQueryData = function(key, value) {
       this.queryStringParts.push({name: key, value: value});
-    }
+    };
 
     FilterQueryStringBuilder.prototype.prepareFilterDataForKeyAndArrayOfValues = function(key, value) {
       jQuery.each(value, jQuery.proxy( function(i, e) {
@@ -480,9 +484,11 @@ Timeline = {
     };
 
     FilterQueryStringBuilder.prototype.buildFilterDataForValue = function(key, value) {
-      return value instanceof Array ?
-        this.prepareFilterDataForKeyAndArrayOfValues(key, value) :
+      if (value instanceof Array) {
+        this.prepareFilterDataForKeyAndArrayOfValues(key, value);
+      } else {
         this.prepareFilterDataForKeyAndValue(key, value);
+      }
     };
 
     FilterQueryStringBuilder.prototype.registerKeyAndValue = function(key, value) {
@@ -677,13 +683,15 @@ Timeline = {
     DataEnhancer.BasicTypes = function () {
       return [
         Timeline.Color,
+        Timeline.Status,
         Timeline.PlanningElementType,
         Timeline.HistoricalPlanningElement,
         Timeline.PlanningElement,
         Timeline.ProjectType,
         Timeline.Project,
         Timeline.ProjectAssociation,
-        Timeline.Reporting
+        Timeline.Reporting,
+        Timeline.User
       ];
     };
 
@@ -719,7 +727,7 @@ Timeline = {
         this.augmentProjectsWithProjectTypesAndAssociations();
 
         this.augmentPlanningElementsWithHistoricalData();
-        this.augmentPlanningElementsWithProjectAndParentAndChildInformation();
+        this.augmentPlanningElementsWithAllKindsOfStuff();
         this.augmentPlanningElementsWithVerticalityData();
 
         return this.data;
@@ -766,7 +774,8 @@ Timeline = {
     };
 
     DataEnhancer.prototype.setElement = function (type, id, element) {
-      return this.data[type.identifier][id] = element;
+      this.data[type.identifier][id] = element;
+      return this.data[type.identifier][id];
     };
 
     DataEnhancer.prototype.getProject = function () {
@@ -806,6 +815,7 @@ Timeline = {
       var dataEnhancer = this;
 
       jQuery.each(dataEnhancer.getElements(Timeline.Reporting), function (i, reporting) {
+        // TODO this somehow didn't make the change to reporting_to_project_id and project_id.
         var project  = dataEnhancer.getElement(Timeline.Project, reporting.reporting_to_project.id);
         var reporter = dataEnhancer.getElement(Timeline.Project, reporting.project.id);
 
@@ -832,14 +842,35 @@ Timeline = {
       });
     };
 
+    DataEnhancer.prototype.augmentElementAttributesWithUser = function (e, attributes) {
+      if (this.data[Timeline.User.identifier]) {
+        var k, curAttr;
+        for (k = 0; k < attributes.length; k += 1) {
+          curAttr = attributes[k];
+          if (e[curAttr]) {
+            e[curAttr.replace(/_id$/, "")] = this.getElement(Timeline.User,
+                                              e[curAttr]);
+          }
+
+          delete e[curAttr];
+        }
+      }
+    };
+
+    DataEnhancer.prototype.augmentProjectElementWithUser = function (p) {
+      this.augmentElementAttributesWithUser(p, Timeline.USER_ATTRIBUTES.PROJECT);
+    };
+
     DataEnhancer.prototype.augmentProjectsWithProjectTypesAndAssociations = function () {
-      var dataEnhancer    = this;
+      var dataEnhancer = this;
 
       jQuery.each(dataEnhancer.getElements(Timeline.Project), function (i, e) {
 
+        dataEnhancer.augmentProjectElementWithUser(e);
+
         // project_type ← project
-        if (e.project_type !== undefined) {
-          var project_type = dataEnhancer.getElement(Timeline.ProjectType, e.project_type.id);
+        if (e.project_type_id !== undefined) {
+          var project_type = dataEnhancer.getElement(Timeline.ProjectType, e.project_type_id);
 
           if (project_type) {
             e.project_type = project_type;
@@ -857,7 +888,7 @@ Timeline = {
             a.timeline = dataEnhancer.timeline;
             a.origin = e;
 
-            other = dataEnhancer.getElement(Timeline.Project, a.project.id);
+            other = dataEnhancer.getElement(Timeline.Project, a.to_project_id);
             if (other) {
               a.project = other;
               dataEnhancer.setElement(
@@ -870,12 +901,10 @@ Timeline = {
         }
 
         // project → parent
-        if (e.parent) {
-          e.parent = dataEnhancer.getElement(Timeline.Project, e.parent.id);
+        if (e.parent_id) {
+          e.parent = dataEnhancer.getElement(Timeline.Project, e.parent_id);
         }
-        else {
-          e.parent = undefined;
-        }
+        delete e.parent_id;
       });
     };
 
@@ -898,60 +927,87 @@ Timeline = {
           pe = e;
         }
 
-        pe.alternate_start_date = e.start_date;
-        pe.alternate_due_date = e.due_date;
+        pe.historical_element = jQuery.extend(Object.create(Timeline.PlanningElement), e);
       });
 
       dataEnhancer.setElementMap(Timeline.HistoricalPlanningElement, undefined);
     };
 
-    DataEnhancer.prototype.augmentPlanningElementsWithProjectAndParentAndChildInformation = function () {
-      var dataEnhancer = this;
+    DataEnhancer.prototype.augmentPlanningElementWithStatus = function (pe) {
+      // planning_element → planning_element_type
+      if (pe.status_id) {
+        pe.status = this.getElement(Timeline.Status,
+                                    pe.status_id);
+      }
+      delete pe.status_id;
+    };
 
-      jQuery.each(dataEnhancer.getElements(Timeline.PlanningElement), function (i, e) {
-        var project = dataEnhancer.getElement(Timeline.Project, e.project.id);
+    DataEnhancer.prototype.augmentPlanningElementWithUser = function (pe) {
+      this.augmentElementAttributesWithUser(pe, Timeline.USER_ATTRIBUTES.PLANNING_ELEMENT);
+    };
 
+    DataEnhancer.prototype.augmentPlanningElementWithType = function (pe) {
+      // planning_element → planning_element_type
+      if (pe.type_id) {
+        pe.planning_element_type = this.getElement(Timeline.PlanningElementType,
+                                                   pe.type_id);
+      }
+      delete pe.type_id;
+    };
 
-        // planning_element → planning_element_type
-        if (e.planning_element_type) {
-          e.planning_element_type = dataEnhancer.getElement(Timeline.PlanningElementType,
-                                                            e.planning_element_type.id);
-        }
-        else {
-          e.planning_element_type = undefined;
-        }
+    DataEnhancer.prototype.augmentPlanningElementWithProject = function (pe) {
+      var project = this.getElement(Timeline.Project, pe.project_id);
 
-        // there might not be such a project, due to insufficient rights
-        // and the fact that some user with more rights originally created
-        // the report.
-        if (!project) {
-          // TODO some flag indicating that something is wrong/missing.
-          return;
-        }
+      // there might not be such a project, due to insufficient rights
+      // and the fact that some user with more rights originally created
+      // the report.
+      if (!project) {
+        // TODO some flag indicating that something is wrong/missing.
+        return;
+      }
 
-        // planning_element → project
-        e.project = project;
+      // planning_element → project
+      pe.project = project;
+    };
 
-        if (e.parent) {
-          var parent = dataEnhancer.getElement(Timeline.PlanningElement, e.parent.id);
+    DataEnhancer.prototype.augmentPlanningElementWithParent = function (pe) {
+      if (pe.parent_id) {
+        var parent = this.getElement(Timeline.PlanningElement, pe.parent_id);
 
-          if (parent !== undefined) {
+        if (parent !== undefined) {
 
-            // planning_element ↔ planning_element
-            if (parent.planning_elements === undefined) {
-              parent.planning_elements = [];
-            }
-            parent.planning_elements.push(e);
-            e.parent = parent;
+          // planning_element ↔ planning_element
+          if (parent.planning_elements === undefined) {
+            parent.planning_elements = [];
           }
+          parent.planning_elements.push(pe);
+          pe.parent = parent;
+        }
 
-        } else {
-
+      } else {
+        var project = pe.project;
+        if (project) {
           // planning_element ← project
           if (project.planning_elements === undefined) {
             project.planning_elements = [];
           }
-          project.planning_elements.push(e);
+          project.planning_elements.push(pe);
+        }
+      }
+    };
+
+    DataEnhancer.prototype.augmentPlanningElementsWithAllKindsOfStuff = function () {
+      var dataEnhancer = this;
+
+      jQuery.each(dataEnhancer.getElements(Timeline.PlanningElement), function (i, e) {
+        dataEnhancer.augmentPlanningElementWithStatus(e);
+        dataEnhancer.augmentPlanningElementWithType(e);
+        dataEnhancer.augmentPlanningElementWithProject(e);
+        dataEnhancer.augmentPlanningElementWithParent(e);
+        dataEnhancer.augmentPlanningElementWithUser(e);
+        if (e.historical_element) {
+          dataEnhancer.augmentPlanningElementWithStatus(e.historical_element);
+          dataEnhancer.augmentPlanningElementWithType(e.historical_element);
         }
       });
     };
@@ -963,7 +1019,7 @@ Timeline = {
         var pe = dataEnhancer.getElement(Timeline.PlanningElement, e.id);
         var pet = pe.getPlanningElementType();
 
-        pe.vertical = this.timeline.verticalPlanningElementIds().indexOf(pe.id) != -1;
+        pe.vertical = this.timeline.verticalPlanningElementIds().indexOf(pe.id) !== -1;
         //this.timeline.optionsfalse || Math.random() < 0.5 || (pet && pet.is_milestone);
       });
     };
@@ -1077,10 +1133,13 @@ Timeline = {
 
       this.loader.register(Timeline.Reporting.identifier,
                            { url : url });
-    },
+    };
 
     TimelineLoader.prototype.registerGlobalElements = function () {
 
+      this.loader.register(
+          Timeline.Status.identifier,
+          { url : this.globalPrefix + '/statuses.json' });
       this.loader.register(
           Timeline.PlanningElementType.identifier,
           { url : this.globalPrefix + '/planning_element_types.json' });
@@ -1102,6 +1161,20 @@ Timeline = {
                     '/projects.json?ids=' +
                     project_ids_of_packet.join(',')},
             { storeIn : Timeline.Project.identifier }
+          );
+      });
+    };
+
+    TimelineLoader.prototype.registerUsers = function (ids) {
+
+      this.inChunks(ids, function (user_ids_of_packet, i) {
+
+        this.loader.register(
+            Timeline.User.identifier + '_' + i,
+            { url : this.globalPrefix +
+                    '/users.json?ids=' +
+                    user_ids_of_packet.join(',')},
+            { storeIn : Timeline.User.identifier }
           );
       });
     };
@@ -1181,10 +1254,11 @@ Timeline = {
         );
 
         // load historical planning elements.
+        // TODO: load historical PEs here!
         if (this.options.target_time) {
           this.loader.register(
             Timeline.HistoricalPlanningElement.identifier + '_IDS_' + i,
-            { url : planningElementPrefix +
+            { url : projectPrefix +
                     '/planning_elements.json?ids=' +
                     planningElementIdsOfPacket.join(',') },
             { storeIn: Timeline.HistoricalPlanningElement.identifier,
@@ -1265,6 +1339,34 @@ Timeline = {
       return necessaryIDs;
     };
 
+    function addUserIDsFromElementAttributes(results, attributes, element) {
+      var k, userid;
+      for (k = 0;  k < attributes.length; k += 1) {
+        userid = element[attributes[k]];
+        if (userid && results.indexOf(userid) === -1) {
+          results.push(userid);
+        }
+      }
+    }
+
+    function addUserIDsForElementsByAttribute(results, attributes, elements) {
+      var i, keys = Object.keys(elements), current;
+      for (i = 0; i < keys.length; i += 1) {
+        current = elements[keys[i]];
+
+        addUserIDsFromElementAttributes(results, attributes, current);
+      }
+    }
+
+    TimelineLoader.prototype.getUsersToLoad = function () {
+      var results = [];
+
+      addUserIDsForElementsByAttribute(results, Timeline.USER_ATTRIBUTES.PLANNING_ELEMENT, this.data.planning_elements);
+      addUserIDsForElementsByAttribute(results, Timeline.USER_ATTRIBUTES.PROJECT, this.data.projects);
+
+      return results;
+    };
+
     TimelineLoader.prototype.getRelevantProjectIdsBasedOnReportings = function () {
       var i,
           relevantProjectIds = [this.options.project_id];
@@ -1341,6 +1443,22 @@ Timeline = {
       return false;
     };
 
+    TimelineLoader.prototype.shouldLoadUsers = function (lastLoaded) {
+      if (this.doneLoading(Timeline.Project) &&
+          this.doneLoading(Timeline.Reporting) &&
+          this.doneLoading(Timeline.ProjectType) &&
+          this.doneLoading(Timeline.PlanningElement)) {
+
+        // this will not work for pes from another project (like vertical pes)!
+        // but as we do not display users for this data currently,
+        // we will not add them yet
+        this.shouldLoadUsers = function () { return false; };
+
+        return true;
+      }
+      return false;
+    };
+
     TimelineLoader.prototype.shouldLoadRemainingPlanningElements = function (lastLoaded) {
 
       if (this.doneLoading(Timeline.Project) &&
@@ -1358,13 +1476,18 @@ Timeline = {
     TimelineLoader.prototype.checkDependencies = function (identifier) {
       if (this.shouldLoadReportings(identifier)) {
         this.registerProjects(this.getRelevantProjectIdsBasedOnReportings());
-      }
-      else if (this.shouldLoadPlanningElements(identifier)) {
+      } else if (this.shouldLoadPlanningElements(identifier)) {
         this.data = this.dataEnhancer.enhance(this.data);
 
         this.registerPlanningElements(this.getRelevantProjectIdsBasedOnProjects());
-      } else if (this.shouldLoadRemainingPlanningElements(identifier)) {
-        this.registerPlanningElementsByID(this.getRemainingPlanningElements());
+      } else {
+        if (this.shouldLoadRemainingPlanningElements(identifier)) {
+          this.registerPlanningElementsByID(this.getRemainingPlanningElements());
+        }
+
+        if (this.shouldLoadUsers(identifier)) {
+         this.registerUsers(this.getUsersToLoad());
+        }
       }
 
       this.loader.load();
@@ -1596,6 +1719,25 @@ Timeline = {
   },
 
   // ╭───────────────────────────────────────────────────────────────────╮
+  // │ Timeline.Status                                                   │
+  // ╰───────────────────────────────────────────────────────────────────╯
+
+  Status: {
+    identifier: 'statuses',
+    all: function(timeline) {
+      // collect all reportings.
+      var r = timeline.statuses;
+      var result = [];
+      for (var key in r) {
+        if (r.hasOwnProperty(key)) {
+          result.push(r[key]);
+        }
+      }
+      return result;
+    }
+  },
+
+  // ╭───────────────────────────────────────────────────────────────────╮
   // │ Timeline.PlanningElementType                                      │
   // ╰───────────────────────────────────────────────────────────────────╯
 
@@ -1617,6 +1759,13 @@ Timeline = {
   // ╭───────────────────────────────────────────────────────────────────╮
   // │ Timeline.Project                                                  │
   // ╰───────────────────────────────────────────────────────────────────╯
+
+  User: {
+    is: function(t) {
+      return Timeline.User.identifier === t.identifier;
+    },
+    identifier: 'users'
+  },
 
   Project: {
     is: function(t) {
@@ -1649,7 +1798,7 @@ Timeline = {
     },
     hiddenForTimeFrame: function () {
       var types = this.timeline.options.planning_element_time_types;
-      if (!types) {
+      if (!types || types.length === 0) {
         return false;
       }
 
@@ -1790,15 +1939,15 @@ Timeline = {
           var dataBGrouping = b.getFirstLevelGroupingData();
 
           // order first level grouping.
-          if (dataAGrouping.id != dataBGrouping.id) {
+          if (parseInt(dataAGrouping.id, 10) !== parseInt(dataBGrouping.id, 10)) {
             /** other is always at bottom */
-            if (dataAGrouping.id == 0) {
+            if (parseInt(dataAGrouping.id, 10) === 0) {
               return 1;
-            } else if (dataBGrouping.id == 0) {
+            } else if (parseInt(dataBGrouping.id, 10) === 0) {
               return -1;
             }
 
-            if (timeline.options.grouping_one_sort == 1) {
+            if (parseInt(timeline.options.grouping_one_sort, 10) === 1) {
               ag = dataAGrouping.number;
               bg = dataBGrouping.number;
             } else {
@@ -1831,7 +1980,7 @@ Timeline = {
           dc = -1;
         }
 
-        identifier_methods = [a, b].map(function(e) { return e.hasOwnProperty("subject") ? "subject" : "name" })
+        var identifier_methods = [a, b].map(function(e) { return e.hasOwnProperty("subject") ? "subject" : "name"; });
 
         if (!a.identifierLower) {
           a.identifierLower = a[identifier_methods[0]].toLowerCase();
@@ -1849,7 +1998,7 @@ Timeline = {
         }
 
         if (a.hasSecondLevelGroupingAdjustment && b.hasSecondLevelGroupingAdjustment) {
-          if (timeline.options.grouping_two_sort == 1) {
+          if (parseInt(timeline.options.grouping_two_sort, 10) === 1) {
             if (dc !== 0) {
               return dc;
             }
@@ -1857,7 +2006,7 @@ Timeline = {
             if (nc !== 0) {
               return nc;
             }
-          } else if (timeline.options.grouping_two_sort == 2) {
+          } else if (parseInt(timeline.options.grouping_two_sort, 10) === 2) {
             if (nc !== 0) {
               return nc;
             }
@@ -1868,7 +2017,7 @@ Timeline = {
           }
         }
 
-        if (timeline.options.project_sort == 1 && a.is(Timeline.Project) && b.is(Timeline.Project)) {
+        if (parseInt(timeline.options.project_sort, 10) === 1 && a.is(Timeline.Project) && b.is(Timeline.Project)) {
           if (nc !== 0) {
             return nc;
           }
@@ -1902,6 +2051,16 @@ Timeline = {
       }
       return first.start();
     },
+    getAttribute: function (val) {
+      if (typeof this[val] === "function") {
+        return this[val]();
+      }
+
+      return this[val];
+    },
+    does_historical_differ: function () {
+      return false;
+    },
     getReporters: function() {
       if (!this.reporters) {
         return [];
@@ -1933,11 +2092,31 @@ Timeline = {
     getProjectStatus: function() {
       return this.via_reporting !== undefined ? this.via_reporting.getStatus() : null;
     },
+    getTypeName: function () {
+      var pt = this.getProjectType();
+      if (pt) {
+        return pt.name;
+      }
+    },
+    getStatusName: function () {
+      var status = this.getProjectStatus();
+      if (status) {
+        return status.name;
+      }
+    },
     getProjectType: function() {
       return (this.project_type !== undefined) ? this.project_type : null;
     },
     getResponsible: function() {
       return (this.responsible !== undefined) ? this.responsible : null;
+    },
+    getResponsibleName: function()  {
+      if (this.responsible && this.responsible.name) {
+        return this.responsible.name;
+      }
+    },
+    getAssignedName: function () {
+      return;
     },
     getSubElements: function() {
       var result = [];
@@ -2211,6 +2390,16 @@ Timeline = {
     getResponsible: function() {
       return (this.responsible !== undefined) ? this.responsible : null;
     },
+    getResponsibleName: function()  {
+      if (this.responsible && this.responsible.name) {
+        return this.responsible.name;
+      }
+    },
+    getAssignedName: function () {
+      if (this.assigned_to && this.assigned_to.name) {
+        return this.assigned_to.name;
+      }
+    },
     getParent: function() {
       return (this.parent !== undefined) ? this.parent : null;
     },
@@ -2226,6 +2415,22 @@ Timeline = {
     },
     hasChildren: function() {
       return this.getChildren().length > 0;
+    },
+    getTypeName: function () {
+      var pet = this.getPlanningElementType();
+      if (pet) {
+        return pet.name;
+      }
+    },
+    getStatusName: function () {
+      if (this.status) {
+        return this.status.name;
+      }
+    },
+    getProjectName: function () {
+      if (this.project) {
+        return this.project.name;
+      }
     },
     sort: function(field) {
       this[field] = this[field].sort(function(a, b) {
@@ -2276,26 +2481,38 @@ Timeline = {
       }
       return this.due_date_object;
     },
-    alternate_start: function() {
-      if (this.alternate_start_date_object === undefined) {
-        this.alternate_start_date_object = Date.parse(this.alternate_start_date);
+    getAttribute: function (val) {
+      if (typeof this[val] === "function") {
+        return this[val]();
       }
-      return this.alternate_start_date_object;
+
+      return this[val];
+    },
+    does_historical_differ: function (val) {
+      if (!this.has_historical()) {
+        return false;
+      }
+
+      return this.historical().getAttribute(val) !== this.getAttribute(val);
+    },
+    has_historical: function () {
+      return this.historical_element !== undefined;
+    },
+    historical: function () {
+      return this.historical_element || Object.create(Timeline.PlanningElement);
+    },
+    alternate_start: function() {
+      return this.historical().start();
     },
     alternate_end: function() {
-      if (this.alternate_due_date_object=== undefined) {
-        this.alternate_due_date_object = Date.parse(this.alternate_due_date);
-      }
-      return this.alternate_due_date_object;
+      return this.historical().end();
     },
     getSubElements: function() {
       return this.getChildren();
     },
     hasAlternateDates: function() {
-      return (this.alternate_start_date !== undefined &&
-              this.alternate_due_date !== undefined &&
-              (!(this.start_date === this.alternate_start_date &&
-                 this.due_date === this.alternate_due_date)) ||
+      return (this.does_historical_differ("start_date") ||
+              this.does_historical_differ("end_date") ||
               this.is_deleted);
     },
     isDeleted: function() {
@@ -2303,8 +2520,7 @@ Timeline = {
     },
     isNewlyAdded: function() {
       return (this.timeline.isComparing() &&
-              this.alternate_start_date === undefined &&
-              this.alternate_due_date === undefined);
+              !this.has_historical());
     },
     getAlternateHorizontalBounds: function(scale, absolute_beginning, milestone) {
       return this.getHorizontalBoundsForDates(
@@ -2448,6 +2664,7 @@ Timeline = {
       var deleted = true && this.is_deleted;
       var comparison_offset = deleted ? 0 : Timeline.DEFAULT_COMPARISON_OFFSET;
       var strokeColor = Timeline.DEFAULT_STROKE_COLOR;
+      var historical = this.historical();
 
       var has_both_dates = this.hasBothDates();
       var has_one_date = this.hasOneDate();
@@ -2467,22 +2684,18 @@ Timeline = {
 
       var height, top;
 
-      // only render planning elements that have
-      // either a start or an end date.
-      if (has_one_date) {
-        color = this.getColor();
-
-
-        if (!has_both_dates) {
-          strokeColor = 'none';
-        }
-
+      if (historical.hasOneDate()) {
         // ╭─────────────────────────────────────────────────────────╮
         // │ Rendering of historical data. Use default planning      │
         // │ element appearance, only use milestones when the        │
         // │ element is currently a milestone and the historical     │
         // │ data has equal start and end dates.                     │
         // ╰─────────────────────────────────────────────────────────╯
+        color = this.historical().getColor();
+
+        if (!historical.hasBothDates()) {
+          strokeColor = 'none';
+        }
 
         //TODO: fix for work units w/o start/end date
         if (!in_aggregation && has_alternative) {
@@ -2523,6 +2736,16 @@ Timeline = {
               'stroke-dasharray': Timeline.DEFAULT_STROKE_DASHARRAY_IN_COMPARISONS
             });
           }
+        }
+      }
+
+      // only render planning elements that have
+      // either a start or an end date.
+      if (has_one_date) {
+        color = this.getColor();
+
+        if (!has_both_dates) {
+          strokeColor = 'none';
         }
 
         // ╭─────────────────────────────────────────────────────────╮
@@ -2801,6 +3024,8 @@ Timeline = {
       var has_one_date = this.hasOneDate();
       var has_start_date = this.hasStartDate();
 
+      var hoverElement;
+
       color = this.getColor();
 
       if (has_one_date) {
@@ -2817,7 +3042,7 @@ Timeline = {
             'stroke-dasharray': '- '
           });
 
-          var hoverElement = paper.rect(
+          hoverElement = paper.rect(
             left + scale.day / 2 - 2 * Timeline.HOVER_THRESHOLD,
             timeline.decoHeight(), // 8px margin-top
             4 * Timeline.HOVER_THRESHOLD,
@@ -2840,7 +3065,7 @@ Timeline = {
             'opacity': 0.2
           });
 
-          var hoverElement = paper.rect(
+          hoverElement = paper.rect(
             left - Timeline.HOVER_THRESHOLD,
             timeline.decoHeight(), // 8px margin-top
             width + 2 * Timeline.HOVER_THRESHOLD,
@@ -3098,7 +3323,8 @@ Timeline = {
       } else {
         this.childNodes.push(node);
       }
-      return node.parentNode = this;
+      node.parentNode = this;
+      return node.parentNode;
     },
     removeChild: function(node) {
       var result;
@@ -3126,7 +3352,8 @@ Timeline = {
       return this.expanded;
     },
     setExpand: function(state) {
-      return this.expanded = state;
+      this.expanded = state;
+      return this.expanded;
     },
     expand: function() {
       return this.setExpand(true);
@@ -3682,83 +3909,99 @@ Timeline = {
       }};
   },
   getAvailableRows: function() {
+    function renderHistoricalKind(data, val, diff) {
+        if (!data.does_historical_differ(val)) {
+          return "";
+        }
+
+        if (typeof diff === "function") {
+          return diff(data[val], data.historical()[val]);
+        }
+
+        return "changed";
+    }
+
+    function historicalHtml(data, val) {
+        var kind = renderHistoricalKind(data, val);
+
+        return renderHistoricalHtml(data, val, kind);
+    }
+
+    function renderHistoricalHtml(data, val, kind) {
+        var result = "", theVal;
+
+        if (data.does_historical_differ(val)) {
+          theVal = data.historical().getAttribute(val);
+
+          if (!theVal) {
+            theVal = timeline.i18n('timelines.empty');
+          }
+
+          result += '<span class="tl-historical">';
+          result += timeline.escape(theVal);
+          result += '<a href="javascript://" title="%t" class="%c"/>'
+            .replace(/%t/, timeline.i18n('timelines.change'))
+            .replace(/%c/, 'icon tl-icon-' + kind);
+          result += '</span><br/>';
+        }
+
+        return result;
+    }
+
+    function historicalKindDate(oldVal, newVal) {
+      if (oldVal && newVal) {
+        return (newVal < oldVal ? 'postponed' : 'preponed');
+      }
+
+      return "changed";
+    }
+
+    var map = {
+      "type": "getTypeName",
+      "status": "getStatusName",
+      "responsible": "getResponsibleName",
+      "assigned_to": "getAssignedName",
+      "project": "getProjectName"
+    };
+
     var timeline = this;
     return {
       all: ['due_date', 'type', 'status', 'responsible', 'start_date'],
-      type: function (data, pet, pt) {
-        var ptName, petName;
-        if (pt !== undefined) {
-          if (pt !== null) {
-            ptName = pt.name;
-          }
+      general: function (data, val) {
+        if (!map[val]) {
+          return;
         }
 
-        if (pet !== undefined) {
-          if (pet !== null) {
-            petName = pet.name;
-          }
-        }
+        val = map[val];
 
-        return jQuery('<span class="tl-column">' + (ptName || petName || "-") + '</span>');
-      },
-      status: function(data) {
-        var status;
+        var result = "";
+        var theVal = data.getAttribute(val);
 
-        if (data.planning_element_status) {
-          status = data.planning_element_status;
-        }
-
-        if (data.getProjectStatus instanceof Function) {
-          status = data.getProjectStatus();
-        }
-        if (status) {
-          return jQuery('<span class="tl-column">' + timeline.escape(status.name) + '</span>');
-        } else {
-          return jQuery('<span class="tl-column">-</span>');
-        }
-      },
-      responsible: function(data) {
-        var result;
-        if (data.responsible && data.responsible.name) {
-          result = jQuery('<span class="tl-column">' + timeline.escape(data.responsible.name) + '</span>');
-          if (data.is(Timeline.Project)) {
-            result.addClass('tl-responsible');
-          }
-          return result;
-        }
+        result += historicalHtml(data, val);
+        return jQuery(result + '<span class="tl-column">' + timeline.escape(theVal) + '</span>');
       },
       start_date: function(data) {
-        var kind, result = '';
+        var kind = renderHistoricalKind(data, "start_date", historicalKindDate),
+            result = '';
+
+        result += renderHistoricalHtml(data, "start_date", kind);
+
         if (data.start_date !== undefined) {
-          if (data.alternate_start_date !== undefined && data.start_date !== data.alternate_start_date) {
-            kind = (data.alternate_start_date < data.start_date? 'postponed' : 'preponed');
-            result += '<span class="tl-historical">';
-            result += timeline.escape(data.alternate_start_date);
-            result += '<a href="javascript://" title="%t" class="%c"/>'
-              .replace(/%t/, timeline.i18n('timelines.change'))
-              .replace(/%c/, 'icon tl-icon-' + kind);
-            result += '</span><br/>';
-          }
           result += '<span class="tl-column tl-current tl-' + kind + '">' + timeline.escape(data.start_date) + '</span>';
-          return jQuery(result);
         }
+        return jQuery(result);
       },
       due_date: function(data) {
-        var kind, result = '';
+        var kind = renderHistoricalKind(data, "due_date", historicalKindDate),
+            result = '';
+
+        result += renderHistoricalHtml(data, "due_date", kind);
+
         if (data.due_date !== undefined) {
-          if (data.alternate_due_date !== undefined && data.due_date !== data.alternate_due_date) {
-            kind = (data.alternate_due_date < data.due_date? 'postponed' : 'preponed');
-            result += '<span class="tl-historical">';
-            result += timeline.escape(data.alternate_due_date);
-            result += '<a href="javascript://" title="%t" class="%c"/>'
-              .replace(/%t/, timeline.i18n('timelines.change'))
-              .replace(/%c/, 'icon tl-icon-' + kind);
-            result += '</span><br/>';
-          }
           result += '<span class="tl-column tl-current tl-' + kind + '">' +
                     timeline.escape(data.due_date) + '</span>';
-          return jQuery(result);
         }
+        return jQuery(result);
       }
     };
   },
@@ -3839,7 +4082,7 @@ Timeline = {
 
       containers[currentContainer++].append(
         jQuery(icon
-          .replace(/%t/, timeline.i18n('timelines.new_planning_element'))
+          .replace(/%t/, timeline.i18n('timelines.new_work_package'))
           .replace(/%c/, 'icon icon-add')
         ).click(function(e) {
           e.stopPropagation();
@@ -4175,8 +4418,17 @@ Timeline = {
         var chart = timeline.getUiRoot().find('.tl-chart');
         chart.css({ display: 'none'});
       }
+      timeline.adjustScrollingForChangedContent();
     });
   },
+
+  adjustScrollingForChangedContent: function() {
+    var current_height = Math.max(jQuery("body").height(), jQuery("#content").height());
+    if(current_height < jQuery(window).scrollTop()) {
+      jQuery(window).scrollTop(current_height - jQuery(window).height());
+    }
+  },
+
   rebuildTree: function() {
     var where = this.getUiRoot().find('.tl-left-main');
     var tree = this.getLefthandTree();
@@ -4230,8 +4482,6 @@ Timeline = {
 
     tree.iterateWithChildren(function(node, indent) {
       var data = node.getData();
-      var pet = data.getPlanningElementType();
-      var pt = data.getProjectType && data.getProjectType();
       var group;
 
       // create a new cell with the name for the current level.
@@ -4300,7 +4550,11 @@ Timeline = {
       // everything else
       jQuery.each(timeline.options.columns, function(i, e) {
         var cell = jQuery('<td></td>');
-        cell.append(rows[e].call(data, data, pet, pt));
+        if (typeof rows[e] === "function") {
+          cell.append(rows[e].call(data, data));
+        } else {
+          cell.append(rows.general.call(data, data, e));
+        }
         row.append(cell);
       });
       body.append(row);
@@ -4557,7 +4811,7 @@ Timeline = {
   getRelativeVerticalBottomOffset: function(offset) {
     var result;
     result = this.getRelativeVerticalOffset(offset);
-    if (offset.find("div").length == 1) {
+    if (offset.find("div").length === 1) {
       result -= jQuery(offset.find("div")[0]).height();
     }
     if (offset !== undefined)
@@ -4795,9 +5049,10 @@ Timeline = {
     var timeline = this;
     var scale = timeline.getScale();
     var beginning = timeline.getBeginning();
+    var ms_in_a_day = 86400000; // 24 * 60 * 60 * 1000
 
     var todayPosition = (timeline.getDaysBetween(beginning, Date.today())) * scale.day;
-    todayPosition += (Date.now() - Date.today()) / Date.DAY * scale.day;
+    todayPosition += (Date.now() - Date.today()) / ms_in_a_day * scale.day;
 
     var decoHeight = timeline.decoHeight();
 
@@ -4816,7 +5071,7 @@ Timeline = {
 
     var setDate = function () {
       var newTodayPosition = (timeline.getDaysBetween(beginning, Date.today())) * scale.day;
-      newTodayPosition += (Date.now() - Date.today()) / Date.DAY * scale.day;
+      newTodayPosition += (Date.now() - Date.today()) / ms_in_a_day * scale.day;
 
       if (Math.abs(newTodayPosition - todayPosition) > 0.1) {
         currentTimeElement.transform(
@@ -4856,7 +5111,7 @@ Timeline = {
     // construct tooltip content information.
 
     info += "<b>";
-    info += this.escape(renderable.name);
+    info += this.escape(renderable.subject);
     info += "</b>";
     if (renderable.is(Timeline.PlanningElement)) {
       info += " (*" + renderable.id + ")";
