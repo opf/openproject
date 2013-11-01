@@ -75,6 +75,9 @@ node :assigned_to, if: lambda{|pe| pe.assigned_to.present?} do |pe|
   end
 end
 
+node :custom_fields do
+  partial "api/v2/custom_fields/values", :object => (locals[:object] || @planning_element).custom_values
+end
 
 node :journals, if: lambda{|pe| include_journals?} do |pe|
   pe.journals.map do |journal|

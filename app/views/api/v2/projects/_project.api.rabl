@@ -82,3 +82,6 @@ node :parent, if: lambda{|project| visible_parent_project(project).present?} do 
   { id: parent.id, name: parent.name, identifier: parent.identifier }
 end
 
+node :custom_fields do
+  partial "api/v2/custom_fields/values", :object => (locals[:object] || @project).custom_values
+end

@@ -80,7 +80,8 @@ module Api
       protected
 
       def find_project
-        @project = Project.find(params[:id])
+        @project = Project.find params[:id],
+          :include => [{:custom_values => [{:custom_field => :translations}]}]
       end
 
       def build_associations
