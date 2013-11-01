@@ -77,6 +77,11 @@ class JournalManager
     end
   end
 
+  # associations have value attributes ('value' for custom values and 'filename'
+  # for attachments). This method ensures that blank value attributes are
+  # treated like non-existing associations. Thus, this prevents that
+  # non-existing associations (nil) are different to blank associations ("").
+  # This would lead to false change information, otherwise.
   def self.remove_empty_associations(associations, value)
     associations.reject { |h| h.has_key?(value) && h[value].blank? }
   end
@@ -231,6 +236,9 @@ class JournalManager
   end
 
   def self.create_custom_field_data(journable, journal)
+    # Consider only custom values with non-blank values. Otherwise,
+    # non-existing custom values are different to custom values with an empty
+    # value.
     journable.custom_values.select { |c| !c.value.blank? }.each do |cv|
       journal.customizable_journals.build custom_field_id: cv.custom_field_id, value: cv.value
     end
