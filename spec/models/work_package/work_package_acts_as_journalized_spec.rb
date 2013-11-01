@@ -208,14 +208,18 @@ describe WorkPackage do
 
       let(:custom_field_id) { "custom_fields_#{custom_value.custom_field_id}".to_sym }
 
-      before do
-        project.work_package_custom_fields << custom_field
-        type.custom_fields << custom_field
-        custom_value
-        work_package.save!
+      shared_context "work package with custom value" do
+        before do
+          project.work_package_custom_fields << custom_field
+          type.custom_fields << custom_field
+          custom_value
+          work_package.save!
+        end
       end
 
       context "new custom value" do
+        include_context "work package with custom value"
+
         subject { work_package.journals.last.changed_data }
 
         it { should have_key custom_field_id }
@@ -224,6 +228,8 @@ describe WorkPackage do
       end
 
       context "custom value modified" do
+        include_context "work package with custom value"
+
         let(:modified_custom_value) { FactoryGirl.create :custom_value,
                                                          value: "true",
                                                          custom_field: custom_field }
@@ -240,6 +246,8 @@ describe WorkPackage do
       end
 
       context "work package saved w/o change" do
+        include_context "work package with custom value"
+
         let(:unmodified_custom_value) { FactoryGirl.create :custom_value,
                                                            value: "false",
                                                            custom_field: custom_field }
@@ -256,16 +264,43 @@ describe WorkPackage do
       end
 
       context "custom value removed" do
-        before { 
+        include_context "work package with custom value"
+
+        before do
           work_package.custom_values.delete(custom_value)
           work_package.save!
-        }
+        end
 
         subject { work_package.journals.last.changed_data }
 
         it { should have_key custom_field_id }
 
         it { subject[custom_field_id].should eq([custom_value.value, nil]) }
+      end
+
+      context "custom value did not exist before" do
+        let(:custom_field) { FactoryGirl.create :work_package_custom_field,
+                                                is_required: false,
+                                                field_format: 'list',
+                                                possible_values: ["", "1", "2", "3", "4", "5", "6", "7"] }
+        let(:custom_value) { FactoryGirl.create :custom_value,
+                                                value: "",
+                                                customized: work_package,
+                                                custom_field: custom_field }
+
+        describe "empty values are recognized as unchanged" do
+          include_context "work package with custom value"
+
+          it { expect(work_package.journals.last.customizable_journals).to be_empty }
+
+          it { expect(JournalManager.changed? work_package).to be_false }
+        end
+
+        describe "empty values handled as non existing" do
+          include_context "work package with custom value"
+
+          it { expect(work_package.journals.last.customizable_journals.count).to eq(0) }
+        end
       end
     end
   end
