@@ -32,12 +32,6 @@ class ReportedProjectStatus < Enumeration
 
   unloadable
 
-  scope :like, lambda { |q|
-    s = "%#{q.to_s.strip.downcase}%"
-    { :conditions => ["LOWER(name) LIKE :s", {:s => s}],
-    :order => "name" }
-  }
-
   has_many :reportings, :class_name  => "Reporting",
                         :foreign_key => 'reported_project_status_id'
 
@@ -53,9 +47,5 @@ class ReportedProjectStatus < Enumeration
 
   def transfer_relations(to)
     reportings.update.all(:reported_project_status_id => to.id)
-  end
-
-  def self.search_scope(query)
-    like(query)
   end
 end

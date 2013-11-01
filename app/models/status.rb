@@ -43,12 +43,6 @@ class Status < ActiveRecord::Base
 
   after_save :unmark_old_default_value, :if => :is_default?
 
-  scope :like, lambda { |q|
-    s = "%#{q.to_s.strip.downcase}%"
-    { :conditions => ["LOWER(name) LIKE :s", {:s => s}],
-    :order => "name" }
-  }
-
   def unmark_old_default_value
     Status.update_all("is_default=#{connection.quoted_false}", ['id <> ?', id])
   end
@@ -101,10 +95,6 @@ class Status < ActiveRecord::Base
     else
       []
     end
-  end
-
-  def self.search_scope(query)
-    like(query)
   end
 
   def <=>(status)

@@ -29,6 +29,7 @@
 
 class Project < ActiveRecord::Base
   include Redmine::SafeAttributes
+  extend Pagination::Model
 
   include Project::Copy
 
@@ -113,14 +114,6 @@ class Project < ActiveRecord::Base
   scope :visible, lambda { { :conditions => Project.visible_by(User.current) } }
 
   # timelines stuff
-
-  extend Pagination::Model
-
-  scope :like, lambda { |q|
-    s = "%#{q.to_s.strip.downcase}%"
-    { :conditions => ["LOWER(name) LIKE :s", {:s => s}],
-      :order => "name" }
-  }
 
   scope :selectable_projects
 
@@ -221,6 +214,7 @@ class Project < ActiveRecord::Base
   end
 
   def self.search_scope(query)
+    # overwritten from Pagination::Model
     visible.like(query)
   end
 
