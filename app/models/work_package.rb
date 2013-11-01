@@ -184,7 +184,7 @@ class WorkPackage < ActiveRecord::Base
         t << if journal.changed_data.empty? && !journal.initial?
                '-note'
              else
-               status = Status.find_by_id(journal.new_value_for(:status_id))
+               status = Status.find_by_id(data.status_id)
 
                status.try(:is_closed?) ? '-closed' : '-edit'
              end
