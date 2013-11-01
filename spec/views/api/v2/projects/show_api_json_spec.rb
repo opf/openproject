@@ -75,6 +75,7 @@ describe 'api/v2/projects/show.api.rabl' do
                            edit_planning_elements: true,
                            delete_planning_elements: true,
                            view_planning_elements: true},
+                       custom_fields: [],
                        project_type: { name: "SampleType"},
                        created_on: "2011-01-06T11:35:00Z",
                        updated_on: "2011-01-07T11:35:00Z" }.to_json
