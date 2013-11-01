@@ -27,20 +27,30 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++*/
 
-/*
- * This is a manifest file that'll automatically include all the stylesheets available in this directory
- * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
- * the top of the compiled file, but it's generally better to create a new file per style scope.
- *
- *= require reset
- *= require jquery.ui.all
- *= require select2
- *= require select2_customizing
- *= require jstoolbar
- *= require context_menu
- *= require calendar
- *= require print
- *= require scm
- *= require top-shelf
- */
+.top-shelf {
+  background: #FFC38C url(<%= asset_path 'webalys/warning.png' %>) 22px 18px no-repeat;
+  border-bottom: 1px solid black;
+  font-size: 12px;
+  font-weight: normal;
+  padding-bottom: 12px;
+  padding-left: 55px;
+  padding-right: 18px;
+  padding-top: 18px;
+}
 
+.top-shelf h1 {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.top-shelf p {
+  width: 800px;
+}
+
+.top-shelf h2 {
+  border-bottom: 0;
+  font-size: 12px;
+  font-weight: bold;
+  margin: 0;
+  text-align: left;
+}

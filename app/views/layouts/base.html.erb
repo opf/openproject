@@ -46,7 +46,17 @@ See doc/COPYRIGHT.rdoc for more details.
 </head>
 <% show_decoration = params["layout"].nil? %>
 <body class="<%= body_css_classes %>">
-<noscript><%=l(:description_noscript)%></noscript>
+<noscript>
+  <div class="top-shelf">
+    <h1><%=l(:noscript_heading)%></h1>
+    <p>
+      <%=l(:noscript_description)%>
+    </p>
+    <h2>
+      <a href="http://www.enable-javascript.com/" target="_blank"><%=l(:noscript_learn_more) %></a>
+    </h2>
+  </div>
+</noscript>
 <div id="wrapper">
   <% if show_decoration %>
     <div id="top-menu">

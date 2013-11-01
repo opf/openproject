@@ -438,7 +438,11 @@ en:
 
   description_active: "Active?"
   description_attachment_toggle: "Show/Hide attachments"
-  description_autocomplete: "This field uses autocomplete. While typing the title of a work package you will receive a list of possible candidates. Choose one using the arrow up and arrow down key and select it with tab or enter. Alternatively you can enter the work package number directly."
+  description_autocomplete: >
+    This field uses autocomplete. While typing the title of a work
+    package you will receive a list of possible candidates. Choose one
+    using the arrow up and arrow down key and select it with tab or
+    enter. Alternatively you can enter the work package number directly.
   description_available_columns: "Available Columns"
   description_choose_project: "Projects"
   description_compare_from: "Compare from version"
@@ -455,7 +459,6 @@ en:
   description_category_reassign: "Choose category"
   description_message_content: "Message content"
   description_my_project: "You are member"
-  description_noscript: "You need to activate JavaScript in order to use OpenProject!"
   description_notes: "Notes"
   description_option_toggle: "Show/Hide options"
   description_parent_work_package: "Parent work package of current"
@@ -514,6 +517,10 @@ en:
   gui_validation_error_plural: "%{count} errors"
 
   js:
+    unsupported_browser:
+      title: "Your browser is not supported"
+      message: "The browser you are using is no longer supported by OpenProject. Please update your browser."
+      learn_more: "Learn more"
     logoff: You have been logged off
     redirect_login: Do you want to be redirected to the login page?
     ajax:
@@ -993,6 +1000,10 @@ en:
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
 
   more_actions: "More functions"
+
+  noscript_description: "You need to activate JavaScript in order to use OpenProject!"
+  noscript_heading: "JavaScript disabled"
+  noscript_learn_more: "Learn more"
 
   notice_account_activated: "Your account has been activated. You can now log in."
   notice_account_inactive: "Your account has not yet been activated. To activate your account, click on the link that was emailed to you."

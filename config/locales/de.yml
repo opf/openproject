@@ -443,7 +443,7 @@ de:
     unterstützt. Sie können einen Teil des Tickettitels schreiben und
     bekommen eine Liste von möglichen Tickets angezeigt. Wählen Sie mit
     den Pfeiltasten den gewünschten Eintrag und bestätigen Sie mit Tab
-    oder Enter. Sie können aber auch die Ticketnummer direkt eintragen."
+    oder Enter. Sie können aber auch die Ticketnummer direkt eintragen.
   description_available_columns: "Verfügbare Spalten"
   description_choose_project: "Projekte"
   description_compare_from: "Vergleiche von Version"
@@ -460,7 +460,6 @@ de:
   description_category_reassign: "Neue Kategorie wählen"
   description_message_content: "Nachrichteninhalt"
   description_my_project: "Sie sind Mitglied"
-  description_noscript: "Sie müssen JavaScript aktiveren, um OpenProject nutzen zu können!"
   description_notes: "Kommentare"
   description_option_toggle: "Optionen aus/einblenden"
   description_parent_work_package: "Übergeordnetes Arbeitspaket"
@@ -519,6 +518,10 @@ de:
   gui_validation_error_plural: "%{count} Fehler"
 
   js:
+    unsupported_browser:
+      title: "Ihr Browser wird nicht unterstützt"
+      message: "Sie verwenden einen veralteten Browser. OpenProject unterstützt diesen Browser nicht länger. Bitte aktualisieren Sie Ihren Browser."
+      learn_more: "Mehr erfahren"
     logoff: "Sie wurden ausgeloggt."
     redirect_login: "Wollen Sie auf die Login-Seite weitergeleitet werden?"
     ajax:
@@ -998,6 +1001,10 @@ de:
   mail_subject_wiki_content_updated: "Wiki-Seite '%{id}' erfolgreich aktualisiert"
 
   more_actions: "Weitere Funktionen"
+
+  noscript_description: "Sie müssen JavaScript aktiveren, um OpenProject nutzen zu können!"
+  noscript_heading: "JavaScript deaktiviert"
+  noscript_learn_more: "Weitere Informationen"
 
   notice_account_activated: "Ihr Konto ist aktiviert. Sie können sich jetzt anmelden."
   notice_account_inactive: "Ihr Konto ist nicht aktiviert. Zur Aktivierung folgen Sie bitte dem Link, der Ihnen bei der Registrierung per E-Mail zugeschickt wurde."
