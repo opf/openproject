@@ -79,7 +79,7 @@ describe BoardsController do
         end
       end
 
-      it 'should redirect to the settings page if successful' do
+      it 'should render the new template' do
         response.should render_template('new')
       end
     end
@@ -111,6 +111,65 @@ describe BoardsController do
       it { expect(response).to be_redirect }
 
       it { expect(response).to redirect_to(redirect_url) }
+    end
+
+  end
+
+  describe :update do
+    let!(:board) { FactoryGirl.create(:board, :name => 'Board name',
+                                              :description => 'Board description') }
+
+    before do
+      @controller.should_receive(:authorize)
+    end
+
+    describe 'w/ the params beeing valid' do
+
+      before do
+        as_logged_in_user user do
+          post :update, id: board.id,
+                        project_id: board.project_id,
+                        board: {:name => 'New name', :description => 'New description'}
+        end
+      end
+
+      it 'should redirect to the settings page if successful' do
+        response.should redirect_to :controller => '/projects',
+                                    :action => 'settings',
+                                    :id => board.project,
+                                    :tab => 'boards'
+      end
+
+      it 'have a successful update flash' do
+        flash[:notice].should == I18n.t(:notice_successful_update)
+      end
+
+      it 'should change the database entry' do
+        board.reload
+        board.name.should == 'New name'
+        board.description.should == 'New description'
+      end
+    end
+
+    describe 'w/ the params beeing invalid' do
+
+      before do
+        as_logged_in_user user do
+          post :update, id: board.id,
+                        project_id: board.project_id,
+                        board: {:name => '', :description => 'New description'}
+        end
+      end
+
+      it 'should render the edit template' do
+        response.should render_template('edit')
+      end
+
+      it 'should not change the database entry' do
+        board.reload
+        board.name.should == 'Board name'
+        board.description.should == 'Board description'
+      end
     end
 
   end
