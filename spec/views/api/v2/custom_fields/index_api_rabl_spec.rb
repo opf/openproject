@@ -34,29 +34,17 @@ describe 'api/v2/custom_fields/index.api.rabl' do
   end
 
   let(:custom_field_1) do
-    field = FactoryGirl.create :issue_custom_field,
+    FactoryGirl.create :issue_custom_field,
       :name => "Brot",
       :field_format => "text",
       :types => [(Type.find_by_name("None") || FactoryGirl.create(:type_standard))]
-
-    def field.visible_projects
-      []
-    end
-
-    field
   end
 
   let(:custom_field_2) do
-    field = FactoryGirl.create :issue_custom_field,
+    FactoryGirl.create :issue_custom_field,
       :name => "Belag",
       :field_format => "text",
       :types => [(Type.find_by_name("None") || FactoryGirl.create(:type_standard))]
-
-    def field.visible_projects
-      []
-    end
-
-    field
   end
 
   describe 'with two custom fields' do
