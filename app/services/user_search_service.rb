@@ -7,14 +7,13 @@ class UserSearchService
 
   def search
     scope = User
-    search = params[:ids].present? ? ids_search(scope) : query_search(scope)
-
+    params[:ids].present? ? ids_search(scope) : query_search(scope)
   end
 
   def ids_search(scope)
     ids = params[:ids].split(',')
 
-    scope.find(ids)
+    scope.where(:id => ids)
   end
 
   def query_search(scope)
@@ -38,7 +37,7 @@ class UserSearchService
       c << ["LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ? OR LOWER(mail) LIKE ?", name, name, name, name]
     end
 
-    users = scope.where(c.conditions)
+    scope.where(c.conditions)
                 # currently, the sort/paging-helpers are highly dependent on being included in a controller
                 # and having access to things like the session or the params: this makes it harder
                 # to test outside a controller and especially hard to re-use this functionality

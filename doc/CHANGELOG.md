@@ -35,6 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2574` Fix: Invalid filter options and outdated names in timeline report form
 * `#2613` Old IE versions (IE 7 & IE 8) are presented a message informing about the incompatibilities.
 * `#2615` Fix board edit validations
+* `#2617` Fix: Timelines do not load users for non-admins.
 * `#2618` Fix: When issues are renamed to work packages all watcher assignments are lost
 * `#2623` [Journals] Images in journal notes are not displayed
 * `#2624` [Journals] Work package journals that migrated from legacy planning elements lack default references.
