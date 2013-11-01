@@ -604,6 +604,7 @@ de:
   label_calendar: "Kalender"
   label_calendar_show: "Kalender anzeigen"
   label_category: "Kategorie"
+  label_wiki_menu_item: Wiki Menüpunkt
   label_select_main_menu_item: Neuen Hauptmenüpunkt auwählen
   label_change_plural: "Änderungen"
   label_change_properties: "Eigenschaften ändern"
