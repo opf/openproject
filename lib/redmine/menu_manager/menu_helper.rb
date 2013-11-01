@@ -48,8 +48,10 @@ module Redmine::MenuManager::MenuHelper
     WikiMenuItem.main_items(project_wiki).each do |main_item|
       Redmine::MenuManager.loose :project_menu do |menu|
         menu.push "#{main_item.item_class}".to_sym,
-          { :controller => '/wiki', :action => 'show', :id => main_item.title },
-            :param => :project_id, :caption => main_item.name
+          { :controller => '/wiki', :action => 'show', :id => h(main_item.title) },
+            :param => :project_id,
+            :caption => main_item.name,
+            :after => :repository
 
         menu.push :"#{main_item.item_class}_new_page", {:action=>"new_child", :controller=>"/wiki", :id => main_item.title },
           :param => :project_id, :caption => :create_child_page,
