@@ -79,7 +79,7 @@ class SearchControllerTest < ActionController::TestCase
 
     assert assigns(:results).include?(WorkPackage.find(8))
     assert assigns(:results).include?(WorkPackage.find(5))
-    assert_select "dt.work_package-edit" do
+    assert_select "dt.work_package-closed" do
       assert_select "a", :text => /Closed/
     end
   end
