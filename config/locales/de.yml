@@ -1543,6 +1543,7 @@ de:
   wiki_menu_item: "Menüpunkt"
   wiki_menu_item_for: "Menüpunkt für die Wikiseite \"%{title}\""
   wiki_menu_item_setting: "Sichtbarkeit"
+  wiki_menu_item_new_main_item_explanation: "Der einzige Wiki Hauptmenüpunkt wird gelöscht. Sie können nun eine Wikiseite auswählen, für die ein neuer Menüpunkt erzeugt wird."
 
   work_package:
     updated_automatically_by_child_changes: |

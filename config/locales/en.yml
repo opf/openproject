@@ -1531,6 +1531,7 @@ en:
   wiki_menu_item: "Menu item"
   wiki_menu_item_for: "Menu item for wikipage \"%{title}\""
   wiki_menu_item_setting: "Visibility"
+  wiki_menu_item_new_main_item_explanation: "You are deleting the only main item. You can now choose a wiki page for which a new main item will be generated."
 
   work_package:
     updated_automatically_by_child_changes: |
