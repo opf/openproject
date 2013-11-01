@@ -79,8 +79,8 @@ class WikiMenuItemsController < ApplicationController
   end
 
   def select_main_menu_item
-    wiki_page_title = params[:id]
-    @possible_wiki_pages = @project.wiki.pages.all(:include => :parent).reject{|page| page.title == wiki_page_title || page.menu_item.present? && page.menu_item.is_main_item?}
+    @page = WikiPage.find params[:id]
+    @possible_wiki_pages = @project.wiki.pages.all(:include => :parent).reject{|page| page != @page && page.menu_item.present? && page.menu_item.is_main_item?}
   end
 
   def replace_main_menu_item
