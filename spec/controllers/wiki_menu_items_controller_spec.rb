@@ -94,8 +94,10 @@ describe WikiMenuItemsController do
   end
 
   shared_context 'when there is one more wiki page with a child page' do
+    let!(:child_page) { FactoryGirl.create(:wiki_page, :parent => wiki_page, :wiki => wiki) }
+
     let!(:another_wiki_page) { FactoryGirl.create(:wiki_page, :wiki => wiki) } # second wiki page with two child pages
-    let!(:child_page) { FactoryGirl.create(:wiki_page, :parent => another_wiki_page, :wiki => wiki) }
+    let!(:another_child_page) { FactoryGirl.create(:wiki_page, :parent => another_wiki_page, :wiki => wiki) }
   end
 
   describe :select_main_menu_item do
@@ -105,9 +107,10 @@ describe WikiMenuItemsController do
     subject { assigns['possible_wiki_pages'] }
 
     context 'when selecting a new wiki page to replace the current main menu item' do
-      it { should include another_wiki_page }
-      it { should include child_page }
       it { should include wiki_page }
+      it { should include child_page }
+      it { should include another_wiki_page }
+      it { should include another_child_page }
     end
   end
 
