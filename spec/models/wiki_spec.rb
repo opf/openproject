@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WikiPage do
+describe Wiki do
   let(:project) { FactoryGirl.create(:project, :without_wiki) }
   let(:start_page) { 'The wiki start page' }
 
