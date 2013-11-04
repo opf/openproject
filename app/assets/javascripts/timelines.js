@@ -2898,11 +2898,11 @@ Timeline = {
             // place a white rect below the label.
             captionElements.push(
               timeline.paper.rect(
-                -16 * Timeline.PE_TEXT_SCALE,
-                -64 * Timeline.PE_TEXT_SCALE,
-                textWidth + 32 * Timeline.PE_TEXT_SCALE,
-                80 * Timeline.PE_TEXT_SCALE,
-                24 * Timeline.PE_TEXT_SCALE
+                -3,
+                -12,
+                textWidth + 6,
+                15,
+                4.5
               ).attr({
                 'fill': '#ffffff',
                 'opacity': 0.5,
