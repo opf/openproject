@@ -2884,8 +2884,7 @@ Timeline = {
           // text rendering in planning elements outside of aggregations
           label = timeline.paper.text(0, -5, this.subject);
           label.attr({
-            'font-size': 12,
-            'text-anchor': "start"
+            'font-size': 12
           });
 
           textWidth = jQuery(label.node).width();
@@ -2946,8 +2945,13 @@ Timeline = {
 
           label.attr({
             'fill': textColor,
+            'text-anchor': "start",
             'stroke': 'none'
           });
+
+          if (captionElements[0]) {
+            label.insertAfter(captionElements[0]);
+          }
 
           captionElements.push(label);
 
