@@ -48,19 +48,19 @@ module Redmine::MenuManager::MenuHelper
     WikiMenuItem.main_items(project_wiki).each do |main_item|
       Redmine::MenuManager.loose :project_menu do |menu|
         menu.push "#{main_item.item_class}".to_sym,
-          { :controller => '/wiki', :action => 'show', :id => h(main_item.title) },
+          { :controller => '/wiki', :action => 'show', :id => main_item.title },
             :param => :project_id, :caption => main_item.name
 
-        menu.push :"#{main_item.item_class}_new_page", {:action=>"new_child", :controller=>"/wiki", :id => h(main_item.title) },
+        menu.push :"#{main_item.item_class}_new_page", {:action=>"new_child", :controller=>"/wiki", :id => main_item.title },
           :param => :project_id, :caption => :create_child_page,
           :parent => "#{main_item.item_class}".to_sym if main_item.new_wiki_page and
             WikiPage.find_by_wiki_id_and_title(project_wiki.id, main_item.title)
 
-        menu.push :"#{main_item.item_class}_toc", {:action => 'index', :controller => '/wiki', :id => h(main_item.title)}, :param => :project_id, :caption => :label_table_of_contents, :parent => "#{main_item.item_class}".to_sym if main_item.index_page
+        menu.push :"#{main_item.item_class}_toc", {:action => 'index', :controller => '/wiki', :id => main_item.title}, :param => :project_id, :caption => :label_table_of_contents, :parent => "#{main_item.item_class}".to_sym if main_item.index_page
 
         main_item.children.each do |child|
           menu.push "#{child.item_class}".to_sym,
-            { :controller => '/wiki', :action => 'show', :id => h(child.title) },
+            { :controller => '/wiki', :action => 'show', :id => child.title },
               :param => :project_id, :caption => child.name, :parent => "#{main_item.item_class}".to_sym
         end
         # FIXME using wiki_menu_item#title to reference the wiki page and wiki_menu_item#name as the menu item representation feels wrong
@@ -169,7 +169,7 @@ module Redmine::MenuManager::MenuHelper
     raise Redmine::MenuManager::MenuError, ":child_menus must be an array of MenuItems" unless menu_item.is_a? Redmine::MenuManager::MenuItem
 
     if User.current.allowed_to?(menu_item.url, project)
-      link_to(h(menu_item.caption),
+      link_to(menu_item.caption,
               menu_item.url,
               menu_item.html_options)
     end
