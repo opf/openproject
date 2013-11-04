@@ -41,25 +41,27 @@ class User < Principal
     :locked => 3
   }
 
+  # strings are taken as-is, symbols are user attributes
   USER_FORMATS_STRUCTURE = {
-    :firstname_lastname => [:firstname, :lastname],
+    :firstname_lastname => [:firstname, ' ', :lastname],
     :firstname => [:firstname],
-    :lastname_firstname => [:lastname, :firstname],
-    :lastname_coma_firstname => [:lastname, :firstname],
+    :lastname_firstname => [:lastname, ' ', :firstname],
+    :lastname_coma_firstname => [:lastname, ', ', :firstname],
     :username => [:login]
   }
 
-  def self.user_format_structure_to_format(key, delimiter = " ")
-    USER_FORMATS_STRUCTURE[key].map{|elem| "\#{#{elem.to_s}}"}.join(delimiter)
+  ##
+  # returns the user attributes (in the right order)
+  # which are used to display the user name in the given format
+  def self.user_format_fields(format)
+    USER_FORMATS_STRUCTURE[format].select do |e|
+      e.is_a?(Symbol) and columns.map(&:name).include?(e.to_s)
+    end
   end
 
-  USER_FORMATS = {
-    :firstname_lastname =>      User.user_format_structure_to_format(:firstname_lastname, " "),
-    :firstname =>               User.user_format_structure_to_format(:firstname),
-    :lastname_firstname =>      User.user_format_structure_to_format(:lastname_firstname, " "),
-    :lastname_coma_firstname => User.user_format_structure_to_format(:lastname_coma_firstname, ", "),
-    :username =>                User.user_format_structure_to_format(:username)
-  }
+  def self.available_user_formats
+    USER_FORMATS_STRUCTURE.keys
+  end
 
   USER_MAIL_OPTION_ALL            = ['all', :label_user_mail_option_all]
   USER_MAIL_OPTION_SELECTED       = ['selected', :label_user_mail_option_selected]
@@ -301,11 +303,15 @@ class User < Principal
 
   # Return user's full name for display
   def name(formatter = nil)
-    if formatter
-      eval('"' + (USER_FORMATS[formatter] || USER_FORMATS[:firstname_lastname]) + '"')
-    else
-      @name ||= eval('"' + (USER_FORMATS[Setting.user_format] || USER_FORMATS[:firstname_lastname]) + '"')
-    end
+    formatter ||= Setting.user_format
+    formatter = :firstname_lastname unless self.class.available_user_formats.include?(formatter)
+    USER_FORMATS_STRUCTURE[formatter].map do |e|
+      if e.is_a?(Symbol) and attributes[e.to_s]
+        attributes[e.to_s]
+      else
+        e.to_s
+      end
+    end.join('')
   end
 
   def status_name

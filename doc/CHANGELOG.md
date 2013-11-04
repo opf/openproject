@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#2642` [Migration] Empty timelines options cannot be migrated
+* `#2645` Remove usage of  eval()
 
 ## 3.0.0pre25
 
