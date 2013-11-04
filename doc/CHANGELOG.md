@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#2642` [Migration] Empty timelines options cannot be migrated
+
 ## 3.0.0pre25
 
 * `#2515` Fix: Calendar does not support 1st of December

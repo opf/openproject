@@ -39,11 +39,12 @@ module Migration
 
     def update_options(callback)
       Proc.new do |row|
-        timelines_opts = YAML.load(row[OPTIONS_COLUMN])
+        timelines_opts = YAML.load(row[OPTIONS_COLUMN].to_s)
+        if timelines_opts
+          migrated_options = callback.call(timelines_opts.clone) unless callback.nil?
 
-        migrated_options = callback.call(timelines_opts.clone) unless callback.nil?
-
-        row[OPTIONS_COLUMN] = YAML.dump(HashWithIndifferentAccess.new(migrated_options))
+          row[OPTIONS_COLUMN] = YAML.dump(HashWithIndifferentAccess.new(migrated_options))
+        end
 
         UpdateResult.new(row, true)
       end
