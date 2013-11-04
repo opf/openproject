@@ -65,8 +65,9 @@ module Redmine::MenuManager::TopMenuHelper
       render_drop_down_menu_node heading do
         content_tag :ul, :style => "display:none" do
           ret = content_tag :li do
-            link_to l(:label_project_view_all), :controller => '/projects',
-                                                :action => 'index'
+            link_to l(:label_project_view_all), {:controller => '/projects',
+                                                :action => 'index'},
+                                                :'data-icon4' => '7'
           end
 
           ret += content_tag :li, :id => "project-search-container" do
