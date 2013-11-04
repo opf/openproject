@@ -2814,7 +2814,7 @@ Timeline = {
       var hover_width = width;
       var element = node.getDOMElement();
       var captionElements = [];
-      var label;
+      var label, textWidth;
       var deleted = true && this.is_deleted;
       var comparison_offset = deleted ? 0 : Timeline.DEFAULT_COMPARISON_OFFSET;
 
@@ -2882,21 +2882,27 @@ Timeline = {
         if (!in_aggregation) {
 
           // text rendering in planning elements outside of aggregations
-          text = timeline.getMeasuredPathFromText(this.subject);
+          label = timeline.paper.text(0, -5, this.subject);
+          label.attr({
+            'font-size': 12,
+            'text-anchor': "start"
+          });
+
+          textWidth = jQuery(label.node).width();
 
           // if this is an expanded planning element w/ children, or if
           // the text would not fit:
           if (this.hasChildren() && node.isExpanded() ||
-              text.progress * Timeline.PE_TEXT_SCALE > width - Timeline.PE_TEXT_INSIDE_PADDING) {
+              textWidth > width - Timeline.PE_TEXT_INSIDE_PADDING) {
 
             // place a white rect below the label.
             captionElements.push(
               timeline.paper.rect(
-                -16,
-                -64,
-                text.progress + 32,
-                80,
-                24
+                -16 * Timeline.PE_TEXT_SCALE,
+                -64 * Timeline.PE_TEXT_SCALE,
+                textWidth + 32 * Timeline.PE_TEXT_SCALE,
+                80 * Timeline.PE_TEXT_SCALE,
+                24 * Timeline.PE_TEXT_SCALE
               ).attr({
                 'fill': '#ffffff',
                 'opacity': 0.5,
@@ -2922,7 +2928,7 @@ Timeline = {
               x = left + 4;                                // left of the WU
             } else {
               x = left + width -                           // right of the WU
-                text.progress * Timeline.PE_TEXT_SCALE -   // text width
+                textWidth -   // text width
                 4;                                         // small border from the right
             }
 
@@ -2932,25 +2938,24 @@ Timeline = {
 
             // text inside planning element
             x = left + width * 0.5 +                             // center of the planning element
-                text.progress * Timeline.PE_TEXT_SCALE * (-0.5); // half of text width
+                textWidth * (-0.5); // half of text width
 
             textColor = timeline.getLimunanceFor(color) > Timeline.PE_LUMINANCE_THRESHOLD ?
               Timeline.PE_DARK_TEXT_COLOR : Timeline.PE_LIGHT_TEXT_COLOR;
           }
-
-          label = timeline.paper.path(text.path);
-          captionElements.push(label);
 
           label.attr({
             'fill': textColor,
             'stroke': 'none'
           });
 
-          jQuery.each(captionElements, function(i, e) {
-            e.translate(x, y).scale(Timeline.PE_TEXT_SCALE, Timeline.PE_TEXT_SCALE, 0, 0);
-          });
+          captionElements.push(label);
 
+          jQuery.each(captionElements, function(i, e) {
+            e.translate(x, y);
+          });
         } else if (true) {
+
 
           // the other case is text rendering in planning elements inside
           // of aggregations:
