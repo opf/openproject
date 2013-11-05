@@ -35,10 +35,9 @@ See doc/COPYRIGHT.rdoc for more details.
   <fieldset class="box" id="wiki_menu_item_setting">
     <legend><%= l(:label_wiki_page) %></legend>
     <p>
-      <%= f.select :id,
-            "<option value=''></option>".html_safe + wiki_page_options_for_select(@possible_wiki_pages, @page),
-            {label: WikiPage.human_attribute_name(:title) },
-            {size: "#{@possible_wiki_pages.size + 1}", id: 'main-menu-item-select'} %>
+      <%= f.select :id, wiki_page_options_for_select(@possible_wiki_pages, @page),
+                          {label: WikiPage.human_attribute_name(:title)},
+                          {size: @possible_wiki_pages.size, id: 'main-menu-item-select'} %>
     </p>
   </fieldset>
   <%= submit_tag t(:button_save) %>

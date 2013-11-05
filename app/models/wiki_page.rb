@@ -242,6 +242,10 @@ class WikiPage < ActiveRecord::Base
     title
   end
 
+  def is_only_wiki_page?
+    wiki.pages == [self]
+  end
+
   protected
 
   def validate_consistency_of_parent_title
@@ -254,10 +258,6 @@ class WikiPage < ActiveRecord::Base
 
   def validate_same_project
     errors.add(:parent_title, :not_same_project) if parent && (parent.wiki_id != wiki_id)
-  end
-
-  def is_only_wiki_page?
-    wiki.pages.reject {|page| page == self}.empty?
   end
 end
 
