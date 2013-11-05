@@ -32,6 +32,10 @@ module Api
 
       include ::Api::V2::ApiController
 
+      before_filter :find_project, :except => :index
+      before_filter :authorize, :only => :show
+      before_filter :require_permissions, :only => :planning_element_custom_fields
+
       def index
         options = {:order => 'lft'}
 
@@ -57,17 +61,24 @@ module Api
       end
 
       def show
-        @project = @base.find(params[:id])
-        authorize
-        return if performed?
+        respond_to do |format|
+          format.api
+        end
+      end
+
+      def planning_element_custom_fields
+        @custom_fields = @project.all_work_package_custom_fields :include => [:projects, :types, :translations]
 
         respond_to do |format|
           format.api
         end
       end
 
+      protected
+
       def find_project
-        @project = Project.find(params[:id])
+        @project = Project.find params[:id],
+          :include => [{:custom_values => [{:custom_field => :translations}]}]
       end
 
       def build_associations
@@ -98,6 +109,10 @@ module Api
 
       def associations_for_project(project)
         @associations_by_id[project.id]
+      end
+
+      def require_permissions
+        deny_access unless @project.visible?
       end
 
     end

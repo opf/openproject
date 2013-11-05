@@ -29,6 +29,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#2564` Support custom fields in REST API v2 for work packages and projects
+* `#2586` Query available custom fields in REST API v2
+
 ## 3.0.0pre26
 
 * `#2624` [Journals] Fix: Work package journals that migrated from legacy planning elements lack default references

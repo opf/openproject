@@ -75,6 +75,7 @@ describe 'api/v2/projects/show.api.rabl' do
                            edit_planning_elements: true,
                            delete_planning_elements: true,
                            view_planning_elements: true},
+                       custom_fields: [],
                        project_type: { name: "SampleType"},
                        created_on: "2011-01-06T11:35:00Z",
                        updated_on: "2011-01-07T11:35:00Z" }.to_json
@@ -263,6 +264,34 @@ describe 'api/v2/projects/show.api.rabl' do
 
   end
 
+  describe 'with a project having custom field values' do
+    let(:project) { FactoryGirl.create(:project) }
+    let(:custom_field) do
+      FactoryGirl.create :issue_custom_field,
+        :name => "Belag",
+        :field_format => "text",
+        :projects => [project],
+        :types => [(Type.find_by_name("None") || FactoryGirl.create(:type_standard))]
+    end
 
+    before do
+      custom_value = CustomValue.new(
+        :custom_field => custom_field,
+        :value => "Wurst")
+      project.custom_values << custom_value
+
+      assign(:project, project)
+      render
+    end
+
+    subject {response.body}
+
+    it 'renders custom field values' do
+      should have_json_path('project/custom_fields')
+
+      expected_json = {name: custom_field.name, value: "Wurst"}.to_json
+      should be_json_eql(expected_json).at_path('project/custom_fields/0')
+    end
+  end
 
 end

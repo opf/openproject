@@ -57,7 +57,20 @@ describe 'api/v2/planning_elements/show.api.rabl' do
 
   describe 'with an assigned planning element' do
 
+    let(:custom_field) do
+      FactoryGirl.create :issue_custom_field,
+        :name => "Belag",
+        :field_format => "text",
+        :projects => [planning_element.project],
+        :types => [(Type.find_by_name("None") || FactoryGirl.create(:type_standard))]
+    end
+
     before do
+      custom_value = CustomValue.new(
+        :custom_field => custom_field,
+        :value => "Wurst")
+      planning_element.custom_values << custom_value
+
       assign(:planning_element, planning_element)
       render
     end
@@ -99,6 +112,13 @@ describe 'api/v2/planning_elements/show.api.rabl' do
 
     it 'contains an updated_at element containing the planning element updated_at in UTC in ISO 8601' do
       should be_json_eql('2011-01-07T11:35:00Z'.to_json).at_path('planning_element/updated_at')
+    end
+
+    it 'renders the custom field values' do
+      should have_json_path('planning_element/custom_fields')
+
+      expected_json = {name: custom_field.name, value: "Wurst"}.to_json
+      should be_json_eql(expected_json).at_path('planning_element/custom_fields/0')
     end
   end
 

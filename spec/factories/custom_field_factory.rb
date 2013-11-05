@@ -82,11 +82,15 @@ FactoryGirl.define do
 
     factory :issue_custom_field, :class => WorkPackageCustomField do
       sequence(:name) { |n| "Issue Custom Field #{n}" }
-      type "WorkPackageCustomField"
 
       factory :user_issue_custom_field do
         field_format "user"
         sequence(:name) { |n| "UserWorkPackageCustomField #{n}" }
+      end
+
+      factory :text_issue_custom_field do
+        field_format "text"
+        sequence(:name) { |n| "TextWorkPackageCustomField #{n}"}
       end
     end
   end

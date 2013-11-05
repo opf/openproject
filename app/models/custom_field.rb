@@ -209,8 +209,9 @@ class CustomField < ActiveRecord::Base
   end
 
   # to move in project_custom_field
-  def self.for_all
-    find(:all, :conditions => ["is_for_all=?", true], :order => 'position')
+  def self.for_all(options = {})
+    options.merge!({:conditions => ["is_for_all=?", true], :order => 'position'})
+    find :all, options
   end
 
   def type_name
