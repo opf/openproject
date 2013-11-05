@@ -31,22 +31,10 @@ class MigrateDefaultValuesInWorkPackageJournals < ActiveRecord::Migration
 
   def up
 
-    raise "This migration does not yet support MySQL." unless postgres?
+    raise "This migration does not support your database!" unless (postgres? || mysql?)
 
     journal_fields.each do |field|
-
-      execute <<-SQL
-        UPDATE work_package_journals AS wpj
-        SET #{field} = tmp.#{field}
-        FROM (
-          SELECT wpj_i.id AS id, wp.#{field} AS #{field}
-          FROM work_package_journals AS wpj_i
-          LEFT JOIN journals AS j ON j.id = wpj_i.journal_id
-          LEFT JOIN work_packages AS wp ON wp.id = j.journable_id
-        ) AS tmp
-        WHERE wpj.id = tmp.id AND wpj.#{field} = 0;
-      SQL
-
+      migrate_field field
     end
 
   end
@@ -63,4 +51,31 @@ class MigrateDefaultValuesInWorkPackageJournals < ActiveRecord::Migration
     ActiveRecord::Base.connection.instance_values["config"][:adapter] == "postgresql"
   end
 
+  def mysql?
+    ActiveRecord::Base.connection.instance_values["config"][:adapter] == "mysql2"
+  end
+
+  def migrate_field(field)
+    if postgres?
+      execute <<-SQL
+        UPDATE work_package_journals AS wpj
+        SET #{field} = tmp.#{field}
+        FROM (
+          SELECT wpj_i.id AS id, wp.#{field} AS #{field}
+          FROM work_package_journals AS wpj_i
+          LEFT JOIN journals AS j ON j.id = wpj_i.journal_id
+          LEFT JOIN work_packages AS wp ON wp.id = j.journable_id
+        ) AS tmp
+        WHERE wpj.id = tmp.id AND wpj.#{field} = 0;
+      SQL
+    elsif mysql?
+      execute <<-SQL
+        UPDATE work_package_journals AS wpj
+          LEFT JOIN journals AS j ON j.id = wpj.journal_id
+          LEFT JOIN work_packages AS wp ON wp.id = j.journable_id
+        SET wpj.#{field} = wp.#{field}
+        WHERE wpj.#{field} = 0;
+      SQL
+    end
+  end
 end

@@ -319,6 +319,8 @@ module Migration
         "type_id"
       when "end_date"
         "due_date"
+      when "name"
+        "subject"
       else
         key
       end
