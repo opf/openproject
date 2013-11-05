@@ -828,6 +828,7 @@ en:
   label_public_projects: "Public projects"
   label_query_new: "New query"
   label_query_plural: "Custom queries"
+  label_query_menu_item: "Query menu item"
   label_read: "Read..."
   label_register: "Register"
   label_registered_on: "Registered on"

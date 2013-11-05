@@ -830,6 +830,7 @@ de:
   label_public_projects: "Öffentliche Projekte"
   label_query_new: "Neuer Bericht"
   label_query_plural: "Benutzerdefinierte Berichte"
+  label_query_menu_item: "Filter-Menüpunkt"
   label_read: "Lesen ..."
   label_register: "Registrieren"
   label_registered_on: "Angemeldet am"
