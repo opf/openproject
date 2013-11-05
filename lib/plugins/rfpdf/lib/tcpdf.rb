@@ -36,9 +36,6 @@
 # TCPDF Class.
 # @package com.tecnick.tcpdf
 #
- 
-@@version = "1.53.0.TC031"
-@@fpdf_charwidths = {}
 
 PDF_PRODUCER = 'TCPDF via RFPDF 1.53.0.TC031 (http://tcpdf.sourceforge.net)'
 
@@ -69,6 +66,9 @@ end
 # @license http://www.gnu.org/copyleft/lesser.html LGPL
 #
 class TCPDF
+	@@fpdf_charwidths = {}
+	@@version = "1.53.0.TC031"
+
   include RFPDF
   include Core::RFPDF
   include RFPDF::Math
