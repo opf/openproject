@@ -31,15 +31,10 @@ class QueryMenuItemsController < ApplicationController
 	before_filter :authorize
 
 	def create
-		@query_menu_item = MenuItems::QueryMenuItem.new :navigatable_id => @query.id, :title => @query.name, :name => normalized_query_name
+		@query_menu_item = MenuItems::QueryMenuItem.find_or_initialize_by_name_and_navigatable_id normalized_query_name, @query.id, title: @query.name
+		flash.now[:error] = l(:error_menu_item_not_created) unless @query_menu_item.save
 
-		if @query_menu_item.save
-			flash[:notice] = l(:notice_successful_create)
-		else
-			flash[:error] = l(:error_menu_item_not_created)
-		end
-
-		redirect_to edit_query_menu_item_path(@project, @query, @query_menu_item)
+		render :edit
 	end
 
 	def update

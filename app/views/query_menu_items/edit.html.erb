@@ -27,21 +27,21 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= error_messages_for "query_menu_item", :object => query_menu_item %>
+<%= error_messages_for "query_menu_item", object: @query_menu_item %>
 
-<h2><%= l(:query_menu_item_for, :title => query.name) %></h2>
+<h2><%= l(:query_menu_item_for, title: @query.name) %></h2>
 
-<%= form_for query_menu_item, :html => {:class => 'menu-item-form', :method => :put}, :url => query_menu_item_path(project, query, query_menu_item) do |form| %>
+<%= form_for @query_menu_item, html: {class: 'menu-item-form'}, url: update_query_menu_item_path(@project, @query_menu_item) do |form| %>
   <p class="item-name">
-    <%= form.label :name, l(:label_menu_item_name), {:id => 'name_of_item'} %>
-    <%= form.text_field :title, :size => 20, :value => query.name %>
+    <%= form.label :name, l(:label_menu_item_name), {id: 'name_of_item'} %>
+    <%= form.text_field :title, size: 20 %>
   </p>
 
   </br>
   <div style="clear: both;"></div>
 
   <p>
-    <%= submit_tag l(:button_save), :method => :post %>
-    <%= link_to l(:button_cancel), project_work_packages_path(project) %>
+    <%= submit_tag l(:button_save), method: :post %>
+    <%= link_to l(:button_cancel), project_work_packages_path(@project) %>
   </p>
 <% end %>
