@@ -31,6 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ## 3.0.0pre26
 
+* `#2624` [Journals] Fix: Work package journals that migrated from legacy planning elements lack default references
 * `#2642` [Migration] Empty timelines options cannot be migrated
 * `#2645` Remove usage of  eval()
 * `#2585` Special characters in wiki page title
