@@ -27,7 +27,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require_relative 'migration_utils/utils'
+
 class MigrateDefaultValuesInWorkPackageJournals < ActiveRecord::Migration
+  include Migration::Utils
 
   def up
 
@@ -45,14 +48,6 @@ class MigrateDefaultValuesInWorkPackageJournals < ActiveRecord::Migration
 
   def journal_fields
     %w(author_id status_id priority_id)
-  end
-
-  def postgres?
-    ActiveRecord::Base.connection.instance_values["config"][:adapter] == "postgresql"
-  end
-
-  def mysql?
-    ActiveRecord::Base.connection.instance_values["config"][:adapter] == "mysql2"
   end
 
   def migrate_field(field)
