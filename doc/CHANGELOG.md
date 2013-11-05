@@ -29,8 +29,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.0pre26
+
 * `#2642` [Migration] Empty timelines options cannot be migrated
 * `#2645` Remove usage of  eval()
+* `#2585` Special characters in wiki page title
 
 ## 3.0.0pre25
 
@@ -65,7 +68,6 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2577` [Timelines] Users are not displayed in timelines table after recent API version
 * `#2579` [Core] Report of spent time (without cost reporting) results in 404
 * `#2580` Fixed some unlikely remote code executions
-* `#2585` Special characters in wiki page title
 * `#2592` Search: Clicking on 'Next' results in 500
 * `#2596` [Roadmap] Closed tickets are not striked out
 * `#2597` [Roadmap] Missing english/german closed percentage label
