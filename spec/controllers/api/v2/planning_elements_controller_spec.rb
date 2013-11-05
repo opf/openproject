@@ -392,8 +392,6 @@ describe Api::V2::PlanningElementsController do
     end
 
     describe 'with custom fields' do
-      render_views
-
       let(:type) { Type.find_by_name("None") || FactoryGirl.create(:type_standard) }
 
       let(:custom_field) do
@@ -421,11 +419,16 @@ describe Api::V2::PlanningElementsController do
         response.response_code.should == 303
 
         id = response.headers["Location"].scan(/\d+/).last.to_i
-        get 'show', :project_id => project.identifier, :id => id, :format => 'json'
 
-        response.response_code.should == 200
-        response.header['Content-Type'].should include 'application/json'
-        response.body.should include "Wurst"
+        wp = WorkPackage.find_by_id id
+        wp.should_not be_nil
+
+        custom_value = wp.custom_values.find do |value|
+          value.custom_field.name == custom_field.name
+        end
+
+        custom_value.should_not be_nil
+        custom_value.value.should == "Wurst"
       end
     end
   end
@@ -515,6 +518,35 @@ describe Api::V2::PlanningElementsController do
         end
       end
     end
+
+    describe 'with custom fields' do
+      render_views
+
+      let(:project) { FactoryGirl.create(:project) }
+      let(:type) { Type.find_by_name("None") || FactoryGirl.create(:type_standard) }
+
+      let(:custom_field) do
+        FactoryGirl.create :text_issue_custom_field,
+          :projects => [project],
+          :types => [type]
+      end
+
+      let(:planning_element) do
+        FactoryGirl.create :work_package,
+          :type => type,
+          :project => project,
+          :custom_values => [
+            CustomValue.new(:custom_field => custom_field, :value => "Mett")]
+      end
+
+      it "should render the custom field values" do
+        get 'show', :project_id => project.identifier, :id => planning_element.id, :format => 'json'
+
+        response.should be_success
+        response.header['Content-Type'].should include 'application/json'
+        response.body.should include "Mett"
+      end
+    end
   end
 
   describe 'update.xml' do
@@ -540,27 +572,20 @@ describe Api::V2::PlanningElementsController do
     end
 
     describe 'with custom fields' do
-      render_views
-
       let(:type) { Type.find_by_name("None") || FactoryGirl.create(:type_standard) }
-      let(:author) { FactoryGirl.create(:user) }
 
       let(:custom_field) do
-        FactoryGirl.create :issue_custom_field,
-          :name => "Verse",
-          :field_format => "text",
+        FactoryGirl.create :text_issue_custom_field,
           :projects => [project],
           :types => [type]
       end
 
       let(:planning_element) do
-        FactoryGirl.create(
-          :work_package,
-          :author => author,
+        FactoryGirl.create :work_package,
           :type => type,
           :project => project,
           :custom_values => [
-            CustomValue.new(:custom_field => custom_field, :value => "Mett")])
+            CustomValue.new(:custom_field => custom_field, :value => "Mett")]
       end
 
       it 'updates the custom field value' do
@@ -575,12 +600,14 @@ describe Api::V2::PlanningElementsController do
           }
         response.response_code.should == 204
 
-        get 'show', :project_id => project.identifier, :id => planning_element.id, :format => 'json'
+        wp = WorkPackage.find planning_element.id
+        custom_value = wp.custom_values.find do |value|
+          value.custom_field.name == custom_field.name
+        end
 
-        response.response_code.should == 200
-        response.header['Content-Type'].should include 'application/json'
-        response.body.should_not include "Mett"
-        response.body.should include "Wurst"
+        custom_value.should_not be_nil
+        custom_value.value.should_not == "Mett"
+        custom_value.value.should == "Wurst"
       end
     end
   end

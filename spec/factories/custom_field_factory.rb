@@ -87,6 +87,11 @@ FactoryGirl.define do
         field_format "user"
         sequence(:name) { |n| "UserWorkPackageCustomField #{n}" }
       end
+
+      factory :text_issue_custom_field do
+        field_format "text"
+        sequence(:name) { |n| "TextWorkPackageCustomField #{n}"}
+      end
     end
   end
 end
