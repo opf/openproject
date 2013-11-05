@@ -117,26 +117,42 @@ describe WikiMenuItemsController do
   describe :replace_main_menu_item do
     include_context 'when there is one more wiki page with a child page'
 
-    let(:selected_page) { child_page }
-    let(:new_menu_item) { selected_page.menu_item }
+    context 'when another wiki page is selected for replacement' do
+      let(:selected_page) { child_page }
+      let(:new_menu_item) { selected_page.menu_item }
 
-    before do
-      post :replace_main_menu_item, project_id: project,
-                                    id: wiki_page.id,
-                                    wiki_page: { id: selected_page.id }
+      before do
+        post :replace_main_menu_item, project_id: project,
+                                      id: wiki_page.id,
+                                      wiki_page: { id: selected_page.id }
+      end
+
+      it 'destroys the current wiki menu item' do
+        wiki_page.menu_item.should be_nil
+      end
+
+      it 'creates a new main menu item for the selected wiki page' do
+        selected_page.menu_item.should be_present
+        selected_page.menu_item.parent.should be_nil
+      end
+
+      it 'transfers the menu item options to the selected wiki page' do
+        new_menu_item.options.should == { index_page: true, new_wiki_page: true }
+      end
     end
 
-    it 'destroys the current wiki menu item' do
-      wiki_page.menu_item.should be_nil
-    end
+    context 'when its own wiki page is selected for replacement' do
+      let!(:wiki_menu_item) { wiki_page.menu_item }
 
-    it 'creates a new main menu item for the selected wiki page' do
-      selected_page.menu_item.should be_present
-      selected_page.menu_item.parent.should be_nil
-    end
+      before do
+        post :replace_main_menu_item, project_id: project,
+                                      id: wiki_page.id,
+                                      wiki_page: { id: wiki_page.id }
+      end
 
-    it 'transfers the menu item options to the selected wiki page' do
-      new_menu_item.options.should == { index_page: true, new_wiki_page: true }
+      it 'does not destroy the wiki menu item' do
+        wiki_menu_item.reload.should be_present
+      end
     end
   end
 end
