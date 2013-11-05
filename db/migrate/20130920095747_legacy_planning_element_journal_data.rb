@@ -68,6 +68,8 @@ class LegacyPlanningElementJournalData < ActiveRecord::Migration
 
         update_type_id(to_insert)
 
+        set_empty_description(to_insert)
+
         migrate_attachments(to_insert, legacy_journal, journal_id)
 
         migrate_custom_values(to_insert, legacy_journal, journal_id)
@@ -139,6 +141,10 @@ class LegacyPlanningElementJournalData < ActiveRecord::Migration
         end
 
         @new_type_ids[old_type_id]
+      end
+
+      def set_empty_description(to_insert)
+        to_insert['description'] = [nil, ''] unless to_insert.has_key?('description')
       end
     end
   end
