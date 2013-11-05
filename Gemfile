@@ -37,7 +37,6 @@ gem "rdoc", ">= 2.4.2"
 gem "fastercsv", "~> 1.5.0", :platforms => [:ruby_18, :jruby, :mingw_18]
 # master includes the uniqueness validator, formerly patched in config/initializers/globalize3_patch.rb
 gem 'globalize3', :git => 'https://github.com/globalize/globalize.git', :branch => '3-0-stable'
-gem "delayed_job_active_record" # that's how delayed job's readme recommends it
 
 gem 'request_store'
 
@@ -71,6 +70,12 @@ gem 'oj'
 
 # will need to be removed once we are on rails4 as it will be part of the rails4 core
 gem 'strong_parameters'
+
+# we need the old Version to be compatible with pgsql 8.4
+# see: http://stackoverflow.com/questions/14862144/rake-jobswork-gives-pgerror-error-select-for-update-share-is-not-allowed-in
+# or: https://github.com/collectiveidea/delayed_job/issues/323
+gem 'delayed_job_active_record', '0.3.3'
+gem 'daemons'
 
 gem 'rack-protection'
 
