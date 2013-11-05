@@ -60,16 +60,6 @@ class QueryMenuItemsController < ApplicationController
 
 	def edit
 		@query_menu_item = MenuItems::QueryMenuItem.find params[:id]
-
-		respond_to do |format|
-		  format.html do
-		    render :edit, :locals => {
-		    	:project => @project,
-		    	:query => @query,
-						:query_menu_item => @query_menu_item
-					}
-			end
-		end
 	end
 
 	private
