@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#2564` Support custom fields in REST API v2 for work packages and projects
+* `#2586` Query available custom fields in REST API v2
 
 ## 3.0.0pre26
 
