@@ -681,6 +681,13 @@ class WorkPackage < ActiveRecord::Base
     work_package
   end
 
+  # Override of acts_as_watchable#possible_watcher_users
+  # Restricts the result to project members if the project is private
+  def possible_watcher_users
+    users = project.is_public? ? User.not_builtin : project.users
+    users.select {|user| possible_watcher?(user)}
+  end
+
   protected
 
   def recalculate_attributes_for(work_package_id)

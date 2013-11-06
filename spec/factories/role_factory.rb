@@ -36,12 +36,14 @@ FactoryGirl.define do
       name "Non member"
       builtin Role::BUILTIN_NON_MEMBER
       assignable false
+      initialize_with { Role.find_or_create_by_name(name) }
     end
 
     factory :anonymous_role do
       name "Anonymous"
       builtin Role::BUILTIN_ANONYMOUS
       assignable false
+      initialize_with { Role.find_or_create_by_name(name) }
     end
   end
 end
