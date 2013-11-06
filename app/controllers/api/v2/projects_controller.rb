@@ -36,6 +36,8 @@ module Api
       before_filter :authorize, :only => :show
       before_filter :require_permissions, :only => :planning_element_custom_fields
 
+      accept_key_auth_actions << "planning_element_custom_fields"
+
       def index
         options = {:order => 'lft'}
 
