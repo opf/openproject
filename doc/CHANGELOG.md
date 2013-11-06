@@ -37,6 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2655` Find a sensible default for Timelines rendering bucket size.
 * `#2668` First Grouping Criteria broken when also selecting Hide other group
 * `#2699` [Wiki] 400 error when entering special character in wiki title
+* `#2706` [Migration] Timeline options does not contain 'none' type
 * `#2756` [Work package] 500 when clicking on analyze button in work package summary
 * `#2999` [Timelines] Login checks inconsistent w/ public timelines.
 * Fix mysql data migrations
