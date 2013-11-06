@@ -25,16 +25,37 @@ namespace :migrations do
     raise "Error: Adapting Timestamps from system timezone to UTC is only supported for " +
       "postgres and mysql yet." unless postgres? || mysql?
 
+
+    def readOldTimezone
+      if postgres?
+        @old_timezone = ActiveRecord::Base.connection.select_all(
+                    "SELECT current_setting('timezone') AS timezone").first['timezone']
+      elsif
+        @old_timezone = ActiveRecord::Base.connection.select_all(
+          "SELECT @@global.time_zone").first['@@global.time_zone']
+      end
+
+    end
+
     def setFromTimezone
       if postgres?
         from_timezone = ENV['FROM'] || 'LOCAL'
-        @old_timezone = ActiveRecord::Base.connection.select_all(
-                    "SELECT current_setting('timezone') AS timezone").first['timezone']
         ActiveRecord::Base.connection.execute "SET TIME ZONE #{from_timezone}"
       elsif mysql?
+        converted_time = ActiveRecord::Base.connection.select_all( \
+          "SELECT CONVERT_TZ('2013-11-06 15:13:42', 'SYSTEM', 'UTC')").first.values.first
+
+        if converted_time.nil?
+          raise <<-error
+            Error: timezone information has not been loaded into mysql, please execute
+            mysql_tzinfo_to_sql <path-to-zoneinfo> | mysql -u root mysql
+            Hint: a likely location of <path-to-zoneinfo> is /usr/share/zoneinfo
+            see: http://dev.mysql.com/doc/refman/5.0/en/mysql-tzinfo-to-sql.html
+          error
+        end
+
         from_timezone = ENV['FROM'] || 'SYSTEM'
-        @old_timezone = ActiveRecord::Base.connection.select_all(
-          "SELECT @@global.time_zone").first['@@global.time_zone']
+
         ActiveRecord::Base.connection.execute "SET time_zone = #{from_timezone}"
       end
     end
@@ -63,6 +84,8 @@ namespace :migrations do
         SQL
       end
     end
+
+    readOldTimezone
 
     begin
       setFromTimezone

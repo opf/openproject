@@ -31,6 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#2564` Support custom fields in REST API v2 for work packages and projects
 * `#2586` Query available custom fields in REST API v2
+* `#2637` Migrated timestamps to UTC
 * Reverts `#2645` Remove usage of eval()
 
 ## 3.0.0pre26
