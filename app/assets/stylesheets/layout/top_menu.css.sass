@@ -37,6 +37,12 @@
   font-family: 'LatoRegular', 'Lucida Grande', Helvetica, Arial, sans-serif
   font-weight: normal
 
+@mixin default-transition
+  -webkit-transition: all 500ms ease-in-out 0s
+  -moz-transition: all 500ms ease-in-out 0s
+  -ms-transition: all 500ms ease-in-out 0s
+  -o-transition: all 500ms ease-in-out 0s
+  transition: all 500ms ease-in-out 0s
 #logo
   float: left
   width: 270px
@@ -156,11 +162,17 @@
     width: 150px
     border: 1px solid #CCCCCC
     padding: 5px
+    @include default-transition
+    &:hover
+      border: 1px solid #888888
   #nav-login-content input[type=password]
     height: 16px
     width: 150px
     border: 1px solid #CCCCCC
     padding: 5px
+    @include default-transition
+    &:hover
+      border: 1px solid #888888
   #nav-login-content input[type=submit]
     background: #06799F
     border-radius: 20px
@@ -168,6 +180,9 @@
     padding: 6px 13px
     border: none
     cursor: pointer
+    @include default-transition
+    &:hover
+      background: #053242
   #nav-login-content  div a
     display: inline
     color: #06799F
