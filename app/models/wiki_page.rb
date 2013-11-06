@@ -239,7 +239,7 @@ class WikiPage < ActiveRecord::Base
   end
 
   def to_param
-    title
+    CGI.escape title
   end
 
   def is_only_wiki_page?
