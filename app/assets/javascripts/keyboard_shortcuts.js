@@ -168,8 +168,8 @@
   Mousetrap.bind('g p',   function(){ go_preview();          return false; });
 
   Mousetrap.bind('n w p', function(){ new_work_package();    return false; });
-  Mousetrap.bind('j',     function(){ focus_previous_item(); return false; });
-  Mousetrap.bind('k',     function(){ focus_next_item();     return false; });
+  Mousetrap.bind('j',     function(){ focus_next_item();     return false; });
+  Mousetrap.bind('k',     function(){ focus_previous_item(); return false; });
   Mousetrap.bind('m',     function(){ open_more_menu();      return false; });
 
   Mousetrap.bind('s p',   function(){ search_project();      return false; });
