@@ -26,13 +26,13 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Version Settings of a wiki page
+Feature: Version Settings of a wiki page 	
 
 	Background:
      Given there is 1 project with the following:
       		| name       | wikilibs|
       		| identifier | wikilibs|
-    And I am already admin
+     And I am already admin
      And the project "wikilibs" has 1 wiki page with the following:
       		| title | lib1 |
      And I go to the wiki index page of the project called "wikilibs"
@@ -44,7 +44,7 @@ Feature: Version Settings of a wiki page
 @javascript
   Scenario: Overview and see the history of a wiki page
 
-     And I go to the wiki index page of the project called "wikilibs"
+     Given I go to the wiki index page of the project called "wikilibs"
      And I click "Lib1"
      And I follow "More functions" within "#content"
      When I click "History"

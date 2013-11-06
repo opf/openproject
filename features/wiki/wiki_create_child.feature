@@ -56,4 +56,3 @@ Feature: Create a new child page
   	And I press "Save"
   	When I go to the wiki index page of the project called "wikipeeps"
   	Then I should see "Todd's wiki" within "#content"
-  
