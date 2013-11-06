@@ -142,13 +142,24 @@ $main_menu_folded_width: 50px
     position: absolute
     right: 0
     top: 0
-    width: 40px
-    height: 25px	
+    width: 50px
+    height: 40px	
+    text-align: center
   li .open
     background: #04232F !important
     border-left: 4px solid #AAAAAA !important
   li .open .toggler    
+    -moz-transform: rotate(180deg)
+    -webkit-transform: rotate(180deg)
+    -o-transform: rotate(180deg)
+    -ms-transform: rotate(180deg)
+    transform: rotate(180deg)
   li .selected.open .toggler, li .open:hover .toggler
+    -moz-transform: rotate(180deg)
+    -webkit-transform: rotate(180deg)
+    -o-transform: rotate(180deg)
+    -ms-transform: rotate(180deg)
+    transform: rotate(180deg)
   #toggle-project-menu
     height: 40px
     width: 270px
