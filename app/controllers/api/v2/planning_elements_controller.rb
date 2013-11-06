@@ -171,7 +171,8 @@ module Api
       # Filters
       def find_all_projects_by_project_id
         if !params[:project_id] and params[:ids] then
-          @planning_elements = WorkPackage.visible(User.current).find_all_by_id(params[:ids])
+          identifiers = params[:ids].split(/,/).map(&:strip)
+          @planning_elements = WorkPackage.visible(User.current).find_all_by_id(identifiers)
         elsif params[:project_id] !~ /,/
           find_single_project
         else

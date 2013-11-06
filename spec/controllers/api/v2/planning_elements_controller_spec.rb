@@ -111,7 +111,7 @@ describe Api::V2::PlanningElementsController do
     describe 'w/ list of ids' do
       describe 'w/ an unknown work package id' do
         it 'renders an empty list' do
-          get 'index', :ids => ['4711'], :format => 'xml'
+          get 'index', :ids => '4711', :format => 'xml'
 
           assigns(:planning_elements).should == []
         end
@@ -125,7 +125,7 @@ describe Api::V2::PlanningElementsController do
           become_non_member
 
           it 'renders an empty list' do
-            get 'index', :ids => [work_package.id], :format => 'xml'
+            get 'index', :ids => work_package.id.to_s, :format => 'xml'
 
             assigns(:planning_elements).should == []
           end
@@ -135,7 +135,7 @@ describe Api::V2::PlanningElementsController do
           become_member_with_view_planning_element_permissions
 
           before do
-            get 'index', :ids => [], :format => 'xml'
+            get 'index', :ids => "", :format => 'xml'
           end
 
           describe 'w/o any planning elements within the project' do
@@ -155,7 +155,7 @@ describe Api::V2::PlanningElementsController do
                 FactoryGirl.create(:work_package, :project_id => project.id),
                 FactoryGirl.create(:work_package, :project_id => project.id)
               ]
-              get 'index', :ids => @created_planning_elements.map(&:id), :format => 'xml'
+              get 'index', :ids => @created_planning_elements.map(&:id).join(","), :format => 'xml'
             end
 
             it 'assigns a planning_elements array containing all three elements' do
@@ -192,7 +192,7 @@ describe Api::V2::PlanningElementsController do
           become_admin { [project_a, project_b] }
 
           it 'renders only existing work packages' do
-            get 'index', :ids => [@project_a_wps[0].id, @project_b_wps[0].id, '4171', '5555'], :format => 'xml'
+            get 'index', :ids => [@project_a_wps[0].id, @project_b_wps[0].id, '4171', '5555'].join(","), :format => 'xml'
 
             assigns(:planning_elements).should =~ [@project_a_wps[0], @project_b_wps[0]]
           end
@@ -203,13 +203,13 @@ describe Api::V2::PlanningElementsController do
           become_non_member { [project_c] }
 
           it 'renders only accessable work packages' do
-            get 'index', :ids => [@project_a_wps[0].id, @project_b_wps[0].id, @project_c_wps[0].id, @project_c_wps[1].id], :format => 'xml'
+            get 'index', :ids => [@project_a_wps[0].id, @project_b_wps[0].id, @project_c_wps[0].id, @project_c_wps[1].id].join(","), :format => 'xml'
 
             assigns(:planning_elements).should =~ [@project_a_wps[0], @project_b_wps[0]]
           end
 
           it 'renders only accessable work packages' do
-            get 'index', :ids => [@project_c_wps[0].id, @project_c_wps[1].id], :format => 'xml'
+            get 'index', :ids => [@project_c_wps[0].id, @project_c_wps[1].id].join(","), :format => 'xml'
 
             assigns(:planning_elements).should =~ []
           end
@@ -219,7 +219,7 @@ describe Api::V2::PlanningElementsController do
           become_member_with_view_planning_element_permissions { [project_a, project_b, project_c] }
 
           it 'renders all work packages' do
-            get 'index', :ids => (@project_a_wps + @project_b_wps + @project_c_wps).map(&:id), :format => 'xml'
+            get 'index', :ids => (@project_a_wps + @project_b_wps + @project_c_wps).map(&:id).join(","), :format => 'xml'
 
             assigns(:planning_elements).should =~ (@project_a_wps + @project_b_wps + @project_c_wps)
           end
