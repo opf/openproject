@@ -30,12 +30,24 @@
   font-size: 14px
   font-family: 'LatoRegular', 'Lucida Grande', Helvetica, Arial, sans-serif
   font-weight: normal
-  
+
 @mixin header-pulldown-fonts($color)
   color: $color
   font-size: 13px
   font-family: 'LatoRegular', 'Lucida Grande', Helvetica, Arial, sans-serif
   font-weight: normal
+
+#logo
+  float: left
+  width: 270px
+  height: 55px
+  background-color: #06799F
+  .home-link-image
+    width: 150px
+  .home-link
+    margin-top: 13px
+    display: block
+    padding-left: 20px
 
 #top-menu
   background-color: #3493B3
@@ -124,7 +136,7 @@
     padding: 0 15px
   li.drop-down li > a:hover
     background: #06799F
-    color: #FFFFFF  
+    color: #FFFFFF
   #loggedas
     float: right
     margin-right: 0.5em
@@ -167,7 +179,7 @@
   #optional_login_fields
     white-space: nowrap
     margin: 5px 0 0 3px
-  
+
 #quick-search
   float: right
 
@@ -185,11 +197,11 @@
   @include header-pulldown-fonts(#555555)
   li
     padding: 0 10px
-  
+
 .select2-search
   background: #E0E0E0
   margin: 0px 0 10px 0
-  
+
 .select2-search input
   background: #FFFFFF url(image-path('magnifier.png')) no-repeat 94% center
   margin: 10px 10px
@@ -202,11 +214,11 @@
 .select2-results
   margin: 0
   padding: 0
-    
+
 .select2-highlighted
   background: #06799F !important
   border-radius: 0 !important
   font-family: 'LatoBold', 'Lucida Grande', Helvetica, Arial, sans-serif !important
   font-weight: normal !important
 
- 
+
