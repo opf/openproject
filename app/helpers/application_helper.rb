@@ -240,19 +240,15 @@ module ApplicationHelper
   end
 
   def render_page_hierarchy(pages, node=nil, options={})
-    content = ''
-    if pages[node]
-      content << "<ul class=\"pages-hierarchy\">\n"
-      pages[node].each do |page|
-        content << "<li>"
-        content << link_to(page.pretty_title, project_wiki_path(page.project, page),
-                           :title => (options[:timestamp] && page.updated_on ? l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on)) : nil))
-        content << "\n" + render_page_hierarchy(pages, page.id, options) if pages[page.id]
-        content << "</li>\n"
-      end
-      content << "</ul>\n"
+    content_tag :ul, class: 'pages-hierarchy' do
+      pages[node].collect do |page|
+        content_tag :li do
+          concat link_to(page.pretty_title, project_wiki_path(page.project, page),
+            title: (options[:timestamp] && page.updated_on ? l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on)) : nil))
+          concat render_page_hierarchy(pages, page.id, options) if pages[page.id]
+        end
+      end.join.html_safe
     end
-    content.html_safe
   end
 
   # Renders flash messages
