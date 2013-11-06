@@ -57,6 +57,7 @@ class WikiController < ApplicationController
                                                :add_attachment,
                                                :list_attachments,
                                                :destroy]
+  before_filter :build_wiki_page_and_content, only: :create
 
   verify :method => :post, :only => [:protect], :redirect_to => { :action => :show }
   verify :method => :get,  :only => [:new, :new_child], :render => {:nothing => true, :status => :method_not_allowed}
@@ -93,29 +94,19 @@ class WikiController < ApplicationController
     @pages_by_date = @pages.group_by {|p| p.updated_on.to_date}
   end
 
-  def new
-    @page = WikiPage.new(:wiki => @wiki)
-    @page.content = WikiContent.new(:page => @page)
-
-    @content = @page.content_for_version(nil)
-    @content.text = initial_page_content(@page)
-  end
-
   def new_child
     find_existing_page
     return if performed?
 
     old_page = @page
 
-    new
+    build_wiki_page_and_content
 
     @page.parent = old_page
     render :action => 'new'
   end
 
   def create
-    new
-
     @page.title     = params[:page][:title]
     @page.parent_id = params[:page][:parent_id]
 
@@ -352,7 +343,7 @@ class WikiController < ApplicationController
       nil
   end
 
-private
+  private
 
   def find_wiki
     @project = Project.find(params[:project_id])
@@ -366,6 +357,14 @@ private
   def find_existing_page
     @page = @wiki.find_page(params[:id])
     render_404 if @page.nil?
+  end
+
+  def build_wiki_page_and_content
+    @page = WikiPage.new wiki: @wiki
+    @page.content = WikiContent.new page: @page
+
+    @content = @page.content_for_version nil
+    @content.text = initial_page_content @page
   end
 
   # Returns true if the current user is allowed to edit the page, otherwise false
