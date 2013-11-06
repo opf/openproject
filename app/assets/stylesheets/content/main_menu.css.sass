@@ -156,14 +156,20 @@ $main_menu_folded_width: 50px
     background-color: $main_menu_bg_color
     &:hover
       background-color: $main_menu_bg_hover_selected_color
-
     &.show
       width: $main_menu_folded_width
       a.navigation-toggler
         width: $main_menu_folded_width
         height: 100%
-
+        -moz-transform: rotate(180deg)
+        -webkit-transform: rotate(180deg)
+        -o-transform: rotate(180deg)
+        -ms-transform: rotate(180deg)
+        transform: rotate(180deg)
+        text-align: left
+        padding: 0 0px 0 16px
         &:hover
+          color: #FFFFFF
     a.navigation-toggler
       position: relative
       float: right
@@ -171,7 +177,8 @@ $main_menu_folded_width: 50px
       height: 40px
       text-align: right
       padding: 0 12px 0 0
-
+      &:hover
+        color: #FFFFFF
   .toggle-follow
     position: absolute
     width: 120px
