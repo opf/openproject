@@ -35,6 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2567` [Timelines] Select2 selection shows double escaped character
 * `#2586` Query available custom fields in REST API v2
 * `#2637` Migrated timestamps to UTC
+* `#2696` CustomValues still associated to issues
 * Reverts `#2645` Remove usage of eval()
 * Fix work package filter query validations
 
