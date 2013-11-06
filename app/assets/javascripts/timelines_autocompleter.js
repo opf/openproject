@@ -164,7 +164,7 @@
       return markup.join("");
     },
     formatSelection: function (item) {
-      return OpenProject.Helpers.markupEscape(item.name);
+      return item.name;
     },
     initSelection: function (element, callback) {
       var data = [];
