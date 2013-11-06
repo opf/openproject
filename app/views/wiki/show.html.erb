@@ -30,44 +30,44 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= call_hook :wiki_navigation %>
 <% content_for :action_menu_main do %>
   <% if @editable %>
-    <%= li_unless_nil(link_to_if_authorized(l(:button_edit), {:action => 'edit', :id => @page.title}, :class => 'icon icon-edit', :accesskey => accesskey(:edit))) if @content.version == @page.content.version %>
+    <%= li_unless_nil(link_to_if_authorized(l(:button_edit), {:action => 'edit', :id => @page}, :class => 'icon icon-edit', :accesskey => accesskey(:edit))) if @content.version == @page.content.version %>
     <%= li_unless_nil(watcher_link(@page, User.current)) if Setting.notified_events.include?("wiki_content_added") or Setting.notified_events.include?("wiki_content_updated") %>
   <% end %>
 <% end %>
 <% content_for :action_menu_more do %>
   <% if @editable %>
-    <%= li_unless_nil(link_to_if_authorized(l(:button_lock), {:action => 'protect', :id => @page.title, :protected => 1}, :method => :post, :class => 'icon icon-lock')) if !@page.protected? %>
-    <%= li_unless_nil(link_to_if_authorized(l(:button_unlock), {:action => 'protect', :id => @page.title, :protected => 0}, :method => :post, :class => 'icon icon-unlock')) if @page.protected? %>
+    <%= li_unless_nil(link_to_if_authorized(l(:button_lock), {:action => 'protect', :id => @page, :protected => 1}, :method => :post, :class => 'icon icon-lock')) if !@page.protected? %>
+    <%= li_unless_nil(link_to_if_authorized(l(:button_unlock), {:action => 'protect', :id => @page, :protected => 0}, :method => :post, :class => 'icon icon-unlock')) if @page.protected? %>
     <% if User.current.allowed_to? :edit_wiki_pages, @project %>
       <% if @page %>
-        <%= content_tag(:li, link_to(l(:create_child_page), wiki_new_child_path(:id => @page.title, :project_id => @project), :class => 'icon icon-duplicate')) %>
+        <%= content_tag(:li, link_to(l(:create_child_page), wiki_new_child_path(:id => @page, :project_id => @project), :class => 'icon icon-duplicate')) %>
       <% end %>
     <% end %>
     <% if @content.version == @page.content.version %>
       <%= li_unless_nil(link_to_if_authorized(t(:button_rename),
-                                              {:action => 'rename', :id => @page.title},
+                                              {:action => 'rename', :id => @page},
                                               :class => 'icon icon-rename')) %>
       <%= li_unless_nil(link_to_if_authorized(t(:button_change_parent_page),
-                                              {:action => 'edit_parent_page', :id => @page.title},
+                                              {:action => 'edit_parent_page', :id => @page},
                                               :class => 'icon icon-parent')) %>
     <% end %>
-    <%= li_unless_nil(link_to_if_authorized(l(:button_delete), {:action => 'destroy', :id => @page.title}, :method => :delete, :confirm => l(:text_are_you_sure), :class => 'icon icon-del')) %>
-    <%= li_unless_nil(link_to_if_authorized(l(:button_rollback), {:action => 'edit', :id => @page.title, :version => @content.version }, :class => 'icon icon-cancel')) if @content.version < @page.content.version %>
+    <%= li_unless_nil(link_to_if_authorized(l(:button_delete), {:action => 'destroy', :id => @page}, :method => :delete, :confirm => l(:text_are_you_sure), :class => 'icon icon-del')) %>
+    <%= li_unless_nil(link_to_if_authorized(l(:button_rollback), {:action => 'edit', :id => @page, :version => @content.version }, :class => 'icon icon-cancel')) if @content.version < @page.content.version %>
   <% end %>
-  <%= li_unless_nil(link_to_if_authorized(l(:label_history), {:action => 'history', :id => @page.title}, :class => 'icon icon-history')) %>
-  <%= li_unless_nil(link_to_if_authorized(l(:button_wiki_menu_entry), {:controller => '/wiki_menu_items', :action => 'edit', :project_id => @project.identifier, :id => @page.title}, :class => 'icon icon-configure')) %>
+  <%= li_unless_nil(link_to_if_authorized(l(:label_history), {:action => 'history', :id => @page}, :class => 'icon icon-history')) %>
+  <%= li_unless_nil(link_to_if_authorized(l(:button_wiki_menu_entry), {:controller => '/wiki_menu_items', :action => 'edit', :project_id => @project.identifier, :id => @page}, :class => 'icon icon-configure')) %>
 
 <% end %>
 
-<% breadcrumb_paths(*(@page.ancestors.reverse.collect {|parent| link_to h(parent.breadcrumb_title), {:id => parent.title, :project_id => parent.project}} + [h(@page.breadcrumb_title)])) %>
+<% breadcrumb_paths(*(@page.ancestors.reverse.collect {|parent| link_to h(parent.breadcrumb_title), {:id => parent, :project_id => parent.project}} + [h(@page.breadcrumb_title)])) %>
 
 <% if @content.version != @page.content.version %>
     <p>
-    <%= link_to(l(:label_previous), { :action => 'show', :id => @page.title, :project_id => @page.project, :version => (@content.version - 1) }, :class => 'navigate-left') + " - " if @content.version > 1 %>
+    <%= link_to(l(:label_previous), { :action => 'show', :id => @page, :project_id => @page.project, :version => (@content.version - 1) }, :class => 'navigate-left') + " - " if @content.version > 1 %>
     <%= "#{Version.model_name.human} #{@content.version}/#{@page.content.version}" %>
-    <%= '(' + link_to(l(:label_diff), :controller => '/wiki', :action => 'diff', :id => @page.title, :project_id => @page.project, :version => @content.version) + ')' if @content.version > 1 %> -
-    <%= link_to(l(:label_next), :action => 'show', :id => @page.title, :project_id => @page.project, :version => (@content.version + 1), :class => 'navigate-right') + " - " if @content.version < @page.content.version %>
-    <%= link_to(l(:label_current_version), :action => 'show', :id => @page.title, :project_id => @page.project) %>
+    <%= '(' + link_to(l(:label_diff), :controller => '/wiki', :action => 'diff', :id => @page, :project_id => @page.project, :version => @content.version) + ')' if @content.version > 1 %> -
+    <%= link_to(l(:label_next), :action => 'show', :id => @page, :project_id => @page.project, :version => (@content.version + 1), :class => 'navigate-right') + " - " if @content.version < @page.content.version %>
+    <%= link_to(l(:label_current_version), :action => 'show', :id => @page, :project_id => @page.project) %>
     <br />
     <em><%= @content.author ? link_to_user(@content.author) : l(:label_user_anonymous) %>, <%= format_time(@content.updated_on) %> </em><br />
     <%=h @content.comments %>
@@ -83,7 +83,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <div id="wiki_add_attachment">
 <p><%= link_to l(:label_attachment_new), {}, :onclick => "Element.show('add_attachment_form'); Element.hide(this); Element.scrollTo('add_attachment_form'); return false;",
                                              :id => 'attach_files_link' %></p>
-<%= form_tag({ :controller => '/wiki', :action => 'add_attachment', :project_id => @project, :id => @page.title }, :multipart => true, :id => "add_attachment_form", :style => "display:none;") do %>
+<%= form_tag({ :controller => '/wiki', :action => 'add_attachment', :project_id => @project, :id => @page }, :multipart => true, :id => "add_attachment_form", :style => "display:none;") do %>
   <div class="box">
   <p><%= render :partial => 'attachments/form' %></p>
   </div>
@@ -100,7 +100,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                   :key => User.current.rss_key } %>
   <%= f.link_to 'HTML', :url => { :version => @content.version } %>
   <%= f.link_to 'TXT', :url => { :version => @content.version } %>
-  <%= call_hook(:view_wiki_show_other_formats, {:link_builder => f, :url_params => {:id => @page.title, :version => @content.version}}) %>
+  <%= call_hook(:view_wiki_show_other_formats, {:link_builder => f, :url_params => {:id => @page, :version => @content.version}}) %>
 <% end if User.current.allowed_to?(:export_wiki_pages, @project) %>
 
 <% content_for :header_tags do %>

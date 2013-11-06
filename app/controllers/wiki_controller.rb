@@ -295,7 +295,11 @@ class WikiController < ApplicationController
     end
     @page.destroy
 
-    redirect_to @wiki.pages.any? ? {:action => 'index', :project_id => @project} : project_path(@project)
+    if page = @wiki.start_page || @wiki.pages.first
+      redirect_to :action => 'index', :project_id => @project, id: page
+    else
+      redirect_to project_path(@project)
+    end
   end
 
   # Export wiki to a single html file
@@ -325,7 +329,7 @@ class WikiController < ApplicationController
     return render_403 unless editable?
     attachments = Attachment.attach_files(@page, params[:attachments])
     render_attachment_warning_if_needed(@page)
-    redirect_to :action => 'show', :id => @page.title, :project_id => @project
+    redirect_to :action => 'show', :id => @page, :project_id => @project
   end
 
   def list_attachments
@@ -388,6 +392,6 @@ class WikiController < ApplicationController
   end
 
   def redirect_to_show
-    redirect_to :action => 'show', :project_id => @project, :id => @page.title
+    redirect_to action: :show, project_id: @project, id: @page
   end
 end

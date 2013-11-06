@@ -49,7 +49,7 @@ h1:hover a.wiki-anchor, h2:hover a.wiki-anchor, h3:hover a.wiki-anchor { display
 <strong><%= l(:label_index_by_title) %></strong>
 <ul>
 <% @pages.each do |page| %>
-    <li><a href="#<%= h(page.title) %>"><%= h(page.pretty_title) %></a></li>
+    <li><a href="#<%= h(page.to_param) %>"><%= h(page.pretty_title) %></a></li>
 <% end %>
 </ul>
 
