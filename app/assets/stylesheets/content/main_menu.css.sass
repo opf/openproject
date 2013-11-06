@@ -67,7 +67,7 @@ $main_menu_folded_width: 50px
           text-decoration: none
           font-weight: normal
           background: none
-          padding: 0 0 0 10px
+          padding: 0 0 0 7px
           color: #BBBBBB
           border-left: 4px solid $main_menu_bg_color
           @include default-transition
@@ -120,7 +120,7 @@ $main_menu_folded_width: 50px
         line-height: 30px
         height: 30px
         border: none
-        padding: 0 0 0 61px
+        padding: 0 0 0 50px
       li a:hover
         border: none
       li a.selected
@@ -143,18 +143,12 @@ $main_menu_folded_width: 50px
     right: 0
     top: 0
     width: 40px
-    height: 25px
-    background: url(image-path('double_arrows_grey_white_sprite.png')) 0px 6px no-repeat
-
+    height: 25px	
   li .open
     background: #04232F !important
     border-left: 4px solid #AAAAAA !important
-  li .open .toggler
-    background: url(image-path('double_arrows_grey_white_sprite.png')) 0px -18px
-
+  li .open .toggler    
   li .selected.open .toggler, li .open:hover .toggler
-    background: url(image-path('double_arrows_grey_white_sprite.png')) 0px -151px
-
   #toggle-project-menu
     height: 40px
     width: 270px
@@ -169,33 +163,21 @@ $main_menu_folded_width: 50px
         width: $main_menu_folded_width
         height: 100%
 
-        /* Arrow right */
-        background: url(image-path('double_arrows_grey_white_sprite.png')) -8px -200px no-repeat
-
         &:hover
-          /* Arrow right white */
-          background-position: -39px -200px
-          background-repeat: no-repeat
-
     a.navigation-toggler
       position: relative
       float: right
       width: 100%
-      height: 15px
-
-      /* Arrow left */
-      background-image: url(image-path('double_arrows_grey_white_sprite.png'))
-      background-position: 230px -91px
-      background-repeat: no-repeat
-
-      &:hover
-        /* Arrow left white */
-        background-position: 230px -58px
-        background-repeat: no-repeat
+      height: 40px
+      text-align: right
+      padding: 0 12px 0 0
 
   .toggle-follow
     position: absolute
     width: 120px
+  .icon-time
+    background: none
+    padding: 0 0 0 0
 
 .hidden-navigation
   #main-menu
@@ -211,7 +193,7 @@ $main_menu_folded_width: 50px
 
 #sidebar
   margin: 30px 0 0 0
-  padding: 0px 30px 0 30px
+  padding: 0px 17px 0 17px
   width: auto
   color: #FFFFFF
   font-size: 12px
