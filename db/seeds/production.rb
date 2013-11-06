@@ -28,6 +28,7 @@
 
 # add seeds specific for the production-environment here
 
+require_relative '../migrate/migration_utils/timelines'
 
 standard_type = Type.find_by_is_standard(true)
 
@@ -56,3 +57,43 @@ end
 [WorkPackage, Journal::WorkPackageJournal].each do |klass|
   klass.update_all({ :type_id => standard_type.id }, { :type_id => [0, nil] })
 end
+
+class MigrateTimelinesOptions < ActiveRecord::Migration
+  include Migration::Utils
+
+  def initialize(standard_type)
+    @standard_type = standard_type
+  end
+
+  def migrate
+    say_with_time_silently "Set 'none' type id in timelines options" do
+      update_column_values('timelines',
+                           ['options'],
+                           update_options(add_none_type_id),
+                          nil)
+    end
+  end
+
+  def add_none_type_id
+    Proc.new do |timelines_opts|
+      add_none_type_id_to_options timelines_opts
+    end
+  end
+
+  PE_TYPE_KEY = 'planning_element_types'
+
+  def add_none_type_id_to_options(options)
+    pe_types = []
+    pe_types = options[PE_TYPE_KEY] if options.has_key? PE_TYPE_KEY
+
+    pe_types.map! { |t| (t == 0) ? @standard_type.id : t }
+
+    options[PE_TYPE_KEY] = pe_types
+
+    options
+  end
+end
+
+timelines_migrator = MigrateTimelinesOptions.new(standard_type)
+
+timelines_migrator.migrate

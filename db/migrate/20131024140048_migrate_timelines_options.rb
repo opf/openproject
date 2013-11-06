@@ -124,7 +124,8 @@ class MigrateTimelinesOptions < ActiveRecord::Migration
   end
 
   def new_ids_of_former_pes
-    @new_ids_of_former_pes ||= pe_types_ids_with_new_ids.each_with_object([]) do |i, l|
+    # don't forget '0' for 'none' type
+    @new_ids_of_former_pes ||= pe_types_ids_with_new_ids.each_with_object([0]) do |i, l|
       l << i['new_id']
     end
   end
