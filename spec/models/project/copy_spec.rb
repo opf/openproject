@@ -42,20 +42,14 @@ describe Project::Copy do
     subject { copy }
 
     it "should be able to be copied" do
-
       copy.should be_valid
       copy.should_not be_new_record
     end
   end
 
   describe :copy_attributes do
-    let(:project) do
-      project = FactoryGirl.create(:project_with_types)
-      work_package_custom_field = FactoryGirl.create(:work_package_custom_field)
-      project.work_package_custom_fields << work_package_custom_field
-      project.save
-      project
-    end
+    let(:project) { FactoryGirl.create(:project_with_types) }
+
     let(:copy) do
       copy = Project.new
       copy.name = "foo"
@@ -68,9 +62,52 @@ describe Project::Copy do
       copy.save
     end
 
-    it "should copy all relevant attributes from another project" do
-      copy.types.should == project.types
-      copy.work_package_custom_fields.should == project.work_package_custom_fields
+    describe :types do
+      subject { copy.types }
+
+      it { should == project.types }
+    end
+
+    describe :work_package_custom_fields do
+      let(:project) do
+        project = FactoryGirl.create(:project_with_types)
+        work_package_custom_field = FactoryGirl.create(:work_package_custom_field)
+        project.work_package_custom_fields << work_package_custom_field
+        project.save
+        project
+      end
+
+      subject { copy.work_package_custom_fields }
+
+      it { should == project.work_package_custom_fields }
+    end
+
+    describe :is_public do
+      describe :non_public do
+        let(:project) do
+          project = FactoryGirl.create(:project_with_types)
+          project.is_public = false
+          project.save
+          project
+        end
+
+        subject { copy.is_public }
+
+        it { copy.is_public?.should == project.is_public? }
+      end
+
+      describe :public do
+        let(:project) do
+          project = FactoryGirl.create(:project_with_types)
+          project.is_public = true
+          project.save
+          project
+        end
+
+        subject { copy.is_public }
+
+        it { copy.is_public?.should == project.is_public? }
+      end
     end
   end
 
@@ -119,6 +156,131 @@ describe Project::Copy do
       subject { copy.timelines.count }
 
       it { should == project.timelines.count }
+    end
+
+    describe :copy_queries do
+      before do
+        FactoryGirl.create(:query, :project => project)
+
+        copy.send(:copy_queries, project)
+        copy.save
+      end
+
+      subject { copy.queries.count }
+
+      it { should == project.queries.count }
+    end
+
+    describe :copy_members do
+      describe :with_user do
+        before do
+          role = FactoryGirl.create(:role)
+          user = FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
+
+          copy.send(:copy_members, project)
+          copy.save
+        end
+
+        subject { copy.members.count }
+
+        it { should == project.members.count }
+      end
+
+      describe :with_group do
+        before do
+          project.add_member! FactoryGirl.create(:group), FactoryGirl.create(:role)
+
+          copy.send(:copy_members, project)
+          copy.save
+        end
+
+        subject { copy.principals.count }
+
+        it { should == project.principals.count }
+      end
+    end
+
+    describe :copy_wiki do
+      before do
+        project.wiki = FactoryGirl.create(:wiki, project: project)
+        project.save
+
+        copy.send(:copy_wiki, project)
+        copy.save
+      end
+
+      subject { copy.wiki }
+
+      it { should_not == nil && should.be_valid }
+    end
+
+    describe :copy_boards do
+      before do
+        FactoryGirl.create(:board, project: project)
+
+        copy.send(:copy_boards, project)
+        copy.save
+      end
+
+      subject { copy.boards.count }
+
+      it { should == project.boards.count }
+    end
+
+    describe :copy_versions do
+      before do
+        FactoryGirl.create(:version, project: project)
+
+        copy.send(:copy_versions, project)
+        copy.save
+      end
+
+      subject { copy.versions.count }
+
+      it { should == project.versions.count }
+    end
+
+    describe :copy_project_associations do
+      let(:project2) { FactoryGirl.create(:project_with_types) }
+
+      describe :project_a_associations do
+        before do
+          FactoryGirl.create(:project_association, project_a: project, project_b: project2)
+
+          copy.send(:copy_project_associations, project)
+          copy.save
+        end
+
+        subject { copy.send(:project_a_associations).count }
+
+        it { should == project.send(:project_a_associations).count }
+      end
+
+      describe :project_b_associations do
+        before do
+          FactoryGirl.create(:project_association, project_a: project2, project_b: project)
+
+          copy.send(:copy_project_associations, project)
+          copy.save
+        end
+
+        subject { copy.send(:project_b_associations).count }
+
+        it { should == project.send(:project_b_associations).count }
+      end
+    end
+
+    describe :copy_categories do
+      before do
+        FactoryGirl.create(:category, project: project)
+
+        copy.send(:copy_categories, project)
+        copy.save
+      end
+
+      subject { copy.categories.count }
+
+      it { should == project.categories.count }
     end
   end
 end
