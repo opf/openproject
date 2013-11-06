@@ -28,25 +28,39 @@
 
 class WorkPackageCustomFieldDataMigration < ActiveRecord::Migration
   def self.up
-    ActiveRecord::Base.connection.execute <<-SQL
-        UPDATE #{custom_fields_table}
-        SET type = #{quote_value('WorkPackageCustomField')}
-        WHERE type = #{quote_value('IssueCustomField')}
-      SQL
+    set_custom_fields_type('IssueCustomField', 'WorkPackageCustomField')
+    set_custom_values_type('Issue', 'WorkPackage')
   end
 
   def self.down
-    ActiveRecord::Base.connection.execute <<-SQL
-        UPDATE #{custom_fields_table}
-        SET type = #{quote_value('IssueCustomField')}
-        WHERE type = #{quote_value('WorkPackageCustomField')}
-      SQL
+    set_custom_fields_type('WorkPackageCustomField', 'IssueCustomField')
+    set_custom_values_type('WorkPackage', 'Issue')
   end
 
   private
 
+  def set_custom_fields_type(from_type, to_type)
+    ActiveRecord::Base.connection.execute <<-SQL
+      UPDATE #{custom_fields_table}
+      SET type = #{quote_value(to_type)}
+      WHERE type = #{quote_value(from_type)}
+    SQL
+  end
+
+  def set_custom_values_type(from_type, to_type)
+    ActiveRecord::Base.connection.execute <<-SQL
+      UPDATE #{custom_values_table}
+      SET customized_type = #{quote_value(to_type)}
+      WHERE customized_type = #{quote_value(from_type)}
+    SQL
+  end
+
   def custom_fields_table
-    @settings_table ||= ActiveRecord::Base.connection.quote_table_name('custom_fields')
+    ActiveRecord::Base.connection.quote_table_name('custom_fields')
+  end
+
+  def custom_values_table
+    ActiveRecord::Base.connection.quote_table_name('custom_values')
   end
 
   def quote_value s
