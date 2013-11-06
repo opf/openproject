@@ -31,12 +31,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#2564` Support custom fields in REST API v2 for work packages and projects
 * `#2586` Query available custom fields in REST API v2
+* Reverts `#2645` Remove usage of eval()
 
 ## 3.0.0pre26
 
 * `#2624` [Journals] Fix: Work package journals that migrated from legacy planning elements lack default references
 * `#2642` [Migration] Empty timelines options cannot be migrated
-* `#2645` Remove usage of  eval()
+* `#2645` Remove usage of eval()
 * `#2585` Special characters in wiki page title
 
 ## 3.0.0pre25
