@@ -115,10 +115,11 @@ class Query < ActiveRecord::Base
     return unless filters
 
     filters.each_key do |field|
-      unless # filter requires one or more values
-            (values_for(field) and values_for(field).first.present?) or
-            # filter doesn't require any value
-            ["o", "c", "!*", "*", "t", "w"].include? operator_for(field)
+      unless \
+        # filter requires one or more values
+        (values_for(field) && values_for(field).first.present?) \
+        || ["o", "c", "!*", "*", "t", "w"].include?(operator_for(field))
+        # filter doesn't require any value
         errors.add :base, errors.full_message(WorkPackage.human_attribute_name(field),
                                               I18n.t('activerecord.errors.messages.invalid'))
       end
