@@ -33,6 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2631` Fix: [Timelines] Work package cannot be created out of timeline.
 * `#2686` Fix: [Work package tracking] Work package summary not displayed correctly
 * `#2687` Fix: [Work Package Tracking] No error for parallel editing
+* `#2708` Fix: API key auth does not work for custom_field actions
 * `#2716` Fix: Repository is not auto-created when activated in project settings
 
 ## 3.0.0pre27
