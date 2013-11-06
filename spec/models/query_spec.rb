@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe Query do
-  describe 'available_columns' do
-    let(:query) { FactoryGirl.build(:query) }
+  let(:query) { FactoryGirl.build(:query) }
 
+  describe 'available_columns' do
     context 'with work_package_done_ratio NOT disabled' do
       it 'should include the done_ratio column' do
         query.available_columns.find {|column| column.name == :done_ratio}.should be_true
@@ -48,6 +48,20 @@ describe Query do
       end
     end
 
+  end
+
+  describe '#valid?' do
+    context 'with a missing value' do
+      before do
+        query.add_filter('due_date', 't-', [''])
+      end
+
+      it 'should not be valid and create an error' do
+        expect(query.valid?).to be_false
+
+        expect(query.errors[:base].first).to include(I18n.t('activerecord.errors.messages.invalid'))
+      end
+    end
   end
 
 end
