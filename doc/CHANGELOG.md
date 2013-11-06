@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#2697` Fix: Missing migration of planning element watchers
 * `#2564` Support custom fields in REST API v2 for work packages and projects
 * `#2586` Query available custom fields in REST API v2
 * Reverts `#2645` Remove usage of eval()
