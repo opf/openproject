@@ -108,6 +108,16 @@ Feature: Updating work packages
       | Description    | Desc2       |
     And the work package "pe2" should be shown as the parent
 
+  Scenario: Concurrent updates to work packages
+    When I go to the edit page of the work package called "pe1"
+    And I fill in the following:
+      | Start date     | 03-04-2013   |
+    And the work_package "pe1" is updated with the following:
+      | Start date | 04-04-2013 |
+    And I submit the form by the "Submit" button
+    Then I should see "Information has been updated by at least one other user in the meantime."
+    And I should see "The update(s) came from"
+
   Scenario: Adding a note
     When I go to the edit page of the work package called "pe1"
      And I fill in "Notes" with "Note message"
