@@ -240,6 +240,8 @@ module ApplicationHelper
   end
 
   def render_page_hierarchy(pages, node=nil, options={})
+    return '' unless pages[node]
+
     content_tag :ul, class: 'pages-hierarchy' do
       pages[node].collect do |page|
         content_tag :li do
