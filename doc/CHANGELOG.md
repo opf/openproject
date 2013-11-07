@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#2404` [Work Package Tracking] Parent's begin date set when Child's end date is set 
 * `#2566` [Timelines] Searching when selecting columns for a timeline configuration does not work 
 * `#2686` [Work package tracking] Work package summary not displayed correctly
 
