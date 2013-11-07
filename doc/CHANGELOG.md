@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#2631` [Timelines] Work package cannot be created out of timeline. 
+
 ## 3.0.0pre27
 
 * `#416`  Fix: Too many users selectable as watchers
