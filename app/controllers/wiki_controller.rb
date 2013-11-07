@@ -298,7 +298,7 @@ class WikiController < ApplicationController
     end
     @page.destroy
 
-    if page = @wiki.start_page || @wiki.pages.first
+    if page = @wiki.find_page(@wiki.start_page) || @wiki.pages.first
       redirect_to :action => 'index', :project_id => @project, id: page
     else
       redirect_to project_path(@project)
