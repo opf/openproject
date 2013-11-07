@@ -57,7 +57,7 @@ class WikiController < ApplicationController
                                                :add_attachment,
                                                :list_attachments,
                                                :destroy]
-  before_filter :build_wiki_page_and_content, only: :create
+  before_filter :build_wiki_page_and_content, only: [:new, :create]
 
   verify :method => :post, :only => [:protect], :redirect_to => { :action => :show }
   verify :method => :get,  :only => [:new, :new_child], :render => {:nothing => true, :status => :method_not_allowed}
@@ -92,6 +92,9 @@ class WikiController < ApplicationController
   def date_index
     load_pages_for_index
     @pages_by_date = @pages.group_by {|p| p.updated_on.to_date}
+  end
+
+  def new
   end
 
   def new_child
