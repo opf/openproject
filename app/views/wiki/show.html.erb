@@ -98,8 +98,8 @@ See doc/COPYRIGHT.rdoc for more details.
                                   :action => 'index',
                                   :show_wiki_edits => 1,
                                   :key => User.current.rss_key } %>
-  <%= f.link_to 'HTML', :url => { :version => @content.version } %>
-  <%= f.link_to 'TXT', :url => { :version => @content.version } %>
+  <%= f.link_to 'HTML', :url => { version: @content.version, id: @page } %>
+  <%= f.link_to 'TXT', :url => { version: @content.version, id: @page } %>
   <%= call_hook(:view_wiki_show_other_formats, {:link_builder => f, :url_params => {:id => @page, :version => @content.version}}) %>
 <% end if User.current.allowed_to?(:export_wiki_pages, @project) %>
 
