@@ -731,8 +731,8 @@ class WorkPackage < ActiveRecord::Base
     active_children = children.without_deleted
 
     unless active_children.empty?
-      self.start_date = active_children.collect(&:start_date).compact.min
-      self.due_date = active_children.collect(&:due_date).compact.max
+      self.start_date = active_children.minimum(:start_date)
+      self.due_date = active_children.maximum(:due_date)
     end
   end
 
