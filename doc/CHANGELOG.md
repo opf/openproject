@@ -70,6 +70,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2586` Query available custom fields in REST API v2
 * `#2637` Migrated timestamps to UTC
 * `#2696` CustomValues still associated to issues
+* `#2699` [Wiki] 400 error when entering special character in wiki title
 * Reverts `#2645` Remove usage of eval()
 * Fix work package filter query validations
 
