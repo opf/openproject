@@ -64,26 +64,26 @@ describe WorkPackage do
 
     context "different newlines" do
       let(:description) { "Description\n\nwith newlines\n\nembedded" }
+      let(:changed_description) { description.gsub("\n","\r\n") }
       let!(:work_package_1) { FactoryGirl.create(:work_package,
                                                  project_id: project.id,
                                                  type: type,
                                                  description: description,
                                                  priority: priority) }
 
-      before do
-        work_package_1.description = "Description\r\n\r\nwith newlines\r\n\r\nembedded"
-      end
+      before { work_package_1.description = changed_description }
 
+      context 'when a new journal is created tracking a simultaneously applied change' do
+        describe "does not change work package description" do
+          before do
+            work_package_1.subject = "changed"
+            work_package_1.save!
+          end
 
-      describe "does not change work package description" do
-        before do
-          work_package_1.subject = "changed"
-          work_package_1.save!
+          subject { work_package_1.journals.last.data.description }
+
+          it { should == description }
         end
-
-        subject { work_package_1.journals.last.data.description }
-
-        it { expect(subject).to eq(description) }
       end
     end
 
