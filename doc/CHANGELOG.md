@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#2566` [Timelines] Searching when selecting columns for a timeline configuration does not work 
+
 ## 3.0.0pre27
 
 * `#416`  Fix: Too many users selectable as watchers
