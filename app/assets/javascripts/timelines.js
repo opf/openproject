@@ -5244,16 +5244,15 @@ Timeline = {
 
   addPlanningElement: function() {
     var projects = this.projects;
-    var project, projectID;
+    var project, projectID, possibleProjects = [];
 
     for (project in projects) {
       if (projects.hasOwnProperty(project)) {
-        if (projects[project].permissions.edit_planning_elements === true) {
-          projectID = projects[project].identifier;
-          break;
-        }
+        possibleProjects.push(projects[project]);
       }
     }
+
+    projectID = possibleProjects[0].identifier;
 
     if (typeof projectID !== "undefined") {
       this.modalHelper.create(projectID);
