@@ -19,6 +19,7 @@ module Migration
 
     def repair_attachable_journal_entries(journal_type, legacy_journal_type)
       result = invalid_attachments(legacy_journal_type)
+      result += missing_attachments(journal_type)
 
       repair_initial_journals(result, journal_type)
     end
@@ -27,6 +28,24 @@ module Migration
       result = invalid_attachments(legacy_journal_type)
 
       remove_initial_journals(result, journal_type)
+    end
+
+    def missing_attachments(journal_type)
+      result = select_all <<-SQL
+        SELECT tmp.journaled_id, a.id AS attachment_id, a.filename, tmp.last_version FROM (
+          SELECT j.journable_id AS journaled_id, MAX(aj.id) AS attachment_id, MAX(j.version) AS last_version
+          FROM journals AS j LEFT JOIN attachable_journals AS aj
+            ON (j.id = aj.journal_id)
+          WHERE journable_type = '#{journal_type}'
+          GROUP BY j.journable_id
+        ) AS tmp JOIN attachments AS a ON (tmp.journaled_id = a.container_id)
+        WHERE a.container_type = '#{journal_type}' AND tmp.attachment_id IS NULL;
+      SQL
+
+      result.collect { |row| MissingAttachment.new(row['journaled_id'],
+                                                   row['attachment_id'],
+                                                   row['filename'],
+                                                   row['last_version']) }
     end
 
     def repair_initial_journals(result, journal_type)
