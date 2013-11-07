@@ -29,17 +29,18 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#2363` When all wiki pages have been deleted new wiki pages cannot be created (Respecification)
 * `#2566` [Timelines] Searching when selecting columns for a timeline configuration does not work 
 
 ## 3.0.0pre27
 
 * `#416`  Fix: Too many users selectable as watchers
-* `#2697` Fix: Missing migration of planning element watchers
 * `#2564` Support custom fields in REST API v2 for work packages and projects
 * `#2567` [Timelines] Select2 selection shows double escaped character
 * `#2586` Query available custom fields in REST API v2
 * `#2637` Migrated timestamps to UTC
 * `#2696` CustomValues still associated to issues
+* `#2697` Fix: Missing migration of planning element watchers
 * Reverts `#2645` Remove usage of eval()
 * Fix work package filter query validations
 
