@@ -241,8 +241,8 @@ Redmine::MenuManager.map :application_menu do |menu|
 end
 
 Redmine::MenuManager.map :my_menu do |menu|
-  menu.push :account, {:controller => '/my', :action => 'account'}, :caption => :label_my_account
-  menu.push :password, {:controller => '/my', :action => 'password'}, :caption => :button_change_password, :if => Proc.new { User.current.change_password_allowed? }
+  menu.push :account, {:controller => '/my', :action => 'account'}, :caption => :label_my_account, :html => {:'data-icon2' => 'B'}
+  menu.push :password, {:controller => '/my', :action => 'password'}, :caption => :button_change_password, :if => Proc.new { User.current.change_password_allowed? }, :html => {:'data-icon2' => 'i'}
   menu.push :delete_account, :deletion_info_path,
                              :caption => I18n.t('account.delete'),
                              :param => :user_id,
@@ -250,28 +250,28 @@ Redmine::MenuManager.map :my_menu do |menu|
 end
 
 Redmine::MenuManager.map :admin_menu do |menu|
-  menu.push :projects, {:controller => '/admin', :action => 'projects'}, :caption => :label_project_plural
-  menu.push :users, {:controller => '/users'}, :caption => :label_user_plural
-  menu.push :groups, {:controller => '/groups'}, :caption => :label_group_plural
-  menu.push :roles, {:controller => '/roles'}, :caption => :label_role_and_permissions
-  menu.push :types, {:controller => '/types'}, :caption => :label_type_plural
+  menu.push :projects, {:controller => '/admin', :action => 'projects'}, :caption => :label_project_plural, :html => {:'data-icon2' => '7'}
+  menu.push :users, {:controller => '/users'}, :caption => :label_user_plural, :html => {:'data-icon2' => 'B'}
+  menu.push :groups, {:controller => '/groups'}, :caption => :label_group_plural, :html => {:'data-icon2' => '&'}
+  menu.push :roles, {:controller => '/roles'}, :caption => :label_role_and_permissions, :html => {:'data-icon2' => 'A'}
+  menu.push :types, {:controller => '/types'}, :caption => :label_type_plural, :html => {:'data-icon2' => 'z'}
   menu.push :statuses, {:controller => '/statuses'}, :caption => :label_work_package_status_plural,
-            :html => {:class => 'statuses'}
-  menu.push :workflows, {:controller => '/workflows', :action => 'edit'}, :caption => Proc.new { Workflow.model_name.human }
+            :html => {:class => 'statuses', :'data-icon2' => 'A'}
+  menu.push :workflows, {:controller => '/workflows', :action => 'edit'}, :caption => Proc.new { Workflow.model_name.human }, :html => {:'data-icon2' => 'A'}
   menu.push :custom_fields, {:controller => '/custom_fields'},  :caption => :label_custom_field_plural,
-            :html => {:class => 'custom_fields'}
-  menu.push :enumerations, {:controller => '/enumerations'}
-  menu.push :settings, {:controller => '/settings'}
+            :html => {:class => 'custom_fields', :'data-icon2' => 'A'}
+  menu.push :enumerations, {:controller => '/enumerations'}, :html => {:'data-icon2' => 'A'}
+  menu.push :settings, {:controller => '/settings'}, :html => {:'data-icon2' => 'T'}
   menu.push :ldap_authentication, {:controller => '/ldap_auth_sources', :action => 'index'},
-            :html => {:class => 'server_authentication'}
-  menu.push :plugins, {:controller => '/admin', :action => 'plugins'}, :last => true
-  menu.push :info, {:controller => '/admin', :action => 'info'}, :caption => :label_information_plural, :last => true
+            :html => {:class => 'server_authentication', :'data-icon2' => 'A'}
+  menu.push :plugins, {:controller => '/admin', :action => 'plugins'}, :last => true, :html => {:'data-icon2' => 'A'}
+  menu.push :info, {:controller => '/admin', :action => 'info'}, :caption => :label_information_plural, :last => true, :html => {:'data-icon2' => '%'}
   menu.push :colors,
             {:controller => '/planning_element_type_colors', :action => 'index'},
-            {:caption    => :'timelines.admin_menu.colors' }
+            {:caption    => :'timelines.admin_menu.colors', :html => {:'data-icon2' => 'A'}}
   menu.push :project_types,
             {:controller => '/project_types', :action => 'index'},
-            {:caption    => :'timelines.admin_menu.project_types' }
+            {:caption    => :'timelines.admin_menu.project_types', :html => {:'data-icon2' => 'z'}}
 end
 
 Redmine::MenuManager.map :project_menu do |menu|
