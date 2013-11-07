@@ -1515,8 +1515,6 @@ Timeline = {
       throw new Error('date.js seems to be missing ((1).month is undefined)');
     } else if (Raphael === undefined) {
       throw new Error('Raphael seems to be missing (Raphael is undefined)');
-    } else if (Raphael.fonts === undefined) {
-      throw new Error('There seems to be a font missing (Raphael.fonts is undefined)');
     }
     return true;
   },
