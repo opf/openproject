@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#2566` [Timelines] Searching when selecting columns for a timeline configuration does not work 
+* `#2686` [Work package tracking] Work package summary not displayed correctly
 
 ## 3.0.0pre27
 
