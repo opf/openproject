@@ -143,8 +143,7 @@ class WorkPackage < ActiveRecord::Base
   # test_destroying_root_projects_should_clear_data #
   # for details.                                    #
   ###################################################
-  acts_as_attachable :after_add => :attachments_changed,
-                     :after_remove => :attachments_changed
+  acts_as_attachable :after_remove => :attachments_changed
 
   after_validation :set_attachments_error_details, if: lambda {|work_package| work_package.errors.messages.has_key? :attachments}
 
