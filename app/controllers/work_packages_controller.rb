@@ -179,6 +179,21 @@ class WorkPackagesController < ApplicationController
     else
       edit
     end
+  rescue ActiveRecord::StaleObjectError
+    error_message = l(:notice_locking_conflict)
+    render_attachment_warning_if_needed(work_package)
+
+    journals_since = work_package.journals.after(work_package.lock_version)
+    if journals_since.any?
+      changes = journals_since.map { |j| "#{j.user.name} (#{j.created_at.to_s(:short)})" }
+      error_message << " " << l(:notice_locking_conflict_additional_information, :users => changes.join(', '))
+    end
+
+    error_message << " " << l(:notice_locking_conflict_reload_page)
+
+    work_package.errors.add :base, error_message
+
+    edit
   end
 
   def index

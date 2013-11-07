@@ -427,6 +427,14 @@ describe PermittedParams do
       PermittedParams.new(params, user).update_work_package.should == hash
     end
 
+    it "should permit lock_version" do
+      hash = { "lock_version" => "1" }
+
+      params = ActionController::Parameters.new(:work_package => hash)
+
+      PermittedParams.new(params, user).update_work_package.should == hash
+    end
+
     it "should permit status_id" do
       hash = { "status_id" => "1" }
 
