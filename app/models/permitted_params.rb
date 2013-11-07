@@ -144,7 +144,8 @@ class PermittedParams < Struct.new(:params, :user)
                                          :planning_element_status_comment,
                                          :planning_element_status_id,
                                          :parent_id,
-                                         :responsible_id)
+                                         :responsible_id,
+                                         :lock_version)
   end
 
   def board_move
@@ -198,6 +199,7 @@ class PermittedParams < Struct.new(:params, :user)
                                                      :category_id,
                                                      :status_id,
                                                      :notes,
+                                                     :lock_version,
                                                      { attachments: [:file, :description] },
                                                      Proc.new do |args|
                                                        # avoid costly allowed_to? if the param is not there at all

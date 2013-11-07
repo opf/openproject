@@ -131,7 +131,9 @@ class Journal < ActiveRecord::Base
   end
 
   def touch_journable
-    journable.touch unless journable.nil?
+    if journable && !journable.changed?
+      journable.touch
+    end
   end
 
   def get_changes
