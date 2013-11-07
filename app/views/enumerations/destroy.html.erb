@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h2><%= l(@enumeration.option_name) %>: <%=h @enumeration %></h2>
 
-<%= form_tag({}) do %>
+<%= form_tag({}, :method => :delete) do %>
 <div class="box">
 <p><strong><%= l(:text_enumeration_destroy_question, @enumeration.objects_count) %></strong></p>
 <p><label for='reassign_to_id'><%= l(:text_enumeration_category_reassign_to) %></label>
