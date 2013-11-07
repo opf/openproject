@@ -37,12 +37,12 @@ describe "Journalized Objects" do
   end
 
 
-  it 'should work with issues' do
+  it 'should work with work packages' do
     @status_open ||= FactoryGirl.create(:status, :name => "Open", :is_default => true)
-    @issue ||= FactoryGirl.create(:work_package, :project => @project, :status => @status_open, :type => @type, :author => @current)
+    @work_package ||= FactoryGirl.create(:work_package, :project => @project, :status => @status_open, :type => @type, :author => @current)
 
-    initial_journal = @issue.journals.first
-    recreated_journal = @issue.recreate_initial_journal!
+    initial_journal = @work_package.journals.first
+    recreated_journal = @work_package.recreate_initial_journal!
 
     initial_journal.should be_identical(recreated_journal)
   end
@@ -77,9 +77,9 @@ describe "Journalized Objects" do
 
   it 'should work with time entries' do
     @status_open ||= FactoryGirl.create(:status, :name => "Open", :is_default => true)
-    @issue ||= FactoryGirl.create(:work_package, :project => @project, :status => @status_open, :type => @type, :author => @current)
+    @work_package ||= FactoryGirl.create(:work_package, :project => @project, :status => @status_open, :type => @type, :author => @current)
 
-    @time_entry ||= FactoryGirl.create(:time_entry, :work_package => @issue, :project => @project, :spent_on => Time.now, :hours => 5, :user => @current, :activity => FactoryGirl.create(:time_entry_activity))
+    @time_entry ||= FactoryGirl.create(:time_entry, :work_package => @work_package, :project => @project, :spent_on => Time.now, :hours => 5, :user => @current, :activity => FactoryGirl.create(:time_entry_activity))
 
     initial_journal = @time_entry.journals.first
     recreated_journal = @time_entry.recreate_initial_journal!
