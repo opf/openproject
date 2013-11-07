@@ -384,7 +384,7 @@ describe Api::V2::PlanningElementsController do
       end
 
       def expect_redirect_to
-        Regexp.new(project_planning_elements_path(project))
+        Regexp.new(api_v2_project_planning_elements_path(project))
       end
       let(:permission) { :edit_work_packages }
 
