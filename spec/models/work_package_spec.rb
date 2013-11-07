@@ -1343,4 +1343,70 @@ describe WorkPackage do
       expect(work_package.errors_on(:custom_values).size).to eq 1
     end
   end
+
+  describe :inherit_done_ratio_from_leaves do
+    let(:parent) { FactoryGirl.create(:work_package) }
+    let!(:child) { FactoryGirl.create(:work_package,
+                                      start_date: nil,
+                                      due_date: nil,
+                                      project: parent.project,
+                                      parent: parent) }
+
+    describe "child's start date nil" do
+      before do
+        child.start_date = nil;
+        child.due_date = Date.today()
+        child.save!
+
+        parent.send(:inherit_dates_from_children)
+      end
+
+      it { expect(parent.start_date).to be_nil }
+
+      it { expect(parent.due_date).to eq(child.due_date) }
+    end
+
+    describe "child's end date nil" do
+      before do
+        child.start_date = Date.today();
+        child.due_date = nil
+        child.save!
+
+        parent.send(:inherit_dates_from_children)
+      end
+
+      it { expect(parent.start_date).to eq(child.start_date) }
+
+      it { expect(parent.due_date).to be_nil }
+    end
+
+    describe "child's start/end date nil" do
+      before do
+        child.start_date = nil
+        child.due_date = nil
+        child.save!
+
+        parent.send(:inherit_dates_from_children)
+      end
+
+      it { expect(parent.start_date).to be_nil }
+
+      it { expect(parent.due_date).to be_nil }
+    end
+
+    describe "children with and w/o start/end date" do
+      let(:today) { Date.today() }
+      let!(:child2) { FactoryGirl.create(:work_package,
+                                         start_date: today,
+                                         due_date: today,
+                                         project: parent.project,
+                                         parent: parent) }
+
+      before { parent.send(:inherit_dates_from_children) }
+
+      it { expect(parent.start_date).to eq(today) }
+
+      it { expect(parent.due_date).to eq(today) }
+    end
+  end
 end
