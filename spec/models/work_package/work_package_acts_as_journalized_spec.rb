@@ -74,9 +74,6 @@ describe WorkPackage do
         work_package_1.description = "Description\r\n\r\nwith newlines\r\n\r\nembedded"
       end
 
-      describe "does not change journal count" do
-        it { expect(JournalManager.changed? work_package_1).to be_false }
-      end
 
       describe "does not change work package description" do
         before do
