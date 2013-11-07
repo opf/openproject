@@ -57,6 +57,12 @@ FactoryGirl.define do
         end
       end
     end
+
+    trait :without_wiki do
+      after :build do |project|
+        project.enabled_module_names = project.enabled_module_names - ['wiki']
+      end
+    end
   end
 end
 

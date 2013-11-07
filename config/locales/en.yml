@@ -603,6 +603,7 @@ en:
   label_calendar: "Calendar"
   label_calendar_show: "Show Calendar"
   label_category: "Category"
+  label_wiki_menu_item: Wiki menu item
   label_select_main_menu_item: Select new main menu item
   label_change_plural: "Changes"
   label_change_properties: "Change properties"
@@ -1530,7 +1531,10 @@ en:
   wiki_menu_item: "Menu item"
   wiki_menu_item_for: "Menu item for wikipage \"%{title}\""
   wiki_menu_item_setting: "Visibility"
-
+  wiki_menu_item_new_main_item_explanation: >
+    You are deleting the only main wiki menu item. You now have to choose a wiki page for which a new main item will be generated.
+    To delete the wiki the wiki module can be deactivated by project administrators.
+  wiki_menu_item_delete_not_permitted: The wiki menu item of the only wiki page cannot be deleted.
   work_package:
     updated_automatically_by_child_changes: |
         _Updated automatically by changing values within child work package %{child}_

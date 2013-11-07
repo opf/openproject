@@ -75,9 +75,6 @@ class WikiPage < ActiveRecord::Base
   DEFAULT_PROTECTED_PAGES = %w(sidebar)
 
   after_destroy :delete_wiki_menu_item
-  after_destroy do |wiki_page|
-    wiki_page.wiki.project.disable_module(:wiki) and wiki_page.wiki.destroy if is_only_wiki_page?
-  end
 
   def check_and_mark_as_protected
     if new_record? && DEFAULT_PROTECTED_PAGES.include?(title.to_s.downcase)
@@ -87,6 +84,8 @@ class WikiPage < ActiveRecord::Base
 
   def delete_wiki_menu_item
     self.menu_item.destroy if self.menu_item
+    # ensure there is a menu item for the wiki
+    wiki.create_menu_item_for_start_page if WikiMenuItem.main_items(wiki).empty?
   end
 
   def visible?(user=User.current)
@@ -243,6 +242,10 @@ class WikiPage < ActiveRecord::Base
     title
   end
 
+  def is_only_wiki_page?
+    wiki.pages == [self]
+  end
+
   protected
 
   def validate_consistency_of_parent_title
@@ -255,10 +258,6 @@ class WikiPage < ActiveRecord::Base
 
   def validate_same_project
     errors.add(:parent_title, :not_same_project) if parent && (parent.wiki_id != wiki_id)
-  end
-
-  def is_only_wiki_page?
-    wiki.pages.reject {|page| page == self}.empty?
   end
 end
 

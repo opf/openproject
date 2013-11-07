@@ -604,6 +604,7 @@ de:
   label_calendar: "Kalender"
   label_calendar_show: "Kalender anzeigen"
   label_category: "Kategorie"
+  label_wiki_menu_item: Wiki Menüpunkt
   label_select_main_menu_item: Neuen Hauptmenüpunkt auwählen
   label_change_plural: "Änderungen"
   label_change_properties: "Eigenschaften ändern"
@@ -1542,7 +1543,10 @@ de:
   wiki_menu_item: "Menüpunkt"
   wiki_menu_item_for: "Menüpunkt für die Wikiseite \"%{title}\""
   wiki_menu_item_setting: "Sichtbarkeit"
-
+  wiki_menu_item_new_main_item_explanation: >
+    Der einzige Wiki Hauptmenüpunkt wird gelöscht. Sie müssen nun eine Wikiseite auswählen, für die ein neuer Menüpunkt erzeugt wird.
+    Um das Wiki zu entfernen kann das Wiki Modul durch Projektadministratoren deaktiviert werden.
+  wiki_menu_item_delete_not_permitted: Der Wiki-Menüpunkt der einzigen Wiki-Seite kann nicht gelöscht werden.
   work_package:
     updated_automatically_by_child_changes: |
         _Automatisch durch die Änderungen in %{child} aktualisert_
