@@ -69,7 +69,6 @@ module CopyModel
 
       with_model(from_model) do |model|
         self.class.transaction do
-
           to_be_copied.each do |name|
             if (self.respond_to?(:"copy_#{name}") || self.private_methods.include?(:"copy_#{name}"))
               self.reload
@@ -158,7 +157,6 @@ module CopyModel
     base.send :extend,  self::ClassMethods
     base.send :include, self::InstanceMethods
     base.send :include, Redmine::SafeAttributes
-
   end
 
   def self.extended(base)
