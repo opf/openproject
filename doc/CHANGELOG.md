@@ -36,6 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2686` Fix: [Work package tracking] Work package summary not displayed correctly
 * `#2687` Fix: [Work Package Tracking] No error for parallel editing
 * `#2708` Fix: API key auth does not work for custom_field actions
+* `#2712` Fix: Journal entry on responsible changes displayed as numbers
 * `#2716` Fix: Repository is not auto-created when activated in project settings
 * `#2717` Fix: Multiple journal entries when adding multiple attachments in one change
 * Improve settings performance by caching whether the settings table exists

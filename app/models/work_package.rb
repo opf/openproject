@@ -216,8 +216,7 @@ class WorkPackage < ActiveRecord::Base
 
   # By planning element
   register_on_journal_formatter :plaintext,         :subject,
-                                                    :planning_element_status_comment,
-                                                    :responsible_id
+                                                    :planning_element_status_comment
 
   # acts_as_journalized will create an initial journal on wp creation
   # and touch the journaled object:
