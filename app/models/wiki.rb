@@ -34,7 +34,6 @@ class Wiki < ActiveRecord::Base
   has_many :wiki_menu_items, :class_name => 'WikiMenuItem', :dependent => :delete_all, :order => 'name'
   has_many :redirects, :class_name => 'WikiRedirect', :dependent => :delete_all
 
-
   acts_as_watchable
 
   accepts_nested_attributes_for :wiki_menu_items,
@@ -114,6 +113,7 @@ class Wiki < ActiveRecord::Base
     wiki_menu_item = wiki_menu_items.find_or_initialize_by_title start_page, name: 'Wiki'
     wiki_menu_item.new_wiki_page = true
     wiki_menu_item.index_page = true
+
     wiki_menu_item.save!
   end
 end

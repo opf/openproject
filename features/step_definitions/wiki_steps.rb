@@ -29,7 +29,7 @@
 Given /^the [Pp]roject "([^\"]*)" has 1 [wW]iki(?: )?[pP]age with the following:$/ do |project, table|
   p = Project.find_by_name(project)
 
-  p.wiki.create! unless p.wiki
+  p.wiki = Wiki.create unless p.wiki
 
   page = FactoryGirl.create(:wiki_page, :wiki => p.wiki)
   content = FactoryGirl.create(:wiki_content, :page => page)
@@ -75,7 +75,7 @@ end
 
 Given /^the wiki page "([^"]*)" of the project "([^"]*)" has the following contents:$/ do |page, project, table|
   project = Project.find_by_name project
-  wiki = project.wiki || project.wiki.create!
+  wiki = project.wiki || Wiki.create
   wp = wiki.pages.find_or_create_by_title(page)
   wc = wp.content || wp.create_content
   wc.update_attribute(:text, table.raw.first)

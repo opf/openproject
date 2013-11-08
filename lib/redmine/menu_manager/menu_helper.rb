@@ -43,6 +43,7 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def build_wiki_menus(project)
+    return unless project.enabled_module_names.include? 'wiki'
     project_wiki = project.wiki
 
     WikiMenuItem.main_items(project_wiki).each do |main_item|
