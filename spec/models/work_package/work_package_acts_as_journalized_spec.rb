@@ -166,6 +166,7 @@ describe WorkPackage do
 
       before do
         work_package.attachments << attachment
+        work_package.save!
       end
 
       context "new attachment" do
