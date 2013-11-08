@@ -287,9 +287,9 @@ class UsersController < ApplicationController
   end
 
   def destroy_membership
-    @membership = Member.find(params[:membership_id])
+    @membership = Member.find(params.delete(:membership_id))
     if request.post? && @membership.deletable?
-      @membership.destroy
+      @membership.destroy && @membership = nil
     end
     respond_to do |format|
       format.html { redirect_to :controller => '/users', :action => 'edit', :id => @user, :tab => 'memberships' }

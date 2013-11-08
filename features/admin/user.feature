@@ -92,3 +92,14 @@ Feature: User
       | alpha |
       | beta  |
       | gamma |
+
+  @javascript
+  Scenario: re-adding a Member inside Admin Panel
+    When the user "peter" is a "alpha" in the project "project1"
+     And I go to the memberships tab of the edit page for the user peter
+    When I delete membership to project "project1"
+     And I select "Project1" from "membership_project_id"
+     And I check the role "alpha"
+     And I click "Add" within "#new_project_membership"
+     Then I should see membership to the project "project1" with the roles:
+       | alpha |
