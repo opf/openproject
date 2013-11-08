@@ -38,3 +38,6 @@ See doc/COPYRIGHT.rdoc for details.
 
 == Icons credits:
 Thanks to Le Moign Vincent and his fabulous Minicons icons on webalys.com[http://www.webalys.com/minicons/icons-free-pack.php].
+
+== Lato font credits:
+Thanks to tyPoland Lukasz Dziedzic for his 'Lato' font.
