@@ -32,6 +32,8 @@ module Api
 
       include ::Api::V2::ApiController
 
+      accept_key_auth :index, :show
+
       before_filter :require_permissions
 
       def index
