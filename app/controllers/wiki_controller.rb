@@ -120,6 +120,7 @@ class WikiController < ApplicationController
       attachments = Attachment.attach_files(@page, params[:attachments])
       render_attachment_warning_if_needed(@page)
       call_hook(:controller_wiki_edit_after_save, :params => params, :page => @page)
+      flash[:notice] = l(:notice_successful_create)
       redirect_to_show
     else
       render :action => 'new'
