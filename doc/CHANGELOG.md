@@ -39,6 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2712` Fix: Journal entry on responsible changes displayed as numbers
 * `#2716` Fix: Repository is not auto-created when activated in project settings
 * `#2717` Fix: Multiple journal entries when adding multiple attachments in one change
+* Add indices to to all the journals (improves at least WorkPackage show)
 * Improve settings performance by caching whether the settings table exists
 
 ## 3.0.0pre27
