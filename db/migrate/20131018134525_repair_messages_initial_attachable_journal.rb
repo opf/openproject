@@ -17,18 +17,18 @@ class RepairMessagesInitialAttachableJournal < ActiveRecord::Migration
   JOURNAL_TYPE = 'Message'
 
   def up
-    say_with_time_silently "Repair initial attachable journals" do
+    say_with_time_silently "Repair message's initial attachable journals" do
       result = missing_message_attachments
 
-      repair_initial_journals(result, JOURNAL_TYPE)
+      repair_journals(result)
     end
   end
 
   def down
-    say_with_time_silently "Remove initial attachable journals" do
+    say_with_time_silently "Remove message's initial attachable journals" do
       result = missing_message_attachments
 
-      remove_initial_journals(result, JOURNAL_TYPE)
+      remove_journals(result)
     end
   end
 
@@ -46,6 +46,7 @@ class RepairMessagesInitialAttachableJournal < ActiveRecord::Migration
 
     result.each_with_object([]) do |row, a|
       a << MissingAttachment.new(row['container_id'],
+                                 JOURNAL_TYPE,
                                  row['id'],
                                  row['filename'],
                                  row['last_version'])

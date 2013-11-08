@@ -13,6 +13,7 @@ require_relative 'utils'
 module Migration
   module Utils
     MissingAttachment = Struct.new(:journaled_id,
+                                   :journaled_type,
                                    :attachment_id,
                                    :filename,
                                    :last_version)
@@ -24,33 +25,23 @@ module Migration
       repair_initial_journals(result, journal_type)
     end
 
+    def repair_attachable_journal_entries(journal_type, legacy_journal_type)
+      result = invalid_attachments(legacy_journal_type)
+
+      result.map { |m| m.journaled_type = journal_type }
+
+      repair_journals(result)
+    end
+
     def remove_initial_journal_entries(journal_type, legacy_journal_type)
       result = invalid_attachments(legacy_journal_type)
 
-      remove_initial_journals(result, journal_type)
+      remove_initial_journals(result)
     end
 
-    def missing_attachments(journal_type)
-      result = select_all <<-SQL
-        SELECT * FROM (
-          SELECT a.container_id AS journaled_id, a.id AS attachment_id, a.filename, MAX(aj.id) AS aj_id, MAX(j.version) AS last_version FROM attachments AS a JOIN journals AS j
-            ON (a.container_id = j.journable_id AND a.container_type = j.journable_type) LEFT JOIN attachable_journals AS aj
-            ON (a.id = aj.attachment_id)
-          GROUP BY a.container_id, a.id, a.filename
-
-          ) AS tmp
-        WHERE aj_id IS NULL
-      SQL
-
-      result.collect { |row| MissingAttachment.new(row['journaled_id'],
-                                                   row['attachment_id'],
-                                                   row['filename'],
-                                                   row['last_version']) }
-    end
-
-    def repair_initial_journals(result, journal_type)
+    def repair_journals(result)
       result.each do |m|
-        journal_ids = affected_journal_ids(m.journaled_id, m.last_version, journal_type)
+        journal_ids = affected_journal_ids(m.journaled_id, m.last_version, m.journaled_type)
 
         journal_ids.each do |journal_id|
           insert <<-SQL
@@ -61,9 +52,9 @@ module Migration
       end
     end
 
-    def remove_initial_journals(result, journal_type)
+    def remove_initial_journals(result)
       result.each do |m|
-        journal_ids = affected_journal_ids(m.journaled_id, m.last_version, journal_type)
+        journal_ids = affected_journal_ids(m.journaled_id, m.last_version, m.journaled_type)
 
         delete <<-SQL
           DELETE FROM attachable_journals
@@ -115,6 +106,7 @@ module Migration
                                                            removed_attachments)
 
       missing_entries.map { |e| MissingAttachment.new(journaled_id,
+                                                      nil,
                                                       e[:id],
                                                       e[:filename],
                                                       version.to_i - 1) }
