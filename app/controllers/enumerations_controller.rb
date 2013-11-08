@@ -91,9 +91,6 @@ class EnumerationsController < ApplicationController
       end
     end
     @enumerations = @enumeration.class.find(:all) - [@enumeration]
-  #rescue
-  #  flash[:error] = 'Unable to delete enumeration'
-  #  redirect_to :action => 'index'
   end
 
   def default_breadcrumb

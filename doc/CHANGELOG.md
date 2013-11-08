@@ -32,6 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2363` When all wiki pages have been deleted new wiki pages cannot be created (respecification)
 * `#2566` Fix: [Timelines] Searching when selecting columns for a timeline configuration does not work
 * `#2631` Fix: [Timelines] Work package cannot be created out of timeline.
+* `#2685` [Work package tracking] 404 when deleting work package priority which is assigned to work package
 * `#2686` Fix: [Work package tracking] Work package summary not displayed correctly
 * `#2687` Fix: [Work Package Tracking] No error for parallel editing
 * `#2708` Fix: API key auth does not work for custom_field actions
