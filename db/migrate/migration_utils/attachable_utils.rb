@@ -19,7 +19,7 @@ module Migration
                                    :last_version)
 
     def add_missing_attachable_journals
-      result  = missing_attachments
+      result = missing_attachments
 
       repair_journals(result)
     end
@@ -34,6 +34,8 @@ module Migration
 
     def remove_initial_journal_entries(journal_type, legacy_journal_type)
       result = invalid_attachments(legacy_journal_type)
+
+      result.map { |m| m.journaled_type = journal_type }
 
       remove_initial_journals(result)
     end

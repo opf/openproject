@@ -41,6 +41,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2715` [Journals] Missing attachable journals
 * `#2716` Fix: Repository is not auto-created when activated in project settings
 * `#2717` Fix: Multiple journal entries when adding multiple attachments in one change
+* `#2721` Fix: Fix: Missing journal entries for customizable_journals
 * Add indices to to all the journals (improves at least WorkPackage show)
 * Improve settings performance by caching whether the settings table exists
 
