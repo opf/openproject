@@ -62,6 +62,17 @@ describe WorkPackage do
       it { Journal.all.count.should eq(1) }
     end
 
+    context 'when the journal manager does not detect a change to be tracked' do
+      before do
+        JournalManager.stub(:changed?).with(work_package).and_return false
+        work_package.assign_attributes subject: "#{work_package.subject} with changes"
+      end
+
+      it 'is not created' do
+        expect{work_package.save!}.to_not change{work_package.journals.length}.by(1)
+      end
+    end
+
     context "different newlines" do
       let(:description) { "Description\n\nwith newlines\n\nembedded" }
       let(:changed_description) { description.gsub("\n","\r\n") }
@@ -74,15 +85,23 @@ describe WorkPackage do
       before { work_package_1.description = changed_description }
 
       context 'when a new journal is created tracking a simultaneously applied change' do
-        describe "does not change work package description" do
-          before do
-            work_package_1.subject = "changed"
-            work_package_1.save!
-          end
 
+        before do
+          work_package_1.subject += "changed"
+          work_package_1.save!
+        end
+
+        describe "does not track the changed newline characters" do
           subject { work_package_1.journals.last.data.description }
 
           it { should == description }
+        end
+
+        describe 'tracks only the other change' do
+          subject { work_package_1.journals.last.details }
+
+          it { should have_key :subject }
+          it { should_not have_key :description }
         end
       end
     end
