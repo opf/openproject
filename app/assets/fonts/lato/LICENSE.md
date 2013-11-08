@@ -1,6 +1,5 @@
-# License for 'Lato' font
+# All fonts in this directory are lincensed under the SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
 
-Licensed under: SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
 Author:         tyPoland Lukasz Dziedzic
 
 <pre>
