@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#1910` New menu structure for pages of timelines module
 * `#2363` When all wiki pages have been deleted new wiki pages cannot be created (respecification)
 * `#2566` Fix: [Timelines] Searching when selecting columns for a timeline configuration does not work
 * `#2631` Fix: [Timelines] Work package cannot be created out of timeline.

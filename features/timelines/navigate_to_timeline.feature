@@ -48,14 +48,12 @@ Feature: Navigating to the timeline page
 
   Scenario: Navigating to the timeline page via the menu
      When I go to the home page of the project called "ecookbook"
-      And I toggle the "Timelines" submenu
-      And I follow "Timeline reports"
+      And I follow "Timelines"
      Then I should be on the new timeline page of the project called "ecookbook"
 
   Scenario: When navigating via the menu the first timeline is presented by default
      When there is a timeline "Testline" for project "ecookbook"
      When there is a timeline "Testline2" for project "ecookbook"
       And I go to the page of the project called "ecookbook"
-      And I toggle the "Timelines" submenu
-      And I follow "Timeline reports"
+      And I follow "Timelines"
       And I should be on the page of the timeline "Testline" of the project called "ecookbook"

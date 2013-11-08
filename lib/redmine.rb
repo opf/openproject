@@ -276,56 +276,76 @@ end
 
 Redmine::MenuManager.map :project_menu do |menu|
   menu.push :overview, { :controller => '/projects', :action => 'show' }
-  menu.push :activity, { :controller => '/activities', :action => 'index' }, :param => :project_id,
-              :if => Proc.new { |p| p.module_enabled?("activity") }
-  menu.push :roadmap, { :controller => '/versions', :action => 'index' }, :param => :project_id,
-              :if => Proc.new { |p| p.shared_versions.any? }
 
-  menu.push :work_packages, { :controller => '/work_packages', :action => 'index' }, :param => :project_id, :caption => :label_work_package_plural
-  menu.push :new_work_package, { :controller => '/work_packages', :action => 'new'}, :param => :project_id, :caption => :label_work_package_new, :parent => :work_packages,
-                                                                                     :html => { :accesskey => OpenProject::AccessKeys.key_for(:new_work_package) }
-  menu.push :summary_field, {:controller => '/work_packages/reports', :action => 'report'}, :param => :project_id, :caption => :label_workflow_summary, :parent => :work_packages
-  menu.push :calendar, { :controller => '/work_packages/calendars', :action => 'index' }, :param => :project_id, :caption => :label_calendar
-  menu.push :news, { :controller => '/news', :action => 'index' }, :param => :project_id, :caption => :label_news_plural
-  menu.push :new_news, { :controller => '/news', :action => 'new' }, :param => :project_id, :caption => :label_news_new, :parent => :news,
-              :if => Proc.new { |p| User.current.allowed_to?(:manage_news, p.project) }
-  menu.push :boards, { :controller => '/boards', :action => 'index', :id => nil }, :param => :project_id,
-              :if => Proc.new { |p| p.boards.any? }, :caption => :label_board_plural
-  menu.push :repository, { :controller => '/repositories', :action => 'show' }, :param => :project_id,
-              :if => Proc.new { |p| p.repository && !p.repository.new_record? }
-  menu.push :settings, { :controller => '/projects', :action => 'settings' }, :caption => :label_project_settings, :last => true
+  menu.push :activity, { :controller => '/activities', :action => 'index' },
+                       :param => :project_id,
+                       :if => Proc.new { |p| p.module_enabled?("activity") }
+
+  menu.push :roadmap, { :controller => '/versions', :action => 'index' },
+                      :param => :project_id,
+                      :if => Proc.new { |p| p.shared_versions.any? }
+
+  menu.push :work_packages, { :controller => '/work_packages', :action => 'index' },
+                            :param => :project_id,
+                            :caption => :label_work_package_plural
+
+  menu.push :new_work_package, { :controller => '/work_packages', :action => 'new'},
+                               :param => :project_id,
+                               :caption => :label_work_package_new,
+                               :parent => :work_packages,
+                               :html => { :accesskey => OpenProject::AccessKeys.key_for(:new_work_package) }
+
+  menu.push :summary_field, {:controller => '/work_packages/reports', :action => 'report'},
+                            :param => :project_id,
+                            :caption => :label_workflow_summary,
+                            :parent => :work_packages
 
 
-  # Project menu entries
-  # * Timelines
-  # ** Reports
-  # ** Associations a.k.a. Dependencies
-  # ** Reportings
-  # ** Planning Elemnts
-  # ** Papierkorb
+  menu.push :timelines,
+            {:controller => '/timelines', :action => 'index'},
+            :param => :project_id,
+            :caption => :'timelines.project_menu.timelines'
 
-  {:param => :project_id}.tap do |options|
+  menu.push :reportings,
+            {:controller => '/reportings', :action => 'index'},
+            :param => :project_id,
+            :caption => :'timelines.project_menu.reportings'
 
-    menu.push :timelines,
-              {:controller => '/timelines', :action => 'index'},
-              options.merge(:caption => :'timelines.project_menu.timelines')
 
-    options.merge(:parent => :timelines).tap do |rep_options|
+  menu.push :project_associations,
+            {:controller => '/project_associations', :action => 'index'},
+            :param => :project_id,
+            :caption => :'timelines.project_menu.project_associations',
+            :if => Proc.new { |p| p.project_type.try :allows_association }
 
-      menu.push :reports,
-                {:controller => '/timelines', :action => 'index'},
-                rep_options.merge(:caption => :'timelines.project_menu.reports')
+  menu.push :calendar, { :controller => '/work_packages/calendars', :action => 'index' },
+                       :param => :project_id,
+                       :caption => :label_calendar
 
-      menu.push :project_associations,
-                {:controller => '/project_associations', :action => 'index'},
-                rep_options.merge(:caption => :'timelines.project_menu.project_associations',
-                                  :if => Proc.new { |p| p.project_type.try :allows_association })
+  menu.push :news, { :controller => '/news', :action => 'index' },
+                   :param => :project_id,
+                   :caption => :label_news_plural
 
-      menu.push :reportings,
-                {:controller => '/reportings', :action => 'index'},
-                rep_options.merge(:caption => :'timelines.project_menu.reportings')
-    end
-  end
+  menu.push :new_news, { :controller => '/news', :action => 'new' },
+                       :param => :project_id,
+                       :caption => :label_news_new,
+                       :parent => :news,
+                       :if => Proc.new { |p| User.current.allowed_to?(:manage_news, p.project) }
+
+  menu.push :boards, { :controller => '/boards', :action => 'index', :id => nil },
+                     :param => :project_id,
+                     :if => Proc.new { |p| p.boards.any? },
+                     :caption => :label_board_plural
+
+  menu.push :repository, { :controller => '/repositories', :action => 'show' },
+                         :param => :project_id,
+                         :if => Proc.new { |p| p.repository && !p.repository.new_record? }
+
+  menu.push :settings, { :controller => '/projects', :action => 'settings' },
+                       :caption => :label_project_settings,
+                       :last => true
+
+
 end
 
 Redmine::Activity.map do |activity|

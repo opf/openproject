@@ -34,8 +34,6 @@ class TimelinesController < ApplicationController
   before_filter :find_project_by_project_id
   before_filter :authorize
 
-  menu_item :reports
-
   def index
     @timeline = @project.timelines.first
     if @timeline.nil?
