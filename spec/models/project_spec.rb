@@ -234,5 +234,18 @@ describe Project do
         copy.work_packages.count.should == project.work_packages.count
       end
     end
+
+    describe :copy_timelines do
+      it "should copy timelines from another project" do
+        timeline = FactoryGirl.create(:timeline, :project => project)
+        # set options to nil, is known to have been buggy
+        timeline.send :write_attribute, :options, nil
+
+        copy.send(:copy_timelines, project)
+        copy.save
+
+        copy.timelines.count.should == project.timelines.count
+      end
+    end
   end
 end
