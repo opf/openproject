@@ -205,12 +205,12 @@ class JournalManager
     "Journal::#{journal_class_name(type)}".constantize
   end
 
-  private
-
   def self.normalize_newlines(data)
     data.each_with_object({}) { |e, h| h[e[0]] = (e[1].kind_of?(String) ? e[1].gsub(/\r\n/,"\n")
                                                                         : e[1]) }
   end
+
+  private
 
   def self.journal_class_name(type)
     "#{base_class(type).name}Journal"
