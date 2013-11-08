@@ -212,6 +212,45 @@ describe Project::Copy do
       subject { copy.wiki }
 
       it { should_not == nil && should.be_valid }
+
+      describe :copy_wiki_pages do
+        describe :dont_copy_wiki_page_without_content do
+          before do
+            project.wiki.pages << FactoryGirl.create(:wiki_page)
+
+            copy.send(:copy_wiki_pages, project)
+            copy.save
+          end
+
+          subject { copy.wiki.pages.count }
+
+          it { should == 0 }
+        end
+
+        describe :copy_wiki_page_with_content do
+          before do
+            project.wiki.pages << FactoryGirl.create(:wiki_page_with_content)
+
+            copy.send(:copy_wiki_pages, project)
+            copy.save
+          end
+
+          subject { copy.wiki.pages.count }
+
+          it { should == project.wiki.pages.count }
+        end
+      end
+      describe :copy_wiki_menu_items do
+        before do
+          project.wiki.wiki_menu_items << FactoryGirl.create(:wiki_menu_item_with_parent, wiki: project.wiki)
+          copy.send(:copy_wiki_menu_items, project)
+          copy.save
+        end
+
+        subject { copy.wiki.wiki_menu_items.count }
+
+        it { should == project.wiki.wiki_menu_items.count }
+      end
     end
 
     describe :copy_boards do
