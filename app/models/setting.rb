@@ -99,16 +99,16 @@ class Setting < ActiveRecord::Base
     src = <<-END_SRC
       def self.#{name}
         # when runnung too early, there is no settings table. do nothing
-        self[:#{name}] if connection.table_exists?(table_name)
+        self[:#{name}] if settings_table_exists_yet?
       end
 
       def self.#{name}?
         # when runnung too early, there is no settings table. do nothing
-        self[:#{name}].to_i > 0 if connection.table_exists?(table_name)
+        self[:#{name}].to_i > 0 if settings_table_exists_yet?
       end
 
       def self.#{name}=(value)
-        if connection.table_exists?(table_name)
+        if settings_table_exists_yet?
           self[:#{name}] = value
         else
           logger.warn "Trying to save a setting named '#{name}' while there is no 'setting' table yet. This setting will not be saved!"
@@ -221,5 +221,14 @@ private
 
   def self.base_cache_key(name, timestamp)
     "/openproject/settings/#{timestamp}/#{name}"
+  end
+
+  def self.settings_table_exists_yet?
+    # Check whether the settings table already exists. This makes plugins
+    # patching core classes not break things when settings are accessed.
+    # I'm not sure this is a good idea, but that's the way it is right now,
+    # and caching this improves performance significantly for actions
+    # accessing settings a lot.
+    @settings_table_exists_yet ||= connection.table_exists?(table_name)
   end
 end
