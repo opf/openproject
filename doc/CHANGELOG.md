@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#2721` Fix: Fix: Fix: Missing journal entries for customizable_journals
+* `#2718` Newlines in workpackage descriptions aren't normalized for change tracking
 
 ## 3.0.0pre28
 
