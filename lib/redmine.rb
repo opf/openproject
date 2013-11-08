@@ -305,23 +305,22 @@ Redmine::MenuManager.map :project_menu do |menu|
                             :parent => :work_packages
 
 
-  menu.push :timelines,
-            {:controller => '/timelines', :action => 'index'},
-            :param => :project_id,
-            :caption => :'timelines.project_menu.timelines',
-            :html => {:'data-icon2' => 'f'}
+  menu.push :timelines, {:controller => '/timelines', :action => 'index'},
+                        :param => :project_id,
+                        :caption => :'timelines.project_menu.timelines',
+                        :html => {:'data-icon2' => 'f'}
 
-  menu.push :reportings,
-            {:controller => '/reportings', :action => 'index'},
-            :param => :project_id,
-            :caption => :'timelines.project_menu.reportings'
+  menu.push :reportings, {:controller => '/reportings', :action => 'index'},
+                         :param => :project_id,
+                         :caption => :'timelines.project_menu.reportings',
+                         :html => {:'data-icon2' => 'w'}
 
 
-  menu.push :project_associations,
-            {:controller => '/project_associations', :action => 'index'},
-            :param => :project_id,
-            :caption => :'timelines.project_menu.project_associations',
-            :if => Proc.new { |p| p.project_type.try :allows_association }
+  menu.push :project_associations, {:controller => '/project_associations', :action => 'index'},
+                                   :param => :project_id,
+                                   :caption => :'timelines.project_menu.project_associations',
+                                   :if => Proc.new { |p| p.project_type.try :allows_association },
+                                   :html => {:'data-icon2' => '4'}
 
   menu.push :calendar, { :controller => '/work_packages/calendars', :action => 'index' },
                        :param => :project_id,
