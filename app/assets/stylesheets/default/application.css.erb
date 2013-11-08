@@ -1314,7 +1314,12 @@ a:hover {
   background-color: #FFFFFF;
   color: #222222;
 }
-#header li.drop-down li > a:hover, #main-menu ul.menu_root li a.selected, #main-menu ul.menu_root li a:hover  {
+#header li.drop-down li > a:hover,
+#header li.drop-down li > a:focus,
+#main-menu ul.menu_root li a.selected,
+#main-menu ul.menu_root li a:hover,
+#main-menu ul.menu_root li a:focus,
+#header .chzn-container .chzn-results .highlighted  {
   -moz-border-radius-topleft: 5px;
   -moz-border-radius-topright: 5px;
   -webkit-border-top-left-radius: 5px;
@@ -3135,8 +3140,10 @@ li a.home:hover  {
 }
 
 #header li.drop-down li > a:hover,
+#header li.drop-down li > a:focus,
 #main-menu ul.menu_root li a.selected,
 #main-menu ul.menu_root li a:hover,
+#main-menu ul.menu_root li a:focus,
 #header .chzn-container .chzn-results .highlighted {
   background-color:  #24b3e7;
 }
