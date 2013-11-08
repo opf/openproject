@@ -104,6 +104,21 @@ describe WorkPackage do
           it { should_not have_key :description }
         end
       end
+
+      context 'when there is a legacy journal containing non-escaped newlines' do
+        before do
+          work_package_1.save
+          # force the latest journal to match the description with unescaped newline characters
+          legacy_journal = work_package_1.journals.last
+          legacy_journal.data.update_column :description, changed_description
+          # rollback work package description to normalized newlines
+          work_package_1.update_attributes description: description
+        end
+
+        subject { work_package_1.journals.last.details }
+
+        it { should_not have_key :description }
+      end
     end
 
     context "on work package change" do
