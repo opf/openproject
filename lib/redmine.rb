@@ -306,6 +306,18 @@ Redmine::MenuManager.map :project_menu do |menu|
             :param => :project_id,
             :caption => :'timelines.project_menu.timelines'
 
+  menu.push :reportings,
+            {:controller => '/reportings', :action => 'index'},
+            :param => :project_id,
+            :caption => :'timelines.project_menu.reportings'
+
+
+  menu.push :project_associations,
+            {:controller => '/project_associations', :action => 'index'},
+            :param => :project_id,
+            :caption => :'timelines.project_menu.project_associations',
+            :if => Proc.new { |p| p.project_type.try :allows_association }
+
   menu.push :calendar, { :controller => '/work_packages/calendars', :action => 'index' },
                        :param => :project_id,
                        :caption => :label_calendar
@@ -328,18 +340,6 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :repository, { :controller => '/repositories', :action => 'show' },
                          :param => :project_id,
                          :if => Proc.new { |p| p.repository && !p.repository.new_record? }
-
-  menu.push :project_associations,
-            {:controller => '/project_associations', :action => 'index'},
-            :param => :project_id,
-            :caption => :'timelines.project_menu.project_associations',
-            :if => Proc.new { |p| p.project_type.try :allows_association }
-
-  menu.push :reportings,
-            {:controller => '/reportings', :action => 'index'},
-            :param => :project_id,
-            :caption => :'timelines.project_menu.reportings'
-
 
   menu.push :settings, { :controller => '/projects', :action => 'settings' },
                        :caption => :label_project_settings,
