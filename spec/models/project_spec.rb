@@ -168,4 +168,71 @@ describe Project do
       project.wiki.wiki_menu_items.first.title.should == project.wiki.start_page
     end
   end
+
+  describe :copy do
+    let(:project) { FactoryGirl.create(:project_with_types) }
+    let(:copy) { Project.new }
+
+    it "should be able to be copied" do
+      copy.name = "foo"
+      copy.identifier = "foo"
+      copy.copy(project)
+
+      copy.should be_valid
+      copy.should_not be_new_record
+    end
+  end
+
+  describe :copy_attributes do
+    let(:project) do
+      project = FactoryGirl.create(:project_with_types)
+      work_package_custom_field = FactoryGirl.create(:work_package_custom_field)
+      project.work_package_custom_fields << work_package_custom_field
+      project.save
+      project
+    end
+    let(:copy) do
+      copy = Project.new
+      copy.name = "foo"
+      copy.identifier = "foo"
+      return copy
+    end
+
+    it "should copy all relevant attributes from another project" do
+      copy.send :copy_attributes, project
+      copy.save
+
+      copy.types.should == project.types
+      copy.work_package_custom_fields.should == project.work_package_custom_fields
+    end
+  end
+
+  describe :copy_associations do
+    let(:project) { FactoryGirl.create(:project_with_types) }
+    let(:copy) do
+      copy = Project.new
+      copy.name = "foo"
+      copy.identifier = "foo"
+      copy.copy_attributes(project)
+      copy.save
+      return copy
+    end
+
+    describe :copy_work_packages do
+      it "should copy work_packages from another project" do
+        wp1 = FactoryGirl.create(:work_package, :project => project)
+        wp2 = FactoryGirl.create(:work_package, :project => project)
+        wp3 = FactoryGirl.create(:work_package, :project => project)
+        relation = FactoryGirl.create(:relation, :from => wp1, :to => wp2)
+        wp1.parent = wp3
+        wp1.category = FactoryGirl.create(:category, :project => project)
+        wp1.fixed_version = FactoryGirl.create(:version, :project => project)
+        [wp1, wp2, wp3].each { |wp| project.work_packages << wp }
+        copy.send :copy_work_packages, project
+        copy.save
+
+        copy.work_packages.count.should == project.work_packages.count
+      end
+    end
+  end
 end
