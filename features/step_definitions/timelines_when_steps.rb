@@ -82,6 +82,17 @@ When (/^I set the first level grouping criteria to "(.*?)" for the timeline "(.*
   page.execute_script("jQuery('#content form').submit()")
 end
 
+When (/^I enable the hide other group option$/) do
+  steps %Q{
+    When I edit the settings of the current timeline
+  }
+  
+  page.should have_selector("#timeline_options_hide_other_group")
+
+  page.execute_script("jQuery('#timeline_options_hide_other_group').prop('checked', true)")
+  page.execute_script("jQuery('#content form').submit()")
+end
+
 When (/^I show only work packages which have the responsible "(.*?)"$/) do |responsible|
   steps %Q{
     When I edit the settings of the current timeline

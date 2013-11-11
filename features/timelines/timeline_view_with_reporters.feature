@@ -231,3 +231,18 @@ Feature: Timeline View Tests with reporters
       And I should see the project "ecookbook13"
       And I should see the project "ecookbook0"
       And the project "ecookbook" should follow after "ecookbook13"
+
+  @javascript
+  Scenario: First level grouping and hide other
+    Given I am working in the timeline "Testline" of the project called "ecookbook"
+    When there is a timeline "Testline" for project "ecookbook"
+      And I set the first level grouping criteria to:
+        | ecookbook   |
+        | ecookbook13 |
+      And I enable the hide other group option
+      And I wait for timeline to load table
+
+     Then I should not see the project "ecookbook_empty"
+      And I should see the project "ecookbook_q3"
+      And I should see the project "ecookbook0"
+      And the project "ecookbook13" should follow after "ecookbook"
