@@ -34,10 +34,10 @@ Feature: Team Member
     And the user "paul" is a "team member"
     And the project has the following sprints:
         | name       | start_date | effective_date |
-        | Sprint 001 | 2010-01-01        | 2010-01-31     |
-        | Sprint 002 | 2010-02-01        | 2010-02-28     |
-        | Sprint 003 | 2010-03-01        | 2010-03-31     |
-        | Sprint 004 | 2010-03-01        | 2010-03-31     |
+        | Sprint 001 | 2010-01-01 | 2010-01-31     |
+        | Sprint 002 | 2010-02-01 | 2010-02-28     |
+        | Sprint 003 | 2010-03-01 | 2010-03-31     |
+        | Sprint 004 | 2010-03-01 | 2010-03-31     |
     And the project has the following stories in the following sprints:
         | subject | sprint     |
         | Story 1 | Sprint 001 |
@@ -82,11 +82,10 @@ Feature: Team Member
 
   @javascript
   Scenario: View the burndown chart from the work_package index page
-  #using this way because there is a bug in the work_packages page:
-  #the sidebar is not updated on applying filters
-  #hence the parameters needed for showing the "Burndown Chart" link
-  #do not apply when work_package index is initially opened and the bug prevent the link
-  #from appearing when they do
+    # Using this way because there is a bug in the work_packages page: The sidebar
+    # is not updated on applying filters, hence the parameters needed for showing
+    # the "Burndown Chart" link do not apply when work_package index is initially
+    # opened and the bug prevent the link from appearing when they do
     Given I am on the master backlog
       And I open the "Sprint 002" backlogs menu
       And I follow "Stories/Tasks" of the "Sprint 002" menu

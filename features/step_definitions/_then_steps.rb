@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 Then /^(.+) should be in the (\d+)(?:st|nd|rd|th) position of the sprint named (.+)$/ do |story_subject, position, sprint_name|
   position = position.to_i
   story = Story.find(:first, :conditions => ["subject=? and name=?", story_subject, sprint_name], :joins => :fixed_version)
@@ -241,5 +240,5 @@ Then /^there should not be a saving error on task "(.+?)"$/ do |task_name|
 end
 
 Then /^I should be notified that the work_package "(.+?)" is an invalid parent to the work_package "(.+?)" because of cross project limitations$/ do |parent_name, child_name|
-  step %Q{I should see "Parent is invalid because the work_package '#{child_name}' is a backlogs task and as such can not have the backlogs story '#{parent_name}' as it´s parent as long as the story is in a different project" within "#errorExplanation"}
+  step %Q{I should see "Parent is invalid because the work_package '#{child_name}' is a backlogs task and as such can not have the backlogs story '#{parent_name}' as it's parent as long as the story is in a different project" within "#errorExplanation"}
 end

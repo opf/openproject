@@ -106,14 +106,14 @@ When /^I view the stories in the work_packages tab/ do
   visit url_for(:controller => '/rb_queries', :action => :show, :project_id => @project)
 end
 
-# deprecation warning
-# Depends on deprecated behavior of path_for('the task board for "sprint name"')
+# WARN: Depends on deprecated behavior of path_for('the task board for
+#       "sprint name"')
 When /^I view the sprint notes$/ do
   visit url_for(:controller => '/rb_wikis', :action => 'show', :sprint_id => @sprint)
 end
 
-# deprecation warning
-# Depends on deprecated behavior of path_for('the task board for "sprint name"')
+# WARN: Depends on deprecated behavior of path_for('the task board for
+#       "sprint name"')
 When /^I edit the sprint notes$/ do
   visit url_for(:controller => '/rb_wikis', :action => 'edit', :sprint_id => @sprint)
 end
@@ -167,16 +167,15 @@ end
 When /^I fill in the id of the work_package "(.+?)" as the parent work_package$/ do |work_package_name|
   work_package = WorkPackage.find_by_subject(work_package_name)
 
-  # simplify once the work_package#edit/update action is implemented
+  # TODO: Simplify once the work_package#edit/update action is implemented
   find('#work_package_parent_id, #work_package_parent_id', visible: false).set(work_package.id)
-
-  #step %Q{I fill in "#{work_package.id}" for "work_package_parent_id"}
 end
 
 When /^the request on task "(.+?)" is finished$/ do |task_name|
-  #wait for the modal link of this task to appear
+  # Wait for the modal link of this task to appear...
   elements = page.find(:xpath, "//div[contains(., '#{task_name}') and contains(@class,'task')]/descendant::a[contains(@href, .)]")
-  #by selecting the task board card for a specific task and then go for the link with the id only appearing after the task was saved
+  # ...by selecting the task board card for a specific task and then go for the
+  # link with the id only appearing after the task was saved
 end
 
 When /^I follow the link to add a subtask$/ do

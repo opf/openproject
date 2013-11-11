@@ -29,8 +29,8 @@ module BacklogsNavigationHelpers
       project = get_project($2)
       sprint = Sprint.find_by_name_and_project_id($1, project)
 
-      # deprecated side effect to keep some old-style step definitions
-      # do not depend on @sprint being set in new step definitions
+      # WARN: Deprecated side effect to keep some old-style step definitions.
+      #       Do not depend on @sprint being set in new step definitions.
       @sprint = sprint
 
       "/projects/#{project.identifier}/sprints/#{sprint.id}/taskboard"

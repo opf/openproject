@@ -225,12 +225,12 @@ Given /^I have selected card label stock (.+)$/ do |stock|
   Setting.plugin_openproject_backlogs = settings
 
   # If this goes wrong, you are probably missing
-  #   vendor/plugins/chiliproject_backlogs/config/labels.yml
+  #   openproject_backlogs/config/labels.yml
   # Run
-  #   rake redmine:backlogs:default_labels
+  #   rake openproject:backlogs:default_labels
   # to get the ones, shipped with the plugin or
-  #   rake redmine:backlogs:current_labels
-  # to get current one, downloaded from the internetz.
+  #   rake openproject:backlogs:current_labels
+  # to get current one, downloaded from the internet.
   OpenProject::Backlogs::TaskboardCard::PageLayout.should be_available
 end
 
