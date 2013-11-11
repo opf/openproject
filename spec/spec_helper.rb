@@ -27,6 +27,11 @@
 #++
 
 require 'rubygems'
+if ENV['CI'] == true
+  # we are running on a CI server, report coverage to code climate
+  require "codeclimate-test-reporter"
+  CodeClimate::TestReporter.start
+end
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'

@@ -129,8 +129,8 @@ group :test do
   gem 'simplecov', ">= 0.8.pre"
   gem "shoulda-matchers"
   gem "json_spec"
-
   gem "activerecord-tableless", "~> 1.0"
+  gem "codeclimate-test-reporter", :require => nil
 end
 
 group :ldap do

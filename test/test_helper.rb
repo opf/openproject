@@ -29,6 +29,12 @@
 
 ENV["RAILS_ENV"] = "test"
 
+if ENV['CI'] == true
+  # we are running on a CI server, report coverage to code climate
+  require "codeclimate-test-reporter"
+  CodeClimate::TestReporter.start
+end
+
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'fileutils'
