@@ -447,20 +447,6 @@ OpenProject::Application.routes.draw do
   end
 
   resources :projects, :only => [:index, :show], :controller => 'projects' do
-    resources :planning_elements,      :controller => 'planning_elements' do
-      collection do
-        get :all
-        delete :destroy_all
-        get :confirm_destroy_all
-      end
-
-      member do
-        get :confirm_destroy
-      end
-
-      resources :journals, :controller => 'planning_element_journals',
-                                           :only       => [:index, :create]
-    end
     resources :project_associations,   :controller => 'project_associations' do
       get :confirm_destroy, :on => :member
       get :available_projects, :on => :collection
