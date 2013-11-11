@@ -1,7 +1,7 @@
-# Responsible for exposing sprint CRUD. It SHOULD NOT be used
-# for displaying the taskboard since the taskboard is a management
-# interface used for managing objects within a sprint. For
-# info about the taskboard, see RbTaskboardsController
+# Responsible for exposing sprint CRUD. It SHOULD NOT be used for displaying the
+# taskboard since the taskboard is a management interface used for managing
+# objects within a sprint. For info about the taskboard, see
+# RbTaskboardsController
 class RbSprintsController < RbApplicationController
   unloadable
 
@@ -16,7 +16,8 @@ class RbSprintsController < RbApplicationController
     end
   end
 
-#overwrite load_sprint_and_project to load the sprint from the :id instead of :sprint_id
+  # Overwrite load_sprint_and_project to load the sprint from the :id instead of
+  # :sprint_id
   def load_sprint_and_project
     if params[:id]
       @sprint = Sprint.find(params[:id])

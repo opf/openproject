@@ -8,6 +8,8 @@ class VersionSettingsController < RbApplicationController
   private
 
   def authorize
-    super "versions", "edit" #everyone with the right to edit versions has the right to edit version settings
+    # Everyone with the right to edit versions has the right to edit version
+    # settings
+    super "versions", "edit"
   end
 end

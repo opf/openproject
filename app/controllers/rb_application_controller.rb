@@ -1,4 +1,4 @@
-# Base class of all controllers in Redmine Backlogs
+# Base class of all controllers in Backlogs
 class RbApplicationController < ApplicationController
   unloadable
 
@@ -8,8 +8,8 @@ class RbApplicationController < ApplicationController
 
   private
 
-  # Loads the project to be used by the authorize filter to
-  # determine if User.current has permission to invoke the method in question.
+  # Loads the project to be used by the authorize filter to determine if
+  # User.current has permission to invoke the method in question.
   def load_sprint_and_project
     if params[:sprint_id]
       @sprint = Sprint.find(params[:sprint_id])
