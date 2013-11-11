@@ -1341,6 +1341,7 @@ describe WorkPackage do
       # assert that there is only one error
       expect(work_package.errors.size).to eq 1
       expect(work_package.errors_on(:custom_values).size).to eq 1
-    end
+	end
   end
 end
+

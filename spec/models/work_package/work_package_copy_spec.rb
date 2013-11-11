@@ -244,7 +244,10 @@ describe WorkPackage do
       context :watchers do
         subject { sink.watchers.map(&:user_id) }
 
-        it { should =~ source.watchers.map(&:user_id) }
+        it do
+          should =~ source.watchers.map(&:user_id)
+          sink.watchers.each { |w| w.should be_valid }
+        end
       end
     end
 
@@ -278,10 +281,10 @@ describe WorkPackage do
 
       describe "should copy over watchers" do
         let(:project_id) { sink.project_id }
-        let(:stub_user) { FactoryGirl.build_stubbed(:user) }
+        let(:stub_user) { FactoryGirl.create(:user, member_in_project: project) }
 
         before do
-          source.watchers.build(user: stub_user)
+          source.watchers.build(user: stub_user, watchable: source)
 
           sink.copy_from(source)
         end
