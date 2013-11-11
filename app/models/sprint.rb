@@ -10,7 +10,7 @@ class Sprint < Version
     }
   }
 
-  #null last ordering
+  # null last ordering
   scope :order_by_date, :order => "COALESCE(start_date, CAST('4000-12-30' as date)) ASC, COALESCE(effective_date, CAST('4000-12-30' as date)) ASC"
   scope :order_by_name, :order => "#{Version.table_name}.name ASC"
 
@@ -73,8 +73,8 @@ class Sprint < Version
   end
 
   def days(cutoff = nil, alldays = false)
-    # assumes mon-fri are working days, sat-sun are not. this
-    # assumption is not globally right, we need to make this configurable.
+    # TODO: Assumes mon-fri are working days, sat-sun are not. This assumption
+    # is not globally right, we need to make this configurable.
     cutoff = self.effective_date if cutoff.nil?
 
     (self.start_date .. cutoff).select {|d| alldays || (d.wday > 0 and d.wday < 6) }
@@ -88,7 +88,7 @@ class Sprint < Version
     bd = self.burndown('up')
     return false if bd.blank?
 
-    # assume a sprint is active if it's only 2 days old
+    # Assume a sprint is active if it's only 2 days old
     return true if bd.remaining_hours.size <= 2
 
     WorkPackage.exists?(['fixed_version_id = ? and ((updated_on between ? and ?) or (created_on between ? and ?))',

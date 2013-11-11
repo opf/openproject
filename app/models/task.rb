@@ -10,8 +10,8 @@ class Task < WorkPackage
     task_type.blank? ? nil : task_type.to_i
   end
 
-  # This method is used by Backlogs::List.
-  # It ensures, that tasks and stories follow a similar interface
+  # This method is used by Backlogs::List. It ensures, that tasks and stories
+  # follow a similar interface
   def self.types
     [self.type]
   end
@@ -51,7 +51,7 @@ class Task < WorkPackage
     end
   end
 
-  # assumes the task is already under the same story as 'prev_id'
+  # Assumes the task is already under the same story as 'prev_id'
   def move_after(prev_id)
     if prev_id.blank?
       sib = self.siblings

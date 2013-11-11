@@ -83,7 +83,8 @@ class Burndown
 
   def workday_before(date = Date.today)
     d = date - 1
-    d = workday_before(d) unless (d.wday > 0 and d.wday < 6) #TODO: make wday configurable
+    #TODO: make weekday configurable
+    d = workday_before(d) unless (d.wday > 0 and d.wday < 6)
     d
   end
 end

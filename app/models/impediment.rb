@@ -55,7 +55,7 @@ class Impediment < Task
 
     (self.blocks_ids - currently_blocking).each{ |id|
       rel = Relation.new(:relation_type => Relation::TYPE_BLOCKS, :from => self)
-      rel.to_id = id #attr_protected
+      rel.to_id = id
       self.relations_from << rel
     }
   end
