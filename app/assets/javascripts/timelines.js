@@ -2954,6 +2954,29 @@ Timeline = {
             e.translate(x, y);
           });
 
+        } else {
+
+
+          textColor = timeline.getLimunanceFor(color) > Timeline.PE_LUMINANCE_THRESHOLD ?
+                      Timeline.PE_DARK_TEXT_COLOR : Timeline.PE_LIGHT_TEXT_COLOR;
+
+          var text = this.subject;
+          label = timeline.paper.text(0, 0, text);
+          label.attr({
+            'font-size': 12,
+            'fill': textColor,
+            'stroke': 'none'
+          });
+
+          x = label_space.x + label_space.w/2;
+          y -= 4;
+
+          while (text.length > 0 && label.getBBox().width > label_space.w) {
+            text = text.slice(0, -1);
+            label.attr({ 'text': text });
+          }
+
+          label.translate(x, y);
         }
       }
 
