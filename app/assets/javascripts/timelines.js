@@ -2865,7 +2865,7 @@ Timeline = {
       }
 
       // ╭─────────────────────────────────────────────────────────╮
-      // │ Labels for rendered elements, eigther in aggregartion   │
+      // │ Labels for rendered elements, either in aggregartion    │
       // │ or out of aggregation, inside of elements or outside.   │
       // ╰─────────────────────────────────────────────────────────╯
 
@@ -2883,7 +2883,7 @@ Timeline = {
             'font-size': 12
           });
 
-          textWidth = jQuery(label.node).width();
+          textWidth = label.getBBox().width;
 
           // if this is an expanded planning element w/ children, or if
           // the text would not fit:
@@ -2903,7 +2903,6 @@ Timeline = {
                 'opacity': 0.5,
                 'stroke': 'none'
               }));
-
 
             // text outside planning element
             x = left + width + Timeline.PE_TEXT_OUTSIDE_PADDING;
@@ -2954,8 +2953,8 @@ Timeline = {
           jQuery.each(captionElements, function(i, e) {
             e.translate(x, y);
           });
-        } else if (true) {
 
+        } else if (true) {
 
           // the other case is text rendering in planning elements inside
           // of aggregations:
@@ -4249,14 +4248,6 @@ Timeline = {
 
     var paper = jQuery('<div class="tl-chart"></div>');
 
-    // there is a bug in IE8 that draws over the left edge of the VML
-    // graphic. This additional border compensates for that bug w/o
-    // penalizing the design in other browsers.
-    if (jQuery.browser.msie) {
-      paper.css({'border-left': '1px solid white'});
-      Timeline.BORDER_WIDTH_CORRECTION = Timeline.ORIGINAL_BORDER_WIDTH_CORRECTION + 1;
-    }
-
     var tlScrollContainer = jQuery('<div class="tl-scrollcontainer"></div>')
       //.append(jQuery('<div class="tl-decoration"></div>'))
       .append(paper);
@@ -4742,13 +4733,8 @@ Timeline = {
           x = (lastDivider + (left - lastDivider) / 2) - (jQuery(captionElement.node).width() / 16);
           y = (deco - padding);
 
-          if (jQuery.browser.msie && jQuery.browser.version === '8.0') {
-            y -= 2; // ugly, but neccessary.
-          }
-
           captionElement
             .translate(x, y)
-            //.scale(0.125, 0.125, 0, 0)
             .attr({
               'fill': styles[currentStyle].textColor || timeline.DEFAULT_COLOR,
               'stroke': 'none'
@@ -4786,22 +4772,6 @@ Timeline = {
     this.frameLine();
     this.nowLine();
   },
-  getRelativeVerticalOffsetCorrectionForIE8: function() {
-    if (this.relative_vertical_offset_correction_for_ie8 === undefined) {
-      var table = this.getUiRoot().find('table').first();
-      var lastCell = table.find('td').last();
-
-      var height_from_cell =
-        lastCell.last().outerHeight() +
-        lastCell.last().position().top -
-        table.position().top;
-
-      var height_from_table = table.outerHeight();
-
-      this.relative_vertical_offset_correction_for_ie8 = 1 + height_from_table - height_from_cell;
-    }
-    return this.relative_vertical_offset_correction_for_ie8;
-  },
   getRelativeVerticalOffset: function(offset) {
     var result;
     if (this.table_offset === undefined) {
@@ -4809,9 +4779,6 @@ Timeline = {
     }
     if (offset !== undefined) {
       result = offset.position().top - this.table_offset;
-      if (jQuery.browser.msie) {
-        result += this.getRelativeVerticalOffsetCorrectionForIE8();
-      }
       return result;
     }
     return this.table_offset;
@@ -4897,11 +4864,12 @@ Timeline = {
             // anti-aliasing below.
 
             previousEnd = timeline.decoHeight();
-            if (jQuery.browser.webkit) {
-              previousEnd -= 1;
-            } else if (jQuery.browser.msie) {
-              previousEnd += 1;
-            }
+
+            // if (jQuery.browser.webkit) {
+            //   previousEnd -= 1;
+            // } else if (jQuery.browser.msie) {
+            //   previousEnd += 1;
+            // }
           }
 
           // groupHeight is the height gap between the vertical position
@@ -4915,16 +4883,11 @@ Timeline = {
           // upwards, while trident and gecko need to be corrected in
           // the other direction.
 
-          if (jQuery.browser.webkit) {
-            previousEnd += 0.5;
-          } else {
-            previousEnd -= 0.5;
-          }
-
-          if (jQuery.browser.msie) {
-            previousEnd -= timeline.getRelativeVerticalOffsetCorrectionForIE8();
-            groupHeight += timeline.getRelativeVerticalOffsetCorrectionForIE8();
-          }
+          // if (jQuery.browser.webkit) {
+          //   previousEnd += 0.5;
+          // } else {
+          //   previousEnd -= 0.5;
+          // }
 
           // draw grey box.
 
@@ -4952,11 +4915,11 @@ Timeline = {
 
         if (!groupingChanged) {
 
-          if (jQuery.browser.webkit) {
-            currentOffset += 0.5;
-          } else {
-            currentOffset -= 0.5;
-          }
+          // if (jQuery.browser.webkit) {
+          //   currentOffset += 0.5;
+          // } else {
+          //   currentOffset -= 0.5;
+          // }
 
           // draw lines between projects
           timeline.paper.path(

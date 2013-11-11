@@ -45,6 +45,10 @@ li.select2-result.select2-visible-selected-parent {
   border: 1px solid black;
 }
 
+.timeline svg {
+  display: block;
+}
+
 .tl-under-construction {
   background: url("../../../assets/loadingAnimation.gif") no-repeat center;
   border: 1px solid #ddd;
