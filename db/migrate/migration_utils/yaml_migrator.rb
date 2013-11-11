@@ -34,6 +34,7 @@ module Migration
       ActiveRecord::Base.connection.select_all <<-SQL
         SELECT #{db_column('id')}, #{db_column(column)}
         FROM #{quoted_table_name(table)}
+        WHERE #{db_column(column)} LIKE #{quote_value('---%')}
       SQL
     end
 
