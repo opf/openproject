@@ -13,6 +13,7 @@ require_relative 'migration_utils/attachable_utils'
 
 class RepairMessagesInitialAttachableJournal < ActiveRecord::Migration
   include Migration::Utils
+  include Migration::Utils::AttachableUtils
 
   JOURNAL_TYPE = 'Message'
 

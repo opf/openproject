@@ -10,8 +10,8 @@
 
 require_relative 'utils'
 
-module Migration
-  module Utils
+module Migration::Utils
+  module CustomizableUtils
     MissingCustomValue = Struct.new(:journaled_id,
                                     :journaled_type,
                                     :custom_field_id,

@@ -10,8 +10,8 @@
 
 require_relative 'utils'
 
-module Migration
-  module Utils
+module Migration::Utils
+  module AttachableUtils
     MissingAttachment = Struct.new(:journaled_id,
                                    :journaled_type,
                                    :attachment_id,
