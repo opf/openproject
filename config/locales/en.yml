@@ -291,6 +291,8 @@ en:
 
   # common attributes of all models
   attributes:
+    attachments: "Files"
+    assigned_to: "Assignee"
     active: "Active"
     assigned_to: "Assignee"
     attachments: "Attachments"
