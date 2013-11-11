@@ -20,11 +20,11 @@ module OpenProject::Backlogs::Patches::VersionPatch
       return unless project.backlogs_enabled?
 
       WorkPackage.transaction do
-        # remove position from all non-stories
+        # Remove position from all non-stories
         WorkPackage.update_all({:position => nil}, ['project_id = ? AND type_id NOT IN (?) AND position IS NOT NULL', project, Story.types])
 
-        # add work_packages w/o position to the top of the list
-        # and add work_packages, that have a position, at the end
+        # Add work_packages w/o position to the top of the list and add
+        # work_packages, that have a position, at the end
         stories_wo_position = self.fixed_issues.find(:all, :conditions => {:project_id => project, :type_id => Story.types, :position => nil}, :order => 'id')
 
         stories_w_position = self.fixed_issues.find(:all, :conditions => ['project_id = ? AND type_id IN (?) AND position IS NOT NULL', project, Story.types], :order => 'COALESCE(position, 0), id')

@@ -72,7 +72,7 @@ module OpenProject::Backlogs::TaskboardCard
       text_box = Prawn::Text::Box.new(text, options)
       left_over = text_box.render(:dry_run => true)
 
-      # be sure to do length arithmetics on chars, not bytes!
+      # Be sure to do length arithmetics on chars, not bytes!
       left_over = left_over.mb_chars
       text      = text.to_s.mb_chars
 

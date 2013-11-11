@@ -7,22 +7,23 @@ module OpenProject::Backlogs::List
 
       acts_as_silent_list
 
-      # add new items to top of list automatically
+      # Add new items to top of list automatically
       after_create :insert_at, :if => :is_story?
 
-      # deactivate the default add_to_list_bottom callback
+      # Deactivate the default add_to_list_bottom callback
       def add_to_list_bottom
         super unless caller(2).first =~ /callbacks/
       end
 
 
-      # reorder list, if work_package is removed from sprint
+      # Reorder list, if work_package is removed from sprint
       before_update :fix_other_work_package_positions
       before_update :fix_own_work_package_position
 
 
       # Used by acts_as_silent_list to limit the list to a certain subset within
       # the table.
+      #
       # Also sanitize_sql seems to be unavailable in a sensible way. Therefore
       # we're using send to circumvent visibility work_packages.
       def scope_condition
@@ -38,25 +39,26 @@ module OpenProject::Backlogs::List
 
 
     def move_after(prev_id)
-      # remove so the potential 'prev' has a correct position
+      # Remove so the potential 'prev' has a correct position
       remove_from_list
       reload
 
       prev = self.class.find_by_id(prev_id.to_i)
 
-      # if it should be the first story, move it to the 1st position
+      # If it should be the first story, move it to the 1st position
       if prev.blank?
         insert_at
         move_to_top
 
-      # if its predecessor has no position, create an order on position silently.
-      # This can happen when sorting inside a version for the first time after backlogs was activated
-      # and there have already been items inside the version at the time of backlogs activation
+      # If its predecessor has no position, create an order on position
+      # silently. This can happen when sorting inside a version for the first
+      # time after backlogs was activated and there have already been items
+      # inside the version at the time of backlogs activation
       elsif !prev.in_list?
         prev_pos = set_default_prev_positions_silently(prev)
         insert_at(prev_pos += 1)
 
-      # there's a valid predecessor
+      # There's a valid predecessor
       else
         insert_at(prev.position + 1)
       end

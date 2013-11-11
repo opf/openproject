@@ -2,9 +2,8 @@ module OpenProject::Backlogs::Hooks
   class LayoutHook < Redmine::Hook::ViewListener
     include RbCommonHelper
 
-    # this ought to be view_work_packages_sidebar_queries_bottom, but
-    # the entire queries toolbar is disabled if you don't have
-    # custom queries
+    # This ought to be view_work_packages_sidebar_queries_bottom, but the entire
+    # queries toolbar is disabled if you don't have custom queries
     def view_work_packages_sidebar_planning_bottom(context={ })
       locals = {}
       locals[:sprints] = context[:project] ? Sprint.open_sprints(context[:project]) : []
@@ -127,8 +126,8 @@ module OpenProject::Backlogs::Hooks
         snippet += link_to l(:button_edit_wiki), {:controller => '/rb_wikis', :action => 'edit', :project_id => project.id, :sprint_id => version.id }, :class => 'icon icon-edit'
         snippet += '</span>'
 
-        # this wouldn't be necesary if the schedules plugin
-        # didn't disable the contextual hook
+        # This wouldn't be necesary if the schedules plugin didn't disable the
+        # contextual hook
         snippet += javascript_tag(<<-JS)
           (function ($) {
             $(document).ready(function() {
