@@ -1,5 +1,7 @@
 # Changelog
 
+* `#1020` fix XSS when displaying costs
+
 ## 5.0.1.pre9
 
 * Added missing translations
