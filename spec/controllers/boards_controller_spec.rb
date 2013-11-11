@@ -127,7 +127,7 @@ describe BoardsController do
 
       before do
         as_logged_in_user user do
-          post :update, id: board.id,
+          put :update, id: board.id,
                         project_id: board.project_id,
                         board: {:name => 'New name', :description => 'New description'}
         end
