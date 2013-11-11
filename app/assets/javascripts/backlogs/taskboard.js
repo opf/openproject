@@ -1,6 +1,3 @@
-/*jslint indent: 2*/
-/*globals window, document, jQuery, RB*/
-
 /***************************************
   TASKBOARD
 ***************************************/

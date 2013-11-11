@@ -1,6 +1,3 @@
-/*jslint indent: 2*/
-/*globals window, document, jQuery, RB*/
-
 // Initialize the backlogs after DOM is loaded
 jQuery(function ($) {
 

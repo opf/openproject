@@ -18,13 +18,12 @@
 }
 
 /*
- swimlane class is used by:
-  - #board_header
-  - .board
+  swimlane class is used by:
+    - #board_header
+    - .board
 
-Also use by the Column Width preference to
-determine the unit width of the swimlanes.
-See RB.Taskboard.initialize()
+  Also use by the Column Width preference to determine the unit width of the
+  swimlanes. See RB.Taskboard.initialize()
 */
 #rb .swimlane {
   min-width:105px; /* width + (2*margin) + (2*padding) + (2*border) of .work_package */
@@ -129,8 +128,6 @@ See RB.Taskboard.initialize()
 #rb .story .story-bar .status {
   float: left;
 }
-
-
 #rb .story .subject {
   height: 52px;
   line-height:13px;
@@ -139,12 +136,9 @@ See RB.Taskboard.initialize()
   padding:2px;
   width:186px;
 }
-
-
 #rb .story.closed .subject {
   text-decoration:line-through;
 }
-
 /* item styles used by .task and .impediment */
 #rb .work_package,
 #rb .placeholder {

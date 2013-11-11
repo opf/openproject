@@ -1,6 +1,3 @@
-/*jslint indent: 2*/
-/*globals jQuery, RB*/
-
 // Initialize everything after DOM is loaded
 jQuery(function ($) {
   var defaultDialogColor; // this var is used as cache for some computation in

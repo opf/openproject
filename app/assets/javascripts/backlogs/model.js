@@ -1,6 +1,3 @@
-/*jslint indent: 2*/
-/*globals window, document, jQuery, RB*/
-
 /***************************************
   MODEL
   Common methods for sprint, work_package,
@@ -353,7 +350,7 @@ RB.Model = (function ($) {
     },
 
     processError: function (x, t, e) {
-      // Do nothing. Feel free to override
+      // Override as needed
     },
 
     refresh: function (obj) {
@@ -404,14 +401,12 @@ RB.Model = (function ($) {
           // if the user saves this edit we will receive a validation error
           // the following 3 lines will prevent the override of the status id
           // otherwise we would loose the status id of the current ticket
-
           if (!(editor.val() === '' && fieldName === 'status_id')){
             j.children('div.' + fieldName).children('.v').text(editor.val());
           }
+
           j.children('div.' + fieldName).children('.t').text(editor.children(':selected').text());
-        // } else if (this.type.match(/textarea/)) {
-        //   this.setValue('div.' + fieldName + ' .textile', editors[ii].value);
-        //   this.setValue('div.' + fieldName + ' .html', '-- will be displayed after save --');
+
         } else {
           j.children('div.' + fieldName).text(editor.val());
         }

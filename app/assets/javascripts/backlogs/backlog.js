@@ -1,11 +1,8 @@
-/*jslint indent: 2*/
-/*globals window, document, jQuery, RB*/
-
 /******************************************
   BACKLOG
   A backlog is a visual representation of
-  a sprint and its stories. It's is not a
-  sprint. Imagine it this way: a sprint is
+  a sprint and its stories. It is not a
+  sprint. Imagine it this way: A sprint is
   a start and end date, and a set of
   objectives. A backlog is something you
   would draw up on the board or a spread-

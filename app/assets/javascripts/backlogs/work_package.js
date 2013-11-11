@@ -1,8 +1,5 @@
-/*jslint indent: 2*/
-/*globals window, document, jQuery, RB*/
-
 /**************************************
-  ISSUE
+  WORK PACKAGE
 ***************************************/
 RB.WorkPackage = (function ($) {
   return RB.Object.create(RB.Model, {

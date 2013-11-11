@@ -1,6 +1,3 @@
-/*jslint indent: 2*/
-/*globals window, document, jQuery*/
-
 if (window.RB === null || window.RB === undefined) {
   window.RB = (function ($) {
     var object, Factory, Dialog, UserPreferences,

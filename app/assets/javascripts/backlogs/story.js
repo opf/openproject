@@ -1,6 +1,3 @@
-/*jslint indent: 2*/
-/*globals window, document, jQuery, RB*/
-
 /**************************************
   STORY
 ***************************************/
@@ -39,9 +36,7 @@ RB.Story = (function ($) {
       return "Story #" + this.getID();
     },
 
-    editorDisplayed: function (editor) {
-      // editor.dialog("option", "position", "center");
-    },
+    editorDisplayed: function (editor) { },
 
     getPoints: function () {
       var points = parseInt(this.$.find('.story_points').first().text(), 10);
@@ -84,8 +79,10 @@ RB.Story = (function ($) {
         data += "&" + this.$.find('.editor').serialize();
       }
 
-//TODO: this might be unsave in case the parent of this story is not the sprint backlog, then we dont have
-//a sprintId an cannot generate a valid url - one option might be to take RB.constants.sprint_id hoping it exists
+      //TODO: this might be unsave in case the parent of this story is not the
+      //      sprint backlog, then we dont have a sprintId an cannot generate a
+      //      valid url - one option might be to take RB.constants.sprint_id
+      //      hoping it exists
       if (this.isNew()) {
         url = RB.urlFor('create_story', {sprint_id: sprintId});
       } else {
