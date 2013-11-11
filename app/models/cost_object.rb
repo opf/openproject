@@ -119,4 +119,8 @@ class CostObject < ActiveRecord::Base
 
     self.update_all ['author_id = ?', substitute.id], ['author_id = ?', user.id]
   end
+
+  def to_s
+    subject
+  end
 end

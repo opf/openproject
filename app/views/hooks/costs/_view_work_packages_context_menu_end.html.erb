@@ -1,25 +1,27 @@
 <% if @project && @project.module_enabled?(:costs_module) %>
   <%
-      cost_objects_any = false
-  possible_cost_objects = issues.inject(issues.first.project.cost_objects) do |intersect, work_package|
+    cost_objects_any = false
+    possible_cost_objects = issues.inject(issues.first.project.cost_objects) do |intersect, work_package|
     cost_objects_any |= work_package.project.cost_objects.any?
     work_package.project.cost_objects & intersect
   end
 %>
-  <li class="folder">
-  <a href="#" class="submenu"><%= l(:label_cost_object) %></a>
-  <ul>
+
     <% unless possible_cost_objects.empty? -%>
-      <% possible_cost_objects.each do |co| -%>
-        <li>
-        <%= context_menu_link(co.subject, work_packages_bulk_path(ids: issues.collect(&:id),
-                             work_package: { "cost_object_id" => co}, back_url: back), method: :put,
-                             selected: (@work_package && co == @work_package.cost_object), disabled: !can[:edit]) %>
-        </li>
-      <% end -%>
+      <%= context_menu_entry title: l(:label_cost_object),
+                             back_url: back,
+                             updated_object_ids: issues.collect(&:id),
+                             collection: possible_cost_objects,
+                             attribute: 'cost_object',
+                             selected: lambda { |cost_object| @work_package && cost_object == @work_package.cost_object },
+                             disabled: lambda { |cost_object| !can[:edit] } %>
+
     <% else -%>
-      <li><%= l(cost_objects_any ? :notice_cost_object_conflict : :notice_no_cost_objects_available)%></li>
+      <li class="folder">
+        <a href="#" class="submenu"><%= l(:label_cost_object) %></a>
+        <ul>
+          <li><%= l(cost_objects_any ? :notice_cost_object_conflict : :notice_no_cost_objects_available)%></li>
+        </ul>
+      </li>
     <% end -%>
-  </ul>
-  </li>
 <% end %>
