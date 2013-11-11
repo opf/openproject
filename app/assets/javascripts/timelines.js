@@ -1020,7 +1020,6 @@ Timeline = {
         var pet = pe.getPlanningElementType();
 
         pe.vertical = this.timeline.verticalPlanningElementIds().indexOf(pe.id) !== -1;
-        //this.timeline.optionsfalse || Math.random() < 0.5 || (pet && pet.is_milestone);
       });
     };
 
@@ -1505,7 +1504,6 @@ Timeline = {
     return TimelineLoader;
   })(),
 
-
   checkPrerequisites: function() {
     if (jQuery === undefined) {
       throw new Error('jQuery seems to be missing (jQuery is undefined)');
@@ -1551,6 +1549,7 @@ Timeline = {
   // │ Timeline.Color                                                    │
   // │ Timeline.Reporting                                                │
   // ╰───────────────────────────────────────────────────────────────────╯
+
   secondLevelGroupingAdjustments : function () {
     var grouping = jQuery.map(this.options.grouping_two_selection || [], Timeline.pnum);
     var root = this.getProject();
@@ -1802,12 +1801,12 @@ Timeline = {
 
       var hidden = true;
 
-      //we need to look at every element
+      // we need to look at every element
       jQuery.each(this.getPlanningElements(), function (i, child) {
-        //if hidden is already false, do not calculate
-        //otherwise, we show this project current element is a planning element (redundant?)
-        //and it is inside our timeframe
-        //and it has got the planning element type we want
+        // if hidden is already false, do not calculate
+        // otherwise, we show this project current element is a planning element (redundant?)
+        // and it is inside our timeframe
+        // and it has got the planning element type we want
         if (hidden &&
               child.is(Timeline.PlanningElement) &&
               child.inTimeFrame() &&
@@ -2793,6 +2792,7 @@ Timeline = {
         }
       }
     },
+
     renderForeground: function (node, in_aggregation, label_space) {
       var timeline = this.timeline;
       var paper = timeline.getPaper();
@@ -2954,30 +2954,6 @@ Timeline = {
             e.translate(x, y);
           });
 
-        } else if (true) {
-
-          // the other case is text rendering in planning elements inside
-          // of aggregations:
-
-          text = timeline.getMeasuredPathFromText(this.subject,
-                     (label_space.w - Timeline.PE_TEXT_INSIDE_PADDING) / Timeline.PE_TEXT_SCALE);
-          label = timeline.paper.path(text.path);
-          captionElements.push(label);
-
-          x = label_space.x + label_space.w * 0.5 +            // center of the planning element
-              text.progress * Timeline.PE_TEXT_SCALE * (-0.5); // half of text width
-
-          textColor = timeline.getLimunanceFor(color) > Timeline.PE_LUMINANCE_THRESHOLD ?
-                      Timeline.PE_DARK_TEXT_COLOR : Timeline.PE_LIGHT_TEXT_COLOR;
-
-          label.attr({
-            'fill': textColor,
-            'stroke': 'none'
-          });
-
-          jQuery.each(captionElements, function(i, e) {
-            e.translate(x, y).scale(Timeline.PE_TEXT_SCALE, Timeline.PE_TEXT_SCALE, 0, 0);
-          });
         }
       }
 
@@ -3673,7 +3649,6 @@ Timeline = {
   PE_TEXT_ADDITIONAL_OUTSIDE_PADDING_WHEN_EXPANDED_WITH_CHILDREN: 6,
   PE_TEXT_INSIDE_PADDING: 8,        // 4px padding on both sides of the planning element towards an inside labelelement towards an inside label.
   PE_TEXT_OUTSIDE_PADDING: 6,       // space between planning element and text to its right.
-  PE_TEXT_SCALE: 0.1875,            // 64 * (1/8 * 1.5) = 12
 
   USE_MODALS: true,
 
@@ -3768,51 +3743,6 @@ Timeline = {
     var result = (0.299 * parts[0] + 0.587 * parts[1] + 0.114 * parts[2]) / 256;
     return result;
   },
-  // getMeasuredPathFromText: function(text, limit) {
-  //
-  //   var font = this.paper.getFont('Bitstream Vera Sans');
-  //   var o, char, glyph, fontPath = 'M0,0';
-  //   var nonWhitespaceProgress = 0, totalFontProgress = 0, charProgress = 0;
-  //   var p;
-
-  //   if (typeof limit === "undefined") {
-  //     limit = Infinity;
-  //   }
-
-  //   // cufón is awesóme.
-  //   for (o = 0; o < text.length; o++) {
-  //     char = text.charAt(o);
-  //     if (font.glyphs[char] !== undefined &&
-  //         font.glyphs[char].d !== undefined) {
-
-  //       charProgress = font.glyphs[char].w || font.w;
-  //       totalFontProgress += charProgress;
-
-  //       // break if limit would be exceeded by appending this char.
-  //       if (totalFontProgress > limit) {
-  //         totalFontProgress -= charProgress;
-  //         break;
-  //       }
-
-  //       glyph = Raphael.pathToRelative(font.glyphs[char].d);
-  //       for (p = 0; p < glyph.length; p++) {
-  //         fontPath += (p === 0 ? glyph[p].shift().toLowerCase() : glyph[p].shift()) + glyph[p].join(',');
-  //       }
-
-  //     } else {
-  //       totalFontProgress += font.w;
-  //     }
-  //     if (!/\s/g.test(char)) {
-  //       nonWhitespaceProgress = totalFontProgress;
-  //     }
-  //     fontPath += 'M' + totalFontProgress + ',0';
-  //   }
-
-  //   return {
-  //     'path': fontPath,
-  //     'progress': nonWhitespaceProgress
-  //   };
-  // },
 
   expandTo: function(index) {
     var level;
@@ -4439,13 +4369,6 @@ Timeline = {
     var previousGroup = -1;
     var headerHeight = this.decoHeight();
 
-    // subtract 1px border if this is not firefox. in firefox, we need
-    // an additional pixel in the header. no idea where this comes from,
-    // it works fine in chrome and ie.
-    if (jQuery.browser.mozilla === undefined) {
-      headerHeight--;
-    }
-
     // head
     table.append(head);
     row = jQuery('<tr></tr>');
@@ -4804,7 +4727,7 @@ Timeline = {
     var post_render_bucket = [];
     var text_render_bucket = [];
 
-    //iterate over all planning elements and find vertical ones to draw.
+    // iterate over all planning elements and find vertical ones to draw.
     jQuery.each(timeline.verticalPlanningElementIds(), function (i, e) {
       var pl = timeline.getPlanningElement(e);
 
@@ -4858,18 +4781,7 @@ Timeline = {
                 previousElement.outerHeight();
           } else {
 
-            // Reading decoHeight does not work equally well in
-            // SVG/VML and WebKit/Mozilla, so we need some additional
-            // adjustment. This is cumulative to the alterations for
-            // anti-aliasing below.
-
             previousEnd = timeline.decoHeight();
-
-            // if (jQuery.browser.webkit) {
-            //   previousEnd -= 1;
-            // } else if (jQuery.browser.msie) {
-            //   previousEnd += 1;
-            // }
           }
 
           // groupHeight is the height gap between the vertical position
@@ -4877,17 +4789,6 @@ Timeline = {
           // position the previous element ended (previousEnd).
 
           groupHeight = currentOffset - previousEnd;
-
-          // 0.5 is added or subtracted for subpixel anti-aliasing to
-          // produce a sharp edge. Webkit seems to tends to anti-alias
-          // upwards, while trident and gecko need to be corrected in
-          // the other direction.
-
-          // if (jQuery.browser.webkit) {
-          //   previousEnd += 0.5;
-          // } else {
-          //   previousEnd -= 0.5;
-          // }
 
           // draw grey box.
 
@@ -4914,12 +4815,6 @@ Timeline = {
       if (pl.is(Timeline.Project)) {
 
         if (!groupingChanged) {
-
-          // if (jQuery.browser.webkit) {
-          //   currentOffset += 0.5;
-          // } else {
-          //   currentOffset -= 0.5;
-          // }
 
           // draw lines between projects
           timeline.paper.path(
