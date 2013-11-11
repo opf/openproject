@@ -146,9 +146,11 @@ class Journal < ActiveRecord::Base
         @changes = data.journaled_attributes.select{|_,v| !v.nil?}
                                             .inject({}) { |h, (k, v)| h[k] = [nil, v]; h }
       else
-        predecessor_data = predecessor.data.journaled_attributes
-        data.journaled_attributes.select{|k,v| v != predecessor_data[k]}.each do |k, v|
-          @changes[k] = [predecessor_data[k], v]
+        normalized_data = JournalManager.normalize_newlines(data.journaled_attributes)
+        normalized_predecessor_data = JournalManager.normalize_newlines(predecessor.data.journaled_attributes)
+
+        normalized_data.select{|k,v| v != normalized_predecessor_data[k]}.each do |k, v|
+          @changes[k] = [normalized_predecessor_data[k], v]
         end
       end
 
