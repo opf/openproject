@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#2721` Fix: Fix: Fix: Missing journal entries for customizable_journals
+
 ## 3.0.0pre28
 
 * `#1910` New menu structure for pages of timelines module

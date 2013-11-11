@@ -13,6 +13,7 @@ require_relative 'migration_utils/customizable_utils'
 
 class RepairCustomizableJournals < ActiveRecord::Migration
   include Migration::Utils
+  include Migration::Utils::CustomizableUtils
 
   LEGACY_JOURNAL_TYPE = 'IssueJournal'
   JOURNAL_TYPE = 'WorkPackage'

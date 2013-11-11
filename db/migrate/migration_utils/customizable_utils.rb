@@ -10,8 +10,8 @@
 
 require_relative 'utils'
 
-module Migration
-  module Utils
+module Migration::Utils
+  module CustomizableUtils
     MissingCustomValue = Struct.new(:journaled_id,
                                     :journaled_type,
                                     :custom_field_id,
@@ -68,43 +68,39 @@ module Migration
 
     def missing_custom_values
       result = select_all <<-SQL
-        SELECT * FROM
-        (
-          SELECT customized_id,
-                 customized_type,
-                 custom_value_journal.custom_field_id,
-                 custom_value_journal.value,
-                 last_version,
-                 MAX(cj.id) AS cj_id FROM
-          -- get all existing custom values and all journal entries for the customized thing
-          (
-            SELECT c.customized_id,
-                   c.customized_type,
-                   c.custom_field_id,
-                   c.value AS value,
-                   j.id AS journal_id,
-                   MAX(j.version) AS last_version
-            FROM custom_values AS c JOIN journals AS j
-            ON c.customized_id = j.journable_id
-            WHERE c.value <> ''
-            GROUP BY c.customized_id, c.customized_type, c.custom_field_id, c.value, j.id, c.custom_field_id
-          ) AS custom_value_journal
-          -- join it with the customizable_journals and select the custom values that have no entry in that table
-          LEFT JOIN customizable_journals AS cj
-          ON custom_value_journal.journal_id = cj.journal_id
-          GROUP BY customized_id,
-                   customized_type,
-                   custom_value_journal.custom_field_id,
-                   custom_value_journal.value,
-                   last_version
-        ) AS custom_value_customizable_journal
-        WHERE cj_id IS NULL;
+        SELECT tmp.customized_id,
+               tmp.customized_type,
+               tmp.custom_field_id,
+               tmp.current_value,
+               tmp.last_version,
+               tmp.journal_value
+        FROM (
+          SELECT cv.customized_id,
+                 cv.customized_type,
+                 cv.custom_field_id,
+                 cv.value AS current_value,
+                 MAX(j.version) AS last_version,
+                 cj.value AS journal_value
+          FROM custom_values AS cv
+            JOIN journals AS j ON (cv.customized_id = j.journable_id AND cv.customized_type = j.journable_type AND cv.value <> '')
+            LEFT JOIN customizable_journals AS cj ON (j.id = cj.journal_id AND cv.custom_field_id = cj.custom_field_id)
+          GROUP BY cv.customized_id,
+             cv.customized_type,
+             cv.custom_field_id,
+             cv.value,
+               cj.value
+        ) AS tmp
+        WHERE tmp.last_version = (SELECT MAX(version) AS last_version
+                                  FROM journals AS j
+                WHERE j.journable_id = tmp.customized_id AND j.journable_type = tmp.customized_type
+                GROUP BY j.journable_id, j.journable_type)
+          AND tmp.journal_value IS NULL
       SQL
 
       result.collect { |row| MissingCustomValue.new(row['customized_id'],
                                                     row['customized_type'],
                                                     row['custom_field_id'],
-                                                    row['value'],
+                                                    row['current_value'],
                                                     row['last_version']) }
     end
 
@@ -141,7 +137,7 @@ module Migration
     end
 
     def missing_initial_customizable_journals(legacy_journal_type, journal_id, journaled_id, version, changed_data)
-      removed_customvalues = parse_customvalues_changes(changed_data)
+      removed_customvalues = parse_custom_value_changes(changed_data)
 
       missing_entries = missing_initial_custom_value_entries(legacy_journal_type,
                                                            journaled_id,
@@ -162,9 +158,9 @@ module Migration
     # - "<old_value>"                           #
     # - "<new_value>"                           #
     #############################################
-    CUSTOM_VALUE_CHANGE_REGEX = /custom_values(?<id>\d+): \n-\s"(?<old_value>.+)"\n-\s"(?<new_value>.*)"$/
+    CUSTOM_VALUE_CHANGE_REGEX = /custom_values(?<id>\d+): \n-\s"(?<old_value>.*)"\n-\s"(?<new_value>.*)"$/
 
-    def parse_customvalues_changes(changed_data)
+    def parse_custom_value_changes(changed_data)
       matches = changed_data.scan(CUSTOM_VALUE_CHANGE_REGEX)
 
       matches.each_with_object([]) { |m, l| l << { id: m[0], value: m[1] } }
@@ -179,7 +175,7 @@ module Migration
             AND type = '#{legacy_journal_type}'
             AND version < #{version}
             AND changed_data LIKE '%custom_values#{c[:id]}:%'
-            AND changed_data LIKE '%- "#{c[:filename]}%"'
+            AND changed_data LIKE '%- "#{c[:value]}%"'
           ORDER BY version
         SQL
 
