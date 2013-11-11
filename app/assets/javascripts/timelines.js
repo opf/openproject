@@ -5114,7 +5114,7 @@ Timeline = {
     info += this.escape(renderable.subject);
     info += "</b>";
     if (renderable.is(Timeline.PlanningElement)) {
-      info += " (*" + renderable.id + ")";
+      info += " (#" + renderable.id + ")";
     }
     info += "<br/>";
     info += this.escape(renderable.start_date);
