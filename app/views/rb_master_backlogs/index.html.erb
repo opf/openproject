@@ -26,5 +26,7 @@
     <div id="last_updated"><%= date_string_with_milliseconds(@last_update, 0.001) %></div>
   </div>
 </div>
-<% #include calendar js files in case they are needed for edit
-  include_calendar_headers_tags -%>
+<%
+  #include calendar js files in case they are needed for edit
+  include_calendar_headers_tags
+-%>

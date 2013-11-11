@@ -9,9 +9,8 @@
   <ul class="stories<%= ' closed' if folded %>">
     <% reset_cycle 'stories' %>
     <% backlog.stories.each_with_index do |story, index| %>
-      <% higher_item = index == 0 ?
-                        nil :
-                        backlog.stories[index - 1] %>
+      <% higher_item = index == 0 ? nil :
+                                    backlog.stories[index - 1] %>
 
       <%= render :partial => "rb_stories/story",
                  :locals => { :story => story,
