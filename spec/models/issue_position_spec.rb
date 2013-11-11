@@ -43,10 +43,10 @@ describe WorkPackage do
                                                        :type_id => task_type.id) }
 
     before do
-      # had problems while writing these specs, that some elements kept creaping
-      # around between tests. This should be fast enough to not harm anybody
-      # while adding an additional safety net to make sure, that everything runs
-      # in isolation.
+      # We had problems while writing these specs, that some elements kept
+      # creaping around between tests. This should be fast enough to not harm
+      # anybody while adding an additional safety net to make sure, that
+      # everything runs in isolation.
       WorkPackage.delete_all
       IssuePriority.delete_all
       Status.delete_all
@@ -54,18 +54,18 @@ describe WorkPackage do
       Type.delete_all
       Version.delete_all
 
-      # enable and configure backlogs
+      # Enable and configure backlogs
       project.enabled_module_names = project.enabled_module_names + ["backlogs"]
       Setting.stub(:plugin_openproject_backlogs).and_return({"story_types" => [story_type.id, epic_type.id], "task_type"   => task_type.id})
 
-      # otherwise the type id's from the previous test are still active
+      # Otherwise the type id's from the previous test are still active
       WorkPackage.instance_variable_set(:@backlogs_types, nil)
 
       project.types = [story_type, epic_type, task_type, other_type]
       sprint_1
       sprint_2
 
-      # create and order work_packages
+      # Create and order work_packages
       work_package_1.move_to_bottom
       work_package_2.move_to_bottom
       work_package_3.move_to_bottom
@@ -203,9 +203,9 @@ describe WorkPackage do
 
     describe '- Moving work_packages between projects' do
       # N.B.: You cannot move a ticket to another project and change the
-      # fixed_version at the same time. OTOH chiliproject tries to keep
-      # the fixed_version if possible (e.g. within project hierarchies with
-      # shared versions)
+      # 'fixed_version' at the same time. On the other hand, OpenProject tries
+      # to keep the 'fixed_version' if possible (e.g. within project
+      # hierarchies with shared versions)
 
       let(:project_wo_backlogs) { FactoryGirl.create(:project) }
       let(:sub_project_wo_backlogs) { FactoryGirl.create(:project) }

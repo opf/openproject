@@ -4,15 +4,13 @@ describe VersionsController do
   before do
     @controller.stub(:authorize)
 
-#create a version assigned to a project
+    # Create a version assigned to a project
     @version = FactoryGirl.create(:version)
     @oldVersionName = @version.name
     @newVersionName = "NewVersionName"
-#create another project
+    # Create another project
     @project = FactoryGirl.create(:project)
-#todo is this necessary?
-#    @project.reload
-#create params to update version
+    # Create params to update version
     @params = {}
     @params[:id] = @version.id
     @params[:version] = { :name => @newVersionName }

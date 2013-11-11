@@ -7,7 +7,7 @@ describe 'rb_taskboards/show' do
     :permissions => [:create_impediments, :create_tasks, :update_impediments, :update_tasks])
   }
   let(:role_forbidden) { FactoryGirl.create(:role) }
-  #we need to create these as some view helpers access the database
+  # We need to create these as some view helpers access the database
   let(:statuses) { [FactoryGirl.create(:status),
                     FactoryGirl.create(:status),
                     FactoryGirl.create(:status)] }
@@ -44,8 +44,9 @@ describe 'rb_taskboards/show' do
   let(:sprint)   { FactoryGirl.create(:sprint, :project => project) }
   let(:task) do
     task = FactoryGirl.create(:task, :project => project, :status => statuses[0], :fixed_version => sprint, :type => type_task)
-    #this is necessary as for some unknown reason passing the parent directly leads to the task searching for
-    #the parent with 'root_id' is NULL, which is not the case as the story has its own id as root_id
+    # This is necessary as for some unknown reason passing the parent directly
+    # leads to the task searching for the parent with 'root_id' is NULL, which
+    # is not the case as the story has its own id as root_id
     task.parent_id = story_a.id
     task
   end
@@ -60,7 +61,7 @@ describe 'rb_taskboards/show' do
     assign(:sprint, sprint)
     assign(:statuses, statuses)
 
-    #we directly force the creation of stories by calling the method
+    # We directly force the creation of stories by calling the method
     stories
   end
 

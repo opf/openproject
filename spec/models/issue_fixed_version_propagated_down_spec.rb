@@ -194,7 +194,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
         subject.fixed_version = version2
         subject.save!
 
-        # due to performance, these assertions are all in one it statement
+        # Because of performance, these assertions are all in one it statement
         child.reload.fixed_version.should eql version2
         task3.reload.fixed_version.should eql version2
         task4.reload.fixed_version.should eql version2
@@ -219,7 +219,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
         subject.fixed_version = version2
         subject.save!
 
-        # due to performance, these assertions are all in one it statement
+        # Because of performance, these assertions are all in one it statement
         child.reload.fixed_version.should eql version1
         task3.reload.fixed_version.should eql version1
         task4.reload.fixed_version.should eql version1
@@ -397,7 +397,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
         child.parent_id = parent.id
         child.save!
 
-        # due to performance, these assertions are all in one it statement
+        # Because of performance, these assertions are all in one it statement
         child.reload.fixed_version.should eql version2
         task3.reload.fixed_version.should eql version2
         task4.reload.fixed_version.should eql version2
@@ -419,7 +419,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
         child.parent_id = parent.id
         child.save!
 
-        # due to performance, these assertions are all in one it statement
+        # Because of performance, these assertions are all in one it statement
         child.reload.fixed_version.should eql version1
         task3.reload.fixed_version.should eql version1
         task4.reload.fixed_version.should eql version1
@@ -481,7 +481,9 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
           task.reload
         end
 
-        let(:parent) { story } # needs to be the story because it is not possible to change a task's fixed_version_id
+        # Needs to be the story because it is not possible to change a task's
+        # 'fixed_version_id'
+        let(:parent) { story }
 
         describe "WITH a task as child" do
           let(:child) { task2 }

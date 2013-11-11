@@ -92,7 +92,8 @@ describe Sprint do
       describe "WITH the version beeing shared within the tree" do
         before(:each) do
           @parent_project = FactoryGirl.create(:project)
-          @other_project.set_parent!(@parent_project) #setting parent has to be in this order, don't know why yet
+          # Setting the parent has to be in this order, don't know why yet
+          @other_project.set_parent!(@parent_project)
           project.set_parent!(@parent_project)
           @version = FactoryGirl.create(:sprint, :name => "treed", :project => @other_project, :sharing => 'tree')
         end

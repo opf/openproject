@@ -3,17 +3,9 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe Burndown do
   def set_attribute_journalized(story, attribute, value, day)
     story.reload
-    #story.instance_variable_set(:@current_journal, nil)
-    #story.add_journal(user)
     story.send(attribute, value)
     story.save!
     story.current_journal.update_attribute(:created_at, day)
-
-    # with aaj created_on is called created_at and current_journal changed - so
-    # we're fixing things differently here
-    #if story.current_journal.respond_to? :created_at
-    #  story.reload.current_journal.update_attribute(:created_at, day)
-    #end
   end
 
   let(:user) { @user ||= FactoryGirl.create(:user) }
