@@ -31,6 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#313`  Fix: Changing the menu title of a menu wiki page does not work
 * `#1368` Fix: Readding project members in user admin view
+* `#1961` Sort project by time should only include work packages that are shown within the timeline report 
 * `#2653` Remove relative vertical offset corrections and custom border fixes for IE8.
 * `#2654` Remove custom font rendering/kerning as well as VML from timelines.
 * `#2655` Find a sensible default for Timelines rendering bucket size.
@@ -49,10 +50,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ## 3.0.0pre29
 
-* `#2473` [Timelines] Tooltip in timeline report shows star * instead of hash # in front of ID
-* `#2721` Fix: Fix: Fix: Missing journal entries for customizable_journals
-* `#2718` Newlines in workpackage descriptions aren't normalized for change tracking
 * `#1748` Add option to diable browser cache
+* `#2473` [Timelines] Tooltip in timeline report shows star * instead of hash # in front of ID
+* `#2718` Newlines in workpackage descriptions aren't normalized for change tracking
+* `#2721` Fix: Fix: Fix: Missing journal entries for customizable_journals
 
 ## 3.0.0pre28
 
