@@ -32,6 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2653` Remove relative vertical offset corrections and custom border fixes for IE8.
 * `#2654` Remove custom font rendering/kerning as well as VML from timelines.
 * `#2655` Find a sensible default for Timelines rendering bucket size.
+* `#2668` First Grouping Criteria broken when also selecting Hide other group
 * `#2699` [Wiki] 400 error when entering special character in wiki title
 * Fix mysql data migrations
 
