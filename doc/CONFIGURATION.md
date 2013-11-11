@@ -59,6 +59,7 @@ In case you want to use environment variables, but you have no easy way to set t
 * `autologin_cookie_path` (default: '/')
 * `autologin_cookie_secure` (default: false)
 * `database_cipher_key`     (default: nil)
+* `session_storage`: 'cookie' stores all session data in a cookie sent to the client, signed with the Rails secret token to prevent manipulation. Storing data in cookies allows [replay attacks](http://guides.rubyonrails.org/v3.2.13/security.html#replay-attacks-for-cookiestore-sessions), e.g. an attacker capturing a session cookie before a user logs out can use this cookie for authentication even after the user logged out. 'database' stores all session data in the database and only sends a session identifier to the client. This prevents replay attacks. When the user logs out, the session is removed from the database. 'database' might have a performance impact due to more database accesses than the cookie store. (default: 'cookie')
 * `scm_git_command` (default: 'git')
 * `scm_subversion_command` (default: 'git')
 
