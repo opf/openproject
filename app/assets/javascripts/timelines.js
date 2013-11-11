@@ -2864,8 +2864,6 @@ Timeline = {
 
       }
 
-
-
       // ╭─────────────────────────────────────────────────────────╮
       // │ Labels for rendered elements, eigther in aggregartion   │
       // │ or out of aggregation, inside of elements or outside.   │
@@ -3771,50 +3769,51 @@ Timeline = {
     var result = (0.299 * parts[0] + 0.587 * parts[1] + 0.114 * parts[2]) / 256;
     return result;
   },
-  getMeasuredPathFromText: function(text, limit) {
-    var font = this.paper.getFont('Bitstream Vera Sans');
-    var o, char, glyph, fontPath = 'M0,0';
-    var nonWhitespaceProgress = 0, totalFontProgress = 0, charProgress = 0;
-    var p;
+  // getMeasuredPathFromText: function(text, limit) {
+  //
+  //   var font = this.paper.getFont('Bitstream Vera Sans');
+  //   var o, char, glyph, fontPath = 'M0,0';
+  //   var nonWhitespaceProgress = 0, totalFontProgress = 0, charProgress = 0;
+  //   var p;
 
-    if (typeof limit === "undefined") {
-      limit = Infinity;
-    }
+  //   if (typeof limit === "undefined") {
+  //     limit = Infinity;
+  //   }
 
-    // cufón is awesóme.
-    for (o = 0; o < text.length; o++) {
-      char = text.charAt(o);
-      if (font.glyphs[char] !== undefined &&
-          font.glyphs[char].d !== undefined) {
+  //   // cufón is awesóme.
+  //   for (o = 0; o < text.length; o++) {
+  //     char = text.charAt(o);
+  //     if (font.glyphs[char] !== undefined &&
+  //         font.glyphs[char].d !== undefined) {
 
-        charProgress = font.glyphs[char].w || font.w;
-        totalFontProgress += charProgress;
+  //       charProgress = font.glyphs[char].w || font.w;
+  //       totalFontProgress += charProgress;
 
-        // break if limit would be exceeded by appending this char.
-        if (totalFontProgress > limit) {
-          totalFontProgress -= charProgress;
-          break;
-        }
+  //       // break if limit would be exceeded by appending this char.
+  //       if (totalFontProgress > limit) {
+  //         totalFontProgress -= charProgress;
+  //         break;
+  //       }
 
-        glyph = Raphael.pathToRelative(font.glyphs[char].d);
-        for (p = 0; p < glyph.length; p++) {
-          fontPath += (p === 0 ? glyph[p].shift().toLowerCase() : glyph[p].shift()) + glyph[p].join(',');
-        }
+  //       glyph = Raphael.pathToRelative(font.glyphs[char].d);
+  //       for (p = 0; p < glyph.length; p++) {
+  //         fontPath += (p === 0 ? glyph[p].shift().toLowerCase() : glyph[p].shift()) + glyph[p].join(',');
+  //       }
 
-      } else {
-        totalFontProgress += font.w;
-      }
-      if (!/\s/g.test(char)) {
-        nonWhitespaceProgress = totalFontProgress;
-      }
-      fontPath += 'M' + totalFontProgress + ',0';
-    }
+  //     } else {
+  //       totalFontProgress += font.w;
+  //     }
+  //     if (!/\s/g.test(char)) {
+  //       nonWhitespaceProgress = totalFontProgress;
+  //     }
+  //     fontPath += 'M' + totalFontProgress + ',0';
+  //   }
 
-    return {
-      'path': fontPath,
-      'progress': nonWhitespaceProgress
-    };
-  },
+  //   return {
+  //     'path': fontPath,
+  //     'progress': nonWhitespaceProgress
+  //   };
+  // },
 
   expandTo: function(index) {
     var level;
@@ -4735,19 +4734,21 @@ Timeline = {
           left = timeline.getDaysBetween(beginning, swimlanes[key].delimiter) * scale.day;
           bbox = {height: 8};
 
-          m = timeline.getMeasuredPathFromText(caption);
-          x = (lastDivider + (left - lastDivider) / 2) - (m.progress / 16);
+          captionElement = timeline.paper.text(0, 0, caption);
+          captionElement.attr({
+            'font-size': 10
+          });
+
+          x = (lastDivider + (left - lastDivider) / 2) - (jQuery(captionElement.node).width() / 16);
           y = (deco - padding);
 
           if (jQuery.browser.msie && jQuery.browser.version === '8.0') {
             y -= 2; // ugly, but neccessary.
           }
 
-          captionElement = timeline.paper.path(m.path);
-
           captionElement
             .translate(x, y)
-            .scale(0.125, 0.125, 0, 0)
+            //.scale(0.125, 0.125, 0, 0)
             .attr({
               'fill': styles[currentStyle].textColor || timeline.DEFAULT_COLOR,
               'stroke': 'none'
