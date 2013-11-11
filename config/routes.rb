@@ -1,8 +1,5 @@
 OpenProject::Application.routes.draw do
 
-  # Use rb/ as a URL 'namespace.' We're using a slightly different URL pattern
-  # From Redmine so namespacing avoids any further problems down the line
-  #scope "/rb" do
   scope "", as: "backlogs" do
 
     scope "projects/:project_id", as: 'project' do
