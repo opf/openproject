@@ -45,8 +45,6 @@ require_dependency 'principal'
 
 
 class ApplicationController < ActionController::Base
-  # ensure the OpenProject models are required in the right order (as they have circular dependencies)
-
   class_attribute :_model_object
   class_attribute :_model_scope
   class_attribute :accept_key_auth_actions
@@ -87,7 +85,9 @@ class ApplicationController < ActionController::Base
                 :reset_i18n_fallbacks,
                 :set_localization,
                 :check_session_lifetime,
-                :stop_if_feeds_disabled
+                :stop_if_feeds_disabled,
+                :set_cache_buster
+
 
   rescue_from ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
 
@@ -102,6 +102,19 @@ class ApplicationController < ActionController::Base
 
   def default_url_options(options={})
     { :layout => params["layout"] }
+  end
+
+  # set http headers so that the browser does not store any
+  # data (caches) of this site
+  # see: https://websecuritytool.codeplex.com/wikipage?title=Checks#http-cache-control-header-no-store
+  # see: http://stackoverflow.com/questions/711418/how-to-prevent-browser-page-caching-in-rails
+  def set_cache_buster
+    if OpenProject::Configuration['disable_browser_cache']
+      binding.pry
+      response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
+      response.headers["Pragma"] = "no-cache"
+      response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
+    end
   end
 
   # the current user is a per-session kind of thing and session stuff is controller responsibility.

@@ -127,6 +127,10 @@ default:
   # autologin_cookie_path:
   # autologin_cookie_secure:
 
+  # disable browser cache for security reasons
+  # see: https://websecuritytool.codeplex.com/wikipage?title=Checks#http-cache-control-header-no-store
+  # disable_browser_cache: true
+
   # Configuration of SCM executable command.
   # Absolute path (e.g. /usr/local/bin/hg) or command name (e.g. hg.exe, bzr.exe)
   # On Windows, *.cmd, *.bat (e.g. hg.cmd, bzr.bat) does not work.

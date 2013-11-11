@@ -39,6 +39,7 @@ module OpenProject
       'database_cipher_key'     => nil,
       'scm_git_command'         => nil,
       'scm_subversion_command'  => nil,
+      'disable_browser_cache'   => false,
 
       # email configuration
       'email_delivery_method' => nil,
