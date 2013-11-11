@@ -110,7 +110,7 @@ module ActionView
         def erroneous_object_identifier(id, method)
           # select boxes use name_id whereas the validation uses name
           # we have to cut the '_id' of in order for the field to match
-          id + "_" + method.gsub("_id", "") + "_error"
+          id + "_" + method.to_s.gsub("_id", "") + "_error"
         end
       end
 
@@ -120,12 +120,12 @@ module ActionView
           objects.collect do |object|
             error_messages = []
 
-            object.errors.each_error do |attr, error|
+            object.errors.each do |attr, message|
               unless attr == "custom_values"
                 # Generating unique identifier in order to jump directly to the field with the error
                 object_identifier = erroneous_object_identifier(object.object_id.to_s, attr)
 
-                error_messages << [object.class.human_attribute_name(attr) + " " + error.message, object_identifier]
+                error_messages << [object.class.human_attribute_name(attr) + " " + message, object_identifier]
               end
             end
 
@@ -166,17 +166,24 @@ module ActionView
     end
 
 
-    module ActiveRecordHelper
+    module DynamicForm
       def error_messages_for(*params)
         options = params.extract_options!.symbolize_keys
 
-        if object = options.delete(:object)
-          objects = Array.wrap(object)
-        else
-          objects = params.collect {|object_name| instance_variable_get("@#{object_name}") }.compact
+        objects = Array.wrap(options.delete(:object) || params).map do |object|
+          object = instance_variable_get("@#{object}") unless object.respond_to?(:to_model)
+          object = convert_to_model(object)
+
+          if object.class.respond_to?(:model_name)
+            options[:object_name] ||= object.class.model_name.human.downcase
+          end
+
+          object
         end
 
-        count  = objects.inject(0) {|sum, object| sum + object.errors.count }
+        objects.compact!
+        count = objects.inject(0) {|sum, object| sum + object.errors.count }
+
         unless count.zero?
           html = {}
           [:id, :class].each do |key|
@@ -189,20 +196,19 @@ module ActionView
           end
           options[:object_name] ||= params.first
 
-          I18n.with_options :locale => options[:locale], :scope => [:activerecord, :errors, :template] do |locale|
+          I18n.with_options :locale => options[:locale], :scope => [:errors, :template] do |locale|
             header_message = if options.include?(:header_message)
               options[:header_message]
             else
-              object_name = options[:object_name].to_s
-              object_name = I18n.t(object_name, :default => object_name.gsub('_', ' '), :scope => [:activerecord, :models], :count => 1)
-              locale.t :header, :count => count, :model => object_name
+              locale.t :header, :count => count, :model => options[:object_name].to_s.gsub('_', ' ')
             end
+
             message = options.include?(:message) ? options[:message] : locale.t(:body)
 
             contents = ''
             contents << content_tag(options[:header_tag] || :h2, header_message) unless header_message.blank?
             contents << content_tag(:p, message) unless message.blank?
-            contents << content_tag(:ul, error_message_list(objects))
+            contents << content_tag(:ul, error_message_list(objects).join.html_safe)
 
             content_tag(:div, contents.html_safe, html)
           end
