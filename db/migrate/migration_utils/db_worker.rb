@@ -41,6 +41,10 @@ module Migration
       ActiveRecord::Base.connection.table_exists? name
     end
 
+    def db_column(name)
+      ActiveRecord::Base.connection.quote_column_name(name)
+    end
+
     def db_columns(table_name)
       ActiveRecord::Base.connection.columns table_name
     end
