@@ -68,24 +68,47 @@ module Project::Copy
       # Check that the source project has a wiki first
       unless project.wiki.nil?
         self.wiki = self.build_wiki(project.wiki.attributes.dup.except("id", "project_id"))
-        wiki_pages_map = {}
-        project.wiki.pages.each do |page|
-          # Skip pages without content
-          next if page.content.nil?
-          new_wiki_content = WikiContent.new(page.content.attributes.dup.except("id", "page_id", "updated_at"))
-          new_wiki_page = WikiPage.new(page.attributes.dup.except("id", "wiki_id", "created_on", "parent_id"))
-          new_wiki_page.content = new_wiki_content
+        copy_wiki_pages(project)
+        copy_wiki_menu_items(project)
+      end
+    end
 
-          self.wiki.pages << new_wiki_page
-          wiki_pages_map[page.id] = new_wiki_page
+    # Copies wiki pages from +project+, requires a wiki to be already set
+    def copy_wiki_pages(project)
+      wiki_pages_map = {}
+      project.wiki.pages.each do |page|
+        # Skip pages without content
+        next if page.content.nil?
+        new_wiki_content = WikiContent.new(page.content.attributes.dup.except("id", "page_id", "updated_at"))
+        new_wiki_page = WikiPage.new(page.attributes.dup.except("id", "wiki_id", "created_on", "parent_id"))
+        new_wiki_page.content = new_wiki_content
+
+        self.wiki.pages << new_wiki_page
+        wiki_pages_map[page.id] = new_wiki_page
+      end
+      self.wiki.save
+      # Reproduce page hierarchy
+      project.wiki.pages.each do |page|
+        if page.parent_id && wiki_pages_map[page.id]
+          wiki_pages_map[page.id].parent = wiki_pages_map[page.parent_id]
+          wiki_pages_map[page.id].save
         end
-        self.wiki.save
-        # Reproduce page hierarchy
-        project.wiki.pages.each do |page|
-          if page.parent_id && wiki_pages_map[page.id]
-            wiki_pages_map[page.id].parent = wiki_pages_map[page.parent_id]
-            wiki_pages_map[page.id].save
-          end
+      end
+    end
+
+    # Copies wiki_menu_items from +project+, requires a wiki to be already set
+    def copy_wiki_menu_items(project)
+      wiki_menu_items_map = {}
+      project.wiki.wiki_menu_items.each do |item|
+        new_item = WikiMenuItem.new
+        new_item.force_attributes = item.attributes.dup.except("id", "wiki_id", "parent_id")
+        new_item.wiki = self.wiki
+        (wiki_menu_items_map[item.id] = new_item.reload) if new_item.save
+      end
+      project.wiki.wiki_menu_items.each do |item|
+        if item.parent_id && (copy = wiki_menu_items_map[item.id])
+          copy.parent = wiki_menu_items_map[item.parent_id]
+          copy.save
         end
       end
     end
