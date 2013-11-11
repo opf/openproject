@@ -362,6 +362,7 @@ a.tl-discreet-link:hover, input.icon:hover {
 
 .tl-column {
   left: 100px;
+  display: inline-block;
 }
 
 #content .tl-word-ellipsis {
@@ -376,7 +377,7 @@ a.tl-discreet-link:hover, input.icon:hover {
 }
 
 #content .tl-left-main table td {
-  padding-top: 8px;
+  padding-top: 0;
   padding-bottom: 1px;
   vertical-align: middle;
 }
