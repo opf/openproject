@@ -141,7 +141,7 @@ module Migration
     end
 
     def missing_initial_customizable_journals(legacy_journal_type, journal_id, journaled_id, version, changed_data)
-      removed_customvalues = parse_customvalues_changes(changed_data)
+      removed_customvalues = parse_custom_value_changes(changed_data)
 
       missing_entries = missing_initial_custom_value_entries(legacy_journal_type,
                                                            journaled_id,
@@ -162,9 +162,9 @@ module Migration
     # - "<old_value>"                           #
     # - "<new_value>"                           #
     #############################################
-    CUSTOM_VALUE_CHANGE_REGEX = /custom_values(?<id>\d+): \n-\s"(?<old_value>.+)"\n-\s"(?<new_value>.*)"$/
+    CUSTOM_VALUE_CHANGE_REGEX = /custom_values(?<id>\d+): \n-\s"(?<old_value>.*)"\n-\s"(?<new_value>.*)"$/
 
-    def parse_customvalues_changes(changed_data)
+    def parse_custom_value_changes(changed_data)
       matches = changed_data.scan(CUSTOM_VALUE_CHANGE_REGEX)
 
       matches.each_with_object([]) { |m, l| l << { id: m[0], value: m[1] } }
@@ -179,7 +179,7 @@ module Migration
             AND type = '#{legacy_journal_type}'
             AND version < #{version}
             AND changed_data LIKE '%custom_values#{c[:id]}:%'
-            AND changed_data LIKE '%- "#{c[:filename]}%"'
+            AND changed_data LIKE '%- "#{c[:value]}%"'
           ORDER BY version
         SQL
 
