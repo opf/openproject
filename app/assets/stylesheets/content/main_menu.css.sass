@@ -112,19 +112,26 @@ $main_menu_folded_width: 50px
         background: #f3f3f3
 
     ul.menu-children
-      background: #04232F
+      background: #f8f8f8
+      border-right: 1px solid #E7E7E7
+      padding: 10px 0
       li
         padding: 0 15px 0 0
       li a
         font-size: 13px
-        line-height: 30px
-        height: 30px
+        line-height: 25px
+        height: 25px
         border: none
         padding: 0 0 0 50px
+        color: #04232F
       li a:hover
         border: none
+        background: none
       li a.selected
         border: none !important
+        background: none
+        color: #04232F
+        font-family: 'LatoBold','Lucida Grande',Helvetica,Arial,sans-serif
 
   a
     text-decoration: none
@@ -146,8 +153,6 @@ $main_menu_folded_width: 50px
     height: 40px	
     text-align: center
   li .open
-    background: #04232F !important
-    border-left: 4px solid #AAAAAA !important
   li .open .toggler    
     -moz-transform: rotate(180deg)
     -webkit-transform: rotate(180deg)
