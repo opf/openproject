@@ -14,9 +14,6 @@ require_relative '../../db/migrate/migration_utils/timelines'
 
 namespace :migrations do
   namespace :timelines do
-
-
-
     desc "Sets all timelines with historical comparison from 'historical' to 'none'"
     task :remove_timelines_historical_comparison_from_options => :environment do |task|
       setter = TimelinesHistoricalComparisonSetter.new

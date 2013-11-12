@@ -9,7 +9,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 #
+
+require_relative 'migration_utils/utils'
+
 class PlanningElementDataToWorkPackages < ActiveRecord::Migration
+  include Migration::Utils
+
   def up
     add_new_id_column
 
@@ -251,13 +256,31 @@ class PlanningElementDataToWorkPackages < ActiveRecord::Migration
     num_updated = 1
 
     while num_updated != 0
-      num_updated = update <<-SQL
+      num_updated = update set_root_id_for_children_db_statement
+    end
+  end
+
+  def set_root_id_for_children_db_statement
+    if mysql?
+
+      <<-SQL
+        UPDATE #{db_work_packages_table} AS child
+          JOIN #{db_work_packages_table} AS parent
+            ON (child.#{db_column('parent_id')} = parent.#{db_column('id')})
+        SET child.#{db_column('root_id')} = parent.#{db_column('id')}
+        WHERE child.#{db_column('root_id')} IS NULL
+      SQL
+
+    else
+
+      <<-SQL
         UPDATE #{db_work_packages_table}
         SET #{db_column('root_id')} = (SELECT parent.#{db_column('root_id')}
                                        FROM #{db_work_packages_table} AS parent
                                        WHERE parent.#{db_column('id')} = #{db_work_packages_table}.#{db_column('parent_id')})
         WHERE #{db_work_packages_table}.#{db_column('root_id')} IS NULL
       SQL
+
     end
   end
 
