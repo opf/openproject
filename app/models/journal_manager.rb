@@ -51,6 +51,7 @@ class JournalManager
     predecessor = journable.journals.last.data.journaled_attributes
 
     current = normalize_newlines(current)
+    predecessor = normalize_newlines(predecessor)
 
     return predecessor.map{|k,v| current[k.to_s] != v}
                       .inject(false) { |r, c| r || c }
