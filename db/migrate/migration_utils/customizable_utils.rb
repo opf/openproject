@@ -19,6 +19,8 @@ module Migration::Utils
                                     :last_version)
 
     def add_missing_customizable_journals
+      delete_invalid_work_package_custom_values
+
       result = missing_custom_values
 
       repair_journals(result)
@@ -65,6 +67,40 @@ module Migration::Utils
     end
 
     private
+
+    # Removes all work package custom values that are not referenced by the
+    # work package's project AND type.
+    def delete_invalid_work_package_custom_values
+      if mysql?
+        delete <<-SQL
+          DELETE cv.* FROM custom_values AS cv
+              JOIN work_packages AS w ON (w.id = cv.customized_id AND cv.customized_type = 'WorkPackage')
+              JOIN custom_fields AS cf ON (cv.custom_field_id = cf.id)
+              JOIN projects AS p ON (w.project_id = p.id)
+              LEFT JOIN custom_fields_projects AS cfp ON (cv.custom_field_id = cfp.custom_field_id AND w.project_id = cfp.project_id)
+              LEFT JOIN custom_fields_types AS cft ON (cv.custom_field_id = cft.custom_field_id AND w.type_id = cft.type_id)
+          WHERE cfp.project_id IS NULL
+            OR cft.type_id IS NULL
+        SQL
+      else
+        delete <<-SQL
+          DELETE FROM custom_values AS cvd
+          WHERE EXISTS
+          (
+            SELECT w.id, cf.id, cfp.project_id, p.name, cft.type_id
+            FROM work_packages AS w
+              JOIN custom_values AS cv ON (w.id = cv.customized_id AND cv.customized_type = 'WorkPackage')
+              JOIN custom_fields AS cf ON (cv.custom_field_id = cf.id)
+              JOIN projects AS p ON (w.project_id = p.id)
+              LEFT JOIN custom_fields_projects AS cfp ON (cv.custom_field_id = cfp.custom_field_id AND w.project_id = cfp.project_id)
+              LEFT JOIN custom_fields_types AS cft ON (cv.custom_field_id = cft.custom_field_id AND w.type_id = cft.type_id)
+            WHERE (cfp.project_id IS NULL
+              OR cft.type_id IS NULL)
+              AND cv.id = cvd.id
+           );
+        SQL
+      end
+    end
 
     def missing_custom_values
       result = select_all <<-SQL
