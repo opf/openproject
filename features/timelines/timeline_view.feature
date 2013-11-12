@@ -78,10 +78,9 @@ Feature: Timeline View Tests
 
   @javascript
   Scenario: switch timeline
-    When there is a timeline "Testline" for project "ecookbook"
+    Given there is a timeline "Testline" for project "ecookbook"
       And there is a timeline "Testline2" for project "ecookbook"
-      And I go to the page of the project called "ecookbook"
-      And I follow "Timelines"
+     When I go to the page of the timeline "Testline" of the project called "ecookbook"
       And I select "Testline2" from "Timeline report"
      Then I should see "New timeline report"
       And I should see "Testline2"

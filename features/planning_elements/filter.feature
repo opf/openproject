@@ -55,7 +55,6 @@ Feature: Filtering work packages via the api
     And there is a role "member"
     And the role "member" may have the following rights:
       | edit_work_packages |
-      | view_projects      |
       | view_reportings    |
       | view_timelines     |
       | view_work_packages |

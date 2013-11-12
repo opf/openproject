@@ -41,7 +41,6 @@ Feature: Issue textile quickinfo links
       | edit_messages       |
       | edit_own_messages   |
       | delete_messages     |
-      | delete_messages     |
       | delete_own_messages |
     And there is 1 user with the following:
       | login | bob |

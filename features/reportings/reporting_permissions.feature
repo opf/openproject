@@ -54,7 +54,6 @@ Feature: Reporting Permissions
       And the role "project admin" may have the following rights:
           | view_timelines    |
           | edit_project      |
-          | view_project      |
           | edit_reportings   |
           | view_reportings   |
           | delete_reportings |
@@ -62,20 +61,17 @@ Feature: Reporting Permissions
       And there is a role "random guy"
       And the role "random guy" may have the following rights:
           | edit_project |
-          | view_project |
 
       And there is a role "view reportings"
       And the role "view reportings" may have the following rights:
           | view_timelines  |
           | edit_project    |
-          | view_project    |
           | view_reportings |
 
       And there is a role "view and edit reportings"
       And the role "view and edit reportings" may have the following rights:
           | view_timelines  |
           | edit_project    |
-          | view_project    |
           | view_reportings |
           | edit_reportings |
 
@@ -83,7 +79,6 @@ Feature: Reporting Permissions
       And the role "crud reportings" may have the following rights:
           | view_timelines    |
           | edit_project      |
-          | view_project      |
           | view_reportings   |
           | edit_reportings   |
           | delete_reportings |
