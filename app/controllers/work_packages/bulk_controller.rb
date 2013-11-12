@@ -49,13 +49,13 @@ class WorkPackages::BulkController < ApplicationController
 
   def update
     @work_packages.sort!
-    attributes = parse_params_for_bulk_work_package_attributes(params)
+    attributes = parse_params_for_bulk_work_package_attributes params
 
     unsaved_work_package_ids = []
     @work_packages.each do |work_package|
       work_package.reload
       work_package.add_journal(User.current, params[:notes])
-      work_package.safe_attributes = attributes
+      work_package.attributes = attributes
       call_hook(:controller_work_package_bulk_before_save, { params: params, work_package: work_package })
       JournalObserver.instance.send_notification = params[:send_notification] == '0' ? false : true
       unless work_package.save
@@ -99,7 +99,9 @@ private
   end
 
   def parse_params_for_bulk_work_package_attributes(params)
-    attributes = (params[:work_package] || {}).reject {|k,v| v.blank?}
+    safe_params = permitted_params.update_work_package project: @project
+
+    attributes = safe_params.reject {|k,v| v.blank?}
     attributes.keys.each {|k| attributes[k] = '' if attributes[k] == 'none'}
     attributes[:custom_field_values].reject! {|k,v| v.blank?} if attributes[:custom_field_values]
     attributes.delete :custom_field_values if not attributes.has_key?(:custom_field_values) or attributes[:custom_field_values].empty?
