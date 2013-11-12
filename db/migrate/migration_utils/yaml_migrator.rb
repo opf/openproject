@@ -13,9 +13,9 @@ require 'syck'
 
 module Migration
   module YamlMigrator
-    extend DbWorker
+    include DbWorker
 
-    def self.migrate(table, column, source_yamler, target_yamler)
+    def migrate_yaml(table, column, source_yamler, target_yamler)
       current_yamler = YAML::ENGINE.yamler
       fetch_data(table,column).each do | data |
         db_execute <<-SQL
@@ -30,7 +30,7 @@ module Migration
       YAML::ENGINE.yamler = current_yamler.present? ? current_yamler : 'psych'
     end
 
-    def self.fetch_data(table, column)
+    def fetch_data(table, column)
       ActiveRecord::Base.connection.select_all <<-SQL
         SELECT #{db_column('id')}, #{db_column(column)}
         FROM #{quoted_table_name(table)}
@@ -38,7 +38,7 @@ module Migration
       SQL
     end
 
-    def self.yaml_to_yaml(data, source_yamler, target_yamler)
+    def yaml_to_yaml(data, source_yamler, target_yamler)
       YAML::ENGINE.yamler = source_yamler
       original = YAML.load(data)
       YAML::ENGINE.yamler = target_yamler

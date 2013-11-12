@@ -29,9 +29,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#2731` Migrated serialized yaml from syck to psych
+
 ## 3.0.0pre29
 
-* `#2473` [Timelines] Tooltip in timeline report shows star * instead of hash # in front of ID 
+* `#2473` [Timelines] Tooltip in timeline report shows star * instead of hash # in front of ID
 * `#2721` Fix: Fix: Fix: Missing journal entries for customizable_journals
 * `#2718` Newlines in workpackage descriptions aren't normalized for change tracking
 
