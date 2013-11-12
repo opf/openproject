@@ -20,6 +20,8 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+* `#2731` Migrate serialized yaml from syck to psych
+
 ## 3.0.0.pre8
 
 * `#2451` Squash old migrations
