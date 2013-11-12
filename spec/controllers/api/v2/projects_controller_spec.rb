@@ -30,6 +30,11 @@ require 'spec_helper'
 
 describe Api::V2::ProjectsController, :type => :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
+  let(:anonymous_role_with_permissions) do
+    role = FactoryGirl.create(:anonymous_role)
+    role.update_attribute(:permissions, [:view_projects])
+    role.save!
+  end
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -87,6 +92,8 @@ describe Api::V2::ProjectsController, :type => :controller do
       describe 'public project' do
         let(:project) { FactoryGirl.create(:project, :is_public => true) }
         def fetch
+          anonymous_role_with_permissions
+
           get 'show', :id => project.identifier, :format => 'xml'
         end
         it_should_behave_like "a controller action with unrestricted access"
