@@ -99,8 +99,9 @@ private
   end
 
   def parse_params_for_bulk_work_package_attributes(params)
-    safe_params = permitted_params.update_work_package project: @project
+    return {} unless params.has_key? :work_package
 
+    safe_params = permitted_params.update_work_package project: @project
     attributes = safe_params.reject {|k,v| v.blank?}
     attributes.keys.each {|k| attributes[k] = '' if attributes[k] == 'none'}
     attributes[:custom_field_values].reject! {|k,v| v.blank?} if attributes[:custom_field_values]
