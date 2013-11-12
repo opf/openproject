@@ -34,6 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2473` [Timelines] Tooltip in timeline report shows star * instead of hash # in front of ID 
 * `#2721` Fix: Fix: Fix: Missing journal entries for customizable_journals
 * `#2718` Newlines in workpackage descriptions aren't normalized for change tracking
+* `#1748` Add option to diable browser cache
 
 ## 3.0.0pre28
 
