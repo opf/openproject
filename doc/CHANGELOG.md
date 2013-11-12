@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#2731` Migrated serialized yaml from syck to psych
+* Fix mysql data migrations
 
 ## 3.0.0pre29
 
