@@ -29,8 +29,12 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
-* `#2731` Migrated serialized yaml from syck to psych
 * Fix mysql data migrations
+
+## 3.0.0pre30
+
+* `#2721` Fix: Fix: Fix: Fix: Missing journal entries for customizable_journals
+* `#2731` Migrated serialized yaml from syck to psych
 
 ## 3.0.0pre29
 
