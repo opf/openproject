@@ -15,6 +15,8 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+## 1.0.4
+
 * `#2340` Develop migration mechanism for renamed plugins
 
 ## 1.0.3
