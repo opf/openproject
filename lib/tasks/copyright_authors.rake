@@ -29,7 +29,7 @@
 
 namespace :copyright do
   namespace :authors do
-    desc "Shows contributors to a project"
+    desc "Shows contributors of a repository"
     task :show, :arg1 do |task, args|
       contribution_periods = contribution_periods_of_project(args[:arg1])
 
@@ -65,9 +65,8 @@ namespace :copyright do
     end
 
     def show_contribution_periods(contribution_periods)
-      contribution_periods.each do |c| 
-        period = (c.begin == c.end) ? c.begin.to_s : "#{c.begin} - #{c.end}"
-        puts "#{period} #{c.author}"
+      contribution_periods.each_pair do |date, authors|
+        puts "#{date} #{authors.join(", ")}"
       end
     end
   end
