@@ -52,6 +52,36 @@ require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "pat
 require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "selectors"))
 
 module WithinHelpers
+  def right_click(elements)
+    builder = page.driver.browser.action
+
+    Array(elements).each do |e|
+      builder.context_click(e.native)
+    end
+
+    builder.perform
+  end
+
+  def ctrl_click(elements)
+    builder = page.driver.browser.action
+
+    #Hold control key down
+    builder.key_down(:control)
+
+    #Note that you can retrieve the elements using capybara's
+    #  standard methods. When passing them to the builder
+    #  make sure to do .native
+    Array(elements).each do |e|
+      builder.click(e.native)
+    end
+
+    #Release control key
+    builder.key_up(:control)
+
+    #Do the action setup
+    builder.perform
+  end
+
   def with_scope(locator, options={})
     locator ? within(*selector_for(locator), options) { yield } : yield
   end
@@ -64,25 +94,9 @@ When /^(.*) within (.*[^:])$/ do |step_name, parent|
 end
 
 When(/^I ctrl\-click on "([^\"]+)"$/) do |text|
-    builder = page.driver.browser.action
-
-    #Hold control key down
-    builder.key_down(:control)
-
-    #Click all elements that you want, in this case we click all lis
-    #Note that you can retrieve the elements using capybara's
-    #  standard methods. When passing them to the builder
-    #  make sure to do .native
-    elements = page.all('a', :text => text)
-    elements.each do |e|        
-      builder.click(e.native)
-    end
-
-    #Release control key
-    builder.key_up(:control)
-
-    #Do the action setup
-    builder.perform
+  #Click all elements that you want, in this case we click all as
+  elements = page.all('a', :text => text)
+  ctrl_click(elements)
 end
 
 # Single-line step scoper
