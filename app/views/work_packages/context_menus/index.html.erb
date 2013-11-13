@@ -72,7 +72,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% #TODO: allow editing versions when multiple projects %>
 <% unless @project.nil? || (versions = @project.shared_versions.open.sort).empty? -%>
-  <% versions = versions.map{ |v| [v, format_version_name(v)] } << [nil, l(:label_none)]%>
+  <% versions = versions.map{ |v| [v, format_version_name(v)] } << ["none", l(:label_none)]%>
   <% params = default_params.merge(:collection => versions,
                                    :attribute => 'fixed_version',
                                    :selected => lambda { |version| (@work_package && version == @work_package.fixed_version) },
