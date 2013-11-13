@@ -87,6 +87,15 @@ Feature: Wiki menu items
     Then I should not see "Table of Contents" within "#main-menu"
     Then I should not see "Create new child page" within "#main-menu"
 
+    @javascript
+  Scenario: Do not change existing entry, but saving nonetheless
+    When I go to the wiki page "Wiki" for the project called "Awesome Project"
+    Then I should see "Table of Contents" within "#main-menu"
+    Then I should see "Create new child page" within "#main-menu"
+    When I click on "More functions"
+    And I click on "Configure menu item"
+    And I press "Save"
+    Then I should not see "Successful update."
 
     @javascript
   Scenario: Adding a sub menu entry
