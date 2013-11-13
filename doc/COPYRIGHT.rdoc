@@ -4,7 +4,7 @@ This Plugin adds features, that enable agile teams to work efficiently with
 OpenProject in Scrum projects.
 
 Copyright (C)2013 the OpenProject Team
-Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser,Sandro Munda
+Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
 Copyright (C)2010-2011 friflaj
 Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
 Copyright (C)2009-2010 Mark Maglana
