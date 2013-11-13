@@ -78,6 +78,8 @@ gem 'daemons'
 
 gem 'rack-protection'
 
+gem 'syck', :platforms => [:ruby_20, :mingw_20], :require => false
+
 group :production do
   # we use dalli as standard memcache client remove this if you don't
   # requires memcached 1.4+
@@ -129,8 +131,8 @@ group :test do
   gem 'simplecov', ">= 0.8.pre"
   gem "shoulda-matchers"
   gem "json_spec"
-
   gem "activerecord-tableless", "~> 1.0"
+  gem "codeclimate-test-reporter", :require => nil
 end
 
 group :ldap do

@@ -192,6 +192,7 @@ describe WikiController do
       describe 'successful action' do
         context 'when it is not the only wiki page' do
           let(:wiki) { @project.wiki }
+          let(:redirect_page_after_destroy) { wiki.find_page(wiki.start_page) || wiki.pages.first }
 
           before do
             another_wiki_page = FactoryGirl.create :wiki_page, wiki: wiki
@@ -199,7 +200,7 @@ describe WikiController do
 
           it 'redirects to wiki#index' do
             delete :destroy, project_id: @project, id: @existing_page
-            response.should redirect_to action: 'index', project_id: @project
+            response.should redirect_to action: 'index', project_id: @project, id: redirect_page_after_destroy
           end
         end
 

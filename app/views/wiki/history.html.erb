@@ -47,7 +47,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% line_num = 1 %>
 <% @versions.each do |ver| %>
 <tr class="wiki-page-version <%= cycle("odd", "even") %>">
-    <td class="id"><%= link_to h(ver.version), :action => 'show', :id => @page.title, :project_id => @page.project, :version => ver.version %></td>
+    <td class="id"><%= link_to h(ver.version), :action => 'show', :id => @page, :project_id => @page.project, :version => ver.version %></td>
     <td class="checkbox">
       <% if show_diff && (line_num < @versions.size)  %>
       <label for="<%="cb-#{line_num}"%>" class="hidden-for-sighted"><%=l(:description_compare_from) + " " + h(ver.version.to_s) %></label>
@@ -63,7 +63,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <td class="updated_on"><%= format_time(ver.created_at) %></td>
     <td class="author"><%= link_to_user ver.user %></td>
     <td class="comments"><%=h ver.notes %></td>
-    <td class="buttons"><%= link_to l(:button_annotate), :action => 'annotate', :id => @page.title, :version => ver.version %></td>
+    <td class="buttons"><%= link_to l(:button_annotate), :action => 'annotate', :id => @page, :version => ver.version %></td>
 </tr>
 <% line_num += 1 %>
 <% end %>

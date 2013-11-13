@@ -57,6 +57,7 @@ class WikiController < ApplicationController
                                                :add_attachment,
                                                :list_attachments,
                                                :destroy]
+  before_filter :build_wiki_page_and_content, only: [:new, :create]
 
   verify :method => :post, :only => [:protect], :redirect_to => { :action => :show }
   verify :method => :get,  :only => [:new, :new_child], :render => {:nothing => true, :status => :method_not_allowed}
@@ -94,11 +95,6 @@ class WikiController < ApplicationController
   end
 
   def new
-    @page = WikiPage.new(:wiki => @wiki)
-    @page.content = WikiContent.new(:page => @page)
-
-    @content = @page.content_for_version(nil)
-    @content.text = initial_page_content(@page)
   end
 
   def new_child
@@ -107,15 +103,13 @@ class WikiController < ApplicationController
 
     old_page = @page
 
-    new
+    build_wiki_page_and_content
 
     @page.parent = old_page
     render :action => 'new'
   end
 
   def create
-    new
-
     @page.title     = params[:page][:title]
     @page.parent_id = params[:page][:parent_id]
 
@@ -126,6 +120,7 @@ class WikiController < ApplicationController
       attachments = Attachment.attach_files(@page, params[:attachments])
       render_attachment_warning_if_needed(@page)
       call_hook(:controller_wiki_edit_after_save, :params => params, :page => @page)
+      flash[:notice] = l(:notice_successful_create)
       redirect_to_show
     else
       render :action => 'new'
@@ -304,7 +299,11 @@ class WikiController < ApplicationController
     end
     @page.destroy
 
-    redirect_to @wiki.pages.any? ? {:action => 'index', :project_id => @project} : project_path(@project)
+    if page = @wiki.find_page(@wiki.start_page) || @wiki.pages.first
+      redirect_to :action => 'index', :project_id => @project, id: page
+    else
+      redirect_to project_path(@project)
+    end
   end
 
   # Export wiki to a single html file
@@ -334,7 +333,7 @@ class WikiController < ApplicationController
     return render_403 unless editable?
     attachments = Attachment.attach_files(@page, params[:attachments])
     render_attachment_warning_if_needed(@page)
-    redirect_to :action => 'show', :id => @page.title, :project_id => @project
+    redirect_to :action => 'show', :id => @page, :project_id => @project
   end
 
   def list_attachments
@@ -352,7 +351,7 @@ class WikiController < ApplicationController
       nil
   end
 
-private
+  private
 
   def find_wiki
     @project = Project.find(params[:project_id])
@@ -366,6 +365,14 @@ private
   def find_existing_page
     @page = @wiki.find_page(params[:id])
     render_404 if @page.nil?
+  end
+
+  def build_wiki_page_and_content
+    @page = WikiPage.new wiki: @wiki
+    @page.content = WikiContent.new page: @page
+
+    @content = @page.content_for_version nil
+    @content.text = initial_page_content @page
   end
 
   # Returns true if the current user is allowed to edit the page, otherwise false
@@ -389,6 +396,6 @@ private
   end
 
   def redirect_to_show
-    redirect_to :action => 'show', :project_id => @project, :id => @page.title
+    redirect_to action: :show, project_id: @project, id: @page
   end
 end

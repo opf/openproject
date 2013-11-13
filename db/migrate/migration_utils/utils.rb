@@ -56,6 +56,14 @@ module Migration
       ActiveRecord::Base.connection.reset_pk_sequence!(table)
     end
 
+    def postgres?
+      ActiveRecord::Base.connection.instance_values["config"][:adapter] == "postgresql"
+    end
+
+    def mysql?
+      ActiveRecord::Base.connection.instance_values["config"][:adapter] == "mysql2"
+    end
+
     private
 
     def select_rows_from_database(table, column_list, conditions)

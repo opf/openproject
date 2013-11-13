@@ -29,6 +29,7 @@
 
 require_relative 'db_worker'
 require_relative 'legacy_table_checker'
+require 'syck'
 
 module Migration
   class IncompleteJournalsError < ::StandardError
@@ -279,7 +280,7 @@ module Migration
       changed_data = journal["changed_data"]
       return Hash.new if changed_data.nil?
 
-      current_yamler = YAML::ENGINE.yamler
+      current_yamler = YAML::ENGINE.yamler || 'psych'
       begin
         # The change to 'syck' ensures that legacy data is correctly read from
         # the 'legacy_journals' table. Otherwise, we would end up with false

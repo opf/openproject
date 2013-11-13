@@ -43,6 +43,14 @@ class WikiControllerTest < ActionController::TestCase
     User.current = nil
   end
 
+  def wiki
+    Project.first.wiki
+  end
+
+  def redirect_page
+    wiki.find_page(wiki.start_page) || wiki.pages.first
+  end
+
   def test_show_start_page
     get :show, :project_id => 'ecookbook'
     assert_response :success
@@ -97,7 +105,7 @@ class WikiControllerTest < ActionController::TestCase
                 :content => {:comments => 'Created the page',
                              :text => "h1. New page\n\nThis is a new page" }
     assert_redirected_to :action => 'show', :project_id => 'ecookbook', :id => 'New_page'
-    page = Project.find(1).wiki.find_page('New page')
+    page = wiki.find_page('New page')
     assert !page.new_record?
     assert_not_nil page.content
     assert_equal 'Created the page', page.content.last_journal.notes
@@ -115,7 +123,7 @@ class WikiControllerTest < ActionController::TestCase
                     :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
       end
     end
-    page = Project.find(1).wiki.find_page('New page')
+    page = wiki.find_page('New page')
     assert_equal 1, page.attachments.count
     assert_equal 'testfile.txt', page.attachments.first.filename
   end
@@ -326,7 +334,6 @@ class WikiControllerTest < ActionController::TestCase
                  :wiki_page => { :title => 'Another renamed page',
                                  :redirect_existing_links => 1 }
     assert_redirected_to :action => 'show', :project_id => 'ecookbook', :id => 'Another_renamed_page'
-    wiki = Project.find(1).wiki
     # Check redirects
     assert_not_nil wiki.find_page('Another page')
     assert_nil wiki.find_page('Another page', :with_redirect => false)
@@ -338,7 +345,6 @@ class WikiControllerTest < ActionController::TestCase
                  :wiki_page => { :title => 'Another renamed page',
                                  :redirect_existing_links => "0" }
     assert_redirected_to :action => 'show', :project_id => 'ecookbook', :id => 'Another_renamed_page'
-    wiki = Project.find(1).wiki
     # Check that there's no redirects
     assert_nil wiki.find_page('Another page')
   end
@@ -346,7 +352,7 @@ class WikiControllerTest < ActionController::TestCase
   def test_destroy_child
     @request.session[:user_id] = 2
     delete :destroy, :project_id => 1, :id => 'Child_1'
-    assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+    assert_redirected_to action: 'index', project_id: 'ecookbook', id: redirect_page
   end
 
   def test_destroy_parent
@@ -363,7 +369,7 @@ class WikiControllerTest < ActionController::TestCase
     assert_difference('WikiPage.count', -1) do
       delete :destroy, :project_id => 1, :id => 'Another_page', :todo => 'nullify'
     end
-    assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+    assert_redirected_to action: 'index', project_id: 'ecookbook', id: redirect_page
     assert_nil WikiPage.find_by_id(2)
   end
 
@@ -372,7 +378,7 @@ class WikiControllerTest < ActionController::TestCase
     assert_difference('WikiPage.count', -3) do
       delete :destroy, :project_id => 1, :id => 'Another_page', :todo => 'destroy'
     end
-    assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+    assert_redirected_to action: 'index', project_id: 'ecookbook', id: redirect_page
     assert_nil WikiPage.find_by_id(2)
     assert_nil WikiPage.find_by_id(5)
   end
@@ -382,7 +388,7 @@ class WikiControllerTest < ActionController::TestCase
     assert_difference('WikiPage.count', -1) do
       delete :destroy, :project_id => 1, :id => 'Another_page', :todo => 'reassign', :reassign_to_id => 1
     end
-    assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+    assert_redirected_to action: 'index', project_id: 'ecookbook', id: redirect_page
     assert_nil WikiPage.find_by_id(2)
     assert_equal WikiPage.find(1), WikiPage.find_by_id(5).parent
   end
@@ -393,7 +399,7 @@ class WikiControllerTest < ActionController::TestCase
     assert_template 'index'
     pages = assigns(:pages)
     assert_not_nil pages
-    assert_equal Project.find(1).wiki.pages.size, pages.size
+    assert_equal wiki.pages.size, pages.size
     assert_equal pages.first.content.updated_on, pages.first.updated_on
 
     assert_tag :ul, :attributes => { :class => 'pages-hierarchy' },
