@@ -30,6 +30,12 @@
 OpenProject::Application.routes.draw do
   root :to => 'welcome#index', :as => 'home'
 
+  # Redirect deprecated issue links to new work packages uris
+  match '/issues(/)'    => redirect('/work_packages/')
+  # The URI.escape doesn't escape / unless you ask it to.
+  # see https://github.com/rails/rails/issues/5688
+  match '/issues/*rest' => redirect { |params, req| "/work_packages/#{URI.escape(params[:rest])}" }
+
   scope :controller => 'account' do
     get '/account/force_password_change', :action => 'force_password_change'
     post '/account/change_password', :action => 'change_password'
