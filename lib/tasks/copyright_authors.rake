@@ -31,7 +31,7 @@ namespace :copyright do
   namespace :authors do
     desc "Shows contributors of a repository"
     task :show, :arg1 do |task, args|
-      contribution_periods = contribution_periods_of_project(args[:arg1])
+      contribution_periods = contribution_periods_of_repository(args[:arg1])
       formatted_periods = format_contribution_periods(contribution_periods)
 
       show_contribution_periods(formatted_periods)
@@ -44,7 +44,7 @@ namespace :copyright do
 
     CONTRIBUTION_REGEX = /^(?<date>\d\d\d\d-\d\d-\d\d) (?<author>.*)$/
 
-    def contribution_periods_of_project(path)
+    def contribution_periods_of_repository(path)
       contributions = []
       contribution_periods = []
       path = '.' if path.nil?
