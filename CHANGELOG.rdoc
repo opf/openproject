@@ -1,4 +1,8 @@
 
+= 3.0.4.pre10
+
+* Fixed missing migration of setting values
+
 = 3.0.4.pre9
 
 * `#2545` Migrated old plugin settings
