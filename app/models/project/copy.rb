@@ -100,7 +100,7 @@ module Project::Copy
     def copy_wiki_menu_items(project)
       wiki_menu_items_map = {}
       project.wiki.wiki_menu_items.each do |item|
-        new_item = WikiMenuItem.new
+        new_item = MenuItems::WikiMenuItem.new
         new_item.force_attributes = item.attributes.dup.except("id", "wiki_id", "parent_id")
         new_item.wiki = self.wiki
         (wiki_menu_items_map[item.id] = new_item.reload) if new_item.save

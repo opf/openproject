@@ -85,7 +85,7 @@ class WikiPage < ActiveRecord::Base
   def delete_wiki_menu_item
     self.menu_item.destroy if self.menu_item
     # ensure there is a menu item for the wiki
-    wiki.create_menu_item_for_start_page if WikiMenuItem.main_items(wiki).empty?
+    wiki.create_menu_item_for_start_page if MenuItems::WikiMenuItem.main_items(wiki).empty?
   end
 
   def visible?(user=User.current)
