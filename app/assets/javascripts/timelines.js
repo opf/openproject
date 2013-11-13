@@ -3184,7 +3184,7 @@ Timeline = {
           return {
             'id': group.id,
             'p': group,
-            'number': j,
+            'number': j + 1,
             'name': group.name
           };
         }
