@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= error_messages_for 'page' %>
 
-<%= labelled_tabular_form_for @page, :url => { :action => 'rename' }, :as => :wiki_page do |f| %>
+<%= labelled_tabular_form_for @page, :url => { id: @page, action: 'rename' }, :as => :wiki_page do |f| %>
   <div class="box">
     <p><%= f.text_field :title, :required => true, :size => 100  %></p>
     <p><%= f.check_box :redirect_existing_links %></p>

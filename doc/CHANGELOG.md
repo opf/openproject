@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * Fix mysql data migrations
+* `#2699` [Wiki] 400 error when entering special character in wiki title
 
 ## 3.0.0pre30
 

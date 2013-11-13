@@ -75,10 +75,10 @@ class WikiMenuItemsController < ApplicationController
 
     if not @wiki_menu_item.errors.size >= 1 and (@wiki_menu_item.destroyed? or @wiki_menu_item.save)
       flash[:notice] = l(:notice_successful_update)
-      redirect_back_or_default({ :action => 'edit', :id => @page_title })
+      redirect_back_or_default({ :action => 'edit', :id => @page })
     else
       respond_to do |format|
-        format.html { render :action => 'edit', :id => @page_title }
+        format.html { render :action => 'edit', :id => @page }
       end
     end
   end
@@ -96,7 +96,7 @@ class WikiMenuItemsController < ApplicationController
       current_menu_item.destroy
     end
 
-    redirect_to action: :edit, id: current_page.title
+    redirect_to action: :edit, id: current_page
   end
 
   private

@@ -73,10 +73,10 @@ class Redmine::WikiFormatting::MacrosTest < HelperTestCase
   end
 
   def test_macro_child_pages
-    expected =  "<p><ul class=\"pages-hierarchy\">\n" +
-                 "<li><a href=\"/projects/ecookbook/wiki/Child_1\">Child 1</a></li>\n" +
-                 "<li><a href=\"/projects/ecookbook/wiki/Child_2\">Child 2</a></li>\n" +
-                 "</ul>\n</p>"
+    expected =  "<p><ul class=\"pages-hierarchy\">" +
+                 "<li><a href=\"/projects/ecookbook/wiki/Child_1\">Child 1</a></li>" +
+                 "<li><a href=\"/projects/ecookbook/wiki/Child_2\">Child 2</a></li>" +
+                 "</ul></p>"
 
     @project = Project.find(1)
     # child pages of the current wiki page
@@ -89,12 +89,12 @@ class Redmine::WikiFormatting::MacrosTest < HelperTestCase
   end
 
   def test_macro_child_pages_with_option
-    expected =  "<p><ul class=\"pages-hierarchy\">\n" +
-                 "<li><a href=\"/projects/ecookbook/wiki/Another_page\">Another page</a>\n" +
-                 "<ul class=\"pages-hierarchy\">\n" +
-                 "<li><a href=\"/projects/ecookbook/wiki/Child_1\">Child 1</a></li>\n" +
-                 "<li><a href=\"/projects/ecookbook/wiki/Child_2\">Child 2</a></li>\n" +
-                 "</ul>\n</li>\n</ul>\n</p>"
+    expected =  "<p><ul class=\"pages-hierarchy\">" +
+                 "<li><a href=\"/projects/ecookbook/wiki/Another_page\">Another page</a>" +
+                 "<ul class=\"pages-hierarchy\">" +
+                 "<li><a href=\"/projects/ecookbook/wiki/Child_1\">Child 1</a></li>" +
+                 "<li><a href=\"/projects/ecookbook/wiki/Child_2\">Child 2</a></li>" +
+                 "</ul></li></ul></p>"
 
     @project = Project.find(1)
     # child pages of the current wiki page
