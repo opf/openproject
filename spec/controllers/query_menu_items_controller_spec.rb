@@ -49,8 +49,8 @@ describe QueryMenuItemsController do
       @query_menu_item.should be_present
     end
 
-    it 'redirects to the edit action' do
-      response.should redirect_to edit_query_menu_item_path(project, public_query, @query_menu_item)
+    it 'renders the edit action' do
+      response.should  render_template 'edit'
     end
   end
 
