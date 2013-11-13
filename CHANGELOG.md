@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.0.1.pre9
+
+* Added missing translations
+
 ## 5.0.1.pre8
 
 * `#2402` Squash old migrations
