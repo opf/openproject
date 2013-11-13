@@ -29,8 +29,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
-* Fix mysql data migrations
+* `#2653` Remove relative vertical offset corrections and custom border fixes for IE8.
+* `#2654` Remove custom font rendering/kerning as well as VML from timelines.
 * `#2699` [Wiki] 400 error when entering special character in wiki title
+* Fix mysql data migrations
 
 ## 3.0.0pre30
 

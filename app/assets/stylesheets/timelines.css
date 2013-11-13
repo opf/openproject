@@ -45,6 +45,10 @@ li.select2-result.select2-visible-selected-parent {
   border: 1px solid black;
 }
 
+.timeline svg {
+  display: block;
+}
+
 .tl-under-construction {
   background: url("../../../assets/loadingAnimation.gif") no-repeat center;
   border: 1px solid #ddd;
@@ -358,6 +362,7 @@ a.tl-discreet-link:hover, input.icon:hover {
 
 .tl-column {
   left: 100px;
+  display: inline-block;
 }
 
 #content .tl-word-ellipsis {
@@ -372,7 +377,7 @@ a.tl-discreet-link:hover, input.icon:hover {
 }
 
 #content .tl-left-main table td {
-  padding-top: 8px;
+  padding-top: 0;
   padding-bottom: 1px;
   vertical-align: middle;
 }
