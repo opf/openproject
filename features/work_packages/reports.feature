@@ -48,3 +48,8 @@ Feature: Navigating from reports to index
     When I go to the work_packages/report page of the project called "parent"
     And I follow "Work packages" within "#main-menu"
     Then I should be on the work packages index page of the project called "parent"
+
+  Scenario: Navigating from work package reports page to a type report
+    When I go to the work_packages/report page of the project called "parent"
+    And  I follow "Further analyze: Type"
+    Then I should see "Bug" within ".list"
