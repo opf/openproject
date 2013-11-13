@@ -3656,7 +3656,7 @@ Timeline = {
   DAY_WIDTH: 16,
 
   MIN_CHART_WIDTH: 200,
-  RENDER_BUCKETS: 2,
+  RENDER_BUCKET_SIZE: 32,
   ORIGINAL_BORDER_WIDTH_CORRECTION: 3,
   BORDER_WIDTH_CORRECTION: 3,
   HOVER_THRESHOLD: 3,
@@ -4870,19 +4870,19 @@ Timeline = {
     });
 
     var render_next_bucket = function() {
-      if (jQuery.each(pre_render_bucket.splice(0, Timeline.RENDER_BUCKETS), function(i, e) {
+      if (jQuery.each(pre_render_bucket.splice(0, Timeline.RENDER_BUCKET_SIZE), function(i, e) {
           e.call();
         }).length !== 0) {
         timeline.defer(render_next_bucket);
-      } else if (jQuery.each(render_bucket.splice(0, Timeline.RENDER_BUCKETS), function(i, e) {
+      } else if (jQuery.each(render_bucket.splice(0, Timeline.RENDER_BUCKET_SIZE), function(i, e) {
             e.call();
           }).length !== 0) {
         timeline.defer(render_next_bucket);
-      } else if (jQuery.each(post_render_bucket.splice(0, Timeline.RENDER_BUCKETS), function(i, e) {
+      } else if (jQuery.each(post_render_bucket.splice(0, Timeline.RENDER_BUCKET_SIZE), function(i, e) {
             e.call();
           }).length !== 0) {
         timeline.defer(render_next_bucket);
-      } else if (jQuery.each(text_render_bucket.splice(0, Timeline.RENDER_BUCKETS), function(i, e) {
+      } else if (jQuery.each(text_render_bucket.splice(0, Timeline.RENDER_BUCKET_SIZE), function(i, e) {
             e.call();
           }).length !== 0) {
         timeline.defer(render_next_bucket);
