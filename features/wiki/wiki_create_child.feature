@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
@@ -27,48 +26,31 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'rexml/document'
+Feature: Creating a wiki child page
 
-module OpenProject
-  module VERSION #:nodoc:
+  Background:
+    Given there are no wiki menu items
+    And there is 1 user with the following:
+      | login | bob |
+    And there is a role "member"
+    And the role "member" may have the following rights:
+      | view_wiki_pages   |
+      | edit_wiki_pages   |
+    And there is 1 project with the following:
+      | name       | project1 |
+      | identifier | project1 |
+    And the user "bob" is a "member" in the project "project1"
+    And I am already logged in as "bob"
 
-    MAJOR = 3
-    MINOR = 0
-    PATCH = 0
-    TINY  = PATCH # Redmine compat
-
-    # Used by semver to define the special version (if any).
-    # A special version "satify but have a lower precedence than the associated
-    # normal version". So 2.0.0RC1 would be part of the 2.0.0 series but
-    # be considered to be an older version.
-    #
-    #   1.4.0 < 2.0.0RC1 < 2.0.0RC2 < 2.0.0 < 2.1.0
-    #
-    # This method may be overridden by third party code to provide vendor or
-    # distribution specific versions. They may or may not follow semver.org:
-    #
-    #   2.0.0debian-2
-    def self.special
-      'pre30'
-    end
-
-    def self.revision
-      revision = `git rev-parse HEAD`
-      if revision.present?
-        revision.strip[0..8]
-      else
-        nil
-      end
-    end
-
-    REVISION = self.revision
-    ARRAY = [MAJOR, MINOR, PATCH, REVISION].compact
-    STRING = ARRAY.join('.')
-
-    def self.to_a; ARRAY end
-    def self.to_s; STRING end
-    def self.to_semver
-      [MAJOR, MINOR, PATCH].join('.') + special
-    end
-  end
-end
+  @javascript
+  Scenario: Creating a wiki child page the title of which contains special characters
+    Given the project "project1" has 1 wiki page with the following:
+      | title | ParentWikiPage |
+    And the project "project1" has 1 wiki menu item with the following:
+      | title         | ParentWikiPage |
+      | new_wiki_page | true           |
+    When I go to the wiki new child page below the "ParentWikiPage" page of the project called "project1"
+    And I click "Create new child page"
+    And I fill in "page_title" with "Child Page !@#{$%^&*()_},./<>?;':"
+    And I click "Save"
+    Then I should see "Successful creation."

@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h2><%=h @page.pretty_title %></h2>
 
-<%= form_for @content, :as => :content, :url => {:action => 'update', :id => @page.title}, :html => {:method => :put, :multipart => true, :id => 'wiki_form'} do |f| %>
+<%= form_for @content, :as => :content, :url => {:action => 'update', :id => @page}, :html => {:method => :put, :multipart => true, :id => 'wiki_form'} do |f| %>
 <%= f.hidden_field :lock_version %>
 <%= error_messages_for 'content' %>
 
@@ -40,7 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <p><%= submit_tag l(:button_save) %>
    <%= link_to_remote l(:label_preview),
-                       { :url => { :controller => '/wiki', :action => 'preview', :project_id => @project, :id => @page.title },
+                       { :url => { :controller => '/wiki', :action => 'preview', :project_id => @project, :id => @page },
                          :method => :post,
                          :update => 'preview',
                          :before => 'var form_data = Form.serialize("wiki_form", true); form_data._method="post";',

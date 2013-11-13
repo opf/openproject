@@ -67,16 +67,28 @@ module Migration::Utils
     private
 
     def missing_attachments
-      result = select_all <<-SQL
-        SELECT * FROM (
-          SELECT a.container_id AS journaled_id, a.container_type AS journaled_type, a.id AS attachment_id, a.filename, MAX(aj.id) AS aj_id, MAX(j.version) AS last_version
-          FROM attachments AS a JOIN journals AS j
-            ON (a.container_id = j.journable_id AND a.container_type = j.journable_type) LEFT JOIN attachable_journals AS aj
-            ON (a.id = aj.attachment_id)
-          GROUP BY a.container_id, a.container_type, a.id, a.filename
-          ) AS tmp
-        WHERE aj_id IS NULL
-      SQL
+      begin
+        result = select_all <<-SQL
+          SELECT * FROM (
+            SELECT a.container_id AS journaled_id, a.container_type AS journaled_type, a.id AS attachment_id, a.filename, MAX(aj.id) AS aj_id, MAX(j.version) AS last_version
+            FROM attachments AS a JOIN journals AS j
+              ON (a.container_id = j.journable_id AND a.container_type = j.journable_type) LEFT JOIN attachable_journals AS aj
+              ON (a.id = aj.attachment_id)
+            GROUP BY a.container_id, a.container_type, a.id, a.filename
+            ) AS tmp
+          WHERE aj_id IS NULL
+        SQL
+      rescue ActiveRecord::StatementInvalid => ex
+        raise ex unless mysql?
+
+        raise "An MySQL error occured (see details below)!"\
+              "\n\n"\
+              "If you're facing an 'Illegal mix of collations error, consider "\
+              "running rake task "\
+              "'migrations:journals:fix_attachments_collation'."\
+              "\n\n"\
+              "#{ex.message}"
+      end
 
       result.collect { |row| MissingAttachment.new(row['journaled_id'],
                                                    row['journaled_type'],

@@ -106,14 +106,16 @@ describe WorkPackage do
       end
 
       context 'when there is a legacy journal containing non-escaped newlines' do
-        before do
-          work_package_1.save
-          # force the latest journal to match the description with unescaped newline characters
-          legacy_journal = work_package_1.journals.last
-          legacy_journal.data.update_column :description, changed_description
-          # rollback work package description to normalized newlines
-          work_package_1.update_attributes description: description
-        end
+        let!(:work_package_journal_1) { FactoryGirl.create(:work_package_journal,
+                                                           journable_id: work_package_1.id,
+                                                           version: 2,
+                                                           data: FactoryGirl.build(:journal_work_package_journal,
+                                                                                   description: description)) }
+        let!(:work_package_journal_2) { FactoryGirl.create(:work_package_journal,
+                                                           journable_id: work_package_1.id,
+                                                           version: 3,
+                                                           data: FactoryGirl.build(:journal_work_package_journal,
+                                                                                    description: changed_description)) }
 
         subject { work_package_1.journals.last.details }
 
