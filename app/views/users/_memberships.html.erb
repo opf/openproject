@@ -82,7 +82,11 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="splitcontentright">
 <% if projects.any? %>
 <fieldset><legend><%=l(:label_project_new)%></legend>
-<%= form_for(:membership, :url => { :controller => 'users', :action => 'edit_membership', :id => @user }, :remote => true, :html => {:id => "new_project_membership"}) do %>
+<%= form_for(:membership, :url => {:controller => 'users',
+                                   :action => 'edit_membership',
+                                   :id => @user,
+                                   :membership_id => nil },
+             :remote => true, :html => {:id => "new_project_membership"}) do %>
 <%= select_tag 'membership[project_id]', options_for_membership_project_select(@user, projects) %>
 <div>
   <%= l(:label_role_plural) %>:

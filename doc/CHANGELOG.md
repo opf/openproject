@@ -33,6 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2654` Remove custom font rendering/kerning as well as VML from timelines.
 * `#2655` Find a sensible default for Timelines rendering bucket size.
 * `#2699` [Wiki] 400 error when entering special character in wiki title
+* `#1368` Fix: Readding project members in user admin view
 * Fix mysql data migrations
 
 ## 3.0.0pre30
