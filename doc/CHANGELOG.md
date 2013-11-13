@@ -33,6 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ## 3.0.0pre30
 
+* Redirect old issue links to new work package URIs
 * `#2721` Fix: Fix: Fix: Fix: Missing journal entries for customizable_journals
 * `#2731` Migrated serialized yaml from syck to psych
 
