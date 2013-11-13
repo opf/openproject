@@ -52,6 +52,17 @@ class MigrateTimelinesOptions < ActiveRecord::Migration
                                                                     pe_type_id_map)),
                           nil)
     end
+
+    if contains_none_element?
+      puts "\n\n"\
+           "ATTENTION:"\
+           "\n\n"\
+           "The timelines configurations reference the 'none' type. The\n"\
+           "'none' type is created in the production seed. Thus, AFTER the\n"\
+           "production seed, you need to run rake task\n"\
+           "'migrations:timelines:fix_missing_none_type_in_timelines_config'."\
+           "\n\n\n\n"
+    end
   end
 
   def down
@@ -65,6 +76,14 @@ class MigrateTimelinesOptions < ActiveRecord::Migration
     end
   end
 
+  def contains_none_element?
+    @contains_none_element
+  end
+
+  def contains_none_element=(value)
+    @contains_none_element = value
+  end
+
   private
 
   PE_TYPE_KEY = 'planning_element_types'
@@ -72,9 +91,11 @@ class MigrateTimelinesOptions < ActiveRecord::Migration
   VERTICAL_PE_TYPES = 'vertical_planning_elements'
 
   def migrate_timelines_options(options, pe_id_map, pe_type_id_map)
+    calling_class = self
+
     Proc.new do |timelines_opts|
       timelines_opts = rename_columns timelines_opts, options
-      timelines_opts = migrate_planning_element_types timelines_opts, pe_type_id_map
+      timelines_opts = migrate_planning_element_types timelines_opts, pe_type_id_map, calling_class
       timelines_opts = migrate_planning_element_time_types timelines_opts, pe_type_id_map
       timelines_opts = migrate_vertical_planning_elements timelines_opts, pe_id_map
 
@@ -82,10 +103,12 @@ class MigrateTimelinesOptions < ActiveRecord::Migration
     end
   end
 
-  def migrate_planning_element_types(timelines_opts, pe_type_id_map)
+  def migrate_planning_element_types(timelines_opts, pe_type_id_map, calling_class)
     pe_types = []
 
     pe_types =  timelines_opts[PE_TYPE_KEY].delete_if { |t| t.nil? } if timelines_opts.has_key? PE_TYPE_KEY
+
+    calling_class.contains_none_element = calling_class.contains_none_element? || pe_types.empty?
 
     pe_types = pe_types.empty? ? new_ids_of_former_pes
                                : pe_types.map { |p| pe_type_id_map[p] }
