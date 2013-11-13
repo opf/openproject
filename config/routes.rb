@@ -30,6 +30,7 @@
 OpenProject::Application.routes.draw do
   root :to => 'welcome#index', :as => 'home'
 
+  # Redirect deprecated issue links to new work packages uris
   match '/issues(/)'    => redirect('/work_packages/')
   # The URI.escape doesn't escape / unless you ask it to.
   # see https://github.com/rails/rails/issues/5688
