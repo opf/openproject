@@ -30,8 +30,10 @@
 OpenProject::Application.routes.draw do
   root :to => 'welcome#index', :as => 'home'
 
-  match '/issues(/)'     => redirect('/work_packages/')
-  match '/issues/*rest' => redirect { |params, req| "/work_packages/#{params[:rest]}" }
+  match '/issues(/)'    => redirect('/work_packages/')
+  # The URI.escape doesn't escape / unless you ask it to.
+  # see https://github.com/rails/rails/issues/5688
+  match '/issues/*rest' => redirect { |params, req| "/work_packages/#{URI.escape(params[:rest])}" }
 
   scope :controller => 'account' do
     get '/account/force_password_change', :action => 'force_password_change'
