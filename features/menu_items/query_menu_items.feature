@@ -58,9 +58,7 @@ Feature: Query menu items
     When I go to the applied query "Bugs" on the work packages index page of the project "Awesome Project"
     And I click on "More functions"
     And I click on "Add menu item"
-    And I fill in "menu_items_query_menu_item_title" with "Some Bugs"
-    And I click "Save"
-    Then I should see "Some Bugs" within "#main-menu"
+    Then I should see "Bugs" within "#main-menu"
 
     @javascript
   Scenario: Delete a query menu item

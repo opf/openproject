@@ -49,8 +49,8 @@ describe QueryMenuItemsController do
       @query_menu_item.should be_present
     end
 
-    it 'renders the edit action' do
-      response.should  render_template 'edit'
+    it 'redirects to the query on work_packages#index' do
+      response.should redirect_to project_work_packages_path(project, query_id: public_query.id)
     end
   end
 
