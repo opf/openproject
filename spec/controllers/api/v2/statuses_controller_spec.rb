@@ -37,20 +37,6 @@ describe Api::V2::StatusesController do
     User.stub(:current).and_return valid_user
   end
 
-  describe 'authentication of index' do
-    def fetch
-      get 'index', :format => 'json'
-    end
-    it_should_behave_like "a controller action with require_login"
-  end
-
-  describe 'authentication of show' do
-    def fetch
-      get 'show', :format => 'json', :id => status.id
-    end
-    it_should_behave_like "a controller action with require_login"
-  end
-
   describe 'looking up a singular status' do
     let(:closed){FactoryGirl.create(:status, name: "Closed")}
 

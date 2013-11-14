@@ -40,20 +40,6 @@ describe Api::V2::ReportedProjectStatusesController do
     User.stub(:current).and_return valid_user
   end
 
-  describe 'authentication of index' do
-    def fetch
-      get 'index', :format => 'xml'
-    end
-    it_should_behave_like "a controller action with require_login"
-  end
-
-  describe 'authentication of show' do
-    def fetch
-      get 'show', :format => 'xml', :id => available_reported_project_status.id.to_s
-    end
-    it_should_behave_like "a controller action with require_login"
-  end
-
   describe 'with project_type scope' do
     let(:project_type) { FactoryGirl.create(:project_type) }
 
