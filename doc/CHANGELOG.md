@@ -65,6 +65,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3033` Fix: Work package update descriptions starting with a h3 are truncated
 * Fix mysql data migrations
 * Change help url to persistent short url
+* Applied new main layout
 
 ## 3.0.0pre30
 
