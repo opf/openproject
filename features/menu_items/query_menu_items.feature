@@ -59,6 +59,7 @@ Feature: Query menu items
     And I click on "More functions"
     And I click on "Add menu item"
     Then I should see "Bugs" within "#main-menu"
+    And I should see "Successful creation."
 
     @javascript
   Scenario: Delete a query menu item
