@@ -66,7 +66,9 @@ namespace :migrations do
           pe_types = []
           pe_types = options[PE_TYPE_KEY] if options.has_key? PE_TYPE_KEY
 
-          pe_types.map! { |t| (t == 0) ? @standard_type.id : t }
+          # Compare strings instead of plain integers because timelines
+          # options may contain strings or integers.
+          pe_types.map! { |t| (t.to_s == '0') ? @standard_type.id : t }
 
           options[PE_TYPE_KEY] = pe_types
 
