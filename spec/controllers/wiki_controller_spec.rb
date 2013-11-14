@@ -268,15 +268,15 @@ describe WikiController do
 
     describe '- main menu links' do
       before do
-        @main_menu_item_for_page_with_content = FactoryGirl.create(:wiki_menu_item, :wiki_id => @project.wiki.id,
+        @main_menu_item_for_page_with_content = FactoryGirl.create(:wiki_menu_item, :navigatable_id => @project.wiki.id,
                                                                :name    => 'Item for Page with Content',
                                                                :title   => @page_with_content.title)
 
-        @main_menu_item_for_new_wiki_page = FactoryGirl.create(:wiki_menu_item, :wiki_id => @project.wiki.id,
+        @main_menu_item_for_new_wiki_page = FactoryGirl.create(:wiki_menu_item, :navigatable_id => @project.wiki.id,
                                                            :name    => 'Item for new WikiPage',
                                                            :title   => 'NewWikiPage')
 
-        @other_menu_item = FactoryGirl.create(:wiki_menu_item, :wiki_id => @project.wiki.id,
+        @other_menu_item = FactoryGirl.create(:wiki_menu_item, :navigatable_id => @project.wiki.id,
                                                            :name    => 'Item for other page',
                                                            :title   => @unrelated_page.title)
 
@@ -372,7 +372,7 @@ describe WikiController do
 
       describe '- wiki_menu_item containing special chars only' do
         before do
-          @wiki_menu_item = FactoryGirl.create(:wiki_menu_item, :wiki_id => @project.wiki.id,
+          @wiki_menu_item = FactoryGirl.create(:wiki_menu_item, :navigatable_id => @project.wiki.id,
                                                             :name    => '?',
                                                             :title   => 'Help')
           @other_wiki_menu_item = @other_menu_item

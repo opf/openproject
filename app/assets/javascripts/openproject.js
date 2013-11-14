@@ -438,6 +438,10 @@ window.OpenProject = (function ($) {
       };
     };
 
+    Helpers.accessibilityModeEnabled = function() {
+      return jQuery('meta[name="accessibility-mode"]').attr('content') === 'true';
+    }
+
     return Helpers;
   })();
 

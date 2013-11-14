@@ -349,7 +349,10 @@ en:
   button_update: "Update"
   button_view: "View"
   button_watch: "Watch"
-  button_wiki_menu_entry: "Configure menu item"
+  button_manage_menu_entry: "Configure menu item"
+  button_add_menu_entry: "Add menu item"
+  button_configure_menu_entry: "Configure menu item"
+  button_delete_menu_entry: "Delete menu item"
 
   create_child_page: "Create new child page"
   create_child_page_for: "Create new child page: \"%{title}\""
@@ -501,6 +504,8 @@ en:
   error_unable_to_connect: "Unable to connect (%{value})"
   error_workflow_copy_source: "Please select a source type or role"
   error_workflow_copy_target: "Please select target type(s) and role(s)"
+  error_menu_item_not_created: Menu item could not be added
+  error_menu_item_not_saved: Menu item could not be saved
 
   general_csv_decimal_separator: "."
   general_csv_encoding: "ISO-8859-1"
@@ -823,6 +828,7 @@ en:
   label_public_projects: "Public projects"
   label_query_new: "New query"
   label_query_plural: "Custom queries"
+  label_query_menu_item: "Query menu item"
   label_read: "Read..."
   label_register: "Register"
   label_registered_on: "Registered on"
@@ -1500,6 +1506,9 @@ en:
       quarters: "Quarters"
       years: "Years"
 
+  queries:
+    apply_filter: Apply preconfigured filter
+
   label_work_package_hierarchy: "Work Package Hierarchy"
 
   total_progress: "Total progress"
@@ -1531,13 +1540,17 @@ en:
 
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
 
-  wiki_menu_item: "Menu item"
+  menu_item: "Menu item"
+  menu_item_setting: "Visibility"
   wiki_menu_item_for: "Menu item for wikipage \"%{title}\""
   wiki_menu_item_setting: "Visibility"
   wiki_menu_item_new_main_item_explanation: >
     You are deleting the only main wiki menu item. You now have to choose a wiki page for which a new main item will be generated.
     To delete the wiki the wiki module can be deactivated by project administrators.
   wiki_menu_item_delete_not_permitted: The wiki menu item of the only wiki page cannot be deleted.
+
+  query_menu_item_for: "Menu item for query \"%{title}\""
+
   work_package:
     updated_automatically_by_child_changes: |
         _Updated automatically by changing values within child work package %{child}_

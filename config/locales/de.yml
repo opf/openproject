@@ -349,7 +349,10 @@ de:
   button_update: "Bearbeiten"
   button_view: "Anzeigen"
   button_watch: "Beobachten"
-  button_wiki_menu_entry: "Menüpunkt verwalten"
+  button_manage_menu_entry: "Menüpunkt verwalten"
+  button_add_menu_entry: "Menüpunkt hinzufügen"
+  button_configure_menu_entry: "Menüpunkt konfigurieren"
+  button_delete_menu_entry: "Menüpunkt entfernen"
 
   create_child_page: "Neue Unterseite anlegen"
   create_child_page_for: "Neue Unterseite anlegen: \"%{title}\""
@@ -502,6 +505,9 @@ de:
   error_unable_to_connect: "Fehler beim Verbinden (%{value})"
   error_workflow_copy_source: "Bitte wählen Sie einen Quell-Typ und eine Quell-Rolle."
   error_workflow_copy_target: "Bitte wählen Sie die Ziel-Typ und -Rollen."
+  error_menu_item_not_created: Menüpunkt konnte nicht hinzugefügt werden.
+  error_menu_item_not_saved: Menüpunkt konnte nicht aktualisiert werden.
+
 
   general_csv_decimal_separator: ","
   general_csv_encoding: "ISO-8859-1"
@@ -824,6 +830,7 @@ de:
   label_public_projects: "Öffentliche Projekte"
   label_query_new: "Neuer Bericht"
   label_query_plural: "Benutzerdefinierte Berichte"
+  label_query_menu_item: "Filter-Menüpunkt"
   label_read: "Lesen ..."
   label_register: "Registrieren"
   label_registered_on: "Angemeldet am"
@@ -1512,6 +1519,9 @@ de:
       quarters: "Quartale"
       years: "Jahre"
 
+  queries:
+    apply_filter: vorkonfigurierten Filter anwenden
+
   label_work_package_hierarchy: "Arbeitspakethierarchie"
 
   total_progress: "Gesamtfortschritt"
@@ -1543,13 +1553,17 @@ de:
   version_status_open: "offen"
   warning_attachments_not_saved: "%{count} Datei(en) konnten nicht gespeichert werden."
 
-  wiki_menu_item: "Menüpunkt"
+  menu_item: "Menüpunkt"
+  menu_item_setting: "Sichtbarkeit"
   wiki_menu_item_for: "Menüpunkt für die Wikiseite \"%{title}\""
   wiki_menu_item_setting: "Sichtbarkeit"
   wiki_menu_item_new_main_item_explanation: >
     Der einzige Wiki Hauptmenüpunkt wird gelöscht. Sie müssen nun eine Wikiseite auswählen, für die ein neuer Menüpunkt erzeugt wird.
     Um das Wiki zu entfernen kann das Wiki Modul durch Projektadministratoren deaktiviert werden.
   wiki_menu_item_delete_not_permitted: Der Wiki-Menüpunkt der einzigen Wiki-Seite kann nicht gelöscht werden.
+
+  query_menu_item_for: "Menüpunkt für die Suche \"%{title}\""
+
   work_package:
     updated_automatically_by_child_changes: |
         _Automatisch durch die Änderungen in %{child} aktualisert_

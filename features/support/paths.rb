@@ -346,6 +346,11 @@ module NavigationHelpers
       work_package_id = WorkPackage.find_by_subject($1).id
       "/work_packages/#{work_package_id}/move/new?copy="
 
+    when /^the applied query "([^\"]+)" on the work packages index page of the project "([^\"]+)"$/
+      project = Project.find_by_name($2)
+      query = project.queries.find_by_name($1)
+      project_work_packages_path project, query_id: query.id
+
     when /^the move page of the work package "(.+)"$/
       work_package_id = WorkPackage.find_by_subject($1).id
       "/work_packages/#{work_package_id}/move/new"

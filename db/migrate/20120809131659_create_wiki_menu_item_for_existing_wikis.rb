@@ -36,7 +36,7 @@ class CreateWikiMenuItemForExistingWikis < ActiveRecord::Migration
                         page.title :
                         wiki.start_page
 
-      menu_item = WikiMenuItem.new
+      menu_item = MenuItems::WikiMenuItem.new
       menu_item.name = wiki.start_page
       menu_item.title = current_title
       menu_item.wiki_id = wiki.id

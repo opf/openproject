@@ -26,66 +26,40 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class WikiMenuItem < ActiveRecord::Base
-  belongs_to :wiki
-  belongs_to :parent, :class_name => 'WikiMenuItem'
-  has_many :children, :class_name => 'WikiMenuItem', :dependent => :destroy, :foreign_key => :parent_id, :order => 'id ASC'
+require 'spec_helper'
 
-  serialize :options, Hash
+describe QueryMenuItemsController do
+  let(:current_user) { FactoryGirl.create(:admin) }
 
-  scope :main_items, lambda { |wiki_id|
-    {:conditions => {:wiki_id => wiki_id, :parent_id => nil},
-    :include => :children,
-     :order => 'id ASC'}
-  }
+  let(:project) { FactoryGirl.create :project }
+  let(:public_query) { FactoryGirl.create :public_query }
 
-  attr_accessible :name, :title, :wiki_id
-
-  validates_presence_of :title
-  validates_format_of :title, :with => /\A[^,\.\/\?\;\|\:]*\z/
-  validates_uniqueness_of :title, :scope => :wiki_id
-
-  validates_presence_of :name
-
-  def item_class
-    title.dasherize
+  before do
+    # log in user
+    User.stub(:current).and_return current_user
   end
 
-  def setting
-    if new_record?
-      :no_item
-    elsif is_main_item?
-      :main_item
-    else
-      :sub_item
+  describe '#create' do
+    before :each do
+      post :create, project_id: project, query_id: public_query
+      @query_menu_item = public_query.reload.query_menu_item
+    end
+
+    it 'creates a query menu item' do
+      @query_menu_item.should be_present
+    end
+
+    it 'redirects to the query on work_packages#index' do
+      response.should redirect_to project_work_packages_path(project, query_id: public_query.id)
     end
   end
 
-  def new_wiki_page
-    !!options[:new_wiki_page]
-  end
+  describe '#destroy' do
+    let(:query_menu_item) { public_query.create_query_menu_item name: public_query.name, title: public_query.name }
 
-  def new_wiki_page=(value)
-    options[:new_wiki_page] = value
-  end
-
-  def index_page
-    !!options[:index_page]
-  end
-
-  def index_page=(value)
-    options[:index_page] = value
-  end
-
-  def is_main_item?
-    parent_id.nil?
-  end
-
-  def is_sub_item?
-    !parent_id.nil?
-  end
-
-  def is_only_main_item?
-    self.class.main_items(wiki.id) == [self]
+    it 'destroys the query_menu_item' do
+      delete :destroy, id: query_menu_item, project_id: project, query_id: public_query
+      MenuItems::QueryMenuItem.exists?(query_menu_item.id).should be_false
+    end
   end
 end

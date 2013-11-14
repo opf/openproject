@@ -63,6 +63,7 @@
 //= require keyboard_shortcuts
 //= require top-shelf
 //= require unsupported-browsers
+//= require_tree ./pages
 
 //source: http://stackoverflow.com/questions/8120065/jquery-and-prototype-dont-work-together-with-array-prototype-reverse
 if (typeof []._reverse == 'undefined') {
@@ -868,54 +869,54 @@ $(window).bind('resizeEnd', function() {
                       }
 		});
 
-        // Do not close the login window when using it
-        $('#nav-login-content').click(function(event){
-             event.stopPropagation();
-         });
+  // Do not close the login window when using it
+  $('#nav-login-content').click(function(event){
+    event.stopPropagation();
+  });
 
-        jQuery('table.cal div.issue.tooltip').each(function(){
-          var div = $(this);
-          div.find('a').first().focus(function(){
-            div.addClass('hover');
-          });
-          div.find('a').first().blur(function(){
-            div.removeClass('hover');
-          });
-        });
+  jQuery('table.cal div.issue.tooltip').each(function(){
+    var div = $(this);
+    div.find('a').first().focus(function(){
+      div.addClass('hover');
+    });
+    div.find('a').first().blur(function(){
+      div.removeClass('hover');
+    });
+  });
 
-        // Users of some old IEs are out of luck ATM. A userData implementation
-        // could be provided though, that would be great!
-        var remember_menu_state;
+  // Users of some old IEs are out of luck ATM. A userData implementation
+  // could be provided though, that would be great!
+  var remember_menu_state;
 
-        if (typeof window.sessionStorage !== 'undefined') {
-          remember_menu_state = function (match) {
-            if (typeof match === 'undefined') {
-              return sessionStorage.getItem('openproject:navigation-toggle');
-            } else {
-              return sessionStorage.setItem('openproject:navigation-toggle',
-                                            match.length > 0 ? 'collapsed' : 'expanded');
-            }
-          };
-        }
-        else {
-          remember_menu_state = function (match) {
-            return false;
-          };
-        }
+  if (typeof window.sessionStorage !== 'undefined') {
+    remember_menu_state = function (match) {
+      if (typeof match === 'undefined') {
+        return sessionStorage.getItem('openproject:navigation-toggle');
+      } else {
+        return sessionStorage.setItem('openproject:navigation-toggle',
+                                      match.length > 0 ? 'collapsed' : 'expanded');
+      }
+    };
+  }
+  else {
+    remember_menu_state = function (match) {
+      return false;
+    };
+  }
 
-        var toggle_navigation = function() {
-          var height = $(document).height() - $('#main-menu').offset().top - 32;
-          $('#main-menu, #menu-sidebar').toggleClass('hidden');
-          $('#content').toggleClass('hidden-navigation');
-          $('#toggle-project-menu').removeAttr("style").toggleClass('show');
-          remember_menu_state($('#toggle-project-menu.show').css({height:height}));
-        };
+  var toggle_navigation = function() {
+    var height = $(document).height() - $('#main-menu').offset().top - 32;
+    $('#main-menu, #menu-sidebar').toggleClass('hidden');
+    $('#content').toggleClass('hidden-navigation');
+    $('#toggle-project-menu').removeAttr("style").toggleClass('show');
+    remember_menu_state($('#toggle-project-menu.show').css({height:height}));
+  };
 
-        // register toggler, and toggle for the first time if remembered to be closed.
-        jQuery('#toggle-project-menu .navigation-toggler').click(toggle_navigation);
-        if ($('#main-menu').length > 0 && remember_menu_state() === "collapsed") {
-          toggle_navigation();
-        }
+  // register toggler, and toggle for the first time if remembered to be closed.
+  jQuery('#toggle-project-menu .navigation-toggler').click(toggle_navigation);
+  if ($('#main-menu').length > 0 && remember_menu_state() === "collapsed") {
+    toggle_navigation();
+  }
 });
 
 
@@ -1363,5 +1364,3 @@ var Preview = (function ($) {
       });
     });
 })(jQuery);
-
-

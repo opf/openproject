@@ -104,37 +104,25 @@ module IssuesHelper
     s.html_safe
   end
 
-  def sidebar_queries
-    unless @sidebar_queries
+  def visible_queries
+    unless @visible_queries
       # User can see public queries and his own queries
       visible = ARCondition.new(["is_public = ? OR user_id = ?", true, (User.current.logged? ? User.current.id : 0)])
       # Project specific queries and global queries
       visible << (@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id])
-      @sidebar_queries = Query.find(:all,
+      @visible_queries = Query.find(:all,
                                     :select => 'id, name, is_public',
                                     :order => "name ASC",
                                     :conditions => visible.conditions)
     end
-    @sidebar_queries
+    @visible_queries
   end
 
-  def query_links(title, queries)
-    # links to #index on issues/show
-    url_params = controller_name == 'issues' ? {:controller => '/issues', :action => 'index', :project_id => @project} : params
-
-    content_tag('h3', title) +
-      queries.collect {|query|
-          link_to(query.name, url_params.merge(:query_id => query))
-        }.join('<br />').html_safe
-  end
-
-  def render_sidebar_queries
-    out = ''
-    queries = sidebar_queries.reject(&:is_public?)
-    out << query_links(l(:label_my_queries), queries) if queries.any?
-    queries = sidebar_queries.select(&:is_public?)
-    out << query_links(l(:label_query_plural), queries) if queries.any?
-    out.html_safe
+  def grouped_query_options
+    {
+      l(:label_my_queries)   => visible_queries.select{|query| !query.is_public?}.map{|query| [query.name, query.id]},
+      l(:label_query_plural) => visible_queries.select(&:is_public?).map{|query| [query.name, query.id]}
+    }
   end
 
   # Find the name of an associated record stored in the field attribute

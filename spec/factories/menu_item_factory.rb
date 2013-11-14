@@ -27,23 +27,33 @@
 #++
 
 FactoryGirl.define do
-  factory :wiki_menu_item do
-    wiki
-
+  factory :menu_item do
     sequence(:name) {|n| "Item No. #{n}" }
-    sequence(:title) {|n| "Wiki Title #{n}" }
+    sequence(:title) {|n| "Menu item Title #{n}" }
 
-    trait :with_menu_item_options do
-      index_page true
-      new_wiki_page true
+    factory :wiki_menu_item, :class => MenuItems::WikiMenuItem do
+      wiki
+
+      sequence(:title) {|n| "Wiki Title #{n}" }
+
+      trait :with_menu_item_options do
+        index_page true
+        new_wiki_page true
+      end
+
+      factory :wiki_menu_item_with_parent do
+        after :build do |wiki_menu_item|
+          parent = FactoryGirl.build(:wiki_menu_item, wiki: wiki_menu_item.wiki)
+          wiki_menu_item.wiki.wiki_menu_items << parent
+          wiki_menu_item.parent = parent
+        end
+      end
     end
 
-    factory :wiki_menu_item_with_parent do
-      after :build do |wiki_menu_item|
-        parent = FactoryGirl.build(:wiki_menu_item, wiki: wiki_menu_item.wiki)
-        wiki_menu_item.wiki.wiki_menu_items << parent
-        wiki_menu_item.parent = parent
-      end
+    factory :query_menu_item, :class => MenuItems::QueryMenuItem do
+      query
+
+      sequence(:title) {|n| "Query Title #{n}" }
     end
   end
 end

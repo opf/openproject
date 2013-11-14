@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
@@ -27,26 +26,32 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class EnabledModule < ActiveRecord::Base
-  belongs_to :project
+class MenuItems::WikiMenuItem < MenuItem
+  belongs_to :wiki, :foreign_key => 'navigatable_id'
 
-  attr_protected :project_id
+  scope :main_items, lambda { |wiki_id|
+    {:conditions => {:navigatable_id => wiki_id, :parent_id => nil},
+    :include => :children,
+     :order => 'id ASC'}
+  }
 
-  validates_presence_of :name
-  validates_uniqueness_of :name, :scope => :project_id
+  def item_class
+    title.dasherize
+  end
 
-  after_create :module_enabled
+  def index_page
+    !!options[:index_page]
+  end
 
-  private
+  def index_page=(value)
+    options[:index_page] = value
+  end
 
-  # after_create callback used to do things when a module is enabled
-  def module_enabled
-    case name
-    when 'wiki'
-      # Create a wiki with a default start page
-      if project && project.wiki.nil?
-        Wiki.create(:project => project, :start_page => 'Wiki')
-      end
-    end
+  def new_wiki_page
+    !!options[:new_wiki_page]
+  end
+
+  def new_wiki_page=(value)
+    options[:new_wiki_page] = value
   end
 end

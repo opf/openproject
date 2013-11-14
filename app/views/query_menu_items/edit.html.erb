@@ -1,4 +1,4 @@
-/*-- copyright
+<%#-- copyright
 OpenProject is a project management system.
 Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 
@@ -25,22 +25,23 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 See doc/COPYRIGHT.rdoc for more details.
 
-++*/
+++#%>
 
-/*
- * This is a manifest file that'll automatically include all the stylesheets available in this directory
- * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
- * the top of the compiled file, but it's generally better to create a new file per style scope.
- *
- *= require reset
- *= require jquery.ui.all
- *= require select2
- *= require select2_customizing
- *= require jstoolbar
- *= require context_menu
- *= require calendar
- *= require print
- *= require scm
- *= require top-shelf
- *= require work_packages
- */
+<%= error_messages_for "query_menu_item", object: @query_menu_item %>
+
+<h2><%= l(:query_menu_item_for, title: @query.name) %></h2>
+
+<%= form_for @query_menu_item, html: {class: 'menu-item-form'}, url: update_query_menu_item_path(@project, @query_menu_item) do |form| %>
+  <p class="item-name">
+    <%= form.label :name, l(:label_menu_item_name), {id: 'name_of_item'} %>
+    <%= form.text_field :title, size: 20 %>
+  </p>
+
+  </br>
+  <div style="clear: both;"></div>
+
+  <p>
+    <%= submit_tag l(:button_save), method: :post %>
+    <%= link_to l(:button_cancel), project_work_packages_path(@project) %>
+  </p>
+<% end %>

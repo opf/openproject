@@ -55,7 +55,7 @@ Feature: Issue Sum Calculations for Currency
     And the user "manager" has 1 issue with the following:
       | subject | Some other issue |
       | cf1     | 50               |
-      | type | Bug              |
+      | type    | Bug              |
     When I go to the work package index page for the project called "project1"
     And I select to see columns
       | cf1 |
@@ -70,11 +70,11 @@ Feature: Issue Sum Calculations for Currency
     Given the user "manager" has 1 issue with the following:
       | subject | Some issue |
       | cf1     | 100        |
-      | type | Bug        |
+      | type    | Bug        |
     And the user "manager" has 1 issue with the following:
       | subject | Some other issue |
       | cf1     | 50               |
-      | type | Bug              |
+      | type    | Bug              |
     And the custom field "cf1" is not summable
     When I go to the work package index page for the project called "project1"
     And I select to see columns
@@ -94,7 +94,7 @@ Feature: Issue Sum Calculations for Currency
     And the user "manager" has 1 issue with the following:
       | subject | Some other issue |
       | cf1     | 50               |
-      | type | Bug              |
+      | type    | Bug              |
     When I go to the work package index page for the project called "project1"
     And I select to see columns
       | cf1 |
@@ -105,7 +105,7 @@ Feature: Issue Sum Calculations for Currency
     And I fill in "TestQuery" for "query_name"
     And I press "Save"
     And I go to the work package index page for the project called "project1"
-    And I click on "TestQuery"
+    And I select "TestQuery" from "query-select"
     Then I should be on the work package index page for the project called "project1"
     And I toggle the Options fieldset
     Then the "display_sums" checkbox should be checked
@@ -118,11 +118,11 @@ Feature: Issue Sum Calculations for Currency
     Given the user "manager" has 1 issue with the following:
       | subject | Some issue |
       | cf1     | 100        |
-      | type | Bug        |
+      | type    | Bug        |
     And the user "manager" has 1 issue with the following:
       | subject | Some other issue |
       | cf1     | 50               |
-      | type | Bug              |
+      | type    | Bug              |
     When I go to the work package index page for the project called "project1"
     And I select to see columns
       | cf1 |
@@ -133,7 +133,7 @@ Feature: Issue Sum Calculations for Currency
     And I fill in "TestQuery" for "query_name"
     And I press "Save"
     And I go to the work package index page for the project called "project1"
-    And I click on "TestQuery"
+    And I select "TestQuery" from "query-select"
     Then I should be on the work package index page for the project called "project1"
     And I toggle the Options fieldset
     And the "display_sums" checkbox should not be checked
@@ -151,23 +151,23 @@ Feature: Issue Sum Calculations for Currency
     And the user "manager" has 1 issue with the following:
       | subject | Some issue |
       | cf1     | 100        |
-      | type | Bug        |
+      | type    | Bug        |
     And the user "manager" has 1 issue with the following:
       | subject | Some issue |
       | cf1     | 50         |
-      | type | Bug        |
+      | type    | Bug        |
     And the user "alice" has 1 issue with the following:
       | subject | Some issue |
       | cf1     | 300        |
-      | type | Bug        |
+      | type    | Bug        |
     And the user "bob" has 1 issue with the following:
       | subject | Some issue |
       | cf1     | 200        |
-      | type | Bug        |
+      | type    | Bug        |
     And the user "bob" has 1 issue with the following:
       | subject | Some issue |
       | cf1     | 250        |
-      | type | Bug        |
+      | type    | Bug        |
     When I go to the work package index page for the project called "project1"
     And I select to see columns
       | cf1 |
@@ -186,11 +186,11 @@ Feature: Issue Sum Calculations for Currency
     Given the user "manager" has 1 issue with the following:
       | subject | Some issue |
       | cf1     | 100        |
-      | type | Bug        |
+      | type    | Bug        |
     And the user "manager" has 1 issue with the following:
       | subject | Some issue |
       | cf1     | 50         |
-      | type | Bug        |
+      | type    | Bug        |
     When I go to the work package index page for the project called "project1"
     And I select to see columns
       | cf1 |
@@ -207,11 +207,11 @@ Feature: Issue Sum Calculations for Currency
     Given the user "manager" has 1 issue with the following:
       | subject | Some issue  |
       | cf1     | 100.0000001 |
-      | type | Bug         |
+      | type    | Bug         |
     And the user "manager" has 1 issue with the following:
       | subject | Some issue  |
       | cf1     | 50.09       |
-      | type | Bug         |
+      | type    | Bug         |
     When I go to the work package index page for the project called "project1"
     And I select to see columns
       | cf1 |

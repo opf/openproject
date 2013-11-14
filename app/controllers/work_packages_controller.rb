@@ -34,6 +34,16 @@ class WorkPackagesController < ApplicationController
 
   menu_item :new_work_package, :only => [:new, :create]
 
+  current_menu_item :index do |controller|
+    query = controller.instance_variable_get :"@query"
+
+    if query.persisted? && current = query.query_menu_item.try(:name)
+      current.to_sym
+    else
+      :work_packages
+    end
+  end
+
   include QueriesHelper
   include SortHelper
   include PaginationHelper
@@ -46,6 +56,7 @@ class WorkPackagesController < ApplicationController
                 :authorize, :except => [:index]
   before_filter :find_optional_project,
                 :protect_from_unauthorized_export, :only => [:index, :all]
+  before_filter :load_query, :only => :index
 
   def show
     respond_to do |format|
@@ -197,15 +208,13 @@ class WorkPackagesController < ApplicationController
   end
 
   def index
-    query = retrieve_query
+    sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
+    sort_update(@query.sortable_columns)
 
-    sort_init(query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : query.sort_criteria)
-    sort_update(query.sortable_columns)
-
-    results = query.results(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
+    results = @query.results(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
                             :order => sort_clause)
 
-    work_packages = if query.valid?
+    work_packages = if @query.valid?
                       results.work_packages.page(page_param)
                                            .per_page(per_page_param)
                                            .all
@@ -215,7 +224,7 @@ class WorkPackagesController < ApplicationController
 
     respond_to do |format|
       format.html do
-        render :index, :locals => { :query => query,
+        render :index, :locals => { :query => @query,
                                     :work_packages => work_packages,
                                     :results => results,
                                     :project => @project },
@@ -230,7 +239,7 @@ class WorkPackagesController < ApplicationController
       format.pdf do
         serialized_work_packages = WorkPackage::Exporter.pdf(work_packages,
                                                              @project,
-                                                             query,
+                                                             @query,
                                                              results,
                                                              :show_descriptions => params[:show_descriptions])
 
@@ -393,6 +402,10 @@ class WorkPackagesController < ApplicationController
   end
 
   protected
+
+  def load_query
+    @query ||= retrieve_query
+  end
 
   def not_found_unless_work_package
     render_404 unless work_package

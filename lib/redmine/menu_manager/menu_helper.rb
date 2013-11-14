@@ -38,7 +38,10 @@ module Redmine::MenuManager::MenuHelper
 
   # Renders the application main menu
   def render_main_menu(project)
-    build_wiki_menus(project) if project
+    if project
+      build_wiki_menus(project)
+      build_work_packages_menu(project)
+    end
     render_menu((project && !project.new_record?) ? :project_menu : :application_menu, project)
   end
 
@@ -46,7 +49,7 @@ module Redmine::MenuManager::MenuHelper
     return unless project.enabled_module_names.include? 'wiki'
     project_wiki = project.wiki
 
-    WikiMenuItem.main_items(project_wiki).each do |main_item|
+    MenuItems::WikiMenuItem.main_items(project_wiki).each do |main_item|
       Redmine::MenuManager.loose :project_menu do |menu|
         menu.push "#{main_item.item_class}".to_sym,
                   { :controller => '/wiki', :action => 'show', :id => CGI.escape(main_item.title) },
@@ -75,6 +78,18 @@ module Redmine::MenuManager::MenuHelper
                     :parent => "#{main_item.item_class}".to_sym
         end
         # FIXME using wiki_menu_item#title to reference the wiki page and wiki_menu_item#name as the menu item representation feels wrong
+      end
+    end
+  end
+
+  def build_work_packages_menu(project)
+    query_menu_items = visible_queries.map(&:query_menu_item).compact
+
+    Redmine::MenuManager.loose :project_menu do |menu|
+      query_menu_items.each do |query_menu_item|
+        # url = project_work_packages_path(project, query_id: query_menu_item.navigatable_id) does not work because the authorization check fails
+        url = { :controller => '/work_packages', :action => 'index', :params => {:query_id => query_menu_item.navigatable_id} }
+        menu.push query_menu_item.name, url, :param => :project_id, :caption => query_menu_item.title, :parent => :work_packages
       end
     end
   end

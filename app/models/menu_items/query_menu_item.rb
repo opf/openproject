@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
@@ -27,26 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class EnabledModule < ActiveRecord::Base
-  belongs_to :project
+class MenuItems::QueryMenuItem < MenuItem
+  belongs_to :query, :foreign_key => 'navigatable_id'
 
-  attr_protected :project_id
-
-  validates_presence_of :name
-  validates_uniqueness_of :name, :scope => :project_id
-
-  after_create :module_enabled
-
-  private
-
-  # after_create callback used to do things when a module is enabled
-  def module_enabled
-    case name
-    when 'wiki'
-      # Create a wiki with a default start page
-      if project && project.wiki.nil?
-        Wiki.create(:project => project, :start_page => 'Wiki')
-      end
-    end
-  end
 end

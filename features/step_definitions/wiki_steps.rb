@@ -38,7 +38,7 @@ Given /^the [Pp]roject "([^\"]*)" has 1 [wW]iki(?: )?[pP]age with the following:
 end
 
 Given /^there are no wiki menu items$/ do
-  WikiMenuItem.destroy_all
+  MenuItems::WikiMenuItem.destroy_all
 end
 
 Given /^the project "(.*?)" has (?:1|a) wiki menu item with the following:$/ do |project_name, table|
@@ -62,13 +62,13 @@ Given /^the project "(.*?)" has a child wiki page of "(.*?)" with the following:
 end
 
 Then /^the table of contents wiki menu item inside the "(.*?)" menu item should be selected$/ do |parent_item_name|
-  parent_item = WikiMenuItem.find_by_title(parent_item_name)
+  parent_item = MenuItems::WikiMenuItem.find_by_title(parent_item_name)
 
   page.should have_css(".#{parent_item.item_class}-toc.selected")
 end
 
 Then /^the child page wiki menu item inside the "(.*?)" menu item should be selected$/ do |parent_item_name|
-  parent_item = WikiMenuItem.find_by_title(parent_item_name)
+  parent_item = MenuItems::WikiMenuItem.find_by_title(parent_item_name)
 
   page.should have_css(".#{parent_item.item_class}-new-page.selected")
 end
