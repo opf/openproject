@@ -40,7 +40,6 @@ module Api
 
       unloadable
 
-      before_filter :require_login
       before_filter :resolve_project
       accept_key_auth :index, :show
 
