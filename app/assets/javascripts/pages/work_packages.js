@@ -6,9 +6,11 @@ var resetSelectedMenuItem = function() {
 }
 
 var initQuerySelectBehaviour = function() {
-  jQuery('#query-select')
-  .select2()
-  .change(function() {
+  if(!OpenProject.Helpers.accessibilityModeEnabled()) {
+    jQuery('#query-select').select2()
+  }
+
+  jQuery('#query-select').change(function() {
     document.location.href = window.location.pathname + '?query_id=' + this.value;
     // TODO use FilterQueryStringBuilder
   });
