@@ -79,8 +79,9 @@ module Migration::Utils
               JOIN projects AS p ON (w.project_id = p.id)
               LEFT JOIN custom_fields_projects AS cfp ON (cv.custom_field_id = cfp.custom_field_id AND w.project_id = cfp.project_id)
               LEFT JOIN custom_fields_types AS cft ON (cv.custom_field_id = cft.custom_field_id AND w.type_id = cft.type_id)
-          WHERE cfp.project_id IS NULL
-            OR cft.type_id IS NULL
+          WHERE (cfp.project_id IS NULL
+            OR cft.type_id IS NULL)
+            AND cf.is_for_all = FALSE
         SQL
       else
         delete <<-SQL
@@ -97,6 +98,7 @@ module Migration::Utils
             WHERE (cfp.project_id IS NULL
               OR cft.type_id IS NULL)
               AND cv.id = cvd.id
+              AND cf.is_for_all = FALSE
            );
         SQL
       end
