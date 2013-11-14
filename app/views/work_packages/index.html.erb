@@ -98,7 +98,7 @@ See doc/COPYRIGHT.rdoc for more details.
                              :before => 'selectAllOptions("selected_columns");',
                              :update => "content",
                              :method => :get,
-                             :complete => "apply_filters_observer()",
+                             :complete => "apply_filters_observer(); resetSelectedMenuItem(); initQuerySelectBehaviour();",
                              :with => "jQuery('#query_form').serialize()"
                            }, :class => 'icon icon-checked' %>
 
