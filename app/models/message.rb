@@ -71,7 +71,7 @@ class Message < ActiveRecord::Base
   scope :visible, lambda {|*args| { :include => {:board => :project},
                                     :conditions => Project.allowed_to_condition(args.first || User.current, :view_messages) } }
 
-  safe_attributes 'subject', 'content'
+  safe_attributes 'subject', 'content', 'board_id'
   safe_attributes 'locked', 'sticky',
     :if => lambda {|message, user|
       user.allowed_to?(:edit_messages, message.project)

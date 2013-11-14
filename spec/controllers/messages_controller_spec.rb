@@ -73,6 +73,20 @@ describe MessagesController do
     end
   end
 
+  describe :update do
+    let(:message) { FactoryGirl.create :message, board: board }
+    let(:other_board) { FactoryGirl.create :board, project: project }
+
+    before do
+      role.add_permission!(:edit_messages) and user.reload
+      put :update, id: message, message: {board_id: other_board}
+    end
+
+    it 'allows for changing the board' do
+      message.reload.board.should == other_board
+    end
+  end
+
   describe :attachment do
     let!(:message) { FactoryGirl.create(:message) }
     let(:attachment_id) { "attachments_#{message.attachments.first.id}".to_sym }
@@ -94,7 +108,7 @@ describe MessagesController do
         before do
           Attachment.any_instance.stub(:filesize).and_return(max_filesize + 1)
 
-          post :update, params
+          put :update, params
         end
 
         describe :view do
