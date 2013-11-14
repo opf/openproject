@@ -31,4 +31,14 @@ describe MenuItem do
       end
     end
   end
+
+  context 'it should destroy' do
+    let!(:menu_item) { FactoryGirl.create(:menu_item) }
+    let!(:child_item) { FactoryGirl.create(:menu_item, parent_id: menu_item.id ) }
+
+    example 'all children when deleting the parent' do
+      menu_item.destroy
+      MenuItem.exists?(child_item.id).should be_false
+    end
+  end
 end
