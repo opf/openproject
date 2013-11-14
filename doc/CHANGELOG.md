@@ -38,6 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2699` [Wiki] 400 error when entering special character in wiki title
 * `#2756` [Work package] 500 when clicking on analyze button in work package summary
 * Fix mysql data migrations
+* Change help url to persistent short url
 
 ## 3.0.0pre30
 
