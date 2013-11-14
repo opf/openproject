@@ -42,7 +42,7 @@ class WikiMenuItemsController < ApplicationController
   end
 
   def update
-    wiki_menu_setting = params[:menu_items_wiki_menu_item][:setting]
+    wiki_menu_setting = wiki_menu_item_params[:setting]
     parent_wiki_menu_item = params[:parent_wiki_menu_item]
 
     get_data_from_params(params)
@@ -62,7 +62,7 @@ class WikiMenuItemsController < ApplicationController
       end
     else
       @wiki_menu_item.navigatable_id = @page.wiki.id
-      @wiki_menu_item.name = params[:menu_items_wiki_menu_item][:name]
+      @wiki_menu_item.name = wiki_menu_item_params[:name]
       @wiki_menu_item.title = @page_title
 
       if wiki_menu_setting == 'sub_item'
@@ -104,6 +104,11 @@ class WikiMenuItemsController < ApplicationController
 
   private
 
+  def wiki_menu_item_params
+    @wiki_menu_item_params ||= params.require(:menu_items_wiki_menu_item).permit(:name, :title, :navigatable_id, :parent_id, :setting, :new_wiki_page, :index_page)
+  end
+
+
   def get_data_from_params(params)
     @page_title = params[:id]
     wiki_id = @project.wiki.id
@@ -122,15 +127,15 @@ class WikiMenuItemsController < ApplicationController
   end
 
   def assign_wiki_menu_item_params(menu_item)
-    if params[:menu_items_wiki_menu_item][:new_wiki_page] == "1"
+    if wiki_menu_item_params[:new_wiki_page] == "1"
       menu_item.new_wiki_page = true
-    elsif params[:menu_items_wiki_menu_item][:new_wiki_page] == "0"
+    elsif wiki_menu_item_params[:new_wiki_page] == "0"
       menu_item.new_wiki_page = false
     end
 
-    if params[:menu_items_wiki_menu_item][:index_page] == "1"
+    if wiki_menu_item_params[:index_page] == "1"
       menu_item.index_page = true
-    elsif params[:menu_items_wiki_menu_item][:index_page] == "0"
+    elsif wiki_menu_item_params[:index_page] == "0"
       menu_item.index_page = false
     end
   end

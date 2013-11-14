@@ -40,7 +40,7 @@ class QueryMenuItemsController < ApplicationController
 	def update
 		@query_menu_item = MenuItems::QueryMenuItem.find params[:id]
 
-		if @query_menu_item.update_attributes params[:menu_items_query_menu_item]
+		if @query_menu_item.update_attributes query_menu_item_params
 			flash[:notice] = l(:notice_successful_update)
 		else
 			flash[:error] = l(:error_menu_item_not_saved)
@@ -89,5 +89,9 @@ class QueryMenuItemsController < ApplicationController
 		end
 
 		super
+	end
+
+	def query_menu_item_params
+		params.require(:menu_items_query_menu_item).permit(:name, :title, :navigatable_id, :parent_id)
 	end
 end

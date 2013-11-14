@@ -32,8 +32,6 @@ class MenuItem < ActiveRecord::Base
 
   serialize :options, Hash
 
-  attr_accessible :name, :title, :navigatable_id, :parent_id
-
   validates_presence_of :title
   validates_format_of :title, :with => /\A[^,\.\/\?\;\|\:]*\z/
   validates_uniqueness_of :title, :scope => [:navigatable_id, :type]
