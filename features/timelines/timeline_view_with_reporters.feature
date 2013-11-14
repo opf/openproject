@@ -105,6 +105,7 @@ Feature: Timeline View Tests with reporters
 
       And there are the following work packages:
           | Subject    | Start date | Due date   | description       | status | responsible |
+          | None       |            |            | Aioli Sali        | closed | manager     |
           | January13  | 2013-01-01 | 2013-01-31 | Aioli Grande      | closed | manager     |
           | February13 | 2013-02-01 | 2013-02-24 | Aioli Sali        | closed | manager     |
           | March13    | 2013-03-01 | 2013-03-30 | Sali Grande       | closed | manager     |
@@ -127,7 +128,8 @@ Feature: Timeline View Tests with reporters
 
       And there are the following work packages:
           | Subject   | Start date | Due date   | description  | status | responsible |
-          | July      | 2012-07-01 | 2013-07-31 | Aioli Grande | closed | manager     |
+          | None      |            |            | Aioli Sali   | closed | manager     |
+          | July      | 2013-07-01 | 2013-07-31 | Aioli Grande | closed | manager     |
           | August    | 2012-08-01 | 2013-08-31 | Aioli Sali   | closed | manager     |
           | Septembre | 2012-09-01 | 2013-09-30 | Sali Grande  | closed | manager     |
 
@@ -246,3 +248,14 @@ Feature: Timeline View Tests with reporters
       And I should see the project "ecookbook_q3"
       And I should see the project "ecookbook0"
       And the project "ecookbook13" should follow after "ecookbook"
+
+  @javascript
+  Scenario: First level grouping and sortation
+    Given I am working in the timeline "Testline" of the project called "ecookbook"
+    When there is a timeline "Testline" for project "ecookbook"
+      And I go to the page of the timeline "Testline" of the project called "ecookbook"
+      And I wait for timeline to load table
+
+     Then the project "ecookbook13" should follow after "ecookbook_q3"
+      And the project "ecookbook_q3" should follow after "ecookbook0"
+      And the project "ecookbook0" should follow after "ecookbook_empty"

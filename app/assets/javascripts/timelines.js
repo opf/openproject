@@ -2042,11 +2042,17 @@ Timeline = {
       return this;
     },
     start: function() {
-      var first = this.getPlanningElements()[0];
-      if (!first) {
-        return undefined;
+      var i, current, pes = this.getPlanningElements();
+      for (i = 0; i < pes.length; i += 1) {
+        current = pes[i];
+        if (current.start()) {
+          return current.start();
+        } else if (current.end()) {
+          return current.end();
+        }
       }
-      return first.start();
+
+      return undefined;
     },
     getAttribute: function (val) {
       if (typeof this[val] === "function") {
