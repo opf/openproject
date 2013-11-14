@@ -1,5 +1,7 @@
 # Changelog
 
+* added icon for new project menu
+
 ## 4.0.0.pre8
 
 * `#2731` Migrated serialized yaml from syck to psych
