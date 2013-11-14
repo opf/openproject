@@ -64,12 +64,6 @@ class Type < ActiveRecord::Base
 
   default_scope :order => 'position ASC'
 
-  scope :like, lambda { |q|
-    s = "%#{q.to_s.strip.downcase}%"
-    { :conditions => ["LOWER(name) LIKE :s", {:s => s}],
-    :order => "name" }
-  }
-
   scope :without_standard, conditions: { is_standard: false },
                            order: :position
 
@@ -98,10 +92,6 @@ class Type < ActiveRecord::Base
   def statuses
     return [] if new_record?
     @statuses ||= Type.statuses([id])
-  end
-
-  def self.search_scope(query)
-    like(query)
   end
 
   def enabled_in?(object)

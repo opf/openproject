@@ -27,8 +27,8 @@
 #++
 
 # This module includes some boilerplate code for pagination using scopes.
-# #search_scope has to be overridden by the model itself and MUST return an
-# actual scope (i.e. scope in Rails3 or named_scope in Rails2) or its corresponding hash.
+# #search_scope may be overridden by the model to change (restrict) the search scope
+# and MUST return a scope or its corresponding hash.
 
 module Pagination::Model
 
@@ -37,6 +37,12 @@ module Pagination::Model
   end
 
   def self.extended(base)
+    base.scope :like, lambda { |q|
+      s = "%#{q.to_s.strip.downcase}%"
+      { :conditions => ["LOWER(name) LIKE :s", {:s => s}],
+      :order => "name" }
+    }
+
     base.instance_eval do
       unloadable
 
@@ -48,7 +54,7 @@ module Pagination::Model
       end
 
       def search_scope(query)
-        raise NotImplementedError, "Override in subclass #{self.name}"
+        like(query)
       end
     end
   end

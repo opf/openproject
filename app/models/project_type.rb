@@ -53,18 +53,6 @@ class ProjectType < ActiveRecord::Base
 
   validates_length_of :name, :maximum => 255, :unless => lambda { |e| e.name.blank? }
 
-  scope :like, lambda { |q|
-    s = "%#{q.to_s.strip.downcase}%"
-    { :conditions => ["LOWER(name) LIKE :s", {:s => s}],
-    :order => "name" }
-  }
-
-  def self.search_scope(query)
-    # this should be all project types to which there are projects to
-    # which there are dependencies from projects that the user can see
-    like(query)
-  end
-
   def self.available_grouping_project_types
     # this should be all project types to which there are projects to
     # which there are dependencies from projects that the user can see

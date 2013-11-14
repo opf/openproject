@@ -80,12 +80,6 @@ class Principal < ActiveRecord::Base
     Principal.active_or_registered_like(criteria).limit(limit)
   end
 
-  def self.paginate_scope!(scope, options = {})
-    limit = options.fetch(:page_limit) || 10
-    page = options.fetch(:page) || 1
-    scope.paginate({ :per_page => limit, :page => page })
-  end
-
   def self.search_scope_without_project(project, query)
     active_or_registered_like(query).not_in_project(project)
   end

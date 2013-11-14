@@ -28,6 +28,8 @@
 #++
 
 class Role < ActiveRecord::Base
+  extend Pagination::Model
+
   # Built-in roles
   BUILTIN_NON_MEMBER = 1
   BUILTIN_ANONYMOUS  = 2
@@ -36,11 +38,6 @@ class Role < ActiveRecord::Base
   scope :builtin, lambda { |*args|
     compare = 'not' if args.first == true
     { :conditions => "#{compare} builtin = 0" }
-  }
-  scope :like, lambda { |q|
-    s = "%#{q.to_s.strip.downcase}%"
-    {:conditions => ["LOWER(name) LIKE :s", {:s => s}]
-    }
   }
 
   before_destroy :check_deletable
@@ -169,9 +166,7 @@ class Role < ActiveRecord::Base
   end
 
   def self.paginated_search(search, options = {})
-    limit = options.fetch(:page_limit) || 10
-    page = options.fetch(:page) || 1
-    givable.like(search).paginate({ :per_page => limit, :page => page })
+    paginate_scope! givable.like(search), options
   end
 
 private
