@@ -57,18 +57,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
         <%= select :query, :id, grouped_options_for_select(grouped_query_options, query.id), {:include_blank => query.new_record?, :selected => query.id}, {:id => 'query-select'} %>
 
-        <%# TODO Use placeholder when I18n-js works again %>
-
-        <script type='text/javascript'>
-          (function() {
-            jQuery('#query-select')
-            .select2()
-            .change(function() {
-              document.location.href = window.location.pathname + '?query_id=' + this.value;
-              // TODO use FilterQueryStringBuilder
-            });
-          })();
-        </script>
       </div>
     <% end %>
 
@@ -118,7 +106,7 @@ See doc/COPYRIGHT.rdoc for more details.
                            { :url => { :set_filter => 1, :sort => WorkPackagesController::DEFAULT_SORT_ORDER.join(':'), :project_id => project },
                              :method => :get,
                              :update => "content",
-                             :complete => 'resetSelectedMenuItem()',
+                             :complete => 'resetSelectedMenuItem(); initQuerySelectBehaviour();',
                            }, :class => 'icon icon-reload'  %>
 
         <% if query.new_record? && User.current.allowed_to?(:save_queries, project, :global => true) %>
