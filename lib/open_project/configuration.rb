@@ -40,6 +40,8 @@ module OpenProject
       'scm_git_command'         => nil,
       'scm_subversion_command'  => nil,
       'disable_browser_cache'   => true,
+      # default cache_store is :file_store in production and :memory_store in development
+      'rails_cache_store'       => :default,
 
       # email configuration
       'email_delivery_method' => nil,

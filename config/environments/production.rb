@@ -71,8 +71,10 @@ OpenProject::Application.configure do
   # Use a different logger for distributed setups
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
-  # Use a different cache store in production
-  config.cache_store = :dalli_store
+  # rails defaults to :file_store, use :dalli when :memcaches is configured in configuration.yml
+  if OpenProject::Configuration['rails_cache_store'] == :memcache
+    config.cache_store = :dalli_store
+  end
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"

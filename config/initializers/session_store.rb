@@ -28,8 +28,4 @@
 
 # Be sure to restart your server when you modify this file.
 
-if Rails.env == 'production'
-  OpenProject::Application.config.session_store ActionDispatch::Session::CacheStore
-else
-  OpenProject::Application.config.session_store :cookie_store, :key => '_open_project_session'
-end
+OpenProject::Application.config.session_store ActionDispatch::Session::CacheStore
