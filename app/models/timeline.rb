@@ -52,6 +52,8 @@ class Timeline < ActiveRecord::Base
 
   validates_presence_of :name, :project
   validates_length_of :name, :maximum => 255, :unless => lambda { |e| e.name.blank? }
+  validate :validate_option_dates
+  validate :validate_option_numeric
 
   attr_accessible :name, :options
 
@@ -61,8 +63,6 @@ class Timeline < ActiveRecord::Base
   @@allowed_option_keys = [
     "columns",
     "compare_to_absolute",
-    "compare_to_historical_one",
-    "compare_to_historical_two",
     "compare_to_relative",
     "compare_to_relative_unit",
     "comparison",
@@ -130,6 +130,32 @@ class Timeline < ActiveRecord::Base
 
   def filter_options
     @@allowed_option_keys
+  end
+
+  def validate_option_numeric
+    numeric = ["compare_to_relative", "planning_element_time_relative_one", "planning_element_time_relative_two"]
+    numeric.each do |field|
+      begin
+        if options[field] != "" && options[field].to_i.to_s != options[field] then
+          errors.add :options, l("timelines.filter.errors." + field) + l("activerecord.errors.messages.not_a_number")
+        end
+      rescue ArgumentError
+        
+      end
+    end
+  end
+
+  def validate_option_dates
+    date_fields = ["timeframe_start", "timeframe_end", "compare_to_absolute", "planning_element_time_absolute_one", "planning_element_time_absolute_two"]
+    date_fields.each do |field|
+      begin
+        if options[field] != "" then
+          Date.parse(options[field])
+        end
+      rescue ArgumentError
+        errors.add :options, l("timelines.filter.errors." + field) + l("activerecord.errors.messages.not_a_date")
+      end
+    end
   end
 
   def default_options
