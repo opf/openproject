@@ -610,6 +610,33 @@ describe WorkPackagesController do
 
       controller.journals.should be_empty
     end
+
+
+    describe "order of journal entries" do
+      let!(:planning_element_note1) { FactoryGirl.create(:work_package_journal,
+                                                  journable_id: planning_element.id,
+                                                  version: 2,
+                                                  notes: 'lala')}
+
+      let!(:planning_element_note2) { FactoryGirl.create(:work_package_journal,
+                                                  journable_id: planning_element.id,
+                                                  version: 3,
+                                                  notes: 'lala2')}
+
+      before do
+        controller.stub(:current_user).and_return(stub_user)
+        controller.stub(:work_package).and_return(planning_element)
+      end
+
+      it "chronological by default" do
+        controller.journals.should == [planning_element_note1, planning_element_note2]
+      end
+
+      it "reverse chronological order if the user wan'ts it that way" do
+        stub_user.stub(:wants_comments_in_reverse_order?).and_return(true)
+        controller.journals.should == [planning_element_note2, planning_element_note1]
+      end
+    end
   end
 
   describe :changesets do

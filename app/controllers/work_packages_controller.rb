@@ -333,6 +333,8 @@ class WorkPackagesController < ApplicationController
     @journals ||= work_package.journals.changing
                                        .includes(:user)
                                        .order("#{Journal.table_name}.created_at ASC")
+    @journals.reverse! if current_user.wants_comments_in_reverse_order?
+    @journals
   end
 
   def ancestors
