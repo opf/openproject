@@ -40,28 +40,28 @@ while day <= calendar.enddt %>
 <p class="day-num"><%= day.day %></p>
 <% calendar.events_on(day).each do |i| %>
   <% if i.is_a? WorkPackage %>
-  <div class="<%= work_package_css_classes(i) %> tooltip">
-  <%= h("#{i.project} -") unless @project && @project == i.project %>
-  <%# date_img = '' %>
-  <% if day == i.start_date and day == i.due_date %>
-    <% date_img = image_tag("bullet_diamond.png", :title => l(:text_tip_work_package_begin_end_day), :alt => l(:text_tip_work_package_begin_end_day),
-                                    :class => "imgtag-icon") %>
-  <% elsif day == i.start_date %>
-    <% date_img = image_tag("bullet_go.png", :title => l(:text_tip_work_package_begin_day), :alt => l(:text_tip_work_package_begin_day),
-                                    :class => "imgtag-icon") %>
-  <% elsif day == i.due_date %>
-    <% date_img = image_tag("bullet_end.png", :title => l(:text_tip_work_package_end_day), :alt => l(:text_tip_work_package_end_day),
-                                    :class => "imgtag-icon") %>
-  <% end %>
+    <div class="<%= work_package_css_classes(i) %> tooltip">
+      <%= h("#{i.project} -") unless @project && @project == i.project %>
+      <%# date_img = '' %>
+      <% if day == i.start_date and day == i.due_date %>
+        <% date_img = image_tag("bullet_diamond.png", :title => l(:text_tip_work_package_begin_end_day), :alt => l(:text_tip_work_package_begin_end_day),
+                                        :class => "imgtag-icon") %>
+      <% elsif day == i.start_date %>
+        <% date_img = image_tag("bullet_go.png", :title => l(:text_tip_work_package_begin_day), :alt => l(:text_tip_work_package_begin_day),
+                                        :class => "imgtag-icon") %>
+      <% elsif day == i.due_date %>
+        <% date_img = image_tag("bullet_end.png", :title => l(:text_tip_work_package_end_day), :alt => l(:text_tip_work_package_end_day),
+                                        :class => "imgtag-icon") %>
+      <% end %>
 
-  <%= link_to_work_package i, :truncate => 30, :before_text => date_img %>
-  <span class="tip"><%= render_issue_tooltip i %></span>
-  </div>
+      <%= link_to_work_package i, :truncate => 30, :before_text => date_img %>
+      <span class="tip"><%= render_issue_tooltip i %></span>
+    </div>
   <% else %>
-  <span>
-    <%= h("#{i.project} -") unless @project && @project == i.project %>
-    <%= link_to_version i, {}, {:before_text => image_tag("webalys/package.png", :title => Version.model_name.human, :alt => Version.model_name.human, :class => "imgtag-icon") }%>
-  </span>
+    <div>
+      <%= h("#{i.project} -") unless @project && @project == i.project %>
+      <%= link_to_version i, {}, {:before_text => image_tag("webalys/package.png", :title => Version.model_name.human, :alt => Version.model_name.human, :class => "imgtag-icon") }%>
+    </div>
   <% end %>
 <% end %>
 </td>

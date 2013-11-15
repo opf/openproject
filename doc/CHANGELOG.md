@@ -44,6 +44,8 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2706` [Migration] Timeline options does not contain 'none' type
 * `#2756` [Work package] 500 when clicking on analyze button in work package summary
 * `#2999` [Timelines] Login checks inconsistent w/ public timelines.
+* `#3004` Fix: [Calendar] Internal error when selecting more than one type in calendar
+* `#3010` Fix: [Calendar] Sprints not displayed properly when start and end date of two sprints are seperate
 * `#3016` [Journals] Planning Element update messages not migrated
 * Fix mysql data migrations
 * Change help url to persistent short url
