@@ -49,23 +49,43 @@ describe UserMailer do
   end
 
   describe :message_id do
-    let(:journal_2) { FactoryGirl.build_stubbed(:work_package_journal) }
+    describe 'same user' do
+      let(:journal_2) { FactoryGirl.build_stubbed(:work_package_journal) }
 
-    before do
-      journal_2.stub(:journable).and_return(work_package)
-      journal_2.stub(:user).and_return(user)
-      journal_2.stub(:created_at).and_return(journal.created_at + 5.seconds)
-    end
-
-    subject do
-      message_ids = [journal, journal_2].each_with_object([]) do |j, l|
-        l << UserMailer.issue_updated(user, j).message_id
+      before do
+        journal_2.stub(:journable).and_return(work_package)
+        journal_2.stub(:user).and_return(user)
+        journal_2.stub(:created_at).and_return(journal.created_at + 5.seconds)
       end
 
-      message_ids.uniq.count
+      subject do
+        message_ids = [journal, journal_2].each_with_object([]) do |j, l|
+          l << UserMailer.issue_updated(user, j).message_id
+        end
+
+        message_ids.uniq.count
+      end
+
+      it { expect(subject).to eq(2) }
     end
 
-    it { expect(subject).to eq(2) }
+    describe 'same timestamp' do
+      let(:user_2) { FactoryGirl.build_stubbed(:user) }
+
+      before do
+        work_package.stub(:recipients).and_return([user, user_2])
+      end
+
+      subject do
+        message_ids = [user, user_2].each_with_object([]) do |u, l|
+          l << UserMailer.issue_updated(u, journal).message_id
+        end
+
+        message_ids.uniq.count
+      end
+
+      it { expect(subject).to eq(2) }
+    end
   end
 
   describe 'journal details' do
