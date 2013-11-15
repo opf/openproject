@@ -42,10 +42,11 @@ api.array :issues, api_meta(:total_count => @issues.total_entries,
       api.fixed_version(:id => issue.fixed_version_id, :name => issue.fixed_version.name) unless issue.fixed_version.nil?
       api.parent(:id => issue.parent_id) unless issue.parent.nil?
 
-      api.subject 		issue.subject
-      api.description issue.description
-      api.start_date 	issue.start_date
-      api.due_date 		issue.due_date
+      api.subject      issue.subject
+      api.description  issue.description
+      api.start_date   issue.start_date
+      api.due_date     issue.due_date
+      call_hook(:api_issue_index_attributes, :api => api, :issue => issue)
       work_package_api_done_ratio_if_enabled api, issue
       api.estimated_hours issue.estimated_hours
 
