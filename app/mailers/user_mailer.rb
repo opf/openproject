@@ -270,15 +270,10 @@ class UserMailer < ActionMailer::Base
   def self.generate_message_id(object)
     # id + timestamp should reduce the odds of a collision
     # as far as we don't send multiple emails for the same object
-    object = object.journable if object.is_a? Journal
+    journable = (object.is_a? Journal) ? object.journable : object
 
-    if object.is_a? WorkPackage
-      timestamp = object.send(object.respond_to?(:created_at) ? :created_at : :updated_at)
-    else
-      timestamp = object.send(object.respond_to?(:created_on) ? :created_on : :updated_on)
-    end
-
-    hash = "openproject.#{object.class.name.demodulize.underscore}-#{object.id}.#{timestamp.strftime("%Y%m%d%H%M%S")}"
+    timestamp = self.mail_timestamp(object)
+    hash = "openproject.#{journable.class.name.demodulize.underscore}-#{journable.id}.#{timestamp.strftime("%Y%m%d%H%M%S")}"
     host = Setting.mail_from.to_s.gsub(%r{\A.*@}, '')
     host = "#{::Socket.gethostname}.openproject" if host.empty?
     "#{hash}@#{host}"
@@ -307,6 +302,14 @@ protected
   end
 
 private
+
+  def self.mail_timestamp(object)
+    if object.respond_to? :created_at
+      timestamp = object.send(object.respond_to?(:created_at) ? :created_at : :updated_at)
+    else
+      timestamp = object.send(object.respond_to?(:created_on) ? :created_on : :updated_on)
+    end
+  end
 
   def self.host
     if Redmine::Utils.relative_url_root.blank?
