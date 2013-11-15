@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#3020` Fix: E-mail Message-ID header is not unique for Work Package mails
 * `#3030` Users preferences for order of comments is ignored on wp comments
 
 ## 3.0.0pre31
