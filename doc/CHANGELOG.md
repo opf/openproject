@@ -31,6 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#3030` Users preferences for order of comments is ignored on wp comments
 * `#3032` Fix: Work package comments aren't editable by authors
+* API v2: Improve timelines performance by not filtering statuses by visible projects
 
 ## 3.0.0pre31
 

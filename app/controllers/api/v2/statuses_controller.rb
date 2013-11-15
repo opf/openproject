@@ -44,15 +44,7 @@ module Api
       accept_key_auth :index, :show
 
       def index
-        if @project
-          @statuses = Type.statuses(@project.types.map(&:id))
-        else
-          visible_type_ids = Project.visible
-                                    .includes(:types)
-                                    .map(&:types).flatten
-                                    .map(&:id)
-          @statuses = Type.statuses(visible_type_ids)
-        end
+        @statuses = Status.all
 
         respond_to do |format|
           format.api

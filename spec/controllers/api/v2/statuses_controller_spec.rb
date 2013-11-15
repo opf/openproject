@@ -52,64 +52,14 @@ describe Api::V2::StatusesController do
   end
 
   describe 'looking up statuses' do
+    let!(:open) {FactoryGirl.create(:status, name: "Open")}
+    let!(:in_progress) {FactoryGirl.create(:status, name: "In Progress")}
+    let!(:closed){FactoryGirl.create(:status, name: "Closed")}
 
-    let(:open) {FactoryGirl.create(:status, name: "Open")}
-    let(:in_progress) {FactoryGirl.create(:status, name: "In Progress")}
-    let(:closed){FactoryGirl.create(:status, name: "Closed")}
-    let(:no_see_status){FactoryGirl.create(:status, name: "You don't see me.")}
+    it "should return all statuses" do
+      get 'index', :format => 'json'
 
-    let(:workflows) do
-      workflows = [FactoryGirl.create(:workflow, old_status: open, new_status: in_progress, role: role),
-                   FactoryGirl.create(:workflow, old_status: in_progress, new_status: closed, role: role)]
-    end
-
-    let(:no_see_workflows) do
-      workflows = [FactoryGirl.create(:workflow, old_status: closed, new_status: no_see_status, role: role)]
-    end
-
-    let(:project) do
-      type = FactoryGirl.create(:type, name: "Standard", workflows: workflows)
-      project = FactoryGirl.create(:project, types: [type])
-    end
-    let(:invisible_project) do
-      invisible_type = FactoryGirl.create(:type, name: "No See", workflows: no_see_workflows)
-      project = FactoryGirl.create(:project, types: [invisible_type], is_public: false)
-    end
-
-    let(:role) { FactoryGirl.create(:role) }
-    let(:member) { FactoryGirl.create(:member, :project => project,
-                                        :user => valid_user,
-                                        :roles => [role]) }
-
-
-    before do
-      member
-      workflows
-    end
-
-    describe 'with project-scope' do
-      it 'with unknown project raises ActiveRecord::RecordNotFound errors' do
-        get 'index', :project_id => '0', :format => 'json'
-        expect(response.response_code).to eql 404
-      end
-
-      it "should return the available statuses _only_ for the given project" do
-        get 'index', :project_id => project.id, :format => 'json'
-        expect(assigns(:statuses)).to include open, in_progress, closed
-        expect(assigns(:statuses)).not_to include no_see_status
-      end
-
-    end
-
-    describe 'without project-scope' do
-      it "should return only status for visible projects" do
-        # create the invisible type/workflow/status
-        invisible_project
-        get 'index', :format => 'json'
-
-        expect(assigns(:statuses)).to include open, in_progress, closed
-        expect(assigns(:statuses)).not_to include no_see_status
-      end
+      expect(assigns(:statuses)).to include open, in_progress, closed
     end
   end
 
