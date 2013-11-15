@@ -189,5 +189,16 @@ module OpenProject::Backlogs::Hooks
         end
       end
     end
+
+    # Renders story_points in v1 api#index
+    #
+    # Context:
+    # * :api => Current api instance
+    # * :issue => issue to render
+    #
+    def api_issue_index_attributes(context={})
+      return unless context[:api] && context[:issue]
+      context[:api].story_points context[:issue].story_points
+    end
   end
 end
