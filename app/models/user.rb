@@ -581,32 +581,16 @@ class User < Principal
     when 'all'
       true
     when 'selected'
-      # user receives notifications for created/assigned issues on unselected projects
-      if object.is_a?(WorkPackage) && (object.author == self || is_or_belongs_to?(object.assigned_to))
-        true
-      else
-        false
-      end
+      # user receives notifications for created/assigned work packages on unselected projects
+      object.is_a?(WorkPackage) && (object.author == self || is_or_belongs_to?(object.assigned_to))
     when 'none'
       false
     when 'only_my_events'
-      if object.is_a?(WorkPackage) && (object.author == self || is_or_belongs_to?(object.assigned_to))
-        true
-      else
-        false
-      end
+      object.is_a?(WorkPackage) && (object.author == self || is_or_belongs_to?(object.assigned_to))
     when 'only_assigned'
-      if object.is_a?(WorkPackage) && is_or_belongs_to?(object.assigned_to)
-        true
-      else
-        false
-      end
+      object.is_a?(WorkPackage) && is_or_belongs_to?(object.assigned_to)
     when 'only_owner'
-      if object.is_a?(WorkPackage) && object.author == self
-        true
-      else
-        false
-      end
+      object.is_a?(WorkPackage) && object.author == self
     else
       false
     end
