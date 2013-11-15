@@ -63,7 +63,15 @@ class UserMailer < ActionMailer::Base
     end
   end
 
-  def issue_updated(user, journal)
+  def issue_updated(user, journal, author=User.current)
+    # Delayed job do not preserve the closure of the job that is delayed. Thus,
+    # if the method is called within a delayed job, it does contain the default
+    # user (anonymous) and not the original user that called the method.
+    #
+    # The mail interceptor 'RemoveSelfNotificationsInterceptor' assumes the
+    # orginal user to be available. Otherwise, it cannot fulfill its duty.
+    User.current = author if User.current != author
+
     @journal = journal
     @issue   = journal.journable.reload
 
