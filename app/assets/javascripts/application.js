@@ -830,10 +830,6 @@ $(window).resize(function() {
     }, 200);
 });
 
-$(window).bind('resizeEnd', function() {
-    //jQuery("div#breadcrumb ul.breadcrumb").adjustBreadcrumbToWindowSize();
-});
-
   $.fn.mySlide = function(callback) {
     if (parseInt($.browser.version, 10) < 8 && $.browser.msie) {
       // no animations, just toggle
