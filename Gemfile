@@ -202,19 +202,6 @@ platforms :mri, :mingw do
   end
 end
 
-platforms :mri_18, :mingw_18 do
-  group :mysql do
-    gem "mysql"
-    #   gem "ruby-mysql"
-  end
-end
-
-platforms :mri_19, :mingw_19 do
-  group :mysql2 do
-    gem "mysql2", "~> 0.3.11"
-  end
-end
-
 platforms :jruby do
   gem "jruby-openssl"
 
