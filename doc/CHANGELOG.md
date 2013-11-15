@@ -29,7 +29,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#2332` [Timelines] Field "planning comparisons" does not check for valid input
 * `#3030` Users preferences for order of comments is ignored on wp comments
+
 
 ## 3.0.0pre31
 
