@@ -140,7 +140,7 @@ module Migration::Utils
               "\n\n"\
               "If you're facing an 'Illegal mix of collations error, consider "\
               "running rake task "\
-              "'migrations:journals:fix_custom_values_collation'."\
+              "'migrations:journals:fix_table_collation'."\
               "\n\n"\
               "#{ex.message}"
       end

@@ -14,10 +14,13 @@ require_relative '../../db/migrate/migration_utils/utils'
 
 namespace :migrations do
   namespace :journals do
-    desc "Fixes 'attachments' table collation"
-    task :fix_attachments_collation => :environment do |task|
+    desc "Fixes table collation"
+    task :fix_table_collation => :environment do |task|
       ActiveRecord::Base.connection.execute <<-SQL
         ALTER TABLE attachments CONVERT TO character SET utf8 COLLATE utf8_unicode_ci;
+      SQL
+      ActiveRecord::Base.connection.execute <<-SQL
+        ALTER TABLE custom_values CONVERT TO character SET utf8 COLLATE utf8_unicode_ci;
       SQL
     end
   end
