@@ -48,6 +48,29 @@ describe UserMailer do
     Setting.stub(:default_language).and_return('en')
   end
 
+  describe :issue_update do
+    context :delayed_job do
+      let(:anonymous) { FactoryGirl.create(:anonymous) }
+
+      before do
+        # Delayed Job does not preserve the closure, so the context of the
+        # delayed method call does not contain the user anymore, who triggered
+        # the job. Instead, the anonymous user is returned.
+        User.stub(:current).and_return anonymous
+      end
+
+      it do
+        User.should_receive(:current).once
+
+        UserMailer.issue_updated(user, journal, user)
+      end
+
+      after do
+        User.current = User.anonymous
+      end
+    end
+  end
+
   describe :message_id do
     describe 'same user' do
       let(:journal_2) { FactoryGirl.build_stubbed(:work_package_journal) }
