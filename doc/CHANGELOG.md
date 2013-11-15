@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.0pre31
+
 * `#313`  Fix: Changing the menu title of a menu wiki page does not work
 * `#1368` Fix: Readding project members in user admin view
 * `#1961` Sort project by time should only include work packages that are shown within the timeline report
