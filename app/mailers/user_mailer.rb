@@ -50,7 +50,7 @@ class UserMailer < ActionMailer::Base
     open_project_headers 'Project'        => @issue.project.identifier,
                          'Issue-Id'       => @issue.id,
                          'Issue-Author'   => @issue.author.login,
-                         'Type'           => 'Issue'
+                         'Type'           => 'WorkPackage'
     open_project_headers 'Issue-Assignee' => @issue.assigned_to.login if @issue.assigned_to
 
     message_id @issue, user
@@ -70,7 +70,7 @@ class UserMailer < ActionMailer::Base
     open_project_headers 'Project'        => @issue.project.identifier,
                          'Issue-Id'       => @issue.id,
                          'Issue-Author'   => @issue.author.login,
-                         'Type'           => 'Issue'
+                         'Type'           => 'WorkPackage'
     open_project_headers 'Issue-Assignee' => @issue.assigned_to.login if @issue.assigned_to
 
     message_id @journal, user
