@@ -53,7 +53,8 @@ class JournalManager
     current = normalize_newlines(current)
     predecessor = normalize_newlines(predecessor)
 
-    return predecessor.map{|k,v| current[k.to_s] != v}
+    # we generally ignore changes from blank to blank
+    return predecessor.map{|k,v| current[k.to_s] != v && (v.present? || current[k.to_s].present?)}
                       .inject(false) { |r, c| r || c }
   end
 

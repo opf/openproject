@@ -26,6 +26,23 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Be sure to restart your server when you modify this file.
+require 'spec_helper'
 
-OpenProject::Application.config.session_store ActionDispatch::Session::CacheStore
+describe "routes for old issue uris" do
+  describe "for index action" do
+    before do
+      get("/issues")
+    end
+
+    it { response.should redirect_to("/work_packages/") }
+  end
+
+  describe "with specific id" do
+    before do
+      get("/issues/1234")
+    end
+
+    it { response.should redirect_to("/work_packages/1234") }
+  end
+end
+

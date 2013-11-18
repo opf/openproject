@@ -81,7 +81,7 @@ gem 'rack-protection'
 gem 'syck', :platforms => [:ruby_20, :mingw_20], :require => false
 
 group :production do
-  # we use dalli as standard memcache client remove this if you don't
+  # we use dalli as standard memcache client
   # requires memcached 1.4+
   # see https://github.com/mperham/dalli
   gem 'dalli'
@@ -199,19 +199,6 @@ platforms :mri, :mingw do
 
   group :sqlite do
     gem "sqlite3"
-  end
-end
-
-platforms :mri_18, :mingw_18 do
-  group :mysql do
-    gem "mysql"
-    #   gem "ruby-mysql"
-  end
-end
-
-platforms :mri_19, :mingw_19 do
-  group :mysql2 do
-    gem "mysql2", "~> 0.3.11"
   end
 end
 

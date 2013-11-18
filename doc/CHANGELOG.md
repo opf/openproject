@@ -29,8 +29,18 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#1718` Invalidate server side sessions on logout
+* `#1719` Set X-Frame-Options to same origin
+* `#1748` Add option to diable browser cache
+* `#3018` Fix: Stored queries grouping by attribute is not working
+* `#3020` Fix: E-mail Message-ID header is not unique for Work Package mails
 * `#3028` Migration of legacy planning elements doesn't update journals.
 * `#3030` Users preferences for order of comments is ignored on wp comments
+* `#3032` Fix: Work package comments aren't editable by authors
+* `#3038` Fix: Journal changes are recorded for empty text fields
+* API v2: Improve timelines performance by not filtering statuses by visible projects
+* Add hook so that plugins can register assets, which are loaded on every page
+* added missing specs for PR #647
 
 ## 3.0.0pre31
 
@@ -50,6 +60,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3004` Fix: [Calendar] Internal error when selecting more than one type in calendar
 * `#3010` Fix: [Calendar] Sprints not displayed properly when start and end date of two sprints are seperate
 * `#3016` [Journals] Planning Element update messages not migrated
+* `#3033` Fix: Work package update descriptions starting with a h3 are truncated
 * Fix mysql data migrations
 * Change help url to persistent short url
 
@@ -61,7 +72,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ## 3.0.0pre29
 
-* `#1748` Add option to diable browser cache
 * `#2473` [Timelines] Tooltip in timeline report shows star * instead of hash # in front of ID
 * `#2718` Newlines in workpackage descriptions aren't normalized for change tracking
 * `#2721` Fix: Fix: Fix: Missing journal entries for customizable_journals
