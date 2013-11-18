@@ -34,6 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1748` Add option to diable browser cache
 * `#3018` Fix: Stored queries grouping by attribute is not working
 * `#3020` Fix: E-mail Message-ID header is not unique for Work Package mails
+* `#3021` Fix: emails sent for own changes
 * `#3030` Users preferences for order of comments is ignored on wp comments
 * `#3032` Fix: Work package comments aren't editable by authors
 * `#3038` Fix: Journal changes are recorded for empty text fields
