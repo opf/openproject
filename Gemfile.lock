@@ -182,7 +182,6 @@ GEM
       metaclass (~> 0.0.1)
     multi_json (1.8.2)
     multi_test (0.0.2)
-    mysql (2.9.1)
     mysql2 (0.3.11)
     net-ldap (0.2.2)
     nokogiri (1.5.9)
@@ -387,7 +386,6 @@ DEPENDENCIES
   letter_opener (~> 1.0.0)
   mocha (~> 0.13.1)
   multi_json
-  mysql
   mysql2 (~> 0.3.11)
   net-ldap (~> 0.2.2)
   object-daddy (~> 1.1.0)
