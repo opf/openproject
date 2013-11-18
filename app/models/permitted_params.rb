@@ -94,6 +94,10 @@ class PermittedParams < Struct.new(:params, :user)
     params.require(:planning_element).permit(*self.class.permitted_attributes[:planning_element])
   end
 
+  def status
+    params.require(:status).permit(*self.class.permitted_attributes[:status])
+  end
+
   def new_work_package(args = {})
     permitted = permitted_attributes(:new_work_package, args)
 
@@ -259,6 +263,9 @@ class PermittedParams < Struct.new(:params, :user)
                                                   :type_ids => [],
                                                   :reported_project_status_ids => []
                                                 ],
+                               :status => [ :name,
+                                            :is_closed,
+                                            :is_default],
                                :type => [
                                           :name,
                                           :is_in_roadmap,
