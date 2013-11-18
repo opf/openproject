@@ -103,35 +103,47 @@ module Migration::Utils
     end
 
     def missing_custom_values
-      result = select_all <<-SQL
-        SELECT tmp.customized_id,
-               tmp.customized_type,
-               tmp.custom_field_id,
-               tmp.current_value,
-               tmp.last_version,
-               tmp.journal_value
-        FROM (
-          SELECT cv.customized_id,
-                 cv.customized_type,
-                 cv.custom_field_id,
-                 cv.value AS current_value,
-                 MAX(j.version) AS last_version,
-                 cj.value AS journal_value
-          FROM custom_values AS cv
-            JOIN journals AS j ON (cv.customized_id = j.journable_id AND cv.customized_type = j.journable_type AND cv.value <> '')
-            LEFT JOIN customizable_journals AS cj ON (j.id = cj.journal_id AND cv.custom_field_id = cj.custom_field_id)
-          GROUP BY cv.customized_id,
-             cv.customized_type,
-             cv.custom_field_id,
-             cv.value,
-               cj.value
-        ) AS tmp
-        WHERE tmp.last_version = (SELECT MAX(version) AS last_version
-                                  FROM journals AS j
-                WHERE j.journable_id = tmp.customized_id AND j.journable_type = tmp.customized_type
-                GROUP BY j.journable_id, j.journable_type)
-          AND tmp.journal_value IS NULL
-      SQL
+      begin
+        result = select_all <<-SQL
+          SELECT tmp.customized_id,
+                 tmp.customized_type,
+                 tmp.custom_field_id,
+                 tmp.current_value,
+                 tmp.last_version,
+                 tmp.journal_value
+          FROM (
+            SELECT cv.customized_id,
+                   cv.customized_type,
+                   cv.custom_field_id,
+                   cv.value AS current_value,
+                   MAX(j.version) AS last_version,
+                   cj.value AS journal_value
+            FROM custom_values AS cv
+              JOIN journals AS j ON (cv.customized_id = j.journable_id AND cv.customized_type = j.journable_type AND cv.value <> '')
+              LEFT JOIN customizable_journals AS cj ON (j.id = cj.journal_id AND cv.custom_field_id = cj.custom_field_id)
+            GROUP BY cv.customized_id,
+               cv.customized_type,
+               cv.custom_field_id,
+               cv.value,
+                 cj.value
+          ) AS tmp
+          WHERE tmp.last_version = (SELECT MAX(version) AS last_version
+                                    FROM journals AS j
+                  WHERE j.journable_id = tmp.customized_id AND j.journable_type = tmp.customized_type
+                  GROUP BY j.journable_id, j.journable_type)
+            AND tmp.journal_value IS NULL
+        SQL
+      rescue ActiveRecord::StatementInvalid => ex
+        raise ex unless mysql?
+
+        raise "An MySQL error occured (see details below)!"\
+              "\n\n"\
+              "If you're facing an 'Illegal mix of collations error', consider "\
+              "running rake task "\
+              "'migrations:journals:fix_table_collation'."\
+              "\n\n"\
+              "#{ex.message}"
+      end
 
       result.collect { |row| MissingCustomValue.new(row['customized_id'],
                                                     row['customized_type'],
