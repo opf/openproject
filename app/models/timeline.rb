@@ -136,7 +136,7 @@ class Timeline < ActiveRecord::Base
     numeric = ["compare_to_relative", "planning_element_time_relative_one", "planning_element_time_relative_two"]
     numeric.each do |field|
       begin
-        if options[field] != "" && options[field].to_i.to_s != options[field] then
+        if options[field] && options[field] != "" && options[field].to_i.to_s != options[field] then
           errors.add :options, l("timelines.filter.errors." + field) + l("activerecord.errors.messages.not_a_number")
         end
       rescue ArgumentError
@@ -149,7 +149,7 @@ class Timeline < ActiveRecord::Base
     date_fields = ["timeframe_start", "timeframe_end", "compare_to_absolute", "planning_element_time_absolute_one", "planning_element_time_absolute_two"]
     date_fields.each do |field|
       begin
-        if options[field] != "" then
+        if options[field] && options[field] != "" then
           Date.parse(options[field])
         end
       rescue ArgumentError
