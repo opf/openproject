@@ -31,7 +31,9 @@ class CustomFieldsController < ApplicationController
   layout 'admin'
 
   before_filter :require_admin
-  before_filter :blank_translation_attributes_as_nil, :only => [:new, :edit]
+  before_filter :find_types, :except => [:index, :destroy]
+  before_filter :find_custom_field, :only => [:edit, :update, :destroy, :move]
+  before_filter :blank_translation_attributes_as_nil, :only => [:create, :update]
 
   def index
     @custom_fields_by_type = CustomField.find(:all).group_by {|f| f.class.name }
@@ -40,63 +42,73 @@ class CustomFieldsController < ApplicationController
 
   def new
     @custom_field = careful_new_custom_field permitted_params.custom_field_type
-    (redirect_to(:action => 'index'); return) unless @custom_field
-    @types = Type.find(:all, :order => 'position')
   end
 
   def create
-    @custom_field = careful_new_custom_field permitted_params.custom_field_type, permitted_params.custom_field
-    (redirect_to(:action => 'index'); return) unless @custom_field
+    @custom_field = careful_new_custom_field permitted_params.custom_field_type, @custom_field_params
 
     if @custom_field.save
       flash[:notice] = l(:notice_successful_create)
       call_hook(:controller_custom_fields_new_after_save, :custom_field => @custom_field)
-      redirect_to :action => 'index', :tab => @custom_field.class.name
+      redirect_to custom_fields_path(:tab => @custom_field.class.name)
     else
-      @types = Type.find(:all, :order => 'position')
+      render :action => 'new'
     end
   end
 
-  def edit
-    @custom_field = CustomField.find(params[:id])
-    if request.put? and @custom_field.update_attributes(permitted_params.custom_field)
+  def edit; end
+
+  def update
+    if @custom_field.update_attributes(@custom_field_params)
       flash[:notice] = l(:notice_successful_update)
       call_hook(:controller_custom_fields_edit_after_save, :custom_field => @custom_field)
-      redirect_to :action => 'index', :tab => @custom_field.class.name
+      redirect_to custom_fields_path(:tab => @custom_field.class.name)
     else
-      @types = Type.find(:all, :order => 'position')
+      render action: 'edit'
     end
   end
 
   def destroy
-    @custom_field = CustomField.find(params[:id]).destroy
-    redirect_to :action => 'index', :tab => @custom_field.class.name
-  rescue
-    flash[:error] = l(:error_can_not_delete_custom_field)
-    redirect_to :action => 'index'
+    begin
+      @custom_field.destroy
+    rescue
+      flash[:error] = l(:error_can_not_delete_custom_field)
+    end
+    redirect_to custom_fields_path(:tab => @custom_field.class.name)
   end
 
   private
 
   def blank_translation_attributes_as_nil
-    return unless params['custom_field'] && params['custom_field']['translations_attributes']
+    @custom_field_params = permitted_params.custom_field
+    return unless @custom_field_params['translations_attributes']
 
-    params['custom_field']['translations_attributes'].each do |index, attributes|
+    @custom_field_params['translations_attributes'].each do |index, attributes|
       attributes.each do |key, value|
         attributes[key] = nil if value.blank?
       end
     end
   end
 
-private
-
   def careful_new_custom_field(type, params = {})
-    begin
+    cf = begin
       if type.to_s.match(/.+CustomField\z/)
         klass = type.to_s.constantize
         klass.new(params) if klass.ancestors.include? CustomField
       end
     rescue
     end
+    redirect_to custom_fields_path(:tab => type) unless cf
+    cf
+  end
+
+  def find_custom_field
+    @custom_field = CustomField.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
+  def find_types
+    @types = Type.find(:all, :order => 'position')
   end
 end

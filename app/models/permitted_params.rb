@@ -82,12 +82,12 @@ class PermittedParams < Struct.new(:params, :user)
     params.require(:color).permit(*self.class.permitted_attributes[:color_move])
   end
 
-  def custom_field_type
-    params.require(:type)
-  end
-
   def custom_field
     params.require(:custom_field).permit(*self.class.permitted_attributes[:custom_field])
+  end
+
+  def custom_field_type
+    params.require(:type)
   end
 
   def planning_element_type
@@ -207,6 +207,7 @@ class PermittedParams < Struct.new(:params, :user)
         :is_required,
         :max_length,
         :min_length,
+        :move_to,
         :regexp,
         :searchable,
         :translations_attributes => [
