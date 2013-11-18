@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Mocha</title>
+    <link rel="stylesheet" href="mocha.css">
+    <link rel="shortcut icon" href="../favicon.ico">
+  </head>
+  <body>
+    <div id="mocha"></div>
+
+    <script src="mocha.js"></script>
+    <script src="chai.js"></script>
+
+    <script>mocha.setup('bdd')</script>
+    <script>expect = chai.expect</script>
+
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+
+    <script src="../app/assets/javascripts/timelines.js"></script>
+    <script src="../app/assets/javascripts/date-en-US.js"></script>
+    <script src="../app/assets/javascripts/raphael.js"></script>
+
+
+    <script src="planningElementFactory.js"></script>
+
+    <script src="planningElement.js"></script>
+    <script>
+      mocha.run();
+    </script>
+  </body>
+</html>
