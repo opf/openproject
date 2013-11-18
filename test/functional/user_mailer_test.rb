@@ -276,7 +276,7 @@ class UserMailerTest < ActionMailer::TestCase
     mail = UserMailer.issue_added(user, issue)
     mail.deliver
     assert_not_nil mail
-    assert_equal UserMailer.generate_message_id(issue), mail.message_id
+    assert_equal UserMailer.generate_message_id(issue, user), mail.message_id
     assert_nil mail.references
   end
 
@@ -287,8 +287,8 @@ class UserMailerTest < ActionMailer::TestCase
     UserMailer.issue_updated(user, journal).deliver
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
-    assert_equal UserMailer.generate_message_id(journal), mail.message_id
-    assert_match mail.references, UserMailer.generate_message_id(journal.journable)
+    assert_equal UserMailer.generate_message_id(journal, user), mail.message_id
+    assert_match mail.references, UserMailer.generate_message_id(journal.journable, user)
   end
 
   def test_message_posted_message_id
@@ -297,7 +297,7 @@ class UserMailerTest < ActionMailer::TestCase
     UserMailer.message_posted(user, message).deliver
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
-    assert_equal UserMailer.generate_message_id(message), mail.message_id
+    assert_equal UserMailer.generate_message_id(message, user), mail.message_id
     assert_nil mail.references
     assert_select_email do
       # link to the message
@@ -312,8 +312,8 @@ class UserMailerTest < ActionMailer::TestCase
     UserMailer.message_posted(user, message).deliver
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
-    assert_equal UserMailer.generate_message_id(message), mail.message_id
-    assert_match mail.references, UserMailer.generate_message_id(parent)
+    assert_equal UserMailer.generate_message_id(message, user), mail.message_id
+    assert_match mail.references, UserMailer.generate_message_id(parent, user)
     assert_select_email do
       # link to the reply
       assert_select "a[href=?]", "#{Setting.protocol}://#{Setting.host_name}/topics/#{message.root.id}?r=#{message.id}#message-#{message.id}", :text => message.subject

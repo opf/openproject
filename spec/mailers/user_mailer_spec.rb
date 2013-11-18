@@ -30,26 +30,66 @@
 require 'spec_helper'
 
 describe UserMailer do
-  describe 'journal details' do
-    let(:type_standard) { FactoryGirl.build_stubbed(:type_standard) }
-    let(:user) { FactoryGirl.build_stubbed(:user) }
-    let(:journal) { FactoryGirl.build_stubbed(:work_package_journal) }
-    let(:work_package) { FactoryGirl.build_stubbed(:work_package,
-                                                   type: type_standard) }
+  let(:type_standard) { FactoryGirl.build_stubbed(:type_standard) }
+  let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:journal) { FactoryGirl.build_stubbed(:work_package_journal) }
+  let(:work_package) { FactoryGirl.build_stubbed(:work_package,
+                                                 type: type_standard) }
 
-    subject { UserMailer.issue_updated(user, journal).body.encoded }
+  before do
+    work_package.stub(:reload).and_return(work_package)
 
-    before do
-      work_package.stub(:reload).and_return(work_package)
+    journal.stub(:journable).and_return(work_package)
+    journal.stub(:user).and_return(user)
 
-      journal.stub(:journable).and_return(work_package)
-      journal.stub(:user).and_return(user)
+    Setting.stub(:mail_from).and_return('john@doe.com')
+    Setting.stub(:host_name).and_return('mydomain.foo')
+    Setting.stub(:protocol).and_return('http')
+    Setting.stub(:default_language).and_return('en')
+  end
 
-      Setting.stub(:mail_from).and_return('john@doe.com')
-      Setting.stub(:host_name).and_return('mydomain.foo')
-      Setting.stub(:protocol).and_return('http')
-      Setting.stub(:default_language).and_return('en')
+  describe :message_id do
+    describe 'same user' do
+      let(:journal_2) { FactoryGirl.build_stubbed(:work_package_journal) }
+
+      before do
+        journal_2.stub(:journable).and_return(work_package)
+        journal_2.stub(:user).and_return(user)
+        journal_2.stub(:created_at).and_return(journal.created_at + 5.seconds)
+      end
+
+      subject do
+        message_ids = [journal, journal_2].each_with_object([]) do |j, l|
+          l << UserMailer.issue_updated(user, j).message_id
+        end
+
+        message_ids.uniq.count
+      end
+
+      it { expect(subject).to eq(2) }
     end
+
+    describe 'same timestamp' do
+      let(:user_2) { FactoryGirl.build_stubbed(:user) }
+
+      before do
+        work_package.stub(:recipients).and_return([user, user_2])
+      end
+
+      subject do
+        message_ids = [user, user_2].each_with_object([]) do |u, l|
+          l << UserMailer.issue_updated(u, journal).message_id
+        end
+
+        message_ids.uniq.count
+      end
+
+      it { expect(subject).to eq(2) }
+    end
+  end
+
+  describe 'journal details' do
+    subject { UserMailer.issue_updated(user, journal).body.encoded }
 
     describe 'plain text mail' do
       before do
