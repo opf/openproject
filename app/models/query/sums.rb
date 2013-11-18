@@ -25,6 +25,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+
 module ::Query::Sums
   def all_work_packages
     @all_work_packages ||= work_packages.all

@@ -107,7 +107,7 @@ Event.observe(document,"dom:loaded", apply_filters_observer);
 <tr>
 <td>
 <table>
-<% query.available_filters.sort{|a,b| a[1][:order]<=>b[1][:order]}.each do |filter| %>
+<% query.available_work_package_filters.sort{|a,b| a[1][:order]<=>b[1][:order]}.each do |filter| %>
     <% field = filter[0]
        options = filter[1] %>
     <tr <%= 'style="display:none;"'.html_safe unless query.has_filter?(field) %> id="tr_<%= field %>" class="filter">
