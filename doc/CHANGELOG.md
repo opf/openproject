@@ -39,6 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3038` Fix: Journal changes are recorded for empty text fields
 * API v2: Improve timelines performance by not filtering statuses by visible projects
 * Add hook so that plugins can register assets, which are loaded on every page
+* added missing specs for PR #647
 
 ## 3.0.0pre31
 
