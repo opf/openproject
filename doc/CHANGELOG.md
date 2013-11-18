@@ -32,6 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1718` Invalidate server side sessions on logout
 * `#1719` Set X-Frame-Options to same origin
 * `#1748` Add option to diable browser cache
+* `#2581` Include also end date when sorting workpackges in timelines module
 * `#3018` Fix: Stored queries grouping by attribute is not working
 * `#3020` Fix: E-mail Message-ID header is not unique for Work Package mails
 * `#3030` Users preferences for order of comments is ignored on wp comments

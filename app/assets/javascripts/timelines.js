@@ -1960,7 +1960,7 @@ Timeline = {
           }
         }
 
-        var datesEqual = as.equals(bs);
+        var datesEqual = as && bs && as.equals(bs);
 
         if ((!as || datesEqual) && typeof a.end === "function") {
           as = a.end();
