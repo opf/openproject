@@ -28,6 +28,7 @@
 #++
 
 class Status < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
   extend Pagination::Model
 
   before_destroy :check_integrity
