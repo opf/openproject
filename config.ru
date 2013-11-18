@@ -30,4 +30,5 @@
 
 require ::File.expand_path('../config/environment',  __FILE__)
 use Rack::Protection::JsonCsrf
+use Rack::Protection::FrameOptions
 run OpenProject::Application

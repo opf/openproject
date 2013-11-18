@@ -195,6 +195,24 @@ module Redmine #:nodoc:
       true
     end
 
+    ##
+    # Registers an assets (javascript, css file) to be injected into every page
+    # params: Hash containing associations with
+    #   :type => (symbol): either :js or :css
+    #   :path => (string): path to asset to include, or array with multiple asset paths
+    def global_assets(assets_hash = {})
+      assets_hash.each { |k,v| registered_global_assets[k] = Array(v) }
+    end
+
+    ##
+    # Returns a list of assets for the given type
+    # those assets shall be included into every OpenProject page
+    # params:
+    #   type (symbol): either :css, or :js
+    def registered_global_assets
+      @registered_global_assets ||= Hash.new([])
+    end
+
     # Sets a requirement on a Redmine plugin version
     # Raises a PluginRequirementError exception if the requirement is not met
     #

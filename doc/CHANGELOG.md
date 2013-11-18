@@ -29,10 +29,15 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#1718` Invalidate server side sessions on logout
+* `#1719` Set X-Frame-Options to same origin
+* `#1748` Add option to diable browser cache
+* `#3018` Fix: Stored queries grouping by attribute is not working
 * `#3020` Fix: E-mail Message-ID header is not unique for Work Package mails
 * `#3030` Users preferences for order of comments is ignored on wp comments
 * `#3032` Fix: Work package comments aren't editable by authors
 * API v2: Improve timelines performance by not filtering statuses by visible projects
+* Add hook so that plugins can register assets, which are loaded on every page
 
 ## 3.0.0pre31
 
@@ -63,7 +68,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ## 3.0.0pre29
 
-* `#1748` Add option to diable browser cache
 * `#2473` [Timelines] Tooltip in timeline report shows star * instead of hash # in front of ID
 * `#2718` Newlines in workpackage descriptions aren't normalized for change tracking
 * `#2721` Fix: Fix: Fix: Missing journal entries for customizable_journals
