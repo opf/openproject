@@ -71,7 +71,7 @@ class PermittedParams < Struct.new(:params, :user)
   end
 
   def project_type_move
-    params.require(:project_type).permit(*self.class.permitted_attributes[:project_type_move])
+    params.require(:project_type).permit(*self.class.permitted_attributes[:move_to])
   end
 
   def color
@@ -79,7 +79,7 @@ class PermittedParams < Struct.new(:params, :user)
   end
 
   def color_move
-    params.require(:color).permit(*self.class.permitted_attributes[:color_move])
+    params.require(:color).permit(*self.class.permitted_attributes[:move_to])
   end
 
   def custom_field
@@ -95,7 +95,7 @@ class PermittedParams < Struct.new(:params, :user)
   end
 
   def planning_element_type_move
-    params.require(:planning_element_type).permit(*self.class.permitted_attributes[:planning_element_type_move])
+    params.require(:planning_element_type).permit(*self.class.permitted_attributes[:move_to])
   end
 
   def planning_element
@@ -143,7 +143,7 @@ class PermittedParams < Struct.new(:params, :user)
   end
 
   def type_move
-    params.require(:type).permit(*self.class.permitted_attributes[:type_move])
+    params.require(:type).permit(*self.class.permitted_attributes[:move_to])
   end
 
   def work_package
@@ -161,7 +161,7 @@ class PermittedParams < Struct.new(:params, :user)
   end
 
   def board_move
-    params.require(:board).permit(*self.class.permitted_attributes[:board_move])
+    params.require(:board).permit(*self.class.permitted_attributes[:move_to])
   end
 
   protected
@@ -194,8 +194,6 @@ class PermittedParams < Struct.new(:params, :user)
 
   def self.permitted_attributes
     @whitelisted_params ||= {
-      :board_move => [ :move_to ],
-      :color_move => [ :move_to ],
       :color => [
         :name,
         :hexcode,
@@ -275,8 +273,6 @@ class PermittedParams < Struct.new(:params, :user)
         :is_milestone,
         :is_default,
         :color_id ],
-      :planning_element_type_move => [ :move_to ],
-      :project_type_move => [ :move_to ],
       :project_type => [
         :name,
         :allows_association,
@@ -295,7 +291,7 @@ class PermittedParams < Struct.new(:params, :user)
         :color_id,
         :project_ids => [],
         :custom_field_ids => [] ],
-      :type_move => [ :move_to ]
+      :move_to => [ :move_to ]
     }
   end
 end
