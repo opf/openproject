@@ -140,7 +140,7 @@ Feature: Cost Reporting Linkage
 
     When I am on the page for the project "Standard Project"
 
-    Then I should see "SPENT TIME" within "#sidebar"
+    Then I see spent time within "#sidebar"
     And I should see "1.00 hour" within "#sidebar"
     And I should not see "Details" within "#sidebar"
     And I should not see "Report" within "#sidebar"
