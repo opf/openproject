@@ -186,6 +186,13 @@ class PermittedParams < Struct.new(:params, :user)
 
   def self.permitted_attributes
     @whitelisted_params ||= {
+                              :board_move => [:move_to],
+                              :color_move => [:move_to],
+                              :color => [
+                                           :name,
+                                           :hexcode,
+                                           :move_to
+                                         ],
                               :new_work_package => [
                                                      :subject,
                                                      :description,
@@ -222,12 +229,6 @@ class PermittedParams < Struct.new(:params, :user)
                                                        end
                                                      end
                                                    ],
-                               :color_move => [:move_to],
-                               :color => [
-                                           :name,
-                                           :hexcode,
-                                           :move_to
-                                         ],
                                :planning_element => [
                                                       :subject,
                                                       :description,
@@ -276,8 +277,7 @@ class PermittedParams < Struct.new(:params, :user)
                                           :project_ids => [],
                                           :custom_field_ids => []
                                         ],
-                               :type_move => [:move_to],
-                               :board_move => [:move_to]
+                               :type_move => [:move_to]
                             }
   end
 end
