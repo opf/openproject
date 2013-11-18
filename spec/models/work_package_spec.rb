@@ -11,8 +11,8 @@ describe WorkPackage do
 
   let(:project2) { FactoryGirl.create(:project_with_types, types: project.types) }
   let(:work_package) { FactoryGirl.create(:work_package, :project => project,
-                                       :type => project.types.first,
-                                       :author => user) }
+                                          :type => project.types.first,
+                                          :author => user) }
   let!(:cost_entry) { FactoryGirl.create(:cost_entry, work_package: work_package, project: project, units: 3, spent_on: Date.today, user: user, comments: "test entry") }
   let!(:cost_object) { FactoryGirl.create(:cost_object, project: project) }
 
