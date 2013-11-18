@@ -59,6 +59,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3004` Fix: [Calendar] Internal error when selecting more than one type in calendar
 * `#3010` Fix: [Calendar] Sprints not displayed properly when start and end date of two sprints are seperate
 * `#3016` [Journals] Planning Element update messages not migrated
+* `#3033` Fix: Work package update descriptions starting with a h3 are truncated
 * Fix mysql data migrations
 * Change help url to persistent short url
 

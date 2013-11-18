@@ -116,7 +116,7 @@ module JournalsHelper
                            :class => 'wikicontent',
                            "data-user" => journal.journable.author)
 
-    css_classes = "wiki"
+    css_classes = "wiki journal-notes"
     css_classes << " editable" if editable
 
     content_tag('div', content, { :id => "journal-#{journal.id}-notes", :class => css_classes }, false)
