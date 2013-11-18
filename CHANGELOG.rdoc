@@ -1,4 +1,8 @@
 
+
+* updated dependency to OpenProject core
+* list story_points in the api/v1 if we have them
+
 = 3.0.4.pre10
 
 * Fixed missing migration of setting values
