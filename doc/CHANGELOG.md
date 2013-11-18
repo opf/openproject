@@ -36,11 +36,14 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.4.pre11
+
+* `#2728` Prepared public release
 * updated dependency to OpenProject core
 * list story_points in the api/v1 if we have them
 * added icon for new project menu
 
-= 3.0.4.pre10
+## 3.0.4.pre10
 
 * Fixed missing migration of setting values
 
