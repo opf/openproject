@@ -1,5 +1,7 @@
 # Changelog
 
+* `#2591` Fix: Costs prevents work package context menu
+
 ## 5.0.1.pre9
 
 * Added missing translations
