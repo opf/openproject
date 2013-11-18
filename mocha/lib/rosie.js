@@ -5,6 +5,21 @@ var Factory = function(constructor) {
   this.callbacks = [];
 };
 
+function extend(target, options) {
+  var name, src, copy;
+  // Extend the base object
+  for (name in options) {
+    src = target[name];
+    copy = options[name];
+
+    if (copy !== undefined) {
+      target[name] = copy;
+    }
+  }
+
+  return target;
+}
+
 Factory.prototype = {
   attr: function(attr, value) {
     var callback = typeof value == 'function' ? value : function() { return value; };
@@ -39,6 +54,10 @@ Factory.prototype = {
 
   build: function(attrs) {
     var result = this.attributes(attrs);
+    if (typeof this.construct === "object") {
+      return extend(Object.create(this.construct), result);
+    }
+
     return this.construct ? new this.construct(result) : result;
   },
 
