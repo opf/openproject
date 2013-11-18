@@ -94,7 +94,7 @@ module QueriesHelper
           @query.filters = {}
           @query.add_filters(params[:fields] || params[:f], params[:operators] || params[:op], params[:values] || params[:v])
         else
-          @query.available_filters.keys.each do |field|
+          @query.available_work_package_filters.keys.each do |field|
             @query.add_short_filter(field, params[field]) if params[field]
           end
         end

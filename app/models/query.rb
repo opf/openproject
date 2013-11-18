@@ -141,8 +141,8 @@ class Query < ActiveRecord::Base
     # values must be an array
     return unless values and values.is_a? Array # and !values.first.empty?
     # check if field is defined as an available filter
-    if available_filters.has_key? field
-      filter_options = available_filters[field]
+    if work_package_filter_available? field
+      filter_options = available_work_package_filters[field]
       # check if operator is allowed for that filter
       #if @@operators_by_filter_type[filter_options[:type]].include? operator
       #  allowed_values = values & ([""] + (filter_options[:values] || []).collect {|val| val[1]})
@@ -180,7 +180,7 @@ class Query < ActiveRecord::Base
   end
 
   def label_for(field)
-    label = available_filters[field][:name] if available_filters.has_key?(field)
+    label = available_work_package_filters[field][:name] if work_package_filter_available?(field)
     label ||= field.gsub(/\_id\z/, "")
   end
 
