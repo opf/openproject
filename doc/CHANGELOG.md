@@ -40,6 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * API v2: Improve timelines performance by not filtering statuses by visible projects
 * Add hook so that plugins can register assets, which are loaded on every page
 * added missing specs for PR #647
+* `#3046` Edit-form for work package updates does not respect user preference for journal ordering
 
 ## 3.0.0pre31
 
