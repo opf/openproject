@@ -1,7 +1,7 @@
 #-- copyright
 # OpenProject Backlogs Plugin
 #
-# Copyright (C)2013 the OpenProject Team
+# Copyright (C)2013 the OpenProject Foundation (OPF)
 # Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
 # Copyright (C)2010-2011 friflaj
 # Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
@@ -33,8 +33,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
---- 
-Worldlabel WL-175: 
+---
+Worldlabel WL-175:
   across: 1
   inner_margin: 0.0625in
   vertical_pitch: 0pt
@@ -46,7 +46,7 @@ Worldlabel WL-175:
   source: glabel
   width: 8.5in
   left_margin: 0pt
-PEARL VM-6252: 
+PEARL VM-6252:
   across: 1
   inner_margin: 3.2mm
   vertical_pitch: 297mm
@@ -58,7 +58,7 @@ PEARL VM-6252:
   source: glabel
   width: 210mm
   left_margin: 0mm
-Avery 8165: 
+Avery 8165:
   across: 1
   inner_margin: 0.0625in
   vertical_pitch: 0pt

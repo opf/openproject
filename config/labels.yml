@@ -1,7 +1,7 @@
 #-- copyright
 # OpenProject Backlogs Plugin
 #
-# Copyright (C)2013 the OpenProject Team
+# Copyright (C)2013 the OpenProject Foundation (OPF)
 # Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
 # Copyright (C)2010-2011 friflaj
 # Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
@@ -33,8 +33,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
---- 
-PEARL PE-8007: 
+---
+PEARL PE-8007:
   across: 1
   inner_margin: 3.2mm
   vertical_pitch: 297mm
@@ -46,7 +46,7 @@ PEARL PE-8007:
   source: glabel
   width: 210mm
   left_margin: 0mm
-Avery 8435B: 
+Avery 8435B:
   across: 1
   inner_margin: 2mm
   vertical_pitch: 122mm
@@ -58,7 +58,7 @@ Avery 8435B:
   source: glabel
   width: 155mm
   left_margin: 27.5mm
-PEARL VM-5513-1: 
+PEARL VM-5513-1:
   across: 1
   inner_margin: 3.2mm
   vertical_pitch: 130mm
@@ -70,7 +70,7 @@ PEARL VM-5513-1:
   source: glabel
   width: 120mm
   left_margin: 61mm
-PEARL VM-5513-2: 
+PEARL VM-5513-2:
   across: 1
   inner_margin: 1mm
   vertical_pitch: 127.5mm
@@ -82,7 +82,7 @@ PEARL VM-5513-2:
   source: glabel
   width: 150mm
   left_margin: 30.5mm
-PEARL PE-8350: 
+PEARL PE-8350:
   across: 1
   inner_margin: 3.2mm
   vertical_pitch: 297mm
@@ -94,7 +94,7 @@ PEARL PE-8350:
   source: glabel
   width: 210mm
   left_margin: 0mm
-PEARL PE-8351: 
+PEARL PE-8351:
   across: 1
   inner_margin: 3.2mm
   vertical_pitch: 297mm
@@ -106,7 +106,7 @@ PEARL PE-8351:
   source: glabel
   width: 210mm
   left_margin: 0mm
-Zweckform J8435A: 
+Zweckform J8435A:
   across: 1
   inner_margin: 2mm
   vertical_pitch: 125mm
@@ -118,7 +118,7 @@ Zweckform J8435A:
   source: glabel
   width: 155mm
   left_margin: 27.5mm
-Zweckform J8435B: 
+Zweckform J8435B:
   across: 1
   inner_margin: 2mm
   vertical_pitch: 122mm
@@ -130,7 +130,7 @@ Zweckform J8435B:
   source: glabel
   width: 155mm
   left_margin: 27.5mm
-PEARL VM-5220: 
+PEARL VM-5220:
   across: 1
   inner_margin: 3.2mm
   vertical_pitch: 297mm
@@ -142,7 +142,7 @@ PEARL VM-5220:
   source: glabel
   width: 210mm
   left_margin: 0mm
-PEARL VM-5081: 
+PEARL VM-5081:
   across: 1
   inner_margin: 3.2mm
   vertical_pitch: 297mm
@@ -154,7 +154,7 @@ PEARL VM-5081:
   source: glabel
   width: 210mm
   left_margin: 0mm
-PEARL VM-6206: 
+PEARL VM-6206:
   across: 1
   inner_margin: 3.2mm
   vertical_pitch: 297mm
@@ -166,7 +166,7 @@ PEARL VM-6206:
   source: glabel
   width: 210mm
   left_margin: 0mm
-PEARL VM-6630: 
+PEARL VM-6630:
   across: 1
   inner_margin: 1mm
   vertical_pitch: 286mm
@@ -178,7 +178,7 @@ PEARL VM-6630:
   source: glabel
   width: 182mm
   left_margin: 14mm
-PEARL VM-6096: 
+PEARL VM-6096:
   across: 1
   inner_margin: 3.2mm
   vertical_pitch: 148mm
@@ -190,7 +190,7 @@ PEARL VM-6096:
   source: glabel
   width: 105mm
   left_margin: 0mm
-Neato 69143: 
+Neato 69143:
   across: 1
   inner_margin: 0.125in
   vertical_pitch: 9.5in
@@ -202,7 +202,7 @@ Neato 69143:
   source: glabel
   width: 4.75in
   left_margin: 1.875in
-PEARL VM-6097: 
+PEARL VM-6097:
   across: 1
   inner_margin: 3.2mm
   vertical_pitch: 210mm
@@ -214,7 +214,7 @@ PEARL VM-6097:
   source: glabel
   width: 148mm
   left_margin: 0mm
-Avery 8435A: 
+Avery 8435A:
   across: 1
   inner_margin: 2mm
   vertical_pitch: 125mm

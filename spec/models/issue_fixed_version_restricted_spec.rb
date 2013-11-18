@@ -1,7 +1,7 @@
 #-- copyright
 # OpenProject Backlogs Plugin
 #
-# Copyright (C)2013 the OpenProject Team
+# Copyright (C)2013 the OpenProject Foundation (OPF)
 # Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
 # Copyright (C)2010-2011 friflaj
 # Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
@@ -326,7 +326,7 @@ describe WorkPackage, "fixed version restricted by an work_package parents (if i
       end
 
       # It's actually the grandparent but it makes no difference for the test
-      let(:parent) { story } 
+      let(:parent) { story }
 
       it_should_behave_like "fixed version beeing inherited from the parent"
     end

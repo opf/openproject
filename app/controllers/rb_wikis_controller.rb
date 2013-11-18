@@ -1,7 +1,7 @@
 #-- copyright
 # OpenProject Backlogs Plugin
 #
-# Copyright (C)2013 the OpenProject Team
+# Copyright (C)2013 the OpenProject Foundation (OPF)
 # Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
 # Copyright (C)2010-2011 friflaj
 # Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
@@ -35,7 +35,7 @@
 
 class RbWikisController < RbApplicationController
   unloadable
-  
+
   # NOTE: The methods #show and #edit are public (see init.rb). We will let
   # OpenProject's WikiController#index take care of autorization
   #
