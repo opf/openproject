@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#1719` Set X-Frame-Options to same origin
 * `#3018` Fix: Stored queries grouping by attribute is not working
 * `#3020` Fix: E-mail Message-ID header is not unique for Work Package mails
 * `#3030` Users preferences for order of comments is ignored on wp comments
