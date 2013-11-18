@@ -35,22 +35,53 @@ describe JournalsController do
   let(:member) { FactoryGirl.build(:member, :project => project,
                                             :roles => [role],
                                             :principal => user) }
-  let(:issue) { FactoryGirl.build(:work_package, :type => project.types.first,
-                                                 :author => user,
-                                                 :project => project,
-                                                 :description => '') }
+  let(:work_package) { FactoryGirl.build(:work_package, :type => project.types.first,
+                                                        :author => user,
+                                                        :project => project,
+                                                        :description => '') }
 
   describe "GET diff" do
     render_views
 
     before do
-      issue.update_attribute :description, 'description'
-      params = { :id => issue.journals.last.id.to_s, :field => :description, :format => 'js' }
+      work_package.update_attribute :description, 'description'
+      params = { :id => work_package.journals.last.id.to_s, :field => :description, :format => 'js' }
 
       get :diff, params
     end
 
     it { response.should be_success }
     it { response.body.strip.should == "<div class=\"text-diff\">\n  <ins class=\"diffmod\">description</ins>\n</div>" }
+  end
+
+  describe :edit do
+    describe 'authorization' do
+      before do
+        work_package.update_attribute :description, 'description'
+        role.add_permission! *permissions
+        member.save and user.reload
+        User.stub(:current).and_return user
+
+        get :edit, id: work_package.journals.last.id
+      end
+
+      context 'with permissions to edit work packages and edit own work package notes' do
+        let(:permissions) { [:edit_work_packages, :edit_own_work_package_notes] }
+
+        example { assert_response :success }
+      end
+
+      context 'without permission to edit work packages' do
+        let(:permissions) { [:edit_own_work_package_notes] }
+
+        example { assert_response :forbidden }
+      end
+
+      context 'without permission to edit journals' do
+        let(:permissions) { [:edit_work_packages] }
+
+        example { assert_response :forbidden }
+      end
+    end
   end
 end

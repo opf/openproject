@@ -107,4 +107,34 @@ describe "Journalized Objects" do
 
     initial_journal.should be_identical(recreated_journal)
   end
+
+  describe 'journal_editable_by?' do
+    context 'when the journable is a work package' do
+      let!(:user) { FactoryGirl.create(:user) }
+      let!(:project) { FactoryGirl.create(:project_with_types) }
+      let!(:role) { FactoryGirl.create(:role, permissions: [:edit_work_packages]) }
+      let!(:member) { FactoryGirl.create(:member, project: project,
+                                                 roles: [role],
+                                                 principal: user) }
+      let!(:work_package) { FactoryGirl.build(:work_package, type: project.types.first,
+                                                             author: user,
+                                                             project: project,
+                                                             description: '') }
+
+      subject { work_package.journal_editable_by?(user) }
+
+      context 'and the user has permissions to "edit_work_packages"' do
+        it { should be_true }
+      end
+
+      context 'and the user has no permission to "edit_work_packages"' do
+        before do
+          role.remove_permission! :edit_work_packages
+        end
+
+        it { should be_false }
+      end
+    end
+  end
+
 end

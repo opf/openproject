@@ -86,7 +86,7 @@ describe 'api/v2/projects/show.api.rabl' do
   end
 
   describe 'with a project having a parent project' do
-    let(:parent_project) { FactoryGirl.create(:project, :id => 102, :name => 'Parent', :identifier => 'parent') }
+    let(:parent_project) { FactoryGirl.create(:project, :name => 'Parent', :identifier => 'parent') }
     let(:project) { FactoryGirl.create(:project).tap { |p| p.move_to_child_of(parent_project.id)} }
 
     before do
@@ -98,7 +98,7 @@ describe 'api/v2/projects/show.api.rabl' do
 
     describe 'project node' do
       it 'contains a parent element with name and id attributes' do
-        expected_json = {id: 102, name: 'Parent', identifier: 'parent'}.to_json
+        expected_json = {id: parent_project.id, name: 'Parent', identifier: 'parent'}.to_json
         response.should be_json_eql(expected_json).at_path('project/parent')
       end
     end
@@ -106,7 +106,7 @@ describe 'api/v2/projects/show.api.rabl' do
 
   describe 'with a project having an invisible parent project' do
 
-    let(:parent_project) { FactoryGirl.create(:project, :id => 103, :name => 'Parent', :identifier => 'parent', :is_public => false) }
+    let(:parent_project) { FactoryGirl.create(:project, :name => 'Parent', :identifier => 'parent', :is_public => false) }
     let(:project) { FactoryGirl.create(:project).tap { |p| p.move_to_child_of(parent_project.id)} }
 
     before do
@@ -144,7 +144,7 @@ describe 'api/v2/projects/show.api.rabl' do
     subject {response.body}
 
     it 'contains a parent element with name and id attributes of the grand parent' do
-      expected_json = {id: 102, name: 'Grand-Parent', identifier: 'granny'}.to_json
+      expected_json = {id: parent_project.id, name: 'Grand-Parent', identifier: 'granny'}.to_json
       response.should be_json_eql(expected_json).at_path('project/parent')
     end
 
@@ -152,7 +152,6 @@ describe 'api/v2/projects/show.api.rabl' do
 
   describe 'with a project having a responsible' do
     let(:responsible) { FactoryGirl.create(:user,
-                                           :id => 100,
                                            :firstname => 'Project',
                                            :lastname => 'Manager') }
 
@@ -167,7 +166,7 @@ describe 'api/v2/projects/show.api.rabl' do
     subject{ response.body }
 
     it 'contains a responsible node containing the responsible\'s id and name' do
-      expected_json = {id: 100, name: "Project Manager"}.to_json
+      expected_json = {id: responsible.id, name: "Project Manager"}.to_json
       should be_json_eql(expected_json).at_path('project/responsible')
     end
 
