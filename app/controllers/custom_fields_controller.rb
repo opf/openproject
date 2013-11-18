@@ -39,18 +39,18 @@ class CustomFieldsController < ApplicationController
   end
 
   def new
-    @custom_field = begin
-      if params[:type].to_s.match(/.+CustomField\z/)
-        klass = params[:type].to_s.constantize
-        klass.new(params[:custom_field]) if klass.ancestors.include? CustomField
-      end
-    rescue
-    end
+    @custom_field = careful_new_custom_field permitted_params.custom_field_type
+    (redirect_to(:action => 'index'); return) unless @custom_field
+    @types = Type.find(:all, :order => 'position')
+  end
+
+  def create
+    @custom_field = careful_new_custom_field permitted_params.custom_field_type, permitted_params.custom_field
     (redirect_to(:action => 'index'); return) unless @custom_field
 
-    if request.post? and @custom_field.save
+    if @custom_field.save
       flash[:notice] = l(:notice_successful_create)
-      call_hook(:controller_custom_fields_new_after_save, :params => params, :custom_field => @custom_field)
+      call_hook(:controller_custom_fields_new_after_save, :custom_field => @custom_field)
       redirect_to :action => 'index', :tab => @custom_field.class.name
     else
       @types = Type.find(:all, :order => 'position')
@@ -59,9 +59,9 @@ class CustomFieldsController < ApplicationController
 
   def edit
     @custom_field = CustomField.find(params[:id])
-    if request.put? and @custom_field.update_attributes(params[:custom_field])
+    if request.put? and @custom_field.update_attributes(permitted_params.custom_field)
       flash[:notice] = l(:notice_successful_update)
-      call_hook(:controller_custom_fields_edit_after_save, :params => params, :custom_field => @custom_field)
+      call_hook(:controller_custom_fields_edit_after_save, :custom_field => @custom_field)
       redirect_to :action => 'index', :tab => @custom_field.class.name
     else
       @types = Type.find(:all, :order => 'position')
@@ -85,6 +85,18 @@ class CustomFieldsController < ApplicationController
       attributes.each do |key, value|
         attributes[key] = nil if value.blank?
       end
+    end
+  end
+
+private
+
+  def careful_new_custom_field(type, params = {})
+    begin
+      if type.to_s.match(/.+CustomField\z/)
+        klass = type.to_s.constantize
+        klass.new(params) if klass.ancestors.include? CustomField
+      end
+    rescue
     end
   end
 end

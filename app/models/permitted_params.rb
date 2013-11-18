@@ -82,6 +82,14 @@ class PermittedParams < Struct.new(:params, :user)
     params.require(:color).permit(*self.class.permitted_attributes[:color_move])
   end
 
+  def custom_field_type
+    params.require(:type)
+  end
+
+  def custom_field
+    params.require(:custom_field).permit(*self.class.permitted_attributes[:custom_field])
+  end
+
   def planning_element_type
     params.require(:planning_element_type).permit(*self.class.permitted_attributes[:planning_element_type])
   end
@@ -192,6 +200,22 @@ class PermittedParams < Struct.new(:params, :user)
         :name,
         :hexcode,
         :move_to ],
+      :custom_field => [
+        :field_format,
+        :is_filter,
+        :is_for_all,
+        :is_required,
+        :max_length,
+        :min_length,
+        :regexp,
+        :searchable,
+        :translations_attributes => [
+          :default_value,
+          :id,
+          :locale,
+          :name,
+          :possible_values],
+        :type_ids => []],
       :new_work_package => [
         :subject,
         :description,
