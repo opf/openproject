@@ -304,23 +304,10 @@ Redmine::MenuManager.map :project_menu do |menu|
                             :caption => :label_workflow_summary,
                             :parent => :work_packages
 
-
   menu.push :timelines, {:controller => '/timelines', :action => 'index'},
                         :param => :project_id,
                         :caption => :'timelines.project_menu.timelines',
                         :html => {:'data-icon2' => 'f'}
-
-  menu.push :reportings, {:controller => '/reportings', :action => 'index'},
-                         :param => :project_id,
-                         :caption => :'timelines.project_menu.reportings',
-                         :html => {:'data-icon2' => 'w'}
-
-
-  menu.push :project_associations, {:controller => '/project_associations', :action => 'index'},
-                                   :param => :project_id,
-                                   :caption => :'timelines.project_menu.project_associations',
-                                   :if => Proc.new { |p| p.project_type.try :allows_association },
-                                   :html => {:'data-icon2' => '4'}
 
   menu.push :calendar, { :controller => '/work_packages/calendars', :action => 'index' },
                        :param => :project_id,
@@ -348,6 +335,18 @@ Redmine::MenuManager.map :project_menu do |menu|
                          :param => :project_id,
                          :if => Proc.new { |p| p.repository && !p.repository.new_record? },
                          :html => {:'data-icon2' => 'o'}
+
+  menu.push :reportings, {:controller => '/reportings', :action => 'index'},
+                         :param => :project_id,
+                         :caption => :'timelines.project_menu.reportings',
+                         :html => {:'data-icon2' => 'w'}
+
+
+  menu.push :project_associations, {:controller => '/project_associations', :action => 'index'},
+                                   :param => :project_id,
+                                   :caption => :'timelines.project_menu.project_associations',
+                                   :if => Proc.new { |p| p.project_type.try :allows_association },
+                                   :html => {:'data-icon2' => '4'}
 
   menu.push :settings, { :controller => '/projects', :action => 'settings' },
                        :caption => :label_project_settings,
