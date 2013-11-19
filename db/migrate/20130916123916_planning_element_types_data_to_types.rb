@@ -152,22 +152,24 @@ class PlanningElementTypesDataToTypes < ActiveRecord::Migration
         end
       end
 
-      all_workflow_states = all_workflow_states.join(", ")
+      return if all_workflow_states.empty?
 
+      all_workflow_states.in_groups_of(100, false) do |some_workflow_states|
 
-      return if all_workflow_states.blank?
+        some_workflow_states = some_workflow_states.join(", ")
 
-      execute <<-SQL
-        INSERT INTO #{db_workflows_table}
-          (
-            role_id,
-            type_id,
-            old_status_id,
-            new_status_id
-          )
-        VALUES
-          #{all_workflow_states}
-      SQL
+        execute <<-SQL
+          INSERT INTO #{db_workflows_table}
+            (
+              role_id,
+              type_id,
+              old_status_id,
+              new_status_id
+            )
+          VALUES
+            #{some_workflow_states}
+        SQL
+      end
     end
   end
 
