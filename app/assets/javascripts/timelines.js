@@ -1960,10 +1960,12 @@ Timeline = {
           }
         }
 
-        if (!as && typeof a.end === "function") {
+        var datesEqual = as && bs && as.equals(bs);
+
+        if ((!as || datesEqual) && typeof a.end === "function") {
           as = a.end();
         }
-        if (!bs && typeof b.end === "function") {
+        if ((!bs || datesEqual) && typeof b.end === "function") {
           bs = b.end();
         }
 
