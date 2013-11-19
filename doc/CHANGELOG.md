@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.0pre32
+
 * `#1718` Invalidate server side sessions on logout
 * `#1719` Set X-Frame-Options to same origin
 * `#1748` Add option to diable browser cache
