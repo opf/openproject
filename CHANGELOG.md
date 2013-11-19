@@ -20,6 +20,8 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+* added icon for new project menu
+
 ## 3.0.5
 
 * fixed cukes
