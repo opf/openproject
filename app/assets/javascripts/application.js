@@ -830,10 +830,6 @@ $(window).resize(function() {
     }, 200);
 });
 
-$(window).bind('resizeEnd', function() {
-    jQuery("div#breadcrumb ul.breadcrumb").adjustBreadcrumbToWindowSize();
-});
-
   $.fn.mySlide = function(callback) {
     if (parseInt($.browser.version, 10) < 8 && $.browser.msie) {
       // no animations, just toggle
@@ -856,7 +852,7 @@ $(window).bind('resizeEnd', function() {
 		// 2. wrap each in a span that we'll use for the new click element
 		.wrapInner("<span class='toggle-follow ellipsis'></span>")
 		// 3. reinsert the <span class="toggler"> so that it sits outside of the above
-		.append("<span class='toggler'></span>")
+		.append("<span class='toggler' data-icon='a'></span>")
 		// 4. attach a new click function that will follow the link if you clicked on the span itself and toggle if not
 		.click(function(event) {
 
@@ -906,11 +902,10 @@ $(window).bind('resizeEnd', function() {
   }
 
   var toggle_navigation = function() {
-    var height = $(document).height() - $('#main-menu').offset().top - 32;
-    $('#main-menu, #menu-sidebar').toggleClass('hidden');
-    $('#content').toggleClass('hidden-navigation');
+    $('#wrapper').toggleClass('hidden-navigation');
+    $('#content, #breadcrumb').toggleClass('hidden-navigation');
     $('#toggle-project-menu').removeAttr("style").toggleClass('show');
-    remember_menu_state($('#toggle-project-menu.show').css({height:height}));
+    remember_menu_state($('#toggle-project-menu.show'));
   };
 
   // register toggler, and toggle for the first time if remembered to be closed.

@@ -38,3 +38,20 @@ See doc/COPYRIGHT.rdoc for details.
 
 == Icons credits:
 Thanks to Le Moign Vincent and his fabulous Minicons icons on webalys.com[http://www.webalys.com/minicons/icons-free-pack.php].
+
+== Lato font credits:
+Thanks to tyPoland Lukasz Dziedzic for his 'Lato' font.
+
+== OpenProject Icon Font credits:
+Published and created by the OpenProject Foundation (OPF) under {Creative Commons Attribution 3.0 Unported License}[http://creativecommons.org/licenses/by/3.0/]
+with icons from the following sources
+{Minicons Free Vector Icons Pack}[http://www.webalys.com/minicons] and
+{User Interface Design framework}[http://www.webalys.com/design-interface-application-framework.php] both by webalys
+
+<b>Creative Commons License</b>
+
+OpenProject Icon Font by OpenProject Team is licensed under Creative Commons Attribution 3.0 Unported License
+and Free for both personal and commercial use. You can copy, adapt, remix, distribute or transmit it.
+
+Under this condition: provide a mention of the "OpenProject Foundation" and a link back to OpenProject www.openproject.org[https://www.openproject.org].
+

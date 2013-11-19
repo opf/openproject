@@ -44,14 +44,14 @@ class LayoutTest < ActionDispatch::IntegrationTest
   def test_top_menu_navigation_not_visible_when_login_required
     with_settings :login_required => '1' do
       get '/'
-      assert_select "#account-nav", 0
+      assert_select "#account-nav-left", 0
     end
   end
 
   def test_top_menu_navigation_visible_when_login_not_required
     with_settings :login_required => '0' do
       get '/'
-      assert_select "#account-nav"
+      assert_select "#account-nav-left"
     end
   end
 

@@ -76,3 +76,6 @@
 
 # coverage in plugins
 /lib/plugins/*/coverage
+
+# asset cache
+/.sass-cache/
