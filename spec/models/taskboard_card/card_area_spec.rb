@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject Backlogs Plugin
 #
@@ -33,7 +34,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-#-- encoding: UTF-8
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe OpenProject::Backlogs::TaskboardCard::CardArea do
