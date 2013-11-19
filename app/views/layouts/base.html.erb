@@ -58,40 +58,38 @@ See doc/COPYRIGHT.rdoc for more details.
     </h2>
   </div>
 </noscript>
-<div id="wrapper">
+<% main_menu = render_main_menu(@project) %>
+<% side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || !main_menu.blank? %>
+
+<div id="wrapper" class="<%= (side_displayed) ? '' : "nosidebar" %><%= (show_decoration) ? '' : 'nomenus' %>">
   <% if show_decoration %>
     <div id="top-menu">
       <div id="header">
-        <div id="logo"></div>
+        <div id="logo">
+          <%= link_to(image_tag(asset_path('logo_openproject_white_big.png'), :alt => I18n.t('label_home'), :class => 'home-link-image'), home_url, :class => 'home-link') %>
+        </div>
         <div id="top-menu-items">
-          <%= render :partial => 'search/mini_form' %>
+          <%= render_top_menu_left %>
+          <div class="top-menu-items-right">
+            <%= render :partial => 'search/mini_form' %>
 
-          <h1 class="hidden-for-sighted">
-            <%= l(:label_top_menu) %>
-          </h1>
+            <h1 class="hidden-for-sighted">
+              <%= l(:label_top_menu) %>
+            </h1>
 
-          <%= render_top_menu %>
+            <%= render_top_menu_right %>
+          </div>
         </div>
       </div>
-
-      <div id="breadcrumb">
-        <h1>
-          <%= you_are_here_info %>
-          <%= full_breadcrumb %>
-        </h1>
-      </div>
-      <%= javascript_tag('jQuery(function($) { $("div#breadcrumb ul.breadcrumb").adjustBreadcrumbToWindowSize(); });') %>
     </div>
   <% end %>
 
-  <% main_menu = render_main_menu(@project) %>
-  <% side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || !main_menu.blank? %>
   <div id="main" class="<%= side_displayed ? '' : "nosidebar" %><%= (show_decoration) ? '' : 'nomenus' %>">
     <% if (side_displayed && show_decoration) %>
       <div id="main-menu">
         <h1 class="hidden-for-sighted"><%= l(:label_main_menu) %></h1>
         <div id="toggle-project-menu">
-          <a href="javascript:;" title="<%= l(:show_hide_project_menu) %>" class="navigation-toggler"></a>
+          <a href="javascript:;" title="<%= l(:show_hide_project_menu) %>" data-icon4="9" class="navigation-toggler"></a>
         </div>
         <div id="menu-sidebar">
           <%= main_menu %>
@@ -106,7 +104,18 @@ See doc/COPYRIGHT.rdoc for more details.
 
       <%= expand_current_menu %>
     <% end %>
-    <div class="<%= (side_displayed) ? '' : "nosidebar" %>" id="content">
+
+    <% if show_decoration %>
+      <div id="breadcrumb" class="<%= (side_displayed) ? '' : "nosidebar" %><%= (show_decoration) ? '' : 'nomenus' %>">
+        <h1>
+          <%= you_are_here_info %>
+          <%= full_breadcrumb %>
+        </h1>
+      </div>
+    <% end %>
+
+    <div class="<%= (side_displayed) ? '' : "nosidebar" %><%= (show_decoration) ? '' : 'nomenus' %>" id="content">
+
       <h1 class="hidden-for-sighted"><%= l(:label_content) %></h1>
       <%= render_flash_messages %>
 
@@ -121,7 +130,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <% if (show_decoration) %>
     <div id="footer">
-      <%= footer_content %>
+      <div class="footer-content">
+        <%= footer_content %>
+      </div>
     </div>
   <% end %>
 

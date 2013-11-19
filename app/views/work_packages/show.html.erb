@@ -105,6 +105,8 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 <div style="clear: both;"></div>
 
+<%= render :partial => 'action_menu_with_edit_container' if current_user.wants_comments_in_reverse_order? %>
+
 <% if changesets.present? %>
   <div id="work_package-changesets">
     <h3><%=l(:label_associated_revisions)%></h3>
@@ -119,18 +121,9 @@ See doc/COPYRIGHT.rdoc for more details.
   </div>
 <% end %>
 
+<%= render :partial => 'action_menu_with_edit_container' unless current_user.wants_comments_in_reverse_order? %>
 
 <div style="clear: both;"></div>
-
-<div class="title-bar" id="lower-title-bar">
-  <%= render :partial => 'layouts/action_menu' %>
-</div>
-
-<div style="clear: both;"></div>
-<% if authorize_for('issues', 'edit') %>
-  <div id="update">
-  </div>
-<% end %>
 
 <%= other_formats_links do |f| %>
   <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>

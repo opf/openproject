@@ -1,7 +1,7 @@
 #-- copyright
 # OpenProject is a project management system.
 #
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@ Feature: Work Package Query
      And I press "Save"
     Then I should see "Query" within "#content"
      And I should see "Successful creation."
-  
+
   @javascript
   Scenario: Group on empty Value (Assignee)
     Given the project "project" has 1 issue with the following:

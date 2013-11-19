@@ -121,6 +121,7 @@ de:
         reported_project_statuses: "Gemeldeter Projekt-Status"
       timeline:
         name: "Name"
+        options: ""
       reporting:
         created_at: "Angelegt"
         reported_project_status_comment: "Status-Kommentar"
@@ -1384,6 +1385,15 @@ de:
       report_epicfail: "Der Zeitplan-Report konnte wegen eines unerwarteten Fehlers nicht geladen werden."
       report_timeout: "Der Zeitplan-Report konnte nicht innerhalb einer gewissen Zeit geladen werden."
     filter:
+      errors:
+        timeframe_start: "Der Start des Zeitausschnitt "
+        timeframe_end: "Das Ende des Zeitausschnitt "
+        compare_to_relative: "Der Wert des relativen Vergleiches "
+        compare_to_absolute: "Der Wert des absoluten Vergleiches "
+        planning_element_time_relative_one: "Der Start für Arbeitspakete in einem bestimmten Zeitrahmen  "
+        planning_element_time_relative_two: "Das Ende für Arbeitspakete in einem bestimmten Zeitrahmen  "
+        planning_element_time_absolute_one: "Der Start für Arbeitspakete in einem bestimmten Zeitrahmen  "
+        planning_element_time_absolute_two: "Das Ende für Arbeitspakete in einem bestimmten Zeitrahmen  "
       sort:
         sortation: "Sortieren nach"
         alphabet: "Alphabet"

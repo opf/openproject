@@ -154,6 +154,7 @@ en:
         position: Position
       timeline:
         name: Name
+        options: ""
       reporting:
         reported_project_status_comment: Status comment
         reporting_to_project: Reports to project
@@ -1375,6 +1376,15 @@ en:
       report_epicfail: "The timeline could not be loaded due to an unexpected error."
       report_timeout: "The timeline could not be loaded in a reasonable amount of time."
     filter:
+      errors:
+        timeframe_start: "The timeframe start "
+        timeframe_end: "The timeframe end "
+        compare_to_relative: "The value of the relative comparison "
+        compare_to_absolute: "The value of the absolute comparison "
+        planning_element_time_relative_one: "The start for work packages in a certain timeframe "
+        planning_element_time_relative_two: "The end for work packages in a certain timeframe "
+        planning_element_time_absolute_one: "The start for work packages in a certain timeframe  "
+        planning_element_time_absolute_two: "The end for work packages in a certain timeframe  "
       sort:
         sortation: "Sort by"
         alphabet: "alphabet"

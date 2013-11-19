@@ -32,15 +32,20 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1718` Invalidate server side sessions on logout
 * `#1719` Set X-Frame-Options to same origin
 * `#1748` Add option to diable browser cache
+* `#2332` [Timelines] Field "planning comparisons" does not check for valid input
+* `#2591` Fix: Costs prevents work package context menu
 * `#3018` Fix: Stored queries grouping by attribute is not working
 * `#3020` Fix: E-mail Message-ID header is not unique for Work Package mails
+* `#3021` Fix: emails sent for own changes
 * `#3028` Migration of legacy planning elements doesn't update journals.
 * `#3030` Users preferences for order of comments is ignored on wp comments
 * `#3032` Fix: Work package comments aren't editable by authors
 * `#3038` Fix: Journal changes are recorded for empty text fields
+* `#3046` Fix: Edit-form for work package updates does not respect user preference for journal ordering
 * API v2: Improve timelines performance by not filtering statuses by visible projects
 * Add hook so that plugins can register assets, which are loaded on every page
 * added missing specs for PR #647
+
 
 ## 3.0.0pre31
 
@@ -63,6 +68,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3033` Fix: Work package update descriptions starting with a h3 are truncated
 * Fix mysql data migrations
 * Change help url to persistent short url
+* Applied new main layout
 
 ## 3.0.0pre30
 

@@ -98,7 +98,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% content_for :sidebar do %>
   <% if @total_hours.present? %>
     <h3><%= l(:label_spent_time) %></h3>
-    <p><span class="icon icon-time"><%= l_hours(@total_hours) %></span></p>
+    <p><span class="icon" data-icon3="f"><%= l_hours(@total_hours) %></span></p>
     <p>
       <%= link_to(l(:label_details), {:controller => '/timelog', :action => 'index', :project_id => @project}) %> |
       <%= link_to(l(:label_report), project_time_entries_report_path(@project)) %>

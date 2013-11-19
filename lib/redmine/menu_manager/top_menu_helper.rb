@@ -28,12 +28,17 @@
 
 module Redmine::MenuManager::TopMenuHelper
 
-  def render_top_menu
-    content_tag :ul, :id => "account-nav", :class => "menu_root" do
+  def render_top_menu_left
+    content_tag :ul, :id => "account-nav-left", :class => "menu_root account-nav" do
       [render_main_top_menu_nodes,
        render_projects_top_menu_node,
-       render_module_top_menu_node,
-       render_help_top_menu_node,
+       render_module_top_menu_node].join.html_safe
+    end
+  end
+
+  def render_top_menu_right
+    content_tag :ul, :id => "account-nav-right", :class => "menu_root account-nav" do
+      [ render_help_top_menu_node,
        render_user_top_menu_node].join.html_safe
     end
   end
@@ -49,7 +54,8 @@ module Redmine::MenuManager::TopMenuHelper
                       { :controller => '/projects',
                         :action => 'index' },
                       :title => l(:label_project_plural),
-                      :access_key => OpenProject::AccessKeys.key_for(:project_search)
+                      :access_key => OpenProject::AccessKeys.key_for(:project_search),
+                      :'data-icon' => 'g'
 
     if User.current.impaired?
       content_tag :li do
@@ -59,8 +65,9 @@ module Redmine::MenuManager::TopMenuHelper
       render_drop_down_menu_node heading do
         content_tag :ul, :style => "display:none" do
           ret = content_tag :li do
-            link_to l(:label_project_view_all), :controller => '/projects',
-                                                :action => 'index'
+            link_to l(:label_project_view_all), {:controller => '/projects',
+                                                :action => 'index'},
+                                                :'data-icon4' => '7'
           end
 
           ret += content_tag :li, :id => "project-search-container" do
@@ -93,7 +100,7 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_module_top_menu_node(items = more_top_menu_items)
-    render_drop_down_menu_node link_to(l(:label_modules), "#", :title => l(:label_modules)),
+    render_drop_down_menu_node link_to(l(:label_modules), "#", :title => l(:label_modules), :'data-icon' => 'M'),
                                items,
                                :id => "more-menu"
   end
@@ -129,7 +136,7 @@ module Redmine::MenuManager::TopMenuHelper
       items_for_more_level = []
       help_menu = nil
       menu_items_for(:top_menu) do |item|
-        if item.name == :home || item.name == :my_page
+        if item.name == :my_page
           items_for_main_level << item
         elsif item.name == :help
           help_menu = item
