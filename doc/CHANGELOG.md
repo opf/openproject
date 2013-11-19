@@ -41,6 +41,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3032` Fix: Work package comments aren't editable by authors
 * `#3038` Fix: Journal changes are recorded for empty text fields
 * `#3046` Fix: Edit-form for work package updates does not respect user preference for journal ordering
+* `#3057` Fix: [Migration] Missing responsibles
 * API v2: Improve timelines performance by not filtering statuses by visible projects
 * Add hook so that plugins can register assets, which are loaded on every page
 * added missing specs for PR #647
