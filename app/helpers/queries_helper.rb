@@ -30,7 +30,7 @@
 module QueriesHelper
 
   def operators_for_select(filter_type)
-    Query.operators_by_filter_type[filter_type].collect {|o| [l(Query.operators[o]), o]}
+    Queries::Filter.operators_by_filter_type[filter_type].collect {|o| [l(Queries::Filter.operators[o]), o]}
   end
 
   def column_header(column)
@@ -91,7 +91,7 @@ module QueriesHelper
         @query = Query.new(:name => "_")
         @query.project = @project
         if params[:fields] || params[:f]
-          @query.filters = {}
+          @query.filters = []
           @query.add_filters(params[:fields] || params[:f], params[:operators] || params[:op], params[:values] || params[:v])
         else
           @query.available_work_package_filters.keys.each do |field|

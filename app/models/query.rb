@@ -35,51 +35,19 @@ class Query < ActiveRecord::Base
   belongs_to :project
   belongs_to :user
   has_one :query_menu_item, :class_name => 'MenuItems::QueryMenuItem', :dependent => :delete, :order => 'name', :foreign_key => 'navigatable_id'
-  serialize :filters
+  serialize :filters, Queries::WorkPackages::FilterSerializer
   serialize :column_names
   serialize :sort_criteria, Array
 
   attr_protected :project_id #, :user_id
 
-  validates_presence_of :name, :on => :save
+  validates_presence_of :name, on: :save
   validates_length_of :name, :maximum => 255
 
   validate :validate_filters
 
   after_initialize :remember_project_scope
 
-  @@operators = { "="   => :label_equals,
-                  "!"   => :label_not_equals,
-                  "o"   => :label_open_work_packages,
-                  "c"   => :label_closed_work_packages,
-                  "!*"  => :label_none,
-                  "*"   => :label_all,
-                  ">="  => :label_greater_or_equal,
-                  "<="  => :label_less_or_equal,
-                  "<t+" => :label_in_less_than,
-                  ">t+" => :label_in_more_than,
-                  "t+"  => :label_in,
-                  "t"   => :label_today,
-                  "w"   => :label_this_week,
-                  ">t-" => :label_less_than_ago,
-                  "<t-" => :label_more_than_ago,
-                  "t-"  => :label_ago,
-                  "~"   => :label_contains,
-                  "!~"  => :label_not_contains }
-
-  cattr_reader :operators
-
-  @@operators_by_filter_type = { :list => [ "=", "!" ],
-                                 :list_status => [ "o", "=", "!", "c", "*" ],
-                                 :list_optional => [ "=", "!", "!*", "*" ],
-                                 :list_subprojects => [ "*", "!*", "=" ],
-                                 :date => [ "<t+", ">t+", "t+", "t", "w", ">t-", "<t-", "t-" ],
-                                 :date_past => [ ">t-", "<t-", "t-", "t", "w" ],
-                                 :string => [ "=", "~", "!", "!~" ],
-                                 :text => [  "~", "!~" ],
-                                 :integer => [ "=", ">=", "<=", "!*", "*" ] }
-
-  cattr_reader :operators_by_filter_type
 
   @@available_columns = [
     QueryColumn.new(:project, :sortable => "#{Project.table_name}.name", :groupable => true),
@@ -105,7 +73,7 @@ class Query < ActiveRecord::Base
 
   def initialize(attributes = nil, options = {})
     super
-    self.filters ||= { 'status_id' => {:operator => "o", :values => [""]} }
+    self.filters = [ Queries::WorkPackages::Filter.new('status_id', operator: "o", values: [""]) ] if self.filters.blank?
   end
 
   # Store the fact that project is nil (used in #editable_by?)
@@ -114,15 +82,15 @@ class Query < ActiveRecord::Base
   end
 
   def validate_filters
-    return unless filters
+    return if filters.blank?
 
-    filters.each_key do |field|
+    filters.each do |filter|
       unless \
         # filter requires one or more values
-        (values_for(field) && values_for(field).first.present?) \
-        || ["o", "c", "!*", "*", "t", "w"].include?(operator_for(field))
+        filter.values.present? \
+        || ["o", "c", "!*", "*", "t", "w"].include?(filter.operator)
         # filter doesn't require any value
-        errors.add :base, errors.full_message(WorkPackage.human_attribute_name(field),
+        errors.add :base, errors.full_message(WorkPackage.human_attribute_name(filter.field),
                                               I18n.t('activerecord.errors.messages.invalid'))
       end
     end
@@ -148,7 +116,7 @@ class Query < ActiveRecord::Base
       #  allowed_values = values & ([""] + (filter_options[:values] || []).collect {|val| val[1]})
       #  filters[field] = {:operator => operator, :values => allowed_values } if (allowed_values.first and !allowed_values.first.empty?) or ["o", "c", "!*", "*", "t"].include? operator
       #end
-      filters[field] = {:operator => operator, :values => values }
+      self.filters << Queries::WorkPackages::Filter.new(field, operator: operator, values: values)
     end
   end
 
@@ -168,15 +136,21 @@ class Query < ActiveRecord::Base
   end
 
   def has_filter?(field)
-    filters and filters[field]
+    filters.present? && filters.any? {|filter| filter.field.to_s == field.to_s}
   end
 
+  def filter_for(field)
+    (filters || []).detect {|filter| filter.field.to_s == field.to_s}
+  end
+
+  # Deprecated
   def operator_for(field)
-    has_filter?(field) ? filters[field][:operator] : nil
+    filter_for(field).try :operator
   end
 
+  # Deprecated
   def values_for(field)
-    has_filter?(field) ? filters[field][:values] : nil
+    filter_for(field).try :values
   end
 
   def label_for(field)
@@ -331,20 +305,23 @@ class Query < ActiveRecord::Base
   def statement
     # filters clauses
     filters_clauses = []
-    filters.each_key do |field|
+    filters.each do |filter|
+      field = filter.field.to_s
       next if field == "subproject_id"
-      v = values_for(field).clone
-      next unless v and !v.empty?
-      operator = operator_for(field)
+
+      values = filter.values.clone
+      next if values.blank?
+
+      operator = filter.operator
 
       # "me" value subsitution
       if @@user_filters.include? field
-        if v.delete("me")
+        if values.delete("me")
           if User.current.logged?
-            v.push(User.current.id.to_s)
-            v += User.current.group_ids.map(&:to_s) if field == 'assigned_to_id'
+            values.push(User.current.id.to_s)
+            values += User.current.group_ids.map(&:to_s) if field == 'assigned_to_id'
           else
-            v.push("0")
+            values.push("0")
           end
         end
       end
@@ -356,22 +333,22 @@ class Query < ActiveRecord::Base
         db_field = 'value'
         is_custom_filter = true
         sql << "#{WorkPackage.table_name}.id IN (SELECT #{WorkPackage.table_name}.id FROM #{WorkPackage.table_name} LEFT OUTER JOIN #{db_table} ON #{db_table}.customized_type='WorkPackage' AND #{db_table}.customized_id=#{WorkPackage.table_name}.id AND #{db_table}.custom_field_id=#{$1} WHERE "
-        sql << sql_for_field(field, operator, v, db_table, db_field, true) + ')'
+        sql << sql_for_field(field, operator, values, db_table, db_field, true) + ')'
       elsif field == 'watcher_id'
         db_table = Watcher.table_name
         db_field = 'user_id'
         if User.current.admin?
           # Admins can always see all watchers
-          sql << "#{WorkPackage.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'} (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='WorkPackage' AND #{sql_for_field field, '=', v, db_table, db_field})"
+          sql << "#{WorkPackage.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'} (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='WorkPackage' AND #{sql_for_field field, '=', values, db_table, db_field})"
         else
           sql_parts = []
-          if User.current.logged? && user_id = v.delete(User.current.id.to_s)
+          if User.current.logged? && user_id = values.delete(User.current.id.to_s)
             # a user can always see his own watched issues
             sql_parts << "#{WorkPackage.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'} (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='WorkPackage' AND #{sql_for_field field, '=', [user_id], db_table, db_field})"
           end
           # filter watchers only in projects the user has the permission to view watchers in
           project_ids = User.current.projects_by_role.collect {|r,p| p if r.permissions.include? :view_work_package_watchers}.flatten.compact.collect(&:id).uniq
-          sql_parts << "#{WorkPackage.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'} (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='WorkPackage' AND #{sql_for_field field, '=', v, db_table, db_field})"\
+          sql_parts << "#{WorkPackage.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'} (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='WorkPackage' AND #{sql_for_field field, '=', values, db_table, db_field})"\
                        " AND #{Project.table_name}.id IN (#{project_ids.join(',')})" unless project_ids.empty?
           sql << "(#{sql_parts.join(' OR ')})"
         end
@@ -383,7 +360,7 @@ class Query < ActiveRecord::Base
           groups = Group.all
           operator = '!' # Override the operator since we want to find by assigned_to
         else
-          groups = Group.find_all_by_id(v)
+          groups = Group.find_all_by_id(values)
         end
         groups ||= []
 
@@ -404,7 +381,7 @@ class Query < ActiveRecord::Base
           roles = Role.givable
           operator = '!' # Override the operator since we want to find by assigned_to
         else
-          roles = Role.givable.find_all_by_id(v)
+          roles = Role.givable.find_all_by_id(values)
         end
         roles ||= []
 
@@ -420,11 +397,11 @@ class Query < ActiveRecord::Base
         # regular field
         db_table = WorkPackage.table_name
         db_field = field
-        sql << '(' + sql_for_field(field, operator, v, db_table, db_field) + ')'
+        sql << '(' + sql_for_field(field, operator, values, db_table, db_field) + ')'
       end
       filters_clauses << sql
 
-    end if filters and valid?
+    end if filters.present? and valid?
 
     (filters_clauses << project_statement).join(' AND ')
   end
