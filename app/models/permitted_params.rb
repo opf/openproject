@@ -211,6 +211,7 @@ class PermittedParams < Struct.new(:params, :user)
         :regexp,
         :searchable,
         :translations_attributes => [
+          :_destroy,
           :default_value,
           :id,
           :locale,
