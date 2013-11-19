@@ -116,3 +116,7 @@ end
 Given /^I edit the report name in place$/ do
   find(:css, "#query_saved_name").click
 end
+
+Then /^I see spent time$/ do
+  page.should have_content(/spent time/i)
+end
