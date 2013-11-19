@@ -49,9 +49,9 @@ module Migration
       SQL
 
       old_and_new_ids.each_with_object({}) do |row, hash|
-        current_id = row[key]
-        new_id = row[value]
-        project_id = row['project_id']
+        current_id = row[key].to_s
+        new_id = row[value].to_s
+        project_id = row['project_id'].to_s
 
         hash[current_id] = { new_id: new_id, project_id: project_id}
       end
