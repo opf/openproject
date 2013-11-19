@@ -26,44 +26,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# resolves either a given status (show) or returns a list of available statuses
-# if the controller is called nested inside a project, it returns only the
-# statuses that can be reached by the workflows of the project
-module Api
-  module V2
+require File.expand_path('../../spec_helper', __FILE__)
+require File.expand_path('../../support/permission_specs', __FILE__)
 
-    class StatusesController < ApplicationController
-      include PaginationHelper
+describe JournalsController, "edit permission", type: :controller do
+  include PermissionSpecs
 
-      include ::Api::V2::ApiController
-      rescue_from ActiveRecord::RecordNotFound, with: lambda{render_404}
-
-      unloadable
-
-      before_filter :resolve_project
-      accept_key_auth :index, :show
-
-      def index
-        @statuses = Status.all
-
-        respond_to do |format|
-          format.api
-        end
-      end
-
-      def show
-        @status = Status.find(params[:id])
-
-        respond_to do |format|
-          format.api
-        end
-      end
-
-      protected
-        def resolve_project
-          @project = Project.find(params[:project_id]) if params[:project_id]
-        end
-    end
-  end
-
+  check_permission_required_for('journals#edit', :edit_work_package_notes)
+  check_permission_required_for('journals#edit', :edit_own_work_package_notes)
 end

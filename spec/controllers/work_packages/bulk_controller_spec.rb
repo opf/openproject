@@ -183,6 +183,49 @@ describe WorkPackages::BulkController do
       end
     end
 
+    context 'when updating two work packages with differing whitelisted params' do
+      let!(:work_package_ids) { [work_package_1.id, work_package_3.id] }
+
+      let!(:role_with_permission_to_add_watchers) { FactoryGirl.create(:role, permissions: role.permissions + [:add_work_package_watchers]) }
+      let!(:other_user) { FactoryGirl.create :user }
+
+      let!(:other_member_1) { FactoryGirl.create(:member,
+                                                 project: project_1,
+                                                 principal: other_user,
+                                                 roles: [role_with_permission_to_add_watchers] ) }
+      let!(:other_member_2) { FactoryGirl.create(:member,
+                                                 project: project_2,
+                                                 principal: other_user,
+                                                 roles: [role]) }
+
+      let(:description) { 'Text' }
+      let(:work_package_params) do
+        { description: description, watcher_user_ids: [user.id] }
+      end
+
+      before do
+        # create user memberships to allow the user to watch work packages
+        member_1
+        member_2
+        # let other_user perform the bulk update
+        User.stub(:current).and_return other_user
+        put :update, ids: work_package_ids, work_package: work_package_params
+      end
+
+      it 'updates the description if whitelisted' do
+        work_package_1.reload.description.should == description
+        work_package_3.reload.description.should == description
+      end
+
+      it 'updates the watchers if the watcher user ids are whitelisted' do
+        work_package_1.reload.watcher_users.should include user
+      end
+
+      it 'does not update the watchers if the watcher user ids are not whitelisted' do
+        work_package_3.reload.watcher_users.should_not include user
+      end
+    end
+
     shared_context :update_request do
       before do
         put :update,

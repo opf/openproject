@@ -50,10 +50,10 @@ class UserMailer < ActionMailer::Base
     open_project_headers 'Project'        => @issue.project.identifier,
                          'Issue-Id'       => @issue.id,
                          'Issue-Author'   => @issue.author.login,
-                         'Type'           => 'Issue'
+                         'Type'           => 'WorkPackage'
     open_project_headers 'Issue-Assignee' => @issue.assigned_to.login if @issue.assigned_to
 
-    message_id @issue
+    message_id @issue, user
 
     with_locale_for(user) do
       subject = "[#{@issue.project.name} - #{ @issue.to_s }]"
@@ -63,18 +63,26 @@ class UserMailer < ActionMailer::Base
     end
   end
 
-  def issue_updated(user, journal)
+  def issue_updated(user, journal, author=User.current)
+    # Delayed job do not preserve the closure of the job that is delayed. Thus,
+    # if the method is called within a delayed job, it does contain the default
+    # user (anonymous) and not the original user that called the method.
+    #
+    # The mail interceptor 'RemoveSelfNotificationsInterceptor' assumes the
+    # orginal user to be available. Otherwise, it cannot fulfill its duty.
+    User.current = author if User.current != author
+
     @journal = journal
     @issue   = journal.journable.reload
 
     open_project_headers 'Project'        => @issue.project.identifier,
                          'Issue-Id'       => @issue.id,
                          'Issue-Author'   => @issue.author.login,
-                         'Type'           => 'Issue'
+                         'Type'           => 'WorkPackage'
     open_project_headers 'Issue-Assignee' => @issue.assigned_to.login if @issue.assigned_to
 
-    message_id @journal
-    references @issue
+    message_id @journal, user
+    references @issue, user
 
     with_locale_for(user) do
       subject =  "[#{@issue.project.name} - #{@issue.type.name} ##{@issue.id}] "
@@ -108,7 +116,7 @@ class UserMailer < ActionMailer::Base
     open_project_headers 'Type'    => 'News'
     open_project_headers 'Project' => @news.project.identifier if @news.project
 
-    message_id @news
+    message_id @news, user
 
     with_locale_for(user) do
       subject = "#{News.model_name.human}: #{@news.title}"
@@ -140,8 +148,8 @@ class UserMailer < ActionMailer::Base
 
     open_project_headers 'Project' => @news.project.identifier if @news.project
 
-    message_id @comment
-    references @news
+    message_id @comment, user
+    references @news, user
 
     with_locale_for(user) do
       subject = "#{News.model_name.human}: #{@news.title}"
@@ -157,7 +165,7 @@ class UserMailer < ActionMailer::Base
                          'Wiki-Page-Id' => @wiki_content.page.id,
                          'Type'         => 'Wiki'
 
-    message_id @wiki_content
+    message_id @wiki_content, user
 
     with_locale_for(user) do
       subject = "[#{@wiki_content.project.name}] #{t(:mail_subject_wiki_content_added, :id => @wiki_content.page.pretty_title)}"
@@ -177,7 +185,7 @@ class UserMailer < ActionMailer::Base
                          'Wiki-Page-Id' => @wiki_content.page.id,
                          'Type'         => 'Wiki'
 
-    message_id @wiki_content
+    message_id @wiki_content, user
 
     with_locale_for(user) do
       subject = "[#{@wiki_content.project.name}] #{t(:mail_subject_wiki_content_updated, :id => @wiki_content.page.pretty_title)}"
@@ -193,8 +201,8 @@ class UserMailer < ActionMailer::Base
                          'Wiki-Page-Id' => @message.parent_id || @message.id,
                          'Type'         => 'Forum'
 
-    message_id @message
-    references @message.parent if @message.parent
+    message_id @message, user
+    references @message.parent, user if @message.parent
 
     with_locale_for(user) do
       subject = "[#{@message.board.project.name} - #{@message.board.name} - msg#{@message.root.id}] #{@message.subject}"
@@ -267,18 +275,21 @@ class UserMailer < ActionMailer::Base
     ActionMailer::Base.perform_deliveries = old_state
   end
 
-  def self.generate_message_id(object)
+  def self.generate_message_id(object, user)
     # id + timestamp should reduce the odds of a collision
     # as far as we don't send multiple emails for the same object
-    object = object.journable if object.is_a? Journal
+    journable = (object.is_a? Journal) ? object.journable : object
 
-    if object.is_a? WorkPackage
-      timestamp = object.send(object.respond_to?(:created_at) ? :created_at : :updated_at)
-    else
-      timestamp = object.send(object.respond_to?(:created_on) ? :created_on : :updated_on)
-    end
-
-    hash = "openproject.#{object.class.name.demodulize.underscore}-#{object.id}.#{timestamp.strftime("%Y%m%d%H%M%S")}"
+    timestamp = self.mail_timestamp(object)
+    hash = "openproject"\
+           "."\
+           "#{journable.class.name.demodulize.underscore}"\
+           "-"\
+           "#{user.id}"\
+           "-"\
+           "#{journable.id}"\
+           "."\
+           "#{timestamp.strftime("%Y%m%d%H%M%S")}"
     host = Setting.mail_from.to_s.gsub(%r{\A.*@}, '')
     host = "#{::Socket.gethostname}.openproject" if host.empty?
     "#{hash}@#{host}"
@@ -308,6 +319,14 @@ protected
 
 private
 
+  def self.mail_timestamp(object)
+    if object.respond_to? :created_at
+      timestamp = object.send(object.respond_to?(:created_at) ? :created_at : :updated_at)
+    else
+      timestamp = object.send(object.respond_to?(:created_on) ? :created_on : :updated_on)
+    end
+  end
+
   def self.host
     if Redmine::Utils.relative_url_root.blank?
       Setting.host_name
@@ -324,12 +343,12 @@ private
     super.merge :host => host, :protocol => protocol
   end
 
-  def message_id(object)
-    headers['Message-ID'] = "<#{self.class.generate_message_id(object)}>"
+  def message_id(object, user)
+    headers['Message-ID'] = "<#{self.class.generate_message_id(object, user)}>"
   end
 
-  def references(object)
-    headers['References'] = "<#{self.class.generate_message_id(object)}>"
+  def references(object, user)
+    headers['References'] = "<#{self.class.generate_message_id(object, user)}>"
   end
 
   def with_locale_for(user, &block)

@@ -1,4 +1,4 @@
-/*-- copyright
+<%#-- copyright
 OpenProject is a project management system.
 Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 
@@ -25,23 +25,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 See doc/COPYRIGHT.rdoc for more details.
 
-++*/
+++#%>
 
-/*
- * This is a manifest file that'll automatically include all the stylesheets available in this directory
- * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
- * the top of the compiled file, but it's generally better to create a new file per style scope.
- *
- *= require reset
- *= require jquery.ui.all
- *= require select2
- *= require select2_customizing
- *= require jstoolbar
- *= require context_menu
- *= require calendar
- *= require print
- *= require scm
- *= require top-shelf
- *= require work_packages
- *= require openproject_plugins
- */
+<div class="title-bar" id="lower-title-bar">
+  <%= render :partial => 'layouts/action_menu' %>
+</div>
+
+<div style="clear: both;"></div>
+<% if authorize_for('work_packages', 'edit') %>
+  <div id="update">
+  </div>
+<% end %>
+
