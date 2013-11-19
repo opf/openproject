@@ -98,7 +98,7 @@ class CustomFieldsController < ApplicationController
       end
     rescue
     end
-    redirect_to custom_fields_path(:tab => type) unless cf
+    redirect_to custom_fields_path unless cf
     cf
   end
 
