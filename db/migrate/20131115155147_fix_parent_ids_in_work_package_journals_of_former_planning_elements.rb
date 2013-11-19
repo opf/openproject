@@ -23,4 +23,8 @@ class FixParentIdsInWorkPackageJournalsOfFormerPlanningElements < ActiveRecord::
   def down
     # nop
   end
+
+  def postgres?
+    ActiveRecord::Base.connection.instance_values["config"][:adapter] == "postgresql"
+  end
 end
