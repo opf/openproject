@@ -164,7 +164,8 @@ module OpenProject::Costs
                {:controller => '/cost_objects', :action => 'index'},
                :param => :project_id,
                :before => :settings,
-               :caption => :cost_objects_title
+               :caption => :cost_objects_title,
+               :html => {:'data-icon2' => 'C'}
 
           menu :project_menu,
                :new_budget,
