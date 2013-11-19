@@ -1,7 +1,7 @@
 #-- copyright
 # OpenProject is a project management system.
 #
-# Copyright (C) 2012-2013 the OpenProject Team
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -126,6 +126,7 @@ class PlanningElementDataToWorkPackages < ActiveRecord::Migration
           subject,
           description,
           project_id,
+          responsible_id,
           type_id,
           start_date,
           due_date,
@@ -143,6 +144,7 @@ class PlanningElementDataToWorkPackages < ActiveRecord::Migration
         #{db_planning_elements_table}.#{db_column('name')},
         #{db_planning_elements_table}.#{db_column('description')},
         #{db_planning_elements_table}.#{db_column('project_id')},
+        #{db_planning_elements_table}.#{db_column('responsible_id')},
         COALESCE(#{db_planning_element_types_table}.#{db_column('new_id')}, 0),
         #{db_planning_elements_table}.#{db_column('start_date')},
         #{db_planning_elements_table}.#{db_column('end_date')},
@@ -170,6 +172,7 @@ class PlanningElementDataToWorkPackages < ActiveRecord::Migration
         #{db_planning_elements_table}.#{db_column('name')},
         #{db_planning_elements_table}.#{db_column('description')},
         #{db_planning_elements_table}.#{db_column('project_id')},
+        #{db_planning_elements_table}.#{db_column('responsible_id')},
         #{db_planning_element_types_table}.#{db_column('new_id')},
         #{db_planning_elements_table}.#{db_column('start_date')},
         #{db_planning_elements_table}.#{db_column('end_date')},

@@ -191,7 +191,7 @@ Feature: Timeline View Tests with reporters
      Given I am working in the timeline "Testline" of the project called "ecookbook"
 
      When there is a timeline "Testline" for project "ecookbook"
-      And I show only projects which have a planning element which lies between "2012-02-01" and "2012-02-31" and has the type "Phase2"
+      And I show only projects which have a planning element which lies between "2012-02-01" and "2012-02-27" and has the type "Phase2"
       And I wait for timeline to load table
 
      Then I should see the project "ecookbook0"

@@ -48,7 +48,7 @@
   };
 
   var go_my_page = function(){
-    var my_page = $('#account-nav .my-page');
+    var my_page = $('.account-nav .my-page');
     if (my_page.size() === 1) {
       my_page[0].click();
     }
@@ -126,13 +126,12 @@
   };
 
   var find_list_in_page = function(){
-    var dom_list, focus_elements;
-    dom_list = $($(document.activeElement).parents('table.list')[0] ||
-                 $('table.list'));
-    if (dom_list.size() === 0) { return null; }
+    var dom_lists, focus_elements;
     focus_elements = [];
-    dom_list.find('tbody tr').each(function(index, tr){
-      focus_elements.push($(tr).find('a')[0]);
+    dom_lists = $('table.list');
+    dom_lists.find('tbody tr').each(function(index, tr){
+      var first_link = $(tr).find('a:visible')[0];
+      if ( first_link !== undefined ) { focus_elements.push(first_link); };
     });
     return focus_elements;
   };
@@ -141,7 +140,7 @@
     var list, index;
     list = find_list_in_page();
     if (list === null) { return; }
-    index = list.indexOf($(document.activeElement).parents('table.list tr').find('a')[0]);
+    index = list.indexOf($(document.activeElement).parents('table.list tr').find('a:visible')[0]);
     $(list[(index+offset+list.length) % list.length]).focus();
   };
 

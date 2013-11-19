@@ -28,7 +28,9 @@
 
 module BreadcrumbHelper
   def full_breadcrumb
-    breadcrumb_list(link_to(l(:label_home), home_path),
+    home_link_text_with_icon = content_tag(:span, '',:'data-icon' => "(")
+    home_link_text_with_icon += content_tag(:span, I18n.t(:label_home), :class => 'hidden-for-sighted')
+    breadcrumb_list(link_to(home_link_text_with_icon, home_path),
                     link_to_project_ancestors(@project),
                     *breadcrumb_paths)
   end

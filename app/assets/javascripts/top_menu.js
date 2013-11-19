@@ -248,5 +248,5 @@
 }(jQuery));
 
 jQuery(document).ready(function($) {
-  $("#account-nav").top_menu();
+  $(".account-nav").top_menu();
 });

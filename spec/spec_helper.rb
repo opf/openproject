@@ -27,7 +27,7 @@
 #++
 
 require 'rubygems'
-if ENV['CI'] == true
+if ENV['CI'] == 'true'
   # we are running on a CI server, report coverage to code climate
   require "codeclimate-test-reporter"
   CodeClimate::TestReporter.start
