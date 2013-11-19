@@ -206,6 +206,8 @@ class PermittedParams < Struct.new(:params, :user)
         :max_length,
         :min_length,
         :move_to,
+        :name,
+        :possible_values,
         :regexp,
         :searchable,
         :translations_attributes => [
