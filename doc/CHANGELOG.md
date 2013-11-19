@@ -32,6 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1718` Invalidate server side sessions on logout
 * `#1719` Set X-Frame-Options to same origin
 * `#1748` Add option to diable browser cache
+* `#2332` [Timelines] Field "planning comparisons" does not check for valid input
 * `#2591` Fix: Costs prevents work package context menu
 * `#3018` Fix: Stored queries grouping by attribute is not working
 * `#3020` Fix: E-mail Message-ID header is not unique for Work Package mails
@@ -43,6 +44,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * API v2: Improve timelines performance by not filtering statuses by visible projects
 * Add hook so that plugins can register assets, which are loaded on every page
 * added missing specs for PR #647
+
 
 ## 3.0.0pre31
 
