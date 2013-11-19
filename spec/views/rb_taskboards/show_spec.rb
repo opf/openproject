@@ -1,3 +1,38 @@
+#-- copyright
+# OpenProject Backlogs Plugin
+#
+# Copyright (C)2013 the OpenProject Foundation (OPF)
+# Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
+# Copyright (C)2010-2011 friflaj
+# Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
+# Copyright (C)2009-2010 Mark Maglana
+# Copyright (C)2009 Joe Heck, Nate Lowrie
+#
+# This program is free software; you can redistribute it and/or modify it under
+# the terms of the GNU General Public License version 3.
+#
+# OpenProject Backlogs is a derivative work based on ChiliProject Backlogs.
+# The copyright follows:
+# Copyright (C) 2010-2011 - Emiliano Heyns, Mark Maglana, friflaj
+# Copyright (C) 2011 - Jens Ulferts, Gregor Schmidt - Finn GmbH - Berlin, Germany
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe 'rb_taskboards/show' do
@@ -7,7 +42,7 @@ describe 'rb_taskboards/show' do
     :permissions => [:create_impediments, :create_tasks, :update_impediments, :update_tasks])
   }
   let(:role_forbidden) { FactoryGirl.create(:role) }
-  #we need to create these as some view helpers access the database
+  # We need to create these as some view helpers access the database
   let(:statuses) { [FactoryGirl.create(:status),
                     FactoryGirl.create(:status),
                     FactoryGirl.create(:status)] }
@@ -44,8 +79,9 @@ describe 'rb_taskboards/show' do
   let(:sprint)   { FactoryGirl.create(:sprint, :project => project) }
   let(:task) do
     task = FactoryGirl.create(:task, :project => project, :status => statuses[0], :fixed_version => sprint, :type => type_task)
-    #this is necessary as for some unknown reason passing the parent directly leads to the task searching for
-    #the parent with 'root_id' is NULL, which is not the case as the story has its own id as root_id
+    # This is necessary as for some unknown reason passing the parent directly
+    # leads to the task searching for the parent with 'root_id' is NULL, which
+    # is not the case as the story has its own id as root_id
     task.parent_id = story_a.id
     task
   end
@@ -60,7 +96,7 @@ describe 'rb_taskboards/show' do
     assign(:sprint, sprint)
     assign(:statuses, statuses)
 
-    #we directly force the creation of stories by calling the method
+    # We directly force the creation of stories by calling the method
     stories
   end
 

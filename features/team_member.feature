@@ -1,3 +1,38 @@
+#-- copyright
+# OpenProject Backlogs Plugin
+#
+# Copyright (C)2013 the OpenProject Foundation (OPF)
+# Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
+# Copyright (C)2010-2011 friflaj
+# Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
+# Copyright (C)2009-2010 Mark Maglana
+# Copyright (C)2009 Joe Heck, Nate Lowrie
+#
+# This program is free software; you can redistribute it and/or modify it under
+# the terms of the GNU General Public License version 3.
+#
+# OpenProject Backlogs is a derivative work based on ChiliProject Backlogs.
+# The copyright follows:
+# Copyright (C) 2010-2011 - Emiliano Heyns, Mark Maglana, friflaj
+# Copyright (C) 2011 - Jens Ulferts, Gregor Schmidt - Finn GmbH - Berlin, Germany
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 Feature: Team Member
   As a team member
   I want to manage update stories and tasks
@@ -34,10 +69,10 @@ Feature: Team Member
     And the user "paul" is a "team member"
     And the project has the following sprints:
         | name       | start_date | effective_date |
-        | Sprint 001 | 2010-01-01        | 2010-01-31     |
-        | Sprint 002 | 2010-02-01        | 2010-02-28     |
-        | Sprint 003 | 2010-03-01        | 2010-03-31     |
-        | Sprint 004 | 2010-03-01        | 2010-03-31     |
+        | Sprint 001 | 2010-01-01 | 2010-01-31     |
+        | Sprint 002 | 2010-02-01 | 2010-02-28     |
+        | Sprint 003 | 2010-03-01 | 2010-03-31     |
+        | Sprint 004 | 2010-03-01 | 2010-03-31     |
     And the project has the following stories in the following sprints:
         | subject | sprint     |
         | Story 1 | Sprint 001 |
@@ -82,11 +117,10 @@ Feature: Team Member
 
   @javascript
   Scenario: View the burndown chart from the work_package index page
-  #using this way because there is a bug in the work_packages page:
-  #the sidebar is not updated on applying filters
-  #hence the parameters needed for showing the "Burndown Chart" link
-  #do not apply when work_package index is initially opened and the bug prevent the link
-  #from appearing when they do
+    # Using this way because there is a bug in the work_packages page: The sidebar
+    # is not updated on applying filters, hence the parameters needed for showing
+    # the "Burndown Chart" link do not apply when work_package index is initially
+    # opened and the bug prevent the link from appearing when they do
     Given I am on the master backlog
       And I open the "Sprint 002" backlogs menu
       And I follow "Stories/Tasks" of the "Sprint 002" menu

@@ -1,3 +1,38 @@
+#-- copyright
+# OpenProject Backlogs Plugin
+#
+# Copyright (C)2013 the OpenProject Foundation (OPF)
+# Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
+# Copyright (C)2010-2011 friflaj
+# Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
+# Copyright (C)2009-2010 Mark Maglana
+# Copyright (C)2009 Joe Heck, Nate Lowrie
+#
+# This program is free software; you can redistribute it and/or modify it under
+# the terms of the GNU General Public License version 3.
+#
+# OpenProject Backlogs is a derivative work based on ChiliProject Backlogs.
+# The copyright follows:
+# Copyright (C) 2010-2011 - Emiliano Heyns, Mark Maglana, friflaj
+# Copyright (C) 2011 - Jens Ulferts, Gregor Schmidt - Finn GmbH - Berlin, Germany
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 When /^I create the impediment$/ do
   page.driver.post url_for(:controller => '/rb_impediments', :action => :create),
                    @impediment_params
@@ -106,14 +141,14 @@ When /^I view the stories in the work_packages tab/ do
   visit url_for(:controller => '/rb_queries', :action => :show, :project_id => @project)
 end
 
-# deprecation warning
-# Depends on deprecated behavior of path_for('the task board for "sprint name"')
+# WARN: Depends on deprecated behavior of path_for('the task board for
+#       "sprint name"')
 When /^I view the sprint notes$/ do
   visit url_for(:controller => '/rb_wikis', :action => 'show', :sprint_id => @sprint)
 end
 
-# deprecation warning
-# Depends on deprecated behavior of path_for('the task board for "sprint name"')
+# WARN: Depends on deprecated behavior of path_for('the task board for
+#       "sprint name"')
 When /^I edit the sprint notes$/ do
   visit url_for(:controller => '/rb_wikis', :action => 'edit', :sprint_id => @sprint)
 end
@@ -167,16 +202,15 @@ end
 When /^I fill in the id of the work_package "(.+?)" as the parent work_package$/ do |work_package_name|
   work_package = WorkPackage.find_by_subject(work_package_name)
 
-  # simplify once the work_package#edit/update action is implemented
+  # TODO: Simplify once the work_package#edit/update action is implemented
   find('#work_package_parent_id, #work_package_parent_id', visible: false).set(work_package.id)
-
-  #step %Q{I fill in "#{work_package.id}" for "work_package_parent_id"}
 end
 
 When /^the request on task "(.+?)" is finished$/ do |task_name|
-  #wait for the modal link of this task to appear
+  # Wait for the modal link of this task to appear...
   elements = page.find(:xpath, "//div[contains(., '#{task_name}') and contains(@class,'task')]/descendant::a[contains(@href, .)]")
-  #by selecting the task board card for a specific task and then go for the link with the id only appearing after the task was saved
+  # ...by selecting the task board card for a specific task and then go for the
+  # link with the id only appearing after the task was saved
 end
 
 When /^I follow the link to add a subtask$/ do

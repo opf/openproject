@@ -1,69 +1,101 @@
-= OpenProject Backlogs Plugin
+OpenProject Backlogs Plugin
+===========================
 
 This Plugin adds features, that enable agile teams to work efficiently with
 OpenProject in Scrum projects.
 
-It is largely based on {Redmine Backlogs}[http://www.redminebacklogs.net/].
-Development was separated from Redmine Backlogs in March 2011. At this time
-Redmine Backlogs v0.3.2 was current. ChiliProject Backlogs is more than just a
-port from Redmine to ChiliProject.
+Find a more detailed description on [OpenProject.org](https://www.openproject.org/projects/openproject/wiki/Agile_teams).
 
 
-== Requirements
+Requirements
+------------
 
-This plugin requires some additional RubyGems. After you have extracted the
-plugin into `vendor/plugins`, make sure to run `bundle install` to install these
-additional dependencies.
+The OpenProject Backlogs plug-in requires the [OpenProject Core](https://github.com/opf/openproject/) in
+version greater or equal to *3.0.0pre30*.
 
+Tests for this plugin require `pdf-inspector`, so just add the following line to
+OpenProject's `Gemfile.plugin`:
 
-== Supported Databases
-
-Backlogs should run on PostgreSQL and MySQL databases. SQLite is not tested. It
-is likely to break.
-
-
-== Installation
-
-Please follow the default {plugin installation instructions for
-ChiliProject}[https://www.chiliproject.org/projects/chiliproject/wiki/Plugin_Install].
-
-If you did not do it already, run the plugin's migrations.
-
-    rake db:migrate:plugin NAME=chiliproject_backlogs RAILS_ENV=production
-
-== Deinstallation
-
-Run the down-migrations to clean up your database.
-
-    rake db:migrate:plugin VERSION=0 NAME=chiliproject_backlogs RAILS_ENV=production
-
-Afterwards simply remove the plugin's directory from your vendor/plugins
-directory.
+`gem "pdf-inspector", "~>1.0.0", :group => :test`
 
 
-== Development
+Installation
+------------
 
-To run the tests, you will need a current version of our {ChiliProject Dev
-Tools}[https://github.com/finnlabs/redmine-dev-tools] and {ChiliProject
-Cucumber}[https://github.com/finnlabs/chiliproject_cucumber]. After running
+OpenProject Backlogs depends on OpenProject Plugins. Thus, if you haven't done
+it already, add the following line to the `Gemfile.plugins` to your OpenProject installation:
 
-    bundle install
+`gem "openproject-plugins", git: "https://github.com/opf/openproject-plugins.git"`
 
-You should be able to execute the tests with
+For OpenProject Backlogs itself you need to add the following line to the
+`Gemfile.plugins` of OpenProject:
 
-    rake redmine:rspec:backlogs
-    rake redmine:cucumber:backlogs RAILS_ENV=test
+`gem "openproject-backlogs", git: "https://github.com/finnlabs/openproject-backlogs.git"`
 
-If these instructions are insufficient, please open a ticket in the GitHub work_package
-type with information, where you are stuck.
+Afterwards, run:
+
+`bundle install`
+
+This plugin contains migrations. To migrate the database, run:
+
+`rake db:migrate`
 
 
-== Credits
+Deinstallation
+--------------
+
+Remove the line
+
+`gem "openproject-backlogs", git: "https://github.com/finnlabs/openproject-backlogs.git"`
+
+from the file `Gemfile.plugins` and run:
+
+`bundle install`
+
+Please not that this leaves plugin data in the database. Currently, we do not
+support full uninstall of the plugin.
+
+
+Bug Reporting
+-------------
+
+If you find any bugs, you can create a bug ticket at
+
+https://www.openproject.org/projects/plugin-backlogs
+
+
+Development
+-----------
+
+To contribute, you can create pull request on the official repository at
+`https://github.com/finnlabs/openproject-backlogs`
+
+
+Credits
+-------
 
 We thank the original maintainers and developers of {Redmine
-Backlogs}[http://www.redminebacklogs.net/] for their immense work on this
-plugin. ChiliProject Backlogs would not have been possible without their
-original contribution.
+Backlogs}[http://www.redminebacklogs.net/] as well as
+{Chiliproject Backlogs}[https://github.com/finnlabs/chiliproject_backlogs] for
+their immense work on this plugin. OpenProject Backlogs would not have been
+possible without their original contribution. Those contributors are:
+
+* Stephan Eckardt
+* Tim Felgentreff
+* Marnen Laibow-Koser
+* Sandro Munda
+* friflaj
+* Maxime Guilbot
+* Andrew Vit
+* Joakim Kolsjö
+* ibussieres
+* Daniel Passos
+* Jason Vasquez
+* jpic
+* Emiliano Heyns
+* Mark Maglana
+* Joe Heck
+* Nate Lowrie
 
 Additionally, we would like to thank
 
@@ -73,7 +105,11 @@ Additionally, we would like to thank
 
 == Licence
 
-(c) 2010-2011 - Emiliano Heyns, Mark Maglana, friflaj
-(c) 2011 - Jens Ulferts, Gregor Schmidt - Finn GmbH
+Copyright (C)2013 the OpenProject Foundation (OPF)
+Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
+Copyright (C)2010-2011 friflaj
+Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
+Copyright (C)2009-2010 Mark Maglana
+Copyright (C)2009 Joe Heck, Nate Lowrie
 
-This plugin is licensed under the GNU GPL v2. See COPYRIGHT.txt and GPL.txt for details.
+This plugin is licensed under the GNU GPL v3. See COPYRIGHT.txt and GPL.txt for details.

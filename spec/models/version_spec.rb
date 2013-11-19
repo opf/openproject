@@ -1,3 +1,38 @@
+#-- copyright
+# OpenProject Backlogs Plugin
+#
+# Copyright (C)2013 the OpenProject Foundation (OPF)
+# Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
+# Copyright (C)2010-2011 friflaj
+# Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
+# Copyright (C)2009-2010 Mark Maglana
+# Copyright (C)2009 Joe Heck, Nate Lowrie
+#
+# This program is free software; you can redistribute it and/or modify it under
+# the terms of the GNU General Public License version 3.
+#
+# OpenProject Backlogs is a derivative work based on ChiliProject Backlogs.
+# The copyright follows:
+# Copyright (C) 2010-2011 - Emiliano Heyns, Mark Maglana, friflaj
+# Copyright (C) 2011 - Jens Ulferts, Gregor Schmidt - Finn GmbH - Berlin, Germany
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Version do
@@ -27,10 +62,10 @@ describe Version do
     let(:version) { FactoryGirl.create(:version, :project_id => project.id, :name => 'Version') }
 
     before do
-      # had problems while writing these specs, that some elements kept creaping
-      # around between tests. This should be fast enough to not harm anybody
-      # while adding an additional safety net to make sure, that everything runs
-      # in isolation.
+      # We had problems while writing these specs, that some elements kept
+      # creaping around between tests. This should be fast enough to not harm
+      # anybody while adding an additional safety net to make sure, that
+      # everything runs in isolation.
       WorkPackage.delete_all
       IssuePriority.delete_all
       Status.delete_all
@@ -38,11 +73,11 @@ describe Version do
       Type.delete_all
       Version.delete_all
 
-      # enable and configure backlogs
+      # Enable and configure backlogs
       project.enabled_module_names = project.enabled_module_names + ["backlogs"]
       Setting.stub(:plugin_openproject_backlogs).and_return({"story_types" => [epic_type.id, story_type.id], "task_type" => task_type.id})
 
-      # otherwise the type id's from the previous test are still active
+      # Otherwise the type id's from the previous test are still active
       WorkPackage.instance_variable_set(:@backlogs_types, nil)
 
       project.types = [epic_type, story_type, task_type, other_type]
@@ -99,7 +134,7 @@ describe Version do
 
       [e1, s2, s3, s4, s5].each(&:move_to_bottom)
 
-      # messing around with positions
+      # Messing around with positions
       s3.send :assume_not_in_list
       s4.send :assume_not_in_list
 
@@ -113,8 +148,9 @@ describe Version do
       work_packages.map(&:position).should == [nil, nil, 1, 2, 3, 4, 5]
       work_packages.map(&:subject).should == [t3, o9, e1, s2, s5, s3, s4].map(&:subject)
 
-      work_packages.map(&:subject).uniq.size.should == 7 # makes sure, that all work_package
-            # subjects are uniq, so that the above assertion works as expected
+      # Makes sure, that all work_package subjects are uniq, so that the above
+      # assertion works as expected
+      work_packages.map(&:subject).uniq.size.should == 7
     end
   end
 end
