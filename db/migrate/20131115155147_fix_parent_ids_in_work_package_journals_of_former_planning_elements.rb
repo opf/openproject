@@ -1,4 +1,17 @@
+# OpenProject is a project management system.
+#
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+require_relative 'migration_utils/utils'
+
 class FixParentIdsInWorkPackageJournalsOfFormerPlanningElements < ActiveRecord::Migration
+  include Migration::Utils
 
   def up
     if postgres?
@@ -15,16 +28,19 @@ class FixParentIdsInWorkPackageJournalsOfFormerPlanningElements < ActiveRecord::
           ) AS tmp
         WHERE o_wpj.id = tmp.wpj_id;
       SQL
-    else
-      raise "Your DBMS is not supported in this migration."
+    elsif mysql?
+      ActiveRecord::Base.connection.execute <<-SQL
+        UPDATE work_package_journals AS wpj
+          JOIN journals AS j ON (j.id = wpj.journal_id)
+          JOIN legacy_planning_elements AS lpe ON (lpe.new_id = j.journable_id)
+          LEFT JOIN legacy_planning_elements AS parent ON parent.id = wpj.parent_id
+        SET wpj.parent_id = parent.new_id
+        WHERE parent.id IS NOT NULL;
+      SQL
     end
   end
 
   def down
     # nop
-  end
-
-  def postgres?
-    ActiveRecord::Base.connection.instance_values["config"][:adapter] == "postgresql"
   end
 end
