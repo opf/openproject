@@ -26,6 +26,13 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter < Queries::Filter
-  validates :field, inclusion: { in: @@filter_types_by_field.keys, message: "%(value) is not a valid filter" }, unless: Proc.new {|filter| filter.field.to_s.starts_with?('cf_')}
+FactoryGirl.define do
+  factory :filter, class: Queries::Filter do
+    field :subject
+    operator '='
+    values ['Feature']
+
+    factory :work_packages_filter, class: Queries::WorkPackages::Filter do
+    end
+  end
 end

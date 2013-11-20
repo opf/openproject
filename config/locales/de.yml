@@ -194,6 +194,7 @@ de:
         less_than_or_equal_to: "muss kleiner oder gleich %{count} sein"
         not_a_date: "ist kein gültiges Datum"
         not_a_number: "ist keine Zahl"
+        not_an_integer: "ist keine ganzzahlige Zahl"
         not_same_project: "gehört nicht zum selben Projekt"
         odd: "muss ungerade sein"
         project_association_already_exists: "Projekt-Abhängigkeit existiert bereits"
