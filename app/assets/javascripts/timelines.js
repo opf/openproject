@@ -4737,25 +4737,45 @@ Timeline = {
     this.frameLine();
     this.nowLine();
   },
+  previousRelativeVerticalOffset: 0,
+  previousRelativeVerticalOffsetParameter: undefined,
   getRelativeVerticalOffset: function(offset) {
-    var result;
-    if (this.table_offset === undefined) {
-      this.table_offset = this.getUiRoot().find('.tl-left-main table').position().top;
+    if (offset === this.previousRelativeVerticalOffsetParameter) {
+      return this.previousRelativeVerticalOffset;
     }
-    if (offset !== undefined) {
-      result = offset.position().top - this.table_offset;
-      return result;
+    var result = parseInt(offset.attr("data-vertical-offset"), 10);
+    if (isNaN(result)) {
+      if (this.table_offset === undefined) {
+        result = this.table_offset = this.getUiRoot().find('.tl-left-main table').position().top;
+      }
+      if (offset !== undefined) {
+        result = offset.position().top - this.table_offset;
+        offset.attr("data-vertical-offset", result);
+      }
     }
-    return this.table_offset;
+    this.previousRelativeVerticalOffset = result;
+    this.previousRelativeVerticalOffsetParameter = offset;
+    return result;
   },
+  previousRelativeVerticalBottomOffset: 0,
+  previousRelativeVerticalBottomOffsetParameter: undefined,
   getRelativeVerticalBottomOffset: function(offset) {
-    var result;
-    result = this.getRelativeVerticalOffset(offset);
-    if (offset.find("div").length === 1) {
-      result -= jQuery(offset.find("div")[0]).height();
+    if (offset === this.previousRelativeVerticalBottomOffsetParameter) {
+      return this.previousRelativeVerticalBottomOffset;
     }
-    if (offset !== undefined)
-      result += offset.outerHeight();
+    var result = parseInt(offset.attr("data-vertical-bottom-offset"), 10);
+    if (isNaN(result)) {
+      result = this.getRelativeVerticalOffset(offset);
+      if (offset.find("div").length === 1) {
+        result -= jQuery(offset.find("div")[0]).height();
+      }
+      if (offset !== undefined) {
+        result += offset.outerHeight();
+      }
+      offset.attr("data-vertical-bottom-offset", result);
+    }
+    this.previousRelativeVerticalBottomOffset = result;
+    this.previousRelativeVerticalBottomOffsetParameter = offset;
     return result;
   },
   rebuildForeground: function(tree) {
