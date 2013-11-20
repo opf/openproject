@@ -2281,7 +2281,7 @@ Timeline = {
                       // but I start before current elements end.
                       cb.end() > space.x;
 
-            if ((cb.x < space.x && cb.end() > space.end()) &&
+            if ((cb.x <= space.x && cb.end() >= space.end()) &&
                 (label_spaces[i].length > 0)) {
               if (label_spaces[i].length === 1) {
                 label_spaces[i][0].w = 0;
