@@ -140,7 +140,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <li class="copy">
     <%= context_menu_link l(:button_copy), new_move_work_packages_path(:ids => @work_packages.collect(&:id),
-                                           :copy_options => { :copy => 't' }),
+                                           copy: true),
                                            :class => 'context_item' %>
   </li>
 
