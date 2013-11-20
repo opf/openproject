@@ -2973,8 +2973,7 @@ Timeline = {
             e.translate(x, y);
           });
 
-        } else {
-
+        } else if (label_space.w > Timeline.PE_TEXT_AGGREGATED_LABEL_WIDTH_THRESHOLD) {
 
           textColor = timeline.getLimunanceFor(color) > Timeline.PE_LUMINANCE_THRESHOLD ?
                       Timeline.PE_DARK_TEXT_COLOR : Timeline.PE_LIGHT_TEXT_COLOR;
@@ -3691,6 +3690,7 @@ Timeline = {
   PE_TEXT_ADDITIONAL_OUTSIDE_PADDING_WHEN_EXPANDED_WITH_CHILDREN: 6,
   PE_TEXT_INSIDE_PADDING: 8,        // 4px padding on both sides of the planning element towards an inside labelelement towards an inside label.
   PE_TEXT_OUTSIDE_PADDING: 6,       // space between planning element and text to its right.
+  PE_TEXT_AGGREGATED_LABEL_WIDTH_THRESHOLD: 5,
 
   USE_MODALS: true,
 
