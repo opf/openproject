@@ -56,7 +56,7 @@ module Redmine::MenuManager::MenuHelper
                     :param => :project_id,
                     :caption => main_item.name,
                     :after => :repository,
-                    :html => {:'data-icon2' => 'Y'}
+                    :html => {:'data-icon2' => "&#xe0c9;".html_safe}
 
         menu.push :"#{main_item.item_class}_new_page",
                   { :action=>"new_child", :controller=>"/wiki", :id => CGI.escape(main_item.title) },

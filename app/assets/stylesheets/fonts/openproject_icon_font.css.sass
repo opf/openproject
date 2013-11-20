@@ -26,14 +26,14 @@
  * See doc/COPYRIGHT.rdoc for more details.  ++*/
 
 @font-face
-  font-family: "openproject_icon_font"
-  src: font-url('openproject_icon/openproject_icon_font.eot')
-  src: font-url('openproject_icon/openproject_icon_font.eot?#iefix') format("embedded-opentype"), font-url('openproject_icon/openproject_icon_font.ttf') format("truetype"), font-url('openproject_icon/openproject_icon_font.svg#untitled-font-1') format("svg"), font-url('openproject_icon/openproject_icon_font.woff') format("woff")
+  font-family: "openproject-icon-font"
+  src: font-url('openproject_icon/openproject-icon-font.eot')
+  src: font-url('openproject_icon/openproject-icon-font.eot?#iefix') format("embedded-opentype"), font-url('openproject_icon/openproject-icon-font.ttf') format("truetype"), font-url('openproject_icon/openproject-icon-font.svg#untitled-font-1') format("svg"), font-url('openproject_icon/openproject-icon-font.woff') format("woff")
   font-weight: normal
   font-style: normal
 
 @mixin data-icon
-  font-family: "openproject_icon_font" !important
+  font-family: "openproject-icon-font" !important
   font-style: normal !important
   font-weight: normal !important
   font-variant: normal !important
@@ -71,230 +71,610 @@
     @include data-icon
 
 #top-menu, #main-menu
-  .icon-arrow-1-down:before
-    content: "a"
-
-  .icon-edit-pen-1:before
-    content: "b"
-
-  .icon-copy:before
-    content: "c"
-
   .icon-add:before
-    content: "d"
-
-  .icon-content-14:before
-    content: "e"
-
-  .icon-time:before
-    content: "f"
-
-  .icon-unit:before
-    content: "g"
-
-  .icon-refresh-reload-1:before
-    content: "h"
-
-  .icon-lock-secure-1:before
-    content: "i"
-
-  .icon-unlock:before
-    content: "j"
-
-  .icon-check-1:before
-    content: "k"
-
-  .icon-quote:before
-    content: "l"
-
-  .icon-letter-mail-1:before
-    content: "m"
-
-  .icon-duplicate:before
-    content: "n"
-
-  .icon-open-folder:before
-    content: "o"
-
-  .icon-filled-folder-1:before
-    content: "p"
-
-  .icon-text-document:before
-    content: "q"
-
-  .icon-compressed-zip-file:before
-    content: "r"
-
-  .icon-document-file-1:before
-    content: "s"
-
-  .icon-image-photo-file-1:before
-    content: "t"
-
-  .icon-movie-play-file-1:before
-    content: "u"
-
-  .icon-music-file-1:before
-    content: "v"
-
-  .icon-stats:before
-    content: "w"
-
-  .icon-move:before
-    content: "x"
-
-  .icon-priority:before
-    content: "y"
-
-  .icon-tracker:before
-    content: "z"
-
-  .icon-status:before
-    content: "A"
-
-  .icon-male-user-1:before
-    content: "B"
-
-  .icon-budget:before
-    content: "C"
-
-  .icon-cancel:before
-    content: "D"
-
-  .icon-feed-rss-2:before
-    content: "E"
-
-  .icon-delete-trash-1:before
-    content: "F"
-
-  .icon-eye-view-1:before
-    content: "G"
-
-  .icon-not-watch:before
-    content: "H"
-
-  .icon-close:before
-    content: "I"
-
-  .icon-disc-floppy-font:before
-    content: "J"
-
-  .icon-calendar:before
-    content: "K"
-
-  .icon-help:before
-    content: "L"
-
-  .icon-version:before
-    content: "M"
+    content: "\e000"
 
   .icon-added:before
-    content: "N"
+    content: "\e001"
+
+  .icon-calendar:before
+    content: "\e002"
+
+  .icon-budget:before
+    content: "\e003"
 
   .icon-arrow-left-right:before
-    content: "O"
+    content: "\e004"
 
-  .icon-arrow-left-right:before
-    content: "O"
-
-  .icon-minus-zoom:before
-    content: "P"
-
-  .icon-minus-zoom:before
-    content: "P"
-
-  .icon-plus-zoom:before
-    content: "Q"
-
-  .icon-outline:before
-    content: "R"
-
-  .icon-rename:before
-    content: "S"
-
-  .icon-gears-setting:before
-    content: "T"
-
-  .icon-ticket:before
-    content: "U"
-
-  .icon-ticket-edit:before
-    content: "V"
-
-  .icon-ticket-checked:before
-    content: "W"
-
-  .icon-ticket-note:before
-    content: "X"
-
-  .icon-wiki-edit:before
-    content: "Y"
-
-  .icon-cup-2:before
-    content: "Z"
-
-  .icon-new-planning-element:before
-    content: "0"
+  .icon-cancel:before
+    content: "\e005"
 
   .icon-changeset:before
-    content: "1"
+    content: "\e006"
 
-  .icon-news:before
-    content: "2"
+  .icon-close:before
+    content: "\e007"
 
-  .icon-projects:before
-    content: "3"
-
-  .icon-link:before
-    content: "4"
-
-  .icon-bookmark-star-favorite:before
-    content: "5"
-
-  .icon-excel:before
-    content: "6"
-
-  .icon-content-44:before
-    content: "7"
-
-  .icon-publish:before
-    content: "8"
+  .icon-copy:before
+    content: "\e008"
 
   .icon-double-arrow-left:before
-    content: "9"
+    content: "\e009"
 
   .icon-double-arrow-right:before
-    content: "!"
+    content: "\e00a"
 
-  .icon-warning:before
-    content: "#"
+  .icon-duplicate:before
+    content: "\e00b"
 
-  .icon-warning:before
-    content: "#"
+  .icon-error:before
+    content: "\e00c"
 
-  .icon-chart-graph-file-1:before
-    content: "$"
+  .icon-outline:before
+    content: "\e00d"
 
-  .icon-lightbulb-shine:before
-    content: "%"
+  .icon-open-folder:before
+    content: "\e00e"
 
-  .icon-group:before
-    content: "&"
+  .icon-not-watch:before
+    content: "\e00f"
 
-  .icon-gift:before
-    content: "'"
+  .icon-news:before
+    content: "\e010"
 
-  .icon-home-1:before
-    content: "("
+  .icon-new-planning-element:before
+    content: "\e011"
 
-  .icon-clip-paper-1:before
-    content: ")"
+  .icon-move:before
+    content: "\e012"
 
-  .icon-issue-assignedtome:before
-    content: "*"
+  .icon-link:before
+    content: "\e013"
 
   .icon-issue-reportedbyme:before
-    content: "+"
+    content: "\e014"
+
+  .icon-issue-assignedtome:before
+    content: "\e015"
 
   .icon-issue-watched:before
-    content: ","
+    content: "\e016"
+
+  .icon-help:before
+    content: "\e017"
+
+  .icon-group:before
+    content: "\e018"
+
+  .icon-excel:before
+    content: "\e019"
+
+  .icon-priority:before
+    content: "\e01a"
+
+  .icon-projects:before
+    content: "\e01b"
+
+  .icon-publish:before
+    content: "\e01c"
+
+  .icon-quote:before
+    content: "\e01d"
+
+  .icon-rename:before
+    content: "\e01e"
+
+  .icon-stats:before
+    content: "\e01f"
+
+  .icon-status:before
+    content: "\e020"
+
+  .icon-ticket:before
+    content: "\e021"
+
+  .icon-ticket-checked:before
+    content: "\e022"
+
+  .icon-ticket-edit:before
+    content: "\e023"
+
+  .icon-ticket-note:before
+    content: "\e024"
+
+  .icon-time:before
+    content: "\e025"
+
+  .icon-tracker:before
+    content: "\e026"
+
+  .icon-warning:before
+    content: "\e028"
+
+  .icon-version:before
+    content: "\e029"
+
+  .icon-unit:before
+    content: "\e02a"
+
+  .icon-add-folder:before
+    content: "\e02b"
+
+  .icon-align-center:before
+    content: "\e02c"
+
+  .icon-align-justify:before
+    content: "\e02d"
+
+  .icon-align-left:before
+    content: "\e02e"
+
+  .icon-anchor:before
+    content: "\e02f"
+
+  .icon-align-right:before
+    content: "\e030"
+
+  .icon-arrow-circle1:before
+    content: "\e031"
+
+  .icon-arrow-circle2:before
+    content: "\e032"
+
+  .icon-arrow-circle3:before
+    content: "\e033"
+
+  .icon-arrow-right1:before
+    content: "\e034"
+
+  .icon-battery2:before
+    content: "\e035"
+
+  .icon-badge:before
+    content: "\e036"
+
+  .icon-attention2:before
+    content: "\e037"
+
+  .icon-attention1:before
+    content: "\e038"
+
+  .icon-attachment:before
+    content: "\e039"
+
+  .icon-arrow-right8:before
+    content: "\e03a"
+
+  .icon-arrow-right7:before
+    content: "\e03b"
+
+  .icon-arrow-right6:before
+    content: "\e03c"
+
+  .icon-arrow-right5:before
+    content: "\e03d"
+
+  .icon-arrow-right4:before
+    content: "\e03e"
+
+  .icon-arrow-right3:before
+    content: "\e03f"
+
+  .icon-arrow-right2:before
+    content: "\e040"
+
+  .icon-battery3:before
+    content: "\e041"
+
+  .icon-bold:before
+    content: "\e042"
+
+  .icon-book1:before
+    content: "\e043"
+
+  .icon-book2:before
+    content: "\e044"
+
+  .icon-book3:before
+    content: "\e045"
+
+  .icon-bubble:before
+    content: "\e046"
+
+  .icon-bubble2:before
+    content: "\e047"
+
+  .icon-bubble3:before
+    content: "\e048"
+
+  .icon-bulb1:before
+    content: "\e049"
+
+  .icon-calendar2:before
+    content: "\e04a"
+
+  .icon-camera:before
+    content: "\e04b"
+
+  .icon-contacts:before
+    content: "\e04c"
+
+  .icon-console:before
+    content: "\e04d"
+
+  .icon-color-underline:before
+    content: "\e04e"
+
+  .icon-color-text:before
+    content: "\e04f"
+
+  .icon-code-tag:before
+    content: "\e050"
+
+  .icon-clock-reminder:before
+    content: "\e051"
+
+  .icon-changeset3:before
+    content: "\e052"
+
+  .icon-changeset2:before
+    content: "\e053"
+
+  .icon-cart:before
+    content: "\e054"
+
+  .icon-copy2:before
+    content: "\e055"
+
+  .icon-copy3:before
+    content: "\e056"
+
+  .icon-cup:before
+    content: "\e057"
+
+  .icon-cut:before
+    content: "\e058"
+
+  .icon-delete:before
+    content: "\e059"
+
+  .icon-delete2:before
+    content: "\e05a"
+
+  .icon-delete-folder:before
+    content: "\e05b"
+
+  .icon-dependency:before
+    content: "\e05c"
+
+  .icon-download1:before
+    content: "\e05d"
+
+  .icon-edit:before
+    content: "\e05e"
+
+
+  .icon-help1:before
+    content: "\e05f"
+
+  .icon-heart:before
+    content: "\e060"
+
+  .icon-headphone:before
+    content: "\e061"
+
+  .icon-grid-view2:before
+    content: "\e062"
+
+  .icon-grid-view1:before
+    content: "\e063"
+
+  .icon-fullscreen:before
+    content: "\e064"
+
+  .icon-folder:before
+    content: "\e065"
+
+  .icon-flag:before
+    content: "\e066"
+
+  .icon-fire:before
+    content: "\e067"
+
+  .icon-battery1:before
+    content: "\e068"
+
+  .icon-help2:before
+    content: "\e069"
+
+  .icon-home1:before
+    content: "\e06a"
+
+  .icon-home2:before
+    content: "\e06b"
+
+  .icon-image1:before
+    content: "\e06c"
+
+  .icon-image2:before
+    content: "\e06d"
+
+  .icon-info:before
+    content: "\e06e"
+
+  .icon-info2:before
+    content: "\e06f"
+
+  .icon-italic:before
+    content: "\e070"
+
+  .icon-key:before
+    content: "\e071"
+
+  .icon-line-through:before
+    content: "\e072"
+
+  .icon-mail:before
+    content: "\e073"
+
+  .icon-logout2:before
+    content: "\e074"
+
+  .icon-logout:before
+    content: "\e075"
+
+  .icon-locked-folder:before
+    content: "\e076"
+
+  .icon-locked:before
+    content: "\e077"
+
+  .icon-location:before
+    content: "\e078"
+
+  .icon-loading2:before
+    content: "\e079"
+
+  .icon-loading:before
+    content: "\e07a"
+
+  .icon-list-view2:before
+    content: "\e07b"
+
+  .icon-list-view1:before
+    content: "\e07c"
+
+  .icon-list-num:before
+    content: "\e07d"
+
+  .icon-list-bullet1:before
+    content: "\e07e"
+
+  .icon-mail2:before
+    content: "\e07f"
+
+  .icon-map:before
+    content: "\e080"
+
+  .icon-microphone:before
+    content: "\e081"
+
+  .icon-minus:before
+    content: "\e082"
+
+  .icon-minus2:before
+    content: "\e083"
+
+  .icon-mobile1:before
+    content: "\e084"
+
+  .icon-mobile2:before
+    content: "\e085"
+
+  .icon-movie1:before
+    content: "\e086"
+
+  .icon-music:before
+    content: "\e087"
+
+  .icon-mute1:before
+    content: "\e088"
+
+  .icon-plus:before
+    content: "\e089"
+
+  .icon-play:before
+    content: "\e08a"
+
+  .icon-pin:before
+    content: "\e08b"
+
+  .icon-phone:before
+    content: "\e08c"
+
+  .icon-paragraph-right:before
+    content: "\e08d"
+
+  .icon-paragraph-left:before
+    content: "\e08e"
+
+  .icon-paragraph:before
+    content: "\e08f"
+
+  .icon-paint:before
+    content: "\e090"
+
+  .icon-notes1:before
+    content: "\e091"
+
+  .icon-not-supported:before
+    content: "\e092"
+
+  .icon-print:before
+    content: "\e093"
+
+  .icon-process-arrow1:before
+    content: "\e094"
+
+  .icon-process-arrow2:before
+    content: "\e095"
+
+  .icon-process-arrow3:before
+    content: "\e096"
+
+  .icon-process-arrow4:before
+    content: "\e097"
+
+  .icon-project-tree:before
+    content: "\e098"
+
+  .icon-quote2:before
+    content: "\e099"
+
+  .icon-redo:before
+    content: "\e09a"
+
+  .icon-reload1:before
+    content: "\e09b"
+
+  .icon-settings4:before
+    content: "\e09c"
+
+  .icon-settings3:before
+    content: "\e09d"
+
+  .icon-settings2:before
+    content: "\e09e"
+
+  .icon-settings:before
+    content: "\e09f"
+
+  .icon-search2:before
+    content: "\e0a0"
+
+  .icon-search:before
+    content: "\e0a1"
+
+  .icon-screen1:before
+    content: "\e0a2"
+
+  .icon-save1:before
+    content: "\e0a3"
+
+  .icon-rubber:before
+    content: "\e0a4"
+
+  .icon-rss2:before
+    content: "\e0a5"
+
+  .icon-rss:before
+    content: "\e0a6"
+
+  .icon-reload2:before
+    content: "\e0a7"
+
+  .icon-square:before
+    content: "\e0a8"
+
+  .icon-star1:before
+    content: "\e0a9"
+
+  .icon-star2:before
+    content: "\e0aa"
+
+  .icon-stats1:before
+    content: "\e0ab"
+
+  .icon-stats2:before
+    content: "\e0ac"
+
+  .icon-stats3:before
+    content: "\e0ad"
+
+  .icon-stats4:before
+    content: "\e0ae"
+
+  .icon-text:before
+    content: "\e0af"
+
+  .icon-thumb-down:before
+    content: "\e0b0"
+
+  .icon-thumb-up:before
+    content: "\e0b1"
+
+  .icon-undo:before
+    content: "\e0b2"
+
+  .icon-underline:before
+    content: "\e0b3"
+
+  .icon-tone2:before
+    content: "\e0b4"
+
+  .icon-tone1:before
+    content: "\e0b5"
+
+  .icon-time-1:before
+    content: "\e0b6"
+
+  .icon-ticket-minus:before
+    content: "\e0b7"
+
+  .icon-ticket-down:before
+    content: "\e0b8"
+
+  .icon-ticket2:before
+    content: "\e0b9"
+
+  .icon-unit2:before
+    content: "\e0ba"
+
+  .icon-unlocked:before
+    content: "\e0bb"
+
+  .icon-user1:before
+    content: "\e0bc"
+
+  .icon-user-minus:before
+    content: "\e0bd"
+
+  .icon-user-plus:before
+    content: "\e0be"
+
+  .icon-view1:before
+    content: "\e0bf"
+
+  .icon-view2:before
+    content: "\e0c0"
+
+  .icon-view3:before
+    content: "\e0c1"
+
+  .icon-watch-1:before
+    content: "\e0c2"
+
+  .icon-wiki:before
+    content: "\e0c3"
+
+  .icon-zoom-out:before
+    content: "\e0c4"
+
+  .icon-zoom-in:before
+    content: "\e0c5"
+
+  .icon-yes3:before
+    content: "\e0c6"
+
+  .icon-yes2:before
+    content: "\e0c7"
+
+  .icon-yes:before
+    content: "\e0c8"
+
+  .icon-wiki2:before
+    content: "\e027"
+
+  .icon-wiki-edit:before
+    content: "\e0c9"
+
