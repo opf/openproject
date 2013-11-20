@@ -97,9 +97,12 @@ class Query < ActiveRecord::Base
 
 
   def add_filter(field, operator, values)
-    return unless values and values.is_a? Array
+    return unless values && values.is_a?(Array) && work_package_filter_available?(field)
 
-    if work_package_filter_available? field
+    if filter = filter_for(field)
+      filter.operator = operator
+      filter.values = values
+    else
       self.filters << Queries::WorkPackages::Filter.new(field, operator: operator, values: values)
     end
   end
