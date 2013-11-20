@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `3058` [Work Package Tracking] Broken subtask hierarchy layout
+
 ## 3.0.0pre32
 
 * `#1718` Invalidate server side sessions on logout
