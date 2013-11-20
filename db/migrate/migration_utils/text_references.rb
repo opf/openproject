@@ -64,8 +64,8 @@ module Migration
         columns.each do |column|
           original = row[column]
 
-          row[column] = update_work_package_macros row[column], id_map, MACRO_REGEX, /\*/, '#'
           row[column] = update_work_package_macros row[column], id_map, NOTES_MACRO_REGEX, /\*/, '#'
+          row[column] = update_work_package_macros row[column], id_map, MACRO_REGEX, /\*/, '#'
           row[column] = update_issue_planning_element_links row[column], id_map
 
           updated ||= original != row[column]
@@ -82,8 +82,8 @@ module Migration
         columns.each do |column|
           original = row[column]
 
-          row[column] = update_work_package_macros row[column], id_map, RESTORE_MACRO_REGEX, /#/, '*'
           row[column] = update_work_package_macros row[column], id_map, RESTORE_NOTES_MACRO_REGEX, /#/, '*'
+          row[column] = update_work_package_macros row[column], id_map, RESTORE_MACRO_REGEX, /#/, '*'
           row[column] = restore_issue_planning_element_links row[column], id_map
 
           updated ||= original != row[column]
@@ -93,22 +93,22 @@ module Migration
       end
     end
 
-    MACRO_REGEX = /(?:\W|^|\A)((?<dots>\*{1,3})(?<id>\d+))(?:\D|$|\z)/
     NOTES_MACRO_REGEX = /(?<prefix>\_Updated automatically by changing values within child planning element )((?<dots>\*{1,3})(?<id>\d+))(?<postfix>\_)/
-    RESTORE_MACRO_REGEX = /(?:\W|^|\A)((?<dots>\#{1,3})(?<id>\d+))(?:\W|$|\z)/
+    MACRO_REGEX = /(?:\W|^|\A)((?<dots>\*{1,3})(?<id>\d+))(?:\D|$|\z)/
     RESTORE_NOTES_MACRO_REGEX = /(?<prefix>\_Updated automatically by changing values within child planning element )((?<dots>\#{1,3})(?<id>\d+))(?<postfix>\_)/
+    RESTORE_MACRO_REGEX = /(?:\W|^|\A)((?<dots>\#{1,3})(?<id>\d+))(?:\W|$|\z)/
 
     def update_work_package_macros(text, id_map, regex, macro_regex, new_macro)
       unless text.nil?
         text = parse_non_pre_blocks(text) do |block|
           block.gsub!(regex) do |match|
             if id_map.has_key? $~[:id].to_s
-              prefix = $~.names.include?('prefix') ? $~[:prefix] : ''
-              postfix = $~.names.include?('postfix') ? $~[:postfix] : ''
+              prefix = $~.names.include?('prefix') ? $~[:prefix] : ' '
+              postfix = $~.names.include?('postfix') ? $~[:postfix] : ' '
               new_id = id_map[$~[:id].to_s][:new_id]
               hash_macro = $~[:dots].gsub(macro_regex, new_macro)
 
-              " #{prefix}#{hash_macro}#{new_id}#{postfix} "
+              "#{prefix}#{hash_macro}#{new_id}#{postfix}"
             else
               match
             end
