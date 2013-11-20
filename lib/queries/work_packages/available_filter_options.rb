@@ -43,17 +43,17 @@ module Queries::WorkPackages::AvailableFilterOptions
     types = project.nil? ? Type.find(:all, order: 'position') : project.rolled_up_types
 
     @available_work_package_filters = {
-      "status_id"       => { type: :list_status, order: 1, values: Status.find(:all, order: 'position').collect{|s| [s.name, s.id.to_s] } },
-      "type_id"         => { type: :list, order: 2, values: types.collect{|s| [s.name, s.id.to_s] } },
-      "priority_id"     => { type: :list, order: 3, values: IssuePriority.all.collect{|s| [s.name, s.id.to_s] } },
-      "subject"         => { type: :text, order: 8 },
-      "created_at"      => { type: :date_past, order: 9 },
-      "updated_at"      => { type: :date_past, order: 10 },
-      "start_date"      => { type: :date, order: 11 },
-      "due_date"        => { type: :date, order: 12 },
-      "estimated_hours" => { type: :integer, order: 13 },
-      "done_ratio"      => { type: :integer, order: 14 }
-    }
+      status_id:       { type: :list_status, order: 1, values: Status.find(:all, order: 'position').collect{|s| [s.name, s.id.to_s] } },
+      type_id:         { type: :list, order: 2, values: types.collect{|s| [s.name, s.id.to_s] } },
+      priority_id:     { type: :list, order: 3, values: IssuePriority.all.collect{|s| [s.name, s.id.to_s] } },
+      subject:         { type: :text, order: 8 },
+      created_at:      { type: :date_past, order: 9 },
+      updated_at:      { type: :date_past, order: 10 },
+      start_date:      { type: :date, order: 11 },
+      due_date:        { type: :date, order: 12 },
+      estimated_hours: { type: :integer, order: 13 },
+      done_ratio:      { type: :integer, order: 14 }
+    }.with_indifferent_access
   end
 
   def add_visible_projects_options

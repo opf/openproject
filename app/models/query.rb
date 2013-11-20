@@ -44,7 +44,7 @@ class Query < ActiveRecord::Base
   validates_presence_of :name, on: :save
   validates_length_of :name, :maximum => 255
 
-  validate :validate_filters
+  validate :validate_work_package_filters
 
   after_initialize :remember_project_scope
 
@@ -81,18 +81,9 @@ class Query < ActiveRecord::Base
     @is_for_all = project.nil?
   end
 
-  def validate_filters
-    return if filters.blank?
-
-    filters.each do |filter|
-      unless \
-        # filter requires one or more values
-        filter.values.present? \
-        || ["o", "c", "!*", "*", "t", "w"].include?(filter.operator)
-        # filter doesn't require any value
-        errors.add :base, errors.full_message(WorkPackage.human_attribute_name(filter.field),
-                                              I18n.t('activerecord.errors.messages.invalid'))
-      end
+  def validate_work_package_filters
+    self.filters.each do |filter|
+      errors.add :base, errors.full_message(WorkPackage.human_attribute_name(filter.field), I18n.t('activerecord.errors.messages.invalid')) unless filter.valid?
     end
   end
 
@@ -111,11 +102,6 @@ class Query < ActiveRecord::Base
     # check if field is defined as an available filter
     if work_package_filter_available? field
       filter_options = available_work_package_filters[field]
-      # check if operator is allowed for that filter
-      #if @@operators_by_filter_type[filter_options[:type]].include? operator
-      #  allowed_values = values & ([""] + (filter_options[:values] || []).collect {|val| val[1]})
-      #  filters[field] = {:operator => operator, :values => allowed_values } if (allowed_values.first and !allowed_values.first.empty?) or ["o", "c", "!*", "*", "t"].include? operator
-      #end
       self.filters << Queries::WorkPackages::Filter.new(field, operator: operator, values: values)
     end
   end
