@@ -192,8 +192,10 @@ module Pagination::Controller
           if (options = paginator.search_options).respond_to?(:call)
             options = instance_eval(&(options.to_proc))
           end
+
+          search_call = (options.presence ? methods[:search].call(params[:q], options) : methods[:search].call(params[:q]))
           @paginated_items = methods[:pagination].call(
-                                                       methods[:search].call(params[:q], options),
+                                                       search_call,
                                                        { :page => page, :page_limit => size }
                                                       )
 
