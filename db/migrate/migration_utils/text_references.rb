@@ -94,7 +94,7 @@ module Migration
     end
 
     NOTES_MACRO_REGEX = /(?<prefix>\_Updated automatically by changing values within child planning element )((?<dots>\*{1,3})(?<id>\d+))(?<postfix>\_)/
-    MACRO_REGEX = /(?:\W|^|\A)((?<dots>\*{1,3})(?<id>\d+))(?:\D|$|\z)/
+    MACRO_REGEX = /(?:\W|^|\A)((?<dots>\*{1,3})(?<id>\d+))(?:\W|$|\z)/
     RESTORE_NOTES_MACRO_REGEX = /(?<prefix>\_Updated automatically by changing values within child planning element )((?<dots>\#{1,3})(?<id>\d+))(?<postfix>\_)/
     RESTORE_MACRO_REGEX = /(?:\W|^|\A)((?<dots>\#{1,3})(?<id>\d+))(?:\W|$|\z)/
 
