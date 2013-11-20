@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `3058` [Work Package Tracking] Broken subtask hierarchy layout
+* Timeline performance improvements.
 
 ## 3.0.0pre32
 
