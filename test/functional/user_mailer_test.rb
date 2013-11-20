@@ -44,6 +44,8 @@ class UserMailerTest < ActionMailer::TestCase
     Project.delete_all
     Type.delete_all
     ActionMailer::Base.deliveries.clear
+
+    User.current = User.anonymous
   end
 
   def test_test_mail_sends_a_simple_greeting
