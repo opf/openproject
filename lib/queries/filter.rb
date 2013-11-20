@@ -92,8 +92,9 @@ module Queries
 
     cattr_reader :operators, :filter_types_by_field, :operators_by_filter_type
 
-    attr_accessor :field, :available_filters, *@@filter_params
+    attr_accessor :field, *@@filter_params
 
+    validates_presence_of :field
     validate :validate_presence_of_values, unless: Proc.new {|filter| @@operators_not_requiring_values.include?(filter.operator)}
     validate :validate_filter_values
 
