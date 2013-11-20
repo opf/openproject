@@ -27,11 +27,14 @@
 //++
 
 // ╭───────────────────────────────────────────────────────────────╮
-// │ Timeines Plugin Javascript Library.                           │
+// │  _____ _                _ _                                   │
+// │ |_   _(_)_ __ ___   ___| (_)_ __   ___  ___                   │
+// │   | | | | '_ ` _ \ / _ \ | | '_ \ / _ \/ __|                  │
+// │   | | | | | | | | |  __/ | | | | |  __/\__ \                  │
+// │   |_| |_|_| |_| |_|\___|_|_|_| |_|\___||___/                  │
 // ├───────────────────────────────────────────────────────────────┤
-// │ Javascript Library that fetches and plots timelines for the   │
-// │ accompanying ChiliProject Plugin. Martin Czuchra, Finn GmbH   │
-// │ 2011                                                          │
+// │ Javascript library that fetches and plots timelines for the   │
+// │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
 // stricter than default
