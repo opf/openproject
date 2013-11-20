@@ -59,7 +59,7 @@ describe Query do
       it 'should not be valid and create an error' do
         expect(query.valid?).to be_false
 
-        expect(query.errors[:base].first).to include(I18n.t('activerecord.errors.messages.invalid'))
+        expect(query.errors[:base].first).to include(I18n.t('activerecord.errors.messages.blank'))
       end
     end
   end
