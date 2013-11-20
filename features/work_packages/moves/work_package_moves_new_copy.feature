@@ -122,6 +122,16 @@ Feature: Copying a work package
 
     Then I should see "Failed to save 1 work package(s) on 1 selected:"
 
+  @javascript
+  Scenario: Going to the Copy Page of 2 Work Packages via bulk edit
+    When I go to the work package index page of the project called "project_1"
+     And  I open the context menu on the work packages:
+       | issue1 |
+       | issue2 |
+     And I follow "Copy" within "#context-menu"
+     Then I should see "Copy" within "#content"
+      And I should not see "Move" within "#content"
+
 #  FIXME: Please check this: is this the same issue as reported in #1868
 #  Scenario: Move an planning element to project with missing type
 #    When I go to the move page of the work package "pe3"
