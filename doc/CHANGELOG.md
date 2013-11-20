@@ -29,7 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
-* `3058` [Work Package Tracking] Broken subtask hierarchy layout
+* `#3021` Fix: Fix: emails sent for own changes
+* `#3058` [Work Package Tracking] Broken subtask hierarchy layout
 
 ## 3.0.0pre32
 
