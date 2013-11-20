@@ -83,7 +83,7 @@ class Query < ActiveRecord::Base
 
   def validate_work_package_filters
     self.filters.each do |filter|
-      errors.add :base, errors.full_message(WorkPackage.human_attribute_name(filter.field), I18n.t('activerecord.errors.messages.invalid')) unless filter.valid?
+      errors.add :base, errors.full_message(WorkPackage.human_attribute_name(filter.field), filter.errors.messages.values.flatten.join) unless filter.valid?
     end
   end
 
@@ -97,11 +97,9 @@ class Query < ActiveRecord::Base
 
 
   def add_filter(field, operator, values)
-    # values must be an array
-    return unless values and values.is_a? Array # and !values.first.empty?
-    # check if field is defined as an available filter
+    return unless values and values.is_a? Array
+
     if work_package_filter_available? field
-      filter_options = available_work_package_filters[field]
       self.filters << Queries::WorkPackages::Filter.new(field, operator: operator, values: values)
     end
   end
