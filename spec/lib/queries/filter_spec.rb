@@ -65,6 +65,12 @@ describe Queries::WorkPackages::Filter do
           it { should_not be_valid }
         end
 
+        context 'and only an empty string is given as value' do
+          let(:filter) { FactoryGirl.build :filter, field: :due_date, operator: 't-', values: [''] }
+
+          it { should_not be_valid }
+        end
+
         context 'and values are given' do
           before { filter.values = [5] }
 
