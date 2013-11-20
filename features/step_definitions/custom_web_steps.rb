@@ -59,12 +59,11 @@ Then /^"([^"]*)" should (not )?be selectable from "([^"]*)"$/ do |value, negativ
   (page.evaluate_script("$('#{select_id}').select('option[value=#{value}]').first.disabled") =~ /^#{bool}$/).should be_present
 end
 
-# This does NOT trigger actual hovering by means of :hover.
-# To use this, you have to adjust your stylesheet accordingly.
 When /^I hover over "([^"]+)"$/ do |selector|
-  page.execute_script "jQuery(#{selector.inspect}).addClass('hover');"
+  page.driver.browser.action.move_to(page.find(selector).native).perform
 end
 
+# This moves the mouse to the OP header logo
 When /^I stop hovering over "([^"]*)"$/ do |selector|
-  page.execute_script "jQuery(#{selector.inspect}).removeClass('hover');"
+  page.driver.browser.action.move_to(page.find("#logo").native).perform
 end
