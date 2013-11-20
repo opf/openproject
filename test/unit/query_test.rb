@@ -45,12 +45,13 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_project_filter_in_global_queries
+    # User.current should be anonymous here
     query = Query.new(:project => nil, :name => '_')
     project_filter = query.available_work_package_filters["project_id"]
     assert_not_nil project_filter
     project_ids = project_filter[:values].map{|p| p[1]}
     assert project_ids.include?("1")  #public project
-    assert !project_ids.include?("2") #private project user cannot see
+    assert !project_ids.include?("2") #private project anonymous user cannot see
   end
 
   def find_issues_with_query(query)
@@ -219,7 +220,7 @@ class QueryTest < ActiveSupport::TestCase
     i3 = FactoryGirl.create(:work_package, :project => project, :type => project.types.first, :assigned_to => Group.find(11))
     group.users << user
 
-    query = Query.new(:name => '_', :filters => { 'assigned_to_id' => {:operator => '=', :values => ['me']}})
+    query = Query.new(:name => '_', filters: [Queries::WorkPackages::Filter.new(:assigned_to_id, operator: '=', values: ['me'])])
     result = query.results.work_packages
     assert_equal WorkPackage.visible.all(:conditions => {:assigned_to_id => ([2] + user.reload.group_ids)}).sort_by(&:id), result.sort_by(&:id)
 
@@ -232,7 +233,7 @@ class QueryTest < ActiveSupport::TestCase
 
   def test_filter_watched_issues
     User.current = User.find(1)
-    query = Query.new(:name => '_', :filters => { 'watcher_id' => {:operator => '=', :values => ['me']}})
+    query = Query.new(name: '_', filters: [Queries::WorkPackages::Filter.new(:watcher_id, operator: '=', values: ['me'])])
     result = find_issues_with_query(query)
     assert_not_nil result
     assert !result.empty?
@@ -242,7 +243,7 @@ class QueryTest < ActiveSupport::TestCase
 
   def test_filter_unwatched_issues
     User.current = User.find(1)
-    query = Query.new(:name => '_', :filters => { 'watcher_id' => {:operator => '!', :values => ['me']}})
+    query = Query.new(name: '_', filters: [Queries::WorkPackages::Filter.new(:watcher_id, operator: '!', values: ['me'])])
     result = find_issues_with_query(query)
     assert_not_nil result
     assert !result.empty?
