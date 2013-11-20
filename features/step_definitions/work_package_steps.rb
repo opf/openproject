@@ -75,7 +75,7 @@ Given(/^the user "([^\"]+)" has the following queries by type in the project "(.
 
   table.hashes.each_with_index do |t, i|
     types = Type.find_all_by_name(t['type_value']).map {|type| type.id.to_s}
-    p.queries.create(user_id: u.id, name: t['name'], filters:  {type_id: {operator: "=", values: types} })
+    p.queries.create(user_id: u.id, name: t['name'], filters: [Queries::WorkPackages::Filter.new(:type_id, operator: "=", values: types)])
   end
 end
 
