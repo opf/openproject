@@ -32,7 +32,7 @@
   font-weight: normal
   font-style: normal
 
-@mixin data-icon
+@mixin icon-common
   font-family: "openproject-icon-font" !important
   font-style: normal !important
   font-weight: normal !important
@@ -43,34 +43,55 @@
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
 
-
-[data-icon]:before
-  @include data-icon
-  content: attr(data-icon)
+@mixin icon-rules
   padding: 0px 7px 0px 7px
 
-[data-icon2]:before
-  @include data-icon
-  content: attr(data-icon2)
+@mixin icon2-rules
   padding: 0px 17px 0px 7px
 
-[data-icon3]:before
-  @include data-icon
-  content: attr(data-icon3)
+@mixin icon3-rules
   padding: 0px 8px 0px 0px
 
-[data-icon4]:before
-  @include data-icon
-  content: attr(data-icon4)
+@mixin icon4-rules
   padding: 0px 8px 0px 3px
   font-size: 11px
 
-#top-menu, #main-menu
+[data-icon]:before
+  @include icon-common
+  content: attr(data-icon)
+  @include icon-rules
+
+[data-icon2]:before
+  @include icon-common
+  content: attr(data-icon2)
+  @include icon2-rules
+
+[data-icon3]:before
+  @include icon-common
+  content: attr(data-icon3)
+  @include icon3-rules
+
+[data-icon4]:before
+  @include icon-common
+  content: attr(data-icon4)
+  @include icon4-rules
+
+#top-menu, #main-menu, #breadcrumb
   [class^="icon-"]:before,
   [class*=" icon-"]:before
-    @include data-icon
+    @include icon-common
 
-#top-menu, #main-menu
+#top-menu, #main-menu, #breadcrumb
+  .icon:before
+    @include icon-rules
+  .icon2:before
+    @include icon2-rules
+  .icon3:before
+    @include icon3-rules
+  .icon4:before
+    @include icon4-rules
+
+#top-menu, #main-menu, #breadcrumb
   .icon-add:before
     content: "\e000"
 
