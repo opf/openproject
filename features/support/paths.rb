@@ -66,6 +66,15 @@ module NavigationHelpers
       project = Project.find_by_name(project_identifier)
       project_identifier = project.identifier.gsub(' ', '%20')
       "/projects/#{project_identifier}/wiki/#{wiki_page}"
+    
+    when /^the lost password page$/
+          '/account/lost_password'
+
+     when /^the groups administration page$/
+          '/admin/groups'
+
+    when /^the admin page of pending users$/
+         "/users?sort=created_on:desc&status=2"
 
     when /^the edit menu item page of the [wW]iki [pP]age "([^\"]+)" (?:for|of) the project called "([^\"]+)"$/
       wiki_page = Wiki.titleize($1)
