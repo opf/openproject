@@ -31,7 +31,7 @@ rvm:
   - 1.9.3
 branches:
   only:
-    - feature/rails3
+    - dev
 env:
   # mysql2
   - "TEST_SUITE=cucumber         CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
