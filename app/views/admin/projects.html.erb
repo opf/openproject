@@ -68,12 +68,12 @@ See doc/COPYRIGHT.rdoc for more details.
                 archive_project_path(project, :status => params[:status]),
                 :confirm => l(:text_are_you_sure),
                 :method => :put,
-                :class => 'icon icon-lock') if project.active? %>
+                :class => 'icon icon-locked') if project.active? %>
 
     <%= link_to(l(:button_unarchive),
                 unarchive_project_path(project, :status => params[:status]),
                 :method => :put,
-                :class => 'icon icon-unlock') if !project.active? && (project.parent.nil? || project.parent.active?) %>
+                :class => 'icon icon-unlocked') if !project.active? && (project.parent.nil? || project.parent.active?) %>
 
     <%= link_to(l(:button_copy),
                 copy_from_project_path(project, :admin),

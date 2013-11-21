@@ -25,6 +25,8 @@
  *
  * See doc/COPYRIGHT.rdoc for more details.  ++*/
 
+$link_hover_color: #008BD0
+
 @font-face
   font-family: "openproject-icon-font"
   src: font-url('openproject_icon/openproject-icon-font.eot')
@@ -44,17 +46,21 @@
   -moz-osx-font-smoothing: grayscale
 
 @mixin icon-rules
-  padding: 0px 7px 0px 7px
+  padding: 0 5px 0 10px
+  color: $link_hover_color
 
 @mixin icon2-rules
-  padding: 0px 17px 0px 7px
+  padding: 0 17px 0 7px
 
 @mixin icon3-rules
-  padding: 0px 8px 0px 0px
+  padding: 0 8px 0 0
 
 @mixin icon4-rules
-  padding: 0px 8px 0px 3px
+  padding: 0 8px 0 3px
   font-size: 11px
+
+@mixin icon5-rules
+  padding: 0 7px 0 7px
 
 [data-icon]:before
   @include icon-common
@@ -76,626 +82,633 @@
   content: attr(data-icon4)
   @include icon4-rules
 
-#top-menu, #main-menu, #breadcrumb
-  [class^="icon-"]:before,
-  [class*=" icon-"]:before
-    @include icon-common
+[data-icon5]:before
+  @include icon-common
+  content: attr(data-icon5)
+  @include icon5-rules
 
-#top-menu, #main-menu, #breadcrumb
-  .icon:before
-    @include icon-rules
-  .icon2:before
-    @include icon2-rules
-  .icon3:before
-    @include icon3-rules
-  .icon4:before
-    @include icon4-rules
+[class^="icon-"]:before,
+[class*=" icon-"]:before
+  @include icon-common
 
-#top-menu, #main-menu, #breadcrumb
-  .icon-add:before
-    content: "\e000"
+.icon:before
+  @include icon-rules
 
-  .icon-added:before
-    content: "\e001"
+.icon2:before
+  @include icon2-rules
 
-  .icon-calendar:before
-    content: "\e002"
+.icon3:before
+  @include icon3-rules
 
-  .icon-budget:before
-    content: "\e003"
+.icon4:before
+  @include icon4-rules
 
-  .icon-arrow-left-right:before
-    content: "\e004"
+.icon5:before
+  @include icon5-rules
 
-  .icon-cancel:before
-    content: "\e005"
+.icon-add:before
+  content: "\e000"
 
-  .icon-changeset:before
-    content: "\e006"
+.icon-added:before
+  content: "\e001"
 
-  .icon-close:before
-    content: "\e007"
+.icon-calendar:before
+  content: "\e002"
 
-  .icon-copy:before
-    content: "\e008"
+.icon-budget:before
+  content: "\e003"
 
-  .icon-double-arrow-left:before
-    content: "\e009"
+.icon-arrow-left-right:before
+  content: "\e004"
 
-  .icon-double-arrow-right:before
-    content: "\e00a"
+.icon-cancel:before
+  content: "\e005"
 
-  .icon-duplicate:before
-    content: "\e00b"
+.icon-changeset:before
+  content: "\e006"
 
-  .icon-error:before
-    content: "\e00c"
+.icon-close:before
+  content: "\e007"
 
-  .icon-outline:before
-    content: "\e00d"
+.icon-copy:before
+  content: "\e008"
 
-  .icon-open-folder:before
-    content: "\e00e"
+.icon-double-arrow-left:before
+  content: "\e009"
 
-  .icon-not-watch:before
-    content: "\e00f"
+.icon-double-arrow-right:before
+  content: "\e00a"
 
-  .icon-news:before
-    content: "\e010"
+.icon-duplicate:before
+  content: "\e00b"
 
-  .icon-new-planning-element:before
-    content: "\e011"
+.icon-error:before
+  content: "\e00c"
 
-  .icon-move:before
-    content: "\e012"
+.icon-outline:before
+  content: "\e00d"
 
-  .icon-link:before
-    content: "\e013"
+.icon-open-folder:before
+  content: "\e00e"
 
-  .icon-issue-reportedbyme:before
-    content: "\e014"
+.icon-not-watch:before
+  content: "\e00f"
 
-  .icon-issue-assignedtome:before
-    content: "\e015"
+.icon-news:before
+  content: "\e010"
 
-  .icon-issue-watched:before
-    content: "\e016"
+.icon-new-planning-element:before
+  content: "\e011"
 
-  .icon-help:before
-    content: "\e017"
+.icon-move:before
+  content: "\e012"
 
-  .icon-group:before
-    content: "\e018"
+.icon-link:before
+  content: "\e013"
 
-  .icon-excel:before
-    content: "\e019"
+.icon-issue-reportedbyme:before
+  content: "\e014"
 
-  .icon-priority:before
-    content: "\e01a"
+.icon-issue-assignedtome:before
+  content: "\e015"
 
-  .icon-projects:before
-    content: "\e01b"
+.icon-issue-watched:before
+  content: "\e016"
 
-  .icon-publish:before
-    content: "\e01c"
+.icon-help:before
+  content: "\e017"
 
-  .icon-quote:before
-    content: "\e01d"
+.icon-group:before
+  content: "\e018"
 
-  .icon-rename:before
-    content: "\e01e"
+.icon-excel:before
+  content: "\e019"
 
-  .icon-stats:before
-    content: "\e01f"
+.icon-priority:before
+  content: "\e01a"
 
-  .icon-status:before
-    content: "\e020"
+.icon-projects:before
+  content: "\e01b"
 
-  .icon-ticket:before
-    content: "\e021"
+.icon-publish:before
+  content: "\e01c"
 
-  .icon-ticket-checked:before
-    content: "\e022"
+.icon-quote:before
+  content: "\e01d"
 
-  .icon-ticket-edit:before
-    content: "\e023"
+.icon-rename:before
+  content: "\e01e"
 
-  .icon-ticket-note:before
-    content: "\e024"
+.icon-stats:before
+  content: "\e01f"
 
-  .icon-time:before
-    content: "\e025"
+.icon-status:before
+  content: "\e020"
 
-  .icon-tracker:before
-    content: "\e026"
+.icon-ticket:before
+  content: "\e021"
 
-  .icon-warning:before
-    content: "\e028"
+.icon-ticket-checked:before
+  content: "\e022"
 
-  .icon-version:before
-    content: "\e029"
+.icon-ticket-edit:before
+  content: "\e023"
 
-  .icon-unit:before
-    content: "\e02a"
+.icon-ticket-note:before
+  content: "\e024"
 
-  .icon-add-folder:before
-    content: "\e02b"
+.icon-time:before
+  content: "\e025"
 
-  .icon-align-center:before
-    content: "\e02c"
+.icon-tracker:before
+  content: "\e026"
 
-  .icon-align-justify:before
-    content: "\e02d"
+.icon-warning:before
+  content: "\e028"
 
-  .icon-align-left:before
-    content: "\e02e"
+.icon-version:before
+  content: "\e029"
 
-  .icon-anchor:before
-    content: "\e02f"
+.icon-unit:before
+  content: "\e02a"
 
-  .icon-align-right:before
-    content: "\e030"
+.icon-add-folder:before
+  content: "\e02b"
 
-  .icon-arrow-circle1:before
-    content: "\e031"
+.icon-align-center:before
+  content: "\e02c"
 
-  .icon-arrow-circle2:before
-    content: "\e032"
+.icon-align-justify:before
+  content: "\e02d"
 
-  .icon-arrow-circle3:before
-    content: "\e033"
+.icon-align-left:before
+  content: "\e02e"
 
-  .icon-arrow-right1:before
-    content: "\e034"
+.icon-anchor:before
+  content: "\e02f"
 
-  .icon-battery2:before
-    content: "\e035"
+.icon-align-right:before
+  content: "\e030"
 
-  .icon-badge:before
-    content: "\e036"
+.icon-arrow-circle1:before
+  content: "\e031"
 
-  .icon-attention2:before
-    content: "\e037"
+.icon-arrow-circle2:before
+  content: "\e032"
 
-  .icon-attention1:before
-    content: "\e038"
+.icon-arrow-circle3:before
+  content: "\e033"
 
-  .icon-attachment:before
-    content: "\e039"
+.icon-arrow-right1:before
+  content: "\e034"
 
-  .icon-arrow-right8:before
-    content: "\e03a"
+.icon-battery2:before
+  content: "\e035"
 
-  .icon-arrow-right7:before
-    content: "\e03b"
+.icon-badge:before
+  content: "\e036"
 
-  .icon-arrow-right6:before
-    content: "\e03c"
+.icon-attention2:before
+  content: "\e037"
 
-  .icon-arrow-right5:before
-    content: "\e03d"
+.icon-attention1:before
+  content: "\e038"
 
-  .icon-arrow-right4:before
-    content: "\e03e"
+.icon-attachment:before
+  content: "\e039"
 
-  .icon-arrow-right3:before
-    content: "\e03f"
+.icon-arrow-right8:before
+  content: "\e03a"
 
-  .icon-arrow-right2:before
-    content: "\e040"
+.icon-arrow-right7:before
+  content: "\e03b"
 
-  .icon-battery3:before
-    content: "\e041"
+.icon-arrow-right6:before
+  content: "\e03c"
 
-  .icon-bold:before
-    content: "\e042"
+.icon-arrow-right5:before
+  content: "\e03d"
 
-  .icon-book1:before
-    content: "\e043"
+.icon-arrow-right4:before
+  content: "\e03e"
 
-  .icon-book2:before
-    content: "\e044"
+.icon-arrow-right3:before
+  content: "\e03f"
 
-  .icon-book3:before
-    content: "\e045"
+.icon-arrow-right2:before
+  content: "\e040"
 
-  .icon-bubble:before
-    content: "\e046"
+.icon-battery3:before
+  content: "\e041"
 
-  .icon-bubble2:before
-    content: "\e047"
+.icon-bold:before
+  content: "\e042"
 
-  .icon-bubble3:before
-    content: "\e048"
+.icon-book1:before
+  content: "\e043"
 
-  .icon-bulb1:before
-    content: "\e049"
+.icon-book2:before
+  content: "\e044"
 
-  .icon-calendar2:before
-    content: "\e04a"
+.icon-book3:before
+  content: "\e045"
 
-  .icon-camera:before
-    content: "\e04b"
+.icon-bubble:before
+  content: "\e046"
 
-  .icon-contacts:before
-    content: "\e04c"
+.icon-bubble2:before
+  content: "\e047"
 
-  .icon-console:before
-    content: "\e04d"
+.icon-bubble3:before
+  content: "\e048"
 
-  .icon-color-underline:before
-    content: "\e04e"
+.icon-bulb1:before
+  content: "\e049"
 
-  .icon-color-text:before
-    content: "\e04f"
+.icon-calendar2:before
+  content: "\e04a"
 
-  .icon-code-tag:before
-    content: "\e050"
+.icon-camera:before
+  content: "\e04b"
 
-  .icon-clock-reminder:before
-    content: "\e051"
+.icon-contacts:before
+  content: "\e04c"
 
-  .icon-changeset3:before
-    content: "\e052"
+.icon-console:before
+  content: "\e04d"
 
-  .icon-changeset2:before
-    content: "\e053"
+.icon-color-underline:before
+  content: "\e04e"
 
-  .icon-cart:before
-    content: "\e054"
+.icon-color-text:before
+  content: "\e04f"
 
-  .icon-copy2:before
-    content: "\e055"
+.icon-code-tag:before
+  content: "\e050"
 
-  .icon-copy3:before
-    content: "\e056"
+.icon-clock-reminder:before
+  content: "\e051"
 
-  .icon-cup:before
-    content: "\e057"
+.icon-changeset3:before
+  content: "\e052"
 
-  .icon-cut:before
-    content: "\e058"
+.icon-changeset2:before
+  content: "\e053"
 
-  .icon-delete:before
-    content: "\e059"
+.icon-cart:before
+  content: "\e054"
 
-  .icon-delete2:before
-    content: "\e05a"
+.icon-copy2:before
+  content: "\e055"
 
-  .icon-delete-folder:before
-    content: "\e05b"
+.icon-copy3:before
+  content: "\e056"
 
-  .icon-dependency:before
-    content: "\e05c"
+.icon-cup:before
+  content: "\e057"
 
-  .icon-download1:before
-    content: "\e05d"
+.icon-cut:before
+  content: "\e058"
 
-  .icon-edit:before
-    content: "\e05e"
+.icon-delete:before
+  content: "\e059"
 
+.icon-delete2:before
+  content: "\e05a"
 
-  .icon-help1:before
-    content: "\e05f"
+.icon-delete-folder:before
+  content: "\e05b"
 
-  .icon-heart:before
-    content: "\e060"
+.icon-dependency:before
+  content: "\e05c"
 
-  .icon-headphone:before
-    content: "\e061"
+.icon-download1:before
+  content: "\e05d"
 
-  .icon-grid-view2:before
-    content: "\e062"
+.icon-edit:before
+  content: "\e05e"
 
-  .icon-grid-view1:before
-    content: "\e063"
+.icon-help1:before
+  content: "\e05f"
 
-  .icon-fullscreen:before
-    content: "\e064"
+.icon-heart:before
+  content: "\e060"
 
-  .icon-folder:before
-    content: "\e065"
+.icon-headphone:before
+  content: "\e061"
 
-  .icon-flag:before
-    content: "\e066"
+.icon-grid-view2:before
+  content: "\e062"
 
-  .icon-fire:before
-    content: "\e067"
+.icon-grid-view1:before
+  content: "\e063"
 
-  .icon-battery1:before
-    content: "\e068"
+.icon-fullscreen:before
+  content: "\e064"
 
-  .icon-help2:before
-    content: "\e069"
+.icon-folder:before
+  content: "\e065"
 
-  .icon-home1:before
-    content: "\e06a"
+.icon-flag:before
+  content: "\e066"
 
-  .icon-home2:before
-    content: "\e06b"
+.icon-fire:before
+  content: "\e067"
 
-  .icon-image1:before
-    content: "\e06c"
+.icon-battery1:before
+  content: "\e068"
 
-  .icon-image2:before
-    content: "\e06d"
+.icon-help2:before
+  content: "\e069"
 
-  .icon-info:before
-    content: "\e06e"
+.icon-home1:before
+  content: "\e06a"
 
-  .icon-info2:before
-    content: "\e06f"
+.icon-home2:before
+  content: "\e06b"
 
-  .icon-italic:before
-    content: "\e070"
+.icon-image1:before
+  content: "\e06c"
 
-  .icon-key:before
-    content: "\e071"
+.icon-image2:before
+  content: "\e06d"
 
-  .icon-line-through:before
-    content: "\e072"
+.icon-info:before
+  content: "\e06e"
 
-  .icon-mail:before
-    content: "\e073"
+.icon-info2:before
+  content: "\e06f"
 
-  .icon-logout2:before
-    content: "\e074"
+.icon-italic:before
+  content: "\e070"
 
-  .icon-logout:before
-    content: "\e075"
+.icon-key:before
+  content: "\e071"
 
-  .icon-locked-folder:before
-    content: "\e076"
+.icon-line-through:before
+  content: "\e072"
 
-  .icon-locked:before
-    content: "\e077"
+.icon-mail:before
+  content: "\e073"
 
-  .icon-location:before
-    content: "\e078"
+.icon-logout2:before
+  content: "\e074"
 
-  .icon-loading2:before
-    content: "\e079"
+.icon-logout:before
+  content: "\e075"
 
-  .icon-loading:before
-    content: "\e07a"
+.icon-locked-folder:before
+  content: "\e076"
 
-  .icon-list-view2:before
-    content: "\e07b"
+.icon-locked:before
+  content: "\e077"
 
-  .icon-list-view1:before
-    content: "\e07c"
+.icon-location:before
+  content: "\e078"
 
-  .icon-list-num:before
-    content: "\e07d"
+.icon-loading2:before
+  content: "\e079"
 
-  .icon-list-bullet1:before
-    content: "\e07e"
+.icon-loading:before
+  content: "\e07a"
 
-  .icon-mail2:before
-    content: "\e07f"
+.icon-list-view2:before
+  content: "\e07b"
 
-  .icon-map:before
-    content: "\e080"
+.icon-list-view1:before
+  content: "\e07c"
 
-  .icon-microphone:before
-    content: "\e081"
+.icon-list-num:before
+  content: "\e07d"
 
-  .icon-minus:before
-    content: "\e082"
+.icon-list-bullet1:before
+  content: "\e07e"
 
-  .icon-minus2:before
-    content: "\e083"
+.icon-mail2:before
+  content: "\e07f"
 
-  .icon-mobile1:before
-    content: "\e084"
+.icon-map:before
+  content: "\e080"
 
-  .icon-mobile2:before
-    content: "\e085"
+.icon-microphone:before
+  content: "\e081"
 
-  .icon-movie1:before
-    content: "\e086"
+.icon-minus:before
+  content: "\e082"
 
-  .icon-music:before
-    content: "\e087"
+.icon-minus2:before
+  content: "\e083"
 
-  .icon-mute1:before
-    content: "\e088"
+.icon-mobile1:before
+  content: "\e084"
 
-  .icon-plus:before
-    content: "\e089"
+.icon-mobile2:before
+  content: "\e085"
 
-  .icon-play:before
-    content: "\e08a"
+.icon-movie1:before
+  content: "\e086"
 
-  .icon-pin:before
-    content: "\e08b"
+.icon-music:before
+  content: "\e087"
 
-  .icon-phone:before
-    content: "\e08c"
+.icon-mute1:before
+  content: "\e088"
 
-  .icon-paragraph-right:before
-    content: "\e08d"
+.icon-plus:before
+  content: "\e089"
 
-  .icon-paragraph-left:before
-    content: "\e08e"
+.icon-play:before
+  content: "\e08a"
 
-  .icon-paragraph:before
-    content: "\e08f"
+.icon-pin:before
+  content: "\e08b"
 
-  .icon-paint:before
-    content: "\e090"
+.icon-phone:before
+  content: "\e08c"
 
-  .icon-notes1:before
-    content: "\e091"
+.icon-paragraph-right:before
+  content: "\e08d"
 
-  .icon-not-supported:before
-    content: "\e092"
+.icon-paragraph-left:before
+  content: "\e08e"
 
-  .icon-print:before
-    content: "\e093"
+.icon-paragraph:before
+  content: "\e08f"
 
-  .icon-process-arrow1:before
-    content: "\e094"
+.icon-paint:before
+  content: "\e090"
 
-  .icon-process-arrow2:before
-    content: "\e095"
+.icon-notes1:before
+  content: "\e091"
 
-  .icon-process-arrow3:before
-    content: "\e096"
+.icon-not-supported:before
+  content: "\e092"
 
-  .icon-process-arrow4:before
-    content: "\e097"
+.icon-print:before
+  content: "\e093"
 
-  .icon-project-tree:before
-    content: "\e098"
+.icon-process-arrow1:before
+  content: "\e094"
 
-  .icon-quote2:before
-    content: "\e099"
+.icon-process-arrow2:before
+  content: "\e095"
 
-  .icon-redo:before
-    content: "\e09a"
+.icon-process-arrow3:before
+  content: "\e096"
 
-  .icon-reload1:before
-    content: "\e09b"
+.icon-process-arrow4:before
+  content: "\e097"
 
-  .icon-settings4:before
-    content: "\e09c"
+.icon-project-tree:before
+  content: "\e098"
 
-  .icon-settings3:before
-    content: "\e09d"
+.icon-quote2:before
+  content: "\e099"
 
-  .icon-settings2:before
-    content: "\e09e"
+.icon-redo:before
+  content: "\e09a"
 
-  .icon-settings:before
-    content: "\e09f"
+.icon-reload1:before
+  content: "\e09b"
 
-  .icon-search2:before
-    content: "\e0a0"
+.icon-settings4:before
+  content: "\e09c"
 
-  .icon-search:before
-    content: "\e0a1"
+.icon-settings3:before
+  content: "\e09d"
 
-  .icon-screen1:before
-    content: "\e0a2"
+.icon-settings2:before
+  content: "\e09e"
 
-  .icon-save1:before
-    content: "\e0a3"
+.icon-settings:before
+  content: "\e09f"
 
-  .icon-rubber:before
-    content: "\e0a4"
+.icon-search2:before
+  content: "\e0a0"
 
-  .icon-rss2:before
-    content: "\e0a5"
+.icon-search:before
+  content: "\e0a1"
 
-  .icon-rss:before
-    content: "\e0a6"
+.icon-screen1:before
+  content: "\e0a2"
 
-  .icon-reload2:before
-    content: "\e0a7"
+.icon-save1:before
+  content: "\e0a3"
 
-  .icon-square:before
-    content: "\e0a8"
+.icon-rubber:before
+  content: "\e0a4"
 
-  .icon-star1:before
-    content: "\e0a9"
+.icon-rss2:before
+  content: "\e0a5"
 
-  .icon-star2:before
-    content: "\e0aa"
+.icon-rss:before
+  content: "\e0a6"
 
-  .icon-stats1:before
-    content: "\e0ab"
+.icon-reload2:before
+  content: "\e0a7"
 
-  .icon-stats2:before
-    content: "\e0ac"
+.icon-square:before
+  content: "\e0a8"
 
-  .icon-stats3:before
-    content: "\e0ad"
+.icon-star1:before
+  content: "\e0a9"
 
-  .icon-stats4:before
-    content: "\e0ae"
+.icon-star2:before
+  content: "\e0aa"
 
-  .icon-text:before
-    content: "\e0af"
+.icon-stats1:before
+  content: "\e0ab"
 
-  .icon-thumb-down:before
-    content: "\e0b0"
+.icon-stats2:before
+  content: "\e0ac"
 
-  .icon-thumb-up:before
-    content: "\e0b1"
+.icon-stats3:before
+  content: "\e0ad"
 
-  .icon-undo:before
-    content: "\e0b2"
+.icon-stats4:before
+  content: "\e0ae"
 
-  .icon-underline:before
-    content: "\e0b3"
+.icon-text:before
+  content: "\e0af"
 
-  .icon-tone2:before
-    content: "\e0b4"
+.icon-thumb-down:before
+  content: "\e0b0"
 
-  .icon-tone1:before
-    content: "\e0b5"
+.icon-thumb-up:before
+  content: "\e0b1"
 
-  .icon-time-1:before
-    content: "\e0b6"
+.icon-undo:before
+  content: "\e0b2"
 
-  .icon-ticket-minus:before
-    content: "\e0b7"
+.icon-underline:before
+  content: "\e0b3"
 
-  .icon-ticket-down:before
-    content: "\e0b8"
+.icon-tone2:before
+  content: "\e0b4"
 
-  .icon-ticket2:before
-    content: "\e0b9"
+.icon-tone1:before
+  content: "\e0b5"
 
-  .icon-unit2:before
-    content: "\e0ba"
+.icon-time-1:before
+  content: "\e0b6"
 
-  .icon-unlocked:before
-    content: "\e0bb"
+.icon-ticket-minus:before
+  content: "\e0b7"
 
-  .icon-user1:before
-    content: "\e0bc"
+.icon-ticket-down:before
+  content: "\e0b8"
 
-  .icon-user-minus:before
-    content: "\e0bd"
+.icon-ticket2:before
+  content: "\e0b9"
 
-  .icon-user-plus:before
-    content: "\e0be"
+.icon-unit2:before
+  content: "\e0ba"
 
-  .icon-view1:before
-    content: "\e0bf"
+.icon-unlocked:before
+  content: "\e0bb"
 
-  .icon-view2:before
-    content: "\e0c0"
+.icon-user1:before
+  content: "\e0bc"
 
-  .icon-view3:before
-    content: "\e0c1"
+.icon-user-minus:before
+  content: "\e0bd"
 
-  .icon-watch-1:before
-    content: "\e0c2"
+.icon-user-plus:before
+  content: "\e0be"
 
-  .icon-wiki:before
-    content: "\e0c3"
+.icon-view1:before
+  content: "\e0bf"
 
-  .icon-zoom-out:before
-    content: "\e0c4"
+.icon-view2:before
+  content: "\e0c0"
 
-  .icon-zoom-in:before
-    content: "\e0c5"
+.icon-view3:before
+  content: "\e0c1"
 
-  .icon-yes3:before
-    content: "\e0c6"
+.icon-watch-1:before
+  content: "\e0c2"
 
-  .icon-yes2:before
-    content: "\e0c7"
+.icon-wiki:before
+  content: "\e0c3"
 
-  .icon-yes:before
-    content: "\e0c8"
+.icon-zoom-out:before
+  content: "\e0c4"
 
-  .icon-wiki2:before
-    content: "\e027"
+.icon-zoom-in:before
+  content: "\e0c5"
 
-  .icon-wiki-edit:before
-    content: "\e0c9"
+.icon-yes3:before
+  content: "\e0c6"
+
+.icon-yes2:before
+  content: "\e0c7"
+
+.icon-yes:before
+  content: "\e0c8"
+
+.icon-wiki2:before
+  content: "\e027"
+
+.icon-wiki-edit:before
+  content: "\e0c9"
 

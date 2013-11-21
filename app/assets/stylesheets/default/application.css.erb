@@ -975,65 +975,6 @@ a.close-icon:hover {
   background-image: url(<%= asset_path 'close_hover.png' %>);
 }
 
-/***** Icons *****/
-.icon {
-  background-position: 0% 50%;
-  background-repeat: no-repeat;
-  padding-left: 19px;
-  padding-top: 2px;
-  padding-bottom: 3px;
-}
-
-.icon-add { background-image: url(<%= asset_path 'webalys/plus.png' %>); }
-.icon-edit { background-image: url(<%= asset_path 'webalys/edit.png' %>); }
-.icon-copy { background-image: url(<%= asset_path 'webalys/copy.png' %>); }
-.icon-configure { background-image: url(<%= asset_path 'webalys/configure.png' %>); }
-.icon-duplicate { background-image: url(<%= asset_path 'webalys/duplicate.png' %>); }
-.icon-del { background-image: url(<%= asset_path 'webalys/delete.png' %>); }
-.icon-move { background-image: url(<%= asset_path 'webalys/move.png' %>); }
-.icon-rename { background-image: url(<%= asset_path 'webalys/rename.png' %>); }
-.icon-save { background-image: url(<%= asset_path 'webalys/save.png' %>); }
-.icon-multiple { background-image: url(<%= asset_path 'table_multiple.png' %>); }
-.icon-folder { background-image: url(<%= asset_path 'folder.png' %>); }
-.open .icon-folder { background-image: url(<%= asset_path 'folder_open.png' %>); }
-.icon-package { background-image: url(<%= asset_path 'webalys/package.png' %>); }
-.icon-parent { background-image: url(<%= asset_path 'link.png' %>); }
-.icon-user { background-image: url(<%= asset_path 'webalys/user.png' %>); }
-.icon-projects { background-image: url(<%= asset_path 'webalys/latest_projects.png' %>); }
-.icon-help { background-image: url(<%= asset_path 'webalys/help.png' %>); }
-.icon-attachment  { background-image: url(<%= asset_path 'attachment.png' %>); }
-.icon-history  { background-image: url(<%= asset_path 'webalys/history.png' %>); }
-.icon-time-add  { background-image: url(<%= asset_path 'webalys/time.png' %>); }
-.icon-stats  { background-image: url(<%= asset_path 'webalys/stats.png' %>); }
-.icon-warning  { background-image: url(<%= asset_path 'webalys/warning.png' %>); }
-.icon-reload  { background-image: url(<%= asset_path 'webalys/arrow_circle.png' %>); }
-.icon-unlock  { background-image: url(<%= asset_path 'webalys/locked_un.png' %>); }
-.icon-checked  { background-image: url(<%= asset_path 'webalys/check.png' %>); }
-.icon-details  { background-image: url(<%= asset_path 'webalys/zoom_in.png' %>); }
-.icon-report  { background-image: url(<%= asset_path 'report.png' %>); }
-.icon-comment  { background-image: url(<%= asset_path 'webalys/quote.png' %>); }
-.icon-summary  { background-image: url(<%= asset_path 'webalys/summary.png' %>); }
-.icon-server-authentication { background-image: url(<%= asset_path 'server_key.png' %>); }
-.icon-issue { background-image: url(<%= asset_path 'webalys/ticket.png' %>); }
-.icon-zoom-in { background-image: url(<%= asset_path 'webalys/zoom_in.png' %>); }
-.icon-zoom-out { background-image: url(<%= asset_path 'webalys/zoom_out.png' %>); }
-
-.icon-file { background-image: url(<%= asset_path 'files/default.png' %>); }
-.icon-file.text-plain { background-image: url(<%= asset_path 'files/text.png' %>); }
-.icon-file.text-x-c { background-image: url(<%= asset_path 'files/c.png' %>); }
-.icon-file.text-x-csharp { background-image: url(<%= asset_path 'files/csharp.png' %>); }
-.icon-file.text-x-php { background-image: url(<%= asset_path 'files/php.png' %>); }
-.icon-file.text-x-ruby { background-image: url(<%= asset_path 'files/ruby.png' %>); }
-.icon-file.text-xml { background-image: url(<%= asset_path 'files/xml.png' %>); }
-.icon-file.image-gif { background-image: url(<%= asset_path 'files/image.png' %>); }
-.icon-file.image-jpeg { background-image: url(<%= asset_path 'files/image.png' %>); }
-.icon-file.image-png { background-image: url(<%= asset_path 'files/image.png' %>); }
-.icon-file.image-tiff { background-image: url(<%= asset_path 'files/image.png' %>); }
-.icon-file.application-pdf { background-image: url(<%= asset_path 'files/pdf.png' %>); }
-.icon-file.application-zip { background-image: url(<%= asset_path 'files/zip.png' %>); }
-.icon-file.application-x-gzip { background-image: url(<%= asset_path 'files/zip.png' %>); }
-.icon-file-excel { background-image: url(<%= asset_path 'files/excel.png' %>); }
-
 img.gravatar {
   border: solid 1px #d5d5d5;
   background: #fff;
@@ -1895,7 +1836,7 @@ tr.time-entry {
 
 /*===== Replacement Images =====*/
 
-.icon-edit, .title-bar .update a {
+.title-bar .update a {
   background-image: url(<%= asset_path 'webalys/edit.png' %>);
 }
 .icon-del {
@@ -2428,28 +2369,12 @@ a.icon:hover, input.input-as-link:hover {
   text-decoration: underline;
 }
 
-.icon-time  {
-  background-image: url(<%= asset_path 'webalys/time.png' %>);
-  background-position: 3px 2px;
-}
-
-.icon-lock  {
-  background-image: url(<%= asset_path 'webalys/locked.png' %>);
-  background-position: 0px 2px;
-}
-
-.icon-edit {
-  background-image: url(<%= asset_path 'webalys/edit.png' %>);
-  padding-top: 1px;
-}
 .icon-copy { background-image: url(<%= asset_path 'webalys/copy.png' %>); }
 .icon-del {
   background-image: url(<%= asset_path 'webalys/delete.png' %>);
   /*padding-left: 16px; */
   background-position: 0px 2px;
 }
-.icon-fav  { background-image: url(<%= asset_path 'webalys/watch.png' %>); }
-.icon-fav-off  { background-image: url(<%= asset_path 'webalys/watch_b.png' %>); }
 .icon-reload  {
   background-position: 0px 3px;
 }

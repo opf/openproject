@@ -109,9 +109,9 @@ module UsersHelper
 
   def change_user_status_links(user)
     icons = {
-      'unlock' => 'unlock',
-      'activate' => 'unlock',
-      'lock' => 'lock'
+      'unlock' => 'unlocked',
+      'activate' => 'unlocked',
+      'lock' => 'locked'
     }
     build_change_user_status_action(user) do |title, name|
       link_to title,
