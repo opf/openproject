@@ -5,6 +5,6 @@ module Query::FilterSerializer
   end
 
   def self.dump(filters)
-    YAML.dump (filters || []).map(&:to_hash).reduce(:merge)
+    YAML.dump (filters || []).map(&:to_hash).reduce(:merge).stringify_keys
   end
 end
