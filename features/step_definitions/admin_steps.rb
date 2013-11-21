@@ -24,7 +24,7 @@ end
 
 When /^I delete membership to project "(.*?)"$/ do |project|
   project = Project.like(project).first
-  page.find(:css, "#tab-content-memberships .memberships").find(:xpath, "//tr[contains(.,'#{project.name}')]").find(:css, ".icon-del").click
+  page.find(:css, "#tab-content-memberships .memberships").find(:xpath, "//tr[contains(.,'#{project.name}')]").find(:css, ".icon-delete").click
 end
 
 When /^I edit membership to project "(.*?)" to contain the roles:$/ do |project, roles_table|

@@ -45,7 +45,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 topic_path(@topic),
                 :method => :delete,
                 :confirm => l(:text_are_you_sure),
-                :class => 'icon icon-del') if @message.destroyable_by?(User.current) %>
+                :class => 'icon icon-delete') if @message.destroyable_by?(User.current) %>
 </div>
 
 <h2><%= avatar(@topic.author, :size => "24") %><%=h @topic.subject %></h2>

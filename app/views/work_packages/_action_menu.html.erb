@@ -51,7 +51,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                             :ids => [work_package.id] },
                                           :confirm => (controller.work_package.leaf? ? l(:text_are_you_sure) : l(:text_are_you_sure_with_children)),
                                           :method => :delete ,
-                                          :class => 'icon icon-del' ) %>
+                                          :class => 'icon icon-delete' ) %>
 
   <%= call_hook(:view_work_package_show_action_menu, :work_package => controller.work_package) %>
 <% end %>

@@ -1839,9 +1839,6 @@ tr.time-entry {
 .title-bar .update a {
   background-image: url(<%= asset_path 'webalys/edit.png' %>);
 }
-.icon-del {
-  background-image: url(<%= asset_path 'webalys/delete.png' %>);
-}
 .journal .contextual a[title=Edit] img {
   display: none;
 }
@@ -1875,19 +1872,6 @@ tr.time-entry {
 #update .tabular p {
   padding-left: 140px;
 }
-
-/* Delete icon */
-table.files a.icon-delete {
-  float: left;
-  padding: 0;
-  display: block;
-  text-indent: -9999em;
-  width: 16px;
-  height: 16px;
-  background: url(<%= asset_path 'webalys/delete.png' %>) no-repeat 0 0;
-  margin-right: 6px;
-}
-
 
 /* clearfix */
 html > body #content:after {
@@ -2370,11 +2354,6 @@ a.icon:hover, input.input-as-link:hover {
 }
 
 .icon-copy { background-image: url(<%= asset_path 'webalys/copy.png' %>); }
-.icon-del {
-  background-image: url(<%= asset_path 'webalys/delete.png' %>);
-  /*padding-left: 16px; */
-  background-position: 0px 2px;
-}
 .icon-reload  {
   background-position: 0px 3px;
 }
