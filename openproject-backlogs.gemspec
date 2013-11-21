@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://www.finn.de"
   s.summary     = "This plugin adds features enabling agile teams to work with OpenProject in Scrum projects."
   s.description = "This plugin adds features enabling agile teams to work with OpenProject in Scrum projects."
-  s.files = Dir["{app,config,db,lib}/**/*", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*", "Rakefile", "README.md"]
   s.test_files = Dir["spec/**/*"]
 
   s.add_dependency "rails", "~> 3.2.9"

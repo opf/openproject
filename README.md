@@ -103,7 +103,8 @@ Additionally, we would like to thank
 * Birthe Russmeyer and Niels Lindenthal of finnlabs for their consulting and
   project management
 
-== Licence
+Licence
+-------
 
 Copyright (C)2013 the OpenProject Foundation (OPF)
 Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
