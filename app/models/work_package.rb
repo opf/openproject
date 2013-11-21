@@ -348,9 +348,10 @@ class WorkPackage < ActiveRecord::Base
 
   def soonest_start
     @soonest_start ||= (
-        relations_to.collect{|relation| relation.successor_soonest_start} +
-        ancestors.collect(&:soonest_start)
-      ).compact.max
+      self_and_ancestors.collect(&:relations_to)
+                        .flatten
+                        .collect { |relation| relation.successor_soonest_start }
+    ).compact.max
   end
 
   # Updates start/due dates of following issues

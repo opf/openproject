@@ -33,6 +33,9 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2762` [Work package tracking] Copying a work package in bulk edit mode opens move screen
 * `#3058` [Work Package Tracking] Broken subtask hierarchy layout
 * `#3058` [Work Package Tracking] Broken subtask hierarchy layout
+* `#3068` Fix: [Migration] Automatic update text references to planning elements not migrated
+* `#3075` Fix: [Work Package Tracking] Save takes too long with many ancestors
+* Fix timezone migration for MySQL with custom timezone
 * Timeline performance improvements.
 
 ## 3.0.0pre32
