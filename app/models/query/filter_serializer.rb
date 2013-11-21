@@ -1,7 +1,7 @@
-module Queries::FilterSerializer
+module Query::FilterSerializer
   def self.load(serialized_filter_hash)
     return [] if serialized_filter_hash.nil?
-    Queries::WorkPackages::Filter.from_hash(YAML.load(serialized_filter_hash) || {})
+    Query::WorkPackages::Filter.from_hash(YAML.load(serialized_filter_hash) || {})
   end
 
   def self.dump(filters)

@@ -26,6 +26,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter < Queries::Filter
+class Query::WorkPackages::Filter < Query::Filter
   validates :field, inclusion: { in: @@filter_types_by_field.keys, message: "%(value) is not a valid filter" }, unless: Proc.new {|filter| filter.field.to_s.starts_with?('cf_')}
 end
