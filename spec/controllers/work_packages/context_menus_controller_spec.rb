@@ -210,7 +210,7 @@ describe WorkPackages::ContextMenusController do
     end
 
     shared_examples_for :copy do
-      let(:copy_link) { "/work_packages/move/new?copy_options%5Bcopy%5D=t&amp;"\
+      let(:copy_link) { "/work_packages/move/new?copy=true&amp;"\
                         "#{ids_link}" }
 
       before { get :index, ids: ids }

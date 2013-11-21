@@ -61,12 +61,14 @@ Feature: Updating work packages
       | name    | default |
       | status1 | true    |
       | status2 |         |
+    And the project "ecookbook" has 1 version with the following:
+      | name | version1 |
     And the type "Phase1" has the default workflow for the role "manager"
     And the type "Phase2" has the default workflow for the role "manager"
     And there are the following work packages in project "ecookbook":
-      | subject | type    | status  |
-      | pe1     | Phase1  | status1 |
-      | pe2     |         |         |
+      | subject | type    | status  | fixed_version |
+      | pe1     | Phase1  | status1 | version1      |
+      | pe2     |         |         |               |
     And I am already logged in as "manager"
 
   @javascript
@@ -125,3 +127,15 @@ Feature: Updating work packages
     Then I should be on the page of the work package "pe1"
      And I should see a journal with the following:
       | Notes | Note message |
+
+  @javascript
+  Scenario: Bulk updating the fixed version of several work packages
+    When I go to the work package index page of the project called "ecookbook"
+    And  I open the context menu on the work packages:
+      | pe1 |
+      | pe2 |
+    And I hover over ".fixed_version .context_item"
+    And I follow "none" within "#context-menu"
+    Then I should see "Successful update"
+    And I follow "pe1"
+    And I should see "deleted (version1)"
