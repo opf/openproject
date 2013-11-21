@@ -2177,7 +2177,11 @@ Timeline = {
       // draw all planning elements that should be seen in an
       // aggregation. limited to one level.
 
-      var pes = this.getPlanningElements();
+      var pes = jQuery.grep(this.getPlanningElements(), function(e) {
+        return e.start() !== undefined &&
+               e.end() !== undefined &&
+               e.planning_element_type.in_aggregation;
+      });
 
       var dummy_node = {
         getDOMElement: function() {
@@ -2193,6 +2197,10 @@ Timeline = {
         return pet && pet.is_milestone;
       };
 
+      // The label_spaces object will contain available spaces per
+      // planning element. There may be many.
+      var label_spaces = {};
+
       var render = function(i, e) {
         var node = jQuery.extend({}, dummy_node, {
           getData: function() { return e; }
@@ -2206,10 +2214,6 @@ Timeline = {
         return !e.filteredOut() && pet && pet.in_aggregation;
       };
 
-      // The label_spaces object will contain available spaces per
-      // planning element. There may be many.
-      var label_spaces = {};
-
       // divide into milestones and others.
       milestones = jQuery.grep(pes, is_milestone);
       others = jQuery.grep(pes, is_milestone, true);
@@ -2221,12 +2225,18 @@ Timeline = {
       // element. Here, we initialize possible spaces by registering the
       // whole element as the single space for a label.
       jQuery.each(pes, function(i, e) {
+
         var b = e.getHorizontalBounds(scale, beginning);
         label_spaces[i] = [b];
 
-        // Now, for every other element (that is above the one we're
-        // traversing), shorten the available spaces or splice them.
-        jQuery.each(pes, function(j, f) {
+        // find all pes above the one we're traversing.
+        var passed_self = false;
+        pes_to_traverse = jQuery.grep(pes, function(f) {
+          return passed_self || (e === f) ? passed_self = true : false
+        });
+
+        // Now, for every other element , shorten the available spaces or splice them.
+        jQuery.each(pes_to_traverse, function(j, f) {
           var k, cb = f.getHorizontalBounds(scale, beginning, is_milestone(f));
 
           // do not shorten if I am looking at myself.
@@ -2250,14 +2260,11 @@ Timeline = {
             return;
           }
 
-          if (!e.hasBothDates() || !f.hasBothDates()) {
-            return;
-          }
-
           // iterate over actual spaces left for shortening or splicing.
           var spaces = label_spaces[i];
           for (k = 0; k < spaces.length; k++) {
             var space = spaces[k];
+
             // b  eeeeeeee
             //cb       fffffffffff
 
@@ -2265,6 +2272,7 @@ Timeline = {
             var rightSideOverlap = cb.x > space.x &&
                     // but I do end after its start.
                     cb.x < space.end();
+
             // b           eeeeeeeeeee
             //cb    ffffffffffff
 
@@ -2273,7 +2281,7 @@ Timeline = {
                       // but I start before current elements end.
                       cb.end() > space.x;
 
-            if ((cb.x < space.x && cb.end() > space.end()) &&
+            if ((cb.x <= space.x && cb.end() >= space.end()) &&
                 (label_spaces[i].length > 0)) {
               if (label_spaces[i].length === 1) {
                 label_spaces[i][0].w = 0;
@@ -2283,6 +2291,7 @@ Timeline = {
             }
 
             //  fffffffeeeeeeeeeeeeffffffffff
+
             if (rightSideOverlap && leftSideOverlap) {
 
               // if current planning element is completely enclosed
@@ -2294,7 +2303,6 @@ Timeline = {
                  'w': cb.x - space.x, end: space.end},
                 {'x': cb.end(),
                  'w': space.end() - cb.end(), end: space.end});
-
 
             } else if (rightSideOverlap) {
 
@@ -2678,7 +2686,7 @@ Timeline = {
       var has_one_date = this.hasOneDate();
       var has_start_date = this.hasStartDate();
 
-      if (in_aggregation) {
+      if (in_aggregation && label_space !== undefined) {
         hover_left = label_space.x + Timeline.HOVER_THRESHOLD;
         hover_width = label_space.w - 2 * Timeline.HOVER_THRESHOLD;
       }
@@ -2831,7 +2839,7 @@ Timeline = {
       var has_one_date = this.hasOneDate();
       var has_start_date = this.hasStartDate();
 
-      if (in_aggregation) {
+      if (in_aggregation && label_space !== undefined) {
         hover_left = label_space.x + Timeline.HOVER_THRESHOLD;
         hover_width = label_space.w - 2 * Timeline.HOVER_THRESHOLD;
       }
@@ -2965,8 +2973,7 @@ Timeline = {
             e.translate(x, y);
           });
 
-        } else {
-
+        } else if (label_space.w > Timeline.PE_TEXT_AGGREGATED_LABEL_WIDTH_THRESHOLD) {
 
           textColor = timeline.getLimunanceFor(color) > Timeline.PE_LUMINANCE_THRESHOLD ?
                       Timeline.PE_DARK_TEXT_COLOR : Timeline.PE_LIGHT_TEXT_COLOR;
@@ -3683,6 +3690,7 @@ Timeline = {
   PE_TEXT_ADDITIONAL_OUTSIDE_PADDING_WHEN_EXPANDED_WITH_CHILDREN: 6,
   PE_TEXT_INSIDE_PADDING: 8,        // 4px padding on both sides of the planning element towards an inside labelelement towards an inside label.
   PE_TEXT_OUTSIDE_PADDING: 6,       // space between planning element and text to its right.
+  PE_TEXT_AGGREGATED_LABEL_WIDTH_THRESHOLD: 5,
 
   USE_MODALS: true,
 
@@ -4729,25 +4737,45 @@ Timeline = {
     this.frameLine();
     this.nowLine();
   },
+  previousRelativeVerticalOffset: 0,
+  previousRelativeVerticalOffsetParameter: undefined,
   getRelativeVerticalOffset: function(offset) {
-    var result;
-    if (this.table_offset === undefined) {
-      this.table_offset = this.getUiRoot().find('.tl-left-main table').position().top;
+    if (offset === this.previousRelativeVerticalOffsetParameter) {
+      return this.previousRelativeVerticalOffset;
     }
-    if (offset !== undefined) {
-      result = offset.position().top - this.table_offset;
-      return result;
+    var result = parseInt(offset.attr("data-vertical-offset"), 10);
+    if (isNaN(result)) {
+      if (this.table_offset === undefined) {
+        result = this.table_offset = this.getUiRoot().find('.tl-left-main table').position().top;
+      }
+      if (offset !== undefined) {
+        result = offset.position().top - this.table_offset;
+        offset.attr("data-vertical-offset", result);
+      }
     }
-    return this.table_offset;
+    this.previousRelativeVerticalOffset = result;
+    this.previousRelativeVerticalOffsetParameter = offset;
+    return result;
   },
+  previousRelativeVerticalBottomOffset: 0,
+  previousRelativeVerticalBottomOffsetParameter: undefined,
   getRelativeVerticalBottomOffset: function(offset) {
-    var result;
-    result = this.getRelativeVerticalOffset(offset);
-    if (offset.find("div").length === 1) {
-      result -= jQuery(offset.find("div")[0]).height();
+    if (offset === this.previousRelativeVerticalBottomOffsetParameter) {
+      return this.previousRelativeVerticalBottomOffset;
     }
-    if (offset !== undefined)
-      result += offset.outerHeight();
+    var result = parseInt(offset.attr("data-vertical-bottom-offset"), 10);
+    if (isNaN(result)) {
+      result = this.getRelativeVerticalOffset(offset);
+      if (offset.find("div").length === 1) {
+        result -= jQuery(offset.find("div")[0]).height();
+      }
+      if (offset !== undefined) {
+        result += offset.outerHeight();
+      }
+      offset.attr("data-vertical-bottom-offset", result);
+    }
+    this.previousRelativeVerticalBottomOffset = result;
+    this.previousRelativeVerticalBottomOffsetParameter = offset;
     return result;
   },
   rebuildForeground: function(tree) {
