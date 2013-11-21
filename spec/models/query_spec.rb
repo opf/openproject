@@ -56,10 +56,18 @@ describe Query do
         query.add_filter('due_date', 't-', [''])
       end
 
-      it 'should not be valid and create an error' do
+      it 'is not valid and creates an error' do
         expect(query.valid?).to be_false
-
         expect(query.errors[:base].first).to include(I18n.t('activerecord.errors.messages.blank'))
+      end
+    end
+
+    context 'when filters are blank' do
+      let(:query) { FactoryGirl.build(:query) }
+
+      it 'is not valid and creates an error' do
+        expect(query.valid?).to be_false
+        expect(query.errors[:filters]).to include(I18n.t('activerecord.errors.messages.blank'))
       end
     end
   end

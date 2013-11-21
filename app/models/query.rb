@@ -45,6 +45,7 @@ class Query < ActiveRecord::Base
   validates_length_of :name, :maximum => 255
 
   validate :validate_work_package_filters
+  validates_presence_of :filters
 
   after_initialize :remember_project_scope
 
