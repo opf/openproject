@@ -74,7 +74,11 @@ class Query < ActiveRecord::Base
 
   def initialize(attributes = nil, options = {})
     super
-    self.filters = [ ::Query::WorkPackages::Filter.new('status_id', operator: "o", values: [""]) ] if options[:initialize_with_status_filter] && self.filters.blank?
+    add_default_filter if options[:initialize_with_default_filter]
+  end
+
+  def add_default_filter
+    self.filters = [ ::Query::WorkPackages::Filter.new('status_id', operator: "o", values: [""]) ] if self.filters.blank?
   end
 
   # Store the fact that project is nil (used in #editable_by?)
