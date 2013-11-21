@@ -1,30 +1,35 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
 class VersionTest < ActiveSupport::TestCase
-  fixtures :projects,
-           :users,
-           :issues,
-           :issue_statuses,
-           :trackers,
-           :projects_trackers,
-           :enumerations,
-           :versions
-
-  def setup
-  end
+  fixtures :all
 
   def test_create
     (v = Version.new.tap do |v|
@@ -39,7 +44,7 @@ class VersionTest < ActiveSupport::TestCase
       v.force_attributes = { :project => Project.find(1), :name => '1.1', :effective_date => '99999-01-01' }
     end)
     assert !v.save
-    assert_equal I18n.translate('activerecord.errors.messages.not_a_date'), v.errors.on(:effective_date)
+    assert_include v.errors[:effective_date], I18n.translate('activerecord.errors.messages.not_a_date')
   end
 
   context "#start_date" do
@@ -50,7 +55,7 @@ class VersionTest < ActiveSupport::TestCase
           v.force_attributes = { :project => project, :name => 'Progress' }
         end).save!
         add_issue(v, :estimated_hours => 10, :start_date => '2010-03-01')
-        Issue.generate_for_project!(project, :subject => 'not assigned', :start_date => '2010-01-01')
+        FactoryGirl.create(:work_package, project: project, :subject => 'not assigned', :start_date => '2010-01-01')
 
         assert_equal '2010-03-01', v.start_date.to_s
       end
@@ -94,7 +99,7 @@ class VersionTest < ActiveSupport::TestCase
 
   def test_progress_should_be_100_with_closed_assigned_issues
     project = Project.find(1)
-    status = IssueStatus.find(:first, :conditions => {:is_closed => true})
+    status = Status.find(:first, :conditions => {:is_closed => true})
     (v = Version.new.tap do |v|
       v.force_attributes = { :project => project, :name => 'Progress' }
     end).save!
@@ -125,7 +130,7 @@ class VersionTest < ActiveSupport::TestCase
     end).save!
     add_issue(v)
     add_issue(v, :done_ratio => 20)
-    add_issue(v, :status => IssueStatus.find(:first, :conditions => {:is_closed => true}))
+    add_issue(v, :status => Status.find(:first, :conditions => {:is_closed => true}))
     assert_progress_equal (0.0 + 20.0 + 100.0)/3, v.completed_pourcent
     assert_progress_equal (100.0)/3, v.closed_pourcent
   end
@@ -138,7 +143,7 @@ class VersionTest < ActiveSupport::TestCase
     add_issue(v, :estimated_hours => 10)
     add_issue(v, :estimated_hours => 20, :done_ratio => 30)
     add_issue(v, :estimated_hours => 40, :done_ratio => 10)
-    add_issue(v, :estimated_hours => 25, :status => IssueStatus.find(:first, :conditions => {:is_closed => true}))
+    add_issue(v, :estimated_hours => 25, :status => Status.find(:first, :conditions => {:is_closed => true}))
     assert_progress_equal (10.0*0 + 20.0*0.3 + 40*0.1 + 25.0*1)/95.0*100, v.completed_pourcent
     assert_progress_equal 25.0/95.0*100, v.closed_pourcent
   end
@@ -149,7 +154,7 @@ class VersionTest < ActiveSupport::TestCase
       v.force_attributes = { :project => project, :name => 'Progress' }
     end).save!
     add_issue(v, :done_ratio => 20)
-    add_issue(v, :status => IssueStatus.find(:first, :conditions => {:is_closed => true}))
+    add_issue(v, :status => Status.find(:first, :conditions => {:is_closed => true}))
     add_issue(v, :estimated_hours => 10, :done_ratio => 30)
     add_issue(v, :estimated_hours => 40, :done_ratio => 10)
     assert_progress_equal (25.0*0.2 + 25.0*1 + 10.0*0.3 + 40.0*0.1)/100.0*100, v.completed_pourcent
@@ -160,7 +165,7 @@ class VersionTest < ActiveSupport::TestCase
     setup do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
       @project = Project.generate!(:identifier => 'test0')
-      @project.trackers << Tracker.generate!
+      @project.types << Type.generate!
 
       (@version = Version.new.tap do |v|
         v.force_attributes = { :project => @project, :effective_date => nil, :name => "test" }
@@ -179,8 +184,8 @@ class VersionTest < ActiveSupport::TestCase
     should "be false if all of the issues are ahead of schedule" do
       @version.update_attribute(:effective_date, 7.days.from_now.to_date)
       @version.fixed_issues = [
-                               Issue.generate_for_project!(@project, :start_date => 7.days.ago, :done_ratio => 60), # 14 day span, 60% done, 50% time left
-                               Issue.generate_for_project!(@project, :start_date => 7.days.ago, :done_ratio => 60) # 14 day span, 60% done, 50% time left
+                               FactoryGirl.create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 60), # 14 day span, 60% done, 50% time left
+                               FactoryGirl.create(:work_package, project: @project, :start_date => 7.days.ago, :done_ratio => 60) # 14 day span, 60% done, 50% time left
                               ]
       assert_equal 60, @version.completed_pourcent
       assert_equal false, @version.behind_schedule?
@@ -189,8 +194,8 @@ class VersionTest < ActiveSupport::TestCase
     should "be true if any of the issues are behind schedule" do
       @version.update_attribute(:effective_date, 7.days.from_now.to_date)
       @version.fixed_issues = [
-                               Issue.generate_for_project!(@project, :start_date => 7.days.ago, :done_ratio => 60), # 14 day span, 60% done, 50% time left
-                               Issue.generate_for_project!(@project, :start_date => 7.days.ago, :done_ratio => 20) # 14 day span, 20% done, 50% time left
+                               FactoryGirl.create(:work_package, project: @project, :start_date => 7.days.ago, :done_ratio => 60), # 14 day span, 60% done, 50% time left
+                               FactoryGirl.create(:work_package, project: @project, :start_date => 7.days.ago, :done_ratio => 20) # 14 day span, 20% done, 50% time left
                               ]
       assert_equal 40, @version.completed_pourcent
       assert_equal true, @version.behind_schedule?
@@ -199,8 +204,8 @@ class VersionTest < ActiveSupport::TestCase
     should "be false if all of the issues are complete" do
       @version.update_attribute(:effective_date, 7.days.from_now.to_date)
       @version.fixed_issues = [
-                               Issue.generate_for_project!(@project, :start_date => 14.days.ago, :done_ratio => 100, :status => IssueStatus.find(5)), # 7 day span
-                               Issue.generate_for_project!(@project, :start_date => 14.days.ago, :done_ratio => 100, :status => IssueStatus.find(5)) # 7 day span
+                               FactoryGirl.create(:work_package, project: @project, :start_date => 14.days.ago, :done_ratio => 100, :status => Status.find(5)), # 7 day span
+                               FactoryGirl.create(:work_package, project: @project, :start_date => 14.days.ago, :done_ratio => 100, :status => Status.find(5)) # 7 day span
                               ]
       assert_equal 100, @version.completed_pourcent
       assert_equal false, @version.behind_schedule?
@@ -232,8 +237,8 @@ class VersionTest < ActiveSupport::TestCase
 
     should "return the sum of leaves estimated hours" do
       parent = add_issue(@version)
-      add_issue(@version, :estimated_hours => 2.5, :parent_issue_id => parent.id)
-      add_issue(@version, :estimated_hours => 5, :parent_issue_id => parent.id)
+      add_issue(@version, :estimated_hours => 2.5, :parent_id => parent.id)
+      add_issue(@version, :estimated_hours => 5, :parent_id => parent.id)
       assert_equal 7.5, @version.estimated_hours
     end
   end
@@ -243,16 +248,16 @@ class VersionTest < ActiveSupport::TestCase
 
     @version = Version.find(7)
     # Separate hierarchy
-    project_1_issue = Issue.find(1)
+    project_1_issue = WorkPackage.find(1)
     project_1_issue.fixed_version = @version
     assert project_1_issue.save, project_1_issue.errors.full_messages.to_s
 
-    project_5_issue = Issue.find(6)
+    project_5_issue = WorkPackage.find(6)
     project_5_issue.fixed_version = @version
     assert project_5_issue.save
 
     # Project
-    project_2_issue = Issue.find(4)
+    project_2_issue = WorkPackage.find(4)
     project_2_issue.fixed_version = @version
     assert project_2_issue.save
 
@@ -276,12 +281,12 @@ class VersionTest < ActiveSupport::TestCase
   private
 
   def add_issue(version, attributes={})
-    (v = Issue.new.tap do |v|
+    (v = WorkPackage.new.tap do |v|
       v.force_attributes = { :project => version.project,
                              :fixed_version => version,
                              :subject => 'Test',
                              :author => User.first,
-                             :tracker => version.project.trackers.first }.merge(attributes)
+                             :type => version.project.types.first }.merge(attributes)
     end).save!
 
     v

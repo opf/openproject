@@ -1,19 +1,37 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
 class Project < ActiveRecord::Base
   include Redmine::SafeAttributes
+  extend Pagination::Model
+
+  include Project::Copy
 
   # Project statuses
   STATUS_ACTIVE     = 1
@@ -27,73 +45,182 @@ class Project < ActiveRecord::Base
 
   # Specific overidden Activities
   has_many :time_entry_activities
-  has_many :members, :include => [:user, :roles], :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUS_ACTIVE}"
+  has_many :members, :include => [:user, :roles], :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUSES[:active]}"
   has_many :assignable_members,
            :class_name => 'Member',
-           :include => [:user, :roles],
-           :conditions => ["#{User.table_name}.type=? AND #{User.table_name}.status=? AND roles.assignable = ?",
-                           'User',
-                           User::STATUS_ACTIVE,
-                           true]
+           :include => [:principal, :roles],
+           :conditions => Proc.new { self.class.assignable_members_condition }
   has_many :memberships, :class_name => 'Member'
   has_many :member_principals, :class_name => 'Member',
                                :include => :principal,
-                               :conditions => "#{Principal.table_name}.type='Group' OR (#{Principal.table_name}.type='User' AND (#{Principal.table_name}.status=#{User::STATUS_ACTIVE} OR #{Principal.table_name}.status=#{User::STATUS_REGISTERED}))"
+                               :conditions => "#{Principal.table_name}.type='Group' OR " +
+                                              "(#{Principal.table_name}.type='User' AND " +
+                                              "(#{Principal.table_name}.status=#{User::STATUSES[:active]} OR " +
+                                              "#{Principal.table_name}.status=#{User::STATUSES[:registered]}))"
   has_many :users, :through => :members
   has_many :principals, :through => :member_principals, :source => :principal
 
   has_many :enabled_modules, :dependent => :delete_all
-  has_and_belongs_to_many :trackers, :order => "#{Tracker.table_name}.position"
-  has_many :issues, :dependent => :destroy, :order => "#{Issue.table_name}.created_on DESC", :include => [:status, :tracker]
-  has_many :issue_changes, :through => :issues, :source => :journals
+  has_and_belongs_to_many :types, :order => "#{Type.table_name}.position"
+  has_many :work_packages, :dependent => :destroy, :order => "#{WorkPackage.table_name}.created_at DESC", :include => [:status, :type]
+  has_many :work_package_changes, :through => :work_packages, :source => :journals
   has_many :versions, :dependent => :destroy, :order => "#{Version.table_name}.effective_date DESC, #{Version.table_name}.name DESC"
   has_many :time_entries, :dependent => :delete_all
   has_many :queries, :dependent => :delete_all
-  has_many :documents, :dependent => :destroy
   has_many :news, :dependent => :destroy, :include => :author
-  has_many :issue_categories, :dependent => :delete_all, :order => "#{IssueCategory.table_name}.name"
+  has_many :categories, :dependent => :delete_all, :order => "#{Category.table_name}.name"
   has_many :boards, :dependent => :destroy, :order => "position ASC"
   has_one :repository, :dependent => :destroy
   has_many :changesets, :through => :repository
   has_one :wiki, :dependent => :destroy
-  # Custom field for the project issues
-  has_and_belongs_to_many :issue_custom_fields,
-                          :class_name => 'IssueCustomField',
+  # Custom field for the project work units
+  has_and_belongs_to_many :work_package_custom_fields,
+                          :class_name => 'WorkPackageCustomField',
                           :order => "#{CustomField.table_name}.position",
                           :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
                           :association_foreign_key => 'custom_field_id'
 
-  acts_as_nested_set :order => 'name', :dependent => :destroy
-  acts_as_attachable :view_permission => :view_files,
-                     :delete_permission => :manage_files
+  acts_as_nested_set :order_column => :name, :dependent => :destroy
 
   acts_as_customizable
   acts_as_searchable :columns => ["#{table_name}.name", "#{table_name}.identifier", "#{table_name}.description", "#{table_name}.summary"], :project_key => 'id', :permission => nil
-  acts_as_event :title => Proc.new {|o| "#{l(:label_project)}: #{o.name}"},
-                :url => Proc.new {|o| {:controller => 'projects', :action => 'show', :id => o}},
-                :author => nil
+  acts_as_event :title => Proc.new {|o| "#{Project.model_name.human}: #{o.name}"},
+                :url => Proc.new {|o| {:controller => '/projects', :action => 'show', :id => o}},
+                :author => nil,
+                :datetime => :created_on
 
   attr_protected :status
 
   validates_presence_of :name, :identifier
+  #TODO: we temporarily disable this validation because it leads to failed tests
+  #it implicitely assumes a db:seed-created standard type to be present and currently
+  #neither development nor deployment setups are prepared for this
+  #validates_presence_of :types
   validates_uniqueness_of :identifier
   validates_associated :repository, :wiki
   validates_length_of :name, :maximum => 255
   validates_length_of :homepage, :maximum => 255
   validates_length_of :identifier, :in => 1..IDENTIFIER_MAX_LENGTH
   # donwcase letters, digits, dashes but not digits only
-  validates_format_of :identifier, :with => /^(?!\d+$)[a-z0-9\-_]*$/, :if => Proc.new { |p| p.identifier_changed? }
+  validates_format_of :identifier, :with => /\A(?!\d+$)[a-z0-9\-_]*\z/, :if => Proc.new { |p| p.identifier_changed? }
   # reserved words
   validates_exclusion_of :identifier, :in => RESERVED_IDENTIFIERS
 
   before_destroy :delete_all_members
 
-  named_scope :has_module, lambda { |mod| { :conditions => ["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s] } }
-  named_scope :active, { :conditions => "#{Project.table_name}.status = #{STATUS_ACTIVE}"}
-  named_scope :all_public, { :conditions => { :is_public => true } }
-  named_scope :visible, lambda { { :conditions => Project.visible_by(User.current) } }
+  scope :has_module, lambda { |mod| { :conditions => ["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s] } }
+  scope :active, lambda { |*args| where(:status => STATUS_ACTIVE) }
+  scope :public, lambda { |*args| where(:is_public => true) }
+  scope :visible, lambda { { :conditions => Project.visible_by(User.current) } }
 
-  def initialize(attributes = nil)
+  # timelines stuff
+
+  scope :selectable_projects
+
+  belongs_to :project_type, :class_name => "::ProjectType"
+
+  belongs_to :responsible,  :class_name => "User"
+
+  has_many :timelines,  :class_name => "::Timeline",
+                        :dependent  => :destroy
+
+  has_many :reportings_via_source, :class_name  => "::Reporting",
+                                   :foreign_key => 'project_id',
+                                   :dependent   => :delete_all
+
+  has_many :reportings_via_target, :class_name  => "::Reporting",
+                                   :foreign_key => 'reporting_to_project_id',
+                                   :dependent   => :delete_all
+
+  has_many :reporting_to_projects, :through => :reportings_via_source,
+                                   :source  => :reporting_to_project
+
+  has_many :project_a_associations, :class_name  => "::ProjectAssociation",
+                                    :foreign_key => 'project_a_id',
+                                    :dependent   => :delete_all
+
+  has_many :project_b_associations, :class_name  => "::ProjectAssociation",
+                                    :foreign_key => 'project_b_id',
+                                    :dependent   => :delete_all
+
+  has_many :associated_a_projects, :through => :project_a_associations,
+                                   :source  => :project_b
+
+  has_many :associated_b_projects, :through => :project_b_associations,
+                                   :source  => :project_a
+
+  include TimelinesCollectionProxy
+
+  collection_proxy :project_associations, :for => [:project_a_associations,
+                                                   :project_b_associations] do
+    def visible(user = User.current)
+      all.select { |assoc| assoc.visible?(user) }
+    end
+  end
+
+  collection_proxy :associated_projects, :for => [:associated_a_projects,
+                                                  :associated_b_projects] do
+    def visible(user = User.current)
+      all.select { |other| other.visible?(user) }
+    end
+  end
+
+  collection_proxy :reportings, :for => [:reportings_via_source,
+                                         :reportings_via_target],
+                                         :leave_public => true
+
+  def associated_project_candidates(user = User.current)
+    # TODO: Check if admins shouldn't see all projects here
+    projects = Project.visible.all
+    projects.delete(self)
+    projects -= associated_projects
+    projects.select{|p| p.allows_association?}
+  end
+
+  def associated_project_candidates_by_type(user = User.current)
+    # TODO: values need sorting by project tree
+    associated_project_candidates(user).group_by(&:project_type)
+  end
+
+  def project_associations_by_type(user = User.current)
+    # TODO: values need sorting by project tree
+    project_associations.visible.group_by do |a|
+      a.project(self).project_type
+    end
+  end
+
+  def reporting_to_project_candidates(user = User.current)
+    # TODO: Check if admins shouldn't see all projects here
+    projects = Project.visible.all
+    projects.delete(self)
+    projects -= reporting_to_projects
+    projects
+  end
+
+  def visible?(user = User.current)
+    self.active? and (self.is_public? or user.admin? or user.member_of?(self))
+  end
+
+  def allows_association?
+    if self.project_type.present?
+      self.project_type.allows_association
+    else
+      true
+    end
+  end
+
+  def self.selectable_projects
+    Project.visible.select {|p| User.current.member_of? p }.sort_by(&:to_s)
+  end
+
+  def self.search_scope(query)
+    # overwritten from Pagination::Model
+    visible.like(query)
+  end
+
+  # end timelines
+
+  def initialize(attributes = nil, options = {})
     super
 
     initialized = (attributes || {}).stringify_keys
@@ -106,8 +233,8 @@ class Project < ActiveRecord::Base
     if !initialized.key?('enabled_module_names')
       self.enabled_module_names = Setting.default_projects_modules
     end
-    if !initialized.key?('trackers') && !initialized.key?('tracker_ids')
-      self.trackers = Tracker.all
+    if !initialized.key?('types') && !initialized.key?('type_ids')
+      self.types = Type.where(is_default: true)
     end
   end
 
@@ -126,7 +253,7 @@ class Project < ActiveRecord::Base
   def add_member(user, roles)
     members.build.tap do |m|
       m.principal = user
-      m.roles = roles.is_a?(Array) ? roles : [roles]
+      m.roles = Array(roles)
     end
   end
 
@@ -139,6 +266,19 @@ class Project < ActiveRecord::Base
   # non public projects will be returned only if user is a member of those
   def self.latest(user=nil, count=5)
     find(:all, :limit => count, :conditions => visible_by(user), :order => "created_on DESC")
+  end
+
+  def self.latest_for(user, options = {})
+    limit = options.fetch(:count) { 5 }
+
+    conditions = visible_by(user)
+
+    where(conditions).limit(limit).newest_first
+  end
+
+  # table_name shouldn't be needed :(
+  def self.newest_first
+    order "#{table_name}.created_on DESC"
   end
 
   # Returns a SQL :conditions string used to find all active projects for the specified user.
@@ -157,6 +297,12 @@ class Project < ActiveRecord::Base
     end
   end
 
+  # Returns a SQL conditions string used to find all projects for which +user+ has the given +permission+
+  #
+  # Valid options:
+  # * :project => limit the condition to project
+  # * :with_subprojects => limit the condition to project and its subprojects
+  # * :member => limit the condition to the user projects
   def self.allowed_to_condition(user, permission, options={})
     base_statement = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
     if perm = Redmine::AccessControl.permission(permission)
@@ -254,7 +400,7 @@ class Project < ActiveRecord::Base
   end
 
   def self.find(*args)
-    if args.first && args.first.is_a?(String) && !args.first.match(/^\d*$/)
+    if args.first && args.first.is_a?(String) && !args.first.match(/\A\d*\z/)
       project = find_by_identifier(*args)
       raise ActiveRecord::RecordNotFound, "Couldn't find Project with identifier=#{args.first}" if project.nil?
       project
@@ -263,9 +409,15 @@ class Project < ActiveRecord::Base
     end
   end
 
+  def self.find_visible(user, *args)
+    with_scope(:find => where(Project.visible_by(user))) do
+      find(*args)
+    end
+  end
+
   def to_param
     # id is used for projects with a numeric identifier (compatibility)
-    @to_param ||= (identifier.to_s =~ %r{^\d*$} ? id : identifier)
+    @to_param ||= (identifier.to_s =~ %r{\A\d*\z} ? id : identifier)
   end
 
   def active?
@@ -281,9 +433,9 @@ class Project < ActiveRecord::Base
     # Check that there is no issue of a non descendant project that is assigned
     # to one of the project or descendant versions
     v_ids = self_and_descendants.collect {|p| p.version_ids}.flatten
-    if v_ids.any? && Issue.find(:first, :include => :project,
+    if v_ids.any? && WorkPackage.find(:first, :include => :project,
                                         :conditions => ["(#{Project.table_name}.lft < ? OR #{Project.table_name}.rgt > ?)" +
-                                                        " AND #{Issue.table_name}.fixed_version_id IN (?)", lft, rgt, v_ids])
+                                                        " AND #{WorkPackage.table_name}.fixed_version_id IN (?)", lft, rgt, v_ids])
       return false
     end
     Project.transaction do
@@ -365,7 +517,7 @@ class Project < ActiveRecord::Base
         # move_to_child_of adds the project in last (ie.right) position
         move_to_child_of(p)
       end
-      Issue.update_versions_from_hierarchy_change(self)
+      WorkPackage.update_versions_from_hierarchy_change(self)
       true
     else
       # Can not move to the given target
@@ -373,13 +525,13 @@ class Project < ActiveRecord::Base
     end
   end
 
-  # Returns an array of the trackers used by the project and its active sub projects
-  def rolled_up_trackers
-    @rolled_up_trackers ||=
-      Tracker.find(:all, :joins => :projects,
-                         :select => "DISTINCT #{Tracker.table_name}.*",
-                         :conditions => ["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt],
-                         :order => "#{Tracker.table_name}.position")
+  # Returns an array of the types used by the project and its active sub projects
+  def rolled_up_types
+    @rolled_up_types ||=
+      Type.find(:all, :joins => :projects,
+                      :select => "DISTINCT #{Type.table_name}.*",
+                      :conditions => ["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt],
+                      :order => "#{Type.table_name}.position")
   end
 
   # Closes open and locked project versions that are completed
@@ -433,9 +585,9 @@ class Project < ActiveRecord::Base
     Member.delete_all(['project_id = ?', id])
   end
 
-  # Users issues can be assigned to
+  # Users/groups a work_package can be assigned to
   def assignable_users
-    assignable_members.map(&:user).sort
+    assignable_members.map(&:principal).compact.sort
   end
 
   # Returns the mail adresses of users that should be always notified on project events
@@ -451,8 +603,20 @@ class Project < ActiveRecord::Base
 
   # Returns an array of all custom fields enabled for project issues
   # (explictly associated custom fields and custom fields enabled for all projects)
-  def all_issue_custom_fields
-    @all_issue_custom_fields ||= (IssueCustomField.for_all + issue_custom_fields).uniq.sort
+  #
+  # Supports the :include option.
+  def all_work_package_custom_fields(options = {})
+    @all_work_package_custom_fields ||= (
+      WorkPackageCustomField.for_all(options) + (
+        if options.include? :include
+          WorkPackageCustomField.joins(:projects)
+            .where(:projects => {:id => self.id})
+            .includes(options[:include]) # use #preload instead of #includes if join gets too big
+        else
+          work_package_custom_fields
+        end
+      )
+    ).uniq.sort
   end
 
   def project
@@ -473,7 +637,7 @@ class Project < ActiveRecord::Base
     when summary.present?
       summary
     when description.present?
-      description.gsub(/^(.{#{length}}[^\n\r]*).*$/m, '\1...').strip
+      description.gsub(/\A(.{#{length}}[^\n\r]*).*\z/m, '\1...').strip
     else
       ""
     end
@@ -490,7 +654,7 @@ class Project < ActiveRecord::Base
   # The earliest start date of a project, based on it's issues and versions
   def start_date
     [
-     issues.minimum('start_date'),
+     work_packages.minimum('start_date'),
      shared_versions.collect(&:effective_date),
      shared_versions.collect(&:start_date)
     ].flatten.compact.min
@@ -499,7 +663,7 @@ class Project < ActiveRecord::Base
   # The latest due date of an issue or version
   def due_date
     [
-     issues.maximum('due_date'),
+     work_packages.maximum('due_date'),
      shared_versions.collect(&:effective_date),
      shared_versions.collect {|v| v.fixed_issues.maximum('due_date')}
     ].flatten.compact.max
@@ -529,7 +693,7 @@ class Project < ActiveRecord::Base
 
   # Return true if this project is allowed to do the specified action.
   # action can be:
-  # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
+  # * a parameter-like Hash (eg. :controller => '/projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
   def allows_to?(action)
     if action.is_a? Hash
@@ -566,8 +730,11 @@ class Project < ActiveRecord::Base
     'identifier',
     'custom_field_values',
     'custom_fields',
-    'tracker_ids',
-    'issue_custom_field_ids'
+    'type_ids',
+    'work_package_custom_field_ids',
+    'project_type_id',
+    'type_ids',
+    'responsible_id'
 
   safe_attributes 'enabled_module_names',
     :if => lambda {|project, user| project.new_record? || user.allowed_to?(:select_project_modules, project) }
@@ -578,69 +745,13 @@ class Project < ActiveRecord::Base
   def hierarchy
     parents = project.self_and_ancestors || []
     descendants = project.descendants || []
-    project_hierarchy = parents | descendants # Set union
+    parents | descendants # Set union
   end
 
   # Returns an auto-generated project identifier based on the last identifier used
   def self.next_identifier
     p = Project.find(:first, :order => 'created_on DESC')
     p.nil? ? nil : p.identifier.to_s.succ
-  end
-
-  # Copies and saves the Project instance based on the +project+.
-  # Duplicates the source project's:
-  # * Wiki
-  # * Versions
-  # * Categories
-  # * Issues
-  # * Members
-  # * Queries
-  #
-  # Accepts an +options+ argument to specify what to copy
-  #
-  # Examples:
-  #   project.copy(1)                                    # => copies everything
-  #   project.copy(1, :only => 'members')                # => copies members only
-  #   project.copy(1, :only => ['members', 'versions'])  # => copies members and versions
-  def copy(project, options={})
-    project = project.is_a?(Project) ? project : Project.find(project)
-
-    to_be_copied = %w(wiki versions issue_categories issues members queries boards)
-    to_be_copied = to_be_copied & options[:only].to_a unless options[:only].nil?
-
-    Project.transaction do
-      if save
-        reload
-        to_be_copied.each do |name|
-          send "copy_#{name}", project
-        end
-        Redmine::Hook.call_hook(:model_project_copy_before_save, :source_project => project, :destination_project => self)
-        save
-      end
-    end
-  end
-
-
-  # Copies +project+ and returns the new instance.  This will not save
-  # the copy
-  def self.copy_from(project)
-    begin
-      project = project.is_a?(Project) ? project : Project.find(project)
-      if project
-        # clear unique attributes
-        attributes = project.attributes.dup.except('id', 'name', 'identifier', 'status', 'parent_id', 'lft', 'rgt')
-        copy = Project.new(attributes)
-        copy.enabled_modules = project.enabled_modules
-        copy.trackers = project.trackers
-        copy.custom_values = project.custom_values.collect {|v| v.clone}
-        copy.issue_custom_fields = project.issue_custom_fields
-        return copy
-      else
-        return nil
-      end
-    rescue ActiveRecord::RecordNotFound
-      return nil
-    end
   end
 
   # builds up a project hierarchy helper structure for use with #project_tree_from_hierarchy
@@ -713,160 +824,24 @@ class Project < ActiveRecord::Base
     list
   end
 
-
-  private
-
-  # Copies wiki from +project+
-  def copy_wiki(project)
-    # Check that the source project has a wiki first
-    unless project.wiki.nil?
-      self.wiki ||= Wiki.new
-      wiki.attributes = project.wiki.attributes.dup.except("id", "project_id")
-      wiki_pages_map = {}
-      project.wiki.pages.each do |page|
-        # Skip pages without content
-        next if page.content.nil?
-        new_wiki_content = WikiContent.new(page.content.attributes.dup.except("id", "page_id", "updated_on"))
-        new_wiki_page = WikiPage.new(page.attributes.dup.except("id", "wiki_id", "created_on", "parent_id"))
-        new_wiki_page.content = new_wiki_content
-        wiki.pages << new_wiki_page
-        wiki_pages_map[page.id] = new_wiki_page
-      end
-      wiki.save
-      # Reproduce page hierarchy
-      project.wiki.pages.each do |page|
-        if page.parent_id && wiki_pages_map[page.id]
-          wiki_pages_map[page.id].parent = wiki_pages_map[page.parent_id]
-          wiki_pages_map[page.id].save
-        end
-      end
-    end
+  def add_issue(attributes = {})
+    ActiveSupport::Deprecation.warn "Project.add_issue is deprecated. Use Project.add_work_package instead."
+    add_work_package attributes
   end
 
-  # Copies versions from +project+
-  def copy_versions(project)
-    project.versions.each do |version|
-      new_version = Version.new
-      new_version.attributes = version.attributes.dup.except("id", "project_id", "created_on", "updated_on")
-      self.versions << new_version
-    end
-  end
+  def add_work_package(attributes = {})
+    WorkPackage.new do |i|
+      i.project = self
 
-  # Copies issue categories from +project+
-  def copy_issue_categories(project)
-    project.issue_categories.each do |issue_category|
-      new_issue_category = IssueCategory.new
-      new_issue_category.send(:attributes=, issue_category.attributes.dup.except("id", "project_id"), false)
-      self.issue_categories << new_issue_category
-    end
-  end
+      type_attribute = attributes.delete(:type) || attributes.delete(:type_id)
 
-  # Copies issues from +project+
-  def copy_issues(project)
-    # Stores the source issue id as a key and the copied issues as the
-    # value.  Used to map the two togeather for issue relations.
-    issues_map = {}
+      i.type = if type_attribute
+                    project.types.find(type_attribute)
+                  else
+                    project.types.first
+                  end
 
-    # Get issues sorted by root_id, lft so that parent issues
-    # get copied before their children
-    project.issues.find(:all, :order => 'root_id, lft').each do |issue|
-      new_issue = Issue.new
-      new_issue.copy_from(issue)
-      new_issue.project = self
-      # Reassign fixed_versions by name, since names are unique per
-      # project and the versions for self are not yet saved
-      if issue.fixed_version
-        new_issue.fixed_version = self.versions.select {|v| v.name == issue.fixed_version.name}.first
-      end
-      # Reassign the category by name, since names are unique per
-      # project and the categories for self are not yet saved
-      if issue.category
-        new_issue.category = self.issue_categories.select {|c| c.name == issue.category.name}.first
-      end
-      # Parent issue
-      if issue.parent_id
-        if copied_parent = issues_map[issue.parent_id]
-          new_issue.parent_issue_id = copied_parent.id
-        end
-      end
-
-      self.issues << new_issue
-      if new_issue.new_record?
-        logger.info "Project#copy_issues: issue ##{issue.id} could not be copied: #{new_issue.errors.full_messages}" if logger && logger.info
-      else
-        issues_map[issue.id] = new_issue unless new_issue.new_record?
-      end
-    end
-
-    # Relations after in case issues related each other
-    project.issues.each do |issue|
-      new_issue = issues_map[issue.id]
-      unless new_issue
-        # Issue was not copied
-        next
-      end
-
-      # Relations
-      issue.relations_from.each do |source_relation|
-        new_issue_relation = IssueRelation.new
-        new_issue_relation.attributes = source_relation.attributes.dup.except("id", "issue_from_id", "issue_to_id")
-        new_issue_relation.issue_to = issues_map[source_relation.issue_to_id]
-        if new_issue_relation.issue_to.nil? && Setting.cross_project_issue_relations?
-          new_issue_relation.issue_to = source_relation.issue_to
-        end
-        new_issue.relations_from << new_issue_relation
-      end
-
-      issue.relations_to.each do |source_relation|
-        new_issue_relation = IssueRelation.new
-        new_issue_relation.attributes = source_relation.attributes.dup.except("id", "issue_from_id", "issue_to_id")
-        new_issue_relation.issue_from = issues_map[source_relation.issue_from_id]
-        if new_issue_relation.issue_from.nil? && Setting.cross_project_issue_relations?
-          new_issue_relation.issue_from = source_relation.issue_from
-        end
-        new_issue.relations_to << new_issue_relation
-      end
-    end
-  end
-
-  # Copies members from +project+
-  def copy_members(project)
-    # Copy users first, then groups to handle members with inherited and given roles
-    members_to_copy = []
-    members_to_copy += project.memberships.select {|m| m.principal.is_a?(User)}
-    members_to_copy += project.memberships.select {|m| !m.principal.is_a?(User)}
-
-    members_to_copy.each do |member|
-      new_member = Member.new
-      new_member.send(:attributes=, member.attributes.dup.except("id", "project_id", "created_on"), false)
-      # only copy non inherited roles
-      # inherited roles will be added when copying the group membership
-      role_ids = member.member_roles.reject(&:inherited?).collect(&:role_id)
-      next if role_ids.empty?
-      new_member.role_ids = role_ids
-      new_member.project = self
-      self.members << new_member
-    end
-  end
-
-  # Copies queries from +project+
-  def copy_queries(project)
-    project.queries.each do |query|
-      new_query = Query.new
-      new_query.attributes = query.attributes.dup.except("id", "project_id", "sort_criteria")
-      new_query.sort_criteria = query.sort_criteria if query.sort_criteria
-      new_query.project = self
-      self.queries << new_query
-    end
-  end
-
-  # Copies boards from +project+
-  def copy_boards(project)
-    project.boards.each do |board|
-      new_board = Board.new
-      new_board.attributes = board.attributes.dup.except("id", "project_id", "topics_count", "messages_count", "last_message_id")
-      new_board.project = self
-      self.boards << new_board
+      i.attributes = attributes
     end
   end
 
@@ -926,5 +901,20 @@ class Project < ActiveRecord::Base
       subproject.send :archive!
     end
     update_attribute :status, STATUS_ARCHIVED
+  end
+
+  protected
+
+  def self.assignable_members_condition
+
+    condition = Setting.work_package_group_assignment? ?
+                  ["(#{Principal.table_name}.type=? OR #{Principal.table_name}.type=?)", 'User', 'Group'] :
+                  ["(#{Principal.table_name}.type=?)", 'User']
+
+    condition[0] += " AND #{User.table_name}.status=? AND roles.assignable = ?"
+    condition << User::STATUSES[:active]
+    condition << true
+
+    sanitize_sql_array condition
   end
 end

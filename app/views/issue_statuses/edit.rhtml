@@ -1,6 +1,0 @@
-<h2><%= link_to l(:label_issue_status_plural), :controller => 'issue_statuses', :action => 'index' %> &#187; <%=h @issue_status %></h2>
-
-<% form_tag({:action => 'update', :id => @issue_status}, :class => "tabular") do %>
-  <%= render :partial => 'form' %>
-  <%= submit_tag l(:button_save) %>
-<% end %>

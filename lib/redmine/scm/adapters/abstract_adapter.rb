@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -155,7 +170,7 @@ module Redmine
 
         def without_leading_slash(path)
           path ||= ''
-          path.gsub(%r{^/+}, '')
+          path.gsub(%r{\A/+}, '')
         end
 
         def without_trailling_slash(path)
@@ -175,7 +190,7 @@ module Redmine
 
         def target(path)
           path ||= ''
-          base = path.match(/^\//) ? root_url : url
+          base = path.match(/\A\//) ? root_url : url
           shell_quote("#{base}/#{path}".gsub(/[?<>\*]/, ''))
         end
 
@@ -188,14 +203,14 @@ module Redmine
         end
 
         def self.logger
-          RAILS_DEFAULT_LOGGER
+          Rails.logger
         end
 
         def self.shellout(cmd, &block)
           logger.debug "Shelling out: #{strip_credential(cmd)}" if logger && logger.debug?
           if Rails.env == 'development'
             # Capture stderr when running in dev environment
-            cmd = "#{cmd} 2>>#{RAILS_ROOT}/log/scm.stderr.log"
+            cmd = "#{cmd} 2>>#{Rails.root}/log/scm.stderr.log"
           end
           begin
             if RUBY_VERSION < '1.9'
@@ -225,12 +240,12 @@ module Redmine
           self.class.strip_credential(cmd)
         end
 
-        def scm_iconv(to, from, str)
+        def scm_encode(to, from, str)
           return nil if str.nil?
           return str if to == from
           begin
-            Iconv.conv(to, from, str)
-          rescue Iconv::Failure => err
+            str.to_s.encode(to, from)
+          rescue Encoding::InvalidByteSequenceError, Encoding::UndefinedConversionError => err
             logger.error("failed to convert from #{from} to #{to}. #{err}")
             nil
           end

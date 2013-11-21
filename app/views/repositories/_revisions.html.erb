@@ -1,0 +1,71 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= form_tag({:controller => '/repositories', :action => 'diff', :project_id => @project, :path => to_path_param(path)}, :method => :get) do %>
+  <table class="list changesets">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th></th>
+        <th></th>
+        <th><%= l(:label_date) %></th>
+        <th><%= Changeset.human_attribute_name(:author) %></th>
+        <th><%= Changeset.human_attribute_name(:comments) %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% show_diff = revisions.size > 1 %>
+      <% line_num = 1 %>
+      <% revisions.each do |changeset| %>
+      <tr class="changeset <%= cycle 'odd', 'even' %>">
+        <td class="id">
+          <%= link_to_revision(changeset, project) %>
+        </td>
+        <td class="checkbox">
+          <%= radio_button_tag('rev', changeset.identifier, (line_num==1), :id => "cb-#{line_num}", :onclick => "$('cbto-#{line_num+1}').checked=true;") if show_diff && (line_num < revisions.size) %>
+        </td>
+        <td class="checkbox">
+          <%= radio_button_tag('rev_to', changeset.identifier, (line_num==2), :id => "cbto-#{line_num}", :onclick => "if ($('cb-#{line_num}').checked==true) {$('cb-#{line_num-1}').checked=true;}") if show_diff && (line_num > 1) %>
+        </td>
+        <td class="committed_on">
+          <%= format_time(changeset.committed_on) %>
+        </td>
+        <td class="author">
+          <%=h changeset.author %>
+        </td>
+        <td class="comments">
+          <%= textilizable(truncate_at_line_break(Changeset.to_utf8(changeset.comments, changeset.repository.repo_log_encoding))) %>
+        </td>
+      </tr>
+      <% line_num += 1 %>
+      <% end %>
+    </tbody>
+  </table>
+  <%= submit_tag(l(:label_view_diff), :name => nil) if show_diff %>
+<% end %>

@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -17,10 +32,6 @@ require "digest/md5"
 class Attachment < ActiveRecord::Base
   belongs_to :container, :polymorphic => true
 
-  # FIXME: Remove these once the Versions, Documents and Projects themselves can provide file events
-  belongs_to :version, :foreign_key => "container_id"
-  belongs_to :document, :foreign_key => "container_id"
-
   belongs_to :author, :class_name => "User", :foreign_key => "author_id"
 
   attr_protected :author_id
@@ -29,37 +40,22 @@ class Attachment < ActiveRecord::Base
   validates_length_of :filename, :maximum => 255
   validates_length_of :disk_filename, :maximum => 255
 
+  validate :filesize_below_allowed_maximum
+
+  before_save :copy_file_to_destination
+  after_destroy :delete_file_on_disk
+
   acts_as_journalized :event_title => :filename,
-        :event_url => (Proc.new do |o|
-          { :controller => 'attachments', :action => 'download',
-            :id => o.journaled_id, :filename => o.filename }
-        end),
-        :activity_type => 'files',
-        :activity_permission => :view_files,
-        :activity_find_options => { :include => { :version => :project } }
-
-  acts_as_activity :type => 'documents', :permission => :view_documents,
-        :find_options => { :include => { :document => :project } }
-
-  # This method is called on save by the AttachmentJournal in order to
-  # decide which kind of activity we are dealing with. When that activity
-  # is retrieved later, we don't need to check the container_type in
-  # SQL anymore as that will be just the one we have specified here.
-  def activity_type
-    case container_type
-    when "Document"
-      "documents"
-    when "Version"
-      "files"
-    else
-      super
-    end
-  end
+       :event_url => (Proc.new do |o|
+         { :controller => '/attachments', :action => 'download',
+           :id => o.journable_id, :filename => o.filename }
+       end), :acts_as_activity => false
 
   cattr_accessor :storage_path
-  @@storage_path = Redmine::Configuration['attachments_storage_path'] || "#{RAILS_ROOT}/files"
+  @@storage_path = OpenProject::Configuration['attachments_storage_path'] ||
+                   Rails.root.join('files').to_s
 
-  def validate
+  def filesize_below_allowed_maximum
     if self.filesize > Setting.attachment_max_size.to_i.kilobytes
       errors.add(:base, :too_long, :count => Setting.attachment_max_size.to_i.kilobytes)
     end
@@ -69,15 +65,29 @@ class Attachment < ActiveRecord::Base
     unless incoming_file.nil?
       @temp_file = incoming_file
       if @temp_file.size > 0
-        self.filename = sanitize_filename(@temp_file.original_filename)
-        self.disk_filename = Attachment.disk_filename(filename)
-        self.content_type = @temp_file.content_type.to_s.chomp
-        if content_type.blank?
+        # Incomming_file might be a String if you parse an incomming mail having an attachment
+        # It is a Mail::Part.decoded String then, which doesn't have the usual file methods.
+        if @temp_file.respond_to?(:original_filename)
+          self.filename = @temp_file.original_filename
+          self.filename.force_encoding("UTF-8") if filename.respond_to?(:force_encoding)
+        end
+        if @temp_file.respond_to?(:content_type)
+          self.content_type = @temp_file.content_type.to_s.chomp
+        end
+        if content_type.blank? && filename.present?
           self.content_type = Redmine::MimeType.of(filename)
         end
         self.filesize = @temp_file.size
       end
     end
+  end
+
+  def filename=(arg)
+    write_attribute :filename, sanitize_filename(arg.to_s)
+    if new_record? && disk_filename.blank?
+      self.disk_filename = Attachment.disk_filename(filename)
+    end
+    filename
   end
 
   def file
@@ -86,15 +96,22 @@ class Attachment < ActiveRecord::Base
 
   # Copies the temporary file to its final location
   # and computes its MD5 hash
-  def before_save
+  def copy_file_to_destination
     if @temp_file && (@temp_file.size > 0)
-      logger.debug("saving '#{self.diskfile}'")
+      logger.info("Saving attachment '#{self.diskfile}' (#{@temp_file.size} bytes)")
       md5 = Digest::MD5.new
       File.open(diskfile, "wb") do |f|
-        buffer = ""
-        while (buffer = @temp_file.read(8192))
-          f.write(buffer)
-          md5.update(buffer)
+        # @temp_file might be a String if you parse an incomming mail having an attachment
+        # It is a Mail::Part.decoded String then, which doesn't have the usual file methods.
+        if @temp_file.is_a? String
+          f.write(@temp_file)
+          md5.update(@temp_file)
+        else
+          buffer = ""
+          while (buffer = @temp_file.read(8192))
+            f.write(buffer)
+            md5.update(buffer)
+          end
         end
       end
       self.digest = md5.hexdigest
@@ -106,8 +123,8 @@ class Attachment < ActiveRecord::Base
   end
 
   # Deletes file on the disk
-  def after_destroy
-    File.delete(diskfile) if !filename.blank? && File.exist?(diskfile)
+  def delete_file_on_disk
+    File.delete(diskfile) if filename.present? && File.exist?(diskfile)
   end
 
   # Returns file's location on disk
@@ -120,7 +137,8 @@ class Attachment < ActiveRecord::Base
   end
 
   def project
-    container.project
+    #not every container has a project (example: LandingPage)
+    container.respond_to?(:project)? container.project : nil
   end
 
   def visible?(user=User.current)
@@ -132,7 +150,7 @@ class Attachment < ActiveRecord::Base
   end
 
   def image?
-    self.filename =~ /\.(jpe?g|gif|png)$/i
+    self.filename =~ /\.(jpe?g|gif|png)\z/i
   end
 
   def is_text?
@@ -140,7 +158,7 @@ class Attachment < ActiveRecord::Base
   end
 
   def is_diff?
-    self.filename =~ /\.(patch|diff)$/i
+    self.filename =~ /\.(patch|diff)\z/i
   end
 
   # Returns true if the file is readable
@@ -176,9 +194,10 @@ class Attachment < ActiveRecord::Base
   end
 
 private
+
   def sanitize_filename(value)
     # get only the filename, not the whole path
-    just_filename = value.gsub(/^.*(\\|\/)/, '')
+    just_filename = value.gsub(/\A.*(\\|\/)/, '')
     # NOTE: File.basename doesn't work right with Windows paths on Unix
     # INCORRECT: just_filename = File.basename(value.gsub('\\\\', '/'))
 
@@ -190,12 +209,12 @@ private
   def self.disk_filename(filename)
     timestamp = DateTime.now.strftime("%y%m%d%H%M%S")
     ascii = ''
-    if filename =~ %r{^[a-zA-Z0-9_\.\-]*$}
+    if filename =~ %r{\A[a-zA-Z0-9_\.\-]*\z}
       ascii = filename
     else
       ascii = Digest::MD5.hexdigest(filename)
       # keep the extension if any
-      ascii << $1 if filename =~ %r{(\.[a-zA-Z0-9]+)$}
+      ascii << $1 if filename =~ %r{(\.[a-zA-Z0-9]+)\z}
     end
     while File.exist?(File.join(@@storage_path, "#{timestamp}_#{ascii}"))
       timestamp.succ!

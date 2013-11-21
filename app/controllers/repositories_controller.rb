@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -20,6 +35,8 @@ class ChangesetNotFound < Exception; end
 class InvalidRevisionParam < Exception; end
 
 class RepositoriesController < ApplicationController
+  include PaginationHelper
+
   menu_item :repository
   menu_item :settings, :only => :edit
   default_search_scope :changesets
@@ -61,17 +78,17 @@ class RepositoriesController < ApplicationController
       # Build a hash with repository usernames as keys and corresponding user ids as values
       @repository.committer_ids = params[:committers].values.inject({}) {|h, c| h[c.first] = c.last; h}
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'committers', :id => @project
+      redirect_to :action => 'committers', :project_id => @project
     end
   end
 
   def destroy
     @repository.destroy
-    redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'repository'
+    redirect_to :controller => '/projects', :action => 'settings', :id => @project, :tab => 'repository'
   end
 
   def show
-    @repository.fetch_changesets if Setting.autofetch_changesets? && @path.empty?
+    @repository.fetch_changesets if Setting.autofetch_changesets? && @path.blank?
 
     @entries = @repository.entries(@path, @rev)
     @changeset = @repository.find_changeset_by_name(@rev)
@@ -96,14 +113,9 @@ class RepositoriesController < ApplicationController
   end
 
   def revisions
-    @changeset_count = @repository.changesets.count
-    @changeset_pages = Paginator.new self, @changeset_count,
-                                     per_page_option,
-                                     params['page']
-    @changesets = @repository.changesets.find(:all,
-                       :limit  =>  @changeset_pages.items_per_page,
-                       :offset =>  @changeset_pages.current.offset,
-                       :include => [:user, :repository])
+    @changesets = @repository.changesets.includes(:user, :repository)
+                                        .page(params[:page])
+                                        .per_page(per_page_param)
 
     respond_to do |format|
       format.html { render :layout => false if request.xhr? }
@@ -208,6 +220,8 @@ class RepositoriesController < ApplicationController
   end
 
   def stats
+    @show_commits_per_author = current_user.allowed_to_in_project?(:view_commit_author_statistics,
+                                                                  @project)
   end
 
   def graph
@@ -216,6 +230,9 @@ class RepositoriesController < ApplicationController
     when "commits_per_month"
       data = graph_commits_per_month(@repository)
     when "commits_per_author"
+      unless current_user.allowed_to_in_project?(:view_commit_author_statistics, @project)
+        return deny_access
+      end
       data = graph_commits_per_author(@repository)
     end
     if data
@@ -231,12 +248,11 @@ class RepositoriesController < ApplicationController
   REV_PARAM_RE = %r{\A[a-f0-9]*\Z}i
 
   def find_repository
-    @project = Project.find(params[:id])
+    @project = Project.find(params[:project_id])
     @repository = @project.repository
     (render_404; return false) unless @repository
-    @path = params[:path].join('/') unless params[:path].nil?
-    @path ||= ''
-    @rev = params[:rev].blank? ? @repository.default_branch : params[:rev].strip
+    @path = params[:path] || ""
+    @rev = params[:rev].blank? ? @repository.default_branch : params[:rev].to_s.strip
     @rev_to = params[:rev_to]
 
     unless @rev.to_s.match(REV_PARAM_RE) && @rev_to.to_s.match(REV_PARAM_RE)
@@ -263,13 +279,13 @@ class RepositoriesController < ApplicationController
     @date_to = Date.today
     @date_from = @date_to << 11
     @date_from = Date.civil(@date_from.year, @date_from.month, 1)
-    commits_by_day = repository.changesets.count(:all, :group => :commit_date, :conditions => ["commit_date BETWEEN ? AND ?", @date_from, @date_to])
+    commits_by_day = Changeset.where(["repository_id = ? AND commit_date BETWEEN ? AND ?", repository.id, @date_from, @date_to]).group(:commit_date).size
     commits_by_month = [0] * 12
-    commits_by_day.each {|c| commits_by_month[c.first.to_date.months_ago] += c.last }
+    commits_by_day.each {|c| commits_by_month[(@date_to.month - c.first.to_date.month) % 12] += c.last }
 
-    changes_by_day = repository.changes.count(:all, :group => :commit_date, :conditions => ["commit_date BETWEEN ? AND ?", @date_from, @date_to])
+    changes_by_day = Change.includes(:changeset).where(["#{Changeset.table_name}.repository_id = ? AND #{Changeset.table_name}.commit_date BETWEEN ? AND ?", repository.id, @date_from, @date_to]).group(:commit_date).size
     changes_by_month = [0] * 12
-    changes_by_day.each {|c| changes_by_month[c.first.to_date.months_ago] += c.last }
+    changes_by_day.each {|c| changes_by_month[(@date_to.month - c.first.to_date.month) % 12] += c.last }
 
     fields = []
     12.times {|m| fields << month_name(((Date.today.month - 1 - m) % 12) + 1)}
@@ -300,10 +316,10 @@ class RepositoriesController < ApplicationController
   end
 
   def graph_commits_per_author(repository)
-    commits_by_author = repository.changesets.count(:all, :group => :committer)
+    commits_by_author = Changeset.where(["repository_id = ?", repository.id]).group(:committer).size
     commits_by_author.to_a.sort! {|x, y| x.last <=> y.last}
 
-    changes_by_author = repository.changes.count(:all, :group => :committer)
+    changes_by_author = Change.includes(:changeset).where(["#{Changeset.table_name}.repository_id = ?", repository.id]).group(:committer).size
     h = changes_by_author.inject({}) {|o, i| o[i.first] = i.last; o}
 
     fields = commits_by_author.collect {|r| r.first}
@@ -328,17 +344,14 @@ class RepositoriesController < ApplicationController
       :graph_title => l(:label_commits_per_author),
       :show_graph_title => true
     )
-
     graph.add_data(
       :data => commits_data,
       :title => l(:label_revision_plural)
     )
-
     graph.add_data(
       :data => changes_data,
       :title => l(:label_change_plural)
     )
-
     graph.burn
   end
 

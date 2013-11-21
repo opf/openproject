@@ -1,34 +1,49 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../../test_helper', __FILE__)
-require 'pp'
-class ApiTest::UsersTest < ActionController::IntegrationTest
-  fixtures :users
+
+class ApiTest::UsersTest < ActionDispatch::IntegrationTest
+  fixtures :all
 
   def setup
     Setting.rest_api_enabled = '1'
   end
 
-  context "GET /users" do
-    should_allow_api_authentication(:get, "/users.xml")
-    should_allow_api_authentication(:get, "/users.json")
+  context "GET /api/v1/users" do
+    should_allow_api_authentication(:get, "/api/v1/users.xml")
+    should_allow_api_authentication(:get, "/api/v1/users.json")
   end
 
-  context "GET /users/2" do
+  context "GET /api/v1/users/2" do
     context ".xml" do
       should "return requested user" do
-        get '/users/2.xml'
+        get '/api/v1/users/2.xml', {}, credentials('admin')
 
         assert_tag :tag => 'user',
           :child => {:tag => 'id', :content => '2'}
@@ -37,9 +52,9 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
 
     context ".json" do
       should "return requested user" do
-        get '/users/2.json'
+        get '/api/v1/users/2.json', {}, credentials('admin')
 
-        json = ActiveSupport::JSON.decode(response.body)
+        json = ActiveSupport::JSON.decode(@response.body)
         assert_kind_of Hash, json
         assert_kind_of Hash, json['user']
         assert_equal 2, json['user']['id']
@@ -47,16 +62,16 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
     end
   end
 
-  context "GET /users/current" do
+  context "GET /api/v1/users/current" do
     context ".xml" do
       should "require authentication" do
-        get '/users/current.xml'
+        get '/api/v1/users/current.xml'
 
         assert_response 401
       end
 
       should "return current user" do
-        get '/users/current.xml', {}, :authorization => credentials('jsmith')
+        get '/api/v1/users/current.xml', {}, credentials('jsmith')
 
         assert_tag :tag => 'user',
           :child => {:tag => 'id', :content => '2'}
@@ -64,21 +79,21 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
     end
   end
 
-  context "POST /users" do
+  context "POST /api/v1/users" do
     context "with valid parameters" do
       setup do
-        @parameters = {:user => {:login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname', :mail => 'foo@example.net', :password => 'secret', :mail_notification => 'only_assigned'}}
+        @parameters = {:user => {:login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname', :mail => 'foo@example.net', :password => 'adminADMIN!', :mail_notification => 'only_assigned'}}
       end
 
       context ".xml" do
         should_allow_api_authentication(:post,
-          '/users.xml',
-          {:user => {:login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname', :mail => 'foo@example.net', :password => 'secret'}},
+          '/api/v1/users.xml',
+          {:user => {:login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname', :mail => 'foo@example.net', :password => 'adminADMIN!'}},
           {:success_code => :created})
 
         should "create a user with the attributes" do
           assert_difference('User.count') do
-            post '/users.xml', @parameters, :authorization => credentials('admin')
+            post '/api/v1/users.xml', @parameters, credentials('admin')
           end
 
           user = User.first(:order => 'id DESC')
@@ -88,7 +103,7 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
           assert_equal 'foo@example.net', user.mail
           assert_equal 'only_assigned', user.mail_notification
           assert !user.admin?
-          assert user.check_password?('secret')
+          assert user.check_password?('adminADMIN!')
 
           assert_response :created
           assert_equal 'application/xml', @response.content_type
@@ -98,13 +113,13 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
 
       context ".json" do
         should_allow_api_authentication(:post,
-          '/users.json',
+          '/api/v1/users.json',
           {:user => {:login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname', :mail => 'foo@example.net'}},
           {:success_code => :created})
 
         should "create a user with the attributes" do
           assert_difference('User.count') do
-            post '/users.json', @parameters, :authorization => credentials('admin')
+            post '/api/v1/users.json', @parameters, credentials('admin')
           end
 
           user = User.first(:order => 'id DESC')
@@ -132,7 +147,7 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
       context ".xml" do
         should "return errors" do
           assert_no_difference('User.count') do
-            post '/users.xml', @parameters, :authorization => credentials('admin')
+            post '/api/v1/users.xml', @parameters, credentials('admin')
           end
 
           assert_response :unprocessable_entity
@@ -144,7 +159,7 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
       context ".json" do
         should "return errors" do
           assert_no_difference('User.count') do
-            post '/users.json', @parameters, :authorization => credentials('admin')
+            post '/api/v1/users.json', @parameters, credentials('admin')
           end
 
           assert_response :unprocessable_entity
@@ -152,7 +167,7 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
           json = ActiveSupport::JSON.decode(response.body)
           assert_kind_of Hash, json
           assert json.has_key?('errors')
-          assert_kind_of Array, json['errors']
+          assert_equal({ "firstname" => ["can't be blank"], "mail" => ["is invalid"] }, json['errors'])
         end
       end
     end
@@ -166,13 +181,13 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
 
       context ".xml" do
         should_allow_api_authentication(:put,
-          '/users/2.xml',
+          '/api/v1/users/2.xml',
           {:user => {:login => 'jsmith', :firstname => 'John', :lastname => 'Renamed', :mail => 'jsmith@somenet.foo'}},
           {:success_code => :ok})
 
         should "update user with the attributes" do
           assert_no_difference('User.count') do
-            put '/users/2.xml', @parameters, :authorization => credentials('admin')
+            put '/api/v1/users/2.xml', @parameters, credentials('admin')
           end
 
           user = User.find(2)
@@ -188,13 +203,13 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
 
       context ".json" do
         should_allow_api_authentication(:put,
-          '/users/2.json',
+          '/api/v1/users/2.json',
           {:user => {:login => 'jsmith', :firstname => 'John', :lastname => 'Renamed', :mail => 'jsmith@somenet.foo'}},
           {:success_code => :ok})
 
         should "update user with the attributes" do
           assert_no_difference('User.count') do
-            put '/users/2.json', @parameters, :authorization => credentials('admin')
+            put '/api/v1/users/2.json', @parameters, credentials('admin')
           end
 
           user = User.find(2)
@@ -217,7 +232,7 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
       context ".xml" do
         should "return errors" do
           assert_no_difference('User.count') do
-            put '/users/2.xml', @parameters, :authorization => credentials('admin')
+            put '/api/v1/users/2.xml', @parameters, credentials('admin')
           end
 
           assert_response :unprocessable_entity
@@ -229,7 +244,7 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
       context ".json" do
         should "return errors" do
           assert_no_difference('User.count') do
-            put '/users/2.json', @parameters, :authorization => credentials('admin')
+            put '/api/v1/users/2.json', @parameters, credentials('admin')
           end
 
           assert_response :unprocessable_entity
@@ -237,13 +252,13 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
           json = ActiveSupport::JSON.decode(response.body)
           assert_kind_of Hash, json
           assert json.has_key?('errors')
-          assert_kind_of Array, json['errors']
+          assert_equal({ "firstname" => ["can't be blank"], "mail" => ["is invalid"] }, json['errors'])
         end
       end
     end
   end
 
-  context "DELETE /users/2" do
+  context "DELETE /api/v1/users/2" do
     setup do
       Setting.users_deletable_by_admins = "1"
       # setup deleted user to not tamper with the count
@@ -254,14 +269,14 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
 
     context ".xml" do
       should_allow_api_authentication(:delete,
-                                      '/users/2.xml',
+                                      '/api/v1/users/2.xml',
                                       {},
                                       {:success_code => :ok})
 
 
       should "delete user" do
         assert_difference('User.count', -1) do
-          delete '/users/2.xml', {}, :authorization => credentials('admin')
+          delete '/api/v1/users/2.xml', {}, credentials('admin')
         end
 
         assert_response :ok
@@ -272,22 +287,18 @@ class ApiTest::UsersTest < ActionController::IntegrationTest
 
     context ".json" do
       should_allow_api_authentication(:delete,
-                                      '/users/2.json',
+                                      '/api/v1/users/2.json',
                                       {},
                                       {:success_code => :ok})
 
       should "delete user" do
         assert_difference('User.count', -1) do
-          delete '/users/2.json', {}, :authorization => credentials('admin')
+          delete '/api/v1/users/2.json', {}, credentials('admin')
         end
 
         assert_response :ok
         assert_equal ' ', @response.body
       end
     end
-  end
-
-  def credentials(user, password=nil)
-    ActionController::HttpAuthentication::Basic.encode_credentials(user, password || user)
   end
 end

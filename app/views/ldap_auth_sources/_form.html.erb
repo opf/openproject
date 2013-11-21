@@ -1,0 +1,73 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= error_messages_for 'auth_source' %>
+
+<div class="box">
+<!--[form:auth_source]-->
+<p><label for="auth_source_name"><%= AuthSource.human_attribute_name(:name) %> <span class="required">*</span></label>
+<%= text_field 'auth_source', 'name'  %></p>
+
+<p><label for="auth_source_host"><%= AuthSource.human_attribute_name(:host) %> <span class="required">*</span></label>
+<%= text_field 'auth_source', 'host'  %></p>
+
+<p><label for="auth_source_port"><%= AuthSource.human_attribute_name(:port) %> <span class="required">*</span></label>
+<%= text_field 'auth_source', 'port', :size => 6 %> <%= check_box 'auth_source', 'tls'  %> LDAPS</p>
+
+<p><label for="auth_source_account"><%= AuthSource.human_attribute_name(:account) %></label>
+<%= text_field 'auth_source', 'account'  %></p>
+
+<p><label for="auth_source_account_password"><%= AuthSource.human_attribute_name(:password) %></label>
+<%= password_field 'auth_source', 'account_password', :name => 'ignore',
+                                           :value => ((@auth_source.new_record? || @auth_source.account_password.blank?) ? '' : ('x'*15)),
+                                           :onfocus => "this.value=''; this.name='auth_source[account_password]';",
+                                           :onchange => "this.name='auth_source[account_password]';" %></p>
+
+<p><label for="auth_source_base_dn"><%= AuthSource.human_attribute_name(:base_dn) %> <span class="required">*</span></label>
+<%= text_field 'auth_source', 'base_dn', :size => 60 %></p>
+
+<p><label for="auth_source_onthefly_register"><%= AuthSource.human_attribute_name(:onthefly) %></label>
+<%= check_box 'auth_source', 'onthefly_register' %></p>
+</div>
+
+<fieldset class="box"><legend><%=l(:label_attribute_plural)%></legend>
+<p><label for="auth_source_attr_login"><%= AuthSource.human_attribute_name(:login) %> <span class="required">*</span></label>
+<%= text_field 'auth_source', 'attr_login', :size => 20  %></p>
+
+<p><label for="auth_source_attr_firstname"><%= AuthSource.human_attribute_name(:firstname) %></label>
+<%= text_field 'auth_source', 'attr_firstname', :size => 20  %></p>
+
+<p><label for="auth_source_attr_lastname"><%= AuthSource.human_attribute_name(:lastname) %></label>
+<%= text_field 'auth_source', 'attr_lastname', :size => 20  %></p>
+
+<p><label for="auth_source_attr_mail"><%= AuthSource.human_attribute_name(:mail) %></label>
+<%= text_field 'auth_source', 'attr_mail', :size => 20  %></p>
+</fieldset>
+<!--[eoform:auth_source]-->
+

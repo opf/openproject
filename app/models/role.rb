@@ -1,24 +1,41 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
 class Role < ActiveRecord::Base
+  extend Pagination::Model
+
   # Built-in roles
   BUILTIN_NON_MEMBER = 1
   BUILTIN_ANONYMOUS  = 2
 
-  named_scope :givable, { :conditions => "builtin = 0", :order => 'position' }
-  named_scope :builtin, lambda { |*args|
+  scope :givable, { :conditions => "builtin = 0", :order => 'position' }
+  scope :builtin, lambda { |*args|
     compare = 'not' if args.first == true
     { :conditions => "#{compare} builtin = 0" }
   }
@@ -26,7 +43,7 @@ class Role < ActiveRecord::Base
   before_destroy :check_deletable
   has_many :workflows, :dependent => :delete_all do
     def copy(source_role)
-      Workflow.copy(nil, source_role, nil, proxy_owner)
+      Workflow.copy(nil, source_role, nil, proxy_association.owner)
     end
   end
 
@@ -93,7 +110,7 @@ class Role < ActiveRecord::Base
 
   # Return true if role is allowed to do the specified action
   # action can be:
-  # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
+  # * a parameter-like Hash (eg. :controller => '/projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
   def allowed_to?(action)
     if action.is_a? Hash
@@ -146,6 +163,10 @@ class Role < ActiveRecord::Base
     all.select do |role|
       role.allowed_to? permission
     end
+  end
+
+  def self.paginated_search(search, options = {})
+    paginate_scope! givable.like(search), options
   end
 
 private

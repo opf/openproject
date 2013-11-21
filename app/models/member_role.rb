@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -22,9 +37,29 @@ class MemberRole < ActiveRecord::Base
   attr_protected :member_id, :role_id
 
   validates_presence_of :role
+  validate :validate_project_member_role
 
-  def validate
+  def validate_project_member_role
     errors.add :role_id, :invalid if role && !role.member?
+  end
+
+  # Add alias, so Member can still destroy MemberRoles
+  # Don't call this from anywhere else, use remove_member_role on Member.
+  alias :destroy_for_member :destroy
+
+  # You shouldn't call this, only ActiveRecord itself is allowed to do this
+  # when destroying a Member. Use Member.remove_member_role to remove a role from a member.
+  #
+  # You may remove this once we have a layer above persistence that handles business logic
+  # and prevents or at least discourages working on persistence objects from controllers
+  # or unrelated business logic.
+  def destroy(*args)
+    unless caller.first =~ /has_many_association\.rb:[0-9]+:in `[^`]+delete_records'/
+      raise 'MemberRole.destroy called from method other than HasManyAssociation.delete_records' +
+            "\n  on #{inspect}\n from #{caller.first} / #{caller[3]}"
+    else
+      super
+    end
   end
 
   def inherited?
@@ -44,11 +79,10 @@ class MemberRole < ActiveRecord::Base
             m.user_id = user.id
           end
 
-          user_member.member_roles << MemberRole.new(:role => role, :inherited_from => id)
-
+          user_member.add_role(role, id)
           user_member.save
         else
-          user_member.member_roles << MemberRole.new(:role => role, :inherited_from => id)
+          user_member.add_and_save_role(role, id)
         end
       end
     end
@@ -56,9 +90,7 @@ class MemberRole < ActiveRecord::Base
 
   def remove_role_from_group_users
     MemberRole.all(:conditions => { :inherited_from => id }).group_by(&:member).each do |member, member_roles|
-      member_roles.each(&:destroy)
-      member.destroy_if_roles_empty!
-
+      member_roles.each { |mr| member.remove_member_role_and_destroy_member_if_last(mr) }
       if member && member.user
         Watcher.prune(:user => member.user, :project => member.project)
       end

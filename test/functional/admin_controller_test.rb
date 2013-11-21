@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -18,9 +33,10 @@ require 'admin_controller'
 class AdminController; def rescue_action(e) raise e end; end
 
 class AdminControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :roles
+  fixtures :all
 
   def setup
+    super
     @controller = AdminController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
@@ -61,19 +77,19 @@ class AdminControllerTest < ActionController::TestCase
   end
 
   def test_load_default_configuration_data
-    Setting.available_languages = [:fr]
+    Setting.available_languages = [:de]
     delete_configuration_data
-    post :default_configuration, :lang => 'fr'
+    post :default_configuration, :lang => 'de'
     assert_response :redirect
     assert_nil flash[:error]
-    assert IssueStatus.find_by_name('Nouveau')
+    assert Status.find_by_name('Neu')
   end
 
   def test_test_email
     get :test_email
     assert_redirected_to '/settings/edit?tab=notifications'
     mail = ActionMailer::Base.deliveries.last
-    assert_kind_of TMail::Mail, mail
+    assert_kind_of Mail::Message, mail
     user = User.find(1)
     assert_equal [user.mail], mail.to
   end
@@ -135,8 +151,8 @@ class AdminControllerTest < ActionController::TestCase
 
   def delete_configuration_data
     Role.delete_all('builtin = 0')
-    Tracker.delete_all
-    IssueStatus.delete_all
+    Type.delete_all
+    Status.delete_all
     Enumeration.delete_all
   end
 end

@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -19,9 +34,10 @@ require 'timelog_controller'
 class TimelogController; def rescue_action(e) raise e end; end
 
 class TimelogControllerTest < ActionController::TestCase
-  fixtures :projects, :enabled_modules, :roles, :members, :member_roles, :issues, :time_entries, :users, :trackers, :enumerations, :issue_statuses, :custom_fields, :custom_values
+  fixtures :all
 
   def setup
+    super
     @controller = TimelogController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
@@ -77,17 +93,17 @@ class TimelogControllerTest < ActionController::TestCase
                                 # Not the default activity
                                 :activity_id => '11',
                                 :spent_on => '2008-03-14',
-                                :issue_id => '1',
+                                :work_package_id => '1',
                                 :hours => '7.3'}
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
 
-    i = Issue.find(1)
+    i = WorkPackage.find(1)
     t = TimeEntry.find_by_comments('Some work on TimelogControllerTest')
     assert_not_nil t
     assert_equal 11, t.activity_id
     assert_equal 7.3, t.hours
     assert_equal 3, t.user_id
-    assert_equal i, t.issue
+    assert_equal i, t.work_package
     assert_equal i.project, t.project
   end
 
@@ -99,7 +115,7 @@ class TimelogControllerTest < ActionController::TestCase
                 :time_entry => {:comments => 'Some work on TimelogControllerTest',
                                 # Not the default activity
                                 :activity_id => '11',
-                                :issue_id => '',
+                                :work_package_id => '',
                                 :spent_on => '2008-03-14',
                                 :hours => '7.3'}
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
@@ -113,18 +129,18 @@ class TimelogControllerTest < ActionController::TestCase
 
   def test_update
     entry = TimeEntry.find(1)
-    assert_equal 1, entry.issue_id
+    assert_equal 1, entry.work_package_id
     assert_equal 2, entry.user_id
 
     @request.session[:user_id] = 1
     put :update, :id => 1,
-                :time_entry => {:issue_id => '2',
+                :time_entry => {:work_package_id => '2',
                                 :hours => '8'}
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     entry.reload
 
     assert_equal 8, entry.hours
-    assert_equal 2, entry.issue_id
+    assert_equal 2, entry.work_package_id
     assert_equal 2, entry.user_id
   end
 
@@ -150,7 +166,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_not_nil TimeEntry.find_by_id(1)
 
     # remove the simulation
-    TimeEntry.before_destroy.reject! {|callback| callback.method == :stop_callback_chain }
+    TimeEntry._destroy_callbacks.reject! {|callback| callback.filter == :stop_callback_chain }
   end
 
   def test_index_all_projects
@@ -217,7 +233,7 @@ class TimelogControllerTest < ActionController::TestCase
   end
 
   def test_index_at_issue_level
-    get :index, :issue_id => 1
+    get :index, :work_package_id => 1
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:entries)
@@ -227,13 +243,13 @@ class TimelogControllerTest < ActionController::TestCase
     # display all time based on what's been logged
     assert_equal '2007-03-12'.to_date, assigns(:from)
     assert_equal '2007-04-22'.to_date, assigns(:to)
-    # TODO: remove /projects/:project_id/issues/:issue_id/time_entries routes
-    # to use /issues/:issue_id/time_entries
     assert_tag :form,
-      :attributes => {:action => "/projects/ecookbook/issues/1/time_entries", :id => 'query_form'}
+      :attributes => {:action => work_package_time_entries_path(1), :id => 'query_form'}
   end
 
   def test_index_atom_feed
+    TimeEntry.all.each(&:recreate_initial_journal!)
+
     get :index, :project_id => 1, :format => 'atom'
     assert_response :success
     assert_equal 'application/atom+xml', @response.content_type
@@ -245,8 +261,8 @@ class TimelogControllerTest < ActionController::TestCase
     Setting.date_format = '%m/%d/%Y'
     get :index, :format => 'csv'
     assert_response :success
-    assert_equal 'text/csv', @response.content_type
-    assert @response.body.include?("Date,User,Activity,Project,Issue,Tracker,Subject,Hours,Comment\n")
+    assert_match(/text\/csv/, @response.content_type)
+    assert @response.body.include?("Date,User,Activity,Project,Issue,Type,Subject,Hours,Comment\n")
     assert @response.body.include?("\n04/21/2007,redMine Admin,Design,eCookbook,3,Bug,Error 281 when updating a recipe,1.0,\"\"\n")
   end
 
@@ -254,8 +270,8 @@ class TimelogControllerTest < ActionController::TestCase
     Setting.date_format = '%m/%d/%Y'
     get :index, :project_id => 1, :format => 'csv'
     assert_response :success
-    assert_equal 'text/csv', @response.content_type
-    assert @response.body.include?("Date,User,Activity,Project,Issue,Tracker,Subject,Hours,Comment\n")
+    assert_match(/text\/csv/, @response.content_type)
+    assert @response.body.include?("Date,User,Activity,Project,Issue,Type,Subject,Hours,Comment\n")
     assert @response.body.include?("\n04/21/2007,redMine Admin,Design,eCookbook,3,Bug,Error 281 when updating a recipe,1.0,\"\"\n")
   end
 end

@@ -1,3 +1,32 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
 <% content_for :styles do %>
     body { font:80% Verdana,Tahoma,Arial,sans-serif; }
     h1, h2, h3, h4 {  font-family: Trebuchet MS,Georgia,"Times New Roman",serif; }
@@ -65,16 +94,6 @@
         <p>Wiki links are displayed in red if the page doesn't exist yet, eg: <a href="#" class="wiki-page new">Nonexistent page</a>.</p>
 
         <p>Links to other resources:</p>
-
-        <ul>
-            <li>Documents:
-                <ul>
-                    <li><strong>document#17</strong> (link to document with id 17)</li>
-                    <li><strong>document:Greetings</strong> (link to the document with title "Greetings")</li>
-                    <li><strong>document:"Some document"</strong> (double quotes can be used when document title contains spaces)</li>
-                    <li><strong>sandbox:document:"Some document"</strong> (link to a document with title "Some document" in other project "sandbox")</li>
-                </ul></li>
-        </ul>
 
         <ul>
             <li>Versions:
@@ -184,14 +203,47 @@ https://www.openproject.org, someone@foo.bar
         </ul>
 
         <h3><a name="8" class="wiki-page"></a>Headings</h3>
-
+        <p>Prefixing a line with <code>h1.</code>, <code>h2.</code> etc. will create a heading:</p>
 <pre>
 h1. Heading
 h2. Subheading
 h3. Subsubheading
 </pre>
+      <p>OpenProject assigns an anchor to each of those headings thus you can link to them with "#Heading", "#Subheading" and so forth.</p>
+      <h3>Numbered Headings</h3>
 
-        <p>OpenProject assigns an anchor to each of those headings thus you can link to them with "#Heading", "#Subheading" and so forth.</p>
+      <p>
+        You may also define numbered headings by prefixing lines with <code>h1#.</code>, <code>h2#.</code> etc. The heading numbers are then automatically managed by OpenProject for you.
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>
+              Wiki format
+            </th>
+            <th style='padding-left: 3em'>
+              Resulting Text
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+<pre>
+h1#. Topic Foo
+h2#. Sub-Topic Foo Bar
+h1#. Topic Baz
+</pre>
+            </td>
+            <td style='padding-left: 3em'>
+              <strong>1. Topic A</strong><br/>
+              1.2. Sub-Topic 1<br/>
+              <strong>2. Topic B</strong>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+        
 
 
         <h3><a name="9" class="wiki-page"></a>Paragraphs</h3>
@@ -238,7 +290,7 @@ To go live, all you need to add is a database and a web server.
 
     <h2><a name="13" class="wiki-page"></a>Code highlighting</h2>
 
-    <p>Code highlightment relies on <a href="http://coderay.rubychan.de/" class="external">CodeRay</a>, a fast syntax highlighting library written completely in Ruby. It currently supports c, cpp, css, delphi, groovy, html, java, javascript, json, php, python, rhtml, ruby, scheme, sql, xml and yaml languages.</p>
+    <p>Code highlighting relies on <a href="http://coderay.rubychan.de/" class="external">CodeRay</a>, a fast syntax highlighting library written completely in Ruby. It currently supports c, cpp, css, delphi, groovy, html, java, javascript, json, php, python, rhtml, ruby, scheme, sql, xml and yaml languages.</p>
 
     <p>You can highlight code in your wiki page using this syntax:</p>
 

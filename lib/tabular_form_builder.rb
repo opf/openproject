@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -46,7 +61,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
         ret
       else
-        label_for_field(field, options) + super
+        (label_for_field(field, options) + super).html_safe
       end
     end
     END_SRC
@@ -61,41 +76,41 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   # Returns a label tag for the given field
   def label_for_field(field, options = {})
-      return '' if options.delete(:no_label)
-      text = options[:label].is_a?(Symbol) ? l(options[:label]) : options[:label]
-      text ||= l(("field_" + field.to_s.gsub(/\_id$/, "")).to_sym)
-      text += @template.content_tag("span", " *", :class => "required") if options.delete(:required)
-      @template.label(@object_name, field.to_s, text,
-                                     :class => (@object && @object.errors[field] ? "error" : nil))
+    return '' if options.delete(:no_label)
+    text = options[:label].is_a?(Symbol) ? l(options[:label]) : options[:label]
+    text ||= @object.class.human_attribute_name(field.to_sym) if @object.is_a?(ActiveRecord::Base)
+    text += @template.content_tag("span", " *", :class => "required") if options.delete(:required)
+    @template.label(@object_name, field.to_s, text.html_safe,
+                                   :class => (@object && @object.errors[field] ? "error" : nil))
   end
 
   def localized_field(translation_form, method, field, options)
-    ret = "<span class=\"translation #{field.to_s}_translation\">"
+    @template.content_tag :span, :class => "translation #{field.to_s}_translation" do
+      ret = ''.html_safe
 
-    field_options = localized_options options, translation_form.object.locale
+      field_options = localized_options options, translation_form.object.locale
 
-    ret.concat translation_form.send(method, field, field_options)
-    ret.concat translation_form.hidden_field :id,
+      ret.safe_concat translation_form.send(method, field, field_options)
+      ret.safe_concat translation_form.hidden_field :id,
                                              :class => 'translation_id'
-    if options[:multi_locale]
-      ret.concat translation_form.select :locale,
-                                         Setting.available_languages.map { |lang| [ ll(lang.to_s, :general_lang_name), lang.to_sym ] },
-                                         {},
-                                         :class => 'locale_selector'
-      ret.concat translation_form.hidden_field '_destroy',
-                                               :disabled => true,
-                                               :class => 'destroy_flag',
-                                               :value => "1"
-      ret.concat '<a href="#" class="destroy_locale icon icon-del" title="Delete"></a>'
-      ret.concat "<br>"
-    else
-      ret.concat translation_form.hidden_field :locale,
-                                               :class => 'locale_selector'
+      if options[:multi_locale]
+        ret.safe_concat translation_form.select :locale,
+                                                Setting.available_languages.map { |lang| [ ll(lang.to_s, :general_lang_name), lang.to_sym ] },
+                                                {},
+                                                :class => 'locale_selector'
+        ret.safe_concat translation_form.hidden_field '_destroy',
+                                                 :disabled => true,
+                                                 :class => 'destroy_flag',
+                                                 :value => "1"
+        ret.safe_concat '<a href="#" class="destroy_locale icon icon-del" title="Delete"></a>'
+        ret.safe_concat("<br>")
+      else
+        ret.safe_concat translation_form.hidden_field :locale,
+                                                      :class => 'locale_selector'
+      end
+
+      ret
     end
-
-    ret.concat "</span>"
-
-    ret
   end
 
   def translation_objects field, options
@@ -134,7 +149,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def add_localization_link
-    "<a href=\"#\" class=\"add_locale\">#{l(:button_add)}</a>"
+    @template.content_tag :a, l(:button_add), :href => "#", :class => "add_locale"
   end
 
   def localized_options options, locale = :en

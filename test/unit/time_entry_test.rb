@@ -1,20 +1,35 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
 class TimeEntryTest < ActiveSupport::TestCase
-  fixtures :issues, :projects, :users, :time_entries
+  fixtures :all
 
   def test_hours_format
     assertions = { "2"      => 2.0,
@@ -81,25 +96,25 @@ class TimeEntryTest < ActiveSupport::TestCase
     assert_equal Date.today, c.spent_on
   end
 
-  context "#earilest_date_for_project" do
+  context "#earliest_date_for_project" do
     setup do
       User.current = nil
       @public_project = Project.generate!(:is_public => true)
-      @issue = Issue.generate_for_project!(@public_project)
+      @issue =FactoryGirl.create(:work_package, project: @public_project)
       TimeEntry.generate!(:spent_on => '2010-01-01',
-                          :issue => @issue,
+                          :work_package => @issue,
                           :project => @public_project)
     end
 
     context "without a project" do
       should "return the lowest spent_on value that is visible to the current user" do
-        assert_equal "2007-03-12", TimeEntry.earilest_date_for_project.to_s
+        assert_equal "2007-03-12", TimeEntry.earliest_date_for_project.to_s
       end
     end
 
     context "with a project" do
       should "return the lowest spent_on value that is visible to the current user for that project and it's subprojects only" do
-        assert_equal "2010-01-01", TimeEntry.earilest_date_for_project(@public_project).to_s
+        assert_equal "2010-01-01", TimeEntry.earliest_date_for_project(@public_project).to_s
       end
     end
 
@@ -109,9 +124,9 @@ class TimeEntryTest < ActiveSupport::TestCase
     setup do
       User.current = nil
       @public_project = Project.generate!(:is_public => true)
-      @issue = Issue.generate_for_project!(@public_project)
+      @issue = FactoryGirl.create(:work_package, project: @public_project)
       TimeEntry.generate!(:spent_on => '2010-01-01',
-                          :issue => @issue,
+                          :work_package => @issue,
                           :project => @public_project)
     end
 

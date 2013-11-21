@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -18,13 +33,22 @@ require 'wiki_controller'
 class WikiController; def rescue_action(e) raise e end; end
 
 class WikiControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules, :wikis, :wiki_pages, :wiki_contents, :journals, :attachments
+  fixtures :all
 
   def setup
+    super
     @controller = WikiController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
+  end
+
+  def wiki
+    Project.first.wiki
+  end
+
+  def redirect_page
+    wiki.find_page(wiki.start_page) || wiki.pages.first
   end
 
   def test_show_start_page
@@ -47,7 +71,7 @@ class WikiControllerTest < ActionController::TestCase
     assert_tag :tag => 'h1', :content => /Another page/
     # Included page with an inline image
     assert_tag :tag => 'p', :content => /This is an inline image/
-    assert_tag :tag => 'img', :attributes => { :src => '/attachments/download/3',
+    assert_tag :tag => 'img', :attributes => { :src => '/attachments/3/download',
                                                :alt => 'This is a logo' }
   end
 
@@ -81,7 +105,7 @@ class WikiControllerTest < ActionController::TestCase
                 :content => {:comments => 'Created the page',
                              :text => "h1. New page\n\nThis is a new page" }
     assert_redirected_to :action => 'show', :project_id => 'ecookbook', :id => 'New_page'
-    page = Project.find(1).wiki.find_page('New page')
+    page = wiki.find_page('New page')
     assert !page.new_record?
     assert_not_nil page.content
     assert_equal 'Created the page', page.content.last_journal.notes
@@ -99,31 +123,34 @@ class WikiControllerTest < ActionController::TestCase
                     :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
       end
     end
-    page = Project.find(1).wiki.find_page('New page')
+    page = wiki.find_page('New page')
     assert_equal 1, page.attachments.count
     assert_equal 'testfile.txt', page.attachments.first.filename
   end
 
   def test_update_page
+    page = Wiki.find(1).pages.find_by_title('Another_page')
+    page.content.recreate_initial_journal!
+
     @request.session[:user_id] = 2
     assert_no_difference 'WikiPage.count' do
       assert_no_difference 'WikiContent.count' do
-        assert_difference 'WikiContentJournal.count' do
+        assert_difference 'Journal.count' do
           put :update, :project_id => 1,
             :id => 'Another_page',
             :content => {
               :comments => "my comments",
               :text => "edited",
-              :lock_version => 1
+              :lock_version => 2
             }
         end
       end
     end
     assert_redirected_to '/projects/ecookbook/wiki/Another_page'
 
-    page = Wiki.find(1).pages.find_by_title('Another_page')
+    page.reload
     assert_equal "edited", page.content.text
-    assert_equal 2, page.content.version
+    assert_equal page.content.journals.map(&:version).max, page.content.version
     assert_equal "my comments", page.content.last_journal.notes
   end
 
@@ -131,7 +158,7 @@ class WikiControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     assert_no_difference 'WikiPage.count' do
       assert_no_difference 'WikiContent.count' do
-        assert_no_difference 'WikiContentJournal.count' do
+        assert_no_difference 'Journal.count' do
           put :update, :project_id => 1,
             :id => 'Another_page',
             :content => {
@@ -146,11 +173,15 @@ class WikiControllerTest < ActionController::TestCase
     assert_template 'edit'
 
     assert_error_tag :descendant => {:content => /Comment is too long/}
-    assert_tag :tag => 'textarea', :attributes => {:id => 'content_text'}, :content => 'edited'
+    assert_tag :tag => 'textarea', :attributes => {:id => 'content_text'}, :content => /edited/
     assert_tag :tag => 'input', :attributes => {:id => 'content_lock_version', :value => '1'}
   end
 
   def test_update_stale_page_should_not_raise_an_error
+    journal = FactoryGirl.create :wiki_content_journal,
+                                 journable_id: 2,
+                                 data: FactoryGirl.build(:journal_wiki_content_journal,
+                                                         text: "h1. Another page\n\n\nthis is a link to ticket: #2")
     @request.session[:user_id] = 2
     c = Wiki.find(1).find_page('Another_page').content
     c.text = 'Previous text'
@@ -159,7 +190,7 @@ class WikiControllerTest < ActionController::TestCase
 
     assert_no_difference 'WikiPage.count' do
       assert_no_difference 'WikiContent.count' do
-        assert_no_difference 'WikiContentJournal.count' do
+        assert_no_difference 'Journal.count' do
           put :update, :project_id => 1,
             :id => 'Another_page',
             :content => {
@@ -183,7 +214,7 @@ class WikiControllerTest < ActionController::TestCase
 
     c.reload
     assert_equal 'Previous text', c.text
-    assert_equal 2, c.version
+    assert_equal journal.version, c.version
   end
 
   def test_preview
@@ -209,6 +240,19 @@ class WikiControllerTest < ActionController::TestCase
   end
 
   def test_history
+    FactoryGirl.create :wiki_content_journal,
+                       journable_id: 1,
+                       data: FactoryGirl.build(:journal_wiki_content_journal,
+                                               text: "h1. CookBook documentation")
+    FactoryGirl.create :wiki_content_journal,
+                       journable_id: 1,
+                       data: FactoryGirl.build(:journal_wiki_content_journal,
+                                               text: "h1. CookBook documentation\n\n\nSome updated [[documentation]] here...")
+    FactoryGirl.create :wiki_content_journal,
+                       journable_id: 1,
+                       data: FactoryGirl.build(:journal_wiki_content_journal,
+                                               text: "h1. CookBook documentation\nSome updated [[documentation]] here...")
+
     get :history, :project_id => 1, :id => 'CookBook_documentation'
     assert_response :success
     assert_template 'history'
@@ -218,6 +262,10 @@ class WikiControllerTest < ActionController::TestCase
   end
 
   def test_history_with_one_version
+    FactoryGirl.create :wiki_content_journal,
+                       journable_id: 2,
+                       data: FactoryGirl.build(:journal_wiki_content_journal,
+                                               text: "h1. Another page\n\n\nthis is a link to ticket: #2")
     get :history, :project_id => 1, :id => 'Another_page'
     assert_response :success
     assert_template 'history'
@@ -227,15 +275,33 @@ class WikiControllerTest < ActionController::TestCase
   end
 
   def test_diff
-    get :diff, :project_id => 1, :id => 'CookBook_documentation', :version => 2, :version_from => 1
+    journal_from = FactoryGirl.create :wiki_content_journal,
+                                      journable_id: 1,
+                                      data: FactoryGirl.build(:journal_wiki_content_journal,
+                                                              text: "h1. CookBook documentation")
+    journal_to = FactoryGirl.create :wiki_content_journal,
+                                    journable_id: 1,
+                                    data: FactoryGirl.build(:journal_wiki_content_journal,
+                                                            text: "h1. CookBook documentation\n\n\nSome updated [[documentation]] here...")
+
+    get :diff, :project_id => 1, :id => 'CookBook_documentation', :version => journal_to.version, :version_from => journal_from.version
     assert_response :success
     assert_template 'diff'
-    assert_tag :tag => 'span', :attributes => { :class => 'diff_in'},
-                               :content => /updated/
+    assert_tag :tag => 'ins', :attributes => { :class => 'diffins'},
+                              :content => /updated/
   end
 
   def test_annotate
-    get :annotate, :project_id => 1, :id =>  'CookBook_documentation', :version => 2
+    FactoryGirl.create :wiki_content_journal,
+                       journable_id: 1,
+                       data: FactoryGirl.build(:journal_wiki_content_journal,
+                                               text: "h1. CookBook documentation")
+    journal_to = FactoryGirl.create :wiki_content_journal,
+                                    journable_id: 1,
+                                    data: FactoryGirl.build(:journal_wiki_content_journal,
+                                                            text: "h1. CookBook documentation\n\n\nSome [[documentation]] here...")
+
+    get :annotate, :project_id => 1, :id =>  'CookBook_documentation', :version => journal_to.version
     assert_response :success
     assert_template 'annotate'
     # Line 1
@@ -253,13 +319,6 @@ class WikiControllerTest < ActionController::TestCase
     get :rename, :project_id => 1, :id => 'Another_page'
     assert_response :success
     assert_template 'rename'
-    assert_tag 'option',
-      :attributes => {:value => ''},
-      :content => '',
-      :parent => {:tag => 'select', :attributes => {:name => 'wiki_page[parent_id]'}}
-    assert_no_tag 'option',
-      :attributes => {:selected => 'selected'},
-      :parent => {:tag => 'select', :attributes => {:name => 'wiki_page[parent_id]'}}
   end
 
   def test_get_rename_child_page
@@ -267,26 +326,14 @@ class WikiControllerTest < ActionController::TestCase
     get :rename, :project_id => 1, :id => 'Child_1'
     assert_response :success
     assert_template 'rename'
-    assert_tag 'option',
-      :attributes => {:value => ''},
-      :content => '',
-      :parent => {:tag => 'select', :attributes => {:name => 'wiki_page[parent_id]'}}
-    assert_tag 'option',
-      :attributes => {:value => '2', :selected => 'selected'},
-      :content => /Another page/,
-      :parent => {
-        :tag => 'select',
-        :attributes => {:name => 'wiki_page[parent_id]'}
-      }
   end
 
   def test_rename_with_redirect
     @request.session[:user_id] = 2
-    post :rename, :project_id => 1, :id => 'Another_page',
-                            :wiki_page => { :title => 'Another renamed page',
-                                            :redirect_existing_links => 1 }
+    put :rename, :project_id => 1, :id => 'Another_page',
+                 :wiki_page => { :title => 'Another renamed page',
+                                 :redirect_existing_links => 1 }
     assert_redirected_to :action => 'show', :project_id => 'ecookbook', :id => 'Another_renamed_page'
-    wiki = Project.find(1).wiki
     # Check redirects
     assert_not_nil wiki.find_page('Another page')
     assert_nil wiki.find_page('Another page', :with_redirect => false)
@@ -294,35 +341,18 @@ class WikiControllerTest < ActionController::TestCase
 
   def test_rename_without_redirect
     @request.session[:user_id] = 2
-    post :rename, :project_id => 1, :id => 'Another_page',
-                            :wiki_page => { :title => 'Another renamed page',
-                                            :redirect_existing_links => "0" }
+    put :rename, :project_id => 1, :id => 'Another_page',
+                 :wiki_page => { :title => 'Another renamed page',
+                                 :redirect_existing_links => "0" }
     assert_redirected_to :action => 'show', :project_id => 'ecookbook', :id => 'Another_renamed_page'
-    wiki = Project.find(1).wiki
     # Check that there's no redirects
     assert_nil wiki.find_page('Another page')
-  end
-
-  def test_rename_with_parent_assignment
-    @request.session[:user_id] = 2
-    post :rename, :project_id => 1, :id => 'Another_page',
-      :wiki_page => { :title => 'Another page', :redirect_existing_links => "0", :parent_id => '4' }
-    assert_redirected_to :action => 'show', :project_id => 'ecookbook', :id => 'Another_page'
-    assert_equal WikiPage.find(4), WikiPage.find_by_title('Another_page').parent
-  end
-
-  def test_rename_with_parent_unassignment
-    @request.session[:user_id] = 2
-    post :rename, :project_id => 1, :id => 'Child_1',
-      :wiki_page => { :title => 'Child 1', :redirect_existing_links => "0", :parent_id => '' }
-    assert_redirected_to :action => 'show', :project_id => 'ecookbook', :id => 'Child_1'
-    assert_nil WikiPage.find_by_title('Child_1').parent
   end
 
   def test_destroy_child
     @request.session[:user_id] = 2
     delete :destroy, :project_id => 1, :id => 'Child_1'
-    assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+    assert_redirected_to action: 'index', project_id: 'ecookbook', id: redirect_page
   end
 
   def test_destroy_parent
@@ -339,7 +369,7 @@ class WikiControllerTest < ActionController::TestCase
     assert_difference('WikiPage.count', -1) do
       delete :destroy, :project_id => 1, :id => 'Another_page', :todo => 'nullify'
     end
-    assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+    assert_redirected_to action: 'index', project_id: 'ecookbook', id: redirect_page
     assert_nil WikiPage.find_by_id(2)
   end
 
@@ -348,7 +378,7 @@ class WikiControllerTest < ActionController::TestCase
     assert_difference('WikiPage.count', -3) do
       delete :destroy, :project_id => 1, :id => 'Another_page', :todo => 'destroy'
     end
-    assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+    assert_redirected_to action: 'index', project_id: 'ecookbook', id: redirect_page
     assert_nil WikiPage.find_by_id(2)
     assert_nil WikiPage.find_by_id(5)
   end
@@ -358,7 +388,7 @@ class WikiControllerTest < ActionController::TestCase
     assert_difference('WikiPage.count', -1) do
       delete :destroy, :project_id => 1, :id => 'Another_page', :todo => 'reassign', :reassign_to_id => 1
     end
-    assert_redirected_to :action => 'index', :project_id => 'ecookbook'
+    assert_redirected_to action: 'index', project_id: 'ecookbook', id: redirect_page
     assert_nil WikiPage.find_by_id(2)
     assert_equal WikiPage.find(1), WikiPage.find_by_id(5).parent
   end
@@ -369,7 +399,7 @@ class WikiControllerTest < ActionController::TestCase
     assert_template 'index'
     pages = assigns(:pages)
     assert_not_nil pages
-    assert_equal Project.find(1).wiki.pages.size, pages.size
+    assert_equal wiki.pages.size, pages.size
     assert_equal pages.first.content.updated_on, pages.first.updated_on
 
     assert_tag :ul, :attributes => { :class => 'pages-hierarchy' },
@@ -395,7 +425,7 @@ class WikiControllerTest < ActionController::TestCase
         get :export, :project_id => 'ecookbook'
       end
 
-      should_respond_with :success
+      should respond_with :success
       should_assign_to :pages
       should_respond_with_content_type "text/html"
       should "export all of the wiki pages to a single html file" do
@@ -410,8 +440,8 @@ class WikiControllerTest < ActionController::TestCase
       setup do
         get :export, :project_id => 'ecookbook'
 
-        should_respond_with :redirect
-        should_redirect_to('wiki index') { {:action => 'show', :project_id => @project, :id => nil} }
+        should respond_with :redirect
+        should redirect_to('wiki index') { {:action => 'show', :project_id => @project, :id => nil} }
       end
     end
   end
@@ -421,10 +451,10 @@ class WikiControllerTest < ActionController::TestCase
       get :date_index, :project_id => 'ecookbook'
     end
 
-    should_respond_with :success
+    should respond_with :success
     should_assign_to :pages
     should_assign_to :pages_by_date
-    should_render_template 'wiki/date_index'
+    should render_template 'wiki/date_index'
 
     should "include atom link" do
       assert_tag 'a', :attributes => { :href => '/projects/ecookbook/activity.atom?show_wiki_edits=1'}

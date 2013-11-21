@@ -1,18 +1,33 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'source_annotation_extractor'
+#require 'source_annotation_extractor'
 
 # Modified version of the SourceAnnotationExtractor in railties
 # Will search for runable code that uses <tt>call_hook</tt>
@@ -31,9 +46,9 @@ class PluginSourceAnnotationExtractor < SourceAnnotationExtractor
         results.update(find_in(item))
       elsif item =~ /(hook|test)\.rb/
         # skip
-      elsif item =~ /\.(builder|(r(?:b|xml|js)))$/
-        results.update(extract_annotations_from(item, /\s*(#{tag})\(?\s*(.*)$/))
-      elsif item =~ /\.(rhtml|erb)$/
+      elsif item =~ /\.(builder|(r(?:b|xml|js)))\z/
+        results.update(extract_annotations_from(item, /\s*(#{tag})\(?\s*(.*)\z/))
+      elsif item =~ /\.(rhtml|erb)\z/
         results.update(extract_annotations_from(item, /<%=\s*\s*(#{tag})\(?\s*(.*?)\s*%>/))
       end
     end
@@ -47,6 +62,47 @@ namespace :redmine do
     desc "Enumerate all Redmine plugin hooks and their context parameters"
     task :hook_list do
       PluginSourceAnnotationExtractor.enumerate 'call_hook'
+    end
+
+    desc 'Copies plugins assets into the public directory.'
+    task :assets => :environment do
+      name = ENV['NAME']
+
+      begin
+        Redmine::Plugin.mirror_assets(name)
+      rescue Redmine::PluginNotFound
+        abort "Plugin #{name} was not found."
+      end
+    end
+
+    desc 'Runs the plugins tests.'
+    task :test do
+      Rake::Task["redmine:plugins:test:units"].invoke
+      Rake::Task["redmine:plugins:test:functionals"].invoke
+      Rake::Task["redmine:plugins:test:integration"].invoke
+    end
+
+    namespace :test do
+      desc 'Runs the plugins unit tests.'
+      Rake::TestTask.new :units => "db:test:prepare" do |t|
+        t.libs << "test"
+        t.verbose = true
+        t.test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/unit/**/*_test.rb"]
+      end
+
+      desc 'Runs the plugins functional tests.'
+      Rake::TestTask.new :functionals => "db:test:prepare" do |t|
+        t.libs << "test"
+        t.verbose = true
+        t.test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/functional/**/*_test.rb"]
+      end
+
+      desc 'Runs the plugins integration tests.'
+      Rake::TestTask.new :integration => "db:test:prepare" do |t|
+        t.libs << "test"
+        t.verbose = true
+        t.test_files = FileList["plugins/#{ENV['NAME'] || '*'}/test/integration/**/*_test.rb"]
+      end
     end
   end
 end

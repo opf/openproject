@@ -1,0 +1,115 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% edit_allowed = current_user.allowed_to?(:edit_work_packages, project) %>
+
+<%= labelled_tabular_form_for work_package,
+                              :url => work_package_path(work_package),
+                              :html => {
+                                        :id => 'work_package-form',
+                                        :multipart => true
+                                       } do |f| %>
+
+  <%= error_messages_for work_package %>
+
+  <div class="box">
+
+    <% if edit_allowed || !allowed_statuses.empty? %>
+      <fieldset class="tabular">
+        <legend>
+          <%= l(:label_change_properties) %>
+          <% if !work_package.new_record? && !work_package.errors.any? && edit_allowed %>
+            <small>
+              (<%= link_to l(:label_more), {}, :onclick => 'Effect.toggle("work_package_descr_fields", "appear", {duration:0.3}); return false;' %>)
+            </small>
+          <% end %>
+        </legend>
+
+        <% edit_form = (edit_allowed ? 'form' : 'form_update') %>
+        <%= render :partial => edit_form,
+                   :locals => { :f => f,
+                                :work_package => work_package,
+                                :priorities => priorities,
+                                :project => project,
+                                :user => user,
+                                :time_entry => time_entry } %>
+      </fieldset>
+    <% end %>
+
+    <% if authorize_for('timelog', 'edit') %>
+      <fieldset class="tabular">
+        <legend>
+          <%= l(:button_log_time) %>
+        </legend>
+
+        <%= render :partial => 'time_entry',
+                   :locals => { :time_entry => time_entry,
+                                :f => f } %>
+      </fieldset>
+    <% end %>
+
+    <fieldset>
+      <legend>
+        <%= Journal.human_attribute_name(:notes) %>
+      </legend>
+
+      <%= label_tag "work_package[notes]", Journal.human_attribute_name(:notes),
+                                           :class => 'hidden-for-sighted' %>
+      <%= text_area_tag "work_package[notes]", work_package.journal_notes, :cols => 60,
+                                                                           :rows => 10,
+                                                                           :class => 'wiki-edit' %>
+      <%= wikitoolbar_for 'work_package_notes' %>
+      <%= call_hook(:view_work_packages_edit_notes_bottom, { :issue => work_package,
+                                                      :notes => work_package.journal_notes,
+                                                      :form => f }) %>
+
+    </fieldset>
+
+    <fieldset id="attachments" class="header_collapsible collapsible collapsed">
+      <legend title="<%=l(:description_attachment_toggle)%>", onclick="toggleFieldset(this);">
+        <a href="javascript:"><%=l(:label_attachment_plural)%></a>
+      </legend>
+      <div style="display: none;">
+        <%= render :partial => 'attachments/nested_form',
+                   :locals => { :f => f } %>
+      </div>
+    </fieldset>
+
+    <p class="email_notification">
+      <%= send_notification_option %>
+    </p>
+  </div>
+
+  <%= f.hidden_field :lock_version %>
+  <%= submit_tag l(:button_submit) %>
+  <%= link_to_work_package_preview(work_package) %>
+<% end %>
+
+<div id="preview" class="wiki">
+</div>

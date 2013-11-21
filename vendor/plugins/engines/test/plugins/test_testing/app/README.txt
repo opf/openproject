@@ -1,1 +1,0 @@
-Fixtures are only copied from plugins with an +app+ directory, but git needs this directory to be non-empty

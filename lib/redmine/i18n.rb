@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -54,6 +69,16 @@ module Redmine
       Setting.date_format.blank? ? ::I18n.l(date.to_date) : date.strftime(Setting.date_format)
     end
 
+    # format the time in the user time zone if one is set
+    # if none is set and the time is in utc time zone (meaning it came from active record), format the date in the system timezone
+    # otherwise just use the date in the time zone attached to the time
+    def format_time_as_date(time, format)
+      return nil unless time
+      zone = User.current.time_zone
+      local_date = (zone ? time.in_time_zone(zone) : (time.utc? ? time.localtime : time)).to_date
+      return local_date.strftime(format)
+    end
+
     def format_time(time, include_date = true)
       return nil unless time
       time = time.to_time if time.is_a?(String)
@@ -76,7 +101,7 @@ module Redmine
     end
 
     def all_languages
-      @@all_languages ||= Dir.glob(File.join(RAILS_ROOT, 'config', 'locales', '*.yml')).collect {|f| File.basename(f).split('.').first}.collect(&:to_sym)
+      @@all_languages ||= Dir.glob(Rails.root.join('config/locales/*.yml')).collect {|f| File.basename(f).split('.').first}.collect(&:to_sym)
     end
 
     def find_language(lang)
@@ -92,6 +117,17 @@ module Redmine
 
     def current_language
       ::I18n.locale
+    end
+
+    # Collects all translations for ActiveRecord attributes
+    def all_attribute_translations(locale = current_locale)
+      @cached_attribute_translations ||= {}
+      @cached_attribute_translations[locale] ||= (
+        general_attributes = ::I18n.t('attributes', :locale => locale)
+        ::I18n.t("activerecord.attributes", :locale => locale).inject(general_attributes) do |attr_t, model_t|
+          attr_t.merge(model_t.last || {})
+        end)
+      @cached_attribute_translations[locale]
     end
   end
 end

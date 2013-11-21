@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -17,17 +32,26 @@ class Repository < ActiveRecord::Base
 
   belongs_to :project
   has_many :changesets, :order => "#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC"
-  has_many :changes, :through => :changesets
+
+  before_save :sanitize_urls
 
   # Raw SQL to delete changesets and changes in the database
   # has_many :changesets, :dependent => :destroy is too slow for big repositories
   before_destroy :clear_changesets
-  
+
   attr_protected :project_id
 
   validates_length_of :password, :maximum => 255, :allow_nil => true
+  validate :validate_enabled_scm, :on => :create
+
+  def changes
+    Change.where(:changeset_id => changesets).joins(:changeset)
+  end
+
   # Checks if the SCM is enabled when creating a repository
-  validate_on_create { |r| r.errors.add(:type, :invalid) unless Setting.enabled_scm.include?(r.class.name.demodulize) }
+  def validate_enabled_scm
+    errors.add(:type, :invalid) unless Setting.enabled_scm.include?(self.class.name.demodulize)
+  end
 
   # Removes leading and trailing whitespace
   def url=(arg)
@@ -124,8 +148,9 @@ class Repository < ActiveRecord::Base
 
   # Finds and returns a revision with a number or the beginning of a hash
   def find_changeset_by_name(name)
+    name = name.to_s
     return nil if name.blank?
-    changesets.find(:first, :conditions => (name.match(/^\d*$/) ? ["revision = ?", name.to_s] : ["revision LIKE ?", name + '%']))
+    changesets.find(:first, :conditions => (name.match(/\A\d*\z/) ? ["revision = ?", name] : ["revision LIKE ?", name + '%']))
   end
 
   def latest_changeset
@@ -147,8 +172,8 @@ class Repository < ActiveRecord::Base
     end
   end
 
-  def scan_changesets_for_issue_ids
-    self.changesets.each(&:scan_comment_for_issue_ids)
+  def scan_changesets_for_work_package_ids
+    self.changesets.each(&:scan_comment_for_work_package_ids)
   end
 
   # Returns an array of committers usernames and associated user_id
@@ -186,7 +211,7 @@ class Repository < ActiveRecord::Base
       c = changesets.find(:first, :conditions => {:committer => committer}, :include => :user)
       if c && c.user
         user = c.user
-      elsif committer.strip =~ /^([^<]+)(<(.*)>)?$/
+      elsif committer.strip =~ /\A([^<]+)(<(.*)>)?\z/
         username, email = $1.strip, $3
         u = User.find_by_login(username)
         u ||= User.find_by_mail(email) unless email.blank?
@@ -217,9 +242,9 @@ class Repository < ActiveRecord::Base
     end
   end
 
-  # scan changeset comments to find related and fixed issues for all repositories
-  def self.scan_changesets_for_issue_ids
-    find(:all).each(&:scan_changesets_for_issue_ids)
+  # scan changeset comments to find related and fixed work packages for all repositories
+  def self.scan_changesets_for_work_package_ids
+    all.each(&:scan_changesets_for_work_package_ids)
   end
 
   def self.scm_name
@@ -273,15 +298,15 @@ class Repository < ActiveRecord::Base
 
   private
 
-  def before_save
-    # Strips url and root_url
-    url.strip!
-    root_url.strip!
+  # Strips url and root_url
+  def sanitize_urls
+    url.strip! if url.present?
+    root_url.strip! if root_url.present?
     true
   end
 
   def clear_changesets
-    cs, ch, ci = Changeset.table_name, Change.table_name, "#{table_name_prefix}changesets_issues#{table_name_suffix}"
+    cs, ch, ci = Changeset.table_name, Change.table_name, "#{table_name_prefix}changesets_work_packages#{table_name_suffix}"
     connection.delete("DELETE FROM #{ch} WHERE #{ch}.changeset_id IN (SELECT #{cs}.id FROM #{cs} WHERE #{cs}.repository_id = #{id})")
     connection.delete("DELETE FROM #{ci} WHERE #{ci}.changeset_id IN (SELECT #{cs}.id FROM #{cs} WHERE #{cs}.repository_id = #{id})")
     connection.delete("DELETE FROM #{cs} WHERE #{cs}.repository_id = #{id}")

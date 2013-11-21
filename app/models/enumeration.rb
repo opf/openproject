@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -22,15 +37,28 @@ class Enumeration < ActiveRecord::Base
   acts_as_tree :order => 'position ASC'
 
   before_destroy :check_integrity
-  
+
   attr_protected :project_id
 
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => [:type, :project_id]
   validates_length_of :name, :maximum => 30
 
-  named_scope :shared, :conditions => { :project_id => nil }
-  named_scope :active, :conditions => { :active => true }
+  scope :shared, :conditions => { :project_id => nil }
+  scope :active, :conditions => { :active => true }
+
+  before_save :unmark_old_default_value, :if => :became_default_value?
+
+  # let all child classes have Enumeration as it's model name
+  # used to not having to create another route for every subclass of Enumeration
+  def self.inherited(child)
+    child.instance_eval do
+      def model_name
+        Enumeration.model_name
+      end
+    end
+    super
+  end
 
   def self.default
     # Creates a fake default scope so Enumeration.default will check
@@ -44,15 +72,28 @@ class Enumeration < ActiveRecord::Base
     end
   end
 
+  # Destroys enumerations in a single transaction
+  # It ensures, that the transactions can be safely transfered to each
+  # entry's parent
+  def self.bulk_destroy(entries)
+    sorted_entries = sort_by_ancestor_last(entries)
+
+    sorted_entries.each do |entry|
+      entry.destroy(entry.parent)
+    end
+  end
+
   # Overloaded on concrete classes
   def option_name
     nil
   end
 
-  def before_save
-    if is_default? && is_default_changed?
-      Enumeration.update_all("is_default = #{connection.quoted_false}", {:type => type})
-    end
+  def became_default_value?
+    is_default? && is_default_changed?
+  end
+
+  def unmark_old_default_value
+    Enumeration.update_all("is_default = #{connection.quoted_false}", {:type => type})
   end
 
   # Overloaded on concrete classes
@@ -86,14 +127,6 @@ class Enumeration < ActiveRecord::Base
 
   def to_s; name end
 
-  # Returns the Subclasses of Enumeration.  Each Subclass needs to be
-  # required in development mode.
-  #
-  # Note: subclasses is protected in ActiveRecord
-  def self.get_subclasses
-    @@subclasses[Enumeration]
-  end
-
   # Does the +new+ Hash override the previous Enumeration?
   def self.overridding_change?(new, previous)
     if (same_active_state?(new['active'], previous.active)) && same_custom_values?(new,previous)
@@ -121,6 +154,21 @@ class Enumeration < ActiveRecord::Base
   end
 
 private
+  # This is not a performant method.
+  def self.sort_by_ancestor_last(entries)
+    ancestor_relationships = entries.map { |entry| [entry, entry.ancestors] }
+
+    ancestor_relationships.sort do |one, two|
+      if one.last.include?(two.first)
+        -1
+      elsif two.last.include?(one.first)
+        1
+      else
+        0
+      end
+    end.map(&:first)
+  end
+
   def check_integrity
     raise "Can't delete enumeration" if self.in_use?
   end
@@ -128,6 +176,8 @@ private
 end
 
 # Force load the subclasses in development mode
-require_dependency 'time_entry_activity'
-require_dependency 'document_category'
-require_dependency 'issue_priority'
+['time_entry_activity', 'issue_priority',
+ 'reported_project_status'].each do |enum_subclass|
+
+  require_dependency enum_subclass
+end

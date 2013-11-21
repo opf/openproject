@@ -1,0 +1,45 @@
+<h2><%= l(:label_confirmation) %></h2>
+
+<%= error_messages_for work_packages.first %>
+
+<%= form_tag work_packages_bulk_path, :method => :delete do %>
+  <% work_packages.each do |work_package| %>
+    <%= hidden_field_tag 'ids[]', work_package.id %>
+  <% end %>
+
+  <div class="box">
+
+    <%= work_package_associations_to_address(associated) %>
+
+    <p class="bold">
+      <%= l(:text_destroy_what_to_do) %>
+    </p>
+
+    <%= fields_for :to_do do |f| %>
+      <p>
+
+        <%= f.radio_button 'action', 'destroy' %>
+        <%= f.label 'action_destroy', l(:text_destroy) %>
+
+      </p>
+      <p>
+
+        <%= f.radio_button 'action' , 'nullify' %>
+        <%= f.label 'action_nullify', l(:text_assign_to_project) %>
+
+      </p>
+      <p>
+
+        <%= f.radio_button 'action', 'reassign', :onclick => 'if(jQuery("#to_do_action_reassign").prop("checked")) { jQuery("#to_do_reassign_to_id").focus(); }' %>
+        <%= f.label 'action_reassign', l(:text_reassign) %>
+
+        <%= f.label 'reassign_to_id', l(:text_reassign_to) %>
+        <%= f.text_field 'reassign_to_id', :value => params[:reassign_to_id], :size => 6, :onfocus => 'jQuery("#to_do_action_reassign").prop("checked", true);' %>
+
+      </p>
+    <% end %>
+  </div>
+
+  <%= submit_tag l(:button_apply) %>
+
+<% end %>

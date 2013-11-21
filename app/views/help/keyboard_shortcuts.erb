@@ -1,0 +1,78 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% content_for :styles do %>
+  body {
+    line-height: 2em;
+    font-family: sans-serif;
+  }
+  kbd {
+    background-color: #F2F2F2;
+    border: 1px solid #CCCCCC;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.42), 0 0 0 2px #FFFFFF inset;
+    color: #444444;
+    display: inline-block;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 0 0.5em 0 0.1em;
+    padding: 0.15em 0.7em;
+    text-shadow: 0 1px 0 #FFFFFF;
+    white-space: nowrap;
+  }
+<% end %>
+
+<h1><%= l(:label_keyboard_shortcut_help_heading) %></h1>
+<h2><%= l(:label_keyboard_shortcut_global_shortcuts) %></h2>
+<ul>
+  <li><kbd>?</kbd><%= l(:label_keyboard_shortcut_show_help) %></li>
+  <li><kbd>s</kbd> <kbd>g</kbd><%= l(:label_keyboard_shortcut_search_global) %></li>
+  <li><kbd>s</kbd> <kbd>p</kbd><%= l(:label_keyboard_shortcut_search_project) %></li>
+  <li><kbd>g</kbd> <kbd>m</kbd><%= l(:label_keyboard_shortcut_go_my_page) %></li>
+</ul>
+<h2><%= l(:label_keyboard_shortcut_within_project) %></h2>
+<ul>
+  <li><kbd>g</kbd> <kbd>o</kbd><%= l(:label_keyboard_shortcut_go_overview) %></li>
+  <li><kbd>g</kbd> <kbd>w</kbd> <kbd>p</kbd><%= l(:label_keyboard_shortcut_go_work_package) %></li>
+  <li><kbd>g</kbd> <kbd>w</kbd> <kbd>i</kbd><%= l(:label_keyboard_shortcut_go_wiki) %></li>
+  <li><kbd>g</kbd> <kbd>a</kbd><%= l(:label_keyboard_shortcut_go_activity) %></li>
+  <li><kbd>g</kbd> <kbd>c</kbd><%= l(:label_keyboard_shortcut_go_calendar) %></li>
+  <li><kbd>g</kbd> <kbd>n</kbd><%= l(:label_keyboard_shortcut_go_news) %></li>
+  <li><kbd>g</kbd> <kbd>t</kbd><%= l(:label_keyboard_shortcut_go_timelines) %></li>
+  <li><kbd>n</kbd> <kbd>w</kbd> <kbd>p</kbd><%= l(:label_keyboard_shortcut_new_work_package) %></li>
+</ul>
+<h2><%= l(:label_keyboard_shortcut_some_pages_only) %></h2>
+<ul>
+  <li><kbd>g</kbd> <kbd>e</kbd><%= l(:label_keyboard_shortcut_go_edit) %></li>
+  <li><kbd>m</kbd><%= l(:label_keyboard_shortcut_open_more_menu) %></li>
+  <li><kbd>g</kbd> <kbd>p</kbd><%= l(:label_keyboard_shortcut_go_preview) %></li>
+  <li><kbd>j</kbd><%= l(:label_keyboard_shortcut_focus_next_item) %></li>
+  <li><kbd>k</kbd><%= l(:label_keyboard_shortcut_focus_previous_item) %></li>
+</ul>

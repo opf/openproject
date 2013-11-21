@@ -1,0 +1,71 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<div class="contextual">
+<%= link_to l(:label_work_package_status_new), {:action => 'new'}, :class => 'icon icon-add' %>
+<%= link_to(l(:label_update_work_package_done_ratios), {:action => 'update_work_package_done_ratio'}, :class => 'icon icon-multiple', :method => 'post', :confirm => l(:text_are_you_sure)) if WorkPackage.use_status_for_done_ratio? %>
+</div>
+
+<h2><%=l(:label_work_package_status_plural)%></h2>
+
+<table class="list">
+  <thead><tr>
+  <th><%= Status.model_name.human %></th>
+  <% if WorkPackage.use_status_for_done_ratio? %>
+    <th><%= WorkPackage.human_attribute_name(:done_ratio) %></th>
+  <% end %>
+  <th><%= Status.human_attribute_name(:is_default) %></th>
+  <th><%= Status.human_attribute_name(:is_closed) %></th>
+  <th><%=l(:button_sort)%></th>
+  <th></th>
+  </tr></thead>
+  <tbody>
+<% for status in @statuses %>
+  <tr class="<%= cycle("odd", "even") %>">
+  <td><%= link_to h(status.name), :action => 'edit', :id => status %></td>
+  <% if WorkPackage.use_status_for_done_ratio? %>
+  <td align="center"><%= h status.default_done_ratio %></td>
+  <% end %>
+  <td align="center"><%= checked_image status.is_default? %></td>
+  <td align="center"><%= checked_image status.is_closed? %></td>
+  <td align="center" style="width:15%;"><%= reorder_links('status', {:action => 'update', :id => status}) %></td>
+  <td class="buttons">
+    <%= link_to(l(:button_delete), { :action => 'destroy', :id => status },
+                                   :method => :post,
+                                   :confirm => l(:text_are_you_sure),
+                                   :class => 'icon icon-del') %>
+  </td>
+  </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= pagination_links_full @statuses %>
+
+<% html_title(l(:label_work_package_status_plural)) -%>

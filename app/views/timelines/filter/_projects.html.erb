@@ -1,0 +1,261 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<fieldset id="project_filters" class="header_collapsible collapsible collapsed">
+  <legend title="<%=l(:description_filter_toggle)%>", onclick="toggleFieldset(this);">
+    <a href="javascript:"><%= l('timelines.filter.project_filters') %></a>
+  </legend>
+
+  <div style="display:none;">
+    <div>
+      <p class="tl-form-overflow">
+        <%= label_tag :timeline_options_exclude_reporters,
+                      l('timelines.filter.exclude_reporters') %>
+
+        <%= check_box_tag("timeline[options][exclude_reporters]",
+                          :yes,
+                          timeline.options["exclude_reporters"].present?) %>
+      </p>
+
+      <p class="tl-form-overflow">
+        <%= label_tag :timeline_options_exclude_empty,
+                      l('timelines.filter.exclude_empty') %>
+
+        <%= check_box_tag("timeline[options][exclude_empty]",
+                          :yes,
+                          timeline.options["exclude_empty"].present?) %>
+      </p>
+
+      <p class="tl-form-overflow">
+        <%= label_tag 'timeline_options_project_types',
+                      l("timelines.filter.project_types") %>
+        <% if User.current.impaired? %>
+          <%= select("timeline[options]",
+                     :project_types,
+                     filter_select_with_none(
+                       timeline.available_project_types,
+                       :name, :id),
+                     {:selected => timeline.selected_project_types.map(&:id)},
+                     {:multiple => true,
+                      :size => 12}) %>
+        <% else %>
+          <%= select("timeline[options]",
+                   :project_types,
+                   options_for_select([]),
+                   {},
+                   { :'data-ajaxURL' => api_v2_paginate_project_types_path,
+                     :multiple => true,
+                     :'data-selected' => filter_select(
+                                           timeline.selected_project_types,
+                                           :name, :id).to_json
+                   }) %>
+        <% end %>
+
+      </p>
+
+      <p class="tl-form-overflow">
+        <%= label_tag 'timeline_options_project_status',
+                      l("timelines.filter.project_status") %>
+
+        <% if User.current.impaired? %>
+          <%= select("timeline[options]",
+                     :project_status,
+                     filter_select_with_none(
+                       timeline.available_project_status,
+                       :name, :id),
+                     {:selected => timeline.selected_project_status.map(&:id)},
+                     {:multiple => true,
+                      :size => 12}) %>
+        <% else %>
+          <%= select("timeline[options]",
+                   :project_status,
+                   options_for_select([]),
+                   {},
+                   { :'data-ajaxURL' => api_v2_paginate_reported_project_statuses_path,
+                     :multiple => true,
+                     :'data-selected' => filter_select(
+                                           timeline.selected_project_status,
+                                           :name, :id).to_json
+                   }) %>
+      <% end %>
+      </p>
+
+      <p class="tl-form-overflow">
+        <%= label_tag 'timeline_options_project_responsibles',
+                      l("timelines.filter.project_responsible") %>
+
+        <% if User.current.impaired? %>
+          <%= select("timeline[options]",
+                     :project_responsibles,
+                     filter_select_with_none(
+                       timeline.available_responsibles,
+                       :name, :id),
+                     {:selected => timeline.selected_project_responsibles.map(&:id)},
+                     {:multiple => true,
+                      :size => 12}) %>
+        <% else %>
+          <%= select("timeline[options]",
+                   :project_responsibles,
+                   options_for_select([]),
+                   {},
+                   { :'data-ajaxURL' => api_v2_paginate_users_path,
+                    :multiple => true,
+                    :'data-selected' => filter_select(
+                                           timeline.selected_project_responsibles,
+                                           :name, :id).to_json
+                   }) %>
+        <% end %>
+      </p>
+
+      <p class="tl-form-overflow">
+        <%= label_tag 'timeline_options_parents',
+                      l("timelines.filter.parent") %>
+
+        <% if User.current.impaired? %>
+          <%= select("timeline[options]",
+                     :parents,
+                     filter_select_with_none(
+                       timeline.available_parents,
+                       :name, :id),
+                     {:selected => timeline.selected_parents.map(&:id)},
+                     {:multiple => true,
+                      :size => 12}) %>
+        <% else %>
+          <%= select("timeline[options]",
+                   :parents,
+                   options_for_select([]),
+                   {},
+                   { :'data-ajaxURL' => api_v2_paginate_projects_path,
+                     :multiple => true,
+                     :'data-selected' => filter_select(
+                                         timeline.selected_parents,
+                                         :name, :id).to_json
+                   }) %>
+        <% end %>
+      </p>
+      <p class="tl-form-overflow">
+        <%= label_tag 'timeline_options_planning_element_time_types',
+                      l('timelines.filter.project_time_filter') %>
+
+        <% if User.current.impaired? %>
+          <%= select("timeline[options]",
+                   :planning_element_time_types,
+                   filter_select_with_none(
+                     timeline.available_planning_element_types,
+                     :name, :id),
+                   {:selected => timeline.selected_planning_element_time_types.map(&:id)},
+                   {:multiple => true,
+                    :size => 12}) %>
+        <% else %>
+          <%= select("timeline[options]", :planning_element_time_types,
+                     options_for_select([]),
+                     {},
+                     { :'data-ajaxURL' => api_v2_paginate_types_path,
+                       :multiple => true,
+                       :'data-selected' => filter_select(
+                                             timeline.selected_planning_element_time_types,
+                                             :name, :id).to_json
+                     }) %>
+        <% end %>
+      </p>
+
+      <p class="tl-form-overflow">
+        <%= label_tag 'timeline_options_planning_element_time_absolute',
+                      '' %>
+
+        <%= radio_button("timeline[options]",
+                         :planning_element_time,
+                         'absolute',
+                         :checked => (timeline.planning_element_time == 'absolute')) %>
+
+        <% historical_text1 = text_field_tag "timeline[options][planning_element_time_absolute_one]",
+                                             timeline.options["planning_element_time_absolute_one"],
+                                             :size => 10
+           historical_calendar1 = calendar_for('timeline_options_planning_element_time_absolute_one')
+
+           historical_text2 = text_field_tag "timeline[options][planning_element_time_absolute_two]",
+                                             timeline.options["planning_element_time_absolute_two"],
+                                             :size => 10
+           historical_calendar2 = calendar_for('timeline_options_planning_element_time_absolute_two')
+        %>
+
+        <%= l('timelines.filter.project_time_filter_historical',
+              :startdate => historical_text1 + historical_calendar1 ,
+              :enddate => historical_text2 + historical_calendar2).html_safe %>
+      </p>
+
+      <p class="tl-form-overflow">
+
+        <%= label_tag 'timeline_options_planning_element_time_relative',
+                      '' %>
+
+        <%= radio_button("timeline[options]",
+                         :planning_element_time,
+                         'relative',
+                         :checked => (timeline.planning_element_time == 'relative')) %>
+
+        <% relative_text1 = text_field_tag "timeline[options][planning_element_time_relative_one]",
+                                           timeline.options["planning_element_time_relative_one"],
+                                           :size => 3
+
+            relative_select1 = select("timeline[options]",
+                                     :planning_element_time_relative_one_unit,
+                                     [ [l('timelines.filter.time_relative.days'), 0],
+                                       [l('timelines.filter.time_relative.weeks'), '1'],
+                                       [l('timelines.filter.time_relative.months'), '2']
+                                     ],
+                                     { :selected => timeline.options['planning_element_time_relative_one_unit'] },
+                                     { :multiple => false, :size => 1})
+
+            relative_text2 = text_field_tag "timeline[options][planning_element_time_relative_two]",
+                                           timeline.options["planning_element_time_relative_two"],
+                                           :size => 3
+
+            relative_select2 = select("timeline[options]",
+                                     :planning_element_time_relative_two_unit,
+                                     [ [l('timelines.filter.time_relative.days'), 0],
+                                       [l('timelines.filter.time_relative.weeks'), '1'],
+                                       [l('timelines.filter.time_relative.months'), '2']
+                                     ],
+                                     { :selected => timeline.options['planning_element_time_relative_two_unit'] },
+                                     { :multiple => false, :size => 1})
+        %>
+
+        <%= l('timelines.filter.project_time_filter_relative',
+              :startspan => relative_text1,
+              :startspanunit => relative_select1,
+              :endspan => relative_text2,
+              :endspanunit => relative_select2
+
+              ).html_safe %>
+
+      </p>
+    </div>
+  </div>
+</fieldset>

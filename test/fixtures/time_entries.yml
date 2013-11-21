@@ -1,3 +1,31 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 ---
 time_entries_001:
   created_on: 2007-03-23 12:54:18 +01:00
@@ -8,7 +36,7 @@ time_entries_001:
   updated_on: 2007-03-23 12:54:18 +01:00
   activity_id: 9
   spent_on: 2007-03-23
-  issue_id: 1
+  work_package_id: 1
   id: 1
   hours: 4.25
   user_id: 2
@@ -22,7 +50,7 @@ time_entries_002:
   updated_on: 2007-03-23 14:11:04 +01:00
   activity_id: 9
   spent_on: 2007-03-12
-  issue_id: 1
+  work_package_id: 1
   id: 2
   hours: 150.0
   user_id: 1
@@ -36,7 +64,7 @@ time_entries_003:
   updated_on: 2007-04-21 12:20:48 +02:00
   activity_id: 9
   spent_on: 2007-04-21
-  issue_id: 3
+  work_package_id: 3
   id: 3
   hours: 1.0
   user_id: 1
@@ -50,7 +78,7 @@ time_entries_004:
   updated_on: 2007-04-22 12:20:48 +02:00
   activity_id: 10
   spent_on: 2007-04-22
-  issue_id:
+  work_package_id:
   id: 4
   hours: 7.65
   user_id: 1

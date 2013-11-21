@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -18,14 +33,12 @@ require 'projects_controller'
 class ProjectsController; def rescue_action(e) raise e end; end
 
 class ProjectsControllerTest < ActionController::TestCase
-  fixtures :projects, :versions, :users, :roles, :members,
-           :member_roles, :issues, :journals,
-           :trackers, :projects_trackers, :issue_statuses,
-           :enabled_modules, :enumerations, :boards, :messages,
-           :attachments, :custom_fields, :custom_field_translations,
-           :custom_values, :time_entries
+  include MiniTest::Assertions # refute
+
+  fixtures :all
 
   def setup
+    super
     @controller = ProjectsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
@@ -54,7 +67,7 @@ class ProjectsControllerTest < ActionController::TestCase
   def test_index_atom
     get :index, :format => 'atom'
     assert_response :success
-    assert_template 'common/feed.atom.rxml'
+    assert_template 'common/feed'
     assert_select 'feed>title', :text => 'OpenProject: Latest projects'
     assert_select 'feed>entry', :count => Project.count(:conditions => Project.visible_by(User.current))
   end
@@ -151,9 +164,9 @@ class ProjectsControllerTest < ActionController::TestCase
             :identifier => "blog",
             :is_public => 1,
             :custom_field_values => { '3' => 'Beta' },
-            :tracker_ids => ['1', '3'],
+            :type_ids => ['1', '3'],
             # an issue custom field that is not for all project
-            :issue_custom_field_ids => ['9'],
+            :work_package_custom_field_ids => ['9'],
             :enabled_module_names => ['issue_tracking', 'news', 'repository']
           }
         assert_redirected_to '/projects/blog/settings'
@@ -166,9 +179,9 @@ class ProjectsControllerTest < ActionController::TestCase
         assert_equal true, project.is_public?
         assert_nil project.parent
         assert_equal 'Beta', project.custom_value_for(3).value
-        assert_equal [1, 3], project.trackers.map(&:id).sort
+        assert_equal [1, 3], project.types.map(&:id).sort
         assert_equal ['issue_tracking', 'news', 'repository'], project.enabled_module_names.sort
-        assert project.issue_custom_fields.include?(IssueCustomField.find(9))
+        assert project.work_package_custom_fields.include?(WorkPackageCustomField.find(9))
       end
 
       should "create a new subproject" do
@@ -199,7 +212,7 @@ class ProjectsControllerTest < ActionController::TestCase
                                  :identifier => "blog",
                                  :is_public => 1,
                                  :custom_field_values => { '3' => 'Beta' },
-                                 :tracker_ids => ['1', '3'],
+                                 :type_ids => ['1', '3'],
                                  :enabled_module_names => ['issue_tracking', 'news', 'repository']
                                 }
 
@@ -209,7 +222,7 @@ class ProjectsControllerTest < ActionController::TestCase
         assert_kind_of Project, project
         assert_equal 'weblog', project.description
         assert_equal true, project.is_public?
-        assert_equal [1, 3], project.trackers.map(&:id).sort
+        assert_equal [1, 3], project.types.map(&:id).sort
         assert_equal ['issue_tracking', 'news', 'repository'], project.enabled_module_names.sort
 
         # User should be added as a project member
@@ -230,7 +243,7 @@ class ProjectsControllerTest < ActionController::TestCase
         assert_response :success
         project = assigns(:project)
         assert_kind_of Project, project
-        assert_not_nil project.errors.on(:parent_id)
+        refute_empty project.errors[:parent_id]
       end
     end
 
@@ -265,7 +278,7 @@ class ProjectsControllerTest < ActionController::TestCase
         assert_response :success
         project = assigns(:project)
         assert_kind_of Project, project
-        assert_not_nil project.errors.on(:parent_id)
+        refute_empty project.errors[:parent_id]
       end
 
       should "fail with unauthorized parent_id" do
@@ -282,7 +295,7 @@ class ProjectsControllerTest < ActionController::TestCase
         assert_response :success
         project = assigns(:project)
         assert_kind_of Project, project
-        assert_not_nil project.errors.on(:parent_id)
+        refute_empty project.errors[:parent_id]
       end
     end
   end
@@ -301,12 +314,6 @@ class ProjectsControllerTest < ActionController::TestCase
       project = assigns(:project)
       assert_equal %w(issue_tracking news), project.enabled_module_names.sort
     end
-  end
-
-  def test_create_should_not_accept_get
-    @request.session[:user_id] = 1
-    get :create
-    assert_response :method_not_allowed
   end
 
   def test_show_by_id
@@ -380,7 +387,7 @@ class ProjectsControllerTest < ActionController::TestCase
 
   def test_update
     @request.session[:user_id] = 2 # manager
-    post :update, :id => 1, :project => {:name => 'Test changed name',
+    put :update, :id => 1, :project => {:name => 'Test changed name',
                                        :issue_custom_field_ids => ['']}
     assert_redirected_to '/projects/ecookbook/settings'
     project = Project.find(1)
@@ -391,35 +398,29 @@ class ProjectsControllerTest < ActionController::TestCase
     @request.session[:user_id] = 2
     Project.find(1).enabled_module_names = ['issue_tracking', 'news']
 
-    post :modules, :id => 1, :enabled_module_names => ['issue_tracking', 'repository', 'documents']
+    put :modules, :id => 1, :enabled_module_names => ['issue_tracking', 'repository']
     assert_redirected_to '/projects/ecookbook/settings/modules'
-    assert_equal ['documents', 'issue_tracking', 'repository'], Project.find(1).enabled_module_names.sort
+    assert_equal ['issue_tracking', 'repository'], Project.find(1).enabled_module_names.sort
   end
 
-  def test_modules_should_not_allow_get
-    @request.session[:user_id] = 1
-    get :modules, :id => 1
-    assert_response :method_not_allowed
-  end
-
-  def test_get_destroy
+  def test_get_destroy_info
     @request.session[:user_id] = 1 # admin
-    get :destroy, :id => 1
+    get :destroy_info, :id => 1
     assert_response :success
-    assert_template 'destroy'
+    assert_template 'destroy_info'
     assert_not_nil Project.find_by_id(1)
   end
 
   def test_post_destroy
     @request.session[:user_id] = 1 # admin
-    post :destroy, :id => 1, :confirm => 1
+    delete :destroy, :id => 1, :confirm => 1
     assert_redirected_to '/admin/projects'
     assert_nil Project.find_by_id(1)
   end
 
   def test_archive
     @request.session[:user_id] = 1 # admin
-    post :archive, :id => 1
+    put :archive, :id => 1
     assert_redirected_to '/admin/projects'
     assert !Project.find(1).active?
   end
@@ -427,46 +428,18 @@ class ProjectsControllerTest < ActionController::TestCase
   def test_unarchive
     @request.session[:user_id] = 1 # admin
     Project.find(1).archive
-    post :unarchive, :id => 1
+    put :unarchive, :id => 1
     assert_redirected_to '/admin/projects'
     assert Project.find(1).active?
   end
 
-  def test_copy_with_project
-    @request.session[:user_id] = 1 # admin
-    get :copy, :id => 1
-    assert_response :success
-    assert_template 'copy'
-    assert assigns(:project)
-    assert_equal Project.find(1).description, assigns(:project).description
-    assert_nil assigns(:project).id
-  end
-
-  def test_copy_without_project
-    @request.session[:user_id] = 1 # admin
-    get :copy
-    assert_response :redirect
-    assert_redirected_to :controller => 'admin', :action => 'projects'
-  end
-
-  context "POST :copy" do
-    should "TODO: test the rest of the method"
-
-    should "redirect to the project settings when successful" do
-      @request.session[:user_id] = 1 # admin
-      post :copy, :id => 1, :project => {:name => 'Copy', :identifier => 'unique-copy'}
-      assert_response :redirect
-      assert_redirected_to :controller => 'projects', :action => 'settings', :id => 'unique-copy'
-    end
-  end
-
   def test_jump_should_redirect_to_active_tab
-    get :show, :id => 1, :jump => 'issues'
-    assert_redirected_to '/projects/ecookbook/issues'
+    get :show, :id => 1, :jump => 'work_packages'
+    assert_redirected_to '/projects/ecookbook/work_packages'
   end
 
   def test_jump_should_not_redirect_to_inactive_tab
-    get :show, :id => 3, :jump => 'documents'
+    get :show, :id => 3, :jump => 'news'
     assert_response :success
     assert_template 'show'
   end
@@ -490,7 +463,7 @@ class ProjectsControllerTest < ActionController::TestCase
   def test_hook_response
     Redmine::Hook.add_listener(ProjectBasedTemplate)
     get :show, :id => 1
-    assert_tag :tag => 'link', :attributes => {:href => '/stylesheets/ecookbook.css'},
+    assert_tag :tag => 'link', :attributes => {:href => '/assets/ecookbook.css'},
                                :parent => {:tag => 'head'}
 
     Redmine::Hook.clear_listeners

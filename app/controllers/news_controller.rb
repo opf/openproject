@@ -1,20 +1,39 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
 class NewsController < ApplicationController
+  include PaginationHelper
+
   default_search_scope :news
   model_object News
+
+  before_filter :disable_api
   before_filter :find_model_object, :except => [:new, :create, :index]
   before_filter :find_project_from_association, :except => [:new, :create, :index]
   before_filter :find_project, :only => [:new, :create]
@@ -24,28 +43,16 @@ class NewsController < ApplicationController
 
   menu_item :new_news, :only => [:new, :create]
 
-
   def index
-    case params[:format]
-    when 'xml', 'json'
-      @offset, @limit = api_offset_and_limit
-    else
-      @limit =  10
-    end
-
     scope = @project ? @project.news.visible : News.visible
 
-    @news_count = scope.count
-    @news_pages = Paginator.new self, @news_count, @limit, params['page']
-    @offset ||= @news_pages.current.offset
-    @newss = scope.all(:include => [:author, :project],
-                                       :order => "#{News.table_name}.created_on DESC",
-                                       :offset => @offset,
-                                       :limit => @limit)
+    @newss = scope.includes(:author, :project)
+                  .order("#{News.table_name}.created_on DESC")
+                  .page(params[:page])
+                  .per_page(per_page_param)
 
     respond_to do |format|
-      format.html { render :layout => false if request.xhr? }
-      format.api
+      format.html { render :layout => !request.xhr? }
       format.atom { render_feed(@newss, :title => (@project ? @project.name : Setting.app_title) + ": #{l(:label_news_plural)}") }
     end
   end
@@ -64,7 +71,7 @@ class NewsController < ApplicationController
     @news.safe_attributes = params[:news]
     if @news.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :controller => 'news', :action => 'index', :project_id => @project
+      redirect_to :controller => '/news', :action => 'index', :project_id => @project
     else
       render :action => 'new'
     end

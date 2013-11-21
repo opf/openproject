@@ -1,0 +1,72 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= call_hook(:view_work_packages_form_details_top, { :issue => work_package, :form => f }) %>
+
+<div id="work_package_descr_fields"<% unless work_package.new_record? || work_package.errors.any? %> style="display:none;"<% end %>>
+
+  <% work_package_form_top_attributes(f, work_package,
+                                         :priorities => priorities,
+                                         :project => project).each do |attribute| %>
+    <p>
+      <%= attribute.field %>
+    </p>
+
+  <% end %>
+
+</div>
+
+<div id="attributes" class="attributes">
+  <%= render :partial => 'attributes', :locals => { :f => f,
+                                                    :work_package => work_package,
+                                                    :project => project,
+                                                    :priorities => priorities,
+                                                    :user => user
+                                                  } %>
+</div>
+
+<% if work_package.new_record? %>
+  <div class="handle_attachments">
+    <%= label_tag('attachments[1][file]', l(:label_attachment_plural))%>
+    <%= render :partial => 'attachments/form' %>
+  </div>
+<% end %>
+
+<% if work_package.new_record? && User.current.allowed_to?(:add_work_package_watchers, project) -%>
+  <p id="watchers_form">
+    <label><%= l(:label_work_package_watchers) %></label>
+    <% work_package.project.users.sort.each do |user| -%>
+      <label class="floating"><%= check_box_tag 'work_package[watcher_user_ids][]', user.id, work_package.watched_by?(user) %> <%=h user %></label>
+    <% end -%>
+  </p>
+<% end %>
+
+<%= call_hook(:view_work_packages_form_details_bottom, { :issue => work_package, :form => f }) %>
+
+<%= wikitoolbar_for 'work_package_description' %>

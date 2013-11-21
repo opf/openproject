@@ -1,0 +1,161 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= form_tag({}) do -%>
+  <%= hidden_field_tag 'back_url', url_for(params) %>
+  <div class="autoscroll">
+  <table class="list issues">
+
+    <thead>
+      <tr>
+        <th class="checkbox hide-when-print"><%= link_to image_tag('webalys/check.png'), {},
+                                                         :onclick => 'toggleIssuesSelection(Element.up(this, "form")); return false;',
+                                                         :title   => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
+                                                         :alt     => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
+        </th>
+		    <%= sort_header_tag('id', :caption => '#', :default_order => 'desc') %>
+
+        <% query.columns.each do |column| %>
+          <%= column_header(column) %>
+        <% end %>
+
+      </tr>
+    </thead>
+
+	<% previous_group = false %>
+
+	<tbody>
+
+	<% issue_list(work_packages) do |work_package, level| -%>
+
+    <% if query.grouped? && (group = query.group_by_column.value(work_package)) != previous_group %>
+      <% reset_cycle %>
+      <tr class="group open">
+        <td colspan="<%= query.columns.size + 2 %>">
+          <span class="expander" onclick="toggleRowGroup(this); return false;">
+            &nbsp;
+          </span>
+
+          <%= group.blank? ?
+                '-' :
+                column_content(query.group_by_column, work_package) %>
+
+          <span class="count">
+            (<%= results.work_package_count_for(group) %>)
+          </span>
+
+          <%= link_to_function("#{l(:button_collapse_all)}/#{l(:button_expand_all)}",
+                               "toggleAllRowGroups(this)",
+                               :class => 'toggle-all') %>
+        </td>
+      </tr>
+      <% previous_group = group %>
+    <% end %>
+
+    <tr id="work_package-<%= work_package.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= work_package_css_classes(work_package) %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+
+      <td class="checkbox hide-when-print">
+        <label for="work_package<%= work_package.id %>" class="hidden-for-sighted">
+          <%= l(:description_select_work_package) + '#' + work_package.id.to_s %>
+        </label>
+
+        <%= check_box_tag("ids[]", work_package.id, false, :id => "work_package#{work_package.id}") %>
+      </td>
+
+      <td class="id">
+        <% if parent_work_package = work_package.parent_id %>
+          <span class='hidden-for-sighted'>
+            <%=l(:description_subwork_package) + ' ' + l(:label_work_package) + ' #' + parent_work_package.to_s %>
+          </span>
+        <% end -%>
+
+        <%= link_to work_package.id, work_package_path(work_package) %>
+      </td>
+
+      <% query.columns.each do |column| %>
+        <%= content_tag 'td', column_content(column, work_package), :class => column.name %>
+      <% end %>
+	  </tr>
+
+	  <% if query.display_sums? %>
+
+      <% results.caching_issue(work_package) %>
+      <%# Check if we are at the end of a group or the end of a page %>
+
+      <% if query.grouped? %>
+        <% if !results.next_in_same_group? or work_package == work_packages.last %>
+
+          <tr class="<%= cycle('odd', 'even') + " sum grouped " + work_package_css_classes(work_package) %>">
+
+            <td colspan="2">
+              <% column_content = column_content(query.group_by_column, work_package).to_s %>
+              <%=raw t(:label_sum_for, :value => (column_content.empty? ? 'None' : column_content)) %>
+            </td>
+
+            <% query.columns.each do |column| %>
+              <td>
+                <%= results.mapping_for(column).call(results.grouped_sum_of(column)) %>
+              </td>
+            <% end %>
+
+          </tr>
+
+        <% end %>
+
+      <% end %>
+
+      <%# Check if we are at the end of a page %>
+      <% if work_package == work_packages.last %>
+
+        <tr class="<%= "#{cycle('odd', 'even')} sum group all #{work_package_css_classes(work_package)}" %>">
+          <td colspan="2">
+            <%= t(:label_sum_for, :value => l(:label_all_work_packages)) %>
+          </td>
+
+          <% query.columns.each do |column| %>
+            <td>
+              <%= results.mapping_for(column).call(results.total_sum_of(column)) %>
+            </td>
+          <% end %>
+        </tr>
+
+      <% end %>
+    <% end %>
+
+    <%= call_hook(:issue_list_group_bottom, :current_issue => work_package,
+                                            :issues => work_packages,
+                                            :query => query,
+                                            :group => group) %>
+
+    <% end -%>
+
+    </tbody>
+  </table>
+  </div>
+<% end -%>

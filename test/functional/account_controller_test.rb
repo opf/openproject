@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -18,7 +33,7 @@ require 'account_controller'
 class AccountController; def rescue_action(e) raise e end; end
 
 class AccountControllerTest < ActionController::TestCase
-  fixtures :users, :roles
+  fixtures :all
 
   def setup
     super
@@ -26,17 +41,6 @@ class AccountControllerTest < ActionController::TestCase
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
-  end
-
-  def test_login_should_redirect_to_back_url_param
-    # request.uri is "test.host" in test environment
-    post :login, :username => 'jsmith', :password => 'jsmith', :back_url => 'http%3A%2F%2Ftest.host%2Fissues%2Fshow%2F1'
-    assert_redirected_to '/issues/show/1'
-  end
-
-  def test_login_should_not_redirect_to_another_host
-    post :login, :username => 'jsmith', :password => 'jsmith', :back_url => 'http%3A%2F%2Ftest.foo%2Ffake'
-    assert_redirected_to '/my/page'
   end
 
   def test_login_with_wrong_password
@@ -51,6 +55,13 @@ class AccountControllerTest < ActionController::TestCase
   def test_login
     get :login
     assert_template 'login'
+  end
+
+  def test_login_should_reset_session
+    @controller.expects(:reset_session).once
+
+    post :login, :username => 'jsmith', :password => 'jsmith'
+    assert_response 302
   end
 
   def test_login_with_logged_account
@@ -89,7 +100,7 @@ class AccountControllerTest < ActionController::TestCase
                              :lastname => 'User',
                              :mail => 'user@somedomain.com',
                              :identity_url => 'http://openid.example.com/good_user',
-                             :status => User::STATUS_REGISTERED)
+                             :status => User::STATUSES[:registered])
     existing_user.login = 'cool_user'
     assert existing_user.save!
 
@@ -136,7 +147,7 @@ class AccountControllerTest < ActionController::TestCase
     assert_redirected_to '/login'
     user = User.find_by_login('cool_user')
     assert user
-    assert_equal User::STATUS_REGISTERED, user.status
+    assert_equal User::STATUSES[:registered], user.status
   end
 
   def test_login_with_openid_with_new_user_with_conflict_should_register
@@ -169,64 +180,11 @@ class AccountControllerTest < ActionController::TestCase
     assert_nil @request.session[:user_id]
   end
 
-  context "GET #register" do
-    context "with self registration on" do
-      setup do
-        Setting.self_registration = '3'
-        get :register
-      end
+  def test_logout_should_reset_session
+    @controller.expects(:reset_session).once
 
-      should_respond_with :success
-      should_render_template :register
-      should_assign_to :user
-    end
-
-    context "with self registration off" do
-      setup do
-        Setting.self_registration = '0'
-        get :register
-      end
-
-      should_redirect_to('/') { home_url }
-    end
+    @request.session[:user_id] = 2
+    get :logout
+    assert_response 302
   end
-
-  # See integration/account_test.rb for the full test
-  context "POST #register" do
-    context "with self registration on automatic" do
-      setup do
-        Setting.self_registration = '3'
-        post :register, :user => {
-          :login => 'register',
-          :password => 'test',
-          :password_confirmation => 'test',
-          :firstname => 'John',
-          :lastname => 'Doe',
-          :mail => 'register@example.com'
-        }
-      end
-
-      should_respond_with :redirect
-      should_assign_to :user
-      should_redirect_to('my page') { {:controller => 'my', :action => 'account'} }
-
-      should_create_a_new_user { User.last(:conditions => {:login => 'register'}) }
-
-      should 'set the user status to active' do
-        user = User.last(:conditions => {:login => 'register'})
-        assert user
-        assert_equal User::STATUS_ACTIVE, user.status
-      end
-    end
-
-    context "with self registration off" do
-      setup do
-        Setting.self_registration = '0'
-        post :register
-      end
-
-      should_redirect_to('/') { home_url }
-    end
-  end
-
 end

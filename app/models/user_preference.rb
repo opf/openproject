@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -15,42 +30,46 @@
 class UserPreference < ActiveRecord::Base
   belongs_to :user
   serialize :others
-  
-  #attr_protected :user_id
 
-  attr_protected :others, :user_id
+  validates_presence_of :user
 
-  def initialize(attributes = nil)
-    super
-    self.others ||= {}
-  end
+  attr_accessible :user
 
-  def before_save
-    self.others ||= {}
-  end
+  # attributes that have their own column
+  attr_accessible :hide_mail, :time_zone, :impaired
+
+  # shortcut methods to others hash
+  attr_accessible :comments_sorting, :warn_on_leaving_unsaved
+
+  after_initialize :init_other_preferences
 
   def [](attr_name)
-    if attribute_present? attr_name
-      super
-    else
-      others ? others[attr_name] : nil
-    end
+    attribute_present?(attr_name) ? super : others[attr_name]
   end
 
   def []=(attr_name, value)
-    if attribute_present? attr_name
-      super
-    else
-      h = read_attribute(:others).dup || {}
-      h.update(attr_name => value)
-      write_attribute(:others, h)
-      value
-    end
+    attribute_present?(attr_name) ? super : others[attr_name] = value
   end
 
-  def comments_sorting; self[:comments_sorting] end
-  def comments_sorting=(order); self[:comments_sorting]=order end
+  def comments_sorting
+    others[:comments_sorting]
+  end
 
-  def warn_on_leaving_unsaved; self[:warn_on_leaving_unsaved] || '1'; end
-  def warn_on_leaving_unsaved=(value); self[:warn_on_leaving_unsaved]=value; end
+  def comments_sorting=(order)
+    others[:comments_sorting] = order
+  end
+
+  def warn_on_leaving_unsaved
+    others.fetch(:warn_on_leaving_unsaved) { '1' }
+  end
+
+  def warn_on_leaving_unsaved=(value)
+    others[:warn_on_leaving_unsaved] = value
+  end
+
+private
+
+  def init_other_preferences
+    self.others ||= {}
+  end
 end

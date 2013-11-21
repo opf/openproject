@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -72,14 +87,49 @@ class Setting < ActiveRecord::Base
                   TIS-620)
 
   cattr_accessor :available_settings
-  @@available_settings = YAML::load(File.open("#{RAILS_ROOT}/config/settings.yml"))
-  Redmine::Plugin.all.each do |plugin|
-    next unless plugin.settings
-    @@available_settings["plugin_#{plugin.id}"] = {'default' => plugin.settings[:default], 'serialized' => true}
+
+  def self.create_setting(name, value = nil)
+    @@available_settings[name] = value
+  end
+
+  def self.create_setting_accessors(name)
+    # Defines getter and setter for each setting
+    # Then setting values can be read using: Setting.some_setting_name
+    # or set using Setting.some_setting_name = "some value"
+    src = <<-END_SRC
+      def self.#{name}
+        # when runnung too early, there is no settings table. do nothing
+        self[:#{name}] if settings_table_exists_yet?
+      end
+
+      def self.#{name}?
+        # when runnung too early, there is no settings table. do nothing
+        self[:#{name}].to_i > 0 if settings_table_exists_yet?
+      end
+
+      def self.#{name}=(value)
+        if settings_table_exists_yet?
+          self[:#{name}] = value
+        else
+          logger.warn "Trying to save a setting named '#{name}' while there is no 'setting' table yet. This setting will not be saved!"
+          nil # when runnung too early, there is no settings table. do nothing
+        end
+      end
+    END_SRC
+    class_eval src, __FILE__, __LINE__
+  end
+
+  @@available_settings = YAML::load(File.open(Rails.root.join('config/settings.yml')))
+
+  # Defines getter and setter for each setting
+  # Then setting values can be read using: Setting.some_setting_name
+  # or set using Setting.some_setting_name = "some value"
+  @@available_settings.each do |name, params|
+    self.create_setting_accessors(name)
   end
 
   validates_uniqueness_of :name
-  validates_inclusion_of :name, :in => @@available_settings.keys
+  validates_inclusion_of :name, :in => lambda { |setting| @@available_settings.keys } # lambda, because @available_settings changes at runtime
   validates_numericality_of :value, :only_integer => true, :if => Proc.new { |setting| @@available_settings[setting.name]['format'] == 'int' }
 
   def value
@@ -103,31 +153,16 @@ class Setting < ActiveRecord::Base
   def self.[]=(name, v)
     setting = find_or_default(name)
     setting.value = (v ? v : "")
-    Rails.cache.delete self.cache_key(name)
+    Rails.cache.delete(cache_key(name))
     setting.save
     setting.value
   end
 
-  # Defines getter and setter for each setting
-  # Then setting values can be read using: Setting.some_setting_name
-  # or set using Setting.some_setting_name = "some value"
-  @@available_settings.each do |name, params|
-    src = <<-END_SRC
-    def self.#{name}
-      self[:#{name}]
-    end
-
-    def self.#{name}?
-      self[:#{name}].to_i > 0
-    end
-
-    def self.#{name}=(value)
-      self[:#{name}] = value
-    end
-    END_SRC
-    class_eval src, __FILE__, __LINE__
+  # Check whether a setting was defined
+  def self.exists?(name)
+    @@available_settings.has_key?(name)
   end
-  
+
   # this should be fixed with globalize plugin
   [:emails_header, :emails_footer].each do |mail|
     src = <<-END_SRC
@@ -141,7 +176,7 @@ class Setting < ActiveRecord::Base
     END_SRC
     class_eval src, __FILE__, __LINE__
   end
-  
+
   # Helper that returns an array based on per_page_options setting
   def self.per_page_options_array
     per_page_options.split(%r{[\s,]}).collect(&:to_i).select {|n| n > 0}.sort
@@ -171,14 +206,29 @@ private
   # (record found in database or new record with default value)
   def self.find_or_default(name)
     name = name.to_s
-    raise "There's no setting named #{name}" unless @@available_settings.has_key?(name)
+    raise "There's no setting named #{name}" unless exists? name
     find_by_name(name) or new do |s|
       s.name  = name
       s.value = @@available_settings[name]['default']
-    end if @@available_settings.has_key? name
+    end
   end
 
   def self.cache_key(name)
-    "chiliproject/setting/#{Setting.maximum(:updated_on).to_i}/#{name}"
+    RequestStore.store[:settings_updated_on] ||= Setting.maximum(:updated_on)
+    most_recent_settings_change = ( RequestStore.store[:settings_updated_on] || Time.now.utc).to_i
+    base_cache_key(name, most_recent_settings_change)
+  end
+
+  def self.base_cache_key(name, timestamp)
+    "/openproject/settings/#{timestamp}/#{name}"
+  end
+
+  def self.settings_table_exists_yet?
+    # Check whether the settings table already exists. This makes plugins
+    # patching core classes not break things when settings are accessed.
+    # I'm not sure this is a good idea, but that's the way it is right now,
+    # and caching this improves performance significantly for actions
+    # accessing settings a lot.
+    @settings_table_exists_yet ||= connection.table_exists?(table_name)
   end
 end

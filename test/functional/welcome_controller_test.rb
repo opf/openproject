@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -18,15 +33,14 @@ require 'welcome_controller'
 class WelcomeController; def rescue_action(e) raise e end; end
 
 class WelcomeControllerTest < ActionController::TestCase
-  fixtures :projects,
-           :news,
-           :users
+  fixtures :all
 
   def setup
+    super
     @controller = WelcomeController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
-    Setting.available_languages = [:en, :fr, :"zh-TW"]
+    Setting.available_languages = [:en, :de]
     User.current = nil
   end
 
@@ -41,27 +55,27 @@ class WelcomeControllerTest < ActionController::TestCase
 
   def test_browser_language
     Setting.default_language = 'en'
-    @request.env['HTTP_ACCEPT_LANGUAGE'] = 'fr,fr-fr;q=0.8,en-us;q=0.5,en;q=0.3'
+    @request.env['HTTP_ACCEPT_LANGUAGE'] = 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3'
     get :index
-    assert_equal :fr, @controller.current_language
+    assert_equal :de, @controller.current_language
   end
 
   def test_browser_language_alternate
     Setting.default_language = 'en'
-    @request.env['HTTP_ACCEPT_LANGUAGE'] = 'zh-TW'
+    @request.env['HTTP_ACCEPT_LANGUAGE'] = 'de'
     get :index
-    assert_equal :"zh-TW", @controller.current_language
+    assert_equal :"de", @controller.current_language
   end
 
   def test_browser_language_alternate_not_valid
     Setting.default_language = 'en'
-    @request.env['HTTP_ACCEPT_LANGUAGE'] = 'fr-CA'
+    @request.env['HTTP_ACCEPT_LANGUAGE'] = 'de-CA'
     get :index
-    assert_equal :fr, @controller.current_language
+    assert_equal :de, @controller.current_language
   end
 
   def test_robots
-    get :robots
+    get :robots, :format => :txt
     assert_response :success
     assert_equal 'text/plain', @response.content_type
     assert @response.body.match(%r{^Disallow: /projects/ecookbook/issues\r?$})

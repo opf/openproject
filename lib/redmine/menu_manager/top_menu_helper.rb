@@ -1,12 +1,45 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 module Redmine::MenuManager::TopMenuHelper
 
-  def render_top_menu
-    content_tag :ul, :id => "account-nav", :class => "menu_root" do
-      render_main_top_menu_nodes +
-      render_projects_top_menu_node +
-      render_module_top_menu_node +
-      render_help_top_menu_node +
-      render_user_top_menu_node
+  def render_top_menu_left
+    content_tag :ul, :id => "account-nav-left", :class => "menu_root account-nav" do
+      [render_main_top_menu_nodes,
+       render_projects_top_menu_node,
+       render_module_top_menu_node].join.html_safe
+    end
+  end
+
+  def render_top_menu_right
+    content_tag :ul, :id => "account-nav-right", :class => "menu_root account-nav" do
+      [ render_help_top_menu_node,
+       render_user_top_menu_node].join.html_safe
     end
   end
 
@@ -17,9 +50,12 @@ module Redmine::MenuManager::TopMenuHelper
 
     return "" if User.current.number_of_known_projects.zero?
 
-    heading = link_to l(:label_project_plural), { :controller => 'projects',
-                                                  :action => 'index' },
-                                                :title => l(:label_project_plural)
+    heading = link_to l(:label_project_plural),
+                      { :controller => '/projects',
+                        :action => 'index' },
+                      :title => l(:label_project_plural),
+                      :access_key => OpenProject::AccessKeys.key_for(:project_search),
+                      :'data-icon' => 'g'
 
     if User.current.impaired?
       content_tag :li do
@@ -29,8 +65,9 @@ module Redmine::MenuManager::TopMenuHelper
       render_drop_down_menu_node heading do
         content_tag :ul, :style => "display:none" do
           ret = content_tag :li do
-            link_to l(:label_project_view_all), :controller => 'projects',
-                                                :action => 'index'
+            link_to l(:label_project_view_all), {:controller => '/projects',
+                                                :action => 'index'},
+                                                :'data-icon4' => '7'
           end
 
           ret += content_tag :li, :id => "project-search-container" do
@@ -46,7 +83,7 @@ module Redmine::MenuManager::TopMenuHelper
   def render_user_top_menu_node(items = menu_items_for(:account_menu))
     unless User.current.logged?
       render_drop_down_menu_node(link_to(l(:label_login),
-                                         { :controller => 'account',
+                                         { :controller => '/account',
                                            :action => 'login' },
                                            :class => 'login',
                                            :title => l(:label_login)),
@@ -63,7 +100,7 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_module_top_menu_node(items = more_top_menu_items)
-    render_drop_down_menu_node link_to(l(:label_modules), "#", :title => l(:label_modules)),
+    render_drop_down_menu_node link_to(l(:label_modules), "#", :title => l(:label_modules), :'data-icon' => 'M'),
                                items,
                                :id => "more-menu"
   end
@@ -99,7 +136,7 @@ module Redmine::MenuManager::TopMenuHelper
       items_for_more_level = []
       help_menu = nil
       menu_items_for(:top_menu) do |item|
-        if item.name == :home || item.name == :my_page
+        if item.name == :my_page
           items_for_main_level << item
         elsif item.name == :help
           help_menu = item

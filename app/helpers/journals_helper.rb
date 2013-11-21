@@ -1,20 +1,36 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
 module JournalsHelper
-  unloadable
+  # unloadable
   include ApplicationHelper
+  include ERB::Util
   include ActionView::Helpers::TagHelper
 
   def self.included(base)
@@ -28,7 +44,7 @@ module JournalsHelper
   def render_journal(model, journal, options = {})
     return "" if journal.initial?
     journal_content = render_journal_details(journal, :label_updated_time_by, model, options)
-    content_tag "div", journal_content, { :id => "change-#{journal.id}", :class => journal.css_classes }
+    content_tag "div", journal_content, { :id => "change-#{journal.id}", :class => work_package_css_classes(journal.journable) }
   end
 
   # This renders a journal entry with a header and details
@@ -44,28 +60,24 @@ module JournalsHelper
       </h4>
     HTML
 
-
     if journal.details.any?
       details = content_tag "ul", :class => "details journal-attributes" do
         journal.details.collect do |detail|
           if d = journal.render_detail(detail, :cache => options[:cache])
-            content_tag("li", d)
+            content_tag("li", d.html_safe)
           end
-        end.compact.join(' ')
+        end.compact.join(' ').html_safe
       end
     end
 
-    notes = <<-HTML
-      #{render_notes(model, journal, options) unless journal.notes.blank?}
-    HTML
-    content_tag("div", "#{header}#{details}#{notes}", :id => "change-#{journal.id}", :class => "journal")
+    notes = journal.notes.blank? ?
+              '' :
+              render_notes(model, journal, options)
+
+    content_tag("div", "#{header}#{details}#{notes}".html_safe, :id => "change-#{journal.id}", :class => "journal")
   end
 
   def render_notes(model, journal, options={})
-    controller = model.class.name.downcase.pluralize
-    action = 'edit'
-    reply_links = authorize_for(controller, action)
-
     if User.current.logged?
       editable = User.current.allowed_to?(options[:edit_permission], journal.project) if options[:edit_permission]
       if journal.user == User.current && options[:edit_own_permission]
@@ -74,27 +86,40 @@ module JournalsHelper
     end
 
     unless journal.notes.blank?
+
       links = [].tap do |l|
-        if reply_links
-          l << link_to_remote(image_tag('quote.png', :alt => l(:button_quote), :title => l(:button_quote)),
-            :url => {:controller => controller, :action => action, :id => model, :journal_id => journal})
+        if options[:quote_permission] && User.current.allowed_to?(options[:quote_permission], journal.project)
+          # TODO: This is a hack.
+          # it assumes that there is a quoted action on the controller
+          # currently rendering the view
+          # the quote link should somehow be supplied
+          controller_name = controller.class.to_s.underscore.gsub(/_controller\z/,"").to_sym
+          l << link_to(image_tag('webalys/quote.png', :alt => l(:button_quote), :title => l(:button_quote)),
+                                                { :controller => controller_name,
+                                                  :action => 'quoted',
+                                                  :id => model,
+                                                  :journal_id => journal }, :class => 'quote-link')
         end
         if editable
-          l << link_to_in_place_notes_editor(image_tag('edit.png', :alt => l(:button_edit), :title => l(:button_edit)), "journal-#{journal.id}-notes",
-                { :controller => 'journals', :action => 'edit', :id => journal },
+          l << link_to_in_place_notes_editor(image_tag('webalys/edit.png', :alt => l(:button_edit), :title => l(:button_edit)), "journal-#{journal.id}-notes",
+                { :controller => '/journals', :action => 'edit', :id => journal },
                   :title => l(:button_edit))
         end
       end
     end
 
     content = ''
-    content << content_tag('div', links.join(' '), :class => 'contextual') unless links.empty?
-    content << textilizable(journal, :notes)
+    content << content_tag('div', links.join(' '),{ :class => 'contextual' }, false) unless links.empty?
+    attachments = model.try(:attachments) || []
+    content << content_tag('div',
+                           textilizable(journal, :notes, :attachments => attachments),
+                           :class => 'wikicontent',
+                           "data-user" => journal.journable.author)
 
-    css_classes = "wiki"
+    css_classes = "wiki journal-notes"
     css_classes << " editable" if editable
 
-    content_tag('div', content, :id => "journal-#{journal.id}-notes", :class => css_classes)
+    content_tag('div', content, { :id => "journal-#{journal.id}-notes", :class => css_classes }, false)
   end
 
   def link_to_in_place_notes_editor(text, field_id, url, options={})

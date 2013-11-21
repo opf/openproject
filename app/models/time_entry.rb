@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -17,15 +32,15 @@ class TimeEntry < ActiveRecord::Base
   # could have used polymorphic association
   # project association here allows easy loading of time entries at project level with one database trip
   belongs_to :project
-  belongs_to :issue
+  belongs_to :work_package
   belongs_to :user
   belongs_to :activity, :class_name => 'TimeEntryActivity', :foreign_key => 'activity_id'
 
   attr_protected :project_id, :user_id, :tyear, :tmonth, :tweek
 
   acts_as_customizable
-  acts_as_journalized :event_title => Proc.new {|o| "#{l_hours(o.hours)} (#{(o.issue || o.project).event_title})"},
-                :event_url => Proc.new {|o| {:controller => 'timelog', :action => 'index', :project_id => o.project, :issue_id => o.issue}},
+  acts_as_journalized :event_title => Proc.new {|o| "#{l_hours(o.hours)} (#{o.journal.journable.project.event_title})"},
+                :event_url => Proc.new {|o| {:controller => '/timelog', :action => 'index', :project_id => o.journal.journable.project, :work_package_id => o.journal.journable.work_package}},
                 :event_author => :user,
                 :event_description => :comments
 
@@ -33,14 +48,23 @@ class TimeEntry < ActiveRecord::Base
   validates_numericality_of :hours, :allow_nil => true, :message => :invalid
   validates_length_of :comments, :maximum => 255, :allow_nil => true
 
-  named_scope :visible, lambda {|*args| {
+  validate :validate_hours_are_in_range
+  validate :validate_project_is_set
+  validate :validate_consistency_of_work_package_id
+
+  scope :visible, lambda {|*args| {
     :include => :project,
     :conditions => Project.allowed_to_condition(args.first || User.current, :view_time_entries)
   }}
 
-  safe_attributes 'hours', 'comments', 'issue_id', 'activity_id', 'spent_on', 'custom_field_values'
+  scope :on_work_packages, ->(work_packages) { where(work_package_id: work_packages) }
 
-  def after_initialize
+  after_initialize :set_default_activity
+  before_validation :set_default_project
+
+  safe_attributes 'hours', 'comments', 'work_package_id', 'activity_id', 'spent_on', 'custom_field_values'
+
+  def set_default_activity
     if new_record? && self.activity.nil?
       if default_activity = TimeEntryActivity.default
         self.activity_id = default_activity.id
@@ -49,14 +73,8 @@ class TimeEntry < ActiveRecord::Base
     end
   end
 
-  def before_validation
-    self.project = issue.project if issue && project.nil?
-  end
-
-  def validate
-    errors.add :hours, :invalid if hours && (hours < 0 || hours >= 1000)
-    errors.add :project_id, :invalid if project.nil?
-    errors.add :issue_id, :invalid if (issue_id && !issue) || (issue && project!=issue.project)
+  def set_default_project
+    self.project ||= work_package.project if work_package
   end
 
   def hours=(h)
@@ -88,7 +106,7 @@ class TimeEntry < ActiveRecord::Base
     end
   end
 
-  def self.earilest_date_for_project(project=nil)
+  def self.earliest_date_for_project(project=nil)
     finder_conditions = ARCondition.new(Project.allowed_to_condition(User.current, :view_time_entries))
     if project
       finder_conditions << ["project_id IN (?)", project.hierarchy.collect(&:id)]
@@ -102,5 +120,19 @@ class TimeEntry < ActiveRecord::Base
       finder_conditions << ["project_id IN (?)", project.hierarchy.collect(&:id)]
     end
     TimeEntry.maximum(:spent_on, :include => :project, :conditions => finder_conditions.conditions)
+  end
+
+private
+
+  def validate_hours_are_in_range
+    errors.add :hours, :invalid if hours && (hours < 0 || hours >= 1000)
+  end
+
+  def validate_project_is_set
+    errors.add :project_id, :invalid if project.nil?
+  end
+
+  def validate_consistency_of_work_package_id
+    errors.add :work_package_id, :invalid if (work_package_id && !work_package) || (work_package && project!=work_package.project)
   end
 end

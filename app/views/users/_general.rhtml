@@ -1,7 +1,0 @@
-<% labelled_tabular_form_for :user, @user, :url => { :controller => 'users', :action => "update", :tab => nil }, :html => { :method => :put, :class => nil } do |f| %>
-	<%= render :partial => 'form', :locals => { :f => f } %>
-	<% if @user.active? -%>
-		<p><label><%= check_box_tag 'send_information', 1, true %> <%= l(:label_send_information) %></label></p>
-	<% end -%>
-	<p><%= submit_tag l(:button_save) %></p>
-<% end %>

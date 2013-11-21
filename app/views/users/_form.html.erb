@@ -1,0 +1,103 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= error_messages_for 'user' %>
+
+<%= javascript_include_tag 'admin_users' %>
+
+<!--[form:user]-->
+<div class="box tabular">
+  <p><%= f.text_field :login, :required => true, :size => 25  %></p>
+  <p><%= f.text_field :firstname, :required => true %></p>
+  <p><%= f.text_field :lastname, :required => true %></p>
+  <p><%= f.text_field :mail, :required => true %></p>
+  <p><%= f.select :language, lang_options_for_select %></p>
+  <% if Setting.openid? %>
+  <p><%= f.text_field :identity_url  %></p>
+  <% end %>
+
+  <% @user.custom_field_values.each do |value| %>
+    <p><%= custom_field_tag_with_label :user, value %></p>
+  <% end %>
+
+  <p><%= f.check_box :admin, :disabled => (@user == User.current) %></p>
+  <%= call_hook(:view_users_form, :user => @user, :form => f) %>
+</div>
+
+<div class="box tabular">
+  <h3><%=l(:label_ui, :app_title => Setting.app_title)%></h3>
+  <%= render :partial => "users/impaired_settings" %>
+</div>
+
+<div class="box tabular">
+  <h3><%=l(:label_authentication)%></h3>
+  <% unless @auth_sources.empty? %>
+    <p><%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }) %></p>
+  <% end %>
+  <div id="password_fields" style="<%= 'display:none;' if @user.auth_source %>">
+    <% assign_random_password_enabled = params[:user] && 
+                                        params[:user][:assign_random_password] %>
+    <p>
+      <label for="user_assign_random_password">
+        <%= I18n.t(:assign_random_password, :scope => :user) %>
+      </label>
+      <%= check_box_tag("user[assign_random_password]",
+                        "1",
+                        assign_random_password_enabled) %>
+    </p>
+    <p>
+      <%= f.password_field :password,
+                           :required => true,
+                           :size => 25,
+                           :disabled => assign_random_password_enabled %><br />
+      <%= password_complexity_requirements %>
+    </p>
+    <p>
+      <%= f.password_field :password_confirmation,
+                           :required => true,
+                           :size => 25,
+                           :disabled => assign_random_password_enabled %>
+    </p>
+    <p>
+      <%= f.check_box :force_password_change,
+                      :disabled => assign_random_password_enabled %>
+    </p>
+  </div>
+</div>
+
+<div class="box">
+  <h3><%= User.human_attribute_name(:mail_notification) %></h3>
+  <%= render :partial => 'users/mail_notifications' %>
+</div>
+
+<div class="box tabular">
+  <h3><%=l(:label_preferences)%></h3>
+  <%= render :partial => 'users/preferences' %>
+</div>
+<!--[eoform:user]-->

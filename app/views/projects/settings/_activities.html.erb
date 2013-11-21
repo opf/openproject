@@ -1,0 +1,72 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= form_tag(project_enumerations_path(@project), :method => :put, :class => "tabular") do %>
+
+<table class="list">
+  <thead><tr>
+    <th style="width:90px;" class='center'><%= Enumeration.human_attribute_name(:active) %></th>
+    <th><%= Enumeration.human_attribute_name(:name) %></th>
+    <th class='center'><%= l(:enumeration_system_activity) %></th>
+    <% TimeEntryActivity.new.available_custom_fields.each do |value| %>
+      <th><%= h value.name %></th>
+    <% end %>
+  </tr></thead>
+
+  <% @project.activities(true).each do |enumeration| %>
+  <%= fields_for "enumerations[#{enumeration.id}]", enumeration do |ff| %>
+  <tr class="<%= cycle('odd', 'even') %>">
+    <td align="center">
+      <%= label_tag "enumerations_#{enumeration.id}_active", l(:description_active), :class => "hidden-for-sighted" %>
+      <%= ff.check_box :active %>
+    </td>
+    <td>
+      <%= ff.hidden_field :parent_id, :value => enumeration.id unless enumeration.project %>
+      <%= h(enumeration) %>
+    </td>
+    <td align="center" style="width:15%;"><%= checked_image !enumeration.project %></td>
+    <% enumeration.custom_field_values.each do |value| %>
+      <td align="center">
+        <%= custom_field_tag "enumerations[#{enumeration.id}]", value %>
+      </td>
+    <% end %>
+  </tr>
+  <% end %>
+  <% end %>
+</table>
+
+<div class="contextual">
+<%= link_to(l(:button_reset), project_enumerations_path(@project),
+            :method => :delete,
+            :confirm => l(:text_are_you_sure),
+            :class => 'icon icon-del') %>
+</div>
+
+<%= submit_tag l(:button_save) %>
+<% end %>

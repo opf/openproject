@@ -1,8 +1,0 @@
-default:
-
-production:
-
-development:
-
-test:
-  somesetting: foo

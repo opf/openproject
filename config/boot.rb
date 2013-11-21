@@ -1,137 +1,34 @@
-#-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Don't change this file!
-# Configure your app in config/environment.rb and config/environments/*.rb
+require 'rubygems'
 
-RAILS_ROOT = "#{File.dirname(__FILE__)}/.." unless defined?(RAILS_ROOT)
+# Set up gems listed in the Gemfile.
+ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
 
-module Rails
-  class << self
-    def boot!
-      unless booted?
-        preinitialize
-        pick_boot.run
-      end
-    end
-
-    def booted?
-      defined? Rails::Initializer
-    end
-
-    def pick_boot
-      (vendor_rails? ? VendorBoot : GemBoot).new
-    end
-
-    def vendor_rails?
-      File.exist?("#{RAILS_ROOT}/vendor/rails")
-    end
-
-    def preinitialize
-      load(preinitializer_path) if File.exist?(preinitializer_path)
-    end
-
-    def preinitializer_path
-      "#{RAILS_ROOT}/config/preinitializer.rb"
-    end
-  end
-
-  class Boot
-    def run
-      load_initializer
-
-      # This block was added for bundler support while following setup
-      # instructions from http://gembundler.com/rails23.html
-      Rails::Initializer.class_eval do
-        def load_gems
-          @bundler_loaded ||= Bundler.require :default, Rails.env
-        end
-      end
-
-      Rails::Initializer.run(:set_load_path)
-    end
-  end
-
-  class VendorBoot < Boot
-    def load_initializer
-      require "#{RAILS_ROOT}/vendor/rails/railties/lib/initializer"
-      Rails::Initializer.run(:install_gem_spec_stubs)
-      Rails::GemDependency.add_frozen_gem_path
-    end
-  end
-
-  class GemBoot < Boot
-    def load_initializer
-      self.class.load_rubygems
-      load_rails_gem
-      require 'initializer'
-    end
-
-    def load_rails_gem
-      if version = self.class.gem_version
-        gem 'rails', version
-      else
-        gem 'rails'
-      end
-    rescue Gem::LoadError => load_error
-      if load_error.message =~ /Could not find RubyGem rails/
-        STDERR.puts %(Missing the Rails #{version} gem. Please `gem install -v=#{version} rails`, update your RAILS_GEM_VERSION setting in config/environment.rb for the Rails version you do have installed, or comment out RAILS_GEM_VERSION to use the latest version installed.)
-        exit 1
-      else
-        raise
-      end
-    end
-
-    class << self
-      def rubygems_version
-        Gem::RubyGemsVersion rescue nil
-      end
-
-      def gem_version
-        if defined? RAILS_GEM_VERSION
-          RAILS_GEM_VERSION
-        elsif ENV.include?('RAILS_GEM_VERSION')
-          ENV['RAILS_GEM_VERSION']
-        else
-          parse_gem_version(read_environment_rb)
-        end
-      end
-
-      def load_rubygems
-        min_version = '1.3.2'
-        require 'rubygems'
-        unless rubygems_version >= min_version
-          $stderr.puts %Q(Rails requires RubyGems >= #{min_version} (you have #{rubygems_version}). Please `gem update --system` and try again.)
-          exit 1
-        end
-
-      rescue LoadError
-        $stderr.puts %Q(Rails requires RubyGems >= #{min_version}. Please install RubyGems and try again: http://rubygems.rubyforge.org)
-        exit 1
-      end
-
-      def parse_gem_version(text)
-        $1 if text =~ /^[^#]*RAILS_GEM_VERSION\s*=\s*["']([!~<>=]*\s*[\d.]+)["']/
-      end
-
-      private
-        def read_environment_rb
-          File.read("#{RAILS_ROOT}/config/environment.rb")
-        end
-    end
-  end
-end
-
-# All that for this:
-Rails.boot!
+require 'bundler/setup' if File.exists?(ENV['BUNDLE_GEMFILE'])

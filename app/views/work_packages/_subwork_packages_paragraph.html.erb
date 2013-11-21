@@ -1,0 +1,60 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+<div class="work_package_hierarchy work_package_part">
+  <strong><%= l(:label_work_package_hierarchy) %></strong>
+  <% if User.current.allowed_to?(:manage_subtasks, @project) %>
+    (<%= link_to(l(:label_add_subtask), new_project_work_package_path(:project_id => @project,
+                                                                      :work_package => { :parent_id => work_package })) %>)
+  <% end %>
+
+  <% if !work_package.leaf? || work_package.parent %>
+    <% indent = 0 %>
+
+    <form action="#">
+      <table id="issue_tree" class="list">
+
+        <!-- render parent elements -->
+        <% ancestors.each do |ancestor| %>
+          <%= render_work_package_tree_row ancestor, indent, "parent" %>
+          <% indent += 1 %>
+        <% end %>
+
+        <!-- render current element -->
+        <%= render_work_package_tree_row work_package, indent, "root" %>
+        <% indent += 1 %>
+
+        <!-- render child elements -->
+        <% work_package_list(descendants) do |descendant, level| %>
+          <%= render_work_package_tree_row descendant, indent + level, "child" %>
+        <% end %>
+
+      </table>
+    </form>
+  <% end %>
+</div>

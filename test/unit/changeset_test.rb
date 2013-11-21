@@ -1,31 +1,41 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
 class ChangesetTest < ActiveSupport::TestCase
-  fixtures :projects, :repositories, :issues, :issue_statuses,
-           :changesets, :changes, :issue_categories, :enumerations,
-           :custom_fields, :custom_field_translations, :custom_values,
-           :users, :members, :member_roles, :trackers
-
-  def setup
-    super
-  end
+  fixtures :all
 
   def test_ref_keywords_any
+    WorkPackage.all.each { |m| m.recreate_initial_journal! }
+
     ActionMailer::Base.deliveries.clear
-    Setting.commit_fix_status_id = IssueStatus.find(:first, :conditions => ["is_closed = ?", true]).id
+    Setting.commit_fix_status_id = Status.find(:first, :conditions => ["is_closed = ?", true]).id
     Setting.commit_fix_done_ratio = '90'
     Setting.commit_ref_keywords = '*'
     Setting.commit_fix_keywords = 'fixes , closes'
@@ -33,10 +43,10 @@ class ChangesetTest < ActiveSupport::TestCase
     c = Changeset.new(:repository => Project.find(1).repository,
                       :committed_on => Time.now,
                       :comments => 'New commit (#2). Fixes #1')
-    c.scan_comment_for_issue_ids
+    c.scan_comment_for_work_package_ids
 
-    assert_equal [1, 2], c.issue_ids.sort
-    fixed = Issue.find(1)
+    assert_equal [1, 2], c.work_package_ids.sort
+    fixed = WorkPackage.find(1)
     assert fixed.closed?
     assert_equal 90, fixed.done_ratio
     assert_equal 2, ActionMailer::Base.deliveries.size
@@ -49,9 +59,9 @@ class ChangesetTest < ActiveSupport::TestCase
     c = Changeset.new(:repository => Project.find(1).repository,
                       :committed_on => Time.now,
                       :comments => 'Ignores #2. Refs #1')
-    c.scan_comment_for_issue_ids
+    c.scan_comment_for_work_package_ids
 
-    assert_equal [1], c.issue_ids.sort
+    assert_equal [1], c.work_package_ids.sort
   end
 
   def test_ref_keywords_any_only
@@ -61,9 +71,9 @@ class ChangesetTest < ActiveSupport::TestCase
     c = Changeset.new(:repository => Project.find(1).repository,
                       :committed_on => Time.now,
                       :comments => 'Ignores #2. Refs #1')
-    c.scan_comment_for_issue_ids
+    c.scan_comment_for_work_package_ids
 
-    assert_equal [1, 2], c.issue_ids.sort
+    assert_equal [1, 2], c.work_package_ids.sort
   end
 
   def test_ref_keywords_any_with_timelog
@@ -87,16 +97,16 @@ class ChangesetTest < ActiveSupport::TestCase
     }.each do |syntax, expected_hours|
       c = Changeset.new(:repository => Project.find(1).repository,
                         :committed_on => 24.hours.ago,
-                        :comments => "Worked on this issue #1 @#{syntax}",
+                        :comments => "Worked on this work_package #1 @#{syntax}",
                         :revision => '520',
                         :user => User.find(2))
       assert_difference 'TimeEntry.count' do
-        c.scan_comment_for_issue_ids
+        c.scan_comment_for_work_package_ids
       end
-      assert_equal [1], c.issue_ids.sort
+      assert_equal [1], c.work_package_ids.sort
 
       time = TimeEntry.first(:order => 'id desc')
-      assert_equal 1, time.issue_id
+      assert_equal 1, time.work_package_id
       assert_equal 1, time.project_id
       assert_equal 2, time.user_id
       assert_equal expected_hours, time.hours, "@#{syntax} should be logged as #{expected_hours} hours but was #{time.hours}"
@@ -107,7 +117,7 @@ class ChangesetTest < ActiveSupport::TestCase
   end
 
   def test_ref_keywords_closing_with_timelog
-    Setting.commit_fix_status_id = IssueStatus.find(:first, :conditions => ["is_closed = ?", true]).id
+    Setting.commit_fix_status_id = Status.find(:first, :conditions => ["is_closed = ?", true]).id
     Setting.commit_ref_keywords = '*'
     Setting.commit_fix_keywords = 'fixes , closes'
     Setting.commit_logtime_enabled = '1'
@@ -117,15 +127,15 @@ class ChangesetTest < ActiveSupport::TestCase
                       :comments => 'This is a comment. Fixes #1 @4.5, #2 @1',
                       :user => User.find(2))
     assert_difference 'TimeEntry.count', 2 do
-      c.scan_comment_for_issue_ids
+      c.scan_comment_for_work_package_ids
     end
 
-    assert_equal [1, 2], c.issue_ids.sort
-    assert Issue.find(1).closed?
-    assert Issue.find(2).closed?
+    assert_equal [1, 2], c.work_package_ids.sort
+    assert WorkPackage.find(1).closed?
+    assert WorkPackage.find(2).closed?
 
     times = TimeEntry.all(:order => 'id desc', :limit => 2)
-    assert_equal [1, 2], times.collect(&:issue_id).sort
+    assert_equal [1, 2], times.collect(&:work_package_id).sort
   end
 
   def test_ref_keywords_any_line_start
@@ -134,44 +144,44 @@ class ChangesetTest < ActiveSupport::TestCase
     c = Changeset.new(:repository => Project.find(1).repository,
                       :committed_on => Time.now,
                       :comments => '#1 is the reason of this commit')
-    c.scan_comment_for_issue_ids
+    c.scan_comment_for_work_package_ids
 
-    assert_equal [1], c.issue_ids.sort
+    assert_equal [1], c.work_package_ids.sort
   end
 
-  def test_ref_keywords_allow_brackets_around_a_issue_number
+  def test_ref_keywords_allow_brackets_around_a_work_package_number
     Setting.commit_ref_keywords = '*'
 
     c = Changeset.new(:repository => Project.find(1).repository,
                       :committed_on => Time.now,
-                      :comments => '[#1] Worked on this issue')
-    c.scan_comment_for_issue_ids
+                      :comments => '[#1] Worked on this work_package')
+    c.scan_comment_for_work_package_ids
 
-    assert_equal [1], c.issue_ids.sort
+    assert_equal [1], c.work_package_ids.sort
   end
 
-  def test_ref_keywords_allow_brackets_around_multiple_issue_numbers
+  def test_ref_keywords_allow_brackets_around_multiple_work_package_numbers
     Setting.commit_ref_keywords = '*'
 
     c = Changeset.new(:repository => Project.find(1).repository,
                       :committed_on => Time.now,
                       :comments => '[#1 #2, #3] Worked on these')
-    c.scan_comment_for_issue_ids
+    c.scan_comment_for_work_package_ids
 
-    assert_equal [1,2,3], c.issue_ids.sort
+    assert_equal [1,2,3], c.work_package_ids.sort
   end
 
-  def test_commit_referencing_a_subproject_issue
+  def test_commit_referencing_a_subproject_work_package
     c = Changeset.new(:repository => Project.find(1).repository,
                       :committed_on => Time.now,
-                      :comments => 'refs #5, a subproject issue')
-    c.scan_comment_for_issue_ids
+                      :comments => 'refs #5, a subproject work_package')
+    c.scan_comment_for_work_package_ids
 
-    assert_equal [5], c.issue_ids.sort
-    assert c.issues.first.project != c.project
+    assert_equal [5], c.work_package_ids.sort
+    assert c.work_packages.first.project != c.project
   end
 
-  def test_commit_referencing_a_parent_project_issue
+  def test_commit_referencing_a_parent_project_work_package
     # repository of child project
     r = Repository::Subversion.create!(
           :project => Project.find(3),
@@ -179,11 +189,11 @@ class ChangesetTest < ActiveSupport::TestCase
 
     c = Changeset.new(:repository => r,
                       :committed_on => Time.now,
-                      :comments => 'refs #2, an issue of a parent project')
-    c.scan_comment_for_issue_ids
+                      :comments => 'refs #2, an work_package of a parent project')
+    c.scan_comment_for_work_package_ids
 
-    assert_equal [2], c.issue_ids.sort
-    assert c.issues.first.project != c.project
+    assert_equal [2], c.work_package_ids.sort
+    assert c.work_packages.first.project != c.project
   end
 
   def test_text_tag_revision
@@ -224,10 +234,11 @@ class ChangesetTest < ActiveSupport::TestCase
   end
 
   def test_comments_should_be_converted_to_utf8
+    with_settings :enabled_scm => ['Filesystem'] do
       proj = Project.find(3)
-      str = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
-      r = Repository::Bazaar.create!(
-            :project => proj, :url => '/tmp/test/bazaar',
+      str = File.read(Rails.root.join('test/fixtures/encoding/iso-8859-1.txt'))
+      r = Repository::Filesystem.create!(
+            :project => proj, :url => '/tmp/test/filesystem_repository',
             :log_encoding => 'ISO-8859-1' )
       assert r
       c = Changeset.new(:repository => r,
@@ -237,14 +248,16 @@ class ChangesetTest < ActiveSupport::TestCase
                         :comments => str)
       assert( c.save )
       assert_equal "Texte encodé en ISO-8859-1.", c.comments
+    end
   end
 
   def test_invalid_utf8_sequences_in_comments_should_be_replaced_latin1
+    with_settings :enabled_scm => ['Filesystem'] do
       proj = Project.find(3)
-      str = File.read("#{RAILS_ROOT}/test/fixtures/encoding/iso-8859-1.txt")
-      r = Repository::Bazaar.create!(
+      str = File.read(Rails.root.join('test/fixtures/encoding/iso-8859-1.txt'))
+      r = Repository::Filesystem.create!(
             :project => proj,
-            :url => '/tmp/test/bazaar',
+            :url => '/tmp/test/filesystem_repository',
             :log_encoding => 'UTF-8' )
       assert r
       c = Changeset.new(:repository   => r,
@@ -254,17 +267,19 @@ class ChangesetTest < ActiveSupport::TestCase
                         :comments     => str)
       assert( c.save )
       assert_equal "Texte encod? en ISO-8859-1.", c.comments
+    end
   end
 
   def test_invalid_utf8_sequences_in_comments_should_be_replaced_ja_jis
+    with_settings :enabled_scm => ['Filesystem'] do
       proj = Project.find(3)
       str = "test\xb5\xfetest\xb5\xfe"
       if str.respond_to?(:force_encoding)
         str.force_encoding('ASCII-8BIT')
       end
-      r = Repository::Bazaar.create!(
+      r = Repository::Filesystem.create!(
             :project => proj,
-            :url     => '/tmp/test/bazaar',
+            :url     => '/tmp/test/filesystem_repository',
             :log_encoding => 'ISO-2022-JP' )
       assert r
       c = Changeset.new(:repository   => r,
@@ -274,9 +289,11 @@ class ChangesetTest < ActiveSupport::TestCase
                         :comments     => str)
       assert( c.save )
       assert_equal "test??test??", c.comments
+    end
   end
 
   def test_comments_should_be_converted_all_latin1_to_utf8
+    with_settings :enabled_scm => ['Filesystem'] do
       s1 = "\xC2\x80"
       s2 = "\xc3\x82\xc2\x80"
       s4 = s2.dup
@@ -289,8 +306,8 @@ class ChangesetTest < ActiveSupport::TestCase
         assert_equal s3.encode('UTF-8'), s4
       end
       proj = Project.find(3)
-      r = Repository::Bazaar.create!(
-            :project => proj, :url => '/tmp/test/bazaar',
+      r = Repository::Filesystem.create!(
+            :project => proj, :url => '/tmp/test/filesystem_repository',
             :log_encoding => 'ISO-8859-1' )
       assert r
       c = Changeset.new(:repository => r,
@@ -300,12 +317,14 @@ class ChangesetTest < ActiveSupport::TestCase
                         :comments => s1)
       assert( c.save )
       assert_equal s4, c.comments
+    end
   end
 
   def test_comments_nil
+    with_settings :enabled_scm => ['Filesystem'] do
       proj = Project.find(3)
-      r = Repository::Bazaar.create!(
-            :project => proj, :url => '/tmp/test/bazaar',
+      r = Repository::Filesystem.create!(
+            :project => proj, :url => '/tmp/test/filesystem_repository',
             :log_encoding => 'ISO-8859-1' )
       assert r
       c = Changeset.new(:repository => r,
@@ -318,12 +337,14 @@ class ChangesetTest < ActiveSupport::TestCase
       if c.comments.respond_to?(:force_encoding)
         assert_equal "UTF-8", c.comments.encoding.to_s
       end
+    end
   end
 
   def test_comments_empty
+    with_settings :enabled_scm => ['Filesystem'] do
       proj = Project.find(3)
-      r = Repository::Bazaar.create!(
-            :project => proj, :url => '/tmp/test/bazaar',
+      r = Repository::Filesystem.create!(
+            :project => proj, :url => '/tmp/test/filesystem_repository',
             :log_encoding => 'ISO-8859-1' )
       assert r
       c = Changeset.new(:repository => r,
@@ -336,6 +357,7 @@ class ChangesetTest < ActiveSupport::TestCase
       if c.comments.respond_to?(:force_encoding)
         assert_equal "UTF-8", c.comments.encoding.to_s
       end
+    end
   end
 
   def test_identifier

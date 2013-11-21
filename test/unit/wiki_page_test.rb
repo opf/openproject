@@ -1,22 +1,38 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
 class WikiPageTest < ActiveSupport::TestCase
-  fixtures :projects, :wikis, :wiki_pages, :wiki_contents, :journals
+  fixtures :all
 
   def setup
+    super
     @wiki = Wiki.find(1)
     @page = @wiki.pages.first
   end
@@ -81,15 +97,15 @@ class WikiPageTest < ActiveSupport::TestCase
     # A page that doesn't exist
     page.parent_title = 'Unknown title'
     assert !page.save
-    assert_equal I18n.translate('activerecord.errors.messages.invalid'), page.errors.on(:parent_title)
+    assert_include page.errors[:parent_title], I18n.translate('activerecord.errors.messages.invalid')
     # A child page
     page.parent_title = 'Page_with_an_inline_image'
     assert !page.save
-    assert_equal I18n.translate('activerecord.errors.messages.circular_dependency'), page.errors.on(:parent_title)
+    assert_include page.errors[:parent_title], I18n.translate('activerecord.errors.messages.circular_dependency')
     # The page itself
     page.parent_title = 'CookBook_documentation'
     assert !page.save
-    assert_equal I18n.translate('activerecord.errors.messages.circular_dependency'), page.errors.on(:parent_title)
+    assert_include page.errors[:parent_title], I18n.translate('activerecord.errors.messages.circular_dependency')
 
     page.parent_title = 'Another_page'
     assert page.save
@@ -103,7 +119,8 @@ class WikiPageTest < ActiveSupport::TestCase
     # make sure that page content and its history are deleted
     assert WikiContent.find_all_by_page_id(1).empty?
     content_ids.each do |wiki_content_id|
-      assert WikiContent.journal_class.find_all_by_journaled_id(wiki_content_id).empty?
+      assert Journal.find :all, conditions: { journable_type: WikiContent,
+                                              journable_id: wiki_content_id }
     end
   end
 

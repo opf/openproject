@@ -1,0 +1,107 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+<%= javascript_include_tag "members_form.js" %>
+
+<%= error_messages_for 'member' %>
+<% roles = Role.find_all_givable
+   # Check if there is at least one principal that can be added to the project
+   principals_available = @project.possible_members("", 1)
+   member_per_page = 20
+
+   @members = @project.member_principals.includes(:roles, :principal, :member_roles)
+                                        .order(User::USER_FORMATS_STRUCTURE[Setting.user_format].map{|attr| attr.to_s}.join(", "))
+                                        .page(params[:page])
+                                        .per_page(per_page_param)
+%>
+<div>
+  <% if roles.any? && principals_available.any? %>
+    <%= render :partial => "members/member_form",
+              :locals => { :project => @project,
+                           :members => members,
+                           :roles => roles } %>
+
+  <% end %>
+</div>
+<div>
+<% if @members.any? %>
+  <% authorized = authorize_for('members', 'update') %>
+<table class="list members">
+  <thead><tr>
+    <th><%= User.model_name.human %> / <%= Group.model_name.human %></th>
+    <th><%= l(:label_role_plural) %></th>
+    <th style="width:15%"></th>
+          <%= call_hook(:view_projects_settings_members_table_header, :project => @project) %>
+  </tr></thead>
+  <tbody>
+  <% @members.each do |member| %>
+  <% next if member.new_record? %>
+  <tr id="member-<%= member.id %>" class="<%= cycle 'odd', 'even' %> member">
+  <td class="<%= member.principal.class.name.downcase %> <%= user_status_class member.principal%>" title="<%= user_status_i18n member.principal%>"><%= link_to_user member.principal %></td>
+  <td class="roles">
+    <span id="member-<%= member.id %>-roles"><%=h member.roles.sort.collect(&:to_s).join(', ') %></span>
+    <% if authorized %>
+      <%= form_for(member, :url => {:controller => '/members',
+                                    :action => 'update',
+                                    :id => member,
+                                    :page => params[:page]},
+                           :method => :put,
+                           :remote => true,
+                           :html => { :id => "member-#{member.id}-roles-form",
+                                      :class => 'hol',
+                                      :style => 'display:none' }) do |f| %>
+        <p><% roles.each do |role| %>
+        <label><%= check_box_tag 'member[role_ids][]', role.id, member.roles.include?(role),
+                                                       :disabled => member.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?} %> <%=h role %></label><br />
+        <% end %></p>
+        <%= hidden_field_tag 'member[role_ids][]', '' %>
+        <p><%= submit_tag l(:button_change), :class => "small" %>
+        <%= link_to_function l(:button_cancel), "$('member-#{member.id}-roles').show(); $('member-#{member.id}-roles-form').hide(); return false;" %></p>
+      <% end %>
+      <td class="buttons">
+          <%= link_to_function l(:button_edit), "$('member-#{member.id}-roles').hide(); $('member-#{member.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
+          <%= link_to(l(:button_delete), {:controller => '/members', :action => 'destroy', :id => member, :page => params[:page]},
+                :method => :delete,
+                :remote => true,
+                :confirm => ((!User.current.admin? && member.include?(User.current)) ? l(:text_own_membership_delete_confirmation) : nil),
+                :title => l(:button_delete), :class => 'icon icon-del') if member.deletable? %>
+      </td>
+    <% end %>
+  </td>
+  <%= call_hook(:view_projects_settings_members_table_row, { :project => @project, :member => member}) %>
+  </tr>
+<% end; reset_cycle %>
+  </tbody>
+</table>
+
+<%= pagination_links_full @members, params: { tab: 'members' }.merge(@pagination_url_options || {}) %>
+
+<% else %>
+<p class="nodata members"><%= l(:label_no_data) %></p>
+<% end %>
+</div>

@@ -1,21 +1,34 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
 module Redmine
   module Hook
-    include ActionController::UrlWriter
-
     @@listener_classes = []
     @@listeners = nil
     @@hook_listeners = {}
@@ -85,12 +98,11 @@ module Redmine
       include ActionView::Helpers::FormTagHelper
       include ActionView::Helpers::FormOptionsHelper
       include ActionView::Helpers::JavaScriptHelper
-      include ActionView::Helpers::PrototypeHelper
       include ActionView::Helpers::NumberHelper
       include ActionView::Helpers::UrlHelper
-      include ActionView::Helpers::AssetTagHelper
+      include Sprockets::Helpers::RailsHelper
       include ActionView::Helpers::TextHelper
-      include ActionController::UrlWriter
+      include Rails.application.routes.url_helpers
       include ApplicationHelper
 
       # Default to creating links using only the path.  Subclasses can
@@ -107,22 +119,36 @@ module Redmine
       #
       def self.render_on(hook, options={})
         define_method hook do |context|
-          context[:controller].send(:render_to_string, {:locals => context}.merge(options))
+          if context[:hook_caller].respond_to?(:render)
+            context[:hook_caller].send(:render, {:locals => context}.merge(options))
+          elsif context[:controller].is_a?(ActionController::Base)
+            context[:controller].send(:render_to_string, {:locals => context}.merge(options))
+          else
+            raise "Cannot render #{self.name} hook from #{context[:hook_caller].class.name}"
+          end
         end
+      end
+      
+      def controller
+        nil
+      end
+      
+      def config
+        ActionController::Base.config
       end
     end
 
-    # Helper module included in ApplicationHelper and ActionControllerso that
+    # Helper module included in ApplicationHelper and ActionController so that
     # hooks can be called in views like this:
     #
     #   <%= call_hook(:some_hook) %>
-    #   <%= call_hook(:another_hook, :foo => 'bar' %>
+    #   <%= call_hook(:another_hook, :foo => 'bar') %>
     #
     # Or in controllers like:
     #   call_hook(:some_hook)
-    #   call_hook(:another_hook, :foo => 'bar'
+    #   call_hook(:another_hook, :foo => 'bar')
     #
-    # Hooks added to views will be concatenated into a string.  Hooks added to
+    # Hooks added to views will be concatenated into a string. Hooks added to
     # controllers will return an array of results.
     #
     # Several objects are automatically added to the call context:
@@ -130,15 +156,18 @@ module Redmine
     # * project => current project
     # * request => Request instance
     # * controller => current Controller instance
+    # * hook_caller => object that called the hook
     #
     module Helper
       def call_hook(hook, context={})
         if is_a?(ActionController::Base)
-          default_context = {:controller => self, :project => @project, :request => request}
+          default_context = {:controller => self, :project => @project, :request => request, :hook_caller => self}
           Redmine::Hook.call_hook(hook, default_context.merge(context))
         else
-          default_context = {:controller => controller, :project => @project, :request => request}
-          Redmine::Hook.call_hook(hook, default_context.merge(context)).join(' ')
+          default_context = { :project => @project, :hook_caller => self }
+          default_context[:controller] = controller if respond_to?(:controller)
+          default_context[:request] = request if respond_to?(:request)
+          Redmine::Hook.call_hook(hook, default_context.merge(context)).join(' ').html_safe
         end
       end
     end

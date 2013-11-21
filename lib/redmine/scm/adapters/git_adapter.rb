@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -22,7 +37,7 @@ module Redmine
         SCM_GIT_REPORT_LAST_COMMIT = true
 
         # Git executable name
-        GIT_BIN = Redmine::Configuration['scm_git_command'] || "git"
+        GIT_BIN = OpenProject::Configuration['scm_git_command'] || "git"
 
         # raised if scm command exited with error, e.g. unknown revision.
         class ScmCommandAborted < CommandFailed; end
@@ -105,7 +120,7 @@ module Redmine
 
         def entries(path=nil, identifier=nil)
           path ||= ''
-          p = scm_iconv(@path_encoding, 'UTF-8', path)
+          p = scm_encode(@path_encoding, 'UTF-8', path)
           entries = Entries.new
           cmd_args = %w|ls-tree -l|
           cmd_args << "HEAD:#{p}"          if identifier.nil?
@@ -122,8 +137,8 @@ module Redmine
                   name.force_encoding(@path_encoding)
                 end
                 full_path = p.empty? ? name : "#{p}/#{name}"
-                n      = scm_iconv('UTF-8', @path_encoding, name)
-                full_p = scm_iconv('UTF-8', @path_encoding, full_path)
+                n      = scm_encode('UTF-8', @path_encoding, name)
+                full_p = scm_encode('UTF-8', @path_encoding, full_path)
                 entries << Entry.new({:name => n,
                  :path => full_p,
                  :kind => (type == "tree") ? 'dir' : 'file',
@@ -177,7 +192,7 @@ module Redmine
           from_to << "#{identifier_to}" if identifier_to
           cmd_args << from_to if !from_to.empty?
           cmd_args << "--since=#{options[:since].strftime("%Y-%m-%d %H:%M:%S")}" if options[:since]
-          cmd_args << "--" << scm_iconv(@path_encoding, 'UTF-8', path) if path && !path.empty?
+          cmd_args << "--" << scm_encode(@path_encoding, 'UTF-8', path) if path && !path.empty?
 
           scm_cmd *cmd_args do |io|
             files=[]
@@ -223,14 +238,14 @@ module Redmine
                 parsing_descr = 2
                 fileaction    = $1
                 filepath      = $2
-                p = scm_iconv('UTF-8', @path_encoding, filepath)
+                p = scm_encode('UTF-8', @path_encoding, filepath)
                 files << {:action => fileaction, :path => p}
               elsif (parsing_descr == 1 || parsing_descr == 2) \
                   && line =~ /^:\d+\s+\d+\s+[0-9a-f.]+\s+[0-9a-f.]+\s+(\w)\d+\s+(\S+)\t(.+)$/
                 parsing_descr = 2
                 fileaction    = $1
                 filepath      = $3
-                p = scm_iconv('UTF-8', @path_encoding, filepath)
+                p = scm_encode('UTF-8', @path_encoding, filepath)
                 files << {:action => fileaction, :path => p}
               elsif (parsing_descr == 1) && line.chomp.to_s == ""
                 parsing_descr = 2
@@ -269,7 +284,7 @@ module Redmine
           else
             cmd_args << "show" << "--no-color" << identifier_from
           end
-          cmd_args << "--" <<  scm_iconv(@path_encoding, 'UTF-8', path) unless path.empty?
+          cmd_args << "--" <<  scm_encode(@path_encoding, 'UTF-8', path) unless path.empty?
           diff = []
           scm_cmd *cmd_args do |io|
             io.each_line do |line|
@@ -284,7 +299,7 @@ module Redmine
         def annotate(path, identifier=nil)
           identifier = 'HEAD' if identifier.blank?
           cmd_args = %w|blame|
-          cmd_args << "-p" << identifier << "--" <<  scm_iconv(@path_encoding, 'UTF-8', path)
+          cmd_args << "-p" << identifier << "--" <<  scm_encode(@path_encoding, 'UTF-8', path)
           blame = Annotate.new
           content = nil
           scm_cmd(*cmd_args) { |io| io.binmode; content = io.read }
@@ -321,7 +336,7 @@ module Redmine
             identifier = 'HEAD'
           end
           cmd_args = %w|show --no-color|
-          cmd_args << "#{identifier}:#{scm_iconv(@path_encoding, 'UTF-8', path)}"
+          cmd_args << "#{identifier}:#{scm_encode(@path_encoding, 'UTF-8', path)}"
           cat = nil
           scm_cmd(*cmd_args) do |io|
             io.binmode

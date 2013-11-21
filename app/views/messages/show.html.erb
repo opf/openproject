@@ -1,0 +1,116 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% breadcrumb_paths(
+  link_to(l(:label_board_plural), {:controller => '/boards', :action => 'index', :project_id => @project}),
+  link_to(h(@board.name), {:controller => '/boards', :action => 'show', :project_id => @project, :id => @board}))
+%>
+
+<div class="contextual">
+    <%= watcher_link(@topic, User.current) %>
+    <%= link_to_remote_if_authorized(l(:button_quote),
+                                     { :url => {:action => 'quote', :id => @topic} ,
+                                       :method => :get },
+                                     { :class => 'icon icon-comment'} ) unless @topic.locked? %>
+    <%= link_to(l(:button_edit),
+                edit_topic_path(@topic),
+                :class => 'icon icon-edit') if @message.editable_by?(User.current) %>
+    <%= link_to(l(:button_delete),
+                topic_path(@topic),
+                :method => :delete,
+                :confirm => l(:text_are_you_sure),
+                :class => 'icon icon-del') if @message.destroyable_by?(User.current) %>
+</div>
+
+<h2><%= avatar(@topic.author, :size => "24") %><%=h @topic.subject %></h2>
+
+<div class="message">
+<p><span class="author"><%= authoring @topic.created_on, @topic.author %></span></p>
+<div class="wiki">
+<%= textilizable(@topic.content, :attachments => @topic.attachments) %>
+</div>
+<%= link_to_attachments @topic, :author => false %>
+</div>
+<br />
+
+<% unless @replies.empty? %>
+<h3 class="comments"><%= l(:label_reply_plural) %> (<%= @reply_count %>)</h3>
+<% @replies.each do |message| %>
+  <div class="message reply" id="<%= "message-#{message.id}" %>">
+    <div class="contextual">
+      <%= link_to_remote_if_authorized(image_tag('webalys/quote.png'),
+                                       { :url => {:action => 'quote', :id => message},
+                                         :method => :get },
+                                       :title => l(:button_quote),
+                                       :alt => l(:button_quote)) unless @topic.locked? %>
+      <%= link_to(image_tag('webalys/edit.png'),
+                  { :action => 'edit', :id => message },
+                  :title => l(:button_edit),
+                  :alt => l(:button_edit)) if message.editable_by?(User.current) %>
+      <%= link_to(image_tag('webalys/delete.png'),
+                  { :action => 'destroy', :id => message},
+                  :method => :delete,
+                  :confirm => l(:text_are_you_sure),
+                  :title => l(:button_delete),
+                  :alt => l(:button_delete)) if message.destroyable_by?(User.current) %>
+    </div>
+  <h4>
+  	<%= avatar(message.author, :size => "24") %>
+    <%= link_to h(message.subject), { :controller => '/messages', :action => 'show', :board_id => @board, :id => @topic, :r => message, :anchor => "message-#{message.id}" } %>
+    -
+    <%= authoring message.created_on, message.author %>
+  </h4>
+  <div class="wiki"><%= textilizable message, :content, :attachments => message.attachments %></div>
+  <%= link_to_attachments message, :author => false %>
+  </div>
+<% end %>
+
+<%= pagination_links_full @replies, :per_page_links => false %>
+
+<% end %>
+
+<% if !@topic.locked? && authorize_for('messages', 'reply') %>
+<p><%= toggle_link l(:button_reply), "reply", :focus => 'message_content' %></p>
+<div id="reply" style="display:none;">
+<%= form_for @reply, :as => :reply, :url => reply_to_topic_path(@topic), :html => {:multipart => true, :id => 'message-form'} do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f, :replying => true} %>
+  <%= submit_tag l(:button_submit) %>
+  <%= link_to_remote l(:label_preview),
+                     { :url => { :controller => '/messages', :action => 'preview', :board_id => @board },
+                       :method => 'post',
+                       :update => 'preview',
+                       :with => "Form.serialize('message-form')",
+                       :complete => "Element.scrollTo('preview')"
+                     }, :accesskey => accesskey(:preview) %>
+<% end %>
+<div id="preview" class="wiki"></div>
+</div>
+<% end %>
+
+<% html_title h(@topic.subject) %>

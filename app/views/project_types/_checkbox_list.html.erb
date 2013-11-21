@@ -1,0 +1,50 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%#
+  Partial used for rendering checkboxes of either reported_project_statuses or
+  planning_element_types of ProjectTypes
+
+  required locals:
+    model          => ProjectType instance
+    attribute_name => :reported_project_status_ids/:planning_element_type_ids
+    active_list    => list of active related models
+    available_list => list of all available related models
+%>
+
+<% available_list.each do |association_instance| %>
+  <label for=<%= "project_type_#{attribute_name}_#{association_instance.id}" %>
+         class="floating">
+    <%= check_box_tag "project_type[#{attribute_name}][]",
+                      association_instance.id,
+                      active_list.include?(association_instance),
+                      :id => "project_type_#{attribute_name}_#{association_instance.id}" %>
+    <%=h association_instance.name %>
+  </label>
+<% end %>

@@ -1,0 +1,48 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= error_messages_for 'enumeration' %>
+<div class="box">
+<!--[form:optvalue]-->
+<%= hidden_field 'enumeration', 'type' %>
+
+<p><label for="enumeration_name"><%= Enumeration.human_attribute_name(:name) %></label>
+<%= text_field 'enumeration', 'name' %></p>
+
+<p><label for="enumeration_active"><%= Enumeration.human_attribute_name(:active) %></label>
+<%= check_box 'enumeration', 'active' %></p>
+
+<p><label for="enumeration_is_default"><%= Enumeration.human_attribute_name(:is_default) %></label>
+<%= check_box 'enumeration', 'is_default' %></p>
+<!--[eoform:optvalue]-->
+
+<% @enumeration.custom_field_values.each do |value| %>
+  <p><%= custom_field_tag_with_label :enumeration, value %></p>
+<% end %>
+</div>

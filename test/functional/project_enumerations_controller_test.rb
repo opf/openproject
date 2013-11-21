@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -18,6 +33,7 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
   fixtures :all
 
   def setup
+    super
     @request.session[:user_id] = nil
     Setting.default_language = 'en'
   end
@@ -134,16 +150,17 @@ class ProjectEnumerationsControllerTest < ActionController::TestCase
     # TODO: Need to cause an exception on create but these tests
     # aren't setup for mocking.  Just create a record now so the
     # second one is a duplicate
-    parent = TimeEntryActivity.find(9)
-    parent = TimeEntryActivity.new({:name => parent.name, :project_id => 1, :position => parent.position, :active => true})
-    parent.save(false)
+    # parent = TimeEntryActivity.find(9)
+    parent = TimeEntryActivity.new
+    parent.force_attributes = { :name => parent.name, :project_id => 1, :position => parent.position, :active => true }
+    parent.save(:validate => false)
 
-    TimeEntry.create!({ :project_id => 1,
-                        :hours => 1.0,
-                        :user => User.find(1),
-                        :issue_id => 3,
-                        :activity_id => 10,
-                        :spent_on => '2009-01-01' })
+    project = Project.find(1)
+    project.time_entries.create!(:hours => 1.0,
+                                 :user => User.find(1),
+                                 :work_package_id => 3,
+                                 :activity_id => 10,
+                                 :spent_on => '2009-01-01')
 
     assert_equal 3, TimeEntry.find_all_by_activity_id_and_project_id(9, 1).size
     assert_equal 1, TimeEntry.find_all_by_activity_id_and_project_id(10, 1).size

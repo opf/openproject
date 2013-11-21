@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -19,13 +34,10 @@ require 'search_controller'
 class SearchController; def rescue_action(e) raise e end; end
 
 class SearchControllerTest < ActionController::TestCase
-  fixtures :projects, :enabled_modules, :roles, :users, :members, :member_roles,
-           :issues, :trackers, :issue_statuses,
-           :custom_fields, :custom_field_translations,
-           :custom_values,
-           :repositories, :changesets
+  fixtures :all
 
   def setup
+    super
     @controller = SearchController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
@@ -48,12 +60,9 @@ class SearchControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'index'
 
-    assert assigns(:results).include?(Issue.find(2))
-    assert assigns(:results).include?(Issue.find(5))
+    assert assigns(:results).include?(WorkPackage.find(2))
+    assert assigns(:results).include?(WorkPackage.find(5))
     assert assigns(:results).include?(Changeset.find(101))
-    assert_select "dt.issue-edit" do
-      assert_select "a", :text => /Add ingredients categories/
-    end
 
     assert assigns(:results_by_type).is_a?(Hash)
     assert_equal 5, assigns(:results_by_type)['changesets']
@@ -61,13 +70,16 @@ class SearchControllerTest < ActionController::TestCase
   end
 
   def test_search_issues
+    WorkPackage.find(5).recreate_initial_journal!
+    WorkPackage.find(8).recreate_initial_journal!
+
     get :index, :q => 'issue', :issues => 1
     assert_response :success
     assert_template 'index'
 
-    assert assigns(:results).include?(Issue.find(8))
-    assert assigns(:results).include?(Issue.find(5))
-    assert_select "dt.issue" do
+    assert assigns(:results).include?(WorkPackage.find(8))
+    assert assigns(:results).include?(WorkPackage.find(5))
+    assert_select "dt.work_package-closed" do
       assert_select "a", :text => /Closed/
     end
   end
@@ -76,8 +88,8 @@ class SearchControllerTest < ActionController::TestCase
     get :index, :id => 1, :q => 'recipe subproject', :scope => 'subprojects', :submit => 'Search'
     assert_response :success
     assert_template 'index'
-    assert assigns(:results).include?(Issue.find(1))
-    assert assigns(:results).include?(Issue.find(5))
+    assert assigns(:results).include?(WorkPackage.find(1))
+    assert assigns(:results).include?(WorkPackage.find(5))
   end
 
   def test_search_without_searchable_custom_fields
@@ -99,7 +111,7 @@ class SearchControllerTest < ActionController::TestCase
     results = assigns(:results)
     assert_not_nil results
     assert_equal 1, results.size
-    assert results.include?(Issue.find(7))
+    assert results.include?(WorkPackage.find(7))
   end
 
   def test_search_all_words
@@ -108,7 +120,7 @@ class SearchControllerTest < ActionController::TestCase
     results = assigns(:results)
     assert_not_nil results
     assert_equal 1, results.size
-    assert results.include?(Issue.find(3))
+    assert results.include?(WorkPackage.find(3))
   end
 
   def test_search_one_of_the_words
@@ -116,7 +128,7 @@ class SearchControllerTest < ActionController::TestCase
     results = assigns(:results)
     assert_not_nil results
     assert_equal 3, results.size
-    assert results.include?(Issue.find(3))
+    assert results.include?(WorkPackage.find(3))
   end
 
   def test_search_titles_only_without_result
@@ -139,12 +151,12 @@ class SearchControllerTest < ActionController::TestCase
     assert_nil assigns(:results)
   end
 
-  def test_quick_jump_to_issue
-    # issue of a public project
+  def test_quick_jump_to_work_packages
+    # work_package of a public project
     get :index, :q => "3"
-    assert_redirected_to '/issues/3'
+    assert_redirected_to '/work_packages/3'
 
-    # issue of a private project
+    # work_package of a private project
     get :index, :q => "4"
     assert_response :success
     assert_template 'index'

@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -41,30 +56,35 @@ class Redmine::SafeAttributesTest < ActiveSupport::TestCase
     safe_attributes :isbn
   end
 
+  def setup
+    @admin = User.find_by_login("admin") || FactoryGirl.create(:admin)
+    @anonymous = User.anonymous || FactoryGirl.create(:anonymous)
+  end
+
   def test_safe_attribute_names
     p = Person.new
-    assert_equal ['firstname', 'lastname'], p.safe_attribute_names(User.anonymous)
-    assert_equal ['firstname', 'lastname', 'login'], p.safe_attribute_names(User.find(1))
+    assert_equal ['firstname', 'lastname'], p.safe_attribute_names(@anonymous)
+    assert_equal ['firstname', 'lastname', 'login'], p.safe_attribute_names(@admin)
   end
 
   def test_safe_attribute_names_without_user
     p = Person.new
     User.current = nil
     assert_equal ['firstname', 'lastname'], p.safe_attribute_names
-    User.current = User.find(1)
+    User.current = @admin
     assert_equal ['firstname', 'lastname', 'login'], p.safe_attribute_names
   end
 
   def test_set_safe_attributes
     p = Person.new
-    p.send('safe_attributes=', {'firstname' => 'John', 'lastname' => 'Smith', 'login' => 'jsmith'}, User.anonymous)
+    p.send('safe_attributes=', {'firstname' => 'John', 'lastname' => 'Smith', 'login' => 'jsmith'}, @anonymous)
     assert_equal 'John', p.firstname
     assert_equal 'Smith', p.lastname
     assert_nil p.login
 
     p = Person.new
-    User.current = User.find(1)
-    p.send('safe_attributes=', {'firstname' => 'John', 'lastname' => 'Smith', 'login' => 'jsmith'}, User.find(1))
+    User.current = @admin
+    p.send('safe_attributes=', {'firstname' => 'John', 'lastname' => 'Smith', 'login' => 'jsmith'}, @admin)
     assert_equal 'John', p.firstname
     assert_equal 'Smith', p.lastname
     assert_equal 'jsmith', p.login
@@ -79,7 +99,7 @@ class Redmine::SafeAttributesTest < ActiveSupport::TestCase
     assert_nil p.login
 
     p = Person.new
-    User.current = User.find(1)
+    User.current = @admin
     p.safe_attributes = {'firstname' => 'John', 'lastname' => 'Smith', 'login' => 'jsmith'}
     assert_equal 'John', p.firstname
     assert_equal 'Smith', p.lastname

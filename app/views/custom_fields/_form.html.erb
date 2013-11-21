@@ -1,0 +1,216 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= error_messages_for 'custom_field' %>
+
+<script type="text/javascript">
+//<![CDATA[
+function toggle_custom_field_format() {
+  var format = $("custom_field_field_format");
+  var p_length = $("custom_field_min_length");
+  var p_regexp = $("custom_field_regexp");
+  var p_values = $("custom_field_possible_values_attributes");
+  var p_searchable = $("custom_field_searchable");
+  var p_default_value = $("custom_field_default_value_attributes");
+  var span_default_text_multi = $("default_value_text_multi");
+  var span_default_text_single = $("default_value_text_single");
+  var span_default_bool = $("default_value_bool");
+  var hide_and_disable = function(element) {
+    element.hide().
+            select('input, textbox').each(function (element) {
+                                      if(!element.match('.destroy_flag')) {
+                                        element.writeAttribute('disabled', 'disabled');
+                                      }
+                                    });
+  }
+  var show_and_enable = function(element) {
+    element.show().
+            select('input, textbox').each(function (element) {
+                                      if(!element.match('.destroy_flag')) {
+                                        element.removeAttribute('disabled');
+                                      }
+                                    });
+  }
+
+  hide_and_disable(span_default_bool);
+  hide_and_disable(span_default_text_single);
+  show_and_enable(span_default_text_multi);
+  Element.show(p_default_value);
+
+  switch (format.value) {
+    case "list":
+      Element.hide(p_length.parentNode);
+      Element.hide(p_regexp.parentNode);
+      if (p_searchable) Element.show(p_searchable.parentNode);
+      show_and_enable(p_values);
+      break;
+    case "bool":
+      show_and_enable(span_default_bool);
+      hide_and_disable(span_default_text_multi);
+      Element.hide(p_length.parentNode);
+      Element.hide(p_regexp.parentNode);
+      if (p_searchable) Element.hide(p_searchable.parentNode);
+      hide_and_disable(p_values);
+      break;
+    case "date":
+      hide_and_disable(span_default_text_multi);
+      show_and_enable(span_default_text_single);
+      Element.hide(p_length.parentNode);
+      Element.hide(p_regexp.parentNode);
+      if (p_searchable) Element.hide(p_searchable.parentNode);
+      hide_and_disable(p_values);
+      break;
+    case "float":
+    case "int":
+      hide_and_disable(span_default_text_multi);
+      show_and_enable(span_default_text_single);
+      Element.show(p_length.parentNode);
+      Element.show(p_regexp.parentNode);
+      if (p_searchable) Element.hide(p_searchable.parentNode);
+      hide_and_disable(p_values);
+      break;
+		case "user":
+    case "version":
+      Element.hide(p_length.parentNode);
+      Element.hide(p_regexp.parentNode);
+      if (p_searchable) Element.hide(p_searchable.parentNode);
+      hide_and_disable(p_values);
+      Element.hide(p_default_value);
+		  break;
+    default:
+      Element.show(p_length.parentNode);
+      Element.show(p_regexp.parentNode);
+      if (p_searchable) Element.show(p_searchable.parentNode);
+      hide_and_disable(p_values);
+      break;
+  }
+}
+
+//]]>
+</script>
+
+<div class="box">
+  <p id="custom_field_name_attributes">
+    <%= f.text_field :name,
+                     :required => true,
+                     :multi_locale => true %>
+  </p>
+  <p>
+    <%= f.select :field_format,
+                 custom_field_formats_for_select(@custom_field),
+                 {},
+                 :onchange => "toggle_custom_field_format();",
+                 :disabled => !@custom_field.new_record? %>
+  </p>
+  <p>
+    <label for="custom_field_min_length"><%=l(:label_min_max_length)%></label>
+    <%= f.text_field :min_length,
+                     :size => 5,
+                     :no_label => true %> -
+    <%= f.text_field :max_length,
+                     :size => 5,
+                     :no_label => true %><br>
+    (<%=l(:text_min_max_length_info)%>)
+  </p>
+  <p>
+    <%= f.text_field :regexp,
+                     :size => 50 %><br>
+    (<%=l(:text_regexp_info)%>)
+  </p>
+
+  <p id="custom_field_possible_values_attributes">
+    <% if @custom_field.new_record? || @custom_field.field_format == 'list' %>
+      <% possible_values = @custom_field.translations.inject({}) do |h, t|
+        h[t.locale] = t.possible_values.to_a.join("\n")
+        h
+      end %>
+      <%= f.text_area :possible_values,
+                      :value => possible_values,
+                      :rows => 15,
+                      :multi_locale => true %><br>
+    <% end %>
+    <em><%= l(:text_custom_field_possible_values_info) %></em>
+  </p>
+  <p id="custom_field_default_value_attributes">
+    <span id="default_value_text_multi">
+      <% unless @custom_field.field_format == 'bool' %>
+        <%= f.text_field(:default_value, :multi_locale => true) %>
+      <% end %>
+    </span>
+    <span id="default_value_text_single">
+      <% if @custom_field.new_record? || ['date', 'float', 'int'].include?(@custom_field.field_format) %>
+        <%= f.text_field(:default_value, :single_locale => true) %>
+      <% end %>
+    </span>
+    <span style="display:none" id="default_value_bool">
+      <% if @custom_field.new_record? || @custom_field.field_format == 'bool' %>
+        <%= f.check_box(:default_value, :single_locale => true) %>
+      <% end %>
+    </span>
+  </p>
+<%= call_hook(:view_custom_fields_form_upper_box, :custom_field => @custom_field, :form => f) %>
+</div>
+
+<div class="box">
+  <% case @custom_field.class.name
+     when "WorkPackageCustomField" %>
+      <fieldset>
+        <legend><%=l(:label_type_plural)%></legend>
+        <% for type in @types %>
+          <%= check_box_tag "custom_field[type_ids][]", type.id, (@custom_field.types.include? type), :id => "custom_field_type_ids_#{type.id}" %>
+          <%= content_tag :label, (type.is_standard) ? l(:label_custom_field_default_type) : h(type), :class => "no-css", :for => "custom_field_type_ids_#{type.id}" %>
+        <% end %>
+		  <%= hidden_field_tag "custom_field[type_ids][]", '' %>
+    </fieldset>
+    &nbsp;
+    <p><%= f.check_box :is_required %></p>
+    <p><%= f.check_box :is_for_all %></p>
+    <p><%= f.check_box :is_filter %></p>
+    <p><%= f.check_box :searchable %></p>
+
+  <% when "UserCustomField" %>
+    <p><%= f.check_box :is_required %></p>
+    <p><%= f.check_box :visible %></p>
+    <p><%= f.check_box :editable %></p>
+
+  <% when "ProjectCustomField" %>
+    <p><%= f.check_box :is_required %></p>
+    <p><%= f.check_box :visible %></p>
+    <p><%= f.check_box :searchable %></p>
+
+  <% when "TimeEntryCustomField" %>
+    <p><%= f.check_box :is_required %></p>
+
+  <% else %>
+    <p><%= f.check_box :is_required %></p>
+
+  <% end %>
+<%= call_hook(:"view_custom_fields_form_#{@custom_field.type.to_s.underscore}", :custom_field => @custom_field, :form => f) %>
+</div>
+<%= javascript_tag "toggle_custom_field_format();" %>

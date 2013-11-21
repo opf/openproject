@@ -1,25 +1,59 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
 ENV["RAILS_ENV"] = "test"
-require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
-require 'test_help'
+
+if ENV['CI'] == 'true'
+  # we are running on a CI server, report coverage to code climate
+  require "codeclimate-test-reporter"
+  CodeClimate::TestReporter.start
+end
+
+require File.expand_path('../../config/environment', __FILE__)
+require 'rails/test_help'
+require 'fileutils'
+
 require File.expand_path(File.dirname(__FILE__) + '/helper_testcase')
-require File.join(RAILS_ROOT,'test', 'mocks', 'open_id_authentication_mock.rb')
+require Rails.root.join('test/mocks/open_id_authentication_mock.rb')
 
 require File.expand_path(File.dirname(__FILE__) + '/object_daddy_helpers')
 include ObjectDaddyHelpers
+
+
+class ActionDispatch::IntegrationTest
+  include Shoulda::Matchers::ActionController
+  extend Shoulda::Matchers::ActionController
+
+  def subject
+    @controller
+  end
+end
 
 class ActiveSupport::TestCase
   # Transactional fixtures accelerate your tests by wrapping each test method
@@ -43,10 +77,24 @@ class ActiveSupport::TestCase
   # then set this back to true.
   self.use_instantiated_fixtures  = false
 
+  # included in order to use #fixture_file_upload
+  include ActionDispatch::TestProcess
+
   # Add more helper methods to be used by all tests here...
   def setup
     super
     Rails.cache.clear
+    # Ugly H4X to convince postgresql to update its sequences after bulk loading fixtures
+    # TODO: remove this when we got rid of the fixtures
+    ActiveRecord::Base.descendants.each do |model|
+      if model.table_name \
+         and defined?(ActiveRecord::ConnectionAdapters::PostgreSQLAdapter) \
+         and ActiveRecord::Base.connection.is_a?(ActiveRecord::ConnectionAdapters::PostgreSQLAdapter)
+        ActiveRecord::Base.connection.reset_pk_sequence!(model.table_name)
+      end
+    end
+    # By default bypass worker queue and execute asynchronous tasks at once
+    Delayed::Worker.delay_jobs = false
   end
 
   def log_user(login, password)
@@ -60,7 +108,8 @@ class ActiveSupport::TestCase
   end
 
   def uploaded_test_file(name, mime)
-    ActionController::TestUploadedFile.new(ActiveSupport::TestCase.fixture_path + "/files/#{name}", mime, true)
+    # Shortcut for ActionController::TestUploadedFile.new(ActionController::TestCase.fixture_path + path, type):
+    fixture_file_upload("/files/#{name}", mime, true)
   end
 
   # Mock out a file
@@ -77,11 +126,32 @@ class ActiveSupport::TestCase
     self.class.mock_file
   end
 
+  def save_and_open_page
+    body = @response.body
+
+    body.gsub!('/assets', '../../public/assets')
+
+    FileUtils.mkdir_p(Rails.root.join('tmp/pages'))
+
+    page_path = Rails.root.join("tmp/pages/#{SecureRandom.hex(16)}.html").to_s
+    File.open(page_path, 'w') { |f| f.write(body) }
+
+    Launchy.open(page_path)
+
+    begin
+      binding.pry
+    rescue NoMethodError
+      debugger
+    end
+
+    FileUtils.rm(page_path)
+  end
+
   # Use a temporary directory for attachment related tests
   def set_tmp_attachments_directory
-    Dir.mkdir "#{RAILS_ROOT}/tmp/test" unless File.directory?("#{RAILS_ROOT}/tmp/test")
-    Dir.mkdir "#{RAILS_ROOT}/tmp/test/attachments" unless File.directory?("#{RAILS_ROOT}/tmp/test/attachments")
-    Attachment.storage_path = "#{RAILS_ROOT}/tmp/test/attachments"
+    attachments_path = Rails.root.join('tmp/test/attachments')
+    FileUtils.mkdir_p(attachments_path)
+    Attachment.storage_path = attachments_path.to_s
   end
 
   def with_settings(options, &block)
@@ -108,7 +178,7 @@ class ActiveSupport::TestCase
 
   # Returns the path to the test +vendor+ repository
   def self.repository_path(vendor)
-    File.join(RAILS_ROOT.gsub(%r{config\/\.\.}, ''), "/tmp/test/#{vendor.downcase}_repository")
+    File.join(Rails.root.to_s.gsub(%r{config\/\.\.}, ''), "/tmp/test/#{vendor.downcase}_repository")
   end
 
   # Returns the url of the subversion test repository
@@ -128,9 +198,19 @@ class ActiveSupport::TestCase
   end
 
   # Shoulda macros
+  def self.should_assign_to(variable, &block)
+    should "assign the instance variable '#{variable}'" do
+      assert @controller.instance_variables.map(&:to_s).include?("@#{variable}")
+      if block
+        expected_result = instance_eval(&block)
+        assert_equal @controller.instance_variable_get('@' + variable.to_s), expected_result
+      end
+    end
+  end
+
   def self.should_render_404
-    should_respond_with :not_found
-    should_render_template 'common/error'
+    should respond_with :not_found
+    should render_template 'common/error'
   end
 
   def self.should_have_before_filter(expected_method, options = {})
@@ -158,6 +238,7 @@ class ActiveSupport::TestCase
   def self.should_show_the_old_and_new_values_for(prop_key, model, &block)
     context "" do
       setup do
+        FactoryGirl.create :issue if WorkPackage.count == 0 # some tests use WorkPackage.last
         if block_given?
           instance_eval &block
         else
@@ -167,17 +248,21 @@ class ActiveSupport::TestCase
       end
 
       should "use the new value's name" do
-        @detail = IssueJournal.generate(:version => 1, :journaled => Issue.last)
-        @detail.update_attribute(:changes, {prop_key => [@old_value.id, @new_value.id]}.to_yaml)
+        journal = FactoryGirl.build :work_package_journal
 
-        assert_match @new_value.class.find(@new_value.id).name, @detail.render_detail(prop_key, true)
+        journal.stubs(:journable).returns(WorkPackage.last)
+        journal.stubs(:details).returns({prop_key => [@old_value.id, @new_value.id]})
+
+        assert_match @new_value.class.find(@new_value.id).name, journal.render_detail(prop_key, :no_html => true)
       end
 
       should "use the old value's name" do
-        @detail = IssueJournal.generate(:version => 1, :journaled => Issue.last)
-        @detail.update_attribute(:changes, {prop_key => [@old_value.id, @new_value.id]}.to_yaml)
+        journal = FactoryGirl.build :work_package_journal
 
-        assert_match @old_value.class.find(@old_value.id).name, @detail.render_detail(prop_key, true)
+        journal.stubs(:journable).returns(WorkPackage.last)
+        journal.stubs(:details).returns({prop_key => [@old_value.id, @new_value.id]})
+
+        assert_match @old_value.class.find(@old_value.id).name, journal.render_detail(prop_key, :no_html => true)
       end
     end
   end
@@ -190,6 +275,20 @@ class ActiveSupport::TestCase
       assert !user.new_record?
     end
   end
+
+  def self.should_respond_with_content_type(content_type)
+    should "respond with content type '#{content_type}'" do
+      assert_equal @response.content_type, content_type
+    end
+  end
+
+  def credentials(login, password = nil)
+    if password.nil?
+      password = (login == 'admin' ? 'adminADMIN!' : login)
+    end
+    { 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials(login, password) }
+  end
+
 
   # Test that a request allows the three types of API authentication
   #
@@ -213,6 +312,43 @@ class ActiveSupport::TestCase
   #
   # @param [Symbol] http_method the HTTP method for request (:get, :post, :put, :delete)
   # @param [String] url the request url
+  # @param [optional, Hash] options additional options
+  # @option options [Symbol] :success_code Successful response code (:success)
+  # @option options [Symbol] :failure_code Failure response code (:unauthorized)
+  def self.should_send_correct_authentication_scheme_when_header_authentication_scheme_is_session(http_method, url, options = {}, parameters = {})
+    success_code = options[:success_code] || :success
+    failure_code = options[:failure_code] || :unauthorized
+
+    context "should not send www authenticate when header accept auth is session #{http_method} #{url}" do
+      context "without credentials" do
+        setup do
+          send(http_method, url, parameters, { "X-Authentication-Scheme" => "Session" })
+        end
+
+        should respond_with failure_code
+        should_respond_with_content_type_based_on_url(url)
+        should "include correct www_authenticate_header" do
+          # the 3.0.9 implementation of head leads to Www as the method capitalizes each
+          # word split by a hyphen.
+          # this is fixed in 3.1.0 http://apidock.com/rails/v3.1.0/ActionController/Head/head
+          # remove this switch once on 3.1.0
+          if ::Rails::VERSION::MAJOR == 3 && ::Rails::VERSION::MINOR == 0
+            assert @controller.response.headers.has_key?('Www-Authenticate')
+            assert_equal 'Session realm="OpenProject API"', @controller.response.headers['Www-Authenticate']
+          else
+            assert @controller.response.headers.has_key?('WWW-Authenticate')
+            assert_equal 'Session realm="OpenProject API"', @controller.response.headers['WWW-Authenticate']
+          end
+        end
+      end
+    end
+
+  end
+
+  # Test that a request allows the username and password for HTTP BASIC
+  #
+  # @param [Symbol] http_method the HTTP method for request (:get, :post, :put, :delete)
+  # @param [String] url the request url
   # @param [optional, Hash] parameters additional request parameters
   # @param [optional, Hash] options additional options
   # @option options [Symbol] :success_code Successful response code (:success)
@@ -224,12 +360,12 @@ class ActiveSupport::TestCase
     context "should allow http basic auth using a username and password for #{http_method} #{url}" do
       context "with a valid HTTP authentication" do
         setup do
-          @user = User.generate_with_protected!(:password => 'my_password', :password_confirmation => 'my_password', :admin => true) # Admin so they can access the project
-          @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@user.login, 'my_password')
-          send(http_method, url, parameters, {:authorization => @authorization})
+          @user = User.generate_with_protected!(:password => 'adminADMIN!', :password_confirmation => 'adminADMIN!', :admin => true) # Admin so they can access the project
+
+          send(http_method, url, parameters, credentials(@user.login, 'adminADMIN!'))
         end
 
-        should_respond_with success_code
+        should respond_with success_code
         should_respond_with_content_type_based_on_url(url)
         should "login as the user" do
           assert_equal @user, User.current
@@ -239,11 +375,11 @@ class ActiveSupport::TestCase
       context "with an invalid HTTP authentication" do
         setup do
           @user = User.generate_with_protected!
-          @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@user.login, 'wrong_password')
-          send(http_method, url, parameters, {:authorization => @authorization})
+
+          send(http_method, url, parameters, credentials(@user.login, 'wrong_password'))
         end
 
-        should_respond_with failure_code
+        should respond_with failure_code
         should_respond_with_content_type_based_on_url(url)
         should "not login as the user" do
           assert_equal User.anonymous, User.current
@@ -252,13 +388,21 @@ class ActiveSupport::TestCase
 
       context "without credentials" do
         setup do
-          send(http_method, url, parameters, {:authorization => ''})
+          send(http_method, url, parameters)
         end
 
-        should_respond_with failure_code
+        should respond_with failure_code
         should_respond_with_content_type_based_on_url(url)
         should "include_www_authenticate_header" do
-          assert @controller.response.headers.has_key?('WWW-Authenticate')
+          # the 3.0.9 implementation of head leads to Www as the method capitalizes each
+          # word split by a hyphen.
+          # this is fixed in 3.1.0 http://apidock.com/rails/v3.1.0/ActionController/Head/head
+          # remove this switch once on 3.1.0
+          if ::Rails::VERSION::MAJOR == 3 && ::Rails::VERSION::MINOR == 0
+            assert @controller.response.headers.has_key?('Www-Authenticate')
+          else
+            assert @controller.response.headers.has_key?('WWW-Authenticate')
+          end
         end
       end
     end
@@ -282,11 +426,11 @@ class ActiveSupport::TestCase
         setup do
           @user = User.generate_with_protected!(:admin => true)
           @token = Token.generate!(:user => @user, :action => 'api')
-          @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@token.value, 'X')
-          send(http_method, url, parameters, {:authorization => @authorization})
+
+          send(http_method, url, parameters, credentials(@token.value, 'X'))
         end
 
-        should_respond_with success_code
+        should respond_with success_code
         should_respond_with_content_type_based_on_url(url)
         should_be_a_valid_response_string_based_on_url(url)
         should "login as the user" do
@@ -298,11 +442,11 @@ class ActiveSupport::TestCase
         setup do
           @user = User.generate_with_protected!
           @token = Token.generate!(:user => @user, :action => 'feeds')
-          @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@token.value, 'X')
-          send(http_method, url, parameters, {:authorization => @authorization})
+
+          send(http_method, url, parameters, credentials(@token.value, 'X'))
         end
 
-        should_respond_with failure_code
+        should respond_with failure_code
         should_respond_with_content_type_based_on_url(url)
         should "not login as the user" do
           assert_equal User.anonymous, User.current
@@ -337,7 +481,7 @@ class ActiveSupport::TestCase
           send(http_method, request_url, parameters)
         end
 
-        should_respond_with success_code
+        should respond_with success_code
         should_respond_with_content_type_based_on_url(url)
         should_be_a_valid_response_string_based_on_url(url)
         should "login as the user" do
@@ -358,7 +502,7 @@ class ActiveSupport::TestCase
           send(http_method, request_url, parameters)
         end
 
-        should_respond_with failure_code
+        should respond_with failure_code
         should_respond_with_content_type_based_on_url(url)
         should "not login as the user" do
           assert_equal User.anonymous, User.current
@@ -373,7 +517,7 @@ class ActiveSupport::TestCase
         send(http_method, url, parameters, {'X-OpenProject-API-Key' => @token.value.to_s})
       end
 
-      should_respond_with success_code
+      should respond_with success_code
       should_respond_with_content_type_based_on_url(url)
       should_be_a_valid_response_string_based_on_url(url)
       should "login as the user" do
@@ -391,13 +535,12 @@ class ActiveSupport::TestCase
   def self.should_respond_with_content_type_based_on_url(url)
     case
     when url.match(/xml/i)
-      should_respond_with_content_type :xml
+      should_respond_with_content_type 'application/xml'
     when url.match(/json/i)
-      should_respond_with_content_type :json
+      should_respond_with_content_type 'application/json'
     else
       raise "Unknown content type for should_respond_with_content_type_based_on_url: #{url}"
     end
-
   end
 
   # Uses the url to assert which format the response should be in

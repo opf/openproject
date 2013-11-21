@@ -1,31 +1,47 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
 class MyController < ApplicationController
+  layout 'my'
+
   before_filter :require_login
 
   menu_item :account, :only => [:account]
   menu_item :password, :only => [:password]
 
-  BLOCKS = { 'issuesassignedtome' => :label_assigned_to_me_issues,
-             'issuesreportedbyme' => :label_reported_issues,
-             'issueswatched' => :label_watched_issues,
+  DEFAULT_BLOCKS = { 'issuesassignedtome' => :label_assigned_to_me_work_packages,
+             'issuesreportedbyme' => :label_reported_work_packages,
+             'issueswatched' => :label_watched_work_packages,
              'news' => :label_news_latest,
              'calendar' => :label_calendar,
-             'documents' => :label_document_plural,
              'timelog' => :label_spent_time
-           }.merge(Redmine::Views::MyPage::Block.additional_blocks).freeze
+           }.freeze
 
   DEFAULT_LAYOUT = {  'left' => ['issuesassignedtome'],
                       'right' => ['issuesreportedbyme']
@@ -33,6 +49,11 @@ class MyController < ApplicationController
 
   verify :xhr => true,
          :only => [:add_block, :remove_block, :order_blocks]
+
+  def self.available_blocks
+    @available_blocks ||= DEFAULT_BLOCKS.merge(Redmine::Views::MyPage::Block.additional_blocks)
+  end
+
 
   # Show user's page
   def index
@@ -46,7 +67,7 @@ class MyController < ApplicationController
   def account
     @user = User.current
     @pref = @user.pref
-    if request.post?
+    if request.put?
       @user.safe_attributes = params[:user]
       @user.pref.attributes = params[:pref]
       @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
@@ -56,30 +77,35 @@ class MyController < ApplicationController
         set_language_if_valid @user.language
         flash[:notice] = l(:notice_account_updated)
         redirect_to :action => 'account'
-        return
       end
     end
   end
 
   # Manage user's password
   def password
-    @user = User.current
-    unless @user.change_password_allowed?
-      flash[:error] = l(:notice_can_t_change_password)
-      redirect_to :action => 'account'
-      return
-    end
-    if request.post?
-      if @user.check_password?(params[:password])
-        @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
-        if @user.save
-          flash[:notice] = l(:notice_account_password_updated)
-          redirect_to :action => 'account'
-        end
-      else
-        flash[:error] = l(:notice_account_wrong_password)
+    @user = User.current  # required by "my" layout
+    @username = @user.login
+    redirect_if_password_change_not_allowed_for(@user)
+  end
+
+  # When making changes here, also check AccountController.change_password
+  def change_password
+    @user = User.current  # required by "my" layout
+    @username = @user.login
+    return if redirect_if_password_change_not_allowed_for(@user)
+    if @user.check_password?(params[:password])
+      @user.password = params[:new_password]
+      @user.password_confirmation = params[:new_password_confirmation]
+      @user.force_password_change = false
+      if @user.save
+        flash[:notice] = l(:notice_account_password_updated)
+        redirect_to :action => 'account'
+        return
       end
+    else
+      flash.now[:error] = l(:notice_account_wrong_password)
     end
+    render 'my/password'
   end
 
   def first_login
@@ -92,7 +118,7 @@ class MyController < ApplicationController
       User.current.pref.save
 
       flash[:notice] = l(:notice_account_updated)
-      redirect_back_or_default(:controller => 'my', :action => 'page')
+      redirect_back_or_default(:controller => '/my', :action => 'page')
     end
   end
 
@@ -127,7 +153,7 @@ class MyController < ApplicationController
     @user = User.current
     @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT.dup
     @block_options = []
-    BLOCKS.each {|k, v| @block_options << [l("my.blocks.#{v}", :default => [v, v.to_s.humanize]), k.dasherize]}
+    MyController.available_blocks.each {|k, v| @block_options << [l("my.blocks.#{v}", :default => [v, v.to_s.humanize]), k.dasherize]}
   end
 
   # Add a block to user's page
@@ -135,7 +161,7 @@ class MyController < ApplicationController
   # params[:block] : id of the block to add
   def add_block
     block = params[:block].to_s.underscore
-    (render :nothing => true; return) unless block && (BLOCKS.keys.include? block)
+    (render :nothing => true; return) unless block && (MyController.available_blocks.keys.include? block)
     @user = User.current
     layout = @user.pref[:my_page_layout] || {}
     # remove if already present in a group
@@ -184,5 +210,15 @@ class MyController < ApplicationController
 
   def default_breadcrumb
     l(:label_my_account)
+  end
+
+  private
+  def redirect_if_password_change_not_allowed_for(user)
+    unless user.change_password_allowed?
+      flash[:error] = l(:notice_can_t_change_password)
+      redirect_to :action => 'account'
+      return true
+    end
+    false
   end
 end

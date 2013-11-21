@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -15,10 +30,12 @@
 class UsersController < ApplicationController
   layout 'admin'
 
+  before_filter :disable_api
   before_filter :require_admin, :except => [:show, :deletion_info, :destroy]
   before_filter :find_user, :only => [:show,
                                       :edit,
                                       :update,
+                                      :change_status,
                                       :edit_membership,
                                       :destroy_membership,
                                       :destroy,
@@ -31,44 +48,43 @@ class UsersController < ApplicationController
 
   include SortHelper
   include CustomFieldsHelper
+  include PaginationHelper
 
   def index
     sort_init 'login', 'asc'
     sort_update %w(login firstname lastname mail admin created_on last_login_on)
 
-    case params[:format]
-    when 'xml', 'json'
-      @offset, @limit = api_offset_and_limit
-    else
-      @limit = per_page_option
-    end
-
     scope = User
     scope = scope.in_group(params[:group_id].to_i) if params[:group_id].present?
+    c = ARCondition.new
 
-    @status = params[:status] ? params[:status].to_i : 1
-    c = ARCondition.new(@status == 0 ? "status <> 0" : ["status = ?", @status])
+    if params[:status] == 'blocked'
+      @status = :blocked
+      scope = scope.blocked
+    elsif params[:status] == 'all'
+      @status = :all
+      scope = scope.not_builtin
+    else
+      @status = params[:status] ? params[:status].to_i : User::STATUSES[:active]
+      scope = scope.not_blocked if @status == User::STATUSES[:active]
+      c << ["status = ?", @status]
+    end
 
     unless params[:name].blank?
       name = "%#{params[:name].strip.downcase}%"
       c << ["LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ? OR LOWER(mail) LIKE ?", name, name, name, name]
     end
 
-    @user_count = scope.count(:conditions => c.conditions)
-    @user_pages = Paginator.new self, @user_count, @limit, params['page']
-    @offset ||= @user_pages.current.offset
-    @users =  scope.find :all,
-                        :order => sort_clause,
-                        :conditions => c.conditions,
-                        :limit  =>  @limit,
-                        :offset =>  @offset
+    @users = scope.order(sort_clause)
+                  .where(c.conditions)
+                  .page(page_param)
+                  .per_page(per_page_param)
 
     respond_to do |format|
       format.html {
         @groups = Group.all.sort
         render :layout => !request.xhr?
       }
-      format.api
     end
   end
 
@@ -77,7 +93,7 @@ class UsersController < ApplicationController
     @memberships = @user.memberships.all(:conditions => Project.visible_by(User.current))
 
     events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
-    @events_by_day = events.group_by(&:event_date)
+    @events_by_day = events.map(&:data).group_by(&:event_date)
 
     unless User.current.admin?
       if !(@user.active? || @user.registered?) || (@user != User.current  && @memberships.empty? && events.empty?)
@@ -88,7 +104,6 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html { render :layout => 'base' }
-      format.api
     end
   end
 
@@ -103,27 +118,33 @@ class UsersController < ApplicationController
     @user.safe_attributes = params[:user]
     @user.admin = params[:user][:admin] || false
     @user.login = params[:user][:login]
-    @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation] if @user.change_password_allowed?
-
-    # TODO: Similar to My#account
-    @user.pref.attributes = params[:pref]
-    @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
+    if @user.change_password_allowed?
+      if params[:user][:assign_random_password]
+        @user.random_password!
+      else 
+        @user.password = params[:user][:password]
+        @user.password_confirmation = params[:user][:password_confirmation]
+      end
+    end
 
     if @user.save
+      # TODO: Similar to My#account
+      @user.pref.attributes = params[:pref]
+      @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
       @user.pref.save
+
       @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
 
-      Mailer.deliver_account_information(@user, params[:user][:password]) if params[:send_information]
+      UserMailer.account_information(@user, @user.password).deliver if params[:send_information]
 
       respond_to do |format|
         format.html {
           flash[:notice] = l(:notice_successful_create)
           redirect_to(params[:continue] ?
-            {:controller => 'users', :action => 'new'} :
-            {:controller => 'users', :action => 'edit', :id => @user}
+            new_user_path :
+            edit_user_path(@user)
           )
         }
-        format.api  { render :action => 'show', :status => :created, :location => user_url(@user) }
       end
     else
       @auth_sources = AuthSource.find(:all)
@@ -132,7 +153,6 @@ class UsersController < ApplicationController
 
       respond_to do |format|
         format.html { render :action => 'new' }
-        format.api  { render_validation_errors(@user) }
       end
     end
   end
@@ -146,24 +166,26 @@ class UsersController < ApplicationController
   def update
     @user.admin = params[:user][:admin] if params[:user][:admin]
     @user.login = params[:user][:login] if params[:user][:login]
-    @user.safe_attributes = params[:user].except(:login) # :login is protected
-    if params[:user][:password].present? && @user.change_password_allowed?
-      @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation]
+    @user.attributes = permitted_params.user_update_as_admin
+    if @user.change_password_allowed?
+      if params[:user][:assign_random_password]
+        @user.random_password!
+      elsif params[:user][:password].present?
+        @user.password = params[:user][:password]
+        @user.password_confirmation = params[:user][:password_confirmation]
+      end
     end
-    # Was the account actived ? (do it before User#save clears the change)
-    was_activated = (@user.status_change == [User::STATUS_REGISTERED, User::STATUS_ACTIVE])
-    # TODO: Similar to My#account
-    @user.pref.attributes = params[:pref]
-    @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
 
     if @user.save
+      # TODO: Similar to My#account
+      @user.pref.attributes = params[:pref]
+      @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
       @user.pref.save
+
       @user.notified_project_ids = (@user.mail_notification == 'selected' ? params[:notified_project_ids] : [])
 
-      if was_activated
-        Mailer.deliver_account_activated(@user)
-      elsif @user.active? && params[:send_information] && !params[:user][:password].blank? && @user.change_password_allowed?
-        Mailer.deliver_account_information(@user, params[:user][:password])
+      if @user.active? && params[:send_information] && !@user.password.blank? && @user.change_password_allowed?
+        UserMailer.account_information(@user, @user.password).deliver
       end
 
       respond_to do |format|
@@ -171,7 +193,6 @@ class UsersController < ApplicationController
           flash[:notice] = l(:notice_successful_update)
           redirect_to :back
         }
-        format.api  { head :ok }
       end
     else
       @auth_sources = AuthSource.find(:all)
@@ -181,11 +202,40 @@ class UsersController < ApplicationController
 
       respond_to do |format|
         format.html { render :action => :edit }
-        format.api  { render_validation_errors(@user) }
       end
     end
   rescue ::ActionController::RedirectBackError
-    redirect_to :controller => 'users', :action => 'edit', :id => @user
+    redirect_to :controller => '/users', :action => 'edit', :id => @user
+  end
+
+  def change_status
+    if @user.id == current_user.id
+      # user is not allowed to change own status
+      redirect_back_or_default(:action => 'edit', :id => @user)
+      return
+    end
+    if params[:unlock]
+      @user.failed_login_count = 0
+      @user.activate
+    elsif params[:lock]
+      @user.lock
+    elsif params[:activate]
+      @user.activate
+    end
+    # Was the account activated? (do it before User#save clears the change)
+    was_activated = (@user.status_change == [User::STATUSES[:registered],
+                                             User::STATUSES[:active]])
+    if @user.save
+      flash[:notice] = I18n.t(:notice_successful_update)
+      if was_activated
+        UserMailer.account_activated(@user).deliver
+      end
+    else
+      flash[:error] = I18n.t(:error_status_change_failed,
+                             :errors => @user.errors.full_messages.join(', '),
+                             :scope => :user)
+    end
+    redirect_back_or_default(:action => 'edit', :id => @user)
   end
 
   def edit_membership
@@ -193,7 +243,7 @@ class UsersController < ApplicationController
     @membership.save if request.post?
     respond_to do |format|
       if @membership.valid?
-        format.html { redirect_to :controller => 'users', :action => 'edit', :id => @user, :tab => 'memberships' }
+        format.html { redirect_to :controller => '/users', :action => 'edit', :id => @user, :tab => 'memberships' }
         format.js {
           render(:update) {|page|
             page.replace_html "tab-content-memberships", :partial => 'users/memberships'
@@ -213,12 +263,12 @@ class UsersController < ApplicationController
   def destroy
     # as destroying users is a lengthy process we handle it in the background
     # and lock the account now so that no action can be performed with it
-    @user.status = User::STATUS_LOCKED
+    @user.status = User::STATUSES[:locked]
     @user.save
 
     # TODO: use Delayed::Worker.delay_jobs = false in test environment as soon as
     # delayed job allows for it
-    RAILS_ENV == 'test' ?
+    Rails.env.test? ?
       @user.destroy :
       @user.delay.destroy
 
@@ -233,19 +283,16 @@ class UsersController < ApplicationController
           redirect_to users_path
         end
       end
-      format.api  do
-        head :ok
-      end
     end
   end
 
   def destroy_membership
-    @membership = Member.find(params[:membership_id])
+    @membership = Member.find(params.delete(:membership_id))
     if request.post? && @membership.deletable?
-      @membership.destroy
+      @membership.destroy && @membership = nil
     end
     respond_to do |format|
-      format.html { redirect_to :controller => 'users', :action => 'edit', :id => @user, :tab => 'memberships' }
+      format.html { redirect_to :controller => '/users', :action => 'edit', :id => @user, :tab => 'memberships' }
       format.js { render(:update) {|page| page.replace_html "tab-content-memberships", :partial => 'users/memberships'} }
     end
   end

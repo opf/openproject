@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -16,7 +31,7 @@ class JournalObserver < ActiveRecord::Observer
   attr_accessor :send_notification
 
   def after_create(journal)
-    if journal.type == "IssueJournal" and !journal.initial? and send_notification
+    if journal.journable_type == "WorkPackage" and !journal.initial? and send_notification
       after_create_issue_journal(journal)
     end
     clear_notification
@@ -25,13 +40,13 @@ class JournalObserver < ActiveRecord::Observer
   def after_create_issue_journal(journal)
     if Setting.notified_events.include?('issue_updated') ||
         (Setting.notified_events.include?('issue_note_added') && journal.notes.present?) ||
-        (Setting.notified_events.include?('issue_status_updated') && journal.new_status.present?) ||
-        (Setting.notified_events.include?('issue_priority_updated') && journal.new_value_for('priority_id').present?)
-      issue = journal.issue
+        (Setting.notified_events.include?('status_updated') && journal.changed_data.has_key?(:status_id)) ||
+        (Setting.notified_events.include?('issue_priority_updated') && journal.changed_data.has_key?(:priority_id))
+      issue = journal.journable
       recipients = issue.recipients + issue.watcher_recipients
       users = User.find_all_by_mails(recipients.uniq)
       users.each do |user|
-        Mailer.deliver_issue_edit(journal, user)
+        UserMailer.delay.issue_updated(user, journal, User.current)
       end
     end
   end

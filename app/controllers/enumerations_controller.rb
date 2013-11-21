@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -20,31 +35,27 @@ class EnumerationsController < ApplicationController
   include CustomFieldsHelper
 
   def index
-    list
-    render :action => 'list'
-  end
-
-  # GETs should be safe (see http://www.w3.org/2001/tag/doc/whenToUseGet.html)
-  verify :method => :post, :only => [ :destroy, :create, :update ],
-         :redirect_to => { :action => :list }
-
-  def list
   end
 
   def new
     begin
-      @enumeration = params[:type].constantize.new
+      klass = params[:type].constantize
+      raise NameError unless klass.ancestors.include? Enumeration
+      @enumeration = klass.new
     rescue NameError
       @enumeration = Enumeration.new
     end
   end
 
   def create
-    @enumeration = Enumeration.new(params[:enumeration])
-    @enumeration.type = params[:enumeration][:type]
+    @enumeration = Enumeration.new do |e|
+      e.type = params[:enumeration].delete(:type)
+      e.attributes = params[:enumeration]
+    end
+
     if @enumeration.save
       flash[:notice] = l(:notice_successful_create)
-      redirect_to :action => 'list', :type => @enumeration.type
+      redirect_to :action => 'index', :type => @enumeration.type
     else
       render :action => 'new'
     end
@@ -56,10 +67,10 @@ class EnumerationsController < ApplicationController
 
   def update
     @enumeration = Enumeration.find(params[:id])
-    @enumeration.type = params[:enumeration][:type] if params[:enumeration][:type]
+    @enumeration.type = params[:enumeration].delete(:type) if params[:enumeration][:type]
     if @enumeration.update_attributes(params[:enumeration])
       flash[:notice] = l(:notice_successful_update)
-      redirect_to :action => 'list', :type => @enumeration.type
+      redirect_to enumerations_path(:type => @enumeration.type)
     else
       render :action => 'edit'
     end
@@ -80,9 +91,6 @@ class EnumerationsController < ApplicationController
       end
     end
     @enumerations = @enumeration.class.find(:all) - [@enumeration]
-  #rescue
-  #  flash[:error] = 'Unable to delete enumeration'
-  #  redirect_to :action => 'index'
   end
 
   def default_breadcrumb

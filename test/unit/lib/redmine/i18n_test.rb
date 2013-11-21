@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -76,13 +91,13 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     now = Time.parse('2011-02-20 15:45:22')
     with_settings :time_format => '' do
       with_settings :date_format => '' do
-        assert_equal '02/20/2011 03:45 pm', format_time(now)
-        assert_equal '03:45 pm', format_time(now, false)
+        assert_equal '02/20/2011 03:45 PM', format_time(now)
+        assert_equal '03:45 PM', format_time(now, false)
       end
 
       with_settings :date_format => '%Y-%m-%d' do
-        assert_equal '2011-02-20 03:45 pm', format_time(now)
-        assert_equal '03:45 pm', format_time(now, false)
+        assert_equal '2011-02-20 03:45 PM', format_time(now)
+        assert_equal '03:45 PM', format_time(now, false)
       end
     end
   end
@@ -90,19 +105,23 @@ class Redmine::I18nTest < ActiveSupport::TestCase
   def test_time_format
     set_language_if_valid 'en'
     now = Time.now
-    Setting.date_format = '%d %m %Y'
-    Setting.time_format = '%H %M'
-    assert_equal now.strftime('%d %m %Y %H %M'), format_time(now)
-    assert_equal now.strftime('%H %M'), format_time(now, false)
+    with_settings :time_format => '%H %M' do
+      with_settings :date_format => '%d %m %Y' do
+        assert_equal now.strftime('%d %m %Y %H %M'), format_time(now)
+        assert_equal now.strftime('%H %M'), format_time(now, false)
+      end
+    end
   end
 
   def test_utc_time_format
     set_language_if_valid 'en'
     now = Time.now
-    Setting.date_format = '%d %m %Y'
-    Setting.time_format = '%H %M'
-    assert_equal now.strftime('%d %m %Y %H %M'), format_time(now.utc)
-    assert_equal now.strftime('%H %M'), format_time(now.utc, false)
+    with_settings :time_format => '%H %M' do
+      with_settings :date_format => '%d %m %Y' do
+        assert_equal now.strftime('%d %m %Y %H %M'), format_time(now.utc)
+        assert_equal now.strftime('%H %M'), format_time(now.utc, false)
+      end
+    end
   end
 
   def test_number_to_human_size_for_each_language
@@ -120,14 +139,13 @@ class Redmine::I18nTest < ActiveSupport::TestCase
   end
 
   def test_valid_language
-    Setting.available_languages = [:fr, :zh, :"zh-TW"]
+    Setting.available_languages = [:de, :zh]
 
-    to_test = {'fr' => :fr,
-               'Fr' => :fr,
-               'zh' => :zh,
-               'zh-tw' => :"zh-TW",
-               'zh-TW' => :"zh-TW",
-               'zh-ZZ' => nil }
+    to_test = {'de' => :de,
+               'DE' => :de,
+               'De' => :de,
+               'de-ZZ' => nil,
+               'zh' => nil }
 
     to_test.each {|lang, expected| assert_equal expected, find_language(lang)}
   end
@@ -136,13 +154,13 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     ::I18n.backend.store_translations(:en, {:untranslated => "Untranslated string"})
     ::I18n.locale = 'en'
     assert_equal "Untranslated string", l(:untranslated)
-    ::I18n.locale = 'fr'
+    ::I18n.locale = 'de'
     assert_equal "Untranslated string", l(:untranslated)
 
-    ::I18n.backend.store_translations(:fr, {:untranslated => "Pas de traduction"})
+    ::I18n.backend.store_translations(:de, {:untranslated => "Keine Übersetzung"})
     ::I18n.locale = 'en'
     assert_equal "Untranslated string", l(:untranslated)
-    ::I18n.locale = 'fr'
-    assert_equal "Pas de traduction", l(:untranslated)
+    ::I18n.locale = 'de'
+    assert_equal "Keine Übersetzung", l(:untranslated)
   end
 end

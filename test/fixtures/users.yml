@@ -1,12 +1,37 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 ---
 users_004:
   created_on: 2006-07-19 19:34:07 +02:00
   status: 1
   last_login_on:
   language: en
-  # password = foo
-  salt: 3126f764c3c5ac61cbfc103f25f934cf
-  hashed_password: 9e4dd7eeb172c12a0691a6d9d3a269f7e9fe671b
   updated_on: 2006-07-19 19:34:07 +02:00
   admin: false
   mail: rhill@somenet.foo
@@ -23,9 +48,6 @@ users_001:
   status: 1
   last_login_on: 2006-07-19 22:57:52 +02:00
   language: en
-  # password = admin
-  salt: 82090c953c4a0000a7db253b0691a6b4
-  hashed_password: b5b6ff9543bf1387374cdfa27a54c96d236a7150
   updated_on: 2006-07-19 22:57:52 +02:00
   admin: true
   mail: admin@somenet.foo
@@ -42,9 +64,6 @@ users_002:
   status: 1
   last_login_on: 2006-07-19 22:42:15 +02:00
   language: en
-  # password = jsmith
-  salt: 67eb4732624d5a7753dcea7ce0bb7d7d
-  hashed_password: bfbe06043353a677d0215b26a5800d128d5413bc
   updated_on: 2006-07-19 22:42:15 +02:00
   admin: false
   mail: jsmith@somenet.foo
@@ -61,9 +80,6 @@ users_003:
   status: 1
   last_login_on:
   language: en
-  # password = foo
-  salt: 7599f9963ec07b5a3b55b354407120c0
-  hashed_password: 8f659c8d7c072f189374edacfa90d6abbc26d8ed
   updated_on: 2006-07-19 19:33:19 +02:00
   admin: false
   mail: dlopper@somenet.foo
@@ -82,7 +98,6 @@ users_005:
   status: 3
   last_login_on:
   language: en
-  hashed_password: 1
   updated_on: 2006-07-19 19:33:19 +02:00
   admin: false
   mail: dlopper2@somenet.foo
@@ -99,7 +114,6 @@ users_006:
   status: 0
   last_login_on:
   language: ''
-  hashed_password: 1
   updated_on: 2006-07-19 19:33:19 +02:00
   admin: false
   mail: ''
@@ -116,7 +130,6 @@ users_007:
   status: 1
   last_login_on:
   language: ''
-  hashed_password: 1
   updated_on: 2006-07-19 19:33:19 +02:00
   admin: false
   mail: someone@foo.bar
@@ -133,7 +146,6 @@ users_008:
   status: 1
   last_login_on:
   language: 'it'
-  hashed_password: 1
   updated_on: 2006-07-19 19:33:19 +02:00
   admin: false
   mail: miscuser8@foo.bar
@@ -150,7 +162,6 @@ users_009:
   status: 1
   last_login_on:
   language: 'it'
-  hashed_password: 1
   updated_on: 2006-07-19 19:33:19 +02:00
   admin: false
   mail: miscuser9@foo.bar

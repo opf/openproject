@@ -1,130 +1,127 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
 class WatcherTest < ActiveSupport::TestCase
-  fixtures :projects, :users, :members, :member_roles, :roles, :enabled_modules,
-           :issues,
-           :boards, :messages,
-           :wikis, :wiki_pages,
-           :watchers
-
   def setup
-    @user = User.find(1)
-    @issue = Issue.find(1)
+    super
+    @user  = FactoryGirl.create :user
+    @issue = FactoryGirl.create :work_package
+    @role  = FactoryGirl.create :role, :permissions => [:view_work_packages]
+    @issue.project.add_member! @user, @role
   end
 
-  def test_watch
-    assert @issue.add_watcher(@user)
-    @issue.reload
-    assert @issue.watchers.detect { |w| w.user == @user }
+  def test_add_watcher
+    @issue.add_watcher(@user)
+    assert_contains @issue.watchers.map(&:user), @user
   end
 
-  def test_cant_watch_twice
+  def test_add_watcher_will_not_add_same_user_twice
     assert @issue.add_watcher(@user)
-    assert !@issue.add_watcher(@user)
+    refute @issue.add_watcher(@user)
   end
 
   def test_watched_by
-    assert @issue.add_watcher(@user)
-    @issue.reload
+    @issue.add_watcher(@user)
     assert @issue.watched_by?(@user)
-    assert Issue.watched_by(@user).include?(@issue)
+    assert_contains WorkPackage.watched_by(@user), @issue
   end
 
-  def test_watcher_users
-    watcher_users = Issue.find(2).watcher_users
+  def test_watcher_users_contains_correct_classes
+    @issue.add_watcher(@user)
+    watcher_users = @issue.watcher_users
     assert_kind_of Array, watcher_users
     assert_kind_of User, watcher_users.first
   end
 
   def test_watcher_users_should_not_validate_user
-    User.update_all("firstname = ''", "id=1")
-    @user.reload
-    assert !@user.valid?
-
-    (issue = Issue.new).force_attributes = {:project => Project.find(1), :tracker_id => 1, :subject => "test", :author => User.find(2)}
-    issue.watcher_users << @user
-    issue.save!
-    assert issue.watched_by?(@user)
+    @user.stubs(:valid?).returns(false)
+    @issue.watcher_users << @user
+    assert @issue.watched_by?(@user)
   end
 
   def test_watcher_user_ids
-    assert_equal [1, 3], Issue.find(2).watcher_user_ids.sort
+    @issue.add_watcher(@user)
+    assert_contains @issue.watcher_user_ids, @user.id
   end
 
   def test_watcher_user_ids=
-    issue = Issue.new
-    issue.watcher_user_ids = ['1', '3']
-    assert issue.watched_by?(User.find(1))
+    @issue.watcher_user_ids = [@user.id]
+    assert @issue.watched_by?(@user)
+  end
+
+  def test_watcher_user_ids_should_make_ids_uniq
+    @issue.watcher_user_ids = [@user.id, @user.id]
+    assert @issue.valid?
+    assert_equal 1, @issue.watchers.count
+  end
+
+  def test_addable_watcher_users
+    addable_watcher_users = @issue.addable_watcher_users
+    assert_kind_of Array, addable_watcher_users
+    assert_kind_of User, addable_watcher_users.first
   end
 
   def test_recipients
-    @issue.watchers.delete_all
-    @issue.reload
+    @user.update_attribute :mail_notification, 'all'
 
     assert @issue.watcher_recipients.empty?
     assert @issue.add_watcher(@user)
+    assert_contains @issue.watcher_recipients, @user.mail
 
-    @user.mail_notification = 'all'
-    @user.save!
-    @issue.reload
-    assert @issue.watcher_recipients.include?(@user.mail)
-
-    @user.mail_notification = 'none'
-    @user.save!
-    @issue.reload
-    assert !@issue.watcher_recipients.include?(@user.mail)
+    @user.update_attribute :mail_notification, 'none'
+    assert_does_not_contain @issue.watcher_recipients, @user.mail
   end
 
   def test_unwatch
     assert @issue.add_watcher(@user)
-    @issue.reload
+    @issue.save
     assert_equal 1, @issue.remove_watcher(@user)
+    @issue.save
+    @issue.reload
+    refute @issue.watched_by?(@user)
   end
 
-  def test_prune
-    Watcher.delete_all("user_id = 9")
-    user = User.find(9)
-
-    # public
-    Watcher.create!(:watchable => Issue.find(1), :user => user)
-    Watcher.create!(:watchable => Issue.find(2), :user => user)
-    Watcher.create!(:watchable => Message.find(1), :user => user)
-    Watcher.create!(:watchable => Wiki.find(1), :user => user)
-    Watcher.create!(:watchable => WikiPage.find(2), :user => user)
-
-    # private project (id: 2)
-    (Member.new.tap do |m|
-      m.force_attributes = {:project => Project.find(2), :principal => user, :role_ids => [1]}
-    end).save!
-    Watcher.create!(:watchable => Issue.find(4), :user => user)
-    Watcher.create!(:watchable => Message.find(7), :user => user)
-    Watcher.create!(:watchable => Wiki.find(2), :user => user)
-    Watcher.create!(:watchable => WikiPage.find(3), :user => user)
+  def test_prune_removes_watchers_that_dont_have_permission
+    @issue.add_watcher(@user)
 
     assert_no_difference 'Watcher.count' do
-      Watcher.prune(:user => User.find(9))
+      Watcher.prune(:user => @user)
     end
+    assert @issue.watched_by?(@user)
 
     Member.delete_all
+    @user.reload
 
-    assert_difference 'Watcher.count', -4 do
-      Watcher.prune(:user => User.find(9))
+    assert_difference 'Watcher.count', -1 do
+      Watcher.prune(:user => @user)
     end
-
-    assert Issue.find(1).watched_by?(user)
-    assert !Issue.find(4).watched_by?(user)
+    refute @issue.watched_by?(@user)
   end
 end

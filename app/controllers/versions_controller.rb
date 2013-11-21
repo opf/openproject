@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -22,9 +37,9 @@ class VersionsController < ApplicationController
 
 
   def index
-    @trackers = @project.trackers.find(:all, :order => 'position')
-    retrieve_selected_tracker_ids(@trackers, @trackers.select {|t| t.is_in_roadmap?})
-    @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
+    @types = @project.types.find(:all, :order => 'position')
+    retrieve_selected_type_ids(@types, @types.select {|t| t.is_in_roadmap?})
+    @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_work_packages? : (params[:with_subprojects].to_i == 1)
     project_ids = @with_subprojects ? @project.self_and_descendants.collect(&:id) : [@project.id]
 
     @versions = @project.shared_versions || []
@@ -33,12 +48,12 @@ class VersionsController < ApplicationController
     @versions.reject! {|version| version.closed? || version.completed? } unless params[:completed]
 
     @issues_by_version = {}
-    unless @selected_tracker_ids.empty?
+    unless @selected_type_ids.empty?
       @versions.each do |version|
         issues = version.fixed_issues.visible.find(:all,
-                                                   :include => [:project, :status, :tracker, :priority],
-                                                   :conditions => {:tracker_id => @selected_tracker_ids, :project_id => project_ids},
-                                                   :order => "#{Project.table_name}.lft, #{Tracker.table_name}.position, #{Issue.table_name}.id")
+                                                   :include => [:project, :status, :type, :priority],
+                                                   :conditions => {:type_id => @selected_type_ids, :project_id => project_ids},
+                                                   :order => "#{Project.table_name}.lft, #{Type.table_name}.position, #{WorkPackage.table_name}.id")
         @issues_by_version[version] = issues
       end
     end
@@ -47,8 +62,8 @@ class VersionsController < ApplicationController
 
   def show
     @issues = @version.fixed_issues.visible.find(:all,
-      :include => [:status, :tracker, :priority],
-      :order => "#{Tracker.table_name}.position, #{Issue.table_name}.id")
+      :include => [:status, :type, :priority],
+      :order => "#{Type.table_name}.position, #{WorkPackage.table_name}.id")
   end
 
   def new
@@ -74,12 +89,12 @@ class VersionsController < ApplicationController
         respond_to do |format|
           format.html do
             flash[:notice] = l(:notice_successful_create)
-            redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+            redirect_to :controller => '/projects', :action => 'settings', :tab => 'versions', :id => @project
           end
           format.js do
             # IE doesn't support the replace_html rjs method for select box options
             render(:update) {|page| page.replace "issue_fixed_version_id",
-              content_tag('select', '<option></option>' + version_options_for_select(@project.shared_versions.open, @version), :id => 'issue_fixed_version_id', :name => 'issue[fixed_version_id]')
+              content_tag('select', '<option></option>'.html_safe + version_options_for_select(@project.shared_versions.open, @version).html_safe, :id => 'issue_fixed_version_id', :name => 'issue[fixed_version_id]')
             }
           end
         end
@@ -104,7 +119,7 @@ class VersionsController < ApplicationController
       @version.safe_attributes = attributes
       if @version.save
         flash[:notice] = l(:notice_successful_update)
-        redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+        redirect_to :controller => '/projects', :action => 'settings', :tab => 'versions', :id => @project
       else
         respond_to do |format|
           format.html { render :action => 'edit' }
@@ -117,23 +132,23 @@ class VersionsController < ApplicationController
     if request.put?
       @project.close_completed_versions
     end
-    redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+    redirect_to :controller => '/projects', :action => 'settings', :tab => 'versions', :id => @project
   end
 
   def destroy
     if @version.fixed_issues.empty?
       @version.destroy
-      redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+      redirect_to :controller => '/projects', :action => 'settings', :tab => 'versions', :id => @project
     else
       flash[:error] = l(:notice_unable_delete_version)
-      redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+      redirect_to :controller => '/projects', :action => 'settings', :tab => 'versions', :id => @project
     end
   end
 
   def status_by
     respond_to do |format|
       format.html { render :action => 'show' }
-      format.js { render(:update) {|page| page.replace_html 'status_by', render_issue_status_by(@version, params[:status_by])} }
+      format.js { render(:update) {|page| page.replace_html 'status_by', render_status_by(@version, params[:status_by])} }
     end
   end
 
@@ -144,11 +159,11 @@ private
     render_404
   end
 
-  def retrieve_selected_tracker_ids(selectable_trackers, default_trackers=nil)
-    if ids = params[:tracker_ids]
-      @selected_tracker_ids = (ids.is_a? Array) ? ids.collect { |id| id.to_i.to_s } : ids.split('/').collect { |id| id.to_i.to_s }
+  def retrieve_selected_type_ids(selectable_types, default_types=nil)
+    if ids = params[:type_ids]
+      @selected_type_ids = (ids.is_a? Array) ? ids.collect { |id| id.to_i.to_s } : ids.split('/').collect { |id| id.to_i.to_s }
     else
-      @selected_tracker_ids = (default_trackers || selectable_trackers).collect {|t| t.id.to_s }
+      @selected_type_ids = (default_types || selectable_types).collect {|t| t.id.to_s }
     end
   end
 

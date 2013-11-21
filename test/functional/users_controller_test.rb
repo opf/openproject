@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -21,18 +36,10 @@ class UsersController; def rescue_action(e) raise e end; end
 class UsersControllerTest < ActionController::TestCase
   include Redmine::I18n
 
-  fixtures :users,
-           :projects,
-           :members,
-           :member_roles,
-           :roles,
-           :auth_sources,
-           :custom_fields,
-           :custom_field_translations,
-           :custom_values,
-           :groups_users
+  fixtures :all
 
   def setup
+    super
     @controller = UsersController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
@@ -167,8 +174,8 @@ class UsersControllerTest < ActionController::TestCase
             :firstname => 'John',
             :lastname => 'Doe',
             :login => 'jdoe',
-            :password => 'secret',
-            :password_confirmation => 'secret',
+            :password => 'adminADMIN!',
+            :password_confirmation => 'adminADMIN!',
             :mail => 'jdoe@gmail.com',
             :mail_notification => 'none'
           },
@@ -177,19 +184,19 @@ class UsersControllerTest < ActionController::TestCase
     end
 
     user = User.first(:order => 'id DESC')
-    assert_redirected_to :controller => 'users', :action => 'edit', :id => user.id
+    assert_redirected_to edit_user_path(user)
 
     assert_equal 'John', user.firstname
     assert_equal 'Doe', user.lastname
     assert_equal 'jdoe', user.login
     assert_equal 'jdoe@gmail.com', user.mail
     assert_equal 'none', user.mail_notification
-    assert user.check_password?('secret')
+    assert user.check_password?('adminADMIN!')
 
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert_equal [user.mail], mail.to
-    assert mail.body.include?('secret')
+    assert mail.body.encoded.include?('adminADMIN!')
   end
 
   def test_create_with_failure
@@ -237,47 +244,18 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal [10], user.group_ids
   end
 
-  def test_update_with_activation_should_send_a_notification
-    Setting.available_languages = [:en, :fr]
-    u = User.new(:firstname => 'Foo', :lastname => 'Bar', :mail => 'foo.bar@somenet.foo', :language => 'fr')
-    u.login = 'foo'
-    u.status = User::STATUS_REGISTERED
-    u.save!
-    ActionMailer::Base.deliveries.clear
-    Setting.bcc_recipients = '1'
-
-    put :update, :id => u.id, :user => {:status => User::STATUS_ACTIVE}
-    assert u.reload.active?
-    mail = ActionMailer::Base.deliveries.last
-    assert_not_nil mail
-    assert_equal ['foo.bar@somenet.foo'], mail.to
-    assert mail.body.include?(ll('fr', :notice_account_activated))
-  end
-
   def test_update_with_password_change_should_send_a_notification
     ActionMailer::Base.deliveries.clear
     Setting.bcc_recipients = '1'
 
-    put :update, :id => 2, :user => {:password => 'newpass', :password_confirmation => 'newpass'}, :send_information => '1'
+    put :update, :id => 2, :user => {:password => 'newpassPASS!', :password_confirmation => 'newpassPASS!'}, :send_information => '1'
     u = User.find(2)
-    assert u.check_password?('newpass')
+    assert u.check_password?('newpassPASS!')
 
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail
     assert_equal [u.mail], mail.to
-    assert mail.body.include?('newpass')
-  end
-
-  test "put :update with a password change to an AuthSource user switching to Internal authentication" do
-    # Configure as auth source
-    u = User.find(2)
-    u.auth_source = AuthSource.find(1)
-    u.save!
-
-    put :update, :id => u.id, :user => {:auth_source_id => '', :password => 'newpass'}, :password_confirmation => 'newpass'
-
-    assert_equal nil, u.reload.auth_source
-    assert u.check_password?('newpass')
+    assert mail.body.encoded.include?('newpassPASS!')
   end
 
   def test_edit_membership

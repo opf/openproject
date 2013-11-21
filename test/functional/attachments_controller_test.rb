@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -20,14 +35,14 @@ class AttachmentsController; def rescue_action(e) raise e end; end
 
 
 class AttachmentsControllerTest < ActionController::TestCase
-  fixtures :users, :projects, :roles, :members, :member_roles, :enabled_modules, :issues, :trackers, :attachments,
-           :versions, :wiki_pages, :wikis, :documents
+  fixtures :all
 
   def setup
+    super
     @controller = AttachmentsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
-    Attachment.storage_path = "#{RAILS_ROOT}/test/fixtures/files"
+    Attachment.storage_path = Rails.root.join('test/fixtures/files').to_s
     User.current = nil
   end
 
@@ -102,51 +117,12 @@ class AttachmentsControllerTest < ActionController::TestCase
 
   def test_anonymous_on_private_private
     get :download, :id => 7
-    assert_redirected_to '/login?back_url=http%3A%2F%2Ftest.host%2Fattachments%2Fdownload%2F7'
-  end
-
-  def test_destroy_issue_attachment
-    issue = Issue.find(3)
-    @request.session[:user_id] = 2
-
-    assert_difference 'issue.attachments.count', -1 do
-      post :destroy, :id => 1
-    end
-    # no referrer
-    assert_redirected_to '/projects/ecookbook'
-    assert_nil Attachment.find_by_id(1)
-    j = issue.journals.find(:first, :order => 'created_at DESC')
-    assert_equal ['attachments_1'], j.details.keys
-    assert_equal 'error281.txt', j.details['attachments_1'].first
-  end
-
-  def test_destroy_wiki_page_attachment
-    @request.session[:user_id] = 2
-    assert_difference 'Attachment.count', -1 do
-      post :destroy, :id => 3
-      assert_response 302
-    end
-  end
-
-  def test_destroy_project_attachment
-    @request.session[:user_id] = 2
-    assert_difference 'Attachment.count', -1 do
-      post :destroy, :id => 8
-      assert_response 302
-    end
-  end
-
-  def test_destroy_version_attachment
-    @request.session[:user_id] = 2
-    assert_difference 'Attachment.count', -1 do
-      post :destroy, :id => 9
-      assert_response 302
-    end
+    assert_redirected_to '/login?back_url=http%3A%2F%2Ftest.host%2Fattachments%2F7%2Fdownload'
   end
 
   def test_destroy_without_permission
-    post :destroy, :id => 3
-    assert_redirected_to '/login?back_url=http%3A%2F%2Ftest.host%2Fattachments%2Fdestroy%2F3'
+    delete :destroy, :id => 3
+    assert_redirected_to '/login?back_url=http%3A%2F%2Ftest.host%2Fattachments%2F3'
     assert Attachment.find_by_id(3)
   end
 end

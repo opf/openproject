@@ -1,156 +1,88 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-
 require 'active_record'
-
-# Backported fix for CVE-2012-3465
-# https://groups.google.com/d/msg/rubyonrails-security/FgVEtBajcTY/tYLS1JJTu38J
-# TODO: Remove this once we are on Rails >= 3.2.8
-require 'action_view/helpers/sanitize_helper'
-module ActionView::Helpers::SanitizeHelper
-  def strip_tags(html)
-    self.class.full_sanitizer.sanitize(html)
-  end
-end
-
-# Backported fix for CVE-2012-3464
-# https://groups.google.com/d/msg/rubyonrails-security/kKGNeMrnmiY/r2yM7xy-G48J
-# TODO: Remove this once we are on Rails >= 3.2.8
-require 'active_support/core_ext/string/output_safety'
-class ERB
-  module Util
-    HTML_ESCAPE["'"] = '&#39;'
-
-    if RUBY_VERSION >= '1.9'
-      # A utility method for escaping HTML tag characters.
-      # This method is also aliased as <tt>h</tt>.
-      #
-      # In your ERB templates, use this method to escape any unsafe content. For example:
-      # <%=h @person.name %>
-      #
-      # ==== Example:
-      # puts html_escape("is a > 0 & a < 10?")
-      # # => is a &gt; 0 &amp; a &lt; 10?
-      def html_escape(s)
-        s = s.to_s
-        if s.html_safe?
-          s
-        else
-          s.gsub(/[&"'><]/, HTML_ESCAPE).html_safe
-        end
-      end
-    else
-      def html_escape(s) #:nodoc:
-        s = s.to_s
-        if s.html_safe?
-          s
-        else
-          s.gsub(/[&"'><]/n) { |special| HTML_ESCAPE[special] }.html_safe
-        end
-      end
-    end
-
-    # Aliasing twice issues a warning "discarding old...". Remove first to avoid it.
-    remove_method(:h)
-    alias h html_escape
-
-    module_function :h
-
-    singleton_class.send(:remove_method, :html_escape)
-    module_function :html_escape
-  end
-end
-
-
-require 'action_view/helpers/tag_helper'
-module ActionView::Helpers::TagHelper
-  def escape_once(html)
-    ActiveSupport::Multibyte.clean(html.to_s).gsub(/[\"\'><]|&(?!([a-zA-Z]+|(#\d+));)/) { |special| ERB::Util::HTML_ESCAPE[special] }
-  end
-end
-
 
 module ActiveRecord
   class Base
     include Redmine::I18n
 
     # Translate attribute names for validation errors display
-    def self.human_attribute_name(attr)
-      l("field_#{attr.to_s.gsub(/_id$/, '')}")
-    end
-
-    # Backported fix for
-    # CVE-2013-0155
-    # https://groups.google.com/forum/?hl=en&fromgroups=#!topic/rubyonrails-security/c7jT-EeN9eI
-    protected
-    class << self
-      def sanitize_sql_hash_for_conditions(attrs, default_table_name = quoted_table_name, top_level = true)
-        attrs = expand_hash_conditions_for_aggregates(attrs)
-
-        return '1 = 2' if !top_level && attrs.is_a?(Hash) && attrs.empty?
-
-        conditions = attrs.map do |attr, value|
-          table_name = default_table_name
-
-          if not value.is_a?(Hash)
-            attr = attr.to_s
-
-            # Extract table name from qualified attribute names.
-            if attr.include?('.') and top_level
-              attr_table_name, attr = attr.split('.', 2)
-              attr_table_name = connection.quote_table_name(attr_table_name)
-            else
-              attr_table_name = table_name
-            end
-
-            attribute_condition("#{attr_table_name}.#{connection.quote_column_name(attr)}", value)
-          elsif top_level
-            sanitize_sql_hash_for_conditions(value, connection.quote_table_name(attr.to_s), false)
-          else
-            raise ActiveRecord::StatementInvalid
-          end
-        end.join(' AND ')
-
-        replace_bind_variables(conditions, expand_range_bind_variables(attrs.values))
+    def self.human_attribute_name(attr, options = {})
+      begin
+        options_with_raise = {:raise => true, :default => false}.merge options
+        attr = attr.to_s.gsub(/_id\z/, '')
+        super(attr, options_with_raise)
+      rescue I18n::MissingTranslationData => e
+        included_in_general_attributes = I18n.t('attributes').keys.map(&:to_s).include? attr
+        included_in_superclasses = ancestors.select { |a| a.ancestors.include? ActiveRecord::Base }.any? { |klass| !(I18n.t("activerecord.attributes.#{klass.name.underscore}.#{attr}").include? 'translation missing:') }
+        unless included_in_general_attributes or included_in_superclasses
+          # TODO: remove this method once no warning is displayed when running a server/console/tests/tasks etc.
+          warn "[DEPRECATION] Relying on Redmine::I18n addition of `field_` to your translation key \"#{attr}\" on the \"#{self}\" model is deprecated. Please use proper ActiveRecord i18n! \n Catched: #{e.message}"
+        end
+        super(attr, options) # without raise
       end
     end
   end
 end
 
-module ActiveRecord
+module ActiveModel
   class Errors
-    def full_messages(options = {})
+    def full_messages
       full_messages = []
 
-      @errors.each_key do |attr|
-        @errors[attr].each do |message|
+      @messages.each_key do |attribute|
+        @messages[attribute].each do |message|
           next unless message
 
-          if attr == "base"
+          if attribute == :base
             full_messages << message
-          elsif attr == "custom_values"
+          elsif attribute == :custom_values
             # Replace the generic "custom values is invalid"
             # with the errors on custom values
             @base.custom_values.each do |value|
-              value.errors.each do |attr, msg|
-                full_messages << value.custom_field.name + ' ' + msg
+              full_messages += value.errors.map do |_, message|
+                I18n.t(:"errors.format", {
+                  :default   => "%{attribute} %{message}",
+                  :attribute => value.custom_field.name,
+                  :message   => message
+                })
               end
             end
           else
-            attr_name = @base.class.human_attribute_name(attr)
-            full_messages << attr_name + ' ' + message.to_s
+            attr_name = attribute.to_s.gsub('.', '_').humanize
+            attr_name = @base.class.human_attribute_name(attribute, :default => attr_name)
+            full_messages << I18n.t(:"errors.format", {
+              :default   => "%{attribute} %{message}",
+              :attribute => attr_name,
+              :message   => message
+            })
           end
         end
       end
@@ -172,7 +104,7 @@ module ActionView
         def wrap_with_error_span(html_tag, object, method)
           object_identifier = erroneous_object_identifier(object.object_id.to_s, method)
 
-          "<span id='#{object_identifier}' class=\"errorSpan\"><a name=\"#{object_identifier}\"></a>#{html_tag}</span>"
+          "<span id='#{object_identifier}' class=\"errorSpan\"><a name=\"#{object_identifier}\"></a>#{html_tag}</span>".html_safe
         end
 
         def erroneous_object_identifier(id, method)
@@ -200,7 +132,7 @@ module ActionView
             # excluding custom_values from the errors.each loop before
             # as more than one error can be assigned to custom_values
             # which would add to many error messages
-            if object.errors.on(:custom_values)
+            if object.errors[:custom_values].any?
               object.custom_values.each do |value|
                 value.errors.collect do |attr, msg|
                   # Generating unique identifier in order to jump directly to the field with the error
@@ -296,6 +228,14 @@ module ActionView
         end
       end
     end
+
+    module AssetTagHelper
+      def auto_discovery_link_tag_with_no_atom_feeds(type = :rss, url_options = {}, tag_options = {})
+        return if (type == :atom) && Setting.table_exists? && !Setting.feeds_enabled?
+        auto_discovery_link_tag_without_no_atom_feeds(type, url_options, tag_options)
+      end
+      alias_method_chain :auto_discovery_link_tag, :no_atom_feeds
+    end
   end
 end
 
@@ -309,84 +249,53 @@ ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
   end
 end
 
-class ActiveRecord::Errors
-  def on_with_id_handling(attribute)
-    attribute = attribute.to_s
-    if attribute.ends_with? '_id'
-      on_without_id_handling(attribute) || on_without_id_handling(attribute[0..-4])
-    else
-      on_without_id_handling(attribute)
-    end
-  end
+module ActiveRecord
+  class Base
+    # active record 2.3 backport, was removed in 3.0, only used in Query
+    def self.merge_conditions(*conditions)
+      segments = []
 
-  alias_method_chain :on, :id_handling
-end
-
-# Adds :async_smtp and :async_sendmail delivery methods
-# to perform email deliveries asynchronously
-module AsynchronousMailer
-  %w(smtp sendmail).each do |type|
-    define_method("perform_delivery_async_#{type}") do |mail|
-      Thread.start do
-        send "perform_delivery_#{type}", mail
-      end
-    end
-  end
-end
-
-ActionMailer::Base.send :include, AsynchronousMailer
-
-# TMail::Unquoter.convert_to_with_fallback_on_iso_8859_1 introduced in TMail 1.2.7
-# triggers a test failure in test_add_issue_with_japanese_keywords(MailHandlerTest)
-module TMail
-  class Unquoter
-    class << self
-      alias_method :convert_to, :convert_to_without_fallback_on_iso_8859_1
-    end
-  end
-end
-
-module ActionController
-  module MimeResponds
-    class Responder
-      def api(&block)
-        any(:xml, :json, &block)
-      end
-    end
-  end
-
-  # Backported fix for
-  # CVE-2012-2660
-  # https://groups.google.com/group/rubyonrails-security/browse_thread/thread/f1203e3376acec0f
-  #
-  # CVE-2012-2694
-  # https://groups.google.com/group/rubyonrails-security/browse_thread/thread/8c82d9df8b401c5e
-  #
-  # TODO: Remove this once we are on Rails >= 3.2.6
-  require 'action_controller/request'
-  class Request
-    protected
-
-    # Remove nils from the params hash
-    def deep_munge(hash)
-      keys = hash.keys.find_all { |k| hash[k] == [nil] }
-      keys.each { |k| hash[k] = nil }
-
-      hash.each_value do |v|
-        case v
-        when Array
-          v.grep(Hash) { |x| deep_munge(x) }
-          v.compact!
-        when Hash
-          deep_munge(v)
+      conditions.each do |condition|
+        unless condition.blank?
+          sql = sanitize_sql(condition)
+          segments << sql unless sql.blank?
         end
       end
 
-      hash
+      "(#{segments.join(') AND (')})" unless segments.empty?
     end
+  end
 
-    def parse_query(qs)
-      deep_munge(super)
+  class Errors
+  #  def on_with_id_handling(attribute)
+  #    attribute = attribute.to_s
+  #    if attribute.ends_with? '_id'
+  #      on_without_id_handling(attribute) || on_without_id_handling(attribute[0..-4])
+  #    else
+  #      on_without_id_handling(attribute)
+  #    end
+  #  end
+
+  #  alias_method_chain :on, :id_handling
+  end
+end
+
+module CollectiveIdea
+  module Acts
+    module NestedSet
+      module Model
+        # fixes IssueNestedSetTest#test_destroy_parent_issue_updated_during_children_destroy
+        def destroy_descendants_with_reload
+          destroy_descendants_without_reload
+          # Reload is needed because children may have updated their parent (self) during deletion.
+          # fixes stale object error in issue_nested_set_test
+          reload
+        end
+        alias_method_chain :destroy_descendants, :reload
+      end
     end
   end
 end
+
+# Patch acts_as_list before any class includes the module
+require 'open_project/patches/acts_as_list'

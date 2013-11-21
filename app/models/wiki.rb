@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -16,9 +31,8 @@ class Wiki < ActiveRecord::Base
   include Redmine::SafeAttributes
   belongs_to :project
   has_many :pages, :class_name => 'WikiPage', :dependent => :destroy, :order => 'title'
-  has_many :wiki_menu_items, :class_name => 'WikiMenuItem', :dependent => :delete_all, :order => 'name'
+  has_many :wiki_menu_items, :class_name => 'MenuItems::WikiMenuItem', :dependent => :delete_all, :order => 'name', :foreign_key => 'navigatable_id'
   has_many :redirects, :class_name => 'WikiRedirect', :dependent => :delete_all
-
 
   acts_as_watchable
 
@@ -31,9 +45,11 @@ class Wiki < ActiveRecord::Base
   attr_protected :project_id
 
   validates_presence_of :start_page
-  validates_format_of :start_page, :with => /^[^,\.\/\?\;\|\:]*$/
+  validates_format_of :start_page, :with => /\A[^,\.\/\?\;\|\:]*\z/
 
   safe_attributes 'start_page'
+
+  after_create :create_menu_item_for_start_page
 
   def visible?(user=User.current)
     !user.nil? && user.allowed_to?(:view_wiki_pages, project)
@@ -72,7 +88,7 @@ class Wiki < ActiveRecord::Base
   #   Wiki.find_page("foo:bar")
   def self.find_page(title, options = {})
     project = options[:project]
-    if title.to_s =~ %r{^([^\:]+)\:(.*)$}
+    if title.to_s =~ %r{\A([^\:]+)\:(.*)\z}
       project_identifier, title = $1, $2
       project = Project.find_by_identifier(project_identifier) || Project.find_by_name(project_identifier)
     end
@@ -91,5 +107,13 @@ class Wiki < ActiveRecord::Base
     # upcase the first letter
     title = (title.slice(0..0).upcase + (title.slice(1..-1) || '')) if title
     title
+  end
+
+  def create_menu_item_for_start_page
+    wiki_menu_item = wiki_menu_items.find_or_initialize_by_title start_page, name: 'Wiki'
+    wiki_menu_item.new_wiki_page = true
+    wiki_menu_item.index_page = true
+
+    wiki_menu_item.save!
   end
 end

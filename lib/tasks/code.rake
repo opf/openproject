@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -19,14 +34,13 @@ namespace :code do
       files = Dir['**/**{.rb,.html.erb,.rhtml,.rjs,.rsb,.plain.erb,.rxml,.yml,.rake,.eml}']
       files.reject!{ |f|
         f.include?("vendor") ||
-        f.include?("lib/SVG") ||
         f.include?("lib/redcloth") ||
         f.include?("lib/diff")
       }
 
       # handle files in chunks of 50 to avoid too long command lines
       while (slice = files.slice!(0, 50)).present?
-        system('ruby', '-i', '-pe', 'gsub(/\s+$/,"\n")', *slice)
+        system('ruby', '-i', '-pe', 'gsub(/\s+\z/,"\n")', *slice)
       end
     end
   end

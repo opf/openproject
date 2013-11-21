@@ -1,0 +1,82 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% disable_accessibility_css! %>
+
+<h2><%=l(:label_register)%> <%=link_to l(:label_login_with_open_id_option), signin_url if Setting.openid? %></h2>
+
+<%= form_tag({:action => 'register'},
+             :class => "tabular") do %>
+<%= error_messages_for 'user' %>
+
+<div class="box">
+<!--[form:user]-->
+<% if @user.auth_source_id.nil? %>
+<p><label for="user_login"><%= User.human_attribute_name :login %> <span class="required">*</span></label>
+<%= text_field 'user', 'login', :size => 25 %></p>
+
+<p><label for="user_password"><%= User.human_attribute_name :password %> <span class="required">*</span></label>
+<%= password_field 'user',
+                   'password',
+                   :size => 25,
+                   :autocomplete => 'off' %><br />
+<%= password_complexity_requirements %></p>
+
+<p><label for="user_password_confirmation"><%= User.human_attribute_name :password_confirmation %> <span class="required">*</span></label>
+<%= password_field 'user',
+                   'password_confirmation',
+                   :size => 25,
+                   :autocomplete => 'off'  %></p>
+<% end %>
+
+<p><label for="user_firstname"><%= User.human_attribute_name :firstname %> <span class="required">*</span></label>
+<%= text_field 'user', 'firstname'  %></p>
+
+<p><label for="user_lastname"><%= User.human_attribute_name :lastname %> <span class="required">*</span></label>
+<%= text_field 'user', 'lastname'  %></p>
+
+<p><label for="user_mail"><%= User.human_attribute_name :mail %> <span class="required">*</span></label>
+<%= text_field 'user', 'mail'  %></p>
+
+<p><label for="user_language"><%= User.human_attribute_name :language %></label>
+<%= select("user", "language", lang_options_for_select) %></p>
+
+<% if Setting.openid? %>
+<p><label for="user_identity_url"><%= User.human_attribute_name :identity_url %></label>
+<%= text_field 'user', 'identity_url'  %></p>
+<% end %>
+
+<% @user.custom_field_values.select {|v| v.editable? || v.required?}.each do |value| %>
+	<p><%= custom_field_tag_with_label :user, value %></p>
+<% end %>
+<!--[eoform:user]-->
+</div>
+
+<%= submit_tag l(:button_submit) %>
+<% end %>

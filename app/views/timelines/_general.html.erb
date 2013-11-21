@@ -1,0 +1,141 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<fieldset id="filter_general" class="header_collapsible collapsible">
+  <legend title="<%=l(:description_filter_toggle)%>", onclick="toggleFieldset(this);">
+    <a href="javascript:"><%= l('timelines.filter.timeline') %></a>
+  </legend>
+
+  <div>
+    <div>
+
+      <p class="tl-form-overflow">
+        <%= f.label :name %>
+        <%= f.text_field :name, :required => true, :size => 60, :class => "twoBlocks" %>
+        <%= hidden_field_tag 'timeline[options][exist]' %>
+      </p>
+
+      <p class="tl-form-overflow">
+        <%= label_tag :timeline_options_hide_chart,
+                      l('timelines.filter.hide_chart') %>
+
+        <%= check_box_tag("timeline[options][hide_chart]",
+                          :yes,
+                          timeline.options["hide_chart"].present?) %>
+      </p>
+
+      <p class="tl-form-overflow">
+        <%= label_tag 'timeline_options_zoom_factor',
+                      l("timelines.filter.zoom") %>
+
+        <%= select("timeline[options]",
+                   :zoom_factor,
+                   filter_select_i18n_array_with_index_and_none(
+                     timeline.available_zoom_factors,
+                     'timelines.zoom.'),
+                   {:selected => timeline.selected_zoom_factor},
+                   {:multiple => false,
+                    :size => 1}) %>
+
+      </p>
+
+      <p class="tl-form-overflow">
+        <%= label_tag 'timeline_options_initial_outline_expansion',
+                      l("timelines.filter.outline") %>
+
+        <%= select("timeline[options]",
+                   :initial_outline_expansion,
+                   filter_select_i18n_array_with_index_and_none(
+                     timeline.available_initial_outline_expansions,
+                     'timelines.outlines.'),
+                   {:selected => timeline.selected_initial_outline_expansion},
+                   {:multiple => false,
+                    :size => 1}) %>
+
+      </p>
+
+      <p class="tl-form-overflow">
+        <%= label_tag :timeline_options_display_timeframe,
+                      l('timelines.filter.timeframe') %>
+
+        <%= l('timelines.filter.timeframe_start') %>
+
+        <%= text_field_tag "timeline[options][timeframe_start]",
+                           timeline.options["timeframe_start"],
+                           :size => 10 %>
+        <%= calendar_for('timeline_options_timeframe_start') %>
+
+        <%= l('timelines.filter.timeframe_end') %>
+
+        <%= text_field_tag "timeline[options][timeframe_end]",
+                           timeline.options["timeframe_end"],
+                           :size => 10 %>
+        <%= calendar_for('timeline_options_timeframe_end') %>
+
+      </p>
+
+      <p class="tl-form-overflow">
+        <%= label_tag 'timeline_options_columns',
+                      l("timelines.filter.columns") %>
+
+        <% if User.current.impaired? %>
+          <%= select("timeline[options]",
+                     :columns,
+                     internationalized_columns_select(timeline.available_columns),
+                     {:selected => timeline.selected_columns},
+                     {:multiple => true,
+                      :size => 12}) %>
+        <% else %>
+          <%= hidden_field_tag("timeline[options][columns][]",
+                  timeline.selected_columns.join(","),
+                  {
+                    :"data-values" => internationalized_columns_select_object(timeline.available_columns).to_json
+                  }
+                ) %>
+        <% end %>
+      </p>
+
+      <p class="tl-form-overflow">
+        <%= label_tag :timeline_options_project_sort,
+                      l('timelines.filter.sort.project_sortation') %>
+
+        <span>
+          <%= select("timeline[options]",
+                     :project_sort,
+                     [[l('timelines.filter.sort.date'), 0], [l('timelines.filter.sort.alphabet'), '1']],
+
+                     {:selected => timeline.options['project_sort']},
+                     {:multiple => false,
+                      :size => 1}) %>
+        </span>
+
+      </p>
+    </div>
+  </div>
+</fieldset>

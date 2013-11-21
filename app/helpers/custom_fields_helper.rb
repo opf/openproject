@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -15,15 +30,14 @@
 module CustomFieldsHelper
 
   def custom_fields_tabs
-    tabs = [{:name => 'IssueCustomField', :partial => 'custom_fields/index', :label => :label_issue_plural},
+    tabs = [{:name => 'WorkPackageCustomField', :partial => 'custom_fields/index', :label => :label_work_package_plural},
             {:name => 'TimeEntryCustomField', :partial => 'custom_fields/index', :label => :label_spent_time},
             {:name => 'ProjectCustomField', :partial => 'custom_fields/index', :label => :label_project_plural},
             {:name => 'VersionCustomField', :partial => 'custom_fields/index', :label => :label_version_plural},
             {:name => 'UserCustomField', :partial => 'custom_fields/index', :label => :label_user_plural},
             {:name => 'GroupCustomField', :partial => 'custom_fields/index', :label => :label_group_plural},
             {:name => 'TimeEntryActivityCustomField', :partial => 'custom_fields/index', :label => TimeEntryActivity::OptionName},
-            {:name => 'IssuePriorityCustomField', :partial => 'custom_fields/index', :label => IssuePriority::OptionName},
-            {:name => 'DocumentCategoryCustomField', :partial => 'custom_fields/index', :label => DocumentCategory::OptionName}
+            {:name => 'IssuePriorityCustomField', :partial => 'custom_fields/index', :label => IssuePriority::OptionName}
             ]
   end
 
@@ -45,8 +59,8 @@ module CustomFieldsHelper
       hidden_field_tag(field_name, '0') + check_box_tag(field_name, '1', custom_value.true?, :id => field_id)
     when "list"
       blank_option = custom_field.is_required? ?
-                       (custom_field.default_value.blank? ? "<option value=\"\">--- #{l(:actionview_instancetag_blank_option)} ---</option>" : '') :
-                       '<option></option>'
+                       (custom_field.default_value.blank? ? "<option value=\"\">--- #{l(:actionview_instancetag_blank_option)} ---</option>".html_safe : '') :
+                       '<option></option>'.html_safe
       select_tag(field_name, blank_option + options_for_select(custom_field.possible_values_options(custom_value.customized), custom_value.value), :id => field_id)
     else
       text_field_tag(field_name, custom_value.value, :id => field_id)
@@ -60,14 +74,14 @@ module CustomFieldsHelper
   # Return custom field label tag
   def custom_field_label_tag(name, custom_value)
     content_tag "label", h(custom_value.custom_field.name) +
-	(custom_value.custom_field.is_required? ? " <span class=\"required\">*</span>" : ""),
-	:for => "#{name}_custom_field_values_#{custom_value.custom_field.id}",
-	:class => (custom_value.errors.empty? ? nil : "error" )
+      (custom_value.custom_field.is_required? ? content_tag("span", ' *', :class => "required") : ""),
+      :for => "#{name}_custom_field_values_#{custom_value.custom_field.id}",
+      :class => (custom_value.errors.empty? ? nil : "error" )
   end
 
   def blank_custom_field_label_tag(name, custom_field)
     content_tag "label", h(custom_field.name) +
-    (custom_field.is_required? ? content_tag("span", "*", :class => "required") : ""),
+    (custom_field.is_required? ? content_tag("span", ' *', :class => "required") : ""),
     :for => "#{name}_custom_field_values_#{custom_field.id}"
   end
 

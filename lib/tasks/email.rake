@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -31,7 +46,7 @@ General options:
 Issue attributes control options:
   project=PROJECT          identifier of the target project
   status=STATUS            name of the target status
-  tracker=TRACKER          name of the target tracker
+  type=TYPE                name of the target type
   category=CATEGORY        name of the target category
   priority=PRIORITY        name of the target priority
   allow_override=ATTRS     allow email content to override attributes
@@ -51,18 +66,18 @@ Examples:
   # No project specified. Emails MUST contain the 'Project' keyword:
   rake redmine:email:read RAILS_ENV="production" < raw_email
 
-  # Fixed project and default tracker specified, but emails can override
-  # both tracker and priority attributes:
+  # Fixed project and default type specified, but emails can override
+  # both type and priority attributes:
   rake redmine:email:read RAILS_ENV="production" \\
                   project=foo \\
-                  tracker=bug \\
-                  allow_override=tracker,priority < raw_email
+                  type=bug \\
+                  allow_override=type,priority < raw_email
 END_DESC
 
     task :read => :environment do
       options = { :issue => {} }
       default_fields = (ENV['default_fields'] || "").split
-      default_fields |= %w[project status tracker category priority fixed_version]
+      default_fields |= %w[project status type category priority fixed_version]
       default_fields.each{ |field| options[:issue][field] = ENV[field] if ENV[field] }
 
       options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
@@ -95,7 +110,7 @@ Available IMAP options:
 Issue attributes control options:
   project=PROJECT          identifier of the target project
   status=STATUS            name of the target status
-  tracker=TRACKER          name of the target tracker
+  type=TYPE                name of the target type
   category=CATEGORY        name of the target category
   priority=PRIORITY        name of the target priority
   allow_override=ATTRS     allow email content to override attributes
@@ -123,14 +138,14 @@ Examples:
     host=imap.foo.bar username=redmine@example.net password=xxx
 
 
-  # Fixed project and default tracker specified, but emails can override
-  # both tracker and priority attributes:
+  # Fixed project and default type specified, but emails can override
+  # both type and priority attributes:
 
   rake redmine:email:receive_iamp RAILS_ENV="production" \\
     host=imap.foo.bar username=redmine@example.net password=xxx ssl=1 \\
     project=foo \\
-    tracker=bug \\
-    allow_override=tracker,priority
+    type=bug \\
+    allow_override=type,priority
 END_DESC
 
     task :receive_imap => :environment do
@@ -145,7 +160,7 @@ END_DESC
 
       options = { :issue => {} }
       default_fields = (ENV['default_fields'] || "").split
-      default_fields |= %w[project status tracker category priority fixed_version]
+      default_fields |= %w[project status type category priority fixed_version]
       default_fields.each{ |field| options[:issue][field] = ENV[field] if ENV[field] }
 
       options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
@@ -181,7 +196,7 @@ END_DESC
 
       options = { :issue => {} }
       default_fields = (ENV['default_fields'] || "").split
-      default_fields |= %w[project status tracker category priority fixed_version]
+      default_fields |= %w[project status type category priority fixed_version]
       default_fields.each{ |field| options[:issue][field] = ENV[field] if ENV[field] }
 
       options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
@@ -193,18 +208,23 @@ END_DESC
 
     desc "Send a test email to the user with the provided login name"
     task :test, [:login] => :environment do |task, args|
-      include Redmine::I18n
-      abort l(:notice_email_error, "Please include the user login to test with. Example: login=example-login") if args[:login].blank?
+      login = args[:login]
+      if login.blank?
+        abort I18n.t(:notice_email_error, :default => 'Please include the user login to test with. Example: redmine:email:test[example-login]')
+      end
 
-      user = User.find_by_login(args[:login])
-      abort l(:notice_email_error, "User #{args[:login]} not found") unless user && user.logged?
+      user = User.find_by_login(login)
+      unless user && user.logged?
+        abort I18n.t(:notice_email_error, :default => "User with login '#{login}' not found")
+      end
 
       ActionMailer::Base.raise_delivery_errors = true
+
       begin
-        Mailer.deliver_test(User.current)
-        puts l(:notice_email_sent, user.mail)
+        UserMailer.test_mail(user).deliver
+        puts I18n.t(:notice_email_sent, :value => user.mail)
       rescue Exception => e
-        abort l(:notice_email_error, e.message)
+        abort I18n.t(:notice_email_error, e.message)
       end
     end
   end

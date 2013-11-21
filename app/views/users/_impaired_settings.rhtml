@@ -1,6 +1,0 @@
-<% fields_for :pref, @user.pref, :lang => current_language do |pref_fields| %>
-  <p>
-    <%= pref_fields.label(:impaired, t(:field_impaired, :app_title => Setting.app_title))%>
-    <%= pref_fields.check_box :impaired %>
-  </p>
-<% end %>

@@ -1,21 +1,35 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../../../test_helper', __FILE__)
 
-class Redmine::Hook::ManagerTest < ActiveSupport::TestCase
-
-  fixtures :issues
+class Redmine::Hook::ManagerTest < ActionView::TestCase
+  fixtures :all
 
   # Some hooks that are manually registered in these tests
   class TestHook < Redmine::Hook::ViewListener; end
@@ -85,7 +99,7 @@ class Redmine::Hook::ManagerTest < ActiveSupport::TestCase
 
   def test_call_hook_with_context
     @hook_module.add_listener(TestHook3)
-    assert_equal ['Context keys: bar, controller, foo, project, request.'],
+    assert_equal ['Context keys: bar, controller, foo, hook_caller, project, request.'],
                  hook_helper.call_hook(:view_layouts_base_html_head, :foo => 1, :bar => 'a')
   end
 
@@ -142,20 +156,20 @@ class Redmine::Hook::ManagerTest < ActiveSupport::TestCase
 
   def test_call_hook_should_not_change_the_default_url_for_email_notifications
     user = User.find(1)
-    issue = Issue.find(1)
+    issue = WorkPackage.find(1)
 
     ActionMailer::Base.deliveries.clear
-    Mailer.deliver_issue_add(issue, user)
+    UserMailer.issue_added(user, issue).deliver
     mail = ActionMailer::Base.deliveries.last
 
     @hook_module.add_listener(TestLinkToHook)
     hook_helper.call_hook(:view_layouts_base_html_head)
 
     ActionMailer::Base.deliveries.clear
-    Mailer.deliver_issue_add(issue, user)
+    UserMailer.issue_added(user, issue).deliver
     mail2 = ActionMailer::Base.deliveries.last
 
-    assert_equal mail.body, mail2.body
+    assert_equal mail.text_part.body.encoded, mail2.text_part.body.encoded
   end
 
   def hook_helper
@@ -163,7 +177,7 @@ class Redmine::Hook::ManagerTest < ActiveSupport::TestCase
   end
 
   def view_hook_helper
-    @view_hook_helper ||= TestHookHelperView.new(RAILS_ROOT + '/app/views')
+    @view_hook_helper ||= TestHookHelperView.new(Rails.root.to_s + '/app/views')
   end
 end
 

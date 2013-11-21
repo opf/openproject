@@ -1,0 +1,60 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= form_for(@journal, { :html => { :id => "journal-#{@journal.id}-form" } , :remote => true } ) do %>
+
+  <%= label_tag "notes", l(:description_notes),
+                         :class => "hidden-for-sighted" %>
+
+  <% rows = (@journal.notes.blank? ? 10 : [[10, @journal.notes.length / 50].max, 100].min %>
+  <%= text_area_tag :notes, @journal.notes,
+                            :class => 'wiki-edit',
+                            :rows => rows) %>
+
+  <%= call_hook(:view_journals_notes_form_after_notes, { :journal => @journal}) %>
+
+  <p>
+    <%= submit_tag l(:button_save) %>
+    <%= link_to_remote l(:label_preview),
+                       { :url => preview_journal_path(@journal),
+                         :method => 'get',
+                         :update => "journal_#{@journal.id}_preview",
+                         :with => "Form.serialize('journal-#{@journal.id}-form')",
+                         :complete => "Element.scrollTo('journal_#{@journal.id}_preview')"
+                       }, :accesskey => accesskey(:preview) %>
+    |
+    <%= link_to l(:button_cancel), '#',
+                                   :onclick => "Element.remove('journal-#{@journal.id}-form'); " +
+                                               "Element.show('journal-#{@journal.id}-notes'); " +
+                                               "return false;" %>
+  </p>
+
+  <div id="journal_<%= @journal.id %>_preview" class="wiki">
+  </div>
+<% end %>

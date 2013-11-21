@@ -1,30 +1,33 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-### From http://svn.geekdaily.org/public/rails/plugins/generally_useful/tasks/coverage_via_rcov.rake
-
 namespace :test do
-  desc 'Measures test coverage'
-  task :coverage do
-    rm_f "coverage"
-    rm_f "coverage.data"
-    rcov = "rcov --rails --aggregate coverage.data --text-summary -Ilib --html"
-    files = Dir.glob("test/**/*_test.rb").join(" ")
-    system("#{rcov} #{files}")
-    system("open coverage/index.html") if PLATFORM['darwin']
-  end
-
   desc 'Run unit and functional scm tests'
   task :scm do
     errors = %w(test:scm:units test:scm:functionals).collect do |task|
@@ -45,7 +48,7 @@ namespace :test do
         FileUtils.mkdir_p Rails.root + '/tmp/test'
       end
 
-      supported_scms = [:subversion, :cvs, :bazaar, :mercurial, :git, :darcs, :filesystem]
+      supported_scms = [:subversion, :git, :filesystem]
 
       desc "Creates a test subversion repository"
       task :subversion => :create_dir do
@@ -54,15 +57,7 @@ namespace :test do
         system "gunzip < test/fixtures/repositories/subversion_repository.dump.gz | svnadmin load #{repo_path}"
       end
 
-      desc "Creates a test mercurial repository"
-      task :mercurial => :create_dir do
-        repo_path = "tmp/test/mercurial_repository"
-        bundle_path = "test/fixtures/repositories/mercurial_repository.hg"
-        system "hg init #{repo_path}"
-        system "hg -R #{repo_path} pull #{bundle_path}"
-      end
-
-      (supported_scms - [:subversion, :mercurial]).each do |scm|
+      (supported_scms - [:subversion]).each do |scm|
         desc "Creates a test #{scm} repository"
         task scm => :create_dir do
           # system "gunzip < test/fixtures/repositories/#{scm}_repository.tar.gz | tar -xv -C tmp/test"
@@ -78,7 +73,7 @@ namespace :test do
     task :update do
       require 'fileutils'
       Dir.glob("tmp/test/*_repository").each do |dir|
-        next unless File.basename(dir) =~ %r{^(.+)_repository$} && File.directory?(dir)
+        next unless File.basename(dir) =~ %r{\A(.+)_repository\z} && File.directory?(dir)
         scm = $1
         next unless fixture = Dir.glob("test/fixtures/repositories/#{scm}_repository.*").first
         next if File.stat(dir).ctime > File.stat(fixture).mtime
@@ -101,5 +96,10 @@ namespace :test do
       t.test_files = FileList['test/functional/repositories*_test.rb']
     end
     Rake::Task['test:scm:functionals'].comment = "Run the scm functional tests"
+  end
+
+  desc 'runs all tests'
+  namespace :suite do
+    task :run => [:cucumber, :spec, :test]
   end
 end

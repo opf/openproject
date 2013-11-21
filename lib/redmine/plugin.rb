@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -59,6 +74,9 @@ module Redmine #:nodoc:
     @registered_plugins = ActiveSupport::OrderedHash.new
     @deferred_plugins   = {}
 
+    cattr_accessor :public_directory
+    self.public_directory = File.join(Rails.root, 'public', 'plugin_assets')
+
     class << self
       attr_reader :registered_plugins, :deferred_plugins
       private :new
@@ -83,10 +101,13 @@ module Redmine #:nodoc:
       p.instance_eval(&block)
       # Set a default name if it was not provided during registration
       p.name(id.to_s.humanize) if p.name.nil?
-      # Adds plugin locales if any
-      # YAML translation files should be found under <plugin>/config/locales/
-      ::I18n.load_path += Dir.glob(File.join(RAILS_ROOT, 'vendor', 'plugins', id.to_s, 'config', 'locales', '*.yml'))
+
       registered_plugins[id] = p
+
+      if p.settings
+        Setting.create_setting("plugin_#{id}", {'default' => p.settings[:default], 'serialized' => true})
+        Setting.create_setting_accessors("plugin_#{id}")
+      end
 
       # If there are plugins waiting for us to be loaded, we try loading those, again
       if deferred_plugins[id]
@@ -149,65 +170,47 @@ module Redmine #:nodoc:
       self.id.to_s <=> plugin.id.to_s
     end
 
-    # Sets a requirement on the ChiliProject version.
+    # Sets a requirement on the OpenProject version.
     # Raises a PluginRequirementError exception if the requirement is not met.
     #
     # It uses the same syntax as rubygems requirements.
     # Examples
-    #   # Requires exactly ChiliProject 1.1.1
-    #   requires_chiliproject "1.1.1"
-    #   requires_chiliproject "= 1.1.1"
+    #   # Requires exactly OpenProject 1.1.1
+    #   requires_openproject "1.1.1"
+    #   requires_openproject "= 1.1.1"
 
-    #   # Requires ChiliProject 1.1.x
-    #   requires_chiliproject "~> 1.1.0"
+    #   # Requires OpenProject 1.1.x
+    #   requires_openproject "~> 1.1.0"
 
-    #   # Requires ChiliProject between 1.1.0 and 1.1.5 or higher
-    #   requires_chiliproject ">= 1.1.0", "<= 1.1.5"
+    #   # Requires OpenProject between 1.1.0 and 1.1.5 or higher
+    #   requires_openproject ">= 1.1.0", "<= 1.1.5"
 
-    def requires_chiliproject(*args)
+    def requires_openproject(*args)
       required_version = Gem::Requirement.new(*args)
-      chili_version = Gem::Version.new(ChiliProject::VERSION.to_semver)
+      op_version = Gem::Version.new(OpenProject::VERSION.to_semver)
 
-      unless required_version.satisfied_by? chili_version
-        raise PluginRequirementError.new("#{id} plugin requires ChiliProject version #{required_version} but current version is #{chili_version}.")
+      unless required_version.satisfied_by? op_version
+        raise PluginRequirementError.new("#{id} plugin requires OpenProject version #{required_version} but current version is #{op_version}.")
       end
       true
     end
 
-    # Sets a requirement on Redmine version.
-    # Raises a PluginRequirementError exception if the requirement is not met
-    #
-    # THIS IS A REDMINE COMPATIBILITY INTERFACE
-    #
-    # Examples
-    #   # Requires Redmine 0.7.3 or higher
-    #   requires_redmine :version_or_higher => '0.7.3'
-    #   requires_redmine '0.7.3'
-    #
-    #   # Requires a specific Redmine version
-    #   requires_redmine :version => '0.7.3'              # 0.7.3 only
-    #   requires_redmine :version => ['0.7.3', '0.8.0']   # 0.7.3 or 0.8.0
-    def requires_redmine(arg)
-      arg = { :version_or_higher => arg } unless arg.is_a?(Hash)
-      arg.assert_valid_keys(:version, :version_or_higher)
+    ##
+    # Registers an assets (javascript, css file) to be injected into every page
+    # params: Hash containing associations with
+    #   :type => (symbol): either :js or :css
+    #   :path => (string): path to asset to include, or array with multiple asset paths
+    def global_assets(assets_hash = {})
+      assets_hash.each { |k,v| registered_global_assets[k] = Array(v) }
+    end
 
-      current = Redmine::VERSION.to_a
-      arg.each do |k, v|
-        v = [] << v unless v.is_a?(Array)
-        versions = v.collect {|s| s.split('.').collect(&:to_i)}
-        case k
-        when :version_or_higher
-          raise ArgumentError.new("wrong number of versions (#{versions.size} for 1)") unless versions.size == 1
-          unless (current <=> versions.first) >= 0
-            raise PluginRequirementError.new("#{id} plugin requires Redmine #{v} or higher but current is #{current.join('.')}")
-          end
-        when :version
-          unless versions.include?(current.slice(0,3))
-            raise PluginRequirementError.new("#{id} plugin requires one the following Redmine versions: #{v.join(', ')} but current is #{current.join('.')}")
-          end
-        end
-      end
-      true
+    ##
+    # Returns a list of assets for the given type
+    # those assets shall be included into every OpenProject page
+    # params:
+    #   type (symbol): either :css, or :js
+    def registered_global_assets
+      @registered_global_assets ||= Hash.new([])
     end
 
     # Sets a requirement on a Redmine plugin version
@@ -248,7 +251,7 @@ module Redmine #:nodoc:
 
     # Adds an item to the given +menu+.
     # The +id+ parameter (equals to the project id) is automatically added to the url.
-    #   menu :project_menu, :plugin_example, { :controller => 'example', :action => 'say_hello' }, :caption => 'Sample'
+    #   menu :project_menu, :plugin_example, { :controller => '/example', :action => 'say_hello' }, :caption => 'Sample'
     #
     # +name+ parameter can be: :top_menu, :account_menu, :application_menu or :project_menu
     #
@@ -348,6 +351,54 @@ module Redmine #:nodoc:
     # Returns +true+ if the plugin can be configured.
     def configurable?
       settings && settings.is_a?(Hash) && !settings[:partial].blank?
+    end
+
+    def mirror_assets
+      source = assets_directory
+      destination = public_directory
+      return unless File.directory?(source)
+
+      source_files = Dir[source + "/**/*"]
+      source_dirs = source_files.select { |d| File.directory?(d) }
+      source_files -= source_dirs
+
+      unless source_files.empty?
+        base_target_dir = File.join(destination, File.dirname(source_files.first).gsub(source, ''))
+        FileUtils.mkdir_p(base_target_dir)
+      end
+
+      source_dirs.each do |dir|
+        # strip down these paths so we have simple, relative paths we can
+        # add to the destination
+        target_dir = File.join(destination, dir.gsub(source, ''))
+        begin
+          FileUtils.mkdir_p(target_dir)
+        rescue Exception => e
+          raise "Could not create directory #{target_dir}: \n" + e
+        end
+      end
+
+      source_files.each do |file|
+        begin
+          target = File.join(destination, file.gsub(source, ''))
+          unless File.exist?(target) && FileUtils.identical?(file, target)
+            FileUtils.cp(file, target)
+          end
+        rescue Exception => e
+          raise "Could not copy #{file} to #{target}: \n" + e
+        end
+      end
+    end
+
+    # Mirrors assets from one or all plugins to public/plugin_assets
+    def self.mirror_assets(name=nil)
+      if name.present?
+        find(name).mirror_assets
+      else
+        all.each do |plugin|
+          plugin.mirror_assets
+        end
+      end
     end
   end
 end

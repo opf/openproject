@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -18,9 +33,10 @@ require 'groups_controller'
 class GroupsController; def rescue_action(e) raise e end; end
 
 class GroupsControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :members, :member_roles, :groups_users
+  fixtures :all
 
   def setup
+    super
     @controller = GroupsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
@@ -50,7 +66,7 @@ class GroupsControllerTest < ActionController::TestCase
     assert_difference 'Group.count' do
       post :create, :group => {:lastname => 'New group'}
     end
-    assert_redirected_to '/groups'
+    assert_redirected_to groups_path
   end
 
   def test_edit
@@ -60,15 +76,15 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   def test_update
-    post :update, :id => 10
-    assert_redirected_to '/groups'
+    put :update, :id => 10
+    assert_redirected_to groups_path
   end
 
   def test_destroy
     assert_difference 'Group.count', -1 do
-      post :destroy, :id => 10
+      delete :destroy, :id => 10
     end
-    assert_redirected_to '/groups'
+    assert_redirected_to groups_path
   end
 
   def test_add_users
@@ -79,25 +95,25 @@ class GroupsControllerTest < ActionController::TestCase
 
   def test_remove_user
     assert_difference 'Group.find(10).users.count', -1 do
-      post :remove_user, :id => 10, :user_id => '8'
+      delete :remove_user, :id => 10, :user_id => '8'
     end
   end
 
-  def test_new_membership
+  def test_create_membership
     assert_difference 'Group.find(10).members.count' do
-      post :edit_membership, :id => 10, :membership => { :project_id => 2, :role_ids => ['1', '2']}
+      post :create_memberships, :id => 10, :membership => { :project_id => 2, :role_ids => ['1', '2']}
     end
   end
 
   def test_edit_membership
     assert_no_difference 'Group.find(10).members.count' do
-      post :edit_membership, :id => 10, :membership_id => 6, :membership => { :role_ids => ['1', '3']}
+      put :edit_membership, :id => 10, :membership_id => 6, :membership => { :role_ids => ['1', '3']}
     end
   end
 
   def test_destroy_membership
     assert_difference 'Group.find(10).members.count', -1 do
-      post :destroy_membership, :id => 10, :membership_id => 6
+      delete :destroy_membership, :id => 10, :membership_id => 6
     end
   end
 

@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -41,25 +56,26 @@ module Redmine
       end
 
       def to_html(format, text, options = {}, &block)
-        text = if Setting.cache_formatted_text? && text.size > 2.kilobyte && cache_store && cache_key = cache_key_for(format, options[:object], options[:attribute])
+        edit = !!options.delete(:edit)
+        text = if Setting.cache_formatted_text? && text.size > 2.kilobyte && cache_store && cache_key = cache_key_for(format, options[:object], options[:attribute, options[:edit]])
           # Text retrieved from the cache store may be frozen
           # We need to dup it so we can do in-place substitutions with gsub!
           cache_store.fetch cache_key do
-            formatter_for(format).new(text).to_html
+            formatter_for(format).new(text).to_html edit ? :edit : nil
           end.dup
         else
-          formatter_for(format).new(text).to_html
+          formatter_for(format).new(text).to_html edit ? :edit : nil
         end
-        if block_given?
+        if block_given? and !edit
           execute_macros(text, block)
         end
         text
       end
 
       # Returns a cache key for the given text +format+, +object+ and +attribute+ or nil if no caching should be done
-      def cache_key_for(format, object, attribute)
-        if object && attribute && !object.new_record? && object.respond_to?(:updated_on) && !format.blank?
-          "formatted_text/#{format}/#{object.class.model_name.cache_key}/#{object.id}-#{attribute}-#{object.updated_on.to_s(:number)}"
+      def cache_key_for(format, object, attribute, edit)
+        if object && attribute && edit && !object.new_record? && object.respond_to?(:updated_on) && !format.blank?
+          "formatted_text/#{format}/#{object.class.model_name.cache_key}/#{object.id}-#{attribute}-#{edit}-#{object.updated_on.to_s(:number)}"
         end
       end
 
@@ -82,7 +98,7 @@ module Redmine
       def execute_macros(text, macros_runner)
         text.gsub!(MACROS_RE) do
           esc, all, macro = $1, $2, $3.downcase
-          args = ($5 || '').split(',').each(&:strip)
+          args = ($5 || '').split(',').each(&:strip!)
           if esc.nil?
             begin
               macros_runner.call(macro, args)

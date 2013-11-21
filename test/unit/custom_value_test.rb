@@ -1,22 +1,34 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
 class CustomValueTest < ActiveSupport::TestCase
-  fixtures :custom_fields, :custom_field_translations,
-           :custom_values, :users
-
   def test_string_field_validation_with_blank_value
     f = CustomField.new(:field_format => 'string')
     v = CustomValue.new(:custom_field => f)
@@ -90,7 +102,13 @@ class CustomValueTest < ActiveSupport::TestCase
   end
 
   def test_float_field_validation
-    v = CustomValue.new(:customized => User.find(:first), :custom_field => UserCustomField.find_by_name('Money'))
+
+    user = FactoryGirl.create :user
+    # There are cases, where the custom-value-table is not cleared completely,
+    # therefore making double sure, that we have a clean slate before we start
+    CustomField.destroy_all
+    FactoryGirl.create :float_user_custom_field, :name => "Money"
+    v = CustomValue.new(:customized => user, :custom_field => UserCustomField.find_by_name('Money'))
     v.value = '11.2'
     assert v.save
     v.value = ''
@@ -102,11 +120,15 @@ class CustomValueTest < ActiveSupport::TestCase
   end
 
   def test_default_value
-    field = CustomField.find_by_default_value('Default string')
+    custom_field = FactoryGirl.create :issue_custom_field,
+      :field_format => 'string',
+      :default_value => "Default String"
+
+    field = CustomField.find_by_default_value('Default String')
     assert_not_nil field
 
     v = CustomValue.new(:custom_field => field)
-    assert_equal 'Default string', v.value
+    assert_equal 'Default String', v.value
 
     v = CustomValue.new(:custom_field => field, :value => 'Not empty')
     assert_equal 'Not empty', v.value
@@ -114,7 +136,15 @@ class CustomValueTest < ActiveSupport::TestCase
 
   def test_sti_polymorphic_association
     # Rails uses top level sti class for polymorphic association. See #3978.
-    assert !User.find(4).custom_values.empty?
-    assert !CustomValue.find(2).customized.nil?
+    user = FactoryGirl.create :user
+    custom_field = FactoryGirl.create :user_custom_field, :field_format => 'string'
+    custom_value = FactoryGirl.create :principal_custom_value,
+      :custom_field => custom_field,
+      :customized => user,
+      :value => '01 23 45 67 89'
+    user.reload
+
+    assert !user.custom_values.empty?
+    assert !custom_value.customized.nil?
   end
 end

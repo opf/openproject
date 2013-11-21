@@ -1,0 +1,52 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+api.user do
+  api.id         @user.id
+  api.login      @user.login if User.current.admin?
+  api.firstname  @user.firstname
+  api.lastname   @user.lastname
+  api.mail       @user.mail if User.current.admin? || !@user.pref.hide_mail
+  api.created_on @user.created_on
+  api.last_login_on @user.last_login_on
+
+  render_api_custom_values @user.visible_custom_field_values, api
+
+  api.array :memberships do
+    @memberships.each do |membership|
+      api.membership do
+        api.project :id => membership.project.id, :name => membership.project.name
+        api.array :roles do
+          membership.roles.each do |role|
+            api.role :id => role.id, :name => role.name
+          end
+        end
+      end if membership.project
+    end
+  end if include_in_api_response?('memberships') && @memberships
+end

@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -18,12 +33,10 @@ require 'journals_controller'
 class JournalsController; def rescue_action(e) raise e end; end
 
 class JournalsControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :members, :member_roles,
-           :roles, :issues, :journals, :journal_details, :enabled_modules,
-           :trackers, :issue_statuses, :enumerations,
-           :custom_fields, :custom_field_translations, :custom_values, :custom_fields_projects
+  fixtures :all
 
   def setup
+    super
     @controller = JournalsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
@@ -31,56 +44,57 @@ class JournalsControllerTest < ActionController::TestCase
   end
 
   def test_get_edit
+    issue = WorkPackage.find(1)
+    journal = FactoryGirl.create :work_package_journal,
+                                 journable_id: issue.id
+    identifier = "journal-#{journal.id}"
+
     @request.session[:user_id] = 1
-    xhr :get, :edit, :id => 2
+    xhr :get, :edit, :id => journal.id
     assert_response :success
-    assert_select_rjs :insert, :after, 'journal-2-notes' do
-      assert_select 'form[id=journal-2-form]'
+    assert_select_rjs :insert, :after, "#{identifier}-notes" do
+      assert_select "form[id=#{identifier}-form]"
       assert_select 'textarea'
     end
   end
 
   def test_post_edit
+    issue = WorkPackage.find(1)
+    journal = FactoryGirl.create :work_package_journal,
+                                 journable_id: issue.id,
+                                 data: FactoryGirl.build(:journal_work_package_journal)
+    identifier = "journal-#{journal.id}-notes"
+
     @request.session[:user_id] = 1
-    xhr :post, :edit, :id => 2, :notes => 'Updated notes'
+    xhr :post, :update, :id => journal.id, :notes => 'Updated notes'
     assert_response :success
-    assert_select_rjs :replace, 'journal-2-notes'
-    assert_equal 'Updated notes', Journal.find(2).notes
+    assert_select_rjs :replace, identifier
+    assert_equal 'Updated notes', Journal.find(journal.id).notes
   end
 
   def test_post_edit_with_empty_notes
+    issue = WorkPackage.find(1)
+    FactoryGirl.create :work_package_journal,
+                       journable_id: issue.id,
+                       data: FactoryGirl.build(:journal_work_package_journal)
+    journal = FactoryGirl.create :work_package_journal,
+                                 journable_id: issue.id,
+                                 data: FactoryGirl.build(:journal_work_package_journal)
+    identifier = "change-#{journal.id}"
+
     @request.session[:user_id] = 1
-    xhr :post, :edit, :id => 2, :notes => ''
+    xhr :post, :update, :id => journal.id, :notes => ''
     assert_response :success
-    assert_select_rjs :remove, 'change-2'
-    assert_nil Journal.find_by_id(2)
+    assert_select_rjs :remove, identifier
+    assert_nil Journal.find_by_id(journal.id)
   end
 
   def test_index
-    get :index, :project_id => 1
+    get :index, :project_id => 1, :format => :atom
     assert_response :success
     assert_not_nil assigns(:journals)
     assert_equal 'application/atom+xml', @response.content_type
   end
 
-  def test_reply_to_issue
-    @request.session[:user_id] = 2
-    get :new, :id => 6
-    assert_response :success
-    assert_select_rjs :show, "update"
-  end
-
-  def test_reply_to_issue_without_permission
-    @request.session[:user_id] = 7
-    get :new, :id => 6
-    assert_response 403
-  end
-
-  def test_reply_to_note
-    @request.session[:user_id] = 2
-    get :new, :id => 6, :journal_id => 4
-    assert_response :success
-    assert_select_rjs :show, "update"
-  end
 
 end

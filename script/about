@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
-#-- encoding: UTF-8
-require File.expand_path('../../config/boot',  __FILE__)
-$LOAD_PATH.unshift "#{RAILTIES_PATH}/builtin/rails_info"
-require 'commands/about'
 
-Redmine::About.print_plugin_info
+ENV["RAILS_ENV"] ||= "production"
+require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
+puts
+puts OpenProject::Info.environment

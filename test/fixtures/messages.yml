@@ -1,3 +1,31 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 ---
 messages_001:
   created_on: 2007-05-12 17:15:32 +02:00
@@ -6,8 +34,7 @@ messages_001:
   id: 1
   replies_count: 2
   last_reply_id: 3
-  content: "This is the very first post\n\
-    in the forum"
+  content: "This is the very first post\n\nin the forum"
   author_id: 1
   parent_id:
   board_id: 1
@@ -41,7 +68,7 @@ messages_004:
   replies_count: 2
   last_reply_id: 6
   content: "This is an other post"
-  author_id:
+  author_id: 1
   parent_id:
   board_id: 1
 messages_005:

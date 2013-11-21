@@ -1,8 +1,37 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
 <div class="splitcontentleft">
 <% if @group.users.any? %>
 	<table class="list users">
 		<thead><tr>
-		  <th><%= l(:label_user) %></th>
+		  <th><%= User.model_name.human %></th>
 		  <th style="width:15%"></th>
 		</tr></thead>
 		<tbody>
@@ -10,9 +39,11 @@
 			<tr id="user-<%= user.id %>" class="<%= cycle 'odd', 'even' %>">
 				<td class="user"><%= link_to_user user %></td>
 			  <td class="buttons">
-			      <%= link_to_remote l(:button_delete), { :url => { :controller => 'groups', :action => 'remove_user', :id => @group, :user_id => user },
-			      																				:method => :post },
-			      																		  :class => 'icon icon-del' %>
+          <%= link_to l(:button_delete), member_of_group_path(@group, user),
+                                         :method => :delete,
+                                         :remote => :true,
+                                         :class => 'icon icon-del' %>
+
 			  </td>
 			</tr>
 		<% end %>
@@ -26,15 +57,16 @@
 <div class="splitcontentright">
 <% users = User.active.not_in_group(@group).all(:limit => 100) %>
 <% if users.any? %>
-  <% remote_form_for(:group, @group, :url => {:controller => 'groups', :action => 'add_users', :id => @group}, :method => :post) do |f| %>
+  <%= form_tag(members_of_group_path(@group), :method => :post, :remote => true) do |f| %>
     <fieldset><legend><%=l(:label_user_new)%></legend>
 
 		<p><%= label_tag "user_search", l(:label_user_search) %><%= text_field_tag 'user_search', nil %></p>
 		<%= observe_field(:user_search,
-                 :frequency => 0.5,
-                 :update => :users,
-                 :url => { :controller => 'groups', :action => 'autocomplete_for_user', :id => @group },
-                 :with => 'q')
+                      :frequency => 0.5,
+                      :update => :users,
+                      :url => { :controller => '/groups', :action => 'autocomplete_for_user', :id => @group },
+                      :with => 'q',
+                      :method => :get)
                   %>
 
 		<div id="users">

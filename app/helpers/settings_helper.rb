@@ -1,37 +1,55 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
 module SettingsHelper
   def administration_settings_tabs
-    tabs = [{:name => 'general', :partial => 'settings/general', :label => :label_general},
-            {:name => 'display', :partial => 'settings/display', :label => :label_display},
-            {:name => 'authentication', :partial => 'settings/authentication', :label => :label_authentication},
-            {:name => 'users', :partial => 'settings/users', :label => :label_user_plural },
-            {:name => 'projects', :partial => 'settings/projects', :label => :label_project_plural},
-            {:name => 'issues', :partial => 'settings/issues', :label => :label_issue_tracking},
-            {:name => 'notifications', :partial => 'settings/notifications', :label => :field_mail_notification},
-            {:name => 'mail_handler', :partial => 'settings/mail_handler', :label => :label_incoming_emails},
-            {:name => 'repositories', :partial => 'settings/repositories', :label => :label_repository_plural}
-            ]
+    [{:name => 'general', :partial => 'settings/general', :label => :label_general},
+     {:name => 'display', :partial => 'settings/display', :label => :label_display},
+     {:name => 'authentication', :partial => 'settings/authentication', :label => :label_authentication},
+     {:name => 'users', :partial => 'settings/users', :label => :label_user_plural },
+     {:name => 'projects', :partial => 'settings/projects', :label => :label_project_plural},
+     {:name => 'work_packages', :partial => 'settings/work_packages', :label => :label_work_package_tracking},
+     {:name => 'notifications', :partial => 'settings/notifications', :label => Proc.new { User.human_attribute_name(:mail_notification) } },
+     {:name => 'mail_handler', :partial => 'settings/mail_handler', :label => :label_incoming_emails},
+     {:name => 'repositories', :partial => 'settings/repositories', :label => :label_repository_plural}
+    ]
   end
 
   def setting_select(setting, choices, options={})
     if blank_text = options.delete(:blank)
-      choices = [[blank_text.is_a?(Symbol) ? l(blank_text) : blank_text, '']] + choices
+      choices = [[blank_text.is_a?(Symbol) ? I18n.t(blank_text) : blank_text, '']] + choices
     end
-    setting_label(setting, options) +
-      select_tag("settings[#{setting}]", options_for_select(choices, Setting.send(setting).to_s), options)
+
+    ret = select_tag("settings[#{setting}]", options_for_select(choices, Setting.send(setting).to_s), options)
+    ret = setting_label(setting).safe_concat(ret) unless options[:label] == false
+
+    ret
   end
 
   def setting_multiselect(setting, choices, options={})
@@ -42,20 +60,21 @@ module SettingsHelper
       hidden_field_tag("settings[#{setting}][]", '') +
       choices.collect do |choice|
         text, value = (choice.is_a?(Array) ? choice : [choice, choice])
+
         content_tag('label',
           check_box_tag("settings[#{setting}][]", value, Setting.send(setting).include?(value)) + text.to_s,
           :class => 'block'
         )
-      end.join
+      end.join.html_safe
   end
 
   def settings_multiselect(settings, choices, options={})
-    '<table>' +
+    ('<table>' +
       '<thead>' +
         '<tr>' +
-          '<th>' + l(options[:label_choices] || :label_choices) + '</th>' +
+          '<th>' + I18n.t(options[:label_choices] || :label_choices) + '</th>' +
           settings.collect do |setting|
-            '<th>' + hidden_field_tag("settings[#{setting}][]", '') + l('setting_' + setting.to_s) + '</th>'
+            '<th>' + hidden_field_tag("settings[#{setting}][]", '') + I18n.t('setting_' + setting.to_s) + '</th>'
           end.join +
         '</tr>' +
       '</thead>' +
@@ -70,7 +89,7 @@ module SettingsHelper
           '</tr>'
         end.join +
       '</tbody>' +
-    '</table>'
+    '</table>').html_safe
   end
 
   def setting_text_field(setting, options={})
@@ -91,7 +110,7 @@ module SettingsHelper
 
   def setting_label(setting, options={})
     label = options.delete(:label)
-    label != false ? content_tag("label", l(label || "setting_#{setting}"), :for => "settings_#{setting}" ) : ''
+    label != false ? content_tag("label", I18n.t(label || "setting_#{setting}"), :for => "settings_#{setting}" ) : ''.html_safe
   end
 
   # Renders a notification field for a Redmine::Notifiable option

@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -17,13 +32,13 @@ module TimelogHelper
 
   def render_timelog_breadcrumb
     links = []
-    links << link_to(l(:label_project_all), {:project_id => nil, :issue_id => nil})
-    links << link_to(h(@project), {:project_id => @project, :issue_id => nil}) if @project
+    links << link_to(l(:label_project_all), {:project_id => nil, :work_package_id => nil})
+    links << link_to(h(@project), {:project_id => @project, :work_package_id => nil}) if @project
     if @issue
       if @issue.visible?
-        links << link_to_issue(@issue, :subject => false)
+        links << link_to_work_package(@issue, :subject => false)
       else
-        links << "##{@issue.id}"
+        links << "##{@issue.id}".html_safe
       end
     end
     breadcrumb links
@@ -81,40 +96,39 @@ module TimelogHelper
   end
 
   def entries_to_csv(entries)
-    ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')
     decimal_separator = l(:general_csv_decimal_separator)
     custom_fields = TimeEntryCustomField.find(:all)
-    export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
+    export = CSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
       # csv header fields
-      headers = [l(:field_spent_on),
-                 l(:field_user),
-                 l(:field_activity),
-                 l(:field_project),
-                 l(:field_issue),
-                 l(:field_tracker),
-                 l(:field_subject),
-                 l(:field_hours),
-                 l(:field_comments)
+      headers = [TimeEntry.human_attribute_name(:spent_on),
+                 TimeEntry.human_attribute_name(:user),
+                 TimeEntry.human_attribute_name(:activity),
+                 TimeEntry.human_attribute_name(:project),
+                 TimeEntry.human_attribute_name(:issue),
+                 TimeEntry.human_attribute_name(:type),
+                 TimeEntry.human_attribute_name(:subject),
+                 TimeEntry.human_attribute_name(:hours),
+                 TimeEntry.human_attribute_name(:comments)
                  ]
       # Export custom fields
       headers += custom_fields.collect(&:name)
 
-      csv << headers.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
+      csv << headers.collect {|c| begin; c.to_s.encode(l(:general_csv_encoding), 'UTF-8'); rescue; c.to_s; end }
       # csv lines
       entries.each do |entry|
         fields = [format_date(entry.spent_on),
                   entry.user,
                   entry.activity,
                   entry.project,
-                  (entry.issue ? entry.issue.id : nil),
-                  (entry.issue ? entry.issue.tracker : nil),
-                  (entry.issue ? entry.issue.subject : nil),
+                  (entry.work_package ? entry.work_package.id : nil),
+                  (entry.work_package ? entry.work_package.type : nil),
+                  (entry.work_package ? entry.work_package.subject : nil),
                   entry.hours.to_s.gsub('.', decimal_separator),
                   entry.comments
                   ]
         fields += custom_fields.collect {|f| show_value(entry.custom_value_for(f)) }
 
-        csv << fields.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
+        csv << fields.collect {|c| begin; c.to_s.encode(l(:general_csv_encoding), 'UTF-8'); rescue; c.to_s; end }
       end
     end
     export
@@ -125,8 +139,8 @@ module TimelogHelper
       l(:label_none)
     elsif k = @available_criterias[criteria][:klass]
       obj = k.find_by_id(value.to_i)
-      if obj.is_a?(Issue)
-        obj.visible? ? h("#{obj.tracker} ##{obj.id}: #{obj.subject}") : h("##{obj.id}")
+      if obj.is_a?(WorkPackage)
+        obj.visible? ? h("#{obj.type} ##{obj.id}: #{obj.subject}") : h("##{obj.id}")
       else
         obj
       end
@@ -136,9 +150,12 @@ module TimelogHelper
   end
 
   def report_to_csv(criterias, periods, hours)
-    export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
+    export = CSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
       # Column headers
-      headers = criterias.collect {|criteria| l(@available_criterias[criteria][:label]) }
+      headers = criterias.collect do |criteria|
+        label = @available_criterias[criteria][:label]
+        label.is_a?(Symbol) ? l(label) : label
+      end
       headers += periods
       headers << l(:label_total)
       csv << headers.collect {|c| to_utf8_for_timelogs(c) }
@@ -181,7 +198,77 @@ module TimelogHelper
   end
 
   def to_utf8_for_timelogs(s)
-    @ic ||= Iconv.new(l(:general_csv_encoding), 'UTF-8')
-    begin; @ic.iconv(s.to_s); rescue; s.to_s; end
+    begin; s.to_s.encode(l(:general_csv_encoding), 'UTF-8'); rescue; s.to_s; end
+  end
+
+  def polymorphic_time_entries_path(object)
+    polymorphic_path([object, :time_entries])
+  end
+
+  def polymorphic_new_time_entry_path(object)
+    polymorphic_path([:new, object, :time_entry,])
+  end
+
+  def polymorphic_time_entries_report_path(object)
+    polymorphic_path([object, :time_entries, :report])
+  end
+
+  # Retrieves the date range based on predefined ranges or specific from/to param dates
+  def retrieve_date_range
+    @free_period = false
+    @from, @to = nil, nil
+
+    if params[:period_type] == '1' || (params[:period_type].nil? && !params[:period].nil?)
+      case params[:period].to_s
+      when 'today'
+        @from = @to = Date.today
+      when 'yesterday'
+        @from = @to = Date.today - 1
+      when 'current_week'
+        @from = Date.today - (Date.today.cwday - 1)%7
+        @to = @from + 6
+      when 'last_week'
+        @from = Date.today - 7 - (Date.today.cwday - 1)%7
+        @to = @from + 6
+      when '7_days'
+        @from = Date.today - 7
+        @to = Date.today
+      when 'current_month'
+        @from = Date.civil(Date.today.year, Date.today.month, 1)
+        @to = (@from >> 1) - 1
+      when 'last_month'
+        @from = Date.civil(Date.today.year, Date.today.month, 1) << 1
+        @to = (@from >> 1) - 1
+      when '30_days'
+        @from = Date.today - 30
+        @to = Date.today
+      when 'current_year'
+        @from = Date.civil(Date.today.year, 1, 1)
+        @to = Date.civil(Date.today.year, 12, 31)
+      end
+    elsif params[:period_type] == '2' || (params[:period_type].nil? && (!params[:from].nil? || !params[:to].nil?))
+      begin; @from = params[:from].to_s.to_date unless params[:from].blank?; rescue; end
+      begin; @to = params[:to].to_s.to_date unless params[:to].blank?; rescue; end
+      @free_period = true
+    else
+      # default
+    end
+
+    @from, @to = @to, @from if @from && @to && @from > @to
+    @from ||= (TimeEntry.earliest_date_for_project(@project) || Date.today)
+    @to   ||= (TimeEntry.latest_date_for_project(@project) || Date.today)
+  end
+
+  def find_optional_project
+    if !params[:issue_id].blank?
+      @issue = WorkPackage.find(params[:issue_id])
+      @project = @issue.project
+    elsif !params[:work_package_id].blank?
+      @issue = WorkPackage.find(params[:work_package_id])
+      @project = @issue.project
+    elsif !params[:project_id].blank?
+      @project = Project.find(params[:project_id])
+    end
+    deny_access unless User.current.allowed_to?(:view_time_entries, @project, :global => true)
   end
 end

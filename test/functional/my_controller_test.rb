@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -18,11 +33,10 @@ require 'my_controller'
 class MyController; def rescue_action(e) raise e end; end
 
 class MyControllerTest < ActionController::TestCase
-  fixtures :users, :user_preferences, :roles, :projects,
-           :issues, :issue_statuses, :trackers, :enumerations,
-           :custom_fields, :custom_field_translations
+  fixtures :all
 
   def setup
+    super
     @controller = MyController.new
     @request    = ActionController::TestRequest.new
     @request.session[:user_id] = 2
@@ -62,10 +76,10 @@ class MyControllerTest < ActionController::TestCase
   end
 
   def test_update_account
-    post :account,
+    put :account,
       :user => {
         :firstname => "Joe",
-        :login => "root",
+        :login => "root", # should not be allowed
         :admin => 1,
         :group_ids => ['10'],
         :custom_field_values => {"4" => "0100562500"}
@@ -80,35 +94,6 @@ class MyControllerTest < ActionController::TestCase
     # ignored
     assert !user.admin?
     assert user.groups.empty?
-  end
-
-  def test_change_password
-    get :password
-    assert_response :success
-    assert_template 'password'
-
-    # non matching password confirmation
-    post :password, :password => 'jsmith',
-                    :new_password => 'hello',
-                    :new_password_confirmation => 'hello2'
-    assert_response :success
-    assert_template 'password'
-    assert_tag :tag => "div", :attributes => { :class => "errorExplanation" }
-
-    # wrong password
-    post :password, :password => 'wrongpassword',
-                    :new_password => 'hello',
-                    :new_password_confirmation => 'hello'
-    assert_response :success
-    assert_template 'password'
-    assert_equal 'Wrong password', flash[:error]
-
-    # good password
-    post :password, :password => 'jsmith',
-                    :new_password => 'hello',
-                    :new_password_confirmation => 'hello'
-    assert_redirected_to '/my/account'
-    assert User.try_to_login('jsmith', 'hello')
   end
 
   def test_page_layout
@@ -150,8 +135,8 @@ class MyControllerTest < ActionController::TestCase
         assert User.find(2).rss_token
       end
 
-      should_set_the_flash_to /reset/
-      should_redirect_to('my account') {'/my/account' }
+      should set_the_flash.to /reset/
+      should redirect_to('my account') {'/my/account' }
     end
 
     context "with no rss_token" do
@@ -164,8 +149,8 @@ class MyControllerTest < ActionController::TestCase
         assert User.find(2).rss_token
       end
 
-      should_set_the_flash_to /reset/
-      should_redirect_to('my account') {'/my/account' }
+      should set_the_flash.to /reset/
+      should redirect_to('my account') {'/my/account' }
     end
   end
 
@@ -184,8 +169,8 @@ class MyControllerTest < ActionController::TestCase
         assert User.find(2).api_token
       end
 
-      should_set_the_flash_to /reset/
-      should_redirect_to('my account') {'/my/account' }
+      should set_the_flash.to /reset/
+      should redirect_to('my account') {'/my/account' }
     end
 
     context "with no api_token" do
@@ -198,8 +183,8 @@ class MyControllerTest < ActionController::TestCase
         assert User.find(2).api_token
       end
 
-      should_set_the_flash_to /reset/
-      should_redirect_to('my account') {'/my/account' }
+      should set_the_flash.to /reset/
+      should redirect_to('my account') {'/my/account' }
     end
   end
 end

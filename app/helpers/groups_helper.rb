@@ -1,31 +1,37 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
 module GroupsHelper
-  # Options for the new membership projects combo-box
-  def options_for_membership_project_select(user, projects)
-    options = content_tag('option', "--- #{l(:actionview_instancetag_blank_option)} ---")
-    options << project_tree_options_for_select(projects) do |p|
-      {:disabled => (user.projects.include?(p))}
-    end
-    options
-  end
-
   def group_settings_tabs
-    tabs = [{:name => 'general', :partial => 'groups/general', :label => :label_general},
-            {:name => 'users', :partial => 'groups/users', :label => :label_user_plural},
-            {:name => 'memberships', :partial => 'groups/memberships', :label => :label_project_plural}
-            ]
+    [{:name => 'general', :partial => 'groups/general', :label => :label_general},
+     {:name => 'users', :partial => 'groups/users', :label => :label_user_plural},
+     {:name => 'memberships', :partial => 'groups/memberships', :label => :label_project_plural}
+     ]
   end
 end

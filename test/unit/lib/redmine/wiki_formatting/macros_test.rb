@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -16,17 +31,12 @@ require File.expand_path('../../../../../test_helper', __FILE__)
 
 class Redmine::WikiFormatting::MacrosTest < HelperTestCase
   include ApplicationHelper
+  include WorkPackagesHelper
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::SanitizeHelper
   extend ActionView::Helpers::SanitizeHelper::ClassMethods
 
-  fixtures :projects, :roles, :enabled_modules, :users,
-                      :repositories, :changesets,
-                      :trackers, :issue_statuses, :issues,
-                      :versions, :documents,
-                      :wikis, :wiki_pages, :wiki_contents,
-                      :boards, :messages,
-                      :attachments
+  fixtures :all
 
   def setup
     super
@@ -63,10 +73,10 @@ class Redmine::WikiFormatting::MacrosTest < HelperTestCase
   end
 
   def test_macro_child_pages
-    expected =  "<p><ul class=\"pages-hierarchy\">\n" +
-                 "<li><a href=\"/projects/ecookbook/wiki/Child_1\">Child 1</a></li>\n" +
-                 "<li><a href=\"/projects/ecookbook/wiki/Child_2\">Child 2</a></li>\n" +
-                 "</ul>\n</p>"
+    expected =  "<p><ul class=\"pages-hierarchy\">" +
+                 "<li><a href=\"/projects/ecookbook/wiki/Child_1\">Child 1</a></li>" +
+                 "<li><a href=\"/projects/ecookbook/wiki/Child_2\">Child 2</a></li>" +
+                 "</ul></p>"
 
     @project = Project.find(1)
     # child pages of the current wiki page
@@ -79,12 +89,12 @@ class Redmine::WikiFormatting::MacrosTest < HelperTestCase
   end
 
   def test_macro_child_pages_with_option
-    expected =  "<p><ul class=\"pages-hierarchy\">\n" +
-                 "<li><a href=\"/projects/ecookbook/wiki/Another_page\">Another page</a>\n" +
-                 "<ul class=\"pages-hierarchy\">\n" +
-                 "<li><a href=\"/projects/ecookbook/wiki/Child_1\">Child 1</a></li>\n" +
-                 "<li><a href=\"/projects/ecookbook/wiki/Child_2\">Child 2</a></li>\n" +
-                 "</ul>\n</li>\n</ul>\n</p>"
+    expected =  "<p><ul class=\"pages-hierarchy\">" +
+                 "<li><a href=\"/projects/ecookbook/wiki/Another_page\">Another page</a>" +
+                 "<ul class=\"pages-hierarchy\">" +
+                 "<li><a href=\"/projects/ecookbook/wiki/Child_1\">Child 1</a></li>" +
+                 "<li><a href=\"/projects/ecookbook/wiki/Child_2\">Child 2</a></li>" +
+                 "</ul></li></ul></p>"
 
     @project = Project.find(1)
     # child pages of the current wiki page

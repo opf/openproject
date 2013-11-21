@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -49,49 +64,26 @@ class Redmine::PluginTest < ActiveSupport::TestCase
     assert_equal '0.0.1', plugin.version
   end
 
-  def test_requires_redmine
-    test = self
-    version = Redmine::VERSION.to_a.slice(0,3).join('.')
-
-    @klass.register :foo do
-      test.assert requires_redmine(:version_or_higher => '0.1.0')
-      test.assert requires_redmine(:version_or_higher => version)
-      test.assert requires_redmine(version)
-      test.assert_raise Redmine::PluginRequirementError do
-        requires_redmine(:version_or_higher => '99.0.0')
-      end
-
-      test.assert requires_redmine(:version => version)
-      test.assert requires_redmine(:version => [version, '99.0.0'])
-      test.assert_raise Redmine::PluginRequirementError do
-        requires_redmine(:version => '99.0.0')
-      end
-      test.assert_raise Redmine::PluginRequirementError do
-        requires_redmine(:version => ['98.0.0', '99.0.0'])
-      end
-    end
-  end
-
-  def test_requires_chiliproject
+  def test_requires_openproject
     test = self
     version = Redmine::VERSION.to_semver
 
     @klass.register :foo do
-      test.assert requires_chiliproject('>= 0.1')
-      test.assert requires_chiliproject(">= #{version}")
-      test.assert requires_chiliproject(version)
+      test.assert requires_openproject('>= 0.1')
+      test.assert requires_openproject(">= #{version}")
+      test.assert requires_openproject(version)
       test.assert_raise Redmine::PluginRequirementError do
-        requires_chiliproject('>= 99.0.0')
+        requires_openproject('>= 99.0.0')
       end
       test.assert_raise Redmine::PluginRequirementError do
-        requires_chiliproject('< 0.9')
+        requires_openproject('< 0.9')
       end
-      requires_chiliproject('> 0.9', "<= 99.0.0")
+      requires_openproject('> 0.9', "<= 99.0.0")
       test.assert_raise Redmine::PluginRequirementError do
-        requires_chiliproject('< 0.9', ">= 98.0.0")
+        requires_openproject('< 0.9', ">= 98.0.0")
       end
 
-      test.assert requires_chiliproject("~> #{Redmine::VERSION.to_semver.gsub(/\d+$/, '0')}")
+      test.assert requires_openproject("~> #{Redmine::VERSION.to_semver.gsub(/\d+\z/, '0')}")
     end
   end
 

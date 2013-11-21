@@ -1,33 +1,48 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
 module VersionsHelper
 
-  STATUS_BY_CRITERIAS = %w(category tracker status priority author assigned_to)
+  STATUS_BY_CRITERIAS = %w(category type status priority author assigned_to)
 
-  def render_issue_status_by(version, criteria)
+  def render_status_by(version, criteria)
     criteria = 'category' unless STATUS_BY_CRITERIAS.include?(criteria)
 
     h = Hash.new {|k,v| k[v] = [0, 0]}
     begin
       # Total issue count
-      Issue.count(:group => criteria,
-                  :conditions => ["#{Issue.table_name}.fixed_version_id = ?", version.id]).each {|c,s| h[c][0] = s}
+      WorkPackage.count(:group => criteria,
+                  :conditions => ["#{WorkPackage.table_name}.fixed_version_id = ?", version.id]).each {|c,s| h[c][0] = s}
       # Open issues count
-      Issue.count(:group => criteria,
+      WorkPackage.count(:group => criteria,
                   :include => :status,
-                  :conditions => ["#{Issue.table_name}.fixed_version_id = ? AND #{IssueStatus.table_name}.is_closed = ?", version.id, false]).each {|c,s| h[c][1] = s}
+                  :conditions => ["#{WorkPackage.table_name}.fixed_version_id = ? AND #{Status.table_name}.is_closed = ?", version.id, false]).each {|c,s| h[c][1] = s}
     rescue ActiveRecord::RecordNotFound
     # When grouping by an association, Rails throws this exception if there's no result (bug)
     end
@@ -38,6 +53,6 @@ module VersionsHelper
   end
 
   def status_by_options_for_select(value)
-    options_for_select(STATUS_BY_CRITERIAS.collect {|criteria| [l("field_#{criteria}".to_sym), criteria]}, value)
+    options_for_select(STATUS_BY_CRITERIAS.collect {|criteria| [WorkPackage.human_attribute_name(criteria.to_sym), criteria]}, value)
   end
 end

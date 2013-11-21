@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -42,6 +57,7 @@ class AccountController < ApplicationController
       @user = @token.user
       if request.post?
         @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
+        @user.force_password_change = false
         if @user.save
           @token.destroy
           flash[:notice] = l(:notice_account_password_updated)
@@ -61,7 +77,7 @@ class AccountController < ApplicationController
         # create a new token for password recovery
         token = Token.new(:user => user, :action => "recovery")
         if token.save
-          Mailer.deliver_lost_password(token)
+          UserMailer.password_lost(token).deliver
           flash[:notice] = l(:notice_account_lost_email_sent)
           redirect_to :action => 'login', :back_url => home_url
           return
@@ -77,7 +93,8 @@ class AccountController < ApplicationController
       session[:auth_source_registration] = nil
       @user = User.new(:language => Setting.default_language)
     else
-      @user = User.new(params[:user])
+      @user = User.new
+      @user.safe_attributes = params[:user]
       @user.admin = false
       @user.register
       if session[:auth_source_registration]
@@ -88,7 +105,7 @@ class AccountController < ApplicationController
           session[:auth_source_registration] = nil
           self.logged_user = @user
           flash[:notice] = l(:notice_account_activated)
-          redirect_to :controller => 'my', :action => 'account'
+          redirect_to :controller => '/my', :action => 'account'
         end
       else
         @user.login = params[:user][:login]
@@ -121,11 +138,40 @@ class AccountController < ApplicationController
     redirect_to :action => 'login'
   end
 
+  # Process a password change form, used when the user is forced
+  # to change the password.
+  # When making changes here, also check MyController.change_password
+  def change_password
+    @user = User.find_by_login(params[:username])
+    @username = @user.login
+
+    # A JavaScript hides the force_password_change field for external
+    # auth sources in the admin UI, so this shouldn't normally happen.
+    return if redirect_if_password_change_not_allowed(@user)
+
+    if @user.check_password?(params[:password])
+      @user.password = params[:new_password]
+      @user.password_confirmation = params[:new_password_confirmation]
+      @user.force_password_change = false
+      if @user.save
+
+        result = password_authentication(params[:username], params[:new_password])
+        # password_authentication resets session including flash notices,
+        # so set afterwards.
+        flash[:notice] = l(:notice_account_password_updated)
+        return result
+      end
+    else
+      invalid_credentials
+    end
+    render 'my/password'
+  end
+
   private
 
   def logout_user
     if User.current.logged?
-      cookies.delete Redmine::Configuration['autologin_cookie_name']
+      cookies.delete OpenProject::Configuration['autologin_cookie_name']
       Token.delete_all(["user_id = ? AND action = ?", User.current.id, 'autologin'])
       self.logged_user = nil
     end
@@ -135,18 +181,32 @@ class AccountController < ApplicationController
     if Setting.openid? && using_open_id?
       open_id_authenticate(params[:openid_url])
     else
-      password_authentication
+      password_authentication(params[:username], params[:password])
     end
   end
 
-  def password_authentication
-    user = User.try_to_login(params[:username], params[:password])
-
+  def password_authentication(username, password)
+    user = User.try_to_login(username, password)
     if user.nil?
-      u = User.find_by_login(params[:username])
-      if u && !u.active? && u.check_password?(params[:password])
-        inactive_account
+      # login failed, now try to find out why and do the appropriate thing
+      user = User.find_by_login(username)
+      if user and user.check_password?(password)
+        # correct password
+        if not user.active?
+          return inactive_account if user.registered?
+          invalid_credentials
+        elsif user.force_password_change
+          return if redirect_if_password_change_not_allowed(user)
+          render_password_change(I18n.t(:notice_account_new_password_forced))
+        elsif user.password_expired?
+          return if redirect_if_password_change_not_allowed(user)
+          render_password_change(I18n.t(:notice_account_password_expired,
+                                        :days => Setting.password_days_valid.to_i))
+        else
+          invalid_credentials
+        end
       else
+        # incorrect password
         invalid_credentials
       end
     elsif user.new_record?
@@ -170,7 +230,7 @@ class AccountController < ApplicationController
           user.login = registration['nickname'] unless registration['nickname'].nil?
           user.mail = registration['email'] unless registration['email'].nil?
           user.firstname, user.lastname = registration['fullname'].split(' ') unless registration['fullname'].nil?
-          user.random_password
+          user.random_password!
           user.register
 
           case Setting.self_registration
@@ -211,10 +271,10 @@ class AccountController < ApplicationController
     if user.first_login
       user.update_attribute(:first_login, false)
 
-      redirect_to :controller => "my", :action => "first_login", :back_url => params[:back_url]
+      redirect_to :controller => "/my", :action => "first_login", :back_url => params[:back_url]
     else
 
-      redirect_back_or_default :controller => 'my', :action => 'page'
+      redirect_back_or_default :controller => '/my', :action => 'page'
     end
   end
 
@@ -223,11 +283,11 @@ class AccountController < ApplicationController
     cookie_options = {
       :value => token.value,
       :expires => 1.year.from_now,
-      :path => Redmine::Configuration['autologin_cookie_path'],
-      :secure => Redmine::Configuration['autologin_cookie_secure'],
+      :path => OpenProject::Configuration['autologin_cookie_path'],
+      :secure => OpenProject::Configuration['autologin_cookie_secure'],
       :httponly => true
     }
-    cookies[Redmine::Configuration['autologin_cookie_name']] = cookie_options
+    cookies[OpenProject::Configuration['autologin_cookie_name']] = cookie_options
   end
 
   # Onthefly creation failed, display the registration form to fill/fix attributes
@@ -239,12 +299,32 @@ class AccountController < ApplicationController
 
   def invalid_credentials
     logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip} at #{Time.now.utc}"
-    flash.now[:error] = l(:notice_account_invalid_creditentials)
+    if Setting.brute_force_block_after_failed_logins.to_i == 0
+      flash.now[:error] = I18n.t(:notice_account_invalid_credentials)
+    else
+      flash.now[:error] = I18n.t(:notice_account_invalid_credentials_or_blocked)
+    end
   end
 
   def inactive_account
     logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip} at #{Time.now.utc} (INACTIVE)"
     flash.now[:error] = l(:notice_account_inactive)
+  end
+
+  def redirect_if_password_change_not_allowed(user)
+    logger.warn "Password change for user '#{user}' forced, but user is not allowed to change password"
+    if user and not user.change_password_allowed?
+      flash[:error] = l(:notice_can_t_change_password)
+      redirect_to :action => 'login'
+      return true
+    end
+    false
+  end
+
+  def render_password_change(message)
+    flash[:error] = message
+    @username = params[:username]
+    render 'my/password'
   end
 
   # Register a user for email activation.
@@ -253,7 +333,7 @@ class AccountController < ApplicationController
   def register_by_email_activation(user, &block)
     token = Token.new(:user => user, :action => "register")
     if user.save and token.save
-      Mailer.deliver_register(token)
+      UserMailer.user_signed_up(token).deliver
       flash[:notice] = l(:notice_account_register_done)
       redirect_to :action => 'login'
     else
@@ -271,7 +351,7 @@ class AccountController < ApplicationController
     if user.save
       self.logged_user = user
       flash[:notice] = l(:notice_account_activated)
-      redirect_to :controller => 'my', :action => 'account'
+      redirect_to :controller => '/my', :action => 'account'
     else
       yield if block_given?
     end
@@ -283,7 +363,10 @@ class AccountController < ApplicationController
   def register_manually_by_administrator(user, &block)
     if user.save
       # Sends an email to the administrators
-      Mailer.deliver_account_activation_request(user)
+      admins = User.admin.active
+      admins.each do |admin|
+        UserMailer.account_activation_requested(admin, user).deliver
+      end
       account_pending
     else
       yield if block_given?

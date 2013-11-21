@@ -1,22 +1,38 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
 class WikiContentTest < ActiveSupport::TestCase
-  fixtures :wikis, :wiki_pages, :wiki_contents, :journals, :users
+  fixtures :all
 
   def setup
+    super
     @wiki = Wiki.find(1)
     @page = @wiki.pages.first
   end
@@ -34,7 +50,7 @@ class WikiContentTest < ActiveSupport::TestCase
     assert_equal "Content text", content.text
     assert_equal "My comment", content.versions.last.notes
     assert_equal User.find(1), content.author
-    assert_equal content.text, content.versions.last.text
+    assert_equal content.text, content.versions.last.data.text
   end
 
   def test_create_should_send_email_notification
@@ -68,9 +84,15 @@ class WikiContentTest < ActiveSupport::TestCase
   end
 
   def test_fetch_history
+    wiki_content_journal = FactoryGirl.build(:wiki_content_journal,
+                                             journable_id: @page.content.id)
+    wiki_content_journal.data.page_id = @page.id
+    wiki_content_journal.data.text = ""
+
+    @page.content.journals << wiki_content_journal
     assert !@page.content.journals.empty?
     @page.content.journals.each do |journal|
-      assert_kind_of String, journal.text
+      assert_kind_of String, journal.data.text
     end
   end
 

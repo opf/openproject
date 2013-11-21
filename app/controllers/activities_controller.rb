@@ -1,20 +1,35 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
 class ActivitiesController < ApplicationController
   menu_item :activity
-  before_filter :find_optional_project
+  before_filter :find_optional_project, :verify_activities_module_activated
   accept_key_auth :index
 
   def index
@@ -26,7 +41,7 @@ class ActivitiesController < ApplicationController
 
     @date_to ||= Date.today + 1
     @date_from = @date_to - @days
-    @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
+    @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_work_packages? : (params[:with_subprojects] == '1')
     @author = (params[:user_id].blank? ? nil : User.active.find(params[:user_id]))
 
     @activity = Redmine::Activity::Fetcher.new(User.current, :project => @project,
@@ -36,11 +51,12 @@ class ActivitiesController < ApplicationController
     @activity.scope = (@author.nil? ? :default : :all) if @activity.scope.empty?
 
     events = @activity.events(@date_from, @date_to)
+    censor_events_from_projects_with_disabled_activity!(events) unless @project
 
     if events.empty? || stale?(:etag => [@activity.scope, @date_to, @date_from, @with_subprojects, @author, events.first, User.current, current_language])
       respond_to do |format|
         format.html {
-          @events_by_day = events.group_by(&:event_date)
+          @events_by_day = events.group_by {|e| e.data.event_date}
           render :layout => false if request.xhr?
         }
         format.atom {
@@ -61,13 +77,42 @@ class ActivitiesController < ApplicationController
 
   private
 
-  # TODO: refactor, duplicated in projects_controller
+  # TODO: this should now be functionally identical to the implementation in application_controller
+  # double check and remove
   def find_optional_project
-    return true unless params[:id]
-    @project = Project.find(params[:id])
+    return true unless params[:project_id]
+    @project = Project.find(params[:project_id])
     authorize
   rescue ActiveRecord::RecordNotFound
     render_404
   end
 
+  def verify_activities_module_activated
+    render_403 if @project && !@project.module_enabled?("activity")
+  end
+
+  # Do not show events, which are associated with projects where activities are disabled.
+  # In a better world this would be implemented (with better performance) in SQL.
+  # TODO: make the world a better place.
+  def censor_events_from_projects_with_disabled_activity!(events)
+    allowed_project_ids = EnabledModule.where(:name => 'activity').map(&:project_id)
+    events.select! do |event|
+      if event.respond_to?(:data) and event.data.respond_to? :project_id
+        project_id = event.data.project_id
+      elsif event.respond_to?(:project_id) or event.journable.respond_to?(:project_id)
+        # if possible access project_id (its faster)
+        project_id = event.project_id
+      elsif event.respond_to?(:project) or event.journable.respond_to?(:project)
+        # sometimes (e.g.) for wikis, we have no :project_id, but a :project method.
+        project_id = event.project.id
+      end
+      if project_id.nil?
+        # show this event if it is not associated with a project
+        true
+      else
+        # show this event if the activity module is enabled in any of the associated projects
+        allowed_project_ids.include? project_id
+      end
+    end
+  end
 end

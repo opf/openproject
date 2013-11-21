@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -40,31 +55,48 @@ class CustomField < ActiveRecord::Base
   alias_method_chain :translations_attributes=, :globalized
 
   validates_presence_of :name, :field_format
-  validates_uniqueness_of :name, :scope => [:type, :locale]
+
+  validate :uniquess_of_name_with_scope
+  def uniquess_of_name_with_scope
+    taken_names = CustomField.where(:type => type)
+    taken_names = taken_names.where('id != ?', id) if id
+    taken_names = taken_names.map { |cf| cf.read_attribute(:name, :locale => I18n.locale) }
+
+    errors.add(:name, :taken) if name.in?(taken_names)
+  end
+
   validates_length_of :name, :maximum => 30
   validates_inclusion_of :field_format, :in => Redmine::CustomFieldFormat.available_formats
 
-  def initialize(attributes = nil)
+  validate :validate_presence_of_possible_values
+  validate :validate_default_value_in_translations
+
+  def initialize(attributes = nil, options = {})
     super
     self.possible_values ||= []
   end
 
-  def before_validation
-    # make sure these fields are not searchable
+  before_validation :check_searchability
+
+  # make sure int, float, date, and bool are not searchable
+  def check_searchability
     self.searchable = false if %w(int float date bool).include?(field_format)
     true
   end
 
-  def validate
+  def validate_presence_of_possible_values
     if self.field_format == "list"
-      errors.add(:possible_values, :blank) if self.possible_values.nil? || self.possible_values.empty?
+      errors.add(:possible_values, :blank) if self.possible_values.blank?
       errors.add(:possible_values, :invalid) unless self.possible_values.is_a? Array
     end
+  end
 
-    # validate default value in every translation available
+  # validate default value in every translation available
+  def validate_default_value_in_translations
     required_field = self.is_required
     self.is_required = false
-    self.translated_locales.each do |locale|
+    translated_locales = (translations.map(&:locale) + self.translated_locales).uniq
+    translated_locales.each do |locale|
       I18n.with_locale(locale) do
         v = CustomValue.new(:custom_field => self, :value => default_value, :customized => nil)
         errors.add(:default_value, :invalid) unless v.valid?
@@ -88,27 +120,32 @@ class CustomField < ActiveRecord::Base
       end
     else
       locale = obj if obj.is_a?(String) || obj.is_a?(Symbol)
-      attribute = globalize.fetch(locale || self.class.locale || I18n.locale, :possible_values)
+      attribute = possible_values(:locale => locale)
       attribute
     end
   end
 
+  ##
+  # Returns possible values for this custom field.
+  # Options may be a user, or options suitable for ActiveRecord#read_attribute.
+  # read_attribute is localized - to get values for a specific locale pass the following options hash
+  # :locale => <locale (-> :en, :de, ...)>
   def possible_values(obj=nil)
     case field_format
     when 'user'
       possible_values_options(obj).collect(&:last)
     else
-      globalize.fetch(obj || self.class.locale || I18n.locale, :possible_values)
+      options = obj.nil? ? {} : obj
+      read_attribute(:possible_values, options)
     end
   end
 
   # Makes possible_values accept a multiline string
   def possible_values=(arg)
     if arg.is_a?(Array)
-      value = arg.compact.collect(&:strip).select {|v| !v.blank?}
+      value = arg.compact.collect(&:strip).select{ |v| !v.blank? }
 
-      globalize.write(self.class.locale || I18n.locale, :possible_values, value)
-      self[:possible_values] = value
+      write_attribute(:possible_values, value, {})
     else
       self.possible_values = arg.to_s.split(/[\n\r]+/)
     end
@@ -139,20 +176,23 @@ class CustomField < ActiveRecord::Base
   # objects by their value of the custom field.
   # Returns false, if the custom field can not be used for sorting.
   def order_statement
+    customized_class = self.class.customized_class
+    klass = (customized_class.superclass && !(customized_class.superclass == ActiveRecord::Base)) ? customized_class.superclass : customized_class
+
     case field_format
       when 'string', 'text', 'list', 'date', 'bool'
         # COALESCE is here to make sure that blank and NULL values are sorted equally
         "COALESCE((SELECT cv_sort.value FROM #{CustomValue.table_name} cv_sort" +
-          " WHERE cv_sort.customized_type='#{self.class.customized_class.name}'" +
-          " AND cv_sort.customized_id=#{self.class.customized_class.table_name}.id" +
+          " WHERE cv_sort.customized_type='#{klass.name}'" +
+          " AND cv_sort.customized_id=#{klass.table_name}.id" +
           " AND cv_sort.custom_field_id=#{id} LIMIT 1), '')"
       when 'int', 'float'
         # Make the database cast values into numeric
         # Postgresql will raise an error if a value can not be casted!
         # CustomValue validations should ensure that it doesn't occur
         "(SELECT CAST(cv_sort.value AS decimal(60,3)) FROM #{CustomValue.table_name} cv_sort" +
-          " WHERE cv_sort.customized_type='#{self.class.customized_class.name}'" +
-          " AND cv_sort.customized_id=#{self.class.customized_class.table_name}.id" +
+          " WHERE cv_sort.customized_type='#{klass.name}'" +
+          " AND cv_sort.customized_id=#{klass.table_name}.id" +
           " AND cv_sort.custom_field_id=#{id} AND cv_sort.value <> '' AND cv_sort.value IS NOT NULL LIMIT 1)"
       else
         nil
@@ -164,13 +204,14 @@ class CustomField < ActiveRecord::Base
   end
 
   def self.customized_class
-    self.name =~ /^(.+)CustomField$/
+    self.name =~ /\A(.+)CustomField\z/
     begin; $1.constantize; rescue nil; end
   end
 
   # to move in project_custom_field
-  def self.for_all
-    find(:all, :conditions => ["is_for_all=?", true], :order => 'position')
+  def self.for_all(options = {})
+    options.merge!({:conditions => ["is_for_all=?", true], :order => 'position'})
+    find :all, options
   end
 
   def type_name
@@ -189,7 +230,7 @@ end
 # for the sake of nested attributes it is necessary to redefine possible_values
 # the values get set directly on the translations association
 
-class CustomField::Translation < ActiveRecord::Base
+class CustomField::Translation < Globalize::ActiveRecord::Translation
   serialize :possible_values
 
   def possible_values=(arg)

@@ -1,39 +1,71 @@
-#-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
 #
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Settings specified here will take precedence over those in config/environment.rb
+OpenProject::Application.configure do
+  # Settings specified here will take precedence over those in config/application.rb
 
-# The test environment is used exclusively to run your application's
-# test suite.  You never need to work with it otherwise.  Remember that
-# your test database is "scratch space" for the test suite and is wiped
-# and recreated between test runs.  Don't rely on the data there!
-config.cache_classes = true
+  # Access to rack session
+  config.middleware.use RackSessionAccess::Middleware
 
-# Log error messages when you accidentally call methods on nil.
-config.whiny_nils    = true
+  # The test environment is used exclusively to run your application's
+  # test suite. You never need to work with it otherwise. Remember that
+  # your test database is "scratch space" for the test suite and is wiped
+  # and recreated between test runs. Don't rely on the data there!
+  config.cache_classes = true
 
-# Show full error reports and disable caching
-config.action_controller.consider_all_requests_local = true
-config.action_controller.perform_caching             = false
+  # Configure static asset server for tests with Cache-Control for performance
+  config.serve_static_assets = true
+  config.static_cache_control = "public, max-age=3600"
 
-config.action_mailer.perform_deliveries = true
-config.action_mailer.delivery_method = :test
+  # Log error messages when you accidentally call methods on nil
+  config.whiny_nils = true
 
-config.action_controller.session = {
-  :key => "_test_session",
-  :secret => "some secret phrase for the tests."
-}
+  # Show full error reports and disable caching
+  config.consider_all_requests_local       = true
+  config.action_controller.perform_caching = false
 
-# Skip protect_from_forgery in requests http://m.onkey.org/2007/9/28/csrf-protection-for-your-existing-rails-application
-config.action_controller.allow_forgery_protection  = false
+  # Raise exceptions instead of rendering exception templates
+  config.action_dispatch.show_exceptions = false
+
+  # Disable request forgery protection in test environment
+  config.action_controller.allow_forgery_protection    = false
+
+  # Tell Action Mailer not to deliver emails to the real world.
+  # The :test delivery method accumulates sent emails in the
+  # ActionMailer::Base.deliveries array.
+  config.action_mailer.delivery_method = :test
+
+  # Raise exception on mass assignment protection for Active Record models
+  config.active_record.mass_assignment_sanitizer = :strict
+
+  # Print deprecation notices to the stderr
+  config.active_support.deprecation = :stderr
+
+  # we use per process memory for caching in the test environment
+  config.cache_store = :memory_store
+end

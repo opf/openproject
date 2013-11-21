@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -18,12 +33,10 @@ require 'repositories_controller'
 class RepositoriesController; def rescue_action(e) raise e end; end
 
 class RepositoriesControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :roles, :members, :member_roles,
-           :repositories, :issues, :issue_statuses, :changesets, :changes,
-           :issue_categories, :enumerations,
-           :custom_fields, :custom_field_translations, :custom_values, :trackers
+  fixtures :all
 
   def setup
+    super
     @controller = RepositoriesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
@@ -31,39 +44,39 @@ class RepositoriesControllerTest < ActionController::TestCase
   end
 
   def test_revisions
-    get :revisions, :id => 1
+    get :revisions, :project_id => 1
     assert_response :success
     assert_template 'revisions'
     assert_not_nil assigns(:changesets)
   end
 
   def test_revision
-    get :revision, :id => 1, :rev => 1
+    get :revision, :project_id => 1, :rev => 1
     assert_response :success
     assert_not_nil assigns(:changeset)
     assert_equal "1", assigns(:changeset).revision
   end
 
-  def test_revision_with_before_nil_and_afer_normal
-    get :revision, {:id => 1, :rev => 1}
+  def test_revision_with_before_nil_and_after_normal
+    get :revision, {:project_id => 1, :rev => 1}
     assert_response :success
     assert_template 'revision'
     assert_no_tag :tag => "div", :attributes => { :class => "contextual" },
-      :child => { :tag => "a", :attributes => { :href => '/projects/ecookbook/repository/revisions/0'}
-    }
+      :child => { :tag => "a", :attributes => { :href => @controller.url_for(:only_path => true,
+                                                                             :controller => 'repositories',
+                                                                             :action => 'revision',
+                                                                             :project_id => 'ecookbook',
+                                                                             :rev => '0') } }
     assert_tag :tag => "div", :attributes => { :class => "contextual" },
-        :child => { :tag => "a", :attributes => { :href => '/projects/ecookbook/repository/revisions/2'}
-    }
+      :child => { :tag => "a", :attributes => { :href => @controller.url_for(:only_path => true,
+                                                                             :controller => 'repositories',
+                                                                             :action => 'revision',
+                                                                             :project_id => 'ecookbook',
+                                                                             :rev => '2') } }
   end
 
   def test_graph_commits_per_month
-    get :graph, :id => 1, :graph => 'commits_per_month'
-    assert_response :success
-    assert_equal 'image/svg+xml', @response.content_type
-  end
-
-  def test_graph_commits_per_author
-    get :graph, :id => 1, :graph => 'commits_per_author'
+    get :graph, :project_id => 1, :graph => 'commits_per_month'
     assert_response :success
     assert_equal 'image/svg+xml', @response.content_type
   end
@@ -79,7 +92,7 @@ class RepositoriesControllerTest < ActionController::TestCase
         :comments => 'Committed by foo.'
      )
 
-    get :committers, :id => 1
+    get :committers, :project_id => 1
     assert_response :success
     assert_template 'committers'
 
@@ -107,7 +120,7 @@ class RepositoriesControllerTest < ActionController::TestCase
             :comments => 'Committed by foo.'
           )
     assert_no_difference "Changeset.count(:conditions => 'user_id = 3')" do
-      post :committers, :id => 1, :committers => { '0' => ['foo', '2'], '1' => ['dlopper', '3']}
+      post :committers, :project_id => 1, :committers => { '0' => ['foo', '2'], '1' => ['dlopper', '3']}
       assert_redirected_to '/projects/ecookbook/repository/committers'
       assert_equal User.find(2), c.reload.user
     end

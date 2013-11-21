@@ -1,13 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
-# ChiliProject is a project management system.
+# OpenProject is a project management system.
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
-# Copyright (C) 2010-2011 the ChiliProject Team
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
 # as published by the Free Software Foundation; either version 2
 # of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -15,8 +30,7 @@
 module ProjectsHelper
   def link_to_version(version, html_options = {}, options={})
     return '' unless version && version.is_a?(Version)
-    options
-    link_to_if version.visible?, options[:before_text].to_s + format_version_name(version), { :controller => 'versions', :action => 'show', :id => version }, html_options
+    link_to_if version.visible?, options[:before_text].to_s + format_version_name(version), { :controller => '/versions', :action => 'show', :id => version }, html_options
   end
 
   def project_settings_tabs
@@ -24,10 +38,11 @@ module ProjectsHelper
             {:name => 'modules', :action => :select_project_modules, :partial => 'projects/settings/modules', :label => :label_module_plural},
             {:name => 'members', :action => :manage_members, :partial => 'projects/settings/members', :label => :label_member_plural},
             {:name => 'versions', :action => :manage_versions, :partial => 'projects/settings/versions', :label => :label_version_plural},
-            {:name => 'categories', :action => :manage_categories, :partial => 'projects/settings/issue_categories', :label => :label_issue_category_plural},
+            {:name => 'categories', :action => :manage_categories, :partial => 'projects/settings/categories', :label => :label_work_package_category_plural},
             {:name => 'repository', :action => :manage_repository, :partial => 'projects/settings/repository', :label => :label_repository},
             {:name => 'boards', :action => :manage_boards, :partial => 'projects/settings/boards', :label => :label_board_plural},
-            {:name => 'activities', :action => :manage_project_activities, :partial => 'projects/settings/activities', :label => :enumeration_activities}
+            {:name => 'activities', :action => :manage_project_activities, :partial => 'projects/settings/activities', :label => :enumeration_activities},
+            {:name => 'types', :action => :manage_project_configuration, :partial => 'projects/settings/types', :label => :'label_type_plural'}
             ]
     tabs.select {|tab| User.current.allowed_to?(tab[:action], @project)}
   end
@@ -43,7 +58,7 @@ module ProjectsHelper
     options = ''
     options << "<option value=''></option>" if project.allowed_parents.include?(nil)
     options << project_tree_options_for_select(project.allowed_parents.compact, :selected => selected)
-    content_tag('select', options, :name => 'project[parent_id]', :id => 'project_parent_id')
+    content_tag('select', options.html_safe, :name => 'project[parent_id]', :id => 'project_parent_id')
   end
 
   # Renders a tree of projects as a nested set of unordered lists
@@ -77,7 +92,7 @@ module ProjectsHelper
       s << ("</li></ul>\n" * ancestors.size)
       @project = original_project
     end
-    s
+    s.html_safe
   end
 
   # Returns a set of options for a select field, grouped by project.
