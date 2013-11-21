@@ -55,26 +55,8 @@ class Query::Filter
   @@operators_not_requiring_values = %w(o c !* * t w)
 
   @@filter_types_by_field = {
-     status_id:        :list_status,
-     type_id:          :list,
-     priority_id:      :list,
-     subject:          :text,
-     created_at:       :date_past,
-     updated_at:       :date_past,
-     start_date:       :date,
-     due_date:         :date,
-     estimated_hours:  :integer,
-     done_ratio:       :integer,
-     project_id:       :list,
-     category_id:      :list_optional,
-     fixed_version_id: :list_optional,
-     subproject_id:    :list_subprojects,
-     assigned_to_id:   :list_optional,
-     author_id:        :list,
-     member_of_group:  :list_optional,
-     assigned_to_role: :list_optional,
-     responsible_id:   :list_optional,
-     watcher_id:       :list
+    created_at: :date_past,
+    updated_at: :date_past
   }
 
   @@operators_by_filter_type = {
