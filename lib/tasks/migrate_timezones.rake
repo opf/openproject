@@ -12,7 +12,8 @@
 
 namespace :migrations do
   desc "Use FROM environment variable to define a timezone to migrate from.
-  Examples: LOCAL (PostGres), SYSTEM (MySQL), 'Europe/Berlin'"
+  Examples: LOCAL (PostgreSQL), SYSTEM (MySQL), 'Europe/Berlin' (PostgreSQL), Europe/Berlin (MySQL)
+  (Note the quotes in the different examples)"
   task :change_timestamps_to_utc => :environment do |task|
     def postgres?
       @postgres ||= ActiveRecord::Base.connection.instance_values["config"][:adapter] == "postgresql"
@@ -25,14 +26,10 @@ namespace :migrations do
     raise "Error: Adapting Timestamps from system timezone to UTC is only supported for " +
       "postgres and mysql yet." unless postgres? || mysql?
 
-
     def readOldTimezone
       if postgres?
         @old_timezone = ActiveRecord::Base.connection.select_all(
                     "SELECT current_setting('timezone') AS timezone").first['timezone']
-      elsif
-        @old_timezone = ActiveRecord::Base.connection.select_all(
-          "SELECT @@global.time_zone").first['@@global.time_zone']
       end
 
     end
@@ -53,18 +50,12 @@ namespace :migrations do
             see: http://dev.mysql.com/doc/refman/5.0/en/mysql-tzinfo-to-sql.html
           error
         end
-
-        from_timezone = ENV['FROM'] || 'SYSTEM'
-
-        ActiveRecord::Base.connection.execute "SET time_zone = #{from_timezone}"
       end
     end
 
     def setOldTimezone
       if postgres?
         ActiveRecord::Base.connection.execute "SET TIME ZONE #{@old_timezone}"
-      elsif mysql?
-        ActiveRecord::Base.connection.execute "SET time_zone = #{@old_timezone}"
       end
     end
 
@@ -77,8 +68,10 @@ namespace :migrations do
           and data_type like 'timestamp without time zone'
         SQL
       elsif mysql?
+        from_timezone = ENV['FROM'] || 'SYSTEM'
+
         ActiveRecord::Base.connection.select_all <<-SQL
-          select concat('UPDATE ',table_name, ' SET ', column_name, ' = CONVERT_TZ(', column_name, ', \\'#{@old_timezone}\\', \\'UTC\\');')
+          select concat('UPDATE ',table_name, ' SET ', column_name, ' = CONVERT_TZ(', column_name, ', \\'#{from_timezone}\\', \\'UTC\\');')
           from information_schema.columns
           where table_schema = '#{ActiveRecord::Base.connection.current_database}' and data_type like 'datetime'
         SQL
