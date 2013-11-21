@@ -220,7 +220,7 @@ class QueryTest < ActiveSupport::TestCase
     i3 = FactoryGirl.create(:work_package, :project => project, :type => project.types.first, :assigned_to => Group.find(11))
     group.users << user
 
-    query = Query.new(:name => '_', filters: [Queries::WorkPackages::Filter.new(:assigned_to_id, operator: '=', values: ['me'])])
+    query = Query.new(:name => '_', filters: [Query::WorkPackages::Filter.new(:assigned_to_id, operator: '=', values: ['me'])])
     result = query.results.work_packages
     assert_equal WorkPackage.visible.all(:conditions => {:assigned_to_id => ([2] + user.reload.group_ids)}).sort_by(&:id), result.sort_by(&:id)
 
@@ -233,7 +233,7 @@ class QueryTest < ActiveSupport::TestCase
 
   def test_filter_watched_issues
     User.current = User.find(1)
-    query = Query.new(name: '_', filters: [Queries::WorkPackages::Filter.new(:watcher_id, operator: '=', values: ['me'])])
+    query = Query.new(name: '_', filters: [Query::WorkPackages::Filter.new(:watcher_id, operator: '=', values: ['me'])])
     result = find_issues_with_query(query)
     assert_not_nil result
     assert !result.empty?
@@ -243,7 +243,7 @@ class QueryTest < ActiveSupport::TestCase
 
   def test_filter_unwatched_issues
     User.current = User.find(1)
-    query = Query.new(name: '_', filters: [Queries::WorkPackages::Filter.new(:watcher_id, operator: '!', values: ['me'])])
+    query = Query.new(name: '_', filters: [Query::WorkPackages::Filter.new(:watcher_id, operator: '!', values: ['me'])])
     result = find_issues_with_query(query)
     assert_not_nil result
     assert !result.empty?

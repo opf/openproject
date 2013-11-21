@@ -27,12 +27,12 @@
 #++
 
 FactoryGirl.define do
-  factory :filter, class: Queries::Filter do
+  factory :filter, class: Query::Filter do
     field :subject
     operator '='
     values ['Feature']
 
-    factory :work_packages_filter, class: Queries::WorkPackages::Filter do
+    factory :work_packages_filter, class: Query::WorkPackages::Filter do
     end
   end
 end

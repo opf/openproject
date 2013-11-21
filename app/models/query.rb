@@ -28,14 +28,14 @@
 #++
 
 class Query < ActiveRecord::Base
-  include Queries::WorkPackages::AvailableFilterOptions
+  include ::Query::WorkPackages::AvailableFilterOptions
 
   @@user_filters = %w{assigned_to_id author_id watcher_id responsible_id}.freeze
 
   belongs_to :project
   belongs_to :user
   has_one :query_menu_item, :class_name => 'MenuItems::QueryMenuItem', :dependent => :delete, :order => 'name', :foreign_key => 'navigatable_id'
-  serialize :filters, Queries::WorkPackages::FilterSerializer
+  serialize :filters, ::Query::WorkPackages::FilterSerializer
   serialize :column_names
   serialize :sort_criteria, Array
 
@@ -73,7 +73,7 @@ class Query < ActiveRecord::Base
 
   def initialize(attributes = nil, options = {})
     super
-    self.filters = [ Queries::WorkPackages::Filter.new('status_id', operator: "o", values: [""]) ] if self.filters.blank?
+    self.filters = [ ::Query::WorkPackages::Filter.new('status_id', operator: "o", values: [""]) ] if self.filters.blank?
   end
 
   # Store the fact that project is nil (used in #editable_by?)
@@ -103,7 +103,7 @@ class Query < ActiveRecord::Base
       filter.operator = operator
       filter.values = values
     else
-      self.filters << Queries::WorkPackages::Filter.new(field, operator: operator, values: values)
+      self.filters << ::Query::WorkPackages::Filter.new(field, operator: operator, values: values)
     end
   end
 
