@@ -111,4 +111,4 @@ Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel
 Copyright (C)2009-2010 Mark Maglana
 Copyright (C)2009 Joe Heck, Nate Lowrie
 
-This plugin is licensed under the GNU GPL v3. See COPYRIGHT.txt and GPL.txt for details.
+This plugin is licensed under the GNU GPL v3. See doc/COPYRIGHT.md and doc/GPL.txt for details.
