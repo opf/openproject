@@ -100,6 +100,7 @@ de:
       query:
         column_names: "Spalten"
         group_by: "Gruppiere Ergebnisse nach"
+        filters: "Filter"
       repository:
         url: "URL"
       role:
