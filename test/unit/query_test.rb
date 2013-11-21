@@ -303,7 +303,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_create_query_with_sort
-    q = Query.new(:name => 'Sorted')
+    q = Query.new({name: 'Sorted'}, initialize_with_default_filter: true)
     q.sort_criteria = [['priority', 'desc'], 'type']
     assert q.save
     q.reload
