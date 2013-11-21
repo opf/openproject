@@ -88,7 +88,7 @@ module QueriesHelper
     else
       if api_request? || params[:set_filter] || session[:query].nil? || session[:query][:project_id] != (@project ? @project.id : nil)
         # Give it a name, required to be valid
-        @query = Query.new(:name => "_")
+        @query = Query.new({name: "_"}, initialize_with_status_filter: true)
         @query.project = @project
         if params[:fields] || params[:f]
           @query.filters = []
