@@ -219,6 +219,36 @@ describe WorkPackage do
       end
     end
 
+    describe :soonest_start do
+      let(:work_package_1) { FactoryGirl.create(:work_package) }
+      let(:work_package_2) { FactoryGirl.create(:work_package,
+                                                project: work_package_1.project) }
+      let!(:work_package_2_1) { FactoryGirl.create(:work_package,
+                                                   parent: work_package_2,
+                                                   project: work_package_1.project) }
+      let!(:relation_1) { FactoryGirl.create(:relation,
+                                             from: work_package_1,
+                                             to: work_package_2,
+                                             relation_type: Relation::TYPE_PRECEDES) }
+
+      context 'start date exists in related work packages' do
+        before do
+          work_package_1.due_date = Date.today
+          work_package_1.save!
+        end
+
+        # TODO: This is actually a relation spec. Move this spec to the relation
+        #       specs as soon as these specs exist.
+        it { expect(relation_1.successor_soonest_start).to eq(work_package_1.due_date + 1) }
+
+        it { expect(work_package_2_1.soonest_start).to eq(work_package_1.due_date + 1) }
+      end
+
+      context 'no start date exists in related work packages' do
+        it { expect(work_package_2_1.soonest_start).to be_nil }
+      end
+    end
+
     describe :all_dependant_packages do
       let(:work_package_1) { FactoryGirl.create(:work_package) }
       let(:work_package_2) { FactoryGirl.create(:work_package,
@@ -228,14 +258,14 @@ describe WorkPackage do
       let(:work_package_4) { FactoryGirl.create(:work_package,
                                                 project: work_package_1.project) }
 
-      let(:relation_1) { FactoryGirl.create(:relation,
-                                            from: work_package_1,
-                                            to: work_package_2,
-                                            relation_type: Relation::TYPE_PRECEDES) }
-      let(:relation_2) { FactoryGirl.create(:relation,
-                                            from: work_package_2,
-                                            to: work_package_3,
-                                            relation_type: Relation::TYPE_PRECEDES) }
+      let!(:relation_1) { FactoryGirl.create(:relation,
+                                             from: work_package_1,
+                                             to: work_package_2,
+                                             relation_type: Relation::TYPE_PRECEDES) }
+      let!(:relation_2) { FactoryGirl.create(:relation,
+                                             from: work_package_2,
+                                             to: work_package_3,
+                                             relation_type: Relation::TYPE_PRECEDES) }
 
       shared_examples_for "all dependant work packages visible" do
         subject { work_package_1.all_dependent_packages.collect(&:id) }
@@ -243,21 +273,15 @@ describe WorkPackage do
         it { should =~ expected_ids }
       end
 
-      before do
-        relation_1
-        relation_2
-      end
-
       context "w/o circular dependency" do
         let(:expected_ids) { [work_package_2.id,
                               work_package_3.id,
                               work_package_4.id] }
 
-        let(:relation_3) { FactoryGirl.create(:relation,
-                                              from: work_package_3,
-                                              to: work_package_4,
-                                              relation_type: Relation::TYPE_PRECEDES) }
-        before { relation_3 }
+        let!(:relation_3) { FactoryGirl.create(:relation,
+                                               from: work_package_3,
+                                               to: work_package_4,
+                                               relation_type: Relation::TYPE_PRECEDES) }
 
         it_behaves_like "all dependant work packages visible"
       end
