@@ -74,9 +74,9 @@ To contribute, you can create pull request on the official repository at
 Credits
 -------
 
-We thank the original maintainers and developers of {Redmine
-Backlogs}[http://www.redminebacklogs.net/] as well as
-{Chiliproject Backlogs}[https://github.com/finnlabs/chiliproject_backlogs] for
+We thank the original maintainers and developers of [Redmine
+Backlogs](http://www.redminebacklogs.net/) as well as
+[Chiliproject Backlogs](https://github.com/finnlabs/chiliproject_backlogs) for
 their immense work on this plugin. OpenProject Backlogs would not have been
 possible without their original contribution. Those contributors are:
 
