@@ -61,6 +61,10 @@ When /^I add the user "(.+)" to the group$/ do |user_login|
   }
 end
 
+Given /^We have the group "(.*?)"/ do |name|
+   group = FactoryGirl.create(:group, :lastname => name)
+ end
+
 Given /^there is a group named "(.*?)" with the following members:$/ do |name, table|
   group = FactoryGirl.create(:group, :lastname => name)
 
