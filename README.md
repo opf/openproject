@@ -80,8 +80,6 @@ Backlogs](http://www.redminebacklogs.net/) as well as
 their immense work on this plugin. OpenProject Backlogs would not have been
 possible without their original contribution. Those contributors are:
 
-* Stephan Eckardt
-* Tim Felgentreff
 * Marnen Laibow-Koser
 * Sandro Munda
 * friflaj
