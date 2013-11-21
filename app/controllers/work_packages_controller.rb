@@ -37,7 +37,7 @@ class WorkPackagesController < ApplicationController
   current_menu_item :index do |controller|
     query = controller.instance_variable_get :"@query"
 
-    if query.persisted? && current = query.query_menu_item.try(:name)
+    if query && query.persisted? && current = query.query_menu_item.try(:name)
       current.to_sym
     else
       :work_packages
