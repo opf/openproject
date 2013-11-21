@@ -100,8 +100,6 @@ possible without their original contribution. Those contributors are:
 Additionally, we would like to thank
 
 * Deutsche Telekom AG (opensource@telekom.de) for project sponsorhip
-* Birthe Russmeyer and Niels Lindenthal of finnlabs for their consulting and
-  project management
 
 Licence
 -------
