@@ -29,7 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
-* `3058` [Work Package Tracking] Broken subtask hierarchy layout
+* `#2761` Fix: [Work Package Tracking] Assigning work packages to no target version not working in buld edit
+* `#3058` [Work Package Tracking] Broken subtask hierarchy layout
 
 ## 3.0.0pre32
 

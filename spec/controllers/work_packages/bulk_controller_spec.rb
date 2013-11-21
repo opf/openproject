@@ -403,35 +403,53 @@ describe WorkPackages::BulkController do
         end
 
         describe :version do
-          let(:version) { FactoryGirl.create(:version,
-                                             status: 'open',
-                                             sharing: 'tree',
-                                             project: subproject) }
-          let(:subproject) { FactoryGirl.create(:project,
-                                                parent: project_1,
-                                                types: [type]) }
+          describe "set fixed_version_id attribute to some version" do
+            let(:version) { FactoryGirl.create(:version,
+                                               status: 'open',
+                                               sharing: 'tree',
+                                               project: subproject) }
+            let(:subproject) { FactoryGirl.create(:project,
+                                                  parent: project_1,
+                                                  types: [type]) }
 
-          before do
-            put :update,
-                ids: work_package_ids,
-                work_package: { fixed_version_id: version.id.to_s }
-          end
-
-          subject { response }
-
-          it { should be_redirect }
-
-          describe :work_package do
-            describe :fixed_version do
-              subject { work_packages.collect(&:fixed_version_id).uniq }
-
-              it { should =~ [version.id] }
+            before do
+              put :update,
+                  ids: work_package_ids,
+                  work_package: { fixed_version_id: version.id.to_s }
             end
 
-            describe :project do
-              subject { work_packages.collect(&:project_id).uniq }
+            subject { response }
 
-              it { should_not =~ [subproject.id] }
+            it { should be_redirect }
+
+            describe :work_package do
+              describe :fixed_version do
+                subject { work_packages.collect(&:fixed_version_id).uniq }
+
+                it { should =~ [version.id] }
+              end
+
+              describe :project do
+                subject { work_packages.collect(&:project_id).uniq }
+
+                it { should_not =~ [subproject.id] }
+              end
+            end
+          end
+          describe "set fixed_version_id to nil" do
+            before do
+              # 'none' is a magic value, setting fixed_version_id to nil
+              # will make the controller ignore that param
+              put :update,
+                  ids: work_package_ids,
+                  work_package: { fixed_version_id: 'none' }
+            end
+            describe :work_package do
+              describe :fixed_version do
+                subject { work_packages.collect(&:fixed_version_id).uniq }
+
+                it { should == [nil] }
+              end
             end
           end
         end
