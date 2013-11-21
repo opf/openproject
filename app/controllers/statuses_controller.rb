@@ -50,7 +50,7 @@ class StatusesController < ApplicationController
   end
 
   def create
-    @status = Status.new(params[:status])
+    @status = Status.new(permitted_params.status)
     if @status.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'index'
@@ -65,7 +65,7 @@ class StatusesController < ApplicationController
 
   def update
     @status = Status.find(params[:id])
-    if @status.update_attributes(params[:status])
+    if @status.update_attributes(permitted_params.status)
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'index'
     else

@@ -112,6 +112,7 @@ OpenProject::Application.routes.draw do
   match '/help/:ctrl/:page' => 'help#index'
 
   resources :types
+  resources :custom_fields, :except => :show
   resources :search, :controller => 'search', :only => ['index']
 
   # only providing routes for journals when there are multiple subclasses of journals

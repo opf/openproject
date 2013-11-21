@@ -71,19 +71,19 @@ class CustomFieldsControllerTest < ActionController::TestCase
 
   def test_post_new_list_custom_field
     assert_difference 'CustomField.count' do
-      post :new, :type => "WorkPackageCustomField",
-                 :custom_field => {:name => "test_post_new_list",
-                                   :default_value => "",
-                                   :min_length => "0",
-                                   :searchable => "0",
-                                   :regexp => "",
-                                   :is_for_all => "1",
-                                   :possible_values => "0.1\n0.2\n",
-                                   :max_length => "0",
-                                   :is_filter => "0",
-                                   :is_required =>"0",
-                                   :field_format => "list",
-                                   :type_ids => ["1", ""]}
+      post :create, :type => "WorkPackageCustomField",
+                    :custom_field => {:name => "test_post_new_list",
+                                      :default_value => "",
+                                      :min_length => "0",
+                                      :searchable => "0",
+                                      :regexp => "",
+                                      :is_for_all => "1",
+                                      :possible_values => "0.1\n0.2\n",
+                                      :max_length => "0",
+                                      :is_filter => "0",
+                                      :is_required =>"0",
+                                      :field_format => "list",
+                                      :type_ids => ["1", ""]}
     end
     assert_redirected_to '/custom_fields?tab=WorkPackageCustomField'
     field = WorkPackageCustomField.find_by_name('test_post_new_list')
