@@ -1,6 +1,8 @@
 # Changelog
 
 * `#1020` fix XSS when displaying costs
+* `#2591` Fix: Costs prevents work package context menu
+* added icon for new project menu
 
 ## 5.0.1.pre9
 
