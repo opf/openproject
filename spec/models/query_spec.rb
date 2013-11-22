@@ -63,6 +63,7 @@ describe Query do
     end
 
     context 'when filters are blank' do
+      let(:status) { FactoryGirl.create :status }
       let(:query) { FactoryGirl.build(:query).tap {|q| q.filters = []} }
 
       it 'is not valid and creates an error' do
