@@ -58,11 +58,6 @@ FactoryGirl.define do
       end
     end
 
-    after(:create) do |user|
-      user.preference = FactoryGirl.create(:user_preference,
-                                           user: user)
-    end
-
     factory :admin do
       firstname 'OpenProject'
       sequence(:lastname) { |n| "Admin#{n}" }
