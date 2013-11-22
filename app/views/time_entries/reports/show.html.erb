@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= link_to_if User.current.allowed_to?({ :controller => '/timelog', :action => 'new' }, @project),
                  l(:button_log_time),
                  polymorphic_new_time_entry_path(@issue || @project),
-                 :class => 'icon icon-time-add' %>
+                 :class => 'icon icon-time' %>
 </div>
 
 <%= render_timelog_breadcrumb %>

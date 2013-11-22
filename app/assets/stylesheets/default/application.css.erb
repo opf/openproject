@@ -960,21 +960,6 @@ div.wiki img { vertical-align: middle; }
   cursor: move;
 }
 
-a.close-icon {
-  display: block;
-  margin-top: 10px;
-  overflow: hidden;
-  width: 12px;
-  height: 12px;
-  background-repeat: no-repeat;
-  cursor: pointer;
-  background-image: url(<%= asset_path 'close.png' %>);
-}
-
-a.close-icon:hover {
-  background-image: url(<%= asset_path 'close_hover.png' %>);
-}
-
 img.gravatar {
   border: solid 1px #d5d5d5;
   background: #fff;
@@ -2344,11 +2329,11 @@ div.flash.warning { /* orange */
   background-position: 0px 1px;
 }
 
-a.icon, input.input-as-link {
+a.icon, a.icon-context, input.input-as-link {
   color: #4b4b4b;
   font-weight: normal;
 }
-a.icon:hover {
+a.icon:hover, a.icon-context:hover {
   color: #008BD0;
   text-decoration: none;
 }
@@ -2357,23 +2342,10 @@ input.input-as-link:hover {
   text-decoration: underline;
 }
 
-.icon-checked  {
-  background-position: 0px 4px;
-}
-.icon-notification  { background-image: url(<%= asset_path 'webalys/envelope.png' %>); }
-.icon-package { background-position: 1px 0px; }
 .icon-more {
   background-image: url(<%= asset_path 'webalys/arrow-down_2.png' %>);
   padding-left: 16px;
   background-position: 0px 5px;
-}
-.icon-save {
-  padding-top: 0px;
-}
-
-.icon-cancel {
-  background-image: url(<%= asset_path 'webalys/cancel.png' %>);
-  background-position: 0px 2px;
 }
 
 a.atom {

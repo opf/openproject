@@ -102,7 +102,7 @@ See doc/COPYRIGHT.rdoc for more details.
                              :method => :get,
                              :complete => "apply_filters_observer(); resetSelectedMenuItem(); initQuerySelectBehaviour();",
                              :with => "jQuery('#query_form').serialize()"
-                           }, :class => 'icon icon-checked' %>
+                           }, :class => 'icon icon-yes' %>
 
         <%= link_to_remote l(:button_clear),
                            { :url => { :set_filter => 1, :sort => WorkPackagesController::DEFAULT_SORT_ORDER.join(':'), :project_id => project },
@@ -112,7 +112,7 @@ See doc/COPYRIGHT.rdoc for more details.
                            }, :class => 'icon icon-undo'  %>
 
         <% if query.new_record? && User.current.allowed_to?(:save_queries, project, :global => true) %>
-          <%= link_to l(:button_save), {}, :onclick => "selectAllOptions('selected_columns'); jQuery('#query_form').submit(); return false;", :class => 'icon icon-save' %>
+          <%= link_to l(:button_save), {}, :onclick => "selectAllOptions('selected_columns'); jQuery('#query_form').submit(); return false;", :class => 'icon icon-save1' %>
         <% end %>
       </p>
     <% end %>
