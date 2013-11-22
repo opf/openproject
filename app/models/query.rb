@@ -90,7 +90,7 @@ class Query < ActiveRecord::Base
 
   def validate_work_package_filters
     self.filters.each do |filter|
-      errors.add :base, errors.full_message(WorkPackage.human_attribute_name(filter.field), filter.errors.messages.values.flatten.join) unless filter.valid?
+      errors.add :base, errors.full_message(WorkPackage.human_attribute_name(filter.field), filter.errors.messages.values.flatten.join(' and ')) unless filter.valid?
     end
   end
 

@@ -128,6 +128,8 @@ class Query::Filter
     case type
     when :integer
       errors.add(:values, I18n.t('activerecord.errors.messages.not_an_integer')) unless values.all?{|value| is_integer?(value)}
+    when :date, :date_past
+      errors.add(:values, I18n.t('activerecord.errors.messages.not_an_integer')) unless values.all?{|value| is_integer?(value)}
     # ...
     end
   end

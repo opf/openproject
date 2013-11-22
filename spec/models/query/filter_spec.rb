@@ -86,6 +86,38 @@ describe Query::Filter do
         end
       end
 
+      context 'when it if of type date or date_past' do
+        let(:filter) { FactoryGirl.build :filter, field: :created_at }
+
+        context "and the operator is 't' (today)" do
+          before { filter.operator = 't' }
+
+          it { should be_valid }
+        end
+
+        context "and the operator is 'w' (this week)" do
+          before { filter.operator = 'w' }
+
+          it { should be_valid }
+        end
+
+        context 'and the operator compares the current day' do
+          before { filter.operator = '>t-' }
+
+          context 'and the value is an integer' do
+            before { filter.values = ['4'] }
+
+            it { should be_valid }
+          end
+
+          context 'and the value is not an integer' do
+            before { filter.values = ['four'] }
+
+            it { should_not be_valid }
+          end
+        end
+      end
+
       context 'when it is a work package filter' do
         let(:filter) { FactoryGirl.build :work_packages_filter }
 
