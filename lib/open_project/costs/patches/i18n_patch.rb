@@ -12,8 +12,8 @@ module OpenProject
 
         module InstanceMethods
           def number_to_currency_with_l10n(number, options = {})
-            options_with_default = { unit: h(Setting.plugin_openproject_costs['costs_currency']),
-                                     format: h(Setting.plugin_openproject_costs['costs_currency_format']),
+            options_with_default = { unit: ERB::Util.h(Setting.plugin_openproject_costs['costs_currency']),
+                                     format: ERB::Util.h(Setting.plugin_openproject_costs['costs_currency_format']),
                                      delimiter: l(:currency_delimiter),
                                      separator: l(:currency_separator) }.merge(options)
 
