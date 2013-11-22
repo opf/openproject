@@ -67,10 +67,6 @@ FactoryGirl.define do
       first_login false if User.table_exists? and User.columns.map(&:name).include? 'first_login'
     end
 
-    factory :anonymous, :class => AnonymousUser do
-      status User::STATUSES[:builtin]
-      initialize_with { User.anonymous }
-    end
 
     factory :deleted_user, :class => DeletedUser do
       status User::STATUSES[:builtin]
@@ -85,5 +81,9 @@ FactoryGirl.define do
       password_confirmation 'adminADMIN!'
       status User::STATUSES[:locked]
     end
+  end
+  factory :anonymous, :class => AnonymousUser do
+    status User::STATUSES[:builtin]
+    initialize_with { User.anonymous }
   end
 end
