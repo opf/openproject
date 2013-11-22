@@ -7,6 +7,8 @@ var modalHelperInstance = {
 Timeline.completeUI = nop;
 Timeline.setupUI = nop;
 
+var Raphael = {};
+
 var possibleData = {
   projects: [{ 
       "id":1,
