@@ -78,7 +78,8 @@ class PlanningElementDataToWorkPackages < ActiveRecord::Migration
     default_status = select_one <<-SQL
       SELECT id
       FROM #{db_statuses_table}
-      WHERE position = 1
+      WHERE is_default = true OR position = 1
+      ORDER BY is_default DESC
       LIMIT 1
     SQL
 
