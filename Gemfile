@@ -225,4 +225,3 @@ Dir.glob File.expand_path("../{Gemfile.local,Gemfile.plugins,lib/plugins/*/Gemfi
   instance_eval File.read(file)
 end
 
-gem 'openproject-data_generator', :git => 'git@github.com:finnlabs/openproject-data_generator.git'

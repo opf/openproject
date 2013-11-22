@@ -1,15 +1,4 @@
 GIT
-  remote: git@github.com:finnlabs/openproject-data_generator.git
-  revision: 6e82e30ae87acf280ed4f21c3ca49f2e7913aa76
-  specs:
-    openproject-data_generator (0.0.1)
-      ffaker (~> 1.15.0)
-      openproject-plugins (~> 1.0.2)
-      populator (~> 1.0.0)
-      rails (~> 3.2.14)
-      rake
-
-GIT
   remote: https://github.com/fnando/i18n-js.git
   revision: 8801f8d17ef96c48a7a0269e251fcf1648c8f441
   ref: 8801f8d17ef96c48a7a0269e251fcf1648c8f441
@@ -135,7 +124,6 @@ GEM
     faker (1.2.0)
       i18n (~> 0.5)
     fastercsv (1.5.5)
-    ffaker (1.15.0)
     ffi (1.9.3)
     formatador (0.2.4)
     gherkin (2.12.2)
@@ -201,14 +189,11 @@ GEM
       mini_portile (~> 0.5.0)
     object-daddy (1.1.1)
     oj (2.2.3)
-    openproject-plugins (1.0.3)
-      rails (~> 3.2.9)
     paper_trail (2.7.2)
       activerecord (~> 3.0)
       railties (~> 3.0)
     pg (0.17.0)
     polyglot (0.3.3)
-    populator (1.0.0)
     prototype-rails (3.2.1)
       rails (~> 3.2)
     pry (0.9.12.3)
@@ -408,7 +393,6 @@ DEPENDENCIES
   net-ldap (~> 0.2.2)
   object-daddy (~> 1.1.0)
   oj
-  openproject-data_generator!
   pg
   prototype-rails
   prototype_legacy_helper (= 0.0.0)!
