@@ -73,4 +73,37 @@ describe Query do
     end
   end
 
+  let(:project) { FactoryGirl.create :project }
+
+  describe '#statement' do
+    let(:query) { FactoryGirl.create :query, project: project, name: '_' }
+
+    before { query.filters = [filter] }
+    subject { query.statement }
+
+    shared_examples :valid_sql do
+      example do
+        expect { WorkPackage.find :all,
+                  include: [ :assigned_to, :status, :type, :project, :priority ],
+                  conditions: query.statement }.not_to raise_error
+      end
+    end
+
+    context "when it has a filter with '*' operator" do
+      let(:filter) { FactoryGirl.build :work_packages_filter, field: 'cf_1', operator: '*', values: [''] }
+
+      it_behaves_like :valid_sql
+
+      it { should include "#{CustomValue.table_name}.value IS NOT NULL AND #{CustomValue.table_name}.value <> ''"}
+
+      context 'and a filter for fixed_version is applied simultaneously' do
+        before { query.filters << FactoryGirl.build(:work_packages_filter, field: 'fixed_version_id', operator: '*', values: ['']) }
+
+        it_behaves_like :valid_sql
+
+        it { should include "#{CustomValue.table_name}.value IS NOT NULL AND #{CustomValue.table_name}.value <> ''"}
+        it { should include "#{WorkPackage.table_name}.fixed_version_id IS NOT NULL"}
+      end
+    end
+  end
 end

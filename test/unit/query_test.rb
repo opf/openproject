@@ -104,15 +104,6 @@ class QueryTest < ActiveSupport::TestCase
     assert issues.all? {|i| !i.estimated_hours}
   end
 
-  def test_operator_all
-    query = Query.new(:project => Project.find(1), :name => '_')
-    query.add_filter('fixed_version_id', '*', [''])
-    query.add_filter('cf_1', '*', [''])
-    assert query.statement.include?("#{WorkPackage.table_name}.fixed_version_id IS NOT NULL")
-    assert query.statement.include?("#{CustomValue.table_name}.value IS NOT NULL AND #{CustomValue.table_name}.value <> ''")
-    find_issues_with_query(query)
-  end
-
   def test_operator_greater_than
     query = Query.new(:project => Project.find(1), :name => '_')
     query.add_filter('done_ratio', '>=', ['40'])
