@@ -62,6 +62,7 @@ Feature: Edit story on backlogs view
         | update_stories        |
         | view_work_packages    |
         | edit_work_packages    |
+        | add_work_packages     |
         | manage_subtasks       |
     And the user "mathias" is a "team member"
     And the project has the following sprints:
@@ -160,3 +161,39 @@ Feature: Edit story on backlogs view
       And I follow "New Story" of the "Sprint 001" menu
       And I close the "Sprint 001" menu
      Then I should not see "Epic" within_hidden ".type_id.helper"
+
+  @javascript
+  Scenario: Story duplication without copying tasks
+    Given the project has the following tasks:
+      | subject | parent  |
+      | Task 1  | Story A |
+      And I am on the work package index page for the project called "ecookbook"
+      And I follow "Story A"
+      And I select "Duplicate" from the action menu
+      And I choose "copy_tasks_none" within "#backlogs-attributes"
+      And I press "Create"
+     Then I should not see "Task 1"
+
+  @javascript
+  Scenario: Story duplication with copying all tasks
+    Given the project has the following tasks:
+      | subject | parent  |
+      | Task 1  | Story A |
+      And I am on the work package index page for the project called "ecookbook"
+      And I follow "Story A"
+      And I select "Duplicate" from the action menu
+      And I choose "copy_tasks_all" within "#backlogs-attributes"
+      And I press "Create"
+     Then I should see "Task 1"
+
+  @javascript
+  Scenario: Story duplication with copying open tasks
+    Given the project has the following tasks:
+      | subject | parent  |
+      | Task 1  | Story A |
+      And I am on the work package index page for the project called "ecookbook"
+      And I follow "Story A"
+      And I select "Duplicate" from the action menu
+      And I choose "copy_tasks_open" within "#backlogs-attributes"
+      And I press "Create"
+     Then I should see "Task 1"
