@@ -123,6 +123,8 @@ class Query::Filter
   end
 
   def validate_filter_values
+    return true if @@operators_not_requiring_values.include?(operator)
+
     case type
     when :integer
       errors.add(:values, I18n.t('activerecord.errors.messages.not_an_integer')) unless values.all?{|value| is_integer?(value)}

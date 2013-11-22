@@ -36,20 +36,6 @@ describe Query::Filter do
 
       let(:filter) { FactoryGirl.build :filter }
 
-      context 'when it is of type integer' do
-        before { filter.field = 'done_ratio' }
-
-        context 'and the filter values is an integer' do
-          before { filter.values = [1, '12', 123] }
-          it { should be_valid }
-        end
-
-        context 'and the filter values is not an integer' do
-          before { filter.values == [1, 'asdf'] }
-          it { should_not be_valid }
-        end
-      end
-
       context 'when the operator does not require values' do
         let(:filter) { FactoryGirl.build :filter, field: :status_id, operator: '*', values: [] }
 
@@ -75,6 +61,28 @@ describe Query::Filter do
           before { filter.values = [5] }
 
           it { should be_valid }
+        end
+      end
+
+      context 'when it is of type integer' do
+        before { filter.field = 'done_ratio' }
+
+        context 'and the filter values is an integer' do
+          before { filter.values = [1, '12', 123] }
+
+          it { should be_valid }
+        end
+
+        context 'and the filter values is not an integer' do
+          before { filter.values == [1, 'asdf'] }
+
+          it { should_not be_valid }
+
+          context 'and the operator is *' do
+            before { filter.operator = '*' }
+
+            it { should be_valid }
+          end
         end
       end
 
