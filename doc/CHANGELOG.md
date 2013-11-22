@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.0pre33
+
 * `#2761` Fix: [Work Package Tracking] Assigning work packages to no target version not working in buld edit
 * `#2762` [Work package tracking] Copying a work package in bulk edit mode opens move screen
 * `#3021` Fix: Fix: emails sent for own changes
