@@ -35,6 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3061` [Timelines] When the anonymous user does not have the right to view a reporting but tries to see a timeline w/ reportings, the error message is wrong
 * `#3068` Fix: [Migration] Automatic update text references to planning elements not migrated
 * `#3075` Fix: [Work Package Tracking] Save takes too long with many ancestors
+* `#3110` Fix: [Migration] Default status not set to right status on planning element migration
 * Fix timezone migration for MySQL with custom timezone
 
 ## 3.0.0pre32
