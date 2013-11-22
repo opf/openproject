@@ -388,9 +388,15 @@ end
 
 class RemoveSelfNotificationsInterceptor
   def self.delivering_email(mail)
-    current_user = User.current
-    if current_user.pref[:no_self_notified].present?
-      mail.to = mail.to.reject {|address| address == current_user.mail} if mail.to.present?
+    user_mail = User.current.mail
+    # This may be called within a delayed job. Within a delayed job user
+    # preferences may not be loaded. Furthermore, some users don't have
+    # persisted preferences. Thus, we only load user preferences if preferences
+    # are available.
+    user_pref = User.current.pref.reload if User.current.pref.persisted?
+
+    if user_pref && user_pref[:no_self_notified]
+      mail.to = mail.to.reject {|address| address == user_mail} if mail.to.present?
     end
   end
 end

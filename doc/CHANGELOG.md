@@ -31,6 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#2761` Fix: [Work Package Tracking] Assigning work packages to no target version not working in buld edit
 * `#2762` [Work package tracking] Copying a work package in bulk edit mode opens move screen
+* `#3021` Fix: Fix: emails sent for own changes
 * `#3058` [Work Package Tracking] Broken subtask hierarchy layout
 * `#3061` [Timelines] When the anonymous user does not have the right to view a reporting but tries to see a timeline w/ reportings, the error message is wrong
 * `#3068` Fix: [Migration] Automatic update text references to planning elements not migrated
