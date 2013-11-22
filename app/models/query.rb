@@ -30,6 +30,8 @@
 class Query < ActiveRecord::Base
   include ::Query::WorkPackages::AvailableFilterOptions
 
+  alias_method :available_filters, :available_work_package_filters # referenced in plugin patches - currently there are only work package queries and filters
+
   @@user_filters = %w{assigned_to_id author_id watcher_id responsible_id}.freeze
 
   belongs_to :project
