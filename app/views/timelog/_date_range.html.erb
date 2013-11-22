@@ -63,5 +63,5 @@ raw l(:label_date_from_to,
 </fieldset>
 <p class="buttons">
 	<%= link_to_function l(:button_apply), '$("query_form").submit()', :class => 'icon icon-checked' %>
-  <%= link_to l(:button_clear), polymorphic_time_entries_path(@issue || @project), :class => 'icon icon-reload' %>
+  <%= link_to l(:button_clear), polymorphic_time_entries_path(@issue || @project), :class => 'icon icon-undo' %>
 </p>

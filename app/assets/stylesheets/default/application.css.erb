@@ -2348,12 +2348,15 @@ a.icon, input.input-as-link {
   color: #4b4b4b;
   font-weight: normal;
 }
-a.icon:hover, input.input-as-link:hover {
+a.icon:hover {
+  color: #008BD0;
+  text-decoration: none;
+}
+input.input-as-link:hover {
   color: #008BD0;
   text-decoration: underline;
 }
 
-.icon-copy { background-image: url(<%= asset_path 'webalys/copy.png' %>); }
 .icon-reload  {
   background-position: 0px 3px;
 }

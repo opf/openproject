@@ -109,7 +109,7 @@ See doc/COPYRIGHT.rdoc for more details.
                              :method => :get,
                              :update => "content",
                              :complete => 'resetSelectedMenuItem(); initQuerySelectBehaviour();',
-                           }, :class => 'icon icon-reload'  %>
+                           }, :class => 'icon icon-undo'  %>
 
         <% if query.new_record? && User.current.allowed_to?(:save_queries, project, :global => true) %>
           <%= link_to l(:button_save), {}, :onclick => "selectAllOptions('selected_columns'); jQuery('#query_form').submit(); return false;", :class => 'icon icon-save' %>
