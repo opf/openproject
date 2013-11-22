@@ -92,19 +92,28 @@ end
 def select_within_select2(to_select, scope)
   tries = 3
   begin
-    with_scope(scope) do
-      find(".select2-choices .select2-input").set(to_select)
-    end
+    enter_principal_with_select2(to_select, scope)
     steps %Q{And I wait 10 seconds for the AJAX requests to finish}
-    find(".select2-results .select2-result").click
   rescue Capybara::ElementNotFound
     tries -= 1
     retry unless tries == 0
   end
+  find(".select2-results .select2-result").click
 end
+
 
 def select_without_select2(name, scope)
   steps %Q{And I check "#{name}" within "#{scope}"}
+end
+
+def enter_principal_with_select2(name, scope = "")
+  with_scope(scope) do
+    find(".select2-choices .select2-input").set(name)
+  end
+end
+
+def enter_principal_without_select2(name)
+  step %Q{I fill in "principal_search" with "#{name}"}
 end
 
 When /^I add the principal "(.+)" as a member with the roles:$/ do |principal_name, roles_table|
@@ -131,9 +140,9 @@ end
 
 When /^I enter the principal name "(.+)"$/ do |principal_name|
   if !User.current.impaired?
-    step %Q{I fill in "s2id_autogen4" with "#{principal_name}" within "#s2id_member_user_ids"}
+    enter_principal_with_select2(principal_name, "#s2id_member_user_ids")
   else
-    step %Q{I fill in "principal_search" with "#{principal_name}"}
+    enter_principal_without_select2(principal_name)
   end
 end
 

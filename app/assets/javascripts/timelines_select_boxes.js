@@ -55,7 +55,9 @@ jQuery(document).ready(function($) {
     $("#timeline_options_planning_element_responsibles"),
     $("#timeline_options_grouping_two_selection")
   ].each(function (item) {
-    $(item).timelinesAutocomplete({ ajax: {null_element: {id: -1, name: I18n.t("js.timelines.filter.noneElement")}} });
+    $(item).autocomplete({ multiple: true,
+                           ajax: {null_element: {id: -1, name: I18n.t("js.filter.noneElement")}}
+                        });
   });
 
   [
@@ -63,11 +65,12 @@ jQuery(document).ready(function($) {
     $("#timeline_options_planning_element_time_types"),
     $("#timeline_options_planning_element_status")
   ].each(function (item) {
-    $(item).timelinesAutocomplete({});
+    $(item).autocomplete({});
   });
 
   var item = $("#timeline_options_columns_");
-  item.timelinesAutocomplete({
+  item.autocomplete({
+    multiple: true,
     sortable: true
   });
 
@@ -76,7 +79,7 @@ jQuery(document).ready(function($) {
     $("#project_association_select_project_b_id")
   ].each(function (item) {
     // Stuff borrowed from Core application.js Project Jump Box
-    $(item).timelinesAutocomplete({
+    $(item).autocomplete({
       multiple: false,
       formatSelection: function (item) {
         return item.name || item.project.name;
@@ -94,7 +97,8 @@ jQuery(document).ready(function($) {
     $("#timeline_options_grouping_one_selection")
   ].each(function (item) {
     // Stuff borrowed from Core application.js Project Jump Box
-    $(item).timelinesAutocomplete({
+    $(item).autocomplete({
+      multiple: true,
       sortable: true,
       formatSelection: function (item) {
         return item.name || item.project.name;
@@ -104,7 +108,7 @@ jQuery(document).ready(function($) {
       query        : OpenProject.Helpers.Search.projectQueryWithHierarchy(
                           jQuery.proxy(openProject, 'fetchProjects'),
                           20),
-      ajax: {null_element: {id: -1, name: I18n.t("js.timelines.filter.noneElement")}}
+      ajax: {null_element: {id: -1, name: I18n.t("js.filter.noneElement")}}
     });
   });
 
@@ -112,7 +116,8 @@ jQuery(document).ready(function($) {
     $("#timeline_options_parents")
   ].each(function (item) {
     // Stuff borrowed from Core application.js Project Jump Box
-    $(item).timelinesAutocomplete({
+    $(item).autocomplete({
+      multiple: true,
       formatSelection: function (item) {
         return item.name || item.project.name;
       },
@@ -121,7 +126,7 @@ jQuery(document).ready(function($) {
       query        : OpenProject.Helpers.Search.projectQueryWithHierarchy(
                           jQuery.proxy(openProject, 'fetchProjects'),
                           20),
-      ajax: {null_element: {id: -1, name: I18n.t("js.timelines.filter.noneElement")}}
+      ajax: {null_element: {id: -1, name: I18n.t("js.filter.noneElement")}}
     });
   });
 

@@ -77,10 +77,14 @@ Redmine::AccessControl.map do |map|
                  },
                  :public => true
   map.permission :search_project, {:search => :index}, :public => true
-  map.permission :add_project, {:projects => [:new, :create]}, :require => :loggedin
+  map.permission :add_project, {
+                                :projects => [:new, :create],
+                                :members => [:paginate_users]
+                               }, :require => :loggedin
   map.permission :edit_project,
                  {
-                   :projects => [:settings, :edit, :update]
+                   :projects => [:settings, :edit, :update],
+                   :members => [:paginate_users]
                  },
                  :require => :member
   map.permission :select_project_modules, {:projects => :modules}, :require => :member
@@ -88,7 +92,10 @@ Redmine::AccessControl.map do |map|
   map.permission :manage_versions, {:projects => :settings, :versions => [:new, :create, :edit, :update, :close_completed, :destroy]}, :require => :member
   map.permission :manage_types, {:projects => :types}, :require => :member
   map.permission :add_subprojects, {:projects => [:new, :create]}, :require => :member
-  map.permission :copy_projects, {:copy_projects => [:copy, :copy_project]}, :require => :member
+  map.permission :copy_projects, {
+                                  :copy_projects => [:copy, :copy_project],
+                                  :members => [:paginate_users]
+                                 }, :require => :member
 
   map.project_module :issue_tracking do |map|
     # Issue categories
