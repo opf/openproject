@@ -36,7 +36,7 @@ class MembersController < ApplicationController
   include Pagination::Controller
   paginate_model User
   search_for User, :search_in_project
-  search_options_for User, lambda { |yeah| {:project => @project} }
+  search_options_for User, lambda { |_| {:project => @project} }
 
   TAB_SCRIPTS = <<JS
     hideOnLoad();
