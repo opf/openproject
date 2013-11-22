@@ -53,8 +53,10 @@
 /*jshint browser:true, devel:true*/
 /*global jQuery:false, Raphael:false, Timeline:true*/
 
-Timeline = {
+Timeline = {};
 
+//constants and defaults
+jQuery.extend(Timeline, {
   LOAD_ERROR_TIMEOUT: 60000,
   DISPLAY_ERROR_DELAY: 2000,
   PROJECT_ID_BLOCK_SIZE: 100,
@@ -84,7 +86,9 @@ Timeline = {
     context: this,
     dataType: 'json'
   },
+});
 
+jQuery.extend(Timeline, {
   instances: [],
   get: function(n) {
     if (typeof n !== "number") {
@@ -422,7 +426,10 @@ Timeline = {
 
     }, Timeline.DISPLAY_ERROR_DELAY);
   },
+});
 
+//FilterQueryStringBuilder
+jQuery.extend(Timeline, {
   // ╭───────────────────────────────────────────────────────────────────╮
   // │ Loading                                                           │
   // ╰───────────────────────────────────────────────────────────────────╯
@@ -525,7 +532,10 @@ Timeline = {
 
     return FilterQueryStringBuilder;
   })(),
+});
 
+//TimelineLoader
+jQuery.extend(Timeline, {
   TimelineLoader : (function () {
 
     /**
@@ -1506,7 +1516,9 @@ Timeline = {
 
     return TimelineLoader;
   })(),
+});
 
+jQuery.extend(Timeline, {
   checkPrerequisites: function() {
     if (jQuery === undefined) {
       throw new Error('jQuery seems to be missing (jQuery is undefined)');
@@ -1601,7 +1613,10 @@ Timeline = {
   // ╭───────────────────────────────────────────────────────────────────╮
   // │ Timeline.ProjectAssociation                                       │
   // ╰───────────────────────────────────────────────────────────────────╯
+});
 
+//Model Classes
+jQuery.extend(Timeline, {
   ProjectAssociation: {
     identifier: 'project_associations',
     all: function(timeline) {
@@ -3115,7 +3130,9 @@ Timeline = {
       return this.elements;
     }
   },
+});
 
+jQuery.extend(Timeline, {
   // ╭───────────────────────────────────────────────────────────────────╮
   // │ Defaults and random accessors                                     │
   // ╰───────────────────────────────────────────────────────────────────╯
@@ -3320,7 +3337,10 @@ Timeline = {
   getProjectAssociations: function() {
     return Timeline.ProjectAssociation.all(this);
   },
+});
 
+//Treenode
+jQuery.extend(Timeline, {
   TreeNode: {
 
     payload: undefined,
@@ -3599,7 +3619,10 @@ Timeline = {
       return this.numberOfPlanningElements() !== 0;
     }
   },
+});
 
+//UI?
+jQuery.extend(Timeline, {
   getLefthandTree: function() {
 
     if (!this.lefthandTree) {
@@ -5183,7 +5206,7 @@ Timeline = {
       this.modalHelper.create(projectID);
     }
   }
-};
+});
 
 // This polyfill covers the main use case which is creating a new object
 // for which the prototype has been chosen but doesn't take the second
