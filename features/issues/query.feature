@@ -14,6 +14,8 @@ Feature: Work Package Query
     And there is 1 project with the following:
       | name       | project |
       | identifier | project |
+    And there is a default status with:
+      | name | New |
     And I am working in project "project"
     And the project "project" has the following types:
       | name | position |

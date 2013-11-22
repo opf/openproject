@@ -101,6 +101,7 @@ en:
       query:
         column_names: "Columns"
         group_by: "Group results by"
+        filters: "Filters"
       repository:
         url: "URL"
       role:
@@ -192,6 +193,7 @@ en:
         less_than_or_equal_to: "must be less than or equal to %{count}"
         not_a_date: "is not a valid date"
         not_a_number: "is not a number"
+        not_an_integer: "is not an integer"
         not_same_project: "doesn't belong to the same project"
         odd: "must be odd"
         taken: "has already been taken"

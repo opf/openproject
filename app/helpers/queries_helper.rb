@@ -30,7 +30,7 @@
 module QueriesHelper
 
   def operators_for_select(filter_type)
-    Query.operators_by_filter_type[filter_type].collect {|o| [l(Query.operators[o]), o]}
+    Query::Filter.operators_by_filter_type[filter_type].collect {|o| [l(Query::Filter.operators[o]), o]}
   end
 
   def column_header(column)
@@ -88,13 +88,13 @@ module QueriesHelper
     else
       if api_request? || params[:set_filter] || session[:query].nil? || session[:query][:project_id] != (@project ? @project.id : nil)
         # Give it a name, required to be valid
-        @query = Query.new(:name => "_")
+        @query = Query.new({name: "_"}, initialize_with_default_filter: true)
         @query.project = @project
         if params[:fields] || params[:f]
-          @query.filters = {}
+          @query.filters = []
           @query.add_filters(params[:fields] || params[:f], params[:operators] || params[:op], params[:values] || params[:v])
         else
-          @query.available_filters.keys.each do |field|
+          @query.available_work_package_filters.keys.each do |field|
             @query.add_short_filter(field, params[field]) if params[field]
           end
         end

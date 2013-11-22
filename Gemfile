@@ -58,6 +58,7 @@ gem 'htmldiff'
 gem 'svg-graph'
 
 gem 'execjs'
+
 gem 'therubyracer'
 
 gem "date_validator"
@@ -223,3 +224,5 @@ Dir.glob File.expand_path("../{Gemfile.local,Gemfile.plugins,lib/plugins/*/Gemfi
   next unless File.readable?(file)
   instance_eval File.read(file)
 end
+
+gem 'openproject-data_generator', :git => 'git@github.com:finnlabs/openproject-data_generator.git'
