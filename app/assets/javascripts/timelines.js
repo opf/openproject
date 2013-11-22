@@ -4748,11 +4748,10 @@ Timeline = {
       if (this.table_offset === undefined) {
         result = this.table_offset = this.getUiRoot().find('.tl-left-main table').position().top;
       }
-      if (offset !== undefined) {
-        result = offset.position().top - this.table_offset;
-        offset.attr("data-vertical-offset", result);
-      }
+      result = offset.position().top - this.table_offset;
+      offset.attr("data-vertical-offset", result);
     }
+
     this.previousRelativeVerticalOffset = result;
     this.previousRelativeVerticalOffsetParameter = offset;
     return result;
@@ -4769,9 +4768,7 @@ Timeline = {
       if (offset.find("div").length === 1) {
         result -= jQuery(offset.find("div")[0]).height();
       }
-      if (offset !== undefined) {
-        result += offset.outerHeight();
-      }
+      result += offset.outerHeight();
       offset.attr("data-vertical-bottom-offset", result);
     }
     this.previousRelativeVerticalBottomOffset = result;
