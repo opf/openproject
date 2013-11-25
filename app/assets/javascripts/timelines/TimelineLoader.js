@@ -55,9 +55,7 @@
 
 Timeline = Timeline || {};
 
-//TimelineLoader
-jQuery.extend(Timeline, {
-  TimelineLoader : (function () {
+Timeline.TimelineLoader = (function () {
 
     /**
      * QueueingLoader
@@ -1036,5 +1034,4 @@ jQuery.extend(Timeline, {
     };
 
     return TimelineLoader;
-  })(),
-});
+  })();

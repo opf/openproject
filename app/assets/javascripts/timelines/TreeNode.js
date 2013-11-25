@@ -55,9 +55,7 @@
 
 Timeline = Timeline || {};
 
-//Treenode
-jQuery.extend(Timeline, {
-  TreeNode: {
+Timeline.TreeNode = {
 
     payload: undefined,
     parentNode: undefined,
@@ -334,5 +332,4 @@ jQuery.extend(Timeline, {
     containsPlanningElements: function() {
       return this.numberOfPlanningElements() !== 0;
     }
-  },
-});
+  };

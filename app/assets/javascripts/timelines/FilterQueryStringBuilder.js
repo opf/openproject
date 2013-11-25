@@ -55,13 +55,7 @@
 
 Timeline = Timeline || {};
 
-//FilterQueryStringBuilder
-jQuery.extend(Timeline, {
-  // ╭───────────────────────────────────────────────────────────────────╮
-  // │ Loading                                                           │
-  // ╰───────────────────────────────────────────────────────────────────╯
-
-  FilterQueryStringBuilder: (function() {
+Timeline.FilterQueryStringBuilder = (function() {
 
     /**
      * FilterQueryStringBuilder
@@ -158,5 +152,4 @@ jQuery.extend(Timeline, {
     };
 
     return FilterQueryStringBuilder;
-  })(),
-});
+  })();
