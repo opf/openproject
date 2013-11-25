@@ -53,7 +53,7 @@
 /*jshint browser:true, devel:true*/
 /*global jQuery:false, Raphael:false, Timeline:true*/
 
-Timeline = {};
+Timeline = Timeline || {};
 
 //constants and defaults
 jQuery.extend(Timeline, {
