@@ -65,6 +65,7 @@ if (typeof Timeline === "undefined") {
   Timeline = {};
 }
 
+//startup
 jQuery.extend(Timeline, {
   instances: [],
   get: function(n) {
@@ -314,6 +315,18 @@ jQuery.extend(Timeline, {
       this.die(e);
     }
   },
+  checkPrerequisites: function() {
+    if (jQuery === undefined) {
+      throw new Error('jQuery seems to be missing (jQuery is undefined)');
+    } else if (jQuery().slider === undefined) {
+      throw new Error('jQuery UI seems to be missing (jQuery().slider is undefined)');
+    } else if ((1).month === undefined) {
+      throw new Error('date.js seems to be missing ((1).month is undefined)');
+    } else if (Raphael === undefined) {
+      throw new Error('Raphael seems to be missing (Raphael is undefined)');
+    }
+    return true;
+  },
   reload: function() {
     delete this.lefthandTree;
 
@@ -403,22 +416,6 @@ jQuery.extend(Timeline, {
 
     }, Timeline.DISPLAY_ERROR_DELAY);
   },
-});
-
-jQuery.extend(Timeline, {
-  checkPrerequisites: function() {
-    if (jQuery === undefined) {
-      throw new Error('jQuery seems to be missing (jQuery is undefined)');
-    } else if (jQuery().slider === undefined) {
-      throw new Error('jQuery UI seems to be missing (jQuery().slider is undefined)');
-    } else if ((1).month === undefined) {
-      throw new Error('date.js seems to be missing ((1).month is undefined)');
-    } else if (Raphael === undefined) {
-      throw new Error('Raphael seems to be missing (Raphael is undefined)');
-    }
-    return true;
-  },
-
   onLoadComplete: function() {
     // everything here should be wrapped in try/catch, to never
     var tree;
@@ -440,7 +437,6 @@ jQuery.extend(Timeline, {
       this.die(e);
     }
   },
-
   secondLevelGroupingAdjustments : function () {
     var grouping = jQuery.map(this.options.grouping_two_selection || [], Timeline.pnum);
     var root = this.getProject();
@@ -487,11 +483,10 @@ jQuery.extend(Timeline, {
   }
 });
 
+// ╭───────────────────────────────────────────────────────────────────╮
+// │ Defaults and random accessors                                     │
+// ╰───────────────────────────────────────────────────────────────────╯
 jQuery.extend(Timeline, {
-  // ╭───────────────────────────────────────────────────────────────────╮
-  // │ Defaults and random accessors                                     │
-  // ╰───────────────────────────────────────────────────────────────────╯
-
   // defines how many levels are expanded when a tree is created, zero
   // corresponds to the root being collapsed.
   firstDateSeen: null,
@@ -755,9 +750,13 @@ jQuery.extend(Timeline, {
 // │ Data Store                                                        │
 // ├───────────────────────────────────────────────────────────────────┤
 // │ Model Prototypes:                                                 │
+// │ Timeline.ProjectAssociation                                       │
+// │ Timeline.Reporting                                                │
 // │ Timeline.ProjectType                                              │
 // │ Timeline.Color                                                    │
-// │ Timeline.Reporting                                                │
+// │ Timeline.Status                                                   │
+// │ Timeline.PlanningElementType                                      │
+// │ Timeline.User                                                     │
 // ╰───────────────────────────────────────────────────────────────────╯
 
 jQuery.extend(Timeline, {
