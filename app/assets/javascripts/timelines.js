@@ -37,6 +37,10 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
+//= require timelines/FilterQueryStringBuilder
+//= require timelines/TimelineLoader
+//= require timelines/TreeNode
+
 // stricter than default
 /*jshint undef:true,
          eqeqeq:true,
@@ -53,7 +57,9 @@
 /*jshint browser:true, devel:true*/
 /*global jQuery:false, Raphael:false, Timeline:true*/
 
-Timeline = Timeline || {};
+if (typeof Timeline === "undefined") {
+  Timeline = {};
+}
 
 //constants and defaults
 jQuery.extend(Timeline, {

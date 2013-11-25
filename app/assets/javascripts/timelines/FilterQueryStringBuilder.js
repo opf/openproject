@@ -53,7 +53,9 @@
 /*jshint browser:true, devel:true*/
 /*global jQuery:false, Raphael:false, Timeline:true*/
 
-Timeline = Timeline || {};
+if (typeof Timeline === "undefined") {
+  Timeline = {};
+}
 
 Timeline.FilterQueryStringBuilder = (function() {
 
