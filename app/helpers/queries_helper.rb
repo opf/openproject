@@ -30,7 +30,7 @@
 module QueriesHelper
 
   def operators_for_select(filter_type)
-    Query::Filter.operators_by_filter_type[filter_type].collect {|o| [l(Query::Filter.operators[o]), o]}
+    Queries::Filter.operators_by_filter_type[filter_type].collect {|o| [l(Queries::Filter.operators[o]), o]}
   end
 
   def column_header(column)

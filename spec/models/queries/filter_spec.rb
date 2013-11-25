@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Query::Filter do
+describe Queries::Filter do
   describe :type do
 
     describe 'validations' do

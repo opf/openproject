@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Query::Filter
+class Queries::Filter
   include ActiveModel::Validations
 
   @@filter_params = [:operator, :values] # will be serialized and persisted with the query

@@ -1,4 +1,4 @@
-module Query::WorkPackages::AvailableFilterOptions
+module Queries::WorkPackages::AvailableFilterOptions
   def available_work_package_filters
     return @available_work_package_filters if @available_work_package_filters
 

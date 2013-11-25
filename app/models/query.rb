@@ -28,7 +28,7 @@
 #++
 
 class Query < ActiveRecord::Base
-  include ::Query::WorkPackages::AvailableFilterOptions
+  include Queries::WorkPackages::AvailableFilterOptions
 
   alias_method :available_filters, :available_work_package_filters # referenced in plugin patches - currently there are only work package queries and filters
 
@@ -37,7 +37,7 @@ class Query < ActiveRecord::Base
   belongs_to :project
   belongs_to :user
   has_one :query_menu_item, :class_name => 'MenuItems::QueryMenuItem', :dependent => :delete, :order => 'name', :foreign_key => 'navigatable_id'
-  serialize :filters, ::Query::WorkPackages::FilterSerializer
+  serialize :filters, Queries::WorkPackages::FilterSerializer
   serialize :column_names
   serialize :sort_criteria, Array
 
@@ -80,7 +80,7 @@ class Query < ActiveRecord::Base
   end
 
   def add_default_filter
-    self.filters = [ ::Query::WorkPackages::Filter.new('status_id', operator: "o", values: [""]) ] if self.filters.blank?
+    self.filters = [ Queries::WorkPackages::Filter.new('status_id', operator: "o", values: [""]) ] if self.filters.blank?
   end
 
   # Store the fact that project is nil (used in #editable_by?)
@@ -110,7 +110,7 @@ class Query < ActiveRecord::Base
       filter.operator = operator
       filter.values = values
     else
-      self.filters << ::Query::WorkPackages::Filter.new(field, operator: operator, values: values)
+      self.filters << Queries::WorkPackages::Filter.new(field, operator: operator, values: values)
     end
   end
 

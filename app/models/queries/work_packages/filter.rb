@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Query::WorkPackages::Filter < Query::Filter
+class Queries::WorkPackages::Filter < Queries::Filter
   @@filter_types_by_field = superclass.filter_types_by_field.merge(
      status_id:        :list_status,
      type_id:          :list,
