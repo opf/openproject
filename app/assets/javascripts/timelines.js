@@ -40,6 +40,7 @@
 //= require timelines/FilterQueryStringBuilder
 //= require timelines/TimelineLoader
 //= require timelines/TreeNode
+//= require timelines/constants
 
 // stricter than default
 /*jshint undef:true,
@@ -60,39 +61,6 @@
 if (typeof Timeline === "undefined") {
   Timeline = {};
 }
-
-//constants and defaults
-jQuery.extend(Timeline, {
-  LOAD_ERROR_TIMEOUT: 60000,
-  DISPLAY_ERROR_DELAY: 2000,
-  PROJECT_ID_BLOCK_SIZE: 100,
-  USER_ATTRIBUTES: {
-    PROJECT: ["responsible_id"],
-    PLANNING_ELEMENT: ["responsible_id", "assigned_to_id"]
-  },
-
-  defaults: {
-    artificial_load_delay:          0,   // no delay
-    columns:                        [],
-    exclude_own_planning_elements:  false,
-    exclude_reporters:              false,
-    api_prefix:                     '/api/v2',
-    hide_other_group:               false,
-    hide_tree_root:                 false,
-    i18n:                           {},  // undefined would be bad.
-    initial_outline_expansion:      0,   // aggregations only
-    project_prefix:                 '/projects',
-    planning_element_prefix:        '',
-    ui_root:                        jQuery('#timeline'),
-    url_prefix:                     ''   // empty prefix so it is not undefined.
-  },
-
-  ajax_defaults: {
-    cache: false,
-    context: this,
-    dataType: 'json'
-  },
-});
 
 jQuery.extend(Timeline, {
   instances: [],
@@ -698,7 +666,17 @@ jQuery.extend(Timeline, {
     identifier: 'users'
   },
 
-  Project: {
+  // ╭───────────────────────────────────────────────────────────────────╮
+  // │ Timeline.HistoricalPlanningElement                                │
+  // ╰───────────────────────────────────────────────────────────────────╯
+
+  HistoricalPlanningElement: {
+    identifier: 'historical_planning_elements'
+  }
+
+});
+
+Timeline.Project = {
     is: function(t) {
       return Timeline.Project.identifier === t.identifier;
     },
@@ -1283,21 +1261,13 @@ jQuery.extend(Timeline, {
       }
       return result;
     }
-  },
+  };
 
-  // ╭───────────────────────────────────────────────────────────────────╮
-  // │ Timeline.HistoricalPlanningElement                                │
-  // ╰───────────────────────────────────────────────────────────────────╯
+// ╭───────────────────────────────────────────────────────────────────╮
+// │ Timeline.PlanningElement                                          │
+// ╰───────────────────────────────────────────────────────────────────╯
 
-  HistoricalPlanningElement: {
-    identifier: 'historical_planning_elements'
-  },
-
-  // ╭───────────────────────────────────────────────────────────────────╮
-  // │ Timeline.PlanningElement                                          │
-  // ╰───────────────────────────────────────────────────────────────────╯
-
-  PlanningElement: {
+Timeline.PlanningElement = {
     is: function(t) {
       return Timeline.PlanningElement.identifier === t.identifier;
     },
@@ -2045,8 +2015,7 @@ jQuery.extend(Timeline, {
       }
       return this.elements;
     }
-  },
-});
+  };
 
 jQuery.extend(Timeline, {
   // ╭───────────────────────────────────────────────────────────────────╮
