@@ -38,7 +38,7 @@ module Redmine
         return if Setting.table_exists? && !Setting.feeds_enabled? && name == "Atom"
         url = { :format => name.to_s.downcase }.merge(options.delete(:url) || {})
         caption = options.delete(:caption) || name
-        html_options = { :class => name.to_s.downcase, :rel => 'nofollow' }.merge(options)
+        html_options = { :class => "icon icon-#{name.to_s.downcase}", :rel => 'nofollow' }.merge(options)
         @view.content_tag('span', @view.link_to(caption, url, html_options))
       end
     end
