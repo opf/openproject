@@ -161,41 +161,69 @@ class WorkPackage < ActiveRecord::Base
                        :project,
                        :priority
 
-  # This one is here only to ease reading
-  module JournalizedProcs
-    def self.event_title
-      Proc.new do |data|
-        journal = data.journal
-        work_package = journal.journable
+  def self.extend_event_query(j, ej, query)
+    t = Arel::Table.new(:types)
+    s = Arel::Table.new(:statuses)
 
-        title = work_package.to_s
-        title << " (#{work_package.status.name})" if work_package.status.present?
+    query = query.join(t).on(ej[:type_id].eq(t[:id]))
+    query = query.join(s).on(ej[:status_id].eq(s[:id]))
+    query
+  end
 
-        title
-      end
-    end
+  def self.event_projection(j, ej)
+    t = Arel::Table.new(:types)
+    s = Arel::Table.new(:statuses)
 
-    def self.event_type
-      Proc.new do |data|
-        journal = data.journal
-        t = 'work_package'
+    [
+      ej[:subject].as('subject'),
+      ej[:project_id].as('project_id'),
+      s[:name].as('status_name'),
+      s[:is_closed].as('status_closed'),
+      t[:name].as('type_name')
+    ]
+  end
 
-        t << if journal.changed_data.empty? && !journal.initial?
-               '-note'
-             else
-               status = Status.find_by_id(data.status_id)
+  def self.format_event_data(events)
+    events.each_with_object([]) do |e, l|
+      title = self.event_title e
+      type = "work_package#{self.event_type e}"
+      url = self.event_url e
 
-               status.try(:is_closed?) ? '-closed' : '-edit'
-             end
-
-        t
-      end
+      l << Redmine::Acts::ActivityProvider::Event.new(title,
+                                                      e['event_description'],
+                                                      User.find_by_id(e['event_author'].to_i),
+                                                      DateTime.parse(e['event_datetime']),
+                                                      Project.find_by_id(e['project_id'].to_i),
+                                                      type,
+                                                      url)
     end
   end
 
-  acts_as_journalized :event_title => JournalizedProcs.event_title,
-                      :event_type => JournalizedProcs.event_type,
-                      :except => ["root_id"],
+  def self.event_title(event)
+    title = "#{(event['is_standard']) ? l(:default_type)
+                                      : "#{event['type_name']}"} ##{event['journable_id']}: #{event['subject']}"
+    title << " (#{event['status_name']})" unless event['status_name'].blank?
+  end
+
+  def self.event_type(event)
+    journal = Journal.find(event['event_id'])
+
+    if journal.changed_data.empty? && !journal.initial?
+       '-note'
+    else
+      event['status_closed'] ? '-closed' : '-edit'
+    end
+  end
+
+  def self.event_url(event)
+    version = event['version'].to_i
+    anchor = event['version'].to_i - 1
+    parameters = { id: event['journable_id'], anchor: (version > 1 ? "note-#{anchor}" : '') }
+
+    Rails.application.routes.url_helpers.work_package_path(parameters)
+  end
+
+  acts_as_journalized :except => ["root_id"],
                       :activity_find_options => { :include => [:status, :type] }
 
   register_on_journal_formatter(:id, 'parent_id')
