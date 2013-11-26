@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#3050` Fix: [Work Package Tracking] Internal error with query from the time before work packages
 * Fix position of 'more functions' menu on wp#show
 
 ## 3.0.0pre33
