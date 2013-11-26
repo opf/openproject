@@ -87,39 +87,6 @@ class QueryTest < ActiveSupport::TestCase
     assert_equal WorkPackage.find(3), issues.first
   end
 
-  def test_operator_none
-    query = Query.new(:project => Project.find(1), :name => '_')
-    query.add_filter('fixed_version_id', '!*', [''])
-    query.add_filter('cf_1', '!*', [''])
-    assert query.statement.include?("#{WorkPackage.table_name}.fixed_version_id IS NULL")
-    assert query.statement.include?("#{CustomValue.table_name}.value IS NULL OR #{CustomValue.table_name}.value = ''")
-    find_issues_with_query(query)
-  end
-
-  def test_operator_none_for_integer
-    query = Query.new(:project => Project.find(1), :name => '_')
-    query.add_filter('estimated_hours', '!*', [''])
-    issues = find_issues_with_query(query)
-    assert !issues.empty?
-    assert issues.all? {|i| !i.estimated_hours}
-  end
-
-  def test_operator_greater_than
-    query = Query.new(:project => Project.find(1), :name => '_')
-    query.add_filter('done_ratio', '>=', ['40'])
-    assert query.statement.include?("#{WorkPackage.table_name}.done_ratio >= 40")
-    find_issues_with_query(query)
-  end
-
-  def test_operator_in_more_than
-    WorkPackage.find(7).update_attribute(:due_date, (Date.today + 15))
-    query = Query.new(:project => Project.find(1), :name => '_')
-    query.add_filter('due_date', '>t+', ['15'])
-    issues = find_issues_with_query(query)
-    assert !issues.empty?
-    issues.each {|issue| assert(issue.due_date >= (Date.today + 15))}
-  end
-
   def test_operator_in_less_than
     query = Query.new(:project => Project.find(1), :name => '_')
     query.add_filter('due_date', '<t+', ['15'])

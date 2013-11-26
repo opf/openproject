@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Query do
-  let(:query) { FactoryGirl.build(:query) }
+  let(:query) { build(:query) }
 
   describe 'available_columns' do
     context 'with work_package_done_ratio NOT disabled' do
@@ -63,8 +63,8 @@ describe Query do
     end
 
     context 'when filters are blank' do
-      let(:status) { FactoryGirl.create :status }
-      let(:query) { FactoryGirl.build(:query).tap {|q| q.filters = []} }
+      let(:status) { create :status }
+      let(:query) { build(:query).tap {|q| q.filters = []} }
 
       it 'is not valid and creates an error' do
         expect(query.valid?).to be_false
@@ -73,11 +73,79 @@ describe Query do
     end
   end
 
-  let(:project) { FactoryGirl.create :project }
+  let!(:project) { create :project }
+  let(:role) { create(:role, permissions: [:view_work_packages]) }
+  let(:project_member) { create(:user, member_in_project: project, member_through_role: role) }
+
+  let(:query) { create :query, project: project, name: '_', user: project_member }
+  let(:field) { 'cf_1' }
+  let(:values) { [''] }
+  let(:filter) { build :work_packages_filter, field: field, operator: operator, values: values }
+
+  describe '#results' do
+    let!(:work_package) { create :work_package,
+                            project: project }
+
+    before { User.stub(:current).and_return(project_member) }
+    before { query.filters = [filter] }
+
+    describe 'work_packages' do
+      let(:resulting_work_packages) { query.results.work_packages }
+      subject { resulting_work_packages }
+
+      # operator 'none'
+      context "when it has a filter of type integer with 'none' operator" do
+        let!(:work_package_with_estimation) { create :work_package,
+                                                      project: project,
+                                                      estimated_hours: 4 }
+
+        let(:field) { 'estimated_hours' }
+        let(:operator) { '!*' }
+
+        it { should_not include work_package_with_estimation }
+      end
+
+      # operator 'greater than'
+      context "when it searches for work packages with done ration greater than x" do
+        let(:done_ratio) { 50 }
+        let(:field) { 'done_ratio' }
+        let(:operator) { '>=' }
+        let(:values) { [done_ratio - 10] }
+
+        let!(:started_work_package) { create :work_package,
+                                              project: project,
+                                              start_date: 2.days.ago,
+                                              done_ratio: done_ratio }
+
+        it { should include started_work_package }
+        it { should_not include work_package }
+      end
+
+      # operator 'in more than'
+      context "when it searches for work packages with done ration greater than x" do
+        let(:due_in_days) { 7 }
+        let(:due_date) { Date.today + due_in_days.days }
+        let(:field) { 'due_date' }
+        let(:operator) { '>t+' }
+        let(:values) { [due_in_days] }
+
+        let!(:work_package_due_within_period) { create :work_package,
+                                                        project: project,
+                                                        due_date: due_date - 1.day }
+
+        let!(:work_package_due_after_period)  { create :work_package,
+                                                        project: project,
+                                                        due_date: due_date + 1.day }
+
+        it { should include work_package_due_after_period}
+        it { should_not include work_package_due_within_period}
+        it { should_not include work_package}
+      end
+
+    end
+  end
 
   describe '#statement' do
-    let(:query) { FactoryGirl.create :query, project: project, name: '_' }
-
     before { query.filters = [filter] }
     subject { query.statement }
 
@@ -89,15 +157,19 @@ describe Query do
       end
     end
 
+    shared_context 'the fixed version filter is set' do
+      before { query.filters << build(:work_packages_filter, field: 'fixed_version_id', operator: operator, values: ['']) }
+    end
+
     context "when it has a filter with '*' operator" do
-      let(:filter) { FactoryGirl.build :work_packages_filter, field: 'cf_1', operator: '*', values: [''] }
+      let(:operator) { '*' }
 
       it_behaves_like :valid_sql
 
       it { should include "#{CustomValue.table_name}.value IS NOT NULL AND #{CustomValue.table_name}.value <> ''"}
 
       context 'and a filter for fixed_version is applied simultaneously' do
-        before { query.filters << FactoryGirl.build(:work_packages_filter, field: 'fixed_version_id', operator: '*', values: ['']) }
+        include_context 'the fixed version filter is set'
 
         it_behaves_like :valid_sql
 
@@ -105,5 +177,45 @@ describe Query do
         it { should include "#{WorkPackage.table_name}.fixed_version_id IS NOT NULL"}
       end
     end
+
+    context "when it has a filter with 'none' operator" do
+      let(:operator) { '!*' }
+
+      it_behaves_like :valid_sql
+
+      it { should include "#{CustomValue.table_name}.value IS NULL OR #{CustomValue.table_name}.value = ''"}
+
+      context 'and a filter for fixed_version is applied simultaneously' do
+        include_context 'the fixed version filter is set'
+
+        it_behaves_like :valid_sql
+
+        it { should include "#{CustomValue.table_name}.value IS NULL OR #{CustomValue.table_name}.value = ''"}
+        it { should include "#{WorkPackage.table_name}.fixed_version_id IS NULL"}
+      end
+    end
+
+    context "when it has a filter of type integer with 'none' operator" do
+      let(:field) { 'estimated_hours' }
+      let(:operator) { '!*' }
+
+      it_behaves_like :valid_sql
+
+      it { should include "#{WorkPackage.table_name}.#{field} IS NULL"}
+
+      context 'and a filter for fixed_version is applied simultaneously' do
+        include_context 'the fixed version filter is set'
+
+        it_behaves_like :valid_sql
+
+        it { should include "#{WorkPackage.table_name}.#{field} IS NULL" }
+        it { should include "#{WorkPackage.table_name}.fixed_version_id IS NULL"}
+      end
+    end
+
+    context "when it has a 'member_of_group' filter" do
+
+    end
   end
+
 end
