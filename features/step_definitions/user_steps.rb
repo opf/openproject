@@ -73,6 +73,7 @@ Given /^there is 1 [Uu]ser with(?: the following)?:$/ do |table|
 
   if !user
     user = FactoryGirl.create(:user)
+    user.pref
     user.password = user.password_confirmation = nil
   end
 
