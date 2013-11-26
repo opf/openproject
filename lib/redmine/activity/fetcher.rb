@@ -99,12 +99,7 @@ module Redmine
           end
         end
 
-        e = e.map(&:journals).flatten
-        e.sort! {|a,b| b.data.event_datetime <=> a.data.event_datetime}
-
-        if options[:limit]
-          e = e.slice(0, options[:limit])
-        end
+        e.sort! {|a,b| b.datetime <=> a.datetime}
         e
       end
 

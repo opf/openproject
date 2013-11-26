@@ -55,6 +55,25 @@ module Redmine
         end
       end
 
+      Event = Struct.new(:title,
+                         :description,
+                         :author,
+                         :datetime,
+                         :project,
+                         :type,
+                         :url)
+
+      def self.event_projection(j)
+        [
+          j[:id].as('event_id'),
+          j[:created_at].as('event_datetime'),
+          j[:user_id].as('event_author'),
+          j[:notes].as('event_description'),
+          j[:version].as('version'),
+          j[:journable_id].as('journable_id')
+        ]
+      end
+
       module InstanceMethods
         def self.included(base)
           base.extend ClassMethods
@@ -65,28 +84,30 @@ module Redmine
           def find_events(event_type, user, from, to, options)
             raise "#{self.name} can not provide #{event_type} events." if activity_provider_options[event_type].nil?
 
-            provider_options = activity_provider_options[event_type].dup
+            j = Arel::Table.new(:journals)
+            ej = Arel::Table.new(JournalManager.journal_class(self).table_name)
 
-            scope_options = {}
-            cond = ARCondition.new
-            if from && to
-              cond.add(["#{provider_options[:timestamp]} BETWEEN ? AND ?", from, to])
-            end
-            if options[:author]
-              return [] if provider_options[:author_key].nil?
-              cond.add(["#{provider_options[:author_key]} = ?", options[:author].id])
-            end
-            cond.add(Project.allowed_to_condition(user, provider_options[:permission], options)) if provider_options[:permission]
-            scope_options[:conditions] = cond.conditions
-            if options[:limit]
-              # id and creation time should be in same order in most cases
-              scope_options[:order] = "#{Journal.table_name}.id DESC"
-              scope_options[:limit] = options[:limit]
-            end
+            query = j.join(ej).on(j[:id].eq(ej[:journal_id]))
+            query = query.where(j[:journable_type].eq(self.name))
 
-            self.with_scope(:find => scope_options) do
-              self.includes(:journals, provider_options[:find_options][:include])
-            end
+            query = query.where(j[:created_at].gteq(from)) if from
+            query = query.where(j[:created_at].lteq(to)) if to
+
+            query = query.where(j[:user_id].eq(options[:author].id)) if options[:author]
+
+            query = self.extend_event_query(j, ej, query) if self.respond_to? :extend_event_query
+
+            # TODO: Implement permission scope
+
+            query = query.order(j[:id]).take(options[:limit]) if options[:limit]
+
+            projection = Redmine::Acts::ActivityProvider.event_projection(j)
+            projection << self.event_projection(j, ej) if self.respond_to? :event_projection
+
+            query.project(projection)
+
+            return [] unless self.respond_to? :format_event_data
+            self.format_event_data(ActiveRecord::Base.connection.execute(query.to_sql))
           end
         end
       end
