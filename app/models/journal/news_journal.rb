@@ -29,4 +29,21 @@
 
 class Journal::NewsJournal < Journal::BaseJournal
   self.table_name = "news_journals"
+
+  acts_as_activity_provider type: 'news',
+                            permission: :view_news
+
+  def self.format_event(event, event_data)
+    event.url = self.event_url event_data
+
+    event
+  end
+
+  private
+
+  def self.event_url(event)
+    parameters = { id: event['journable_id'] }
+
+    Rails.application.routes.url_helpers.news_path(parameters)
+  end
 end
