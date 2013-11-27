@@ -42,7 +42,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <dt class="<%= e.type %>  <%= User.current.logged? && e.respond_to?(:author) && User.current == e.author ? 'me' : nil %>">
           <%= avatar(e.author, :size => "24") if e.respond_to?(:author) %>
           <span class="time"><%= format_time(e.datetime.to_time, false) %></span>
-          <%= content_tag('span', link_to(e.project.name, e.project), :class => 'project') if @project.nil? || @project != e.project %>
+          <%= content_tag('span', link_to(e.project.name, e.project), :class => 'project') if @project.nil? || (@project != e.project && e.project) %>
           <%= link_to format_activity_title(e.title), e.url %>
         </dt>
         <dd>
