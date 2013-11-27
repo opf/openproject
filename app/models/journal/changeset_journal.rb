@@ -56,7 +56,6 @@ class Journal::ChangesetJournal < Journal::BaseJournal
     event.description = self.split_comment(event_data['comments']).last
     event.datetime = DateTime.parse(event_data['committed_on'])
     event.project_id = event_data['project_id'].to_i
-    event.type = "changeset"
     event.url = self.event_url event_data
 
     event

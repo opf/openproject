@@ -59,7 +59,6 @@ class Journal::TimeEntryJournal < Journal::BaseJournal
     event.title = self.event_title event_data
     event.description = event_data['time_entry_description']
     event.project_id = event_data['project_id'].to_i
-    event.type = 'time_entries'
     event.url = self.event_url event_data
 
     event
