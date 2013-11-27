@@ -88,10 +88,10 @@ module Redmine
             raise "#{self.name} can not provide #{event_type} events." if activity_provider_options[event_type].nil?
 
             j = Arel::Table.new(:journals)
-            ej = Arel::Table.new(JournalManager.journal_class(self).table_name)
+            ej = Arel::Table.new(self.table_name)
 
             query = j.join(ej).on(j[:id].eq(ej[:journal_id]))
-            query = query.where(j[:journable_type].eq(self.name))
+            query = query.where(j[:journable_type].eq(JournalManager.journaled_class(self).name))
 
             query = query.where(j[:created_at].gteq(from)) if from
             query = query.where(j[:created_at].lteq(to)) if to
@@ -105,7 +105,7 @@ module Redmine
             query = query.order(j[:id]).take(options[:limit]) if options[:limit]
 
             projection = Redmine::Acts::ActivityProvider.event_projection(j)
-            projection << self.event_projection(j, ej) if self.respond_to? :event_projection
+            projection << self.event_query_projection(j, ej) if self.respond_to? :event_query_projection
 
             query.project(projection)
 

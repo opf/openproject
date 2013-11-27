@@ -362,12 +362,12 @@ Redmine::MenuManager.map :project_menu do |menu|
 end
 
 Redmine::Activity.map do |activity|
-  activity.register :work_packages, :class_name => 'WorkPackage'
-  activity.register :changesets
-  activity.register :news
-  activity.register :wiki_edits, :class_name => 'WikiContent', :default => false
-  activity.register :messages, :default => false
-  activity.register :time_entries, :default => false
+  activity.register :work_packages, class_name: 'Journal::WorkPackageJournal'
+  activity.register :changesets, class_name: 'Journal::ChangesetJournal'
+  activity.register :news, class_name: 'Journal::NewsJournal'
+  activity.register :wiki_edits, class_name: 'Journal::WikiContentJournal', default: false
+  activity.register :messages, class_name: 'Journal::MessageJournal', default: false
+  activity.register :time_entries, class_name: 'Journal::TimeEntryJournal', default: false
 end
 
 Redmine::Search.map do |search|
