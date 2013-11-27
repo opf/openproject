@@ -55,7 +55,8 @@ module Redmine
         end
       end
 
-      Event = Struct.new(:title,
+      Event = Struct.new(:provider,
+                         :title,
                          :description,
                          :author_id,
                          :author,
@@ -115,7 +116,8 @@ module Redmine
 
           def fill_events(events)
             events.each_with_object([]) do |e, l|
-              event = Redmine::Acts::ActivityProvider::Event.new(nil,
+              event = Redmine::Acts::ActivityProvider::Event.new(self,
+                                                                 nil,
                                                                  e['event_description'],
                                                                  e['event_author'].to_i,
                                                                  nil,
