@@ -166,7 +166,7 @@ class ApplicationController < ActionController::Base
   def find_current_user
     if session[:user_id]
       # existing session
-      (User.active.find(session[:user_id], :include => [:memberships]) rescue nil)
+      (User.active.find(session[:user_id]) rescue nil)
     elsif cookies[OpenProject::Configuration['autologin_cookie_name']] && Setting.autologin?
       # auto-login feature starts a new session
       user = User.try_to_autologin(cookies[OpenProject::Configuration['autologin_cookie_name']])
