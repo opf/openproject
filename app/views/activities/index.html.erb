@@ -57,13 +57,13 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= content_tag('p', l(:label_no_data), :class => 'nodata') if @events_by_day.empty? %>
 
 <div style="float:left;">
-  <%= link_to_content_update(l(:label_previous_week),
+  <%= link_to_content_update(l(:label_previous),
                              params.merge(:from => @date_to - @days - 1),
                              {:title => l(:label_date_from_to, :start => format_date(@date_to - 2*@days), :end => format_date(@date_to - @days - 1)),
                              :class => 'navigate-left'}) %>
 </div>
 <div style="float:right;">
-  <%= link_to_content_update(l(:label_next_week),
+  <%= link_to_content_update(l(:label_next),
                              params.merge(:from => @date_to + @days - 1),
                              {:title => l(:label_date_from_to, :start => format_date(@date_to), :end => format_date(@date_to + @days - 1)),
                              :class => 'navigate-right'}) unless @date_to >= Date.today %>
