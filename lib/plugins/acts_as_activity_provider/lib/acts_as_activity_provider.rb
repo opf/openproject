@@ -87,6 +87,7 @@ module Redmine
           def find_events(event_type, user, from, to, options)
             raise "#{self.name} can not provide #{event_type} events." if activity_provider_options[event_type].nil?
 
+            p = Arel::Table.new(:projects)
             j = Arel::Table.new(:journals)
             ej = Arel::Table.new(self.table_name)
 
@@ -99,6 +100,8 @@ module Redmine
             query = query.where(j[:user_id].eq(options[:author].id)) if options[:author]
 
             project_ref_table, query = self.extend_event_query(j, ej, query) if self.respond_to? :extend_event_query
+
+            query = restrict_projects(project_ref_table, query, options)
 
             # TODO: Implement permission scope
 
@@ -113,6 +116,18 @@ module Redmine
           end
 
           private
+
+          def restrict_projects(project_ref_table, query, options)
+            p = Arel::Table.new(:projects)
+            project = options[:project]
+            projects = options[:with_subprojects] ? project.self_and_descendants.collect(&:id)
+                                                  : [project.id]
+
+            query = query.join(p).on(p[:id].eq(project_ref_table['project_id']))
+
+            query = query.where(p[:id].in(projects))
+            query
+          end
 
           def fill_events(event_type, events)
             events.each_with_object([]) do |e, l|
