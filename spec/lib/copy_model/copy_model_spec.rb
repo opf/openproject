@@ -51,11 +51,13 @@ class CopyDummy < Tableless
   column :relation2_id, :integer
   column :relation3_id, :integer
   column :relation4_id, :integer
+  column :relation5_id, :integer
 
   belongs_to :relation1
   belongs_to :relation2
   belongs_to :relation3
   belongs_to :relation4
+  belongs_to :relation5
 
   def copy_relation1(other)
     call_order << :relation1
@@ -70,6 +72,11 @@ class CopyDummy < Tableless
   def copy_relation4(other)
     call_order << :relation4
     self.relation4 = other.relation4
+  end
+
+  # used to test error handling
+  def copy_relation5(other)
+    raise "Could not be copied!"
   end
 
   def call_order
@@ -91,6 +98,14 @@ class Relation4 < Tableless
 end
 
 describe "Copying Models" do
+  before do
+    # supress warnings
+      I18n.backend.store_translations :en, :activerecord => {
+                                             :attributes => {
+                                               :copy_dummy => {
+                                                 :relation5 => 'Relation5'
+                                           }}}
+  end
   let(:dummy) { CopyDummy.new }
 
   describe "copying attributes" do
@@ -161,6 +176,13 @@ describe "Copying Models" do
       copy.relation2.should == dummy.relation2
       copy.relation4.should == dummy.relation4
       copy.call_order.should == copy.copy_precedence
+    end
+
+    it "should produce some errors when failing to copy associations" do
+      copy = CopyDummy.new
+      copy.copy_associations(dummy)
+
+      copy.errors.count.should == 1
     end
   end
 end
