@@ -99,6 +99,14 @@ module Redmine
           end
         end
 
+        projects = Project.find(e.collect(&:project_id).compact) if e.select { |e| !e.project_id.nil? }
+        users = User.find(e.collect(&:author_id).compact)
+
+        e.each do |e|
+          e.author = users.find { |u| u.id == e.author_id } if e.author_id
+          e.project = projects.find { |p| p.id == e.project_id } if e.project_id
+        end
+
         e.sort! {|a,b| b.datetime <=> a.datetime}
         e
       end

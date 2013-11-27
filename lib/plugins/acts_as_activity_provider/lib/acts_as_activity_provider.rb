@@ -57,8 +57,10 @@ module Redmine
 
       Event = Struct.new(:title,
                          :description,
+                         :author_id,
                          :author,
                          :datetime,
+                         :project_id,
                          :project,
                          :type,
                          :url)
@@ -106,8 +108,25 @@ module Redmine
 
             query.project(projection)
 
-            return [] unless self.respond_to? :format_event_data
-            self.format_event_data(ActiveRecord::Base.connection.execute(query.to_sql))
+            fill_events(ActiveRecord::Base.connection.execute(query.to_sql))
+          end
+
+          private
+
+          def fill_events(events)
+            events.each_with_object([]) do |e, l|
+              event = Redmine::Acts::ActivityProvider::Event.new(nil,
+                                                                 e['event_description'],
+                                                                 e['event_author'].to_i,
+                                                                 nil,
+                                                                 DateTime.parse(e['event_datetime']),
+                                                                 nil,
+                                                                 nil,
+                                                                 nil,
+                                                                 nil)
+
+              l << ((self.respond_to? :format_event) ? self.format_event(event, e) : event)
+            end
           end
         end
       end

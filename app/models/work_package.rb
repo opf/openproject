@@ -183,20 +183,13 @@ class WorkPackage < ActiveRecord::Base
     ]
   end
 
-  def self.format_event_data(events)
-    events.each_with_object([]) do |e, l|
-      title = self.event_title e
-      type = "work_package#{self.event_type e}"
-      url = self.event_url e
+  def self.format_event(event, event_data)
+    event.title = self.event_title event_data
+    event.project_id = event_data['project_id'].to_i
+    event.type = "work_package#{self.event_type event_data}"
+    event.url = self.event_url event_data
 
-      l << Redmine::Acts::ActivityProvider::Event.new(title,
-                                                      e['event_description'],
-                                                      User.find_by_id(e['event_author'].to_i),
-                                                      DateTime.parse(e['event_datetime']),
-                                                      Project.find_by_id(e['project_id'].to_i),
-                                                      type,
-                                                      url)
-    end
+    event
   end
 
   def self.event_title(event)
