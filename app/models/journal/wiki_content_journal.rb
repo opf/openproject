@@ -29,4 +29,43 @@
 
 class Journal::WikiContentJournal < Journal::BaseJournal
   self.table_name = "wiki_content_journals"
+
+  acts_as_activity_provider type: 'wiki_edits',
+                            permission: :view_wiki_edits
+
+  def self.extend_event_query(j, ej, query)
+    w = Arel::Table.new(:wiki_pages)
+
+    query = query.join(w).on(ej[:page_id].eq(w[:id]))
+    query
+  end
+
+  def self.event_query_projection(j, ej)
+    w = Arel::Table.new(:wiki_pages)
+
+    [
+      ej[:project_id].as('project_id'),
+      w[:title].as('wiki_title')
+    ]
+  end
+
+  def self.format_event(event, event_data)
+    event.title = self.event_title event_data
+    event.type = 'wiki-page'
+    event.url = self.event_url event_data
+
+    event
+  end
+
+  private
+
+  def self.event_title(event)
+    "#{l(:label_wiki_edit)}: #{event['wiki_title']} (##{e['version']})"
+  end
+
+  def self.event_url(event)
+    parameters = { project_id: event['project_id'], id: event['journable_id'] }
+
+    Rails.application.routes.url_helpers.project_wiki_path(parameters)
+  end
 end
