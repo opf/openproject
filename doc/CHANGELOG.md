@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * Fix position of 'more functions' menu on wp#show
+* `#3193` Fix: [Bug] Copying the project OpenProject results in 500
 
 ## 3.0.0pre33
 
