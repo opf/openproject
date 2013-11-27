@@ -176,7 +176,7 @@ module ApplicationHelper
     link = ''
 
     if show_icon && User.current.member_of?(project)
-      link << image_tag('webalys/fav.png', :alt => l(:description_my_project), :title => l(:description_my_project))
+      link << icon_wrapper("icon-context icon-star1",I18n.t(:description_my_project))
     end
 
     if project.active?
@@ -1060,6 +1060,11 @@ module ApplicationHelper
     s = raw "<em>" + OpenProject::Passwords::Evaluator.min_length_description + "</em>"
     s += raw "<br /><em>" + rules + "</em>" unless rules.empty?
     s
+  end
+
+  def icon_wrapper(icon_class, label)
+    content =  content_tag(:span, '', :class => icon_class)
+    content += content_tag(:span, label, :class => 'hidden-for-sighted')
   end
 
 end

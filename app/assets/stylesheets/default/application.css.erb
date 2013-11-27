@@ -340,8 +340,6 @@ div#search-results-counts {float: right;}
 div#search-results-counts ul { margin-top: 0.5em; }
 div#search-results-counts  li { list-style-type: none; float: left; margin-left: 1em; }
 
-#search-results dt.issue.closed { background-image: url(<%= asset_path 'webalys/ticket_checked.png' %>); }
-
 .search-pagination { text-align: center; }
 .search-pagination a {padding: 0 5px; }
 
@@ -382,7 +380,6 @@ ul.projects ul.projects { border-left: 3px solid #e0e0e0; }
 ul.projects li.root { list-style-type: none; margin-bottom: 1em; }
 ul.projects li.child { list-style-type: none; margin-top: 1em;}
 ul.projects div.root a.project { font-family: "Arial", Arial, sans-serif; font-weight: bold; font-size: 16px; margin: 0 0 10px 0; }
-.my-project { padding-left: 18px; background: url(<%= asset_path 'webalys/fav.png' %>) no-repeat 0 50%; }
 
 #type_project_ids ul { margin: 0;  padding-left: 1em; }
 #type_project_ids li { list-style-type: none; }
@@ -1419,10 +1416,6 @@ ul.projects .description {
   list-style: none outside none;
   background: none;
 }
-.nosidebar ul.projects li .my-project {
-  padding: 0 0 0 24px;
-  background: url(<%= asset_path 'webalys/fav.png' %>) no-repeat left top;
-}
 ul.projects a {
   font-weight: bold;
 }
@@ -2222,11 +2215,6 @@ a.sort.desc {
 #history .journal, #content .wiki-content p, #content .wiki-content li {
   width: 700px;
 }
-
-.my-project {
-  background: url(<%= asset_path 'webalys/fav.png' %>) no-repeat 0 50%;
-}
-
 
 .required {color: #008BD0;} /* changed to Siemens red! */
 
