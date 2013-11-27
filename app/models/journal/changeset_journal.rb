@@ -29,4 +29,59 @@
 
 class Journal::ChangesetJournal < Journal::BaseJournal
   self.table_name = "changeset_journals"
+
+  acts_as_activity_provider type: 'changesets',
+                            permission: :view_changesets
+
+  def self.extend_event_query(j, ej, query)
+    r = Arel::Table.new(:repositories)
+
+    query = query.join(r).on(ej[:repository_id].eq(r[:id]))
+    query
+  end
+
+  def self.event_query_projection(j, ej)
+    r = Arel::Table.new(:repositories)
+
+    [
+      ej[:revision].as('revision'),
+      ej[:comments].as('comments'),
+      ej[:committed_on].as('committed_on'),
+      r[:project_id].as('project_id')
+    ]
+  end
+
+  def self.format_event(event, event_data)
+    event.title = self.event_title event_data
+    event.description = self.split_comment(event_data['comments']).last
+    event.datetime = DateTime.parse(event_data['committed_on'])
+    event.project_id = event_data['project_id'].to_i
+    event.type = "changeset"
+    event.url = self.event_url event_data
+
+    event
+  end
+
+  private
+
+  def self.event_title(event)
+    short_comment = self.split_comment(event['comments']).first
+
+    title = "#{l(:label_revision)} #{event['revision']}"
+    title << (short_comment.blank? ? '' : (': ' + short_comment))
+  end
+
+  def self.split_comment(comments)
+    comments =~ /\A(.+?)\r?\n(.*)\z/m
+    short_comments = $1 || comments
+    long_comments = $2.to_s.strip
+
+    [short_comments, long_comments]
+  end
+
+  def self.event_url(event)
+    parameters = { project_id: event['project_id'], rev: event['revision'] }
+
+    Rails.application.routes.url_helpers.revisions_project_repository_path(parameters)
+  end
 end
