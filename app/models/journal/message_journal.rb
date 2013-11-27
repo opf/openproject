@@ -37,7 +37,7 @@ class Journal::MessageJournal < Journal::BaseJournal
     b = Arel::Table.new(:boards)
 
     query = query.join(b).on(ej[:board_id].eq(b[:id]))
-    query
+    [b, query]
   end
 
   def self.event_query_projection(j, ej)
@@ -48,7 +48,8 @@ class Journal::MessageJournal < Journal::BaseJournal
       ej[:content].as('message_content'),
       ej[:parent_id].as('message_parent_id'),
       b[:id].as('board_id'),
-      b[:name].as('board_name')
+      b[:name].as('board_name'),
+      b[:project_id].as('project_id')
     ]
   end
 

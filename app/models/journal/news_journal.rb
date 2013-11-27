@@ -33,14 +33,23 @@ class Journal::NewsJournal < Journal::BaseJournal
   acts_as_activity_provider type: 'news',
                             permission: :view_news
 
+  def self.extend_event_query(j, ej, query)
+    [ej, query]
+  end
+
+  def self.event_query_projection(j, ej)
+    b = Arel::Table.new(:boards)
+
+    [ej[:project_id].as('project_id')]
+  end
+
   def self.format_event(event, event_data)
     event.url = self.event_url event_data
 
     event
   end
 
-  private
-
+  private 
   def self.event_url(event)
     parameters = { id: event['journable_id'] }
 

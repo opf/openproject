@@ -37,7 +37,7 @@ class Journal::WikiContentJournal < Journal::BaseJournal
     w = Arel::Table.new(:wiki_pages)
 
     query = query.join(w).on(ej[:page_id].eq(w[:id]))
-    query
+    [w, query]
   end
 
   def self.event_query_projection(j, ej)

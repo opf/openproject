@@ -98,7 +98,7 @@ module Redmine
 
             query = query.where(j[:user_id].eq(options[:author].id)) if options[:author]
 
-            query = self.extend_event_query(j, ej, query) if self.respond_to? :extend_event_query
+            project_ref_table, query = self.extend_event_query(j, ej, query) if self.respond_to? :extend_event_query
 
             # TODO: Implement permission scope
 

@@ -39,7 +39,7 @@ class Journal::TimeEntryJournal < Journal::BaseJournal
 
     query = query.join(p).on(ej[:project_id].eq(p[:id]))
     query = query.join(w).on(ej[:work_package_id].eq(w[:id]))
-    query
+    [ej, query]
   end
 
   def self.event_query_projection(j, ej)

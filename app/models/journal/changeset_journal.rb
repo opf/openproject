@@ -37,7 +37,7 @@ class Journal::ChangesetJournal < Journal::BaseJournal
     r = Arel::Table.new(:repositories)
 
     query = query.join(r).on(ej[:repository_id].eq(r[:id]))
-    query
+    [r, query]
   end
 
   def self.event_query_projection(j, ej)
