@@ -29,4 +29,53 @@
 
 class Journal::TimeEntryJournal < Journal::BaseJournal
   self.table_name = "time_entry_journals"
+
+  acts_as_activity_provider type: 'time_entries',
+                            permission: :view_time_entries
+
+  def self.extend_event_query(j, ej, query)
+    p = Arel::Table.new(:projects)
+    w = Arel::Table.new(:work_packages)
+
+    query = query.join(p).on(ej[:project_id].eq(p[:id]))
+    query = query.join(w).on(ej[:work_package_id].eq(w[:id]))
+    query
+  end
+
+  def self.event_query_projection(j, ej)
+    w = Arel::Table.new(:work_packages)
+
+    [
+      ej[:hours].as('time_entry_hours'),
+      ej[:comments].as('time_entry_comments'),
+      ej[:project_id].as('project_id'),
+      ej[:work_package_id].as('work_package_id'),
+      p[:name].as('project_name'),
+      w[:subject].as('work_package_subject'),
+    ]
+  end
+
+  def self.format_event(event, event_data)
+    event.title = self.event_title event_data
+    event.description = event_data['time_entry_description']
+    event.project_id = event_data['project_id'].to_i
+    event.type = 'time_entries'
+    event.url = self.event_url event_data
+
+    event
+  end
+
+  private
+
+  def self.event_title(event)
+    time_entry_object_name = event['work_package_id'].blank? ? event['project_name']
+                                                             : event['work_package_name']
+    "#{l_hours(event['time_entry_hours'])} (#{time_entry_object_name})"
+  end
+
+  def self.event_url(event)
+    parameters = { id: event['journable_id'] }
+
+    Rails.application.routes.url_helpers.time_entry_path(parameters)
+  end
 end
