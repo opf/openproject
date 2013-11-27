@@ -40,16 +40,21 @@ class Journal::NewsJournal < Journal::BaseJournal
   def self.event_query_projection(j, ej)
     b = Arel::Table.new(:boards)
 
-    [ej[:project_id].as('project_id')]
+    [
+      ej[:title].as('title'),
+      ej[:project_id].as('project_id')
+    ]
   end
 
   def self.format_event(event, event_data)
+    event.title = event_data['title']
     event.url = self.event_url event_data
 
     event
   end
 
   private 
+
   def self.event_url(event)
     parameters = { id: event['journable_id'] }
 

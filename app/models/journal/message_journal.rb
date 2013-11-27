@@ -55,7 +55,7 @@ class Journal::MessageJournal < Journal::BaseJournal
 
   def self.format_event(event, event_data)
     event.title = self.event_title event_data
-    event.description event_data['message_content']
+    event.description = event_data['message_content']
     event.type = self.event_type event_data
     event.url = self.event_url event_data
 
@@ -76,13 +76,13 @@ class Journal::MessageJournal < Journal::BaseJournal
     is_reply = !event['parent_id'].blank?
 
     if is_reply
-      parameters = { id: event['journable_id'] }
-    else
       parameters = { id: event['parent_id'], r: event['journable_id'], anchor: "message-#{event['journable_id']}" }
+    else
+      parameters = { id: event['journable_id'] }
     end
 
     parameters[:board_id] = event['board_id']
 
-    Rails.application.routes.url_helpers.topc_path(parameters)
+    Rails.application.routes.url_helpers.topic_path(parameters)
   end
 end

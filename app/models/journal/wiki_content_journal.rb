@@ -34,18 +34,21 @@ class Journal::WikiContentJournal < Journal::BaseJournal
                             permission: :view_wiki_edits
 
   def self.extend_event_query(j, ej, query)
-    w = Arel::Table.new(:wiki_pages)
+    p = Arel::Table.new(:wiki_pages)
+    w = Arel::Table.new(:wikis)
 
-    query = query.join(w).on(ej[:page_id].eq(w[:id]))
+    query = query.join(p).on(ej[:page_id].eq(p[:id]))
+    query = query.join(w).on(p[:wiki_id].eq(w[:id]))
     [w, query]
   end
 
   def self.event_query_projection(j, ej)
-    w = Arel::Table.new(:wiki_pages)
+    p = Arel::Table.new(:wiki_pages)
+    w = Arel::Table.new(:wikis)
 
     [
-      ej[:project_id].as('project_id'),
-      w[:title].as('wiki_title')
+      w[:project_id].as('project_id'),
+      p[:title].as('wiki_title')
     ]
   end
 
@@ -60,7 +63,7 @@ class Journal::WikiContentJournal < Journal::BaseJournal
   private
 
   def self.event_title(event)
-    "#{l(:label_wiki_edit)}: #{event['wiki_title']} (##{e['version']})"
+    "#{l(:label_wiki_edit)}: #{event['wiki_title']} (##{event['version']})"
   end
 
   def self.event_url(event)
