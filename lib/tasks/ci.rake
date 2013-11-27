@@ -74,6 +74,19 @@ namespace :ci do
 
       # Create and migrate the database
       Rake::Task["db:create"].invoke
+
+      # db:create invokes db:load_config. db:load_config collects migration paths, but the
+      # migration paths for plugins are set on the Engine config when the application
+      # is initialized, which the environment task does. The environment task is only later
+      # executed as dependency for db:migrate. db:migrate also depends on load_config, but since
+      # it has been executed before, rake doesn't execute it a second time.
+      # Loading the environment bevore explicitly executing db:load_config (not only invoking it)
+      # makes rake execute it a second time after the environment has been loaded.
+      # Loading the environment before db:create does not work, since initializing the application
+      # depends on an existing databse.
+      Rake::Task["environment"].invoke
+      Rake::Task["db:load_config"].execute
+
       Rake::Task["db:migrate"].invoke
       Rake::Task["db:schema:dump"].invoke
 
