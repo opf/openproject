@@ -72,11 +72,16 @@ module CopyModel
           to_be_copied.each do |name|
             if (self.respond_to?(:"copy_#{name}") || self.private_methods.include?(:"copy_#{name}"))
               self.reload
-              self.send(:"copy_#{name}", model)
-              # Array(nil) => [], works around nil values of has_one associations
-              (Array(self.send(name)).map do |instance|
-                compiled_errors << instance.errors unless instance.valid?
-              end)
+              begin
+                self.send(:"copy_#{name}", model)
+                # Array(nil) => [], works around nil values of has_one associations
+                (Array(self.send(name)).map do |instance|
+                  compiled_errors << instance.errors unless instance.valid?
+                end)
+              rescue => e
+                errors.add(name, :could_not_be_copied)
+                e.backtrace.join("\n")
+              end
             end
           end
           self

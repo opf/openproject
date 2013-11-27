@@ -98,6 +98,7 @@ en:
         project_type: "Project type"
         responsible: "Responsible"
         types: "Types"
+        queries: "Queries"
       query:
         column_names: "Columns"
         group_by: "Group results by"
@@ -204,6 +205,7 @@ en:
         after_or_equal_to: "must be after or equal to %{date}"
         before: "must be before %{date}"
         before_or_equal_to: "must be before or equal to %{date}"
+        could_not_be_copied: "could not be (fully) copied"
       models:
         project_association:
           identical_projects: "can not be created from one project to itself"
