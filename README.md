@@ -51,6 +51,24 @@ module OpenProject::RepositoryAuthentication
 end
 ```
 
+## Caveats
+
+### db:create and db:migrate
+
+When using OpenProject plugins, you can't use the `db:create` and `db:migrate` within one rake process, i.e. `rake db:create db:migrate` will not work. It would only run core migrations, but not plugin migrations.
+
+Here's an explanation for this behavior:
+
+> db:create invokes db:load_config. db:load_config collects migration paths, but the
+> migration paths for plugins are set on the Engine config when the application
+> is initialized, which the environment task does. The environment task is only later
+> executed as dependency for db:migrate. db:migrate also depends on load_config, but since
+> it has been executed before, rake doesn't execute it a second time.
+> Loading the environment bevore explicitly executing db:load_config (not only invoking it)
+> makes rake execute it a second time after the environment has been loaded.
+> Loading the environment before db:create does not work, since initializing the application
+> depends on an existing databse.
+
 ## Get in Contact
 
 OpenProject is supported by its community members, both companies as well as individuals. There are different possibilities of getting help:
