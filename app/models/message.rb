@@ -38,18 +38,7 @@ class Message < ActiveRecord::Base
                      after_remove: :attachments_changed
   belongs_to :last_reply, :class_name => 'Message', :foreign_key => 'last_reply_id'
 
-  acts_as_journalized :event_title => Proc.new {|o| "#{o.journal.journable.board.name}: #{o.journal.journable.subject}"},
-                :event_description => :content,
-                :event_type => Proc.new {|o| o.parent_id.nil? ? 'message' : 'reply'},
-                :event_url => (Proc.new do |o|
-                  msg = o.journal.journable
-                  if msg.parent_id.nil?
-                    {:id => msg.id}
-                  else
-                    {:id => msg.parent_id, :r => msg.id, :anchor => "message-#{msg.id}"}
-                  end.reverse_merge :controller => '/messages', :action => 'show', :board_id => msg.board_id
-                end),
-                :activity_find_options => { :include => { :board => :project } }
+  acts_as_journalized
 
   acts_as_searchable :columns => ['subject', 'content'],
                      :include => {:board => :project},
