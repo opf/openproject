@@ -207,6 +207,17 @@ class JournalManager
     "Journal::#{journal_class_name(type)}".constantize
   end
 
+  def self.journaled_class(journal_type)
+    namespace = journal_type.name.deconstantize
+
+    if namespace == 'Journal'
+      class_name = journal_type.name.demodulize
+      class_name.gsub('Journal', '').constantize
+    else
+      journal_type
+    end
+  end
+
   def self.normalize_newlines(data)
     data.each_with_object({}) { |e, h| h[e[0]] = (e[1].kind_of?(String) ? e[1].gsub(/\r\n/,"\n")
                                                                         : e[1]) }
