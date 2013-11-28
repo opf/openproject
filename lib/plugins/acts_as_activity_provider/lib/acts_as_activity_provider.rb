@@ -165,6 +165,7 @@ module Redmine
             return query if user.admin?
 
             p = Arel::Table.new(:projects)
+            stmt = nil
             perm = Redmine::AccessControl.permission(options[:permission])
             is_member = options[:member]
             original_query = query.dup
@@ -176,14 +177,18 @@ module Redmine
                 allowed_projects << p.collect(&:id) if r.allowed_to?(perm.name)
               end
 
-              query = query.where(p[:id].in(allowed_projects.uniq))
+              stmt = p[:id].in(allowed_projects.uniq)
             end
 
-            if (Role.anonymous.allowed_to?(perm) || Role.non_member.allowed_to?(perm)) && !is_member
-              query = query.where(p[:is_public].eq(true)) 
+            if (Role.anonymous.allowed_to?(perm.name) || Role.non_member.allowed_to?(perm.name)) && !is_member
+              public_project = p[:is_public].eq(true)
+
+              stmt = stmt ? stmt.or(public_project) : public_project
             end
 
-            (query == original_query) ? nil : query
+            query = query.where(stmt)
+
+            stmt ? query : nil
           end
 
           def fill_events(event_type, events)
