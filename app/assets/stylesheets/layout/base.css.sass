@@ -40,13 +40,20 @@ body
   background: white
 
 #wrapper
-  background: url(image-path('sidebar_bg.png')) repeat-y ($main_menu_width - 270px) 0
+  background-image: -webkit-gradient(linear, left 0%, left 100%, from($main_menu_bg_color), to($main_menu_bg_color))
+  background-image: -webkit-linear-gradient(top, $main_menu_bg_color 0%, $main_menu_bg_color 100%)
+  background-image: -moz-linear-gradient(top, $main_menu_bg_color 0%, $main_menu_bg_color 100%)
+  background-image: linear-gradient(to bottom, $main_menu_bg_color 0%, $main_menu_bg_color 100%)
+  background-repeat: no-repeat
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{ie-hex-str($main_menu_bg_color)}', endColorstr='#{ie-hex-str($main_menu_bg_color)}', GradientType=0)
+
+  background-size: $main_menu_width 100%
   min-height: 100%
   position: relative
   &.nosidebar, &.nomenus
     background: none
   &.hidden-navigation
-    background-position: ($main_menu_folded_width - 270px) 0
+    background-size: $main_menu_folded_width 100%
 
 h1
   margin: 0
