@@ -95,8 +95,8 @@ class Journal::WorkPackageJournal < Journal::BaseJournal
     version = event['version'].to_i
     anchor = event['version'].to_i - 1
 
-    parameters = { id: event['journable_id'] }
-    parameters[:anchor] = "note-#{anchor}" if version > 1
+    parameters = [event['journable_id']]
+    parameters << { anchor: "note-#{anchor}" } if version > 1
     parameters
   end
 end

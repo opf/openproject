@@ -81,6 +81,6 @@ class Journal::TimeEntryJournal < Journal::BaseJournal
   end
 
   def self.url_helper_parameter(event)
-    { id: event['journable_id'] }
+    event['journable_id']
   end
 end
