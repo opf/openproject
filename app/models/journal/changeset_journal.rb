@@ -52,11 +52,11 @@ class Journal::ChangesetJournal < Journal::BaseJournal
   end
 
   def self.format_event(event, event_data)
-    event.title = self.event_title event_data
-    event.description = self.split_comment(event_data['comments']).last
-    event.datetime = DateTime.parse(event_data['committed_on'])
+    event.event_title = self.event_title event_data
+    event.event_description = self.split_comment(event_data['comments']).last
+    event.event_datetime = DateTime.parse(event_data['committed_on'])
     event.project_id = event_data['project_id'].to_i
-    event.url = self.event_url event_data
+    event.event_url = self.event_url event_data
 
     event
   end

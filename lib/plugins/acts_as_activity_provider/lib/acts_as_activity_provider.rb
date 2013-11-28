@@ -56,15 +56,15 @@ module Redmine
       end
 
       Event = Struct.new(:provider,
-                         :title,
-                         :description,
+                         :event_title,
+                         :event_description,
                          :author_id,
-                         :author,
-                         :datetime,
+                         :event_author,
+                         :event_datetime,
                          :project_id,
                          :project,
-                         :type,
-                         :url)
+                         :event_type,
+                         :event_url)
 
       def self.event_projection(j)
         [

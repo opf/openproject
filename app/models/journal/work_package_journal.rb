@@ -56,10 +56,10 @@ class Journal::WorkPackageJournal < Journal::BaseJournal
   end
 
   def self.format_event(event, event_data)
-    event.title = self.event_title event_data
+    event.event_title = self.event_title event_data
     event.project_id = event_data['project_id'].to_i
-    event.type << "#{self.event_type event_data}"
-    event.url = self.event_url event_data
+    event.event_type << "#{self.event_type event_data}"
+    event.event_url = self.event_url event_data
 
     event
   end

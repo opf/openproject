@@ -56,10 +56,10 @@ class Journal::TimeEntryJournal < Journal::BaseJournal
   end
 
   def self.format_event(event, event_data)
-    event.title = self.event_title event_data
-    event.description = event_data['time_entry_description']
+    event.event_title = self.event_title event_data
+    event.event_description = event_data['time_entry_description']
     event.project_id = event_data['project_id'].to_i
-    event.url = self.event_url event_data
+    event.event_url = self.event_url event_data
 
     event
   end

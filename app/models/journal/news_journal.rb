@@ -47,8 +47,8 @@ class Journal::NewsJournal < Journal::BaseJournal
   end
 
   def self.format_event(event, event_data)
-    event.title = event_data['title']
-    event.url = self.event_url event_data
+    event.event_title = event_data['title']
+    event.event_url = self.event_url event_data
 
     event
   end

@@ -53,9 +53,9 @@ class Journal::WikiContentJournal < Journal::BaseJournal
   end
 
   def self.format_event(event, event_data)
-    event.title = self.event_title event_data
-    event.type = 'wiki-page'
-    event.url = self.event_url event_data
+    event.event_title = self.event_title event_data
+    event.event_type = 'wiki-page'
+    event.event_url = self.event_url event_data
 
     event
   end

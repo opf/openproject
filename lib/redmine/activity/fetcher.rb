@@ -103,11 +103,11 @@ module Redmine
         users = User.find(e.collect(&:author_id).compact)
 
         e.each do |e|
-          e.author = users.find { |u| u.id == e.author_id } if e.author_id
+          e.event_author = users.find { |u| u.id == e.author_id } if e.author_id
           e.project = projects.find { |p| p.id == e.project_id } if e.project_id
         end
 
-        e.sort! {|a,b| b.datetime <=> a.datetime}
+        e.sort! {|a,b| b.event_datetime <=> a.event_datetime}
         e
       end
 

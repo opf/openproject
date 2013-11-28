@@ -54,10 +54,10 @@ class Journal::MessageJournal < Journal::BaseJournal
   end
 
   def self.format_event(event, event_data)
-    event.title = self.event_title event_data
-    event.description = event_data['message_content']
-    event.type = self.event_type event_data
-    event.url = self.event_url event_data
+    event.event_title = self.event_title event_data
+    event.event_description = event_data['message_content']
+    event.event_type = self.event_type event_data
+    event.event_url = self.event_url event_data
 
     event
   end
