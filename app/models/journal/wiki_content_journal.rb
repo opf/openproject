@@ -55,6 +55,7 @@ class Journal::WikiContentJournal < Journal::BaseJournal
   def self.format_event(event, event_data)
     event.event_title = self.event_title event_data
     event.event_type = 'wiki-page'
+    event.event_path = self.event_path event_data
     event.event_url = self.event_url event_data
 
     event
@@ -66,9 +67,15 @@ class Journal::WikiContentJournal < Journal::BaseJournal
     "#{l(:label_wiki_edit)}: #{event['wiki_title']} (##{event['version']})"
   end
 
-  def self.event_url(event)
-    parameters = { project_id: event['project_id'], id: event['wiki_title'], version: event['version'] }
+  def self.event_path(event)
+    Rails.application.routes.url_helpers.project_wiki_path(self.url_helper_parameter(event))
+  end
 
-    Rails.application.routes.url_helpers.project_wiki_path(parameters)
+  def self.event_url(event)
+    Rails.application.routes.url_helpers.project_wiki_url(self.url_helper_parameter(event))
+  end
+
+  def self.url_helper_parameter(event)
+    { project_id: event['project_id'], id: event['wiki_title'], version: event['version'] }
   end
 end

@@ -48,6 +48,7 @@ class Journal::NewsJournal < Journal::BaseJournal
 
   def self.format_event(event, event_data)
     event.event_title = event_data['title']
+    event.event_path = self.event_path event_data
     event.event_url = self.event_url event_data
 
     event
@@ -55,9 +56,15 @@ class Journal::NewsJournal < Journal::BaseJournal
 
   private 
 
-  def self.event_url(event)
-    parameters = { id: event['journable_id'] }
+  def self.event_path(event)
+    Rails.application.routes.url_helpers.news_path(self.url_helper_parameter(event))
+  end
 
-    Rails.application.routes.url_helpers.news_path(parameters)
+  def self.event_url(event)
+    Rails.application.routes.url_helpers.news_url(self.url_helper_parameter(event))
+  end
+
+  def self.url_helper_parameter(event)
+    { id: event['journable_id'] }
   end
 end

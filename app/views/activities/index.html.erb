@@ -43,7 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= avatar(e.event_author, :size => "24") if e.respond_to?(:event_author) %>
           <span class="time"><%= format_time(e.event_datetime.to_time, false) %></span>
           <%= content_tag('span', link_to(e.project.name, e.project), :class => 'project') if (@project.nil? || @project != e.project) && e.project %>
-          <%= link_to format_activity_title(e.event_title), e.event_url %>
+          <%= link_to format_activity_title(e.event_title), e.event_path%>
         </dt>
         <dd>
           <span class="description"><%= format_activity_description(e.event_description) %></span>

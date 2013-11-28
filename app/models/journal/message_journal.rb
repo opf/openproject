@@ -57,6 +57,7 @@ class Journal::MessageJournal < Journal::BaseJournal
     event.event_title = self.event_title event_data
     event.event_description = event_data['message_content']
     event.event_type = self.event_type event_data
+    event.event_path = self.event_path event_data
     event.event_url = self.event_url event_data
 
     event
@@ -72,7 +73,15 @@ class Journal::MessageJournal < Journal::BaseJournal
     event['parent_id'].blank? ? 'message' : 'reply'
   end
 
+  def self.event_path(event)
+    Rails.application.routes.url_helpers.topic_path(self.url_helper_parameter(event))
+  end
+
   def self.event_url(event)
+    Rails.application.routes.url_helpers.topic_url(self.url_helper_parameter(event))
+  end
+
+  def self.url_helper_parameter(event)
     is_reply = !event['parent_id'].blank?
 
     if is_reply
@@ -82,7 +91,6 @@ class Journal::MessageJournal < Journal::BaseJournal
     end
 
     parameters[:board_id] = event['board_id']
-
-    Rails.application.routes.url_helpers.topic_path(parameters)
+    parameters
   end
 end

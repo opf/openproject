@@ -55,6 +55,7 @@ class Journal::ChangesetJournal < Journal::BaseJournal
     event.event_title = self.event_title event_data
     event.event_description = self.split_comment(event_data['comments']).last
     event.event_datetime = DateTime.parse(event_data['committed_on'])
+    event.event_path = self.event_path event_data
     event.event_url = self.event_url event_data
 
     event
@@ -77,9 +78,15 @@ class Journal::ChangesetJournal < Journal::BaseJournal
     [short_comments, long_comments]
   end
 
-  def self.event_url(event)
-    parameters = { project_id: event['project_id'], rev: event['revision'] }
+  def self.event_path(event)
+    Rails.application.routes.url_helpers.revisions_project_repository_path(self.url_helper_parameter(event))
+  end
 
-    Rails.application.routes.url_helpers.revisions_project_repository_path(parameters)
+  def self.event_url(event)
+    Rails.application.routes.url_helpers.revisions_project_repository_url(self.url_helper_parameter(event))
+  end
+
+  def self.url_helper_parameter(event)
+    { project_id: event['project_id'], rev: event['revision'] }
   end
 end

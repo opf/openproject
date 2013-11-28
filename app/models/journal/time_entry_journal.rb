@@ -34,15 +34,14 @@ class Journal::TimeEntryJournal < Journal::BaseJournal
                             permission: :view_time_entries
 
   def self.extend_event_query(j, ej, query)
-    p = Arel::Table.new(:projects)
     w = Arel::Table.new(:work_packages)
 
-    query = query.join(p).on(ej[:project_id].eq(p[:id]))
     query = query.join(w).on(ej[:work_package_id].eq(w[:id]))
     [ej, query]
   end
 
   def self.event_query_projection(j, ej)
+    p = Arel::Table.new(:projects)
     w = Arel::Table.new(:work_packages)
 
     [
@@ -58,6 +57,7 @@ class Journal::TimeEntryJournal < Journal::BaseJournal
   def self.format_event(event, event_data)
     event.event_title = self.event_title event_data
     event.event_description = event_data['time_entry_description']
+    event.event_path = self.event_path event_data
     event.event_url = self.event_url event_data
 
     event
@@ -71,9 +71,15 @@ class Journal::TimeEntryJournal < Journal::BaseJournal
     "#{l_hours(event['time_entry_hours'])} (#{time_entry_object_name})"
   end
 
-  def self.event_url(event)
-    parameters = { id: event['journable_id'] }
+  def self.event_path(event)
+    Rails.application.routes.url_helpers.time_entry_path(self.url_helper_parameter(event))
+  end
 
-    Rails.application.routes.url_helpers.time_entry_path(parameters)
+  def self.event_url(event)
+    Rails.application.routes.url_helpers.time_entry_url(self.url_helper_parameter(event))
+  end
+
+  def self.url_helper_parameter(event)
+    { id: event['journable_id'] }
   end
 end

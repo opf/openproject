@@ -58,6 +58,7 @@ class Journal::WorkPackageJournal < Journal::BaseJournal
   def self.format_event(event, event_data)
     event.event_title = self.event_title event_data
     event.event_type << "#{self.event_type event_data}"
+    event.event_path = self.event_path event_data
     event.event_url = self.event_url event_data
 
     event
@@ -81,11 +82,20 @@ class Journal::WorkPackageJournal < Journal::BaseJournal
     end
   end
 
+  def self.event_path(event)
+    Rails.application.routes.url_helpers.work_package_path(self.url_helper_parameter(event))
+  end
+
   def self.event_url(event)
+    Rails.application.routes.url_helpers.work_package_url(self.url_helper_parameter(event))
+  end
+
+  def self.url_helper_parameter(event)
     version = event['version'].to_i
     anchor = event['version'].to_i - 1
-    parameters = { id: event['journable_id'], anchor: (version > 1 ? "note-#{anchor}" : '') }
 
-    Rails.application.routes.url_helpers.work_package_path(parameters)
+    parameters = { id: event['journable_id'] }
+    parameters[:anchor] = "note-#{anchor}" if version > 1
+    parameters
   end
 end

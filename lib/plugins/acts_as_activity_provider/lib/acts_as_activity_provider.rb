@@ -64,6 +64,7 @@ module Redmine
                          :project_id,
                          :project,
                          :event_type,
+                         :event_path,
                          :event_url)
 
       def self.event_projection(j)
@@ -195,6 +196,7 @@ module Redmine
                                                                  e['project_id'].to_i,
                                                                  nil,
                                                                  event_type.dup.singularize,
+                                                                 nil,
                                                                  nil)
 
               l << ((self.respond_to? :format_event) ? self.format_event(event, e) : event)
