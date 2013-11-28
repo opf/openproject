@@ -53,8 +53,10 @@ class ActivitiesControllerTest < ActionController::TestCase
                        notes: "Some notes with Redmine links: #2, r2.",
                        created_at: 1.days.ago.to_date.to_s(:db),
                        data: FactoryGirl.build(:journal_work_package_journal,
-                                               project_id: issue.project_id,
-                                               status_id: 2)
+                                               subject: issue.subject,
+                                               status_id: 2,
+                                               type_id: issue.type_id,
+                                               project_id: issue.project_id)
 
     get :index, :id => 1, :with_subprojects => 0
     assert_response :success
@@ -79,6 +81,9 @@ class ActivitiesControllerTest < ActionController::TestCase
                        journable_id: issue.id,
                        created_at: 3.days.ago.to_date.to_s(:db),
                        data: FactoryGirl.build(:journal_work_package_journal,
+                                               subject: issue.subject,
+                                               status_id: issue.status_id,
+                                               type_id: issue.type_id,
                                                project_id: issue.project_id)
 
     get :index, :id => 1, :from => 3.days.ago.to_date
@@ -104,6 +109,9 @@ class ActivitiesControllerTest < ActionController::TestCase
                        journable_id: issue.id,
                        created_at: 3.days.ago.to_date.to_s(:db),
                        data: FactoryGirl.build(:journal_work_package_journal,
+                                               subject: issue.subject,
+                                               status_id: issue.status_id,
+                                               type_id: issue.type_id,
                                                project_id: issue.project_id)
 
     get :index
@@ -130,6 +138,9 @@ class ActivitiesControllerTest < ActionController::TestCase
                        user_id: 2,
                        created_at: 3.days.ago.to_date.to_s(:db),
                        data: FactoryGirl.build(:journal_work_package_journal,
+                                               subject: issue.subject,
+                                               status_id: issue.status_id,
+                                               type_id: issue.type_id,
                                                project_id: issue.project_id)
 
     get :index, :user_id => 2
@@ -155,8 +166,10 @@ class ActivitiesControllerTest < ActionController::TestCase
                        journable_id: issue.id,
                        version: 1,
                        data: FactoryGirl.build(:journal_work_package_journal,
-                                               project_id: issue.project_id,
-                                               subject: issue.subject)
+                                               subject: issue.subject,
+                                               status_id: issue.status_id,
+                                               type_id: issue.type_id,
+                                               project_id: issue.project_id)
     get :index, :format => 'atom'
     assert_response :success
     assert_template 'common/feed'
