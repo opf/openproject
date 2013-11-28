@@ -25,29 +25,14 @@
  *
  * See doc/COPYRIGHT.rdoc for more details.  ++*/
 
-@mixin header-fonts($color)
-  color: $color
-  font-size: 14px
-  font-family: 'LatoRegular', 'Lucida Grande', Helvetica, Arial, sans-serif
-  font-weight: normal
+@import "variables"
+@import "mixins"
 
-@mixin header-pulldown-fonts($color)
-  color: $color
-  font-size: 13px
-  font-family: 'LatoRegular', 'Lucida Grande', Helvetica, Arial, sans-serif
-  font-weight: normal
-
-@mixin default-transition
-  -webkit-transition: all 500ms ease-in-out 0s
-  -moz-transition: all 500ms ease-in-out 0s
-  -ms-transition: all 500ms ease-in-out 0s
-  -o-transition: all 500ms ease-in-out 0s
-  transition: all 500ms ease-in-out 0s
 #logo
   float: left
-  width: 270px
+  width: $main_menu_width
   height: 55px
-  background-color: #06799F
+  background-color: $header_logo_bg_color
   .home-link-image
     width: 150px
   .home-link
@@ -56,7 +41,7 @@
     padding-left: 20px
 
 #top-menu
-  background-color: #3493B3
+  background-color: $header_bg_color
   height: 55px
   padding: 0px
   z-index: 21
@@ -156,7 +141,7 @@
     border-top: 0
     line-height: 19px
     padding: 10px
-    @include header-pulldown-fonts(#555555)
+    @include header-fonts(#555555, 13px)
   #nav-login-content input[type=text]
     height: 16px
     width: 150px
@@ -209,7 +194,7 @@
   margin: 0 0 0 -2px
   border: 2px solid #E0E0E0
   border-top: 0
-  @include header-pulldown-fonts(#555555)
+  @include header-fonts(#555555, 13px)
   li
     padding: 0 10px
 

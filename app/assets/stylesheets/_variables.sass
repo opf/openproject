@@ -25,59 +25,11 @@
  *
  * See doc/COPYRIGHT.rdoc for more details.  ++*/
 
-@import "variables"
-@import "mixins"
+$header_bg_color:                   #3493B3 !default
+$header_logo_bg_color:              #06799F !default
 
-html
-  overflow-y: scroll
-  @include html_body_spacing
-
-body
-  min-width: 900px
-  @include html_body_spacing
-  color: #4b4b4b
-  font: normal normal normal 12px/1.5 arial,'lucida grandriale','lucida sans unicode',tahom,sans-serif
-  background: white
-
-#wrapper
-  background: url(image-path('sidebar_bg.png')) repeat-y ($main_menu_width - 270px) 0
-  min-height: 100%
-  position: relative
-  &.nosidebar, &.nomenus
-    background: none
-  &.hidden-navigation
-    background-position: ($main_menu_folded_width - 270px) 0
-
-h1
-  margin: 0
-  padding: 0
-  font-size: 24px
-h3, .wiki h2
-  font-size: 16px
-  padding: 2px 10px 1px 0px
-  margin: 0 0 10px 0
-  border-bottom: 1px solid #bbbbbb
-h4, .wiki h3
-  font-size: 13px
-  padding: 0px 10px 1px 0px
-  margin-bottom: 5px
-  border-bottom: 1px dotted #bbbbbb
-
-#main
-  position: relative
-  z-index: 20
-  padding-bottom: 155px
-  overflow: auto
-
-#content
-  margin: 0 0 0 $main_menu_width
-  padding: 10px
-  width: auto
-  overflow: hidden
-  height: auto
-  background-color: #fff
-  border-style: none solid solid solid
-  z-index: 10
-  &.hidden-navigation
-    margin-left: $main_menu_folded_width
+$main_menu_bg_color:                #053242 !default
+$main_menu_bg_hover_selected_color: #04232F !default
+$main_menu_width:                   270px !default
+$main_menu_folded_width:            50px !default
 

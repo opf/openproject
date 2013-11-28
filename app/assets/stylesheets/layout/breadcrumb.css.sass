@@ -28,56 +28,58 @@
 @import "variables"
 @import "mixins"
 
-html
-  overflow-y: scroll
-  @include html_body_spacing
-
-body
-  min-width: 900px
-  @include html_body_spacing
-  color: #4b4b4b
-  font: normal normal normal 12px/1.5 arial,'lucida grandriale','lucida sans unicode',tahom,sans-serif
-  background: white
-
-#wrapper
-  background: url(image-path('sidebar_bg.png')) repeat-y ($main_menu_width - 270px) 0
-  min-height: 100%
-  position: relative
-  &.nosidebar, &.nomenus
-    background: none
-  &.hidden-navigation
-    background-position: ($main_menu_folded_width - 270px) 0
-
-h1
-  margin: 0
-  padding: 0
-  font-size: 24px
-h3, .wiki h2
-  font-size: 16px
-  padding: 2px 10px 1px 0px
-  margin: 0 0 10px 0
-  border-bottom: 1px solid #bbbbbb
-h4, .wiki h3
-  font-size: 13px
-  padding: 0px 10px 1px 0px
-  margin-bottom: 5px
-  border-bottom: 1px dotted #bbbbbb
-
-#main
-  position: relative
-  z-index: 20
-  padding-bottom: 155px
-  overflow: auto
-
-#content
+#breadcrumb
+  height: 40px
+  overflow: hidden
+  background: none repeat scroll 0 0 #F8F8F8
+  border: none
+  border-bottom: 1px solid #E7E7E7
   margin: 0 0 0 $main_menu_width
-  padding: 10px
   width: auto
   overflow: hidden
-  height: auto
-  background-color: #fff
-  border-style: none solid solid solid
-  z-index: 10
+  position: relative
+  &.nosidebar
+    margin-left: 0
+    ul
+      margin: 0 0 0 0
   &.hidden-navigation
     margin-left: $main_menu_folded_width
+
+  h1
+    margin-bottom: 0px
+    margin-left: 20px
+    @include breadcrumb-font(#555555)
+
+  a
+    @include breadcrumb-font-bold(#555555)
+    text-decoration: none
+    &:hover
+      text-decoration: underline
+  li
+    list-style-type: none
+    white-space: nowrap
+    &.cutme
+      max-width: 40px
+
+ul.breadcrumb
+  list-style: none
+  list-style-position: outside
+  width: 10000px
+  height: 40px
+  line-height: 40px
+
+#breadcrumb ul.breadcrumb li.first-breadcrumb-element
+  margin-left: 0
+  height: 40px
+  line-height: 40px
+  a
+    text-decoration: none
+
+#breadcrumb ul.breadcrumb li
+  float: left
+  margin: 0 0 0 10px
+  padding: 0 30px 0 0
+  background: url(image-path('breadcrumb-list.png')) no-repeat right center
+
+#breadcrumb a.breadcrumb-project-title
 

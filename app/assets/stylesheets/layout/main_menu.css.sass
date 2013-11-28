@@ -25,26 +25,12 @@
  *
  * See doc/COPYRIGHT.rdoc for more details.  ++*/
 
-$main_menu_bg_color: #053242
-$main_menu_bg_hover_selected_color: #04232F
-$main_menu_folded_width: 50px
-
-@mixin default-transition
-  -webkit-transition: all 500ms ease-in-out 0s
-  -moz-transition: all 500ms ease-in-out 0s
-  -ms-transition: all 500ms ease-in-out 0s
-  -o-transition: all 500ms ease-in-out 0s
-  transition: all 500ms ease-in-out 0s
-
-@mixin main-menu-font
-  font-style: normal
-  font-family: 'LatoRegular','Lucida Grande',Helvetica,Arial,sans-serif
-
+@import "variables"
+@import "mixins"
 
 #main-menu
   bottom: auto
-  left: 6px
-  width: 270px
+  width: $main_menu_width
   float: left
   left: 0
   background-color: $main_menu_bg_color
@@ -141,7 +127,7 @@ $main_menu_folded_width: 50px
         content: "\e0cc"
   #toggle-project-menu
     height: 40px
-    width: 270px
+    width: $main_menu_width
     border: none
     background-color: $main_menu_bg_color
     &:hover
