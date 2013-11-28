@@ -93,10 +93,13 @@ de:
       project:
         homepage: "Projekt-Homepage"
         identifier: "Kennung"
-        issues: "Tickets"
+        work_packages: "Arbeitspakete"
         parent: "Unterprojekt von"
         versions: "Versionen"
+        project_type: "Projekttyp"
+        responsible: "Planungsverantwortlicher"
         types: "Typen"
+        queries: "Abfragen"
       query:
         column_names: "Spalten"
         group_by: "Gruppiere Ergebnisse nach"
@@ -204,6 +207,7 @@ de:
         after_or_equal_to: "muss nach oder gleich %{date} sein"
         before: "muss vor %{date} sein"
         before_or_equal_to: "muss vor oder gleich %{date} sein"
+        could_not_be_copied: "konnten nicht (vollständig) kopiert werden"
       models:
         work_package:
           is_not_a_valid_target_for_time_entries: "Arbeitspaket #%{id} ist kein gültiges Ziel für die Zuordnug der Zeiterfassungseinträge."

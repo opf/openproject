@@ -31,6 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#3050` Fix: [Work Package Tracking] Internal error with query from the time before work packages
 * Fix position of 'more functions' menu on wp#show
+* `#3193` Fix: [Bug] Copying the project OpenProject results in 500
 
 ## 3.0.0pre33
 

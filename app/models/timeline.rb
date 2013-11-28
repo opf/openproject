@@ -65,6 +65,8 @@ class Timeline < ActiveRecord::Base
     "compare_to_absolute",
     "compare_to_relative",
     "compare_to_relative_unit",
+    "compare_to_historical_one",
+    "compare_to_historical_two",
     "comparison",
     "exclude_empty",
     "exclude_own_planning_elements",
