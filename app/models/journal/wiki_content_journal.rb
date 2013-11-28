@@ -67,7 +67,7 @@ class Journal::WikiContentJournal < Journal::BaseJournal
   end
 
   def self.event_url(event)
-    parameters = { project_id: event['project_id'], id: event['journable_id'] }
+    parameters = { project_id: event['project_id'], id: event['wiki_title'], version: event['version'] }
 
     Rails.application.routes.url_helpers.project_wiki_path(parameters)
   end
