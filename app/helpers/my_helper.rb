@@ -28,6 +28,14 @@
 #++
 
 module MyHelper
+  def calendar_items(startdt, enddt)
+    WorkPackage.visible.
+      where(:project_id => User.current.projects.map(&:id)).
+      where("(start_date>=? and start_date<=?) or (due_date>=? and due_date<=?)", startdt, enddt, startdt, enddt).
+      includes(:project, :type, :priority, :assigned_to).
+      all
+  end
+
   def deletion_info_path
     url_for(:delete_my_account_info)
   end

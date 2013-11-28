@@ -49,7 +49,7 @@ describe CustomFieldsController do
       let(:params) { { "custom_field" => { "translations_attributes" => { "0" => { "name" => de_name, "locale" => "de" }, "1" => { "name" => en_name, "locale" => "en" } } } } }
 
       before do
-        put :edit, params
+        put :update, params
       end
 
       it { response.should be_redirect }
@@ -63,7 +63,7 @@ describe CustomFieldsController do
       let(:params) { { "custom_field" => { "translations_attributes" => { "0" => { "name" => de_name, "locale" => "de" }, "1" => { "name" => en_name, "locale" => "en" } } } } }
 
       before do
-        put :edit, params
+        put :update, params
       end
 
       it { response.should be_redirect }
@@ -84,7 +84,7 @@ describe CustomFieldsController do
                        "custom_field" => { "translations_attributes" => { "0" => { "name" => de_name, "locale" => "de" }, "1" => { "name" => en_name, "locale" => "en" } } } } }
 
       before do
-        post :new, params
+        post :create, params
       end
 
       it { response.should be_success }
@@ -99,7 +99,7 @@ describe CustomFieldsController do
                        "custom_field" => { "translations_attributes" => { "0" => { "name" => de_name, "locale" => "de" }, "1" => { "name" => en_name, "locale" => "en" } } } } }
 
       before do
-        post :new, params
+        post :create, params
       end
 
       it { response.should be_success }

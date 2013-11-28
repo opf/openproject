@@ -127,15 +127,6 @@ jQuery(document).ready(function ($) {
   }
 });
 
-jQuery(document).ajaxError(function(event, request, settings) {
-  if (request.status === 401 && /X-Reason: login needed/.match(request.getAllResponseHeaders())) {
-    if (confirm(I18n.t("js.logoff") + "\r\n" + I18n.t("js.redirect_login"))) {
-      location.href = openProject.loginUrl + "?back_url=" + encodeURIComponent(location.href);
-    }
-  }
-});
-
-
 function checkAll (id, checked) {
 	var els = Element.descendants(id);
 	for (var i = 0; i < els.length; i++) {
@@ -582,11 +573,6 @@ document.observe("dom:loaded", function() {
       }
     },
     onComplete: function(request, result){
-      if (result.status === 401 && /X-Reason: login needed/.match(result.getAllResponseHeaders())) {
-        if (confirm(I18n.t("js.logoff") + "\r\n" + I18n.t("js.redirect_login"))) {
-          location.href = openProject.loginUrl + "?back_url=" + encodeURIComponent(location.href);
-        }
-      }
       if ($('ajax-indicator') && Ajax.activeRequestCount == 0) {
         Element.hide('ajax-indicator');
       }

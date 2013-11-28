@@ -29,6 +29,8 @@
 #
 
 class CustomField < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
+
   has_many :custom_values, :dependent => :delete_all
   acts_as_list :scope => 'type = \'#{self.class}\''
   translates :name,

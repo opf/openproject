@@ -56,7 +56,6 @@ begin
           pattern << File.join( dir, 'spec', '**', '*_spec.rb' ).to_s
         end
       end
-      t.fail_on_error = false
       t.pattern = pattern
     end
 
@@ -68,7 +67,6 @@ begin
           pattern << File.join( dir, 'spec', '**', '*_spec.rb' ).to_s
         end
       end
-      t.fail_on_error = false
       t.pattern = pattern
     end
   end

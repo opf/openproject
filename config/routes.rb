@@ -112,6 +112,7 @@ OpenProject::Application.routes.draw do
   match '/help/:ctrl/:page' => 'help#index'
 
   resources :types
+  resources :custom_fields, :except => :show
   resources :search, :controller => 'search', :only => ['index']
 
   # only providing routes for journals when there are multiple subclasses of journals
@@ -166,7 +167,8 @@ OpenProject::Application.routes.draw do
       #
       get 'settings(/:tab)', :action => 'settings', :as => :settings
 
-      match "copy_project_from_(:coming_from)" => "copy_projects#copy_project", :via => :get, :as => :copy_from
+      match "copy_project_from_(:coming_from)" => "copy_projects#copy_project", :via => :get, :as => :copy_from,
+            constraints: { coming_from: /(admin|settings)/ }
       match "copy" => "copy_projects#copy", :via => :post
       put :modules
       put :archive

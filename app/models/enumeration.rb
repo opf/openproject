@@ -93,7 +93,7 @@ class Enumeration < ActiveRecord::Base
   end
 
   def unmark_old_default_value
-    Enumeration.update_all("is_default = #{connection.quoted_false}", {:type => type})
+    Enumeration.where(:type => type).update_all(:is_default => false)
   end
 
   # Overloaded on concrete classes

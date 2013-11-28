@@ -61,7 +61,7 @@ class CopyProjectsController < ApplicationController
   end
 
   def copy_project
-    from = params[:coming_from].to_sym || :settings
+    from = params[:coming_from] || :settings
     @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @types = Type.all
     @root_projects = Project.find(:all,
@@ -73,7 +73,7 @@ class CopyProjectsController < ApplicationController
     else
       redirect_to :back
     end
-    render :action => :"copy_from_#{from}"
+    render :action => "copy_from_#{from}"
   rescue ActiveRecord::RecordNotFound
     redirect_to :back
   end

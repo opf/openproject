@@ -327,7 +327,7 @@ class Query < ActiveRecord::Base
   end
 
   def column_names=(names)
-    if names
+    if names.present?
       names = names.inject([]) { |out, e| out += e.to_s.split(',') }
       names = names.select {|n| n.is_a?(Symbol) || !n.blank? }
       names = names.collect {|n| n.is_a?(Symbol) ? n : n.to_sym }

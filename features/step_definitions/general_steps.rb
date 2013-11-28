@@ -425,7 +425,7 @@ def send_table_to_object(object, table, except = {}, rescue_block = nil)
         raise "No such method #{_key} on a #{object.class}"
       end
     end
-    object.save! if object.changed?
+    object.save!
   end
 end
 

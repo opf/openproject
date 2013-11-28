@@ -44,7 +44,7 @@ module ActiveRecord
         included_in_superclasses = ancestors.select { |a| a.ancestors.include? ActiveRecord::Base }.any? { |klass| !(I18n.t("activerecord.attributes.#{klass.name.underscore}.#{attr}").include? 'translation missing:') }
         unless included_in_general_attributes or included_in_superclasses
           # TODO: remove this method once no warning is displayed when running a server/console/tests/tasks etc.
-          warn "[DEPRECATION] Relying on Redmine::I18n addition of `field_` to your translation key \"#{attr}\" on the \"#{self}\" model is deprecated. Please use proper ActiveRecord i18n! \n Catched: #{e.message}"
+          warn "[DEPRECATION] Relying on Redmine::I18n addition of `field_` to your translation key \"#{attr}\" on the \"#{self}\" model is deprecated. Please use proper ActiveRecord i18n! \n Caught: #{e.message}"
         end
         super(attr, options) # without raise
       end
