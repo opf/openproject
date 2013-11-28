@@ -224,6 +224,13 @@ describe WorkPackagesController do
 
   end
 
+  describe 'index with a broken project reference' do
+    before { get('index', :project_id => 'project_that_doesnt_exist') }
+
+    it { should respond_with :not_found }
+  end
+
+
   describe 'show.html' do
     let(:call_action) { get('show', :id => '1337') }
 
