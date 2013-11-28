@@ -161,6 +161,7 @@ class ActivitiesControllerTest < ActionController::TestCase
   end
 
   def test_index_atom_feed
+    Setting.host_name = 'test.host'
     issue = WorkPackage.find(11)
     FactoryGirl.create :work_package_journal,
                        journable_id: issue.id,
@@ -170,6 +171,7 @@ class ActivitiesControllerTest < ActionController::TestCase
                                                status_id: issue.status_id,
                                                type_id: issue.type_id,
                                                project_id: issue.project_id)
+
     get :index, :format => 'atom'
     assert_response :success
     assert_template 'common/feed'
