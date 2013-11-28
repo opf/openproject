@@ -40,6 +40,19 @@ class Message < ActiveRecord::Base
 
   acts_as_journalized
 
+  acts_as_event title: Proc.new {|o| "#{o.board.name}: #{o.subject}"},
+                description: :content,
+                datetime: :created_on,
+                type: Proc.new {|o| o.parent_id.nil? ? 'message' : 'reply'},
+                url: (Proc.new do |o|
+                        msg = o
+                        if msg.parent_id.nil?
+                          {:id => msg.id}
+                        else
+                          {:id => msg.parent_id, :r => msg.id, :anchor => "message-#{msg.id}"}
+                        end.reverse_merge :controller => '/messages', :action => 'show', :board_id => msg.board_id
+                      end)
+
   acts_as_searchable :columns => ['subject', 'content'],
                      :include => {:board => :project},
                      :project_key => 'project_id',

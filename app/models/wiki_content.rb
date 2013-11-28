@@ -43,6 +43,10 @@ class WikiContent < ActiveRecord::Base
 
   acts_as_journalized
 
+  acts_as_event type: 'wiki-page',
+                title: Proc.new {|o| "#{l(:label_wiki_edit)}: #{o.journal.journable.page.title} (##{o.journal.journable.version})"},
+                url: Proc.new {|o| {controller: '/wiki', action: 'show', id: o.journal.journable.page, project_id: o.journal.journable.page.wiki.project, version: o.journal.journable.version}}
+
   def activity_type
     'wiki_edits'
   end

@@ -46,6 +46,10 @@ class Attachment < ActiveRecord::Base
   after_destroy :delete_file_on_disk
 
   acts_as_journalized
+  acts_as_event title: :filename,
+                url: (Proc.new do |o|
+                        { :controller => '/attachments', :action => 'download', :id => o.id, :filename => o.filename }
+                      end)
 
   cattr_accessor :storage_path
   @@storage_path = OpenProject::Configuration['attachments_storage_path'] ||
