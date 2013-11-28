@@ -36,7 +36,6 @@ gem "rdoc", ">= 2.4.2"
 # Needed only on RUBY_VERSION = 1.8, ruby 1.9+ compatible interpreters should bring their csv
 gem "fastercsv", "~> 1.5.0", :platforms => [:ruby_18, :jruby, :mingw_18]
 gem 'globalize'
-gem "delayed_job_active_record" # that's how delayed job's readme recommends it
 
 gem 'request_store'
 
@@ -118,7 +117,7 @@ group :test do
   gem 'rack_session_access'
   gem 'database_cleaner'
   gem "cucumber-rails-training-wheels" # http://aslakhellesoy.com/post/11055981222/the-training-wheels-came-off
-  gem 'rspec', '~> 2.0'
+  gem 'rspec', '~> 2.13.0'
   # also add to development group, so "spec" rake task gets loaded
   gem "rspec-rails", "~> 2.0", :group => :development
   gem 'rspec-example_disabler'
