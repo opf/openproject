@@ -105,9 +105,10 @@ module Redmine
 
             query = join_with_projects_table(query, project_ref_table)
             query = restrict_projects_by_selection(options, query)
-            query = restrict_projects_by_permission(provider_options[:permission], user, query)
+            query = restrict_projects_by_permission(provider_options[:permission], query)
+            query = restrict_projects_by_user(provider_options, user, query)
 
-            # TODO: Implement permission scope
+            return [] if query.nil?
 
             query = query.order(j[:id]).take(options[:limit]) if options[:limit]
 
@@ -141,7 +142,7 @@ module Redmine
             query
           end
 
-          def restrict_projects_by_permission(permission, user, query)
+          def restrict_projects_by_permission(permission, query)
             p = Arel::Table.new(:projects)
             perm = Redmine::AccessControl.permission(permission)
 
@@ -156,6 +157,31 @@ module Redmine
             end
 
             query
+          end
+
+          def restrict_projects_by_user(options, user, query)
+            return query if user.admin?
+
+            p = Arel::Table.new(:projects)
+            perm = Redmine::AccessControl.permission(options[:permission])
+            is_member = options[:member]
+            original_query = query.dup
+
+            if user.logged?
+              allowed_projects = []
+
+              user.projects_by_role.each do |r, p|
+                allowed_projects << projects.collect(&:id) if r.allowed_to?(perm)
+              end
+
+              query = query.where(p[:id].in(allowed_projects.uniq))
+            end
+
+            if (Role.anonymous.allowed_to?(perm) || Role.non_member.allowed_to?(perm)) && !is_member
+              query = query.where(p[:is_public].eq(true)) 
+            end
+
+            (query == original_query) ? nil : query
           end
 
           def fill_events(event_type, events)
