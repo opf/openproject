@@ -84,7 +84,6 @@ jQuery(function ($) {
   // open the given submenu when clicking on it
   function install_menu_logic(menu) {
     menu.find(" > li.drop-down").click(function(event) {
-      $(this).find("ul.action_menu_more").css({ top: menu_top_position(menu) });
       open_menu(menu);
     });
   };

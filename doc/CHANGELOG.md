@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* Fix position of 'more functions' menu on wp#show
+
 ## 3.0.0pre33
 
 * `#2761` Fix: [Work Package Tracking] Assigning work packages to no target version not working in buld edit
