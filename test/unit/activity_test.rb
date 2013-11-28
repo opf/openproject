@@ -92,7 +92,7 @@ class ActivityTest < ActiveSupport::TestCase
 
     assert(events.size > 0)
     assert(events.size <= 10)
-    assert_nil(events.detect {|e| e.data.event_author != user})
+    assert_nil(events.detect {|e| e.event_author != user})
   end
 
   private
@@ -101,6 +101,8 @@ class ActivityTest < ActiveSupport::TestCase
     events = Redmine::Activity::Fetcher.new(user, options).events(Date.today - 30, Date.today + 1)
     # Because events are provided by the journals, but we want to test for
     # their targets here, transform that
-    events.group_by(&:journable).keys
+    events.collect do |e|
+      JournalManager.journaled_class(e.provider).find(e.journable_id)
+    end
   end
 end
