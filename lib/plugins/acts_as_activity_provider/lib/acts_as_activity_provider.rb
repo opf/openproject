@@ -118,14 +118,29 @@ module Redmine
           private
 
           def restrict_projects(project_ref_table, query, options)
+            query = join_with_projects_table(query, project_ref_table)
+            query = restrict_to_selected_project(options, query)
+            
+            query
+          end
+
+          def join_with_projects_table(query, project_ref_table)
             p = Arel::Table.new(:projects)
-            project = options[:project]
-            projects = options[:with_subprojects] ? project.self_and_descendants.collect(&:id)
-                                                  : [project.id]
 
             query = query.join(p).on(p[:id].eq(project_ref_table['project_id']))
+            query
+          end
 
-            query = query.where(p[:id].in(projects))
+          def restrict_to_selected_project(options, query)
+            p = Arel::Table.new(:projects)
+
+            if project = options[:project]
+              stmt = p[:id].eq(project.id)
+              stmt = stmt.or(p[:lft].gt(project.lft).and(p[:rgt].lt(project.rgt))) if options[:with_subprojects]
+
+              query = query.where(stmt)
+            end
+
             query
           end
 
