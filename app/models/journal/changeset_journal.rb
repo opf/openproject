@@ -93,7 +93,8 @@ class Journal::ChangesetJournal < Journal::BaseJournal
   end
 
   def self.event_url(event)
-    Rails.application.routes.url_helpers.revisions_project_repository_url(self.url_helper_parameter(event))
+    Rails.application.routes.url_helpers.revisions_project_repository_url(self.url_helper_parameter(event),
+                                                                          host: ::Setting.host_name)
   end
 
   def self.url_helper_parameter(event)

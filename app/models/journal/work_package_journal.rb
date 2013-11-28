@@ -87,7 +87,8 @@ class Journal::WorkPackageJournal < Journal::BaseJournal
   end
 
   def self.event_url(event)
-    Rails.application.routes.url_helpers.work_package_url(self.url_helper_parameter(event))
+    Rails.application.routes.url_helpers.work_package_url(self.url_helper_parameter(event),
+                                                          host: ::Setting.host_name)
   end
 
   def self.url_helper_parameter(event)

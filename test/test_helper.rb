@@ -84,7 +84,6 @@ class ActiveSupport::TestCase
   def setup
     super
     Rails.cache.clear
-    Rails.application.routes.default_url_options[:host] = "test.host"
     # Ugly H4X to convince postgresql to update its sequences after bulk loading fixtures
     # TODO: remove this when we got rid of the fixtures
     ActiveRecord::Base.descendants.each do |model|
