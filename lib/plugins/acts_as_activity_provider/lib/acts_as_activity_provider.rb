@@ -87,6 +87,8 @@ module Redmine
           def find_events(event_type, user, from, to, options)
             raise "#{self.name} can not provide #{event_type} events." if activity_provider_options[event_type].nil?
 
+            provider_options = activity_provider_options[event_type].dup
+
             p = Arel::Table.new(:projects)
             j = Arel::Table.new(:journals)
             ej = Arel::Table.new(self.table_name)
@@ -101,7 +103,9 @@ module Redmine
 
             project_ref_table, query = self.extend_event_query(j, ej, query) if self.respond_to? :extend_event_query
 
-            query = restrict_projects(project_ref_table, query, options)
+            query = join_with_projects_table(query, project_ref_table)
+            query = restrict_projects_by_selection(options, query)
+            query = restrict_projects_by_permission(provider_options[:permission], user, query)
 
             # TODO: Implement permission scope
 
@@ -117,13 +121,6 @@ module Redmine
 
           private
 
-          def restrict_projects(project_ref_table, query, options)
-            query = join_with_projects_table(query, project_ref_table)
-            query = restrict_to_selected_project(options, query)
-            
-            query
-          end
-
           def join_with_projects_table(query, project_ref_table)
             p = Arel::Table.new(:projects)
 
@@ -131,7 +128,7 @@ module Redmine
             query
           end
 
-          def restrict_to_selected_project(options, query)
+          def restrict_projects_by_selection(options, query)
             p = Arel::Table.new(:projects)
 
             if project = options[:project]
@@ -139,6 +136,23 @@ module Redmine
               stmt = stmt.or(p[:lft].gt(project.lft).and(p[:rgt].lt(project.rgt))) if options[:with_subprojects]
 
               query = query.where(stmt)
+            end
+
+            query
+          end
+
+          def restrict_projects_by_permission(permission, user, query)
+            p = Arel::Table.new(:projects)
+            perm = Redmine::AccessControl.permission(permission)
+
+            query = query.where(p[:status].eq(Project::STATUS_ACTIVE))
+
+            if perm && perm.project_module
+              m = Arel::Table.new(:enabled_modules)
+              subquery = m.where(m[:name].eq(perm.project_module))
+                          .project(m[:project_id])
+
+              query = query.where(p[:id].in(subquery))
             end
 
             query
