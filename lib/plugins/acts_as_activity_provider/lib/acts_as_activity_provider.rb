@@ -192,7 +192,7 @@ module Redmine
                                                                  e['event_author'].to_i,
                                                                  nil,
                                                                  DateTime.parse(e['event_datetime']),
-                                                                 nil,
+                                                                 e['project_id'].to_i,
                                                                  nil,
                                                                  event_type.dup.singularize,
                                                                  nil)
