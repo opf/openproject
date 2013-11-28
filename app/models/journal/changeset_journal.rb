@@ -47,7 +47,8 @@ class Journal::ChangesetJournal < Journal::BaseJournal
       ej[:revision].as('revision'),
       ej[:comments].as('comments'),
       ej[:committed_on].as('committed_on'),
-      r[:project_id].as('project_id')
+      r[:project_id].as('project_id'),
+      r[:type].as('repository_type')
     ]
   end
 
@@ -64,10 +65,19 @@ class Journal::ChangesetJournal < Journal::BaseJournal
   private
 
   def self.event_title(event)
+    revision = self.format_revision(event)
+
     short_comment = self.split_comment(event['comments']).first
 
-    title = "#{l(:label_revision)} #{event['revision']}"
+    title = "#{l(:label_revision)} #{revision}"
     title << (short_comment.blank? ? '' : (': ' + short_comment))
+  end
+
+  def self.format_revision(event)
+    repository_class = event['repository_type'].constantize
+
+    repository_class.respond_to?(:format_revision) ? repository_class.format_revision(event['revision'])
+                                                   : event['revision']
   end
 
   def self.split_comment(comments)

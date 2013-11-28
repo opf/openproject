@@ -63,7 +63,11 @@ class Repository::Git < Repository
 
   # Returns the readable identifier for the given git changeset
   def self.format_changeset_identifier(changeset)
-    changeset.revision[0, 8]
+    self.format_revision(changeset.revision)
+  end
+
+  def self.format_revision(revision)
+    revision[0, 8]
   end
 
   def branches
