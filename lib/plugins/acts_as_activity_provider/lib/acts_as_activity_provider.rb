@@ -192,13 +192,17 @@ module Redmine
           end
 
           def fill_events(event_type, events)
-            events.each_with_object([]) do |e, l|
+            result = []
+
+            events.each(as: :hash) do |e|
+              datetime = e['event_datetime'].is_a?(String) ? DateTime.parse(e['event_datetime'])
+                                                           : e['event_datetime']
               event = Redmine::Acts::ActivityProvider::Event.new(self,
                                                                  nil,
                                                                  e['event_description'],
                                                                  e['event_author'].to_i,
                                                                  nil,
-                                                                 DateTime.parse(e['event_datetime']),
+                                                                 datetime,
                                                                  e['journable_id'],
                                                                  e['project_id'].to_i,
                                                                  nil,
@@ -206,8 +210,10 @@ module Redmine
                                                                  nil,
                                                                  nil)
 
-              l << ((self.respond_to? :format_event) ? self.format_event(event, e) : event)
+              result << ((self.respond_to? :format_event) ? self.format_event(event, e) : event)
             end
+
+            result
           end
         end
       end
