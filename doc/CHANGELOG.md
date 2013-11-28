@@ -29,9 +29,17 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.0pre34
+
 * `#3050` Fix: [Work Package Tracking] Internal error with query from the time before work packages
 * Fix position of 'more functions' menu on wp#show
 * `#3193` Fix: [Bug] Copying the project OpenProject results in 500
+* Settings: Fix work package tab not being shown after save
+* Fix wiki menu item breadcrumb
+* `#3111` fixed bug
+* Fixed other user preferences not being saved correctly in cukes
+* Fixed grammatical error in translation missing warning
+* `#2660` fixed bug
 
 ## 3.0.0pre33
 
