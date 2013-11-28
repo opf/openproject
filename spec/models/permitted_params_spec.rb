@@ -59,6 +59,64 @@ describe PermittedParams do
 
       PermittedParams.new(params, user).cost_object.should == { }
     end
+
+    context 'with budget item params' do
+      let(:params) { ActionController::Parameters.new(cost_object: budget_item_params) }
+      subject { PermittedParams.new(params, user).cost_object }
+
+      context 'of an existing material budget item' do
+        let(:budget_item_params) do
+          {"existing_material_budget_item_attributes" => {"1" => {
+                                                            "units" => "100.0",
+                                                            "cost_type_id" => "1",
+                                                            "comments" => "First package",
+                                                            "budget" => "5,000.00"
+                                                          }
+                                                        }}
+        end
+
+        it { should == budget_item_params }
+      end
+
+      context 'of a new material budget item' do
+        let(:budget_item_params) do
+          {"new_material_budget_item_attributes" => {"1" => {
+                                                       "units" => "20",
+                                                       "cost_type_id" => "2",
+                                                       "comments" => "Macbooks",
+                                                       "budget" => "52,000.00"
+                                                     }}}
+        end
+
+        it { should == budget_item_params }
+      end
+
+      context 'of an existing labor budget item' do
+        let(:budget_item_params) do
+          {"existing_labor_budget_item_attributes" => {"1" => {
+                                                         "hours" => "20.0",
+                                                         "user_id" => "1",
+                                                         "comments" => "App Setup",
+                                                         "budget" => "2000.00"
+                                                       }}}
+        end
+
+        it { should == budget_item_params }
+      end
+
+      context 'of a new labor budget item' do
+        let(:budget_item_params) do
+          {"new_labor_budget_item_attributes" => {"1" => {
+                                                    "hours" => "5.0",
+                                                    "user_id" => "2",
+                                                    "comments" => "Overhead",
+                                                    "budget" => "400"
+                                                 }}}
+        end
+
+        it { should == budget_item_params }
+      end
+    end
   end
 
   describe :cost_type do
