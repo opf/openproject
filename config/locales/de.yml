@@ -1219,7 +1219,7 @@ de:
   setting_work_package_list_summable_columns: "Summierbar"
   setting_work_package_properties: "Arbeitspaket-Eigenschaften"
   setting_work_package_startdate_is_adddate: "Neue Arbeitspakete haben \"Heute\" als Anfangsdatum"
-  setting_work_package_export_limit: "Max. Anzahl Arbeitspakete bei CSV/PDF-Export"
+  setting_work_packages_export_limit: "Max. Anzahl Arbeitspakete bei CSV/PDF-Export"
   setting_log_requesting_user: "Logge Benutzer Login, Name und Mailadresse für alle Anfragen"
   setting_login_required: "Authentifizierung erforderlich"
   setting_mail_from: "E-Mail-Absender"
