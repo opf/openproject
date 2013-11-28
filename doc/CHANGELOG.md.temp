@@ -29,22 +29,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
-## 3.0.0pre34
-
-* `#2660` fixed bug
-* `#3050` Fix: [Work Package Tracking] Internal error with query from the time before work packages
-* `#3040` Fix: [Work Package Tracking] 404 for Work Package Index does not work, results in 500
-* `#3111` fixed bug
-* `#3193` Fix: [Bug] Copying the project OpenProject results in 500
-* Fix position of 'more functions' menu on wp#show
-* Fix queries on work packages index if no project is selected
-* Fix wiki menu item breadcrumb
-* Fixed grammatical error in translation missing warning
-* Fixed other user preferences not being saved correctly in cukes
-* Settings: Fix work package tab not being shown after save
-
-## 3.0.0pre33
-
 * `#2761` Fix: [Work Package Tracking] Assigning work packages to no target version not working in buld edit
 * `#2762` [Work package tracking] Copying a work package in bulk edit mode opens move screen
 * `#3021` Fix: Fix: emails sent for own changes
@@ -64,6 +48,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2332` [Timelines] Field "planning comparisons" does not check for valid input
 * `#2581` Include also end date when sorting workpackges in timelines module
 * `#2591` Fix: Costs prevents work package context menu
+* `#2395` Refactor query filters and add filter validations
 * `#3018` Fix: Stored queries grouping by attribute is not working
 * `#3020` Fix: E-mail Message-ID header is not unique for Work Package mails
 * `#3021` Fix: emails sent for own changes
