@@ -68,15 +68,15 @@ class Journal::WikiContentJournal < Journal::BaseJournal
   end
 
   def self.event_path(event)
-    Rails.application.routes.url_helpers.project_wiki_path(self.url_helper_parameter(event))
+    Rails.application.routes.url_helpers.project_wiki_path(*self.url_helper_parameter(event))
   end
 
   def self.event_url(event)
-    Rails.application.routes.url_helpers.project_wiki_url(self.url_helper_parameter(event),
+    Rails.application.routes.url_helpers.project_wiki_url(*self.url_helper_parameter(event),
                                                           host: ::Setting.host_name)
   end
 
   def self.url_helper_parameter(event)
-    { project_id: event['project_id'], id: event['wiki_title'], version: event['version'] }
+    [ event['project_id'], event['wiki_title'], { version: event['version'] } ]
   end
 end
