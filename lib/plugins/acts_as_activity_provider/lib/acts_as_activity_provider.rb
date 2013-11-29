@@ -119,7 +119,7 @@ module Redmine
 
             query.project(projection)
 
-            fill_events(event_type, ActiveRecord::Base.connection.execute(query.to_sql))
+            fill_events(event_type, ActiveRecord::Base.connection.select_all(query.to_sql))
           end
 
           private
@@ -192,9 +192,7 @@ module Redmine
           end
 
           def fill_events(event_type, events)
-            result = []
-
-            events.each(as: :hash) do |e|
+            events.each_with_object([]) do |e, result|
               datetime = e['event_datetime'].is_a?(String) ? DateTime.parse(e['event_datetime'])
                                                            : e['event_datetime']
               event = Redmine::Acts::ActivityProvider::Event.new(self,
@@ -212,8 +210,6 @@ module Redmine
 
               result << ((self.respond_to? :format_event) ? self.format_event(event, e) : event)
             end
-
-            result
           end
         end
       end
