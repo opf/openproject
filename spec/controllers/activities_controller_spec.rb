@@ -40,26 +40,22 @@ describe ActivitiesController do
 
   describe 'index' do
     describe 'with activated activity module' do
-      before do
-        @project = FactoryGirl.create(:project, :enabled_module_names => %w[activity wiki])
-        @params[:project_id] = @project.id
-      end
+      let(:project) { FactoryGirl.create(:project,
+                                         enabled_module_names: %w[activity wiki]) }
 
       it 'renders activity' do
-        get 'index', @params
+        get 'index', project_id: project.id
         response.should be_success
         response.should render_template 'index'
       end
     end
 
     describe 'without activated activity module' do
-      before do
-        @project = FactoryGirl.create(:project, :enabled_module_names => %w[wiki])
-        @params[:project_id] = @project.id
-      end
+      let(:project) { FactoryGirl.create(:project,
+                                         enabled_module_names: %w[wiki]) }
 
       it 'renders 403' do
-        get 'index', @params
+        get 'index', project_id: project.id
         response.status.should == 403
         response.should render_template 'common/error'
       end
