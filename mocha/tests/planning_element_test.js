@@ -128,6 +128,26 @@ describe('Planning Element', function(){
     it('should return function value of object.parameter');
   });
 
+  describe('horizontalBoundsForDates', function () {
+    it('should return 0 for x and width if no start&end date');
+    it('should return correct x and width if both dates are set');
+    it('should return x and width if start is not set');
+    it('should return x and width if end is not set');
+    it('should return the middle for a milestone');
+    it('should return the end for a call to end()');
+  });
+
+  describe('url', function () {
+    it('should return correct url');
+  });
+
+  describe('color', function () {
+    it('should return color of pe type if existing');
+    it('should return parent color if pe has children');
+    it('should return default color for empty pe');
+    it('should return gradient if one date is missing');
+  });
+
   describe('start() and end()', function(){
     it('should return date object', function(){
       expect(this.peWithDates.start()).to.be.an.instanceof(Date);
