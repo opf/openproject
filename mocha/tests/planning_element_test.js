@@ -21,6 +21,7 @@ describe('Planning Element', function(){
   describe('is', function () {
     it('should return true for pes', function () {
       expect(Timeline.PlanningElement.is(this.peWithDates)).to.be.true;
+      expect(this.peWithDates.is(Timeline.PlanningElement)).to.be.true;
     });
 
     it('should return false for non-pes', function () {

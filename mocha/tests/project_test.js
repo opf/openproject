@@ -22,6 +22,8 @@ describe('Project', function(){
     it('should be true for empty', function () {
       expect(this.projectEmpty.hiddenForEmpty()).to.be.true;
       expect(this.projectEmpty.hide()).to.be.true;
+      expect(this.project.hide()).to.be.false;
+      expect(this.project.hiddenForEmpty()).to.be.false;
     });
   });
 
@@ -42,6 +44,35 @@ describe('Project', function(){
     it('should sort pes with same start by end');
     it('should sort pes with same start and end by name');
     it('should sort pes with same start and end and name by id');
+  });
+
+  describe('grouping', function () {
+
+  });
+
+  describe('responsible', function () {
+    it('TODO');
+  });
+  describe('assignee', function () {
+    it('TODO');
+  });
+  describe('status', function () {
+    it('TODO');
+  });
+  describe('subElements', function () {
+    it('TODO');
+  });
+  describe('PlanningElements', function () {
+    it('TODO');
+  });
+  describe('Reporters', function () {
+    it('TODO');
+  });
+  describe('Parent', function () {
+    it('TODO');
+  });
+  describe('Url', function () {
+    it('TODO');
   });
 });
 

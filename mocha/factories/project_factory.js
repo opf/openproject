@@ -7,6 +7,8 @@ Factory.define('Project', Timeline.Project)
     if(options && options.children) {
       var i;
       for (i = 0; i < options.children.length; i += 1) {
+        options.children[i].project = Project;
+        options.children[i].parent = Project;
         options.children[i] = Factory.build('PlanningElement', options.children[i]);
       }
     }
