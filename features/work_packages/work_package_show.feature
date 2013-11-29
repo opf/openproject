@@ -65,10 +65,10 @@ Feature: Viewing a work package
       | New         | false      | true        |
 
     And there are the following issues in project "omicronpersei8":
-      | subject | type | description |
-      | issue1  | Bug  | "1"         |
-      | issue2  | Bug  | "2"         |
-      | issue3  | Bug  | "3"         |
+      | subject | type | description | author |
+      | issue1  | Bug  | "1"         | bob    |
+      | issue2  | Bug  | "2"         | bob    |
+      | issue3  | Bug  | "3"         | bob    |
 
     And there are the following work packages in project "omicronpersei8":
       | subject | start_date | due_date   |
