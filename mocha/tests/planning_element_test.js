@@ -132,12 +132,14 @@ describe('Planning Element', function(){
   });
 
   describe('responsible', function () {
+    it('should be null by default');
     it('should get the responsible');
     it('should allow get of responsible name');
     it('should return undefined if responsible or responsible name are not set');
   });
 
   describe('assignee', function () {
+    it('should be null by default');
     it('should allow get of assignee name');
     it('should return undefined if assignee or assignee name are not set');
   });

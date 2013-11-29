@@ -46,33 +46,62 @@ describe('Project', function(){
     it('should sort pes with same start and end and name by id');
   });
 
-  describe('grouping', function () {
-
-  });
-
   describe('responsible', function () {
-    it('TODO');
+    it('should be null by default');
+    it('should get the responsible');
+    it('should allow get of responsible name');
+    it('should return undefined if responsible or responsible name are not set');
   });
+
   describe('assignee', function () {
-    it('TODO');
+    it('should always return undefined');
   });
+
   describe('status', function () {
-    it('TODO');
+    it('should return null if no reporting');
+    it('should return reporting status');
   });
+
   describe('subElements', function () {
-    it('TODO');
+    it('returns pes before reporters');
+    it('returns the same pes as getPlanningElements');
+    it('filters the reporters correctly');
   });
+
   describe('PlanningElements', function () {
-    it('TODO');
+    it('should return pes of project');
+    it('should sort without date to the beginning');
+    it('should sort by date');
+    it('should sort with only an end date as if it had a start date equal to the end date');
+    it('should sort with same start by end date');
+    it('should sort with same start and end by name');
+    it('should sort with same start and end and name by id');
   });
+
   describe('Reporters', function () {
-    it('TODO');
+    it('should return reporters');
+    it('should sort without date to the beginning');
+    it('should sort by date');
+    it('should sort with same start by end date');
+    it('should sort with same start and end by name');
+    it('should sort with same start and end and name by id');
+
+
+    describe('groups', function () {
+      it('should sort project with same group next to each other');
+      it('should sort groups by name');
+      it('should sort groups by explicit order if given');
+      it('should sort projects with other group to the end');
+    });
   });
+
   describe('Parent', function () {
-    it('TODO');
+    it('should return null if no parent given');
+    it('should return the correct parent');
   });
+
   describe('Url', function () {
-    it('TODO');
+    it('should return the correct url');
   });
 });
 
