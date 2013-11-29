@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#2759` Fix: [Performance] Activity View very slow
 * `#3050` Fix: Fix: [Work Package Tracking] Internal error with query from the time before work packages
 * `#3202` Fix: [Bug] Grouping work packages by responsible is broken
 
