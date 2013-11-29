@@ -53,9 +53,13 @@ class Journal::ChangesetJournal < Journal::BaseJournal
   end
 
   def self.format_event(event, event_data)
+    committed_on = event_data['committed_on']
+    committed_date = committed_on.is_a?(String) ? DateTime.parse(committed_on)
+                                                : committed_on
+
     event.event_title = self.event_title event_data
     event.event_description = self.split_comment(event_data['comments']).last
-    event.event_datetime = DateTime.parse(event_data['committed_on'])
+    event.event_datetime = committed_date
     event.event_path = self.event_path event_data
     event.event_url = self.event_url event_data
 
