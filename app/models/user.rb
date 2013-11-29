@@ -215,6 +215,10 @@ class User < Principal
     self.read_attribute(:identity_url)
   end
 
+  def self.search_in_project(query, options)
+    Project.find(options.fetch(:project)).users.like(query)
+  end
+
   def self.register_allowance_evaluator(filter)
     self.registered_allowance_evaluators ||= []
 

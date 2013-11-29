@@ -53,7 +53,8 @@ module Pagination::Model
         scope.paginate({ :per_page => limit, :page => page }) 
       end
 
-      def search_scope(query)
+      # ignores options passed in from the controller, overwrite to use 'em
+      def search_scope(query, options = {})
         like(query)
       end
     end
