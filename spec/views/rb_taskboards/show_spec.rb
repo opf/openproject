@@ -152,8 +152,9 @@ describe 'rb_taskboards/show' do
 
       stories.each do |story|
         assert_select "tr.story_#{story.id} td.add_new" do |td|
-          td.should have_content '+'
-          td.should have_css '.clickable'
+          td.count.should eq 1
+          td.first.should have_content '+'
+          td.first.should have_css '.clickable'
         end
       end
     end
@@ -165,8 +166,9 @@ describe 'rb_taskboards/show' do
 
       stories.each do |story|
         assert_select "tr.story_#{story.id} td.add_new" do |td|
-          td.should_not have_content '+'
-          td.should_not have_css '.clickable'
+          td.count.should eq 1
+          td.first.should_not have_content '+'
+          td.first.should_not have_css '.clickable'
         end
       end
     end
@@ -178,8 +180,9 @@ describe 'rb_taskboards/show' do
 
       stories.each do |story|
         assert_select '#impediments td.add_new' do |td|
-          td.should have_content '+'
-          td.should have_css '.clickable'
+          td.count.should eq 1
+          td.first.should have_content '+'
+          td.first.should have_css '.clickable'
         end
       end
     end
@@ -191,8 +194,9 @@ describe 'rb_taskboards/show' do
 
       stories.each do |story|
         assert_select '#impediments td.add_new' do |td|
-          td.should_not have_content '+'
-          td.should_not have_css '.clickable'
+          td.count.should eq 1
+          td.first.should_not have_content '+'
+          td.first.should_not have_css '.clickable'
         end
       end
     end
@@ -208,7 +212,8 @@ describe 'rb_taskboards/show' do
       render
 
       assert_select ".model.work_package.task" do |task|
-        task.should_not have_css '.task.prevent_edit'
+        task.count.should eq 1
+        task.first.should_not have_css '.task.prevent_edit'
       end
     end
 
@@ -220,7 +225,8 @@ describe 'rb_taskboards/show' do
       render
 
       assert_select ".model.work_package.task" do |task|
-        task.should have_css '.task.prevent_edit'
+        task.count.should eq 1
+        task.first.should have_css '.task.prevent_edit'
       end
     end
 
@@ -232,7 +238,8 @@ describe 'rb_taskboards/show' do
       render
 
       assert_select ".model.work_package.impediment" do |impediment|
-        impediment.should_not have_css '.impediment.prevent_edit'
+        impediment.count.should eq 3 # 2 additional for the task and the invisible form
+        impediment.first.should_not have_css '.impediment.prevent_edit'
       end
     end
 
@@ -244,7 +251,8 @@ describe 'rb_taskboards/show' do
       render
 
       assert_select ".model.work_package.impediment" do |impediment|
-        impediment.should have_css '.impediment.prevent_edit'
+        impediment.count.should eq 3 # 2 additional for the task and the invisible form
+        impediment.first.should have_css '.impediment.prevent_edit'
       end
     end
   end
