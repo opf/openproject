@@ -27,13 +27,13 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Redmine
-  module Utils
+module OpenProject
+  module UrlRoot
     class << self
-      attr_accessor :relative_url_root
+      attr_accessor :relative
 
     end
 
-    self.relative_url_root = ENV['RAILS_RELATIVE_URL_ROOT'] || ""
+    self.relative = ENV['RAILS_RELATIVE_URL_ROOT'] || ""
   end
 end

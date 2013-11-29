@@ -74,7 +74,7 @@ class ThemesTest < ActionDispatch::IntegrationTest
 
   should_eventually 'test_with_sub_uri' do
     begin
-      Redmine::Utils.relative_url_root = '/foo'
+      OpenProject::UrlRoot.relative = '/foo'
       @theme.javascripts << 'theme'
       get '/'
 
@@ -84,7 +84,7 @@ class ThemesTest < ActionDispatch::IntegrationTest
       assert_tag :tag => 'script',
         :attributes => {:src => '/foo/assets/default.js'}
     ensure
-      Redmine::Utils.relative_url_root = ''
+      OpenProject::UrlRoot.relative = ''
     end
   end
 end
