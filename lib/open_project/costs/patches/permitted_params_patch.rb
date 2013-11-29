@@ -18,10 +18,10 @@ module OpenProject::Costs::Patches::PermittedParamsPatch
       params.require(:cost_object).permit(:subject,
                                           :description,
                                           :fixed_date,
-                                          {new_material_budget_item_attributes: [:units, :cost_type_id, :comments]},
-                                          {new_labor_budget_item_attributes: [:hours, :user_id, :comments]},
-                                          {existing_material_budget_item_attributes: [:units, :cost_type_id, :comments]},
-                                          {existing_labor_budget_item_attributes: [:hours, :user_id, :comments]})
+                                          {new_material_budget_item_attributes: [:units, :cost_type_id, :comments, :budget]},
+                                          {new_labor_budget_item_attributes: [:hours, :user_id, :comments, :budget]},
+                                          {existing_material_budget_item_attributes: [:units, :cost_type_id, :comments, :budget]},
+                                          {existing_labor_budget_item_attributes: [:hours, :user_id, :comments, :budget]})
     end
 
     def cost_type
