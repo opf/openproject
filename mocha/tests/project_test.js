@@ -47,10 +47,34 @@ describe('Project', function(){
   });
 
   describe('responsible', function () {
-    it('should be null by default');
-    it('should get the responsible');
-    it('should allow get of responsible name');
-    it('should return undefined if responsible or responsible name are not set');
+    before(function () {
+      this.responsible = {
+        name: "testName"
+      };
+
+      this.projectWResponsible = Factory.build("Project", {
+        responsible: this.responsible
+      });
+
+      this.projectWBrokenResponsible = Factory.build("Project", {
+        responsible: {}
+      });
+    });
+
+    it('should be null by default', function () {
+      expect(this.project.getResponsible()).to.be.null;
+    });
+
+    it('should get the responsible', function () {
+      expect(this.projectWResponsible.getResponsible()).to.deep.equal(this.responsible);
+    });
+    it('should allow get of responsible name', function () {
+      expect(this.projectWResponsible.getResponsibleName()).to.equal("testName");
+    });
+    it('should return undefined if responsible or responsible name are not set', function () {
+      expect(this.project.getResponsibleName()).to.be.undefined;
+      expect(this.projectWBrokenResponsible.getResponsibleName()).to.be.undefined;
+    });
   });
 
   describe('assignee', function () {
@@ -58,7 +82,9 @@ describe('Project', function(){
   });
 
   describe('status', function () {
-    it('should return null if no reporting');
+    it('should return null if no reporting', function () {
+      expect(this.project.getProjectStatus()).to.be.null;
+    });
     it('should return reporting status');
   });
 
