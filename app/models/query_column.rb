@@ -33,10 +33,13 @@ class QueryColumn
   def initialize(name, options={})
     self.name = name
     self.sortable = options[:sortable]
-    self.groupable = options[:groupable] || false
-    if groupable == true
-      self.groupable = name.to_s
+
+    self.groupable = if (groupable = options[:groupable]) == true
+      name.to_s
+    else
+      groupable || false
     end
+
     self.default_order = options[:default_order]
     @caption_key = options[:caption] || name.to_s
   end

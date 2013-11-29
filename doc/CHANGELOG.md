@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#3202` Fix: [Bug] Grouping work packages by responsible is broken
+
 ## 3.0.0pre34
 
 * `#2361` [Timelines] Refactoring of Timelines file structure.
