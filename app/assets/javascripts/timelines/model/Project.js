@@ -37,11 +37,6 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-//= require timelines/FilterQueryStringBuilder
-//= require timelines/TimelineLoader
-//= require timelines/TreeNode
-//= require timelines/constants
-
 // stricter than default
 /*jshint undef:true,
          eqeqeq:true,

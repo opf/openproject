@@ -37,27 +37,6 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-//= require timelines/FilterQueryStringBuilder
-//= require timelines/TimelineLoader
-
-//= require timelines/TreeNode
-
-//= require timelines/constants
-//= require timelines/ui
-
-
-//= require timelines/model/Project
-//= require timelines/model/PlanningElement
-
-//= require timelines/model/ProjectAssociation
-//= require timelines/model/Reporting
-//= require timelines/model/ProjectType
-//= require timelines/model/Color
-//= require timelines/model/Status
-//= require timelines/model/PlanningElementType
-//= require timelines/model/User
-
-
 // stricter than default
 /*jshint undef:true,
          eqeqeq:true,
@@ -755,6 +734,194 @@ jQuery.extend(Timeline, {
     }
 
     return this.lefthandTree;
+  }
+});
+
+
+// ╭───────────────────────────────────────────────────────────────────╮
+// │ Data Store                                                        │
+// ├───────────────────────────────────────────────────────────────────┤
+// │ Model Prototypes:                                                 │
+// │ Timeline.ProjectAssociation                                       │
+// │ Timeline.Reporting                                                │
+// │ Timeline.ProjectType                                              │
+// │ Timeline.Color                                                    │
+// │ Timeline.Status                                                   │
+// │ Timeline.PlanningElementType                                      │
+// │ Timeline.User                                                     │
+// ╰───────────────────────────────────────────────────────────────────╯
+
+jQuery.extend(Timeline, {
+  // ╭───────────────────────────────────────────────────────────────────╮
+  // │ Timeline.ProjectAssociation                                       │
+  // ╰───────────────────────────────────────────────────────────────────╯
+  ProjectAssociation: {
+    identifier: 'project_associations',
+    all: function(timeline) {
+      // collect all project associations.
+      var r = timeline.project_associations;
+      var result = [];
+      for (var key in r) {
+        if (r.hasOwnProperty(key)) {
+          result.push(r[key]);
+        }
+      }
+      return result;
+    },
+    getOrigin: function() {
+      return this.origin;
+    },
+    getTarget: function() {
+      return this.project;
+    },
+    getOther: function(project) {
+      var origin = this.getOrigin();
+      var target = this.getTarget();
+      if (project.id === origin.id) {
+        return target;
+      } else if (project.id === target.id) {
+        return origin;
+      }
+      return null;
+    },
+    getInvolvedProjects: function() {
+      return [this.getOrigin(), this.getTarget()];
+    },
+    involves: function(project) {
+      var inv = this.getInvolvedProjects();
+
+      return (
+        project !== undefined &&
+        inv[0] !== undefined &&
+        inv[1] !== undefined &&
+        (project.id === inv[0].id || project.id === inv[1].id)
+      );
+    }
+  },
+
+  // ╭───────────────────────────────────────────────────────────────────╮
+  // │ Timeline.Reporting                                                │
+  // ╰───────────────────────────────────────────────────────────────────╯
+
+  Reporting: {
+    identifier: 'reportings',
+    all: function(timeline) {
+      // collect all reportings.
+      var r = timeline.reportings;
+      var result = [];
+      for (var key in r) {
+        if (r.hasOwnProperty(key)) {
+          result.push(r[key]);
+        }
+      }
+      return result;
+    },
+    getProject: function() {
+      return (this.project !== undefined) ? this.project : null;
+    },
+    getProjectId: function () {
+      return this.project.id;
+    },
+    getReportingToProject : function () {
+      return (this.reporting_to_project !== undefined) ? this.reporting_to_project : null;
+    },
+    getReportingToProjectId : function () {
+      return this.reporting_to_project.id;
+    },
+    getStatus: function() {
+      return (this.reported_project_status !== undefined) ? this.reported_project_status : null;
+    }
+  },
+
+  // ╭───────────────────────────────────────────────────────────────────╮
+  // │ Timeline.ProjectType                                              │
+  // ╰───────────────────────────────────────────────────────────────────╯
+
+  ProjectType: {
+    identifier: 'project_types',
+    all: function(timeline) {
+      // collect all project types
+      var r = timeline.project_types;
+      var result = [];
+      for (var key in r) {
+        if (r.hasOwnProperty(key)) {
+          result.push(r[key]);
+        }
+      }
+      return result;
+    }
+  },
+
+  // ╭───────────────────────────────────────────────────────────────────╮
+  // │ Timeline.Color                                                    │
+  // ╰───────────────────────────────────────────────────────────────────╯
+
+  Color: {
+    identifier: 'colors',
+    all: function(timeline) {
+      // collect all colors
+      var r = timeline.colors;
+      var result = [];
+      for (var key in r) {
+        if (r.hasOwnProperty(key)) {
+          result.push(r[key]);
+        }
+      }
+      return result;
+    }
+  },
+
+  // ╭───────────────────────────────────────────────────────────────────╮
+  // │ Timeline.Status                                                   │
+  // ╰───────────────────────────────────────────────────────────────────╯
+
+  Status: {
+    identifier: 'statuses',
+    all: function(timeline) {
+      // collect all reportings.
+      var r = timeline.statuses;
+      var result = [];
+      for (var key in r) {
+        if (r.hasOwnProperty(key)) {
+          result.push(r[key]);
+        }
+      }
+      return result;
+    }
+  },
+
+  // ╭───────────────────────────────────────────────────────────────────╮
+  // │ Timeline.PlanningElementType                                      │
+  // ╰───────────────────────────────────────────────────────────────────╯
+
+  PlanningElementType: {
+    identifier: 'planning_element_types',
+    all: function(timeline) {
+      // collect all reportings.
+      var r = timeline.planning_element_types;
+      var result = [];
+      for (var key in r) {
+        if (r.hasOwnProperty(key)) {
+          result.push(r[key]);
+        }
+      }
+      return result;
+    }
+  },
+
+  User: {
+    is: function(t) {
+      return Timeline.User.identifier === t.identifier;
+    },
+    identifier: 'users'
+  },
+
+  // ╭───────────────────────────────────────────────────────────────────╮
+  // │ Timeline.HistoricalPlanningElement                                │
+  // ╰───────────────────────────────────────────────────────────────────╯
+
+  HistoricalPlanningElement: {
+    identifier: 'historical_planning_elements'
   }
 });
 
