@@ -10,26 +10,26 @@ describe('Timeline', function () {
 
 describe('Planning Element', function(){
   before(function(){
-    this.peEmpty = planningElementFactory.create();
+    this.peEmpty = Factory.build("PlanningElement");
 
-    this.peWithDates = planningElementFactory.create({
+    this.peWithDates = Factory.build("PlanningElement", {
       "start_date": "2012-11-11",
       "due_date": "2012-11-10"
     });
 
-    this.peWithHistorical = planningElementFactory.create({
+    this.peWithHistorical = Factory.build("PlanningElement", {
       historical_element: this.peWithDates
     });
 
-    this.peWithNameA = planningElementFactory.create({
+    this.peWithNameA = Factory.build("PlanningElement", {
       name: "A"
     });
 
-    this.peWithNameB = planningElementFactory.create({
+    this.peWithNameB = Factory.build("PlanningElement", {
       name: "B"
     });
 
-    this.peWithChildren = planningElementFactory.create({
+    this.peWithChildren = Factory.build("PlanningElement", {
       planning_elements: [this.peWithDates, this.peEmpty, this.peWithNameA, this.peWithNameB]
     });
   });
@@ -52,6 +52,12 @@ describe('Planning Element', function(){
 
     it('should return empty list', function () {
       expect(this.peWithDates.getChildren()).to.be.empty;
+    });
+  });
+
+  describe('hide', function () {
+    it('should always return false', function () {
+      expect(this.peEmpty.hide()).to.be.false;
     });
   });
 
