@@ -4,8 +4,14 @@ var modalHelperInstance = {
   setupTimeline: nop
 };
 
+Timeline.i18n = function(key) {
+  return "";
+};
+
 Timeline.completeUI = nop;
 Timeline.setupUI = nop;
+
+jQuery.fn.slider = {};
 
 var Raphael = {};
 
@@ -47,5 +53,3 @@ Timeline.TimelineLoader.QueueingLoader.prototype.loadElement = function (identif
      }
   );
 };
-
-jQuery.fn.slider = {};
