@@ -30,8 +30,10 @@
 module Redmine
   module Utils
     class << self
-
       attr_accessor :relative_url_root
+
     end
+
+    self.relative_url_root = ENV['RAILS_RELATIVE_URL_ROOT'] || ""
   end
 end
