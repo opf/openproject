@@ -14,13 +14,12 @@ class CostObject < ActiveRecord::Base
 
   acts_as_attachable :after_remove => :attachment_removed
 
-  acts_as_journalized :event_type => 'cost-object',
-    :event_title => Proc.new {|o| "#{l(:label_cost_object)} ##{o.id}: #{o.subject}"},
-    :event_url => Proc.new {|o| {:controller => 'cost_objects', :action => 'show', :id => o.id}},
-    :activity_find_options => {:include => [:project, :author]},
-    :activity_timestamp => "#{table_name}.updated_on",
-    :activity_author_key => :author_id,
-    :activity_permission => :view_cost_objects
+  acts_as_journalized
+
+  acts_as_event type: 'cost-objects',
+                title: Proc.new {|o| "#{l(:label_cost_object)} ##{o.id}: #{o.subject}"},
+                url: Proc.new {|o| {:controller => 'cost_objects', :action => 'show', :id => o.id}}
+
 
   validates_presence_of :subject, :project, :author, :kind
   validates_length_of :subject, :maximum => 255
