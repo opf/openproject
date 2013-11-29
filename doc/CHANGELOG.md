@@ -31,6 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ## 3.0.0pre34
 
+* `#2361` [Timelines] Refactoring of Timelines file structure.
 * `#2660` fixed bug
 * `#3050` Fix: [Work Package Tracking] Internal error with query from the time before work packages
 * `#3040` Fix: [Work Package Tracking] 404 for Work Package Index does not work, results in 500
