@@ -124,6 +124,11 @@ module Redmine
 
             return [] if query.nil?
 
+            Redmine::Hook.call_hook(:activity_fetcher_find_events_for_class,
+                                    activity_class: activity_class,
+                                    query: query,
+                                    user: user)
+
             query = query.order(j[:id]).take(options[:limit]) if options[:limit]
 
             projection = Redmine::Acts::ActivityProvider.event_projection(j)
