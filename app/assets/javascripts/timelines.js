@@ -48,6 +48,7 @@
 
 //= require timelines/model/Project
 //= require timelines/model/PlanningElement
+//= require timelines/model/HistoricalPlanningElement
 
 //= require timelines/model/ProjectAssociation
 //= require timelines/model/Reporting
