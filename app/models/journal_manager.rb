@@ -204,7 +204,13 @@ class JournalManager
   end
 
   def self.journal_class(type)
-    "Journal::#{journal_class_name(type)}".constantize
+    namespace = type.name.deconstantize
+
+    if namespace == 'Journal'
+      type
+    else
+      "Journal::#{journal_class_name(type)}".constantize
+    end
   end
 
   def self.journaled_class(journal_type)

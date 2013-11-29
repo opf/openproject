@@ -40,17 +40,15 @@ module Redmine
             send :include, Redmine::Acts::ActivityProvider::InstanceMethods
           end
 
-          options.assert_valid_keys(:type, :permission, :timestamp, :author_key, :find_options)
+          options.assert_valid_keys(:type, :permission, :classes)
           self.activity_provider_options ||= {}
 
           # One model can provide different event types
           # We store these options in activity_provider_options hash
           event_type = options.delete(:type) || self.name.underscore.pluralize
 
+          options[:classes] = options.delete(:classes) || [self]
           options[:permission] = "view_#{self.name.underscore.pluralize}".to_sym unless options.has_key?(:permission)
-          options[:timestamp] ||= "#{table_name}.created_on"
-          options[:find_options] ||= {}
-          options[:author_key] = "#{table_name}.#{options[:author_key]}" if options[:author_key].is_a?(Symbol)
           self.activity_provider_options[event_type] = options
         end
       end
@@ -89,14 +87,28 @@ module Redmine
           def find_events(event_type, user, from, to, options)
             raise "#{self.name} can not provide #{event_type} events." if activity_provider_options[event_type].nil?
 
+            result = []
+
             provider_options = activity_provider_options[event_type].dup
 
+            provider_options[:classes].each do |activity_class|
+              result << find_events_for_class(activity_class, provider_options, user, from, to, options)
+            end
+
+            result.flatten!
+            result.each { |e| e.event_type = event_type.dup.singularize unless e.event_type }
+            result
+          end
+
+          private
+
+          def find_events_for_class(activity_class, provider_options, user, from, to, options)
             p = Arel::Table.new(:projects)
             j = Arel::Table.new(:journals)
-            ej = Arel::Table.new(self.table_name)
+            ej = Arel::Table.new(JournalManager.journal_class(activity_class).table_name)
 
             query = j.join(ej).on(j[:id].eq(ej[:journal_id]))
-            query = query.where(j[:journable_type].eq(JournalManager.journaled_class(self).name))
+            query = query.where(j[:journable_type].eq(JournalManager.journaled_class(activity_class).name))
 
             query = query.where(j[:created_at].gteq(from)) if from
             query = query.where(j[:created_at].lteq(to)) if to
@@ -119,10 +131,8 @@ module Redmine
 
             query.project(projection)
 
-            fill_events(event_type, ActiveRecord::Base.connection.select_all(query.to_sql))
+            fill_events(ActiveRecord::Base.connection.select_all(query.to_sql))
           end
-
-          private
 
           def join_with_projects_table(query, project_ref_table)
             p = Arel::Table.new(:projects)
@@ -191,7 +201,7 @@ module Redmine
             stmt ? query : nil
           end
 
-          def fill_events(event_type, events)
+          def fill_events(events)
             events.each_with_object([]) do |e, result|
               datetime = e['event_datetime'].is_a?(String) ? DateTime.parse(e['event_datetime'])
                                                            : e['event_datetime']
@@ -204,7 +214,7 @@ module Redmine
                                                                  e['journable_id'],
                                                                  e['project_id'].to_i,
                                                                  nil,
-                                                                 event_type.dup.singularize,
+                                                                 nil,
                                                                  nil,
                                                                  nil)
 

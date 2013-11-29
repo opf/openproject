@@ -57,7 +57,7 @@ class Journal::WorkPackageJournal < Journal::BaseJournal
 
   def self.format_event(event, event_data)
     event.event_title = self.event_title event_data
-    event.event_type << "#{self.event_type event_data}"
+    event.event_type = "work_package#{self.event_type event_data}"
     event.event_path = self.event_path event_data
     event.event_url = self.event_url event_data
 
