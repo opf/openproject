@@ -116,7 +116,7 @@ class Widget::Table::ReportTable < Widget::Table
         opts = { :colspan => column.final_number(:column) }
         opts.merge!(:class => "inner") if first
         write(content_tag(:th, opts) do
-          "#{show_result(column)}" #{debug_fields(column)}
+          show_result(column) #{debug_fields(column)}
         end)
       end
       if last_in_col

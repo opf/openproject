@@ -1,5 +1,7 @@
 # Changelog
 
+* `#1020` fix XSS when displaying costs
+
 ## 0.0.1.pre6
 
 * fix minor css alignment issue
