@@ -1191,10 +1191,11 @@ jQuery.extend(Timeline, {
     var grouping;
     var width = timeline.getWidth();
     var previousNode;
-    var render_bucket = [];
-    var pre_render_bucket = [];
-    var post_render_bucket = [];
-    var text_render_bucket = [];
+    var render_buckets = [[], [], [], []];
+    var render_bucket_vertical = render_buckets[0];
+    var render_bucket_element = render_buckets[1];
+    var render_bucket_vertical_milestone = render_buckets[2];
+    var render_bucket_text = render_buckets[3];
 
     // iterate over all planning elements and find vertical ones to draw.
     jQuery.each(timeline.verticalPlanningElementIds(), function (i, e) {
@@ -1214,11 +1215,11 @@ jQuery.extend(Timeline, {
 
       if (pl.vertical) {
         if (pet && pet.is_milestone) {
-          post_render_bucket.push(function () {
+          render_bucket_vertical_milestone.push(function () {
             pl.renderVertical(node);
           });
         } else {
-          pre_render_bucket.push(function () {
+          render_bucket_vertical.push(function () {
             pl.renderVertical(node);
           });
         }
@@ -1305,32 +1306,23 @@ jQuery.extend(Timeline, {
       previousNode = node;
 
       if (pl.is(Timeline.PlanningElement)) {
-        text_render_bucket.push(function () {
+        render_bucket_text.push(function () {
           pl.renderForeground(node);
         });
       }
 
-      render_bucket.push(function() {
+      render_bucket_element.push(function() {
         pl.render(node);
       });
     });
 
+    var buckets = Array.prototype.concat.apply([], render_buckets);
+
     var render_next_bucket = function() {
-      if (jQuery.each(pre_render_bucket.splice(0, Timeline.RENDER_BUCKET_SIZE), function(i, e) {
+      if (buckets.length !== 0) {
+        jQuery.each(buckets.splice(0, Timeline.RENDER_BUCKET_SIZE), function(i, e) {
           e.call();
-        }).length !== 0) {
-        timeline.defer(render_next_bucket);
-      } else if (jQuery.each(render_bucket.splice(0, Timeline.RENDER_BUCKET_SIZE), function(i, e) {
-            e.call();
-          }).length !== 0) {
-        timeline.defer(render_next_bucket);
-      } else if (jQuery.each(post_render_bucket.splice(0, Timeline.RENDER_BUCKET_SIZE), function(i, e) {
-            e.call();
-          }).length !== 0) {
-        timeline.defer(render_next_bucket);
-      } else if (jQuery.each(text_render_bucket.splice(0, Timeline.RENDER_BUCKET_SIZE), function(i, e) {
-            e.call();
-          }).length !== 0) {
+        });
         timeline.defer(render_next_bucket);
       } else {
         timeline.finishGraph();

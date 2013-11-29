@@ -39,10 +39,12 @@
 
 //= require timelines/FilterQueryStringBuilder
 //= require timelines/TimelineLoader
+
 //= require timelines/TreeNode
-//= require timelines/constants
 //= require timelines/Project
 //= require timelines/PlanningElement
+
+//= require timelines/constants
 //= require timelines/ui
 
 // stricter than default

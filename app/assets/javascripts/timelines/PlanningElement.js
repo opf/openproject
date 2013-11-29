@@ -511,7 +511,6 @@ Timeline.PlanningElement = {
         }
       }
     },
-
     renderForeground: function (node, in_aggregation, label_space) {
       var timeline = this.timeline;
       var paper = timeline.getPaper();
