@@ -1,4 +1,4 @@
-/*jshint expr: true*/ 
+/*jshint expr: true*/
 
 describe('Timeline', function () {
   it('should create a timeline object', function () {
@@ -54,11 +54,50 @@ describe('Planning Element', function(){
         expect(children).to.deep.equal([this.peEmpty, this.peWithNameA, this.peWithNameB, this.peWithNameC, this.peWithDates]);
       });
 
-      it('should sort children by date');
-      it('should sort children by name if date is equal');
-
       it('should return empty list', function () {
         expect(this.peWithDates.getChildren()).to.be.empty;
+      });
+
+      describe('when start and due dates are specified', function() {
+        before(function(){
+          this.peAWithDates = Factory.build("PlanningElement", {
+            "name": "A",
+            "start_date": "2012-11-13"
+          });
+
+          this.peBWithDates = Factory.build("PlanningElement", {
+            name: "B",
+            "start_date": "2012-11-11",
+            "due_date": "2012-11-15"
+          });
+
+          this.peCWithDates = Factory.build("PlanningElement", {
+            name: "C",
+            "start_date": "2012-11-11",
+            "due_date":  "2012-11-14"
+          });
+
+          this.peDWithDates = Factory.build("PlanningElement", {
+            name: "D",
+            "start_date": "2012-11-13"
+          });
+
+          this.peWithChildren.planning_elements.push(this.peAWithDates, this.peBWithDates, this.peCWithDates, this.peDWithDates);
+
+          this.children = this.peWithChildren.getChildren();
+        });
+
+        it('orders work packages by name if start and due dates are equal', function(){
+          expect(this.children.indexOf(this.peDWithDates)).to.be.above(this.children.indexOf(this.peAWithDates));
+        });
+
+        it.skip('shows work packages with earlier start dates first', function(){
+          expect(this.children.indexOf(this.peAWithDates)).to.be.above(this.children.indexOf(this.peBWithDates));
+        });
+
+        it.skip('shows work packages with sooner due dates first if start dates are equal', function(){
+          expect(this.children.indexOf(this.peBWithDates)).to.be.above(this.children.indexOf(this.peCWithDates));
+        });
       });
     });
 
