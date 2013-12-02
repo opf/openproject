@@ -46,6 +46,9 @@ GEM
     acts_as_list (0.2.0)
       activerecord (>= 3.0)
     addressable (2.3.4)
+    angular-ui-select2-rails (0.1.1)
+      jquery-rails
+      select2-rails
     angularjs-rails (1.0.8)
     arel (3.0.2)
     awesome_nested_set (2.1.6)
@@ -358,6 +361,7 @@ DEPENDENCIES
   activerecord-jdbcsqlite3-adapter
   activerecord-tableless (~> 1.0)
   acts_as_list (~> 0.2.0)
+  angular-ui-select2-rails
   angularjs-rails
   awesome_nested_set
   capybara

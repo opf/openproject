@@ -97,6 +97,7 @@ group :assets do
   gem 'jquery-ui-rails'
   gem 'select2-rails', '~> 3.3.2'
   gem 'angularjs-rails'
+  gem 'angular-ui-select2-rails'
 end
 
 gem "prototype-rails"

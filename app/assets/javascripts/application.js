@@ -45,6 +45,7 @@
 //= require jquery_ujs
 //= require jquery_noconflict
 //= require angular
+//= require angular-ui-select2
 //= require prototype
 //= require effects
 //= require dragdrop
