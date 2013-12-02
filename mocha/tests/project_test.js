@@ -7,11 +7,9 @@ describe('Project', function(){
     });
 
     this.projectEmpty = Factory.build("Project", {
-      timeline: {
-        options: {
-          exclude_empty: "yes"
-        }
-      }
+      timeline: Factory.build("Timeline", {}, {
+        exclude_empty: "yes"
+      })
     });
 
   });
@@ -189,7 +187,23 @@ describe('Project', function(){
     it('filters the reporters correctly');
   });
 
-  describe.only('Reporters', function () {
+  describe('Reporters', function () {
+    before(function () {
+      this.peWithoutDate = Factory.build("PlanningElement");
+      this.peWithDate1 = Factory.build("PlanningElement", {
+        "start_date": "2012-11-15",
+        "due_date": "2012-11-15"
+      });
+
+      this.peWithDate2 = Factory.build("PlanningElement", {
+        "start_date": "2012-11-18",
+        "due_date": "2012-11-18"
+      });
+
+      this.peWithDate3 = Factory.build("PlanningElement", {
+        "due_date": "2012-11-19"
+      });
+    });
     it('should return reporters', function () {
       var projects = Factory.buildList("Project", 10);
 
@@ -200,18 +214,118 @@ describe('Project', function(){
 
       expect(project.getReporters()).to.satisfy(objectContainsAll(projects));
     });
-    it('should sort without date to the beginning');
-    it('should sort by date');
-    it('should sort with same start by end date');
-    it('should sort with same start and end by name');
-    it('should sort with same start and end and name by id');
+    it('should sort without date to the beginning', function () {
+      var project1 = Factory.build("Project", {
+        planning_elements: [this.peWithoutDate]
+      });
+      var project2 = Factory.build("Project", {
+        planning_elements: [this.peWithDate1]
+      });
+
+      var reporterProject = Factory.build("Project", {
+        timeline: Factory.build("Timeline"),
+        reporters: [project2, project1]
+      });
+
+      expect(reporterProject.getReporters()).to.satisfy(objectsortation(project1, project2));
+    });
+    it('should sort by date', function () {
+      var project1 = Factory.build("Project", {
+        planning_elements: [this.peWithDate1, this.peWithoutDate]
+      });
+      var project2 = Factory.build("Project", {
+        planning_elements: [this.peWithDate2, this.peWithoutDate]
+      });
+      var project3 = Factory.build("Project", {
+        planning_elements: [this.peWithDate3, this.peWithoutDate]
+      });
+
+      var reporterProject = Factory.build("Project", {
+        timeline: Factory.build("Timeline"),
+        reporters: [project2, project3, project1]
+      });
+
+      expect(reporterProject.getReporters()).to.satisfy(objectsortation(project1, project2, project3));
+    });
+    it('should sort with same start and end by name', function () {
+      var project1 = Factory.build("Project", {
+        name: "A",
+        planning_elements: [this.peWithDate1, this.peWithoutDate]
+      });
+      var project2 = Factory.build("Project", {
+        name: "B",
+        planning_elements: [this.peWithDate1, this.peWithoutDate]
+      });
+      var project3 = Factory.build("Project", {
+        name: "C",
+        planning_elements: [this.peWithDate1, this.peWithoutDate]
+      });
+
+      var reporterProject = Factory.build("Project", {
+        timeline: Factory.build("Timeline"),
+        reporters: [project2, project3, project1]
+      });
+
+      expect(reporterProject.getReporters()).to.satisfy(objectsortation(project1, project2, project3));
+    });
+    it('should sort with same start and end and name by id', function () {
+      var project1 = Factory.build("Project", {
+        name: "A",
+        planning_elements: [this.peWithDate1, this.peWithoutDate]
+      });
+      var project2 = Factory.build("Project", {
+        name: "A",
+        planning_elements: [this.peWithDate1, this.peWithoutDate]
+      });
+      var project3 = Factory.build("Project", {
+        name: "A",
+        planning_elements: [this.peWithDate1, this.peWithoutDate]
+      });
+
+      var reporterProject = Factory.build("Project", {
+        timeline: Factory.build("Timeline"),
+        reporters: [project2, project3, project1]
+      });
+
+      expect(reporterProject.getReporters()).to.satisfy(objectsortation(project1, project2, project3));
+    });
 
 
     describe('groups', function () {
-      it('should sort project with same group next to each other');
-      it('should sort groups by name');
-      it('should sort groups by explicit order if given');
-      it('should sort projects with other group to the end');
+      beforeEach(function () {
+        this.project1_1 = Factory.build("Project", a().sname("F"));
+        this.project1_2 = Factory.build("Project", a().sname("G"));
+
+        this.project2_1 = Factory.build("Project", a().sname("C"));
+        this.project2_2 = Factory.build("Project", a().sname("D"));
+
+        this.project1 = Factory.build("Project", {
+          name: "A",
+          children: [this.project1_1, this.project1_2]
+        });
+
+        this.project2 = Factory.build("Project", {
+          name: "B",
+          children: [this.project2_1, this.project2_2]
+        });
+
+        this.timeline = Factory.build("Timeline", {}, {
+            grouping_one_selection: [this.project2.id, this.project1.id],
+            grouping_one_enabled: "yes"
+        });
+
+        this.reporterProject = Factory.build("Project", {
+          timeline: this.timeline,
+          reporters: [this.project1_1, this.project1_2, this.project1, this.project2_1, this.project2_2, this.project2]
+        });
+      });
+      it('should sort groups by name', function () {
+        expect(this.reporterProject.getReporters()).to.satisfy(objectsortation(this.project1_1, this.project1_2, this.project2_1, this.project2_2, this.project1, this.project2));
+      });
+      it('should sort groups by explicit order if given', function () {
+        this.timeline.options.grouping_one_sort = 1;
+        expect(this.reporterProject.getReporters()).to.satisfy(objectsortation(this.project2_1, this.project2_2, this.project1_1, this.project1_2, this.project1, this.project2));
+      });
     });
   });
 
