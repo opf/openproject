@@ -137,9 +137,9 @@ module OpenProject::Backlogs::Hooks
         snippet << "#{check_box_tag('link_to_original', params[:copy_from], true)}</p>"
 
         snippet << "<p><label>#{l(:rb_label_copy_tasks)}</label>"
-        snippet << "#{radio_button_tag('copy_tasks', 'open:' + params[:copy_from], true)} #{l(:rb_label_copy_tasks_open)}<br />"
-        snippet << "#{radio_button_tag('copy_tasks', 'none', false)} #{l(:rb_label_copy_tasks_none)}<br />"
-        snippet << "#{radio_button_tag('copy_tasks', 'all:' + params[:copy_from], false)} #{l(:rb_label_copy_tasks_all)}</p>"
+        snippet << "#{radio_button_tag('copy_tasks', 'open:' + params[:copy_from], true, { id: 'copy_tasks_open'})} #{l(:rb_label_copy_tasks_open)}<br />"
+        snippet << "#{radio_button_tag('copy_tasks', 'none', false, {id: 'copy_tasks_none'})} #{l(:rb_label_copy_tasks_none)}<br />"
+        snippet << "#{radio_button_tag('copy_tasks', 'all:' + params[:copy_from], false, {id: 'copy_tasks_all'})} #{l(:rb_label_copy_tasks_all)}</p>"
       end
 
       snippet << %(</div>) * 2
@@ -200,7 +200,7 @@ module OpenProject::Backlogs::Hooks
           params[:copy_tasks] += ':' if params[:copy_tasks] !~ /:/
           action, id = *(params[:copy_tasks].split(/:/))
 
-          story = (id == '' ? nil : Story.find(Integer(id)))
+          story = (id.nil? ? nil : Story.find(Integer(id)))
 
           if ! story.nil? && action != 'none'
             tasks = story.tasks
