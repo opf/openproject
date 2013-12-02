@@ -94,15 +94,18 @@ module JournalsHelper
           # currently rendering the view
           # the quote link should somehow be supplied
           controller_name = controller.class.to_s.underscore.gsub(/_controller\z/,"").to_sym
-          l << link_to(image_tag('webalys/quote.png', :alt => l(:button_quote), :title => l(:button_quote)),
+          l << link_to(icon_wrapper('icon-context icon-quote', l(:button_quote)),
                                                 { :controller => controller_name,
                                                   :action => 'quoted',
                                                   :id => model,
-                                                  :journal_id => journal }, :class => 'quote-link')
+                                                  :journal_id => journal },
+                                                  :title => l(:button_quote),
+                                                  :class => 'quote-link no-decoration-on-hover')
         end
         if editable
-          l << link_to_in_place_notes_editor(image_tag('webalys/edit.png', :alt => l(:button_edit), :title => l(:button_edit)), "journal-#{journal.id}-notes",
+          l << link_to_in_place_notes_editor(icon_wrapper('icon-context icon-edit', l(:button_edit)), "journal-#{journal.id}-notes",
                 { :controller => '/journals', :action => 'edit', :id => journal },
+                  :class => 'no-decoration-on-hover',
                   :title => l(:button_edit))
         end
       end

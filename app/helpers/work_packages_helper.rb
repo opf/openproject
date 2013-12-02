@@ -517,10 +517,11 @@ module WorkPackagesHelper
                           (locals[:project].categories.collect {|c| [c.name, c.id]}),
                           :include_blank => true)
 
-      field += prompt_to_remote(image_tag('webalys/plus.png', :style => 'vertical-align: middle;'),
+      field += prompt_to_remote(icon_wrapper('icon-context icon-add',t(:label_work_package_category_new)),
                                          t(:label_work_package_category_new),
                                          'category[name]',
                                          project_categories_path(locals[:project]),
+                                         :class => 'no-decoration-on-hover',
                                          :title => t(:label_work_package_category_new)) if authorize_for('categories', 'new')
 
       WorkPackageAttribute.new(:category, field)
@@ -532,10 +533,11 @@ module WorkPackagesHelper
       field = form.select(:fixed_version_id,
                           version_options_for_select(work_package.assignable_versions, work_package.fixed_version),
                           :include_blank => true)
-      field += prompt_to_remote(image_tag('webalys/plus.png', :style => 'vertical-align: middle;'),
+      field += prompt_to_remote(icon_wrapper('icon-context icon-add',t(:label_version_new)),
                              l(:label_version_new),
                              'version[name]',
                              new_project_version_path(locals[:project]),
+                             :class => 'no-decoration-on-hover',
                              :title => l(:label_version_new)) if authorize_for('versions', 'new')
 
       WorkPackageAttribute.new(:fixed_version, field)

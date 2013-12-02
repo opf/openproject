@@ -1070,13 +1070,6 @@ fieldset#filters div.add-filter {
   text-align: right;
 }
 
-.title-bar .new-issue {
-  right: 10px;
-}
-.title-bar .new-issue a {
-  background: url(<%= asset_path 'webalys/plus.png' %>) no-repeat 6px center;
-  padding-left: 26px;
-}
 .title-bar-extras {
   color: #333333;
 }
@@ -1102,12 +1095,6 @@ fieldset#filters div.add-filter {
   cursor: pointer;
   font-family: inherit;
   font-size: 11px;
-}
-input.apply {
-  background-image: url(<%= asset_path 'webalys/check.png' %>);
-}
-input.save {
-  background-image: url(<%= asset_path 'webalys/save.png' %>);
 }
 
 /*-------------------------------------------------------------------------------
@@ -1168,11 +1155,6 @@ form#issue-list {
 }
 #content table td.updated {
   width: 80px;
-}
-#content table a.toggle-select {
-  background: url(<%= asset_path 'webalys/check.png' %>) no-repeat center center;
-  display: block;
-  text-indent: -9999em;
 }
 #multiple-action-buttons {
   float: left;
@@ -1302,12 +1284,6 @@ table.files {
   width: 16px;
   background-repeat: no-repeat;
   background-position: center center;
-}
-.contextual .edit {
-  background-image: url(<%= asset_path 'webalys/edit.png' %>);
-}
-.contextual .comment {
-  background-image: url(<%= asset_path 'webalys/quote.png' %>);
 }
 .question-line {
   display: block;
@@ -1743,16 +1719,9 @@ tr.time-entry {
 
 /*===== Replacement Images =====*/
 
-.title-bar .update a {
-  background-image: url(<%= asset_path 'webalys/edit.png' %>);
-}
 .journal .contextual a[title=Edit] img {
   display: none;
 }
-.journal .contextual a[title=Edit] {
-  background: url(<%= asset_path 'webalys/edit.png' %>) no-repeat;
-}
-
 
 /* comments */
 .wiki ol li {
@@ -1880,10 +1849,6 @@ Additional wiki styles
   border: 1px solid #FFFF00;
 }
 
-.wiki p.tip, .wiki span.tip {
-  background: url(<%= asset_path 'webalys/tip.png' %>) 4px 4px no-repeat;
-  border: 1px solid #C7CFCA;
-}
 .wiki p.smalltip, .wiki span.smalltip {
   background: url(<%= asset_path 'wiki_styles/tip_small.png' %>) 4px 5px no-repeat #F5FFFA;
   border: 1px solid #C7CFCA;
@@ -2048,14 +2013,12 @@ ul.action_menu_more {
 }
 
 .pagination .previous_page {
-  background: url(<%= asset_path 'webalys/double_arrow_left.png' %>) 0 1px no-repeat;
   width: 100%;
   height: 15px;
   padding-left: 18px;
 }
 
 .pagination .next_page {
-  background: url(<%= asset_path 'webalys/double_arrow_right.png' %>) right 1px no-repeat;
   width: 100%;
   height: 15px;
   padding-right: 18px;
@@ -2250,12 +2213,6 @@ a.no-decoration-on-hover:hover {
 input.input-as-link:hover {
   color: #008BD0;
   text-decoration: underline;
-}
-
-a.atom {
-  background-image: url(<%= asset_path 'webalys/feed.png' %>);
-  background-repeat: no-repeat;
-  padding: 1px 0 1px 14px;
 }
 
 /* Disable the css-override for the edit links in issue journals */

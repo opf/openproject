@@ -916,7 +916,7 @@ module ApplicationHelper
 
   def checked_image(checked=true)
     if checked
-      image_tag('webalys/check.png', :alt => l(:label_checked), :title => l(:label_checked))
+      icon_wrapper('icon-context icon-yes',l(:label_checked))
     end
   end
 
