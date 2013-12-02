@@ -61,7 +61,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <%= form_tag :id => "specialForm" do %>
     <%= label_tag 'timeline_select', l("timelines.timeline") %>
-    <%= collection_select(:timeline, :id, @visible_timelines, :id, :name, {}, {ui_select2: 'ui-select2', id: 'timeline_select', ng_model: 'currentTimelineId', ng_change: 'loadTimeline()'}) %>
+    <%= collection_select(:timeline, :id, @visible_timelines, :id, :name, {}, {ui_select2: 'ui-select2', id: 'timeline_select', ng_model: 'currentTimelineId', ng_change: 'switchTimeline()'}) %>
   <% end %>
 
   <script type="text/javascript">
