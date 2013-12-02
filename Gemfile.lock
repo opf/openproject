@@ -133,6 +133,9 @@ GEM
       activemodel (>= 3.0.0)
       activerecord (>= 3.0.0)
       paper_trail (~> 2)
+    gon (4.0.0)
+      actionpack (>= 2.3.0)
+      json
     guard (2.2.2)
       formatador (>= 0.2.4)
       listen (~> 2.1)
@@ -375,6 +378,7 @@ DEPENDENCIES
   faker
   fastercsv (~> 1.5.0)
   globalize
+  gon
   guard-cucumber
   guard-rspec
   guard-test
