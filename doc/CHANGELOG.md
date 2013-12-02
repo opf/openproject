@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#3202` Fix: [Bug] Grouping work packages by responsible is broken
+* `#3055` [Work Package Tracking] Former deleted planning elements not handled in any way
 
 ## 3.0.0pre34
 
