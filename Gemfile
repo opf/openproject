@@ -94,6 +94,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
   gem 'jquery-ui-rails'
   gem 'select2-rails', '~> 3.3.2'
+  gem 'angularjs-rails'
 end
 
 gem "prototype-rails"

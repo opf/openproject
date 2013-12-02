@@ -44,6 +44,7 @@
 //= require jquery.menu_expand
 //= require jquery_ujs
 //= require jquery_noconflict
+//= require angular
 //= require prototype
 //= require effects
 //= require dragdrop
