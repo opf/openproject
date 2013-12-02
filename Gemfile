@@ -160,6 +160,10 @@ group :development do
   gem 'faker'
 end
 
+group :development, :test do
+  gem 'backbone-rails'
+end
+
 group :tools do
   # why tools? see: https://github.com/guard/guard-test
   gem 'guard-test'

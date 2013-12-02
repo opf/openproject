@@ -49,6 +49,8 @@ GEM
     arel (3.0.2)
     awesome_nested_set (2.1.6)
       activerecord (>= 3.0.0)
+    backbone-rails (1.0.0.1)
+      rails (>= 3.0.0)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     bourne (1.4.0)
@@ -355,6 +357,7 @@ DEPENDENCIES
   activerecord-tableless (~> 1.0)
   acts_as_list (~> 0.2.0)
   awesome_nested_set
+  backbone-rails
   capybara
   capybara-screenshot
   codeclimate-test-reporter

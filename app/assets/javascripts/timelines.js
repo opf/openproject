@@ -58,6 +58,10 @@
 //= require timelines/model/PlanningElementType
 //= require timelines/model/User
 
+//= require underscore
+//= require backbone
+//= require_tree ./timelines/backbone_app
+
 
 // stricter than default
 /*jshint undef:true,
