@@ -189,7 +189,7 @@ module Redmine
               allowed_projects = []
 
               user.projects_by_role.each do |role, projects|
-                allowed_projects << projects.collect(&:id) if r.allowed_to?(perm.name)
+                allowed_projects << projects.collect(&:id) if role.allowed_to?(perm.name)
               end
 
               stmt = projects_table[:id].in(allowed_projects.uniq)
