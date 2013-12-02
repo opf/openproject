@@ -596,10 +596,16 @@ Timeline.TimelineLoader = (function () {
 
       this.globalPrefix = options.url_prefix + options.api_prefix;
 
+      this.die = function () {
+        this.dataEnhancer.die.apply(this.dataEnhancer, arguments);
+      };
+
       jQuery(this.loader).on('success', jQuery.proxy(this, 'onLoadSuccess'))
                          .on('error',   jQuery.proxy(this, 'onLoadError'))
                          .on('empty',   jQuery.proxy(this, 'onLoadComplete'));
     };
+
+    TimelineLoader.QueueingLoader = QueueingLoader;
 
 
     TimelineLoader.prototype.load = function () {
@@ -805,7 +811,7 @@ Timeline.TimelineLoader = (function () {
       var i, current_elements;
 
       i = 0;
-      elements = elements.clone();
+      elements = elements.slice();
 
       while (elements.length > 0) {
         i++;

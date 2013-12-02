@@ -83,6 +83,15 @@ If you need Firebug and Firepath while debugging a scenario, just replace
 @javascript with @firebug.
 
 
+## Running tests with Mocha
+
+To run JavaScript tests install phantomjs and mocha-phantomjs, e.g. via npm. You can then run
+
+  ``mocha-phantomjs mocha/index.html``
+
+Alternatively open mocha/index.html in a browser.
+
+
 ## RSpec
 
 You can run the specs with the following commands:
@@ -107,6 +116,7 @@ You let test unit display test names instead of anonymous dots with the followin
 * We are testing on travis-ci. Look there for your pull requests.<br />
   https://travis-ci.org/opf/openproject
 * If you have enabled the terminal bell, add `; echo -e "\a"` to the end of your test command. The terminal bell will then tell you when your tests finished.
+
 
 ## Manual acceptance tests
 
