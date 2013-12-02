@@ -36,7 +36,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
-## 3.0.4.pre11
+* Fix: Backlog data existence check
+
+## 3.0.4
 
 * `#2728` Prepared public release
 * updated dependency to OpenProject core

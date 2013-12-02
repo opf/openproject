@@ -65,6 +65,8 @@ class LegacyIssuesBacklogsDataToWorkPackages < ActiveRecord::Migration
   end
 
   def legacy_backlog_data_exists?
-    ActiveRecord::Base.connection.table_exists?('legacy_issues') && (LegacyIssue.column_names & ['position', 'story_points', 'remaining_hours']) == 3
+    backlogs_columns = ['position', 'story_points', 'remaining_hours']
+
+    ActiveRecord::Base.connection.table_exists?('legacy_issues') && (LegacyIssue.column_names & backlogs_columns) == backlogs_columns
   end
 end
