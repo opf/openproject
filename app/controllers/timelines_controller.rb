@@ -45,7 +45,10 @@ class TimelinesController < ApplicationController
 
   def show
     @visible_timelines = @project.timelines.all
+    push_visible_timeline_paths
+
     @timeline = @project.timelines.find(params[:id])
+    gon.current_timeline_id = @timeline.id
   end
 
   def new
@@ -106,5 +109,16 @@ class TimelinesController < ApplicationController
     end
 
     params[:timeline][:options] = options
+  end
+
+  def visible_timeline_paths
+    @visible_timelines.inject({}) do |timeline_paths, timeline|
+      timeline_paths.merge(timeline.id => {path: project_timeline_path(@project, timeline)})
+    end
+
+  end
+
+  def push_visible_timeline_paths
+    gon.timelines = visible_timeline_paths
   end
 end

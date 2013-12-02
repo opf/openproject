@@ -66,6 +66,8 @@
 //= require top-shelf
 //= require unsupported-browsers
 //= require_tree ./pages
+//= require_tree ./angular/timelines
+//= require_tree ./angular/timelines/directives
 //= require openproject_plugins
 
 //source: http://stackoverflow.com/questions/8120065/jquery-and-prototype-dont-work-together-with-array-prototype-reverse
