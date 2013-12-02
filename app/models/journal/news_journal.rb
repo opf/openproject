@@ -33,16 +33,14 @@ class Journal::NewsJournal < Journal::BaseJournal
   acts_as_activity_provider type: 'news',
                             permission: :view_news
 
-  def self.extend_event_query(j, ej, query)
-    [ej, query]
+  def self.extend_event_query(journals_table, activity_journals_table, query)
+    [activity_journals_table, query]
   end
 
-  def self.event_query_projection(j, ej)
-    b = Arel::Table.new(:boards)
-
+  def self.event_query_projection(journals_table, activity_journals_table)
     [
-      ej[:title].as('title'),
-      ej[:project_id].as('project_id')
+      activity_journals_table[:title].as('title'),
+      activity_journals_table[:project_id].as('project_id')
     ]
   end
 

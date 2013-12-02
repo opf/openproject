@@ -33,24 +33,24 @@ class Journal::TimeEntryJournal < Journal::BaseJournal
   acts_as_activity_provider type: 'time_entries',
                             permission: :view_time_entries
 
-  def self.extend_event_query(j, ej, query)
-    w = Arel::Table.new(:work_packages)
+  def self.extend_event_query(journals_table, activity_journals_table, query)
+    work_packages_table = Arel::Table.new(:work_packages)
 
-    query = query.join(w).on(ej[:work_package_id].eq(w[:id]))
-    [ej, query]
+    query = query.join(work_packages_table).on(activity_journals_table[:work_package_id].eq(work_packages_table[:id]))
+    [activity_journals_table, query]
   end
 
-  def self.event_query_projection(j, ej)
+  def self.event_query_projection(journals_table, activity_journals_table)
     p = Arel::Table.new(:projects)
-    w = Arel::Table.new(:work_packages)
+    work_packages_table = Arel::Table.new(:work_packages)
 
     [
-      ej[:hours].as('time_entry_hours'),
-      ej[:comments].as('time_entry_comments'),
-      ej[:project_id].as('project_id'),
-      ej[:work_package_id].as('work_package_id'),
+      activity_journals_table[:hours].as('time_entry_hours'),
+      activity_journals_table[:comments].as('time_entry_comments'),
+      activity_journals_table[:project_id].as('project_id'),
+      activity_journals_table[:work_package_id].as('work_package_id'),
       p[:name].as('project_name'),
-      w[:subject].as('work_package_subject'),
+      work_packages_table[:subject].as('work_package_subject'),
     ]
   end
 

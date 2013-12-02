@@ -33,25 +33,25 @@ class Journal::WorkPackageJournal < Journal::BaseJournal
   acts_as_activity_provider type: 'work_packages',
                             permission: :view_work_packages
 
-  def self.extend_event_query(j, ej, query)
-    t = Arel::Table.new(:types)
-    s = Arel::Table.new(:statuses)
+  def self.extend_event_query(journals_table, activity_journals_table, query)
+    types_table = Arel::Table.new(:types)
+    statuses_table = Arel::Table.new(:statuses)
 
-    query = query.join(t).on(ej[:type_id].eq(t[:id]))
-    query = query.join(s).on(ej[:status_id].eq(s[:id]))
-    [ej, query]
+    query = query.join(types_table).on(activity_journals_table[:type_id].eq(types_table[:id]))
+    query = query.join(statuses_table).on(activity_journals_table[:status_id].eq(statuses_table[:id]))
+    [activity_journals_table, query]
   end
 
-  def self.event_query_projection(j, ej)
-    t = Arel::Table.new(:types)
-    s = Arel::Table.new(:statuses)
+  def self.event_query_projection(journals_table, activity_journals_table)
+    types_table = Arel::Table.new(:types)
+    statuses_table = Arel::Table.new(:statuses)
 
     [
-      ej[:subject].as('subject'),
-      ej[:project_id].as('project_id'),
-      s[:name].as('status_name'),
-      s[:is_closed].as('status_closed'),
-      t[:name].as('type_name')
+      activity_journals_table[:subject].as('subject'),
+      activity_journals_table[:project_id].as('project_id'),
+      statuses_table[:name].as('status_name'),
+      statuses_table[:is_closed].as('status_closed'),
+      types_table[:name].as('type_name')
     ]
   end
 

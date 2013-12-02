@@ -66,14 +66,14 @@ module Redmine
                          :event_path,
                          :event_url)
 
-      def self.event_projection(j)
+      def self.event_projection(journals_table)
         [
-          j[:id].as('event_id'),
-          j[:created_at].as('event_datetime'),
-          j[:user_id].as('event_author'),
-          j[:notes].as('event_description'),
-          j[:version].as('version'),
-          j[:journable_id].as('journable_id')
+          journals_table[:id].as('event_id'),
+          journals_table[:created_at].as('event_datetime'),
+          journals_table[:user_id].as('event_author'),
+          journals_table[:notes].as('event_description'),
+          journals_table[:version].as('version'),
+          journals_table[:journable_id].as('journable_id')
         ]
       end
 
@@ -103,19 +103,19 @@ module Redmine
           private
 
           def find_events_for_class(activity_class, provider_options, user, from, to, options)
-            p = Arel::Table.new(:projects)
-            j = Arel::Table.new(:journals)
-            ej = Arel::Table.new(JournalManager.journal_class(activity_class).table_name)
+            projects_table = Arel::Table.new(:projects)
+            journals_table = Arel::Table.new(:journals)
+            activity_journals_table = Arel::Table.new(JournalManager.journal_class(activity_class).table_name)
 
-            query = j.join(ej).on(j[:id].eq(ej[:journal_id]))
-            query = query.where(j[:journable_type].eq(JournalManager.journaled_class(activity_class).name))
+            query = journals_table.join(activity_journals_table).on(journals_table[:id].eq(activity_journals_table[:journal_id]))
+            query = query.where(journals_table[:journable_type].eq(JournalManager.journaled_class(activity_class).name))
 
-            query = query.where(j[:created_at].gteq(from)) if from
-            query = query.where(j[:created_at].lteq(to)) if to
+            query = query.where(journals_table[:created_at].gteq(from)) if from
+            query = query.where(journals_table[:created_at].lteq(to)) if to
 
-            query = query.where(j[:user_id].eq(options[:author].id)) if options[:author]
+            query = query.where(journals_table[:user_id].eq(options[:author].id)) if options[:author]
 
-            project_ref_table, query = self.extend_event_query(j, ej, query) if self.respond_to? :extend_event_query
+            project_ref_table, query = self.extend_event_query(journals_table, activity_journals_table, query) if self.respond_to? :extend_event_query
 
             query = join_with_projects_table(query, project_ref_table)
             query = restrict_projects_by_selection(options, query)
@@ -129,10 +129,10 @@ module Redmine
                                     query: query,
                                     user: user)
 
-            query = query.order(j[:id]).take(options[:limit]) if options[:limit]
+            query = query.order(journals_table[:id]).take(options[:limit]) if options[:limit]
 
-            projection = Redmine::Acts::ActivityProvider.event_projection(j)
-            projection << self.event_query_projection(j, ej) if self.respond_to? :event_query_projection
+            projection = Redmine::Acts::ActivityProvider.event_projection(journals_table)
+            projection << self.event_query_projection(journals_table, activity_journals_table) if self.respond_to? :event_query_projection
 
             query.project(projection)
 
@@ -140,18 +140,18 @@ module Redmine
           end
 
           def join_with_projects_table(query, project_ref_table)
-            p = Arel::Table.new(:projects)
+            projects_table = Arel::Table.new(:projects)
 
-            query = query.join(p).on(p[:id].eq(project_ref_table['project_id']))
+            query = query.join(projects_table).on(projects_table[:id].eq(project_ref_table['project_id']))
             query
           end
 
           def restrict_projects_by_selection(options, query)
-            p = Arel::Table.new(:projects)
+            projects_table = Arel::Table.new(:projects)
 
             if project = options[:project]
-              stmt = p[:id].eq(project.id)
-              stmt = stmt.or(p[:lft].gt(project.lft).and(p[:rgt].lt(project.rgt))) if options[:with_subprojects]
+              stmt = projects_table[:id].eq(project.id)
+              stmt = stmt.or(projects_table[:lft].gt(project.lft).and(projects_table[:rgt].lt(project.rgt))) if options[:with_subprojects]
 
               query = query.where(stmt)
             end
@@ -160,17 +160,17 @@ module Redmine
           end
 
           def restrict_projects_by_permission(permission, query)
-            p = Arel::Table.new(:projects)
+            projects_table = Arel::Table.new(:projects)
             perm = Redmine::AccessControl.permission(permission)
 
-            query = query.where(p[:status].eq(Project::STATUS_ACTIVE))
+            query = query.where(projects_table[:status].eq(Project::STATUS_ACTIVE))
 
             if perm && perm.project_module
               m = Arel::Table.new(:enabled_modules)
               subquery = m.where(m[:name].eq(perm.project_module))
                           .project(m[:project_id])
 
-              query = query.where(p[:id].in(subquery))
+              query = query.where(projects_table[:id].in(subquery))
             end
 
             query
@@ -179,7 +179,7 @@ module Redmine
           def restrict_projects_by_user(options, user, query)
             return query if user.admin?
 
-            p = Arel::Table.new(:projects)
+            projects_table = Arel::Table.new(:projects)
             stmt = nil
             perm = Redmine::AccessControl.permission(options[:permission])
             is_member = options[:member]
@@ -188,15 +188,15 @@ module Redmine
             if user.logged?
               allowed_projects = []
 
-              user.projects_by_role.each do |r, p|
-                allowed_projects << p.collect(&:id) if r.allowed_to?(perm.name)
+              user.projects_by_role.each do |role, projects|
+                allowed_projects << projects.collect(&:id) if r.allowed_to?(perm.name)
               end
 
-              stmt = p[:id].in(allowed_projects.uniq)
+              stmt = projects_table[:id].in(allowed_projects.uniq)
             end
 
             if (Role.anonymous.allowed_to?(perm.name) || Role.non_member.allowed_to?(perm.name)) && !is_member
-              public_project = p[:is_public].eq(true)
+              public_project = projects_table[:is_public].eq(true)
 
               stmt = stmt ? stmt.or(public_project) : public_project
             end

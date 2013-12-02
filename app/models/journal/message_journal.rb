@@ -33,23 +33,23 @@ class Journal::MessageJournal < Journal::BaseJournal
   acts_as_activity_provider type: 'messages',
                             permission: :view_messages
 
-  def self.extend_event_query(j, ej, query)
-    b = Arel::Table.new(:boards)
+  def self.extend_event_query(journals_table, activity_journals_table, query)
+    boards_table = Arel::Table.new(:boards)
 
-    query = query.join(b).on(ej[:board_id].eq(b[:id]))
-    [b, query]
+    query = query.join(boards_table).on(activity_journals_table[:board_id].eq(boards_table[:id]))
+    [boards_table, query]
   end
 
-  def self.event_query_projection(j, ej)
-    b = Arel::Table.new(:boards)
+  def self.event_query_projection(journals_table, activity_journals_table)
+    boards_table = Arel::Table.new(:boards)
 
     [
-      ej[:subject].as('message_subject'),
-      ej[:content].as('message_content'),
-      ej[:parent_id].as('message_parent_id'),
-      b[:id].as('board_id'),
-      b[:name].as('board_name'),
-      b[:project_id].as('project_id')
+      activity_journals_table[:subject].as('message_subject'),
+      activity_journals_table[:content].as('message_content'),
+      activity_journals_table[:parent_id].as('message_parent_id'),
+      boards_table[:id].as('board_id'),
+      boards_table[:name].as('board_name'),
+      boards_table[:project_id].as('project_id')
     ]
   end
 

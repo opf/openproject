@@ -33,22 +33,22 @@ class Journal::ChangesetJournal < Journal::BaseJournal
   acts_as_activity_provider type: 'changesets',
                             permission: :view_changesets
 
-  def self.extend_event_query(j, ej, query)
-    r = Arel::Table.new(:repositories)
+  def self.extend_event_query(journals_table, activity_journals_table, query)
+    repositories_table = Arel::Table.new(:repositories)
 
-    query = query.join(r).on(ej[:repository_id].eq(r[:id]))
-    [r, query]
+    query = query.join(repositories_table).on(activity_journals_table[:repository_id].eq(repositories_table[:id]))
+    [repositories_table, query]
   end
 
-  def self.event_query_projection(j, ej)
-    r = Arel::Table.new(:repositories)
+  def self.event_query_projection(journals_table, activity_journals_table)
+    repositories_table = Arel::Table.new(:repositories)
 
     [
-      ej[:revision].as('revision'),
-      ej[:comments].as('comments'),
-      ej[:committed_on].as('committed_on'),
-      r[:project_id].as('project_id'),
-      r[:type].as('repository_type')
+      activity_journals_table[:revision].as('revision'),
+      activity_journals_table[:comments].as('comments'),
+      activity_journals_table[:committed_on].as('committed_on'),
+      repositories_table[:project_id].as('project_id'),
+      repositories_table[:type].as('repository_type')
     ]
   end
 

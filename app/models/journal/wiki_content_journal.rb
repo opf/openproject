@@ -33,22 +33,22 @@ class Journal::WikiContentJournal < Journal::BaseJournal
   acts_as_activity_provider type: 'wiki_edits',
                             permission: :view_wiki_edits
 
-  def self.extend_event_query(j, ej, query)
-    p = Arel::Table.new(:wiki_pages)
-    w = Arel::Table.new(:wikis)
+  def self.extend_event_query(journals_table, activity_journals_table, query)
+    wiki_pages_table = Arel::Table.new(:wiki_pages)
+    wikis_table = Arel::Table.new(:wikis)
 
-    query = query.join(p).on(ej[:page_id].eq(p[:id]))
-    query = query.join(w).on(p[:wiki_id].eq(w[:id]))
-    [w, query]
+    query = query.join(wiki_pages_table).on(activity_journals_table[:page_id].eq(wiki_pages_table[:id]))
+    query = query.join(wikis_table).on(wiki_pages_table[:wiki_id].eq(wikis_table[:id]))
+    [wikis_table, query]
   end
 
-  def self.event_query_projection(j, ej)
-    p = Arel::Table.new(:wiki_pages)
-    w = Arel::Table.new(:wikis)
+  def self.event_query_projection(journals_table, activity_journals_table)
+    wiki_pages_table = Arel::Table.new(:wiki_pages)
+    wikis_table = Arel::Table.new(:wikis)
 
     [
-      w[:project_id].as('project_id'),
-      p[:title].as('wiki_title')
+      wikis_table[:project_id].as('project_id'),
+      wiki_pages_table[:title].as('wiki_title')
     ]
   end
 
