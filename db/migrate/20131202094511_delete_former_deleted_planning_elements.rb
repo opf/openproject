@@ -38,10 +38,12 @@ class DeleteFormerDeletedPlanningElements < ActiveRecord::Migration
   end
 
   def delete_ids_from_table(table, id_column, ids)
-    delete <<-SQL
-      DELETE FROM #{table}
-      WHERE #{id_column} IN (#{ids.join(", ")})
-    SQL
+    unless ids.empty?
+      delete <<-SQL
+        DELETE FROM #{table}
+        WHERE #{id_column} IN (#{ids.join(", ")})
+      SQL
+    end
   end
 
   def deleted_work_package_ids
