@@ -61,7 +61,7 @@ class CopyProjectsController < ApplicationController
   end
 
   def copy_project
-    from = params[:coming_from] || :settings
+    from = (["admin", "settings"].include?(params[:coming_from]) ? params[:coming_from] : "settings")
     @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @types = Type.all
     @root_projects = Project.find(:all,
@@ -70,10 +70,10 @@ class CopyProjectsController < ApplicationController
     @copy_project = Project.copy_attributes(@project)
     if @copy_project
       @copy_project.identifier = Project.next_identifier if Setting.sequential_project_identifiers?
+      render :action => "copy_from_#{from}"
     else
       redirect_to :back
     end
-    render :action => "copy_from_#{from}"
   rescue ActiveRecord::RecordNotFound
     redirect_to :back
   end
