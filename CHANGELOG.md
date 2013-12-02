@@ -20,6 +20,7 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+* `#3119` [Migration] Meetings do not migrate planning element references
 * added icon for new project menu
 
 ## 3.0.5
