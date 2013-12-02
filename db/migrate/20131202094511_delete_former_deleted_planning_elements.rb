@@ -33,6 +33,7 @@ class DeleteFormerDeletedPlanningElements < ActiveRecord::Migration
   def delete_work_packages_marked_as_deleted
     delete_ids_from_table('attachable_journals', 'journal_id', deleted_work_packages_journals_ids)
     delete_ids_from_table('customizable_journals', 'journal_id', deleted_work_packages_journals_ids)
+    delete_ids_from_table('work_package_journals', 'journal_id', deleted_work_packages_journals_ids)
     delete_ids_from_table('journals', 'id', deleted_work_packages_journals_ids)
     delete_ids_from_table('work_packages', 'id', deleted_work_package_ids)
   end
