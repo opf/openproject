@@ -528,7 +528,7 @@ div#tab-content-members fieldset div.select-boxes .select2-container {
 
 /***** Flash & error messages ****/
 #errorExplanation, div.flash, .nodata, .warning {
-  padding: 4px 4px 4px 30px;
+  padding: 4px;
   margin-bottom: 12px;
   border: 2px solid;
   margin: 0 0 10px;
@@ -570,7 +570,7 @@ div.flash.error a:hover, div.flash.warning a:hover, div.flash.notice a:hover, #e
   color: #A6750C;
 }
 
-#errorExplanation ul { font-size: 0.9em;}
+#errorExplanation ul { font-size: 0.9em; margin-left: 30px;}
 #errorExplanation h2, #errorExplanation p { display: none; }
 
 /***** Ajax indicator ******/
@@ -2206,23 +2206,19 @@ div.flash {
 }
 
 div.flash.error, #errorExplanation {
-  background: #FAAA96 url(<%= asset_path 'webalys/error.png' %>) 8px 50% no-repeat;
+  background-color: #FAAA96;
   border: none;
   color: #000000;
 }
 
-#errorExplanation {
-  background-position: 12px 50%;
-}
-
 div.flash.notice {
-  background: #C8F0BE url(<%= asset_path 'webalys/check.png' %>) 11px 6px no-repeat;
+  background-color: #C8F0BE;
   border: none;
   color: #000000;
 }
 
 div.flash.warning { /* orange */
-  background: #FFC38C url(<%= asset_path 'webalys/warning.png' %>) 9px 5px no-repeat;
+  background-color: #FFC38C;
   border: none;
   color: #000000;
   text-align: left;

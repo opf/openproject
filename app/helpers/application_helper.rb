@@ -266,9 +266,9 @@ module ApplicationHelper
   # Renders flash messages
   def render_flash_messages
     if User.current.impaired?
-      flash.map { |k,v| content_tag('div', content_tag('a', join_flash_messages(v), :href => 'javascript:;'), :class => "flash #{k}") }.join.html_safe
+      flash.map { |k,v| content_tag('div', content_tag('a', join_flash_messages(v), :href => 'javascript:;'), :class => "flash #{k} icon icon-#{k}") }.join.html_safe
     else
-      flash.map { |k,v| content_tag('div', join_flash_messages(v), :class => "flash #{k}") }.join.html_safe
+      flash.map { |k,v| content_tag('div', join_flash_messages(v), :class => "flash #{k} icon icon-#{k}") }.join.html_safe
     end
   end
 

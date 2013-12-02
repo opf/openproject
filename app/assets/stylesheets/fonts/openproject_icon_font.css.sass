@@ -110,6 +110,11 @@ $link_hover_color: #008BD0
 .icon5:before
   @include icon5-rules
 
+#errorExplanation:before
+  @include icon-common
+  @include icon-rules
+  float: left
+
 #context-menu .icon:before,
 .icon-context:before
   @include icon-context-rules
@@ -151,6 +156,7 @@ dt.changeset:before,
 .icon-duplicate:before
   content: "\e00b"
 
+#errorExplanation:before,
 .icon-error:before
   content: "\e00c"
 
@@ -726,6 +732,7 @@ dt.reply:before,
 .icon-yes2:before
   content: "\e0c7"
 
+.icon-notice:before,
 .icon-yes:before
   content: "\e0c8"
 
