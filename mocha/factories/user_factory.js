@@ -1,4 +1,4 @@
-Factory.define('Project', Timeline.Project)
+Factory.define('User', Timeline.User)
   .sequence('id')
   .sequence('name', function (i) {return "User No. " + i;})
   .sequence('firstname', function (i) {return "Firstname No." + i;})

@@ -44,14 +44,14 @@ describe('Planning Element', function(){
       });
 
       this.peWithChildren = Factory.build("PlanningElement", {
-        planning_elements: [this.peWithDates, this.peEmpty, this.peWithNameC, this.peWithNameA, this.peWithNameB]
+        planning_elements: [this.peWithDates, this.peWithNameC, this.peWithNameA, this.peWithNameB]
       });
     });
 
     describe('getChildren', function () {
       it('should return sorted children', function () {
         var children = this.peWithChildren.getChildren();
-        expect(children).to.deep.equal([this.peEmpty, this.peWithNameA, this.peWithNameB, this.peWithNameC, this.peWithDates]);
+        expect(children).to.satisfy(objectsortation(this.peWithNameA, this.peWithNameB, this.peWithNameC, this.peWithDates));
       });
 
       it('should return empty list', function () {
