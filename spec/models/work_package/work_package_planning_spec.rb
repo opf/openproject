@@ -340,7 +340,6 @@ describe WorkPackage do
     it 'should delete the object permanantly when using destroy' do
       @pe1.destroy
 
-      WorkPackage.without_deleted.find_by_id(@pe1.id).should be_nil
       WorkPackage.find_by_id(@pe1.id).should be_nil
     end
 
@@ -354,11 +353,8 @@ describe WorkPackage do
       pe1.destroy
 
       [pe1, pe11, pe12, pe121].each do |pe|
-        WorkPackage.without_deleted.find_by_id(pe.id).should be_nil
         WorkPackage.find_by_id(pe.id).should be_nil
       end
-
-      WorkPackage.without_deleted.find_by_id(pe2.id).should == pe2
     end
   end
 end

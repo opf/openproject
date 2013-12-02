@@ -205,7 +205,7 @@ module Api
       end
 
       def current_work_packages(projects)
-        work_packages = WorkPackage.for_projects(projects).without_deleted
+        work_packages = WorkPackage.for_projects(projects)
                                    .includes(:status, :project, :type)
 
         if params[:f]
@@ -226,7 +226,7 @@ module Api
       # remove this and replace by calls it with calls
       # to assign_planning_elements once WorkPackages can be created
       def planning_element_scope
-        @project.work_packages.without_deleted
+        @project.work_packages
       end
 
       # Helpers
