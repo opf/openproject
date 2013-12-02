@@ -34,12 +34,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
     <thead>
       <tr>
-        <th class="checkbox hide-when-print"><%= link_to image_tag('webalys/check.png'), {},
+        <th class="checkbox hide-when-print"><%= link_to icon_wrapper('icon-context icon-yes', "#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), {},
                                                          :onclick => 'toggleIssuesSelection(Element.up(this, "form")); return false;',
+                                                         :class => 'no-decoration-on-hover',
                                                          :title   => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
                                                          :alt     => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
         </th>
-		    <%= sort_header_tag('id', :caption => '#', :default_order => 'desc') %>
+        <%= sort_header_tag('id', :caption => '#', :default_order => 'desc') %>
 
         <% query.columns.each do |column| %>
           <%= column_header(column) %>
@@ -48,11 +49,11 @@ See doc/COPYRIGHT.rdoc for more details.
       </tr>
     </thead>
 
-	<% previous_group = false %>
+  <% previous_group = false %>
 
-	<tbody>
+  <tbody>
 
-	<% issue_list(work_packages) do |work_package, level| -%>
+  <% issue_list(work_packages) do |work_package, level| -%>
 
     <% if query.grouped? && (group = query.group_by_column.value(work_package)) != previous_group %>
       <% reset_cycle %>
@@ -101,9 +102,9 @@ See doc/COPYRIGHT.rdoc for more details.
       <% query.columns.each do |column| %>
         <%= content_tag 'td', column_content(column, work_package), :class => column.name %>
       <% end %>
-	  </tr>
+    </tr>
 
-	  <% if query.display_sums? %>
+    <% if query.display_sums? %>
 
       <% results.caching_issue(work_package) %>
       <%# Check if we are at the end of a group or the end of a page %>
