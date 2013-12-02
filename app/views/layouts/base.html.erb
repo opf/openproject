@@ -66,7 +66,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <div id="top-menu">
       <div id="header">
         <div id="logo">
-          <%= link_to(image_tag(asset_path('logo_openproject_white_big.png'), :alt => I18n.t('label_home'), :class => 'home-link-image'), home_url, :class => 'home-link') %>
+          <%= link_to(I18n.t('label_home'), home_url, :class => 'home-link') %>
         </div>
         <div id="top-menu-items">
           <%= render_top_menu_left %>
