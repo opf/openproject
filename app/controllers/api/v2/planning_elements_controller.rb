@@ -56,7 +56,8 @@ module Api
       end
 
       def create
-        @planning_element = planning_element_scope.new(permitted_params.planning_element)
+        @planning_element = @project.work_packages.build
+        @planning_element.update_attributes(permitted_params.planning_element)
 
         # The planning_element inherits from workpackage, which requires an author.
         # Using the current_user also satisfies this demand for API-calls
@@ -89,7 +90,7 @@ module Api
       end
 
       def update
-        @planning_element = planning_element_scope.find(params[:id])
+        @planning_element = WorkPackage.find(params[:id])
         @planning_element.attributes = permitted_params.planning_element
 
         successfully_updated = @planning_element.save
@@ -106,7 +107,7 @@ module Api
       end
 
       def destroy
-        @planning_element = planning_element_scope.find(params[:id])
+        @planning_element = WorkPackage.find(params[:id])
         @planning_element.destroy
 
         respond_to do |format|
@@ -221,12 +222,6 @@ module Api
         at_time = Time.at(params[:at_time].to_i).to_datetime
         filter = params[:f] ? {f: params[:f], op: params[:op], v: params[:v]}: {}
         historical = PlanningComparisonService.compare(projects, at_time, filter)
-      end
-
-      # remove this and replace by calls it with calls
-      # to assign_planning_elements once WorkPackages can be created
-      def planning_element_scope
-        @project.work_packages
       end
 
       # Helpers
