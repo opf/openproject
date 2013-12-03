@@ -85,7 +85,7 @@ class Activity::MeetingActivityProvider
 
   def self.event_meeting_title(event)
     start_time = event['meeting_start_time'].is_a?(String) ? DateTime.parse(event['meeting_start_time'])
-                                                   : start_time
+                                                           : event['meeting_start_time']
     end_time = start_time + event['meeting_duration'].to_f.hours
 
     "#{l :label_meeting}: #{event['meeting_title']} (#{format_date start_time} \
