@@ -10,11 +10,14 @@ describe('Timeline', function () {
 
 describe('Planning Element', function(){
   before(function(){
-    this.peEmpty = Factory.build("PlanningElement");
+    this.peEmpty = Factory.build("PlanningElement", {
+      timeline: Factory.build("Timeline"),
+    });
 
     this.peWithDates = Factory.build("PlanningElement", {
+      timeline: Factory.build("Timeline"),
       "start_date": "2012-11-11",
-      "due_date": "2012-11-10"
+      "due_date": "2012-11-12"
     });
   });
 
@@ -170,13 +173,81 @@ describe('Planning Element', function(){
     it('should return function value of object.parameter');
   });
 
-  describe('horizontalBoundsForDates', function () {
-    it('should return 0 for x and width if no start&end date');
-    it('should return correct x and width if both dates are set');
-    it('should return x and width if start is not set');
-    it('should return x and width if end is not set');
+  describe.only('horizontalBoundsForDates', function () {
+    function expectBoundary(boundary, x, w, end) {
+      expect(boundary.x).to.equal(x);
+      expect(boundary.w).to.equal(w);
+      expect(boundary.end()).to.equal(end);
+    }
+
+    var beginning = new Date("2012-11-13");
+    var scale = {day: 1};
+
+    it('should return 0 for x and width if no start&end date', function () {
+      var boundary = this.peEmpty.getHorizontalBounds();
+      expect(boundary.x).to.equal(0);
+      expect(boundary.w).to.equal(0);
+      expect(boundary.end()).to.equal(0);
+    });
+    it('should return zero x if beginning and start are the same', function () {
+      var absolute_beginning = this.peWithDates.start();
+
+      var boundary = this.peWithDates.getHorizontalBounds(scale, absolute_beginning);
+      expect(boundary.x).to.equal(0);
+    });
+    it('should return width of 1 day if start and end are equal', function () {
+      var sameDatePE = Factory.build("PlanningElement", {
+        timeline: Factory.build("Timeline"),
+        start_date: "2012-11-11",
+        due_date: "2012-11-11"
+      });
+
+      var boundary = sameDatePE.getHorizontalBounds(scale, beginning);
+
+      expect(boundary.w).to.equal(1);
+    });
+    it('should return width of difference+1 if start and end are not the same', function () {
+      var differentDatePE = Factory.build("PlanningElement", {
+        timeline: Factory.build("Timeline"),
+        start_date: "2012-11-11",
+        due_date: "2012-11-15"
+      });
+
+      var boundary = differentDatePE.getHorizontalBounds(scale, beginning);
+
+      expect(boundary.w).to.equal(5);
+    });
+    it('should multiply with scale', function () {
+      var scale = {day: 5};
+
+      var differentDatePE = Factory.build("PlanningElement", {
+        timeline: Factory.build("Timeline"),
+        start_date: "2012-11-19",
+        due_date: "2012-11-23"
+      });
+
+      var boundary = differentDatePE.getHorizontalBounds(scale, beginning);
+      expectBoundary(boundary, 30, 25, 55);
+    });
+    it('if one date is not set width equals 3 days', function () {
+      var noStartDatePE = Factory.build("PlanningElement", {
+        timeline: Factory.build("Timeline"),
+        due_date: "2012-11-15"
+      });
+
+      var boundary = noStartDatePE.getHorizontalBounds(scale, beginning);
+      expectBoundary(boundary, 0, 3, 3);
+    });
+    it('should return x and width if end is not set', function () {
+      var noEndDatePE = Factory.build("PlanningElement", {
+        timeline: Factory.build("Timeline"),
+        start_date: "2012-11-13"
+      });
+
+      boundary = noEndDatePE.getHorizontalBounds(scale, beginning);
+      expectBoundary(boundary, 0, 3, 3);
+    });
     it('should return the middle for a milestone');
-    it('should return the end for a call to end()');
   });
 
   describe('url', function () {
