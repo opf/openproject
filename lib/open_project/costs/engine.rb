@@ -165,7 +165,7 @@ module OpenProject::Costs
                :param => :project_id,
                :before => :settings,
                :caption => :cost_objects_title,
-               :html => {:class => 'icon5 icon-stats'}
+               :html => {:class => 'icon2 icon-budget'}
 
           menu :project_menu,
                :new_budget,
@@ -173,7 +173,7 @@ module OpenProject::Costs
                :param => :project_id,
                :caption => :label_cost_object_new,
                :parent => :cost_objects,
-               :html => {:class => 'icon5 icon-add'}
+               :html => {:class => 'icon2 icon-add'}
 
           menu :project_menu,
                :show_all,
@@ -181,7 +181,7 @@ module OpenProject::Costs
                :param => :project_id,
                :caption => :label_view_all_cost_objects,
                :parent => :cost_objects,
-               :html => {:class => 'icon5 icon-list-view1'}
+               :html => {:class => 'icon2 icon-list-view1'}
         end
       end
     end

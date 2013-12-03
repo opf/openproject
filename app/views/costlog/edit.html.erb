@@ -32,7 +32,7 @@
     <p>
       <label for="cost_entry_costs_edit"><%= CostEntry.human_attribute_name(:costs) %></label>
       <% if User.current.allowed_to? :view_cost_rates, @cost_entry.project %>
-        <a href="javascript:;" id="cost_entry_costs" class="icon icon-edit" title="<%= l(:help_click_to_edit) %>">
+        <a href="javascript:;" id="cost_entry_costs" class="icon-context icon-edit" title="<%= l(:help_click_to_edit) %>">
           <%= number_to_currency(@cost_entry.calculated_costs) %>
         </a>
         <%= update_page_tag do |page|
