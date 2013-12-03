@@ -71,8 +71,6 @@ class WorkPackage < ActiveRecord::Base
   scope :visible, lambda {|*args| { :include => :project,
                                     :conditions => WorkPackage.visible_condition(args.first ||
                                                                                  User.current) } }
-  scope :without_deleted, :conditions => "#{WorkPackage.quoted_table_name}.deleted_at IS NULL"
-  scope :deleted, :conditions => "#{WorkPackage.quoted_table_name}.deleted_at IS NOT NULL"
 
   scope :in_status, lambda {|*args| where(:status_id => (args.first.respond_to?(:id) ? args.first.id : args.first))}
 
@@ -212,7 +210,7 @@ class WorkPackage < ActiveRecord::Base
                                                     :category_id, :fixed_version_id,
                                                     :planning_element_status_id,
                                                     :author_id, :responsible_id
-  register_on_journal_formatter :datetime,          :start_date, :due_date, :deleted_at
+  register_on_journal_formatter :datetime,          :start_date, :due_date
 
   # By planning element
   register_on_journal_formatter :plaintext,         :subject,
@@ -361,10 +359,6 @@ class WorkPackage < ActiveRecord::Base
         relation.set_dates_of_target
       end
     end
-  end
-
-  def deleted?
-    !!read_attribute(:deleted_at)
   end
 
   # Users the work_package can be assigned to
@@ -727,11 +721,9 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def inherit_dates_from_children
-    active_children = children.without_deleted
-
-    unless active_children.empty?
-      self.start_date = [active_children.minimum(:start_date), active_children.minimum(:due_date)].compact.min
-      self.due_date   = [active_children.maximum(:start_date), active_children.maximum(:due_date)].compact.max
+    unless children.empty?
+      self.start_date = [children.minimum(:start_date), children.minimum(:due_date)].compact.min
+      self.due_date   = [children.maximum(:start_date), children.maximum(:due_date)].compact.max
     end
   end
 

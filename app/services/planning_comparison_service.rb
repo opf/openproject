@@ -62,7 +62,6 @@ SQL
                                       .joins(:status)
                                       .joins(:project) # query doesn't provide these joins itself...
                                       .for_projects(projects)
-                                      .without_deleted
 
       query = Query.new
       query.add_filters(filter[:f], filter[:op], filter[:v])
