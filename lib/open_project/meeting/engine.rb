@@ -65,6 +65,10 @@ module OpenProject::Meeting
         ActiveSupport::Inflector.inflections do |inflect|
           inflect.uncountable "meeting_minutes"
         end
+
+        Redmine::Activity.map do |activity|
+          activity.register :meetings, class_name: 'Activity::MeetingActivityProvider', default: false
+        end
       end
     end
 
