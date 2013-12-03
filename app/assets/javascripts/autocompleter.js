@@ -117,7 +117,7 @@
   $.fn.autocomplete.defaults = {
     multiple: false,
     data: {},
-    allowedAttributes: ["title", "placeholder", "id", "name"],
+    allowedAttributes: ["title", "placeholder", "id", "name", "multiple"],
     minimumInputLength: 0,
     ajax: {
       null_element: null,
@@ -173,8 +173,8 @@
       var data,
           multiple = $(element).attr("multiple");
       if (multiple !== null && multiple !== undefined && multiple) {
-        data = []
-      };
+        data = [];
+      }
       if (!($(element).attr("data-selected") === "" || $(element).attr("data-selected") === null || $(element).attr("data-selected") === undefined)) {
         JSON.parse($(element).attr('data-selected')).each(function (elem) {
           if (multiple) {
