@@ -106,23 +106,23 @@ Then(/^the "([^"]*)" row should (not )?be marked as default$/) do |title, negati
   # TODO: This should not be a magic constant but derived from the actual table
   # header.
   if should_be_visible
-    table_row.should have_css('td:nth-child(1) img[alt=checked]')
+    table_row.should have_css('td:nth-child(1) span.icon-yes')
   else
-    table_row.should_not have_css('td:nth-child(1) img[alt=checked]')
+    table_row.should_not have_css('td:nth-child(1) span.icon-yes')
   end
 end
 
 Then(/^I should see that "([^"]*)" is( not)? a milestone and( not)? shown in aggregation$/) do |name, not_milestone, not_in_aggregation|
   row = page.find(:css, ".timelines-pet-name", :text => Regexp.new("^#{name}$")).find(:xpath, './ancestor::tr')
 
-  nodes = row.all(:css, '.timelines-pet-is_milestone img[alt=checked]')
+  nodes = row.all(:css, '.timelines-pet-is_milestone span.icon-yes')
   if not_milestone
     nodes.should be_empty
   else
     nodes.should_not be_empty
   end
 
-  nodes = row.all(:css, '.timelines-pet-in_aggregation img[alt=checked]')
+  nodes = row.all(:css, '.timelines-pet-in_aggregation span.icon-yes')
   if not_in_aggregation
     nodes.should be_empty
   else
