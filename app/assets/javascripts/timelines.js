@@ -240,7 +240,34 @@ jQuery.extend(Timeline, {
     }
     return +Date.parse(value)/1000;
   },
-  create: function() {
+  create: function(options) {
+    // configuration
+
+    if (!options) {
+      throw new Error('No configuration options given');
+    }
+
+    options = jQuery.extend({}, this.defaults, options);
+
+    if (options.username) {
+      this.ajax_defaults.username = options.username;
+    }
+    if (options.password) {
+      this.ajax_defaults.password = options.password;
+    }
+    if (options.api_key) {
+      this.ajax_defaults.headers = {
+        'X-ChiliProject-API-Key': options.api_key,
+        'X-OpenProject-API-Key':  options.api_key,
+        'X-Redmine-API-Key':      options.api_key
+      };
+    }
+
+    this.options = options;
+
+    // we're hiding the root if there is a grouping.
+    this.options.hide_tree_root = this.isGrouping();
+
     var timeline = Object.create(Timeline);
 
     // some private fields.
@@ -254,33 +281,8 @@ jQuery.extend(Timeline, {
     var timeline = this, timelineLoader;
 
     if(this === Timeline) {
-      timeline = Timeline.create();
+      timeline = Timeline.create(options);
       return timeline.load(options);
-    }
-
-    // configuration
-
-    if (!options) {
-      throw new Error('No configuration options given');
-    }
-    options = jQuery.extend({}, this.defaults, options);
-    this.options = options;
-
-    // we're hiding the root if there is a grouping.
-    this.options.hide_tree_root = this.isGrouping();
-
-    if (this.options.username) {
-      this.ajax_defaults.username = this.options.username;
-    }
-    if (this.options.password) {
-      this.ajax_defaults.password = this.options.password;
-    }
-    if (this.options.api_key) {
-      this.ajax_defaults.headers = {
-        'X-ChiliProject-API-Key': this.options.api_key,
-        'X-OpenProject-API-Key':  this.options.api_key,
-        'X-Redmine-API-Key':      this.options.api_key
-      };
     }
 
     try {
@@ -326,33 +328,8 @@ jQuery.extend(Timeline, {
     var timeline = this, timelineLoader;
 
     if(this === Timeline) {
-      timeline = Timeline.create();
+      timeline = Timeline.create(options);
       return timeline.startup(options, uiRoot);
-    }
-
-    // configuration
-
-    if (!options) {
-      throw new Error('No configuration options given');
-    }
-    options = jQuery.extend({}, this.defaults, options);
-    this.options = options;
-
-    // we're hiding the root if there is a grouping.
-    this.options.hide_tree_root = this.isGrouping();
-
-    if (this.options.username) {
-      this.ajax_defaults.username = this.options.username;
-    }
-    if (this.options.password) {
-      this.ajax_defaults.password = this.options.password;
-    }
-    if (this.options.api_key) {
-      this.ajax_defaults.headers = {
-        'X-ChiliProject-API-Key': this.options.api_key,
-        'X-OpenProject-API-Key':  this.options.api_key,
-        'X-Redmine-API-Key':      this.options.api_key
-      };
     }
 
     // setup UI.
