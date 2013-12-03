@@ -55,3 +55,18 @@ Feature: Issue textile quickinfo links
     When I click on the first button matching "Create"
     Then I should see "New relase" within "#content"
     Then I should see "We have release a new version of our software." within "#content"
+
+  Scenario: Message's reply count is zero
+    Given the board "development discussion" has the following messages:
+      | message #1 |
+    When I go to the message page of message "message #1"
+    Then I should not see "Replies"
+
+  Scenario: Message's reply count is two
+    Given the board "development discussion" has the following messages:
+      | message #1 |
+     And "message #1" has the following replies:
+      | reply #1 |
+      | reply #2 |
+    When I go to the message page of message "message #1"
+    Then I should see "Replies (2)"

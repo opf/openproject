@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#3050` Fix: Fix: [Work Package Tracking] Internal error with query from the time before work packages
+* `#3104` Fix: [Forums] Number of replies to a topic are not displayed
 * `#3202` Fix: [Bug] Grouping work packages by responsible is broken
 * `#3055` [Work Package Tracking] Former deleted planning elements not handled in any way
 
