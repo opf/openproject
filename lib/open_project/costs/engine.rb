@@ -180,6 +180,10 @@ module OpenProject::Costs
                :param => :project_id,
                :caption => :label_view_all_cost_objects,
                :parent => :cost_objects
+
+          Redmine::Activity.map do |activity|
+            activity.register :cost_objects, class_name: 'Journal::CostObjectJournal', default: false
+          end
         end
       end
     end

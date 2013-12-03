@@ -14,6 +14,8 @@ Feature: Cost Object activities
       | subject     | Cost Object Subject |
       | created_on  | Time.now - 1.day    |
     When I go to the activity page of the project "project1"
+     And I activate activity filter "Cost Objects"
+    When I click "Apply"
     Then I should see "Cost Object Subject"
 
   Scenario: Updating a cost object creates an activity
@@ -24,6 +26,8 @@ Feature: Cost Object activities
     And I update the variable cost object "cost_object1" with the following:
       | subject     | cost_object1_new_title  |
     When I go to the activity page of the project "project1"
+     And I activate activity filter "Cost Objects"
+    When I click "Apply"
     Then I should see "cost_object1_new_title"
 
 
