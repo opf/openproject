@@ -22,7 +22,7 @@ See doc/COPYRIGHT.md for more details.
   <%= watcher_link @meeting, User.current %>
   <%= link_to_if_authorized(l(:button_edit), {:controller => '/meetings', :action => 'edit', :id => @meeting}, :class => 'icon icon-edit')%>
   <%= link_to_if_authorized(l(:button_copy), {:controller => '/meetings', :action => 'copy', :id => @meeting}, :class => 'icon icon-copy')%>
-  <%= link_to_if_authorized(l(:button_delete), {:controller => '/meetings', :action => 'destroy', :id => @meeting}, :method => :delete, :confirm => l(:text_are_you_sure), :class => 'icon icon-del')%>
+  <%= link_to_if_authorized(l(:button_delete), {:controller => '/meetings', :action => 'destroy', :id => @meeting}, :method => :delete, :confirm => l(:text_are_you_sure), :class => 'icon icon-delete')%>
 </div>
 
 <h2><%= l(:label_meeting) %>: <%= link_to @meeting %></h2>
