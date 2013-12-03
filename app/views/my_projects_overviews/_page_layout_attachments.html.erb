@@ -22,11 +22,11 @@ See doc/COPYRIGHT.md for more details.
   <p><%= link_to_attachment attachment, :class => 'icon icon-attachment' -%>
     <%= h(" - #{attachment.description}") unless attachment.description.blank? %>
     <span class="size">(<%= number_to_human_size attachment.filesize %>)</span>
-    <%= link_to_remote image_tag('webalys/delete.png'),
-	:url => { :action => 'destroy_attachment', :attachment_id => attachment.id, :id => project.id },
+    <%= link_to_remote icon_wrapper('icon-context icon-delete', l(:button_delete)),
+        :url => { :action => 'destroy_attachment', :attachment_id => attachment.id, :id => project.id },
         :confirm => l(:text_are_you_sure),
-        :class => 'delete',
+        :class => 'delete no-decoration-on-hover',
         :title => l(:button_delete),
-	:update => 'page_layout_attachments' %>
+  :update => 'page_layout_attachments' %>
   </p>
 <% end %>
