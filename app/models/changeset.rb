@@ -33,13 +33,14 @@ class Changeset < ActiveRecord::Base
   has_many :changes, :dependent => :delete_all
   has_and_belongs_to_many :work_packages
 
-  acts_as_journalized :event_title => Proc.new {|o| "#{l(:label_revision)} #{o.journal.journable.format_identifier}" + (o.journal.journable.short_comments.blank? ? '' : (': ' + o.journal.journable.short_comments))},
-                :event_description => :long_comments,
-                :event_datetime => :committed_on,
-                :event_url => Proc.new {|o| {:controller => '/repositories', :action => 'revision', :id => o.journal.journable.repository.project, :rev => o.journal.journable.identifier}},
-                :event_author => Proc.new {|o| o.journal.journable.author},
-                :activity_timestamp => "#{table_name}.committed_on",
-                :activity_find_options => {:include => [:user, {:repository => :project}]}
+  acts_as_journalized
+
+  acts_as_event title: Proc.new {|o| "#{l(:label_revision)} #{o.format_identifier}" + (o.short_comments.blank? ? '' : (': ' + o.short_comments))},
+                description: :long_comments,
+                datetime: :committed_on,
+                url: Proc.new {|o| {:controller => '/repositories', :action => 'revision', :id => o.repository.project, :rev => o.identifier}},
+                author: Proc.new {|o| o.author}
+
   acts_as_searchable :columns => 'comments',
                      :include => {:repository => :project},
                      :project_key => "#{Repository.table_name}.project_id",

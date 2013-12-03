@@ -204,7 +204,24 @@ class JournalManager
   end
 
   def self.journal_class(type)
-    "Journal::#{journal_class_name(type)}".constantize
+    namespace = type.name.deconstantize
+
+    if namespace == 'Journal'
+      type
+    else
+      "Journal::#{journal_class_name(type)}".constantize
+    end
+  end
+
+  def self.journaled_class(journal_type)
+    namespace = journal_type.name.deconstantize
+
+    if namespace == 'Journal'
+      class_name = journal_type.name.demodulize
+      class_name.gsub('Journal', '').constantize
+    else
+      journal_type
+    end
   end
 
   def self.normalize_newlines(data)

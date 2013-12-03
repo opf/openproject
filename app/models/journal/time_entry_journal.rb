@@ -29,4 +29,58 @@
 
 class Journal::TimeEntryJournal < Journal::BaseJournal
   self.table_name = "time_entry_journals"
+
+  acts_as_activity_provider type: 'time_entries',
+                            permission: :view_time_entries
+
+  def self.extend_event_query(journals_table, activity_journals_table, query)
+    work_packages_table = Arel::Table.new(:work_packages)
+
+    query = query.join(work_packages_table).on(activity_journals_table[:work_package_id].eq(work_packages_table[:id]))
+    [activity_journals_table, query]
+  end
+
+  def self.event_query_projection(journals_table, activity_journals_table)
+    p = Arel::Table.new(:projects)
+    work_packages_table = Arel::Table.new(:work_packages)
+
+    [
+      activity_journals_table[:hours].as('time_entry_hours'),
+      activity_journals_table[:comments].as('time_entry_comments'),
+      activity_journals_table[:project_id].as('project_id'),
+      activity_journals_table[:work_package_id].as('work_package_id'),
+      p[:name].as('project_name'),
+      work_packages_table[:subject].as('work_package_subject'),
+    ]
+  end
+
+  def self.format_event(event, event_data)
+    event.event_title = self.event_title event_data
+    event.event_description = event_data['time_entry_description']
+    event.event_path = self.event_path event_data
+    event.event_url = self.event_url event_data
+
+    event
+  end
+
+  private
+
+  def self.event_title(event)
+    time_entry_object_name = event['work_package_id'].blank? ? event['project_name']
+                                                             : event['work_package_name']
+    "#{l_hours(event['time_entry_hours'])} (#{time_entry_object_name})"
+  end
+
+  def self.event_path(event)
+    Rails.application.routes.url_helpers.time_entry_path(self.url_helper_parameter(event))
+  end
+
+  def self.event_url(event)
+    Rails.application.routes.url_helpers.time_entry_url(self.url_helper_parameter(event),
+                                                        host: ::Setting.host_name)
+  end
+
+  def self.url_helper_parameter(event)
+    event['journable_id']
+  end
 end

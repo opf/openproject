@@ -39,27 +39,58 @@ describe ActivitiesController do
   end
 
   describe 'index' do
-    describe 'with activated activity module' do
-      before do
-        @project = FactoryGirl.create(:project, :enabled_module_names => %w[activity wiki])
-        @params[:project_id] = @project.id
+    describe 'global' do
+      let(:work_package) { FactoryGirl.create(:work_package) }
+      let!(:journal) { FactoryGirl.create(:work_package_journal,
+                                          journable_id: work_package.id,
+                                          created_at: 3.days.ago.to_date.to_s(:db),
+                                          version: Journal.maximum(:version) + 1,
+                                          data: FactoryGirl.build(:journal_work_package_journal,
+                                                                  subject: work_package.subject,
+                                                                  status_id: work_package.status_id,
+                                                                  type_id: work_package.type_id,
+                                                                  project_id: work_package.project_id)) }
+
+      before { get 'index' }
+
+      it { expect(response).to be_success }
+
+      it { expect(response).to render_template 'index' }
+
+      it { expect(assigns(:event_by_day)).to be_nil }
+
+      describe 'view' do
+        render_views
+
+        it do
+          assert_tag tag: "h3",
+                     :content => /#{3.day.ago.to_date.day}/,
+                     sibling: { tag: "dl",
+                                child: { tag: "dt",
+                                         attributes: { :class => /work_package/ },
+                                         child: { tag: "a",
+                                         :content => /#{ERB::Util.html_escape(work_package.subject)}/ } } }
+        end
       end
+    end
+
+    describe 'with activated activity module' do
+      let(:project) { FactoryGirl.create(:project,
+                                         enabled_module_names: %w[activity wiki]) }
 
       it 'renders activity' do
-        get 'index', @params
+        get 'index', project_id: project.id
         response.should be_success
         response.should render_template 'index'
       end
     end
 
     describe 'without activated activity module' do
-      before do
-        @project = FactoryGirl.create(:project, :enabled_module_names => %w[wiki])
-        @params[:project_id] = @project.id
-      end
+      let(:project) { FactoryGirl.create(:project,
+                                         enabled_module_names: %w[wiki]) }
 
       it 'renders 403' do
-        get 'index', @params
+        get 'index', project_id: project.id
         response.status.should == 403
         response.should render_template 'common/error'
       end
@@ -68,22 +99,42 @@ describe ActivitiesController do
     describe :atom_feed do
       let(:user) { FactoryGirl.create(:user) }
       let(:project) { FactoryGirl.create(:project) }
-      let!(:wp_1) { FactoryGirl.create(:work_package,
-                                       project: project,
-                                       author: user) }
-      let!(:wp_2) { FactoryGirl.create(:work_package,
-                                       project: project,
-                                       author: user) }
 
       context :work_package do
-        let(:params) { { project_id: project.id,
-                         format: :atom } }
+        let!(:wp_1) { FactoryGirl.create(:work_package,
+                                         project: project,
+                                         author: user) }
 
-        before { get :index, params }
+        describe 'global' do
+          render_views
 
-        it { expect(assigns(:items).count).to eq(2) }
+          before do
+            Setting.stub(:host_name).and_return 'test.host'
 
-        it { expect(response).to render_template("common/feed") }
+            get 'index', format: 'atom'
+          end
+
+          it do
+            assert_tag tag: 'entry',
+                       child: { tag: 'link',
+                                attributes: { href: Regexp.new("http://test.host/work_packages/#{wp_1.id}") } }
+          end
+        end
+
+        describe 'list' do
+          let!(:wp_2) { FactoryGirl.create(:work_package,
+                                           project: project,
+                                           author: user) }
+
+          let(:params) { { project_id: project.id,
+                           format: :atom } }
+
+          before { get :index, params }
+
+          it { expect(assigns(:items).count).to eq(2) }
+
+          it { expect(response).to render_template("common/feed") }
+        end
       end
 
       context :boards do

@@ -28,6 +28,7 @@
 
 FactoryGirl.define do
   factory :journal do
+    user factory: :user
     created_at Time.now
     sequence(:version) {|n| n}
 

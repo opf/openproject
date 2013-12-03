@@ -159,42 +159,38 @@ class WorkPackage < ActiveRecord::Base
                        :project,
                        :priority
 
+  acts_as_journalized :except => ["root_id"]
+
   # This one is here only to ease reading
   module JournalizedProcs
     def self.event_title
-      Proc.new do |data|
-        journal = data.journal
-        work_package = journal.journable
-
-        title = work_package.to_s
-        title << " (#{work_package.status.name})" if work_package.status.present?
+      Proc.new do |o|
+        title = o.to_s
+        title << " (#{o.status.name})" if o.status.present?
 
         title
       end
     end
 
     def self.event_type
-      Proc.new do |data|
-        journal = data.journal
+      Proc.new do |o|
+        journal = o.last_journal
         t = 'work_package'
 
-        t << if journal.changed_data.empty? && !journal.initial?
+        t << if journal && journal.changed_data.empty? && !journal.initial?
                '-note'
              else
-               status = Status.find_by_id(data.status_id)
+               status = Status.find_by_id(o.status_id)
 
                status.try(:is_closed?) ? '-closed' : '-edit'
              end
-
         t
       end
     end
   end
 
-  acts_as_journalized :event_title => JournalizedProcs.event_title,
-                      :event_type => JournalizedProcs.event_type,
-                      :except => ["root_id"],
-                      :activity_find_options => { :include => [:status, :type] }
+  acts_as_event title: JournalizedProcs.event_title,
+                type: JournalizedProcs.event_type
 
   register_on_journal_formatter(:id, 'parent_id')
   register_on_journal_formatter(:fraction, 'estimated_hours')

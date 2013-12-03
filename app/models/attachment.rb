@@ -45,11 +45,11 @@ class Attachment < ActiveRecord::Base
   before_save :copy_file_to_destination
   after_destroy :delete_file_on_disk
 
-  acts_as_journalized :event_title => :filename,
-       :event_url => (Proc.new do |o|
-         { :controller => '/attachments', :action => 'download',
-           :id => o.journable_id, :filename => o.filename }
-       end), :acts_as_activity => false
+  acts_as_journalized
+  acts_as_event title: :filename,
+                url: (Proc.new do |o|
+                        { :controller => '/attachments', :action => 'download', :id => o.id, :filename => o.filename }
+                      end)
 
   cattr_accessor :storage_path
   @@storage_path = OpenProject::Configuration['attachments_storage_path'] ||
