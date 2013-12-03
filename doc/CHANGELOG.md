@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.0pre35
+
 * `#2759` Fix: [Performance] Activity View very slow
 * `#3050` Fix: Fix: [Work Package Tracking] Internal error with query from the time before work packages
 * `#3104` Fix: [Forums] Number of replies to a topic are not displayed
