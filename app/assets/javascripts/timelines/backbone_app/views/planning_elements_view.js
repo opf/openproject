@@ -1,4 +1,4 @@
-window.backbone_app.views.PlanningElementsView = Backbone.View.extend({
+window.backbone_app.views.PlanningElementsView = window.backbone_app.views.BaseView.extend({
   tagName: "div",
 
   className: "backbone-app",

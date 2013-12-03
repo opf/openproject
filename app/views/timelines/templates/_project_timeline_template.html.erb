@@ -8,17 +8,14 @@
       <a href="javascript://" title="Zoom out" class="icon tl-icon-zoomout"></a>
     </div>
     <div class="tl-toolbar-container" style="width: 100px; height: 20px;">
-      <div class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" aria-disabled="false" style="margin: 4px 6px 3px;">
-        <div class="ui-slider-range ui-widget-header ui-slider-range-min" style="width: 50%;"></div>
-        <a class="ui-slider-handle ui-state-default ui-corner-all" href="#" style="left: 50%;"></a>
-      </div>
+      <div id="zoom-slider"></div>
     </div>
     <div class="tl-toolbar-container">
       <a href="javascript://" title="Zoom in" class="icon tl-icon-zoomin"></a>
     </div>
     <div class="tl-toolbar-container">
       <form>
-        <select name="zooms"><option>Years</option><option>Quarters</option><option>Months</option><option>Weeks</option><option>Days</option></select>
+        <select id="zoom-select" name="zooms"></select>
       </form>
     </div>
     <div class="tl-toolbar-container" style="width: 1px; height: 20px; background-color: rgb(0, 0, 0);"></div>
@@ -47,7 +44,7 @@
                 <a href="javascript:;">+</a>
                 <span class="tl-word-ellipsis">
                   <span>
-                    <a href="/projects/try-to-take-over-the-world/timelines" class="tl-discreet-link tl-project" data-modal="" title="Try to take over the world!">Try to take over the world!</a>
+                    <a href="/projects/{{= model.get('identifier') }}/timelines" class="tl-discreet-link tl-project" data-modal="" title="{{= model.get('name') }}">{{= model.get('name') }}</a>
                   </span>
                 </span>
                 <div class="tl-invisible" style="height: 15px; width: 15px;"></div>
