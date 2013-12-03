@@ -291,47 +291,50 @@ jQuery.extend(Timeline, {
     // setup UI.
 
     this.uiRoot = this.options.ui_root;
-    this.setupUI();
+    /* BEGIN CODE I WANT TO REPLACE WITH BACKBONE */
+    /* UNCOMMENT TO MAKE THINGS WORK AS THEY ORIGINALLY DID */
+    // this.setupUI();
 
-    try {
+    // try {
 
-      // prerequisites (3rd party libs)
-      this.checkPrerequisites();
-      this.modalHelper = modalHelperInstance;
-      this.modalHelper.setupTimeline(
-        this,
-        {
-          api_prefix                : this.options.api_prefix,
-          url_prefix                : this.options.url_prefix,
-          project_prefix            : this.options.project_prefix
-        }
-      );
+    //   // prerequisites (3rd party libs)
+    //   this.checkPrerequisites();
+    //   this.modalHelper = modalHelperInstance;
+    //   this.modalHelper.setupTimeline(
+    //     this,
+    //     {
+    //       api_prefix                : this.options.api_prefix,
+    //       url_prefix                : this.options.url_prefix,
+    //       project_prefix            : this.options.project_prefix
+    //     }
+    //   );
 
-      jQuery(this.modalHelper).on("closed", function () {
-        timeline.reload();
-      });
+    //   jQuery(this.modalHelper).on("closed", function () {
+    //     timeline.reload();
+    //   });
 
-      timelineLoader = this.provideTimelineLoader();
+    //   timelineLoader = this.provideTimelineLoader();
 
-      jQuery(timelineLoader).on('complete', jQuery.proxy(function(e, data) {
-        jQuery.extend(this, data);
+    //   jQuery(timelineLoader).on('complete', jQuery.proxy(function(e, data) {
+    //     jQuery.extend(this, data);
 
-        jQuery(this).trigger('dataLoaded');
-        this.defer(jQuery.proxy(this, 'onLoadComplete'),
-                   this.options.artificial_load_delay);
-      }, this));
+    //     jQuery(this).trigger('dataLoaded');
+    //     this.defer(jQuery.proxy(this, 'onLoadComplete'),
+    //                this.options.artificial_load_delay);
+    //   }, this));
 
-      this.safetyHook = window.setTimeout(function() {
-        timeline.die(timeline.i18n('timelines.errors.report_timeout'));
-      }, Timeline.LOAD_ERROR_TIMEOUT);
+    //   this.safetyHook = window.setTimeout(function() {
+    //     timeline.die(timeline.i18n('timelines.errors.report_timeout'));
+    //   }, Timeline.LOAD_ERROR_TIMEOUT);
 
-      timelineLoader.load();
+    //   timelineLoader.load();
 
-      return this;
+    //   return this;
 
-    } catch (e) {
-      this.die(e);
-    }
+    // } catch (e) {
+    //   this.die(e);
+    // }
+    /* END CODE I WANT TO REPLACE WITH BACKBONE */
   },
   checkPrerequisites: function() {
     if (jQuery === undefined) {

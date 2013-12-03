@@ -15,5 +15,7 @@ window.backbone_app.views.PlanningElementsView = Backbone.View.extend({
   render: function(){
     console.log('rendering planning elements');
     // TODO RS: Make templates and work through all the terrifying ui code
+    // To begin with should or might even have to just stick with the original code to
+    // fill up the svg element.
   }
 });

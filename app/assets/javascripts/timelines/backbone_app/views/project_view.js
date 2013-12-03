@@ -3,6 +3,14 @@ window.backbone_app.views.ProjectView = Backbone.View.extend({
 
   className: "backbone-app",
 
+  // el: function(){
+  //   return this.options.ui_root;
+  // }
+
+  template: function(){
+    return _.template(jQuery('#project-timeline-template').html(), {projects: this.collection})
+  },
+
   events: {},
 
   initialize: function(){
@@ -16,7 +24,8 @@ window.backbone_app.views.ProjectView = Backbone.View.extend({
   render: function(){
     console.log('rendering project');
     this.renderSubViews();
-    // TODO RS: Make templates and work through all the terrifying ui code
+    // TODO RS: Might want to split up this template into the toolbar and svg container
+    this.$el.html(this.template());
   },
 
   renderSubViews: function(){
