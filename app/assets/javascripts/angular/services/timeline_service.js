@@ -2,7 +2,15 @@ timelinesApp.service('TimelineService',['$rootScope', '$http', function($rootSco
   TimelineService = {
 
     loadTimeline: function(timelineOptions) {
-      return Timeline.startup(timelineOptions);
+      timeline = Timeline.create(timelineOptions);
+      timeline = Timeline.load(timelineOptions);
+
+      return timeline;
+    },
+
+    startTimeline: function(timelineOptions, uiRoot) {
+      // TimelineService.loadTimeline(timelineOptions);
+      return Timeline.startup(timelineOptions, uiRoot);
     }
   };
 

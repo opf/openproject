@@ -250,13 +250,84 @@ jQuery.extend(Timeline, {
     Timeline.instances.push(timeline);
     return timeline;
   },
-
-  startup: function(options) {
+  load: function(options) {
     var timeline = this, timelineLoader;
 
     if(this === Timeline) {
       timeline = Timeline.create();
-      return timeline.startup(options);
+      return timeline.load(options);
+    }
+
+    // configuration
+
+    if (!options) {
+      throw new Error('No configuration options given');
+    }
+    options = jQuery.extend({}, this.defaults, options);
+    this.options = options;
+
+    // we're hiding the root if there is a grouping.
+    this.options.hide_tree_root = this.isGrouping();
+
+    if (this.options.username) {
+      this.ajax_defaults.username = this.options.username;
+    }
+    if (this.options.password) {
+      this.ajax_defaults.password = this.options.password;
+    }
+    if (this.options.api_key) {
+      this.ajax_defaults.headers = {
+        'X-ChiliProject-API-Key': this.options.api_key,
+        'X-OpenProject-API-Key':  this.options.api_key,
+        'X-Redmine-API-Key':      this.options.api_key
+      };
+    }
+
+    try {
+      // prerequisites (3rd party libs)
+      this.checkPrerequisites();
+      this.modalHelper = modalHelperInstance;
+      this.modalHelper.setupTimeline(
+        this,
+        {
+          api_prefix                : this.options.api_prefix,
+          url_prefix                : this.options.url_prefix,
+          project_prefix            : this.options.project_prefix
+        }
+      );
+
+      jQuery(this.modalHelper).on("closed", function () {
+        timeline.reload();
+      });
+
+      timelineLoader = this.provideTimelineLoader();
+
+      jQuery(timelineLoader).on('complete', jQuery.proxy(function(e, data) {
+        jQuery.extend(this, data);
+
+        // jQuery(this).trigger('dataLoaded');
+        // this.defer(jQuery.proxy(this, 'onLoadComplete'),
+        //            this.options.artificial_load_delay);
+      }, this));
+
+      this.safetyHook = window.setTimeout(function() {
+        timeline.die(timeline.i18n('timelines.errors.report_timeout'));
+      }, Timeline.LOAD_ERROR_TIMEOUT);
+
+      timelineLoader.load();
+
+      return this;
+
+    } catch (e) {
+      this.die(e);
+    }
+  },
+  startup: function(options, uiRoot) {
+    var timeline = this, timelineLoader;
+
+    if(this === Timeline) {
+      timeline = Timeline.create();
+      return timeline.startup(options, uiRoot);
     }
 
     // configuration
@@ -286,7 +357,7 @@ jQuery.extend(Timeline, {
 
     // setup UI.
 
-    this.uiRoot = this.options.ui_root;
+    this.uiRoot = uiRoot;
     this.setupUI();
 
     try {
