@@ -31,9 +31,8 @@ module OpenProject
   module UrlRoot
     class << self
       attr_accessor :relative
-
     end
 
-    self.relative = ENV['RAILS_RELATIVE_URL_ROOT'] || ""
+    self.relative = OpenProject::Configuration['rails_relative_url_root']
   end
 end

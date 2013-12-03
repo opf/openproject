@@ -42,6 +42,8 @@ module OpenProject
       'disable_browser_cache'   => true,
       # default cache_store is :file_store in production and :memory_store in development
       'rails_cache_store'       => :default,
+      # url-path prefix
+      'rails_relative_url_root' => "",
 
       # email configuration
       'email_delivery_method' => nil,
@@ -60,7 +62,7 @@ module OpenProject
     @config = nil
 
     class << self
-      # Loads the Redmine configuration file
+      # Loads the OpenProject configuration file
       # Valid options:
       # * <tt>:file</tt>: the configuration file to load (default: config/configuration.yml)
       # * <tt>:env</tt>: the environment to load the configuration for (default: Rails.env)
