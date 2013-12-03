@@ -27,7 +27,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div id='{{getTimelineContainerElementId()}}'></div>
+<div id="{{getTimelineContainerElementId()}}"></div>
+
+<%= render 'toolbar' %>
 
 <% unless User.current.impaired? %>
   <%# TODO: Require autocompleter inside select_boxes.js
