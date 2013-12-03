@@ -98,7 +98,7 @@ module OpenProject::Reporting
                :after => :cost_objects,
                :caption => :cost_reports_title,
                :if => Proc.new { |project| project.module_enabled?(:reporting_module) },
-               :html => {:'data-icon2' => "w"}
+               :html => {:class => 'icon2 icon-stats'}
         end
       end
     end
