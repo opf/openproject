@@ -182,6 +182,10 @@ module OpenProject::Costs
                :caption => :label_view_all_cost_objects,
                :parent => :cost_objects,
                :html => {:class => 'icon2 icon-list-view1'}
+
+          Redmine::Activity.map do |activity|
+            activity.register :cost_objects, class_name: 'Journal::CostObjectJournal', default: false
+          end
         end
       end
     end
