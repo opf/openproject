@@ -1,5 +1,7 @@
 # Changelog
 
+* Adaptations for new icon font
+
 ## 1.0.1.pre2
 
 * `#2459` Squashed old migrations
