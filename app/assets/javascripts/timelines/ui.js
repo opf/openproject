@@ -419,63 +419,10 @@ jQuery.extend(Timeline, {
       return value;
     }
   },
-  updateToolbar: function() {
-    // TODO call from inside scope
-    // slider.slider('value', timeline.zoomIndex + 1);
-    // outlines[0].selectedIndex = timeline.expansionIndex;
-    return;
-  },
   registerDrawPaper: function() {
     // store the paper element for later use.
     this.paperElement = jQuery('.tl-chart')[0];
   },
-
-  completeUI: function() {
-    var timeline = this;
-
-    // construct tree on left-hand-side.
-    this.rebuildTree();
-
-    // lift the curtain, paper otherwise doesn't show w/ VML.
-    jQuery('.timeline').removeClass('tl-under-construction');
-    this.paper = new Raphael(this.paperElement, 640, 480);
-
-    // perform some zooming. if there is a zoom level stored with the
-    // report, zoom to it. otherwise, zoom out. this also constructs
-    // timeline graph.
-    if (this.options.zoom_factor &&
-        this.options.zoom_factor.length === 1) {
-
-      this.zoom(
-        this.pnum(this.options.zoom_factor[0])
-      );
-
-    } else {
-      this.zoomOut();
-    }
-
-    // perform initial outline expansion.
-    if (this.options.initial_outline_expansion &&
-        this.options.initial_outline_expansion.length === 1) {
-
-      this.expandTo(
-        this.pnum(this.options.initial_outline_expansion[0])
-      );
-    }
-
-    // zooming and initial outline expansion have consequences in the
-    // select inputs in the toolbar.
-    this.updateToolbar();
-
-    this.getChart().scroll(function() {
-      timeline.adjustTooltip();
-    });
-
-    jQuery(window).scroll(function() {
-      timeline.adjustTooltip();
-    });
-  },
-
   getMeasuredHeight: function() {
     return this.getUiRoot().find('.tl-left-main').height();
   },
