@@ -10,10 +10,10 @@ timelinesApp.directive('zoomSlider', function() {
         value: scope.currentScaleIndex + 1,
         slide: function(event, ui) {
           scope.currentScaleIndex = ui.value - 1;
+          scope.$apply();
         },
         change: function(event, ui) {
           scope.updateScaleIndex(ui.value - 1);
-          scope.$apply();
         }
       }).css({
         // top right bottom left
