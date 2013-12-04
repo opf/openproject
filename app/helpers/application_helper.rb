@@ -950,7 +950,7 @@ module ApplicationHelper
     tags = ''
     tags += javascript_tag(%Q{
       window.openProject = new OpenProject({
-        urlRoot : '#{OpenProject::UrlRoot.relative}',
+        urlRoot : '#{OpenProject::Configuration.rails_relative_url_root}',
         loginUrl: '#{url_for :controller => "/account", :action => "login"}'
       });
       I18n.defaultLocale = "#{I18n.default_locale}";

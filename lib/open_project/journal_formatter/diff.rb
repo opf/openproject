@@ -91,7 +91,7 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
         # setting :script_name is a hack that allows for setting the sub uri.
         # I am not yet sure why url_for normally returns the sub uri but does not within
         # this class.
-        :script_name => ::OpenProject::UrlRoot::relative }
+        :script_name => ::OpenProject::Configuration.rails_relative_url_root }
     else
       { :only_path => options[:only_path],
         :protocol => Setting.protocol,

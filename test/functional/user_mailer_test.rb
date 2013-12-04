@@ -164,10 +164,10 @@ class UserMailerTest < ActionMailer::TestCase
 
   def test_generated_links_with_prefix_and_no_relative_url_root
     Setting.default_language = 'en'
-    relative_url_root = OpenProject::UrlRoot.relative
+    relative_url_root = OpenProject::Configuration['rails_relative_url_root']
     Setting.host_name = 'mydomain.foo/rdm'
     Setting.protocol = 'http'
-    OpenProject::UrlRoot.relative = nil
+    OpenProject::Configuration['rails_relative_url_root'] = nil
 
     User.current = FactoryGirl.create(:admin)
 
@@ -206,7 +206,7 @@ class UserMailerTest < ActionMailer::TestCase
     end
   ensure
     # restore it
-    OpenProject::UrlRoot.relative = relative_url_root
+    OpenProject::Configuration['rails_relative_url_root'] = relative_url_root
   end
 
   def test_email_headers

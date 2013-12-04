@@ -74,7 +74,7 @@ class ThemesTest < ActionDispatch::IntegrationTest
 
   should_eventually 'test_with_sub_uri' do
     begin
-      OpenProject::UrlRoot.relative = '/foo'
+      OpenProject::Configuration['rails_relative_url_root'] = '/foo'
       @theme.javascripts << 'theme'
       get '/'
 
@@ -84,7 +84,7 @@ class ThemesTest < ActionDispatch::IntegrationTest
       assert_tag :tag => 'script',
         :attributes => {:src => '/foo/assets/default.js'}
     ensure
-      OpenProject::UrlRoot.relative = ''
+      OpenProject::Configuration['rails_relative_url_root'] = ''
     end
   end
 end

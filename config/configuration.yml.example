@@ -111,6 +111,17 @@ default:
   smtp_user_name: "openproject@example.net"
   smtp_password: "my_openproject_password"
 
+  # Prefix to the url-path. This path is then prepended to all
+  # the routes and is used to correclty identify the path to the assets.
+  # Defaults to having no prefix.
+  # Examples:
+  # For OpenProject to be reachable as
+  # https://example.org/open_project
+  # the setting has o be:
+  # rails_relative_url_root: "/open_project"
+  #
+  # rails_relative_url_root: ""
+
   # Absolute path to the directory where attachments are stored.
   # The default is the 'files' directory in your OpenProject instance.
   # Your OpenProject instance needs to have write permission on this

@@ -82,6 +82,8 @@ module OpenProject
           configure_action_mailer(@config)
         end
 
+        define_config_methods
+
         @config
       end
 
@@ -97,6 +99,12 @@ module OpenProject
       def [](name)
         load unless @config
         @config[name]
+      end
+
+      # Sets configuration setting
+      def []=(name, value)
+        load unless @config
+        @config[name] = value
       end
 
       # Yields a block with the specified hash configuration settings
@@ -188,6 +196,15 @@ module OpenProject
         filtered_hash
       end
 
+      def define_config_methods
+        @config.keys.each do |setting|
+          (class << self; self; end).class_eval do
+            define_method setting do
+              self[setting]
+            end
+          end
+        end
+      end
     end
   end
 end

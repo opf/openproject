@@ -53,7 +53,7 @@ class SettingsController < ApplicationController
       @options[:user_format] = User::USER_FORMATS.keys.collect {|f| [User.current.name(f), f.to_s] }
       @deliveries = ActionMailer::Base.perform_deliveries
 
-      @guessed_host_and_path = request.host_with_port.dup + OpenProject::UrlRoot.relative
+      @guessed_host_and_path = request.host_with_port.dup + OpenProject::Configuration.rails_relative_url_root
     end
   end
 
