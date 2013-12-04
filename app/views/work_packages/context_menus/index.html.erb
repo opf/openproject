@@ -33,13 +33,13 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if !@work_package.nil? -%>
   <li class="edit">
     <%= context_menu_link l(:button_edit), edit_work_package_path(@work_package),
-	                                         :class => 'icon-edit',
+                                           :class => 'icon-context icon-edit',
                                            :disabled => !@can[:edit] %>
   </li>
 <% else %>
   <li class="edit">
     <%= context_menu_link l(:button_edit), edit_work_packages_bulk_path(:ids => @work_packages.collect(&:id)),
-	                                         :class => 'icon-edit',
+                                           :class => 'icon-context icon-edit',
                                            :disabled => !@can[:edit] %>
   </li>
 <% end %>
@@ -108,11 +108,11 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end -%>
 
 <% if !@work_package.nil? %>
-	<% if @can[:log_time] -%>
+  <% if @can[:log_time] -%>
     <li class="log_time">
       <%= context_menu_link l(:button_log_time),
                             new_work_package_time_entry_path(@work_package),
-	                          :class => 'context_item' %>
+                            :class => 'context_item' %>
     </li>
   <% end %>
 
@@ -120,21 +120,21 @@ See doc/COPYRIGHT.rdoc for more details.
     <li class="watch">
       <%= watcher_link(@work_package, User.current) %>
     </li>
-	<% end %>
+  <% end %>
 <% end %>
 
 <% if @work_package.present? %>
   <li>
     <%= context_menu_link l(:button_duplicate), new_project_work_package_path({ :project_id => @project,
                                                                                 :copy_from => @work_package }),
-                                                :class => 'icon-duplicate',
+                                                :class => 'icon-context icon-duplicate',
                                                 :disabled => !@can[:copy] %>
   </li>
 <% end %>
 
   <li class="move">
     <%= context_menu_link l(:button_move), new_move_work_packages_path(:ids => @work_packages.collect(&:id)),
-	                                         :class => 'context_item',
+                                           :class => 'context_item',
                                            :disabled => !@can[:move] %>
   </li>
 

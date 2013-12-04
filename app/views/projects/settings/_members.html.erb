@@ -89,7 +89,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 :method => :delete,
                 :remote => true,
                 :confirm => ((!User.current.admin? && member.include?(User.current)) ? l(:text_own_membership_delete_confirmation) : nil),
-                :title => l(:button_delete), :class => 'icon icon-del') if member.deletable? %>
+                :title => l(:button_delete), :class => 'icon icon-delete') if member.deletable? %>
       </td>
     <% end %>
   </td>

@@ -38,15 +38,15 @@ See doc/COPYRIGHT.rdoc for more details.
 }
 
 #context-menu ul, #context-menu li, #context-menu a {
-	display:block;
-	margin:0;
-	padding:0;
-	border:0;
+  display:block;
+  margin:0;
+  padding:0;
+  border:0;
 }
 
 #context-menu ul {
   width: 140px;
-	list-style:none;
+  list-style:none;
   position: absolute;
   left: -7px;
   z-index: 20;
@@ -58,11 +58,11 @@ See doc/COPYRIGHT.rdoc for more details.
 }
 
 #context-menu li {
-	position:relative;
-	padding:1px;
+  position:relative;
+  padding:1px;
   padding: 6px;
-	z-index:39;
-	border:1px solid white;
+  z-index:39;
+  border:1px solid white;
   background-position: 6px center;
   background-repeat: no-repeat;
   cursor: pointer;
@@ -77,10 +77,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 #context-menu a {
   border: none;
-	background-repeat: no-repeat;
-	background-position: 1px 50%;
-	padding: 1px 10px 1px 20px;
-	width:100%; /* IE */
+  background-repeat: no-repeat;
+  background-position: 1px 50%;
+  padding: 1px 10px 1px 15px;
+  width:100%; /* IE */
 }
 
 /* this one is here to counter the declaration to
@@ -89,9 +89,10 @@ as opposed to links not having one (blue, bold).
 As long as that is defined there will be an inconsistency.
 But at least the context menu is consistent with this statement. */
 
-#context-menu a.icon {
+#context-menu a.icon, #context-menu a.icon-context {
   color: #008BD0;
   font-weight: bold;
+  padding-left: 0;
 }
 
 #context-menu li>a {  /* others */
@@ -110,6 +111,7 @@ But at least the context menu is consistent with this statement. */
 #context-menu a:hover {
   color:#2A5685;
   border: none;
+  text-decoration: none;
 }
 
 #context-menu li.folder:hover {

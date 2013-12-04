@@ -37,7 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= link_to_remote_if_authorized(l(:button_quote),
                                      { :url => {:action => 'quote', :id => @topic} ,
                                        :method => :get },
-                                     { :class => 'icon icon-comment'} ) unless @topic.locked? %>
+                                     { :class => 'icon icon-quote'} ) unless @topic.locked? %>
     <%= link_to(l(:button_edit),
                 edit_topic_path(@topic),
                 :class => 'icon icon-edit') if @message.editable_by?(User.current) %>
@@ -45,7 +45,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 topic_path(@topic),
                 :method => :delete,
                 :confirm => l(:text_are_you_sure),
-                :class => 'icon icon-del') if @message.destroyable_by?(User.current) %>
+                :class => 'icon icon-delete') if @message.destroyable_by?(User.current) %>
 </div>
 
 <h2><%= avatar(@topic.author, :size => "24") %><%=h @topic.subject %></h2>
@@ -60,28 +60,31 @@ See doc/COPYRIGHT.rdoc for more details.
 <br />
 
 <% unless @replies.empty? %>
-<h3 class="comments"><%= l(:label_reply_plural) %> (<%= @replies.count %>)</h3>
+<h3 class="icon-context icon-quote"><%= l(:label_reply_plural) %> (<%= @replies.count %>)</h3>
 <% @replies.each do |message| %>
   <div class="message reply" id="<%= "message-#{message.id}" %>">
     <div class="contextual">
-      <%= link_to_remote_if_authorized(image_tag('webalys/quote.png'),
+      <%= link_to_remote_if_authorized(icon_wrapper('icon-context icon-quote', l(:button_quote)),
                                        { :url => {:action => 'quote', :id => message},
                                          :method => :get },
                                        :title => l(:button_quote),
+                                       :class => 'no-decoration-on-hover',
                                        :alt => l(:button_quote)) unless @topic.locked? %>
-      <%= link_to(image_tag('webalys/edit.png'),
+      <%= link_to(icon_wrapper('icon-context icon-edit', l(:button_edit)),
                   { :action => 'edit', :id => message },
                   :title => l(:button_edit),
+                  :class => 'no-decoration-on-hover',
                   :alt => l(:button_edit)) if message.editable_by?(User.current) %>
-      <%= link_to(image_tag('webalys/delete.png'),
+      <%= link_to(icon_wrapper('icon-context icon-delete', l(:button_delete)),
                   { :action => 'destroy', :id => message},
                   :method => :delete,
                   :confirm => l(:text_are_you_sure),
                   :title => l(:button_delete),
+                  :class => 'no-decoration-on-hover',
                   :alt => l(:button_delete)) if message.destroyable_by?(User.current) %>
     </div>
   <h4>
-  	<%= avatar(message.author, :size => "24") %>
+    <%= avatar(message.author, :size => "24") %>
     <%= link_to h(message.subject), { :controller => '/messages', :action => 'show', :board_id => @board, :id => @topic, :r => message, :anchor => "message-#{message.id}" } %>
     -
     <%= authoring message.created_on, message.author %>

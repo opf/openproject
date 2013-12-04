@@ -57,7 +57,7 @@ module WatchersHelper
     path = send(:"#{(watched ? 'unwatch' : 'watch')}_path", :object_type => object.class.to_s.underscore.pluralize,
                                                             :object_id => object.id,
                                                             :replace => options.delete('replace') )
-    html_options[:class] = html_options[:class].to_s + (watched ? ' icon icon-fav' : ' icon icon-fav-off')
+    html_options[:class] = html_options[:class].to_s + (watched ? ' icon icon-watch-1' : ' icon icon-not-watch')
 
     method = watched ?
       :delete :

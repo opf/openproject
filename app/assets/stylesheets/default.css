@@ -37,8 +37,8 @@ See doc/COPYRIGHT.rdoc for more details.
  *= require application
  *= require layout/base
  *= require layout/top_menu
- *= require content/breadcrumb
- *= require content/main_menu
+ *= require layout/breadcrumb
+ *= require layout/main_menu
  *= require default/application
  *= require layout/footer
  */

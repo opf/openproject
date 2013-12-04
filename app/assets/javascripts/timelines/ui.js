@@ -321,7 +321,7 @@ jQuery.extend(Timeline, {
           result += timeline.escape(theVal);
           result += '<a href="javascript://" title="%t" class="%c"/>'
             .replace(/%t/, timeline.i18n('timelines.change'))
-            .replace(/%c/, 'icon tl-icon-' + kind);
+            .replace(/%c/, 'tl-icon-' + kind);
           result += '</span><br/>';
         }
 
@@ -524,7 +524,7 @@ jQuery.extend(Timeline, {
     containers[currentContainer].append(
       jQuery(icon
         .replace(/%t/, timeline.i18n('timelines.zoom.out'))
-        .replace(/%c/, 'icon tl-icon-zoomout')
+        .replace(/%c/, 'tl-icon-zoomout')
       ).click(function() {
         slider.slider('value', slider.slider('value') - 1);
       }));
@@ -533,7 +533,7 @@ jQuery.extend(Timeline, {
     containers[currentContainer + 2].append(
       jQuery(icon
         .replace(/%t/, timeline.i18n('timelines.zoom.in'))
-        .replace(/%c/, 'icon tl-icon-zoomin')
+        .replace(/%c/, 'tl-icon-zoomin')
       ).click(function() {
         slider.slider('value', slider.slider('value') + 1);
       }));
@@ -574,7 +574,7 @@ jQuery.extend(Timeline, {
     containers[currentContainer].append(
       jQuery(icon
         .replace(/%t/, timeline.i18n('timelines.outline'))
-        .replace(/%c/, 'icon tl-icon-outline')
+        .replace(/%c/, 'tl-icon-outline')
       ).click(function() {
         timeline.expandTo(outlines[0].selectedIndex);
       }));
@@ -939,7 +939,7 @@ jQuery.extend(Timeline, {
 
           jQuery('<span/><a href="javascript://" title="%t" class="%c"/>'
             .replace(/%t/, timeline.i18n('timelines.change'))
-            .replace(/%c/, added? 'icon tl-icon-added' : deleted? 'icon tl-icon-deleted' : 'icon tl-icon-changed')
+            .replace(/%c/, added? 'tl-icon-added' : deleted? 'tl-icon-deleted' : 'tl-icon-changed')
           ));
       }
 

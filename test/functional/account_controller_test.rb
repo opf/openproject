@@ -48,7 +48,7 @@ class AccountControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'login'
     assert_tag 'div',
-               :attributes => { :class => "flash error" },
+               :attributes => { :class => "flash error icon icon-error" },
                :content => /Invalid user or password/
   end
 

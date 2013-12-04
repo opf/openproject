@@ -102,7 +102,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
                                                  :disabled => true,
                                                  :class => 'destroy_flag',
                                                  :value => "1"
-        ret.safe_concat '<a href="#" class="destroy_locale icon icon-del" title="Delete"></a>'
+        ret.safe_concat '<a href="#" class="destroy_locale icon icon-delete" title="Delete"></a>'
         ret.safe_concat("<br>")
       else
         ret.safe_concat translation_form.hidden_field :locale,

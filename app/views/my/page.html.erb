@@ -35,30 +35,30 @@ See doc/COPYRIGHT.rdoc for more details.
 <h2><%=l(:label_my_page)%></h2>
 
 <div id="list-top">
-	<% @blocks['top'].each do |b|
-	   next unless MyController.available_blocks.keys.include? b	%>
-	<div class="mypage-box">
-		<%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
-	</div>
-	<% end if @blocks['top'] %>
+  <% @blocks['top'].each do |b|
+     next unless MyController.available_blocks.keys.include? b  %>
+  <div class="mypage-box">
+    <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+  </div>
+  <% end if @blocks['top'] %>
 </div>
 
 <div id="list-left" class="splitcontentleft">
-	<% @blocks['left'].each do |b|
-	   next unless MyController.available_blocks.keys.include? b %>
-	<div class="mypage-box">
-		<%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
-	</div>
-	<% end if @blocks['left'] %>
+  <% @blocks['left'].each do |b|
+     next unless MyController.available_blocks.keys.include? b %>
+  <div class="mypage-box">
+    <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+  </div>
+  <% end if @blocks['left'] %>
 </div>
 
 <div id="list-right" class="splitcontentright">
-	<% @blocks['right'].each do |b|
-	   next unless MyController.available_blocks.keys.include? b %>
-	<div class="mypage-box">
-		<%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
-	</div>
-	<% end if @blocks['right'] %>
+  <% @blocks['right'].each do |b|
+     next unless MyController.available_blocks.keys.include? b %>
+  <div class="mypage-box">
+    <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+  </div>
+  <% end if @blocks['right'] %>
 </div>
 
 <%= context_menu :controller => '/work_packages/context_menus', :action => 'issues' %>

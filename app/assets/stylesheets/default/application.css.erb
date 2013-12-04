@@ -30,16 +30,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 /***** Layout *****/
 
-#content {
-  width: 75%;
-  background-color: #fff;
-  margin: 0px;
-  border-style: none solid solid solid;
-  padding: 6px 10px 10px 10px;
-  z-index: 10;
-}
-* html #content{ width: 75%; padding-left: 0; margin-top: 0px; padding: 6px 10px 10px 10px;}
-
 #main.nosidebar #sidebar{ display: none; }
 #main.nosidebar #content{ width: auto }
 
@@ -210,15 +200,7 @@ table.attributes { width: 100% }
 table.attributes th { vertical-align: top; text-align: left; }
 table.attributes td { vertical-align: top; }
 
-table.boards a.board, h3.comments { background: url(<%= asset_path 'webalys/quote.png' %>) no-repeat 0% 50%; padding-left: 20px; }
-
 td.center, th.center {text-align: center;}
-
-div.issues h3 { background: url(<%= asset_path 'webalys/ticket.png' %>) no-repeat 0% 10%; padding-left: 20px; }
-div.members h3 { background: url(<%= asset_path 'webalys/group.png' %>) no-repeat 0% 50%; padding-left: 20px; }
-div.news h3 { background: url(<%= asset_path 'webalys/latest_news.png' %>) no-repeat 0% 50%; padding-left: 20px; }
-div.projects h3 { background: url(<%= asset_path 'webalys/latest_projects.png' %>) no-repeat 0% 50%; padding-left: 20px; }
-div.news h3 { background: url(<%= asset_path 'webalys/latest_news.png' %>) no-repeat 0% 50%; padding-left: 20px; }
 
 #watchers ul {margin: 0;  padding: 0;}
 #watchers li {list-style-type: none;margin: 0px 2px 0px 0px; padding: 0px 0px 0px 0px;float: left;}
@@ -336,7 +318,6 @@ div#work_package-changesets p { margin-top: 0; margin-bottom: 1em;}
 
 div#activity dl, #search-results { margin-left: 2em; }
 div#activity dd, #search-results dd { margin-bottom: 1em; padding-left: 18px; font-size: 0.9em; }
-div#activity dt, #search-results dt { margin-bottom: 0px; padding-left: 20px; line-height: 18px; background-position: 0 50%; background-repeat: no-repeat; }
 div#activity dt.me .time { border-bottom: 1px solid #999; }
 div#activity dt .time { color: #777; font-size: 80%; }
 div#activity dd .description, #search-results dd .description { font-style: italic; }
@@ -348,25 +329,6 @@ div#activity dd span.description, #search-results dd span.description { display:
 div#search-results-counts {float: right;}
 div#search-results-counts ul { margin-top: 0.5em; }
 div#search-results-counts  li { list-style-type: none; float: left; margin-left: 1em; }
-
-dt.work_package        { background-image: url(<%= asset_path 'webalys/ticket.png' %>); }
-dt.work_package-edit   { background-image: url(<%= asset_path 'webalys/ticket_edit.png' %>); }
-dt.work_package-closed { background-image: url(<%= asset_path 'webalys/ticket_checked.png' %>); }
-dt.work_package-note   { background-image: url(<%= asset_path 'webalys/ticket_note.png' %>); }
-dt.issue               { background-image: url(<%= asset_path 'webalys/ticket.png' %>); }
-dt.issue-edit          { background-image: url(<%= asset_path 'webalys/ticket_edit.png' %>); }
-dt.issue-closed        { background-image: url(<%= asset_path 'webalys/ticket_checked.png' %>); }
-dt.issue-note          { background-image: url(<%= asset_path 'webalys/ticket_note.png' %>); }
-dt.changeset           { background-image: url(<%= asset_path 'webalys/changeset.png' %>); }
-dt.news                { background-image: url(<%= asset_path 'webalys/news.png' %>); }
-dt.message             { background-image: url(<%= asset_path 'webalys/quote.png' %>); }
-dt.reply               { background-image: url(<%= asset_path 'comments.png' %>); }
-dt.wiki-page           { background-image: url(<%= asset_path 'webalys/wiki_edit.png' %>); }
-dt.attachment          { background-image: url(<%= asset_path 'attachment.png' %>); }
-dt.project             { background-image: url(<%= asset_path 'webalys/latest_projects.png' %>); }
-dt.time-entry          { background-image: url(<%= asset_path 'webalys/time.png' %>); }
-
-#search-results dt.issue.closed { background-image: url(<%= asset_path 'webalys/ticket_checked.png' %>); }
 
 .search-pagination { text-align: center; }
 .search-pagination a {padding: 0 5px; }
@@ -408,7 +370,6 @@ ul.projects ul.projects { border-left: 3px solid #e0e0e0; }
 ul.projects li.root { list-style-type: none; margin-bottom: 1em; }
 ul.projects li.child { list-style-type: none; margin-top: 1em;}
 ul.projects div.root a.project { font-family: "Arial", Arial, sans-serif; font-weight: bold; font-size: 16px; margin: 0 0 10px 0; }
-.my-project { padding-left: 18px; background: url(<%= asset_path 'webalys/fav.png' %>) no-repeat 0 50%; }
 
 #type_project_ids ul { margin: 0;  padding-left: 1em; }
 #type_project_ids li { list-style-type: none; }
@@ -567,7 +528,7 @@ div#tab-content-members fieldset div.select-boxes .select2-container {
 
 /***** Flash & error messages ****/
 #errorExplanation, div.flash, .nodata, .warning {
-  padding: 4px 4px 4px 30px;
+  padding: 4px;
   margin-bottom: 12px;
   border: 2px solid;
   margin: 0 0 10px;
@@ -609,7 +570,7 @@ div.flash.error a:hover, div.flash.warning a:hover, div.flash.notice a:hover, #e
   color: #A6750C;
 }
 
-#errorExplanation ul { font-size: 0.9em;}
+#errorExplanation ul { font-size: 0.9em; margin-left: 30px;}
 #errorExplanation h2, #errorExplanation p { display: none; }
 
 /***** Ajax indicator ******/
@@ -960,80 +921,6 @@ div.wiki img { vertical-align: middle; }
   cursor: move;
 }
 
-a.close-icon {
-  display: block;
-  margin-top: 10px;
-  overflow: hidden;
-  width: 12px;
-  height: 12px;
-  background-repeat: no-repeat;
-  cursor: pointer;
-  background-image: url(<%= asset_path 'close.png' %>);
-}
-
-a.close-icon:hover {
-  background-image: url(<%= asset_path 'close_hover.png' %>);
-}
-
-/***** Icons *****/
-.icon {
-  background-position: 0% 50%;
-  background-repeat: no-repeat;
-  padding-left: 19px;
-  padding-top: 2px;
-  padding-bottom: 3px;
-}
-
-.icon-add { background-image: url(<%= asset_path 'webalys/plus.png' %>); }
-.icon-edit { background-image: url(<%= asset_path 'webalys/edit.png' %>); }
-.icon-copy { background-image: url(<%= asset_path 'webalys/copy.png' %>); }
-.icon-configure { background-image: url(<%= asset_path 'webalys/configure.png' %>); }
-.icon-duplicate { background-image: url(<%= asset_path 'webalys/duplicate.png' %>); }
-.icon-del { background-image: url(<%= asset_path 'webalys/delete.png' %>); }
-.icon-move { background-image: url(<%= asset_path 'webalys/move.png' %>); }
-.icon-rename { background-image: url(<%= asset_path 'webalys/rename.png' %>); }
-.icon-save { background-image: url(<%= asset_path 'webalys/save.png' %>); }
-.icon-multiple { background-image: url(<%= asset_path 'table_multiple.png' %>); }
-.icon-folder { background-image: url(<%= asset_path 'folder.png' %>); }
-.open .icon-folder { background-image: url(<%= asset_path 'folder_open.png' %>); }
-.icon-package { background-image: url(<%= asset_path 'webalys/package.png' %>); }
-.icon-parent { background-image: url(<%= asset_path 'link.png' %>); }
-.icon-user { background-image: url(<%= asset_path 'webalys/user.png' %>); }
-.icon-projects { background-image: url(<%= asset_path 'webalys/latest_projects.png' %>); }
-.icon-help { background-image: url(<%= asset_path 'webalys/help.png' %>); }
-.icon-attachment  { background-image: url(<%= asset_path 'attachment.png' %>); }
-.icon-history  { background-image: url(<%= asset_path 'webalys/history.png' %>); }
-.icon-time-add  { background-image: url(<%= asset_path 'webalys/time.png' %>); }
-.icon-stats  { background-image: url(<%= asset_path 'webalys/stats.png' %>); }
-.icon-warning  { background-image: url(<%= asset_path 'webalys/warning.png' %>); }
-.icon-reload  { background-image: url(<%= asset_path 'webalys/arrow_circle.png' %>); }
-.icon-unlock  { background-image: url(<%= asset_path 'webalys/locked_un.png' %>); }
-.icon-checked  { background-image: url(<%= asset_path 'webalys/check.png' %>); }
-.icon-details  { background-image: url(<%= asset_path 'webalys/zoom_in.png' %>); }
-.icon-report  { background-image: url(<%= asset_path 'report.png' %>); }
-.icon-comment  { background-image: url(<%= asset_path 'webalys/quote.png' %>); }
-.icon-summary  { background-image: url(<%= asset_path 'webalys/summary.png' %>); }
-.icon-server-authentication { background-image: url(<%= asset_path 'server_key.png' %>); }
-.icon-issue { background-image: url(<%= asset_path 'webalys/ticket.png' %>); }
-.icon-zoom-in { background-image: url(<%= asset_path 'webalys/zoom_in.png' %>); }
-.icon-zoom-out { background-image: url(<%= asset_path 'webalys/zoom_out.png' %>); }
-
-.icon-file { background-image: url(<%= asset_path 'files/default.png' %>); }
-.icon-file.text-plain { background-image: url(<%= asset_path 'files/text.png' %>); }
-.icon-file.text-x-c { background-image: url(<%= asset_path 'files/c.png' %>); }
-.icon-file.text-x-csharp { background-image: url(<%= asset_path 'files/csharp.png' %>); }
-.icon-file.text-x-php { background-image: url(<%= asset_path 'files/php.png' %>); }
-.icon-file.text-x-ruby { background-image: url(<%= asset_path 'files/ruby.png' %>); }
-.icon-file.text-xml { background-image: url(<%= asset_path 'files/xml.png' %>); }
-.icon-file.image-gif { background-image: url(<%= asset_path 'files/image.png' %>); }
-.icon-file.image-jpeg { background-image: url(<%= asset_path 'files/image.png' %>); }
-.icon-file.image-png { background-image: url(<%= asset_path 'files/image.png' %>); }
-.icon-file.image-tiff { background-image: url(<%= asset_path 'files/image.png' %>); }
-.icon-file.application-pdf { background-image: url(<%= asset_path 'files/pdf.png' %>); }
-.icon-file.application-zip { background-image: url(<%= asset_path 'files/zip.png' %>); }
-.icon-file.application-x-gzip { background-image: url(<%= asset_path 'files/zip.png' %>); }
-.icon-file-excel { background-image: url(<%= asset_path 'files/excel.png' %>); }
-
 img.gravatar {
   border: solid 1px #d5d5d5;
   background: #fff;
@@ -1153,13 +1040,6 @@ a:hover {
 h1.title {
   margin: 12px 24px 9px;
 }
-#content {
-  margin: 0 0 0 270px;
-  padding: 10px;
-  width: auto;
-  overflow: hidden;
-  height: auto;
-}
 #content .title-bar {
   position: relative;
 }
@@ -1190,13 +1070,6 @@ fieldset#filters div.add-filter {
   text-align: right;
 }
 
-.title-bar .new-issue {
-  right: 10px;
-}
-.title-bar .new-issue a {
-  background: url(<%= asset_path 'webalys/plus.png' %>) no-repeat 6px center;
-  padding-left: 26px;
-}
 .title-bar-extras {
   color: #333333;
 }
@@ -1222,12 +1095,6 @@ fieldset#filters div.add-filter {
   cursor: pointer;
   font-family: inherit;
   font-size: 11px;
-}
-input.apply {
-  background-image: url(<%= asset_path 'webalys/check.png' %>);
-}
-input.save {
-  background-image: url(<%= asset_path 'webalys/save.png' %>);
 }
 
 /*-------------------------------------------------------------------------------
@@ -1289,11 +1156,6 @@ form#issue-list {
 #content table td.updated {
   width: 80px;
 }
-#content table a.toggle-select {
-  background: url(<%= asset_path 'webalys/check.png' %>) no-repeat center center;
-  display: block;
-  text-indent: -9999em;
-}
 #multiple-action-buttons {
   float: left;
   margin: 10px 0;
@@ -1315,34 +1177,6 @@ form#issue-list {
  * This section includes the layout and styles for the single issues page.
  ------------------------------------------------------------------------------*/
 
-.title-bar-actions {
-  position: absolute;
-  right: 0px;
-  top: 0;
-  padding: 0 100px 0 10px;
-  height: 100%;
-  margin-top: 2px;
-}
-.title-bar .title-bar-actions .contextual {
-  /*	line-height: 3.5;*/
-  padding-right: 0px;
-}
-.title-bar-actions .contextual a {
-  /*	color: #fff;*/
-}
-.title-bar .title-bar-actions .contextual a.icon {
-  margin-right: 0px;
-}
-.title-bar .update {
-  right: 0;
-}
-.title-bar .update a {
-  padding-left: 26px;
-  background: url(<%= asset_path 'webalys/edit.png' %>) no-repeat 5px center;
-  font-weight: bold;
-}
-div.issue {
-}
 div.issue hr {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -1451,12 +1285,6 @@ table.files {
   background-repeat: no-repeat;
   background-position: center center;
 }
-.contextual .edit {
-  background-image: url(<%= asset_path 'webalys/edit.png' %>);
-}
-.contextual .comment {
-  background-image: url(<%= asset_path 'webalys/quote.png' %>);
-}
 .question-line {
   display: block;
 }
@@ -1546,10 +1374,6 @@ ul.projects .description {
 .nosidebar ul.projects li {
   list-style: none outside none;
   background: none;
-}
-.nosidebar ul.projects li .my-project {
-  padding: 0 0 0 24px;
-  background: url(<%= asset_path 'webalys/fav.png' %>) no-repeat left top;
 }
 ul.projects a {
   font-weight: bold;
@@ -1895,19 +1719,9 @@ tr.time-entry {
 
 /*===== Replacement Images =====*/
 
-.icon-edit, .title-bar .update a {
-  background-image: url(<%= asset_path 'webalys/edit.png' %>);
-}
-.icon-del {
-  background-image: url(<%= asset_path 'webalys/delete.png' %>);
-}
 .journal .contextual a[title=Edit] img {
   display: none;
 }
-.journal .contextual a[title=Edit] {
-  background: url(<%= asset_path 'webalys/edit.png' %>) no-repeat;
-}
-
 
 /* comments */
 .wiki ol li {
@@ -1934,19 +1748,6 @@ tr.time-entry {
 #update .tabular p {
   padding-left: 140px;
 }
-
-/* Delete icon */
-table.files a.icon-delete {
-  float: left;
-  padding: 0;
-  display: block;
-  text-indent: -9999em;
-  width: 16px;
-  height: 16px;
-  background: url(<%= asset_path 'webalys/delete.png' %>) no-repeat 0 0;
-  margin-right: 6px;
-}
-
 
 /* clearfix */
 html > body #content:after {
@@ -1978,8 +1779,6 @@ a.has-thumb.active {
 a.has-thumb img {
   z-index: 1001;
 }
-
-/* Make icons non repeating */
 
 #more-menu.drop-down ul li a.projects { border-top: 1px solid #555; }
 
@@ -2050,10 +1849,6 @@ Additional wiki styles
   border: 1px solid #FFFF00;
 }
 
-.wiki p.tip, .wiki span.tip {
-  background: url(<%= asset_path 'webalys/tip.png' %>) 4px 4px no-repeat;
-  border: 1px solid #C7CFCA;
-}
 .wiki p.smalltip, .wiki span.smalltip {
   background: url(<%= asset_path 'wiki_styles/tip_small.png' %>) 4px 5px no-repeat #F5FFFA;
   border: 1px solid #C7CFCA;
@@ -2216,19 +2011,14 @@ ul.action_menu_more {
 #lower-title-bar ul.action_menu_main > li.drop-down {
   position: relative;
 }
-#content.hidden-navigation {
-  margin-left: 50px;
-}
 
 .pagination .previous_page {
-  background: url(<%= asset_path 'webalys/double_arrow_left.png' %>) 0 1px no-repeat;
   width: 100%;
   height: 15px;
   padding-left: 18px;
 }
 
 .pagination .next_page {
-  background: url(<%= asset_path 'webalys/double_arrow_right.png' %>) right 1px no-repeat;
   width: 100%;
   height: 15px;
   padding-right: 18px;
@@ -2369,11 +2159,6 @@ a.sort.desc {
   width: 700px;
 }
 
-.my-project {
-  background: url(<%= asset_path 'webalys/fav.png' %>) no-repeat 0 50%;
-}
-
-
 .required {color: #008BD0;} /* changed to Siemens red! */
 
 /***** Flash & error messages ****/
@@ -2384,23 +2169,19 @@ div.flash {
 }
 
 div.flash.error, #errorExplanation {
-  background: #FAAA96 url(<%= asset_path 'webalys/error.png' %>) 8px 50% no-repeat;
+  background-color: #FAAA96;
   border: none;
   color: #000000;
 }
 
-#errorExplanation {
-  background-position: 12px 50%;
-}
-
 div.flash.notice {
-  background: #C8F0BE url(<%= asset_path 'webalys/check.png' %>) 11px 6px no-repeat;
+  background-color: #C8F0BE;
   border: none;
   color: #000000;
 }
 
 div.flash.warning { /* orange */
-  background: #FFC38C url(<%= asset_path 'webalys/warning.png' %>) 9px 5px no-repeat;
+  background-color: #FFC38C;
   border: none;
   color: #000000;
   text-align: left;
@@ -2415,67 +2196,23 @@ div.flash.warning { /* orange */
 /***** Icons *****/
 
 
-.icon {
-  background-position: 0px 1px;
-}
-
-a.icon, input.input-as-link {
+a.icon, a.icon-context, input.input-as-link {
   color: #4b4b4b;
   font-weight: normal;
 }
-a.icon:hover, input.input-as-link:hover {
+a.icon:hover, a.icon-context:hover {
+  color: #008BD0;
+  text-decoration: none;
+}
+
+#content table th a.no-decoration-on-hover:hover,
+a.no-decoration-on-hover:hover {
+  text-decoration: none;
+}
+
+input.input-as-link:hover {
   color: #008BD0;
   text-decoration: underline;
-}
-
-.icon-time  {
-  background-image: url(<%= asset_path 'webalys/time.png' %>);
-  background-position: 3px 2px;
-}
-
-.icon-lock  {
-  background-image: url(<%= asset_path 'webalys/locked.png' %>);
-  background-position: 0px 2px;
-}
-
-.icon-edit {
-  background-image: url(<%= asset_path 'webalys/edit.png' %>);
-  padding-top: 1px;
-}
-.icon-copy { background-image: url(<%= asset_path 'webalys/copy.png' %>); }
-.icon-del {
-  background-image: url(<%= asset_path 'webalys/delete.png' %>);
-  /*padding-left: 16px; */
-  background-position: 0px 2px;
-}
-.icon-fav  { background-image: url(<%= asset_path 'webalys/watch.png' %>); }
-.icon-fav-off  { background-image: url(<%= asset_path 'webalys/watch_b.png' %>); }
-.icon-reload  {
-  background-position: 0px 3px;
-}
-.icon-checked  {
-  background-position: 0px 4px;
-}
-.icon-notification  { background-image: url(<%= asset_path 'webalys/envelope.png' %>); }
-.icon-package { background-position: 1px 0px; }
-.icon-more {
-  background-image: url(<%= asset_path 'webalys/arrow-down_2.png' %>);
-  padding-left: 16px;
-  background-position: 0px 5px;
-}
-.icon-save {
-  padding-top: 0px;
-}
-
-.icon-cancel {
-  background-image: url(<%= asset_path 'webalys/cancel.png' %>);
-  background-position: 0px 2px;
-}
-
-a.atom {
-  background-image: url(<%= asset_path 'webalys/feed.png' %>);
-  background-repeat: no-repeat;
-  padding: 1px 0 1px 14px;
 }
 
 /* Disable the css-override for the edit links in issue journals */

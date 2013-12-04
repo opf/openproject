@@ -40,11 +40,11 @@ class MenuManagerTest < ActionDispatch::IntegrationTest
     assert_tag :div, :attributes => { :id => 'main-menu' },
                      :descendant => { :tag => 'li', :child => { :tag => 'a', :content => ll('de', :label_activity),
                                                                              :attributes => { :href => '/projects/ecookbook/activity',
-                                                                                              :class => 'activity ellipsis' } } }
+                                                                                              :class => 'icon2 icon-yes activity ellipsis' } } }
     assert_tag :div, :attributes => { :id => 'main-menu' },
                      :descendant => { :tag => 'li', :child => { :tag => 'a', :content => ll('de', :label_overview),
                                                                              :attributes => { :href => '/projects/ecookbook',
-                                                                                              :class => 'overview ellipsis selected' } } }
+                                                                                              :class => 'icon2 icon-list-view2 overview ellipsis selected' } } }
   end
 
   def test_project_menu_with_additional_menu_items

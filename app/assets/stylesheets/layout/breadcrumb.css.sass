@@ -25,28 +25,61 @@
  *
  * See doc/COPYRIGHT.rdoc for more details.  ++*/
 
-#footer
-  font-size: 0.9em
-  color: #FFF
-  z-index: 20
-  text-align: right
-  width: 100%
-  position: absolute
-  height: 55px
-  padding: 0
-  right: 0
-  clear: both
-  background-color: #3493B3
-  bottom: 0
-  font-family: 'LatoRegular', 'Lucida Grande', Helvetica, Arial, sans-serif
+@import "variables"
+@import "mixins"
 
-  .footer-content
-    margin: 0px 15px 0px 0
-    height: 55px
-    line-height: 55px
-    a
-      color: #FFFFFF
+#breadcrumb
+  height: 40px
+  overflow: hidden
+  background: none repeat scroll 0 0 #F8F8F8
+  border: none
+  border-bottom: 1px solid #E7E7E7
+  margin: 0 0 0 $main_menu_width
+  width: auto
+  overflow: hidden
+  position: relative
+  &.nosidebar
+    margin-left: 0
+    ul
+      margin: 0 0 0 0
+  &.hidden-navigation
+    margin-left: $main_menu_folded_width
+
+  h1
+    margin-bottom: 0px
+    margin-left: 20px
+    @include breadcrumb-font(#555555)
+
+  a
+    @include breadcrumb-font-bold(#555555)
+    text-decoration: none
+    &:hover
       text-decoration: underline
-      font-family: 'LatoBold', 'Lucida Grande', Helvetica, Arial, sans-serif
-      font-weight: normal
+  li
+    list-style-type: none
+    white-space: nowrap
+    &.cutme
+      max-width: 40px
+
+ul.breadcrumb
+  list-style: none
+  list-style-position: outside
+  width: 10000px
+  height: 40px
+  line-height: 40px
+
+#breadcrumb ul.breadcrumb li.first-breadcrumb-element
+  margin-left: 0
+  height: 40px
+  line-height: 40px
+  a
+    text-decoration: none
+
+#breadcrumb ul.breadcrumb li
+  float: left
+  margin: 0 0 0 10px
+  padding: 0 30px 0 0
+  background: url(image-path('breadcrumb-list.png')) no-repeat right center
+
+#breadcrumb a.breadcrumb-project-title
 

@@ -586,7 +586,7 @@ EXPECTED
       before do
         @links = other_formats_links{|f| f.link_to 'Atom', :url => {:controller => :projects, :action => :index} }
       end
-      it { @links.should == "<p class=\"other-formats\">Also available in:<span><a href=\"/projects.atom\" class=\"atom\" rel=\"nofollow\">Atom</a></span></p>"}
+      it { @links.should == "<p class=\"other-formats\">Also available in:<span><a href=\"/projects.atom\" class=\"icon icon-atom\" rel=\"nofollow\">Atom</a></span></p>"}
     end
 
     context "link given but disabled" do

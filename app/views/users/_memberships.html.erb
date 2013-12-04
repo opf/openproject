@@ -67,7 +67,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                        :membership_id => membership },
                                       :remote => true,
                                       :method => :post,
-                                      :class => 'icon icon-del') if membership.deletable? %>
+                                      :class => 'icon icon-delete') if membership.deletable? %>
   </td>
       <%= call_hook(:view_users_memberships_table_row, :user => @user, :membership => membership, :roles => roles, :projects => projects )%>
 	</tr>

@@ -190,6 +190,22 @@ not be applied in anything that is not display:table-cell */
   vertical-align: bottom;
 }
 
+.tl-icon-postponed,
+.tl-icon-preponed,
+.tl-icon-added,
+.tl-icon-deleted,
+.tl-icon-changed,
+.tl-icon-calendar,
+.tl-icon-zoomin,
+.tl-icon-zoomout,
+.tl-icon-outline {
+  background-position: 0% 50%;
+  background-repeat: no-repeat;
+  padding-left: 19px;
+  padding-top: 2px;
+  padding-bottom: 3px;
+}
+
 .tl-icon-postponed {
   cursor: default;
   background: url("../assets/bullet_red.png") no-repeat center;

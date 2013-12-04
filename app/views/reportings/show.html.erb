@@ -42,7 +42,7 @@ See doc/COPYRIGHT.rdoc for more details.
                             :class => 'icon icon-edit') %>
   <%= link_to_if_authorized(l(:button_delete),
                             {:action => :confirm_destroy, :project_id => @project, :id => @reporting},
-                            :class => 'icon icon-del') %>
+                            :class => 'icon icon-delete') %>
 </div>
 
 <%= render :partial => 'show' %>

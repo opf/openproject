@@ -55,7 +55,7 @@ module Redmine::MenuManager::TopMenuHelper
                         :action => 'index' },
                       :title => l(:label_project_plural),
                       :access_key => OpenProject::AccessKeys.key_for(:project_search),
-                      :'data-icon' => 'g'
+                      :class => "icon5 icon-unit"
 
     if User.current.impaired?
       content_tag :li do
@@ -67,7 +67,7 @@ module Redmine::MenuManager::TopMenuHelper
           ret = content_tag :li do
             link_to l(:label_project_view_all), {:controller => '/projects',
                                                 :action => 'index'},
-                                                :'data-icon4' => '7'
+                                                :class => 'icon4 icon-list-view2'
           end
 
           ret += content_tag :li, :id => "project-search-container" do
@@ -100,7 +100,7 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_module_top_menu_node(items = more_top_menu_items)
-    render_drop_down_menu_node link_to(l(:label_modules), "#", :title => l(:label_modules), :'data-icon' => 'M'),
+    render_drop_down_menu_node link_to(l(:label_modules), "#", :title => l(:label_modules), :class => 'icon5 icon-version'),
                                items,
                                :id => "more-menu"
   end
