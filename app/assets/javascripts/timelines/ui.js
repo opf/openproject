@@ -1015,7 +1015,7 @@ jQuery.extend(Timeline, {
       // rebuild content
       timeline.rebuildBackground(tree, width, height);
       chart.css({'display': 'block'});
-      // timeline.rebuildForeground(tree);
+      timeline.rebuildForeground(tree);
     });
   },
   finishGraph: function() {
