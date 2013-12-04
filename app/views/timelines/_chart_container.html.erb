@@ -1,7 +1,20 @@
  <div ng-class="{timeline: true, 'tl-under-construction': underConstruction}">
   <div class="tl-left">
     <div class="tl-left-top tl-decoration"></div>
-    <div class="tl-left-main"></div>
+    <div class="tl-left-main">
+
+      <table class="tl-main-table" ng-show="!timeline.options.hide_chart">
+        <thead>
+          <tr>
+            <th class="tl-first-column" ng-style="{height: timeline.decoHeight()}">{{timeline.i18n('timelines.filter.column.name')}}</th>
+            <th ng-repeat="key in timeline.options.columns">
+              {{timeline.i18n('timelines.filter.column.' + key)}}
+            </th>
+          </tr>
+        </thead>
+      </table>
+
+    </div>
   </div>
   <div class="tl-right">
     <div class="tl-right-top tl-decoration"></div>

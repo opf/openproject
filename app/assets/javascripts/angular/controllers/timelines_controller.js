@@ -47,7 +47,6 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'TimelineSe
     if (outlineLevel !== formerLevel) {
       $scope.timeline.expansionIndex = Timeline.OUTLINE_LEVELS.indexOf(outlineLevel);
       $scope.timeline.expandToOutlineLevel(outlineLevel); // TODO replace event-driven adaption by bindings
-
     }
   });
 

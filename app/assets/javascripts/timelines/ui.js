@@ -199,12 +199,15 @@ jQuery.extend(Timeline, {
     this.expandToOutlineLevel(Timeline.OUTLINE_LEVELS[index]);
   },
   expandToOutlineLevel: function(outlineLevel) {
-    var level = Timeline.OUTLINE_CONFIGURATIONS[outlineLevel].level;
-    if (this.options.hide_tree_root) {
-      level++;
+    var currentOutlineConfig = Timeline.OUTLINE_CONFIGURATIONS[outlineLevel];
+    if(currentOutlineConfig) {
+      var level = currentOutlineConfig.level;
+      if (this.options.hide_tree_root) {
+        level++;
+      }
+      level = this.getLefthandTree().expandTo(level);
+      this.rebuildAll();
     }
-    level = this.getLefthandTree().expandTo(level);
-    this.rebuildAll();
   },
   zoom: function(index) {
     if (index === undefined) {
@@ -538,43 +541,18 @@ jQuery.extend(Timeline, {
   rebuildTree: function() {
     var where = this.getUiRoot().find('.tl-left-main');
     var tree = this.getLefthandTree();
-    var table = jQuery('<table class="tl-main-table"></table>');
+
+    var table = jQuery('.tl-main-table');
+
     var body = jQuery('<tbody></tbody>');
-    var head = jQuery('<thead></thead>');
     var row, cell, link, span, text;
     var timeline = this;
     var rows = this.getAvailableRows();
     var first = true; // for the first row
     var previousGroup = -1;
-    var headerHeight = this.decoHeight();
-
-    // head
-    table.append(head);
-    row = jQuery('<tr></tr>');
-
-    // there is always a name.
-    cell = jQuery('<th class="tl-first-column"/>');
-    cell.append(timeline.i18n('timelines.filter.column.name'));
-
-    // only compensate for the chart decorations if we're actualy
-    // showing one.
-    if (timeline.options.hide_chart == null) {
-      cell.css({'height': headerHeight + 'px'});
-    }
-    row.append(cell);
-
-    // everything else.
-    var header = function(key) {
-      var th = jQuery('<th></th>');
-      th.append(timeline.i18n('timelines.filter.column.' + key));
-      return th;
-    };
-    jQuery.each(timeline.options.columns, function(i, e) {
-      row.append(header(e));
-    });
-    head.append(row);
 
     // body
+    where.find('tbody').remove();
     table.append(body);
 
     row = jQuery('<tr></tr>');
