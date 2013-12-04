@@ -139,17 +139,21 @@ jQuery.extend(Timeline, {
     } else {
       this.scale = scale;
     }
+
+    return this.getDaysForCurrentScale();
+  },
+  getDaysForCurrentScale: function() {
     var days = this.getDaysBetween(
       this.getBeginning(),
       this.getEnd()
     );
-    return days * this.DAY_WIDTH * scale;
+    return days * this.DAY_WIDTH * this.scale;
   },
   getWidth: function() {
 
     // width is the wider of the currently visible chart dimensions
     // (adjusted_width) and the minimum space the timeline needs.
-    return Math.max(this.adjusted_width, this.setScale() + 200);
+    return Math.max(this.adjusted_width, this.getDaysForCurrentScale() + 200);
   },
   resetWidth: function() {
     delete this.adjusted_width;
@@ -207,8 +211,6 @@ jQuery.extend(Timeline, {
     }
     index = Math.max(Math.min(this.ZOOM_SCALES.length - 1, index), 0);
     this.zoomIndex = index;
-    var scale = Timeline.ZOOM_CONFIGURATIONS[Timeline.ZOOM_SCALES[index]].scale;
-    this.setScale(scale);
     this.resetWidth();
     this.triggerResize();
     this.rebuildAll();
@@ -1315,6 +1317,9 @@ jQuery.extend(Timeline, {
   },
   triggerResize: function() {
     var root = this.getUiRoot();
+    if (!root) {
+      return false;
+    }
     var width = root.width() - root.find('.tl-left-main').width() -
                   Timeline.BORDER_WIDTH_CORRECTION;
     this.adjustWidth(width);

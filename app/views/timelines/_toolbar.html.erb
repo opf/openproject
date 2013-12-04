@@ -6,7 +6,7 @@
   <div class="tl-toolbar-container" style="width: 1px; height: 20px; background-color: rgb(0, 0, 0);"></div>
 
   <div class="tl-toolbar-container">
-    <a href="javascript://" title="Zoom out" class="icon tl-icon-zoomout" ng-click="setCurrentScaleLevel(getCurrentScaleLevel() - 1)"></a>
+    <a href="javascript://" title="Zoom out" class="icon tl-icon-zoomout" ng-click="decreaseZoom()"></a>
   </div>
 
   <div class="tl-toolbar-container" style="width: 100px; height: 20px;">
@@ -14,13 +14,13 @@
   </div>
 
   <div class="tl-toolbar-container">
-    <a href="javascript://" title="Zoom in" class="icon tl-icon-zoomin" ng-click="setCurrentScaleLevel(getCurrentScaleLevel() + 1)"></a>
+    <a href="javascript://" title="Zoom in" class="icon tl-icon-zoomin" ng-click="increaseZoom()"></a>
   </div>
 
 
   <div class="tl-toolbar-container">
     <form>
-      <select name="zooms" ng-model="currentScale" ng-options="timeline.i18n(Timeline.ZOOM_CONFIGURATIONS[scale].name) for scale in Timeline.ZOOM_SCALES">
+      <select name="zooms" ng-model="currentScaleName" ng-options="timeline.i18n(Timeline.ZOOM_CONFIGURATIONS[scale].name) for scale in Timeline.ZOOM_SCALES">
       </select>
     </form>
   </div>

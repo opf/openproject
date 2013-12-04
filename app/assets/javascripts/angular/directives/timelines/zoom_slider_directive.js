@@ -2,7 +2,7 @@ timelinesApp.directive('zoomSlider', function() {
   return {
     restrict: 'A',
     link: function(scope, element, attributes) {
-      scope.currentScaleIndex = Timeline.ZOOM_SCALES.indexOf(scope.currentScale);
+      scope.currentScaleIndex = Timeline.ZOOM_SCALES.indexOf(scope.currentScaleName);
       scope.slider = element.slider({
         min: 1,
         max: Timeline.ZOOM_SCALES.length,
@@ -12,8 +12,8 @@ timelinesApp.directive('zoomSlider', function() {
           scope.currentScaleIndex = ui.value - 1;
         },
         change: function(event, ui) {
-          scope.currentScaleIndex = ui.value - 1;
-          scope.timeline.zoom(ui.value - 1);
+          scope.updateScaleIndex(ui.value - 1);
+          scope.$apply();
         }
       }).css({
         // top right bottom left
@@ -22,19 +22,31 @@ timelinesApp.directive('zoomSlider', function() {
 
       // Slider
       // TODO integrate angular-ui-slider
-      scope.getCurrentScaleLevel = function() {
-        return scope.slider.slider('value');
-      };
-      scope.setCurrentScaleLevel = function(value) {
-        scope.slider.slider('value', value);
+
+      scope.updateScaleIndex = function(scaleIndex) {
+        scope.currentScaleIndex = scaleIndex;
+
+        newScaleName = Timeline.ZOOM_SCALES[scaleIndex];
+        if (scope.currentScaleName !== newScaleName) {
+          scope.currentScaleName = newScaleName;
+        }
       };
 
-      scope.$watch('currentScaleIndex', function(){
-        scope.currentScale = Timeline.ZOOM_SCALES[scope.currentScaleIndex];
+      scope.$watch('currentScaleIndex', function(newIndex){
+        scope.updateScaleIndex(newIndex);
       });
-      scope.$watch('currentScale', function(){
-        scope.currentScaleIndex = Timeline.ZOOM_SCALES.indexOf(scope.currentScale);
-        // scope.setCurrentScaleLevel(scope.currentScaleIndex);
+
+      scope.$watch('currentScaleName', function(newScaleName, oldScaleName){
+        if (newScaleName !== oldScaleName) {
+          scope.currentScale = Timeline.ZOOM_CONFIGURATIONS[scope.currentScaleName].scale;
+          scope.timeline.scale = scope.currentScale;
+
+          scope.currentScaleIndex = Timeline.ZOOM_SCALES.indexOf(scope.currentScaleName);
+          scope.slider.slider('value', scope.currentScaleIndex + 1);
+
+          scope.timeline.zoom(scope.currentScaleIndex);
+
+        }
       });
 
     }

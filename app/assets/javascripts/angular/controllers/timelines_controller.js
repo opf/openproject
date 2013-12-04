@@ -5,11 +5,6 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'TimelineSe
   };
 
   // Setup
-  $scope.slider = null;
-  $scope.timelineContainerNo = 1;
-  $scope.currentOutlineLevel = 'level3';
-  $scope.currentScale = 'monthly';
-
 
   // Get server-side stuff into scope
   $scope.currentTimelineId = gon.current_timeline_id;
@@ -18,7 +13,10 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'TimelineSe
 
   // Get timelines stuff into scope
   $scope.Timeline = Timeline;
-
+  $scope.slider = null;
+  $scope.timelineContainerNo = 1;
+  $scope.currentOutlineLevel = 'level3';
+  $scope.currentScaleName = 'monthly';
 
   // Container for timeline rendering
   $scope.getTimelineContainerElementId = function() {
@@ -28,6 +26,17 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'TimelineSe
     return angular.element(document.querySelector('#' + $scope.getTimelineContainerElementId()));
   };
 
+  $scope.increaseZoom = function() {
+    if($scope.currentScaleIndex < Object.keys(Timeline.ZOOM_CONFIGURATIONS).length - 1) {
+      $scope.currentScaleIndex++;
+    }
+  };
+
+  $scope.decreaseZoom = function() {
+    if($scope.currentScaleIndex > 0) {
+      $scope.currentScaleIndex--;
+    }
+  };
 
 
 
@@ -37,7 +46,7 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'TimelineSe
   $scope.updateToolbar = function() {
     $scope.slider.slider('value', $scope.timeline.zoomIndex + 1);
     $scope.currentOutlineLevel = Timeline.OUTLINE_LEVELS[$scope.timeline.expansionIndex];
-    $scope.currentScale = Timeline.ZOOM_SCALES[$scope.timeline.zoomIndex];
+    $scope.currentScaleName = Timeline.ZOOM_SCALES[$scope.timeline.zoomIndex];
   };
 
   $scope.$on('timelines.dataLoaded', function(){
@@ -107,11 +116,9 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'TimelineSe
 
 
 
-
-
-
   // Load timeline
   $scope.timeline = TimelineService.createTimeline($scope.timelineOptions);
+
 
   angular.element(document).ready(function() {
     // start timeline
