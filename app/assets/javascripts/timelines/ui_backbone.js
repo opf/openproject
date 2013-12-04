@@ -487,17 +487,25 @@ jQuery.extend(Timeline, {
 
       if (pl.is(Timeline.PlanningElement)) {
         render_bucket_text.push(function () {
+          // TODO RS: Get the view to render this somehow
+          // Could simply create a list of the elements and then pass them
+          // back to the view and let it create subviews and render them.
+          // It will need the raphael element to do this though.
           pl.renderForeground(node);
         });
       }
 
       render_bucket_element.push(function() {
+        // TODO RS: Get the view to render this somehow
         pl.render(node);
       });
     }, {timeline: timeline});
 
     var buckets = Array.prototype.concat.apply([], render_buckets);
 
+    // Note RS: Here we have a list of all of the rendering methods which then get called.
+    // Instead we should have a lite of the elements which get returned back to the backbone
+    // view which can then be passed to a rendering function on the newly created child view.
     var render_next_bucket = function() {
       if (buckets.length !== 0) {
         jQuery.each(buckets.splice(0, Timeline.RENDER_BUCKET_SIZE), function(i, e) {
