@@ -2,7 +2,7 @@
 <div class="contextual">
   <%= link_to_if_authorized l(:button_update), {:controller => 'cost_objects', :action => 'edit', :id => @cost_object}, :onclick => 'showAndScrollTo("update", "cost_object_description"); return false;', :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
   <%= link_to_if_authorized l(:button_copy), {:controller => 'cost_objects', :action => 'copy', :id => @cost_object }, :class => 'icon icon-copy' %>
-  <%= link_to_if_authorized l(:button_delete), {:controller => 'cost_objects', :action => 'destroy', :id => @cost_object}, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' %>
+  <%= link_to_if_authorized l(:button_delete), {:controller => 'cost_objects', :action => 'destroy', :id => @cost_object}, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-delete' %>
 </div>
 
 <h2><%= l(:label_cost_object_id, :id => @cost_object.id) %></h2>

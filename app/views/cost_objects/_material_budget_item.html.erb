@@ -32,7 +32,7 @@
     <%= cost_form.text_field :comments, :index => id_or_index, :size => 40 %>
   </td>
   <td class="currency">
-    <a href="javascript:;" id="<%= "#{id_prefix}_costs" %>" class="icon icon-edit" title="<%= l(:help_click_to_edit) %>">
+    <a href="javascript:;" id="<%= "#{id_prefix}_costs" %>" class="icon-context icon-edit" title="<%= l(:help_click_to_edit) %>">
       <%= number_to_currency(material_budget_item.calculated_costs(@cost_object.fixed_date)) %>
     </a>
     <%= update_page_tag do |page|
@@ -41,7 +41,7 @@
     end %>
   </td>
   <td class="delete">
-    <%= link_to_function image_tag('webalys/delete.png', :alt => l(:button_delete), :title => l(:button_delete)), "deleteMaterialBudgetItem('#{id_prefix}')" %>
+    <%= link_to_function icon_wrapper('icon-context icon-delete',t(:button_delete)), "deleteMaterialBudgetItem('#{id_prefix}')", :class => 'no-decoration-on-hover', :title => t(:button_delete) %>
   </td>
 </tr>
 <% end %>

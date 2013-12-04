@@ -1,5 +1,6 @@
 # Changelog
 
+* Adaptations for new icon font
 * `#1020` fix XSS when displaying costs
 * `#2591` Fix: Costs prevents work package context menu
 * `#2759` Fix: [Performance] Activity View very slow

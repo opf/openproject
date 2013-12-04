@@ -1,6 +1,6 @@
 <%= render :partial => 'shared/costs_header' %>
 <div class="contextual">
-<%= link_to_if_authorized l(:button_log_costs), {:controller => '/costlog', :action => 'edit', :project_id => @project, :work_package_id => @work_package}, :class => 'icon icon-pieces' %>
+<%= link_to_if_authorized l(:button_log_costs), {:controller => '/costlog', :action => 'edit', :project_id => @project, :work_package_id => @work_package}, :class => 'icon-context icon-unit' %>
 </div>
 
 <%= render_costlog_breadcrumb %>
