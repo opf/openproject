@@ -20,6 +20,7 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+* Adaptations for new icon font
 * `#2759` Fix: [Performance] Activity View very slow
 * `#3119` [Migration] Meetings do not migrate planning element references
 * added icon for new project menu
