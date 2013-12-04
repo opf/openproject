@@ -361,7 +361,7 @@ jQuery.extend(Timeline, {
       // rebuild content
       timeline.rebuildBackground(tree, width, height);
       chart.css({'display': 'block'});
-      // timeline.rebuildForegroundBackbone(tree);
+      timeline.rebuildForegroundBackbone(tree);
     });
   },
 
@@ -494,7 +494,7 @@ jQuery.extend(Timeline, {
       render_bucket_element.push(function() {
         pl.render(node);
       });
-    });
+    }, {timeline: timeline});
 
     var buckets = Array.prototype.concat.apply([], render_buckets);
 

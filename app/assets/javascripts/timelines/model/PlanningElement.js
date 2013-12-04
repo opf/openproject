@@ -352,6 +352,13 @@ Timeline.PlanningElement = {
 
       return color;
     },
+    /* TODO RS: Currently models are responsible for rendering themselves on the paper
+       which they get from their sort of partent timeline. could be better.
+       To do this with backbone we could have a planning_element_view which takes a
+       timeline and paper and options for scale and whatnot and then draws itself onto
+       that. From the initial tree we could then return a list of planning_element_views
+       on which the parent view could ceremoniously call render. In other words just move
+       this function into a view. */
     render: function(node, in_aggregation, label_space) {
       var timeline = this.timeline;
       var paper = timeline.getPaper();

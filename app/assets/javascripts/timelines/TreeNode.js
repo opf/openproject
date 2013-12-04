@@ -159,7 +159,12 @@ Timeline.TreeNode = {
         return this;
       }
 
-      timeline = root.payload.timeline;
+      // TODO RS: Things start going awry here...
+      /* It seems wrong to me to have the timeline as a parent of the project since they're
+         not really linked at that level and that timeline is a ui object anyway. I don't
+         want to put a hard link to it on the backbone model so going to pass it in with the
+         options. */
+      timeline = root.payload.timeline || options.timeline;
       hidden = this.payload.hide();
       filtered_out = this.payload.filteredOut();
       options = options || {indent: 0, index: 0, projects: 0};
