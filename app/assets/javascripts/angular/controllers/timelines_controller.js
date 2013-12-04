@@ -115,7 +115,7 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'TimelineSe
 
   angular.element(document).ready(function() {
     // start timeline
-    $scope.timeline.draw($scope.getTimelineContainer());
+    $scope.timeline.registerTimelineContainer($scope.getTimelineContainer());
     TimelineService.loadTimelineData($scope.timeline);
 
     // $scope.timeline = TimelineService.startTimeline($scope.timelineOptions, $scope.getTimelineContainer());

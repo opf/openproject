@@ -319,9 +319,9 @@ jQuery.extend(Timeline, {
       this.die(e);
     }
   },
-  draw: function(uiRoot) {
+  registerTimelineContainer: function(uiRoot) {
     this.uiRoot = uiRoot;
-    this.registerChartContainer();
+    this.registerDrawPaper();
   },
   startup: function(options, uiRoot) { // TODO (spike): Remove
     var timeline = this, timelineLoader;
@@ -334,7 +334,7 @@ jQuery.extend(Timeline, {
     // setup UI.
 
     this.uiRoot = uiRoot;
-    this.registerChartContainer();
+    this.registerDrawPaper();
 
     try {
       // prerequisites (3rd party libs)

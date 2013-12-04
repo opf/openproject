@@ -422,7 +422,7 @@ jQuery.extend(Timeline, {
     // outlines[0].selectedIndex = timeline.expansionIndex;
     return;
   },
-  registerChartContainer: function() {
+  registerDrawPaper: function() {
     // store the paper element for later use.
     this.paperElement = jQuery('.tl-chart')[0];
   },
