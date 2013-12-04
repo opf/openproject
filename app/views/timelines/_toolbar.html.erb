@@ -1,42 +1,40 @@
-<div id="soon-to-become-{{getTimelineContainerElementId()}}">
-  <div class="tl-toolbar">
-    <div class="tl-toolbar-container">
-      <a ng-if='timeline.USE_MODALS' ng-click="timeline.addPlanningElement()" title="{{timeline.i18n('timelines.new_work_package')}}" class="icon icon-add"></a>
-    </div>
+<div class="tl-toolbar">
+  <div class="tl-toolbar-container">
+    <a ng-if='timeline.USE_MODALS' ng-click="timeline.addPlanningElement()" title="{{timeline.i18n('timelines.new_work_package')}}" class="icon icon-add"></a>
+  </div>
 
-    <div class="tl-toolbar-container" style="width: 1px; height: 20px; background-color: rgb(0, 0, 0);"></div>
+  <div class="tl-toolbar-container" style="width: 1px; height: 20px; background-color: rgb(0, 0, 0);"></div>
 
-    <div class="tl-toolbar-container">
-      <a href="javascript://" title="Zoom out" class="icon tl-icon-zoomout" ng-click="setCurrentScaleLevel(getCurrentScaleLevel() - 1)"></a>
-    </div>
+  <div class="tl-toolbar-container">
+    <a href="javascript://" title="Zoom out" class="icon tl-icon-zoomout" ng-click="setCurrentScaleLevel(getCurrentScaleLevel() - 1)"></a>
+  </div>
 
-    <div class="tl-toolbar-container" style="width: 100px; height: 20px;">
-      <div id="zoom-slider" zoom-slider></div>
-    </div>
+  <div class="tl-toolbar-container" style="width: 100px; height: 20px;">
+    <div id="zoom-slider" zoom-slider></div>
+  </div>
 
-    <div class="tl-toolbar-container">
-      <a href="javascript://" title="Zoom in" class="icon tl-icon-zoomin" ng-click="setCurrentScaleLevel(getCurrentScaleLevel() + 1)"></a>
-    </div>
+  <div class="tl-toolbar-container">
+    <a href="javascript://" title="Zoom in" class="icon tl-icon-zoomin" ng-click="setCurrentScaleLevel(getCurrentScaleLevel() + 1)"></a>
+  </div>
 
 
-    <div class="tl-toolbar-container">
-      <form>
-        <select name="zooms" ng-model="currentScale" ng-options="timeline.i18n(Timeline.ZOOM_CONFIGURATIONS[scale].name) for scale in Timeline.ZOOM_SCALES">
-        </select>
-      </form>
-    </div>
+  <div class="tl-toolbar-container">
+    <form>
+      <select name="zooms" ng-model="currentScale" ng-options="timeline.i18n(Timeline.ZOOM_CONFIGURATIONS[scale].name) for scale in Timeline.ZOOM_SCALES">
+      </select>
+    </form>
+  </div>
 
-    <div class="tl-toolbar-container" style="width: 1px; height: 20px; background-color: rgb(0, 0, 0);"></div>
+  <div class="tl-toolbar-container" style="width: 1px; height: 20px; background-color: rgb(0, 0, 0);"></div>
 
-    <div class="tl-toolbar-container">
-      <a href="javascript://" title="Reset Outline" class="icon tl-icon-outline"></a>
-    </div>
+  <div class="tl-toolbar-container">
+    <a href="javascript://" title="Reset Outline" class="icon tl-icon-outline"></a>
+  </div>
 
-    <div class="tl-toolbar-container">
-      <form>
-        <select name="outlines" ng-model="currentOutlineLevel" ng-options="timeline.i18n(Timeline.OUTLINE_CONFIGURATIONS[level].name) for level in Timeline.OUTLINE_LEVELS">
-        </select>
-      </form>
-    </div>
+  <div class="tl-toolbar-container">
+    <form>
+      <select name="outlines" ng-model="currentOutlineLevel" ng-options="timeline.i18n(Timeline.OUTLINE_CONFIGURATIONS[level].name) for level in Timeline.OUTLINE_LEVELS">
+      </select>
+    </form>
   </div>
 </div>

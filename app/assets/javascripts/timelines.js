@@ -278,12 +278,7 @@ jQuery.extend(Timeline, {
     return timeline;
   },
   load: function(options) {
-    var timeline = this, timelineLoader;
-
-    if(this === Timeline) {
-      timeline = Timeline.create(options);
-      return timeline.load(options);
-    }
+    var timelineLoader;
 
     try {
       // prerequisites (3rd party libs)

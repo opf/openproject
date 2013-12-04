@@ -5,7 +5,8 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'TimelineSe
   };
 
   // Setup
-  $scope.timelineContainerNo = 1; // formerly rand(10**75), TODO increment after each timeline startup
+  $scope.slider = null;
+  $scope.timelineContainerNo = 1;
   $scope.currentOutlineLevel = 'level3';
   $scope.currentScale = 'monthly';
 
@@ -17,17 +18,6 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'TimelineSe
   // Get timelines stuff into scope
   $scope.Timeline = Timeline;
 
-  // Load timeline
-  $scope.timeline = TimelineService.loadTimeline($scope.timelineOptions);
-
-  // Slider
-  // TODO integrate angular-ui-slider
-  $scope.getCurrentScaleLevel = function() {
-    return jQuery('#zoom-slider').slider('value');
-  };
-  $scope.setCurrentScaleLevel = function(value) {
-    jQuery('#zoom-slider').slider('value', value);
-  };
 
   // Container for timeline rendering
   $scope.getTimelineContainerElementId = function() {
@@ -37,8 +27,14 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'TimelineSe
     return angular.element(document.querySelector('#' + $scope.getTimelineContainerElementId()));
   };
 
+  // Load timeline
+  $scope.timeline = TimelineService.createTimeline($scope.timelineOptions);
+  // $scope.timeline.load($scope.timelineOptions);
+
   angular.element(document).ready(function() {
     // start timeline
-    TimelineService.startTimeline($scope.timelineOptions, $scope.getTimelineContainer());
+    // $scope.timeline.draw($scope.getTimelineContainer());
+    $scope.timeline = TimelineService.startTimeline($scope.timelineOptions, $scope.getTimelineContainer());
+
   });
 }]);
