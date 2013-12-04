@@ -69,7 +69,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                   { :controller => '/versions', :action => 'destroy', :id => version },
                                   :confirm => l(:text_are_you_sure),
                                   :method => :delete,
-                                  :class => 'icon icon-del' %>
+                                  :class => 'icon icon-delete' %>
     	<% elsif @project.enabled_modules.collect(&:name).include?("backlogs") %>
         <%= link_to_if_authorized l(:button_edit),
                                   { :controller => '/versions', :action => 'edit', :id => version, :project_id => @project.id },
