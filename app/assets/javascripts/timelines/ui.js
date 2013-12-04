@@ -422,61 +422,9 @@ jQuery.extend(Timeline, {
     // outlines[0].selectedIndex = timeline.expansionIndex;
     return;
   },
-  setupChart: function() {
-
-    // ╭───────────────────────────────────────────────────────╮
-    // │  Builds the following dom and adds it to root:        │
-    // │                                                       │
-    // │  <div class="timeline tl-under-construction">         │
-    // │    <div class="tl-left">                              │
-    // │      <div class="tl-left-top tl-decoration"></div>    │
-    // │      <div class="tl-left-main"></div>                 │
-    // │    </div>                                             │
-    // │    <div class="tl-right">                             │
-    // │      <div class="tl-right-top tl-decoration"></div>   │
-    // │      <div class="tl-right-main"></div> (optional)     │
-    // │    </div>                                             │
-    // │    <div class="tl-scrollcontainer">                   │
-    // │      <!--div class="tl-decoration"></div-->           │
-    // │      <div class="tl-chart"></div>                     │
-    // │    </div>                                             │
-    // │    <div class="tl-tooltip fade above in">             │
-    // │      <div class="tl-tooltip-inner"></div>             │
-    // │      <div class="tl-tooltip-arrow"></div>             │
-    // │    </div>                                             │
-    // │  </div>                                               │
-    // ╰───────────────────────────────────────────────────────╯
-
-    var timeline = jQuery('<div class="timeline tl-under-construction"></div>');
-
-    var tlLeft = jQuery('<div class="tl-left"></div>')
-      .append(jQuery('<div class="tl-left-top tl-decoration"></div>'))
-      .append(jQuery('<div class="tl-left-main"></div>'));
-
-    var tlRight = jQuery('<div class="tl-right"></div>')
-      .append(jQuery('<div class="tl-right-top tl-decoration"></div>'))
-      .append(jQuery('<div class="tl-right-main"></div>'));
-
-    var paper = jQuery('<div class="tl-chart"></div>');
-
-    var tlScrollContainer = jQuery('<div class="tl-scrollcontainer"></div>')
-      //.append(jQuery('<div class="tl-decoration"></div>'))
-      .append(paper);
-
-    var tlTooltip = jQuery('<div class="tl-tooltip fade above in"></div>')
-      .append('<div class="tl-tooltip-inner"></div>')
-      .append('<div class="tl-tooltip-arrow"></div>');
-
-    timeline
-      .append(tlLeft)
-      .append(tlRight)
-      .append(tlScrollContainer)
-      .append(tlTooltip);
-
-    this.getUiRoot().append(timeline);
-
+  registerChartContainer: function() {
     // store the paper element for later use.
-    this.paperElement = paper[0];
+    this.paperElement = jQuery('.tl-chart')[0];
   },
 
   completeUI: function() {

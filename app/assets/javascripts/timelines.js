@@ -320,11 +320,10 @@ jQuery.extend(Timeline, {
     }
   },
   draw: function(uiRoot) {
-    //  WIP - broken
     this.uiRoot = uiRoot;
-    this.setupChart();
+    this.registerChartContainer();
   },
-  startup: function(options, uiRoot) {
+  startup: function(options, uiRoot) { // TODO (spike): Remove
     var timeline = this, timelineLoader;
 
     if(this === Timeline) {
@@ -335,7 +334,7 @@ jQuery.extend(Timeline, {
     // setup UI.
 
     this.uiRoot = uiRoot;
-    this.setupChart();
+    this.registerChartContainer();
 
     try {
       // prerequisites (3rd party libs)

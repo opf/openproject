@@ -117,7 +117,6 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'TimelineSe
     // start timeline
     $scope.timeline.draw($scope.getTimelineContainer());
     TimelineService.loadTimelineData($scope.timeline);
-    // $scope.timeline.load($scope.timelineOptions);
 
     // $scope.timeline = TimelineService.startTimeline($scope.timelineOptions, $scope.getTimelineContainer());
 
