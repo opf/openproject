@@ -19,6 +19,7 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'TimelineSe
   $scope.Timeline = Timeline;
   $scope.slider = null;
   $scope.timelineContainerNo = 1;
+  $scope.underConstruction = true;
   $scope.currentOutlineLevel = 'level3';
   $scope.currentScaleName = 'monthly';
 
@@ -39,7 +40,6 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'TimelineSe
       $scope.slider.slider('value', $scope.currentScaleIndex + 1);
 
       $scope.timeline.zoom($scope.currentScaleIndex);
-
     }
   });
 
@@ -91,7 +91,7 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'TimelineSe
     $scope.timeline.rebuildTree();
 
     // lift the curtain, paper otherwise doesn't show w/ VML.
-    jQuery('.timeline').removeClass('tl-under-construction');
+    $scope.underConstruction = false;
     $scope.timeline.paper = new Raphael($scope.timeline.paperElement, 640, 480);
 
     // perform some zooming. if there is a zoom level stored with the
