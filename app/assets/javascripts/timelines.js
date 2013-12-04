@@ -294,7 +294,7 @@ jQuery.extend(Timeline, {
       );
 
       jQuery(this.modalHelper).on("closed", function () {
-        timeline.reload();
+        this.reload();
       });
 
       timelineLoader = this.provideTimelineLoader();
@@ -302,13 +302,13 @@ jQuery.extend(Timeline, {
       jQuery(timelineLoader).on('complete', jQuery.proxy(function(e, data) {
         jQuery.extend(this, data);
 
-        // jQuery(this).trigger('dataLoaded');
-        // this.defer(jQuery.proxy(this, 'onLoadComplete'),
-        //            this.options.artificial_load_delay);
+        jQuery(this).trigger('dataLoaded');
+        this.defer(jQuery.proxy(this, 'onLoadComplete'),
+                   this.options.artificial_load_delay);
       }, this));
 
       this.safetyHook = window.setTimeout(function() {
-        timeline.die(timeline.i18n('timelines.errors.report_timeout'));
+        this.die(this.i18n('timelines.errors.report_timeout'));
       }, Timeline.LOAD_ERROR_TIMEOUT);
 
       timelineLoader.load();
@@ -318,6 +318,11 @@ jQuery.extend(Timeline, {
     } catch (e) {
       this.die(e);
     }
+  },
+  draw: function(uiRoot) {
+    //  WIP - broken
+    this.uiRoot = uiRoot;
+    this.setupChart();
   },
   startup: function(options, uiRoot) {
     var timeline = this, timelineLoader;
