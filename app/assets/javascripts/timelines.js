@@ -330,10 +330,9 @@ jQuery.extend(Timeline, {
     // setup UI.
 
     this.uiRoot = uiRoot;
-    this.setupUI();
+    this.setupChart();
 
     try {
-
       // prerequisites (3rd party libs)
       this.checkPrerequisites();
       this.modalHelper = modalHelperInstance;
