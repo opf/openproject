@@ -36,6 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* Adaptations for new icon font
 * Fix: Backlog data existence check
 
 ## 3.0.4
