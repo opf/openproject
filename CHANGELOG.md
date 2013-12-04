@@ -20,6 +20,8 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+* Adaptations for new icon font
+
 ## 3.0.0.pre9
 
 * `#2731` Migrate serialized yaml from syck to psych
