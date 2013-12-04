@@ -84,8 +84,8 @@ See doc/COPYRIGHT.rdoc for more details.
       ui_root: jQuery("#<%= timeline_div_id %>")
     }, <%= timeline.json_options %>);
     jQuery(function(jQuery) {
-      Timeline.startup(config);
-      TimelineBackboneApp.init(config);
+      var lib_timelines = Timeline.startup(config);
+      TimelineBackboneApp.init(config, lib_timelines);
     });
   })();
 </script>

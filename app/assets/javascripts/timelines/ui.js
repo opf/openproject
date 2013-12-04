@@ -996,6 +996,7 @@ jQuery.extend(Timeline, {
   getPaper: function() {
     return this.paper;
   },
+
   rebuildGraph: function() {
     var timeline = this;
     var tree = timeline.getLefthandTree();
@@ -1014,7 +1015,7 @@ jQuery.extend(Timeline, {
       // rebuild content
       timeline.rebuildBackground(tree, width, height);
       chart.css({'display': 'block'});
-      timeline.rebuildForeground(tree);
+      // timeline.rebuildForeground(tree);
     });
   },
   finishGraph: function() {

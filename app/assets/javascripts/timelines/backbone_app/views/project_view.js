@@ -8,8 +8,7 @@ window.backbone_app.views.ProjectView = window.backbone_app.views.BaseView.exten
   // }
 
   template: function(){
-    var project = this.collection.first();
-    return _.template(jQuery('#project-timeline-template').html(), {model: project});
+    return _.template(jQuery('#project-timeline-template').html(), {model: this.project()});
   },
 
   // Note: Just now i've only done zoom change but we'd need the outline dropdown events too
@@ -23,6 +22,11 @@ window.backbone_app.views.ProjectView = window.backbone_app.views.BaseView.exten
       reset: true,
       data: {ids: this.options.project_id}
     }); // Note: We won't want to reset on fetch, we should listen for add/remove/change
+  },
+
+  /* This is a temp hack because I'm just trying to get all this working with one project */
+  project: function(){
+    return this.collection.first();
   },
 
   render: function(){
@@ -46,7 +50,9 @@ window.backbone_app.views.ProjectView = window.backbone_app.views.BaseView.exten
       {project_id: this.options.project_id});
     var planning_elements_view = new backbone_app.views.PlanningElementsView({
       collection: planning_elements,
-      project_id: this.options.project_id
+      project_id: this.options.project_id,
+      parent: this.project(),
+      lib_timelines: this.options.lib_timelines
     });
   },
 

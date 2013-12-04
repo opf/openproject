@@ -44,6 +44,7 @@
 
 //= require timelines/constants
 //= require timelines/ui
+//= require timelines/ui_backbone
 
 
 //= require timelines/model/Project
@@ -291,10 +292,10 @@ jQuery.extend(Timeline, {
     // setup UI.
 
     this.uiRoot = this.options.ui_root;
-    /* BEGIN CODE I WANT TO REPLACE WITH BACKBONE */
+    /* BEGIN CODE I WANT TO REPLACE WITH BACKBONE asdf */
     /* UNCOMMENT TO MAKE THINGS WORK AS THEY ORIGINALLY DID */
-    // this.setupUI();
 
+    // this.setupUI();
     // try {
 
     //   // prerequisites (3rd party libs)
@@ -335,6 +336,7 @@ jQuery.extend(Timeline, {
     //   this.die(e);
     // }
     /* END CODE I WANT TO REPLACE WITH BACKBONE */
+    return this;
   },
   checkPrerequisites: function() {
     if (jQuery === undefined) {
@@ -708,6 +710,48 @@ jQuery.extend(Timeline, {
   getProjectAssociations: function() {
     return Timeline.ProjectAssociation.all(this);
   },
+
+  /* BEGIN NEW ALTERNATE BACKBONE FRIENDLY CODE */
+  getLefthandTreeBackbone: function(project, planning_elements){
+    var tree = Object.create(Timeline.TreeNode);
+    var parent_stack = [];
+
+    tree.setData(project);
+
+    var count = 1;
+    // for the given node, appends the given planning_elements as children,
+    // recursively. every node will have the planning_element as data.
+    var treeConstructor = function(node, elements) {
+      count += 1;
+
+      var MAXIMUMPROJECTCOUNT = 12000;
+      if (count > MAXIMUMPROJECTCOUNT) {
+        throw I18n.t('js.timelines.tooManyProjects', {count: MAXIMUMPROJECTCOUNT});
+      }
+
+      elements.each(function(e) {
+        parent_stack.push(node.payload);
+        for (var j = 0; j < parent_stack.length; j++) {
+          if (parent_stack[j] === e) {
+            parent_stack.pop();
+            return; // no more recursion!
+          }
+        }
+        var newNode = Object.create(Timeline.TreeNode);
+        newNode.setData(e);
+        node.appendChild(newNode);
+        treeConstructor(newNode, newNode.getData().getSubElements());
+        parent_stack.pop();
+      });
+      return node;
+    };
+
+    var lefthandTree = lefthandTree = treeConstructor(tree, planning_elements);
+    lefthandTree.expandTo(0);
+    return lefthandTree;
+  },
+  /* END NEW ALTERNATE BACKBONE FRIENDLY CODE */
+
   getLefthandTree: function() {
 
     if (!this.lefthandTree) {
