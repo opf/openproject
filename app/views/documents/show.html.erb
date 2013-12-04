@@ -12,7 +12,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="contextual">
 <%= link_to_if_authorized l(:button_edit), {:controller => '/documents', :action => 'edit', :id => @document}, :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
-<%= link_to_if_authorized l(:button_delete), {:controller => '/documents', :action => 'destroy', :id => @document}, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-del' %>
+<%= link_to_if_authorized l(:button_delete), {:controller => '/documents', :action => 'destroy', :id => @document}, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-delete' %>
 </div>
 
 <h2><%=h @document.title %></h2>

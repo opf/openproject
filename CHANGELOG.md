@@ -1,5 +1,7 @@
 # Changelog
 
+* Adaptations for new icon font
+
 ## 1.0.0.pre5
 
 * `#2402` Activated migrations running from the plugin
