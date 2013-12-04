@@ -2,18 +2,18 @@ timelinesApp.directive('zoomSlider', function() {
   return {
     restrict: 'A',
     link: function(scope, element, attributes) {
-      zooms = jQuery('select[name="zooms"]');
-      element.slider({
+      currentScaleIndex = Timeline.ZOOM_SCALES.indexOf(scope.currentScale);
+      scope.slider = element.slider({
         min: 1,
         max: Timeline.ZOOM_SCALES.length,
         range: 'min',
-        value: zooms[0].selectedIndex + 1,
+        value: currentScaleIndex + 1,
         slide: function(event, ui) {
-          zooms[0].selectedIndex = ui.value - 1;
+          currentScaleIndex = ui.value - 1;
         },
         change: function(event, ui) {
-          zooms[0].selectedIndex = ui.value - 1;
-          timeline.zoom(ui.value - 1);
+          currentScaleIndex = ui.value - 1;
+          scope.timeline.zoom(ui.value - 1);
         }
       }).css({
         // top right bottom left
@@ -22,3 +22,4 @@ timelinesApp.directive('zoomSlider', function() {
     }
   };
 });
+
