@@ -55,11 +55,12 @@ module OpenProject::Meeting
                                        :caption => :project_module_meetings,
                                        :param => :project_id,
                                        :after => :wiki,
-                                       :html => {:'data-icon2' => 'l' }
+                                       :html => {:class => 'icon2 icon-quote' }
         menu :project_menu, :new_meeting, {:controller => '/meetings', :action => 'new'},
                                           :param => :project_id,
                                           :caption => :label_meeting_new,
-                                          :parent => :meetings
+                                          :parent => :meetings,
+                                          :html => {:class => 'icon2 icon-add' }
 
         ActiveSupport::Inflector.inflections do |inflect|
           inflect.uncountable "meeting_minutes"
