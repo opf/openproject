@@ -30,18 +30,29 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'TimelineSe
     return angular.element(document.querySelector('#' + $scope.getTimelineContainerElementId()));
   };
 
+  $scope.$watch('currentScaleName', function(newScaleName, oldScaleName){
+    if (newScaleName !== oldScaleName) {
+      $scope.currentScale = Timeline.ZOOM_CONFIGURATIONS[$scope.currentScaleName].scale;
+      $scope.timeline.scale = $scope.currentScale;
+
+      $scope.currentScaleIndex = Timeline.ZOOM_SCALES.indexOf($scope.currentScaleName);
+      $scope.slider.slider('value', $scope.currentScaleIndex + 1);
+
+      $scope.timeline.zoom($scope.currentScaleIndex);
+
+    }
+  });
+
   $scope.increaseZoom = function() {
     if($scope.currentScaleIndex < Object.keys(Timeline.ZOOM_CONFIGURATIONS).length - 1) {
       $scope.currentScaleIndex++;
     }
   };
-
   $scope.decreaseZoom = function() {
     if($scope.currentScaleIndex > 0) {
       $scope.currentScaleIndex--;
     }
   };
-
 
 
 

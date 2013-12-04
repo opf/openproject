@@ -13,7 +13,7 @@ timelinesApp.directive('zoomSlider', function() {
           scope.$apply();
         },
         change: function(event, ui) {
-          scope.updateScaleIndex(ui.value - 1);
+          scope.currentScaleIndex = ui.value - 1;
         }
       }).css({
         // top right bottom left
@@ -23,29 +23,12 @@ timelinesApp.directive('zoomSlider', function() {
       // Slider
       // TODO integrate angular-ui-slider
 
-      scope.updateScaleIndex = function(scaleIndex) {
-        scope.currentScaleIndex = scaleIndex;
+      scope.$watch('currentScaleIndex', function(newIndex){
+        scope.currentScaleIndex = newIndex;
 
-        newScaleName = Timeline.ZOOM_SCALES[scaleIndex];
+        newScaleName = Timeline.ZOOM_SCALES[newIndex];
         if (scope.currentScaleName !== newScaleName) {
           scope.currentScaleName = newScaleName;
-        }
-      };
-
-      scope.$watch('currentScaleIndex', function(newIndex){
-        scope.updateScaleIndex(newIndex);
-      });
-
-      scope.$watch('currentScaleName', function(newScaleName, oldScaleName){
-        if (newScaleName !== oldScaleName) {
-          scope.currentScale = Timeline.ZOOM_CONFIGURATIONS[scope.currentScaleName].scale;
-          scope.timeline.scale = scope.currentScale;
-
-          scope.currentScaleIndex = Timeline.ZOOM_SCALES.indexOf(scope.currentScaleName);
-          scope.slider.slider('value', scope.currentScaleIndex + 1);
-
-          scope.timeline.zoom(scope.currentScaleIndex);
-
         }
       });
 
