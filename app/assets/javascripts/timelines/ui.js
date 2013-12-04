@@ -192,19 +192,20 @@ jQuery.extend(Timeline, {
     var result = (0.299 * parts[0] + 0.587 * parts[1] + 0.114 * parts[2]) / 256;
     return result;
   },
-
   expandTo: function(index) {
-    var level;
+    var outlineLevel;
     index = Math.max(index, 0);
-    level = Timeline.OUTLINE_CONFIGURATIONS[Timeline.OUTLINE_LEVELS[index]].level;
+    this.expansionIndex = index;
+    this.expandToOutlineLevel(Timeline.OUTLINE_LEVELS[index]);
+  },
+  expandToOutlineLevel: function(outlineLevel) {
+    var level = Timeline.OUTLINE_CONFIGURATIONS[outlineLevel].level;
     if (this.options.hide_tree_root) {
       level++;
     }
     level = this.getLefthandTree().expandTo(level);
-    this.expansionIndex = index;
     this.rebuildAll();
   },
-
   zoom: function(index) {
     if (index === undefined) {
       index = this.zoomIndex;
