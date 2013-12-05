@@ -28,16 +28,16 @@
 
 require 'spec_helper'
 
-describe Queries::Filter do
+describe Queries::WorkPackages::Filter do
   describe :type do
 
     describe 'validations' do
       subject { filter }
 
-      let(:filter) { FactoryGirl.build :filter }
+      let(:filter) { FactoryGirl.build :work_packages_filter }
 
       context 'when the operator does not require values' do
-        let(:filter) { FactoryGirl.build :filter, field: :status_id, operator: '*', values: [] }
+        let(:filter) { FactoryGirl.build :work_packages_filter, field: :status_id, operator: '*', values: [] }
 
         it 'is valid if no values are given' do
           filter.should be_valid
@@ -45,14 +45,14 @@ describe Queries::Filter do
       end
 
       context 'when the operator requires values' do
-        let(:filter) { FactoryGirl.build :filter, field: :done_ratio, operator: '>=', values: [] }
+        let(:filter) { FactoryGirl.build :work_packages_filter, field: :done_ratio, operator: '>=', values: [] }
 
         context 'and no value is given' do
           it { should_not be_valid }
         end
 
         context 'and only an empty string is given as value' do
-          let(:filter) { FactoryGirl.build :filter, field: :due_date, operator: 't-', values: [''] }
+          let(:filter) { FactoryGirl.build :work_packages_filter, field: :due_date, operator: 't-', values: [''] }
 
           it { should_not be_valid }
         end
@@ -65,6 +65,8 @@ describe Queries::Filter do
       end
 
       context 'when it is of type integer' do
+        let(:filter) { FactoryGirl.build :work_packages_filter, field: :done_ratio, operator: '>=', values: [] }
+
         before { filter.field = 'done_ratio' }
 
         context 'and the filter values is an integer' do
@@ -87,7 +89,7 @@ describe Queries::Filter do
       end
 
       context 'when it if of type date or date_past' do
-        let(:filter) { FactoryGirl.build :filter, field: :created_at }
+        let(:filter) { FactoryGirl.build :work_packages_filter, field: :created_at }
 
         context "and the operator is 't' (today)" do
           before { filter.operator = 't' }
