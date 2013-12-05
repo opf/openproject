@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.0pre36
+
 * `#3155` Icons from icon font in content area
 
 ## 3.0.0pre35
