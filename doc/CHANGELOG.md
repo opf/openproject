@@ -32,6 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ## 3.0.0pre36
 
 * `#3155` Icons from icon font in content area
+* Rename German i18n Planungsverantwortlicher -> Verantwortlicher 
 
 ## 3.0.0pre35
 
