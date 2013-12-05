@@ -23,6 +23,11 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'TimelineSe
   $scope.currentOutlineLevel = 'level3';
   $scope.currentScaleName = 'monthly';
 
+  // Load timeline
+  $scope.timeline = TimelineService.createTimeline($scope.timelineOptions);
+  $scope.treeNode = $scope.timeline.getLefthandTree();
+
+
   // Container for timeline rendering
   $scope.getTimelineContainerElementId = function() {
     return 'timeline-container-' + $scope.timelineContainerNo;
@@ -61,39 +66,34 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'TimelineSe
     }
   };
 
-
-
-
-
   $scope.updateToolbar = function() {
     $scope.slider.slider('value', $scope.timeline.zoomIndex + 1);
     $scope.currentOutlineLevel = Timeline.OUTLINE_LEVELS[$scope.timeline.expansionIndex];
     $scope.currentScaleName = Timeline.ZOOM_SCALES[$scope.timeline.zoomIndex];
   };
 
-  $scope.$on('timelines.dataLoaded', function(){
-    tree = null;
-    try {
-      window.clearTimeout($scope.timeline.safetyHook);
 
-      if ($scope.timeline.isGrouping() && $scope.timeline.options.grouping_two_enabled) {
-        $scope.timeline.secondLevelGroupingAdjustments();
+  drawTimeline = function(timeline){
+    try {
+      window.clearTimeout(timeline.safetyHook);
+
+      if (timeline.isGrouping() && timeline.options.grouping_two_enabled) {
+        timeline.secondLevelGroupingAdjustments();
       }
 
-      tree = $scope.timeline.getLefthandTree();
-      if (tree.containsPlanningElements() || tree.containsProjects()) {
-        $scope.timeline.adjustForPlanningElements();
-        $scope.completeUI();
+      treeNode = timeline.getLefthandTree();
+      if (treeNode.containsPlanningElements() || treeNode.containsProjects()) {
+        timeline.adjustForPlanningElements();
+        completeUI();
       } else {
-        $scope.timeline.warn(this.i18n('label_no_data'), 'warning');
+        timeline.warn(this.i18n('label_no_data'), 'warning');
       }
     } catch (e) {
-      $scope.timeline.die(e);
+      timeline.die(e);
     }
-    $scope.$apply();
-  });
+  };
 
-  $scope.completeUI = function() {
+  completeUI = function() {
     // construct tree on left-hand-side.
     $scope.timeline.rebuildTree();
 
@@ -106,11 +106,9 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'TimelineSe
     // timeline graph.
     if ($scope.timeline.options.zoom_factor &&
         $scope.timeline.options.zoom_factor.length === 1) {
-
       $scope.timeline.zoom(
         $scope.timeline.pnum($scope.timeline.options.zoom_factor[0])
       );
-
     } else {
       $scope.timeline.zoomOut();
     }
@@ -137,16 +135,16 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'TimelineSe
     });
   };
 
-
-
-  // Load timeline
-  $scope.timeline = TimelineService.createTimeline($scope.timelineOptions);
-
+  $scope.$on('timelines.dataLoaded', function(){
+    $scope.$apply();
+  });
 
   angular.element(document).ready(function() {
     // start timeline
     $scope.timeline.registerTimelineContainer($scope.getTimelineContainer());
-    TimelineService.loadTimelineData($scope.timeline);
+    TimelineService.loadTimelineData($scope.timeline).then(drawTimeline);
+
+    // TimelineService.loadTimelineData($scope.timeline).then($scope.outputStuff);
 
     // $scope.timeline = TimelineService.startTimeline($scope.timelineOptions, $scope.getTimelineContainer());
 

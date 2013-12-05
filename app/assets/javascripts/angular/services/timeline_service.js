@@ -1,11 +1,12 @@
-timelinesApp.service('TimelineService',['$rootScope', '$http', function($rootScope, $http) {
+timelinesApp.service('TimelineService', ['$q', '$rootScope', function($q, $rootScope) {
+  deferred = $q.defer();
+
   TimelineService = {
     createTimeline: function(timelineOptions) {
       return Timeline.create(timelineOptions);
     },
     loadTimelineData: function(timeline) {
       timelineLoader = null;
-
       try {
         // prerequisites (3rd party libs)
         timeline.checkPrerequisites();
@@ -25,23 +26,24 @@ timelinesApp.service('TimelineService',['$rootScope', '$http', function($rootSco
 
         timelineLoader = timeline.provideTimelineLoader();
 
-        jQuery(timelineLoader).on('complete', jQuery.proxy(function(e, data) {
+        jQuery(timelineLoader).on('complete', function(e, data) {
           jQuery.extend(timeline, data);
+          deferred.resolve(timeline);
           $rootScope.$broadcast('timelines.dataLoaded');
-          // timeline.defer(jQuery.proxy(timeline, 'onLoadComplete'),
-          //            timeline.options.artificial_load_delay);
-        }, timeline));
+        });
 
         timeline.safetyHook = window.setTimeout(function() {
           timeline.die(timeline.i18n('timelines.errors.report_timeout'));
+          deferred.reject(timeline.i18n('timelines.errors.report_timeout'));
         }, Timeline.LOAD_ERROR_TIMEOUT);
 
         timelineLoader.load();
 
-        return timeline;
       } catch (e) {
         timeline.die(e);
+        deferred.reject(e);
       }
+      return deferred.promise;
     },
     startTimeline: function(timelineOptions, uiRoot) {
       // TimelineService.loadTimeline(timelineOptions);
