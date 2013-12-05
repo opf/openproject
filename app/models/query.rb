@@ -90,7 +90,11 @@ class Query < ActiveRecord::Base
 
   def validate_work_package_filters
     self.filters.each do |filter|
-      errors.add :base, errors.full_message(WorkPackage.human_attribute_name(filter.field), filter.errors.messages.values.flatten.join(' and ')) unless filter.valid?
+      unless filter.valid?
+        attribute_name = WorkPackage.human_attribute_name(filter.field)
+        messages = filter.errors.messages.values.flatten.join(" #{I18n.t('support.array.sentence_connector')} ")
+        errors.add :base, errors.full_message(attribute_name, messages)
+      end
     end
   end
 
