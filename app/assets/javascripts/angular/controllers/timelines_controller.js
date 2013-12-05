@@ -144,10 +144,6 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'TimelineSe
     $scope.timeline.registerTimelineContainer($scope.getTimelineContainer());
     TimelineService.loadTimelineData($scope.timeline).then(drawTimeline);
 
-    // TimelineService.loadTimelineData($scope.timeline).then($scope.outputStuff);
-
-    // $scope.timeline = TimelineService.startTimeline($scope.timelineOptions, $scope.getTimelineContainer());
-
     // Update toolbar values (TODO: Load timeline previously & refactor)
     // $scope.updateToolbar();
 

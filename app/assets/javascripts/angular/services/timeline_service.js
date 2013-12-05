@@ -44,10 +44,6 @@ timelinesApp.service('TimelineService', ['$q', '$rootScope', function($q, $rootS
         deferred.reject(e);
       }
       return deferred.promise;
-    },
-    startTimeline: function(timelineOptions, uiRoot) {
-      // TimelineService.loadTimeline(timelineOptions);
-      return Timeline.startup(timelineOptions, uiRoot);
     }
   };
 
