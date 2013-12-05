@@ -73,6 +73,7 @@ See doc/COPYRIGHT.rdoc for more details.
     });
   })();
 </script>
-<%= render :partial => "/timelines/templates/project_timeline_template" %>
+<%= render :partial => "/timelines/templates/timeline_container_template" %>
+<%= render :partial => "/timelines/templates/timeline_project_template" %>
 
 <%= render :partial => "timeline", :locals => {:timeline => @timeline} %>

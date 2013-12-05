@@ -91,6 +91,10 @@ window.backbone_app.views.ProjectTimelineView = window.backbone_app.views.BaseVi
     // join others with milestones, and remove all that should be filtered.
     pes = jQuery.grep(others.concat(milestones), visible_in_aggregation);
 
+    // Note to team: Commenting this out right now because it needs various methods
+    // put onto the backbone planning element timeline and i've run out of time right
+    // now. This is probably why the elements are not rendering in the correct places.
+
     // Outer loop to calculate best label space for each planning
     // element. Here, we initialize possible spaces by registering the
     // whole element as the single space for a label.

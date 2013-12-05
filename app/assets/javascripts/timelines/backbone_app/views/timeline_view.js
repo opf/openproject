@@ -1,17 +1,16 @@
-window.backbone_app.views.ProjectView = window.backbone_app.views.BaseView.extend({
+window.backbone_app.views.TimelineView = window.backbone_app.views.BaseView.extend({
   tagName: "div",
 
   className: "backbone-app",
 
-  // el: function(){
-  //   return this.options.ui_root;
-  // }
-
   template: function(){
-    return _.template(jQuery('#project-timeline-template').html(), {model: this.project()});
+    return _.template(jQuery('#timeline-container-template').html(), {model: this.project()});
   },
 
-  // Note: Just now i've only done zoom change but we'd need the outline dropdown events too
+  /* Note to team:
+    Just now i've only done zoom change but we'd need the outline dropdown events too.
+    Essentially nothing really works but it's enough to see the structure.
+  */
   events : {
     "change #zoom-select" : "handleZoomChange"
   },
@@ -56,8 +55,8 @@ window.backbone_app.views.ProjectView = window.backbone_app.views.BaseView.exten
     });
   },
 
-  /* Set up the behaviour of the timeline form components */
-  /* Just now I've only done zoom but you get the idea */
+  /* Set up the behaviour of the timeline form components that need extra init
+     eg. jquery components. */
   initComponents: function(){
     var self = this;
 

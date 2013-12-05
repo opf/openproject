@@ -57,6 +57,18 @@ if (typeof Timeline === "undefined") {
   Timeline = {};
 }
 
+/* Note to team:
+  This file is very messy and basically contains methods that I wanted to change from
+  ui.js whilst keeping the old ones so that I could refer to them. My goal would be to move
+  anything here into the relevant backbone view class or back into ui.js which would then
+  be as a library for the views.
+
+  I really strongly think that current Timeline methods (in ui.js
+  or timelines.js or whatever) should not be called from models! The most important refactoring
+  task in my opinion right now should be to move all ui related code out of the models and
+  into the view classes or libraries.
+*/
+
 //UI?
 jQuery.extend(Timeline, {
 
@@ -64,7 +76,7 @@ jQuery.extend(Timeline, {
     var timeline = this;
 
     // construct tree on left-hand-side.
-    this.rebuildTreeBackbone(tree, ui_root);
+    // this.rebuildTreeBackbone(tree, ui_root);
 
     // lift the curtain, paper otherwise doesn't show w/ VML.
     jQuery('.timeline').removeClass('tl-under-construction');
@@ -106,8 +118,6 @@ jQuery.extend(Timeline, {
     // jQuery(window).scroll(function() {
     //   timeline.adjustTooltip();
     // });
-
-    return this.paper;
   },
 
   getTree: function(){
@@ -128,44 +138,206 @@ jQuery.extend(Timeline, {
     // this.rebuildAllBackbone();
   },
 
-  rebuildAllBackbone: function() {
+  rebuildGraphBackground: function(tree, ui_root){
     var timeline = this;
-    var root = timeline.getUiRoot();
-    var tree = timeline.getTree();
+    var chart = ui_root;
 
-    delete this.table_offset;
+    chart.css({'display': 'none'});
 
-    window.clearTimeout(this.rebuildTimeout);
-    this.rebuildTimeout = timeline.defer(function() {
-      timeline.rebuildTreeBackbone(tree, root);
+    var width = timeline.getWidth();
+    var height = timeline.getHeight();
 
-      // The minimum width of the whole timeline should be the actual
-      // width of the table added to the minimum chart width. That way,
-      // the floats never break.
+    // clear and resize
+    timeline.paper.clear();
+    timeline.paper.setSize(width, height);
 
-      if (timeline.options.hide_chart == null) {
-        root.find('.timeline').css({
-          'min-width': root.find('.tl-left-main').width() +
-                         Timeline.MIN_CHART_WIDTH
-        });
-      }
-
-      if (timeline.options.hide_chart !== 'yes') {
-        timeline.rebuildGraphBackbone(tree, root);
-      } else {
-        var chart = timeline.getUiRoot().find('.tl-chart');
-        chart.css({ display: 'none'});
-      }
-      timeline.adjustScrollingForChangedContent();
+    timeline.defer(function() {
+      // rebuild content
+      timeline.rebuildBackground(tree, width, height);
+      chart.css({'display': 'block'});
+      // timeline.rebuildForegroundBackbone(tree);
     });
+
+    // return timeline.getRenderableElementNodes(tree);
   },
 
-  /* TODO RS:
-       This needs to change a lot...
-       This should all be made with various templates and not constructed on the fly
+  // getRenderableElementNodes: function(tree) {
+  //   var timeline = this;
+  //   var previousGrouping = -1;
+  //   var grouping;
+  //   var width = timeline.getWidth();
+  //   var previousNode;
+  //   var render_buckets = [[], [], [], []];
+  //   var render_bucket_vertical = render_buckets[0];
+  //   var render_bucket_element = render_buckets[1];
+  //   var render_bucket_vertical_milestone = render_buckets[2];
+  //   var render_bucket_text = render_buckets[3];
+  //   var renderable_planning_elements = [];
 
+  //   // iterate over all planning elements and find vertical ones to draw.
+  //   jQuery.each(timeline.verticalPlanningElementIds(), function (i, e) {
+  //     var pl = timeline.getPlanningElement(e);
+
+  //     // the planning element should have been loaded already. however,
+  //     // it might not have been, or it might not even exist. in that
+  //     // case, we simply ignore it.
+  //     if (pl === undefined) {
+  //       return;
+  //     }
+
+  //     var pet = pl.getPlanningElementType();
+
+  //     var node = Object.create(Timeline.TreeNode);
+  //     node.setData(pl);
+
+  //     if (pl.vertical) {
+  //       if (pet && pet.is_milestone) {
+  //         render_bucket_vertical_milestone.push(function () {
+  //           pl.renderVertical(node);
+  //         });
+  //       } else {
+  //         render_bucket_vertical.push(function () {
+  //           pl.renderVertical(node);
+  //         });
+  //       }
+  //     }
+  //   });
+
+  //   tree.iterateWithChildren(function(node, indent, index) {
+  //     var currentElement = node.getDOMElement();
+  //     var currentOffset = timeline.getRelativeVerticalOffset(currentElement);
+  //     var previousElement, previousEnd, groupHeight;
+  //     var groupingChanged = false;
+  //     var pl = node.getData();
+
+  //     // if the grouping changed, put a grey box here.
+
+  //     if (timeline.isGrouping() && indent === 0 && pl.is(Timeline.Project)) {
+  //       grouping = pl.getFirstLevelGrouping();
+  //       if (previousGrouping !== grouping) {
+
+  //         groupingChanged = true;
+
+  //         // previousEnd is the vertical position at which a previous
+  //         // element ended. It is calculated by adding the previous
+  //         // element's vertical offset to it's height.
+
+  //         if (previousNode !== undefined) {
+  //           previousElement = previousNode.getDOMElement();
+  //           previousEnd = timeline.getRelativeVerticalOffset(previousElement) +
+  //               previousElement.outerHeight();
+  //         } else {
+
+  //           previousEnd = timeline.decoHeight();
+  //         }
+
+  //         // groupHeight is the height gap between the vertical position
+  //         // at which the current element begins (currentOffset) and the
+  //         // position the previous element ended (previousEnd).
+
+  //         groupHeight = currentOffset - previousEnd;
+
+  //         // draw grey box.
+
+  //         timeline.paper.rect(
+  //           Timeline.GROUP_BAR_INDENT,
+  //           previousEnd,
+  //           width - 2 * Timeline.GROUP_BAR_INDENT,
+  //           groupHeight
+  //         ).attr({
+  //           'fill': '#bbb',
+  //           'fill-opacity': 0.5,
+  //           'stroke-width': 1,
+  //           'stroke-opacity': 1,
+  //           'stroke': Timeline.DEFAULT_STROKE_COLOR
+  //         });
+
+  //         previousGrouping = grouping;
+  //       }
+
+  //     }
+
+  //     // if there is a new project, draw a black line.
+
+  //     if (pl.is(Timeline.Project)) {
+
+  //       if (!groupingChanged) {
+
+  //         // draw lines between projects
+  //         timeline.paper.path(
+  //           timeline.psub('M0 #{y}h#{w}', {
+  //             y: currentOffset,
+  //             w: width
+  //           })
+  //         ).attr({
+  //           'stroke-width': 1,
+  //           'stroke': Timeline.DEFAULT_STROKE_COLOR
+  //         });
+
+  //       }
+
+  //     } else if (pl.is(Timeline.PlanningElement)) {
+
+  //     }
+
+  //     previousNode = node;
+
+  //     if (pl.is(Timeline.PlanningElement)) {
+  //       // TODO RS: Get the view to render this somehow
+  //       // Could simply create a list of the elements and then pass them
+  //       // back to the view and let it create subviews and render them.
+  //       // It will need the raphael element to do this though.
+  //       renderable_planning_elements.push(node)
+  //       // render_bucket_text.push(function () {
+  //       //   pl.renderForeground(node);
+  //       // });
+  //     }
+
+  //     render_bucket_element.push(function() {
+  //       // TODO RS: Get the view to render this somehow
+  //       // pl.render(node);
+  //     });
+  //   }, {timeline: timeline});
+
+  //   var buckets = Array.prototype.concat.apply([], render_buckets);
+
+  //   // Note RS: Here we have a list of all of the rendering methods which then get called.
+  //   // Instead we should have a lite of the elements which get returned back to the backbone
+  //   // view which can then be passed to a rendering function on the newly created child view.
+  //   // var render_next_bucket = function() {
+  //   //   if (buckets.length !== 0) {
+  //   //     jQuery.each(buckets.splice(0, Timeline.RENDER_BUCKET_SIZE), function(i, e) {
+  //   //       e.call();
+  //   //     });
+  //   //     timeline.defer(render_next_bucket);
+  //   //   } else {
+  //   //     timeline.finishGraph();
+  //   //   }
+  //   // };
+
+  //   // render_next_bucket();
+  //   return renderable_planning_elements;
+  // },
+
+  /* Note to team:
+       This is the main part that needs changing that I don't have time to do.
+       To fit this in with backbone we should replace all this with an underscore
+       template(s) (timeline-project-template).
+
+       Problems with this are:
+       1 - This method is traversing a tree of planning elements and I don't know
+         how I'd handle that within a single template. Perhaps we could render multiple
+         planning element templates, although I think they might depend on each other (?)
+         so it could geta bit complicated.
+       2 - There is a call to node.setDOMElement(cell) burried in the logic. Clearly
+         this shouldn't be there and so the rendered html elements would have to be added
+         to their respective nodes afterwards. Again, this could be awkward.
+       3 - I think in general it seems a strange tactic to render the html table and then
+         attach it's components to the nodes which then later are used to draw the elements
+         onto the graph. Changing that would be a much bigger task though, so given the
+         current setup I think this is still the best place to do the rendering.
   */
-  rebuildTreeBackbone: function(tree, ui_root) {
+  buildTree: function(tree, ui_root) {
     var where = ui_root.find('.tl-left-main');
     // var tree = this.getLefthandTree();
     var table = jQuery('<table class="tl-main-table"></table>');
@@ -344,187 +516,6 @@ jQuery.extend(Timeline, {
     for (i = 0; i < change.length; i += 1) {
       change[i].e.css("width", change[i].w);
     }
-  },
-
-  rebuildGraphBackground: function(tree, ui_root){
-    var timeline = this;
-    var chart = ui_root;
-
-    chart.css({'display': 'none'});
-
-    var width = timeline.getWidth();
-    var height = timeline.getHeight();
-
-    // clear and resize
-    timeline.paper.clear();
-    timeline.paper.setSize(width, height);
-
-    timeline.defer(function() {
-      // rebuild content
-      timeline.rebuildBackground(tree, width, height);
-      chart.css({'display': 'block'});
-      // timeline.rebuildForegroundBackbone(tree);
-    });
-
-    // return timeline.getRenderableElementNodes(tree);
-  },
-
-  getRenderableElementNodes: function(tree) {
-    var timeline = this;
-    var previousGrouping = -1;
-    var grouping;
-    var width = timeline.getWidth();
-    var previousNode;
-    var render_buckets = [[], [], [], []];
-    var render_bucket_vertical = render_buckets[0];
-    var render_bucket_element = render_buckets[1];
-    var render_bucket_vertical_milestone = render_buckets[2];
-    var render_bucket_text = render_buckets[3];
-    var renderable_planning_elements = [];
-
-    // iterate over all planning elements and find vertical ones to draw.
-    jQuery.each(timeline.verticalPlanningElementIds(), function (i, e) {
-      var pl = timeline.getPlanningElement(e);
-
-      // the planning element should have been loaded already. however,
-      // it might not have been, or it might not even exist. in that
-      // case, we simply ignore it.
-      if (pl === undefined) {
-        return;
-      }
-
-      var pet = pl.getPlanningElementType();
-
-      var node = Object.create(Timeline.TreeNode);
-      node.setData(pl);
-
-      if (pl.vertical) {
-        if (pet && pet.is_milestone) {
-          render_bucket_vertical_milestone.push(function () {
-            pl.renderVertical(node);
-          });
-        } else {
-          render_bucket_vertical.push(function () {
-            pl.renderVertical(node);
-          });
-        }
-      }
-    });
-
-    tree.iterateWithChildren(function(node, indent, index) {
-      var currentElement = node.getDOMElement();
-      var currentOffset = timeline.getRelativeVerticalOffset(currentElement);
-      var previousElement, previousEnd, groupHeight;
-      var groupingChanged = false;
-      var pl = node.getData();
-
-      // if the grouping changed, put a grey box here.
-
-      if (timeline.isGrouping() && indent === 0 && pl.is(Timeline.Project)) {
-        grouping = pl.getFirstLevelGrouping();
-        if (previousGrouping !== grouping) {
-
-          groupingChanged = true;
-
-          // previousEnd is the vertical position at which a previous
-          // element ended. It is calculated by adding the previous
-          // element's vertical offset to it's height.
-
-          if (previousNode !== undefined) {
-            previousElement = previousNode.getDOMElement();
-            previousEnd = timeline.getRelativeVerticalOffset(previousElement) +
-                previousElement.outerHeight();
-          } else {
-
-            previousEnd = timeline.decoHeight();
-          }
-
-          // groupHeight is the height gap between the vertical position
-          // at which the current element begins (currentOffset) and the
-          // position the previous element ended (previousEnd).
-
-          groupHeight = currentOffset - previousEnd;
-
-          // draw grey box.
-
-          timeline.paper.rect(
-            Timeline.GROUP_BAR_INDENT,
-            previousEnd,
-            width - 2 * Timeline.GROUP_BAR_INDENT,
-            groupHeight
-          ).attr({
-            'fill': '#bbb',
-            'fill-opacity': 0.5,
-            'stroke-width': 1,
-            'stroke-opacity': 1,
-            'stroke': Timeline.DEFAULT_STROKE_COLOR
-          });
-
-          previousGrouping = grouping;
-        }
-
-      }
-
-      // if there is a new project, draw a black line.
-
-      if (pl.is(Timeline.Project)) {
-
-        if (!groupingChanged) {
-
-          // draw lines between projects
-          timeline.paper.path(
-            timeline.psub('M0 #{y}h#{w}', {
-              y: currentOffset,
-              w: width
-            })
-          ).attr({
-            'stroke-width': 1,
-            'stroke': Timeline.DEFAULT_STROKE_COLOR
-          });
-
-        }
-
-      } else if (pl.is(Timeline.PlanningElement)) {
-
-      }
-
-      previousNode = node;
-
-      if (pl.is(Timeline.PlanningElement)) {
-        // TODO RS: Get the view to render this somehow
-        // Could simply create a list of the elements and then pass them
-        // back to the view and let it create subviews and render them.
-        // It will need the raphael element to do this though.
-        renderable_planning_elements.push(node)
-        // render_bucket_text.push(function () {
-        //   pl.renderForeground(node);
-        // });
-      }
-
-      render_bucket_element.push(function() {
-        // TODO RS: Get the view to render this somehow
-        // pl.render(node);
-      });
-    }, {timeline: timeline});
-
-    var buckets = Array.prototype.concat.apply([], render_buckets);
-
-    // Note RS: Here we have a list of all of the rendering methods which then get called.
-    // Instead we should have a lite of the elements which get returned back to the backbone
-    // view which can then be passed to a rendering function on the newly created child view.
-    // var render_next_bucket = function() {
-    //   if (buckets.length !== 0) {
-    //     jQuery.each(buckets.splice(0, Timeline.RENDER_BUCKET_SIZE), function(i, e) {
-    //       e.call();
-    //     });
-    //     timeline.defer(render_next_bucket);
-    //   } else {
-    //     timeline.finishGraph();
-    //   }
-    // };
-
-    // render_next_bucket();
-    return renderable_planning_elements;
   },
 
   getLefthandTreeBackbone: function(project, planning_elements){

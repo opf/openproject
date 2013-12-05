@@ -3,7 +3,21 @@ window.backbone_app.views.PlanningElementsView = window.backbone_app.views.BaseV
 
   className: "backbone-app",
 
+  /* Note to team:
+    In this view I would like to setup backbone event handlers for actions that can be
+    done on planning elements. However given that currently the actual planning
+    element html elements are not attached to the DOM (they're only on the node tree, is
+    that correct?) I'm not sure that it would work.
+
+    If this is the case then I think this would be a good area to think about so
+    that we can get lots of nice event handlers in here for all the actions that could
+    be performed on planning elements on the graph.
+  */
   events: {},
+
+  template: function(){
+    return _.template(jQuery('#timeline-project-template').html(), data);
+  },
 
   parent: function(){
     return this.options.parent;
@@ -24,6 +38,7 @@ window.backbone_app.views.PlanningElementsView = window.backbone_app.views.BaseV
     var tree = lib_timelines.getLefthandTreeBackbone(this.parent(), this.collection);
     var ui_root = jQuery('.tl-chart');
     lib_timelines.completeUIBackbone(tree, ui_root);
+    lib_timelines.buildTree(tree, ui_root);
     lib_timelines.rebuildGraphBackground(tree, ui_root);
 
     // Render the first project
@@ -50,5 +65,6 @@ window.backbone_app.views.PlanningElementsView = window.backbone_app.views.BaseV
       planning_elements: planning_elements,
     });
     project_timeline_view.render();
-  }
+  },
+
 });
