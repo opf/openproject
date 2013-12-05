@@ -15,6 +15,7 @@ window.backbone_app.views.ProjectTimelineView = window.backbone_app.views.BaseVi
   },
 
   render: function() {
+    console.log('rendering project planning elements on the timeline');
     // NOTE: This render method is responsible for creating all the sub-planning-element
     // views and rendering them. This code has been moved here from the old Project element
     // render methed and reduced to only show planning elements. Also I'm ignoring planning

@@ -106,6 +106,8 @@ jQuery.extend(Timeline, {
     // jQuery(window).scroll(function() {
     //   timeline.adjustTooltip();
     // });
+
+    return this.paper;
   },
 
   getTree: function(){
@@ -165,7 +167,7 @@ jQuery.extend(Timeline, {
   */
   rebuildTreeBackbone: function(tree, ui_root) {
     var where = ui_root.find('.tl-left-main');
-    var tree = this.getLefthandTree();
+    // var tree = this.getLefthandTree();
     var table = jQuery('<table class="tl-main-table"></table>');
     var body = jQuery('<tbody></tbody>');
     var head = jQuery('<thead></thead>');
@@ -253,7 +255,7 @@ jQuery.extend(Timeline, {
 
       cell.append(contentWrapper);
 
-      text = timeline.escape(data.subject || data.name);
+      text = timeline.escape(data.get('subject') || data.get('name'));
       if (data.getUrl instanceof Function) {
         text = jQuery('<a href="' + data.getUrl() + '" class="tl-discreet-link" data-modal/>').append(text).attr("title", text);
       }
@@ -315,7 +317,7 @@ jQuery.extend(Timeline, {
           row.addClass('tl-first-row');
         }
       }
-    });
+    }, {timeline: timeline});
 
     // attribute a special class to the last row
     if (row !== undefined) {
@@ -523,5 +525,44 @@ jQuery.extend(Timeline, {
 
     // render_next_bucket();
     return renderable_planning_elements;
+  },
+
+  getLefthandTreeBackbone: function(project, planning_elements){
+    var tree = Object.create(Timeline.TreeNode);
+    var parent_stack = [];
+
+    tree.setData(project);
+
+    var count = 1;
+    // for the given node, appends the given planning_elements as children,
+    // recursively. every node will have the planning_element as data.
+    var treeConstructor = function(node, elements) {
+      count += 1;
+
+      var MAXIMUMPROJECTCOUNT = 12000;
+      if (count > MAXIMUMPROJECTCOUNT) {
+        throw I18n.t('js.timelines.tooManyProjects', {count: MAXIMUMPROJECTCOUNT});
+      }
+
+      elements.each(function(e) {
+        parent_stack.push(node.payload);
+        for (var j = 0; j < parent_stack.length; j++) {
+          if (parent_stack[j] === e) {
+            parent_stack.pop();
+            return; // no more recursion!
+          }
+        }
+        var newNode = Object.create(Timeline.TreeNode);
+        newNode.setData(e);
+        node.appendChild(newNode);
+        treeConstructor(newNode, newNode.getData().getSubElements());
+        parent_stack.pop();
+      });
+      return node;
+    };
+
+    var lefthandTree = lefthandTree = treeConstructor(tree, planning_elements);
+    lefthandTree.expandTo(0);
+    return lefthandTree;
   },
 });

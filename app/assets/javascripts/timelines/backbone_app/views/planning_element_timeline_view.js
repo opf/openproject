@@ -31,6 +31,7 @@ window.backbone_app.views.PlanningElementTimelineView = window.backbone_app.view
   },
 
   render: function(){
+    console.log('rendering planning element on the timeline');
     this.renderMain();
     // this.renderForeground();
   },
@@ -141,7 +142,7 @@ window.backbone_app.views.PlanningElementTimelineView = window.backbone_app.view
     // either a start or an end date.
     // TODO RS: Current location
     if (has_one_date) {
-      color = this.getColor();
+      color = this.model.getColor();
 
       if (!has_both_dates) {
         strokeColor = 'none';
@@ -158,7 +159,7 @@ window.backbone_app.views.PlanningElementTimelineView = window.backbone_app.view
 
       if (!deleted && pet && pet.is_milestone) {
 
-      } else if (!deleted && !in_aggregation && this.hasChildren() && node.isExpanded()) {
+      } else if (!deleted && !in_aggregation && this.model.hasChildren() && node.isExpanded()) {
 
         // with teeth (has children).
 
@@ -195,6 +196,7 @@ window.backbone_app.views.PlanningElementTimelineView = window.backbone_app.view
     }
   },
 
+  /*
   renderForeground: function (node, in_aggregation, label_space) {
     // TODO RS: Fix it all up there...
     var timeline = this.timeline;
@@ -406,5 +408,5 @@ window.backbone_app.views.PlanningElementTimelineView = window.backbone_app.view
       timeline.addHoverHandler(node, e);
       //self.addElement(e);
     });
-  },
+  }, */
 });

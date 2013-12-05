@@ -1,6 +1,6 @@
 window.backbone_app.models.PlanningElement = Backbone.Model.extend({
   planning_element_type: {
-    is_milestone: true,
+    is_milestone: false,
     in_aggregation: true,
   },
 
@@ -8,6 +8,12 @@ window.backbone_app.models.PlanningElement = Backbone.Model.extend({
   // returned in the server response json?
   getSubElements: function(){
     return [];
+  },
+
+  // TODO RS: Just return false for now but really need to look if we have
+  // nested elements.
+  hasChildren: function() {
+    return false;
   },
 
   /* Dummy method since we don't have backbone planning element types yet */
@@ -166,5 +172,33 @@ window.backbone_app.models.PlanningElement = Backbone.Model.extend({
         return this.x + this.w;
       }
     };
+  },
+
+  getColor: function () {
+    // // if there is a color for this planning element type, use it.
+    // // use it also for planning elements w/ children. if there are
+    // // children but no planning element type, use the default color
+    // // for planning element parents. if there is no planning element
+    // // type and there are no children, use a default color.
+    // var pet = this.getPlanningElementType();
+    // var color;
+
+    // if (pet && pet.color) {
+    //   color = pet.color.hexcode;
+    // } else if (this.hasChildren()) {
+    //   color = Timeline.DEFAULT_PARENT_COLOR;
+    // } else {
+    //   color = Timeline.DEFAULT_COLOR;
+    // }
+
+    // if (!this.hasBothDates()) {
+    //   if (this.hasStartDate()) {
+    //     color = "180-#ffffff-" + color;
+    //   } else {
+    //     color = "180-" + color + "-#ffffff";
+    //   }
+    // }
+    color = Timeline.DEFAULT_COLOR;
+    return color;
   },
 });

@@ -18,4 +18,16 @@ window.backbone_app.models.Project = Backbone.Model.extend({
   hide: function(){
     return false;
   },
+
+  getUrl: function() {
+    // var options = this.timeline.options;
+    // var url = options.url_prefix;
+
+    // url += options.project_prefix;
+    url = "/";
+    url += this.get('identifier');
+    url += "/timelines";
+
+    return url;
+  },
 });

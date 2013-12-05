@@ -17,39 +17,18 @@ window.backbone_app.views.PlanningElementsView = window.backbone_app.views.BaseV
   },
 
   render: function(){
-    console.log('rendering planning elements');
+    console.log('rendering all planning elements');
 
     // Try to use old Timeline code with backbone models
     var lib_timelines = this.options.lib_timelines;
     var tree = lib_timelines.getLefthandTreeBackbone(this.parent(), this.collection);
     var ui_root = jQuery('.tl-chart');
     lib_timelines.completeUIBackbone(tree, ui_root);
-
-    // Draw the chart background and get a list of renderable planning elements
-    // TODO RS: Still using lib_timelines as a buffer but really we want to move everything
-    // to the views so have a drawBackground() method and also call getRenderableElementNodes()
-    // separately and see if we could remove it altogether.
-
-    // TODO RS: This is a more generalised solution but right now i just want to get it
-    // working for one project
-
-    // var planning_element_nodes = lib_timelines.rebuildGraphBackbone(tree, ui_root);
-    // jQuery.each(planning_element_nodes, function(i, node){
-    //   console.log("init planning element" + node.payload.get('description'));
-    //   var pe_view = new window.backbone_app.views.PlanningElementTimelineView({
-    //     timeline: lib_timelines,
-    //     paper: ui_root,
-    //     node: node,
-    //     in_aggregation: false, // TODO RS: What's this for?
-    //     label_space: false // TODO RS: What's this for?
-    //   });
-    //   pe_view.render();
-    // })
+    lib_timelines.rebuildGraphBackground(tree, ui_root);
 
     // Render the first project
     // ALERT: Only for demonstration!
     // This is a hack to try and just get one project displaying!
-    lib_timelines.rebuildGraphBackground(tree, ui_root);
     var project_node = tree
 
     // Get a list of planning element models
@@ -62,9 +41,11 @@ window.backbone_app.views.PlanningElementsView = window.backbone_app.views.BaseV
       planning_elements.push(node.payload);
     })
 
+    // ALERT: Here we are creating and rendering one project timeline view but really there
+    // should be one for each of the projects in the tree.
     var project_timeline_view = new window.backbone_app.views.ProjectTimelineView({
       timeline: lib_timelines,
-      paper: ui_root,
+      paper: lib_timelines.paper,
       node: project_node,
       planning_elements: planning_elements,
     });
