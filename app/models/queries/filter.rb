@@ -29,6 +29,13 @@
 class Queries::Filter
   include ActiveModel::Validations
 
+  class_attribute :filter_types_by_field, instance_writer: false
+
+  self.filter_types_by_field = {
+    created_at: :date_past,
+    updated_at: :date_past
+  }
+
   @@filter_params = [:operator, :values] # will be serialized and persisted with the query
 
   @@operators = {
@@ -54,11 +61,6 @@ class Queries::Filter
 
   @@operators_not_requiring_values = %w(o c !* * t w)
 
-  @@filter_types_by_field = {
-    created_at: :date_past,
-    updated_at: :date_past
-  }
-
   @@operators_by_filter_type = {
     list:             [ "=", "!" ],
     list_status:      [ "o", "=", "!", "c", "*" ],
@@ -71,7 +73,7 @@ class Queries::Filter
     integer:          [ "=", ">=", "<=", "!*", "*" ]
  }
 
-  cattr_reader :operators, :filter_types_by_field, :operators_by_filter_type
+  cattr_reader :operators, :operators_by_filter_type
 
   attr_accessor :field, *@@filter_params
 
@@ -105,7 +107,7 @@ class Queries::Filter
   end
 
   def type
-    @@filter_types_by_field[field]
+    self.filter_types_by_field[field]
   end
 
   protected

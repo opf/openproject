@@ -27,7 +27,7 @@
 #++
 
 class Queries::WorkPackages::Filter < Queries::Filter
-  @@filter_types_by_field = superclass.filter_types_by_field.merge(
+  self.filter_types_by_field = self.filter_types_by_field.merge(
      status_id:        :list_status,
      type_id:          :list,
      priority_id:      :list,
@@ -48,5 +48,5 @@ class Queries::WorkPackages::Filter < Queries::Filter
      watcher_id:       :list
   )
 
-  validates :field, inclusion: { in: @@filter_types_by_field.keys, message: "%(value) is not a valid filter" }, unless: Proc.new {|filter| filter.field.to_s.starts_with?('cf_')}
+  validates :field, inclusion: { in: self.filter_types_by_field.keys, message: "%(value) is not a valid filter" }, unless: Proc.new {|filter| filter.field.to_s.starts_with?('cf_')}
 end
