@@ -27,7 +27,7 @@
 #++
 
 class QueryColumn
-  attr_accessor :name, :sortable, :groupable, :alias, :default_order
+  attr_accessor :name, :sortable, :groupable, :join, :default_order
   include Redmine::I18n
 
   def initialize(name, options={})
@@ -39,7 +39,7 @@ class QueryColumn
     else
       groupable || false
     end
-    self.alias = options.delete(:alias)
+    self.join = options.delete(:join)
 
     self.default_order = options[:default_order]
     @caption_key = options[:caption] || name.to_s
