@@ -139,11 +139,13 @@ class Query < ActiveRecord::Base
 
   # Deprecated
   def operator_for(field)
+    warn "#operator_for is deprecated. Query the filter object directly, instead."
     filter_for(field).try :operator
   end
 
   # Deprecated
   def values_for(field)
+    warn "#values_for is deprecated. Query the filter object directly, instead."
     filter_for(field).try :values
   end
 
