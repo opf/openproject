@@ -80,6 +80,7 @@ class ::Query::Results
 
     WorkPackage.where(::Query.merge_conditions(query.statement, options[:conditions]))
                .includes([:status, :project] + (options[:include] || []).uniq)
+               .joins(query.group_by_column.alias)
                .order(order_option)
   end
 
