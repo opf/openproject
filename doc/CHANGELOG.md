@@ -29,7 +29,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#1966` Select person responsible for project with auto-completion form
 * `#2289` Fix: Deploying in a subdirectory
+* `#2527` Create project has useless responsible field
 
 ## 3.0.0pre36
 
