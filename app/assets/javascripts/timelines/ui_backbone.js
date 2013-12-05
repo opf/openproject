@@ -344,7 +344,7 @@ jQuery.extend(Timeline, {
     }
   },
 
-  rebuildGraphBackbone: function(tree, ui_root){
+  rebuildGraphBackground: function(tree, ui_root){
     var timeline = this;
     var chart = ui_root;
 
@@ -361,11 +361,13 @@ jQuery.extend(Timeline, {
       // rebuild content
       timeline.rebuildBackground(tree, width, height);
       chart.css({'display': 'block'});
-      timeline.rebuildForegroundBackbone(tree);
+      // timeline.rebuildForegroundBackbone(tree);
     });
+
+    // return timeline.getRenderableElementNodes(tree);
   },
 
-  rebuildForegroundBackbone: function(tree) {
+  getRenderableElementNodes: function(tree) {
     var timeline = this;
     var previousGrouping = -1;
     var grouping;
@@ -376,6 +378,7 @@ jQuery.extend(Timeline, {
     var render_bucket_element = render_buckets[1];
     var render_bucket_vertical_milestone = render_buckets[2];
     var render_bucket_text = render_buckets[3];
+    var renderable_planning_elements = [];
 
     // iterate over all planning elements and find vertical ones to draw.
     jQuery.each(timeline.verticalPlanningElementIds(), function (i, e) {
@@ -486,18 +489,19 @@ jQuery.extend(Timeline, {
       previousNode = node;
 
       if (pl.is(Timeline.PlanningElement)) {
-        render_bucket_text.push(function () {
-          // TODO RS: Get the view to render this somehow
-          // Could simply create a list of the elements and then pass them
-          // back to the view and let it create subviews and render them.
-          // It will need the raphael element to do this though.
-          pl.renderForeground(node);
-        });
+        // TODO RS: Get the view to render this somehow
+        // Could simply create a list of the elements and then pass them
+        // back to the view and let it create subviews and render them.
+        // It will need the raphael element to do this though.
+        renderable_planning_elements.push(node)
+        // render_bucket_text.push(function () {
+        //   pl.renderForeground(node);
+        // });
       }
 
       render_bucket_element.push(function() {
         // TODO RS: Get the view to render this somehow
-        pl.render(node);
+        // pl.render(node);
       });
     }, {timeline: timeline});
 
@@ -506,17 +510,18 @@ jQuery.extend(Timeline, {
     // Note RS: Here we have a list of all of the rendering methods which then get called.
     // Instead we should have a lite of the elements which get returned back to the backbone
     // view which can then be passed to a rendering function on the newly created child view.
-    var render_next_bucket = function() {
-      if (buckets.length !== 0) {
-        jQuery.each(buckets.splice(0, Timeline.RENDER_BUCKET_SIZE), function(i, e) {
-          e.call();
-        });
-        timeline.defer(render_next_bucket);
-      } else {
-        timeline.finishGraph();
-      }
-    };
+    // var render_next_bucket = function() {
+    //   if (buckets.length !== 0) {
+    //     jQuery.each(buckets.splice(0, Timeline.RENDER_BUCKET_SIZE), function(i, e) {
+    //       e.call();
+    //     });
+    //     timeline.defer(render_next_bucket);
+    //   } else {
+    //     timeline.finishGraph();
+    //   }
+    // };
 
-    render_next_bucket();
+    // render_next_bucket();
+    return renderable_planning_elements;
   },
 });
