@@ -33,6 +33,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ## 3.0.0pre36
 
+* `#1966` Select person responsible for project with auto-completion form
+* `#2527` Create project has useless responsible field
 * `#3155` Icons from icon font in content area
 * Rename German i18n Planungsverantwortlicher -> Verantwortlicher 
 
