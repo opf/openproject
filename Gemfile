@@ -1,5 +1,10 @@
 source :rubygems
 
+# make this work with ruby smaller than 1.9.2
+gem "mime-types", "< 2.0.0", :platforms => [:ruby_18]
+gem "nokogiri", "< 1.6.0", :platforms => [:ruby_18]
+gem "rubyzip", "< 1.0.0", :platforms => [:ruby_18]
+
 gem "rails", "2.3.18"
 
 gem "coderay", "~> 0.9.7"
