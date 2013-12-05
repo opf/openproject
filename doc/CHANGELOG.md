@@ -34,6 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2527` Create project has useless responsible field
 * `#3202` Fix: Fix: [Bug] Grouping work packages by responsible is broken
 * `#3222` Fix: Validation errors on copying OpenProject
+* `#2395` [Work Package Tracking] Internal Error when entering a character in a number field in a filter
 
 ## 3.0.0pre36
 
