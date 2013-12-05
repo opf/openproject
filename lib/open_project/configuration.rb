@@ -42,6 +42,8 @@ module OpenProject
       'disable_browser_cache'   => true,
       # default cache_store is :file_store in production and :memory_store in development
       'rails_cache_store'       => :default,
+      # url-path prefix
+      'rails_relative_url_root' => "",
 
       # email configuration
       'email_delivery_method' => nil,
@@ -60,7 +62,7 @@ module OpenProject
     @config = nil
 
     class << self
-      # Loads the Redmine configuration file
+      # Loads the OpenProject configuration file
       # Valid options:
       # * <tt>:file</tt>: the configuration file to load (default: config/configuration.yml)
       # * <tt>:env</tt>: the environment to load the configuration for (default: Rails.env)
@@ -80,6 +82,8 @@ module OpenProject
           configure_action_mailer(@config)
         end
 
+        define_config_methods
+
         @config
       end
 
@@ -95,6 +99,12 @@ module OpenProject
       def [](name)
         load unless @config
         @config[name]
+      end
+
+      # Sets configuration setting
+      def []=(name, value)
+        load unless @config
+        @config[name] = value
       end
 
       # Yields a block with the specified hash configuration settings
@@ -186,6 +196,15 @@ module OpenProject
         filtered_hash
       end
 
+      def define_config_methods
+        @config.keys.each do |setting|
+          (class << self; self; end).class_eval do
+            define_method setting do
+              self[setting]
+            end
+          end
+        end
+      end
     end
   end
 end

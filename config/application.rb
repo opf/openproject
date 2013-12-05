@@ -55,6 +55,8 @@ if defined?(Bundler)
   end
 end
 
+require File.dirname(__FILE__) + '/../lib/open_project/configuration'
+
 module OpenProject
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
@@ -120,6 +122,10 @@ module OpenProject
 
     # initialize variable for register plugin tests
     config.plugins_to_test_paths = []
+
+    # Configure the relative url root to be whatever the configuration is set to.
+    # This allows for setting the root either via config file or via environment variable.
+    config.action_controller.relative_url_root = OpenProject::Configuration['rails_relative_url_root']
 
     config.to_prepare do
       # Rails loads app/views paths of all plugin on each request and appends it to the view_paths.

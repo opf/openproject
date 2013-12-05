@@ -328,7 +328,7 @@ private
   end
 
   def self.host
-    if Redmine::Utils.relative_url_root.blank?
+    if OpenProject::Configuration.rails_relative_url_root.blank?
       Setting.host_name
     else
       Setting.host_name.to_s.gsub(%r{\/.*\z}, '')
