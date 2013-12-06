@@ -27,21 +27,12 @@
 #++
 
 FactoryGirl.define do
-  factory :query do
-    project
-    user :factory => :user
-    sequence(:name) { |n| "Query #{n}" }
+  factory :filter, class: Queries::Filter do
+    field :subject
+    operator '='
+    values ['Feature']
 
-    factory :public_query do
-      is_public true
-      sequence(:name) { |n| "Public query #{n}" }
+    factory :work_packages_filter, class: Queries::WorkPackages::Filter do
     end
-
-    factory :private_query do
-      is_public false
-      sequence(:name) { |n| "Private query #{n}" }
-    end
-
-    after(:build) { |query| query.add_default_filter }
   end
 end
