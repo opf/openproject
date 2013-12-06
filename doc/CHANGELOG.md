@@ -32,11 +32,12 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1966` Select person responsible for project with auto-completion form
 * `#2289` Fix: Deploying in a subdirectory
 * `#2527` Create project has useless responsible field
+* `#3222` Fix: Validation errors on copying OpenProject
 
 ## 3.0.0pre36
 
 * `#3155` Icons from icon font in content area
-* Rename German i18n Planungsverantwortlicher -> Verantwortlicher 
+* Rename German i18n Planungsverantwortlicher -> Verantwortlicher
 
 ## 3.0.0pre35
 
