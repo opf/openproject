@@ -89,7 +89,7 @@ class Query < ActiveRecord::Base
     QueryColumn.new(:subject, :sortable => "#{WorkPackage.table_name}.subject"),
     QueryColumn.new(:author),
     QueryColumn.new(:assigned_to, :sortable => ["#{User.table_name}.lastname", "#{User.table_name}.firstname", "#{User.table_name}.id"], :groupable => true),
-    QueryColumn.new(:responsible, sortable: ["responsible.lastname", "responsible.firstname", "responsible.id"], groupable: "#{WorkPackage.table_name}.responsible_id", :join => 'LEFT OUTER JOIN users as responsible ON (work_packages.responsible_id = responsible.id)'),
+    QueryColumn.new(:responsible, sortable: ["responsible.lastname", "responsible.firstname", "responsible.id"], groupable: "#{WorkPackage.table_name}.responsible_id", :join => "LEFT OUTER JOIN users as responsible ON (#{WorkPackage.table_name}.responsible_id = responsible.id)"),
     QueryColumn.new(:updated_at, :sortable => "#{WorkPackage.table_name}.updated_at", :default_order => 'desc'),
     QueryColumn.new(:category, :sortable => "#{Category.table_name}.name", :groupable => true),
     QueryColumn.new(:fixed_version, :sortable => ["#{Version.table_name}.effective_date", "#{Version.table_name}.name"], :default_order => 'desc', :groupable => true),
