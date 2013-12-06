@@ -123,23 +123,107 @@ describe Project::Copy do
     end
 
     describe :copy_work_packages do
-      before do
-        version = FactoryGirl.create(:version, :project => project)
-        wp1 = FactoryGirl.create(:work_package, :project => project, :fixed_version => version)
-        wp2 = FactoryGirl.create(:work_package, :project => project, :fixed_version => version)
-        wp3 = FactoryGirl.create(:work_package, :project => project, :fixed_version => version)
-        relation = FactoryGirl.create(:relation, :from => wp1, :to => wp2)
-        wp1.parent = wp3
-        wp1.category = FactoryGirl.create(:category, :project => project)
-        [wp1, wp2, wp3].each { |wp| project.work_packages << wp }
+      let(:work_package) { FactoryGirl.create(:work_package, :project => project) }
+      let(:work_package2) { FactoryGirl.create(:work_package, :project => project) }
+      let(:version) { FactoryGirl.create(:version, :project => project) }
 
-        copy.send :copy_work_packages, project
-        copy.save
+      describe :relation do
+        before do
+          wp = work_package
+          wp2 = work_package2
+          FactoryGirl.create(:relation, :from => wp, :to => wp2)
+          [wp, wp2].each { |wp| project.work_packages << wp }
+
+          copy.send :copy_work_packages, project
+          copy.save
+        end
+
+        it do
+          copy.work_packages.each { |wp| wp.should(be_valid) }
+          copy.work_packages.count.should == project.work_packages.count
+        end
       end
 
-      it do
-        copy.work_packages.each { |wp| wp.should(be_valid) && wp.fixed_version.should(be_nil) }
-        copy.work_packages.count.should == project.work_packages.count
+      describe :parent do
+        before do
+          wp = work_package
+          wp2 = work_package2
+          wp.parent = wp2
+          wp.save
+
+          [wp, wp2].each { |wp| project.work_packages << wp }
+
+          copy.send :copy_work_packages, project
+          copy.save
+        end
+
+        it do
+          (parent_wp = copy.work_packages.detect { |wp| wp.parent }).should_not == nil
+          parent_wp.parent.project.should == copy
+        end
+      end
+
+      describe :category do
+        before do
+          wp = work_package
+          wp.category = FactoryGirl.create(:category, :project => project)
+          wp.save
+
+          project.work_packages << wp.reload
+
+          copy.send :copy_categories, project
+          copy.send :copy_work_packages, project
+          copy.save
+        end
+
+        it do
+          (cat = copy.work_packages[0].category).should_not == nil
+          cat.project.should == copy
+        end
+      end
+
+      describe :watchers do
+        let(:role) { FactoryGirl.create(:role, permissions:[:view_work_packages]) }
+        let(:watcher) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
+
+        describe :active_watcher do
+          before do
+            wp = work_package
+            wp.add_watcher watcher
+            wp.save
+
+            project.work_packages << wp
+
+            copy.send :copy_members, project
+            copy.send :copy_work_packages, project
+            copy.save
+          end
+
+          it "does copy active watchers" do
+            copy.work_packages[0].watchers.first.user.should == watcher
+          end
+        end
+
+        describe :locked_watcher do
+          before do
+            user = watcher
+            wp = work_package
+            wp.add_watcher user
+            wp.save
+
+            user.lock!
+
+            project.work_packages << wp
+
+            copy.send :copy_members, project
+            copy.send :copy_work_packages, project
+            copy.save
+          end
+
+          it "does not copy locked watchers" do
+            copy.work_packages[0].watchers.should == []
+          end
+        end
       end
     end
 

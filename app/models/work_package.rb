@@ -266,7 +266,7 @@ class WorkPackage < ActiveRecord::Base
     work_package.watchers.each do |watcher|
       # This might be a problem once this method is used on existing work packages
       # then, the watchers are added, keeping preexisting watchers
-      self.add_watcher(watcher.user)
+      self.add_watcher(watcher.user) if watcher.user.active?
     end
 
     self

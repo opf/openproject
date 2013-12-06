@@ -146,7 +146,11 @@ module Project::Copy
         # Reassign fixed_versions by name, since names are unique per
         # project and the versions for self are not yet saved
         if issue.fixed_version
-          new_issue.fixed_version = self.versions.select {|v| v.name == issue.fixed_version.name}.first
+          new_version = self.versions.select {|v| v.name == issue.fixed_version.name}.first
+          if new_version
+            new_issue.instance_variable_set(:@changed_attributes, new_issue.changed_attributes.merge({"fixed_version_id" => new_version.id}))
+            new_issue.fixed_version = new_version
+          end
         end
         # Reassign the category by name, since names are unique per
         # project and the categories for self are not yet saved
