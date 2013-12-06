@@ -232,7 +232,7 @@ Redmine::AccessControl.map do |map|
 end
 
 Redmine::MenuManager.map :top_menu do |menu|
-  menu.push :my_page, { :controller => '/my', :action => 'page' }, :html => {:class => 'icon5 icon-user1'}, :if => Proc.new { User.current.logged? }
+  menu.push :my_page, { :controller => '/my', :action => 'page' }, :html => {:class => 'icon5 icon-star2'}, :if => Proc.new { User.current.logged? }
   # projects menu will be added by Redmine::MenuManager::TopMenuHelper#render_projects_top_menu_node
   menu.push :administration, { :controller => '/admin', :action => 'projects' }, :if => Proc.new { User.current.admin? }, :last => true
   menu.push :help, OpenProject::Info.help_url, :last => true, :caption => I18n.t('label_help'), :html => { :accesskey => OpenProject::AccessKeys.key_for(:help), :class => "icon5 icon-help"}
