@@ -240,9 +240,22 @@
     }
   });
 
+  // this holds all top menus currently active.
+  // if one opens, all others are closed.
+  var top_menus = [];
   $.fn.top_menu = function () {
+    var new_menu;
     $(this).each(function () {
-      new TopMenu($(this));
+      new_menu = new TopMenu($(this));
+      top_menus.each(function (menu) {
+        menu.menu_container.on("openedMenu", function () {
+          new_menu.closing();
+        });
+        new_menu.menu_container.on("openedMenu", function () {
+          menu.closing();
+        });
+      });
+      top_menus.push(new_menu);
     });
   }
 }(jQuery));
