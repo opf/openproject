@@ -111,7 +111,7 @@ class MigrateTimelinesOptions < ActiveRecord::Migration
     calling_class.contains_none_element = calling_class.contains_none_element? || pe_types.empty?
 
     pe_types = pe_types.empty? ? new_ids_of_former_pes
-                               : pe_types.map { |p| pe_type_id_map[p] }
+                               : pe_types.map { |p| pe_type_id_map[p.to_i].to_s }
 
     timelines_opts[PE_TYPE_KEY] = pe_types
 
@@ -123,7 +123,7 @@ class MigrateTimelinesOptions < ActiveRecord::Migration
 
     pe_time_types = timelines_opts[PE_TIME_TYPE_KEY]
 
-    pe_time_types.map! { |p| pe_type_id_map[p] }
+    pe_time_types.map! { |p| pe_type_id_map[p.to_i].to_s }
 
     timelines_opts[PE_TIME_TYPE_KEY] = pe_time_types
 
@@ -133,11 +133,11 @@ class MigrateTimelinesOptions < ActiveRecord::Migration
   def migrate_vertical_planning_elements(timelines_opts, pe_id_map)
     return timelines_opts unless timelines_opts.has_key? VERTICAL_PE_TYPES
 
-    vertical_pes = timelines_opts[VERTICAL_PE_TYPES].split(',')
+    vertical_pes = timelines_opts[VERTICAL_PE_TYPES].split(', ')
                                                     .map { |p| p.strip }
 
     unless vertical_pes.empty?
-      mapped_pes = vertical_pes.map { |v| pe_id_map[v] }
+      mapped_pes = vertical_pes.map { |v| pe_id_map[v.to_i] }
                                .compact
 
       timelines_opts[VERTICAL_PE_TYPES] = mapped_pes.join(',')
