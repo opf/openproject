@@ -32,6 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1966` Select person responsible for project with auto-completion form
 * `#2289` Fix: Deploying in a subdirectory
 * `#2527` Create project has useless responsible field
+* `#3202` Fix: Fix: [Bug] Grouping work packages by responsible is broken
 * `#3222` Fix: Validation errors on copying OpenProject
 
 ## 3.0.0pre36
