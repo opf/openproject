@@ -27,7 +27,7 @@ module OpenProject::GlobalRoles
         version spec.version
         url spec.homepage
 
-        requires_openproject ">= 3.0.0pre23"
+        requires_openproject ">= 3.0.0pre36"
 
         Redmine::AccessControl.permission(:add_project).global = true
       end
