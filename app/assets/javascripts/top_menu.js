@@ -105,7 +105,7 @@
     },
 
     dropdowns: function () {
-      return this.menu_container.find(" > li.drop-down");
+      return this.menu_container.find("li.drop-down");
     },
 
     withHeadingFoldOutAtBorder: function () {
@@ -261,5 +261,5 @@
 }(jQuery));
 
 jQuery(document).ready(function($) {
-  $(".account-nav").top_menu();
+  $("#top-menu-items").top_menu();
 });
