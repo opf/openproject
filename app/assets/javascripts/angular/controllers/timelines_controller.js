@@ -32,9 +32,6 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'TimelineSe
   $scope.getTimelineContainerElementId = function() {
     return 'timeline-container-' + $scope.timelineContainerNo;
   };
-  $scope.getTimelineContainer = function() {
-    return angular.element(document.querySelector('#' + $scope.getTimelineContainerElementId()));
-  };
 
   $scope.$watch('currentScaleName', function(newScaleName, oldScaleName){
     if (newScaleName !== oldScaleName) {
