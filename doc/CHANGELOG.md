@@ -35,6 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3202` Fix: Fix: [Bug] Grouping work packages by responsible is broken
 * `#3222` Fix: Validation errors on copying OpenProject
 * `#2395` [Work Package Tracking] Internal Error when entering a character in a number field in a filter
+* Fix: multiple dropdowns in the top menu could be opened
 
 ## 3.0.0pre36
 
