@@ -95,6 +95,14 @@ class PermittedParams < Struct.new(:params, :user)
     params.require(:enumeration).permit(*self.class.permitted_attributes[:enumeration])
   end
 
+  def group
+    params.require(:group).permit(*self.class.permitted_attributes[:group])
+  end
+
+  def group_membership
+    params.permit(*self.class.permitted_attributes[:group_membership])
+  end
+
   def planning_element_type
     params.require(:planning_element_type).permit(*self.class.permitted_attributes[:planning_element_type])
   end
@@ -230,6 +238,13 @@ class PermittedParams < Struct.new(:params, :user)
         :name,
         :reassign_to_id,
         :type],
+      :group => [
+        :lastname],
+      :group_membership => [
+        :membership_id,
+        :membership => [
+          :project_id,
+          :role_ids => []]],
       :new_work_package => [
         :subject,
         :description,

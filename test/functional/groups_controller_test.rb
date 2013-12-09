@@ -76,7 +76,7 @@ class GroupsControllerTest < ActionController::TestCase
   end
 
   def test_update
-    put :update, :id => 10
+    put :update, :id => 10, :group => {:lastname => 'new name'}
     assert_redirected_to groups_path
   end
 
