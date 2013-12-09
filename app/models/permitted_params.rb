@@ -89,7 +89,10 @@ class PermittedParams < Struct.new(:params, :user)
   def custom_field_type
     params.require(:type)
   end
-  alias_method :enumeration_type, :custom_field_type
+  
+  def enumeration_type
+    params.require(:type)
+  end
 
   def enumeration
     params.require(:enumeration).permit(*self.class.permitted_attributes[:enumeration])
@@ -233,7 +236,7 @@ class PermittedParams < Struct.new(:params, :user)
         :type_ids => []],
       :enumeration => [
         :active,
-        :id_default,
+        :is_default,
         :move_to,
         :name,
         :reassign_to_id,
