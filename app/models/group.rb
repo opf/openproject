@@ -28,6 +28,8 @@
 #++
 
 class Group < Principal
+  include Redmine::SafeAttributes
+
   has_many :group_users
   has_many :users, :through => :group_users,
                    :after_add => :user_added,
