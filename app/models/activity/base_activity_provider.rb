@@ -27,6 +27,42 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Journal::MessageJournal < Journal::BaseJournal
-  self.table_name = "message_journals"
+class Activity::BaseActivityProvider
+  include Redmine::Acts::ActivityProvider
+
+  def extend_event_query(query)
+  end
+
+  def event_query_projection
+    []
+  end
+
+  def projects_reference_table
+    activity_journals_table
+  end
+
+  def format_event(event, event_data)
+  end
+
+  def activity_journals_table
+    @activity_journals_table ||= Arel::Table.new(JournalManager.journal_class(activitied_type).table_name)
+  end
+
+  def activitied_type
+    activity_type = self.class.name
+    namespace = activity_type.deconstantize
+
+    class_name = activity_type.demodulize
+    class_name.gsub('ActivityProvider', '').constantize
+  end
+
+  protected
+
+  def journal_table
+    @journal_table ||= Arel::Table.new(:journals)
+  end
+
+  def activitied_table
+    @activitied_table ||= Arel::Table.new(activitied_type.table_name)
+  end
 end
