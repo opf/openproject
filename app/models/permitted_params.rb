@@ -275,6 +275,7 @@ class PermittedParams < Struct.new(:params, :user)
         :due_date,
         :note,
         :type_id,
+        :status_id,
         :planning_element_status_comment,
         :planning_element_status_id,
         :parent_id,
