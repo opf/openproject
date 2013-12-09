@@ -277,7 +277,6 @@ class PermittedParams < Struct.new(:params, :user)
         :type_id,
         :status_id,
         :planning_element_status_comment,
-        :planning_element_status_id,
         :parent_id,
         :responsible_id,
         :custom_fields => [ #json
