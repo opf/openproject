@@ -38,10 +38,10 @@ class Activity::TimeEntryActivityProvider < Activity::BaseActivityProvider
 
   def event_query_projection
     [
-      projection_statement(activity_journals_table, :hours, 'time_entry_hours'),
-      projection_statement(activity_journals_table, :comments, 'time_entry_comments'),
-      projection_statement(activity_journals_table, :project_id, 'project_id'),
-      projection_statement(activity_journals_table, :work_package_id, 'work_package_id'),
+      activity_journal_projection_statement(:hours, 'time_entry_hours'),
+      activity_journal_projection_statement(:comments, 'time_entry_comments'),
+      activity_journal_projection_statement(:project_id, 'project_id'),
+      activity_journal_projection_statement(:work_package_id, 'work_package_id'),
       projection_statement(projects_table, :name, 'project_name'),
       projection_statement(work_packages_table, :subject, 'work_package_subject')
     ]

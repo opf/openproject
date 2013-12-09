@@ -39,9 +39,9 @@ class Activity::ChangesetActivityProvider < Activity::BaseActivityProvider
 
   def event_query_projection
     [
-      projection_statement(activity_journals_table, :revision, 'revision'),
-      projection_statement(activity_journals_table, :comments, 'comments'),
-      projection_statement(activity_journals_table, :committed_on, 'committed_on'),
+      activity_journal_projection_statement(:revision, 'revision'),
+      activity_journal_projection_statement(:comments, 'comments'),
+      activity_journal_projection_statement(:committed_on, 'committed_on'),
       projection_statement(repositories_table, :project_id, 'project_id'),
       projection_statement(repositories_table, :type, 'repository_type')
     ]

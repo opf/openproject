@@ -38,9 +38,9 @@ class Activity::MessageActivityProvider < Activity::BaseActivityProvider
 
   def event_query_projection
     [
-      projection_statement(activity_journals_table, :subject, 'message_subject'),
-      projection_statement(activity_journals_table, :content, 'message_content'),
-      projection_statement(activity_journals_table, :parent_id, 'message_parent_id'),
+      activity_journal_projection_statement(:subject, 'message_subject'),
+      activity_journal_projection_statement(:content, 'message_content'),
+      activity_journal_projection_statement(:parent_id, 'message_parent_id'),
       projection_statement(boards_table, :id, 'board_id'),
       projection_statement(boards_table, :name, 'board_name'),
       projection_statement(boards_table, :project_id, 'project_id')

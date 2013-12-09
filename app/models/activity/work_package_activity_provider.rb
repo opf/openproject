@@ -40,8 +40,8 @@ class Activity::WorkPackageActivityProvider < Activity::BaseActivityProvider
 
   def event_query_projection
     [
-      projection_statement(activity_journals_table, :subject, 'subject'),
-      projection_statement(activity_journals_table, :project_id, 'project_id'),
+      activity_journal_projection_statement(:subject, 'subject'),
+      activity_journal_projection_statement(:project_id, 'project_id'),
       projection_statement(statuses_table, :name, 'status_name'),
       projection_statement(statuses_table, :is_closed, 'status_closed'),
       projection_statement(types_table, :name, 'type_name')

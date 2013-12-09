@@ -74,6 +74,10 @@ class Activity::BaseActivityProvider
     @activitied_table ||= Arel::Table.new(activitied_type.table_name)
   end
 
+  def activity_journal_projection_statement(column, name)
+    projection_statement(activity_journals_table, column, name)
+  end
+
   def projection_statement(table, column, name)
     table[column].as(name)
   end
