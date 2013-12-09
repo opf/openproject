@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#3337` Fix: Use permitted params in EnumerationsController
 * `#3054` Fix: Some Projects cannot be deleted
 
 ## 3.0.0pre37
