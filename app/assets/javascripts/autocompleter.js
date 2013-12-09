@@ -86,6 +86,8 @@
 
         this.element.remove();
       }
+
+      this.fakeInput.data("autocompleter", this);
     },
 
     createNewInput: function () {
@@ -135,7 +137,7 @@
   $.fn.autocomplete.defaults = {
     multiple: false,
     data: {},
-    allowedAttributes: ["title", "placeholder", "id", "name", "multiple"],
+    allowedAttributes: ["title", "placeholder", "id", "name"],
     minimumInputLength: 0,
     ajax: {
       null_element: null,
@@ -188,13 +190,10 @@
       return item.name;
     },
     initSelection: function (element, callback) {
-      var data,
-          multiple = $(element).attr("multiple");
-      if (multiple !== null && multiple !== undefined && multiple) {
-        data = [];
-      }
+      var data = [], multiple;
 
       if (hasAttribute(element, "data-selected")) {
+        multiple = element.data("autocompleter").opts.multiple;
         JSON.parse(element.attr('data-selected')).each(function (elem) {
           if (multiple) {
             data.push({id: elem[1], name: elem[0]});

@@ -65,7 +65,9 @@ jQuery(document).ready(function($) {
     $("#timeline_options_planning_element_time_types"),
     $("#timeline_options_planning_element_status")
   ].each(function (item) {
-    $(item).autocomplete({});
+    $(item).autocomplete({
+      multiple: true
+    });
   });
 
   var item = $("#timeline_options_columns_");
