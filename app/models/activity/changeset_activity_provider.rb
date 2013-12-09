@@ -54,20 +54,20 @@ class Activity::ChangesetActivityProvider < Activity::BaseActivityProvider
   protected
 
   def event_title(event)
-    ren = self.format_revision(event)
+    revision = format_revision(event)
 
-    shomment = self.split_comment(event['comments']).first
+    short_comment = split_comment(event['comments']).first
 
-    ti "#{l(:label_revision)} #{revision}"
-    ti< (short_comment.blank? ? '' : (': ' + short_comment))
+    title = "#{l(:label_revision)} #{revision}"
+    title << (short_comment.blank? ? '' : (': ' + short_comment))
   end
 
   def event_description(event)
-    split_comment(event_data['comments']).last
+    split_comment(event['comments']).last
   end
 
   def event_datetime(event)
-    committed_on = event_data['committed_on']
+    committed_on = event['committed_on']
     committed_date = committed_on.is_a?(String) ? DateTime.parse(committed_on)
                                                 : committed_on
   end
@@ -88,18 +88,18 @@ class Activity::ChangesetActivityProvider < Activity::BaseActivityProvider
   end
 
   def format_revision(event)
-    reory_class = event['repository_type'].constantize
+    repository_class = event['repository_type'].constantize
 
-    reory_class.respond_to?(:format_revision) ? repository_class.format_revision(event['revision'])
-                                              : event['revision']
+    repository_class.respond_to?(:format_revision) ? repository_class.format_revision(event['revision'])
+                                                   : event['revision']
   end
 
   def split_comment(comments)
-    cos =~ /\A(.+?)\r?\n(.*)\z/m
-    shomments = $1 || comments
-    lomments = $2.to_s.strip
+    comments =~ /\A(.+?)\r?\n(.*)\z/m
+    short_comments = $1 || comments
+    long_comments = $2.to_s.strip
 
-    [scomments, long_comments]
+    [short_comments, long_comments]
   end
 
   def url_helper_parameter(event)
