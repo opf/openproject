@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#3054` Fix: Some Projects cannot be deleted
+* `#3120` Implement a test suite the spikes can be developed against
 
 ## 3.0.0pre37
 
