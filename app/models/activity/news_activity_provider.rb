@@ -37,12 +37,12 @@ class Activity::NewsActivityProvider < Activity::BaseActivityProvider
 
   def event_query_projection
     [
-      activity_journals_table[:title].as('title'),
-      activity_journals_table[:project_id].as('project_id')
+      projection_statement(activity_journals_table, :title, 'title'),
+      projection_statement(activity_journals_table, :project_id, 'project_id')
     ]
   end
 
-  private
+  protected
 
   def event_title(event)
     event_data['title']
@@ -56,6 +56,8 @@ class Activity::NewsActivityProvider < Activity::BaseActivityProvider
     Rails.application.routes.url_helpers.news_url(url_helper_parameter(event),
                                                   host: ::Setting.host_name)
   end
+
+  private
 
   def url_helper_parameter(event)
     event['journable_id']

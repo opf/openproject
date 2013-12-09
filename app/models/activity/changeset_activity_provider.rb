@@ -39,11 +39,11 @@ class Activity::ChangesetActivityProvider < Activity::BaseActivityProvider
 
   def event_query_projection
     [
-      activity_journals_table[:revision].as('revision'),
-      activity_journals_table[:comments].as('comments'),
-      activity_journals_table[:committed_on].as('committed_on'),
-      repositories_table[:project_id].as('project_id'),
-      repositories_table[:type].as('repository_type')
+      projection_statement(activity_journals_table, :revision, 'revision'),
+      projection_statement(activity_journals_table, :comments, 'comments'),
+      projection_statement(activity_journals_table, :committed_on, 'committed_on'),
+      projection_statement(repositories_table, :project_id, 'project_id'),
+      projection_statement(repositories_table, :type, 'repository_type')
     ]
   end
 
@@ -51,11 +51,7 @@ class Activity::ChangesetActivityProvider < Activity::BaseActivityProvider
     repositories_table
   end
 
-  private
-
-  def repositories_table
-    @repositories_table ||= Arel::Table.new(:repositories)
-  end
+  protected
 
   def event_title(event)
     ren = self.format_revision(event)
@@ -66,23 +62,8 @@ class Activity::ChangesetActivityProvider < Activity::BaseActivityProvider
     ti< (short_comment.blank? ? '' : (': ' + short_comment))
   end
 
-  def format_revision(event)
-    reory_class = event['repository_type'].constantize
-
-    reory_class.respond_to?(:format_revision) ? repository_class.format_revision(event['revision'])
-                                              : event['revision']
-  end
-
   def event_description(event)
     split_comment(event_data['comments']).last
-  end
-
-  def split_comment(comments)
-    cos =~ /\A(.+?)\r?\n(.*)\z/m
-    shomments = $1 || comments
-    lomments = $2.to_s.strip
-
-    [scomments, long_comments]
   end
 
   def event_datetime(event)
@@ -98,6 +79,27 @@ class Activity::ChangesetActivityProvider < Activity::BaseActivityProvider
   def event_url(event)
     Rails.application.routes.url_helpers.revisions_project_repository_url(url_helper_parameter(event),
                                                                           host: ::Setting.host_name)
+  end
+
+  private
+
+  def repositories_table
+    @repositories_table ||= Arel::Table.new(:repositories)
+  end
+
+  def format_revision(event)
+    reory_class = event['repository_type'].constantize
+
+    reory_class.respond_to?(:format_revision) ? repository_class.format_revision(event['revision'])
+                                              : event['revision']
+  end
+
+  def split_comment(comments)
+    cos =~ /\A(.+?)\r?\n(.*)\z/m
+    shomments = $1 || comments
+    lomments = $2.to_s.strip
+
+    [scomments, long_comments]
   end
 
   def url_helper_parameter(event)

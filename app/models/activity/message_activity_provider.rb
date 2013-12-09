@@ -38,12 +38,12 @@ class Activity::MessageActivityProvider < Activity::BaseActivityProvider
 
   def event_query_projection
     [
-      activity_journals_table[:subject].as('message_subject'),
-      activity_journals_table[:content].as('message_content'),
-      activity_journals_table[:parent_id].as('message_parent_id'),
-      boards_table[:id].as('board_id'),
-      boards_table[:name].as('board_name'),
-      boards_table[:project_id].as('project_id')
+      projection_statement(activity_journals_table, :subject, 'message_subject'),
+      projection_statement(activity_journals_table, :content, 'message_content'),
+      projection_statement(activity_journals_table, :parent_id, 'message_parent_id'),
+      projection_statement(boards_table, :id, 'board_id'),
+      projection_statement(boards_table, :name, 'board_name'),
+      projection_statement(boards_table, :project_id, 'project_id')
     ]
   end
 
@@ -51,11 +51,7 @@ class Activity::MessageActivityProvider < Activity::BaseActivityProvider
     boards_table
   end
 
-  private
-
-  def boards_table
-    @boards_table ||= Arel::Table.new(:boards)
-  end
+  protected
 
   def event_title(event)
     "#{event['board_name']}: #{event['message_subject']}"
@@ -76,6 +72,12 @@ class Activity::MessageActivityProvider < Activity::BaseActivityProvider
   def event_url(event)
     Rails.application.routes.url_helpers.topic_url(url_helper_parameter(event),
                                                    host: ::Setting.host_name)
+  end
+
+  private
+
+  def boards_table
+    @boards_table ||= Arel::Table.new(:boards)
   end
 
   def url_helper_parameter(event)

@@ -38,24 +38,16 @@ class Activity::TimeEntryActivityProvider < Activity::BaseActivityProvider
 
   def event_query_projection
     [
-      activity_journals_table[:hours].as('time_entry_hours'),
-      activity_journals_table[:comments].as('time_entry_comments'),
-      activity_journals_table[:project_id].as('project_id'),
-      activity_journals_table[:work_package_id].as('work_package_id'),
-      projects[:name].as('project_name'),
-      work_packages_table[:subject].as('work_package_subject'),
+      projection_statement(activity_journals_table, :hours, 'time_entry_hours'),
+      projection_statement(activity_journals_table, :comments, 'time_entry_comments'),
+      projection_statement(activity_journals_table, :project_id, 'project_id'),
+      projection_statement(activity_journals_table, :work_package_id, 'work_package_id'),
+      projection_statement(projects_table, :name, 'project_name'),
+      projection_statement(work_packages_table, :subject, 'work_package_subject')
     ]
   end
 
-  private
-
-  def work_packages_table
-    @work_packages_table ||= Arel::Table.new(:work_packages)
-  end
-
-  def projects_table
-    @projects_table ||= Arel::Table.new(:projects)
-  end
+  protected
 
   def event_title(event)
     titry_object_name = event['work_package_id'].blank? ? event['project_name']
@@ -74,6 +66,16 @@ class Activity::TimeEntryActivityProvider < Activity::BaseActivityProvider
   def event_url(event)
     Rapplication.routes.url_helpers.time_entry_url(url_helper_parameter(event),
                                                    host: ::Setting.host_name)
+  end
+
+  private
+
+  def work_packages_table
+    @work_packages_table ||= Arel::Table.new(:work_packages)
+  end
+
+  def projects_table
+    @projects_table ||= Arel::Table.new(:projects)
   end
 
   def url_helper_parameter(event)

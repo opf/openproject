@@ -76,4 +76,8 @@ class Activity::BaseActivityProvider
   def activitied_table
     @activitied_table ||= Arel::Table.new(activitied_type.table_name)
   end
+
+  def projection_statement(table, column, name)
+    table[column].as(name)
+  end
 end

@@ -40,23 +40,15 @@ class Activity::WorkPackageActivityProvider < Activity::BaseActivityProvider
 
   def event_query_projection
     [
-      activity_journals_table[:subject].as('subject'),
-      activity_journals_table[:project_id].as('project_id'),
-      statuses_table[:name].as('status_name'),
-      statuses_table[:is_closed].as('status_closed'),
-      types_table[:name].as('type_name')
+      projection_statement(activity_journals_table, :subject, 'subject'),
+      projection_statement(activity_journals_table, :project_id, 'project_id'),
+      projection_statement(statuses_table, :name, 'status_name'),
+      projection_statement(statuses_table, :is_closed, 'status_closed'),
+      projection_statement(types_table, :name, 'type_name')
     ]
   end
 
-  private
-
-  def types_table
-    @types_table = Arel::Table.new(:types)
-  end
-
-  def statuses_table
-    @statuses_table = Arel::Table.new(:statuses)
-  end
+  protected
 
   def event_title(event)
     title = "#{(event['is_standard']) ? l(:default_type)
@@ -93,5 +85,15 @@ class Activity::WorkPackageActivityProvider < Activity::BaseActivityProvider
     parameters = [event['journable_id']]
     parameters << { anchor: "note-#{anchor}" } if version > 1
     parameters
+  end
+
+  private
+
+  def types_table
+    @types_table = Arel::Table.new(:types)
+  end
+
+  def statuses_table
+    @statuses_table = Arel::Table.new(:statuses)
   end
 end
