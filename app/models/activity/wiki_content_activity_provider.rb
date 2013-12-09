@@ -28,6 +28,7 @@
 #++
 
 class Activity::WikiContentActivityProvider < Activity::BaseActivityProvider
+  include Redmine::I18n
 
   acts_as_activity_provider type: 'wiki_edits',
                             permission: :view_wiki_edits
@@ -51,7 +52,7 @@ class Activity::WikiContentActivityProvider < Activity::BaseActivityProvider
   protected
 
   def event_title(event)
-    "#abel_wiki_edit)}: #{event['wiki_title']} (##{event['version']})"
+    "#{l(:label_wiki_edit)}: #{event['wiki_title']} (##{event['version']})"
   end
 
   def event_type(event)
@@ -73,11 +74,9 @@ class Activity::WikiContentActivityProvider < Activity::BaseActivityProvider
     @wiki_pages_table ||= Arel::Table.new(:wiki_pages)
   end
 
-  def wiki_table
+  def wikis_table
     @wikis_table ||= Arel::Table.new(:wikis)
   end
-
-
 
   def url_helper_parameter(event)
     [ event['project_id'], event['wiki_title'], { version: event['version'] } ]
