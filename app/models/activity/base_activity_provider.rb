@@ -57,12 +57,9 @@ class Activity::BaseActivityProvider
   end
 
   def format_event(event, event_data)
-    event.event_title = event_title event_data if self.class.method_defined? :event_title
-    event.event_type = event_type event_data if self.class.method_defined? :event_type
-    event.event_description = event_description event_data if self.class.method_defined? :event_description
-    event.event_datetime = event_datetime event_data if self.class.method_defined? :event_datetime
-    event.event_path = event_path event_data if self.class.method_defined? :event_path
-    event.event_url = event_url event_data if self.class.method_defined? :event_url
+    [:event_title, :event_type, :event_description, :event_datetime, :event_path, :event_url].each do |a|
+      event[a] = self.send(a, event_data) if self.class.method_defined? a
+    end
 
     event
   end
