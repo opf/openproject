@@ -28,9 +28,9 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <div class="contextual">
-<%= link_to l(:label_profile), user_path(@user), :class => 'icon icon-user' %>
+<%= link_to l(:label_profile), user_path(@user), :class => 'icon icon-user1' %>
 <% if Setting.users_deletable_by_admins? %>
-  <%= link_to l(:button_delete), { :controller => '/users', :action => 'deletion_info', :id => @user.id }, :class => 'icon icon-del' %>
+  <%= link_to l(:button_delete), { :controller => '/users', :action => 'deletion_info', :id => @user.id }, :class => 'icon icon-delete' %>
 <% end %>
 </div>
 

@@ -80,7 +80,7 @@ See doc/COPYRIGHT.rdoc for more details.
     var config = jQuery.extend({
       i18n: i18n,
       project_id: '<%= timeline.project.identifier %>',
-      url_prefix: '<%= Redmine::Utils.relative_url_root %>',
+      url_prefix: '<%= OpenProject::Configuration.rails_relative_url_root %>',
       ui_root: jQuery("#<%= timeline_div_id %>")
     }, <%= timeline.json_options %>);
     jQuery(function(jQuery) {

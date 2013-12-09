@@ -355,6 +355,10 @@ module NavigationHelpers
       work_package_id = WorkPackage.find_by_subject($1).id
       "/work_packages/#{work_package_id}/move/new"
 
+    when /^the message page of message "(.+)"$/
+      message = Message.find_by_subject($1)
+      topic_path(message)
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #

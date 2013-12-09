@@ -101,7 +101,7 @@ describe WorkPackages::ContextMenusController do
         assert_tag tag: 'a',
                    content: 'Edit',
                    attributes: { href: edit_link,
-                                 :class => 'icon-edit' }
+                                 :class => 'icon-context icon-edit' }
       end
     end
 
@@ -205,7 +205,7 @@ describe WorkPackages::ContextMenusController do
         assert_tag tag: 'a',
                    content: 'Duplicate',
                    attributes: { href: duplicate_link,
-                                 :class => 'icon-duplicate' }
+                                 :class => 'icon-context icon-duplicate' }
       end
     end
 

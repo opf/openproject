@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-gem "rails", "~> 3.2.15"
+gem "rails", "~> 3.2.16"
 
 gem "coderay", "~> 1.0.5"
 gem "rubytree", "~> 0.8.3"

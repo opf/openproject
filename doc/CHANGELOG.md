@@ -29,7 +29,31 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#3054` Fix: Some Projects cannot be deleted
+
+## 3.0.0pre37
+
+* `#1966` Select person responsible for project with auto-completion form
+* `#2289` Fix: Deploying in a subdirectory
+* `#2527` Create project has useless responsible field
+* `#3202` Fix: Fix: [Bug] Grouping work packages by responsible is broken
+* `#3222` Fix: Validation errors on copying OpenProject
+* `#2395` [Work Package Tracking] Internal Error when entering a character in a number field in a filter
+* `#3091` Both Top menu sides can be open at the same time
+
+## 3.0.0pre36
+
+* `#3155` Icons from icon font in content area
+* Rename German i18n Planungsverantwortlicher -> Verantwortlicher
+
+## 3.0.0pre35
+
+* `#2759` Fix: [Performance] Activity View very slow
+* `#3050` Fix: Fix: [Work Package Tracking] Internal error with query from the time before work packages
+* `#3104` Fix: [Forums] Number of replies to a topic are not displayed
 * `#3202` Fix: [Bug] Grouping work packages by responsible is broken
+* `#3212` First Grouping Criteria Selection broken when more than one element pre-selected
+* `#3055` [Work Package Tracking] Former deleted planning elements not handled in any way
 
 ## 3.0.0pre34
 

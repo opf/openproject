@@ -29,4 +29,41 @@
 
 class Journal::NewsJournal < Journal::BaseJournal
   self.table_name = "news_journals"
+
+  acts_as_activity_provider type: 'news',
+                            permission: :view_news
+
+  def self.extend_event_query(journals_table, activity_journals_table, query)
+    [activity_journals_table, query]
+  end
+
+  def self.event_query_projection(journals_table, activity_journals_table)
+    [
+      activity_journals_table[:title].as('title'),
+      activity_journals_table[:project_id].as('project_id')
+    ]
+  end
+
+  def self.format_event(event, event_data)
+    event.event_title = event_data['title']
+    event.event_path = self.event_path event_data
+    event.event_url = self.event_url event_data
+
+    event
+  end
+
+  private 
+
+  def self.event_path(event)
+    Rails.application.routes.url_helpers.news_path(self.url_helper_parameter(event))
+  end
+
+  def self.event_url(event)
+    Rails.application.routes.url_helpers.news_url(self.url_helper_parameter(event),
+                                                  host: ::Setting.host_name)
+  end
+
+  def self.url_helper_parameter(event)
+    event['journable_id']
+  end
 end

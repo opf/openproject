@@ -64,24 +64,6 @@ namespace :redmine do
       PluginSourceAnnotationExtractor.enumerate 'call_hook'
     end
 
-    desc 'Copies plugins assets into the public directory.'
-    task :assets => :environment do
-      name = ENV['NAME']
-
-      begin
-        Redmine::Plugin.mirror_assets(name)
-      rescue Redmine::PluginNotFound
-        abort "Plugin #{name} was not found."
-      end
-    end
-
-    desc 'Runs the plugins tests.'
-    task :test do
-      Rake::Task["redmine:plugins:test:units"].invoke
-      Rake::Task["redmine:plugins:test:functionals"].invoke
-      Rake::Task["redmine:plugins:test:integration"].invoke
-    end
-
     namespace :test do
       desc 'Runs the plugins unit tests.'
       Rake::TestTask.new :units => "db:test:prepare" do |t|

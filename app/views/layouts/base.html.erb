@@ -48,7 +48,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% show_decoration = params["layout"].nil? %>
 <body class="<%= body_css_classes %>">
 <noscript>
-  <div class="top-shelf">
+  <div class="top-shelf icon icon-warning">
     <h1><%=l(:noscript_heading)%></h1>
     <p>
       <%=l(:noscript_description)%>
@@ -66,7 +66,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <div id="top-menu">
       <div id="header">
         <div id="logo">
-          <%= link_to(image_tag(asset_path('logo_openproject_white_big.png'), :alt => I18n.t('label_home'), :class => 'home-link-image'), home_url, :class => 'home-link') %>
+          <%= link_to(I18n.t('label_home'), home_url, :class => 'home-link') %>
         </div>
         <div id="top-menu-items">
           <%= render_top_menu_left %>
@@ -89,7 +89,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <div id="main-menu">
         <h1 class="hidden-for-sighted"><%= l(:label_main_menu) %></h1>
         <div id="toggle-project-menu">
-          <a href="javascript:;" title="<%= l(:show_hide_project_menu) %>" data-icon4="9" class="navigation-toggler"></a>
+          <a href="javascript:;" title="<%= l(:show_hide_project_menu) %>" class="navigation-toggler icon4 icon-double-arrow-left"></a>
         </div>
         <div id="menu-sidebar">
           <%= main_menu %>

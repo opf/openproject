@@ -25,10 +25,8 @@
  *
  * See doc/COPYRIGHT.rdoc for more details.  ++*/
 
-@mixin html_body_spacing
-  margin: 0
-  padding: 0
-  height: 100%
+@import "variables"
+@import "mixins"
 
 html
   overflow-y: scroll
@@ -42,13 +40,20 @@ body
   background: white
 
 #wrapper
-  background: url(image-path('sidebar_bg.png')) repeat-y 0 0
+  background-image: -webkit-gradient(linear, left 0%, left 100%, from($main_menu_bg_color), to($main_menu_bg_color))
+  background-image: -webkit-linear-gradient(top, $main_menu_bg_color 0%, $main_menu_bg_color 100%)
+  background-image: -moz-linear-gradient(top, $main_menu_bg_color 0%, $main_menu_bg_color 100%)
+  background-image: linear-gradient(to bottom, $main_menu_bg_color 0%, $main_menu_bg_color 100%)
+  background-repeat: no-repeat
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{ie-hex-str($main_menu_bg_color)}', endColorstr='#{ie-hex-str($main_menu_bg_color)}', GradientType=0)
+
+  background-size: $main_menu_width 100%
   min-height: 100%
   position: relative
   &.nosidebar, &.nomenus
     background: none
   &.hidden-navigation
-    background-position: -220px 0
+    background-size: $main_menu_folded_width 100%
 
 h1
   margin: 0
@@ -70,4 +75,16 @@ h4, .wiki h3
   z-index: 20
   padding-bottom: 155px
   overflow: auto
+
+#content
+  margin: 0 0 0 $main_menu_width
+  padding: 10px
+  width: auto
+  overflow: hidden
+  height: auto
+  background-color: #fff
+  border-style: none solid solid solid
+  z-index: 10
+  &.hidden-navigation
+    margin-left: $main_menu_folded_width
 

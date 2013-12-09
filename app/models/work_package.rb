@@ -71,8 +71,6 @@ class WorkPackage < ActiveRecord::Base
   scope :visible, lambda {|*args| { :include => :project,
                                     :conditions => WorkPackage.visible_condition(args.first ||
                                                                                  User.current) } }
-  scope :without_deleted, :conditions => "#{WorkPackage.quoted_table_name}.deleted_at IS NULL"
-  scope :deleted, :conditions => "#{WorkPackage.quoted_table_name}.deleted_at IS NOT NULL"
 
   scope :in_status, lambda {|*args| where(:status_id => (args.first.respond_to?(:id) ? args.first.id : args.first))}
 
@@ -161,42 +159,38 @@ class WorkPackage < ActiveRecord::Base
                        :project,
                        :priority
 
+  acts_as_journalized :except => ["root_id"]
+
   # This one is here only to ease reading
   module JournalizedProcs
     def self.event_title
-      Proc.new do |data|
-        journal = data.journal
-        work_package = journal.journable
-
-        title = work_package.to_s
-        title << " (#{work_package.status.name})" if work_package.status.present?
+      Proc.new do |o|
+        title = o.to_s
+        title << " (#{o.status.name})" if o.status.present?
 
         title
       end
     end
 
     def self.event_type
-      Proc.new do |data|
-        journal = data.journal
+      Proc.new do |o|
+        journal = o.last_journal
         t = 'work_package'
 
-        t << if journal.changed_data.empty? && !journal.initial?
+        t << if journal && journal.changed_data.empty? && !journal.initial?
                '-note'
              else
-               status = Status.find_by_id(data.status_id)
+               status = Status.find_by_id(o.status_id)
 
                status.try(:is_closed?) ? '-closed' : '-edit'
              end
-
         t
       end
     end
   end
 
-  acts_as_journalized :event_title => JournalizedProcs.event_title,
-                      :event_type => JournalizedProcs.event_type,
-                      :except => ["root_id"],
-                      :activity_find_options => { :include => [:status, :type] }
+  acts_as_event title: JournalizedProcs.event_title,
+                type: JournalizedProcs.event_type
 
   register_on_journal_formatter(:id, 'parent_id')
   register_on_journal_formatter(:fraction, 'estimated_hours')
@@ -212,7 +206,7 @@ class WorkPackage < ActiveRecord::Base
                                                     :category_id, :fixed_version_id,
                                                     :planning_element_status_id,
                                                     :author_id, :responsible_id
-  register_on_journal_formatter :datetime,          :start_date, :due_date, :deleted_at
+  register_on_journal_formatter :datetime,          :start_date, :due_date
 
   # By planning element
   register_on_journal_formatter :plaintext,         :subject,
@@ -272,7 +266,7 @@ class WorkPackage < ActiveRecord::Base
     work_package.watchers.each do |watcher|
       # This might be a problem once this method is used on existing work packages
       # then, the watchers are added, keeping preexisting watchers
-      self.add_watcher(watcher.user)
+      self.add_watcher(watcher.user) if watcher.user.active?
     end
 
     self
@@ -361,10 +355,6 @@ class WorkPackage < ActiveRecord::Base
         relation.set_dates_of_target
       end
     end
-  end
-
-  def deleted?
-    !!read_attribute(:deleted_at)
   end
 
   # Users the work_package can be assigned to
@@ -727,11 +717,9 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def inherit_dates_from_children
-    active_children = children.without_deleted
-
-    unless active_children.empty?
-      self.start_date = [active_children.minimum(:start_date), active_children.minimum(:due_date)].compact.min
-      self.due_date   = [active_children.maximum(:start_date), active_children.maximum(:due_date)].compact.max
+    unless children.empty?
+      self.start_date = [children.minimum(:start_date), children.minimum(:due_date)].compact.min
+      self.due_date   = [children.maximum(:start_date), children.maximum(:due_date)].compact.max
     end
   end
 

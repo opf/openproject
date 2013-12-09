@@ -123,7 +123,7 @@ describe WorkPackagesController do
   end
 
   describe 'index' do
-    let(:query) { FactoryGirl.build_stubbed(:query) }
+    let(:query) { FactoryGirl.build_stubbed(:query).tap(&:add_default_filter) }
     let(:work_packages) { double("work packages").as_null_object }
 
     before do

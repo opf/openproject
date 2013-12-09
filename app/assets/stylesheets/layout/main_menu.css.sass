@@ -25,26 +25,12 @@
  *
  * See doc/COPYRIGHT.rdoc for more details.  ++*/
 
-$main_menu_bg_color: #053242
-$main_menu_bg_hover_selected_color: #04232F
-$main_menu_folded_width: 50px
-
-@mixin default-transition
-  -webkit-transition: all 500ms ease-in-out 0s
-  -moz-transition: all 500ms ease-in-out 0s
-  -ms-transition: all 500ms ease-in-out 0s
-  -o-transition: all 500ms ease-in-out 0s
-  transition: all 500ms ease-in-out 0s
-
-@mixin main-menu-font
-  font-style: normal
-  font-family: 'LatoRegular','Lucida Grande',Helvetica,Arial,sans-serif
-
+@import "variables"
+@import "mixins"
 
 #main-menu
   bottom: auto
-  left: 6px
-  width: 270px
+  width: $main_menu_width
   float: left
   left: 0
   background-color: $main_menu_bg_color
@@ -86,15 +72,6 @@ $main_menu_folded_width: 50px
             color: #999
             float: right
             padding-right: 9px
-          li
-            padding: 0
-            width: 100%
-            border-bottom: 1px solid #DDDDDD
-            border-top: 1px solid #FFFFFF
-            &:first-child
-              border-top: 0
-            a span
-              padding: 0
     ul
       display: none
       padding-top: 1px
@@ -102,36 +79,28 @@ $main_menu_folded_width: 50px
       &.menu-children.unattached
         border-top: 1px solid #ddd
 
-      ul
-        position: absolute
-        left: 185px
-        z-index: 20
-        width: 100%
-        top: 0
-        border: 1px solid #AFAFAF
-        background: #f3f3f3
-
     ul.menu-children
       background: #f8f8f8
       border-right: 1px solid #E7E7E7
       padding: 10px 0
       li
         padding: 0 15px 0 0
-      li a
-        font-size: 13px
-        line-height: 25px
-        height: 25px
-        border: none
-        padding: 0 0 0 50px
-        color: #04232F
-      li a:hover
-        border: none
-        background: none
-      li a.selected
-        border: none !important
-        background: none
-        color: #04232F
-        font-family: 'LatoBold','Lucida Grande',Helvetica,Arial,sans-serif
+        a
+          font-size: 13px
+          line-height: 25px
+          height: 25px
+          border: none
+          padding: 0 0 0 10px
+          color: #04232F
+
+          &:hover
+            border: none
+            background: none
+          &.selected
+            border: none !important
+            background: none
+            color: #04232F
+            font-family: 'LatoBold','Lucida Grande',Helvetica,Arial,sans-serif
 
   a
     text-decoration: none
@@ -150,24 +119,15 @@ $main_menu_folded_width: 50px
     right: 0
     top: 0
     width: 50px
-    height: 40px	
+    height: 40px
     text-align: center
-  li .open
-  li .open .toggler    
-    -moz-transform: rotate(180deg)
-    -webkit-transform: rotate(180deg)
-    -o-transform: rotate(180deg)
-    -ms-transform: rotate(180deg)
-    transform: rotate(180deg)
-  li .selected.open .toggler, li .open:hover .toggler
-    -moz-transform: rotate(180deg)
-    -webkit-transform: rotate(180deg)
-    -o-transform: rotate(180deg)
-    -ms-transform: rotate(180deg)
-    transform: rotate(180deg)
+  li
+    .open, .selected.open
+      .toggler:before
+        content: "\e0cc"
   #toggle-project-menu
     height: 40px
-    width: 270px
+    width: $main_menu_width
     border: none
     background-color: $main_menu_bg_color
     &:hover
@@ -258,7 +218,6 @@ $main_menu_folded_width: 50px
     cursor: pointer
     @include main-menu-font
 
-
   ul
     border: none
     overflow-x: hidden
@@ -266,46 +225,4 @@ $main_menu_folded_width: 50px
       border: none
     li a
       padding: 0px
-
-
-
-/* this part is just copied from application.css with needed changes for sass
- * should be refactored with the rest of the main_menu css*/
-
-
-#main-menu ul.menu_root li li .toggler
-  display: none
-
-#main-menu ul.menu_root li li li a
-  padding: 0 12px
-
-#main-menu ul.menu_root li li ul.profile-box li
-  padding: 6px 12px
-
-#main-menu ul.menu_root li li ul.profile-box li a
-  display: inline
-  padding: 0
-  color: #226D81
-  line-height: 1.5
-
-#main-menu ul.menu_root li li ul.profile-box li a:hover
-  text-decoration: underline
-
-
-/* Mimic ".icon .icon-time" */
-#main-menu ul.menu_root li a.time-details, #main-menu ul.menu_root li a.billable-time-details, #main-menu ul.menu_root li a.overhead-time-details
-  background-image: url(image-path('webalys/time.png'))
-  background-position: 30px 40%
-  background-repeat: no-repeat
-  padding-left: 50px
-
-#main-menu p.password
-  font-weight: bold
-  margin: 25px 0
-
-
-
-#main-menu ul.menu_root li a.time-details, #main-menu ul.menu_root li a.overhead-time-details, #main-menu ul.menu_root li a.billable-time-details
-  padding-left: 40px
-  background-position: 12px 45%
 

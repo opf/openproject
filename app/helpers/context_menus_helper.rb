@@ -43,7 +43,7 @@ module ContextMenusHelper
   def context_menu_link(name, url, options={})
     options[:class] ||= ''
     if options.delete(:selected)
-      options[:class] << ' icon-checked disabled'
+      options[:class] << ' icon-context icon-yes disabled'
       options[:disabled] = true
     end
     if options.delete(:disabled)

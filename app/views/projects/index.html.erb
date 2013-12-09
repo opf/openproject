@@ -45,13 +45,13 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= textilizable Setting.welcome_text %>
 </div>
 
-<%= render_project_hierarchy(@projects)%>
-
 <% if User.current.logged? %>
-<p style="text-align:right;">
-<span class="my-project"><%= l(:label_my_projects) %></span>
-</p>
+  <p style="float:right;">
+    <span class="icon icon-star2"><%= l(:label_my_projects) %></span>
+  </p>
 <% end %>
+
+<%= render_project_hierarchy(@projects)%>
 
 <%= other_formats_links do |f| %>
   <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>

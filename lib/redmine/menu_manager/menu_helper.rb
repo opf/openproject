@@ -56,26 +56,29 @@ module Redmine::MenuManager::MenuHelper
                     :param => :project_id,
                     :caption => main_item.name,
                     :after => :repository,
-                    :html => {:'data-icon2' => 'Y'}
+                    :html => {:class => 'icon2 icon-wiki'}
 
         menu.push :"#{main_item.item_class}_new_page",
                   { :action=>"new_child", :controller=>"/wiki", :id => CGI.escape(main_item.title) },
-                  :param => :project_id,
+                  :param   => :project_id,
                   :caption => :create_child_page,
-                  :parent => "#{main_item.item_class}".to_sym if main_item.new_wiki_page and
+                  :html    => {:class => 'icon2 icon-add'},
+                  :parent  => "#{main_item.item_class}".to_sym if main_item.new_wiki_page and
                     WikiPage.find_by_wiki_id_and_title(project_wiki.id, main_item.title)
 
         menu.push :"#{main_item.item_class}_toc",
                   { :action => 'index', :controller => '/wiki', :id => CGI.escape(main_item.title) },
-                  :param => :project_id,
+                  :param   => :project_id,
                   :caption => :label_table_of_contents,
-                  :parent => "#{main_item.item_class}".to_sym if main_item.index_page
+                  :html    => {:class => 'icon2 icon-list-view1'},
+                  :parent  => "#{main_item.item_class}".to_sym if main_item.index_page
 
         main_item.children.each do |child|
           menu.push "#{child.item_class}".to_sym,
                     { :controller => '/wiki', :action => 'show', :id => CGI.escape(child.title) },
                     :param => :project_id,
                     :caption => child.name,
+                    :html    => {:class => 'icon2 icon-wiki2'},
                     :parent => "#{main_item.item_class}".to_sym
         end
         # FIXME using wiki_menu_item#title to reference the wiki page and wiki_menu_item#name as the menu item representation feels wrong
@@ -90,7 +93,12 @@ module Redmine::MenuManager::MenuHelper
       query_menu_items.each do |query_menu_item|
         # url = project_work_packages_path(project, query_id: query_menu_item.navigatable_id) does not work because the authorization check fails
         url = { :controller => '/work_packages', :action => 'index', :params => {:query_id => query_menu_item.navigatable_id} }
-        menu.push query_menu_item.name, url, :param => :project_id, :caption => query_menu_item.title, :parent => :work_packages
+        menu.push query_menu_item.name,
+                  url,
+                  :param => :project_id,
+                  :caption => query_menu_item.title,
+                  :parent => :work_packages,
+                  :html    => {:class => 'icon2 icon-pin'}
       end
     end
   end

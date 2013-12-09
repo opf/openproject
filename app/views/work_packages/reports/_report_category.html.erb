@@ -29,10 +29,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h3>
   <%= WorkPackage.human_attribute_name(report.report_type) %>&nbsp;&nbsp;
-  <%= link_to image_tag('webalys/zoom_in.png',
-                        :alt    => l(:text_analyze, :subject => WorkPackage.human_attribute_name(report.report_type)),
-                        :title  => l(:text_analyze, :subject => WorkPackage.human_attribute_name(report.report_type))),
-              :action => 'report_details', :detail => report.report_type %>
+  <%= link_to(icon_wrapper('icon icon-zoom-in',l(:text_analyze, :subject => WorkPackage.human_attribute_name(report.report_type))),
+              {:action => 'report_details', :detail => report.report_type},
+              :title  => l(:text_analyze, :subject => WorkPackage.human_attribute_name(report.report_type)),
+              :class => 'no-decoration-on-hover') %>
 </h3>
 <%= render :partial => 'report', :locals => { :report => report } %>
 <br />

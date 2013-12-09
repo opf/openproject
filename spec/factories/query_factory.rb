@@ -41,5 +41,7 @@ FactoryGirl.define do
       is_public false
       sequence(:name) { |n| "Private query #{n}" }
     end
+
+    after(:build) { |query| query.add_default_filter }
   end
 end

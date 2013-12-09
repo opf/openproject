@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="contextual">
 <%= link_to l(:label_work_package_status_new), {:action => 'new'}, :class => 'icon icon-add' %>
-<%= link_to(l(:label_update_work_package_done_ratios), {:action => 'update_work_package_done_ratio'}, :class => 'icon icon-multiple', :method => 'post', :confirm => l(:text_are_you_sure)) if WorkPackage.use_status_for_done_ratio? %>
+<%= link_to(l(:label_update_work_package_done_ratios), {:action => 'update_work_package_done_ratio'}, :class => 'icon icon-reload2', :method => 'post', :confirm => l(:text_are_you_sure)) if WorkPackage.use_status_for_done_ratio? %>
 </div>
 
 <h2><%=l(:label_work_package_status_plural)%></h2>
@@ -59,7 +59,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= link_to(l(:button_delete), { :action => 'destroy', :id => status },
                                    :method => :post,
                                    :confirm => l(:text_are_you_sure),
-                                   :class => 'icon icon-del') %>
+                                   :class => 'icon icon-delete') %>
   </td>
   </tr>
 <% end %>

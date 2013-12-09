@@ -62,7 +62,7 @@ class Project < ActiveRecord::Base
 
   has_many :enabled_modules, :dependent => :delete_all
   has_and_belongs_to_many :types, :order => "#{Type.table_name}.position"
-  has_many :work_packages, :dependent => :destroy, :order => "#{WorkPackage.table_name}.created_at DESC", :include => [:status, :type]
+  has_many :work_packages, :order => "#{WorkPackage.table_name}.created_at DESC", :include => [:status, :type]
   has_many :work_package_changes, :through => :work_packages, :source => :journals
   has_many :versions, :dependent => :destroy, :order => "#{Version.table_name}.effective_date DESC, #{Version.table_name}.name DESC"
   has_many :time_entries, :dependent => :delete_all
@@ -107,6 +107,7 @@ class Project < ActiveRecord::Base
   validates_exclusion_of :identifier, :in => RESERVED_IDENTIFIERS
 
   before_destroy :delete_all_members
+  before_destroy :destroy_all_work_packages
 
   scope :has_module, lambda { |mod| { :conditions => ["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s] } }
   scope :active, lambda { |*args| where(:status => STATUS_ACTIVE) }
@@ -583,6 +584,16 @@ class Project < ActiveRecord::Base
     me, mr = Member.table_name, MemberRole.table_name
     connection.delete("DELETE FROM #{mr} WHERE #{mr}.member_id IN (SELECT #{me}.id FROM #{me} WHERE #{me}.project_id = #{id})")
     Member.delete_all(['project_id = ?', id])
+  end
+
+  def destroy_all_work_packages
+    self.work_packages.each do |wp|
+      begin
+        wp.reload
+        wp.destroy
+      rescue ActiveRecord::RecordNotFound => e
+      end
+    end
   end
 
   # Users/groups a work_package can be assigned to

@@ -53,8 +53,10 @@ class ActivitiesControllerTest < ActionController::TestCase
                        notes: "Some notes with Redmine links: #2, r2.",
                        created_at: 1.days.ago.to_date.to_s(:db),
                        data: FactoryGirl.build(:journal_work_package_journal,
-                                               project_id: issue.project_id,
-                                               status_id: 2)
+                                               subject: issue.subject,
+                                               status_id: 2,
+                                               type_id: issue.type_id,
+                                               project_id: issue.project_id)
 
     get :index, :id => 1, :with_subprojects => 0
     assert_response :success
@@ -79,34 +81,12 @@ class ActivitiesControllerTest < ActionController::TestCase
                        journable_id: issue.id,
                        created_at: 3.days.ago.to_date.to_s(:db),
                        data: FactoryGirl.build(:journal_work_package_journal,
+                                               subject: issue.subject,
+                                               status_id: issue.status_id,
+                                               type_id: issue.type_id,
                                                project_id: issue.project_id)
 
     get :index, :id => 1, :from => 3.days.ago.to_date
-    assert_response :success
-    assert_template 'index'
-    assert_not_nil assigns(:events_by_day)
-
-    assert_tag :tag => "h3",
-               :content => /#{3.day.ago.to_date.day}/,
-               :sibling => { :tag => "dl",
-                 :child => { :tag => "dt",
-                   :attributes => { :class => /work_package/ },
-                   :child => { :tag => "a",
-                     :content => /#{ERB::Util.html_escape(issue.subject)}/
-                   }
-                 }
-               }
-  end
-
-  def test_global_index
-    issue = WorkPackage.find(1)
-    FactoryGirl.create :work_package_journal,
-                       journable_id: issue.id,
-                       created_at: 3.days.ago.to_date.to_s(:db),
-                       data: FactoryGirl.build(:journal_work_package_journal,
-                                               project_id: issue.project_id)
-
-    get :index
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:events_by_day)
@@ -130,6 +110,9 @@ class ActivitiesControllerTest < ActionController::TestCase
                        user_id: 2,
                        created_at: 3.days.ago.to_date.to_s(:db),
                        data: FactoryGirl.build(:journal_work_package_journal,
+                                               subject: issue.subject,
+                                               status_id: issue.status_id,
+                                               type_id: issue.type_id,
                                                project_id: issue.project_id)
 
     get :index, :user_id => 2
@@ -148,21 +131,4 @@ class ActivitiesControllerTest < ActionController::TestCase
                  }
                }
   end
-
-  def test_index_atom_feed
-    issue = WorkPackage.find(11)
-    FactoryGirl.create :work_package_journal,
-                       journable_id: issue.id,
-                       version: 1,
-                       data: FactoryGirl.build(:journal_work_package_journal,
-                                               project_id: issue.project_id,
-                                               subject: issue.subject)
-    get :index, :format => 'atom'
-    assert_response :success
-    assert_template 'common/feed'
-    assert_tag :tag => 'entry', :child => {
-      :tag => 'link',
-      :attributes => {:href => 'http://test.host/work_packages/11'}}
-  end
-
 end

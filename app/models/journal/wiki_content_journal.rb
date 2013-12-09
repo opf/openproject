@@ -29,4 +29,54 @@
 
 class Journal::WikiContentJournal < Journal::BaseJournal
   self.table_name = "wiki_content_journals"
+
+  acts_as_activity_provider type: 'wiki_edits',
+                            permission: :view_wiki_edits
+
+  def self.extend_event_query(journals_table, activity_journals_table, query)
+    wiki_pages_table = Arel::Table.new(:wiki_pages)
+    wikis_table = Arel::Table.new(:wikis)
+
+    query = query.join(wiki_pages_table).on(activity_journals_table[:page_id].eq(wiki_pages_table[:id]))
+    query = query.join(wikis_table).on(wiki_pages_table[:wiki_id].eq(wikis_table[:id]))
+    [wikis_table, query]
+  end
+
+  def self.event_query_projection(journals_table, activity_journals_table)
+    wiki_pages_table = Arel::Table.new(:wiki_pages)
+    wikis_table = Arel::Table.new(:wikis)
+
+    [
+      wikis_table[:project_id].as('project_id'),
+      wiki_pages_table[:title].as('wiki_title')
+    ]
+  end
+
+  def self.format_event(event, event_data)
+    event.event_title = self.event_title event_data
+    event.event_type = 'wiki-page'
+    event.event_path = self.event_path event_data
+    event.event_url = self.event_url event_data
+
+    event
+  end
+
+  private
+
+  def self.event_title(event)
+    "#{l(:label_wiki_edit)}: #{event['wiki_title']} (##{event['version']})"
+  end
+
+  def self.event_path(event)
+    Rails.application.routes.url_helpers.project_wiki_path(*self.url_helper_parameter(event))
+  end
+
+  def self.event_url(event)
+    Rails.application.routes.url_helpers.project_wiki_url(*self.url_helper_parameter(event),
+                                                          host: ::Setting.host_name)
+  end
+
+  def self.url_helper_parameter(event)
+    [ event['project_id'], event['wiki_title'], { version: event['version'] } ]
+  end
 end

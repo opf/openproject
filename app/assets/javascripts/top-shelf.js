@@ -57,7 +57,7 @@
   };
 
   $.fn.topShelf.defaults = {
-    className: "top-shelf",
+    className: "top-shelf icon icon-warning",
     title: "",
     message: "",
     link: "",
