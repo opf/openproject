@@ -42,6 +42,7 @@
 //= require jquery.ui.all
 //= require jquery-ui-i18n
 //= require jquery.menu_expand
+//= require jquery.atwho
 //= require jquery_ujs
 //= require jquery_noconflict
 //= require prototype
