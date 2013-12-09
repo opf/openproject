@@ -34,7 +34,7 @@
   "use strict";
 
   function Autocompleter (object, args) {
-    this.element = object;
+    this.element = $(object);
     this.opts = null;
     this.fakeInput = null;
     this.initOptions(args);
@@ -42,16 +42,32 @@
     this.initSelect2();
   }
 
-  Autocompleter.prototype = $.extend(Autocompleter.prototype, {
+  function makeSortable(input) {
+    input.select2("container").find("ul.select2-choices").sortable({
+      containment: 'parent',
+      start: function() {
+        input.select2("onSortStart");
+      },
+      update: function() {
+        input.select2("onSortEnd");
+      }
+    });
+  }
+
+  function hasAttribute(element, attributeName) {
+    return element.attr(attributeName) && element.attr(attributeName) !== "";
+  }
+
+  Autocompleter.prototype = {
     initOptions: function (args) {
-      var self = this;
-      this.opts = $.extend(true, {}, $.fn.autocomplete.defaults);
-      this.opts = $.extend(true, this.opts, args[0]);
-      if (!(this.element.attr("data-ajaxURL") === "" || this.element.attr("data-ajaxURL") === null || this.element.attr("data-ajaxURL") === undefined)) {
+      this.opts = $.extend(true, {}, $.fn.autocomplete.defaults, args[0]);
+
+      if (hasAttribute(this.element, "data-ajaxURL")) {
         this.opts.ajax.url = this.element.attr("data-ajaxURL");
       }
-      if (!($(this.element).attr("data-values") === "" || $(this.element).attr("data-values") === null || $(this.element).attr("data-values") === undefined)) {
-        this.opts.data.results = JSON.parse($(this.element).attr('data-values')).map(function (e) {
+
+      if (hasAttribute(this.element, "data-values")) {
+        this.opts.data.results = JSON.parse(this.element.attr('data-values')).map(function (e) {
           e.text = e.text || e.name;
           return e;
         });
@@ -60,30 +76,41 @@
     },
 
     setupInput: function () {
-      var attrs_to_copy = {}, currentName, select2id, values = [];
-
-      if ($(this.element).is("input")) {
-        this.fakeInput = $(this.element);
+      if (this.element.is("input")) {
+        this.fakeInput = this.element;
       } else {
-        $("input[name='" + $(this.element).attr("name")+"']").remove();
+        $("input[name='" + this.element.attr("name")+"']").remove();
 
-        for(var i = 0; i < $(this.element).get(0).attributes.length; i++) {
-          currentName = $(this.element).get(0).attributes[i].name;
-          if(currentName.indexOf("data-") === 0 || $.inArray(currentName, this.opts.allowedAttributes) !== -1) { //only ones starting with data-
-            attrs_to_copy[currentName] = $(this.element).attr(currentName);
-          }
-        }
+        this.createNewInput();
+        this.setInputValue();
 
-        select2id = $(this.element).attr("id");
-        this.fakeInput = $(this.element).after("<input type='hidden' id='" + select2id + "'></input>").siblings(":input#" + select2id);
-        this.fakeInput.attr(attrs_to_copy);
-        if (!($(this.element).attr("data-selected") === "" || $(this.element).attr("data-selected") === null || $(this.element).attr("data-selected") === undefined)) {
-          JSON.parse($(this.element).attr('data-selected')).each(function (elem) {
-            values.push(elem[1]);
-          });
-          this.fakeInput.val(values);
+        this.element.remove();
+      }
+    },
+
+    createNewInput: function () {
+      var attrs_to_copy = {}, currentName, select2id;
+
+      for(var i = 0; i < this.element.get(0).attributes.length; i++) {
+        currentName = this.element.get(0).attributes[i].name;
+        if(currentName.indexOf("data-") === 0 || $.inArray(currentName, this.opts.allowedAttributes) !== -1) { //only ones starting with data-
+          attrs_to_copy[currentName] = this.element.attr(currentName);
         }
-        $(this.element).remove();
+      }
+
+      select2id = this.element.attr("id");
+      this.fakeInput = this.element.after("<input type='hidden' id='" + select2id + "'></input>").siblings(":input#" + select2id);
+      this.fakeInput.attr(attrs_to_copy);
+    },
+
+    setInputValue: function () {
+      var values = [];
+      if (hasAttribute(this.fakeInput, "data-selected")) {
+        JSON.parse(this.fakeInput.attr('data-selected')).each(function (elem) {
+          values.push(elem[1]);
+        });
+
+        this.fakeInput.val(values);
       }
     },
 
@@ -91,19 +118,10 @@
       $(this.fakeInput).select2(this.opts);
 
       if (this.opts.sortable) {
-        var input = $(this.fakeInput);
-        input.select2("container").find("ul.select2-choices").sortable({
-          containment: 'parent',
-          start: function() {
-            input.select2("onSortStart");
-          },
-          update: function() {
-            input.select2("onSortEnd");
-          }
-        });
+        makeSortable($(this.fakeInput));
       }
     }
-  });
+  };
 
   $.fn.autocomplete = function () {
     var args = Array.prototype.slice.call(arguments, 0),
@@ -175,15 +193,16 @@
       if (multiple !== null && multiple !== undefined && multiple) {
         data = [];
       }
-      if (!($(element).attr("data-selected") === "" || $(element).attr("data-selected") === null || $(element).attr("data-selected") === undefined)) {
-        JSON.parse($(element).attr('data-selected')).each(function (elem) {
+
+      if (hasAttribute(element, "data-selected")) {
+        JSON.parse(element.attr('data-selected')).each(function (elem) {
           if (multiple) {
             data.push({id: elem[1], name: elem[0]});
           } else {
             data = {id: elem[1], name: elem[0]};
           }
         });
-      } else if (element.is("input") && !(element.attr("data-values") === "" || element.attr("data-values") === null || element.attr("data-values") === undefined)) {
+      } else if (element.is("input") && hasAttribute(element, "data-values")) {
         var possible = JSON.parse(element.attr('data-values'));
         var vals = element.val().split(",");
         var byID = {};
