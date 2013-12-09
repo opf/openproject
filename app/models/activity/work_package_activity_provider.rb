@@ -68,11 +68,11 @@ class Activity::WorkPackageActivityProvider < Activity::BaseActivityProvider
   end
 
   def event_path(event)
-    Rails.application.routes.url_helpers.work_package_path(url_helper_parameter(event))
+    Rails.application.routes.url_helpers.work_package_path(*url_helper_parameter(event))
   end
 
   def event_url(event)
-    Rails.application.routes.url_helpers.work_package_url(url_helper_parameter(event),
+    Rails.application.routes.url_helpers.work_package_url(*url_helper_parameter(event),
                                                           host: ::Setting.host_name)
   end
 
