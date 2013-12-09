@@ -29,7 +29,7 @@
 
 class Activity::TimeEntryActivityProvider < Activity::BaseActivityProvider
 
- acts_as_activity_provider type: 'time_entries',
+  acts_as_activity_provider type: 'time_entries',
                             permission: :view_time_entries
 
   def extend_event_query(query)
