@@ -29,6 +29,7 @@
 
 class Activity::BaseActivityProvider
   include Redmine::Acts::ActivityProvider
+  include Redmine::I18n
 
   def extend_event_query(query)
   end

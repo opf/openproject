@@ -28,7 +28,6 @@
 #++
 
 class Activity::WikiContentActivityProvider < Activity::BaseActivityProvider
-  include Redmine::I18n
 
   acts_as_activity_provider type: 'wiki_edits',
                             permission: :view_wiki_edits

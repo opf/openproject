@@ -28,8 +28,6 @@
 #++
 
 class Activity::WorkPackageActivityProvider < Activity::BaseActivityProvider
-  include Redmine::I18n
-
   acts_as_activity_provider type: 'work_packages',
                             permission: :view_work_packages
 
