@@ -48,15 +48,6 @@ class Activity::WorkPackageActivityProvider < Activity::BaseActivityProvider
     ]
   end
 
-  def format_event(event, event_data)
-    event.event_title = event_title event_data
-    event.event_type = "work_package#{event_type event_data}"
-    event.event_path = event_path event_data
-    event.event_url = event_url event_data
-
-    event
-  end
-
   private
 
   def types_table
@@ -74,13 +65,16 @@ class Activity::WorkPackageActivityProvider < Activity::BaseActivityProvider
   end
 
   def event_type(event)
+    state = ''
     journal = Journal.find(event['event_id'])
 
     if journal.changed_data.empty? && !journal.initial?
-      '-note'
+      state = '-note'
     else
-      event['status_closed'] ? '-closed' : '-edit'
+      state = event['status_closed'] ? '-closed' : '-edit'
     end
+
+    "work_package#{state}"
   end
 
   def event_path(event)

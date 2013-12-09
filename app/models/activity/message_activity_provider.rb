@@ -47,16 +47,6 @@ class Activity::MessageActivityProvider < Activity::BaseActivityProvider
     ]
   end
 
-  def format_event(event, event_data)
-    event.event_title = event_title event_data
-    event.event_description = event_data['message_content']
-    event.event_type = event_type event_data
-    event.event_path = event_path event_data
-    event.event_url = event_url event_data
-
-    event
-  end
-
   def projects_reference_table
     boards_table
   end
@@ -69,6 +59,10 @@ class Activity::MessageActivityProvider < Activity::BaseActivityProvider
 
   def event_title(event)
     "#{event['board_name']}: #{event['message_subject']}"
+  end
+
+  def event_description(event)
+    event['message_content']
   end
 
   def event_type(event)

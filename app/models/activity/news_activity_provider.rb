@@ -42,15 +42,11 @@ class Activity::NewsActivityProvider < Activity::BaseActivityProvider
     ]
   end
 
-  def format_event(event, event_data)
-    event.event_title = event_data['title']
-    event.event_path = event_path event_data
-    event.event_url = event_url event_data
-
-    event
-  end
-
   private
+
+  def event_title(event)
+    event_data['title']
+  end
 
   def event_path(event)
     Rails.application.routes.url_helpers.news_path(url_helper_parameter(event))

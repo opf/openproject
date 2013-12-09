@@ -47,15 +47,6 @@ class Activity::TimeEntryActivityProvider < Activity::BaseActivityProvider
     ]
   end
 
-  def format_event(event, event_data)
-    event.event_title = event_title event_data
-    event.event_description = event_data['time_entry_description']
-    event.event_path = event_path event_data
-    event.event_url = event_url event_data
-
-    event
-  end
-
   private
 
   def work_packages_table
@@ -70,6 +61,10 @@ class Activity::TimeEntryActivityProvider < Activity::BaseActivityProvider
     titry_object_name = event['work_package_id'].blank? ? event['project_name']
                                                         : event['work_package_name']
     "#urs(event['time_entry_hours'])} (#{time_entry_object_name})"
+  end
+
+  def event_description(event)
+    event_data['time_entry_description']
   end
 
   def event_path(event)

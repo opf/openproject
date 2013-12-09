@@ -44,15 +44,6 @@ class Activity::WikiContentActivityProvider < Activity::BaseActivityProvider
     ]
   end
 
-  def format_event(event, event_data)
-    event.event_title = event_title event_data
-    event.event_type = 'wiki-page'
-    event.event_path = event_path event_data
-    event.event_url = event_url event_data
-
-    event
-  end
-
   def projects_reference_table
     wikis_table
   end
@@ -69,6 +60,10 @@ class Activity::WikiContentActivityProvider < Activity::BaseActivityProvider
 
   def event_title(event)
     "#abel_wiki_edit)}: #{event['wiki_title']} (##{event['version']})"
+  end
+
+  def event_type(event)
+    'wiki-page'
   end
 
   def event_path(event)

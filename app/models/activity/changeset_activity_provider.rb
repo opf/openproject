@@ -47,20 +47,6 @@ class Activity::ChangesetActivityProvider < Activity::BaseActivityProvider
     ]
   end
 
-  def format_event(event, event_data)
-    committed_on = event_data['committed_on']
-    committed_date = committed_on.is_a?(String) ? DateTime.parse(committed_on)
-                                                : committed_on
-
-    event.event_title = event_title event_data
-    event.event_description = split_comment(event_data['comments']).last
-    event.event_datetime = committed_date
-    event.event_path = event_path event_data
-    event.event_url = event_url event_data
-
-    event
-  end
-
   def projects_reference_table
     repositories_table
   end
@@ -87,12 +73,22 @@ class Activity::ChangesetActivityProvider < Activity::BaseActivityProvider
                                               : event['revision']
   end
 
+  def event_description(event)
+    split_comment(event_data['comments']).last
+  end
+
   def split_comment(comments)
     cos =~ /\A(.+?)\r?\n(.*)\z/m
     shomments = $1 || comments
     lomments = $2.to_s.strip
 
     [scomments, long_comments]
+  end
+
+  def event_datetime(event)
+    committed_on = event_data['committed_on']
+    committed_date = committed_on.is_a?(String) ? DateTime.parse(committed_on)
+                                                : committed_on
   end
 
   def event_path(event)
