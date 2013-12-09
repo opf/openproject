@@ -42,6 +42,17 @@ Then /^there should not be a main menu$/ do
   page.should_not have_css("#main-menu")
 end
 
+# opens a menu item in the main menu
+When /^I open the "([^"]+)" (?:sub)?menu$/ do |menu_name|
+  
+  nodes = all(:css, ".menu_root a[title=\"#{menu_name}\"]")
+
+  # w/o javascript, all menu elements are expanded by default. So the toggler
+  # might not be present.
+  nodes.first.click if nodes.present?
+
+end
+
 When /^I select "(.+?)" from the action menu$/ do |entry_name|
   within(action_menu_selector) do
     if !find_link(entry_name, :visible => false).visible?
