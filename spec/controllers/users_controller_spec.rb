@@ -370,22 +370,58 @@ describe UsersController do
   end
 
   describe "show" do
-    before do
-      as_logged_in_user user do
-        get :show, :id => user.id
+    describe "general" do
+      before do
+        as_logged_in_user user do
+          get :show, :id => user.id
+        end
+      end
+
+      it "responds with success" do
+        expect(response).to be_success
+      end
+
+      it "renders the show template" do
+        expect(response).to render_template 'show'
+      end
+
+      it "assigns @user" do
+        expect(assigns(:user)).to eq(user)
       end
     end
 
-    it "responds with success" do
-      expect(response).to be_success
-    end
+    describe 'for user with Activity' do
+      render_views
 
-    it "renders the show template" do
-      expect(response).to render_template 'show'
-    end
+      let(:work_package) { FactoryGirl.create(:work_package,
+                                              author: user) }
+      let!(:member) { FactoryGirl.create(:member,
+                                         project: work_package.project,
+                                         principal: user,
+                                         roles: [FactoryGirl.create(:role,
+                                                                    permissions: [:view_work_packages])]) }
+      let!(:journal_1) { FactoryGirl.create(:work_package_journal,
+                                            user: user,
+                                            journable_id: work_package.id,
+                                            version: Journal.maximum(:version) + 1,
+                                            data: FactoryGirl.build(:journal_work_package_journal,
+                                                                    subject: work_package.subject,
+                                                                    status_id: work_package.status_id,
+                                                                    type_id: work_package.type_id,
+                                                                    project_id: work_package.project_id)) }
+      let!(:journal_2) { FactoryGirl.create(:work_package_journal,
+                                            user: user,
+                                            journable_id: work_package.id,
+                                            version: Journal.maximum(:version) + 1,
+                                            data: FactoryGirl.build(:journal_work_package_journal,
+                                                                    subject: work_package.subject,
+                                                                    status_id: work_package.status_id,
+                                                                    type_id: work_package.type_id,
+                                                                    project_id: work_package.project_id)) }
 
-    it "assigns @user" do
-      expect(assigns(:user)).to eq(user)
+      before { User.stub(:current).and_return(user.reload) }
+
+      it { get :show, id: user.id }
     end
   end
 end
