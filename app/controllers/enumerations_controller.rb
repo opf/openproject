@@ -31,15 +31,17 @@ class EnumerationsController < ApplicationController
   layout 'admin'
 
   before_filter :require_admin
+  before_filter :find_enumeration, :only => [:edit, :update, :destroy]
 
   include CustomFieldsHelper
 
-  def index
-  end
+  def index; end
+  def edit;end
 
   def new
+    type = permitted_params.enumeration_type
     begin
-      klass = params[:type].constantize
+      klass = type.constantize
       raise NameError unless klass.ancestors.include? Enumeration
       @enumeration = klass.new
     rescue NameError
@@ -48,9 +50,10 @@ class EnumerationsController < ApplicationController
   end
 
   def create
+    enum_params = permitted_params.enumeration
     @enumeration = Enumeration.new do |e|
-      e.type = params[:enumeration].delete(:type)
-      e.attributes = params[:enumeration]
+      e.type = enum_params.delete(:type)
+      e.attributes = enum_params
     end
 
     if @enumeration.save
@@ -61,14 +64,10 @@ class EnumerationsController < ApplicationController
     end
   end
 
-  def edit
-    @enumeration = Enumeration.find(params[:id])
-  end
-
   def update
-    @enumeration = Enumeration.find(params[:id])
-    @enumeration.type = params[:enumeration].delete(:type) if params[:enumeration][:type]
-    if @enumeration.update_attributes(params[:enumeration])
+    enum_params = permitted_params.enumeration
+    @enumeration.type = enum_params.delete(:type) if enum_params[:type]
+    if @enumeration.update_attributes enum_params
       flash[:notice] = l(:notice_successful_update)
       redirect_to enumerations_path(:type => @enumeration.type)
     else
@@ -77,7 +76,6 @@ class EnumerationsController < ApplicationController
   end
 
   def destroy
-    @enumeration = Enumeration.find(params[:id])
     if !@enumeration.in_use?
       # No associated objects
       @enumeration.destroy
@@ -93,7 +91,13 @@ class EnumerationsController < ApplicationController
     @enumerations = @enumeration.class.find(:all) - [@enumeration]
   end
 
+protected
+
   def default_breadcrumb
     l(:label_enumerations)
+  end
+
+  def find_enumeration
+    @enumeration = Enumeration.find(params[:id])
   end
 end

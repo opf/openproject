@@ -89,6 +89,11 @@ class PermittedParams < Struct.new(:params, :user)
   def custom_field_type
     params.require(:type)
   end
+  alias_method :enumeration_type, :custom_field_type
+
+  def enumeration
+    params.require(:enumeration).permit(*self.class.permitted_attributes[:enumeration])
+  end
 
   def planning_element_type
     params.require(:planning_element_type).permit(*self.class.permitted_attributes[:planning_element_type])
@@ -218,6 +223,13 @@ class PermittedParams < Struct.new(:params, :user)
           :name,
           :possible_values],
         :type_ids => []],
+      :enumeration => [
+        :active,
+        :id_default,
+        :move_to,
+        :name,
+        :reassign_to_id,
+        :type],
       :new_work_package => [
         :subject,
         :description,
