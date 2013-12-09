@@ -216,7 +216,7 @@ GEM
     pry-stack_explorer (0.4.9.1)
       binding_of_caller (>= 0.7)
       pry (>= 0.9.11)
-    rabl (0.9.0)
+    rabl (0.9.3)
       activesupport (>= 2.3.14)
     rack (1.4.5)
     rack-cache (1.2)

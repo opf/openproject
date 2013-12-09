@@ -64,7 +64,7 @@ gem 'therubyracer'
 gem "date_validator"
 
 # replacing rsb with rabl
-gem 'rabl'
+gem 'rabl', '0.9.3'
 gem 'multi_json'
 gem 'oj'
 
