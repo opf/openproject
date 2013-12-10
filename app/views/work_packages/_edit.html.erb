@@ -83,7 +83,8 @@ See doc/COPYRIGHT.rdoc for more details.
                                            :class => 'hidden-for-sighted' %>
       <%= text_area_tag "work_package[notes]", work_package.journal_notes, :cols => 60,
                                                                            :rows => 10,
-                                                                           :class => 'wiki-edit' %>
+                                                                           :class => 'wiki-edit',
+                                                                           :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => project, :format => :json) %>
       <%= wikitoolbar_for 'work_package_notes' %>
       <%= call_hook(:view_work_packages_edit_notes_bottom, { :issue => work_package,
                                                       :notes => work_package.journal_notes,

@@ -27,11 +27,32 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= f.error_messages %>
-<label for="project_association_description">
-  <%= ProjectAssociation.human_attribute_name(:description)%>:
-</label>
+jQuery(function($){
+  $('textarea.wiki-edit').each(function(){
+    var that = this;
+    $(this).atwho({
+      at: '#',
+      start_with_space: false,
+      search_key: 'id',
+      tpl: '<li data-value="${atwho-at}${id}"><strong>${id}</strong> ${subject}</li>',
+      callbacks: {
+        /*
+         It function is given, At.js will invoke it if local filter can not find any data
+         @param query [String] matched query
+         @param callback [Function] callback to render page.
+        */
+        remote_filter: function(query, callback) {
+          $.getJSON($(that).data('wp_autocomplete_url'), {q: query}, function(data) {
+            // atjs needs the search key to be a string
+            for (var i = data.length - 1; i >= 0; i--) {
+              data[i]['id'] = data[i]['id'].toString();
+            };
+            callback(data);
+          });
+        }
+      }
+    });
+  });
+});
 
-<%= f.text_area(:description, :class => 'timelines-project-association-description wiki-edit', :rows => 10,
-                :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json)) %>
-<%= wikitoolbar_for 'project_association_description' %>
+

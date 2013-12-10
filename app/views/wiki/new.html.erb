@@ -50,7 +50,8 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 
 
-  <p><%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit) %></p>
+  <p><%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit),
+                     :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json) %></p>
   <p><label><%= Journal.human_attribute_name(:comments) %></label><br /><%= f.text_field :comments, :size => 120 %></p>
   <p><label><%= l(:label_attachment_plural) %></label><br /><%= render :partial => 'attachments/form', :f => f %></p>
 

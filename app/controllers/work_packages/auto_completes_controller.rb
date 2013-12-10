@@ -45,7 +45,10 @@ class WorkPackages::AutoCompletesController < ApplicationController
                                            conditions: ["LOWER(#{WorkPackage.table_name}.subject) LIKE :q OR CAST(#{WorkPackage.table_name}.id AS CHAR(13)) LIKE :q", {q: "%#{q.downcase}%" }])
     end
 
-    render layout: false
+    respond_to do |format|
+      format.html { render layout: false }
+      format.any(:xml, :json) { render request.format.to_sym => @work_packages }
+    end
   end
 
   private

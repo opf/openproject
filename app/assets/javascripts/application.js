@@ -64,6 +64,7 @@
 //= require keyboard_shortcuts
 //= require top-shelf
 //= require unsupported-browsers
+//= require autocomplete_textareas
 //= require_tree ./pages
 //= require openproject_plugins
 

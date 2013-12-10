@@ -115,7 +115,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <fieldset><legend><%= Journal.human_attribute_name(:notes) %></legend>
 <%= label_tag 'notes', Journal.human_attribute_name(:notes), :class => 'hidden-for-sighted' %>
-<%= text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit' %>
+<%= text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit',
+                  :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json) %>
 <%= wikitoolbar_for 'notes' %>
 <%= send_notification_option %>
 </fieldset>
