@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#3054` Fix: Some Projects cannot be deleted
+* `#3149` Fix: duplicate XML root nodes in API v2 show
 * `#3234` Fix: [Work package tracking] Sorting of work package statuses does not work
 * `#3266` Fix: [Work package tracking] % done in work package status cannot be modified
 * `#3291` Fix: Internal error when clicking on member
