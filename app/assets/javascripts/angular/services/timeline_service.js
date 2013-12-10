@@ -1,12 +1,15 @@
-timelinesApp.service('TimelineService', ['$q', '$rootScope', function($q, $rootScope) {
-  deferred = $q.defer();
+timelinesApp.service('TimelineService', ['$q', '$rootScope', 'TimelineLoaderService', function($q, $rootScope, TimelineLoaderService) {
 
   TimelineService = {
     createTimeline: function(timelineOptions) {
       return Timeline.create(timelineOptions);
     },
     loadTimelineData: function(timeline) {
+      console.log('- TimelineService: loadTimelineData');
+
+      deferred = $q.defer();
       timelineLoader = null;
+
       try {
         // prerequisites (3rd party libs)
         timeline.checkPrerequisites();
@@ -24,7 +27,8 @@ timelinesApp.service('TimelineService', ['$q', '$rootScope', function($q, $rootS
           timeline.reload();
         });
 
-        timelineLoader = timeline.provideTimelineLoader();
+        timelineLoader = TimelineLoaderService.createTimelineLoader(timeline);
+        timelineLoader.registerTimelineElements();
 
         jQuery(timelineLoader).on('complete', function(e, data) {
           jQuery.extend(timeline, data);
