@@ -277,48 +277,6 @@ jQuery.extend(Timeline, {
     Timeline.instances.push(timeline);
     return timeline;
   },
-  load: function(options) {
-    var timelineLoader;
-
-    try {
-      // prerequisites (3rd party libs)
-      this.checkPrerequisites();
-      this.modalHelper = modalHelperInstance;
-      this.modalHelper.setupTimeline(
-        this,
-        {
-          api_prefix                : this.options.api_prefix,
-          url_prefix                : this.options.url_prefix,
-          project_prefix            : this.options.project_prefix
-        }
-      );
-
-      jQuery(this.modalHelper).on("closed", function () {
-        this.reload();
-      });
-
-      timelineLoader = this.provideTimelineLoader();
-
-      jQuery(timelineLoader).on('complete', jQuery.proxy(function(e, data) {
-        jQuery.extend(this, data);
-
-        jQuery(this).trigger('dataLoaded');
-        this.defer(jQuery.proxy(this, 'onLoadComplete'),
-                   this.options.artificial_load_delay);
-      }, this));
-
-      this.safetyHook = window.setTimeout(function() {
-        this.die(this.i18n('timelines.errors.report_timeout'));
-      }, Timeline.LOAD_ERROR_TIMEOUT);
-
-      timelineLoader.load();
-
-      return this;
-
-    } catch (e) {
-      this.die(e);
-    }
-  },
   registerTimelineContainer: function(uiRoot) {
     this.uiRoot = uiRoot;
     this.registerDrawPaper();
