@@ -400,7 +400,7 @@ DEPENDENCIES
   pry-rails
   pry-rescue
   pry-stack_explorer
-  rabl
+  rabl (= 0.9.3)
   rack-protection
   rack_session_access
   rails (~> 3.2.16)
