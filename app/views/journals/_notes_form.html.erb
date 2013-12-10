@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= label_tag "notes", l(:description_notes),
                          :class => "hidden-for-sighted" %>
 
-  <% rows = (@journal.notes.blank? ? 10 : [[10, @journal.notes.length / 50].max, 100].min %>
+  <% rows = @journal.notes.blank? ? 10 : [[10, @journal.notes.length / 50].max, 100].min %>
   <%= text_area_tag :notes, @journal.notes,
                             :class => 'wiki-edit',
                             :rows => rows,
