@@ -40,6 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3363` [Timelines] Autocompleter broken multiple times in timelines edit
 * `#3390` [Design] Implement new look for header and project navigation
 * Change global search keyboard shortcut to 's' and project menu shortcut to 'p'
+* `#3322` [Data migration] Journal entries display changes to custom fields
 
 ## 3.0.0pre37
 
