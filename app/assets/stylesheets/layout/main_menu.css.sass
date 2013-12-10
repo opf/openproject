@@ -39,6 +39,7 @@
     padding: 0
 
     &.menu_root
+      border-right: $main_menu_border_width solid $main_menu_border_color
       li
         float: none
         list-style-type: none
@@ -49,21 +50,18 @@
         min-height: 23px
 
         a
-          display: block
-          text-decoration: none
-          font-weight: normal
           background: none
           padding: 0 0 0 7px
-          color: #BBBBBB
           border-left: 4px solid $main_menu_bg_color
           @include default-transition
 
           &:hover, &.selected
             text-decoration: none
             background-color: $main_menu_bg_hover_selected_color
-            border-left: 4px solid #F8F8F8
+            border-left: 4px solid $main_menu_selected_hover_indicator_color
+            color: $main_menu_selected_font_color
           &.selected
-            color: #FFFFFF
+            color: $main_menu_selected_font_color
 
         li
           border: 0
@@ -80,37 +78,38 @@
         border-top: 1px solid #ddd
 
     ul.menu-children
-      background: #f8f8f8
-      border-right: 1px solid #E7E7E7
-      padding: 10px 0
+      background-color: $main_menu_child_menu_bg_color
+      padding: 0
       li
-        padding: 0 15px 0 0
         a
-          font-size: 13px
-          line-height: 25px
-          height: 25px
+          font-size: $main_menu_child_font_size
+          line-height: $main_menu_child_item_height
+          height: $main_menu_child_item_height
           border: none
           padding: 0 0 0 10px
-          color: #04232F
+          color: $main_menu_child_font_color
+          margin-top: 1px
 
           &:hover
             border: none
-            background: none
+            text-decoration: none
+            background-color: $main_menu_child_bg_hover_selected_color
+            color: $main_menu_child_selected_font_color
           &.selected
             border: none !important
-            background: none
-            color: #04232F
+            background-color: $main_menu_child_bg_hover_selected_color
+            color: $main_menu_child_selected_font_color
             font-family: 'LatoBold','Lucida Grande',Helvetica,Arial,sans-serif
 
   a
     text-decoration: none
-    line-height: 40px
+    line-height: $main_menu_item_height
     display: block
     position: relative
-    height: 40px
-    color: #BBBBBB
+    height: $main_menu_item_height
+    color: $main_menu_font_color
     font-weight: normal
-    font-size: 15px
+    font-size: $main_menu_font_size
     font-style: normal
     @include main-menu-font
 
@@ -118,22 +117,24 @@
     position: absolute
     right: 0
     top: 0
-    width: 50px
-    height: 40px
+    width: 40px
+    height: $main_menu_item_height
     text-align: center
   li
+    border-bottom: $main_menu_item_border_width solid $main_menu_item_border_color
     .open, .selected.open
       .toggler:before
         content: "\e0cc"
   #toggle-project-menu
-    height: 40px
-    width: $main_menu_width
-    border: none
+    border: $main_menu_item_border_width solid $main_menu_item_border_color
+    border-left: none
+    height: $main_menu_item_height - $main_menu_item_border_width
+    width: $main_menu_width - $main_menu_item_border_width
     background-color: $main_menu_bg_color
     &:hover
       background-color: $main_menu_bg_hover_selected_color
     &.show
-      width: $main_menu_folded_width
+      width: $main_menu_folded_width - $main_menu_item_border_width
       a.navigation-toggler
         width: $main_menu_folded_width
         height: 100%
@@ -144,20 +145,18 @@
         transform: rotate(180deg)
         text-align: left
         padding: 0 0px 0 16px
-        &:hover
-          color: #FFFFFF
     a.navigation-toggler
       position: relative
       float: right
       width: 100%
-      height: 40px
+      height: $main_menu_item_height
       text-align: right
-      padding: 0 12px 0 0
+      padding: 0 6px 0 0
       &:hover
-        color: #FFFFFF
+        color: $main_menu_navigation_toggler_font_hover_color
   .toggle-follow
     position: absolute
-    width: 120px
+    width: 140px
   .icon-time
     background: none
     padding: 0 0 0 0
@@ -178,19 +177,19 @@
   margin: 30px 0 0 0
   padding: 0px 17px 0 17px
   width: auto
-  color: #FFFFFF
+  color: $main_menu_sidebar_font_color
   font-size: 12px
   @include main-menu-font
 
   h3
     display: block
     border: none
-    border-top: 1px solid #1f4654
-    color: #FFFFFF
+    //border-top: 1px solid $main_menu_sidebar_h3_border_top_color
+    color: $main_menu_sidebar_h3_color
     font-weight: normal
-    font-size: 16px
+    font-size: $main_menu_sidebar_h3_font_size
     margin: 30px 0 8px 0
-    padding: 30px 0 0 0
+    padding: 10px 0 0 0
 
     text-transform: uppercase
 
@@ -198,7 +197,7 @@
     margin-top: 0px
 
   a, a:link
-    color: #FFFFFF
+    color: $main_menu_sidebar_link_color
     font-size: 12px
     display: inline
     position: static
