@@ -368,4 +368,24 @@ describe UsersController do
     end
 
   end
+
+  describe "show" do
+    before do
+      as_logged_in_user user do
+        get :show, :id => user.id
+      end
+    end
+
+    it "responds with success" do
+      expect(response).to be_success
+    end
+
+    it "renders the show template" do
+      expect(response).to render_template 'show'
+    end
+
+    it "assigns @user" do
+      expect(assigns(:user)).to eq(user)
+    end
+  end
 end
