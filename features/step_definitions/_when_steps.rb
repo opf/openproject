@@ -158,12 +158,12 @@ When /^I follow "(.+?)" of the "(.+?)" (?:backlogs )?menu$/ do |link, backlog_na
   step %Q{I follow "#{link}" within "#backlog_#{sprint.id} .menu"}
 end
 
-When /^I open the "(.+?)" (?:backlogs )?menu/ do |backlog_name|
+When /^I open the "(.+?)" backlogs(?: )?menu/ do |backlog_name|
   sprint = Sprint.find_by_name(backlog_name)
   step %Q{I hover over "#backlog_#{sprint.id} .menu"}
 end
 
-When /^I close the "(.+?)" (?:backlogs )?menu/ do |backlog_name|
+When /^I close the "(.+?)" backlogs(?: )?menu/ do |backlog_name|
   sprint = Sprint.find_by_name(backlog_name)
   step %Q{I stop hovering over "#backlog_#{sprint.id} .menu"}
 end

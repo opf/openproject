@@ -99,9 +99,9 @@ Feature: Edit story on backlogs view
   @javascript
   Scenario: Create a new story in the backlog
     Given I am on the master backlog
-     When I open the "Product Backlog" menu
-      And I follow "New Story" of the "Product Backlog" menu
-      And I close the "Product Backlog" menu
+     When I open the "Product Backlog" backlogs menu
+      And I follow "New Story" of the "Product Backlog" backlogs menu
+      And I close the "Product Backlog" backlogs menu
       And I fill in "Alice in Wonderland" for "subject"
       And I confirm the story form
      Then the 1st story in the "Product Backlog" should be "Alice in Wonderland"
@@ -111,9 +111,9 @@ Feature: Edit story on backlogs view
   @javascript
   Scenario: Create a new story in a sprint
     Given I am on the master backlog
-     When I open the "Sprint 001" menu
-      And I follow "New Story" of the "Sprint 001" menu
-      And I close the "Sprint 001" menu
+     When I open the "Sprint 001" backlogs menu
+      And I follow "New Story" of the "Sprint 001" backlogs menu
+      And I close the "Sprint 001" backlogs menu
       And I fill in "The Wizard of Oz" for "subject"
       And I fill in "3" for "story_points"
       And I confirm the story form
@@ -145,9 +145,9 @@ Feature: Edit story on backlogs view
   @javascript
   Scenario: Setting types of a story
     Given I am on the master backlog
-     When I open the "Sprint 001" menu
-      And I follow "New Story" of the "Sprint 001" menu
-      And I close the "Sprint 001" menu
+     When I open the "Sprint 001" backlogs menu
+      And I follow "New Story" of the "Sprint 001" backlogs menu
+      And I close the "Sprint 001" backlogs menu
       And I fill in "The Wizard of Oz" for "subject"
       And I select "Bug" from "type_id"
       And I confirm the story form
@@ -157,9 +157,9 @@ Feature: Edit story on backlogs view
   @javascript
   Scenario: Hiding types, that are not active in the project
     Given I am on the master backlog
-     When I open the "Sprint 001" menu
-      And I follow "New Story" of the "Sprint 001" menu
-      And I close the "Sprint 001" menu
+     When I open the "Sprint 001" backlogs menu
+      And I follow "New Story" of the "Sprint 001" backlogs menu
+      And I close the "Sprint 001" backlogs menu
      Then I should not see "Epic" within_hidden ".type_id.helper"
 
   @javascript
