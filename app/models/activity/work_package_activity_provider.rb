@@ -31,15 +31,15 @@ class Activity::WorkPackageActivityProvider < Activity::BaseActivityProvider
   acts_as_activity_provider type: 'work_packages',
                             permission: :view_work_packages
 
-  def extend_event_query(query)
-    query.join(types_table).on(activity_journals_table[:type_id].eq(types_table[:id]))
-    query.join(statuses_table).on(activity_journals_table[:status_id].eq(statuses_table[:id]))
+  def extend_event_query(query, activity)
+    query.join(types_table).on(activity_journals_table(activity)[:type_id].eq(types_table[:id]))
+    query.join(statuses_table).on(activity_journals_table(activity)[:status_id].eq(statuses_table[:id]))
   end
 
-  def event_query_projection
+  def event_query_projection(activity)
     [
-      activity_journal_projection_statement(:subject, 'subject'),
-      activity_journal_projection_statement(:project_id, 'project_id'),
+      activity_journal_projection_statement(:subject, 'subject', activity),
+      activity_journal_projection_statement(:project_id, 'project_id', activity),
       projection_statement(statuses_table, :name, 'status_name'),
       projection_statement(statuses_table, :is_closed, 'status_closed'),
       projection_statement(types_table, :name, 'type_name')
@@ -48,13 +48,13 @@ class Activity::WorkPackageActivityProvider < Activity::BaseActivityProvider
 
   protected
 
-  def event_title(event)
+  def event_title(event, activity)
     title = "#{(event['is_standard']) ? l(:default_type)
                                         : "#{event['type_name']}"} ##{event['journable_id']}: #{event['subject']}"
     title << " (#{event['status_name']})" unless event['status_name'].blank?
   end
 
-  def event_type(event)
+  def event_type(event, activity)
     state = ''
     journal = Journal.find(event['event_id'])
 
@@ -67,14 +67,16 @@ class Activity::WorkPackageActivityProvider < Activity::BaseActivityProvider
     "work_package#{state}"
   end
 
-  def event_path(event)
+  def event_path(event, activity)
     Rails.application.routes.url_helpers.work_package_path(*url_helper_parameter(event))
   end
 
-  def event_url(event)
+  def event_url(event, activity)
     Rails.application.routes.url_helpers.work_package_url(*url_helper_parameter(event),
                                                           host: ::Setting.host_name)
   end
+
+  private
 
   def url_helper_parameter(event)
     version = event['version'].to_i
@@ -84,8 +86,6 @@ class Activity::WorkPackageActivityProvider < Activity::BaseActivityProvider
     parameters << { anchor: "note-#{anchor}" } if version > 1
     parameters
   end
-
-  private
 
   def types_table
     @types_table = Arel::Table.new(:types)

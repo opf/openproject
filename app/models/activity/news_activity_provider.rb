@@ -32,27 +32,27 @@ class Activity::NewsActivityProvider < Activity::BaseActivityProvider
   acts_as_activity_provider type: 'news',
                             permission: :view_news
 
-  def extend_event_query(query)
+  def extend_event_query(query, activity)
   end
 
-  def event_query_projection
+  def event_query_projection(activity)
     [
-      activity_journal_projection_statement(:title, 'title'),
-      activity_journal_projection_statement(:project_id, 'project_id')
+      activity_journal_projection_statement(:title, 'title', activity),
+      activity_journal_projection_statement(:project_id, 'project_id', activity)
     ]
   end
 
   protected
 
-  def event_title(event)
+  def event_title(event, activity)
     event_data['title']
   end
 
-  def event_path(event)
+  def event_path(event, activity)
     Rails.application.routes.url_helpers.news_path(url_helper_parameter(event))
   end
 
-  def event_url(event)
+  def event_url(event, activity)
     Rails.application.routes.url_helpers.news_url(url_helper_parameter(event),
                                                   host: ::Setting.host_name)
   end

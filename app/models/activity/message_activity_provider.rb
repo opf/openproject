@@ -32,44 +32,44 @@ class Activity::MessageActivityProvider < Activity::BaseActivityProvider
   acts_as_activity_provider type: 'messages',
                             permission: :view_messages
 
-  def extend_event_query(query)
-    query.join(boards_table).on(activity_journals_table[:board_id].eq(boards_table[:id]))
+  def extend_event_query(query, activity)
+    query.join(boards_table).on(activity_journals_table(activity)[:board_id].eq(boards_table[:id]))
   end
 
-  def event_query_projection
+  def event_query_projection(activity)
     [
-      activity_journal_projection_statement(:subject, 'message_subject'),
-      activity_journal_projection_statement(:content, 'message_content'),
-      activity_journal_projection_statement(:parent_id, 'message_parent_id'),
+      activity_journal_projection_statement(:subject, 'message_subject', activity),
+      activity_journal_projection_statement(:content, 'message_content', activity),
+      activity_journal_projection_statement(:parent_id, 'message_parent_id', activity),
       projection_statement(boards_table, :id, 'board_id'),
       projection_statement(boards_table, :name, 'board_name'),
       projection_statement(boards_table, :project_id, 'project_id')
     ]
   end
 
-  def projects_reference_table
+  def projects_reference_table(activity)
     boards_table
   end
 
   protected
 
-  def event_title(event)
+  def event_title(event, activity)
     "#{event['board_name']}: #{event['message_subject']}"
   end
 
-  def event_description(event)
+  def event_description(event, activity)
     event['message_content']
   end
 
-  def event_type(event)
+  def event_type(event, activity)
     event['parent_id'].blank? ? 'message' : 'reply'
   end
 
-  def event_path(event)
+  def event_path(event, activity)
     Rails.application.routes.url_helpers.topic_path(url_helper_parameter(event))
   end
 
-  def event_url(event)
+  def event_url(event, activity)
     Rails.application.routes.url_helpers.topic_url(url_helper_parameter(event),
                                                    host: ::Setting.host_name)
   end

@@ -32,16 +32,16 @@ class Activity::TimeEntryActivityProvider < Activity::BaseActivityProvider
   acts_as_activity_provider type: 'time_entries',
                             permission: :view_time_entries
 
-  def extend_event_query(query)
-    query = query.join(work_packages_table).on(activity_journals_table[:work_package_id].eq(work_packages_table[:id]))
+  def extend_event_query(query, activity)
+    query = query.join(work_packages_table).on(activity_journals_table(activity)[:work_package_id].eq(work_packages_table[:id]))
   end
 
-  def event_query_projection
+  def event_query_projection(activity)
     [
-      activity_journal_projection_statement(:hours, 'time_entry_hours'),
-      activity_journal_projection_statement(:comments, 'time_entry_comments'),
-      activity_journal_projection_statement(:project_id, 'project_id'),
-      activity_journal_projection_statement(:work_package_id, 'work_package_id'),
+      activity_journal_projection_statement(:hours, 'time_entry_hours', activity),
+      activity_journal_projection_statement(:comments, 'time_entry_comments', activity),
+      activity_journal_projection_statement(:project_id, 'project_id', activity),
+      activity_journal_projection_statement(:work_package_id, 'work_package_id', activity),
       projection_statement(projects_table, :name, 'project_name'),
       projection_statement(work_packages_table, :subject, 'work_package_subject')
     ]
@@ -49,21 +49,21 @@ class Activity::TimeEntryActivityProvider < Activity::BaseActivityProvider
 
   protected
 
-  def event_title(event)
+  def event_title(event, activity)
     titry_object_name = event['work_package_id'].blank? ? event['project_name']
                                                         : event['work_package_name']
     "#urs(event['time_entry_hours'])} (#{time_entry_object_name})"
   end
 
-  def event_description(event)
+  def event_description(event, activity)
     event_data['time_entry_description']
   end
 
-  def event_path(event)
+  def event_path(event, activity)
     Rapplication.routes.url_helpers.time_entry_path(url_helper_parameter(event))
   end
 
-  def event_url(event)
+  def event_url(event, activity)
     Rapplication.routes.url_helpers.time_entry_url(url_helper_parameter(event),
                                                    host: ::Setting.host_name)
   end

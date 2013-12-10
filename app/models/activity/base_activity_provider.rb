@@ -31,21 +31,18 @@ class Activity::BaseActivityProvider
   include Redmine::Acts::ActivityProvider
   include Redmine::I18n
 
-  def extend_event_query(query)
+  def extend_event_query(query, activity)
   end
 
-  def event_query_projection
+  def event_query_projection(activity)
     []
   end
 
-  def projects_reference_table
-    activity_journals_table
+  def projects_reference_table(activity)
+    activity_journals_table(activity)
   end
 
-  def format_event(event, event_data)
-  end
-
-  def activity_journals_table
+  def activity_journals_table(activity)
     @activity_journals_table ||= Arel::Table.new(JournalManager.journal_class(activitied_type).table_name)
   end
 
@@ -57,9 +54,9 @@ class Activity::BaseActivityProvider
     class_name.gsub('ActivityProvider', '').constantize
   end
 
-  def format_event(event, event_data)
+  def format_event(event, event_data, activity)
     [:event_title, :event_type, :event_description, :event_datetime, :event_path, :event_url].each do |a|
-      event[a] = self.send(a, event_data) if self.class.method_defined? a
+      event[a] = self.send(a, event_data, activity) if self.class.method_defined? a
     end
 
     event
@@ -75,8 +72,8 @@ class Activity::BaseActivityProvider
     @activitied_table ||= Arel::Table.new(activitied_type.table_name)
   end
 
-  def activity_journal_projection_statement(column, name)
-    projection_statement(activity_journals_table, column, name)
+  def activity_journal_projection_statement(column, name, activity)
+    projection_statement(activity_journals_table(activity), column, name)
   end
 
   def projection_statement(table, column, name)

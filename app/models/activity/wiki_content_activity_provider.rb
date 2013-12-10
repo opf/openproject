@@ -32,37 +32,37 @@ class Activity::WikiContentActivityProvider < Activity::BaseActivityProvider
   acts_as_activity_provider type: 'wiki_edits',
                             permission: :view_wiki_edits
 
-  def extend_event_query(query)
-    query.join(wiki_pages_table).on(activity_journals_table[:page_id].eq(wiki_pages_table[:id]))
+  def extend_event_query(query, activity)
+    query.join(wiki_pages_table).on(activity_journals_table(activity)[:page_id].eq(wiki_pages_table[:id]))
     query.join(wikis_table).on(wiki_pages_table[:wiki_id].eq(wikis_table[:id]))
   end
 
-  def event_query_projection
+  def event_query_projection(activity)
     [
       projection_statement(wikis_table , :project_id, 'project_id'),
       projection_statement(wiki_pages_table, :title, 'wiki_title')
     ]
   end
 
-  def projects_reference_table
+  def projects_reference_table(activity)
     wikis_table
   end
 
   protected
 
-  def event_title(event)
+  def event_title(event, activity)
     "#{l(:label_wiki_edit)}: #{event['wiki_title']} (##{event['version']})"
   end
 
-  def event_type(event)
+  def event_type(event, activity)
     'wiki-page'
   end
 
-  def event_path(event)
+  def event_path(event, activity)
     Rails.application.routes.url_helpers.project_wiki_path(*url_helper_parameter(event))
   end
 
-  def event_url(event)
+  def event_url(event, activity)
     Rails.application.routes.url_helpers.project_wiki_url(*url_helper_parameter(event),
                                                           host: ::Setting.host_name)
   end

@@ -33,27 +33,27 @@ class Activity::ChangesetActivityProvider < Activity::BaseActivityProvider
                             permission: :view_changesets
 
 
-  def extend_event_query(query)
-    query.join(repositories_table).on(activity_journals_table[:repository_id].eq(repositories_table[:id]))
+  def extend_event_query(query, activity)
+    query.join(repositories_table).on(activity_journals_table(activity)[:repository_id].eq(repositories_table[:id]))
   end
 
-  def event_query_projection
+  def event_query_projection(activity)
     [
-      activity_journal_projection_statement(:revision, 'revision'),
-      activity_journal_projection_statement(:comments, 'comments'),
-      activity_journal_projection_statement(:committed_on, 'committed_on'),
+      activity_journal_projection_statement(:revision, 'revision', activity),
+      activity_journal_projection_statement(:comments, 'comments', activity),
+      activity_journal_projection_statement(:committed_on, 'committed_on', activity),
       projection_statement(repositories_table, :project_id, 'project_id'),
       projection_statement(repositories_table, :type, 'repository_type')
     ]
   end
 
-  def projects_reference_table
+  def projects_reference_table(activity)
     repositories_table
   end
 
   protected
 
-  def event_title(event)
+  def event_title(event, activity)
     revision = format_revision(event)
 
     short_comment = split_comment(event['comments']).first
@@ -62,21 +62,21 @@ class Activity::ChangesetActivityProvider < Activity::BaseActivityProvider
     title << (short_comment.blank? ? '' : (': ' + short_comment))
   end
 
-  def event_description(event)
+  def event_description(event, activity)
     split_comment(event['comments']).last
   end
 
-  def event_datetime(event)
+  def event_datetime(event, activity)
     committed_on = event['committed_on']
     committed_date = committed_on.is_a?(String) ? DateTime.parse(committed_on)
                                                 : committed_on
   end
 
-  def event_path(event)
+  def event_path(event, activity)
     Rails.application.routes.url_helpers.revisions_project_repository_path(url_helper_parameter(event))
   end
 
-  def event_url(event)
+  def event_url(event, activity)
     Rails.application.routes.url_helpers.revisions_project_repository_url(url_helper_parameter(event),
                                                                           host: ::Setting.host_name)
   end
