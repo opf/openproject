@@ -18,89 +18,97 @@
 # See doc/COPYRIGHT.md for more details.
 #++
 
-class Activity::MeetingActivityProvider
-  include Redmine::Acts::ActivityProvider
-  include Redmine::I18n
+class Activity::MeetingActivityProvider < Activity::BaseActivityProvider
   
   acts_as_activity_provider type: 'meetings',
-                            classes: [ Meeting, MeetingContent ],
+                            activities: [ :meeting, :meeting_content ],
                             permission: :view_meetings
 
-  def self.extend_event_query(j, ej, query)
-    if ej.name == 'meeting_journals'
-      [ej, query]
-    else
-      m = Arel::Table.new(:meetings)
-      mc = Arel::Table.new(:meeting_contents)
-
-      query = query.join(m).on(ej[:meeting_id].eq(m[:id]))
-      join_cond = j[:journable_type].eq("MeetingContent")
-      query = query.join(mc).on(j[:journable_id].eq(mc[:id]).and(join_cond))
-
-      [m, query]
+  def extend_event_query(query, activity)
+    case activity
+    when :meeting_content
+      query.join(meetings_table).on(activity_journals_table(activity)[:meeting_id].eq(meetings_table[:id]))
+      join_cond = journal_table[:journable_type].eq("MeetingContent")
+      query.join(meeting_contents_table).on(journal_table[:journable_id].eq(meeting_contents_table[:id]).and(join_cond))
     end
   end
 
-  def self.event_query_projection(j, ej)
-    if ej.name == 'meeting_journals'
+  def event_query_projection(activity)
+    case activity
+    when :meeting
       [
-        ej[:title].as('meeting_title'),
-        ej[:start_time].as('meeting_start_time'),
-        ej[:duration].as('meeting_duration'),
-        ej[:project_id].as('project_id')
+        activity_journal_projection_statement(:title, 'meeting_title', activity),
+        activity_journal_projection_statement(:start_time, 'meeting_start_time', activity),
+        activity_journal_projection_statement(:duration, 'meeting_duration', activity),
+        activity_journal_projection_statement(:project_id, 'project_id', activity)
       ]
     else
-      m = Arel::Table.new(:meetings)
-      mc = Arel::Table.new(:meeting_contents)
-
       [
-        mc[:type].as('meeting_content_type'),
-        m[:id].as('meeting_id'),
-        m[:title].as('meeting_title'),
-        m[:project_id].as('project_id')
+        projection_statement(meeting_contents_table, :type, 'meeting_content_type'),
+        projection_statement(meetings_table, :id, 'meeting_id'),
+        projection_statement(meetings_table, :title, 'meeting_title'),
+        projection_statement(meetings_table, :project_id, 'project_id'),
       ]
     end
   end
 
-  def self.format_event(event, event_data)
-    if event_data['meeting_content_type']
-      event.event_title = self.event_meeting_content_title event_data
-      event.event_type = event_data['meeting_content_type'].underscore.dasherize
-      event.event_path = self.event_path event_data['meeting_id']
-      event.event_url = self.event_url event_data['meeting_id']
+  def projects_reference_table(activity)
+    case activity
+    when :meeting
+      activity_journals_table(activity)
     else
-      event.event_title = self.event_meeting_title event_data
-      event.event_path = self.event_path event_data['journable_id']
-      event.event_url = self.event_url event_data['journable_id']
+      meetings_table
     end
+  end
 
-    event
+  def activity_journals_table(activity)
+    case activity
+    when :meeting
+      @activity_journals_table = Arel::Table.new(JournalManager.journal_class(Meeting).table_name)
+    else
+      @activity_journals_table = Arel::Table.new(JournalManager.journal_class(MeetingContent).table_name)
+    end
+  end
+
+  protected
+
+  def event_title(event, activity)
+    case activity
+    when :meeting
+      start_time = event['meeting_start_time'].is_a?(String) ? DateTime.parse(event['meeting_start_time'])
+                                                             : event['meeting_start_time']
+      end_time = start_time + event['meeting_duration'].to_f.hours
+
+      "#{l :label_meeting}: #{event['meeting_title']} (#{format_date start_time} \
+      #{format_time start_time, false}-#{format_time end_time, false})"
+    else
+      "#{event['meeting_content_type'].constantize.model_name.human}: #{event['meeting_title']}"
+    end
+  end
+
+  def event_path(event, activity)
+    id = activity_id(event, activity)
+
+    Rails.application.routes.url_helpers.meetings_path(id)
+  end
+
+  def event_url(event, activity)
+    id = activity_id(event, activity)
+
+    Rails.application.routes.url_helpers.meetings_url(id, host: ::Setting.host_name)
   end
 
   private
 
-  def self.event_meeting_content_title(event)
-    "#{event['meeting_content_type'].constantize.model_name.human}: #{event['meeting_title']}"
+  def meetings_table
+    @meetings_table ||= Arel::Table.new(:meetings)
   end
 
-  def self.event_meeting_title(event)
-    start_time = event['meeting_start_time'].is_a?(String) ? DateTime.parse(event['meeting_start_time'])
-                                                           : event['meeting_start_time']
-    end_time = start_time + event['meeting_duration'].to_f.hours
-
-    "#{l :label_meeting}: #{event['meeting_title']} (#{format_date start_time} \
-    #{format_time start_time, false}-#{format_time end_time, false})"
+  def meeting_contents_table
+    @meeting_contents_table ||= Arel::Table.new(:meeting_contents)
   end
 
-  def self.event_path(id)
-    Rails.application.routes.url_helpers.meetings_path(id)
-  end
-
-  def self.event_url(id)
-    Rails.application.routes.url_helpers.meetings_url(id, host: ::Setting.host_name)
-  end
-
-  def self.url_helper_parameter(event)
-    [  ]
+  def activity_id(event, activity)
+    (activity == :meeting) ? event['journable_id'] : event['meeting_id']
   end
 end
