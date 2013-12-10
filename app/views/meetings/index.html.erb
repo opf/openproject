@@ -32,7 +32,7 @@ See doc/COPYRIGHT.md for more details.
     <h3 id="<%= date.strftime("%m-%d-%Y") %>" class="date"><%= format_activity_day(date) %></h3>
     <dl class="meetings">
     <% meetings.each do |meeting| -%>
-      <dt class="meeting" id="meeting-<%= meeting.id %>">
+      <dt class="meeting icon-context" id="meeting-<%= meeting.id %>">
         <%= avatar meeting.author, :size => "24" %>
         <span class="time"><%= format_time meeting.start_time, false %>-<%= format_time meeting.end_time, false %></span>
         <%= link_to h(meeting.title), :controller => '/meetings', :action => 'show', :id => meeting %>

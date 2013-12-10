@@ -34,19 +34,16 @@ div.tabular > div { margin: 0;
 #meeting_agenda_preview fieldset {margin-top: 1em; background: url(<%= asset_path 'draft.png' %>);}
 #meeting_minutes_preview fieldset {margin-top: 1em; background: url(<%= asset_path 'draft.png' %>);}
 
-dt.meeting {
-  background-image: url(<%= asset_path 'meeting/meeting.png' %>);
+dt.meeting:before {
+  content: "\e057";
 }
 
-dt.meeting-agenda {
-  background-image: url(<%= asset_path 'meeting/agenda.png' %>);
+dt.meeting-agenda:before {
+  content: "\e023";
 }
 
-dt.meeting-minutes {
-  background-image: url(<%= asset_path 'meeting/minutes.png' %>);
-}
-div#activity dl.meetings dt span {
-  padding-left: 15px;
+dt.meeting-minutes:before {
+  content: "\e022";
 }
 
 div.flash.notice a.link_to_profile {
