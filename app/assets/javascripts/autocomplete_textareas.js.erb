@@ -29,29 +29,31 @@ See doc/COPYRIGHT.rdoc for more details.
 
 jQuery(function($){
   $('textarea.wiki-edit').each(function(){
-    var that = this;
-    $(this).atwho({
-      at: '#',
-      start_with_space: false,
-      search_key: 'id',
-      tpl: '<li data-value="${atwho-at}${id}"><strong>${id}</strong> ${subject}</li>',
-      callbacks: {
-        /*
-         It function is given, At.js will invoke it if local filter can not find any data
-         @param query [String] matched query
-         @param callback [Function] callback to render page.
-        */
-        remote_filter: function(query, callback) {
-          $.getJSON($(that).data('wp_autocomplete_url'), {q: query}, function(data) {
-            // atjs needs the search key to be a string
-            for (var i = data.length - 1; i >= 0; i--) {
-              data[i]['id'] = data[i]['id'].toString();
-            };
-            callback(data);
-          });
+    var url = $(this).data('wp_autocomplete_url')
+    if (url !== undefined) {
+      $(this).atwho({
+        at: '#',
+        start_with_space: false,
+        search_key: 'id_subject',
+        tpl: '<li data-value="${atwho-at}${id}"><strong>${id}</strong> ${subject}</li>',
+        callbacks: {
+          /*
+           It function is given, At.js will invoke it if local filter can not find any data
+           @param query [String] matched query
+           @param callback [Function] callback to render page.
+          */
+          remote_filter: function(query, callback) {
+            $.getJSON(url, {q: query}, function(data) {
+              // atjs needs the search key to be a string
+              for (var i = data.length - 1; i >= 0; i--) {
+                data[i]['id_subject'] = data[i]['id'].toString() + ' ' + data[i]['subject'];
+              };
+              callback(data);
+            });
+          }
         }
-      }
-    });
+      });
+    }
   });
 });
 
