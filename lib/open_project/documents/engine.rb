@@ -18,7 +18,11 @@ module OpenProject::Documents
 
         requires_openproject ">= 3.0.0pre36"
 
-        menu :project_menu, :documents, { :controller => '/documents', :action => 'index' }, :param => :project_id, :caption => :label_document_plural
+        menu :project_menu, :documents,
+                            { :controller => '/documents', :action => 'index' },
+                            :param => :project_id,
+                            :caption => :label_document_plural,
+                            :html => { :css => 'icon2 icon-book1' }
 
         permission :manage_documents, {:documents => [:new, :create, :edit, :update, :destroy, :add_attachment]}, :require => :loggedin
         permission :view_documents, :documents => [:index, :show, :download]
