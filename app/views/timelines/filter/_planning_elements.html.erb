@@ -62,6 +62,7 @@ See doc/COPYRIGHT.rdoc for more details.
                      options_for_select([]),
                      {},
                      { :'data-ajaxURL' => api_v2_paginate_statuses_path,
+                       :multiple => true,
                        :'data-selected' => filter_select(
                                              timeline.selected_planning_element_status,
                                              :name, :id).to_json
@@ -87,6 +88,7 @@ See doc/COPYRIGHT.rdoc for more details.
                    options_for_select([]),
                    {},
                    { :'data-ajaxURL' => api_v2_paginate_types_path,
+                     :multiple => true,
                      :'data-selected' => filter_select(
                                            timeline.selected_planning_element_types,
                                            :name, :id).to_json
@@ -112,6 +114,7 @@ See doc/COPYRIGHT.rdoc for more details.
                    options_for_select([]),
                    {},
                    { :'data-ajaxURL' => api_v2_paginate_users_path,
+                     :multiple => true,
                      :'data-selected' => filter_select(
                                            timeline.selected_planning_element_responsibles,
                                            :name, :id).to_json
