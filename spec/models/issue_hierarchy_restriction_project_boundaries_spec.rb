@@ -42,7 +42,7 @@ def project_boundaries_spanning_work_package_hierarchy_allowed?
   parent_work_package.project_id = 2
   work_package.parent = parent_work_package
   work_package.valid?
-  work_package.errors[:parent_id].blank?
+  work_package.errors[:parent].blank?
 end
 
 describe WorkPackage, 'parent-child relationships between backlogs stories and backlogs tasks are prohibited if they span project boundaries' do

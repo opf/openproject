@@ -131,7 +131,7 @@ module OpenProject::Backlogs
 
           version OpenProject::Backlogs::VERSION
 
-          requires_openproject ">= 3.0.0pre36"
+          requires_openproject ">= 3.0.0pre37"
 
           Redmine::AccessControl.permission(:edit_project).actions << "projects/project_done_statuses"
           Redmine::AccessControl.permission(:edit_project).actions << "projects/rebuild_positions"
