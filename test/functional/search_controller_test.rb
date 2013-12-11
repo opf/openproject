@@ -44,17 +44,6 @@ class SearchControllerTest < ActionController::TestCase
     User.current = nil
   end
 
-  def test_search_for_projects
-    get :index
-    assert_response :success
-    assert_template 'index'
-
-    get :index, :q => "cook"
-    assert_response :success
-    assert_template 'index'
-    assert assigns(:results).include?(Project.find(1))
-  end
-
   def test_search_all_projects
     get :index, :q => 'recipe subproject commit', :submit => 'Search'
     assert_response :success
@@ -67,21 +56,6 @@ class SearchControllerTest < ActionController::TestCase
     assert assigns(:results_by_type).is_a?(Hash)
     assert_equal 5, assigns(:results_by_type)['changesets']
     assert_tag :a, :content => 'Changesets (5)'
-  end
-
-  def test_search_issues
-    WorkPackage.find(5).recreate_initial_journal!
-    WorkPackage.find(8).recreate_initial_journal!
-
-    get :index, :q => 'issue', :issues => 1
-    assert_response :success
-    assert_template 'index'
-
-    assert assigns(:results).include?(WorkPackage.find(8))
-    assert assigns(:results).include?(WorkPackage.find(5))
-    assert_select "dt.work_package-closed" do
-      assert_select "a", :text => /Closed/
-    end
   end
 
   def test_search_project_and_subprojects
