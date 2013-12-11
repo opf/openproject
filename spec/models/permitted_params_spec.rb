@@ -558,4 +558,44 @@ describe PermittedParams do
       PermittedParams.new(params, admin).user_update_as_admin.should == {}
     end
   end
+
+  describe :status do
+    shared_examples_for 'allows params' do
+      let(:params) { ActionController::Parameters.new(status: hash) }
+
+      subject { PermittedParams.new(params, user).status } 
+
+      it { expect(subject).to eq(hash) }
+    end
+
+    describe 'name' do
+      let(:hash) { { "name" => "blubs" } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'default_done_ratio' do
+      let(:hash) { { "default_done_ratio" => "10" } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'is_closed' do
+      let(:hash) { { "is_closed" => "true" } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'is_default' do
+      let(:hash) { { "is_default" => "true" } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'move_to' do
+      let(:hash) { { "move_to" => "lower" } }
+
+      it_behaves_like 'allows params'
+    end
+  end
 end
