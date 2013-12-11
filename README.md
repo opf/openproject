@@ -15,17 +15,17 @@ Requirements
 ------------
 
 The Meeting plugin currently requires the [OpenProject Core](https://github.com/opf/openproject/) in
-version greater or equal to 3.0.0pre18.
+version greater or equal to 3.0.0pre36.
 
 
 Installation
 ------------
 
-Please follow the default [plugin installation instructions for
-OpenProject](https://www.openproject.org/projects/openproject/wiki/Installation#222-Add-plugins),
-adding the following line to the Gemfile.plugins:
+OpenProject Meeting depends on the OpenProject Plugins plugin. Thus, if you haven't done
+it already, add the following line to the `Gemfile.plugins` to your OpenProject installation:
 
-`gem "openproject-meeting"`
+`gem "openproject-plugins", :git => "https://github.com/opf/openproject-plugins.git", :branch => "dev"`
+`gem "openproject-meeting", :git => "https://github.com/finnlabs/openproject-meeting.git", :branch => "dev"`
 
 Afterwards, run:
 
@@ -40,7 +40,7 @@ Deinstallation
 
 Remove the line
 
-`gem "openproject-meeting"`
+`gem "openproject-meeting", :git => "https://github.com/finnlabs/openproject-meeting.git", :branch => "dev"`
 
 from the file `Gemfile.plugins` and run:
 
