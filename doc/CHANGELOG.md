@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#3390` [Design] Implement new look for header and project navigation
 * `#3331` use permitted_params for group_controller
 * `#3054` Fix: Some Projects cannot be deleted
 # `#3291` Fix: Internal error when clicking on member

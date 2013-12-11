@@ -30,8 +30,8 @@
 
 #logo
   float: left
-  width: $main_menu_width
-  height: 55px
+  width: $main_menu_width - $main_menu_border_width
+  height: $header_height
   background-color: $header_logo_bg_color
   .home-link
     margin-top: 13px
@@ -43,7 +43,7 @@
 
 #top-menu
   background-color: $header_bg_color
-  height: 55px
+  height: $header_height
   padding: 0px
   z-index: 21
   position: relative
@@ -71,7 +71,7 @@
     margin: 0
     padding: 0
     float: left
-    height: 55px
+    height: $header_height
     border-top: 0
     position: relative
   li
@@ -82,25 +82,25 @@
     z-index: 5
     padding: 0
     > a
-      height: 55px
-      line-height: 55px
+      height: $header_height
+      line-height: $header_height
       zoom: 1
-      @include header-fonts(#fff)
+      @include header-fonts($header_item_font_color)
       text-decoration: none
       padding: 0 18px 0 10px
     > a:hover
-      background: #06799F
+      background: $header_item_bg_hover_color
     > ul
-      top: 55px
+      top: $header_height
       display: none
       position: absolute
       height: auto
       min-width: 270px
       left: -1px
       z-index: 20
-      border: 2px solid #E0E0E0
-      border-top: 0px
-      background-color: #FFFFFF
+      border: 2px solid $header_drop_down_border_color
+      border-top: 0
+      background-color: $header_drop_down_bg_color
       li  a
         height: 30px
         line-height: 30px
@@ -120,14 +120,14 @@
     padding-right: 35px
     background: url(image-path('top_menu_arrow_grey_white_sprite.png')) 95% -35px no-repeat
   li.drop-down > a:hover
-    background: #06799F url(image-path('top_menu_arrow_grey_white_sprite.png')) 95% -35px no-repeat
+    background: $header_item_bg_hover_color url(image-path('top_menu_arrow_grey_white_sprite.png')) 95% -35px no-repeat
   li.drop-down.open > a
-    background: #06799F url(image-path('top_menu_arrow_grey_white_sprite.png')) 95% -35px no-repeat
+    background: $header_item_bg_hover_color url(image-path('top_menu_arrow_grey_white_sprite.png')) 95% -35px no-repeat
   li.drop-down li > a
     color: #555555
     padding: 0 15px
   li.drop-down li > a:hover
-    background: #06799F
+    background: $header_item_bg_hover_color
     color: #FFFFFF
   #loggedas
     float: right
@@ -160,7 +160,7 @@
     &:hover
       border: 1px solid #888888
   #nav-login-content input[type=submit]
-    background: #06799F
+    background: $header_item_bg_hover_color
     border-radius: 20px
     color: #FFFFFF
     padding: 6px 13px
@@ -171,7 +171,7 @@
       background: #053242
   #nav-login-content  div a
     display: inline
-    color: #06799F
+    color: $header_item_bg_hover_color
     padding: 0
     font-family: 'LatoRegular', 'Lucida Grande', Helvetica, Arial, sans-serif
     font-weight: normal
@@ -193,7 +193,7 @@
 
 #select2-drop
   margin: 0 0 0 -2px
-  border: 2px solid #E0E0E0
+  border: 2px solid $header_drop_down_border_color
   border-top: 0
   @include header-fonts(#555555, 13px)
   li
@@ -217,14 +217,14 @@
   padding: 0
 
 .select2-highlighted
-  background: #06799F !important
+  background: $header_item_bg_hover_color !important
   border-radius: 0 !important
   font-family: 'LatoBold', 'Lucida Grande', Helvetica, Arial, sans-serif !important
   font-weight: normal !important
 
 #header
-  height: 55px
-  min-width: 1300px
+  height: $header_height
+  min-width: 1150px
   .chzn-container .chzn-results .highlighted
     background-color:  #24b3e7
 
