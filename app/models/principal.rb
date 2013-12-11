@@ -94,6 +94,10 @@ class Principal < ActiveRecord::Base
                project_ids)
   end
 
+  def self.order_by_name
+    order(User::USER_FORMATS_STRUCTURE[Setting.user_format].map(&:to_s))
+  end
+
   def status_name
     # Only Users should have another status than active.
     # User defines the status values and other classes like Principal
