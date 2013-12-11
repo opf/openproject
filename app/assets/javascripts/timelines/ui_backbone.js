@@ -151,12 +151,14 @@ jQuery.extend(Timeline, {
     timeline.paper.clear();
     timeline.paper.setSize(width, height);
 
-    timeline.defer(function() {
-      // rebuild content
-      timeline.rebuildBackground(tree, width, height);
-      chart.css({'display': 'block'});
-      // timeline.rebuildForegroundBackbone(tree);
-    });
+    // Note RS: Not sure why that was being deferred but now it's not. let's see what breaks.
+    timeline.rebuildBackground(tree, width, height);
+    chart.css({'display': 'block'});
+
+    // timeline.defer(function() {
+    //   // rebuild content
+    //   // timeline.rebuildForegroundBackbone(tree);
+    // });
 
     // return timeline.getRenderableElementNodes(tree);
   },

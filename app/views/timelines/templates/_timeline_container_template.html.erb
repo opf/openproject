@@ -40,17 +40,18 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="tl-project-row tl-first-row tl-last-row">
-              <td class="tl-first-column tl-indent-0 tl-collapsed" data-vertical-offset="36" data-vertical-bottom-offset="75">
-                <a href="javascript:;">+</a>
+            <tr class="tl-project-row tl-first-row" data-project-identifier="{{= model.get('identifier') }}">
+              <td class="tl-first-column tl-indent-0 tl-collapsed">
+                <a href="" class="project-expand" data-project-identifier="{{= model.get('identifier') }}">+</a>
                 <span class="tl-word-ellipsis">
                   <span>
-                    <a href="/projects/{{= model.get('identifier') }}/timelines" class="tl-discreet-link tl-project" data-modal="" title="{{= model.get('name') }}">{{= model.get('name') }}</a>
+                    <a href="/projects/{{= model.get('identifier') }}/timelines" class="tl-discreet-link tl-project" data-modal="" data-project-identifier="{{= model.get('identifier') }}" title="{{= model.get('name') }}">{{= model.get('name') }}</a>
                   </span>
                 </span>
                 <div class="tl-invisible" style="height: 15px; width: 15px;"></div>
               </td>
             </tr>
+            <!-- This is where we need to iterate over the planning elements -->
           </tbody>
         </table>
       </div>

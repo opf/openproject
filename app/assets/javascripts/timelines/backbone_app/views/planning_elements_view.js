@@ -1,5 +1,4 @@
 window.backbone_app.views.PlanningElementsView = window.backbone_app.views.BaseView.extend({
-  tagName: "div",
 
   className: "backbone-app",
 
@@ -16,7 +15,11 @@ window.backbone_app.views.PlanningElementsView = window.backbone_app.views.BaseV
   events: {},
 
   template: function(){
-    return _.template(jQuery('#timeline-project-template').html(), data);
+    return _.template(jQuery('#planning-element-headers-template').html(),
+      {
+        collection: this.collection,
+        parent_id: this.options.parent.get('identifier')
+      });
   },
 
   parent: function(){
@@ -32,6 +35,15 @@ window.backbone_app.views.PlanningElementsView = window.backbone_app.views.BaseV
 
   render: function(){
     console.log('rendering all planning elements');
+    // Note: Remeber we are inserting table rows after the project row. Not so nice but that's
+    //       how it's done right now.
+    this.$el.after(this.template());
+
+    /* TODO RS:
+      We need to set the dom element for each node in the tree. This is required so that the
+      elements can be properly positioned on the chart to be inline with the table rows. Not
+      sure exactly what the best way to do this is.
+    */
 
     // Try to use old Timeline code with backbone models
     var lib_timelines = this.options.lib_timelines;

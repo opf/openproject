@@ -12,7 +12,9 @@ window.backbone_app.views.TimelineView = window.backbone_app.views.BaseView.exte
     Essentially nothing really works but it's enough to see the structure.
   */
   events : {
-    "change #zoom-select" : "handleZoomChange"
+    "change #zoom-select" : "handleZoomChange",
+    "click .project-expand" : "handleProjectExpand",
+    "click .tl-project" : "handleProjectExpand"
   },
 
   initialize: function(){
@@ -21,6 +23,7 @@ window.backbone_app.views.TimelineView = window.backbone_app.views.BaseView.exte
       reset: true,
       data: {ids: this.options.project_id}
     }); // Note: We won't want to reset on fetch, we should listen for add/remove/change
+    this.expanded = false;
   },
 
   /* This is a temp hack because I'm just trying to get all this working with one project */
@@ -30,9 +33,9 @@ window.backbone_app.views.TimelineView = window.backbone_app.views.BaseView.exte
 
   render: function(){
     console.log('rendering project');
-    this.renderSubViews();
     // TODO RS: Might want to split up this template into the toolbar and svg container
     this.$el.html(this.template());
+    this.renderSubViews();
     this.initComponents();
   },
 
@@ -48,6 +51,7 @@ window.backbone_app.views.TimelineView = window.backbone_app.views.BaseView.exte
     var planning_elements = new backbone_app.collections.PlanningElements([],
       {project_id: this.options.project_id});
     var planning_elements_view = new backbone_app.views.PlanningElementsView({
+      el: jQuery(".tl-project-row[data-project-identifier='" + this.options.project_id + "']"),
       collection: planning_elements,
       project_id: this.options.project_id,
       parent: this.project(),
@@ -96,9 +100,30 @@ window.backbone_app.views.TimelineView = window.backbone_app.views.BaseView.exte
     slider.slider('value', jQuery(e.target).find(':selected').index());
   },
 
+  handleProjectExpand: function(e){
+    var target = jQuery(e.target);
+    console.log("expand" + target.data('project-identifier'));
+
+    var td = target.parent();
+    if(this.expanded){
+      td.removeClass('tl-expanded')
+      td.addClass('tl-collapsed')
+      jQuery("tr[data-parent-project=" + this.project().get('identifier') + "]").hide();
+    } else {
+      td.removeClass('tl-collapsed')
+      td.addClass('tl-expanded')
+      jQuery("tr[data-parent-project=" + this.project().get('identifier') + "]").show();
+    }
+
+    this.expanded = !this.expanded;
+
+    return false;
+  },
+
   /* UI Methods */
   zoom: function(index){
     // TODO RS: Implement this
     console.log('Zoooooom!');
   },
+
 });

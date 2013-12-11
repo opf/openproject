@@ -1,0 +1,17 @@
+<script type="text/template" id="planning-element-headers-template">
+  {{ _.each(collection.models, function(pe, i){ }}
+    {{ if(i == collection.size() - 1){ }}
+    <tr class="tl-last-row" style="display:none" data-parent-project="{{= parent_id }}">
+    {{ } else { }}
+    <tr style="display:none" data-parent-project="{{= parent_id }}">
+    {{ } }}
+      <td class="tl-first-column tl-indent-1">
+        <span class="tl-word-ellipsis">
+          <span>
+            <a href="/work_packages/{{= pe.description }}" class="tl-discreet-link" data-modal="" title="{{= pe.description }}">{{= pe.get('description') }}</a>
+          </span>
+        </span>
+      </td>
+    </tr>
+  {{ }); }}
+</script>
