@@ -52,6 +52,10 @@ class Activity::MeetingActivityProvider < Activity::BaseActivityProvider
     end
   end
 
+  def activitied_type(activity)
+    (activity == :meeting) ? Meeting : MeetingContent
+  end
+
   def projects_reference_table(activity)
     case activity
     when :meeting
@@ -79,23 +83,31 @@ class Activity::MeetingActivityProvider < Activity::BaseActivityProvider
                                                              : event['meeting_start_time']
       end_time = start_time + event['meeting_duration'].to_f.hours
 
-      "#{l :label_meeting}: #{event['meeting_title']} (#{format_date start_time} \
-      #{format_time start_time, false}-#{format_time end_time, false})"
+      "#{l :label_meeting}: #{event['meeting_title']} (#{format_date start_time} #{format_time start_time, false}-#{format_time end_time, false})"
     else
       "#{event['meeting_content_type'].constantize.model_name.human}: #{event['meeting_title']}"
+    end
+  end
+
+  def event_type(event, activity)
+    case activity
+    when :meeting
+      'meeting'
+    else
+      (event['meeting_content_type'].include?('Agenda')) ? 'meeting-agenda' : 'meeting-minutes'
     end
   end
 
   def event_path(event, activity)
     id = activity_id(event, activity)
 
-    Rails.application.routes.url_helpers.meetings_path(id)
+    Rails.application.routes.url_helpers.meeting_path(id)
   end
 
   def event_url(event, activity)
     id = activity_id(event, activity)
 
-    Rails.application.routes.url_helpers.meetings_url(id, host: ::Setting.host_name)
+    Rails.application.routes.url_helpers.meeting_url(id, host: ::Setting.host_name)
   end
 
   private
