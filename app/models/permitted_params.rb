@@ -298,8 +298,10 @@ class PermittedParams < Struct.new(:params, :user)
         :reported_project_status_ids => []],
       :status => [
         :name,
+        :default_done_ratio,
         :is_closed,
-        :is_default ],
+        :is_default,
+        :move_to ],
       :type => [
         :name,
         :is_in_roadmap,

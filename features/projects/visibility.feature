@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
@@ -26,32 +25,24 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require File.expand_path('../../../test_helper', __FILE__)
 
-class CustomFieldsHelperTest < HelperTestCase
-  include CustomFieldsHelper
-  include Redmine::I18n
+Feature: Project Visibility
 
-  def test_format_boolean_value
-    I18n.locale = 'en'
-    assert_equal 'Yes', format_value('1', 'bool')
-    assert_equal 'No', format_value('0', 'bool')
-  end
+Background:
+        Given there is 1 project with the following:
+        | name            | Bob's Accounting     |
+        | identifier      | bobs-accounting      |
 
-  def test_unknow_field_format_should_be_edited_as_string
-    field = CustomField.new(:field_format => 'foo')
-    value = CustomValue.new(:value => 'bar', :custom_field => field)
-    field.id = 52
+    Then the project "Bob's Accounting" is public
 
-    assert_match '<input id="object_custom_field_values_52" name="object[custom_field_values][52]" type="text" value="bar" />',
-      custom_field_tag('object', value)
-  end
+@javascript
+Scenario: A Project is visible on the landing page if it is set to public
+      Given I am on the login page
+      And I follow "Projects" within "#top-menu-items"
+      Then I should see "Bob's Accounting" within "#content"
 
-  def test_unknow_field_format_should_be_bulk_edited_as_string
-    field = CustomField.new(:field_format => 'foo')
-    field.id = 52
-
-    assert_equal '<input id="object_custom_field_values_52" name="object[custom_field_values][52]" type="text" value="" />',
-      custom_field_tag_for_bulk_edit('object', field)
-  end
-end
+@javascript
+Scenario: Project is not visible on the landing page if it is not set to public
+       Given the project "Bob's Accounting" is not public
+       And I am on the login page
+       Then I should not see "Projects" within "#top-menu-items"
