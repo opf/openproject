@@ -49,7 +49,7 @@ GEM
     angular-ui-select2-rails (0.1.1)
       jquery-rails
       select2-rails
-    angularjs-rails (1.0.8)
+    angularjs-rails (1.2.4)
     arel (3.0.2)
     awesome_nested_set (2.1.6)
       activerecord (>= 3.0.0)
