@@ -37,6 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#2395` [Work Package Tracking] Internal Error when entering a character in a number field in a filter
+* `#3339` [Agile] Display work package numbers with 7 digits in backlog view
 * Adaptations for new icon font
 * Fix: Backlog data existence check
 
