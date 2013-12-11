@@ -28,8 +28,6 @@
 
 Feature:User Activation
 
- @javascript
-
 Scenario: An admin could activate the pending registration request
 Given I am on the registration page
 And I fill in "user_login" with "heidi"
@@ -44,7 +42,6 @@ And I am admin
 And I am on the admin page of pending users
 Then I should see "heidi" within ".autoscroll"
 
-@javascript
 Scenario: An admin activates the pending registration request
 Given I am on the registration page
 And I fill in "user_login" with "heidi"

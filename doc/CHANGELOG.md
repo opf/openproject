@@ -29,24 +29,25 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
-* `#3390` [Design] Implement new look for header and project navigation
-* `#3331` use permitted_params for group_controller
 * `#3054` Fix: Some Projects cannot be deleted
 * `#3234` Fix: [Work package tracking] Sorting of work package statuses does not work
 * `#3266` Fix: [Work package tracking] % done in work package status cannot be modified
-# `#3291` Fix: Internal error when clicking on member
+* `#3291` Fix: Internal error when clicking on member
+* `#3331` use permitted_params for group_controller
 * `#3363` [Timelines] Autocompleter broken multiple times in timelines edit
+* `#3390` [Design] Implement new look for header and project navigation
+* Change global search keyboard shortcut to 's' and project menu shortcut to 'p'
 * Add auto-completion for work-packages in all textareas's with wiki-edit class
 
 ## 3.0.0pre37
 
 * `#1966` Select person responsible for project with auto-completion form
 * `#2289` Fix: Deploying in a subdirectory
+* `#2395` [Work Package Tracking] Internal Error when entering a character in a number field in a filter
 * `#2527` Create project has useless responsible field
+* `#3091` Both Top menu sides can be open at the same time
 * `#3202` Fix: Fix: [Bug] Grouping work packages by responsible is broken
 * `#3222` Fix: Validation errors on copying OpenProject
-* `#2395` [Work Package Tracking] Internal Error when entering a character in a number field in a filter
-* `#3091` Both Top menu sides can be open at the same time
 
 ## 3.0.0pre36
 
