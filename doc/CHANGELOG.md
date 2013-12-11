@@ -36,6 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3266` Fix: [Work package tracking] % done in work package status cannot be modified
 # `#3291` Fix: Internal error when clicking on member
 * `#3363` [Timelines] Autocompleter broken multiple times in timelines edit
+* Add auto-completion for work-packages in all textareas's with wiki-edit class
 
 ## 3.0.0pre37
 
