@@ -39,6 +39,18 @@ window.backbone_app.views.PlanningElementsView = window.backbone_app.views.BaseV
     //       how it's done right now.
     this.$el.after(this.template());
 
+    this.renderChart();
+  },
+
+  renderChart: function(){
+    // Try to use old Timeline code with backbone models
+    var lib_timelines = this.options.lib_timelines;
+    var tree = lib_timelines.getLefthandTreeBackbone(this.parent(), this.collection);
+    var ui_root = jQuery('.tl-chart');
+    lib_timelines.completeUIBackbone(tree, ui_root);
+    lib_timelines.buildTree(tree, ui_root);
+    lib_timelines.rebuildGraphBackground(tree, ui_root);
+
     /* TODO RS:
       We need to set the dom element for each node in the tree. This is required so that the
       elements can be properly positioned on the chart to be inline with the table rows.
@@ -78,6 +90,6 @@ window.backbone_app.views.PlanningElementsView = window.backbone_app.views.BaseV
       planning_elements: planning_elements,
     });
     project_timeline_view.render();
-  },
+  }
 
 });

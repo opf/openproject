@@ -22,12 +22,14 @@ jQuery.extend(TimelineBackboneApp, {
   init: function(options, lib_timelines){
     var opt = options; // TODO RS: Boil options down to the useful bits
     var projects = new backbone_app.collections.Projects;
-    var project_view = new backbone_app.views.TimelineView({
+    var timeline_view = new backbone_app.views.TimelineView({
       collection: projects,
       project_id: opt.project_id,
       el: opt.ui_root,
       i18n: opt.i18n,
       lib_timelines: lib_timelines
     });
+
+    jQuery.extend(window.backbone_app.views, {timeline_view: timeline_view});
   },
 });

@@ -48,7 +48,7 @@ window.backbone_app.views.TimelineView = window.backbone_app.views.BaseView.exte
   initPlanningElementsView: function(){
     var planning_elements = new backbone_app.collections.PlanningElements([],
       {project_id: this.options.project_id});
-    var planning_elements_view = new backbone_app.views.PlanningElementsView({
+    this.planning_elements_view = new backbone_app.views.PlanningElementsView({
       el: jQuery(".tl-project-row[data-project-identifier='" + this.options.project_id + "']"),
       collection: planning_elements,
       project_id: this.options.project_id,
@@ -114,9 +114,11 @@ window.backbone_app.views.TimelineView = window.backbone_app.views.BaseView.exte
     }
     this.expanded = !this.expanded;
 
+    window.backbone_app.views.timeline_view.requireChartRebuild();
     // TODO RS:
     // This requires a rebuild of the graph because the left column might have been resized.
     // Would be nice to set a rebuild flag and then have that picked up somewhere else.
+    // Will need to have that for zooming too.
     return false;
   },
 
@@ -125,5 +127,9 @@ window.backbone_app.views.TimelineView = window.backbone_app.views.BaseView.exte
     // TODO RS: Implement this
     console.log('Zoooooom!');
   },
+
+  requireChartRebuild: function(){
+    this.planning_elements_view.renderChart();
+  }
 
 });

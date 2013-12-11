@@ -80,7 +80,9 @@ jQuery.extend(Timeline, {
 
     // lift the curtain, paper otherwise doesn't show w/ VML.
     jQuery('.timeline').removeClass('tl-under-construction');
-    this.paper = new Raphael(ui_root.get()[0], 640, 480);
+    if(this.paper === undefined){
+      this.paper = new Raphael(ui_root.get()[0], 640, 480);
+    }
 
     // TODO RS: All of this causes re-renders which is a pain right now
 
