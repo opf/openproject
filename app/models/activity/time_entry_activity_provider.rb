@@ -50,22 +50,22 @@ class Activity::TimeEntryActivityProvider < Activity::BaseActivityProvider
   protected
 
   def event_title(event, activity)
-    titry_object_name = event['work_package_id'].blank? ? event['project_name']
-                                                        : event['work_package_name']
-    "#urs(event['time_entry_hours'])} (#{time_entry_object_name})"
+    time_entry_object_name = event['work_package_id'].blank? ? event['project_name']
+                                                             : event['work_package_name']
+    "#{l_hours(event['time_entry_hours'])} (#{time_entry_object_name})"
   end
 
   def event_description(event, activity)
-    event_data['time_entry_description']
+    event['time_entry_description']
   end
 
   def event_path(event, activity)
-    Rapplication.routes.url_helpers.time_entry_path(url_helper_parameter(event))
+    Rails.application.routes.url_helpers.time_entry_path(url_helper_parameter(event))
   end
 
   def event_url(event, activity)
-    Rapplication.routes.url_helpers.time_entry_url(url_helper_parameter(event),
-                                                   host: ::Setting.host_name)
+    Rails.application.routes.url_helpers.time_entry_url(url_helper_parameter(event),
+                                                        host: ::Setting.host_name)
   end
 
   private

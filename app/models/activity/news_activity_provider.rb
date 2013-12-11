@@ -45,7 +45,7 @@ class Activity::NewsActivityProvider < Activity::BaseActivityProvider
   protected
 
   def event_title(event, activity)
-    event_data['title']
+    event['title']
   end
 
   def event_path(event, activity)
