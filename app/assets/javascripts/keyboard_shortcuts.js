@@ -171,8 +171,8 @@
   Mousetrap.bind('k',     function(){ focus_previous_item(); return false; });
   Mousetrap.bind('m',     function(){ open_more_menu();      return false; });
 
-  Mousetrap.bind('s p',   function(){ search_project();      return false; });
-  Mousetrap.bind('s g',   function(){ search_global();       return false; });
+  Mousetrap.bind('p',     function(){ search_project();      return false; });
+  Mousetrap.bind('s',     function(){ search_global();       return false; });
 })(jQuery);
 
 jQuery(function(){
