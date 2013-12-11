@@ -41,8 +41,9 @@ window.backbone_app.views.PlanningElementsView = window.backbone_app.views.BaseV
 
     /* TODO RS:
       We need to set the dom element for each node in the tree. This is required so that the
-      elements can be properly positioned on the chart to be inline with the table rows. Not
-      sure exactly what the best way to do this is.
+      elements can be properly positioned on the chart to be inline with the table rows.
+      Could probably achieve this by searching the dom for the tr elements with data attributes
+      for that element. Not that nice but it's the only way i can think of.
     */
 
     // Try to use old Timeline code with backbone models

@@ -8,13 +8,11 @@ window.backbone_app.views.TimelineView = window.backbone_app.views.BaseView.exte
   },
 
   /* Note to team:
-    Just now i've only done zoom change but we'd need the outline dropdown events too.
-    Essentially nothing really works but it's enough to see the structure.
+    Just now i've only done project expand but we'd need the outline dropdown and zoom events too.
   */
   events : {
     "change #zoom-select" : "handleZoomChange",
     "click .project-expand" : "handleProjectExpand",
-    "click .tl-project" : "handleProjectExpand"
   },
 
   initialize: function(){
@@ -114,9 +112,11 @@ window.backbone_app.views.TimelineView = window.backbone_app.views.BaseView.exte
       td.addClass('tl-expanded')
       jQuery("tr[data-parent-project=" + this.project().get('identifier') + "]").show();
     }
-
     this.expanded = !this.expanded;
 
+    // TODO RS:
+    // This requires a rebuild of the graph because the left column might have been resized.
+    // Would be nice to set a rebuild flag and then have that picked up somewhere else.
     return false;
   },
 
