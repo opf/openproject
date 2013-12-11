@@ -31,6 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#3331` use permitted_params for group_controller
 * `#3054` Fix: Some Projects cannot be deleted
+# `#3291` Fix: Internal error when clicking on member
 
 ## 3.0.0pre37
 

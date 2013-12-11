@@ -118,8 +118,8 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     now = Time.now
     with_settings :time_format => '%H %M' do
       with_settings :date_format => '%d %m %Y' do
-        assert_equal now.strftime('%d %m %Y %H %M'), format_time(now.utc)
-        assert_equal now.strftime('%H %M'), format_time(now.utc, false)
+        assert_equal now.localtime.strftime('%d %m %Y %H %M'), format_time(now.utc)
+        assert_equal now.localtime.strftime('%H %M'), format_time(now.utc, false)
       end
     end
   end
