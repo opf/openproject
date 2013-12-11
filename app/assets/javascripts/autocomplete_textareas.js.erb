@@ -35,7 +35,8 @@ jQuery(function($){
         at: '#',
         start_with_space: false,
         search_key: 'id_subject',
-        tpl: '<li data-value="${atwho-at}${id}"><strong>${id}</strong> ${subject}</li>',
+        tpl: '<li data-value="${atwho-at}${id}">${to_s}</li>',
+        limit: 10,
         callbacks: {
           /*
            It function is given, At.js will invoke it if local filter can not find any data
