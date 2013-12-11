@@ -46,7 +46,7 @@ class Activity::BaseActivityProvider
     @activity_journals_table ||= Arel::Table.new(JournalManager.journal_class(activitied_type).table_name)
   end
 
-  def activitied_type
+  def activitied_type(activity=nil)
     activity_type = self.class.name
     namespace = activity_type.deconstantize
 

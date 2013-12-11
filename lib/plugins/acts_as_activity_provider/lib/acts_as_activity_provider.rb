@@ -108,7 +108,7 @@ module Redmine
             activity_journals_table = provider.activity_journals_table activity
 
             query = journals_table.join(activity_journals_table).on(journals_table[:id].eq(activity_journals_table[:journal_id]))
-            query = query.where(journals_table[:journable_type].eq(provider.activitied_type.name))
+            query = query.where(journals_table[:journable_type].eq(provider.activitied_type(activity).name))
 
             query = query.where(journals_table[:created_at].gteq(from)) if from
             query = query.where(journals_table[:created_at].lteq(to)) if to
