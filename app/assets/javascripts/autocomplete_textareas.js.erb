@@ -44,13 +44,22 @@ jQuery(function($){
            @param callback [Function] callback to render page.
           */
           remote_filter: function(query, callback) {
-            $.getJSON(url, {q: query}, function(data) {
+            $.getJSON(url, {q: query, scope: 'all'}, function(data) {
               // atjs needs the search key to be a string
               for (var i = data.length - 1; i >= 0; i--) {
                 data[i]['id_subject'] = data[i]['id'].toString() + ' ' + data[i]['subject'];
               };
               callback(data);
             });
+          },
+          /* Sorter data of course.
+             @param query [String] matched string
+             @param items [Array] data that was refactored
+             @param search_key [String] at char to search
+             @return [Array] sorted data
+          */
+          sorter: function(query, items, search_key) {
+            return items; // we do not sort
           }
         }
       });
