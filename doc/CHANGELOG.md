@@ -33,6 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3234` Fix: [Work package tracking] Sorting of work package statuses does not work
 * `#3266` Fix: [Work package tracking] % done in work package status cannot be modified
 * `#3291` Fix: Internal error when clicking on member
+* `#3303` Fix: [Work package tracking] Search results are linked to wrong location
 * `#3331` use permitted_params for group_controller
 * `#3363` [Timelines] Autocompleter broken multiple times in timelines edit
 * `#3390` [Design] Implement new look for header and project navigation
