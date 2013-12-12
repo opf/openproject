@@ -217,10 +217,11 @@ en:
           attributes:
             due_date:
               not_start_date: "is not on start date, although this is required for milestones"
-            parent:
+            parent_id:
               cannot_be_milestone: "cannot be a milestone"
               cannot_be_in_another_project: "cannot be in another project"
               not_a_valid_parent: "is invaild"
+              does_not_exist: "does not exist"
         user:
           attributes:
             password:
