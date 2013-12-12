@@ -36,6 +36,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#2607` [Agile] Display Storypoints in Taskboard view
+
 ## 3.0.5.pre1
 
 * `#2395` [Work Package Tracking] Internal Error when entering a character in a number field in a filter
