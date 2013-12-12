@@ -27,11 +27,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-jQuery(function($){
-  $('textarea.wiki-edit').each(function(){
-    var url = $(this).data('wp_autocomplete_url')
+function enable_textarea_auto_completion(textareas) {
+  textareas.each(function(){
+    var url = jQuery(this).data('wp_autocomplete_url')
     if (url !== undefined) {
-      $(this).atwho({
+      jQuery(this).atwho({
         at: '#',
         start_with_space: false,
         search_key: 'id_subject',
@@ -44,7 +44,7 @@ jQuery(function($){
            @param callback [Function] callback to render page.
           */
           remote_filter: function(query, callback) {
-            $.getJSON(url, {q: query, scope: 'all'}, function(data) {
+            jQuery.getJSON(url, {q: query, scope: 'all'}, function(data) {
               // atjs needs the search key to be a string
               for (var i = data.length - 1; i >= 0; i--) {
                 data[i]['id_subject'] = data[i]['id'].toString() + ' ' + data[i]['subject'];
@@ -65,6 +65,8 @@ jQuery(function($){
       });
     }
   });
+}
+
+jQuery(function($){
+  enable_textarea_auto_completion($('textarea.wiki-edit'));
 });
-
-

@@ -51,6 +51,7 @@ var WorkPackage = WorkPackage || {};
                 $('html, body').animate({
                   scrollTop: $(update).offset().top
                 }, 200);
+                enable_textarea_auto_completion($("#work_package_notes"));
                 $("#work_package_notes").focus();
       }
     });
@@ -83,7 +84,8 @@ var WorkPackage = WorkPackage || {};
                 $('html, body').animate({
                   scrollTop: $(update).offset().top
                 }, 200);
-                $("#notes").focus();
+                enable_textarea_auto_completion($("#work_package_notes"));
+                $("#work_package_notes").focus();
       }
     });
 

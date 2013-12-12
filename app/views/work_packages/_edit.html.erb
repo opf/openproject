@@ -46,7 +46,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= l(:label_change_properties) %>
           <% if !work_package.new_record? && !work_package.errors.any? && edit_allowed %>
             <small>
-              (<%= link_to l(:label_more), {}, :onclick => 'Effect.toggle("work_package_descr_fields", "appear", {duration:0.3}); return false;' %>)
+              (<%= link_to l(:label_more), {}, :onclick => 'Effect.toggle("work_package_descr_fields", "appear", {duration:0.3}); enable_textarea_auto_completion(jQuery("#work_package_description")); return false;' %>)
             </small>
           <% end %>
         </legend>
