@@ -87,7 +87,7 @@ module OpenProject::NestedSet
         # Checks parent issue assignment
         if parent
           if !Setting.cross_project_work_package_relations? && parent.project_id != self.project_id
-            errors.add :parent_id, :not_a_valid_parent
+            errors.add :parent, :cannot_be_in_another_project
           elsif !new_record?
             # moving an existing issue
             if parent.root_id != root_id
@@ -95,7 +95,7 @@ module OpenProject::NestedSet
             elsif move_possible?(parent)
               # move accepted inside tree
             else
-              errors.add :parent_id, :not_a_valid_parent
+              errors.add :parent, :not_a_valid_parent
             end
           end
         end
