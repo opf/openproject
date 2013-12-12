@@ -50,6 +50,14 @@ module Api
 
           options[:conditions] = ["id IN (?) OR identifier IN (?)", ids, identifiers]
         end
+        if parent_id = params[:parent_id]
+          if options[:conditions]
+            options[:conditions].first.append 'AND parent_id = ?'
+            options[:conditions] << parent_id
+          else
+            options[:conditions] = ["parent_id = ?", parent_id]
+          end
+        end
 
         @projects = @base.visible
                          .includes(:types)
