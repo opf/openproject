@@ -220,6 +220,7 @@ en:
             parent:
               cannot_be_milestone: "cannot be a milestone"
               cannot_be_in_another_project: "cannot be in another project"
+              not_a_valid_parent: "is invaild"
         user:
           attributes:
             password:
