@@ -133,7 +133,7 @@ class MigrateTimelinesOptions < ActiveRecord::Migration
   def migrate_vertical_planning_elements(timelines_opts, pe_id_map)
     return timelines_opts unless timelines_opts.has_key? VERTICAL_PE_TYPES
 
-    vertical_pes = timelines_opts[VERTICAL_PE_TYPES].split(', ')
+    vertical_pes = timelines_opts[VERTICAL_PE_TYPES].split(',')
                                                     .map { |p| p.strip }
 
     unless vertical_pes.empty?
