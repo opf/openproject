@@ -37,7 +37,7 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-timelinesApp.service('TimelineLoaderService', ['ProjectType', function(ProjectType) {
+timelinesApp.service('TimelineLoaderService', [function() {
 
   /**
    * QueueingLoader
