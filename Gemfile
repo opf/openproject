@@ -63,7 +63,11 @@ gem 'therubyracer'
 
 gem "date_validator"
 
-# replacing rsb with rabl
+# replacing rsb with rabl --
+# We rely on this specific version, which is the latest as of now (end of 2013),
+# because we have to apply to it a bugfix which could break things in other versions.
+# This can be removed as soon as said bugfix is integrated into rabl itself.
+# See: config/initializers/rabl_hack.rb
 gem 'rabl', '0.9.3'
 gem 'multi_json'
 gem 'oj'
