@@ -1,6 +1,6 @@
 ##
-# Evil hack against rabl 0.9.3 which applies config.include_child_root to
-# #collection as well as to #child calls.
+# Hack against rabl 0.9.3 which applies config.include_child_root to
+# #collection as well as to #child calls as you would expect.
 #
 module Rabl
   class Engine
@@ -14,9 +14,7 @@ module Rabl
     alias_method :to_hash_without_hack, :to_hash
     alias_method :to_hash, :to_hash_with_hack
   end
-end
 
-module Rabl
   class Builder
     def compile_hash_with_hack(options={})
       if options[:building_collection] && !options[:child_root]
