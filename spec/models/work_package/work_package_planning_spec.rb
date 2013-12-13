@@ -194,8 +194,8 @@ describe WorkPackage do
 
             planning_element.should_not be_valid
 
-            planning_element.errors[:parent].should be_present
-            planning_element.errors[:parent].should == [self.send("#{I18n.locale}_message")]
+            planning_element.errors[:parent_id].should be_present
+            planning_element.errors[:parent_id].should == [self.send("#{I18n.locale}_message")]
           end
 
         end
