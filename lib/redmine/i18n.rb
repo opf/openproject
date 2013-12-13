@@ -83,7 +83,7 @@ module Redmine
       return nil unless time
       time = time.to_time if time.is_a?(String)
       zone = User.current.time_zone
-      local = zone ? time.in_time_zone(zone) : (time.utc? ? time.localtime : time)
+      local = zone ? time.in_time_zone(zone) : (time.utc? ? time.to_time.localtime : time)
       (include_date ? "#{format_date(local)} " : "") +
         (Setting.time_format.blank? ? ::I18n.l(local, :format => :time) : local.strftime(Setting.time_format))
     end

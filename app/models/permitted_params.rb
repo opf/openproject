@@ -290,8 +290,8 @@ class PermittedParams < Struct.new(:params, :user)
         :due_date,
         :note,
         :type_id,
+        :status_id,
         :planning_element_status_comment,
-        :planning_element_status_id,
         :parent_id,
         :responsible_id,
         :custom_fields => [ #json
@@ -313,8 +313,10 @@ class PermittedParams < Struct.new(:params, :user)
         :reported_project_status_ids => []],
       :status => [
         :name,
+        :default_done_ratio,
         :is_closed,
-        :is_default ],
+        :is_default,
+        :move_to ],
       :type => [
         :name,
         :is_in_roadmap,

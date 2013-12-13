@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
@@ -26,32 +25,17 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require File.expand_path('../../../test_helper', __FILE__)
 
-class CustomFieldsHelperTest < HelperTestCase
-  include CustomFieldsHelper
-  include Redmine::I18n
+require 'spec_helper'
 
-  def test_format_boolean_value
-    I18n.locale = 'en'
-    assert_equal 'Yes', format_value('1', 'bool')
-    assert_equal 'No', format_value('0', 'bool')
-  end
+describe WorkPackage do
+  describe 'acts_as_event' do
+    let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package) }
 
-  def test_unknow_field_format_should_be_edited_as_string
-    field = CustomField.new(:field_format => 'foo')
-    value = CustomValue.new(:value => 'bar', :custom_field => field)
-    field.id = 52
+    describe :event_url do
+      let(:expected_url) { { controller: :work_packages, action: :show, id: stub_work_package.id } }
 
-    assert_match '<input id="object_custom_field_values_52" name="object[custom_field_values][52]" type="text" value="bar" />',
-      custom_field_tag('object', value)
-  end
-
-  def test_unknow_field_format_should_be_bulk_edited_as_string
-    field = CustomField.new(:field_format => 'foo')
-    field.id = 52
-
-    assert_equal '<input id="object_custom_field_values_52" name="object[custom_field_values][52]" type="text" value="" />',
-      custom_field_tag_for_bulk_edit('object', field)
+      it { expect(stub_work_package.event_url).to eq(expected_url) }
+    end
   end
 end

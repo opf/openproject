@@ -84,10 +84,14 @@ module OpenProject::NestedSet
       end
 
       def validate_correct_parent
+        # calling parent triggers the loading, so if we could not load one, the parent does not exist
+        if parent_id && !parent
+          errors.add :parent_id, :does_not_exist
+        end
         # Checks parent issue assignment
         if parent
           if !Setting.cross_project_work_package_relations? && parent.project_id != self.project_id
-            errors.add :parent_id, :not_a_valid_parent
+            errors.add :parent_id, :cannot_be_in_another_project
           elsif !new_record?
             # moving an existing issue
             if parent.root_id != root_id
@@ -129,7 +133,7 @@ module OpenProject::NestedSet
       # of the parent. If no parent is provided, the new node defines it's own
       # set.
       def initial_root_id
-        if parent_id
+        if parent
           self.root_id = parent.root_id
         else
           self.root_id = id

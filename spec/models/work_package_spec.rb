@@ -1313,6 +1313,17 @@ describe WorkPackage do
     end
   end
 
+  describe "parent work package" do
+    describe "with parent_id for a not existing work package" do
+      let(:project) { FactoryGirl.create(:project) }
+      let(:invalid_work_package) { FactoryGirl.build(:work_package, :project => project, :parent_id => 1) }
+
+      it 'should raise an error' do
+        invalid_work_package.should_not be_valid
+      end
+    end
+  end
+
   describe 'custom fields' do
     it 'should not duplicate error messages when invalid' do
       cf1 = FactoryGirl.create(:work_package_custom_field, :is_required => true)

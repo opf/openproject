@@ -29,19 +29,30 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#2399` Fix: Translation missing (en and de) for not_a_valid_parent
 * `#3054` Fix: Some Projects cannot be deleted
+* `#3234` Fix: [Work package tracking] Sorting of work package statuses does not work
+* `#3229` Fix: Can't set planning element status
+* `#3266` Fix: [Work package tracking] % done in work package status cannot be modified
+* `#3291` Fix: Internal error when clicking on member
+* `#3303` Fix: [Work package tracking] Search results are linked to wrong location
+* `#3322` [Data migration] Journal entries display changes to custom fields
 * `#3331` use permitted_params for group_controller
 * `#3337` Fix: Use permitted params in EnumerationsController
+* `#3363` [Timelines] Autocompleter broken multiple times in timelines edit
+* `#3390` [Design] Implement new look for header and project navigation
+* Change global search keyboard shortcut to 's' and project menu shortcut to 'p'
+* Fixed a small bug with a non-functional validation for parents when creating a work package
 
 ## 3.0.0pre37
 
 * `#1966` Select person responsible for project with auto-completion form
 * `#2289` Fix: Deploying in a subdirectory
+* `#2395` [Work Package Tracking] Internal Error when entering a character in a number field in a filter
 * `#2527` Create project has useless responsible field
+* `#3091` Both Top menu sides can be open at the same time
 * `#3202` Fix: Fix: [Bug] Grouping work packages by responsible is broken
 * `#3222` Fix: Validation errors on copying OpenProject
-* `#2395` [Work Package Tracking] Internal Error when entering a character in a number field in a filter
-* `#3091` Both Top menu sides can be open at the same time
 
 ## 3.0.0pre36
 

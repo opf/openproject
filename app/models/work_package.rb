@@ -187,10 +187,17 @@ class WorkPackage < ActiveRecord::Base
         t
       end
     end
+
+    def self.event_url
+      Proc.new do |o|
+        { controller: :work_packages, action: :show, id: o.id }
+      end
+    end
   end
 
   acts_as_event title: JournalizedProcs.event_title,
-                type: JournalizedProcs.event_type
+                type: JournalizedProcs.event_type,
+                url: JournalizedProcs.event_url
 
   register_on_journal_formatter(:id, 'parent_id')
   register_on_journal_formatter(:fraction, 'estimated_hours')

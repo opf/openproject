@@ -804,6 +804,28 @@ describe WorkPackagesController do
     let(:status) { FactoryGirl.create :default_status }
     let(:priority) { FactoryGirl.create :priority }
 
+    context :copy do
+      let(:current_user) { FactoryGirl.create(:admin) }
+      let(:params) { { copy_from: planning_element.id, project_id: project.id } }
+      let(:except) { ["id",
+                      "root_id",
+                      "parent_id",
+                      "lft",
+                      "rgt",
+                      "type",
+                      "created_at",
+                      "updated_at"] }
+
+      before { post 'create', params }
+
+      subject { response }
+
+      it do
+        assigns['new_work_package'].should_not == nil
+        assigns['new_work_package'].attributes.dup.except(*except).should == planning_element.attributes.dup.except(*except)
+      end
+    end
+
     context :attachments do
       let(:new_work_package) { FactoryGirl.build(:work_package,
                                                  project: project,
