@@ -32,5 +32,6 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= ProjectAssociation.human_attribute_name(:description)%>:
 </label>
 
-<%= f.text_area(:description, :class => 'timelines-project-association-description wiki-edit', :rows => 10) %>
+<%= f.text_area(:description, :class => 'timelines-project-association-description wiki-edit', :rows => 10,
+                :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json)) %>
 <%= wikitoolbar_for 'project_association_description' %>

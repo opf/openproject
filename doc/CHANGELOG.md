@@ -41,6 +41,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3363` [Timelines] Autocompleter broken multiple times in timelines edit
 * `#3390` [Design] Implement new look for header and project navigation
 * Change global search keyboard shortcut to 's' and project menu shortcut to 'p'
+* Add auto-completion for work-packages in all textareas's with wiki-edit class
 * Fixed a small bug with a non-functional validation for parents when creating a work package
 
 ## 3.0.0pre37

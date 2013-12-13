@@ -330,7 +330,7 @@ OpenProject::Application.routes.draw do
   end
 
   namespace :work_packages do
-    match 'auto_complete' => 'auto_completes#index', :via => [:get, :post], :format => false
+    match 'auto_complete' => 'auto_completes#index', :via => [:get, :post]
     match 'context_menu' => 'context_menus#index', :via => [:get, :post], :format => false
     resources :calendar, :controller => 'calendars', :only => [:index]
     resource :bulk, :controller => 'bulk', :only => [:edit, :update, :destroy]
