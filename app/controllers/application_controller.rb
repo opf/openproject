@@ -439,6 +439,12 @@ class ApplicationController < ActionController::Base
     false
   end
 
+  def render_400(options={})
+    @project = nil
+    render_error({:message => :notice_bad_request, :status => 400}.merge(options))
+    return false
+  end
+
   def render_403(options={})
     @project = nil
     render_error({:message => :notice_not_authorized, :status => 403}.merge(options))
