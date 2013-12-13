@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.0pre38
+
 * `#2399` Fix: Translation missing (en and de) for not_a_valid_parent
 * `#3054` Fix: Some Projects cannot be deleted
 * `#3149` Fix: duplicate XML root nodes in API v2 show
