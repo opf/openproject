@@ -73,17 +73,20 @@ class Activity::TimeEntryActivityProvider < Activity::BaseActivityProvider
   end
 
   def event_path(event, activity)
-    Rails.application.routes.url_helpers.work_package_time_entry_path(*url_helper_parameter(event))
+    unless event['work_package_id'].blank?
+      Rails.application.routes.url_helpers.work_package_time_entries_path(event['work_package_id'])
+    else
+      Rails.application.routes.url_helpers.project_time_entries_path(event['project_id'])
+    end
   end
 
   def event_url(event, activity)
-    Rails.application.routes.url_helpers.work_package_time_entry_url(*url_helper_parameter(event),
-                                                                     host: ::Setting.host_name)
-  end
-
-  private
-
-  def url_helper_parameter(event)
-    [ event['work_package_id'], event['journable_id'] ]
+    unless event['work_package_id'].blank?
+      Rails.application.routes.url_helpers.work_package_time_entries_url(event['work_package_id'],
+                                                                         host: ::Setting.host_name)
+    else
+      Rails.application.routes.url_helpers.project_time_entries_url(event['project_id'],
+                                                                    host: ::Setting.host_name)
+    end
   end
 end
