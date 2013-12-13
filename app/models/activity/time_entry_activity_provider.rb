@@ -33,7 +33,9 @@ class Activity::TimeEntryActivityProvider < Activity::BaseActivityProvider
                             permission: :view_time_entries
 
   def extend_event_query(query, activity)
-    query = query.join(work_packages_table).on(activity_journals_table(activity)[:work_package_id].eq(work_packages_table[:id]))
+    query.join(work_packages_table).on(activity_journals_table(activity)[:work_package_id].eq(work_packages_table[:id]))
+    query.join(types_table).on(work_packages_table[:type_id].eq(types_table[:id]))
+    query.join(statuses_table).on(work_packages_table[:status_id].eq(statuses_table[:id]))
   end
 
   def event_query_projection(activity)
@@ -43,7 +45,10 @@ class Activity::TimeEntryActivityProvider < Activity::BaseActivityProvider
       activity_journal_projection_statement(:project_id, 'project_id', activity),
       activity_journal_projection_statement(:work_package_id, 'work_package_id', activity),
       projection_statement(projects_table, :name, 'project_name'),
-      projection_statement(work_packages_table, :subject, 'work_package_subject')
+      projection_statement(work_packages_table, :subject, 'work_package_subject'),
+      projection_statement(statuses_table, :name, 'status_name'),
+      projection_statement(statuses_table, :is_closed, 'status_closed'),
+      projection_statement(types_table, :name, 'type_name')
     ]
   end
 
@@ -51,8 +56,16 @@ class Activity::TimeEntryActivityProvider < Activity::BaseActivityProvider
 
   def event_title(event, activity)
     time_entry_object_name = event['work_package_id'].blank? ? event['project_name']
-                                                             : event['work_package_name']
+                                                             : work_package_title(event)
     "#{l_hours(event['time_entry_hours'])} (#{time_entry_object_name})"
+  end
+
+  def work_package_title(event)
+    Activity::WorkPackageActivityProvider.work_package_title(event['journable_id'],
+                                                             event['work_package_subject'],
+                                                             event['type_name'],
+                                                             event['status_name'],
+                                                             event['is_standard'])
   end
 
   def event_description(event, activity)
@@ -60,25 +73,17 @@ class Activity::TimeEntryActivityProvider < Activity::BaseActivityProvider
   end
 
   def event_path(event, activity)
-    Rails.application.routes.url_helpers.time_entry_path(url_helper_parameter(event))
+    Rails.application.routes.url_helpers.work_package_time_entry_path(*url_helper_parameter(event))
   end
 
   def event_url(event, activity)
-    Rails.application.routes.url_helpers.time_entry_url(url_helper_parameter(event),
-                                                        host: ::Setting.host_name)
+    Rails.application.routes.url_helpers.work_package_time_entry_url(*url_helper_parameter(event),
+                                                                     host: ::Setting.host_name)
   end
 
   private
 
-  def work_packages_table
-    @work_packages_table ||= Arel::Table.new(:work_packages)
-  end
-
-  def projects_table
-    @projects_table ||= Arel::Table.new(:projects)
-  end
-
   def url_helper_parameter(event)
-    event['journable_id']
+    [ event['work_package_id'], event['journable_id'] ]
   end
 end

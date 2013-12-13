@@ -46,12 +46,19 @@ class Activity::WorkPackageActivityProvider < Activity::BaseActivityProvider
     ]
   end
 
+  def self.work_package_title(id, subject, type_name, status_name, is_standard)
+    title = "#{(is_standard) ? l(:default_type) : "#{type_name}"} ##{id}: #{subject}"
+    title << " (#{status_name})" unless status_name.blank?
+  end
+
   protected
 
   def event_title(event, activity)
-    title = "#{(event['is_standard']) ? l(:default_type)
-                                        : "#{event['type_name']}"} ##{event['journable_id']}: #{event['subject']}"
-    title << " (#{event['status_name']})" unless event['status_name'].blank?
+    self.class.work_package_title(event['journable_id'],
+                                  event['subject'],
+                                  event['type_name'],
+                                  event['status_name'],
+                                  event['is_standard'])
   end
 
   def event_type(event, activity)

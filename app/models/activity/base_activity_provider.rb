@@ -72,6 +72,22 @@ class Activity::BaseActivityProvider
     @activitied_table ||= Arel::Table.new(activitied_type.table_name)
   end
 
+  def work_packages_table
+    @work_packages_table ||= Arel::Table.new(:work_packages)
+  end
+
+  def projects_table
+    @projects_table ||= Arel::Table.new(:projects)
+  end
+
+  def types_table
+    @types_table = Arel::Table.new(:types)
+  end
+
+  def statuses_table
+    @statuses_table = Arel::Table.new(:statuses)
+  end
+
   def activity_journal_projection_statement(column, name, activity)
     projection_statement(activity_journals_table(activity), column, name)
   end
