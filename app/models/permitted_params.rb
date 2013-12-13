@@ -239,8 +239,7 @@ class PermittedParams < Struct.new(:params, :user)
         :is_default,
         :move_to,
         :name,
-        :reassign_to_id,
-        :type],
+        :reassign_to_id],
       :group => [
         :lastname],
       :group_membership => [

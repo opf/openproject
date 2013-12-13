@@ -36,23 +36,21 @@ class EnumerationsController < ApplicationController
   include CustomFieldsHelper
 
   def index; end
-  def edit;end
+  def edit; end
 
   def new
-    type = permitted_params.enumeration_type
-    begin
-      klass = type.constantize
-      raise NameError unless klass.ancestors.include? Enumeration
-      @enumeration = klass.new
-    rescue NameError
-      @enumeration = Enumeration.new
+    enum_class = enumeration_class(permitted_params.enumeration_type)
+    if enum_class
+      @enumeration = enum_class.new
+    else
+      render_400 # bad request
     end
   end
 
   def create
     enum_params = permitted_params.enumeration
-    @enumeration = Enumeration.new do |e|
-      e.type = enum_params.delete(:type)
+    type = params[:enumeration][:type]
+    @enumeration = (enumeration_class(type) || Enumeration).new do |e|
       e.attributes = enum_params
     end
 
@@ -66,7 +64,8 @@ class EnumerationsController < ApplicationController
 
   def update
     enum_params = permitted_params.enumeration
-    @enumeration.type = enum_params.delete(:type) if enum_params[:type]
+    type = params[:enumeration][:type]
+    @enumeration.type = enumeration_class(type).try(:name) || @enumeration.type
     if @enumeration.update_attributes enum_params
       flash[:notice] = l(:notice_successful_update)
       redirect_to enumerations_path(:type => @enumeration.type)
@@ -99,5 +98,20 @@ protected
 
   def find_enumeration
     @enumeration = Enumeration.find(params[:id])
+  end
+
+  ##
+  # Find an enumeration class with the given Name
+  # this should be fail save for nonsense names or names
+  # which are no enumerations to prevent remote code execution attacks.
+  # params: type (string)
+  def enumeration_class(type)
+    begin
+      klass = type.to_s.constantize
+      raise NameError unless klass.ancestors.include? Enumeration
+      klass
+    rescue NameError
+      nil
+    end
   end
 end
