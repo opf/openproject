@@ -51,7 +51,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
                              :parent_id => issue.id }
     end
     assert !child.save
-    refute_empty child.errors[:parent]
+    refute_empty child.errors[:parent_id]
   end
 
   def test_creating_a_child_in_different_project_should_validate_if_allowed
@@ -65,7 +65,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
                              :parent_id => issue.id }
     end
     assert child.save
-    assert_empty child.errors[:parent]
+    assert_empty child.errors[:parent_id]
   end
 
 
@@ -116,7 +116,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     child.reload
     child.parent_id = grandchild.id
     assert !child.save
-    refute_empty child.errors[:parent]
+    refute_empty child.errors[:parent_id]
   end
 
   def test_moving_an_issue_should_keep_valid_relations_only
