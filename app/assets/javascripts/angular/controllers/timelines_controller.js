@@ -61,8 +61,5 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'Timeline',
     }
   };
 
-  $scope.$on('timelines.dataLoaded', function(){
-    $scope.$apply();
-  });
 
 }]);

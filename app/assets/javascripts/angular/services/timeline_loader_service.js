@@ -1116,7 +1116,6 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
         jQuery(timelineLoader).on('complete', function(e, data) {
           jQuery.extend(timeline, data);
           deferred.resolve(timeline);
-          $rootScope.$broadcast('timelines.dataLoaded');
         });
 
         timeline.safetyHook = window.setTimeout(function() {
