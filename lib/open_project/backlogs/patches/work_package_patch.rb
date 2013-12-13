@@ -101,7 +101,7 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
 
     def validate_parent_work_package_relation(work_package, parent_attr, value)
       parent = WorkPackage.find_by_id(value)
-      if parent_work_package_relationship_spanning_projects?(parent, work_package)
+      if parent && parent_work_package_relationship_spanning_projects?(parent, work_package)
         work_package.errors.add(parent_attr,
                          :parent_child_relationship_across_projects,
                          :work_package_name => work_package.subject,
