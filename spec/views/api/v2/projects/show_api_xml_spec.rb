@@ -25,6 +25,24 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-object @project_type
 
-extends '/api/v2/project_types/project_type.api'
+require File.expand_path('../../../../../spec_helper', __FILE__)
+
+describe 'api/v2/projects/show.api.rabl' do
+
+  let(:project) { FactoryGirl.build(:project) }
+
+  before do
+    params[:format] = 'xml'
+    assign(:project,  project)
+    render
+  end
+
+  subject { Nokogiri.XML(response.body) }
+
+  it "should render the project" do
+    identifier = subject.xpath("/project/identifier/text()").map(&:to_s).first
+
+    expect(identifier).to eq(project.identifier)
+  end
+end

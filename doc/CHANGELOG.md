@@ -31,6 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#2399` Fix: Translation missing (en and de) for not_a_valid_parent
 * `#3054` Fix: Some Projects cannot be deleted
+* `#3149` Fix: duplicate XML root nodes in API v2 show
 * `#3234` Fix: [Work package tracking] Sorting of work package statuses does not work
 * `#3229` Fix: Can't set planning element status
 * `#3266` Fix: [Work package tracking] % done in work package status cannot be modified
