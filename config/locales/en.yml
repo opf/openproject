@@ -1052,6 +1052,7 @@ en:
   notice_locking_conflict_additional_information: "The update(s) came from %{users}."
   notice_locking_conflict_reload_page: "Please reload the page, review the changes and reapply your updates."
   notice_no_principals_found: "No results found."
+  notice_bad_request: "Bad Request."
   notice_not_authorized: "You are not authorized to access this page."
   notice_not_authorized_archived_project: "The project you're trying to access has been archived."
   notice_successful_connection: "Successful connection."
