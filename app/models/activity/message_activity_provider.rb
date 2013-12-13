@@ -66,11 +66,11 @@ class Activity::MessageActivityProvider < Activity::BaseActivityProvider
   end
 
   def event_path(event, activity)
-    Rails.application.routes.url_helpers.topic_path(url_helper_parameter(event))
+    Rails.application.routes.url_helpers.topic_path(*url_helper_parameter(event))
   end
 
   def event_url(event, activity)
-    Rails.application.routes.url_helpers.topic_url(url_helper_parameter(event),
+    Rails.application.routes.url_helpers.topic_url(*url_helper_parameter(event),
                                                    host: ::Setting.host_name)
   end
 
@@ -84,12 +84,9 @@ class Activity::MessageActivityProvider < Activity::BaseActivityProvider
     is_reply = !event['parent_id'].blank?
 
     if is_reply
-      parameters = { id: event['parent_id'], r: event['journable_id'], anchor: "message-#{event['journable_id']}" }
+      { id: event['parent_id'], r: event['journable_id'], anchor: "message-#{event['journable_id']}" }
     else
-      parameters = { id: event['journable_id'] }
+      [ event['journable_id'] ]
     end
-
-    parameters[:board_id] = event['board_id']
-    parameters
   end
 end
