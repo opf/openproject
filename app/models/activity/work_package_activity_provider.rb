@@ -68,30 +68,21 @@ class Activity::WorkPackageActivityProvider < Activity::BaseActivityProvider
   end
 
   def event_path(event, activity)
-    Rails.application.routes.url_helpers.work_package_path(*url_helper_parameter(event))
+    Rails.application.routes.url_helpers.work_package_path(event['journable_id'],
+                                                           anchor: notes_anchor(event))
   end
 
   def event_url(event, activity)
-    Rails.application.routes.url_helpers.work_package_url(*url_helper_parameter(event),
+    Rails.application.routes.url_helpers.work_package_url(event['journable_id'],
+                                                          anchor: notes_anchor(event),
                                                           host: ::Setting.host_name)
   end
 
   private
 
-  def url_helper_parameter(event)
+  def notes_anchor(event)
     version = event['version'].to_i
-    anchor = event['version'].to_i - 1
 
-    parameters = [event['journable_id']]
-    parameters << { anchor: "note-#{anchor}" } if version > 1
-    parameters
-  end
-
-  def types_table
-    @types_table = Arel::Table.new(:types)
-  end
-
-  def statuses_table
-    @statuses_table = Arel::Table.new(:statuses)
+    (version > 1) ? "note-#{version - 1}" : ""
   end
 end
