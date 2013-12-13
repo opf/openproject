@@ -1,4 +1,4 @@
-timelinesApp.service('TimelineService', ['$q', '$rootScope', 'TimelineLoaderService', function($q, $rootScope, TimelineLoaderService) {
+timelinesApp.service('TimelineService', ['$q', '$rootScope', 'Timeline', 'TimelineLoaderService', function($q, $rootScope, Timeline, TimelineLoaderService) {
 
   TimelineService = {
     createTimeline: function(timelineOptions) {

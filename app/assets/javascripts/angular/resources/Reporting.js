@@ -37,26 +37,6 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-// stricter than default
-/*jshint undef:true,
-         eqeqeq:true,
-         forin:true,
-         immed:true,
-         latedef:true,
-         trailing: true
-*/
-
-// looser than default
-/*jshint eqnull:true */
-
-// environment and other global vars
-/*jshint browser:true, devel:true*/
-/*global jQuery:false, Raphael:false, Timeline:true*/
-
-if (typeof Timeline === "undefined") {
-  Timeline = {};
-}
-
 // ╭───────────────────────────────────────────────────────────────────╮
 // │ Data Store                                                        │
 // ├───────────────────────────────────────────────────────────────────┤
@@ -70,15 +50,41 @@ if (typeof Timeline === "undefined") {
 // │ Timeline.User                                                     │
 // ╰───────────────────────────────────────────────────────────────────╯
 
-jQuery.extend(Timeline, {
-  // ╭───────────────────────────────────────────────────────────────────╮
-  // │ Timeline.User                                                     │
-  // ╰───────────────────────────────────────────────────────────────────╯
+timelinesApp.factory('Reporting', [function() {
+    // ╭───────────────────────────────────────────────────────────────────╮
+    // │ Timeline.Reporting                                                │
+    // ╰───────────────────────────────────────────────────────────────────╯
 
-  User: {
-    is: function(t) {
-      return Timeline.User.identifier === t.identifier;
+  Reporting = {
+    identifier: 'reportings',
+
+    all: function(timeline) {
+      // collect all reportings.
+      var r = timeline.reportings;
+      var result = [];
+      for (var key in r) {
+        if (r.hasOwnProperty(key)) {
+          result.push(r[key]);
+        }
+      }
+      return result;
     },
-    identifier: 'users'
-  }
-});
+    getProject: function() {
+      return (this.project !== undefined) ? this.project : null;
+    },
+    getProjectId: function () {
+      return this.project.id;
+    },
+    getReportingToProject : function () {
+      return (this.reporting_to_project !== undefined) ? this.reporting_to_project : null;
+    },
+    getReportingToProjectId : function () {
+      return this.reporting_to_project.id;
+    },
+    getStatus: function() {
+      return (this.reported_project_status !== undefined) ? this.reported_project_status : null;
+    }
+  };
+
+  return Reporting;
+}]);

@@ -1,4 +1,4 @@
-timelinesApp.controller('TimelinesController', ['$scope', '$window', 'TimelineService', function($scope, $window, TimelineService){
+timelinesApp.controller('TimelinesController', ['$scope', '$window', 'Timeline', 'TimelineService', function($scope, $window, Timeline, TimelineService){
 
   $scope.switchTimeline = function() {
     $window.location.href = $scope.timelines[$scope.currentTimelineId].path;
@@ -13,10 +13,10 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'TimelineSe
 
   $scope.timelineOptions = angular.extend(gon.timeline_options, { i18n: gon.timeline_translations });
   $scope.timelineOptions.initial_outline_expansion || ($scope.timelineOptions.initial_outline_expansion = '3');
+  $scope.Timeline = Timeline;
 
 
   // Get timelines stuff into scope
-  $scope.Timeline = Timeline;
   $scope.slider = null;
   $scope.timelineContainerNo = 1;
   $scope.underConstruction = true;
@@ -25,8 +25,6 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'TimelineSe
 
   // Load timeline
   $scope.timeline = TimelineService.createTimeline($scope.timelineOptions);
-  $scope.treeNode = $scope.timeline.getLefthandTree();
-
 
   // Container for timeline rendering
   $scope.getTimelineContainerElementId = function() {

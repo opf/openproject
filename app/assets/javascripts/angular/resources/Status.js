@@ -1,4 +1,4 @@
-7//-- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 //
@@ -37,25 +37,6 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-// stricter than default
-/*jshint undef:true,
-         eqeqeq:true,
-         forin:true,
-         immed:true,
-         latedef:true,
-         trailing: true
-*/
-
-// looser than default
-/*jshint eqnull:true */
-
-// environment and other global vars
-/*jshint browser:true, devel:true*/
-/*global jQuery:false, Raphael:false, Timeline:true*/
-
-if (typeof Timeline === "undefined") {
-  Timeline = {};
-}
 
 // ╭───────────────────────────────────────────────────────────────────╮
 // │ Data Store                                                        │
@@ -70,16 +51,12 @@ if (typeof Timeline === "undefined") {
 // │ Timeline.User                                                     │
 // ╰───────────────────────────────────────────────────────────────────╯
 
-jQuery.extend(Timeline, {
-  // ╭───────────────────────────────────────────────────────────────────╮
-  // │ Timeline.Color                                                    │
-  // ╰───────────────────────────────────────────────────────────────────╯
-
-  Color: {
-    identifier: 'colors',
+timelinesApp.factory('Status', [function() {
+  Status = {
+    identifier: 'statuses',
     all: function(timeline) {
-      // collect all colors
-      var r = timeline.colors;
+      // collect all reportings.
+      var r = timeline.statuses;
       var result = [];
       for (var key in r) {
         if (r.hasOwnProperty(key)) {
@@ -88,5 +65,7 @@ jQuery.extend(Timeline, {
       }
       return result;
     }
-  }
-});
+  };
+
+  return Status;
+}]);

@@ -37,43 +37,29 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-// stricter than default
-/*jshint undef:true,
-         eqeqeq:true,
-         forin:true,
-         immed:true,
-         latedef:true,
-         trailing: true
-*/
+// ╭───────────────────────────────────────────────────────────────────╮
+// │ Data Store                                                        │
+// ├───────────────────────────────────────────────────────────────────┤
+// │ Model Prototypes:                                                 │
+// │ Timeline.ProjectAssociation                                       │
+// │ Timeline.Reporting                                                │
+// │ Timeline.ProjectType                                              │
+// │ Timeline.Color                                                    │
+// │ Timeline.Status                                                   │
+// │ Timeline.PlanningElementType                                      │
+// │ Timeline.User                                                     │
+// ╰───────────────────────────────────────────────────────────────────╯
 
-// looser than default
-/*jshint eqnull:true */
+timelinesApp.factory('User', [function() {
+  identifier = 'users';
 
-// environment and other global vars
-/*jshint browser:true, devel:true*/
-/*global jQuery:false, Raphael:false, Timeline:true*/
-
-if (typeof Timeline === "undefined") {
-  Timeline = {};
-}
-
-jQuery.extend(Timeline, {
-  // ╭───────────────────────────────────────────────────────────────────╮
-  // │ Timeline.ProjectType                                              │
-  // ╰───────────────────────────────────────────────────────────────────╯
-
-  ProjectType: {
-    identifier: 'project_types',
-    all: function(timeline) {
-      // collect all project types
-      var r = timeline.project_types;
-      var result = [];
-      for (var key in r) {
-        if (r.hasOwnProperty(key)) {
-          result.push(r[key]);
-        }
-      }
-      return result;
+  User = {
+    is: function(t) {
+      return t.identifier === identifier;
     }
-  }
-});
+  };
+
+  User.identifier = identifier;
+
+  return User;
+}]);

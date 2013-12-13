@@ -37,31 +37,12 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-// stricter than default
-/*jshint undef:true,
-         eqeqeq:true,
-         forin:true,
-         immed:true,
-         latedef:true,
-         trailing: true
-*/
+timelinesApp.factory('PlanningElement', [function() {
+  // ╭───────────────────────────────────────────────────────────────────╮
+  // │ Timeline.PlanningElement                                          │
+  // ╰───────────────────────────────────────────────────────────────────╯
 
-// looser than default
-/*jshint eqnull:true */
-
-// environment and other global vars
-/*jshint browser:true, devel:true*/
-/*global jQuery:false, Raphael:false, Timeline:true*/
-
-if (typeof Timeline === "undefined") {
-  Timeline = {};
-}
-
-// ╭───────────────────────────────────────────────────────────────────╮
-// │ Timeline.PlanningElement                                          │
-// ╰───────────────────────────────────────────────────────────────────╯
-
-Timeline.PlanningElement = {
+  PlanningElement = {
     is: function(t) {
       return Timeline.PlanningElement.identifier === t.identifier;
     },
@@ -809,3 +790,6 @@ Timeline.PlanningElement = {
       return this.elements;
     }
   };
+
+  return PlanningElement;
+}]);

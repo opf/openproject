@@ -37,55 +37,25 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-// stricter than default
-/*jshint undef:true,
-         eqeqeq:true,
-         forin:true,
-         immed:true,
-         latedef:true,
-         trailing: true
-*/
+timelinesApp.factory('ProjectType', [function() {
+  // ╭───────────────────────────────────────────────────────────────────╮
+  // │ Timeline.ProjectType                                              │
+  // ╰───────────────────────────────────────────────────────────────────╯
 
-// looser than default
-/*jshint eqnull:true */
+  ProjectType = {
+    identifier: 'project_types',
+    all: function(timeline) {
+      // collect all project types
+      var r = timeline.project_types;
+      var result = [];
+      for (var key in r) {
+        if (r.hasOwnProperty(key)) {
+          result.push(r[key]);
+        }
+      }
+      return result;
+    }
+  };
 
-// environment and other global vars
-/*jshint browser:true, devel:true*/
-/*global jQuery:false, Raphael:false, Timeline:true*/
-
-if (typeof Timeline === "undefined") {
-  Timeline = {};
-}
-
-//constants and defaults
-jQuery.extend(Timeline, {
-  LOAD_ERROR_TIMEOUT: 60000,
-  DISPLAY_ERROR_DELAY: 2000,
-  PROJECT_ID_BLOCK_SIZE: 100,
-  USER_ATTRIBUTES: {
-    PROJECT: ["responsible_id"],
-    PLANNING_ELEMENT: ["responsible_id", "assigned_to_id"]
-  },
-
-  defaults: {
-    artificial_load_delay:          0,   // no delay
-    columns:                        [],
-    exclude_own_planning_elements:  false,
-    exclude_reporters:              false,
-    api_prefix:                     '/api/v2',
-    hide_other_group:               false,
-    hide_tree_root:                 false,
-    i18n:                           {},  // undefined would be bad.
-    initial_outline_expansion:      0,   // aggregations only
-    project_prefix:                 '/projects',
-    planning_element_prefix:        '',
-    ui_root:                        jQuery('#timeline'),
-    url_prefix:                     ''   // empty prefix so it is not undefined.
-  },
-
-  ajax_defaults: {
-    cache: false,
-    context: this,
-    dataType: 'json'
-  },
-});
+  return ProjectType;
+}]);
