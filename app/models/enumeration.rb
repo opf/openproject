@@ -40,8 +40,6 @@ class Enumeration < ActiveRecord::Base
 
   before_destroy :check_integrity
 
-  attr_protected :project_id
-
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => [:type, :project_id]
   validates_length_of :name, :maximum => 30
