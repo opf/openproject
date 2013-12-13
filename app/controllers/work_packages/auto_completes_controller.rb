@@ -45,10 +45,21 @@ class WorkPackages::AutoCompletesController < ApplicationController
                                            conditions: ["LOWER(#{WorkPackage.table_name}.subject) LIKE :q OR CAST(#{WorkPackage.table_name}.id AS CHAR(13)) LIKE :q", {q: "%#{q.downcase}%" }])
     end
 
-    render layout: false
+    respond_to do |format|
+      format.html { render layout: false }
+      format.any(:xml, :json) { render request.format.to_sym => wp_hash_with_string }
+    end
   end
 
   private
+
+  def wp_hash_with_string
+    @work_packages.map do |wp|
+      hash = wp.attributes
+      hash['to_s'] = wp.to_s
+      hash
+    end
+  end
 
   def find_project
     project_id = (params[:work_package] && params[:work_package][:project_id]) || params[:project_id]

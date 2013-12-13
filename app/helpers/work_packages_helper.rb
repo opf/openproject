@@ -477,7 +477,8 @@ module WorkPackagesHelper
                            :cols => 60,
                            :rows => (work_package.description.blank? ? 10 : [[10, work_package.description.length / 50].max, 100].min),
                            :accesskey => accesskey(:edit),
-                           :class => 'wiki-edit'
+                           :class => 'wiki-edit',
+                           :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => work_package.project, :format => :json)
 
     WorkPackageAttribute.new(:description, field)
   end

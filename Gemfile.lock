@@ -153,6 +153,7 @@ GEM
     i18n (0.6.5)
     interception (0.3)
     journey (1.0.4)
+    jquery-atwho-rails (0.4.1)
     jquery-rails (2.0.3)
       railties (>= 3.1.0, < 5.0)
       thor (~> 0.14)
@@ -216,7 +217,7 @@ GEM
     pry-stack_explorer (0.4.9.1)
       binding_of_caller (>= 0.7)
       pry (>= 0.9.11)
-    rabl (0.9.0)
+    rabl (0.9.3)
       activesupport (>= 2.3.14)
     rack (1.4.5)
     rack-cache (1.2)
@@ -379,6 +380,7 @@ DEPENDENCIES
   guard-test
   htmldiff
   i18n-js!
+  jquery-atwho-rails
   jquery-rails (~> 2.0.3)
   jquery-ui-rails
   jruby-openssl
@@ -400,7 +402,7 @@ DEPENDENCIES
   pry-rails
   pry-rescue
   pry-stack_explorer
-  rabl
+  rabl (= 0.9.3)
   rack-protection
   rack_session_access
   rails (~> 3.2.16)

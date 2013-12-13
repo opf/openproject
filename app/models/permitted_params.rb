@@ -89,6 +89,14 @@ class PermittedParams < Struct.new(:params, :user)
   def custom_field_type
     params.require(:type)
   end
+  
+  def enumeration_type
+    params.require(:type)
+  end
+
+  def enumeration
+    params.require(:enumeration).permit(*self.class.permitted_attributes[:enumeration])
+  end
 
   def group
     params.require(:group).permit(*self.class.permitted_attributes[:group])
@@ -226,6 +234,12 @@ class PermittedParams < Struct.new(:params, :user)
           :name,
           :possible_values],
         :type_ids => []],
+      :enumeration => [
+        :active,
+        :is_default,
+        :move_to,
+        :name,
+        :reassign_to_id],
       :group => [
         :lastname],
       :group_membership => [
