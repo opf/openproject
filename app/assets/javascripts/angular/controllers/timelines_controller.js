@@ -1,4 +1,4 @@
-timelinesApp.controller('TimelinesController', ['$scope', '$window', 'Timeline', 'TimelineService', function($scope, $window, Timeline, TimelineService){
+timelinesApp.controller('TimelinesController', ['$scope', '$window', 'Timeline', 'TimelineLoaderService', function($scope, $window, Timeline, TimelineLoaderService){
 
   $scope.switchTimeline = function() {
     $window.location.href = $scope.timelines[$scope.currentTimelineId].path;
@@ -24,7 +24,7 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'Timeline',
   $scope.currentScaleName = 'monthly';
 
   // Load timeline
-  $scope.timeline = TimelineService.createTimeline($scope.timelineOptions);
+  $scope.timeline = Timeline.create($scope.timelineOptions);
 
   // Container for timeline rendering
   $scope.getTimelineContainerElementId = function() {

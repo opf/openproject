@@ -72,7 +72,7 @@ timelinesApp.directive('timeline', function() {
 
       // start timeline
       scope.timeline.registerTimelineContainer(element);
-      TimelineService.loadTimelineData(scope.timeline).then(drawTimeline);
+      TimelineLoaderService.loadTimelineData(scope.timeline).then(drawTimeline);
     }
   };
 });
