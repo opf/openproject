@@ -50,6 +50,9 @@ GEM
     arel (3.0.3)
     awesome_nested_set (2.1.6)
       activerecord (>= 3.0.0)
+    better_errors (1.0.1)
+      coderay (>= 1.0.0)
+      erubis (>= 2.6.6)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     bourne (1.4.0)
@@ -297,6 +300,8 @@ GEM
       multi_json (~> 1.0)
       rubyzip
       websocket (~> 1.0.4)
+    sextant (0.2.4)
+      rails (>= 3.2)
     shoulda (3.5.0)
       shoulda-context (~> 1.0, >= 1.0.1)
       shoulda-matchers (>= 1.4.1, < 3.0)
@@ -357,6 +362,8 @@ DEPENDENCIES
   activerecord-tableless (~> 1.0)
   acts_as_list (~> 0.2.0)
   awesome_nested_set
+  better_errors
+  binding_of_caller
   capybara
   capybara-screenshot
   codeclimate-test-reporter
@@ -423,6 +430,7 @@ DEPENDENCIES
   sass-rails (~> 3.2.3)
   select2-rails (~> 3.3.2)
   selenium-webdriver
+  sextant
   shoulda
   shoulda-matchers
   simplecov (>= 0.8.pre)
