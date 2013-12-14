@@ -37,55 +37,28 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-// stricter than default
-/*jshint undef:true,
-         eqeqeq:true,
-         forin:true,
-         immed:true,
-         latedef:true,
-         trailing: true
-*/
+timelinesApp.factory('HistoricalPlanningElement', [function() {
 
-// looser than default
-/*jshint eqnull:true */
+  // ╭───────────────────────────────────────────────────────────────────╮
+  // │ Data Store                                                        │
+  // ├───────────────────────────────────────────────────────────────────┤
+  // │ Model Prototypes:                                                 │
+  // │ Timeline.ProjectAssociation                                       │
+  // │ Timeline.Reporting                                                │
+  // │ Timeline.ProjectType                                              │
+  // │ Timeline.Color                                                    │
+  // │ Timeline.Status                                                   │
+  // │ Timeline.PlanningElementType                                      │
+  // │ Timeline.User                                                     │
+  // ╰───────────────────────────────────────────────────────────────────╯
 
-// environment and other global vars
-/*jshint browser:true, devel:true*/
-/*global jQuery:false, Raphael:false, Timeline:true*/
+  // ╭───────────────────────────────────────────────────────────────────╮
+  // │ Timeline.HistoricalPlanningElement                                │
+  // ╰───────────────────────────────────────────────────────────────────╯
 
-if (typeof Timeline === "undefined") {
-  Timeline = {};
-}
+  HistoricalPlanningElement = {
+    identifier: 'historical_planning_elements'
+  };
 
-//constants and defaults
-jQuery.extend(Timeline, {
-  LOAD_ERROR_TIMEOUT: 60000,
-  DISPLAY_ERROR_DELAY: 2000,
-  PROJECT_ID_BLOCK_SIZE: 100,
-  USER_ATTRIBUTES: {
-    PROJECT: ["responsible_id"],
-    PLANNING_ELEMENT: ["responsible_id", "assigned_to_id"]
-  },
-
-  defaults: {
-    artificial_load_delay:          0,   // no delay
-    columns:                        [],
-    exclude_own_planning_elements:  false,
-    exclude_reporters:              false,
-    api_prefix:                     '/api/v2',
-    hide_other_group:               false,
-    hide_tree_root:                 false,
-    i18n:                           {},  // undefined would be bad.
-    initial_outline_expansion:      0,   // aggregations only
-    project_prefix:                 '/projects',
-    planning_element_prefix:        '',
-    ui_root:                        jQuery('#timeline'),
-    url_prefix:                     ''   // empty prefix so it is not undefined.
-  },
-
-  ajax_defaults: {
-    cache: false,
-    context: this,
-    dataType: 'json'
-  },
-});
+  return HistoricalPlanningElement;
+}]);

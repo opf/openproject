@@ -37,27 +37,9 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-// stricter than default
-/*jshint undef:true,
-         eqeqeq:true,
-         forin:true,
-         immed:true,
-         latedef:true,
-         trailing: true
-*/
+timelinesApp.factory('FilterQueryStringBuilder', [function() {
 
-// looser than default
-/*jshint eqnull:true */
-
-// environment and other global vars
-/*jshint browser:true, devel:true*/
-/*global jQuery:false, Raphael:false, Timeline:true*/
-
-if (typeof Timeline === "undefined") {
-  Timeline = {};
-}
-
-Timeline.FilterQueryStringBuilder = (function() {
+  FilterQueryStringBuilder = (function() {
 
     /**
      * FilterQueryStringBuilder
@@ -155,3 +137,6 @@ Timeline.FilterQueryStringBuilder = (function() {
 
     return FilterQueryStringBuilder;
   })();
+
+  return FilterQueryStringBuilder;
+}]);
