@@ -163,6 +163,9 @@ group :development do
   gem 'rb-fsevent', :group => :test
   gem 'thin'
   gem 'faker'
+  gem 'sextant'
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
 
 group :tools do
