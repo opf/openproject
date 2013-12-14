@@ -1,4 +1,4 @@
-timelinesApp.factory('Project', ['$resource', 'APIDefaults', function($resource, APIDefaults) {
+timelinesApp.factory('Project', ['$resource', '$q', 'APIDefaults', function($resource, $q, APIDefaults) {
 
   Project = $resource(
     APIDefaults.apiPrefix + '/projects/:id.json',
@@ -27,6 +27,33 @@ timelinesApp.factory('Project', ['$resource', 'APIDefaults', function($resource,
       }
     });
 
+  // Query that returns a promise instead of an array
+  Project.getQueryPromise = function(params) {
+    deferred = $q.defer();
+
+    Project.query(params, function(projects){
+      deferred.resolve(projects);
+    });
+
+    return deferred.promise;
+  };
+
+  // Query returning an array extended with a promise yielding results
+  Project.getCollection = function(params) {
+    queryResults = [];
+
+    queryPromise = Project.getQueryPromise(params);
+    angular.extend(queryResults, {promise: queryPromise});
+
+    queryPromise.then(function(results){
+      angular.forEach(results, function(child){
+        queryResults.push(child);
+      });
+    });
+
+    return queryResults;
+  };
+
   Project.prototype.getParent = function() {
     if(!this.parent) return null;
 
@@ -37,8 +64,8 @@ timelinesApp.factory('Project', ['$resource', 'APIDefaults', function($resource,
   };
 
   Project.prototype.getChildren = function() {
-    if(!this.children) {
-      this.children = Project.query({parent_id: this.id});
+    if (this.children === undefined) {
+      this.children = Project.getCollection({parent_id: this.id});
     }
     return this.children;
   };
