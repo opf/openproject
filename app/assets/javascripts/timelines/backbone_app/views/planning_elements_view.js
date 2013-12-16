@@ -48,6 +48,7 @@ window.backbone_app.views.PlanningElementsView = window.backbone_app.views.BaseV
     var ui_root = jQuery('.tl-chart');
     lib_timelines.completeUIBackbone(tree, ui_root);
     lib_timelines.setTreeDomElements(tree);
+    lib_timelines.adjustForPlanningElementsBackbone(this.options.parent, this.collection);
     lib_timelines.rebuildGraphBackground(tree, ui_root);
 
     // Render the first project

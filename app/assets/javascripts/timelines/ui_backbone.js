@@ -179,6 +179,29 @@ jQuery.extend(Timeline, {
     }, options);
   },
 
+  adjustForPlanningElementsBackbone: function(project, planning_elements) {
+    var timeline = this;
+    var tree = this.getLefthandTreeBackbone(project, planning_elements);
+
+    // nullify potential previous dates seen. this is relevant when
+    // adjusting after the addition of a planning element via modal.
+
+    timeline.firstDateSeen = null;
+    timeline.lastDateSeen = null;
+
+    tree.iterateWithChildren(function(node) {
+      var data = node.getData();
+      if (data instanceof window.backbone_app.models.PlanningElement) {
+        timeline.includeDate(data.start());
+        timeline.includeDate(data.end());
+      }
+    }, {
+      traverseCollapsed: true,
+      timeline: this,
+    });
+
+  },
+
   getLefthandTreeBackbone: function(project, planning_elements){
     var tree = Object.create(Timeline.TreeNode);
     var parent_stack = [];
