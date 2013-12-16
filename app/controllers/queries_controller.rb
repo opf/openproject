@@ -70,8 +70,8 @@ private
   def prepare_for_editing
     if request.post?
       @query.filters = []
-      prepare_query @query
       @query.update_attributes permitted_params.query
+      prepare_query @query
     end
   end
 
