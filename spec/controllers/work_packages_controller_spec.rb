@@ -139,26 +139,35 @@ describe WorkPackagesController do
     end
 
     describe 'html' do
+      let(:call_action) { get('index', :project_id => project.id) }
+      before { call_action }
+
       describe "w/o a project" do
         let(:project) { nil }
         let(:call_action) { get('index') }
 
         it 'should render the index template' do
-          call_action
-
           response.should render_template('work_packages/index', :formats => ["html"],
                                                                  :layout => :base)
         end
       end
 
-      describe "w/ a project" do
-        let(:call_action) { get('index', :project_id => project.id) }
-
+      context "w/ a project" do
         it 'should render the index template' do
-          call_action
-
           response.should render_template('work_packages/index', :formats => ["html"],
                                                                  :layout => :base)
+        end
+      end
+
+      context 'when a query has been previously selected' do
+        let(:query) do
+          FactoryGirl.build_stubbed(:query).tap {|q| q.filters = [Queries::WorkPackages::Filter.new('done_ratio', operator: ">=", values: [10]) ]}
+        end
+
+        before { session.stub(:query).and_return query }
+
+        it 'preserves the query' do
+          assigns['query'].filters.should == query.filters
         end
       end
     end
