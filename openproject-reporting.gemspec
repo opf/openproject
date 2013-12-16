@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
   # FIXME
   # s.test_files = Dir["spec/**/*"]
 
+  s.add_dependency "openproject-plugins", "~> 1.0.4"
   s.add_dependency "reporting_engine", ">= 0.0.1.pre1"
   s.add_dependency "openproject-costs", "> 4.0.0"
 
