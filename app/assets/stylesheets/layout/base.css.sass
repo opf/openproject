@@ -40,6 +40,7 @@ body
   background: white
 
 #wrapper
+  @include default-transition
   background-image: -webkit-gradient(linear, left 0%, left 100%, from($main_menu_bg_color), to($main_menu_bg_color))
   background-image: -webkit-linear-gradient(top, $main_menu_bg_color 0%, $main_menu_bg_color 100%)
   background-image: -moz-linear-gradient(top, $main_menu_bg_color 0%, $main_menu_bg_color 100%)
@@ -77,6 +78,7 @@ h4, .wiki h3
   overflow: auto
 
 #content
+  @include default-transition
   margin: 0 0 0 $main_menu_width
   padding: 10px 20px
   width: auto
