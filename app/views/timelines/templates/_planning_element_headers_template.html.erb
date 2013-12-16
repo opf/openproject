@@ -5,7 +5,8 @@
     {{ } else { }}
     <tr style="display:none" data-parent-project="{{= parent_id }}">
     {{ } }}
-      <td class="tl-first-column tl-indent-1">
+      <td class="tl-first-column tl-indent-1" data-cell-planning-element-id="{{= pe.id }}">
+        <!-- Note: we are using element ids here which is bad -->
         <span class="tl-word-ellipsis">
           <span>
             <a href="/work_packages/{{= pe.id }}" class="tl-discreet-link" data-modal="" title="{{= pe.subject }}">{{= pe.get('subject') }}</a>

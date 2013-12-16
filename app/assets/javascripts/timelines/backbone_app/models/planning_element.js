@@ -175,6 +175,7 @@ window.backbone_app.models.PlanningElement = Backbone.Model.extend({
   },
 
   getColor: function () {
+    // TODO RS: Commented this out for demo
     // // if there is a color for this planning element type, use it.
     // // use it also for planning elements w/ children. if there are
     // // children but no planning element type, use the default color

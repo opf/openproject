@@ -522,6 +522,34 @@ jQuery.extend(Timeline, {
     }
   },
 
+  setTreeDomElements: function(tree) {
+    // var where = ui_root.find('.tl-left-main');
+    var options = {
+      timeline: this,
+      traverseCollapsed: true
+    }
+
+    tree.iterateWithChildren(function(node, indent) {
+      var data = node.getData();
+
+      /* TODO RS: Find cell
+         cell is the td element in the collapsible project menu.
+         this should be the planning element td or if that is not present then the parent
+         element or project.
+      */
+      if(data instanceof window.backbone_app.models.PlanningElement){
+        var cell = jQuery("[data-cell-planning-element-id=" + data.get('id') + "]");
+      } else {
+        // Note: Only dealing with planning elements and projects just now
+        var cell = jQuery("[data-cell-project-identifier=" + data.get('identifier') + "]");
+      }
+      node.setDOMElement(cell);
+
+      // TODO RS: Massive amount of code removed here that probably does important stuff
+
+    }, options);
+  },
+
   getLefthandTreeBackbone: function(project, planning_elements){
     var tree = Object.create(Timeline.TreeNode);
     var parent_stack = [];

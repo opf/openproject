@@ -225,7 +225,7 @@ Timeline.TreeNode = {
             callback.call(this, this, options.indent, options.index);
           }
 
-          if (this.payload.is(Timeline.Project)) {
+          if (this.payload.is(window.backbone_app.models.Project)) {
             options.projects++;
           }
 
@@ -260,11 +260,11 @@ Timeline.TreeNode = {
 
             if (options.traverseCollapsed ||
                 self.isExpanded() ||
-                child.payload.is(Timeline.Project)) {
+                child.payload.is(window.backbone_app.models.Project)) {
 
                 //do we wan to inherit the hidden status from projects to planning elements?
-                if (!hidden || child.payload.is(Timeline.Project)) {
-                  if (!(options.indent > 1 && child.payload.is(Timeline.Project))) {
+                if (!hidden || child.payload.is(window.backbone_app.models.Project)) {
+                  if (!(options.indent > 1 && child.payload.is(window.backbone_app.models.Project))) {
                     child.iterateWithChildren(callback, options);
                   }
                 }
