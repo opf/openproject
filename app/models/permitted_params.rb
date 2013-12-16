@@ -66,12 +66,8 @@ class PermittedParams < Struct.new(:params, :user)
     permitted_attributes[key].concat(params)
   end
 
-  def project_type
-    params.require(:project_type).permit(*self.class.permitted_attributes[:project_type])
-  end
-
-  def project_type_move
-    params.require(:project_type).permit(*self.class.permitted_attributes[:move_to])
+  def board_move
+    params.require(:board).permit(*self.class.permitted_attributes[:move_to])
   end
 
   def color
@@ -106,6 +102,16 @@ class PermittedParams < Struct.new(:params, :user)
     params.permit(*self.class.permitted_attributes[:group_membership])
   end
 
+  def new_work_package(args = {})
+    permitted = permitted_attributes(:new_work_package, args)
+
+    permitted_params = params.require(:work_package).permit(*permitted)
+
+    permitted_params.merge!(custom_field_values(:work_package))
+
+    permitted_params
+  end
+
   def planning_element_type
     params.require(:planning_element_type).permit(*self.class.permitted_attributes[:planning_element_type])
   end
@@ -118,18 +124,16 @@ class PermittedParams < Struct.new(:params, :user)
     params.require(:planning_element).permit(*self.class.permitted_attributes[:planning_element])
   end
 
-  def status
-    params.require(:status).permit(*self.class.permitted_attributes[:status])
+  def project_type
+    params.require(:project_type).permit(*self.class.permitted_attributes[:project_type])
   end
 
-  def new_work_package(args = {})
-    permitted = permitted_attributes(:new_work_package, args)
+  def project_type_move
+    params.require(:project_type).permit(*self.class.permitted_attributes[:move_to])
+  end
 
-    permitted_params = params.require(:work_package).permit(*permitted)
-
-    permitted_params.merge!(custom_field_values(:work_package))
-
-    permitted_params
+  def status
+    params.require(:status).permit(*self.class.permitted_attributes[:status])
   end
 
   alias :update_work_package :new_work_package
@@ -174,10 +178,6 @@ class PermittedParams < Struct.new(:params, :user)
                                          :parent_id,
                                          :responsible_id,
                                          :lock_version)
-  end
-
-  def board_move
-    params.require(:board).permit(*self.class.permitted_attributes[:move_to])
   end
 
   protected
