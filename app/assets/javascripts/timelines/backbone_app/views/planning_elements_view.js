@@ -43,36 +43,17 @@ window.backbone_app.views.PlanningElementsView = window.backbone_app.views.BaseV
   },
 
   renderChart: function(options){
-    // Try to use old Timeline code with backbone models
     var lib_timelines = this.options.lib_timelines;
     var tree = lib_timelines.getLefthandTreeBackbone(this.parent(), this.collection);
     var ui_root = jQuery('.tl-chart');
     lib_timelines.completeUIBackbone(tree, ui_root);
-    // lib_timelines.buildTree(tree, ui_root);
     lib_timelines.setTreeDomElements(tree);
     lib_timelines.rebuildGraphBackground(tree, ui_root);
-
-    /* TODO RS:
-      We need to set the dom element for each node in the tree. This is required so that the
-      elements can be properly positioned on the chart to be inline with the table rows.
-      Could probably achieve this by searching the dom for the tr elements with data attributes
-      for that element. Not that nice but it's the only way i can think of.
-    */
 
     // Render the first project
     // ALERT: Only for demonstration!
     // This is a hack to try and just get one project displaying!
     var project_node = tree
-
-    // Get a list of planning element models
-    // ALERT: Only for demonstration!
-    // Again this is assuming that we only have planning elements and will of
-    // course need to be extended for other things.
-    var planning_element_nodes = project_node.childNodes;
-    var planning_elements = [];
-    jQuery.each(planning_element_nodes, function(i, node){
-      planning_elements.push(node.payload);
-    })
 
     // ALERT: Here we are creating and rendering one project timeline view but really there
     // should be one for each of the projects in the tree.

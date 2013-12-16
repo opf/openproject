@@ -31,16 +31,12 @@ window.backbone_app.views.TimelineView = window.backbone_app.views.BaseView.exte
 
   render: function(){
     console.log('rendering project');
-    // TODO RS: Might want to split up this template into the toolbar and svg container
     this.$el.html(this.template());
     this.renderSubViews();
     this.initComponents();
   },
 
   renderSubViews: function(){
-    // Note: Not sure if we have to wait until projects view has rendered before we render the
-    //       sub views so maybe this should be called from initialize instead of render.
-
     this.initPlanningElementsView();
     // reportings, statuses, planning_element_types, colors, project_types...
   },
@@ -62,8 +58,6 @@ window.backbone_app.views.TimelineView = window.backbone_app.views.BaseView.exte
   initComponents: function(){
     var self = this;
 
-    // Zoom select
-    // From: ui.js:491
     var zooms = jQuery('#zoom-select');
     for (i = 0; i < Timeline.ZOOM_SCALES.length; i++) {
       zooms.append(jQuery(
@@ -72,8 +66,6 @@ window.backbone_app.views.TimelineView = window.backbone_app.views.BaseView.exte
         '</option>'));
     }
 
-    // From: ui.js:507
-    // Note: The slider events 'slide' and 'change' can't be handled as backbone view events
     jQuery('#zoom-slider').slider({
       min: 1,
       max: Timeline.ZOOM_SCALES.length,
@@ -113,12 +105,8 @@ window.backbone_app.views.TimelineView = window.backbone_app.views.BaseView.exte
       jQuery("tr[data-parent-project=" + this.project().get('identifier') + "]").show();
     }
     this.expanded = !this.expanded;
-
     window.backbone_app.views.timeline_view.requireChartRebuild();
-    // TODO RS:
-    // This requires a rebuild of the graph because the left column might have been resized.
-    // Would be nice to set a rebuild flag and then have that picked up somewhere else.
-    // Will need to have that for zooming too.
+
     return false;
   },
 

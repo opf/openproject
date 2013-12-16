@@ -22,8 +22,7 @@ window.backbone_app.views.ProjectTimelineView = window.backbone_app.views.BaseVi
     // element types because I haven't got them in backbone yet.
     // NOTE: Changing this so that we're assuming we have a project node. That makes sense
     // given that this is the project timeline view.
-    // Having a dummy node makes sense when the project is not expanded. For now we're having
-    // default expanded.
+
     var self = this;
     var project_node = this.options.node;
     // TODO RS: Change this so that if node is not expanded then we render the single project,
@@ -71,11 +70,7 @@ window.backbone_app.views.ProjectTimelineView = window.backbone_app.views.BaseVi
           getData: function() { return project_node.getData(); }
         });
       }
-      // Note: Old render call on model
-      // e.render(node, true, label_spaces[i]);
-      // e.renderForeground(node, true, label_spaces[i]);
 
-      // Note: New backbone stuff
       var pe_view = new window.backbone_app.views.PlanningElementTimelineView(node.getData(), {
         timeline: self.options.timeline,
         paper: self.options.paper,
