@@ -15,12 +15,8 @@
   background-position: 20px 40%;
 }
 
-.icon-ticket {
-  background-image: url(<%= asset_path 'webalys/ticket.png' %>);
-}
-
-dt.cost-object {
-  background-image: url(<%= asset_path 'webalys/budget.png' %>);
+dt.cost_object:before {
+  content: "\e003";
 }
 
 .filter_values select {
