@@ -15,6 +15,15 @@ window.backbone_app.views.PlanningElementTimelineView = window.backbone_app.view
     this.options = options;
   },
 
+  /*
+    I wanted to get this as a backbone event but it's much easier to just let Raphael
+    handle it as we can pass the model back that way.
+  */
+  show_edit_menu: function(pe, data){
+    jQuery('.edit-pe').remove();
+    var edit_view = new window.backbone_app.views.EditPlanningElementView(pe, data).render();
+  },
+
   /* These are some methods taken from timelines.js because i REALLY don't
      want the model objects having timelines as a parent. */
   ui_utils: function() {
@@ -182,7 +191,7 @@ window.backbone_app.views.PlanningElementTimelineView = window.backbone_app.view
         height = scale.height - 6; //6px makes the element a little smaller.
         top = (timeline.getRelativeVerticalOffset(element) + timeline.getRelativeVerticalBottomOffset(element)) / 2 - height / 2;
 
-        paper.rect(
+        var rect = paper.rect(
           left,
           top,
           width,
@@ -190,7 +199,12 @@ window.backbone_app.views.PlanningElementTimelineView = window.backbone_app.view
           4                           // round corners
         ).attr({
           'fill': color,
-          'stroke': strokeColor
+          'stroke': strokeColor,
+          'data-blabla': "asdf"
+        }).data('planning-element', node.getData())
+        .click(function(e){
+          self.show_edit_menu(this.data('planning-element'),
+            { top: e.clientY, left: e.clientX });
         });
       }
     }

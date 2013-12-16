@@ -1,4 +1,10 @@
 window.backbone_app.models.PlanningElement = Backbone.Model.extend({
+  // urlRoot: "/api/v2/planning_elements",
+
+  url: function(){
+    return "/api/v2/projects/" + this.get('project_id') + "/planning_elements/" + this.get('id');
+  },
+
   planning_element_type: {
     is_milestone: false,
     in_aggregation: true,
