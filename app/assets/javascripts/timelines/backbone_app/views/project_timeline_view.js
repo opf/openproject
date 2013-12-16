@@ -20,76 +20,83 @@ window.backbone_app.views.ProjectTimelineView = window.backbone_app.views.BaseVi
     // views and rendering them. This code has been moved here from the old Project element
     // render methed and reduced to only show planning elements. Also I'm ignoring planning
     // element types because I haven't got them in backbone yet.
+    // NOTE: Changing this so that we're assuming we have a project node. That makes sense
+    // given that this is the project timeline view.
+    // Having a dummy node makes sense when the project is not expanded. For now we're having
+    // default expanded.
     var self = this;
-    var node = this.options.node;
-    if (node.isExpanded()) {
-      return false;
-    }
+    var project_node = this.options.node;
+    // TODO RS: Change this so that if node is not expanded then we render the single project,
+    // and if it is then we render all of the children.
+    var element_nodes = project_node.childNodes;
 
     var timeline = this.options.timeline;
     var scale = timeline.getScale();
     var beginning = timeline.getBeginning();
     var milestones, others;
-    var planning_elements = this.options.planning_elements;
+    // var planning_elements = this.options.planning_elements;
 
     // draw all planning elements that should be seen in an
     // aggregation. limited to one level.
 
     // TODO RS: will need to start moving all of the current model rendering shit to the views:/
-    var pes = jQuery.grep(planning_elements, function(e) {
-      return e.start() !== undefined &&
-             e.end() !== undefined &&
-             e.planning_element_type.in_aggregation;
-    });
+    // var pes = jQuery.grep(planning_elements, function(e) {
+    //   return e.start() !== undefined &&
+    //          e.end() !== undefined &&
+    //          e.planning_element_type.in_aggregation;
+    // });
 
     var dummy_node = {
       getDOMElement: function() {
-        return node.getDOMElement();
+        return project_node.getDOMElement();
       },
       isExpanded: function() {
         return false;
       }
     };
 
-    var is_milestone = function(e, i) {
-      var pet = e.getPlanningElementType();
-      return pet && pet.is_milestone;
-    };
+    // var is_milestone = function(e, i) {
+    //   var pet = e.getPlanningElementType();
+    //   return pet && pet.is_milestone;
+    // };
 
     // The label_spaces object will contain available spaces per
     // planning element. There may be many.
     var label_spaces = {};
 
-    var render = function(i, e) {
-      var node = jQuery.extend({}, dummy_node, {
-        getData: function() { return e; }
-      });
+    var render = function(i, node) {
+      var vnode = node;
+      if(!self.options.expanded){
+        var vnode = jQuery.extend({}, dummy_node, {
+          getData: function() { return project_node.getData(); }
+        });
+      }
       // Note: Old render call on model
       // e.render(node, true, label_spaces[i]);
       // e.renderForeground(node, true, label_spaces[i]);
 
       // Note: New backbone stuff
-      var pe_view = new window.backbone_app.views.PlanningElementTimelineView(e, {
+      var pe_view = new window.backbone_app.views.PlanningElementTimelineView(node.getData(), {
         timeline: self.options.timeline,
         paper: self.options.paper,
-        node: node,
+        node: vnode,
         in_aggregation: false, // TODO RS: What's this for?
         label_space: false // TODO RS: use label_spaces[i] once it's working
       });
       pe_view.render();
     };
 
-    var visible_in_aggregation = function(e, i) {
-      var pet = e.getPlanningElementType();
-      return !e.filteredOut() && pet && pet.in_aggregation;
-    };
+    // var visible_in_aggregation = function(e, i) {
+    //   var pet = e.getPlanningElementType();
+    //   return !e.filteredOut() && pet && pet.in_aggregation;
+    // };
 
-    // divide into milestones and others.
-    milestones = jQuery.grep(pes, is_milestone);
-    others = jQuery.grep(pes, is_milestone, true);
+    // // divide into milestones and others.
+    // milestones = jQuery.grep(pes, is_milestone);
+    // others = jQuery.grep(pes, is_milestone, true);
 
-    // join others with milestones, and remove all that should be filtered.
-    pes = jQuery.grep(others.concat(milestones), visible_in_aggregation);
+    // // join others with milestones, and remove all that should be filtered.
+    // pes = jQuery.grep(others.concat(milestones), visible_in_aggregation);
 
     // Note to team: Commenting this out right now because it needs various methods
     // put onto the backbone planning element timeline and i've run out of time right
@@ -211,6 +218,6 @@ window.backbone_app.views.ProjectTimelineView = window.backbone_app.views.BaseVi
 
     // jQuery.each(others, render);
     // jQuery.each(milestones, render);
-    jQuery.each(pes, render);
+    jQuery.each(element_nodes, render);
   },
 });

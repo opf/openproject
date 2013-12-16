@@ -39,10 +39,10 @@ window.backbone_app.views.PlanningElementsView = window.backbone_app.views.BaseV
     //       how it's done right now.
     this.$el.after(this.template());
 
-    this.renderChart();
+    this.renderChart({expanded: false});
   },
 
-  renderChart: function(){
+  renderChart: function(options){
     // Try to use old Timeline code with backbone models
     var lib_timelines = this.options.lib_timelines;
     var tree = lib_timelines.getLefthandTreeBackbone(this.parent(), this.collection);
@@ -80,7 +80,7 @@ window.backbone_app.views.PlanningElementsView = window.backbone_app.views.BaseV
       timeline: lib_timelines,
       paper: lib_timelines.paper,
       node: project_node,
-      planning_elements: planning_elements,
+      expanded: options.expanded,
     });
     project_timeline_view.render();
   }

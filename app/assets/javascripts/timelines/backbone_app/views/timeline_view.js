@@ -129,7 +129,7 @@ window.backbone_app.views.TimelineView = window.backbone_app.views.BaseView.exte
   },
 
   requireChartRebuild: function(){
-    this.planning_elements_view.renderChart();
+    this.planning_elements_view.renderChart({expanded: this.expanded});
   }
 
 });
