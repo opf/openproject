@@ -21,7 +21,7 @@ window.backbone_app.views.TimelineView = window.backbone_app.views.BaseView.exte
       reset: true,
       data: {ids: this.options.project_id}
     }); // Note: We won't want to reset on fetch, we should listen for add/remove/change
-    this.expanded = false;
+    // this.expanded = false;
   },
 
   /* This is a temp hack because I'm just trying to get all this working with one project */
@@ -93,20 +93,7 @@ window.backbone_app.views.TimelineView = window.backbone_app.views.BaseView.exte
   handleProjectExpand: function(e){
     var target = jQuery(e.target);
     console.log("expand" + target.data('project-identifier'));
-
-    var td = target.parent();
-    if(this.expanded){
-      td.removeClass('tl-expanded')
-      td.addClass('tl-collapsed')
-      jQuery("tr[data-parent-project=" + this.project().get('identifier') + "]").hide();
-    } else {
-      td.removeClass('tl-collapsed')
-      td.addClass('tl-expanded')
-      jQuery("tr[data-parent-project=" + this.project().get('identifier') + "]").show();
-    }
-    this.expanded = !this.expanded;
-    window.backbone_app.views.timeline_view.requireChartRebuild();
-
+    this.planning_elements_view.expandProject(target.parent());
     return false;
   },
 
@@ -116,8 +103,8 @@ window.backbone_app.views.TimelineView = window.backbone_app.views.BaseView.exte
     console.log('Zoooooom!');
   },
 
-  requireChartRebuild: function(){
-    this.planning_elements_view.renderChart({expanded: this.expanded});
-  }
+  // requireChartRebuild: function(){
+  //   this.planning_elements_view.renderChart({expanded: this.expanded});
+  // }
 
 });

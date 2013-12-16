@@ -31,15 +31,41 @@ window.backbone_app.views.PlanningElementsView = window.backbone_app.views.BaseV
     this.collection.fetch({
       reset: true
     }); // Note: We won't want to reset on fetch, we should listen for add/remove/change
+    this.expanded = false;
   },
 
   render: function(){
     console.log('rendering all planning elements');
     // Note: Remeber we are inserting table rows after the project row. Not so nice but that's
     //       how it's done right now.
+    this.$el.nextAll().remove();
     this.$el.after(this.template());
 
     this.renderChart({expanded: false});
+  },
+
+  expandProject: function(td){
+    // var td = project_link.parent();
+    if(this.expanded){
+      td.removeClass('tl-expanded')
+      td.addClass('tl-collapsed')
+      jQuery("tr[data-parent-project=" + this.options.parent.get('identifier') + "]").hide();
+    } else {
+      td.removeClass('tl-collapsed')
+      td.addClass('tl-expanded')
+      jQuery("tr[data-parent-project=" + this.options.parent.get('identifier') + "]").show();
+    }
+    this.expanded = !this.expanded;
+    this.renderChart({expanded: this.expanded});
+
+    return false;
+  },
+
+  renderExpanded: function(){
+    this.$el.nextAll().remove();
+    this.$el.after(this.template());
+    var td = jQuery("[data-cell-project-identifier=" + this.options.parent.get('identifier') + "]")
+    this.expandProject(td);
   },
 
   renderChart: function(options){
@@ -59,12 +85,17 @@ window.backbone_app.views.PlanningElementsView = window.backbone_app.views.BaseV
     // ALERT: Here we are creating and rendering one project timeline view but really there
     // should be one for each of the projects in the tree.
     var project_timeline_view = new window.backbone_app.views.ProjectTimelineView({
+      parent_view: this,
       timeline: lib_timelines,
       paper: lib_timelines.paper,
       node: project_node,
       expanded: options.expanded,
     });
     project_timeline_view.render();
+  },
+
+  redrawRequired: function(){
+    this.renderExpanded();
   }
 
 });

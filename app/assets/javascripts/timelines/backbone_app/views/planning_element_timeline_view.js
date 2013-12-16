@@ -13,13 +13,22 @@ window.backbone_app.views.PlanningElementTimelineView = window.backbone_app.view
     // We require here the timeline, the node, the raphael drawing element
     this.model = model;
     this.options = options;
+    this.model.bind("change", _.bind(this.modelChanged, this));
+  },
+
+  /*
+    TODO RS: There might be a nicer way to bubble up the redraw requirement to the
+    parent views. I should look into this.
+  */
+  modelChanged: function(){
+    this.options.parent_view.redrawRequired();
   },
 
   /*
     I wanted to get this as a backbone event but it's much easier to just let Raphael
     handle it as we can pass the model back that way.
   */
-  show_edit_menu: function(pe, data){
+  showEditMenu: function(pe, data){
     jQuery('.edit-pe').remove();
     var edit_view = new window.backbone_app.views.EditPlanningElementView(pe, data).render();
   },
@@ -203,7 +212,7 @@ window.backbone_app.views.PlanningElementTimelineView = window.backbone_app.view
           'data-blabla': "asdf"
         }).data('planning-element', node.getData())
         .click(function(e){
-          self.show_edit_menu(this.data('planning-element'),
+          self.showEditMenu(this.data('planning-element'),
             { top: e.clientY, left: e.clientX });
         });
       }

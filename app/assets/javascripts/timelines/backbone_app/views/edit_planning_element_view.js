@@ -5,7 +5,6 @@ window.backbone_app.views.EditPlanningElementView = window.backbone_app.views.Ba
 
   events: {
     "submit #edit-planning-element-form": "updatePlanningElement",
-    "click #asdf": "updatePlanningElement",
   },
 
   template: function(){
@@ -28,6 +27,10 @@ window.backbone_app.views.EditPlanningElementView = window.backbone_app.views.Ba
     return edit_view;
   },
 
+  removeEditForm: function(){
+    jQuery('.edit-pe').remove();
+  },
+
   updatePlanningElement: function(e){
     console.log('update');
     // TODO RS: What's the shorthand for this again?
@@ -36,6 +39,7 @@ window.backbone_app.views.EditPlanningElementView = window.backbone_app.views.Ba
       subject: subject,
     });
     this.model.save();
+    this.removeEditForm();
 
     return false;
   },

@@ -72,6 +72,7 @@ window.backbone_app.views.ProjectTimelineView = window.backbone_app.views.BaseVi
       }
 
       var pe_view = new window.backbone_app.views.PlanningElementTimelineView(node.getData(), {
+        parent_view: self,
         timeline: self.options.timeline,
         paper: self.options.paper,
         node: vnode,
@@ -215,4 +216,8 @@ window.backbone_app.views.ProjectTimelineView = window.backbone_app.views.BaseVi
     // jQuery.each(milestones, render);
     jQuery.each(element_nodes, render);
   },
+
+  redrawRequired: function(){
+    this.options.parent_view.redrawRequired();
+  }
 });
