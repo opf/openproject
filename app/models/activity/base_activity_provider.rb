@@ -27,17 +27,45 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+###############################################################################
+# The base activity provider class provides a default implementation for the  #
+# most common activity jobs. You may implement the following methods to set   #
+# the respective activity details:                                            #
+#  - event_title                                                              #
+#  - event_type                                                               #
+#  - event_description                                                        #
+#  - event_datetime                                                           #
+#  - event_path                                                               #
+#  - event_url                                                                #
+#                                                                             #
+# See the comments on the methods to get additional information.              #
+###############################################################################
 class Activity::BaseActivityProvider
   include Redmine::Acts::ActivityProvider
   include Redmine::I18n
 
+  #############################################################################
+  # Activities may need information not available in the journal table. Thus, #
+  # if you need further information from different tables (e.g., projects     #
+  # table) you may extend the query in this method.                           #
+  #############################################################################
   def extend_event_query(query, activity)
   end
 
+  #############################################################################
+  # This method returns a list of columns that the activity query needs to    #
+  # return, so the activity provider can actually create an activity object.  #
+  # You must at least return the column containing the project reference with #
+  # the alias 'project_id'.                                                   #
+  #############################################################################
   def event_query_projection(activity)
     []
   end
 
+  #############################################################################
+  # Override this method if the journal table does not contain a reference to #
+  # the 'projects' table.                                                     #
+  #############################################################################
   def projects_reference_table(activity)
     activity_journals_table(activity)
   end
