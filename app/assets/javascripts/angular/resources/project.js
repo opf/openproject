@@ -71,7 +71,7 @@ timelinesApp.factory('Project', ['$resource', '$q', 'APIDefaults', function($res
       });
   };
 
-  Project.prototype.selfAndReportingProjectsPromise = function () {
+  Project.prototype.getSelfAndReportingProjectsPromise = function () {
     projects = [this];
 
     return this.getReportingProjectsPromise()
@@ -81,6 +81,22 @@ timelinesApp.factory('Project', ['$resource', '$q', 'APIDefaults', function($res
         });
         return projects;
       });
+  };
+
+  Project.prototype.getSelfAndReportingProjects = function () {
+    if (this.selfAndReportingProjects) return this.selfAndReportingProjects;
+
+    selfAndReportingProjects = [];
+
+    this.getSelfAndReportingProjectsPromise()
+      .then(function(projects){
+        angular.forEach(projects, function(project) {
+          selfAndReportingProjects.push(project);
+        });
+      });
+
+    this.selfAndReportingProjects = selfAndReportingProjects;
+    return selfAndReportingProjects;
   };
 
   Project.prototype.getParent = function() {
