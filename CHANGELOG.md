@@ -4,6 +4,7 @@
 * `#1020` fix XSS when displaying costs
 * `#2591` Fix: Costs prevents work package context menu
 * `#2759` Fix: [Performance] Activity View very slow
+* `#3329` Refactor Duplicated Code Journals
 * added icon for new project menu
 
 ## 5.0.1.pre9
