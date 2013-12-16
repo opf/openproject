@@ -76,6 +76,11 @@ module QueriesHelper
     end
   end
 
+  def add_filter_from_params
+    @query.filters = []
+    @query.add_filters(params[:fields] || params[:f], params[:operators] || params[:op], params[:values] || params[:v])
+  end
+
   # Retrieve query from session or build a new query
   def retrieve_query
     if !params[:query_id].blank?
@@ -91,8 +96,7 @@ module QueriesHelper
         @query = Query.new({name: "_"}, initialize_with_default_filter: true)
         @query.project = @project
         if params[:fields] || params[:f]
-          @query.filters = []
-          @query.add_filters(params[:fields] || params[:f], params[:operators] || params[:op], params[:values] || params[:v])
+          add_filter_from_params
         else
           @query.available_work_package_filters.keys.each do |field|
             @query.add_short_filter(field, params[field]) if params[field]

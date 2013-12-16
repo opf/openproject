@@ -69,7 +69,6 @@ private
 
   def prepare_for_editing
     if request.post?
-      @query.filters = []
       @query.update_attributes permitted_params.query
       prepare_query @query
     end
@@ -77,7 +76,7 @@ private
 
   def prepare_query(query)
     @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
-    @query.add_filters(params[:fields] || params[:f], params[:operators] || params[:op], params[:values] || params[:v]) if params[:fields] || params[:f]
+    view_context.add_filter_from_params if params[:fields] || params[:f]
     @query.group_by ||= params[:group_by]
     @query.project = nil if params[:query_is_for_all]
     @query.display_sums ||= params[:display_sums].present?
