@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#3306` Switch to Ruby 2.0
+* `#3322` Fix: [Data migration] Journal entries display changes to custom fields
 
 ## 3.0.0pre38
 

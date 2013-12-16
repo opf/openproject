@@ -75,7 +75,8 @@ class RepairInvalidDefaultWorkPackageCustomValues < ActiveRecord::Migration
       FROM journals AS j
         JOIN custom_values AS cv ON (j.journable_id = cv.customized_id
                                      AND j.journable_type = cv.customized_type)
-        LEFT JOIN customizable_journals AS cj ON (j.id = cj.journal_id)
+        LEFT JOIN customizable_journals AS cj ON (j.id = cj.journal_id
+                                                  AND cv.custom_field_id = cj.custom_field_id)
       WHERE  cv.custom_field_id IN (#{custom_field_default_values.keys.join(', ')})
         AND cv.customized_type = 'WorkPackage'
         AND cj.id IS NULL
