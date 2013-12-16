@@ -1,5 +1,6 @@
 # Changelog
 
+* `#3329` Refactor Duplicated Code Journals
 * Adaptations for new icon font
 
 ## 1.0.0.pre5
