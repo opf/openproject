@@ -132,6 +132,17 @@ class PermittedParams < Struct.new(:params, :user)
     params.require(:project_type).permit(*self.class.permitted_attributes[:move_to])
   end
 
+  def query
+    # there is a wierd bug in strong_parameters gem which makes the permit call
+    # on the sort_criteria pattern return the sort_criteria-hash contens AND
+    # the sort_criteria hash itself (again with content) in the same hash.
+    # Here we try to circumvent this
+    p = params.require(:query).permit(*self.class.permitted_attributes[:query])
+    p[:sort_criteria] = params.require(:query).permit(:sort_criteria => {'0' => [], '1' => [], '2' => []})
+    p[:sort_criteria].delete :sort_criteria
+    p
+  end
+
   def status
     params.require(:status).permit(*self.class.permitted_attributes[:status])
   end
@@ -310,6 +321,11 @@ class PermittedParams < Struct.new(:params, :user)
         :allows_association,
         :type_ids => [],
         :reported_project_status_ids => []],
+      :query => [
+        :name,
+        :display_sums,
+        :is_public,
+        :group_by],
       :status => [
         :name,
         :default_done_ratio,
