@@ -27,6 +27,39 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Journal::MessageJournal < Journal::BaseJournal
-  self.table_name = "message_journals"
+class Activity::NewsActivityProvider < Activity::BaseActivityProvider
+
+  acts_as_activity_provider type: 'news',
+                            permission: :view_news
+
+  def extend_event_query(query, activity)
+  end
+
+  def event_query_projection(activity)
+    [
+      activity_journal_projection_statement(:title, 'title', activity),
+      activity_journal_projection_statement(:project_id, 'project_id', activity)
+    ]
+  end
+
+  protected
+
+  def event_title(event, activity)
+    event['title']
+  end
+
+  def event_path(event, activity)
+    Rails.application.routes.url_helpers.news_path(url_helper_parameter(event))
+  end
+
+  def event_url(event, activity)
+    Rails.application.routes.url_helpers.news_url(url_helper_parameter(event),
+                                                  host: ::Setting.host_name)
+  end
+
+  private
+
+  def url_helper_parameter(event)
+    event['journable_id']
+  end
 end
