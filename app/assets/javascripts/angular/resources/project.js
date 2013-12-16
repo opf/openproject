@@ -54,6 +54,35 @@ timelinesApp.factory('Project', ['$resource', '$q', 'APIDefaults', function($res
     return queryResults;
   };
 
+  Project.prototype.getReportingsPromise = function() {
+    return this.$promise
+      .then(function(project){
+        return Reporting.getQueryPromise({projectId: project.identifier, only_via: 'target'});
+      });
+  };
+
+  Project.prototype.getReportingProjectsPromise = function() {
+    return this.getReportingsPromise()
+      .then(function(reportings) {
+        reportingProjects = reportings.map(function(reporting){
+          return reporting.getProjectResource();
+        });
+        return reportingProjects;
+      });
+  };
+
+  Project.prototype.selfAndReportingProjectsPromise = function () {
+    projects = [this];
+
+    return this.getReportingProjectsPromise()
+      .then(function(reportingProjects){
+        angular.forEach(reportingProjects, function(reportingProject){
+          projects.push(reportingProject);
+        });
+        return projects;
+      });
+  };
+
   Project.prototype.getParent = function() {
     if(!this.parent) return null;
 
@@ -70,5 +99,20 @@ timelinesApp.factory('Project', ['$resource', '$q', 'APIDefaults', function($res
     return this.children;
   };
 
+  Project.prototype.getReportings = function () {
+    if (this.reportings) return this.reportings;
+
+    reportings = [];
+    project = this;
+
+    this.getReportingsPromise().then(function(results){
+      project.reportings = results;
+      angular.forEach(results, function(result){
+        reportings.push(result);
+      });
+    });
+
+    return reportings;
+  };
   return Project;
 }]);
