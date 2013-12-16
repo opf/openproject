@@ -29,6 +29,9 @@ module OpenProject::Documents
 
         Redmine::Notifiable.all << Redmine::Notifiable.new('document_added')
 
+        Redmine::Activity.map do |activity|
+          activity.register :documents, class_name: 'Activity::DocumentActivityProvider', default: false
+        end
       end
 
       Redmine::Search.register :documents

@@ -16,11 +16,13 @@ class Document < ActiveRecord::Base
   belongs_to :category, :class_name => "DocumentCategory", :foreign_key => "category_id"
   acts_as_attachable :delete_permission => :manage_documents
 
-  acts_as_journalized :event_title => Proc.new {|o| "#{Document.model_name.human}: #{o.journal.journable.title}"},
-      :event_url => Proc.new {|o| {:controller => '/documents', :action => 'show', :id => o.journal.journable_id}},
-      :event_author => (Proc.new do |o|
-        o.journal.journable.attachments.find(:first, :order => "#{Attachment.table_name}.created_on ASC").try(:author)
-      end)
+  acts_as_journalized
+  acts_as_event title: Proc.new { |o| "#{Document.model_name.human}: #{o.title}" },
+                url: Proc.new { |o| { controller: '/documents', action: 'show', id: o.id } },
+                author: ( Proc.new do |o|
+                            o.attachments.find(:first, order: "#{Attachment.table_name}.created_on ASC").try(:author)
+                          end)
+
 
   acts_as_searchable :columns => ['title', "#{table_name}.description"], :include => :project
 
