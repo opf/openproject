@@ -83,6 +83,27 @@ timelinesApp.factory('Project', ['$resource', '$q', 'APIDefaults', function($res
       });
   };
 
+  Project.prototype.getRelatedProjectIdsPromise = function () {
+    projectIds = [this.id];
+
+    return this.getReportingsPromise()
+      .then(function(reportings){
+        angular.forEach(reportings, function(reporting){
+          projectIds.push(reporting.getProjectId());
+        });
+        return projectIds;
+      });
+  };
+
+  Project.prototype.getAllPlanningElementsPromise = function () {
+    return this.getRelatedProjectIdsPromise()
+      .then(function(projectIds){
+        ids = projectIds.join(',');
+        return PlanningElement.getQueryPromise({projectId: ids});
+      });
+  };
+
+  // TODO Fix
   Project.prototype.getSelfAndReportingProjects = function () {
     if (this.selfAndReportingProjects) return this.selfAndReportingProjects;
 
