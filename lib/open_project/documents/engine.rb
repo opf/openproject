@@ -22,7 +22,7 @@ module OpenProject::Documents
                             { :controller => '/documents', :action => 'index' },
                             :param => :project_id,
                             :caption => :label_document_plural,
-                            :html => { :css => 'icon2 icon-book1' }
+                            :html => { :class => 'icon2 icon-book1' }
 
         permission :manage_documents, {:documents => [:new, :create, :edit, :update, :destroy, :add_attachment]}, :require => :loggedin
         permission :view_documents, :documents => [:index, :show, :download]
