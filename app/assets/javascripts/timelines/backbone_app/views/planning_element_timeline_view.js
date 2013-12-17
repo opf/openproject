@@ -415,23 +415,23 @@ window.backbone_app.views.PlanningElementTimelineView = window.backbone_app.view
     // │ over planning elements.                                 │
     // ╰─────────────────────────────────────────────────────────╯
 
-    height = scale.height - 6; //6px makes the element a little smaller.
-    top = (timeline.getRelativeVerticalOffset(element) + timeline.getRelativeVerticalBottomOffset(element)) / 2 - height / 2;
+    // height = scale.height - 6; //6px makes the element a little smaller.
+    // top = (timeline.getRelativeVerticalOffset(element) + timeline.getRelativeVerticalBottomOffset(element)) / 2 - height / 2;
 
-    elements.push(paper.rect(
-      hover_left - Timeline.HOVER_THRESHOLD,
-      top - Timeline.HOVER_THRESHOLD, // 8px margin-top
-      hover_width + 2 * Timeline.HOVER_THRESHOLD,
-      height + 2 * Timeline.HOVER_THRESHOLD,           // 8px margin-bottom
-      4                           // round corners
-    ).attr({
-      'fill': '#ffffff',
-      'opacity': 0
-    }));
+    // elements.push(paper.rect(
+    //   hover_left - Timeline.HOVER_THRESHOLD,
+    //   top - Timeline.HOVER_THRESHOLD, // 8px margin-top
+    //   hover_width + 2 * Timeline.HOVER_THRESHOLD,
+    //   height + 2 * Timeline.HOVER_THRESHOLD,           // 8px margin-bottom
+    //   4                           // round corners
+    // ).attr({
+    //   'fill': '#ffffff',
+    //   'opacity': 0
+    // }));
 
-    jQuery.each(elements, function(i, e) {
-      timeline.addHoverHandler(node, e);
-      //self.addElement(e);
-    });
+    // jQuery.each(elements, function(i, e) {
+    //   timeline.addHoverHandler(node, e);
+    //   //self.addElement(e);
+    // });
   },
 });
