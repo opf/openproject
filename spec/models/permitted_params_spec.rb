@@ -559,14 +559,46 @@ describe PermittedParams do
     end
   end
 
-  describe :status do
-    shared_examples_for 'allows params' do
-      let(:params) { ActionController::Parameters.new(status: hash) }
+  shared_context 'prepare params comparison' do
+    let(:params) { ActionController::Parameters.new(attribute => hash) }
 
-      subject { PermittedParams.new(params, user).status } 
+    subject { PermittedParams.new(params, user).send(attribute) } 
+  end
 
-      it { expect(subject).to eq(hash) }
+  shared_examples_for 'allows params' do
+    include_context 'prepare params comparison'
+
+    it { expect(subject).to eq(hash) }
+  end
+
+  shared_examples_for 'forbids params' do
+    include_context 'prepare params comparison'
+
+    it { expect(subject).not_to eq(hash) }
+  end
+  
+  shared_examples_for 'allows move params' do
+    let(:hash) { { "move_to" => "lower" } }
+
+    it_behaves_like 'allows params'
+  end
+
+  shared_examples_for 'allows custom fields' do
+    describe 'valid custom fields' do
+      let(:hash) { { "custom_field_values" => { "1" => "5" } } }
+
+      it_behaves_like 'allows params'
     end
+
+    describe 'invalid custom fields' do
+      let(:hash) { { "custom_field_values" => { "blubs" => "5", "5" => {"1" => "2"} } } }
+
+      it_behaves_like 'forbids params'
+    end
+  end
+
+  describe :status do
+    let (:attribute) { :status }
 
     describe 'name' do
       let(:hash) { { "name" => "blubs" } }
@@ -593,9 +625,43 @@ describe PermittedParams do
     end
 
     describe 'move_to' do
-      let(:hash) { { "move_to" => "lower" } }
+      it_behaves_like 'allows move params'
+    end
+  end
+
+  describe :enumerations do
+    let (:attribute) { :enumeration }
+
+    describe 'name' do
+      let(:hash) { { "name" => "blubs" } }
 
       it_behaves_like 'allows params'
+    end
+
+    describe 'active' do
+      let(:hash) { { "active" => "true" } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'is_default' do
+      let(:hash) { { "is_default" => "true" } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'reassign_to_id' do
+      let(:hash) { { "reassign_to_id" => "1" } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'move_to' do
+      it_behaves_like 'allows move params'
+    end
+
+    describe 'custom fields' do
+      it_behaves_like 'allows custom fields'
     end
   end
 end
