@@ -95,7 +95,11 @@ class PermittedParams < Struct.new(:params, :user)
   end
 
   def enumeration
-    params.require(:enumeration).permit(*self.class.permitted_attributes[:enumeration])
+    permitted_params = params.require(:enumeration).permit(*self.class.permitted_attributes[:enumeration])
+
+    permitted_params.merge!(custom_field_values(:enumeration))
+
+    permitted_params
   end
 
   def group
