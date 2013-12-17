@@ -390,7 +390,13 @@ openprojectApp.factory('Project', [function() {
       return (this.project_type !== undefined) ? this.project_type : null;
     },
     getResponsible: function() {
-      return (this.responsible !== undefined) ? this.responsible : null;
+      if (this.responsible !== undefined) {
+        return this.responsible;
+      } else if (this.responsible_id !== undefined && this.responsible_id !== null) {
+        return { "id": this.responsible_id };
+      } else {
+        return null;
+      }
     },
     getResponsibleName: function()  {
       if (this.responsible && this.responsible.name) {
