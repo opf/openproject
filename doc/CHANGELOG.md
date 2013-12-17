@@ -29,9 +29,12 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.0pre39
+
 * `#3306` Switch to Ruby 2.0
 * `#3321` [Data migration] Data in timeline settings not copied to new project
 * `#3322` Fix: [Data migration] Journal entries display changes to custom fields
+* `#3329` Refactor Duplicated Code Journals
 
 ## 3.0.0pre38
 
@@ -44,7 +47,6 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3291` Fix: Internal error when clicking on member
 * `#3303` Fix: [Work package tracking] Search results are linked to wrong location
 * `#3322` [Data migration] Journal entries display changes to custom fields
-* `#3329` Refactor Duplicated Code Journals 
 * `#3331` use permitted_params for group_controller
 * `#3337` Fix: Use permitted params in EnumerationsController
 * `#3363` [Timelines] Autocompleter broken multiple times in timelines edit
