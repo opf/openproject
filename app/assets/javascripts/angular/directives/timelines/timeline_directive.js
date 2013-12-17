@@ -71,8 +71,9 @@ timelinesApp.directive('timeline', function() {
       };
 
       // start timeline
-      scope.timeline.registerTimelineContainer(element);
-      TimelineService.loadTimelineData(scope.timeline).then(drawTimeline);
+
+      // scope.timeline.registerTimelineContainer(element);
+      // TimelineService.loadTimelineData(scope.timeline).then(drawTimeline);
     }
   };
 });

@@ -8,16 +8,16 @@ timelinesApp.factory('Timeline', ['Constants', 'FilterQueryStringBuilder', 'Tree
   angular.extend(Timeline, UI);
 
   // model mix ins
-  angular.extend(Timeline, {Color: Color});
-  angular.extend(Timeline, {HistoricalPlanningElement: HistoricalPlanningElement});
-  angular.extend(Timeline, {PlanningElement: PlanningElement});
-  angular.extend(Timeline, {PlanningElementType: PlanningElementType});
-  angular.extend(Timeline, {Project: Project});
-  angular.extend(Timeline, {ProjectAssociation: ProjectAssociation});
-  angular.extend(Timeline, {ProjectType: ProjectType});
-  angular.extend(Timeline, {Reporting: Reporting});
-  angular.extend(Timeline, {Status: Status});
-  angular.extend(Timeline, {User: User});
+  // angular.extend(Timeline, {Color: Color});
+  // angular.extend(Timeline, {HistoricalPlanningElement: HistoricalPlanningElement});
+  // angular.extend(Timeline, {PlanningElement: PlanningElement});
+  // angular.extend(Timeline, {PlanningElementType: PlanningElementType});
+  // // angular.extend(Timeline, {Project: Project});
+  // angular.extend(Timeline, {ProjectAssociation: ProjectAssociation});
+  // angular.extend(Timeline, {ProjectType: ProjectType});
+  // angular.extend(Timeline, {Reporting: Reporting});
+  // angular.extend(Timeline, {Status: Status});
+  // angular.extend(Timeline, {User: User});
 
   angular.extend(Timeline, {
     instances: [],
