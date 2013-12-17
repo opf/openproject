@@ -35,6 +35,6 @@
 
 module OpenProject
   module Backlogs
-    VERSION = "3.0.4.pre11"
+    VERSION = "3.0.5.pre1"
   end
 end
