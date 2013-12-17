@@ -945,55 +945,59 @@ timelinesApp.factory('Timeline', ['Constants', 'FilterQueryStringBuilder', 'Tree
       });
 
     },
+
+
+    // Promise API
+
+    getProjectPromise: function() {
+      return Project.get({id: this.options.project_id}).$promise;
+    },
+
+    getRelevantProjectsPromise: function() {
+      return this.getProjectPromise()
+        .then(function(project){
+          return project.getSelfAndReportingProjectsPromise();
+        });
+    },
+
+
+    // Associated objects
+
+    getProjects: function() {
+      projects = [];
+
+      // TODO Filter reportings
+      //   if (this.reportings.hasOwnProperty(i)) {
+      //     relevantProjectIds.push(this.reportings[i].getProjectId());
+      //   }
+      this.getRelevantProjectsPromise()
+        .then(function(relevantProjects){
+          angular.forEach(relevantProjects, function(p){
+            projects.push(p);
+          });
+        });
+
+      return projects;
+    },
+
+    getProject: function() {
+      if (this.project === undefined) {
+        this.project = Project.get({id: this.options.project_id});
+      }
+      return this.project;
+    },
+
     getReportings: function() {
       if (!this.reportings) {
         this.reportings = Reporting.query({projectId: this.options.project_id, only: 'via_target'});
       }
       return this.reportings;
     },
+
     getReporting: function(id) {
       return this.reportings[id];
     },
 
-
-    getRelevantProjectIdsBasedOnReportings: function () {
-      // var i,
-      //     relevantProjectIds = [this.options.project_id];
-
-      // for (i in this.reportings) {
-      //   if (this.reportings.hasOwnProperty(i)) {
-      //     relevantProjectIds.push(this.reportings[i].getProjectId());
-      //   }
-      // }
-
-      // this.getRelevantProjectIdsBasedOnReportings = function () {
-      //   return relevantProjectIds;
-      // };
-
-      // return relevantProjectIds;
-
-      return [1]; // mock, reenable above code after having final loading strategy
-    },
-
-    getProjects: function() {
-      // reults are loaded asynchronously
-      // work with results or $promise
-      if (this.projects === undefined) {
-        this.projects = Project.query({ids: this.getRelevantProjectIdsBasedOnReportings()});
-      }
-
-      return this.projects;
-    },
-    getProject: function(id) {
-      if (id === undefined) {
-        if (this.project === undefined) {
-          this.project = Project.get({id: this.options.project_id});
-        }
-        return this.project;
-      } else {
-        return Project.get({id: id});
-      }
-    },
 
     getGroupForProject: function(p) {
       var i, j = 0, projects, key, group;
