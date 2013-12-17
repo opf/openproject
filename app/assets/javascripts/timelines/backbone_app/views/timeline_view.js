@@ -12,6 +12,8 @@ window.backbone_app.views.TimelineView = window.backbone_app.views.BaseView.exte
   */
   events : {
     "change #zoom-select" : "handleZoomChange",
+    "click .tl-icon-zoomout": "handleZoomOut",
+    "click .tl-icon-zoomin": "handleZoomIn",
     "click .project-expand" : "handleProjectExpand",
   },
 
@@ -90,6 +92,18 @@ window.backbone_app.views.TimelineView = window.backbone_app.views.BaseView.exte
     slider.slider('value', jQuery(e.target).find(':selected').index());
   },
 
+  handleZoomOut: function(e){
+    var lib_timelines = this.options.lib_timelines;
+    lib_timelines.zoomOutBackbone();
+    this.render();
+  },
+
+  handleZoomIn: function(e){
+    var lib_timelines = this.options.lib_timelines;
+    lib_timelines.zoomInBackbone();
+    this.render();
+  },
+
   handleProjectExpand: function(e){
     var target = jQuery(e.target);
     console.log("expand" + target.data('project-identifier'));
@@ -102,9 +116,5 @@ window.backbone_app.views.TimelineView = window.backbone_app.views.BaseView.exte
     // TODO RS: Implement this
     console.log('Zoooooom!');
   },
-
-  // requireChartRebuild: function(){
-  //   this.planning_elements_view.renderChart({expanded: this.expanded});
-  // }
 
 });

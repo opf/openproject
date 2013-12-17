@@ -75,9 +75,9 @@ jQuery.extend(Timeline, {
 
     // lift the curtain, paper otherwise doesn't show w/ VML.
     jQuery('.timeline').removeClass('tl-under-construction');
-    if(this.paper === undefined){
-      this.paper = new Raphael(ui_root.get()[0], 640, 480);
-    }
+    // if(this.paper === undefined){
+    this.paper = new Raphael(ui_root.get()[0], 640, 480);
+    // }
 
     // TODO RS: All of this causes re-renders which is a pain right now
 
@@ -135,11 +135,19 @@ jQuery.extend(Timeline, {
     // this.rebuildAllBackbone();
   },
 
+  zoomInBackbone: function() {
+    this.zoomBackbone(this.zoomIndex + 1);
+  },
+
+  zoomOutBackbone: function() {
+    this.zoomBackbone(this.zoomIndex - 1);
+  },
+
   rebuildGraphBackground: function(tree, ui_root){
     var timeline = this;
     var chart = ui_root;
 
-    chart.css({'display': 'none'});
+    // chart.css({'display': 'none'});
 
     var width = timeline.getWidth();
     var height = timeline.getHeight();
