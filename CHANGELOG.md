@@ -1,5 +1,7 @@
 # Changelog
 
+## 0.0.1.pre7
+
 * `#1020` fix XSS when displaying costs
 
 ## 0.0.1.pre6
