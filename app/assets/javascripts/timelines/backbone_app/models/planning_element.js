@@ -181,30 +181,29 @@ window.backbone_app.models.PlanningElement = Backbone.Model.extend({
 
   getColor: function () {
     // TODO RS: Commented this out for demo
-    // // if there is a color for this planning element type, use it.
-    // // use it also for planning elements w/ children. if there are
-    // // children but no planning element type, use the default color
-    // // for planning element parents. if there is no planning element
-    // // type and there are no children, use a default color.
-    // var pet = this.getPlanningElementType();
-    // var color;
+    // if there is a color for this planning element type, use it.
+    // use it also for planning elements w/ children. if there are
+    // children but no planning element type, use the default color
+    // for planning element parents. if there is no planning element
+    // type and there are no children, use a default color.
+    var pet = this.getPlanningElementType();
+    var color;
 
-    // if (pet && pet.color) {
-    //   color = pet.color.hexcode;
-    // } else if (this.hasChildren()) {
-    //   color = Timeline.DEFAULT_PARENT_COLOR;
-    // } else {
-    //   color = Timeline.DEFAULT_COLOR;
-    // }
+    if (pet && pet.color) {
+      color = pet.color.hexcode;
+    } else if (this.hasChildren()) {
+      color = Timeline.DEFAULT_PARENT_COLOR;
+    } else {
+      color = Timeline.DEFAULT_COLOR;
+    }
 
-    // if (!this.hasBothDates()) {
-    //   if (this.hasStartDate()) {
-    //     color = "180-#ffffff-" + color;
-    //   } else {
-    //     color = "180-" + color + "-#ffffff";
-    //   }
-    // }
-    color = Timeline.DEFAULT_COLOR;
+    if (!this.hasBothDates()) {
+      if (this.hasStartDate()) {
+        color = "180-#ffffff-" + color;
+      } else {
+        color = "180-" + color + "-#ffffff";
+      }
+    }
     return color;
   },
 });

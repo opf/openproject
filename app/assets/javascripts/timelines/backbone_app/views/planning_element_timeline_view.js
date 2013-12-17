@@ -51,7 +51,7 @@ window.backbone_app.views.PlanningElementTimelineView = window.backbone_app.view
   render: function(){
     console.log('rendering planning element on the timeline');
     this.renderMain();
-    // this.renderForeground();
+    this.renderForeground();
   },
 
   renderMain: function() {
@@ -219,21 +219,23 @@ window.backbone_app.views.PlanningElementTimelineView = window.backbone_app.view
     }
   },
 
-  /*
-  renderForeground: function (node, in_aggregation, label_space) {
-    // TODO RS: Fix it all up there...
-    var timeline = this.timeline;
-    var paper = timeline.getPaper();
+  renderForeground: function () {
+    var ui_utils = this.ui_utils();
+    var timeline = this.options.timeline;
+    var paper = this.options.paper;
+    var node = this.options.node;
+    var in_aggregation = this.options.in_aggregation;
+    var label_space = this.options.label_space;
     var scale = timeline.getScale();
     var beginning = timeline.getBeginning();
     var elements = [];
-    var pet = this.getPlanningElementType();
+    var pet = this.model.getPlanningElementType();
     var self = this;
     var color, text, x, y, textColor;
-    var bounds = this.getHorizontalBounds(scale, beginning);
+    var bounds = this.model.getHorizontalBounds(scale, beginning, false, ui_utils);
     var left = bounds.x;
     var width = bounds.w;
-    var alternate_bounds = this.getAlternateHorizontalBounds(scale, beginning);
+    var alternate_bounds = this.model.getAlternateHorizontalBounds(scale, beginning, false, ui_utils);
     var alternate_left = alternate_bounds.x;
     var alternate_width = alternate_bounds.w;
     var hover_left = left;
@@ -244,17 +246,17 @@ window.backbone_app.views.PlanningElementTimelineView = window.backbone_app.view
     var deleted = true && this.is_deleted;
     var comparison_offset = deleted ? 0 : Timeline.DEFAULT_COMPARISON_OFFSET;
 
-    var has_both_dates = this.hasBothDates();
-    var has_one_date = this.hasOneDate();
-    var has_start_date = this.hasStartDate();
+    var has_both_dates = this.model.hasBothDates();
+    var has_one_date = this.model.hasOneDate();
+    var has_start_date = this.model.hasStartDate();
 
     if (in_aggregation && label_space !== undefined) {
       hover_left = label_space.x + Timeline.HOVER_THRESHOLD;
       hover_width = label_space.w - 2 * Timeline.HOVER_THRESHOLD;
     }
 
-    var has_alternative = this.hasAlternateDates();
-    var could_have_been_milestone = (this.alternate_start === this.alternate_end);
+    var has_alternative = this.model.hasAlternateDates();
+    var could_have_been_milestone = (this.model.alternate_start === this.model.alternate_end);
 
     var height, top;
 
@@ -266,7 +268,7 @@ window.backbone_app.views.PlanningElementTimelineView = window.backbone_app.view
 
     if (pet && pet.color) {
       color = pet.color.hexcode;
-    } else if (this.hasChildren()) {
+    } else if (this.model.hasChildren()) {
       color = Timeline.DEFAULT_PARENT_COLOR;
     } else {
       color = Timeline.DEFAULT_COLOR;
@@ -306,7 +308,7 @@ window.backbone_app.views.PlanningElementTimelineView = window.backbone_app.view
       if (!in_aggregation) {
 
         // text rendering in planning elements outside of aggregations
-        label = timeline.paper.text(0, -5, this.subject);
+        label = paper.text(0, -5, this.model.get('subject'));
         label.attr({
           'font-size': 12
         });
@@ -315,7 +317,7 @@ window.backbone_app.views.PlanningElementTimelineView = window.backbone_app.view
 
         // if this is an expanded planning element w/ children, or if
         // the text would not fit:
-        if (this.hasChildren() && node.isExpanded() ||
+        if (this.model.hasChildren() && node.isExpanded() ||
             textWidth > width - Timeline.PE_TEXT_INSIDE_PADDING) {
 
           // place a white rect below the label.
@@ -336,7 +338,7 @@ window.backbone_app.views.PlanningElementTimelineView = window.backbone_app.view
           x = left + width + Timeline.PE_TEXT_OUTSIDE_PADDING;
           textColor = Timeline.PE_DEFAULT_TEXT_COLOR;
 
-          if (this.hasChildren()) {
+          if (this.model.hasChildren()) {
             x += Timeline.PE_TEXT_ADDITIONAL_OUTSIDE_PADDING_WHEN_EXPANDED_WITH_CHILDREN;
           }
 
@@ -387,7 +389,7 @@ window.backbone_app.views.PlanningElementTimelineView = window.backbone_app.view
         textColor = timeline.getLimunanceFor(color) > Timeline.PE_LUMINANCE_THRESHOLD ?
                     Timeline.PE_DARK_TEXT_COLOR : Timeline.PE_LIGHT_TEXT_COLOR;
 
-        var text = this.subject;
+        var text = this.model.get('subject');
         label = timeline.paper.text(0, 0, text);
         label.attr({
           'font-size': 12,
@@ -431,5 +433,5 @@ window.backbone_app.views.PlanningElementTimelineView = window.backbone_app.view
       timeline.addHoverHandler(node, e);
       //self.addElement(e);
     });
-  }, */
+  },
 });
