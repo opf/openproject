@@ -20,6 +20,8 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+## 3.0.0.pre10
+
 * Adaptations for new icon font
 
 ## 3.0.0.pre9
