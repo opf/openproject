@@ -1,4 +1,4 @@
-timelinesApp.factory('PlanningElement', ['$resource', 'APIDefaults', function($resource, APIDefaults) {
+timelinesApp.factory('PlanningElement', ['$resource', '$q', 'APIDefaults', function($resource, $q, APIDefaults) {
 
   PlanningElement = $resource(
     APIDefaults.apiPrefix + APIDefaults.projectPath + '/planning_elements/:id.json',
@@ -25,6 +25,17 @@ timelinesApp.factory('PlanningElement', ['$resource', 'APIDefaults', function($r
         }
       }
     });
+
+  // Query that returns a promise instead of an array
+  PlanningElement.getQueryPromise = function(params) {
+    deferred = $q.defer();
+
+    PlanningElement.query(params, function(projects){
+      deferred.resolve(projects);
+    });
+
+    return deferred.promise;
+  };
 
   PlanningElement.prototype.is = function(t) {
     return this.identifier === t.identifier;
