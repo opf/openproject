@@ -72,14 +72,11 @@ timelinesApp.factory('Project', ['$resource', '$q', 'APIDefaults', function($res
   };
 
   Project.prototype.getSelfAndReportingProjectsPromise = function () {
-    projects = [this];
+    self = this;
 
     return this.getReportingProjectsPromise()
       .then(function(reportingProjects){
-        angular.forEach(reportingProjects, function(reportingProject){
-          projects.push(reportingProject);
-        });
-        return projects;
+        return reportingProjects.concat([self]);
       });
   };
 
