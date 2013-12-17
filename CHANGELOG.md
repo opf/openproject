@@ -1,5 +1,7 @@
 # Changelog
 
+## 4.0.0.pre9
+
 * Adaptations for new icon font
 * added icon for new project menu
 
