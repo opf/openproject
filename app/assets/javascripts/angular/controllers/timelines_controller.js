@@ -24,8 +24,8 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'TimelineSe
   $scope.currentScaleName = 'monthly';
 
   // Load timeline
-  $scope.timeline = TimelineService.createTimeline($scope.timelineOptions);
-  $scope.treeNode = $scope.timeline.getLefthandTree();
+  $scope.timeline = Timeline.create($scope.timelineOptions); //TimelineLoadingService.createTimeline($scope.timelineOptions);
+  // $scope.treeNode = $scope.timeline.getLefthandTree();
 
 
   // Container for timeline rendering
