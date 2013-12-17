@@ -1,5 +1,7 @@
 # Changelog
 
+## 5.0.1.pre10
+
 * Adaptations for new icon font
 * `#1020` fix XSS when displaying costs
 * `#2591` Fix: Costs prevents work package context menu
