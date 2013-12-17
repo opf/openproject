@@ -95,16 +95,11 @@ class PermittedParams < Struct.new(:params, :user)
   end
 
   def enumeration
-    # we need to care about custom_fields
-    p = params.require(:enumeration).permit(*self.class.permitted_attributes[:enumeration])
-    # custom_field_values may not be present, fetch() shallt give nil when they are not
-    custom_field_values = params.require(:enumeration).fetch(:custom_field_values, nil)
-    if custom_field_values
-      # custom_field_values is a hash with entries of the form "7" => "some value"
-      # we accept it, when the key (a custom field id) is a digit
-      p[:custom_field_values] = custom_field_values.select {|k,v| k =~ /\d+/}
-    end
-    p
+    permitted_params = params.require(:enumeration).permit(*self.class.permitted_attributes[:enumeration])
+
+    permitted_params.merge!(custom_field_values(:enumeration))
+
+    permitted_params
   end
 
   def group
