@@ -15,6 +15,12 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+## 1.0.5
+
+* Readme: Add note about db:create and db:migrate in same rake process
+* Generator: Add explicit require to fix load-order problems
+* Minor changes to the copyright header
+
 ## 1.0.4
 
 * `#2340` Develop migration mechanism for renamed plugins
