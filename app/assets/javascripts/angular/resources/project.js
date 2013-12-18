@@ -55,20 +55,38 @@ timelinesApp.factory('Project', ['$resource', '$q', 'APIDefaults', function($res
   };
 
   Project.prototype.getReportingsPromise = function() {
+    if(this.reportings) {
+      return $q.when(this.reportings);
+    }
+
+    self = this;
+
     return this.$promise
       .then(function(project){
         return Reporting.getQueryPromise({projectId: project.identifier, only_via: 'target'});
+      })
+      .then(function(reportings) {
+        // Memoization callback
+        self.reportings = reportings;
+        return reportings;
       });
   };
 
   Project.prototype.getReportingProjectsPromise = function() {
-    return this.getReportingsPromise()
-      .then(function(reportings) {
-        reportingProjects = reportings.map(function(reporting){
-          return reporting.getProjectResource();
+    if(this.reportingProjects) {
+      return $q.when(this.reportingProjects);
+    } else {
+      self = this;
+
+      return this.getReportingsPromise()
+        .then(function(reportings) {
+          reportingProjects = reportings.map(function(reporting){
+            return reporting.getProjectResource();
+          });
+          self.reportingProjects = reportingProjects; // Memoize reporting projects
+          return reportingProjects;
         });
-        return reportingProjects;
-      });
+      }
   };
 
   Project.prototype.getSelfAndReportingProjectsPromise = function () {
@@ -102,8 +120,6 @@ timelinesApp.factory('Project', ['$resource', '$q', 'APIDefaults', function($res
 
   // TODO Fix
   Project.prototype.getSelfAndReportingProjects = function () {
-    if (this.selfAndReportingProjects) return this.selfAndReportingProjects;
-
     selfAndReportingProjects = [];
 
     this.getSelfAndReportingProjectsPromise()
@@ -113,7 +129,6 @@ timelinesApp.factory('Project', ['$resource', '$q', 'APIDefaults', function($res
         });
       });
 
-    this.selfAndReportingProjects = selfAndReportingProjects;
     return selfAndReportingProjects;
   };
 
@@ -137,10 +152,8 @@ timelinesApp.factory('Project', ['$resource', '$q', 'APIDefaults', function($res
     if (this.reportings) return this.reportings;
 
     reportings = [];
-    project = this;
 
     this.getReportingsPromise().then(function(results){
-      project.reportings = results;
       angular.forEach(results, function(result){
         reportings.push(result);
       });
@@ -148,5 +161,8 @@ timelinesApp.factory('Project', ['$resource', '$q', 'APIDefaults', function($res
 
     return reportings;
   };
+
+
+
   return Project;
 }]);
