@@ -29,7 +29,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.0pre40
+
 * `#3066` [Work package tracking] Bulk edit causes page not found
+* update will paginate
 
 ## 3.0.0pre39
 

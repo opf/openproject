@@ -49,7 +49,7 @@ module OpenProject
     #
     #   2.0.0debian-2
     def self.special
-      'pre39'
+      'pre40'
     end
 
     def self.revision
