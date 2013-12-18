@@ -180,6 +180,18 @@ class PermittedParams < Struct.new(:params, :user)
                                          :lock_version)
   end
 
+  def wiki_page
+    permitted = permitted_attributes(:wiki_page)
+
+    permitted_params = params.require(:page).permit(*permitted)
+
+    permitted_params
+  end
+
+  def wiki_content
+    params.require(:content).permit(*self.class.permitted_attributes[:wiki_content])
+  end
+
   def board_move
     params.require(:board).permit(*self.class.permitted_attributes[:move_to])
   end
@@ -203,7 +215,7 @@ class PermittedParams < Struct.new(:params, :user)
   def permitted_attributes(key, additions = {})
     merged_args = { :params => params, :user => user }.merge(additions)
 
-    self.class.permitted_attributes[:new_work_package].map do |permission|
+    self.class.permitted_attributes[key].map do |permission|
       if permission.respond_to?(:call)
         permission.call(merged_args)
       else
@@ -329,6 +341,14 @@ class PermittedParams < Struct.new(:params, :user)
         :color_id,
         :project_ids => [],
         :custom_field_ids => [] ],
+      :wiki_page => [
+        :title,
+        :parent_id,
+        :redirect_existing_links ],
+      :wiki_content => [
+        :comments,
+        :text, 
+        :lock_version ],
       :move_to => [ :move_to ]
     }
   end

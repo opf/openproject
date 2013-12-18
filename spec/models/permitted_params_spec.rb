@@ -560,7 +560,8 @@ describe PermittedParams do
   end
 
   shared_context 'prepare params comparison' do
-    let(:params) { ActionController::Parameters.new(attribute => hash) }
+    let(:params_key) { (defined? hash_key) ? hash_key : attribute }
+    let(:params) { ActionController::Parameters.new(params_key => hash) }
 
     subject { PermittedParams.new(params, user).send(attribute) } 
   end
@@ -662,6 +663,52 @@ describe PermittedParams do
 
     describe 'custom fields' do
       it_behaves_like 'allows custom fields'
+    end
+  end
+
+  describe :wiki_page do
+    let (:hash_key) { :page }
+    let (:attribute) { :wiki_page }
+
+    describe 'title' do
+      let(:hash) { { "title" => "blubs" } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'parent_id' do
+      let(:hash) { { "parent_id" => "1" } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'redirect_existing_links' do
+      let(:hash) { { "redirect_existing_links" => "1" } }
+
+      it_behaves_like 'allows params'
+    end
+  end
+
+  describe :wiki_content do
+    let (:hash_key) { :content }
+    let (:attribute) { :wiki_content }
+
+    describe 'title' do
+      let(:hash) { { "comments" => "blubs" } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'text' do
+      let(:hash) { { "text" => "blubs" } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'lock_version' do
+      let(:hash) { { "lock_version" => "1" } }
+
+      it_behaves_like 'allows params'
     end
   end
 end

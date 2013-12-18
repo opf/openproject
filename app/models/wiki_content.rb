@@ -30,6 +30,8 @@
 require 'zlib'
 
 class WikiContent < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
+
   belongs_to :page, :class_name => 'WikiPage', :foreign_key => 'page_id'
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   validates_presence_of :text
