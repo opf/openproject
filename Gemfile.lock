@@ -342,7 +342,7 @@ GEM
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
     websocket (1.0.7)
-    will_paginate (3.0.4)
+    will_paginate (3.0.5)
     xpath (2.0.0)
       nokogiri (~> 1.3)
     yard (0.8.7.2)
