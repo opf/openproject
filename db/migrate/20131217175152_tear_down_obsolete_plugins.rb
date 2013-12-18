@@ -26,7 +26,7 @@ class TearDownObsoletePlugins < ActiveRecord::Migration
 
   protected
 
-  def try_drop_table(table_name)
+  def self.try_drop_table(table_name)
     begin
       drop_table table_name
     rescue
