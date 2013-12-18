@@ -35,6 +35,7 @@ class VersionsController < ApplicationController
   before_filter :find_project, :only => [:index, :new, :create, :close_completed]
   before_filter :authorize
 
+  include VersionsHelper
 
   def index
     @types = @project.types.find(:all, :order => 'position')
@@ -148,7 +149,7 @@ class VersionsController < ApplicationController
   def status_by
     respond_to do |format|
       format.html { render :action => 'show' }
-      format.js { render(:update) {|page| page.replace_html 'status_by', render_status_by(@version, params[:status_by])} }
+      format.js { render_status_by @version, params[:status_by] }
     end
   end
 
