@@ -199,8 +199,6 @@ Redmine::AccessControl.map do |map|
   map.project_module :activity
 
   map.project_module :timelines do |map|
-    map.permission :manage_project_configuration,
-                   :require => :member
     map.permission :view_project_associations,
                    {:project_associations => [:index, :show]}
     map.permission :edit_project_associations,
