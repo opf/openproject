@@ -31,6 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#3407` Fix: [Roadmap] Missing dropdown menu for displaying work packages by different criteria
 * `#3334` [CodeClimate] Mass Assignment WikiController
+* `#3455` Fix: [Projects] Tab "Types" missing in newly created projects
 
 ## 3.0.0pre40
 * `#3066` [Work package tracking] Bulk edit causes page not found
