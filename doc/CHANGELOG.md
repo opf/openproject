@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#3407` Fix: [Roadmap] Missing dropdown menu for displaying work packages by different criteria
+* `#3334` [CodeClimate] Mass Assignment WikiController
 
 ## 3.0.0pre40
 * `#3066` [Work package tracking] Bulk edit causes page not found
