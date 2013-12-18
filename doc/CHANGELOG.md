@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#3066` [Work package tracking] Bulk edit causes page not found
+
 ## 3.0.0pre39
 
 * `#3306` Switch to Ruby 2.0
