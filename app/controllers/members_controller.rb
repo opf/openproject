@@ -155,7 +155,7 @@ JS
     roles = Role.find_all_by_id(possibly_seperated_ids_for_entity(attrs, :role))
 
     user_ids.each do |user_id|
-      member = Member.new attrs
+      member = Member.new permitted_params.member.reject { |k, v| k == :role_ids }
       # workaround due to mass-assignment protected member_roles.role_id
       member.member_roles << roles.collect {|r| MemberRole.new :role => r }
       member.user_id = user_id
