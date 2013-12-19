@@ -92,8 +92,9 @@ describe MembersController do
         :member => {
           :role_ids => [role_1.id, role_2.id]
         }
-      response.should be_success
-      member.roles.should include(role_1, role_2)
+
+      Member.find(member_2.id).roles.should include(role_1, role_2)
+      response.response_code.should < 400
     end
   end
 

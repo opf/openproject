@@ -28,6 +28,8 @@
 #++
 
 class MembersController < ApplicationController
+  include ActiveModel::ForbiddenAttributesProtection
+
   model_object Member
   before_filter :find_model_object_and_project, :except => [:autocomplete_for_member, :paginate_users]
   before_filter :find_project, :only => [:autocomplete_for_member, :paginate_users]
@@ -148,7 +150,6 @@ JS
 
   def new_members_from_params
     members = []
-
     attrs = params[:member].dup
     user_ids = possibly_seperated_ids_for_entity(attrs, :user)
     roles = Role.find_all_by_id(possibly_seperated_ids_for_entity(attrs, :role))
@@ -193,18 +194,16 @@ JS
     end
   end
 
-
   def update_member_from_params
     # this way, mass assignment is considered and all updates happen in one transaction (autosave)
-    attrs = params[:member].except(:user_id)
-    attrs.merge! params[:membership].dup if params[:membership].present?
-    attrs.delete(:project_id)
+    attrs = permitted_params.member.dup
+    attrs.merge! permitted_params.membership.dup if params[:membership].present?
 
-    role_ids = attrs.delete(:role_ids).map(&:to_i).select{ |i| i > 0 }
-
-    @member.assign_roles(role_ids)
-
-    @member.attributes = attrs
+    if attrs.include? :role_ids
+      role_ids = attrs.delete(:role_ids).map(&:to_i).select{ |i| i > 0 }
+      @member.assign_roles(role_ids)
+    end
+    @member.update_attributes(attrs)
     @member
   end
 end
