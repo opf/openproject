@@ -229,20 +229,24 @@ See doc/COPYRIGHT.rdoc for more details.
 #rb .work_package.closed .subject.editable {
   text-decoration:line-through;
 }
-#rb .story .assigned_to_id,
+#rb .story .story-footer .assigned_to_id,
 #rb .work_package .assigned_to_id.editable {
+  float: left;
+
   font-size:9px;
+  width:85%;
   height:10px;
   margin-top:2px;
-  overflow:hidden;
   padding:2px;
   padding-top:0;
-  width:81px;
-}
-#rb .story .assigned_to_id {
-  width: auto;
-}
 
+  overflow:hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+#rb .story .story-footer .story-points {
+  float: right;
+}
 #rb .work_package .v {
   display:none;
 }
