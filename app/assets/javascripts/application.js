@@ -67,6 +67,7 @@
 //= require autocomplete_textareas
 //= require_tree ./pages
 //= require openproject_plugins
+//= require versions
 
 //source: http://stackoverflow.com/questions/8120065/jquery-and-prototype-dont-work-together-with-array-prototype-reverse
 if (typeof []._reverse == 'undefined') {

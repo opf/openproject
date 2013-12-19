@@ -29,6 +29,7 @@
 @import "mixins"
 
 #main-menu
+  @include default-transition
   bottom: auto
   width: $main_menu_width
   float: left
@@ -131,24 +132,19 @@
     height: $main_menu_item_height - $main_menu_item_border_width
     width: $main_menu_width - $main_menu_item_border_width
     background-color: $main_menu_bg_color
+    @include default-transition
     &:hover
       background-color: $main_menu_bg_hover_selected_color
     &.show
       width: $main_menu_folded_width - $main_menu_item_border_width
       a.navigation-toggler
-        width: $main_menu_folded_width
         height: 100%
-        -moz-transform: rotate(180deg)
-        -webkit-transform: rotate(180deg)
-        -o-transform: rotate(180deg)
-        -ms-transform: rotate(180deg)
-        transform: rotate(180deg)
-        text-align: left
-        padding: 0 0px 0 16px
+        padding: 0 10px 0 0
+        &:before
+          content: "\e00a"
     a.navigation-toggler
+      @include default-transition
       position: relative
-      float: right
-      width: 100%
       height: $main_menu_item_height
       text-align: right
       padding: 0 6px 0 0

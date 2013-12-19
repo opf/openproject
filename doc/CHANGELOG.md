@@ -29,6 +29,23 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#3407` Fix: [Roadmap] Missing dropdown menu for displaying work packages by different criteria
+* `#3334` [CodeClimate] Mass Assignment WikiController
+* `#3455` Fix: [Projects] Tab "Types" missing in newly created projects
+
+## 3.0.0pre40
+* `#3066` [Work package tracking] Bulk edit causes page not found
+* update will paginate
+
+## 3.0.0pre39
+
+* `#3306` Switch to Ruby 2.0
+* `#3321` [Data migration] Data in timeline settings not copied to new project
+* `#3322` Fix: [Data migration] Journal entries display changes to custom fields
+* `#3329` Refactor Duplicated Code Journals
+
+## 3.0.0pre38
+
 * `#2399` Fix: Translation missing (en and de) for not_a_valid_parent
 * `#3054` Fix: Some Projects cannot be deleted
 * `#3149` Fix: duplicate XML root nodes in API v2 show
@@ -37,7 +54,6 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3266` Fix: [Work package tracking] % done in work package status cannot be modified
 * `#3291` Fix: Internal error when clicking on member
 * `#3303` Fix: [Work package tracking] Search results are linked to wrong location
-* `#3321` Fix: [Data migration] Data in timeline settings not copied to new project
 * `#3322` [Data migration] Journal entries display changes to custom fields
 * `#3331` use permitted_params for group_controller
 * `#3336` Fix: use permitted_params for queries controller

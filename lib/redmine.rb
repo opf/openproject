@@ -199,8 +199,6 @@ Redmine::AccessControl.map do |map|
   map.project_module :activity
 
   map.project_module :timelines do |map|
-    map.permission :manage_project_configuration,
-                   :require => :member
     map.permission :view_project_associations,
                    {:project_associations => [:index, :show]}
     map.permission :edit_project_associations,
@@ -364,12 +362,12 @@ Redmine::MenuManager.map :project_menu do |menu|
 end
 
 Redmine::Activity.map do |activity|
-  activity.register :work_packages, class_name: 'Journal::WorkPackageJournal'
-  activity.register :changesets, class_name: 'Journal::ChangesetJournal'
-  activity.register :news, class_name: 'Journal::NewsJournal'
-  activity.register :wiki_edits, class_name: 'Journal::WikiContentJournal', default: false
-  activity.register :messages, class_name: 'Journal::MessageJournal', default: false
-  activity.register :time_entries, class_name: 'Journal::TimeEntryJournal', default: false
+  activity.register :work_packages, class_name: 'Activity::WorkPackageActivityProvider'
+  activity.register :changesets, class_name: 'Activity::ChangesetActivityProvider'
+  activity.register :news, class_name: 'Activity::NewsActivityProvider'
+  activity.register :wiki_edits, class_name: 'Activity::WikiContentActivityProvider', default: false
+  activity.register :messages, class_name: 'Activity::MessageActivityProvider', default: false
+  activity.register :time_entries, class_name: 'Activity::TimeEntryActivityProvider', default: false
 end
 
 Redmine::Search.map do |search|

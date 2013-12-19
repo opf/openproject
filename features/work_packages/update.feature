@@ -139,3 +139,13 @@ Feature: Updating work packages
     Then I should see "Successful update"
     And I follow "pe1"
     And I should see "deleted (version1)"
+
+  @javascript
+    Scenario: Bulk updating several work packages without back url should return index
+      When I go to the work package index page of the project called "ecookbook"
+      And  I open the context menu on the work packages:
+        | pe1 |
+        | pe2 |
+      And I follow "Edit" within "#context-menu"
+      And I press "Submit"
+      Then I should see "Work packages" within "#content"

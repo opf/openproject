@@ -31,7 +31,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <ul><%= @work_packages.collect {|i| content_tag('li', link_to(h("#{i.type} ##{i.id}"), { :action => 'show', :id => i }) + h(": #{i.subject}")) }.join("\n").html_safe %></ul>
 
-<%= form_tag(:action => 'update') do %>
+<%= form_tag(url_for(controller: '/work_packages/bulk', action: :update, ids: @work_packages),
+             method: :put) do %>
 <%= @work_packages.collect {|i| hidden_field_tag('ids[]', i.id)}.join.html_safe %>
 <div class="box tabular">
 <fieldset class="attributes">
