@@ -40,6 +40,35 @@ describe MembersController do
     User.stub(:current).and_return(user)
   end
 
+  describe "create" do
+    let(:admin) { FactoryGirl.create(:admin) }
+    let(:project_2) { FactoryGirl.create(:project) }
+
+    before do
+      User.stub(:current).and_return(admin)
+    end
+
+    it "should work for multiple users" do
+      post :create,
+        :project_id => project_2.identifier,
+        :member => {
+          :user_ids => [admin.id, user.id],
+          :role_ids => [role.id]
+        }
+
+      response.response_code.should < 400
+
+      [admin, user].each do |u|
+        u.reload
+        u.memberships.should have_at_least(1).item
+
+        u.memberships.find do |m|
+          m.roles.should include(role)
+        end.should_not be_nil
+      end
+    end
+  end
+
   describe "update" do
     let(:admin) { FactoryGirl.create(:admin) }
     let(:project_2) { FactoryGirl.create(:project) }
