@@ -1045,7 +1045,7 @@ jQuery.extend(Timeline, {
     // horizontal bar.
     this.paper.path(
       this.psub('M0 #{y}H#{w}', {
-        y: deco + 0.5, // the vertical line otherwise overlaps.
+        y: deco + 1.5, // the vertical line otherwise overlaps.
         w: width
       })
     );
@@ -1151,7 +1151,13 @@ jQuery.extend(Timeline, {
       if (this.table_offset === undefined) {
         result = this.table_offset = this.getUiRoot().find('.tl-left-main table').position().top;
       }
+
       result = offset.position().top - this.table_offset;
+
+      if (!jQuery.browser.webkit) {
+        result -= 1;
+      }
+
       offset.attr("data-vertical-offset", result);
     }
 
@@ -1282,7 +1288,7 @@ jQuery.extend(Timeline, {
           // draw lines between projects
           timeline.paper.path(
             timeline.psub('M0 #{y}h#{w}', {
-              y: currentOffset,
+              y: currentOffset + 0.5,
               w: width
             })
           ).attr({
