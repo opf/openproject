@@ -40,6 +40,63 @@ describe MembersController do
     User.stub(:current).and_return(user)
   end
 
+  describe "update" do
+    let(:admin) { FactoryGirl.create(:admin) }
+    let(:project_2) { FactoryGirl.create(:project) }
+    let(:role_1) { FactoryGirl.create(:role) }
+    let(:role_2) { FactoryGirl.create(:role) }
+    let(:member_2) { FactoryGirl.create(
+      :member,
+      :project => project_2,
+      :user => admin,
+      :roles => [role_1])
+    }
+
+    def dont_update(field, value)
+      put :update,
+        :project_id => project.identifier,
+        :id => member_2.id,
+        :member => {
+          :role_ids => [role_1.id],
+          field => value
+        }
+
+      response.should_not be_success
+      Member.find(member_2.id).attributes[field.to_s].should_not == value
+    end
+
+    before do
+      User.stub(:current).and_return(admin)
+    end
+
+    it "should specifically not allow 'user_id' to be mass assigned" do
+      dont_update(:user_id, user.id)
+    end
+
+    it "should specifically not allow 'project_id' to be mass assigned" do
+      dont_update(:project_id, project.id)
+    end
+
+    it "should specifically not allow 'created_on' to be mass assigned" do
+      dont_update(:created_on, Time.zone.at(1111111111))
+    end
+
+    it "should specifically not allow 'mail_notification' to be mass assigned" do
+      dont_update(:mail_notification, !member_2.mail_notification)
+    end
+
+    it "should, however, allow roles to be updated through mass assignment" do
+      put 'update',
+        :project_id => project.identifier,
+        :id => member_2.id,
+        :member => {
+          :role_ids => [role_1.id, role_2.id]
+        }
+      response.should be_success
+      member.roles.should include(role_1, role_2)
+    end
+  end
+
   describe :autocomplete_for_member do
     let(:params) { ActionController::Parameters.new({ "id" => project.identifier.to_s }) }
 
