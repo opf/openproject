@@ -34,8 +34,6 @@ class Member < ActiveRecord::Base
   has_many :roles, :through => :member_roles
   belongs_to :project
 
-  attr_protected :project_id, :user_id, :role_ids
-
   validates_presence_of :principal, :project
   validates_uniqueness_of :user_id, :scope => :project_id
 
