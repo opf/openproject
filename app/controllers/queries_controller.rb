@@ -62,8 +62,8 @@ class QueriesController < ApplicationController
 private
   def prepare_for_creating
     @query = Query.new params[:query] ? permitted_params.query : nil
-    prepare_query @query
     @query.project = @project unless params[:query_is_for_all]
+    prepare_query @query
     @query.user = User.current
   end
 
