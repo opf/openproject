@@ -32,6 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3072` Timelines rendering of top table border and text is slightly off
 * `#3334` [CodeClimate] Mass Assignment WikiController
 * `#3336` Fix: use permitted_params for queries controller
+* `#3364` [Performance] Create index on enabled_modules.name
 * `#3407` Fix: [Roadmap] Missing dropdown menu for displaying work packages by different criteria
 * `#3455` Fix: [Projects] Tab "Types" missing in newly created projects
 
