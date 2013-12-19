@@ -66,12 +66,8 @@ class PermittedParams < Struct.new(:params, :user)
     permitted_attributes[key].concat(params)
   end
 
-  def project_type
-    params.require(:project_type).permit(*self.class.permitted_attributes[:project_type])
-  end
-
-  def project_type_move
-    params.require(:project_type).permit(*self.class.permitted_attributes[:move_to])
+  def board_move
+    params.require(:board).permit(*self.class.permitted_attributes[:move_to])
   end
 
   def color
@@ -110,6 +106,16 @@ class PermittedParams < Struct.new(:params, :user)
     params.permit(*self.class.permitted_attributes[:group_membership])
   end
 
+  def new_work_package(args = {})
+    permitted = permitted_attributes(:new_work_package, args)
+
+    permitted_params = params.require(:work_package).permit(*permitted)
+
+    permitted_params.merge!(custom_field_values(:work_package))
+
+    permitted_params
+  end
+
   def planning_element_type
     params.require(:planning_element_type).permit(*self.class.permitted_attributes[:planning_element_type])
   end
@@ -122,18 +128,27 @@ class PermittedParams < Struct.new(:params, :user)
     params.require(:planning_element).permit(*self.class.permitted_attributes[:planning_element])
   end
 
-  def status
-    params.require(:status).permit(*self.class.permitted_attributes[:status])
+  def project_type
+    params.require(:project_type).permit(*self.class.permitted_attributes[:project_type])
   end
 
-  def new_work_package(args = {})
-    permitted = permitted_attributes(:new_work_package, args)
+  def project_type_move
+    params.require(:project_type).permit(*self.class.permitted_attributes[:move_to])
+  end
 
-    permitted_params = params.require(:work_package).permit(*permitted)
+  def query
+    # there is a wierd bug in strong_parameters gem which makes the permit call
+    # on the sort_criteria pattern return the sort_criteria-hash contens AND
+    # the sort_criteria hash itself (again with content) in the same hash.
+    # Here we try to circumvent this
+    p = params.require(:query).permit(*self.class.permitted_attributes[:query])
+    p[:sort_criteria] = params.require(:query).permit(:sort_criteria => {'0' => [], '1' => [], '2' => []})
+    p[:sort_criteria].delete :sort_criteria
+    p
+  end
 
-    permitted_params.merge!(custom_field_values(:work_package))
-
-    permitted_params
+  def status
+    params.require(:status).permit(*self.class.permitted_attributes[:status])
   end
 
   alias :update_work_package :new_work_package
@@ -190,10 +205,6 @@ class PermittedParams < Struct.new(:params, :user)
 
   def wiki_content
     params.require(:content).permit(*self.class.permitted_attributes[:wiki_content])
-  end
-
-  def board_move
-    params.require(:board).permit(*self.class.permitted_attributes[:move_to])
   end
 
   protected
@@ -326,6 +337,11 @@ class PermittedParams < Struct.new(:params, :user)
         :allows_association,
         :type_ids => [],
         :reported_project_status_ids => []],
+      :query => [
+        :name,
+        :display_sums,
+        :is_public,
+        :group_by],
       :status => [
         :name,
         :default_done_ratio,

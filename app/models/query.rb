@@ -28,6 +28,7 @@
 #++
 
 class Query < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
   include Queries::WorkPackages::AvailableFilterOptions
 
   alias_method :available_filters, :available_work_package_filters # referenced in plugin patches - currently there are only work package queries and filters
