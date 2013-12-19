@@ -31,6 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#3407` Fix: [Roadmap] Missing dropdown menu for displaying work packages by different criteria
 * `#3334` [CodeClimate] Mass Assignment WikiController
+* `#3336` Fix: use permitted_params for queries controller
 * `#3455` Fix: [Projects] Tab "Types" missing in newly created projects
 
 ## 3.0.0pre40
@@ -56,7 +57,6 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3303` Fix: [Work package tracking] Search results are linked to wrong location
 * `#3322` [Data migration] Journal entries display changes to custom fields
 * `#3331` use permitted_params for group_controller
-* `#3336` Fix: use permitted_params for queries controller
 * `#3337` Fix: Use permitted params in EnumerationsController
 * `#3363` [Timelines] Autocompleter broken multiple times in timelines edit
 * `#3390` [Design] Implement new look for header and project navigation
