@@ -57,7 +57,6 @@ describe MembersController do
         :project_id => project.identifier,
         :id => member_2.id,
         :member => {
-          :role_ids => [role_1.id],
           field => value
         }
 
