@@ -69,4 +69,7 @@ OpenProject::Application.configure do
 
   # we use per process memory for caching in the test environment
   config.cache_store = :memory_store
+
+  # http://hightechsorcery.com/2013/01/fixing-uninitialized-constant-errors-in-rake-tasks-when-using-rails-threadsafe-mode/
+  config.dependency_loading = true if $rails_rake_task
 end
