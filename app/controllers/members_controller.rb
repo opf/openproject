@@ -157,6 +157,7 @@ JS
       # workaround due to mass-assignment protected member_roles.role_id
       member.member_roles << roles.collect {|r| MemberRole.new :role => r }
       member.user_id = user_id if user_id
+      member
     end
 
     user_ids.each do |user_id|
