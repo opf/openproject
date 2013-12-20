@@ -29,12 +29,6 @@
 language: ruby
 rvm:
   - 2.1
-branches:
-  only:
-    - dev
-    - stable
-    - release/3.0
-    - dev-angular
 env:
   # Frontend
   - "TEST_SUITE=karma"
