@@ -678,9 +678,9 @@ class WorkPackage < ActiveRecord::Base
   end
 
   # Override of acts_as_watchable#possible_watcher_users
-  # Restricts the result to project members if the project is private
+  # Restricts the result to project members for private as well as public projects
   def possible_watcher_users
-    users = project.is_public? ? User.not_builtin : project.users
+    users = project.users
     users.select {|user| possible_watcher?(user)}
   end
 

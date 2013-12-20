@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#3072` Timelines rendering of top table border and text is slightly off
+* `#3108` [Work package tracking] Too many users selectable as watchers in public projects
 * `#3334` [CodeClimate] Mass Assignment WikiController
 * `#3336` Fix: use permitted_params for queries controller
 * `#3364` [Performance] Create index on enabled_modules.name

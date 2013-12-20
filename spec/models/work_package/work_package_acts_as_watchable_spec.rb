@@ -59,18 +59,18 @@ describe WorkPackage do
     end
 
     context 'when it is a public project' do
-      it 'contains non-anonymous users who are allowed to view work packages' do
-        users_allowed_to_view_work_packages = User.not_builtin.select{ |u| u.allowed_to?(:view_work_packages, project) }
+      it 'contains project members who are allowed to view work packages' do
+        users_allowed_to_view_work_packages = project.users.select{ |u| u.allowed_to?(:view_work_packages, project) }
         work_package.possible_watcher_users.sort.should == users_allowed_to_view_work_packages.sort
       end
 
-      it { should include(admin) }
       it { should include(project_member) }
+      it { should_not include(admin) }
 
       context 'and the non member role has the permission to view work packages' do
         include_context 'non member role has the permission to view work packages'
 
-        it { should include(non_member_user) }
+        it { should_not include(non_member_user) }
       end
 
       context 'and the anonymous role has the permission to view work packages' do
