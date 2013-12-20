@@ -28,8 +28,6 @@
 #++
 
 class MembersController < ApplicationController
-  include ActiveModel::ForbiddenAttributesProtection
-
   model_object Member
   before_filter :find_model_object_and_project, :except => [:autocomplete_for_member, :paginate_users]
   before_filter :find_project, :only => [:autocomplete_for_member, :paginate_users]

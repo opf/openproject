@@ -28,6 +28,8 @@
 #++
 
 class Member < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
+
   belongs_to :user
   belongs_to :principal, :foreign_key => 'user_id'
   has_many :member_roles, :dependent => :destroy, :autosave => true
