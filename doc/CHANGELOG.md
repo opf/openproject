@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.0pre41
+
 * `#2743` Clear work packages filters when the work packages menu item is clicked
 * `#3072` Timelines rendering of top table border and text is slightly off
 * `#3108` [Work package tracking] Too many users selectable as watchers in public projects
@@ -39,6 +41,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3455` Fix: [Projects] Tab "Types" missing in newly created projects
 
 ## 3.0.0pre40
+
 * `#3066` [Work package tracking] Bulk edit causes page not found
 * update will paginate
 
