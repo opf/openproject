@@ -148,20 +148,23 @@ JS
 
   def new_members_from_params
     members = []
-    attrs = params[:member].dup
-    user_ids = possibly_seperated_ids_for_entity(attrs, :user)
-    roles = Role.find_all_by_id(possibly_seperated_ids_for_entity(attrs, :role))
+    user_ids = possibly_seperated_ids_for_entity(params[:member], :user)
+    roles = Role.find_all_by_id(possibly_seperated_ids_for_entity(params[:member], :role))
+    attrs = permitted_params.member.reject { |k, v| k == :role_ids }
 
-    user_ids.each do |user_id|
-      member = Member.new permitted_params.member.reject { |k, v| k == :role_ids }
+    new_member = lambda do |user_id|
+      member = Member.new attrs
       # workaround due to mass-assignment protected member_roles.role_id
       member.member_roles << roles.collect {|r| MemberRole.new :role => r }
-      member.user_id = user_id
-      members << member
+      member.user_id = user_id if user_id
+    end
+
+    user_ids.each do |user_id|
+      members << new_member.call(user_id)
     end
     # most likely wrong user input, use a dummy member for error handling
     if !members.present? && roles.present?
-      members = [Member.new(attrs.merge({ :member_roles => roles.collect {|r| MemberRole.new :role => r } }))]
+      members << new_member.call(nil)
     end
     members
   end
@@ -184,8 +187,8 @@ JS
 
   def possibly_seperated_ids_for_entity(array, entity = :user)
     if !array[:"#{entity}_ids"].nil?
-      transform_array_of_comma_seperated_ids(array.delete(:"#{entity}_ids"))
-    elsif (!array[:"#{entity}_id"].nil?) && ((id = array.delete(:"#{entity}_id")).present?)
+      transform_array_of_comma_seperated_ids(array[:"#{entity}_ids"])
+    elsif !array[:"#{entity}_id"].nil? && (id = array[:"#{entity}_id"].present?)
       [id]
     else
       []
