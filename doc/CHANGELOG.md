@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* Add redirect from /wp to /work_packages for less typing
+
 ## 3.0.0pre41
 
 * `#2743` Clear work packages filters when the work packages menu item is clicked

@@ -36,6 +36,10 @@ OpenProject::Application.routes.draw do
   # see https://github.com/rails/rails/issues/5688
   match '/issues/*rest' => redirect { |params, req| "/work_packages/#{URI.escape(params[:rest])}" }
 
+  # Redirect wp short url for work packages to full URL
+  match '/wp(/)'    => redirect('/work_packages/')
+  match '/wp/*rest' => redirect { |params, req| "/work_packages/#{URI.escape(params[:rest])}" }
+
   scope :controller => 'account' do
     get '/account/force_password_change', :action => 'force_password_change'
     post '/account/change_password', :action => 'change_password'
