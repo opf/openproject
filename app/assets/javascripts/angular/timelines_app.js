@@ -1,4 +1,5 @@
-var timelinesApp = angular.module('openproject.timelines', ['ui.select2', 'ngResource']);
+var timelinesApp = angular.module('openproject.timelines', ['ui.select2', 'ngResource'])
 
-// .run(function($rootScope){
-// })
+.run(['$http', function($http){
+  $http.defaults.headers.common.Accept = 'application/json';
+}]);
