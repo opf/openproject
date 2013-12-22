@@ -1,45 +1,32 @@
-timelinesApp.factory('PlanningElement', ['$resource', '$q', 'APIDefaults', function($resource, $q, APIDefaults) {
+timelinesApp.factory('PlanningElement', ['$http', '$q', 'APIUrlHelper', function($http, $q, APIUrlHelper) {
 
-  PlanningElement = $resource(
-    APIDefaults.apiPrefix + APIDefaults.projectPath + '/planning_elements/:id.json',
-    {projectId: '@projectId', id: '@planningElementId'},
-    {
-      get: {
-        // Explicit specification needed because of API reponse format
-        method: 'GET',
-        transformResponse: function(data) {
-          return new PlanningElement(angular.fromJson(data).planning_element);
-        }
-      },
-      query: {
-        method: 'GET',
-        isArray: true,
-        transformResponse: function(data) {
-          // Angular resource expects a json array and would return json
-          // Here we fetch the results and map them to PlanningElement resources
-          wrapped = angular.fromJson(data);
-          angular.forEach(wrapped.planning_elements, function(item, idx) {
-            wrapped.planning_elements[idx] = new PlanningElement(item);
-          });
-          return wrapped.planning_elements;
-        }
-      }
-    });
-
-  // Query that returns a promise instead of an array
-  PlanningElement.getQueryPromise = function(params) {
-    deferred = $q.defer();
-
-    PlanningElement.query(params, function(projects){
-      deferred.resolve(projects);
-    });
-
-    return deferred.promise;
+  PlanningElement = function (data) {
+    angular.extend(this, data);
   };
 
-  PlanningElement.prototype.is = function(t) {
-    return this.identifier === t.identifier;
+  // Promises based on $http
+
+  PlanningElement.buildFromResponse = function(response) {
+    return new PlanningElement(response.data.planning_element);
   };
+
+  PlanningElement.getById = function(projectIds, id) {
+    return $http.get(APIUrlHelper.projectsPlanningElementPath(projectIds, id))
+      .then(PlanningElement.buildFromResponse);
+  };
+
+  PlanningElement.collectionFromResponse = function(response) {
+    return response.data.planning_elements.map(function(planningElement){
+      return new PlanningElement(planningElement);
+    });
+  };
+
+  PlanningElement.getCollection = function(projectIds, params) {
+    return $http({method: 'GET', url: APIUrlHelper.projectsPlanningElementsPath(projectIds), params: params})
+      .then(PlanningElement.collectionFromResponse);
+  };
+
+
   PlanningElement.prototype.hide = function () {
     return false;
   };

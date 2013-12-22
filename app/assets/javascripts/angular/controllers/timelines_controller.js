@@ -24,7 +24,8 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'TimelineSe
   $scope.currentScaleName = 'monthly';
 
   // Load timeline
-  $scope.timeline = Timeline.create($scope.timelineOptions); //TimelineLoadingService.createTimeline($scope.timelineOptions);
+  $scope.timeline = Timeline.create($scope.timelineOptions);
+
   // $scope.treeNode = $scope.timeline.getLefthandTree();
 
 
@@ -62,9 +63,5 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'TimelineSe
       $scope.currentScaleIndex--;
     }
   };
-
-  $scope.$on('timelines.dataLoaded', function(){
-    $scope.$apply();
-  });
 
 }]);

@@ -1,4 +1,4 @@
-timelinesApp.factory('Timeline', ['Constants', 'FilterQueryStringBuilder', 'TreeNode', 'UI', 'Color', 'HistoricalPlanningElement', 'PlanningElement', 'PlanningElementType', 'Project', 'ProjectAssociation', 'ProjectType', 'Reporting', 'Status', 'User', function(Constants, FilterQueryStringBuilder, TreeNode, UI, Color, HistoricalPlanningElement, PlanningElement, PlanningElementType, Project,ProjectAssociation, ProjectType, Reporting, Status, User) {
+timelinesApp.factory('Timeline', ['$q', '$filter', 'Constants', 'FilterQueryStringBuilder', 'TreeNode', 'UI', 'Color', 'HistoricalPlanningElement', 'PlanningElement', 'PlanningElementType', 'Project', 'ProjectAssociation', 'ProjectType', 'Reporting', 'Status', 'User', function($q, $filter, Constants, FilterQueryStringBuilder, TreeNode, UI, Color, HistoricalPlanningElement, PlanningElement, PlanningElementType, Project, ProjectAssociation, ProjectType, Reporting, Status, User) {
 
   Timeline = {};
 
@@ -6,18 +6,6 @@ timelinesApp.factory('Timeline', ['Constants', 'FilterQueryStringBuilder', 'Tree
   Timeline.FilterQueryStringBuilder = FilterQueryStringBuilder;
   angular.extend(Timeline, {TreeNode: TreeNode});
   angular.extend(Timeline, UI);
-
-  // model mix ins
-  // angular.extend(Timeline, {Color: Color});
-  // angular.extend(Timeline, {HistoricalPlanningElement: HistoricalPlanningElement});
-  // angular.extend(Timeline, {PlanningElement: PlanningElement});
-  // angular.extend(Timeline, {PlanningElementType: PlanningElementType});
-  // // angular.extend(Timeline, {Project: Project});
-  // angular.extend(Timeline, {ProjectAssociation: ProjectAssociation});
-  // angular.extend(Timeline, {ProjectType: ProjectType});
-  // angular.extend(Timeline, {Reporting: Reporting});
-  // angular.extend(Timeline, {Status: Status});
-  // angular.extend(Timeline, {User: User});
 
   angular.extend(Timeline, {
     instances: [],
@@ -243,127 +231,44 @@ timelinesApp.factory('Timeline', ['Constants', 'FilterQueryStringBuilder', 'Tree
       console.log('- timelines.js: reload');
 
       delete this.lefthandTree;
+      // reload data
+      // then
+        //  if (this.isGrouping() && this.options.grouping_two_enabled) {
+        //   this.secondLevelGroupingAdjustments();
+        // }
 
-      var timelineLoader = this.provideTimelineLoader();
+        // this.adjustForPlanningElements();
 
-      jQuery(timelineLoader).on('complete', jQuery.proxy(function (e, data) {
-
-        jQuery.extend(this, data);
-        jQuery(this).trigger('dataReLoaded');
-
-        if (this.isGrouping() && this.options.grouping_two_enabled) {
-          this.secondLevelGroupingAdjustments();
-        }
-
-        this.adjustForPlanningElements();
-
-        this.rebuildAll();
-
-      }, this));
-
-      timelineLoader.load();
+        // this.rebuildAll();
     },
-    provideTimelineLoader: function() {
-      console.log('- timelines.js: Setting up timeline loader');
-
-      console.log({
-          api_prefix                    : this.options.api_prefix,
-          url_prefix                    : this.options.url_prefix,
-          project_prefix                : this.options.project_prefix,
-          planning_element_prefix       : this.options.planning_element_prefix,
-          project_id                    : this.options.project_id,
-          project_types                 : this.options.project_types,
-          project_statuses              : this.options.project_status,
-          project_responsibles          : this.options.project_responsibles,
-          project_parents               : this.options.parents,
-          planning_element_types        : this.options.planning_element_types,
-          planning_element_responsibles : this.options.planning_element_responsibles,
-          planning_element_status       : this.options.planning_element_status,
-          grouping_one                  : (this.options.grouping_one_enabled ? this.options.grouping_one_selection : undefined),
-          grouping_two                  : (this.options.grouping_two_enabled ? this.options.grouping_two_selection : undefined),
-          ajax_defaults                 : this.ajax_defaults,
-          current_time                  : this.comparisonCurrentTime(),
-          target_time                   : this.comparisonTarget(),
-          include_planning_elements     : this.verticalPlanningElementIds()
-        });
-
-      console.log(
-        this.ajax_defaults
-        );
-
-      return new Timeline.TimelineLoader(
-        this,
-        {
-          api_prefix                    : this.options.api_prefix,
-          url_prefix                    : this.options.url_prefix,
-          project_prefix                : this.options.project_prefix,
-          planning_element_prefix       : this.options.planning_element_prefix,
-          project_id                    : this.options.project_id,
-          project_types                 : this.options.project_types,
-          project_statuses              : this.options.project_status,
-          project_responsibles          : this.options.project_responsibles,
-          project_parents               : this.options.parents,
-          planning_element_types        : this.options.planning_element_types,
-          planning_element_responsibles : this.options.planning_element_responsibles,
-          planning_element_status       : this.options.planning_element_status,
-          grouping_one                  : (this.options.grouping_one_enabled ? this.options.grouping_one_selection : undefined),
-          grouping_two                  : (this.options.grouping_two_enabled ? this.options.grouping_two_selection : undefined),
-          ajax_defaults                 : this.ajax_defaults,
-          current_time                  : this.comparisonCurrentTime(),
-          target_time                   : this.comparisonTarget(),
-          include_planning_elements     : this.verticalPlanningElementIds()
-        }
-      );
-    },
-    getTimelineLoaderOptions: function() {
-      return {
-        api_prefix                    : this.options.api_prefix,
-        url_prefix                    : this.options.url_prefix,
-        project_prefix                : this.options.project_prefix,
-        planning_element_prefix       : this.options.planning_element_prefix,
-        project_id                    : this.options.project_id,
-        project_types                 : this.options.project_types,
-        project_statuses              : this.options.project_status,
-        project_responsibles          : this.options.project_responsibles,
-        project_parents               : this.options.parents,
-        planning_element_types        : this.options.planning_element_types,
-        planning_element_responsibles : this.options.planning_element_responsibles,
-        planning_element_status       : this.options.planning_element_status,
-        grouping_one                  : (this.options.grouping_one_enabled ? this.options.grouping_one_selection : undefined),
-        grouping_two                  : (this.options.grouping_two_enabled ? this.options.grouping_two_selection : undefined),
-        ajax_defaults                 : this.ajax_defaults,
-        current_time                  : this.comparisonCurrentTime(),
-        target_time                   : this.comparisonTarget(),
-        include_planning_elements     : this.verticalPlanningElementIds()
-      };
-    },
-    defer: function(action, delay) {
-      console.log('- timelines.js: defer');
-      console.log({action: action, delay: delay});
-
-      var timeline = this;
-      var result;
-      if (delay === undefined) {
-        delay = 0;
-      }
-      result = window.setTimeout(function() {
-        try {
-          action.call();
-        } catch(e) {
-          timeline.die(e);
-        }
-      }, 0);
-      return result;
-    },
+    // getOptionsForLoading: function() {
+    //   return {
+    //     api_prefix                    : this.options.api_prefix,
+    //     url_prefix                    : this.options.url_prefix,
+    //     project_prefix                : this.options.project_prefix,
+    //     planning_element_prefix       : this.options.planning_element_prefix,
+    //     project_id                    : this.options.project_id,
+    //     project_types                 : this.options.project_types,
+    //     project_statuses              : this.options.project_status,
+    //     project_responsibles          : this.options.project_responsibles,
+    //     project_parents               : this.options.parents,
+    //     planning_element_types        : this.options.planning_element_types,
+    //     planning_element_responsibles : this.options.planning_element_responsibles,
+    //     planning_element_status       : this.options.planning_element_status,
+    //     grouping_one                  : (this.options.grouping_one_enabled ? this.options.grouping_one_selection : undefined),
+    //     grouping_two                  : (this.options.grouping_two_enabled ? this.options.grouping_two_selection : undefined),
+    //     ajax_defaults                 : this.ajax_defaults,
+    //     current_time                  : this.comparisonCurrentTime(),
+    //     target_time                   : this.comparisonTarget(),
+    //     include_planning_elements     : this.verticalPlanningElementIds()
+    //   };
+    // },
     die: function(error, classes) {
       var message = (typeof error === 'string') ? error :
         this.i18n('timelines.errors.report_epicfail'); // + '<br>' + error.message;
       classes = classes || 'flash error';
 
       this.warn(message, classes);
-
-      // assume this won't happen anymore.
-      this.onLoadComplete = function() {};
 
       if (console && console.log) {
         console.log(error.stack);
@@ -382,14 +287,9 @@ timelinesApp.factory('Timeline', ['Constants', 'FilterQueryStringBuilder', 'Tree
 
       }, Timeline.DISPLAY_ERROR_DELAY);
     },
-    onLoadComplete: function() {
-      console.log('- timelines.js: onLoadComplete');
-
-      // everything here should be wrapped in try/catch, to never
+    completeDrawing: function() {
       var tree;
       try {
-        window.clearTimeout(this.safetyHook);
-
         if (this.isGrouping() && this.options.grouping_two_enabled) {
           this.secondLevelGroupingAdjustments();
         }
@@ -949,53 +849,61 @@ timelinesApp.factory('Timeline', ['Constants', 'FilterQueryStringBuilder', 'Tree
 
     // Promise API
 
-    getProjectPromise: function() {
-      return Project.get({id: this.options.project_id}).$promise;
+    // Associated objects
+
+    getProject: function() {
+      return Project.getById(this.options.project_id);
     },
 
-    getRelevantProjectsPromise: function() {
-      return this.getProjectPromise()
+    getRelevantProjects: function() {
+      return this.getProject()
         .then(function(project){
-          return project.getSelfAndReportingProjectsPromise();
+          return project.getSelfAndReportingProjects();
         });
     },
 
+    getRelevantProjectIds: function () {
+      return this.getRelevantProjects()
+        .then(function(relevantProjects){
+          return relevantProjects.map(function(project){
+            return project.id;
+          });
+        });
+    },
 
-    // Associated objects
+    // getRelevantProjectIdsForApiPath: function () {
+    //   relevantProjectIds = [];
+    //   return this.getProject()
+    //     .then(function(project){
+    //       relevantProjectIds.push(project.identifier);
+    //       return project.getReportingProjects();
+    //     })
+    //     .then(function(reportingProjects){
+    //       angular.forEach(reportingProjects,function(project){
+    //         relevantProjectIds.push(project.id);
+    //       });
+    //       return relevantProjectIds;
+    //     });
+    // },
 
     getProjects: function() {
-      projects = [];
-
+      return this.getRelevantProjects();
       // TODO Filter reportings
       //   if (this.reportings.hasOwnProperty(i)) {
       //     relevantProjectIds.push(this.reportings[i].getProjectId());
       //   }
-      this.getRelevantProjectsPromise()
-        .then(function(relevantProjects){
-          angular.forEach(relevantProjects, function(p){
-            projects.push(p);
-          });
-        });
-
-      return projects;
-    },
-
-    getProject: function() {
-      if (this.project === undefined) {
-        this.project = Project.get({id: this.options.project_id});
-      }
-      return this.project;
     },
 
     getReportings: function() {
-      if (!this.reportings) {
-        this.reportings = Reporting.query({projectId: this.options.project_id, only: 'via_target'});
-      }
-      return this.reportings;
+      return this.getProject().then(function(project){
+        return project.getReportings();
+      });
     },
 
-    getReporting: function(id) {
-      return this.reportings[id];
+    getReportingById: function(id) {
+      return this.getReportings().then(function(reportings){
+        return $filter('getElementById')(reportings, id);
+      });
     },
 
 
@@ -1025,36 +933,37 @@ timelinesApp.factory('Timeline', ['Constants', 'FilterQueryStringBuilder', 'Tree
       };
     },
 
-    firstLevelGroups: undefined,
     getFirstLevelGroups: function() {
-      if (this.firstLevelGroups !== undefined) {
-        return this.firstLevelGroups;
-      }
-
       var i, selection = this.options.grouping_one_selection;
-      var p, groups = [], children;
+      var p, groups = [];
 
       if (this.isGrouping()) {
-        for ( i = 0; i < selection.length; i++ ) {
-          p = this.getProject(selection[i]);
-          if (p === undefined) {
-            // projects may have subprojects that the current user knows
-            // about, but which cannot be/ were not fetched in advance due
-            // to lack of rights.
-            continue;
-          }
-          children = this.getSubprojectsOf([selection[i]]);
-          if (children.length !== 0) {
-            groups.push({
-              projects: children,
-              id: selection[i]
-            });
-          }
-        }
+        return this.getProjects()
+          .then(function(projects){
+            for ( i = 0; i < selection.length; i++ ) {
+              project = projects[selection[i]];
+              if (project === undefined) {
+                // projects may have subprojects that the current user knows
+                // about, but which cannot be/ were not fetched in advance due
+                // to lack of rights.
+                continue;
+              }
+              project.getSubprojects()
+                .then(function(subprojects){
+                  if (subprojects.length !== 0) {
+                    groups.push({
+                      projects: subprojects,
+                      id: selection[i]
+                    });
+                  }
+                });
+            }
+            return groups;
+          });
+      } else {
+        return $q.when([]);
       }
 
-      this.firstLevelGroups = groups;
-      return groups;
     },
     getNumberOfGroups: function() {
       var result = this.options.hide_other_group? 0: 1;
@@ -1128,7 +1037,10 @@ timelinesApp.factory('Timeline', ['Constants', 'FilterQueryStringBuilder', 'Tree
       return PlanningElementType.get({id: id});
     },
     getPlanningElements: function() {
-      return Timeline.PlanningElement.all(this);
+      return this.getRelevantProjectIds()
+        .then(function(projectIds){
+          return PlanningElement.getCollection(projectIds);
+        });
     },
     getPlanningElement: function(id) {
       return this.planning_elements[id];

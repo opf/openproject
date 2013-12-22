@@ -1,152 +1,93 @@
-timelinesApp.factory('Project', ['$resource', '$q', 'APIDefaults', function($resource, $q, APIDefaults) {
+timelinesApp.factory('Project', ['$http', '$q', 'APIUrlHelper', function($http, $q, APIUrlHelper) {
 
-  Project = $resource(
-    APIDefaults.apiPrefix + '/projects/:id.json',
-    {id: '@projectId'},
-    {
-      get: {
-        // Explicit specification needed because of API reponse format
-        method: 'GET',
-        transformResponse: function(data) {
-          return new Project(angular.fromJson(data).project);
-        }
-      },
-      query: {
-        method: 'GET',
-        isArray: true,
-        transformResponse: function(data) {
-          // Angular resource expects a json array and would return json
-          // Work around as the API does not return an array.
-          wrapped = angular.fromJson(data);
-          angular.forEach(wrapped.projects, function(item, idx) {
-            // transform JSON into resource object
-            wrapped.projects[idx] = new Project(item);
-          });
-          return wrapped.projects;
-        }
-      }
-    });
-
-  // Query that returns a promise instead of an array
-  Project.getQueryPromise = function(params) {
-    deferred = $q.defer();
-
-    Project.query(params, function(projects){
-      deferred.resolve(projects);
-    });
-
-    return deferred.promise;
+  Project = function (data) {
+    angular.extend(this, data);
   };
 
-  // Query returning an array extended with a promise yielding results
+  // Promises based on $http
+
+  Project.buildFromResponse = function(response) {
+    return new Project(response.data.project);
+  };
+
+  Project.getById = function(id) {
+    return $http.get(APIUrlHelper.projectPath(id))
+      .then(Project.buildFromResponse);
+  };
+
+  Project.collectionFromResponse = function(response) {
+    return response.data.projects.map(function(project){
+      return new Project(project);
+    });
+  };
+
   Project.getCollection = function(params) {
-    queryResults = [];
-
-    queryPromise = Project.getQueryPromise(params);
-    angular.extend(queryResults, {promise: queryPromise});
-
-    queryPromise.then(function(results){
-      angular.forEach(results, function(child){
-        queryResults.push(child);
-      });
-    });
-
-    return queryResults;
+    return $http({method: 'GET', url: APIUrlHelper.projectsPath(), params: params})
+      .then(Project.collectionFromResponse);
   };
 
-  Project.prototype.getReportingsPromise = function() {
-    return this.$promise
-      .then(function(project){
-        return Reporting.getQueryPromise({projectId: project.identifier, only_via: 'target'});
-      });
+
+  Project.prototype.getReportings = function() {
+    return Reporting.getCollection(this.identifier, {only_via: 'target'});
   };
 
-  Project.prototype.getReportingProjectsPromise = function() {
-    return this.getReportingsPromise()
-      .then(function(reportings) {
-        reportingProjects = reportings.map(function(reporting){
-          return reporting.getProjectResource();
-        });
-        return reportingProjects;
+  Project.prototype.getReportingProjects = function() {
+    return this.getReportings()
+      .then(function(reportings){
+        return $q.all(
+          reportings.map(function(reporting){
+            return reporting.getProjectResource();
+          })
+        );
       });
   };
 
-  Project.prototype.getSelfAndReportingProjectsPromise = function () {
+  Project.prototype.getSelfAndReportingProjects = function () {
     self = this;
 
-    return this.getReportingProjectsPromise()
+    return this.getReportingProjects()
       .then(function(reportingProjects){
         return reportingProjects.concat([self]);
       });
   };
 
-  Project.prototype.getRelatedProjectIdsPromise = function () {
-    projectIds = [this.id];
 
-    return this.getReportingsPromise()
-      .then(function(reportings){
-        angular.forEach(reportings, function(reporting){
-          projectIds.push(reporting.getProjectId());
+  Project.prototype.getParent = function () {
+    return Project.getById(this.parent.id);
+  };
+
+  Project.prototype.getChildren = function () {
+    return Project.getCollection({parent_id: this.id});
+  };
+
+  Project.prototype.getSubProjects = function () {
+    var subProjects;
+
+    return this.getChildren()
+      .then(function(children) {
+        subProjects = children;
+
+        if (!subProjects || subProjects.length === 0) return [];
+
+        $q.all(children.map(function(child){
+          return child.getSubProjects();
+        })).then(function(projects) {
+          angular.forEach(projects.flatten(), function(subProject){
+            subProjects.push(subProject);
+          });
         });
-        return projectIds;
+
+        return subProjects;
       });
   };
 
-  Project.prototype.getAllPlanningElementsPromise = function () {
-    return this.getRelatedProjectIdsPromise()
+  Project.prototype.getAllPlanningElements = function () {
+    return this.getRelatedProjectIds()
       .then(function(projectIds){
-        ids = projectIds.join(',');
-        return PlanningElement.getQueryPromise({projectId: ids});
+        return PlanningElement.getCollection(projectIds);
       });
   };
 
-  // TODO Fix
-  Project.prototype.getSelfAndReportingProjects = function () {
-    if (this.selfAndReportingProjects) return this.selfAndReportingProjects;
 
-    selfAndReportingProjects = [];
-
-    this.getSelfAndReportingProjectsPromise()
-      .then(function(projects){
-        angular.forEach(projects, function(project) {
-          selfAndReportingProjects.push(project);
-        });
-      });
-
-    this.selfAndReportingProjects = selfAndReportingProjects;
-    return selfAndReportingProjects;
-  };
-
-  Project.prototype.getParent = function() {
-    if(!this.parent) return null;
-
-    if(!this.parentProject) {
-      this.parentProject = Project.get({id: this.parent.id});
-    }
-    return this.parentProject;
-  };
-
-  Project.prototype.getChildren = function() {
-    if (this.children === undefined) {
-      this.children = Project.getCollection({parent_id: this.id});
-    }
-    return this.children;
-  };
-
-  Project.prototype.getReportings = function () {
-    if (this.reportings) return this.reportings;
-
-    reportings = [];
-    project = this;
-
-    this.getReportingsPromise().then(function(results){
-      project.reportings = results;
-      angular.forEach(results, function(result){
-        reportings.push(result);
-      });
-    });
-
-    return reportings;
-  };
   return Project;
 }]);
