@@ -42,6 +42,7 @@ See doc/COPYRIGHT.rdoc for more details.
  *= require content/forms
  *= require content/flash_messages
  *= require content/calendar
+ *= require content/wiki
  *= require default/application
  *= require layout/footer
  */
