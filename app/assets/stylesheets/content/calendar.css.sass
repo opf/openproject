@@ -1,0 +1,77 @@
+/*-- copyright
+ * OpenProject is a project management system.
+ * Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 3.
+ *
+ * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+ * Copyright (C) 2006-2013 Jean-Philippe Lang
+ * Copyright (C) 2010-2013 the ChiliProject Team
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * See doc/COPYRIGHT.rdoc for more details.  ++*/
+
+@import "variables"
+@import "mixins"
+
+table.cal
+  border-collapse: collapse
+  width: 100%
+  margin: 0px 0 6px 0
+  border: $content_calendar_border_width solid $content_calendar_border_color
+
+  thead th
+    width: 14%
+    background-color: $content_calendar_head_cell_bg_color
+    padding: 4px
+    &.week-number
+      width: auto
+
+  tbody tr
+    height: 100px
+  td
+    border: $content_calendar_cell_border_width solid $content_calendar_cell_border_color
+    vertical-align: top
+    font-size: 0.9em
+    &.week-number
+      background-color: $content_calendar_head_cell_bg_color
+      padding: 4px
+      border: none
+      font-size: 1em
+
+    p.day-num
+      font-size: 1.1em
+      text-align: right
+    &.odd p.day-num
+      color: #bbb
+    &.today
+      background: $content_calendar_cell_today_bg_color
+    p.day-num
+      font-weight: bold
+.starting a, p.cal.legend .starting
+  background: url(image-path('bullet_go.png')) no-repeat -1px -2px
+  padding-left: 16px
+.ending a, p.cal.legend .ending
+  background: url(image-path('bullet_end.png')) no-repeat -1px -2px
+  padding-left: 16px
+.starting.ending a, p.cal.legend .starting.ending
+  background: url(image-path('bullet_diamond.png')) no-repeat -1px -2px
+  padding-left: 16px
+
+p.cal.legend span
+  display: block
+

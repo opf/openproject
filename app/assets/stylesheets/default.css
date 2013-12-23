@@ -41,6 +41,7 @@ See doc/COPYRIGHT.rdoc for more details.
  *= require layout/main_menu
  *= require content/forms
  *= require content/flash_messages
+ *= require content/calendar
  *= require default/application
  *= require layout/footer
  */
