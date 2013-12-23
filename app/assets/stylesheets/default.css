@@ -39,6 +39,8 @@ See doc/COPYRIGHT.rdoc for more details.
  *= require layout/top_menu
  *= require layout/breadcrumb
  *= require layout/main_menu
+ *= require content/forms
+ *= require content/flash_messages
  *= require default/application
  *= require layout/footer
  */

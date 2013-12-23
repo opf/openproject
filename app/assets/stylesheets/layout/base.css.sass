@@ -91,4 +91,12 @@ h4, .wiki h3
   z-index: 10
   &.hidden-navigation
     margin-left: $main_menu_folded_width
-
+  &.nosidebar
+    margin-left: 0
+    padding: 45px 60px 50px 25px
+  &:after
+    content: "."
+    display: block
+    height: 0
+    clear: both
+    visibility: hidden

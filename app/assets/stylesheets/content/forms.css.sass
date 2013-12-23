@@ -25,39 +25,29 @@
  *
  * See doc/COPYRIGHT.rdoc for more details.  ++*/
 
-@mixin html_body_spacing
-  margin:             0
-  padding:            0
-  height:             100%
+@import "variables"
+@import "mixins"
 
-@mixin default-transition
-  -webkit-transition: all 200ms ease-in-out 0s
-  -moz-transition:    all 200ms ease-in-out 0s
-  -ms-transition:     all 200ms ease-in-out 0s
-  -o-transition:      all 200ms ease-in-out 0s
-  transition:         all 200ms ease-in-out 0s
+#login-form
+  form
+    border: none
+    padding: 30px 20px
+    background-color: $content_form_bg_color
+    display: block
+    border: 1px solid #6DABC2
+    -moz-border-radius: 5px
+    -webkit-border-radius: 5px
+    border-radius: 5px
+    padding: 10px
+    input#username, input#password
+      width: $content_from_input_width
+    label
+      font-weight: bold
 
-@mixin default-font-normal($color, $font-size: 13px)
-  color:              $color
-  font-size:          $font-size
-  font-family:        'LatoRegular', 'Lucida Grande', Helvetica, Arial, sans-serif
-  font-weight:        normal
+  table
+    border: 0 none
+    background: none
+    margin: 0
+    td
+      padding: 6px
 
-@mixin default-font-bold($color, $font-size: 13px)
-  color:              $color
-  font-size:          $font-size
-  font-family:        'LatoBold', 'Lucida Grande', Helvetica, Arial, sans-serif
-  font-weight:        normal
-
-@mixin main-menu-font
-  font-style:         normal
-  font-family:        'LatoRegular','Lucida Grande',Helvetica,Arial,sans-serif
-
-@mixin header-fonts($color, $font-size: 14px)
-  @include default-font-normal($color, $font-size)
-
-@mixin breadcrumb-font($color)
-  @include default-font-normal($color, 12px)
-
-@mixin breadcrumb-font-bold($color)
-  @include default-font-bold($color, 12px)

@@ -27,27 +27,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++*/
 
-
-/***** Layout *****/
-
-#main.nosidebar #sidebar{ display: none; }
-#main.nosidebar #content{ width: auto }
-
-
-#login-form table {margin-top: 5em; padding: 1em; margin-left: auto; margin-right: auto; border: 2px solid #FDBF3B; background-color: #FFEBC1; }
-#login-form table td {padding: 6px;}
-#login-form label {font-weight: bold;}
-#login-form input#username, #login-form input#password { width: 300px; }
-
-#login-form form {
-  border: 1px solid #6DABC2;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  display: block;
-  padding: 10px;
-}
-
 input#openid_url { background: url(<%= asset_path 'openid-bg.gif' %>) no-repeat; background-color: #fff; background-position: 0 50%; padding-left: 18px; }
 
 .clear:after{ content: "."; display: block; height: 0; clear: both; visibility: hidden; }
@@ -526,17 +505,7 @@ div#tab-content-members fieldset div.select-boxes .select2-container {
   font-weight: normal;
 }
 
-/***** Flash & error messages ****/
-#errorExplanation, div.flash, .nodata, .warning {
-  padding: 4px;
-  margin-bottom: 12px;
-  border: 2px solid;
-  margin: 0 0 10px;
-  border: 1px solid;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-}
+/***** Form error messages ****/
 
 span.errorSpan {
   font-weight: bold;
@@ -552,26 +521,6 @@ span.errorSpan input {
   border: 2px solid red;
 }
 
-div.flash {margin-top: 8px;}
-
-div.flash.error a, div.flash.warning a, div.flash.notice a, #errorExplanation a,
-div.flash.error a:link, div.flash.warning a:link, div.flash.notice a:link, #errorExplanation a:link,
-div.flash.error a:hover, div.flash.warning a:hover, div.flash.notice a:hover, #errorExplanation a:hover {
-  font: bold 12px/1.5 arial,'lucida grandriale','lucida sans unicode',tahom,sans-serif;
-  color: #333;
-  text-decoration: none;
-  cursor: default;
-}
-
-.nodata, .warning {
-  text-align: center;
-  background-color: #FFEBC1;
-  border-color: #FDBF3B;
-  color: #A6750C;
-}
-
-#errorExplanation ul { font-size: 0.9em; margin-left: 30px;}
-#errorExplanation h2, #errorExplanation p { display: none; }
 
 /***** Ajax indicator ******/
 #ajax-indicator {
@@ -1339,11 +1288,6 @@ ul.journal-attributes li {
  * This section defines the styles for the projects "home" page.
  ------------------------------------------------------------------------------*/
 
-#content.nosidebar {
-  margin-left: 0;
-  padding: 45px 60px 50px 25px;
-
-}
 #project-links {
   right: 30px;
   color: #ccc;
@@ -1562,17 +1506,6 @@ tr.context-menu-selection td.priority {
 ul.projects div.root a.project {
   font-family: inherit;
 }
-#content #login-form table {
-  border: 0 none;
-  background: none;
-  margin: 0;
-}
-#content #login-form table tr:hover {
-  background: none;
-}
-#login-form table td, #login-form table th {
-  border: 0 none;
-}
 
 /* tables don't all need border you know */
 #relations table td, #relations table th {
@@ -1582,7 +1515,6 @@ ul.projects div.root a.project {
 div.issue div#relations {
   margin-top: 25px;
 }
-
 
 /* custom query page */
 #content .box fieldset {
@@ -1618,15 +1550,6 @@ fieldset#columns table {
 fieldset#columns td {
   border: 0;
   vertical-align: middle;
-}
-
-/* Flash notices */
-div.flash {
-  margin: 0 0 10px;
-  border: 1px solid;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
 }
 
 /* all kinds of wonderful tweaks */
@@ -1750,14 +1673,6 @@ tr.time-entry {
 }
 
 /* clearfix */
-html > body #content:after {
-  content: ".";
-  display: block;
-  height: 0;
-  clear: both;
-  visibility: hidden;
-
-}
 #content table.files .opt-desc {
   width: 45%;
 }
@@ -2160,39 +2075,6 @@ a.sort.desc {
 }
 
 .required {color: #008BD0;} /* changed to Siemens red! */
-
-/***** Flash & error messages ****/
-
-
-div.flash {
-  margin-top: 0;
-}
-
-div.flash.error, #errorExplanation {
-  background-color: #FAAA96;
-  border: none;
-  color: #000000;
-}
-
-div.flash.notice {
-  background-color: #C8F0BE;
-  border: none;
-  color: #000000;
-}
-
-div.flash.warning { /* orange */
-  background-color: #FFC38C;
-  border: none;
-  color: #000000;
-  text-align: left;
-}
-
-.nodata, .warning { /* softer orange?? */
-  background-color: #FFD7B4;
-  border: none;
-  color: #000000;
-}
-
 /***** Icons *****/
 
 
