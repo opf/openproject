@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* Fixed workflow copy view
 * Add redirect from /wp to /work_packages for less typing
 * `#3539` [Work package tracking] Modul view of work packages is too broad
 
