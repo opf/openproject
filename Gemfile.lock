@@ -370,7 +370,6 @@ DEPENDENCIES
   database_cleaner
   date_validator
   delayed_job_active_record (= 0.3.3)
-  execjs
   factory_girl_rails (~> 4.0)
   faker
   fastercsv (~> 1.5.0)
