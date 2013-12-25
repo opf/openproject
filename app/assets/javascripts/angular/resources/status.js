@@ -1,4 +1,4 @@
-timelinesApp.service('Status', ['$resource', function($resource) {
+timelinesApp.service('Status', ['$http', function($http) {
 
   Status = function (data) {
      angular.extend(this, data);

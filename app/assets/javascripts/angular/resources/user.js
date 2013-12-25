@@ -1,3 +1,3 @@
-timelinesApp.service('User', ['$resource', function($resource) {
+timelinesApp.service('User', ['$http', function($http) {
 
 }]);
