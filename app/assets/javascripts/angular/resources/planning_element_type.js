@@ -1,25 +1,27 @@
-timelinesApp.factory('PlanningElementType', ['$resource', 'APIDefaults', function($resource, APIDefaults) {
+timelinesApp.factory('PlanningElementType', ['$http', 'APIUrlHelper', function($http, APIUrlHelper) {
+  PlanningElementType = function (data) {
+     angular.extend(this, data);
+  };
 
-  PlanningElementType = $resource(
-    APIDefaults.apiPrefix + '/planning_element_types/:id.json',
-    {}, {
-      get: {
-        // Explicit specification needed because of API reponse format
-        method: 'GET',
-        transformResponse: function(data) {
-          return new PlanningElementType(angular.fromJson(data).project_type);
-        }
-      },
-      query: {
-        // Explicit specification needed because of API reponse format
-        method: 'GET',
-        isArray: true,
-        transformResponse: function(data) {
-          wrapped = angular.fromJson(data);
-          return wrapped.planning_element_types;
-        }
-      }
+  PlanningElementType.collectionFromResponse = function(response) {
+    return response.data.planning_element_types.map(function(planningElementType){
+      return new PlanningElementType(planningElementType);
     });
+  };
+
+  PlanningElementType.getCollection = function(params) {
+    return $http({method: 'GET', url: APIUrlHelper.planningElementTypesPath(), params: params})
+      .then(PlanningElementType.collectionFromResponse);
+  };
+
+  PlanningElementType.buildFromResponse = function(response) {
+    return new PlanningElementType(response.data.planning_element_type);
+  };
+
+  PlanningElementType.getById = function(id) {
+    return $http.get(APIUrlHelper.planningElementTypePath(id))
+      .then(PlanningElementType.buildFromResponse);
+  };
 
   return PlanningElementType;
 }]);

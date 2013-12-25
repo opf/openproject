@@ -42,6 +42,19 @@ timelinesApp.factory('Project', ['$http', '$q', 'APIUrlHelper', function($http, 
       });
   };
 
+  Project.prototype.getRelatedProjectIds = function () {
+    self = this;
+
+    return this.getReportings()
+      .then(function(reportings){
+        return [self.id].concat(
+          reportings.map(function(reporting){
+            return reporting.getProjectId();
+          })
+        );
+      });
+  };
+
   Project.prototype.getSelfAndReportingProjects = function () {
     self = this;
 
@@ -81,13 +94,47 @@ timelinesApp.factory('Project', ['$http', '$q', 'APIUrlHelper', function($http, 
       });
   };
 
-  Project.prototype.getAllPlanningElements = function () {
-    return this.getRelatedProjectIds()
-      .then(function(projectIds){
-        return PlanningElement.getCollection(projectIds);
+  Project.prototype.getSubElements = function () {
+    self = this;
+
+    var subElements = [];
+
+    return this.getReportingProjects()
+      .then(function(reportingProjects){
+        angular.forEach(reportingProjects, function(project){
+          subElements.push(project);
+        });
+        return self.getPlanningElements();
+      })
+      .then(function(planningElements) {
+        angular.forEach(planningElements, function(planningElement){
+          subElements.push(planningElement);
+        });
+        return subElements;
       });
   };
 
+  Project.prototype.getPlanningElements = function () {
+    self = this;
+
+    return PlanningElement.getCollection([this.id])
+      .then(self.augmentWithProjectReference);
+  };
+
+  Project.prototype.getAllPlanningElements = function () {
+    self = this;
+
+    return this.getRelatedProjectIds()
+      .then(PlanningElement.getCollection)
+      .then(self.augmentWithProjectReference);
+  };
+
+  Project.prototype.augmentWithProjectReference = function(planningElements) {
+    return planningElements.map(function(planningElement){
+      planningElement.project = self;
+      return planningElement;
+    });
+  };
 
   return Project;
 }]);

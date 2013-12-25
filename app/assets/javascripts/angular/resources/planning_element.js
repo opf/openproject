@@ -26,6 +26,25 @@ timelinesApp.factory('PlanningElement', ['$http', '$q', 'APIUrlHelper', function
       .then(PlanningElement.collectionFromResponse);
   };
 
+  PlanningElement.prototype.getChildren = function () {
+    // TODO add API query method and filter for this.child_ids
+    self = this;
+
+    return PlanningElement.getCollection([this.project_id])
+      .then(function(planningElements){
+        return planningElements.filter(function(pe){
+          return pe.parent_id === self.id;
+        })
+      });
+  };
+
+  PlanningElement.prototype.getSubElements = function () {
+    return PlanningElement.getChildren();
+  };
+
+
+
+
 
   PlanningElement.prototype.hide = function () {
     return false;
@@ -75,16 +94,16 @@ timelinesApp.factory('PlanningElement', ['$http', '$q', 'APIUrlHelper', function
   PlanningElement.prototype.getParent = function() {
     return (this.parent !== undefined) ? this.parent : null;
   };
-  PlanningElement.prototype.getChildren = function() {
-    if (!this.planning_elements) {
-      return [];
-    }
-    if (!this.sorted) {
-      this.sort('planning_elements');
-      this.sorted = true;
-    }
-    return this.planning_elements;
-  };
+  // PlanningElement.prototype.getChildren = function() {
+  //   if (!this.planning_elements) {
+  //     return [];
+  //   }
+  //   if (!this.sorted) {
+  //     this.sort('planning_elements');
+  //     this.sorted = true;
+  //   }
+  //   return this.planning_elements;
+  // };
   PlanningElement.prototype.hasChildren = function() {
     return this.getChildren().length > 0;
   };
