@@ -57,8 +57,6 @@ gem 'htmldiff'
 # used for statistics on svn repositories
 gem 'svg-graph'
 
-gem 'execjs'
-
 gem "date_validator"
 
 # replacing rsb with rabl --
