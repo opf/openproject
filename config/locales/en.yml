@@ -1240,6 +1240,7 @@ en:
   setting_text_formatting: "Text formatting"
   setting_time_format: "Time format"
   setting_ui_theme: "Theme"
+  setting_user_may_override_theme: "Users may choose their own themes"
   setting_user_format: "Users display format"
   setting_users_deletable_by_admins: "User accounts deletable by admins"
   setting_users_deletable_by_self: "Users allowed to delete their accounts"

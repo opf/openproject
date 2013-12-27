@@ -60,7 +60,7 @@ class UserPreference < ActiveRecord::Base
   end
 
   def theme
-    others[:theme]
+    others[:theme] || OpenProject::Themes.application_theme_identifier
   end
 
   def theme=(order)

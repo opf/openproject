@@ -1254,6 +1254,7 @@ de:
   setting_text_formatting: "Textformatierung"
   setting_time_format: "Zeitformat"
   setting_ui_theme: "Stil"
+  setting_user_may_override_theme: "Benutzer dürfen einen eigenen Stil wählen"
   setting_user_format: "Benutzer-Anzeigeformat"
   setting_users_deletable_by_admins: "Admins können Nutzeraccounts löschen"
   setting_users_deletable_by_self: "Nutzer können ihren Account löschen"
