@@ -34,7 +34,9 @@ module OpenProject
 
     describe '.new_theme' do
       it "returns a new theme" do
-        theme = Themes.new_theme(:new_theme)
+        theme = Themes.new_theme do |theme|
+          theme.identifier = :new_theme
+        end
         expect(theme).to be_kind_of Themes::Theme
         expect(theme.identifier).to eq :new_theme
       end
@@ -57,7 +59,9 @@ module OpenProject
 
     describe '.theme' do
       it "returns a theme by name" do
-        theme = Themes.new_theme(:new_theme)
+        theme = Themes.new_theme do |theme|
+          theme.identifier = :new_theme
+        end
         expect(Themes.theme(:new_theme)).to be theme
       end
 
@@ -74,7 +78,9 @@ module OpenProject
 
     describe '.each' do
       it "iterates over the registered themes" do
-        Themes.new_theme(:new_theme)
+        Themes.new_theme do |theme|
+          theme.identifier = :new_theme
+        end
         themes = []
         Themes.each { |theme| themes << theme.identifier }
         expect(themes).to eq [:new_theme]
@@ -83,7 +89,9 @@ module OpenProject
 
     describe '.inject' do
       it "iterates over the registered themes" do
-        Themes.new_theme(:new_theme)
+        Themes.new_theme do |theme|
+          theme.identifier = :new_theme
+        end
         identifiers = Themes.inject [] { |themes, theme| themes << theme.identifier }
         expect(identifiers).to eq [:new_theme]
       end
@@ -91,7 +99,9 @@ module OpenProject
 
     describe '.current_theme' do
       it "returns the theme with identifier defined by current theme identifier" do
-        theme = Themes.new_theme :new_theme
+        theme = Themes.new_theme do |theme|
+          theme.identifier = :new_theme
+        end
         Themes.stub(:current_theme_identifier).and_return :new_theme
         expect(Themes.current_theme).to eq theme
       end

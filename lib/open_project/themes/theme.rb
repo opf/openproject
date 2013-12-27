@@ -42,10 +42,18 @@ module OpenProject
           ThemeFinder.register_theme(subclass.instance)
         end
 
-        def new_theme(identifier = nil)
-          theme = Class.new(self).instance
-          theme.identifier = identifier if identifier
-          theme
+        ##
+        # Generate a new theme.
+        # You may give an optional block which can
+        # configure the newly created theme.
+        # For example:
+        # my_theme = Theme.new_theme do |theme|
+        #   theme.identifier = "Fancy new theme"
+        # end
+        def new_theme
+          Class.new(self).instance.tap do |theme|
+            yield(theme) if block_given?
+          end
         end
 
         def abstract!
