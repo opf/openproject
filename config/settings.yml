@@ -224,7 +224,7 @@ repository_log_display_limit:
 ui_theme:
   default: 'default'
 user_may_override_theme:
-  default: true
+  default: 1
 emails_footer:
   serialized: true
   default:
