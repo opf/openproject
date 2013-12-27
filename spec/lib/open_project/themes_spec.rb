@@ -110,6 +110,23 @@ module OpenProject
         Themes.stub(:application_theme_identifier).and_return :missing_theme
         expect(Themes.current_theme).to eq Themes.default_theme
       end
+
+      describe ' with a given user' do
+        let(:user) { FactoryGirl.build(:user) }
+
+        it 'returns the theme identifier defined by the user' do
+          user_theme = Themes.new_theme {|t| t.identifier = :user_theme }
+          user.pref[:theme] = :user_theme
+          expect(Themes.current_theme(user: user)).to eq user_theme
+        end
+
+        it 'returns the theme identifier defined by the app' do
+          app_theme = Themes.new_theme {|t| t.identifier = :app_theme }
+          user.pref[:theme] = nil
+          Themes.stub(:application_theme_identifier).and_return :app_theme
+          expect(Themes.current_theme(user: user)).to eq app_theme
+        end
+      end
     end
 
     describe '.application_theme_identifier' do
