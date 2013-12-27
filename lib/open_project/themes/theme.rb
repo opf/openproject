@@ -59,7 +59,7 @@ module OpenProject
         end
 
         def abstract?
-          @abstract
+          !!@abstract
         end
       end
 

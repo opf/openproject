@@ -69,15 +69,13 @@ module OpenProject
         end
 
         def forget_theme(theme)
-          # might not be totally clean, because it does not remove the theme-Proc
-          # from assets.precompile (it was added in `register_themes`)
+          remove_asset_pipeline_proc(theme)
           themes.delete(theme)
           clear_cache
         end
 
         def clear_themes
-          # might not be totally clean, because it does not remove the theme-Proc
-          # from assets.precompile (it was added in `register_themes`)
+          remove_all_asset_pipeline_procs
           themes.clear
           clear_cache
         end
@@ -87,6 +85,19 @@ module OpenProject
         delegate :each, to: :themes
 
       private
+        def remove_asset_pipeline_proc(theme)
+          Rails.application.config.assets.precompile.delete_if do |item|
+            item.is_a?(Proc) and theme == item.binding.eval('theme if local_variables.include? :theme')
+          end
+        end
+
+        def remove_all_asset_pipeline_procs
+          Rails.application.config.assets.precompile.delete_if do |item|
+            item.is_a?(Proc) and
+              item.binding.eval('theme if local_variables.include? :theme').is_a?(OpenProject::Themes::Theme)
+          end
+        end
+
         def clear_cache
           @_registered_themes = nil
         end
