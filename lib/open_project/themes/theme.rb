@@ -73,13 +73,13 @@ module OpenProject
 
       # 'OpenProject::Themes::GoofyTheme' => :'goofy'
       def identifier
-        @identifier ||= self.class.to_s.gsub(/Theme\z/, '').demodulize.underscore.dasherize.to_sym
+        @identifier ||= base_name.underscore.dasherize.to_sym
       end
       attr_writer :identifier
 
       # 'OpenProject::Themes::GoofyTheme' => 'Goofy'
       def name
-        @name ||= self.class.to_s.gsub(/Theme\z/, '').demodulize.titleize
+        @name ||= base_name.titleize
       end
 
       def stylesheet_manifest
@@ -129,6 +129,11 @@ module OpenProject
 
       include Singleton
       abstract!
+
+    private
+      def base_name
+        self.class.to_s.gsub(/Theme\z/, '').demodulize
+      end
     end
   end
 end
