@@ -36,7 +36,7 @@ module OpenProject
       # if none is configured or one cannot be found it returns the default theme
       # which means this helper always returns a OpenProject::Themes::Theme subclass
       def current_theme
-        OpenProject::Themes.current_theme
+        OpenProject::Themes.current_theme user: User.current
       end
 
       # overrides image_tag defined in ActionView::Helpers::AssetTagHelpers (Rails 4)
