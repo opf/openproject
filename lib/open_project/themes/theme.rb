@@ -114,8 +114,7 @@ module OpenProject
       URI_REGEXP = %r{\A[-a-z]+://|\A(?:cid|data):|\A//}
 
       def path_to_image(source)
-        return source if source =~ URI_REGEXP
-        return source if source[0] == ?/
+        return source if source =~ URI_REGEXP or source.starts_with?(?/)
 
         if image_overridden?(source)
           File.join(assets_prefix, source)
