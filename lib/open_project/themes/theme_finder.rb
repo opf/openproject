@@ -45,7 +45,7 @@ module OpenProject
         # pointing to their Theme objects.
         def registered_themes
           @_registered_themes ||= \
-            themes.each_with_object({}) do |theme, themes|
+            themes.each_with_object({}.with_indifferent_access) do |theme, themes|
               themes[theme.identifier] = theme
             end
         end
