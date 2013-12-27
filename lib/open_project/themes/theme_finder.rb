@@ -54,6 +54,9 @@ module OpenProject
         ##
         # Registers a theme instance, so that it is listed
         # in `themes` and `registered_themes`.
+        # Every Theme, which is subclassed from OpenProject::Themes::Theme
+        # automatically registeres itself using this method.
+        #
         # params: theme (a OpenProject::Themes::Theme instance)
         def register_theme(theme)
           self.themes << theme
@@ -87,7 +90,7 @@ module OpenProject
       private
         def remove_asset_pipeline_proc(theme)
           Rails.application.config.assets.precompile.delete_if do |item|
-            item.is_a?(Proc) and extract_theme(theme) == theme
+            item.is_a?(Proc) and extract_theme(item) == theme
           end
         end
 
