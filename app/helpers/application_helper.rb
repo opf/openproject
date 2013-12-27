@@ -473,7 +473,7 @@ module ApplicationHelper
   # Returns the theme, controller name, and action as css classes for the
   # HTML body.
   def body_css_classes
-    theme = OpenProject::Themes.theme(Setting.ui_theme)
+    theme = OpenProject::Themes.current_theme
 
     css = ['theme-' + theme.identifier.to_s]
 
