@@ -51,8 +51,8 @@ module OpenProject
       #         - user: Users may define a theme in their preferences
       #                 if the user has done so, return that theme
       def current_theme(options = {})
-        user_theme = Setting.user_may_override_theme && options[:user].try(:pref)
-                                                                      .try(:[], :theme)
+        user_theme = Setting.user_may_override_theme? && options[:user].try(:pref)
+                                                                       .try(:[], :theme)
         theme(user_theme || application_theme_identifier)
       end
 
