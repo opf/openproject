@@ -87,15 +87,18 @@ module OpenProject
       private
         def remove_asset_pipeline_proc(theme)
           Rails.application.config.assets.precompile.delete_if do |item|
-            item.is_a?(Proc) and theme == item.binding.eval('theme if local_variables.include? :theme')
+            item.is_a?(Proc) and extract_theme(theme) == theme
           end
         end
 
         def remove_all_asset_pipeline_procs
           Rails.application.config.assets.precompile.delete_if do |item|
-            item.is_a?(Proc) and
-              item.binding.eval('theme if local_variables.include? :theme').is_a?(OpenProject::Themes::Theme)
+            item.is_a?(Proc) and extract_theme(item).is_a?(OpenProject::Themes::Theme)
           end
+        end
+
+        def extract_theme(proc)
+          proc.binding.eval('theme if local_variables.include? :theme')
         end
 
         def clear_cache
