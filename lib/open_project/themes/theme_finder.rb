@@ -31,11 +31,18 @@ module OpenProject
   module Themes
     module ThemeFinder
       class << self
+
+        ##
+        # A list of all available themes.
+        # aliased to :all
         def themes
           @_themes ||= []
         end
         alias_method :all, :themes
 
+        ##
+        # Returns a hash with theme identifiers as keys,
+        # pointing to their Theme objects.
         def registered_themes
           @_registered_themes ||= \
             themes.each_with_object({}) do |theme, themes|
@@ -44,6 +51,10 @@ module OpenProject
         end
         delegate :fetch, to: :registered_themes
 
+        ##
+        # Registers a theme instance, so that it is listed
+        # in `themes` and `registered_themes`.
+        # params: theme (a OpenProject::Themes::Theme instance)
         def register_theme(theme)
           self.themes << theme
           clear_cache
@@ -58,21 +69,27 @@ module OpenProject
         end
 
         def forget_theme(theme)
+          # might not be totally clean, because it does not remove the theme-Proc
+          # from assets.precompile (it was added in `register_themes`)
           themes.delete(theme)
           clear_cache
         end
 
         def clear_themes
+          # might not be totally clean, because it does not remove the theme-Proc
+          # from assets.precompile (it was added in `register_themes`)
           themes.clear
           clear_cache
         end
 
-        def clear_cache
-          @_registered_themes = nil
-        end
 
         include Enumerable
         delegate :each, to: :themes
+
+      private
+        def clear_cache
+          @_registered_themes = nil
+        end
       end
     end
   end
