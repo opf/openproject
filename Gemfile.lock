@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/flori/json.git
+  revision: 92a96dea2b24b9c68856004d69491f46aedd0925
+  tag: v1.8.1
+  specs:
+    json (1.8.1)
+
+GIT
   remote: https://github.com/fnando/i18n-js.git
   revision: 8801f8d17ef96c48a7a0269e251fcf1648c8f441
   ref: 8801f8d17ef96c48a7a0269e251fcf1648c8f441
@@ -160,7 +167,6 @@ GEM
     jquery-ui-rails (4.0.2)
       jquery-rails
       railties (>= 3.1.0)
-    json (1.8.1)
     json_spec (1.1.1)
       multi_json (~> 1.0)
       rspec (~> 2.0)
@@ -384,6 +390,7 @@ DEPENDENCIES
   jquery-rails (~> 2.0.3)
   jquery-ui-rails
   jruby-openssl
+  json!
   json_spec
   launchy (~> 2.3.0)
   letter_opener (~> 1.0.0)

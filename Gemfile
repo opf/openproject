@@ -29,6 +29,9 @@
 source 'https://rubygems.org'
 
 gem "rails", "~> 3.2.16"
+gem "json", :git => "git://github.com/flori/json.git",
+            # :branch => "master"
+            :tag => "v1.8.1"
 
 gem "coderay", "~> 1.0.5"
 gem "rubytree", "~> 0.8.3"
@@ -83,7 +86,7 @@ gem 'daemons'
 
 gem 'rack-protection'
 
-gem 'syck', :platforms => [:ruby_20, :mingw_20], :require => false
+gem 'syck', :platforms => [:ruby_20, :mingw_20, :ruby_21, :mingw_21], :require => false
 
 group :production do
   # we use dalli as standard memcache client
@@ -141,6 +144,7 @@ group :test do
   gem "codeclimate-test-reporter", :require => nil
 end
 
+# Optional gem for LDAP authentication
 group :ldap do
   gem "net-ldap", '~> 0.2.2'
 end
