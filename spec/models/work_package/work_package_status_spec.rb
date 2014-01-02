@@ -29,15 +29,53 @@
 require 'spec_helper'
 
 describe WorkPackage do
-  describe '- Relations ' do
-    describe '#workpackage status' do
-      it 'can read planning_elements w/ the help of the has_many association' do
-        status       = FactoryGirl.create(:status)
-        work_package = FactoryGirl.create(:work_package,
-                                          :status_id => status.id)
+  describe 'status' do
+    let(:status) { FactoryGirl.create(:status) }
+    let!(:work_package) { FactoryGirl.create(:work_package,
+                                             status_id: status.id) }
 
-        WorkPackage.where(status_id: status.id).count.should == 1
-        WorkPackage.where(status_id: status.id).first.should == work_package
+    it 'can read planning_elements w/ the help of the has_many association' do
+      WorkPackage.where(status_id: status.id).count.should == 1
+      WorkPackage.where(status_id: status.id).first.should == work_package
+    end
+
+    describe 'transition' do
+      let(:user) { FactoryGirl.create(:user) }
+      let(:type) { FactoryGirl.create(:type) }
+      let(:project) { FactoryGirl.create(:project,
+                                         types: [type]) }
+      let(:role) { FactoryGirl.create(:role,
+                                      permissions: [:edit_work_packages]) }
+      let!(:member) { FactoryGirl.create(:member,
+                                         project: project,
+                                         principal: user,
+                                         roles: [role]) }
+      let(:status_2) { FactoryGirl.create(:status) }
+      let!(:work_package) { FactoryGirl.create(:work_package,
+                                               project_id: project.id,
+                                               type_id: type.id,
+                                               status_id: status.id) }
+
+      before { User.stub(:current).and_return user }
+
+      describe 'valid' do
+        let!(:workflow) { FactoryGirl.create(:workflow,
+                                             type_id: type.id,
+                                             old_status: status,
+                                             new_status: status_2,
+                                             role: role) }
+
+        
+        
+        before { work_package.status = status_2 }
+
+        it { expect(work_package.save).to be_true }
+      end
+
+      describe 'invalid' do
+        before { work_package.status = status_2 }
+
+        it { expect(work_package.save).to be_false }
       end
     end
   end
