@@ -29,9 +29,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#3528` [Data Migration] Type 'none' is not migrated properly in Timelines
+* `#3539` [Work package tracking] Modul view of work packages is too broad
 * Fixed workflow copy view
 * Add redirect from /wp to /work_packages for less typing
-* `#3539` [Work package tracking] Modul view of work packages is too broad
 
 ## 3.0.0pre41
 
