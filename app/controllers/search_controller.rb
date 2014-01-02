@@ -116,8 +116,8 @@ class SearchController < ApplicationController
 
 private
   def find_optional_project
-    return true unless params[:id]
-    @project = Project.find(params[:id])
+    return true unless params[:project_id]
+    @project = Project.find(params[:project_id])
     check_project_privacy
   rescue ActiveRecord::RecordNotFound
     render_404

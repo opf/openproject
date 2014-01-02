@@ -43,6 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3364` [Performance] Create index on enabled_modules.name
 * `#3407` Fix: [Roadmap] Missing dropdown menu for displaying work packages by different criteria
 * `#3455` Fix: [Projects] Tab "Types" missing in newly created projects
+* `#3245` Fix: Search bar does not display results on a project basis
 
 ## 3.0.0pre40
 
