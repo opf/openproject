@@ -154,7 +154,7 @@ class MigrateTimelinesOptions < ActiveRecord::Migration
   end
 
   def pe_type_id_map
-    @pe_type_id_map ||= pe_types_ids_with_new_ids.each_with_object({}) do |r, h|
+    @pe_type_id_map ||= pe_types_ids_with_new_ids.each_with_object({ -1 => 0 }) do |r, h|
       h[r['id']] = r['new_id']
     end
   end
