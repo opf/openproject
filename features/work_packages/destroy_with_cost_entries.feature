@@ -43,9 +43,9 @@ Feature: Deleting work packages
     And there is 1 cost type with the following:
       | name | CT |
     And there are the following work packages in project "ecookbook":
-      | subject |
-      | wp1     |
-      | wp2     |
+      | subject | author  |
+      | wp1     | manager |
+      | wp2     | manager |
     And the work package "wp1" has 1 cost entry with the following:
       | user      | manager |
       | units     | 1       |
