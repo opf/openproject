@@ -9,9 +9,6 @@ timelinesApp.directive('timeline', function() {
       };
 
       completeUI = function() {
-        // construct tree on left-hand-side.
-        scope.timeline.rebuildTree();
-
         // lift the curtain, paper otherwise doesn't show w/ VML.
         scope.underConstruction = false;
         scope.timeline.paper = new Raphael(scope.timeline.paperElement, 640, 480);
@@ -50,16 +47,41 @@ timelinesApp.directive('timeline', function() {
         });
       };
 
-      drawTimeline = function(timeline){
+      buildTree = function(timeline){
+        if (timeline.isGrouping() && timeline.options.grouping_two_enabled) {
+          timeline.secondLevelGroupingAdjustments();
+        }
+
+        tree = timeline.getLefthandTree();
+
+        scope.availableRows = timeline.getAvailableRows();
+        scope.nodes = flattenTree(tree);
+        scope.nodes.unshift(tree);
+
+        return tree;
+      };
+
+
+      flattenTree = function(tree) {
+        nodes = [];
+
+        angular.forEach(tree.childNodes, function(node){
+          nodes.push(node);
+          nodes = nodes.concat(flattenTree(node));
+        });
+
+        return nodes;
+      };
+
+      drawTree = function(tree) {
+        console.log('-------- Draw tree --------');
+
+        timeline = scope.timeline;
+
         try {
           window.clearTimeout(timeline.safetyHook);
 
-          if (timeline.isGrouping() && timeline.options.grouping_two_enabled) {
-            timeline.secondLevelGroupingAdjustments();
-          }
-
-          treeNode = timeline.getLefthandTree();
-          if (treeNode.containsPlanningElements() || treeNode.containsProjects()) {
+          if (tree.containsPlanningElements() || tree.containsProjects()) {
             timeline.adjustForPlanningElements();
             completeUI();
           } else {
@@ -68,11 +90,17 @@ timelinesApp.directive('timeline', function() {
         } catch (e) {
           timeline.die(e);
         }
+
       };
 
       // start timeline
       scope.timeline.registerTimelineContainer(element);
-      TimelineLoaderService.loadTimelineData(scope.timeline).then(drawTimeline);
+      TimelineLoaderService.loadTimelineData(scope.timeline)
+        .then(buildTree)
+        .then(drawTree)
+        .then(function(){
+          scope.dataLoaded = true;
+        });
     }
   };
 });

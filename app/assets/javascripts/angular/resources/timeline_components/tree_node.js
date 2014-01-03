@@ -52,8 +52,14 @@ timelinesApp.factory('TreeNode', [function() {
     getData: function() {
       return this.payload;
     },
-    setData: function(data) {
+    setData: function(data, level) {
+      this.text = data.subject || data.name;
+      if (data.is(Timeline.Project)) this.group = data.getFirstLevelGrouping();
+      this.url = data.getUrl();
+
       this.payload = data;
+      this.level = level;
+
       return this;
     },
     appendChild: function(node) {

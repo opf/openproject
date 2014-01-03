@@ -490,7 +490,6 @@ timelinesApp.factory('UI', [function() {
 
       window.clearTimeout(this.rebuildTimeout);
       this.rebuildTimeout = timeline.defer(function() {
-        timeline.rebuildTree();
 
         // The minimum width of the whole timeline should be the actual
         // width of the table added to the minimum chart width. That way,

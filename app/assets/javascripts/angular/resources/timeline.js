@@ -626,7 +626,7 @@ timelinesApp.factory('Timeline', ['Constants', 'FilterQueryStringBuilder', 'Tree
         var tree = Object.create(Timeline.TreeNode);
         var parent_stack = [];
 
-        tree.setData(project);
+        tree.setData(project, 0);
 
         // there might not be any payload, due to insufficient rights and
         // the fact that some user with more rights originally created the
@@ -637,6 +637,7 @@ timelinesApp.factory('Timeline', ['Constants', 'FilterQueryStringBuilder', 'Tree
           return tree;
         }
 
+        var level = 1;
         var count = 1;
         // for the given node, appends the given planning_elements as children,
         // recursively. every node will have the planning_element as data.
@@ -657,9 +658,14 @@ timelinesApp.factory('Timeline', ['Constants', 'FilterQueryStringBuilder', 'Tree
               }
             }
             var newNode = Object.create(Timeline.TreeNode);
-            newNode.setData(e);
+
+            newNode.setData(e, level);
             node.appendChild(newNode);
+
+            level++;
             treeConstructor(newNode, newNode.getData().getSubElements());
+            level--;
+
             parent_stack.pop();
           });
           return node;

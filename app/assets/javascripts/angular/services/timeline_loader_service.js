@@ -1114,7 +1114,7 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
         timelineLoader.registerTimelineElements();
 
         jQuery(timelineLoader).on('complete', function(e, data) {
-          jQuery.extend(timeline, data);
+          angular.extend(timeline, data);
           deferred.resolve(timeline);
         });
 

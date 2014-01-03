@@ -23,7 +23,7 @@ timelinesApp.controller('TimelinesController', ['$scope', '$window', 'Timeline',
   $scope.currentOutlineLevel = 'level3';
   $scope.currentScaleName = 'monthly';
 
-  // Load timeline
+  // Create timeline
   $scope.timeline = Timeline.create($scope.timelineOptions);
 
   // Container for timeline rendering

@@ -1,0 +1,28 @@
+<tr ng-repeat="node in nodes" ng-class="{'tl-first-row': $first, 'tl-last-row': $last, 'tl-grouping': timeline.isGrouping(), 'tl-project-row': node.payload.is(Timeline.Project)}">
+
+  <td ng-if="timeline.isGrouping() && node.payload.is(Timeline.Project) && node.level === 0 && node.group !== nodes[$index-1].group" class="tl-grouping" colspan="{{timeline.options.columns.length + 1}}">
+    <span class="tl-word-ellipsis">
+      {{timeline.escape(node.payload.getFirstLevelGroupingName())}}
+    </span>
+  </td>
+
+  <td tree-node ng-class="['tl-first-column', 'tl-indent-' + node.level, node.childNodes.length > 0 && (node.isExpanded() && 'tl-expanded' || 'tl-collapsed')]">
+    <a ng-click="node.toogle()" ng-show="node.childNodes.length > 0">{{node.isExpanded() && '-' || '+'}}</a>
+    <span class="tl-word-ellipsis">
+      <span>
+        <a data-modal title="{{node.text}}" ng-href"{{node.url}}" ng-class="{'tl-discreet-link': true, 'tl-project': node.payload.is(Timeline.Project)}">
+          {{node.text}}
+        </a>
+      </span>
+    </span>
+  </td>
+<!--
+  <td ng-repeat="option in timeline.options.columns">
+    (typeof availableRows[option] === 'function') && availableRows[option].call(node.payload, node.payload) || availableRows.general.call(node.payload, node.payload, option)
+  </td>
+ -->
+  <td ng-repeat="option in timeline.options.columns">
+    {{node[option]}}
+  </td>
+
+</tr>
