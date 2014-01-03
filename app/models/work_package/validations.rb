@@ -88,7 +88,7 @@ module WorkPackage::Validations
   end
 
   def validate_status_transition
-    if status_changed? && !status_transition_exists?
+    if status_changed? && !(self.type_id_changed? || status_transition_exists?)
       errors.add :status_id, :status_transition_invalid
     end
   end
