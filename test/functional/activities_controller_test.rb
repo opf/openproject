@@ -35,7 +35,9 @@ class ActivitiesControllerTest < ActionController::TestCase
   def test_project_index
     Journal.delete_all
     project = Project.find(1)
+    public_project = FactoryGirl.create :public_project
     issue = FactoryGirl.create :work_package,
+                               project: public_project,
                                status_id: 2,
                                priority_id: 4,
                                author_id: 2,

@@ -56,7 +56,7 @@ class LayoutTest < ActionDispatch::IntegrationTest
   end
 
   test "page titles should be properly escaped" do
-    project = Project.generate(:name => "C&A")
+    project = Project.generate(:name => "C&A", :is_public => true)
 
     with_settings :app_title => '<3' do
       get "/projects/#{project.to_param}"
