@@ -212,7 +212,7 @@ class Changeset < ActiveRecord::Base
 
     # the work_package may have been updated by the closure of another one (eg. duplicate)
     work_package.reload
-    # don't change the status is the work package is closed
+    # don't change the status if the work package is closed
     return if work_package.status && work_package.status.is_closed?
 
     work_package.add_journal(user || User.anonymous, ll(Setting.default_language, :text_status_changed_by_changeset, text_tag))
@@ -222,7 +222,7 @@ class Changeset < ActiveRecord::Base
     end
     Redmine::Hook.call_hook(:model_changeset_scan_commit_for_issue_ids_pre_issue_update,
                             { :changeset => self, :issue => work_package })
-    unless work_package.save
+    unless work_package.save(:validate => false)
       logger.warn("Work package ##{work_package.id} could not be saved by changeset #{id}: #{work_package.errors.full_messages}") if logger
     end
     work_package
