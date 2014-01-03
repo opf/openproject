@@ -47,7 +47,7 @@ module OpenProject
       end
 
       describe '#favicon_link_tag' do
-        let(:theme) { Theme.new_theme(:new_theme) }
+        let(:theme) { Theme.new_theme {|t| t.identifier = :new_theme} }
 
         before do
           # set a list of overridden images
@@ -75,7 +75,7 @@ module OpenProject
       end
 
       describe '#image_tag' do
-        let(:theme) { Theme.new_theme(:new_theme) }
+        let(:theme) { Theme.new_theme {|t| t.identifier = :new_theme} }
 
         before do
           # set a list of overridden images

@@ -80,7 +80,7 @@ OpenProject::Application.configure do
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  config.assets.precompile += %w( ie6.css ie7.css
+  config.assets.precompile += %w( default.css
                                   rtl.css context_menu_rtl.css
                                   accessibility.js accessibility.css
                                   copy_issue_actions.js repository_navigation.js select_list_move.js

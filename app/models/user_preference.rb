@@ -39,7 +39,7 @@ class UserPreference < ActiveRecord::Base
   attr_accessible :hide_mail, :time_zone, :impaired
 
   # shortcut methods to others hash
-  attr_accessible :comments_sorting, :warn_on_leaving_unsaved
+  attr_accessible :comments_sorting, :warn_on_leaving_unsaved, :theme
 
   after_initialize :init_other_preferences
 
@@ -57,6 +57,14 @@ class UserPreference < ActiveRecord::Base
 
   def comments_sorting=(order)
     others[:comments_sorting] = order
+  end
+
+  def theme
+    others[:theme] || OpenProject::Themes.application_theme_identifier
+  end
+
+  def theme=(order)
+    others[:theme] = order
   end
 
   def warn_on_leaving_unsaved
