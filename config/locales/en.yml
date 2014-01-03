@@ -77,8 +77,6 @@ en:
         visible: "Visible"
       custom_value:
         value: "Value"
-      enumeration:
-        active: "Active"
       relation:
         delay: "Delay"
         from: "Work Package"
@@ -270,8 +268,8 @@ en:
 
   # common attributes of all models
   attributes:
-    assigned_to: "Assignee"
     active: "Active"
+    assigned_to: "Assignee"
     author: "Author"
     base: "General Error:"
     blocks_ids: "Blocks"

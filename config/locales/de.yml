@@ -78,8 +78,6 @@ de:
         visible: "Sichtbar"
       custom_value:
         value: "Wert"
-      enumeration:
-        active: "Aktiv"
       relation:
         delay: "Pufferzeit"
         from: "Arbeitspaket"
@@ -272,8 +270,8 @@ de:
 
   # common attributes of all models
   attributes:
-    assigned_to: "Zugewiesen an"
     active: "Aktiv"
+    assigned_to: "Zugewiesen an"
     author: "Autor"
     base: "Allgemeiner Fehler:"
     blocks_ids: "Blockiert"
