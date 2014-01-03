@@ -9,6 +9,16 @@
   <td tree-node ng-class="['tl-first-column', 'tl-indent-' + node.level, node.childNodes.length > 0 && (node.isExpanded() && 'tl-expanded' || 'tl-collapsed')]">
     <a ng-click="node.expanded = !node.expanded" ng-show="node.childNodes.length > 0">{{node.expanded && '-' || '+'}}</a>
     <span class="tl-word-ellipsis">
+
+      <span>
+        <a title="{{timeline.i18n('timelines.change')}}"
+           ng-class="{
+             'icon tl-icon-added': node.payload.is(Timeline.PlanningElement) && node.payload.isNewlyAdded(),
+             'icon tl-icon-deleted': node.payload.is(Timeline.PlanningElement) && node.payload.isDeleted(),
+             'icon tl-icon-changed': node.payload.is(Timeline.PlanningElement) && node.payload.hasAlternateDates()
+           }" />
+      </span>
+
       <span>
         <a data-modal title="{{node.text}}" ng-href"{{node.url}}" ng-class="{'tl-discreet-link': true, 'tl-project': node.payload.is(Timeline.Project)}">
           {{node.text}}
