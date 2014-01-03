@@ -117,7 +117,7 @@ OpenProject::Application.routes.draw do
 
   resources :types
   resources :custom_fields, :except => :show
-  resources :search, :controller => 'search', :only => ['index']
+  match "(projects/:project_id)/search" => 'search#index', :as => "search"
 
   # only providing routes for journals when there are multiple subclasses of journals
   # all subclasses will look for the journals routes

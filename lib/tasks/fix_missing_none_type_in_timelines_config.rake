@@ -33,6 +33,7 @@ namespace :migrations do
     private
 
     PE_TYPE_KEY = 'planning_element_types'
+    PE_TIME_TYPE_KEY = 'planning_element_time_types'
 
     # We create the migration class dynamically because rake would try to
     # execute the migration on 'rake db:migrate' otherwise.
@@ -63,14 +64,16 @@ namespace :migrations do
         end
 
         def add_none_type_id_to_options(options)
-          pe_types = []
-          pe_types = options[PE_TYPE_KEY] if options.has_key? PE_TYPE_KEY
+          [PE_TYPE_KEY, PE_TIME_TYPE_KEY].each do |key|
+            pe_types = []
+            pe_types = options[key] if options.has_key? key
 
-          # Compare strings instead of plain integers because timelines
-          # options may contain strings or integers.
-          pe_types.map! { |t| (t.to_s == '0') ? @standard_type.id : t }
+            # Compare strings instead of plain integers because timelines
+            # options may contain strings or integers.
+            pe_types.map! { |t| (t.to_s == '0') ? @standard_type.id.to_s : t.to_s }
 
-          options[PE_TYPE_KEY] = pe_types
+            options[key] = pe_types
+          end
 
           options
         end

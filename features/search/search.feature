@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
@@ -27,57 +26,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class UserPreference < ActiveRecord::Base
-  belongs_to :user
-  serialize :others
+Feature: Searching
+  Background:
+    Given there is 1 project with the following:
+      | identifier | project |
+      | name       | project |
+    And I am admin
 
-  validates_presence_of :user
+  @javascript
+  Scenario: Searching within a project's scope retains that scope
+    When I am on the overview page for the project called "project"
+     And I search globally for "stuff"
+    Then I should see "Overview" within "#main-menu"
 
-  attr_accessible :user
-
-  # attributes that have their own column
-  attr_accessible :hide_mail, :time_zone, :impaired
-
-  # shortcut methods to others hash
-  attr_accessible :comments_sorting, :warn_on_leaving_unsaved, :theme
-
-  after_initialize :init_other_preferences
-
-  def [](attr_name)
-    attribute_present?(attr_name) ? super : others[attr_name]
-  end
-
-  def []=(attr_name, value)
-    attribute_present?(attr_name) ? super : others[attr_name] = value
-  end
-
-  def comments_sorting
-    others[:comments_sorting]
-  end
-
-  def comments_sorting=(order)
-    others[:comments_sorting] = order
-  end
-
-  def theme
-    others[:theme] || OpenProject::Themes.application_theme_identifier
-  end
-
-  def theme=(order)
-    others[:theme] = order
-  end
-
-  def warn_on_leaving_unsaved
-    others.fetch(:warn_on_leaving_unsaved) { '1' }
-  end
-
-  def warn_on_leaving_unsaved=(value)
-    others[:warn_on_leaving_unsaved] = value
-  end
-
-private
-
-  def init_other_preferences
-    self.others ||= {}
-  end
-end
+  @javascript
+  Scenario: Searching stuff again retains a project's scope
+    When I am on the overview page for the project called "project"
+     And I search globally for "stuff"
+     And I search for "stuff" after having searched
+    Then I should see "Overview" within "#main-menu"

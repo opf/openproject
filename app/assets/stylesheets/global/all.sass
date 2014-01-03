@@ -23,36 +23,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * See doc/COPYRIGHT.rdoc for more details.  ++*/
+ * See doc/COPYRIGHT.rdoc for more details.  ++
+ */
 
-@import "variables"
-@import "mixins"
-
-#errorExplanation, div.flash, .nodata, .warning
-  padding: 4px
-  margin: 0 0 10px 0
-  color: $content_flash_msg_font_color
-
-div.flash.error a:link, div.flash.warning a:link, div.flash.notice a:link, #errorExplanation a:link,
-div.flash.error a:hover, div.flash.warning a:hover, div.flash.notice a:hover, #errorExplanation a:hover
-  @include default-font-normal($content_flash_msg_font_color)
-  text-decoration: none
-  cursor: default
-
-#errorExplanation
-  ul
-    font-size: 0.9em
-    margin-left: 30px
-  h2, p
-    display: none
-
-div.flash.error, #errorExplanation
-  background-color: $content_flash_error_msg_bg_color
-
-div.flash.notice
-  background-color: $content_flash_notice_msg_bg_color
-
-div.flash.warning, .nodata, .warning
-  background-color: $content_flash_warning_msg_bg_color
-
-
+@import global/variables
+@import global/mixins

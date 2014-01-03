@@ -25,65 +25,33 @@
  *
  * See doc/COPYRIGHT.rdoc for more details.  ++*/
 
-@import "variables"
-@import "mixins"
+@import global/all
 
-#breadcrumb
-  @include default-transition
-  height: 40px
-  overflow: hidden
-  background: none repeat scroll 0 0 #F8F8F8
-  border: none
-  border-bottom: 1px solid #E7E7E7
-  margin: 0 0 0 $main_menu_width
-  width: auto
-  overflow: hidden
-  position: relative
-  &.nosidebar
-    margin-left: 0
-    ul
-      margin: 0 0 0 0
-  &.hidden-navigation
-    margin-left: $main_menu_folded_width
+#errorExplanation, div.flash, .nodata, .warning
+  padding: 4px
+  margin: 0 0 10px 0
+  color: $content_flash_msg_font_color
 
-  h1
-    margin-bottom: 0px
-    margin-left: 13px
-    @include breadcrumb-font(#555555)
+div.flash.error a:link, div.flash.warning a:link, div.flash.notice a:link, #errorExplanation a:link,
+div.flash.error a:hover, div.flash.warning a:hover, div.flash.notice a:hover, #errorExplanation a:hover
+  @include default-font-normal($content_flash_msg_font_color)
+  text-decoration: none
+  cursor: default
 
-  a
-    @include breadcrumb-font-bold(#555555)
-    text-decoration: none
-    &:hover
-      text-decoration: underline
-  li
-    list-style-type: none
-    white-space: nowrap
-    &.cutme
-      max-width: 40px
+#errorExplanation
+  ul
+    font-size: 0.9em
+    margin-left: 30px
+  h2, p
+    display: none
 
-ul.breadcrumb
-  list-style: none
-  list-style-position: outside
-  width: 10000px
-  height: 40px
-  line-height: 40px
+div.flash.error, #errorExplanation
+  background-color: $content_flash_error_msg_bg_color
 
-#breadcrumb ul.breadcrumb li.first-breadcrumb-element
-  margin-left: 0
-  height: 40px
-  line-height: 40px
-  a
-    text-decoration: none
-    display: block
-    width: 25px
+div.flash.notice
+  background-color: $content_flash_notice_msg_bg_color
 
-#breadcrumb ul.breadcrumb li
-  float: left
-  margin: 0 0 0 10px
-  padding: 0 25px 0 0
-  background: url(image-path('breadcrumb-list.png')) no-repeat right center
+div.flash.warning, .nodata, .warning
+  background-color: $content_flash_warning_msg_bg_color
 
-#breadcrumb a.breadcrumb-project-title
-  font-size: 13px
 

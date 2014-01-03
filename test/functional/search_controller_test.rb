@@ -59,7 +59,7 @@ class SearchControllerTest < ActionController::TestCase
   end
 
   def test_search_project_and_subprojects
-    get :index, :id => 1, :q => 'recipe subproject', :scope => 'subprojects', :submit => 'Search'
+    get :index, :project_id => 1, :q => 'recipe subproject', :scope => 'subprojects', :submit => 'Search'
     assert_response :success
     assert_template 'index'
     assert assigns(:results).include?(WorkPackage.find(1))
@@ -69,18 +69,18 @@ class SearchControllerTest < ActionController::TestCase
   def test_search_without_searchable_custom_fields
     CustomField.update_all "searchable = #{ActiveRecord::Base.connection.quoted_false}"
 
-    get :index, :id => 1
+    get :index, :project_id => 1
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:project)
 
-    get :index, :id => 1, :q => "can"
+    get :index, :project_id => 1, :q => "can"
     assert_response :success
     assert_template 'index'
   end
 
   def test_search_with_searchable_custom_fields
-    get :index, :id => 1, :q => "stringforcustomfield"
+    get :index, :project_id => 1, :q => "stringforcustomfield"
     assert_response :success
     results = assigns(:results)
     assert_not_nil results
@@ -90,7 +90,7 @@ class SearchControllerTest < ActionController::TestCase
 
   def test_search_all_words
     # 'all words' is on by default
-    get :index, :id => 1, :q => 'recipe updating saving'
+    get :index, :project_id => 1, :q => 'recipe updating saving'
     results = assigns(:results)
     assert_not_nil results
     assert_equal 1, results.size
@@ -98,7 +98,7 @@ class SearchControllerTest < ActionController::TestCase
   end
 
   def test_search_one_of_the_words
-    get :index, :id => 1, :q => 'recipe updating saving', :submit => 'Search'
+    get :index, :project_id => 1, :q => 'recipe updating saving', :submit => 'Search'
     results = assigns(:results)
     assert_not_nil results
     assert_equal 3, results.size
@@ -106,21 +106,21 @@ class SearchControllerTest < ActionController::TestCase
   end
 
   def test_search_titles_only_without_result
-    get :index, :id => 1, :q => 'recipe updating saving', :all_words => '1', :titles_only => '1', :submit => 'Search'
+    get :index, :project_id => 1, :q => 'recipe updating saving', :all_words => '1', :titles_only => '1', :submit => 'Search'
     results = assigns(:results)
     assert_not_nil results
     assert_equal 0, results.size
   end
 
   def test_search_titles_only
-    get :index, :id => 1, :q => 'recipe', :titles_only => '1', :submit => 'Search'
+    get :index, :project_id => 1, :q => 'recipe', :titles_only => '1', :submit => 'Search'
     results = assigns(:results)
     assert_not_nil results
     assert_equal 2, results.size
   end
 
   def test_search_with_invalid_project_id
-    get :index, :id => 195, :q => 'recipe'
+    get :index, :project_id => 195, :q => 'recipe'
     assert_response 404
     assert_nil assigns(:results)
   end
@@ -143,7 +143,7 @@ class SearchControllerTest < ActionController::TestCase
   end
 
   def test_tokens_with_quotes
-    get :index, :id => 1, :q => '"good bye" hello "bye bye"'
+    get :index, :project_id => 1, :q => '"good bye" hello "bye bye"'
     assert_equal ["good bye", "hello", "bye bye"], assigns(:tokens)
   end
 end

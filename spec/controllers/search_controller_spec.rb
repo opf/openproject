@@ -54,6 +54,14 @@ describe SearchController do
     end
   end
 
+  describe 'scoped project search' do
+    before { get :index, project_id: project.id }
+
+    it_behaves_like 'successful search'
+
+    it { expect(assigns(:project).id).to be(project.id)}
+  end
+
   describe 'work package search' do
     let!(:work_package_1) { FactoryGirl.create(:work_package,
                                                subject: "This is a test issue",
