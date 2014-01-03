@@ -62,10 +62,13 @@ timelinesApp.directive('timeline', function() {
       };
 
 
-      flattenTree = function(tree) {
+      flattenTree = function(root) {
         nodes = [];
 
-        angular.forEach(tree.childNodes, function(node){
+        angular.forEach(root.childNodes, function(node){
+          node.ancestors = [root];
+          if(root.ancestors) node.ancestors = root.ancestors.concat(node.ancestors);
+
           nodes.push(node);
           nodes = nodes.concat(flattenTree(node));
         });

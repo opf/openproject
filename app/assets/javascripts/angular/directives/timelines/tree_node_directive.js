@@ -1,4 +1,4 @@
-timelinesApp.directive('treeNode', function() {
+timelinesApp.directive('treeNode', [function() {
   return {
     restrict: 'A',
     scope: true,
@@ -6,4 +6,4 @@ timelinesApp.directive('treeNode', function() {
       scope.node.dom_element = element;
     }
   };
-});
+}]);
