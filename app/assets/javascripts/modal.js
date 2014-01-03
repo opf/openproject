@@ -33,20 +33,6 @@ var ModalHelper = (function() {
     var modalHelper = this;
     var modalDiv, modalIframe;
 
-    function modalFunction(e) {
-      if (!e.ctrlKey && !e.metaKey) {
-        if (jQuery(e.target).attr("href")) {
-          url = jQuery(e.target).attr("href");
-        }
-
-        if (url) {
-          e.preventDefault();
-
-          modalHelper.createModal(url, function (modalDiv) {});
-        }
-      }
-    }
-
     jQuery(document).ready(function () {
       var body = jQuery(document.body);
       // whatever globals there are, they need to be added to the
@@ -55,9 +41,6 @@ var ModalHelper = (function() {
         // one time initialization
         modalDiv = jQuery('<div/>').css('hidden', true).attr('id', 'modalDiv');
         body.append(modalDiv);
-
-        /** replace all data-modal links and all inside modal links */
-        body.on("click", "[data-modal]", modalFunction);
 
         // close when body is clicked
         body.on("click", ".ui-widget-overlay", jQuery.proxy(modalHelper.close, modalHelper));

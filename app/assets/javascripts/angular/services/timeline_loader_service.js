@@ -1107,7 +1107,7 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
         );
 
         jQuery(timeline.modalHelper).on("closed", function () {
-          timeline.reload();
+          TimelineLoaderService.loadTimelineData(timeline); // TODO remove and do updates via scope
         });
 
         timelineLoader = TimelineLoaderService.createTimelineLoader(timeline);

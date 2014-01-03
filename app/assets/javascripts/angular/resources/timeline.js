@@ -234,53 +234,6 @@ timelinesApp.factory('Timeline', ['Constants', 'FilterQueryStringBuilder', 'Tree
       }
       return true;
     },
-    reload: function() {
-      delete this.lefthandTree;
-
-      var timelineLoader = this.provideTimelineLoader();
-
-      jQuery(timelineLoader).on('complete', jQuery.proxy(function (e, data) {
-
-        jQuery.extend(this, data);
-        jQuery(this).trigger('dataReLoaded');
-
-        if (this.isGrouping() && this.options.grouping_two_enabled) {
-          this.secondLevelGroupingAdjustments();
-        }
-
-        this.adjustForPlanningElements();
-
-        this.rebuildAll();
-
-      }, this));
-
-      timelineLoader.load();
-    },
-    provideTimelineLoader: function() {
-      return new Timeline.TimelineLoader(
-        this,
-        {
-          api_prefix                    : this.options.api_prefix,
-          url_prefix                    : this.options.url_prefix,
-          project_prefix                : this.options.project_prefix,
-          planning_element_prefix       : this.options.planning_element_prefix,
-          project_id                    : this.options.project_id,
-          project_types                 : this.options.project_types,
-          project_statuses              : this.options.project_status,
-          project_responsibles          : this.options.project_responsibles,
-          project_parents               : this.options.parents,
-          planning_element_types        : this.options.planning_element_types,
-          planning_element_responsibles : this.options.planning_element_responsibles,
-          planning_element_status       : this.options.planning_element_status,
-          grouping_one                  : (this.options.grouping_one_enabled ? this.options.grouping_one_selection : undefined),
-          grouping_two                  : (this.options.grouping_two_enabled ? this.options.grouping_two_selection : undefined),
-          ajax_defaults                 : this.ajax_defaults,
-          current_time                  : this.comparisonCurrentTime(),
-          target_time                   : this.comparisonTarget(),
-          include_planning_elements     : this.verticalPlanningElementIds()
-        }
-      );
-    },
     getTimelineLoaderOptions: function() {
       return {
         api_prefix                    : this.options.api_prefix,
