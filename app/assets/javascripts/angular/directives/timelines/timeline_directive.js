@@ -77,8 +77,6 @@ timelinesApp.directive('timeline', function() {
       };
 
       drawTree = function(tree) {
-        console.log('-------- Draw tree --------');
-
         timeline = scope.timeline;
 
         try {
@@ -100,10 +98,7 @@ timelinesApp.directive('timeline', function() {
       scope.timeline.registerTimelineContainer(element);
       TimelineLoaderService.loadTimelineData(scope.timeline)
         .then(buildTree)
-        .then(drawTree)
-        .then(function(){
-          scope.dataLoaded = true;
-        });
+        .then(drawTree);
     }
   };
 });
