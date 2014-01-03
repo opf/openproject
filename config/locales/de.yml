@@ -272,6 +272,7 @@ de:
   attributes:
     active: "Aktiv"
     assigned_to: "Zugewiesen an"
+    attachments: "Anhänge"
     author: "Autor"
     base: "Allgemeiner Fehler:"
     blocks_ids: "Blockiert"

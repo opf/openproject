@@ -270,6 +270,7 @@ en:
   attributes:
     active: "Active"
     assigned_to: "Assignee"
+    attachments: "Attachments"
     author: "Author"
     base: "General Error:"
     blocks_ids: "Blocks"
