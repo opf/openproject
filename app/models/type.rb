@@ -102,8 +102,20 @@ class Type < ActiveRecord::Base
     PlanningElementTypeColor.all
   end
 
+  def is_valid_transition?(status_id_a, status_id_b, roles)
+    transition_exists?(status_id_a, status_id_b, roles.collect(&:id))
+  end
+
 private
+
   def check_integrity
     raise "Can't delete type" if WorkPackage.find(:first, :conditions => ["type_id=?", self.id])
+  end
+
+  def transition_exists?(status_id_a, status_id_b, role_ids)
+    !workflows.where(old_status_id: status_id_a,
+                     new_status_id: status_id_b,
+                     role_id: role_ids)
+              .empty?
   end
 end
