@@ -559,7 +559,7 @@ describe WorkPackagesController do
                                             .with(:project => stub_project)
                                             .and_return(wp_params)
 
-          stub_project.should_receive(:add_issue) do |args|
+          stub_project.should_receive(:add_work_package) do |args|
 
             expect(args[:author]).to eql stub_user
 
