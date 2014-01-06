@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#3528` [Data Migration] Type 'none' is not migrated properly in Timelines
+* `#3532` Fix: [API] It is possible to set statuses that are not allowed by the workflow
 * `#3539` [Work package tracking] Modul view of work packages is too broad
 * Fixed workflow copy view
 * Add redirect from /wp to /work_packages for less typing
