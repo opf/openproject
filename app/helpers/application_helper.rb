@@ -66,8 +66,8 @@ module ApplicationHelper
     end
   end
 
-  def required_field_name(name)
-    safe_join [name, content_tag('span', '*', class: 'required')]
+  def required_field_name(name = '')
+    safe_join [name, ' ', content_tag('span', '*', class: 'required')]
   end
 
   def li_unless_nil(link)

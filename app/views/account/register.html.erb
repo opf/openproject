@@ -38,30 +38,30 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="box">
 <!--[form:user]-->
 <% if @user.auth_source_id.nil? %>
-<p><label for="user_login"><%= User.human_attribute_name :login %> <span class="required">*</span></label>
+<p><label for="user_login"><%= required_field_name(User.human_attribute_name :login) %></label>
 <%= text_field 'user', 'login', :size => 25 %></p>
 
-<p><label for="user_password"><%= User.human_attribute_name :password %> <span class="required">*</span></label>
+<p><label for="user_password"><%= required_field_name((User.human_attribute_name :password) %></label>
 <%= password_field 'user',
                    'password',
                    :size => 25,
                    :autocomplete => 'off' %><br />
 <%= password_complexity_requirements %></p>
 
-<p><label for="user_password_confirmation"><%= User.human_attribute_name :password_confirmation %> <span class="required">*</span></label>
+<p><label for="user_password_confirmation"><%= required_field_name(User.human_attribute_name :password_confirmation) %></label>
 <%= password_field 'user',
                    'password_confirmation',
                    :size => 25,
                    :autocomplete => 'off'  %></p>
 <% end %>
 
-<p><label for="user_firstname"><%= User.human_attribute_name :firstname %> <span class="required">*</span></label>
+<p><label for="user_firstname"><%= required_field_name(User.human_attribute_name :firstname) %></label>
 <%= text_field 'user', 'firstname'  %></p>
 
-<p><label for="user_lastname"><%= User.human_attribute_name :lastname %> <span class="required">*</span></label>
+<p><label for="user_lastname"><%= required_field_name(User.human_attribute_name :lastname) %></label>
 <%= text_field 'user', 'lastname'  %></p>
 
-<p><label for="user_mail"><%= User.human_attribute_name :mail %> <span class="required">*</span></label>
+<p><label for="user_mail"><%= required_field_name(User.human_attribute_name :mail) %></label>
 <%= text_field 'user', 'mail'  %></p>
 
 <p><label for="user_language"><%= User.human_attribute_name :language %></label>

@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="box">
 <!--[form:status]-->
-<p><label for="status_name"><%= Status.human_attribute_name(:name) %><span class="required"> *</span></label>
+<p><label for="status_name"><%= required_field_name(Status.human_attribute_name(:name)) %></label>
 <%= text_field 'status', 'name'  %></p>
 
 <% if WorkPackage.use_status_for_done_ratio? %>

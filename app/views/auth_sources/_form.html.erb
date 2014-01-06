@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="box">
 <!--[form:auth_source]-->
-<p><label for="auth_source_name"><%= AuthSource.human_attribute_name(:name) %> <span class="required">*</span></label>
+<p><label for="auth_source_name"><%= required_field_name(AuthSource.human_attribute_name(:name)) %></label>
 <%= text_field 'auth_source', 'name'  %></p>
 
 <p><label for="auth_source_onthefly_register"><%= AuthSource.human_attribute_name(:onthefly) %></label>

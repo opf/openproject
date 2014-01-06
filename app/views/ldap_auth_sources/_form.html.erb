@@ -31,13 +31,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="box">
 <!--[form:auth_source]-->
-<p><label for="auth_source_name"><%= AuthSource.human_attribute_name(:name) %> <span class="required">*</span></label>
+<p><label for="auth_source_name"><%= required_field_name(AuthSource.human_attribute_name(:name)) %></label>
 <%= text_field 'auth_source', 'name'  %></p>
 
-<p><label for="auth_source_host"><%= AuthSource.human_attribute_name(:host) %> <span class="required">*</span></label>
+<p><label for="auth_source_host"><%= required_field_name(AuthSource.human_attribute_name(:host)) %></label>
 <%= text_field 'auth_source', 'host'  %></p>
 
-<p><label for="auth_source_port"><%= AuthSource.human_attribute_name(:port) %> <span class="required">*</span></label>
+<p><label for="auth_source_port"><%= required_field_name(AuthSource.human_attribute_name(:port)) %></label>
 <%= text_field 'auth_source', 'port', :size => 6 %> <%= check_box 'auth_source', 'tls'  %> LDAPS</p>
 
 <p><label for="auth_source_account"><%= AuthSource.human_attribute_name(:account) %></label>
@@ -49,7 +49,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                            :onfocus => "this.value=''; this.name='auth_source[account_password]';",
                                            :onchange => "this.name='auth_source[account_password]';" %></p>
 
-<p><label for="auth_source_base_dn"><%= AuthSource.human_attribute_name(:base_dn) %> <span class="required">*</span></label>
+<p><label for="auth_source_base_dn"><%= required_field_name(AuthSource.human_attribute_name(:base_dn)) %></label>
 <%= text_field 'auth_source', 'base_dn', :size => 60 %></p>
 
 <p><label for="auth_source_onthefly_register"><%= AuthSource.human_attribute_name(:onthefly) %></label>
@@ -57,7 +57,7 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 
 <fieldset class="box"><legend><%=l(:label_attribute_plural)%></legend>
-<p><label for="auth_source_attr_login"><%= AuthSource.human_attribute_name(:login) %> <span class="required">*</span></label>
+<p><label for="auth_source_attr_login"><%= required_field_name(AuthSource.human_attribute_name(:login)) %></label>
 <%= text_field 'auth_source', 'attr_login', :size => 20  %></p>
 
 <p><label for="auth_source_attr_firstname"><%= AuthSource.human_attribute_name(:firstname) %></label>
