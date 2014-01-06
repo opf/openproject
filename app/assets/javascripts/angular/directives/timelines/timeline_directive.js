@@ -47,21 +47,6 @@ timelinesApp.directive('timeline', function() {
         });
       };
 
-      buildTree = function(timeline){
-        if (timeline.isGrouping() && timeline.options.grouping_two_enabled) {
-          timeline.secondLevelGroupingAdjustments();
-        }
-
-        tree = timeline.getLefthandTree();
-
-        scope.availableRows = timeline.getAvailableRows();
-        scope.nodes = flattenTree(tree);
-        scope.nodes.unshift(tree);
-
-        return tree;
-      };
-
-
       flattenTree = function(root) {
         nodes = [];
 
@@ -74,6 +59,19 @@ timelinesApp.directive('timeline', function() {
         });
 
         return nodes;
+      };
+
+      buildTree = function(timeline){
+        if (timeline.isGrouping() && timeline.options.grouping_two_enabled) {
+          timeline.secondLevelGroupingAdjustments();
+        }
+
+        tree = timeline.getLefthandTree();
+
+        scope.nodes = flattenTree(tree);
+        scope.nodes.unshift(tree);
+
+        return tree;
       };
 
       drawTree = function(tree) {
