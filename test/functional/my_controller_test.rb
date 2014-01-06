@@ -55,15 +55,6 @@ class MyControllerTest < ActionController::TestCase
     assert_template 'page'
   end
 
-  def test_my_account_should_show_editable_custom_fields
-    get :account
-    assert_response :success
-    assert_template 'account'
-    assert_equal User.find(2), assigns(:user)
-
-    assert_tag :input, :attributes => { :name => 'user[custom_field_values][4]'}
-  end
-
   def test_my_account_should_not_show_non_editable_custom_fields
     UserCustomField.find(4).update_attribute :editable, false
 
