@@ -34,6 +34,7 @@ class StatusesController < ApplicationController
 
   before_filter :require_admin
 
+  verify :method => :get, :only => :index, :render => {:nothing => true, :status => :method_not_allowed }
   def index
     @statuses = Status.order('position')
                                  .page(params[:page])
@@ -42,10 +43,12 @@ class StatusesController < ApplicationController
     render :action => "index", :layout => false if request.xhr?
   end
 
+  verify :method => :get, :only => :new, :render => {:nothing => true, :status => :method_not_allowed }
   def new
     @status = Status.new
   end
 
+  verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
   def create
     @status = Status.new(permitted_params.status)
     if @status.save
@@ -56,10 +59,12 @@ class StatusesController < ApplicationController
     end
   end
 
+  verify :method => :get, :only => :edit, :render => {:nothing => true, :status => :method_not_allowed }
   def edit
     @status = Status.find(params[:id])
   end
 
+  verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
   def update
     @status = Status.find(params[:id])
     if @status.update_attributes(permitted_params.status)
@@ -70,6 +75,7 @@ class StatusesController < ApplicationController
     end
   end
 
+  verify :method => :delete, :only => :destroy, :render => {:nothing => true, :status => :method_not_allowed }
   def destroy
     Status.find(params[:id]).destroy
     redirect_to :action => 'index'
