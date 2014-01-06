@@ -1,6 +1,8 @@
 timelinesApp
   .filter('historicalDateKind', function() {
     return function(nodeData, dateOption) {
+      if (!nodeData.does_historical_differ()) return;
+
       var newDate = nodeData[dateOption];
       var oldDate = nodeData.historical()[dateOption];
 
