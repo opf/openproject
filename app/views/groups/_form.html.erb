@@ -30,8 +30,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= error_messages_for :group %>
 
 <div class="box tabular">
-  <p><%= f.text_field :lastname, :label => Group.human_attribute_name(:name) %></p>
+  <p><%= f.text_field :lastname, :label => Group.human_attribute_name(:name), :required => true %></p>
   <% @group.custom_field_values.each do |value| %>
-  <p><%= custom_field_tag_with_label :group, value %></p>
+    <p><%= custom_field_tag_with_label :group, value %></p>
   <% end %>
 </div>
