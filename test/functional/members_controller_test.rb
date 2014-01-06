@@ -47,7 +47,7 @@ class MembersControllerTest < ActionController::TestCase
 
   def test_create
     assert_difference 'Member.count' do
-      post :create, :id => 1, :member => {:role_ids => [1], :user_id => 7}
+      post :create, :project_id => 1, :member => {:role_ids => [1], :user_id => 7}
    end
     assert_redirected_to '/projects/ecookbook/settings/members'
     assert User.find(7).member_of?(Project.find(1))
@@ -55,7 +55,7 @@ class MembersControllerTest < ActionController::TestCase
 
   def test_create_multiple
     assert_difference 'Member.count', 3 do
-      post :create, :id => 1, :member => {:role_ids => [1], :user_ids => [7, 8, 9]}
+      post :create, :project_id => 1, :member => {:role_ids => [1], :user_ids => [7, 8, 9]}
     end
     assert_redirected_to '/projects/ecookbook/settings/members'
     assert User.find(7).member_of?(Project.find(1))
@@ -64,7 +64,7 @@ class MembersControllerTest < ActionController::TestCase
   context "post :create in JS format" do
     context "with successful saves" do
       should "add membership for each user" do
-        post :create, :format => "js", :id => 1, :member => {:role_ids => [1], :user_ids => [7, 8, 9]}
+        post :create, :format => "js", :project_id => 1, :member => {:role_ids => [1], :user_ids => [7, 8, 9]}
 
         assert User.find(7).member_of?(Project.find(1))
         assert User.find(8).member_of?(Project.find(1))
@@ -72,7 +72,7 @@ class MembersControllerTest < ActionController::TestCase
       end
 
       should "replace the tab with RJS" do
-        post :create, :format => "js", :id => 1, :member => {:role_ids => [1], :user_ids => [7, 8, 9]}
+        post :create, :format => "js", :project_id => 1, :member => {:role_ids => [1], :user_ids => [7, 8, 9]}
 
         assert_select_rjs :replace_html, 'tab-content-members'
       end
@@ -81,13 +81,13 @@ class MembersControllerTest < ActionController::TestCase
 
     context "with a failed save" do
       should "not replace the tab with RJS" do
-        post :create, :format => "js", :id => 1, :member => {:role_ids => [], :user_ids => [7, 8, 9]}
+        post :create, :format => "js", :project_id => 1, :member => {:role_ids => [], :user_ids => [7, 8, 9]}
 
         assert_select '#tab-content-members', 0
       end
 
       should "show an error message" do
-        post :create, :format => "js", :id => 1, :member => {:role_ids => [], :user_ids => [7, 8, 9]}
+        post :create, :format => "js", :project_id => 1, :member => {:role_ids => [], :user_ids => [7, 8, 9]}
 
         assert_select_rjs :insert_html, :top do
           assert_select '#errorExplanation'
