@@ -36,10 +36,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <div class="box">
     <% if @user.auth_source_id.nil? %>
-      <p><%= f.text_field :login, :size => 25, :label => User.human_attribute_name(:login), :required => true %></p>
+      <p><%= f.text_field :login, :size => 25, :required => true %></p>
       <p>
         <%= f.password_field :password,
-                             :label => User.human_attribute_name(:password),
                              :required => true,
                              :size => 25,
                              :autocomplete => 'off' %><br />
@@ -47,20 +46,19 @@ See doc/COPYRIGHT.rdoc for more details.
       </p>
       <p>
         <%= f.password_field :password_confirmation,
-                             :label => User.human_attribute_name(:password_confirmation),
                              :required => true,
                              :size => 25,
                              :autocomplete => 'off'  %>
       </p>
     <% end %>
 
-    <p><%= f.text_field :firstname, :label => User.human_attribute_name(:firstname), :required => true %></p>
-    <p><%= f.text_field :lastname,  :label => User.human_attribute_name(:lastname),  :required => true %></p>
-    <p><%= f.text_field :mail,      :label => User.human_attribute_name(:mail),      :required => true %></p>
-    <p><%= f.select(:language, lang_options_for_select, :label => User.human_attribute_name(:language) ) %></p>
+    <p><%= f.text_field :firstname, :required => true %></p>
+    <p><%= f.text_field :lastname,  :required => true %></p>
+    <p><%= f.text_field :mail,      :required => true %></p>
+    <p><%= f.select(:language, lang_options_for_select) %></p>
 
     <% if Setting.openid? %>
-      <p><%= f.text_field :identity_url, :label => User.human_attribute_name(:identity_url) %></p>
+      <p><%= f.text_field :identity_url %></p>
     <% end %>
 
     <% @user.custom_field_values.select {|v| v.editable? || v.required?}.each do |value| %>

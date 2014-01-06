@@ -34,6 +34,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= error_messages_for :auth_source %>
 <div class="box">
-  <p><%= f.text_field 'name', :label => AuthSource.human_attribute_name(:name), :required => true %></p>
+  <p><%= f.text_field 'name', :required => true %></p>
   <p><%= f.check_box 'onthefly_register', :label => AuthSource.human_attribute_name(:onthefly) %></p>
 </div>

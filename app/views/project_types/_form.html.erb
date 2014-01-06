@@ -48,12 +48,8 @@ See doc/COPYRIGHT.rdoc for more details.
 </h2>
 
 <div class="box">
-  <p>
-    <%= f.text_field :name, :label => ProjectType.human_attribute_name(:name), :required => true %>
-  </p>
-  <p>
-    <%= f.check_box :allows_association, :label => ProjectType.human_attribute_name(:allows_association) %>
-  </p>
+  <p><%= f.text_field :name, :required => true %></p>
+  <p><%= f.check_box :allows_association %></p>
   <p>
     <label><%= ProjectType.human_attribute_name(:reported_project_statuses) %></label>
     <%= render :partial => "checkbox_list",

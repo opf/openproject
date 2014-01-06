@@ -35,15 +35,15 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= error_messages_for :auth_source %>
 
 <div class="box">
-  <p><%= f.text_field 'name', :label => AuthSource.human_attribute_name(:name), :required => true %></p>
-  <p><%= f.text_field 'host', :label => AuthSource.human_attribute_name(:host), :required => true %></p>
-  <p><%= f.text_field 'port', :label => AuthSource.human_attribute_name(:port), :required => true, :size => 6 %></p>
+  <p><%= f.text_field 'name', :required => true %></p>
+  <p><%= f.text_field 'host', :required => true %></p>
+  <p><%= f.text_field 'port', :required => true, :size => 6 %></p>
   <p><%= f.check_box 'tls', :label => 'LDAPS' %> </p>
-  <p><%= f.text_field 'account', :label => AuthSource.human_attribute_name(:account)  %></p>
+  <p><%= f.text_field 'account'  %></p>
   <p><%= f.password_field 'account_password',
             :label => AuthSource.human_attribute_name(:password),
             :placeholder => ((@auth_source.new_record? || @auth_source.account_password.blank?) ? '' : ('x'*15)) %></p>
-  <p><%= f.text_field 'base_dn', :label => AuthSource.human_attribute_name(:base_dn), :size => 60 %></p>
+  <p><%= f.text_field 'base_dn', :size => 60 %></p>
   <p><%= f.check_box 'onthefly_register', :label => AuthSource.human_attribute_name(:onthefly) %></p>
 </div>
 

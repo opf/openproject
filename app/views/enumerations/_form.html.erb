@@ -35,9 +35,9 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= error_messages_for :enumeration %>
 <div class="box">
   <%= f.hidden_field 'type' %>
-  <p><%= f.text_field 'name', :label => Enumeration.human_attribute_name(:name), :required => true %></p>
-  <p><%= f.check_box 'active', :label => Enumeration.human_attribute_name(:active) %></p>
-  <p><%= f.check_box 'is_default', :label => Enumeration.human_attribute_name(:is_default) %></p>
+  <p><%= f.text_field 'name', :required => true %></p>
+  <p><%= f.check_box 'active' %></p>
+  <p><%= f.check_box 'is_default' %></p>
 
   <% @enumeration.custom_field_values.each do |value| %>
     <p><%= custom_field_tag_with_label :enumeration, value %></p>
