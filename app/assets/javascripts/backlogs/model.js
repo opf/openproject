@@ -160,7 +160,6 @@ RB.Model = (function ($) {
           fieldLabel = fieldName.replace(/_/ig, " ").replace(/ id$/ig, "");
         }
 
-        $("<label></label>").text(fieldLabel).appendTo(editor);
         if (fieldType === 'select') {
           // Special handling for status_id => they are dependent of type_id
           if (fieldName === 'status_id') {
@@ -238,7 +237,8 @@ RB.Model = (function ($) {
           self.$.data('focus', '');
         });
 
-        input.appendTo(editor);
+        var label = $("<label />").text(fieldLabel).appendTo(editor);
+        input.appendTo(label);
       });
 
       this.displayEditor(editor);
