@@ -27,13 +27,10 @@
     </span>
   </td>
 
-<!--
   <td ng-repeat="option in timeline.options.columns">
-    (typeof availableRows[option] === 'function') && availableRows[option].call(node.payload, node.payload) || availableRows.general.call(node.payload, node.payload, option)
-  </td>
- -->
-  <td ng-repeat="option in timeline.options.columns">
-    {{node[option]}}
+    <span class="tl-column">
+      {{node.payload | getOptionColumn:option}}
+    </span>
   </td>
 
 </tr>
