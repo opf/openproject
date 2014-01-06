@@ -78,6 +78,8 @@ class StatusesController < ApplicationController
     redirect_to :action => 'index'
   end
 
+  verify :method => :post, :only => :update_work_package_done_ratio,
+         :render => { :nothing => true, :status => 405 }
   def update_work_package_done_ratio
     if Status.update_work_package_done_ratios
       flash[:notice] = l(:notice_work_package_done_ratios_updated)
