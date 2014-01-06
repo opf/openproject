@@ -29,6 +29,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#2153` [Accessibility] Required fields MUST be displayed as required - group new
+* `#2157` [Accessibility] Required fields MUST be displayed as required - enumeration new
+* `#2162` [Accessibility] Required fields MUST be displayed as required - new project_type
 * `#3528` [Data Migration] Type 'none' is not migrated properly in Timelines
 * `#3539` [Work package tracking] Modul view of work packages is too broad
 * Fixed workflow copy view
