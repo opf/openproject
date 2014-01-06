@@ -35,7 +35,7 @@ Given /^the [pP]roject "([^\"]*)" has the parent "([^\"]*)"$/ do |child_name, pa
 end
 
 Given /^there are the following colors:$/ do |table|
-  table.map_headers! { |header| header.underscore.gsub(' ', '_') }
+  table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
 
   table.hashes.each do |type_attributes|
     FactoryGirl.create(:color, type_attributes)
@@ -48,7 +48,7 @@ Given /^I am working in the [tT]imeline "([^"]*)" of the project called "([^"]*)
 end
 
 Given /^there are the following reported project statuses:$/ do |table|
-  table.map_headers! { |header| header.underscore.gsub(' ', '_') }
+  table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
 
   table.hashes.each do |type_attributes|
     FactoryGirl.create(:reported_project_status, type_attributes)
@@ -56,7 +56,7 @@ Given /^there are the following reported project statuses:$/ do |table|
 end
 
 Given /^there are the following project types:$/ do |table|
-  table.map_headers! { |header| header.underscore.gsub(' ', '_') }
+  table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
 
   table.hashes.each do |type_attributes|
     FactoryGirl.create(:project_type, type_attributes)
@@ -70,7 +70,7 @@ Given /^there are the following projects of type "([^"]*)":$/ do |project_type_n
 end
 
 Given /^there are the following project associations:$/ do |table|
-  table.map_headers! { |h| h.delete(' ').underscore }
+  table = table.map_headers { |h| h.delete(' ').underscore }
 
   table.map_column!('project_a') { |name| Project.find_by_name!(name) }
   table.map_column!('project_b') { |name| Project.find_by_name!(name) }
@@ -81,7 +81,7 @@ Given /^there are the following project associations:$/ do |table|
 end
 
 Given /^there are the following reportings:$/ do |table|
-  table.map_headers! { |h| h.delete(' ').underscore }
+  table = table.map_headers { |h| h.delete(' ').underscore }
 
   table.hashes.each do |attrs|
     attrs['project'] = Project.find_by_name!(attrs["project"])
@@ -117,7 +117,7 @@ Given (/^there are the following work packages(?: in project "([^"]*)")?:$/) do 
 end
 
 def create_work_packages_from_table table, project
-  table.map_headers! { |header| header.underscore.gsub(' ', '_') }
+  table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
 
   table.hashes.each do |type_attributes|
     [ ["author", User],
