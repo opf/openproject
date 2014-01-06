@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= header_tags %>
 
-<%= labelled_tabular_form_for(:project_type,
+<%= labelled_tabular_form_for(@project_type,
              :url  => project_types_path,
              :html => {:method => 'post'}) do |f| %>
 
