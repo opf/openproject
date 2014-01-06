@@ -41,12 +41,8 @@ See doc/COPYRIGHT.rdoc for more details.
   <p><%= f.check_box 'tls', :label => 'LDAPS' %> </p>
   <p><%= f.text_field 'account', :label => AuthSource.human_attribute_name(:account)  %></p>
   <p><%= f.password_field 'account_password',
-            :name => 'ignore',
             :label => AuthSource.human_attribute_name(:password),
-            :value => ((@auth_source.new_record? || @auth_source.account_password.blank?) ? '' : ('x'*15)),
-            #XXX: this js code here does not seem to be a good idea (inline js, unexpected behavior for the user)
-            :onfocus => "this.value=''; this.name='auth_source[account_password]';",
-            :onchange => "this.name='auth_source[account_password]';" %></p>
+            :placeholder => ((@auth_source.new_record? || @auth_source.account_password.blank?) ? '' : ('x'*15)) %></p>
   <p><%= f.text_field 'base_dn', :label => AuthSource.human_attribute_name(:base_dn), :size => 60 %></p>
   <p><%= f.check_box 'onthefly_register', :label => AuthSource.human_attribute_name(:onthefly) %></p>
 </div>

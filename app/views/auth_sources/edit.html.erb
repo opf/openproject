@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h2><%=l(:label_auth_source)%> (<%= @auth_source.auth_method_name %>)</h2>
 
-<%= labelled_tabular_form_for @auth_source, :as => :auth_souce do |f| %>
+<%= labelled_tabular_form_for @auth_source, :as => :auth_source do |f| %>
   <%= render :partial => 'form', :locals => { :f => f } %>
   <%= submit_tag l(:button_save) %>
 <% end %>
