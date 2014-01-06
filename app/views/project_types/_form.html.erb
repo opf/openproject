@@ -49,7 +49,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="box">
   <p>
-    <%= f.label :name, ProjectType.human_attribute_name(:name) %>
+    <%= f.label :name, required_field_name(ProjectType.human_attribute_name(:name)) %>
     <%= f.text_field :name %>
   </p>
   <p>
