@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h2><%= link_to l(:label_work_package_status_plural), :controller => '/statuses', :action => 'index' %> &#187; <%=h @status %></h2>
 
-<%= form_tag({:action => 'update', :id => @status}, :class => "tabular") do %>
-  <%= render :partial => 'form' %>
+<%= labelled_tabular_form_for(@status) do |f| %>
+  <%= render :partial => 'form', :locals => { :f => f } %>
   <%= submit_tag l(:button_save) %>
 <% end %>

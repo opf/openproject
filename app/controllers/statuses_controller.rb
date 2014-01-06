@@ -34,9 +34,6 @@ class StatusesController < ApplicationController
 
   before_filter :require_admin
 
-  verify :method => :post, :only => [ :destroy, :create, :update, :move, :update_work_package_done_ratio ],
-         :redirect_to => { :action => :index }
-
   def index
     @statuses = Status.order('position')
                                  .page(params[:page])
