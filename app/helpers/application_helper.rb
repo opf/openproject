@@ -208,7 +208,7 @@ module ApplicationHelper
     options = {
       :method => :delete,
       :data => {:confirm => l(:text_are_you_sure)},
-      :class => 'icon icon-del'
+      :class => 'icon icon-delete'
     }.merge(options)
 
     link_to l(:button_delete), url, options
