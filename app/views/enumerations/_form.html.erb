@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <!--[form:optvalue]-->
 <%= hidden_field 'enumeration', 'type' %>
 
-<p><label for="enumeration_name"><%= Enumeration.human_attribute_name(:name) %></label>
+<p><label for="enumeration_name"><%= required_field_name(Enumeration.human_attribute_name(:name)) %></label>
 <%= text_field 'enumeration', 'name' %></p>
 
 <p><label for="enumeration_active"><%= Enumeration.human_attribute_name(:active) %></label>
