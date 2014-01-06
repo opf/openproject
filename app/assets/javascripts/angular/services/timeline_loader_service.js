@@ -55,21 +55,21 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
    * the following ones, to react on these events:
    *
    *     jQuery(myLoader).on("success", function (e, args) {
-   *       console.log("'success' triggered for", this);
-   *       console.log("identifier used in register:",  args.identifier);
-   *       console.log("context provided in register:", args.context);
-   *       console.log("data returned by the server:",  args.data);
+   *       // console.log("'success' triggered for", this);
+   *       // console.log("identifier used in register:",  args.identifier);
+   *       // console.log("context provided in register:", args.context);
+   *       // console.log("data returned by the server:",  args.data);
    *     });
    *
    *     jQuery(myLoader).on("error", function (e, args) {
-   *       console.log("'error' triggered for ", this);
-   *       console.log("identifier used in register:",  args.identifier);
-   *       console.log("context provided in register:", args.context);
-   *       console.log("textStatus provided by jqXHR:", args.textStatus);
+   *       // console.log("'error' triggered for ", this);
+   *       // console.log("identifier used in register:",  args.identifier);
+   *       // console.log("context provided in register:", args.context);
+   *       // console.log("textStatus provided by jqXHR:", args.textStatus);
    *     });
    *
    *     jQuery(myLoader).on("empty", function (e) {
-   *       console.log("'empty' triggered for ", this);
+   *       // console.log("'empty' triggered for ", this);
    *     });
    *
    */
@@ -106,7 +106,7 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
    * Trigger loading of all registered elements
    */
   QueueingLoader.prototype.load = function () {
-    console.log('- QueueingLoader: load');
+    // console.log('- QueueingLoader: load');
 
     var identifier, element;
 
@@ -131,10 +131,10 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
 
   // Methods below are not meant to be public
   QueueingLoader.prototype.loadElement = function (identifier, element) {
-    console.log('- QueueingLoader: loadElement');
+    // console.log('- QueueingLoader: loadElement');
 
-    console.log({identifier: identifier});
-    console.log({element: element});
+    // console.log({identifier: identifier});
+    // console.log({element: element});
 
     element.options = jQuery.extend(
         {},
@@ -143,7 +143,7 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
         {
           success  : function(data, textStatus, jqXHR) {
             delete this.loading[identifier];
-            console.log('- QueueingLoader: "success" triggered');
+            // console.log('- QueueingLoader: "success" triggered');
 
             jQuery(this).trigger('success', {identifier : identifier,
                                              context    : element.context,
@@ -152,7 +152,7 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
 
           error    : function (jqXHR, textStatus, errorThrown) {
             delete this.loading[identifier];
-            console.log('- QueueingLoader: "error" triggered');
+            // console.log('- QueueingLoader: "error" triggered');
 
             jQuery(this).trigger('error', {identifier : identifier,
                                            context    : element.context,
@@ -165,21 +165,21 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
         }
     );
 
-    console.log({elementOptionsForAjax: element.options});
+    // console.log({elementOptionsForAjax: element.options});
 
 
     this.loading[identifier] = element;
 
     if(identifier === 'project_types') {
-      console.log('- Queueing Loader: Retrieving project types');
-      // console.log({project_types: ProjectType.query()});
+      // console.log('- Queueing Loader: Retrieving project types');
+      // // console.log({project_types: ProjectType.query()});
     }
 
     jQuery.ajax(element.options);
   };
 
   QueueingLoader.prototype.onComplete = function () {
-    console.log('- QueueingLoader: Complete');
+    // console.log('- QueueingLoader: Complete');
 
     // count remainders
     var remaining = 0;
@@ -591,8 +591,8 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
    *  Use events to get notified about completion
    *
    *      jQuery(timelineLoader).on("complete", function (e, data) {
-   *        console.log("'complete' triggered for", this);
-   *        console.log("Loaded data is:", data);
+   *        // console.log("'complete' triggered for", this);
+   *        // console.log("Loaded data is:", data);
    *      }
    */
   var TimelineLoader = function (timeline, options) {
@@ -615,7 +615,7 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
   TimelineLoader.QueueingLoader = QueueingLoader;
 
   TimelineLoader.prototype.registerTimelineElements = function() {
-    console.log('- TimelineLoader: registerTimelineElements');
+    // console.log('- TimelineLoader: registerTimelineElements');
 
     this.registerProjectReportings();
     this.registerGlobalElements();
@@ -626,8 +626,8 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
   };
 
   TimelineLoader.prototype.onLoadSuccess = function (e, args) {
-    console.log('- TimelineLoader: onLoadSuccess');
-    console.log({args: args});
+    // console.log('- TimelineLoader: onLoadSuccess');
+    // console.log({args: args});
 
     var storeIn  = args.context.storeIn  || args.identifier,
         readFrom = args.context.readFrom || storeIn;
@@ -637,7 +637,7 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
   };
 
   TimelineLoader.prototype.onLoadError = function (e, args) {
-    console.log({onLoadError: args});
+    // console.log({onLoadError: args});
 
     var storeIn  = args.context.storeIn  || args.identifier;
 
@@ -649,8 +649,8 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
   };
 
   TimelineLoader.prototype.onLoadComplete = function (e) {
-    console.log('- TimelineLoader: onLoadComplete');
-    console.log({e: e});
+    // console.log('- TimelineLoader: onLoadComplete');
+    // console.log({e: e});
 
     jQuery(this).trigger('complete', this.dataEnhancer.enhance(this.data));
   };
@@ -709,8 +709,8 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
   };
 
   TimelineLoader.prototype.registerProjects = function (ids) {
-    console.log('- TimelineLoader: registerProjects');
-    console.log({ids: ids});
+    // console.log('- TimelineLoader: registerProjects');
+    // console.log({ids: ids});
 
     this.inChunks(ids, function (project_ids_of_packet, i) {
 
@@ -725,8 +725,8 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
   };
 
   TimelineLoader.prototype.registerUsers = function (ids) {
-    console.log('- TimelineLoader: registerUsers');
-    console.log({ids: ids});
+    // console.log('- TimelineLoader: registerUsers');
+    // console.log({ids: ids});
 
     this.inChunks(ids, function (user_ids_of_packet, i) {
 
@@ -741,8 +741,8 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
   };
 
   TimelineLoader.prototype.provideServerSideFilterHashTypes = function (hash) {
-    console.log('- TimelineLoader: provideServerSideFilterHashTypes');
-    console.log({hash: hash});
+    // console.log('- TimelineLoader: provideServerSideFilterHashTypes');
+    // console.log({hash: hash});
 
     if (this.options.planning_element_types !== undefined) {
       hash.type_id = this.options.planning_element_types;
@@ -750,8 +750,8 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
   };
 
   TimelineLoader.prototype.provideServerSideFilterHashStatus = function (hash) {
-    console.log('- TimelineLoader: provideServerSideFilterHashStatus');
-    console.log({hash: hash});
+    // console.log('- TimelineLoader: provideServerSideFilterHashStatus');
+    // console.log({hash: hash});
 
     if (this.options.planning_element_status !== undefined) {
       hash.status_id = this.options.planning_element_status;
@@ -759,8 +759,8 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
   };
 
   TimelineLoader.prototype.provideServerSideFilterHashResponsibles = function (hash) {
-    console.log('- TimelineLoader: provideServerSideFilterHashResponsibles');
-    console.log({hash: hash});
+    // console.log('- TimelineLoader: provideServerSideFilterHashResponsibles');
+    // console.log({hash: hash});
 
     if (this.options.planning_element_responsibles !== undefined) {
       hash.responsible_id = this.options.planning_element_responsibles;
@@ -768,7 +768,7 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
   };
 
   TimelineLoader.prototype.provideServerSideFilterHash = function() {
-    console.log('- TimelineLoader: provideServerSideFilterHash');
+    // console.log('- TimelineLoader: provideServerSideFilterHash');
 
     var result = {};
     this.provideServerSideFilterHashTypes(result);
@@ -778,8 +778,8 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
   };
 
   TimelineLoader.prototype.registerPlanningElements = function (ids) {
-    console.log('- TimelineLoader: registerPlanningElements');
-    console.log({ids: ids});
+    // console.log('- TimelineLoader: registerPlanningElements');
+    // console.log({ids: ids});
 
     this.inChunks(ids, function (projectIdsOfPacket, i) {
       var projectPrefix = this.options.url_prefix +
@@ -858,11 +858,11 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
   };
 
   TimelineLoader.prototype.storeData = function (data, identifier) {
-    console.log('- TimelineLoader: storeData');
-    console.log({data: data, identifier: identifier});
+    // console.log('- TimelineLoader: storeData');
+    // console.log({data: data, identifier: identifier});
 
-    console.log({dataToBeExtended: data[identifier]});
-    console.log({dataExtended: this.dataEnhancer.createObjects(data, identifier)});
+    // console.log({dataToBeExtended: data[identifier]});
+    // console.log({dataExtended: this.dataEnhancer.createObjects(data, identifier)});
 
     if (!jQuery.isArray(data)) {
       this.die("Expected an instance of Array. Got something else. This " +
@@ -1088,7 +1088,7 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
       return new TimelineLoader(timeline, timeline.getTimelineLoaderOptions());
     },
     loadTimelineData: function(timeline) {
-      console.log('- TimelineLoaderService: loadTimelineData');
+      // console.log('- TimelineLoaderService: loadTimelineData');
 
       deferred = $q.defer();
       timelineLoader = null;
