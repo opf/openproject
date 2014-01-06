@@ -232,7 +232,7 @@ describe WikiController do
 
       User.stub(:current).and_return @user
 
-      @project = FactoryGirl.create(:project)
+      @project = FactoryGirl.create(:public_project)
       @project.reload # to get the wiki into the proxy
 
       # creating pages
