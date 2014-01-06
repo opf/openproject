@@ -69,6 +69,8 @@ describe Burndown do
   before(:each) do
     Rails.cache.clear
 
+    User.stub(:current).and_return(user)
+
     Setting.plugin_openproject_backlogs = {"points_burn_direction" => "down",
                                            "wiki_template"         => "",
                                            "card_spec"             => "Sattleford VM-5040",
@@ -77,6 +79,16 @@ describe Burndown do
 
 
     project.save!
+
+    [issue_open, issue_closed, issue_resolved].combination(2).each do |transition|
+      (transition << transition[0]).each_cons(2) do |slice|
+        FactoryGirl.create(:workflow,
+                           old_status: slice[0],
+                           new_status: slice[1],
+                           role: role,
+                           type_id: type_feature.id)
+      end
+    end
   end
 
   describe "Sprint Burndown" do
