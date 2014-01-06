@@ -23,27 +23,41 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * See doc/COPYRIGHT.rdoc for more details.  ++
- */
+ * See doc/COPYRIGHT.rdoc for more details.  ++*/
 
 @import global/all
-@import fonts/lato
-@import fonts/openproject_icon_font
-@import external
-@import select2_customizing
-@import jstoolbar
-@import context_menu
-@import calendar
-@import print
-@import scm
-@import top-shelf
-@import work_packages
-@import openproject_plugins
-@import layout/all
-@import content/forms
-@import content/flash_messages
-@import content/calendar
-@import content/wiki
-@import content/links
-@import default/main
+
+a, a:link, input.input-as-link
+  color: $content_link_color
+  text-decoration: none
+  font-weight: bold
+
+a:hover, a:active
+  color: $content_link_hover_active_color
+
+input.input-as-link
+  font-size: 12px
+  cursor: pointer
+
+a.sort
+  &.asc
+    background-image: url(image-path('sort_asc.png'))
+
+  &.desc
+    background-image: url(image-path('sort_desc.png'))
+
+a.icon, a.icon-context, input.input-as-link
+  color: $content_icon_link_color
+  font-weight: normal
+
+a.icon:hover, a.icon-context:hover
+  color: $content_icon_link_hover_color
+  text-decoration: none
+
+#content table th a.no-decoration-on-hover:hover, a.no-decoration-on-hover:hover
+  text-decoration: none
+
+input.input-as-link:hover
+  color: $content_link_hover_active_color
+  text-decoration: underline
 

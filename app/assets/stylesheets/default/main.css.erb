@@ -32,10 +32,6 @@ input#openid_url { background: url(<%= asset_path 'openid-bg.gif' %>) no-repeat;
 .clear:after{ content: "."; display: block; height: 0; clear: both; visibility: hidden; }
 
 /***** Links *****/
-a, a:link, input.input-as-link {
-  text-decoration: none;
-  font-weight: bold;
-}
 a:hover, a:active, input.input-as-link:hover { text-decoration: underline;}
 
 input.input-as-link {
@@ -1893,25 +1889,6 @@ content {
   font-size: 12px;
 }
 /***** Links *****/  /* TODO */
-a, a:link, input.input-as-link {
-  color: #008BD0;
-}
-a:hover, a:active {
-  color: #008BD0;
-}
-
-input.input-as-link {
-  font-size: 12px;
-  cursor: pointer;
-}
-
-a.sort.asc {
-  background-image: url(<%= asset_path 'sort_asc.png' %>);
-}
-
-a.sort.desc {
-  background-image: url(<%= asset_path 'sort_desc.png' %>);
-}
 
 #content #history {
   background: url(<%= asset_path 'dotted-separator.gif' %>) repeat-x scroll 0 bottom   transparent;
@@ -1922,28 +1899,7 @@ a.sort.desc {
   width: 700px;
 }
 
-.required {color: #008BD0;} /* changed to Siemens red! */
-/***** Icons *****/
-
-
-a.icon, a.icon-context, input.input-as-link {
-  color: #4b4b4b;
-  font-weight: normal;
-}
-a.icon:hover, a.icon-context:hover {
-  color: #008BD0;
-  text-decoration: none;
-}
-
-#content table th a.no-decoration-on-hover:hover,
-a.no-decoration-on-hover:hover {
-  text-decoration: none;
-}
-
-input.input-as-link:hover {
-  color: #008BD0;
-  text-decoration: underline;
-}
+.required {color: #008BD0;}
 
 /* Disable the css-override for the edit links in issue journals */
 .journal .contextual a[title=Edit] {background: none;}
