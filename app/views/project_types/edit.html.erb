@@ -29,9 +29,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= header_tags %>
 
-<%= form_for(:project_type,
+<%= labelled_tabular_form_for(:project_type,
              :url  => project_type_path(@project_type),
-             :html => {:class => "tabular", :method => 'put'}) do |f| %>
+             :html => {:method => 'put'}) do |f| %>
 
   <%= render :partial => "project_types/form",
              :locals => {:f => f, :project_type => @project_type} %>

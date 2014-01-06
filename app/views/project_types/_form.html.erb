@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
   Form for Project Types.
 
   needs locals:
-  :f            => form builder
+  :f            => labelled form builder
   :project_type => ProjectType
 %>
 
@@ -49,12 +49,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="box">
   <p>
-    <%= f.label :name, required_field_name(ProjectType.human_attribute_name(:name)) %>
-    <%= f.text_field :name %>
+    <%= f.text_field :name, :label => ProjectType.human_attribute_name(:name), :required => true %>
   </p>
   <p>
-    <%= f.label :allows_association, ProjectType.human_attribute_name(:allows_association) %>
-    <%= f.check_box :allows_association %>
+    <%= f.check_box :allows_association, :label => ProjectType.human_attribute_name(:allows_association) %>
   </p>
   <p>
     <label><%= ProjectType.human_attribute_name(:reported_project_statuses) %></label>
