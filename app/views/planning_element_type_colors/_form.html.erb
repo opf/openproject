@@ -36,9 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= l('timelines.edit_color') %>:
   <% end %>
 
-  <label for="color_name" class="hidden-for-sighted">
-    <%= PlanningElementTypeColor.human_attribute_name(:name) %>
-  </label>
+  <%= f.label :name, class: 'hidden-for-sighted' %>
   <%= f.text_field :name %>
 </h2>
 
