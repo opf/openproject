@@ -38,10 +38,6 @@ describe NewsController do
   let(:news)    { FactoryGirl.create(:news)    }
 
   before do
-    User.delete_all
-    News.delete_all
-    Project.delete_all
-
     User.stubs(:current).returns user
   end
 

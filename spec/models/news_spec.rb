@@ -32,11 +32,6 @@ require File.expand_path('../../support/shared/become_member', __FILE__)
 describe News do
   include BecomeMember
 
-  before do
-    Project.delete_all
-    News.delete_all
-  end
-
   let(:project) {
     project = FactoryGirl.create(:project)
     project.enabled_modules << EnabledModule.new(name: 'news')
