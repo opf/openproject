@@ -168,12 +168,13 @@ JS
   end
 
   def each_comma_seperated(array, &block)
-    array.each do |elem|
-      if elem.to_s.match /\d(,\d)*/
-        array += block.call(array.delete(elem))
+    array.map do |e|
+      if e.to_s.match /\d(,\d)*/
+        block.call(e)
+      else
+        e
       end
-    end
-    return array
+    end.flatten
   end
 
   def transform_array_of_comma_seperated_ids(array)
