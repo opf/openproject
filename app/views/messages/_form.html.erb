@@ -36,8 +36,12 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= f.text_field :subject, :size => 120, :id => "message_subject" %>
 
 <% if !replying && User.current.allowed_to?(:edit_messages, @project) %>
-    <label><%= f.check_box :sticky %><%= l(:label_board_sticky) %></label>
-    <label><%= f.check_box :locked %><%= l(:label_board_locked) %></label>
+    <%= f.label :sticky do %>
+      <%= f.check_box :sticky %><%= l(:label_board_sticky) %>
+    <% end %>
+    <%= f.label :locked do %>
+      <%= f.check_box :locked %><%= l(:label_board_locked) %>
+    <% end %>
 <% end %>
 </p>
 
