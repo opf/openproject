@@ -150,14 +150,11 @@ JS
     members = []
     user_ids = possibly_seperated_ids_for_entity(params[:member], :user)
     roles = Role.find_all_by_id(possibly_seperated_ids_for_entity(params[:member], :role))
-    attrs = permitted_params.member.reject { |k, v| k == :role_ids }
 
     new_member = lambda do |user_id|
-      member = Member.new attrs
-      # workaround due to mass-assignment protected member_roles.role_id
-      member.member_roles << roles.collect {|r| MemberRole.new :role => r }
-      member.user_id = user_id if user_id
-      member
+      Member.new(permitted_params.member).tap do |member|
+        member.user_id = user_id if user_id
+      end
     end
 
     user_ids.each do |user_id|
