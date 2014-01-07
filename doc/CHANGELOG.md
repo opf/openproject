@@ -32,6 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1951` Layout for ## and ### textile link help is broken
 * `#2161` [Accessibility] Link form elements to their label - new color
 * `#2500` Change default configuration in new OpenProject application so new projects are not public by default
+* `#3335` Fix: Mass assignment in members controller
 * `#3528` [Data Migration] Type 'none' is not migrated properly in Timelines
 * `#3539` [Work package tracking] Modul view of work packages is too broad
 * Fixed workflow copy view
