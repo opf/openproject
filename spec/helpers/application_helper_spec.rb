@@ -348,7 +348,7 @@ describe ApplicationHelper do
     end
 
     context "Project links" do
-      let(:subproject) { FactoryGirl.create :valid_project, :parent => project }
+      let(:subproject) { FactoryGirl.create :valid_project, :parent => project, :is_public => true }
       let(:project_url) { {:controller => 'projects', :action => 'show', :id => subproject.identifier} }
 
       context "Plain project link" do

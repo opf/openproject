@@ -318,7 +318,7 @@ class WorkPackagesController < ApplicationController
 
       permitted[:author] = current_user
 
-      wp = project.add_issue(permitted)
+      wp = project.add_work_package(permitted)
       wp.copy_from(params[:copy_from], :exclude => [:project_id]) if params[:copy_from]
 
       wp
