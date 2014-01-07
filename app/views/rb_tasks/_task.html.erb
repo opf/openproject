@@ -40,8 +40,8 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="t"><%= work_package_link_or_empty(task) %></div>
     <div class="v"><%= id_or_empty(task) %></div>
   </div>
-  <div class="subject editable" fieldtype="textarea" fieldname="subject"><%= task.subject %></div>
-  <div class="assigned_to_id editable" fieldtype="select" fieldname="assigned_to_id">
+  <div class="subject editable" fieldtype="textarea" fieldname="subject" field_id=<%= task.id %>><%= task.subject %></div>
+  <div class="assigned_to_id editable" fieldtype="select" fieldname="assigned_to_id" field_id=<%= task.id %>>
     <div class="t"><%= assignee_name_or_empty(task) %></div>
     <div class="v"><%= assignee_id_or_empty(task) %></div>
   </div>

@@ -151,6 +151,7 @@ RB.Model = (function ($) {
             typeId, statusId ;
 
         field = $(this);
+        fieldId = field.attr('field_id');
         fieldName = field.attr('fieldname');
         fieldLabel = field.attr('fieldlabel');
         fieldOrder = parseInt(field.attr('fieldorder'), 10);
@@ -178,7 +179,7 @@ RB.Model = (function ($) {
               typeId = $(this).val();
               statusId = $.trim(self.$.find('.status_id .v').html());
               newInput = self.findFactory(typeId, statusId, 'status_id');
-              newInput = self.prepareInputFromFactory(newInput,'status_id',fieldOrder,maxTabIndex);
+              newInput = self.prepareInputFromFactory(newInput,fieldId,'status_id',fieldOrder,maxTabIndex);
               newInput = self.replaceStatusForNewType(input, newInput, $(this).parent().find('.status_id').val(), editor);
             });
           }
@@ -190,7 +191,7 @@ RB.Model = (function ($) {
           input = $(document.createElement(fieldType));
         }
 
-        input  = self.prepareInputFromFactory(input, fieldName, fieldOrder, maxTabIndex);
+        input  = self.prepareInputFromFactory(input, fieldId, fieldName, fieldOrder, maxTabIndex);
 
         // Copy the value in the field to the input element
         input.val(fieldType === 'select' ? field.children('.v').first().text() : field.text());
@@ -237,8 +238,10 @@ RB.Model = (function ($) {
           self.$.data('focus', '');
         });
 
-        var label = $("<label />").text(fieldLabel).appendTo(editor);
-        input.appendTo(label);
+        $("<label />").attr({
+          for: input.attr('id'),
+        }).text(fieldLabel).appendTo(editor);
+        input.appendTo(editor);
       });
 
       this.displayEditor(editor);
@@ -258,8 +261,8 @@ RB.Model = (function ($) {
       return newInput;
     },
 
-    prepareInputFromFactory: function (input,fieldName,fieldOrder, maxTabIndex) {
-      input.removeAttr('id');
+    prepareInputFromFactory: function (input,fieldId,fieldName,fieldOrder, maxTabIndex) {
+      input.attr('id', fieldName + '_' + fieldId);
       input.attr('name', fieldName);
       input.attr('tabindex', fieldOrder + maxTabIndex);
       input.addClass(fieldName);

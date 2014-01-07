@@ -40,13 +40,13 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="t"><%= work_package_link_or_empty(impediment) %></div>
     <div class="v"><%= id_or_empty(impediment) %></div>
   </div>
-  <div class="subject editable" fieldtype="textarea" fieldname="subject"><%= impediment.subject %></div>
-  <div class="blocks editable" fieldname="blocks_ids" fieldlabel="<%= l(:label_blocks_ids) %>"><%= blocks_ids(impediment.blocks_ids) %></div>
-  <div class="assigned_to_id editable" fieldtype="select" fieldname="assigned_to_id">
+  <div class="subject editable" fieldtype="textarea" fieldname="subject" field_id=<%= impediment.id %>><%= impediment.subject %></div>
+  <div class="blocks editable" fieldname="blocks_ids" fieldlabel="<%= l(:label_blocks_ids) %>" field_id=<%= impediment.id %>><%= blocks_ids(impediment.blocks_ids) %></div>
+  <div class="assigned_to_id editable" fieldtype="select" fieldname="assigned_to_id" field_id=<%= impediment.id %>>
     <div class="t"><%= assignee_name_or_empty(impediment) %></div>
     <div class="v"><%= assignee_id_or_empty(impediment) %></div>
   </div>
-  <div class="remaining_hours editable<%= ' empty' if remaining_hours(impediment).blank? %>" fieldname="remaining_hours"><%= remaining_hours(impediment) %></div>
+  <div class="remaining_hours editable<%= ' empty' if remaining_hours(impediment).blank? %>" fieldname="remaining_hours" field_id=<%= impediment.id %>><%= remaining_hours(impediment) %></div>
   <div class="indicator"> </div>
   <div class="meta">
     <div class="story_id"><%= impediment.parent_id %></div>
