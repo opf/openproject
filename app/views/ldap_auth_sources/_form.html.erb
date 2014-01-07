@@ -38,7 +38,12 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= text_field 'auth_source', 'host'  %></p>
 
 <p><label for="auth_source_port"><%= AuthSource.human_attribute_name(:port) %> <span class="required">*</span></label>
-<%= text_field 'auth_source', 'port', :size => 6 %> <%= check_box 'auth_source', 'tls'  %> LDAPS</p>
+  <%= text_field 'auth_source', 'port', :size => 6 %>
+  <span>
+    <%= check_box 'auth_source', 'tls'  %>
+    <label style="float:none; margin-left:0px;" for="auth_source_tls">LDAPS</label>
+  </span>
+</p>
 
 <p><label for="auth_source_account"><%= AuthSource.human_attribute_name(:account) %></label>
 <%= text_field 'auth_source', 'account'  %></p>
