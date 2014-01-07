@@ -31,23 +31,6 @@ input#openid_url { background: url(<%= asset_path 'openid-bg.gif' %>) no-repeat;
 
 .clear:after{ content: "."; display: block; height: 0; clear: both; visibility: hidden; }
 
-/***** Links *****/
-a:hover, a:active, input.input-as-link:hover { text-decoration: underline;}
-
-input.input-as-link {
-  border: none;
-  background-color: transparent;
-  font-size: 13px;
-  font-family: Arial;
-  cursor: pointer;
-  vertical-align: 0;
-}
-a img{ border: 0; }
-
-a.issue.closed, a.issue.closed:link, a.issue.closed {
-  text-decoration: line-through;
-}
-
 /***** Tables *****/
 table.list { border: 1px solid #e4e4e4;  border-collapse: collapse; width: 100%; margin-bottom: 4px; }
 table.list th {  background-color: #E6E6E6; padding: 4px; white-space: nowrap; }
@@ -166,10 +149,6 @@ table.list tbody tr:hover, table.list tr.keyboard_hover { background-color: #fff
 table.list tbody tr.group:hover, table.list tr.group.keyboard_hover { background-color: inherit !important; }
 table td {padding: 2px;}
 table p {margin: 0;}
-
-a.sort { padding-right: 16px; background-position: 100% 50%; background-repeat: no-repeat; }
-a.sort.asc  { background-image: url(<%= asset_path 'sort_asc.png' %>); }
-a.sort.desc { background-image: url(<%= asset_path 'sort_desc.png' %>); }
 
 table.attributes { width: 100% }
 table.attributes th { vertical-align: top; text-align: left; }
@@ -1940,13 +1919,7 @@ body.theme-Bsp .buttons .apply,
 body.theme-Dtag .buttons .apply {
   background-color:  #24b3e7;
 }
-.title-bar .title-bar-actions .contextual a.icon:hover {
-  color: #008BD0;
-}
 
-#content table th a:hover {
-  color: #008BD0;
-}
 input::-webkit-input-placeholder {
   color: #000000;
 }
