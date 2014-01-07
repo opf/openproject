@@ -29,24 +29,25 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= error_messages_for 'color' %>
 
-<h2>
-  <%= f.label :name do %>
-    <%= color.new_record? ? l('timelines.new_color') : l('timelines.edit_color') %>
-    <span class="required"> *</span>
-  <% end %>
-
-  <%= f.text_field :name, required: true %>
-</h2>
+<h2><%= color.new_record? ? l('timelines.new_color') : l('timelines.edit_color') %></h2>
 
 <fieldset class="timelines-color-properties">
   <legend><%= l('timelines.properties') %></legend>
+
+  <p>
+    <%= f.label :name do %>
+      <%= PlanningElementTypeColor.human_attribute_name(:name) %>
+      <span class="required"> *</span>
+    <% end %>
+    <%= f.text_field :name, required: true %>
+  </p>
 
   <p>
     <%= f.label :hexcode do %>
       <%= PlanningElementTypeColor.human_attribute_name(:hexcode) %>
       <span class="required"> *</span>
     <% end %>
-    <%= icon_for_color(color, :class => 'timelines-x-update-color') %>
+    <%= icon_for_color(color, :class => 'timelines-x-update-color timelines-color-properties-preview') %>
     <%= f.text_field :hexcode, required: true %>
   </p>
 </fieldset>

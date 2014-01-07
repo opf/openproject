@@ -205,6 +205,9 @@ module TimelinesHelper
           display: inline-block;
           width: 10em;
         }
+        .timelines-color-properties-preview {
+          margin-left: -22px;
+        }
         .timelines-reporting-properties .timelines-value,
         .timelines-pet-properties .timelines-value,
         .timelines-pt-properties .timelines-value {
