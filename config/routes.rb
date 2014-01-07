@@ -36,6 +36,10 @@ OpenProject::Application.routes.draw do
   # see https://github.com/rails/rails/issues/5688
   match '/issues/*rest' => redirect { |params, req| "/work_packages/#{URI.escape(params[:rest])}" }
 
+  # Redirect wp short url for work packages to full URL
+  match '/wp(/)'    => redirect('/work_packages/')
+  match '/wp/*rest' => redirect { |params, req| "/work_packages/#{URI.escape(params[:rest])}" }
+
   scope :controller => 'account' do
     get '/account/force_password_change', :action => 'force_password_change'
     post '/account/change_password', :action => 'change_password'
@@ -113,7 +117,7 @@ OpenProject::Application.routes.draw do
 
   resources :types
   resources :custom_fields, :except => :show
-  resources :search, :controller => 'search', :only => ['index']
+  match "(projects/:project_id)/search" => 'search#index', :as => "search"
 
   # only providing routes for journals when there are multiple subclasses of journals
   # all subclasses will look for the journals routes

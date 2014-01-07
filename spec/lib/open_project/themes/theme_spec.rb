@@ -44,7 +44,9 @@ module OpenProject
         end
 
         it "allows passing in the identifier" do
-          theme = Theme.new_theme(:new_theme)
+          theme = Theme.new_theme do |theme|
+            theme.identifier = :new_theme
+          end
           expect(theme.identifier).to eq :new_theme
         end
       end
@@ -112,7 +114,9 @@ module OpenProject
 
       describe '#stylesheet_manifest' do
         it 'stringifies the identier and appends the css extension' do
-          theme = Theme.new_theme(:goofy)
+          theme = Theme.new_theme do |theme|
+            theme.identifier = :goofy
+          end
           expect(theme.stylesheet_manifest).to eq 'goofy.css'
         end
       end
@@ -152,7 +156,7 @@ module OpenProject
       end
 
       describe '#path_to_image' do
-        let(:theme) { Theme.new_theme(:new_theme) }
+        let(:theme) { Theme.new_theme {|t| t.identifier = :new_theme} }
 
         before do
           # set a list of overridden images
@@ -177,7 +181,7 @@ module OpenProject
       end
 
       describe '#overridden_images_path' do
-        let(:theme) { Theme.new_theme(:new_theme) }
+        let(:theme) { Theme.new_theme {|t| t.identifier = :new_theme} }
 
         before do
           # set an arbitrary base path for assets
@@ -208,14 +212,18 @@ module OpenProject
 
       describe '#stylesheet_manifest' do
         it 'equals the name of the theme with a css extension' do
-          theme = Theme.new_theme(:new_theme)
+          theme = Theme.new_theme do |theme|
+            theme.identifier = :new_theme
+          end
           expect(theme.stylesheet_manifest).to eq 'new_theme.css'
         end
       end
 
       describe '#assets_prefix' do
         it 'equals the name of the theme' do
-          theme = Theme.new_theme(:new_theme)
+          theme = Theme.new_theme do |theme|
+            theme.identifier = :new_theme
+          end
           expect(theme.assets_prefix).to eq 'new_theme'
         end
       end
@@ -233,7 +241,7 @@ module OpenProject
     end
 
     describe ViewHelpers do
-      let(:theme)   { Theme.new_theme(:new_theme) }
+      let(:theme)   { Theme.new_theme {|t| t.identifier = :new_theme} }
       let(:helpers) { ApplicationController.helpers }
 
       before do

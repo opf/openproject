@@ -25,15 +25,16 @@
  *
  * See doc/COPYRIGHT.rdoc for more details.  ++*/
 
-@import "variables"
-@import "mixins"
+@import global/all
 
 html
   overflow-y: scroll
   @include html_body_spacing
+  min-width: 1100px
+  &.in_modal
+    min-width: 0
 
 body
-  min-width: 900px
   @include html_body_spacing
   color: #4b4b4b
   font: normal normal normal 12px/1.5 arial,'lucida grandriale','lucida sans unicode',tahom,sans-serif

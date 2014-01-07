@@ -65,11 +65,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
         <h3><a name="3" class="wiki-page"></a>OpenProject links</h3>
 
-        <p>OpenProject allows hyperlinking between issues, changesets and wiki pages from anywhere wiki formatting is used.</p>
+        <p>OpenProject allows hyperlinking between work packages, changesets and wiki pages from anywhere wiki formatting is used.</p>
         <ul>
-            <li><strong>#124</strong> displays a link to an issue: <del><a href="#" class="issue" title="bulk edit doesn't change the category or fixed version properties (Closed)">#124</a></del> (link is striked-through if the issue is closed)</li>
-            <li><strong>##124</strong> displays a link to an issue with context information: <a href="/issues/12" class="issue status-1 priority-2 overdue created-by-me" title="Issue subject (New)">#12 New: Issue subject</a> 2012-05-14 - 2012-05-23 (User Name - assigned to)</li>
-            <li><strong>###124</strong> displays a link to an issue with context information and an excerpt (first 3 lines) of the description</li>
+            <li><strong>#124</strong> displays a link to a work package: <del><a href="#" class="work package" title="bulk edit doesn't change the category or fixed version properties (Closed)">#124</a></del> (link is striked-through if the work package is closed)</li>
+            <li><strong>##124</strong> displays a link to a work package with context information: <a href="#" class="work package status-1 priority-2 overdue created-by-me" title="Work package subject (New)">Bug #12: Work package subject</a> 2012-05-14 - 2012-05-23</li>
+            <li><strong>###124</strong> displays a link to a work package with context information and an excerpt (first 3 lines) of the description</li>
             <li><strong>r758</strong> displays a link to a changeset: <a href="#" class="changeset" title="Search engine now only searches objects the user is allowed to view.">r758</a></li>
             <li><strong>commit:c6f4d0fd</strong> displays a link to a changeset with a non-numeric hash: <a href="#" class="changeset">c6f4d0fd</a></li>
             <li><strong>sandbox:r758</strong> displays a link to a changeset of another project: <a href="#" class="changeset" title="Search engine now only searches objects the user is allowed to view.">sandbox:r758</a></li>
@@ -109,7 +109,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <li>Attachments:
                 <ul>
                     <li><strong>attachment:file.zip</strong> (link to the attachment of the current object named file.zip)</li>
-                    <li>For now, attachments of the current object can be referenced only (if you're on an issue, it's possible to reference attachments of this issue only)</li>
+                    <li>For now, attachments of the current object can be referenced only (if you're on a work package, it's possible to reference attachments of this work package only)</li>
                 </ul></li>
         </ul>
 
@@ -243,7 +243,7 @@ h1#. Topic Baz
           </tr>
         </tbody>
       </table>
-        
+
 
 
         <h3><a name="9" class="wiki-page"></a>Paragraphs</h3>

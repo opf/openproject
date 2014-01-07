@@ -69,7 +69,7 @@ Given(/^there are the following work packages were added "(.*?)"(?: in project "
 end
 
 Given(/^the work package "(.*?)" was changed "(.*?)" to:$/) do |name, time, table|
-  table.map_headers! { |header| header.underscore.gsub(' ', '_') }
+  table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
 
   #TODO provide better time support with some gem that can parse this:
   case time

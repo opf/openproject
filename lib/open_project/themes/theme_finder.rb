@@ -31,19 +31,33 @@ module OpenProject
   module Themes
     module ThemeFinder
       class << self
+
+        ##
+        # A list of all available themes.
+        # aliased to :all
         def themes
           @_themes ||= []
         end
         alias_method :all, :themes
 
+        ##
+        # Returns a hash with theme identifiers as keys,
+        # pointing to their Theme objects.
         def registered_themes
           @_registered_themes ||= \
-            themes.each_with_object({}) do |theme, themes|
+            themes.each_with_object({}.with_indifferent_access) do |theme, themes|
               themes[theme.identifier] = theme
             end
         end
         delegate :fetch, to: :registered_themes
 
+        ##
+        # Registers a theme instance, so that it is listed
+        # in `themes` and `registered_themes`.
+        # Every Theme, which is subclassed from OpenProject::Themes::Theme
+        # automatically registeres itself using this method.
+        #
+        # params: theme (a OpenProject::Themes::Theme instance)
         def register_theme(theme)
           self.themes << theme
           clear_cache
@@ -58,21 +72,41 @@ module OpenProject
         end
 
         def forget_theme(theme)
+          remove_asset_pipeline_proc(theme)
           themes.delete(theme)
           clear_cache
         end
 
         def clear_themes
+          remove_all_asset_pipeline_procs
           themes.clear
           clear_cache
+        end
+
+
+        include Enumerable
+        delegate :each, to: :themes
+
+      private
+        def remove_asset_pipeline_proc(theme)
+          Rails.application.config.assets.precompile.delete_if do |item|
+            item.is_a?(Proc) and extract_theme(item) == theme
+          end
+        end
+
+        def remove_all_asset_pipeline_procs
+          Rails.application.config.assets.precompile.delete_if do |item|
+            item.is_a?(Proc) and extract_theme(item).is_a?(OpenProject::Themes::Theme)
+          end
+        end
+
+        def extract_theme(proc)
+          proc.binding.eval('theme if local_variables.include? :theme')
         end
 
         def clear_cache
           @_registered_themes = nil
         end
-
-        include Enumerable
-        delegate :each, to: :themes
       end
     end
   end

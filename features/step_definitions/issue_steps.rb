@@ -88,7 +88,7 @@ end
 
 Given (/^there are the following issues with attributes:$/) do |table|
 
-  table.map_headers! { |header| header.underscore.gsub(' ', '_') }
+  table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
   table.hashes.each do |type_attributes|
 
     project  = get_project(type_attributes.delete("project"))

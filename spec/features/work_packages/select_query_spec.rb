@@ -26,41 +26,40 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../../../../spec_helper', __FILE__)
+require 'spec_helper'
+require 'features/work_packages/work_packages_page'
 
-describe 'api/v2/planning_element_type_colors/show.api.rabl' do
+describe 'Query selection' do
+  let(:project) { FactoryGirl.create :project, identifier: 'test_project', is_public: false }
+  let(:role) { FactoryGirl.create :role, :permissions => [:view_work_packages] }
+  let(:current_user) { FactoryGirl.create :user, member_in_project: project,
+                                                 member_through_role: role }
 
-  before do
-    params[:format] = 'json'
+  let(:filter_name) { 'done_ratio' }
+  let!(:query) do
+    query = FactoryGirl.build(:query, project: project, is_public: true)
+    query.filters = [Queries::WorkPackages::Filter.new(filter_name, operator: ">=", values: [10]) ]
+    query.save and return query
   end
 
-  describe 'with an assigned color' do
-    let(:color) { FactoryGirl.build(:color,
-                                    :id       => 1,
-                                    :name     => 'Awesometastic color',
-                                    :hexcode  => '#FFFFFF',
-                                    :position => 10,
+  let(:work_packages_page) { WorkPackagesPage.new(project) }
 
-                                    :created_at => Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
-                                    :updated_at => Time.parse('Fri Jan 07 12:35:00 +0100 2011')) }
+  before do
+    User.stub(:current).and_return current_user
+  end
 
-
+  context 'when a query is selected' do
     before do
-      assign(:color, color)
-      render
+      work_packages_page.visit_index
+      work_packages_page.select_query query
     end
 
-    subject { response.body }
+    context 'and the work packages menu item is clicked' do
+      before { work_packages_page.click_work_packages_menu_item }
 
-    it 'renders a color document' do
-      should have_json_path('color')
+      it 'clears selected queries' do
+        work_packages_page.should_not have_selected_filter(filter_name)
+      end
     end
-
-    it 'renders the detail information about the color' do
-      expected_json = {name: "Awesometastic color", hexcode: '#FFFFFF', position: 10}.to_json
-
-      should be_json_eql(expected_json).at_path('color')
-    end
-
   end
 end

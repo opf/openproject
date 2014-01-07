@@ -29,14 +29,28 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#1951` Layout for ## and ### textile link help is broken
+* `#2161` [Accessibility] Link form elements to their label - new color
+* `#2500` Change default configuration in new OpenProject application so new projects are not public by default
+* `#3528` [Data Migration] Type 'none' is not migrated properly in Timelines
+* `#3539` [Work package tracking] Modul view of work packages is too broad
+* Fixed workflow copy view
+* Add redirect from /wp to /work_packages for less typing
+
+## 3.0.0pre41
+
+* `#2743` Clear work packages filters when the work packages menu item is clicked
 * `#3072` Timelines rendering of top table border and text is slightly off
+* `#3108` [Work package tracking] Too many users selectable as watchers in public projects
 * `#3334` [CodeClimate] Mass Assignment WikiController
 * `#3336` Fix: use permitted_params for queries controller
 * `#3364` [Performance] Create index on enabled_modules.name
 * `#3407` Fix: [Roadmap] Missing dropdown menu for displaying work packages by different criteria
 * `#3455` Fix: [Projects] Tab "Types" missing in newly created projects
+* `#3245` Fix: Search bar does not display results on a project basis
 
 ## 3.0.0pre40
+
 * `#3066` [Work package tracking] Bulk edit causes page not found
 * update will paginate
 

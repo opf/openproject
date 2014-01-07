@@ -45,11 +45,18 @@ module OpenProject
         DefaultTheme.instance
       end
 
-      def current_theme
-        theme(current_theme_identifier)
+      ##
+      # Returns the currently active theme.
+      # Params: options (Hash)
+      #         - user: Users may define a theme in their preferences
+      #                 if the user has done so, return that theme
+      def current_theme(options = {})
+        user_theme = Setting.user_may_override_theme? && options[:user].try(:pref)
+                                                                       .try(:[], :theme)
+        theme(user_theme || application_theme_identifier)
       end
 
-      def current_theme_identifier
+      def application_theme_identifier
         Setting.ui_theme.to_s.to_sym.presence
       end
 

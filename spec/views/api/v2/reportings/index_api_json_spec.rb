@@ -38,8 +38,6 @@ describe 'api/v2/reportings/index.api.rabl' do
     it 'renders an empty reportings document' do
       assign(:reportings, [])
       render
-
-      puts response.body
       response.should have_json_size(0).at_path 'reportings'
     end
   end

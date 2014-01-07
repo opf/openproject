@@ -26,9 +26,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
-  factory(:reporting, :class => Reporting) do
-    project { |e| e.association(:project) }
-    reporting_to_project { |e| e.association(:public_project) }
-  end
-end
+Feature: Searching
+  Background:
+    Given there is 1 project with the following:
+      | identifier | project |
+      | name       | project |
+    And I am admin
+
+  @javascript
+  Scenario: Searching within a project's scope retains that scope
+    When I am on the overview page for the project called "project"
+     And I search globally for "stuff"
+    Then I should see "Overview" within "#main-menu"
+
+  @javascript
+  Scenario: Searching stuff again retains a project's scope
+    When I am on the overview page for the project called "project"
+     And I search globally for "stuff"
+     And I search for "stuff" after having searched
+    Then I should see "Overview" within "#main-menu"

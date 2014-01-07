@@ -52,6 +52,10 @@ require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "pat
 require File.expand_path(File.join(File.dirname(__FILE__), "..", "support", "selectors"))
 
 module WithinHelpers
+  def press_key_on_element(key, element)
+    page.find(element).native.send_keys(Selenium::WebDriver::Keys[key.to_sym])
+  end
+
   def right_click(elements)
     builder = page.driver.browser.action
 
