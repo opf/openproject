@@ -122,7 +122,7 @@ describe MyController, :type => :controller do
     context "with render_views" do
       render_views
       it "renders editable custom fields" do
-        expect(response.body).to have_content("TextUserCustomField")
+        expect(response.body).to have_content(custom_field.name)
       end
     end
   end
