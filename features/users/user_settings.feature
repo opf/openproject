@@ -25,7 +25,7 @@ Scenario: A user is able to change his mail address if the settings permit it
 Given I am admin
 And I go to the my account page
 And   I fill in "user_mail" with "john@doe.com"
-And   I click on "Save"
+And   I click on the first button matching "Save"
 Then  I should see "Account was successfully updated."
 
 @javascript
@@ -34,5 +34,5 @@ Given I am admin
 And I go to the my account page
 And   I fill in "user_firstname" with "Jon"
 And   I fill in "user_lastname" with "Doe"
-And   I click on "Save"
+And   I click on the first button matching "Save"
 Then  I should see "Account was successfully updated."
