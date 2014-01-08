@@ -225,6 +225,8 @@ ui_theme:
   default: 'default'
 user_may_override_theme:
   default: 1
+accessibility_mode_for_anonymous:
+  default: 0
 emails_footer:
   serialized: true
   default:
