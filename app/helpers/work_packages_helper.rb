@@ -329,19 +329,42 @@ module WorkPackagesHelper
   end
 
   def work_package_show_attributes(work_package)
+    main_attributes = work_package_show_main_attributes(work_package)
+    custom_field_attributes = work_package_show_custom_fields(work_package)
+    hook_attributes = YAML::load(call_hook(:view_work_packages_show_details_bottom, :issue => work_package))
+
+    ordered = { left: [], right: [] }
+
+    [main_attributes, custom_field_attributes, hook_attributes].each_with_object(ordered) do |list, h|
+      h[:left] << list[0..list.count / 2]
+      h[:right] << list[list.count / 2 + 1..list.count]
+    end
+
+    (ordered[:left] + ordered[:right]).flatten.compact
+  end
+
+  def work_package_show_main_attributes(work_package)
     [
-      work_package_show_status_attribute(work_package),
-      work_package_show_start_date_attribute(work_package),
-      work_package_show_priority_attribute(work_package),
-      work_package_show_due_date_attribute(work_package),
-      work_package_show_assigned_to_attribute(work_package),
-      work_package_show_progress_attribute(work_package),
-      work_package_show_responsible_attribute(work_package),
-      work_package_show_category_attribute(work_package),
-      work_package_show_spent_time_attribute(work_package),
-      work_package_show_fixed_version_attribute(work_package),
-      work_package_show_estimated_hours_attribute(work_package)
-    ].compact
+       work_package_show_status_attribute(work_package),
+       work_package_show_priority_attribute(work_package),
+       work_package_show_assigned_to_attribute(work_package),
+       work_package_show_responsible_attribute(work_package),
+       work_package_show_category_attribute(work_package),
+       work_package_show_estimated_hours_attribute(work_package),
+       work_package_show_start_date_attribute(work_package),
+       work_package_show_due_date_attribute(work_package),
+       work_package_show_progress_attribute(work_package),
+       work_package_show_spent_time_attribute(work_package),
+       work_package_show_fixed_version_attribute(work_package)
+     ]
+  end
+
+  def work_package_show_custom_fields(work_package)
+    work_package.custom_field_values.each_with_object([]) do |v, a|
+      a << work_package_show_table_row(v.custom_field.name, '') do
+        simple_format_without_paragraph(h(show_value(v)))
+      end
+    end
   end
 
   def work_package_show_table_row(attribute, klass = nil, &block)
