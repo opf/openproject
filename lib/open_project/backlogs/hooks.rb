@@ -68,6 +68,7 @@ module OpenProject::Backlogs::Hooks
     end
 
     def view_work_packages_show_details_bottom(context = {})
+      attributes = []
       work_package = context[:issue]
 
       return '' unless work_package.backlogs_enabled?
@@ -77,21 +78,21 @@ module OpenProject::Backlogs::Hooks
       snippet = ''
 
       if work_package.is_story?
-        snippet += %Q{
-          <tr>
-            <th class="story-points">#{WorkPackage.human_attribute_name(:story_points)}:</th>
-            <td class="story-points">#{work_package.story_points || '-'}</td>
-          </tr>
+        snippet = %Q{
+          <th class="story-points">#{WorkPackage.human_attribute_name(:story_points)}:</th>
+          <td class="story-points">#{work_package.story_points || WorkPackagesHelper.empty_element_tag}</td>
         }
+
+        attributes << WorkPackagesHelper::WorkPackageAttribute.new(:story_points, snippet)
       end
-      snippet += %Q{
-        <tr>
-          <th class="remaining_hours">#{WorkPackage.human_attribute_name(:remaining_hours)}:</th>
-          <td class="remaining_hours">#{l_hours(work_package.remaining_hours)}</td>
-        </tr>
+      snippet = %Q{
+        <th class="remaining_hours">#{WorkPackage.human_attribute_name(:remaining_hours)}:</th>
+        <td class="remaining_hours">#{work_package.remaining_hours ? l_hours(work_package.remaining_hours) : WorkPackagesHelper.empty_element_tag}</td>
       }
 
-      snippet
+      attributes << WorkPackagesHelper::WorkPackageAttribute.new(:remaining_hours, snippet)
+
+      YAML::dump(attributes)
     end
 
     def view_work_packages_form_details_bottom(context = {})
