@@ -42,15 +42,6 @@ module OpenProject::Backlogs::List
 
       acts_as_silent_list
 
-      # Add new items to top of list automatically
-      after_create :insert_at, :if => :is_story?
-
-      # Deactivate the default add_to_list_bottom callback
-      def add_to_list_bottom
-        super unless caller(2).first =~ /callbacks/
-      end
-
-
       # Reorder list, if work_package is removed from sprint
       before_update :fix_other_work_package_positions
       before_update :fix_own_work_package_position
@@ -154,7 +145,7 @@ module OpenProject::Backlogs::List
         end
 
         if is_story? and fixed_version.present?
-          insert_at(1)
+          insert_at_bottom
         else
           assume_not_in_list
         end
