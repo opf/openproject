@@ -32,7 +32,7 @@ describe Api::V2::ProjectsController, :type => :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
   let(:anonymous_role_with_permissions) do
     role = FactoryGirl.create(:anonymous_role)
-    role.update_attribute(:permissions, [:view_projects])
+    role.update_attribute(:permissions, [:view_project])
     role.save!
   end
 

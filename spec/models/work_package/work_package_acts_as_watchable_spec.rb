@@ -59,6 +59,10 @@ describe WorkPackage, :type => :model do
     end
 
     context 'when it is a public project' do
+      before do
+        project.update_attributes is_public: true
+      end
+
       it 'contains project members who are allowed to view work packages' do
         users_allowed_to_view_work_packages = project.users.select{ |u| u.allowed_to?(:view_work_packages, project) }
         expect(work_package.possible_watcher_users.sort).to eq(users_allowed_to_view_work_packages.sort)
@@ -123,6 +127,7 @@ describe WorkPackage, :type => :model do
     context 'when the permission to view work packages has been removed' do
       # an existing watcher shouldn't be removed
       before do
+        watching_user
         role.remove_permission! :view_work_packages
         work_package.reload
       end

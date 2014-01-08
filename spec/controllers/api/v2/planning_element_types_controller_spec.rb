@@ -38,7 +38,7 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
   end
   let(:anonymous_role_with_permissions) do
     role = FactoryGirl.create(:anonymous_role)
-    role.update_attribute(:permissions, [:view_projects])
+    role.update_attribute(:permissions, [:view_project])
     role.save!
   end
 
