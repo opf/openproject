@@ -27,51 +27,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++*/
 
-
-/***** Layout *****/
-
-#main.nosidebar #sidebar{ display: none; }
-#main.nosidebar #content{ width: auto }
-
-
-#login-form table {margin-top: 5em; padding: 1em; margin-left: auto; margin-right: auto; border: 2px solid #FDBF3B; background-color: #FFEBC1; }
-#login-form table td {padding: 6px;}
-#login-form label {font-weight: bold;}
-#login-form input#username, #login-form input#password { width: 300px; }
-
-#login-form form {
-  border: 1px solid #6DABC2;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  display: block;
-  padding: 10px;
-}
-
 input#openid_url { background: url(<%= asset_path 'openid-bg.gif' %>) no-repeat; background-color: #fff; background-position: 0 50%; padding-left: 18px; }
 
 .clear:after{ content: "."; display: block; height: 0; clear: both; visibility: hidden; }
-
-/***** Links *****/
-a, a:link, input.input-as-link {
-  text-decoration: none;
-  font-weight: bold;
-}
-a:hover, a:active, input.input-as-link:hover { text-decoration: underline;}
-
-input.input-as-link {
-  border: none;
-  background-color: transparent;
-  font-size: 13px;
-  font-family: Arial;
-  cursor: pointer;
-  vertical-align: 0;
-}
-a img{ border: 0; }
-
-a.issue.closed, a.issue.closed:link, a.issue.closed {
-  text-decoration: line-through;
-}
 
 /***** Tables *****/
 table.list { border: 1px solid #e4e4e4;  border-collapse: collapse; width: 100%; margin-bottom: 4px; }
@@ -191,10 +149,6 @@ table.list tbody tr:hover, table.list tr.keyboard_hover { background-color: #fff
 table.list tbody tr.group:hover, table.list tr.group.keyboard_hover { background-color: inherit !important; }
 table td {padding: 2px;}
 table p {margin: 0;}
-
-a.sort { padding-right: 16px; background-position: 100% 50%; background-repeat: no-repeat; }
-a.sort.asc  { background-image: url(<%= asset_path 'sort_asc.png' %>); }
-a.sort.desc { background-image: url(<%= asset_path 'sort_desc.png' %>); }
 
 table.attributes { width: 100% }
 table.attributes th { vertical-align: top; text-align: left; }
@@ -526,17 +480,7 @@ div#tab-content-members fieldset div.select-boxes .select2-container {
   font-weight: normal;
 }
 
-/***** Flash & error messages ****/
-#errorExplanation, div.flash, .nodata, .warning {
-  padding: 4px;
-  margin-bottom: 12px;
-  border: 2px solid;
-  margin: 0 0 10px;
-  border: 1px solid;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-}
+/***** Form error messages ****/
 
 span.errorSpan {
   font-weight: bold;
@@ -552,26 +496,6 @@ span.errorSpan input {
   border: 2px solid red;
 }
 
-div.flash {margin-top: 8px;}
-
-div.flash.error a, div.flash.warning a, div.flash.notice a, #errorExplanation a,
-div.flash.error a:link, div.flash.warning a:link, div.flash.notice a:link, #errorExplanation a:link,
-div.flash.error a:hover, div.flash.warning a:hover, div.flash.notice a:hover, #errorExplanation a:hover {
-  font: bold 12px/1.5 arial,'lucida grandriale','lucida sans unicode',tahom,sans-serif;
-  color: #333;
-  text-decoration: none;
-  cursor: default;
-}
-
-.nodata, .warning {
-  text-align: center;
-  background-color: #FFEBC1;
-  border-color: #FDBF3B;
-  color: #A6750C;
-}
-
-#errorExplanation ul { font-size: 0.9em; margin-left: 30px;}
-#errorExplanation h2, #errorExplanation p { display: none; }
 
 /***** Ajax indicator ******/
 #ajax-indicator {
@@ -608,21 +532,6 @@ html>body #ajax-indicator { position: fixed; }
   white-space: nowrap;
 }
 
-/***** Calendar *****/
-table.cal {border-collapse: collapse; width: 100%; margin: 0px 0 6px 0;border: 1px solid #d7d7d7;}
-table.cal thead th {width: 14%; background-color: #EEEEEE; padding: 4px; }
-table.cal thead th.week-number {width: auto;}
-table.cal tbody tr {height: 100px;}
-table.cal td {border: 1px solid #d7d7d7; vertical-align: top; font-size: 0.9em;}
-table.cal td.week-number { background-color: #EEEEEE; padding: 4px; border: none; font-size: 1em;}
-table.cal td p.day-num {font-size: 1.1em; text-align: right;}
-table.cal td.odd p.day-num {color: #bbb;}
-table.cal td.today {background: #ffffdd;}
-table.cal td.today p.day-num {font-weight: bold;}
-table.cal .starting a, p.cal.legend .starting {background: url(<%= asset_path 'bullet_go.png' %>) no-repeat -1px -2px; padding-left: 16px;}
-table.cal .ending a, p.cal.legend .ending {background: url(<%= asset_path 'bullet_end.png' %>) no-repeat -1px -2px; padding-left: 16px;}
-table.cal .starting.ending a, p.cal.legend .starting.ending {background: url(<%= asset_path 'bullet_diamond.png' %>) no-repeat -1px -2px; padding-left: 16px;}
-p.cal.legend span {display: block;}
 
 /***** Tooltips ******/
 .tooltip{position: relative;z-index: 24;}
@@ -791,68 +700,6 @@ ins.diffmod, ins.diffins { background: #cfc; }
   color: #505050;
   border: 1px solid #e4e4e4;
 }
-
-/***** Wiki *****/
-div.wiki table {
-  border: 1px solid #505050;
-  border-collapse: collapse;
-  margin-bottom: 1em;
-}
-
-div.wiki table, div.wiki td, div.wiki th {
-  border: 1px solid #bbb;
-  padding: 4px;
-}
-
-div.wiki .external {
-  background-position: 0% 60%;
-  background-repeat: no-repeat;
-  padding-left: 12px;
-  background-image: url(<%= asset_path 'external.png' %>);
-}
-
-div.wiki pre {
-  margin: 1em 1em 1em 1.6em;
-  padding: 2px 2px 2px 0;
-  background-color: #fafafa;
-  border: 1px solid #dadada;
-  width: auto;
-  overflow-x: auto;
-  overflow-y: hidden;
-}
-
-div.wiki ul.toc {
-  margin-bottom: 12px;
-  margin-right: 12px;
-  margin-left: 0;
-  display: table
-}
-* html div.wiki ul.toc { width: 50%; } /* IE6 doesn't autosize div */
-
-div.wiki ul.toc {font-size: 0.8em;}
-div.wiki ul.toc.right { float: right; margin-left: 12px; margin-right: 0; width: auto; }
-div.wiki ul.toc.left  { float: left; margin-right: 12px; margin-left: 0; width: auto; }
-div.wiki ul.toc ul { margin: 0; padding: 0; }
-div.wiki ul.toc li { list-style-type: none; margin: 0;}
-div.wiki ul.toc li li { margin-left: 1.5em; }
-div.wiki fieldset legend {
-  font-weight: bold;
-  font-size: 10px;
-}
-
-div.wiki ul.toc a {
-  font-weight: normal;
-  background-image: url(<%= asset_path 'arrow-down.png' %>);
-  background-repeat: no-repeat;
-  background-position: 0% 60%;
-  padding-left: 16px;
-}
-
-a.wiki-anchor { display: none; margin-left: 6px; text-decoration: none; }
-a.wiki-anchor:hover { color: #aaa !important; text-decoration: none; }
-h1:hover a.wiki-anchor, h2:hover a.wiki-anchor, h3:hover a.wiki-anchor { display: inline; color: #ddd; }
-
-div.wiki img { vertical-align: middle; }
 
 /***** Work Package quick info *****/
 
@@ -1046,9 +893,6 @@ h1.title {
 
 .title-bar h2 span {
   font-weight: bold;
-}
-
-.button-large {
 }
 
 /* .button-large was too generic and targeted other pages with it's positioning */
@@ -1339,11 +1183,6 @@ ul.journal-attributes li {
  * This section defines the styles for the projects "home" page.
  ------------------------------------------------------------------------------*/
 
-#content.nosidebar {
-  margin-left: 0;
-  padding: 45px 60px 50px 25px;
-
-}
 #project-links {
   right: 30px;
   color: #ccc;
@@ -1562,17 +1401,6 @@ tr.context-menu-selection td.priority {
 ul.projects div.root a.project {
   font-family: inherit;
 }
-#content #login-form table {
-  border: 0 none;
-  background: none;
-  margin: 0;
-}
-#content #login-form table tr:hover {
-  background: none;
-}
-#login-form table td, #login-form table th {
-  border: 0 none;
-}
 
 /* tables don't all need border you know */
 #relations table td, #relations table th {
@@ -1582,7 +1410,6 @@ ul.projects div.root a.project {
 div.issue div#relations {
   margin-top: 25px;
 }
-
 
 /* custom query page */
 #content .box fieldset {
@@ -1618,15 +1445,6 @@ fieldset#columns table {
 fieldset#columns td {
   border: 0;
   vertical-align: middle;
-}
-
-/* Flash notices */
-div.flash {
-  margin: 0 0 10px;
-  border: 1px solid;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
 }
 
 /* all kinds of wonderful tweaks */
@@ -1750,14 +1568,6 @@ tr.time-entry {
 }
 
 /* clearfix */
-html > body #content:after {
-  content: ".";
-  display: block;
-  height: 0;
-  clear: both;
-  visibility: hidden;
-
-}
 #content table.files .opt-desc {
   width: 45%;
 }
@@ -1782,9 +1592,6 @@ a.has-thumb img {
 
 #more-menu.drop-down ul li a.projects { border-top: 1px solid #555; }
 
-/*************************************************************************
-Additional wiki styles
- *************************************************************************/
 
 .button {
   padding-left: .25em;
@@ -1792,75 +1599,6 @@ Additional wiki styles
   background: #507aaa;
   color: white;
   font-weight: bold;
-}
-
-.wiki p.see-also,    .wiki p.caution,    .wiki p.important,    .wiki p.info,    .wiki p.tip,    .wiki p.note,
-.wiki span.see-also, .wiki span.caution, .wiki span.important, .wiki span.info, .wiki span.tip, .wiki span.note {
-  display: block;
-  margin-top: .5em;
-  margin-bottom: .5em;
-
-  padding: 4px 4px 4px 48px;
-  min-height: 33px;
-}
-.wiki p.smallsee-also,    .wiki p.smallcaution,    .wiki p.smallimportant,    .wiki p.smallinfo,    .wiki p.smalltip,    .wiki p.smallnote,
-.wiki span.smallsee-also, .wiki span.smallcaution, .wiki span.smallimportant, .wiki span.smallinfo, .wiki span.smalltip, .wiki span.smallnote {
-  display: block;
-  margin-top: .5em;
-  margin-bottom: .5em;
-
-  padding: 4px 4px 4px 34px;
-  min-height: 24px;
-}
-
-.wiki p.see-also, .wiki span.see-also {
-  background: url(<%= asset_path 'wiki_styles/see-also.png' %>) 4px 4px no-repeat #f5fffa;
-  border: 1px solid #AAB1AD;
-}
-.wiki p.smallsee-also, .wiki span.smallsee-also {
-  background: url(<%= asset_path 'wiki_styles/see-also_small.png' %>) 4px 4px no-repeat #f5fffa;
-  border: 1px solid #AAB1AD;
-}
-
-.wiki p.caution, .wiki span.caution {
-  background: url(<%= asset_path 'wiki_styles/caution.png' %>) 4px 6px no-repeat #f5fffa;
-  border: 1px solid #AAB1AD;
-}
-.wiki p.smallcaution, .wiki span.smallcaution {
-  background: url(<%= asset_path 'wiki_styles/caution_small.png' %>) 4px 4px no-repeat #f5fffa;
-  border: 1px solid #AAB1AD;
-}
-
-.wiki p.important, .wiki span.important {
-  background: url(<%= asset_path 'wiki_styles/important.png' %>) 4px 7px no-repeat #F0F8FF;
-  border: 1px solid #C1C8CF;
-}
-.wiki p.smallimportant, .wiki span.smallimportant {
-  background: url(<%= asset_path 'wiki_styles/important_small.png' %>) 4px 6px no-repeat #F0F8FF;
-  border: 1px solid #C1C8CF;
-}
-
-.wiki p.info, .wiki span.info {
-  background: url(<%= asset_path 'wiki_styles/info.png' %>) 4px 4px no-repeat #FFFFE0;
-  border: 1px solid #FFFF00;
-}
-.wiki p.smallinfo, .wiki span.smallinfo {
-  background: url(<%= asset_path 'wiki_styles/info_small.png' %>) 4px 4px no-repeat #FFFFE0;
-  border: 1px solid #FFFF00;
-}
-
-.wiki p.smalltip, .wiki span.smalltip {
-  background: url(<%= asset_path 'wiki_styles/tip_small.png' %>) 4px 5px no-repeat #F5FFFA;
-  border: 1px solid #C7CFCA;
-}
-
-.wiki p.note, .wiki span.note {
-  background: url(<%= asset_path 'wiki_styles/note.png' %>) 6px 4px no-repeat #F5FFFA;
-  border: 1px solid #C7CFCA;
-}
-.wiki p.smallnote, .wiki span.smallnote {
-  background: url(<%= asset_path 'wiki_styles/note_small.png' %>) 5px 4px no-repeat #F5FFFA;
-  border: 1px solid #C7CFCA;
 }
 
 .reorder-icons img {
@@ -2130,25 +1868,6 @@ content {
   font-size: 12px;
 }
 /***** Links *****/  /* TODO */
-a, a:link, input.input-as-link {
-  color: #008BD0;
-}
-a:hover, a:active {
-  color: #008BD0;
-}
-
-input.input-as-link {
-  font-size: 12px;
-  cursor: pointer;
-}
-
-a.sort.asc {
-  background-image: url(<%= asset_path 'sort_asc.png' %>);
-}
-
-a.sort.desc {
-  background-image: url(<%= asset_path 'sort_desc.png' %>);
-}
 
 #content #history {
   background: url(<%= asset_path 'dotted-separator.gif' %>) repeat-x scroll 0 bottom   transparent;
@@ -2159,61 +1878,7 @@ a.sort.desc {
   width: 700px;
 }
 
-.required {color: #008BD0;} /* changed to Siemens red! */
-
-/***** Flash & error messages ****/
-
-
-div.flash {
-  margin-top: 0;
-}
-
-div.flash.error, #errorExplanation {
-  background-color: #FAAA96;
-  border: none;
-  color: #000000;
-}
-
-div.flash.notice {
-  background-color: #C8F0BE;
-  border: none;
-  color: #000000;
-}
-
-div.flash.warning { /* orange */
-  background-color: #FFC38C;
-  border: none;
-  color: #000000;
-  text-align: left;
-}
-
-.nodata, .warning { /* softer orange?? */
-  background-color: #FFD7B4;
-  border: none;
-  color: #000000;
-}
-
-/***** Icons *****/
-
-
-a.icon, a.icon-context, input.input-as-link {
-  color: #4b4b4b;
-  font-weight: normal;
-}
-a.icon:hover, a.icon-context:hover {
-  color: #008BD0;
-  text-decoration: none;
-}
-
-#content table th a.no-decoration-on-hover:hover,
-a.no-decoration-on-hover:hover {
-  text-decoration: none;
-}
-
-input.input-as-link:hover {
-  color: #008BD0;
-  text-decoration: underline;
-}
+.required {color: #008BD0;}
 
 /* Disable the css-override for the edit links in issue journals */
 .journal .contextual a[title=Edit] {background: none;}
@@ -2254,13 +1919,7 @@ body.theme-Bsp .buttons .apply,
 body.theme-Dtag .buttons .apply {
   background-color:  #24b3e7;
 }
-.title-bar .title-bar-actions .contextual a.icon:hover {
-  color: #008BD0;
-}
 
-#content table th a:hover {
-  color: #008BD0;
-}
 input::-webkit-input-placeholder {
   color: #000000;
 }

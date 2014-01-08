@@ -27,24 +27,39 @@
 
 @import global/all
 
-#footer
-  z-index: 20
-  text-align: right
-  width: 100%
-  position: absolute
-  height: $footer_height
-  padding: 0
-  right: 0
-  clear: both
-  background-color: $footer_bg_color
-  bottom: 0
-  @include default-font-normal($footer_font_color)
+a, a:link
+  color: $content_link_color
+  text-decoration: none
+  font-weight: bold
 
-  .footer-content
-    margin: 0px 15px 0px 0
-    height: $footer_content_height
-    line-height: $footer_content_line_height
-    a
-      text-decoration: underline
-      @include default-font-normal($footer_content_link_color)
+a:hover, a:active, #content table th a:hover
+  color: $content_link_hover_active_color
+  text-decoration: underline
+
+a
+  img
+    border: 0
+  &.sort
+    padding-right: 16px
+    background-position: 100% 50%
+    background-repeat: no-repeat
+    &.asc
+      background-image: url(image-path('sort_asc.png'))
+
+    &.desc
+      background-image: url(image-path('sort_desc.png'))
+  &.issue.closed, &.issue.closed:hover
+    text-decoration: line-through
+
+
+a.icon, a.icon-context
+  color: $content_icon_link_color
+  font-weight: normal
+
+a.icon:hover, a.icon-context:hover
+  color: $content_icon_link_hover_color
+  text-decoration: none
+
+#content table th a.no-decoration-on-hover:hover, a.no-decoration-on-hover:hover
+  text-decoration: none
 

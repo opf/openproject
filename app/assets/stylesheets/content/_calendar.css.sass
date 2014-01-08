@@ -27,24 +27,50 @@
 
 @import global/all
 
-#footer
-  z-index: 20
-  text-align: right
+table.cal
+  border-collapse: collapse
   width: 100%
-  position: absolute
-  height: $footer_height
-  padding: 0
-  right: 0
-  clear: both
-  background-color: $footer_bg_color
-  bottom: 0
-  @include default-font-normal($footer_font_color)
+  margin: 0px 0 6px 0
+  border: $content_calendar_border_width solid $content_calendar_border_color
 
-  .footer-content
-    margin: 0px 15px 0px 0
-    height: $footer_content_height
-    line-height: $footer_content_line_height
-    a
-      text-decoration: underline
-      @include default-font-normal($footer_content_link_color)
+  thead th
+    width: 14%
+    background-color: $content_calendar_head_cell_bg_color
+    padding: 4px
+    &.week-number
+      width: auto
+
+  tbody tr
+    height: 100px
+  td
+    border: $content_calendar_cell_border_width solid $content_calendar_cell_border_color
+    vertical-align: top
+    font-size: 0.9em
+    &.week-number
+      background-color: $content_calendar_head_cell_bg_color
+      padding: 4px
+      border: none
+      font-size: 1em
+
+    p.day-num
+      font-size: 1.1em
+      text-align: right
+    &.odd p.day-num
+      color: #bbb
+    &.today
+      background: $content_calendar_cell_today_bg_color
+    p.day-num
+      font-weight: bold
+.starting a, p.cal.legend .starting
+  background: url(image-path('bullet_go.png')) no-repeat -1px -2px
+  padding-left: 16px
+.ending a, p.cal.legend .ending
+  background: url(image-path('bullet_end.png')) no-repeat -1px -2px
+  padding-left: 16px
+.starting.ending a, p.cal.legend .starting.ending
+  background: url(image-path('bullet_diamond.png')) no-repeat -1px -2px
+  padding-left: 16px
+
+p.cal.legend span
+  display: block
 

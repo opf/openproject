@@ -37,24 +37,27 @@
   -o-transition:      all 200ms ease-in-out 0s
   transition:         all 200ms ease-in-out 0s
 
-@mixin main-menu-font
-  font-style:         normal
-  font-family:        'LatoRegular','Lucida Grande',Helvetica,Arial,sans-serif
-
-@mixin header-fonts($color, $font-size: 14px)
+@mixin default-font-normal($color, $font-size: 13px)
   color:              $color
   font-size:          $font-size
   font-family:        'LatoRegular', 'Lucida Grande', Helvetica, Arial, sans-serif
   font-weight:        normal
 
+@mixin default-font-bold($color, $font-size: 13px)
+  color:              $color
+  font-size:          $font-size
+  font-family:        'LatoBold', 'Lucida Grande', Helvetica, Arial, sans-serif
+  font-weight:        normal
+
+@mixin main-menu-font
+  font-style:         normal
+  font-family:        'LatoRegular','Lucida Grande',Helvetica,Arial,sans-serif
+
+@mixin header-fonts($color, $font-size: 14px)
+  @include default-font-normal($color, $font-size)
+
 @mixin breadcrumb-font($color)
-  color: $color
-  font-size: 12px
-  font-family: 'LatoRegular', 'Lucida Grande', Helvetica, Arial, sans-serif
-  font-weight: normal
+  @include default-font-normal($color, 12px)
 
 @mixin breadcrumb-font-bold($color)
-  color: $color
-  font-size: 12px
-  font-family: 'LatoBold', 'Lucida Grande', Helvetica, Arial, sans-serif
-  font-weight: normal
+  @include default-font-bold($color, 12px)
