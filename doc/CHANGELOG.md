@@ -31,6 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#1951` Layout for ## and ### textile link help is broken
 * `#2147` [Accessibility] Link form elements to their label - new timeline
+* `#2150` [Accessibility] Link form elements to their label - new issue query
 * `#2151` [Accessibility] Link form elements to their label - new wiki page
 * `#2152` [Accessibility] Link form elements to their label - new forum message
 * `#2155` [Accessibility] Link form elements to their label - copy workflow
