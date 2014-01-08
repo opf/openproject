@@ -37,6 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#2167` [Accessibility] Link form elements to their label - backlogs - new task
+* `#2258` [Accessibility] linearisation of issue show form
 * `#2607` [Agile] Display Storypoints in Taskboard view
 
 ## 3.0.5.pre1
