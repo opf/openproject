@@ -32,6 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#1951` Layout for ## and ### textile link help is broken
 * `#2151` [Accessibility] Link form elements to their label - new wiki page
 * `#2152` [Accessibility] Link form elements to their label - new forum message
+* `#2155` [Accessibility] Link form elements to their label - copy workflow
 * `#2161` [Accessibility] Link form elements to their label - new color
 * `#2160` [Accessibility] Link form elements to their label - new LDAP authentication
 * `#2159` [Accessibility] Link form elements to their label - repository administration
