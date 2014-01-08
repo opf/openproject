@@ -49,18 +49,18 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <div class="issue details">
     <div class="meta">
-      <% attribute_slices = work_package_show_attributes(work_package) %>
+      <% attributes = work_package_show_attributes(work_package) %>
       <div id="left" style="float:left; width:50%;">
         <table class="attributes">
-          <% (0..attribute_slices.count / 2).each do |index| %>
-            <tr><%= attribute_slices[index].field.html_safe %> </tr>
+          <% (0..attributes.count / 2).each do |index| %>
+            <tr><%= attributes[index].field.html_safe %> </tr>
           <% end %>
         </table>
       </div>
       <div id="right" style="float:left; width:50%;">
         <table class="attributes">
-          <% (attribute_slices.count / 2 + 1..attribute_slices.count - 1).each do |index| %>
-            <tr><%= attribute_slices[index].field.html_safe %> </tr>
+          <% (attributes.count / 2 + 1..attributes.count - 1).each do |index| %>
+            <tr><%= attributes[index].field.html_safe %> </tr>
           <% end %>
         </table>
         <br style="clear:both;" />
