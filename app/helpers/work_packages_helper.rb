@@ -199,7 +199,7 @@ module WorkPackagesHelper
     end
 
     description = if work_package.description.blank?
-                    "-"
+                    WorkPackagesHelper.empty_element_tag
                   else
                     textilizable(description_lines.join(""))
                   end
@@ -356,7 +356,7 @@ module WorkPackagesHelper
     work_package_show_table_row(:status) do
       work_package.status ?
         work_package.status.name :
-        "-"
+        WorkPackagesHelper.empty_element_tag
     end
   end
 
@@ -364,7 +364,7 @@ module WorkPackagesHelper
     work_package_show_table_row(:start_date, 'start-date') do
       work_package.start_date ?
         format_date(work_package.start_date) :
-        "-"
+        WorkPackagesHelper.empty_element_tag
     end
   end
 
@@ -372,7 +372,7 @@ module WorkPackagesHelper
     work_package_show_table_row(:priority) do
       work_package.priority ?
         work_package.priority.name :
-        "-"
+        WorkPackagesHelper.empty_element_tag
     end
   end
 
@@ -380,14 +380,14 @@ module WorkPackagesHelper
     work_package_show_table_row(:due_date) do
       work_package.due_date ?
         format_date(work_package.due_date) :
-        "-"
+        WorkPackagesHelper.empty_element_tag
     end
   end
 
   def work_package_show_assigned_to_attribute(work_package)
     work_package_show_table_row(:assigned_to) do
       content = avatar(work_package.assigned_to, :size => "14").html_safe
-      content << (work_package.assigned_to ? link_to_user(work_package.assigned_to) : "-")
+      content << (work_package.assigned_to ? link_to_user(work_package.assigned_to) : WorkPackagesHelper.empty_element_tag)
       content
     end
   end
@@ -395,7 +395,7 @@ module WorkPackagesHelper
   def work_package_show_responsible_attribute(work_package)
     work_package_show_table_row(:responsible) do
       content = avatar(work_package.responsible, :size => "14").html_safe
-      content << (work_package.responsible ? link_to_user(work_package.responsible) : "-")
+      content << (work_package.responsible ? link_to_user(work_package.responsible) : WorkPackagesHelper.empty_element_tag)
       content
     end
   end
@@ -412,7 +412,7 @@ module WorkPackagesHelper
     work_package_show_table_row(:category) do
       work_package.category ?
         work_package.category.name :
-        '-'
+        WorkPackagesHelper.empty_element_tag
     end
   end
 
@@ -420,7 +420,7 @@ module WorkPackagesHelper
     work_package_show_table_row(:spent_time) do
       work_package.spent_hours > 0 ?
         link_to(l_hours(work_package.spent_hours), work_package_time_entries_path(work_package)) :
-        "-"
+        WorkPackagesHelper.empty_element_tag
     end
   end
 
@@ -428,7 +428,7 @@ module WorkPackagesHelper
     work_package_show_table_row(:fixed_version) do
       work_package.fixed_version ?
         link_to_version(work_package.fixed_version) :
-        "-"
+        WorkPackagesHelper.empty_element_tag
     end
   end
 
@@ -436,7 +436,7 @@ module WorkPackagesHelper
     work_package_show_table_row(:estimated_hours) do
       work_package.estimated_hours ?
         l_hours(work_package.estimated_hours) :
-        "-"
+        WorkPackagesHelper.empty_element_tag
     end
   end
 
@@ -490,7 +490,7 @@ module WorkPackagesHelper
             elsif work_package.status
               form.label(:status) + work_package.status.name
             else
-              form.label(:status) + "-"
+              form.label(:status) + WorkPackagesHelper.empty_element_tag
             end
 
     WorkPackageAttribute.new(:status, field)
@@ -600,6 +600,19 @@ module WorkPackagesHelper
     end
 
     ret
+  end
+
+  def self.empty_element_tag
+    @@empty_element_tag if defined? @@empty_element_tag
+
+    @@empty_element_tag = <<-IMPAIRED_EMPTY
+      <span>
+        <span aria-hidden="true" role="presentation" tabindex="-1">-</span>
+        <span class="hidden-for-sighted">#{I18n.t('timelines.empty')}</span>
+      </span>
+    IMPAIRED_EMPTY
+
+    @@empty_element_tag = @@empty_element_tag.html_safe
   end
 
   private
