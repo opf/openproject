@@ -97,7 +97,6 @@ Feature: Project Association Management
   Scenario: Reader does not render anything when there are no project associations
     Given I am already logged in as "Viewer"
      When I go to the   page of the project called "My Project"
-      And I toggle the "Timelines" submenu
       And I follow "Dependencies"
 
      Then I should not see "Waterfall Project"
@@ -111,7 +110,6 @@ Feature: Project Association Management
           | My Project | Other     |
 
      When I go to the   page of the project called "My Project"
-      And I toggle the "Timelines" submenu
       And I follow "Dependencies"
 
      Then I should not see "Waterfall Project"
@@ -127,7 +125,6 @@ Feature: Project Association Management
           | Scrum      | My Project |
 
      When I go to the   page of the project called "My Project"
-      And I toggle the "Timelines" submenu
       And I follow "Dependencies"
 
      Then I should see "Visible" below "Waterfall Project"
@@ -144,7 +141,6 @@ Feature: Project Association Management
   Scenario: Editor is able to add associations
     Given I am already logged in as "Editor"
      When I go to the   page of the project called "My Project"
-      And I toggle the "Timelines" submenu
       And I click on "Dependencies"
       And I click on "New dependency"
 
@@ -161,7 +157,6 @@ Feature: Project Association Management
           | Project A  | Project B | Description   |
           | My Project | Visible   | A good reason |
      When I go to the   page of the project called "My Project"
-      And I toggle the "Timelines" submenu
       And I follow "Dependencies"
 
      When I follow "Edit Visible"
@@ -177,7 +172,6 @@ Feature: Project Association Management
           | Project A  | Project B | Description   |
           | My Project | Visible   | A good reason |
      When I go to the   page of the project called "My Project"
-      And I toggle the "Timelines" submenu
       And I follow "Dependencies"
 
      Then I should not see "Delete Visible"
@@ -188,7 +182,6 @@ Feature: Project Association Management
           | Project A  | Project B | Description   |
           | My Project | Visible   | A good reason |
      When I go to the   page of the project called "My Project"
-      And I toggle the "Timelines" submenu
       And I follow "Dependencies"
 
      When I follow "Delete Visible"
