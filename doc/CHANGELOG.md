@@ -41,6 +41,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3528` [Data Migration] Type 'none' is not migrated properly in Timelines
 * `#3539` [Work package tracking] Modul view of work packages is too broad
 * `#3370` [Design] Clean-up and refactoring existing CSS for content area
+* `#3666` Fix: [API] Show-action does not contain author_id
 * Fixed workflow copy view
 * Add redirect from /wp to /work_packages for less typing
 
