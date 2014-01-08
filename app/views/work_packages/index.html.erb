@@ -85,7 +85,7 @@ See doc/COPYRIGHT.rdoc for more details.
               </tr>
               <% if query.any_summable_columns? %>
                 <tr>
-                  <td><%= label_tag :display_sums, l(:label_display_sums) %></td>
+                  <td><%= label_tag :display_sums, Query.human_attribute_name(:display_sums) %></td>
                   <td><%= check_box_tag :display_sums, 1, query.display_sums? %></td>
                 </tr>
               <% end %>
