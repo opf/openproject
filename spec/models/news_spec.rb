@@ -33,7 +33,7 @@ describe News do
   include BecomeMember
 
   let(:project) {
-    project = FactoryGirl.create(:project)
+    project = FactoryGirl.create(:public_project)
     project.enabled_modules << EnabledModule.new(name: 'news')
     project.reload
   }
@@ -64,7 +64,7 @@ describe News do
     it "limits the number of returned news elements" do
       News.delete_all
 
-      10.times { FactoryGirl.create(:news) }
+      10.times { FactoryGirl.create(:news, project: project) }
 
       expect(News.latest(User.current,  2)).to have(2).elements
       expect(News.latest(User.current,  6)).to have(6).elements
@@ -74,13 +74,13 @@ describe News do
     it "returns five news elements by default" do
       News.delete_all
 
-      2.times { FactoryGirl.create(:news) }
+      2.times { FactoryGirl.create(:news, project: project) }
       expect(News.latest).to have(2).elements
 
-      3.times { FactoryGirl.create(:news) }
+      3.times { FactoryGirl.create(:news, project: project) }
       expect(News.latest).to have(5).elements
 
-      2.times { FactoryGirl.create(:news) }
+      2.times { FactoryGirl.create(:news, project: project) }
       expect(News.latest).to have(5).elements
     end
   end
