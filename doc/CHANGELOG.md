@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* [Accessibility] Reactivate accessibility css; Setting for Accessibility mode for anonymous users
 * `#1951` Layout for ## and ### textile link help is broken
 * `#2147` [Accessibility] Link form elements to their label - new timeline
 * `#2150` [Accessibility] Link form elements to their label - new issue query
