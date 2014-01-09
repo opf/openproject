@@ -113,9 +113,9 @@ private
   end
 
   def transition_exists?(status_id_a, status_id_b, role_ids)
-    !workflows.where(old_status_id: status_id_a,
-                     new_status_id: status_id_b,
-                     role_id: role_ids)
-              .empty?
+    workflows.where(old_status_id: status_id_a,
+                    new_status_id: status_id_b,
+                    role_id: role_ids)
+             .any?
   end
 end
