@@ -115,7 +115,7 @@ module Redmine
 
             query = query.where(journals_table[:user_id].eq(options[:author].id)) if options[:author]
 
-            
+
             provider.extend_event_query(query, activity) if provider.respond_to?(:extend_event_query)
 
             query = join_with_projects_table(query, provider.projects_reference_table(activity))
