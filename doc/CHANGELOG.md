@@ -36,6 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#4090` 'Session Expires' setting breaks API
 * News subject contained in URL
 * Removes mocha mocking framework.
+* Update pg-gem version
 
 ## 3.0.0pre44
 
