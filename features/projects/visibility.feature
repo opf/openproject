@@ -35,14 +35,12 @@ Background:
 
     Then the project "Bob's Accounting" is public
 
-@javascript
 Scenario: A Project is visible on the landing page if it is set to public
       Given I am on the login page
       Then I should see "Projects" within "#top-menu-items"
       When I go to the overall Projects page
       Then I should see "Bob's Accounting" within "#content"
 
-@javascript
 Scenario: Project is not visible on the landing page if it is not set to public
        Given the project "Bob's Accounting" is not public
        And I am on the login page
