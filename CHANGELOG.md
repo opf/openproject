@@ -1,5 +1,7 @@
 # Changelog
 
+* `#2154` [Accessibility] Link form elements to their label - new role
+
 ## 1.0.1.pre3
 
 * Adaptations for new icon font
