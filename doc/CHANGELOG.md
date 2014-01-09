@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#1951` Layout for ## and ### textile link help is broken
+* `#2146` [Accessibility] Link form elements to their label - timeline groupings
 * `#2147` [Accessibility] Link form elements to their label - new timeline
 * `#2150` [Accessibility] Link form elements to their label - new issue query
 * `#2151` [Accessibility] Link form elements to their label - new wiki page
