@@ -48,5 +48,6 @@ jQuery(function ($) {
       defaultDialogColor = $('#work_package_').css('background-color');
     }
     $(this).parents('.ui-dialog').css('background-color', selected.attr('color') || defaultDialogColor);
+    $(this).parents('.ui-dialog').colorcontrast();
   });
 });
