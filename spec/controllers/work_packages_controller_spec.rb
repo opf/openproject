@@ -186,7 +186,11 @@ describe WorkPackagesController do
 
           controller.should_receive(:send_data).with(mock_csv,
                                                      :type => 'text/csv; header=present',
-                                                     :filename => 'export.csv').and_call_original
+                                                     :filename => 'export.csv') do |*args|
+            # We need to render something because otherwise
+            # the controller will and he will not find a suitable template
+            controller.render :text => "success"
+          end
         end
 
         it 'should fulfill the defined should_receives' do
@@ -207,7 +211,11 @@ describe WorkPackagesController do
 
           controller.should_receive(:send_data).with(mock_pdf,
                                                      :type => 'application/pdf',
-                                                     :filename => 'export.pdf').and_call_original
+                                                     :filename => 'export.pdf') do |*args|
+            # We need to render something because otherwise
+            # the controller will and he will not find a suitable template
+            controller.render :text => "success"
+          end
         end
 
         it 'should fulfill the defined should_receives' do
@@ -222,7 +230,11 @@ describe WorkPackagesController do
 
       requires_export_permission do
         before do
-          controller.should_receive(:render_feed).with(work_packages, anything()).and_call_original
+          controller.should_receive(:render_feed).with(work_packages, anything()) do |*args|
+            # We need to render something because otherwise
+            # the controller will and he will not find a suitable template
+            controller.render :text => "success"
+          end
         end
 
         it 'should fulfill the defined should_receives' do
@@ -265,7 +277,11 @@ describe WorkPackagesController do
         WorkPackage::Exporter.should_receive(:work_package_to_pdf).and_return(pdf)
         controller.should_receive(:send_data).with(pdf,
                                                    :type => 'application/pdf',
-                                                   :filename => expected_name).and_call_original
+                                                   :filename => expected_name) do |*args|
+          # We need to render something because otherwise
+          # the controller will and he will not find a suitable template
+          controller.render :text => "success"
+        end
         call_action
       end
     end
