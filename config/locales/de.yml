@@ -695,6 +695,8 @@ de:
   label_enumerations: "Aufzählungen"
   label_environment: "Umgebung"
   label_equals: "ist"
+  label_events_work_package_closed: 'Arbeitspaket geschlossen'
+  label_events_work_package_edited: 'Arbeitspaket bearbeitet'
   label_example: "Beispiel"
   label_export_to: "Auch abrufbar als:"
   label_f_hour: "%{value} Stunde"
