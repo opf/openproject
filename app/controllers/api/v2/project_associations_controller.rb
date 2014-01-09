@@ -35,6 +35,10 @@ module Api
 
       respond_to :api
 
+      def self.accept_key_auth_actions
+        super + ['available_projects']
+      end
+
       def index
         @project_associations = @project.project_associations.visible
 
