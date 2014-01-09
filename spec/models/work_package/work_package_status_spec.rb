@@ -46,6 +46,8 @@ describe WorkPackage do
                                          types: [type]) }
       let(:role) { FactoryGirl.create(:role,
                                       permissions: [:edit_work_packages]) }
+      let(:invalid_role) { FactoryGirl.create(:role,
+                                              permissions: [:edit_work_packages]) }
       let!(:member) { FactoryGirl.create(:member,
                                          project: project,
                                          principal: user,
@@ -55,27 +57,55 @@ describe WorkPackage do
                                                project_id: project.id,
                                                type_id: type.id,
                                                status_id: status.id) }
+      let(:valid_user_workflow) { FactoryGirl.create(:workflow,
+                                                     type_id: type.id,
+                                                     old_status: status,
+                                                     new_status: status_2,
+                                                     role: role) }
+      let(:invalid_user_workflow) { FactoryGirl.create(:workflow,
+                                                       type_id: type.id,
+                                                       old_status: status,
+                                                       new_status: status_2,
+                                                       role: invalid_role) }
 
-      before { User.stub(:current).and_return user }
+      shared_examples_for "work package status transition" do
+        describe 'valid' do
+          before do
+            valid_user_workflow
 
-      describe 'valid' do
-        let!(:workflow) { FactoryGirl.create(:workflow,
-                                             type_id: type.id,
-                                             old_status: status,
-                                             new_status: status_2,
-                                             role: role) }
+            work_package.status = status_2
+          end
 
-        
-        
-        before { work_package.status = status_2 }
+          it { expect(work_package.save).to be_true }
+        end
 
-        it { expect(work_package.save).to be_true }
+        describe 'invalid' do
+          before do
+            invalid_user_workflow
+
+            work_package.status = status_2
+          end
+
+          it { expect(work_package.save).to eq(invalid_result) }
+        end
       end
 
-      describe 'invalid' do
-        before { work_package.status = status_2 }
+      describe 'non-admin user' do
+        before { User.stub(:current).and_return user }
 
-        it { expect(work_package.save).to be_false }
+        it_behaves_like "work package status transition" do
+          let(:invalid_result) { false }
+        end
+      end
+
+      describe 'admin user' do
+        let(:admin) { FactoryGirl.create(:admin) }
+
+        before { User.stub(:current).and_return admin }
+
+        it_behaves_like "work package status transition" do
+          let(:invalid_result) { true }
+        end
       end
     end
   end
