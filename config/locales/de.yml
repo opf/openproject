@@ -220,7 +220,7 @@ de:
               not_a_valid_parent: "ist ungültig"
               does_not_exist: "existiert nicht"
             status_id:
-              status_transition_invalid: "es existiert kein valider Übergang vom alten zum neuen Status"
+              status_transition_invalid: "es existiert kein valider Übergang vom alten zum neuen Status für die aktuellen Nuter-Rollen"
         project_association:
           identical_projects: "kann nicht von einem Projekt auf sich selbst erstellt werden"
           project_association_not_allowed: "erlaubt keine Projekt-Abhängigkeiten"

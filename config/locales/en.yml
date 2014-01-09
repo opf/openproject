@@ -221,7 +221,7 @@ en:
               not_a_valid_parent: "is invaild"
               does_not_exist: "does not exist"
             status_id:
-              status_transition_invalid: "no valid transition exists from old to new status"
+              status_transition_invalid: "no valid transition exists from old to new status for the current user roles"
         user:
           attributes:
             password:
