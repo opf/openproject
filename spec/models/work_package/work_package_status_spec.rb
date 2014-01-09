@@ -88,6 +88,12 @@ describe WorkPackage do
 
           it { expect(work_package.save).to eq(invalid_result) }
         end
+
+        describe 'non-existing' do
+          before { work_package.status = status_2 }
+
+          it { expect(work_package.save).to be_false }
+        end
       end
 
       describe 'non-admin user' do
