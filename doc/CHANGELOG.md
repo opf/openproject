@@ -29,7 +29,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
-* [Accessibility] Reactivate accessibility css; Setting for Accessibility mode for anonymous users
 * `#1951` Layout for ## and ### textile link help is broken
 * `#2147` [Accessibility] Link form elements to their label - new timeline
 * `#2150` [Accessibility] Link form elements to their label - new issue query
@@ -39,11 +38,13 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2161` [Accessibility] Link form elements to their label - new color
 * `#2160` [Accessibility] Link form elements to their label - new LDAP authentication
 * `#2159` [Accessibility] Link form elements to their label - repository administration
+* `#2229` [Accessibility] low contrast in calendar view
 * `#2500` Change default configuration in new OpenProject application so new projects are not public by default
 * `#3528` [Data Migration] Type 'none' is not migrated properly in Timelines
 * `#3539` [Work package tracking] Modul view of work packages is too broad
 * `#3370` [Design] Clean-up and refactoring existing CSS for content area
 * `#3666` Fix: [API] Show-action does not contain author_id
+* [Accessibility] Reactivate accessibility css; Setting for Accessibility mode for anonymous users
 * Fixed workflow copy view
 * Add redirect from /wp to /work_packages for less typing
 
