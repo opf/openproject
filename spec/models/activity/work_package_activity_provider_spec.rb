@@ -9,18 +9,21 @@ describe Activity::WorkPackageActivityProvider do
   let(:status_closed) { FactoryGirl.create :closed_status }
   let(:work_package)  { FactoryGirl.build  :work_package }
 
-  let(:subject) { Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.today, Date.tomorrow, {}).last.try :event_type }
 
-  describe 'latest event' do
-    context 'when a work package has been created' do
-      before { work_package.save }
+  describe '#event_type' do
+    describe 'latest event' do
+      let(:subject) { Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.today, Date.tomorrow, {}).last.try :event_type }
 
-      it { should == work_package_edit_event }
+      context 'when a work package has been created' do
+        before { work_package.save }
 
-      context 'and has been closed' do
-        before { work_package.update_attributes status_id: status_closed.id }
+        it { should == work_package_edit_event }
 
-        it { should == work_package_closed_event }
+        context 'and has been closed' do
+          before { work_package.update_attributes status_id: status_closed.id }
+
+          it { should == work_package_closed_event }
+        end
       end
     end
   end
