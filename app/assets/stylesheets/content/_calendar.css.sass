@@ -56,8 +56,10 @@ table.cal
       font-size: 1.1em
       text-align: right
       font-weight: bold
+      padding-right: 2px
     &.odd p.day-num
-      color: #bbb
+      color: $content_calendar_inactive_day_font_color
+      background-color: $content_calendar_inactive_day_bg_color
     &.today
       background: $content_calendar_cell_today_bg_color
 .starting a, p.cal.legend .starting
