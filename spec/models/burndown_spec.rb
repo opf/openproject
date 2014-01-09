@@ -80,14 +80,12 @@ describe Burndown do
 
     project.save!
 
-    [issue_open, issue_closed, issue_resolved].combination(2).each do |transition|
-      (transition << transition[0]).each_cons(2) do |slice|
-        FactoryGirl.create(:workflow,
-                           old_status: slice[0],
-                           new_status: slice[1],
-                           role: role,
-                           type_id: type_feature.id)
-      end
+    [issue_open, issue_closed, issue_resolved].permutation(2).each do |transition|
+      FactoryGirl.create(:workflow,
+                         old_status: transition[0],
+                         new_status: transition[1],
+                         role: role,
+                         type_id: type_feature.id)
     end
   end
 
