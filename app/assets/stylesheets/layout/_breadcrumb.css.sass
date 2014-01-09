@@ -29,11 +29,11 @@
 
 #breadcrumb
   @include default-transition
-  height: 40px
+  height: $breadcrumb_height
   overflow: hidden
-  background: none repeat scroll 0 0 #F8F8F8
+  background: none repeat scroll 0 0 $breadcrumb_bg_color
   border: none
-  border-bottom: 1px solid #E7E7E7
+  border-bottom: 1px solid $breadcrumb_border_color
   margin: 0 0 0 $main_menu_width
   width: auto
   overflow: hidden
@@ -48,10 +48,10 @@
   h1
     margin-bottom: 0px
     margin-left: 13px
-    @include breadcrumb-font(#555555)
+    @include breadcrumb-font($breadcrumb_font_color)
 
   a
-    @include breadcrumb-font-bold(#555555)
+    @include breadcrumb-font-bold($breadcrumb_font_color)
     text-decoration: none
     &:hover
       text-decoration: underline
@@ -59,19 +59,19 @@
     list-style-type: none
     white-space: nowrap
     &.cutme
-      max-width: 40px
+      max-width: $breadcrumb_height
 
 ul.breadcrumb
   list-style: none
   list-style-position: outside
   width: 10000px
-  height: 40px
-  line-height: 40px
+  height: $breadcrumb_height
+  line-height: $breadcrumb_height
 
 #breadcrumb ul.breadcrumb li.first-breadcrumb-element
   margin-left: 0
-  height: 40px
-  line-height: 40px
+  height: $breadcrumb_height
+  line-height: $breadcrumb_height
   a
     text-decoration: none
     display: block
