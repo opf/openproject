@@ -42,6 +42,9 @@ table.list td.buttons { width: 15%; white-space: nowrap; text-align: right; }
 table.list td.buttons a { padding-right: 0.6em; }
 table.list caption { text-align: left; padding: 0.5em 0.5em 0.5em 0; }
 
+table.work-package-data-table { margin-top: 5px; }
+table.work-package-data-table td { text-align: left; padding: 3px 6px; }
+
 tr.project td.name a { white-space: nowrap; }
 
 tr.project.idnt td.name span {background: url(<%= asset_path 'bullet_arrow_right.png' %>) no-repeat 0 50%; padding-left: 16px;}
@@ -205,9 +208,8 @@ div.issue div.subject div div { padding-left: 16px; }
 div.issue div.subject p {margin: 0; margin-bottom: 0.1em; font-size: 90%; color: #999;}
 div.issue div.subject>div>p { margin-top: 0.5em; }
 
-#issue_tree { border: 0; }
 #issue_tree table.issues { border: 0; }
-#issue_tree td.checkbox {display: none;}
+#issue_tree td.checkbox, th.hidden {display: none;}
 
 #content fieldset#filters {
   padding-bottom: 10px;
