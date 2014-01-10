@@ -25,7 +25,7 @@
  *
  * See doc/COPYRIGHT.rdoc for more details.  ++*/
 
-$link_hover_color: #008BD0
+@import global/all
 
 @font-face
   font-family: "openproject-icon-font"
@@ -47,10 +47,10 @@ $link_hover_color: #008BD0
 
 @mixin icon-rules
   padding: 0 5px 0 10px
-  color: $link_hover_color
+  color: $content_icon_color
 
 @mixin icon2-rules
-  padding: 0 17px 0 7px
+  padding: 0 20px 0 7px
 
 @mixin icon3-rules
   padding: 0 8px 0 0
@@ -60,11 +60,15 @@ $link_hover_color: #008BD0
   font-size: 11px
 
 @mixin icon5-rules
-  padding: 0 7px 0 7px
+  padding: 0 7px 0 9px
+
+@mixin icon6-rules
+  padding: 0 7px 0 9px
+  font-size: 12px
 
 @mixin icon-context-rules
   padding: 0 4px 0 0
-  color: $link_hover_color
+  color: $content_icon_color
 
 [data-icon]:before
   @include icon-common
@@ -95,26 +99,35 @@ $link_hover_color: #008BD0
 [class*=" icon-"]:before
   @include icon-common
 
+// used for icons in the content area
 .icon:before
   @include icon-rules
 
+// used for icons in the project menu
 .icon2:before
   @include icon2-rules
 
 .icon3:before
   @include icon3-rules
 
+// used for icons in the project drop down
 .icon4:before
   @include icon4-rules
 
+// used for icons in the top menu
 .icon5:before
   @include icon5-rules
+
+// used for toggler icons in the project menu
+.icon6:before
+  @include icon6-rules
 
 #errorExplanation:before
   @include icon-common
   @include icon-rules
   float: left
 
+// used for icons in the content area, which appear in context (menus)
 #context-menu .icon:before,
 .icon-context:before
   @include icon-context-rules
@@ -252,6 +265,7 @@ dt.work_package-note:before,
 .icon-ticket-note:before
   content: "\e024"
 
+dt.time_entry:before,
 dt.time-entry:before,
 .icon-time:before
   content: "\e025"

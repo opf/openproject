@@ -29,9 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <div id="search">
   <%= label_tag("q", l(:label_search), :class => "hidden-for-sighted") %>
 
-  <%= form_tag(search_index_path(:project_id => @project), :method => :get) do %>
-
-    <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
+  <%= form_tag(search_path(@project), method: :get) do %>
+    <%= hidden_field_tag(controller.default_search_scope, 1, :project_id => nil) if controller.default_search_scope %>
 
     <div id='search_wrap'>
 

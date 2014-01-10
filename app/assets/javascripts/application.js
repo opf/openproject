@@ -42,6 +42,7 @@
 //= require jquery.ui.all
 //= require jquery-ui-i18n
 //= require jquery.menu_expand
+//= require jquery.atwho
 //= require jquery_ujs
 //= require jquery_noconflict
 //= require prototype
@@ -63,8 +64,10 @@
 //= require keyboard_shortcuts
 //= require top-shelf
 //= require unsupported-browsers
+//= require autocomplete_textareas
 //= require_tree ./pages
 //= require openproject_plugins
+//= require versions
 
 //source: http://stackoverflow.com/questions/8120065/jquery-and-prototype-dont-work-together-with-array-prototype-reverse
 if (typeof []._reverse == 'undefined') {
@@ -838,7 +841,7 @@ $(window).resize(function() {
 		// 2. wrap each in a span that we'll use for the new click element
 		.wrapInner("<span class='toggle-follow ellipsis'></span>")
 		// 3. reinsert the <span class="toggler"> so that it sits outside of the above
-		.append("<span class='toggler icon5 icon-arrow-right5-2'></span>")
+		.append("<span class='toggler icon6 icon-arrow-right5-2'></span>")
 		// 4. attach a new click function that will follow the link if you clicked on the span itself and toggle if not
 		.click(function(event) {
 

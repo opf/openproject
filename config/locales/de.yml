@@ -78,8 +78,6 @@ de:
         visible: "Sichtbar"
       custom_value:
         value: "Wert"
-      enumeration:
-        active: "Aktiv"
       relation:
         delay: "Pufferzeit"
         from: "Arbeitspaket"
@@ -216,9 +214,11 @@ de:
           attributes:
             due_date:
               not_start_date: "ist nicht am Startdatum, obwohl die bei Meilensteinen Pflicht ist"
-            parent:
+            parent_id:
               cannot_be_milestone: "darf kein Meilenstein sein"
               cannot_be_in_another_project: "darf nicht in einem anderen Projekt sein"
+              not_a_valid_parent: "ist ungültig"
+              does_not_exist: "existiert nicht"
         project_association:
           identical_projects: "kann nicht von einem Projekt auf sich selbst erstellt werden"
           project_association_not_allowed: "erlaubt keine Projekt-Abhängigkeiten"
@@ -270,8 +270,9 @@ de:
 
   # common attributes of all models
   attributes:
-    assigned_to: "Zugewiesen an"
     active: "Aktiv"
+    assigned_to: "Zugewiesen an"
+    attachments: "Anhänge"
     author: "Autor"
     base: "Allgemeiner Fehler:"
     blocks_ids: "Blockiert"
@@ -281,7 +282,9 @@ de:
     created_at: "Angelegt"
     created_on: "Angelegt"
     custom_values: "Benutzerdefinierte Felder"
+    default_columns: "Standard-Spalten"
     description: "Beschreibung"
+    display_sums: "Summen anzeigen"
     due_date: "Abgabedatum"
     estimated_hours: "Geschätzter Aufwand"
     firstname: "Vorname"
@@ -657,7 +660,6 @@ de:
   label_date_to: "Bis"
   label_day_plural: "Tage"
   label_default: "Standard"
-  label_default_columns: "Standard-Spalten"
   label_deleted: "gelöscht"
   label_deleted_custom_field: "(gelöschtes benutzerdefiniertes Feld)"
   label_descending: "Absteigend"
@@ -668,7 +670,6 @@ de:
   label_disabled: "gesperrt"
   label_display: "Anzeige"
   label_display_per_page: "Pro Seite: %{value}"
-  label_display_sums: "Summen anzeigen"
   label_display_used_statuses_only: "Zeige nur Status an, die von diesem Typ verwendet werden"
   label_download: "%{count} Download"
   label_download_plural: "%{count} Downloads"
@@ -1054,6 +1055,7 @@ de:
   notice_locking_conflict_additional_information: "Die Änderungen wurden durchgeführt von %{users}."
   notice_locking_conflict_reload_page: "Bitte laden Sie die Seite neu, machen Sie sich mit den Änderungen vertraut und geben Sie Ihre Änderungen noch einmal ein."
   notice_no_principals_found: "Keine Treffer gefunden."
+  notice_bad_request: "Fehlerhafte Anfrage."
   notice_not_authorized: "Sie sind nicht berechtigt, auf diese Seite zuzugreifen."
   notice_not_authorized_archived_project: "Das Projekt wurde archiviert und ist daher nicht verfügbar."
   notice_successful_connection: "Verbindung erfolgreich."
@@ -1251,6 +1253,8 @@ de:
   setting_text_formatting: "Textformatierung"
   setting_time_format: "Zeitformat"
   setting_ui_theme: "Stil"
+  setting_user_may_override_theme: "Benutzer dürfen einen eigenen Stil wählen"
+  setting_accessibility_mode_for_anonymous: "Für barrierefreie Nutzung optimierte Oberfläche für nicht angemeldete Nutzer."
   setting_user_format: "Benutzer-Anzeigeformat"
   setting_users_deletable_by_admins: "Admins können Nutzeraccounts löschen"
   setting_users_deletable_by_self: "Nutzer können ihren Account löschen"

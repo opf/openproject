@@ -81,16 +81,6 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal([], (users - Group.find(10).users))
   end
 
-  def test_show
-    @request.session[:user_id] = nil
-    get :show, :id => 2
-    assert_response :success
-    assert_template 'show'
-    assert_not_nil assigns(:user)
-
-    assert_tag 'li', :content => /Phone number/
-  end
-
   def test_show_should_not_display_hidden_custom_fields
     @request.session[:user_id] = nil
     UserCustomField.find_by_name('Phone number').update_attribute :visible, false

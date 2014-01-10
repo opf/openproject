@@ -28,6 +28,7 @@
 #++
 
 class Query < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
   include Queries::WorkPackages::AvailableFilterOptions
 
   alias_method :available_filters, :available_work_package_filters # referenced in plugin patches - currently there are only work package queries and filters
@@ -280,11 +281,12 @@ class Query < ActiveRecord::Base
     project_clauses = []
     if project && !project.descendants.active.empty?
       ids = [project.id]
-      if has_filter?("subproject_id")
-        case operator_for("subproject_id")
+      subproject_filter = filter_for 'subproject_id'
+      if subproject_filter
+        case subproject_filter.operator
         when '='
           # include the selected subprojects
-          ids += values_for("subproject_id").each(&:to_i)
+          ids += subproject_filter.values.each(&:to_i)
         when '!*'
           # main project only
         else

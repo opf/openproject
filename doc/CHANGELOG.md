@@ -29,18 +29,84 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
-* `#3054` Fix: Some Projects cannot be deleted
 * `#3120` Implement a test suite the spikes can be developed against
+
+## 3.0.0pre42
+
+* `#1951` Layout for ## and ### textile link help is broken
+* `#2146` [Accessibility] Link form elements to their label - timeline groupings
+* `#2147` [Accessibility] Link form elements to their label - new timeline
+* `#2150` [Accessibility] Link form elements to their label - new issue query
+* `#2151` [Accessibility] Link form elements to their label - new wiki page
+* `#2152` [Accessibility] Link form elements to their label - new forum message
+* `#2155` [Accessibility] Link form elements to their label - copy workflow
+* `#2156` [Accessibility] Link form elements to their label - new custom field
+* `#2159` [Accessibility] Link form elements to their label - repository administration
+* `#2160` [Accessibility] Link form elements to their label - new LDAP authentication
+* `#2161` [Accessibility] Link form elements to their label - new color
+* `#2229` [Accessibility] low contrast in calendar view
+* `#2500` Change default configuration in new OpenProject application so new projects are not public by default
+* `#3370` [Design] Clean-up and refactoring existing CSS for content area
+* `#3528` [Data Migration] Type 'none' is not migrated properly in Timelines
+* `#3539` [Work package tracking] Modul view of work packages is too broad
+* `#3666` Fix: [API] Show-action does not contain author_id
+* `#3723` Fix: The activity event type of work package creations is resolved as "closed"
+* [Accessibility] Reactivate accessibility css; Setting for Accessibility mode for anonymous users
+* Fixed workflow copy view
+* Add redirect from /wp to /work_packages for less typing
+
+## 3.0.0pre41
+
+* `#2743` Clear work packages filters when the work packages menu item is clicked
+* `#3072` Timelines rendering of top table border and text is slightly off
+* `#3108` [Work package tracking] Too many users selectable as watchers in public projects
+* `#3334` [CodeClimate] Mass Assignment WikiController
+* `#3336` Fix: use permitted_params for queries controller
+* `#3364` [Performance] Create index on enabled_modules.name
+* `#3407` Fix: [Roadmap] Missing dropdown menu for displaying work packages by different criteria
+* `#3455` Fix: [Projects] Tab "Types" missing in newly created projects
+* `#3245` Fix: Search bar does not display results on a project basis
+
+## 3.0.0pre40
+
+* `#3066` [Work package tracking] Bulk edit causes page not found
+* update will paginate
+
+## 3.0.0pre39
+
+* `#3306` Switch to Ruby 2.0
+* `#3321` [Data migration] Data in timeline settings not copied to new project
+* `#3322` Fix: [Data migration] Journal entries display changes to custom fields
+* `#3329` Refactor Duplicated Code Journals
+
+## 3.0.0pre38
+
+* `#2399` Fix: Translation missing (en and de) for not_a_valid_parent
+* `#3054` Fix: Some Projects cannot be deleted
+* `#3149` Fix: duplicate XML root nodes in API v2 show
+* `#3229` Fix: Can't set planning element status
+* `#3234` Fix: [Work package tracking] Sorting of work package statuses does not work
+* `#3266` Fix: [Work package tracking] % done in work package status cannot be modified
+* `#3291` Fix: Internal error when clicking on member
+* `#3303` Fix: [Work package tracking] Search results are linked to wrong location
+* `#3322` [Data migration] Journal entries display changes to custom fields
+* `#3331` use permitted_params for group_controller
+* `#3337` Fix: Use permitted params in EnumerationsController
+* `#3363` [Timelines] Autocompleter broken multiple times in timelines edit
+* `#3390` [Design] Implement new look for header and project navigation
+* Change global search keyboard shortcut to 's' and project menu shortcut to 'p'
+* Add auto-completion for work-packages in all textareas's with wiki-edit class
+* Fixed a small bug with a non-functional validation for parents when creating a work package
 
 ## 3.0.0pre37
 
 * `#1966` Select person responsible for project with auto-completion form
 * `#2289` Fix: Deploying in a subdirectory
+* `#2395` [Work Package Tracking] Internal Error when entering a character in a number field in a filter
 * `#2527` Create project has useless responsible field
+* `#3091` Both Top menu sides can be open at the same time
 * `#3202` Fix: Fix: [Bug] Grouping work packages by responsible is broken
 * `#3222` Fix: Validation errors on copying OpenProject
-* `#2395` [Work Package Tracking] Internal Error when entering a character in a number field in a filter
-* `#3091` Both Top menu sides can be open at the same time
 
 ## 3.0.0pre36
 

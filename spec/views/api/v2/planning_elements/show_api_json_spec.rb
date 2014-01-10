@@ -198,6 +198,21 @@ describe 'api/v2/planning_elements/show.api.rabl' do
     end
   end
 
+  describe 'with a planning element having an author' do
+    let(:author)            { FactoryGirl.create(:user) }
+    let(:planning_element)  { FactoryGirl.build(:work_package, :author => author) }
+
+    before do
+      assign(:planning_element, planning_element)
+      render
+    end
+
+    it 'renders an author node containing the author\'s id and name' do
+      author_json = {id: author.id, name: author.name}.to_json
+      response.should be_json_eql(author_json).at_path('planning_element/author')
+    end
+  end
+
   describe "a destroyed planning element" do
     let(:planning_element) { FactoryGirl.create(:work_package) }
 

@@ -54,7 +54,7 @@ class VersionTest < ActiveSupport::TestCase
         (v = Version.new.tap do |v|
           v.force_attributes = { :project => project, :name => 'Progress' }
         end).save!
-        add_issue(v, :estimated_hours => 10, :start_date => '2010-03-01')
+        add_work_package(v, :estimated_hours => 10, :start_date => '2010-03-01')
         FactoryGirl.create(:work_package, project: project, :subject => 'not assigned', :start_date => '2010-01-01')
 
         assert_equal '2010-03-01', v.start_date.to_s
@@ -68,7 +68,7 @@ class VersionTest < ActiveSupport::TestCase
           v.force_attributes = { :project => project, :name => 'Progress', :start_date => '2010-01-05' }
         end).save!
 
-        add_issue(v, :estimated_hours => 10, :start_date => '2010-03-01')
+        add_work_package(v, :estimated_hours => 10, :start_date => '2010-03-01')
 
         assert_equal '2010-01-05', v.start_date.to_s
       end
@@ -91,8 +91,8 @@ class VersionTest < ActiveSupport::TestCase
     (v = Version.new.tap do |v|
       v.force_attributes = { :project => project, :name => 'Progress' }
     end).save!
-    add_issue(v)
-    add_issue(v, :done_ratio => 0)
+    add_work_package(v)
+    add_work_package(v, :done_ratio => 0)
     assert_progress_equal 0, v.completed_pourcent
     assert_progress_equal 0, v.closed_pourcent
   end
@@ -103,10 +103,10 @@ class VersionTest < ActiveSupport::TestCase
     (v = Version.new.tap do |v|
       v.force_attributes = { :project => project, :name => 'Progress' }
     end).save!
-    add_issue(v, :status => status)
-    add_issue(v, :status => status, :done_ratio => 20)
-    add_issue(v, :status => status, :done_ratio => 70, :estimated_hours => 25)
-    add_issue(v, :status => status, :estimated_hours => 15)
+    add_work_package(v, :status => status)
+    add_work_package(v, :status => status, :done_ratio => 20)
+    add_work_package(v, :status => status, :done_ratio => 70, :estimated_hours => 25)
+    add_work_package(v, :status => status, :estimated_hours => 15)
     assert_progress_equal 100.0, v.completed_pourcent
     assert_progress_equal 100.0, v.closed_pourcent
   end
@@ -116,9 +116,9 @@ class VersionTest < ActiveSupport::TestCase
     (v = Version.new.tap do |v|
       v.force_attributes = { :project => project, :name => 'Progress' }
     end).save!
-    add_issue(v)
-    add_issue(v, :done_ratio => 20)
-    add_issue(v, :done_ratio => 70)
+    add_work_package(v)
+    add_work_package(v, :done_ratio => 20)
+    add_work_package(v, :done_ratio => 70)
     assert_progress_equal (0.0 + 20.0 + 70.0)/3, v.completed_pourcent
     assert_progress_equal 0, v.closed_pourcent
   end
@@ -128,9 +128,9 @@ class VersionTest < ActiveSupport::TestCase
     (v = Version.new.tap do |v|
       v.force_attributes = { :project => project, :name => 'Progress' }
     end).save!
-    add_issue(v)
-    add_issue(v, :done_ratio => 20)
-    add_issue(v, :status => Status.find(:first, :conditions => {:is_closed => true}))
+    add_work_package(v)
+    add_work_package(v, :done_ratio => 20)
+    add_work_package(v, :status => Status.find(:first, :conditions => {:is_closed => true}))
     assert_progress_equal (0.0 + 20.0 + 100.0)/3, v.completed_pourcent
     assert_progress_equal (100.0)/3, v.closed_pourcent
   end
@@ -140,10 +140,10 @@ class VersionTest < ActiveSupport::TestCase
     (v = Version.new.tap do |v|
       v.force_attributes = { :project => project, :name => 'Progress' }
     end).save!
-    add_issue(v, :estimated_hours => 10)
-    add_issue(v, :estimated_hours => 20, :done_ratio => 30)
-    add_issue(v, :estimated_hours => 40, :done_ratio => 10)
-    add_issue(v, :estimated_hours => 25, :status => Status.find(:first, :conditions => {:is_closed => true}))
+    add_work_package(v, :estimated_hours => 10)
+    add_work_package(v, :estimated_hours => 20, :done_ratio => 30)
+    add_work_package(v, :estimated_hours => 40, :done_ratio => 10)
+    add_work_package(v, :estimated_hours => 25, :status => Status.find(:first, :conditions => {:is_closed => true}))
     assert_progress_equal (10.0*0 + 20.0*0.3 + 40*0.1 + 25.0*1)/95.0*100, v.completed_pourcent
     assert_progress_equal 25.0/95.0*100, v.closed_pourcent
   end
@@ -153,10 +153,10 @@ class VersionTest < ActiveSupport::TestCase
     (v = Version.new.tap do |v|
       v.force_attributes = { :project => project, :name => 'Progress' }
     end).save!
-    add_issue(v, :done_ratio => 20)
-    add_issue(v, :status => Status.find(:first, :conditions => {:is_closed => true}))
-    add_issue(v, :estimated_hours => 10, :done_ratio => 30)
-    add_issue(v, :estimated_hours => 40, :done_ratio => 10)
+    add_work_package(v, :done_ratio => 20)
+    add_work_package(v, :status => Status.find(:first, :conditions => {:is_closed => true}))
+    add_work_package(v, :estimated_hours => 10, :done_ratio => 30)
+    add_work_package(v, :estimated_hours => 40, :done_ratio => 10)
     assert_progress_equal (25.0*0.2 + 25.0*1 + 10.0*0.3 + 40.0*0.1)/100.0*100, v.completed_pourcent
     assert_progress_equal 25.0/100.0*100, v.closed_pourcent
   end
@@ -225,20 +225,20 @@ class VersionTest < ActiveSupport::TestCase
     end
 
     should "return 0 with no estimated hours" do
-      add_issue(@version)
+      add_work_package(@version)
       assert_equal 0, @version.estimated_hours
     end
 
     should "return the sum of estimated hours" do
-      add_issue(@version, :estimated_hours => 2.5)
-      add_issue(@version, :estimated_hours => 5)
+      add_work_package(@version, :estimated_hours => 2.5)
+      add_work_package(@version, :estimated_hours => 5)
       assert_equal 7.5, @version.estimated_hours
     end
 
     should "return the sum of leaves estimated hours" do
-      parent = add_issue(@version)
-      add_issue(@version, :estimated_hours => 2.5, :parent_id => parent.id)
-      add_issue(@version, :estimated_hours => 5, :parent_id => parent.id)
+      parent = add_work_package(@version)
+      add_work_package(@version, :estimated_hours => 2.5, :parent_id => parent.id)
+      add_work_package(@version, :estimated_hours => 5, :parent_id => parent.id)
       assert_equal 7.5, @version.estimated_hours
     end
   end
@@ -280,7 +280,7 @@ class VersionTest < ActiveSupport::TestCase
 
   private
 
-  def add_issue(version, attributes={})
+  def add_work_package(version, attributes={})
     (v = WorkPackage.new.tap do |v|
       v.force_attributes = { :project => version.project,
                              :fixed_version => version,

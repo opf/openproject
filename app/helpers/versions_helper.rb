@@ -49,7 +49,7 @@ module VersionsHelper
     counts = h.keys.compact.sort.collect {|k| {:group => k, :total => h[k][0], :open => h[k][1], :closed => (h[k][0] - h[k][1])}}
     max = counts.collect {|c| c[:total]}.max
 
-    render :partial => 'issue_counts', :locals => {:version => version, :criteria => criteria, :counts => counts, :max => max}
+    render :partial => 'work_package_counts', :locals => {:version => version, :criteria => criteria, :counts => counts, :max => max}
   end
 
   def status_by_options_for_select(value)

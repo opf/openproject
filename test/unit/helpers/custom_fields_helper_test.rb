@@ -43,7 +43,7 @@ class CustomFieldsHelperTest < HelperTestCase
     value = CustomValue.new(:value => 'bar', :custom_field => field)
     field.id = 52
 
-    assert_equal '<input id="object_custom_field_values_52" name="object[custom_field_values][52]" type="text" value="bar" />',
+    assert_match '<input id="object_custom_field_values_52" name="object[custom_field_values][52]" type="text" value="bar" />',
       custom_field_tag('object', value)
   end
 

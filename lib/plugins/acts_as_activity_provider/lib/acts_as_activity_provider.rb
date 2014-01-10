@@ -40,14 +40,14 @@ module Redmine
             send :include, Redmine::Acts::ActivityProvider::InstanceMethods
           end
 
-          options.assert_valid_keys(:type, :permission, :classes)
+          options.assert_valid_keys(:type, :permission, :activities)
           self.activity_provider_options ||= {}
 
           # One model can provide different event types
           # We store these options in activity_provider_options hash
           event_type = options.delete(:type) || self.name.underscore.pluralize
 
-          options[:classes] = options.delete(:classes) || [self]
+          options[:activities] = options.delete(:activities) || [:activity]
           options[:permission] = "view_#{self.name.underscore.pluralize}".to_sym unless options.has_key?(:permission)
           self.activity_provider_options[event_type] = options
         end
@@ -91,8 +91,8 @@ module Redmine
 
             provider_options = activity_provider_options[event_type].dup
 
-            provider_options[:classes].each do |activity_class|
-              result << find_events_for_class(activity_class, provider_options, user, from, to, options)
+            provider_options[:activities].each do |activity|
+              result << find_events_for_class(self.new, activity, provider_options, user, from, to, options)
             end
 
             result.flatten!
@@ -102,22 +102,23 @@ module Redmine
 
           private
 
-          def find_events_for_class(activity_class, provider_options, user, from, to, options)
+          def find_events_for_class(provider, activity, provider_options, user, from, to, options)
             projects_table = Arel::Table.new(:projects)
             journals_table = Arel::Table.new(:journals)
-            activity_journals_table = Arel::Table.new(JournalManager.journal_class(activity_class).table_name)
+            activity_journals_table = provider.activity_journals_table activity
 
             query = journals_table.join(activity_journals_table).on(journals_table[:id].eq(activity_journals_table[:journal_id]))
-            query = query.where(journals_table[:journable_type].eq(JournalManager.journaled_class(activity_class).name))
+            query = query.where(journals_table[:journable_type].eq(provider.activitied_type(activity).name))
 
             query = query.where(journals_table[:created_at].gteq(from)) if from
             query = query.where(journals_table[:created_at].lteq(to)) if to
 
             query = query.where(journals_table[:user_id].eq(options[:author].id)) if options[:author]
 
-            project_ref_table, query = self.extend_event_query(journals_table, activity_journals_table, query) if self.respond_to? :extend_event_query
 
-            query = join_with_projects_table(query, project_ref_table)
+            provider.extend_event_query(query, activity) if provider.respond_to?(:extend_event_query)
+
+            query = join_with_projects_table(query, provider.projects_reference_table(activity))
             query = restrict_projects_by_selection(options, query)
             query = restrict_projects_by_permission(provider_options[:permission], query)
             query = restrict_projects_by_user(provider_options, user, query)
@@ -125,18 +126,18 @@ module Redmine
             return [] if query.nil?
 
             Redmine::Hook.call_hook(:activity_fetcher_find_events_for_class,
-                                    activity_class: activity_class,
+                                    activity: activity,
                                     query: query,
                                     user: user)
 
             query = query.order(journals_table[:id]).take(options[:limit]) if options[:limit]
 
             projection = Redmine::Acts::ActivityProvider.event_projection(journals_table)
-            projection << self.event_query_projection(journals_table, activity_journals_table) if self.respond_to? :event_query_projection
+            projection << provider.event_query_projection(activity) if provider.respond_to?(:event_query_projection)
 
             query.project(projection)
 
-            fill_events(ActiveRecord::Base.connection.select_all(query.to_sql))
+            fill_events(provider, activity, ActiveRecord::Base.connection.select_all(query.to_sql))
           end
 
           def join_with_projects_table(query, project_ref_table)
@@ -206,7 +207,7 @@ module Redmine
             stmt ? query : nil
           end
 
-          def fill_events(events)
+          def fill_events(provider, activity, events)
             events.each_with_object([]) do |e, result|
               datetime = e['event_datetime'].is_a?(String) ? DateTime.parse(e['event_datetime'])
                                                            : e['event_datetime']
@@ -223,7 +224,7 @@ module Redmine
                                                                  nil,
                                                                  nil)
 
-              result << ((self.respond_to? :format_event) ? self.format_event(event, e) : event)
+              result << ((provider.respond_to?(:format_event)) ? provider.format_event(event, e, activity) : event)
             end
           end
         end

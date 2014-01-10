@@ -48,7 +48,6 @@ Feature: Types Settings
       And the role "project admin" may have the following rights:
           | edit_project                 |
           | manage_types                 |
-          | manage_project_configuration |
       And the user "padme" is a "project admin"
 
       And I am already logged in as "padme"

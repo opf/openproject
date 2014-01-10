@@ -330,4 +330,37 @@ describe User do
       it { User.find_by_rss_key(@rss_key).should == nil }
     end
   end
+
+  describe '#impaired?' do
+    let(:anonymous) { FactoryGirl.create(:anonymous)}
+    let(:user) { FactoryGirl.create(:user)}
+
+    context 'anonymous user with accessibility mode disabled for anonymous users' do
+      before do
+        Setting.stub(:accessibility_mode_for_anonymous?).and_return(false)
+      end
+
+      it { anonymous.impaired?.should be_false }
+    end
+
+    context 'anonymous user with accessibility mode enabled for anonymous users' do
+      before do
+        Setting.stub(:accessibility_mode_for_anonymous?).and_return(true)
+      end
+
+      it { anonymous.impaired?.should be_true }
+    end
+
+    context 'not impaired user' do
+      it { user.impaired?.should be_false }
+    end
+
+    context 'impaired user' do
+      before do
+        user.pref[:impaired] = true
+      end
+
+      it { user.impaired?.should be_true }
+    end
+  end
 end

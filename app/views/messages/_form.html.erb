@@ -36,8 +36,12 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= f.text_field :subject, :size => 120, :id => "message_subject" %>
 
 <% if !replying && User.current.allowed_to?(:edit_messages, @project) %>
-    <label><%= f.check_box :sticky %><%= l(:label_board_sticky) %></label>
-    <label><%= f.check_box :locked %><%= l(:label_board_locked) %></label>
+    <%= f.label :sticky do %>
+      <%= f.check_box :sticky %><%= l(:label_board_sticky) %>
+    <% end %>
+    <%= f.label :locked do %>
+      <%= f.check_box :locked %><%= l(:label_board_locked) %>
+    <% end %>
 <% end %>
 </p>
 
@@ -48,7 +52,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <p>
 <%= label_tag "message_content", l(:description_message_content), :class => "hidden-for-sighted" %>
-<%= f.text_area :content, :cols => 80, :rows => 15, :class => 'wiki-edit', :id => 'message_content' %></p>
+<%= f.text_area :content, :cols => 80, :rows => 15, :class => 'wiki-edit', :id => 'message_content',
+                :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json) %></p>
 <%= wikitoolbar_for 'message_content' %>
 <!--[eoform:message]-->
 

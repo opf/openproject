@@ -193,7 +193,7 @@ display_subprojects_work_packages:
 work_package_done_ratio:
   default: 'field'
 default_projects_public:
-  default: 1
+  default: 0
 default_projects_modules:
   serialized: true
   default:
@@ -223,6 +223,10 @@ repository_log_display_limit:
   default: 100
 ui_theme:
   default: 'default'
+user_may_override_theme:
+  default: 1
+accessibility_mode_for_anonymous:
+  default: 0
 emails_footer:
   serialized: true
   default:

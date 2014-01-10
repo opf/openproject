@@ -67,7 +67,8 @@ See doc/COPYRIGHT.rdoc for more details.
       <label for="reporting_reported_project_status_comment">
         <%= Reporting.human_attribute_name(:reported_project_status_comment) %>:
       </label><br/>
-      <%= f.text_area(:reported_project_status_comment, :class => 'wiki-edit', :rows => 10) %>
+      <%= f.text_area(:reported_project_status_comment, :class => 'wiki-edit', :rows => 10,
+                      :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json)) %>
       <%= wikitoolbar_for 'reporting_reported_project_status_comment' %>
     </p>
   </fieldset>

@@ -28,23 +28,19 @@
 
 language: ruby
 rvm:
-  - 1.9.3
+  - 2.0
 branches:
   only:
     - dev
 env:
   # mysql2
-  - "TEST_SUITE=cucumber         CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
-  - "TEST_SUITE=test:units       CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
-  - "TEST_SUITE=test:functionals CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
-  - "TEST_SUITE=test:integration CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
-  - "TEST_SUITE=spec             CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
+  - "TEST_SUITE=cucumber CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
+  - "TEST_SUITE=test     CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
+  - "TEST_SUITE=spec     CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
   # postgres
-  - "TEST_SUITE=cucumber         CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
-  - "TEST_SUITE=test:units       CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
-  - "TEST_SUITE=test:functionals CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
-  - "TEST_SUITE=test:integration CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
-  - "TEST_SUITE=spec             CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
+  - "TEST_SUITE=cucumber CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
+  - "TEST_SUITE=test     CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
+  - "TEST_SUITE=spec     CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
 script: "bundle exec rake $TEST_SUITE"
 before_install:
   - "export DISPLAY=:99.0"
@@ -56,4 +52,4 @@ notifications:
 addons:
   code_climate:
       repo_token:
-        secure: "BIooLUZt/ZPBh0KSOMrSdsm0uwyax9veNULE20hJLXxuj8dStxAHcrZW8gZvNaU0/vgz3RWKQeNJ6xV9BXYVjnAtYIkQmI+kiryRT9PE6OsLbqeU/OirahFi8Dwm4xfh/e9DVgTOyYHHhZ69aVFQxvKbXARGmfoHcy8gFduJ7ss="
+        secure: "W/lyd8Ud18GRASuVShsIKa2MRHhxjh8WICMQ4WKr68qt0X0Tlp7Bclv4ReiEgiQeKsIoJJy5FfJfINdAT8A4sy2JbrLeISShcIU7Kqpfh6DSLNoRAuLz5P7EXMNFns1gBKCmrSzcB+9ksuTLyTCKkjUcj1NbJzGqpB4jSTecAdg="

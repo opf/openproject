@@ -33,8 +33,6 @@ gem "rails", "~> 3.2.16"
 gem "coderay", "~> 1.0.5"
 gem "rubytree", "~> 0.8.3"
 gem "rdoc", ">= 2.4.2"
-# Needed only on RUBY_VERSION = 1.8, ruby 1.9+ compatible interpreters should bring their csv
-gem "fastercsv", "~> 1.5.0", :platforms => [:ruby_18, :jruby, :mingw_18]
 gem 'globalize'
 
 gem 'request_store'
@@ -63,8 +61,12 @@ gem 'therubyracer'
 
 gem "date_validator"
 
-# replacing rsb with rabl
-gem 'rabl'
+# replacing rsb with rabl --
+# We rely on this specific version, which is the latest as of now (end of 2013),
+# because we have to apply to it a bugfix which could break things in other versions.
+# This can be removed as soon as said bugfix is integrated into rabl itself.
+# See: config/initializers/rabl_hack.rb
+gem 'rabl', '0.9.3'
 gem 'multi_json'
 gem 'oj'
 
@@ -79,7 +81,7 @@ gem 'daemons'
 
 gem 'rack-protection'
 
-gem 'syck', :platforms => [:ruby_20, :mingw_20], :require => false
+gem 'syck', :platforms => [:ruby_20, :mingw_20, :ruby_21, :mingw_21], :require => false
 
 group :production do
   # we use dalli as standard memcache client
@@ -94,6 +96,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
   gem 'jquery-ui-rails'
   gem 'select2-rails', '~> 3.3.2'
+  gem 'jquery-atwho-rails'
 end
 
 gem "prototype-rails"

@@ -1,0 +1,222 @@
+/*-- copyright
+ * OpenProject is a project management system.
+ * Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 3.
+ *
+ * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+ * Copyright (C) 2006-2013 Jean-Philippe Lang
+ * Copyright (C) 2010-2013 the ChiliProject Team
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * See doc/COPYRIGHT.rdoc for more details.  ++*/
+
+@import global/all
+
+#main-menu
+  @include default-transition
+  bottom: auto
+  width: $main_menu_width
+  float: left
+  left: 0
+  background-color: $main_menu_bg_color
+  ul
+    margin: 0
+    padding: 0
+
+    &.menu_root
+      border-right: $main_menu_border_width solid $main_menu_border_color
+      li
+        float: none
+        list-style-type: none
+        margin: 0px
+        padding: 0px 0px 0px 0px
+        white-space: nowrap
+        position: relative
+        min-height: 23px
+
+        a
+          background: none
+          padding: 0 0 0 7px
+          border-left: 4px solid $main_menu_bg_color
+          @include default-transition
+
+          &:hover, &.selected
+            text-decoration: none
+            background-color: $main_menu_bg_hover_selected_color
+            border-left: 4px solid $main_menu_selected_hover_indicator_color
+            color: $main_menu_selected_font_color
+          &.selected
+            color: $main_menu_selected_font_color
+
+        li
+          border: 0
+          a span
+            font-weight: normal
+            color: #999
+            float: right
+            padding-right: 9px
+    ul
+      display: none
+      padding-top: 1px
+      padding-bottom: 1px
+      &.menu-children.unattached
+        border-top: 1px solid #ddd
+
+    ul.menu-children
+      background-color: $main_menu_child_menu_bg_color
+      padding: 0
+      li
+        a
+          font-size: $main_menu_child_font_size
+          line-height: $main_menu_child_item_height
+          height: $main_menu_child_item_height
+          border: none
+          padding: 0 0 0 10px
+          color: $main_menu_child_font_color
+          margin-top: 1px
+
+          &:hover
+            border: none
+            text-decoration: none
+            background-color: $main_menu_child_bg_hover_selected_color
+            color: $main_menu_child_selected_font_color
+          &.selected
+            border: none !important
+            background-color: $main_menu_child_bg_hover_selected_color
+            color: $main_menu_child_selected_font_color
+            font-family: 'LatoBold','Lucida Grande',Helvetica,Arial,sans-serif
+
+  a
+    text-decoration: none
+    line-height: $main_menu_item_height
+    display: block
+    position: relative
+    height: $main_menu_item_height
+    color: $main_menu_font_color
+    font-weight: normal
+    font-size: $main_menu_font_size
+    font-style: normal
+    @include main-menu-font
+
+  .toggler
+    position: absolute
+    right: 0
+    top: 0
+    width: 40px
+    height: $main_menu_item_height
+    text-align: center
+  li
+    border-bottom: $main_menu_item_border_width solid $main_menu_item_border_color
+    .open, .selected.open
+      .toggler:before
+        content: "\e0cc"
+  #toggle-project-menu
+    border: $main_menu_item_border_width solid $main_menu_item_border_color
+    border-left: none
+    height: $main_menu_item_height - $main_menu_item_border_width
+    width: $main_menu_width - $main_menu_item_border_width
+    background-color: $main_menu_bg_color
+    @include default-transition
+    &:hover
+      background-color: $main_menu_bg_hover_selected_color
+    &.show
+      width: $main_menu_folded_width - $main_menu_item_border_width
+      a.navigation-toggler
+        height: 100%
+        padding: 0 10px 0 0
+        &:before
+          content: "\e00a"
+    a.navigation-toggler
+      @include default-transition
+      position: relative
+      height: $main_menu_item_height
+      text-align: right
+      padding: 0 6px 0 0
+      &:hover
+        color: $main_menu_navigation_toggler_font_hover_color
+  .toggle-follow
+    position: absolute
+    width: 140px
+  .icon-time
+    background: none
+    padding: 0 0 0 0
+
+.hidden-navigation
+  #main-menu
+    width: $main_menu_folded_width
+    .ellipsis
+      text-overflow: clip
+      -o-text-overflow: clip
+      -ms-text-overflow: clip
+    .toggler
+      display: none
+  #sidebar
+    display: none
+
+#sidebar
+  margin: 30px 0 0 0
+  padding: 0px 17px 0 17px
+  width: auto
+  color: $main_menu_sidebar_font_color
+  font-size: 12px
+  @include main-menu-font
+
+  h3
+    display: block
+    border: none
+    //border-top: 1px solid $main_menu_sidebar_h3_border_top_color
+    color: $main_menu_sidebar_h3_color
+    font-weight: normal
+    font-size: $main_menu_sidebar_h3_font_size
+    margin: 30px 0 8px 0
+    padding: 10px 0 0 0
+
+    text-transform: uppercase
+
+  > h3:first-child
+    margin-top: 0px
+
+  a, a:link
+    color: $main_menu_sidebar_link_color
+    font-size: 12px
+    display: inline
+    position: static
+    text-decoration: underline
+
+  a:hover
+    text-decoration: underline
+
+  input.button-small
+    margin-top: 14px
+    background: #FFFFFF
+    border-radius: 25px
+    -webkit-border-radius: 25px
+    padding: 3px 7px
+    color: #222
+    border: none
+    cursor: pointer
+    @include main-menu-font
+
+  ul
+    border: none
+    overflow-x: hidden
+    li
+      border: none
+    li a
+      padding: 0px
+

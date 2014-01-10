@@ -26,7 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%><!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= I18n.locale.to_s %>" xml:lang="<%= I18n.locale.to_s %>">
+<% show_decoration = params["layout"].nil? %>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= I18n.locale.to_s %>" xml:lang="<%= I18n.locale.to_s %>" class="<%= 'in_modal' unless show_decoration %>">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><%= html_title %></title>
@@ -37,6 +38,10 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= csrf_meta_tags %>
 <%= favicon_link_tag 'favicon.ico' %>
 <%= stylesheet_link_tag current_theme.stylesheet_manifest, :media => "all" %>
+<% if User.current.impaired? && accessibility_css_enabled? %>
+  <%= stylesheet_link_tag 'accessibility' %>
+<% end %>
+
 <%= javascript_include_tag 'application' %>
 <!-- user specific tags -->
 <%= user_specific_javascript_includes %>
@@ -45,7 +50,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <!-- page specific tags -->
 <%= content_for(:header_tags) if content_for?(:header_tags) %>
 </head>
-<% show_decoration = params["layout"].nil? %>
 <body class="<%= body_css_classes %>">
 <noscript>
   <div class="top-shelf icon icon-warning">

@@ -42,16 +42,17 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     src = <<-END_SRC
     def #{selector}(field, options = {})
       if options[:multi_locale] || options[:single_locale]
-
         localized_field = Proc.new do |translation_form, multiple|
           localized_field(translation_form, __method__, field, options)
         end
 
-        ret = label_for_field(field, options)
+        ret = nil
 
         translation_objects = translation_objects field, options
 
         fields_for(:translations, translation_objects, :builder => ActionView::Helpers::FormBuilder) do |translation_form|
+          ret = label_for_field(field, options, translation_form) unless ret
+
           ret.concat localized_field.call(translation_form)
         end
 
@@ -75,13 +76,22 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   private
 
   # Returns a label tag for the given field
-  def label_for_field(field, options = {})
+  def label_for_field(field, options = {}, translation_form = nil)
     return '' if options.delete(:no_label)
     text = options[:label].is_a?(Symbol) ? l(options[:label]) : options[:label]
     text ||= @object.class.human_attribute_name(field.to_sym) if @object.is_a?(ActiveRecord::Base)
     text += @template.content_tag("span", " *", :class => "required") if options.delete(:required)
-    @template.label(@object_name, field.to_s, text.html_safe,
-                                   :class => (@object && @object.errors[field] ? "error" : nil))
+
+    id = element_id(translation_form) if translation_form
+    label_options = { :class => (@object && @object.errors[field] ? "error" : nil) }
+    label_options[:for] = id.sub(/\_id$/, "_#{field.to_s}") if options[:multi_locale] && id
+
+    @template.label(@object_name, field.to_s, text.html_safe, label_options)
+  end
+
+  def element_id(translation_form)
+    match = /id=\"(?<id>\w+)"/.match(translation_form.hidden_field :id)
+    match ? match[:id] : nil
   end
 
   def localized_field(translation_form, method, field, options)

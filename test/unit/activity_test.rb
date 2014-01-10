@@ -102,7 +102,7 @@ class ActivityTest < ActiveSupport::TestCase
     # Because events are provided by the journals, but we want to test for
     # their targets here, transform that
     events.collect do |e|
-      JournalManager.journaled_class(e.provider).find(e.journable_id)
+      e.provider.new.activitied_type.find(e.journable_id)
     end
   end
 end

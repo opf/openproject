@@ -31,7 +31,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <ul><%= @work_packages.collect {|i| content_tag('li', link_to(h("#{i.type} ##{i.id}"), { :action => 'show', :id => i }) + h(": #{i.subject}")) }.join("\n").html_safe %></ul>
 
-<%= form_tag(:action => 'update') do %>
+<%= form_tag(url_for(controller: '/work_packages/bulk', action: :update, ids: @work_packages),
+             method: :put) do %>
 <%= @work_packages.collect {|i| hidden_field_tag('ids[]', i.id)}.join.html_safe %>
 <div class="box tabular">
 <fieldset class="attributes">
@@ -115,7 +116,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <fieldset><legend><%= Journal.human_attribute_name(:notes) %></legend>
 <%= label_tag 'notes', Journal.human_attribute_name(:notes), :class => 'hidden-for-sighted' %>
-<%= text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit' %>
+<%= text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit',
+                  :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json) %>
 <%= wikitoolbar_for 'notes' %>
 <%= send_notification_option %>
 </fieldset>

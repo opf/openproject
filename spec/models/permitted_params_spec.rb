@@ -558,4 +558,157 @@ describe PermittedParams do
       PermittedParams.new(params, admin).user_update_as_admin.should == {}
     end
   end
+
+  shared_context 'prepare params comparison' do
+    let(:params_key) { (defined? hash_key) ? hash_key : attribute }
+    let(:params) { ActionController::Parameters.new(params_key => hash) }
+
+    subject { PermittedParams.new(params, user).send(attribute) } 
+  end
+
+  shared_examples_for 'allows params' do
+    include_context 'prepare params comparison'
+
+    it { expect(subject).to eq(hash) }
+  end
+
+  shared_examples_for 'forbids params' do
+    include_context 'prepare params comparison'
+
+    it { expect(subject).not_to eq(hash) }
+  end
+  
+  shared_examples_for 'allows move params' do
+    let(:hash) { { "move_to" => "lower" } }
+
+    it_behaves_like 'allows params'
+  end
+
+  shared_examples_for 'allows custom fields' do
+    describe 'valid custom fields' do
+      let(:hash) { { "custom_field_values" => { "1" => "5" } } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'invalid custom fields' do
+      let(:hash) { { "custom_field_values" => { "blubs" => "5", "5" => {"1" => "2"} } } }
+
+      it_behaves_like 'forbids params'
+    end
+  end
+
+  describe :status do
+    let (:attribute) { :status }
+
+    describe 'name' do
+      let(:hash) { { "name" => "blubs" } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'default_done_ratio' do
+      let(:hash) { { "default_done_ratio" => "10" } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'is_closed' do
+      let(:hash) { { "is_closed" => "true" } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'is_default' do
+      let(:hash) { { "is_default" => "true" } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'move_to' do
+      it_behaves_like 'allows move params'
+    end
+  end
+
+  describe :enumerations do
+    let (:attribute) { :enumeration }
+
+    describe 'name' do
+      let(:hash) { { "name" => "blubs" } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'active' do
+      let(:hash) { { "active" => "true" } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'is_default' do
+      let(:hash) { { "is_default" => "true" } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'reassign_to_id' do
+      let(:hash) { { "reassign_to_id" => "1" } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'move_to' do
+      it_behaves_like 'allows move params'
+    end
+
+    describe 'custom fields' do
+      it_behaves_like 'allows custom fields'
+    end
+  end
+
+  describe :wiki_page do
+    let (:hash_key) { :page }
+    let (:attribute) { :wiki_page }
+
+    describe 'title' do
+      let(:hash) { { "title" => "blubs" } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'parent_id' do
+      let(:hash) { { "parent_id" => "1" } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'redirect_existing_links' do
+      let(:hash) { { "redirect_existing_links" => "1" } }
+
+      it_behaves_like 'allows params'
+    end
+  end
+
+  describe :wiki_content do
+    let (:hash_key) { :content }
+    let (:attribute) { :wiki_content }
+
+    describe 'title' do
+      let(:hash) { { "comments" => "blubs" } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'text' do
+      let(:hash) { { "text" => "blubs" } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'lock_version' do
+      let(:hash) { { "lock_version" => "1" } }
+
+      it_behaves_like 'allows params'
+    end
+  end
 end

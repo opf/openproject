@@ -197,7 +197,7 @@ Given /^the [pP]roject "([^\"]*)" has 1 [sS]ubproject with the following:$/ do |
 end
 
 Given /^there are the following types:$/ do |table|
-  table.map_headers! { |header| header.underscore.gsub(' ', '_') }
+  table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
   table.hashes.each_with_index do |t, i|
     type = Type.find_by_name(t['name'])
     type = Type.new :name => t['name'] if type.nil?

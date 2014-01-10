@@ -139,26 +139,35 @@ describe WorkPackagesController do
     end
 
     describe 'html' do
+      let(:call_action) { get('index', :project_id => project.id) }
+      before { call_action }
+
       describe "w/o a project" do
         let(:project) { nil }
         let(:call_action) { get('index') }
 
         it 'should render the index template' do
-          call_action
-
           response.should render_template('work_packages/index', :formats => ["html"],
                                                                  :layout => :base)
         end
       end
 
-      describe "w/ a project" do
-        let(:call_action) { get('index', :project_id => project.id) }
-
+      context "w/ a project" do
         it 'should render the index template' do
-          call_action
-
           response.should render_template('work_packages/index', :formats => ["html"],
                                                                  :layout => :base)
+        end
+      end
+
+      context 'when a query has been previously selected' do
+        let(:query) do
+          FactoryGirl.build_stubbed(:query).tap {|q| q.filters = [Queries::WorkPackages::Filter.new('done_ratio', operator: ">=", values: [10]) ]}
+        end
+
+        before { session.stub(:query).and_return query }
+
+        it 'preserves the query' do
+          assigns['query'].filters.should == query.filters
         end
       end
     end
@@ -550,7 +559,7 @@ describe WorkPackagesController do
                                             .with(:project => stub_project)
                                             .and_return(wp_params)
 
-          stub_project.should_receive(:add_issue) do |args|
+          stub_project.should_receive(:add_work_package) do |args|
 
             expect(args[:author]).to eql stub_user
 
@@ -803,6 +812,28 @@ describe WorkPackagesController do
                                        types: [type] }
     let(:status) { FactoryGirl.create :default_status }
     let(:priority) { FactoryGirl.create :priority }
+
+    context :copy do
+      let(:current_user) { FactoryGirl.create(:admin) }
+      let(:params) { { copy_from: planning_element.id, project_id: project.id } }
+      let(:except) { ["id",
+                      "root_id",
+                      "parent_id",
+                      "lft",
+                      "rgt",
+                      "type",
+                      "created_at",
+                      "updated_at"] }
+
+      before { post 'create', params }
+
+      subject { response }
+
+      it do
+        assigns['new_work_package'].should_not == nil
+        assigns['new_work_package'].attributes.dup.except(*except).should == planning_element.attributes.dup.except(*except)
+      end
+    end
 
     context :attachments do
       let(:new_work_package) { FactoryGirl.build(:work_package,

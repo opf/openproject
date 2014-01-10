@@ -41,11 +41,14 @@ Feature: Reporting Permissions
           | login | editor |
 
       And there is 1 project with the following:
-          | Name | Santas Project |
+          | Name      | Santas Project |
+          | Is Public | true           |
       And there is 1 project with the following:
-          | Name | World Domination |
+          | Name      | World Domination |
+          | Is Public | true             |
       And there is 1 project with the following:
-          | Name | How to stay sane and drink lemonade |
+          | Name      | How to stay sane and drink lemonade |
+          | Is Public | true                                |
 
       And there is a role "project admin"
       And the role "project admin" may have the following rights:

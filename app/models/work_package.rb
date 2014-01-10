@@ -187,10 +187,17 @@ class WorkPackage < ActiveRecord::Base
         t
       end
     end
+
+    def self.event_url
+      Proc.new do |o|
+        { controller: :work_packages, action: :show, id: o.id }
+      end
+    end
   end
 
   acts_as_event title: JournalizedProcs.event_title,
-                type: JournalizedProcs.event_type
+                type: JournalizedProcs.event_type,
+                url: JournalizedProcs.event_url
 
   register_on_journal_formatter(:id, 'parent_id')
   register_on_journal_formatter(:fraction, 'estimated_hours')
@@ -671,9 +678,9 @@ class WorkPackage < ActiveRecord::Base
   end
 
   # Override of acts_as_watchable#possible_watcher_users
-  # Restricts the result to project members if the project is private
+  # Restricts the result to project members for private as well as public projects
   def possible_watcher_users
-    users = project.is_public? ? User.not_builtin : project.users
+    users = project.users
     users.select {|user| possible_watcher?(user)}
   end
 

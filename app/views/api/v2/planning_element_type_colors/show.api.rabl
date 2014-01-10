@@ -25,7 +25,6 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-object @color
-node :color do |color|
-  partial '/api/v2/planning_element_type_colors/color.api', :object => color
-end
+object @color => :color
+
+extends '/api/v2/planning_element_type_colors/color.api'

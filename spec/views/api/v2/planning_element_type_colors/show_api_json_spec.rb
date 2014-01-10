@@ -57,7 +57,6 @@ describe 'api/v2/planning_element_type_colors/show.api.rabl' do
     end
 
     it 'renders the detail information about the color' do
-      puts subject
       expected_json = {name: "Awesometastic color", hexcode: '#FFFFFF', position: 10}.to_json
 
       should be_json_eql(expected_json).at_path('color')
