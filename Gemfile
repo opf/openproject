@@ -16,6 +16,7 @@ gem "fastercsv", "~> 1.5.0", :platforms => [:ruby_18, :jruby, :mingw_18]
 gem 'delayed_job', "~>2.0.4"
 
 gem "i18n-js", "~> 2.1.2"
+gem "unicorn"
 
 group :test do
   gem 'shoulda', '~> 2.10.3'
