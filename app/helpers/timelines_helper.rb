@@ -99,6 +99,7 @@ module TimelinesHelper
     parent
   end
 
+  # TODO Refactoring
   def header_tags
     %Q{
       <style type='text/css'>
@@ -204,6 +205,9 @@ module TimelinesHelper
           display: inline-block;
           width: 10em;
         }
+        .timelines-color-properties-preview {
+          margin-left: -22px;
+        }
         .timelines-reporting-properties .timelines-value,
         .timelines-pet-properties .timelines-value,
         .timelines-pt-properties .timelines-value {
@@ -214,26 +218,6 @@ module TimelinesHelper
           margin-top: -2.6em;
         }
       </style>
-      <!--[if IE]>
-      <style type='text/css'>
-        .timelines-milestone {
-          filter: progid:DXImageTransform.Microsoft.Matrix(
-                     sizingMethod='auto expand',
-                              M11=0.7071067811865476,
-                              M12=-0.7071067811865475,
-                              M21=0.7071067811865475,
-                              M22=0.7071067811865476);
-
-          width: 11px;
-          height: 11px;
-          margin-bottom: 0px;
-          margin-right: 8px;
-        }
-        .timelines-phase {
-          margin-left: 2px;
-        }
-      </style>
-      <![endif]-->
 
       <script>
         jQuery(function () {

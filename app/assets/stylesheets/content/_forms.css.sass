@@ -27,24 +27,26 @@
 
 @import global/all
 
-#footer
-  z-index: 20
-  text-align: right
-  width: 100%
-  position: absolute
-  height: $footer_height
-  padding: 0
-  right: 0
-  clear: both
-  background-color: $footer_bg_color
-  bottom: 0
-  @include default-font-normal($footer_font_color)
+#login-form
+  form
+    border: none
+    padding: 30px 20px
+    background-color: $content_form_bg_color
+    display: block
+    border: 1px solid #6DABC2
+    -moz-border-radius: 5px
+    -webkit-border-radius: 5px
+    border-radius: 5px
+    padding: 10px
+    input#username, input#password
+      width: $content_from_input_width
+    label
+      font-weight: bold
 
-  .footer-content
-    margin: 0px 15px 0px 0
-    height: $footer_content_height
-    line-height: $footer_content_line_height
-    a
-      text-decoration: underline
-      @include default-font-normal($footer_content_link_color)
+  table
+    border: 0 none
+    background: none
+    margin: 0
+    td
+      padding: 6px
 

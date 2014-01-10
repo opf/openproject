@@ -33,6 +33,8 @@ See doc/COPYRIGHT.rdoc for more details.
     <p><%= setting_select :ui_theme, OpenProject::Themes.collect { |theme| [theme.name, theme.identifier] }, :label => :label_theme %></p>
     <p><%= setting_check_box :user_may_override_theme %></p>
 
+    <p><%= setting_check_box :accessibility_mode_for_anonymous %></p>
+
     <p id="setting_available_languages"><%= setting_multiselect :available_languages, all_lang_options_for_select(false) %></p>
 
     <p id="setting_default_language"><%= setting_select :default_language, all_lang_options_for_select(false) %></p>

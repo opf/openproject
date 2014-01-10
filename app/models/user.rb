@@ -413,7 +413,7 @@ class User < Principal
   end
 
   def impaired
-    anonymous? || !!self.pref.impaired
+    (anonymous? && Setting.accessibility_mode_for_anonymous?) || !!self.pref.impaired
   end
 
   def impaired?

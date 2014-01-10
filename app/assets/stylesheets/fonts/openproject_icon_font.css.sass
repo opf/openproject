@@ -25,7 +25,7 @@
  *
  * See doc/COPYRIGHT.rdoc for more details.  ++*/
 
-$link_hover_color: #008BD0
+@import global/all
 
 @font-face
   font-family: "openproject-icon-font"
@@ -47,7 +47,7 @@ $link_hover_color: #008BD0
 
 @mixin icon-rules
   padding: 0 5px 0 10px
-  color: $link_hover_color
+  color: $content_icon_color
 
 @mixin icon2-rules
   padding: 0 20px 0 7px
@@ -68,7 +68,7 @@ $link_hover_color: #008BD0
 
 @mixin icon-context-rules
   padding: 0 4px 0 0
-  color: $link_hover_color
+  color: $content_icon_color
 
 [data-icon]:before
   @include icon-common
