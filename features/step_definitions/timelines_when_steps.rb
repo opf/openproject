@@ -128,6 +128,18 @@ When (/^I show only work packages which have the type "(.*?)"$/) do |type|
   JavaScript
 end
 
+When (/^I show only projects which have responsible set to "(.*?)"$/) do |responsible|
+  steps %Q{
+    When I edit the settings of the current timeline
+  }
+
+  page.should have_selector("#timeline_options_project_responsibles", :visible => false)
+
+  responsible = User.find_by_login(responsible)
+  page.execute_script("jQuery('#timeline_options_project_responsibles').val('#{responsible.id}')")
+  page.execute_script("jQuery('#content form').submit()")  
+end
+
 When (/^I show only projects which have a planning element which lies between "(.*?)" and "(.*?)" and has the type "(.*?)"$/) do |start_date, due_date, type|
   steps %Q{
     When I edit the settings of the current timeline
