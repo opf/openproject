@@ -9,7 +9,7 @@ module OpenProject::Costs::Patches::WorkPackagesHelperPatch
         attributes << work_package_show_table_row(:cost_object) do
           work_package.cost_object ?
             link_to_cost_object(work_package.cost_object) :
-            WorkPackagesHelper.empty_element_tag
+            empty_element_tag
         end
         if User.current.allowed_to?(:view_time_entries, @project) ||
           User.current.allowed_to?(:view_own_time_entries, @project)
@@ -20,13 +20,13 @@ module OpenProject::Costs::Patches::WorkPackagesHelperPatch
 
             summed_hours > 0 ?
               link_to(l_hours(summed_hours), work_package_time_entries_path(work_package)) :
-              WorkPackagesHelper.empty_element_tag
+              empty_element_tag
           end
 
         end
         attributes << work_package_show_table_row(:overall_costs) do
           @overall_costs.nil? ?
-            WorkPackagesHelper.empty_element_tag :
+            empty_element_tag :
             number_to_currency(@overall_costs)
         end
 
@@ -44,7 +44,7 @@ module OpenProject::Costs::Patches::WorkPackagesHelperPatch
       def summarized_cost_entries(cost_entries, work_package, create_link=true)
         last_cost_type = ""
 
-        return WorkPackagesHelper.empty_element_tag if cost_entries.blank?
+        return empty_element_tag if cost_entries.blank?
         result = cost_entries.sort_by(&:id).inject(Hash.new) do |result, entry|
           if entry.cost_type == last_cost_type
             result[last_cost_type][:units] += entry.units
