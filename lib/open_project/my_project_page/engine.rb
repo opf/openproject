@@ -38,7 +38,7 @@ module OpenProject::MyProjectPage
         version spec.version
         url 'https://www.openproject.org/projects/my-project-page'
 
-        requires_openproject ">= 3.0.0pre36"
+        requires_openproject ">= 3.0.0pre42"
 
         project_module :my_project_page do
 

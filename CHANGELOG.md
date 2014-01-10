@@ -20,6 +20,8 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+## 3.0.0.pre11
+
 * fixed sepc for User Story #2743: Clear filters when 'Work Packages' is clicked in the menu bar
 
 ## 3.0.0.pre10
