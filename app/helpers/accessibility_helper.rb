@@ -34,11 +34,6 @@ module AccessibilityHelper
   end
 
   def empty_element_tag
-    return @empty_element_tag if defined? @empty_element_tag
-
-    @empty_element_tag = ApplicationController.new.render_to_string(partial: "accessibility/empty_element_tag").html_safe
-
-    @empty_element_tag
+    @empty_element_tag ||= ApplicationController.new.render_to_string(partial: "accessibility/empty_element_tag").html_safe
   end
-
 end
