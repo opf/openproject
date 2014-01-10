@@ -52,15 +52,15 @@ See doc/COPYRIGHT.rdoc for more details.
       <% attributes = work_package_show_attributes(work_package) %>
       <div id="left" style="float:left; width:50%;">
         <table class="attributes">
-          <% (0..attributes.count / 2).each do |index| %>
-            <tr><%= attributes[index].field.html_safe %> </tr>
+          <% attributes[:left].each do |attribute| %>
+            <tr><%= attribute.field.html_safe %> </tr>
           <% end %>
         </table>
       </div>
       <div id="right" style="float:left; width:50%;">
         <table class="attributes">
-          <% (attributes.count / 2 + 1..attributes.count - 1).each do |index| %>
-            <tr><%= attributes[index].field.html_safe %> </tr>
+          <% attributes[:right].each do |attribute| %>
+            <tr><%= attribute.field.html_safe %> </tr>
           <% end %>
         </table>
         <br style="clear:both;" />
