@@ -220,6 +220,12 @@ class CustomField < ActiveRecord::Base
     nil
   end
 
+  def name_locale
+    locales = translations.where(name: name, locale: I18n.locale)
+
+    locales.empty? ? translations.where(name: name).first.locale : I18n.locale
+  end
+
   private
 
   def blank_attributes(attributes)
