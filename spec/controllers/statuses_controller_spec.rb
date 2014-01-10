@@ -130,7 +130,7 @@ describe StatusesController do
     before do
       status
 
-      post :update,
+      put :update,
            id: status.id,
            status: { name: name }
     end
@@ -153,7 +153,7 @@ describe StatusesController do
       before do
         status
 
-        post :destroy, id: status.id
+        delete :destroy, id: status.id
       end
 
       it_behaves_like :destroyed
@@ -168,7 +168,7 @@ describe StatusesController do
       before do
         work_package
 
-        post :destroy, id: status.id
+        delete :destroy, id: status.id
       end
 
       it_behaves_like :statuses
