@@ -334,16 +334,13 @@ module WorkPackagesHelper
     main_attributes = work_package_show_main_attributes(work_package)
     custom_field_attributes = work_package_show_custom_fields(work_package)
     hook_attributes = YAML::load(call_hook(:view_work_packages_show_details_bottom, :issue => work_package))
-    list = [main_attributes, custom_field_attributes, hook_attributes ? hook_attributes : []].flatten
 
-    ordered = { left: [], right: [] }
+    attribute_list = main_attributes | custom_field_attributes | (hook_attributes || [])
 
-    ordered[:left] << list[0..(list.count - 1) / 2]
-    ordered[:right] << list[(list.count - 1) / 2 + 1..list.count]
+    attributes = {}
+    attributes[:left], attributes[:right] = attribute_list.each_slice((attribute_list.count+1) / 2).to_a
 
-    ordered.keys.each { |key| ordered[key].flatten! }
-
-    ordered
+    attributes
   end
 
   def work_package_show_table_row(attribute, klass = nil, &block)
