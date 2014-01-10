@@ -81,11 +81,23 @@ module OpenProject::Costs::Patches::WorkPackagesHelperPatch
         original = work_package_show_attributes_without_costs(work_package)
 
         if @project.module_enabled? :costs_module
-          original_without_spent_time = original.reject{ |a| a.attribute == :spent_time }
+          original_without_spent_time = original.keys.each_with_object({}) do |key, hash|
+            hash[key] = original[key].reject { |a| a.attribute == :spent_time }
+          end
 
           additions = cost_work_package_attributes(work_package)
 
-          original_without_spent_time + additions
+          additions.each do |addition|
+            if original_without_spent_time[:left].count > original_without_spent_time[:right].count
+              original_without_spent_time[:right] << addition
+            else
+              original_without_spent_time[:left] << addition
+            end
+          end
+
+          original_without_spent_time.keys.each { |key| original_without_spent_time[key].flatten! }
+
+          original_without_spent_time
         else
           original
         end
