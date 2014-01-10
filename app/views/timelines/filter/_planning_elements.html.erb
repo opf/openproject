@@ -121,6 +121,32 @@ See doc/COPYRIGHT.rdoc for more details.
                    } %>
         <% end %>
       </p>
+
+      <p class="tl-form-overflow">
+        <%= label_tag 'timeline_options_planning_element_assignee',
+                      l("timelines.filter.work_package_assignee") %>
+
+        <% if User.current.impaired? %>
+          <%= select("timeline[options]",
+                     :planning_element_assignee,
+                     filter_select_with_none(
+                       timeline.available_responsibles,
+                       :name, :id),
+                     {:selected => timeline.selected_planning_element_assignee.map(&:id)},
+                     {:multiple => true,
+                      :size => 12}) %>
+        <% else %>
+          <%= select "timeline[options]", :planning_element_assignee,
+                   options_for_select([]),
+                   {},
+                   { :'data-ajaxURL' => api_v2_paginate_users_path,
+                     :multiple => true,
+                     :'data-selected' => filter_select(
+                                           timeline.selected_planning_element_assignee,
+                                           :name, :id).to_json
+                   } %>
+        <% end %>
+      </p>
     </div>
   </div>
 </fieldset>
