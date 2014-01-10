@@ -67,6 +67,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2160` [Accessibility] Link form elements to their label - new LDAP authentication
 * `#2161` [Accessibility] Link form elements to their label - new color
 * `#2229` [Accessibility] low contrast in calendar view
+* `#2244` [Accessibility] correctly label document language - custom fields
 * `#2250` [Accessibility] activity icon labels
 * `#2258` [Accessibility] linearisation of issue show form
 * `#2264` [Accessibility] Table headers for work package hierarchy and relations
