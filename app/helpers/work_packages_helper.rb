@@ -334,7 +334,7 @@ module WorkPackagesHelper
     main_attributes = work_package_show_main_attributes(work_package)
     custom_field_attributes = work_package_show_custom_fields(work_package)
     hook_attributes = YAML::load(call_hook(:view_work_packages_show_details_bottom, :issue => work_package))
-    list = [main_attributes, custom_field_attributes, hook_attributes].flatten
+    list = [main_attributes, custom_field_attributes, hook_attributes ? hook_attributes : []].flatten
 
     ordered = { left: [], right: [] }
 
