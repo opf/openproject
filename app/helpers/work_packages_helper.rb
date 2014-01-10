@@ -335,7 +335,7 @@ module WorkPackagesHelper
     custom_field_attributes = work_package_show_custom_fields(work_package)
     hook_attributes = YAML::load(call_hook(:view_work_packages_show_details_bottom, :issue => work_package))
 
-    attribute_list = main_attributes | custom_field_attributes | (hook_attributes || [])
+    attribute_list = (main_attributes | custom_field_attributes | (hook_attributes || [])).compact
 
     attributes = {}
     attributes[:left], attributes[:right] = attribute_list.each_slice((attribute_list.count+1) / 2).to_a
