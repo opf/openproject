@@ -2,6 +2,7 @@
 
 ## 5.0.1.pre11
 
+* `#2258` [Accessibility] linearisation of issue show form
 * removed not needed require of core css files
 * firxed cuke
 
