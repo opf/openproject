@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.0.1.pre11
+
+* removed not needed require of core css files
+* firxed cuke
+
 ## 5.0.1.pre10
 
 * Adaptations for new icon font
