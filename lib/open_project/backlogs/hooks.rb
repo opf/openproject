@@ -36,6 +36,7 @@
 module OpenProject::Backlogs::Hooks
   class LayoutHook < Redmine::Hook::ViewListener
     include RbCommonHelper
+    include AccessibilityHelper
 
     # This ought to be view_work_packages_sidebar_queries_bottom, but the entire
     # queries toolbar is disabled if you don't have custom queries
@@ -80,14 +81,14 @@ module OpenProject::Backlogs::Hooks
       if work_package.is_story?
         snippet = %Q{
           <th class="story-points">#{WorkPackage.human_attribute_name(:story_points)}:</th>
-          <td class="story-points">#{work_package.story_points || WorkPackagesHelper.empty_element_tag}</td>
+          <td class="story-points">#{work_package.story_points || empty_element_tag}</td>
         }
 
         attributes << WorkPackagesHelper::WorkPackageAttribute.new(:story_points, snippet)
       end
       snippet = %Q{
         <th class="remaining_hours">#{WorkPackage.human_attribute_name(:remaining_hours)}:</th>
-        <td class="remaining_hours">#{work_package.remaining_hours ? l_hours(work_package.remaining_hours) : WorkPackagesHelper.empty_element_tag}</td>
+        <td class="remaining_hours">#{work_package.remaining_hours ? l_hours(work_package.remaining_hours) : empty_element_tag}</td>
       }
 
       attributes << WorkPackagesHelper::WorkPackageAttribute.new(:remaining_hours, snippet)
