@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.0pre42
+
 * `#1951` Layout for ## and ### textile link help is broken
 * `#2146` [Accessibility] Link form elements to their label - timeline groupings
 * `#2147` [Accessibility] Link form elements to their label - new timeline
