@@ -172,6 +172,12 @@ class WorkPackage < ActiveRecord::Base
       end
     end
 
+    def self.event_name
+      Proc.new do |o|
+        I18n.t(o.event_type.underscore, scope: 'events')
+      end
+    end
+
     def self.event_type
       Proc.new do |o|
         journal = o.last_journal
@@ -197,6 +203,7 @@ class WorkPackage < ActiveRecord::Base
 
   acts_as_event title: JournalizedProcs.event_title,
                 type: JournalizedProcs.event_type,
+                name: JournalizedProcs.event_name,
                 url: JournalizedProcs.event_url
 
   register_on_journal_formatter(:id, 'parent_id')

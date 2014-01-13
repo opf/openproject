@@ -59,7 +59,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
     <dl id="search-results">
       <% @results.each do |e| %>
-        <dt class="icon-context <%= e.event_type %>">
+        <dt class="<%= e.event_type %>">
+          <%= icon_wrapper("icon-context icon-#{e.event_type}", e.event_name) %>
           <% if e.project != @project %>
             <span class="project"><%= e.project %></span>
           <% end %>

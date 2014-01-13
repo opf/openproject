@@ -41,6 +41,7 @@ module Redmine
                               :description => :description,
                               :author => :author,
                               :url => {:controller => '/welcome'},
+                              :name => ::I18n.t(self.name.underscore, scope: 'events'),
                               :type => self.name.underscore.dasherize }
 
           cattr_accessor :event_options
