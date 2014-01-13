@@ -50,6 +50,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2500` Change default configuration in new OpenProject application so new projects are not public by default
 * `#3370` [Design] Clean-up and refactoring existing CSS for content area
 * `#3528` [Data Migration] Type 'none' is not migrated properly in Timelines
+* `#3532` Fix: [API] It is possible to set statuses that are not allowed by the workflow
 * `#3539` [Work package tracking] Modul view of work packages is too broad
 * `#3666` Fix: [API] Show-action does not contain author_id
 * `#3723` Fix: The activity event type of work package creations is resolved as "closed"
