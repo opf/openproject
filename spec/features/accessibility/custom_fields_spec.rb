@@ -27,8 +27,9 @@
 #++
 
 require 'spec_helper'
-require 'features/work_packages/work_packages_page'
+require 'features/custom_fields/custom_fields_page'
 require 'features/projects/project_settings_page'
+require 'features/work_packages/work_packages_page'
 
 describe 'Custom field accessibility' do
   describe 'language tag' do
@@ -42,8 +43,8 @@ describe 'Custom field accessibility' do
                                        work_package_custom_fields: [custom_field] }
     let(:role) { FactoryGirl.create :role,
                                     permissions: [:view_work_packages, :edit_project] }
-    let(:current_user) { FactoryGirl.create :user, member_in_project: project,
-                                                   member_through_role: role }
+    let(:current_user) { FactoryGirl.create :admin, member_in_project: project,
+                                                    member_through_role: role }
 
     shared_examples_for "Element has lang tag" do
       let(:lang_tag_locale) { defined?(element_locale) ? element_locale : locale }
@@ -51,8 +52,94 @@ describe 'Custom field accessibility' do
       it { expect(element['lang']).to eq(lang_tag_locale) }
     end
 
-    before do
-      User.stub(:current).and_return current_user
+    before { User.stub(:current).and_return current_user }
+
+    describe 'Custom Field Admin Page', js: true do
+      let(:custom_fields_page) { CustomFieldsPage.new }
+      let(:element) { find("#custom_field_name_attributes span[lang]") }
+
+      shared_context "custom field new page" do
+        let(:available_languages) { [locale] }
+
+        before do
+          I18n.stub(:locale).and_return locale
+
+          Setting.stub(:available_languages).and_return(available_languages)
+
+          custom_fields_page.visit_new
+        end
+      end
+
+      context "en" do
+        let(:locale) { "en" }
+
+        include_context "custom field new page"
+
+        it_behaves_like 'Element has lang tag'
+      end
+
+      context "de" do
+        let(:locale) { "de" }
+
+        include_context "custom field new page"
+
+        it_behaves_like 'Element has lang tag'
+      end
+
+      describe 'Locale change' do
+        shared_context "custom field new page with changed name locale" do
+          include_context "custom field new page" do
+            let(:available_languages) { ['en', 'de'] }
+          end
+
+          before { find(element_selector).click }
+        end
+
+        describe 'Name locale change' do
+          let(:element_selector) { "#custom_field_name_attributes select.locale_selector option[value='#{element_locale}']" }
+
+          context "en" do
+            let(:locale) { 'en' }
+            let(:element_locale) { 'de' }
+
+            include_context "custom field new page with changed name locale"
+
+            it_behaves_like 'Element has lang tag'
+          end
+
+          context "de" do
+            let(:locale) { 'de' }
+            let(:element_locale) { 'en' }
+
+            include_context "custom field new page with changed name locale"
+
+            it_behaves_like 'Element has lang tag'
+          end
+        end
+
+        describe 'Default value locale change' do
+          let(:element) { find("#custom_field_default_value_attributes span[lang]") }
+          let(:element_selector) { "#custom_field_default_value_attributes select.locale_selector option[value='#{element_locale}']" }
+
+          context "en" do
+            let(:locale) { 'en' }
+            let(:element_locale) { 'de' }
+
+            include_context "custom field new page with changed name locale"
+
+            it_behaves_like 'Element has lang tag'
+          end
+
+          context "de" do
+            let(:locale) { 'de' }
+            let(:element_locale) { 'en' }
+
+            include_context "custom field new page with changed name locale"
+
+            it_behaves_like 'Element has lang tag'
+          end
+        end
+      end
     end
 
     describe 'Project Settings' do
