@@ -38,7 +38,10 @@ en:
   events:
     meeting: Meeting edited
     meeting_agenda: Meeting agenda edited
+    meeting_agenda_closed: Meeting agenda closed
+    meeting_agenda_opened: Meeting agenda opened
     meeting_minutes: Meeting minutes edited
+    meeting_minutes_created: Meeting minutes created
 
   label_meeting: "Meeting"
   label_meeting_plural: "Meetings"

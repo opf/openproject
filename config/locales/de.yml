@@ -38,7 +38,10 @@ de:
   events:
     meeting: Meeting bearbeitet
     meeting_agenda: Meeting Agenda bearbeitet
+    meeting_agenda_closed: Meeting Agenda abgeschlossen
+    meeting_agenda_opened: Meeting Agenda geöffnet
     meeting_minutes: Meeting Protokoll bearbeitet
+    meeting_minutes_created: Meeting Protokoll erstellt
 
   label_meeting: "Besprechung"
   label_meeting_plural: "Besprechungen"
