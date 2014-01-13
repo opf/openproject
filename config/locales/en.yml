@@ -692,8 +692,6 @@ en:
   label_enumerations: "Enumerations"
   label_environment: "Environment"
   label_equals: "is"
-  label_events_work_package_closed: 'Work package closed'
-  label_events_work_package_edited: 'Work package edited'
   label_example: "Example"
   label_export_to: "Also available in:"
   label_f_hour: "%{value} hour"
