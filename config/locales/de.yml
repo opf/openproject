@@ -93,7 +93,7 @@ de:
   description_date_for_new_rate: "Datum für neuen Satz"
 
   events:
-    cost_object: "Budget editiert"
+    cost_object: "Budget bearbeitet"
 
   group_by_others: "In keiner der Gruppen"
 
