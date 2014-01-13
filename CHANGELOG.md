@@ -23,6 +23,7 @@ See doc/COPYRIGHT.md for more details.
 ## 3.0.6
 
 * Adaptations for new icon font
+* `#2250` [Accessibility] activity icon labels
 * `#2759` Fix: [Performance] Activity View very slow
 * `#3119` [Migration] Meetings do not migrate planning element references
 * `#3329` Refactor Duplicated Code Journals
