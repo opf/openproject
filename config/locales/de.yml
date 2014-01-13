@@ -520,6 +520,16 @@ de:
   error_menu_item_not_created: Menüpunkt konnte nicht hinzugefügt werden.
   error_menu_item_not_saved: Menüpunkt konnte nicht aktualisiert werden.
 
+  events:
+    changeset: Changeset bearbeitet
+    message: Nachricht
+    news: News
+    reply: Antwort
+    time_entry: Zeiterfassungseintrag-Bearbeitung
+    wiki_page: Wiki-Bearbeitung
+    work_package_closed: 'Arbeitspaket geschlossen'
+    work_package_edit: 'Arbeitspaket bearbeitet'
+    work_package_note: 'Arbeitspaket kommentiert'
 
   general_csv_decimal_separator: ","
   general_csv_encoding: "ISO-8859-1"
@@ -685,8 +695,6 @@ de:
   label_enumerations: "Aufzählungen"
   label_environment: "Umgebung"
   label_equals: "ist"
-  label_events_work_package_closed: 'Arbeitspaket geschlossen'
-  label_events_work_package_edited: 'Arbeitspaket bearbeitet'
   label_example: "Beispiel"
   label_export_to: "Auch abrufbar als:"
   label_f_hour: "%{value} Stunde"
