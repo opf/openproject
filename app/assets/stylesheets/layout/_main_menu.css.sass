@@ -203,14 +203,18 @@
 
   input.button-small
     margin-top: 14px
-    background: #FFFFFF
+    background: $main_menu_sidebar_button_bg_color
     border-radius: 25px
     -webkit-border-radius: 25px
     padding: 3px 7px
-    color: #222
+    color: $main_menu_sidebar_button_font_color
     border: none
     cursor: pointer
     @include main-menu-font
+    @include default-transition
+    &:hover
+      background: $main_menu_sidebar_button_hover_bg_color
+      color: $main_menu_sidebar_button_hover_font_color
 
   ul
     border: none
