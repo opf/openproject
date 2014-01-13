@@ -35,6 +35,11 @@ de:
   description_attended: "teilgenommen"
   description_invite: "eingeladen"
 
+  events:
+    meeting: Meeting bearbeitet
+    meeting_agenda: Meeting Agenda bearbeitet
+    meeting_minutes: Meeting Protokoll bearbeitet
+
   label_meeting: "Besprechung"
   label_meeting_plural: "Besprechungen"
   label_meeting_new: "Neue Besprechung"
