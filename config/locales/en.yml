@@ -92,6 +92,9 @@ en:
 
   description_date_for_new_rate: "Date for new rate"
 
+  events:
+    cost_object: "Budget edited"
+
   group_by_others: "not in any group"
 
   help_click_to_edit: "Click here to edit."

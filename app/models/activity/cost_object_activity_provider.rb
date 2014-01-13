@@ -21,6 +21,10 @@ class Activity::CostObjectActivityProvider < Activity::BaseActivityProvider
     ]
   end
 
+  def event_type(event, activity)
+    'cost_object'
+  end
+
   def event_title(event, activity)
     "#{l(:label_cost_object)} ##{event['journable_id']}: #{event['cost_object_subject']}"
   end
