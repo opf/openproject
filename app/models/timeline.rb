@@ -224,29 +224,29 @@ class Timeline < ActiveRecord::Base
 
   def selected_planning_element_status
     resolve_with_none_element(:planning_element_status) do |ary|
-      Status.find(ary)
+      Status.find_all_by_id(ary)
     end
   end
 
   def selected_planning_element_types
     resolve_with_none_element(:planning_element_types) do |ary|
-      Type.find(ary)
+      Type.find_all_by_id(ary)
     end
   end
 
   def selected_planning_element_time_types
     resolve_with_none_element(:planning_element_time_types) do |ary|
-      Type.find(ary)
+      Type.find_all_by_id(ary)
     end
   end
 
   def available_project_types
-    ProjectType.find(:all)
+    ProjectType.find_all_by_id(:all)
   end
 
   def selected_project_types
     resolve_with_none_element(:project_types) do |ary|
-      ProjectType.find(ary)
+      ProjectType.find_all_by_id(ary)
     end
   end
 
@@ -256,7 +256,7 @@ class Timeline < ActiveRecord::Base
 
   def selected_project_status
     resolve_with_none_element(:project_status) do |ary|
-      ReportedProjectStatus.find(ary)
+      ReportedProjectStatus.find_all_by_id(ary)
     end
   end
 
@@ -266,13 +266,13 @@ class Timeline < ActiveRecord::Base
 
   def selected_project_responsibles
     resolve_with_none_element(:project_responsibles) do |ary|
-      User.find(ary)
+      User.find_all_by_id(ary)
     end
   end
 
   def selected_planning_element_responsibles
     resolve_with_none_element(:planning_element_responsibles) do |ary|
-      User.find(ary)
+      User.find_all_by_id(ary)
     end
   end
 
@@ -282,7 +282,7 @@ class Timeline < ActiveRecord::Base
 
   def selected_parents
     resolve_with_none_element(:parents) do |ary|
-      Project.find(ary)
+      Project.find_all_by_id(ary)
     end
   end
 
@@ -312,7 +312,7 @@ class Timeline < ActiveRecord::Base
 
   def selected_grouping_projects
     resolve_with_none_element(:grouping_one_selection) do |ary|
-      projects = Project.find(ary)
+      projects = Project.find_all_by_id(ary)
       projectsHashMap = Hash[projects.collect { |v| [v.id, v]}]
 
       ary.map { |a| projectsHashMap[a] }
@@ -329,7 +329,7 @@ class Timeline < ActiveRecord::Base
 
   def selected_grouping_project_types
     resolve_with_none_element(:grouping_two_selection) do |ary|
-      ProjectType.find(ary)
+      ProjectType.find_all_by_id(ary)
     end
   end
 

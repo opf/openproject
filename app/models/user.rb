@@ -86,6 +86,12 @@ class User < Principal
   has_many :assigned_issues, :foreign_key => 'assigned_to_id',
                              :class_name => 'WorkPackage',
                              :dependent => :nullify
+  has_many :responsible_for_issues, :foreign_key => 'responsible_id',
+                                    :class_name => 'WorkPackage',
+                                    :dependent => :nullify
+  has_many :responsible_for_projects, :foreign_key => 'responsible_id',
+                                      :class_name => 'Project',
+                                      :dependent => :nullify
   has_many :watches, :class_name => 'Watcher',
                      :dependent => :delete_all
   has_many :changesets, :dependent => :nullify
@@ -152,7 +158,7 @@ class User < Principal
 
   after_save :update_password
   before_create :sanitize_mail_notification_setting
-  before_destroy :delete_associated_public_queries
+  before_destroy :delete_associated_private_queries
   before_destroy :reassign_associated
 
   scope :in_group, lambda {|group|
@@ -818,7 +824,7 @@ class User < Principal
     JournalManager.update_user_references id, substitute.id
   end
 
-  def delete_associated_public_queries
+  def delete_associated_private_queries
     ::Query.delete_all ['user_id = ? AND is_public = ?', id, false]
   end
 
