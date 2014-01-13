@@ -519,9 +519,9 @@ en:
 
   events:
     changeset: 'Changeset edited'
-    message: Message
+    message: Message edited
     news: News
-    reply: Reply
+    reply: Replied
     time_entry: 'Timelog edited'
     wiki_page: 'Wiki page edited'
     work_package_closed: 'Work Package closed'

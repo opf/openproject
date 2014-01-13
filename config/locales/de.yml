@@ -522,9 +522,9 @@ de:
 
   events:
     changeset: Changeset bearbeitet
-    message: Nachricht
+    message: Nachricht bearbeitet
     news: News
-    reply: Antwort
+    reply: Antwort erstellt
     time_entry: Zeiterfassungseintrag-Bearbeitung
     wiki_page: Wiki-Bearbeitung
     work_package_closed: 'Arbeitspaket geschlossen'
