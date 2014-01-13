@@ -26,6 +26,7 @@
  * See doc/COPYRIGHT.rdoc for more details.  ++*/
 
 @import global/all
+@import fonts/openproject_icon_font
 
 #logo
   float: left
@@ -61,7 +62,7 @@
     width: 140px
     outline: 0px
     padding: 7px 30px 7px 10px
-    font-family: 'LatoRegular', 'Lucida Grande', Helvetica, Arial, sans-serif
+    font-family: $font_family_normal
     color: $header_search_field_font_color
   ::-webkit-input-placeholder
     color: $header_search_field_font_color
@@ -160,40 +161,40 @@
     line-height: 19px
     padding: 10px
     @include header-fonts(#555555, 13px)
-  #nav-login-content input[type=text]
-    height: 16px
-    width: 150px
-    border: 1px solid #CCCCCC
-    padding: 5px
-    @include default-transition
-    &:hover
-      border: 1px solid #888888
-  #nav-login-content input[type=password]
-    height: 16px
-    width: 150px
-    border: 1px solid #CCCCCC
-    padding: 5px
-    @include default-transition
-    &:hover
-      border: 1px solid #888888
-  #nav-login-content input[type=submit]
-    background: $header_item_bg_hover_color
-    border-radius: 20px
-    color: #FFFFFF
-    padding: 6px 13px
-    border: none
-    cursor: pointer
-    @include default-transition
-    &:hover
+
+    input[type=text]
+      height: 16px
+      width: 150px
+      border: 1px solid #CCCCCC
+      padding: 5px
+      @include default-transition
+      &:hover
+        border: 1px solid #888888
+    input[type=password]
+      height: 16px
+      width: 150px
+      border: 1px solid #CCCCCC
+      padding: 5px
+      @include default-transition
+      &:hover
+        border: 1px solid #888888
+    input[type=submit]
+      background: $header_item_bg_hover_color
+      border-radius: 20px
+      color: #FFFFFF
+      padding: 6px 13px
+      border: none
+      cursor: pointer
+      @include default-transition
+      &:hover
       background: #053242
-  #nav-login-content  div a
-    display: inline
-    color: $header_item_bg_hover_color
-    padding: 0
-    font-family: 'LatoRegular', 'Lucida Grande', Helvetica, Arial, sans-serif
-    font-weight: normal
-  #nav-login-content table td
-    padding: 3px
+    div a
+      display: inline
+      padding: 0
+      font-family: $font_family_normal
+      font-weight: normal
+    table td
+      padding: 3px
   #optional_login_fields
     white-space: nowrap
     margin: 5px 0 0 3px
@@ -236,7 +237,7 @@
     .select2-highlighted
       background: $header_item_bg_hover_color !important
       border-radius: 0 !important
-      font-family: 'LatoBold', 'Lucida Grande', Helvetica, Arial, sans-serif !important
+      font-family: $font_family_bold
       font-weight: normal !important
       color: $header_drop_down_item_font_hover_color
 
