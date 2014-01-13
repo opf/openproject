@@ -113,7 +113,7 @@ Then /^the work package should be shown with the following values:$/ do |table|
   end
 
   table_attributes.each do |key, value|
-    label = find('th', :text => key)
+    label = first('th', :text => key)
     should have_css("td.#{label[:class]}", :text => value)
   end
 
