@@ -77,11 +77,10 @@ Feature: Edit story type and status
     And there is a default issuepriority with:
         | name   | Normal |
     And the project has the following stories in the following sprints:
-        | subject | sprint     | type | story_points |
-        | Story A | Sprint 001 | Bug     | 10           |
-        | Story B | Sprint 001 | Story   | 20           |
-        | Story C | Sprint 001 | Bug     | 20           |
-    And the status of "Story C" is "Resolved"
+        | subject | sprint     | type  | status | story_points |
+        | Story A | Sprint 001 | Bug   | New    | 10           |
+        | Story B | Sprint 001 | Story | New    | 20           |
+        | Story C | Sprint 001 | Bug   | New    | 20           |
     And the Type "Story" has for the Role "manager" the following workflows:
         | old_status | new_status |
         | New        | Rejected   |
@@ -141,13 +140,18 @@ Feature: Edit story type and status
 
   @javascript
   Scenario: Edit a story having no permission for the status of the current ticket
-     When I click on the text "Story C"
+     When the Type "Bug" has for the Role "manager" the following workflows:
+        | old_status | new_status |
+        | New        | Resolved   |
+      And I am on the master backlog
+      And I click on the text "Story C"
 
      Then the available status of the story called "Story C" should be the following:
         | New      |
         | Resolved |
 
-     When I confirm the story form
+     When I select "Resolved" from "status_id"
+      And I confirm the story form
 
      Then the displayed attributes of the story called "Story C" should be the following:
         | Status | Resolved |
