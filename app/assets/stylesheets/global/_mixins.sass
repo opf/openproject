@@ -61,3 +61,8 @@
 
 @mixin breadcrumb-font-bold($color)
   @include default-font-bold($color, $breadcrumb_font_size)
+
+@mixin border-radius($radius)
+  -webkit-border-radius: $radius
+  -moz-border-radius: $radius
+  border-radius: $radius
