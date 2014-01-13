@@ -1,0 +1,13 @@
+{
+  "name": "OpenProject",
+  "version": "0.1.0",
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-jshint": "~0.8.0",
+    "mocha-phantomjs": "~3.1.6",
+    "phantomjs": "~1.9.2",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-mocha-phantomjs": "~0.3.2",
+    "grunt-mocha": "~0.4.8"
+  }
+}
