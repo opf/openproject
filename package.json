@@ -8,6 +8,9 @@
     "phantomjs": "~1.9.2",
     "grunt-contrib-watch": "~0.5.3",
     "grunt-mocha-phantomjs": "~0.3.2",
-    "grunt-mocha": "~0.4.8"
+    "grunt-jscoverage": "0.0.3",
+    "rimraf": "~2.2.5",
+    "json2htmlcov": "~0.1.1",
+    "exec": "0.0.6"
   }
 }
