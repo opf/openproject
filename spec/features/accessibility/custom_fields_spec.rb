@@ -28,6 +28,7 @@
 
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
+require 'features/projects/project_settings_page'
 
 describe 'Custom field accessibility' do
   describe 'language tag' do
@@ -40,7 +41,7 @@ describe 'Custom field accessibility' do
                                        types: [type],
                                        work_package_custom_fields: [custom_field] }
     let(:role) { FactoryGirl.create :role,
-                                    permissions: [:view_work_packages] }
+                                    permissions: [:view_work_packages, :edit_project] }
     let(:current_user) { FactoryGirl.create :user, member_in_project: project,
                                                    member_through_role: role }
 
@@ -52,6 +53,35 @@ describe 'Custom field accessibility' do
 
     before do
       User.stub(:current).and_return current_user
+    end
+
+    describe 'Project Settings' do
+      let(:project_settings_page) { ProjectSettingsPage.new(project) }
+      let(:element) { find("fieldset#project_issue_custom_fields label span") }
+
+      shared_context "project settings page" do
+        before do
+          I18n.stub(:locale).and_return locale
+
+          project_settings_page.visit_settings
+        end
+      end
+
+      context "en" do
+        let(:locale) { "en" }
+
+        include_context "project settings page"
+
+        it_behaves_like 'Element has lang tag'
+      end
+
+      context "de" do
+        let(:locale) { "en" }
+
+        include_context "project settings page"
+
+        it_behaves_like 'Element has lang tag'
+      end
     end
 
     describe 'Work Package' do
