@@ -112,22 +112,22 @@ describe WorkPackage do
       work_package_c.move_to_bottom
     end
 
-    describe '- Creating an work_package in a sprint' do
-      it 'adds it to the top of the list' do
+    describe '- Creating a work_package in a sprint' do
+      it 'adds it to the bottom of the list' do
         new_work_package = create_work_package(:subject => 'Newest WorkPackage', :fixed_version_id => sprint_1.id)
 
         new_work_package.should_not be_new_record
-        new_work_package.should be_first
+        new_work_package.should be_last
       end
 
-      it 'reorders the existing work_packages' do
+      it 'does not reorder the existing work_packages' do
         new_work_package = create_work_package(:subject => 'Newest WorkPackage', :fixed_version_id => sprint_1.id)
 
-        [work_package_1, work_package_2, work_package_3, work_package_4, work_package_5].each(&:reload).map(&:position).should == [2, 3, 4, 5, 6]
+        [work_package_1, work_package_2, work_package_3, work_package_4, work_package_5].each(&:reload).map(&:position).should == [1, 2, 3, 4, 5]
       end
     end
 
-    describe '- Removing an work_package from the sprint' do
+    describe '- Removing a work_package from the sprint' do
       it 'reorders the remaining work_packages' do
         work_package_2.fixed_version = sprint_2
         work_package_2.save!
@@ -137,23 +137,23 @@ describe WorkPackage do
       end
     end
 
-    describe '- Adding an work_package to a sprint' do
-      it 'adds it to the top of the list' do
+    describe '- Adding a work_package to a sprint' do
+      it 'adds it to the bottom of the list' do
         work_package_a.fixed_version = sprint_1
         work_package_a.save!
 
-        work_package_a.should be_first
+        work_package_a.should be_last
       end
 
-      it 'reorders the existing work_packages' do
+      it 'does not reorder the existing work_packages' do
         work_package_a.fixed_version = sprint_1
         work_package_a.save!
 
-        [work_package_1, work_package_2, work_package_3, work_package_4, work_package_5].each(&:reload).map(&:position).should == [2, 3, 4, 5, 6]
+        [work_package_1, work_package_2, work_package_3, work_package_4, work_package_5].each(&:reload).map(&:position).should == [1, 2, 3, 4, 5]
       end
     end
 
-    describe '- Deleting an work_package in a sprint' do
+    describe '- Deleting a work_package in a sprint' do
       it 'reorders the existing work_packages' do
         work_package_3.destroy
 
@@ -204,34 +204,34 @@ describe WorkPackage do
       end
 
       describe 'by moving a task to the story type' do
-        it 'adds it to the top of the list' do
+        it 'adds it to the bottom of the list' do
           task_1.type = story_type
           task_1.save!
 
-          task_1.should be_first
+          task_1.should be_last
         end
 
-        it 'reorders the existing stories' do
+        it 'does not reorder the existing stories' do
           task_1.type = story_type
           task_1.save!
 
-          [task_1, work_package_1, work_package_2, work_package_3, work_package_4, work_package_5].each(&:reload).map(&:position).should == [1, 2, 3, 4, 5, 6]
+          [work_package_1, work_package_2, work_package_3, work_package_4, work_package_5, task_1].each(&:reload).map(&:position).should == [1, 2, 3, 4, 5, 6]
         end
       end
 
       describe 'by moving a non-backlogs work_package to a story type' do
-        it 'adds it to the top of the list' do
+        it 'adds it to the bottom of the list' do
           feedback_1.type = story_type
           feedback_1.save!
 
-          feedback_1.should be_first
+          feedback_1.should be_last
         end
 
-        it 'reorders the existing stories' do
+        it 'does not reorder the existing stories' do
           feedback_1.type = story_type
           feedback_1.save!
 
-          [feedback_1, work_package_1, work_package_2, work_package_3, work_package_4, work_package_5].each(&:reload).map(&:position).should == [1, 2, 3, 4, 5, 6]
+          [work_package_1, work_package_2, work_package_3, work_package_4, work_package_5, feedback_1].each(&:reload).map(&:position).should == [1, 2, 3, 4, 5, 6]
         end
       end
     end
@@ -310,7 +310,7 @@ describe WorkPackage do
             work_package_i.fixed_version.should == shared_sprint
           end
 
-          it 'adds it to the top of the list' do
+          it 'adds it to the bottom of the list' do
             result = work_package_i.move_to_project(project)
 
             result.should be_true
