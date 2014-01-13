@@ -10,19 +10,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Journal::DocumentJournal < ActiveRecord::Base
+class Journal::DocumentJournal < Journal::BaseJournal
   self.table_name = "document_journals"
-
-  belongs_to :journal
-
-  @@journaled_attributes = [:project_id,
-                            :category_id,
-                            :title,
-                            :description,
-                            :created_on]
-
-  def journaled_attributes
-    attributes.symbolize_keys.select{|k,_| @@journaled_attributes.include? k}
-  end
-
 end
