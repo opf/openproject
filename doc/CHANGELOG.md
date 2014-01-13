@@ -29,6 +29,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#3120` Implement a test suite the spikes can be developed against
+
+## 3.0.0pre42
+
 * `#1951` Layout for ## and ### textile link help is broken
 * `#2146` [Accessibility] Link form elements to their label - timeline groupings
 * `#2147` [Accessibility] Link form elements to their label - new timeline
@@ -44,10 +48,11 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2161` [Accessibility] Link form elements to their label - new color
 * `#2162` [Accessibility] Required fields MUST be displayed as required - new project_type
 * `#2229` [Accessibility] low contrast in calendar view
+* `#2258` [Accessibility] linearisation of issue show form
 * `#2500` Change default configuration in new OpenProject application so new projects are not public by default
+* `#3370` [Design] Clean-up and refactoring existing CSS for content area
 * `#3528` [Data Migration] Type 'none' is not migrated properly in Timelines
 * `#3539` [Work package tracking] Modul view of work packages is too broad
-* `#3370` [Design] Clean-up and refactoring existing CSS for content area
 * `#3666` Fix: [API] Show-action does not contain author_id
 * `#3723` Fix: The activity event type of work package creations is resolved as "closed"
 * [Accessibility] Reactivate accessibility css; Setting for Accessibility mode for anonymous users
@@ -83,8 +88,8 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2399` Fix: Translation missing (en and de) for not_a_valid_parent
 * `#3054` Fix: Some Projects cannot be deleted
 * `#3149` Fix: duplicate XML root nodes in API v2 show
-* `#3234` Fix: [Work package tracking] Sorting of work package statuses does not work
 * `#3229` Fix: Can't set planning element status
+* `#3234` Fix: [Work package tracking] Sorting of work package statuses does not work
 * `#3266` Fix: [Work package tracking] % done in work package status cannot be modified
 * `#3291` Fix: Internal error when clicking on member
 * `#3303` Fix: [Work package tracking] Search results are linked to wrong location

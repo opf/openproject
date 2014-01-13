@@ -32,4 +32,8 @@ module AccessibilityHelper
       "<span class = 'hidden-for-sighted'>#{l(:description_current_position)}</span>".html_safe :
       ""
   end
+
+  def empty_element_tag
+    @empty_element_tag ||= ApplicationController.new.render_to_string(partial: "accessibility/empty_element_tag").html_safe
+  end
 end

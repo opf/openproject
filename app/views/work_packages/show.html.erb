@@ -49,20 +49,22 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <div class="issue details">
     <div class="meta">
-      <table class="attributes">
-        <% work_package_show_attributes(work_package).each_slice(2) do |attributes| %>
-          <tr>
-          <% attributes.each do |attribute| %>
-
-              <%= attribute.field %>
-
+      <% attributes = work_package_show_attributes(work_package) %>
+      <div id="left" style="float:left; width:50%;">
+        <table class="attributes">
+          <% attributes[:left].each do |attribute| %>
+            <tr><%= attribute.field.html_safe %> </tr>
           <% end %>
-          </tr>
-        <% end %>
-
-        <%= render_custom_fields_rows(work_package) %>
-        <%= call_hook(:view_work_packages_show_details_bottom, :issue => work_package) %>
-      </table>
+        </table>
+      </div>
+      <div id="right" style="float:left; width:50%;">
+        <table class="attributes">
+          <% attributes[:right].each do |attribute| %>
+            <tr><%= attribute.field.html_safe %> </tr>
+          <% end %>
+        </table>
+        <br style="clear:both;" />
+      </div>
     </div>
   </div>
   <% if work_package.description? %>
