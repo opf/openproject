@@ -55,6 +55,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <p><%= f.text_field :firstname, :required => true %></p>
     <p><%= f.text_field :lastname,  :required => true %></p>
     <p><%= f.text_field :mail,      :required => true %></p>
+    <%= call_hook :view_account_register_after_basic_information, :f => f %>
     <p><%= f.select(:language, lang_options_for_select) %></p>
 
     <% if Setting.openid? %>
