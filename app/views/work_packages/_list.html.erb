@@ -60,20 +60,22 @@ See doc/COPYRIGHT.rdoc for more details.
       <tr class="group open">
         <td colspan="<%= query.columns.size + 2 %>">
           <span class="expander" onclick="toggleRowGroup(this); return false;">
-            &nbsp;
+            <img src="<%= asset_path 'bullet_toggle_minus.png' %>" alt="<%= I18n.t('label_collapse') %>" />
           </span>
 
+          <span>
           <%= group.blank? ?
                 '-' :
                 column_content(query.group_by_column, work_package) %>
 
-          <span class="count">
-            (<%= results.work_package_count_for(group) %>)
-          </span>
+            <span class="count">
+              (<%= results.work_package_count_for(group) %>)
 
-          <%= link_to_function("#{l(:button_collapse_all)}/#{l(:button_expand_all)}",
-                               "toggleAllRowGroups(this)",
-                               :class => 'toggle-all') %>
+              <%= link_to_function("#{l(:button_collapse_all)}/#{l(:button_expand_all)}",
+                                   "toggleAllRowGroups(this)",
+                                   :class => 'toggle-all') %>
+            </span>
+          </span>
         </td>
       </tr>
       <% previous_group = group %>
