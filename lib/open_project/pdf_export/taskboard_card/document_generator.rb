@@ -7,17 +7,21 @@ module OpenProject::PdfExport::TaskboardCard
     attr_reader :pdf
 
     def initialize(config, work_packages)
+      defaults = { page_size: "A4" }
+
       @config = config
       @work_packages = work_packages
 
       page_layout = :landscape
+      page_size = config.page_size or defaults[:page_size]
+
       @pdf = Prawn::Document.new(
         :page_layout => page_layout,
         :left_margin => 0,
         :right_margin => 0,
         :top_margin => 0,
         :bottom_margin => 0,
-        :page_size => config["page_size"])
+        :page_size => page_size)
     end
 
     def render

@@ -2,6 +2,10 @@
   Edit Taskboard Card Configuration - <%= @config.name %>
 </h2>
 <%= form_for @config, :method => :put, url: pdf_export_project_taskboard_card_configuration_path(@project.id, @config.id) do |f| %>
+  <%= f.label :page_size %>
+  <%= f.text_field :page_size %>
+  <br>
+  <%= f.label :rows %>
   <%= f.text_area :rows %>
   <br>
   <%= f.submit %>
