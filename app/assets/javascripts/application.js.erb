@@ -161,45 +161,45 @@ function showAndScrollTo(id, focus) {
 	Element.scrollTo(id);
 }
 
+function setGroupRowStatus(el) {
+  var tr = jQuery(el).closest("tr");
+  var isOpen = tr.hasClass("open")
+  var toggleButton = tr.find("img").first();
+  var toggleButtonAltText = isOpen ? I18n.t('js.label_collapse') : I18n.t('js.label_expand');
+  var toggleButtonImage = isOpen ? "<%= asset_path 'bullet_toggle_minus.png' %>" : "<%= asset_path 'bullet_toggle_plus.png' %>"; 
+  var toggleAllLink = tr.find(".toggle-all")
+  var toggleAllLinkText = isOpen ? I18n.t('js.label_collapse_all') : I18n.t('js.label_expand_all');
+
+  toggleButton.attr("alt", toggleButtonAltText);
+  toggleButton.attr("src", toggleButtonImage);
+
+  toggleAllLink.text(toggleAllLinkText);
+}
+
 function toggleRowGroup(el) {
-	var tr = Element.up(el, 'tr');
-	var n = Element.next(tr);
-	tr.toggleClassName('open');
-	while (n != undefined && !n.hasClassName('group')) {
-		Element.toggle(n);
-		n = Element.next(n);
-	}
-}
+  var tr = jQuery(el).closest("tr");
+  
+  tr.toggleClass("open");
 
-function collapseAllRowGroups(el) {
-  var tbody = Element.up(el, 'tbody');
-  tbody.childElements('tr').each(function(tr) {
-    if (tr.hasClassName('group')) {
-      tr.removeClassName('open');
-    } else {
-      tr.hide();
-    }
-  })
-}
+  setGroupRowStatus(el);
 
-function expandAllRowGroups(el) {
-  var tbody = Element.up(el, 'tbody');
-  tbody.childElements('tr').each(function(tr) {
-    if (tr.hasClassName('group')) {
-      tr.addClassName('open');
-    } else {
-      tr.show();
-    }
-  })
+  tr.nextUntil("tr.group").each(function(index) {
+    jQuery(this).toggle();
+  });
 }
 
 function toggleAllRowGroups(el) {
-	var tr = Element.up(el, 'tr');
-  if (tr.hasClassName('open')) {
-    collapseAllRowGroups(el);
-  } else {
-    expandAllRowGroups(el);
-  }
+  var tr = jQuery(el).closest("tr");
+  var isOpen = tr.hasClass("open");
+
+  toggleRowGroup(el);
+
+  tr.siblings("tr.group").each(function(index) {
+    var currentGroupOpen = jQuery(this).hasClass("open");
+    if (isOpen == currentGroupOpen) {
+      toggleRowGroup(this);
+    }
+  });
 }
 
 function toggleFieldset(el) {
