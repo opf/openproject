@@ -193,7 +193,7 @@ module OpenProject::Backlogs
             :before => :calendar,
             :param => :project_id,
             :if => proc { not(User.current.respond_to?(:impaired?) and User.current.impaired?) },
-            :html => {:class => 'icon2 icon-bulb1'}
+            :html => {:class => 'icon2 icon-backlogs-icon'}
 
         end
       end

@@ -36,6 +36,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#3546` Better icon for Timelines Module
+
 ## 3.0.5.pre2
 
 * `#2167` [Accessibility] Link form elements to their label - backlogs - new task
