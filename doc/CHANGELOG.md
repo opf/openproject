@@ -29,6 +29,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#2153` [Accessibility] Required fields MUST be displayed as required - group new
+* `#2157` [Accessibility] Required fields MUST be displayed as required - enumeration new
+* `#2162` [Accessibility] Required fields MUST be displayed as required - new project_type
 * `#3120` Implement a test suite the spikes can be developed against
 
 ## 3.0.0pre42
@@ -39,14 +42,11 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2150` [Accessibility] Link form elements to their label - new issue query
 * `#2151` [Accessibility] Link form elements to their label - new wiki page
 * `#2152` [Accessibility] Link form elements to their label - new forum message
-* `#2153` [Accessibility] Required fields MUST be displayed as required - group new
 * `#2155` [Accessibility] Link form elements to their label - copy workflow
 * `#2156` [Accessibility] Link form elements to their label - new custom field
-* `#2157` [Accessibility] Required fields MUST be displayed as required - enumeration new
 * `#2159` [Accessibility] Link form elements to their label - repository administration
 * `#2160` [Accessibility] Link form elements to their label - new LDAP authentication
 * `#2161` [Accessibility] Link form elements to their label - new color
-* `#2162` [Accessibility] Required fields MUST be displayed as required - new project_type
 * `#2229` [Accessibility] low contrast in calendar view
 * `#2258` [Accessibility] linearisation of issue show form
 * `#2500` Change default configuration in new OpenProject application so new projects are not public by default
