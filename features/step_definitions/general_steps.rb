@@ -328,6 +328,11 @@ Given /^the [pP]roject uses the following modules:$/ do |table|
   step %Q{the project "#{get_project}" uses the following modules:}, table
 end
 
+Given(/^the user "(.*?)" is responsible$/) do |user|
+  project = get_project
+  project.responsible_id = User.find_by_login(user).id
+  project.save
+end
 
 Given /^the [pP]roject(?: "([^\"]*)")? has the following types:$/ do |project_name, table|
   p = get_project(project_name)

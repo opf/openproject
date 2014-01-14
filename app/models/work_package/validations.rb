@@ -46,6 +46,8 @@ module WorkPackage::Validations
 
     validate :validate_milestone_constraint
     validate :validate_parent_constraint
+
+    validate :validate_status_transition
   end
 
   def validate_start_date_before_soonest_start_date
@@ -82,6 +84,30 @@ module WorkPackage::Validations
   def validate_parent_constraint
     if self.parent
       errors.add :parent_id, :cannot_be_milestone if parent.is_milestone?
+    end
+  end
+
+  def validate_status_transition
+    if status_changed? && !(self.type_id_changed? || status_transition_exists?)
+      errors.add :status_id, :status_transition_invalid
+    end
+  end
+
+  private
+
+  def status_changed?
+    self.status_id_was != 0 && self.status_id_changed?
+  end
+
+  def status_transition_exists?
+    self.type.is_valid_transition?(self.status_id_was, self.status_id, user_roles)
+  end
+
+  def user_roles
+    if User.current.admin?
+      Role.all
+    else
+      User.current.roles_for_project(self.project)
     end
   end
 end
