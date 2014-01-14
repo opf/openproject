@@ -291,7 +291,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :roadmap, { :controller => '/versions', :action => 'index' },
                       :param => :project_id,
                       :if => Proc.new { |p| p.shared_versions.any? },
-                      :html => {:class => "icon2 icon-new-planning-element"}
+                      :html => {:class => "icon2 icon-process-arrow1"}
 
   menu.push :work_packages, { controller: '/work_packages', action: 'index', set_filter: 1 },
                             param: :project_id,
@@ -313,7 +313,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :timelines, {:controller => '/timelines', :action => 'index'},
                         :param => :project_id,
                         :caption => :'timelines.project_menu.timelines',
-                        :html => {:class => "icon2 icon-time-1"}
+                        :html => {:class => "icon2 icon-new-planning-element"}
 
   menu.push :calendar, { :controller => '/work_packages/calendars', :action => 'index' },
                        :param => :project_id,
