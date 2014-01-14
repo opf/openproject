@@ -34,9 +34,43 @@
 #++
 
 module OpenProject::Backlogs::Hooks
+  class Hook < Redmine::Hook::Listener
+    include ActionView::Helpers::TagHelper
+    include ActionView::Context
+    include WorkPackagesHelper
+
+    def work_packages_show_attributes(context = {})
+      work_package = context[:work_package]
+      attributes = context[:attributes]
+
+      return '' unless work_package.backlogs_enabled?
+      return '' if context[:from] == 'OpenProject::Backlogs::WorkPackageView::FieldsParagraph'
+
+      attributes << work_package_show_story_points_attribute(work_package)
+      attributes << work_package_show_remaining_hours_attribute(work_package)
+
+      attributes
+    end
+
+    private
+
+    def work_package_show_story_points_attribute(work_package)
+      return nil if work_package.is_story?
+
+      work_package_show_table_row(:story_points, :"story-points") do
+        work_package.story_points ? work_package.story_points : empty_element_tag
+      end
+    end
+
+    def work_package_show_remaining_hours_attribute(work_package)
+      work_package_show_table_row(:"remaining_hours") do
+        work_package.remaining_hours ? l_hours(work_package.remaining_hours) : empty_element_tag
+      end
+    end
+  end
+
   class LayoutHook < Redmine::Hook::ViewListener
     include RbCommonHelper
-    include AccessibilityHelper
 
     # This ought to be view_work_packages_sidebar_queries_bottom, but the entire
     # queries toolbar is disabled if you don't have custom queries
@@ -66,34 +100,6 @@ module OpenProject::Backlogs::Hooks
           :partial => 'shared/view_work_packages_sidebar',
           :locals => locals
       })
-    end
-
-    def view_work_packages_show_details_bottom(context = {})
-      attributes = []
-      work_package = context[:issue]
-
-      return '' unless work_package.backlogs_enabled?
-      return '' if context[:from] == 'OpenProject::Backlogs::WorkPackageView::FieldsParagraph'
-
-
-      snippet = ''
-
-      if work_package.is_story?
-        snippet = %Q{
-          <th class="story-points">#{WorkPackage.human_attribute_name(:story_points)}:</th>
-          <td class="story-points">#{work_package.story_points || empty_element_tag}</td>
-        }
-
-        attributes << WorkPackagesHelper::WorkPackageAttribute.new(:story_points, snippet)
-      end
-      snippet = %Q{
-        <th class="remaining_hours">#{WorkPackage.human_attribute_name(:remaining_hours)}:</th>
-        <td class="remaining_hours">#{work_package.remaining_hours ? l_hours(work_package.remaining_hours) : empty_element_tag}</td>
-      }
-
-      attributes << WorkPackagesHelper::WorkPackageAttribute.new(:remaining_hours, snippet)
-
-      YAML::dump(attributes)
     end
 
     def view_work_packages_form_details_bottom(context = {})
