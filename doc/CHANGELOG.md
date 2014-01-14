@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#2228` [Accessibility] low contrast in backlogs task view
+* `#2231` [Accessibility] alt texts for openproject project menu
 * `#2734` [API] Access-Key not supported for all controllers
 * `#3120` Implement a test suite the spikes can be developed against
 * `#3251` [Timelines] Filtering for Responsible filters everything
