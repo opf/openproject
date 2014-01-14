@@ -59,10 +59,12 @@ RB.Task = (function ($) {
       }
       var c = this.$.find('select.assigned_to_id').children(':selected').attr('color') || this.defaultColor;
       this.$.css('background-color', c);
+      this.$.colorcontrast();
     },
 
     editorDisplayed: function (dialog) {
       dialog.parents('.ui-dialog').css('background-color', this.$.css('background-color'));
+      dialog.parents('.ui-dialog').colorcontrast();
     },
 
     getType: function () {

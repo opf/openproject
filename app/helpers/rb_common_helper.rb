@@ -49,7 +49,30 @@ module RbCommonHelper
   end
 
   def build_inline_style(task)
-    task.blank? || task.assigned_to.blank? ? '' : "style=\"background-color:#{get_backlogs_preference(task.assigned_to, :task_color)};\"".html_safe
+    is_assigned_task?(task) ? color_style(task) : '' 
+  end
+
+  def color_style(task)
+    background_color = get_backlogs_preference(task.assigned_to, :task_color)
+
+    "style=\"background-color:#{background_color};\"".html_safe
+  end
+
+  def color_contrast_class(task)
+     if is_assigned_task?(task)
+       color_contrast(background_color_hex(task)) ? 'light' : 'dark'
+     else
+       ''
+     end
+  end
+
+  def is_assigned_task?(task)
+    !(task.blank? || task.assigned_to.blank?)
+  end
+
+  def background_color_hex(task)
+    background_color = get_backlogs_preference(task.assigned_to, :task_color)
+    background_color_hex = background_color.sub(/\#/, '0x').hex
   end
 
   def breadcrumb_separator

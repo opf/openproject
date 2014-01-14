@@ -39,6 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ## 3.0.5.pre2
 
 * `#2167` [Accessibility] Link form elements to their label - backlogs - new task
+* `#2229` [Accessibility] low contrast in backlogs task view
 * `#2258` [Accessibility] linearisation of issue show form
 * `#2607` [Agile] Display Storypoints in Taskboard view
 * `#3532` Fix: [API] It is possible to set statuses that are not allowed by the workflow
