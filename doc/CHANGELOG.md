@@ -29,7 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
-
+* `#3546` Better icon for Timelines Module
+* `#3667` Better icon for Roadmap
 * `#3409` New Layout for fallback Login page
 * `#3547` Change color of Apply button in Activity
 * `#3120` Implement a test suite the spikes can be developed against
