@@ -34,8 +34,7 @@ describe "API v2" do
   let(:project) { FactoryGirl.create(:project) }
 
   before do
-    @api_key = admin.api_key
-
+    @api_key = api_key
     Setting.stub(:login_required?).and_return true
     Setting.stub(:rest_api_enabled?).and_return true
   end
@@ -45,74 +44,50 @@ describe "API v2" do
   end
 
   describe "key authentication" do
+    let(:api_key) { admin.api_key }
+
+    shared_examples_for "API key access" do
+      context "invalid" do
+        before { get "#{request_url}?key=invalid_key" }
+
+        it { expect(response.status).to eq(401) }
+      end
+
+      context "valid" do
+        before { get "#{request_url}?key=#{api_key}" }
+
+        it { expect(response.status).to eq(200) }
+      end
+    end
+
     describe "for planning element types" do
-      it "should reject an invalid key" do
-        get "/api/v2/projects/#{project.id}/planning_element_types.json?key=invalidkey"
+      let(:request_url) { "/api/v2/projects/#{project.id}/planning_element_types.json" }
 
-        response.status.should == 401
-      end
-
-      it "should accept a valid key" do
-        get "/api/v2/projects/#{project.id}/planning_element_types.json?key=#{@api_key}"
-
-        response.status.should == 200
-      end
+      it_behaves_like "API key access"
     end
 
     describe "for project associations" do
-      it "should reject an invalid key" do
-        get "/api/v2/projects/#{project.id}/project_associations.xml"
+      let(:request_url) { "/api/v2/projects/#{project.id}/project_associations.xml" }
 
-        response.status.should == 401
-      end
-
-      it "should accept a valid key" do
-        get "/api/v2/projects/#{project.id}/project_associations.xml?key=#{@api_key}"
-
-        response.status.should == 200
-      end
+      it_behaves_like "API key access"
     end
 
     describe "for project associations' available projects" do
-      it "should reject an invalid key" do
-        get "/api/v2/projects/#{project.id}/project_associations/available_projects.xml"
+      let(:request_url) { "/api/v2/projects/#{project.id}/project_associations/available_projects.xml" }
 
-        response.status.should == 401
-      end
-
-      it "should accept a valid key" do
-        get "/api/v2/projects/#{project.id}/project_associations/available_projects.xml?key=#{@api_key}"
-
-        response.status.should == 200
-      end
+      it_behaves_like "API key access"
     end
 
     describe "for reportings" do
-      it "should reject an invalid key" do
-        get "/api/v2/projects/#{project.id}/reportings.xml"
+      let(:request_url) { "/api/v2/projects/#{project.id}/reportings.xml" }
 
-        response.status.should == 401
-      end
-
-      it "should accept a valid key" do
-        get "/api/v2/projects/#{project.id}/reportings.xml?key=#{@api_key}"
-
-        response.status.should == 200
-      end
+      it_behaves_like "API key access"
     end
 
     describe "for reportings' available projects" do
-      it "should reject an invalid key" do
-        get "/api/v2/projects/#{project.id}/reportings/available_projects.xml"
+      let(:request_url) { "/api/v2/projects/#{project.id}/reportings/available_projects.xml" }
 
-        response.status.should == 401
-      end
-
-      it "should accept a valid key" do
-        get "/api/v2/projects/#{project.id}/reportings/available_projects.xml?key=#{@api_key}"
-
-        response.status.should == 200
-      end
+      it_behaves_like "API key access"
     end
   end
 end
