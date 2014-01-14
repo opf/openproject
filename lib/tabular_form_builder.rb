@@ -73,6 +73,10 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     label_for_field(field, options) + super
   end
 
+  def collection_select(field, collection, value_method, text_method, options = {}, html_options = {})
+    label_for_field(field, options) + super
+  end
+
   private
 
   # Returns a label tag for the given field

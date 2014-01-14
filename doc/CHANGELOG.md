@@ -29,6 +29,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#2162` [Accessibility] Required fields MUST be displayed as required - new project_type
+* `#2153` [Accessibility] Required fields MUST be displayed as required - group new
+* `#2157` [Accessibility] Required fields MUST be displayed as required - enumeration new
 * `#2228` [Accessibility] low contrast in backlogs task view
 * `#2734` [API] Access-Key not supported for all controllers
 * `#3120` Implement a test suite the spikes can be developed against
