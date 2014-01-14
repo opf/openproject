@@ -88,7 +88,7 @@
       zoom: 1
       @include header-fonts($header_item_font_color)
       text-decoration: none
-      padding: 0 18px 0 10px
+      padding: 0 10px 0 10px
     > a:hover
       background: $header_item_bg_hover_color
       color: $header_item_font_hover_color
@@ -122,12 +122,10 @@
       width: 100%
 
     > a
-      padding-right: 35px
       &:after
         @include icon-common
-        padding: 0 2px 0 10px
-        content: "\e0cf"
-        font-size: 9px
+        padding: 0 2px 0 9px
+        content: "\e0d2"
     &:hover
       background-color: $header_item_bg_hover_color
     &.open > a
@@ -135,9 +133,8 @@
       color: $header_item_font_hover_color
       &:after
         @include icon-common
-        padding: 0 2px 0 10px
-        content: "\e0cd"
-        font-size: 9px
+        padding: 0 2px 0 9px
+        content: "\e0d4"
 
     li
       > a
