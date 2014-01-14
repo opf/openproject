@@ -4,6 +4,6 @@ class TaskboardCardConfiguration < ActiveRecord::Base
   attr_accessible :identifier, :name, :rows, :per_page, :page_size
 
   def rows_hash
-    YAML::parse(rows)
+    YAML::load(rows)
   end
 end
