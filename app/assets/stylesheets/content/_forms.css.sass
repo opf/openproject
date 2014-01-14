@@ -27,21 +27,41 @@
 
 @import global/all
 
+$login_form_button_font_color:    #FFFFFF !default
+$login_form_bg_color:             #F8F8F8 !default
+$login_form_border:               1px solid #EAEAEA !default
+$login_form_input_border:   1px solid #CACACA !default
+$login_form_button_bg_color:  #06799F !default
+$login_form_button_hover_bg_color:  #053242 !default
+
 #login-form
   form
-    border: none
     padding: 30px 20px
-    background-color: $content_form_bg_color
+    background-color: $login_form_bg_color
     display: block
-    border: 1px solid #6DABC2
-    -moz-border-radius: 5px
-    -webkit-border-radius: 5px
-    border-radius: 5px
-    padding: 10px
-    input#username, input#password
+    border: $login_form_border
+    input#username, input#password, input#openid_url
       width: $content_from_input_width
-    label
-      font-weight: bold
+      height: 35px
+      line-height: 35px
+      border: $login_form_input_border
+      padding: 0 10px
+      @include border-radius(2px)
+      font-family: $font_family_bold
+      font-size: $global_font_size
+    input[type=submit]
+      border: none
+      background-color: $login_form_button_bg_color
+      color: $login_form_button_font_color
+      padding: 5px 13px
+      font-size: $global_font_size
+      @include border-radius(2px)
+      @include default-transition
+      cursor: pointer
+      &:hover
+        background-color: $login_form_button_hover_bg_color
+  #lost_password
+    margin-top: 20px
 
   table
     border: 0 none
@@ -49,4 +69,6 @@
     margin: 0
     td
       padding: 6px
+      &.label
+        width: 160px
 

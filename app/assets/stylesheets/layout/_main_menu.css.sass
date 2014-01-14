@@ -52,13 +52,13 @@
         a
           background: none
           padding: 0 0 0 7px
-          border-left: 4px solid $main_menu_bg_color
+          border-left: $main_menu_selected_hover_indicator_width solid $main_menu_bg_color
           @include default-transition
 
           &:hover, &.selected
             text-decoration: none
-            background-color: $main_menu_bg_hover_selected_color
-            border-left: 4px solid $main_menu_selected_hover_indicator_color
+            background: $main_menu_bg_hover_selected_background
+            border-left: $main_menu_selected_hover_indicator_width solid $main_menu_selected_hover_indicator_color
             color: $main_menu_selected_font_color
           &.selected
             color: $main_menu_selected_font_color
@@ -99,7 +99,7 @@
             border: none !important
             background-color: $main_menu_child_bg_hover_selected_color
             color: $main_menu_child_selected_font_color
-            font-family: 'LatoBold','Lucida Grande',Helvetica,Arial,sans-serif
+            font-family: $font_family_bold
 
   a
     text-decoration: none
@@ -133,7 +133,7 @@
     background-color: $main_menu_bg_color
     @include default-transition
     &:hover
-      background-color: $main_menu_bg_hover_selected_color
+      background: $main_menu_bg_hover_selected_background
     &.show
       width: $main_menu_folded_width - $main_menu_item_border_width
       a.navigation-toggler
@@ -203,14 +203,18 @@
 
   input.button-small
     margin-top: 14px
-    background: #FFFFFF
+    background: $main_menu_sidebar_button_bg_color
     border-radius: 25px
     -webkit-border-radius: 25px
     padding: 3px 7px
-    color: #222
+    color: $main_menu_sidebar_button_font_color
     border: none
     cursor: pointer
     @include main-menu-font
+    @include default-transition
+    &:hover
+      background: $main_menu_sidebar_button_hover_bg_color
+      color: $main_menu_sidebar_button_hover_font_color
 
   ul
     border: none

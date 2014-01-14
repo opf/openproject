@@ -45,6 +45,7 @@
 //= require jquery.atwho
 //= require jquery_ujs
 //= require jquery_noconflict
+//= require jquery.colorcontrast
 //= require prototype
 //= require effects
 //= require dragdrop
