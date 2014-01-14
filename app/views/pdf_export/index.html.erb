@@ -3,3 +3,5 @@
   Pdf Export Test
 </h2>
 <%= link_to @default_config.name, "taskboard_cards.pdf" %>
+<br>
+<%= link_to "Edit - #{@default_config.name}", edit_pdf_export_project_taskboard_card_configuration_path(@project.id, @default_config.id) %>

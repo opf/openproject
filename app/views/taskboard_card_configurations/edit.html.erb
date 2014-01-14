@@ -1,0 +1,8 @@
+<h2>
+  Edit Taskboard Card Configuration - <%= @config.name %>
+</h2>
+<%= form_for @config, :method => :put, url: pdf_export_project_taskboard_card_configuration_path(@project.id, @config.id) do |f| %>
+  <%= f.text_area :rows %>
+  <br>
+  <%= f.submit %>
+<% end %>
