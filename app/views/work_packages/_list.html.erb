@@ -71,9 +71,11 @@ See doc/COPYRIGHT.rdoc for more details.
             <span class="count">
               (<%= results.work_package_count_for(group) %>)
 
-              <%= link_to_function("#{l(:button_collapse_all)}/#{l(:button_expand_all)}",
-                                   "toggleAllRowGroups(this)",
-                                   :class => 'toggle-all') %>
+              <span aria-hidden="true" role="presentation" tabindex="-1">
+                <%= link_to_function("#{l(:button_collapse_all)}",
+                                     "toggleAllRowGroups(this)",
+                                     :class => 'toggle-all') %>
+              </span>
             </span>
           </span>
         </td>
