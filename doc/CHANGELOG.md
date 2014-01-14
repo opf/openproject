@@ -29,11 +29,14 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#3453` Highlight project in bread crumb
 * `#3546` Better icon for Timelines Module
 * `#3667` Better icon for Roadmap
 * `#3409` New Layout for fallback Login page
 * `#3547` Change color of Apply button in Activity
+* `#2228` [Accessibility] low contrast in backlogs task view
 * `#3120` Implement a test suite the spikes can be developed against
+* `#3251` [Timelines] Filtering for Responsible filters everything
 
 ## 3.0.0pre42
 
@@ -53,6 +56,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2500` Change default configuration in new OpenProject application so new projects are not public by default
 * `#3370` [Design] Clean-up and refactoring existing CSS for content area
 * `#3528` [Data Migration] Type 'none' is not migrated properly in Timelines
+* `#3532` Fix: [API] It is possible to set statuses that are not allowed by the workflow
 * `#3539` [Work package tracking] Modul view of work packages is too broad
 * `#3666` Fix: [API] Show-action does not contain author_id
 * `#3723` Fix: The activity event type of work package creations is resolved as "closed"

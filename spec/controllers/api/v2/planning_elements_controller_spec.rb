@@ -618,22 +618,41 @@ describe Api::V2::PlanningElementsController do
     describe "status" do
       let(:status_a) { FactoryGirl.create :status }
       let(:status_b) { FactoryGirl.create :status }
-      let(:planning_element) { FactoryGirl.create :work_package, :status => status_a }
+      let(:planning_element) { FactoryGirl.create :work_package, status: status_a }
 
-      it 'is updated' do
-        WorkPackage.find(planning_element.id).status.should == status_a
+      shared_examples_for 'work package status change' do
+        before do
+          put 'update',
+              project_id: project.identifier,
+              format: 'xml',
+              id: planning_element.id,
+              planning_element: { status_id: status_b.id }
+        end
 
-        put 'update',
-          :project_id => project.identifier,
-          :format => 'xml',
-          :id => planning_element.id,
-          :planning_element => {
-            :status_id => status_b.id
-          }
+        it { expect(response.response_code).to eq(expected_response_code) }
 
-        response.response_code.should == 204
+        it { expect(WorkPackage.find(planning_element.id).status).to eq(expected_work_package_status) }
+      end
 
-        WorkPackage.find(planning_element.id).status.should == status_b
+      context 'valid workflow exists' do
+        let!(:workflow) { FactoryGirl.create(:workflow,
+                                             old_status: status_a,
+                                             new_status: status_b,
+                                             type_id: planning_element.type_id) }
+
+        before { planning_element.project.add_member!(current_user, workflow.role) }
+
+        it_behaves_like 'work package status change' do
+          let(:expected_response_code) { 204 }
+          let(:expected_work_package_status) { status_b }
+        end
+      end
+
+      context 'no valid workflow exists' do
+        it_behaves_like 'work package status change' do
+          let(:expected_response_code) { 422 }
+          let(:expected_work_package_status) { status_a }
+        end
       end
     end
   end

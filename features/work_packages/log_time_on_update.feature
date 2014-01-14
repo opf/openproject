@@ -46,8 +46,8 @@ Feature: Logging time on work package update
       | name    | default |
       | status1 | true    |
     And there are the following work packages in project "ecookbook":
-      | subject |
-      | pe1     |
+      | subject | status_id |
+      | pe1     | 1         |
     And there is an activity "design"
     And I am already logged in as "manager"
 

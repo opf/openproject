@@ -335,6 +335,18 @@ describe WorkPackage do
         end
 
         context "status changed" do
+          let!(:workflow) { FactoryGirl.create(:workflow,
+                                               old_status: status_closed,
+                                               new_status: status_open,
+                                               type_id: work_package.type_id) }
+          let(:user) { FactoryGirl.create(:user) }
+          let!(:membership) { FactoryGirl.create(:member,
+                                                 user: user,
+                                                 project: work_package.project,
+                                                 roles: [workflow.role]) }
+
+          before { User.stub(:current).and_return(user) }
+
           shared_context "in locked version" do
             before do
               version.status = 'locked'
@@ -1205,17 +1217,31 @@ describe WorkPackage do
       Status.delete_all
       IssuePriority.delete_all
 
+      @type ||= FactoryGirl.create(:type_feature)
+
       @status_resolved ||= FactoryGirl.create(:status, :name => "Resolved", :is_default => false)
       @status_open ||= FactoryGirl.create(:status, :name => "Open", :is_default => true)
       @status_rejected ||= FactoryGirl.create(:status, :name => "Rejected", :is_default => false)
 
+      role = FactoryGirl.create(:role)
+      FactoryGirl.create(:workflow,
+                         old_status: @status_open,
+                         new_status: @status_resolved,
+                         role: role,
+                         type_id: @type.id)
+      FactoryGirl.create(:workflow,
+                         old_status: @status_resolved,
+                         new_status: @status_rejected,
+                         role: role,
+                         type_id: @type.id)
+
       @priority_low ||= FactoryGirl.create(:priority_low, :is_default => true)
       @priority_high ||= FactoryGirl.create(:priority_high)
-      @type ||= FactoryGirl.create(:type_feature)
       @project ||= FactoryGirl.create(:project_with_types)
 
       @current = FactoryGirl.create(:user, :login => "user1", :mail => "user1@users.com")
       User.stub(:current).and_return(@current)
+      @project.add_member!(@current, role)
 
       @user2 = FactoryGirl.create(:user, :login => "user2", :mail => "user2@users.com")
 
@@ -1296,9 +1322,18 @@ describe WorkPackage do
       let(:child) { FactoryGirl.create(:work_package, :parent => work_package,
                                                       :project => project)}
       let(:closed_status) { FactoryGirl.create(:closed_status) }
+      let!(:workflow) { FactoryGirl.create(:workflow,
+                                           old_status: child.status,
+                                           new_status: closed_status,
+                                           type_id: child.type_id) }
+      let(:user) { FactoryGirl.create(:user,
+                                      member_in_project: project,
+                                      member_through_role: workflow.role) }
 
       before do
         Setting.stub(:work_package_done_ratio).and_return('disabled')
+
+        User.stub(:current).and_return(user)
       end
 
       it 'should not update the work package done_ratio' do
