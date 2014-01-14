@@ -33,6 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2153` [Accessibility] Required fields MUST be displayed as required - group new
 * `#2157` [Accessibility] Required fields MUST be displayed as required - enumeration new
 * `#2228` [Accessibility] low contrast in backlogs task view
+* `#2240` [Accessibility] correctly label document language of menu items
 * `#2250` [Accessibility] activity icon labels
 * `#2260` [Accessibility] no-existent alt-text for collapse/expand functionality in grouped work-package list
 * `#2734` [API] Access-Key not supported for all controllers
