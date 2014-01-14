@@ -807,9 +807,6 @@ jQuery(document).ready(function($) {
 	// deal with potentially problematic super-long titles
 	$(".title-bar h2").css({paddingRight: $(".title-bar-actions").outerWidth() + 15 });
 
-	// rejigger the main-menu sub-menu functionality.
-	$("#main-menu .toggler").remove(); // remove the togglers so they're inserted properly later.
-
 $(window).resize(function() {
     // wait 200 milliseconds for no further resize event
     // then readjust breadcrumb
@@ -835,26 +832,6 @@ $(window).resize(function() {
 
     return this;
   };
-
-	$("#main-menu li:has(ul) > a").not("ul ul a")
-		// 1. unbind the current click functions
-		.unbind("click")
-		// 2. wrap each in a span that we'll use for the new click element
-		.wrapInner("<span class='toggle-follow ellipsis'></span>")
-		// 3. reinsert the <span class="toggler"> so that it sits outside of the above
-		.append("<span class='toggler icon6 icon-arrow-right5-2'></span>")
-		// 4. attach a new click function that will follow the link if you clicked on the span itself and toggle if not
-		.click(function(event) {
-
-			if ($(event.target).hasClass("toggler") ) {
-                          var menuParent = $(this).toggleClass("open").parent().find("ul").not("ul ul ul");
-                          menuParent.mySlide();
-                          if ($(this).hasClass("open")) {
-                            menuParent.find("li > a:first").focus();
-                          }
-                        return false;
-                      }
-		});
 
   // Do not close the login window when using it
   $('#nav-login-content').click(function(event){
