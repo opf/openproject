@@ -33,6 +33,10 @@ module Api
 
       include ::Api::V2::ApiController
 
+      def self.accept_key_auth_actions
+        super + ['available_projects']
+      end
+
       def available_projects
         available_projects = @project.reporting_to_project_candidates
         respond_to do |format|

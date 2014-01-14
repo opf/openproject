@@ -33,13 +33,14 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2153` [Accessibility] Required fields MUST be displayed as required - group new
 * `#2157` [Accessibility] Required fields MUST be displayed as required - enumeration new
 * `#2228` [Accessibility] low contrast in backlogs task view
-* `#3453` Highlight project in bread crumb
-* `#3546` Better icon for Timelines Module
-* `#3667` Better icon for Roadmap
-* `#3409` New Layout for fallback Login page
-* `#3547` Change color of Apply button in Activity
+* `#2734` [API] Access-Key not supported for all controllers
 * `#3120` Implement a test suite the spikes can be developed against
 * `#3251` [Timelines] Filtering for Responsible filters everything
+* `#3409` New Layout for fallback Login page
+* `#3453` Highlight project in bread crumb
+* `#3546` Better icon for Timelines Module
+* `#3547` Change color of Apply button in Activity
+* `#3667` Better icon for Roadmap
 
 ## 3.0.0pre42
 
