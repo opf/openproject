@@ -19,7 +19,7 @@ When(/^I delete the cost type "(.*?)"$/) do |name|
   ct = CostType.find_by_name name
 
   within ("#delete_cost_type_#{ct.id}") do
-    find('input[type=image]').click
+    find('a.submit_cost_type').click
   end
 
   if page.driver.is_a? Capybara::Selenium::Driver

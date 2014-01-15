@@ -5,6 +5,7 @@ Feature: Cost type deletion
       | name | cost_type1 |
     And I am already admin
 
+  @javascript
   Scenario: Deleting a cost type
     When I delete the cost type "cost_type1"
 
