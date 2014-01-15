@@ -14,7 +14,7 @@ module OpenProject::PdfExport::TaskboardCard
         row_orientation = {
           y_offset: @orientation[:height] - row_y_offset,
           x_offset: 0,
-          width: 400, # TODO: Calculate
+          width: @orientation[:width],
           height: 40 # TODO: Calculate
         }
         row_y_offset += 40 # TODO: Calculate from text size, lines, priority, whatever

@@ -13,19 +13,23 @@ module OpenProject::PdfExport::TaskboardCard
       has_label = @config['has_label']
 
       value = @work_package.send(@property_name) if @work_package.respond_to?(@property_name)
-      value = value.to_s
+      value = value.to_s if !value.is_a?(String)
 
       text = ""
       text = text + "#{@property_name}:- " if has_label
       text = text + value
 
+      font_size = Integer(@config['font_size']) # TODO: Not safe!
+
       # Draw on pdf
       offset = [@orientation[:x_offset], @orientation[:y_offset]]
       box = @pdf.text_box(text,
-        {:height => 20,
+        {:height => @orientation[:height],
+         :width => @orientation[:width],
          :at => offset,
-         :size => 20,
-         :padding_bottom => 5})
+         :size => font_size,
+         :padding_bottom => 5,
+         :overflow => :shrink_to_fit})
     end
   end
 end
