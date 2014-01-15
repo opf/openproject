@@ -29,7 +29,7 @@ module OpenProject::PdfExport::TaskboardCard
          :at => offset,
          :size => font_size,
          :padding_bottom => 5,
-         :overflow => :shrink_to_fit})
+         :overflow => :truncate})
     end
   end
 end
