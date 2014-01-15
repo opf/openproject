@@ -43,8 +43,8 @@ module OpenProject::Backlogs::Hooks
       work_package = context[:work_package]
       attributes = context[:attributes]
 
-      return '' unless work_package.backlogs_enabled?
-      return '' if context[:from] == 'OpenProject::Backlogs::WorkPackageView::FieldsParagraph'
+      return unless work_package.backlogs_enabled?
+      return if context[:from] == 'OpenProject::Backlogs::WorkPackageView::FieldsParagraph'
 
       attributes << work_package_show_story_points_attribute(work_package)
       attributes << work_package_show_remaining_hours_attribute(work_package)
