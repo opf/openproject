@@ -34,22 +34,24 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 </p>
 
-<table class="list work-package-data-table">
-  <thead>
-    <tr>
-      <th><%= Relation.human_attribute_name(:to)%></th>
-      <th><%= WorkPackage.human_attribute_name(:type)%></th>
-      <th><%= WorkPackage.human_attribute_name(:start_date)%></th>
-      <th><%= WorkPackage.human_attribute_name(:due_date)%></th>
-      <th><spen class="hidden-for-sighted"><%= t('button_delete') %></span></th>
-    </tr>
-  </thead>
-  <tbody>
-    <%= render :partial => 'relation', :collection => relations,
-                                       :as => :relation,
-                                       :locals => { :work_package => work_package } -%>
-  </tbody>
-</table>
+<% if relations.any? %>
+  <table class="list work-package-data-table">
+    <thead>
+      <tr>
+        <th><%= Relation.human_attribute_name(:to)%></th>
+        <th><%= WorkPackage.human_attribute_name(:type)%></th>
+        <th><%= WorkPackage.human_attribute_name(:start_date)%></th>
+        <th><%= WorkPackage.human_attribute_name(:due_date)%></th>
+        <th><spen class="hidden-for-sighted"><%= t('button_delete') %></span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render :partial => 'relation', :collection => relations,
+                                         :as => :relation,
+                                         :locals => { :work_package => work_package } -%>
+    </tbody>
+  </table>
+<% end %>
 
 <%= form_for(work_package.new_relation,
              :as => :relation,
