@@ -27,6 +27,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<% content_for :header_tags do %>
+  <%= call_hook :search_index_head %>
+<% end %>
+
 <h2><%= l(:label_search) %></h2>
 
 <div class="box">
