@@ -3,6 +3,7 @@
 ## 5.0.1.pre11
 
 * `#2250` [Accessibility] activity icon labels
+* `#2256` [Accessibility] no alt-texts in cost-types index view
 * `#2258` [Accessibility] linearisation of issue show form
 * removed not needed require of core css files
 * firxed cuke
