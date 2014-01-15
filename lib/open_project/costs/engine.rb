@@ -11,6 +11,7 @@ module OpenProject::Costs
     initializer "costs.register_hooks" do
       require_dependency 'open_project/costs/hooks'
       require_dependency 'open_project/costs/hooks/activity_hook'
+      require_dependency 'open_project/costs/hooks/user_hook'
       require_dependency 'open_project/costs/hooks/work_package_hook'
       require_dependency 'open_project/costs/hooks/project_hook'
       require_dependency 'open_project/costs/hooks/work_package_action_menu'
