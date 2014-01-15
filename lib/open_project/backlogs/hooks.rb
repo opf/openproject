@@ -55,7 +55,7 @@ module OpenProject::Backlogs::Hooks
     private
 
     def work_package_show_story_points_attribute(work_package)
-      return nil if work_package.is_story?
+      return nil unless work_package.is_story?
 
       work_package_show_table_row(:story_points, :"story-points") do
         work_package.story_points ? work_package.story_points : empty_element_tag
