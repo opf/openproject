@@ -3,6 +3,7 @@
 ## 0.0.1.pre7
 
 * `#1020` fix XSS when displaying costs
+* `#2257` [Accessibility] not-translated alt-texts in cost-report view
 
 ## 0.0.1.pre6
 
