@@ -162,42 +162,42 @@ function showAndScrollTo(id, focus) {
 }
 
 function setGroupRowStatus(el) {
-  var tr = jQuery(el).closest("tr");
-  var isOpen = tr.hasClass("open")
-  var toggleButton = tr.find("img").first();
-  var toggleButtonAltText = isOpen ? I18n.t('js.label_collapse') : I18n.t('js.label_expand');
-  var toggleButtonImage = isOpen ? "<%= asset_path 'bullet_toggle_minus.png' %>" : "<%= asset_path 'bullet_toggle_plus.png' %>"; 
-  var toggleAllLink = tr.find(".toggle-all")
+  var collapseExpandButton = jQuery(el);
+  var row = jQuery(el).closest("tr");
+  var isOpen = row.hasClass("open")
+  var toggleAllLink = row.find(".toggle-all")
   var toggleAllLinkText = isOpen ? I18n.t('js.label_collapse_all') : I18n.t('js.label_expand_all');
 
-  toggleButton.attr("alt", toggleButtonAltText);
-  toggleButton.attr("src", toggleButtonImage);
-
+  collapseExpandButton.toggleClass("icon-minus")
+  collapseExpandButton.toggleClass("icon-plus")
   toggleAllLink.text(toggleAllLinkText);
 }
 
 function toggleRowGroup(el) {
-  var tr = jQuery(el).closest("tr");
+  var row = jQuery(el).closest("tr");
   
-  tr.toggleClass("open");
+  row.toggleClass("open closed");
 
   setGroupRowStatus(el);
 
-  tr.nextUntil("tr.group").each(function(index) {
+  row.nextUntil("tr.group").each(function(index) {
     jQuery(this).toggle();
   });
 }
 
 function toggleAllRowGroups(el) {
-  var tr = jQuery(el).closest("tr");
-  var isOpen = tr.hasClass("open");
+  var row = jQuery(el).closest("tr");
+  var collapseExpandButton = jQuery(row).find(".expander");
+  var isOpen = row.hasClass("open");
 
-  toggleRowGroup(el);
+  toggleRowGroup(collapseExpandButton);
 
-  tr.siblings("tr.group").each(function(index) {
+  row.siblings("tr.group").each(function(index) {
     var currentGroupOpen = jQuery(this).hasClass("open");
+    var collapseExpandButton = jQuery(this).find(".expander");
+
     if (isOpen == currentGroupOpen) {
-      toggleRowGroup(this);
+      toggleRowGroup(collapseExpandButton);
     }
   });
 }

@@ -59,8 +59,9 @@ See doc/COPYRIGHT.rdoc for more details.
       <% reset_cycle %>
       <tr class="group open">
         <td colspan="<%= query.columns.size + 2 %>">
-          <span class="expander" onclick="toggleRowGroup(this); return false;">
-            <img src="<%= asset_path 'bullet_toggle_minus.png' %>" alt="<%= I18n.t('label_collapse') %>" />
+          <span class="expander icon-context icon-minus" onclick="toggleRowGroup(this); return false;">
+            <span class="hidden-for-sighted expand"><%= I18n.t('label_expand') %></span>
+            <span class="hidden-for-sighted collapse"><%= I18n.t('label_collapse') %></span>
           </span>
 
           <span>
