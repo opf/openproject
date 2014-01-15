@@ -25,5 +25,8 @@ module OpenProject::Meeting
     render_on :users_show_head,
               partial: 'hooks/meetings/activity_index_head'
 
+    render_on :search_index_head,
+              partial: 'hooks/meetings/activity_index_head'
+
   end
 end
