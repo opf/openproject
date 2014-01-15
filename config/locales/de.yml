@@ -573,9 +573,7 @@ de:
     filter:
       noneElement: "(keines)"
       noneSelection: "(keine)"
-    label_collapse: "Zuklappen"
     label_collapse_all: "Alle zuklappen"
-    label_expand: "Aufklappen"
     label_expand_all: "Alle aufklappen"
 
   label_account: "Konto"
