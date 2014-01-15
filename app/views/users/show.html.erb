@@ -27,6 +27,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<% content_for :header_tags do %>
+  <%= call_hook :users_show_head %>
+<% end %>
+
 <div class="contextual">
 <%= link_to(l(:button_edit), edit_user_path(@user), :class => 'icon icon-edit') if User.current.admin? %>
 </div>
