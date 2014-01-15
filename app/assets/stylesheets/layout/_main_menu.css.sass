@@ -27,6 +27,8 @@
 
 @import global/all
 
+$toggler-width: 40px
+
 #main-menu
   @include default-transition
   bottom: auto
@@ -49,19 +51,25 @@
         position: relative
         min-height: 23px
 
+        &:hover
+          background: $main_menu_bg_hover_selected_background
+
         a
           background: none
-          padding: 0 0 0 7px
-          border-left: $main_menu_selected_hover_indicator_width solid $main_menu_bg_color
           @include default-transition
 
           &:hover, &.selected
             text-decoration: none
-            background: $main_menu_bg_hover_selected_background
-            border-left: $main_menu_selected_hover_indicator_width solid $main_menu_selected_hover_indicator_color
             color: $main_menu_selected_font_color
           &.selected
             color: $main_menu_selected_font_color
+
+          &:not(.toggler)
+            padding: 0 0 0 7px
+            border-left: $main_menu_selected_hover_indicator_width solid $main_menu_bg_color
+
+            &:hover, &.selected
+              border-left: $main_menu_selected_hover_indicator_width solid $main_menu_selected_hover_indicator_color
 
         li
           border: 0
@@ -117,14 +125,18 @@
     position: absolute
     right: 0
     top: 0
-    width: 40px
+    width: $toggler-width
     height: $main_menu_item_height
     text-align: center
+  .sub-menu-heading
+    float: left
+
   li
     border-bottom: $main_menu_item_border_width solid $main_menu_item_border_color
-    .open, .selected.open
-      .toggler:before
+    .open ~ .toggler
+      .icon-toggler:before
         content: "\e0cc"
+
   #toggle-project-menu
     border: $main_menu_item_border_width solid $main_menu_item_border_color
     border-left: none
