@@ -37,7 +37,8 @@
 ul.action_menu_main
   @include action_menu_defaults
 
-ul.action_menu_specific
+ul.action_menu_specific,
+.nosidebar ul.action_menu_specific
   @include action_menu_defaults(-34px)
 
 p.subtitle + ul.action_menu_specific
