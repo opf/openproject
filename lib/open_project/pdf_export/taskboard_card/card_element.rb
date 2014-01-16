@@ -8,6 +8,9 @@ module OpenProject::PdfExport::TaskboardCard
       @row_elements = []
 
       # Initialize row elements
+      # TODO: It would be useful at this point to remove empty rows which do not need to be rendered if empty.
+      # This would fit better at column drawing time but by then it's too late because the heights have already
+      # been assigned.
       heights = assign_row_heights
       current_y_offset = 0
 
@@ -35,7 +38,7 @@ module OpenProject::PdfExport::TaskboardCard
       diffs.each_with_index do |diff, i|
         if diff < 0
           # Need to grab some pixels from a low priority row and add them to current one
-          reduce_low_priority_rows(assigned_heights, diffs, i)
+          reduce_low_priority_rows2(assigned_heights, diffs, i)
         end
       end
 
@@ -43,20 +46,46 @@ module OpenProject::PdfExport::TaskboardCard
       assigned_heights
     end
 
-    # Return false
+    # TODO: This currently finds the first row that can be reduced by the full amount required.
+    # Still to do:
+    #   Take priorities into account to reduce unimportant rows first.
+    #   Reduce from more than one row at a time if that's the only way (or just so it looks more even)
+    #   Handle case when there is not enough space ie. reduce unimportant rows to below there minimum.
+    # This could all get a bit hairy quite quickly so waiting to discuss it before going on.
     def reduce_low_priority_rows(assigned_heights, diffs, conflicted_i)
       reduce_by = diffs[conflicted_i] * -1
       diffs.each_with_index do |diff, i|
         if diff >= reduce_by
-          binding.pry
-          assigned_heights[i] -= reduce_by
-          assigned_heights[conflicted_i] += reduce_by
-          diffs[i] -= reduce_by
-          diffs[conflicted_i] += reduce_by
+          exchange(assigned_heights, diffs, i, conflicted_i, reduce_by)
           return true
         end
       end
       return false
+    end
+
+    # Slightly better - reduces from multiple rows until done or can't find any more space.
+    def reduce_low_priority_rows2(assigned_heights, diffs, conflicted_i)
+      to_reduce = diffs[conflicted_i] * -1
+      diffs.each_with_index do |diff, i|
+        binding.pry
+        if diff > 0
+          if diff >= to_reduce
+            exchange(assigned_heights, diffs, i, conflicted_i, to_reduce)
+            return true
+          else
+            exchange(assigned_heights, diffs, i, conflicted_i, diff)
+            to_reduce -= diff
+          end
+        end
+      end
+      return false
+    end
+
+    def exchange(heights, diffs, a, b, v)
+      heights[a] -= v
+      heights[b] += v
+      diffs[a] -= v
+      diffs[b] += v
     end
 
     def min_row_heights(c)
