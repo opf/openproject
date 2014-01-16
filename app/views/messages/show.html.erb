@@ -32,23 +32,25 @@ See doc/COPYRIGHT.rdoc for more details.
   link_to(h(@board.name), {:controller => '/boards', :action => 'show', :project_id => @project, :id => @board}))
 %>
 
-<div class="contextual">
-    <%= watcher_link(@topic, User.current) %>
-    <%= link_to_remote_if_authorized(l(:button_quote),
-                                     { :url => {:action => 'quote', :id => @topic} ,
-                                       :method => :get },
-                                     { :class => 'icon icon-quote'} ) unless @topic.locked? %>
-    <%= link_to(l(:button_edit),
-                edit_topic_path(@topic),
-                :class => 'icon icon-edit') if @message.editable_by?(User.current) %>
-    <%= link_to(l(:button_delete),
-                topic_path(@topic),
-                :method => :delete,
-                :confirm => l(:text_are_you_sure),
-                :class => 'icon icon-delete') if @message.destroyable_by?(User.current) %>
-</div>
+<% content_for :action_menu_specific do %>
+  <%= watcher_link(@topic, User.current) %>
+  <%= link_to_remote_if_authorized(l(:button_quote),
+                                   { :url => {:action => 'quote', :id => @topic} ,
+                                     :method => :get },
+                                   { :class => 'icon icon-quote'} ) unless @topic.locked? %>
+  <%= link_to(l(:button_edit),
+              edit_topic_path(@topic),
+              :class => 'icon icon-edit') if @message.editable_by?(User.current) %>
+  <%= link_to(l(:button_delete),
+              topic_path(@topic),
+              :method => :delete,
+              :confirm => l(:text_are_you_sure),
+              :class => 'icon icon-delete') if @message.destroyable_by?(User.current) %>
+<% end %>
 
 <h2><%= avatar(@topic.author, :size => "24") %><%=h @topic.subject %></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
 
 <div class="message">
 <p><span class="author"><%= authoring @topic.created_on, @topic.author %></span></p>

@@ -30,15 +30,17 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= header_tags %>
 <%= javascript_include_tag 'contextual_fieldset.js', :plugin => 'chiliproject_timelines' %>
 
-<div class='contextual'>
+<% content_for :action_menu_specific do %>
     <%= link_to_if_authorized(l("timelines.new_reporting"),
                               { :action => :new },
                               { :title => l("timelines.new_reporting"),
                                 :class => ("icon icon-add")
                               }) %>
-</div>
+<% end %>
+
 <% html_title l("timelines.project_menu.reportings") %>
 <h2><%= l("timelines.project_menu.reportings") %></h2>
+<%= render :partial => 'layouts/action_menu_specific' %>
 
 <% if @reportings.blank? %>
   <p class="nodata"><%= l(:label_no_data) %></p>
