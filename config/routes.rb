@@ -116,6 +116,11 @@ OpenProject::Application.routes.draw do
   match '/help/:ctrl/:page' => 'help#index'
 
   resources :types
+  resources :statuses, :except => :show do
+    collection do
+      post 'update_work_package_done_ratio'
+    end
+  end
   resources :custom_fields, :except => :show
   match "(projects/:project_id)/search" => 'search#index', :as => "search"
 

@@ -60,7 +60,6 @@ class Journal < ActiveRecord::Base
     if attributes.kind_of? Hash and attributes.values.first.kind_of? Array
       attributes.each {|k,v| attributes[k] = v[1]}
     end
-
     data.update_attributes attributes
   end
 

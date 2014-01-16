@@ -36,8 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <p>
     <%= f.label :name do %>
-      <%= PlanningElementTypeColor.human_attribute_name(:name) %>
-      <span class="required"> *</span>
+      <%= required_field_name PlanningElementTypeColor.human_attribute_name(:name) %>
     <% end %>
     <%= f.text_field :name, required: true %>
   </p>
