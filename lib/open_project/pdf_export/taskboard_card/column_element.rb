@@ -10,12 +10,17 @@ module OpenProject::PdfExport::TaskboardCard
 
     def draw
       # Get value from model
-      has_label = @config['has_label']
-      render_if_empty = @config['render_if_empty']
-
       value = @work_package.send(@property_name) if @work_package.respond_to?(@property_name) else ""
-      value = value.to_s if !value.is_a?(String)
 
+      if value.is_a?(Array)
+        value = value.map{|c| c.to_s }.join("\n")
+      end
+      draw_value(value)
+    end
+
+    def draw_value(value)
+      has_label = @config['has_label']
+      value = value.to_s if !value.is_a?(String)
       text = ""
       text = text + "#{@work_package.class.human_attribute_name(@property_name)}:- " if has_label
       text = text + value
@@ -34,5 +39,6 @@ module OpenProject::PdfExport::TaskboardCard
          :style => font_style,
          :overflow => :truncate})
     end
+
   end
 end

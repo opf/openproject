@@ -48,6 +48,7 @@ module OpenProject::PdfExport::TaskboardCard
 
     def self.is_empty_column(property_name, column, wp)
       value = wp.send(property_name) if wp.respond_to?(property_name) else ""
+      value = "" if value.is_a?(Array) && value.empty?
       value = value.to_s if !value.is_a?(String)
       !column["render_if_empty"] && value.empty?
     end
