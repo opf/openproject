@@ -26,24 +26,34 @@
  * See doc/COPYRIGHT.rdoc for more details.  ++
  */
 
-@import global/all
-@import fonts/lato
-@import fonts/openproject_icon_font
-@import external
-@import select2_customizing
-@import jstoolbar
-@import content/context_menu
-@import print
-@import scm
-@import top-shelf
-@import work_packages
-@import openproject_plugins
-@import layout/all
-@import content/forms
-@import content/flash_messages
-@import content/calendar
-@import content/wiki
-@import content/links
-@import content/action_menu_main
-@import default/main
+ul.action_menu_main
+  float: right
+  margin-top: 7px
+  > li
+    float: left
+    position: relative
+    list-style: none
 
+ul.action_menu_more
+  position: absolute
+  top: 23px
+  right: 0px
+  z-index: 100
+  white-space: nowrap
+  padding: 10px
+  padding-top: 5px
+
+  background: white
+  border: 1px solid #B7B7B7
+
+  box-shadow: 1px 1px 2px #aaa
+  > li
+    padding-top: 5px
+
+#lower-title-bar ul.action_menu_more
+  bottom: 0
+  right: 0
+  margin-bottom: 25px
+  top: auto
+  > li.drop-down
+    position: relative
