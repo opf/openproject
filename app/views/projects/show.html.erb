@@ -58,7 +58,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </ul>
 
   <% if User.current.allowed_to?(:view_work_packages, @project) %>
-  <div class="issues box">
+  <div class="issues content-box">
     <h3><%=l(:label_work_package_tracking)%></h3>
     <ul>
       <% for type in @types %>
@@ -86,7 +86,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= render :partial => 'members_box' %>
 
   <% if @news.any? && authorize_for('news', 'index') %>
-    <div class="news box">
+    <div class="news content-box">
       <h3><%=l(:label_news_latest)%></h3>
       <%= render :partial => 'news/news', :collection => @news %>
       <p><%= link_to l(:label_news_view_all), {:controller => '/news', :action => 'index', :project_id => @project}, :class => 'button' %></p>

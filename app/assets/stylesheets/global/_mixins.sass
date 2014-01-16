@@ -82,3 +82,40 @@
     color: $button_font_hover_color
     text-decoration: none
 
+@mixin content-box
+  margin-top: 20px
+  padding: 25px
+  border: $content_box_border
+  background-color: $content_box_bg_color
+  min-height: 65px
+  zoom: 1
+
+  h3, h2
+    border-bottom: 1px solid #EAEAEA
+    color: #444444
+    font-size: 17px
+    font-weight: normal
+    margin: 0 0 20px
+    padding: 5px 0 10px
+
+  table
+    padding: 10px
+    margin-top: 15px
+    margin-bottom: 15px
+
+  table
+    &.issues td, &.list, th
+      border: none
+      padding: 0
+      width: auto
+      padding-right: 30px
+      padding-bottom: 5px
+    th
+      border: none
+      background: transparent
+      font-weight: bold
+
+    tr.even
+      background-color: white
+  ul
+    margin-bottom: 20px
