@@ -6,15 +6,15 @@ module OpenProject::PdfExport::TaskboardCard
       @rows_config = rows_config
       @work_package = work_package
       @row_elements = []
+      @rows = @rows_config["rows"]
 
-      # Initialize row elements
-      # TODO: It would be useful at this point to remove empty rows which do not need to be rendered if empty.
-      # This would fit better at column drawing time but by then it's too late because the heights have already
-      # been assigned.
+      # Simpler to remove empty rows before calculating the row sizes
+      RowElement.prune_empty_rows(@rows, work_package)
+
       heights = assign_row_heights
       current_y_offset = 0
 
-      @rows_config["rows"].each_with_index do |(key, value), i|
+      @rows.each_with_index do |(key, value), i|
         current_y_offset += heights[i - 1] if i > 0
         row_orientation = {
           y_offset: @orientation[:height] - current_y_offset,
@@ -30,7 +30,7 @@ module OpenProject::PdfExport::TaskboardCard
     def assign_row_heights
       # Assign initial heights
       available = @orientation[:height]
-      c = @rows_config["rows"].count
+      c = @rows.count
       assigned_heights = Array.new(c){available/c}
 
       min_heights = min_row_heights(c)

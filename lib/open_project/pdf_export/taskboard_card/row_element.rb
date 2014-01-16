@@ -10,7 +10,7 @@ module OpenProject::PdfExport::TaskboardCard
       # Initialise column elements
       x_offset = 0
 
-      columns_config.each_with_index do |key, value|
+      columns_config.each do |key, value|
         width = col_width(value)
         column_orientation = @orientation.clone
         column_orientation[:x_offset] = x_offset
@@ -35,6 +35,21 @@ module OpenProject::PdfExport::TaskboardCard
       @column_elements.each do |c|
         c.draw
       end
+    end
+
+    def self.prune_empty_rows(rows, wp)
+      rows.each_with_index do |(rk, rv), i|
+        ck, cv = rv["columns"].first
+        if is_empty_column(ck, cv, wp)
+          rows.delete(rk)
+        end
+      end
+    end
+
+    def self.is_empty_column(property_name, column, wp)
+      value = wp.send(property_name) if wp.respond_to?(property_name) else ""
+      value = value.to_s if !value.is_a?(String)
+      !column["render_if_empty"] && value.empty?
     end
   end
 end
