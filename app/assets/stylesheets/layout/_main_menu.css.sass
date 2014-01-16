@@ -29,6 +29,20 @@
 
 $toggler-width: 40px
 
+@mixin highlight-left-item-border
+  border-left: $main_menu_selected_hover_indicator_width solid $main_menu_selected_hover_indicator_color
+
+@mixin toggle-menu-item-background($bg-color: $main_menu_bg_hover_selected_background, $color: $main_menu_selected_font_color)
+  &:hover
+    background: $bg-color
+  > a
+    &:hover, &.selected
+      color: $color
+      text-decoration: none
+    &.selected, &.selected + a
+      background: $bg-color
+
+
 #main-menu
   @include default-transition
   bottom: auto
@@ -42,6 +56,31 @@ $toggler-width: 40px
 
     &.menu_root
       border-right: $main_menu_border_width solid $main_menu_border_color
+
+      // main menu items
+      > li
+        .main-item-wrapper
+          +toggle-menu-item-background
+
+          // left item border hover / selected effect
+          &:hover > a:not(.toggler)
+            +highlight-left-item-border
+
+          // placeholder for highlighted left-item-border
+          a:not(.toggler)
+            border-left: $main_menu_selected_hover_indicator_width solid $main_menu_bg_color
+
+            &.selected
+              +highlight-left-item-border
+
+        // padding for placeholder for highlighted left-item-border
+        a:not(.toggler)
+          // work around due to dom manipulation on document: ready:
+          // this isn't scoped to .main-item-wrapper to avoid flickering
+          padding-left: 7px
+
+
+      // all menu items
       li
         float: none
         list-style-type: none
@@ -51,33 +90,24 @@ $toggler-width: 40px
         position: relative
         min-height: 23px
 
-        &:hover
-          background: $main_menu_bg_hover_selected_background
-
         a
           background: none
-          @include default-transition
 
-          &:hover, &.selected
-            text-decoration: none
-            color: $main_menu_selected_font_color
-          &.selected
-            color: $main_menu_selected_font_color
-
-          &:not(.toggler)
-            padding: 0 0 0 7px
-            border-left: $main_menu_selected_hover_indicator_width solid $main_menu_bg_color
-
-            &:hover, &.selected
-              border-left: $main_menu_selected_hover_indicator_width solid $main_menu_selected_hover_indicator_color
-
+        // sub menu items of main menu
         li
           border: 0
-          a span
-            font-weight: normal
-            color: #999
-            float: right
-            padding-right: 9px
+          +toggle-menu-item-background($main_menu_child_bg_hover_selected_color, $main_menu_child_selected_font_color)
+
+          a
+            // work around due to dom manipulation on document: ready:
+            // reset padding-left set as left-item-border placeholder on all menu item links
+            padding-left: 0
+
+            span
+              font-weight: normal
+              color: #999
+              float: right
+              padding-right: 9px
     ul
       display: none
       padding-top: 1px
@@ -101,11 +131,9 @@ $toggler-width: 40px
           &:hover
             border: none
             text-decoration: none
-            background-color: $main_menu_child_bg_hover_selected_color
             color: $main_menu_child_selected_font_color
           &.selected
             border: none !important
-            background-color: $main_menu_child_bg_hover_selected_color
             color: $main_menu_child_selected_font_color
             font-family: $font_family_bold
 
@@ -133,7 +161,7 @@ $toggler-width: 40px
 
   li
     border-bottom: $main_menu_item_border_width solid $main_menu_item_border_color
-    .open ~ .toggler
+    .open .toggler
       .icon-toggler:before
         content: "\e0cc"
 

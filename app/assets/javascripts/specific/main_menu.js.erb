@@ -9,23 +9,24 @@ jQuery(document).ready(function($) {
       var target = $(this);
 
       if (target.hasClass('toggler')) {
-        var menuItemLink = target.prev();
-        var menuParent = menuItemLink.toggleClass('open').parent().find('ul').not('ul ul ul');
+        var menuItemWrapper = target.parent();
+        var menuParent = menuItemWrapper.toggleClass('open').parent().find('ul').not('ul ul ul');
 
         menuParent.mySlide();
-        if (menuItemLink.hasClass('open')) {
+        if (menuItemWrapper.hasClass('open')) {
           menuParent.find('li > a:first').focus();
         }
       }
       return false;
     });
 
+  $('#main-menu li > a').not('ul ul a').wrap('<div class="main-item-wrapper"/>');
 
-  $('#main-menu li:has(ul) > a').not('ul ul a')
+  $('#main-menu li:has(ul) .main-item-wrapper > a').not('ul ul a')
     // 1. unbind the current click functions
     .unbind('click')
     // 2. wrap each in a span that we'll use for the new click element
-    .wrapInner('<span class="ellipsis"></span>')
+    .wrapInner('<span class="ellipsis"/>')
     // 3. reinsert the <span class="toggler"> so that it sits outside of the above
     .after(toggler);
 
