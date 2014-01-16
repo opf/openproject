@@ -38,7 +38,7 @@ module OpenProject::PdfExport::TaskboardCard
       diffs.each_with_index do |diff, i|
         if diff < 0
           # Need to grab some pixels from a low priority row and add them to current one
-          reduce_low_priority_rows2(assigned_heights, diffs, i)
+          reduce_low_priority_rows3(assigned_heights, diffs, i)
         end
       end
 
@@ -67,7 +67,6 @@ module OpenProject::PdfExport::TaskboardCard
     def reduce_low_priority_rows2(assigned_heights, diffs, conflicted_i)
       to_reduce = diffs[conflicted_i] * -1
       diffs.each_with_index do |diff, i|
-        binding.pry
         if diff > 0
           if diff >= to_reduce
             exchange(assigned_heights, diffs, i, conflicted_i, to_reduce)
@@ -79,6 +78,34 @@ module OpenProject::PdfExport::TaskboardCard
         end
       end
       return false
+    end
+
+    def reduce_low_priority_rows3(assigned_heights, diffs, conflicted_i)
+      # Get an array of row indexes sorted by inverse priority
+      priorities = *(0..@rows_config["rows"].count - 1)
+        .zip(@rows_config["rows"].map { |k, v| first_column_property(v, "priority") or 10 })
+        .sort {|x,y| y[1] <=> x[1]}
+        .map {|x| x[0]}
+
+      to_reduce = diffs[conflicted_i] * -1
+      priorities.each do |p|
+        diff = diffs[p]
+        if diff > 0
+          if diff >= to_reduce
+            exchange(assigned_heights, diffs, p, conflicted_i, to_reduce)
+            return true
+          else
+            exchange(assigned_heights, diffs, p, conflicted_i, diff)
+            to_reduce -= diff
+          end
+        end
+      end
+      return false
+    end
+
+    def first_column_property(row_hash, property)
+      k, v = row_hash["columns"].first
+      v[property]
     end
 
     def exchange(heights, diffs, a, b, v)
