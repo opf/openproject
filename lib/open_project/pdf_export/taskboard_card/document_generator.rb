@@ -32,44 +32,28 @@ module OpenProject::PdfExport::TaskboardCard
     end
 
     def render
-      # TODO RS: Define pdf page defaults, sizes, borders etc...
-      # pdf.start_new_page
-      render_cards
+      render_pages
       pdf.render
     end
 
-    def render_cards
+    def render_pages
+      @work_packages.each do |wp|
+        @config.per_page.times do
+          # Position and size depend on how the cards are to be arranged on the page which is not known yet
+          padding = 20
 
-      # TODO: This needs to be done for x cards per page and the appropriate offsets and bounds
-      # calculated for each. Just now doing the default 1 per page and only the first work package.
-      orientation = {
-        y_offset: pdf.bounds.height - 20,
-        x_offset: 20,
-        width: 400, # TODO: Calculate these based on page layout
-        height: 400
-      }
+          orientation = {
+            y_offset: pdf.bounds.height - padding,
+            x_offset: padding,
+            width: 400,
+            height: 400
+          }
 
-      card_element = CardElement.new(pdf, orientation, config.rows_hash, work_packages.first)
-      card_element.draw
+          card_element = CardElement.new(pdf, orientation, config.rows_hash, wp)
+          card_element.draw
+        end
+        pdf.start_new_page
+      end
     end
-
-    # def to_pts(v)
-    #   return if v.nil?
-    #   if v =~ /[a-z]{2}$/i
-    #     units = v[-2, 2].downcase
-    #     v = v[0..-3]
-    #   else
-    #     units = 'pt'
-    #   end
-
-    #   v = "#{v}0" if v =~ /\.$/
-
-    #   return Float(v).mm if units == 'mm'
-    #   return Float(v).cm if units == 'cm'
-    #   return Float(v).in if units == 'in'
-    #   return Float(v).pt if units == 'pt'
-    #   raise "Unexpected units '#{units}'"
-    # end
   end
-
 end

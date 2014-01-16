@@ -17,7 +17,7 @@ module OpenProject::PdfExport::TaskboardCard
       value = value.to_s if !value.is_a?(String)
 
       text = ""
-      text = text + "#{@property_name}:- " if has_label
+      text = text + "#{@work_package.class.human_attribute_name(@property_name)}:- " if has_label
       text = text + value
 
       font_size = Integer(@config['font_size']) # TODO: Not safe!
