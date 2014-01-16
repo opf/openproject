@@ -473,6 +473,7 @@ de:
   description_filter: "Filter"
   description_filter_toggle: "Filter aus/einblenden"
   description_category_reassign: "Neue Kategorie wählen"
+  description_menu_item_toggle: "Untermenüpunkte ein-/ausblenden"
   description_message_content: "Nachrichteninhalt"
   description_my_project: "Sie sind Mitglied"
   description_notes: "Kommentare"
