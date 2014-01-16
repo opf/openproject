@@ -27,24 +27,67 @@
  */
 
 @import global/all
-@import fonts/lato
-@import fonts/openproject_icon_font
-@import external
-@import select2_customizing
-@import jstoolbar
-@import content/context_menu
-@import print
-@import scm
-@import top-shelf
-@import work_packages
-@import openproject_plugins
-@import layout/all
-@import content/forms
-@import content/flash_messages
-@import content/calendar
-@import content/wiki
-@import content/links
-@import content/my_page
-@import content/buttons
-@import default/main
+
+
+#content .mypage-box
+  margin-top: 20px
+  padding: 25px
+  border: $my_page_box_border
+  background-color: $my_page_box_bg_color
+  min-height: 65px
+  zoom: 1
+
+  h3, h2
+    border-bottom: 1px solid #EAEAEA
+    color: #444444
+    font-size: 17px
+    font-weight: normal
+    margin: 0 0 20px
+    padding: 5px 0 10px
+
+  table
+    padding: 10px
+    margin-top: 15px
+    margin-bottom: 15px
+
+  table
+    &.issues td, &.list, th
+      border: none
+      padding: 0
+      width: auto
+      padding-right: 30px
+      padding-bottom: 5px
+    th
+      border: none
+      background: transparent
+      font-weight: bold
+
+    tr.even
+      background-color: white
+
+.handle
+  cursor: move
+
+div.box-actions
+  float: right
+  margin-right: 16px
+  z-index: 500
+
+.block-receiver
+  border: 1px dashed $my_page_edit_box_border_color
+  margin-bottom: 20px
+  padding: 15px 0 15px 0
+
+  div.mypage-box
+    margin-top: 8px
+    padding-bottom: 8px
+
+  div.mypage-box div.box-actions
+    margin-top: 5px
+
+div.mypage-box p.summary
+  font-style: normal
+
+div.mypage-box div.overview p.author
+  margin-bottom: 7px
 

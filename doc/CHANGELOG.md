@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#2502` New Layout for overview / my page
 * `#2228` [Accessibility] low contrast in backlogs task view
 * `#2734` [API] Access-Key not supported for all controllers
 * `#3120` Implement a test suite the spikes can be developed against

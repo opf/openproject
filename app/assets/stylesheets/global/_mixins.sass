@@ -66,3 +66,19 @@
   -webkit-border-radius: $radius
   -moz-border-radius: $radius
   border-radius: $radius
+
+@mixin button
+  background-color: $button_bg_color
+  color: $button_font_color
+  @include default-transition
+  @include border-radius($button_border_radius)
+  margin: 10px 10px 0 0
+  padding: 5px 13px
+  line-height: 23px
+  font-size: 12px
+  font-weight: normal
+  &:hover
+    background-color: $button_bg_hover_color
+    color: $button_font_hover_color
+    text-decoration: none
+
