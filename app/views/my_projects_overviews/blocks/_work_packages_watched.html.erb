@@ -23,9 +23,13 @@ See doc/COPYRIGHT.md for more details.
 
 <%= render :partial => 'work_packages/list_simple', :locals => { :work_packages => watched_work_packages } %>
 <% if watched_work_packages.length > 0 %>
-<p class="small"><%= link_to l(:label_work_package_view_all_watched), :controller => '/work_packages',
-                                                              :action => 'index',
-                                                              :set_filter => 1,
-                                                              :watcher_id => 'me',
-                                                              :sort => 'updated_on:desc' %></p>
+  <p class="small">
+    <%= link_to l(:label_work_package_view_all_watched),
+                {:controller => '/work_packages',
+                :action => 'index',
+                :set_filter => 1,
+                :watcher_id => 'me',
+                :sort => 'updated_on:desc'},
+                :class => 'button' %>
+  </p>
 <% end %>
