@@ -8,19 +8,26 @@ module OpenProject::PdfExport::TaskboardCard
       @column_elements = []
 
       # Initialise column elements
-      column_position = 0
-      cols_count = columns_config.count
-      default_col_width = @orientation[:width] / cols_count
+      x_offset = 0
 
-      columns_config.each do |key, value|
-        # TODO: Intelligently configure the orientation of column elements
+      columns_config.each_with_index do |key, value|
+        width = col_width(value)
         column_orientation = @orientation.clone
-        column_orientation[:x_offset] = column_position * default_col_width
-        column_orientation[:width] = default_col_width
+        column_orientation[:x_offset] = x_offset
+        column_orientation[:width] = width
+        x_offset += width
 
         @column_elements << ColumnElement.new(@pdf, key, value, column_orientation, @work_package)
-        column_position += 1
       end
+    end
+
+    def col_width(col_config)
+      cols_count = @columns_config.count
+      w = col_config["width"]
+      return @orientation[:width] / cols_count if w.nil?
+
+      i = w.index("%") or w.length
+      Float(w.slice(0, i)) / 100 * @orientation[:width]
     end
 
     def draw
