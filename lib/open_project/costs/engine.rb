@@ -14,6 +14,7 @@ module OpenProject::Costs
       require_dependency 'open_project/costs/hooks/work_package_hook'
       require_dependency 'open_project/costs/hooks/project_hook'
       require_dependency 'open_project/costs/hooks/work_package_action_menu'
+      require_dependency 'open_project/costs/hooks/work_packages_show_attributes'
     end
 
     config.autoload_paths += Dir["#{config.root}/lib/"]
@@ -90,7 +91,6 @@ module OpenProject::Costs
       # Helper Patches
       require_dependency 'open_project/costs/patches/application_helper_patch'
       require_dependency 'open_project/costs/patches/users_helper_patch'
-      require_dependency 'open_project/costs/patches/work_packages_helper_patch'
 
       require_dependency 'open_project/costs/patches/work_package_observer'
 
