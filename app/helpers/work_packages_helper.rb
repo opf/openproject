@@ -333,7 +333,7 @@ module WorkPackagesHelper
   def work_package_show_attribute_list(work_package)
     main_attributes = work_package_show_main_attributes(work_package)
     custom_field_attributes = work_package_show_custom_fields(work_package)
-    core_attributes = main_attributes | custom_field_attributes
+    core_attributes = (main_attributes | custom_field_attributes).compact
 
     hook_attributes(work_package, core_attributes).compact
   end
