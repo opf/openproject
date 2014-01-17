@@ -25,9 +25,10 @@ See doc/COPYRIGHT.md for more details.
     <%= render :partial => 'news/news', :collection => recent_news %>
     <p>
       <%= link_to l(:label_news_view_all),
-                  :controller => 'news',
+                  {:controller => 'news',
                   :action => 'index',
-                  :project_id => project %>
+                  :project_id => project},
+                  :class => 'button' %>
     </p>
   </div>
 <% end %>
