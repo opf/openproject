@@ -18,11 +18,14 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
-<div class="contextual">
+<% content_for :action_menu_specific do %>
   <%= link_to_if_authorized(l(:label_history), {:controller => '/' + @content_type.pluralize, :action => 'history', :meeting_id => @meeting}, :class => 'icon icon-wiki') %>
-</div>
+<% end %>
 
 <h2><%= l(:"label_#{@content_type}") %>: <%= link_to @meeting, @meeting %></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
+
 <p>
 <%= l(:label_version) %> <%= link_to @diff.content_from.version, send(:"#{@content_type}_version_path", @meeting, @diff.content_from.version) %>
 <em>(<%= link_to_user(@diff.content_from.user) %>, <%= format_time(@diff.content_from.created_at) %>)</em>
