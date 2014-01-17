@@ -235,6 +235,9 @@ de:
               reused:
                 one: "wurde bereits verwendet. Bitte wählen Sie eines, das sich vom letzten unterscheidet."
                 other: "wurde bereits verwendet. Bitte wählen Sie eines, das sich von den letzten %{count} unterscheidet."
+        member:
+          principal_blank: "Bitte wählen Sie mindestens einen Benutzer oder eine Gruppe."
+          role_blank: "Bitte wählen Sie eine mindestens Rolle."
       template:
         body: "Bitte überprüfen Sie die folgenden Felder:"
         header:

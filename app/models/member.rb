@@ -36,10 +36,11 @@ class Member < ActiveRecord::Base
 
   attr_protected :project_id, :user_id, :role_ids
 
-  validates_presence_of :principal, :project
+  validates_presence_of :project
   validates_uniqueness_of :user_id, :scope => :project_id
 
   validate :validate_presence_of_role
+  validate :validate_presence_of_principal
 
   before_destroy :remove_from_category_assignments
   after_destroy :unwatch_from_permission_change
@@ -133,12 +134,16 @@ class Member < ActiveRecord::Base
 
   def validate_presence_of_role
     if member_roles.empty?
-      errors.add :roles, :empty if roles.empty?
+      errors.add :base, :role_blank if roles.empty?
     else
-      errors.add :roles, :empty if member_roles.all? do |member_role|
+      errors.add :base, :role_blank if member_roles.all? do |member_role|
         member_role.marked_for_destruction? || member_role.destroyed?
       end
     end
+  end
+
+  def validate_presence_of_principal
+    errors.add :base, :principal_blank if principal.blank?
   end
 
   def do_add_role(role_or_role_id, inherited_from_id, save_immediately)
