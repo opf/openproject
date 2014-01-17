@@ -15,6 +15,8 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+* Allows plugin register to receive a block so plugins don't have to register with this plugin AND Redmine::Plugin
+
 ## 1.0.5
 
 * Readme: Add note about db:create and db:migrate in same rake process
