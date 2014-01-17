@@ -121,7 +121,11 @@ module OpenProject::PdfExport::TaskboardCard
       @rows_config["rows"].each_with_index do |(key, value), i|
         # min lines * font height (first col) # TODO: get the biggest one
         k, v = value["columns"].first
-        min_heights[i] = (@pdf.font.height_at(v["font_size"]) * v["minimum_lines"]).floor
+        min_lines = v["minimum_lines"]
+        min_lines ||= 1
+        font_size = v["font_size"]
+        font_size ||= 10
+        min_heights[i] = (@pdf.font.height_at(font_size) * min_lines).floor
       end
       min_heights
     end
