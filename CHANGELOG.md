@@ -1,5 +1,7 @@
 # Changelog
 
+* Rewritten Javascript to exclusively use jQuery
+
 ## 1.0.1.pre4
 
 * `#2154` [Accessibility] Link form elements to their label - new role
