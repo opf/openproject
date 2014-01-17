@@ -51,10 +51,12 @@ module OpenProject::PdfExport::TaskboardCard
         }
 
         card_element = CardElement.new(pdf, orientation, config.rows_hash, wp)
+        if i > 0 && i % @config.per_page == 0
+          pdf.start_new_page
+        end
         card_element.draw
 
         if (i + 1) % @config.per_page == 0
-          pdf.start_new_page
           card_y_offset = pdf.bounds.height - padding
         else
           card_y_offset -= (card_height + padding)
