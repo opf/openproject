@@ -249,7 +249,7 @@ de:
       group: "Gruppe"
       issue: "Ticket"
       category: "Kategorie"
-      status: "Ticket-Status"
+      status: "Arbeitspaket-Status"
       member: "Mitglied"
       news: "News"
       project: "Projekt"
