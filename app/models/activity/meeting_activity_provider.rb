@@ -19,7 +19,7 @@
 #++
 
 class Activity::MeetingActivityProvider < Activity::BaseActivityProvider
-  
+
   acts_as_activity_provider type: 'meetings',
                             activities: [ :meeting, :meeting_content ],
                             permission: :view_meetings
@@ -75,6 +75,19 @@ class Activity::MeetingActivityProvider < Activity::BaseActivityProvider
   end
 
   protected
+
+  def event_name(event, activity)
+    case event['event_description']
+    when 'Agenda closed'
+      I18n.t('meeting_agenda_closed', scope: 'events')
+    when 'Agenda opened'
+      I18n.t('meeting_agenda_opened', scope: 'events')
+    when 'Minutes created'
+      I18n.t('meeting_minutes_created', scope: 'events')
+    else
+      super
+    end
+  end
 
   def event_title(event, activity)
     case activity

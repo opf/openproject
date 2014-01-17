@@ -34,15 +34,15 @@ div.tabular > div { margin: 0;
 #meeting_agenda_preview fieldset {margin-top: 1em; background: url(<%= asset_path 'draft.png' %>);}
 #meeting_minutes_preview fieldset {margin-top: 1em; background: url(<%= asset_path 'draft.png' %>);}
 
-dt.meeting:before {
+dt > .icon-meeting:before {
   content: "\e057";
 }
 
-dt.meeting-agenda:before {
+dt > .icon-meeting-agenda:before {
   content: "\e023";
 }
 
-dt.meeting-minutes:before {
+dt > .icon-meeting-minutes:before {
   content: "\e022";
 }
 
