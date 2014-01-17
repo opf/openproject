@@ -18,7 +18,7 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
-<div class="contextual">
+<% content_for :action_menu_specific do %>
     <%=
       context_links = []
       if User.current.allowed_to?(:add_subprojects, project)
@@ -35,9 +35,11 @@ See doc/COPYRIGHT.md for more details.
       end
       context_links.join("&nbsp;&nbsp;&nbsp;").html_safe
     %>
-</div>
+<% end %>
 
 <h2><%=l(:label_overview)%></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
 
 <% ['top', 'left', 'right'].each do |position| %>
   <div id="list-<%= position %>" class="splitcontent<%= position %>">

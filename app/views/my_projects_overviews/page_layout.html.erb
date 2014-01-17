@@ -112,18 +112,20 @@ function addBlock() {
 //]]>
 </script>
 
-<div class="contextual">
-<%= form_tag({:action => "add_block"}, :id => "block-form") do %>
-  <%= select_tag 'block',
-                 ("<option>--#{t(:button_add)}--</option>" + options_for_select(block_options)).html_safe,
-                 :id => "block-select",
-                 :onChange => "addBlock();"
-%>
+<% content_for :action_menu_specific do %>
+  <%= form_tag({:action => "add_block"}, :id => "block-form") do %>
+    <%= select_tag 'block',
+                   ("<option>--#{t(:button_add)}--</option>" + options_for_select(block_options)).html_safe,
+                   :id => "block-select",
+                   :onChange => "addBlock();"
+  %>
+  <% end %>
+  <%= link_to l(:button_back), {:action => 'index'}, :class => 'icon icon-cancel' %>
 <% end %>
-<%= link_to l(:button_back), {:action => 'index'}, :class => 'icon icon-cancel' %>
-</div>
 
 <h2><%=l(:label_overview)%></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
 
 <h4><%=l(:label_visible_elements) %></h4>
 <% (field_list - ['hidden']).each do |f| %>
