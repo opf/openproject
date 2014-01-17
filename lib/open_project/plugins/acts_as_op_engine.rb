@@ -70,7 +70,7 @@ module OpenProject::Plugins
       # options:       An options Hash, at least :requires_openproject is recommended to
       #                define the minimal version of OpenProject the plugin is compatible with
       #                Another common option is :author_url.
-      base.send(:define_method, :register) do |gem_name, options|
+      base.send(:define_method, :register) do |gem_name, options, &block|
         base.initializer "#{engine_name}.register_plugin" do
           spec = Bundler.environment.specs[gem_name][0]
 
@@ -84,7 +84,7 @@ module OpenProject::Plugins
             options.each do |name, value|
               send(name, value)
             end
-          end
+          end.instance_eval(&block)
         end
 
         # Workaround to ensure settings are available after unloading in development mode
