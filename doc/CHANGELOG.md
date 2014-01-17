@@ -47,6 +47,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3546` Better icon for Timelines Module
 * `#3547` Change color of Apply button in Activity
 * `#3667` Better icon for Roadmap
+* `#3843` Prettier translations for member errors
 
 ## 3.0.0pre42
 
