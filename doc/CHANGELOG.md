@@ -33,11 +33,18 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2153` [Accessibility] Required fields MUST be displayed as required - group new
 * `#2157` [Accessibility] Required fields MUST be displayed as required - enumeration new
 * `#2228` [Accessibility] low contrast in backlogs task view
+* `#2250` [Accessibility] activity icon labels
 * `#2260` [Accessibility] no-existent alt-text for collapse/expand functionality in grouped work-package list
 * `#2734` [API] Access-Key not supported for all controllers
 * `#3120` Implement a test suite the spikes can be developed against
 * `#3251` [Timelines] Filtering for Responsible filters everything
 * `#3409` New Layout for fallback Login page
+* `#3453` Highlight project in bread crumb
+* `#3546` Better icon for Timelines Module
+* `#3547` Change color of Apply button in Activity
+* `#3667` Better icon for Roadmap
+* `#3120` Implement a test suite the spikes can be developed against
+* `#3251` [Timelines] Filtering for Responsible filters everything
 * `#3453` Highlight project in bread crumb
 * `#3546` Better icon for Timelines Module
 * `#3547` Change color of Apply button in Activity
@@ -57,6 +64,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2160` [Accessibility] Link form elements to their label - new LDAP authentication
 * `#2161` [Accessibility] Link form elements to their label - new color
 * `#2229` [Accessibility] low contrast in calendar view
+* `#2250` [Accessibility] activity icon labels
 * `#2258` [Accessibility] linearisation of issue show form
 * `#2264` [Accessibility] Table headers for work package hierarchy and relations
 * `#2500` Change default configuration in new OpenProject application so new projects are not public by default

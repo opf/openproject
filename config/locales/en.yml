@@ -517,6 +517,17 @@ en:
   error_menu_item_not_created: Menu item could not be added
   error_menu_item_not_saved: Menu item could not be saved
 
+  events:
+    changeset: 'Changeset edited'
+    message: Message edited
+    news: News
+    reply: Replied
+    time_entry: 'Timelog edited'
+    wiki_page: 'Wiki page edited'
+    work_package_closed: 'Work Package closed'
+    work_package_edit: 'Work Package edited'
+    work_package_note: 'Work Package note added'
+
   general_csv_decimal_separator: "."
   general_csv_encoding: "ISO-8859-1"
   general_csv_separator: ","

@@ -53,6 +53,10 @@ class Activity::ChangesetActivityProvider < Activity::BaseActivityProvider
 
   protected
 
+  def event_type(event, activity)
+    'changeset'
+  end
+
   def event_title(event, activity)
     revision = format_revision(event)
 

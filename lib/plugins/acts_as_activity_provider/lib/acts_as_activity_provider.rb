@@ -54,6 +54,7 @@ module Redmine
       end
 
       Event = Struct.new(:provider,
+                         :event_name,
                          :event_title,
                          :event_description,
                          :author_id,
@@ -212,6 +213,7 @@ module Redmine
               datetime = e['event_datetime'].is_a?(String) ? DateTime.parse(e['event_datetime'])
                                                            : e['event_datetime']
               event = Redmine::Acts::ActivityProvider::Event.new(self,
+                                                                 nil,
                                                                  nil,
                                                                  e['event_description'],
                                                                  e['event_author'].to_i,
