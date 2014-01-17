@@ -37,7 +37,7 @@ module AccessibilityHelper
     @empty_element_tag ||= ApplicationController.new.render_to_string(partial: "accessibility/empty_element_tag").html_safe
   end
 
-  # Return true if the difference between two colors 
+  # Return true if the difference between two colors
   # matches the W3C recommendations for readability
   # See http://www.wat-c.org/tools/CCA/1.1/
   def colors_diff_ok?(color_1, color_2)
@@ -50,7 +50,22 @@ module AccessibilityHelper
     (bright > 128)
   end
 
-private
+  # Returns the locale :en for the given menu item if the user locale is
+  # different but equals the English translation
+  #
+  # Returns nil if user locale is :en (English) or no translation is given,
+  # thus, assumes English to be the default language. Returns :en iff a
+  # translation exists and the translation equals the English one.
+  def menu_item_locale(menu_item)
+    return nil if english_locale_set?
+
+    caption_content = menu_item.instance_variable_get(:@caption)
+    locale_label = caption_content.is_a?(Symbol) ? caption_content : :"label_#{menu_item.name.to_s}"
+
+    (!locale_exists?(locale_label) || equals_english_locale(locale_label)) ? :en : nil
+  end
+
+  private
 
   # Return the contranst and brightness difference between two RGB values
   def find_color_diff(c1, c2)
@@ -63,11 +78,23 @@ private
     [cont_diff, brt_diff]
   end
 
-  # Break a color into the R, G and B components    
+  # Break a color into the R, G and B components
   def break_color(rgb)
     r = (rgb & 0xff0000) >> 16
     g = (rgb & 0x00ff00) >> 8
     b = rgb & 0x0000ff
-    [r,g,b] 
+    [r,g,b]
+  end
+
+  def locale_exists?(key, locale=I18n.locale)
+    I18n.t(key, locale: locale, raise: true) rescue false
+  end
+
+  def english_locale_set?
+    I18n.locale == :en
+  end
+
+  def equals_english_locale(key)
+    key.is_a?(Symbol) ? (I18n.t(key) == I18n.t(key, locale: :en)) : false
   end
 end

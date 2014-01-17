@@ -333,9 +333,9 @@ module WorkPackagesHelper
   def work_package_show_attribute_list(work_package)
     main_attributes = work_package_show_main_attributes(work_package)
     custom_field_attributes = work_package_show_custom_fields(work_package)
-    hook_attributes = YAML::load(call_hook(:view_work_packages_show_details_bottom, :issue => work_package))
+    core_attributes = (main_attributes | custom_field_attributes).compact
 
-    (main_attributes | custom_field_attributes | (hook_attributes || [])).compact
+    hook_attributes(work_package, core_attributes).compact
   end
 
   def group_work_package_attributes(attribute_list)
@@ -616,6 +616,14 @@ module WorkPackagesHelper
         v.value.blank? ? empty_element_tag : simple_format_without_paragraph(h(show_value(v)))
       end
     end
+  end
+
+  def hook_attributes(work_package, attributes = [])
+    call_hook(:work_packages_show_attributes,
+              work_package: work_package,
+              project: @project,
+              attributes: attributes)
+    attributes
   end
 
   def work_package_show_main_attributes(work_package)

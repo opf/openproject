@@ -197,6 +197,8 @@ module Redmine::MenuManager::MenuHelper
     html_options = item.html_options(:selected => selected)
     html_options[:title] = caption
 
+    html_options[:lang] = menu_item_locale(item)
+
     link_to link_text, url, html_options
   end
 

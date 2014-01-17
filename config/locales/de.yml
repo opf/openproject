@@ -520,6 +520,16 @@ de:
   error_menu_item_not_created: Menüpunkt konnte nicht hinzugefügt werden.
   error_menu_item_not_saved: Menüpunkt konnte nicht aktualisiert werden.
 
+  events:
+    changeset: Changeset bearbeitet
+    message: Nachricht bearbeitet
+    news: News
+    reply: Antwort erstellt
+    time_entry: Zeiterfassungseintrag-Bearbeitung
+    wiki_page: Wiki-Bearbeitung
+    work_package_closed: 'Arbeitspaket geschlossen'
+    work_package_edit: 'Arbeitspaket bearbeitet'
+    work_package_note: 'Arbeitspaket kommentiert'
 
   general_csv_decimal_separator: ","
   general_csv_encoding: "ISO-8859-1"
@@ -573,6 +583,8 @@ de:
     filter:
       noneElement: "(keines)"
       noneSelection: "(keine)"
+    label_collapse_all: "Alle zuklappen"
+    label_expand_all: "Alle aufklappen"
 
   label_account: "Konto"
   label_activity: "Aktivität"
@@ -634,6 +646,8 @@ de:
   label_chronological_order: "in zeitlicher Reihenfolge"
   label_close_versions: "Vollständige Versionen schließen"
   label_closed_work_packages: "geschlossen"
+  label_collapse: "Zuklappen"
+  label_collapse_all: "Alle zuklappen"
   label_comment_add: "Kommentar hinzufügen"
   label_comment_added: "Kommentar hinzugefügt"
   label_comment_delete: "Kommentar löschen"
@@ -686,6 +700,8 @@ de:
   label_environment: "Umgebung"
   label_equals: "ist"
   label_example: "Beispiel"
+  label_expand: "Aufklappen"
+  label_expand_all: "Alle aufklappen"
   label_export_to: "Auch abrufbar als:"
   label_f_hour: "%{value} Stunde"
   label_f_hour_plural: "%{value} Stunden"
@@ -1450,6 +1466,7 @@ de:
       parent: "Zeige Unterprojekte von"
       work_package_filters: "Arbeitspakete filtern"
       work_package_responsible: "Arbeitspakete von diesem Verantwortlichen anzeigen"
+      work_package_assignee: "Zugewiesen an"
 
       project_time_filter: "Projekte mit Arbeitspaket eines Typs in einem Zeitfenster"
       project_time_filter_historical: "von %{startdate} bis %{enddate}"
