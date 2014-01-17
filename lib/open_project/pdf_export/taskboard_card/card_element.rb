@@ -23,7 +23,7 @@ module OpenProject::PdfExport::TaskboardCard
           height: heights[i]
         }
 
-        @row_elements << RowElement.new(@pdf, row_orientation, value["columns"], @work_package)
+        @row_elements << RowElement.new(@pdf, row_orientation, value, @work_package)
       end
     end
 

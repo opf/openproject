@@ -1,16 +1,17 @@
 module OpenProject::PdfExport::TaskboardCard
   class RowElement
-    def initialize(pdf, orientation, columns_config, work_package)
+    def initialize(pdf, orientation, config, work_package)
       @pdf = pdf
       @orientation = orientation
-      @columns_config = columns_config
+      @config = config
+      @columns_config = config["columns"]
       @work_package = work_package
       @column_elements = []
 
       # Initialise column elements
       x_offset = 0
 
-      columns_config.each do |key, value|
+      @columns_config.each do |key, value|
         width = col_width(value)
         column_orientation = @orientation.clone
         column_orientation[:x_offset] = x_offset
@@ -31,6 +32,11 @@ module OpenProject::PdfExport::TaskboardCard
     end
 
     def draw
+      # Draw a separating line underneath box if specified
+      if @config["has_border"]
+        @pdf.line [@orientation[:x_offset], @orientation[:y_offset] - @orientation[:height]], [@orientation[:x_offset] + @orientation[:width], @orientation[:y_offset] - @orientation[:height]]
+      end
+
       # Draw columns
       @column_elements.each do |c|
         c.draw
