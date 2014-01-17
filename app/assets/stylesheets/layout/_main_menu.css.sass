@@ -35,12 +35,22 @@ $toggler-width: 40px
 @mixin toggle-menu-item-background($bg-color: $main_menu_bg_hover_selected_background, $color: $main_menu_selected_font_color)
   &:hover
     background: $bg-color
+
+    @if $main_menu_enable_toggle_highlighting != true
+      // simultaneously hover all menu item anchor tags
+      > a
+        color: $color
+
   > a
-    &:hover, &.selected
-      color: $color
-      text-decoration: none
+    text-decoration: none
+
     &.selected, &.selected + a
       background: $bg-color
+
+    &:hover, &.selected
+      color: $color
+    &.selected + a
+      color: $color
 
 
 #main-menu
