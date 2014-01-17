@@ -19,7 +19,7 @@ See doc/COPYRIGHT.md for more details.
 ++#%>
 
 <div class="contextual">
-<%= link_to_if_authorized(l(:label_history), {:controller => '/' + @content_type.pluralize, :action => 'history', :meeting_id => @meeting}, :class => 'icon icon-history') %>
+  <%= link_to_if_authorized(l(:label_history), {:controller => '/' + @content_type.pluralize, :action => 'history', :meeting_id => @meeting}, :class => 'icon icon-wiki') %>
 </div>
 
 <h2><%= l(:"label_#{@content_type}") %>: <%= link_to @meeting, @meeting %></h2>
