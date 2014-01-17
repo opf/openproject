@@ -75,7 +75,7 @@ module OpenProject::Plugins
         base.initializer "#{engine_name}.register_plugin" do
           spec = Bundler.environment.specs[gem_name][0]
 
-          Redmine::Plugin.register engine_name.to_sym do
+          p = Redmine::Plugin.register engine_name.to_sym do
             name spec.summary
             author spec.authors.kind_of?(Array) ? spec.authors[0] : spec.authors
             description spec.description
@@ -85,7 +85,8 @@ module OpenProject::Plugins
             options.each do |name, value|
               send(name, value)
             end
-          end.instance_eval(&block)
+          end
+          p.instance_eval(&block) if (p && block)
         end
 
         # Workaround to ensure settings are available after unloading in development mode
