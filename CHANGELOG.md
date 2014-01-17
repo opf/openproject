@@ -1,5 +1,6 @@
 # Changelog
 
+* `#2256` [Accessibility] linearisation of issue show form (2)
 * Rewritten Javascript to exclusively use jQuery
 
 ## 1.0.1.pre4
