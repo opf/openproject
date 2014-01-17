@@ -37,6 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2250` [Accessibility] activity icon labels
 * `#2260` [Accessibility] no-existent alt-text for collapse/expand functionality in grouped work-package list
 * `#2734` [API] Access-Key not supported for all controllers
+* `#2366` [Timelines] Add support for user deletion to timelines
 * `#3120` Implement a test suite the spikes can be developed against
 * `#3251` [Timelines] Filtering for Responsible filters everything
 * `#3409` New Layout for fallback Login page
