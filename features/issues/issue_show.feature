@@ -54,9 +54,9 @@ Feature: Watch issues
   @javascript
   Scenario: Watch an issue
     When I go to the page of the issue "issue1"
-    Then I should see "Watch" within "#content > .action_menu_main"
-    When I click on "Watch" within "#content > .action_menu_main"
-    Then I should see "Unwatch" within "#content > .action_menu_main"
+    Then I should see "Watch" within "#content > .action_menu_specific"
+    When I click on "Watch" within "#content > .action_menu_specific"
+    Then I should see "Unwatch" within "#content > .action_menu_specific"
     Then the issue "issue1" should have 1 watchers
 
   @javascript
@@ -64,9 +64,9 @@ Feature: Watch issues
     Given the issue "issue1" is watched by:
       | bob |
     When I go to the page of the issue "issue1"
-    Then I should see "Unwatch" within "#content > .action_menu_main"
-    When I click on "Unwatch" within "#content > .action_menu_main"
-    Then I should see "Watch" within "#content > .action_menu_main"
+    Then I should see "Unwatch" within "#content > .action_menu_specific"
+    When I click on "Unwatch" within "#content > .action_menu_specific"
+    Then I should see "Watch" within "#content > .action_menu_specific"
     Then the issue "issue1" should have 0 watchers
 
   @javascript
