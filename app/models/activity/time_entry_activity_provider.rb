@@ -60,6 +60,10 @@ class Activity::TimeEntryActivityProvider < Activity::BaseActivityProvider
     "#{l_hours(event['time_entry_hours'])} (#{time_entry_object_name})"
   end
 
+  def event_type(event, activity)
+    'time-entry'
+  end
+
   def work_package_title(event)
     Activity::WorkPackageActivityProvider.work_package_title(event['journable_id'],
                                                              event['work_package_subject'],

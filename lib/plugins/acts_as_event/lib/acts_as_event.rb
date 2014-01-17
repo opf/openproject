@@ -41,6 +41,7 @@ module Redmine
                               :description => :description,
                               :author => :author,
                               :url => {:controller => '/welcome'},
+                              :name => ::I18n.t(self.name.underscore, scope: 'events'),
                               :type => self.name.underscore.dasherize }
 
           cattr_accessor :event_options
@@ -54,7 +55,7 @@ module Redmine
           base.extend ClassMethods
         end
 
-        %w(datetime title description author type).each do |attr|
+        %w(datetime title description author name type).each do |attr|
           src = <<-END_SRC
             def event_#{attr}
               option = event_options[:#{attr}]

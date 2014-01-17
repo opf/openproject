@@ -161,45 +161,45 @@ function showAndScrollTo(id, focus) {
 	Element.scrollTo(id);
 }
 
+function setGroupRowStatus(el) {
+  var collapseExpandButton = jQuery(el);
+  var row = jQuery(el).closest("tr");
+  var isOpen = row.hasClass("open")
+  var toggleAllLink = row.find(".toggle-all")
+  var toggleAllLinkText = isOpen ? I18n.t('js.label_collapse_all') : I18n.t('js.label_expand_all');
+
+  collapseExpandButton.toggleClass("icon-minus")
+  collapseExpandButton.toggleClass("icon-plus")
+  toggleAllLink.text(toggleAllLinkText);
+}
+
 function toggleRowGroup(el) {
-	var tr = Element.up(el, 'tr');
-	var n = Element.next(tr);
-	tr.toggleClassName('open');
-	while (n != undefined && !n.hasClassName('group')) {
-		Element.toggle(n);
-		n = Element.next(n);
-	}
-}
+  var row = jQuery(el).closest("tr");
+  
+  row.toggleClass("open closed");
 
-function collapseAllRowGroups(el) {
-  var tbody = Element.up(el, 'tbody');
-  tbody.childElements('tr').each(function(tr) {
-    if (tr.hasClassName('group')) {
-      tr.removeClassName('open');
-    } else {
-      tr.hide();
-    }
-  })
-}
+  setGroupRowStatus(el);
 
-function expandAllRowGroups(el) {
-  var tbody = Element.up(el, 'tbody');
-  tbody.childElements('tr').each(function(tr) {
-    if (tr.hasClassName('group')) {
-      tr.addClassName('open');
-    } else {
-      tr.show();
-    }
-  })
+  row.nextUntil("tr.group").each(function(index) {
+    jQuery(this).toggle();
+  });
 }
 
 function toggleAllRowGroups(el) {
-	var tr = Element.up(el, 'tr');
-  if (tr.hasClassName('open')) {
-    collapseAllRowGroups(el);
-  } else {
-    expandAllRowGroups(el);
-  }
+  var row = jQuery(el).closest("tr");
+  var collapseExpandButton = jQuery(row).find(".expander");
+  var isOpen = row.hasClass("open");
+
+  toggleRowGroup(collapseExpandButton);
+
+  row.siblings("tr.group").each(function(index) {
+    var currentGroupOpen = jQuery(this).hasClass("open");
+    var collapseExpandButton = jQuery(this).find(".expander");
+
+    if (isOpen == currentGroupOpen) {
+      toggleRowGroup(collapseExpandButton);
+    }
+  });
 }
 
 function toggleFieldset(el) {

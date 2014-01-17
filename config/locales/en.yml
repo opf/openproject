@@ -517,6 +517,17 @@ en:
   error_menu_item_not_created: Menu item could not be added
   error_menu_item_not_saved: Menu item could not be saved
 
+  events:
+    changeset: 'Changeset edited'
+    message: Message edited
+    news: News
+    reply: Replied
+    time_entry: 'Timelog edited'
+    wiki_page: 'Wiki page edited'
+    work_package_closed: 'Work Package closed'
+    work_package_edit: 'Work Package edited'
+    work_package_note: 'Work Package note added'
+
   general_csv_decimal_separator: "."
   general_csv_encoding: "ISO-8859-1"
   general_csv_separator: ","
@@ -569,6 +580,8 @@ en:
     filter:
       noneElement: "(none)"
       noneSelection: "(none)"
+    label_collapse_all: "Collapse all"
+    label_expand_all: "Expand all"
 
   label_account: "Account"
   label_activity: "Activity"
@@ -630,6 +643,8 @@ en:
   label_chronological_order: "In chronological order"
   label_close_versions: "Close completed versions"
   label_closed_work_packages: "closed"
+  label_collapse: "Collapse"
+  label_collapse_all: "Collapse all"
   label_comment_add: "Add a comment"
   label_comment_added: "Comment added"
   label_comment_delete: "Delete comments"
@@ -682,6 +697,8 @@ en:
   label_environment: "Environment"
   label_equals: "is"
   label_example: "Example"
+  label_expand: "Expand"
+  label_expand_all: "Expand all"
   label_export_to: "Also available in:"
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
@@ -1439,6 +1456,7 @@ en:
       parent: "Show subprojects of"
       work_package_filters: "Filter work packages"
       work_package_responsible: "Show work packages with responsible"
+      work_package_assignee: "Show work packages with assignee"
       types: "Show types"
       status: "Show status"
 
