@@ -66,6 +66,9 @@ module.exports = function(grunt) {
     var fs = require("fs");
     fs.renameSync(jsPath, tempPath);
     fs.renameSync(covPath, jsPath);
+
+
+    fs.renameSync(tempPath + "date-en-US.js", jsPath + "date-en-US.js");
   });
 
   grunt.registerTask('cleanUpCoverage', 'undo moveFiles', function () {
