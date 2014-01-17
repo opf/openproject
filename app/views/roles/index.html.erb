@@ -10,11 +10,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div class="contextual">
+<% content_for :action_menu_specific do %>
   <%= link_to l(:label_role_new), {:action => 'new'}, :class => 'icon icon-add' %>
-</div>
+<% end %>
 
 <h2><%= Role.model_name.human(:count => 2) %></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
 
 <table class="list">
   <thead>
