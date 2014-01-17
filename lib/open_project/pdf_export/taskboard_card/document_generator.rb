@@ -16,7 +16,7 @@ module OpenProject::PdfExport::TaskboardCard
       @config = config
       @work_packages = work_packages
 
-      page_layout = :landscape
+      page_layout = :landscape if config.landscape? else :portrait
       page_size = config.page_size or defaults[:page_size]
       geom = Prawn::Document::PageGeometry::SIZES[page_size]
       @paper_width = geom[0]
@@ -37,22 +37,28 @@ module OpenProject::PdfExport::TaskboardCard
     end
 
     def render_pages
-      @work_packages.each do |wp|
-        @config.per_page.times do
-          # Position and size depend on how the cards are to be arranged on the page which is not known yet
-          padding = 20
+      padding = 10
+      card_width = 400
+      card_height = ((pdf.bounds.height - (padding * @config.per_page )) / @config.per_page) - (padding / @config.per_page)
+      card_y_offset = pdf.bounds.height - padding
 
-          orientation = {
-            y_offset: pdf.bounds.height - padding,
-            x_offset: padding,
-            width: 400,
-            height: 400
-          }
+      @work_packages.each_with_index do |wp, i|
+        orientation = {
+          y_offset: card_y_offset,
+          x_offset: padding,
+          width: card_width,
+          height: card_height
+        }
 
-          card_element = CardElement.new(pdf, orientation, config.rows_hash, wp)
-          card_element.draw
+        card_element = CardElement.new(pdf, orientation, config.rows_hash, wp)
+        card_element.draw
+
+        if (i + 1) % @config.per_page == 0
+          pdf.start_new_page
+          card_y_offset = pdf.bounds.height - padding
+        else
+          card_y_offset -= (card_height + padding)
         end
-        pdf.start_new_page
       end
     end
   end
