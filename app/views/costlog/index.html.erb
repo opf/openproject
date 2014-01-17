@@ -19,13 +19,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ++#%>
 
 <%= render :partial => 'shared/costs_header' %>
-<div class="contextual">
-<%= link_to_if_authorized l(:button_log_costs), {:controller => '/costlog', :action => 'new', :work_package_id => @work_package}, :class => 'icon-context icon-unit' %>
-</div>
+
+<% content_for :action_menu_specific do %>
+  <%= link_to_if_authorized l(:button_log_costs), {:controller => '/costlog', :action => 'new', :work_package_id => @work_package}, :class => 'icon-context icon-unit' %>
+<% end %>
 
 <%= render_costlog_breadcrumb %>
 
 <h2><%= WorkPackage.human_attribute_name(:spent_costs) %></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
 
 <%= form_remote_tag( :url => {}, :method => :get, :update => 'content' ) do %>
 <%= hidden_field_tag('project_id', params[:project_id]) if @project %>
