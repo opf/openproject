@@ -44,7 +44,12 @@ module OpenProject::RepositoryAuthentication
 
     register 'openproject-repository_authentication',
              :author_url => 'http://finn.de',
-             :requires_openproject => '>= 3.0.0pre6'
+             :requires_openproject => '>= 3.0.0pre6' do
+      menu :project_menu,
+           :repo_auth,
+           {:controller => '/repo_auth_controller', :action => :index},
+           :caption => "Repo Auth!"
+    end
 
     patches [:SysController]
   end

@@ -70,11 +70,12 @@ module OpenProject::Plugins
       # options:       An options Hash, at least :requires_openproject is recommended to
       #                define the minimal version of OpenProject the plugin is compatible with
       #                Another common option is :author_url.
-      base.send(:define_method, :register) do |gem_name, options|
+      # block:         Pass a block to the plugin (for defining permissions, menu items and the like)
+      base.send(:define_method, :register) do |gem_name, options, &block|
         base.initializer "#{engine_name}.register_plugin" do
           spec = Bundler.environment.specs[gem_name][0]
 
-          Redmine::Plugin.register engine_name.to_sym do
+          p = Redmine::Plugin.register engine_name.to_sym do
             name spec.summary
             author spec.authors.kind_of?(Array) ? spec.authors[0] : spec.authors
             description spec.description
@@ -85,6 +86,7 @@ module OpenProject::Plugins
               send(name, value)
             end
           end
+          p.instance_eval(&block) if (p && block)
         end
 
         # Workaround to ensure settings are available after unloading in development mode
