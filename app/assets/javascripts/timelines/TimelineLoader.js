@@ -736,11 +736,18 @@ Timeline.TimelineLoader = (function () {
       }
     };
 
+    TimelineLoader.prototype.provideServerSideFilterHashAssignee = function (hash) {
+      if (this.options.planning_element_assignee !== undefined) {
+        hash.assigned_to_id = this.options.planning_element_assignee;
+      }
+    };
+
     TimelineLoader.prototype.provideServerSideFilterHash = function() {
       var result = {};
       this.provideServerSideFilterHashTypes(result);
       this.provideServerSideFilterHashResponsibles(result);
       this.provideServerSideFilterHashStatus(result);
+      this.provideServerSideFilterHashAssignee(result);
       return result;
     };
 

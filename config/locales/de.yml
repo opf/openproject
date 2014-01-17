@@ -1466,6 +1466,7 @@ de:
       parent: "Zeige Unterprojekte von"
       work_package_filters: "Arbeitspakete filtern"
       work_package_responsible: "Arbeitspakete von diesem Verantwortlichen anzeigen"
+      work_package_assignee: "Zugewiesen an"
 
       project_time_filter: "Projekte mit Arbeitspaket eines Typs in einem Zeitfenster"
       project_time_filter_historical: "von %{startdate} bis %{enddate}"

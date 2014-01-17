@@ -83,6 +83,7 @@ class Timeline < ActiveRecord::Base
     "initial_outline_expansion",
     "parents",
     "planning_element_responsibles",
+    "planning_element_assignee",
     "planning_element_status",
     "planning_element_time",
     "planning_element_time_absolute_one",
@@ -272,6 +273,12 @@ class Timeline < ActiveRecord::Base
 
   def selected_planning_element_responsibles
     resolve_with_none_element(:planning_element_responsibles) do |ary|
+      User.find(ary)
+    end
+  end
+
+  def selected_planning_element_assignee
+    resolve_with_none_element(:planning_element_assignee) do |ary|
       User.find(ary)
     end
   end

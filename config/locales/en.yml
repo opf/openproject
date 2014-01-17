@@ -1456,6 +1456,7 @@ en:
       parent: "Show subprojects of"
       work_package_filters: "Filter work packages"
       work_package_responsible: "Show work packages with responsible"
+      work_package_assignee: "Show work packages with assignee"
       types: "Show types"
       status: "Show status"
 
