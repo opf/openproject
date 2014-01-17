@@ -45,7 +45,6 @@ end
 source 'https://rubygems.org'
 
 gem "rails", "~> 3.2.19"
-gem 'subscribem', git: 'git@github.com:finnlabs/subscribem.git', branch: 'development'
 
 gem "coderay", "~> 1.0.5"
 gem "rubytree", "~> 0.8.3"

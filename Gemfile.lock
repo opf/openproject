@@ -1,19 +1,4 @@
 GIT
-  remote: git@github.com:finnlabs/subscribem.git
-  revision: 6f5e69cdba0770bf037d65f8aa530f03b61f6adf
-  branch: development
-  specs:
-    subscribem (0.0.1)
-      after_do (~> 0.3.0)
-      apartment (~> 0.24.2)
-      bcrypt-ruby (~> 3.0.1)
-      delayed_job (~> 3.0.5)
-      dynamic_form (~> 1.1.4)
-      rails (~> 3.2.16)
-      recaptcha (~> 0.3.6)
-      will_paginate (~> 3.0)
-
-GIT
   remote: https://github.com/Compass/compass-rails
   revision: f97a4f41518204683aeec7037da3d9b8c57ef4cb
   specs:
@@ -112,10 +97,6 @@ GEM
     acts_as_list (0.2.0)
       activerecord (>= 3.0)
     addressable (2.3.4)
-    after_do (0.3.1)
-    apartment (0.24.3)
-      activerecord (>= 3.1.2)
-      rack (>= 1.3.6)
     arel (3.0.3)
     awesome_nested_set (2.1.6)
       activerecord (>= 3.0.0)
@@ -123,7 +104,6 @@ GEM
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
       thread_safe (~> 0.3, >= 0.3.1)
-    bcrypt-ruby (3.0.1)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     bourbon (4.0.0)
@@ -200,7 +180,6 @@ GEM
     disposable (0.0.4)
       representable (~> 1.8.1)
       uber
-    dynamic_form (1.1.4)
     equalizer (0.0.9)
     erubis (2.7.0)
     eventmachine (1.0.3)
@@ -358,7 +337,6 @@ GEM
     rb-readline (0.5.1)
     rdoc (3.12.2)
       json (~> 1.4)
-    recaptcha (0.3.6)
     redcarpet (3.0.0)
     ref (1.0.5)
     reform (1.0.4)
@@ -547,7 +525,6 @@ DEPENDENCIES
   sprockets-rails!
   sqlite3
   strong_parameters
-  subscribem!
   svg-graph
   syck
   test-unit (= 2.5.5)
