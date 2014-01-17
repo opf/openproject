@@ -583,6 +583,8 @@ de:
     filter:
       noneElement: "(keines)"
       noneSelection: "(keine)"
+    label_collapse_all: "Alle zuklappen"
+    label_expand_all: "Alle aufklappen"
 
   label_account: "Konto"
   label_activity: "Aktivität"
@@ -644,6 +646,8 @@ de:
   label_chronological_order: "in zeitlicher Reihenfolge"
   label_close_versions: "Vollständige Versionen schließen"
   label_closed_work_packages: "geschlossen"
+  label_collapse: "Zuklappen"
+  label_collapse_all: "Alle zuklappen"
   label_comment_add: "Kommentar hinzufügen"
   label_comment_added: "Kommentar hinzugefügt"
   label_comment_delete: "Kommentar löschen"
@@ -696,6 +700,8 @@ de:
   label_environment: "Umgebung"
   label_equals: "ist"
   label_example: "Beispiel"
+  label_expand: "Aufklappen"
+  label_expand_all: "Alle aufklappen"
   label_export_to: "Auch abrufbar als:"
   label_f_hour: "%{value} Stunde"
   label_f_hour_plural: "%{value} Stunden"

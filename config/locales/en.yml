@@ -580,6 +580,8 @@ en:
     filter:
       noneElement: "(none)"
       noneSelection: "(none)"
+    label_collapse_all: "Collapse all"
+    label_expand_all: "Expand all"
 
   label_account: "Account"
   label_activity: "Activity"
@@ -641,6 +643,8 @@ en:
   label_chronological_order: "In chronological order"
   label_close_versions: "Close completed versions"
   label_closed_work_packages: "closed"
+  label_collapse: "Collapse"
+  label_collapse_all: "Collapse all"
   label_comment_add: "Add a comment"
   label_comment_added: "Comment added"
   label_comment_delete: "Delete comments"
@@ -693,6 +697,8 @@ en:
   label_environment: "Environment"
   label_equals: "is"
   label_example: "Example"
+  label_expand: "Expand"
+  label_expand_all: "Expand all"
   label_export_to: "Also available in:"
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"

@@ -34,6 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2157` [Accessibility] Required fields MUST be displayed as required - enumeration new
 * `#2228` [Accessibility] low contrast in backlogs task view
 * `#2250` [Accessibility] activity icon labels
+* `#2260` [Accessibility] no-existent alt-text for collapse/expand functionality in grouped work-package list
 * `#2734` [API] Access-Key not supported for all controllers
 * `#3120` Implement a test suite the spikes can be developed against
 * `#3251` [Timelines] Filtering for Responsible filters everything
@@ -65,6 +66,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2229` [Accessibility] low contrast in calendar view
 * `#2250` [Accessibility] activity icon labels
 * `#2258` [Accessibility] linearisation of issue show form
+* `#2264` [Accessibility] Table headers for work package hierarchy and relations
 * `#2500` Change default configuration in new OpenProject application so new projects are not public by default
 * `#3370` [Design] Clean-up and refactoring existing CSS for content area
 * `#3528` [Data Migration] Type 'none' is not migrated properly in Timelines
