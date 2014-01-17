@@ -21,8 +21,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if buttons[:edit]%>
     <%= link_to_function l(:button_edit), "return false;", :class => 'icon icon-edit' %>
 <%end%>
-    <%= link_to_remote(l(:button_delete), { :url => principal_role_url(principal_role.id),
-                                            :method => :delete },
-                                            :class => 'icon icon-delete') %>
+    <%= link_to(l(:button_delete),
+                principal_role,
+                { method: :delete, remote: true, class: 'icon icon-delete' }) %>
 </td>
 </tr>

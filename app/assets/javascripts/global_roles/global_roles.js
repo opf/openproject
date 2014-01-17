@@ -69,12 +69,12 @@
 
 		enable_member_forms: function(){
 		 	$('#member_attributes input, #member_attributes input, #member_permissions input').each(function (ix, el) {
-		 		global_roles.enable_element(el);
+				global_roles.enable_element(el);
 		 	});
 		},
 
 		enable_element: function(element){
-			$(element).attr("disabled", false);
+			element.enable();
 		},
 
 		disable_global_forms: function(){
@@ -90,7 +90,7 @@
 		},
 
 		disable_element: function(element){
-			$(element).attr("disabled", true);
+			element.disable();
 		}
   }
 	$(document).ready(global_roles.init);
