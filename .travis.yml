@@ -28,6 +28,10 @@
 
 language: ruby
 rvm:
+  - jruby-18mode
+  - jruby-19mode
+  - jruby-20mode
+  - jruby-21mode
   - 2.1.0
 env:
   # mysql2
