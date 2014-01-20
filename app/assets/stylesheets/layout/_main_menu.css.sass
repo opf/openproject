@@ -89,10 +89,13 @@ $toggler-width: 40px
               +highlight-left-item-border
 
         // padding for placeholder for highlighted left-item-border
-        a:not(.toggler)
+        a
           // work around due to dom manipulation on document: ready:
           // this isn't scoped to .main-item-wrapper to avoid flickering
           padding-left: 7px
+        a.toggler
+          // explicitly reset to zero to avoid selector precedence problems
+          padding-left: 0
 
 
       // all menu items
@@ -108,26 +111,23 @@ $toggler-width: 40px
         a
           background: none
 
-    ul
+    ul.menu-children
       display: none
       padding-top: 1px
       padding-bottom: 1px
-      &.menu-children.unattached
-        border-top: 1px solid #ddd
-
-    ul.menu-children
       background-color: $main_menu_child_menu_bg_color
       padding: 0
+      &.unattached
+        border-top: 1px solid #ddd
       li
-        padding-left: 4px
         +toggle-menu-item-background($main_menu_child_bg_hover_selected_color, $main_menu_child_selected_font_color)
 
         a
+          padding-left: 10px
           font-size: $main_menu_child_font_size
           line-height: $main_menu_child_item_height
           height: $main_menu_child_item_height
           border: none
-          padding: 0 0 0 10px
           color: $main_menu_child_font_color
           margin-top: 1px
 
