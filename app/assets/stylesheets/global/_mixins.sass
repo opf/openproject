@@ -66,3 +66,57 @@
   -webkit-border-radius: $radius
   -moz-border-radius: $radius
   border-radius: $radius
+
+@mixin button
+  background-color: $button_bg_color
+  color: $button_font_color
+  @include default-transition
+  @include border-radius($button_border_radius)
+  margin: 10px 10px 0 0
+  padding: 5px 13px
+  line-height: 23px
+  font-size: 12px
+  font-weight: normal
+  &:hover
+    background-color: $button_bg_hover_color
+    color: $button_font_hover_color
+    text-decoration: none
+
+@mixin content-box
+  margin-top: 20px
+  padding: 25px
+  border: $content_box_border
+  background-color: $content_box_bg_color
+  min-height: 65px
+  zoom: 1
+  overflow-x: auto
+
+  h3, h2
+    border-bottom: 1px solid #EAEAEA
+    color: #444444
+    font-size: 17px
+    font-weight: normal
+    margin: 0 0 20px
+    padding: 5px 0 10px
+
+  table
+    padding: 10px
+    margin-top: 15px
+    margin-bottom: 15px
+
+  table
+    &.issues td, &.list, th
+      border: none
+      padding: 0
+      width: auto
+      padding-right: 30px
+      padding-bottom: 5px
+    th
+      border: none
+      background: transparent
+      font-weight: bold
+
+    tr.even
+      background-color: white
+  ul
+    margin-bottom: 20px
