@@ -39,7 +39,7 @@ module OpenProject::PdfExport::TaskboardCard
     def render_pages
       padding = 10
       card_width = 400
-      card_height = ((pdf.bounds.height - (padding * @config.per_page )) / @config.per_page) - (padding / @config.per_page)
+      card_height = ((pdf.bounds.height - (padding * config.per_page )) / config.per_page) - (padding / config.per_page)
       card_y_offset = pdf.bounds.height - padding
 
       @work_packages.each_with_index do |wp, i|
@@ -51,12 +51,12 @@ module OpenProject::PdfExport::TaskboardCard
         }
 
         card_element = CardElement.new(pdf, orientation, config.rows_hash, wp)
-        if i > 0 && i % @config.per_page == 0
+        if i > 0 && i % config.per_page == 0
           pdf.start_new_page
         end
         card_element.draw
 
-        if (i + 1) % @config.per_page == 0
+        if (i + 1) % config.per_page == 0
           card_y_offset = pdf.bounds.height - padding
         else
           card_y_offset -= (card_height + padding)

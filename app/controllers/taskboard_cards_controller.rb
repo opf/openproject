@@ -14,4 +14,5 @@ class TaskboardCardsController < PdfExportBaseController
       format.pdf { send_data(document.render, :disposition => 'attachment', :type => 'application/pdf') }
     end
   end
+
 end

@@ -1,5 +1,7 @@
 module OpenProject::PdfExport::TaskboardCard
   class RowElement
+    include OpenProject::PdfExport::Exceptions
+
     def initialize(pdf, orientation, config, work_package)
       @pdf = pdf
       @orientation = orientation
@@ -7,6 +9,8 @@ module OpenProject::PdfExport::TaskboardCard
       @columns_config = config["columns"]
       @work_package = work_package
       @column_elements = []
+
+      raise BadlyFormedTaskboardCardConfigurationError.new("Badly formed YAML") if @columns_config.nil?
 
       # Initialise column elements
       x_offset = 0

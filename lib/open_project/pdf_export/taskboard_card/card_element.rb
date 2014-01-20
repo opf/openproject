@@ -1,5 +1,7 @@
 module OpenProject::PdfExport::TaskboardCard
   class CardElement
+    include OpenProject::PdfExport::Exceptions
+
     def initialize(pdf, orientation, rows_config, work_package)
       @pdf = pdf
       @orientation = orientation
@@ -7,6 +9,8 @@ module OpenProject::PdfExport::TaskboardCard
       @work_package = work_package
       @row_elements = []
       @rows = @rows_config["rows"]
+
+      raise BadlyFormedTaskboardCardConfigurationError.new("Badly formed YAML") if @rows.nil?
 
       # Simpler to remove empty rows before calculating the row sizes
       RowElement.prune_empty_rows(@rows, work_package)
@@ -38,7 +42,7 @@ module OpenProject::PdfExport::TaskboardCard
       diffs.each_with_index do |diff, i|
         if diff < 0
           # Need to grab some pixels from a low priority row and add them to current one
-          reduce_low_priority_rows3(assigned_heights, diffs, i)
+          reduce_low_priority_rows(assigned_heights, diffs, i)
         end
       end
 
@@ -46,41 +50,7 @@ module OpenProject::PdfExport::TaskboardCard
       assigned_heights
     end
 
-    # TODO: This currently finds the first row that can be reduced by the full amount required.
-    # Still to do:
-    #   Take priorities into account to reduce unimportant rows first.
-    #   Reduce from more than one row at a time if that's the only way (or just so it looks more even)
-    #   Handle case when there is not enough space ie. reduce unimportant rows to below there minimum.
-    # This could all get a bit hairy quite quickly so waiting to discuss it before going on.
     def reduce_low_priority_rows(assigned_heights, diffs, conflicted_i)
-      reduce_by = diffs[conflicted_i] * -1
-      diffs.each_with_index do |diff, i|
-        if diff >= reduce_by
-          exchange(assigned_heights, diffs, i, conflicted_i, reduce_by)
-          return true
-        end
-      end
-      return false
-    end
-
-    # Slightly better - reduces from multiple rows until done or can't find any more space.
-    def reduce_low_priority_rows2(assigned_heights, diffs, conflicted_i)
-      to_reduce = diffs[conflicted_i] * -1
-      diffs.each_with_index do |diff, i|
-        if diff > 0
-          if diff >= to_reduce
-            exchange(assigned_heights, diffs, i, conflicted_i, to_reduce)
-            return true
-          else
-            exchange(assigned_heights, diffs, i, conflicted_i, diff)
-            to_reduce -= diff
-          end
-        end
-      end
-      return false
-    end
-
-    def reduce_low_priority_rows3(assigned_heights, diffs, conflicted_i)
       # Get an array of row indexes sorted by inverse priority
       priorities = *(0..@rows_config["rows"].count - 1)
         .zip(@rows_config["rows"].map { |k, v| first_column_property(v, "priority") or 10 })
