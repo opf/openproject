@@ -82,14 +82,12 @@ module RbMasterBacklogsHelper
                                     :project_id => @project,
                                     :sprint_id => backlog.sprint)
 
-    if OpenProject::Backlogs::TaskboardCard::PageLayout.selected_label.present?
-      items[:cards] = link_to(l(:label_sprint_cards),
-                              :controller => '/rb_stories',
-                              :action => 'index',
-                              :project_id => @project,
-                              :sprint_id => backlog.sprint,
-                              :format => :pdf)
-    end
+    items[:cards] = link_to(l(:label_sprint_cards),
+                            :controller => '/rb_stories',
+                            :action => 'index',
+                            :project_id => @project,
+                            :sprint_id => backlog.sprint,
+                            :format => :pdf)
 
     items
   end

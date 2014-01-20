@@ -35,12 +35,12 @@
 
 class RbStoriesController < RbApplicationController
   unloadable
-  include OpenProject::Backlogs::TaskboardCard
+  include OpenProject::PdfExport::TaskboardCard
 
   def index
-    cards_document = OpenProject::Backlogs::TaskboardCard::Document.new(current_language)
-
-    @sprint.stories(@project).each { |story| cards_document.add_story(story) }
+    # TODO RS: We need some kind of dialog to select which config to use. For now use default.
+    config = TaskboardCardConfiguration.where({:identifier => "default"}).first
+    cards_document = OpenProject::PdfExport::TaskboardCard::DocumentGenerator.new(config, @sprint.stories(@project))
 
     respond_to do |format|
       format.pdf { send_data(cards_document.render, :disposition => 'attachment', :type => 'application/pdf') }
