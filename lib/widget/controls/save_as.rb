@@ -20,8 +20,8 @@ class Widget::Controls::SaveAs < Widget::Controls
 
   def render_popup_form
     name = content_tag :p do
-      label_tag(:query_name, Query.human_attribute_name(:name)) +
-      text_field_tag(:query_name, @subject.name)
+      label_tag(:query_name, required_field_name(Query.human_attribute_name(:name))) +
+      text_field_tag(:query_name, @subject.name, :required => true)
     end
     if @options[:can_save_as_public]
       box = content_tag :p do
