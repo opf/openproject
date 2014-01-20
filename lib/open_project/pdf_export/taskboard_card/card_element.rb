@@ -135,7 +135,7 @@ module OpenProject::PdfExport::TaskboardCard
       bounds = @orientation.slice(:width, :height)
 
       @pdf.bounding_box(top_left, bounds) do
-        @pdf.stroke_color 'FF0000'
+        @pdf.stroke_color '000000'
 
         # Draw rows
         @row_elements.each do |row|

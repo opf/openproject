@@ -1,10 +1,10 @@
 
 class PdfExportBaseController < ApplicationController
-  before_filter :load_default_config
+  before_filter :load_configs
   before_filter :load_project
 
-  def load_default_config
-    @default_config = TaskboardCardConfiguration.first
+  def load_configs
+    @configs = TaskboardCardConfiguration.all
   end
 
   def load_project
