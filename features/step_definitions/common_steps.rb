@@ -63,7 +63,7 @@ Given /^the [pP]roject(?: "([^\"]+?)")? uses the following types:$/ do |project,
 end
 
 Then(/^I should see the following fields:$/) do |table|
-  table.rows.each do |field, value|
+  table.raw.each do |field, value|
     # enforce matches including the value only if it is provided
     # i.e. the column in the table is created
 
