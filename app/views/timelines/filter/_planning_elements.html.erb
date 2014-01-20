@@ -74,26 +74,26 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= label_tag 'timeline_options_planning_element_types',
                       l("timelines.filter.types") %>
 
-      <% if User.current.impaired? %>
-        <%= select("timeline[options]",
-                 :planning_element_types,
-                 filter_select_with_none(
-                   timeline.available_planning_element_types,
-                   :name, :id),
-                 {:selected => timeline.selected_planning_element_types.map(&:id)},
-                 {:multiple => true,
-                  :size => 12}) %>
-      <% else %>
-        <%= select("timeline[options]", :planning_element_types,
-                   options_for_select([]),
-                   {},
-                   { :'data-ajaxURL' => api_v2_paginate_types_path,
-                     :multiple => true,
-                     :'data-selected' => filter_select(
-                                           timeline.selected_planning_element_types,
-                                           :name, :id).to_json
-                   }) %>
-      <% end %>
+        <% if User.current.impaired? %>
+          <%= select("timeline[options]",
+                   :planning_element_types,
+                   filter_select_with_none(
+                     timeline.available_planning_element_types,
+                     :name, :id),
+                   {:selected => timeline.selected_planning_element_types.map(&:id)},
+                   {:multiple => true,
+                    :size => 12}) %>
+        <% else %>
+          <%= select("timeline[options]", :planning_element_types,
+                     options_for_select([]),
+                     {},
+                     { :'data-ajaxURL' => api_v2_paginate_types_path,
+                       :multiple => true,
+                       :'data-selected' => filter_select(
+                                             timeline.selected_planning_element_types,
+                                             :name, :id).to_json
+                     }) %>
+        <% end %>
       </p>
 
       <p class="tl-form-overflow">
