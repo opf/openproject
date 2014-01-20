@@ -104,20 +104,16 @@ $toggler-width: 40px
           background: none
 
         // sub menu items of main menu
+        // TODO find out if this is still needed
         li
           border: 0
-          +toggle-menu-item-background($main_menu_child_bg_hover_selected_color, $main_menu_child_selected_font_color)
 
-          a
-            // work around due to dom manipulation on document: ready:
-            // reset padding-left set as left-item-border placeholder on all menu item links
-            padding-left: 0
+          a span
+            font-weight: normal
+            color: #999
+            float: right
+            padding-right: 9px
 
-            span
-              font-weight: normal
-              color: #999
-              float: right
-              padding-right: 9px
     ul
       display: none
       padding-top: 1px
@@ -129,6 +125,9 @@ $toggler-width: 40px
       background-color: $main_menu_child_menu_bg_color
       padding: 0
       li
+        padding-left: 4px
+        +toggle-menu-item-background($main_menu_child_bg_hover_selected_color, $main_menu_child_selected_font_color)
+
         a
           font-size: $main_menu_child_font_size
           line-height: $main_menu_child_item_height
