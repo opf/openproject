@@ -33,6 +33,8 @@ $toggler-width: 40px
   border-left: $main_menu_selected_hover_indicator_width solid $main_menu_selected_hover_indicator_color
 
 @mixin toggle-menu-item-background($bg-color: $main_menu_bg_hover_selected_background, $color: $main_menu_selected_font_color)
+  @include default-transition
+
   &:hover
     background: $bg-color
 
@@ -42,6 +44,8 @@ $toggler-width: 40px
         color: $color
 
   > a
+    @include default-transition
+    cursor: pointer
     text-decoration: none
 
     &.selected, &.selected + a
@@ -54,12 +58,13 @@ $toggler-width: 40px
 
 
 #main-menu
-  @include default-transition
   bottom: auto
   width: $main_menu_width
   float: left
   left: 0
   background-color: $main_menu_bg_color
+  @include default-transition
+
   ul
     margin: 0
     padding: 0
