@@ -39,13 +39,14 @@ module OpenProject::Costs::Hooks
     end
 
     def overall_costs
-      unless material_costs.nil? && labor_costs.nil?
-        overall_costs = 0
-        overall_costs += material_costs unless material_costs.nil?
-        overall_costs += labor_costs unless labor_costs.nil?
+      if material_costs || labor_costs
+        sum_costs  = 0
+        sum_costs += material_costs if material_costs
+        sum_costs += labor_costs    if labor_costs
       else
-        overall_costs = nil
+        sum_costs = nil
       end
+      sum_costs
     end
 
     def cost_work_package_attributes
