@@ -1,0 +1,34 @@
+<%
+available_filter_types = ["bool", "list"]
+
+custom_fields.each do |custom_field|
+  if available_filter_types.include? custom_field.field_format then
+%>
+  <p>
+    <%= label_tag "timeline_options_custom_fields_#{custom_field.id}", custom_field.name %>
+    <% if custom_field.field_format == "bool" then %>
+      <%= select "timeline[options][custom_fields]", custom_field.id.to_s.to_sym,
+                  options_for_select(
+                    [
+                      ['', ''],
+                      [l('timelines.filter.noneElement'), '-1'],
+                      [l('general_text_Yes'), '1'],
+                      [l('general_text_No'), '0']
+                    ], timeline.custom_fields_filter[custom_field.id.to_s]),
+                  {},
+                  { :class => "cf_boolean_select", :multiple => false, :size => 1}
+      %>
+    <% elsif custom_field.field_format == "list" then %>
+        <%= hidden_field_tag("timeline[options][custom_fields][#{custom_field.id.to_s}][]",
+            timeline.custom_field_list_value(custom_field.id.to_s),
+            {
+              :"data-values" => list_to_select_object_with_none(custom_field.possible_values).to_json,
+              :class => "cf_list_select"
+            }
+          ) %>
+    <% end %>
+  </p>
+<%
+  end
+end
+%>

@@ -742,12 +742,28 @@ Timeline.TimelineLoader = (function () {
       }
     };
 
+    TimelineLoader.prototype.provideServerSideFilterHashCustomFields = function (hash) {
+      var custom_fields = this.options.custom_fields, field_id;
+
+      if (custom_fields !== undefined) {
+        for (field_id in custom_fields) {
+          if (custom_fields.hasOwnProperty(field_id)) {
+            var value = custom_fields[field_id];
+            if (value !== "") {
+              hash["cf_" + field_id] = value;
+            }
+          }
+        }
+      }
+    };
+
     TimelineLoader.prototype.provideServerSideFilterHash = function() {
       var result = {};
       this.provideServerSideFilterHashTypes(result);
       this.provideServerSideFilterHashResponsibles(result);
       this.provideServerSideFilterHashStatus(result);
       this.provideServerSideFilterHashAssignee(result);
+      this.provideServerSideFilterHashCustomFields(result);
       return result;
     };
 

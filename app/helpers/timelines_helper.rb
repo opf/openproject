@@ -271,6 +271,19 @@ module TimelinesHelper
     collection
   end
 
+  def list_to_select_object_with_none(collection)
+    collection = collection.map do |t|
+      {
+        :name => t,
+        :id => t
+      }
+    end
+    collection.unshift({
+      :name => l("timelines.filter.noneElement"),
+      :id => -1
+    })
+  end
+
   def internationalized_columns_select_object(collection)
     collection.map do |t|
       {

@@ -61,6 +61,7 @@ class Timeline < ActiveRecord::Base
   before_save :split_joined_options_values
 
   @@allowed_option_keys = [
+    "custom_fields",
     "columns",
     "compare_to_absolute",
     "compare_to_relative",
@@ -277,6 +278,24 @@ class Timeline < ActiveRecord::Base
     end
   end
 
+  def custom_field_list_value(field_id)
+    value = self.custom_fields_filter[field_id]
+    if value then
+      value.join(",")
+    else
+      ""
+    end
+  end
+
+  def custom_fields_filter
+    options["custom_fields"] || {}
+  end
+
+  def get_custom_fields
+    customFields = WorkPackageCustomField.find(:all, conditions: {is_filter: true})
+    return customFields
+  end
+
   def selected_planning_element_assignee
     resolve_with_none_element(:planning_element_assignee) do |ary|
       User.find(ary)
@@ -359,6 +378,14 @@ class Timeline < ActiveRecord::Base
       self[:options].each_pair do |key, value|
         if value.instance_of?(Array) && value.length == 1 then
           self[:options][key] = value[0].split(",")
+        end
+      end
+
+      unless self[:options][:custom_fields].nil?
+        self[:options][:custom_fields].each_pair do |key, value|
+          if value.instance_of?(Array) && value.length == 1 then
+            self[:options][:custom_fields][key] = value[0].split(",")
+          end
         end
       end
     end

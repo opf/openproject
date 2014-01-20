@@ -379,6 +379,7 @@ jQuery.extend(Timeline, {
         planning_element_types        : this.options.planning_element_types,
         planning_element_responsibles : this.options.planning_element_responsibles,
         planning_element_assignee     : this.options.planning_element_assignee,
+        custom_fields                 : this.options.custom_fields,
         planning_element_status       : this.options.planning_element_status,
         grouping_one                  : (this.options.grouping_one_enabled ? this.options.grouping_one_selection : undefined),
         grouping_two                  : (this.options.grouping_two_enabled ? this.options.grouping_two_selection : undefined),

@@ -147,6 +147,7 @@ See doc/COPYRIGHT.rdoc for more details.
                    } %>
         <% end %>
       </p>
+      <%= render :partial => "timelines/custom_fields", :locals => {:timeline => @timeline, :custom_fields => timeline.get_custom_fields}%>
     </div>
   </div>
 </fieldset>
