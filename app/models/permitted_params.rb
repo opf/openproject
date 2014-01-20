@@ -66,6 +66,10 @@ class PermittedParams < Struct.new(:params, :user)
     permitted_attributes[key].concat(params)
   end
 
+  def auth_source
+    params.require(:auth_source).permit(*self.class.permitted_attributes[:auth_source])
+  end
+
   def board_move
     params.require(:board).permit(*self.class.permitted_attributes[:move_to])
   end
@@ -237,6 +241,19 @@ class PermittedParams < Struct.new(:params, :user)
 
   def self.permitted_attributes
     @whitelisted_params ||= {
+      :auth_source => [
+        :name,
+        :host,
+        :port,
+        :tls,
+        :account,
+        :account_password,
+        :base_dn,
+        :onthefly_register,
+        :attr_login,
+        :attr_firstname,
+        :attr_lastname,
+        :attr_mail],
       :color => [
         :name,
         :hexcode,

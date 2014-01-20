@@ -28,6 +28,7 @@
 #++
 
 class AuthSource < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
   include Redmine::Ciphering
 
   has_many :users
