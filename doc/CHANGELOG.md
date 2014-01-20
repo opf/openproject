@@ -41,6 +41,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2366` [Timelines] Add support for user deletion to timelines
 * `#3120` Implement a test suite the spikes can be developed against
 * `#3251` [Timelines] Filtering for Responsible filters everything
+* `#3332` [CodeClimate] Mass Assignment AuthSourcesController
 * `#3393` [Timelines] Filter Work Packages by Assignee
 * `#3409` New Layout for fallback Login page
 * `#3453` Highlight project in bread crumb
