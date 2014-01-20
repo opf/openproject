@@ -1,5 +1,7 @@
 # Changelog
 
+* `#3788` [Accessibility] Required fields MUST be displayed as required - new cost report
+
 ## 0.0.1.pre7
 
 * `#1020` fix XSS when displaying costs
