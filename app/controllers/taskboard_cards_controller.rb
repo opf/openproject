@@ -4,6 +4,9 @@ class TaskboardCardsController < PdfExportBaseController
 
   def show
     config = TaskboardCardConfiguration.find(params[:id])
+    if config.nil?
+      config = TaskboardCardConfiguration.where({:identifier => "default"}).first
+    end
     work_packages = @project.work_packages
     document = OpenProject::PdfExport::TaskboardCard::DocumentGenerator.new(config, work_packages)
 
