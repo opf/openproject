@@ -28,20 +28,12 @@
 
 # "Then I should see 5 articles"
 Then /^I should see (\d+) ([^\" ]+)?$/ do |number, name|
-  if defined?(Spec::Rails::Matchers)
-    page.should have_css(".#{name.singularize}", :count => number.to_i)
-  else
-    assert page.has_css?(".#{name.singularize}", :count => number.to_i)
-  end
+  page.should have_css(".#{name.singularize}", :count => number.to_i)
 end
 
 Then /^I should not see(?: (\d+))? ([^\" ]+)$/ do |number, name|
   options = number ? {:count => number.to_i} : {}
-  if defined?(Spec::Rails::Matchers)
-    page.should have_no_css(".#{name.singularize}", options)
-  else
-    assert page.has_no_css?(".#{name.singularize}", options)
-  end
+  page.should have_no_css(".#{name.singularize}", options)
 end
 
 Given /^the [pP]roject(?: "([^\"]+?)")? uses the following types:$/ do |project, table|
