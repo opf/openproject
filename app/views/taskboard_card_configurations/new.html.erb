@@ -1,7 +1,7 @@
 <h2>
   New Taskboard Card Configuration
 </h2>
-<%= form_for @config, :method => :post, url: pdf_export_project_taskboard_card_configurations_path(@project.id) do |f| %>
+<%= form_for @config, :method => :post, url: pdf_export_taskboard_card_configurations_path do |f| %>
   <%= f.label :name %>
   <%= f.text_field :name %>
   <br>

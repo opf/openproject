@@ -1,0 +1,11 @@
+<div class='contextual'></div>
+<h2>
+  Taskboard Card Configurations
+</h2>
+<% @configs.each do |c| %>
+  <%= c.name %>
+  <%= link_to "(edit)", edit_pdf_export_taskboard_card_configuration_path(c.id) %>
+  <br>
+<% end %>
+<br>
+<%= link_to "Create", new_pdf_export_taskboard_card_configuration_path %>
