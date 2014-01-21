@@ -38,13 +38,6 @@ class RbStoriesController < RbApplicationController
   include OpenProject::PdfExport::TaskboardCard
 
   def index
-    # TODO RS: We need some kind of dialog to select which config to use. For now use default.
-    config = TaskboardCardConfiguration.where({:identifier => "default"}).first
-    cards_document = OpenProject::PdfExport::TaskboardCard::DocumentGenerator.new(config, @sprint.stories(@project))
-
-    respond_to do |format|
-      format.pdf { send_data(cards_document.render, :disposition => 'attachment', :type => 'application/pdf') }
-    end
   end
 
   def create

@@ -61,7 +61,7 @@ module RbMasterBacklogsHelper
     end
 
     menu = []
-    [:new_story, :stories_tasks, :task_board, :burndown, :cards, :wiki].each do |key|
+    [:new_story, :stories_tasks, :task_board, :burndown, :cards, :wiki, :configs].each do |key|
       menu << items[key] if items.keys.include?(key)
     end
 
@@ -82,12 +82,11 @@ module RbMasterBacklogsHelper
                                     :project_id => @project,
                                     :sprint_id => backlog.sprint)
 
-    items[:cards] = link_to(l(:label_sprint_cards),
-                            :controller => '/rb_stories',
+    items[:configs] = link_to(l(:label_sprint_cards),
+                            :controller => '/rb_taskboard_card_configurations',
                             :action => 'index',
                             :project_id => @project,
-                            :sprint_id => backlog.sprint,
-                            :format => :pdf)
+                            :sprint_id => backlog.sprint)
 
     items
   end
