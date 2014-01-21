@@ -80,6 +80,15 @@ Given /^the work package "(.+?)" has the custom field "(.+?)" set to "(.+?)"$/ d
   wp.save!
 end
 
+Given(/^the custom field "(.*?)" is enabled for the project "(.*?)"$/) do |field_name, project_name|
+  custom_field = WorkPackageCustomField.find_by_name(field_name)
+  project = Project.find_by_name(project_name)
+
+  project.work_package_custom_fields << custom_field
+  project.save!
+end
+
+
 Given /^the custom field "(.+)" is( not)? summable$/ do |field_name, negative|
   custom_field = WorkPackageCustomField.find_by_name(field_name)
 
