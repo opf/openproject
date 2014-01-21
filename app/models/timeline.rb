@@ -292,8 +292,7 @@ class Timeline < ActiveRecord::Base
   end
 
   def get_custom_fields
-    customFields = WorkPackageCustomField.find(:all, conditions: {is_filter: true})
-    return customFields
+    project.all_work_package_custom_fields
   end
 
   def selected_planning_element_assignee
