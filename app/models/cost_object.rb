@@ -21,7 +21,7 @@ class CostObject < ActiveRecord::Base
                 url: Proc.new {|o| {:controller => 'cost_objects', :action => 'show', :id => o.id}}
 
 
-  validates_presence_of :subject, :project, :author, :kind
+  validates_presence_of :subject, :project, :author, :kind, :fixed_date
   validates_length_of :subject, :maximum => 255
   validates_length_of :subject, :minimum => 1
 
