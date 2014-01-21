@@ -21,7 +21,8 @@ class TaskboardCardConfigurationsController < ApplicationController
   def create
     @config = TaskboardCardConfiguration.new(params[:taskboard_card_configuration])
     if @config.save
-      redirect_to pdf_export_taskboard_card_configurations_path
+      flash[:notice] = l(:notice_successful_create)
+      redirect_to :action => 'index'
     else
       render "new"
     end
@@ -37,12 +38,11 @@ class TaskboardCardConfigurationsController < ApplicationController
   end
 
   def destroy
-    # TODO RS: Should not be able to delete the default config. Get that onto the model preferably.
-    if @config.destroy
+    if !@config.is_default? && @config.destroy
       flash[:notice] = l(:notice_successful_delete)
-    end
-      flash[:notice] = l(:error_can_not_delete_taskboard_card_configuration)
     else
+      flash[:notice] = l(:error_can_not_delete_taskboard_card_configuration)
+    end
     redirect_to :action => 'index'
   end
 
