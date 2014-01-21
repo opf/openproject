@@ -1,24 +1,6 @@
-<h2>
-  New Taskboard Card Configuration
-</h2>
-<%= form_for @config, :method => :post, url: pdf_export_taskboard_card_configurations_path do |f| %>
-  <%= f.label :name %>
-  <%= f.text_field :name %>
-  <br>
-  <%= f.label :identifier %>
-  <%= f.text_field :identifier %>
-  <br>
-  <%= f.label :page_size %>
-  <%= f.text_field :page_size %>
-  <br>
-  <%= f.label :per_page %>
-  <%= f.text_field :per_page %>
-  <br>
-  <%= f.label :orientation %>
-  <%= f.text_field :orientation %>
-  <br>
-  <%= f.label :rows %>
-  <%= f.text_area :rows %>
-  <br>
-  <%= f.submit %>
+
+<h2><%= link_to t(:label_taskboard_card_configuration_plural), pdf_export_taskboard_card_configurations_path %> &#187; <%= t(:label_taskboard_card_configuration_new) %></h2>
+
+<%= form_for @config, :method => :post, url: pdf_export_taskboard_card_configurations_path, :builder => TabularFormBuilder do |f| %>
+  <%= render :partial => 'form', :locals => { :f => f } %>
 <% end %>

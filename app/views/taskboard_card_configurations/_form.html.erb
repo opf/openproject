@@ -1,0 +1,14 @@
+<%= error_messages_for 'taskboard_card_configuration' %>
+
+<div class="box tabular">
+<!--[form:taskboard_card_configuration]-->
+<p><%= f.text_field :name, :required => true %></p>
+<p><%= f.text_field :identifier, :required => true %></p>
+<p><%= f.text_field :per_page, :required => true %></p>
+<p><%= f.text_field :page_size, :required => true %></p>
+<p><%= f.text_field :orientation, :required => true %></p>
+<p><%= f.text_area :rows, :required => true %></p>
+
+<!--[eoform:taskboard_card_configuration]-->
+</div>
+<%= submit_tag l(@config.new_record? ? :button_create : :button_save) %>
