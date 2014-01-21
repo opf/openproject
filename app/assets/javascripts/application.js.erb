@@ -46,6 +46,7 @@
 //= require jquery_ujs
 //= require jquery_noconflict
 //= require jquery.colorcontrast
+//= require openproject-ui-components
 //= require prototype
 //= require effects
 //= require dragdrop
@@ -175,7 +176,7 @@ function setGroupRowStatus(el) {
 
 function toggleRowGroup(el) {
   var row = jQuery(el).closest("tr");
-  
+
   row.toggleClass("open closed");
 
   setGroupRowStatus(el);

@@ -97,6 +97,7 @@ group :assets do
   gem 'jquery-ui-rails'
   gem 'select2-rails', '~> 3.3.2'
   gem 'jquery-atwho-rails'
+  gem 'openproject-ui_components', git: 'git@github.com:opf/openproject-ui_components.git', branch: 'dev'
 end
 
 gem "prototype-rails"

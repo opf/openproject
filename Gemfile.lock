@@ -1,4 +1,14 @@
 GIT
+  remote: git@github.com:opf/openproject-ui_components.git
+  revision: eabe03c3b372b525b47569c62d68c517644ff0a2
+  branch: dev
+  specs:
+    openproject-ui_components (0.0.1)
+      angular-ui-select2-rails
+      angularjs-rails
+      rails (~> 3.2.16)
+
+GIT
   remote: https://github.com/fnando/i18n-js.git
   revision: 8801f8d17ef96c48a7a0269e251fcf1648c8f441
   ref: 8801f8d17ef96c48a7a0269e251fcf1648c8f441
@@ -47,6 +57,10 @@ GEM
     acts_as_list (0.2.0)
       activerecord (>= 3.0)
     addressable (2.3.4)
+    angular-ui-select2-rails (0.1.1)
+      jquery-rails
+      select2-rails
+    angularjs-rails (1.2.9)
     arel (3.0.3)
     awesome_nested_set (2.1.6)
       activerecord (>= 3.0.0)
@@ -391,6 +405,7 @@ DEPENDENCIES
   net-ldap (~> 0.2.2)
   object-daddy (~> 1.1.0)
   oj
+  openproject-ui_components!
   pg
   prototype-rails
   prototype_legacy_helper (= 0.0.0)!
