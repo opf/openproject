@@ -371,6 +371,7 @@ jQuery.extend(Timeline, {
         url_prefix                    : this.options.url_prefix,
         project_prefix                : this.options.project_prefix,
         planning_element_prefix       : this.options.planning_element_prefix,
+        timeline_id                   : this.options.timeline_id,
         project_id                    : this.options.project_id,
         project_types                 : this.options.project_types,
         project_statuses              : this.options.project_status,

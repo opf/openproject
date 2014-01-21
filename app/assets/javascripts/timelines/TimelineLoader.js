@@ -748,8 +748,9 @@ Timeline.TimelineLoader = (function () {
       if (custom_fields !== undefined) {
         for (field_id in custom_fields) {
           if (custom_fields.hasOwnProperty(field_id)) {
+
             var value = custom_fields[field_id];
-            if (value !== "") {
+            if (value && value !== "" && value.length > 0) {
               hash["cf_" + field_id] = value;
             }
           }
@@ -782,7 +783,7 @@ Timeline.TimelineLoader = (function () {
         // load current planning elements.
         this.loader.register(
           Timeline.PlanningElement.identifier + '_' + i,
-          { url : qsb.build(projectPrefix + '/planning_elements.json') },
+          { url : qsb.append({timeline: this.options.timeline_id}).build(projectPrefix + '/planning_elements.json') },
           { storeIn: Timeline.PlanningElement.identifier }
         );
 

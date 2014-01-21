@@ -205,13 +205,32 @@ module Api
         params[:at_time].present?
       end
 
+      def timeline_to_project(timeline_id)
+        if timeline_id then
+          project = Timeline.find_by_id(params[:timeline]).project
+          user_has_access = User.current.allowed_to?({:controller => "planning_elements",
+                                                      :action     => "index"},
+                                                      project)
+          if user_has_access then
+            return project
+          end
+        end
+      end
+
       def current_work_packages(projects)
         work_packages = WorkPackage.for_projects(projects)
                                    .includes(:status, :project, :type)
 
         if params[:f]
-          query = Query.new
+          #we need a project to make project-specific custom fields work
+          project = timeline_to_project(params[:timeline])
+          query = Query.new(:project => project)
+
           query.add_filters(params[:f], params[:op], params[:v])
+
+          #if we do not remove the project, the filter will only add wps from this project
+          query.project = nil
+
           work_packages = work_packages.with_query query
         end
 
