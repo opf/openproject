@@ -436,14 +436,14 @@ class UserTest < ActiveSupport::TestCase
 
       should "return false if related module is disabled" do
         project = Project.find(1)
-        project.enabled_module_names = ["issue_tracking"]
+        project.enabled_module_names = ["work_package_tracking"]
         assert @admin.allowed_to?(:add_work_packages, project)
         assert ! @admin.allowed_to?(:view_wiki_pages, project)
       end
 
       should "authorize nearly everything for admin users" do
         project = Project.find(1)
-        project.enabled_module_names = ["issue_tracking", "news", "wiki", "repository"]
+        project.enabled_module_names = ["work_package_tracking", "news", "wiki", "repository"]
         assert ! @admin.member_of?(project)
         %w(edit_work_packages delete_work_packages manage_news manage_repository manage_wiki).each do |p|
           assert @admin.allowed_to?(p.to_sym, project)
@@ -459,7 +459,7 @@ class UserTest < ActiveSupport::TestCase
 
       should "only managers are allowed to export tickets" do
         project = Project.find(1)
-        project.enabled_module_names = ["issue_tracking"]
+        project.enabled_module_names = ["work_package_tracking"]
         assert @jsmith.allowed_to?(:export_work_packages, project)    #Manager
         assert ! @dlopper.allowed_to?(:export_work_packages, project) #Developper
       end
@@ -472,7 +472,7 @@ class UserTest < ActiveSupport::TestCase
 
       should "return true only if user has permission on all these projects" do
         Project.all.each do |project|
-          project.enabled_module_names = ["issue_tracking"]
+          project.enabled_module_names = ["work_package_tracking"]
           project.save!
         end
 

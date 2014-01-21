@@ -97,7 +97,7 @@ Redmine::AccessControl.map do |map|
                                   :members => [:paginate_users]
                                  }, :require => :member
 
-  map.project_module :issue_tracking do |map|
+  map.project_module :work_package_tracking do |map|
     # Issue categories
     map.permission :manage_categories, {:projects => :settings, :categories => [:new, :create, :edit, :update, :destroy]}, :require => :member
     # Issues

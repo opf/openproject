@@ -167,7 +167,7 @@ class ProjectsControllerTest < ActionController::TestCase
             :type_ids => ['1', '3'],
             # an issue custom field that is not for all project
             :work_package_custom_field_ids => ['9'],
-            :enabled_module_names => ['issue_tracking', 'news', 'repository']
+            :enabled_module_names => ['work_package_tracking', 'news', 'repository']
           }
         assert_redirected_to '/projects/blog/settings'
 
@@ -180,7 +180,7 @@ class ProjectsControllerTest < ActionController::TestCase
         assert_nil project.parent
         assert_equal 'Beta', project.custom_value_for(3).value
         assert_equal [1, 3], project.types.map(&:id).sort
-        assert_equal ['issue_tracking', 'news', 'repository'], project.enabled_module_names.sort
+        assert_equal ['news', 'repository', 'work_package_tracking'], project.enabled_module_names.sort
         assert project.work_package_custom_fields.include?(WorkPackageCustomField.find(9))
       end
 
@@ -213,7 +213,7 @@ class ProjectsControllerTest < ActionController::TestCase
                                  :is_public => 1,
                                  :custom_field_values => { '3' => 'Beta' },
                                  :type_ids => ['1', '3'],
-                                 :enabled_module_names => ['issue_tracking', 'news', 'repository']
+                                 :enabled_module_names => ['work_package_tracking', 'news', 'repository']
                                 }
 
         assert_redirected_to '/projects/blog/settings'
@@ -223,7 +223,7 @@ class ProjectsControllerTest < ActionController::TestCase
         assert_equal 'weblog', project.description
         assert_equal true, project.is_public?
         assert_equal [1, 3], project.types.map(&:id).sort
-        assert_equal ['issue_tracking', 'news', 'repository'], project.enabled_module_names.sort
+        assert_equal ['news', 'repository', 'work_package_tracking'], project.enabled_module_names.sort
 
         # User should be added as a project member
         assert User.find(9).member_of?(project)
@@ -301,18 +301,18 @@ class ProjectsControllerTest < ActionController::TestCase
   end
 
   def test_create_should_preserve_modules_on_validation_failure
-    with_settings :default_projects_modules => ['issue_tracking', 'repository'] do
+    with_settings :default_projects_modules => ['work_package_tracking', 'repository'] do
       @request.session[:user_id] = 1
       assert_no_difference 'Project.count' do
         post :create, :project => {
           :name => "blog",
           :identifier => "",
-          :enabled_module_names => %w(issue_tracking news)
+          :enabled_module_names => %w(work_package_tracking news)
         }
       end
       assert_response :success
       project = assigns(:project)
-      assert_equal %w(issue_tracking news), project.enabled_module_names.sort
+      assert_equal %w(news work_package_tracking), project.enabled_module_names.sort
     end
   end
 
@@ -396,11 +396,11 @@ class ProjectsControllerTest < ActionController::TestCase
 
   def test_modules
     @request.session[:user_id] = 2
-    Project.find(1).enabled_module_names = ['issue_tracking', 'news']
+    Project.find(1).enabled_module_names = ['work_package_tracking', 'news']
 
-    put :modules, :id => 1, :enabled_module_names => ['issue_tracking', 'repository']
+    put :modules, :id => 1, :enabled_module_names => ['work_package_tracking', 'repository']
     assert_redirected_to '/projects/ecookbook/settings/modules'
-    assert_equal ['issue_tracking', 'repository'], Project.find(1).enabled_module_names.sort
+    assert_equal ['repository', 'work_package_tracking'], Project.find(1).enabled_module_names.sort
   end
 
   def test_get_destroy_info
