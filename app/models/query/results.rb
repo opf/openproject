@@ -29,6 +29,7 @@
 class ::Query::Results
 
   include Sums
+  include Redmine::I18n
 
   attr_accessor :options,
                 :query
