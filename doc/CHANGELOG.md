@@ -47,6 +47,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3546` Better icon for Timelines Module
 * `#3547` Change color of Apply button in Activity
 * `#3667` Better icon for Roadmap
+* `#3701` Filter custom fields of work packages in timeline reports
 
 ## 3.0.0pre42
 
