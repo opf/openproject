@@ -664,6 +664,8 @@ class WorkPackage < ActiveRecord::Base
                             else
                               self.status
                             end
+    else
+      work_package.add_journal User.current, options[:journal_note] if options[:journal_note]
     end
 
     if work_package.save
