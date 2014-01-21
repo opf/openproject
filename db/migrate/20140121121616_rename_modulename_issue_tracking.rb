@@ -8,5 +8,10 @@ class RenameModulenameIssueTracking < ActiveRecord::Migration
   end
 
   def down
+    update <<-SQL
+      UPDATE enabled_modules
+      SET name = 'issue_tracking'
+      WHERE name = 'work_package_tracking';
+    SQL
   end
 end
