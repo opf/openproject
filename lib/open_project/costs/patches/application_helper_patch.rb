@@ -16,7 +16,7 @@ module OpenProject::Costs::PatchesApplicationHelperPatch
             subject = truncate(subject, :length => options[:truncate])
           end
         end
-        s = link_to subject, @cost_object, :class => cost_object.css_classes, :title => title
+        s = link_to subject, cost_object_path(cost_object), :class => cost_object.css_classes, :title => title
         s = "#{h cost_object.project} - " + s if options[:project]
         s
       end
