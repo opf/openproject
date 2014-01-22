@@ -9,6 +9,7 @@ describe TaskboardCardConfigurationsController do
     @custom_config = FactoryGirl.create(:taskboard_card_configuration)
 
     @params = {}
+    @valid_rows_yaml = "rows:\n    row1:\n      has_border: false\n      columns:\n        id:\n          has_label: false\n          font_size: \"15\""
   end
 
   describe 'Create' do
@@ -16,7 +17,7 @@ describe TaskboardCardConfigurationsController do
       @params[:taskboard_card_configuration] = {
         name: "Config 1",
         identifier: "config1",
-        rows: "row1",
+        rows: @valid_rows_yaml,
         per_page: 5,
         page_size: "A4",
         orientation: "landscape"
@@ -48,9 +49,17 @@ describe TaskboardCardConfigurationsController do
       flash[:notice].should eql(I18n.t(:notice_successful_update))
     end
 
-    it 'should  not let you update an invalid configuration' do
+    it 'should not let you update an invalid configuration' do
       @params[:id] = @custom_config.id
       @params[:taskboard_card_configuration] = { per_page: "string"}
+      put 'update', @params
+
+      response.should render_template('edit')
+    end
+
+    it 'should not let you update a configuration with invalid rows yaml' do
+      @params[:id] = @custom_config.id
+      @params[:taskboard_card_configuration] = { rows: "asdf ',#\""}
       put 'update', @params
 
       response.should render_template('edit')
