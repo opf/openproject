@@ -3,11 +3,11 @@
       'tl-first-row': $first,
       'tl-last-row': $last,
       'tl-grouping': timeline.isGrouping(),
-      'tl-project-row': node.payload.is(Timeline.Project)
+      'tl-project-row': node.payload.node.payload.identifier === 'projects'
     }"
     ng-show="node.ancestors | ancestorsExpanded">
 
-  <td ng-if="timeline.isGrouping() && node.payload.is(Timeline.Project) && node.level === 0 && node.group !== nodes[$index-1].group" class="tl-grouping" colspan="{{timeline.options.columns.length + 1}}">
+  <td ng-if="timeline.isGrouping() && node.payload.identifier === 'projects' && node.level === 0 && node.group !== nodes[$index-1].group" class="tl-grouping" colspan="{{timeline.options.columns.length + 1}}">
     <span class="tl-word-ellipsis">
       {{timeline.escape(node.payload.getFirstLevelGroupingName())}}
     </span>
@@ -27,14 +27,14 @@
       <span>
         <a title="{{timeline.i18n('timelines.change')}}"
            ng-class="{
-             'icon tl-icon-added': node.payload.is(Timeline.PlanningElement) && node.payload.isNewlyAdded(),
-             'icon tl-icon-deleted': node.payload.is(Timeline.PlanningElement) && node.payload.isDeleted(),
-             'icon tl-icon-changed': node.payload.is(Timeline.PlanningElement) && node.payload.hasAlternateDates()
+             'icon tl-icon-added': node.payload.identifier === 'planning_elements' && node.payload.isNewlyAdded(),
+             'icon tl-icon-deleted': node.payload.identifier === 'planning_elements' && node.payload.isDeleted(),
+             'icon tl-icon-changed': node.payload.identifier === 'planning_elements' && node.payload.hasAlternateDates()
            }" />
       </span>
 
       <span>
-        <a data-modal title="{{node.text}}" ng-href"{{node.url}}" ng-class="{'tl-discreet-link': true, 'tl-project': node.payload.is(Timeline.Project)}">
+        <a data-modal title="{{node.text}}" ng-class="{'tl-discreet-link': true, 'tl-project': node.payload.node.payload.identifier === 'projects'}">
           {{node.text}}
         </a>
       </span>

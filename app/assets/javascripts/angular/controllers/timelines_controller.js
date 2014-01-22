@@ -13,7 +13,6 @@ uiComponentsApp.controller('TimelinesController', ['$scope', '$window', 'Timelin
 
   $scope.timelineOptions = angular.extend(gon.timeline_options, { i18n: gon.timeline_translations });
   $scope.timelineOptions.initial_outline_expansion || ($scope.timelineOptions.initial_outline_expansion = '3');
-  $scope.Timeline = Timeline;
 
   // Get timelines stuff into scope
   $scope.slider = null;

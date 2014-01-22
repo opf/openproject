@@ -20,7 +20,7 @@
 
   <div class="tl-toolbar-container">
     <form>
-      <select name="zooms" ng-model="currentScaleName" ng-options="timeline.i18n(Timeline.ZOOM_CONFIGURATIONS[scale].name) for scale in Timeline.ZOOM_SCALES">
+      <select name="zooms" ng-model="currentScaleName" ng-options="timeline.i18n(timeline.ZOOM_CONFIGURATIONS[scale].name) for scale in timeline.ZOOM_SCALES">
       </select>
     </form>
   </div>
@@ -33,7 +33,7 @@
 
   <div class="tl-toolbar-container">
     <form>
-      <select name="outlines" ng-model="currentOutlineLevel" ng-options="timeline.i18n(Timeline.OUTLINE_CONFIGURATIONS[level].name) for level in Timeline.OUTLINE_LEVELS">
+      <select name="outlines" ng-model="currentOutlineLevel" ng-options="timeline.i18n(timeline.OUTLINE_CONFIGURATIONS[level].name) for level in timeline.OUTLINE_LEVELS">
       </select>
     </form>
   </div>
