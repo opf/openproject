@@ -33,41 +33,19 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-OpenProject::Application.routes.draw do
+require 'spec_helper'
 
-  scope "", as: "backlogs" do
+describe RbTaskboardCardConfigurationsController do
+  describe "routing" do
+    it { get('/projects/project_42/sprints/21/taskboard_card_configurations/10').should route_to(:controller => 'rb_taskboard_card_configurations',
+      :action => 'show',
+      :project_id => 'project_42',
+      :sprint_id => '21',
+      :id => '10') }
 
-    scope "projects/:project_id", as: 'project' do
-
-      resources   :backlogs,         :controller => :rb_master_backlogs,  :only => :index
-
-      resource    :server_variables, :controller => :rb_server_variables, :only => :show, :format => :js
-
-      resources   :sprints,          :controller => :rb_sprints,          :only => :update do
-
-        resource  :query,            :controller => :rb_queries,          :only => :show
-
-        resource  :taskboard,        :controller => :rb_taskboards,       :only => :show
-
-        resource  :wiki,             :controller => :rb_wikis,            :only => [:show, :edit]
-
-        resource  :burndown_chart,   :controller => :rb_burndown_charts,  :only => :show
-
-        resources :impediments,      :controller => :rb_impediments,      :only => [:create, :update]
-
-        resources :tasks,            :controller => :rb_tasks,            :only => [:create, :update]
-
-        resources :taskboard_card_configurations, :controller => :rb_taskboard_card_configurations, :only => [:index, :show] do
-
-          resources :stories,          :controller => :rb_stories,          :only => [:index]
-        end
-
-        resources :stories,          :controller => :rb_stories,          :only => [:create, :update]
-      end
-    end
+    it { get('/projects/project_42/sprints/21/taskboard_card_configurations').should route_to(:controller => 'rb_taskboard_card_configurations',
+      :action => 'index',
+      :project_id => 'project_42',
+      :sprint_id => '21') }
   end
-
-  get  'projects/:project_id/versions/:id/edit' => 'version_settings#edit'
-  post  'projects/:id/project_done_statuses' => 'projects#project_done_statuses'
-  post 'projects/:id/rebuild_positions' => 'projects#rebuild_positions'
 end

@@ -37,9 +37,6 @@ class RbStoriesController < RbApplicationController
   unloadable
   include OpenProject::PdfExport::TaskboardCard
 
-  def index
-  end
-
   def create
     params['author_id'] = User.current.id
     story = Story.create_and_position(params, :project => @project,
