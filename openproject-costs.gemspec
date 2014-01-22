@@ -12,6 +12,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://www.finn.de"
   s.summary     = "An OpenProject plugin to manage project costs"
   s.description = "This Plugin adds features for planning and tracking costs of projects."
+  s.license     = "GPLv3"
 
   s.files = Dir["{app,config,db,lib,doc}/**/*", "README.md"]
   s.test_files = Dir["spec/**/*"]
