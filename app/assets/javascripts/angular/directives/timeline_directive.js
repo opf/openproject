@@ -1,4 +1,4 @@
-timelinesApp.directive('timeline', function() {
+uiComponentsApp.directive('timeline', ['TimelineLoaderService', function(TimelineLoaderService) {
   return {
     restrict: 'A',
     link: function(scope, element, attributes) {
@@ -99,5 +99,4 @@ timelinesApp.directive('timeline', function() {
         .then(drawTree);
     }
   };
-});
-
+}]);

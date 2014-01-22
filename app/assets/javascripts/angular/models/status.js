@@ -37,16 +37,13 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-timelinesApp.factory('PlanningElementType', [function() {
-  // ╭───────────────────────────────────────────────────────────────────╮
-  // │ Timeline.PlanningElementType                                      │
-  // ╰───────────────────────────────────────────────────────────────────╯
+uiComponentsApp.factory('Status', [function() {
 
-  PlanningElementType = {
-    identifier: 'planning_element_types',
+  Status = {
+    identifier: 'statuses',
     all: function(timeline) {
       // collect all reportings.
-      var r = timeline.planning_element_types;
+      var r = timeline.statuses;
       var result = [];
       for (var key in r) {
         if (r.hasOwnProperty(key)) {
@@ -57,5 +54,5 @@ timelinesApp.factory('PlanningElementType', [function() {
     }
   };
 
-  return PlanningElementType;
+  return Status;
 }]);

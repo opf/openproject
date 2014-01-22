@@ -1,23 +1,13 @@
-timelinesApp.factory('Timeline', ['Constants', 'FilterQueryStringBuilder', 'TreeNode', 'UI', 'Color', 'HistoricalPlanningElement', 'PlanningElement', 'PlanningElementType', 'Project', 'ProjectAssociation', 'ProjectType', 'Reporting', 'Status', 'User', function(Constants, FilterQueryStringBuilder, TreeNode, UI, Color, HistoricalPlanningElement, PlanningElement, PlanningElementType, Project,ProjectAssociation, ProjectType, Reporting, Status, User) {
+uiComponentsApp.factory('Timeline', ['Constants', 'TreeNode', 'UI', 'Color', 'HistoricalPlanningElement', 'PlanningElement', 'PlanningElementType', 'ProjectType', 'Project', 'ProjectAssociation', 'Reporting', function(Constants, TreeNode, UI, Color, HistoricalPlanningElement, PlanningElement, PlanningElementType, ProjectType, Project, ProjectAssociation, Reporting) {
 
   Timeline = {};
 
+  // model mix ins
+
   angular.extend(Timeline, Constants);
-  Timeline.FilterQueryStringBuilder = FilterQueryStringBuilder;
   angular.extend(Timeline, {TreeNode: TreeNode});
   angular.extend(Timeline, UI);
-
-  // model mix ins
-  angular.extend(Timeline, {Color: Color});
-  angular.extend(Timeline, {HistoricalPlanningElement: HistoricalPlanningElement});
-  angular.extend(Timeline, {PlanningElement: PlanningElement});
-  angular.extend(Timeline, {PlanningElementType: PlanningElementType});
-  angular.extend(Timeline, {Project: Project});
-  angular.extend(Timeline, {ProjectAssociation: ProjectAssociation});
-  angular.extend(Timeline, {ProjectType: ProjectType});
-  angular.extend(Timeline, {Reporting: Reporting});
-  angular.extend(Timeline, {Status: Status});
-  angular.extend(Timeline, {User: User});
+  // Timeline.FilterQueryStringBuilder = FilterQueryStringBuilder;
 
   //startup
   angular.extend(Timeline, {
@@ -322,7 +312,7 @@ timelinesApp.factory('Timeline', ['Constants', 'FilterQueryStringBuilder', 'Tree
     secondLevelGroupingAdjustments : function () {
       var grouping = jQuery.map(this.options.grouping_two_selection || [], Timeline.pnum);
       var root = this.getProject();
-      var associations = Timeline.ProjectAssociation.all(this);
+      var associations = ProjectAssociation.all(this);
       var listToRemove = [];
 
       // for all projects on the first level
@@ -415,7 +405,7 @@ timelinesApp.factory('Timeline', ['Constants', 'FilterQueryStringBuilder', 'Tree
 
       tree.iterateWithChildren(function(node) {
         var data = node.getData();
-        if (data.is(Timeline.PlanningElement)) {
+        if (data.is(PlanningElement)) {
           timeline.includeDate(data.start());
           timeline.includeDate(data.end());
         }
@@ -425,13 +415,13 @@ timelinesApp.factory('Timeline', ['Constants', 'FilterQueryStringBuilder', 'Tree
 
     },
     getReportings: function() {
-      return Timeline.Reporting.all(this);
+      return Reporting.all(this);
     },
     getReporting: function(id) {
       return this.reportings[id];
     },
     getProjects: function() {
-      return Timeline.Project.all(this);
+      return Project.all(this);
     },
     getProject: function(id) {
       if (id === undefined) {
@@ -546,28 +536,28 @@ timelinesApp.factory('Timeline', ['Constants', 'FilterQueryStringBuilder', 'Tree
       return result;
     },
     getProjectTypes: function() {
-      return Timeline.ProjectType.all(this);
+      return ProjectType.all(this);
     },
     getProjectType: function(id) {
       return this.project_types[id];
     },
     getPlanningElementTypes: function() {
-      return Timeline.PlanningElementType.all(this);
+      return PlanningElementType.all(this);
     },
     getPlanningElementType: function(id) {
       return this.planning_element_types[id];
     },
     getPlanningElements: function() {
-      return Timeline.PlanningElement.all(this);
+      return PlanningElement.all(this);
     },
     getPlanningElement: function(id) {
       return this.planning_elements[id];
     },
     getColors: function() {
-      return Timeline.Color.all(this);
+      return Color.all(this);
     },
     getProjectAssociations: function() {
-      return Timeline.ProjectAssociation.all(this);
+      return ProjectAssociation.all(this);
     },
     getLefthandTree: function() {
 

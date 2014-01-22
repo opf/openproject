@@ -1,4 +1,4 @@
-timelinesApp.directive('zoomSlider', function() {
+uiComponentsApp.directive('zoomSlider', function() {
   return {
     restrict: 'A',
     link: function(scope, element, attributes) {

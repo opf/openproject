@@ -37,29 +37,22 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-// ╭───────────────────────────────────────────────────────────────────╮
-// │ Data Store                                                        │
-// ├───────────────────────────────────────────────────────────────────┤
-// │ Model Prototypes:                                                 │
-// │ Timeline.ProjectAssociation                                       │
-// │ Timeline.Reporting                                                │
-// │ Timeline.ProjectType                                              │
-// │ Timeline.Color                                                    │
-// │ Timeline.Status                                                   │
-// │ Timeline.PlanningElementType                                      │
-// │ Timeline.User                                                     │
-// ╰───────────────────────────────────────────────────────────────────╯
+uiComponentsApp.factory('Color', [function() {
 
-timelinesApp.factory('User', [function() {
-  identifier = 'users';
-
-  User = {
-    is: function(t) {
-      return t.identifier === identifier;
+  Color = {
+    identifier: 'colors',
+    all: function(timeline) {
+      // collect all colors
+      var r = timeline.colors;
+      var result = [];
+      for (var key in r) {
+        if (r.hasOwnProperty(key)) {
+          result.push(r[key]);
+        }
+      }
+      return result;
     }
   };
 
-  User.identifier = identifier;
-
-  return User;
+  return Color;
 }]);

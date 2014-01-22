@@ -1,4 +1,4 @@
-timelinesApp
+uiComponentsApp
   .filter('historicalDateKind', function() {
     return function(nodeData, dateOption) {
       if (!nodeData.does_historical_differ()) return;

@@ -1,4 +1,4 @@
-7//-- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 //
@@ -37,29 +37,13 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-timelinesApp.factory('Color', [function() {
-  // ╭───────────────────────────────────────────────────────────────────╮
-  // │ Data Store                                                        │
-  // ├───────────────────────────────────────────────────────────────────┤
-  // │ Model Prototypes:                                                 │
-  // │ Timeline.ProjectAssociation                                       │
-  // │ Timeline.Reporting                                                │
-  // │ Timeline.ProjectType                                              │
-  // │ Timeline.Color                                                    │
-  // │ Timeline.Status                                                   │
-  // │ Timeline.PlanningElementType                                      │
-  // │ Timeline.User                                                     │
-  // ╰───────────────────────────────────────────────────────────────────╯
+uiComponentsApp.factory('ProjectAssociation', [function() {
 
-  // ╭───────────────────────────────────────────────────────────────────╮
-  // │ Timeline.Color                                                    │
-  // ╰───────────────────────────────────────────────────────────────────╯
-
-  Color = {
-    identifier: 'colors',
+  ProjectAssociation = {
+    identifier: 'project_associations',
     all: function(timeline) {
-      // collect all colors
-      var r = timeline.colors;
+      // collect all project associations.
+      var r = timeline.project_associations;
       var result = [];
       for (var key in r) {
         if (r.hasOwnProperty(key)) {
@@ -67,8 +51,37 @@ timelinesApp.factory('Color', [function() {
         }
       }
       return result;
+    },
+    getOrigin: function() {
+      return this.origin;
+    },
+    getTarget: function() {
+      return this.project;
+    },
+    getOther: function(project) {
+      var origin = this.getOrigin();
+      var target = this.getTarget();
+      if (project.id === origin.id) {
+        return target;
+      } else if (project.id === target.id) {
+        return origin;
+      }
+      return null;
+    },
+    getInvolvedProjects: function() {
+      return [this.getOrigin(), this.getTarget()];
+    },
+    involves: function(project) {
+      var inv = this.getInvolvedProjects();
+
+      return (
+        project !== undefined &&
+        inv[0] !== undefined &&
+        inv[1] !== undefined &&
+        (project.id === inv[0].id || project.id === inv[1].id)
+      );
     }
   };
 
-  return Color;
+  return ProjectAssociation;
 }]);

@@ -37,7 +37,7 @@
 // // │ OpenProject timelines module.                                 │
 // // ╰───────────────────────────────────────────────────────────────╯
 
-timelinesApp.factory('TreeNode', [function() {
+uiComponentsApp.factory('TreeNode', [function() {
 
   TreeNode = {
 
@@ -54,7 +54,7 @@ timelinesApp.factory('TreeNode', [function() {
     },
     setData: function(data, level) {
       this.text = data.subject || data.name;
-      if (data.is(Timeline.Project)) this.group = data.getFirstLevelGrouping();
+      if (data.is(Project)) this.group = data.getFirstLevelGrouping();
       this.url = data.getUrl();
 
       this.payload = data;
@@ -164,7 +164,7 @@ timelinesApp.factory('TreeNode', [function() {
 
       if (timeline.options.hide_other_group &&
           timeline.isGrouping() &&
-          this.payload.is(Timeline.Project) &&
+          this.payload.is(Project) &&
           this !== root &&
           options.indent === 0 &&
           this.payload.getFirstLevelGrouping() === 0) {
@@ -208,7 +208,7 @@ timelinesApp.factory('TreeNode', [function() {
             callback.call(this, this, options.indent, options.index);
           }
 
-          if (this.payload.is(Timeline.Project)) {
+          if (this.payload.is(Project)) {
             options.projects++;
           }
 
@@ -243,11 +243,11 @@ timelinesApp.factory('TreeNode', [function() {
 
             if (options.traverseCollapsed ||
                 self.isExpanded() ||
-                child.payload.is(Timeline.Project)) {
+                child.payload.is(Project)) {
 
                 //do we wan to inherit the hidden status from projects to planning elements?
-                if (!hidden || child.payload.is(Timeline.Project)) {
-                  if (!(options.indent > 1 && child.payload.is(Timeline.Project))) {
+                if (!hidden || child.payload.is(Project)) {
+                  if (!(options.indent > 1 && child.payload.is(Project))) {
                     child.iterateWithChildren(callback, options);
                   }
                 }

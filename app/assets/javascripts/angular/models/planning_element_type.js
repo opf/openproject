@@ -37,30 +37,13 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-// ╭───────────────────────────────────────────────────────────────────╮
-// │ Data Store                                                        │
-// ├───────────────────────────────────────────────────────────────────┤
-// │ Model Prototypes:                                                 │
-// │ Timeline.ProjectAssociation                                       │
-// │ Timeline.Reporting                                                │
-// │ Timeline.ProjectType                                              │
-// │ Timeline.Color                                                    │
-// │ Timeline.Status                                                   │
-// │ Timeline.PlanningElementType                                      │
-// │ Timeline.User                                                     │
-// ╰───────────────────────────────────────────────────────────────────╯
+uiComponentsApp.factory('PlanningElementType', [function() {
 
-timelinesApp.factory('Reporting', [function() {
-    // ╭───────────────────────────────────────────────────────────────────╮
-    // │ Timeline.Reporting                                                │
-    // ╰───────────────────────────────────────────────────────────────────╯
-
-  Reporting = {
-    identifier: 'reportings',
-
+  PlanningElementType = {
+    identifier: 'planning_element_types',
     all: function(timeline) {
       // collect all reportings.
-      var r = timeline.reportings;
+      var r = timeline.planning_element_types;
       var result = [];
       for (var key in r) {
         if (r.hasOwnProperty(key)) {
@@ -68,23 +51,8 @@ timelinesApp.factory('Reporting', [function() {
         }
       }
       return result;
-    },
-    getProject: function() {
-      return (this.project !== undefined) ? this.project : null;
-    },
-    getProjectId: function () {
-      return this.project.id;
-    },
-    getReportingToProject : function () {
-      return (this.reporting_to_project !== undefined) ? this.reporting_to_project : null;
-    },
-    getReportingToProjectId : function () {
-      return this.reporting_to_project.id;
-    },
-    getStatus: function() {
-      return (this.reported_project_status !== undefined) ? this.reported_project_status : null;
     }
   };
 
-  return Reporting;
+  return PlanningElementType;
 }]);

@@ -37,10 +37,7 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-timelinesApp.factory('ProjectType', [function() {
-  // ╭───────────────────────────────────────────────────────────────────╮
-  // │ Timeline.ProjectType                                              │
-  // ╰───────────────────────────────────────────────────────────────────╯
+uiComponentsApp.factory('ProjectType', [function() {
 
   ProjectType = {
     identifier: 'project_types',

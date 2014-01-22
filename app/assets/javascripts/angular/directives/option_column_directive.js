@@ -1,4 +1,4 @@
-timelinesApp.directive('optionColumn', [function() {
+uiComponentsApp.directive('optionColumn', [function() {
   return {
     restrict: 'A',
     scope: true,

@@ -1,4 +1,4 @@
-timelinesApp.directive('treeNode', [function() {
+uiComponentsApp.directive('treeNode', [function() {
   return {
     restrict: 'A',
     scope: true,

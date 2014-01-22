@@ -1,4 +1,4 @@
-timelinesApp.directive('modal', [function() {
+uiComponentsApp.directive('modal', [function() {
   return {
     restrict: 'A',
     scope: true,

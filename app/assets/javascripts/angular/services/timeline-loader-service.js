@@ -37,7 +37,7 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
+uiComponentsApp.service('TimelineLoaderService', ['$q', 'FilterQueryStringBuilder', 'Color', 'HistoricalPlanningElement', 'PlanningElement', 'PlanningElementType', 'Project', 'ProjectAssociation', 'ProjectType', 'Reporting', 'Status','Timeline', 'User', function($q, FilterQueryStringBuilder, Color, HistoricalPlanningElement, PlanningElement, PlanningElementType, Project, ProjectAssociation, ProjectType, Reporting, Status,Timeline, User) {
 
   /**
    * QueueingLoader
@@ -223,16 +223,16 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
 
   DataEnhancer.BasicTypes = function () {
     return [
-      Timeline.Color,
-      Timeline.Status,
-      Timeline.PlanningElementType,
-      Timeline.HistoricalPlanningElement,
-      Timeline.PlanningElement,
-      Timeline.ProjectType,
-      Timeline.Project,
-      Timeline.ProjectAssociation,
-      Timeline.Reporting,
-      Timeline.User
+      Color,
+      Status,
+      PlanningElementType,
+      HistoricalPlanningElement,
+      PlanningElement,
+      ProjectType,
+      Project,
+      ProjectAssociation,
+      Reporting,
+      User
     ];
   };
 
@@ -279,8 +279,8 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
   };
 
   DataEnhancer.prototype.createEmptyElementMaps = function () {
-    if (!this.data.hasOwnProperty(Timeline.ProjectAssociation.identifier)) {
-      this.data[Timeline.ProjectAssociation.identifier] = {};
+    if (!this.data.hasOwnProperty(ProjectAssociation.identifier)) {
+      this.data[ProjectAssociation.identifier] = {};
     }
   };
 
@@ -338,7 +338,7 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
 
     // looking for main project in timeline.projects array and storing it as
     // primary project in timeline.project
-    jQuery.each(this.getElements(Timeline.Project), function (i, e) {
+    jQuery.each(this.getElements(Project), function (i, e) {
       if (e.identifier === dataEnhancer.options.projectId ||
           e.id         === dataEnhancer.options.projectId) {
 
@@ -355,10 +355,10 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
   DataEnhancer.prototype.augmentReportingsWithProjectObjects = function () {
     var dataEnhancer = this;
 
-    jQuery.each(dataEnhancer.getElements(Timeline.Reporting), function (i, reporting) {
+    jQuery.each(dataEnhancer.getElements(Reporting), function (i, reporting) {
       // TODO this somehow didn't make the change to reporting_to_project_id and project_id.
-      var project  = dataEnhancer.getElement(Timeline.Project, reporting.reporting_to_project.id);
-      var reporter = dataEnhancer.getElement(Timeline.Project, reporting.project.id);
+      var project  = dataEnhancer.getElement(Project, reporting.reporting_to_project.id);
+      var reporter = dataEnhancer.getElement(Project, reporting.project.id);
 
       // there might not be a project, which due to insufficient rights
       // and the fact that some user with more rights originally created
@@ -384,12 +384,12 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
   };
 
   DataEnhancer.prototype.augmentElementAttributesWithUser = function (e, attributes) {
-    if (this.data[Timeline.User.identifier]) {
+    if (this.data[User.identifier]) {
       var k, curAttr;
       for (k = 0; k < attributes.length; k += 1) {
         curAttr = attributes[k];
         if (e[curAttr]) {
-          e[curAttr.replace(/_id$/, "")] = this.getElement(Timeline.User,
+          e[curAttr.replace(/_id$/, "")] = this.getElement(User,
                                             e[curAttr]);
         }
 
@@ -405,13 +405,13 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
   DataEnhancer.prototype.augmentProjectsWithProjectTypesAndAssociations = function () {
     var dataEnhancer = this;
 
-    jQuery.each(dataEnhancer.getElements(Timeline.Project), function (i, e) {
+    jQuery.each(dataEnhancer.getElements(Project), function (i, e) {
 
       dataEnhancer.augmentProjectElementWithUser(e);
 
       // project_type ← project
       if (e.project_type_id !== undefined) {
-        var project_type = dataEnhancer.getElement(Timeline.ProjectType, e.project_type_id);
+        var project_type = dataEnhancer.getElement(ProjectType, e.project_type_id);
 
         if (project_type) {
           e.project_type = project_type;
@@ -420,7 +420,7 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
 
       // project ← association → project
 
-      var associations = e[Timeline.ProjectAssociation.identifier];
+      var associations = e[ProjectAssociation.identifier];
       var j, a, other;
 
       if (associations instanceof Array) {
@@ -429,13 +429,13 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
           a.timeline = dataEnhancer.timeline;
           a.origin = e;
 
-          other = dataEnhancer.getElement(Timeline.Project, a.to_project_id);
+          other = dataEnhancer.getElement(Project, a.to_project_id);
           if (other) {
             a.project = other;
             dataEnhancer.setElement(
-                Timeline.ProjectAssociation,
+                ProjectAssociation,
                 a.id,
-                jQuery.extend(Object.create(Timeline.ProjectAssociation), a));
+                jQuery.extend(Object.create(ProjectAssociation), a));
           }
 
         }
@@ -443,7 +443,7 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
 
       // project → parent
       if (e.parent_id) {
-        e.parent = dataEnhancer.getElement(Timeline.Project, e.parent_id);
+        e.parent = dataEnhancer.getElement(Project, e.parent_id);
       }
       delete e.parent_id;
     });
@@ -452,8 +452,8 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
   DataEnhancer.prototype.augmentPlanningElementsWithHistoricalData = function () {
     var dataEnhancer = this;
 
-    jQuery.each(dataEnhancer.getElements(Timeline.HistoricalPlanningElement), function (i, e) {
-      var pe = dataEnhancer.getElement(Timeline.PlanningElement, e.id);
+    jQuery.each(dataEnhancer.getElements(HistoricalPlanningElement), function (i, e) {
+      var pe = dataEnhancer.getElement(PlanningElement, e.id);
 
       if (pe === undefined) {
 
@@ -462,22 +462,22 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
         // in the compared timeframe. We therefore import the deleted
         // element into the planning elements array and set the
         // is_deleted flag.
-        e = jQuery.extend(Object.create(Timeline.PlanningElement), e);
+        e = jQuery.extend(Object.create(PlanningElement), e);
         e.is_deleted = true;
-        dataEnhancer.setElement(Timeline.PlanningElement, e.id, e);
+        dataEnhancer.setElement(PlanningElement, e.id, e);
         pe = e;
       }
 
-      pe.historical_element = jQuery.extend(Object.create(Timeline.PlanningElement), e);
+      pe.historical_element = jQuery.extend(Object.create(PlanningElement), e);
     });
 
-    dataEnhancer.setElementMap(Timeline.HistoricalPlanningElement, undefined);
+    dataEnhancer.setElementMap(HistoricalPlanningElement, undefined);
   };
 
   DataEnhancer.prototype.augmentPlanningElementWithStatus = function (pe) {
     // planning_element → planning_element_type
     if (pe.status_id) {
-      pe.status = this.getElement(Timeline.Status,
+      pe.status = this.getElement(Status,
                                   pe.status_id);
     }
     delete pe.status_id;
@@ -490,14 +490,14 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
   DataEnhancer.prototype.augmentPlanningElementWithType = function (pe) {
     // planning_element → planning_element_type
     if (pe.type_id) {
-      pe.planning_element_type = this.getElement(Timeline.PlanningElementType,
+      pe.planning_element_type = this.getElement(PlanningElementType,
                                                  pe.type_id);
     }
     delete pe.type_id;
   };
 
   DataEnhancer.prototype.augmentPlanningElementWithProject = function (pe) {
-    var project = this.getElement(Timeline.Project, pe.project_id);
+    var project = this.getElement(Project, pe.project_id);
 
     // there might not be such a project, due to insufficient rights
     // and the fact that some user with more rights originally created
@@ -513,7 +513,7 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
 
   DataEnhancer.prototype.augmentPlanningElementWithParent = function (pe) {
     if (pe.parent_id) {
-      var parent = this.getElement(Timeline.PlanningElement, pe.parent_id);
+      var parent = this.getElement(PlanningElement, pe.parent_id);
 
       if (parent !== undefined) {
 
@@ -540,7 +540,7 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
   DataEnhancer.prototype.augmentPlanningElementsWithAllKindsOfStuff = function () {
     var dataEnhancer = this;
 
-    jQuery.each(dataEnhancer.getElements(Timeline.PlanningElement), function (i, e) {
+    jQuery.each(dataEnhancer.getElements(PlanningElement), function (i, e) {
       dataEnhancer.augmentPlanningElementWithStatus(e);
       dataEnhancer.augmentPlanningElementWithType(e);
       dataEnhancer.augmentPlanningElementWithProject(e);
@@ -556,8 +556,8 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
   DataEnhancer.prototype.augmentPlanningElementsWithVerticalityData = function () {
     var dataEnhancer = this;
 
-    jQuery.each(dataEnhancer.getElements(Timeline.PlanningElement), function (i, e) {
-      var pe = dataEnhancer.getElement(Timeline.PlanningElement, e.id);
+    jQuery.each(dataEnhancer.getElements(PlanningElement), function (i, e) {
+      var pe = dataEnhancer.getElement(PlanningElement, e.id);
       var pet = pe.getPlanningElementType();
 
       pe.vertical = this.timeline.verticalPlanningElementIds().indexOf(pe.id) !== -1;
@@ -688,24 +688,24 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
       url += '&grouping_two=' + this.options.grouping_two.join();
     }
 
-    this.loader.register(Timeline.Reporting.identifier,
+    this.loader.register(Reporting.identifier,
                          { url : url });
   };
 
   TimelineLoader.prototype.registerGlobalElements = function () {
 
     this.loader.register(
-        Timeline.Status.identifier,
-        { url : this.globalPrefix + '/statuses.json' });
+      Status.identifier,
+      { url : this.globalPrefix + '/statuses.json' });
     this.loader.register(
-        Timeline.PlanningElementType.identifier,
-        { url : this.globalPrefix + '/planning_element_types.json' });
+      PlanningElementType.identifier,
+      { url : this.globalPrefix + '/planning_element_types.json' });
     this.loader.register(
-        Timeline.Color.identifier,
-        { url : this.globalPrefix + '/colors.json' });
+      Color.identifier,
+      { url : this.globalPrefix + '/colors.json' });
     this.loader.register(
-        Timeline.ProjectType.identifier,
-        { url : this.globalPrefix + '/project_types.json' });
+      ProjectType.identifier,
+      { url : this.globalPrefix + '/project_types.json' });
   };
 
   TimelineLoader.prototype.registerProjects = function (ids) {
@@ -715,11 +715,11 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
     this.inChunks(ids, function (project_ids_of_packet, i) {
 
       this.loader.register(
-          Timeline.Project.identifier + '_' + i,
+          Project.identifier + '_' + i,
           { url : this.globalPrefix +
                   '/projects.json?ids=' +
                   project_ids_of_packet.join(',')},
-          { storeIn : Timeline.Project.identifier }
+          { storeIn : Project.identifier }
         );
     });
   };
@@ -731,11 +731,11 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
     this.inChunks(ids, function (user_ids_of_packet, i) {
 
       this.loader.register(
-          Timeline.User.identifier + '_' + i,
+          User.identifier + '_' + i,
           { url : this.globalPrefix +
                   '/users.json?ids=' +
                   user_ids_of_packet.join(',')},
-          { storeIn : Timeline.User.identifier }
+          { storeIn : User.identifier }
         );
     });
   };
@@ -788,24 +788,24 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
                           "/" +
                           projectIdsOfPacket.join(',');
 
-      var qsb = new Timeline.FilterQueryStringBuilder(
+      var qsb = new FilterQueryStringBuilder(
         this.provideServerSideFilterHash());
 
       // load current planning elements.
       this.loader.register(
-        Timeline.PlanningElement.identifier + '_' + i,
+        PlanningElement.identifier + '_' + i,
         { url : qsb.build(projectPrefix + '/planning_elements.json') },
-        { storeIn: Timeline.PlanningElement.identifier }
+        { storeIn: PlanningElement.identifier }
       );
 
       // load historical planning elements.
       if (this.options.target_time) {
         this.loader.register(
-          Timeline.HistoricalPlanningElement.identifier + '_' + i,
+          HistoricalPlanningElement.identifier + '_' + i,
           { url : qsb.append({ at_time: this.options.target_time })
                      .build(projectPrefix + '/planning_elements.json') },
-          { storeIn: Timeline.HistoricalPlanningElement.identifier,
-            readFrom: Timeline.PlanningElement.identifier }
+          { storeIn: HistoricalPlanningElement.identifier,
+            readFrom: PlanningElement.identifier }
         );
       }
     });
@@ -820,23 +820,23 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
 
       // load current planning elements.
       this.loader.register(
-        Timeline.PlanningElement.identifier + '_IDS_' + i,
+        PlanningElement.identifier + '_IDS_' + i,
         { url : projectPrefix +
                 '/planning_elements.json?ids=' +
                 planningElementIdsOfPacket.join(',')},
-        { storeIn: Timeline.PlanningElement.identifier }
+        { storeIn: PlanningElement.identifier }
       );
 
       // load historical planning elements.
       // TODO: load historical PEs here!
       if (this.options.target_time) {
         this.loader.register(
-          Timeline.HistoricalPlanningElement.identifier + '_IDS_' + i,
+          HistoricalPlanningElement.identifier + '_IDS_' + i,
           { url : projectPrefix +
                   '/planning_elements.json?ids=' +
                   planningElementIdsOfPacket.join(',') },
-          { storeIn: Timeline.HistoricalPlanningElement.identifier,
-            readFrom: Timeline.PlanningElement.identifier }
+          { storeIn: HistoricalPlanningElement.identifier,
+            readFrom: PlanningElement.identifier }
         );
       }
     });
@@ -895,8 +895,8 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
     if (typeof param !== 'string') {
       param = param.identifier;
     }
-    if (param === Timeline.Project.identifier ||
-        param === Timeline.PlanningElement.identifier) {
+    if (param === Project.identifier ||
+        param === PlanningElement.identifier) {
 
       return jQuery.inArray(param, this.getCurrentlyLoadingTypes()) === -1;
     }
@@ -951,7 +951,7 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
     var i,
         relevantProjectIds = [this.options.project_id];
 
-    if (this.doneLoading(Timeline.Reporting)) {
+    if (this.doneLoading(Reporting)) {
       for (i in this.data.reportings) {
         if (this.data.reportings.hasOwnProperty(i)) {
           relevantProjectIds.push(this.data.reportings[i].getProjectId());
@@ -989,7 +989,7 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
     var relevantProjectIds = this.getRelevantProjectIdsBasedOnReportings(),
         timelineLoader     = this;
 
-    if (this.doneLoading(Timeline.Project)) {
+    if (this.doneLoading(Project)) {
       relevantProjectIds = jQuery.grep(relevantProjectIds, function (e, i) {
         return timelineLoader.getProject(e) && timelineLoader.getProject(e).filteredOut();
       }, true);
@@ -1007,14 +1007,14 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
   };
 
   TimelineLoader.prototype.shouldLoadReportings = function (lastLoaded) {
-    return lastLoaded === Timeline.Reporting.identifier;
+    return lastLoaded === Reporting.identifier;
   };
 
   TimelineLoader.prototype.shouldLoadPlanningElements = function (lastLoaded) {
 
-    if (this.doneLoading(Timeline.Project) &&
-        this.doneLoading(Timeline.Reporting) &&
-        this.doneLoading(Timeline.ProjectType)) {
+    if (this.doneLoading(Project) &&
+        this.doneLoading(Reporting) &&
+        this.doneLoading(ProjectType)) {
 
       this.shouldLoadPlanningElements = function () { return false; };
 
@@ -1024,10 +1024,10 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
   };
 
   TimelineLoader.prototype.shouldLoadUsers = function (lastLoaded) {
-    if (this.doneLoading(Timeline.Project) &&
-        this.doneLoading(Timeline.Reporting) &&
-        this.doneLoading(Timeline.ProjectType) &&
-        this.doneLoading(Timeline.PlanningElement)) {
+    if (this.doneLoading(Project) &&
+        this.doneLoading(Reporting) &&
+        this.doneLoading(ProjectType) &&
+        this.doneLoading(PlanningElement)) {
 
       // this will not work for pes from another project (like vertical pes)!
       // but as we do not display users for this data currently,
@@ -1041,10 +1041,10 @@ timelinesApp.service('TimelineLoaderService', ['$q', function($q) {
 
   TimelineLoader.prototype.shouldLoadRemainingPlanningElements = function (lastLoaded) {
 
-    if (this.doneLoading(Timeline.Project) &&
-        this.doneLoading(Timeline.Reporting) &&
-        this.doneLoading(Timeline.ProjectType) &&
-        this.doneLoading(Timeline.PlanningElement)) {
+    if (this.doneLoading(Project) &&
+        this.doneLoading(Reporting) &&
+        this.doneLoading(ProjectType) &&
+        this.doneLoading(PlanningElement)) {
 
       this.shouldLoadRemainingPlanningElements = function () { return false; };
 

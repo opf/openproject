@@ -37,15 +37,12 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-timelinesApp.factory('Project', [function() {
-
-  // ╭───────────────────────────────────────────────────────────────────╮
-  // │ Timeline.Project                                                  │
-  // ╰───────────────────────────────────────────────────────────────────╯
+uiComponentsApp.factory('Project', [function() {
 
   Project = {
     is: function(t) {
-      return Timeline.Project.identifier === t.identifier;
+      if (t === undefined) return false;
+      return Project.identifier === t.identifier;
     },
     identifier: 'projects',
     hide: function () {
@@ -87,7 +84,7 @@ timelinesApp.factory('Project', [function() {
         // and it is inside our timeframe
         // and it has got the planning element type we want
         if (hidden &&
-              child.is(Timeline.PlanningElement) &&
+              child.is(PlanningElement) &&
               child.inTimeFrame() &&
               Timeline.idInArray(types, child.getPlanningElementType())) {
                 hidden = false;
@@ -210,7 +207,7 @@ timelinesApp.factory('Project', [function() {
         var dc = 0, nc = 0;
         var as = a.start(), bs = b.start();
         var ag, bg;
-        if (a.is(Timeline.Project) && b.is(Timeline.Project)) {
+        if (a.is(Project) && b.is(Project)) {
           var dataAGrouping = a.getFirstLevelGroupingData();
           var dataBGrouping = b.getFirstLevelGroupingData();
 
@@ -295,7 +292,7 @@ timelinesApp.factory('Project', [function() {
           }
         }
 
-        if (parseInt(timeline.options.project_sort, 10) === 1 && a.is(Timeline.Project) && b.is(Timeline.Project)) {
+        if (parseInt(timeline.options.project_sort, 10) === 1 && a.is(Project) && b.is(Project)) {
           if (nc !== 0) {
             return nc;
           }
@@ -392,13 +389,7 @@ timelinesApp.factory('Project', [function() {
       return (this.project_type !== undefined) ? this.project_type : null;
     },
     getResponsible: function() {
-      if (this.responsible !== undefined) {
-        return this.responsible;
-      } else if (this.responsible_id !== undefined && this.responsible_id !== null) {
-        return { "id": this.responsible_id };
-      } else {
-        return null;
-      }
+      return (this.responsible !== undefined) ? this.responsible : null;
     },
     getResponsibleName: function()  {
       if (this.responsible && this.responsible.name) {

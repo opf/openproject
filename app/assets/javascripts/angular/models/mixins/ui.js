@@ -38,7 +38,7 @@
 // ╰───────────────────────────────────────────────────────────────╯
 
 
-timelinesApp.factory('UI', [function() {
+uiComponentsApp.factory('UI', [function() {
 
   // ╭───────────────────────────────────────────────────────────────────╮
   // │ UI and Plotting                                                   │
@@ -668,7 +668,7 @@ timelinesApp.factory('UI', [function() {
 
         // if the grouping changed, put a grey box here.
 
-        if (timeline.isGrouping() && indent === 0 && pl.is(Timeline.Project)) {
+        if (timeline.isGrouping() && indent === 0 && pl.is(Project)) {
           grouping = pl.getFirstLevelGrouping();
           if (previousGrouping !== grouping) {
 
@@ -715,7 +715,7 @@ timelinesApp.factory('UI', [function() {
 
         // if there is a new project, draw a black line.
 
-        if (pl.is(Timeline.Project)) {
+        if (pl.is(Project)) {
 
           if (!groupingChanged) {
 
@@ -732,13 +732,13 @@ timelinesApp.factory('UI', [function() {
 
           }
 
-        } else if (pl.is(Timeline.PlanningElement)) {
+        } else if (pl.is(PlanningElement)) {
 
         }
 
         previousNode = node;
 
-        if (pl.is(Timeline.PlanningElement)) {
+        if (pl.is(PlanningElement)) {
           render_bucket_text.push(function () {
             pl.renderForeground(node);
           });
@@ -873,7 +873,7 @@ timelinesApp.factory('UI', [function() {
       info += "<b>";
       info += this.escape(renderable.subject);
       info += "</b>";
-      if (renderable.is(Timeline.PlanningElement)) {
+      if (renderable.is(PlanningElement)) {
         info += " (#" + renderable.id + ")";
       }
       info += "<br/>";
@@ -1025,4 +1025,3 @@ timelinesApp.factory('UI', [function() {
 
   return UI;
 }]);
-
