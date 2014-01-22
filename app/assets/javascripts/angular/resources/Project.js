@@ -37,31 +37,13 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-// stricter than default
-/*jshint undef:true,
-         eqeqeq:true,
-         forin:true,
-         immed:true,
-         latedef:true,
-         trailing: true
-*/
+timelinesApp.factory('Project', [function() {
 
-// looser than default
-/*jshint eqnull:true */
+  // ╭───────────────────────────────────────────────────────────────────╮
+  // │ Timeline.Project                                                  │
+  // ╰───────────────────────────────────────────────────────────────────╯
 
-// environment and other global vars
-/*jshint browser:true, devel:true*/
-/*global jQuery:false, Raphael:false, Timeline:true*/
-
-if (typeof Timeline === "undefined") {
-  Timeline = {};
-}
-
-// ╭───────────────────────────────────────────────────────────────────╮
-// │ Timeline.Project                                                  │
-// ╰───────────────────────────────────────────────────────────────────╯
-
-Timeline.Project = {
+  Project = {
     is: function(t) {
       return Timeline.Project.identifier === t.identifier;
     },
@@ -464,6 +446,9 @@ Timeline.Project = {
 
       return url;
     },
+
+
+
     render: function(node) {
       if (node.isExpanded()) {
         return false;
@@ -653,3 +638,6 @@ Timeline.Project = {
       return result;
     }
   };
+
+  return Project;
+}]);

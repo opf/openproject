@@ -83,6 +83,8 @@ gem 'rack-protection'
 
 gem 'syck', :platforms => [:ruby_20, :mingw_20, :ruby_21, :mingw_21], :require => false
 
+gem 'gon'
+
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
@@ -98,6 +100,8 @@ group :assets do
   gem 'select2-rails', '~> 3.3.2'
   gem 'jquery-atwho-rails'
   gem 'openproject-ui_components', git: 'git@github.com:opf/openproject-ui_components.git', branch: 'dev'
+  gem 'angularjs-rails'
+  gem 'angular-ui-select2-rails'
 end
 
 gem "prototype-rails"

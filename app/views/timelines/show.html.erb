@@ -27,6 +27,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<%= include_gon %>
+
 <% html_title l("timelines.project_menu.timelines") %>
 
 <% content_for :action_menu_main do %>
@@ -55,23 +57,24 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h2><%= @timeline.name %></h2>
 
-<%= form_tag :id => "specialForm" do %>
-  <%= label_tag 'timeline_select', l("timelines.timeline") %>
-  <%= collection_select(:timeline, :id, @visible_timelines, :id, :name, {}, {:id => 'timeline_select'}) %>
-<% end %>
+<div id="timeline" ng-app="openproject.timelines" ng-controller="TimelinesController">
 
-<script type="text/javascript">
-  (function() {
-    var timelines = {};
-    <% @visible_timelines.each do |timeline| %>
-    timelines[<%= timeline.id %>] = {
-      url: '<%= project_timeline_path(@project, timeline) %>'
-    }
-    <% end %>
-    jQuery('#timeline_select').change(function() {
-      document.location.href = timelines[this.value].url;
-    });
-  })();
-</script>
+  <%= form_tag :id => "specialForm" do %>
+    <%= label_tag 'timeline_select', l("timelines.timeline") %>
+    <%= collection_select(:timeline, :id, @visible_timelines, :id, :name, {}, {ui_select2: 'ui-select2', id: 'timeline_select', ng_model: 'currentTimelineId', ng_change: 'switchTimeline()'}) %>
+  <% end %>
 
-<%= render :partial => "timeline", :locals => {:timeline => @timeline} %>
+  <script type="text/javascript">
+    (function() {
+      console.log('Deprecated - initialization of timelines object.');
+      var timelines = {};
+      <% @visible_timelines.each do |timeline| %>
+      timelines[<%= timeline.id %>] = {
+        url: '<%= project_timeline_path(@project, timeline) %>'
+      }
+      <% end %>
+    })();
+  </script>
+
+  <%= render :partial => "timeline", :locals => {:timeline => @timeline} %>
+</div>

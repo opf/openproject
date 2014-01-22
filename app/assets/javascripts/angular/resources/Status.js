@@ -37,36 +37,26 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-// stricter than default
-/*jshint undef:true,
-         eqeqeq:true,
-         forin:true,
-         immed:true,
-         latedef:true,
-         trailing: true
-*/
 
-// looser than default
-/*jshint eqnull:true */
+// ╭───────────────────────────────────────────────────────────────────╮
+// │ Data Store                                                        │
+// ├───────────────────────────────────────────────────────────────────┤
+// │ Model Prototypes:                                                 │
+// │ Timeline.ProjectAssociation                                       │
+// │ Timeline.Reporting                                                │
+// │ Timeline.ProjectType                                              │
+// │ Timeline.Color                                                    │
+// │ Timeline.Status                                                   │
+// │ Timeline.PlanningElementType                                      │
+// │ Timeline.User                                                     │
+// ╰───────────────────────────────────────────────────────────────────╯
 
-// environment and other global vars
-/*jshint browser:true, devel:true*/
-/*global jQuery:false, Raphael:false, Timeline:true*/
-
-if (typeof Timeline === "undefined") {
-  Timeline = {};
-}
-
-jQuery.extend(Timeline, {
-  // ╭───────────────────────────────────────────────────────────────────╮
-  // │ Timeline.ProjectType                                              │
-  // ╰───────────────────────────────────────────────────────────────────╯
-
-  ProjectType: {
-    identifier: 'project_types',
+timelinesApp.factory('Status', [function() {
+  Status = {
+    identifier: 'statuses',
     all: function(timeline) {
-      // collect all project types
-      var r = timeline.project_types;
+      // collect all reportings.
+      var r = timeline.statuses;
       var result = [];
       for (var key in r) {
         if (r.hasOwnProperty(key)) {
@@ -75,5 +65,7 @@ jQuery.extend(Timeline, {
       }
       return result;
     }
-  }
-});
+  };
+
+  return Status;
+}]);

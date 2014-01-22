@@ -37,26 +37,6 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-// stricter than default
-/*jshint undef:true,
-         eqeqeq:true,
-         forin:true,
-         immed:true,
-         latedef:true,
-         trailing: true
-*/
-
-// looser than default
-/*jshint eqnull:true */
-
-// environment and other global vars
-/*jshint browser:true, devel:true*/
-/*global jQuery:false, Raphael:false, Timeline:true*/
-
-if (typeof Timeline === "undefined") {
-  Timeline = {};
-}
-
 // ╭───────────────────────────────────────────────────────────────────╮
 // │ Data Store                                                        │
 // ├───────────────────────────────────────────────────────────────────┤
@@ -70,51 +50,16 @@ if (typeof Timeline === "undefined") {
 // │ Timeline.User                                                     │
 // ╰───────────────────────────────────────────────────────────────────╯
 
-jQuery.extend(Timeline, {
-  // ╭───────────────────────────────────────────────────────────────────╮
-  // │ Timeline.ProjectAssociation                                       │
-  // ╰───────────────────────────────────────────────────────────────────╯
-  ProjectAssociation: {
-    identifier: 'project_associations',
-    all: function(timeline) {
-      // collect all project associations.
-      var r = timeline.project_associations;
-      var result = [];
-      for (var key in r) {
-        if (r.hasOwnProperty(key)) {
-          result.push(r[key]);
-        }
-      }
-      return result;
-    },
-    getOrigin: function() {
-      return this.origin;
-    },
-    getTarget: function() {
-      return this.project;
-    },
-    getOther: function(project) {
-      var origin = this.getOrigin();
-      var target = this.getTarget();
-      if (project.id === origin.id) {
-        return target;
-      } else if (project.id === target.id) {
-        return origin;
-      }
-      return null;
-    },
-    getInvolvedProjects: function() {
-      return [this.getOrigin(), this.getTarget()];
-    },
-    involves: function(project) {
-      var inv = this.getInvolvedProjects();
+timelinesApp.factory('User', [function() {
+  identifier = 'users';
 
-      return (
-        project !== undefined &&
-        inv[0] !== undefined &&
-        inv[1] !== undefined &&
-        (project.id === inv[0].id || project.id === inv[1].id)
-      );
+  User = {
+    is: function(t) {
+      return t.identifier === identifier;
     }
-  }
-});
+  };
+
+  User.identifier = identifier;
+
+  return User;
+}]);

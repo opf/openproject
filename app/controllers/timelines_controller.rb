@@ -45,7 +45,13 @@ class TimelinesController < ApplicationController
 
   def show
     @visible_timelines = @project.timelines.all
+    push_visible_timeline_paths
+
     @timeline = @project.timelines.find(params[:id])
+    gon.current_timeline_id = @timeline.id
+    push_timeline_options
+
+    push_timeline_translations
   end
 
   def new
@@ -106,5 +112,61 @@ class TimelinesController < ApplicationController
     end
 
     params[:timeline][:options] = options
+  end
+
+  def visible_timeline_paths
+    @visible_timelines.inject({}) do |timeline_paths, timeline|
+      timeline_paths.merge(timeline.id => {path: project_timeline_path(@project, timeline)})
+    end
+
+  end
+
+  def push_visible_timeline_paths
+    gon.timelines = visible_timeline_paths
+  end
+
+  def push_timeline_options
+    gon.timeline_options = @timeline.options.reverse_merge(
+      project_id: @timeline.project.identifier,
+      url_prefix: OpenProject::Configuration.rails_relative_url_root || ''
+    )
+  end
+
+  def push_timeline_translations
+    props = ['label_no_data',
+             'timelines.change',
+             'timelines.errors.report_epicfail',
+             'timelines.errors.report_timeout',
+             'timelines.errors.not_implemented',
+             'timelines.errors.report_comparison',
+             'timelines.empty',
+             'timelines.filter.noneSelection',
+             'timelines.filter.column.due_date',
+             'timelines.filter.column.name',
+             'timelines.filter.column.type',
+             'timelines.filter.column.status',
+             'timelines.filter.column.responsible',
+             'timelines.filter.column.start_date',
+             'timelines.filter.column.assigned_to',
+             'timelines.filter.grouping_other',
+             'timelines.outline',
+             'timelines.outlines.aggregation',
+             'timelines.outlines.level1',
+             'timelines.outlines.level2',
+             'timelines.outlines.level3',
+             'timelines.outlines.level4',
+             'timelines.outlines.level5',
+             'timelines.outlines.all',
+             'timelines.zoom.in',
+             'timelines.zoom.out',
+             'timelines.zoom.days',
+             'timelines.zoom.weeks',
+             'timelines.new_work_package',
+             'timelines.zoom.months',
+             'timelines.zoom.quarters',
+             'timelines.zoom.years']
+    gon.timeline_translations = props.inject({}) do |translations, key|
+      translations.merge(key => l(key))
+    end
   end
 end

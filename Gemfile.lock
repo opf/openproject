@@ -146,6 +146,9 @@ GEM
       activemodel (>= 3.0.0)
       activerecord (>= 3.0.0)
       paper_trail (~> 2)
+    gon (4.0.0)
+      actionpack (>= 2.3.0)
+      json
     guard (2.2.2)
       formatador (>= 0.2.4)
       listen (~> 2.1)
@@ -369,6 +372,8 @@ DEPENDENCIES
   activerecord-jdbcsqlite3-adapter
   activerecord-tableless (~> 1.0)
   acts_as_list (~> 0.2.0)
+  angular-ui-select2-rails
+  angularjs-rails
   awesome_nested_set
   capybara
   capybara-screenshot
@@ -387,6 +392,7 @@ DEPENDENCIES
   factory_girl_rails (~> 4.0)
   faker
   globalize
+  gon
   guard-cucumber
   guard-rspec
   guard-test

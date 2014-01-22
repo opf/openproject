@@ -1,4 +1,4 @@
-//-- copyright
+7//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 //
@@ -37,36 +37,29 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-// stricter than default
-/*jshint undef:true,
-         eqeqeq:true,
-         forin:true,
-         immed:true,
-         latedef:true,
-         trailing: true
-*/
-
-// looser than default
-/*jshint eqnull:true */
-
-// environment and other global vars
-/*jshint browser:true, devel:true*/
-/*global jQuery:false, Raphael:false, Timeline:true*/
-
-if (typeof Timeline === "undefined") {
-  Timeline = {};
-}
-
-jQuery.extend(Timeline, {
+timelinesApp.factory('Color', [function() {
   // ╭───────────────────────────────────────────────────────────────────╮
+  // │ Data Store                                                        │
+  // ├───────────────────────────────────────────────────────────────────┤
+  // │ Model Prototypes:                                                 │
+  // │ Timeline.ProjectAssociation                                       │
+  // │ Timeline.Reporting                                                │
+  // │ Timeline.ProjectType                                              │
+  // │ Timeline.Color                                                    │
+  // │ Timeline.Status                                                   │
   // │ Timeline.PlanningElementType                                      │
+  // │ Timeline.User                                                     │
   // ╰───────────────────────────────────────────────────────────────────╯
 
-  PlanningElementType: {
-    identifier: 'planning_element_types',
+  // ╭───────────────────────────────────────────────────────────────────╮
+  // │ Timeline.Color                                                    │
+  // ╰───────────────────────────────────────────────────────────────────╯
+
+  Color = {
+    identifier: 'colors',
     all: function(timeline) {
-      // collect all reportings.
-      var r = timeline.planning_element_types;
+      // collect all colors
+      var r = timeline.colors;
       var result = [];
       for (var key in r) {
         if (r.hasOwnProperty(key)) {
@@ -75,5 +68,7 @@ jQuery.extend(Timeline, {
       }
       return result;
     }
-  }
-});
+  };
+
+  return Color;
+}]);
