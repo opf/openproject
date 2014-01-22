@@ -29,11 +29,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= call_hook(:view_repositories_show_contextual, { :repository => @repository, :project => @project }) %>
 
-<div class="contextual">
-  <%= render :partial => 'navigation' %>
-</div>
+<%= render :partial => 'navigation' %>
 
 <h2><%= render :partial => 'breadcrumbs', :locals => { :path => @path, :kind => 'dir', :revision => @rev } %></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
 
 <% if !@entries.nil? && authorize_for('repositories', 'browse') %>
 <%= render :partial => 'dir_list' %>

@@ -27,13 +27,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div class="contextual">
-<%= link_to_if_authorized l(:label_message_new),
-                          {:controller => '/messages', :action => 'new', :board_id => @board},
-                          :class => 'icon icon-add',
-                          :onclick => 'Element.show("add-message"); Form.Element.focus("message_subject"); return false;' %>
-  <%= watcher_link(@board, User.current) %>
-</div>
+<% content_for :action_menu_specific do %>
+  <%= link_to_if_authorized l(:label_message_new),
+                            {:controller => '/messages', :action => 'new', :board_id => @board},
+                            :class => 'icon icon-add',
+                            :onclick => 'Element.show("add-message"); Form.Element.focus("message_subject"); return false;' %>
+    <%= watcher_link(@board, User.current) %>
+<% end %>
 
 <div id="add-message" style="display:none;">
 <% if authorize_for('messages', 'new') %>
@@ -56,6 +56,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h2><%=h @board.name %></h2>
 <p class="subtitle"><%=h @board.description %></p>
+<%= render :partial => 'layouts/action_menu_specific' %>
+
 
 <% if @topics.any? %>
 <table class="list messages">

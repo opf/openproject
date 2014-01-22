@@ -35,6 +35,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= content_tag('h2', work_package.to_s) %>
 
+<%= render :partial => 'layouts/action_menu_specific' %>
+
 <div class = "details">
   <div class="profile-wrap">
     <%= avatar(work_package.author, :size => "40") %>

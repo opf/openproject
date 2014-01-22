@@ -76,6 +76,8 @@ def action_menu_selector
 
   if has_css?(".action_menu_main")
     all(".action_menu_main").first
+  elsif has_css?(".action_menu_specific")
+    all(".action_menu_specific").first
   elsif has_css?(".contextual")
     all(".contextual").first
   else

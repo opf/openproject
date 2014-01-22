@@ -28,11 +28,13 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% breadcrumb_paths(l(:label_my_page)) %>
-<div class="contextual">
+<% content_for :action_menu_specific do %>
     <%= link_to l(:label_personalize_page), :action => 'page_layout' %>
-</div>
+<% end %>
 
 <h2><%=l(:label_my_page)%></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
 
 <div id="list-top">
   <% @blocks['top'].each do |b|
