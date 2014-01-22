@@ -7,7 +7,6 @@ uiComponentsApp.factory('Timeline', ['Constants', 'TreeNode', 'UI', 'Color', 'Hi
   angular.extend(Timeline, Constants);
   angular.extend(Timeline, {TreeNode: TreeNode});
   angular.extend(Timeline, UI);
-  // Timeline.FilterQueryStringBuilder = FilterQueryStringBuilder;
 
   //startup
   angular.extend(Timeline, {
@@ -20,7 +19,6 @@ uiComponentsApp.factory('Timeline', ['Constants', 'TreeNode', 'UI', 'Color', 'Hi
       this.extendOptions();
 
       this.instances = [];
-
 
       var timeline = Object.create(Timeline);
 
