@@ -67,7 +67,7 @@
 //= require top-shelf
 //= require unsupported-browsers
 //= require autocomplete_textareas
-//= require_tree ./pages
+//= require_tree ./specific
 //= require openproject_plugins
 //= require versions
 
@@ -808,9 +808,6 @@ jQuery(document).ready(function($) {
 	// deal with potentially problematic super-long titles
 	$(".title-bar h2").css({paddingRight: $(".title-bar-actions").outerWidth() + 15 });
 
-	// rejigger the main-menu sub-menu functionality.
-	$("#main-menu .toggler").remove(); // remove the togglers so they're inserted properly later.
-
 $(window).resize(function() {
     // wait 200 milliseconds for no further resize event
     // then readjust breadcrumb
@@ -837,26 +834,6 @@ $(window).resize(function() {
     return this;
   };
 
-	$("#main-menu li:has(ul) > a").not("ul ul a")
-		// 1. unbind the current click functions
-		.unbind("click")
-		// 2. wrap each in a span that we'll use for the new click element
-		.wrapInner("<span class='toggle-follow ellipsis'></span>")
-		// 3. reinsert the <span class="toggler"> so that it sits outside of the above
-		.append("<span class='toggler icon6 icon-arrow-right5-2'></span>")
-		// 4. attach a new click function that will follow the link if you clicked on the span itself and toggle if not
-		.click(function(event) {
-
-			if ($(event.target).hasClass("toggler") ) {
-                          var menuParent = $(this).toggleClass("open").parent().find("ul").not("ul ul ul");
-                          menuParent.mySlide();
-                          if ($(this).hasClass("open")) {
-                            menuParent.find("li > a:first").focus();
-                          }
-                        return false;
-                      }
-		});
-
   // Do not close the login window when using it
   $('#nav-login-content').click(function(event){
     event.stopPropagation();
@@ -872,38 +849,6 @@ $(window).resize(function() {
     });
   });
 
-  // Users of some old IEs are out of luck ATM. A userData implementation
-  // could be provided though, that would be great!
-  var remember_menu_state;
-
-  if (typeof window.sessionStorage !== 'undefined') {
-    remember_menu_state = function (match) {
-      if (typeof match === 'undefined') {
-        return sessionStorage.getItem('openproject:navigation-toggle');
-      } else {
-        return sessionStorage.setItem('openproject:navigation-toggle',
-                                      match.length > 0 ? 'collapsed' : 'expanded');
-      }
-    };
-  }
-  else {
-    remember_menu_state = function (match) {
-      return false;
-    };
-  }
-
-  var toggle_navigation = function() {
-    $('#wrapper').toggleClass('hidden-navigation');
-    $('#content, #breadcrumb').toggleClass('hidden-navigation');
-    $('#toggle-project-menu').removeAttr("style").toggleClass('show');
-    remember_menu_state($('#toggle-project-menu.show'));
-  };
-
-  // register toggler, and toggle for the first time if remembered to be closed.
-  jQuery('#toggle-project-menu .navigation-toggler').click(toggle_navigation);
-  if ($('#main-menu').length > 0 && remember_menu_state() === "collapsed") {
-    toggle_navigation();
-  }
 });
 
 

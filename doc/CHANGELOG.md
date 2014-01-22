@@ -34,6 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2157` [Accessibility] Required fields MUST be displayed as required - enumeration new
 * `#2162` [Accessibility] Required fields MUST be displayed as required - new project_type
 * `#2228` [Accessibility] low contrast in backlogs task view
+* `#2231` [Accessibility] alt texts for openproject project menu
 * `#2240` [Accessibility] correctly label document language of menu items
 * `#2250` [Accessibility] activity icon labels
 * `#2260` [Accessibility] no-existent alt-text for collapse/expand functionality in grouped work-package list

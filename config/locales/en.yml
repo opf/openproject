@@ -470,6 +470,7 @@ en:
   description_filter: "Filter"
   description_filter_toggle: "Show/Hide filter"
   description_category_reassign: "Choose category"
+  description_menu_item_toggle: "Show/hide submenu items"
   description_message_content: "Message content"
   description_my_project: "You are member"
   description_notes: "Notes"
