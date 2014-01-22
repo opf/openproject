@@ -57,7 +57,6 @@ uiComponentsApp.factory('Constants', [function() {
       api_prefix:                     '/api/v2',
       hide_other_group:               false,
       hide_tree_root:                 false,
-      i18n:                           {},  // undefined would be bad.
       initial_outline_expansion:      0,   // aggregations only
       project_prefix:                 '/projects',
       planning_element_prefix:        '',

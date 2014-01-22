@@ -25,7 +25,7 @@
 
     <span class="tl-word-ellipsis">
       <span>
-        <a title="{{timeline.i18n('timelines.change')}}"
+        <a title="{{I18n.t('js.timelines.change')}}"
            ng-class="{
              'icon tl-icon-added': node.payload.identifier === 'planning_elements' && node.payload.isNewlyAdded(),
              'icon tl-icon-deleted': node.payload.identifier === 'planning_elements' && node.payload.isDeleted(),
@@ -43,12 +43,12 @@
 
   <td option-column ng-repeat="option in timeline.options.columns">
     <span class="tl-historical" ng-show="isDateOption(option) && node.payload.does_historical_differ(option)">
-      <a href="javascript://" title="{{timeline.i18n('timelines.change')}}"
+      <a href="javascript://" title="{{I18n.t('js.timelines.change')}}"
          ng-class="[
            'icon',
            'tl-icon-' + (node.payload | historicalDateKind:option)
          ]">
-        {{node.payload.historical()[option] || timeline.i18n('timelines.empty')}}
+        {{node.payload.historical()[option] || I18n.t('js.timelines.empty')}}
       </a>
       <br/>
     </span>

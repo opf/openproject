@@ -192,7 +192,7 @@ uiComponentsApp.factory('Timeline', ['Constants', 'TreeNode', 'UI', 'Color', 'Hi
             case 2:
               return Math.floor(result.add(-value).months() / 1000);
             default:
-              return this.die(this.i18n('timelines.errors.report_comparison'));
+              return this.die(I18n.t('js.timelines.errors.report_comparison'));
           }
           break; // to please jslint
         case 'absolute':
@@ -202,7 +202,7 @@ uiComponentsApp.factory('Timeline', ['Constants', 'TreeNode', 'UI', 'Color', 'Hi
           value = this.options.compare_to_historical_one;
           break;
         default:
-          return this.die(this.i18n('timelines.errors.report_comparison'));
+          return this.die(I18n.t('js.timelines.errors.report_comparison'));
       }
       return +Date.parse(value)/1000;
     },
@@ -261,7 +261,7 @@ uiComponentsApp.factory('Timeline', ['Constants', 'TreeNode', 'UI', 'Color', 'Hi
     },
     die: function(error, classes) {
       var message = (typeof error === 'string') ? error :
-        this.i18n('timelines.errors.report_epicfail'); // + '<br>' + error.message;
+        I18n.t('js.timelines.errors.report_epicfail'); // + '<br>' + error.message;
       classes = classes || 'flash error';
 
       this.warn(message, classes);
@@ -301,7 +301,7 @@ uiComponentsApp.factory('Timeline', ['Constants', 'TreeNode', 'UI', 'Color', 'Hi
           this.adjustForPlanningElements();
           this.completeUI();
         } else {
-          this.warn(this.i18n('label_no_data'), 'warning');
+          this.warn(I18n.t('js.label_no_data'), 'warning');
         }
       } catch (e) {
         this.die(e);
@@ -449,7 +449,7 @@ uiComponentsApp.factory('Timeline', ['Constants', 'TreeNode', 'UI', 'Color', 'Hi
       return {
         'number': 0,
         'id': 0,
-        'name': this.i18n('timelines.filter.grouping_other')
+        'name': I18n.t('js.timelines.filter.grouping_other')
       };
     },
 

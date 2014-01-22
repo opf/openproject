@@ -293,20 +293,6 @@ uiComponentsApp.factory('UI', [function() {
     getChart: function() {
       return this.getUiRoot().find('.tl-chart');
     },
-
-    i18n: function(key) {
-      var value = this.options.i18n[key];
-      var message;
-      if (value === undefined) {
-        message = 'translation missing: ' + key;
-        if (console && console.log) {
-          console.log(message);
-        }
-        return message;
-      } else {
-        return value;
-      }
-    },
     registerDrawPaper: function() {
       // store the paper element for later use.
       this.paperElement = jQuery('.tl-chart')[0];

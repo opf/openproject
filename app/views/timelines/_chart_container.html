@@ -6,9 +6,9 @@
       <table class="tl-main-table" ng-hide="timeline.options.hide_chart">
         <thead>
           <tr>
-            <th class="tl-first-column" ng-style="{height: timeline.decoHeight()}">{{timeline.i18n('timelines.filter.column.name')}}</th>
+            <th class="tl-first-column" ng-style="{height: timeline.decoHeight()}">{{I18n.t('js.timelines.filter.column.name')}}</th>
             <th ng-repeat="key in timeline.options.columns">
-              {{timeline.i18n('timelines.filter.column.' + key)}}
+              {{I18n.t('js.timelines.filter.column.' + key)}}
             </th>
           </tr>
         </thead>

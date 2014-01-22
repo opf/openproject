@@ -84,7 +84,7 @@ uiComponentsApp.directive('timeline', ['TimelineLoaderService', function(Timelin
             timeline.adjustForPlanningElements();
             completeUI();
           } else {
-            timeline.warn(this.i18n('label_no_data'), 'warning');
+            timeline.warn(I18n.t('js.label_no_data'), 'warning');
           }
         } catch (e) {
           timeline.die(e);

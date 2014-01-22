@@ -1119,8 +1119,8 @@ uiComponentsApp.service('TimelineLoaderService', ['$q', 'FilterQueryStringBuilde
         });
 
         timeline.safetyHook = window.setTimeout(function() {
-          timeline.die(timeline.i18n('timelines.errors.report_timeout'));
-          deferred.reject(timeline.i18n('timelines.errors.report_timeout'));
+          timeline.die(I18n.t('js.timelines.errors.report_timeout'));
+          deferred.reject(I18n.t('js.timelines.errors.report_timeout'));
         }, Timeline.LOAD_ERROR_TIMEOUT);
 
         timelineLoader.load();
