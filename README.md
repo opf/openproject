@@ -9,23 +9,19 @@ A more detailed description can be found on [OpenProject.org](https://www.openpr
 Requirements
 ------------
 
-The OpenProject Backlogs plug-in requires the [OpenProject Core](https://github.com/opf/openproject/) in version greater or equal to *3.0.0pre37*.
-
-Tests for this plugin require `pdf-inspector`, so just add the following line to OpenProject's `Gemfile.plugin`:
-
-`gem "pdf-inspector", "~>1.0.0", :group => :test`
+The OpenProject Backlogs plug-in requires the [OpenProject Core](https://github.com/opf/openproject/) in version greater or equal to *3.0.0pre42*.
 
 
 Installation
 ------------
 
-OpenProject Backlogs depends on OpenProject Plugins. Thus, if you haven't done it already, add the following line to the `Gemfile.plugins` to your OpenProject installation:
+OpenProject Costs depends on OpenProject Plugins. Thus, if you haven't done it already, add the following line to the `Gemfile.plugins` in your OpenProject installation:
 
 `gem "openproject-plugins", git: "https://github.com/opf/openproject-plugins.git", :branch => "dev"`
 
-For OpenProject Backlogs itself you need to add the following line to the `Gemfile.plugins` of OpenProject:
+For OpenProject Costs itself you need to add the following line to the `Gemfile.plugins` of OpenProject:
 
-`gem "openproject-backlogs", git: "https://github.com/finnlabs/openproject-backlogs.git", :branch => "dev"`
+`gem "openproject-costs", git: "https://github.com/finnlabs/openproject-costs.git", :branch => "dev"`
 
 Afterwards, run:
 
@@ -41,7 +37,7 @@ Deinstallation
 
 Remove the line
 
-`gem "openproject-backlogs", git: "https://github.com/finnlabs/openproject-backlogs.git"`
+`gem "openproject-costs", git: "https://github.com/finnlabs/openproject-costs.git"`, :branch => "dev"`
 
 from the file `Gemfile.plugins` and run:
 
@@ -55,14 +51,14 @@ Bug Reporting
 
 If you find any bugs, you can create a bug ticket at
 
-https://www.openproject.org/projects/plugin-backlogs
+https://www.openproject.org/projects/plugin-costs
 
 
 Development
 -----------
 
 To contribute, you can create pull request on the official repository at
-`https://github.com/finnlabs/openproject-backlogs`
+`https://github.com/finnlabs/openproject-costs`
 
 
 Credits
