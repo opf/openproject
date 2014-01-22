@@ -34,7 +34,7 @@
       </span>
 
       <span>
-        <a data-modal title="{{node.text}}" ng-class="{'tl-discreet-link': true, 'tl-project': node.payload.node.payload.identifier === 'projects'}">
+        <a modal title="{{node.text}}" target="node.url" ng-class="{'tl-discreet-link': true, 'tl-project': node.payload.node.payload.identifier === 'projects'}">
           {{node.text}}
         </a>
       </span>
