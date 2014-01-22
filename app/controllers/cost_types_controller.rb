@@ -35,8 +35,6 @@ class CostTypesController < ApplicationController
   end
 
   def update
-    # TODO: method is copied over from edit
-    # remove code as appropriate
     @cost_type.attributes = permitted_params.cost_type
 
     if @cost_type.save
@@ -51,8 +49,6 @@ class CostTypesController < ApplicationController
   end
 
   def new
-    # TODO: method is copied over from edit
-    # remove code as appropriate
     @cost_type = CostType.new()
 
     @cost_type.rates.build({:valid_from => Date.today}) if @cost_type.rates.empty?
@@ -61,8 +57,6 @@ class CostTypesController < ApplicationController
   end
 
   def create
-    # TODO: method is copied over from edit
-    # remove code as appropriate
     @cost_type = CostType.new(permitted_params.cost_type)
 
     if @cost_type.save
