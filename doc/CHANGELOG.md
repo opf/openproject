@@ -44,12 +44,14 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3120` Implement a test suite the spikes can be developed against
 * `#3251` [Timelines] Filtering for Responsible filters everything
 * `#3393` [Timelines] Filter Work Packages by Assignee
+* `#3401` [Work package tracking] Notes are not saved when copying a work package
 * `#3409` New Layout for fallback Login page
 * `#3453` Highlight project in bread crumb
 * `#3546` Better icon for Timelines Module
 * `#3547` Change color of Apply button in Activity
 * `#3667` Better icon for Roadmap
 * `#3065` Fixed internal error when selecting costs-columns and displaying sums in work package list
+* `#3863` Strange additional journal entry when moving work package
 
 ## 3.0.0pre42
 

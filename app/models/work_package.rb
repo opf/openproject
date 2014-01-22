@@ -664,10 +664,14 @@ class WorkPackage < ActiveRecord::Base
                             else
                               self.status
                             end
+    else
+      work_package.add_journal User.current, options[:journal_note] if options[:journal_note]
     end
 
     if work_package.save
-      unless options[:copy]
+      if options[:copy]
+        create_and_save_journal_note work_package, options[:journal_note]
+      else
         # Manually update project_id on related time entries
         TimeEntry.update_all("project_id = #{new_project.id}", {:work_package_id => id})
 
@@ -1005,6 +1009,13 @@ class WorkPackage < ActiveRecord::Base
   def set_attachments_error_details
     if invalid_attachment = self.attachments.detect{|a| !a.valid?}
       errors.messages[:attachments].first << " - #{invalid_attachment.errors.full_messages.first}"
+    end
+  end
+
+  def create_and_save_journal_note(work_package, journal_note)
+    if work_package && journal_note
+      work_package.add_journal User.current, journal_note
+      work_package.save!
     end
   end
 end
