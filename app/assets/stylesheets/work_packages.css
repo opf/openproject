@@ -30,3 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 #work-packages-query-selection .select2-container {
   margin-left: 5px;
 }
+
+.issue .attributes td.work_package_attribute_header {
+  font-weight: bold;
+}

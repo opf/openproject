@@ -352,7 +352,9 @@ module WorkPackagesHelper
   def work_package_show_table_row(attribute, klass = nil, &block)
     klass = attribute.to_s.dasherize if klass.nil?
 
-    content = content_tag(:th, :class => klass) { "#{WorkPackage.human_attribute_name(attribute)}:" }
+    content = content_tag(:td, :class => [:work_package_attribute_header, klass]) do
+      "#{WorkPackage.human_attribute_name(attribute)}:"
+    end
     content << content_tag(:td, :class => klass, &block)
 
     WorkPackageAttribute.new(attribute, content)
