@@ -51,7 +51,7 @@ Bug Reporting
 
 If you find any bugs, you can create a bug ticket at
 
-https://www.openproject.org/projects/plugin-costs
+https://www.openproject.org/projects/costs-plugin
 
 
 Development
