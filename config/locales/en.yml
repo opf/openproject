@@ -152,7 +152,6 @@ en:
   notice_something_wrong: "Something went wrong. Please try again."
   notice_successful_restore: "Successful restore."
 
-  permission_block_tickets: "Block tickets"
   permission_edit_cost_entries: "Edit booked unit costs"
   permission_edit_cost_objects: "Edit Budgets"
   permission_edit_own_cost_entries: "Edit own booked unit costs"

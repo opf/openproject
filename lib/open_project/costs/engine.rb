@@ -30,7 +30,6 @@ module OpenProject::Costs
         permission :edit_cost_entries, {:costlog => [:edit, :update, :destroy]},
                                        :require => :member
 
-        permission :block_tickets, {}, :require => :member
         permission :view_cost_objects, {:cost_objects => [:index, :show]}
 
         permission :view_cost_entries, { :cost_objects => [:index, :show], :costlog => [:index] }
