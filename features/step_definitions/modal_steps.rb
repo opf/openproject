@@ -44,7 +44,7 @@ end
 When(/^I switch the modal window into edit mode$/) do
   browser = page.driver.browser
   browser.switch_to.frame("modalIframe")
-  within("#content > .action_menu_main") do
+  within("#content > .action_menu_specific") do
     click_link("Update")
   end
   within("fieldset.tabular") do
