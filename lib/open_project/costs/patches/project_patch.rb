@@ -1,5 +1,3 @@
-require_dependency 'project'
-
 module OpenProject::Costs::Patches::ProjectPatch
   def self.included(base) # :nodoc:
     # Same as typing in the class
@@ -17,5 +15,3 @@ module OpenProject::Costs::Patches::ProjectPatch
 
   end
 end
-
-Project.send(:include, OpenProject::Costs::Patches::ProjectPatch)

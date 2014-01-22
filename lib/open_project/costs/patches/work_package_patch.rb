@@ -1,5 +1,3 @@
-require 'work_package'
-
 module OpenProject::Costs::Patches::WorkPackagePatch
   def self.included(base) # :nodoc:
     base.extend(ClassMethods)
@@ -126,4 +124,3 @@ module OpenProject::Costs::Patches::WorkPackagePatch
 end
 
 WorkPackage::SAFE_ATTRIBUTES << "cost_object_id" if WorkPackage.const_defined? "SAFE_ATTRIBUTES"
-WorkPackage.send(:include, OpenProject::Costs::Patches::WorkPackagePatch)

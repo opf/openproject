@@ -67,5 +67,3 @@ module OpenProject::Costs::Patches::RolePatch
     end
   end
 end
-
-Role.send(:include, OpenProject::Costs::Patches::RolePatch)

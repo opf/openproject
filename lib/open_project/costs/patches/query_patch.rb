@@ -1,5 +1,3 @@
-require_dependency 'query'
-
 module OpenProject::Costs::Patches::QueryPatch
   class CurrencyQueryColumn < QueryColumn
     unloadable
@@ -67,5 +65,3 @@ module OpenProject::Costs::Patches::QueryPatch
     end
   end
 end
-
-Query.send(:include, OpenProject::Costs::Patches::QueryPatch)

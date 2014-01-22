@@ -1,5 +1,3 @@
-require_dependency 'permitted_params'
-
 module OpenProject::Costs::Patches::PermittedParamsPatch
   def self.included(base) # :nodoc:
 
@@ -39,5 +37,3 @@ module OpenProject::Costs::Patches::PermittedParamsPatch
     end
   end
 end
-
-PermittedParams.send(:include, OpenProject::Costs::Patches::PermittedParamsPatch)

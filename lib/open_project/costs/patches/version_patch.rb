@@ -1,5 +1,3 @@
-require_dependency 'version'
-
 module OpenProject::Costs::Patches::VersionPatch
   def self.included(base) # :nodoc:
     base.send(:include, InstanceMethods)
@@ -16,5 +14,3 @@ module OpenProject::Costs::Patches::VersionPatch
     end
   end
 end
-
-Version.send(:include, OpenProject::Costs::Patches::VersionPatch)

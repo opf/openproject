@@ -1,8 +1,3 @@
-require_dependency 'project'
-
-require_dependency 'principal'
-require_dependency 'user'
-
 module OpenProject::Costs::Patches::UserPatch
   def self.included(base) # :nodoc:
     base.send(:include, InstanceMethods)
@@ -95,5 +90,3 @@ module OpenProject::Costs::Patches::UserPatch
     end
   end
 end
-
-User.send(:include, OpenProject::Costs::Patches::UserPatch)

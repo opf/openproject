@@ -1,5 +1,3 @@
-require_dependency 'time_entry'
-
 # Patches Redmine's Users dynamically.
 module OpenProject::Costs::Patches::TimeEntryPatch
   def self.included(base) # :nodoc:
@@ -106,5 +104,3 @@ module OpenProject::Costs::Patches::TimeEntryPatch
     end
   end
 end
-
-TimeEntry.send(:include, OpenProject::Costs::Patches::TimeEntryPatch)

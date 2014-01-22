@@ -1,5 +1,3 @@
-require_dependency 'users_helper'
-
 module OpenProject::Costs::Patches::UsersHelperPatch
   def self.included(base) # :nodoc:
     base.send(:include, InstanceMethods)
@@ -20,5 +18,3 @@ module OpenProject::Costs::Patches::UsersHelperPatch
     end
   end
 end
-
-UsersHelper.send(:include, OpenProject::Costs::Patches::UsersHelperPatch)

@@ -1,5 +1,3 @@
-require_dependency 'projects_controller'
-
 module OpenProject::Costs::Patches::ProjectsControllerPatch
   def self.included(base) # :nodoc:
     base.send(:include, InstanceMethods)
@@ -19,5 +17,3 @@ module OpenProject::Costs::Patches::ProjectsControllerPatch
     end
   end
 end
-
-ProjectsController.send(:include, OpenProject::Costs::Patches::ProjectsControllerPatch)

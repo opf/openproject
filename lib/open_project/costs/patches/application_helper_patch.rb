@@ -1,6 +1,4 @@
-require_dependency 'application_helper'
-
-module OpenProject::Costs::PatchesApplicationHelperPatch
+module OpenProject::Costs::Patches::ApplicationHelperPatch
   def self.included(base) # :nodoc:
     # Same as typing in the class
     base.class_eval do
@@ -23,5 +21,3 @@ module OpenProject::Costs::PatchesApplicationHelperPatch
     end
   end
 end
-
-ApplicationHelper.send(:include, OpenProject::Costs::PatchesApplicationHelperPatch)
