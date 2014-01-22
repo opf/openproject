@@ -1,5 +1,8 @@
 # Changelog
 
+
+* `#3077` Public Release Costs plugin
+
 ## 5.0.1.pre11
 
 * `#2250` [Accessibility] activity icon labels
