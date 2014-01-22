@@ -4,7 +4,7 @@ jQuery(document).ready(function($) {
   // rejigger the main-menu sub-menu functionality.
   $("#main-menu .toggler").remove(); // remove the togglers so they're inserted properly later.
 
-  var toggler = $('<a class="toggler"><%= icon_wrapper("icon6 icon-toggler icon-arrow-right5-2", I18n.t("description_menu_item_toggle")) %></a>')
+  var toggler = $('<a class="toggler"><span class="icon6 icon-toggler icon-arrow-right5-2"/><span class="hidden-for-sighted">' + I18n.t("label_menu_item_toggle") + '</span></a>')
     .click(function(event) {
       var target = $(this);
 
