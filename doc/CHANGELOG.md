@@ -41,6 +41,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2263` [Accessibility] Correct markup for tables
 * `#2734` [API] Access-Key not supported for all controllers
 * `#2366` [Timelines] Add support for user deletion to timelines
+* `#3065` Fixed internal error when selecting costs-columns and displaying sums in work package list
 * `#3120` Implement a test suite the spikes can be developed against
 * `#3251` [Timelines] Filtering for Responsible filters everything
 * `#3393` [Timelines] Filter Work Packages by Assignee
@@ -52,6 +53,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3667` Better icon for Roadmap
 * `#3065` Fixed internal error when selecting costs-columns and displaying sums in work package list
 * `#3863` Strange additional journal entry when moving work package
+* `#3879` Work Package Show: Attachments are shown within attributes table
 
 ## 3.0.0pre42
 
