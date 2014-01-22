@@ -629,7 +629,7 @@ uiComponentsApp.factory('UI', [function() {
 
         var pet = pl.getPlanningElementType();
 
-        var node = Object.create(Timeline.TreeNode);
+        var node = Object.create(TreeNode);
         node.setData(pl);
 
         if (pl.vertical) {

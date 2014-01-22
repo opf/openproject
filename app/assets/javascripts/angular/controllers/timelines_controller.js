@@ -15,7 +15,6 @@ uiComponentsApp.controller('TimelinesController', ['$scope', '$window', 'Timelin
 
   // Get timelines stuff into scope
   $scope.slider = null;
-  $scope.timelineContainerNo = 1;
   $scope.underConstruction = true;
   $scope.currentOutlineLevel = 'level3';
   $scope.currentScaleName = 'monthly';
@@ -23,7 +22,8 @@ uiComponentsApp.controller('TimelinesController', ['$scope', '$window', 'Timelin
   // Create timeline
   $scope.timeline = Timeline.create($scope.timelineOptions);
 
-  // Container for timeline rendering
+  // Provide id for timeline container
+  $scope.timelineContainerNo = 1;
   $scope.getTimelineContainerElementId = function() {
     return 'timeline-container-' + $scope.timelineContainerNo;
   };
@@ -57,6 +57,4 @@ uiComponentsApp.controller('TimelinesController', ['$scope', '$window', 'Timelin
       $scope.currentScaleIndex--;
     }
   };
-
-
 }]);

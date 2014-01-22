@@ -3,9 +3,7 @@ uiComponentsApp.factory('Timeline', ['Constants', 'TreeNode', 'UI', 'Color', 'Hi
   Timeline = {};
 
   // model mix ins
-
   angular.extend(Timeline, Constants);
-  angular.extend(Timeline, {TreeNode: TreeNode});
   angular.extend(Timeline, UI);
 
   //startup
@@ -564,7 +562,7 @@ uiComponentsApp.factory('Timeline', ['Constants', 'TreeNode', 'UI', 'Color', 'Hi
         // as long as there are no stored filters or aggregates, we only use
         // the projects as roots.
         var project = this.getProject();
-        var tree = Object.create(Timeline.TreeNode);
+        var tree = Object.create(TreeNode);
         var parent_stack = [];
 
         tree.setData(project, 0);
@@ -598,7 +596,7 @@ uiComponentsApp.factory('Timeline', ['Constants', 'TreeNode', 'UI', 'Color', 'Hi
                 return; // no more recursion!
               }
             }
-            var newNode = Object.create(Timeline.TreeNode);
+            var newNode = Object.create(TreeNode);
 
             newNode.setData(e, level);
             node.appendChild(newNode);
