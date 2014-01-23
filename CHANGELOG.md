@@ -20,6 +20,8 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+* `#2259` [Accessibility] linearisation of issue show form (2)
+
 ## 3.0.6
 
 * Adaptations for new icon font
