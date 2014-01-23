@@ -82,15 +82,29 @@ module RbMasterBacklogsHelper
                                     :project_id => @project,
                                     :sprint_id => backlog.sprint)
 
-    items[:configs] = taskboard_modal_link(@project, backlog)
+    items[:configs] = export_taskboard_cards_link(backlog)
 
     items
   end
 
-  def taskboard_modal_link(project, backlog, options = {})
+  def export_taskboard_cards_link(backlog)
+    if @default_taskboard_card_config
+      link_to(l(:label_backlogs_taskboard_card_export),
+        :controller => '/rb_taskboard_card_configurations',
+        :action => 'show',
+        :project_id => @project,
+        :sprint_id => backlog.sprint,
+        :id => @default_taskboard_card_config,
+        :format => :pdf)
+    else
+      taskboard_modal_link(backlog)
+    end
+  end
+
+  def taskboard_modal_link(backlog, options = {})
     path = backlogs_project_sprint_taskboard_card_configurations_path(@project.id, backlog.sprint.id)
     html_id = "modal_work_package_#{SecureRandom.hex(10)}"
-    link_to(I18n.t('label_backlogs_taskboard_card_export'), path, options.merge(:id => html_id, :'data-modal' => ''))
+    link_to(l(:label_backlogs_taskboard_card_export), path, options.merge(:id => html_id, :'data-modal' => ''))
   end
 
   def sprint_backlog_menu_items_for(backlog)

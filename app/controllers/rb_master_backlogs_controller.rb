@@ -38,6 +38,8 @@ class RbMasterBacklogsController < RbApplicationController
 
   menu_item :backlogs
 
+  before_filter :set_default_taskboard_card_config
+
   def index
     @owner_backlogs = Backlog.owner_backlogs(@project)
     @sprint_backlogs = Backlog.sprint_backlogs(@project)
@@ -46,6 +48,12 @@ class RbMasterBacklogsController < RbApplicationController
   end
 
   private
+
+  def set_default_taskboard_card_config
+    if TaskboardCardConfiguration.count == 1
+      @default_taskboard_card_config = TaskboardCardConfiguration.first
+    end
+  end
 
   def default_breadcrumb
     l(:label_backlogs)

@@ -2,6 +2,7 @@
 class RbTaskboardCardConfigurationsController < RbApplicationController
   unloadable
   include OpenProject::PdfExport::TaskboardCard
+
   before_filter :load_project_and_sprint
 
   def index
@@ -17,6 +18,8 @@ class RbTaskboardCardConfigurationsController < RbApplicationController
       format.pdf { send_data(cards_document.render, :disposition => 'attachment', :type => 'application/pdf') }
     end
   end
+
+  private
 
   def load_project_and_sprint
     @project = Project.find(params[:project_id])
