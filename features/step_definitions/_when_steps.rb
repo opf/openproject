@@ -172,6 +172,12 @@ When /^I click on the text "(.+?)"$/ do |locator|
   find(:xpath, %Q{//*[contains(text(), "#{locator}")]}).click
 end
 
+When /^I click on the link on the modal window with text "(.+?)"$/ do |locator|
+  browser = page.driver.browser
+  browser.switch_to.frame("modalIframe")
+  click_link(locator)
+end
+
 When /^I click on the element with class "([^"]+?)"$/ do |locator|
   find(:css, ".#{locator}").click
 end
@@ -225,4 +231,8 @@ end
 
 When /^I change the fold state of a version$/ do
   find(".backlog .toggler").click
+end
+
+When /^I click on the Export link$/ do
+  click_link("Export")
 end
