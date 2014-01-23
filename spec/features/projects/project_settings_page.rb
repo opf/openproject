@@ -26,32 +26,21 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-FactoryGirl.define do
-  factory :work_package_custom_field do
-    ignore do
-      name_locales nil
-    end
+class ProjectSettingsPage
+  include Rails.application.routes.url_helpers
+  include Capybara::DSL
 
-    sequence(:name) {|n| "Custom Field Nr. #{n}"}
-    regexp ""
-    is_required false
-    min_length false
-    default_value ""
-    max_length false
-    editable true
-    possible_values ""
-    visible true
-    field_format "bool"
-    type "WorkPackageCustomField"
+  def initialize(project)
+    @project = project
+  end
 
-    after(:build) do |custom_field, evaluator|
-      name_locales = evaluator.name_locales || {}
+  def visit_settings
+    visit settings_path
+  end
 
-      name_locales.each_pair do |locale, name|
-        Globalize.with_locale(locale) do
-          custom_field.name = name
-        end
-      end
-    end
+  private
+
+  def settings_path
+    settings_project_path(@project)
   end
 end
