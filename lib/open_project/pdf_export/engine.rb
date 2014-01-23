@@ -8,9 +8,27 @@ module OpenProject::PdfExport
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    register 'openproject-pdf_export',
-             :author_url => 'http://finn.de',
-             :requires_openproject => '>= 3.0.0pre13'
+    config.to_prepare do
+      unless Redmine::Plugin.registered_plugins.include?(:openproject_pdf_export)
+        Redmine::Plugin.register :openproject_pdf_export do
+          name 'OpenProject PDF Export'
+          author 'Finn GmbH'
+          description 'A plugin for exporting anything (including camels) as PDFs'
+
+          url 'https://www.openproject.org/projects/plugin-pdf_export'
+          author_url 'http://www.finn.de/'
+
+          version OpenProject::Backlogs::VERSION
+
+          requires_openproject ">= 3.0.0pre13"
+
+          menu :admin_menu,
+            :taskboard_card_configurations,
+            {:controller => '/taskboard_card_configurations', :action => 'index'},
+            {:caption    => :'label_taskboard_card_configuration_plural', :html => {:class => "icon2 icon-tracker"}}
+        end
+      end
+    end
 
   end
 end
