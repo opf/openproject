@@ -20,8 +20,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 # Changelog
 
-* `#3077` Public Release Costs plugin
 * `#2259` [Accessibility] linearisation of issue show form (2)
+* `#3077` Public Release Costs plugin
+* `#3787` [Accessibility] Required fields MUST be displayed as required - new cost type
 
 ## 5.0.1.pre11
 

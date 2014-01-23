@@ -26,9 +26,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   <%= back_url_hidden_field_tag %>
 
   <div class="box">
-    <p><%= f.text_field :name, :size => 40 %></p>
-    <p><%= f.text_field :unit, :size => 20 %></p>
-    <p><%= f.text_field :unit_plural, :size => 20 %></p>
+    <p><%= f.text_field :name, :size => 40, :required => true %></p>
+    <p><%= f.text_field :unit, :size => 20, :required => true %></p>
+    <p><%= f.text_field :unit_plural, :size => 20, :required => true %></p>
     <p><%= f.check_box :default %></p>
   </div>
 
