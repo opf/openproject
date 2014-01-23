@@ -1,4 +1,4 @@
-uiComponentsApp.directive('timeline', ['TimelineLoaderService', function(TimelineLoaderService) {
+openprojectApp.directive('timeline', ['TimelineLoaderService', function(TimelineLoaderService) {
   return {
     restrict: 'A',
     link: function(scope, element, attributes) {

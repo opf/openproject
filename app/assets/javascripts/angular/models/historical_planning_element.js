@@ -37,7 +37,7 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-uiComponentsApp.factory('HistoricalPlanningElement', [function() {
+openprojectApp.factory('HistoricalPlanningElement', [function() {
 
   HistoricalPlanningElement = {
     identifier: 'historical_planning_elements'

@@ -37,7 +37,7 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-uiComponentsApp.factory('PlanningElement', [function() {
+openprojectApp.factory('PlanningElement', [function() {
 
   PlanningElement = {
     is: function(t) {

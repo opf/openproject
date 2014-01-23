@@ -1,4 +1,4 @@
-uiComponentsApp.directive('modal', [function() {
+openprojectApp.directive('modal', [function() {
   return {
     restrict: 'A',
     scope: {

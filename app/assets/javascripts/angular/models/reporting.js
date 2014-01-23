@@ -37,7 +37,7 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-uiComponentsApp.factory('Reporting', [function() {
+openprojectApp.factory('Reporting', [function() {
 
   Reporting = {
     identifier: 'reportings',

@@ -1,4 +1,4 @@
-uiComponentsApp.directive('zoomSlider', function() {
+openprojectApp.directive('zoomSlider', function() {
   return {
     restrict: 'A',
     link: function(scope, element, attributes) {

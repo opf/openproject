@@ -1,4 +1,4 @@
-uiComponentsApp.directive('treeNode', [function() {
+openprojectApp.directive('treeNode', [function() {
   return {
     restrict: 'A',
     scope: true,

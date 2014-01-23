@@ -38,7 +38,7 @@
 // ╰───────────────────────────────────────────────────────────────╯
 
 
-uiComponentsApp.factory('UI', [function() {
+openprojectApp.factory('UI', [function() {
 
   // ╭───────────────────────────────────────────────────────────────────╮
   // │ UI and Plotting                                                   │

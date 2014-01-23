@@ -37,7 +37,7 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-uiComponentsApp.factory('User', [function() {
+openprojectApp.factory('User', [function() {
   identifier = 'users';
 
   User = {

@@ -37,7 +37,7 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-uiComponentsApp.factory('Status', [function() {
+openprojectApp.factory('Status', [function() {
 
   Status = {
     identifier: 'statuses',

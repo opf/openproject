@@ -1,4 +1,4 @@
-uiComponentsApp.controller('TimelinesController', ['$scope', '$window', 'Timeline', function($scope, $window, Timeline) {
+openprojectApp.controller('TimelinesController', ['$scope', '$window', 'Timeline', function($scope, $window, Timeline) {
 
   $scope.switchTimeline = function() {
     $window.location.href = $scope.timelines[$scope.currentTimelineId].path;

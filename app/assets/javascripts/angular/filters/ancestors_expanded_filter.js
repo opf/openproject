@@ -1,4 +1,4 @@
-uiComponentsApp
+openprojectApp
   .filter('ancestorsExpanded', function() {
     return function(ancestors) {
       if(!ancestors) return true;

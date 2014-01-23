@@ -37,7 +37,7 @@
 // // │ OpenProject timelines module.                                 │
 // // ╰───────────────────────────────────────────────────────────────╯
 
-uiComponentsApp.factory('TreeNode', [function() {
+openprojectApp.factory('TreeNode', [function() {
 
   TreeNode = {
 

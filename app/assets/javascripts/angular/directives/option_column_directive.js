@@ -1,4 +1,4 @@
-uiComponentsApp.directive('optionColumn', [function() {
+openprojectApp.directive('optionColumn', [function() {
   return {
     restrict: 'A',
     scope: true,

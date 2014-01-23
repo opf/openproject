@@ -37,7 +37,7 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-uiComponentsApp.factory('Color', [function() {
+openprojectApp.factory('Color', [function() {
 
   Color = {
     identifier: 'colors',

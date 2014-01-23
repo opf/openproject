@@ -37,7 +37,7 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-uiComponentsApp.factory('PlanningElementType', [function() {
+openprojectApp.factory('PlanningElementType', [function() {
 
   PlanningElementType = {
     identifier: 'planning_element_types',
