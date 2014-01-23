@@ -19,11 +19,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ++#%>
 
 <%= render :partial => 'shared/costs_header' %>
-<div class="contextual">
-<%= link_to l(:button_add_cost_type), new_cost_type_path, :class => 'icon icon-add' %>
-</div>
+<% content_for :action_menu_specific do %>
+  <%= link_to l(:button_add_cost_type), new_cost_type_path, :class => 'icon icon-add' %>
+<% end %>
 
 <h2><%= CostType.model_name.human(:count => 2) %></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
 
 <%= form_tag(cost_types_path, { :method => :get, :id => 'query_form' }) do %>
   <fieldset id="filters">
