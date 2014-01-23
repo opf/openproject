@@ -355,22 +355,22 @@ Given /^there is the single default taskboard card configuration$/ do
   })
 end
 
-Given /^there are multiple taskboard card configurations$/ do
-  config1 = TaskboardCardConfiguration.create!({
-    name: "Default",
-    identifier: "DEFAULT",
-    per_page: 1,
-    page_size: "A4",
-    orientation: "landscape",
-    rows: "rows:\n    row1:\n      has_border: false\n      columns:\n        id:\n          has_label: false\n          font_size: 15"
-  })
-  config2 = TaskboardCardConfiguration.create!({
-    name: "Custom",
-    identifier: "CUSTOM",
-    per_page: 1,
-    page_size: "A4",
-    orientation: "landscape",
-    rows: "rows:\n    row1:\n      has_border: false\n      columns:\n        id:\n          has_label: false\n          font_size: 15"
-  })
-  [config1, config2]
-end
+# Given /^there are multiple taskboard card configurations$/ do
+#   config1 = TaskboardCardConfiguration.create!({
+#     name: "Default",
+#     identifier: "DEFAULT",
+#     per_page: 1,
+#     page_size: "A4",
+#     orientation: "landscape",
+#     rows: "rows:\n    row1:\n      has_border: false\n      columns:\n        id:\n          has_label: false\n          font_size: 15"
+#   })
+#   config2 = TaskboardCardConfiguration.create!({
+#     name: "Custom",
+#     identifier: "CUSTOM",
+#     per_page: 1,
+#     page_size: "A4",
+#     orientation: "landscape",
+#     rows: "rows:\n    row1:\n      has_border: false\n      columns:\n        id:\n          has_label: false\n          font_size: 15"
+#   })
+#   [config1, config2]
+# end

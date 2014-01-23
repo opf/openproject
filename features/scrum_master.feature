@@ -264,15 +264,6 @@ Feature: Scrum Master
       And Story A should be in the 2nd position of the sprint named Sprint 001
       And Story B should be the higher item of Story A
 
-  Scenario: Download printable cards for the task board
-    Given I have selected card label stock Avery 8435B
-      And I move the story named Story 4 up to the 1st position of the sprint named Sprint 001
-      And I am on the work_packages index page
-      And I follow "Sprint 001"
-     Then the request should complete successfully
-     When I follow "Export cards"
-     Then the request should complete successfully
-
   Scenario: view the sprint notes
     Given I have set the content for wiki page Sprint Template to Sprint Template
       And I have made Sprint Template the template page for sprint notes
