@@ -1,3 +1,22 @@
+#-- copyright
+# OpenProject Costs Plugin
+#
+# Copyright (C) 2009 - 2014 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# version 3.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#++
+
 ---
 de:
   activerecord:
@@ -152,13 +171,12 @@ de:
   notice_something_wrong: "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
   notice_successful_restore: "Erfolgreich wiederhergestellt."
 
-  permission_block_tickets: "Tickets blockieren"
   permission_edit_cost_entries: "Bearbeiten gebuchter Stückkosten"
   permission_edit_cost_objects: "Budgets bearbeiten"
   permission_edit_own_cost_entries: "Bearbeiten eigener gebuchter Stückkosten"
   permission_edit_rates: "Stundensätze editieren"
   permission_edit_hourly_rates: "Stundensätze bearbeiten"
-  permission_edit_own_hourly_rates: "Eigene Stundensätze bearbeiten"
+  permission_edit_own_hourly_rate: "Eigene Stundensätze bearbeiten"
   permission_log_costs: "Stückkosten buchen"
   permission_log_own_costs: "Eigene Stückkosten buchen"
   permission_view_cost_entries: "Gebuchte Kosten ansehen"

@@ -1,4 +1,3 @@
-<%#-- copyright
 OpenProject Costs Plugin
 
 Copyright (C) 2009 - 2014 the OpenProject Foundation (OPF)
@@ -15,10 +14,3 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
-++#%>
-
-<% if @project && @project.module_enabled?(:costs_module) %>
-  <hr />
-  <%= li_unless_nil(link_to_if_authorized l(:button_log_costs), {:controller => '/costlog', :action => 'new', :work_package_id => work_package}, :class => 'icon-context icon-unit') %>
-<% end %>

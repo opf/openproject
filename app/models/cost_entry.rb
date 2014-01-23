@@ -1,3 +1,22 @@
+#-- copyright
+# OpenProject Costs Plugin
+#
+# Copyright (C) 2009 - 2014 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# version 3.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#++
+
 class CostEntry < ActiveRecord::Base
   unloadable
 
@@ -126,17 +145,13 @@ class CostEntry < ActiveRecord::Base
 
   # Returns true if the cost entry can be edited by usr, otherwise false
   def editable_by?(usr)
-    # FIXME 111 THIS IS A BAAAAAAAAD HACK !!! Fix the loading of Project
-    proj = Project.find(project_id)
-    usr.allowed_to?(:edit_cost_entries, proj) ||
-      (usr.allowed_to?(:edit_own_cost_entries, proj) && user_id == usr.id)
+    usr.allowed_to?(:edit_cost_entries, project) ||
+      (usr.allowed_to?(:edit_own_cost_entries, project) && user_id == usr.id)
   end
 
   def creatable_by?(usr)
-    # FIXME 111 THIS IS A BAAAAAAAAD HACK !!! Fix the loading of Project
-    proj = Project.find(project_id)
-    usr.allowed_to?(:log_costs, proj) ||
-      (usr.allowed_to?(:log_own_costs, proj) && user_id == usr.id)
+    usr.allowed_to?(:log_costs, project) ||
+      (usr.allowed_to?(:log_own_costs, project) && user_id == usr.id)
   end
 
   def costs_visible_by?(usr)
