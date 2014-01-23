@@ -57,7 +57,7 @@ describe ActivitiesController do
 
       it { expect(response).to render_template 'index' }
 
-      it { expect(assigns(:event_by_day)).to be_nil }
+      it { expect(assigns(:events_by_day)).not_to be_empty }
 
       describe 'view' do
         render_views
