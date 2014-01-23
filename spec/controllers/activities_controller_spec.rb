@@ -39,6 +39,12 @@ describe ActivitiesController do
   end
 
   describe 'index' do
+    shared_examples_for 'valid index response' do
+      it { expect(response).to be_success }
+
+      it { expect(response).to render_template 'index' }
+    end
+
     describe 'global' do
       let(:work_package) { FactoryGirl.create(:work_package) }
       let!(:journal) { FactoryGirl.create(:work_package_journal,
@@ -51,11 +57,9 @@ describe ActivitiesController do
                                                                   type_id: work_package.type_id,
                                                                   project_id: work_package.project_id)) }
 
-      before { get 'index' }
+      before { get 'index', show_work_packages: true }
 
-      it { expect(response).to be_success }
-
-      it { expect(response).to render_template 'index' }
+      it_behaves_like 'valid index response'
 
       it { expect(assigns(:events_by_day)).not_to be_empty }
 
@@ -71,6 +75,14 @@ describe ActivitiesController do
                                          child: { tag: "a",
                                          :content => /#{ERB::Util.html_escape(work_package.subject)}/ } } }
         end
+      end
+
+      describe 'empty filter selection' do
+        before { get 'index' }
+
+        it_behaves_like 'valid index response'
+
+        it { expect(assigns(:events_by_day)).to be_empty }
       end
     end
 
@@ -111,7 +123,7 @@ describe ActivitiesController do
           before do
             Setting.stub(:host_name).and_return 'test.host'
 
-            get 'index', format: 'atom'
+            get 'index', format: 'atom', show_work_packages: true
           end
 
           it do
@@ -127,7 +139,8 @@ describe ActivitiesController do
                                            author: user) }
 
           let(:params) { { project_id: project.id,
-                           format: :atom } }
+                           format: :atom,
+                           show_work_packages: true } }
 
           before { get :index, params }
 
