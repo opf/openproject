@@ -48,7 +48,6 @@ class ActivitiesController < ApplicationController
                                                              :with_subprojects => @with_subprojects,
                                                              :author => @author)
     @activity.scope_select {|t| !params["show_#{t}"].nil?}
-    @activity.scope = (@author.nil? ? :default : :all) if @activity.scope.empty?
 
     events = @activity.events(@date_from, @date_to)
     censor_events_from_projects_with_disabled_activity!(events) unless @project
