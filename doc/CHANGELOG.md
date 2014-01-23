@@ -36,6 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#2259` [Accessibility] linearisation of issue show form (2)
 * `#3546` Better icon for Timelines Module
 
 ## 3.0.5.pre2

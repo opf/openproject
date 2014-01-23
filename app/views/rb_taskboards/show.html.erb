@@ -43,7 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                      :sprint_id => @sprint) %>
 <% end %>
 
-<div class="contextual">
+<% content_for :action_menu_specific do %>
   <% if @sprint.has_burndown? %>
     <%= show_burndown_link(@sprint) %>
   <% end %>
@@ -52,13 +52,15 @@ See doc/COPYRIGHT.rdoc for more details.
     <label for="col_width_input"><%= l('backlogs.column_with') %></label>
     <input id="col_width_input" name="col_width" type='text' />
   </span>
-</div>
+<% end %>
 
 <% breadcrumb_paths(link_to(l(:label_backlogs), backlogs_project_backlogs_path(@project)), link_to(@sprint.name, backlogs_project_backlogs_path(@sprint))) %>
 
 <h2>
   <%= @sprint.name %>
 </h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
 
 <div id='rb'>
   <div id="taskboard">
