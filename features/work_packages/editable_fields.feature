@@ -107,6 +107,7 @@ Feature: Fields editable on work package edit
 
   Scenario: Going to the page and viewing custom field fields
     Given the role "manager" may have the following rights:
+      | view_work_packages |
       | edit_work_packages |
 
     And there are the following types:
