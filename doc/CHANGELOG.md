@@ -20,9 +20,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 # Changelog
 
+## 5.0.1
+
 * `#2259` [Accessibility] linearisation of issue show form (2)
+* `#2465` [Costs] Wrong link in ticket overview for budget
+* `#3065` [Work package tracking] Internal error when selecting costs in columns and displaying sums
 * `#3077` Public Release Costs plugin
 * `#3787` [Accessibility] Required fields MUST be displayed as required - new cost type
+* `#3862` Deleting fixed date results in internal error
 
 ## 5.0.1.pre11
 

@@ -9,7 +9,7 @@ A more detailed description can be found on [OpenProject.org](https://www.openpr
 Requirements
 ------------
 
-The OpenProject Backlogs plug-in requires the [OpenProject Core](https://github.com/opf/openproject/) in version greater or equal to *3.0.0pre42*.
+The OpenProject Costs plug-in requires the [OpenProject Core](https://github.com/opf/openproject/) in version greater or equal to *3.0.0pre42*.
 
 
 Installation
