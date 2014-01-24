@@ -156,11 +156,7 @@ class PermittedParams < Struct.new(:params, :user)
   end
 
   def role?
-    if params[:role]
-      params.require(:role).permit(*self.class.permitted_attributes[:role])
-    else
-      nil
-    end
+    params[:role] ? role : nil
   end
 
   def status
