@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.version     = OpenProject::Plugins::VERSION
   s.authors     = "Finn GmbH"
   s.email       = "info@finn.de"
-  s.homepage    = "http://www.finn.de"
+  s.homepage    = "https://www.openproject.org/projects/plugin-plugins"
   s.summary     = "OpenProject Plugins Plugin"
   s.description = <<-STR
     This plugin aims to make writing plugins easier. It provides a generator for creating a

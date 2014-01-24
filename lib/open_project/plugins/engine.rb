@@ -29,8 +29,8 @@ module OpenProject::Plugins
       Redmine::Plugin.register :openproject_plugins do
         name 'OpenProject Plugins'
         author ((spec.authors.kind_of? Array) ? spec.authors[0] : spec.authors)
-        author_url spec.homepage
-        url 'https://www.openproject.org/projects/plugins'
+        author_url 'http://www.finn.de'
+        url spec.homepage
         description spec.description
         version spec.version
 
