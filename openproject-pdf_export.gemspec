@@ -17,4 +17,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "~> 3.2.14"
   s.add_dependency "openproject-plugins", "~> 1.0.5"
+  s.add_dependency "prawn"
+
+  s.add_development_dependency "pdf-inspector", "~>1.0.0"
 end
