@@ -32,6 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3335` Fix: Mass assignment in members controller
 * `#3371` [Work Package Tracking] Wrong 404 when custom query not exists
 * `#3440` New workpackage form layout
+* `#3947` [CodeClimate] Mass Assignment BoardsController
 * `#4087` Accessible form errors
 * `#4098` Keyboard operation: links accessible with Screenreadern
 * `#4103` [Accessibility] Add missing field sets
