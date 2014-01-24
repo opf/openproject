@@ -131,7 +131,7 @@ private
   end
 
   def new_board
-    @board = Board.new(params[:board])
+    @board = Board.new(permitted_params.board?)
     @board.project = @project
   end
 end
