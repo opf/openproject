@@ -113,8 +113,13 @@ class User < Principal
   has_many :projects, :through => :memberships
 
   # Active non-anonymous users scope
-  scope :not_builtin,
-        :conditions => "#{User.table_name}.status <> #{STATUSES[:builtin]}"
+  scope :not_builtin, -> do
+    users = User.arel_table
+
+    where(users[:status].not_eq(STATUSES[:builtin]))
+  end
+
+  scope :builtin, -> { where(:status => STATUSES[:builtin]) }
 
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
