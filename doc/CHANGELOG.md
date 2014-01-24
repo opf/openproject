@@ -30,6 +30,8 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#2018` Cleanup journal tables
+* `#3332` [CodeClimate] Mass Assignment AuthSourcesController
+* `#3333` [CodeClimate] Mass Assignment RolesController
 
 ## 3.0.0pre43
 
@@ -48,7 +50,6 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3065` Fixed internal error when selecting costs-columns and displaying sums in work package list
 * `#3120` Implement a test suite the spikes can be developed against
 * `#3251` [Timelines] Filtering for Responsible filters everything
-* `#3332` [CodeClimate] Mass Assignment AuthSourcesController
 * `#3393` [Timelines] Filter Work Packages by Assignee
 * `#3401` [Work package tracking] Notes are not saved when copying a work package
 * `#3409` New Layout for fallback Login page
