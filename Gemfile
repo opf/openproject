@@ -45,7 +45,11 @@ gem "acts_as_list", "~> 0.2.0"
 gem "awesome_nested_set",
     :git => "git://github.com/marutosi/awesome_nested_set.git",
     # PR 234
-    :ref => "5531b9b431209b0"
+    #:ref => "5531b9b431209b0"
+    # PR 235
+    #:ref => "d34770bbe2f1f83"
+    # PR 234 and 235
+    :ref => "8cdba83ba174b"
     # :git => "git://github.com/collectiveidea/awesome_nested_set.git",
     # :git => "https://bitbucket.org/marutosi/awesome_nested_set-git.git",
     # :branch => "2-1-stable"
