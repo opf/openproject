@@ -51,7 +51,7 @@ class RolesController < ApplicationController
   end
 
   def create
-    @role = Role.new(permitted_params.role || { :permissions => Role.non_member.permissions })
+    @role = Role.new(permitted_params.role? || { :permissions => Role.non_member.permissions })
     if @role.save
       # workflow copy
       if !params[:copy_workflow_from].blank? && (copy_from = Role.find_by_id(params[:copy_workflow_from]))
