@@ -39,44 +39,45 @@ describe "WorkPackage-Visibility", :type => :model do
   let(:view_work_packages) {FactoryGirl.create(:role, :permissions => [:view_work_packages])}
 
   describe "of public projects" do
-    subject { FactoryGirl.create(:work_package, :project => public_project)}
+    let!(:work_package) { FactoryGirl.create(:work_package, :project => public_project)}
 
     it "should be viewable by anonymous users, when the anonymous-role has the permission to view packages" do
       # it is not really clear, where these kind of "preconditions" belong to: This setting
       # is a default in Redmine::DefaultData::Loader - but this not loaded in the tests: here we
       # just make sure, that the workpackage is visible, when this permission is set
       Role.anonymous.add_permission! :view_work_packages
-      expect(WorkPackage.visible(anonymous)).to include subject
+      expect(WorkPackage.visible(anonymous)).to include work_package
     end
 
   end
 
 
   describe "of private projects" do
-    subject { FactoryGirl.create(:work_package, :project => private_project)}
+    let!(:work_package) { FactoryGirl.create(:work_package, :project => private_project)}
 
     it "should be visible for the admin, even if the project is private" do
-      expect(WorkPackage.visible(admin)).to include subject
+      expect(WorkPackage.visible(admin)).to include work_package
     end
 
     it "should not be visible for anonymous users, when the project is private" do
-      expect(WorkPackage.visible(anonymous)).not_to include subject
+      expect(WorkPackage.visible(anonymous)).not_to include work_package
     end
 
     it "should be visible for members of the project, that are allowed to view workpackages" do
-      member = FactoryGirl.create(:member, user: user, project: private_project, role_ids: [view_work_packages.id])
-      expect(WorkPackage.visible(user)).to include subject
+      FactoryGirl.create(:member, user: user, project: private_project, role_ids: [view_work_packages.id])
+
+      expect(WorkPackage.visible(user)).to include work_package
     end
 
     it "should __not__ be visible for non-members of the project without the permission to view workpackages" do
-      expect(WorkPackage.visible(user)).not_to include subject
+      expect(WorkPackage.visible(user)).not_to include work_package
     end
 
     it "should __not__ be visible for members of the project, without the right to view work_packages" do
       no_permission = FactoryGirl.create(:role, :permissions => [:no_permission])
-      member = FactoryGirl.create(:member, user: user, project: private_project, role_ids: [no_permission.id])
+      FactoryGirl.create(:member, user: user, project: private_project, role_ids: [no_permission.id])
 
-      expect(WorkPackage.visible(user)).not_to include subject
+      expect(WorkPackage.visible(user)).not_to include work_package
     end
   end
 
