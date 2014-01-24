@@ -180,6 +180,10 @@ class Timeline < ActiveRecord::Base
     json.html_safe
   end
 
+  def custom_field_columns
+    project.all_work_package_custom_fields.map { |a| {name: a.name, id: "cf_#{a.id}"}}
+  end
+
   def available_columns
     @@available_columns
   end

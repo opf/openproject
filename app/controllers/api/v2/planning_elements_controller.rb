@@ -200,8 +200,22 @@ module Api
 
       end
 
+      def convert_object_to_struct(model)
+        OpenStruct.new(model.attributes)
+      end
+
+      def convert_wp_object_to_struct(model)
+        result = convert_object_to_struct(model)
+        result.custom_values = model.custom_values.select{|cv| cv.value != ""}.map do |model|
+            convert_object_to_struct(model)
+        end
+        result
+      end
+
       def convert_to_struct(collection)
-        collection.map{|model| OpenStruct.new(model.attributes)}
+        collection.map do |model|
+          convert_wp_object_to_struct(model)
+        end
       end
 
       def planning_comparison?
@@ -223,7 +237,7 @@ module Api
       def current_work_packages(projects)
         work_packages = WorkPackage.for_projects(projects)
                                    .changed_since(@since)
-                                   .includes(:status, :project, :type)
+                                   .includes(:status, :project, :type, :custom_values)
 
         if params[:f]
           #we need a project to make project-specific custom fields work
