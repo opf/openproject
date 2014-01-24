@@ -374,6 +374,7 @@ class PermittedParams < Struct.new(:params, :user)
       :role => [
         :name,
         :assignable,
+        :move_to,
         :permissions => []],
       :status => [
         :name,
