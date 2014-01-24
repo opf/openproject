@@ -43,6 +43,7 @@ env:
   - "TEST_SUITE=spec     CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
 script: "bundle exec rake $TEST_SUITE"
 before_install:
+  - "gem update bundler"
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
 before_script:
