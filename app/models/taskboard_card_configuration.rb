@@ -20,7 +20,7 @@ class TaskboardCardConfiguration < ActiveRecord::Base
   validates :page_size, inclusion: { in: %w(A4),
     message: "%{value} is not a valid page size" }, allow_nil: false
   validates :orientation, inclusion: { in: %w(landscape portrait),
-    message: "%{value} is not a valid page size" }, allow_nil: false
+    message: "%{value} is not a valid page size" }, allow_nil: true
 
   def landscape?
     !portrait?
