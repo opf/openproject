@@ -42,9 +42,16 @@ gem 'rails_autolink'
 gem "will_paginate", '~> 3.0'
 gem "acts_as_list", "~> 0.2.0"
 
-gem 'awesome_nested_set',
-    :git => "git://github.com/collectiveidea/awesome_nested_set.git",
-    :branch => "2-1-stable"
+gem "awesome_nested_set",
+    :git => "git://github.com/marutosi/awesome_nested_set.git",
+    # PR 234
+    :ref => "5531b9b431209b0"
+    # :git => "git://github.com/collectiveidea/awesome_nested_set.git",
+    # :git => "https://bitbucket.org/marutosi/awesome_nested_set-git.git",
+    # :branch => "2-1-stable"
+    # :tag => "2.1.5"
+    # :tag => "v2.1.6"
+    # :ref => "3d5ac746542"
 
 gem 'color-tools', '~> 1.3.0', :require => 'color'
 

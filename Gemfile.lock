@@ -1,7 +1,7 @@
 GIT
-  remote: git://github.com/collectiveidea/awesome_nested_set.git
-  revision: 3d5ac746542b564f6586c2316180254b088bebb6
-  branch: 2-1-stable
+  remote: git://github.com/marutosi/awesome_nested_set.git
+  revision: 5531b9b431209b03f5bf6ba7bd4fa4a60c416762
+  ref: 5531b9b431209b0
   specs:
     awesome_nested_set (2.1.7)
       activerecord (>= 3.0.0)
