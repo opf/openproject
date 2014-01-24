@@ -151,6 +151,18 @@ class PermittedParams < Struct.new(:params, :user)
     p
   end
 
+  def role
+    params.require(:role).permit(*self.class.permitted_attributes[:role])
+  end
+
+  def role?
+    if params[:role]
+      params.require(:role).permit(*self.class.permitted_attributes[:role])
+    else
+      nil
+    end
+  end
+
   def status
     params.require(:status).permit(*self.class.permitted_attributes[:status])
   end
@@ -359,6 +371,10 @@ class PermittedParams < Struct.new(:params, :user)
         :display_sums,
         :is_public,
         :group_by],
+      :role => [
+        :name,
+        :assignable,
+        :permissions => []],
       :status => [
         :name,
         :default_done_ratio,
