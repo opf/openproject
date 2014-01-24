@@ -1,7 +1,7 @@
 GIT
   remote: git://github.com/marutosi/awesome_nested_set.git
-  revision: 5531b9b431209b03f5bf6ba7bd4fa4a60c416762
-  ref: 5531b9b431209b0
+  revision: 8cdba83ba174b654a3681893eb625ecbfdf5eed3
+  ref: 8cdba83ba174b
   specs:
     awesome_nested_set (2.1.7)
       activerecord (>= 3.0.0)
