@@ -59,7 +59,9 @@ gem 'rails_autolink'
 gem "will_paginate", '~> 3.0'
 gem "acts_as_list", "~> 0.2.0"
 
-gem 'awesome_nested_set'
+gem 'awesome_nested_set',
+    :git => "git://github.com/collectiveidea/awesome_nested_set.git",
+    :branch => "2-1-stable"
 
 gem 'color-tools', '~> 1.3.0', :require => 'color'
 
