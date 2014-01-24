@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#2018` Cleanup journal tables
+
 ## 3.0.0pre43
 
 * `#2502` New Layout for overview / my page
