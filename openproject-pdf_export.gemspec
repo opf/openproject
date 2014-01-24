@@ -10,8 +10,8 @@ Gem::Specification.new do |s|
   s.email       = "info@finn.de"
   s.homepage    = "https://www.openproject.org/projects/pdf-export"  # TODO check this URL
   s.summary     = 'OpenProject Pdf Export'
-  s.description = "FIXME"
-  s.license     = "FIXME" # e.g. "MIT" or "GPLv3"
+  s.description = "Pdf Export Plugin"
+  s.license     = "GPLv3"
 
   s.files = Dir["{app,config,db,lib}/**/*"] + %w(CHANGELOG.md README.md)
 
