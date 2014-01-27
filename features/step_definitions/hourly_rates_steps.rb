@@ -30,7 +30,7 @@ When(/^I set the hourly rate of user "(.*?)" to "(.*?)"$/) do |arg1, arg2|
   user = User.find_by_login(arg1)
   within("tr#member-#{user.id}") do
     fill_in('rate', with: arg2)
-    click_button('Save')
+    click_link_or_button('Save')
   end
 end
 
