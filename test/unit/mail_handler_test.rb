@@ -335,7 +335,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_add_work_package_should_send_email_notification
-    Setting.notified_events = ['issue_added']
+    Setting.notified_events = ['work_package_added']
     ActionMailer::Base.deliveries.clear
     # This email contains: 'Project: onlinestore'
     issue = submit_email('ticket_on_given_project.eml')

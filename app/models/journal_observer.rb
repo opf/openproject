@@ -38,7 +38,7 @@ class JournalObserver < ActiveRecord::Observer
   end
 
   def after_create_issue_journal(journal)
-    if Setting.notified_events.include?('issue_updated') ||
+    if Setting.notified_events.include?('work_package_updated') ||
         (Setting.notified_events.include?('issue_note_added') && journal.notes.present?) ||
         (Setting.notified_events.include?('status_updated') && journal.changed_data.has_key?(:status_id)) ||
         (Setting.notified_events.include?('issue_priority_updated') && journal.changed_data.has_key?(:priority_id))
@@ -46,7 +46,7 @@ class JournalObserver < ActiveRecord::Observer
       recipients = issue.recipients + issue.watcher_recipients
       users = User.find_all_by_mails(recipients.uniq)
       users.each do |user|
-        UserMailer.delay.issue_updated(user, journal, User.current)
+        UserMailer.delay.work_package_updated(user, journal, User.current)
       end
     end
   end

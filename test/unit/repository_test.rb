@@ -71,7 +71,7 @@ class RepositoryTest < ActiveSupport::TestCase
     WorkPackage.all.each {|w| w.recreate_initial_journal!}
 
     Setting.default_language = 'en'
-    Setting.notified_events = ['issue_added','issue_updated']
+    Setting.notified_events = ['work_package_added','work_package_updated']
 
     # choosing a status to apply to fix issues
     Setting.commit_fix_status_id = Status.find(:first, :conditions => ["is_closed = ?", true]).id

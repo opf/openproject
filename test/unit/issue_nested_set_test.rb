@@ -171,7 +171,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_equal [issue1.id, 1], [issue4.root_id, issue4.nested_set_span]
   end
 
-  def test_destroy_parent_issue_updated_during_children_destroy
+  def test_destroy_parent_work_package_updated_during_children_destroy
     parent = create_issue!
     create_issue!(:start_date => Date.today, :parent_id => parent.id)
     create_issue!(:start_date => 2.days.from_now, :parent_id => parent.id)

@@ -326,7 +326,7 @@ describe MailHandler do
   # end
 
   # it "should send email notification if work_package added" do
-  #   Setting.notified_events = ['issue_added']
+  #   Setting.notified_events = ['work_package_added']
   #   ActionMailer::Base.deliveries.clear
   #   lambda do
   #     work_package = submit_email('ticket_on_given_project.eml')
