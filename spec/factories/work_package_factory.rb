@@ -44,8 +44,12 @@ FactoryGirl.define do
 
       custom_values = evaluator.custom_values || {}
 
-      custom_values.each_pair do |custom_field_id, value|
-        work_package.custom_values.build custom_field_id: custom_field_id, value: value
+      if custom_values.is_a? Hash
+        custom_values.each_pair do |custom_field_id, value|
+          work_package.custom_values.build custom_field_id: custom_field_id, value: value
+        end
+      else
+        custom_values.each { |cv| work_package.custom_values << cv }
       end
     end
   end
