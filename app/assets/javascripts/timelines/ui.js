@@ -867,7 +867,10 @@ jQuery.extend(Timeline, {
     var header = function(key) {
       var th = jQuery('<th></th>');
       if (key.substr(0, 3) === "cf_") {
-        th.append(timeline.custom_fields[parseInt(key.substr(3), 10)].name);
+        var timeline_id = parseInt(key.substr(3), 10);
+        if (timeline.custom_fields[timeline_id]) {
+          th.append(timeline.custom_fields[timeline_id].name);
+        }
       } else {
         th.append(timeline.i18n('timelines.filter.column.' + key));
       }

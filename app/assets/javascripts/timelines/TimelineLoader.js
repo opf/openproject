@@ -676,6 +676,10 @@ Timeline.TimelineLoader = (function () {
     };
 
     TimelineLoader.prototype.registerGlobalElements = function () {
+      var projectPrefix = this.globalPrefix + 
+                          this.options.project_prefix +
+                          "/" +
+                          this.options.project_id;
 
       this.loader.register(
           Timeline.Status.identifier,
@@ -688,7 +692,7 @@ Timeline.TimelineLoader = (function () {
           { url : this.globalPrefix + '/colors.json' });
       this.loader.register(
           Timeline.CustomFields.identifier,
-          { url : this.globalPrefix + '/custom_fields.json' });
+          { url : projectPrefix + '/planning_element_custom_fields.json' });
       this.loader.register(
           Timeline.ProjectType.identifier,
           { url : this.globalPrefix + '/project_types.json' });
