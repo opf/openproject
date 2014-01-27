@@ -2,6 +2,7 @@
 class TaskboardCardConfigurationsController < ApplicationController
   layout 'admin'
 
+  before_filter :require_admin
   before_filter :load_config, only: [:show, :update, :edit, :destroy]
   before_filter :load_configs, only: [:index]
 
@@ -19,7 +20,7 @@ class TaskboardCardConfigurationsController < ApplicationController
   end
 
   def create
-    @config = TaskboardCardConfiguration.new(params[:taskboard_card_configuration])
+    @config = TaskboardCardConfiguration.new(taskboard_card_configurations_params)
     if @config.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'index'
@@ -29,7 +30,10 @@ class TaskboardCardConfigurationsController < ApplicationController
   end
 
   def update
-    if @config.update_attributes(params[:taskboard_card_configuration])
+    if cannot_update_default
+      flash[:error] = l(:error_can_not_change_name_of_default_configuration)
+      render "edit"
+    elsif @config.update_attributes(taskboard_card_configurations_params)
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'index'
     else
@@ -44,6 +48,16 @@ class TaskboardCardConfigurationsController < ApplicationController
       flash[:notice] = l(:error_can_not_delete_taskboard_card_configuration)
     end
     redirect_to :action => 'index'
+  end
+
+  private
+
+  def cannot_update_default
+    @config.is_default? && taskboard_card_configurations_params[:name].downcase != "default"
+  end
+
+  def taskboard_card_configurations_params
+    params.require(:taskboard_card_configuration).permit(:identifier, :name, :rows, :per_page, :page_size, :orientation)
   end
 
   def load_config

@@ -12,7 +12,6 @@ class TaskboardCardConfiguration < ActiveRecord::Base
 
   include OpenProject::PdfExport::Exceptions
 
-  attr_accessible :identifier, :name, :rows, :per_page, :page_size, :orientation
   validates :identifier, presence: true
   validates :name, presence: true
   validates :rows, rows_yaml: true
@@ -37,6 +36,10 @@ class TaskboardCardConfiguration < ActiveRecord::Base
   end
 
   def is_default?
-    self.identifier == "default"
+    self.name.downcase == "default"
+  end
+
+  def can_delete?
+    !self.is_default?
   end
 end

@@ -22,8 +22,7 @@ Feature: Taskboard Card Configurations Admin
     And I fill in "Config 1" for "taskboard_card_configuration_name"
     And I fill in "config1" for "taskboard_card_configuration_identifier"
     And I fill in "5" for "taskboard_card_configuration_per_page"
-    And I fill in "A4" for "taskboard_card_configuration_page_size"
-    And I fill in "landscape" for "taskboard_card_configuration_orientation"
+    And I select "landscape" from "taskboard_card_configuration_orientation"
     And I fill in "rows:\n  row1:\n    test" for "taskboard_card_configuration_rows"
     And I submit the form by the "Create" button
     Then I am on the taskboard card configurations index page
@@ -35,8 +34,7 @@ Feature: Taskboard Card Configurations Admin
     And I am on the taskboard card configurations index page
     When I follow first "Custom 2"
     And I fill in "5" for "taskboard_card_configuration_per_page"
-    And I fill in "A4" for "taskboard_card_configuration_page_size"
-    And I fill in "portrait" for "taskboard_card_configuration_orientation"
+    And I select "portrait" from "taskboard_card_configuration_orientation"
     And I fill in "rows:\n  row1:\n    changed" for "taskboard_card_configuration_rows"
     And I submit the form by the "Save" button
     Then I am on the taskboard card configurations index page

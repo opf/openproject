@@ -14,13 +14,14 @@ module OpenProject::PdfExport::TaskboardCard
 
       # Initialise column elements
       x_offset = 0
+      padding = @orientation[:text_padding]
 
       @columns_config.each do |key, value|
-        width = col_width(value)
+        width = col_width(value) - padding
         column_orientation = @orientation.clone
-        column_orientation[:x_offset] = x_offset
-        column_orientation[:width] = width
-        x_offset += width
+        column_orientation[:x_offset] = x_offset + padding
+        column_orientation[:width] = width - padding
+        x_offset += width + padding
 
         @column_elements << ColumnElement.new(@pdf, key, value, column_orientation, @work_package)
       end

@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe TaskboardCardConfigurationsController do
   before do
-    @controller.stub(:authorize)
+    @controller.stub(:require_admin) { true }
 
     @default_config = FactoryGirl.create(:default_taskboard_card_configuration)
     @custom_config = FactoryGirl.create(:taskboard_card_configuration)

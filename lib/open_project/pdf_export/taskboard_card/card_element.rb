@@ -8,6 +8,8 @@ module OpenProject::PdfExport::TaskboardCard
       @rows_config = rows_config
       @work_package = work_package
       @row_elements = []
+      # TODO: This is redundant, the has should just be the rows
+      #       OR if we're going to have boxed groups then this is where they'd be
       @rows = @rows_config["rows"]
 
       raise BadlyFormedTaskboardCardConfigurationError.new("Badly formed YAML") if @rows.nil?
@@ -16,15 +18,17 @@ module OpenProject::PdfExport::TaskboardCard
       RowElement.prune_empty_rows(@rows, work_package)
 
       heights = assign_row_heights
-      current_y_offset = 0
+      text_padding = @orientation[:text_padding]
+      current_y_offset = text_padding
 
       @rows.each_with_index do |(key, value), i|
-        current_y_offset += heights[i - 1] if i > 0
+        current_y_offset += (heights[i - 1]) if i > 0
         row_orientation = {
           y_offset: @orientation[:height] - current_y_offset,
           x_offset: 0,
           width: @orientation[:width],
-          height: heights[i]
+          height: heights[i],
+          text_padding: text_padding
         }
 
         @row_elements << RowElement.new(@pdf, row_orientation, value, @work_package)
@@ -33,9 +37,9 @@ module OpenProject::PdfExport::TaskboardCard
 
     def assign_row_heights
       # Assign initial heights
-      available = @orientation[:height]
+      available = @orientation[:height] - @orientation[:text_padding]
       c = @rows.count
-      assigned_heights = Array.new(c){available/c}
+      assigned_heights = Array.new(c){ available / c }
 
       min_heights = min_row_heights(c)
       diffs = assigned_heights.zip(min_heights).map {|a, m| a - m}
