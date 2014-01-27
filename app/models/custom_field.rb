@@ -231,11 +231,11 @@ class CustomField < ActiveRecord::Base
   private
 
   def attribute_locale(attribute, value)
-    translations_with_value = translations.select { |t| t.send(attribute) == value }
-    translations_with_value_for_locale = translations_with_value.select { |t| t.locale == I18n.locale  }
-    translation_for_value = translations_with_value_for_locale.first || translations_with_value.first
+    locales_for_value = translations.select { |t| t.send(attribute) == value }
+                                    .collect(&:locale)
+                                    .uniq
 
-    translation_for_value ? translation_for_value.locale : I18n.locale
+    locales_for_value.detect { |l| l == I18n.locale } || locales_for_value.first || I18n.locale
   end
 
   def blank_attributes(attributes)
