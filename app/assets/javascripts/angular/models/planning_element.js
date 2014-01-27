@@ -40,11 +40,12 @@
 openprojectApp.factory('PlanningElement', [function() {
 
   PlanningElement = {
+    objectType: 'PlanningElement',
+    identifier: 'planning_elements',
     is: function(t) {
       if (t === undefined) return false;
       return PlanningElement.identifier === t.identifier;
     },
-    identifier: 'planning_elements',
     hide: function () {
       return false;
     },

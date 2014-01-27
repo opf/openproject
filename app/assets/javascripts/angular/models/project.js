@@ -40,11 +40,12 @@
 openprojectApp.factory('Project', [function() {
 
   Project = {
+    objectType: 'Project',
+    identifier: 'projects',
     is: function(t) {
       if (t === undefined) return false;
       return Project.identifier === t.identifier;
     },
-    identifier: 'projects',
     hide: function () {
       var hidden =  this.hiddenForEmpty() ||
                     this.hiddenForTimeFrame();
