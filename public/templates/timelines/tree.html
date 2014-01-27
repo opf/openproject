@@ -5,7 +5,8 @@
       'tl-grouping': timeline.isGrouping(),
       'tl-project-row': node.payload.objectType === 'Project'
     }"
-    ng-show="node.ancestors | ancestorsExpanded">
+    ng-show="node.ancestors | ancestorsExpanded"
+    ng-hide="node.payload.objectType === 'Project' && timeline.options.exclude_empty === 'yes' && !node.childNodes">
 
   <td ng-if="timeline.isGrouping() && node.payload.objectType === 'Project' && node.level === 0 && node.group !== nodes[$index-1].group" class="tl-grouping" colspan="{{timeline.options.columns.length + 1}}">
     <span class="tl-word-ellipsis">
