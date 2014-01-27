@@ -48,7 +48,7 @@ Then(/^I should see the column "(.*?)" before the column "(.*?)" in "(.*?)"$/) d
   }
 
   elements = find_lowest_containing_element content2, table
-  elements[-1].should have_xpath("preceding::th/descendant-or-self::*[text()='#{content1}']")
+  elements[-1].should have_xpath("preceding::th/descendant-or-self::*[contains(text(),'#{content1}')]")
 end
 
 Then(/^I should see a modal window$/) do
