@@ -45,6 +45,7 @@ class JournalObserverTest < ActiveSupport::TestCase
                                 :status => @workflow.old_status
 
     @user.members.first.roles << @workflow.role
+    @user.reload
 
     User.stubs(:current).returns(@user)
 
