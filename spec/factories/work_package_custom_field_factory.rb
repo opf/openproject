@@ -30,6 +30,7 @@ FactoryGirl.define do
   factory :work_package_custom_field do
     ignore do
       name_locales nil
+      default_locales nil
     end
 
     sequence(:name) {|n| "Custom Field Nr. #{n}"}
@@ -46,10 +47,17 @@ FactoryGirl.define do
 
     after(:build) do |custom_field, evaluator|
       name_locales = evaluator.name_locales || {}
+      default_locales = evaluator.default_locales || {}
 
       name_locales.each_pair do |locale, name|
         Globalize.with_locale(locale) do
           custom_field.name = name
+        end
+      end
+
+      default_locales.each_pair do |locale, default_value|
+        Globalize.with_locale(locale) do
+          custom_field.default_value = default_value
         end
       end
     end
