@@ -28,6 +28,10 @@
 
 FactoryGirl.define do
   factory :work_package do
+    ignore do
+      custom_values nil
+    end
+
     priority
     project :factory => :project_with_types
     status :factory => :status
@@ -35,11 +39,18 @@ FactoryGirl.define do
     description { |i| "Description for '#{i.subject}'" }
     author :factory => :user
 
-    after :build do |work_package|
+    after :build do |work_package, evaluator|
       work_package.type = work_package.project.types.first unless work_package.type
+
+      custom_values = evaluator.custom_values || {}
+
+      if custom_values.is_a? Hash
+        custom_values.each_pair do |custom_field_id, value|
+          work_package.custom_values.build custom_field_id: custom_field_id, value: value
+        end
+      else
+        custom_values.each { |cv| work_package.custom_values << cv }
+      end
     end
-
   end
-
-
 end

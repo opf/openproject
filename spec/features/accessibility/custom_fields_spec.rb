@@ -33,11 +33,12 @@ require 'features/work_packages/work_packages_page'
 
 describe 'Custom field accessibility' do
   describe 'language tag' do
-    let(:type) { FactoryGirl.create(:type_standard) }
     let(:custom_field) { FactoryGirl.create(:work_package_custom_field,
                                             name_locales: { en: 'Field1', de: 'Feld1' },
                                             field_format: 'text',
                                             is_required: true) }
+    let(:type) { FactoryGirl.create(:type_standard,
+                                    custom_fields: [custom_field]) }
     let(:project) { FactoryGirl.create :project,
                                        types: [type],
                                        work_package_custom_fields: [custom_field] }
@@ -176,7 +177,7 @@ describe 'Custom field accessibility' do
       let!(:work_package) { FactoryGirl.create(:work_package,
                                                project: project,
                                                type: type,
-                                               custom_fields: [{ "cf_#{custom_field.id}" => '' }]) }
+                                               custom_values: { custom_field.id => 'value' }) }
 
       describe 'index' do
         shared_context "index page with query" do
@@ -184,7 +185,8 @@ describe 'Custom field accessibility' do
             query = FactoryGirl.build(:query, project: project)
             query.column_names = ["cf_#{custom_field.id}"]
 
-            query.save! and return query
+            query.save!
+            query
           end
 
           before do
@@ -219,6 +221,183 @@ describe 'Custom field accessibility' do
           include_context "index page with query"
 
           it_behaves_like "localized table header"
+        end
+      end
+
+      let(:value) { 'Wert' }
+
+      describe 'show' do
+        shared_context "work package show view" do
+          before { work_packages_page.visit_show work_package.id }
+        end
+
+        shared_examples_for 'attribute header lang' do
+          let(:element) { find("td.work_package_attribute_header.custom_field.cf_#{custom_field.id}") }
+
+          it_behaves_like 'Element has lang tag'
+        end
+
+        shared_examples_for 'attribute value lang' do
+          let(:element) { find("td.work_package_attribute_header.custom_field.cf_#{custom_field.id} + td") }
+
+          it_behaves_like 'Element has lang tag'
+        end
+
+        context "de" do
+          let(:locale) { 'de' }
+          let(:element_locale) { 'en' }
+
+          include_context 'work package show view'
+
+          it_behaves_like 'attribute header lang'
+
+          it_behaves_like 'attribute value lang'
+        end
+
+        context "en" do
+          let(:locale) { 'en' }
+          let(:element_locale) { 'en' }
+
+          include_context 'work package show view'
+
+          it_behaves_like 'attribute header lang'
+
+          it_behaves_like 'attribute value lang'
+        end
+
+        describe 'mixed language for custom field name and default value' do
+          let(:cf_with_mixed_lang) { FactoryGirl.create(:work_package_custom_field,
+                                                        name_locales: { en: 'Field2', de: nil },
+                                                        default_locales: { en: nil, de: value  },
+                                                        field_format: 'text',
+                                                        is_required: false) }
+          let(:custom_field) { cf_with_mixed_lang }
+
+          before do
+            Globalize.fallbacks = { en: [:en, :de] }
+
+            work_package.custom_field_values.first.value = value
+            work_package.save!
+          end
+
+          after { Globalize.fallbacks = [:en] }
+
+          shared_context "work package show view" do
+            before do
+              I18n.stub(:locale).and_return locale
+
+              work_packages_page.visit_show work_package.id;
+            end
+          end
+
+          context 'attribute header' do
+            context "de" do
+              let(:locale) { 'de' }
+              let(:element_locale) { 'en' }
+
+              include_context 'work package show view'
+
+              it_behaves_like 'attribute header lang'
+            end
+
+            context "en" do
+              let(:locale) { 'en' }
+              let(:element_locale) { 'en' }
+
+              include_context 'work package show view'
+
+              it_behaves_like 'attribute header lang'
+            end
+          end
+
+          context 'attribute value' do
+            context "de" do
+              let(:locale) { 'de' }
+              let(:element_locale) { 'de' }
+
+              include_context 'work package show view'
+
+              it_behaves_like 'attribute value lang'
+            end
+
+            context "en" do
+              let(:locale) { 'en' }
+              let(:element_locale) { 'de' }
+
+              include_context 'work package show view'
+
+              it_behaves_like 'attribute value lang'
+            end
+          end
+        end
+      end
+
+      describe 'edit' do
+        shared_context "work package edit view" do
+          before { work_packages_page.visit_edit work_package.id }
+        end
+
+        shared_examples_for 'attribute header lang' do
+          let(:element) { find("#attributes label[for='work_package_custom_field_values_#{custom_field.id}']") }
+
+          it_behaves_like 'Element has lang tag'
+        end
+
+        shared_examples_for 'attribute value lang' do
+          let(:element) { find("#attributes label[for='work_package_custom_field_values_#{custom_field.id}'] + span") }
+
+          it_behaves_like 'Element has lang tag'
+        end
+
+        context "de" do
+          let(:locale) { 'de' }
+          let(:element_locale) { 'en' }
+
+          include_context 'work package edit view'
+
+          it_behaves_like 'attribute header lang'
+
+          it_behaves_like 'attribute value lang'
+        end
+
+        context "en" do
+          let(:locale) { 'en' }
+          let(:element_locale) { 'en' }
+
+          include_context 'work package edit view'
+
+          it_behaves_like 'attribute header lang'
+
+          it_behaves_like 'attribute value lang'
+        end
+
+        describe "default value language is different" do
+          let(:cf_with_mixed_lang) { FactoryGirl.create(:work_package_custom_field,
+                                                        name_locales: { en: 'Field2', de: nil },
+                                                        default_locales: { en: nil, de: value  },
+                                                        field_format: 'text',
+                                                        is_required: false) }
+          let(:custom_field) { cf_with_mixed_lang }
+
+          before do
+            Globalize.fallbacks = { en: [:en, :de] }
+
+            work_package.custom_field_values.first.value = value
+            work_package.save!
+          end
+
+          after { Globalize.fallbacks = [:en] }
+
+          context 'attribute value' do
+            context "en" do
+              let(:locale) { 'en' }
+              let(:element_locale) { 'en' }
+
+              include_context 'work package edit view'
+
+              it_behaves_like 'attribute value lang'
+            end
+          end
         end
       end
     end
