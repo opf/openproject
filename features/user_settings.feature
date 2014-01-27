@@ -41,6 +41,6 @@ Feature: User settings
     And I am already logged in as "bob"
     And I go to the my account page
     And I fill in "Task color" with "#FBC4B3"
-    And I click on "Save"
+    And I submit the form by the "Save" button
     Then I should see "Account was successfully updated"
     And the "Task color" field should contain "#FBC4B3"

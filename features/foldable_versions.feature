@@ -89,7 +89,7 @@ Feature: Foldable versions in master backlog
   Scenario: Version fold status depends on users setting
     When I go to the my account page
      And I check "Show versions folded"
-     And I click on "Save"
+     And I submit the form by the "Save" button
     Then I should see "Account was successfully updated"
 
     When I go to the master backlog
