@@ -34,7 +34,8 @@ function deleteRow(image){
 }
 
 jQuery(function(jQuery){
-  jQuery(document).on("click", "body.action-edit img.delete", function(){
+  jQuery(document).on("click", "body.action-edit a.delete-rate", function(){
     deleteRow(this);
+    return false;
   });
 });

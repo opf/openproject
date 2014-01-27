@@ -34,15 +34,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 <% unless error_messages.blank? %><tr><td colspan="3"><%= error_messages %></td></tr><% end %>
 <%= fields_for prefix, rate do |rate_form| %>
-<tr class="<%= classes %>" id="<%= id_prefix %>">
-  <td>
-    <label class="hidden-for-sighted", for="<%= "#{id_prefix}_valid_from" %>"><%= Rate.human_attribute_name(:valid_from) %></label>
-    <%= rate_form.text_field :valid_from, :size => 10, :class => 'date', :index => id_or_index %><%= calendar_for("#{id_prefix}_valid_from") %>
-  </td>
-  <td class="currency">
-    <label class="hidden-for-sighted", for="<%= "#{id_prefix}_rate" %>"><%= Rate.model_name.human %></label>
-    <%= rate_form.text_field :rate, :size => 7, :index => id_or_index, :value => rate.rate ? rate.rate.round(2) : "" %>  <%= Setting.plugin_openproject_costs['costs_currency'] %>
-  </td>
-  <td><%= image_tag 'webalys/delete.png', :alt => l(:button_delete), :title => l(:button_delete), :class => "delete" %></td>
-</tr>
+  <tr class="<%= classes %>" id="<%= id_prefix %>">
+    <td>
+      <label class="hidden-for-sighted", for="<%= "#{id_prefix}_valid_from" %>"><%= Rate.human_attribute_name(:valid_from) %></label>
+      <%= rate_form.text_field :valid_from, :size => 10, :class => 'date', :index => id_or_index %><%= calendar_for("#{id_prefix}_valid_from") %>
+    </td>
+    <td class="currency">
+      <label class="hidden-for-sighted", for="<%= "#{id_prefix}_rate" %>"><%= Rate.model_name.human %></label>
+      <%= rate_form.text_field :rate, :size => 7, :index => id_or_index, :value => rate.rate ? rate.rate.round(2) : "" %>  <%= Setting.plugin_openproject_costs['costs_currency'] %>
+    </td>
+    <td>
+      <a href="#" class="delete-rate no-decoration-on-hover"><%= icon_wrapper('icon-context icon-delete', I18n.t(:button_delete)) %></a>
+    </td>
+  </tr>
 <% end %>
