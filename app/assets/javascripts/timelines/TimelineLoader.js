@@ -225,7 +225,8 @@ Timeline.TimelineLoader = (function () {
         Timeline.Project,
         Timeline.ProjectAssociation,
         Timeline.Reporting,
-        Timeline.User
+        Timeline.User,
+        Timeline.CustomFields
       ];
     };
 
@@ -686,6 +687,9 @@ Timeline.TimelineLoader = (function () {
           Timeline.Color.identifier,
           { url : this.globalPrefix + '/colors.json' });
       this.loader.register(
+          Timeline.CustomFields.identifier,
+          { url : this.globalPrefix + '/custom_fields.json' });
+      this.loader.register(
           Timeline.ProjectType.identifier,
           { url : this.globalPrefix + '/project_types.json' });
     };
@@ -924,7 +928,14 @@ Timeline.TimelineLoader = (function () {
     TimelineLoader.prototype.getUsersToLoad = function () {
       var results = [];
 
-      addUserIDsForElementsByAttribute(results, Timeline.USER_ATTRIBUTES.PLANNING_ELEMENT, this.data.planning_elements);
+      var i, userFields = [], cf = this.data.custom_fields;
+      for (attr in cf) {
+        if (cf.hasOwnProperty(attr) && cf[attr].field_format === "user") {
+            userFields.push("cf_" + cf[attr].id);
+        }
+      }
+
+      addUserIDsForElementsByAttribute(results, Timeline.USER_ATTRIBUTES.PLANNING_ELEMENT.concat(userFields), this.data.planning_elements);
       addUserIDsForElementsByAttribute(results, Timeline.USER_ATTRIBUTES.PROJECT, this.data.projects);
 
       return results;

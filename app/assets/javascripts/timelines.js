@@ -54,6 +54,7 @@
 //= require timelines/model/Reporting
 //= require timelines/model/ProjectType
 //= require timelines/model/Color
+//= require timelines/model/CustomFields
 //= require timelines/model/Status
 //= require timelines/model/PlanningElementType
 //= require timelines/model/User
