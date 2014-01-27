@@ -221,12 +221,20 @@ class CustomField < ActiveRecord::Base
   end
 
   def name_locale
-    locales = translations.where(name: name, locale: I18n.locale)
+    attribute_locale :name, name
+  end
 
-    locales.empty? ? translations.where(name: name).first.locale : I18n.locale
+  def default_value_locale
+    attribute_locale :default_value, default_value
   end
 
   private
+
+  def attribute_locale(attribute, value)
+    locales = translations.where(attribute => value, locale: I18n.locale)
+
+    locales.empty? ? translations.where(attribute => value).first.locale : I18n.locale
+  end
 
   def blank_attributes(attributes)
     value_keys = attributes.reject{ |k,v| v.blank? }.keys.map(&:to_sym)

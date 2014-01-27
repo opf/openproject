@@ -349,11 +349,11 @@ module WorkPackagesHelper
     group_work_package_attributes work_package_show_attribute_list(work_package)
   end
 
-  def work_package_show_table_row(attribute, klass = nil, lang = nil, &block)
+  def work_package_show_table_row(attribute, klass = nil, attribute_lang = nil, value_lang = nil, &block)
     klass = attribute.to_s.dasherize if klass.nil?
 
-    content = content_tag(:td, :class => [:work_package_attribute_header, klass], :lang => lang) { "#{WorkPackage.human_attribute_name(attribute)}:" }
-    content << content_tag(:td, :class => klass, :lang => lang, &block)
+    content = content_tag(:td, :class => [:work_package_attribute_header, klass], :lang => attribute_lang) { "#{WorkPackage.human_attribute_name(attribute)}:" }
+    content << content_tag(:td, :class => klass, :lang => value_lang, &block)
 
     WorkPackageAttribute.new(attribute, content)
   end
@@ -614,7 +614,8 @@ module WorkPackagesHelper
     work_package.custom_field_values.each_with_object([]) do |v, a|
       a << work_package_show_table_row(v.custom_field.name,
                                        "custom_field cf_#{v.custom_field_id}",
-                                       v.custom_field.name_locale) do
+                                       v.custom_field.name_locale,
+                                       v.custom_field.default_value_locale) do
         v.value.blank? ? empty_element_tag : simple_format_without_paragraph(h(show_value(v)))
       end
     end
