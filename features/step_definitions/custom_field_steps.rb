@@ -80,6 +80,13 @@ Given /^the work package "(.+?)" has the custom field "(.+?)" set to "(.+?)"$/ d
   wp.save!
 end
 
+Given /^the work package "(.+?)" has the custom user field "(.+?)" set to "(.+?)"$/ do |wp_name, field_name, username|
+  user = User.find_by_login(username)
+  steps %Q{
+    Given the work package "#{wp_name}" has the custom field "#{field_name}" set to "#{user.id}"
+  }
+end
+
 Given(/^the custom field "(.*?)" is enabled for the project "(.*?)"$/) do |field_name, project_name|
   custom_field = WorkPackageCustomField.find_by_name(field_name)
   project = Project.find_by_name(project_name)
