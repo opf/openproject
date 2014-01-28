@@ -209,6 +209,11 @@ module Api
         work_packages = WorkPackage.for_projects(projects)
                                    .includes(:status, :project, :type)
 
+        if params[:changed_since]
+          since = Time.at(Float(params[:changed_since]).to_i) rescue render_400
+          work_packages = work_packages.where(["updated_at >= ?", since])
+        end
+
         if params[:f]
           query = Query.new
           query.add_filters(params[:f], params[:op], params[:v])
