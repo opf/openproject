@@ -33,6 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2244` Fix: [Accessibility] correctly label document language - custom fields
 * `#3332` [CodeClimate] Mass Assignment AuthSourcesController
 * `#3333` [CodeClimate] Mass Assignment RolesController
+* `#3974` [Timelines] Typo at creating timelines
 
 ## 3.0.0pre43
 

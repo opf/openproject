@@ -1454,7 +1454,7 @@ en:
       hide_chart: "Hide chart"
       noneElement: "(none)"
       noneSelection: "(none)"
-      outline: "Intitial outline expansion"
+      outline: "Initial outline expansion"
       parent: "Show subprojects of"
       work_package_filters: "Filter work packages"
       work_package_responsible: "Show work packages with responsible"
