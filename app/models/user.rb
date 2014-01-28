@@ -1,7 +1,6 @@
 #-- encoding: UTF-8
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# OpenProject is a project management system.  # Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -710,6 +709,10 @@ class User < Principal
 
   def self.current
     @current_user ||= User.anonymous
+  end
+
+  def roles(project)
+    User.current.admin? ? Role.all : User.current.roles_for_project(project)
   end
 
   # Returns the anonymous user.  If the anonymous user does not exist, it is created.  There can be only

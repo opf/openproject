@@ -29,6 +29,61 @@
 module Api
   module V2
     class WorkflowsController < WorkflowsController
+      include ::Api::V2::ApiController
+
+      Workflow = Struct.new(:type_id, :old_status_id, :transitions)
+
+      Transition = Struct.new(:new_status_id, :scope)
+
+      before_filter :find_project
+
+      accept_key_auth :index
+
+      def index
+        workflows = ::Workflow.where(type_id: @project.types.collect(&:id),
+                                     role_id: User.current.roles(@project).collect(&:id))
+        workflows_by_type_and_old_status = workflows.group_by { |w| w.type_id }.each_with_object({}) do |kv, h|
+          h[kv[0]] = kv[1].group_by { |w| w.old_status_id }
+        end
+
+        @workflows = workflows_by_type_and_old_status.each_with_object([]) do |kv, l|
+          kv[1].each_pair do |old_status_id, workflows|
+            transitions = workflows.each_with_object([]) do |w, t|
+              t << Transition.new(w.new_status_id, scope(w))
+            end
+
+            l << Workflow.new(kv[0], old_status_id, transitions)
+          end
+        end
+
+        respond_to do |format|
+          format.api
+        end
+      end
+
+      protected
+
+      def find_project
+        @project = Project.find params[:project_id]
+      rescue ActiveRecord::RecordNotFound
+        render_404
+      end
+
+      def require_permissions
+        deny_access unless @project.visible?
+      end
+
+      private
+
+      def scope(transition)
+        if transition.author
+          :author
+        elsif transition.assignee
+          :assignee
+        else
+          :role
+        end
+      end
     end
   end
 end

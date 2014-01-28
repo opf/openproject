@@ -100,14 +100,6 @@ module WorkPackage::Validations
   end
 
   def status_transition_exists?
-    self.type.is_valid_transition?(self.status_id_was, self.status_id, user_roles)
-  end
-
-  def user_roles
-    if User.current.admin?
-      Role.all
-    else
-      User.current.roles_for_project(self.project)
-    end
+    self.type.is_valid_transition?(self.status_id_was, self.status_id, User.current.roles(self.project))
   end
 end
