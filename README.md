@@ -67,6 +67,7 @@ Rows - A YAML text block which defines in detail what should appear in each row 
 
 The following sample YAML shows the required form and all of the available configuration options:
 
+<pre>
 rows:
   row1:
     has_border: false
@@ -97,6 +98,7 @@ rows:
         priority: 2
         minimum_lines: 1
         render_if_empty: true
+</pre>
 
 Any number of rows can be defined. The font_size and minimum_lines properties define how much height on the card is given to the row. The plugin will attempt to assign enough space to each of the rows, however space will be assigned based on the priorities of the the rows, with rows with lower priority (higher numbers) being reduced and removed first if there is not enough for all the data.
 
