@@ -50,8 +50,8 @@
 /*jshint eqnull:true */
 
 // environment and other global vars
-/*jshint browser:true, devel:true*/
-/*global jQuery:false, Raphael:false, Timeline:true*/
+/*jshint browser:true, devel:true */
+/*global jQuery:false, Timeline:true */
 
 if (typeof Timeline === "undefined") {
   Timeline = {};
@@ -651,7 +651,7 @@ jQuery.extend(Timeline, {
 
     // lift the curtain, paper otherwise doesn't show w/ VML.
     jQuery('.timeline').removeClass('tl-under-construction');
-    this.paper = new Raphael(this.paperElement, 640, 480);
+    this.paper = new SvgHelper(this.paperElement);
 
     // perform some zooming. if there is a zoom level stored with the
     // report, zoom to it. otherwise, zoom out. this also constructs

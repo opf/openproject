@@ -73,7 +73,7 @@
 
 // environment and other global vars
 /*jshint browser:true, devel:true*/
-/*global jQuery:false, Raphael:false, Timeline:true, modalHelperInstance: true, I18n: true*/
+/*global jQuery:false, Timeline:true, modalHelperInstance: true, I18n: true*/
 
 if (typeof Timeline === "undefined") {
   Timeline = {};
@@ -336,8 +336,6 @@ jQuery.extend(Timeline, {
       throw new Error('jQuery UI seems to be missing (jQuery().slider is undefined)');
     } else if ((1).month === undefined) {
       throw new Error('date.js seems to be missing ((1).month is undefined)');
-    } else if (Raphael === undefined) {
-      throw new Error('Raphael seems to be missing (Raphael is undefined)');
     }
     return true;
   },
