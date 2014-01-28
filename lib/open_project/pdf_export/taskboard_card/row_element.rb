@@ -37,15 +37,19 @@ module OpenProject::PdfExport::TaskboardCard
     end
 
     def draw
-      # Draw a separating line underneath box if specified
-      if @config["has_border"]
-        @pdf.line [@orientation[:x_offset], @orientation[:y_offset] - @orientation[:height]], [@orientation[:x_offset] + @orientation[:width], @orientation[:y_offset] - @orientation[:height]]
+      top_left = [@orientation[:x_offset], @orientation[:y_offset]]
+      bounds = @orientation.slice(:width, :height)
+      @pdf.bounding_box(top_left, bounds) do
+        if @config["has_border"]
+          @pdf.stroke_bounds
+        end
+
+        # Draw columns
+        @column_elements.each do |c|
+          c.draw
+        end
       end
 
-      # Draw columns
-      @column_elements.each do |c|
-        c.draw
-      end
     end
 
     def self.prune_empty_rows(rows, wp)

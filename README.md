@@ -122,28 +122,7 @@ To contribute, you can create pull request on the official repository at
 Credits
 -------
 
-We thank the original maintainers and developers of [Redmine
-Backlogs](http://www.redminebacklogs.net/) as well as
-[Chiliproject Backlogs](https://github.com/finnlabs/chiliproject_backlogs) for
-their immense work on this plugin. OpenProject Backlogs would not have been
-possible without their original contribution. Those contributors are:
-
-* Marnen Laibow-Koser
-* Sandro Munda
-* friflaj
-* Maxime Guilbot
-* Andrew Vit
-* Joakim Kolsjö
-* ibussieres
-* Daniel Passos
-* Jason Vasquez
-* jpic
-* Emiliano Heyns
-* Mark Maglana
-* Joe Heck
-* Nate Lowrie
-
-Additionally, we would like to thank
+We would like to thank
 
 * Deutsche Telekom AG (opensource@telekom.de) for project sponsorhip
 

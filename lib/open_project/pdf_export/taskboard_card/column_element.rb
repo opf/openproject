@@ -27,17 +27,18 @@ module OpenProject::PdfExport::TaskboardCard
 
       font_size = Integer(@config['font_size']) # TODO: Not safe!
       font_style = (@config['font_style'] or "normal").to_sym
+      text_align = (@config['text_align'] or "left").to_sym
 
       # Draw on pdf
-      offset = [@orientation[:x_offset], @orientation[:y_offset]]
+      offset = [@orientation[:x_offset], @orientation[:height] - (@orientation[:text_padding] / 2)]
       box = @pdf.text_box(text,
         {:height => @orientation[:height],
          :width => @orientation[:width],
          :at => offset,
          :size => font_size,
-         :padding_bottom => 5,
          :style => font_style,
-         :overflow => :truncate})
+         :overflow => :truncate,
+         :align => text_align})
     end
 
   end
