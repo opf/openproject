@@ -1387,7 +1387,35 @@ describe WorkPackage do
       # assert that there is only one error
       expect(work_package.errors.size).to eq 1
       expect(work_package.errors_on(:custom_values).size).to eq 1
-	end
+    end
+  end
+
+  describe 'changed_since' do
+    let!(:work_package) do
+      work_package = Timecop.travel(5.hours.ago) do
+        wp = FactoryGirl.create(:work_package)
+        wp.save!
+        wp
+      end
+    end
+
+    describe 'null' do
+      subject { WorkPackage.changed_since(nil) }
+
+      it { expect(subject).to match_array([work_package]) }
+    end
+
+    describe 'now' do
+      subject { WorkPackage.changed_since(DateTime.now) }
+
+      it { expect(subject).to be_empty }
+    end
+
+    describe 'work package update' do
+      subject { WorkPackage.changed_since(work_package.updated_at) }
+
+      it { expect(subject).to match_array([work_package]) }
+    end
   end
 end
 
