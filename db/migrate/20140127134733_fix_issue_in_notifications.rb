@@ -10,13 +10,26 @@
 #++
 
 class FixIssueInNotifications < ActiveRecord::Migration
+  REPLACED = {
+    "issue_added" => "work_package_added",
+    "issue_updated" => "work_package_updated",
+    "issue_priority_updated" => "work_package_priority_updated",
+  }
   def up
-    Setting['notified_events']= Setting['notified_events'].map {|m| m.gsub("issue_added","work_package_added")}
-    Setting['notified_events']= Setting['notified_events'].map {|m| m.gsub("issue_updated","work_package_updated")}
+    Setting['notified_events']= replace(Setting['notified_events'], REPLACED)
   end
 
   def down
-    Setting['notified_events']= Setting['notified_events'].map {|m| m.gsub("work_package_added","issue_added")}
-    Setting['notified_events']= Setting['notified_events'].map {|m| m.gsub("work_package_updated","issue_updated")}
+    Setting['notified_events']= replace(Setting['notified_events'], REPLACED.invert)
+  end
+  
+  private
+
+  def replace(value,mapping)
+    if value.respond_to? :map
+      value.map { |s| mapping[s].nil? ? s : mapping[s] }
+    else
+      mapping[value].nil? ? value : mapping[value]
+    end
   end
 end
