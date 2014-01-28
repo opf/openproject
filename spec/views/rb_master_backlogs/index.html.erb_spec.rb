@@ -57,7 +57,9 @@ describe 'rb_master_backlogs/index' do
 
   it 'shows link to export with the default taskboard card configuration' do
     default_taskboard_card_config = FactoryGirl.create(:taskboard_card_configuration)
-    assign(:default_taskboard_card_config, default_taskboard_card_config)
+    assign(:taskboard_card_config_meta, {
+      default: default_taskboard_card_config,
+      count: 1})
 
     render
 
@@ -69,6 +71,7 @@ describe 'rb_master_backlogs/index' do
   end
 
   it 'shows link to display taskboard card configuration choice modal' do
+    assign(:taskboard_card_config_meta, { count: 2 })
     render
 
     assert_select ".menu ul.items a" do |a|

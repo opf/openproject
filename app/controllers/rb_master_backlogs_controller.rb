@@ -38,7 +38,7 @@ class RbMasterBacklogsController < RbApplicationController
 
   menu_item :backlogs
 
-  before_filter :set_default_taskboard_card_config
+  before_filter :set_taskboard_card_config_meta
 
   def index
     @owner_backlogs = Backlog.owner_backlogs(@project)
@@ -49,10 +49,11 @@ class RbMasterBacklogsController < RbApplicationController
 
   private
 
-  def set_default_taskboard_card_config
-    if TaskboardCardConfiguration.count == 1
-      @default_taskboard_card_config = TaskboardCardConfiguration.first
-    end
+  def set_taskboard_card_config_meta
+    @taskboard_card_config_meta = {
+      count: TaskboardCardConfiguration.count,
+      default: TaskboardCardConfiguration.first
+    }
   end
 
   def default_breadcrumb

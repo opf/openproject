@@ -82,19 +82,21 @@ module RbMasterBacklogsHelper
                                     :project_id => @project,
                                     :sprint_id => backlog.sprint)
 
-    items[:configs] = export_taskboard_cards_link(backlog)
+    if @taskboard_card_config_meta[:count] > 0
+      items[:configs] = export_taskboard_cards_link(backlog)
+    end
 
     items
   end
 
   def export_taskboard_cards_link(backlog)
-    if @default_taskboard_card_config
+    if @taskboard_card_config_meta[:count] == 1
       link_to(l(:label_backlogs_taskboard_card_export),
         :controller => '/rb_taskboard_card_configurations',
         :action => 'show',
         :project_id => @project,
         :sprint_id => backlog.sprint,
-        :id => @default_taskboard_card_config,
+        :id => @taskboard_card_config_meta[:default],
         :format => :pdf)
     else
       taskboard_modal_link(backlog)
