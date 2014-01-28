@@ -93,6 +93,7 @@ OpenProject::Application.routes.draw do
         member do
           get :planning_element_custom_fields
         end
+        resources :workflows, only: [:index]
       end
 
       resources :custom_fields
