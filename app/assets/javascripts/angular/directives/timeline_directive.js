@@ -1,4 +1,4 @@
-openprojectApp.directive('timeline', ['TimelineLoaderService', function(TimelineLoaderService) {
+openprojectApp.directive('timeline', ['TimelineLoaderService', 'SvgHelper', function(TimelineLoaderService, SvgHelper) {
   return {
     restrict: 'A',
     link: function(scope, element, attributes) {
@@ -9,9 +9,8 @@ openprojectApp.directive('timeline', ['TimelineLoaderService', function(Timeline
       };
 
       completeUI = function() {
-        // lift the curtain, paper otherwise doesn't show w/ VML.
-        scope.underConstruction = false;
-        scope.timeline.paper = new Raphael(scope.timeline.paperElement, 640, 480);
+
+        scope.timeline.paper = new SvgHelper(scope.timeline.paperElement);
 
         // perform some zooming. if there is a zoom level stored with the
         // report, zoom to it. otherwise, zoom out. this also constructs
