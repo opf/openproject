@@ -78,6 +78,10 @@ class WorkPackage < ActiveRecord::Base
     {:conditions => {:project_id => projects}}
   }
 
+  scope :changed_since, lambda { |changed_since|
+    changed_since ? { conditions: ["updated_at >= ?", changed_since] } : nil
+  }
+
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   scope :open, :conditions => ["#{Status.table_name}.is_closed = ?", false], :include => :status
 
