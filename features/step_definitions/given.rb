@@ -1,7 +1,6 @@
 Given /^there are multiple taskboard card configurations$/ do
   config1 = TaskboardCardConfiguration.create!({
     name: "Default",
-    identifier: "DEFAULT",
     per_page: 1,
     page_size: "A4",
     orientation: "landscape",
@@ -9,7 +8,6 @@ Given /^there are multiple taskboard card configurations$/ do
   })
   config2 = TaskboardCardConfiguration.create!({
     name: "Custom",
-    identifier: "CUSTOM",
     per_page: 1,
     page_size: "A4",
     orientation: "landscape",
@@ -17,7 +15,6 @@ Given /^there are multiple taskboard card configurations$/ do
   })
   config3 = TaskboardCardConfiguration.create!({
     name: "Custom 2",
-    identifier: "CUSTOM2",
     per_page: 1,
     page_size: "A4",
     orientation: "landscape",

@@ -12,14 +12,11 @@ describe 'taskboard_card_configurations/edit' do
   it 'shows edit taskboard card configuration inputs' do
     render
 
-    rendered.should have_selector("form") do |f|
-      f.should have_selector("input", value: config.identifier)
-      f.should have_selector("input", value: config.name)
-      f.should have_selector("input", value: config.rows)
-      f.should have_selector("input", value: config.per_page)
-      f.should have_selector("input", value: config.page_size)
-      f.should have_selector("input", value: config.orientation)
-    end
+    rendered.should have_field("Name", with: config.name)
+    rendered.should have_field("Per page", with: config.per_page.to_s)
+    rendered.should have_field("Page size", with: config.page_size)
+    rendered.should have_field("Orientation", with: config.orientation)
+    rendered.should have_field("Rows", with: config.rows)
   end
 
 end

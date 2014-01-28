@@ -12,7 +12,6 @@ class TaskboardCardConfiguration < ActiveRecord::Base
 
   include OpenProject::PdfExport::Exceptions
 
-  validates :identifier, presence: true
   validates :name, presence: true
   validates :rows, rows_yaml: true
   validates :per_page, numericality: { only_integer: true }

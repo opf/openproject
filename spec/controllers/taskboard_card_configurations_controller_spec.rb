@@ -16,7 +16,6 @@ describe TaskboardCardConfigurationsController do
     it 'should let you create a configuration with all the values set' do
       @params[:taskboard_card_configuration] = {
         name: "Config 1",
-        identifier: "config1",
         rows: @valid_rows_yaml,
         per_page: 5,
         page_size: "A4",
@@ -31,7 +30,6 @@ describe TaskboardCardConfigurationsController do
     it 'should not let you create an invalid configuration' do
       @params[:taskboard_card_configuration] = {
         name: "Config 1",
-        identifier: "config1"
       }
       post 'create', @params
 

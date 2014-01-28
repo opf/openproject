@@ -20,7 +20,6 @@ Feature: Taskboard Card Configurations Admin
     And I am on the taskboard card configurations index page
     When I follow "New Taskboard Card Config"
     And I fill in "Config 1" for "taskboard_card_configuration_name"
-    And I fill in "config1" for "taskboard_card_configuration_identifier"
     And I fill in "5" for "taskboard_card_configuration_per_page"
     And I select "landscape" from "taskboard_card_configuration_orientation"
     And I fill in "rows:\n  row1:\n    test" for "taskboard_card_configuration_rows"

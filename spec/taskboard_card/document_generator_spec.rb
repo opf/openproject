@@ -3,7 +3,6 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe OpenProject::PdfExport::TaskboardCard::DocumentGenerator do
   let(:config) { TaskboardCardConfiguration.new({
     name: "Default",
-    identifier: "default",
     per_page: 1,
     page_size: "A4",
     orientation: "landscape",

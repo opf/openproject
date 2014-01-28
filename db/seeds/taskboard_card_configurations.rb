@@ -1,7 +1,6 @@
 
 if TaskboardCardConfiguration.find_by_identifier("default").nil?
-  TaskboardCardConfiguration.create({identifier: "default",
-    name: "Default",
+  TaskboardCardConfiguration.create({name: "Default",
     per_page: 2,
     page_size: "A4",
     orientation: "landscape",

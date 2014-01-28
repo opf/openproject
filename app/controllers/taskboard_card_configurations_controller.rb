@@ -57,7 +57,7 @@ class TaskboardCardConfigurationsController < ApplicationController
   end
 
   def taskboard_card_configurations_params
-    params.require(:taskboard_card_configuration).permit(:identifier, :name, :rows, :per_page, :page_size, :orientation)
+    params.require(:taskboard_card_configuration).permit(:name, :rows, :per_page, :page_size, :orientation)
   end
 
   def load_config

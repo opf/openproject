@@ -1,0 +1,8 @@
+
+de:
+  error_can_not_delete_taskboard_card_configuration: "Diese Konfiguration kann nicht gelöscht werden."
+  error_can_not_change_name_of_default_configuration: "Der Name der Standardkonfiguration kann nicht geändert werden."
+  label_backlogs_taskboard_card_config_select: "Bitte wählen Sie eine Taskboard-Kartenkonfiguration"
+  label_backlogs_taskboard_card_export: "Exportieren"
+  label_taskboard_card_configuration_new: "Neue Taskboard-Kartenkonfiguration"
+  label_taskboard_card_configuration_plural: "Taskboard-Kartenkonfigurationen"
