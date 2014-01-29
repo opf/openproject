@@ -3,6 +3,8 @@ openprojectApp.directive('timelineTableRow', [function() {
     restrict: 'A',
     scope: true,
     link: function(scope, element, attributes) {
+      scope.rowObject = scope.row.payload;
+
       // set dom element
       scope.row.dom_element = element;
 
