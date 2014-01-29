@@ -9,8 +9,19 @@
   </thead>
 
   <tbody>
+    <tr timeline-grouping-label
+        ng-repeat-start="row in rows"
+        ng-if="isGrouping"
+        ng-show="showGroupingLabel()">
+      <td class="tl-grouping" colspan="{{columns.length + 1}}">
+        <span class="tl-word-ellipsis">
+          {{row.firstLevelGroupingName}}
+        </span>
+      </td>
+    </tr>
+
     <tr timeline-table-row
-        ng-repeat="row in rows"
+        ng-repeat-end
         ng-class="{
           'tl-first-row': $first,
           'tl-last-row': $last,
@@ -18,13 +29,8 @@
           'tl-project-row': rowObject.objectType === 'Project'
         }"
         ng-show="row.ancestors | ancestorsExpanded"
+        ng-if="!(isGrouping && $first)"
         ng-hide="rowObject.objectType === 'Project' && excludeEmpty && !row.childNodes">
-
-      <td ng-if="isGrouping && rowObject.objectType === 'Project' && row.level === 0 && row.group !== rows[$index-1].group" class="tl-grouping" colspan="{{columns.length + 1}}">
-        <span class="tl-word-ellipsis">
-          {{timeline.escape(rowObject.getFirstLevelGroupingName())}}
-        </span>
-      </td>
 
       <td ng-class="[
             'tl-first-column',
@@ -53,7 +59,8 @@
         </span>
       </td>
 
-      <td option-column ng-repeat="option in columns">
+      <td option-column
+          ng-repeat="option in columns">
         <span class="tl-historical" ng-show="rowObject.does_historical_differ(option)">
           <a href="javascript://" title="{{I18n.t('js.timelines.change')}}"
              ng-class="[
