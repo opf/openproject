@@ -20,6 +20,8 @@ class ExportCardConfiguration < ActiveRecord::Base
   validates :orientation, inclusion: { in: %w(landscape portrait),
     message: "%{value} is not a valid page size" }, allow_nil: true
 
+  scope :active, -> { where(active: true) }
+
   def activate
     self.update_attributes!({active: true})
   end
