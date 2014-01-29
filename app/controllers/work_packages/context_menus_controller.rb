@@ -56,12 +56,12 @@ class WorkPackages::ContextMenusController < ApplicationController
             :delete => User.current.allowed_to?(:delete_work_packages, @projects)
             }
     if @project
-      @assignables = @project.assignable_users
+      @assignables = @project.possible_assignees
       @assignables << @work_package.assigned_to if @work_package && @work_package.assigned_to && !@assignables.include?(@work_package.assigned_to)
       @types = @project.types
     else
       #when multiple projects, we only keep the intersection of each set
-      @assignables = @projects.map(&:assignable_users).inject{|memo,a| memo & a}
+      @assignables = @projects.map(&:possible_assignees).inject{|memo,a| memo & a}
       @types = @projects.map(&:types).inject{|memo,t| memo & t}
     end
 
