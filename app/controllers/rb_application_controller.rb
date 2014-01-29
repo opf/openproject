@@ -39,7 +39,7 @@ class RbApplicationController < ApplicationController
 
   helper :rb_common
 
-  before_filter :load_sprint_and_project, :authorize, :check_if_plugin_is_configured
+  before_filter :load_sprint_and_project, :check_if_plugin_is_configured, :authorize
 
   private
 

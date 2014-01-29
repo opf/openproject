@@ -61,7 +61,7 @@ module RbMasterBacklogsHelper
     end
 
     menu = []
-    [:new_story, :stories_tasks, :task_board, :burndown, :cards, :wiki].each do |key|
+    [:new_story, :stories_tasks, :task_board, :burndown, :cards, :wiki, :configs].each do |key|
       menu << items[key] if items.keys.include?(key)
     end
 
@@ -82,16 +82,31 @@ module RbMasterBacklogsHelper
                                     :project_id => @project,
                                     :sprint_id => backlog.sprint)
 
-    if OpenProject::Backlogs::TaskboardCard::PageLayout.selected_label.present?
-      items[:cards] = link_to(l(:label_sprint_cards),
-                              :controller => '/rb_stories',
-                              :action => 'index',
-                              :project_id => @project,
-                              :sprint_id => backlog.sprint,
-                              :format => :pdf)
+    if @export_card_config_meta[:count] > 0
+      items[:configs] = export_export_cards_link(backlog)
     end
 
     items
+  end
+
+  def export_export_cards_link(backlog)
+    if @export_card_config_meta[:count] == 1
+      link_to(l(:label_backlogs_export_card_export),
+        :controller => '/rb_export_card_configurations',
+        :action => 'show',
+        :project_id => @project,
+        :sprint_id => backlog.sprint,
+        :id => @export_card_config_meta[:default],
+        :format => :pdf)
+    else
+      export_modal_link(backlog)
+    end
+  end
+
+  def export_modal_link(backlog, options = {})
+    path = backlogs_project_sprint_export_card_configurations_path(@project.id, backlog.sprint.id)
+    html_id = "modal_work_package_#{SecureRandom.hex(10)}"
+    link_to(l(:label_backlogs_export_card_export), path, options.merge(:id => html_id, :'data-modal' => ''))
   end
 
   def sprint_backlog_menu_items_for(backlog)

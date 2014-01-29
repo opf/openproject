@@ -277,3 +277,7 @@ end
 Then /^I should be notified that the work_package "(.+?)" is an invalid parent to the work_package "(.+?)" because of cross project limitations$/ do |parent_name, child_name|
   step %Q{I should see "Parent is invalid because the work_package '#{child_name}' is a backlogs task and as such can not have the backlogs story '#{parent_name}' as it's parent as long as the story is in a different project" within "#errorExplanation"}
 end
+
+Then /^the PDF download dialog should be displayed$/ do
+  # As far as I'm aware there's nothing that can be done here to check for this.
+end

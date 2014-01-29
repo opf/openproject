@@ -1,0 +1,16 @@
+
+<div class='contextual'></div>
+<h2>
+  <%= l(:label_backlogs_export_card_config_select) %>
+</h2>
+
+<% @configs.each do |config| %>
+  <%= link_to(config.name,
+    :controller => '/rb_export_card_configurations',
+    :action => 'show',
+    :project_id => @project.id,
+    :sprint_id => @sprint.id,
+    :id => config.id,
+    :format => :pdf) %>
+  <br>
+<% end %>

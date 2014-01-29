@@ -38,6 +38,8 @@ class RbMasterBacklogsController < RbApplicationController
 
   menu_item :backlogs
 
+  before_filter :set_export_card_config_meta
+
   def index
     @owner_backlogs = Backlog.owner_backlogs(@project)
     @sprint_backlogs = Backlog.sprint_backlogs(@project)
@@ -46,6 +48,13 @@ class RbMasterBacklogsController < RbApplicationController
   end
 
   private
+
+  def set_export_card_config_meta
+    @export_card_config_meta = {
+      count: ExportCardConfiguration.active.count,
+      default: ExportCardConfiguration.active.select { |c| c.is_default? }.first
+    }
+  end
 
   def default_breadcrumb
     l(:label_backlogs)

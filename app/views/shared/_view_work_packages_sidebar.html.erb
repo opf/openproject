@@ -56,16 +56,14 @@ See doc/COPYRIGHT.rdoc for more details.
                 })
         %><br/>
 
-        <% if OpenProject::Backlogs::TaskboardCard::PageLayout.available? %>
-          <%= link_to(l(:label_sprint_cards), {
-                  :controller => '/rb_stories',
-                  :action => 'index',
-                  :project_id => project,
-                  :sprint_id => sprint,
-                  :format => 'pdf'
-                  })
-          %><br/>
-        <% end %>
+        <%= link_to(l(:label_sprint_cards), {
+                :controller => '/rb_stories',
+                :action => 'index',
+                :project_id => project,
+                :sprint_id => sprint,
+                :format => 'pdf'
+                })
+        %><br/>
 
         <% if project.module_enabled? "wiki" %>
           <%= link_to(l(:label_wiki), {

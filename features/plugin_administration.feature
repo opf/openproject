@@ -41,4 +41,4 @@ Feature: Plugin Administration
   Scenario: Fields for configuration
     Given I am already admin
     When I go to the configuration page of the "openproject_backlogs" plugin
-    Then there should be a "settings_card_spec" field
+    Then there should be a "settings_task_type" field

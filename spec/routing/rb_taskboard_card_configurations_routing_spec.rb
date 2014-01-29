@@ -33,27 +33,19 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::Backlogs::TaskboardCard
-  class Box
-    attr_accessor :x
-    attr_accessor :y
-    attr_accessor :width
-    attr_accessor :height
+require 'spec_helper'
 
-    def initialize(x,y,w,h)
-      @x = x
-      @y = y
-      @width = w
-      @height = h
-    end
+describe RbExportCardConfigurationsController do
+  describe "routing" do
+    it { get('/projects/project_42/sprints/21/export_card_configurations/10').should route_to(:controller => 'rb_export_card_configurations',
+      :action => 'show',
+      :project_id => 'project_42',
+      :sprint_id => '21',
+      :id => '10') }
 
-    def at
-      [x, y]
-    end
-
-    def at=(pos)
-      x = pos[0]
-      y = pos[1]
-    end
+    it { get('/projects/project_42/sprints/21/export_card_configurations').should route_to(:controller => 'rb_export_card_configurations',
+      :action => 'index',
+      :project_id => 'project_42',
+      :sprint_id => '21') }
   end
 end

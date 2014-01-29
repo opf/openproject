@@ -266,7 +266,6 @@ Given /^I have selected card label stock (.+)$/ do |stock|
   # to get the ones, shipped with the plugin or
   #   rake openproject:backlogs:current_labels
   # to get current one, downloaded from the internet.
-  OpenProject::Backlogs::TaskboardCard::PageLayout.should be_available
 end
 
 Given /^I have set my API access key$/ do
@@ -342,4 +341,14 @@ Given /^the status of "([^"]*)" is "([^"]*)"$/ do |work_package_subject, status_
   s = WorkPackage.find_by_subject(work_package_subject)
   s.status = Status.find_by_name(status_name)
   s.save!
+end
+
+Given /^there is the single default export card configuration$/ do
+  config = ExportCardConfiguration.create!({
+    name: "Default",
+    per_page: 1,
+    page_size: "A4",
+    orientation: "landscape",
+    rows: "rows:\n    row1:\n      has_border: false\n      columns:\n        id:\n          has_label: false\n          font_size: 15"
+  })
 end

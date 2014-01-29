@@ -35,17 +35,7 @@
 
 class RbStoriesController < RbApplicationController
   unloadable
-  include OpenProject::Backlogs::TaskboardCard
-
-  def index
-    cards_document = OpenProject::Backlogs::TaskboardCard::Document.new(current_language)
-
-    @sprint.stories(@project).each { |story| cards_document.add_story(story) }
-
-    respond_to do |format|
-      format.pdf { send_data(cards_document.render, :disposition => 'attachment', :type => 'application/pdf') }
-    end
-  end
+  include OpenProject::PdfExport::ExportCard
 
   def create
     params['author_id'] = User.current.id

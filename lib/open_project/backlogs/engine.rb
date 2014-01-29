@@ -149,7 +149,8 @@ module OpenProject::Backlogs
               :rb_stories          => [:index, :show],
               :rb_queries          => :show,
               :rb_server_variables => :show,
-              :rb_burndown_charts  => :show
+              :rb_burndown_charts  => :show,
+              :rb_export_card_configurations => [:index, :show]
             }
 
             permission :view_taskboards,     {
@@ -160,7 +161,8 @@ module OpenProject::Backlogs
               :rb_impediments      => [:index, :show],
               :rb_wikis            => :show,
               :rb_server_variables => :show,
-              :rb_burndown_charts  => :show
+              :rb_burndown_charts  => :show,
+              :rb_export_card_configurations => [:index, :show]
             }
 
             # Sprint permissions
