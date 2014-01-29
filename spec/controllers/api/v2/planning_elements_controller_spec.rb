@@ -583,6 +583,30 @@ describe Api::V2::PlanningElementsController do
       it { expect(response.status).to eq(400) }
     end
 
+    describe 'notes' do
+      let(:note) { "A note set by API" }
+
+      before do
+        put :update,
+            project_id: work_package.project_id,
+            id: work_package.id,
+            planning_element: { note: note },
+            format: :xml
+      end
+
+      it { expect(response.status).to eq(204) }
+
+      describe 'journals' do
+        subject { work_package.reload.journals }
+
+        it { expect(subject.count).to eq(2) }
+
+        it { expect(subject.last.notes).to eq(note) }
+
+        it { expect(subject.last.user).to eq(User.current) }
+      end
+    end
+
     describe 'with custom fields' do
       let(:type) { Type.find_by_name("None") || FactoryGirl.create(:type_standard) }
 
