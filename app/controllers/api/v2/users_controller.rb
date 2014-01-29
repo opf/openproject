@@ -7,7 +7,7 @@ module Api
       skip_filter :require_admin, :only => :index
 
       def index
-        @users = UserSearchService.new(params).search.visible_by(User.current)
+        @users = UserSearchService.new(params).search
 
         respond_to do |format|
           format.api
