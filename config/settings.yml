@@ -88,7 +88,7 @@ activity_days_default:
 per_page_options:
   default: '10, 20, 50, 100, 500, 1000'
 mail_from:
-  default: openproject@example.net
+  default: openproject@aws.finn.de
 bcc_recipients:
   default: 1
 plain_text_mail:
@@ -108,7 +108,7 @@ default_language:
 host_name:
   default: localhost:3000
 protocol:
-  default: http
+  default: https
 feeds_enabled:
   default: 1
 feeds_limit:
