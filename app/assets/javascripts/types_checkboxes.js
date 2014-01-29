@@ -36,7 +36,7 @@
       this.append_checkbox_listeners();
       this.append_check_uncheck_all_listeners();
       if (this.everything_unchecked()) {
-        this.check_standard_type();
+        this.check_and_disable_standard_type();
       }
     },
 
@@ -44,10 +44,11 @@
       var self = this;
       this.all_checkboxes().on("change", function () {
         if (self.everything_unchecked()) {
-          self.check_standard_type();
+          self.check_and_disable_standard_type();
           self.display_explanation();
         } else {
           self.hide_explanation();
+          self.enable_standard_type();
         }
       });
     },
@@ -55,13 +56,15 @@
     append_check_uncheck_all_listeners: function () {
       var self = this;
       $("#project_types #check_all_types").click(function (event) {
+        self.enable_all_checkboxes();
         self.check(self.all_checkboxes());
         self.hide_explanation();
         event.preventDefault();
       });
       $("#project_types #uncheck_all_types").click(function (event) {
+        self.enable_all_checkboxes();
         self.uncheck(self.all_except_standard());
-        self.check_standard_type();
+        self.check_and_disable_standard_type();
         self.display_explanation();
         event.preventDefault();
       });
@@ -71,9 +74,18 @@
       return !(this.all_except_standard().filter(":checked").length > 0);
     },
 
-    check_standard_type: function () {
+    check_and_disable_standard_type: function () {
       var standard = this.standard_check_boxes();
       this.check($(standard));
+      this.disable($(standard));
+    },
+
+    enable_standard_type: function () {
+      this.enable(this.standard_check_boxes());
+    },
+
+    enable_all_checkboxes: function () {
+      this.enable(this.all_checkboxes())
     },
 
     check: function (boxes) {
@@ -82,6 +94,22 @@
 
     uncheck: function (boxes) {
       $(boxes).prop("checked", false);
+    },
+
+    disable: function (boxes) {
+      var self = this;
+      $(boxes).prop('disabled', true);
+      $(boxes).each(function (ix, item) {
+        self.hidden_type_field($(item)).prop("value", $(item).prop("value"));
+      });
+    },
+
+    enable: function (boxes) {
+      var self = this;
+      $(boxes).prop('disabled', false);
+      $(boxes).each(function (ix, item) {
+        self.hidden_type_field($(item)).prop("value", "");
+      });
     },
 
     display_explanation: function () {
@@ -102,6 +130,10 @@
 
     standard_check_boxes: function () {
       return $(".types :input[type='checkbox'][data-standard='true']");
+    },
+
+    hidden_type_field: function (for_box) {
+      return $(".types :input[type='hidden'][data-for='" + $(for_box).prop("id") + "']");
     }
   });
 
