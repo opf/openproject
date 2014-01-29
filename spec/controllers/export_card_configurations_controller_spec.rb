@@ -7,6 +7,8 @@ describe ExportCardConfigurationsController do
 
     @default_config = FactoryGirl.create(:default_export_card_configuration)
     @custom_config = FactoryGirl.create(:export_card_configuration)
+    @active_config = FactoryGirl.create(:active_export_card_configuration)
+    @inactive_config = FactoryGirl.create(:inactive_export_card_configuration)
 
     @params = {}
     @valid_rows_yaml = "rows:\n    row1:\n      has_border: false\n      columns:\n        id:\n          has_label: false\n          font_size: \"15\""
@@ -79,6 +81,34 @@ describe ExportCardConfigurationsController do
 
       response.should redirect_to :action => 'index'
       flash[:notice].should eql(I18n.t(:error_can_not_delete_export_card_configuration))
+    end
+  end
+
+  describe 'Activate' do
+    it 'should let you activate an inactive configuration' do
+      @params[:id] = @inactive_config.id
+      post 'activate', @params
+
+      response.should redirect_to :action => 'index'
+      flash[:notice].should eql(I18n.t(:notice_export_card_configuration_activated))
+    end
+  end
+
+  describe "Deactivate" do
+    it 'should let you de-activate an active configuration' do
+      @params[:id] = @active_config.id
+      post 'deactivate', @params
+
+      response.should redirect_to :action => 'index'
+      flash[:notice].should eql(I18n.t(:notice_export_card_configuration_deactivated))
+    end
+
+    it 'should not let you de-activate the default configuration' do
+      @params[:id] = @default_config.id
+      post 'deactivate', @params
+
+      response.should redirect_to :action => 'index'
+      flash[:notice].should eql(I18n.t(:error_can_not_deactivate_export_card_configuration))
     end
   end
 end

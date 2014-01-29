@@ -10,6 +10,7 @@ FactoryGirl.define do
 
   factory :default_export_card_configuration, :class => ExportCardConfiguration do
     name "Default"
+    active true
     rows "rows:\n    row1:\n      has_border: false\n      columns:\n        id:\n          has_label: false\n          font_size: \"15\""
     per_page 5
     page_size "A4"
@@ -22,5 +23,23 @@ FactoryGirl.define do
     per_page "string"
     page_size "asdf"
     orientation "qwer"
+  end
+
+  factory :active_export_card_configuration, :class => ExportCardConfiguration do
+    name "Config active"
+    active true
+    rows "rows:\n    row1:\n      has_border: false\n      columns:\n        id:\n          has_label: false\n          font_size: \"15\""
+    per_page 5
+    page_size "A4"
+    orientation "landscape"
+  end
+
+  factory :inactive_export_card_configuration, :class => ExportCardConfiguration do
+    name "Config inactive"
+    active false
+    rows "rows:\n    row1:\n      has_border: false\n      columns:\n        id:\n          has_label: false\n          font_size: \"15\""
+    per_page 5
+    page_size "A4"
+    orientation "landscape"
   end
 end

@@ -3,7 +3,7 @@ class ExportCardConfigurationsController < ApplicationController
   layout 'admin'
 
   before_filter :require_admin
-  before_filter :load_config, only: [:show, :update, :edit, :destroy]
+  before_filter :load_config, only: [:show, :update, :edit, :destroy, :activate, :deactivate]
   before_filter :load_configs, only: [:index]
 
   def index
@@ -46,6 +46,24 @@ class ExportCardConfigurationsController < ApplicationController
       flash[:notice] = l(:notice_successful_delete)
     else
       flash[:notice] = l(:error_can_not_delete_export_card_configuration)
+    end
+    redirect_to :action => 'index'
+  end
+
+  def activate
+    if @config.activate
+      flash[:notice] = l(:notice_export_card_configuration_activated)
+    else
+      flash[:notice] = l(:error_can_not_activate_export_card_configuration)
+    end
+    redirect_to :action => 'index'
+  end
+
+  def deactivate
+    if @config.deactivate
+      flash[:notice] = l(:notice_export_card_configuration_deactivated)
+    else
+      flash[:notice] = l(:error_can_not_deactivate_export_card_configuration)
     end
     redirect_to :action => 'index'
   end

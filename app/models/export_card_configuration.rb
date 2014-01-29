@@ -20,6 +20,18 @@ class ExportCardConfiguration < ActiveRecord::Base
   validates :orientation, inclusion: { in: %w(landscape portrait),
     message: "%{value} is not a valid page size" }, allow_nil: true
 
+  def activate
+    self.update_attributes!({active: true})
+  end
+
+  def deactivate
+    if !self.is_default?
+      self.update_attributes!({active: false})
+    else
+      false
+    end
+  end
+
   def landscape?
     !portrait?
   end
@@ -40,5 +52,13 @@ class ExportCardConfiguration < ActiveRecord::Base
 
   def can_delete?
     !self.is_default?
+  end
+
+  def can_activate?
+    !self.active
+  end
+
+  def can_deactivate?
+    self.active && !is_default?
   end
 end
