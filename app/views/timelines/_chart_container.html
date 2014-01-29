@@ -3,18 +3,7 @@
     <div class="tl-left-top tl-decoration"></div>
     <div class="tl-left-main">
 
-      <table class="tl-main-table" ng-hide="timeline.options.hide_chart">
-        <thead>
-          <tr>
-            <th class="tl-first-column" ng-style="{height: timeline.decoHeight()}">{{I18n.t('js.timelines.filter.column.name')}}</th>
-            <th ng-repeat="key in timeline.options.columns">
-              {{I18n.t('js.timelines.filter.column.' + key)}}
-            </th>
-          </tr>
-        </thead>
-
-        <tbody ng-include="'/templates/timelines/tree.html'" />
-      </table>
+      <timeline-table ng-hide="timeline.options.hide_chart" />
 
     </div>
   </div>
