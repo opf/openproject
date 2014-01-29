@@ -284,9 +284,7 @@ module Api
       private
 
       def parse_changed_since
-        if params[:changed_since]
-          @since = Time.at(Float(params[:changed_since]).to_i) rescue render_400
-        end
+        @since = Time.at(Float(params[:changed_since] || 0).to_i) rescue render_400
       end
     end
   end
