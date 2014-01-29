@@ -32,6 +32,21 @@
 module Api
   module V2
     class WorkPackagePrioritiesController < ApplicationController
+      include PaginationHelper
+
+      include ::Api::V2::ApiController
+
+      unloadable
+
+      accept_key_auth :index
+
+      def index
+        @priorities = IssuePriority.all
+
+        respond_to do |format|
+          format.api
+        end
+      end
     end
   end
 end
