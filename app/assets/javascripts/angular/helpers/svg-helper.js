@@ -39,14 +39,75 @@
 
 openprojectApp.factory('SvgHelper', [function() {
 
-  SvgHelper = (function() {
+  var SvgTextHelper = function(top, left, text) {
+    this.node = jQuery('<text/>');
+    this.translate(left, top);
+    this.setText(text);
+  };
+
+  SvgTextHelper.prototype.getNode = function() {
+    return this.node;
+  };
+
+  SvgTextHelper.prototype.setText = function(text) {
+    var node = this.node;
+    node.empty().append(text);
+  }
+
+  SvgTextHelper.prototype.translate = function(left, top) {
+    this.node.attr({
+      'x': left,
+      'y': top
+    });
+    return this;
+  };
+
+  SvgTextHelper.prototype.attr = function() {
+    return this.node.attr.apply(this.node, arguments);
+  };
+
+  var SvgHelper = (function() {
 
     var SvgHelper = function(node) {
-
       this.root = jQuery('<svg width="640" height="480"/>');
       jQuery(node).append(this.root);
-
     }
+
+    SvgHelper.prototype.clear = function() {
+      this.root.empty();
+    };
+
+    SvgHelper.prototype.setSize = function(width, height) {
+      this.root.attr({
+        'width': width,
+        'height': height,
+      });
+    };
+
+    SvgHelper.prototype.rect = function(left, top, width, height) {
+      var node = jQuery('<rect/>').attr({
+        'x': left,
+        'y': top,
+        'width': width,
+        'height': height
+      });
+      this.root.append(node);
+      return node;
+    };
+
+    SvgHelper.prototype.path = function(direction) {
+      var node = jQuery('<path/>').attr({
+        'd': direction
+      });
+      this.root.append(node);
+      return node;
+    };
+
+    SvgHelper.prototype.text = function(left, top, text) {
+      var node = new SvgTextHelper(left, top, text);
+      this.root.append(node.getNode());
+      return node;
+    };
 
     return SvgHelper;
   })();
