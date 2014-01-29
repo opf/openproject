@@ -1,1 +1,1 @@
-Subscribem.tld_length = 1
+Subscribem.tld_length = ENV.fetch('TLD_LENGTH') { 1 }
