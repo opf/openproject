@@ -4,6 +4,7 @@ openprojectApp.directive('timelineTableRow', [function() {
     scope: true,
     link: function(scope, element, attributes) {
       scope.rowObject = scope.row.payload;
+      scope.indent = scope.isGrouping ? scope.row.level-1 : scope.row.level;
 
       // set dom element
       scope.row.dom_element = element;

@@ -34,7 +34,7 @@
 
       <td ng-class="[
             'tl-first-column',
-            'tl-indent-' + row.level,
+            'tl-indent-' + indent,
             row.childNodes.length > 0 && (row.isExpanded() && 'tl-expanded' || 'tl-collapsed')
           ]">
         <a ng-click="row.expanded = !row.expanded" ng-show="row.childNodes.length > 0">
