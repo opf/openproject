@@ -1,6 +1,6 @@
 
-if TaskboardCardConfiguration.find_by_identifier("default").nil?
-  TaskboardCardConfiguration.create({name: "Default",
+if ExportCardConfiguration.find_by_identifier("default").nil?
+  ExportCardConfiguration.create({name: "Default",
     per_page: 2,
     page_size: "A4",
     orientation: "landscape",

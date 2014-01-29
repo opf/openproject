@@ -1,9 +1,9 @@
 
 require 'spec_helper'
 
-describe 'taskboard_card_configurations/index' do
-  let(:config1) { FactoryGirl.build(:taskboard_card_configuration, name: "Config 1") }
-  let(:config2) { FactoryGirl.build(:taskboard_card_configuration, name: "Config 2") }
+describe 'export_card_configurations/index' do
+  let(:config1) { FactoryGirl.build(:export_card_configuration, name: "Config 1") }
+  let(:config2) { FactoryGirl.build(:export_card_configuration, name: "Config 2") }
 
   before do
     config1.save
@@ -11,7 +11,7 @@ describe 'taskboard_card_configurations/index' do
     assign(:configs, [config1, config2])
   end
 
-  it 'shows taskboard card configurations' do
+  it 'shows export card configurations' do
     render
 
     rendered.should have_selector("a", text: config1.name)

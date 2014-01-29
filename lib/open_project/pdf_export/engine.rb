@@ -23,9 +23,9 @@ module OpenProject::PdfExport
           requires_openproject ">= 3.0.0pre13"
 
           menu :admin_menu,
-            :taskboard_card_configurations,
-            {:controller => '/taskboard_card_configurations', :action => 'index'},
-            {:caption    => :'label_taskboard_card_configuration_plural', :html => {:class => "icon2 icon-tracker"}}
+            :export_card_configurations,
+            {:controller => '/export_card_configurations', :action => 'index'},
+            {:caption    => :'label_export_card_configuration_plural', :html => {:class => "icon2 icon-tracker"}}
         end
       end
     end

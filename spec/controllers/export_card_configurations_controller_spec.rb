@@ -1,12 +1,12 @@
 
 require 'spec_helper'
 
-describe TaskboardCardConfigurationsController do
+describe ExportCardConfigurationsController do
   before do
     @controller.stub(:require_admin) { true }
 
-    @default_config = FactoryGirl.create(:default_taskboard_card_configuration)
-    @custom_config = FactoryGirl.create(:taskboard_card_configuration)
+    @default_config = FactoryGirl.create(:default_export_card_configuration)
+    @custom_config = FactoryGirl.create(:export_card_configuration)
 
     @params = {}
     @valid_rows_yaml = "rows:\n    row1:\n      has_border: false\n      columns:\n        id:\n          has_label: false\n          font_size: \"15\""
@@ -14,7 +14,7 @@ describe TaskboardCardConfigurationsController do
 
   describe 'Create' do
     it 'should let you create a configuration with all the values set' do
-      @params[:taskboard_card_configuration] = {
+      @params[:export_card_configuration] = {
         name: "Config 1",
         rows: @valid_rows_yaml,
         per_page: 5,
@@ -28,7 +28,7 @@ describe TaskboardCardConfigurationsController do
     end
 
     it 'should not let you create an invalid configuration' do
-      @params[:taskboard_card_configuration] = {
+      @params[:export_card_configuration] = {
         name: "Config 1",
       }
       post 'create', @params
@@ -40,7 +40,7 @@ describe TaskboardCardConfigurationsController do
   describe 'Update' do
     it 'should let you update a configuration' do
       @params[:id] = @custom_config.id
-      @params[:taskboard_card_configuration] = { per_page: 4}
+      @params[:export_card_configuration] = { per_page: 4}
       put 'update', @params
 
       response.should redirect_to :action => 'index'
@@ -49,7 +49,7 @@ describe TaskboardCardConfigurationsController do
 
     it 'should not let you update an invalid configuration' do
       @params[:id] = @custom_config.id
-      @params[:taskboard_card_configuration] = { per_page: "string"}
+      @params[:export_card_configuration] = { per_page: "string"}
       put 'update', @params
 
       response.should render_template('edit')
@@ -57,7 +57,7 @@ describe TaskboardCardConfigurationsController do
 
     it 'should not let you update a configuration with invalid rows yaml' do
       @params[:id] = @custom_config.id
-      @params[:taskboard_card_configuration] = { rows: "asdf ',#\""}
+      @params[:export_card_configuration] = { rows: "asdf ',#\""}
       put 'update', @params
 
       response.should render_template('edit')
@@ -78,7 +78,7 @@ describe TaskboardCardConfigurationsController do
       delete 'destroy', @params
 
       response.should redirect_to :action => 'index'
-      flash[:notice].should eql(I18n.t(:error_can_not_delete_taskboard_card_configuration))
+      flash[:notice].should eql(I18n.t(:error_can_not_delete_export_card_configuration))
     end
   end
 end

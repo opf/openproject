@@ -1,4 +1,4 @@
-module OpenProject::PdfExport::TaskboardCard
+module OpenProject::PdfExport::ExportCard
   class CardElement
     include OpenProject::PdfExport::Exceptions
 
@@ -12,7 +12,7 @@ module OpenProject::PdfExport::TaskboardCard
       #       OR if we're going to have boxed groups then this is where they'd be
       @rows = @rows_config["rows"]
 
-      raise BadlyFormedTaskboardCardConfigurationError.new("Badly formed YAML") if @rows.nil?
+      raise BadlyFormedExportCardConfigurationError.new("Badly formed YAML") if @rows.nil?
 
       # Simpler to remove empty rows before calculating the row sizes
       RowElement.prune_empty_rows(@rows, work_package)

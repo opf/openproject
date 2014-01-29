@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe OpenProject::PdfExport::TaskboardCard::DocumentGenerator do
-  let(:config) { TaskboardCardConfiguration.new({
+describe OpenProject::PdfExport::ExportCard::DocumentGenerator do
+  let(:config) { ExportCardConfiguration.new({
     name: "Default",
     per_page: 1,
     page_size: "A4",
@@ -22,7 +22,7 @@ describe OpenProject::PdfExport::TaskboardCard::DocumentGenerator do
   describe "Single work package rendering" do
     before(:each) do
       work_packages = [work_package1]
-      @generator = OpenProject::PdfExport::TaskboardCard::DocumentGenerator.new(config, work_packages)
+      @generator = OpenProject::PdfExport::ExportCard::DocumentGenerator.new(config, work_packages)
     end
 
     it 'shows work package subject' do
@@ -32,7 +32,7 @@ describe OpenProject::PdfExport::TaskboardCard::DocumentGenerator do
 
     it 'shows empty field label' do
       text_analysis = PDF::Inspector::Text.analyze(@generator.render)
-      text_analysis.strings.include?('Non existent:-').should be_true
+      text_analysis.strings.include?('Non existent:').should be_true
     end
 
     it 'should be 1 page' do
@@ -44,7 +44,7 @@ describe OpenProject::PdfExport::TaskboardCard::DocumentGenerator do
   describe "Multiple work package rendering" do
     before(:each) do
       work_packages = [work_package1, work_package2]
-      @generator = OpenProject::PdfExport::TaskboardCard::DocumentGenerator.new(config, work_packages)
+      @generator = OpenProject::PdfExport::ExportCard::DocumentGenerator.new(config, work_packages)
     end
 
     it 'shows work package subject' do

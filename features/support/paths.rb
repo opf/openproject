@@ -8,8 +8,8 @@ module PdfExportNavigationHelpers
   #
   def path_to(page_name)
     case page_name
-    when /^the taskboard card configurations index page$/
-      "/taskboard_card_configurations"
+    when /^the export card configurations index page$/
+      "/export_card_configurations"
 
     else
       super

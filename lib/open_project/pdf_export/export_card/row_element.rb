@@ -1,4 +1,4 @@
-module OpenProject::PdfExport::TaskboardCard
+module OpenProject::PdfExport::ExportCard
   class RowElement
     include OpenProject::PdfExport::Exceptions
 
@@ -10,7 +10,7 @@ module OpenProject::PdfExport::TaskboardCard
       @work_package = work_package
       @column_elements = []
 
-      raise BadlyFormedTaskboardCardConfigurationError.new("Badly formed YAML") if @columns_config.nil?
+      raise BadlyFormedExportCardConfigurationError.new("Badly formed YAML") if @columns_config.nil?
 
       # Initialise column elements
       x_offset = 0

@@ -2,10 +2,10 @@
 <%= header_tags %>
 
 <div class="contextual">
-<%= link_to l(:label_taskboard_card_configuration_new), {:action => 'new'}, :class => 'icon icon-add' %>
+<%= link_to l(:label_export_card_configuration_new), {:action => 'new'}, :class => 'icon icon-add' %>
 </div>
 
-<h2><%=l(:label_taskboard_card_configuration_plural)%></h2>
+<h2><%=l(:label_export_card_configuration_plural)%></h2>
 
 <table class="list">
   <thead>
@@ -28,13 +28,13 @@
   <tbody>
 <% for config in @configs %>
   <tr class="<%= cycle("odd", "even") %>">
-    <td ><%= link_to config.name, edit_pdf_export_taskboard_card_configuration_path(config) %></td>
+    <td ><%= link_to config.name, edit_pdf_export_export_card_configuration_path(config) %></td>
     <td><%= config.page_size %></td>
     <td><%= config.per_page %></td>
     <td><%= config.orientation %></td>
     <td class="buttons">
       <% if config.can_delete? %>
-        <%= link_to pdf_export_taskboard_card_configuration_path(config), :method => :delete, :confirm => t(:text_are_you_sure), :class => 'icon-context icon-delete' do %>
+        <%= link_to pdf_export_export_card_configuration_path(config), :method => :delete, :confirm => t(:text_are_you_sure), :class => 'icon-context icon-delete' do %>
           <%= t(:button_delete) %>
           <span class="hidden-for-sighted"><%=h config.name %></span>
         <% end %>

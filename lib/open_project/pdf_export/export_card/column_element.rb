@@ -1,4 +1,4 @@
-module OpenProject::PdfExport::TaskboardCard
+module OpenProject::PdfExport::ExportCard
   class ColumnElement
     def initialize(pdf, property_name, config, orientation, work_package)
       @pdf = pdf
@@ -22,7 +22,7 @@ module OpenProject::PdfExport::TaskboardCard
       has_label = @config['has_label']
       value = value.to_s if !value.is_a?(String)
       text = ""
-      text = text + "#{@work_package.class.human_attribute_name(@property_name)}:- " if has_label
+      text = text + "#{@work_package.class.human_attribute_name(@property_name)}: " if has_label
       text = text + value
 
       font_size = Integer(@config['font_size']) # TODO: Not safe!

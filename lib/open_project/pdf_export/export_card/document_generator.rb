@@ -1,6 +1,6 @@
 require 'prawn'
 
-module OpenProject::PdfExport::TaskboardCard
+module OpenProject::PdfExport::ExportCard
   class DocumentGenerator
 
     attr_reader :config

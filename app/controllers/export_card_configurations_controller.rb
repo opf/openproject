@@ -1,5 +1,5 @@
 
-class TaskboardCardConfigurationsController < ApplicationController
+class ExportCardConfigurationsController < ApplicationController
   layout 'admin'
 
   before_filter :require_admin
@@ -16,11 +16,11 @@ class TaskboardCardConfigurationsController < ApplicationController
   end
 
   def new
-    @config = TaskboardCardConfiguration.new
+    @config = ExportCardConfiguration.new
   end
 
   def create
-    @config = TaskboardCardConfiguration.new(taskboard_card_configurations_params)
+    @config = ExportCardConfiguration.new(export_card_configurations_params)
     if @config.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'index'
@@ -33,7 +33,7 @@ class TaskboardCardConfigurationsController < ApplicationController
     if cannot_update_default
       flash[:error] = l(:error_can_not_change_name_of_default_configuration)
       render "edit"
-    elsif @config.update_attributes(taskboard_card_configurations_params)
+    elsif @config.update_attributes(export_card_configurations_params)
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'index'
     else
@@ -45,7 +45,7 @@ class TaskboardCardConfigurationsController < ApplicationController
     if !@config.is_default? && @config.destroy
       flash[:notice] = l(:notice_successful_delete)
     else
-      flash[:notice] = l(:error_can_not_delete_taskboard_card_configuration)
+      flash[:notice] = l(:error_can_not_delete_export_card_configuration)
     end
     redirect_to :action => 'index'
   end
@@ -53,18 +53,18 @@ class TaskboardCardConfigurationsController < ApplicationController
   private
 
   def cannot_update_default
-    @config.is_default? && taskboard_card_configurations_params[:name].downcase != "default"
+    @config.is_default? && export_card_configurations_params[:name].downcase != "default"
   end
 
-  def taskboard_card_configurations_params
-    params.require(:taskboard_card_configuration).permit(:name, :rows, :per_page, :page_size, :orientation)
+  def export_card_configurations_params
+    params.require(:export_card_configuration).permit(:name, :rows, :per_page, :page_size, :orientation)
   end
 
   def load_config
-    @config = TaskboardCardConfiguration.find(params[:id])
+    @config = ExportCardConfiguration.find(params[:id])
   end
 
   def load_configs
-    @configs = TaskboardCardConfiguration.all
+    @configs = ExportCardConfiguration.all
   end
 end

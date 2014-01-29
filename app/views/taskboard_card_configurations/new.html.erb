@@ -1,6 +1,0 @@
-
-<h2><%= link_to t(:label_taskboard_card_configuration_plural), pdf_export_taskboard_card_configurations_path %> &#187; <%= t(:label_taskboard_card_configuration_new) %></h2>
-
-<%= form_for @config, :method => :post, url: pdf_export_taskboard_card_configurations_path, :builder => TabularFormBuilder do |f| %>
-  <%= render :partial => 'form', :locals => { :f => f } %>
-<% end %>

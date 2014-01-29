@@ -1,7 +1,7 @@
 OpenProject PDF Export Plugin
 ===========================
 
-This Plugin adds features which enable the configuration and generation of printable taskboard card PDFs.
+This Plugin adds features which enable the configuration and generation of printable export card PDFs.
 
 
 Requirements
@@ -37,7 +37,7 @@ This plugin contains migrations. To migrate the database, run:
 
 `rake db:migrate`
 
-There is a seed file to load a default TaskboardCardConfiguration model, although this is not strictly required.
+There is a seed file to load a default ExportCardConfiguration model, although this is not strictly required.
 
 
 Deinstallation
@@ -57,13 +57,13 @@ support full uninstall of the plugin.
 Usage
 ------------
 
-The plugin provides an admin interface for TaskboardCardConfiguration CRUD. Existing TaskboardCardConfigurations can then be used to export data in PDF form, the configuration defining the layout of the card and the specific data which appears in it. The DocumentGenerator init takes a TaskboardCardConfiguration and an array of any object. It is left to the developer to make sure the fields in the config match the given data. A TaskboardCardConfiguration currently allows for the following fields to be defined:
+The plugin provides an admin interface for ExportCardConfiguration CRUD. Existing ExportCardConfigurations can then be used to export data in PDF form, the configuration defining the layout of the card and the specific data which appears in it. The DocumentGenerator init takes a ExportCardConfiguration and an array of any object. It is left to the developer to make sure the fields in the config match the given data. A ExportCardConfiguration currently allows for the following fields to be defined:
 
 Name - A unique identifier for the configuration.
-Per Page - The number of taskboard cards which will appear on each page of the exported PDF.
+Per Page - The number of export cards which will appear on each page of the exported PDF.
 Page Size - Currently we only support A4 paper size.
 Orientation - Portrait of Landscape.
-Rows - A YAML text block which defines in detail what should appear in each row and column of the taskboard cards.
+Rows - A YAML text block which defines in detail what should appear in each row and column of the export cards.
 
 The following sample YAML shows the required form and all of the available configuration options:
 

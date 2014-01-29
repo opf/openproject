@@ -1,15 +1,15 @@
 
 require 'spec_helper'
 
-describe 'taskboard_card_configurations/edit' do
-  let(:config) { FactoryGirl.build(:taskboard_card_configuration) }
+describe 'export_card_configurations/edit' do
+  let(:config) { FactoryGirl.build(:export_card_configuration) }
 
   before do
     config.save
     assign(:config, config)
   end
 
-  it 'shows edit taskboard card configuration inputs' do
+  it 'shows edit export card configuration inputs' do
     render
 
     rendered.should have_field("Name", with: config.name)

@@ -1,5 +1,5 @@
 
-class TaskboardCardConfiguration < ActiveRecord::Base
+class ExportCardConfiguration < ActiveRecord::Base
 
   class RowsYamlValidator < ActiveModel::Validator
     # Note: For now this is just checking to see if it's valid YAML
@@ -30,7 +30,7 @@ class TaskboardCardConfiguration < ActiveRecord::Base
 
   def rows_hash
     config = YAML::load(rows)
-    raise BadlyFormedTaskboardCardConfigurationError.new("Badly formed YAML") if !config.is_a?(Hash)
+    raise BadlyFormedExportCardConfigurationError.new("Badly formed YAML") if !config.is_a?(Hash)
     config
   end
 
