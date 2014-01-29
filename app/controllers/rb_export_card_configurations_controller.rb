@@ -6,7 +6,7 @@ class RbExportCardConfigurationsController < RbApplicationController
   before_filter :load_project_and_sprint
 
   def index
-    @configs = ExportCardConfiguration.all
+    @configs = ExportCardConfiguration.active
   end
 
   def show
