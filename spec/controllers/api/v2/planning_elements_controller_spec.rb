@@ -551,6 +551,7 @@ describe Api::V2::PlanningElementsController do
 
   describe 'update.xml' do
     let(:project) { FactoryGirl.create(:project, :is_public => false) }
+    let(:work_package) { FactoryGirl.create(:work_package) }
 
     become_admin
 
@@ -569,6 +570,17 @@ describe Api::V2::PlanningElementsController do
       end
       let(:permission) { :edit_work_packages }
       it_should_behave_like "a controller action which needs project permissions"
+    end
+
+    describe 'empty' do
+      before do
+        put :update,
+            project_id: work_package.project_id,
+            id: work_package.id,
+            format: :xml
+      end
+
+      it { expect(response.status).to eq(400) }
     end
 
     describe 'with custom fields' do
