@@ -343,10 +343,9 @@ Given /^the status of "([^"]*)" is "([^"]*)"$/ do |work_package_subject, status_
   s.save!
 end
 
-Given /^there is the single default taskboard card configuration$/ do
-  config = TaskboardCardConfiguration.create!({
+Given /^there is the single default export card configuration$/ do
+  config = ExportCardConfiguration.create!({
     name: "Default",
-    identifier: "DEFAULT",
     per_page: 1,
     page_size: "A4",
     orientation: "landscape",

@@ -1,12 +1,12 @@
 
 <div class='contextual'></div>
 <h2>
-  <%= l(:label_backlogs_taskboard_card_config_select) %>
+  <%= l(:label_backlogs_export_card_config_select) %>
 </h2>
 
 <% @configs.each do |config| %>
   <%= link_to(config.name,
-    :controller => '/rb_taskboard_card_configurations',
+    :controller => '/rb_export_card_configurations',
     :action => 'show',
     :project_id => @project.id,
     :sprint_id => @sprint.id,

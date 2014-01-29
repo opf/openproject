@@ -55,27 +55,27 @@ describe 'rb_master_backlogs/index' do
     stories
   end
 
-  it 'shows link to export with the default taskboard card configuration' do
-    default_taskboard_card_config = FactoryGirl.create(:taskboard_card_configuration)
-    assign(:taskboard_card_config_meta, {
-      default: default_taskboard_card_config,
+  it 'shows link to export with the default export card configuration' do
+    default_export_card_config = FactoryGirl.create(:export_card_configuration)
+    assign(:export_card_config_meta, {
+      default: default_export_card_config,
       count: 1})
 
     render
 
     assert_select ".menu ul.items a" do |a|
-      url = backlogs_project_sprint_taskboard_card_configuration_path(project.identifier, sprint.id, default_taskboard_card_config.id, format: :pdf)
+      url = backlogs_project_sprint_export_card_configuration_path(project.identifier, sprint.id, default_export_card_config.id, format: :pdf)
       a.last.should have_content 'Export'
       a.last.should have_css("a[href='#{url}']")
     end
   end
 
-  it 'shows link to display taskboard card configuration choice modal' do
-    assign(:taskboard_card_config_meta, { count: 2 })
+  it 'shows link to display export card configuration choice modal' do
+    assign(:export_card_config_meta, { count: 2 })
     render
 
     assert_select ".menu ul.items a" do |a|
-      url = backlogs_project_sprint_taskboard_card_configurations_path(project.id, sprint.id)
+      url = backlogs_project_sprint_export_card_configurations_path(project.id, sprint.id)
       a.last.should have_content 'Export'
       a.last.should have_css("a[href='#{url}']")
       a.last.should have_css("a[data-modal]")

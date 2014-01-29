@@ -86,7 +86,7 @@ Feature: Export sprint stories as PDF on the Backlogs view
 
   @javascript
   Scenario: Export sprint stories as a PDF using the default configuration
-    Given there is the single default taskboard card configuration
+    Given there is the single default export card configuration
     And I am on the master backlog
     When I open the "Sprint 001" backlogs menu
     And I follow "Export" of the "Sprint 001" backlogs menu
@@ -94,7 +94,7 @@ Feature: Export sprint stories as PDF on the Backlogs view
 
   @javascript
   Scenario: Export sprint stories as a PDF using a selected configuration
-    Given there are multiple taskboard card configurations
+    Given there are multiple export card configurations
     And I am on the master backlog
     When I open the "Sprint 001" backlogs menu
     And I follow "Export" of the "Sprint 001" backlogs menu

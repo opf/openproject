@@ -35,7 +35,7 @@
 
 class RbStoriesController < RbApplicationController
   unloadable
-  include OpenProject::PdfExport::TaskboardCard
+  include OpenProject::PdfExport::ExportCard
 
   def create
     params['author_id'] = User.current.id

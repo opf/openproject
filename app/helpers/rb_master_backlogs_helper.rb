@@ -82,31 +82,31 @@ module RbMasterBacklogsHelper
                                     :project_id => @project,
                                     :sprint_id => backlog.sprint)
 
-    if @taskboard_card_config_meta[:count] > 0
-      items[:configs] = export_taskboard_cards_link(backlog)
+    if @export_card_config_meta[:count] > 0
+      items[:configs] = export_export_cards_link(backlog)
     end
 
     items
   end
 
-  def export_taskboard_cards_link(backlog)
-    if @taskboard_card_config_meta[:count] == 1
-      link_to(l(:label_backlogs_taskboard_card_export),
-        :controller => '/rb_taskboard_card_configurations',
+  def export_export_cards_link(backlog)
+    if @export_card_config_meta[:count] == 1
+      link_to(l(:label_backlogs_export_card_export),
+        :controller => '/rb_export_card_configurations',
         :action => 'show',
         :project_id => @project,
         :sprint_id => backlog.sprint,
-        :id => @taskboard_card_config_meta[:default],
+        :id => @export_card_config_meta[:default],
         :format => :pdf)
     else
-      taskboard_modal_link(backlog)
+      export_modal_link(backlog)
     end
   end
 
-  def taskboard_modal_link(backlog, options = {})
-    path = backlogs_project_sprint_taskboard_card_configurations_path(@project.id, backlog.sprint.id)
+  def export_modal_link(backlog, options = {})
+    path = backlogs_project_sprint_export_card_configurations_path(@project.id, backlog.sprint.id)
     html_id = "modal_work_package_#{SecureRandom.hex(10)}"
-    link_to(l(:label_backlogs_taskboard_card_export), path, options.merge(:id => html_id, :'data-modal' => ''))
+    link_to(l(:label_backlogs_export_card_export), path, options.merge(:id => html_id, :'data-modal' => ''))
   end
 
   def sprint_backlog_menu_items_for(backlog)

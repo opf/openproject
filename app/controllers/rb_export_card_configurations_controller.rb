@@ -1,18 +1,18 @@
 
-class RbTaskboardCardConfigurationsController < RbApplicationController
+class RbExportCardConfigurationsController < RbApplicationController
   unloadable
-  include OpenProject::PdfExport::TaskboardCard
+  include OpenProject::PdfExport::ExportCard
 
   before_filter :load_project_and_sprint
 
   def index
-    @configs = TaskboardCardConfiguration.all
+    @configs = ExportCardConfiguration.all
   end
 
   def show
-    config = TaskboardCardConfiguration.find(params[:id])
+    config = ExportCardConfiguration.find(params[:id])
 
-    cards_document = OpenProject::PdfExport::TaskboardCard::DocumentGenerator.new(config, @sprint.stories(@project))
+    cards_document = OpenProject::PdfExport::ExportCard::DocumentGenerator.new(config, @sprint.stories(@project))
 
     filename = "#{@project.to_s}-#{@sprint.to_s}-#{Time.now.strftime("%B-%d-%Y")}.pdf"
     respond_to do |format|
