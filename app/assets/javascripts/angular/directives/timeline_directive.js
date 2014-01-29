@@ -1,4 +1,4 @@
-openprojectApp.directive('timeline', ['TimelineLoaderService', function(TimelineLoaderService) {
+openprojectApp.directive('timeline', ['TimelineLoaderService', 'TimelineTableHelper', function(TimelineLoaderService, TimelineTableHelper) {
   return {
     restrict: 'A',
     link: function(scope, element, attributes) {
@@ -47,40 +47,30 @@ openprojectApp.directive('timeline', ['TimelineLoaderService', function(Timeline
         });
       };
 
-      flattenTree = function(root) {
-        nodes = [];
-
-        angular.forEach(root.childNodes, function(node){
-          node.ancestors = [root];
-          if(root.ancestors) node.ancestors = root.ancestors.concat(node.ancestors);
-
-          nodes.push(node);
-          nodes = nodes.concat(flattenTree(node));
-        });
-
-        return nodes;
-      };
-
-      buildTree = function(timeline){
-        if (timeline.isGrouping() && timeline.options.grouping_two_enabled) {
-          timeline.secondLevelGroupingAdjustments();
-        }
-
+      buildWorkPackageTable = function(timeline){
         tree = timeline.getLefthandTree();
 
-        scope.nodes = flattenTree(tree);
-        scope.nodes.unshift(tree);
+        if (tree.containsPlanningElements() || tree.containsProjects()) {
+          if (timeline.isGrouping() && timeline.options.grouping_two_enabled) {
+            timeline.secondLevelGroupingAdjustments();
+          }
 
-        return tree;
+          scope.rows = TimelineTableHelper.getTableRowsFromTimelineTree(tree);
+        } else{
+          scope.rows = [];
+        }
+
+        scope.nodes = scope.rows;
+        return scope.rows;
       };
 
-      drawTree = function(tree) {
+      drawChart = function(tree) {
         timeline = scope.timeline;
 
         try {
           window.clearTimeout(timeline.safetyHook);
 
-          if (tree.containsPlanningElements() || tree.containsProjects()) {
+          if (rows.length > 0) {
             timeline.adjustForPlanningElements();
             completeUI();
           } else {
@@ -89,14 +79,14 @@ openprojectApp.directive('timeline', ['TimelineLoaderService', function(Timeline
         } catch (e) {
           timeline.die(e);
         }
-
       };
 
       // start timeline
       scope.timeline.registerTimelineContainer(element);
+
       TimelineLoaderService.loadTimelineData(scope.timeline)
-        .then(buildTree)
-        .then(drawTree);
+        .then(buildWorkPackageTable)
+        .then(drawChart);
     }
   };
 }]);
