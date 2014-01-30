@@ -51,13 +51,14 @@ openprojectApp.directive('timeline', ['TimelineLoaderService', 'TimelineTableHel
       };
 
       buildWorkPackageTable = function(timeline){
+        if (timeline.isGrouping() && timeline.options.grouping_two_enabled) {
+          timeline.secondLevelGroupingAdjustments();
+        }
+
         tree = timeline.getLefthandTree();
 
         if (tree.containsPlanningElements() || tree.containsProjects()) {
-          if (timeline.isGrouping() && timeline.options.grouping_two_enabled) {
-            timeline.secondLevelGroupingAdjustments();
-          }
-
+          timeline.adjustForPlanningElements();
           scope.rows = TimelineTableHelper.getTableRowsFromTimelineTree(tree);
         } else{
           scope.rows = [];
@@ -74,7 +75,6 @@ openprojectApp.directive('timeline', ['TimelineLoaderService', 'TimelineTableHel
           window.clearTimeout(timeline.safetyHook);
 
           if (rows.length > 0) {
-            timeline.adjustForPlanningElements();
             completeUI();
           } else {
             timeline.warn(I18n.t('js.label_no_data'), 'warning');

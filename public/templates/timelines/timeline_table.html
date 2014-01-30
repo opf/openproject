@@ -29,7 +29,7 @@
           'tl-project-row': rowObject.objectType === 'Project'
         }"
         ng-show="row.ancestors | ancestorsExpanded"
-        ng-if="!(isGrouping && $first)"
+        ng-if="!(hideTreeRoot && $first)"
         ng-hide="rowObject.objectType === 'Project' && excludeEmpty && !row.childNodes">
 
       <td ng-class="[

@@ -9,6 +9,7 @@ openprojectApp.directive('timelineTable', [function() {
       scope.height = scope.timeline.decoHeight();
       scope.excludeEmpty = scope.timeline.options.exclude_empty === 'yes';
       scope.isGrouping = scope.timeline.isGrouping();
+      scope.hideTreeRoot = scope.isGrouping || scope.timeline.options.hide_tree_root;
     }
   };
 }]);
