@@ -137,7 +137,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <div id="helpers">
     <select class="assigned_to_id template" id="assigned_to_id_options">
       <option value=""> </option>
-      <% @project.assignable_users.each do |user| %>
+      <% @project.possible_assignees.each do |user| %>
         <option value="<%= user.id %>" color="<%= get_backlogs_preference(user, :task_color) %>">
           <%= user.name %>
         </option>
