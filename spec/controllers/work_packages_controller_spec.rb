@@ -441,15 +441,15 @@ describe WorkPackagesController do
       # default activity counts as blank as long as everything else is blank too
       put 'update', params.call(work_package.id, default_activity.id)
 
-      response.status.should == 200
-      response.body.should have_content("Successful update")
+      expect(response.status).to eq(200)
+      expect(response.body).to have_content("Successful update")
     end
 
     it 'should still give an error for a non-blank time entry' do
       put 'update', params.call(work_package.id, activity.id)
 
-      response.status.should == 200 # shouldn't this be 400 or similar?
-      response.body.should have_content("Log time is invalid")
+      expect(response.status).to eq(200) # shouldn't this be 400 or similar?
+      expect(response.body).to have_content("Log time is invalid")
     end
   end
 
