@@ -274,7 +274,9 @@ class UsersController < ApplicationController
     @user.status = User::STATUSES[:locked]
     @user.save
 
-    @user.delay.destroy
+    # in order to work with multiple schemas,
+    # we extract jobs into their own classes
+    Delayed::Job.enqueue DeleteUserJob.new(@user.id)
 
     # log the user out if it's a self-delete
     # must be called before setting the flash message
