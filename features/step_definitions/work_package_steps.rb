@@ -127,3 +127,9 @@ Then /^the work package should be shown with the following values:$/ do |table|
     should have_css(".description", :text => table.rows_hash["Description"])
   end
 end
+
+Then(/^the attribute "(.*?)" of work package "(.*?)" should be "(.*?)"$/) do |attribute, wp_name, value|
+  wp = WorkPackage.find_by_subject(wp_name)
+  wp ||= WorkPackages.where("subject like ?", wp_name).to_sql
+  wp.send(attribute).to_s.should == value
+end
