@@ -371,8 +371,15 @@ class WorkPackage < ActiveRecord::Base
     end
   end
 
+  # Users/groups the work_package can be assigned to
+  def assignable_assignees
+    project.possible_assignees
+  end
+
   # Users the work_package can be assigned to
-  delegate :assignable_users, :to => :project
+  def assignable_responsibles
+    project.possible_responsibles
+  end
 
   # Versions that the work_package can be assigned to
   # A work_package can be assigned to:

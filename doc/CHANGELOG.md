@@ -35,6 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3332` [CodeClimate] Mass Assignment AuthSourcesController
 * `#3333` [CodeClimate] Mass Assignment RolesController
 * `#3481` Fix: [Activity] Not possible to unselect all filters
+* `#3854` Move function and Query filters allows to select groups as responsible
 * `#3974` [Timelines] Typo at creating timelines
 
 ## 3.0.0pre43
