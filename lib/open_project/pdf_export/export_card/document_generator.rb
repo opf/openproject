@@ -38,6 +38,7 @@ module OpenProject::PdfExport::ExportCard
 
     def render_pages
       card_padding = 10
+      group_padding = 5
       text_padding = 5
       card_width = pdf.bounds.width - (card_padding * 2)
       card_height = ((pdf.bounds.height - (card_padding * config.per_page )) / config.per_page) - (card_padding / config.per_page)
@@ -50,6 +51,7 @@ module OpenProject::PdfExport::ExportCard
           width: card_width,
           height: card_height,
           card_padding: card_padding,
+          group_padding: group_padding,
           text_padding: text_padding
         }
 

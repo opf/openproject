@@ -11,7 +11,7 @@ module OpenProject::PdfExport::ExportCard
       @work_package = work_package
       @row_elements = []
 
-      current_y_offset = 0 # OR text padding?
+      current_y_offset = 0
       row_heights = @orientation[:row_heights]
 
       @rows_config.each_with_index do |(r_key, r_value), i|
@@ -19,7 +19,7 @@ module OpenProject::PdfExport::ExportCard
         row_orientation = {
           y_offset: @orientation[:height] - current_y_offset,
           x_offset: 0,
-          width: @orientation[:width],
+          width: @orientation[:width] - (@orientation[:group_padding] * 2),
           height: row_heights[i],
           text_padding: @orientation[:text_padding]
         }
@@ -29,8 +29,10 @@ module OpenProject::PdfExport::ExportCard
     end
 
     def draw
-      top_left = [@orientation[:x_offset], @orientation[:y_offset]]
+      padding = @orientation[:group_padding]
+      top_left = [@orientation[:x_offset] + padding, @orientation[:y_offset]]
       bounds = @orientation.slice(:width, :height)
+      bounds[:width] -= padding * 2
 
       @pdf.bounding_box(top_left, bounds) do
         @pdf.stroke_color '000000'
@@ -40,7 +42,9 @@ module OpenProject::PdfExport::ExportCard
           row.draw
         end
 
-        @pdf.stroke_bounds
+        if (@config["has_border"] or false)
+          @pdf.stroke_bounds
+        end
       end
 
     end

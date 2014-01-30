@@ -30,6 +30,7 @@ module OpenProject::PdfExport::ExportCard
       heights = assign_row_heights(rows)
 
       text_padding = @orientation[:text_padding]
+      group_padding = @orientation[:group_padding]
       current_row = 0
       current_y_offset = text_padding
 
@@ -44,7 +45,8 @@ module OpenProject::PdfExport::ExportCard
           width: @orientation[:width],
           height: group_height,
           row_heights: row_heights,
-          text_padding: text_padding
+          text_padding: text_padding,
+          group_padding: group_padding
         }
         @group_elements << GroupElement.new(@pdf, group_orientation, g_value, @work_package)
 
@@ -74,9 +76,8 @@ module OpenProject::PdfExport::ExportCard
 
     def reduce_low_priority_rows(rows, assigned_heights, diffs, conflicted_i)
       # Get an array of row indexes sorted by inverse priority
-      # TODO RS: The priority should be on the row, not the column
       priorities = *(0..rows.count - 1)
-        .zip(rows.map { |k, v| first_column_property(v, "priority") or 10 })
+        .zip(rows.map { |k, v| v["priority"] or 10 })
         .sort {|x,y| y[1] <=> x[1]}
         .map {|x| x[0]}
 
