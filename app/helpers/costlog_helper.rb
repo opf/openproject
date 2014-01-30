@@ -42,7 +42,7 @@ module CostlogHelper
   end
 
   def user_collection_for_select_options(options = {})
-    users = @project.assignable_users
+    users = @project.possible_assignees
     collection = []
     users.each { |u| collection << [u.name, u.id] }
     collection
