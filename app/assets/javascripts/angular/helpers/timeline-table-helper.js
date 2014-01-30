@@ -3,8 +3,18 @@ openprojectApp.factory('TimelineTableHelper', [function() {
     this.options = options;
   };
 
-  NodeFilter.prototype.excludeNode = function(node) {
+  NodeFilter.prototype.memberOfHiddenOtherGroup = function(node) {
     return this.options && this.options.hide_other_group === 'yes' && node.level === 1 && node.payload.objectType === 'Project' && node.payload.getFirstLevelGrouping() === 0;
+  };
+
+  NodeFilter.prototype.hiddenOrFilteredOut = function(node) {
+    var nodeObject = node.payload;
+
+    return nodeObject.hide() || nodeObject.filteredOut();
+  };
+
+  NodeFilter.prototype.nodeExcluded = function(node) {
+    return this.hiddenOrFilteredOut(node) || this.memberOfHiddenOtherGroup(node);
   };
 
   TimelineTableHelper = {
@@ -50,7 +60,7 @@ openprojectApp.factory('TimelineTableHelper', [function() {
       // add relevant information to tree root serving as first row
       TimelineTableHelper.addRowDataToNode(tree);
 
-      rows = TimelineTableHelper.flattenTimelineTree(tree, function(node) { return nodeFilter.excludeNode(node); }, TimelineTableHelper.addRowDataToNode);
+      rows = TimelineTableHelper.flattenTimelineTree(tree, function(node) { return nodeFilter.nodeExcluded(node); }, TimelineTableHelper.addRowDataToNode);
       rows.unshift(tree);
 
       return rows;

@@ -339,7 +339,6 @@ openprojectApp.factory('UI', ['$timeout', function($timeout) {
       this.scrollbar_height = (h - hh);
       return this.scrollbar_height;
     },
-
     escape: function(string) {
       return jQuery('<div/>').text(string).html();
     },
