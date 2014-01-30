@@ -61,7 +61,7 @@ See doc/COPYRIGHT.rdoc for more details.
 </p>
 <p>
   <label for='work_package_responsible_id'><%= WorkPackage.human_attribute_name(:responsible) %></label>
-  <%= select_tag('work_package[responsible]', content_tag('option', l(:label_no_change_option), :value => '') +
+  <%= select_tag('work_package[responsible_id]', content_tag('option', l(:label_no_change_option), :value => '') +
                                  content_tag('option', l(:label_nobody), :value => 'none') +
                                  options_from_collection_for_select(@responsibles, :id, :name)) %>
 </p>
