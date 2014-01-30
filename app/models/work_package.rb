@@ -933,7 +933,7 @@ class WorkPackage < ActiveRecord::Base
     return true if attributes.nil?
     key = "activity_id"
     id = attributes[key]
-    default_id = if id
+    default_id = if id && !id.blank?
       Enumeration.exists? :id => id, :is_default => true, :type => 'TimeEntryActivity'
     else
       true
