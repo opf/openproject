@@ -513,8 +513,8 @@ module WorkPackagesHelper
   end
 
   def work_package_form_responsible_attribute(form, work_package, locals = {})
-    WorkPackageAttribute.new(:assignee,
-                             form.select(:responsible_id, options_for_responsible(locals[:project]), :include_blank => true))
+    WorkPackageAttribute.new(:responsible,
+                             form.select(:responsible_id, work_package.assignable_responsibles.map {|m| [m.name, m.id]}, :include_blank => true))
   end
 
   def work_package_form_category_attribute(form, work_package, locals = {})
