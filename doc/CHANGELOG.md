@@ -31,8 +31,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#2018` Cleanup journal tables
 * `#2244` Fix: [Accessibility] correctly label document language - custom fields
+* `#2594` Fix: [Activity] Too many filter selects than necessary
 * `#3332` [CodeClimate] Mass Assignment AuthSourcesController
 * `#3333` [CodeClimate] Mass Assignment RolesController
+* `#3481` Fix: [Activity] Not possible to unselect all filters
 * `#3974` [Timelines] Typo at creating timelines
 
 ## 3.0.0pre43
