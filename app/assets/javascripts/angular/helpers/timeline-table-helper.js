@@ -22,11 +22,13 @@ openprojectApp.factory('TimelineTableHelper', [function() {
       }
 
       // first level group
-      if(node.payload.objectType === 'Project') {
+      isNested = node.level >= 2;
+      if (node.payload.objectType === 'Project' && !isNested) {
         node.firstLevelGroup        = node.payload.getFirstLevelGrouping();
         node.firstLevelGroupingName = node.payload.getFirstLevelGroupingName();
       } else {
-        node.firstLevelGroup        = parent.firstLevelGroup;
+        // inherit group from parent
+        node.firstLevelGroup = parent.firstLevelGroup;
       }
     },
 

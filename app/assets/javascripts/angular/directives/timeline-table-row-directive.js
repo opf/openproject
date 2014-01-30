@@ -4,7 +4,10 @@ openprojectApp.directive('timelineTableRow', [function() {
     // TODO restrict to 'E' once https://github.com/angular/angular.js/issues/1459 is solved
     scope: true,
     link: function(scope, element, attributes) {
-      scope.rowObject = scope.row.payload;
+      var rowObject = scope.row.payload;
+
+      scope.rowObject = rowObject;
+      scope.changeDetected = rowObject.objectType === 'PlanningElement' && (rowObject.hasAlternateDates() || rowObject.isNewlyAdded() || rowObject.isDeleted());
       scope.indent = scope.hideTreeRoot ? scope.row.level-1 : scope.row.level;
 
       // set dom element

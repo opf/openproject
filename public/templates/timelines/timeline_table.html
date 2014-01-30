@@ -2,9 +2,7 @@
   <thead>
     <tr>
       <th class="tl-first-column" ng-style="{height: height}">{{I18n.t('js.timelines.filter.column.name')}}</th>
-      <th ng-repeat="key in columns">
-        {{I18n.t('js.timelines.filter.column.' + key)}}
-      </th>
+      <th ng-repeat="key in columns">{{I18n.t('js.timelines.filter.column.' + key)}}</th>
     </tr>
   </thead>
 
@@ -25,7 +23,6 @@
         ng-class="{
           'tl-first-row': $first,
           'tl-last-row': $last,
-          'tl-grouping': isGrouping,
           'tl-project-row': rowObject.objectType === 'Project'
         }"
         ng-show="row.ancestors | ancestorsExpanded"
@@ -42,19 +39,17 @@
         </a>
 
         <span class="tl-word-ellipsis">
-          <span>
+          <span ng-if="changeDetected">
             <a title="{{I18n.t('js.timelines.change')}}"
                ng-class="{
-                 'icon tl-icon-added': rowObject.objectType === 'PlanningElement' && rowObject.isNewlyAdded(),
-                 'icon tl-icon-deleted': rowObject.objectType === 'PlanningElement' && rowObject.isDeleted(),
-                 'icon tl-icon-changed': rowObject.objectType === 'PlanningElement' && rowObject.hasAlternateDates()
+                 'icon tl-icon-added': rowObject.isNewlyAdded(),
+                 'icon tl-icon-deleted': rowObject.isDeleted(),
+                 'icon tl-icon-changed': !rowObject.isDeleted() && !rowObject.isNewlyAdded()
                }" />
           </span>
 
           <span>
-            <a modal title="{{row.text}}" target="row.url" ng-class="{'tl-discreet-link': true, 'tl-project': rowObject.objectType === 'Project'}">
-              {{row.text}}
-            </a>
+            <a modal title="{{row.text}}" target="row.url" ng-class="{'tl-discreet-link': true, 'tl-project': rowObject.objectType === 'Project'}">{{row.text}}</a>
           </span>
         </span>
       </td>
