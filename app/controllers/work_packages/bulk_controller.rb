@@ -44,6 +44,7 @@ class WorkPackages::BulkController < ApplicationController
     @available_statuses = @projects.map{|p|Workflow.available_statuses(p)}.inject{|memo,w|memo & w}
     @custom_fields = @projects.map{|p|p.all_work_package_custom_fields}.inject{|memo,c|memo & c}
     @assignables = @projects.map(&:possible_assignees).inject{|memo,a| memo & a}
+    @responsibles = @projects.map(&:possible_responsibles).inject{|memo,a| memo & a}
     @types = @projects.map(&:types).inject{|memo,t| memo & t}
   end
 
