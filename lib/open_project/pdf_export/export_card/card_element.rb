@@ -5,13 +5,9 @@ module OpenProject::PdfExport::ExportCard
     def initialize(pdf, orientation, groups_config, work_package)
       @pdf = pdf
       @orientation = orientation
-      # @rows_config = rows_config
       @groups_config = groups_config
       @work_package = work_package
       @group_elements = []
-      # TODO: This is redundant, the has should just be the rows
-      #       OR if we're going to have boxed groups then this is where they'd be
-      # @groups = @rows_config["rows"]
 
       # raise BadlyFormedExportCardConfigurationError.new("Badly formed YAML") if @rows.nil?
 
@@ -77,7 +73,7 @@ module OpenProject::PdfExport::ExportCard
     def reduce_low_priority_rows(rows, assigned_heights, diffs, conflicted_i)
       # Get an array of row indexes sorted by inverse priority
       priorities = *(0..rows.count - 1)
-        .zip(rows.map { |k, v| v["priority"] or 10 })
+        .zip(rows.map { |row| row["priority"] or 10 })
         .sort {|x,y| y[1] <=> x[1]}
         .map {|x| x[0]}
 
@@ -97,11 +93,6 @@ module OpenProject::PdfExport::ExportCard
       return false
     end
 
-    def first_column_property(row_hash, property)
-      k, v = row_hash["columns"].first
-      v[property]
-    end
-
     def exchange(heights, diffs, a, b, v)
       heights[a] -= v
       heights[b] += v
@@ -113,15 +104,21 @@ module OpenProject::PdfExport::ExportCard
       # Calculate minimum user assigned heights...
       min_heights = Array.new(rows.count)
       rows.each_with_index do |row, i|
-        # min lines * font height (first col) # TODO: get the biggest one
-        k, v = row["columns"].first
-        min_lines = v["minimum_lines"]
-        min_lines ||= 1
-        font_size = v["font_size"]
-        font_size ||= 10
-        min_heights[i] = (@pdf.font.height_at(font_size) * min_lines).floor
+        min_heights[i] = min_row_height(row)
       end
       min_heights
+    end
+
+    def min_row_height(row)
+      # Look through each of the row's columns for the column with the largest minimum height
+      largest = 0
+      row["columns"].each do |rk, rv|
+        min_lines = rv["minimum_lines"] || 1
+        font_size = rv["min_font_size"] || rv["font_size"] || 10
+        min_col_height = (@pdf.font.height_at(font_size) * min_lines).floor
+        largest = min_col_height if min_col_height > largest
+      end
+      largest
     end
 
     def draw
