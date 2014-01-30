@@ -1,13 +1,25 @@
 openprojectApp.factory('TimelineTableHelper', [function() {
+  var NodeFilter = function(options) {
+    this.options = options;
+  };
+
+  NodeFilter.prototype.excludeNode = function(node) {
+    return this.options && this.options.hide_other_group === 'yes' && node.level === 1 && node.payload.objectType === 'Project' && node.payload.getFirstLevelGrouping() === 0;
+  };
+
   TimelineTableHelper = {
-    flattenTimelineTree: function(root, processNodeCallback){
+    flattenTimelineTree: function(root, filterCallback, processNodeCallback){
       var nodes = [];
 
       angular.forEach(root.childNodes, function(node){
-        if (processNodeCallback) processNodeCallback(node, root);
+        if (!filterCallback(node)) {
+          // add relevant information to row
+          if (processNodeCallback) processNodeCallback(node, root);
 
-        nodes.push(node);
-        nodes = nodes.concat(TimelineTableHelper.flattenTimelineTree(node, processNodeCallback));
+          // add subtree to nodes
+          nodes.push(node);
+          nodes = nodes.concat(TimelineTableHelper.flattenTimelineTree(node, filterCallback, processNodeCallback));
+        }
       });
 
       return nodes;
@@ -32,10 +44,13 @@ openprojectApp.factory('TimelineTableHelper', [function() {
       }
     },
 
-    getTableRowsFromTimelineTree: function(tree) {
+    getTableRowsFromTimelineTree: function(tree, options) {
+      nodeFilter = new NodeFilter(options);
+
+      // add relevant information to tree root serving as first row
       TimelineTableHelper.addRowDataToNode(tree);
 
-      rows = TimelineTableHelper.flattenTimelineTree(tree, TimelineTableHelper.addRowDataToNode);
+      rows = TimelineTableHelper.flattenTimelineTree(tree, function(node) { return nodeFilter.excludeNode(node); }, TimelineTableHelper.addRowDataToNode);
       rows.unshift(tree);
 
       return rows;

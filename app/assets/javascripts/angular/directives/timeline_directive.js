@@ -59,7 +59,7 @@ openprojectApp.directive('timeline', ['TimelineLoaderService', 'TimelineTableHel
 
         if (tree.containsPlanningElements() || tree.containsProjects()) {
           timeline.adjustForPlanningElements();
-          scope.rows = TimelineTableHelper.getTableRowsFromTimelineTree(tree);
+          scope.rows = TimelineTableHelper.getTableRowsFromTimelineTree(tree, timeline.options);
         } else{
           scope.rows = [];
         }
