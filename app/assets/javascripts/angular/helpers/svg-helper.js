@@ -39,10 +39,19 @@
 
 openprojectApp.factory('SvgHelper', [function() {
 
+  var asSvgNode = function(elementName) {
+    var node = document.createElementNS('http://www.w3.org/2000/svg', elementName);
+    return jQuery(node);
+  }
+
   var SvgTextHelper = function(top, left, text) {
-    this.node = jQuery('<text/>');
+    this.node = asSvgNode('text');
     this.translate(left, top);
     this.setText(text);
+  };
+
+  SvgTextHelper.prototype.toString = function() {
+    return "SvgTextHelper";
   };
 
   SvgTextHelper.prototype.getNode = function() {
@@ -66,12 +75,50 @@ openprojectApp.factory('SvgHelper', [function() {
     return this.node.attr.apply(this.node, arguments);
   };
 
+  SvgTextHelper.prototype.insertAfter = function() {
+    return this.node.insertAfter.apply(this.node, arguments);
+  };
+
+  SvgTextHelper.prototype.getBBox = function() {
+    // [0] is for the actual, unwrapped DOM node, since jQuery doesn't
+    // forward methods limited to SVG elements.
+    return this.node[0].getBBox();
+  }
+
+  var SvgRectHelper = function(top, left, width, height) {
+    this.node = asSvgNode('rect').attr({
+      'x': left,
+      'y': top,
+      'width': width,
+      'height': height
+    });
+  };
+
+  SvgRectHelper.prototype.translate = function(left, top) {
+    this.node.attr({
+      'x': left,
+      'y': top
+    });
+    return this;
+  };
+
+  SvgRectHelper.prototype.toString = function() {
+    return "SvgRectHelper";
+  };
+
   var SvgHelper = (function() {
 
     var SvgHelper = function(node) {
-      this.root = jQuery('<svg width="640" height="480"/>');
+      this.root = asSvgNode('svg').attr({
+        'width': 640,
+        'height': 480
+      });
       jQuery(node).append(this.root);
-    }
+    };
+
+    SvgHelper.prototype.toString = function() {
+      return "SvgHelper";
+    };
 
     SvgHelper.prototype.clear = function() {
       this.root.empty();
@@ -85,18 +132,13 @@ openprojectApp.factory('SvgHelper', [function() {
     };
 
     SvgHelper.prototype.rect = function(left, top, width, height) {
-      var node = jQuery('<rect/>').attr({
-        'x': left,
-        'y': top,
-        'width': width,
-        'height': height
-      });
-      this.root.append(node);
+      var node = new SvgTextHelper(left, top, width, height);
+      this.root.append(node.getNode());
       return node;
     };
 
     SvgHelper.prototype.path = function(direction) {
-      var node = jQuery('<path/>').attr({
+      var node = asSvgNode('path').attr({
         'd': direction
       });
       this.root.append(node);
