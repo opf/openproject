@@ -39,6 +39,12 @@ describe ActivitiesController do
   end
 
   describe 'index' do
+    shared_examples_for 'valid index response' do
+      it { expect(response).to be_success }
+
+      it { expect(response).to render_template 'index' }
+    end
+
     describe 'global' do
       let(:work_package) { FactoryGirl.create(:work_package) }
       let!(:journal) { FactoryGirl.create(:work_package_journal,
@@ -53,11 +59,9 @@ describe ActivitiesController do
 
       before { get 'index' }
 
-      it { expect(response).to be_success }
+      it_behaves_like 'valid index response'
 
-      it { expect(response).to render_template 'index' }
-
-      it { expect(assigns(:event_by_day)).to be_nil }
+      it { expect(assigns(:events_by_day)).not_to be_empty }
 
       describe 'view' do
         render_views
@@ -71,6 +75,14 @@ describe ActivitiesController do
                                          child: { tag: "a",
                                          :content => /#{ERB::Util.html_escape(work_package.subject)}/ } } }
         end
+      end
+
+      describe 'empty filter selection' do
+        before { get 'index', apply: true }
+
+        it_behaves_like 'valid index response'
+
+        it { expect(assigns(:events_by_day)).to be_empty }
       end
     end
 
@@ -94,6 +106,12 @@ describe ActivitiesController do
         response.status.should == 403
         response.should render_template 'common/error'
       end
+    end
+
+    shared_context 'index with params' do
+      let(:session_values) { defined?(session_hash) ? session_hash : {} }
+
+      before { get :index, params, session_values }
     end
 
     describe :atom_feed do
@@ -129,7 +147,7 @@ describe ActivitiesController do
           let(:params) { { project_id: project.id,
                            format: :atom } }
 
-          before { get :index, params }
+          include_context 'index with params'
 
           it { expect(assigns(:items).count).to eq(2) }
 
@@ -145,14 +163,51 @@ describe ActivitiesController do
         let!(:message_2) { FactoryGirl.create(:message,
                                               board: board) }
         let(:params) { { project_id: project.id,
+                         apply: true,
                          show_messages: 1,
                          format: :atom } }
 
-        before { get :index, params }
+        include_context 'index with params'
 
         it { expect(assigns(:items).count).to eq(2) }
 
         it { expect(response).to render_template("common/feed") }
+      end
+    end
+
+    describe 'user selection' do
+      describe 'first activity request' do
+        let(:default_scope) { ['work_packages', 'changesets'] }
+        let(:params) { {} }
+
+        include_context 'index with params'
+
+        it { expect(assigns(:activity).scope).to match_array(default_scope) }
+
+        it { expect(session[:activity]).to match_array(default_scope) }
+      end
+
+      describe 'subsequent activity requests' do
+        let(:scope) { [] }
+        let(:params) { {} }
+        let(:session_hash) { { activity: [] } }
+
+        include_context 'index with params'
+
+        it { expect(assigns(:activity).scope).to match_array(scope) }
+
+        it { expect(session[:activity]).to match_array(scope) }
+      end
+
+      describe 'selection with apply' do
+        let(:scope) { [] }
+        let(:params) { { apply: true } }
+
+        include_context 'index with params'
+
+        it { expect(assigns(:activity).scope).to match_array(scope) }
+
+        it { expect(session[:activity]).to match_array(scope) }
       end
     end
   end
