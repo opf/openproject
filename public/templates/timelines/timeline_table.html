@@ -12,9 +12,7 @@
         ng-if="isGrouping"
         ng-show="showGroupingLabel()">
       <td class="tl-grouping" colspan="{{columns.length + 1}}">
-        <span class="tl-word-ellipsis">
-          {{row.firstLevelGroupingName}}
-        </span>
+        <span class="tl-word-ellipsis">{{row.firstLevelGroupingName}}</span>
       </td>
     </tr>
 
@@ -34,9 +32,7 @@
             'tl-indent-' + indent,
             row.childNodes.length > 0 && (row.isExpanded() && 'tl-expanded' || 'tl-collapsed')
           ]">
-        <a ng-click="row.expanded = !row.expanded" ng-show="row.childNodes.length > 0">
-          {{row.expanded && '-' || '+'}}
-        </a>
+        <a ng-click="row.expanded = !row.expanded" ng-if="row.childNodes.length > 0">{{row.expanded && '-' || '+'}}</a>
 
         <span class="tl-word-ellipsis">
           <span ng-if="changeDetected">
