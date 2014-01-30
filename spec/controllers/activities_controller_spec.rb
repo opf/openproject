@@ -57,7 +57,7 @@ describe ActivitiesController do
                                                                   type_id: work_package.type_id,
                                                                   project_id: work_package.project_id)) }
 
-      before { get 'index', show_work_packages: true }
+      before { get 'index' }
 
       it_behaves_like 'valid index response'
 
@@ -78,7 +78,7 @@ describe ActivitiesController do
       end
 
       describe 'empty filter selection' do
-        before { get 'index' }
+        before { get 'index', apply: true }
 
         it_behaves_like 'valid index response'
 
@@ -108,6 +108,12 @@ describe ActivitiesController do
       end
     end
 
+    shared_context 'index with params' do
+      let(:session_values) { defined?(session_hash) ? session_hash : {} }
+
+      before { get :index, params, session_values }
+    end
+
     describe :atom_feed do
       let(:user) { FactoryGirl.create(:user) }
       let(:project) { FactoryGirl.create(:project) }
@@ -123,7 +129,7 @@ describe ActivitiesController do
           before do
             Setting.stub(:host_name).and_return 'test.host'
 
-            get 'index', format: 'atom', show_work_packages: true
+            get 'index', format: 'atom'
           end
 
           it do
@@ -139,10 +145,9 @@ describe ActivitiesController do
                                            author: user) }
 
           let(:params) { { project_id: project.id,
-                           format: :atom,
-                           show_work_packages: true } }
+                           format: :atom } }
 
-          before { get :index, params }
+          include_context 'index with params'
 
           it { expect(assigns(:items).count).to eq(2) }
 
@@ -158,14 +163,51 @@ describe ActivitiesController do
         let!(:message_2) { FactoryGirl.create(:message,
                                               board: board) }
         let(:params) { { project_id: project.id,
+                         apply: true,
                          show_messages: 1,
                          format: :atom } }
 
-        before { get :index, params }
+        include_context 'index with params'
 
         it { expect(assigns(:items).count).to eq(2) }
 
         it { expect(response).to render_template("common/feed") }
+      end
+    end
+
+    describe 'user selection' do
+      describe 'first activity request' do
+        let(:default_scope) { ['work_packages', 'changesets'] }
+        let(:params) { {} }
+
+        include_context 'index with params'
+
+        it { expect(assigns(:activity).scope).to match_array(default_scope) }
+
+        it { expect(session[:activity]).to match_array(default_scope) }
+      end
+
+      describe 'subsequent activity requests' do
+        let(:scope) { [] }
+        let(:params) { {} }
+        let(:session_hash) { { activity: [] } }
+
+        include_context 'index with params'
+
+        it { expect(assigns(:activity).scope).to match_array(scope) }
+
+        it { expect(session[:activity]).to match_array(scope) }
+      end
+
+      describe 'selection with apply' do
+        let(:scope) { [] }
+        let(:params) { { apply: true } }
+
+        include_context 'index with params'
+
+        it { expect(assigns(:activity).scope).to match_array(scope) }
+
+        it { expect(session[:activity]).to match_array(scope) }
       end
     end
   end
