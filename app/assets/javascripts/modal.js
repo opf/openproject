@@ -101,6 +101,8 @@ var ModalHelper = (function() {
         this.hideLoadingModal();
         this.loadingModal = false;
 
+        body.trap();
+
         body.on("keyup", function (e) {
           if (e.which == 27) {
             modalHelper.close();
