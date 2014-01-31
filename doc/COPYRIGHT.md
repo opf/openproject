@@ -1,6 +1,6 @@
 OpenProject PDF Export Plugin
 
-This Plugin adds features to export story cards from the OpenProject Backlogs plugin.
+This Plugin adds features which enable the configuration and generation of printable export card PDFs.
 
 Copyright (C)2014 the OpenProject Foundation (OPF)
 Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
