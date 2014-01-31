@@ -31,6 +31,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h2><%=  Workflow.model_name.human %></h2>
 
+<%= render :partial => 'layouts/action_menu_specific' %>
+
 <% if @workflow_counts.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>

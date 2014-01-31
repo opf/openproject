@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% content_for :action_menu_main do %>
+<% content_for :action_menu_specific do %>
   <%= li_unless_nil(link_to_if_authorized(l(:button_copy),
                                           { :controller => "copy_projects",
                                             :action => "copy_project",
@@ -35,3 +35,4 @@ See doc/COPYRIGHT.rdoc for more details.
                                           :class => 'copy icon icon-copy',
                                           :accesskey => accesskey(:copy))) %>
 <% end %>
+<%= render :partial => 'layouts/action_menu_specific' %>

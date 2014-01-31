@@ -30,15 +30,17 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= header_tags %>
 <% html_title(l('timelines.associations')) %>
 
-<div class='contextual'>
+<% content_for :action_menu_specific do %>
   <%= link_to_if_authorized(l("timelines.new_association"),
                             { :action => :new },
                             { :title => l("timelines.new_association"),
                               :class => ("icon icon-add")
                             }) %>
-</div>
+<% end %>
 
 <h2><%= l('timelines.associations') %></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
 
 <% @project_types.each do |project_type| %>
   <% project_assocs = @project_associations_by_type[project_type] %>

@@ -28,10 +28,11 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% breadcrumb_paths(l(:label_my_account)) %>
-<div class="contextual">
-<%= call_hook(:view_my_account_contextual, :user => @user)%>
-</div>
+<% content_for :action_menu_specific do %>
+  <%= call_hook(:view_my_account_contextual, :user => @user)%>
+<% end %>
 <h2><%=l(:label_my_account)%></h2>
+<%= render :partial => 'layouts/action_menu_specific' %>
 <%= error_messages_for 'user' %>
 
 <%= form_for @user, :as => :user, :url => { :action => "account" },

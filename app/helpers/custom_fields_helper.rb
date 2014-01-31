@@ -66,6 +66,8 @@ module CustomFieldsHelper
       text_field_tag(field_name, custom_value.value, :id => field_id)
     end
 
+    tag = content_tag :span, tag, lang: custom_field.name_locale
+
     custom_value.errors.empty? ?
       tag :
       ActionView::Base.wrap_with_error_span(tag, custom_value, "value")
@@ -76,7 +78,8 @@ module CustomFieldsHelper
     content_tag "label", h(custom_value.custom_field.name) +
       (custom_value.custom_field.is_required? ? content_tag("span", ' *', :class => "required") : ""),
       :for => "#{name}_custom_field_values_#{custom_value.custom_field.id}",
-      :class => (custom_value.errors.empty? ? nil : "error" )
+      :class => (custom_value.errors.empty? ? nil : "error" ),
+      :lang => custom_value.custom_field.name_locale
   end
 
   def blank_custom_field_label_tag(name, custom_field)

@@ -112,6 +112,26 @@ function toggle_custom_field_format() {
   }
 }
 
+function initLocaleChangeListener() {
+jQuery(".locale_selector").each(function (index) {
+    var localeSelector = jQuery(this);
+
+    localeSelector.change(function () {
+      localeSelector.children("option:selected").each(function () {
+        //alert(jQuery(this).attr('value'));
+        var span = jQuery(jQuery(this).parents("span.translation")[0])
+
+        if (typeof span.attr('lang') !== 'undefined') {
+          span.removeAttr('lang');
+        }
+
+        span.attr('lang', jQuery(this).attr('value'));
+      });
+    });
+
+    localeSelector.change();
+});
+}
 //]]>
 </script>
 
@@ -214,3 +234,4 @@ function toggle_custom_field_format() {
 <%= call_hook(:"view_custom_fields_form_#{@custom_field.type.to_s.underscore}", :custom_field => @custom_field, :form => f) %>
 </div>
 <%= javascript_tag "toggle_custom_field_format();" %>
+<%= javascript_tag "initLocaleChangeListener();" %>

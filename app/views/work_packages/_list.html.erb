@@ -105,7 +105,7 @@ See doc/COPYRIGHT.rdoc for more details.
       </td>
 
       <% query.columns.each do |column| %>
-        <%= content_tag 'td', column_content(column, work_package), :class => column.name %>
+        <%= content_tag 'td', column_content(column, work_package), :class => column.name, :lang => column_locale(column) %>
       <% end %>
     </tr>
 

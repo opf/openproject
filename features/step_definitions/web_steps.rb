@@ -394,11 +394,7 @@ Then /^there should not be a "(.+)" field$/ do |fieldname|
 end
 
 Then /^there should be a "(.+)" button$/ do |button_label|
-  if defined?(Spec::Rails::Matchers)
-    page.should have_xpath("//input[@value='#{button_label}']")
-  else
-    raise NotImplementedError, "Only Matcher implemented"
-  end
+  page.should have_xpath("//input[@value='#{button_label}']")
 end
 
 Then /^the "([^\"]*)" select(?: within "([^\"]*)")? should have the following options:$/ do |field, selector, option_table|
@@ -408,12 +404,7 @@ Then /^the "([^\"]*)" select(?: within "([^\"]*)")? should have the following op
 
     field = find_field(field)
     options_actual = field.all('option').collect(&:text)
-
-    if defined?(Spec::Rails::Matchers)
-      options_actual.should =~ options_expected
-    else
-      raise NotImplementedError, "Only Matcher implemented"
-    end
+    options_actual.should =~ options_expected
   end
 end
 

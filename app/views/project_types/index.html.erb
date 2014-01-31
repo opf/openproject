@@ -29,15 +29,17 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= header_tags %>
 
-<div class='contextual'>
+<% content_for :action_menu_specific do %>
   <%= link_to(l("timelines.new_project_type"),
               new_project_type_path,
               :title => l("timelines.new_project_type"),
               :class => 'icon icon-add') %>
-</div>
+<% end %>
 
 <% html_title l("timelines.admin_menu.project_types") %>
 <h2><%= l("timelines.admin_menu.project_types") %></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
 
 <% if @project_types.blank? %>
   <p class="nodata"><%= l(:label_no_data) %></p>

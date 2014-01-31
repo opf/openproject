@@ -38,6 +38,14 @@ class WorkPackagesPage
     visit index_path
   end
 
+  def visit_show(id)
+    visit work_package_path(id)
+  end
+
+  def visit_edit(id)
+    visit edit_work_package_path(id)
+  end
+
   def click_work_packages_menu_item
     find('#main-menu .work-packages').click
   end
