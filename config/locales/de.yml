@@ -742,6 +742,7 @@ de:
   label_work_package_category_plural: "Arbeitspaket-Kategorien"
   label_work_package_hierarchy: "Arbeitspaket-Hierarchie"
   label_work_package_new: "Neues Arbeitspaket"
+  label_work_package_edit: "Arbeitspaket %{name} editieren"
   label_work_package_plural: "Arbeitspakete"
   label_work_package_status_new: "Neuer Status"
   label_work_package_status_plural: "Arbeitspaket-Status"
