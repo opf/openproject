@@ -79,7 +79,7 @@ class WorkPackage < ActiveRecord::Base
   }
 
   scope :changed_since, lambda { |changed_since|
-    changed_since ? where(["updated_at >= ?", changed_since]) : nil
+    changed_since ? where(["#{WorkPackage.table_name}.updated_at >= ?", changed_since]) : nil
   }
 
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
