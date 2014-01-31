@@ -2,7 +2,7 @@
 FactoryGirl.define do
   factory :export_card_configuration do
     name "Config 1"
-    rows "rows:\n    row1:\n      has_border: false\n      columns:\n        id:\n          has_label: false\n          font_size: \"15\""
+    rows "group1:\n  has_border: false\n  rows:\n    row1:\n      height: 50\n      priority: 1\n      columns:\n        id:\n          has_label: false"
     per_page 5
     page_size "A4"
     orientation "landscape"
@@ -11,7 +11,7 @@ FactoryGirl.define do
   factory :default_export_card_configuration, :class => ExportCardConfiguration do
     name "Default"
     active true
-    rows "rows:\n    row1:\n      has_border: false\n      columns:\n        id:\n          has_label: false\n          font_size: \"15\""
+    rows "group1:\n  has_border: false\n  rows:\n    row1:\n      height: 50\n      priority: 1\n      columns:\n        id:\n          has_label: false"
     per_page 5
     page_size "A4"
     orientation "landscape"
@@ -28,7 +28,7 @@ FactoryGirl.define do
   factory :active_export_card_configuration, :class => ExportCardConfiguration do
     name "Config active"
     active true
-    rows "rows:\n    row1:\n      has_border: false\n      columns:\n        id:\n          has_label: false\n          font_size: \"15\""
+    rows "group1:\n  has_border: false\n  rows:\n    row1:\n      height: 50\n      priority: 1\n      columns:\n        id:\n          has_label: false"
     per_page 5
     page_size "A4"
     orientation "landscape"
@@ -37,7 +37,7 @@ FactoryGirl.define do
   factory :inactive_export_card_configuration, :class => ExportCardConfiguration do
     name "Config inactive"
     active false
-    rows "rows:\n    row1:\n      has_border: false\n      columns:\n        id:\n          has_label: false\n          font_size: \"15\""
+    rows "group1:\n  has_border: false\n  rows:\n    row1:\n      height: 50\n      priority: 1\n      columns:\n        id:\n          has_label: false"
     per_page 5
     page_size "A4"
     orientation "landscape"

@@ -22,7 +22,7 @@ Feature: export card configurations Admin
     And I fill in "Config 1" for "export_card_configuration_name"
     And I fill in "5" for "export_card_configuration_per_page"
     And I select "landscape" from "export_card_configuration_orientation"
-    And I fill in "rows:" for "export_card_configuration_rows"
+    And I fill in valid YAML for export config rows
     And I submit the form by the "Create" button
     Then I should see "Successful creation." within ".flash.notice"
 
@@ -34,7 +34,7 @@ Feature: export card configurations Admin
     When I follow first "Custom 2"
     And I fill in "5" for "export_card_configuration_per_page"
     And I select "portrait" from "export_card_configuration_orientation"
-    And I fill in "rows:" for "export_card_configuration_rows"
+    And I fill in valid YAML for export config rows
     And I submit the form by the "Save" button
     Then I should see "Successful update." within ".flash.notice"
 

@@ -68,36 +68,59 @@ Rows - A YAML text block which defines in detail what should appear in each row 
 The following sample YAML shows the required form and all of the available configuration options:
 
 <pre>
-rows:
-  row1:
-    has_border: false
-    columns:
-      id:
-        has_label: false
-        font_size: 20
-        font_style: bold
-        priority: 1
-        minimum_lines: 2
-        render_if_empty: false
-        width: 30%
-      due_date:
-        has_label: false
-        font_size: 15
-        font_style: italic
-        priority: 1
-        minimum_lines: 2
-        render_if_empty: false
-        width: 70%
-  row2:
-    has_border: false
-    columns:
-      status:
-        has_label: true
-        font_size: 15
-        font_style: normal
-        priority: 2
-        minimum_lines: 1
-        render_if_empty: true
+group1:
+  has_border: false
+  rows:
+    row1:
+      priority: 1
+      columns:
+        id:
+          has_label: false
+          min_font_size: 10
+          max_font_size: 20
+          font_size: 20
+          font_style: bold
+          text_align: left
+          minimum_lines: 2
+          render_if_empty: false
+          width: 30%
+        due_date:
+          has_label: false
+          font_size: 15
+          font_style: italic
+          minimum_lines: 2
+          render_if_empty: false
+          width: 70%
+    row2:
+      priority: 2
+      columns:
+        status:
+          has_label: true
+          font_size: 15
+          font_style: normal
+          minimum_lines: 1
+          render_if_empty: true
+group2:
+  has_border: true
+  rows:
+    row1:
+      priority: 2
+      columns:
+        description:
+          has_label: true
+          font_size: 15
+          font_style: normal
+          minimum_lines: 1
+          render_if_empty: true
+    row2:
+      priority: 2
+      columns:
+        status:
+          has_label: true
+          font_size: 15
+          font_style: normal
+          minimum_lines: 1
+          render_if_empty: true
 </pre>
 
 Any number of rows can be defined. The font_size and minimum_lines properties define how much height on the card is given to the row. The plugin will attempt to assign enough space to each of the rows, however space will be assigned based on the priorities of the the rows, with rows with lower priority (higher numbers) being reduced and removed first if there is not enough for all the data.

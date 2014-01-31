@@ -2,10 +2,47 @@
 class ExportCardConfiguration < ActiveRecord::Base
 
   class RowsYamlValidator < ActiveModel::Validator
-    # Note: For now this is just checking to see if it's valid YAML
+    REQUIRED_GROUP_KEYS = ["rows"]
+    VALID_GROUP_KEYS = ["rows", "has_border"]
+    REQUIRED_ROW_KEYS = ["columns"]
+    VALID_ROW_KEYS = ["columns", "height", "priority"]
+    # TODO: Security Consideration
+    # Should we define which model properties are visible and if so how?
+    # VALID_MODEL_PROPERTIES = [""]
+    REQUIRED_COLUMN_KEYS = []
+    VALID_COLUMN_KEYS = ["has_label", "min_font_size", "max_font_size",
+      "font_size", "font_style", "text_align", "minimum_lines", "render_if_empty",
+      "width"]
+
+    def assert_required_keys(hash, valid_keys, required_keys)
+      hash.assert_valid_keys valid_keys
+      pending_keys = required_keys - hash.keys
+      raise(ArgumentError, "Required key(s) not present: #{pending_keys.join(", ")}") unless pending_keys.empty?
+    end
+
     def validate(record)
       if record.rows.nil? || !(YAML::load(record.rows)).is_a?(Hash)
-        record.errors[:rows] << "Rows YAML is badly formed."
+        record.errors[:rows] << "YAML is badly formed."
+        return false
+      end
+
+      begin
+        groups = YAML::load(record.rows)
+        groups.each do |gk, gv|
+          assert_required_keys(gv, VALID_GROUP_KEYS, REQUIRED_GROUP_KEYS)
+          if gv.has_key?("rows") && gv["rows"].is_a?(Hash)
+            gv["rows"].each do |rk, rv|
+              assert_required_keys(rv, VALID_ROW_KEYS, REQUIRED_ROW_KEYS)
+              if rv.has_key?("columns") && rv["columns"].is_a?(Hash)
+                rv["columns"].each do |ck, cv|
+                  assert_required_keys(cv, VALID_COLUMN_KEYS, REQUIRED_COLUMN_KEYS)
+                end
+              end
+            end
+          end
+        end
+      rescue ArgumentError => e
+        record.errors[:rows] << "YAML error: #{e.message}"
       end
     end
   end

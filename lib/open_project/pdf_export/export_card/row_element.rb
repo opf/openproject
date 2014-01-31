@@ -52,8 +52,23 @@ module OpenProject::PdfExport::ExportCard
 
     end
 
+    def self.prune_empty_groups(groups, wp)
+      # Prune rows in groups
+      groups.each do |gk, gv|
+        self.prune_empty_rows(gv["rows"], wp)
+      end
+
+      # Prune empty groups
+      groups.each do |gk, gv|
+        if gv["rows"].count == 0
+          groups.delete(gk)
+        end
+      end
+    end
+
     def self.prune_empty_rows(rows, wp)
-      rows.each_with_index do |(rk, rv), i|
+      rows.each do |rk, rv|
+        # TODO RS: This is still only checking the first column, need to check all
         ck, cv = rv["columns"].first
         if is_empty_column(ck, cv, wp)
           rows.delete(rk)

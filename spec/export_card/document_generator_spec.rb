@@ -6,7 +6,7 @@ describe OpenProject::PdfExport::ExportCard::DocumentGenerator do
     per_page: 1,
     page_size: "A4",
     orientation: "landscape",
-    rows: "rows:\n    row1:\n      has_border: false\n      columns:\n        subject:\n          has_label: false\n          font_size: 15\n    row2:\n      has_border: false\n      columns:\n        non_existent:\n          has_label: false\n          font_size: 15\n          has_label: true\n          render_if_empty: true"
+    rows: "group1:\n  has_border: false\n  rows:\n    row1:\n      height: 50\n      priority: 1\n      columns:\n        subject:\n          has_label: false\n          font_size: 15\n    row2:\n      height: 50\n      priority: 1\n      columns:\n        non_existent:\n          has_label: true\n          font_size: 15\n          render_if_empty: true"
   })}
 
   let(:work_package1) { WorkPackage.new({
