@@ -32,6 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2018` Cleanup journal tables
 * `#2244` Fix: [Accessibility] correctly label document language - custom fields
 * `#2594` Fix: [Activity] Too many filter selects than necessary
+* `#3215` Datepicker - Timelines calendar weeks out of sync
 * `#3332` [CodeClimate] Mass Assignment AuthSourcesController
 * `#3333` [CodeClimate] Mass Assignment RolesController
 * `#3438` Activity default value makes log time required
