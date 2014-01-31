@@ -349,6 +349,6 @@ Given /^there is the single default export card configuration$/ do
     per_page: 1,
     page_size: "A4",
     orientation: "landscape",
-    rows: "rows:\n    row1:\n      has_border: false\n      columns:\n        id:\n          has_label: false\n          font_size: 15"
+    rows: "group1:\n  has_border: false\n  rows:\n    row1:\n      height: 50\n      priority: 1\n      columns:\n        id:\n          has_label: false"
   })
 end
