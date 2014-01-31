@@ -19,12 +19,6 @@ module OpenProject::PdfExport::ExportCard
     end
 
     def draw_value(value)
-      has_label = @config['has_label']
-      value = value.to_s if !value.is_a?(String)
-      text = ""
-      text = text + "#{@work_package.class.human_attribute_name(@property_name)}: " if has_label
-      text = text + value
-
       # Font size
       if @config['font_size']
         # Specific size given
@@ -49,17 +43,58 @@ module OpenProject::PdfExport::ExportCard
       font_style = (@config['font_style'] or "normal").to_sym
       text_align = (@config['text_align'] or "left").to_sym
 
-      # Draw on pdf
-      offset = [@orientation[:x_offset], @orientation[:height] - (@orientation[:text_padding] / 2)]
-      box = @pdf.text_box(text,
-        {:height => @orientation[:height],
-         :width => @orientation[:width],
-         :at => offset,
-         :style => font_style,
-         :overflow => overflow,
-         :size => font_size,
-         :min_font_size => min_font_size,
-         :align => text_align})
+      # Label and text
+      has_label = @config['has_label']
+      indented = @config['indented']
+      value = value.to_s if !value.is_a?(String)
+      label_text = if has_label
+                     "#{@work_package.class.human_attribute_name(@property_name)}: "
+                   else
+                     ""
+                   end
+
+      if has_label && indented
+        width_ratio = 0.2 # Note: I don't think it's worth having this in the config
+
+        # Label Textbox
+        offset = [@orientation[:x_offset], @orientation[:height] - (@orientation[:text_padding] / 2)]
+        box = @pdf.text_box(label_text,
+          {:height => @orientation[:height],
+           :width => @orientation[:width] * width_ratio,
+           :at => offset,
+           :style => :bold,
+           :overflow => overflow,
+           :size => font_size,
+           :min_font_size => min_font_size,
+           :align => :left})
+
+        # Content Textbox
+        offset = [@orientation[:x_offset] + (@orientation[:width] * width_ratio), @orientation[:height] - (@orientation[:text_padding] / 2)]
+        box = @pdf.text_box(value,
+          {:height => @orientation[:height],
+           :width => @orientation[:width] * (1 - width_ratio),
+           :at => offset,
+           :style => font_style,
+           :overflow => overflow,
+           :size => font_size,
+           :min_font_size => min_font_size,
+           :align => text_align})
+      else
+        text = label_text + value
+
+        # Label and Content Textbox
+        offset = [@orientation[:x_offset], @orientation[:height] - (@orientation[:text_padding] / 2)]
+        box = @pdf.text_box(text,
+          {:height => @orientation[:height],
+           :width => @orientation[:width],
+           :at => offset,
+           :style => font_style,
+           :overflow => overflow,
+           :size => font_size,
+           :min_font_size => min_font_size,
+           :align => text_align})
+      end
+
     end
 
   end
