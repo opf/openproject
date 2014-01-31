@@ -77,7 +77,7 @@ Then(/^the project "(.*?)" should follow after "(.*?)"$/) do |project_name_one, 
   }
 
   elements = find_lowest_containing_element project_name_one, ".tl-word-ellipsis"
-  elements[-1].should have_xpath("preceding::span[@class='tl-word-ellipsis']/descendant-or-self::*[text()='#{project_name_two}']")
+  elements[-1].should have_xpath("preceding::span[contains(@class,'tl-word-ellipsis')]/descendant-or-self::*[text()='#{project_name_two}']")
 end
 
 Then(/^I should see the project "(.*?)"$/) do |project_name|
