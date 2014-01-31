@@ -27,10 +27,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div id="{{getTimelineContainerElementId()}}">
-  <%= render 'toolbar' %>
-  <timeline-container/>
-</div>
+<timeline-container>
+  <timeline-toolbar></timeline-toolbar>
+  <timeline-table-container/>
+</timeline-container>
 
 <% unless User.current.impaired? %>
   <%# TODO: Require autocompleter inside select_boxes.js
