@@ -11,7 +11,7 @@ describe ExportCardConfigurationsController do
     @inactive_config = FactoryGirl.create(:inactive_export_card_configuration)
 
     @params = {}
-    @valid_rows_yaml = "rows:\n    row1:\n      has_border: false\n      columns:\n        id:\n          has_label: false\n          font_size: \"15\""
+    @valid_rows_yaml = "group1:\n  has_border: false\n  rows:\n    row1:\n      height: 50\n      priority: 1\n      columns:\n        id:\n          has_label: false"
   end
 
   describe 'Create' do
