@@ -45,17 +45,45 @@ describe Api::V2::UsersController do
   shared_examples_for "valid user API call" do
     it { expect(assigns(:users).size).to eq(user_count) }
 
-    it { expect(response).to render_template('api/v2/users/index', :formats => ["api"]) }
+    it { expect(response).to render_template('api/v2/users/index', formats: ["api"]) }
   end
 
   describe 'index.json' do
+    describe 'scopes' do
+      shared_examples_for "no scope provided" do
+        it { expect(response.status).to eq(400) }
+      end
+
+      context "no scope" do
+        before { get 'index', format: :json }
+
+        it_behaves_like "no scope provided"
+      end
+
+      context "empty scope" do
+        before { get 'index', ids: "", format: :json }
+
+        it_behaves_like "no scope provided"
+      end
+
+      context "filled scope" do
+        before { get 'index', ids: "1", format: :json }
+
+        it_behaves_like "valid user API call" do
+          let(:user_count) { 0 }
+        end
+      end
+    end
+
     describe 'with 3 users' do
+      let(:ids) { User.all.collect(&:id).join(',') }
+
       before { 3.times { FactoryGirl.create(:user) } }
 
       context 'as an admin' do
         include_context "As an admin"
 
-        before { get 'index', :format => 'json' }
+        before { get 'index', ids: ids, format: :json }
 
         it_behaves_like "valid user API call" do
           let(:user_count) { 4 }
@@ -65,7 +93,7 @@ describe Api::V2::UsersController do
       context 'as a normal user' do
         include_context "As a normal user"
 
-        before { get 'index', :format => 'json' }
+        before { get 'index', ids: ids, :format => 'json' }
 
         it_behaves_like "valid user API call" do
           let(:user_count) { 4 }
