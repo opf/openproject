@@ -225,6 +225,56 @@ describe Api::V2::PlanningElementsController do
           end
         end
       end
+
+      describe 'changed since' do
+        let!(:work_package) do
+          work_package = Timecop.travel(5.hours.ago) do
+            wp = FactoryGirl.create(:work_package)
+            wp.save!
+            wp
+          end
+
+          work_package.subject = "Changed now!"
+          work_package.save!
+          work_package
+        end
+
+        become_admin { [work_package.project] }
+
+        shared_context 'get work packages changed since' do
+          before { get 'index', project_id: work_package.project_id, changed_since: timestamp,  format: 'xml' }
+        end
+
+        describe 'valid timestamp' do
+          shared_examples_for 'valid timestamp' do
+            let(:timestamp) { (work_package.updated_at - 5.seconds).to_i }
+
+            include_context 'get work packages changed since'
+            
+            it { expect(assigns(:planning_elements).collect(&:id)).to match_array([work_package.id]) }
+          end
+
+          shared_examples_for 'valid but early timestamp' do
+            let(:timestamp) { (work_package.updated_at + 5.seconds).to_i }
+
+            include_context 'get work packages changed since'
+            
+            it { expect(assigns(:planning_elements)).to be_empty }
+          end
+
+          it_behaves_like 'valid timestamp'
+
+          it_behaves_like 'valid but early timestamp'
+        end
+
+        describe 'invalid timestamp' do
+          let(:timestamp) { 'eeek' }
+
+          include_context 'get work packages changed since'
+
+          it { expect(response.status).to eq(400) }
+        end
+      end
     end
 
     describe 'w/ list of projects' do
