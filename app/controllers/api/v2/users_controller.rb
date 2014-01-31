@@ -19,7 +19,7 @@ module Api
       private
 
       def check_scope_supplied
-        render_400 if params.select { |k,v| UserSearchService.search_scopes.include? k }
+        render_400 if params.select { |k,v| UserSearchService::SEARCH_SCOPES.include? k }
                             .select { |k,v| not v.blank? }
                             .empty?
       end
