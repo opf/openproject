@@ -1,5 +1,14 @@
 openprojectApp.controller('TimelinesController', ['$scope', '$window', 'Timeline', function($scope, $window, Timeline) {
 
+  getInitialOutlineExpansion = function(timelineOptions) {
+    initialOutlineExpansion = timelineOptions.initial_outline_expansion;
+    if (initialOutlineExpansion && initialOutlineExpansion >= 0) {
+      return initialOutlineExpansion;
+    } else {
+      return 0;
+    }
+  };
+
   $scope.switchTimeline = function() {
     $window.location.href = $scope.timelines[$scope.currentTimelineId].path;
   };
@@ -10,17 +19,17 @@ openprojectApp.controller('TimelinesController', ['$scope', '$window', 'Timeline
   $scope.currentTimelineId = gon.current_timeline_id;
   $scope.timelines = gon.timelines;
   $scope.timelineOptions = gon.timeline_options;
-  $scope.timelineOptions.initial_outline_expansion || ($scope.timelineOptions.initial_outline_expansion = '3');
 
-
-  // Get timelines stuff into scope
+  // Get timelines stuff into scope and apply defaults
   $scope.slider = null;
   $scope.underConstruction = true;
-  $scope.currentOutlineLevel = 'level3';
   $scope.currentScaleName = 'monthly';
 
   // Create timeline
   $scope.timeline = Timeline.create($scope.timelineOptions);
+
+  // Set initial expansion index
+  $scope.timeline.expansionIndex = getInitialOutlineExpansion($scope.timelineOptions);
 
   // Provide id for timeline container
   $scope.timelineContainerNo = 1;
@@ -57,4 +66,5 @@ openprojectApp.controller('TimelinesController', ['$scope', '$window', 'Timeline
       $scope.currentScaleIndex--;
     }
   };
+
 }]);
