@@ -2,8 +2,7 @@ openprojectApp.directive('timeline', ['TimelineLoaderService', 'TimelineTableHel
   return {
     restrict: 'E',
     replace: true,
-    transclude: true,
-    template: '<div ng-transclude ng-class="{timeline: true, \'tl-under-construction\': underConstruction}" />',
+    templateUrl: '/templates/timelines/timeline.html',
     link: function(scope, element, attributes) {
       updateToolbar = function() {
         scope.slider.slider('value', scope.timeline.zoomIndex + 1);
