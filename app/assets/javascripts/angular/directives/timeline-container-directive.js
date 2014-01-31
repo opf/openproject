@@ -1,8 +1,8 @@
-openprojectApp.directive('timeline', ['TimelineLoaderService', 'TimelineTableHelper', function(TimelineLoaderService, TimelineTableHelper) {
+openprojectApp.directive('timelineContainer', ['TimelineLoaderService', 'TimelineTableHelper', function(TimelineLoaderService, TimelineTableHelper) {
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: '/templates/timelines/timeline.html',
+    templateUrl: '/templates/timelines/timeline_container.html',
     link: function(scope, element, attributes) {
       updateToolbar = function() {
         scope.slider.slider('value', scope.timeline.zoomIndex + 1);
