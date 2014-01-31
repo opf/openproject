@@ -411,6 +411,48 @@ describe WorkPackagesController do
     end
   end
 
+  describe 'update w/ a time entry' do
+    render_views
+
+    let(:admin) { FactoryGirl.create(:admin) }
+    let(:work_package) { FactoryGirl.create(:work_package) }
+    let(:default_activity) { FactoryGirl.create(:default_activity) }
+    let(:activity) { FactoryGirl.create(:activity) }
+    let(:params) do
+      lambda do |work_package_id, activity_id|
+        {
+          :id => work_package_id,
+          :work_package => {
+            :time_entry => {
+              :hours => '',
+              :comments => '',
+              :activity_id => activity_id
+            }
+          }
+        }
+      end
+    end
+
+    before do
+      User.stub(:current).and_return admin
+    end
+
+    it 'should not try to create a time entry if blank' do
+      # default activity counts as blank as long as everything else is blank too
+      put 'update', params.call(work_package.id, default_activity.id)
+
+      expect(response.status).to eq(200)
+      expect(response.body).to have_content("Successful update")
+    end
+
+    it 'should still give an error for a non-blank time entry' do
+      put 'update', params.call(work_package.id, activity.id)
+
+      expect(response.status).to eq(200) # shouldn't this be 400 or similar?
+      expect(response.body).to have_content("Log time is invalid")
+    end
+  end
+
   describe 'update.html' do
     let(:wp_params) { { :wp_attribute => double('wp_attribute') } }
     let(:params) { { :id => stub_work_package.id, :work_package => wp_params } }

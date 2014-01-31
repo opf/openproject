@@ -93,6 +93,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <p><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%></label></p>
     <% end %>
     <%= hidden_field_tag('user_id', params[:user_id]) unless params[:user_id].blank? %>
+    <%= hidden_field_tag('apply', true) %>
     <p><%= submit_tag l(:button_apply), :class => 'button-small', :name => nil %></p>
   <% end %>
 <% end %>
