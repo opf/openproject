@@ -64,7 +64,6 @@ openprojectApp.directive('timeline', ['TimelineLoaderService', 'TimelineTableHel
           scope.rows = [];
         }
 
-        scope.nodes = scope.rows;
         return scope.rows;
       };
 
