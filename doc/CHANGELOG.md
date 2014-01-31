@@ -36,6 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3332` [CodeClimate] Mass Assignment AuthSourcesController
 * `#3333` [CodeClimate] Mass Assignment RolesController
 * `#3438` Activity default value makes log time required
+* `#3451` API references hidden users
 * `#3481` Fix: [Activity] Not possible to unselect all filters
 * `#3730` Setting responsible via bulk edit
 * `#3731` Setting responsible via context menu
