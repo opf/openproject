@@ -181,18 +181,27 @@ describe WorkPackages::ContextMenusController do
       end
     end
 
-    shared_examples_for :assigned_to do
-      let(:assigned_to_link) { "/work_packages/bulk?#{ids_link}"\
-                               "&amp;work_package%5Bassigned_to_id%5D=#{user.id}" }
-
+    shared_examples_for :assignee_or_responsible do
+      let(:link) { "/work_packages/bulk?#{ids_link}"\
+                               "&amp;work_package%5B#{assignee_or_responsible}_id%5D=#{user.id}" }
       before { get :index, ids: ids }
 
       it do
         assert_tag tag: 'a',
                    content: user.name,
-                   attributes: { href: assigned_to_link,
+                   attributes: { href: link,
                                  :class => '' }
       end
+    end
+
+    shared_examples_for :assigned_to do
+      let(:assignee_or_responsible) { "assigned_to"}
+      include_examples :assignee_or_responsible
+    end
+
+    shared_examples_for :responsible do
+      let(:assignee_or_responsible) { "responsible"}
+      include_examples :assignee_or_responsible
     end
 
     shared_examples_for :duplicate do
@@ -262,6 +271,8 @@ describe WorkPackages::ContextMenusController do
 
       it_behaves_like :assigned_to
 
+      it_behaves_like :responsible
+
       it_behaves_like :duplicate
 
       it_behaves_like :copy
@@ -300,6 +311,8 @@ describe WorkPackages::ContextMenusController do
 
         it_behaves_like :assigned_to
 
+        it_behaves_like :responsible
+
         it_behaves_like :copy
 
         it_behaves_like :move
@@ -328,6 +341,8 @@ describe WorkPackages::ContextMenusController do
           it_behaves_like :priority
 
           it_behaves_like :assigned_to
+
+          it_behaves_like :responsible
 
           it_behaves_like :delete
         end

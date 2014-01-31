@@ -40,11 +40,12 @@ class JournalObserverTest < ActiveSupport::TestCase
                                :member_in_project => @project
     @issue = FactoryGirl.create :work_package,
                                 :project => @project,
-                                :author => @user, 
+                                :author => @user,
                                 :type => @type,
                                 :status => @workflow.old_status
 
     @user.members.first.roles << @workflow.role
+    @user.reload
 
     User.stubs(:current).returns(@user)
 
@@ -57,7 +58,7 @@ class JournalObserverTest < ActiveSupport::TestCase
       assert_difference('ActionMailer::Base.deliveries.size', +1) do
         @issue.add_journal(@user)
         @issue.subject = "A change to the issue"
-        assert @issue.save
+        assert @issue.save(validate: false)
       end
     end
 
@@ -66,7 +67,7 @@ class JournalObserverTest < ActiveSupport::TestCase
       assert_no_difference('ActionMailer::Base.deliveries.size') do
         @issue.add_journal(@user)
         @issue.subject = "A change to the issue"
-        assert @issue.save
+        assert @issue.save(validate: false)
       end
     end
   end
@@ -78,7 +79,7 @@ class JournalObserverTest < ActiveSupport::TestCase
       Setting.notified_events = ['issue_note_added']
       assert_difference('ActionMailer::Base.deliveries.size', +1) do
         @issue.add_journal(@user, 'This update has a note')
-        assert @issue.save
+        assert @issue.save(validate: false)
       end
     end
 
@@ -86,7 +87,7 @@ class JournalObserverTest < ActiveSupport::TestCase
       Setting.notified_events = []
       assert_no_difference('ActionMailer::Base.deliveries.size') do
         @issue.add_journal(@user, 'This update has a note')
-        assert @issue.save
+        assert @issue.save(validate: false)
       end
     end
   end
@@ -97,7 +98,7 @@ class JournalObserverTest < ActiveSupport::TestCase
       assert_difference('ActionMailer::Base.deliveries.size', +1) do
         @issue.add_journal(@user)
         @issue.status = @workflow.new_status
-        assert @issue.save
+        assert @issue.save(validate: false)
       end
     end
 
@@ -106,7 +107,7 @@ class JournalObserverTest < ActiveSupport::TestCase
       assert_no_difference('ActionMailer::Base.deliveries.size') do
         @issue.add_journal(@user)
         @issue.status = @workflow.new_status
-        assert @issue.save
+        assert @issue.save(validate: false)
       end
     end
   end
@@ -117,7 +118,7 @@ class JournalObserverTest < ActiveSupport::TestCase
       assert_difference('ActionMailer::Base.deliveries.size', +1) do
         @issue.add_journal(@user)
         @issue.priority = IssuePriority.generate!
-        assert @issue.save
+        assert @issue.save(validate: false)
       end
     end
 
@@ -126,7 +127,7 @@ class JournalObserverTest < ActiveSupport::TestCase
       assert_no_difference('ActionMailer::Base.deliveries.size') do
         @issue.add_journal(@user)
         @issue.priority = IssuePriority.generate!
-        assert @issue.save
+        assert @issue.save(validate: false)
       end
     end
   end

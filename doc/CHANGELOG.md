@@ -31,10 +31,19 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#2018` Cleanup journal tables
 * `#2244` Fix: [Accessibility] correctly label document language - custom fields
+* `#2594` Fix: [Activity] Too many filter selects than necessary
+* `#3215` Datepicker - Timelines calendar weeks out of sync
 * `#3332` [CodeClimate] Mass Assignment AuthSourcesController
 * `#3333` [CodeClimate] Mass Assignment RolesController
+* `#3438` Activity default value makes log time required
+* `#3481` Fix: [Activity] Not possible to unselect all filters
+* `#3730` Setting responsible via bulk edit
+* `#3731` Setting responsible via context menu
+* `#3844` Fixed Work Package status translation
 * `#3865` Detailed filters on dates
+* `#3854` Move function and Query filters allows to select groups as responsible
 * `#3974` [Timelines] Typo at creating timelines
+* `#4023` [Accessibility] Keep keyboard focus within modal while it's open
 
 ## 3.0.0pre43
 
