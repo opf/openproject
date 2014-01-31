@@ -41,6 +41,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3844` Fixed Work Package status translation
 * `#3854` Move function and Query filters allows to select groups as responsible
 * `#3974` [Timelines] Typo at creating timelines
+* `#4023` [Accessibility] Keep keyboard focus within modal while it's open
 
 ## 3.0.0pre43
 
