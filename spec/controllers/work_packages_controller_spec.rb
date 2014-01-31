@@ -186,7 +186,11 @@ describe WorkPackagesController do
 
           controller.should_receive(:send_data).with(mock_csv,
                                                      :type => 'text/csv; header=present',
-                                                     :filename => 'export.csv').and_call_original
+                                                     :filename => 'export.csv') do |*args|
+            # We need to render something because otherwise
+            # the controller will and he will not find a suitable template
+            controller.render :text => "success"
+          end
         end
 
         it 'should fulfill the defined should_receives' do
@@ -207,7 +211,11 @@ describe WorkPackagesController do
 
           controller.should_receive(:send_data).with(mock_pdf,
                                                      :type => 'application/pdf',
-                                                     :filename => 'export.pdf').and_call_original
+                                                     :filename => 'export.pdf') do |*args|
+            # We need to render something because otherwise
+            # the controller will and he will not find a suitable template
+            controller.render :text => "success"
+          end
         end
 
         it 'should fulfill the defined should_receives' do
@@ -222,7 +230,11 @@ describe WorkPackagesController do
 
       requires_export_permission do
         before do
-          controller.should_receive(:render_feed).with(work_packages, anything()).and_call_original
+          controller.should_receive(:render_feed).with(work_packages, anything()) do |*args|
+            # We need to render something because otherwise
+            # the controller will and he will not find a suitable template
+            controller.render :text => "success"
+          end
         end
 
         it 'should fulfill the defined should_receives' do
@@ -265,7 +277,11 @@ describe WorkPackagesController do
         WorkPackage::Exporter.should_receive(:work_package_to_pdf).and_return(pdf)
         controller.should_receive(:send_data).with(pdf,
                                                    :type => 'application/pdf',
-                                                   :filename => expected_name).and_call_original
+                                                   :filename => expected_name) do |*args|
+          # We need to render something because otherwise
+          # the controller will and he will not find a suitable template
+          controller.render :text => "success"
+        end
         call_action
       end
     end
@@ -392,6 +408,48 @@ describe WorkPackagesController do
 
         response.should render_template('work_packages/edit', :formats => ["html"], :layout => :base)
       end
+    end
+  end
+
+  describe 'update w/ a time entry' do
+    render_views
+
+    let(:admin) { FactoryGirl.create(:admin) }
+    let(:work_package) { FactoryGirl.create(:work_package) }
+    let(:default_activity) { FactoryGirl.create(:default_activity) }
+    let(:activity) { FactoryGirl.create(:activity) }
+    let(:params) do
+      lambda do |work_package_id, activity_id|
+        {
+          :id => work_package_id,
+          :work_package => {
+            :time_entry => {
+              :hours => '',
+              :comments => '',
+              :activity_id => activity_id
+            }
+          }
+        }
+      end
+    end
+
+    before do
+      User.stub(:current).and_return admin
+    end
+
+    it 'should not try to create a time entry if blank' do
+      # default activity counts as blank as long as everything else is blank too
+      put 'update', params.call(work_package.id, default_activity.id)
+
+      expect(response.status).to eq(200)
+      expect(response.body).to have_content("Successful update")
+    end
+
+    it 'should still give an error for a non-blank time entry' do
+      put 'update', params.call(work_package.id, activity.id)
+
+      expect(response.status).to eq(200) # shouldn't this be 400 or similar?
+      expect(response.body).to have_content("Log time is invalid")
     end
   end
 

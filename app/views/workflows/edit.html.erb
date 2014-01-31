@@ -31,6 +31,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h2><%= Workflow.model_name.human %></h2>
 
+<%= render :partial => 'layouts/action_menu_specific' %>
+
 <p><%=l(:text_workflow_edit)%>:</p>
 
 <%= form_tag({}, :method => 'get') do %>

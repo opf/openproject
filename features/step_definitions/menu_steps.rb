@@ -27,7 +27,7 @@
 #++
 
 When /^I toggle the "([^"]+)" submenu$/ do |menu_name|
-  nodes = all(:css, ".menu_root a[title=\"#{menu_name}\"] .toggler")
+  nodes = all(:css, ".menu_root a[title=\"#{menu_name}\"] + .toggler")
 
   # w/o javascript, all menu elements are expanded by default. So the toggler
   # might not be present.
@@ -76,6 +76,8 @@ def action_menu_selector
 
   if has_css?(".action_menu_main")
     all(".action_menu_main").first
+  elsif has_css?(".action_menu_specific")
+    all(".action_menu_specific").first
   elsif has_css?(".contextual")
     all(".contextual").first
   else

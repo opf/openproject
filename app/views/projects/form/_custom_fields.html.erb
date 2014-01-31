@@ -40,7 +40,9 @@ See doc/COPYRIGHT.rdoc for more details.
                         custom_field.id,
                         @project.all_work_package_custom_fields.include?(custom_field),
                         custom_field.is_for_all? ? {:disabled => "disabled"} : {} %>
-      <%= h(custom_field.name) %>
+      <span lang="<%= custom_field.name_locale %>">
+        <%= h(custom_field.name) %>
+      </span>
     </label>
   <% end %>
   <%= hidden_field_tag 'project[work_package_custom_field_ids][]', '' %>

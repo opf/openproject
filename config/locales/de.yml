@@ -585,6 +585,7 @@ de:
       noneSelection: "(keine)"
     label_collapse_all: "Alle zuklappen"
     label_expand_all: "Alle aufklappen"
+    label_menu_item_toggle: "Untermenüpunkte ein-/ausblenden"
 
   label_account: "Konto"
   label_activity: "Aktivität"
@@ -1150,6 +1151,7 @@ de:
   permission_edit_wiki_pages: "Wiki-Seiten bearbeiten"
   permission_export_work_packages: "Arbeitspakete exportieren"
   permission_export_wiki_pages: "Wiki-Seiten exportieren"
+  permission_list_attachments: "Anhänge auflisten"
   permission_log_time: "Aufwände buchen"
   permission_manage_boards: "Foren verwalten"
   permission_manage_categories: "Ticket-Kategorien verwalten"

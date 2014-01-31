@@ -28,6 +28,7 @@
 #++
 
 class Role < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
   extend Pagination::Model
 
   # Built-in roles

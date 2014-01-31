@@ -46,7 +46,7 @@ class AuthSourcesController < ApplicationController
   end
 
   def create
-    @auth_source = auth_source_class.new(params[:auth_source])
+    @auth_source = auth_source_class.new permitted_params.auth_source
     if @auth_source.save
       flash[:notice] = l(:notice_successful_create)
       redirect_to :action => 'index'
@@ -62,7 +62,7 @@ class AuthSourcesController < ApplicationController
 
   def update
     @auth_source = AuthSource.find(params[:id])
-    if @auth_source.update_attributes(params[:auth_source])
+    if @auth_source.update_attributes permitted_params.auth_source
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'index'
     else

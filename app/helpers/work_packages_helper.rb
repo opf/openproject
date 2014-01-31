@@ -349,11 +349,11 @@ module WorkPackagesHelper
     group_work_package_attributes work_package_show_attribute_list(work_package)
   end
 
-  def work_package_show_table_row(attribute, klass = nil, &block)
+  def work_package_show_table_row(attribute, klass = nil, attribute_lang = nil, value_lang = nil, &block)
     klass = attribute.to_s.dasherize if klass.nil?
 
-    content = content_tag(:th, :class => klass) { "#{WorkPackage.human_attribute_name(attribute)}:" }
-    content << content_tag(:td, :class => klass, &block)
+    content = content_tag(:td, :class => [:work_package_attribute_header, klass], :lang => attribute_lang) { "#{WorkPackage.human_attribute_name(attribute)}:" }
+    content << content_tag(:td, :class => klass, :lang => value_lang, &block)
 
     WorkPackageAttribute.new(attribute, content)
   end
@@ -509,12 +509,12 @@ module WorkPackagesHelper
 
   def work_package_form_assignee_attribute(form, work_package, locals = {})
     WorkPackageAttribute.new(:assignee,
-                             form.select(:assigned_to_id, (work_package.assignable_users.map {|m| [m.name, m.id]}), :include_blank => true))
+                             form.select(:assigned_to_id, (work_package.assignable_assignees.map {|m| [m.name, m.id]}), :include_blank => true))
   end
 
   def work_package_form_responsible_attribute(form, work_package, locals = {})
-    WorkPackageAttribute.new(:assignee,
-                             form.select(:responsible_id, options_for_responsible(locals[:project]), :include_blank => true))
+    WorkPackageAttribute.new(:responsible,
+                             form.select(:responsible_id, work_package.assignable_responsibles.map {|m| [m.name, m.id]}, :include_blank => true))
   end
 
   def work_package_form_category_attribute(form, work_package, locals = {})
@@ -612,7 +612,10 @@ module WorkPackagesHelper
 
   def work_package_show_custom_fields(work_package)
     work_package.custom_field_values.each_with_object([]) do |v, a|
-      a << work_package_show_table_row(v.custom_field.name, '') do
+      a << work_package_show_table_row(v.custom_field.name,
+                                       "custom_field cf_#{v.custom_field_id}",
+                                       v.custom_field.name_locale,
+                                       v.custom_field.default_value_locale) do
         v.value.blank? ? empty_element_tag : simple_format_without_paragraph(h(show_value(v)))
       end
     end
