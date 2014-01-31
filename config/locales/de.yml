@@ -884,6 +884,7 @@ de:
   label_revision_id: "Revision %{value}"
   label_revision_plural: "Revisionen"
   label_roadmap: "Roadmap"
+  label_roadmap_edit: "Roadmap %{name} editieren"
   label_roadmap_due_in: "Fällig in %{value}"
   label_roadmap_no_work_packages: "Keine Arbeitspakete für diese Version"
   label_roadmap_overdue: "%{value} verspätet"
