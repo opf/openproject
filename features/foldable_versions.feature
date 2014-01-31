@@ -100,7 +100,7 @@ Feature: Foldable versions in master backlog
 
     Then I go to the my account page
      And I uncheck "Show versions folded"
-     And I click on "Save"
+     And I submit the form by the "Save" button
     Then I should see "Account was successfully updated"
 
     When I go to the master backlog
