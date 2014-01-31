@@ -7,7 +7,8 @@ module Api
       skip_filter :require_admin, :only => :index
 
       def index
-        @users = UserSearchService.new(params).search
+        @users = []
+        @users = UserSearchService.new(params).search if params[:ids] and not params[:ids].empty?
 
         respond_to do |format|
           format.api
