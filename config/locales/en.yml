@@ -247,7 +247,7 @@ en:
       group: "Group"
       issue: "Issue"
       category: "Category"
-      status: "Issue status"
+      status: "Work package status"
       member: "Member"
       news: "News"
       project: "Project"
