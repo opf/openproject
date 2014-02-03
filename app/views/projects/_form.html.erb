@@ -44,7 +44,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= render :partial => "projects/form/modules", :locals => { :project => project } %>
 <% end %>
 
-<% if (project.new_record? || project.module_enabled?('issue_tracking')) %>
+<% if (project.new_record? || project.module_enabled?('work_package_tracking')) %>
   <% if renderTypes %>
     <fieldset class="box" id="project_types"><legend><%=l(:label_type_plural)%> <span style="font-size:0.9em">(<%= check_all_links 'project_types' %>)</span></legend>
       <%= render :partial => 'projects/form/types', :locals => { :f => f, :project => project } %>

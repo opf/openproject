@@ -494,14 +494,14 @@ function setVisible(id, visible) {
 
 function observeProjectModules() {
   var f = function() {
-    /* Hides types and issues custom fields on the new project form when issue_tracking module is disabled */
-    var c = ($('project_enabled_module_names_issue_tracking').checked == true);
+    /* Hides types and issues custom fields on the new project form when work_package_tracking module is disabled */
+    var c = ($('project_enabled_module_names_work_package_tracking').checked == true);
     setVisible('project_types', c);
     setVisible('project_issue_custom_fields', c);
   };
 
   Event.observe(window, 'load', f);
-  Event.observe('project_enabled_module_names_issue_tracking', 'change', f);
+  Event.observe('project_enabled_module_names_work_package_tracking', 'change', f);
 }
 
 /*

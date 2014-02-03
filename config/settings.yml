@@ -199,7 +199,7 @@ default_projects_modules:
   default:
   - boards
   - calendar
-  - issue_tracking
+  - work_package_tracking
   - news
   - repository
   - time_tracking
