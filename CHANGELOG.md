@@ -20,6 +20,9 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+## 3.0.0.pre12
+
+* `#2502` New Layout for overview / my page
 * `#2259` [Accessibility] linearisation of issue show form (2)
 
 ## 3.0.0.pre11
