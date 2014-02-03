@@ -7,6 +7,7 @@ openprojectApp.directive('timelineTableRow', [function() {
       var rowObject = scope.row.payload;
 
       scope.rowObject = rowObject;
+      scope.rowObjectType = rowObject.objectType;
       scope.changeDetected = rowObject.objectType === 'PlanningElement' && (rowObject.hasAlternateDates() || rowObject.isNewlyAdded() || rowObject.isDeleted());
       scope.indent = scope.hideTreeRoot ? scope.row.level-1 : scope.row.level;
 

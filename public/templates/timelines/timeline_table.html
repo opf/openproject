@@ -21,11 +21,10 @@
         ng-class="{
           'tl-first-row': $first,
           'tl-last-row': $last,
-          'tl-project-row': rowObject.objectType === 'Project'
+          'tl-project-row': rowObjectType === 'Project'
         }"
-        ng-show="row.ancestors | ancestorsExpanded"
-        ng-if="!(hideTreeRoot && $first)"
-        ng-hide="rowObject.objectType === 'Project' && excludeEmpty && !row.childNodes">
+        ng-if="!(hideTreeRoot && $first || rowObjectType === 'Project' && excludeEmpty && !row.childNodes)"
+        ng-show="rowObjectType === 'Project' && row.level === 1 || (row.ancestors | ancestorsExpanded)">
 
       <td ng-class="[
             'tl-first-column',
@@ -45,7 +44,7 @@
           </span>
 
           <span>
-            <a modal title="{{row.text}}" target="row.url" ng-class="{'tl-discreet-link': true, 'tl-project': rowObject.objectType === 'Project'}">{{row.text}}</a>
+            <a modal title="{{row.text}}" target="row.url" ng-class="{'tl-discreet-link': true, 'tl-project': rowObjectType === 'Project'}">{{row.text}}</a>
           </span>
         </span>
       </td>
