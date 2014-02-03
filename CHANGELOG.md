@@ -20,6 +20,8 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+* `#4024` Subpages have no unique page titles
+
 ## 3.0.7
 
 * `#2259` [Accessibility] linearisation of issue show form (2)
