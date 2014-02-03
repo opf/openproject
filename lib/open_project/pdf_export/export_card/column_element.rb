@@ -80,17 +80,16 @@ module OpenProject::PdfExport::ExportCard
            :min_font_size => min_font_size,
            :align => text_align})
       else
-        text = label_text + value
+        texts = [{ text: label_text, styles: [:bold], :size => font_size },  { text: value, :size => font_size }]
 
         # Label and Content Textbox
         offset = [@orientation[:x_offset], @orientation[:height] - (@orientation[:text_padding] / 2)]
-        box = @pdf.text_box(text,
+        box = @pdf.formatted_text_box(texts,
           {:height => @orientation[:height],
            :width => @orientation[:width],
            :at => offset,
            :style => font_style,
            :overflow => overflow,
-           :size => font_size,
            :min_font_size => min_font_size,
            :align => text_align})
       end
