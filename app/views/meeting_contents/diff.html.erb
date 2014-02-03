@@ -22,6 +22,8 @@ See doc/COPYRIGHT.md for more details.
   <%= link_to_if_authorized(l(:label_history), {:controller => '/' + @content_type.pluralize, :action => 'history', :meeting_id => @meeting}, :class => 'icon icon-wiki') %>
 <% end %>
 
+<% html_title "#{l(:label_meeting_diff)}: #{@meeting.title}" %>
+
 <h2><%= l(:"label_#{@content_type}") %>: <%= link_to @meeting, @meeting %></h2>
 
 <%= render :partial => 'layouts/action_menu_specific' %>
