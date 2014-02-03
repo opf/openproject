@@ -805,6 +805,7 @@ en:
   label_news_comment_added: "Comment added to a news"
   label_news_latest: "Latest news"
   label_news_new: "Add news"
+  label_news_edit: "Edit news"
   label_news_plural: "News"
   label_news_view_all: "View all news"
   label_next: "Next"

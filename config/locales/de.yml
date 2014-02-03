@@ -808,6 +808,7 @@ de:
   label_news_comment_added: "Kommentar einer News hinzugefügt"
   label_news_latest: "Letzte News"
   label_news_new: "News hinzufügen"
+  label_news_edit: "News bearbeiten"
   label_news_plural: "News"
   label_news_view_all: "Alle News anzeigen"
   label_next: "Weiter"
