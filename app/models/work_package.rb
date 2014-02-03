@@ -78,6 +78,10 @@ class WorkPackage < ActiveRecord::Base
     {:conditions => {:project_id => projects}}
   }
 
+  scope :changed_since, lambda { |changed_since|
+    changed_since ? where(["#{WorkPackage.table_name}.updated_at >= ?", changed_since]) : nil
+  }
+
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   scope :open, :conditions => ["#{Status.table_name}.is_closed = ?", false], :include => :status
 
@@ -394,7 +398,7 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def to_s
-    "#{(kind.is_standard) ? l(:default_type) : "#{kind.name}"} ##{id}: #{subject}"
+    "#{(kind.is_standard) ? "" : "#{kind.name}"} ##{id}: #{subject}"
   end
 
   # Return true if the work_package is closed, otherwise false

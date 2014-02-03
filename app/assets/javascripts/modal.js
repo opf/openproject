@@ -101,6 +101,10 @@ var ModalHelper = (function() {
         this.hideLoadingModal();
         this.loadingModal = false;
 
+        // use jquery.trap.js to keep the keyboard focus within the modal
+        // while it's open
+        body.trap();
+
         body.on("keyup", function (e) {
           if (e.which == 27) {
             modalHelper.close();
