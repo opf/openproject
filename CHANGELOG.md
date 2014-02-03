@@ -1,5 +1,7 @@
 # Changelog
 
+## 1.0.1.pre5
+
 * `#3333` [CodeClimate] Mass Assignment RolesController
 * `#2256` [Accessibility] linearisation of issue show form (2)
 * Rewritten Javascript to exclusively use jQuery
