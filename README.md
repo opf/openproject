@@ -73,6 +73,7 @@ group1:
   has_border: false
   rows:
     row1:
+      height: 50
       priority: 1
       columns:
         id:
@@ -106,6 +107,7 @@ group2:
   has_border: true
   rows:
     row1:
+      height: 80
       priority: 2
       columns:
         description:
@@ -126,7 +128,7 @@ group2:
           render_if_empty: true
 </pre>
 
-Any number of rows can be defined. The font_size and minimum_lines properties define how much height on the card is given to the row. The plugin will attempt to assign enough space to each of the rows, however space will be assigned based on the priorities of the the rows, with rows with lower priority (higher numbers) being reduced and removed first if there is not enough for all the data.
+Any number of rows can be defined. The font_size and minimum_lines properties define how much height on the card is given to the row. The plugin will attempt to assign enough space to each of the rows, however space will be assigned based on the priorities of the the rows, with rows with lower priority (higher numbers) being reduced and removed first if there is not enough for all the data. The row height can be forced by giving a value, in pixels, for the row height property. This will override the assigned row height.
 
 The name of the column informs the plugin which data should be read from the model (status, due_date, id, etc.). There can be any number of columns per row. Columns are given an equal share of the row width unless a specific width % is given. If there is more text in the column than can fit into its assinged space on the card then the text will be truncated.
 
@@ -156,10 +158,5 @@ Licence
 -------
 
 Copyright (C)2014 the OpenProject Foundation (OPF)<br />
-Copyright (C)2011 Marnen Laibow-Koser, Sandro Munda<br />
-Copyright (C)2010-2011 friflaj<br />
-Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns<br />
-Copyright (C)2009-2010 Mark Maglana<br />
-Copyright (C)2009 Joe Heck, Nate Lowrie
 
 This plugin is licensed under the GNU GPL v3. See doc/COPYRIGHT.md and doc/GPL.txt for details.
