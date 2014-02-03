@@ -41,6 +41,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3481` Fix: [Activity] Not possible to unselect all filters
 * `#3730` Setting responsible via bulk edit
 * `#3731` Setting responsible via context menu
+* `#3774` Fix: [API] Not possible to set journal notes via API
 * `#3844` Fixed Work Package status translation
 * `#3865` Detailed filters on dates
 * `#3854` Move function and Query filters allows to select groups as responsible
