@@ -44,14 +44,14 @@ class RolesController < ApplicationController
 
   def new
     # Prefills the form with 'Non member' role permissions
-    @role = Role.new(params[:role] || {:permissions => Role.non_member.permissions})
+    @role = Role.new(permitted_params.role? || {:permissions => Role.non_member.permissions})
 
     @permissions = @role.setable_permissions
     @roles = Role.find :all, :order => 'builtin, position'
   end
 
   def create
-    @role = Role.new(params[:role] || { :permissions => Role.non_member.permissions })
+    @role = Role.new(permitted_params.role? || { :permissions => Role.non_member.permissions })
     if @role.save
       # workflow copy
       if !params[:copy_workflow_from].blank? && (copy_from = Role.find_by_id(params[:copy_workflow_from]))
@@ -75,7 +75,7 @@ class RolesController < ApplicationController
   def update
     @role = Role.find(params[:id])
 
-    if @role.update_attributes(params[:role])
+    if @role.update_attributes(permitted_params.role)
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'index'
     else

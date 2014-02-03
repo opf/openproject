@@ -31,11 +31,13 @@ See doc/COPYRIGHT.rdoc for more details.
 	<%= render :partial => 'no_data' if @no_configuration_data %>
 </div>
 
-<div class="contextual">
-<%= link_to l(:label_project_new), {:controller => '/projects', :action => 'new'}, :class => 'icon icon-add' %>
-</div>
+<% content_for :action_menu_specific do %>
+  <%= link_to l(:label_project_new), {:controller => '/projects', :action => 'new'}, :class => 'icon icon-add' %>
+<% end %>
 
 <h2><%=l(:label_project_plural)%></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
 
 <%= form_tag({}, :method => :get) do %>
 <fieldset><legend><%= l(:label_filter_plural) %></legend>

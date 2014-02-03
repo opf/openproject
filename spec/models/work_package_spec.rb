@@ -167,15 +167,15 @@ describe WorkPackage do
     it { should eq(category.assigned_to) }
   end
 
-  describe :assignable_users do
+  describe :assignable_assignees do
     let(:user) { FactoryGirl.build_stubbed(:user) }
 
     context "single user" do
-      before { stub_work_package.project.stub(:assignable_users).and_return([user]) }
+      before { stub_work_package.project.stub(:possible_assignees).and_return([user]) }
 
-      subject { stub_work_package.assignable_users }
+      subject { stub_work_package.assignable_assignees }
 
-      it 'should return all users the project deems to be assignable' do
+      it 'should return all users the project deems to be possible assignees' do
         should include(user)
       end
     end
@@ -189,7 +189,7 @@ describe WorkPackage do
         work_package.project.add_member! group, FactoryGirl.create(:role)
       end
 
-      subject { work_package.assignable_users }
+      subject { work_package.assignable_assignees }
       it { should include(group) }
     end
 
@@ -202,19 +202,34 @@ describe WorkPackage do
         work_package.project.add_member! group, FactoryGirl.create(:role)
       end
 
-      subject { work_package.assignable_users }
+      subject { work_package.assignable_assignees }
       it { should_not include(group) }
     end
 
     context "multiple users" do
       let(:user_2) { FactoryGirl.build_stubbed(:user) }
 
-      before { stub_work_package.project.stub(:assignable_users).and_return([user, user_2]) }
+      before { stub_work_package.project.stub(:assignable_assignees).and_return([user, user_2]) }
 
-      subject { stub_work_package.assignable_users.uniq }
+      subject { stub_work_package.assignable_assignees.uniq }
 
-      it { should eq(stub_work_package.assignable_users) }
+      it { should eq(stub_work_package.assignable_assignees) }
     end
+  end
+
+  describe :assignable_responsibles do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:group) { FactoryGirl.create(:group) }
+
+    before do
+      work_package.project.add_member! user, FactoryGirl.create(:role)
+      work_package.project.add_member! group, FactoryGirl.create(:role)
+    end
+
+    subject { work_package.assignable_responsibles }
+
+    it { should_not include(group) }
+    it { should include(user) }
   end
 
   describe :assignable_versions do
@@ -1387,7 +1402,35 @@ describe WorkPackage do
       # assert that there is only one error
       expect(work_package.errors.size).to eq 1
       expect(work_package.errors_on(:custom_values).size).to eq 1
-	end
+    end
+  end
+
+  describe 'changed_since' do
+    let!(:work_package) do
+      work_package = Timecop.travel(5.hours.ago) do
+        wp = FactoryGirl.create(:work_package)
+        wp.save!
+        wp
+      end
+    end
+
+    describe 'null' do
+      subject { WorkPackage.changed_since(nil) }
+
+      it { expect(subject).to match_array([work_package]) }
+    end
+
+    describe 'now' do
+      subject { WorkPackage.changed_since(DateTime.now) }
+
+      it { expect(subject).to be_empty }
+    end
+
+    describe 'work package update' do
+      subject { WorkPackage.changed_since(work_package.updated_at) }
+
+      it { expect(subject).to match_array([work_package]) }
+    end
   end
 end
 

@@ -78,14 +78,14 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= select_tag('assigned_to_id',
                  content_tag('option', l(:label_no_change_option), :value => '') +
                  content_tag('option', l(:label_nobody), :value => 'none') +
-                 options_from_collection_for_select(@target_project.assignable_users, :id, :name)) %>
+                 options_from_collection_for_select(@target_project.possible_assignees, :id, :name)) %>
 </p>
 <p>
   <label for='responsible_id'><%= WorkPackage.human_attribute_name(:responsible) %></label>
   <%= select_tag('responsible_id',
                  content_tag('option', l(:label_no_change_option), :value => '') +
                  content_tag('option', l(:label_nobody), :value => 'none') +
-                 options_from_collection_for_select(@target_project.assignable_users, :id, :name)) %>
+                 options_from_collection_for_select(@target_project.possible_responsibles, :id, :name)) %>
 </p>
 </div>
 

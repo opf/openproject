@@ -27,13 +27,15 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div class="contextual">
+<% content_for :action_menu_specific do %>
   <%= link_to_if_authorized l(:button_edit), {:controller => '/versions', :action => 'edit', :id => @version}, :class => 'icon icon-edit' %>
   <%= link_to_if_authorized(l(:button_edit_associated_wikipage, :page_title => @version.wiki_page_title), {:controller => '/wiki', :action => 'edit', :project_id => @version.project, :id => Wiki.titleize(@version.wiki_page_title)}, :class => 'icon icon-edit') unless @version.wiki_page_title.blank? || @version.project.wiki.nil? %>
   <%= call_hook(:view_versions_show_contextual, { :version => @version, :project => @project }) %>
-</div>
+<% end %>
 
 <h2><%= h(@version.name) %></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
 
 <div id="version-summary">
   <% if @version.estimated_hours > 0 || User.current.allowed_to?(:view_time_entries, @project) %>

@@ -214,7 +214,7 @@ module SortHelper
   # - the optional caption explicitly specifies the displayed link text.
   # - 2 CSS classes reflect the state of the link: sort and asc or desc
   #
-  def sort_link(column, caption, default_order)
+  def sort_link(column, caption, default_order, html_options = {})
     css, order = nil, default_order
 
     if column.to_s == @sort_criteria.first_key
@@ -234,7 +234,7 @@ module SortHelper
      # Add project_id to url_options
     url_options = url_options.merge(:project_id => params[:project_id]) if params.has_key?(:project_id)
 
-    link_to_content_update(h(caption), url_options, :class => css)
+    link_to_content_update(h(caption), url_options, html_options.merge({ :class => css }))
   end
 
   # Returns a table header <th> tag with a sort link for the named column
@@ -253,8 +253,9 @@ module SortHelper
   def sort_header_tag(column, options = {})
     caption = options.delete(:caption) || column.to_s.humanize
     default_order = options.delete(:default_order) || 'asc'
+    lang = options.delete(:lang) || nil
     options[:title] = l(:label_sort_by, "\"#{caption}\"") unless options[:title]
-    content_tag('th', sort_link(column, caption, default_order), options)
+    content_tag('th', sort_link(column, caption, default_order, :lang => lang), options)
   end
 end
 

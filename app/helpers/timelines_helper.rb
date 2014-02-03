@@ -85,10 +85,6 @@ module TimelinesHelper
     ProjectType.all.map { |t| [t.name, t.id] }
   end
 
-  def options_for_responsible(project)
-    project.users.map { |u| [u.name, u.id] }
-  end
-
   def visible_parent_project(project)
     parent = project.parent
 

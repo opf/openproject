@@ -219,22 +219,40 @@ describe WorkPackages::MovesController do
         end
       end
 
-      context "with given note" do
-        let(:note) { "Moving two work packages" }
+      shared_examples_for 'single note for moved work package' do
+        it { expect(moved_work_package.journals.count).to eq(2) }
 
-        before do
-          post :create,
-               :ids => [work_package.id, work_package_2.id],
-               :notes => note
+        it { expect(moved_work_package.journals.sort_by(&:id).last.notes).to eq(note) }
+      end
 
-          work_package.reload
-          work_package_2.reload
+      describe "move with given note" do
+        let(:note) { "Moving a work package" }
+
+        context "w/o work package changes" do
+          before do
+            post :create,
+                 ids: [work_package.id],
+                 notes: note
+          end
+
+          it_behaves_like 'single note for moved work package' do
+            let(:moved_work_package) { work_package.reload }
+          end
         end
 
-        it "adds note to work packages" do
-          work_package.journals.sort_by(&:id).last.notes.should eq(note)
-          work_package_2.journals.sort_by(&:id).last.notes.should eq(note)
+        context "w/o work package changes" do
+          before do
+            post :create,
+                 ids: [work_package.id],
+                 notes: note,
+                 priority_id: target_priority.id
+          end
+
+          it_behaves_like 'single note for moved work package' do
+            let(:moved_work_package) { work_package.reload }
+          end
         end
+
       end
 
       describe '&copy' do
@@ -329,6 +347,23 @@ describe WorkPackages::MovesController do
               date.should eq(due_date)
             end
           end
+        end
+
+        context "with given note" do
+          let(:note) { "Copying a work package" }
+
+          before do
+            post :create,
+                 ids: [work_package.id],
+                 copy: '',
+                 notes: note
+          end
+
+          subject { WorkPackage.all(limit: 1, order: 'id desc').last.journals }
+
+          it { expect(subject.count).to eq(2) }
+
+          it { expect(subject.sort_by(&:id).last.notes).to eq(note) }
         end
       end
     end
