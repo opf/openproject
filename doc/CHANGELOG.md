@@ -20,6 +20,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 # Changelog
 
+## 5.0.2
+
+* Adapted to renaming of core method
+* use icons from icon font
+
 ## 5.0.1
 
 * `#2259` [Accessibility] linearisation of issue show form (2)
