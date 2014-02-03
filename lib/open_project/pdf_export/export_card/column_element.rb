@@ -55,7 +55,8 @@ module OpenProject::PdfExport::ExportCard
 
     private
 
-    def abbreviate_text(text, options)
+    def abbreviated_text(text, options)
+      options = options.merge!({ document: @pdf })
       text_box = Prawn::Text::Box.new(text, options)
       left_over = text_box.render(:dry_run => true)
 
@@ -70,7 +71,6 @@ module OpenProject::PdfExport::ExportCard
     end
 
     def draw_value(value)
-
       # Font size
       if @config['font_size']
         # Specific size given
@@ -95,26 +95,78 @@ module OpenProject::PdfExport::ExportCard
       font_style = (@config['font_style'] or "normal").to_sym
       text_align = (@config['text_align'] or "left").to_sym
 
-      offset = [@orientation[:x_offset], @orientation[:height] - (@orientation[:text_padding] / 2)]
-      options = { :document => @pdf,
-       :height => @orientation[:height],
-       :width => @orientation[:width],
-       :at => offset,
-       :style => font_style,
-       :overflow => overflow,
-       :size => font_size,
-       :min_font_size => min_font_size,
-       :align => text_align}
-
-      # Draw on pdf
+      # Label and text
       has_label = @config['has_label']
+      indented = @config['indented']
       value = value.to_s if !value.is_a?(String)
-      text = ""
-      text = text + "#{@work_package.class.human_attribute_name(@property_name)}: " if has_label
-      text = abbreviate_text(text + value, options)
+      label_text = if has_label
+                     "#{@work_package.class.human_attribute_name(@property_name)}: "
+                   else
+                     ""
+                   end
 
-      box = @pdf.text_box(text, options)
+      if has_label && indented
+        width_ratio = 0.2 # Note: I don't think it's worth having this in the config
+
+        # Label Textbox
+        offset = [@orientation[:x_offset], @orientation[:height] - (@orientation[:text_padding] / 2)]
+        box = @pdf.text_box(label_text,
+          {:height => @orientation[:height],
+           :width => @orientation[:width] * width_ratio,
+           :at => offset,
+           :style => :bold,
+           :overflow => overflow,
+           :size => font_size,
+           :min_font_size => min_font_size,
+           :align => :left})
+
+        # Get abbraviated text
+        options = {:height => @orientation[:height],
+          :width => @orientation[:width] * (1 - width_ratio),
+          :at => offset,
+          :style => font_style,
+          :overflow => overflow,
+          :size => font_size,
+          :min_font_size => min_font_size,
+          :align => text_align}
+        text = abbreviated_text(value, options)
+        offset = [@orientation[:x_offset] + (@orientation[:width] * width_ratio), @orientation[:height] - (@orientation[:text_padding] / 2)]
+
+        # Content Textbox
+        box = @pdf.text_box(text, {:height => @orientation[:height],
+          :width => @orientation[:width] * (1 - width_ratio),
+          :at => offset,
+          :style => font_style,
+          :overflow => overflow,
+          :size => font_size,
+          :min_font_size => min_font_size,
+          :align => text_align})
+      else
+        options = {:height => @orientation[:height],
+          :width => @orientation[:width],
+          :at => offset,
+          :style => font_style,
+          :overflow => overflow,
+          :min_font_size => min_font_size,
+          :align => text_align}
+        text = abbreviated_text(value, options)
+        label_text = if has_label
+                       "#{@work_package.class.human_attribute_name(@property_name)}: "
+                     else
+                       ""
+                     end
+        texts = [{ text: label_text, styles: [:bold], :size => font_size },  { text: text, :size => font_size }]
+
+        # Label and Content Textbox
+        offset = [@orientation[:x_offset], @orientation[:height] - (@orientation[:text_padding] / 2)]
+        box = @pdf.formatted_text_box(texts, {:height => @orientation[:height],
+          :width => @orientation[:width],
+          :at => offset,
+          :style => font_style,
+          :overflow => overflow,
+          :min_font_size => min_font_size,
+          :align => text_align})
+      end
     end
-
   end
 end

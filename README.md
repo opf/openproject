@@ -97,6 +97,7 @@ group1:
       columns:
         status:
           has_label: true
+          indented: true
           font_size: 15
           font_style: normal
           minimum_lines: 1
@@ -109,6 +110,7 @@ group2:
       columns:
         description:
           has_label: true
+          indented: false
           font_size: 15
           font_style: normal
           minimum_lines: 1
