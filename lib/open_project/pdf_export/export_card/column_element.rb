@@ -53,12 +53,23 @@ module OpenProject::PdfExport::ExportCard
       draw_value(value)
     end
 
+    private
+
+    def abbreviate_text(text, options)
+      text_box = Prawn::Text::Box.new(text, options)
+      left_over = text_box.render(:dry_run => true)
+
+      # Be sure to do length arithmetics on chars, not bytes!
+      left_over = left_over.mb_chars
+      text      = text.to_s.mb_chars
+
+      text = left_over.size > 0 ? text[0 ... -(left_over.size + 5)] + "[...]" : text
+      text.to_s
+    rescue Prawn::Errors::CannotFit
+      ''
+    end
+
     def draw_value(value)
-      has_label = @config['has_label']
-      value = value.to_s if !value.is_a?(String)
-      text = ""
-      text = text + "#{@work_package.class.human_attribute_name(@property_name)}: " if has_label
-      text = text + value
 
       # Font size
       if @config['font_size']
@@ -84,17 +95,25 @@ module OpenProject::PdfExport::ExportCard
       font_style = (@config['font_style'] or "normal").to_sym
       text_align = (@config['text_align'] or "left").to_sym
 
-      # Draw on pdf
       offset = [@orientation[:x_offset], @orientation[:height] - (@orientation[:text_padding] / 2)]
-      box = @pdf.text_box(text,
-        {:height => @orientation[:height],
-         :width => @orientation[:width],
-         :at => offset,
-         :style => font_style,
-         :overflow => overflow,
-         :size => font_size,
-         :min_font_size => min_font_size,
-         :align => text_align})
+      options = { :document => @pdf,
+       :height => @orientation[:height],
+       :width => @orientation[:width],
+       :at => offset,
+       :style => font_style,
+       :overflow => overflow,
+       :size => font_size,
+       :min_font_size => min_font_size,
+       :align => text_align}
+
+      # Draw on pdf
+      has_label = @config['has_label']
+      value = value.to_s if !value.is_a?(String)
+      text = ""
+      text = text + "#{@work_package.class.human_attribute_name(@property_name)}: " if has_label
+      text = abbreviate_text(text + value, options)
+
+      box = @pdf.text_box(text, options)
     end
 
   end
