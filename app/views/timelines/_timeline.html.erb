@@ -27,6 +27,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<%# Push timeline data to view as JSON via gon %>
+<% push_timeline_options timeline %>
+<%= include_gon %>
+
 <timeline-container>
   <timeline-toolbar></timeline-toolbar>
   <timeline-table-container/>
