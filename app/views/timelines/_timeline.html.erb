@@ -27,9 +27,15 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div id="{{getTimelineContainerElementId()}}">
-  <%= render 'toolbar' %>
-  <%= render 'chart_container' %>
+<%# Push timeline data to view as JSON via gon %>
+<% push_timeline_options timeline %>
+<%= include_gon %>
+
+<div ng-controller="TimelinesController">
+  <timeline-container>
+    <timeline-toolbar></timeline-toolbar>
+    <timeline-table-container/>
+  </timeline-container>
 </div>
 
 <% unless User.current.impaired? %>

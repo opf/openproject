@@ -240,21 +240,6 @@ openprojectApp.factory('Timeline', ['Constants', 'TreeNode', 'UI', 'Color', 'His
         include_planning_elements     : this.verticalPlanningElementIds()
       };
     },
-    defer: function(action, delay) {
-      var timeline = this;
-      var result;
-      if (delay === undefined) {
-        delay = 0;
-      }
-      result = window.setTimeout(function() {
-        try {
-          action.call();
-        } catch(e) {
-          timeline.die(e);
-        }
-      }, 0);
-      return result;
-    },
     die: function(error, classes) {
       var message = (typeof error === 'string') ? error :
         I18n.t('js.timelines.errors.report_epicfail'); // + '<br>' + error.message;

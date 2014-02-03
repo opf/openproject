@@ -197,8 +197,6 @@ openprojectApp.service('TimelineLoaderService', ['$q', 'FilterQueryStringBuilder
 
 
 
-
-
   var DataEnhancer = function (timeline) {
     this.timeline = timeline;
 

@@ -1,13 +1,9 @@
-openprojectApp.directive('timeline', ['TimelineLoaderService', 'SvgHelper', function(TimelineLoaderService, SvgHelper) {
+openprojectApp.directive('timelineTableContainer', ['TimelineLoaderService', 'TimelineTableHelper', 'SvgHelper', function(TimelineLoaderService, TimelineTableHelper, SvgHelper) {
   return {
-    restrict: 'A',
+    restrict: 'E',
+    replace: true,
+    templateUrl: '/templates/timelines/timeline_table_container.html',
     link: function(scope, element, attributes) {
-      updateToolbar = function() {
-        scope.slider.slider('value', scope.timeline.zoomIndex + 1);
-        scope.currentOutlineLevel = Timeline.OUTLINE_LEVELS[scope.timeline.expansionIndex];
-        scope.currentScaleName = Timeline.ZOOM_SCALES[scope.timeline.zoomIndex];
-      };
-
       completeUI = function() {
 
         scope.timeline.paper = new SvgHelper(scope.timeline.paperElement);
@@ -35,7 +31,7 @@ openprojectApp.directive('timeline', ['TimelineLoaderService', 'SvgHelper', func
 
         // zooming and initial outline expansion have consequences in the
         // select inputs in the toolbar.
-        updateToolbar();
+        if(scope.updateToolbar) scope.updateToolbar();
 
         scope.timeline.getChart().scroll(function() {
           scope.timeline.adjustTooltip();
@@ -46,41 +42,30 @@ openprojectApp.directive('timeline', ['TimelineLoaderService', 'SvgHelper', func
         });
       };
 
-      flattenTree = function(root) {
-        nodes = [];
-
-        angular.forEach(root.childNodes, function(node){
-          node.ancestors = [root];
-          if(root.ancestors) node.ancestors = root.ancestors.concat(node.ancestors);
-
-          nodes.push(node);
-          nodes = nodes.concat(flattenTree(node));
-        });
-
-        return nodes;
-      };
-
-      buildTree = function(timeline){
+      buildWorkPackageTable = function(timeline){
         if (timeline.isGrouping() && timeline.options.grouping_two_enabled) {
           timeline.secondLevelGroupingAdjustments();
         }
 
         tree = timeline.getLefthandTree();
 
-        scope.nodes = flattenTree(tree);
-        scope.nodes.unshift(tree);
+        if (tree.containsPlanningElements() || tree.containsProjects()) {
+          timeline.adjustForPlanningElements();
+          scope.rows = TimelineTableHelper.getTableRowsFromTimelineTree(tree, timeline.options);
+        } else{
+          scope.rows = [];
+        }
 
-        return tree;
+        return scope.rows;
       };
 
-      drawTree = function(tree) {
+      drawChart = function(tree) {
         timeline = scope.timeline;
 
         try {
           window.clearTimeout(timeline.safetyHook);
 
-          if (tree.containsPlanningElements() || tree.containsProjects()) {
-            timeline.adjustForPlanningElements();
+          if (rows.length > 0) {
             completeUI();
           } else {
             timeline.warn(I18n.t('js.label_no_data'), 'warning');
@@ -88,14 +73,14 @@ openprojectApp.directive('timeline', ['TimelineLoaderService', 'SvgHelper', func
         } catch (e) {
           timeline.die(e);
         }
-
       };
 
       // start timeline
       scope.timeline.registerTimelineContainer(element);
+
       TimelineLoaderService.loadTimelineData(scope.timeline)
-        .then(buildTree)
-        .then(drawTree);
+        .then(buildWorkPackageTable)
+        .then(drawChart);
     }
   };
 }]);

@@ -38,7 +38,7 @@
 // ╰───────────────────────────────────────────────────────────────╯
 
 
-openprojectApp.factory('UI', [function() {
+openprojectApp.factory('UI', ['$timeout', function($timeout) {
 
   // ╭───────────────────────────────────────────────────────────────────╮
   // │ UI and Plotting                                                   │
@@ -339,7 +339,6 @@ openprojectApp.factory('UI', [function() {
       this.scrollbar_height = (h - hh);
       return this.scrollbar_height;
     },
-
     escape: function(string) {
       return jQuery('<div/>').text(string).html();
     },
@@ -377,14 +376,13 @@ openprojectApp.factory('UI', [function() {
 
       delete this.table_offset;
 
-      window.clearTimeout(this.rebuildTimeout);
-      this.rebuildTimeout = timeline.defer(function() {
-
+      $timeout.cancel(this.rebuildTimeout);
+      this.rebuildTimeout = $timeout(function() {
         // The minimum width of the whole timeline should be the actual
         // width of the table added to the minimum chart width. That way,
         // the floats never break.
 
-        if (timeline.options.hide_chart == null) {
+        if (timeline.options.hide_chart === null) {
           root.find('.timeline').css({
             'min-width': root.find('.tl-left-main').width() +
                            Timeline.MIN_CHART_WIDTH
@@ -436,7 +434,7 @@ openprojectApp.factory('UI', [function() {
       timeline.paper.clear();
       timeline.paper.setSize(width, height);
 
-      timeline.defer(function() {
+      $timeout(function() {
         // rebuild content
         timeline.rebuildBackground(tree, width, height);
         chart.css({'display': 'block'});
@@ -742,7 +740,7 @@ openprojectApp.factory('UI', [function() {
           jQuery.each(buckets.splice(0, Timeline.RENDER_BUCKET_SIZE), function(i, e) {
             e.call();
           });
-          timeline.defer(render_next_bucket);
+          $timeout(render_next_bucket);
         } else {
           timeline.finishGraph();
         }
