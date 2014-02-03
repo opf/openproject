@@ -55,9 +55,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h2><%= @timeline.name %></h2>
 
-<div id="timeline" ng-controller="TimelinesController">
-
-  <%= form_tag :id => "specialForm" do %>
+<div id="timeline">
+  <%= form_tag '', {:id => "specialForm", 'ng-controller' => 'TimelineSelectionController'} do %>
     <%= label_tag 'timeline_select', l("timelines.timeline") %>
     <%= collection_select(:timeline, :id, @visible_timelines, :id, :name, {}, {ui_select2: 'ui-select2', id: 'timeline_select', ng_model: 'currentTimelineId', ng_change: 'switchTimeline()'}) %>
   <% end %>

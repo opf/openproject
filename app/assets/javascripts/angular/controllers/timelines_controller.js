@@ -1,4 +1,4 @@
-openprojectApp.controller('TimelinesController', ['$scope', '$window', 'Timeline', function($scope, $window, Timeline) {
+openprojectApp.controller('TimelinesController', ['$scope', 'Timeline', function($scope, Timeline) {
 
   getInitialOutlineExpansion = function(timelineOptions) {
     initialOutlineExpansion = timelineOptions.initial_outline_expansion;
@@ -9,16 +9,9 @@ openprojectApp.controller('TimelinesController', ['$scope', '$window', 'Timeline
     }
   };
 
-  $scope.switchTimeline = function() {
-    $window.location.href = $scope.timelines[$scope.currentTimelineId].path;
-  };
-
   // Setup
 
   // Get server-side stuff into scope
-  $scope.timelines = gon.timelines;
-
-  $scope.currentTimelineId = gon.current_timeline_id;
   $scope.timelineOptions = gon.timeline_options;
 
   // Hide charts until tables are drawn

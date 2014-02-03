@@ -31,10 +31,12 @@ See doc/COPYRIGHT.rdoc for more details.
 <% push_timeline_options timeline %>
 <%= include_gon %>
 
-<timeline-container>
-  <timeline-toolbar></timeline-toolbar>
-  <timeline-table-container/>
-</timeline-container>
+<div ng-controller="TimelinesController">
+  <timeline-container>
+    <timeline-toolbar></timeline-toolbar>
+    <timeline-table-container/>
+  </timeline-container>
+</div>
 
 <% unless User.current.impaired? %>
   <%# TODO: Require autocompleter inside select_boxes.js
