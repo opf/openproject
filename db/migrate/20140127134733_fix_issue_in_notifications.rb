@@ -16,11 +16,11 @@ class FixIssueInNotifications < ActiveRecord::Migration
     "issue_priority_updated" => "work_package_priority_updated",
   }
   def up
-    Setting['notified_events']= replace(Setting['notified_events'], REPLACED)
+    Setting['notified_events'] = replace(Setting['notified_events'], REPLACED)
   end
 
   def down
-    Setting['notified_events']= replace(Setting['notified_events'], REPLACED.invert)
+    Setting['notified_events'] = replace(Setting['notified_events'], REPLACED.invert)
   end
   
   private
