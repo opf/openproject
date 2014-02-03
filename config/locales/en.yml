@@ -693,7 +693,7 @@ en:
   label_enable_multi_select: "Toggle multiselect"
   label_end_to_end: "end to end"
   label_end_to_start: "end to start"
-  label_enumeration_new: "New value"
+  label_enumeration_new: "New enumeration value"
   label_enumerations: "Enumerations"
   label_environment: "Environment"
   label_equals: "is"
@@ -979,6 +979,7 @@ en:
   label_work_package_plural: "Work packages"
   label_work_package_new: "New work package"
   label_workflow: "Workflow"
+  label_workflow_plural: "Workflows"
   label_workflow_summary: "Summary"
   label_x_closed_work_packages_abbr:
     one: "1 closed"
@@ -1372,7 +1373,9 @@ en:
 
   timelines:
     admin_menu:
+      color: "Color"
       colors: "Colors"
+      project_type: "Project type"
       project_types: "Project types"
     project_menu:
       planning_elements: "Planning elements"

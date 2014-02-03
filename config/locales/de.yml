@@ -696,7 +696,7 @@ de:
   label_enable_multi_select: "Mehrfachauswahl umschalten"
   label_end_to_end: "Ende - Ende"
   label_end_to_start: "Ende - Anfang"
-  label_enumeration_new: "Neuer Wert"
+  label_enumeration_new: "Neuer Aufzählungswert"
   label_enumerations: "Aufzählungen"
   label_environment: "Umgebung"
   label_equals: "ist"
@@ -982,6 +982,7 @@ de:
   label_work_package_plural: "Arbeitspakete"
   label_work_package_new: "Neues Arbeitspaket"
   label_workflow: "Workflow"
+  label_workflow_plural: "Workflows"
   label_workflow_summary: "Zusammenfassung"
   label_x_closed_work_packages_abbr:
     one: "1 geschlossen"
@@ -1388,7 +1389,9 @@ de:
 
   timelines:
     admin_menu:
+      color: "Farbe"
       colors: "Farben"
+      project_type: "Projekt-Typ"
       project_types: "Projekt-Typen"
     add_project_association: "Projekt-Abhängigkeit erstellen"
     associations: "Abhängigkeiten"
