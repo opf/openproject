@@ -40,6 +40,7 @@ de:
   label_backlogs_export_card_config_select: "Bitte wählen Sie eine Export-Kartenkonfiguration"
   label_backlogs_export_card_export: "Exportieren"
   label_export_card_configuration_new: "Neue Export-Kartenkonfiguration"
+  label_export_card_configuration: "Export-Kartenkonfiguration"
   label_export_card_configuration_plural: "Export-Kartenkonfigurationen"
   label_export_card_activate: "Aktivieren"
   label_export_card_deactivate: "De-aktivieren"
