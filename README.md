@@ -6,6 +6,7 @@ OpenProject in Scrum projects.
 
 Find a more detailed description on [OpenProject.org](https://www.openproject.org/projects/openproject/wiki/Agile_teams).
 
+Together with the plugin [OpenProject PDF Export](https://www.openproject.org/projects/pdf-export), story cards can be exported as printable PDF documents.
 
 Requirements
 ------------
