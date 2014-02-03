@@ -38,6 +38,7 @@ module Api
 
       before_filter :find_project_by_project_id,
                     :authorize, :except => [:index]
+      before_filter :parse_changed_since, only: [:index]
       before_filter :assign_planning_elements, :except => [:index, :update, :create]
 
       # Attention: find_all_projects_by_project_id needs to mimic all of the above
@@ -207,6 +208,7 @@ module Api
 
       def current_work_packages(projects)
         work_packages = WorkPackage.for_projects(projects)
+                                   .changed_since(@since)
                                    .includes(:status, :project, :type)
 
         if params[:f]
@@ -277,6 +279,12 @@ module Api
         end
 
 
+      end
+
+      private
+
+      def parse_changed_since
+        @since = Time.at(Float(params[:changed_since] || 0).to_i) rescue render_400
       end
     end
   end

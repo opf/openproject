@@ -78,6 +78,10 @@ class WorkPackage < ActiveRecord::Base
     {:conditions => {:project_id => projects}}
   }
 
+  scope :changed_since, lambda { |changed_since|
+    changed_since ? where(["#{WorkPackage.table_name}.updated_at >= ?", changed_since]) : nil
+  }
+
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   scope :open, :conditions => ["#{Status.table_name}.is_closed = ?", false], :include => :status
 
@@ -371,8 +375,15 @@ class WorkPackage < ActiveRecord::Base
     end
   end
 
+  # Users/groups the work_package can be assigned to
+  def assignable_assignees
+    project.possible_assignees
+  end
+
   # Users the work_package can be assigned to
-  delegate :assignable_users, :to => :project
+  def assignable_responsibles
+    project.possible_responsibles
+  end
 
   # Versions that the work_package can be assigned to
   # A work_package can be assigned to:
@@ -387,7 +398,7 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def to_s
-    "#{(kind.is_standard) ? l(:default_type) : "#{kind.name}"} ##{id}: #{subject}"
+    "#{(kind.is_standard) ? "" : "#{kind.name}"} ##{id}: #{subject}"
   end
 
   # Return true if the work_package is closed, otherwise false
@@ -917,12 +928,29 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def add_time_entry_for(user, attributes)
-    return if attributes.nil? || attributes.values.all?(&:blank?)
+    return if time_entry_blank?(attributes)
 
     attributes.reverse_merge!({ :user => user,
                                 :spent_on => Date.today })
 
     time_entries.build(attributes)
+  end
+
+  ##
+  # Checks if the time entry defined by the given attributes is blank.
+  # A time entry counts as blank despite a selected activity if that activity
+  # is simply the default activity and all other attributes are blank.
+  def time_entry_blank?(attributes)
+    return true if attributes.nil?
+    key = "activity_id"
+    id = attributes[key]
+    default_id = if id && !id.blank?
+      Enumeration.exists? :id => id, :is_default => true, :type => 'TimeEntryActivity'
+    else
+      true
+    end
+
+    default_id && attributes.except(key).values.all?(&:blank?)
   end
 
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

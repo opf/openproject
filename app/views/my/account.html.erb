@@ -39,43 +39,45 @@ See doc/COPYRIGHT.rdoc for more details.
                           :builder => TabularFormBuilder,
                           :lang => current_language,
                           :html => { :id => 'my_account_form' } do |f| %>
-<div class="splitcontentleft">
-<h3><%=l(:label_information_plural)%></h3>
-<div class="box tabular">
-<p><%= f.text_field :firstname, :required => true %></p>
-<p><%= f.text_field :lastname, :required => true %></p>
-<p><%= f.text_field :mail, :required => true %></p>
-<p><%= f.select :language, lang_options_for_select %></p>
-<% if Setting.openid? %>
-<p><%= f.text_field :identity_url  %></p>
-<% end %>
+  <div>
+    <div class="splitcontentleft">
+      <h3><%=l(:label_information_plural)%></h3>
+      <div class="box tabular">
+        <p><%= f.text_field :firstname, :required => true %></p>
+        <p><%= f.text_field :lastname, :required => true %></p>
+        <p><%= f.text_field :mail, :required => true %></p>
+        <p><%= f.select :language, lang_options_for_select %></p>
+        <% if Setting.openid? %>
+        <p><%= f.text_field :identity_url  %></p>
+        <% end %>
 
-<% @user.custom_field_values.select(&:editable?).each do |value| %>
-	<p><%= custom_field_tag_with_label :user, value %></p>
-<% end %>
-<%= call_hook(:view_my_account, :user => @user, :form => f) %>
-</div>
+        <% @user.custom_field_values.select(&:editable?).each do |value| %>
+          <p><%= custom_field_tag_with_label :user, value %></p>
+        <% end %>
+        <%= call_hook(:view_my_account, :user => @user, :form => f) %>
+      </div>
+    </div>
 
-<%= submit_tag l(:button_save) %>
-</div>
+    <div class="splitcontentright">
+      <h3><%= User.human_attribute_name(:mail_notification) %></h3>
+      <div class="box">
+      <%= render :partial => 'users/mail_notifications' %>
+      </div>
 
-<div class="splitcontentright">
-<h3><%= User.human_attribute_name(:mail_notification) %></h3>
-<div class="box">
-<%= render :partial => 'users/mail_notifications' %>
-</div>
+      <h3><%=l(:label_ui, :app_title => Setting.app_title)%></h3>
+      <div class="box tabular">
+      <%= render :partial => 'users/impaired_settings' %>
+      </div>
 
-<h3><%=l(:label_ui, :app_title => Setting.app_title)%></h3>
-<div class="box tabular">
-<%= render :partial => 'users/impaired_settings' %>
-</div>
+      <h3><%=l(:label_preferences)%></h3>
+      <div class="box tabular">
+      <%= render :partial => 'users/preferences' %>
+      </div>
+    </div>
+    <br style="clear:both;" />
+  </div>
 
-<h3><%=l(:label_preferences)%></h3>
-<div class="box tabular">
-<%= render :partial => 'users/preferences' %>
-</div>
-
-</div>
+  <%= submit_tag l(:button_save) %>
 <% end %>
 
 <% html_title(l(:label_my_account)) -%>
