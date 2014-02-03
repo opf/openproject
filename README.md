@@ -1,13 +1,14 @@
 OpenProject PDF Export Plugin
 ===========================
 
-This Plugin adds features which enable the configuration and generation of printable export card PDFs.
+This Plugin adds features which enable the configuration and generation of printable export card PDFs,
+especially useful to export story cards from the plugin "OpenProject Backlogs":https://www.openproject.org/projects/plugin-backlogs
 
 
 Requirements
 ------------
 
-The OpenProject PDF Export plug-in requires the [OpenProject Core](https://github.com/opf/openproject/) in
+The OpenProject PDF Export plugin requires the [OpenProject Core](https://github.com/opf/openproject/) in
 version greater or equal to *3.0.0pre37*.
 
 Tests for this plugin require `pdf-inspector`, so just add the following line to
@@ -45,7 +46,7 @@ Deinstallation
 
 Remove the line
 
-`gem "openproject-pdf_export", git: "https://github.com/finnlabs/openproject-backlogs.git"`
+`gem "openproject-pdf_export", git: "https://github.com/finnlabs/openproject-pdf_export.git", :branch => "dev"`
 
 from the file `Gemfile.plugins` and run:
 
@@ -134,7 +135,7 @@ Bug Reporting
 
 If you find any bugs, you can create a bug ticket at
 
-https://www.openproject.org/projects/plugin-backlogs
+https://www.openproject.org/projects/pdf-export
 
 
 Development
@@ -154,7 +155,7 @@ We would like to thank
 Licence
 -------
 
-Copyright (C)2013 the OpenProject Foundation (OPF)<br />
+Copyright (C)2014 the OpenProject Foundation (OPF)<br />
 Copyright (C)2011 Marnen Laibow-Koser, Sandro Munda<br />
 Copyright (C)2010-2011 friflaj<br />
 Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns<br />

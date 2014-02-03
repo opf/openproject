@@ -1,4 +1,4 @@
-<%#-- copyright
+<!---- copyright
 OpenProject PDF Export Plugin
 
 Copyright (C)2014 the OpenProject Foundation (OPF)
@@ -32,18 +32,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 See doc/COPYRIGHT.md for more details.
 
-++#%>
+++-->
 
+# Changelog
 
-<div class="box tabular">
-<p><%= f.error_messages %></p>
-<!--[form:export_card_configuration]-->
-<p><%= f.text_field :name, :required => true %></p>
-<p><%= f.text_field :per_page, :required => true %></p>
-<p><%= f.text_field :page_size, :required => true, :value => "A4", :readonly => true %></p>
-<P><%= f.select :orientation, [:landscape, :portrait], :required => true %></p>
-<p><%= f.text_area :rows, :required => true %></p>
-
-<!--[eoform:export_card_configuration]-->
-</div>
-<%= submit_tag l(@config.new_record? ? :button_create : :button_save) %>
+* Initial plugin release

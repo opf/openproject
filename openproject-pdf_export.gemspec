@@ -8,12 +8,12 @@ Gem::Specification.new do |s|
   s.version     = OpenProject::PdfExport::VERSION
   s.authors     = "Finn GmbH"
   s.email       = "info@finn.de"
-  s.homepage    = "https://www.openproject.org/projects/pdf-export"  # TODO check this URL
+  s.homepage    = "https://www.openproject.org/projects/pdf-export"
   s.summary     = 'OpenProject Pdf Export'
   s.description = "Pdf Export Plugin"
   s.license     = "GPLv3"
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + %w(CHANGELOG.md README.md)
+  s.files = Dir["{app,config,db,lib,doc}/**/*", "README.md"]
 
   s.add_dependency "rails", "~> 3.2.14"
   s.add_dependency "openproject-plugins", "~> 1.0.5"

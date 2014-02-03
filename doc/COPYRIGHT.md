@@ -1,5 +1,6 @@
-<%#-- copyright
 OpenProject PDF Export Plugin
+
+This Plugin adds features which enable the configuration and generation of printable export card PDFs.
 
 Copyright (C)2014 the OpenProject Foundation (OPF)
 Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
@@ -8,11 +9,29 @@ Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel
 Copyright (C)2009-2010 Mark Maglana
 Copyright (C)2009 Joe Heck, Nate Lowrie
 
-This program is free software; you can redistribute it and/or modify it under
-the terms of the GNU General Public License version 3.
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+version 3.
 
-OpenProject PDF Export Plugin is a derivative work based on ChiliProject Backlogs.
-The copyright follows:
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+--
+
+OpenProject PDF Export is a derivative work based on ChiliProject Backlogs, whose Copyright follows.
+
+ChiliProject Backlogs Plugin
+
+This Plugin adds features, that enable agile teams to work efficiently with
+ChiliProject in Scrum projects.
+
+
 Copyright (C) 2010-2011 - Emiliano Heyns, Mark Maglana, friflaj
 Copyright (C) 2011 - Jens Ulferts, Gregor Schmidt - Finn GmbH - Berlin, Germany
 
@@ -29,21 +48,3 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
-See doc/COPYRIGHT.md for more details.
-
-++#%>
-
-
-<div class="box tabular">
-<p><%= f.error_messages %></p>
-<!--[form:export_card_configuration]-->
-<p><%= f.text_field :name, :required => true %></p>
-<p><%= f.text_field :per_page, :required => true %></p>
-<p><%= f.text_field :page_size, :required => true, :value => "A4", :readonly => true %></p>
-<P><%= f.select :orientation, [:landscape, :portrait], :required => true %></p>
-<p><%= f.text_area :rows, :required => true %></p>
-
-<!--[eoform:export_card_configuration]-->
-</div>
-<%= submit_tag l(@config.new_record? ? :button_create : :button_save) %>
