@@ -35,6 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3215` Datepicker - Timelines calendar weeks out of sync
 * `#3332` [CodeClimate] Mass Assignment AuthSourcesController
 * `#3333` [CodeClimate] Mass Assignment RolesController
+* `#3347` [API] Make priorities available via API
 * `#3438` Activity default value makes log time required
 * `#3451` API references hidden users
 * `#3481` Fix: [Activity] Not possible to unselect all filters
