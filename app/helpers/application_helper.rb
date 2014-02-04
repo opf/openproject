@@ -267,6 +267,15 @@ module ApplicationHelper
     end
   end
 
+  def error_messages_for(param)
+    object = (param.is_a? String) ? instance_variable_get("@#{param}") : param.delete(:object)
+
+    unless object.valid?
+      render partial: 'common/validation_error', locals: { error_messages: object.errors.full_messages,
+                                                           object: object }
+    end
+  end
+
   # Renders flash messages
   def render_flash_messages
     flash.map { |k,v| render_flash_message(k, v) }.join.html_safe
