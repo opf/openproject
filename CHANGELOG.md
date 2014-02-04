@@ -20,6 +20,8 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+* `#3734` Responsible widget for my project page
+
 ## 3.0.0.pre12
 
 * `#2502` New Layout for overview / my page
