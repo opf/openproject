@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#4024` [Accessibility] Add proper page titles for sub pages
+
 ## 3.0.0pre44
 
 * `#2018` Cleanup journal tables
