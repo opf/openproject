@@ -79,7 +79,7 @@ describe Member do
       end
 
       context(:roles) { it { member.roles.should include role } }
-      context(:errors) { it { member.errors[:roles].should include "can't be empty" } }
+      context(:errors) { it { member.errors.map {|k,v| v}.should include "Please choose at least one role." } }
     end
   end
 
