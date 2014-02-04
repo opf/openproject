@@ -25,6 +25,8 @@ See doc/COPYRIGHT.md for more details.
   <%= link_to_if_authorized(l(:button_delete), {:controller => '/meetings', :action => 'destroy', :id => @meeting}, :method => :delete, :confirm => l(:text_are_you_sure), :class => 'icon icon-delete')%>
 <% end %>
 
+<% html_title "#{l(:label_meeting)}: #{@meeting.title}" %>
+
 <h2><%= l(:label_meeting) %>: <%= link_to @meeting %></h2>
 
 <%= render :partial => 'layouts/action_menu_specific' %>

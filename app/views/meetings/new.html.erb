@@ -18,6 +18,8 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
+<% html_title l(:label_meeting_new) %>
+
 <h2><%= l(:label_meeting_new) %></h2>
 <%= labelled_tabular_form_for @meeting, :url => {:controller => '/meetings', :action => 'create', :project_id => @project}, :html => {:id => 'meeting-form'} do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>
