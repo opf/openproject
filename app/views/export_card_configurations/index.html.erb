@@ -31,6 +31,8 @@ See doc/COPYRIGHT.md for more details.
 <%= link_to l(:label_export_card_configuration_new), {:action => 'new'}, :class => 'icon icon-add' %>
 </div>
 
+<% html_title l(:label_administration), l(:label_export_card_configuration_plural) %>
+
 <h2><%=l(:label_export_card_configuration_plural)%></h2>
 
 <table class="list">
@@ -86,5 +88,3 @@ See doc/COPYRIGHT.md for more details.
 <% end %>
   </tbody>
 </table>
-
-<% html_title(l(:label_type_plural)) -%>

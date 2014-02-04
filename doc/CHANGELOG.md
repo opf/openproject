@@ -27,3 +27,4 @@ See doc/COPYRIGHT.md for more details.
 # Changelog
 
 * Initial plugin release
+* `#4024` Subpages have no unique page titles
