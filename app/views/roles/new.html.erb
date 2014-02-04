@@ -10,6 +10,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<% html_title l(:label_administration), l("label_group_new") %>
+
 <h2><%= link_to Role.model_name.human(:count => 2), :controller => 'roles', :action => 'index' %> &#187; <%=l(:label_role_new)%></h2>
 
 <%= labelled_tabular_form_for @role, :url => { :action => 'create' }, :html => {:id => 'role_form'}, :as => :role do |f| %>

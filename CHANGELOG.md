@@ -1,5 +1,7 @@
 # Changelog
 
+* `#4024` Subpages have no unique page titles
+
 ## 1.0.1.pre5
 
 * `#3333` [CodeClimate] Mass Assignment RolesController
