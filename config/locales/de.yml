@@ -699,7 +699,7 @@ de:
   label_enable_multi_select: "Mehrfachauswahl umschalten"
   label_end_to_end: "Ende - Ende"
   label_end_to_start: "Ende - Anfang"
-  label_enumeration_new: "Neuer Wert"
+  label_enumeration_new: "Neuer Aufzählungswert"
   label_enumerations: "Aufzählungen"
   label_environment: "Umgebung"
   label_equals: "ist"
@@ -745,6 +745,7 @@ de:
   label_work_package_category_plural: "Arbeitspaket-Kategorien"
   label_work_package_hierarchy: "Arbeitspaket-Hierarchie"
   label_work_package_new: "Neues Arbeitspaket"
+  label_work_package_edit: "Arbeitspaket %{name} editieren"
   label_work_package_plural: "Arbeitspakete"
   label_work_package_status_new: "Neuer Status"
   label_work_package_status_plural: "Arbeitspaket-Status"
@@ -810,6 +811,7 @@ de:
   label_news_comment_added: "Kommentar einer News hinzugefügt"
   label_news_latest: "Letzte News"
   label_news_new: "News hinzufügen"
+  label_news_edit: "News bearbeiten"
   label_news_plural: "News"
   label_news_view_all: "Alle News anzeigen"
   label_next: "Weiter"
@@ -887,6 +889,7 @@ de:
   label_revision_id: "Revision %{value}"
   label_revision_plural: "Revisionen"
   label_roadmap: "Roadmap"
+  label_roadmap_edit: "Roadmap %{name} editieren"
   label_roadmap_due_in: "Fällig in %{value}"
   label_roadmap_no_work_packages: "Keine Arbeitspakete für diese Version"
   label_roadmap_overdue: "%{value} verspätet"
@@ -967,6 +970,7 @@ de:
   label_week: "Woche"
   label_wiki_content_added: "Die Wiki-Seite wurde erfolgreich hinzugefügt."
   label_wiki_content_updated: "Die Wiki-Seite wurde erfolgreich aktualisiert."
+  label_wiki_toc: "Table of Contents"
   label_wiki_dont_show_menu_item: "Wikiseite nicht in der Projektnavigation anzeigen"
   label_wiki_edit: "Wiki-Bearbeitung"
   label_wiki_edit_plural: "Wiki-Bearbeitungen"
@@ -981,6 +985,7 @@ de:
   label_work_package_plural: "Arbeitspakete"
   label_work_package_new: "Neues Arbeitspaket"
   label_workflow: "Workflow"
+  label_workflow_plural: "Workflows"
   label_workflow_summary: "Zusammenfassung"
   label_x_closed_work_packages_abbr:
     one: "1 geschlossen"
@@ -1387,7 +1392,9 @@ de:
 
   timelines:
     admin_menu:
+      color: "Farbe"
       colors: "Farben"
+      project_type: "Projekt-Typ"
       project_types: "Projekt-Typen"
     add_project_association: "Projekt-Abhängigkeit erstellen"
     associations: "Abhängigkeiten"
@@ -1409,6 +1416,7 @@ de:
     edit_project_type: "Projekt-Typ bearbeiten"
     edit_thing: "Bearbeiten"
     edit_timeline: "Zeitplan-Report bearbeiten"
+    delete_timeline: "Zeitplan-Report löschen"
     empty: "(leer)"
     enable_type_in_project: 'Typ "%{type}" aktivieren'
     end: "Abschluss"

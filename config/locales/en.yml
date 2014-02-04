@@ -696,7 +696,7 @@ en:
   label_enable_multi_select: "Toggle multiselect"
   label_end_to_end: "end to end"
   label_end_to_start: "end to start"
-  label_enumeration_new: "New value"
+  label_enumeration_new: "New enumeration value"
   label_enumerations: "Enumerations"
   label_environment: "Environment"
   label_equals: "is"
@@ -742,6 +742,7 @@ en:
   label_work_package_category_plural: "Work package categories"
   label_work_package_hierarchy: "Work package hierarchy"
   label_work_package_new: "New work package"
+  label_work_package_edit: "Edit work package %{name}"
   label_work_package_plural: "Work packages"
   label_work_package_status_new: "New status"
   label_work_package_status_plural: "Work package statuses"
@@ -807,6 +808,7 @@ en:
   label_news_comment_added: "Comment added to a news"
   label_news_latest: "Latest news"
   label_news_new: "Add news"
+  label_news_edit: "Edit news"
   label_news_plural: "News"
   label_news_view_all: "View all news"
   label_next: "Next"
@@ -884,6 +886,7 @@ en:
   label_revision_id: "Revision %{value}"
   label_revision_plural: "Revisions"
   label_roadmap: "Roadmap"
+  label_roadmap_edit: "Edit roadmap %{name}"
   label_roadmap_due_in: "Due in %{value}"
   label_roadmap_no_work_packages: "No work packages for this version"
   label_roadmap_overdue: "%{value} late"
@@ -964,6 +967,7 @@ en:
   label_week: "Week"
   label_wiki_content_added: "Wiki page added"
   label_wiki_content_updated: "Wiki page updated"
+  label_wiki_toc: "Table of Contents"
   label_wiki_dont_show_menu_item: "Do not show this wikipage in project navigation"
   label_wiki_edit: "Wiki edit"
   label_wiki_edit_plural: "Wiki edits"
@@ -978,6 +982,7 @@ en:
   label_work_package_plural: "Work packages"
   label_work_package_new: "New work package"
   label_workflow: "Workflow"
+  label_workflow_plural: "Workflows"
   label_workflow_summary: "Summary"
   label_x_closed_work_packages_abbr:
     one: "1 closed"
@@ -1371,7 +1376,9 @@ en:
 
   timelines:
     admin_menu:
+      color: "Color"
       colors: "Colors"
+      project_type: "Project type"
       project_types: "Project types"
     project_menu:
       planning_elements: "Planning elements"
@@ -1399,6 +1406,7 @@ en:
     edit_project_type: "Edit project type"
     edit_thing: "Edit"
     edit_timeline: "Edit timeline report"
+    delete_timeline: "Delete timeline report"
     empty: "(empty)"
     enable_type_in_project: 'Enable type "%{type}"'
     end: "End"
