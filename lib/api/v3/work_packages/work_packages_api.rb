@@ -103,7 +103,7 @@ module API
                 authorize(:add_work_packages, context: @work_package.project) \
                   || authorize(:edit_work_packages, context: @work_package.project)
 
-                available_assignees = @work_package.assignable_assignees
+                available_assignees = @work_package.assignable_assignees.all
                 build_representer(available_assignees,
                                   ::API::V3::Users::UserModel,
                                   ::API::V3::Users::UserCollectionRepresenter,
@@ -118,7 +118,7 @@ module API
                 authorize(:add_work_packages, context: @work_package.project) \
                   || authorize(:edit_work_packages, context: @work_package.project)
 
-                available_responsibles = @work_package.assignable_responsibles
+                available_responsibles = @work_package.assignable_responsibles.all
                 build_representer(available_responsibles,
                                   ::API::V3::Users::UserModel,
                                   ::API::V3::Users::UserCollectionRepresenter,

@@ -28,6 +28,7 @@
 
 require 'spec_helper'
 require 'rack/test'
+require_relative 'api_helper_spec'
 
 describe API::V3::WorkPackages::WorkPackagesAPI, :type => :request do
   let(:admin) { FactoryGirl.create(:admin) }
@@ -63,10 +64,13 @@ describe API::V3::WorkPackages::WorkPackagesAPI, :type => :request do
       describe "users" do
         let(:user) { FactoryGirl.build_stubbed(:user) }
         let(:user2) { FactoryGirl.build_stubbed(:user) }
+        let(:possible_assignees) { double('users_relation', all: users_list) }
 
         context "single user" do
+          let(:users_list) { [user] }
+
           before do
-            allow(work_package.project).to receive(:possible_assignees).and_return([user])
+            allow(work_package.project).to receive(:possible_assignees).and_return(possible_assignees)
 
             allow(user).to receive(:created_on).and_return(user.created_at)
             allow(user).to receive(:updated_on).and_return(user.created_at)
@@ -78,8 +82,10 @@ describe API::V3::WorkPackages::WorkPackagesAPI, :type => :request do
         end
 
         context "multiple users" do
+          let(:users_list) { [user, user2] }
+
           before do
-            allow(work_package.project).to receive(:possible_assignees).and_return([user, user2])
+            allow(work_package.project).to receive(:possible_assignees).and_return(possible_assignees)
 
             allow(user).to receive(:created_on).and_return(user.created_at)
             allow(user).to receive(:updated_on).and_return(user.created_at)

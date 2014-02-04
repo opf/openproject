@@ -47,14 +47,6 @@ class Project < ActiveRecord::Base
   # Specific overridden Activities
   has_many :time_entry_activities
   has_many :members, :include => [:user, :roles], :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUSES[:active]}"
-  has_many :possible_assignee_members,
-           :class_name => 'Member',
-           :include => [:principal, :roles],
-           :conditions => Proc.new { self.class.possible_assignees_condition }
-  has_many :possible_responsible_members,
-           :class_name => 'Member',
-           :include => [:principal, :roles],
-           :conditions => Proc.new { self.class.possible_responsibles_condition }
   has_many :memberships, :class_name => 'Member'
   has_many :member_principals, :class_name => 'Member',
                                :include => :principal,
@@ -554,13 +546,17 @@ class Project < ActiveRecord::Base
   end
 
   # Users/groups a work_package can be assigned to
-  def possible_assignees
-    possible_assignee_members.map(&:principal).compact.sort
+  def possible_assignees(only_name: false)
+    accepted_types = Setting.work_package_group_assignment? ?
+                            [Group.to_s, User.to_s] :
+                            [User.to_s]
+
+    possible_principals(accepted_types, only_name: only_name)
   end
 
   # Users who can become responsible for a work_package
-  def possible_responsibles
-    possible_responsible_members.map(&:principal).compact.sort
+  def possible_responsibles(only_name: false)
+    possible_principals([User.to_s], only_name: only_name)
   end
 
   # Returns the mail adresses of users that should be always notified on project events
@@ -897,5 +893,20 @@ class Project < ActiveRecord::Base
       'User', User::STATUSES[:active], true]
 
     sanitize_sql_array condition
+  end
+
+  def possible_principals(accepted_types, only_name: false)
+    principals = members_with_assignable_roles.where(users: { type: accepted_types })
+
+    principals = principals.select_only_name_attributes if only_name
+
+    principals
+  end
+
+  def members_with_assignable_roles
+    Authorization.principals(project: self)
+                 .where(roles: { assignable: true })
+                 .where(members: { project_id: self.id })
+                 .order_by_name
   end
 end
