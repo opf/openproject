@@ -26,10 +26,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
+<%= include_gon %>
 
 <%= form_tag({}) do -%>
   <%= hidden_field_tag 'back_url', url_for(params) %>
-  <div class="autoscroll">
+  <div class="autoscroll" ng-controller="WorkPackagesController">
     <table class="list issues">
 
       <thead>

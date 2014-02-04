@@ -1,4 +1,5 @@
 openprojectApp.directive('zoomSlider', function() {
+  // TODO pass options to directive and do not refer to timelines
   return {
     restrict: 'A',
     link: function(scope, element, attributes) {

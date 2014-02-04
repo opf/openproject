@@ -222,6 +222,10 @@ class WorkPackagesController < ApplicationController
                       []
                     end
 
+    # push work packages to client as JSON
+    # TODO pull work packages via AJAX
+    gon.work_packages = work_packages;
+
     respond_to do |format|
       format.html do
         render :index, :locals => { :query => @query,
