@@ -25,6 +25,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   <%= link_to_if_authorized l(:button_delete), {:controller => 'cost_objects', :action => 'destroy', :id => @cost_object}, :confirm => l(:text_are_you_sure), :method => :delete, :class => 'icon icon-delete' %>
 <% end %>
 
+<% html_title "#{l(:label_cost_object_id, id: @cost_object.id)}: #{@cost_object.subject}" %>
+
 <h2><%= l(:label_cost_object_id, :id => @cost_object.id) %></h2>
 
 <%= render :partial => 'layouts/action_menu_specific' %>
@@ -70,5 +72,3 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   <%= render :partial => 'edit' %>
   </div>
 <% end %>
-
-<% html_title "#{l(:label_cost_object)} ##{@cost_object.id}: #{@cost_object.subject}" %>
