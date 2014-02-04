@@ -37,14 +37,18 @@ module OpenProject::PdfExport::ExportCard
       # Get value from model
       if @config['custom_field']
         # Get
-        vs = work_package.custom_field_values.select {|cf| cf.custom_field.name == property_name}
+        vs = @work_package.custom_field_values.select {|cf| cf.custom_field.name == @property_name}
         value = if vs.first && vs.first.value
-                  value vs.first.value
+                  value = vs.first.value
                 else
                   ""
                 end
       else
-        value = @work_package.send(@property_name) if @work_package.respond_to?(@property_name) else ""
+        value = if @work_package.respond_to?(@property_name)
+                  @work_package.send(@property_name)
+                else
+                  ""
+                end
       end
 
       if value.is_a?(Array)
