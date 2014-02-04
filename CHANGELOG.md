@@ -1,5 +1,7 @@
 # Changelog
 
+* `#4024` Subpages have no unique page titles
+
 ## 4.0.0.pre9
 
 * Adaptations for new icon font
