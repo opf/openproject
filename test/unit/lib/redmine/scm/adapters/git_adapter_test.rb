@@ -32,8 +32,6 @@
 
 require File.expand_path('../../../../../../test_helper', __FILE__)
 begin
-  require 'mocha/setup'
-
   class GitAdapterTest < ActiveSupport::TestCase
     REPOSITORY_PATH = Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository'
 
@@ -249,7 +247,7 @@ begin
       private
 
       def test_scm_version_for(scm_command_version, version)
-        @adapter.class.expects(:scm_version_from_command_line).returns(scm_command_version)
+        @adapter.class.should_receive(:scm_version_from_command_line).and_return(scm_command_version)
         assert_equal version, @adapter.class.scm_command_version
       end
 
@@ -257,11 +255,6 @@ begin
       puts "Git test repository NOT FOUND. Skipping unit tests !!!"
       def test_fake; assert true end
     end
-  end
-
-rescue LoadError
-  class GitMochaFake < ActiveSupport::TestCase
-    def test_fake; assert(false, "Requires mocha to run those tests")  end
   end
 end
 

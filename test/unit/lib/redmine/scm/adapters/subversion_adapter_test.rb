@@ -30,8 +30,6 @@
 require File.expand_path('../../../../../../test_helper', __FILE__)
 
 begin
-  require 'mocha/setup'
-
   class SubversionAdapterTest < ActiveSupport::TestCase
 
     if repository_configured?('subversion')
@@ -57,7 +55,7 @@ begin
       private
 
       def test_scm_version_for(scm_version, version)
-        @adapter.class.expects(:scm_version_from_command_line).returns(scm_version)
+        @adapter.class.should_receive(:scm_version_from_command_line).and_return(scm_version)
         assert_equal version, @adapter.class.svn_binary_version
       end
 
@@ -65,10 +63,5 @@ begin
       puts "Subversion test repository NOT FOUND. Skipping unit tests !!!"
       def test_fake; assert true end
     end
-  end
-
-rescue LoadError
-  class SubversionMochaFake < ActiveSupport::TestCase
-    def test_fake; assert(false, "Requires mocha to run those tests")  end
   end
 end

@@ -58,7 +58,7 @@ class AccountControllerTest < ActionController::TestCase
   end
 
   def test_login_should_reset_session
-    @controller.expects(:reset_session).once
+    @controller.should_receive(:reset_session).once
 
     post :login, :username => 'jsmith', :password => 'jsmith'
     assert_response 302
@@ -181,7 +181,7 @@ class AccountControllerTest < ActionController::TestCase
   end
 
   def test_logout_should_reset_session
-    @controller.expects(:reset_session).once
+    @controller.should_receive(:reset_session).once
 
     @request.session[:user_id] = 2
     get :logout
