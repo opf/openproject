@@ -291,8 +291,8 @@ Then /^the "([^"]*)" field should have no error$/ do |field|
   end
 end
 
-Then /^the "([^"]*)" checkbox should be checked$/ do |label |
-  field_checked = find_field(label)['checked']
+Then /^the (hidden )?"([^"]*)" checkbox should be checked$/ do |hidden, label |
+  field_checked = find_field(label, :visible => hidden.nil?)['checked']
   if field_checked.respond_to? :should
     field_checked.should be_true
   else
@@ -300,8 +300,8 @@ Then /^the "([^"]*)" checkbox should be checked$/ do |label |
   end
 end
 
-Then /^the "([^"]*)" checkbox should not be checked$/ do |label |
-  field_checked = find_field(label)['checked']
+Then /^the (hidden )?"([^"]*)" checkbox should not be checked$/ do |hidden, label |
+  field_checked = find_field(label, :visible => hidden.nil?)['checked']
   if field_checked.respond_to? :should
     field_checked.should be_false
   else
