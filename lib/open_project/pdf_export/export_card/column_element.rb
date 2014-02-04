@@ -36,10 +36,6 @@ module OpenProject::PdfExport::ExportCard
     def draw
       # Get value from model
       value = @work_package.send(@property_name) if @work_package.respond_to?(@property_name) else ""
-
-      if value.is_a?(Array)
-        value = value.map{|c| c.to_s }.join("\n")
-      end
       draw_value(value)
     end
 
@@ -88,12 +84,24 @@ module OpenProject::PdfExport::ExportCard
       # Label and text
       has_label = @config['has_label']
       indented = @config['indented']
+
+      if has_label
+        custom_label = @config['custom_label']
+        label_text = if custom_label
+                  "#{custom_label}: "
+                else
+                  "#{@work_package.class.human_attribute_name(@property_name)}: "
+                end
+        if @config['has_count'] && value.is_a?(Array)
+          label_text = "#{label_text} #{value.count}"
+        end
+      else
+        label_text = ""
+      end
+
+      # Flatten value to a string if it isn't already
+      value = value.map{|c| c.to_s }.join("\n") if value.is_a?(Array)
       value = value.to_s if !value.is_a?(String)
-      label_text = if has_label
-                     "#{@work_package.class.human_attribute_name(@property_name)}: "
-                   else
-                     ""
-                   end
 
       if has_label && indented
         width_ratio = 0.2 # Note: I don't think it's worth having this in the config

@@ -37,7 +37,7 @@ class ExportCardConfiguration < ActiveRecord::Base
     REQUIRED_COLUMN_KEYS = []
     VALID_COLUMN_KEYS = ["has_label", "min_font_size", "max_font_size",
       "font_size", "font_style", "text_align", "minimum_lines", "render_if_empty",
-      "width", "indented"]
+      "width", "indented", "custom_label", "has_count"]
 
     def assert_required_keys(hash, valid_keys, required_keys)
       hash.assert_valid_keys valid_keys
