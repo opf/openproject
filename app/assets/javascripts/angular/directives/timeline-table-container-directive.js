@@ -33,6 +33,8 @@ openprojectApp.directive('timelineTableContainer', ['TimelineLoaderService', 'Ti
         // select inputs in the toolbar.
         if(scope.updateToolbar) scope.updateToolbar();
 
+        scope.underConstruction = false;
+
         scope.timeline.getChart().scroll(function() {
           scope.timeline.adjustTooltip();
         });
