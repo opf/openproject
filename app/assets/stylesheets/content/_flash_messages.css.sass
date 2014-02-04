@@ -43,7 +43,7 @@ div.flash.error a:hover, div.flash.warning a:hover, div.flash.notice a:hover, #e
     font-size: 0.9em
     margin-left: 30px
   h2, p
-    display: none
+    @include hidden_for_sighted
 
 div.flash.error, #errorExplanation
   background-color: $content_flash_error_msg_bg_color

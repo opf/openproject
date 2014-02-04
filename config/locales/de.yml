@@ -268,6 +268,10 @@ de:
       wiki: "Wiki"
       wiki_page: "Wiki-Seite"
       workflow: "Workflow"
+      work_package: "Arbeitspaket"
+
+  errors:
+    header_invalid_fields: "Bei den folgenden Feldern traten Fehler auf:"
 
   activity:
     created: "Erstellt: %{title}"
