@@ -35,6 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#4024` [Accessibility] Add proper page titles for sub pages
 * `#4090` 'Session Expires' setting breaks API
 * News subject contained in URL
+* Removes mocha mocking framework.
 
 ## 3.0.0pre44
 
