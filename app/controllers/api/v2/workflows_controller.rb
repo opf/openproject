@@ -35,7 +35,7 @@ module Api
 
       Transition = Struct.new(:new_status_id, :scope)
 
-      before_filter :find_project
+      before_filter :find_project_by_project_id
 
       accept_key_auth :index
 
@@ -62,12 +62,6 @@ module Api
       end
 
       protected
-
-      def find_project
-        @project = Project.find params[:project_id]
-      rescue ActiveRecord::RecordNotFound
-        render_404
-      end
 
       def require_permissions
         deny_access unless @project.visible?
