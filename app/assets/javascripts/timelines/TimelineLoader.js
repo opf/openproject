@@ -742,12 +742,38 @@ Timeline.TimelineLoader = (function () {
       }
     };
 
+    TimelineLoader.prototype.provideServerSideFilterHashCustomFields = function (hash) {
+      var custom_fields = this.options.custom_fields, field_id;
+
+      if (custom_fields !== undefined) {
+        for (field_id in custom_fields) {
+          if (custom_fields.hasOwnProperty(field_id)) {
+
+            var value = custom_fields[field_id];
+
+            // -1 and the empty string both need to be added in the
+            // (none)-case, since (none) has to both match work packages
+            // w/ custom fields w/ an empty value and work packages with
+            // no custom field.
+            if (value.length === 1 && value[0] == "-1") {
+              value.push("");
+            }
+
+            if (value && value !== "" && value.length > 0) {
+              hash["cf_" + field_id] = value;
+            }
+          }
+        }
+      }
+    };
+
     TimelineLoader.prototype.provideServerSideFilterHash = function() {
       var result = {};
       this.provideServerSideFilterHashTypes(result);
       this.provideServerSideFilterHashResponsibles(result);
       this.provideServerSideFilterHashStatus(result);
       this.provideServerSideFilterHashAssignee(result);
+      this.provideServerSideFilterHashCustomFields(result);
       return result;
     };
 
@@ -766,7 +792,7 @@ Timeline.TimelineLoader = (function () {
         // load current planning elements.
         this.loader.register(
           Timeline.PlanningElement.identifier + '_' + i,
-          { url : qsb.build(projectPrefix + '/planning_elements.json') },
+          { url : qsb.append({timeline: this.options.timeline_id}).build(projectPrefix + '/planning_elements.json') },
           { storeIn: Timeline.PlanningElement.identifier }
         );
 
