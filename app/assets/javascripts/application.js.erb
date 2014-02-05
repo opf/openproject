@@ -1269,7 +1269,15 @@ var activateError = function() {
   errorHeader.show();
 }
 
+var activateFlash = function() {
+  var flashMessage = jQuery('.flash');
+
+  flashMessage.hide();
+  flashMessage.show();
+}
+
 jQuery(document).ready(activateError);
+jQuery(document).ready(activateFlash);
 
 var SubmitConfirm = (function($) {
   var init;
