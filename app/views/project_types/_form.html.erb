@@ -35,8 +35,6 @@ See doc/COPYRIGHT.rdoc for more details.
   :project_type => ProjectType
 %>
 
-<%= error_messages_for 'project_type' %>
-
 <h2>
   <% if project_type.new_record? %>
     <% html_title l("timelines.new_project_type") %>
@@ -46,6 +44,8 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= l("timelines.edit_project_type") %>: <%=h @project_type.name %>
   <% end %>
 </h2>
+
+<%= error_messages_for 'project_type' %>
 
 <div class="box">
   <p><%= f.text_field :name, :required => true %></p>
