@@ -39,8 +39,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#2018` Cleanup journal tables
 * `#2244` Fix: [Accessibility] correctly label document language - custom fields
+* `#2520` Creating projects is possible with no types selected
 * `#2594` Fix: [Activity] Too many filter selects than necessary
 * `#3215` Datepicker - Timelines calendar weeks out of sync
+* `#3249` [Work Package Tracking] Work packages of type none are displayed as if they were of type work packages
 * `#3332` [CodeClimate] Mass Assignment AuthSourcesController
 * `#3333` [CodeClimate] Mass Assignment RolesController
 * `#3347` [API] Make priorities available via API
