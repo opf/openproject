@@ -47,7 +47,7 @@ class JournalObserverTest < ActiveSupport::TestCase
     @user.members.first.roles << @workflow.role
     @user.reload
 
-    User.stubs(:current).returns(@user)
+    User.stub(:current).and_return(@user)
 
     ActionMailer::Base.deliveries.clear
   end

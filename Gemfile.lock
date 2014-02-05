@@ -385,7 +385,6 @@ DEPENDENCIES
   json_spec
   launchy (~> 2.3.0)
   letter_opener (~> 1.0.0)
-  mocha (~> 0.13.1)
   multi_json
   mysql2 (~> 0.3.11)
   net-ldap (~> 0.2.2)
