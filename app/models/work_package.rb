@@ -897,6 +897,12 @@ class WorkPackage < ActiveRecord::Base
                        :joins => User.table_name)
   end
 
+  def self.by_responsible(project)
+    count_and_group_by(:project => project,
+                       :field => 'responsible_id',
+                       :joins => User.table_name)
+  end
+
   def self.by_author(project)
     count_and_group_by(:project => project,
                        :field => 'author_id',

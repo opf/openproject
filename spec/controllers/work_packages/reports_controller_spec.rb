@@ -77,6 +77,8 @@ describe WorkPackages::ReportsController do
 
       it { assigns :work_packages_by_assigned_to }
 
+      it { assigns :work_packages_by_responsible }
+
       it { assigns :work_packages_by_author }
 
       it { assigns :work_packages_by_subproject }
@@ -127,6 +129,12 @@ describe WorkPackages::ReportsController do
 
       describe :assigned_to do
         let(:detail) { 'assigned_to' }
+
+        it_behaves_like "details view"
+      end
+
+      describe :responsible do
+        let(:detail) { 'responsible' }
 
         it_behaves_like "details view"
       end
