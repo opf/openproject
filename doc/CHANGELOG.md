@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#3113` [API] Read access on work package workflows for API v2
 * `#3732` Summary for work package responsibility
 * `#3733` Responsible widget for my page
 * `#4024` [Accessibility] Add proper page titles for sub pages
