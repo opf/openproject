@@ -31,7 +31,7 @@
 # statuses that can be reached by the workflows of the project
 module Api
   module V2
-    class WorkPackagePrioritiesController < ApplicationController
+    class PlanningElementPrioritiesController < ApplicationController
       include PaginationHelper
 
       include ::Api::V2::ApiController
