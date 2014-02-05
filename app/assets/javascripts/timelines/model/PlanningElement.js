@@ -672,7 +672,7 @@ Timeline.PlanningElement = {
           textColor = timeline.getLimunanceFor(color) > Timeline.PE_LUMINANCE_THRESHOLD ?
                       Timeline.PE_DARK_TEXT_COLOR : Timeline.PE_LIGHT_TEXT_COLOR;
 
-          var text = this.subject;
+          text = this.subject;
           label = timeline.paper.text(0, 0, text);
           label.attr({
             'font-size': 12,

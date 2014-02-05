@@ -127,25 +127,3 @@ Feature: Updating work packages
     Then I should be on the page of the work package "pe1"
      And I should see a journal with the following:
       | Notes | Note message |
-
-  @javascript
-  Scenario: Bulk updating the fixed version of several work packages
-    When I go to the work package index page of the project called "ecookbook"
-    And  I open the context menu on the work packages:
-      | pe1 |
-      | pe2 |
-    And I hover over ".fixed_version .context_item"
-    And I follow "none" within "#context-menu"
-    Then I should see "Successful update"
-    And I follow "pe1"
-    And I should see "deleted (version1)"
-
-  @javascript
-    Scenario: Bulk updating several work packages without back url should return index
-      When I go to the work package index page of the project called "ecookbook"
-      And  I open the context menu on the work packages:
-        | pe1 |
-        | pe2 |
-      And I follow "Edit" within "#context-menu"
-      And I press "Submit"
-      Then I should see "Work packages" within "#content"

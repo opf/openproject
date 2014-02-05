@@ -35,6 +35,8 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= link_to l(:label_project_new), {:controller => '/projects', :action => 'new'}, :class => 'icon icon-add' %>
 <% end %>
 
+<% html_title(l(:label_administration), l(:label_project_plural)) -%>
+
 <h2><%=l(:label_project_plural)%></h2>
 
 <%= render :partial => 'layouts/action_menu_specific' %>
@@ -90,5 +92,3 @@ See doc/COPYRIGHT.rdoc for more details.
   </tbody>
 </table>
 </div>
-
-<% html_title(l(:label_project_plural)) -%>

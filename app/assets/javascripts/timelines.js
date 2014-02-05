@@ -73,7 +73,7 @@
 
 // environment and other global vars
 /*jshint browser:true, devel:true*/
-/*global jQuery:false, Raphael:false, Timeline:true*/
+/*global jQuery:false, Raphael:false, Timeline:true, modalHelperInstance: true, I18n: true*/
 
 if (typeof Timeline === "undefined") {
   Timeline = {};

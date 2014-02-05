@@ -36,4 +36,37 @@ describe Api::V2::AuthenticationController do
 
     it_should_behave_like "a controller action with require_login"
   end
+
+  describe "session" do
+    let(:api_key) { user.api_key }
+    let(:user) { FactoryGirl.create(:admin) }
+    let(:ttl) { 42 }
+
+    before do
+      Setting.stub(:login_required?).and_return true
+      Setting.stub(:rest_api_enabled?).and_return true
+      Setting.stub(:session_ttl_enabled?).and_return true
+      Setting.stub(:session_ttl).and_return ttl
+    end
+
+    after do
+      User.current = nil
+    end
+
+    ##
+    # Sessions for API requests should never expire.
+    # Actually, there shouldn't be any to begin with, but we can't change that for now.
+    it 'should not expire' do
+      session[:updated_at] = Time.now
+
+      get :index, :format => 'xml', :key => api_key
+      expect(response.status).to eq(200)
+
+      Timecop.travel(Time.now + (ttl + 1).minutes) do
+        # Now another request after a normal session would be expired
+        get :index, :format => 'xml', :key => api_key
+        expect(response.status).to eq(200)
+      end
+    end
+  end
 end

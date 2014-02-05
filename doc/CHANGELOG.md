@@ -29,11 +29,34 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#3113` [API] Read access on work package workflows for API v2
+* `#3732` Summary for work package responsibility
+* `#3733` Responsible widget for my page
+* `#4024` [Accessibility] Add proper page titles for sub pages
+* `#4090` 'Session Expires' setting breaks API
+
+## 3.0.0pre44
+
 * `#2018` Cleanup journal tables
 * `#2244` Fix: [Accessibility] correctly label document language - custom fields
-* `#3113` [API] Read access on work package workflows for API v2
+* `#2594` Fix: [Activity] Too many filter selects than necessary
+* `#3215` Datepicker - Timelines calendar weeks out of sync
 * `#3332` [CodeClimate] Mass Assignment AuthSourcesController
 * `#3333` [CodeClimate] Mass Assignment RolesController
+* `#3347` [API] Make priorities available via API
+* `#3438` Activity default value makes log time required
+* `#3451` API references hidden users
+* `#3481` Fix: [Activity] Not possible to unselect all filters
+* `#3730` Setting responsible via bulk edit
+* `#3731` Setting responsible via context menu
+* `#3774` Fix: [API] Not possible to set journal notes via API
+* `#3843` Prettier translations for member errors
+* `#3844` Fixed Work Package status translation
+* `#3865` Detailed filters on dates
+* `#3854` Move function and Query filters allows to select groups as responsible
+* `#3974` [Timelines] Typo at creating timelines
+* `#4023` [Accessibility] Keep keyboard focus within modal while it's open
+* Add Gruntfile for easier JavaScript testing.
 
 ## 3.0.0pre43
 
