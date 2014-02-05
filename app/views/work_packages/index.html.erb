@@ -50,6 +50,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= render :partial => 'layouts/action_menu_specific' %>
 
+<%= error_messages_for 'query' %>
+
 <div class="title-bar">
   <div class="title-bar-extras">
 
@@ -117,8 +119,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
   </div><!-- .title-bar-extras -->
 </div><!-- .title-bar -->
-
-<%= error_messages_for 'query' %>
 
 <% if query.valid? %>
   <% if work_packages.empty? %>
