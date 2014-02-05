@@ -41,44 +41,10 @@ When(/^I should see the news-headline "([^"]*)"$/) do |news_headline|
   page.should have_css("#widget_news_latest .news .overview a", text: news_headline)
 end
 
-
-# steps for work packages reported by me
-def reported_work_package_subject
-  "#widget_work_packages_reported_by_me td.subject a"
+When /^I should see the work-package-subject "([^"]*)" in the '(.+)'-section$/ do |work_package_subject, section|
+  page.should have_css("\#widget_#{section.downcase.tr(' ','_')} td.subject a", text: work_package_subject)
 end
 
-When /^I should see the work-package-subject "([^"]*)" in the 'Work packages reported by me'-section$/ do |work_package_subject|
-  page.should have_css(reported_work_package_subject, text: work_package_subject)
+When /^I should not see the work-package-subject "([^"]*)" in the '(.+)'-section$/ do |work_package_subject, section|
+  page.should_not have_css("\#widget_#{section.downcase.tr(' ','_')} td.subject a", text: work_package_subject)
 end
-
-When /^I should not see the work-package-subject "([^"]*)" in the 'Work packages reported by me'-section$/ do |work_package_subject|
-  page.should_not have_css(reported_work_package_subject, text: work_package_subject)
-end
-
-# steps for work packages assigned to me
-def assigned_to_me_work_package_subject
-  "#widget_work_packages_assigned_to_me td.subject a"
-end
-
-When /^I should see the work-package-subject "([^"]*)" in the 'Work packages assigned to me'-section$/ do |work_package_subject|
-  page.should have_css(assigned_to_me_work_package_subject, text: work_package_subject)
-end
-
-When /^I should not see the work-package-subject "([^"]*)" in the 'Work packages assigned to me'-section$/ do |work_package_subject|
-  page.should_not have_css(assigned_to_me_work_package_subject, text: work_package_subject)
-end
-
-# steps for work packages assigned to me
-def watched_work_package_subject
-  "#widget_work_packages_watched td.subject a"
-end
-
-When /^I should see the work-package-subject "([^"]*)" in the 'Work packages watched'-section$/ do |work_package_subject|
-  page.should have_css(watched_work_package_subject, text: work_package_subject)
-end
-
-When /^I should not see the work-package-subject "([^"]*)" in the 'Work packages watched'-section$/ do |work_package_subject|
-  page.should_not have_css(watched_work_package_subject, text: work_package_subject)
-end
-
-

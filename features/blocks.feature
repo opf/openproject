@@ -80,6 +80,18 @@ Feature: Behavior of specific blocks (news, issues - this is currently not compl
     And I should see the work-package-subject "Test-Issue" in the 'Work packages assigned to me'-section
     And I should not see the work-package-subject "NO-SHOW" in the 'Work packages assigned to me'-section
 
+  Scenario: In the 'Work packages I am responsible for'-Section, I should only see work packages for the selected project
+    And there are the following issues with attributes:
+      | subject     | project        | author  | assignee  | responsible |
+      | Test-Issue  | tested_project | bob     | bob       | bob         |
+      | NO-SHOW     | tested_project | bob     | mary      | mary        |
+    And the following widgets are selected for the overview page of the "tested_project" project:
+      | top        | work_packages_responsible_for |
+    And I am on the homepage for the project "tested_project"
+    Then I should see the widget "work_packages_responsible_for"
+    And I should see the work-package-subject "Test-Issue" in the 'Work packages responsible for'-section
+    And I should not see the work-package-subject "NO-SHOW" in the 'Work packages responsible for'-section
+
   Scenario: In the 'Work packages watched by me'-Section, I should only see work packages for the selected project
     And there are the following issues with attributes:
       | subject     | project        | author  | watched_by |
