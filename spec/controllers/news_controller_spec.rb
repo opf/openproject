@@ -38,7 +38,7 @@ describe NewsController do
   let(:news)    { FactoryGirl.create(:news)    }
 
   before do
-    User.stubs(:current).returns user
+    User.stub(:current).and_return user
   end
 
   describe "#index" do
