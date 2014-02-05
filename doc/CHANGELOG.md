@@ -32,6 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3732` Summary for work package responsibility
 * `#3733` Responsible widget for my page
 * `#4024` [Accessibility] Add proper page titles for sub pages
+* `#4090` 'Session Expires' setting breaks API
 
 ## 3.0.0pre44
 
