@@ -758,6 +758,15 @@ Timeline.TimelineLoader = (function () {
           if (custom_fields.hasOwnProperty(field_id)) {
 
             var value = custom_fields[field_id];
+
+            // -1 and the empty string both need to be added in the
+            // (none)-case, since (none) has to both match work packages
+            // w/ custom fields w/ an empty value and work packages with
+            // no custom field.
+            if (value.length === 1 && value[0] == "-1") {
+              value.push("");
+            }
+
             if (value && value !== "" && value.length > 0) {
               hash["cf_" + field_id] = value;
             }
