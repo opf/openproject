@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'api/v2/work_package_priorities/index.api.rabl' do
+describe 'api/v2/planning_element_priorities/index.api.rabl' do
 
   before { params[:format] = 'xml' }
 
@@ -40,10 +40,10 @@ describe 'api/v2/work_package_priorities/index.api.rabl' do
 
     subject { response.body }
 
-    it 'renders an empty work_package_priorities document' do
-      expect(subject).to have_selector('work_package_priorities', count: 1)
-      expect(subject).to have_selector('work_package_priorities[type=array]') do |tag|
-        expect(tag).to have_selector('work_package_priority', count: 0)
+    it 'renders an empty planning_element_priorities document' do
+      expect(subject).to have_selector('planning_element_priorities', count: 1)
+      expect(subject).to have_selector('planning_element_priorities[type=array]') do |tag|
+        expect(tag).to have_selector('planning_element_priority', count: 0)
       end
     end
   end
@@ -63,17 +63,17 @@ describe 'api/v2/work_package_priorities/index.api.rabl' do
 
     subject { Nokogiri.XML(response.body) }
 
-    it { expect(subject).to have_selector('work_package_priorities work_package_priority', count: 3) }
+    it { expect(subject).to have_selector('planning_element_priorities planning_element_priority', count: 3) }
 
     context 'priority 0' do
       it 'has empty position' do
-        expect(subject).to have_selector('work_package_priorities work_package_priority id', text: priority_0.id) do |tag|
+        expect(subject).to have_selector('planning_element_priorities planning_element_priority id', text: priority_0.id) do |tag|
           expect(tag.parent).to have_selector('position', text: nil)
         end
       end
 
       it 'has empty default setting' do
-        expect(subject).to have_selector('work_package_priorities work_package_priority id', text: priority_0.id) do |tag|
+        expect(subject).to have_selector('planning_element_priorities planning_element_priority id', text: priority_0.id) do |tag|
           expect(tag.parent).to have_selector('is_default', text: nil)
         end
       end
@@ -81,7 +81,7 @@ describe 'api/v2/work_package_priorities/index.api.rabl' do
 
     context 'priority 1' do
       it 'has position' do
-        expect(subject).to have_selector('work_package_priorities work_package_priority id', text: priority_1.id) do |tag|
+        expect(subject).to have_selector('planning_element_priorities planning_element_priority id', text: priority_1.id) do |tag|
           expect(tag.parent).to have_selector('position', text: priority_1.position)
         end
       end
@@ -89,7 +89,7 @@ describe 'api/v2/work_package_priorities/index.api.rabl' do
 
     context 'priority 2' do
       it 'has default value set' do
-        expect(subject).to have_selector('work_package_priorities work_package_priority id', text: priority_2.id) do |tag|
+        expect(subject).to have_selector('planning_element_priorities planning_element_priority id', text: priority_2.id) do |tag|
           expect(tag.parent).to have_selector('position', text: priority_2.is_default)
         end
       end

@@ -25,7 +25,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-collection @priorities => :work_package_priorities
+collection @priorities => :planning_element_priorities
 attributes :id,
            :name,
            :position,
