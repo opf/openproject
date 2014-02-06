@@ -1,4 +1,4 @@
-<span title="{{I18n.t('js.label_sort_by')}} &quot;{{headerTitle}}&quot;">
+<span title="{{sortable && (I18n.t('js.label_sort_by') + ' &quot;' + headerTitle + '&quot;') || ''}}">
   <a ng-if="sortable"
      ng-href="{{path}}?{{queryString}}"
      ng-class="[sortState && 'sort', sortState]">
