@@ -555,6 +555,7 @@ de:
     ajax:
       hide: "Verbergen"
       loading: "Lädt ..."
+    label_sort_by: "Sortiert nach"
     select2:
       input_too_short:
         one: "Bitte geben Sie ein weiteres Zeichen ein"
