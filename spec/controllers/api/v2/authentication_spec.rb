@@ -35,6 +35,24 @@ describe Api::V2::AuthenticationController do
     end
 
     it_should_behave_like "a controller action with require_login"
+
+    describe 'authorization data' do
+      let(:user) { FactoryGirl.create(:user) }
+
+      before do
+        User.stub(:current).and_return(user)
+
+        fetch
+      end
+
+      subject { assigns(:authorization) }
+
+      it { expect(subject).not_to be_nil }
+
+      it { expect(subject.authorized).to be_true }
+
+      it { expect(subject.authorized_user_id).to eq(user.id) }
+    end
   end
 
   describe "session" do

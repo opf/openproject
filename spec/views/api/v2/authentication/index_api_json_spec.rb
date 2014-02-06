@@ -25,5 +25,45 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-object @authorization => :authorization
-attributes :authorized, :authorized_user_id
+
+require File.expand_path('../../../../../spec_helper', __FILE__)
+
+describe 'api/v2/authentication/index.api.rabl' do
+  before { params[:format] = 'json' }
+
+  shared_examples_for 'valid authentication' do
+    it { expect(subject).to have_json_path('authorization') }
+
+    it { expect(subject).to have_json_size(2).at_path('authorization') }
+
+    it { expect(subject).to be_json_eql(content).at_path('authorization') }
+  end
+
+  describe 'authentication state' do
+    before do
+      assign(:authorization, Api::V2::AuthenticationController::AuthorizationData.new(true, nil))
+
+      render
+    end
+
+    subject { response.body }
+
+    it_behaves_like 'valid authentication' do
+      let(:content) { %({"authorized": true, "authorized_user_id":null}) }
+    end
+  end
+
+  describe 'authenticated user' do
+    before do
+      assign(:authorization, Api::V2::AuthenticationController::AuthorizationData.new(nil, 12345))
+
+      render
+    end
+
+    subject { response.body }
+
+    it_behaves_like 'valid authentication' do
+      let(:content) { %({"authorized":null, "authorized_user_id": 12345}) }
+    end
+  end
+end

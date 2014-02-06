@@ -25,5 +25,33 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-object @authorization => :authorization
-attributes :authorized, :authorized_user_id
+
+require File.expand_path('../../../../../spec_helper', __FILE__)
+
+describe 'api/v2/authentication/index.api.rabl' do
+  before { params[:format] = 'xml' }
+
+  describe 'authentication state' do
+    before do
+      assign(:authorization, Api::V2::AuthenticationController::AuthorizationData.new(true, nil))
+
+      render
+    end
+
+    subject { response.body }
+
+    it { expect(subject).to have_selector('authorization authorized', text: true) }
+  end
+
+  describe 'authenticated user' do
+    before do
+      assign(:authorization, Api::V2::AuthenticationController::AuthorizationData.new(nil, 12345))
+
+      render
+    end
+
+    subject { response.body }
+
+    it { expect(subject).to have_selector('authorization authorized_user_id', text: 12345) }
+  end
+end
