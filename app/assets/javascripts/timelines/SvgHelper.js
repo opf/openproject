@@ -37,116 +37,115 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-openprojectApp.factory('SvgHelper', [function() {
+if (typeof Timeline === "undefined") {
+  Timeline = {};
+}
 
-  jQuery.each([SVGSVGElement, SVGRectElement, SVGPathElement,
-      SVGTextElement], function (i, klass) {
-    klass.prototype.attr = function(attributeHash) {
-      for (key in attributeHash) {
-        if (attributeHash.hasOwnProperty(key)) {
-          this.setAttribute(key, attributeHash[key]);
-        }
-      }
-      // allow chaining.
-      return this;
-    };
-  });
+Timeline.SvgHelper = (function() {
 
-  jQuery.each([SVGRectElement, SVGTextElement], function (i, klass) {
-    klass.prototype.translate = function(x, y) {
-      return this.attr({
-        'x': x,
-        'y': y
-      });
-    };
-  });
-
-  SVGTextElement.prototype.insertAfter = function() {
-    // TODO
-  }
-
-  SVGRectElement.prototype.hover = function() {
-    // TODO
-  }
-
-  SVGRectElement.prototype.unhover = function() {
-    // TODO
-  }
-
-  SVGRectElement.prototype.click = function() {
-    // TODO
-  }
-
-  SVGPathElement.prototype.transform = function(transform) {
-    return this.attr({'transform': transform});
+  var SvgHelper = function(node) {
+    this.root = this.provideNode('svg').attr({
+      'width': 640,
+      'height': 480
+    });
+    jQuery(node).append(this.root);
   };
 
-  var SvgHelper = (function() {
+  SvgHelper.prototype.toString = function() {
+    return "SvgHelper";
+  };
 
-    var SvgHelper = function(node) {
-      this.root = this.provideNode('svg').attr({
-        'width': 640,
-        'height': 480
-      });
-      jQuery(node).append(this.root);
-    };
+  SvgHelper.prototype.provideNode = function(elementName) {
+    return document.createElementNS(
+      'http://www.w3.org/2000/svg',
+      elementName
+    );
+  };
 
-    SvgHelper.prototype.toString = function() {
-      return "SvgHelper";
-    };
+  SvgHelper.prototype.clear = function() {
+    var node = this.root;
+    while (node.hasChildNodes() ){
+      node.removeChild(node.lastChild);
+    }
+    return this;
+  };
 
-    SvgHelper.prototype.provideNode = function(elementName) {
-      return document.createElementNS(
-        'http://www.w3.org/2000/svg',
-        elementName
-      );
-    };
+  SvgHelper.prototype.setSize = function(w, h) {
+    this.root.attr({
+      'width': w,
+      'height': h,
+    });
+  };
 
-    SvgHelper.prototype.clear = function() {
-      var node = this.root;
-      while (node.hasChildNodes() ){
-        node.removeChild(node.lastChild);
-      }
-      return this;
-    };
+  SvgHelper.prototype.rect = function(x, y, w, h) {
+    var node = this.provideNode('rect').attr({
+      'x': x,
+      'y': y,
+      'width': w,
+      'height': h,
+    });
+    this.root.appendChild(node);
+    return node;
+  };
 
-    SvgHelper.prototype.setSize = function(w, h) {
-      this.root.attr({
-        'width': w,
-        'height': h,
-      });
-    };
+  SvgHelper.prototype.path = function(direction) {
+    var node = this.provideNode('path').attr({
+      'd': direction
+    });
+    this.root.appendChild(node);
+    return node;
+  };
 
-    SvgHelper.prototype.rect = function(x, y, w, h) {
-      var node = this.provideNode('rect').attr({
-        'x': x,
-        'y': y,
-        'width': w,
-        'height': h,
-      });
-      this.root.appendChild(node);
-      return node;
-    };
+  SvgHelper.prototype.text = function(x, y, text) {
+    var node = this.provideNode('text');
+    node.translate(x, y);
+    node.textContent = text;
 
-    SvgHelper.prototype.path = function(direction) {
-      var node = this.provideNode('path').attr({
-        'd': direction
-      });
-      this.root.appendChild(node);
-      return node;
-    };
-
-    SvgHelper.prototype.text = function(x, y, text) {
-      var node = this.provideNode('text');
-      node.translate(x, y);
-      node.textContent = text;
-
-      this.root.appendChild(node);
-      return node;
-    };
-
-    return SvgHelper;
-  })();
+    this.root.appendChild(node);
+    return node;
+  };
 
   return SvgHelper;
-}]);
+})();
+
+jQuery.each([SVGSVGElement, SVGRectElement, SVGPathElement,
+    SVGTextElement], function (i, klass) {
+  klass.prototype.attr = function(attributeHash) {
+    for (key in attributeHash) {
+      if (attributeHash.hasOwnProperty(key)) {
+        this.setAttribute(key, attributeHash[key]);
+      }
+    }
+    // allow chaining.
+    return this;
+  };
+});
+
+jQuery.each([SVGRectElement, SVGTextElement], function (i, klass) {
+  klass.prototype.translate = function(x, y) {
+    return this.attr({
+      'x': x,
+      'y': y
+    });
+  };
+});
+
+SVGTextElement.prototype.insertAfter = function() {
+  // TODO
+}
+
+SVGRectElement.prototype.hover = function() {
+  // TODO
+}
+
+SVGRectElement.prototype.unhover = function() {
+  // TODO
+}
+
+SVGRectElement.prototype.click = function() {
+  // TODO
+}
+
+SVGPathElement.prototype.transform = function(transform) {
+  return this.attr({'transform': transform});
+};

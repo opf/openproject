@@ -651,7 +651,7 @@ jQuery.extend(Timeline, {
 
     // lift the curtain, paper otherwise doesn't show w/ VML.
     jQuery('.timeline').removeClass('tl-under-construction');
-    this.paper = new SvgHelper(this.paperElement);
+    this.paper = new Timeline.SvgHelper(this.paperElement);
 
     // perform some zooming. if there is a zoom level stored with the
     // report, zoom to it. otherwise, zoom out. this also constructs
