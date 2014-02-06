@@ -394,7 +394,7 @@ Then /^there should be a "(.+)" button$/ do |button_label|
 end
 
 Then /^the "([^\"]*)" select(?: within "([^\"]*)")? should have the following options:$/ do |field, selector, option_table|
-  options_expected = option_table.raw.collect(&:to_s)
+  options_expected = option_table.raw.flatten
 
   with_scope(selector) do
 
