@@ -51,9 +51,11 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3438` Activity default value makes log time required
 * `#3451` API references hidden users
 * `#3481` Fix: [Activity] Not possible to unselect all filters
+* `#3653` Entries in field "Responsible" are not ordered alphabetically
 * `#3730` Setting responsible via bulk edit
 * `#3731` Setting responsible via context menu
 * `#3774` Fix: [API] Not possible to set journal notes via API
+* `#3808` Assignee cannot be set to "none" via bulk edit
 * `#3843` Prettier translations for member errors
 * `#3844` Fixed Work Package status translation
 * `#3865` Detailed filters on dates
