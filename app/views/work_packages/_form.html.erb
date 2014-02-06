@@ -52,6 +52,7 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 
 <% if work_package.new_record? %>
+  <hr class="form_separator" />
   <div class="handle_attachments">
     <%= label_tag('attachments[1][file]', l(:label_attachment_plural))%>
     <%= render :partial => 'attachments/form' %>
@@ -59,6 +60,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% if work_package.new_record? && User.current.allowed_to?(:add_work_package_watchers, project) -%>
+  <hr class="form_separator" />
   <p id="watchers_form">
     <label><%= l(:label_work_package_watchers) %></label>
     <% work_package.project.users.sort.each do |user| -%>

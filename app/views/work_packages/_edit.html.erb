@@ -38,74 +38,71 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <%= error_messages_for work_package %>
 
-  <div class="box">
-
-    <% if edit_allowed || !allowed_statuses.empty? %>
-      <fieldset class="tabular">
-        <legend>
-          <%= l(:label_change_properties) %>
-          <% if !work_package.new_record? && !work_package.errors.any? && edit_allowed %>
-            <small>
-              (<%= link_to l(:label_more), {}, :onclick => 'Effect.toggle("work_package_descr_fields", "appear", {duration:0.3}); enable_textarea_auto_completion(jQuery("#work_package_description")); return false;' %>)
-            </small>
-          <% end %>
-        </legend>
-
-        <% edit_form = (edit_allowed ? 'form' : 'form_update') %>
-        <%= render :partial => edit_form,
-                   :locals => { :f => f,
-                                :work_package => work_package,
-                                :priorities => priorities,
-                                :project => project,
-                                :user => user,
-                                :time_entry => time_entry } %>
-      </fieldset>
-    <% end %>
-
-    <% if authorize_for('timelog', 'edit') %>
-      <fieldset class="tabular">
-        <legend>
-          <%= l(:button_log_time) %>
-        </legend>
-
-        <%= render :partial => 'time_entry',
-                   :locals => { :time_entry => time_entry,
-                                :f => f } %>
-      </fieldset>
-    <% end %>
-
-    <fieldset>
+  <% if edit_allowed || !allowed_statuses.empty? %>
+    <fieldset class="tabular">
       <legend>
-        <%= Journal.human_attribute_name(:notes) %>
+        <%= l(:label_change_properties) %>
+        <% if !work_package.new_record? && !work_package.errors.any? && edit_allowed %>
+          <small>
+            (<%= link_to l(:label_more), {}, :onclick => 'Effect.toggle("work_package_descr_fields", "appear", {duration:0.3}); enable_textarea_auto_completion(jQuery("#work_package_description")); return false;' %>)
+          </small>
+        <% end %>
       </legend>
 
-      <%= label_tag "work_package[notes]", Journal.human_attribute_name(:notes),
-                                           :class => 'hidden-for-sighted' %>
-      <%= text_area_tag "work_package[notes]", work_package.journal_notes, :cols => 60,
-                                                                           :rows => 10,
-                                                                           :class => 'wiki-edit',
-                                                                           :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => project, :format => :json) %>
-      <%= wikitoolbar_for 'work_package_notes' %>
-      <%= call_hook(:view_work_packages_edit_notes_bottom, { :issue => work_package,
-                                                      :notes => work_package.journal_notes,
-                                                      :form => f }) %>
-
+      <% edit_form = (edit_allowed ? 'form' : 'form_update') %>
+      <%= render :partial => edit_form,
+                 :locals => { :f => f,
+                              :work_package => work_package,
+                              :priorities => priorities,
+                              :project => project,
+                              :user => user,
+                              :time_entry => time_entry } %>
     </fieldset>
+  <% end %>
 
-    <fieldset id="attachments" class="header_collapsible collapsible collapsed">
-      <legend title="<%=l(:description_attachment_toggle)%>", onclick="toggleFieldset(this);">
-        <a href="javascript:"><%=l(:label_attachment_plural)%></a>
+  <% if authorize_for('timelog', 'edit') %>
+    <fieldset class="tabular">
+      <legend>
+        <%= l(:button_log_time) %>
       </legend>
-      <div style="display: none;">
-        <%= render :partial => 'attachments/nested_form',
-                   :locals => { :f => f } %>
-      </div>
-    </fieldset>
 
-    <p class="email_notification">
-      <%= send_notification_option %>
-    </p>
-  </div>
+      <%= render :partial => 'time_entry',
+                 :locals => { :time_entry => time_entry,
+                              :f => f } %>
+    </fieldset>
+  <% end %>
+
+  <fieldset>
+    <legend>
+      <%= Journal.human_attribute_name(:notes) %>
+    </legend>
+
+    <%= label_tag "work_package[notes]", Journal.human_attribute_name(:notes),
+                                         :class => 'hidden-for-sighted' %>
+    <%= text_area_tag "work_package[notes]", work_package.journal_notes, :cols => 60,
+                                                                         :rows => 10,
+                                                                         :class => 'wiki-edit',
+                                                                         :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => project, :format => :json) %>
+    <%= wikitoolbar_for 'work_package_notes' %>
+    <%= call_hook(:view_work_packages_edit_notes_bottom, { :issue => work_package,
+                                                    :notes => work_package.journal_notes,
+                                                    :form => f }) %>
+
+  </fieldset>
+
+  <fieldset id="attachments" class="header_collapsible collapsible collapsed">
+    <legend title="<%=l(:description_attachment_toggle)%>", onclick="toggleFieldset(this);">
+      <a href="javascript:"><%=l(:label_attachment_plural)%></a>
+    </legend>
+    <div style="display: none;">
+      <%= render :partial => 'attachments/nested_form',
+                 :locals => { :f => f } %>
+    </div>
+  </fieldset>
+
+  <p class="email_notification">
+    <%= send_notification_option %>
+  </p>
 
   <%= f.hidden_field :lock_version %>
   <%= submit_tag l(:button_submit) %>

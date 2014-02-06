@@ -40,16 +40,14 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <%= error_messages_for :object => work_package %>
 
-  <div class="box">
-    <%= render :partial => 'form', :locals => { :f => f,
-                                                :work_package => work_package,
-                                                :project => project,
-                                                :priorities => priorities,
-                                                :user => user } %>
-    <p>
-      <%= send_notification_option %>
-    </p>
-  </div>
+  <%= render :partial => 'form', :locals => { :f => f,
+                                              :work_package => work_package,
+                                              :project => project,
+                                              :priorities => priorities,
+                                              :user => user } %>
+  <p>
+    <%= send_notification_option %>
+  </p>
 
   <%= submit_tag l(:button_create) %>
   <!-- not supported by controller for now -->

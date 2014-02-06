@@ -34,22 +34,67 @@ $login_form_input_border:   1px solid #CACACA !default
 $login_form_button_bg_color:  #06799F !default
 $login_form_button_hover_bg_color:  #053242 !default
 
-#login-form
-  form
-    padding: 30px 20px
-    background-color: $login_form_bg_color
+@mixin input-style
+  width: $content_from_input_width
+  height: 35px
+  line-height: 35px
+  border: $login_form_input_border
+  padding: 0 0 0 10px
+  @include border-radius(2px)
+  font-family: $font_family_bold
+  font-size: $global_font_size
+  line-height: 35px
+  &:hover, &:focus
+    border: 1px solid #888888
+
+  float: none
+  display: inline-block
+
+@mixin select-style
+  @include input-style
+  margin: 0
+  padding: 7px 0 7px 10px
+  option
+    padding: 5px 10px
+  //-webkit-appearance: none
+  &:after
+    background: url(image-path('pulldown_arrow2.png')) no-repeat 0 0
+    content: " "
     display: block
-    border: $login_form_border
-    input#username, input#password, input#openid_url
-      width: $content_from_input_width
-      height: 35px
-      line-height: 35px
-      border: $login_form_input_border
-      padding: 0 10px
-      @include border-radius(2px)
-      font-family: $font_family_bold
-      font-size: $global_font_size
-    input[type=submit]
+
+@mixin label-style
+  width: 160px
+  display: block
+  margin-left: 0
+  text-align: left
+  font-weight: normal
+  height: 35px
+  float: none
+  display: inline-block
+
+#login-form form, #work_package-form, #update #work_package-form
+  padding: 30px 20px
+  background-color: $login_form_bg_color
+  display: block
+  border: $login_form_border
+
+  p,div
+    white-space: nowrap
+    padding: 0
+    margin-bottom: 10px
+    font-size: 14px
+    line-height: 35px
+    label
+      @include label-style
+
+  select
+    @include select-style
+
+  input
+    &[type=password], &[type=text]
+      @include input-style
+
+    &[type=submit]
       border: none
       background-color: $login_form_button_bg_color
       color: $login_form_button_font_color
@@ -60,8 +105,6 @@ $login_form_button_hover_bg_color:  #053242 !default
       cursor: pointer
       &:hover
         background-color: $login_form_button_hover_bg_color
-  #lost_password
-    margin-top: 20px
 
   table
     border: 0 none
@@ -71,6 +114,28 @@ $login_form_button_hover_bg_color:  #053242 !default
       padding: 6px
       &.label
         width: 160px
+
+#work_package-form
+  .attributes
+    margin-bottom: 30px
+    overflow: auto
+
+  .handle_attachments
+    label
+      @include label-style
+    margin-bottom: 30px
+  fieldset
+    margin-bottom: 20px
+    padding: 30px 20px
+
+hr.form_separator
+  border: 0
+  border-bottom: 1px solid #DDDDDD
+  margin: 0 0 30px
+  background: none
+
+#lost_password
+  margin-top: 20px
 
 .form-space
   padding-top: 10px
@@ -88,3 +153,4 @@ fieldset.with-legend-control
     span
       padding-left: 5px
       background-color: white
+

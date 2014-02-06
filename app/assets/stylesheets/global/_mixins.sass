@@ -25,17 +25,16 @@
  *
  * See doc/COPYRIGHT.rdoc for more details.  ++*/
 
+$vendors: "-webkit-", "-moz-", "-ms-", "-o-", ""
+
 @mixin html_body_spacing
   margin:             0
   padding:            0
   height:             100%
 
 @mixin default-transition
-  -webkit-transition: all 200ms ease-in-out 0s
-  -moz-transition:    all 200ms ease-in-out 0s
-  -ms-transition:     all 200ms ease-in-out 0s
-  -o-transition:      all 200ms ease-in-out 0s
-  transition:         all 200ms ease-in-out 0s
+  @each $vendor in $vendors
+    #{$vendor}transition: all 200ms ease-in-out 0s
 
 @mixin default-font-normal($color, $font-size: 13px)
   color:              $color
