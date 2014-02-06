@@ -233,7 +233,7 @@ class WorkPackagesController < ApplicationController
       format.csv do
         serialized_work_packages = WorkPackage::Exporter.csv(work_packages, @project)
 
-        send_data(serialized_work_packages, :type => 'text/csv; header=present',
+        send_data(serialized_work_packages, :type => 'text/csv; charset=utf-8; header=present',
                                             :filename => 'export.csv')
       end
       format.pdf do

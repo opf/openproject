@@ -61,7 +61,7 @@ module WorkPackage::CsvExporter
       custom_fields.each {|f| headers << f.name}
       # Description in the last column
       headers << CustomField.human_attribute_name(:description)
-      csv << headers.collect {|c| begin; c.to_s.encode(l(:general_csv_encoding), 'UTF-8'); rescue; c.to_s; end }
+      csv << encode_csv_columns(headers)
       # csv lines
       work_packages.each do |work_package|
         fields = [work_package.id,
@@ -84,10 +84,28 @@ module WorkPackage::CsvExporter
                   ]
         custom_fields.each {|f| fields << show_value(work_package.custom_value_for(f)) }
         fields << work_package.description
-        csv << fields.collect {|c| begin; c.to_s.encode(l(:general_csv_encoding), 'UTF-8'); rescue; c.to_s; end }
+        csv << encode_csv_columns(fields)
       end
     end
 
     export
+  end
+
+  def encode_csv_columns(columns)
+    columns.map do |cell|
+      encode_csv_cell cell
+    end
+  end
+
+  def encode_csv_cell(cell)
+    content = cell.to_s
+    begin
+      content.to_s.encode l(:general_csv_encoding), content.encoding.name
+    rescue
+      Rails.logger.warn(
+        "Could not encode the following cell from #{c.encoding} to #{l(:general_csv_encoding)}:" \
+        "\n  '#{content}'")
+      content.to_s
+    end
   end
 end
