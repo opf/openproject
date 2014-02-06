@@ -34,6 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3733` Responsible widget for my page
 * `#4024` [Accessibility] Add proper page titles for sub pages
 * `#4090` 'Session Expires' setting breaks API
+* `#4163` Extend authorization-API to return current user id
 * News subject contained in URL
 * Removes mocha mocking framework.
 * Update pg-gem version
