@@ -91,16 +91,16 @@ module WorkPackage::CsvExporter
     export
   end
 
-  def encode_csv_columns(columns)
+  def encode_csv_columns(columns, encoding = l(:general_csv_encoding))
     columns.map do |cell|
-      encode_csv_cell cell
+      encode_csv_cell cell, encoding
     end
   end
 
-  def encode_csv_cell(cell)
+  def encode_csv_cell(cell, encoding = l(:general_csv_encoding))
     content = cell.to_s
     begin
-      content.to_s.encode l(:general_csv_encoding), content.encoding.name
+      content.to_s.encode encoding, content.encoding.name
     rescue
       Rails.logger.warn(
         "Could not encode the following cell from #{c.encoding} to #{l(:general_csv_encoding)}:" \
