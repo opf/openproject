@@ -448,11 +448,11 @@ class WorkPackagesController < ApplicationController
   private
 
   def push_work_packages_via_gon(work_packages)
-    # binding.pry
     gon.project_identifier = @project.to_param
     gon.columns = @query.columns.map do |column|
       { name: column.name, title: column.caption, sortable: column.sortable }
     end
     gon.work_packages = work_packages
+    gon.sort_criteria = @sort_criteria.to_param
   end
 end

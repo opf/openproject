@@ -4,4 +4,5 @@ openprojectApp.controller('WorkPackagesController', ['$scope', 'WorkPackagesTabl
     columns: gon.columns,
     rows: WorkPackagesTableHelper.getRows(gon.work_packages)
   };
+  $scope.currentSortation = gon.sort_criteria
 }]);
