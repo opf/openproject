@@ -224,7 +224,7 @@ class WorkPackagesController < ApplicationController
 
     # push work packages to client as JSON
     # TODO pull work packages via AJAX
-    gon.work_packages = work_packages;
+    push_work_packages_via_gon work_packages
 
     respond_to do |format|
       format.html do
@@ -443,5 +443,16 @@ class WorkPackagesController < ApplicationController
     else
       super
     end
+  end
+
+  private
+
+  def push_work_packages_via_gon(work_packages)
+    # binding.pry
+    gon.project_identifier = @project.to_param
+    gon.columns = @query.columns.map do |column|
+      { name: column.name, title: column.caption, sortable: column.sortable }
+    end
+    gon.work_packages = work_packages
   end
 end

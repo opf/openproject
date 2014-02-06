@@ -1,0 +1,51 @@
+<table>
+  <thead>
+    <tr>
+      <th class="checkbox hide-when-print">
+        <a ng-href="/projects/{{projectIdentifier}}/work_packages"
+           alt="{{I18n.t('js.button_check_all')}}/{{I18n.t('js.button_uncheck_all')}}"
+           class="no-decoration-on-hover"
+           onclick="toggleIssuesSelection(Element.up(this, &quot;form&quot;)); return false;"
+           title="{{I18n.t('js.button_check_all')}}/{{I18n.t('js.button_uncheck_all')}}">
+          <icon-wrapper icon-title="I18n.t('js.button_check_all') + '/' + I18n.t('js.button_uncheck_all')"
+                        icon-name="yes"/>
+
+        </a>
+      </th>
+
+      <th sort-header header-name="status" header-title="#" sortable="true"/>
+
+      <th sort-header ng-repeat="column in columns"
+                      header-name="{{column.name}}"
+                      header-title="{{column.title}}"
+                      sortable="{{column.sortable}}"/>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr ng-repeat="row in rows"
+        ng-class="['hascontextmenu',
+                   $even && 'even',
+                   $odd && 'odd',
+                   row.level > 0 && 'idnt',
+                   row.level > 0 && 'idnt-level-' + row.level]">
+
+      <td class="checkbox hide-when-print">
+        <accessible-checkbox checkbox-id="work_package{{row.object.id}}"
+                             checkbox-title="{{I18n.t('js.description_select_work_package')}}#{{row.object.id}}"
+                             model="row.checked"/>
+      </td>
+
+      <td class="id">
+        <span ng-if="row.object.parent_id" class="hidden-for-sighted">
+          {{I18n.t('js.description_subwork_package')}} {{I18n.t('js.label_work_package')}} #{{row.parent.object.name}}
+        </span>
+        <a ng-href="/work_packages/{{row.object.id}}'">{{row.object.id}}</a>
+      </td>
+
+      <td ng-repeat="column in columns" class="{{column.name}}">
+        {{row.object | columnContent:column.name}}
+      </td>
+    </tr>
+  </tbody>
+</table>

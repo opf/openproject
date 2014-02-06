@@ -546,16 +546,22 @@ de:
   gui_validation_error_plural: "%{count} Fehler"
 
   js:
-    unsupported_browser:
-      title: "Ihr Browser wird nicht unterstützt"
-      message: "Sie verwenden einen veralteten Browser. OpenProject unterstützt diesen Browser nicht länger. Bitte aktualisieren Sie Ihren Browser."
-      learn_more: "Mehr erfahren"
-    logoff: "Sie wurden ausgeloggt."
-    redirect_login: "Wollen Sie auf die Login-Seite weitergeleitet werden?"
     ajax:
       hide: "Verbergen"
       loading: "Lädt ..."
+    button_check_all: "Alles auswählen"
+    button_uncheck_all: "Alles abwählen"
+    description_select_work_package: "Arbeitspaket auswählen"
+    description_subwork_package: "Untergeordnetes Arbeitspaket von"
+    filter:
+      noneElement: "(keines)"
+      noneSelection: "(keine)"
+    label_collapse_all: "Alle zuklappen"
+    label_expand_all: "Alle aufklappen"
     label_sort_by: "Sortiert nach"
+    label_work_package: "Arbeitspaket"
+    logoff: "Sie wurden ausgeloggt."
+    redirect_login: "Wollen Sie auf die Login-Seite weitergeleitet werden?"
     select2:
       input_too_short:
         one: "Bitte geben Sie ein weiteres Zeichen ein"
@@ -617,11 +623,10 @@ de:
         months: "Monate"
         quarters: "Quartale"
         years: "Jahre"
-    filter:
-      noneElement: "(keines)"
-      noneSelection: "(keine)"
-    label_collapse_all: "Alle zuklappen"
-    label_expand_all: "Alle aufklappen"
+    unsupported_browser:
+      title: "Ihr Browser wird nicht unterstützt"
+      message: "Sie verwenden einen veralteten Browser. OpenProject unterstützt diesen Browser nicht länger. Bitte aktualisieren Sie Ihren Browser."
+      learn_more: "Mehr erfahren"
 
   label_account: "Konto"
   label_activity: "Aktivität"

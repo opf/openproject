@@ -353,7 +353,6 @@ en:
   button_submit: "Submit"
   button_test: "Test"
   button_unarchive: "Unarchive"
-  button_uncheck_all: "Uncheck all"
   button_unlock: "Unlock"
   button_unwatch: "Unwatch"
   button_update: "Update"
@@ -543,16 +542,23 @@ en:
   gui_validation_error_plural: "%{count} errors"
 
   js:
-    unsupported_browser:
-      title: "Your browser is not supported"
-      message: "The browser you are using is no longer supported by OpenProject. Please update your browser."
-      learn_more: "Learn more"
-    logoff: You have been logged off
-    redirect_login: Do you want to be redirected to the login page?
     ajax:
       hide: "Hide"
       loading: "Loading ..."
+    button_check_all: "Check all"
+    button_uncheck_all: "Uncheck all"
+    description_select_work_package: "Select work package"
+    description_subwork_package: "Sub work package of"
+    filter:
+      noneElement: "(none)"
+      noneSelection: "(none)"
+    label_collapse_all: "Collapse all"
+    label_expand_all: "Expand all"
+    label_no_data: "No data to display"
     label_sort_by: "Sort by"
+    label_work_package: "Work package"
+    logoff: You have been logged off
+    redirect_login: Do you want to be redirected to the login page?
     select2:
       input_too_short:
         one: "Please enter one more character"
@@ -614,12 +620,10 @@ en:
         months: "Months"
         quarters: "Quarters"
         years: "Years"
-    filter:
-      noneElement: "(none)"
-      noneSelection: "(none)"
-    label_collapse_all: "Collapse all"
-    label_expand_all: "Expand all"
-    label_no_data: "No data to display"
+    unsupported_browser:
+      title: "Your browser is not supported"
+      message: "The browser you are using is no longer supported by OpenProject. Please update your browser."
+      learn_more: "Learn more"
 
 
   label_account: "Account"

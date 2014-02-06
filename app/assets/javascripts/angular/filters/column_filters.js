@@ -13,6 +13,7 @@ openprojectApp
     };
   })
 
+  // timelines
   .filter('getOptionColumn', function() {
     var map = {
       "type": "getTypeName",
@@ -31,5 +32,12 @@ openprojectApp
         default:
           return object[map[option]]();
       }
+    };
+  })
+
+  // work packages
+  .filter('columnContent', function(){
+    return function(object, option) {
+      return object[option]; // TODO formatting by type
     };
   });
