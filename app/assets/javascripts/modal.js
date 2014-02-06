@@ -151,6 +151,14 @@ var ModalHelper = (function() {
         modalDiv.parent().show();
 
         modalIframe.attr("height", modalDiv.height());
+
+        // we cannot focus an element within
+        // the modal before focusing the modal
+        modalIframe.focus();
+
+        // foucs an element within the modal so
+        // that the user can start tabbing in it
+        body.focus();
       } else {
         this.showLoadingModal();
       }
