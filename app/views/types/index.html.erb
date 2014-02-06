@@ -33,6 +33,8 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= link_to l(:label_type_new), {:action => 'new'}, :class => 'icon icon-add' %>
 <% end %>
 
+<% html_title l(:label_administration), l("label_type_plural") %>
+
 <h2><%=l(:label_type_plural)%></h2>
 
 <%= render :partial => 'layouts/action_menu_specific' %>
@@ -82,5 +84,3 @@ See doc/COPYRIGHT.rdoc for more details.
 </table>
 
 <%= pagination_links_full @types %>
-
-<% html_title(l(:label_type_plural)) -%>

@@ -48,11 +48,11 @@ jQuery(document).ready(function($) {
       markup.push(OpenProject.Helpers.markupEscape(
                   item.name.substring(match + tl, item.name.length)));
       return markup.join("");
-    }
+    };
 
     formatItemSelection = function (item) {
       return OpenProject.Helpers.markupEscape(item.name);
-    }
+    };
     
     $("#members_add_form select.select2-select").each(function (ix, elem){
       if ($(elem).hasClass("remote") || $(elem).attr("data-ajaxURL") !== undefined) {
@@ -60,12 +60,12 @@ jQuery(document).ready(function($) {
         if (!$.isEmptyObject(elem.siblings('div.select2-select.select2-container'))) {
           setTimeout (function () {
             var attributes, allowed, currentName, fakeInput;
-            attributes = {}
+            attributes = {};
             allowed = ["title", "placeholder"];
 
             for(var i = 0; i < $(elem).get(0).attributes.length; i++) {
               currentName = $(elem).get(0).attributes[i].name;
-              if(currentName.indexOf("data-") == 0 || $.inArray(currentName, allowed)); //only ones starting with data-
+              if(currentName.indexOf("data-") === 0 || $.inArray(currentName, allowed)); //only ones starting with data-
               attributes[currentName] = $(elem).attr(currentName);
             }
             fakeInput = $(elem).after("<input type='hidden'></input>").siblings(":input:first");
@@ -88,7 +88,7 @@ jQuery(document).ready(function($) {
                   },
                   results: function (data, page) {
 
-                      active_items = []
+                      active_items = [];
                       data.results.items.each(function (e) {
                         e.name = $('<pre>').text(e.name).html();
                         active_items.push(e);
@@ -107,10 +107,10 @@ jQuery(document).ready(function($) {
         $(elem).select2();
       }
     });
-  }
+  };
 
   memberstab = $('#tab-members').first();
-  if ((memberstab != null) && (memberstab.hasClass("selected"))) {
+  if ((memberstab !== null) && (memberstab.hasClass("selected"))) {
     init_members_cb();
   } else {
     memberstab.click(init_members_cb);

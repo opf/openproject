@@ -27,6 +27,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<% html_title l(:label_administration), l(:label_enumerations) %>
+
 <h2><%=l(:label_enumerations)%></h2>
 
 <% Enumeration.descendants.each do |klass| %>
@@ -62,5 +64,3 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <p><%= link_to l(:label_enumeration_new), { :action => 'new', :type => klass.name } %></p>
 <% end %>
-
-<% html_title(l(:label_enumerations)) -%>

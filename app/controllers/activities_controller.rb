@@ -47,8 +47,8 @@ class ActivitiesController < ApplicationController
     @activity = Redmine::Activity::Fetcher.new(User.current, :project => @project,
                                                              :with_subprojects => @with_subprojects,
                                                              :author => @author)
-    @activity.scope_select {|t| !params["show_#{t}"].nil?}
-    @activity.scope = (@author.nil? ? :default : :all) if @activity.scope.empty?
+
+    set_activity_scope
 
     events = @activity.events(@date_from, @date_to)
     censor_events_from_projects_with_disabled_activity!(events) unless @project
@@ -99,5 +99,17 @@ class ActivitiesController < ApplicationController
     events.select! do |event|
       event.project_id.nil? || allowed_project_ids.include?(event.project_id)
     end
+  end
+
+  def set_activity_scope
+    if params[:apply]
+      @activity.scope_select {|t| !params["show_#{t}"].nil?}
+    elsif session[:activity]
+      @activity.scope = session[:activity]
+    else
+      @activity.scope = (@author.nil? ? :default : :all)
+    end
+
+    session[:activity] = @activity.scope
   end
 end

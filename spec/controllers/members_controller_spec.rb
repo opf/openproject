@@ -29,6 +29,7 @@
 require 'spec_helper'
 
 describe MembersController do
+  let(:admin) {FactoryGirl.create(:admin)}
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project) }
   let(:role) { FactoryGirl.create(:role) }
@@ -37,11 +38,15 @@ describe MembersController do
                                              :roles => [role]) }
 
   before do
-    User.stub(:current).and_return(user)
+    User.stub(:current).and_return(admin)
   end
 
   describe :autocomplete_for_member do
     let(:params) { ActionController::Parameters.new({ "id" => project.identifier.to_s }) }
+
+    before do
+      User.stub(:current).and_return(user)
+    end
 
     describe "WHEN the user is authorized
               WHEN a project is provided" do
@@ -49,23 +54,120 @@ describe MembersController do
         role.permissions << :manage_members
         role.save!
         member
-
-        post :autocomplete_for_member, params, :format => :xhr
       end
 
       it "should be success" do
+        post :autocomplete_for_member, params, :format => :xhr
         response.should be_success
       end
     end
 
     describe "WHEN the user is not authorized" do
-      before do
-        post :autocomplete_for_member, params, :format => :xhr
-      end
-
       it "should be forbidden" do
+        post :autocomplete_for_member, params, :format => :xhr
         response.response_code.should == 403
       end
+    end
+  end
+
+  describe :create do
+    render_views
+    let(:user2) { FactoryGirl.create(:user) }
+    let(:user3) { FactoryGirl.create(:user) }
+    let(:user4) { FactoryGirl.create(:user) }
+    let(:valid_params) { { :format => "js",
+                         :project_id => project.id,
+                         :member => {:role_ids => [role.id],
+                                     :user_ids => [user2.id, user3.id, user4.id]}}
+                        }
+    let(:invalid_params) { { :format => "js",
+                           :project_id => project.id,
+                           :member => {:role_ids => [],
+                                       :user_ids => [user2.id, user3.id, user4.id]}}
+                          }
+
+    context "post :create" do
+      context "single member" do
+        let(:action) { post :create, :project_id => project.id, :member => {:role_ids => [role.id], :user_id => user2.id} }
+
+        it "should add a member" do
+          expect{action}.to change {Member.count}.by(1)
+          expect(response).to redirect_to(settings_project_path(project)+'/members')
+          expect(user2).to be_member_of(project)
+        end
+      end
+
+      context "multiple members" do
+        let(:action) { post :create, :project_id => project.id, :member => {:role_ids => [role.id], :user_ids => [user2.id, user3.id, user4.id] } }
+
+        it "should add all members" do
+          expect{action}.to change {Member.count}.by(3)
+          expect(response).to redirect_to(settings_project_path(project)+'/members')
+          expect(user2).to be_member_of(project)
+          expect(user3).to be_member_of(project)
+          expect(user4).to be_member_of(project)
+        end
+      end
+    end
+
+    context "post :create in JS format" do
+      context "with successful saves" do
+        before do
+          post :create, valid_params
+        end
+
+        it "should add members" do
+          user2.should be_member_of(project)
+          user3.should be_member_of(project)
+          user4.should be_member_of(project)
+        end
+
+        it "should replace the tab with RJS" do
+          assert_select_rjs :replace_html, 'tab-content-members'
+        end
+      end
+    end
+
+    context "with a failed save" do
+      it "should not replace the tab with RJS" do
+        post :create, invalid_params
+        assert_select '#tab-content-members', 0
+      end
+
+      it "should show an error message" do
+        post :create, invalid_params
+
+        assert_select_rjs :insert_html, :top do
+          assert_select '#errorExplanation'
+        end
+      end
+    end
+  end
+
+  describe :destroy do
+    let(:action) { post :destroy, :id => member.id }
+    before do
+      member
+    end
+
+    it "should destroy a member" do
+      expect{action}.to change {Member.count}.by(-1)
+      expect(response).to redirect_to(settings_project_path(project)+'/members')
+      expect(user).to_not be_member_of(project)
+    end
+  end
+
+  describe :update do
+    let(:action) { post :update, :id => member.id, :member => {:role_ids => [role2.id], :user_id => user.id} }
+    let(:role2) { FactoryGirl.create(:role) }
+
+    before do
+      member
+    end
+
+    it "should update the member" do
+      expect{action}.to_not change {Member.count}
+      expect(response).to redirect_to(settings_project_path(project)+'/members')
     end
   end
 end
