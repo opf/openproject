@@ -451,7 +451,14 @@ class WorkPackagesController < ApplicationController
     # binding.pry
     gon.project_identifier = @project.to_param
     gon.columns = @query.columns.map do |column|
-      { name: column.name, title: column.caption, sortable: column.sortable }
+      # TODO RS: Manually set all the column display types. We will need:
+      #          Text, Link, Date... what else?
+      display_type = if column.name == :subject
+                     "work_package_link"
+                   else
+                     "text"
+                   end
+      { name: column.name, title: column.caption, sortable: column.sortable, display_type: display_type }
     end
     gon.work_packages = work_packages.as_json(:include => [:type, :status, :priority, :assigned_to]) 
   end
