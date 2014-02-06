@@ -753,9 +753,10 @@ Timeline.TimelineLoader = (function () {
 
             // -1 and the empty string both need to be added in the
             // (none)-case, since (none) has to both match work packages
-            // w/ custom fields w/ an empty value and work packages with
-            // no custom field.
-            if (value.length === 1 && value[0] == "-1") {
+            // w/ custom values that are empty and work packages w/o
+            // custom values.
+
+            if (value.indexOf("-1") !== -1) {
               value.push("");
             }
 
