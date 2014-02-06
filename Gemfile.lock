@@ -191,7 +191,7 @@ GEM
     paper_trail (2.7.2)
       activerecord (~> 3.0)
       railties (~> 3.0)
-    pg (0.15.1)
+    pg (0.17.1)
     polyglot (0.3.3)
     prototype-rails (3.2.1)
       rails (~> 3.2)
@@ -390,7 +390,7 @@ DEPENDENCIES
   net-ldap (~> 0.2.2)
   object-daddy (~> 1.1.0)
   oj
-  pg
+  pg (~> 0.17.1)
   prototype-rails
   prototype_legacy_helper (= 0.0.0)!
   pry-byebug
