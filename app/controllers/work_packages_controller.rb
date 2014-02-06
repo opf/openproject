@@ -452,7 +452,8 @@ class WorkPackagesController < ApplicationController
     gon.project_identifier = @project.to_param
     gon.columns = @query.columns.map do |column|
       # TODO RS: Manually set all the column display types. We will need:
-      #          Text, Link, Date... what else?
+      #          Text, Link... what else?
+      #          Date formatting is much easier server side. Check time_with_zone_as_json initializer.
       display_type = if column.name == :subject
                      "work_package_link"
                    else
