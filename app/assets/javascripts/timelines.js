@@ -37,6 +37,7 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
+//= require timelines/SvgHelper
 //= require timelines/FilterQueryStringBuilder
 //= require timelines/TimelineLoader
 
