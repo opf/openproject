@@ -453,6 +453,6 @@ class WorkPackagesController < ApplicationController
     gon.columns = @query.columns.map do |column|
       { name: column.name, title: column.caption, sortable: column.sortable }
     end
-    gon.work_packages = work_packages
+    gon.work_packages = work_packages.as_json(:include => [:type, :status, :priority, :assigned_to]) 
   end
 end

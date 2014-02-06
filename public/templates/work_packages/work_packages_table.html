@@ -44,7 +44,7 @@
       </td>
 
       <td ng-repeat="column in columns" class="{{column.name}}">
-        {{row.object | columnContent:column.name}}
+        {{row.object | columnNamedChildContent:column.name}}
       </td>
     </tr>
   </tbody>
