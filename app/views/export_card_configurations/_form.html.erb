@@ -34,11 +34,8 @@ See doc/COPYRIGHT.md for more details.
 <p><%= f.text_field :page_size, :required => true, :value => "A4", :readonly => true %></p>
 <P><%= f.select :orientation, [:landscape, :portrait], :required => true %></p>
 
-<!-- Hack alert: This is stolen from the HTML produced by the work package descripion RTF editor. -->
-<div class="jstElements">
-  <div class="help"><a href="https://github.com/finnlabs/openproject-pdf_export#usage" class="icon icon-help" onclick="window.open(&quot;https://github.com/finnlabs/openproject-pdf_export#usage&quot;, &quot;&quot;, &quot;resizable=yes, location=no, width=800, height=800, menubar=no, status=no, scrollbars=yes&quot;); return false;">Rows Formatting</a></div>
-  <span><br><br></span>
-</div>
+<%= render partial: "rows_format_help" %>
+
 <p>
 <%= f.text_area :rows, :required => true %>
 </p>
