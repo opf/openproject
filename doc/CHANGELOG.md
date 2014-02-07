@@ -30,9 +30,11 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#3113` [API] Read access on work package workflows for API v2
+* `#3114` [API] Provide custom fields in work-package index
 * `#3701` Filter custom fields of work packages in timeline reports
 * `#3732` Summary for work package responsibility
 * `#3733` Responsible widget for my pag
+* `#3884` [Timelines] Show custom fields of work packages in timeline reports
 * `#4024` [Accessibility] Add proper page titles for sub pages
 * `#4102` [Accessibility] Fixes screen reader compatibility for 'further analyze' links in work package summary
 * `#4023` [Accessibility] Fixes tabbing inside modals
