@@ -130,20 +130,21 @@ jQuery.each([SVGRectElement, SVGTextElement], function (i, klass) {
   };
 });
 
-SVGTextElement.prototype.insertAfter = function() {
-  // TODO
+SVGTextElement.prototype.insertAfter = function(node) {
+  this.parentNode.insertBefore(node, this.nextSibling);
 }
 
-SVGRectElement.prototype.hover = function() {
-  // TODO
+SVGRectElement.prototype.hover = function(f_in, f_out) {
+  this.addEventListener("mouseover", f_in);
+  this.addEventListener("mouseout", f_out)
 }
 
 SVGRectElement.prototype.unhover = function() {
-  // TODO
+  // TODO (not sure if we even need this)
 }
 
-SVGRectElement.prototype.click = function() {
-  // TODO
+SVGRectElement.prototype.click = function(cb) {
+  this.addEventListener("click", cb);
 }
 
 SVGPathElement.prototype.transform = function(transform) {
