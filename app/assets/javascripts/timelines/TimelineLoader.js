@@ -764,7 +764,7 @@ Timeline.TimelineLoader = (function () {
             // w/ custom values that are empty and work packages w/o
             // custom values.
 
-            if (value.indexOf("-1") !== -1) {
+            if (value instanceof Array && value.indexOf("-1") !== -1) {
               value.push("");
             }
 
