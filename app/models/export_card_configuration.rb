@@ -40,15 +40,26 @@ class ExportCardConfiguration < ActiveRecord::Base
       "width", "indented"]
 
     def assert_required_keys(hash, valid_keys, required_keys)
-      hash.assert_valid_keys valid_keys
+      begin
+        hash.assert_valid_keys valid_keys
+      rescue ArgumentError => e
+        # Small hack alert: Catch a raise error again but with localised text
+        raise ArgumentError, "#{I18n.t('validation_error_uknown_key')} '#{e.message.split(": ")[1]}'"
+      end
+
       pending_keys = required_keys - hash.keys
-      raise(ArgumentError, "Required key(s) not present: #{pending_keys.join(", ")}") unless pending_keys.empty?
+      raise(ArgumentError, "#{I18n.t('validation_error_required_keys_not_present')} #{pending_keys.join(", ")}") unless pending_keys.empty?
     end
 
     def validate(record)
-      if record.rows.nil? || !(YAML::load(record.rows)).is_a?(Hash)
-        record.errors[:rows] << "YAML is badly formed."
-        return false
+      begin
+        if record.rows.nil? || !(YAML::load(record.rows)).is_a?(Hash)
+          record.errors[:rows] << I18n.t('validation_error_yaml_is_badly_formed')
+          return false
+        end
+      rescue Psych::SyntaxError => e
+        record.errors[:rows] << I18n.t('validation_error_yaml_is_badly_formed')
+          return false
       end
 
       begin
@@ -77,10 +88,8 @@ class ExportCardConfiguration < ActiveRecord::Base
   validates :name, presence: true
   validates :rows, rows_yaml: true
   validates :per_page, numericality: { only_integer: true }
-  validates :page_size, inclusion: { in: %w(A4),
-    message: "%{value} is not a valid page size" }, allow_nil: false
-  validates :orientation, inclusion: { in: %w(landscape portrait),
-    message: "%{value} is not a valid page size" }, allow_nil: true
+  validates :page_size, inclusion: { in: %w(A4) }, allow_nil: false
+  validates :orientation, inclusion: { in: %w(landscape portrait) }, allow_nil: true
 
   scope :active, -> { where(active: true) }
 
