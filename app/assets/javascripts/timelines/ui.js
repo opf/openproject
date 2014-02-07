@@ -1133,7 +1133,9 @@ jQuery.extend(Timeline, {
             y: deco + 0.5, // the vertical line otherwise overlaps.
             w: width
           })
-        );
+        ).attr({
+          'stroke': '#000000'
+        });
       }
     }
 
