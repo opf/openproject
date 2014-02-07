@@ -318,7 +318,7 @@ de:
 
   button_add: "Hinzufügen"
   button_add_watcher: "Beobachter hinzufügen"
-  button_annotate: "Annotieren"
+  button_annotate: "Kommentieren"
   button_apply: "Anwenden"
   button_archive: "Archivieren"
   button_back: "Zurück"
@@ -396,16 +396,16 @@ de:
     distance_in_words:
       about_x_hours:
         one: "etwa 1 Stunde"
-        other: "etwa %{count} Stunden"
+        other: "etwa %{count} Stunde"
       about_x_months:
         one: "etwa 1 Monat"
-        other: "etwa %{count} Monaten"
+        other: "etwa %{count} Monate"
       about_x_years:
         one: "etwa 1 Jahr"
-        other: "etwa %{count} Jahren"
+        other: "etwa %{count} Jahre"
       almost_x_years:
         one: "fast 1 Jahr"
-        other: "fast %{count} Jahren"
+        other: "fast %{count} Jahre"
       half_a_minute: "eine halbe Minute"
       less_than_x_minutes:
         one: "weniger als 1 Minute"
@@ -415,7 +415,7 @@ de:
         other: "weniger als %{count} Sekunden"
       over_x_years:
         one: "mehr als 1 Jahr"
-        other: "mehr als %{count} Jahren"
+        other: "mehr als %{count} Jahre"
       x_days:
         one: "1 Tag"
         other: "%{count} Tagen"
@@ -645,7 +645,7 @@ de:
   label_change_status: "Statuswechsel"
   label_change_view_all: "Alle Änderungen anzeigen"
   label_changes_details: "Details aller Änderungen"
-  label_changeset_plural: "Changesets"
+  label_changeset_plural: "Änderungs-Sets"
   label_checked: "ausgewählt"
   label_chronological_order: "in zeitlicher Reihenfolge"
   label_close_versions: "Vollständige Versionen schließen"
@@ -714,10 +714,10 @@ de:
   label_feeds_access_key_created_on: "Atom-Zugriffsschlüssel vor %{value} erstellt"
   label_file_added: "Datei hinzugefügt"
   label_file_plural: "Dateien"
-  label_filesystem_path: "Root directory"
+  label_filesystem_path: "Wurzelverzeichnis"
   label_filter_add: "Filter hinzufügen"
   label_filter_plural: "Filter"
-  label_float: "Fließkommazahl"
+  label_float: "Gleitkommazahl"
   label_follows: "folgt"
   label_force_user_language_to_default: "Setze Sprache für Nutzer, die eine nicht erlaubte Sprache gewählt haben, auf die Default-Sprache"
   label_general: "Allgemein"
@@ -777,7 +777,7 @@ de:
   label_login: "Anmelden"
   label_login_with_open_id_option: "oder mit OpenID anmelden"
   label_logout: "Abmelden"
-  label_main_menu: "Nebenmenü"
+  label_main_menu: "Hauptmenü"
   label_max_size: "Maximale Größe"
   label_me: "ich"
   label_member_new: "Neues Mitglied"
@@ -1014,7 +1014,7 @@ de:
   label_keyboard_shortcut_help_heading: "Vorhandene Tastaturkürzel"
   label_keyboard_shortcut_within_project: "Innerhalb von Projekten:"
   label_keyboard_shortcut_global_shortcuts: "Globale Tastaturkürzel:"
-  label_keyboard_shortcut_some_pages_only: " Tastenkürzel auf speziellen Seiten:"
+  label_keyboard_shortcut_some_pages_only: "Tastaturkürzel auf speziellen Seiten:"
   label_keyboard_shortcut_search_global: "OpenProject weite Suche"
   label_keyboard_shortcut_search_project: "Projektsuche"
   label_keyboard_shortcut_go_my_page: "Gehe zu Meiner Seite'"
@@ -1135,7 +1135,7 @@ de:
   permission_add_subprojects: "Unterprojekte erstellen"
   permission_add_work_package_watchers: "Beobachter hinzufügen"
   permission_browse_repository: "Projektarchiv ansehen"
-  permission_change_wiki_parent_page: "Übergeordnete Wiki Seite ändern"
+  permission_change_wiki_parent_page: "Übergeordnete Wiki-Seite ändern"
   permission_comment_news: "News kommentieren"
   permission_commit_access: "Commit-Zugriff (über WebDAV)"
   permission_copy_projects: "Projekte kopieren"
@@ -1329,7 +1329,7 @@ de:
   text_enumeration_category_reassign_to: "Die Objekte statt dessen diesem Wert zuordnen:"
   text_enumeration_destroy_question: "%{count} Objekt(e) sind diesem Wert zugeordnet."
   text_file_repository_writable: "Verzeichnis für Dateien beschreibbar"
-  text_git_repo_example: "a bare and local repository (e.g. /gitrepo, c:\\gitrepo)"
+  text_git_repo_example: "ein freigegebenes,lokales Repository (z.B. /gitrepo, c:\\gitrepo)"
   text_work_package_added: "Arbeitspaket %{id} wurde erstellt von %{author}."
   text_work_package_category_destroy_assignments: "Kategorie-Zuordnung entfernen"
   text_work_package_category_destroy_question: "Einige Arbeitspakete (%{count}) sind dieser Kategorie zugeordnet. Was möchten Sie tun?"
@@ -1382,8 +1382,8 @@ de:
   text_wiki_page_nullify_children: "Verschiebe die Unterseiten auf die oberste Ebene"
   text_wiki_page_reassign_children: "Ordne die Unterseiten dieser Seite zu"
   text_workflow_edit: "Workflow zum Bearbeiten auswählen"
-  text_zoom_in: "Zoom in"
-  text_zoom_out: "Zoom out"
+  text_zoom_in: "heranzoomen"
+  text_zoom_out: "herauszoomen"
 
   time:
     am: "vormittags"
