@@ -583,6 +583,8 @@ en:
     filter:
       noneElement: "(none)"
       noneSelection: "(none)"
+    label_collapsed: "collapsed"
+    label_expanded: "expanded"
     label_collapse_all: "Collapse all"
     label_expand_all: "Expand all"
     label_menu_item_toggle: "Show/hide submenu items"

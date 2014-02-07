@@ -586,6 +586,8 @@ de:
     filter:
       noneElement: "(keines)"
       noneSelection: "(keine)"
+    label_collapsed: "zugeklappt"
+    label_expanded: "aufgeklappt"
     label_collapse_all: "Alle zuklappen"
     label_expand_all: "Alle aufklappen"
     label_menu_item_toggle: "Untermenüpunkte ein-/ausblenden"
