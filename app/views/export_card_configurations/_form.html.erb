@@ -33,7 +33,15 @@ See doc/COPYRIGHT.md for more details.
 <p><%= f.text_field :per_page, :required => true %></p>
 <p><%= f.text_field :page_size, :required => true, :value => "A4", :readonly => true %></p>
 <P><%= f.select :orientation, [:landscape, :portrait], :required => true %></p>
-<p><%= f.text_area :rows, :required => true, :class => "wiki-edit" %></p>
+
+<!-- Hack alert: This is stolen from the HTML produced by the work package descripion RTF editor. -->
+<div class="jstElements">
+  <div class="help"><a href="https://github.com/finnlabs/openproject-pdf_export#usage" class="icon icon-help" onclick="window.open(&quot;https://github.com/finnlabs/openproject-pdf_export#usage&quot;, &quot;&quot;, &quot;resizable=yes, location=no, width=800, height=800, menubar=no, status=no, scrollbars=yes&quot;); return false;">Rows Formatting</a></div>
+  <span><br><br></span>
+</div>
+<p>
+<%= f.text_area :rows, :required => true %>
+</p>
 
 <!--[eoform:export_card_configuration]-->
 </div>
