@@ -51,7 +51,5 @@ node :created_at, if: lambda{|pe| pe.created_at.present?} {|pe| pe.created_at.ut
 node :updated_at, if: lambda{|pe| pe.updated_at.present?} {|pe| pe.updated_at.utc}
 
 node do |element|
-  element.custom_values.each do |ele|
-    node(:"cf_#{ele.custom_field_id}") { ele.value }
-  end
+  Hash[element.custom_values.map { |cv| ["cf_#{cv.custom_field_id}", cv.value] }]
 end
