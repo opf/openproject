@@ -396,7 +396,7 @@ de:
     distance_in_words:
       about_x_hours:
         one: "etwa 1 Stunde"
-        other: "etwa %{count} Stunde"
+        other: "etwa %{count} Stunden"
       about_x_months:
         one: "etwa 1 Monat"
         other: "etwa %{count} Monate"
