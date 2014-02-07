@@ -47,7 +47,7 @@
       </td>
 
       <td ng-repeat="column in columns" class="{{column.name}}">
-        <span work-package-column model="row" column="column"/>
+        <span work-package-column work-package="row.object" column="column"/>
       </td>
     </tr>
   </tbody>

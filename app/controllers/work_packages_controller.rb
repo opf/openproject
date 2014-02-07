@@ -454,11 +454,12 @@ class WorkPackagesController < ApplicationController
       # TODO RS: Manually set all the column display types. We will need:
       #          Text, Link... what else?
       #          Date formatting is much easier server side. Check time_with_zone_as_json initializer.
-      display_type = if column.name == :subject
-                     "work_package_link"
-                   else
-                     "text"
-                   end
+      display_type = case column.name
+        when :subject, :assigned_to
+          'link'
+        else
+          'text'
+        end
       { name: column.name, title: column.caption, sortable: column.sortable, display_type: display_type }
     end
     gon.sort_criteria = @sort_criteria.to_param
@@ -469,7 +470,7 @@ class WorkPackagesController < ApplicationController
                                                 type: { only: :name },
                                                 status: { only: :name },
                                                 priority: { only: :name },
-                                                assigned_to: { methods: :name }
+                                                assigned_to: { only: [:name, :id], methods: :name }
                                               })
   end
 end

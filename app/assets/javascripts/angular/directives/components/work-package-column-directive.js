@@ -1,16 +1,16 @@
 // TODO move to UI components
 
-openprojectApp.directive('workPackageColumn', [function(){
+openprojectApp.directive('workPackageColumn', ['PathHelper', function(PathHelper){
   return {
     restrict: 'EA',
     replace: true,
     scope: {
-      model: '=',
+      workPackage: '=',
       column: '='
     },
     templateUrl: '/templates/components/work_package_column.html',
     link: function(scope, element, attributes) {
-      var data = scope.model.object[scope.column.name];
+      var data = scope.workPackage[scope.column.name];
       var defaultText = '';
 
       // Get display text from 'name' if it is an object
@@ -25,15 +25,14 @@ openprojectApp.directive('workPackageColumn', [function(){
       }
 
       // Set type specific scope
-      scope.display_type = scope.column.display_type;
-      switch (scope.column.display_type){
-        case 'text':
-          // Nothing special
-          scope.displayText = displayText;
+      scope.displayText = displayText;
+
+      switch (scope.column.name){
+        case 'subject':
+          scope.url = PathHelper.workPackagePath(scope.workPackage.id);
           break;
-        case 'work_package_link':
-          scope.url = '/work_packages/' + scope.model.object['id'];
-          scope.displayText = displayText;
+        case 'assigned_to':
+          scope.url = PathHelper.userPath(scope.workPackage.assigned_to.id);
           break;
       }
 
