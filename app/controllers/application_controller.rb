@@ -685,7 +685,7 @@ class ApplicationController < ActionController::Base
   private
 
   def session_expired?
-    current_user.logged? &&
+    !api_request? && current_user.logged? &&
     (session_ttl_enabled? && (session[:updated_at].nil? ||
                              (session[:updated_at] + Setting.session_ttl.to_i.minutes) < Time.now))
   end

@@ -29,7 +29,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= render :partial => 'action_menu' %>
 
-<h2><%=  Workflow.model_name.human %></h2>
+<% html_title l(:label_administration), l(:label_workflow_plural) -%>
+
+<h2><%= l(:label_workflow_plural) %></h2>
 
 <%= render :partial => 'layouts/action_menu_specific' %>
 
