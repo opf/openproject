@@ -41,6 +41,23 @@ module OpenProject::PdfExport::ExportCard
 
     private
 
+    def label_text(has_label)
+      if has_label
+        custom_label = @config['custom_label']
+        label_text = if custom_label
+                  "#{custom_label}: "
+                else
+                  "#{@work_package.class.human_attribute_name(@property_name)}: "
+                end
+        if @config['has_count'] && value.is_a?(Array)
+          label_text = "#{label_text} #{value.count}"
+        end
+      else
+        label_text = ""
+      end
+      label_text
+    end
+
     def abbreviated_text(text, options)
       options = options.merge!({ document: @pdf })
       text_box = Prawn::Text::Box.new(text, options)
@@ -85,20 +102,6 @@ module OpenProject::PdfExport::ExportCard
       has_label = @config['has_label']
       indented = @config['indented']
 
-      if has_label
-        custom_label = @config['custom_label']
-        label_text = if custom_label
-                  "#{custom_label}: "
-                else
-                  "#{@work_package.class.human_attribute_name(@property_name)}: "
-                end
-        if @config['has_count'] && value.is_a?(Array)
-          label_text = "#{label_text} #{value.count}"
-        end
-      else
-        label_text = ""
-      end
-
       # Flatten value to a string if it isn't already
       value = value.map{|c| c.to_s }.join("\n") if value.is_a?(Array)
       value = value.to_s if !value.is_a?(String)
@@ -108,7 +111,7 @@ module OpenProject::PdfExport::ExportCard
 
         # Label Textbox
         offset = [@orientation[:x_offset], @orientation[:height] - (@orientation[:text_padding] / 2)]
-        box = @pdf.text_box(label_text,
+        box = @pdf.text_box(label_text(has_label),
           {:height => @orientation[:height],
            :width => @orientation[:width] * width_ratio,
            :at => offset,
