@@ -35,17 +35,13 @@ module OpenProject::PdfExport::ExportCard
 
     def draw
       # Get value from model
-      if @config['custom_field']
-        # Get
+      if @work_package.respond_to?(@property_name)
+        value = @work_package.send(@property_name)
+      else
+        # Look in Custom Fields
         vs = @work_package.custom_field_values.select {|cf| cf.custom_field.name == @property_name}
         value = if vs.first && vs.first.value
                   value = vs.first.value
-                else
-                  ""
-                end
-      else
-        value = if @work_package.respond_to?(@property_name)
-                  @work_package.send(@property_name)
                 else
                   ""
                 end
