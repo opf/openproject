@@ -32,7 +32,7 @@ openprojectApp.directive('workPackageColumn', ['PathHelper', function(PathHelper
           scope.url = PathHelper.workPackagePath(scope.workPackage.id);
           break;
         case 'assigned_to':
-          scope.url = PathHelper.userPath(scope.workPackage.assigned_to.id);
+          if (scope.workPackage.assigned_to) scope.url = PathHelper.userPath(scope.workPackage.assigned_to.id);
           break;
       }
 
