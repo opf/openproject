@@ -128,7 +128,9 @@ Event.observe(document,"dom:loaded", apply_filters_observer);
         <%= options_for_select options[:values], field_values %>
         </select>
         <%= link_to_function icon_wrapper('icon-context icon-plus', l(:label_enable_multi_select)),
-                             "toggle_multi_select('#{field}');" %>
+                             "toggle_multi_select('#{field}');",
+                             :title => l(:label_enable_multi_select),
+                             :class => 'no-decoration-on-hover' %>
     <% when :date, :date_past %>
       <%= text_field_tag "v[#{field}][]", field_values, :id => "values_#{field}", :size => 3, :class => "select-small" %>
       <label for='<%= "values_#{field}" %>'><%= l(:label_day_plural) %></label>
