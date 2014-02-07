@@ -41,3 +41,4 @@ de:
   validation_error_required_keys_not_present: "Erfordete(r) Schlüssel nicht vorhanden:"
   validation_error_yaml_is_badly_formed: "Ungültiges YAML Format."
   validation_error_uknown_key: "Unbekannter Schlüssel:"
+  yaml_error: "YAML error:"

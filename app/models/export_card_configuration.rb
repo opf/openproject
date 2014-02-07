@@ -82,7 +82,7 @@ class ExportCardConfiguration < ActiveRecord::Base
           end
         end
       rescue ArgumentError => e
-        record.errors[:rows] << "YAML error: #{e.message}"
+        record.errors[:rows] << "#{I18n.t('yaml_error')} #{e.message}"
       end
     end
   end
