@@ -31,11 +31,11 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= form_tag({}) do -%>
   <%= hidden_field_tag 'back_url', url_for(params) %>
   <div class="autoscroll" ng-controller="WorkPackagesController">
-    <work-packages-table columns="workPackagesTable.columns" rows="workPackagesTable.rows" class="list issues" project-identifier="projectIdentifier">
-    </work-packages-table>
+
+    <work-packages-table columns="workPackagesTable.columns" rows="workPackagesTable.rows" current-sortation="currentSortation" class="list issues" project-identifier="projectIdentifier"></work-packages-table>
+
 
     <table class="list issues">
-
       <thead>
         <tr>
           <th class="checkbox hide-when-print"><%= link_to icon_wrapper('icon-context icon-yes', "#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), {},
