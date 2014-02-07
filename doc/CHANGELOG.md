@@ -35,6 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#4024` [Accessibility] Add proper page titles for sub pages
 * `#4090` 'Session Expires' setting breaks API
 * `#4101` Headings: Fix typos in german translation
+* `#4163` Extend authorization-API to return current user id
 * News subject contained in URL
 * Removes mocha mocking framework.
 * Update pg-gem version
