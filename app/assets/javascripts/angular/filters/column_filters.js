@@ -33,26 +33,5 @@ openprojectApp
           return object[map[option]]();
       }
     };
-  })
-
-  // work packages
-  .filter('columnContent', function(){
-    return function(object, option) {
-      return object[option]; // TODO formatting by type
-    };
-  })
-
-  .filter('columnNamedChildContent', function(){
-     // TODO RS: This is just a temporary solution to display some text for child objects
-    return function(object, option) {
-      var p = object[option];
-      switch(typeof(p)) {
-        case 'string':
-          return p;
-        case 'object':
-          return p['name'];
-        default:
-          return 'None';
-      }
-    };
   });
+
