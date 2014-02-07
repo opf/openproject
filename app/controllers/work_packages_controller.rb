@@ -224,6 +224,7 @@ class WorkPackagesController < ApplicationController
 
     # push work packages to client as JSON
     # TODO pull work packages via AJAX
+    push_table_data_via_gon
     push_work_packages_via_gon work_packages
 
     respond_to do |format|
@@ -447,7 +448,7 @@ class WorkPackagesController < ApplicationController
 
   private
 
-  def push_work_packages_via_gon(work_packages)
+  def push_table_data_via_gon
     gon.project_identifier = @project.to_param
     gon.columns = @query.columns.map do |column|
       # TODO RS: Manually set all the column display types. We will need:
@@ -460,7 +461,15 @@ class WorkPackagesController < ApplicationController
                    end
       { name: column.name, title: column.caption, sortable: column.sortable, display_type: display_type }
     end
-    gon.work_packages = work_packages.as_json(:include => [:type, :status, :priority, :assigned_to])
     gon.sort_criteria = @sort_criteria.to_param
+  end
+
+  def push_work_packages_via_gon(work_packages)
+    gon.work_packages = work_packages.as_json(:include => {
+                                                type: { only: :name },
+                                                status: { only: :name },
+                                                priority: { only: :name },
+                                                assigned_to: { methods: :name }
+                                              })
   end
 end
