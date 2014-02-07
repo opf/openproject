@@ -26,6 +26,32 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+function createFieldsetToggleStateLabel(legend, text) {
+  var labelClass = 'fieldset-toggle-state-label'
+  var toggleLabel = legend.find('a span.' + labelClass);
+  var legendLink = legend.children('a');
+
+  if (toggleLabel.length === 0) {
+    toggleLabel = jQuery("<span />").addClass(labelClass)
+                                    .addClass("hidden-for-sighted");
+
+    legendLink.append(toggleLabel);
+  }
+
+  toggleLabel.text(text);
+}
+
+function setFieldsetToggleState(fieldset) {
+  var legend = fieldset.children('legend');
+
+
+  if (fieldset.hasClass('collapsed')) {
+    createFieldsetToggleStateLabel(legend, I18n.t('js.label_collapsed'));
+  } else {
+    createFieldsetToggleStateLabel(legend, I18n.t('js.label_expanded'));
+  }
+}
+
 function getFieldset(el) {
   var element = jQuery(el);
 
@@ -44,4 +70,6 @@ function toggleFieldset(el) {
 
   fieldset.toggleClass('collapsed');
   contentArea.slideToggle('fast', null);
+
+  setFieldsetToggleState(fieldset);
 }
