@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::V2::WorkPackagePrioritiesController do
+describe Api::V2::PlanningElementPrioritiesController do
   let(:current_user) { FactoryGirl.create(:admin) }
 
   before { User.stub(:current).and_return current_user }
@@ -37,7 +37,7 @@ describe Api::V2::WorkPackagePrioritiesController do
     shared_examples_for 'valid work package priority index request' do
       it { expect(response).to be_success }
 
-      it { expect(response).to render_template('api/v2/work_package_priorities/index', format: ['api']) }
+      it { expect(response).to render_template('api/v2/planning_element_priorities/index', format: ['api']) }
     end
 
     describe 'w/o priorities' do
