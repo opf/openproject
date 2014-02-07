@@ -1,8 +1,8 @@
 <div ng-switch="display_type">
   <span ng-switch-when="text">
-    {{ model }}    
+    {{ displayText }}
   </span>
   <span ng-switch-when="work_package_link">
-    <a href="{{ url }}">{{ model }}</a>
+    <a href="{{ url }}">{{ displayText }}</a>
   </span>
 </div>

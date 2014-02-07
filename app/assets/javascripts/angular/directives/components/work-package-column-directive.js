@@ -11,15 +11,16 @@ openprojectApp.directive('workPackageColumn', [function(){
     templateUrl: '/templates/components/work_package_column.html',
     link: function(scope, element, attributes) {
       var data = scope.model.object[scope.column.name];
+      var defaultText = '';
 
       // Get display text from 'name' if it is an object
-      var display_text = 'None';
+      var displayText = defaultText;
       switch(typeof(data)) {
         case 'string':
-          display_text = data;
+          displayText = data;
           break;
         case 'object':
-          display_text = data['name'];
+          displayText = data['name'];
           break;
       }
 
@@ -28,11 +29,11 @@ openprojectApp.directive('workPackageColumn', [function(){
       switch (scope.column.display_type){
         case 'text':
           // Nothing special
-          scope.model = display_text;
+          scope.displayText = displayText;
           break;
         case 'work_package_link':
           scope.url = '/work_packages/' + scope.model.object['id'];
-          scope.model = display_text;
+          scope.displayText = displayText;
           break;
       }
 
