@@ -39,6 +39,8 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= link_to l(:label_overall_activity), { :controller => '/activities', :action => 'index' }%>
 <% end %>
 
+<% html_title(l(:label_project_plural)) -%>
+
 <h2><%=l(:label_project_plural)%></h2>
 
 <%= render :partial => 'layouts/action_menu_specific' %>
@@ -58,5 +60,3 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= other_formats_links do |f| %>
   <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
 <% end %>
-
-<% html_title(l(:label_project_plural)) -%>

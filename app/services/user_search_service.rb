@@ -1,6 +1,13 @@
 class UserSearchService
   attr_accessor :params
 
+  SEARCH_SCOPES = [
+    'ids',
+    'group_id',
+    'status',
+    'name'
+  ]
+
   def initialize(params)
     self.params = params
   end

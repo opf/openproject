@@ -89,6 +89,10 @@ class Type < ActiveRecord::Base
     Type.where(is_standard: true).first
   end
 
+  def self.default
+    Type.where(is_default: true)
+  end
+
   def statuses
     return [] if new_record?
     @statuses ||= Type.statuses([id])

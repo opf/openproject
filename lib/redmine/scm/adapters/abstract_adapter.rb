@@ -176,7 +176,7 @@ module Redmine
         def without_trailling_slash(path)
           path ||= ''
           (path[-1,1] == "/") ? path[0..-2] : path
-         end
+        end
 
         def shell_quote(str)
           self.class.shell_quote(str)
