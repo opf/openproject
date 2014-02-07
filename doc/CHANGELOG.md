@@ -39,6 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#4102` [Accessibility] Fixes screen reader compatibility for 'further analyze' links in work package summary
 * `#4023` [Accessibility] Fixes tabbing inside modals
 * `#4090` 'Session Expires' setting breaks API
+* `#4100` use icon from icon font for toggle multiselect in filter section
 * `#4101` Headings: Fix typos in german translation
 * `#4108` Fixes German translation of months
 * `#4163` Extend authorization-API to return current user id
