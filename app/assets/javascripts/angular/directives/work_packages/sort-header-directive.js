@@ -69,7 +69,6 @@ openprojectApp.directive('sortHeader', ['I18n', 'PathHelper', function(I18n, Pat
   };
 
   return {
-    // TODO isolate and restrict to 'E' once https://github.com/angular/angular.js/issues/1459 is solved
     restrict: 'A',
     templateUrl: '/templates/work_packages/sort_header.html',
     scope: true,
@@ -82,7 +81,6 @@ openprojectApp.directive('sortHeader', ['I18n', 'PathHelper', function(I18n, Pat
 
       scope.headerTitle = attributes['headerTitle'];
       scope.sortable = attributes['sortable'];
-      scope.I18n = I18n;
       scope.path = PathHelper.projectWorkPackagesPath(scope.projectIdentifier);
 
       scope.currentSortDirection = sortation.getDisplayedSortDirectionOfHeader(headerName);
