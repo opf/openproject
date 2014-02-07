@@ -54,6 +54,7 @@
 //= require timelines/model/Reporting
 //= require timelines/model/ProjectType
 //= require timelines/model/Color
+//= require timelines/model/CustomFields
 //= require timelines/model/Status
 //= require timelines/model/PlanningElementType
 //= require timelines/model/User
@@ -371,6 +372,7 @@ jQuery.extend(Timeline, {
         url_prefix                    : this.options.url_prefix,
         project_prefix                : this.options.project_prefix,
         planning_element_prefix       : this.options.planning_element_prefix,
+        timeline_id                   : this.options.timeline_id,
         project_id                    : this.options.project_id,
         project_types                 : this.options.project_types,
         project_statuses              : this.options.project_status,
@@ -379,6 +381,7 @@ jQuery.extend(Timeline, {
         planning_element_types        : this.options.planning_element_types,
         planning_element_responsibles : this.options.planning_element_responsibles,
         planning_element_assignee     : this.options.planning_element_assignee,
+        custom_fields                 : this.options.custom_fields,
         planning_element_status       : this.options.planning_element_status,
         grouping_one                  : (this.options.grouping_one_enabled ? this.options.grouping_one_selection : undefined),
         grouping_two                  : (this.options.grouping_two_enabled ? this.options.grouping_two_selection : undefined),

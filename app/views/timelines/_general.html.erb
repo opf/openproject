@@ -125,7 +125,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= hidden_field_tag("timeline[options][columns][]",
                   timeline.selected_columns.join(","),
                   {
-                    :"data-values" => internationalized_columns_select_object(timeline.available_columns).to_json
+                    :"data-values" => internationalized_columns_select_object(timeline.available_columns).concat(timeline.custom_field_columns).to_json
                   }
                 ) %>
         <% end %>
