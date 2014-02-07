@@ -4,17 +4,17 @@ openprojectApp.directive('sortHeader', ['I18n', 'PathHelper', function(I18n, Pat
 
   var Sortation = function(encodedSortation) {
     if (encodedSortation) {
-      this.sortations = encodedSortation.split(',').map(function(sortParam) {
+      this.sortElements = encodedSortation.split(',').map(function(sortParam) {
         fieldAndDirection = sortParam.split(':');
         return { field: fieldAndDirection[0], direction: fieldAndDirection[1] || defaultSortDirection};
       });
     } else {
-      this.sortations = [];
+      this.sortElements = [];
     }
   };
 
   Sortation.prototype.getPrimarySortationCriterion = function() {
-    return this.sortations.first();
+    return this.sortElements.first();
   };
 
   Sortation.prototype.getDisplayedSortDirectionOfHeader = function(headerName) {
@@ -28,38 +28,38 @@ openprojectApp.directive('sortHeader', ['I18n', 'PathHelper', function(I18n, Pat
   Sortation.prototype.getCurrentSortDirectionOfHeader = function(headerName) {
     var sortDirection;
 
-    angular.forEach(this.sortations, function(sortation){
+    angular.forEach(this.sortElements, function(sortation){
       if(sortation && sortation.field === headerName) sortDirection = sortation.direction;
     });
 
     return sortDirection;
   };
 
-  Sortation.prototype.removeSortation = function(elementName) {
-    index = this.sortations.map(function(sortation){
+  Sortation.prototype.removeSortElement = function(elementName) {
+    index = this.sortElements.map(function(sortation){
       return sortation.field;
     }).indexOf(elementName);
 
-    if (index !== -1) this.sortations.splice(index, 1);
+    if (index !== -1) this.sortElements.splice(index, 1);
   };
 
-  Sortation.prototype.addSortation = function(sortation) {
-    this.removeSortation(sortation.field);
+  Sortation.prototype.addSortElement = function(sortElement) {
+    this.removeSortElement(sortElement.field);
 
-    this.sortations.unshift(sortation);
+    this.sortElements.unshift(sortElement);
   };
 
   Sortation.prototype.getTargetSortationOfHeader = function(headerName) {
     var targetSortation = angular.copy(this);
     var targetSortDirection = this.getCurrentSortDirectionOfHeader(headerName) === 'asc' ? 'desc' : 'asc';
 
-    targetSortation.addSortation({field: headerName, direction: targetSortDirection}, targetSortation);
+    targetSortation.addSortElement({field: headerName, direction: targetSortDirection}, targetSortation);
 
     return targetSortation;
   };
 
   Sortation.prototype.encode = function() {
-    return this.sortations.map(function(sortation){
+    return this.sortElements.map(function(sortation){
       if (sortation.direction === 'asc') {
         return sortation.field;
       } else {
