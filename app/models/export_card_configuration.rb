@@ -76,7 +76,7 @@ class ExportCardConfiguration < ActiveRecord::Base
 
   validates :name, presence: true
   validates :rows, rows_yaml: true
-  validates :per_page, numericality: { only_integer: true }
+  validates :per_page, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
   validates :page_size, inclusion: { in: %w(A4),
     message: "%{value} is not a valid page size" }, allow_nil: false
   validates :orientation, inclusion: { in: %w(landscape portrait),
