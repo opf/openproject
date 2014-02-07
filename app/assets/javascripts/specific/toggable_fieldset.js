@@ -26,8 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+function getFieldset(el) {
+  var element = jQuery(el);
+
+  if (element.is('legend')) {
+    return jQuery(el).parent();
+  } else if (element.is('fieldset')) {
+    return element;
+  }
+
+  throw "Cannot derive fieldset from element!";
+}
+
 function toggleFieldset(el) {
-  var fieldset = Element.up(el, 'fieldset');
-  fieldset.toggleClassName('collapsed');
-  Effect.toggle(fieldset.down('>div'), 'slide', {duration:0.2});
+  var fieldset = getFieldset(el);
+  var contentArea = fieldset.find('> div');
+
+  fieldset.toggleClass('collapsed');
+  contentArea.slideToggle('fast', null);
 }
