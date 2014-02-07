@@ -70,13 +70,15 @@ describe Group do
   
   describe :create do
     describe 'group with empty group name' do
-      before do
-        @g = Group.new(:lastname => "")
-        @g.save
-      end
+      let(:group) { FactoryGirl.build(:group, lastname: '') }
 
-      it { @g.valid?.should be_false }
-      it { @g.errors.full_messages[0].should include I18n.t('attributes.groupname')}
+      it { expect(group.valid?).to be_false }
+      
+      describe 'error message' do
+        before { group.valid? }
+
+        it { expect(group.errors.full_messages[0]).to include I18n.t('attributes.groupname')}
+      end
     end
   end
 end
