@@ -37,6 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#4023` [Accessibility] Fixes tabbing inside modals
 * `#4090` 'Session Expires' setting breaks API
 * `#4101` Headings: Fix typos in german translation
+* `#4108` Fixes German translation of months
 * `#4163` Extend authorization-API to return current user id
 * News subject contained in URL
 * Removes mocha mocking framework.
