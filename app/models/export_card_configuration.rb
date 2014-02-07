@@ -40,6 +40,10 @@ class ExportCardConfiguration < ActiveRecord::Base
       "width", "indented"]
 
     def assert_required_keys(hash, valid_keys, required_keys)
+      if !hash.is_a?(Hash)
+        raise ArgumentError, I18n.t('validation_error_yaml_is_badly_formed')
+      end
+
       begin
         hash.assert_valid_keys valid_keys
       rescue ArgumentError => e
