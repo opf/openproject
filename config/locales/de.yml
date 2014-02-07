@@ -645,7 +645,7 @@ de:
   label_change_status: "Statuswechsel"
   label_change_view_all: "Alle Änderungen anzeigen"
   label_changes_details: "Details aller Änderungen"
-  label_changeset_plural: "Änderungs-Sets"
+  label_changeset_plural: "Changesets"
   label_checked: "ausgewählt"
   label_chronological_order: "in zeitlicher Reihenfolge"
   label_close_versions: "Vollständige Versionen schließen"
