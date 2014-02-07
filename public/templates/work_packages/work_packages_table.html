@@ -26,10 +26,12 @@
     <tr ng-repeat="row in rows"
         id="work-package-{{ row.object.id }}"
         ng-class="['hascontextmenu',
+                   'issue',
                    $even && 'even' || '',
                    $odd && 'odd' || '',
-                   row.level > 0 && 'idnt',
-                   row.level > 0 && 'idnt-level-' + row.level]">
+                   !row.object['leaf?'] && 'parent' || '',
+                   row.level > 0 && 'child idnt' || '',
+                   row.level > 0 && 'idnt-' + row.level]">
 
       <td class="checkbox hide-when-print">
         <accessible-checkbox name="ids[]"

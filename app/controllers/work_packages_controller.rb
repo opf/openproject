@@ -466,7 +466,9 @@ class WorkPackagesController < ApplicationController
   end
 
   def push_work_packages_via_gon(work_packages)
-    gon.work_packages = work_packages.as_json(:include => {
+    # TODO maybe serialize method ancestors
+    gon.work_packages = work_packages.as_json(methods: :leaf?,
+                                              include: {
                                                 type: { only: :name },
                                                 status: { only: :name },
                                                 priority: { only: :name },

@@ -1,16 +1,29 @@
 openprojectApp.factory('WorkPackagesTableHelper', [function() {
   var WorkPackagesTableHelper = {
+    /* builds rows from work packages, see IssuesHelper */
     getRows: function(workPackages) {
-      return workPackages.map(function(workPackage){
-        return {
-          level: 0, // TODO retrieve level from ancestors size
+      var rows = [], ancestors = [];
+
+      angular.forEach(workPackages, function(workPackage, i) {
+        while(ancestors.length > 0 && workPackage.parent_id !== ancestors.last().object.id) {
+          ancestors.pop();
+        }
+
+        var row = {
+          level: ancestors.length,
           group: 0,
           groupName: '',
-          parent: null,
-          ancestors: [],
+          parent: ancestors.last(),
+          ancestors: ancestors.slice(0),
           object: workPackage
         };
+
+        rows.push(row);
+
+        if (!workPackage['leaf?']) ancestors.push(row);
       });
+
+      return rows;
     }
   };
 
