@@ -450,7 +450,15 @@ class WorkPackagesController < ApplicationController
   def push_work_packages_via_gon(work_packages)
     gon.project_identifier = @project.to_param
     gon.columns = @query.columns.map do |column|
-      { name: column.name, title: column.caption, sortable: column.sortable }
+      # TODO RS: Manually set all the column display types. We will need:
+      #          Text, Link... what else?
+      #          Date formatting is much easier server side. Check time_with_zone_as_json initializer.
+      display_type = if column.name == :subject
+                     "work_package_link"
+                   else
+                     "text"
+                   end
+      { name: column.name, title: column.caption, sortable: column.sortable, display_type: display_type }
     end
     gon.work_packages = work_packages.as_json(:include => [:type, :status, :priority, :assigned_to])
     gon.sort_criteria = @sort_criteria.to_param
