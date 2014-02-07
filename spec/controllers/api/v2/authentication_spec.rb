@@ -29,12 +29,25 @@
 require File.expand_path('../../../../spec_helper', __FILE__)
 
 describe Api::V2::AuthenticationController do
+  before { Setting.stub(:rest_api_enabled?).and_return true }
+
   describe 'index.xml' do
     def fetch
       get 'index', :format => 'xml'
     end
 
     it_should_behave_like "a controller action with require_login"
+
+    describe 'REST API disabled' do
+      before do
+
+        Setting.stub!(:rest_api_enabled?).and_return false
+
+        fetch
+      end
+
+      it { expect(response.status).to eq(403) }
+    end
 
     describe 'authorization data' do
       let(:user) { FactoryGirl.create(:user) }
