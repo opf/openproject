@@ -1,5 +1,4 @@
 <div class="tabs">
-  <% url_params = @free_period ? { :from => @from, :to => @to } : { :period => params[:period] } %>
   <ul>
     <%= render partial: 'timelog/time_entry_tab', locals: { tab_title: l(:label_details),
                                                             tab_path: polymorphic_time_entries_path(@issue || @project),
