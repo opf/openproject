@@ -5,8 +5,10 @@ openprojectApp.directive('accessibleCheckbox', [function(){
     restrict: 'EA',
     replace: true,
     scope: {
+      name: '@',
       checkboxId: '@',
       checkboxTitle: '@',
+      checkboxValue: '=',
       model: '='
     },
     templateUrl: '/templates/components/accessible_checkbox.html'

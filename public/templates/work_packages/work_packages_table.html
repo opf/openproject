@@ -24,15 +24,18 @@
 
   <tbody>
     <tr ng-repeat="row in rows"
+        id="work-package-{{ row.object.id }}"
         ng-class="['hascontextmenu',
-                   $even && 'even',
-                   $odd && 'odd',
+                   $even && 'even' || '',
+                   $odd && 'odd' || '',
                    row.level > 0 && 'idnt',
                    row.level > 0 && 'idnt-level-' + row.level]">
 
       <td class="checkbox hide-when-print">
-        <accessible-checkbox checkbox-id="work_package{{row.object.id}}"
+        <accessible-checkbox name="ids[]"
+                             checkbox-id="work_package{{row.object.id}}"
                              checkbox-title="{{I18n.t('js.description_select_work_package')}}#{{row.object.id}}"
+                             checkbox-value="row.object.id"
                              model="row.checked"/>
       </td>
 
