@@ -34,6 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3733` Responsible widget for my page
 * `#4024` [Accessibility] Add proper page titles for sub pages
 * `#4102` [Accessibility] Fixes screen reader compatibility for 'further analyze' links in work package summary
+* `#4023` [Accessibility] Fixes tabbing inside modals
 * `#4090` 'Session Expires' setting breaks API
 * `#4101` Headings: Fix typos in german translation
 * `#4163` Extend authorization-API to return current user id
