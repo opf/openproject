@@ -1353,7 +1353,7 @@ jQuery.extend(Timeline, {
         })
       ).attr({
         'stroke': 'blue',
-        'stroke-dasharray': '- '
+        'stroke-dasharray': '4,3'
       });
     }
 
@@ -1368,7 +1368,7 @@ jQuery.extend(Timeline, {
         })
       ).attr({
         'stroke': 'blue',
-        'stroke-dasharray': '- '
+        'stroke-dasharray': '4,3'
       });
     }
   },
@@ -1392,7 +1392,7 @@ jQuery.extend(Timeline, {
       })
     ).attr({
       'stroke': 'red',
-      'stroke-dasharray': '- '
+      'stroke-dasharray': '4,3'
     });
 
     var setDateTime = 5 * 60 * 1000;
