@@ -26,6 +26,7 @@
 Given /^there are multiple export card configurations$/ do
   config1 = ExportCardConfiguration.create!({
     name: "Default",
+    description: "This is a description",
     active: true,
     per_page: 1,
     page_size: "A4",
@@ -34,6 +35,7 @@ Given /^there are multiple export card configurations$/ do
   })
   config2 = ExportCardConfiguration.create!({
     name: "Custom",
+    description: "This is a description",
     active: true,
     per_page: 1,
     page_size: "A4",
@@ -42,6 +44,7 @@ Given /^there are multiple export card configurations$/ do
   })
   config3 = ExportCardConfiguration.create!({
     name: "Custom 2",
+    description: "This is a description",
     active: true,
     per_page: 1,
     page_size: "A4",
@@ -50,6 +53,7 @@ Given /^there are multiple export card configurations$/ do
   })
   config4 = ExportCardConfiguration.create!({
     name: "Custom Inactive",
+    description: "This is a description",
     active: false,
     per_page: 1,
     page_size: "A4",
@@ -62,6 +66,7 @@ end
 Given /^there is the default export card configuration$/ do
   config1 = ExportCardConfiguration.create!({
     name: "Default",
+    description: "This is a description",
     active: true,
     per_page: 1,
     page_size: "A4",

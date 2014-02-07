@@ -44,6 +44,7 @@ describe ExportCardConfigurationsController do
     it 'should let you create a configuration with all the values set' do
       @params[:export_card_configuration] = {
         name: "Config 1",
+        description: "This is a description",
         rows: @valid_rows_yaml,
         per_page: 5,
         page_size: "A4",
