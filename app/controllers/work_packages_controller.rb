@@ -450,6 +450,9 @@ class WorkPackagesController < ApplicationController
 
   def push_table_data_via_gon
     gon.project_identifier = @project.to_param
+
+    gon.query = @query.as_json only: :group_by
+
     gon.columns = @query.columns.map do |column|
       # TODO RS: Manually set all the column display types. We will need:
       #          Text, Link... what else?
@@ -460,8 +463,9 @@ class WorkPackagesController < ApplicationController
         else
           'text'
         end
-      { name: column.name, title: column.caption, sortable: column.sortable, display_type: display_type }
+      { name: column.name, title: column.caption, sortable: column.sortable, groupable: column.groupable, display_type: display_type }
     end
+
     gon.sort_criteria = @sort_criteria.to_param
   end
 

@@ -23,7 +23,17 @@
   </thead>
 
   <tbody>
-    <tr ng-repeat="row in rows"
+    <tr ng-repeat-start="row in rows" ng-if="$first || (row.object | columnContent:groupBy) !== (rows[$index-1].object | columnContent:groupBy)">
+      <td colspan="{{ columns.length + 2 }}">
+        <span class="expander icon-context icon-minus" onclick="toggleRowGroup(this); return false;">
+          <span class="hidden-for-sighted expand">{{ I18n.t('js.label_expand') }}</span>
+          <span class="hidden-for-sighted collapse">{{ I18n.t('js.label_collapse') }}</span>
+        </span>
+
+      </td>
+    </tr>
+
+    <tr ng-repeat-end
         id="work-package-{{ row.object.id }}"
         ng-class="['hascontextmenu',
                    'issue',

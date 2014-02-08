@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= hidden_field_tag 'back_url', url_for(params) %>
   <div class="autoscroll" ng-controller="WorkPackagesController">
 
-    <work-packages-table columns="workPackagesTable.columns" rows="workPackagesTable.rows" current-sortation="currentSortation" class="list issues" project-identifier="projectIdentifier"></work-packages-table>
+    <work-packages-table columns="workPackagesTable.columns" rows="workPackagesTable.rows" current-sortation="currentSortation" project-identifier="projectIdentifier" group-by="query.group_by" class="list issues"></work-packages-table>
 
 
     <table class="list issues">
