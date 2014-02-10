@@ -37,6 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3732` Summary for work package responsibility
 * `#3733` Responsible widget for my pag
 * `#3884` [Timelines] Show custom fields of work packages in timeline reports
+* `#3980` In Email settings "Issue" is used
 * `#4024` [Accessibility] Add proper page titles for sub pages
 * `#4102` [Accessibility] Fixes screen reader compatibility for 'further analyze' links in work package summary
 * `#4023` [Accessibility] Fixes tabbing inside modals
