@@ -51,7 +51,8 @@
         </span>
 
         <span>
-          {{ row.object | columnContent:groupBy || '-' }}
+          <span work-package-column work-package="row.object" column="groupByColumn">
+          </span>
 
           <span class="count">
             ({{ countByGroup[(row.object | columnContent:groupBy)] }})
