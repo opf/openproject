@@ -42,7 +42,12 @@ module OpenProject::PdfExport::ExportCard
       # Get an array of all the row hashes
       rows = []
       @groups_config.each do |gk, gv|
+        # Enforce group height if present by assigning the row height as a fraction of the group height
+        min_group_height = gv["height"] || 0
+        min_row_height = (min_group_height > 0) ? (min_group_height / gv["rows"].count) : 0
+
         gv["rows"].each do |rk, rv|
+          rv["enforced_group_height"] = min_row_height
           rows << rv
         end
       end
@@ -78,7 +83,7 @@ module OpenProject::PdfExport::ExportCard
 
     def assign_row_heights(rows)
       # Assign initial heights for rows in all groups
-      available = @orientation[:height] - @orientation[:text_padding]
+      available = @orientation[:height] - (@orientation[:group_padding] * 2)
       c = rows.count
       assigned_heights = Array.new(c){ available / c }
 
@@ -135,6 +140,8 @@ module OpenProject::PdfExport::ExportCard
     end
 
     def min_row_height(row)
+      return row["enforced_group_height"] if row["enforced_group_height"]
+
       # Look through each of the row's columns for the column with the largest minimum height
       largest = 0
       row["columns"].each do |rk, rv|
