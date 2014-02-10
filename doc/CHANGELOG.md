@@ -31,6 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#3113` [API] Read access on work package workflows for API v2
 * `#3114` [API] Provide custom fields in work-package index
+* `#3335` Fix: Mass assignment in members controller
 * `#3701` Filter custom fields of work packages in timeline reports
 * `#3732` Summary for work package responsibility
 * `#3733` Responsible widget for my pag
