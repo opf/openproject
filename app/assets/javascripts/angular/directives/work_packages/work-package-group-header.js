@@ -1,13 +1,13 @@
 angular.module('openproject.workPackages.directives')
 
-.directive('workPackageGroupHeader', ['WorkPackagesTableHelper', function(WorkPackagesTableHelper) {
+.directive('workPackageGroupHeader', ['WorkPackagesHelper', function(WorkPackagesHelper) {
 
   return {
     restrict: 'A',
     compile: function(tElement) {
       return {
         pre: function(scope, iElement, iAttrs, controller) {
-          scope.currentGroup = WorkPackagesTableHelper.getRowObjectContent(scope.row.object, scope.groupBy); // TODO get group directly from row
+          scope.currentGroup = WorkPackagesHelper.getRowObjectContent(scope.row.object, scope.groupBy); // TODO get group directly from row
 
           pushGroup(scope.currentGroup);
 

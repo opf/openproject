@@ -1,7 +1,7 @@
 angular.module('openproject.workPackages.filters')
 
 // work packages
-.filter('columnContent', ['WorkPackagesTableHelper', function(WorkPackagesTableHelper){
-  return WorkPackagesTableHelper.getRowObjectContent;
+.filter('columnContent', ['WorkPackagesHelper', function(WorkPackagesHelper){
+  return WorkPackagesHelper.getRowObjectContent;
 }]);
 

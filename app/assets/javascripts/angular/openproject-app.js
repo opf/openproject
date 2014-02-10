@@ -9,9 +9,9 @@ angular.module('openproject.timelines.directives', ['openproject.timelines.model
 // work packages
 angular.module('openproject.workPackages', ['openproject.workPackages.controllers', 'openproject.workPackages.directives', 'openproject.workPackages.filters']);
 angular.module('openproject.workPackages.helpers', []);
-angular.module('openproject.workPackages.filters', ['openproject.workPackages.helpers']);
-angular.module('openproject.workPackages.controllers', []);
-angular.module('openproject.workPackages.directives', ['openproject.workPackages.helpers']);
+angular.module('openproject.workPackages.filters', ['openproject.uiComponents']);
+angular.module('openproject.workPackages.controllers', ['openproject.workPackages.helpers']);
+angular.module('openproject.workPackages.directives', ['openproject.uiComponents']);
 
 
 // global

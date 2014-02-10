@@ -54,7 +54,7 @@
           {{ row.object | columnContent:groupBy || '-' }}
 
           <span class="count">
-            {{ countByGroup[(row.object | columnContent:groupBy)] }}
+            ({{ countByGroup[(row.object | columnContent:groupBy)] }})
 
             <span aria-hidden="true" role="presentation" tabindex="-1">
               <a class="toggle-all" ng-href="#" ng-click="toggleAllGroups()">

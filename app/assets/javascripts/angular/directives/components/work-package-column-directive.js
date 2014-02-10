@@ -1,7 +1,7 @@
 // TODO move to UI components
 angular.module('openproject.uiComponents')
 
-.directive('workPackageColumn', ['PathHelper', function(PathHelper){
+.directive('workPackageColumn', ['PathHelper', 'WorkPackagesHelper', function(PathHelper, WorkPackagesHelper){
   return {
     restrict: 'EA',
     replace: true,
@@ -11,22 +11,10 @@ angular.module('openproject.uiComponents')
     },
     templateUrl: '/templates/components/work_package_column.html',
     link: function(scope, element, attributes) {
-      var data = scope.workPackage[scope.column.name];
       var defaultText = '';
 
-      // Get display text from 'name' if it is an object
-      var displayText = defaultText;
-      switch(typeof(data)) {
-        case 'string':
-          displayText = data;
-          break;
-        case 'object':
-          displayText = data['name'];
-          break;
-      }
-
-      // Set type specific scope
-      scope.displayText = displayText;
+      // Set text to be displayed
+      scope.displayText = WorkPackagesHelper.getRowObjectContent(scope.workPackage, scope.column.name) || defaultText;
 
       switch (scope.column.name){
         case 'subject':
