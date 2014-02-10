@@ -38,6 +38,7 @@ describe 'export_card_configurations/edit' do
     render
 
     rendered.should have_field("Name", with: config.name)
+    rendered.should have_field("Description", with: config.description)
     rendered.should have_field("Per page", with: config.per_page.to_s)
     rendered.should have_field("Page size", with: config.page_size)
     rendered.should have_field("Orientation", with: config.orientation)

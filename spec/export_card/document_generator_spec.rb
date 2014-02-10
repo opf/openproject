@@ -28,6 +28,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe OpenProject::PdfExport::ExportCard::DocumentGenerator do
   let(:config) { ExportCardConfiguration.new({
     name: "Default",
+    description: "This is a description",
     per_page: 1,
     page_size: "A4",
     orientation: "landscape",
