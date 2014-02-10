@@ -77,13 +77,16 @@ Timeline.SvgHelper = (function() {
     });
   };
 
-  SvgHelper.prototype.rect = function(x, y, w, h) {
+  SvgHelper.prototype.rect = function(x, y, w, h, r) {
     var node = this.provideNode('rect').attr({
       'x': x,
       'y': y,
       'width': w,
       'height': h,
     });
+    if (r) {
+      node.round(r);
+    }
     this.root.appendChild(node);
     return node;
   };
@@ -132,20 +135,27 @@ jQuery.each([SVGRectElement, SVGTextElement], function (i, klass) {
 
 SVGTextElement.prototype.insertAfter = function(node) {
   this.parentNode.insertBefore(node, this.nextSibling);
-}
+};
+
+SVGRectElement.prototype.round = function(r) {
+  this.attr({
+    'rx': r,
+    'ry': r
+  });
+};
 
 SVGRectElement.prototype.hover = function(f_in, f_out) {
   this.addEventListener("mouseover", f_in);
   this.addEventListener("mouseout", f_out)
-}
+};
 
 SVGRectElement.prototype.unhover = function() {
   // TODO (not sure if we even need this)
-}
+};
 
 SVGRectElement.prototype.click = function(cb) {
   this.addEventListener("click", cb);
-}
+};
 
 SVGPathElement.prototype.transform = function(transform) {
   return this.attr({'transform': transform});
