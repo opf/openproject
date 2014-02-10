@@ -38,3 +38,4 @@ de:
   notice_export_card_configuration_deactivated: "Export-Kartenkonfiguration erfolgreich de-aktiviert"
   error_can_not_activate_export_card_configuration: "Diese Konfiguration kann nicht aktiviert werden"
   error_can_not_deactivate_export_card_configuration: "Diese Konfiguration kann nicht de-aktiviert werden"
+  help_link_rows_format: "Rows formatieren"
