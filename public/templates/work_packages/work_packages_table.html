@@ -93,7 +93,7 @@
         <span ng-if="row.object.parent_id" class="hidden-for-sighted">
           {{I18n.t('js.description_subwork_package')}} {{I18n.t('js.label_work_package')}} #{{row.parent.object.name}}
         </span>
-        <a ng-href="/work_packages/{{row.object.id}}'">{{row.object.id}}</a>
+        <a ng-href="/work_packages/{{row.object.id}}">{{row.object.id}}</a>
       </td>
 
       <td ng-repeat="column in columns" class="{{column.name}}">
