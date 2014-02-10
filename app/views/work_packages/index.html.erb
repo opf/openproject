@@ -75,23 +75,25 @@ See doc/COPYRIGHT.rdoc for more details.
         </fieldset>
         <fieldset id="column_options" class="header_collapsible collapsible collapsed">
           <legend title="<%=l(:description_option_toggle)%>", onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_options) %></a></legend>
-          <div style="display: none;">
-            <table>
-              <tr>
-                <td><%= Query.human_attribute_name(:column_names) %></td>
-                <td><%= render :partial => 'queries/columns', :locals => {:query => query} %></td>
-              </tr>
-              <tr>
-                <td><label for='group_by'><%= Query.human_attribute_name(:group_by) %></label></td>
-                <td><%= select_tag('group_by', options_for_select([[]] + query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, query.group_by)) %></td>
-              </tr>
-              <% if query.any_summable_columns? %>
-                <tr>
-                  <td><%= label_tag :display_sums, Query.human_attribute_name(:display_sums) %></td>
-                  <td><%= check_box_tag :display_sums, 1, query.display_sums? %></td>
-                </tr>
-              <% end %>
-            </table>
+          <div style="display: none;" class="tabular">
+            <p>
+              <div><%= label_tag :available_columns, Query.human_attribute_name(:column_names), class: "header" %></div>
+              <div>
+                <%= render :partial => 'queries/columns', :locals => {:query => query} %>
+              </div>
+            </p>
+            <p>
+              <div><label for='group_by' class='header'><%= Query.human_attribute_name(:group_by) %></label></div>
+              <div>
+                <%= select_tag('group_by', options_for_select([[]] + query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, query.group_by)) %>
+              </div>
+            </p>
+            <% if query.any_summable_columns? %>
+              <p>
+                <div><%= label_tag :display_sums, Query.human_attribute_name(:display_sums), class: "header" %></div>
+                <div><%= check_box_tag :display_sums, 1, query.display_sums? %></div>
+              </p>
+            <% end %>
             <%= call_hook(:view_issue_query_form_options_bottom, :query => query) %>
           </div>
         </fieldset>
