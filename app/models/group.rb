@@ -37,11 +37,13 @@ class Group < Principal
 
   acts_as_customizable
 
-  validates_presence_of :lastname
-  validates_uniqueness_of :lastname, :case_sensitive => false
-  validates_length_of :lastname, :maximum => 30
 
   before_destroy :remove_references_before_destroy
+  
+  alias_attribute(:groupname, :lastname)
+  validates_presence_of :groupname
+  validate :uniqueness_of_groupname
+  validates_length_of :groupname, :maximum => 30
 
   def to_s
     lastname.to_s
@@ -105,5 +107,9 @@ class Group < Principal
 
     Journal::WorkPackageJournal.update_all({ :assigned_to_id => deleted_user.id },
                                            { :assigned_to_id => id })
+  end
+  
+  def uniqueness_of_groupname
+    errors.add :groupname, :taken if Group.find_by_lastname(lastname)
   end
 end
