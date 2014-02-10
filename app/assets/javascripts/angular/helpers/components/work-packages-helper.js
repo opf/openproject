@@ -9,7 +9,8 @@ angular.module('openproject.uiComponents')
         case 'string':
           return content;
         case 'object':
-          return content.name;
+          if (content === null) return '';
+          return content.name || content.subject;
         default:
           return '';
       }

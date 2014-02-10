@@ -30,9 +30,17 @@ angular.module('openproject.uiComponents')
           scope.displayType = 'link';
           if (scope.workPackage.assigned_to) scope.url = PathHelper.userPath(scope.workPackage.assigned_to.id);
           break;
+        case 'responsible':
+          scope.displayType = 'link';
+          if (scope.workPackage.responsible) scope.url = PathHelper.userPath(scope.workPackage.responsible.id);
+          break;
+        case 'author':
+          scope.displayType = 'link';
+          if (scope.workPackage.author) scope.url = PathHelper.userPath(scope.workPackage.author.id);
+          break;
         case 'project':
           scope.displayType = 'link';
-          scope.url = PathHelper.projectPath(scope.workPackage.project.identifier);
+          if (scope.workPackage.project) scope.url = PathHelper.projectPath(scope.workPackage.project.identifier);
           break;
 
       }
