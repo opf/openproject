@@ -11,7 +11,8 @@ angular.module('openproject.workPackages.directives')
       rows: '=',
       currentSortation: '=',
       countByGroup: '=',
-      groupBy: '='
+      groupBy: '=',
+      displaySums: '='
     },
     link: function(scope, element, attributes) {
       scope.I18n = I18n;
@@ -25,6 +26,8 @@ angular.module('openproject.workPackages.directives')
       scope.groupByColumn = scope.columns[groupByColumnIndex];
       scope.grouped = scope.groupByColumn !== undefined;
       scope.groupExpanded = {};
+
+      scope.displaySums = scope.displaySums && scope.grouped; // only display sums when rows are grouped
     }
   };
 }]);

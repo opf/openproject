@@ -68,8 +68,7 @@
       </td>
     </tr>
 
-    <tr ng-repeat-end
-        id="work-package-{{ row.object.id }}"
+    <tr id="work-package-{{ row.object.id }}"
         ng-class="[
           'hascontextmenu',
           'issue',
@@ -100,5 +99,23 @@
         <span work-package-column work-package="row.object" column="column"/>
       </td>
     </tr>
+
+
+    <tr ng-repeat-end
+        ng-if="displaySums &&
+               ($last || (row.object | columnContent:groupBy) !== (rows[$index+1].object | columnContent:groupBy))"
+        ng-class="[
+          $even && 'even' || '',
+          $odd && 'odd' || '',
+          'sum',
+          'grouped',
+          'issue',
+          'work_package'
+        ]">
+        <td colspan="2">{{ I18n.t('js.label_sum_for')}} {{ row.object | columnContent:groupBy }}</td>
+        <td colspan="{{ columns.length }}"/>
+    </tr>
+
+
   </tbody>
 </table>

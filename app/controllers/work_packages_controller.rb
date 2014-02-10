@@ -451,7 +451,7 @@ class WorkPackagesController < ApplicationController
   def push_table_data_via_gon(results)
     gon.project_identifier = @project.to_param
 
-    gon.query = @query.as_json only: :group_by
+    gon.query = @query.as_json only: [:group_by, :display_sums]
 
     gon.columns = @query.columns.map do |column|
       { name: column.name, title: column.caption, sortable: column.sortable, groupable: column.groupable }

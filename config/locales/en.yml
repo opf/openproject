@@ -558,6 +558,7 @@ en:
     label_expand_all: "Expand all"
     label_no_data: "No data to display"
     label_sort_by: "Sort by"
+    label_sum_for: "Sum for"
     label_work_package: "Work package"
     logoff: You have been logged off
     redirect_login: Do you want to be redirected to the login page?

@@ -561,6 +561,7 @@ de:
     label_expand: "Aufklappen"
     label_expand_all: "Alle aufklappen"
     label_sort_by: "Sortiert nach"
+    label_sum_for: "Summe für"
     label_work_package: "Arbeitspaket"
     logoff: "Sie wurden ausgeloggt."
     redirect_login: "Wollen Sie auf die Login-Seite weitergeleitet werden?"

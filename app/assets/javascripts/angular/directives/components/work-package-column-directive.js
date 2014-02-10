@@ -12,9 +12,11 @@ angular.module('openproject.uiComponents')
     templateUrl: '/templates/components/work_package_column.html',
     link: function(scope, element, attributes) {
       var defaultText = '';
+      var defaultType = 'text';
+
       // Set text to be displayed
       scope.displayText = WorkPackagesHelper.getRowObjectContent(scope.workPackage, scope.column.name) || defaultText;
-      scope.displayType = 'text';
+      scope.displayType = defaultType;
 
 
       // TODO RS: Manually set all the column display types. We will need:
