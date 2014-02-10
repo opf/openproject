@@ -10,7 +10,7 @@ angular.module('openproject.timelines.directives', ['openproject.timelines.model
 angular.module('openproject.workPackages', ['openproject.workPackages.controllers', 'openproject.workPackages.directives']);
 angular.module('openproject.workPackages.helpers', []);
 angular.module('openproject.workPackages.controllers', []);
-angular.module('openproject.workPackages.directives', []);
+angular.module('openproject.workPackages.directives', ['openproject.workPackages.helpers']);
 
 
 // global
