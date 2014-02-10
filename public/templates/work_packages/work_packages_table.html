@@ -44,7 +44,9 @@
             'hidden-for-sighted': true,
             expand: !groupExpanded[currentGroup],
             collapse: groupExpanded[currentGroup]
-          }">{{ groupExpanded[currentGroup] && I18n.t('js.label_collapse') || I18n.t('js.label_expand') }}</span>
+          }">
+            {{ groupExpanded[currentGroup] && I18n.t('js.label_collapse') || I18n.t('js.label_expand') }}
+          </span>
           <span class="hidden-for-sighted collapse">{{ I18n.t('js.label_collapse') }}</span>
         </span>
 
@@ -52,7 +54,7 @@
           {{ row.object | columnContent:groupBy || '-' }}
 
           <span class="count">
-            {{ work_package_count_for((row.object | columnContent:groupBy)) }}
+            {{ countByGroup[(row.object | columnContent:groupBy)] }}
 
             <span aria-hidden="true" role="presentation" tabindex="-1">
               <a class="toggle-all" ng-href="#" ng-click="toggleAllGroups()">

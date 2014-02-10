@@ -4,7 +4,7 @@ angular.module('openproject.workPackages.controllers')
   $scope.projectIdentifier = gon.project_identifier;
   $scope.query = gon.query;
   $scope.currentSortation = gon.sort_criteria;
-  $scope.workPackageCountByGroup = gon.workPackageCountByGroup;
+  $scope.workPackageCountByGroup = gon.work_package_count_by_group;
 
   $scope.workPackagesTable = {
     columns: gon.columns,
