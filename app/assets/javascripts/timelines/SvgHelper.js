@@ -82,11 +82,13 @@ Timeline.SvgHelper = (function() {
       'x': x,
       'y': y,
       'width': w,
-      'height': h,
+      'height': h
     });
+
     if (r) {
       node.round(r);
     }
+
     this.root.appendChild(node);
     return node;
   };

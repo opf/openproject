@@ -37,28 +37,67 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
+// This file adds some svg-helper methods
+// to make svg creation easier
 //= require timelines/SvgHelper
+
+/* 
+ * These files handle loading of timelines data.
+ * The TimelineLoader finds all dependencies and issues
+ * REST-server requests to grab the necessary data.
+ * The filterQueryStringBuilder creates our request parameters
+ * adding filter criteria to it.
+ */
 //= require timelines/FilterQueryStringBuilder
 //= require timelines/TimelineLoader
 
+// as our planning elements and projects are painted as a tree
+// we need some representation of said tree and an easy method
+// to iterate it. This class takes care of it!
 //= require timelines/TreeNode
 
 //= require timelines/constants
+
+// renders the table and graph-background
 //= require timelines/ui
 
-
+// A model for the typical OpenProject Project.
 //= require timelines/model/Project
+
+// PlanningElements are what we paint as svgs in the end.
+// PlanningElement is the old name for Work Package
 //= require timelines/model/PlanningElement
+
+// Historical Planning elements represent old states
+// of planning elements for comparisons.
+// These are painted as svgs too.
 //= require timelines/model/HistoricalPlanningElement
 
-//= require timelines/model/ProjectAssociation
+// reportings are loaded first and they determine our
+// project scope. Only projects reporting to the project
+// we are currently looking at will be shown in the timeline.
 //= require timelines/model/Reporting
+
+// associations are nondirection relationships between projects.
+// they are mainly used for the second level grouping which is
+// calculated in the function secondLevelGroupingAdjustments.
+//= require timelines/model/ProjectAssociation
+
+// remaining simple models for project type, color, status
+// planning element type and user.
 //= require timelines/model/ProjectType
 //= require timelines/model/Color
 //= require timelines/model/Status
 //= require timelines/model/PlanningElementType
 //= require timelines/model/User
 
+/* startup 
+ *   -> setupUI -> loader -> load & create model objects
+ *                        -> link model objects
+ *   -> getLeftHandTree
+ *   -> completeUI -> zoom -> rebuildAll -> rebuildTree -> filter nodes
+ *                                       -> rebuldGraph -> render models in svg
+ */
 
 // stricter than default
 /*jshint undef:true,
@@ -451,6 +490,10 @@ jQuery.extend(Timeline, {
       this.die(e);
     }
   },
+  /* This function calculates the second level grouping adjustments.
+   * For every base project it finds all associates with the given project type.
+   * It removes every such project from the trees root and adds it underneath the base project.
+   */
   secondLevelGroupingAdjustments : function () {
     var grouping = jQuery.map(this.options.grouping_two_selection || [], Timeline.pnum);
     var root = this.getProject();
@@ -468,8 +511,9 @@ jQuery.extend(Timeline, {
           if (typeof other.getProjectType === "function") {
             var pt = other.getProjectType();
             var type = pt !== null ? pt.id : -1;
-            var relevant = false;
 
+            //check if the type is selected as 2nd level grouping
+            var relevant = false;
             jQuery.each(grouping, function(k, l) {
               if (l === type) {
                 relevant = true;
