@@ -3,6 +3,9 @@ angular.module('openproject.uiComponents')
 
 .service('PathHelper', [function() {
   PathHelper = {
+    projectPath: function(projectIdentifier) {
+      return '/projects/' + projectIdentifier;
+    },
     workPackagesPath: function() {
       return '/work_packages';
     },
@@ -10,7 +13,7 @@ angular.module('openproject.uiComponents')
       return '/work_packages/' + id;
     },
     projectWorkPackagesPath: function(projectIdentifier) {
-      return '/projects/' + projectIdentifier + PathHelper.workPackagesPath();
+      return PathHelper.projectPath(projectIdentifier) + PathHelper.workPackagesPath();
     },
     userPath: function(id) {
       return '/users/' + id;
