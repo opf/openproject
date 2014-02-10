@@ -552,7 +552,9 @@ en:
     filter:
       noneElement: "(none)"
       noneSelection: "(none)"
+    label_collapse: "Collapse"
     label_collapse_all: "Collapse all"
+    label_expand: "Expand"
     label_expand_all: "Expand all"
     label_no_data: "No data to display"
     label_sort_by: "Sort by"
