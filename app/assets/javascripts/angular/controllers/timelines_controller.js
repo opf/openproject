@@ -1,4 +1,6 @@
-openprojectApp.controller('TimelinesController', ['$scope', 'Timeline', function($scope, Timeline) {
+angular.module('openproject.timelines.controllers')
+
+.controller('TimelinesController', ['$scope', 'Timeline', function($scope, Timeline) {
   // Setup
 
   // Get server-side stuff into scope

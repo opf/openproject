@@ -1,4 +1,6 @@
-openprojectApp.directive('optionColumn', [function() {
+angular.module('openproject.timelines.directives')
+
+.directive('optionColumn', [function() {
   return {
     restrict: 'A',
     scope: true,

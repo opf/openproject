@@ -1,4 +1,6 @@
-openprojectApp.directive('sortHeader', ['I18n', 'PathHelper', function(I18n, PathHelper){
+angular.module('openproject.workPackages.directives')
+
+.directive('sortHeader', ['I18n', 'PathHelper', function(I18n, PathHelper){
 
   var defaultSortDirection = 'asc';
 

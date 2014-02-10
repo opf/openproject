@@ -37,7 +37,9 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-openprojectApp.factory('Status', [function() {
+angular.module('openproject.timelines.models')
+
+.factory('Status', [function() {
 
   Status = {
     identifier: 'statuses',

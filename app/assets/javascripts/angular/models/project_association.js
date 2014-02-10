@@ -37,7 +37,9 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-openprojectApp.factory('ProjectAssociation', [function() {
+angular.module('openproject.timelines.models')
+
+.factory('ProjectAssociation', [function() {
 
   ProjectAssociation = {
     identifier: 'project_associations',

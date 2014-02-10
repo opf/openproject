@@ -1,4 +1,6 @@
-openprojectApp.factory('TimelineTableHelper', [function() {
+angular.module('openproject.timelines.helpers')
+
+.factory('TimelineTableHelper', [function() {
   var NodeFilter = function(options) {
     this.options = options;
   };

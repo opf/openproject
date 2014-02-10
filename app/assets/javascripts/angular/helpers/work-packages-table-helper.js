@@ -1,4 +1,6 @@
-openprojectApp.factory('WorkPackagesTableHelper', [function() {
+angular.module('openproject.workPackages.helpers')
+
+.factory('WorkPackagesTableHelper', [function() {
   var WorkPackagesTableHelper = {
     /* builds rows from work packages, see IssuesHelper */
     getRows: function(workPackages) {

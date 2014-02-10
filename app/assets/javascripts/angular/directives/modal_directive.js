@@ -1,4 +1,6 @@
-openprojectApp.directive('modal', [function() {
+angular.module('openproject.uiComponents')
+
+.directive('modal', [function() {
   return {
     restrict: 'A',
     scope: {

@@ -1,6 +1,7 @@
 // TODO forward rails routes
+angular.module('openproject.uiComponents')
 
-openprojectApp.service('PathHelper', [function() {
+.service('PathHelper', [function() {
   PathHelper = {
     workPackagesPath: function() {
       return '/work_packages';

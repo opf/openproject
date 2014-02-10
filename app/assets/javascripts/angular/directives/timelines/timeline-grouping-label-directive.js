@@ -1,4 +1,6 @@
-openprojectApp.directive('timelineGroupingLabel', [function() {
+angular.module('openproject.timelines.directives')
+
+.directive('timelineGroupingLabel', [function() {
   return {
     restrict: 'A',
     scope: true,

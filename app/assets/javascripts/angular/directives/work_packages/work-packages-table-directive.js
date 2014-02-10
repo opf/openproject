@@ -1,4 +1,6 @@
-openprojectApp.directive('workPackagesTable', ['I18n', function(I18n){
+angular.module('openproject.workPackages.directives')
+
+.directive('workPackagesTable', ['I18n', function(I18n){
   return {
     restrict: 'E',
     replace: true,

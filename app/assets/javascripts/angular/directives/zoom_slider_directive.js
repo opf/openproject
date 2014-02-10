@@ -1,4 +1,6 @@
-openprojectApp.directive('zoomSlider', function() {
+angular.module('openproject.uiComponents')
+
+.directive('zoomSlider', function() {
   // TODO pass options to directive and do not refer to timelines
   return {
     restrict: 'A',

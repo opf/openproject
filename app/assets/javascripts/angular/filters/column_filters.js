@@ -1,4 +1,5 @@
-openprojectApp
+angular.module('openproject.uiComponents')
+
   .filter('historicalDateKind', function() {
     return function(object, dateOption) {
       if (!object.does_historical_differ()) return;

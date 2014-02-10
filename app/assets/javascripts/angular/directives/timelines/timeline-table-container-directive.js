@@ -1,4 +1,6 @@
-openprojectApp.directive('timelineTableContainer', ['TimelineLoaderService', 'TimelineTableHelper', function(TimelineLoaderService, TimelineTableHelper) {
+angular.module('openproject.timelines.directives')
+
+.directive('timelineTableContainer', ['TimelineLoaderService', 'TimelineTableHelper', function(TimelineLoaderService, TimelineTableHelper) {
   return {
     restrict: 'E',
     replace: true,

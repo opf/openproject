@@ -37,7 +37,10 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-openprojectApp.factory('PlanningElementType', [function() {
+
+angular.module('openproject.timelines.models')
+
+.factory('PlanningElementType', [function() {
 
   PlanningElementType = {
     identifier: 'planning_element_types',

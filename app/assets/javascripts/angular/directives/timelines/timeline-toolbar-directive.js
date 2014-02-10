@@ -1,4 +1,6 @@
-openprojectApp.directive('timelineToolbar', [function() {
+angular.module('openproject.timelines.directives')
+
+.directive('timelineToolbar', [function() {
 
   return {
     restrict: 'E',

@@ -37,7 +37,9 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-openprojectApp.factory('FilterQueryStringBuilder', [function() {
+angular.module('openproject.timelines.helpers')
+
+.factory('FilterQueryStringBuilder', [function() {
 
   FilterQueryStringBuilder = (function() {
 

@@ -1,4 +1,7 @@
-openprojectApp.factory('Timeline', ['Constants', 'TreeNode', 'UI', 'Color', 'HistoricalPlanningElement', 'PlanningElement', 'PlanningElementType', 'ProjectType', 'Project', 'ProjectAssociation', 'Reporting', function(Constants, TreeNode, UI, Color, HistoricalPlanningElement, PlanningElement, PlanningElementType, ProjectType, Project, ProjectAssociation, Reporting) {
+
+angular.module('openproject.timelines.models')
+
+.factory('Timeline', ['Constants', 'TreeNode', 'UI', 'Color', 'HistoricalPlanningElement', 'PlanningElement', 'PlanningElementType', 'ProjectType', 'Project', 'ProjectAssociation', 'Reporting', function(Constants, TreeNode, UI, Color, HistoricalPlanningElement, PlanningElement, PlanningElementType, ProjectType, Project, ProjectAssociation, Reporting) {
 
   Timeline = {};
 

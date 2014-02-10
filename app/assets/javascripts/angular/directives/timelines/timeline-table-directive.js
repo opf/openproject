@@ -1,4 +1,6 @@
-openprojectApp.directive('timelineTable', [function() {
+angular.module('openproject.timelines.directives')
+
+.directive('timelineTable', [function() {
   return {
     restrict: 'E',
     replace: true,

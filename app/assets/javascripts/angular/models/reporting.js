@@ -37,7 +37,9 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-openprojectApp.factory('Reporting', [function() {
+angular.module('openproject.timelines.models')
+
+.factory('Reporting', [function() {
 
   Reporting = {
     identifier: 'reportings',

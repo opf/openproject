@@ -1,4 +1,6 @@
-openprojectApp.directive('timelineContainer', [function() {
+angular.module('openproject.timelines.directives')
+
+.directive('timelineContainer', [function() {
   getInitialOutlineExpansion = function(timelineOptions) {
     initialOutlineExpansion = timelineOptions.initial_outline_expansion;
     if (initialOutlineExpansion && initialOutlineExpansion >= 0) {

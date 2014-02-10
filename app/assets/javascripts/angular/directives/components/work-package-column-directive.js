@@ -1,6 +1,7 @@
 // TODO move to UI components
+angular.module('openproject.uiComponents')
 
-openprojectApp.directive('workPackageColumn', ['PathHelper', function(PathHelper){
+.directive('workPackageColumn', ['PathHelper', function(PathHelper){
   return {
     restrict: 'EA',
     replace: true,

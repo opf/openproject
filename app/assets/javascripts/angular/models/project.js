@@ -37,7 +37,9 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-openprojectApp.factory('Project', [function() {
+angular.module('openproject.timelines.models')
+
+.factory('Project', [function() {
 
   Project = {
     objectType: 'Project',

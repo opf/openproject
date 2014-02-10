@@ -1,6 +1,7 @@
 // TODO move to UI components
+angular.module('openproject.uiComponents')
 
-openprojectApp.directive('iconWrapper', ['I18n', function(I18n){
+.directive('iconWrapper', ['I18n', function(I18n){
   return {
     restrict: 'EA',
     replace: true,

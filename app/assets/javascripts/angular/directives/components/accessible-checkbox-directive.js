@@ -1,6 +1,7 @@
 // TODO move to UI components
+angular.module('openproject.uiComponents')
 
-openprojectApp.directive('accessibleCheckbox', [function(){
+.directive('accessibleCheckbox', [function(){
   return {
     restrict: 'EA',
     replace: true,

@@ -37,7 +37,9 @@
 // // │ OpenProject timelines module.                                 │
 // // ╰───────────────────────────────────────────────────────────────╯
 
-openprojectApp.factory('Constants', [function() {
+angular.module('openproject.timelines.models')
+
+.factory('Constants', [function() {
 
   Constants = {
     //constants and defaults
