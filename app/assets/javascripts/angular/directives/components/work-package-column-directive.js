@@ -12,7 +12,6 @@ angular.module('openproject.uiComponents')
     templateUrl: '/templates/components/work_package_column.html',
     link: function(scope, element, attributes) {
       var defaultText = '';
-
       // Set text to be displayed
       scope.displayText = WorkPackagesHelper.getRowObjectContent(scope.workPackage, scope.column.name) || defaultText;
       scope.displayType = 'text';
@@ -31,6 +30,11 @@ angular.module('openproject.uiComponents')
           scope.displayType = 'link';
           if (scope.workPackage.assigned_to) scope.url = PathHelper.userPath(scope.workPackage.assigned_to.id);
           break;
+        case 'project':
+          scope.displayType = 'link';
+          scope.url = PathHelper.projectPath(scope.workPackage.project.identifier);
+          break;
+
       }
 
     }

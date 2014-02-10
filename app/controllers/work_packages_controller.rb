@@ -466,7 +466,7 @@ class WorkPackagesController < ApplicationController
     # TODO maybe serialize method ancestors
     gon.work_packages = work_packages.as_json(methods: :leaf?,
                                               include: {
-                                                project: { only: :name },
+                                                project: { only: [:name, :identifier] },
                                                 type: { only: :name },
                                                 status: { only: :name },
                                                 priority: { only: :name },
