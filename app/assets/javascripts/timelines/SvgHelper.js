@@ -77,13 +77,21 @@ Timeline.SvgHelper = (function() {
     });
   };
 
-  SvgHelper.prototype.rect = function(x, y, w, h) {
+  SvgHelper.prototype.rect = function(x, y, w, h, radius) {
     var node = this.provideNode('rect').attr({
       'x': x,
       'y': y,
       'width': w,
-      'height': h,
+      'height': h
     });
+
+    if (radius) {
+      node.attr({
+        'rx': radius,
+        'ry': radius
+      });
+    }
+
     this.root.appendChild(node);
     return node;
   };
