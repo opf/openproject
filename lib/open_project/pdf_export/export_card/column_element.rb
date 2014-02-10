@@ -39,12 +39,7 @@ module OpenProject::PdfExport::ExportCard
         value = @work_package.send(@property_name)
       else
         # Look in Custom Fields
-        vs = @work_package.custom_field_values.select {|cf| cf.custom_field.name == @property_name}
-        value = if vs.first && vs.first.value
-                  value = vs.first.value
-                else
-                  ""
-                end
+        value = (customs = @work_package.custom_field_values.select {|cf| cf.custom_field.name == @property_name} and customs.count > 0) ? customs.first.value : ""
       end
 
       if value.is_a?(Array)

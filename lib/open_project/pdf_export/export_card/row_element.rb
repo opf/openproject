@@ -95,17 +95,30 @@ module OpenProject::PdfExport::ExportCard
       rows.each do |rk, rv|
         # TODO RS: This is still only checking the first column, need to check all
         ck, cv = rv["columns"].first
-        if is_empty_column(ck, cv, wp)
+        if !is_existing_column(ck, wp) || is_empty_column(ck, cv, wp)
           rows.delete(rk)
         end
       end
     end
 
     def self.is_empty_column(property_name, column, wp)
-      value = wp.send(property_name) if wp.respond_to?(property_name) else ""
+      if wp.respond_to?(property_name)
+        value = wp.send(property_name)
+      elsif customs = wp.custom_field_values.select {|cf| cf.custom_field.name == property_name} and customs.count > 0
+        value = customs.first.value
+      else
+        value = ""
+      end
+
       value = "" if value.is_a?(Array) && value.empty?
       value = value.to_s if !value.is_a?(String)
+
       !column["render_if_empty"] && value.empty?
+    end
+
+    def self.is_existing_column(property_name, wp)
+      wp.respond_to?(property_name) ||
+        wp.custom_field_values.select {|cf| cf.custom_field.name == property_name}.count > 0
     end
   end
 end
