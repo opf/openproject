@@ -167,6 +167,7 @@ function showAndScrollTo(id, focus) {
 	Element.scrollTo(id);
 }
 
+// TODO de-implement once table component has been used
 function setGroupRowStatus(el) {
   var collapseExpandButton = jQuery(el);
   var row = jQuery(el).closest("tr");
@@ -179,6 +180,7 @@ function setGroupRowStatus(el) {
   toggleAllLink.text(toggleAllLinkText);
 }
 
+// TODO de-implement once table component has been used
 function toggleRowGroup(el) {
   var row = jQuery(el).closest("tr");
 
@@ -191,6 +193,7 @@ function toggleRowGroup(el) {
   });
 }
 
+// TODO de-implement once table component has been used
 function toggleAllRowGroups(el) {
   var row = jQuery(el).closest("tr");
   var collapseExpandButton = jQuery(row).find(".expander");

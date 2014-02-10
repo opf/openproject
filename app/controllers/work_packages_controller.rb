@@ -224,7 +224,7 @@ class WorkPackagesController < ApplicationController
 
     # push work packages to client as JSON
     # TODO pull work packages via AJAX
-    push_table_data_via_gon
+    push_table_data_via_gon results
     push_work_packages_via_gon work_packages
 
     respond_to do |format|
@@ -448,7 +448,7 @@ class WorkPackagesController < ApplicationController
 
   private
 
-  def push_table_data_via_gon
+  def push_table_data_via_gon(results)
     gon.project_identifier = @project.to_param
 
     gon.query = @query.as_json only: :group_by
@@ -465,6 +465,8 @@ class WorkPackagesController < ApplicationController
         end
       { name: column.name, title: column.caption, sortable: column.sortable, groupable: column.groupable, display_type: display_type }
     end
+
+    gon.work_package_count_by_group = results.work_package_count_by_group
 
     gon.sort_criteria = @sort_criteria.to_param
   end

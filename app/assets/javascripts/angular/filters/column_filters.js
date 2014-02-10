@@ -34,19 +34,4 @@ angular.module('openproject.uiComponents')
           return object[map[option]]();
       }
     };
-  })
-
-  // work packages
-  .filter('columnContent', function(){
-    return function(object, option) {
-      var content = object[option];
-      switch(typeof(content)) {
-        case 'string':
-          return content;
-        case 'object':
-          return content.name;
-        default:
-          return '';
-      }
-    };
   });

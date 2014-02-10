@@ -5,9 +5,18 @@ angular.module('openproject.workPackages.directives')
     restrict: 'E',
     replace: true,
     templateUrl: '/templates/work_packages/work_packages_table.html',
-    scope: {columns: '=', rows: '=', currentSortation: '=', projectIdentifier: '=', groupBy: '='},
+    scope: {
+      projectIdentifier: '=',
+      columns: '=',
+      rows: '=',
+      currentSortation: '=',
+      countByGroup: '=',
+      groupBy: '='
+    },
     link: function(scope, element, attributes) {
       scope.I18n = I18n;
+
+      // groupings
 
       groupByColumnIndex = scope.columns.map(function(column){
         return column.name;
@@ -15,6 +24,7 @@ angular.module('openproject.workPackages.directives')
 
       scope.groupByColumn = scope.columns[groupByColumnIndex];
       scope.grouped = scope.groupByColumn !== undefined;
+      scope.groupExpanded = {};
     }
   };
 }]);
