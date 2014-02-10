@@ -12,6 +12,14 @@ angular.module('openproject.workPackages.directives')
 
           pushGroup(scope.currentGroup);
 
+          scope.toggleAllGroups = function() {
+            var targetExpansion = !scope.groupExpanded[scope.currentGroup];
+
+            angular.forEach(scope.groupExpanded, function(currentExpansion, group) {
+              scope.groupExpanded[group] = targetExpansion;
+            });
+          };
+
           function pushGroup(group) {
             if (scope.groupExpanded[group] === undefined) {
               scope.groupExpanded[group] = true;
