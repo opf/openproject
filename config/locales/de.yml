@@ -1502,6 +1502,8 @@ de:
       work_package_assignee: "Zugewiesen an"
 
       project_time_filter: "Projekte mit Arbeitspaket eines Typs in einem Zeitfenster"
+      project_time_filter_absolute_timeframe: "Absolutes Zeitfenster"
+      project_time_filter_relative_timeframe: "Relatives Zeitfenster"
       project_time_filter_historical: "von %{startdate} bis %{enddate}"
       project_time_filter_relative: "vor %{startspan}%{startspanunit} bis in %{endspan}%{endspanunit}"
       project_filters: "Projekte filtern"

@@ -1493,6 +1493,8 @@ en:
       status: "Show status"
 
       project_time_filter: "Projects with a work package of a certain type in a certain timeframe"
+      project_time_filter_absolute_timeframe: "Absolute timeframe"
+      project_time_filter_relative_timeframe: "Relative timeframe"
       project_time_filter_historical: "from %{startdate} to %{enddate}"
       project_time_filter_relative: "from %{startspan}%{startspanunit} ago, to %{endspan}%{endspanunit} from now"
       project_filters: "Filter projects"
