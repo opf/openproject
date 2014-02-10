@@ -154,7 +154,7 @@ de:
   label_wiki: "Wiki"
 
   permission_view_master_backlog: "Master Backlog ansehen"
-  permission_view_taskboards: "Aufgabenliste ansehen"
+  permission_view_taskboards: "Taskboard ansehen"
   permission_update_sprints: "Sprints bearbeiten"
   permission_create_stories: "Sprints anlegen"
   permission_update_stories: "Stories bearbeiten"
