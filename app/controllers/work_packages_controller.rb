@@ -454,16 +454,7 @@ class WorkPackagesController < ApplicationController
     gon.query = @query.as_json only: :group_by
 
     gon.columns = @query.columns.map do |column|
-      # TODO RS: Manually set all the column display types. We will need:
-      #          Text, Link... what else?
-      #          Date formatting is much easier server side. Check time_with_zone_as_json initializer.
-      display_type = case column.name
-        when :subject, :assigned_to
-          'link'
-        else
-          'text'
-        end
-      { name: column.name, title: column.caption, sortable: column.sortable, groupable: column.groupable, display_type: display_type }
+      { name: column.name, title: column.caption, sortable: column.sortable, groupable: column.groupable }
     end
 
     gon.work_package_count_by_group = results.work_package_count_by_group
