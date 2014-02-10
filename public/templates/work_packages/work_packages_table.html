@@ -29,8 +29,8 @@
                ($first || (row.object | columnContent:groupBy) !== (rows[$index-1].object | columnContent:groupBy))"
         ng-class="{
           group: true,
-          open: true,
-          closed: false,
+          open: groupExpanded[currentGroup],
+          closed: !groupExpanded[currentGroup],
           keyboard_hover: true
         }">
       <td colspan="{{ columns.length + 2 }}">
@@ -39,8 +39,12 @@
                 'icon-context',
                 'icon-' + (groupExpanded[currentGroup] && 'minus' || 'plus')
               ]"
-              onclick="toggleRowGroup(this); return false;">
-          <span class="hidden-for-sighted expand">{{ I18n.t('js.label_expand') }}</span>
+              ng-click="toggleCurrentGroup()">
+          <span ng-class="{
+            'hidden-for-sighted': true,
+            expand: !groupExpanded[currentGroup],
+            collapse: groupExpanded[currentGroup]
+          }">{{ groupExpanded[currentGroup] && I18n.t('js.label_collapse') || I18n.t('js.label_expand') }}</span>
           <span class="hidden-for-sighted collapse">{{ I18n.t('js.label_collapse') }}</span>
         </span>
 
@@ -63,13 +67,16 @@
 
     <tr ng-repeat-end
         id="work-package-{{ row.object.id }}"
-        ng-class="['hascontextmenu',
-                   'issue',
-                   $even && 'even' || '',
-                   $odd && 'odd' || '',
-                   !row.object['leaf?'] && 'parent' || '',
-                   row.level > 0 && 'child idnt' || '',
-                   row.level > 0 && 'idnt-' + row.level]">
+        ng-class="[
+          'hascontextmenu',
+          'issue',
+          $even && 'even' || '',
+          $odd && 'odd' || '',
+          !row.object['leaf?'] && 'parent' || '',
+          row.level > 0 && 'child idnt' || '',
+          row.level > 0 && ('idnt-' + row.level) || ''
+        ]"
+        ng-show="groupExpanded[(row.object | columnContent:groupBy)]">
 
       <td class="checkbox hide-when-print">
         <accessible-checkbox name="ids[]"

@@ -4,7 +4,6 @@ angular.module('openproject.workPackages.directives')
 
   return {
     restrict: 'A',
-    scope: true,
     compile: function(tElement) {
       return {
         pre: function(scope, iElement, iAttrs, controller) {
@@ -18,6 +17,10 @@ angular.module('openproject.workPackages.directives')
             angular.forEach(scope.groupExpanded, function(currentExpansion, group) {
               scope.groupExpanded[group] = targetExpansion;
             });
+          };
+
+          scope.toggleCurrentGroup = function() {
+            scope.groupExpanded[scope.currentGroup] = !scope.groupExpanded[scope.currentGroup];
           };
 
           function pushGroup(group) {
