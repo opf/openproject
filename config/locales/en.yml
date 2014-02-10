@@ -42,3 +42,4 @@ en:
   validation_error_yaml_is_badly_formed: "YAML is badly formed."
   validation_error_uknown_key: "Unknown key:"
   yaml_error: "YAML error:"
+  help_link_rows_format: "Rows Formatting"

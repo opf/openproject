@@ -91,7 +91,7 @@ class ExportCardConfiguration < ActiveRecord::Base
 
   validates :name, presence: true
   validates :rows, rows_yaml: true
-  validates :per_page, numericality: { only_integer: true }
+  validates :per_page, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
   validates :page_size, inclusion: { in: %w(A4) }, allow_nil: false
   validates :orientation, inclusion: { in: %w(landscape portrait) }, allow_nil: true
 
@@ -119,7 +119,7 @@ class ExportCardConfiguration < ActiveRecord::Base
 
   def rows_hash
     config = YAML::load(rows)
-    raise BadlyFormedExportCardConfigurationError.new("Badly formed YAML") if !config.is_a?(Hash)
+    raise BadlyFormedExportCardConfigurationError.new(I18n.t('validation_error_yaml_is_badly_formed')) if !config.is_a?(Hash)
     config
   end
 

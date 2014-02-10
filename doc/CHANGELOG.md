@@ -26,5 +26,7 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
-* Initial plugin release
 * `#4024` Subpages have no unique page titles
+* `#4157` Negative integers can be entered in "Per Page" configuration of pdf configuration
+* `#4182` Export Configuration - New export configuration field - Description
+* Initial plugin release

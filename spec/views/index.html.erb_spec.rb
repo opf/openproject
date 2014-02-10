@@ -40,7 +40,7 @@ describe 'export_card_configurations/index' do
     render
 
     rendered.should have_selector("a", text: config1.name)
-    rendered.should have_selector("a", text: config1.name)
+    rendered.should have_selector("a", text: config2.name)
   end
 
 end
