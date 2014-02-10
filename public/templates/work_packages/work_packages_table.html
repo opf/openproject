@@ -78,7 +78,7 @@
           row.level > 0 && 'child idnt' || '',
           row.level > 0 && ('idnt-' + row.level) || ''
         ]"
-        ng-show="groupExpanded[(row.object | columnContent:groupBy)]">
+        ng-show="!grouped || groupExpanded[(row.object | columnContent:groupBy)]">
 
       <td class="checkbox hide-when-print">
         <accessible-checkbox name="ids[]"
