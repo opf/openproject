@@ -35,7 +35,7 @@ class WorkPackageObserver < ActiveRecord::Observer
       recipients = issue.recipients + issue.watcher_recipients
       users = User.find_all_by_mails(recipients.uniq)
       users.each do |user|
-        UserMailer.issue_added(user, issue).deliver
+        UserMailer.work_package_added(user, issue).deliver
       end
     end
     clear_notification

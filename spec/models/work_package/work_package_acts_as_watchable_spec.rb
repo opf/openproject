@@ -139,8 +139,8 @@ describe WorkPackage do
     end
 
     it 'sends one delayed mail notification for each watcher recipient' do
-      UserMailer.stub_chain :issue_updated, :deliver
-      UserMailer.should_receive(:issue_updated).exactly(number_of_recipients).times
+      UserMailer.stub_chain :work_package_updated, :deliver
+      UserMailer.should_receive(:work_package_updated).exactly(number_of_recipients).times
       work_package.update_attributes :description => 'Any new description'
     end
   end
