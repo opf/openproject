@@ -42,7 +42,7 @@ class Group < Principal
   
   alias_attribute(:groupname, :lastname)
   validates_presence_of :groupname
-  validate :uniqueness_of_groupname
+  validate :uniqueness_of_groupname, :on => :create
   validates_length_of :groupname, :maximum => 30
 
   def to_s
@@ -94,6 +94,7 @@ class Group < Principal
     self.users << users
   end
 
+
   private
 
   # Removes references that are not handled by associations
@@ -109,7 +110,11 @@ class Group < Principal
                                            { :assigned_to_id => id })
   end
   
+  
   def uniqueness_of_groupname
-    errors.add :groupname, :taken if Group.find_by_lastname(lastname)
+    groups_with_name = Group.where("lastname = ? AND id <> ?", groupname, id ? id : 0).count
+    if groups_with_name > 0
+      errors.add :groupname, :taken
+    end
   end
 end
