@@ -1545,8 +1545,7 @@ de:
     reporting_could_not_be_saved: "Statusbericht konnte nicht gespeichert werden."
     reporting_for_project:
       show: "Statusbericht zu Projekt: %{title}"
-      delete: "Löschen des Statusberichts zu Projekt: %{title}"
-      edit: "Bearbeiten des Statusberichts zu Projekt: %{title}"
+      edit_delete: "des Statusberichts zu Projekt: %{title}"
       history: "Historie des Statusberichts zu Projekt:"
     reporting:
       delete: "Statusbericht löschen: %{comment}"

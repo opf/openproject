@@ -1518,8 +1518,7 @@ en:
       all:         "Show all"
     reporting_for_project:
       show: "Status reported to project: %{title}"
-      delete: "Delete status reported to project: %{title}"
-      edit: "Edit status for project: %{title}"
+      edit_delete: "status report for project: %{title}"
       history: "History for status for project: %{title}"
     reporting:
       delete: "Delete status: %{comment}"
