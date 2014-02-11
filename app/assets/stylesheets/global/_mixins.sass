@@ -26,6 +26,7 @@
  * See doc/COPYRIGHT.rdoc for more details.  ++*/
 
 $vendors: "-webkit-", "-moz-", "-ms-", "-o-", ""
+$button_gray_font_color: #222222
 
 @mixin html_body_spacing
   margin:             0
@@ -66,19 +67,70 @@ $vendors: "-webkit-", "-moz-", "-ms-", "-o-", ""
   -moz-border-radius: $radius
   border-radius: $radius
 
-@mixin button
-  background-color: $button_bg_color
-  color: $button_font_color
-  @include default-transition
+@mixin button-highlight-background
+  border: 1px solid #06799F
+  background: #0b8db8
+  background: -moz-linear-gradient(top,  #0b8db8 0%, #06799f 100%)
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0b8db8), color-stop(100%,#06799f))
+  background: -webkit-linear-gradient(top,  #0b8db8 0%,#06799f 100%)
+  background: -o-linear-gradient(top,  #0b8db8 0%,#06799f 100%)
+  background: -ms-linear-gradient(top,  #0b8db8 0%,#06799f 100%)
+  background: linear-gradient(to bottom,  #0b8db8 0%,#06799f 100%)
+
+  &:hover
+    border: 1px solid #3493B3
+    background: #3493B3
+
+@mixin button-background
+  border: 1px solid #ccc
+  background: #ffffff
+  background: -moz-linear-gradient(top,  #ffffff 0%, #eeeeee 74%, #eeeeee 100%)
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(74%,#eeeeee), color-stop(100%,#eeeeee))
+  background: -webkit-linear-gradient(top,  #ffffff 0%,#eeeeee 74%,#eeeeee 100%)
+  background: -o-linear-gradient(top,  #ffffff 0%,#eeeeee 74%,#eeeeee 100%)
+  background: -ms-linear-gradient(top,  #ffffff 0%,#eeeeee 74%,#eeeeee 100%)
+  background: linear-gradient(to bottom,  #ffffff 0%,#eeeeee 74%,#eeeeee 100%)
+
+  &:hover
+    border: 1px solid #777777
+    background: -moz-linear-gradient(top,  #ffffff 0%, #eeeeee 40%, #ddd 100%)
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(40%,#eeeeee), color-stop(100%,#ddd))
+    background: -webkit-linear-gradient(top,  #ffffff 0%,#eeeeee 74%,#ddd 100%)
+    background: -o-linear-gradient(top,  #ffffff 0%,#eeeeee 40%,#ddd 100%)
+    background: -ms-linear-gradient(top,  #ffffff 0%,#eeeeee 40%,#ddd 100%)
+    background: linear-gradient(to bottom,  #ffffff 0%,#eeeeee 40%,#ddd 100%)
+
+
+@mixin button-common
   @include border-radius($button_border_radius)
   margin: 10px 10px 0 0
-  padding: 5px 13px
   line-height: 23px
-  font-size: 12px
+  font-size: $global_font_size
   font-weight: normal
+  cursor: pointer
+
+@mixin button-normal-size
+  padding: 4px 10px
+
+@mixin button-big-size
+  padding: 7px 16px 5px
+
+@mixin button-highlight
+  color: $button_highlight_font_color
+  @include button-common
+  @include button-normal-size
+  @include button-highlight-background
+  color: $button_highlight_font_hover_color
   &:hover
-    background-color: $button_bg_hover_color
-    color: $button_font_hover_color
+    text-decoration: none
+
+@mixin button
+  color: $button_font_color
+  @include button-common
+  @include button-normal-size
+  @include button-background
+  color: $button_font_hover_color
+  &:hover
     text-decoration: none
 
 @mixin content-box
@@ -119,3 +171,10 @@ $vendors: "-webkit-", "-moz-", "-ms-", "-o-", ""
       background-color: white
   ul
     margin-bottom: 20px
+
+@mixin text-shortener
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+  -o-text-overflow: ellipsis
+  -ms-text-overflow: ellipsis

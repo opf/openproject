@@ -26,6 +26,7 @@
  * See doc/COPYRIGHT.rdoc for more details.  ++*/
 
 @import global/all
+@import fonts/openproject_icon_font
 
 $login_form_button_font_color:    #FFFFFF !default
 $login_form_bg_color:             #F8F8F8 !default
@@ -36,41 +37,41 @@ $login_form_button_hover_bg_color:  #053242 !default
 
 @mixin input-style
   width: $content_from_input_width
-  height: 35px
-  line-height: 35px
+  height: 30px
+  line-height: 30px
   border: $login_form_input_border
   padding: 0 0 0 10px
   @include border-radius(2px)
   font-family: $font_family_bold
   font-size: $global_font_size
-  line-height: 35px
+  line-height: 30px
+  margin: 0
   &:hover, &:focus
     border: 1px solid #888888
 
   float: none
   display: inline-block
+  vertical-align: middle
 
 @mixin select-style
   @include input-style
   margin: 0
-  padding: 7px 0 7px 10px
-  option
-    padding: 5px 10px
-  //-webkit-appearance: none
-  &:after
-    background: url(image-path('pulldown_arrow2.png')) no-repeat 0 0
-    content: " "
-    display: block
+  height: 32px
+  min-width: 310px
+  max-width: 310px
+  padding: 0 0 0 10px
 
 @mixin label-style
-  width: 160px
-  display: block
+  width: 155px
   margin-left: 0
   text-align: left
   font-weight: normal
-  height: 35px
+  height: 30px
   float: none
   display: inline-block
+  padding-right: 5px
+  @include text-shortener
+  vertical-align: middle
 
 #login-form form, #work_package-form, #update #work_package-form
   padding: 30px 20px
@@ -78,14 +79,18 @@ $login_form_button_hover_bg_color:  #053242 !default
   display: block
   border: $login_form_border
 
-  p,div
-    white-space: nowrap
+  div.attribute_wrapper
+    position: relative
     padding: 0
     margin-bottom: 10px
     font-size: 14px
-    line-height: 35px
+    line-height: 30px
     label
       @include label-style
+
+    .short
+      width: 100px
+      margin-right: 200px
 
   select
     @include select-style
@@ -94,36 +99,75 @@ $login_form_button_hover_bg_color:  #053242 !default
     &[type=password], &[type=text]
       @include input-style
 
-    &[type=submit]
-      border: none
-      background-color: $login_form_button_bg_color
-      color: $login_form_button_font_color
-      padding: 5px 13px
-      font-size: $global_font_size
-      @include border-radius(2px)
-      @include default-transition
-      cursor: pointer
-      &:hover
-        background-color: $login_form_button_hover_bg_color
-
   table
     border: 0 none
     background: none
     margin: 0
     td
       padding: 6px
+      label
+        @include label-style
+        display: inline
       &.label
+        vertical-align: middle
         width: 160px
+
+#login-form form
+  .button_highlight
+    margin-right: 0
 
 #work_package-form
   .attributes
     margin-bottom: 30px
     overflow: auto
 
-  .handle_attachments
-    label
+  #watchers_form
+    position: relative
+    padding-left: 160px
+    margin-bottom: 10px
+    font-size: 14px
+    line-height: 30px
+
+    .watcher_label
       @include label-style
+      width: 152px
+      margin-left: -160px
+
+    .floating
+      float: none
+      display: inline-block
+
+  #attachments
+    padding-left: 0
+    padding-right: 0
+
+  .handle_attachments, #attachments
+    > label
+      @include label-style
+      display: block
     margin-bottom: 30px
+
+    #attachments_fields
+      display: inline-block
+
+    .attachment_field
+      display: block
+      margin-bottom: 10px
+      height: 32px
+      > input
+        @include input-style
+        border: none
+        &:hover, &:focus
+          border: none
+      label
+        @include label-style
+        width: auto
+        height: 32px
+        input
+          margin-left: 50px
+    .add_another_file
+      padding-left: 10px
+
   fieldset
     margin-bottom: 20px
     padding: 30px 20px
@@ -154,3 +198,6 @@ fieldset.with-legend-control
       padding-left: 5px
       background-color: white
 
+.ui-widget
+  font-family: $font_family_normal
+  font-size: $global_font_size - 1px

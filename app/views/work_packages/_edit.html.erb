@@ -73,20 +73,22 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 
   <fieldset>
-    <legend>
-      <%= Journal.human_attribute_name(:notes) %>
-    </legend>
+    <div class="attribute_wrapper">
+      <legend>
+        <%= Journal.human_attribute_name(:notes) %>
+      </legend>
 
-    <%= label_tag "work_package[notes]", Journal.human_attribute_name(:notes),
-                                         :class => 'hidden-for-sighted' %>
-    <%= text_area_tag "work_package[notes]", work_package.journal_notes, :cols => 60,
-                                                                         :rows => 10,
-                                                                         :class => 'wiki-edit',
-                                                                         :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => project, :format => :json) %>
-    <%= wikitoolbar_for 'work_package_notes' %>
-    <%= call_hook(:view_work_packages_edit_notes_bottom, { :issue => work_package,
-                                                    :notes => work_package.journal_notes,
-                                                    :form => f }) %>
+      <%= label_tag "work_package[notes]", Journal.human_attribute_name(:notes),
+                                           :class => 'hidden-for-sighted' %>
+      <%= text_area_tag "work_package[notes]", work_package.journal_notes, :cols => 60,
+                                                                           :rows => 10,
+                                                                           :class => 'wiki-edit',
+                                                                           :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => project, :format => :json) %>
+      <%= wikitoolbar_for 'work_package_notes' %>
+      <%= call_hook(:view_work_packages_edit_notes_bottom, { :issue => work_package,
+                                                      :notes => work_package.journal_notes,
+                                                      :form => f }) %>
+    </div>
 
   </fieldset>
 
@@ -100,12 +102,12 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
   </fieldset>
 
-  <p class="email_notification">
+  <div class="email_notification attribute_wrapper">
     <%= send_notification_option %>
-  </p>
+  </div>
 
   <%= f.hidden_field :lock_version %>
-  <%= submit_tag l(:button_submit) %>
+  <%= submit_tag l(:button_submit), :class => 'button_highlight' %>
   <%= link_to_work_package_preview(work_package) %>
 <% end %>
 
