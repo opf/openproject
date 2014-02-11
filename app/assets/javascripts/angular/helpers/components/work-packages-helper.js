@@ -6,13 +6,11 @@ angular.module('openproject.uiComponents')
       var content = object[option];
 
       switch(typeof(content)) {
-        case 'string':
-          return content;
         case 'object':
           if (content === null) return '';
           return content.name || content.subject;
         default:
-          return '';
+          return content || '';
       }
     }
   };
