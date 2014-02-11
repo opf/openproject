@@ -45,13 +45,15 @@ module OpenProject::PdfExport::ExportCard
       if has_label
         custom_label = @config['custom_label']
         label_text = if custom_label
-                  "#{custom_label}: "
+                  "#{custom_label}"
                 else
-                  "#{@work_package.class.human_attribute_name(@property_name)}: "
+                  "#{@work_package.class.human_attribute_name(@property_name)}"
                 end
         if @config['has_count'] && value.is_a?(Array)
-          label_text = "#{label_text} (#{value.count}) "
+          label_text = "#{label_text} (#{value.count})"
         end
+
+        label_text += ": "
       else
         label_text = ""
       end
