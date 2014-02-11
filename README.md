@@ -127,12 +127,26 @@ group2:
           font_style: normal
           minimum_lines: 1
           render_if_empty: true
+group3:
+  rows:
+    row1:
+      priority: 2
+      columns:
+        children:
+          has_label: true
+          has_count: true
+          custom_label: Subtasks
+          indented: true
+          font_size: 15
+          font_style: normal
+          minimum_lines: 1
+          render_if_empty: true
 </pre>
 The config is divided into groups. A group can have a height property which will enforce the minimum height of the group in pixels. The has_border property can be set to true which will draw a border around the rows in the group.
 
 Any number of rows can be defined. The font_size and minimum_lines properties define how much height on the card is given to the row. The plugin will attempt to assign enough space to each of the rows, however space will be assigned based on the priorities of the the rows, with rows with lower priority (higher numbers) being reduced and removed first if there is not enough for all the data. The row height can be forced by giving a value, in pixels, for the row height property. This will override the assigned row height.
 
-The name of the column informs the plugin which data should be read from the model (status, due_date, id, etc.). There can be any number of columns per row. Columns are given an equal share of the row width unless a specific width % is given. If there is more text in the column than can fit into its assinged space on the card then the text will be truncated.
+The name of the column informs the plugin which data should be read from the model (status, due_date, id, etc.). The custom_label property can be used to override the default name. If the has_count property is set to true for a column which contains a list of data (Like sub-tasks) then the label will also include the number of items. There can be any number of columns per row. Columns are given an equal share of the row width unless a specific width % is given. If there is more text in the column than can fit into its assinged space on the card then the text will be truncated.
 
 Bug Reporting
 -------------
