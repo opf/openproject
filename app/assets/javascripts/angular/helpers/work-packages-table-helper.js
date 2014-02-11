@@ -1,9 +1,9 @@
 angular.module('openproject.workPackages.helpers')
 
-.factory('WorkPackagesTableHelper', [function() {
+.factory('WorkPackagesTableHelper', ['WorkPackagesHelper', function(WorkPackagesHelper) {
   var WorkPackagesTableHelper = {
     /* builds rows from work packages, see IssuesHelper */
-    getRows: function(workPackages) {
+    getRows: function(workPackages, groupBy) {
       var rows = [], ancestors = [];
 
       angular.forEach(workPackages, function(workPackage, i) {
@@ -13,8 +13,7 @@ angular.module('openproject.workPackages.helpers')
 
         var row = {
           level: ancestors.length,
-          group: 0,
-          groupName: '',
+          groupName: WorkPackagesHelper.getRowObjectContent(workPackage, groupBy),
           parent: ancestors.last(),
           ancestors: ancestors.slice(0),
           object: workPackage

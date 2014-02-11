@@ -29,7 +29,7 @@
     <tr work-package-group-header
         ng-repeat-start="row in rows"
         ng-if="grouped &&
-               ($first || (row.object | columnContent:groupBy) !== (rows[$index-1].object | columnContent:groupBy))"
+               ($first || row.groupName !== rows[$index-1].groupName)"
         ng-class="{
           group: true,
           open: groupExpanded[currentGroup],
@@ -58,7 +58,7 @@
           </span>
 
           <span class="count">
-            ({{ countByGroup[(row.object | columnContent:groupBy)] }})
+            ({{ countByGroup[row.groupName] }})
 
             <span aria-hidden="true" role="presentation" tabindex="-1">
               <a class="toggle-all" ng-href="#" ng-click="toggleAllGroups()">
@@ -83,7 +83,7 @@
           row.level > 0 && 'child idnt' || '',
           row.level > 0 && ('idnt-' + row.level) || ''
         ]"
-        ng-show="!grouped || groupExpanded[(row.object | columnContent:groupBy)]">
+        ng-show="!grouped || groupExpanded[row.groupName]">
 
       <td class="checkbox hide-when-print">
         <accessible-checkbox name="ids[]"
@@ -111,8 +111,8 @@
     <tr work-package-sums
         ng-repeat-end
         ng-if="displaySums &&
-               ($last || (row.object | columnContent:groupBy) !== (rows[$index+1].object | columnContent:groupBy))"
-        ng-show="!grouped || groupExpanded[(row.object | columnContent:groupBy)]"
+               ($last || row.groupName !== rows[$index+1].groupName)"
+        ng-show="!grouped || groupExpanded[row.groupName]"
         ng-class="[
           $even && 'even' || '',
           $odd && 'odd' || '',
@@ -121,7 +121,7 @@
           'issue',
           'work_package'
         ]">
-        <td colspan="2">{{ I18n.t('js.label_sum_for')}} {{ row.object | columnContent:groupBy }}</td>
+        <td colspan="2">{{ I18n.t('js.label_sum_for')}} {{ row.groupName }}</td>
         <td ng-repeat="sum in sums track by $index">
           {{ sum }}
         </td>

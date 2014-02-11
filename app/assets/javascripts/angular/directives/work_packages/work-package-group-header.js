@@ -7,7 +7,7 @@ angular.module('openproject.workPackages.directives')
     compile: function(tElement) {
       return {
         pre: function(scope, iElement, iAttrs, controller) {
-          scope.currentGroup = WorkPackagesHelper.getRowObjectContent(scope.row.object, scope.groupBy); // TODO get group directly from row
+          scope.currentGroup = scope.row.groupName;
 
           pushGroup(scope.currentGroup);
 
