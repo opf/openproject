@@ -246,7 +246,21 @@ function setSelectionState(checkbox, select) {
   }
 };
 
-function toggleSelection(ctrl, form) {
+function setAllSelectLinkState(link, all_checked) {
+  var span = link.find('span.hidden-for-sighted');
+  var state_text = I18n.t('js.button_uncheck_all');
+
+  if (all_checked) {
+    state_text = I18n.t('js.button_check_all');
+  }
+
+  link.attr('title', state_text);
+  link.attr('alt', state_text);
+
+  span.text(state_text);
+}
+
+function toggleSelection(link, form) {
   var checkboxes = jQuery(form).find('input[type=checkbox]');
   var all_checked = jQuery.makeArray(checkboxes).every(isChecked);
 
@@ -256,6 +270,8 @@ function toggleSelection(ctrl, form) {
     checkbox.prop('checked', !all_checked);
 
     setSelectionState(checkbox, !all_checked);
+
+    setAllSelectLinkState(jQuery(link), all_checked);
   });
 }
 
