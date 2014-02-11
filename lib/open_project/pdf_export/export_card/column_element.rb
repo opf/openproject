@@ -39,7 +39,9 @@ module OpenProject::PdfExport::ExportCard
         value = @work_package.send(@property_name)
       else
         # Look in Custom Fields
-        value = (customs = @work_package.custom_field_values.select {|cf| cf.custom_field.name == @property_name} and customs.count > 0) ? customs.first.value : ""
+        I18n.with_locale(I18n.locale) do
+          value = (customs = @work_package.custom_field_values.select {|cf| cf.custom_field.name == @property_name} and customs.count > 0) ? customs.first.value : ""
+        end
       end
 
       if value.is_a?(Array)

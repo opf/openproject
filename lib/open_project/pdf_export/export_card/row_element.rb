@@ -117,8 +117,10 @@ module OpenProject::PdfExport::ExportCard
     end
 
     def self.is_existing_column(property_name, wp)
-      wp.respond_to?(property_name) ||
-        wp.custom_field_values.select {|cf| cf.custom_field.name == property_name}.count > 0
+      I18n.with_locale(I18n.locale) do
+        wp.respond_to?(property_name) ||
+          wp.custom_field_values.select {|cf| cf.custom_field.name == property_name}.count > 0
+      end
     end
   end
 end
