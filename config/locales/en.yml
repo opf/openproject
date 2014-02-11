@@ -913,6 +913,7 @@ en:
   label_show_completed_versions: "Show completed versions"
   label_sort: "Sort"
   label_sort_by: "Sort by %{value}"
+  label_sorted_by: "sorted by %{value}"
   label_sort_higher: "Move up"
   label_sort_highest: "Move to top"
   label_sort_lower: "Move down"
