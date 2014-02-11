@@ -13,27 +13,33 @@ angular.module('openproject.workPackages.helpers')
           ancestors.pop();
         }
 
-        // manage groups
-
-        // this helper method assumes that the work packages are passed in in blocks each of which consisting of work packages which belong to one group
-
-        currentGroup = WorkPackagesHelper.getRowObjectContent(workPackage, groupBy);
-
-        if(allGroups.indexOf(currentGroup) === -1) {
-          allGroups.push(currentGroup);
-          groupIndex++;
-        }
 
         // compose row
 
         var row = {
           level: ancestors.length,
-          groupIndex: groupIndex,
-          groupName: currentGroup,
           parent: ancestors.last(),
           ancestors: ancestors.slice(0),
           object: workPackage
         };
+
+        // manage groups
+
+        // this helper method assumes that the work packages are passed in in blocks each of which consisting of work packages which belong to one group
+
+        if (groupBy) {
+          currentGroup = WorkPackagesHelper.getRowObjectContent(workPackage, groupBy);
+
+          if(allGroups.indexOf(currentGroup) === -1) {
+            allGroups.push(currentGroup);
+            groupIndex++;
+          }
+
+          angular.extend(row, {
+            groupIndex: groupIndex,
+            groupName: currentGroup
+          });
+        }
 
         rows.push(row);
 
