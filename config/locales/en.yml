@@ -552,6 +552,7 @@ en:
     filter:
       noneElement: "(none)"
       noneSelection: "(none)"
+    label_all_work_packages: "all work packages"
     label_collapse: "Collapse"
     label_collapse_all: "Collapse all"
     label_expand: "Expand"

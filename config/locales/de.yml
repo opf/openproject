@@ -556,6 +556,7 @@ de:
     filter:
       noneElement: "(keines)"
       noneSelection: "(keine)"
+    label_all_work_packages: "alle Arbeitspakete"
     label_collapse: "Zuklappen"
     label_collapse_all: "Alle zuklappen"
     label_expand: "Aufklappen"

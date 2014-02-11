@@ -1,6 +1,6 @@
 angular.module('openproject.workPackages.directives')
 
-.directive('workPackageSums', ['WorkPackagesHelper', function(WorkPackagesHelper) {
+.directive('workPackageGroupSums', ['WorkPackagesHelper', function(WorkPackagesHelper) {
 
   return {
     restrict: 'A',
