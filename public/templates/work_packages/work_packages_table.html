@@ -101,7 +101,8 @@
     </tr>
 
 
-    <tr ng-repeat-end
+    <tr work-package-sums
+        ng-repeat-end
         ng-if="displaySums &&
                ($last || (row.object | columnContent:groupBy) !== (rows[$index+1].object | columnContent:groupBy))"
         ng-show="!grouped || groupExpanded[(row.object | columnContent:groupBy)]"
@@ -114,7 +115,9 @@
           'work_package'
         ]">
         <td colspan="2">{{ I18n.t('js.label_sum_for')}} {{ row.object | columnContent:groupBy }}</td>
-        <td colspan="{{ columns.length }}"/>
+        <td ng-repeat="sum in sums track by $index">
+          {{ sum }}
+        </td>
     </tr>
 
 
