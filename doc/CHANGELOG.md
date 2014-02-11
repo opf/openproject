@@ -47,6 +47,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#4101` Headings: Fix typos in german translation
 * `#4102` [Accessibility] Fixes screen reader compatibility for 'further analyze' links in work package summary
 * `#4108` Fixes German translation of months
+* `#4109` Missing hidden tab selection label
 * `#4163` Extend authorization-API to return current user id
 * Improves JavaScript tests.
 * News subject contained in URL
