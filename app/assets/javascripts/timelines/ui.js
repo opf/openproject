@@ -462,6 +462,12 @@ jQuery.extend(Timeline, {
     // │                                                       │
     // │  <div class="tl-toolbar"> ... </div>                  │
     // ╰───────────────────────────────────────────────────────╯
+    // TODO: Because it is easier to maintain HTML in HTML, this
+    //       method should actually become a partial. The
+    //       implementors of this method decided it to be in
+    //       JavaScript because it is then easier to connect the
+    //       toolbar to a specific timeline.
+
     var toolbar = jQuery('<div class="tl-toolbar"></div>');
     var timeline = this;
     var i, c, containers = [
