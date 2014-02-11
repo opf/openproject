@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.0pre45
+
 * `#3113` [API] Read access on work package workflows for API v2
 * `#3114` [API] Provide custom fields in work-package index
 * `#3116` [API] Distinguishable Status-Codes for wrong credentials and missing API
