@@ -36,6 +36,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#4224` "Create stories" is translated to "Sprints anlegen" in Roles & Permissions
+
 ## 3.0.5.pre3
 
 * `#2259` [Accessibility] linearisation of issue show form (2)
