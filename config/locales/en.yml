@@ -337,6 +337,7 @@ en:
   button_create: "Create"
   button_create_and_continue: "Create and continue"
   button_delete: "Delete"
+  button_delete_watcher: "Delete watcher %{name}"
   button_download: "Download"
   button_duplicate: "Duplicate"
   button_edit: "Edit"

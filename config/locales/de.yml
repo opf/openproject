@@ -340,6 +340,7 @@ de:
   button_create: "Anlegen"
   button_create_and_continue: "Anlegen und weiter"
   button_delete: "Löschen"
+  button_delete_watcher: "Lösche Beobachter %{name}"
   button_download: "Download"
   button_duplicate: "Duplizieren"
   button_edit: "Bearbeiten"
