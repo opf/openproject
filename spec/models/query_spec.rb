@@ -71,6 +71,18 @@ describe Query do
         expect(query.errors[:filters]).to include(I18n.t('activerecord.errors.messages.blank'))
       end
     end
+    
+    context 'with a missing value for a custom field' do
+      let(:custom_field) {FactoryGirl.create :custom_field} #does build suffice?
+      
+      before do
+        query.add_filter('cf_' + custom_field.id.to_s, '=', [''])
+      end
+      
+      it 'should have the name of the custom field in the error message' do
+        expect(query.errors[:base]).to include(custom_field.name)
+      end
+    end
   end
 
 end
