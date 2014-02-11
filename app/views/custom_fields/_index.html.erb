@@ -42,7 +42,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <tbody>
   <% (@custom_fields_by_type[tab[:name]] || []).sort.each do |custom_field| -%>
     <tr class="<%= cycle("odd", "even") %>">
-      <td><%= link_to h(custom_field.name), edit_custom_field_path(custom_field) %></td>
+      <td><%= link_to h(custom_field.name), edit_custom_field_path(custom_field), lang: custom_field.name_locale %></td>
       <td align="center"><%= Redmine::CustomFieldFormat.label_for(custom_field.field_format) %></td>
       <td align="center"><%= checked_image custom_field.is_required? %></td>
       <% if tab[:name] == 'WorkPackageCustomField' %>

@@ -81,7 +81,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% if @assignables.present? -%>
-  <% assignables = @assignables.dup << [nil, l(:label_none)] %>
+  <% assignables = @assignables.dup << ["none", l(:label_none)] %>
   <% params = default_params.merge(:collection => assignables,
                                    :attribute => 'assigned_to',
                                    :selected => lambda { |user| @work_package && user == @work_package.assigned_to },
@@ -89,8 +89,18 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= context_menu_entry(params) %>
 <% end %>
 
+<% if @responsibles.present? -%>
+  <% responsibles = @responsibles.dup << ["none", l(:label_none)] %>
+  <% params = default_params.merge(:collection => responsibles,
+                                   :attribute => 'responsible',
+                                   :selected => lambda { |user| @work_package && user == @work_package.responsible },
+                                   :disabled => lambda { |user| !@can[:update] }) %>
+  <%= context_menu_entry(params) %>
+<% end %>
+
+
 <% unless @project.nil? || (categories = @project.categories.to_a).empty? -%>
-  <% categories << [nil, l(:label_none)] %>
+  <% categories << ["none", l(:label_none)] %>
   <% params = default_params.merge(:collection => categories,
                                    :attribute => 'category',
                                    :selected => lambda { |category| @work_package && category == @work_package.category },

@@ -247,7 +247,7 @@ en:
       group: "Group"
       issue: "Issue"
       category: "Category"
-      status: "Issue status"
+      status: "Work package status"
       member: "Member"
       news: "News"
       project: "Project"
@@ -628,7 +628,6 @@ en:
       title: "Your browser is not supported"
       message: "The browser you are using is no longer supported by OpenProject. Please update your browser."
       learn_more: "Learn more"
-
 
   label_account: "Account"
   label_activity: "Activity"
@@ -1184,6 +1183,7 @@ en:
   permission_edit_wiki_pages: "Edit wiki pages"
   permission_export_work_packages: "Export Work Packages"
   permission_export_wiki_pages: "Export wiki pages"
+  permission_list_attachments: "List attachments"
   permission_log_time: "Log spent time"
   permission_manage_boards: "Manage forums"
   permission_manage_categories: "Manage work package categories"
@@ -1499,7 +1499,7 @@ en:
       hide_chart: "Hide chart"
       noneElement: "(none)"
       noneSelection: "(none)"
-      outline: "Intitial outline expansion"
+      outline: "Initial outline expansion"
       parent: "Show subprojects of"
       work_package_filters: "Filter work packages"
       work_package_responsible: "Show work packages with responsible"
