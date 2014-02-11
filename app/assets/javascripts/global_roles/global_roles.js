@@ -14,8 +14,10 @@
 (function ($, undefined) {
   var global_roles = {
 		init: function(){
-			global_roles.toggle_forms_on_click();
-			global_roles.activation_and_visibility_based_on_checked($('#global_role'));
+      if (global_roles.script_applicable()) {
+        global_roles.toggle_forms_on_click();
+        global_roles.activation_and_visibility_based_on_checked($('#global_role'));
+      }
 		},
 
 		toggle_forms_on_click: function(){
@@ -91,7 +93,11 @@
 
 		disable_element: function(element){
 			element.disable();
-		}
+		},
+
+    script_applicable: function() {
+      return $('body.controller-roles.action-new').size() === 1;
+    }
   }
 	$(document).ready(global_roles.init);
 }(jQuery));
