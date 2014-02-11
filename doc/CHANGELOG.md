@@ -38,14 +38,15 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3733` Responsible widget for my pag
 * `#3884` [Timelines] Show custom fields of work packages in timeline reports
 * `#3980` In Email settings "Issue" is used
-* `#4024` [Accessibility] Add proper page titles for sub pages
-* `#4102` [Accessibility] Fixes screen reader compatibility for 'further analyze' links in work package summary
 * `#4023` [Accessibility] Fixes tabbing inside modals
+* `#4024` [Accessibility] Add proper page titles for sub pages
 * `#4090` 'Session Expires' setting breaks API
 * `#4100` use icon from icon font for toggle multiselect in filter section
 * `#4101` Headings: Fix typos in german translation
+* `#4102` [Accessibility] Fixes screen reader compatibility for 'further analyze' links in work package summary
 * `#4108` Fixes German translation of months
 * `#4163` Extend authorization-API to return current user id
+* Improves JavaScript tests.
 * News subject contained in URL
 * Removes mocha mocking framework.
 * Update pg-gem version
