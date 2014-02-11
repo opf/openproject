@@ -589,6 +589,7 @@ de:
       save: "Speichern"
       start_date: "Startdatum"
       really_close_dialog: "Dialog schließen und eingegebene Daten verwerfen?"
+      zoom_slider: "Zoom Schieber"
     filter:
       noneElement: "(keines)"
       noneSelection: "(keine)"

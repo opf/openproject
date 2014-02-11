@@ -472,6 +472,7 @@ jQuery.extend(Timeline, {
       0, 0          // outline
     ];
     var icon = '<a href="javascript://" title="%t" class="%c"/>';
+    var iconText = '<span class="hidden-for-sighted">';
 
     for (i = 0; i < containers.length; i++) {
       c = jQuery('<div class="tl-toolbar-container"></div>');
@@ -494,15 +495,19 @@ jQuery.extend(Timeline, {
       // │  Add element                                          │
       // ╰───────────────────────────────────────────────────────╯
 
-      containers[currentContainer++].append(
-        jQuery(icon
-          .replace(/%t/, timeline.i18n('timelines.new_work_package'))
-          .replace(/%c/, 'icon icon-add')
-        ).click(function(e) {
-          e.stopPropagation();
-          timeline.addPlanningElement();
-          return false;
-        }));
+      var workPackageAddIcon = jQuery(icon
+                                       .replace(/%t/, timeline.i18n('timelines.new_work_package'))
+                                       .replace(/%c/, 'icon icon-add')
+                                     ).click(function(e) {
+                                       e.stopPropagation();
+                                       timeline.addPlanningElement();
+                                       return false;
+                                     });
+      var workPackageAddLabel = jQuery(iconText).text(timeline.i18n('timelines.new_work_package'));
+      
+      workPackageAddIcon.append(workPackageAddLabel);
+
+      containers[currentContainer++].append(workPackageAddIcon);
 
       // ╭───────────────────────────────────────────────────────╮
       // │  Spacer                                               │
@@ -549,6 +554,11 @@ jQuery.extend(Timeline, {
       // top right bottom left
       'margin': '4px 6px 3px'
     });
+    var sliderHandleLabel = jQuery(iconText).text(I18n.t('js.timelines.zoom_slider'));
+    var sliderHandle = slider.find('a.ui-slider-handle');
+
+    sliderHandle.append(sliderHandleLabel);
+
     containers[currentContainer + 1].append(slider);
     zooms.change(function() {
       slider.slider('value', this.selectedIndex + 1);

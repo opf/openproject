@@ -585,6 +585,7 @@ en:
       error: "An error has occured."
       create_planning_select_project: "Project:"
       really_close_dialog: "Do you really want to close the dialog and loose the entered data?"
+      zoom_slider: "Zoom slider"
     filter:
       noneElement: "(none)"
       noneSelection: "(none)"
