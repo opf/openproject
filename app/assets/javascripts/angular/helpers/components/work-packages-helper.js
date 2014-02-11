@@ -12,7 +12,28 @@ angular.module('openproject.uiComponents')
         default:
           return content || '';
       }
+    },
+
+    getSum: function(rows, columnName) {
+      var values = rows
+        .map(function(row){
+          return WorkPackagesHelper.getRowObjectContent(row.object, columnName);
+        })
+        .filter(function(value) {
+          return typeof(value) === 'number';
+        });
+
+      if (values.length > 0) {
+        sum = values.reduce(function(a, b) {
+          return a + b;
+        });
+      } else {
+        sum = null;
+      }
+
+      return sum;
     }
+
   };
 
   return WorkPackagesHelper;

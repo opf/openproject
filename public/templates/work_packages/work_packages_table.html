@@ -23,6 +23,9 @@
   </thead>
 
   <tbody>
+
+    <!-- Group headers -->
+
     <tr work-package-group-header
         ng-repeat-start="row in rows"
         ng-if="grouped &&
@@ -68,6 +71,8 @@
       </td>
     </tr>
 
+    <!-- Work package rows -->
+
     <tr id="work-package-{{ row.object.id }}"
         ng-class="[
           'hascontextmenu',
@@ -100,6 +105,8 @@
       </td>
     </tr>
 
+
+    <!-- Sums -->
 
     <tr work-package-sums
         ng-repeat-end

@@ -16,28 +16,9 @@ angular.module('openproject.workPackages.directives')
 
           // map columns to sums if the column data is a number
           scope.sums = scope.columns.map(function(column){
-            return getSum(rowsInCurrentGroup, column.name);
+            return WorkPackagesHelper.getSum(rowsInCurrentGroup, column.name);
           });
 
-          function getSum(rows, columnName) {
-            var values = rows
-              .map(function(row){
-                return WorkPackagesHelper.getRowObjectContent(row.object, columnName);
-              })
-              .filter(function(value) {
-                return typeof(value) === 'number';
-              });
-
-            if (values.length > 0) {
-              sum = values.reduce(function(a, b) {
-                return a + b;
-              });
-            } else {
-              sum = null;
-            }
-
-            return sum;
-          }
         }
       };
     }
