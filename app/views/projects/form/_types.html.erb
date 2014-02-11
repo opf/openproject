@@ -65,10 +65,8 @@ See doc/COPYRIGHT.rdoc for more details.
             </label>
           </td>
           <td>
-            <label for="project_planning_element_type_ids_<%= type.id %>">
-              <%= icon_for_type(type) %>
-              <%=h type.name %>
-            </label>
+            <%= icon_for_type(type) %>
+            <%=h type.name %>
           </td>
           <td class='center'>
             <%= checked_image(type.in_aggregation) %>
