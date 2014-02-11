@@ -3,7 +3,7 @@
     <div class="tl-left-top tl-decoration"></div>
     <div class="tl-left-main">
 
-      <timeline-table ng-hide="timeline.options.hide_chart"/>
+      <timeline-table/>
 
     </div>
   </div>
@@ -13,7 +13,7 @@
   </div>
   <div class="tl-scrollcontainer">
     <!--div class="tl-decoration"></div-->
-    <div class="tl-chart"></div>
+    <div class="tl-chart" ng-hide="timeline.options.hide_chart"></div>
   </div>
   <div class="tl-tooltip fade above in">
     <div class="tl-tooltip-inner"></div>
