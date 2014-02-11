@@ -34,21 +34,12 @@ module OpenProject::PdfExport::ExportCard
       @work_package = work_package
       @group_elements = []
 
-      # raise BadlyFormedExportCardConfigurationError.new("Badly formed YAML") if @rows.nil?
-
       # Simpler to remove empty rows before calculating the row sizes
       RowElement.prune_empty_groups(@groups_config, work_package)
 
-      # Get an array of all the row hashes
-      rows = []
-      @groups_config.each do |gk, gv|
-        gv["rows"].each do |rk, rv|
-          rows << rv
-        end
-      end
-
-      # Assign the row height, ignoring groups
-      heights = assign_row_heights(rows)
+      # NEW
+      all_heights = assign_all_heights_new(@groups_config)
+      reduce_rows(all_heights)
 
       text_padding = @orientation[:text_padding]
       group_padding = @orientation[:group_padding]
@@ -58,8 +49,8 @@ module OpenProject::PdfExport::ExportCard
       # Initialize groups
       @groups_config.each_with_index do |(g_key, g_value), i|
         row_count = g_value["rows"].count
-        row_heights = heights.slice(current_row, row_count)
-        group_height = row_heights.sum
+        row_heights = all_heights[:row_heights].reject {|row| row[:group] != i}.map{|row| row[:height]}
+        group_height = all_heights[:group_heights][i]
         group_orientation = {
           y_offset: @orientation[:height] - current_y_offset,
           x_offset: 0,
@@ -76,65 +67,64 @@ module OpenProject::PdfExport::ExportCard
       end
     end
 
-    def assign_row_heights(rows)
-      # Assign initial heights for rows in all groups
-      available = @orientation[:height] - @orientation[:text_padding]
-      c = rows.count
-      assigned_heights = Array.new(c){ available / c }
+    def assign_all_heights_new(groups)
+      available = @orientation[:height] - (@orientation[:group_padding] * 2)
+      group_heights = Array.new
+      row_heights = Array.new
 
-      min_heights = min_row_heights(rows)
-      diffs = assigned_heights.zip(min_heights).map {|a, m| a - m}
-      diffs.each_with_index do |diff, i|
-        if diff < 0
-          # Need to grab some pixels from a low priority row and add them to current one
-          reduce_low_priority_rows(rows, assigned_heights, diffs, i)
+      groups.each_with_index do |(gk, gv), i|
+        enforced_group_height = gv["height"] || -1
+        used_group_height = 0
+
+        gv["rows"].each do |rk, rv|
+          if rv["height"]
+            used_group_height += rv["height"]
+            row_heights << { height: rv["height"], group: i, priority: rv["priority"] || 10 }
+          else
+            used_group_height += min_row_height(rv)
+            row_heights << { height: min_row_height(rv), group: i, priority: rv["priority"] || 10 }
+          end
         end
+
+        group_heights << [used_group_height, enforced_group_height].max
       end
 
-      # TODO: Check assigned heights are big enough
-      assigned_heights
+      { group_heights: group_heights, row_heights: row_heights }
     end
 
-    def reduce_low_priority_rows(rows, assigned_heights, diffs, conflicted_i)
-      # Get an array of row indexes sorted by inverse priority
+    def reduce_rows(heights)
+      available = @orientation[:height] - (@orientation[:group_padding] * 2)
+      diff = available - heights[:group_heights].sum
+      return false if diff >= 0
+      diff *= -1
+
+      rows = heights[:row_heights]
+      groups = heights[:group_heights]
+
       priorities = *(0..rows.count - 1)
-        .zip(rows.map { |row| row["priority"] or 10 })
+        .zip(rows.map { |row| row[:priority] or 10 })
         .sort {|x,y| y[1] <=> x[1]}
         .map {|x| x[0]}
 
-      to_reduce = diffs[conflicted_i] * -1
       priorities.each do |p|
-        diff = diffs[p]
-        if diff > 0
-          if diff >= to_reduce
-            exchange(assigned_heights, diffs, p, conflicted_i, to_reduce)
-            return true
-          else
-            exchange(assigned_heights, diffs, p, conflicted_i, diff)
-            to_reduce -= diff
-          end
+        to_reduce = rows[p]
+        if to_reduce[:height] >= diff
+          to_reduce[:height] -= diff
+          groups[to_reduce[:group]] -= diff
+          break
+        else
+          diff -= to_reduce[:height]
+          groups[to_reduce[:group]] -= to_reduce[:height]
+          to_reduce[:height] = 0
         end
       end
-      return false
-    end
 
-    def exchange(heights, diffs, a, b, v)
-      heights[a] -= v
-      heights[b] += v
-      diffs[a] -= v
-      diffs[b] += v
-    end
-
-    def min_row_heights(rows)
-      # Calculate minimum user assigned heights...
-      min_heights = Array.new(rows.count)
-      rows.each_with_index do |row, i|
-        min_heights[i] = min_row_height(row)
-      end
-      min_heights
+      heights
     end
 
     def min_row_height(row)
+      return row["enforced_group_height"] if row["enforced_group_height"]
+
       # Look through each of the row's columns for the column with the largest minimum height
       largest = 0
       row["columns"].each do |rk, rv|

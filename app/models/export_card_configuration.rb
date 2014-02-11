@@ -28,7 +28,7 @@ class ExportCardConfiguration < ActiveRecord::Base
 
   class RowsYamlValidator < ActiveModel::Validator
     REQUIRED_GROUP_KEYS = ["rows"]
-    VALID_GROUP_KEYS = ["rows", "has_border"]
+    VALID_GROUP_KEYS = ["rows", "has_border", "height"]
     REQUIRED_ROW_KEYS = ["columns"]
     VALID_ROW_KEYS = ["columns", "height", "priority"]
     # TODO: Security Consideration
