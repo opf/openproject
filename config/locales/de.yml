@@ -594,13 +594,16 @@ de:
     filter:
       noneElement: "(keines)"
       noneSelection: "(keine)"
+    button_check_all: "Alles auswählen"
+    button_uncheck_all: "Alles abwählen"
     label_collapsed: "zugeklappt"
     label_expanded: "aufgeklappt"
     label_collapse_all: "Alle zuklappen"
     label_expand_all: "Alle aufklappen"
     label_menu_item_toggle: "Untermenüpunkte ein-/ausblenden"
-    button_check_all: "Alles auswählen"
-    button_uncheck_all: "Alles abwählen"
+    tl_toolbar:
+      zooms: "Zoomstufe"
+      outlines: "Hierarchie-Stufe"
 
   label_account: "Konto"
   label_activity: "Aktivität"
