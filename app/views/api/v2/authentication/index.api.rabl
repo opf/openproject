@@ -26,4 +26,4 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 object @authorization => :authorization
-attributes :authorized, :authorized_user_id
+attributes :authorized, :authenticated_user_id
