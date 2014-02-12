@@ -52,6 +52,6 @@ describe 'api/v2/authentication/index.api.rabl' do
 
     subject { response.body }
 
-    it { expect(subject).to have_selector('authorization authorized_user_id', text: 12345) }
+    it { expect(subject).to have_selector('authorization authenticated_user_id', text: 12345) }
   end
 end
