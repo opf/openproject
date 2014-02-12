@@ -73,8 +73,8 @@ module OpenProject::PdfExport::ExportCard
         orientation = {
           y_offset: card_y_offset,
           x_offset: card_padding,
-          width: card_width,
-          height: card_height,
+          width: card_width.floor,
+          height: card_height.floor,
           card_padding: card_padding,
           group_padding: group_padding,
           text_padding: text_padding
