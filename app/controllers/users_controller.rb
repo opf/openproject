@@ -272,14 +272,14 @@ class UsersController < ApplicationController
       @user.destroy :
       @user.delay.destroy
 
-    flash[:notice] = l('account.deleted')
-
     respond_to do |format|
       format.html do
         if @user == User.current
           self.logged_user = nil
+          flash[:notice] = l('account.deleted')
           redirect_to signin_path
         else
+          flash[:notice] = l('account.deleted')
           redirect_to users_path
         end
       end
