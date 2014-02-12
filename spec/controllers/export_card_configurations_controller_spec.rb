@@ -37,12 +37,14 @@ describe ExportCardConfigurationsController do
 
     @params = {}
     @valid_rows_yaml = "group1:\n  has_border: false\n  rows:\n    row1:\n      height: 50\n      priority: 1\n      columns:\n        id:\n          has_label: false"
+    @invalid_rows_yaml = "group1:\n  invalid_property: true"
   end
 
   describe 'Create' do
     it 'should let you create a configuration with all the values set' do
       @params[:export_card_configuration] = {
         name: "Config 1",
+        description: "This is a description",
         rows: @valid_rows_yaml,
         per_page: 5,
         page_size: "A4",
@@ -54,9 +56,22 @@ describe ExportCardConfigurationsController do
       flash[:notice].should eql(I18n.t(:notice_successful_create))
     end
 
-    it 'should not let you create an invalid configuration' do
+    it 'should not let you create a configuration with missing data' do
       @params[:export_card_configuration] = {
         name: "Config 1",
+      }
+      post 'create', @params
+
+      response.should render_template('new')
+    end
+
+    it 'should not let you create a configuration with invalid data' do
+      @params[:export_card_configuration] = {
+        name: "Config 1",
+        rows: @invalid_rows_yaml,
+        per_page: 0,
+        page_size: "invalid",
+        orientation: "invalid"
       }
       post 'create', @params
 
@@ -74,9 +89,25 @@ describe ExportCardConfigurationsController do
       flash[:notice].should eql(I18n.t(:notice_successful_update))
     end
 
-    it 'should not let you update an invalid configuration' do
+    it 'should not let you update a configuration with invalid per_page' do
       @params[:id] = @custom_config.id
-      @params[:export_card_configuration] = { per_page: "string"}
+      @params[:export_card_configuration] = { per_page: 0}
+      put 'update', @params
+
+      response.should render_template('edit')
+    end
+
+    it 'should not let you update a configuration with invalid page_size' do
+      @params[:id] = @custom_config.id
+      @params[:export_card_configuration] = { page_size: "invalid"}
+      put 'update', @params
+
+      response.should render_template('edit')
+    end
+
+    it 'should not let you update a configuration with invalid orientation' do
+      @params[:id] = @custom_config.id
+      @params[:export_card_configuration] = { orientation: "invalid"}
       put 'update', @params
 
       response.should render_template('edit')

@@ -100,7 +100,7 @@ class ExportCardConfigurationsController < ApplicationController
   end
 
   def export_card_configurations_params
-    params.require(:export_card_configuration).permit(:name, :rows, :per_page, :page_size, :orientation)
+    params.require(:export_card_configuration).permit(:name, :rows, :per_page, :page_size, :orientation, :description)
   end
 
   def load_config

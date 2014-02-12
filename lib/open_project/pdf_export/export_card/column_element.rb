@@ -51,16 +51,33 @@ module OpenProject::PdfExport::ExportCard
         end
       end
 
-      if value.is_a?(Array)
-        value = value.map{|c| c.to_s }.join("\n")
-      end
       draw_value(value)
     end
 
     private
 
+
     def available_languages
       Setting.available_languages
+    end
+
+    def label_text(value)
+      if @has_label
+        custom_label = @config['custom_label']
+        label_text = if custom_label
+                  "#{custom_label}"
+                else
+                  localised_property_name
+                end
+        if @config['has_count'] && value.is_a?(Array)
+          label_text = "#{label_text} (#{value.count})"
+        end
+
+        label_text += ": "
+      else
+        label_text = ""
+      end
+      label_text
     end
 
     def abbreviated_text(text, options)
@@ -79,7 +96,7 @@ module OpenProject::PdfExport::ExportCard
     end
 
     def localised_property_name
-      @has_label ? "#{@work_package.class.human_attribute_name(@localised_custom_field_name ||= @property_name)}: " : ""
+      @work_package.class.human_attribute_name(@localised_custom_field_name ||= @property_name)
     end
 
     def draw_value(value)
@@ -110,15 +127,19 @@ module OpenProject::PdfExport::ExportCard
       # Label and text
       @has_label = @config['has_label']
       indented = @config['indented']
-      value = value.to_s if !value.is_a?(String)
-      label_text = localised_property_name
+
+
+      # Flatten value to a display string
+      display_value = value
+      display_value = display_value.map{|c| c.to_s }.join("\n") if display_value.is_a?(Array)
+      display_value = display_value.to_s if !display_value.is_a?(String)
 
       if @has_label && indented
         width_ratio = 0.2 # Note: I don't think it's worth having this in the config
 
         # Label Textbox
         offset = [@orientation[:x_offset], @orientation[:height] - (@orientation[:text_padding] / 2)]
-        box = @pdf.text_box(label_text,
+        box = @pdf.text_box(label_text(value),
           {:height => @orientation[:height],
            :width => @orientation[:width] * width_ratio,
            :at => offset,
@@ -137,7 +158,7 @@ module OpenProject::PdfExport::ExportCard
           :size => font_size,
           :min_font_size => min_font_size,
           :align => text_align}
-        text = abbreviated_text(value, options)
+        text = abbreviated_text(display_value, options)
         offset = [@orientation[:x_offset] + (@orientation[:width] * width_ratio), @orientation[:height] - (@orientation[:text_padding] / 2)]
 
         # Content Textbox
@@ -157,9 +178,9 @@ module OpenProject::PdfExport::ExportCard
           :overflow => overflow,
           :min_font_size => min_font_size,
           :align => text_align}
-        text = abbreviated_text(value, options)
-        label_text = localised_property_name
-        texts = [{ text: label_text, styles: [:bold], :size => font_size },  { text: text, :size => font_size }]
+
+        text = abbreviated_text(display_value, options)
+        texts = [{ text: label_text(value), styles: [:bold], :size => font_size },  { text: text, :size => font_size }]
 
         # Label and Content Textbox
         offset = [@orientation[:x_offset], @orientation[:height] - (@orientation[:text_padding] / 2)]
