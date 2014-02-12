@@ -469,9 +469,9 @@ describe User, 'deletion' do
       timeline.reload
     end
 
-    it { timeline.options["planning_element_responsibles"].index(user.id.to_s).should be_nil }
-    it { timeline.options["planning_element_assignee"].index(user.id.to_s).should be_nil }
-    it { timeline.options["project_responsibles"].index(user.id.to_s).should be_nil }
+    it { expect(timeline.options["planning_element_responsibles"].index(user.id.to_s)).to be_nil }
+    it { expect(timeline.options["planning_element_assignee"].index(user.id.to_s)).to be_nil }
+    it { expect(timeline.options["project_responsibles"].index(user.id.to_s)).to be_nil }
   end
 
 end
