@@ -294,6 +294,7 @@ de:
     estimated_hours: "Geschätzter Aufwand"
     firstname: "Vorname"
     group: "Gruppe"
+    groupname: "Gruppenname"
     is_default: "Standardeinstellung"
     is_for_all: "Für alle Projekte"
     is_public: "Öffentlich"
