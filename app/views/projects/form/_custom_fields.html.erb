@@ -27,13 +27,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<fieldset class="box" id="project_issue_custom_fields">
-  <legend>
-    <%=l(:label_custom_field_plural)%>
+<fieldset class="box with-legend-control" id="project_issue_custom_fields">
+  <legend><%=l(:label_custom_field_plural)%></legend>
+  <div class="legend-control">
     <span style="font-size:0.9em">
       (<%= check_all_links 'project_issue_custom_fields' %>)
     </span>
-  </legend>
+  </div>
   <% issue_custom_fields.each do |custom_field| %>
     <label class="floating">
       <%= check_box_tag 'project[work_package_custom_field_ids][]',
