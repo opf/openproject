@@ -108,14 +108,12 @@ module OpenProject::Backlogs::Hooks
 
       return '' unless work_package.backlogs_enabled?
 
-      snippet << %(<p>)
       snippet << %(<div id="backlogs-attributes" class="attributes">)
-      snippet << %(<div class="splitcontentleft">)
 
       if work_package.is_story?
-        snippet << '<p>'
-        snippet << context[:form].text_field(:story_points, :size => 3)
-        snippet << '</p>'
+        snippet << '<div class="attribute_wrapper">'
+        snippet << context[:form].text_field(:story_points, :size => 3, :class => 'short')
+        snippet << '</div>'
 
         if work_package.descendants.length != 0
 
@@ -133,11 +131,9 @@ module OpenProject::Backlogs::Hooks
         end
       end
 
-      snippet << '<p>'
-      snippet << context[:form].text_field(:remaining_hours, :size => 3)
-      snippet << ' '
-      snippet << l(:label_hours)
-      snippet << '</p>'
+      snippet << '<div class="attribute_wrapper">'
+      snippet << context[:form].text_field(:remaining_hours, :size => 3, :class => 'short', :placeholder => l(:label_hours))
+      snippet << '</div>'
 
       params = context[:controller].params
       if work_package.is_story? && params[:copy_from]
@@ -150,8 +146,7 @@ module OpenProject::Backlogs::Hooks
         snippet << "#{radio_button_tag('copy_tasks', 'all:' + params[:copy_from], false, {id: 'copy_tasks_all'})} #{l(:rb_label_copy_tasks_all)}</p>"
       end
 
-      snippet << %(</div>) * 2
-      snippet << %(</p>)
+      snippet << %(</div>)
 
       snippet
     end
