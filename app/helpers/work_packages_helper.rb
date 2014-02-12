@@ -469,7 +469,7 @@ module WorkPackagesHelper
 
   def work_package_form_parent_attribute(form, work_package, locals = {})
     if User.current.allowed_to?(:manage_subtasks, locals[:project])
-      field = form.text_field :parent_id, :size => 10, :title => l(:description_autocomplete)
+      field = form.text_field :parent_id, :size => 10, :title => l(:description_autocomplete), :class => 'short'
       field += '<div id="parent_issue_candidates" class="autocomplete"></div>'.html_safe
       field += javascript_tag "observeWorkPackageParentField('#{work_packages_auto_complete_path(:id => work_package, :project_id => locals[:project], :escape => false) }')"
 
