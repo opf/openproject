@@ -30,7 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= form_tag({}) do -%>
   <%= hidden_field_tag 'back_url', url_for(params) %>
-  <div class="autoscroll" ng-controller="WorkPackagesController">
+  <div class="autoscroll">
 
     <work-packages-table project-identifier="projectIdentifier"
                          columns="workPackagesTable.columns"

@@ -48,47 +48,49 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 <h2><%= query.new_record? ? l(:label_work_package_plural) : h(query.name) %></h2>
 
-<div class="title-bar">
-  <div class="title-bar-extras">
+<div id="work-packages-index" ng-controller="WorkPackagesController">
+  <div class="title-bar">
+    <div class="title-bar-extras">
 
-    <% html_title(query.new_record? ? l(:label_work_package_plural) : h(query.name)) %>
+      <% html_title(query.new_record? ? l(:label_work_package_plural) : h(query.name)) %>
 
-    <% if visible_queries.any? %>
-      <div id='work-packages-query-selection'>
-        <%= label_tag 'query-select', l('apply_filter', :scope => 'queries') %>
+      <% if visible_queries.any? %>
+        <div id='work-packages-query-selection'>
+          <%= label_tag 'query-select', l('apply_filter', :scope => 'queries') %>
 
-        <%= select :query, :id, grouped_options_for_select(grouped_query_options, query.id), {:include_blank => query.new_record?, :selected => query.id}, {:id => 'query-select'} %>
+          <%= select :query, :id, grouped_options_for_select(grouped_query_options, query.id), {:include_blank => query.new_record?, :selected => query.id}, {:id => 'query-select'} %>
 
-      </div>
+        </div>
+      <% end %>
+
+      <%= render partial: 'query_form', locals: { project: project, query: query } %>
+
+    </div><!-- .title-bar-extras -->
+  </div><!-- .title-bar -->
+
+  <%= error_messages_for 'query' %>
+
+  <% if query.valid? %>
+    <% if work_packages.empty? %>
+      <p class="nodata"><%= l(:label_no_data) %></p>
+    <% else %>
+      <%= render :partial => 'work_packages/list', :locals => { :work_packages => work_packages,
+                                                                :query => query,
+                                                                :results => results } %>
+      <%= pagination_links_full work_packages %>
     <% end %>
 
-    <%= render partial: 'query_form', locals: { project: project, query: query } %>
-
-  </div><!-- .title-bar-extras -->
-</div><!-- .title-bar -->
-
-<%= error_messages_for 'query' %>
-
-<% if query.valid? %>
-  <% if work_packages.empty? %>
-    <p class="nodata"><%= l(:label_no_data) %></p>
-  <% else %>
-    <%= render :partial => 'work_packages/list', :locals => { :work_packages => work_packages,
-                                                              :query => query,
-                                                              :results => results } %>
-    <%= pagination_links_full work_packages %>
+    <%= other_formats_links do |f| %>
+      <%= f.link_to 'Atom', :url => { :project_id => project, :query_id => (query.new_record? ? nil : query), :key => User.current.rss_key } %>
+      <%= f.link_to 'CSV', :url => { :project_id => project } %>
+      <%= f.link_to 'PDF', :url => { :project_id => project } %>
+      <%= f.link_to I18n.t(:label_pdf_with_descriptions), :url => { :project_id => project,
+                                                                    :show_descriptions => true,
+                                                                    :format => 'pdf' } %>
+      <%= call_hook(:view_work_packages_index_other_formats, :link_formatter => f, :project => project) %>
+    <% end if User.current.allowed_to? :export_work_packages, project, :global => project.nil? %>
   <% end %>
-
-  <%= other_formats_links do |f| %>
-    <%= f.link_to 'Atom', :url => { :project_id => project, :query_id => (query.new_record? ? nil : query), :key => User.current.rss_key } %>
-    <%= f.link_to 'CSV', :url => { :project_id => project } %>
-    <%= f.link_to 'PDF', :url => { :project_id => project } %>
-    <%= f.link_to I18n.t(:label_pdf_with_descriptions), :url => { :project_id => project,
-                                                                  :show_descriptions => true,
-                                                                  :format => 'pdf' } %>
-    <%= call_hook(:view_work_packages_index_other_formats, :link_formatter => f, :project => project) %>
-  <% end if User.current.allowed_to? :export_work_packages, project, :global => project.nil? %>
-<% end %>
+</div>
 
 <%= call_hook(:view_work_packages_index_bottom, { :issues => work_packages, :project => project, :query => query }) %>
 
