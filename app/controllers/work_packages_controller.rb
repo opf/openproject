@@ -458,7 +458,12 @@ class WorkPackagesController < ApplicationController
     gon.query = @query.as_json only: [:group_by, :display_sums]
 
     gon.columns = @query.columns.map do |column|
-      { name: column.name, title: column.caption, sortable: column.sortable, groupable: column.groupable }
+      { name: column.name,
+        title: column.caption,
+        sortable: column.sortable,
+        groupable: column.groupable,
+        custom_field: column.is_a?(QueryCustomFieldColumn) &&
+                      column.custom_field.as_json(only: [:id, :field_format]) }
     end
 
     gon.work_package_count_by_group = results.work_package_count_by_group
@@ -478,7 +483,8 @@ class WorkPackagesController < ApplicationController
                                                 project: { only: [:name, :identifier] },
                                                 responsible: { only: :id, methods: :name },
                                                 status: { only: :name },
-                                                type: { only: :name }
+                                                type: { only: :name },
+                                                custom_values: { only: [:custom_field_id, :value] },
                                               })
   end
 end

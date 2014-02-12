@@ -14,6 +14,14 @@ angular.module('openproject.uiComponents')
       }
     },
 
+    getRowObjectCustomValue: function(object, customFieldId) {
+      customValue = object.custom_values.filter(function(customValue){
+        return customValue.custom_field_id === customFieldId;
+      }).first();
+
+      return customValue ? customValue.value : '';
+    },
+
     getSum: function(rows, columnName) {
       var values = rows
         .map(function(row){
