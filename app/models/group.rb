@@ -42,7 +42,7 @@ class Group < Principal
   
   alias_attribute(:groupname, :lastname)
   validates_presence_of :groupname
-  validate :uniqueness_of_groupname, :on => :create
+  validate :uniqueness_of_groupname
   validates_length_of :groupname, :maximum => 30
 
   def to_s
