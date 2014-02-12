@@ -110,7 +110,7 @@
 
     <tr work-package-group-sums
         ng-repeat-end
-        ng-if="displaySums &&
+        ng-if="displaySums && grouped &&
                ($last || row.groupName !== rows[$index+1].groupName)"
         ng-show="!grouped || groupExpanded[row.groupName]"
         ng-class="[

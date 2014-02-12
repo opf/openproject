@@ -27,7 +27,6 @@ angular.module('openproject.workPackages.directives')
       scope.grouped = scope.groupByColumn !== undefined;
       scope.groupExpanded = {};
 
-      scope.displaySums = scope.displaySums && scope.grouped; // only display sums when rows are grouped
     }
   };
 }]);
