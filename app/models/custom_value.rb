@@ -65,7 +65,7 @@ class CustomValue < ActiveRecord::Base
     value.to_s
   end
 
-protected
+  protected
 
   def validate_presence_of_required_value
     errors.add(:value, :blank) if custom_field.is_required? && value.blank?
