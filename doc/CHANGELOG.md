@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#3371` [Work Package Tracking] Wrong 404 when custom query not exists
+* `#4112` Layouttabellen: Zwei Layouttabellen erschweren das Verständnis
 * `#4162` Missing html_safe on required list custom fields with non empty default value
 
 ## 3.0.0pre45
