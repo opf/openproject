@@ -222,18 +222,22 @@ class WorkPackagesController < ApplicationController
                       []
                     end
 
-    # push work packages to client as JSON
-    # TODO pull work packages via AJAX
-    push_table_data_via_gon results
-    push_work_packages_via_gon work_packages
 
     respond_to do |format|
       format.html do
+        # push work packages to client as JSON
+        # TODO pull work packages via AJAX
+        push_table_data_via_gon results
+        push_work_packages_via_gon work_packages
+
         render :index, :locals => { :query => @query,
                                     :work_packages => work_packages,
                                     :results => results,
                                     :project => @project },
                        :layout => !request.xhr?
+      end
+      format.json do
+        # TODO render query and resuls as json
       end
       format.csv do
         serialized_work_packages = WorkPackage::Exporter.csv(work_packages, @project)
