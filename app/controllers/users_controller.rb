@@ -277,7 +277,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html do
         if @user == User.current
-          logged_user = nil
+          self.logged_user = nil
           redirect_to signin_path
         else
           redirect_to users_path
