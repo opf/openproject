@@ -82,6 +82,10 @@ module Migration
       ActiveRecord::Base.connection.instance_values["config"][:adapter] == "mysql2"
     end
 
+    def sqlite3?
+      ActiveRecord::Base.connection.instance_values["config"][:adapter] == "sqlite3"
+    end
+
     private
 
     def select_rows_from_database(table, column_list, conditions)
