@@ -38,4 +38,8 @@ en:
   notice_export_card_configuration_deactivated: "Config succesfully de-activated"
   error_can_not_activate_export_card_configuration: "This config cannot be activated"
   error_can_not_deactivate_export_card_configuration: "This config cannot be de-activated"
+  validation_error_required_keys_not_present: "Required key(s) not present:"
+  validation_error_yaml_is_badly_formed: "YAML is badly formed."
+  validation_error_uknown_key: "Unknown key:"
+  yaml_error: "YAML error:"
   help_link_rows_format: "Rows Formatting"
