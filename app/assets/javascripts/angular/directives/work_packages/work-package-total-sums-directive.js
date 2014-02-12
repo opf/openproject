@@ -9,7 +9,7 @@ angular.module('openproject.workPackages.directives')
       return {
         pre: function(scope, iElement, iAttrs, controller) {
           scope.sums = scope.columns.map(function(column){
-            return WorkPackagesHelper.getSum(scope.rows, column.name);
+            return WorkPackagesHelper.getSums(scope.rows, column);
           });
 
         }

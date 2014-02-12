@@ -15,12 +15,7 @@ angular.module('openproject.uiComponents')
       var defaultType = 'text';
 
       // Set text to be displayed
-      if (scope.column.custom_field) {
-        scope.displayText = WorkPackagesHelper.getRowObjectCustomValue(scope.workPackage, scope.column.custom_field.id) || defaultText;
-      } else {
-        scope.displayText = WorkPackagesHelper.getRowObjectContent(scope.workPackage, scope.column.name) || defaultText;
-      }
-
+      scope.displayText = WorkPackagesHelper.getColumnValue(scope.workPackage, scope.column) || defaultText;
 
       // TODO RS: Manually set all the column display types. We will need:
       //          Text, Link... what else?
