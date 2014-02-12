@@ -37,7 +37,7 @@ describe OpenProject::PdfExport::ExportCard::DocumentGenerator do
 
   let(:work_package1) { WorkPackage.new({
     subject: "Work package 1",
-    description: "This is work package 1"
+    description: "This is a description"
   })}
 
   let(:work_package2) { WorkPackage.new({
@@ -56,9 +56,9 @@ describe OpenProject::PdfExport::ExportCard::DocumentGenerator do
       text_analysis.strings.include?('Work package 1').should be_true
     end
 
-    it 'shows empty field label' do
+    it 'does not show non existent field label' do
       text_analysis = PDF::Inspector::Text.analyze(@generator.render)
-      text_analysis.strings.include?('Non existent:').should be_true
+      text_analysis.strings.include?('Non existent:').should be_false
     end
 
     it 'should be 1 page' do

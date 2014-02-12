@@ -35,19 +35,39 @@ module OpenProject::PdfExport::ExportCard
 
     def draw
       # Get value from model
-      value = @work_package.send(@property_name) if @work_package.respond_to?(@property_name) else ""
+      if @work_package.respond_to?(@property_name)
+        value = @work_package.send(@property_name)
+      else
+        # Look in Custom Fields
+        value = ""
+        available_languages.each do |locale|
+          I18n.with_locale(locale) do
+            if (customs = @work_package.custom_field_values.select {|cf| cf.custom_field.name == @property_name} and customs.count > 0)
+              value = customs.first.value
+              @custom_field = customs.first.custom_field
+            end
+          end
+          @localised_custom_field_name = @custom_field.name if !!@custom_field
+        end
+      end
+
       draw_value(value)
     end
 
     private
 
-    def label_text(has_label, value)
-      if has_label
+
+    def available_languages
+      Setting.available_languages
+    end
+
+    def label_text(value)
+      if @has_label
         custom_label = @config['custom_label']
         label_text = if custom_label
                   "#{custom_label}"
                 else
-                  "#{@work_package.class.human_attribute_name(@property_name)}"
+                  localised_property_name
                 end
         if @config['has_count'] && value.is_a?(Array)
           label_text = "#{label_text} (#{value.count})"
@@ -73,6 +93,10 @@ module OpenProject::PdfExport::ExportCard
       text.to_s
     rescue Prawn::Errors::CannotFit
       ''
+    end
+
+    def localised_property_name
+      @work_package.class.human_attribute_name(@localised_custom_field_name ||= @property_name)
     end
 
     def draw_value(value)
@@ -101,20 +125,21 @@ module OpenProject::PdfExport::ExportCard
       text_align = (@config['text_align'] or "left").to_sym
 
       # Label and text
-      has_label = @config['has_label']
+      @has_label = @config['has_label']
       indented = @config['indented']
+
 
       # Flatten value to a display string
       display_value = value
       display_value = display_value.map{|c| c.to_s }.join("\n") if display_value.is_a?(Array)
       display_value = display_value.to_s if !display_value.is_a?(String)
 
-      if has_label && indented
+      if @has_label && indented
         width_ratio = 0.2 # Note: I don't think it's worth having this in the config
 
         # Label Textbox
         offset = [@orientation[:x_offset], @orientation[:height] - (@orientation[:text_padding] / 2)]
-        box = @pdf.text_box(label_text(has_label, value),
+        box = @pdf.text_box(label_text(value),
           {:height => @orientation[:height],
            :width => @orientation[:width] * width_ratio,
            :at => offset,
@@ -153,8 +178,9 @@ module OpenProject::PdfExport::ExportCard
           :overflow => overflow,
           :min_font_size => min_font_size,
           :align => text_align}
+
         text = abbreviated_text(display_value, options)
-        texts = [{ text: label_text(has_label, value), styles: [:bold], :size => font_size },  { text: text, :size => font_size }]
+        texts = [{ text: label_text(value), styles: [:bold], :size => font_size },  { text: text, :size => font_size }]
 
         # Label and Content Textbox
         offset = [@orientation[:x_offset], @orientation[:height] - (@orientation[:text_padding] / 2)]
