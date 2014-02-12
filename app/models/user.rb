@@ -822,16 +822,14 @@ class User < Principal
 
     timelines.each do |timeline|
       timelines_filter.each do |field|
-        changed = false
-
         fieldOptions = timeline.options[field]
         if fieldOptions && index = fieldOptions.index(id.to_s) then
-          changed = true
+          timeline.options_will_change!
           fieldOptions[index] = substitute.id.to_s
         end
       end
 
-      timeline.save! if changed
+      timeline.save!
     end
   end
 
