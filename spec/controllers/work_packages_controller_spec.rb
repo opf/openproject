@@ -136,6 +136,7 @@ describe WorkPackagesController do
 
       controller.stub(:retrieve_query).and_return(query)
       query.stub_chain(:results, :work_packages, :page, :per_page, :all).and_return(work_packages)
+      query.stub_chain(:results, :work_package_count_by_group).and_return({})
     end
 
     describe 'html' do
