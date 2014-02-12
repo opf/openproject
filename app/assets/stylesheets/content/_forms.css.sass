@@ -28,18 +28,11 @@
 @import global/all
 @import fonts/openproject_icon_font
 
-$login_form_button_font_color:    #FFFFFF !default
-$login_form_bg_color:             #F8F8F8 !default
-$login_form_border:               1px solid #EAEAEA !default
-$login_form_input_border:   1px solid #CACACA !default
-$login_form_button_bg_color:  #06799F !default
-$login_form_button_hover_bg_color:  #053242 !default
-
 @mixin input-style
   width: $content_from_input_width
   height: 30px
   line-height: 30px
-  border: $login_form_input_border
+  border: $content_form_input_border
   padding: 0 0 0 10px
   @include border-radius(2px)
   font-family: $font_family_bold
@@ -47,7 +40,7 @@ $login_form_button_hover_bg_color:  #053242 !default
   line-height: 30px
   margin: 0
   &:hover, &:focus
-    border: 1px solid #888888
+    border: $content_form_input_hover_border
 
   float: none
   display: inline-block
@@ -57,8 +50,8 @@ $login_form_button_hover_bg_color:  #053242 !default
   @include input-style
   margin: 0
   height: 32px
-  min-width: 310px
-  max-width: 310px
+  min-width: $content_from_input_width + 10
+  max-width: $content_from_input_width + 10
   padding: 0 0 0 10px
 
 @mixin label-style
@@ -75,9 +68,9 @@ $login_form_button_hover_bg_color:  #053242 !default
 
 #login-form form, #work_package-form, #update #work_package-form
   padding: 30px 20px
-  background-color: $login_form_bg_color
+  background-color: $content_form_bg_color
   display: block
-  border: $login_form_border
+  border: $content_form_border
 
   div.attribute_wrapper
     position: relative
@@ -174,7 +167,7 @@ $login_form_button_hover_bg_color:  #053242 !default
 
 hr.form_separator
   border: 0
-  border-bottom: 1px solid #DDDDDD
+  border-bottom: 1px solid $content_form_separator_color
   margin: 0 0 30px
   background: none
 
