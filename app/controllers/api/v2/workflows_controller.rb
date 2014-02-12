@@ -42,6 +42,9 @@ module Api
       def index
         workflows = ::Workflow.where(type_id: @project.types.collect(&:id),
                                      role_id: User.current.roles(@project).collect(&:id))
+                              .select("type_id, old_status_id, new_status_id, assignee, author")
+                              .group("type_id, old_status_id, new_status_id")
+
         workflows_by_type_and_old_status = workflows.group_by { |w| w.type_id }.each_with_object({}) do |kv, h|
           h[kv[0]] = kv[1].group_by { |w| w.old_status_id }
         end
