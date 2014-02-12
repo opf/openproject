@@ -35,7 +35,10 @@ module Api
 
       Transition = Struct.new(:new_status_id, :scope)
 
-      before_filter :find_project_by_project_id
+      skip_before_filter :require_admin, only: :index
+
+      before_filter :find_project_by_project_id,
+                    :require_permissions
 
       accept_key_auth :index
 
