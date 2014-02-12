@@ -45,7 +45,7 @@ class CreateTimelinesPlanningElementTypes < ActiveRecord::Migration
     end
 
     add_index :timelines_planning_element_types, :color_id
-    add_index :timelines_planning_element_types, :project_type_id
+    add_index :timelines_planning_element_types, :project_type_id, :name => "idx_tlpet"
   end
 
   def self.down

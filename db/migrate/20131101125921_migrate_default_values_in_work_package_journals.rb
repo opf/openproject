@@ -33,13 +33,9 @@ class MigrateDefaultValuesInWorkPackageJournals < ActiveRecord::Migration
   include Migration::Utils
 
   def up
-
-    raise "This migration does not support your database!" unless (postgres? || mysql?)
-
     journal_fields.each do |field|
       migrate_field field
     end
-
   end
 
   def down
