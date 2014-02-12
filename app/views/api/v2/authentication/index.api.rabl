@@ -25,7 +25,5 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-object :none
-node :authorization do
-  {authorized: true}
-end
+object @authorization => :authorization
+attributes :authorized, :authorized_user_id

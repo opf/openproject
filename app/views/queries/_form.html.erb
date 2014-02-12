@@ -31,56 +31,67 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= hidden_field_tag 'confirm', 1 %>
 
 <div class="box">
-<div class="tabular">
-<p>
-  <%= label_tag :query_name, Query.human_attribute_name(:name) %>
-  <%= text_field 'query', 'name', :size => 80 %>
-</p>
-<% if query.any_summable_columns? %>
-<p>
-  <%= label_tag :display_sums, l(:label_display_sums) %>
-  <%= check_box 'query', 'display_sums' %>
-</p>
-<% end %>
 
-<%= call_hook(:view_query_form_top, :query => query) %>
+  <div class="tabular">
+    <p>
+      <%= label :query, :name %>
+      <%= text_field 'query', 'name', size: 80 %>
+    </p>
+    <% if query.any_summable_columns? %>
+    <p>
+      <%= label :query, :display_sums %>
+      <%= check_box 'query', 'display_sums' %>
+    </p>
+    <% end %>
 
-<% if User.current.admin? || User.current.allowed_to?(:manage_public_queries, @project) %>
-<p><label for="query_is_public"><%= Query.human_attribute_name(:is_public) %></label>
-<%= check_box 'query', 'is_public',
-      :onchange => (User.current.admin? ? nil : 'if (this.checked) {$("query_is_for_all").checked = false; $("query_is_for_all").disabled = true;} else {$("query_is_for_all").disabled = false;}') %></p>
-<% end %>
+    <%= call_hook(:view_query_form_top, query: query) %>
 
-<p><label for="query_is_for_all"><%= Query.human_attribute_name(:is_for_all) %></label>
-<%= check_box_tag 'query_is_for_all', 1, @query.project.nil?,
-      :disabled => (!@query.new_record? && (@query.project.nil? || (@query.is_public? && !User.current.admin?))) %></p>
+    <% if User.current.admin? || User.current.allowed_to?(:manage_public_queries, @project) %>
+      <p>
+        <%= label :query, :is_public %>
+        <%= check_box :query, :is_public,
+            onchange: (User.current.admin? ? nil : 'if (this.checked) {$("query_is_for_all").checked = false; $("query_is_for_all").disabled = true;} else {$("query_is_for_all").disabled = false;}') %>
+      </p>
+    <% end %>
 
-<p><label for="query_default_columns"><%=l(:label_default_columns)%></label>
-<%= check_box_tag 'default_columns', 1, @query.has_default_columns?, :id => 'query_default_columns',
-      :onclick => 'if (this.checked) {Element.hide("columns")} else {Element.show("columns")}' %></p>
+    <p>
+      <%= label :query, :is_for_all %>
+      <%= check_box_tag 'query_is_for_all', 1, @query.project.nil?,
+          disabled: (!@query.new_record? && (@query.project.nil? || (@query.is_public? && !User.current.admin?))) %>
+    </p>
 
-<p><label for="query_group_by"><%= Query.human_attribute_name(:group_by) %></label>
-<%= select 'query', 'group_by', @query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, :include_blank => true %></p>
-</div>
+    <p>
+      <%= label :query, :default_columns %>
+      <%= check_box_tag 'default_columns', 1, @query.has_default_columns?, id: 'query_default_columns',
+          onclick: 'if (this.checked) {Element.hide("columns")} else {Element.show("columns")}' %>
+    </p>
 
-<fieldset><legend><%= l(:label_filter_plural) %></legend>
-<%= render :partial => 'queries/filters', :locals => {:query => query}%>
-</fieldset>
+    <p>
+      <%= label :query, :group_by %>
+      <%= select 'query', 'group_by', @query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, include_blank: true %>
+    </p>
+  </div>
 
-<fieldset><legend><%= l(:label_sort) %></legend>
-<% 3.times do |i| %>
-<%= i+1 %>:
-<%= label_tag "query_sort_criteria_attribute_" + i.to_s, l(:description_query_sort_criteria_attribute), :class => "hidden-for-sighted" %>
-<%= select_tag("query[sort_criteria][#{i}][]", options_for_select([[]] + query.available_columns.select(&:sortable?).collect {|column| [column.caption, column.name.to_s]}, @query.sort_criteria_key(i)), :id => "query_sort_criteria_attribute_" + i.to_s)%>
-<%= label_tag "query_sort_criteria_direction_" + i.to_s, l(:description_query_sort_criteria_direction), :class => "hidden-for-sighted" %>
-<%= select_tag("query[sort_criteria][#{i}][]", options_for_select([[], [l(:label_ascending), 'asc'], [l(:label_descending), 'desc']], @query.sort_criteria_order(i)), :id => "query_sort_criteria_direction_" + i.to_s) %>
-<br />
-<% end %>
-</fieldset>
+  <fieldset>
+    <legend><%= l(:label_filter_plural) %></legend>
+    <%= render partial: 'queries/filters', locals: {query: query}%>
+  </fieldset>
 
-<%= content_tag 'fieldset', :id => 'columns', :style => (query.has_default_columns? ? 'display:none;' : nil) do %>
-<legend><%= Query.human_attribute_name(:column_names) %></legend>
-<%= render :partial => 'queries/columns', :locals => {:query => query}%>
-<% end %>
+  <fieldset>
+    <legend><%= l(:label_sort) %></legend>
+    <% 3.times do |i| %>
+      <%= i+1 %>:
+      <%= label_tag "query_sort_criteria_attribute_" + i.to_s, l(:description_query_sort_criteria_attribute), class: 'hidden-for-sighted' %>
+      <%= select_tag("query[sort_criteria][#{i}][]", options_for_select([[]] + query.available_columns.select(&:sortable?).collect {|column| [column.caption, column.name.to_s]}, @query.sort_criteria_key(i)), id: "query_sort_criteria_attribute_#{i}")%>
+      <%= label_tag "query_sort_criteria_direction_" + i.to_s, l(:description_query_sort_criteria_direction), class: 'hidden-for-sighted' %>
+      <%= select_tag("query[sort_criteria][#{i}][]", options_for_select([[], [l(:label_ascending), 'asc'], [l(:label_descending), 'desc']], @query.sort_criteria_order(i)), id: "query_sort_criteria_direction_#{i}") %>
+      <br />
+    <% end %>
+  </fieldset>
+
+  <%= content_tag 'fieldset', id: 'columns', style: (query.has_default_columns? ? 'display:none;' : nil) do %>
+    <legend><%= Query.human_attribute_name(:column_names) %></legend>
+    <%= render partial: 'queries/columns', locals: {query: query}%>
+  <% end %>
 
 </div>

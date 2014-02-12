@@ -78,6 +78,7 @@ OpenProject::Application.routes.draw do
       resources :reported_project_statuses
       resources :statuses, :only => [:index, :show]
       resources :timelines
+      resources :work_package_priorities, only: [:index]
 
       resources :projects do
         resources :planning_elements
@@ -93,6 +94,7 @@ OpenProject::Application.routes.draw do
         member do
           get :planning_element_custom_fields
         end
+        resources :workflows, only: [:index]
       end
 
       resources :custom_fields
@@ -116,6 +118,11 @@ OpenProject::Application.routes.draw do
   match '/help/:ctrl/:page' => 'help#index'
 
   resources :types
+  resources :statuses, :except => :show do
+    collection do
+      post 'update_work_package_done_ratio'
+    end
+  end
   resources :custom_fields, :except => :show
   match "(projects/:project_id)/search" => 'search#index', :as => "search"
 

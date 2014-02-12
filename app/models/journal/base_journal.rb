@@ -36,11 +36,11 @@ class Journal::BaseJournal < ActiveRecord::Base
     attributes.symbolize_keys.select{|k,_| self.class.journaled_attributes.include? k}
   end
 
-private
-
   def self.journaled_attributes
     @journaled_attributes ||= column_names.map{ |n| n.to_sym} - excluded_attributes
   end
+
+private
 
   def self.column_names
     db_columns(table_name).map(&:name)

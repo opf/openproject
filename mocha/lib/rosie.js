@@ -79,11 +79,19 @@ Factory.prototype = {
 };
 
 Factory.factories = {};
+Factory.builds = {};
 
 Factory.define = function(name, constructor) {
   var factory = new Factory(constructor);
+  if (this.factories[name]) {
+    console.log("Warning: Overwriting Factory for " + name);
+  }
   this.factories[name] = factory;
   return factory;
+};
+
+Factory.all = function (name) {
+  return this.builds[name] || [];
 };
 
 Factory.build = function(name, attrs, options) {
@@ -91,12 +99,17 @@ Factory.build = function(name, attrs, options) {
   for(var i = 0; i < this.factories[name].callbacks.length; i++) {
       this.factories[name].callbacks[i](obj, options);
   }
+  this.builds[name] = this.builds[name] || [];
+  this.builds[name].push(obj);
   return obj;
 };
 
 Factory.buildList = function(name, size, attrs, options) {
   var objs = [];
   for(var i = 0; i < size; i++) {
+    if (i%10000 === 9999) {
+      console.log(i + " builds done");
+    }
     objs.push(Factory.build(name, attrs, options));
   }
   return objs;

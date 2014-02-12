@@ -45,7 +45,7 @@ Feature: Showing Projects
 
   Scenario: Calendar link in the 'tickets box' should work when calendar is activated
     When I go to the overview page of the project "omicronpersei8"
-    Then I should see "Calendar" within "#content .issues.box"
-    When I click on "Calendar" within "#content .issues.box"
+    Then I should see "Calendar" within "#content .issues.content-box"
+    When I click on "Calendar" within "#content .issues.content-box"
     Then I should see "Calendar" within "#content > h2"
     And I should see "Sunday" within "#content > table.cal"

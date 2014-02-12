@@ -38,6 +38,10 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= csrf_meta_tags %>
 <%= favicon_link_tag 'favicon.ico' %>
 <%= stylesheet_link_tag current_theme.stylesheet_manifest, :media => "all" %>
+<% if User.current.impaired? && accessibility_css_enabled? %>
+  <%= stylesheet_link_tag 'accessibility' %>
+<% end %>
+
 <%= javascript_include_tag 'application' %>
 <!-- user specific tags -->
 <%= user_specific_javascript_includes %>

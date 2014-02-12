@@ -291,25 +291,21 @@ Then /^the "([^"]*)" field should have no error$/ do |field|
   end
 end
 
-Then /^the "([^"]*)" checkbox(?: within (.*))? should be checked$/ do |label, parent|
-  with_scope(parent) do
-    field_checked = find_field(label)['checked']
-    if field_checked.respond_to? :should
-      field_checked.should be_true
-    else
-      assert field_checked
-    end
+Then /^the (hidden )?"([^"]*)" checkbox should be checked$/ do |hidden, label |
+  field_checked = find_field(label, :visible => hidden.nil?)['checked']
+  if field_checked.respond_to? :should
+    field_checked.should be_true
+  else
+    assert field_checked
   end
 end
 
-Then /^the "([^"]*)" checkbox(?: within (.*))? should not be checked$/ do |label, parent|
-  with_scope(parent) do
-    field_checked = find_field(label)['checked']
-    if field_checked.respond_to? :should
-      field_checked.should be_false
-    else
-      assert !field_checked
-    end
+Then /^the (hidden )?"([^"]*)" checkbox should not be checked$/ do |hidden, label |
+  field_checked = find_field(label, :visible => hidden.nil?)['checked']
+  if field_checked.respond_to? :should
+    field_checked.should be_false
+  else
+    assert !field_checked
   end
 end
 
@@ -394,26 +390,17 @@ Then /^there should not be a "(.+)" field$/ do |fieldname|
 end
 
 Then /^there should be a "(.+)" button$/ do |button_label|
-  if defined?(Spec::Rails::Matchers)
-    page.should have_xpath("//input[@value='#{button_label}']")
-  else
-    raise NotImplementedError, "Only Matcher implemented"
-  end
+  page.should have_xpath("//input[@value='#{button_label}']")
 end
 
 Then /^the "([^\"]*)" select(?: within "([^\"]*)")? should have the following options:$/ do |field, selector, option_table|
-  options_expected = option_table.raw.collect(&:to_s)
+  options_expected = option_table.raw.flatten
 
   with_scope(selector) do
 
     field = find_field(field)
     options_actual = field.all('option').collect(&:text)
-
-    if defined?(Spec::Rails::Matchers)
-      options_actual.should =~ options_expected
-    else
-      raise NotImplementedError, "Only Matcher implemented"
-    end
+    options_actual.should =~ options_expected
   end
 end
 

@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% if @users_by_role.any? %>
-  <div class="members box">
+  <div class="members content-box">
     <h3><%=l(:label_member_plural)%></h3>
     <p>
       <% @users_by_role.sort.each do |role, users| %>

@@ -40,7 +40,7 @@ Then /^the "(.+)" drop-down should have the following options (enabled|disabled)
   end
 end
 
-Then /^the "(.+)" drop-down(?: within "([^\"]*)")? should have "([^\"]*)" selected$/ do |field_name, selector, option_name|
+Then /^the "(.+)" drop-down(?: inside "([^\"]*)")? should have "([^\"]*)" selected$/ do |field_name, selector, option_name|
   with_scope(selector) do
     find_field(field_name).find('option[selected]').text.should == option_name
   end

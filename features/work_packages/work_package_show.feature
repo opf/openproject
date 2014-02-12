@@ -130,17 +130,17 @@ Feature: Viewing a work package
   @javascript
   Scenario: User adds herself as watcher to an issue
     When I go to the page of the work package "issue1"
-    Then I should see "Watch" within "#content > .action_menu_main"
-    When I click "Watch" within "#content > .action_menu_main"
-    Then I should see "Unwatch" within "#content > .action_menu_main"
+    Then I should see "Watch" within "#content > .action_menu_specific"
+    When I click "Watch" within "#content > .action_menu_specific"
+    Then I should see "Unwatch" within "#content > .action_menu_specific"
 
   @javascript
   Scenario: User removes herself as watcher from an issue
     Given user is already watching "issue1"
     When I go to the page of the work package "issue1"
-    Then I should see "Unwatch" within "#content > .action_menu_main"
-    When I click "Unwatch" within "#content > .action_menu_main"
-    Then I should see "Watch" within "#content > .action_menu_main"
+    Then I should see "Unwatch" within "#content > .action_menu_specific"
+    When I click "Unwatch" within "#content > .action_menu_specific"
+    Then I should see "Watch" within "#content > .action_menu_specific"
 
   @javascript
   Scenario: Log time leads to time entry creation page for issues

@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% html_title l("timelines.project_menu.timelines") %>
 
-<% content_for :action_menu_main do %>
+<% content_for :action_menu_specific do %>
 
   <%= li_unless_nil(link_to_if_authorized(l('timelines.new_timeline'),
                                           {:controller => '/timelines', :action => 'new', :project_id => @project},
@@ -54,6 +54,8 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <h2><%= @timeline.name %></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
 
 <%= form_tag :id => "specialForm" do %>
   <%= label_tag 'timeline_select', l("timelines.timeline") %>

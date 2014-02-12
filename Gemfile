@@ -26,6 +26,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.5.0')
+  abort <<-Message
+
+  *****************************************************
+  *                                                   *
+  *   OpenProject requires bundler version >= 1.5.0   *
+  *                                                   *
+  *   Please install bundler with:                    *
+  *                                                   *
+  *   gem install bundler                             *
+  *                                                   *
+  *****************************************************
+
+  Message
+end
+
 source 'https://rubygems.org'
 
 gem "rails", "~> 3.2.16"
@@ -81,7 +97,7 @@ gem 'daemons'
 
 gem 'rack-protection'
 
-gem 'syck', :platforms => [:ruby_20, :mingw_20], :require => false
+gem 'syck', :platforms => [:ruby_20, :mingw_20, :ruby_21, :mingw_21], :require => false
 
 group :production do
   # we use dalli as standard memcache client
@@ -113,7 +129,6 @@ gem "i18n-js", :git => "https://github.com/fnando/i18n-js.git", :ref => '8801f8d
 group :test do
   gem 'shoulda'
   gem 'object-daddy', '~> 1.1.0'
-  gem 'mocha', '~> 0.13.1', :require => false
   gem "launchy", "~> 2.3.0"
   gem "factory_girl_rails", "~> 4.0"
   gem 'cucumber-rails', :require => false
@@ -198,7 +213,7 @@ platforms :mri, :mingw do
   end
 
   group :postgres do
-    gem 'pg'
+    gem 'pg', "~> 0.17.1"
   end
 
   group :sqlite do

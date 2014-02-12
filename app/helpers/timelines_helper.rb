@@ -85,10 +85,6 @@ module TimelinesHelper
     ProjectType.all.map { |t| [t.name, t.id] }
   end
 
-  def options_for_responsible(project)
-    project.users.map { |u| [u.name, u.id] }
-  end
-
   def visible_parent_project(project)
     parent = project.parent
 
@@ -269,6 +265,19 @@ module TimelinesHelper
 
   def resolve_with_none_option(const, collection)
     collection
+  end
+
+  def list_to_select_object_with_none(collection)
+    collection = collection.map do |t|
+      {
+        :name => t,
+        :id => t
+      }
+    end
+    collection.unshift({
+      :name => l("timelines.filter.noneElement"),
+      :id => -1
+    })
   end
 
   def internationalized_columns_select_object(collection)

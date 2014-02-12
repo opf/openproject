@@ -104,7 +104,7 @@ module Redmine::Acts::Journalized
 
         initial_changes = {}
 
-        self.attributes.keys.reject{|attribute| self.class.vestal_journals_options[:except].include?(attribute)}.each do |name|
+        JournalManager.journal_class(self.class).journaled_attributes.each do |name|
 
           # Set the current attributes as initial attributes
           # This works as a fallback if no prior change is found

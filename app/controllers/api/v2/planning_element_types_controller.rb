@@ -36,6 +36,8 @@ module Api
       before_filter {|controller| controller.find_optional_project_and_raise_error('types') }
       before_filter :check_project_exists
 
+      accept_key_auth :index, :show
+
       def index
         @types = (@project.nil?) ? Type.all : @project.types
 

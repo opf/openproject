@@ -33,10 +33,15 @@ module QueriesHelper
     Queries::Filter.operators_by_filter_type[filter_type].collect {|o| [l(Queries::Filter.operators[o]), o]}
   end
 
+  def column_locale(column)
+    (column.is_a? QueryCustomFieldColumn) ? column.custom_field.name_locale : nil
+  end
+
   def column_header(column)
     column.sortable ? sort_header_tag(column.name.to_s, :caption => column.caption,
-                                                        :default_order => column.default_order) :
-                      content_tag('th', h(column.caption))
+                                                        :default_order => column.default_order,
+                                                        :lang => column_locale(column))
+                    : content_tag('th', h(column.caption), :lang => column_locale(column))
   end
 
   def column_content(column, issue)

@@ -167,15 +167,15 @@ describe WorkPackage do
     it { should eq(category.assigned_to) }
   end
 
-  describe :assignable_users do
+  describe :assignable_assignees do
     let(:user) { FactoryGirl.build_stubbed(:user) }
 
     context "single user" do
-      before { stub_work_package.project.stub(:assignable_users).and_return([user]) }
+      before { stub_work_package.project.stub(:possible_assignees).and_return([user]) }
 
-      subject { stub_work_package.assignable_users }
+      subject { stub_work_package.assignable_assignees }
 
-      it 'should return all users the project deems to be assignable' do
+      it 'should return all users the project deems to be possible assignees' do
         should include(user)
       end
     end
@@ -189,7 +189,7 @@ describe WorkPackage do
         work_package.project.add_member! group, FactoryGirl.create(:role)
       end
 
-      subject { work_package.assignable_users }
+      subject { work_package.assignable_assignees }
       it { should include(group) }
     end
 
@@ -202,19 +202,34 @@ describe WorkPackage do
         work_package.project.add_member! group, FactoryGirl.create(:role)
       end
 
-      subject { work_package.assignable_users }
+      subject { work_package.assignable_assignees }
       it { should_not include(group) }
     end
 
     context "multiple users" do
       let(:user_2) { FactoryGirl.build_stubbed(:user) }
 
-      before { stub_work_package.project.stub(:assignable_users).and_return([user, user_2]) }
+      before { stub_work_package.project.stub(:assignable_assignees).and_return([user, user_2]) }
 
-      subject { stub_work_package.assignable_users.uniq }
+      subject { stub_work_package.assignable_assignees.uniq }
 
-      it { should eq(stub_work_package.assignable_users) }
+      it { should eq(stub_work_package.assignable_assignees) }
     end
+  end
+
+  describe :assignable_responsibles do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:group) { FactoryGirl.create(:group) }
+
+    before do
+      work_package.project.add_member! user, FactoryGirl.create(:role)
+      work_package.project.add_member! group, FactoryGirl.create(:role)
+    end
+
+    subject { work_package.assignable_responsibles }
+
+    it { should_not include(group) }
+    it { should include(user) }
   end
 
   describe :assignable_versions do
@@ -335,6 +350,18 @@ describe WorkPackage do
         end
 
         context "status changed" do
+          let!(:workflow) { FactoryGirl.create(:workflow,
+                                               old_status: status_closed,
+                                               new_status: status_open,
+                                               type_id: work_package.type_id) }
+          let(:user) { FactoryGirl.create(:user) }
+          let!(:membership) { FactoryGirl.create(:member,
+                                                 user: user,
+                                                 project: work_package.project,
+                                                 roles: [workflow.role]) }
+
+          before { User.stub(:current).and_return(user) }
+
           shared_context "in locked version" do
             before do
               version.status = 'locked'
@@ -661,6 +688,7 @@ describe WorkPackage do
     let(:work_package_1) { FactoryGirl.create(:work_package,
                                               author: user,
                                               assigned_to: user,
+                                              responsible: user,
                                               project: project,
                                               type: type,
                                               priority: priority,
@@ -669,6 +697,7 @@ describe WorkPackage do
     let(:work_package_2) { FactoryGirl.create(:work_package,
                                               author: user_2,
                                               assigned_to: user_2,
+                                              responsible: user_2,
                                               project: project,
                                               type: type_2,
                                               priority: priority_2,
@@ -720,6 +749,12 @@ describe WorkPackage do
 
     context "by assigned to" do
       let(:groups) { WorkPackage.by_assigned_to(project) }
+
+      it_behaves_like "group by"
+    end
+
+    context "by responsible" do
+      let(:groups) { WorkPackage.by_responsible(project) }
 
       it_behaves_like "group by"
     end
@@ -1205,17 +1240,31 @@ describe WorkPackage do
       Status.delete_all
       IssuePriority.delete_all
 
+      @type ||= FactoryGirl.create(:type_feature)
+
       @status_resolved ||= FactoryGirl.create(:status, :name => "Resolved", :is_default => false)
       @status_open ||= FactoryGirl.create(:status, :name => "Open", :is_default => true)
       @status_rejected ||= FactoryGirl.create(:status, :name => "Rejected", :is_default => false)
 
+      role = FactoryGirl.create(:role)
+      FactoryGirl.create(:workflow,
+                         old_status: @status_open,
+                         new_status: @status_resolved,
+                         role: role,
+                         type_id: @type.id)
+      FactoryGirl.create(:workflow,
+                         old_status: @status_resolved,
+                         new_status: @status_rejected,
+                         role: role,
+                         type_id: @type.id)
+
       @priority_low ||= FactoryGirl.create(:priority_low, :is_default => true)
       @priority_high ||= FactoryGirl.create(:priority_high)
-      @type ||= FactoryGirl.create(:type_feature)
       @project ||= FactoryGirl.create(:project_with_types)
 
       @current = FactoryGirl.create(:user, :login => "user1", :mail => "user1@users.com")
       User.stub(:current).and_return(@current)
+      @project.add_member!(@current, role)
 
       @user2 = FactoryGirl.create(:user, :login => "user2", :mail => "user2@users.com")
 
@@ -1296,9 +1345,18 @@ describe WorkPackage do
       let(:child) { FactoryGirl.create(:work_package, :parent => work_package,
                                                       :project => project)}
       let(:closed_status) { FactoryGirl.create(:closed_status) }
+      let!(:workflow) { FactoryGirl.create(:workflow,
+                                           old_status: child.status,
+                                           new_status: closed_status,
+                                           type_id: child.type_id) }
+      let(:user) { FactoryGirl.create(:user,
+                                      member_in_project: project,
+                                      member_through_role: workflow.role) }
 
       before do
         Setting.stub(:work_package_done_ratio).and_return('disabled')
+
+        User.stub(:current).and_return(user)
       end
 
       it 'should not update the work package done_ratio' do
@@ -1352,7 +1410,35 @@ describe WorkPackage do
       # assert that there is only one error
       expect(work_package.errors.size).to eq 1
       expect(work_package.errors_on(:custom_values).size).to eq 1
-	end
+    end
+  end
+
+  describe 'changed_since' do
+    let!(:work_package) do
+      work_package = Timecop.travel(5.hours.ago) do
+        wp = FactoryGirl.create(:work_package)
+        wp.save!
+        wp
+      end
+    end
+
+    describe 'null' do
+      subject { WorkPackage.changed_since(nil) }
+
+      it { expect(subject).to match_array([work_package]) }
+    end
+
+    describe 'now' do
+      subject { WorkPackage.changed_since(DateTime.now) }
+
+      it { expect(subject).to be_empty }
+    end
+
+    describe 'work package update' do
+      subject { WorkPackage.changed_since(work_package.updated_at) }
+
+      it { expect(subject).to match_array([work_package]) }
+    end
   end
 end
 

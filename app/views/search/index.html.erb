@@ -27,6 +27,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<% content_for :header_tags do %>
+  <%= call_hook :search_index_head %>
+<% end %>
+
 <h2><%= l(:label_search) %></h2>
 
 <div class="box">
@@ -59,7 +63,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
     <dl id="search-results">
       <% @results.each do |e| %>
-        <dt class="icon-context <%= e.event_type %>">
+        <dt class="<%= e.event_type %>">
+          <%= icon_wrapper("icon-context icon-#{e.event_type}", e.event_name) %>
           <% if e.project != @project %>
             <span class="project"><%= e.project %></span>
           <% end %>

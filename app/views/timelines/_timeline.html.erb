@@ -43,6 +43,8 @@ See doc/COPYRIGHT.rdoc for more details.
   (function() {
     var i18n = {
     <%= props = ['label_no_data',
+                 'general_text_Yes',
+                 'general_text_No',
                  'timelines.change',
                  'timelines.errors.report_epicfail',
                  'timelines.errors.report_timeout',
@@ -79,6 +81,7 @@ See doc/COPYRIGHT.rdoc for more details.
     };
     var config = jQuery.extend({
       i18n: i18n,
+      timeline_id: '<%= timeline.id %>',
       project_id: '<%= timeline.project.identifier %>',
       url_prefix: '<%= OpenProject::Configuration.rails_relative_url_root %>',
       ui_root: jQuery("#<%= timeline_div_id %>")

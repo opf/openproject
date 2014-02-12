@@ -61,6 +61,28 @@ When (/^I make the planning element "([^"]*?)" vertical for the timeline "([^"]*
   page.execute_script("jQuery('#content form').submit()")
 end
 
+When(/^I filter for work packages with custom boolean field "(.*?)" set to "(.*?)"$/) do |field_name, value|
+   steps %Q{
+    When I edit the settings of the current timeline
+  }
+
+  custom_field = InstanceFinder.find(WorkPackageCustomField, field_name)
+
+  page.execute_script("jQuery('#timeline_options_custom_fields_#{custom_field.id}').val('#{value}')")
+  page.execute_script("jQuery('#content form').submit()")
+end
+
+When(/^I filter for work packages with custom list field "(.*?)" set to "(.*?)"$/) do |field_name, value|
+   steps %Q{
+    When I edit the settings of the current timeline
+  }
+
+  custom_field = InstanceFinder.find(WorkPackageCustomField, field_name)
+
+  page.execute_script("jQuery('#timeline_options_custom_fields_#{custom_field.id}_').val('#{value}')")
+  page.execute_script("jQuery('#content form').submit()")
+end
+
 When (/^I edit the settings of the current timeline$/) do
   timeline_name = @timeline_name
   project_name = @project.name
@@ -126,6 +148,18 @@ When (/^I show only work packages which have the type "(.*?)"$/) do |type|
     jQuery('#timeline_options_planning_element_types').val('#{type.id}')
     jQuery('#content form').submit()
   JavaScript
+end
+
+When (/^I show only projects which have responsible set to "(.*?)"$/) do |responsible|
+  steps %Q{
+    When I edit the settings of the current timeline
+  }
+
+  page.should have_selector("#timeline_options_project_responsibles", :visible => false)
+
+  responsible = User.find_by_login(responsible)
+  page.execute_script("jQuery('#timeline_options_project_responsibles').val('#{responsible.id}')")
+  page.execute_script("jQuery('#content form').submit()")  
 end
 
 When (/^I show only projects which have a planning element which lies between "(.*?)" and "(.*?)" and has the type "(.*?)"$/) do |start_date, due_date, type|

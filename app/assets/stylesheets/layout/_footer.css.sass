@@ -28,27 +28,23 @@
 @import global/all
 
 #footer
-  font-size: 0.9em
-  color: #FFF
   z-index: 20
   text-align: right
   width: 100%
   position: absolute
-  height: 55px
+  height: $footer_height
   padding: 0
   right: 0
   clear: both
-  background-color: #3493B3
+  background-color: $footer_bg_color
   bottom: 0
-  font-family: 'LatoRegular', 'Lucida Grande', Helvetica, Arial, sans-serif
+  @include default-font-normal($footer_font_color)
 
   .footer-content
     margin: 0px 15px 0px 0
-    height: 55px
-    line-height: 55px
+    height: $footer_content_height
+    line-height: $footer_content_line_height
     a
-      color: #FFFFFF
       text-decoration: underline
-      font-family: 'LatoBold', 'Lucida Grande', Helvetica, Arial, sans-serif
-      font-weight: normal
+      @include default-font-normal($footer_content_link_color)
 

@@ -28,6 +28,6 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%= labelled_tabular_form_for @group, :url => group_path(@group), :html => {:method => :put}, :as => :group do |f| %>
-<%= render :partial => 'form', :locals => { :f => f } %>
-<%= submit_tag l(:button_save) %>
+  <%= render :partial => 'form', :locals => { :f => f } %>
+  <%= submit_tag l(:button_save) %>
 <% end %>

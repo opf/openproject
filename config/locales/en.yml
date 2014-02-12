@@ -220,6 +220,8 @@ en:
               cannot_be_in_another_project: "cannot be in another project"
               not_a_valid_parent: "is invaild"
               does_not_exist: "does not exist"
+            status_id:
+              status_transition_invalid: "no valid transition exists from old to new status for the current user roles"
         user:
           attributes:
             password:
@@ -231,6 +233,9 @@ en:
               reused:
                 one: "has been used before. Please choose one that is different from your last one."
                 other: "has been used before. Please choose one that is different from your last %{count}."
+        member:
+          principal_blank: "Please choose at least one user or group."
+          role_blank: "Please choose at least one role."
       template:
         body: "Please check the following fields:"
         header:
@@ -245,7 +250,7 @@ en:
       group: "Group"
       issue: "Issue"
       category: "Category"
-      status: "Issue status"
+      status: "Work package status"
       member: "Member"
       news: "News"
       project: "Project"
@@ -280,7 +285,9 @@ en:
     created_at: "Created on"
     created_on: "Created on"
     custom_values: "Custom fields"
+    default_columns: "Default columns"
     description: "Description"
+    display_sums: "Display Sums"
     due_date: "Due date"
     estimated_hours: "Estimated time"
     firstname: "First name"
@@ -513,6 +520,17 @@ en:
   error_menu_item_not_created: Menu item could not be added
   error_menu_item_not_saved: Menu item could not be saved
 
+  events:
+    changeset: 'Changeset edited'
+    message: Message edited
+    news: News
+    reply: Replied
+    time_entry: 'Timelog edited'
+    wiki_page: 'Wiki page edited'
+    work_package_closed: 'Work Package closed'
+    work_package_edit: 'Work Package edited'
+    work_package_note: 'Work Package note added'
+
   general_csv_decimal_separator: "."
   general_csv_encoding: "ISO-8859-1"
   general_csv_separator: ","
@@ -565,6 +583,9 @@ en:
     filter:
       noneElement: "(none)"
       noneSelection: "(none)"
+    label_collapse_all: "Collapse all"
+    label_expand_all: "Expand all"
+    label_menu_item_toggle: "Show/hide submenu items"
 
   label_account: "Account"
   label_activity: "Activity"
@@ -626,6 +647,8 @@ en:
   label_chronological_order: "In chronological order"
   label_close_versions: "Close completed versions"
   label_closed_work_packages: "closed"
+  label_collapse: "Collapse"
+  label_collapse_all: "Collapse all"
   label_comment_add: "Add a comment"
   label_comment_added: "Comment added"
   label_comment_delete: "Delete comments"
@@ -654,7 +677,6 @@ en:
   label_date_to: "To"
   label_day_plural: "days"
   label_default: "Default"
-  label_default_columns: "Default columns"
   label_deleted: "deleted"
   label_deleted_custom_field: "(deleted custom field)"
   label_descending: "Descending"
@@ -665,7 +687,6 @@ en:
   label_disabled: "disabled"
   label_display: "Display"
   label_display_per_page: "Per page: %{value}"
-  label_display_sums: "Display Sums"
   label_display_used_statuses_only: "Only display statuses that are used by this type"
   label_download: "%{count} Download"
   label_download_plural: "%{count} Downloads"
@@ -675,11 +696,13 @@ en:
   label_enable_multi_select: "Toggle multiselect"
   label_end_to_end: "end to end"
   label_end_to_start: "end to start"
-  label_enumeration_new: "New value"
+  label_enumeration_new: "New enumeration value"
   label_enumerations: "Enumerations"
   label_environment: "Environment"
   label_equals: "is"
   label_example: "Example"
+  label_expand: "Expand"
+  label_expand_all: "Expand all"
   label_export_to: "Also available in:"
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
@@ -719,6 +742,7 @@ en:
   label_work_package_category_plural: "Work package categories"
   label_work_package_hierarchy: "Work package hierarchy"
   label_work_package_new: "New work package"
+  label_work_package_edit: "Edit work package %{name}"
   label_work_package_plural: "Work packages"
   label_work_package_status_new: "New status"
   label_work_package_status_plural: "Work package statuses"
@@ -727,6 +751,7 @@ en:
   label_work_package_view_all: "View all work packages"
   label_work_package_view_all_assigned_to_me: "View all work packages assigned to me"
   label_work_package_view_all_reported_by_me: "View all work packages reported by me"
+  label_work_package_view_all_responsible_for: "View all work packages I am responsible for"
   label_work_package_view_all_watched: "View all watched work packages"
   label_work_package_watchers: "Watchers"
   label_work_packages_by: "Work packages by %{value}"
@@ -784,6 +809,7 @@ en:
   label_news_comment_added: "Comment added to a news"
   label_news_latest: "Latest news"
   label_news_new: "Add news"
+  label_news_edit: "Edit news"
   label_news_plural: "News"
   label_news_view_all: "View all news"
   label_next: "Next"
@@ -855,12 +881,14 @@ en:
   label_reporting_plural: "Reportings"
   label_repository: "Repository"
   label_repository_plural: "Repositories"
+  label_responsible_for_work_packages: "Work packages I am responsible for"
   label_result_plural: "Results"
   label_reverse_chronological_order: "In reverse chronological order"
   label_revision: "Revision"
   label_revision_id: "Revision %{value}"
   label_revision_plural: "Revisions"
   label_roadmap: "Roadmap"
+  label_roadmap_edit: "Edit roadmap %{name}"
   label_roadmap_due_in: "Due in %{value}"
   label_roadmap_no_work_packages: "No work packages for this version"
   label_roadmap_overdue: "%{value} late"
@@ -941,6 +969,7 @@ en:
   label_week: "Week"
   label_wiki_content_added: "Wiki page added"
   label_wiki_content_updated: "Wiki page updated"
+  label_wiki_toc: "Table of Contents"
   label_wiki_dont_show_menu_item: "Do not show this wikipage in project navigation"
   label_wiki_edit: "Wiki edit"
   label_wiki_edit_plural: "Wiki edits"
@@ -955,6 +984,7 @@ en:
   label_work_package_plural: "Work packages"
   label_work_package_new: "New work package"
   label_workflow: "Workflow"
+  label_workflow_plural: "Workflows"
   label_workflow_summary: "Summary"
   label_x_closed_work_packages_abbr:
     one: "1 closed"
@@ -1095,6 +1125,7 @@ en:
   permission_change_wiki_parent_page: "Change parent wiki page"
   permission_comment_news: "Comment news"
   permission_commit_access: "Commit access"
+  permission_copy_projects: "Copy projects"
   permission_delete_work_package_watchers: "Delete watchers"
   permission_delete_work_packages: "Delete work packages"
   permission_delete_messages: "Delete messages"
@@ -1118,6 +1149,7 @@ en:
   permission_edit_wiki_pages: "Edit wiki pages"
   permission_export_work_packages: "Export Work Packages"
   permission_export_wiki_pages: "Export wiki pages"
+  permission_list_attachments: "List attachments"
   permission_log_time: "Log spent time"
   permission_manage_boards: "Manage forums"
   permission_manage_categories: "Manage work package categories"
@@ -1130,6 +1162,7 @@ en:
   permission_manage_subtasks: "Manage subtasks"
   permission_manage_versions: "Manage versions"
   permission_manage_wiki: "Manage wiki"
+  permission_manage_wiki_menu: "Manage wiki menu"
   permission_move_work_packages: "Move work packages"
   permission_protect_wiki_pages: "Protect wiki pages"
   permission_rename_wiki_pages: "Rename wiki pages"
@@ -1240,6 +1273,7 @@ en:
   setting_time_format: "Time format"
   setting_ui_theme: "Theme"
   setting_user_may_override_theme: "Users may choose their own themes"
+  setting_accessibility_mode_for_anonymous: "Enable accessibility mode for anonymous users"
   setting_user_format: "Users display format"
   setting_users_deletable_by_admins: "User accounts deletable by admins"
   setting_users_deletable_by_self: "Users allowed to delete their accounts"
@@ -1346,7 +1380,9 @@ en:
 
   timelines:
     admin_menu:
+      color: "Color"
       colors: "Colors"
+      project_type: "Project type"
       project_types: "Project types"
     project_menu:
       planning_elements: "Planning elements"
@@ -1374,6 +1410,7 @@ en:
     edit_project_type: "Edit project type"
     edit_thing: "Edit"
     edit_timeline: "Edit timeline report"
+    delete_timeline: "Delete timeline report"
     empty: "(empty)"
     enable_type_in_project: 'Enable type "%{type}"'
     end: "End"
@@ -1432,10 +1469,11 @@ en:
       hide_chart: "Hide chart"
       noneElement: "(none)"
       noneSelection: "(none)"
-      outline: "Intitial outline expansion"
+      outline: "Initial outline expansion"
       parent: "Show subprojects of"
       work_package_filters: "Filter work packages"
       work_package_responsible: "Show work packages with responsible"
+      work_package_assignee: "Show work packages with assignee"
       types: "Show types"
       status: "Show status"
 

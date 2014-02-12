@@ -10,11 +10,14 @@ describe('Timeline', function () {
 
 describe('Planning Element', function(){
   before(function(){
-    this.peEmpty = Factory.build("PlanningElement");
+    this.peEmpty = Factory.build("PlanningElement", {
+      timeline: Factory.build("Timeline"),
+    });
 
     this.peWithDates = Factory.build("PlanningElement", {
+      timeline: Factory.build("Timeline"),
       "start_date": "2012-11-11",
-      "due_date": "2012-11-10"
+      "due_date": "2012-11-12"
     });
   });
 
@@ -44,14 +47,14 @@ describe('Planning Element', function(){
       });
 
       this.peWithChildren = Factory.build("PlanningElement", {
-        planning_elements: [this.peWithDates, this.peEmpty, this.peWithNameC, this.peWithNameA, this.peWithNameB]
+        planning_elements: [this.peWithDates, this.peWithNameC, this.peWithNameA, this.peWithNameB]
       });
     });
 
     describe('getChildren', function () {
       it('should return sorted children', function () {
         var children = this.peWithChildren.getChildren();
-        expect(children).to.deep.equal([this.peEmpty, this.peWithNameA, this.peWithNameB, this.peWithNameC, this.peWithDates]);
+        expect(children).to.satisfy(objectsortation(this.peWithNameA, this.peWithNameB, this.peWithNameC, this.peWithDates));
       });
 
       it('should return empty list', function () {
@@ -102,9 +105,19 @@ describe('Planning Element', function(){
     });
 
     describe('hasChildren', function () {
-      it('should return false for hasChildren if children list undefined');
-      it('should return false for hasChildren if children list empty');
-      it('should return true for hasChildren if children exist');
+      it('should return false for hasChildren if children list undefined', function () {
+        expect(this.peEmpty.hasChildren()).to.be.falsy;
+      });
+      it('should return false for hasChildren if children list empty', function () {
+        var pe = Factory.build("PlanningElement", {
+          planning_elements: []
+        });
+
+        expect(pe.hasChildren()).to.be.falsy;
+      });
+      it('should return true for hasChildren if children exist', function () {
+        expect(this.peWithChildren.hasChildren()).to.be.truthy;
+      });
     });
   });
 
@@ -132,16 +145,32 @@ describe('Planning Element', function(){
   });
 
   describe('responsible', function () {
-    it('should be null by default');
+    it('should be null by default', function () {
+      expect(this.peEmpty.getResponsible()).to.be.null;
+    });
     it('should get the responsible');
     it('should allow get of responsible name');
     it('should return undefined if responsible or responsible name are not set');
   });
 
-  describe('assignee', function () {
-    it('should be null by default');
-    it('should allow get of assignee name');
-    it('should return undefined if assignee or assignee name are not set');
+  describe('assignee name', function () {
+    it('should be undefined by default', function () {
+      expect(this.peEmpty.getAssignedName()).to.be.undefined;
+    });
+    it('should allow get of assignee name', function () {
+      var pe = Factory.build("PlanningElement", {
+        assigned_to: {
+          name: "Hannibal"
+        }
+      });
+      expect(pe.getAssignedName()).to.equal("Hannibal");
+    });
+    it('should return undefined if invalid assigned to object', function () {
+      var pe = Factory.build("PlanningElement", {
+        assigned_to: {}
+      });
+      expect(pe.getAssignedName()).to.be.undefined;
+    });
   });
 
   describe('historical', function () {
@@ -161,26 +190,106 @@ describe('Planning Element', function(){
 
       expect(peWithHistorical.hasAlternateDates()).to.be.true;
       expect(peWithHistorical.alternate_start().getTime()).to.equal(1352588400*1000);
-      expect(peWithHistorical.alternate_end().getTime()).to.equal(1352502000*1000);
+      expect(peWithHistorical.alternate_end().getTime()).to.equal(1352674800*1000);
     });
   });
 
   describe('getAttribute', function () {
-    it('should return object value of object.parameter');
-    it('should return function value of object.parameter');
+    it('should return object value of object.parameter', function () {
+      var pe = Factory.build("PlanningElement", {test: "5829468972w4"});
+      expect(pe.getAttribute("test")).to.equal("5829468972w4");
+    });
+    it('should return function value of object.parameter', function () {
+      var pe = Factory.build("PlanningElement", {project: "4z3t078nzg098"});
+      expect(pe.getAttribute("getProject")).to.equal("4z3t078nzg098");
+    });
   });
 
   describe('horizontalBoundsForDates', function () {
-    it('should return 0 for x and width if no start&end date');
-    it('should return correct x and width if both dates are set');
-    it('should return x and width if start is not set');
-    it('should return x and width if end is not set');
+    function expectBoundary(boundary, x, w, end) {
+      expect(boundary.x).to.equal(x);
+      expect(boundary.w).to.equal(w);
+      expect(boundary.end()).to.equal(end);
+    }
+
+    var beginning = new Date("2012-11-13");
+    var scale = {day: 1};
+
+    it('should return 0 for x and width if no start&end date', function () {
+      var boundary = this.peEmpty.getHorizontalBounds();
+      expect(boundary.x).to.equal(0);
+      expect(boundary.w).to.equal(0);
+      expect(boundary.end()).to.equal(0);
+    });
+    it('should return zero x if beginning and start are the same', function () {
+      var absolute_beginning = this.peWithDates.start();
+
+      var boundary = this.peWithDates.getHorizontalBounds(scale, absolute_beginning);
+      expect(boundary.x).to.equal(0);
+    });
+    it('should return width of 1 day if start and end are equal', function () {
+      var sameDatePE = Factory.build("PlanningElement", {
+        timeline: Factory.build("Timeline"),
+        start_date: "2012-11-11",
+        due_date: "2012-11-11"
+      });
+
+      var boundary = sameDatePE.getHorizontalBounds(scale, beginning);
+
+      expect(boundary.w).to.equal(1);
+    });
+    it('should return width of difference+1 if start and end are not the same', function () {
+      var differentDatePE = Factory.build("PlanningElement", {
+        timeline: Factory.build("Timeline"),
+        start_date: "2012-11-11",
+        due_date: "2012-11-15"
+      });
+
+      var boundary = differentDatePE.getHorizontalBounds(scale, beginning);
+
+      expect(boundary.w).to.equal(5);
+    });
+    it('should multiply with scale', function () {
+      var scale = {day: 5};
+
+      var differentDatePE = Factory.build("PlanningElement", {
+        timeline: Factory.build("Timeline"),
+        start_date: "2012-11-19",
+        due_date: "2012-11-23"
+      });
+
+      var boundary = differentDatePE.getHorizontalBounds(scale, beginning);
+      expectBoundary(boundary, 30, 25, 55);
+    });
+    it('if one date is not set width equals 3 days', function () {
+      var noStartDatePE = Factory.build("PlanningElement", {
+        timeline: Factory.build("Timeline"),
+        due_date: "2012-11-15"
+      });
+
+      var boundary = noStartDatePE.getHorizontalBounds(scale, beginning);
+      expectBoundary(boundary, 0, 3, 3);
+    });
+    it('should return x and width if end is not set', function () {
+      var noEndDatePE = Factory.build("PlanningElement", {
+        timeline: Factory.build("Timeline"),
+        start_date: "2012-11-13"
+      });
+
+      boundary = noEndDatePE.getHorizontalBounds(scale, beginning);
+      expectBoundary(boundary, 0, 3, 3);
+    });
     it('should return the middle for a milestone');
-    it('should return the end for a call to end()');
   });
 
   describe('url', function () {
-    it('should return correct url');
+    it('should return correct url', function () {
+      var pe = Factory.build("PlanningElement", {
+        timeline: Factory.build("Timeline", {}, {url_prefix: "/vtu"}),
+        id: 9991
+      });
+      expect(pe.getUrl()).to.equal("/vtu/work_packages/9991");
+    });
   });
 
   describe('color', function () {
@@ -202,7 +311,7 @@ describe('Planning Element', function(){
 
     it('should return correct date', function () {
       expect(this.peWithDates.start().getTime()).to.equal(1352588400*1000);
-      expect(this.peWithDates.end().getTime()).to.equal(1352502000*1000);
+      expect(this.peWithDates.end().getTime()).to.equal(1352674800*1000);
     });
 
     it('should return undefined for no date' , function () {

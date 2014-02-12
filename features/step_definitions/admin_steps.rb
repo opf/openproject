@@ -17,7 +17,7 @@ Then /^I should not see membership to the project "(.+)"$/ do |project|
   end
 end
 
-Then /^I check the role "(.+)"$/ do |role|
+Then /^I check the role "([^"]+)"$/ do |role|
   role = Role.like(role).first
   steps %Q{And I check "membership_role_ids_#{role.id}"}
 end

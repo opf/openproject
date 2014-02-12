@@ -31,6 +31,7 @@
 # The base activity provider class provides a default implementation for the  #
 # most common activity jobs. You may implement the following methods to set   #
 # the respective activity details:                                            #
+#  - event_name                                                               #
 #  - event_title                                                              #
 #  - event_type                                                               #
 #  - event_description                                                        #
@@ -83,7 +84,7 @@ class Activity::BaseActivityProvider
   end
 
   def format_event(event, event_data, activity)
-    [:event_title, :event_type, :event_description, :event_datetime, :event_path, :event_url].each do |a|
+    [:event_name, :event_title, :event_type, :event_description, :event_datetime, :event_path, :event_url].each do |a|
       event[a] = self.send(a, event_data, activity) if self.class.method_defined? a
     end
 
@@ -122,5 +123,14 @@ class Activity::BaseActivityProvider
 
   def projection_statement(table, column, name)
     table[column].as(name)
+  end
+
+  class UndefinedEventTypeError < StandardError; end
+  def event_type(event, activity)
+    raise UndefinedEventTypeError.new('Abstract method event_type called')
+  end
+
+  def event_name(event, activity)
+    I18n.t(event_type(event, activity).underscore, scope: 'events')
   end
 end

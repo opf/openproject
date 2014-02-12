@@ -47,7 +47,7 @@ class Activity::WorkPackageActivityProvider < Activity::BaseActivityProvider
   end
 
   def self.work_package_title(id, subject, type_name, status_name, is_standard)
-    title = "#{(is_standard) ? l(:default_type) : "#{type_name}"} ##{id}: #{subject}"
+    title = "#{(is_standard) ? "" : "#{type_name}"} ##{id}: #{subject}"
     title << " (#{status_name})" unless status_name.blank?
   end
 
@@ -68,7 +68,7 @@ class Activity::WorkPackageActivityProvider < Activity::BaseActivityProvider
     if journal.changed_data.empty? && !journal.initial?
       state = '-note'
     else
-      state = event['status_closed'] ? '-closed' : '-edit'
+      state = ActiveRecord::ConnectionAdapters::Column.value_to_boolean(event['status_closed']) ? '-closed' : '-edit'
     end
 
     "work_package#{state}"

@@ -49,7 +49,7 @@ Then /^there should( not)? be a flash (error|notice) message$/ do |no_message, k
 end
 
 Then /^the flash message should contain "([^"]*)"$/ do |message|
-  page.find(:css, '.flash > a').text.should include(message)
+  page.find(:css, '.flash').text.should include(message)
 end
 
 Then /^I should( not)? see (\d+) error message(?:s)?$/ do |negative, count|

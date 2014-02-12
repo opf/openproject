@@ -186,7 +186,7 @@ describe User, 'deletion' do
                                                                  :project => project,
                                                                  :status => status) }
     let(:associated_class) { WorkPackage }
-    let(:associations) { [:author, :assigned_to] }
+    let(:associations) { [:author, :assigned_to, :responsible] }
 
     it_should_behave_like "created journalized associated object"
   end
@@ -196,18 +196,20 @@ describe User, 'deletion' do
                                                                  :project => project,
                                                                  :status => status) }
     let(:associated_class) { WorkPackage }
-    let(:associations) { [:author, :assigned_to] }
+    let(:associations) { [:author, :assigned_to, :responsible] }
 
     before do
       User.stub(:current).and_return user2
       associated_instance.author = user2
       associated_instance.assigned_to = user2
+      associated_instance.responsible = user2
       associated_instance.save!
 
       User.stub(:current).and_return user # in order to have the content journal created by the user
       associated_instance.reload
       associated_instance.author = user
       associated_instance.assigned_to = user
+      associated_instance.responsible = user
       associated_instance.save!
 
       user.destroy
@@ -218,6 +220,7 @@ describe User, 'deletion' do
     it "should replace the user on all associations" do
       associated_instance.author.should == substitute_user
       associated_instance.assigned_to.should be_nil
+      associated_instance.responsible.should be_nil
     end
     it { associated_instance.journals.first.user.should == user2 }
     it "should update first journal changes" do
@@ -425,6 +428,18 @@ describe User, 'deletion' do
     it "should update second journal changes" do
       associated_instance.journals.last.changed_data[:user_id].last.should == substitute_user.id
     end
+  end
+
+  describe "WHEN the user is responsible for a project" do
+    before do
+      project.responsible = user
+      project.save!
+      user.destroy
+      project.reload
+    end
+
+    it { Project.find_by_id(project.id).should == project }
+    it { project.responsible.should be_nil }
   end
 
   describe "WHEN the user is assigned an issue category" do

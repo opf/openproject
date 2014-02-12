@@ -29,9 +29,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= header_tags %>
 
-<%= form_for(:project_type,
+<% html_title l(:label_administration), "#{l(:label_new)} #{l("timelines.admin_menu.project_type")}" %>
+
+<%= labelled_tabular_form_for(@project_type,
              :url  => project_types_path,
-             :html => {:class => "tabular", :method => 'post'}) do |f| %>
+             :html => {:method => 'post'}) do |f| %>
 
   <%= render :partial => "project_types/form",
              :locals  => {:f => f, :project_type => @project_type} %>

@@ -1,0 +1,24 @@
+app/assets/javascripts/raphael.js
+app/assets/javascripts/raphael-min.js
+app/assets/javascripts/date-de-DE.js
+app/assets/javascripts/date-en-US.js
+app/assets/javascripts/jstoolbar/**/*
+app/assets/javascripts/jquery_noconflict.js
+app/assets/javascripts/pages/**/*
+app/assets/javascripts/project/**/*
+app/assets/javascripts/jquery.menu_expand.js
+app/assets/javascripts/jquery-ui-i18n.js
+
+#we sould fix this ones
+app/assets/javascripts/select_list_move.js
+app/assets/javascripts/context_menu.js
+app/assets/javascripts/breadcrumb.js
+app/assets/javascripts/keyboard_shortcuts.js
+app/assets/javascripts/openproject.js
+app/assets/javascripts/top-shelf.js
+app/assets/javascripts/top_menu.js
+app/assets/javascripts/findDomElement.js
+app/assets/javascripts/application.js
+app/assets/javascripts/action_menu.js
+app/assets/javascripts/accessibility.js
+app/assets/javascripts/repository_navigation.js

@@ -1,7 +1,6 @@
 #-- encoding: UTF-8
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# OpenProject is a project management system.  # Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -86,6 +85,12 @@ class User < Principal
   has_many :assigned_issues, :foreign_key => 'assigned_to_id',
                              :class_name => 'WorkPackage',
                              :dependent => :nullify
+  has_many :responsible_for_issues, :foreign_key => 'responsible_id',
+                                    :class_name => 'WorkPackage',
+                                    :dependent => :nullify
+  has_many :responsible_for_projects, :foreign_key => 'responsible_id',
+                                      :class_name => 'Project',
+                                      :dependent => :nullify
   has_many :watches, :class_name => 'Watcher',
                      :dependent => :delete_all
   has_many :changesets, :dependent => :nullify
@@ -152,7 +157,7 @@ class User < Principal
 
   after_save :update_password
   before_create :sanitize_mail_notification_setting
-  before_destroy :delete_associated_public_queries
+  before_destroy :delete_associated_private_queries
   before_destroy :reassign_associated
 
   scope :in_group, lambda {|group|
@@ -413,7 +418,7 @@ class User < Principal
   end
 
   def impaired
-    anonymous? || !!self.pref.impaired
+    (anonymous? && Setting.accessibility_mode_for_anonymous?) || !!self.pref.impaired
   end
 
   def impaired?
@@ -706,6 +711,10 @@ class User < Principal
     @current_user ||= User.anonymous
   end
 
+  def roles(project)
+    User.current.admin? ? Role.all : User.current.roles_for_project(project)
+  end
+
   # Returns the anonymous user.  If the anonymous user does not exist, it is created.  There can be only
   # one anonymous user per database.
   def self.anonymous
@@ -818,7 +827,7 @@ class User < Principal
     JournalManager.update_user_references id, substitute.id
   end
 
-  def delete_associated_public_queries
+  def delete_associated_private_queries
     ::Query.delete_all ['user_id = ? AND is_public = ?', id, false]
   end
 

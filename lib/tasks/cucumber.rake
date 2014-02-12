@@ -51,11 +51,14 @@ begin
       ::CodeStatistics::TEST_TYPES << "Cucumber features" if File.exist?('features')
     end
 
-    def get_plugin_features(prefix = '')
+    def get_plugin_features(prefix = nil)
       features = []
       Rails.application.config.plugins_to_test_paths.each do |dir|
         feature_dir = Shellwords.escape(File.join(dir, 'features'))
-        features += [prefix, feature_dir] if File.directory?(feature_dir)
+        if File.directory?(feature_dir)
+          features << prefix unless prefix.nil?
+          features << feature_dir
+        end
       end
       features
     end

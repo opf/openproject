@@ -66,6 +66,10 @@ module ApplicationHelper
     end
   end
 
+  def required_field_name(name = '')
+    safe_join [name, ' ', content_tag('span', '*', class: 'required')]
+  end
+
   def li_unless_nil(link)
     content_tag(:li, link) if link
   end
@@ -204,7 +208,7 @@ module ApplicationHelper
     options = {
       :method => :delete,
       :data => {:confirm => l(:text_are_you_sure)},
-      :class => 'icon icon-del'
+      :class => 'icon icon-delete'
     }.merge(options)
 
     link_to l(:button_delete), url, options
@@ -265,11 +269,7 @@ module ApplicationHelper
 
   # Renders flash messages
   def render_flash_messages
-    if User.current.impaired?
-      flash.map { |k,v| content_tag('div', content_tag('a', join_flash_messages(v), :href => 'javascript:;'), :class => "flash #{k} icon icon-#{k}") }.join.html_safe
-    else
-      flash.map { |k,v| content_tag('div', join_flash_messages(v), :class => "flash #{k} icon icon-#{k}") }.join.html_safe
-    end
+    flash.map { |k,v| render_flash_message(k, v) }.join.html_safe
   end
 
   def join_flash_messages(messages)
@@ -277,6 +277,15 @@ module ApplicationHelper
       messages.join('<br />').html_safe
     else
       messages
+    end
+  end
+
+  def render_flash_message(type, message, html_options = {})
+    html_options = {:class => "flash #{type} icon icon-#{type}"}.merge(html_options)
+    if User.current.impaired?
+      content_tag('div', content_tag('a', join_flash_messages(message), :href => 'javascript:;'), html_options)
+    else
+      content_tag('div', join_flash_messages(message), html_options)
     end
   end
 

@@ -291,7 +291,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :roadmap, { :controller => '/versions', :action => 'index' },
                       :param => :project_id,
                       :if => Proc.new { |p| p.shared_versions.any? },
-                      :html => {:class => "icon2 icon-new-planning-element"}
+                      :html => {:class => "icon2 icon-process-arrow1"}
 
   menu.push :work_packages, { controller: '/work_packages', action: 'index', set_filter: 1 },
                             param: :project_id,
@@ -313,7 +313,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :timelines, {:controller => '/timelines', :action => 'index'},
                         :param => :project_id,
                         :caption => :'timelines.project_menu.timelines',
-                        :html => {:class => "icon2 icon-time-1"}
+                        :html => {:class => "icon2 icon-new-planning-element"}
 
   menu.push :calendar, { :controller => '/work_packages/calendars', :action => 'index' },
                        :param => :project_id,
@@ -364,7 +364,7 @@ end
 Redmine::Activity.map do |activity|
   activity.register :work_packages, class_name: 'Activity::WorkPackageActivityProvider'
   activity.register :changesets, class_name: 'Activity::ChangesetActivityProvider'
-  activity.register :news, class_name: 'Activity::NewsActivityProvider'
+  activity.register :news, class_name: 'Activity::NewsActivityProvider', default: false 
   activity.register :wiki_edits, class_name: 'Activity::WikiContentActivityProvider', default: false
   activity.register :messages, class_name: 'Activity::MessageActivityProvider', default: false
   activity.register :time_entries, class_name: 'Activity::TimeEntryActivityProvider', default: false

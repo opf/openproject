@@ -54,6 +54,7 @@ module Redmine
       end
 
       Event = Struct.new(:provider,
+                         :event_name,
                          :event_title,
                          :event_description,
                          :author_id,
@@ -115,7 +116,7 @@ module Redmine
 
             query = query.where(journals_table[:user_id].eq(options[:author].id)) if options[:author]
 
-            
+
             provider.extend_event_query(query, activity) if provider.respond_to?(:extend_event_query)
 
             query = join_with_projects_table(query, provider.projects_reference_table(activity))
@@ -212,6 +213,7 @@ module Redmine
               datetime = e['event_datetime'].is_a?(String) ? DateTime.parse(e['event_datetime'])
                                                            : e['event_datetime']
               event = Redmine::Acts::ActivityProvider::Event.new(self,
+                                                                 nil,
                                                                  nil,
                                                                  e['event_description'],
                                                                  e['event_author'].to_i,

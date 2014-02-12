@@ -27,6 +27,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<% html_title(l(:label_administration), l(:label_information_plural)) -%>
+
 <%= content_tag :h2, I18n.t('label_information_plural') %>
 <%= call_hook(:view_admin_info_top) %>
 
@@ -43,4 +45,3 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 </table>
 <%= call_hook(:view_admin_info_bottom) %>
-<% html_title(l(:label_information_plural)) -%>

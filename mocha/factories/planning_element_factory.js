@@ -1,5 +1,8 @@
 Factory.define('PlanningElement', Timeline.PlanningElement)
   .sequence('id')
+  .sequence('name', function (i) {
+    return "Project No. " + i;
+  })
   .after(function(PlanningElement, options) {
     if(options && options.children) {
       var i;
@@ -8,5 +11,7 @@ Factory.define('PlanningElement', Timeline.PlanningElement)
         options.children[i].parent = PlanningElement;
         options.children[i] = Factory.build('PlanningElement', options.children[i]);
       }
+
+      PlanningElement.children = options.children;
     }
   });

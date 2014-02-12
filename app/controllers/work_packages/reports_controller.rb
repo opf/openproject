@@ -37,6 +37,7 @@ class WorkPackages::ReportsController < ApplicationController
     @type_report      = reports_service.report_for("type")
     @priority_report  = reports_service.report_for("priority")
     @assignee_report  = reports_service.report_for("assigned_to")
+    @responsible_report = reports_service.report_for("responsible")
     @author_report    = reports_service.report_for("author")
     @version_report   = reports_service.report_for("version")
     @subproject_report= reports_service.report_for("subproject")

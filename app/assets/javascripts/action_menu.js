@@ -88,7 +88,7 @@ jQuery(function ($) {
     });
   };
 
-  $('.action_menu_main').each(function(idx, menu){
+  $('.action_menu_main, .action_menu_specific').each(function(idx, menu){
     install_menu_logic($(menu));
   });
 });

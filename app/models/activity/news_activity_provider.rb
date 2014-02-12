@@ -48,6 +48,10 @@ class Activity::NewsActivityProvider < Activity::BaseActivityProvider
     event['title']
   end
 
+  def event_type(event, activity)
+    'news'
+  end
+
   def event_path(event, activity)
     Rails.application.routes.url_helpers.news_path(url_helper_parameter(event))
   end

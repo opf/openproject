@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div class="contextual">
+<% content_for :action_menu_specific do %>
   &#171;
   <% unless @changeset.previous.nil? -%>
     <%= link_to_revision(@changeset.previous, @project, :text => l(:label_previous)) %>
@@ -46,9 +46,11 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= text_field_tag 'rev', @rev, :size => 8 %>
     <%= submit_tag 'OK', :name => nil %>
   <% end %>
-</div>
+<% end %>
 
 <h2><%= l(:label_revision) %> <%= format_revision(@changeset) %></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
 
 <p><% if @changeset.scmid %>ID: <%= h(@changeset.scmid) %><br /><% end %>
 <span class="author"><%= authoring(@changeset.committed_on, @changeset.author) %></span></p>

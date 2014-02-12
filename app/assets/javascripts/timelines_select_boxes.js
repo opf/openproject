@@ -48,11 +48,27 @@ jQuery(document).ready(function($) {
     });
   });
 
+  $(".cf_boolean_select").each(function (i, item) {
+    $("input[name='" + $(item).attr("name")+"']").remove();
+
+    $(item).select2({
+      'minimumResultsForSearch': 12
+    });
+  });
+
+  $(".cf_list_select").each(function (i, item) {
+    $(item).autocomplete({
+      'multiple': true
+    });
+  });
+
+
   [
     $("#timeline_options_project_responsibles"),
     $("#timeline_options_project_status"),
     $("#timeline_options_project_types"),
     $("#timeline_options_planning_element_responsibles"),
+    $("#timeline_options_planning_element_assignee"),
     $("#timeline_options_grouping_two_selection")
   ].each(function (item) {
     $(item).autocomplete({ multiple: true,
