@@ -95,7 +95,7 @@ module OpenProject::PdfExport::ExportCard
       rows.each do |rk, rv|
         # TODO RS: This is still only checking the first column, need to check all
         ck, cv = rv["columns"].first
-        if !is_existing_column(ck, wp) || is_empty_column(ck, cv, wp)
+        if !is_existing_column?(ck, wp) || is_empty_column(ck, cv, wp)
           rows.delete(rk)
         end
       end
@@ -104,8 +104,8 @@ module OpenProject::PdfExport::ExportCard
     def self.is_empty_column(property_name, column, wp)
       if wp.respond_to?(property_name)
         value = wp.send(property_name)
-      elsif customs = wp.custom_field_values.select {|cf| cf.custom_field.name == property_name} and customs.count > 0
-        value = customs.first.value
+      elsif (field = locale_independent_custom_field(property_name, wp)) && !!field
+        value = field.value
       else
         value = ""
       end
@@ -116,11 +116,23 @@ module OpenProject::PdfExport::ExportCard
       !column["render_if_empty"] && value.empty?
     end
 
-    def self.is_existing_column(property_name, wp)
-      I18n.with_locale(I18n.locale) do
-        wp.respond_to?(property_name) ||
-          wp.custom_field_values.select {|cf| cf.custom_field.name == property_name}.count > 0
+    def self.is_existing_column?(property_name, wp)
+        wp.respond_to?(property_name) || is_existing_custom_field?(property_name, wp)
+    end
+
+    def self.is_existing_custom_field?(property_name, wp)
+      !!locale_independent_custom_field(property_name, wp)
+    end
+
+    def self.locale_independent_custom_field(property_name, wp)
+      Setting.available_languages.each do |locale|
+        I18n.with_locale(locale) do
+          if (fields = wp.custom_field_values.select {|cf| cf.custom_field.name == property_name} and fields.count > 0)
+            return fields.first
+          end
+        end
       end
+      nil
     end
   end
 end

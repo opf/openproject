@@ -39,8 +39,15 @@ module OpenProject::PdfExport::ExportCard
         value = @work_package.send(@property_name)
       else
         # Look in Custom Fields
-        I18n.with_locale(I18n.locale) do
-          value = (customs = @work_package.custom_field_values.select {|cf| cf.custom_field.name == @property_name} and customs.count > 0) ? customs.first.value : ""
+        value = ""
+        available_languages.each do |locale|
+          I18n.with_locale(locale) do
+            if (customs = @work_package.custom_field_values.select {|cf| cf.custom_field.name == @property_name} and customs.count > 0)
+              value = customs.first.value
+              @custom_field = customs.first.custom_field
+            end
+          end
+          @localised_custom_field_name = @custom_field.name if !!@custom_field
         end
       end
 
@@ -51,6 +58,10 @@ module OpenProject::PdfExport::ExportCard
     end
 
     private
+
+    def available_languages
+      Setting.available_languages
+    end
 
     def abbreviated_text(text, options)
       options = options.merge!({ document: @pdf })
@@ -65,6 +76,10 @@ module OpenProject::PdfExport::ExportCard
       text.to_s
     rescue Prawn::Errors::CannotFit
       ''
+    end
+
+    def localised_property_name
+      @has_label ? "#{@work_package.class.human_attribute_name(@localised_custom_field_name ||= @property_name)}: " : ""
     end
 
     def draw_value(value)
@@ -93,16 +108,12 @@ module OpenProject::PdfExport::ExportCard
       text_align = (@config['text_align'] or "left").to_sym
 
       # Label and text
-      has_label = @config['has_label']
+      @has_label = @config['has_label']
       indented = @config['indented']
       value = value.to_s if !value.is_a?(String)
-      label_text = if has_label
-                     "#{@work_package.class.human_attribute_name(@property_name)}: "
-                   else
-                     ""
-                   end
+      label_text = localised_property_name
 
-      if has_label && indented
+      if @has_label && indented
         width_ratio = 0.2 # Note: I don't think it's worth having this in the config
 
         # Label Textbox
@@ -147,11 +158,7 @@ module OpenProject::PdfExport::ExportCard
           :min_font_size => min_font_size,
           :align => text_align}
         text = abbreviated_text(value, options)
-        label_text = if has_label
-                       "#{@work_package.class.human_attribute_name(@property_name)}: "
-                     else
-                       ""
-                     end
+        label_text = localised_property_name
         texts = [{ text: label_text, styles: [:bold], :size => font_size },  { text: text, :size => font_size }]
 
         # Label and Content Textbox
