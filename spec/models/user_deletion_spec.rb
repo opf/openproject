@@ -455,4 +455,23 @@ describe User, 'deletion' do
     it { Category.find_by_id(category.id).should == category }
     it { category.assigned_to.should be_nil }
   end
+
+  describe "WHEN the user is used in a timelines filter" do
+    let(:timeline) { FactoryGirl.build(:timeline, :project_id => project.id, :name => 'Testline') }
+
+    before do
+      timeline.options["planning_element_responsibles"] = [user.id.to_s]
+      timeline.options["planning_element_assignee"] = [user.id.to_s]
+      timeline.options["project_responsibles"] = [user.id.to_s]
+      timeline.save!
+      
+      user.destroy
+      timeline.reload
+    end
+
+    it { timeline.options["planning_element_responsibles"].index(user.id.to_s).should be_nil }
+    it { timeline.options["planning_element_assignee"].index(user.id.to_s).should be_nil }
+    it { timeline.options["project_responsibles"].index(user.id.to_s).should be_nil }
+  end
+
 end
