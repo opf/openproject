@@ -102,8 +102,9 @@ module Migration::Utils
             OR cft.type_id IS NULL
         SQL
       else
+        str_false = postgres? ? "FALSE" : "'f'"
         delete <<-SQL
-          DELETE FROM custom_values AS cvd
+          DELETE FROM custom_values
           WHERE EXISTS
           (
             SELECT w.id, cf.id, cfp.project_id, p.name, cft.type_id
@@ -113,9 +114,9 @@ module Migration::Utils
               JOIN projects AS p ON (w.project_id = p.id)
               LEFT JOIN custom_fields_projects AS cfp ON (cv.custom_field_id = cfp.custom_field_id AND w.project_id = cfp.project_id)
               LEFT JOIN custom_fields_types AS cft ON (cv.custom_field_id = cft.custom_field_id AND w.type_id = cft.type_id)
-            WHERE (cfp.project_id IS NULL AND cf.is_for_all = FALSE
+            WHERE (cfp.project_id IS NULL AND cf.is_for_all = #{str_false}
               OR cft.type_id IS NULL)
-              AND cv.id = cvd.id
+              AND cv.id = custom_values.id
            );
         SQL
       end
