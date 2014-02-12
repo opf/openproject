@@ -147,7 +147,6 @@ JS
   private
 
   def new_members_from_params
-    members = []
     user_ids = possibly_seperated_ids_for_entity(params[:member], :user)
     roles = Role.find_all_by_id(possibly_seperated_ids_for_entity(params[:member], :role))
 
@@ -157,8 +156,8 @@ JS
       end
     end
 
-    user_ids.each do |user_id|
-      members << new_member.call(user_id)
+    members = user_ids.map do |user_id|
+      new_member.call(user_id)
     end
     # most likely wrong user input, use a dummy member for error handling
     if !members.present? && roles.present?
