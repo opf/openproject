@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 * `#4024` Subpages have no unique page titles
 * `#4123` Add missing translation of save rate button
+* `#4112` Layouttabellen: Zwei Layouttabellen erschweren das Verständnis
 
 ## 5.0.2
 
