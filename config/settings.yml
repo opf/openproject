@@ -167,8 +167,8 @@ work_package_group_assignment:
 notified_events:
   serialized: true
   default:
-  - issue_added
-  - issue_updated
+  - work_package_added
+  - work_package_updated
 mail_handler_body_delimiters:
   default: ''
 mail_handler_api_enabled:

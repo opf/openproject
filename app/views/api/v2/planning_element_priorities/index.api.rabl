@@ -25,16 +25,8 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-
-require 'spec_helper'
-
-describe Api::V2::WorkPackagePrioritiesController do
-
-  describe "index" do
-    it { expect(get("/api/v2/work_package_priorities")).to route_to(controller: 'api/v2/work_package_priorities',
-                                                                    action: 'index')}
-  end
-
-end
-
-
+collection @priorities => :planning_element_priorities
+attributes :id,
+           :name,
+           :position,
+           :is_default

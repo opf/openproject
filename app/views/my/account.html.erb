@@ -27,6 +27,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<% html_title(l(:label_my_account)) -%>
+
 <% breadcrumb_paths(l(:label_my_account)) %>
 <% content_for :action_menu_specific do %>
   <%= call_hook(:view_my_account_contextual, :user => @user)%>
@@ -79,5 +81,3 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <%= submit_tag l(:button_save) %>
 <% end %>
-
-<% html_title(l(:label_my_account)) -%>

@@ -26,27 +26,15 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# resolves either a given status (show) or returns a list of available statuses
-# if the controller is called nested inside a project, it returns only the
-# statuses that can be reached by the workflows of the project
-module Api
-  module V2
-    class WorkPackagePrioritiesController < ApplicationController
-      include PaginationHelper
+require 'spec_helper'
 
-      include ::Api::V2::ApiController
+describe Api::V2::PlanningElementPrioritiesController do
 
-      unloadable
-
-      accept_key_auth :index
-
-      def index
-        @priorities = IssuePriority.all
-
-        respond_to do |format|
-          format.api
-        end
-      end
-    end
+  describe "index" do
+    it { expect(get("/api/v2/planning_element_priorities")).to route_to(controller: 'api/v2/planning_element_priorities',
+                                                                        action: 'index')}
   end
+
 end
+
+

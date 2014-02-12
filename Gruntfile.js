@@ -30,7 +30,8 @@ module.exports = function(grunt) {
       jenkins: {
         src:[testSource],
         options: {
-          reporter: "XUnit"
+          reporter: "xunit",
+          output: "test_results_mocha.xunit"
         }
       }
     },

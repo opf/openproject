@@ -59,6 +59,7 @@ In case you want to use environment variables, but you have no easy way to set t
 * `autologin_cookie_path` (default: '/')
 * `autologin_cookie_secure` (default: false)
 * `database_cipher_key`     (default: nil)
+* `rails_cache_store` not set or memcache (default: not set, uses file_store)
 * `scm_git_command` (default: 'git')
 * `scm_subversion_command` (default: 'git')
 

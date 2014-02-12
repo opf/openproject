@@ -29,20 +29,32 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#3335` Fix: Mass assignment in members controller
+* `#3371` [Work Package Tracking] Wrong 404 when custom query not exists
+* `#4112` Layouttabellen: Zwei Layouttabellen erschweren das Verständnis
+* `#4162` Missing html_safe on required list custom fields with non empty default value
+
+## 3.0.0pre45
+
 * `#3113` [API] Read access on work package workflows for API v2
 * `#3114` [API] Provide custom fields in work-package index
-* `#3335` Fix: Mass assignment in members controller
+* `#3116` [API] Distinguishable Status-Codes for wrong credentials and missing API
+* `#3347` [API] Make priorities available via API
 * `#3701` Filter custom fields of work packages in timeline reports
 * `#3732` Summary for work package responsibility
 * `#3733` Responsible widget for my pag
 * `#3884` [Timelines] Show custom fields of work packages in timeline reports
-* `#4024` [Accessibility] Add proper page titles for sub pages
-* `#4102` [Accessibility] Fixes screen reader compatibility for 'further analyze' links in work package summary
+* `#3980` In Email settings "Issue" is used
 * `#4023` [Accessibility] Fixes tabbing inside modals
+* `#4024` [Accessibility] Add proper page titles for sub pages
 * `#4090` 'Session Expires' setting breaks API
+* `#4100` use icon from icon font for toggle multiselect in filter section
 * `#4101` Headings: Fix typos in german translation
+* `#4102` [Accessibility] Fixes screen reader compatibility for 'further analyze' links in work package summary
 * `#4108` Fixes German translation of months
+* `#4109` Missing hidden tab selection label
 * `#4163` Extend authorization-API to return current user id
+* Improves JavaScript tests.
 * News subject contained in URL
 * Removes mocha mocking framework.
 * Update pg-gem version

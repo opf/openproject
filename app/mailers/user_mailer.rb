@@ -44,7 +44,7 @@ class UserMailer < ActionMailer::Base
     end
   end
 
-  def issue_added(user, issue)
+  def work_package_added(user, issue)
     @issue = issue
 
     open_project_headers 'Project'        => @issue.project.identifier,
@@ -63,7 +63,7 @@ class UserMailer < ActionMailer::Base
     end
   end
 
-  def issue_updated(user, journal, author=User.current)
+  def work_package_updated(user, journal, author=User.current)
     # Delayed job do not preserve the closure of the job that is delayed. Thus,
     # if the method is called within a delayed job, it does contain the default
     # user (anonymous) and not the original user that called the method.

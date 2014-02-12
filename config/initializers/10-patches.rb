@@ -284,7 +284,7 @@ module CollectiveIdea
   module Acts
     module NestedSet
       module Model
-        # fixes IssueNestedSetTest#test_destroy_parent_issue_updated_during_children_destroy
+        # fixes IssueNestedSetTest#test_destroy_parent_work_package_updated_during_children_destroy
         def destroy_descendants_with_reload
           destroy_descendants_without_reload
           # Reload is needed because children may have updated their parent (self) during deletion.

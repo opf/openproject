@@ -25,8 +25,28 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-collection @priorities => :work_package_priorities
-attributes :id,
-           :name,
-           :position,
-           :is_default
+
+# resolves either a given status (show) or returns a list of available statuses
+# if the controller is called nested inside a project, it returns only the
+# statuses that can be reached by the workflows of the project
+module Api
+  module V2
+    class PlanningElementPrioritiesController < ApplicationController
+      include PaginationHelper
+
+      include ::Api::V2::ApiController
+
+      unloadable
+
+      accept_key_auth :index
+
+      def index
+        @priorities = IssuePriority.all
+
+        respond_to do |format|
+          format.api
+        end
+      end
+    end
+  end
+end
