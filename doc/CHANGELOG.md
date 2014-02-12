@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+*`#4162` Missing html_safe on required list custom fields with non empty default value
+
 ## 3.0.0pre45
 
 * `#3113` [API] Read access on work package workflows for API v2
