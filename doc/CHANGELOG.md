@@ -36,6 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#3440` New workpackage form layout
 * `#4224` "Create stories" is translated to "Sprints anlegen" in Roles & Permissions
 * show description on pdf export modal
 
