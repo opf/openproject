@@ -41,7 +41,10 @@ module OpenProject
       'scm_subversion_command'  => nil,
       'disable_browser_cache'   => true,
       # default cache_store is :file_store in production and :memory_store in development
-      'rails_cache_store'       => :default,
+      'rails_cache_store'       => nil,
+      # use dalli defaults for memcache
+      'cache_memcache_server'         => nil,
+      'cache_memcache_expires_in_seconds' => nil,
       # url-path prefix
       'rails_relative_url_root' => "",
 
@@ -115,6 +118,26 @@ module OpenProject
         @config.merge! settings
         yield if block_given?
         @config.merge! was
+      end
+
+      def configure_cache(application_config)
+        return unless @config['rails_cache_store']
+
+        # rails defaults to :file_store, use :dalli when :memcaches is configured in configuration.yml
+        cache_store = @config['rails_cache_store'].to_sym
+        if cache_store == :memcache
+          cache_config = [:dalli_store]
+          cache_config << @config['cache_memcache_server'] \
+            if @config['cache_memcache_server']
+
+          if @config['cache_memcache_expires_in_seconds']
+            memcache_config = {:expires_in => @config['cache_memcache_expires_in_seconds'].to_i}
+            cache_config << memcache_config
+          end
+        else
+          cache_config = [cache_store]
+        end
+        application_config.cache_store = cache_config
       end
 
       private
