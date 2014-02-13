@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
@@ -26,44 +25,45 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require File.expand_path('../../../test_helper', __FILE__)
 
-class News::CommentsControllerTest < ActionController::TestCase
-  fixtures :all
+require File.expand_path('../../../../../spec_helper', __FILE__)
 
-  def setup
-    super
-    User.current = nil
+describe 'api/v2/authentication/index.api.rabl' do
+  before { params[:format] = 'json' }
+
+  shared_examples_for 'valid authentication' do
+    it { expect(subject).to have_json_path('authorization') }
+
+    it { expect(subject).to have_json_size(2).at_path('authorization') }
+
+    it { expect(subject).to be_json_eql(content).at_path('authorization') }
   end
 
-  def test_add_comment
-    @request.session[:user_id] = 2
-    post :create, :news_id => 1, :comment => { :comments => 'This is a test comment' }
-    assert_redirected_to '/news/1'
+  describe 'authentication state' do
+    before do
+      assign(:authorization, Api::V2::AuthenticationController::AuthorizationData.new(true, nil))
 
-    comment = News.find(1).comments.reorder('created_on DESC').first
-    assert_not_nil comment
-    assert_equal 'This is a test comment', comment.comments
-    assert_equal User.find(2), comment.author
-  end
+      render
+    end
 
-  def test_empty_comment_should_not_be_added
-    @request.session[:user_id] = 2
-    assert_no_difference 'Comment.count' do
-      post :create, :news_id => 1, :comment => { :comments => '' }
-      assert_response :redirect
-      assert_redirected_to '/news/1'
+    subject { response.body }
+
+    it_behaves_like 'valid authentication' do
+      let(:content) { %({"authorized": true, "authorized_user_id":null}) }
     end
   end
 
-  def test_destroy_comment
-    @request.session[:user_id] = 2
-    news = News.find(1)
-    assert_difference 'Comment.count', -1 do
-      delete :destroy, :id => 2
+  describe 'authenticated user' do
+    before do
+      assign(:authorization, Api::V2::AuthenticationController::AuthorizationData.new(nil, 12345))
+
+      render
     end
 
-    assert_redirected_to '/news/1'
-    assert_nil Comment.find_by_id(2)
+    subject { response.body }
+
+    it_behaves_like 'valid authentication' do
+      let(:content) { %({"authorized":null, "authorized_user_id": 12345}) }
+    end
   end
 end

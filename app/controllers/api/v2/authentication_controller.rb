@@ -35,7 +35,11 @@ module Api
 
       unloadable
 
+      AuthorizationData = Struct.new(:authorized, :authorized_user_id)
+
       def index
+        @authorization = AuthorizationData.new(true, User.current.id)
+
         respond_to do |format|
           format.api
         end

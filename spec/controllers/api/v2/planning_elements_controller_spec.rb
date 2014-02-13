@@ -250,7 +250,7 @@ describe Api::V2::PlanningElementsController do
             let(:timestamp) { (work_package.updated_at - 5.seconds).to_i }
 
             include_context 'get work packages changed since'
-            
+
             it { expect(assigns(:planning_elements).collect(&:id)).to match_array([work_package.id]) }
           end
 
@@ -258,7 +258,7 @@ describe Api::V2::PlanningElementsController do
             let(:timestamp) { (work_package.updated_at + 5.seconds).to_i }
 
             include_context 'get work packages changed since'
-            
+
             it { expect(assigns(:planning_elements)).to be_empty }
           end
 
@@ -323,7 +323,10 @@ describe Api::V2::PlanningElementsController do
                 FactoryGirl.create(:work_package, :project_id => project.id),
                 FactoryGirl.create(:work_package, :project_id => project.id)
               ].map do |model|
-                OpenStruct.new(model.attributes).tap { |s| s.child_ids = [] }
+                OpenStruct.new(model.attributes).tap do |s|
+                  s.child_ids = []
+                  s.custom_values = []
+                end
               end
               get 'index', :project_id => project.id, :format => 'xml'
             end
@@ -395,7 +398,10 @@ describe Api::V2::PlanningElementsController do
                 FactoryGirl.create(:work_package, :project_id => project_b.id),
                 FactoryGirl.create(:work_package, :project_id => project_b.id)
               ].map do |model|
-                OpenStruct.new(model.attributes).tap { |s| s.child_ids = [] }
+                OpenStruct.new(model.attributes).tap do |s|
+                  s.child_ids = []
+                  s.custom_values = []
+                end
               end
               # adding another planning element, just to make sure, that the
               # result set is properly filtered

@@ -61,6 +61,28 @@ When (/^I make the planning element "([^"]*?)" vertical for the timeline "([^"]*
   page.execute_script("jQuery('#content form').submit()")
 end
 
+When(/^I filter for work packages with custom boolean field "(.*?)" set to "(.*?)"$/) do |field_name, value|
+   steps %Q{
+    When I edit the settings of the current timeline
+  }
+
+  custom_field = InstanceFinder.find(WorkPackageCustomField, field_name)
+
+  page.execute_script("jQuery('#timeline_options_custom_fields_#{custom_field.id}').val('#{value}')")
+  page.execute_script("jQuery('#content form').submit()")
+end
+
+When(/^I filter for work packages with custom list field "(.*?)" set to "(.*?)"$/) do |field_name, value|
+   steps %Q{
+    When I edit the settings of the current timeline
+  }
+
+  custom_field = InstanceFinder.find(WorkPackageCustomField, field_name)
+
+  page.execute_script("jQuery('#timeline_options_custom_fields_#{custom_field.id}_').val('#{value}')")
+  page.execute_script("jQuery('#content form').submit()")
+end
+
 When (/^I edit the settings of the current timeline$/) do
   timeline_name = @timeline_name
   project_name = @project.name

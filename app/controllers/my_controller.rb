@@ -36,6 +36,7 @@ class MyController < ApplicationController
   menu_item :password, :only => [:password]
 
   DEFAULT_BLOCKS = { 'issuesassignedtome' => :label_assigned_to_me_work_packages,
+             'workpackagesresponsiblefor' => :label_responsible_for_work_packages,
              'issuesreportedbyme' => :label_reported_work_packages,
              'issueswatched' => :label_watched_work_packages,
              'news' => :label_news_latest,

@@ -123,10 +123,6 @@ describe "Journalized Objects" do
 
       subject { work_package.journal_editable_by?(user) }
 
-      context 'and the user has permissions to "edit_work_packages"' do
-        it { should be_true }
-      end
-
       context 'and the user has no permission to "edit_work_packages"' do
         before do
           role.remove_permission! :edit_work_packages
