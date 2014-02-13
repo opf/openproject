@@ -72,7 +72,7 @@ Feature: Watch issues
   @javascript
   Scenario: Add a watcher to an issue
     When I go to the page of the issue "issue1"
-    Then I should see "Add watcher" within "#watchers"
+    Then I should see button "Add watcher"
     When I click on "Add watcher" within "#watchers"
     And I select "Bob Bobbit" from "watcher_user_id" within "#watchers"
     And I press "Add" within "#watchers"

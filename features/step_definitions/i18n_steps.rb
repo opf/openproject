@@ -186,3 +186,7 @@ When(/^I follow link "(.*?)" for report "(.*?)"$/) do |link_name, table_value_na
     row.find('a', text: link_name).click
   end
 end
+
+Then(/^I should see button "(.*?)"$/) do |button_name|
+  expect(page).to have_selector('span.hidden-for-sighted', text: button_name, visible: false)
+end
