@@ -261,6 +261,9 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    # true if the user deletes him/herself
+    self_delete = (@user == User.current)
+
     # as destroying users is a lengthy process we handle it in the background
     # and lock the account now so that no action can be performed with it
     @user.status = User::STATUSES[:locked]
@@ -272,16 +275,15 @@ class UsersController < ApplicationController
       @user.destroy :
       @user.delay.destroy
 
+    # log the user out if it's a self-delete
+    # must be called before setting the flash message
+    self.logged_user = nil if self_delete
+
+    flash[:notice] = l('account.deleted')
+
     respond_to do |format|
       format.html do
-        if @user == User.current
-          self.logged_user = nil
-          flash[:notice] = l('account.deleted')
-          redirect_to signin_path
-        else
-          flash[:notice] = l('account.deleted')
-          redirect_to users_path
-        end
+        redirect_to self_delete ? signin_path : users_path
       end
     end
   end
