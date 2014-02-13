@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#3371` [Work Package Tracking] Wrong 404 when custom query not exists
+* `#3440` New workpackage form layout
 * `#4087` Accessible form errors
 * `#4105` Remove links from fieldset
 * `#4109` Missing hidden tab selection label
