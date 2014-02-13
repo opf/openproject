@@ -469,7 +469,7 @@ module WorkPackagesHelper
 
   def work_package_form_parent_attribute(form, work_package, locals = {})
     if User.current.allowed_to?(:manage_subtasks, locals[:project])
-      field = form.text_field :parent_id, :size => 10, :title => l(:description_autocomplete)
+      field = form.text_field :parent_id, :size => 10, :title => l(:description_autocomplete), :class => 'short'
       field += '<div id="parent_issue_candidates" class="autocomplete"></div>'.html_safe
       field += javascript_tag "observeWorkPackageParentField('#{work_packages_auto_complete_path(:id => work_package, :project_id => locals[:project], :escape => false) }')"
 
@@ -522,7 +522,6 @@ module WorkPackagesHelper
       field = form.select(:category_id,
                           (locals[:project].categories.collect {|c| [c.name, c.id]}),
                           :include_blank => true)
-
       field += prompt_to_remote(icon_wrapper('icon icon-add',t(:label_work_package_category_new)),
                                          t(:label_work_package_category_new),
                                          'category[name]',
@@ -551,14 +550,14 @@ module WorkPackagesHelper
   end
 
   def work_package_form_start_date_attribute(form, work_package, locals = {})
-    start_date_field = form.text_field :start_date, :size => 10, :disabled => attrib_disabled?(work_package, 'start_date')
+    start_date_field = form.text_field :start_date, :size => 10, :disabled => attrib_disabled?(work_package, 'start_date'), :class => 'short'
     start_date_field += calendar_for("#{form.object_name}_start_date") unless attrib_disabled?(work_package, 'start_date')
 
     WorkPackageAttribute.new(:start_date, start_date_field)
   end
 
   def work_package_form_due_date_attribute(form, work_package, locals = {})
-    due_date_field = form.text_field :due_date, :size => 10, :disabled => attrib_disabled?(work_package, 'due_date')
+    due_date_field = form.text_field :due_date, :size => 10, :disabled => attrib_disabled?(work_package, 'due_date'), :class => 'short'
     due_date_field += calendar_for("#{form.object_name}_due_date") unless attrib_disabled?(work_package, 'due_date')
 
     WorkPackageAttribute.new(:due_date, due_date_field)
@@ -568,9 +567,10 @@ module WorkPackagesHelper
     field = form.text_field :estimated_hours,
                             :size => 3,
                             :disabled => attrib_disabled?(work_package, 'estimated_hours'),
-                            :value => number_with_precision(work_package.estimated_hours, :precision => 2)
+                            :value => number_with_precision(work_package.estimated_hours, :precision => 2),
+                            :class => 'short',
+                            :placeholder => TimeEntry.human_attribute_name(:hours)
 
-    field += TimeEntry.human_attribute_name(:hours)
 
     WorkPackageAttribute.new(:estimated_hours, field)
   end

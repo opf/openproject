@@ -33,25 +33,27 @@ See doc/COPYRIGHT.rdoc for more details.
                  :lang => current_language} do |fields| %>
 
   <div class="splitcontentleft">
-    <p>
+    <div class="attribute_wrapper">
       <%= fields.text_field :hours,
-                            :label => :label_spent_time %>
-      <%= TimeEntry.human_attribute_name(:hours) %>
-    </p>
+                            :label => :label_spent_time,
+                            :placeholder => TimeEntry.human_attribute_name(:hours),
+                            :class => 'short' %>
+    </div>
   </div>
 
   <div class="splitcontentright">
-    <p>
+    <div class="attribute_wrapper">
       <%= fields.select :activity_id, activity_collection_for_select_options %>
-    </p>
+    </div>
   </div>
 
-  <p>
+  <br class="clear" />
+  <div class="attribute_wrapper">
     <%= fields.text_field :comments %>
-  </p>
+  </div>
   <% time_entry.custom_field_values.each do |value| %>
-    <p>
+    <div class="attribute_wrapper">
       <%= custom_field_tag_with_label :time_entry, value %>
-    </p>
+    </div>
   <% end %>
 <% end %>

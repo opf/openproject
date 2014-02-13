@@ -40,18 +40,16 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <%= error_messages_for :object => work_package %>
 
-  <div class="box">
-    <%= render :partial => 'form', :locals => { :f => f,
-                                                :work_package => work_package,
-                                                :project => project,
-                                                :priorities => priorities,
-                                                :user => user } %>
-    <p>
-      <%= send_notification_option %>
-    </p>
+  <%= render :partial => 'form', :locals => { :f => f,
+                                              :work_package => work_package,
+                                              :project => project,
+                                              :priorities => priorities,
+                                              :user => user } %>
+  <div class="attribute_wrapper">
+    <%= send_notification_option %>
   </div>
 
-  <%= submit_tag l(:button_create) %>
+  <%= submit_tag l(:button_create), :class => "button_highlight" %>
   <!-- not supported by controller for now -->
   <%#= submit_tag l(:button_create_and_continue), :name => 'continue' %>
   <%= link_to_work_package_preview(project) %>
