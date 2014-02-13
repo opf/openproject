@@ -31,6 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#3371` [Work Package Tracking] Wrong 404 when custom query not exists
 * `#4087` Accessible form errors
+* `#4109` Missing hidden tab selection label
 * `#4112` Layouttabellen: Zwei Layouttabellen erschweren das Verständnis
 * `#4162` Missing html_safe on required list custom fields with non empty default value
 
@@ -52,7 +53,6 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#4101` Headings: Fix typos in german translation
 * `#4102` [Accessibility] Fixes screen reader compatibility for 'further analyze' links in work package summary
 * `#4108` Fixes German translation of months
-* `#4109` Missing hidden tab selection label
 * `#4163` Extend authorization-API to return current user id
 * Improves JavaScript tests.
 * News subject contained in URL
