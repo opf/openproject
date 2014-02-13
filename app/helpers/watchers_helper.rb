@@ -78,12 +78,14 @@ module WatchersHelper
         avatar(watch.user, :size => "16") +
           link_to_user(watch.user, :class => 'user') +
           if remove_allowed
-            ' '.html_safe + link_to(image_tag('webalys/red_x.png', :alt => l(:button_delete), :title => l(:button_delete)),
+            ' '.html_safe + link_to(icon_wrapper('icon-context icon-close delete-ctrl',
+                                                 l(:button_delete_watcher, name: watch.user.name)),
                              watcher_path(watch),
                              :method => :delete,
                              :remote => true,
                              :style => "vertical-align: middle",
-                             :class => "delete")
+                             :title => l(:button_delete_watcher, name: watch.user.name),
+                             :class => "delete no-decoration-on-hover")
           else
             ''.html_safe
           end

@@ -340,6 +340,7 @@ de:
   button_create: "Anlegen"
   button_create_and_continue: "Anlegen und weiter"
   button_delete: "Löschen"
+  button_delete_watcher: "Lösche Beobachter %{name}"
   button_download: "Download"
   button_duplicate: "Duplizieren"
   button_edit: "Bearbeiten"
@@ -588,12 +589,15 @@ de:
       save: "Speichern"
       start_date: "Startdatum"
       really_close_dialog: "Dialog schließen und eingegebene Daten verwerfen?"
+      zoom_slider: "Zoom Schieber"
     filter:
       noneElement: "(keines)"
       noneSelection: "(keine)"
     label_collapse_all: "Alle zuklappen"
     label_expand_all: "Alle aufklappen"
     label_menu_item_toggle: "Untermenüpunkte ein-/ausblenden"
+    button_check_all: "Alles auswählen"
+    button_uncheck_all: "Alles abwählen"
 
   label_account: "Konto"
   label_activity: "Aktivität"
@@ -914,7 +918,8 @@ de:
   label_settings: "Konfiguration"
   label_show_completed_versions: "Abgeschlossene Versionen anzeigen"
   label_sort: "Sortierung"
-  label_sort_by: "Sortiert nach %{value}"
+  label_sort_by: "Sortiere nach %{value}"
+  label_sorted_by: "sortiert nach %{value}"
   label_sort_higher: "Eins höher"
   label_sort_highest: "An den Anfang"
   label_sort_lower: "Eins tiefer"
@@ -1545,8 +1550,7 @@ de:
     reporting_could_not_be_saved: "Statusbericht konnte nicht gespeichert werden."
     reporting_for_project:
       show: "Statusbericht zu Projekt: %{title}"
-      delete: "Löschen des Statusberichts zu Projekt: %{title}"
-      edit: "Bearbeiten des Statusberichts zu Projekt: %{title}"
+      edit_delete: "des Statusberichts zu Projekt: %{title}"
       history: "Historie des Statusberichts zu Projekt:"
     reporting:
       delete: "Statusbericht löschen: %{comment}"

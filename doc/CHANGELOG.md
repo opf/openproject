@@ -34,7 +34,8 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#4087` Accessible form errors
 * `#4105` Remove links from fieldset
 * `#4109` Missing hidden tab selection label
-* `#4112` Layouttabellen: Zwei Layouttabellen erschweren das Verständnis
+* `#4112` Usage of layout tables in work packages index
+* `#4123` Icon link table comprehensibility
 * `#4162` Missing html_safe on required list custom fields with non empty default value
 
 ## 3.0.0pre45

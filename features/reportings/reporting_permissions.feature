@@ -118,7 +118,7 @@ Feature: Reporting Permissions
      When I go to the page of the project called "Santas Project"
       And I toggle the "Timelines" submenu
       And I click on "Status reportings"
-      And I follow "Edit status for project: World Domination"
+      And I follow link "Edit" for report "World Domination"
 
       And I fill in "So'n Feuerball" for "Status comment"
       And I click on "Save"
@@ -145,10 +145,10 @@ Feature: Reporting Permissions
       And I click on "Status reportings"
 
      Then I should see "New reporting"
-      And I should see "Edit status for project: World Domination"
+      And I should see "Edit" for report "World Domination"
       And I should not see "Delete status reported to project: World Domination"
 
-     When I follow "Edit status for project: World Domination"
+     When I follow link "Edit" for report "World Domination"
       And I fill in "Yeah Boy" for "Status comment"
       And I click on "Save"
 
