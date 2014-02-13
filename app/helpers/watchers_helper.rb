@@ -84,7 +84,8 @@ module WatchersHelper
                              :method => :delete,
                              :remote => true,
                              :style => "vertical-align: middle",
-                             :class => "delete")
+                             :title => l(:button_delete_watcher, name: watch.user.name),
+                             :class => "delete no-decoration-on-hover")
           else
             ''.html_safe
           end
