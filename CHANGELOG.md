@@ -20,6 +20,7 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+* `#3440` New workpackage form layout
 * `#3734` Responsible widget for my project page
 
 ## 3.0.0.pre12
