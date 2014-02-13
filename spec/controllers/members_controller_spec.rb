@@ -82,36 +82,8 @@ describe MembersController do
       :roles => [role_1])
     }
 
-    def dont_update(field, value)
-      put :update,
-        :project_id => project.identifier,
-        :id => member_2.id,
-        :member => {
-          field => value
-        }
-
-      response.should_not be_success
-      Member.find(member_2.id).attributes[field.to_s].should_not == value
-    end
-
     before do
       User.stub(:current).and_return(admin)
-    end
-
-    it "should specifically not allow 'user_id' to be mass assigned" do
-      dont_update(:user_id, user.id)
-    end
-
-    it "should specifically not allow 'project_id' to be mass assigned" do
-      dont_update(:project_id, project.id)
-    end
-
-    it "should specifically not allow 'created_on' to be mass assigned" do
-      dont_update(:created_on, Time.zone.at(1111111111))
-    end
-
-    it "should specifically not allow 'mail_notification' to be mass assigned" do
-      dont_update(:mail_notification, !member_2.mail_notification)
     end
 
     it "should, however, allow roles to be updated through mass assignment" do
