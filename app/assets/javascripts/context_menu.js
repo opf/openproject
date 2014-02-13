@@ -232,19 +232,47 @@ ContextMenu.prototype = {
   }
 }
 
-function toggleIssuesSelection(el) {
-	var boxes = el.getElementsBySelector('input[type=checkbox]');
-	var all_checked = true;
-	for (i = 0; i < boxes.length; i++) { if (boxes[i].checked == false) { all_checked = false; } }
-	for (i = 0; i < boxes.length; i++) {
-		if (all_checked) {
-			boxes[i].checked = false;
-			boxes[i].up('tr').removeClassName('context-menu-selection');
-		} else if (boxes[i].checked == false) {
-			boxes[i].checked = true;
-			boxes[i].up('tr').addClassName('context-menu-selection');
-		}
-	}
+function isChecked(checkbox) {
+  return jQuery(checkbox).prop('checked') === true;
+}
+
+function setSelectionState(checkbox, select) {
+  var table_row = checkbox.parents('tr');
+
+  if (select) {
+    table_row.addClass('context-menu-selection');
+  } else {
+    table_row.removeClass('context-menu-selection');
+  }
+};
+
+function setAllSelectLinkState(link, all_checked) {
+  var span = link.find('span.hidden-for-sighted');
+  var state_text = I18n.t('js.button_uncheck_all');
+
+  if (all_checked) {
+    state_text = I18n.t('js.button_check_all');
+  }
+
+  link.attr('title', state_text);
+  link.attr('alt', state_text);
+
+  span.text(state_text);
+}
+
+function toggleSelection(link, form) {
+  var checkboxes = jQuery(form).find('input[type=checkbox]');
+  var all_checked = jQuery.makeArray(checkboxes).every(isChecked);
+
+  checkboxes.each(function(index) {
+    var checkbox = jQuery(this);
+
+    checkbox.prop('checked', !all_checked);
+
+    setSelectionState(checkbox, !all_checked);
+
+    setAllSelectLinkState(jQuery(link), all_checked);
+  });
 }
 
 function window_size() {

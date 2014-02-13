@@ -34,11 +34,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
     <thead>
       <tr>
-        <th class="checkbox hide-when-print"><%= link_to icon_wrapper('icon-context icon-yes', "#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), {},
-                                                         :onclick => 'toggleIssuesSelection(Element.up(this, "form")); return false;',
+        <th class="checkbox hide-when-print"><%= link_to icon_wrapper('icon-context icon-yes', l(:button_check_all)), {},
+                                                         :onclick => 'toggleSelection(this, jQuery(this).parents("form")); return false;',
                                                          :class => 'no-decoration-on-hover',
-                                                         :title   => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
-                                                         :alt     => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
+                                                         :title   => l(:button_check_all),
+                                                         :alt     => l(:button_check_all) %>
         </th>
         <%= sort_header_tag('id', :caption => '#', :default_order => 'desc') %>
 
