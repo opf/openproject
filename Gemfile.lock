@@ -1,6 +1,6 @@
 GIT
   remote: git@github.com:opf/openproject-ui_components.git
-  revision: eabe03c3b372b525b47569c62d68c517644ff0a2
+  revision: 8502ddae6cd761a412e7828542d5a91d3f5e8ae2
   branch: dev
   specs:
     openproject-ui_components (0.0.1)
