@@ -93,19 +93,7 @@ module WorkPackage::CsvExporter
 
   def encode_csv_columns(columns, encoding = l(:general_csv_encoding))
     columns.map do |cell|
-      encode_csv_cell cell, encoding
-    end
-  end
-
-  def encode_csv_cell(cell, encoding = l(:general_csv_encoding))
-    content = cell.to_s
-    begin
-      content.to_s.encode encoding, content.encoding.name
-    rescue
-      Rails.logger.warn(
-        "Could not encode the following cell from #{c.encoding} to #{l(:general_csv_encoding)}:" \
-        "\n  '#{content}'")
-      content.to_s
+      Redmine::CodesetUtil.from_utf8(content, encoding)
     end
   end
 end
