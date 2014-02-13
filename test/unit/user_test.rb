@@ -213,7 +213,7 @@ class UserTest < ActiveSupport::TestCase
       context "with failed connection to the LDAP server" do
         should "return nil" do
           @auth_source = LdapAuthSource.find(1)
-          AuthSource.any_instance.stubs(:initialize_ldap_con).raises(Net::LDAP::LdapError, 'Cannot connect')
+          AuthSource.any_instance.stub(:initialize_ldap_con).and_raise(Net::LDAP::LdapError, 'Cannot connect')
 
           assert_equal nil, User.try_to_login('edavis', 'wrong')
         end
@@ -430,7 +430,7 @@ class UserTest < ActiveSupport::TestCase
     context "with a unique project" do
       should "return false if project is archived" do
         project = Project.find(1)
-        Project.any_instance.stubs(:status).returns(Project::STATUS_ARCHIVED)
+        Project.any_instance.stub(:status).and_return(Project::STATUS_ARCHIVED)
         assert ! @admin.allowed_to?(:view_work_packages, Project.find(1))
       end
 

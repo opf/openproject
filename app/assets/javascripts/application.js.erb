@@ -46,6 +46,7 @@
 //= require jquery_ujs
 //= require jquery_noconflict
 //= require jquery.colorcontrast
+//= require jquery.trap
 //= require prototype
 //= require effects
 //= require dragdrop
@@ -114,10 +115,11 @@ jQuery(document).ready(function ($) {
       showWeek: true,
       changeMonth: true,
       changeYear: true,
+      yearRange: "c-100:c+10",
       dateFormat: 'yy-mm-dd',
       showButtonPanel: true,
       calculateWeek: function (d) {
-        if (d.getDay() > 1) {
+        if (d.getDay() != 1) {
           d.setDate(d.getDate() - d.getDay() + 1);
         }
         return $.datepicker.iso8601Week(d);

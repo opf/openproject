@@ -129,6 +129,7 @@ describe WorkPackages::MovesController do
                :type_id => '',
                :author_id => user.id,
                :assigned_to_id => '',
+               :responsible_id => '',
                :status_id => '',
                :start_date => '',
                :due_date => ''
@@ -147,6 +148,7 @@ describe WorkPackages::MovesController do
                :new_project_id => target_project.id,
                :new_type_id => target_project.types.first.id, # FIXME (see #1868) the validation on the work_package requires a proper target-type, other cases are not tested here
                :assigned_to_id => '',
+               :responsible_id => '',
                :status_id => '',
                :start_date => '',
                :due_date => '',
@@ -293,6 +295,10 @@ describe WorkPackages::MovesController do
           it "did not change the assignee" do
             subject.assigned_to_id.should eq(work_package.assigned_to_id)
           end
+
+          it "did not change the responsible" do
+            subject.responsible_id.should eq(work_package.responsible_id)
+          end
         end
 
         context "with changing the work package's attribute" do
@@ -307,6 +313,7 @@ describe WorkPackages::MovesController do
                  :new_project_id => target_project.id,
                  :new_type_id => target_project.types.first.id, #FIXME see #1868
                  :assigned_to_id => target_user.id,
+                 :responsible_id => target_user.id,
                  :status_id => [target_status],
                  :start_date => start_date,
                  :due_date => due_date
@@ -326,6 +333,12 @@ describe WorkPackages::MovesController do
 
           it "did change the assignee" do
             subject.map(&:assigned_to_id).each do |id|
+              id.should eq(target_user.id)
+            end
+          end
+
+          it "did change the responsible" do
+            subject.map(&:responsible_id).each do |id|
               id.should eq(target_user.id)
             end
           end

@@ -49,8 +49,8 @@ class SettingTest < ActiveSupport::TestCase
   end
 
   def test_serialized_setting
-    Setting.notified_events = ['issue_added', 'issue_updated', 'news_added']
-    assert_equal ['issue_added', 'issue_updated', 'news_added'], Setting.notified_events
-    assert_equal ['issue_added', 'issue_updated', 'news_added'], Setting.find_by_name('notified_events').value
+    Setting.notified_events = ['work_package_added', 'work_package_updated', 'news_added']
+    assert_equal ['work_package_added', 'work_package_updated', 'news_added'], Setting.notified_events
+    assert_equal ['work_package_added', 'work_package_updated', 'news_added'], Setting.find_by_name('notified_events').value
   end
 end

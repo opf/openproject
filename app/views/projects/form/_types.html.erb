@@ -27,45 +27,64 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<table class='list'>
-  <thead>
-    <tr>
-      <th width="90px" class='center'><%= Type.human_attribute_name(:active) %></th>
-      <th><%= Type.human_attribute_name(:name) %></th>
-      <th class='center'><%= Type.human_attribute_name(:in_aggregation) %></th>
-      <th class='center'><%= Type.human_attribute_name(:is_in_roadmap) %></th>
-      <th class='center'><%= Type.human_attribute_name(:is_milestone) %></th>
-    </tr>
-  </thead>
+<%= javascript_include_tag 'types_checkboxes' %>
 
-  <tbody>
-    <% Type.all.each do |type| %>
-      <tr class="<%= cycle('odd', 'even', :name => "pet_table") %>">
-        <td class='center'>
-          <%= check_box_tag "project[type_ids][]",
-                            type.id,
-                            project.types.include?(type),
-                            :id => "project_planning_element_type_ids_#{type.id}" %>
-          <label class='hidden-for-sighted' for="project_planning_element_type_ids_<%= type.id %>">
-            <%= l('timelines.enable_type_in_project', :type => type.name) %>
-          </label>
-        </td>
-        <td>
-          <label for="project_planning_element_type_ids_<%= type.id %>">
-            <%= icon_for_type(type) %>
-            <%=h type.name %>
-          </label>
-        </td>
-        <td class='center'>
-          <%= checked_image(type.in_aggregation) %>
-        </td>
-        <td class='center'>
-          <%= checked_image(type.is_in_roadmap) %>
-        </td>
-        <td class='center'>
-          <%= checked_image(type.is_milestone) %>
-        </td>
+<%= render_flash_message :notice,
+                         l(:notice_automatic_set_of_standard_type),
+                         style: "display:none;", id: "types_flash_notice" %>
+
+<fieldset class="box" id="project_types">
+  <legend><%=l(:label_type_plural)%>
+    <span style="font-size:0.9em">
+      (<%= link_to(l(:button_check_all), "#", id: "check_all_types") +
+           ' | ' +
+           link_to(l(:button_uncheck_all), "#", id: "uncheck_all_types")
+       %>)
+    </span>
+  </legend>
+  <table class='list types'>
+    <thead>
+      <tr>
+        <th width="90px" class='center'><%= Type.human_attribute_name(:active) %></th>
+        <th><%= Type.human_attribute_name(:name) %></th>
+        <th class='center'><%= Type.human_attribute_name(:in_aggregation) %></th>
+        <th class='center'><%= Type.human_attribute_name(:is_in_roadmap) %></th>
+        <th class='center'><%= Type.human_attribute_name(:is_milestone) %></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% Type.all.each do |type| %>
+        <tr class="<%= cycle('odd', 'even', :name => "pet_table") %>">
+          <td class='center'>
+            <% type_id = "project_planning_element_type_ids_#{type.id}" %>
+            <%= check_box_tag "project[type_ids][]",
+                              type.id,
+                              project.types.include?(type),
+                              :id => type_id,
+                              :'data-standard' => type.is_standard %>
+            <%= hidden_field_tag 'project[type_ids][]', '', :'data-for' => type_id %>
+            <label class='hidden-for-sighted' for=<%= type_id %>>
+              <%= l('timelines.enable_type_in_project', :type => type.name) %>
+            </label>
+          </td>
+          <td>
+            <label for="project_planning_element_type_ids_<%= type.id %>">
+              <%= icon_for_type(type) %>
+              <%=h type.name %>
+            </label>
+          </td>
+          <td class='center'>
+            <%= checked_image(type.in_aggregation) %>
+          </td>
+          <td class='center'>
+            <%= checked_image(type.is_in_roadmap) %>
+          </td>
+          <td class='center'>
+            <%= checked_image(type.is_milestone) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</fieldset>

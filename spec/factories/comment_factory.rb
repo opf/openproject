@@ -30,6 +30,6 @@ FactoryGirl.define do
   factory :comment do
     author :factory => :user
     sequence(:comments) { |n| "I am a comment No. #{n}" }
-    commented :factory => :work_package
+    commented :factory => :news
   end
 end

@@ -38,6 +38,7 @@ module Api
 
       before_filter :find_project_by_project_id,
                     :authorize, :except => [:index]
+      before_filter :parse_changed_since, only: [:index]
       before_filter :assign_planning_elements, :except => [:index, :update, :create]
 
       # Attention: find_all_projects_by_project_id needs to mimic all of the above
@@ -91,7 +92,9 @@ module Api
 
       def update
         @planning_element = WorkPackage.find(params[:id])
-        @planning_element.attributes = permitted_params.planning_element
+        @planning_element.attributes = permitted_params.planning_element.except :note
+
+        @planning_element.add_journal(User.current, permitted_params.planning_element[:note])
 
         successfully_updated = @planning_element.save
 
@@ -197,21 +200,55 @@ module Api
 
       end
 
+      def convert_object_to_struct(model)
+        OpenStruct.new(model.attributes)
+      end
+
+      def convert_wp_object_to_struct(model)
+        result = convert_object_to_struct(model)
+        result.custom_values = model.custom_values.select{|cv| cv.value != ""}.map do |model|
+            convert_object_to_struct(model)
+        end
+        result
+      end
+
       def convert_to_struct(collection)
-        collection.map{|model| OpenStruct.new(model.attributes)}
+        collection.map do |model|
+          convert_wp_object_to_struct(model)
+        end
       end
 
       def planning_comparison?
         params[:at_time].present?
       end
 
+      def timeline_to_project(timeline_id)
+        if timeline_id then
+          project = Timeline.find_by_id(params[:timeline]).project
+          user_has_access = User.current.allowed_to?({:controller => "planning_elements",
+                                                      :action     => "index"},
+                                                      project)
+          if user_has_access then
+            return project
+          end
+        end
+      end
+
       def current_work_packages(projects)
         work_packages = WorkPackage.for_projects(projects)
-                                   .includes(:status, :project, :type)
+                                   .changed_since(@since)
+                                   .includes(:status, :project, :type, :custom_values)
 
         if params[:f]
-          query = Query.new
+          #we need a project to make project-specific custom fields work
+          project = timeline_to_project(params[:timeline])
+          query = Query.new(:project => project)
+
           query.add_filters(params[:f], params[:op], params[:v])
+
+          #if we do not remove the project, the filter will only add wps from this project
+          query.project = nil
+
           work_packages = work_packages.with_query query
         end
 
@@ -277,6 +314,12 @@ module Api
         end
 
 
+      end
+
+      private
+
+      def parse_changed_since
+        @since = Time.at(Float(params[:changed_since] || 0).to_i) rescue render_400
       end
     end
   end

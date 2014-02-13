@@ -35,12 +35,23 @@ module Api
 
       unloadable
 
+      AuthorizationData = Struct.new(:authorized, :authenticated_user_id)
+      skip_before_filter :require_login
+      before_filter :api_allows_login, :require_login
+
       def index
+        @authorization = AuthorizationData.new(true, User.current.id)
+
         respond_to do |format|
           format.api
         end
       end
-    end
 
+      private
+
+      def api_allows_login
+        render_403 unless Setting.rest_api_enabled?
+      end
+    end
   end
 end
