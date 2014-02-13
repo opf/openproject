@@ -26,22 +26,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.5.0')
-  abort <<-Message
-
-  *****************************************************
-  *                                                   *
-  *   OpenProject requires bundler version >= 1.5.0   *
-  *                                                   *
-  *   Please install bundler with:                    *
-  *                                                   *
-  *   gem install bundler                             *
-  *                                                   *
-  *****************************************************
-
-  Message
-end
-
 source 'https://rubygems.org'
 
 gem "rails", "~> 3.2.18"
@@ -99,7 +83,7 @@ gem 'daemons'
 # (see https://www.openproject.org/work_packages/3029)
 gem 'rack-protection', :git => "https://github.com/finnlabs/rack-protection.git", :ref => '5a7d1bd'
 
-gem 'syck', :platforms => [:ruby_20, :mingw_20, :ruby_21, :mingw_21], :require => false
+gem 'syck', :require => false
 
 group :production do
   # we use dalli as standard memcache client
