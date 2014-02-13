@@ -33,15 +33,11 @@ See doc/COPYRIGHT.rdoc for more details.
                          l(:notice_automatic_set_of_standard_type),
                          style: "display:none;", id: "types_flash_notice" %>
 
-<fieldset class="box" id="project_types">
-  <legend><%=l(:label_type_plural)%>
-    <span style="font-size:0.9em">
-      (<%= link_to(l(:button_check_all), "#", id: "check_all_types") +
-           ' | ' +
-           link_to(l(:button_uncheck_all), "#", id: "uncheck_all_types")
-       %>)
-    </span>
-  </legend>
+<fieldset class="box with-legend-control" id="project_types">
+  <legend><%=l(:label_type_plural)%></legend>
+  <div class="legend-control">
+    <span>(<%= link_to(l(:button_check_all), "#", id: "check_all_types") + ' | ' + link_to(l(:button_uncheck_all), "#", id: "uncheck_all_types") %>)</span>
+  </div>
   <table class='list types'>
     <thead>
       <tr>

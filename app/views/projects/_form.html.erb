@@ -41,12 +41,16 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 
 <% if project.new_record? %>
-  <%= render :partial => "projects/form/modules", :locals => { :project => project } %>
+  <div class="form-space">
+    <%= render :partial => "projects/form/modules", :locals => { :project => project } %>
+  </div>
 <% end %>
 
 <% if (project.new_record? || project.module_enabled?('work_package_tracking')) %>
   <% if renderTypes %>
-      <%= render :partial => 'projects/form/types', :locals => { :f => f, :project => project } %>
+      <div class="form-space">
+        <%= render :partial => 'projects/form/types', :locals => { :f => f, :project => project } %>
+      </div>
   <% end %>
 <% end %>
 
