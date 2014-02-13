@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <strong><%= l(:label_work_package_watchers) %> (<%= watched.watcher_users.size %>)</strong>
 <% if user_allowed_to_add_watchers %>
-  - <%= toggle_link l(:button_add_watcher), 'new-watcher-form', {:focus => 'watcher_user_id'} %>
+  - <%= toggle_link l(:button_add_watcher), 'new-watcher-form', { focus: 'watcher_user_id' } %>
 <% end %>
 
 <%= form_for(:watcher,
@@ -40,10 +40,12 @@ See doc/COPYRIGHT.rdoc for more details.
              remote: true,
              complete: "Form.Element.focus('watcher_user_id');",
              html: { id: 'new-watcher-form', style: (@watcher ? '' : 'display:none;') }) do |f| %>
-  <p><%= f.select :user_id, (watched.addable_watcher_users.collect {|m| [m.name, m.id]}), :prompt => "--- #{l(:actionview_instancetag_blank_option)} ---" %>
+  <p>
+    <%= f.select :user_id, (watched.addable_watcher_users.collect {|m| [m.name, m.id]}), :prompt => "--- #{l(:actionview_instancetag_blank_option)} ---" %>
 
-  <%= submit_tag l(:button_add) %>
-  <%= toggle_link l(:button_cancel), 'new-watcher-form'%></p>
+    <%= submit_tag l(:button_add) %>
+    <%= toggle_link l(:button_cancel), 'new-watcher-form' %>
+  </p>
 <% end %>
 
 <%= watchers_list(watched) %>
