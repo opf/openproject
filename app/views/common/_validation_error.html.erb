@@ -27,10 +27,12 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<label for="project_association_description">
-  <%= ProjectAssociation.human_attribute_name(:description)%>:
-</label>
-
-<%= f.text_area(:description, :class => 'timelines-project-association-description wiki-edit', :rows => 10,
-                :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json)) %>
-<%= wikitoolbar_for 'project_association_description' %>
+<div class="errorExplanation" id="errorExplanation">
+  <h2 role="alert"><%= l("activerecord.errors.template.header.#{(error_messages.count == 1) ? 'one' : 'other'}", count: error_messages.count, model: object_name) %></h2>
+  <p><%= l("errors.header_invalid_fields") %></p>
+  <ul>
+    <% error_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+</div>

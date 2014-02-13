@@ -1263,6 +1263,22 @@ var I18nForms = (function ($) {
 
 jQuery(document).ready(I18nForms.init);
 
+var activateError = function() {
+  var errorHeader = jQuery('.errorExplanation h2[role="alert"]');
+
+  errorHeader.show();
+}
+
+var activateFlash = function() {
+  var flashMessage = jQuery('.flash');
+
+  flashMessage.hide();
+  flashMessage.show();
+}
+
+jQuery(document).ready(activateError);
+jQuery(document).ready(activateFlash);
+
 var SubmitConfirm = (function($) {
   var init;
 

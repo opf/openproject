@@ -26,6 +26,10 @@
  * See doc/COPYRIGHT.rdoc for more details.  ++
  */
 
-@import global/accessibility
-@import global/variables
-@import global/mixins
+@mixin hidden_for_sighted
+  position: absolute
+  left: -10000px
+  top: auto
+  width: 1px
+  height: 1px
+  overflow: hidden

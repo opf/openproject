@@ -267,6 +267,9 @@ en:
       wiki_page: "Wiki page"
       workflow: "Workflow"
 
+  errors:
+    header_invalid_fields: "There were problems with the following fields:"
+
   activity:
     created: "Created: %{title}"
     updated: "Updated: %{title}"
