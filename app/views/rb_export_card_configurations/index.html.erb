@@ -4,13 +4,21 @@
   <%= l(:label_backlogs_export_card_config_select) %>
 </h2>
 
+<ul>
 <% @configs.each do |config| %>
-  <%= link_to(config.name,
-    :controller => '/rb_export_card_configurations',
-    :action => 'show',
-    :project_id => @project.id,
-    :sprint_id => @sprint.id,
-    :id => config.id,
-    :format => :pdf) %>
-  <br>
+  </li>
+    <p>
+    <%= link_to(config.name,
+      :controller => '/rb_export_card_configurations',
+      :action => 'show',
+      :project_id => @project.id,
+      :sprint_id => @sprint.id,
+      :id => config.id,
+      :format => :pdf) %>
+    <% if !!config.description && !config.description.empty? %>
+      <%= " - #{config.description}" %>
+    <% end %>
+    </p>
+  </li>
 <% end %>
+</ul>
