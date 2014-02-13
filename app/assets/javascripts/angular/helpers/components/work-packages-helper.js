@@ -14,11 +14,43 @@ angular.module('openproject.uiComponents')
       }
     },
 
-    getSum: function(rows, columnName) {
-      var values = rows
-        .map(function(row){
-          return WorkPackagesHelper.getRowObjectContent(row.object, columnName);
-        })
+    getRowObjectCustomValue: function(object, customField) {
+      var customValue = object.custom_values.filter(function(customValue){
+        return customValue.custom_field_id === customField.id;
+      }).first();
+
+      return WorkPackagesHelper.getCustomValue(customField, customValue);
+    },
+
+    getCustomValue: function(customField, customValue) {
+      if (!customValue) return '';
+
+      switch(customField.field_format) {
+        case 'int':
+          return parseInt(customValue.value);
+        case 'float':
+          return parseFloat(customValue.value);
+        default:
+          return customValue.value;
+      }
+    },
+
+    getColumnValue: function(rowObject, column) {
+      if (column.custom_field) {
+        return WorkPackagesHelper.getRowObjectCustomValue(rowObject, column.custom_field);
+      } else {
+        return WorkPackagesHelper.getRowObjectContent(rowObject, column.name);
+      }
+    },
+
+    projectRowsToColumn: function(rows, column) {
+      return rows.map(function(row){
+        return WorkPackagesHelper.getColumnValue(row.object, column);
+      });
+    },
+
+    getSums: function(rows, column) {
+      var values = WorkPackagesHelper.projectRowsToColumn(rows, column)
         .filter(function(value) {
           return typeof(value) === 'number';
         });

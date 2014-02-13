@@ -15,13 +15,13 @@ angular.module('openproject.uiComponents')
       var defaultType = 'text';
 
       // Set text to be displayed
-      scope.displayText = WorkPackagesHelper.getRowObjectContent(scope.workPackage, scope.column.name) || defaultText;
-      scope.displayType = defaultType;
-
+      scope.displayText = WorkPackagesHelper.getColumnValue(scope.workPackage, scope.column) || defaultText;
 
       // TODO RS: Manually set all the column display types. We will need:
       //          Text, Link... what else?
       //          Date formatting is much easier server side. Check time_with_zone_as_json initializer.
+
+      scope.displayType = defaultType;
 
       switch (scope.column.name){
         case 'subject':

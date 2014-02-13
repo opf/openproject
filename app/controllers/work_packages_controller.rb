@@ -222,18 +222,21 @@ class WorkPackagesController < ApplicationController
                       []
                     end
 
-    # push work packages to client as JSON
-    # TODO pull work packages via AJAX
-    push_table_data_via_gon results
-    push_work_packages_via_gon work_packages
 
     respond_to do |format|
       format.html do
+        # push work packages to client as JSON
+        # TODO pull work packages via AJAX
+        push_work_packages_table_data_via_gon results, work_packages
+
         render :index, :locals => { :query => @query,
                                     :work_packages => work_packages,
                                     :results => results,
                                     :project => @project },
                        :layout => !request.xhr?
+      end
+      format.json do
+        render json: get_work_packages_table_data(results, work_packages)
       end
       format.csv do
         serialized_work_packages = WorkPackage::Exporter.csv(work_packages, @project)
@@ -448,33 +451,52 @@ class WorkPackagesController < ApplicationController
 
   private
 
-  def push_table_data_via_gon(results)
-    gon.project_identifier = @project.to_param
-
-    gon.query = @query.as_json only: [:group_by, :display_sums]
-
-    gon.columns = @query.columns.map do |column|
-      { name: column.name, title: column.caption, sortable: column.sortable, groupable: column.groupable }
+  def push_work_packages_table_data_via_gon(results, work_packages)
+    get_work_packages_table_data(results, work_packages).each_pair do |name, value|
+      gon.send "#{name}=", value
     end
-
-    gon.work_package_count_by_group = results.work_package_count_by_group
-
-    gon.sort_criteria = @sort_criteria.to_param
+    # TODO later versions of gon support gon.push {Hash} - on the other hand they make it harder to deliver data to gon inside views
   end
 
-  def push_work_packages_via_gon(work_packages)
-    # TODO maybe serialize method ancestors
-    gon.work_packages = work_packages.as_json(methods: :leaf?,
-                                              include: {
-                                                assigned_to: { only: :id, methods: :name },
-                                                author: { only: :id, methods: :name },
-                                                category: { only: :name },
-                                                parent: { only: :subject },
-                                                priority: { only: :name },
-                                                project: { only: [:name, :identifier] },
-                                                responsible: { only: :id, methods: :name },
-                                                status: { only: :name },
-                                                type: { only: :name }
-                                              })
+  def get_work_packages_table_data(results, work_packages)
+    return {
+      project_identifier:           @project.to_param,
+      query:                        get_query_as_json(@query),
+      columns:                      get_columns_for_json(@query.columns),
+      sort_criteria:                @sort_criteria.to_param,
+      work_package_count_by_group:  results.work_package_count_by_group,
+      work_packages:                get_work_packages_as_json(work_packages)
+    }
+  end
+
+  def get_query_as_json(query)
+    query.as_json only: [:group_by, :display_sums]
+  end
+
+  def get_columns_for_json(columns)
+    columns.map do |column|
+      { name: column.name,
+        title: column.caption,
+        sortable: column.sortable,
+        groupable: column.groupable,
+        custom_field: column.is_a?(QueryCustomFieldColumn) &&
+                      column.custom_field.as_json(only: [:id, :field_format])
+      }
+    end
+  end
+
+  def get_work_packages_as_json(work_packages)
+    work_packages.as_json(methods: [:leaf?, :overdue?], include: {
+      assigned_to: { only: :id, methods: :name },
+      author: { only: :id, methods: :name },
+      category: { only: :name },
+      parent: { only: :subject },
+      priority: { only: :name },
+      project: { only: [:name, :identifier] },
+      responsible: { only: :id, methods: :name },
+      status: { only: :name },
+      type: { only: :name },
+      custom_values: { only: [:custom_field_id, :value] },
+    })
   end
 end

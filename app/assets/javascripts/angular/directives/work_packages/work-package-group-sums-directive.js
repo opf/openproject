@@ -16,7 +16,7 @@ angular.module('openproject.workPackages.directives')
 
           // map columns to sums if the column data is a number
           scope.sums = scope.columns.map(function(column){
-            return WorkPackagesHelper.getSum(rowsInCurrentGroup, column.name);
+            return WorkPackagesHelper.getSums(rowsInCurrentGroup, column);
           });
 
         }
