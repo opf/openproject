@@ -31,6 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#3371` [Work Package Tracking] Wrong 404 when custom query not exists
 * `#4087` Accessible form errors
+* `#4105` Remove links from fieldset
 * `#4109` Missing hidden tab selection label
 * `#4112` Layouttabellen: Zwei Layouttabellen erschweren das Verständnis
 * `#4162` Missing html_safe on required list custom fields with non empty default value
