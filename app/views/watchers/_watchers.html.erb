@@ -31,9 +31,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <strong><%= l(:label_work_package_watchers) %> (<%= watched.watcher_users.size %>)</strong>
 <% if user_allowed_to_add_watchers %>
-  <%= toggle_link icon_wrapper('icon-context icon-add', l(:button_add_watcher)),
+  <%= toggle_link icon_wrapper('icon icon-add', l(:button_add_watcher)),
                   'new-watcher-form',
-                  { focus: 'watcher_user_id' } %>
+                  { focus: 'watcher_user_id' },
+                  { :class => 'no-decoration-on-hover', :title => l(:button_add_watcher) } %>
 <% end %>
 
 <%= form_for(:watcher,

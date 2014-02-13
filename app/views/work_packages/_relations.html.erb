@@ -32,9 +32,10 @@ See doc/COPYRIGHT.rdoc for more details.
 <p>
   <strong><%=l(:label_related_work_packages)%></strong>
   <% if authorize_for('work_package_relations', 'create') %>
-    <%= toggle_link icon_wrapper('icon-context icon-add', l(:label_add_related_work_packages)),
+    <%= toggle_link icon_wrapper('icon icon-add', l(:label_add_related_work_packages)),
                     'new-relation-form',
-                    { focus: 'relation_to_id' } %>
+                    { focus: 'relation_to_id' },
+                    { :class => 'no-decoration-on-hover', :title => l(:label_add_related_work_packages) } %>
   <% end %>
 </p>
 

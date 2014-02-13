@@ -197,11 +197,11 @@ module ApplicationHelper
     link.html_safe
   end
 
-  def toggle_link(name, id, options={})
+  def toggle_link(name, id, options={}, html_options={})
     onclick = "Element.toggle('#{id}'); "
     onclick << (options[:focus] ? "Form.Element.focus('#{options[:focus]}'); " : "this.blur(); ")
     onclick << "return false;"
-    link_to(name, "#", :onclick => onclick)
+    link_to(name, "#", {:onclick => onclick}.merge(html_options))
   end
 
   def delete_link(url, options={})
