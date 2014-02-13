@@ -36,6 +36,8 @@ module OpenProject::PdfExport::ExportCard
     attr_reader :paper_height
 
     def initialize(config, work_packages)
+      patch_models
+
       defaults = { page_size: "A4" }
 
       @config = config
@@ -92,6 +94,11 @@ module OpenProject::PdfExport::ExportCard
           card_y_offset -= (card_height + card_padding)
         end
       end
+    end
+
+    def patch_models
+      # Note: Can't seem to patch the models when initializing for reasons which I don't understand
+      WorkPackage.send(:include, WorkPackageDisplay)
     end
   end
 end
