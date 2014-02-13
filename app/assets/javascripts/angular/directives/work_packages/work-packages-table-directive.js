@@ -27,6 +27,12 @@ angular.module('openproject.workPackages.directives')
       scope.grouped = scope.groupByColumn !== undefined;
       scope.groupExpanded = {};
 
+      scope.setCheckedStateForAllRows = function(state) {
+        angular.forEach(scope.rows, function(row) {
+          row.checked = state;
+        });
+      };
+
     }
   };
 }]);

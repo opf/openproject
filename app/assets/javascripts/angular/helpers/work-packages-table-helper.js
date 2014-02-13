@@ -47,6 +47,16 @@ angular.module('openproject.workPackages.helpers')
       });
 
       return rows;
+    },
+
+    allRowsChecked: function(rows) {
+      return rows
+        .map(function(row) {
+          return !!row.checked;
+        })
+        .reduce(function(a, b){
+          return a && b;
+        });
     }
 
   };

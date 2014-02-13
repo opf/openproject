@@ -2,11 +2,11 @@
   <thead>
     <tr>
       <th class="checkbox hide-when-print">
-        <a ng-href="/projects/{{projectIdentifier}}/work_packages"
-           alt="{{I18n.t('js.button_check_all')}}/{{I18n.t('js.button_uncheck_all')}}"
+        <a ng-href=""
+           alt="{{(rows | allRowsChecked) && I18n.t('js.button_uncheck_all') || I18n.t('js.button_check_all')}}"
            class="no-decoration-on-hover"
-           onclick="toggleIssuesSelection(Element.up(this, &quot;form&quot;)); return false;"
-           title="{{I18n.t('js.button_check_all')}}/{{I18n.t('js.button_uncheck_all')}}">
+           ng-click="setCheckedStateForAllRows(!(rows | allRowsChecked))"
+           title="{{(rows | allRowsChecked) && I18n.t('js.button_uncheck_all') || I18n.t('js.button_check_all')}}">
           <icon-wrapper icon-title="I18n.t('js.button_check_all') + '/' + I18n.t('js.button_uncheck_all')"
                         icon-name="yes"/>
 
@@ -76,9 +76,9 @@
     <tr id="work-package-{{ row.object.id }}"
         ng-class="[
           'hascontextmenu',
+          row.checked && 'context-menu-selection',
           'issue',
-          $even && 'even' || '',
-          $odd && 'odd' || '',
+          $even && 'even' || 'odd',
           !row.object['leaf?'] && 'parent' || '',
           row.level > 0 && 'child idnt' || '',
           row.level > 0 && ('idnt-' + row.level) || ''
