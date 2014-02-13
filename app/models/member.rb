@@ -28,13 +28,13 @@
 #++
 
 class Member < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
+
   belongs_to :user
   belongs_to :principal, :foreign_key => 'user_id'
   has_many :member_roles, :dependent => :destroy, :autosave => true
   has_many :roles, :through => :member_roles
   belongs_to :project
-
-  attr_protected :project_id, :user_id, :role_ids
 
   validates_presence_of :project
   validates_uniqueness_of :user_id, :scope => :project_id

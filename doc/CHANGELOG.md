@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#3335` Fix: Mass assignment in members controller
 * `#3371` [Work Package Tracking] Wrong 404 when custom query not exists
 * `#3440` New workpackage form layout
 * `#4087` Accessible form errors
