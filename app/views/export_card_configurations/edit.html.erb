@@ -26,6 +26,8 @@ See doc/COPYRIGHT.md for more details.
 
 <% html_title l(:label_administration), "#{l(:label_edit)} #{l(:label_export_card_configuration)} #{@config.name}" %>
 
+<%= error_messages_for 'config' %>
+
 <h2><%= link_to t(:label_export_card_configuration_plural), pdf_export_export_card_configurations_path %> &#187; <%= h(@config.name) %></h2>
 
 <%= form_for @config, :method => :put, url: pdf_export_export_card_configuration_path(@config.id), :builder => TabularFormBuilder do |f| %>

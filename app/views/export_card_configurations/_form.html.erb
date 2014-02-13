@@ -24,19 +24,17 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
-
 <div class="box tabular">
-<p><%= f.error_messages %></p>
-<!--[form:export_card_configuration]-->
-<p><%= f.text_field :name, :required => true %></p>
-<p><%= f.text_area :description, :class => "wiki-edit" %></p>
-<p><%= f.text_field :per_page, :required => true %></p>
-<p><%= f.text_field :page_size, :required => true, :value => "A4", :readonly => true %></p>
-<P><%= f.select :orientation, [:landscape, :portrait], :required => true %></p>
+  <!--[form:export_card_configuration]-->
+  <p><%= f.text_field :name, :required => true %></p>
+  <p><%= f.text_area :description, :class => "wiki-edit" %></p>
+  <p><%= f.text_field :per_page, :required => true %></p>
+  <p><%= f.text_field :page_size, :required => true, :value => "A4", :readonly => true %></p>
+  <P><%= f.select :orientation, [:landscape, :portrait], :required => true %></p>
 
-<% field = (f.text_area :rows, :required => true, :class => "wiki-edit") %>
-<%= render partial: "rows_format_help", locals: { field: field } %>
+  <% field = (f.text_area :rows, :required => true, :class => "wiki-edit") %>
+  <%= render partial: "rows_format_help", locals: { field: field } %>
 
-<!--[eoform:export_card_configuration]-->
+  <!--[eoform:export_card_configuration]-->
 </div>
 <%= submit_tag l(@config.new_record? ? :button_create : :button_save) %>
