@@ -70,6 +70,14 @@ class PermittedParams < Struct.new(:params, :user)
     params.require(:auth_source).permit(*self.class.permitted_attributes[:auth_source])
   end
 
+  def board
+    params.require(:board).permit(*self.class.permitted_attributes[:board])
+  end
+
+  def board?
+    params[:board] ? board : nil
+  end
+
   def board_move
     params.require(:board).permit(*self.class.permitted_attributes[:move_to])
   end
@@ -266,6 +274,9 @@ class PermittedParams < Struct.new(:params, :user)
         :attr_firstname,
         :attr_lastname,
         :attr_mail],
+      :board => [
+        :name,
+        :description],
       :color => [
         :name,
         :hexcode,
