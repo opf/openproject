@@ -95,7 +95,7 @@ describe MembersController do
         }
 
       Member.find(member_2.id).roles.should include(role_1, role_2)
-      response.response_code.should < 400
+      expect(response.response_code).to be < 400
     end
   end
 
