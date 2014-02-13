@@ -34,6 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3440` New workpackage form layout
 * `#4087` Accessible form errors
 * `#4098` Keyboard operation: links accessible with Screenreadern
+* `#4103` [Accessibility] Add missing field sets
 * `#4105` Remove links from fieldset
 * `#4109` Missing hidden tab selection label
 * `#4112` Usage of layout tables in work packages index

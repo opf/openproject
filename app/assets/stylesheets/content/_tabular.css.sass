@@ -1,5 +1,4 @@
-/*-- copyright
- * OpenProject is a project management system.
+/*-- copyright * OpenProject is a project management system.
  * Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
  *
  * This program is free software; you can redistribute it and/or
@@ -26,30 +25,20 @@
  * See doc/COPYRIGHT.rdoc for more details.  ++
  */
 
-@import global/all
-@import fonts/lato
-@import fonts/openproject_icon_font
-@import external
-@import select2_customizing
-@import jstoolbar
-@import content/context_menu
-@import print
-@import scm
-@import top-shelf
-@import work_packages
-@import openproject_plugins
-@import layout/all
-@import content/forms
-@import content/flash_messages
-@import content/calendar
-@import content/wiki
-@import content/links
-@import content/action_menu_main
-@import content/my_page
-@import content/buttons
-@import content/boxes
-@import content/work_package_report
-@import content/expandable_group_content
-@import content/control_colors
-@import content/tabular
-@import default/main
+#content
+  .box
+    fieldset.tabular
+      border-style: none
+      margin:
+        top: -20px
+        bottom: -20px
+
+      > legend
+        float: left
+        text-align: right
+        margin-left: -21px
+        padding-right: 4px
+        width: 175px
+
+      label.floating
+        width: 150px
