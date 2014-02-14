@@ -177,10 +177,6 @@ group :development do
   gem 'rb-fsevent', :group => :test
   gem 'thin'
   gem 'faker'
-end
-
-group :tools do
-  # why tools? see: https://github.com/guard/guard-test
   gem 'guard-test'
 end
 
