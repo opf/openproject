@@ -40,6 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#4103` [Accessibility] Add missing field sets
 * `#4105` Remove links from fieldset
 * `#4109` Missing hidden tab selection label
+* `#4110` Position: Status/Funktion von Links ist nicht klar
 * `#4112` Usage of layout tables in work packages index
 * `#4123` Icon link table comprehensibility
 * `#4162` Missing html_safe on required list custom fields with non empty default value
