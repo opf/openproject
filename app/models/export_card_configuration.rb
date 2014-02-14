@@ -39,10 +39,12 @@ class ExportCardConfiguration < ActiveRecord::Base
       "font_size", "font_style", "text_align", "minimum_lines", "render_if_empty",
       "width", "indented", "custom_label", "has_count"]
 
+    def raise_yaml_error
+      raise ArgumentError, I18n.t('validation_error_yaml_is_badly_formed')
+    end
+
     def assert_required_keys(hash, valid_keys, required_keys)
-      if !hash.is_a?(Hash)
-        raise ArgumentError, I18n.t('validation_error_yaml_is_badly_formed')
-      end
+      raise_yaml_error if !hash.is_a?(Hash)
 
       begin
         hash.assert_valid_keys valid_keys
@@ -70,14 +72,12 @@ class ExportCardConfiguration < ActiveRecord::Base
         groups = YAML::load(record.rows)
         groups.each do |gk, gv|
           assert_required_keys(gv, VALID_GROUP_KEYS, REQUIRED_GROUP_KEYS)
-          if gv.has_key?("rows") && gv["rows"].is_a?(Hash)
-            gv["rows"].each do |rk, rv|
-              assert_required_keys(rv, VALID_ROW_KEYS, REQUIRED_ROW_KEYS)
-              if rv.has_key?("columns") && rv["columns"].is_a?(Hash)
-                rv["columns"].each do |ck, cv|
-                  assert_required_keys(cv, VALID_COLUMN_KEYS, REQUIRED_COLUMN_KEYS)
-                end
-              end
+          raise_yaml_error if !gv["rows"].is_a?(Hash)
+          gv["rows"].each do |rk, rv|
+            assert_required_keys(rv, VALID_ROW_KEYS, REQUIRED_ROW_KEYS)
+            raise_yaml_error if !rv["columns"].is_a?(Hash)
+            rv["columns"].each do |ck, cv|
+              assert_required_keys(cv, VALID_COLUMN_KEYS, REQUIRED_COLUMN_KEYS)
             end
           end
         end
