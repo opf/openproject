@@ -526,6 +526,7 @@ en:
   error_menu_item_not_saved: Menu item could not be saved
 
   events:
+    project: 'Project edited'
     changeset: 'Changeset edited'
     message: Message edited
     news: News

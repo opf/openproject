@@ -530,6 +530,7 @@ de:
   error_menu_item_not_saved: Menüpunkt konnte nicht aktualisiert werden.
 
   events:
+    project: 'Projekt bearbeitet'
     changeset: Changeset bearbeitet
     message: Nachricht bearbeitet
     news: News
