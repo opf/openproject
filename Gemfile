@@ -73,7 +73,8 @@ gem 'svg-graph'
 
 gem 'execjs'
 
-gem 'therubyracer'
+# You don't need therubyracer if you have nodejs installed on the machine precompiling assets.
+gem 'therubyracer', :group => :therubyracer
 
 gem "date_validator"
 
