@@ -272,7 +272,7 @@ describe WorkPackagesController do
     # and its description encoded in UTF-8 it will result in a CompatibilityError.
     # This would not happen if the description contained only letters covered by
     # ISO-8859-1. Since this can happen, though, it is more sensible to encode everything
-    # in UTF-8 which gets red of this problem altogether.
+    # in UTF-8 which gets rid of this problem altogether.
     let(:work_package) do
       FactoryGirl.create(
         :work_package,
