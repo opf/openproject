@@ -52,7 +52,7 @@ class RbMasterBacklogsController < RbApplicationController
   def set_export_card_config_meta
     @export_card_config_meta = {
       count: ExportCardConfiguration.active.count,
-      default: ExportCardConfiguration.active.select { |c| c.is_default? }.first
+      default: ExportCardConfiguration.active.select { |c| c.is_default? }.first || ExportCardConfiguration.active.first
     }
   end
 
