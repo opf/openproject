@@ -535,8 +535,8 @@ de:
     message: Nachricht bearbeitet
     news: News
     reply: Antwort erstellt
-    time_entry: Zeiterfassungseintrag-Bearbeitung
-    wiki_page: Wiki-Bearbeitung
+    time_entry: Zeiterfassungseintrag bearbeitet
+    wiki_page: Wiki-Seite bearbeitet
     work_package_closed: 'Arbeitspaket geschlossen'
     work_package_edit: 'Arbeitspaket bearbeitet'
     work_package_note: 'Arbeitspaket kommentiert'
