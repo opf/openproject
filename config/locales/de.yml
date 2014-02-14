@@ -36,12 +36,12 @@ de:
   description_invite: "eingeladen"
 
   events:
-    meeting: Meeting bearbeitet
-    meeting_agenda: Meeting Agenda bearbeitet
-    meeting_agenda_closed: Meeting Agenda abgeschlossen
-    meeting_agenda_opened: Meeting Agenda geöffnet
-    meeting_minutes: Meeting Protokoll bearbeitet
-    meeting_minutes_created: Meeting Protokoll erstellt
+    meeting: Besprechung bearbeitet
+    meeting_agenda: Agenda bearbeitet
+    meeting_agenda_closed: Agenda abgeschlossen
+    meeting_agenda_opened: Agenda geöffnet
+    meeting_minutes: Protokoll bearbeitet
+    meeting_minutes_created: Protokoll erstellt
 
   label_meeting: "Besprechung"
   label_meeting_plural: "Besprechungen"
