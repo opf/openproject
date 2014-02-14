@@ -39,6 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#4112` Usage of layout tables in work packages index
 * `#4123` Icon link table comprehensibility
 * `#4162` Missing html_safe on required list custom fields with non empty default value
+* Allow configuring memcache via configuration.yml or environment variables
 
 ## 3.0.0pre45
 
