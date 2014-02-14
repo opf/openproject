@@ -65,11 +65,4 @@ OpenProject::Application.configure do
 
   # Send mails to browser window
   config.action_mailer.delivery_method = :letter_opener
-
-  # default to per process memory for caching in development
-  if OpenProject::Configuration['rails_cache_store'] == :memcache
-    config.cache_store = :dalli_store
-  else
-    config.cache_store = :memory_store
-  end
 end

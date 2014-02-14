@@ -41,7 +41,11 @@ module OpenProject
       'scm_subversion_command'  => nil,
       'disable_browser_cache'   => true,
       # default cache_store is :file_store in production and :memory_store in development
-      'rails_cache_store'       => :default,
+      'rails_cache_store'       => nil,
+      'cache_expires_in_seconds' => nil,
+      'cache_namespace' => nil,
+      # use dalli defaults for memcache
+      'cache_memcache_server'   => nil,
       # url-path prefix
       'rails_relative_url_root' => "",
 
@@ -117,6 +121,23 @@ module OpenProject
         @config.merge! was
       end
 
+      def configure_cache(application_config)
+        return unless @config['rails_cache_store']
+
+        # rails defaults to :file_store, use :dalli when :memcaches is configured in configuration.yml
+        cache_store = @config['rails_cache_store'].to_sym
+        if cache_store == :memcache
+          cache_config = [:dalli_store]
+          cache_config << @config['cache_memcache_server'] \
+            if @config['cache_memcache_server']
+        else
+          cache_config = [cache_store]
+        end
+        parameters = cache_parameters(@config)
+        cache_config << parameters if parameters.size > 0
+        application_config.cache_store = cache_config
+      end
+
       private
 
       def load_config_from_file(filename, env, config)
@@ -183,6 +204,21 @@ module OpenProject
           end
           config.delete('email_delivery')
         end
+      end
+
+      def cache_parameters(config)
+        mapping = {
+          'cache_expires_in_seconds' => [:expires_in, :to_i],
+          'cache_namespace' => [:namespace, :to_s]
+        }
+        parameters = {}
+        mapping.each_pair do |from, to|
+          if config[from]
+            to_key, method = to
+            parameters[to_key] = config[from].method(method).call
+          end
+        end
+        parameters
       end
 
       # Filters a hash with String keys by a key prefix and removes the prefix from the keys
