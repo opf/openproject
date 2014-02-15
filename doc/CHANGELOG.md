@@ -37,6 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3947` [CodeClimate] Mass Assignment BoardsController
 * `#4087` Accessible form errors
 * `#4098` Keyboard operation: links accessible with Screenreadern
+* `#4090` [FIX] Tab order of my project page
 * `#4103` [Accessibility] Add missing field sets
 * `#4105` Remove links from fieldset
 * `#4109` Missing hidden tab selection label
