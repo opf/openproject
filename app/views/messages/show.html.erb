@@ -65,7 +65,13 @@ See doc/COPYRIGHT.rdoc for more details.
 <h3 class="icon-context icon-quote"><%= l(:label_reply_plural) %> (<%= @replies.count %>)</h3>
 <% @replies.each do |message| %>
   <div class="message reply" id="<%= "message-#{message.id}" %>">
-    <div class="contextual">
+    <h4>
+      <%= avatar(message.author, :size => "24") %>
+      <%= link_to h(message.subject), { :controller => '/messages', :action => 'show', :board_id => @board, :id => @topic, :r => message, :anchor => "message-#{message.id}" } %>
+      -
+      <%= authoring message.created_on, message.author %>
+    </h4>
+    <div class="message-reply-menu">
       <%= link_to_remote_if_authorized(icon_wrapper('icon-context icon-quote', l(:button_quote)),
                                        { :url => {:action => 'quote', :id => message},
                                          :method => :get },
@@ -85,14 +91,10 @@ See doc/COPYRIGHT.rdoc for more details.
                   :class => 'no-decoration-on-hover',
                   :alt => l(:button_delete)) if message.destroyable_by?(User.current) %>
     </div>
-  <h4>
-    <%= avatar(message.author, :size => "24") %>
-    <%= link_to h(message.subject), { :controller => '/messages', :action => 'show', :board_id => @board, :id => @topic, :r => message, :anchor => "message-#{message.id}" } %>
-    -
-    <%= authoring message.created_on, message.author %>
-  </h4>
-  <div class="wiki"><%= textilizable message, :content, :attachments => message.attachments %></div>
-  <%= link_to_attachments message, :author => false %>
+    <div class="wiki">
+      <%= textilizable message, :content, :attachments => message.attachments %>
+    </div>
+    <%= link_to_attachments message, :author => false %>
   </div>
 <% end %>
 
