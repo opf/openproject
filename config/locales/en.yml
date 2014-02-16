@@ -590,13 +590,16 @@ en:
     filter:
       noneElement: "(none)"
       noneSelection: "(none)"
+    button_check_all: "Check all"
+    button_uncheck_all: "Uncheck all"
     label_collapsed: "collapsed"
     label_expanded: "expanded"
     label_collapse_all: "Collapse all"
     label_expand_all: "Expand all"
     label_menu_item_toggle: "Show/hide submenu items"
-    button_check_all: "Check all"
-    button_uncheck_all: "Uncheck all"
+    tl_toolbar:
+      zooms: "Zoom level"
+      outlines: "Hierarchy level"
 
   label_account: "Account"
   label_activity: "Activity"
@@ -1493,6 +1496,8 @@ en:
       status: "Show status"
 
       project_time_filter: "Projects with a work package of a certain type in a certain timeframe"
+      project_time_filter_absolute_timeframe: "Absolute timeframe"
+      project_time_filter_relative_timeframe: "Relative timeframe"
       project_time_filter_historical: "from %{startdate} to %{enddate}"
       project_time_filter_relative: "from %{startspan}%{startspanunit} ago, to %{endspan}%{endspanunit} from now"
       project_filters: "Filter projects"

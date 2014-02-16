@@ -462,6 +462,12 @@ jQuery.extend(Timeline, {
     // │                                                       │
     // │  <div class="tl-toolbar"> ... </div>                  │
     // ╰───────────────────────────────────────────────────────╯
+    // TODO: Because it is easier to maintain HTML in HTML, this
+    //       method should actually become a partial. The
+    //       implementors of this method decided it to be in
+    //       JavaScript because it is then easier to connect the
+    //       toolbar to a specific timeline.
+
     var toolbar = jQuery('<div class="tl-toolbar"></div>');
     var timeline = this;
     var i, c, containers = [
@@ -527,13 +533,18 @@ jQuery.extend(Timeline, {
 
     // drop-down
     var form = jQuery('<form></form>');
-    var zooms = jQuery('<select name="zooms"></select>');
+    var zooms_label = jQuery('<label></label>').attr("for", "tl-toolbar-zooms")
+                                               .addClass("hidden-for-sighted")
+                                               .text(I18n.t("js.tl_toolbar.zooms"));
+    var zooms = jQuery('<select></select>').attr("name", "zooms")
+                                           .attr("id", "tl-toolbar-zooms");
     for (i = 0; i < Timeline.ZOOM_SCALES.length; i++) {
       zooms.append(jQuery(
             '<option>' +
             timeline.i18n(Timeline.ZOOM_CONFIGURATIONS[Timeline.ZOOM_SCALES[i]].name) +
             '</option>'));
     }
+    form.append(zooms_label);
     form.append(zooms);
     containers[currentContainer + 3].append(form);
 
@@ -600,13 +611,18 @@ jQuery.extend(Timeline, {
     // TODO this is very similar to the way the zoom dropdown is
     // assembled. Refactor to avoid code duplication!
     form = jQuery('<form></form>');
-    var outlines = jQuery('<select name="outlines"></select>');
+    var outlines_label = jQuery('<label></label>').attr("for", "tl-toolbar-outlines")
+                                                  .addClass("hidden-for-sighted")
+                                                  .text(I18n.t("js.tl_toolbar.outlines"));
+    var outlines = jQuery('<select></select>').attr("name", "outlines")
+                                              .attr("id", "tl-toolbar-outlines");
     for (i = 0; i < Timeline.OUTLINE_LEVELS.length; i++) {
       outlines.append(jQuery(
             '<option>' +
             timeline.i18n(Timeline.OUTLINE_CONFIGURATIONS[Timeline.OUTLINE_LEVELS[i]].name) +
             '</option>'));
     }
+    form.append(outlines_label);
     form.append(outlines);
     containers[currentContainer + 1].append(form);
 
