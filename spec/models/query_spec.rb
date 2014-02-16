@@ -73,19 +73,11 @@ describe Query do
     end
     
     context 'with a missing value for a custom field' do
-      let(:project) { FactoryGirl.create(:project_with_types) }
-      let(:type) {FactoryGirl.create(:type) }
-      let(:custom_field) do
-        FactoryGirl.create :issue_custom_field,
-          :name => "Verse",
-          :field_format => "text",
-          :projects => [project],
-          :types => [type]
-      end
+      let(:custom_field) { FactoryGirl.create :text_issue_custom_field }
       let(:query) { FactoryGirl.build(:query)}
-      
+
       before do
-        query.add_filter("cf_" + custom_field.id.to_s,"=",[""])
+        query.filters = [Queries::WorkPackages::Filter.new("cf_" + custom_field.id.to_s, operator: "=", values: ['']) ]
       end
       
       it 'should have the name of the custom field in the error message' do
