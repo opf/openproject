@@ -74,6 +74,7 @@ de:
     impediment: "Hindernis"
     label_versions_default_fold_state: "Zeige Versionen eingeklappt"
     work_package_is_closed: "Arbeitspaket ist abgeschlossen, wenn"
+    label_is_done_status: "Status %{status_name} bedeutet abgeschlossen"
     no_burndown_data: "Keine Burndown Graphen verfügbar. Start- und Enddaten der Sprints müssen definiert sein."
     points: "Punkte"
     positions_could_not_be_rebuilt: "Positionen konnten nicht neu berechnet werden."

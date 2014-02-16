@@ -74,6 +74,7 @@ en:
     impediment: "Impediment"
     label_versions_default_fold_state: "Show versions folded"
     work_package_is_closed: "Work package is done, when"
+    label_is_done_status: "Status %{status_name} means done"
     no_burndown_data: "No burndown data available. It is necessary to have the sprint start- and end dates set."
     points: "Points"
     positions_could_not_be_rebuilt: "Positions could not be rebuild."
