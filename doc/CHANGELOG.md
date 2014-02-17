@@ -31,6 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#3903` Fix: [Search] Project scope lost when clicking on search category link
 * `#4266` Custom fields not used as filters are displayed in timeline configuration
+* `#4331` Wrong error message for custom fields in query
 
 ## 3.0.0pre46
 
