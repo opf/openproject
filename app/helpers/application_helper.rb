@@ -104,7 +104,7 @@ module ApplicationHelper
     link_to l(:label_preview),
               url,
               :id => id,
-              :class => 'preview',
+              :class => 'preview button',
               :accesskey => accesskey(:preview)
 
   end
@@ -197,11 +197,11 @@ module ApplicationHelper
     link.html_safe
   end
 
-  def toggle_link(name, id, options={})
+  def toggle_link(name, id, options={}, html_options={})
     onclick = "Element.toggle('#{id}'); "
     onclick << (options[:focus] ? "Form.Element.focus('#{options[:focus]}'); " : "this.blur(); ")
     onclick << "return false;"
-    link_to(name, "#", :onclick => onclick)
+    link_to(name, "#", {:onclick => onclick}.merge(html_options))
   end
 
   def delete_link(url, options={})
@@ -267,6 +267,37 @@ module ApplicationHelper
     end
   end
 
+  def error_messages_for(*params)
+    objects, options = extract_objects_from_params(params)
+
+    error_messages = objects.map{ |o| o.errors.full_messages }.flatten
+
+    unless error_messages.empty?
+      render partial: 'common/validation_error', locals: { error_messages: error_messages,
+                                                           object_name: options[:object_name].to_s.gsub('_', '') }
+    end
+  end
+
+  # Taken from Dynamic Form
+  #
+  # lib/action_view/helpers/dynamic_form.rb:187-198
+  def extract_objects_from_params(params)
+    options = params.extract_options!.symbolize_keys
+
+    objects = Array.wrap(options.delete(:object) || params).map do |object|
+      object = instance_variable_get("@#{object}") unless object.respond_to?(:to_model)
+      object = convert_to_model(object)
+
+      if object.class.respond_to?(:model_name)
+        options[:object_name] ||= object.class.model_name.human.downcase
+      end
+
+      object
+    end
+
+    [objects.compact, options]
+  end
+
   # Renders flash messages
   def render_flash_messages
     flash.map { |k,v| render_flash_message(k, v) }.join.html_safe
@@ -281,7 +312,7 @@ module ApplicationHelper
   end
 
   def render_flash_message(type, message, html_options = {})
-    html_options = {:class => "flash #{type} icon icon-#{type}"}.merge(html_options)
+    html_options = { :class => "flash #{type} icon icon-#{type}", role: "alert" }.merge(html_options)
     if User.current.impaired?
       content_tag('div', content_tag('a', join_flash_messages(message), :href => 'javascript:;'), html_options)
     else

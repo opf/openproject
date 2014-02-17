@@ -651,7 +651,6 @@ class ApplicationController < ActionController::Base
     end
     true
   end
-  ActiveSupport.run_load_hooks(:application_controller, self)
 
   def check_session_lifetime
     if session_expired?
@@ -697,4 +696,10 @@ class ApplicationController < ActionController::Base
   def permitted_params
     @permitted_params ||= PermittedParams.new(params, current_user)
   end
+
+  # active support load hooks provide plugins with a consistent entry point to patch core classes.
+  # they should be called at the very end of a class definition or file, so plugins can be sure everything has been loaded.
+  # this load hook allows plugins to register callbacks when the core application controller is fully loaded.
+  # good explanation of load hooks: http://simonecarletti.com/blog/2011/04/understanding-ruby-and-rails-lazy-load-hooks/
+  ActiveSupport.run_load_hooks(:application_controller, self)
 end

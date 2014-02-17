@@ -34,11 +34,12 @@ See doc/COPYRIGHT.rdoc for more details.
 
     <thead>
       <tr>
-        <th class="checkbox hide-when-print"><%= link_to icon_wrapper('icon-context icon-yes', "#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), {},
-                                                         :onclick => 'toggleIssuesSelection(Element.up(this, "form")); return false;',
+        <th class="checkbox hide-when-print"><%= link_to icon_wrapper('icon-context icon-yes', l(:button_check_all)), {},
+                                                         :onclick => 'toggleSelection(this); return false;',
                                                          :class => 'no-decoration-on-hover',
-                                                         :title   => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
-                                                         :alt     => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
+                                                         :title   => l(:button_check_all),
+                                                         :alt     => l(:button_check_all),
+                                                         :id => 'button_check_all' %>
         </th>
         <%= sort_header_tag('id', :caption => '#', :default_order => 'desc') %>
 
@@ -91,7 +92,11 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= l(:description_select_work_package) + '#' + work_package.id.to_s %>
         </label>
 
-        <%= check_box_tag("ids[]", work_package.id, false, :id => "work_package#{work_package.id}") %>
+        <%= check_box_tag("ids[]",
+                          work_package.id,
+                          false,
+                          id: "work_package#{work_package.id}",
+                          onclick: 'setAllSelectLinkState(jQuery("a#button_check_all"));' ) %>
       </td>
 
       <td class="id">

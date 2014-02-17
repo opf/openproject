@@ -204,12 +204,6 @@ function toggleAllRowGroups(el) {
   });
 }
 
-function toggleFieldset(el) {
-	var fieldset = Element.up(el, 'fieldset');
-	fieldset.toggleClassName('collapsed');
-	Effect.toggle(fieldset.down('>div'), 'slide', {duration:0.2});
-}
-
 function hideFieldset(el) {
 	var fieldset = Element.up(el, 'fieldset');
 	fieldset.toggleClassName('collapsed');
@@ -496,14 +490,14 @@ function setVisible(id, visible) {
 
 function observeProjectModules() {
   var f = function() {
-    /* Hides types and issues custom fields on the new project form when issue_tracking module is disabled */
-    var c = ($('project_enabled_module_names_issue_tracking').checked == true);
+    /* Hides types and issues custom fields on the new project form when work_package_tracking module is disabled */
+    var c = ($('project_enabled_module_names_work_package_tracking').checked == true);
     setVisible('project_types', c);
     setVisible('project_issue_custom_fields', c);
   };
 
   Event.observe(window, 'load', f);
-  Event.observe('project_enabled_module_names_issue_tracking', 'change', f);
+  Event.observe('project_enabled_module_names_work_package_tracking', 'change', f);
 }
 
 /*
@@ -1262,6 +1256,22 @@ var I18nForms = (function ($) {
 }(jQuery));
 
 jQuery(document).ready(I18nForms.init);
+
+var activateError = function() {
+  var errorHeader = jQuery('.errorExplanation h2[role="alert"]');
+
+  errorHeader.show();
+}
+
+var activateFlash = function() {
+  var flashMessage = jQuery('.flash');
+
+  flashMessage.hide();
+  flashMessage.show();
+}
+
+jQuery(document).ready(activateError);
+jQuery(document).ready(activateFlash);
 
 var SubmitConfirm = (function($) {
   var init;

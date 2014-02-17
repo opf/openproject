@@ -33,11 +33,15 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h3><%=l(:label_watched_work_packages)%> (<%= watched_count %>)</h3>
 
+<% if defined? block_name %>
+  <%= content_for "#{block_name}_remove_block" %>
+<% end %>
+
 <%= render :partial => 'work_packages/list_simple', :locals => { :work_packages => watched } %>
 <% if watched.length > 0 %>
   <p class="small">
     <%= link_to(I18n.t(:label_work_package_view_all_watched),
       {controller: :work_packages, action: :index, set_filter: 1, watcher_id: 'me', sort: 'updated_at:desc'},
-      :class => 'button') %>
+      :class => 'button_highlight') %>
   </p>
 <% end %>

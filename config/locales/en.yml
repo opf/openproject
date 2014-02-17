@@ -267,6 +267,9 @@ en:
       wiki_page: "Wiki page"
       workflow: "Workflow"
 
+  errors:
+    header_invalid_fields: "There were problems with the following fields:"
+
   activity:
     created: "Created: %{title}"
     updated: "Updated: %{title}"
@@ -292,6 +295,7 @@ en:
     estimated_hours: "Estimated time"
     firstname: "First name"
     group: "Group"
+    groupname: "Group name"
     is_default: "Default value"
     is_for_all: "For all projects"
     is_public: "Public"
@@ -333,6 +337,7 @@ en:
   button_create: "Create"
   button_create_and_continue: "Create and continue"
   button_delete: "Delete"
+  button_delete_watcher: "Delete watcher %{name}"
   button_download: "Download"
   button_duplicate: "Duplicate"
   button_edit: "Edit"
@@ -521,6 +526,7 @@ en:
   error_menu_item_not_saved: Menu item could not be saved
 
   events:
+    project: 'Project edited'
     changeset: 'Changeset edited'
     message: Message edited
     news: News
@@ -580,12 +586,20 @@ en:
       error: "An error has occured."
       create_planning_select_project: "Project:"
       really_close_dialog: "Do you really want to close the dialog and loose the entered data?"
+      zoom_slider: "Zoom slider"
     filter:
       noneElement: "(none)"
       noneSelection: "(none)"
+    button_check_all: "Check all"
+    button_uncheck_all: "Uncheck all"
+    label_collapsed: "collapsed"
+    label_expanded: "expanded"
     label_collapse_all: "Collapse all"
     label_expand_all: "Expand all"
     label_menu_item_toggle: "Show/hide submenu items"
+    tl_toolbar:
+      zooms: "Zoom level"
+      outlines: "Hierarchy level"
 
   label_account: "Account"
   label_activity: "Activity"
@@ -907,6 +921,7 @@ en:
   label_show_completed_versions: "Show completed versions"
   label_sort: "Sort"
   label_sort_by: "Sort by %{value}"
+  label_sorted_by: "sorted by %{value}"
   label_sort_higher: "Move up"
   label_sort_highest: "Move to top"
   label_sort_lower: "Move down"
@@ -1481,6 +1496,8 @@ en:
       status: "Show status"
 
       project_time_filter: "Projects with a work package of a certain type in a certain timeframe"
+      project_time_filter_absolute_timeframe: "Absolute timeframe"
+      project_time_filter_relative_timeframe: "Relative timeframe"
       project_time_filter_historical: "from %{startdate} to %{enddate}"
       project_time_filter_relative: "from %{startspan}%{startspanunit} ago, to %{endspan}%{endspanunit} from now"
       project_filters: "Filter projects"
@@ -1514,8 +1531,7 @@ en:
       all:         "Show all"
     reporting_for_project:
       show: "Status reported to project: %{title}"
-      delete: "Delete status reported to project: %{title}"
-      edit: "Edit status for project: %{title}"
+      edit_delete: "status report for project: %{title}"
       history: "History for status for project: %{title}"
     reporting:
       delete: "Delete status: %{comment}"

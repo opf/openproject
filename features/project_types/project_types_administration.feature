@@ -123,7 +123,6 @@ Feature:
       And I follow "New project type"
       And I fill in "" for "Name"
       And I press "Save"
-     Then I should see an error flash stating "Project type could not be saved"
       And I should see an error explanation stating "Name can't be blank"
 
      When I fill in "Some other Project" for "Name"
@@ -137,7 +136,6 @@ Feature:
       And I follow the edit link of the project type "Extraordinary Project"
       And I fill in "" for "Name"
       And I press "Save"
-     Then I should see an error flash stating "Project type could not be saved"
      Then I should see an error explanation stating "Name can't be blank"
 
      When I fill in "Super-Extraordinary Project" for "Name"

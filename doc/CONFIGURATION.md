@@ -77,3 +77,10 @@ SMTP Options:
 * `smtp_password` (optional, only when authentication is required)
 * `smtp_enable_starttls_auto`: You can disable STARTTLS here in case it doesn't work. Make sure you don't login to a SMTP server over a public network when using this. This setting can't currently be used via environment variables, since setting options to `false` is only possible via a YAML file. (default: true, optional)
 * `smtp_openssl_verify_mode`: Define how the SMTP server certificate is validated. Make sure you don't just disable verification here unless both, OpenProject and SMTP servers are on a private network. Possible values: `none`, `peer`, `client_once` or `fail_if_no_peer_cert`
+
+Cache Options:
+
+* `rails_cache_store`: `memcache` for [memcached](http://www.memcached.org/) or `memory_store` (default: `file_store`)
+* `cache_memcache_server`: The memcache server host and IP (default: `127.0.0.1:11211`)
+* `cache_expires_in`: Expiration time for memcache entries (default: `0`, no expiry)
+* `cache_namespace`: Namespace for cache keys, useful when multiple applications use a single memcache server (default: none)

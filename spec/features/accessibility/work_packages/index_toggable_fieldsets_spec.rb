@@ -26,11 +26,31 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-en:
-  errors:
-    template:
-      header:
-        one:    "1 error prohibited this %{model} from being saved"
-        other:  "%{count} errors prohibited this %{model} from being saved"
-      # The variable :count is also available
-      body: "There were problems with the following fields:"
+require 'spec_helper'
+require 'features/accessibility/support/toggable_fieldsets_spec'
+require 'features/work_packages/work_packages_page'
+
+describe 'Work package index' do
+  describe 'Toggable fieldset' do
+    let(:current_user) { FactoryGirl.create (:admin) }
+    let(:work_packages_page) { WorkPackagesPage.new }
+
+    before do
+      User.stub(:current).and_return current_user
+
+      work_packages_page.visit_index
+    end
+
+    describe 'Filter fieldset' do
+      it_behaves_like 'toggable fieldset initially expanded' do
+        let(:fieldset_name) { 'Filters' }
+      end
+    end
+
+    describe 'Options fieldset' do
+      it_behaves_like 'toggable fieldset initially collapsed' do
+        let(:fieldset_name) { 'Options' }
+      end
+    end
+  end
+end

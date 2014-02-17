@@ -70,6 +70,14 @@ class PermittedParams < Struct.new(:params, :user)
     params.require(:auth_source).permit(*self.class.permitted_attributes[:auth_source])
   end
 
+  def board
+    params.require(:board).permit(*self.class.permitted_attributes[:board])
+  end
+
+  def board?
+    params[:board] ? board : nil
+  end
+
   def board_move
     params.require(:board).permit(*self.class.permitted_attributes[:move_to])
   end
@@ -89,7 +97,7 @@ class PermittedParams < Struct.new(:params, :user)
   def custom_field_type
     params.require(:type)
   end
-  
+
   def enumeration_type
     params.require(:type)
   end
@@ -118,6 +126,10 @@ class PermittedParams < Struct.new(:params, :user)
     permitted_params.merge!(custom_field_values(:work_package))
 
     permitted_params
+  end
+
+  def member
+    params.require(:member).permit(*self.class.permitted_attributes[:member])
   end
 
   def planning_element_type
@@ -262,6 +274,9 @@ class PermittedParams < Struct.new(:params, :user)
         :attr_firstname,
         :attr_lastname,
         :attr_mail],
+      :board => [
+        :name,
+        :description],
       :color => [
         :name,
         :hexcode,
@@ -299,6 +314,8 @@ class PermittedParams < Struct.new(:params, :user)
         :membership => [
           :project_id,
           :role_ids => []]],
+      :member => [
+        :role_ids => []],
       :new_work_package => [
         :subject,
         :description,
@@ -393,7 +410,7 @@ class PermittedParams < Struct.new(:params, :user)
         :redirect_existing_links ],
       :wiki_content => [
         :comments,
-        :text, 
+        :text,
         :lock_version ],
       :move_to => [ :move_to ]
     }

@@ -237,7 +237,7 @@ de:
                 other: "wurde bereits verwendet. Bitte wählen Sie eines, das sich von den letzten %{count} unterscheidet."
         member:
           principal_blank: "Bitte wählen Sie mindestens einen Benutzer oder eine Gruppe."
-          role_blank: "Bitte wählen Sie eine mindestens Rolle."
+          role_blank: "Bitte wählen Sie mindestens eine Rolle."
       template:
         body: "Bitte überprüfen Sie die folgenden Felder:"
         header:
@@ -268,6 +268,10 @@ de:
       wiki: "Wiki"
       wiki_page: "Wiki-Seite"
       workflow: "Workflow"
+      work_package: "Arbeitspaket"
+
+  errors:
+    header_invalid_fields: "Bei den folgenden Feldern traten Fehler auf:"
 
   activity:
     created: "Erstellt: %{title}"
@@ -294,6 +298,7 @@ de:
     estimated_hours: "Geschätzter Aufwand"
     firstname: "Vorname"
     group: "Gruppe"
+    groupname: "Gruppenname"
     is_default: "Standardeinstellung"
     is_for_all: "Für alle Projekte"
     is_public: "Öffentlich"
@@ -335,6 +340,7 @@ de:
   button_create: "Anlegen"
   button_create_and_continue: "Anlegen und weiter"
   button_delete: "Löschen"
+  button_delete_watcher: "Lösche Beobachter %{name}"
   button_download: "Download"
   button_duplicate: "Duplizieren"
   button_edit: "Bearbeiten"
@@ -524,12 +530,13 @@ de:
   error_menu_item_not_saved: Menüpunkt konnte nicht aktualisiert werden.
 
   events:
+    project: 'Projekt bearbeitet'
     changeset: Changeset bearbeitet
     message: Nachricht bearbeitet
     news: News
     reply: Antwort erstellt
-    time_entry: Zeiterfassungseintrag-Bearbeitung
-    wiki_page: Wiki-Bearbeitung
+    time_entry: Zeiterfassungseintrag bearbeitet
+    wiki_page: Wiki-Seite bearbeitet
     work_package_closed: 'Arbeitspaket geschlossen'
     work_package_edit: 'Arbeitspaket bearbeitet'
     work_package_note: 'Arbeitspaket kommentiert'
@@ -583,12 +590,20 @@ de:
       save: "Speichern"
       start_date: "Startdatum"
       really_close_dialog: "Dialog schließen und eingegebene Daten verwerfen?"
+      zoom_slider: "Zoom Schieber"
     filter:
       noneElement: "(keines)"
       noneSelection: "(keine)"
+    button_check_all: "Alles auswählen"
+    button_uncheck_all: "Alles abwählen"
+    label_collapsed: "zugeklappt"
+    label_expanded: "aufgeklappt"
     label_collapse_all: "Alle zuklappen"
     label_expand_all: "Alle aufklappen"
     label_menu_item_toggle: "Untermenüpunkte ein-/ausblenden"
+    tl_toolbar:
+      zooms: "Zoomstufe"
+      outlines: "Hierarchie-Stufe"
 
   label_account: "Konto"
   label_activity: "Aktivität"
@@ -909,7 +924,8 @@ de:
   label_settings: "Konfiguration"
   label_show_completed_versions: "Abgeschlossene Versionen anzeigen"
   label_sort: "Sortierung"
-  label_sort_by: "Sortiert nach %{value}"
+  label_sort_by: "Sortiere nach %{value}"
+  label_sorted_by: "sortiert nach %{value}"
   label_sort_higher: "Eins höher"
   label_sort_highest: "An den Anfang"
   label_sort_lower: "Eins tiefer"
@@ -1489,6 +1505,8 @@ de:
       work_package_assignee: "Zugewiesen an"
 
       project_time_filter: "Projekte mit Arbeitspaket eines Typs in einem Zeitfenster"
+      project_time_filter_absolute_timeframe: "Absolutes Zeitfenster"
+      project_time_filter_relative_timeframe: "Relatives Zeitfenster"
       project_time_filter_historical: "von %{startdate} bis %{enddate}"
       project_time_filter_relative: "vor %{startspan}%{startspanunit} bis in %{endspan}%{endspanunit}"
       project_filters: "Projekte filtern"
@@ -1540,8 +1558,7 @@ de:
     reporting_could_not_be_saved: "Statusbericht konnte nicht gespeichert werden."
     reporting_for_project:
       show: "Statusbericht zu Projekt: %{title}"
-      delete: "Löschen des Statusberichts zu Projekt: %{title}"
-      edit: "Bearbeiten des Statusberichts zu Projekt: %{title}"
+      edit_delete: "des Statusberichts zu Projekt: %{title}"
       history: "Historie des Statusberichts zu Projekt:"
     reporting:
       delete: "Statusbericht löschen: %{comment}"

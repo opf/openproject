@@ -29,6 +29,29 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#3903` Fix: [Search] Project scope lost when clicking on search category link
+* `#4266` Custom fields not used as filters are displayed in timeline configuration
+* `#4331` Wrong error message for custom fields in query
+
+## 3.0.0pre46
+
+* `#3335` Fix: Mass assignment in members controller
+* `#3371` [Work Package Tracking] Wrong 404 when custom query not exists
+* `#3440` New workpackage form layout
+* `#3947` [CodeClimate] Mass Assignment BoardsController
+* `#4087` Accessible form errors
+* `#4098` Keyboard operation: links accessible with Screenreadern
+* `#4090` [FIX] Tab order of my project page
+* `#4103` [Accessibility] Add missing field sets
+* `#4105` Remove links from fieldset
+* `#4109` Missing hidden tab selection label
+* `#4110` Position: Status/Funktion von Links ist nicht klar
+* `#4112` Usage of layout tables in work packages index
+* `#4118` Fix: Add missing labels
+* `#4123` Icon link table comprehensibility
+* `#4162` Missing html_safe on required list custom fields with non empty default value
+* Allow configuring memcache via configuration.yml or environment variables
+
 ## 3.0.0pre45
 
 * `#3113` [API] Read access on work package workflows for API v2
@@ -47,7 +70,6 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#4101` Headings: Fix typos in german translation
 * `#4102` [Accessibility] Fixes screen reader compatibility for 'further analyze' links in work package summary
 * `#4108` Fixes German translation of months
-* `#4109` Missing hidden tab selection label
 * `#4163` Extend authorization-API to return current user id
 * Improves JavaScript tests.
 * News subject contained in URL

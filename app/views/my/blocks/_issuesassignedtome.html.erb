@@ -39,6 +39,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h3><%=l(:label_assigned_to_me_work_packages)%> (<%= assigned_count %>)</h3>
 
+<% if defined? block_name %>
+  <%= content_for "#{block_name}_remove_block" %>
+<% end %>
+
 <%= render :partial => 'work_packages/list_simple', :locals => { :work_packages => assigned } %>
 
 <% if assigned.length > 0 %>
@@ -49,7 +53,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 set_filter: 1,
                 assigned_to_id: 'me',
                 sort: 'priority:desc,updated_at:desc'},
-                :class => 'button' %>
+                :class => 'button_highlight' %>
   </p>
 <% end %>
 

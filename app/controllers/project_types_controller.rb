@@ -59,7 +59,6 @@ class ProjectTypesController < ApplicationController
       flash[:notice] = l(:notice_successful_create)
       redirect_to project_types_path
     else
-      flash.now[:error] = l('timelines.project_type_could_not_be_saved')
       render :action => 'new'
     end
   end
@@ -84,7 +83,6 @@ class ProjectTypesController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
       redirect_to project_types_path
     else
-      flash.now[:error] = l('timelines.project_type_could_not_be_saved')
       render :action => :edit
     end
   end

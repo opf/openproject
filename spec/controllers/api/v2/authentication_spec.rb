@@ -64,7 +64,7 @@ describe Api::V2::AuthenticationController do
 
       it { expect(subject.authorized).to be_true }
 
-      it { expect(subject.authorized_user_id).to eq(user.id) }
+      it { expect(subject.authenticated_user_id).to eq(user.id) }
     end
   end
 

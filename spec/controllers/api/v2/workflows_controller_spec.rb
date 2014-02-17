@@ -31,10 +31,7 @@ require 'spec_helper'
 describe Api::V2::WorkflowsController do
   describe '#index' do
     describe 'unauthorized access' do
-      #let(:current_user) { FactoryGirl.create(:anonymous) }
       let(:project) { FactoryGirl.create(:project) }
-
-      #before { User.stub(:current).and_return current_user }
 
       before { get :index, project_id: project.id, format: :xml }
 
@@ -59,7 +56,8 @@ describe Api::V2::WorkflowsController do
       end
 
       describe 'with project' do
-        let(:role) { FactoryGirl.create(:role) }
+        let(:role_0) { FactoryGirl.create(:role) }
+        let(:role_1) { FactoryGirl.create(:role) }
         let(:type_0) { FactoryGirl.create(:type) }
         let(:type_1) { FactoryGirl.create(:type) }
         let(:project) { FactoryGirl.create(:project,
@@ -67,7 +65,7 @@ describe Api::V2::WorkflowsController do
         let!(:member) { FactoryGirl.create(:member,
                                            user: current_user,
                                            project: project,
-                                           roles: [role]) }
+                                           roles: [role_0, role_1]) }
 
         before { get :index, project_id: project.id, format: :xml }
 
@@ -82,38 +80,50 @@ describe Api::V2::WorkflowsController do
           let(:status_3) { FactoryGirl.create(:status) }
           let(:status_4a) { FactoryGirl.create(:status) }
           let(:status_4b) { FactoryGirl.create(:status) }
-          let!(:workflow_0) { FactoryGirl.create(:workflow,
-                                                 old_status: status_0,
-                                                 new_status: status_1,
-                                                 type_id: type_0.id,
-                                                 role: role) }
+          let!(:workflow_0a) { FactoryGirl.create(:workflow,
+                                                  old_status: status_0,
+                                                  new_status: status_1,
+                                                  type_id: type_0.id,
+                                                  role: role_0) }
+          let!(:workflow_0b) { FactoryGirl.create(:workflow,
+                                                  old_status: status_0,
+                                                  new_status: status_1,
+                                                  type_id: type_0.id,
+                                                  role: role_1) }
           let!(:workflow_1a) { FactoryGirl.create(:workflow,
                                                   old_status: status_1,
                                                   new_status: status_2,
                                                   type_id: type_0.id,
-                                                  role: role) }
+                                                  role: role_0) }
           let!(:workflow_1b) { FactoryGirl.create(:workflow,
                                                   old_status: status_1,
                                                   new_status: status_3,
                                                   type_id: type_0.id,
-                                                  role: role) }
+                                                  role: role_0) }
           let!(:workflow_2) { FactoryGirl.create(:workflow,
                                                  old_status: status_2,
                                                  new_status: status_3,
                                                  type_id: type_1.id,
-                                                 role: role) }
+                                                 role: role_0) }
           let!(:workflow_3) { FactoryGirl.create(:workflow,
                                                  old_status: status_3,
                                                  new_status: status_4a,
                                                  type_id: type_1.id,
-                                                 role: role,
+                                                 role: role_0,
                                                  author: true) }
-          let!(:workflow_4) { FactoryGirl.create(:workflow,
-                                                 old_status: status_3,
-                                                 new_status: status_4b,
-                                                 type_id: type_1.id,
-                                                 role: role,
-                                                 assignee: true) }
+          let!(:workflow_4a) { FactoryGirl.create(:workflow,
+                                                  old_status: status_3,
+                                                  new_status: status_4b,
+                                                  type_id: type_1.id,
+                                                  role: role_0,
+                                                  assignee: true) }
+          let!(:workflow_4b) { FactoryGirl.create(:workflow,
+                                                  old_status: status_3,
+                                                  new_status: status_4b,
+                                                  type_id: type_1.id,
+                                                  role: role_1,
+                                                  assignee: false) }
+
 
           before { get :index, project_id: project.id, format: :xml }
 
@@ -133,11 +143,11 @@ describe Api::V2::WorkflowsController do
             it { expect(workflows.collect(&:old_status_id).uniq).to match_array(old_status_ids) }
 
             describe 'transitions' do
-              let(:transitions) { workflows.collect(&:transitions) }
+              let(:transitions) { workflows.collect(&:transitions).flatten }
               let(:workflows_by_type) { workflows.group_by { |w| w.type_id } }
               let(:workflow_type_0_status_1) { workflows_by_type[type_0.id].detect { |w| w.old_status_id == status_1.id } }
 
-              it { expect(transitions.length).to eq(4) }
+              it { expect(transitions.length).to eq(6) }
 
               it { expect(workflows_by_type.length).to eq(2) }
 

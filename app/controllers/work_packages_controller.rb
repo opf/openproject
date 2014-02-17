@@ -407,6 +407,8 @@ class WorkPackagesController < ApplicationController
 
   def load_query
     @query ||= retrieve_query
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   def not_found_unless_work_package

@@ -34,6 +34,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h3><%=l(:label_reported_work_packages)%> (<%= reported_count %>)</h3>
 
+<% if defined? block_name %>
+  <%= content_for "#{block_name}_remove_block" %>
+<% end %>
+
 <%= render :partial => 'work_packages/list_simple', :locals => { :work_packages => reported } %>
 
 <% if reported.length > 0 %>
@@ -45,7 +49,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 status_id: '*',
                 author_id: 'me',
                 sort: 'updated_at:desc'},
-                :class => 'button' %>
+                :class => 'button_highlight' %>
   </p>
 <% end %>
 
