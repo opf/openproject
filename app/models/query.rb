@@ -93,9 +93,9 @@ class Query < ActiveRecord::Base
     self.filters.each do |filter|
       unless filter.valid?
         messages = filter.errors.messages.values.flatten.join(" #{I18n.t('support.array.sentence_connector')} ")
-        if filter.field.to_s[0..2] === "cf_" && filter.field.to_s[3].to_i > 0 && CustomField.find(filter.field.to_s[3..-1])
-          attribute_name = CustomField.find(filter.field.to_s[3..-1].to_i).name
-          errors.add :base, attribute_name + I18n.t({:default   => " %{message}",:message   => messages})
+        if /cf\_(?<id>\d+)/.match(filter.field.to_s) && CustomField.find(/cf\_(?<id>\d+)/.match(filter.field.to_s)[:id])
+          attribute_name = CustomField.find(/cf\_(?<id>\d+)/.match(filter.field.to_s)[:id]).name
+          errors.add :base, attribute_name + I18n.t({:default => " %{message}",:message   => messages})
         else
           attribute_name = WorkPackage.human_attribute_name(filter.field)
           errors.add :base, errors.full_message(attribute_name, messages)
