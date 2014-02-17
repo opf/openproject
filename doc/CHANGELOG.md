@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#3113' [API] Read access on work package workflows for API v2
 * `#3903` Fix: [Search] Project scope lost when clicking on search category link
 * `#4169` Fix: CSV Export can't handle UTF-8 in conjunction with ASCII letters >= 160 (such as ä)
 * `#4266` Custom fields not used as filters are displayed in timeline configuration
