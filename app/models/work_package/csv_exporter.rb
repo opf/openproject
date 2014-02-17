@@ -93,7 +93,7 @@ module WorkPackage::CsvExporter
 
   def encode_csv_columns(columns, encoding = l(:general_csv_encoding))
     columns.map do |cell|
-      Redmine::CodesetUtil.from_utf8(content, encoding)
+      Redmine::CodesetUtil.from_utf8(cell, encoding)
     end
   end
 end
