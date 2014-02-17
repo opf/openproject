@@ -93,8 +93,10 @@ class Query < ActiveRecord::Base
     self.filters.each do |filter|
       unless filter.valid?
         messages = filter.errors.messages.values.flatten.join(" #{I18n.t('support.array.sentence_connector')} ")
-        if /cf\_(?<id>\d+)/.match(filter.field.to_s) && CustomField.find(/cf\_(?<id>\d+)/.match(filter.field.to_s)[:id])
-          attribute_name = CustomField.find(/cf\_(?<id>\d+)/.match(filter.field.to_s)[:id]).name
+        cf_id = custom_field_id filter
+
+        if cf_id && CustomField.find(cf_id)
+          attribute_name = CustomField.find(cf_id).name
           errors.add :base, attribute_name + I18n.t({:default => " %{message}",:message   => messages})
         else
           attribute_name = WorkPackage.human_attribute_name(filter.field)
@@ -440,6 +442,12 @@ class Query < ActiveRecord::Base
   end
 
   private
+
+  def custom_field_id(filter)
+    matchdata = /cf\_(?<id>\d+)/.match(filter.field.to_s)
+
+    matchdata.nil? ? nil : matchdata[:id]
+  end
 
   # Helper method to generate the WHERE sql for a +field+, +operator+ and a +value+
   def sql_for_field(field, operator, value, db_table, db_field, is_custom_filter=false)
