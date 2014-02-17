@@ -188,7 +188,7 @@ describe WorkPackagesController do
                                                       .and_return(mock_csv)
 
             controller.should_receive(:send_data).with(mock_csv,
-                                                       :type => 'text/csv; header=present',
+                                                       :type => 'text/csv; charset=utf-8; header=present',
                                                        :filename => 'export.csv') do |*args|
               # We need to render something because otherwise
               # the controller will and he will not find a suitable template
@@ -260,6 +260,39 @@ describe WorkPackagesController do
           assigns['project'].should === project
         end
       end
+    end
+  end
+
+  describe 'index with actual data' do
+    require 'csv'
+    render_views
+
+    ##
+    # When Ruby tries to join the following work package's subject encoded in ISO-8859-1
+    # and its description encoded in UTF-8 it will result in a CompatibilityError.
+    # This would not happen if the description contained only letters covered by
+    # ISO-8859-1. Since this can happen, though, it is more sensible to encode everything
+    # in UTF-8 which gets rid of this problem altogether.
+    let(:work_package) do
+      FactoryGirl.create(
+        :work_package,
+        :subject => "Ruby encodes ß as '\\xDF' in ISO-8859-1.",
+        :description => "\u2022 requires unicode.")
+    end
+    let(:current_user) { FactoryGirl.create(:admin) }
+
+    it "performs a successful export" do
+      wp = work_package
+
+      expect do
+        get :index, :format => 'csv'
+      end.to_not raise_error(Encoding::CompatibilityError)
+
+      data = CSV.parse(response.body)
+
+      expect(data.size).to eq(2)
+      expect(data.last).to include(wp.subject)
+      expect(data.last).to include(wp.description)
     end
   end
 
