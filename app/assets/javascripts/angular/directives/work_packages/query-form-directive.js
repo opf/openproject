@@ -10,15 +10,6 @@ angular.module('openproject.workPackages.directives')
         pre: function(scope) {
           scope.showQueryOptions = false;
 
-          // groupings
-
-          scope.$watch('groupByColumn.name', function(name, formerName) {
-            if (name !== formerName) {
-              // reset groupByColumn
-              scope.groupByColumn = WorkPackagesTableHelper.detectColumnByName(scope.columns, name);
-            }
-          });
-
           scope.reloadWorkPackagesTableData = function() {
             var params =  {
               'c[]': scope.columns
