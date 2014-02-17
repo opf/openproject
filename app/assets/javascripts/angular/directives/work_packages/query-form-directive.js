@@ -1,24 +1,36 @@
 angular.module('openproject.workPackages.directives')
 
-.directive('queryForm', ['WorkPackagesTableHelper', function(WorkPackagesTableHelper) {
+.directive('queryForm', ['WorkPackagesTableHelper', 'QueryService', function(WorkPackagesTableHelper, QueryService) {
 
   return {
     restrict: 'EA',
-    // replace: true,
-    // templateUrl: '/templates/work_packages/query_columns.html',
+
     compile: function(tElement) {
       return {
         pre: function(scope) {
+          scope.showQueryOptions = false;
+
           // groupings
 
-          if (scope.groupByColumn) scope.groupByColumnName = scope.groupByColumn.name;
-
-          scope.$watch('groupByColumnName', function(name, formerName) {
+          scope.$watch('groupByColumn.name', function(name, formerName) {
             if (name !== formerName) {
               // reset groupByColumn
               scope.groupByColumn = WorkPackagesTableHelper.detectColumnByName(scope.columns, name);
             }
           });
+
+          scope.reloadWorkPackagesTableData = function() {
+            var params =  {
+              'c[]': scope.columns
+                .map(function(column){
+                  return column.name;
+                }),
+              'group_by': scope.groupBy
+            };
+
+            QueryService.getWorkPackages(scope.projectIdentifier, params)
+              .then(scope.setupWorkPackagesTable);
+          };
         }
       };
     }

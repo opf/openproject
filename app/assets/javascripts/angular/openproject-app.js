@@ -1,3 +1,6 @@
+// global
+angular.module('openproject.services', []);
+
 // timelines
 angular.module('openproject.timelines', ['openproject.timelines.controllers', 'openproject.timelines.directives', 'openproject.uiComponents']);
 angular.module('openproject.timelines.models', []);
@@ -11,12 +14,16 @@ angular.module('openproject.workPackages', ['openproject.workPackages.controller
 angular.module('openproject.workPackages.helpers', ['openproject.uiComponents']);
 angular.module('openproject.workPackages.filters', ['openproject.workPackages.helpers']);
 angular.module('openproject.workPackages.controllers', ['openproject.workPackages.helpers']);
-angular.module('openproject.workPackages.directives', ['openproject.uiComponents']);
+angular.module('openproject.workPackages.directives', ['openproject.uiComponents', 'openproject.services']);
 
-
-// global
+// main app
 var openprojectApp = angular.module('openproject', ['ui.select2', 'openproject.uiComponents', 'openproject.timelines', 'openproject.workPackages']);
 
-openprojectApp.config(['$locationProvider', function($locationProvider) {
-  $locationProvider.html5Mode(true);
-}]);
+openprojectApp
+  .config(['$locationProvider', '$httpProvider', function($locationProvider, $httpProvider) {
+    $locationProvider.html5Mode(true);
+    $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = jQuery('meta[name=csrf-token]').attr('content'); // TODO find a more elegant way to keep the session alive
+  }])
+  .run(['$http', function($http){
+    $http.defaults.headers.common.Accept = 'application/json';
+  }]);

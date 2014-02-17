@@ -1,36 +1,35 @@
 angular.module('openproject.workPackages.controllers')
 
 .controller('WorkPackagesController', ['$scope', 'WorkPackagesTableHelper', function($scope, WorkPackagesTableHelper) {
-  $scope.projectIdentifier = gon.project_identifier;
 
-  // Query configuration
+  $scope.$watch('groupBy', function() {
+    var groupByColumnIndex = $scope.columns.map(function(column){
+      return column.name;
+    }).indexOf($scope.groupBy);
 
-  $scope.query = gon.query;
-  $scope.showQueryOptions = false;
+    $scope.groupByColumn = $scope.columns[groupByColumnIndex];
+  });
 
-  // Columns
+  $scope.setupQuery = function(json) {
+    $scope.projectIdentifier = json.project_identifier;
 
-  // TODO move this stuff to query display options directive
-  $scope.columns = gon.columns;
-  $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(gon.available_columns, $scope.columns);
-  $scope.selectedAvailableColumns = [];
+    $scope.query = json.query;
 
-  // Groups
+    // Columns
+    $scope.columns = json.columns;
+    $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(json.available_columns, $scope.columns);
 
-  $scope.groupBy = $scope.query.group_by;
-
-  groupByColumnIndex = $scope.columns.map(function(column){
-    return column.name;
-  }).indexOf($scope.groupBy);
-
-  $scope.groupByColumn = $scope.columns[groupByColumnIndex];
+    $scope.groupBy = $scope.query.group_by;
+    $scope.currentSortation = json.sort_criteria;
+  };
 
 
-  // Work packages table
+  $scope.setupWorkPackagesTable = function(json) {
+    $scope.workPackageCountByGroup = json.work_package_count_by_group;
+    $scope.rows = WorkPackagesTableHelper.getRows(json.work_packages, $scope.groupBy);
+  };
 
-  $scope.currentSortation = gon.sort_criteria;
-  $scope.workPackageCountByGroup = gon.work_package_count_by_group;
-
-  $scope.rows = WorkPackagesTableHelper.getRows(gon.work_packages, $scope.groupBy);
-
+  // Initially setup scope via gon
+  $scope.setupQuery(gon);
+  $scope.setupWorkPackagesTable(gon);
 }]);

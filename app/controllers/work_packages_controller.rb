@@ -50,7 +50,7 @@ class WorkPackagesController < ApplicationController
 
   accept_key_auth :index, :show, :create, :update
 
-  before_filter :disable_api
+  # before_filter :disable_api # TODO re-enable once API is used for any JSON request
   before_filter :not_found_unless_work_package,
                 :project,
                 :authorize, :except => [:index]
@@ -227,7 +227,7 @@ class WorkPackagesController < ApplicationController
       format.html do
         # push work packages to client as JSON
         # TODO pull work packages via AJAX
-        push_work_packages_table_data_via_gon results, work_packages
+        push_query_and_results_via_gon results, work_packages
 
         render :index, :locals => { :query => @query,
                                     :work_packages => work_packages,
@@ -236,7 +236,7 @@ class WorkPackagesController < ApplicationController
                        :layout => !request.xhr?
       end
       format.json do
-        render json: get_work_packages_table_data(results, work_packages)
+        render json: get_results_as_json(results, work_packages)
       end
       format.csv do
         serialized_work_packages = WorkPackage::Exporter.csv(work_packages, @project)
@@ -451,20 +451,25 @@ class WorkPackagesController < ApplicationController
 
   private
 
-  def push_work_packages_table_data_via_gon(results, work_packages)
-    get_work_packages_table_data(results, work_packages).each_pair do |name, value|
+  def push_query_and_results_via_gon(results, work_packages)
+    get_query_and_results_as_json(results, work_packages).each_pair do |name, value|
       gon.send "#{name}=", value
     end
     # TODO later versions of gon support gon.push {Hash} - on the other hand they make it harder to deliver data to gon inside views
   end
 
-  def get_work_packages_table_data(results, work_packages)
-    return {
+  def get_query_and_results_as_json(results, work_packages)
+    get_results_as_json(results, work_packages).merge(
       project_identifier:           @project.to_param,
       query:                        get_query_as_json(@query),
       columns:                      get_columns_for_json(@query.columns),
       available_columns:            get_columns_for_json(@query.available_columns),
       sort_criteria:                @sort_criteria.to_param,
+    )
+  end
+
+  def get_results_as_json(results, work_packages)
+    {
       work_package_count_by_group:  results.work_package_count_by_group,
       work_packages:                get_work_packages_as_json(work_packages)
     }

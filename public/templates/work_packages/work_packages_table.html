@@ -28,7 +28,7 @@
 
     <tr work-package-group-header
         ng-repeat-start="row in rows"
-        ng-if="grouped &&
+        ng-if="!!groupByColumn &&
                ($first || row.groupName !== rows[$index-1].groupName)"
         ng-class="{
           group: true,
@@ -83,7 +83,7 @@
           row.level > 0 && 'child idnt' || '',
           row.level > 0 && ('idnt-' + row.level) || ''
         ]"
-        ng-show="!grouped || groupExpanded[row.groupName]">
+        ng-show="!groupByColumn || groupExpanded[row.groupName]">
 
       <td class="checkbox hide-when-print">
         <accessible-checkbox name="ids[]"
@@ -110,9 +110,9 @@
 
     <tr work-package-group-sums
         ng-repeat-end
-        ng-if="displaySums && grouped &&
+        ng-if="displaySums && !!groupByColumn &&
                ($last || row.groupName !== rows[$index+1].groupName)"
-        ng-show="!grouped || groupExpanded[row.groupName]"
+        ng-show="!groupByColumn || groupExpanded[row.groupName]"
         ng-class="[
           $even && 'odd' || 'even',
           'sum',
