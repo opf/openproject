@@ -198,9 +198,9 @@ class ProjectsController < ApplicationController
 
     if params[:confirm]
       @project_to_destroy.destroy
-      respond_to do |format|
-        format.html { redirect_to :controller => '/admin', :action => 'projects' }
-      end
+    end
+    respond_to do |format|
+      format.html { redirect_to :controller => '/admin', :action => 'projects' }
     end
 
     hide_project_in_layout
