@@ -1,0 +1,38 @@
+<table style="border-collapse: collapse; border:0;">
+  <tbody>
+    <tr>
+      <td style="padding-left:0">
+        <label for="available_columns">Available Columns</label>
+        <br/>
+        <select id="available_columns"
+                multiple="multiple"
+                name="available_columns[]"
+                ng-model="markedAvailableColumns"
+                ng-options="column.name as column.title for column in availableColumns"
+                size="10"
+                style="width:150px">
+        </select>
+      </td>
+      <td class="table-buttons" align="center" valign="middle">
+        <input type="button" value="→" ng-click="moveColumns(markedAvailableColumns, availableColumns, columns)" title="Add selected columns"><br>
+        <input type="button" value="←" ng-click="moveColumns(markedSelectedColumns, columns, availableColumns)" title="Remove selected columns">
+      </td>
+      <td>
+        <label for="selected_columns">Selected Columns</label>
+        <br \="">
+        <select id="selected_columns"
+                multiple="multiple"
+                ng-model="markedSelectedColumns"
+                ng-options="column.name as column.title for column in columns"
+                name="c[]"
+                size="10"
+                style="width:150px">
+        </select>
+      </td>
+      <td class="table-buttons" align="center" valign="middle">
+        <input type="button" value="↑" ng-click="moveSelectedColumnBy(-1);" title="Move up"><br>
+        <input type="button" value="↓" ng-click="moveSelectedColumnBy(1);" title="Move down">
+      </td>
+    </tr>
+  </tbody>
+</table>

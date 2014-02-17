@@ -463,6 +463,7 @@ class WorkPackagesController < ApplicationController
       project_identifier:           @project.to_param,
       query:                        get_query_as_json(@query),
       columns:                      get_columns_for_json(@query.columns),
+      available_columns:            get_columns_for_json(@query.available_columns),
       sort_criteria:                @sort_criteria.to_param,
       work_package_count_by_group:  results.work_package_count_by_group,
       work_packages:                get_work_packages_as_json(work_packages)

@@ -12,6 +12,7 @@ angular.module('openproject.workPackages.directives')
       currentSortation: '=',
       countByGroup: '=',
       groupBy: '=',
+      groupByColumn: '=',
       displaySums: '='
     },
     link: function(scope, element, attributes) {
@@ -19,11 +20,6 @@ angular.module('openproject.workPackages.directives')
 
       // groupings
 
-      groupByColumnIndex = scope.columns.map(function(column){
-        return column.name;
-      }).indexOf(scope.groupBy);
-
-      scope.groupByColumn = scope.columns[groupByColumnIndex];
       scope.grouped = scope.groupByColumn !== undefined;
       scope.groupExpanded = {};
 

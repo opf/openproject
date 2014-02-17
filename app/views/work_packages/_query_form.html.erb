@@ -7,13 +7,16 @@
         <%= render :partial => 'queries/filters', :locals => {:query => query} %>
       </div>
     </fieldset>
+
+
+    <!-- options -->
+
     <fieldset id="column_options" class="header_collapsible collapsible collapsed">
       <legend title="<%=l(:description_option_toggle)%>", onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_options) %></a></legend>
       <div style="display: none;">
         <table>
           <tr>
             <td><%= Query.human_attribute_name(:column_names) %></td>
-            <td><%= render :partial => 'queries/columns', :locals => {:query => query} %></td>
           </tr>
           <tr>
             <td><label for='group_by'><%= Query.human_attribute_name(:group_by) %></label></td>
@@ -30,6 +33,56 @@
       </div>
     </fieldset>
   </div>
+
+
+  <!-- options angular, under construction -->
+
+  <fieldset query-form id="column_options" class="header_collapsible collapsible collapsed">
+    <legend title="<%= l(:description_option_toggle) %>", ng-click="showQueryOptions = !showQueryOptions"><a ng-href=""><%= l(:label_options) %></a></legend>
+
+    <div ng-show="showQueryOptions">
+      <table style="">
+        <tbody>
+          <tr>
+            <td><%= Query.human_attribute_name(:column_names) %></td>
+
+            <td>
+
+              <query-columns/>
+
+              <!-- end of partial query/columns -->
+
+            </td>
+          </tr>
+          <tr>
+            <td><label for="group_by">Group results by</label></td>
+            <td>
+              <select id="group_by"
+                      name="group_by"
+                      ng-options="column.name as column.title for column in columns"
+                      ng-model="groupByColumnName">
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td><label for="display_sums">Display Sums</label></td>
+            <td>
+              <input id="display_sums"
+                     name="display_sums"
+                     type="checkbox"
+                     value="1"
+                     ng-model="query.display_sums"/>
+             </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </fieldset>
+
+
+
+
   <p class="buttons hide-when-print">
     <%= link_to_remote l(:button_apply),
                        { :url => { :set_filter => 1 },

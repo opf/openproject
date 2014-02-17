@@ -14,9 +14,15 @@ angular.module('openproject.workPackages.directives')
             return row.groupName === scope.currentGroup;
           });
 
-          // map columns to sums if the column data is a number
-          scope.sums = scope.columns.map(function(column){
-            return WorkPackagesHelper.getSums(rowsInCurrentGroup, column);
+          function calculateSums() {
+            scope.sums = scope.columns.map(function(column){
+              return WorkPackagesHelper.getSums(rowsInCurrentGroup, column);
+            });
+          }
+
+          scope.$watch('columns.length', function() {
+            // map columns to sums if the column data is a number
+            calculateSums();
           });
 
         }

@@ -57,6 +57,44 @@ angular.module('openproject.workPackages.helpers')
         .reduce(function(a, b){
           return a && b;
         });
+    },
+
+    getColumnDifference: function (allColumns, columns) {
+      var columnValues = columns.map(function(column){
+        return column.name;
+      });
+
+      return allColumns.filter(function(column) {
+        return !(columnValues.indexOf(column.name) > -1);
+      });
+    },
+
+    getColumnIndexByName: function(columns, columnName) {
+      return columns
+        .map(function(column){
+          return column.name;
+        })
+        .indexOf(columnName);
+    },
+
+    detectColumnByName: function(columns, columnName) {
+      return columns[WorkPackagesTableHelper.getColumnIndexByName(columns, columnName)];
+    },
+
+    moveElementBy: function(array, index, positions) {
+      // TODO maybe extend the Array prototype
+      var newPosition = index + positions;
+
+      if (newPosition > -1 && newPosition < array.length) {
+        var elementToMove = array.splice(index, 1).first();
+        array.splice(newPosition, 0, elementToMove);
+      }
+    },
+
+    moveColumnBy: function(columns, columnName, by) {
+      var index = WorkPackagesTableHelper.getColumnIndexByName(columns, columnName);
+
+      WorkPackagesTableHelper.moveElementBy(columns, index, by);
     }
 
   };

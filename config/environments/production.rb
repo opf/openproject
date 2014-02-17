@@ -83,7 +83,7 @@ OpenProject::Application.configure do
   config.assets.precompile += %w( default.css
                                   rtl.css context_menu_rtl.css
                                   accessibility.js accessibility.css
-                                  copy_issue_actions.js repository_navigation.js select_list_move.js
+                                  copy_issue_actions.js repository_navigation.js
                                   jstoolbar/lang/*.js calendar/lang/*.js )
 
   # Disable delivery errors, bad email addresses will be ignored
