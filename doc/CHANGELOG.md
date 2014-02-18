@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.0pre47
+
 * `#3113` [API] Read access on work package workflows for API v2
 * `#3903` Fix: [Search] Project scope lost when clicking on search category link
 * `#4087` Fix: [Accessibility] No error messages for blind users
