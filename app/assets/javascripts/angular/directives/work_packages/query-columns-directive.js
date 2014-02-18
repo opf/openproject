@@ -1,6 +1,6 @@
 angular.module('openproject.workPackages.directives')
 
-.directive('queryColumns', ['WorkPackagesTableHelper', function(WorkPackagesTableHelper) {
+.directive('queryColumns', ['WorkPackagesTableHelper', 'WorkPackageService', function(WorkPackagesTableHelper, WorkPackageService) {
 
   return {
     restrict: 'E',
@@ -10,10 +10,25 @@ angular.module('openproject.workPackages.directives')
       return {
         pre: function(scope) {
           scope.moveColumns = function (columnNames, fromColumns, toColumns) {
+
             angular.forEach(getColumnIndexes(columnNames, fromColumns), function(index) {
               toColumns.push(fromColumns.splice(index, 1).first());
             });
+
+            extendRowsWithColumnData(columnNames);
           };
+
+          function extendRowsWithColumnData(columnNames) {
+            // work package rows
+            angular.forEach(columnNames, function(columnName){
+              WorkPackageService.augmentWorkPackagesWithColumnData(
+                scope.rows.map(function(row) {
+                  return row.object;
+                }),
+                columnName
+              );
+            });
+          }
 
           scope.moveSelectedColumnBy = function(by) {
             var nameOfColumnToBeMoved = scope.markedSelectedColumns.first();
