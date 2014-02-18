@@ -8,6 +8,7 @@ angular.module('openproject.workPackages.controllers')
     }).indexOf($scope.groupBy);
 
     $scope.groupByColumn = $scope.columns[groupByColumnIndex];
+    $scope.query.group_by = $scope.groupBy; // keep the query in sync
   });
 
   $scope.setupQuery = function(json) {
@@ -21,6 +22,10 @@ angular.module('openproject.workPackages.controllers')
 
     $scope.groupBy = $scope.query.group_by;
     $scope.currentSortation = json.sort_criteria;
+
+    angular.extend($scope.query, {
+      selectedColumns: $scope.columns
+    });
   };
 
 

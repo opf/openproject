@@ -18,15 +18,7 @@ angular.module('openproject.workPackages.directives')
 
 
           scope.reloadWorkPackagesTableData = function() {
-            var params =  {
-              'c[]': scope.columns
-                .map(function(column){
-                  return column.name;
-                }),
-              'group_by': scope.groupBy
-            };
-
-            QueryService.getWorkPackages(scope.projectIdentifier, params)
+            QueryService.getWorkPackages(scope.projectIdentifier, scope.query)
               .then(scope.setupWorkPackagesTable);
           };
         }
