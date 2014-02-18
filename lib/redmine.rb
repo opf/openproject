@@ -230,15 +230,15 @@ Redmine::AccessControl.map do |map|
 end
 
 Redmine::MenuManager.map :top_menu do |menu|
-  menu.push :my_page, { :controller => '/my', :action => 'page' }, :html => {:class => 'icon5 icon-star2'}, :if => Proc.new { User.current.logged? }
+  menu.push :my_page, { :controller => '/my', :action => 'page' }, :html => {:class => 'icon5 icon-star2'}, :if => Proc.new { current_user.logged? }
   # projects menu will be added by Redmine::MenuManager::TopMenuHelper#render_projects_top_menu_node
-  menu.push :administration, { :controller => '/admin', :action => 'projects' }, :if => Proc.new { User.current.admin? }, :last => true
+  menu.push :administration, { :controller => '/admin', :action => 'projects' }, :if => Proc.new { current_user.admin? }, :last => true
   menu.push :help, OpenProject::Info.help_url, :last => true, :caption => I18n.t('label_help'), :html => { :accesskey => OpenProject::AccessKeys.key_for(:help), :class => "icon5 icon-help"}
 end
 
 Redmine::MenuManager.map :account_menu do |menu|
-  menu.push :my_account, { :controller => '/my', :action => 'account' }, :if => Proc.new { User.current.logged? }
-  menu.push :logout, :signout_path, :if => Proc.new { User.current.logged? }
+  menu.push :my_account, { :controller => '/my', :action => 'account' }, :if => Proc.new { current_user.logged? }
+  menu.push :logout, :signout_path, :if => Proc.new { current_user.logged? }
 end
 
 Redmine::MenuManager.map :application_menu do |menu|
@@ -247,7 +247,7 @@ end
 
 Redmine::MenuManager.map :my_menu do |menu|
   menu.push :account, {:controller => '/my', :action => 'account'}, :caption => :label_my_account, :html => {:class => "icon2 icon-user1"}
-  menu.push :password, {:controller => '/my', :action => 'password'}, :caption => :button_change_password, :if => Proc.new { User.current.change_password_allowed? }, :html => {:class => "icon2 icon-locked"}
+  menu.push :password, {:controller => '/my', :action => 'password'}, :caption => :button_change_password, :if => Proc.new { current_user.change_password_allowed? }, :html => {:class => "icon2 icon-locked"}
   menu.push :delete_account, :deletion_info_path,
                              :caption => I18n.t('account.delete'),
                              :param => :user_id,
@@ -329,7 +329,7 @@ Redmine::MenuManager.map :project_menu do |menu|
                        :param => :project_id,
                        :caption => :label_news_new,
                        :parent => :news,
-                       :if => Proc.new { |p| User.current.allowed_to?(:manage_news, p.project) },
+                       :if => Proc.new { |p| current_user.allowed_to?(:manage_news, p.project) },
                        :html => {:class => "icon2 icon-add"}
 
   menu.push :boards, { :controller => '/boards', :action => 'index', :id => nil },

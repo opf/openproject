@@ -31,10 +31,12 @@ require 'spec_helper'
 describe WorkPackagesController do
 
   before do
-    User.stub(:current).and_return current_user
+    controller.current_user = user
     # disables sending mails
     UserMailer.stub(:new).and_return(double('mailer').as_null_object)
   end
+  
+  let(:user) { FactoryGirl.create(:user) } 
 
   let(:planning_element) { FactoryGirl.create(:work_package, :project_id => project.id) }
   let(:project) { FactoryGirl.create(:project, :identifier => 'test_project', :is_public => false) }
@@ -78,7 +80,7 @@ describe WorkPackagesController do
       let(:project) { nil }
 
       before do
-        User.current.should_receive(:allowed_to?)
+        user.should_receive(:allowed_to?)
                     .with(:export_work_packages,
                           project,
                           :global => true)
@@ -93,7 +95,7 @@ describe WorkPackagesController do
       before do
         params[:project_id] = project.id
 
-        User.current.should_receive(:allowed_to?)
+        user.should_receive(:allowed_to?)
                     .with(:export_work_packages,
                           project,
                           :global => false)
@@ -107,7 +109,7 @@ describe WorkPackagesController do
       let(:project) { nil }
 
       before do
-        User.current.should_receive(:allowed_to?)
+        user.should_receive(:allowed_to?)
                     .with(:export_work_packages,
                           project,
                           :global => true)
@@ -127,7 +129,7 @@ describe WorkPackagesController do
     let(:work_packages) { double("work packages").as_null_object }
 
     before do
-      User.current.should_receive(:allowed_to?)
+      user.should_receive(:allowed_to?)
                   .with({ :controller => "work_packages",
                           :action => "index" },
                         project,

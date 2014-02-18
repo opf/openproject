@@ -44,7 +44,7 @@ api.issue do
   api.due_date @issue.due_date
   work_package_api_done_ratio_if_enabled api, @issue
   api.estimated_hours @issue.estimated_hours
-  api.spent_hours(@issue.spent_hours) if User.current.allowed_to?(:view_time_entries, @project)
+  api.spent_hours(@issue.spent_hours) if current_user.allowed_to?(:view_time_entries, @project)
 
   render_api_custom_values @issue.custom_field_values, api
 
@@ -67,7 +67,7 @@ api.issue do
         api.committed_on changeset.committed_on
       end
     end
-  end if include_in_api_response?('changesets') && User.current.allowed_to?(:view_changesets, @project)
+  end if include_in_api_response?('changesets') && current_user.allowed_to?(:view_changesets, @project)
 
   api.array :journals do
     @issue.journals.each do |journal|

@@ -35,7 +35,7 @@ class News::CommentsController < ApplicationController
 
   def create
     @comment = Comment.new(params[:comment])
-    @comment.author = User.current
+    @comment.author = current_user
     if @news.comments << @comment
       flash[:notice] = l(:label_comment_added)
     end

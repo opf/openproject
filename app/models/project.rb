@@ -116,7 +116,7 @@ class Project < ActiveRecord::Base
   scope :has_module, lambda { |mod| { :conditions => ["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s] } }
   scope :active, lambda { |*args| where(:status => STATUS_ACTIVE) }
   scope :public, lambda { |*args| where(:is_public => true) }
-  scope :visible, lambda { { :conditions => Project.visible_by(User.current) } }
+  scope :visible, lambda { |*args| { :conditions => Project.visible_by(args.first) } }
 
   # timelines stuff
 
@@ -158,14 +158,14 @@ class Project < ActiveRecord::Base
 
   collection_proxy :project_associations, :for => [:project_a_associations,
                                                    :project_b_associations] do
-    def visible(user = User.current)
+    def visible(user)
       all.select { |assoc| assoc.visible?(user) }
     end
   end
 
   collection_proxy :associated_projects, :for => [:associated_a_projects,
                                                   :associated_b_projects] do
-    def visible(user = User.current)
+    def visible(user)
       all.select { |other| other.visible?(user) }
     end
   end
@@ -174,7 +174,7 @@ class Project < ActiveRecord::Base
                                          :reportings_via_target],
                                          :leave_public => true
 
-  def associated_project_candidates(user = User.current)
+  def associated_project_candidates(user)
     # TODO: Check if admins shouldn't see all projects here
     projects = Project.visible.all
     projects.delete(self)
@@ -182,19 +182,19 @@ class Project < ActiveRecord::Base
     projects.select{|p| p.allows_association?}
   end
 
-  def associated_project_candidates_by_type(user = User.current)
+  def associated_project_candidates_by_type(user)
     # TODO: values need sorting by project tree
     associated_project_candidates(user).group_by(&:project_type)
   end
 
-  def project_associations_by_type(user = User.current)
+  def project_associations_by_type(user)
     # TODO: values need sorting by project tree
     project_associations.visible.group_by do |a|
       a.project(self).project_type
     end
   end
 
-  def reporting_to_project_candidates(user = User.current)
+  def reporting_to_project_candidates(user)
     # TODO: Check if admins shouldn't see all projects here
     projects = Project.visible.all
     projects.delete(self)
@@ -202,7 +202,7 @@ class Project < ActiveRecord::Base
     projects
   end
 
-  def visible?(user = User.current)
+  def visible?(user)
     self.active? and (self.is_public? or user.admin? or user.member_of?(self))
   end
 
@@ -214,8 +214,8 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def self.selectable_projects
-    Project.visible.select {|p| User.current.member_of? p }.sort_by(&:to_s)
+  def self.selectable_projects(user)
+    Project.visible.select {|p| user.member_of? p }.sort_by(&:to_s)
   end
 
   def self.search_scope(query)
@@ -291,8 +291,7 @@ class Project < ActiveRecord::Base
   # Examples:
   #     Projects.visible_by(admin)        => "projects.status = 1"
   #     Projects.visible_by(normal_user)  => "projects.status = 1 AND projects.is_public = 1"
-  def self.visible_by(user=nil)
-    user ||= User.current
+  def self.visible_by(user)
     if user && user.admin?
       return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
     elsif user && user.memberships.any?
@@ -458,11 +457,11 @@ class Project < ActiveRecord::Base
 
   # Returns an array of projects the project can be moved to
   # by the current user
-  def allowed_parents
+  def allowed_parents(user)
     return @allowed_parents if @allowed_parents
-    @allowed_parents = Project.find(:all, :conditions => Project.allowed_to_condition(User.current, :add_subprojects))
+    @allowed_parents = Project.find(:all, :conditions => Project.allowed_to_condition(user, :add_subprojects))
     @allowed_parents = @allowed_parents - self_and_descendants
-    if User.current.allowed_to?(:add_project, nil, :global => true) || (!new_record? && parent.nil?)
+    if user.allowed_to?(:add_project, nil, :global => true) || (!new_record? && parent.nil?)
       @allowed_parents << nil
     end
     unless parent.nil? || @allowed_parents.empty? || @allowed_parents.include?(parent)

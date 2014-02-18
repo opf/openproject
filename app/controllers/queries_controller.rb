@@ -64,7 +64,7 @@ private
     @query = Query.new params[:query] ? permitted_params.query : nil
     @query.project = @project unless params[:query_is_for_all]
     prepare_query @query
-    @query.user = User.current
+    @query.user = current_user
   end
 
   def prepare_for_editing
@@ -75,7 +75,7 @@ private
   end
 
   def prepare_query(query)
-    @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
+    @query.is_public = false unless current_user.allowed_to?(:manage_public_queries, @project) || current_user.admin?
     view_context.add_filter_from_params if params[:fields] || params[:f]
     @query.group_by ||= params[:group_by]
     @query.project = nil if params[:query_is_for_all]
@@ -87,14 +87,14 @@ private
   def find_query
     @query = Query.find(params[:id])
     @project = @query.project
-    render_403 unless @query.editable_by?(User.current)
+    render_403 unless @query.editable_by?(current_user)
   rescue ActiveRecord::RecordNotFound
     render_404
   end
 
   def find_optional_project
     @project = Project.find(params[:project_id]) if params[:project_id]
-    render_403 unless User.current.allowed_to?(:save_queries, @project, :global => true)
+    render_403 unless current_user.allowed_to?(:save_queries, @project, :global => true)
   rescue ActiveRecord::RecordNotFound
     render_404
   end

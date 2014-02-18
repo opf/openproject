@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% user_allowed_to_add_watchers = User.current.allowed_to?(:add_work_package_watchers, @project) %>
+<% user_allowed_to_add_watchers = current_user.allowed_to?(:add_work_package_watchers, @project) %>
 
 <strong><%= l(:label_work_package_watchers) %> (<%= watched.watcher_users.size %>)</strong>
 <% if user_allowed_to_add_watchers %>

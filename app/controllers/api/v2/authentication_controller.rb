@@ -40,7 +40,7 @@ module Api
       before_filter :api_allows_login, :require_login
 
       def index
-        @authorization = AuthorizationData.new(true, User.current.id)
+        @authorization = AuthorizationData.new(true, current_user.id)
 
         respond_to do |format|
           format.api

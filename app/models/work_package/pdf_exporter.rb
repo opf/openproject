@@ -173,7 +173,7 @@ module WorkPackage::PdfExporter
   end
 
   # Returns a PDF string of a single work_package
-  def work_package_to_pdf(work_package)
+  def work_package_to_pdf(work_package, user)
     if ( current_language.to_s.downcase == 'ko'    ||
          current_language.to_s.downcase == 'ja'    ||
          current_language.to_s.downcase == 'zh'    ||
@@ -250,7 +250,7 @@ module WorkPackage::PdfExporter
     pdf.Line(pdf.GetX, pdf.GetY, pdf.GetX + 190, pdf.GetY)
     pdf.Ln
 
-    if work_package.changesets.any? && User.current.allowed_to?(:view_changesets, work_package.project)
+    if work_package.changesets.any? && user.allowed_to?(:view_changesets, work_package.project)
       pdf.SetFontStyle('B',9)
       pdf.RDMCell(190,5, l(:label_associated_revisions), "B")
       pdf.Ln

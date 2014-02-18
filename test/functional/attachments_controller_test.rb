@@ -43,7 +43,7 @@ class AttachmentsControllerTest < ActionController::TestCase
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     Attachment.storage_path = Rails.root.join('test/fixtures/files').to_s
-    User.current = nil
+    self.current_user = nil
   end
 
   def test_show_diff

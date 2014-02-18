@@ -31,9 +31,9 @@ object @project
 attributes :id, :name, :identifier, :description, :project_type_id
 
 node :permissions do |project|
-  { view_planning_elements: User.current.allowed_to?(:view_work_packages, project),
-    edit_planning_elements: User.current.allowed_to?(:edit_work_packages, project),
-    delete_planning_elements: User.current.allowed_to?(:delete_work_packages, project)
+  { view_planning_elements: current_user.allowed_to?(:view_work_packages, project),
+    edit_planning_elements: current_user.allowed_to?(:edit_work_packages, project),
+    delete_planning_elements: current_user.allowed_to?(:delete_work_packages, project)
   }
 end
 

@@ -71,7 +71,7 @@ class Message < ActiveRecord::Base
   after_destroy :reset_counters
 
   scope :visible, lambda {|*args| { :include => {:board => :project},
-                                    :conditions => Project.allowed_to_condition(args.first || User.current, :view_messages) } }
+                                    :conditions => Project.allowed_to_condition(args.first, :view_messages) } }
 
   safe_attributes 'subject', 'content', 'board_id'
   safe_attributes 'locked', 'sticky',
@@ -79,7 +79,7 @@ class Message < ActiveRecord::Base
       user.allowed_to?(:edit_messages, message.project)
     }
 
-  def visible?(user=User.current)
+  def visible?(user)
     !user.nil? && user.allowed_to?(:view_messages, project)
   end
 

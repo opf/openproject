@@ -126,7 +126,7 @@ class JournalManager
     journal.reload
   end
 
-  def self.add_journal(journable, user = User.current, notes = "")
+  def self.add_journal(journable, user, notes = "")
     if is_journalized? journable
       journal_attributes = { journable_id: journable.id,
                              journable_type: journal_class_name(journable.class),
@@ -138,7 +138,7 @@ class JournalManager
     end
   end
 
-  def self.create_journal(journable, journal_attributes, user = User.current,  notes = "")
+  def self.create_journal(journable, journal_attributes, user,  notes = "")
     type = base_class(journable.class)
     extended_journal_attributes = journal_attributes.merge({ journable_type: journal_class_name(type) })
                                                     .merge({ notes: notes })

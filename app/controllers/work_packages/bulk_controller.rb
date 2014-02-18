@@ -55,7 +55,7 @@ class WorkPackages::BulkController < ApplicationController
 
     @work_packages.each do |work_package|
       work_package.reload
-      work_package.add_journal(User.current, params[:notes])
+      work_package.add_journal(current_user, params[:notes])
 
       # filter parameters by whitelist and add defaults
       attributes = parse_params_for_bulk_work_package_attributes params, work_package.project

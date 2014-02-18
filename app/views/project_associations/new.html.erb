@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%= header_tags %>
-<% unless User.current.impaired? %>
+<% unless current_user.impaired? %>
   <%# TODO: Require autocompleter inside select_boxes.js
     For lack of a requiring policy (such as requirejs), just include the
     autocompleter on its own.
@@ -53,7 +53,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                                 :project_a => h(@project.name)) %>
 
 
-  <% if User.current.impaired? %>
+  <% if current_user.impaired? %>
     <%= select("project_association_select", "project_b_id",
                grouped_options_for_select(@associated_project_candidates_by_type.collect do |type, projects|
                  [type.try(:name) || l('timelines.without_project_type'), projects.collect do |candidate|

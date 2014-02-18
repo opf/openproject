@@ -63,7 +63,7 @@ module Api
       protected
 
       def require_permissions
-        deny_access unless User.current.allowed_to? :edit_project, nil, :global => true
+        deny_access unless current_user.allowed_to? :edit_project, nil, :global => true
       end
 
     end

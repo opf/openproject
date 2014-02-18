@@ -52,17 +52,17 @@ class News < ActiveRecord::Base
 
   scope :visible, lambda {|*args| {
     :include => :project,
-    :conditions => Project.allowed_to_condition(args.first || User.current, :view_news)
+    :conditions => Project.allowed_to_condition(args.first, :view_news)
   }}
 
   safe_attributes 'title', 'summary', 'description'
 
-  def visible?(user=User.current)
+  def visible?(user)
     !user.nil? && user.allowed_to?(:view_news, project)
   end
 
   # returns latest news for projects visible by user
-  def self.latest(user = User.current, count = 5)
+  def self.latest(user, count = 5)
     find(:all, :limit => count, :conditions => Project.allowed_to_condition(user, :view_news), :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
   end
 

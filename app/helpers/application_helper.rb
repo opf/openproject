@@ -40,7 +40,7 @@ module ApplicationHelper
 
   # Return true if user is authorized for controller/action, otherwise false
   def authorize_for(controller, action)
-    User.current.allowed_to?({:controller => controller, :action => action}, @project)
+    current_user.allowed_to?({:controller => controller, :action => action}, @project)
   end
 
   # Display a link if user is authorized
@@ -179,7 +179,7 @@ module ApplicationHelper
   def link_to_project(project, options={}, html_options = nil, show_icon = false)
     link = ''
 
-    if show_icon && User.current.member_of?(project)
+    if show_icon && current_user.member_of?(project)
       link << icon_wrapper("icon-context icon-star1",I18n.t(:description_my_project))
     end
 
@@ -313,7 +313,7 @@ module ApplicationHelper
 
   def render_flash_message(type, message, html_options = {})
     html_options = { :class => "flash #{type} icon icon-#{type}", role: "alert" }.merge(html_options)
-    if User.current.impaired?
+    if current_user.impaired?
       content_tag('div', content_tag('a', join_flash_messages(message), :href => 'javascript:;'), html_options)
     else
       content_tag('div', join_flash_messages(message), html_options)
@@ -798,7 +798,7 @@ module ApplicationHelper
                                            :title => truncate_single_line(h(changeset.comments), :length => 100)
             end
           when 'source', 'export'
-            if project && project.repository && User.current.allowed_to?(:browse_repository, project)
+            if project && project.repository && current_user.allowed_to?(:browse_repository, project)
               name =~ %r{\A[/\\]*(.*?)(@([0-9a-f]+))?(#(L\d+))?\z}
               path, rev, anchor = $1, $3, $5
               link = link_to h("#{project_prefix}#{prefix}:#{name}"), {:controller => '/repositories', :action => 'entry', :project_id => project,
@@ -992,11 +992,11 @@ module ApplicationHelper
       I18n.defaultLocale = "#{I18n.default_locale}";
       I18n.locale = "#{I18n.locale}";
     })
-    unless User.current.pref.warn_on_leaving_unsaved == '0'
+    unless current_user.pref.warn_on_leaving_unsaved == '0'
       tags += javascript_tag("jQuery(function(){ new WarnLeavingUnsaved('#{escape_javascript( l(:text_warn_on_leaving_unsaved) )}'); });")
     end
 
-    if User.current.impaired? and accessibility_js_enabled?
+    if current_user.impaired? and accessibility_js_enabled?
       tags += javascript_include_tag("accessibility.js")
     end
 

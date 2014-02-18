@@ -141,11 +141,11 @@ class Attachment < ActiveRecord::Base
     container.respond_to?(:project)? container.project : nil
   end
 
-  def visible?(user=User.current)
+  def visible?(user)
     container.attachments_visible?(user)
   end
 
-  def deletable?(user=User.current)
+  def deletable?(user)
     container.attachments_deletable?(user)
   end
 
@@ -171,7 +171,7 @@ class Attachment < ActiveRecord::Base
   # Returns a Hash of the results:
   # :files => array of the attached files
   # :unsaved => array of the files that could not be attached
-  def self.attach_files(obj, attachments)
+  def self.attach_files(obj, attachments, user)
     attached = []
     if attachments && attachments.is_a?(Hash)
       attachments.each_value do |attachment|
@@ -180,7 +180,7 @@ class Attachment < ActiveRecord::Base
         a = Attachment.create(:container => obj,
                               :file => file,
                               :description => attachment['description'].to_s.strip,
-                              :author => User.current)
+                              :author => user)
 
         if a.new_record?
           obj.unsaved_attachments ||= []

@@ -36,10 +36,10 @@ class WorkPackages::ContextMenusController < ApplicationController
 
     if (@work_packages.size == 1)
       @work_package = @work_packages.first
-      @allowed_statuses = @work_package.new_statuses_allowed_to(User.current)
+      @allowed_statuses = @work_package.new_statuses_allowed_to(current_user)
     else
       @allowed_statuses = @work_packages.map do |i|
-        i.new_statuses_allowed_to(User.current)
+        i.new_statuses_allowed_to(current_user)
       end.inject do |memo,s|
         memo & s
       end
@@ -48,12 +48,12 @@ class WorkPackages::ContextMenusController < ApplicationController
     @projects = @work_packages.collect(&:project).compact.uniq
     @project = @projects.first if @projects.size == 1
 
-    @can = {:edit => User.current.allowed_to?(:edit_work_packages, @projects),
-            :log_time => (@project && User.current.allowed_to?(:log_time, @project)),
-            :update => (User.current.allowed_to?(:edit_work_packages, @projects) || (User.current.allowed_to?(:change_status, @projects) && !@allowed_statuses.blank?)),
-            :move => (@project && User.current.allowed_to?(:move_work_packages, @project)),
-            :copy => (@work_package && @project.types.include?(@work_package.type) && User.current.allowed_to?(:add_work_packages, @project)),
-            :delete => User.current.allowed_to?(:delete_work_packages, @projects)
+    @can = {:edit => current_user.allowed_to?(:edit_work_packages, @projects),
+            :log_time => (@project && current_user.allowed_to?(:log_time, @project)),
+            :update => (current_user.allowed_to?(:edit_work_packages, @projects) || (current_user.allowed_to?(:change_status, @projects) && !@allowed_statuses.blank?)),
+            :move => (@project && current_user.allowed_to?(:move_work_packages, @project)),
+            :copy => (@work_package && @project.types.include?(@work_package.type) && current_user.allowed_to?(:add_work_packages, @project)),
+            :delete => current_user.allowed_to?(:delete_work_packages, @projects)
             }
     if @project
       @assignables = @project.possible_assignees

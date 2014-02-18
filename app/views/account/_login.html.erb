@@ -57,7 +57,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= link_to l(:label_password_lost), {:controller => '/account', :action => 'lost_password'} %>
       <% end %>
 
-      <% if !User.current.logged? && Setting.self_registration? %>
+      <% if !current_user.logged? && Setting.self_registration? %>
         <%= "|" if Setting.lost_password? %>
          <%= link_to l(:label_register), { :controller => '/account', :action => 'register' } %>
       <% end %>

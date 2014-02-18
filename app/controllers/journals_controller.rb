@@ -64,7 +64,7 @@ class JournalsController < ApplicationController
   end
 
   def edit
-    (render_403; return false) unless @journal.editable_by?(User.current)
+    (render_403; return false) unless @journal.editable_by?(current_user)
     respond_to do |format|
       format.html {
         # TODO: implement non-JS journal update

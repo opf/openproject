@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
                             {:controller => '/messages', :action => 'new', :board_id => @board},
                             :class => 'icon icon-add',
                             :onclick => 'Element.show("add-message"); Form.Element.focus("message_subject"); return false;' %>
-    <%= watcher_link(@board, User.current) %>
+    <%= watcher_link(@board, current_user) %>
 <% end %>
 
 <div id="add-message" style="display:none;">
@@ -95,11 +95,11 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <%= other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
+  <%= f.link_to 'Atom', :url => {:key => current_user.rss_key} %>
 <% end %>
 
 <% html_title h(@board.name) %>
 
 <% content_for :header_tags do %>
-    <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{@project}: #{@board}") %>
+    <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => current_user.rss_key}, :title => "#{@project}: #{@board}") %>
 <% end %>

@@ -42,7 +42,7 @@ class MailHandlerControllerTest < ActionController::TestCase
     @controller = MailHandlerController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
-    User.current = nil
+    self.current_user = nil
   end
 
   def test_should_create_issue

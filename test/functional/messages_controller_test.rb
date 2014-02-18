@@ -40,7 +40,7 @@ class MessagesControllerTest < ActionController::TestCase
     @controller = MessagesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
-    User.current = nil
+    self.current_user = nil
   end
 
   def test_show

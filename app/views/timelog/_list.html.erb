@@ -55,7 +55,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <td class="comments"><%=h entry.comments %></td>
 <td class="hours"><%= html_hours("%.2f" % entry.hours) %></td>
 <td align="center">
-<% if entry.editable_by?(User.current) -%>
+<% if entry.editable_by?(current_user) -%>
   <%= link_to icon_wrapper('icon-context icon-edit',l(:button_edit)),
               edit_time_entry_path(entry),
               :class => 'no-decoration-on-hover',

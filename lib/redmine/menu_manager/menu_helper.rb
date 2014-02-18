@@ -142,8 +142,8 @@ module Redmine::MenuManager::MenuHelper
     end
   end
 
-  def render_menu_node(node, project=nil)
-    return "" if project and not allowed_node?(node, User.current, project)
+  def render_menu_node(node, project = nil) # project=nil
+    return "" if project and not allowed_node?(node, current_user, project)
     if node.has_children? || !node.child_menus.nil?
       render_menu_node_with_children(node, project)
     else
@@ -202,10 +202,10 @@ module Redmine::MenuManager::MenuHelper
     link_to link_text, url, html_options
   end
 
-  def render_unattached_menu_item(menu_item, project)
+  def render_unattached_menu_item(menu_item, project, user)
     raise Redmine::MenuManager::MenuError, ":child_menus must be an array of MenuItems" unless menu_item.is_a? Redmine::MenuManager::MenuItem
 
-    if User.current.allowed_to?(menu_item.url, project)
+    if user.allowed_to?(menu_item.url, project)
       link_to(menu_item.caption,
               menu_item.url,
               menu_item.html_options)
@@ -215,7 +215,7 @@ module Redmine::MenuManager::MenuHelper
   def menu_items_for(menu, project=nil)
     items = []
     Redmine::MenuManager.items(menu).root.children.each do |node|
-      if allowed_node?(node, User.current, project)
+      if allowed_node?(node, current_user, project) # todo
         if block_given?
           yield node
         else
@@ -248,7 +248,7 @@ module Redmine::MenuManager::MenuHelper
   # * Checking the conditions of the item
   # * Checking the url target (project only)
   def allowed_node?(node, user, project)
-    if node.condition && !node.condition.call(project)
+    if node.condition && !instance_exec(&node.condition)
       # Condition that doesn't pass
       return false
     end

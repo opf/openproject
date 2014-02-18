@@ -32,13 +32,13 @@ See doc/COPYRIGHT.rdoc for more details.
         edit_news_path(@news),
         :class => 'icon icon-edit',
         :accesskey => accesskey(:edit),
-        :onclick => 'Element.show("edit-news"); return false;') if User.current.allowed_to?(:manage_news, @project) %>
-  <%= watcher_link(@news, User.current) %>
+        :onclick => 'Element.show("edit-news"); return false;') if current_user.allowed_to?(:manage_news, @project) %>
+  <%= watcher_link(@news, current_user) %>
   <%= link_to(l(:button_delete),
         news_path(@news),
         :confirm => l(:text_are_you_sure),
         :method => :delete,
-        :class => 'icon icon-delete') if User.current.allowed_to?(:manage_news, @project) %>
+        :class => 'icon icon-delete') if current_user.allowed_to?(:manage_news, @project) %>
 <% end %>
 
 <h2><%= avatar(@news.author, :size => "24") %><%=h @news.title %></h2>

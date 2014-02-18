@@ -72,7 +72,7 @@ module WatchersHelper
 
   # Returns HTML for a list of users watching the given object
   def watchers_list(object)
-    remove_allowed = User.current.allowed_to?("delete_#{object.class.name.underscore}_watchers".to_sym, object.project)
+    remove_allowed = current_user.allowed_to?("delete_#{object.class.name.underscore}_watchers".to_sym, object.project)
     lis = object.watchers(true).collect do |watch|
       content_tag :li do
         avatar(watch.user, :size => "16") +

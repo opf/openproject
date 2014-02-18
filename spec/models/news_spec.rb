@@ -31,6 +31,8 @@ require File.expand_path('../../support/shared/become_member', __FILE__)
 
 describe News do
   include BecomeMember
+  
+  let(:user) { FactoryGirl.create(:user) }
 
   let(:project) {
     project = FactoryGirl.create(:public_project)
@@ -42,14 +44,14 @@ describe News do
 
   describe ".latest" do
     it "includes news elements from projects where news module is enabled" do
-      expect(News.latest).to include news
+      expect(News.latest(user)).to include news
     end
 
     it "doesn't include news elements from projects where news module is not enabled" do
       EnabledModule.delete_all(["project_id = ? AND name = ?", project.id, 'news'])
       project.reload
 
-      expect(News.latest).to_not include news
+      expect(News.latest(user)).to_not include news
     end
 
     it "only includes news elements from projects that are visible to the user" do
@@ -66,22 +68,22 @@ describe News do
 
       10.times { FactoryGirl.create(:news, project: project) }
 
-      expect(News.latest(User.current,  2)).to have(2).elements
-      expect(News.latest(User.current,  6)).to have(6).elements
-      expect(News.latest(User.current, 15)).to have(10).elements
+      expect(News.latest(user,  2)).to have(2).elements
+      expect(News.latest(user,  6)).to have(6).elements
+      expect(News.latest(user, 15)).to have(10).elements
     end
 
     it "returns five news elements by default" do
       News.delete_all
 
       2.times { FactoryGirl.create(:news, project: project) }
-      expect(News.latest).to have(2).elements
+      expect(News.latest(user)).to have(2).elements
 
       3.times { FactoryGirl.create(:news, project: project) }
-      expect(News.latest).to have(5).elements
+      expect(News.latest(user)).to have(5).elements
 
       2.times { FactoryGirl.create(:news, project: project) }
-      expect(News.latest).to have(5).elements
+      expect(News.latest(user)).to have(5).elements
     end
   end
 

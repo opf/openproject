@@ -75,7 +75,7 @@ module Redmine
           # Searches the model for the given tokens
           # projects argument can be either nil (will search all projects), a project or an array of projects
           # Returns the results and the results count
-          def search(tokens, projects=nil, options={})
+          def search(tokens, projects, options, user) #projects=nil, options={})
             tokens = [] << tokens unless tokens.is_a?(Array)
             projects = [] << projects unless projects.nil? || projects.is_a?(Array)
 
@@ -111,8 +111,8 @@ module Redmine
             find_options[:conditions] = [sql, * (tokens.collect {|w| "%#{w.downcase}%"} * token_clauses.size).sort]
 
             project_conditions = []
-            project_conditions << (searchable_options[:permission].nil? ? Project.visible_by(User.current) :
-                                                 Project.allowed_to_condition(User.current, searchable_options[:permission]))
+            project_conditions << (searchable_options[:permission].nil? ? Project.visible_by(user) :
+                                                 Project.allowed_to_condition(user, searchable_options[:permission]))
             project_conditions << "#{searchable_options[:project_key]} IN (#{projects.flatten.collect(&:id).join(',')})" unless projects.nil?
 
             results = []

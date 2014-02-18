@@ -51,7 +51,7 @@ class Wiki < ActiveRecord::Base
 
   after_create :create_menu_item_for_start_page
 
-  def visible?(user=User.current)
+  def visible?(user)
     !user.nil? && user.allowed_to?(:view_wiki_pages, project)
   end
 

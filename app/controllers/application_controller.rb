@@ -126,13 +126,17 @@ class ApplicationController < ActionController::Base
   # - Project.visible_by actually allows the controller to pass in a user but it falls back to User.current
   #   and there are other places in the session-unaware codebase, that rely on User.current.)
   def current_user
-    User.current
+    @current_user ||= User.anonymous
   end
   helper_method :current_user
 
+  def current_user=(user)
+    @current_user = user
+  end
+
   def user_setup
     # Find the current user
-    User.current = find_current_user
+    self.current_user = find_current_user
   end
 
   # Returns the current user or nil if no user is logged in
@@ -166,26 +170,26 @@ class ApplicationController < ActionController::Base
   def logged_user=(user)
     reset_session
     if user && user.is_a?(User)
-      User.current = user
+      self.current_user = user
       session[:user_id] = user.id
       session[:updated_at] = Time.now
     else
-      User.current = User.anonymous
+      self.current_user = User.anonymous #todo
     end
   end
 
   # check if login is globally required to access the application
   def check_if_login_required
     # no check needed if user is already logged in
-    return true if User.current.logged?
+    return true if current_user.logged?
     require_login if Setting.login_required?
   end
 
   def log_requesting_user
     return unless Setting.log_requesting_user?
-    login_and_mail = " (#{escape_for_logging(User.current.login)} ID: #{User.current.id} " +
-                     "<#{escape_for_logging(User.current.mail)}>)" unless User.current.anonymous?
-    logger.info "OpenProject User: #{escape_for_logging(User.current.name)}#{login_and_mail}"
+    login_and_mail = " (#{escape_for_logging(current_user.login)} ID: #{current_user.id} " +
+                     "<#{escape_for_logging(current_user.mail)}>)" unless current_user.anonymous?
+    logger.info "OpenProject User: #{escape_for_logging(current_user.name)}#{login_and_mail}"
   end
 
   # Escape string to prevent log injection
@@ -204,8 +208,8 @@ class ApplicationController < ActionController::Base
 
   def set_localization
     lang = nil
-    if User.current.logged?
-      lang = find_language(User.current.language)
+    if current_user.logged?
+      lang = find_language(current_user.language)
     end
     if lang.nil? && request.env['HTTP_ACCEPT_LANGUAGE']
       accept_lang = parse_qvalues(request.env['HTTP_ACCEPT_LANGUAGE']).first
@@ -219,7 +223,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_login
-    if !User.current.logged?
+    if !current_user.logged?
       # Extract only the basic url parameters on non-GET requests
       if request.get?
         url = url_for(params)
@@ -248,7 +252,7 @@ class ApplicationController < ActionController::Base
 
   def require_admin
     return unless require_login
-    if !User.current.admin?
+    if !current_user.admin?
       render_403
       return false
     end
@@ -256,12 +260,12 @@ class ApplicationController < ActionController::Base
   end
 
   def deny_access
-    User.current.logged? ? render_403 : require_login
+    current_user.logged? ? render_403 : require_login
   end
 
   # Authorize the user for the requested action
   def authorize(ctrl = params[:controller], action = params[:action], global = false)
-    allowed = User.current.allowed_to?({:controller => ctrl, :action => action}, @project || @projects, :global => global)
+    allowed = current_user.allowed_to?({:controller => ctrl, :action => action}, @project || @projects, :global => global)
     if allowed
       true
     else
@@ -304,7 +308,7 @@ class ApplicationController < ActionController::Base
     controller_name = params[:controller] if controller_name.nil?
 
     @project = Project.find(params[:project_id]) unless params[:project_id].blank?
-    allowed = User.current.allowed_to?({:controller => controller_name, :action => params[:action]}, @project, :global => true)
+    allowed = current_user.allowed_to?({:controller => controller_name, :action => params[:action]}, @project, :global => true)
     allowed ? true : deny_access
   end
 
@@ -405,10 +409,10 @@ class ApplicationController < ActionController::Base
   # used as a before_filter for actions that do not require any particular permission on the project
   def check_project_privacy
     if @project && @project.active?
-      if @project.is_public? || User.current.member_of?(@project) || User.current.admin?
+      if @project.is_public? || current_user.member_of?(@project) || current_user.admin?
         true
       else
-        User.current.logged? ? render_403 : require_login
+        current_user.logged? ? render_403 : require_login
       end
     else
       @project = nil
@@ -472,7 +476,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_optional_error_file(status_code)
-    user_setup unless User.current.id == session[:user_id]
+    user_setup unless current_user.id == session[:user_id]
 
     case status_code
     when :not_found

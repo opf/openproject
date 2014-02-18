@@ -44,7 +44,7 @@ class ActivitiesController < ApplicationController
     @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_work_packages? : (params[:with_subprojects] == '1')
     @author = (params[:user_id].blank? ? nil : User.active.find(params[:user_id]))
 
-    @activity = Redmine::Activity::Fetcher.new(User.current, :project => @project,
+    @activity = Redmine::Activity::Fetcher.new(current_user, :project => @project,
                                                              :with_subprojects => @with_subprojects,
                                                              :author => @author)
 
@@ -53,7 +53,7 @@ class ActivitiesController < ApplicationController
     events = @activity.events(@date_from, @date_to)
     censor_events_from_projects_with_disabled_activity!(events) unless @project
 
-    if events.empty? || stale?(:etag => [@activity.scope, @date_to, @date_from, @with_subprojects, @author, events.first, User.current, current_language])
+    if events.empty? || stale?(:etag => [@activity.scope, @date_to, @date_from, @with_subprojects, @author, events.first, current_user, current_language])
       respond_to do |format|
         format.html {
           @events_by_day = events.group_by {|e| e.event_datetime.to_date}

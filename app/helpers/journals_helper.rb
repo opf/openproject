@@ -78,12 +78,12 @@ module JournalsHelper
   end
 
   def render_notes(model, journal, options={})
-    editable = model.journal_editable_by?(User.current) if User.current.logged?
+    editable = model.journal_editable_by?(current_user) if current_user.logged?
 
     unless journal.notes.blank?
 
       links = [].tap do |l|
-        if options[:quote_permission] && User.current.allowed_to?(options[:quote_permission], journal.project)
+        if options[:quote_permission] && current_user.allowed_to?(options[:quote_permission], journal.project)
           # TODO: This is a hack.
           # it assumes that there is a quoted action on the controller
           # currently rendering the view

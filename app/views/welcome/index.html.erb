@@ -62,8 +62,8 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 
 <% content_for :header_tags do %>
-<%= auto_discovery_link_tag(:atom, {:controller => '/news', :action => 'index', :key => User.current.rss_key, :format => 'atom'},
+<%= auto_discovery_link_tag(:atom, {:controller => '/news', :action => 'index', :key => current_user.rss_key, :format => 'atom'},
                                    :title => "#{Setting.app_title}: #{l(:label_news_latest)}") %>
-<%= auto_discovery_link_tag(:atom, {:controller => '/activities', :action => 'index', :key => User.current.rss_key, :format => 'atom'},
+<%= auto_discovery_link_tag(:atom, {:controller => '/activities', :action => 'index', :key => current_user.rss_key, :format => 'atom'},
                                    :title => "#{Setting.app_title}: #{l(:label_activity)}") %>
 <% end %>

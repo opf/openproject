@@ -44,7 +44,7 @@ module Api
 
       def index
         workflows = ::Workflow.where(type_id: @project.types.collect(&:id),
-                                     role_id: User.current.roles(@project).collect(&:id))
+                                     role_id: current_user.roles(@project).collect(&:id))
                               .select(workflow_select_statement)
                               .group("type_id, old_status_id, new_status_id")
 

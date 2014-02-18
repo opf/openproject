@@ -35,7 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <p><label for="message_subject"><%= Message.human_attribute_name(:subject) %></label><br />
 <%= f.text_field :subject, :size => 120, :id => "message_subject" %>
 
-<% if !replying && User.current.allowed_to?(:edit_messages, @project) %>
+<% if !replying && current_user.allowed_to?(:edit_messages, @project) %>
     <%= f.label :sticky do %>
       <%= f.check_box :sticky %><%= l(:label_board_sticky) %>
     <% end %>
@@ -45,7 +45,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 </p>
 
-<% if !replying && !@message.new_record? && User.current.allowed_to?(:edit_messages, @project) %>
+<% if !replying && !@message.new_record? && current_user.allowed_to?(:edit_messages, @project) %>
 	<p><label><%= Board.name.humanize %></label><br />
   <%= f.select :board_id, @project.boards.collect {|b| [b.name, b.id]} %></p>
 <% end %>

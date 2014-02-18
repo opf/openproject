@@ -48,7 +48,7 @@ See doc/COPYRIGHT.rdoc for more details.
                         class: 'inline-label' %>
         </span>
 
-        <% if User.current.impaired? %>
+        <% if current_user.impaired? %>
           <%= select("timeline[options]",
                      :grouping_one_selection,
                      filter_select_with_none(
@@ -102,7 +102,7 @@ See doc/COPYRIGHT.rdoc for more details.
                         class: 'inline-label' %>
         </span>
 
-        <% if User.current.impaired? %>
+        <% if current_user.impaired? %>
           <%= select("timeline[options]",
                      :grouping_two_selection,
                      filter_select_with_none(

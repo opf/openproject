@@ -35,7 +35,7 @@ class AccountController < ApplicationController
 
   # Login request and validation
   def login
-    if User.current.logged?
+    if current_user.logged?
       redirect_to home_url
     elsif request.post?
       authenticate_user
@@ -170,9 +170,9 @@ class AccountController < ApplicationController
   private
 
   def logout_user
-    if User.current.logged?
+    if current_user.logged?
       cookies.delete OpenProject::Configuration['autologin_cookie_name']
-      Token.delete_all(["user_id = ? AND action = ?", User.current.id, 'autologin'])
+      Token.delete_all(["user_id = ? AND action = ?", current_user.id, 'autologin'])
       self.logged_user = nil
     end
   end

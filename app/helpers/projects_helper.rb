@@ -44,7 +44,7 @@ module ProjectsHelper
             {:name => 'activities', :action => :manage_project_activities, :partial => 'projects/settings/activities', :label => :enumeration_activities},
             {:name => 'types', :action => :manage_types, :partial => 'projects/settings/types', :label => :'label_type_plural'}
             ]
-    tabs.select {|tab| User.current.allowed_to?(tab[:action], @project)}
+    tabs.select {|tab| current_user.allowed_to?(tab[:action], @project)}
   end
 
   def parent_project_select_tag(project)

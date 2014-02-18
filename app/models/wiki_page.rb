@@ -90,7 +90,7 @@ class WikiPage < ActiveRecord::Base
     wiki.create_menu_item_for_start_page if MenuItems::WikiMenuItem.main_items(wiki).empty?
   end
 
-  def visible?(user=User.current)
+  def visible?(user)
     !user.nil? && user.allowed_to?(:view_wiki_pages, project)
   end
 
@@ -196,8 +196,8 @@ class WikiPage < ActiveRecord::Base
     !protected? || usr.allowed_to?(:protect_wiki_pages, wiki.project)
   end
 
-  def attachments_deletable?(usr=User.current)
-    editable_by?(usr) && super(usr)
+  def attachments_deletable?(user)
+    editable_by?(user) && super(user)
   end
 
   def parent_title

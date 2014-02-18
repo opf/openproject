@@ -40,7 +40,7 @@ class BoardsControllerTest < ActionController::TestCase
     @controller = BoardsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
-    User.current = nil
+    self.current_user = nil
   end
 
   def test_index

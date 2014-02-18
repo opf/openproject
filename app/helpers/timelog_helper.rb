@@ -270,6 +270,6 @@ module TimelogHelper
     elsif !params[:project_id].blank?
       @project = Project.find(params[:project_id])
     end
-    deny_access unless User.current.allowed_to?(:view_time_entries, @project, :global => true)
+    deny_access unless current_user.allowed_to?(:view_time_entries, @project, :global => true)
   end
 end

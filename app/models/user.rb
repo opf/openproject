@@ -704,16 +704,16 @@ class User < Principal
     end
   end
 
-  def self.current=(user)
-    @current_user = user
-  end
-
-  def self.current
-    @current_user ||= User.anonymous
-  end
-
-  def roles(project)
-    User.current.admin? ? Role.all : User.current.roles_for_project(project)
+  # def self.current=(user)
+  #   @current_user = user
+  # end
+  # 
+  # def self.current
+  #   @current_user ||= User.anonymous
+  # end
+  # 
+  def roles(project, user)
+    user.admin? ? Role.all : user.roles_for_project(project)
   end
 
   # Returns the anonymous user.  If the anonymous user does not exist, it is created.  There can be only

@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% if User.current.impaired? %>
+<% if current_user.impaired? %>
   <% partial = "members/member_form_impaired" %>
   <% locals = { :principals => @project.possible_members("", 21) }%>
 <% else %>

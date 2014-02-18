@@ -40,7 +40,7 @@ class AdminControllerTest < ActionController::TestCase
     @controller = AdminController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
-    User.current = nil
+    self.current_user = nil
     @request.session[:user_id] = 1 # admin
   end
 
@@ -135,7 +135,7 @@ class AdminControllerTest < ActionController::TestCase
                 :caption => 'Test'
     end
 
-    User.current = User.find(1)
+    self.current_user = User.find(1)
 
     get :projects
     assert_response :success

@@ -1,4 +1,12 @@
 GIT
+  remote: git@github.com:opf/openproject-plugins.git
+  revision: ba7d1f31876120fa1991a01957c22aa34450dd49
+  branch: dev
+  specs:
+    openproject-plugins (1.0.6)
+      rails (~> 3.2.9)
+
+GIT
   remote: https://github.com/fnando/i18n-js.git
   revision: 8801f8d17ef96c48a7a0269e251fcf1648c8f441
   ref: 8801f8d17ef96c48a7a0269e251fcf1648c8f441
@@ -390,6 +398,7 @@ DEPENDENCIES
   net-ldap (~> 0.2.2)
   object-daddy (~> 1.1.0)
   oj
+  openproject-plugins!
   pg (~> 0.17.1)
   prototype-rails
   prototype_legacy_helper (= 0.0.0)!

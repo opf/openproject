@@ -175,9 +175,9 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     localized_options
   end
 
-  def user_locale
-    User.current.language.present? ?
-      User.current.language.to_sym :
+  def user_locale(user)
+    user.language.present? ?
+      user.language.to_sym :
       Setting.default_language.to_sym
   end
 end

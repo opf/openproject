@@ -28,10 +28,10 @@
 
 api.user do
   api.id         @user.id
-  api.login      @user.login if User.current.admin?
+  api.login      @user.login if current_user.admin?
   api.firstname  @user.firstname
   api.lastname   @user.lastname
-  api.mail       @user.mail if User.current.admin? || !@user.pref.hide_mail
+  api.mail       @user.mail if current_user.admin? || !@user.pref.hide_mail
   api.created_on @user.created_on
   api.last_login_on @user.last_login_on
 

@@ -119,7 +119,7 @@ class ProjectTypesController < ApplicationController
   end
 
   def check_permissions
-    render_403 unless readonly_api_request or User.current.allowed_to_globally?(:edit_timelines)
+    render_403 unless readonly_api_request or current_user.allowed_to_globally?(:edit_timelines)
   end
 
   def readonly_api_request

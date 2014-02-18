@@ -52,7 +52,7 @@ class TimeEntries::ReportsController < ApplicationController
       sql_condition = ''
 
       if @project.nil?
-        sql_condition = Project.allowed_to_condition(User.current, :view_time_entries)
+        sql_condition = Project.allowed_to_condition(current_user, :view_time_entries)
       elsif @issue.nil?
         sql_condition = @project.project_condition(Setting.display_subprojects_work_packages?)
       else

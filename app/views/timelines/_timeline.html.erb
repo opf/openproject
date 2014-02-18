@@ -30,7 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% timeline_div_id = "timeline_#{rand(10**75)}" %>
 <div id="<%= timeline_div_id %>"></div>
 
-<% unless User.current.impaired? %>
+<% unless current_user.impaired? %>
   <%# TODO: Require autocompleter inside select_boxes.js
     For lack of a requiring policy (such as requirejs), just include the
     autocompleter on its own.

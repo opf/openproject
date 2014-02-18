@@ -289,8 +289,8 @@ module WorkPackagesHelper
     s << ' overdue' if work_package.overdue?
     s << ' child' if work_package.child?
     s << ' parent' unless work_package.leaf?
-    s << ' created-by-me' if User.current.logged? && work_package.author_id == User.current.id
-    s << ' assigned-to-me' if User.current.logged? && work_package.assigned_to_id == User.current.id
+    s << ' created-by-me' if current_user.logged? && work_package.author_id == current_user.id
+    s << ' assigned-to-me' if current_user.logged? && work_package.assigned_to_id == current_user.id
     s
   end
 
@@ -468,7 +468,7 @@ module WorkPackagesHelper
   end
 
   def work_package_form_parent_attribute(form, work_package, locals = {})
-    if User.current.allowed_to?(:manage_subtasks, locals[:project])
+    if current_user.allowed_to?(:manage_subtasks, locals[:project])
       field = form.text_field :parent_id, :size => 10, :title => l(:description_autocomplete), :class => 'short'
       field += '<div id="parent_issue_candidates" class="autocomplete"></div>'.html_safe
       field += javascript_tag "observeWorkPackageParentField('#{work_packages_auto_complete_path(:id => work_package, :project_id => locals[:project], :escape => false) }')"

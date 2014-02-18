@@ -54,11 +54,11 @@ module Redmine
           base.extend ClassMethods
         end
 
-        def attachments_visible?(user=User.current)
+        def attachments_visible?(user)
           user.allowed_to?(self.class.attachable_options[:view_permission], self.project)
         end
 
-        def attachments_deletable?(user=User.current)
+        def attachments_deletable?(user)
           user.allowed_to?(self.class.attachable_options[:delete_permission], self.project)
         end
 
@@ -67,7 +67,7 @@ module Redmine
         end
 
         # Bulk attaches a set of files to an object
-        def attach_files(attachments)
+        def attach_files(attachments, user)
           if attachments && attachments.is_a?(Hash)
             attachments.each_value do |attachment|
               file = attachment['file']
@@ -75,7 +75,7 @@ module Redmine
               self.attachments.build(file: file,
                                      container: self,
                                      description: attachment['description'].to_s.strip,
-                                     author: User.current)
+                                     author: user)
             end
           end
         end

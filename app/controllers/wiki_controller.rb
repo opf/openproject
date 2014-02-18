@@ -113,7 +113,7 @@ class WikiController < ApplicationController
     @page.attributes = permitted_params.wiki_page
 
     @content.attributes = permitted_params.wiki_content
-    @content.author = User.current
+    @content.author = current_user
 
     if @page.save
       attachments = Attachment.attach_files(@page, params[:attachments])
@@ -131,7 +131,7 @@ class WikiController < ApplicationController
     page_title = params[:id]
     @page = @wiki.find_or_new_page(page_title)
     if @page.new_record?
-      if User.current.allowed_to?(:edit_wiki_pages, @project) && editable?
+      if current_user.allowed_to?(:edit_wiki_pages, @project) && editable?
         edit
         render :action => 'edit'
       else
@@ -139,13 +139,13 @@ class WikiController < ApplicationController
       end
       return
     end
-    if params[:version] && !User.current.allowed_to?(:view_wiki_edits, @project)
+    if params[:version] && !current_user.allowed_to?(:view_wiki_edits, @project)
       # Redirects user to the current version if he's not allowed to view previous versions
       redirect_to :version => nil
       return
     end
     @content = @page.content_for_version(params[:version])
-    if User.current.allowed_to?(:export_wiki_pages, @project)
+    if current_user.allowed_to?(:export_wiki_pages, @project)
       if params[:format] == 'html'
         export = render_to_string :action => 'export', :layout => false
         send_data(export, :type => 'text/html', :filename => "#{@page.title}.html")
@@ -193,8 +193,8 @@ class WikiController < ApplicationController
       return
     end
     @content.attributes = permitted_params.wiki_content
-    @content.author = User.current
-    @content.add_journal User.current, params["content"]["comments"]
+    @content.author = current_user
+    @content.add_journal current_user, params["content"]["comments"]
     # if page is new @page.save will also save content, but not if page isn't a new record
     if (@page.new_record? ? @page.save : @content.save)
       attachments = Attachment.attach_files(@page, params[:attachments])
@@ -306,7 +306,7 @@ class WikiController < ApplicationController
 
   # Export wiki to a single html file
   def export
-    if User.current.allowed_to?(:export_wiki_pages, @project)
+    if current_user.allowed_to?(:export_wiki_pages, @project)
       @pages = @wiki.pages.find :all, :order => 'title'
       export = render_to_string :action => 'export_multiple', :layout => false
       send_data(export, :type => 'text/html', :filename => "wiki.html")
@@ -375,7 +375,7 @@ class WikiController < ApplicationController
 
   # Returns true if the current user is allowed to edit the page, otherwise false
   def editable?(page = @page)
-    page.editable_by?(User.current)
+    page.editable_by?(current_user)
   end
 
   # Returns the default content of a new wiki page

@@ -34,7 +34,7 @@ describe UsersController do
   end
 
   after do
-    User.current = nil
+    self.current_user = nil
   end
 
   let(:user) { FactoryGirl.create(:user) }
@@ -252,7 +252,7 @@ describe UsersController do
 
       after(:each) do
         # reset, so following tests are not affected by the change
-        User.current = nil
+        self.current_user = nil
       end
 
       shared_examples_for "index action with disabled session lifetime or inactivity not exceeded" do

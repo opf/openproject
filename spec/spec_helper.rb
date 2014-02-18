@@ -154,7 +154,7 @@ module OpenProject::RSpecLazinessWarn
         self.warned = true
       end
 
-      User.current = nil
+      self.current_user = nil
     end
   end
 

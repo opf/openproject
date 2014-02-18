@@ -99,7 +99,7 @@ module WorkPackage::Validations
     self.status_id_was != 0 && self.status_id_changed?
   end
 
-  def status_transition_exists?
-    self.type.is_valid_transition?(self.status_id_was, self.status_id, User.current.roles(self.project))
+  def status_transition_exists?(user)
+    self.type.is_valid_transition?(self.status_id_was, self.status_id, user.roles(self.project))
   end
 end

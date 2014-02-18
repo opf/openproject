@@ -41,7 +41,7 @@ class SearchControllerTest < ActionController::TestCase
     @controller = SearchController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
-    User.current = nil
+    self.current_user = nil
   end
 
   def test_search_all_projects

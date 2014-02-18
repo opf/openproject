@@ -109,7 +109,7 @@ class TimelogController < ApplicationController
   end
 
   def new
-    @time_entry ||= TimeEntry.new(:project => @project, :work_package=> @issue, :user => User.current, :spent_on => User.current.today)
+    @time_entry ||= TimeEntry.new(:project => @project, :work_package=> @issue, :user => current_user, :spent_on => current_user.today)
     @time_entry.safe_attributes = params[:time_entry]
 
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
@@ -118,7 +118,7 @@ class TimelogController < ApplicationController
   end
 
   def create
-    @time_entry ||= TimeEntry.new(:project => @project, :work_package => @issue, :user => User.current, :spent_on => User.current.today)
+    @time_entry ||= TimeEntry.new(:project => @project, :work_package => @issue, :user => current_user, :spent_on => current_user.today)
     @time_entry.safe_attributes = params[:time_entry]
 
     call_hook(:controller_timelog_edit_before_save, { :params => params, :time_entry => @time_entry })
@@ -186,7 +186,7 @@ class TimelogController < ApplicationController
 
   def find_time_entry
     @time_entry = TimeEntry.find(params[:id])
-    unless @time_entry.editable_by?(User.current)
+    unless @time_entry.editable_by?(current_user)
       render_403
       return false
     end

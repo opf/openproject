@@ -50,7 +50,7 @@ class Version < ActiveRecord::Base
 
   scope :open, :conditions => {:status => 'open'}
   scope :visible, lambda {|*args| { :include => :project,
-                                    :conditions => Project.allowed_to_condition(args.first || User.current, :view_work_packages) } }
+                                    :conditions => Project.allowed_to_condition(args.first, :view_work_packages) } }
 
   safe_attributes 'name',
     'description',
@@ -63,7 +63,7 @@ class Version < ActiveRecord::Base
     'custom_field_values'
 
   # Returns true if +user+ or current user is allowed to view the version
-  def visible?(user=User.current)
+  def visible?(user)
     user.allowed_to?(:view_work_packages, self.project)
   end
 
@@ -194,7 +194,7 @@ class Version < ActiveRecord::Base
   end
 
   # Returns the sharings that +user+ can set the version to
-  def allowed_sharings(user = User.current)
+  def allowed_sharings(user)
     VERSION_SHARINGS.select do |s|
       if sharing == s
         true

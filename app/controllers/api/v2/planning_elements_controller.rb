@@ -94,7 +94,7 @@ module Api
         @planning_element = WorkPackage.find(params[:id])
         @planning_element.attributes = permitted_params.planning_element.except :note
 
-        @planning_element.add_journal(User.current, permitted_params.planning_element[:note])
+        @planning_element.add_journal(current_user, permitted_params.planning_element[:note])
 
         successfully_updated = @planning_element.save
 
@@ -125,7 +125,7 @@ module Api
         # Ignoring projects, where user has no view_work_packages permission.
         permission = params[:controller].sub api_version, ''
         @projects = @projects.select do |project|
-          User.current.allowed_to?({:controller => permission,
+          current_user.allowed_to?({:controller => permission,
                                     :action     => params[:action]},
                                     project)
         end
@@ -176,7 +176,7 @@ module Api
       def find_all_projects_by_project_id
         if !params[:project_id] and params[:ids] then
           identifiers = params[:ids].split(/,/).map(&:strip)
-          @planning_elements = WorkPackage.visible(User.current).find_all_by_id(identifiers)
+          @planning_elements = WorkPackage.visible(current_user).find_all_by_id(identifiers)
         elsif params[:project_id] !~ /,/
           find_single_project
         else
@@ -225,7 +225,7 @@ module Api
       def timeline_to_project(timeline_id)
         if timeline_id then
           project = Timeline.find_by_id(params[:timeline]).project
-          user_has_access = User.current.allowed_to?({:controller => "planning_elements",
+          user_has_access = current_user.allowed_to?({:controller => "planning_elements",
                                                       :action     => "index"},
                                                       project)
           if user_has_access then

@@ -117,7 +117,7 @@ class ProjectsController < ApplicationController
                                             :include => [:project, :status, :type],
                                             :conditions => cond)
 
-    if User.current.allowed_to?(:view_time_entries, @project)
+    if current_user.allowed_to?(:view_time_entries, @project)
       @total_hours = TimeEntry.visible.sum(:hours, :include => :project, :conditions => cond).to_f
     end
 
@@ -243,10 +243,10 @@ private
   end
 
   def add_current_user_to_project_if_not_admin(project)
-    unless User.current.admin?
+    unless current_user.admin?
       r = Role.givable.find_by_id(Setting.new_project_user_role_id.to_i) || Role.givable.first
       m = Member.new do |member|
-        member.user = User.current
+        member.user = current_user
         member.role_ids = [r].map(&:id) # member.roles = [r] fails, this works
       end
       project.members << m
@@ -278,9 +278,9 @@ private
   end
 
   # Validates parent_id param according to user's permissions
-  # TODO: move it to Project model in a validation that depends on User.current
+  # TODO: move it to Project model in a validation that depends on current_user
   def validate_parent_id
-    return true if User.current.admin?
+    return true if current_user.admin?
     parent_id = params[:project] && params[:project][:parent_id]
     if parent_id || @project.new_record?
       parent = parent_id.blank? ? nil : Project.find_by_id(parent_id.to_i)

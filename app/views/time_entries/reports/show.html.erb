@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% content_for :action_menu_specific do %>
-  <%= link_to_if User.current.allowed_to?({ :controller => '/timelog', :action => 'new' }, @project),
+  <%= link_to_if current_user.allowed_to?({ :controller => '/timelog', :action => 'new' }, @project),
                  l(:button_log_time),
                  polymorphic_new_time_entry_path(@issue || @project),
                  :class => 'icon icon-time' %>

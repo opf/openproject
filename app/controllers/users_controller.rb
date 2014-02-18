@@ -90,13 +90,13 @@ class UsersController < ApplicationController
 
   def show
     # show projects based on current user visibility
-    @memberships = @user.memberships.all(:conditions => Project.visible_by(User.current))
+    @memberships = @user.memberships.all(:conditions => Project.visible_by(current_user))
 
-    events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
+    events = Redmine::Activity::Fetcher.new(current_user, :author => @user).events(nil, nil, :limit => 10)
     @events_by_day = events.group_by(&:event_datetime)
 
-    unless User.current.admin?
-      if !(@user.active? || @user.registered?) || (@user != User.current  && @memberships.empty? && events.empty?)
+    unless current_user.admin?
+      if !(@user.active? || @user.registered?) || (@user != current_user  && @memberships.empty? && events.empty?)
         render_404
         return
       end
@@ -262,7 +262,7 @@ class UsersController < ApplicationController
 
   def destroy
     # true if the user deletes him/herself
-    self_delete = (@user == User.current)
+    self_delete = (@user == current_user)
 
     # as destroying users is a lengthy process we handle it in the background
     # and lock the account now so that no action can be performed with it
@@ -308,7 +308,7 @@ class UsersController < ApplicationController
   def find_user
     if params[:id] == 'current' || params['id'].nil?
       require_login || return
-      @user = User.current
+      @user = current_user
     else
       @user = User.find(params[:id])
     end
@@ -317,9 +317,9 @@ class UsersController < ApplicationController
   end
 
   def authorize_for_user
-    if (User.current != @user ||
-        User.current == User.anonymous) &&
-       !User.current.admin?
+    if (current_user != @user ||
+        current_user == User.anonymous) &&
+       !current_user.admin?
 
       respond_to do |format|
         format.html { render_403 }
@@ -333,8 +333,8 @@ class UsersController < ApplicationController
   end
 
   def check_if_deletion_allowed
-    if (User.current.admin && @user != User.current && !Setting.users_deletable_by_admins?) ||
-       (User.current == @user && !Setting.users_deletable_by_self?)
+    if (current_user.admin && @user != current_user && !Setting.users_deletable_by_admins?) ||
+       (current_user == @user && !Setting.users_deletable_by_self?)
       render_404
       false
     end

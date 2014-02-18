@@ -98,7 +98,7 @@ class TimeEntryTest < ActiveSupport::TestCase
 
   context "#earliest_date_for_project" do
     setup do
-      User.current = nil
+      self.current_user = nil
       @public_project = Project.generate!(:is_public => true)
       @issue =FactoryGirl.create(:work_package, project: @public_project)
       TimeEntry.generate!(:spent_on => '2010-01-01',
@@ -122,7 +122,7 @@ class TimeEntryTest < ActiveSupport::TestCase
 
   context "#latest_date_for_project" do
     setup do
-      User.current = nil
+      self.current_user = nil
       @public_project = Project.generate!(:is_public => true)
       @issue = FactoryGirl.create(:work_package, project: @public_project)
       TimeEntry.generate!(:spent_on => '2010-01-01',

@@ -35,15 +35,15 @@ class WatchersController < ApplicationController
   before_filter :authorize, :only => [:new, :create, :destroy]
 
   def watch
-    if @watched.respond_to?(:visible?) && !@watched.visible?(User.current)
+    if @watched.respond_to?(:visible?) && !@watched.visible?(current_user)
       render_403
     else
-      set_watcher(User.current, true)
+      set_watcher(current_user, true)
     end
   end
 
   def unwatch
-    set_watcher(User.current, false)
+    set_watcher(current_user, false)
   end
 
   def new

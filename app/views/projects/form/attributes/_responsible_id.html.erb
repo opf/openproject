@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <p>
 <% if project && project.persisted? %>
-  <% if User.current.impaired? %>
+  <% if current_user.impaired? %>
     <%= form.select :responsible_id, project.possible_responsibles.map {|m| [m.name, m.id]}, :include_blank => true %>
   <% else %>
     <% options = { :'data-ajaxURL' => url_for({:controller => "/members",

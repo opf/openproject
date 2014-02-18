@@ -418,7 +418,7 @@ class WorkPackagesController < ApplicationController
 
   def protect_from_unauthorized_export
     if EXPORT_FORMATS.include?(params[:format]) &&
-      !User.current.allowed_to?(:export_work_packages, @project, :global => @project.nil?)
+      !current_user.allowed_to?(:export_work_packages, @project, :global => @project.nil?)
 
       deny_access
       false

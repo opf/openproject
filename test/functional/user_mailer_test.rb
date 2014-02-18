@@ -45,7 +45,7 @@ class UserMailerTest < ActionMailer::TestCase
     Type.delete_all
     ActionMailer::Base.deliveries.clear
 
-    User.current = User.anonymous
+    self.current_user = User.anonymous
   end
 
   def test_test_mail_sends_a_simple_greeting
@@ -84,7 +84,7 @@ class UserMailerTest < ActionMailer::TestCase
     Setting.default_language = 'en'
     Setting.host_name = 'mydomain.foo'
     Setting.protocol = 'https'
-    User.current = FactoryGirl.create(:admin)
+    self.current_user = FactoryGirl.create(:admin)
 
     project, user, related_issue, issue, changeset, attachment, journal = setup_complex_issue_update
 
@@ -125,7 +125,7 @@ class UserMailerTest < ActionMailer::TestCase
     Setting.default_language = 'en'
     Setting.host_name = 'mydomain.foo/rdm'
     Setting.protocol = 'http'
-    User.current = FactoryGirl.create(:admin)
+    self.current_user = FactoryGirl.create(:admin)
 
     project, user, related_issue, issue, changeset, attachment, journal = setup_complex_issue_update
 
@@ -169,7 +169,7 @@ class UserMailerTest < ActionMailer::TestCase
     Setting.protocol = 'http'
     OpenProject::Configuration['rails_relative_url_root'] = nil
 
-    User.current = FactoryGirl.create(:admin)
+    self.current_user = FactoryGirl.create(:admin)
 
     project, user, related_issue, issue, changeset, attachment, journal = setup_complex_issue_update
 
@@ -258,7 +258,7 @@ class UserMailerTest < ActionMailer::TestCase
     # notify him
     user.pref[:no_self_notified] = false
     user.pref.save
-    User.current = user
+    self.current_user = user
     ActionMailer::Base.deliveries.clear
     UserMailer.news_added(user, news).deliver
     assert_equal 1, last_email.to.size
@@ -266,7 +266,7 @@ class UserMailerTest < ActionMailer::TestCase
     # nobody to notify
     user.pref[:no_self_notified] = true
     user.pref.save
-    User.current = user
+    self.current_user = user
     ActionMailer::Base.deliveries.clear
     UserMailer.news_added(user, news).deliver
     assert ActionMailer::Base.deliveries.empty?

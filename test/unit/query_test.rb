@@ -214,7 +214,7 @@ class QueryTest < ActiveSupport::TestCase
     user = User.find(2)
     group = Group.find(10)
     project = Project.find(1)
-    User.current = user
+    self.current_user = user
     i1 = FactoryGirl.create(:work_package, :project => project, :type => project.types.first, :assigned_to => user)
     i2 = FactoryGirl.create(:work_package, :project => project, :type => project.types.first, :assigned_to => group)
     i3 = FactoryGirl.create(:work_package, :project => project, :type => project.types.first, :assigned_to => Group.find(11))
@@ -228,27 +228,27 @@ class QueryTest < ActiveSupport::TestCase
     assert result.include?(i2)
     assert !result.include?(i3)
 
-    User.current = nil
+    self.current_user = nil
   end
 
   def test_filter_watched_issues
-    User.current = User.find(1)
+    self.current_user = User.find(1)
     query = Query.new(name: '_', filters: [Queries::WorkPackages::Filter.new(:watcher_id, operator: '=', values: ['me'])])
     result = find_issues_with_query(query)
     assert_not_nil result
     assert !result.empty?
     assert_equal WorkPackage.visible.watched_by(User.current).sort_by(&:id), result.sort_by(&:id)
-    User.current = nil
+    self.current_user = nil
   end
 
   def test_filter_unwatched_issues
-    User.current = User.find(1)
+    self.current_user = User.find(1)
     query = Query.new(name: '_', filters: [Queries::WorkPackages::Filter.new(:watcher_id, operator: '!', values: ['me'])])
     result = find_issues_with_query(query)
     assert_not_nil result
     assert !result.empty?
     assert_equal((WorkPackage.visible - WorkPackage.watched_by(User.current)).sort_by(&:id).size, result.sort_by(&:id).size)
-    User.current = nil
+    self.current_user = nil
   end
 
   def test_default_columns
@@ -492,11 +492,11 @@ class QueryTest < ActiveSupport::TestCase
 
         context "for a logged in user" do
           setup do
-            User.current = User.find 1
+            self.current_user = User.find 1
           end
 
           teardown do
-            User.current = nil
+            self.current_user = nil
           end
 
           should "be present" do
@@ -542,11 +542,11 @@ class QueryTest < ActiveSupport::TestCase
 
         context "for a logged in user" do
           setup do
-            User.current = User.find 1
+            self.current_user = User.find 1
           end
 
           teardown do
-            User.current = nil
+            self.current_user = nil
           end
 
           should "be present" do

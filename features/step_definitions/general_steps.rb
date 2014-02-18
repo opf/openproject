@@ -59,7 +59,7 @@ When(/^I log out in the background$/) do
 end
 
 Given /^(?:|I )am not logged in$/ do
-  User.current = AnonymousUser.first
+  self.current_user = AnonymousUser.first
 end
 
 Given /^(?:|I )am [aA]dmin$/ do
@@ -86,7 +86,7 @@ Given /^(?:|I )am logged in as "([^\"]*)"$/ do |username|
 end
 
 Given /^(?:|I )am (not )?impaired$/ do |bool|
-  (user = User.current).impaired = !bool
+  (user = current_user).impaired = !bool
   user.save
 end
 
@@ -305,7 +305,7 @@ Then /^I should be logged in as "([^\"]*)"?$/ do |username|
   user = User.find_by_login(username) || User.anonymous
   page.should have_xpath("//div[contains(., 'Logged in as #{username}')] | //a[contains(.,'#{user.name}')]")
 
-  User.current = user
+  self.current_user = user
 end
 
 Then "I should be logged out" do
@@ -436,13 +436,14 @@ end
 
 # Do something as admin
 def as_admin(count = 1)
-  cur_user = User.current
-  User.current = User.find_by_login("admin")
+  cur_user = @current_user
+  self.current_user = User.find_by_login("admin")
   retval = nil
   count.to_i.times do
     retval = yield
   end
-  User.current = cur_user
+  self.current_user = cur_user
+  @current_user = cur_user
   retval
 end
 

@@ -40,7 +40,7 @@ describe "API v2" do
   end
 
   after do
-    User.current = nil # api key auth sets the current user, reset it to make test idempotent
+    self.current_user = nil # api key auth sets the current user, reset it to make test idempotent
   end
 
   describe "key authentication" do

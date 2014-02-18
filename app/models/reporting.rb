@@ -45,7 +45,7 @@ class Reporting < ActiveRecord::Base
 
   validates_uniqueness_of :reporting_to_project_id, :scope => :project_id
 
-  def visible?(user = User.current)
+  def visible?(user)
     reporting_to_project.visible?(user) && project.visible?(user)
   end
 

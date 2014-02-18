@@ -82,17 +82,17 @@ class SystemUser < User
     self.status = STATUSES[:locked]
   end
 
-  def run_given(&block)
+  def run_given(user, &block)
     if block_given?
       grant_privileges
-      old_user = User.current
-      User.current = self
+      old_user = user
+      self.current_user = self
 
       begin
         yield
       ensure
         remove_privileges
-        User.current = old_user
+        self.current_user = old_user
       end
     else
       raise 'no block given'

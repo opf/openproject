@@ -126,9 +126,9 @@ See doc/COPYRIGHT.rdoc for more details.
     </li>
   <% end %>
 
-  <% if User.current.logged? %>
+  <% if current_user.logged? %>
     <li class="watch">
-      <%= watcher_link(@work_package, User.current) %>
+      <%= watcher_link(@work_package, current_user) %>
     </li>
   <% end %>
 <% end %>

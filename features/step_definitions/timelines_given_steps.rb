@@ -143,7 +143,7 @@ def create_work_packages_from_table table, project
     end
 
     if type_attributes.has_key? "author"
-      User.current = type_attributes['author']
+      self.current_user = type_attributes['author']
     end
 
     FactoryGirl.create(:work_package, type_attributes.merge(:project_id => project.id))

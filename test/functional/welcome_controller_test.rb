@@ -41,7 +41,7 @@ class WelcomeControllerTest < ActionController::TestCase
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     Setting.available_languages = [:en, :de]
-    User.current = nil
+    self.current_user = nil
   end
 
   def test_index

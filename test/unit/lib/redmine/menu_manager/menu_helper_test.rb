@@ -116,7 +116,7 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
   end
 
   def test_render_menu_node_with_children
-    User.current = User.find(1)
+    self.current_user = User.find(1)
 
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
                                                      {:controller => 'issues', :action => 'index'},
@@ -145,7 +145,7 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
   end
 
   def test_render_menu_node_with_nested_items_and_children
-    User.current = User.find(1)
+    self.current_user = User.find(1)
 
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
                                                      {:controller => 'issues', :action => 'index'},
@@ -254,7 +254,7 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
       menu.push(:unallowed, {:controller => 'issues', :action => 'unallowed' }, { })
     end
 
-    User.current = User.find(1)
+    self.current_user = User.find(1)
 
     items = menu_items_for(menu_name, Project.find(1))
     assert_equal 2, items.size
@@ -269,7 +269,7 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
                 { :if => Proc.new { false }})
     end
 
-    User.current = User.find(1)
+    self.current_user = User.find(1)
 
     items = menu_items_for(menu_name, Project.find(1))
     assert_equal 1, items.size

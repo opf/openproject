@@ -60,8 +60,8 @@ module Redmine::Acts::Journalized
       end
     end
 
-    def save_journals
-      @journal_user ||= User.current
+    def save_journals(user = nil) # TODO
+      @journal_user ||= User.anonymous # TODO
       @journal_notes ||= ""
 
       add_journal = journals.empty? || JournalManager.changed?(self) || !@journal_notes.empty?
@@ -74,7 +74,7 @@ module Redmine::Acts::Journalized
       @journal_notes = nil
     end
 
-    def add_journal(user = User.current, notes = "")
+    def add_journal(user, notes = "")
       @journal_user ||= user
       @journal_notes ||= notes
     end

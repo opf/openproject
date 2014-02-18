@@ -32,11 +32,11 @@ module OpenProject
       class TimelinesWikiMacro
         unloadable
 
-        def apply(content, args, options={})
+        def apply(content, args, options, user) #options={}
           timeline = Timeline.find_by_id(args[0])
 
           raise I18n.t('timelines.no_timeline_for_id', :id => args[0].to_s) if timeline.nil?
-          raise I18n.t('timelines.no_right_to_view_timeline') unless User.current.allowed_to?(:view_timelines, timeline.project)
+          raise I18n.t('timelines.no_right_to_view_timeline') unless user.allowed_to?(:view_timelines, timeline.project)
 
           view = options[:view]
 

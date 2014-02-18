@@ -108,7 +108,7 @@ See doc/COPYRIGHT.rdoc for more details.
       </p>
 
       <p class="tl-form-overflow">
-        <% if User.current.impaired? %>
+        <% if current_user.impaired? %>
           <%= label_tag 'timeline_options_columns',
                         l("timelines.filter.columns") %>
 

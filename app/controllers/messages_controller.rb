@@ -62,7 +62,7 @@ class MessagesController < ApplicationController
   # new topic
   def new
     @message = Message.new.tap do |m|
-      m.author = User.current
+      m.author = current_user
       m.board = @board
     end
   end
@@ -70,7 +70,7 @@ class MessagesController < ApplicationController
   # Create a new topic
   def create
     @message = Message.new.tap do |m|
-      m.author = User.current
+      m.author = current_user
       m.board = @board
     end
 
@@ -92,7 +92,7 @@ class MessagesController < ApplicationController
     @topic = @message.root
 
     @reply = Message.new
-    @reply.author = User.current
+    @reply.author = current_user
     @reply.board = @board
     @reply.safe_attributes = params[:reply]
 
@@ -107,13 +107,13 @@ class MessagesController < ApplicationController
 
   # Edit a message
   def edit
-    (render_403; return false) unless @message.editable_by?(User.current)
+    (render_403; return false) unless @message.editable_by?(current_user)
     @message.safe_attributes = params[:message]
   end
 
   # Edit a message
   def update
-    (render_403; return false) unless @message.editable_by?(User.current)
+    (render_403; return false) unless @message.editable_by?(current_user)
 
     @message.safe_attributes = params[:message]
 
@@ -130,7 +130,7 @@ class MessagesController < ApplicationController
 
   # Delete a messages
   def destroy
-    (render_403; return false) unless @message.destroyable_by?(User.current)
+    (render_403; return false) unless @message.destroyable_by?(current_user)
     @message.destroy
     redirect_to @message.parent.nil? ?
       { :controller => '/boards', :action => 'show', :project_id => @project, :id => @board } :

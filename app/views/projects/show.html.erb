@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% content_for :action_menu_specific do %>
-  <% if User.current.allowed_to?(:add_subprojects, @project) %>
+  <% if current_user.allowed_to?(:add_subprojects, @project) %>
     <%= link_to l(:label_subproject_new), {:controller => '/projects', :action => 'new', :parent_id => @project}, :class => 'icon icon-add' %>
   <% end %>
 <% end %>
@@ -58,7 +58,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
   </ul>
 
-  <% if User.current.allowed_to?(:view_work_packages, @project) %>
+  <% if current_user.allowed_to?(:view_work_packages, @project) %>
   <div class="issues content-box">
     <h3><%=l(:label_work_package_tracking)%></h3>
     <ul>
@@ -74,7 +74,7 @@ See doc/COPYRIGHT.rdoc for more details.
     </ul>
     <p>
       <%= link_to l(:label_work_package_view_all), {controller: :work_packages, action: :index, project_id: @project, set_filter: 1}, :class => 'button_highlight' %>
-      <% if User.current.allowed_to?(:view_calendar, @project, :global => true) %>
+      <% if current_user.allowed_to?(:view_calendar, @project, :global => true) %>
         <%= link_to(l(:label_calendar), {:controller => '/work_packages/calendars', :action => 'index', :project_id => @project}, :class => 'button_highlight') %>
       <% end %>
     </p>
@@ -112,7 +112,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% content_for :header_tags do %>
-<%= auto_discovery_link_tag(:atom, {:controller => '/activities', :action => 'index', :id => @project, :format => 'atom', :key => User.current.rss_key}) %>
+<%= auto_discovery_link_tag(:atom, {:controller => '/activities', :action => 'index', :id => @project, :format => 'atom', :key => current_user.rss_key}) %>
 <% end %>
 
 <% html_title(l(:label_overview)) -%>

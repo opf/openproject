@@ -74,7 +74,7 @@ When /^I select(?: the)? role "(.+)"$/ do | role |
 end
 
 def select_principal(principal)
-  if !User.current.impaired?
+  if !@current_user.impaired?
     select_within_select2(principal.name, "#s2id_member_user_ids")
   else
     select_without_select2(principal.name, "form .principals")
@@ -82,7 +82,7 @@ def select_principal(principal)
 end
 
 def select_role(role)
-  if !User.current.impaired?
+  if !@current_user.impaired?
     select_within_select2(role.name, "#s2id_member_role_ids")
   else
     select_without_select2(role.name, "form .roles")
@@ -140,7 +140,7 @@ end
 
 When /^I enter the (principal|role) name "(.+)"$/ do |model, principal_name|
   model = (model == "role" ? "role" : "user")
-  if !User.current.impaired?
+  if !@current_user.impaired?
     enter_name_with_select2(principal_name, "#s2id_member_#{model}_ids")
   else
     enter_name_without_select2(principal_name)

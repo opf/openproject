@@ -38,7 +38,7 @@ describe ProjectsHelper do
     Project.delete_all
 
     set_language_if_valid('en')
-    User.current = nil
+    self.current_user = nil
   end
 
   let(:test_project)  { FactoryGirl.create :valid_project }

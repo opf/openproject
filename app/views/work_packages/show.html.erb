@@ -100,8 +100,8 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
   <% end %>
 
-  <% if User.current.allowed_to?(:add_work_package_watchers, project) ||
-    (work_package.watchers.present? && User.current.allowed_to?(:view_work_package_watchers, project)) %>
+  <% if current_user.allowed_to?(:add_work_package_watchers, project) ||
+    (work_package.watchers.present? && current_user.allowed_to?(:view_work_package_watchers, project)) %>
     <div id="watchers" class="work_package_part">
       <%= render :partial => 'watchers/watchers', :locals => {:watched => work_package} %>
     </div>
@@ -130,7 +130,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <div style="clear: both;"></div>
 
 <%= other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
+  <%= f.link_to 'Atom', :url => {:key => current_user.rss_key} %>
   <%= f.link_to 'PDF' %>
 <% end %>
 
@@ -141,7 +141,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% content_for :header_tags do %>
-  <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{work_package.project} - #{work_package.to_s}") %>
+  <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => current_user.rss_key}, :title => "#{work_package.project} - #{work_package.to_s}") %>
   <%= stylesheet_link_tag 'context_menu_rtl' if l(:direction) == 'rtl' %>
 <% end %>
 <div id="context-menu" style="display: none;"></div>

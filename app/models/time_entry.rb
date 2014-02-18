@@ -58,7 +58,7 @@ class TimeEntry < ActiveRecord::Base
 
   scope :visible, lambda {|*args| {
     :include => :project,
-    :conditions => Project.allowed_to_condition(args.first || User.current, :view_time_entries)
+    :conditions => Project.allowed_to_condition(args.first, :view_time_entries)
   }}
 
   scope :on_work_packages, ->(work_packages) { where(work_package_id: work_packages) }
@@ -110,8 +110,8 @@ class TimeEntry < ActiveRecord::Base
     end
   end
 
-  def self.earliest_date_for_project(project=nil)
-    finder_conditions = ARCondition.new(Project.allowed_to_condition(User.current, :view_time_entries))
+  def self.earliest_date_for_project(user, project) # project=nil
+    finder_conditions = ARCondition.new(Project.allowed_to_condition(user, :view_time_entries))
     if project
       finder_conditions << ["project_id IN (?)", project.hierarchy.collect(&:id)]
     end
@@ -119,7 +119,7 @@ class TimeEntry < ActiveRecord::Base
   end
 
   def self.latest_date_for_project(project=nil)
-    finder_conditions = ARCondition.new(Project.allowed_to_condition(User.current, :view_time_entries))
+    finder_conditions = ARCondition.new(Project.allowed_to_condition(user, :view_time_entries))
     if project
       finder_conditions << ["project_id IN (?)", project.hierarchy.collect(&:id)]
     end

@@ -56,7 +56,7 @@ class Workflow < ActiveRecord::Base
   end
 
   # Find potential statuses the user could be allowed to switch issues to
-  def self.available_statuses(project, user=User.current)
+  def self.available_statuses(project, user)
     Workflow.find(:all,
                   :include => :new_status,
                   :conditions => {:role_id => user.roles_for_project(project).collect(&:id)}).

@@ -60,7 +60,7 @@ module Api
                                                 :include => [:project, :status, :type],
                                                 :conditions => cond)
 
-        if User.current.allowed_to?(:view_time_entries, @project)
+        if current_user.allowed_to?(:view_time_entries, @project)
           @total_hours = TimeEntry.visible.sum(:hours, :include => :project, :conditions => cond).to_f
         end
 

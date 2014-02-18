@@ -44,7 +44,7 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
     @controller = RepositoriesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
-    User.current = nil
+    self.current_user = nil
     Setting.enabled_scm = Setting.enabled_scm.dup << 'Filesystem' unless Setting.enabled_scm.include?('Filesystem')
     @repository = Repository::Filesystem.create(
                       :project => Project.find(PRJ_ID),

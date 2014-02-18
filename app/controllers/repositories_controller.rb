@@ -198,13 +198,13 @@ class RepositoriesController < ApplicationController
                             :type => 'text/x-patch',
                             :disposition => 'attachment'
     else
-      @diff_type = params[:type] || User.current.pref[:diff_type] || 'inline'
+      @diff_type = params[:type] || current_user.pref[:diff_type] || 'inline'
       @diff_type = 'inline' unless %w(inline sbs).include?(@diff_type)
 
       # Save diff type as user preference
-      if User.current.logged? && @diff_type != User.current.pref[:diff_type]
-        User.current.pref[:diff_type] = @diff_type
-        User.current.preference.save
+      if current_user.logged? && @diff_type != current_user.pref[:diff_type]
+        current_user.pref[:diff_type] = @diff_type
+        current_user.preference.save
       end
 
       @cache_key = "repositories/diff/#{@repository.id}/" + Digest::MD5.hexdigest("#{@path}-#{@rev}-#{@rev_to}-#{@diff_type}")

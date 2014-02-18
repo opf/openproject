@@ -70,7 +70,7 @@ module OpenProject
             else
               raise 'With no argument, this macro can be called from wiki pages only.'
             end
-            raise 'Page not found' if page.nil? || !User.current.allowed_to?(:view_wiki_pages, page.wiki.project)
+            raise 'Page not found' if page.nil? || !user.allowed_to?(:view_wiki_pages, page.wiki.project)
             pages = ([page] + page.descendants).group_by(&:parent_id)
             render_page_hierarchy(pages, options[:parent] ? page.parent_id : page.id)
           end
@@ -81,7 +81,7 @@ module OpenProject
           desc "Include a wiki page. Example:\n\n  !{{include(Foo)}}\n\nor to include a page of a specific project wiki:\n\n  !{{include(projectname:Foo)}}"
           macro :include do |obj, args|
             page = Wiki.find_page(args.first.to_s, :project => @project)
-            raise 'Page not found' if page.nil? || !User.current.allowed_to?(:view_wiki_pages, page.wiki.project)
+            raise 'Page not found' if page.nil? || !user.allowed_to?(:view_wiki_pages, page.wiki.project)
             @included_wiki_pages ||= []
             raise 'Circular inclusion detected' if @included_wiki_pages.include?(page.title)
             @included_wiki_pages << page.title

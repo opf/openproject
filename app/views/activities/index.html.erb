@@ -39,7 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <h3><%= format_activity_day(day) %></h3>
     <dl>
       <% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
-        <dt class="<%= e.event_type %> <%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>">
+        <dt class="<%= e.event_type %> <%= current_user.logged? && e.respond_to?(:event_author) && current_user == e.event_author ? 'me' : nil %>">
           <%= icon_wrapper("icon-context icon-#{e.event_type}", e.event_name) %>
           <%= avatar(e.event_author, :size => "24") if e.respond_to?(:event_author) %>
           <span class="time"><%= format_time(e.event_datetime.to_time, false) %></span>
@@ -71,11 +71,11 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 &nbsp;
 <%= other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => params.merge(:from => nil, :key => User.current.rss_key) %>
+  <%= f.link_to 'Atom', :url => params.merge(:from => nil, :key => current_user.rss_key) %>
 <% end %>
 
 <% content_for :header_tags do %>
-  <%= auto_discovery_link_tag(:atom, params.merge(:format => 'atom', :from => nil, :key => User.current.rss_key)) %>
+  <%= auto_discovery_link_tag(:atom, params.merge(:format => 'atom', :from => nil, :key => current_user.rss_key)) %>
 <% end %>
 
 <% content_for :sidebar do %>

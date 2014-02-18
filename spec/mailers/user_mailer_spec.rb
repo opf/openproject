@@ -54,7 +54,7 @@ describe UserMailer do
         # Delayed Job does not preserve the closure, so the context of the
         # delayed method call does not contain the user anymore, who triggered
         # the job. Instead, the anonymous user is returned.
-        User.current = User.anonymous
+        self.current_user = User.anonymous
 
         UserMailer.work_package_updated(user, journal, user)
       end
@@ -62,7 +62,7 @@ describe UserMailer do
       it { expect(User.current).to eq(user) }
 
       after do
-        User.current = User.anonymous
+        self.current_user = User.anonymous
       end
     end
   end

@@ -41,7 +41,7 @@ class SearchTest < ActiveSupport::TestCase
   end
 
   def test_search_by_anonymous
-    User.current = nil
+    self.current_user = nil
 
     r = WorkPackage.search(@issue_keyword).first
     assert r.include?(@issue)
@@ -65,7 +65,7 @@ class SearchTest < ActiveSupport::TestCase
   end
 
   def test_search_by_user
-    User.current = User.find_by_login('rhill')
+    self.current_user = User.find_by_login('rhill')
     assert User.current.memberships.empty?
 
     r = WorkPackage.search(@issue_keyword).first
@@ -90,7 +90,7 @@ class SearchTest < ActiveSupport::TestCase
   end
 
   def test_search_by_allowed_member
-    User.current = User.find_by_login('jsmith')
+    self.current_user = User.find_by_login('jsmith')
     assert User.current.projects.include?(@project)
 
     r = WorkPackage.search(@issue_keyword).first
@@ -111,7 +111,7 @@ class SearchTest < ActiveSupport::TestCase
     remove_permission Role.find(1), :view_changesets
     remove_permission Role.non_member, :view_changesets
 
-    User.current = User.find_by_login('jsmith')
+    self.current_user = User.find_by_login('jsmith')
     assert User.current.projects.include?(@project)
 
     r = WorkPackage.search(@issue_keyword).first

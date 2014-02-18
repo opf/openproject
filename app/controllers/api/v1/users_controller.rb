@@ -60,13 +60,13 @@ module Api
 
       def show
         # show projects based on current user visibility
-        @memberships = @user.memberships.all(:conditions => Project.visible_by(User.current))
+        @memberships = @user.memberships.all(:conditions => Project.visible_by(current_user))
 
-        events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
+        events = Redmine::Activity::Fetcher.new(current_user, :author => @user).events(nil, nil, :limit => 10)
         @events_by_day = events.map(&:data).group_by(&:event_date)
 
-        unless User.current.admin?
-          if !(@user.active? || @user.registered?) || (@user != User.current  && @memberships.empty? && events.empty?)
+        unless current_user.admin?
+          if !(@user.active? || @user.registered?) || (@user != current_user  && @memberships.empty? && events.empty?)
             render_404
             return
           end

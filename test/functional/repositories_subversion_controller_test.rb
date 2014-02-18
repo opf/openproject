@@ -43,7 +43,7 @@ class RepositoriesSubversionControllerTest < ActionController::TestCase
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     Setting.default_language = 'en'
-    User.current = nil
+    self.current_user = nil
 
     @project = Project.find(PRJ_ID)
     @repository = Repository::Subversion.create(:project => @project,

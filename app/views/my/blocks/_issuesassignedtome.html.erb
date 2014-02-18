@@ -28,13 +28,13 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% assigned = WorkPackage.visible.open.find(:all,
-                      :conditions => {:assigned_to_id => User.current.id},
+                      :conditions => {:assigned_to_id => current_user.id},
                       :limit => 10,
                       :include => [ :status, :project, :type, :priority ],
                       :order => "#{IssuePriority.table_name}.position DESC, #{WorkPackage.table_name}.updated_at DESC") %>
 
 <% assigned_count = WorkPackage.visible.open.count(:conditions => {
-                      :assigned_to_id => User.current.id
+                      :assigned_to_id => current_user.id
                     }) %>
 
 <h3><%=l(:label_assigned_to_me_work_packages)%> (<%= assigned_count %>)</h3>
@@ -60,6 +60,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <% content_for :header_tags do %>
 <%= auto_discovery_link_tag(:atom,
                             {controller: :work_packages, action: :index, set_filter: 1,
-                             assigned_to_id: 'me', format: 'atom', key: User.current.rss_key},
+                             assigned_to_id: 'me', format: 'atom', key: current_user.rss_key},
                             {title: l(:label_assigned_to_me_work_packages)}) %>
 <% end %>

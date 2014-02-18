@@ -81,7 +81,7 @@ describe Api::V2::AuthenticationController do
     end
 
     after do
-      User.current = nil
+      self.current_user = nil
     end
 
     ##

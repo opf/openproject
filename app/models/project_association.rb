@@ -80,7 +80,7 @@ class ProjectAssociation < ActiveRecord::Base
     errors.add(:base, :identical_projects) if project_a == project_b
   end
 
-  def visible?(user = User.current)
+  def visible?(user)
     projects.all? { |p| p.visible?(user) }
   end
 end

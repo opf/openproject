@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%= header_tags %>
-<% unless User.current.impaired? %>
+<% unless current_user.impaired? %>
   <%# TODO: Require autocompleter inside select_boxes.js
     For lack of a requiring policy (such as requirejs), just include the
     autocompleter on its own.
@@ -55,7 +55,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <%# f.select(:reporting_to_project_id, @reporting_to_project_candidates.collect { |p| [p.name, p.id] }) %>
 
 
-      <% if User.current.impaired? %>
+      <% if current_user.impaired? %>
         <%= f.select(:reporting_to_project_id, @reporting_to_project_candidates.collect { |p| [p.name, p.id] }) %>
       <% else %>
         <%= select("reporting", :reporting_to_project_id,

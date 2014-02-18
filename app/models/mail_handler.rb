@@ -106,7 +106,7 @@ class MailHandler < ActionMailer::Base
         return false
       end
     end
-    User.current = @user
+    self.current_user = @user
     dispatch
   end
 

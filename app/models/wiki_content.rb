@@ -53,7 +53,7 @@ class WikiContent < ActiveRecord::Base
     'wiki_edits'
   end
 
-  def visible?(user=User.current)
+  def visible?(user)
     page.visible?(user)
   end
 

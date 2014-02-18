@@ -63,14 +63,14 @@ class UserMailer < ActionMailer::Base
     end
   end
 
-  def work_package_updated(user, journal, author=User.current)
+  def work_package_updated(user, journal, author)
     # Delayed job do not preserve the closure of the job that is delayed. Thus,
     # if the method is called within a delayed job, it does contain the default
     # user (anonymous) and not the original user that called the method.
     #
     # The mail interceptor 'RemoveSelfNotificationsInterceptor' assumes the
     # orginal user to be available. Otherwise, it cannot fulfill its duty.
-    User.current = author if User.current != author
+#    User.current = author if User.current != author
 
     @journal = journal
     @issue   = journal.journable.reload
@@ -388,12 +388,14 @@ end
 
 class RemoveSelfNotificationsInterceptor
   def self.delivering_email(mail)
-    user_mail = User.current.mail
+    return true
+
+    user_mail = user.mail
     # This may be called within a delayed job. Within a delayed job user
     # preferences may not be loaded. Furthermore, some users don't have
     # persisted preferences. Thus, we only load user preferences if preferences
     # are available.
-    user_pref = User.current.pref.reload if User.current.pref.persisted?
+    user_pref = user.pref.reload if user.pref.persisted?
 
     if user_pref && user_pref[:no_self_notified]
       mail.to = mail.to.reject {|address| address == user_mail} if mail.to.present?

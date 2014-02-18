@@ -33,19 +33,19 @@ See doc/COPYRIGHT.rdoc for more details.
 %>
 
 <% content_for :action_menu_specific do %>
-  <%= watcher_link(@topic, User.current) %>
+  <%= watcher_link(@topic, current_user) %>
   <%= link_to_remote_if_authorized(l(:button_quote),
                                    { :url => {:action => 'quote', :id => @topic} ,
                                      :method => :get },
                                    { :class => 'icon icon-quote'} ) unless @topic.locked? %>
   <%= link_to(l(:button_edit),
               edit_topic_path(@topic),
-              :class => 'icon icon-edit') if @message.editable_by?(User.current) %>
+              :class => 'icon icon-edit') if @message.editable_by?(current_user) %>
   <%= link_to(l(:button_delete),
               topic_path(@topic),
               :method => :delete,
               :confirm => l(:text_are_you_sure),
-              :class => 'icon icon-delete') if @message.destroyable_by?(User.current) %>
+              :class => 'icon icon-delete') if @message.destroyable_by?(current_user) %>
 <% end %>
 
 <h2><%= avatar(@topic.author, :size => "24") %><%=h @topic.subject %></h2>
@@ -82,14 +82,14 @@ See doc/COPYRIGHT.rdoc for more details.
                   { :action => 'edit', :id => message },
                   :title => l(:button_edit),
                   :class => 'no-decoration-on-hover',
-                  :alt => l(:button_edit)) if message.editable_by?(User.current) %>
+                  :alt => l(:button_edit)) if message.editable_by?(current_user) %>
       <%= link_to(icon_wrapper('icon-context icon-delete', l(:button_delete)),
                   { :action => 'destroy', :id => message},
                   :method => :delete,
                   :confirm => l(:text_are_you_sure),
                   :title => l(:button_delete),
                   :class => 'no-decoration-on-hover',
-                  :alt => l(:button_delete)) if message.destroyable_by?(User.current) %>
+                  :alt => l(:button_delete)) if message.destroyable_by?(current_user) %>
     </div>
     <div class="wiki">
       <%= textilizable message, :content, :attachments => message.attachments %>

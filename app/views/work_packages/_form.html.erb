@@ -59,7 +59,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </div>
 <% end %>
 
-<% if work_package.new_record? && User.current.allowed_to?(:add_work_package_watchers, project) -%>
+<% if work_package.new_record? && current_user.allowed_to?(:add_work_package_watchers, project) -%>
   <hr class="form_separator" />
   <div id="watchers_form">
     <label class="watcher_label"><%= l(:label_work_package_watchers) %></label>

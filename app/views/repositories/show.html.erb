@@ -80,11 +80,11 @@ See doc/COPYRIGHT.rdoc for more details.
                                               :action => 'revisions',
                                               :project_id => @project,
                                               :page => nil,
-                                              :key => User.current.rss_key })) %>
+                                              :key => current_user.rss_key })) %>
 <%     end %>
 
 <%= other_formats_links do |f| %>
-  <%= f.link_to 'Atom', :url => {:action => 'revisions', :project_id => @project, :key => User.current.rss_key} %>
+  <%= f.link_to 'Atom', :url => {:action => 'revisions', :project_id => @project, :key => current_user.rss_key} %>
 <%     end %>
 <%   end %>
 <% end %>

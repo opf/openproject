@@ -40,7 +40,7 @@ class JournalsControllerTest < ActionController::TestCase
     @controller = JournalsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
-    User.current = nil
+    self.current_user = nil
   end
 
   def test_get_edit

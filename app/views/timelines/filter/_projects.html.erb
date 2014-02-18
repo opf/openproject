@@ -55,7 +55,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <p class="tl-form-overflow">
         <%= label_tag 'timeline_options_project_types',
                       l("timelines.filter.project_types") %>
-        <% if User.current.impaired? %>
+        <% if current_user.impaired? %>
           <%= select("timeline[options]",
                      :project_types,
                      filter_select_with_none(
@@ -83,7 +83,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= label_tag 'timeline_options_project_status',
                       l("timelines.filter.project_status") %>
 
-        <% if User.current.impaired? %>
+        <% if current_user.impaired? %>
           <%= select("timeline[options]",
                      :project_status,
                      filter_select_with_none(
@@ -110,7 +110,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= label_tag 'timeline_options_project_responsibles',
                       l("timelines.filter.project_responsible") %>
 
-        <% if User.current.impaired? %>
+        <% if current_user.impaired? %>
           <%= select("timeline[options]",
                      :project_responsibles,
                      filter_select_with_none(
@@ -137,7 +137,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= label_tag 'timeline_options_parents',
                       l("timelines.filter.parent") %>
 
-        <% if User.current.impaired? %>
+        <% if current_user.impaired? %>
           <%= select("timeline[options]",
                      :parents,
                      filter_select_with_none(
@@ -163,7 +163,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= label_tag 'timeline_options_planning_element_time_types',
                       l('timelines.filter.project_time_filter') %>
 
-        <% if User.current.impaired? %>
+        <% if current_user.impaired? %>
           <%= select("timeline[options]",
                    :planning_element_time_types,
                    filter_select_with_none(

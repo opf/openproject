@@ -53,7 +53,7 @@ class Changeset < ActiveRecord::Base
   validates_uniqueness_of :scmid, :scope => :repository_id, :allow_nil => true
 
   scope :visible, lambda {|*args| { :include => { :repository => :project },
-                                    :conditions => Project.allowed_to_condition(args.first || User.current, :view_changesets) } }
+                                    :conditions => Project.allowed_to_condition(args.first, :view_changesets) } }
 
   def revision=(r)
     write_attribute :revision, (r.nil? ? nil : r.to_s)

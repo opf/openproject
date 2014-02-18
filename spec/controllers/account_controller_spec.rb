@@ -31,7 +31,7 @@ require 'spec_helper'
 describe AccountController do
   after do
     User.delete_all
-    User.current = nil
+    self.current_user = nil
   end
 
   context "POST #login" do
@@ -71,7 +71,7 @@ describe AccountController do
     end
 
     before do
-      User.current = user
+      self.current_user = user
     end
 
     describe "User who is not allowed to change password can't login" do

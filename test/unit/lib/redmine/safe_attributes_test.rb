@@ -69,9 +69,9 @@ class Redmine::SafeAttributesTest < ActiveSupport::TestCase
 
   def test_safe_attribute_names_without_user
     p = Person.new
-    User.current = nil
+    self.current_user = nil
     assert_equal ['firstname', 'lastname'], p.safe_attribute_names
-    User.current = @admin
+    self.current_user = @admin
     assert_equal ['firstname', 'lastname', 'login'], p.safe_attribute_names
   end
 
@@ -83,7 +83,7 @@ class Redmine::SafeAttributesTest < ActiveSupport::TestCase
     assert_nil p.login
 
     p = Person.new
-    User.current = @admin
+    self.current_user = @admin
     p.send('safe_attributes=', {'firstname' => 'John', 'lastname' => 'Smith', 'login' => 'jsmith'}, @admin)
     assert_equal 'John', p.firstname
     assert_equal 'Smith', p.lastname
@@ -92,14 +92,14 @@ class Redmine::SafeAttributesTest < ActiveSupport::TestCase
 
   def test_set_safe_attributes_without_user
     p = Person.new
-    User.current = nil
+    self.current_user = nil
     p.safe_attributes = {'firstname' => 'John', 'lastname' => 'Smith', 'login' => 'jsmith'}
     assert_equal 'John', p.firstname
     assert_equal 'Smith', p.lastname
     assert_nil p.login
 
     p = Person.new
-    User.current = @admin
+    self.current_user = @admin
     p.safe_attributes = {'firstname' => 'John', 'lastname' => 'Smith', 'login' => 'jsmith'}
     assert_equal 'John', p.firstname
     assert_equal 'Smith', p.lastname

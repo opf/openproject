@@ -60,7 +60,7 @@ describe MailHandler do
   end
 
   after do
-    User.current = nil
+    self.current_user = nil
   end
 
   # it "should add an work_package" do

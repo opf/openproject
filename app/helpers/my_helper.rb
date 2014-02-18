@@ -30,7 +30,7 @@
 module MyHelper
   def calendar_items(startdt, enddt)
     WorkPackage.visible.
-      where(:project_id => User.current.projects.map(&:id)).
+      where(:project_id => current_user.projects.map(&:id)).
       where("(start_date>=? and start_date<=?) or (due_date>=? and due_date<=?)", startdt, enddt, startdt, enddt).
       includes(:project, :type, :priority, :assigned_to).
       all

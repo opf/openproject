@@ -46,9 +46,9 @@ module Redmine::MenuManager::TopMenuHelper
   private
 
   def render_projects_top_menu_node
-    return "" if User.current.anonymous? and Setting.login_required?
+    return "" if current_user.anonymous? and Setting.login_required?
 
-    return "" if User.current.number_of_known_projects.zero?
+    return "" if current_user.number_of_known_projects.zero?
 
     heading = link_to l(:label_project_plural),
                       { :controller => '/projects',
@@ -57,7 +57,7 @@ module Redmine::MenuManager::TopMenuHelper
                       :access_key => OpenProject::AccessKeys.key_for(:project_search),
                       :class => "icon5 icon-unit"
 
-    if User.current.impaired?
+    if user.impaired?
       content_tag :li do
         heading
       end
@@ -81,7 +81,7 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_user_top_menu_node(items = menu_items_for(:account_menu))
-    unless User.current.logged?
+    unless current_user.logged?
       render_drop_down_menu_node(link_to(l(:label_login),
                                          { :controller => '/account',
                                            :action => 'login' },
@@ -93,7 +93,7 @@ module Redmine::MenuManager::TopMenuHelper
         end
       end
     else
-      render_drop_down_menu_node link_to_user(User.current, :title => User.current.to_s),
+      render_drop_down_menu_node link_to_user(current_user, :title => current_user.to_s),
                                  items,
                                  :class => "drop-down last-child"
     end

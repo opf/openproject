@@ -35,9 +35,9 @@ See doc/COPYRIGHT.rdoc for more details.
                                                                :accesskey => accesskey(:edit))) %>
 
   <%= li_unless_nil(watcher_link(work_package,
-                                 User.current,
+                                 current_user,
                                  { :class => 'watcher_link',
-                                   :replace => User.current.allowed_to?(:view_work_package_watchers, @project) ? ['#watchers', '.watcher_link'] : ['.watcher_link'] })) %>
+                                   :replace => current_user.allowed_to?(:view_work_package_watchers, @project) ? ['#watchers', '.watcher_link'] : ['.watcher_link'] })) %>
 <% end %>
 <% content_for :action_menu_more do %>
   <%= li_unless_nil(link_to_if_authorized l(:button_log_time), {:controller => '/timelog', :action => 'new', :work_package_id => controller.work_package}, :class => 'icon-context icon-time') %>

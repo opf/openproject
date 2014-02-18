@@ -244,7 +244,7 @@ class VersionTest < ActiveSupport::TestCase
   end
 
   test "should update all issue's fixed_version associations in case the hierarchy changed XXX" do
-    User.current = User.find(1) # Need the admin's permissions
+    self.current_user = User.find(1) # Need the admin's permissions
 
     @version = Version.find(7)
     # Separate hierarchy

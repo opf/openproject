@@ -43,7 +43,7 @@ class SearchController < ApplicationController
       when 'all'
         nil
       when 'my_projects'
-        User.current.memberships.collect(&:project)
+        current_user.memberships.collect(&:project)
       when 'subprojects'
         @project ? (@project.self_and_descendants.active) : nil
       else
@@ -64,7 +64,7 @@ class SearchController < ApplicationController
       # don't search projects
       @object_types.delete('projects')
       # only show what the user is allowed to view
-      @object_types = @object_types.select {|o| User.current.allowed_to?("view_#{o}".to_sym, projects_to_search)}
+      @object_types = @object_types.select {|o| current_user.allowed_to?("view_#{o}".to_sym, projects_to_search)}
     end
 
     @scope = @object_types.select {|t| params[t]}

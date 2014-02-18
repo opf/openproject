@@ -81,9 +81,9 @@ class CopyProjectsController < ApplicationController
   protected
 
   # Validates parent_id param according to user's permissions
-  # TODO: move it to Project model in a validation that depends on User.current
+  # TODO: move it to Project model in a validation that depends on current_user
   def validate_parent_id
-    return true if User.current.admin?
+    return true if current_user.admin?
     parent_id = params[:project] && params[:project][:parent_id]
     if parent_id || @project.new_record?
       parent = parent_id.blank? ? nil : Project.find_by_id(parent_id.to_i)

@@ -284,7 +284,7 @@ class Query < ActiveRecord::Base
     group_by_column.try(:groupable)
   end
 
-  def project_statement
+  def project_statement(user)
     project_clauses = []
     if project && !project.descendants.active.empty?
       ids = [project.id]
@@ -307,11 +307,11 @@ class Query < ActiveRecord::Base
     elsif project
       project_clauses << "#{Project.table_name}.id = %d" % project.id
     end
-    project_clauses <<  WorkPackage.visible_condition(User.current)
+    project_clauses <<  WorkPackage.visible_condition(user)
     project_clauses.join(' AND ')
   end
 
-  def statement
+  def statement(user)
     # filters clauses
     filters_clauses = []
     filters.each do |filter|
@@ -326,9 +326,9 @@ class Query < ActiveRecord::Base
       # "me" value subsitution
       if @@user_filters.include? field
         if values.delete("me")
-          if User.current.logged?
-            values.push(User.current.id.to_s)
-            values += User.current.group_ids.map(&:to_s) if field == 'assigned_to_id'
+          if user.logged?
+            values.push(user.id.to_s)
+            values += user.group_ids.map(&:to_s) if field == 'assigned_to_id'
           else
             values.push("0")
           end
@@ -346,17 +346,17 @@ class Query < ActiveRecord::Base
       elsif field == 'watcher_id'
         db_table = Watcher.table_name
         db_field = 'user_id'
-        if User.current.admin?
+        if user.admin?
           # Admins can always see all watchers
           sql << "#{WorkPackage.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'} (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='WorkPackage' AND #{sql_for_field field, '=', values, db_table, db_field})"
         else
           sql_parts = []
-          if User.current.logged? && user_id = values.delete(User.current.id.to_s)
+          if user.logged? && user_id = values.delete(user.id.to_s)
             # a user can always see his own watched issues
             sql_parts << "#{WorkPackage.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'} (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='WorkPackage' AND #{sql_for_field field, '=', [user_id], db_table, db_field})"
           end
           # filter watchers only in projects the user has the permission to view watchers in
-          project_ids = User.current.projects_by_role.collect {|r,p| p if r.permissions.include? :view_work_package_watchers}.flatten.compact.collect(&:id).uniq
+          project_ids = user.projects_by_role.collect {|r,p| p if r.permissions.include? :view_work_package_watchers}.flatten.compact.collect(&:id).uniq
           sql_parts << "#{WorkPackage.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'} (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='WorkPackage' AND #{sql_for_field field, '=', values, db_table, db_field})"\
                        " AND #{Project.table_name}.id IN (#{project_ids.join(',')})" unless project_ids.empty?
           sql << "(#{sql_parts.join(' OR ')})"

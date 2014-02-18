@@ -85,9 +85,9 @@ module Api
 
       def show
         @journals = @issue.journals.changing.find(:all, :include => [:user, :journable], :order => "#{Journal.table_name}.created_at ASC")
-        @journals.reverse! if User.current.wants_comments_in_reverse_order?
+        @journals.reverse! if current_user.wants_comments_in_reverse_order?
         @changesets = @issue.changesets.visible.all(:include => [{ :repository => {:project => :enabled_modules} }, :user])
-        @changesets.reverse! if User.current.wants_comments_in_reverse_order?
+        @changesets.reverse! if current_user.wants_comments_in_reverse_order?
         @relations = @issue.relations.includes(:from => [:status,
                                                                :priority,
                                                                :type,
@@ -111,7 +111,7 @@ module Api
                                                                    :fixed_version,
                                                                    :project])
 
-        @edit_allowed = User.current.allowed_to?(:edit_work_packages, @project)
+        @edit_allowed = current_user.allowed_to?(:edit_work_packages, @project)
         @time_entry = TimeEntry.new(:work_package => @issue, :project => @issue.project)
         respond_to do |format|
           format.api
@@ -219,14 +219,14 @@ module Api
       # from the params
       # TODO: Refactor, not everything in here is needed by #edit
       def update_from_params
-        @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
+        @allowed_statuses = @issue.new_statuses_allowed_to(current_user)
         @priorities = IssuePriority.all
-        @edit_allowed = User.current.allowed_to?(:edit_work_packages, @project)
+        @edit_allowed = current_user.allowed_to?(:edit_work_packages, @project)
         @time_entry = TimeEntry.new(:work_package => @issue, :project => @issue.project)
         @time_entry.attributes = params[:time_entry]
 
         @notes = params[:notes] || (params[:issue].present? ? params[:issue][:notes] : nil)
-        @issue.add_journal(User.current, @notes)
+        @issue.add_journal(current_user, @notes)
         @issue.safe_attributes = params[:issue]
         @journal = @issue.current_journal
       end
@@ -249,23 +249,23 @@ module Api
           render_error l(:error_no_type_in_project)
           return false
         end
-        @issue.start_date ||= User.current.today if Setting.work_package_startdate_is_adddate?
+        @issue.start_date ||= current_user.today if Setting.work_package_startdate_is_adddate?
         if params[:issue].is_a?(Hash)
           @issue.safe_attributes = params[:issue]
           @issue.priority_id = params[:issue][:priority_id] unless params[:issue][:priority_id].nil?
-          if User.current.allowed_to?(:add_work_package_watchers, @project) && @issue.new_record?
+          if current_user.allowed_to?(:add_work_package_watchers, @project) && @issue.new_record?
             @issue.watcher_user_ids = params[:issue]['watcher_user_ids']
           end
         end
 
         # Copy watchers if we're copying an issue
-        if params[:copy_from] && User.current.allowed_to?(:add_work_package_watchers, @project)
+        if params[:copy_from] && current_user.allowed_to?(:add_work_package_watchers, @project)
           @issue.watcher_user_ids = WorkPackage.visible.find(params[:copy_from]).watcher_user_ids
         end
 
-        @issue.author = User.current
+        @issue.author = current_user
         @priorities = IssuePriority.all
-        @allowed_statuses = @issue.new_statuses_allowed_to(User.current, true)
+        @allowed_statuses = @issue.new_statuses_allowed_to(current_user, true)
       end
 
       def check_for_default_status
@@ -279,7 +279,7 @@ module Api
         return true unless EXPORT_FORMATS.include? params[:format]
 
         find_optional_project if @project.nil?
-        return true if User.current.allowed_to? :export_work_packages, @project, :global => @project.nil?
+        return true if current_user.allowed_to? :export_work_packages, @project, :global => @project.nil?
 
         # otherwise deny access
         params[:format] = 'html'

@@ -36,7 +36,7 @@ class ProjectTest < ActiveSupport::TestCase
     FactoryGirl.create(:type_standard)
     @ecookbook = Project.find(1)
     @ecookbook_sub1 = Project.find(3)
-    User.current = nil
+    self.current_user = nil
   end
 
   should validate_presence_of :name
@@ -364,14 +364,14 @@ class ProjectTest < ActiveSupport::TestCase
     Role.non_member.add_permission!(:add_project)
     user = User.find(9)
     assert user.memberships.empty?
-    User.current = user
+    self.current_user = user
     assert Project.new.allowed_parents.compact.empty?
   end
 
   def test_allowed_parents_with_add_subprojects_permission
     Role.find(1).remove_permission!(:add_project)
     Role.find(1).add_permission!(:add_subprojects)
-    User.current = User.find(2)
+    self.current_user = User.find(2)
     # new project
     assert !Project.new.allowed_parents.include?(nil)
     assert Project.new.allowed_parents.include?(Project.find(1))
@@ -385,7 +385,7 @@ class ProjectTest < ActiveSupport::TestCase
   def test_allowed_parents_with_add_project_permission
     Role.find(1).add_permission!(:add_project)
     Role.find(1).remove_permission!(:add_subprojects)
-    User.current = User.find(2)
+    self.current_user = User.find(2)
     # new project
     assert Project.new.allowed_parents.include?(nil)
     assert !Project.new.allowed_parents.include?(Project.find(1))
@@ -399,7 +399,7 @@ class ProjectTest < ActiveSupport::TestCase
   def test_allowed_parents_with_add_project_and_subprojects_permission
     Role.find(1).add_permission!(:add_project)
     Role.find(1).add_permission!(:add_subprojects)
-    User.current = User.find(2)
+    self.current_user = User.find(2)
     # new project
     assert Project.new.allowed_parents.include?(nil)
     assert Project.new.allowed_parents.include?(Project.find(1))
@@ -790,7 +790,7 @@ class ProjectTest < ActiveSupport::TestCase
     end
 
     should "change the new issues to use the copied version" do
-      User.current = User.find(1)
+      self.current_user = User.find(1)
       assigned_version = Version.generate!(:name => "Assigned Issues", :status => 'open')
       @source_project.versions << assigned_version
       assert_equal 3, @source_project.versions.size

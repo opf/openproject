@@ -69,8 +69,7 @@ class WorkPackage < ActiveRecord::Base
 
   scope :recently_updated, :order => "#{WorkPackage.table_name}.updated_at DESC"
   scope :visible, lambda {|*args| { :include => :project,
-                                    :conditions => WorkPackage.visible_condition(args.first ||
-                                                                                 User.current) } }
+                                    :conditions => WorkPackage.visible_condition(args.first) } }
 
   scope :in_status, lambda {|*args| where(:status_id => (args.first.respond_to?(:id) ? args.first.id : args.first))}
 
@@ -259,8 +258,8 @@ class WorkPackage < ActiveRecord::Base
   end
 
   # Returns true if usr or current user is allowed to view the work_package
-  def visible?(usr=nil)
-    (usr || User.current).allowed_to?(:view_work_packages, self.project)
+  def visible?(user)
+    user.allowed_to?(:view_work_packages, self.project)
   end
 
   def copy_from(arg, options = {})
@@ -509,7 +508,7 @@ class WorkPackage < ActiveRecord::Base
   # attr_accessible is too rough because we still want things like
   # WorkPackage.new(:project => foo) to work
   # TODO: move workflow/permission checks from controllers to here
-  def safe_attributes=(attrs, user=User.current)
+  def safe_attributes=(attrs, user)
     return unless attrs.is_a?(Hash)
 
     # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
@@ -544,13 +543,13 @@ class WorkPackage < ActiveRecord::Base
 
   # Saves an issue, time_entry, attachments, and a journal from the parameters
   # Returns false if save fails
-  def save_issue_with_child_records(params, existing_time_entry=nil)
+  def save_issue_with_child_records(params, existing_time_entry, user) # existing_time_entry=nil
     WorkPackage.transaction do
-      if params[:time_entry] && (params[:time_entry][:hours].present? || params[:time_entry][:comments].present?) && User.current.allowed_to?(:log_time, project)
+      if params[:time_entry] && (params[:time_entry][:hours].present? || params[:time_entry][:comments].present?) && user.allowed_to?(:log_time, project)
         @time_entry = existing_time_entry || TimeEntry.new
         @time_entry.project = project
         @time_entry.work_package = self
-        @time_entry.user = User.current
+        @time_entry.user = user
         @time_entry.spent_on = Date.today
         @time_entry.attributes = params[:time_entry]
         self.time_entries << @time_entry
@@ -636,7 +635,7 @@ class WorkPackage < ActiveRecord::Base
     return done_date <= Date.today
   end
 
-  def move_to_project_without_transaction(new_project, new_type = nil, options = {})
+  def move_to_project_without_transaction(new_project, user, new_type, options) #, new_type = nil, options = {}
     options ||= {}
     work_package = options[:copy] ? self.class.new.copy_from(self) : self
 
@@ -668,7 +667,7 @@ class WorkPackage < ActiveRecord::Base
                                                     .reject { |key, value| value.blank? }
     end                                             # FIXME this eliminates the case, where values shall be bulk-assigned to null, but this needs to work together with the permit
     if options[:copy]
-      work_package.author = User.current
+      work_package.author = user
       work_package.custom_field_values = self.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
       work_package.status = if options[:attributes] && options[:attributes][:status_id]
                               Status.find_by_id(options[:attributes][:status_id])
@@ -676,7 +675,7 @@ class WorkPackage < ActiveRecord::Base
                               self.status
                             end
     else
-      work_package.add_journal User.current, options[:journal_note] if options[:journal_note]
+      work_package.add_journal user, options[:journal_note] if options[:journal_note]
     end
 
     if work_package.save
@@ -809,16 +808,16 @@ class WorkPackage < ActiveRecord::Base
   end
 
   # Returns an array of projects that current user can move issues to
-  def self.allowed_target_projects_on_move
+  def self.allowed_target_projects_on_move(user)
     projects = []
-    if User.current.admin?
+    if user.admin?
       # admin is allowed to move issues to any active (visible) project
       projects = Project.visible.all
-    elsif User.current.logged?
+    elsif user.logged?
       if Role.non_member.allowed_to?(:move_work_packages)
         projects = Project.visible.all
       else
-        User.current.memberships.each {|m| projects << m.project if m.roles.detect {|r| r.allowed_to?(:move_work_packages)}}
+        user.memberships.each {|m| projects << m.project if m.roles.detect {|r| r.allowed_to?(:move_work_packages)}}
       end
     end
     projects
@@ -1055,9 +1054,9 @@ class WorkPackage < ActiveRecord::Base
     end
   end
 
-  def create_and_save_journal_note(work_package, journal_note)
+  def create_and_save_journal_note(work_package, journal_note, user)
     if work_package && journal_note
-      work_package.add_journal User.current, journal_note
+      work_package.add_journal user, journal_note
       work_package.save!
     end
   end

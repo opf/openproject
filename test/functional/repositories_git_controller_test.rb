@@ -44,7 +44,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     @controller = RepositoriesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
-    User.current = nil
+    self.current_user = nil
     @repository = Repository::Git.create(
                       :project => Project.find(3),
                       :url     => REPOSITORY_PATH,

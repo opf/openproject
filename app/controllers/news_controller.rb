@@ -58,15 +58,15 @@ class NewsController < ApplicationController
 
   def show
     @comments = @news.comments
-    @comments.reverse! if User.current.wants_comments_in_reverse_order?
+    @comments.reverse! if current_user.wants_comments_in_reverse_order?
   end
 
   def new
-    @news = News.new(:project => @project, :author => User.current)
+    @news = News.new(:project => @project, :author => current_user)
   end
 
   def create
-    @news = News.new(:project => @project, :author => User.current)
+    @news = News.new(:project => @project, :author => current_user)
     @news.safe_attributes = params[:news]
     if @news.save
       flash[:notice] = l(:notice_successful_create)

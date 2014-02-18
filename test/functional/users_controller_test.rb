@@ -43,7 +43,7 @@ class UsersControllerTest < ActionController::TestCase
     @controller = UsersController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
-    User.current = nil
+    self.current_user = nil
     @request.session[:user_id] = 1 # admin
   end
 

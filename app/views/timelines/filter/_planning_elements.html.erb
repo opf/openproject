@@ -48,7 +48,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= label_tag 'timeline_options_planning_element_status',
                       l("timelines.filter.status") %>
 
-        <% if User.current.impaired? %>
+        <% if current_user.impaired? %>
           <%= select("timeline[options]",
                    :planning_element_status,
                    filter_select_with_none(
@@ -74,7 +74,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= label_tag 'timeline_options_planning_element_types',
                       l("timelines.filter.types") %>
 
-        <% if User.current.impaired? %>
+        <% if current_user.impaired? %>
           <%= select("timeline[options]",
                    :planning_element_types,
                    filter_select_with_none(
@@ -100,7 +100,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= label_tag 'timeline_options_planning_element_responsibles',
                       l("timelines.filter.work_package_responsible") %>
 
-        <% if User.current.impaired? %>
+        <% if current_user.impaired? %>
           <%= select("timeline[options]",
                      :planning_element_responsibles,
                      filter_select_with_none(
@@ -126,7 +126,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= label_tag 'timeline_options_planning_element_assignee',
                       l("timelines.filter.work_package_assignee") %>
 
-        <% if User.current.impaired? %>
+        <% if current_user.impaired? %>
           <%= select("timeline[options]",
                      :planning_element_assignee,
                      filter_select_with_none(

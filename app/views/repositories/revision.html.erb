@@ -66,7 +66,7 @@ See doc/COPYRIGHT.rdoc for more details.
 </ul>
 <% end %>
 
-<% if User.current.allowed_to?(:browse_repository, @project) %>
+<% if current_user.allowed_to?(:browse_repository, @project) %>
 <h3><%= l(:label_attachment_plural) %></h3>
 <ul id="changes-legend">
 <li class="change change-A"><%= l(:label_added) %></li>
