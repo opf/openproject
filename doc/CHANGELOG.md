@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#2701` Fix: [Groups] Error message not displayed correctly.
+* `#4175` Fix: Wrong escaping in destroy info
 
 ## 3.0.0pre47
 
