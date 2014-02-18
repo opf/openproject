@@ -26,6 +26,7 @@
 require 'prawn'
 
 module OpenProject::PdfExport::ExportCard
+  require "open_project/pdf_export/export_card/model_display/work_package_display"
   class DocumentGenerator
 
     attr_reader :config
