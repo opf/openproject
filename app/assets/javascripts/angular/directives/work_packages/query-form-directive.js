@@ -12,15 +12,14 @@ angular.module('openproject.workPackages.directives')
 
           scope.$watch('groupBy', function(oldValue, newValue) {
             if (newValue !== oldValue) {
-              scope.reloadWorkPackagesTableData();
+              reloadWorkPackagesTableData();
             }
           });
 
-
-          scope.reloadWorkPackagesTableData = function() {
+          function reloadWorkPackagesTableData() {
             WorkPackageService.getWorkPackages(scope.projectIdentifier, scope.query)
               .then(scope.setupWorkPackagesTable);
-          };
+          }
         }
       };
     }
