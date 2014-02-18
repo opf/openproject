@@ -212,7 +212,7 @@ class MyProjectsOverviewsController < ApplicationController
                   end.join(" UNION ALL ")
 
                   User.find_by_sql(sql_string).group_by(&:role_id).inject({}) do |hash, (role_id, users)|
-                    hash[all_roles.detect{ |r| r.id == role_id.to_i }] = users
+                    hash[all_roles.detect{ |r| r.id == role_id.to_i }] = users.uniq {|user| user.id}
                     hash
                   end
                 else
@@ -227,7 +227,7 @@ class MyProjectsOverviewsController < ApplicationController
   def count_users_by_role
     @count_users_per_role ||= begin
                                 sql_string = all_roles.map do |r|
-                                  %Q{ (Select COUNT(users.id) AS count, member_roles.role_id AS role_id from users
+                                  %Q{ (Select COUNT(DISTINCT users.id) AS count, member_roles.role_id AS role_id from users
                                       JOIN members on users.id = members.user_id
                                       JOIN member_roles on member_roles.member_id = members.id
                                       WHERE members.project_id = #{ project.id } AND member_roles.role_id = #{ r.id }
