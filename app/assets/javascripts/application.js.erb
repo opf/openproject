@@ -1266,12 +1266,15 @@ var activateError = function() {
 var activateFlash = function() {
   var flashMessage = jQuery('.flash');
 
-  flashMessage.hide();
   flashMessage.show();
 }
 
 jQuery(document).ready(activateError);
-jQuery(document).ready(activateFlash);
+jQuery(document).ready(function () {
+  activateFlash();
+
+  jQuery(document).ajaxComplete(activateFlash);
+});
 
 var SubmitConfirm = (function($) {
   var init;
