@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#2701` Fix: [Groups] Error message not displayed correctly.
+
 ## 3.0.0pre47
 
 * `#3113` [API] Read access on work package workflows for API v2
