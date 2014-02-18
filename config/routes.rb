@@ -349,6 +349,8 @@ OpenProject::Application.routes.draw do
     get :new_type, :on => :member
     put :preview, :on => :member
 
+    get :column_data, on: :collection # TODO move to API
+
     resources :relations, :controller => 'work_package_relations', :only => [:create, :destroy]
 
     # move bulk of wps

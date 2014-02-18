@@ -107,7 +107,7 @@ Redmine::AccessControl.map do |map|
                                          :versions => [:index, :show, :status_by],
                                          :journals => [:index, :diff],
                                          :queries => :index,
-                                         :work_packages => [:show, :index],
+                                         :work_packages => [:show, :index, :column_data], # TODO move column_data to API
                                          :'work_packages/reports' => [:report, :report_details],
                                          :planning_elements => [:index, :all, :show, :recycle_bin],
                                          :planning_element_journals => [:index]}

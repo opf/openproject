@@ -53,7 +53,7 @@ class WorkPackagesController < ApplicationController
   # before_filter :disable_api # TODO re-enable once API is used for any JSON request
   before_filter :not_found_unless_work_package,
                 :project,
-                :authorize, :except => [:index]
+                :authorize, :except => [:index, :column_data]
   before_filter :find_optional_project,
                 :protect_from_unauthorized_export, :only => [:index, :all]
   before_filter :load_query, :only => :index
@@ -263,6 +263,33 @@ class WorkPackagesController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render_404
   end
+
+  # ------------------- Custom API method -------------------
+  # TODO Move to API
+
+  def column_data
+    raise 'API Error' unless params[:ids] && params[:column_name]
+
+    ids = params[:ids].map(&:to_i)
+    column_name = params[:column_name]
+
+    work_packages = WorkPackage.find(*ids).sort {|a,b| ids.index(a.id) <=> ids.index(b.id)}
+
+    column = if column_name =~ /cf_(.*)/
+      work_packages.map do |work_package|
+        value = work_package.custom_values.find_by_custom_field_id($1) and value.nil? ? {} : value.attributes
+      end
+    else
+      work_packages.map do |work_package|
+        value = work_package.send(column_name) and value.is_a?(ActiveRecord::Base) ? value.attributes : value
+      end
+    end
+
+    render json: column
+  end
+
+  # ---------------------------------------------------------
+
 
   def quoted
     text, author = if params[:journal_id]
