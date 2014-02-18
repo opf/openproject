@@ -220,7 +220,23 @@ class CustomField < ActiveRecord::Base
     nil
   end
 
+  def name_locale
+    attribute_locale :name, name
+  end
+
+  def default_value_locale
+    attribute_locale :default_value, default_value
+  end
+
   private
+
+  def attribute_locale(attribute, value)
+    locales_for_value = translations.select { |t| t.send(attribute) == value }
+                                    .collect(&:locale)
+                                    .uniq
+
+    locales_for_value.detect { |l| l == I18n.locale } || locales_for_value.first || I18n.locale
+  end
 
   def blank_attributes(attributes)
     value_keys = attributes.reject{ |k,v| v.blank? }.keys.map(&:to_sym)

@@ -304,7 +304,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   def test_should_ignore_emails_from_locked_users
     User.find(2).lock!
 
-    MailHandler.any_instance.expects(:dispatch).never
+    MailHandler.any_instance.should_receive(:dispatch).never
     assert_no_difference 'WorkPackage.count' do
       assert_equal false, submit_email('ticket_on_given_project.eml')
     end
@@ -318,7 +318,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   def test_should_ignore_auto_replied_emails
-    MailHandler.any_instance.expects(:dispatch).never
+    MailHandler.any_instance.should_receive(:dispatch).never
     [
       "X-Auto-Response-Suppress: OOF",
       "Auto-Submitted: auto-replied",

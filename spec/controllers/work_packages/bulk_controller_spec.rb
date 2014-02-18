@@ -30,6 +30,7 @@ require 'spec_helper'
 
 describe WorkPackages::BulkController do
   let(:user) { FactoryGirl.create(:user) }
+  let(:user2) { FactoryGirl.create(:user)}
   let(:custom_field_value) { '125' }
   let(:custom_field_1) { FactoryGirl.create(:work_package_custom_field,
                                             field_format: 'string',
@@ -47,17 +48,22 @@ describe WorkPackages::BulkController do
                                   permissions: [:edit_work_packages,
                                                 :view_work_packages,
                                                 :manage_subtasks]) }
-  let(:member_1) { FactoryGirl.create(:member,
+  let(:member1_p1) { FactoryGirl.create(:member,
                                       project: project_1,
                                       principal: user,
                                       roles: [role]) }
-  let(:member_2) { FactoryGirl.create(:member,
+  let(:member2_p1) { FactoryGirl.create(:member,
+                                      project: project_1,
+                                      principal: user2,
+                                      roles: [role]) }
+  let(:member1_p2) { FactoryGirl.create(:member,
                                       project: project_2,
                                       principal: user,
                                       roles: [role]) }
   let(:work_package_1) { FactoryGirl.create(:work_package,
                                             author: user,
                                             assigned_to: user,
+                                            responsible: user2,
                                             type: type,
                                             status: status,
                                             custom_field_values: { custom_field_1.id => custom_field_value },
@@ -65,6 +71,7 @@ describe WorkPackages::BulkController do
   let(:work_package_2) { FactoryGirl.create(:work_package,
                                             author: user,
                                             assigned_to: user,
+                                            responsible: user2,
                                             type: type,
                                             status: status,
                                             custom_field_values: { custom_field_1.id => custom_field_value },
@@ -80,7 +87,8 @@ describe WorkPackages::BulkController do
 
   before do
     custom_field_1
-    member_1
+    member1_p1
+    member2_p1
 
     User.stub(:current).and_return user
   end
@@ -122,7 +130,7 @@ describe WorkPackages::BulkController do
 
     context "different projects" do
       before do
-        member_2
+        member1_p2
 
         get :edit, ids: [work_package_1.id, work_package_2.id, work_package_3.id]
       end
@@ -156,6 +164,7 @@ describe WorkPackages::BulkController do
     let(:work_packages) { WorkPackage.find_all_by_id(work_package_ids) }
     let(:priority) { FactoryGirl.create(:priority_immediate) }
     let(:group_id) { '' }
+    let(:responsible_id) {''}
 
     describe :redirect do
       context "in host" do
@@ -205,8 +214,8 @@ describe WorkPackages::BulkController do
 
       before do
         # create user memberships to allow the user to watch work packages
-        member_1
-        member_2
+        member1_p1
+        member1_p2
         # let other_user perform the bulk update
         User.stub(:current).and_return other_user
         put :update, ids: work_package_ids, work_package: work_package_params
@@ -233,6 +242,7 @@ describe WorkPackages::BulkController do
             notes: 'Bulk editing',
             work_package: { priority_id: priority.id,
                             assigned_to_id: group_id,
+                            responsible_id: responsible_id,
                             custom_field_values: { custom_field_1.id.to_s => '' },
                             send_notification: send_notification }
       end
@@ -302,7 +312,7 @@ describe WorkPackages::BulkController do
         let(:work_package_ids) { [work_package_1.id, work_package_2.id, work_package_3.id] }
 
         context "with permission" do
-          before { member_2 }
+          before { member1_p2 }
 
           include_context :update_request
 
@@ -336,6 +346,16 @@ describe WorkPackages::BulkController do
           subject { work_packages.collect {|w| w.assigned_to_id }.uniq }
 
           it { should =~ [group_id] }
+        end
+
+        describe :responsible do
+          let(:responsible_id) { user.id }
+
+          include_context :update_request
+
+          subject { work_packages.collect {|w| w.responsible_id }.uniq }
+
+          it { should =~ [responsible_id] }
         end
 
         describe :status do
@@ -398,6 +418,18 @@ describe WorkPackages::BulkController do
           end
 
           subject { work_packages.collect(&:assigned_to_id).uniq }
+
+          it { should =~ [nil] }
+        end
+
+        describe :delete_responsible do
+          before do
+            put :update,
+                ids: work_package_ids,
+                work_package: { responsible_id: 'none' }
+          end
+
+          subject { work_packages.collect(&:responsible_id).uniq }
 
           it { should =~ [nil] }
         end

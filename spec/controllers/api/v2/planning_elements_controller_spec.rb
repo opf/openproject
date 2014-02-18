@@ -225,6 +225,56 @@ describe Api::V2::PlanningElementsController do
           end
         end
       end
+
+      describe 'changed since' do
+        let!(:work_package) do
+          work_package = Timecop.travel(5.hours.ago) do
+            wp = FactoryGirl.create(:work_package)
+            wp.save!
+            wp
+          end
+
+          work_package.subject = "Changed now!"
+          work_package.save!
+          work_package
+        end
+
+        become_admin { [work_package.project] }
+
+        shared_context 'get work packages changed since' do
+          before { get 'index', project_id: work_package.project_id, changed_since: timestamp,  format: 'xml' }
+        end
+
+        describe 'valid timestamp' do
+          shared_examples_for 'valid timestamp' do
+            let(:timestamp) { (work_package.updated_at - 5.seconds).to_i }
+
+            include_context 'get work packages changed since'
+
+            it { expect(assigns(:planning_elements).collect(&:id)).to match_array([work_package.id]) }
+          end
+
+          shared_examples_for 'valid but early timestamp' do
+            let(:timestamp) { (work_package.updated_at + 5.seconds).to_i }
+
+            include_context 'get work packages changed since'
+
+            it { expect(assigns(:planning_elements)).to be_empty }
+          end
+
+          it_behaves_like 'valid timestamp'
+
+          it_behaves_like 'valid but early timestamp'
+        end
+
+        describe 'invalid timestamp' do
+          let(:timestamp) { 'eeek' }
+
+          include_context 'get work packages changed since'
+
+          it { expect(response.status).to eq(400) }
+        end
+      end
     end
 
     describe 'w/ list of projects' do
@@ -273,7 +323,10 @@ describe Api::V2::PlanningElementsController do
                 FactoryGirl.create(:work_package, :project_id => project.id),
                 FactoryGirl.create(:work_package, :project_id => project.id)
               ].map do |model|
-                OpenStruct.new(model.attributes).tap { |s| s.child_ids = [] }
+                OpenStruct.new(model.attributes).tap do |s|
+                  s.child_ids = []
+                  s.custom_values = []
+                end
               end
               get 'index', :project_id => project.id, :format => 'xml'
             end
@@ -345,7 +398,10 @@ describe Api::V2::PlanningElementsController do
                 FactoryGirl.create(:work_package, :project_id => project_b.id),
                 FactoryGirl.create(:work_package, :project_id => project_b.id)
               ].map do |model|
-                OpenStruct.new(model.attributes).tap { |s| s.child_ids = [] }
+                OpenStruct.new(model.attributes).tap do |s|
+                  s.child_ids = []
+                  s.custom_values = []
+                end
               end
               # adding another planning element, just to make sure, that the
               # result set is properly filtered
@@ -551,6 +607,7 @@ describe Api::V2::PlanningElementsController do
 
   describe 'update.xml' do
     let(:project) { FactoryGirl.create(:project, :is_public => false) }
+    let(:work_package) { FactoryGirl.create(:work_package) }
 
     become_admin
 
@@ -569,6 +626,41 @@ describe Api::V2::PlanningElementsController do
       end
       let(:permission) { :edit_work_packages }
       it_should_behave_like "a controller action which needs project permissions"
+    end
+
+    describe 'empty' do
+      before do
+        put :update,
+            project_id: work_package.project_id,
+            id: work_package.id,
+            format: :xml
+      end
+
+      it { expect(response.status).to eq(400) }
+    end
+
+    describe 'notes' do
+      let(:note) { "A note set by API" }
+
+      before do
+        put :update,
+            project_id: work_package.project_id,
+            id: work_package.id,
+            planning_element: { note: note },
+            format: :xml
+      end
+
+      it { expect(response.status).to eq(204) }
+
+      describe 'journals' do
+        subject { work_package.reload.journals }
+
+        it { expect(subject.count).to eq(2) }
+
+        it { expect(subject.last.notes).to eq(note) }
+
+        it { expect(subject.last.user).to eq(User.current) }
+      end
     end
 
     describe 'with custom fields' do

@@ -61,7 +61,7 @@ class WatcherTest < ActiveSupport::TestCase
   end
 
   def test_watcher_users_should_not_validate_user
-    @user.stubs(:valid?).returns(false)
+    @user.stub(:valid?).and_return(false)
     @issue.watcher_users << @user
     assert @issue.watched_by?(@user)
   end

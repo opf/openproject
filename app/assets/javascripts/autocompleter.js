@@ -212,7 +212,11 @@
         }
 
         for (i = 0; i < vals.length; i += 1) {
-          data.push(byID[vals[i]]);
+          if (byID[vals[i]]) {
+            data.push(byID[vals[i]]);
+          } else {
+            data.push({ id: vals[i], name: vals[i] });
+          }
         }
       }
 

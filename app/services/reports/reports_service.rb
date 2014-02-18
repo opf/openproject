@@ -46,6 +46,7 @@ class Reports::ReportsService
   add_report Reports::SubprojectReport
   add_report Reports::AuthorReport
   add_report Reports::AssigneeReport
+  add_report Reports::ResponsibleReport
   add_report Reports::TypeReport
   add_report Reports::PriorityReport
   add_report Reports::CategoryReport

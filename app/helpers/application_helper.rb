@@ -269,11 +269,7 @@ module ApplicationHelper
 
   # Renders flash messages
   def render_flash_messages
-    if User.current.impaired?
-      flash.map { |k,v| content_tag('div', content_tag('a', join_flash_messages(v), :href => 'javascript:;'), :class => "flash #{k} icon icon-#{k}") }.join.html_safe
-    else
-      flash.map { |k,v| content_tag('div', join_flash_messages(v), :class => "flash #{k} icon icon-#{k}") }.join.html_safe
-    end
+    flash.map { |k,v| render_flash_message(k, v) }.join.html_safe
   end
 
   def join_flash_messages(messages)
@@ -281,6 +277,15 @@ module ApplicationHelper
       messages.join('<br />').html_safe
     else
       messages
+    end
+  end
+
+  def render_flash_message(type, message, html_options = {})
+    html_options = {:class => "flash #{type} icon icon-#{type}"}.merge(html_options)
+    if User.current.impaired?
+      content_tag('div', content_tag('a', join_flash_messages(message), :href => 'javascript:;'), html_options)
+    else
+      content_tag('div', join_flash_messages(message), html_options)
     end
   end
 

@@ -27,11 +27,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div class="contextual">
+<% content_for :action_menu_specific do %>
   <%= watcher_link(@wiki, User.current) %>
-</div>
+<% end %>
 
 <h2><%= l(:label_index_by_date) %></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
 
 <% if @pages.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>

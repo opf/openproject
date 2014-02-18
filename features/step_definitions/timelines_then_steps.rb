@@ -65,6 +65,16 @@ Then(/^I should (not )?see the work package "(.*?)" in the timeline$/) do |negat
   }
 end
 
+Then(/^I should see "(.*?)" in the row of the work package "(.*?)"$/) do |content, wp_name|
+  elements = find_lowest_containing_element wp_name, ".tl-main-table"
+  elements[-1].should have_xpath("ancestor::tr/descendant-or-self::*[text()='#{content}']")
+end
+
+Then(/^I should not see "(.*?)" in the row of the work package "(.*?)"$/) do |content, wp_name|
+  elements = find_lowest_containing_element wp_name, ".tl-main-table"
+  elements[-1].should_not have_xpath("ancestor::tr/descendant-or-self::*[text()='#{content}']")
+end
+
 Then(/^the project "(.*?)" should have an indent of (\d+)$/) do |project_name, indent|
   find(".tl-indent-#{indent}", :text => project_name).should_not be_nil
 end

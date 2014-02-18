@@ -1,6 +1,6 @@
 GIT
   remote: git@github.com:opf/openproject-ui_components.git
-  revision: eabe03c3b372b525b47569c62d68c517644ff0a2
+  revision: 8502ddae6cd761a412e7828542d5a91d3f5e8ae2
   branch: dev
   specs:
     openproject-ui_components (0.0.1)
@@ -208,7 +208,7 @@ GEM
     paper_trail (2.7.2)
       activerecord (~> 3.0)
       railties (~> 3.0)
-    pg (0.15.1)
+    pg (0.17.1)
     polyglot (0.3.3)
     prototype-rails (3.2.1)
       rails (~> 3.2)
@@ -392,7 +392,7 @@ DEPENDENCIES
   factory_girl_rails (~> 4.0)
   faker
   globalize
-  gon
+  gon (~> 4.0)
   guard-cucumber
   guard-rspec
   guard-test
@@ -405,14 +405,13 @@ DEPENDENCIES
   json_spec
   launchy (~> 2.3.0)
   letter_opener (~> 1.0.0)
-  mocha (~> 0.13.1)
   multi_json
   mysql2 (~> 0.3.11)
   net-ldap (~> 0.2.2)
   object-daddy (~> 1.1.0)
   oj
   openproject-ui_components!
-  pg
+  pg (~> 0.17.1)
   prototype-rails
   prototype_legacy_helper (= 0.0.0)!
   pry-byebug

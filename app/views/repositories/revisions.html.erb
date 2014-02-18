@@ -27,14 +27,16 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div class="contextual">
-<%= form_tag({:action => 'revision', :id => @project}) do %>
-<%= l(:label_revision) %>: <%= text_field_tag 'rev', @rev, :size => 8 %>
-<%= submit_tag 'OK' %>
+<% content_for :action_menu_specific do %>
+  <%= form_tag({:action => 'revision', :id => @project}) do %>
+  <%= l(:label_revision) %>: <%= text_field_tag 'rev', @rev, :size => 8 %>
+  <%= submit_tag 'OK' %>
+  <% end %>
 <% end %>
-</div>
 
 <h2><%= l(:label_revision_plural) %></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
 
 <%= render :partial => 'revisions', :locals => {:project => @project, :path => '', :revisions => @changesets, :entry => nil }%>
 

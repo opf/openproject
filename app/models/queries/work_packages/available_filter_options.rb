@@ -112,7 +112,9 @@ module Queries::WorkPackages::AvailableFilterOptions
     role_values = Role.givable.collect {|r| [r.name, r.id.to_s] }
     @available_work_package_filters["assigned_to_role"] = { type: :list_optional, order: 7, values: role_values, name: I18n.t('query_fields.assigned_to_role') } unless role_values.empty?
 
-    @available_work_package_filters["responsible_id"] = { type: :list_optional, order: 4, values: assigned_to_values } unless assigned_to_values.empty?
+    responsible_values = user_values.dup
+    responsible_values = [["<< #{l(:label_me)} >>", "me"]] + responsible_values if User.current.logged?
+    @available_work_package_filters["responsible_id"] = { type: :list_optional, order: 4, values: responsible_values } unless responsible_values.empty?
 
     # watcher filters
     if User.current.logged?
