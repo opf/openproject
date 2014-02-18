@@ -17,6 +17,9 @@ angular.module('openproject.uiComponents')
     },
     userPath: function(id) {
       return '/users/' + id;
+    },
+    workPackagesColumnDataPath: function() {
+      return PathHelper.workPackagesPath() + '/column_data';
     }
   };
 

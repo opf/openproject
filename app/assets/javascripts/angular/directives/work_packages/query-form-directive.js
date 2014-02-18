@@ -1,6 +1,6 @@
 angular.module('openproject.workPackages.directives')
 
-.directive('queryForm', ['WorkPackagesTableHelper', 'QueryService', function(WorkPackagesTableHelper, QueryService) {
+.directive('queryForm', ['WorkPackagesTableHelper', 'WorkPackageService', function(WorkPackagesTableHelper, WorkPackageService) {
 
   return {
     restrict: 'EA',
@@ -18,7 +18,7 @@ angular.module('openproject.workPackages.directives')
 
 
           scope.reloadWorkPackagesTableData = function() {
-            QueryService.getWorkPackages(scope.projectIdentifier, scope.query)
+            WorkPackageService.getWorkPackages(scope.projectIdentifier, scope.query)
               .then(scope.setupWorkPackagesTable);
           };
         }
