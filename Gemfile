@@ -119,16 +119,10 @@ gem 'livingstyleguide'
 # You don't need therubyracer if you have nodejs installed on the machine precompiling assets.
 gem 'therubyracer', :group => :therubyracer
 
-gem "prototype-rails"
-# remove once we no longer use the deprecated "link_to_remote", "remote_form_for" and alike methods
-# replace those with :remote => true
-gem 'prototype_legacy_helper', '0.0.0', :git => 'https://github.com/rails/prototype_legacy_helper.git'
-
 gem 'i18n-js', git: "https://github.com/fnando/i18n-js.git", branch: 'rewrite'
 
 # small wrapper around the command line
 gem 'cocaine'
-
 
 # Security fixes
 # Gems we don't depend directly on, but specify here to make sure we don't use a vulnerable
@@ -139,7 +133,6 @@ gem 'i18n', '>=0.6.8'
 
 gem 'nokogiri', '>=1.5.11'
 # see https://groups.google.com/forum/#!topic/ruby-security-ann/DeJpjTAg1FA
-
 
 group :test do
   gem 'shoulda'
