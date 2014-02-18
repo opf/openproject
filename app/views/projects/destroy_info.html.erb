@@ -33,7 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%=l(:text_project_destroy_confirmation)%>
 
 <% if @project_to_destroy.descendants.any? %>
-<br /><%= l(:text_subprojects_destroy_warning, content_tag('strong', h(@project_to_destroy.descendants.collect{|p| p.to_s}.join(', ')))) %>
+<br /><%= l(:text_subprojects_destroy_warning, content_tag('strong', h(@project_to_destroy.descendants.collect{|p| p.to_s}.join(', ')))).html_safe %>
 <% end %>
 </p>
 <p>
