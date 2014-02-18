@@ -6,12 +6,6 @@ GIT
     i18n-js (3.0.0.rc5)
       i18n
 
-GIT
-  remote: https://github.com/rails/prototype_legacy_helper.git
-  revision: a2cd95c3e3c1a4f7a9566efdab5ce59c886cb05f
-  specs:
-    prototype_legacy_helper (0.0.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -193,8 +187,6 @@ GEM
       railties (~> 3.0)
     pg (0.17.1)
     polyglot (0.3.3)
-    prototype-rails (3.2.1)
-      rails (~> 3.2)
     pry (0.9.12.2)
       coderay (~> 1.0.5)
       method_source (~> 0.8)
@@ -391,8 +383,6 @@ DEPENDENCIES
   object-daddy (~> 1.1.0)
   oj
   pg (~> 0.17.1)
-  prototype-rails
-  prototype_legacy_helper (= 0.0.0)!
   pry-byebug
   pry-debugger
   pry-doc

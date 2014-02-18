@@ -115,11 +115,6 @@ group :assets do
   gem 'jquery-atwho-rails'
 end
 
-gem "prototype-rails"
-# remove once we no longer use the deprecated "link_to_remote", "remote_form_for" and alike methods
-# replace those with :remote => true
-gem 'prototype_legacy_helper', '0.0.0', :git => 'https://github.com/rails/prototype_legacy_helper.git'
-
 gem 'jquery-rails', '~> 2.0.3'
 # branch rewrite has commit 6bfdcd7e14df1efffc00b2bbdf4e14e614d00418 which adds
 # a "magic comment" in the translations.js.erb and somehow breaks i18n-js
