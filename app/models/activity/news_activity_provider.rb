@@ -59,8 +59,9 @@ class Activity::NewsActivityProvider < Activity::BaseActivityProvider
   end
 
   def event_url(event, activity)
-    Rails.application.routes.url_helpers.news_url(url_helper_parameter(event),
-                                                  host: ::Setting.host_name)
+    params = url_helper_parameter(event)
+
+    proc { news_url(params) }
   end
 
   private

@@ -44,7 +44,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
 
     xml.entry do
       if item_event.is_a? Redmine::Acts::ActivityProvider::Event
-        url = item_event.event_url
+        url = item_event.event_url.is_a?(Proc) ? (instance_eval &item_event.event_url) : item_event.event_url
       else
         url = url_for(item_event.event_url(:only_path => false))
       end

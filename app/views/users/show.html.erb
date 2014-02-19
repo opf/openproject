@@ -84,11 +84,12 @@ See doc/COPYRIGHT.rdoc for more details.
         <h4><%= format_activity_day(day) %></h4>
         <dl>
           <% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
+            <% event_url = e.event_url.is_a?(Proc) ? (instance_eval &e.event_url) : e.event_url %>
             <dt class="<%= e.event_type %>">
               <%= icon_wrapper("icon-context icon-#{e.event_type}", e.event_name) %>
               <span class="time"><%= format_time(e.event_datetime, false) %></span>
               <%= content_tag('span', h(e.project), :class => 'project') %>
-              <%= link_to format_activity_title(e.event_title), e.event_url %>
+              <%= link_to format_activity_title(e.event_title), event_url %>
             </dt>
             <dd><span class="description"><%= format_activity_description(e.event_description) %></span></dd>
           <% end -%>
