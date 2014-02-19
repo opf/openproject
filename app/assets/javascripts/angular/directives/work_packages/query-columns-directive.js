@@ -13,7 +13,7 @@ angular.module('openproject.workPackages.directives')
             angular.forEach(columnNames, function(columnName){
               removeColumn(columnName, fromColumns, function(removedColumn){
                 toColumns.push(removedColumn);
-              })
+              });
             });
 
             extendRowsWithColumnData(columnNames);
@@ -34,7 +34,8 @@ angular.module('openproject.workPackages.directives')
           }
 
           function removeColumn(columnName, columns, callback) {
-            callback.call(this, columns.splice(WorkPackagesTableHelper.getColumnIndexByName(columns, columnName), 1).first());
+            var removed = columns.splice(WorkPackagesTableHelper.getColumnIndexByName(columns, columnName), 1).first();
+            return !(typeof(callback) === 'undefined') ? callback.call(this, removed) : null;
           }
 
           function getColumnIndexes(columnNames, columns) {
