@@ -126,16 +126,12 @@ describe ActivitiesController do
         describe 'global' do
           render_views
 
-          before do
-            Setting.stub(:host_name).and_return 'test.host'
-
-            get 'index', format: 'atom'
-          end
+          before { get 'index', format: 'atom' }
 
           it do
             assert_tag tag: 'entry',
                        child: { tag: 'link',
-                                attributes: { href: Regexp.new("http://test.host/work_packages/#{wp_1.id}") } }
+                                attributes: { href: Regexp.new("/work_packages/#{wp_1.id}#") } }
           end
         end
 
