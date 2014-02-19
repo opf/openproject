@@ -16,26 +16,30 @@ angular.module('openproject.services')
       return WorkPackageService.doQuery(url, params);
     },
 
-    loadWorkPackageColumnData: function(workPackages, columnName) {
+    loadWorkPackageColumnsData: function(workPackages, columnNames) {
       var url = PathHelper.workPackagesColumnDataPath();
 
       var params = {
         'ids[]': workPackages.map(function(workPackage){
           return workPackage.id;
         }),
-        column_name: columnName
+        'column_names[]': columnNames
       };
 
       return WorkPackageService.doQuery(url, params);
     },
 
-    augmentWorkPackagesWithColumnData: function(workPackages, column) {
-      var columnName = column.name;
+    augmentWorkPackagesWithColumnsData: function(workPackages, columns) {
+      var columnNames = columns.map(function(column){
+        return column.name;
+      });
 
-      return WorkPackageService.loadWorkPackageColumnData(workPackages, column.name)
-        .then(function(columnData){
-          angular.forEach(workPackages, function(workPackage, index) {
-            WorkPackagesHelper.augmentWorkPackageWithData(workPackage, column.name, !!column.custom_field, columnData[index]);
+      return WorkPackageService.loadWorkPackageColumnsData(workPackages, columnNames)
+        .then(function(columnsData){
+          angular.forEach(workPackages, function(workPackage, i) {
+            angular.forEach(columns, function(column, j){
+              WorkPackagesHelper.augmentWorkPackageWithData(workPackage, column.name, !!column.custom_field, columnsData[j][i]);
+            });
           });
 
           return workPackages;

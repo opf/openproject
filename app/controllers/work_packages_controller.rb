@@ -266,26 +266,27 @@ class WorkPackagesController < ApplicationController
 
   # ------------------- Custom API method -------------------
   # TODO Move to API
-
   def column_data
-    raise 'API Error' unless params[:ids] && params[:column_name]
+    raise 'API Error' unless params[:ids] && params[:column_names]
 
     ids = params[:ids].map(&:to_i)
-    column_name = params[:column_name]
+    column_names = params[:column_names]
 
-    work_packages = WorkPackage.find(*ids).sort {|a,b| ids.index(a.id) <=> ids.index(b.id)}
+    work_packages = Array.wrap(WorkPackage.find(*ids)).sort {|a,b| ids.index(a.id) <=> ids.index(b.id)}
 
-    column = if column_name =~ /cf_(.*)/
-      work_packages.map do |work_package|
-        value = work_package.custom_values.find_by_custom_field_id($1) and value.nil? ? {} : value.attributes
-      end
-    else
-      work_packages.map do |work_package|
-        value = work_package.send(column_name) and value.is_a?(ActiveRecord::Base) ? value.attributes : value
+    columns = column_names.map do |column_name|
+      column = if column_name =~ /cf_(.*)/
+        work_packages.map do |work_package|
+          value = work_package.custom_values.find_by_custom_field_id($1) and value.nil? ? {} : value.attributes
+        end
+      else
+        work_packages.map do |work_package|
+          value = work_package.send(column_name) and value.is_a?(ActiveRecord::Base) ? value.attributes : value
+        end
       end
     end
 
-    render json: column
+    render json: columns
   end
 
   # ---------------------------------------------------------
