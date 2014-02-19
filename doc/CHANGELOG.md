@@ -32,6 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2701` Fix: [Groups] Error message not displayed correctly.
 * `#3725` Fix: Trying to delete a Project without checking "Yes" results in Error
 * `#4175` Fix: Wrong escaping in destroy info
+* `#4654` Activity: Wrong id of work package when time spent
 
 ## 3.0.0pre47
 
