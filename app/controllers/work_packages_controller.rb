@@ -53,7 +53,7 @@ class WorkPackagesController < ApplicationController
   # before_filter :disable_api # TODO re-enable once API is used for any JSON request
   before_filter :not_found_unless_work_package,
                 :project,
-                :authorize, :except => [:index, :column_data]
+                :authorize, :except => [:index, :column_data, :column_sums]
   before_filter :find_optional_project,
                 :protect_from_unauthorized_export, :only => [:index, :all]
   before_filter :load_query, :only => :index
@@ -269,13 +269,36 @@ class WorkPackagesController < ApplicationController
   def column_data
     raise 'API Error' unless params[:ids] && params[:column_names]
 
-    ids = params[:ids].map(&:to_i)
     column_names = params[:column_names]
-
+    ids = params[:ids].map(&:to_i)
     work_packages = Array.wrap(WorkPackage.find(*ids)).sort {|a,b| ids.index(a.id) <=> ids.index(b.id)}
 
+    render json: fetch_columns_data(column_names, work_packages)
+  end
+
+  def column_sums
+    # TODO RS: Needs to work for groups, what's the deal?
+    raise 'API Error' unless params[:column_names]
+
+    column_names = params[:column_names]
+    project = Project.find_visible(current_user, params[:id])
+    work_packages = project.work_packages
+
+    sums = column_names.map do |column_name|
+      column_is_numeric?(column_name) ? fetch_column_data(column_name, work_packages).map{|c| c.nil? ? 0 : c}.sum : nil
+    end
+
+    render json: sums
+  end
+
+  def fetch_columns_data(column_names, work_packages)
     columns = column_names.map do |column_name|
-      column = if column_name =~ /cf_(.*)/
+      fetch_column_data(column_name, work_packages)
+    end
+  end
+
+  def fetch_column_data(column_name, work_packages)
+    column = if column_name =~ /cf_(.*)/
         work_packages.map do |work_package|
           value = work_package.custom_values.find_by_custom_field_id($1) and value.nil? ? {} : value.attributes
         end
@@ -284,10 +307,17 @@ class WorkPackagesController < ApplicationController
           value = work_package.send(column_name) and value.is_a?(ActiveRecord::Base) ? value.attributes : value
         end
       end
-    end
-
-    render json: columns
   end
+
+  def column_is_numeric?(column_name)
+    # TODO RS: We want to leave out ids even though they are numeric
+    [:integer, :float].include? column_type(column_name)
+  end
+
+  def column_type(column_name)
+    column_name =~ /cf_(.*)/ ? CustomField.find($1).field_format.to_sym : (c = WorkPackage.columns_hash[column_name] and c.nil? ? :none : c.type)
+  end
+
 
   # ---------------------------------------------------------
 

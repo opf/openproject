@@ -185,9 +185,10 @@ OpenProject::Application.routes.draw do
       put :archive
       put :unarchive
 
+      get 'column_sums', :controller => 'work_packages'
+
       # Destroy uses a get request to prompt the user before the actual DELETE request
       get :destroy_info, :as => 'confirm_destroy'
-
     end
 
     resource :enumerations, :controller => 'project_enumerations', :only => [:update, :destroy]

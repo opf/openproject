@@ -20,6 +20,9 @@ angular.module('openproject.uiComponents')
     },
     workPackagesColumnDataPath: function() {
       return PathHelper.workPackagesPath() + '/column_data';
+    },
+    workPackagesSumsPath: function(projectIdentifier) {
+      return PathHelper.projectPath(projectIdentifier) + '/column_sums';
     }
   };
 

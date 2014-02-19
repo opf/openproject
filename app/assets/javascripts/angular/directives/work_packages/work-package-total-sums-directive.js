@@ -1,6 +1,6 @@
 angular.module('openproject.workPackages.directives')
 
-.directive('workPackageTotalSums', ['WorkPackagesHelper', function(WorkPackagesHelper) {
+.directive('workPackageTotalSums', ['WorkPackagesHelper', 'WorkPackageService', function(WorkPackagesHelper, WorkPackageService) {
 
   return {
     restrict: 'A',
@@ -14,9 +14,16 @@ angular.module('openproject.workPackages.directives')
             });
           }
 
+          function fetchSums() {
+            WorkPackageService.getWorkPackagesSums(scope.projectIdentifier, scope.columns).then(function(sumsData){
+              scope.sums = sumsData;
+            });
+          }
+
           scope.$watch('columns.length', function() {
             // map columns to sums if the column data is a number
-            calculateSums();
+            // calculateSums();
+            fetchSums();
           });
         }
       };
