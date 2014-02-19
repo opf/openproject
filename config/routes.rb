@@ -39,7 +39,7 @@ OpenProject::Application.routes.draw do
   match '/issues/*rest' => redirect { |params, req| "#{dir}/work_packages/#{URI.escape(params[:rest])}" }
 
   # Redirect wp short url for work packages to full URL
-  match '/wp(/)'    => redirect('/work_packages/')
+  match '/wp(/)'    => redirect('#{dir}/work_packages/')
   match '/wp/*rest' => redirect { |params, req| "#{dir}/work_packages/#{URI.escape(params[:rest])}" }
 
   scope :controller => 'account' do
