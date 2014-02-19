@@ -81,6 +81,12 @@ angular.module('openproject.workPackages.helpers')
       return columns[WorkPackagesTableHelper.getColumnIndexByName(columns, columnName)];
     },
 
+    selectColumnsByName: function(columns, columnNames) {
+      return columns.filter(function(column) {
+        return columnNames.indexOf(column.name) !== -1;
+      });
+    },
+
     moveElementBy: function(array, index, positions) {
       // TODO maybe extend the Array prototype
       var newPosition = index + positions;

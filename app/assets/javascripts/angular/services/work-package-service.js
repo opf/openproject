@@ -7,7 +7,7 @@ angular.module('openproject.services')
 
       var params =  {
         'c[]': query.selectedColumns.map(function(column){
-          return column.name;
+          return columnName;
         }),
         'group_by': query.group_by
       };
@@ -28,7 +28,9 @@ angular.module('openproject.services')
       return WorkPackageService.doQuery(url, params);
     },
 
-    augmentWorkPackagesWithColumnData: function(workPackages, columnName) {
+    augmentWorkPackagesWithColumnData: function(workPackages, column) {
+      var columnName = column.name;
+
       return WorkPackageService.loadWorkPackageColumnData(workPackages, columnName)
         .then(function(columnData){
           angular.forEach(workPackages, function(workPackage, index) {
