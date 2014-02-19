@@ -10,9 +10,10 @@ angular.module('openproject.workPackages.directives')
       return {
         pre: function(scope) {
           scope.moveColumns = function (columnNames, fromColumns, toColumns) {
-
-            angular.forEach(getColumnIndexes(columnNames, fromColumns), function(index) {
-              toColumns.push(fromColumns.splice(index, 1).first());
+            angular.forEach(columnNames, function(columnName){
+              removeColumn(columnName, fromColumns, function(removedColumn){
+                toColumns.push(removedColumn);
+              });
             });
 
             extendRowsWithColumnData(columnNames);
@@ -30,10 +31,10 @@ angular.module('openproject.workPackages.directives')
             });
           }
 
-          scope.moveSelectedColumnBy = function(by) {
-            var nameOfColumnToBeMoved = scope.markedSelectedColumns.first();
-            WorkPackagesTableHelper.moveColumnBy(scope.columns, nameOfColumnToBeMoved, by);
-          };
+          function removeColumn(columnName, columns, callback) {
+            var removed = columns.splice(WorkPackagesTableHelper.getColumnIndexByName(columns, columnName), 1).first();
+            return !(typeof(callback) === 'undefined') ? callback.call(this, removed) : null;
+          }
 
           function getColumnIndexes(columnNames, columns) {
             return columnNames
