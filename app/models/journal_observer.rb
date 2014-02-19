@@ -46,10 +46,8 @@ class JournalObserver < ActiveRecord::Observer
       recipients = issue.recipients + issue.watcher_recipients
       users = User.find_all_by_mails(recipients.uniq)
       users.each do |user|
-        mail = UserMailer.work_package_updated(user, journal, User.current)
-        mail.deliver
-
-        # Delayed::Job.enqueue DeliverEmailJob.new(mail)
+        job = DeliverWorkPackageUpdatedJob.new(user.id, journal.id, User.current.id)
+        Delayed::Job.enqueue job
       end
     end
   end
