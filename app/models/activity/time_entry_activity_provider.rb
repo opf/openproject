@@ -65,7 +65,7 @@ class Activity::TimeEntryActivityProvider < Activity::BaseActivityProvider
   end
 
   def work_package_title(event)
-    Activity::WorkPackageActivityProvider.work_package_title(event['journable_id'],
+    Activity::WorkPackageActivityProvider.work_package_title(event['work_package_id'],
                                                              event['work_package_subject'],
                                                              event['type_name'],
                                                              event['status_name'],
