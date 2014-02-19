@@ -19,13 +19,15 @@ angular.module('openproject.workPackages.directives')
           };
 
           function extendRowsWithColumnData(columnNames) {
+            var newColumns = WorkPackagesTableHelper.selectColumnsByName(scope.columns, columnNames);
+
             // work package rows
-            angular.forEach(columnNames, function(columnName){
+            angular.forEach(newColumns, function(column){
               WorkPackageService.augmentWorkPackagesWithColumnData(
                 scope.rows.map(function(row) {
                   return row.object;
                 }),
-                columnName
+                column
               );
             });
           }
