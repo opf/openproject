@@ -55,6 +55,7 @@ JS
         format.html { redirect_to settings_project_path(@project, :tab => 'members') }
 
         format.js {
+          @pagination_url_options = {controller: 'projects', action: 'settings', id: @project}
           render(:update) {|page|
             page.replace_html "tab-content-members", :partial => 'projects/settings/members'
             page.insert_html :top, "tab-content-members", render_flash_messages
@@ -64,6 +65,7 @@ JS
         }
       else
         format.js {
+          @pagination_url_options = {controller: 'projects', action: 'settings', id: @project}
           render(:update) {|page|
             if params[:member]
               page.insert_html :top, "tab-content-members", :partial => "members/member_errors", :locals => {:member => members.first}
@@ -105,7 +107,9 @@ JS
     end
     respond_to do |format|
       format.html { redirect_to :controller => '/projects', :action => 'settings', :tab => 'members', :id => @project }
-      format.js { render(:update) {|page|
+      format.js {
+          @pagination_url_options = {controller: 'projects', action: 'settings', id: @project}
+          render(:update) {|page|
           page.replace_html "tab-content-members", :partial => 'projects/settings/members'
           page << TAB_SCRIPTS
         }
