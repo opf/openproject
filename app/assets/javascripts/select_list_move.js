@@ -61,8 +61,7 @@ function moveOptionDown(selectionId) {
   swapOptions(selectedOptions, selectedOptions.next());
 }
 
-function selectAllOptions(id)
-{
+function selectAllOptions(id) {
   jQuery("#" + id + " option").attr('selected',true);
 }
 
