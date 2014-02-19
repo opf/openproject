@@ -601,6 +601,8 @@ de:
     label_collapse_all: "Alle zuklappen"
     label_expand_all: "Alle aufklappen"
     label_menu_item_toggle: "Untermenüpunkte ein-/ausblenden"
+    label_menu_collapse: "ausblenden"
+    label_menu_expand: "einblenden"
     tl_toolbar:
       zooms: "Zoomstufe"
       outlines: "Hierarchie-Stufe"
