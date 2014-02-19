@@ -79,7 +79,7 @@ class Activity::ChangesetActivityProvider < Activity::BaseActivityProvider
   def event_path(event, activity)
     params = url_helper_parameter(event)
 
-    proc { revisions_project_repository_path(params) }
+    proc { Rails.application.routes.url_helpers.revisions_project_repository_path(params) }
   end
 
   def event_url(event, activity)
