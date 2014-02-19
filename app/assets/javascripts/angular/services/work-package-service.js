@@ -8,7 +8,7 @@ angular.module('openproject.services')
 
       var params =  {
         'c[]': query.selectedColumns.map(function(column){
-          return columnName;
+          return column.name;
         }),
         'group_by': query.group_by
       };
