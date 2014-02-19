@@ -1,5 +1,5 @@
 // global
-angular.module('openproject.services', []);
+angular.module('openproject.services', ['openproject.uiComponents']);
 
 // timelines
 angular.module('openproject.timelines', ['openproject.timelines.controllers', 'openproject.timelines.directives', 'openproject.uiComponents']);

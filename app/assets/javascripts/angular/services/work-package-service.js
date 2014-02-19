@@ -1,7 +1,8 @@
 angular.module('openproject.services')
 
-.service('WorkPackageService', ['$http', 'PathHelper', function($http, PathHelper){
-  WorkPackageService = {
+.service('WorkPackageService', ['$http', 'PathHelper', 'WorkPackagesHelper', function($http, PathHelper, WorkPackagesHelper) {
+
+  var WorkPackageService = {
     getWorkPackages: function(projectId, query) {
       var url = projectId ? PathHelper.projectWorkPackagesPath(projectId) : PathHelper.workPackagesPath();
 
@@ -31,10 +32,10 @@ angular.module('openproject.services')
     augmentWorkPackagesWithColumnData: function(workPackages, column) {
       var columnName = column.name;
 
-      return WorkPackageService.loadWorkPackageColumnData(workPackages, columnName)
+      return WorkPackageService.loadWorkPackageColumnData(workPackages, column.name)
         .then(function(columnData){
           angular.forEach(workPackages, function(workPackage, index) {
-            workPackage[columnName] = columnData[index];
+            WorkPackagesHelper.augmentWorkPackageWithData(workPackage, column.name, !!column.custom_field, columnData[index]);
           });
 
           return workPackages;

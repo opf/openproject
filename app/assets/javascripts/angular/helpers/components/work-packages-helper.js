@@ -14,7 +14,21 @@ angular.module('openproject.uiComponents')
       }
     },
 
+    augmentWorkPackageWithData: function(workPackage, attributeName, isCustomValue, data) {
+      if (isCustomValue && data) {
+        if (workPackage.custom_values) {
+          workPackage.custom_values.push(data);
+        } else {
+          workPackage.custom_values = [data];
+        }
+      } else {
+        workPackage[attributeName] = data;
+      }
+    },
+
     getRowObjectCustomValue: function(object, customField) {
+      if (!object.custom_values) return null;
+
       var customValue = object.custom_values.filter(function(customValue){
         return customValue.custom_field_id === customField.id;
       }).first();
