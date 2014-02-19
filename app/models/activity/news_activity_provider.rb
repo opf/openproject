@@ -53,7 +53,9 @@ class Activity::NewsActivityProvider < Activity::BaseActivityProvider
   end
 
   def event_path(event, activity)
-    Rails.application.routes.url_helpers.news_path(url_helper_parameter(event))
+    params = url_helper_parameter(event)
+
+    proc { news_path(params) }
   end
 
   def event_url(event, activity)

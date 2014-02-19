@@ -66,7 +66,9 @@ class Activity::MessageActivityProvider < Activity::BaseActivityProvider
   end
 
   def event_path(event, activity)
-    Rails.application.routes.url_helpers.topic_path(*url_helper_parameter(event))
+    params = url_helper_parameter(event)
+
+    proc { topic_path(*params) }
   end
 
   def event_url(event, activity)
