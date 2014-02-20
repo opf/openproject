@@ -19,6 +19,11 @@ angular.module('openproject.workPackages.directives')
             extendRowsWithColumnData(columnNames);
           };
 
+          scope.moveSelectedColumnBy = function(by) {
+            var nameOfColumnToBeMoved = scope.markedSelectedColumns.first();
+            WorkPackagesTableHelper.moveColumnBy(scope.columns, nameOfColumnToBeMoved, by);
+          };
+
           function extendRowsWithColumnData(columnNames) {
             var workPackages = scope.rows.map(function(row) {
               return row.object;
