@@ -247,7 +247,7 @@ class Timeline < ActiveRecord::Base
   end
 
   def available_project_types
-    ProjectType.find_all_by_id(:all)
+    ProjectType.all
   end
 
   def selected_project_types
