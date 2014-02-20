@@ -35,6 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3798` Fix: Typo leading to internal server error
 * `#4175` Fix: Wrong escaping in destroy info
 * `#4654` Activity: Wrong id of work package when time spent
+* `#4755` Wrong message "project identifier can't be edited"
 
 ## 3.0.0pre47
 
