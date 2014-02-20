@@ -10,9 +10,9 @@ function setExpandStatus(expanderObject) {
 }
 
 function initMainMenuExpandStatus() {
-  jQuery("#main-menu .toggler").each(function(index) {
+  jQuery('#main-menu .toggler').each(function(index) {
     var menu_expander = jQuery(this);
-    var menu_item = menu_expander.parent().find('a.selected');
+    var menu_item = menu_expander.closest('li').find('a.selected');
 
     if (menu_item.length == 1) {
       menu_expander.trigger('click');
