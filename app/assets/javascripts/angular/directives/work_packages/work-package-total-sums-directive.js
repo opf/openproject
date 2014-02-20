@@ -8,12 +8,6 @@ angular.module('openproject.workPackages.directives')
     compile: function(tElement) {
       return {
         pre: function(scope, iElement, iAttrs, controller) {
-          function calculateSums() {
-            scope.sums = scope.columns.map(function(column){
-              return WorkPackagesHelper.getSums(scope.rows, column);
-            });
-          }
-
           function fetchSums() {
             WorkPackageService.getWorkPackagesSums(scope.projectIdentifier, scope.columns).then(function(sumsData){
               scope.sums = sumsData;
@@ -22,7 +16,6 @@ angular.module('openproject.workPackages.directives')
 
           scope.$watch('columns.length', function() {
             // map columns to sums if the column data is a number
-            // calculateSums();
             fetchSums();
           });
         }

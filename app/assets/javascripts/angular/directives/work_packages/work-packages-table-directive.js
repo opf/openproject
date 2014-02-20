@@ -13,7 +13,9 @@ angular.module('openproject.workPackages.directives')
       countByGroup: '=',
       groupBy: '=',
       groupByColumn: '=',
-      displaySums: '='
+      displaySums: '=',
+      totalSums: '=',
+      groupSums: '='
     },
     link: function(scope, element, attributes) {
       scope.I18n = I18n;

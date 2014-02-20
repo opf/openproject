@@ -40,6 +40,8 @@ See doc/COPYRIGHT.rdoc for more details.
                          group-by-column="groupByColumn"
                          count-by-group="workPackageCountByGroup"
                          display-sums="query.display_sums"
+                         total-sums="totalSums"
+                         group-sums="groupSums"
                          class="list issues">
     </work-packages-table>
 
@@ -136,7 +138,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
                   <% query.columns.each do |column| %>
                     <td>
-                      <%= results.mapping_for(column).call(results.grouped_sum_of(column)) %>
+                      <%= results.mapping_for(column).call(results.grouped_sum_of_issue(column)) %>
                     </td>
                   <% end %>
                 </tr>

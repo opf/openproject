@@ -32,6 +32,8 @@ angular.module('openproject.workPackages.controllers')
   $scope.setupWorkPackagesTable = function(json) {
     $scope.workPackageCountByGroup = json.work_package_count_by_group;
     $scope.rows = WorkPackagesTableHelper.getRows(json.work_packages, $scope.groupBy);
+    $scope.totalSums = json.sums;
+    $scope.groupSums = json.group_sums;
   };
 
   // Initially setup scope via gon

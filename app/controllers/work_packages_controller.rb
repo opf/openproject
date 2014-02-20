@@ -532,7 +532,9 @@ class WorkPackagesController < ApplicationController
   def get_results_as_json(results, work_packages)
     {
       work_package_count_by_group:  results.work_package_count_by_group,
-      work_packages:                get_work_packages_as_json(work_packages, @query.columns)
+      work_packages:                get_work_packages_as_json(work_packages, @query.columns),
+      sums:                         @query.columns.map { |column| results.total_sum_of(column) },
+      group_sums:                   @query.group_by_column && @query.columns.map { |column| results.grouped_sums(column) }
     }
   end
 

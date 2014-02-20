@@ -10,19 +10,16 @@ angular.module('openproject.workPackages.directives')
         pre: function(scope, iElement, iAttrs, controller) {
           scope.currentGroup = scope.row.groupName;
 
-          var rowsInCurrentGroup = scope.rows.filter(function(row){
-            return row.groupName === scope.currentGroup;
-          });
-
-          function calculateSums() {
-            scope.sums = scope.columns.map(function(column){
-              return WorkPackagesHelper.getSums(rowsInCurrentGroup, column);
+          function setSums() {
+            if(scope.groupSums == null) return;
+            scope.sums = scope.groupSums.map(function(groupSum){
+              return groupSum[scope.currentGroup];
             });
           }
 
-          scope.$watch('columns.length', function() {
+          scope.$watch('groupSums.length', function() {
             // map columns to sums if the column data is a number
-            calculateSums();
+            setSums();
           });
 
         }
