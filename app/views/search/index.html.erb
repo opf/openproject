@@ -63,12 +63,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
     <dl id="search-results">
       <% @results.each do |e| %>
+        <% event_url = e.event_url.is_a?(Proc) ? (instance_eval &e.event_url) : e.event_url %>
         <dt class="<%= e.event_type %>">
           <%= icon_wrapper("icon-context icon-#{e.event_type}", e.event_name) %>
           <% if e.project != @project %>
             <span class="project"><%= e.project %></span>
           <% end %>
-          <%= link_to highlight_tokens(truncate(e.event_title, :length => 255), @tokens), e.event_url %>
+          <%= link_to highlight_tokens(truncate(e.event_title, :length => 255), @tokens), event_url %>
         </dt>
         <dd><span class="description"><%= highlight_tokens(e.event_description, @tokens) %></span>
         <span class="author"><%= format_time(e.event_datetime) %></span></dd>

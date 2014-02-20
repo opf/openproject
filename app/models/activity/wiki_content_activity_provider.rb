@@ -59,12 +59,15 @@ class Activity::WikiContentActivityProvider < Activity::BaseActivityProvider
   end
 
   def event_path(event, activity)
-    Rails.application.routes.url_helpers.project_wiki_path(*url_helper_parameter(event))
+    params = url_helper_parameter(event)
+
+    proc { project_wiki_path(*params) }
   end
 
   def event_url(event, activity)
-    Rails.application.routes.url_helpers.project_wiki_url(*url_helper_parameter(event),
-                                                          host: ::Setting.host_name)
+    params = url_helper_parameter(event)
+
+    proc { project_wiki_url(*params) }
   end
 
   private
