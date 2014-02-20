@@ -54,6 +54,16 @@ module Queries::WorkPackages::AvailableFilterOptions
       estimated_hours: { type: :integer, order: 13 },
       done_ratio:      { type: :integer, order: 14 }
     }.with_indifferent_access
+
+    add_readable_names_to_work_package_filters @available_work_package_filters
+  end
+
+  def add_readable_names_to_work_package_filters(work_package_filters)
+    work_package_filters.tap do |filters|
+      filters.each do |name, filter|
+        filter.merge! name: WorkPackage.human_attribute_name(name)
+      end
+    end
   end
 
   def add_visible_projects_options
