@@ -118,11 +118,14 @@ jQuery(document).ready(function ($) {
       yearRange: "c-100:c+10",
       dateFormat: 'yy-mm-dd',
       showButtonPanel: true,
-      calculateWeek: function (d) {
-        if (d.getDay() != 1) {
-          d.setDate(d.getDate() - d.getDay() + 1);
+      calculateWeek: function (day) {
+        var dayOfWeek = new Date(+day);
+
+        if (day.getDay() != 1) {
+          dayOfWeek.setDate(day.getDate() - day.getDay() + 1);
         }
-        return $.datepicker.iso8601Week(d);
+
+        return $.datepicker.iso8601Week(dayOfWeek);
       }
     };
 
