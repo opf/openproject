@@ -58,7 +58,7 @@ module Api
 
       def create
         @planning_element = @project.work_packages.build
-        @planning_element.update_attributes(permitted_params.planning_element)
+        @planning_element.update_attributes(permitted_params.planning_element.except :note)
 
         # The planning_element inherits from workpackage, which requires an author.
         # Using the current_user also satisfies this demand for API-calls
