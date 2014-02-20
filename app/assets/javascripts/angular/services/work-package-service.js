@@ -6,14 +6,7 @@ angular.module('openproject.services')
     getWorkPackages: function(projectId, query) {
       var url = projectId ? PathHelper.projectWorkPackagesPath(projectId) : PathHelper.workPackagesPath();
 
-      var params =  {
-        'c[]': query.selectedColumns.map(function(column){
-          return column.name;
-        }),
-        'group_by': query.group_by
-      };
-
-      return WorkPackageService.doQuery(url, params);
+      return WorkPackageService.doQuery(url, query.toParams());
     },
 
     loadWorkPackageColumnsData: function(workPackages, columnNames) {

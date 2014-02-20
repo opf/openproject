@@ -1,5 +1,6 @@
 // global
 angular.module('openproject.services', ['openproject.uiComponents']);
+angular.module('openproject.models', []);
 
 // timelines
 angular.module('openproject.timelines', ['openproject.timelines.controllers', 'openproject.timelines.directives', 'openproject.uiComponents']);
@@ -13,7 +14,7 @@ angular.module('openproject.timelines.directives', ['openproject.timelines.model
 angular.module('openproject.workPackages', ['openproject.workPackages.controllers', 'openproject.workPackages.filters', 'openproject.workPackages.directives']);
 angular.module('openproject.workPackages.helpers', ['openproject.uiComponents']);
 angular.module('openproject.workPackages.filters', ['openproject.workPackages.helpers']);
-angular.module('openproject.workPackages.controllers', ['openproject.workPackages.helpers']);
+angular.module('openproject.workPackages.controllers', ['openproject.models', 'openproject.workPackages.helpers']);
 angular.module('openproject.workPackages.directives', ['openproject.uiComponents', 'openproject.services']);
 
 // main app

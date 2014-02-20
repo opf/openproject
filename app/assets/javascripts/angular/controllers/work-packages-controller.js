@@ -1,6 +1,6 @@
 angular.module('openproject.workPackages.controllers')
 
-.controller('WorkPackagesController', ['$scope', 'WorkPackagesTableHelper', function($scope, WorkPackagesTableHelper) {
+.controller('WorkPackagesController', ['$scope', 'WorkPackagesTableHelper', 'Query', function($scope, WorkPackagesTableHelper, Query) {
 
   $scope.$watch('groupBy', function() {
     var groupByColumnIndex = $scope.columns.map(function(column){
@@ -17,7 +17,7 @@ angular.module('openproject.workPackages.controllers')
   }
 
   function setupQuery() {
-    $scope.query = gon.query;
+    $scope.query = new Query(gon.query);
 
     // Columns
     $scope.columns = gon.columns;

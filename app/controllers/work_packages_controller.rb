@@ -495,7 +495,7 @@ class WorkPackagesController < ApplicationController
     # TODO later versions of gon support gon.push {Hash} - on the other hand they make it harder to deliver data to gon inside views
   end
 
-  # data structures
+  # filter information
 
   def get_operators_and_labels_by_filter_type
     Queries::Filter.operators_by_filter_type.inject({}) do |hash, (type, operators)|
@@ -508,6 +508,8 @@ class WorkPackagesController < ApplicationController
       operators_with_labels.merge(operator => I18n.t(Queries::Filter.operators[operator]))
     end
   end
+
+  # query
 
   def get_query_and_results_as_json(results, work_packages)
     get_results_as_json(results, work_packages).merge(
@@ -542,6 +544,8 @@ class WorkPackagesController < ApplicationController
       }
     end
   end
+
+  # work packages
 
   def get_work_packages_as_json(work_packages, selected_columns=[])
     attributes_to_be_displayed = default_work_package_attributes +
