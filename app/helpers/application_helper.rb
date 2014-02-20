@@ -1033,14 +1033,6 @@ module ApplicationHelper
     end
   end
 
-  # Expands the current menu item using JavaScript based on the params
-  def expand_current_menu
-    javascript_tag do
-      raw "jQuery.menu_expand({ item: jQuery('#main-menu .selected').parents('#main-menu li').last().find('a').first() });"
-    end
-  end
-
-
   def disable_accessibility_css!
     @accessibility_css_disabled = true
   end

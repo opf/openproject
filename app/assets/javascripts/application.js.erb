@@ -41,7 +41,6 @@
 //= require jquery
 //= require jquery.ui.all
 //= require jquery-ui-i18n
-//= require jquery.menu_expand
 //= require jquery.atwho
 //= require jquery_ujs
 //= require jquery_noconflict
@@ -1269,6 +1268,7 @@ var activateFlash = function() {
   flashMessage.show();
 }
 
+jQuery(document).ready(initMainMenuExpandStatus);
 jQuery(document).ready(activateError);
 jQuery(document).ready(function () {
   activateFlash();
