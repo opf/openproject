@@ -30,8 +30,11 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#2701` Fix: [Groups] Error message not displayed correctly.
+* `#3217` Fix: [Project settings] Page not found when adding/deleting members and clicking pagination
 * `#3725` Fix: Trying to delete a Project without checking "Yes" results in Error
+* `#3798` Fix: Typo leading to internal server error
 * `#4175` Fix: Wrong escaping in destroy info
+* `#4654` Activity: Wrong id of work package when time spent
 
 ## 3.0.0pre47
 

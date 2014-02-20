@@ -46,6 +46,6 @@ class ReportedProjectStatus < Enumeration
   end
 
   def transfer_relations(to)
-    reportings.update.all(:reported_project_status_id => to.id)
+    reportings.update_all(:reported_project_status_id => to.id)
   end
 end
