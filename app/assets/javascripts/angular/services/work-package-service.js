@@ -29,6 +29,21 @@ angular.module('openproject.services')
       return WorkPackageService.doQuery(url, params);
     },
 
+    // Note: Should this be on a project-service?
+    getWorkPackagesSums: function(projectId, columns){
+      var columnNames = columns.map(function(column){
+        return column.name;
+      });
+
+      var url = PathHelper.workPackagesSumsPath(projectId);
+
+      var params = {
+        'column_names[]': columnNames
+      };
+
+      return WorkPackageService.doQuery(url, params);
+    },
+
     augmentWorkPackagesWithColumnsData: function(workPackages, columns) {
       var columnNames = columns.map(function(column){
         return column.name;
