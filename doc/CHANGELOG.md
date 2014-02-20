@@ -38,6 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#4654` Activity: Wrong id of work package when time spent
 * `#4722` Wrong weekday in date picker
 * `#4755` Wrong message "project identifier can't be edited"
+* `#4761` Internal error when creating or editing timeline in accessibility mode
 * `#4762` List of watchers displayed twice when creating a work package
 
 ## 3.0.0pre47
