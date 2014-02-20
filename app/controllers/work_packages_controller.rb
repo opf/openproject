@@ -273,7 +273,7 @@ class WorkPackagesController < ApplicationController
     ids = params[:ids].map(&:to_i)
     column_names = params[:column_names]
 
-    work_packages = Array.wrap(WorkPackage.find(*ids)).sort {|a,b| ids.index(a.id) <=> ids.index(b.id)}
+    work_packages = Array.wrap(WorkPackage.visible.find(*ids)).sort {|a,b| ids.index(a.id) <=> ids.index(b.id)}
 
     columns = column_names.map do |column_name|
       column = if column_name =~ /cf_(.*)/
