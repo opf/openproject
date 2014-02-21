@@ -43,6 +43,7 @@
                          ng-switch="query.getFilterType(filter.name)">
                       <input ng-switch-when="string"
                              ng-model="filter.values"
+                             ng-minlength="3"
                              class="select-small"
                              id="values_{{filter.name}}"
                              name="v[{{filter.name}}][]"
@@ -57,6 +58,7 @@
 
                       <input ng-switch-when="text"
                              ng-model="filter.values"
+                             ng-minlength="3"
                              class="select-small"
                              id="values_{{filter.name}}"
                              name="v[{{filter.name}}][]"
