@@ -1,5 +1,7 @@
 # Changelog
 
+* `#2755` Internal error when exporting empty work package list
+
 ## 1.0.0.pre4
 
 * `#2267` Rename view issue hooks
