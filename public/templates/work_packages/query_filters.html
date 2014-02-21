@@ -1,0 +1,130 @@
+<fieldset id="filters" class="header_collapsible collapsible">
+  <legend ng-click="showFilters = !showFilters" title="{{showFilters && 'Hide' || 'Show'}} filters">
+    <a href="javascript:">Filters</a>
+  </legend>
+
+  <div ng-show="showFilters" class="filter-fields">
+
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td>
+
+            <table>
+              <tbody>
+                <tr query-filter
+                    ng-repeat="filter in query.filters"
+                    ng-show="true"
+                    id="tr_{{filter.name}}"
+                    class="filter">
+
+                  <!-- Name -->
+                  <td style="width:200px;">
+                    {{query.available_work_package_filters[filter.name].name}}
+                  </td>
+
+                  <!-- Operator -->
+                  <td style="width:150px;">
+                    <label class="hidden-for-sighted" for="operators_{{filter.name}}">Filter</label>
+                    <select class="select-small"
+                            id="operators_{{filter.name}}"
+                            name="op[{{filter.name}}]"
+                            ng-options="operator as label for (operator, label) in operatorsAndLabelsByFilterType[query.getFilterType(filter.name)]"
+                            ng-model="filter.operator"
+                            style="vertical-align: top;">
+                    </select>
+                  </td>
+
+                  <!-- Values -->
+                  <td>
+                    <div id="div_values_{{filter.name}}"
+                         ng-if="showValuesInput && !showValueOptionsAsSelect"
+                         ng-switch="query.getFilterType(filter.name)">
+                      <input ng-switch-when="string"
+                             class="select-small"
+                             id="values_{{filter.name}}"
+                             name="v[{{filter.name}}][]"
+                             size="30"
+                             type="text"
+                             value=""/>
+                      <label ng-switch-when="string"
+                             for="values_{{name}}"
+                             class="hidden-for-sighted">
+                             Enter text
+                      </label>
+
+                      <input ng-switch-when="text"
+                             class="select-small"
+                             id="values_{{filter.name}}"
+                             name="v[{{filter.name}}][]"
+                             size="30"
+                             type="text"
+                             value=""/>
+                      <label ng-switch-when="'text'"for="values_{{name}}" class="hidden-for-sighted">Enter text</label>
+
+                      <input ng-switch-when="integer"
+                             class="select-small"
+                             id="values_{{filter.name}}"
+                             name="v[{{filter.name}}][]"
+                             size="3"
+                             type="text"
+                             value=""/>
+                      <label ng-switch-when="'integer'" for="values_{{name}}" class="hidden-for-sighted">Enter number</label>
+
+                      <input ng-switch-when="date"
+                             class="select-small"
+                             id="values_{{filter.name}}"
+                             name="v[{{filter.name}}][]"
+                             size="3"
+                             type="text"/>
+                      <label ng-switch-when="'date'" for="values_{{name}}" class="hidden-for-sighted">days</label>
+
+                      <input ng-switch-when="date_past"
+                             class="select-small"
+                             id="values_{{filter.name}}"
+                             name="v[{{filter.name}}][]"
+                             size="3"
+                             type="text"/>
+                      <label ng-switch-when="'date'" for="values_{{name}}" class="hidden-for-sighted">days</label>
+
+                    </div>
+
+                    <div ng-if="showValuesInput && showValueOptionsAsSelect">
+                      <select name="v[{{filter.name}}][]"
+                              ng-model="filter.values"
+                              id="values_{{filter.name}}"
+                              class="select-small"
+                              style="vertical-align: top;"
+                              ng-options="value[1] as value[0] for value in query.getAvailableFilterValues(filter.name)"/>
+                      <a alt="Toggle multiselect" href="#" style="vertical-align: bottom;" title="Toggle multiselect">
+                        <img alt="Bullet_toggle_plus" src="/assets/bullet_toggle_plus.png"/>
+                      </a>
+
+                    </div>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </td>
+
+          <td class="add-filter">
+
+            <label for="add_filter_select">Add filter</label>:
+            <select class="select-small"
+                    id="add_filter_select"
+                    ng-change="add_filter()"
+                    ng-model="filterToBeAdded"
+                    ng-options="filterName as filterOptions.name || filterName for (filterName, filterOptions) in query.available_work_package_filters"/>
+            </select>
+            <!-- TODO options | orderObjectBy: 'order' -->
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+
+    <input id="f_" name="f[]" type="hidden" value=""/>
+
+  </div>
+</fieldset>

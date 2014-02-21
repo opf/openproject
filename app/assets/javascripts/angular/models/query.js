@@ -11,7 +11,7 @@ angular.module('openproject.models')
   Query.prototype = {
     toParams: function() {
       return {
-        'c[]': this.selectedColumns.map(function(column){
+        'c[]': this.selectedColumns.map(function(column) {
           return column.name;
          }),
         'group_by': this.group_by
@@ -49,10 +49,7 @@ angular.module('openproject.models')
     },
 
     getAvailableFilterValues: function(filterName) {
-      var availableValues = this.available_work_package_filters[filterName].values;
-      if (availableValues) {
-        return availableValues.map(function(value){ return value.first() });
-      }
+      return this.available_work_package_filters[filterName].values;
     },
 
     getFilterType: function(filterName) {
