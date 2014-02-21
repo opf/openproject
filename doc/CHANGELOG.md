@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#1390` Fix: Deleting Issue Categories from a project - route not defined
 * `#2701` Fix: [Groups] Error message not displayed correctly.
 * `#3217` Fix: [Project settings] Page not found when adding/deleting members and clicking pagination
 * `#3725` Fix: Trying to delete a Project without checking "Yes" results in Error
