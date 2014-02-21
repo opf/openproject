@@ -1,85 +1,57 @@
-<%= form_tag({ :controller => '/queries', :action => 'new' }, :id => 'query_form') do %>
+<%= form_tag({ controller: '/queries', action: 'new' }, id: 'query_form', name: 'queryForm') do %>
   <%= hidden_field_tag('project_id', project.to_param) if project %>
   <div id="query_form_content" class="hide-when-print">
-    <fieldset id="filters" class="header_collapsible collapsible <%= query.new_record? ? "" : "collapsed" %>">
-      <legend title="<%=l(:description_filter_toggle)%>", onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_filter_plural) %></a></legend>
-      <div class="filter-fields" style="<%= query.new_record? ? "" : "display: none;" %>">
-        <%= render :partial => 'queries/filters', :locals => {:query => query} %>
-      </div>
-    </fieldset>
 
-    <query-filters/>
+    <query-filters></query-filters>
 
-    <!-- options -->
+    <!-- options angular, under construction -->
 
-    <fieldset id="column_options" class="header_collapsible collapsible collapsed">
-      <legend title="<%=l(:description_option_toggle)%>", onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_options) %></a></legend>
-      <div style="display: none;">
-        <table>
-          <tr>
-            <td><%= Query.human_attribute_name(:column_names) %></td>
-          </tr>
-          <tr>
-            <td><label for='group_by'><%= Query.human_attribute_name(:group_by) %></label></td>
-            <td><%= select_tag('group_by', options_for_select([[]] + query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, query.group_by)) %></td>
-          </tr>
-          <% if query.any_summable_columns? %>
+    <fieldset query-form id="column_options" class="header_collapsible collapsible collapsed">
+      <legend title="<%= l(:description_option_toggle) %>", ng-click="showQueryOptions = !showQueryOptions"><a ng-href=""><%= l(:label_options) %></a></legend>
+
+      <div ng-show="showQueryOptions">
+        <table style="">
+          <tbody>
             <tr>
-              <td><%= label_tag :display_sums, Query.human_attribute_name(:display_sums) %></td>
-              <td><%= check_box_tag :display_sums, 1, query.display_sums? %></td>
+              <td><%= Query.human_attribute_name(:column_names) %></td>
+
+              <td>
+
+                <query-columns></query-columns>
+
+                <%-# call_hook(:view_issue_query_form_options_bottom, :query => query) %>
+
+              </td>
             </tr>
-          <% end %>
+            <tr>
+              <td><label for="group_by">Group results by</label></td>
+              <td>
+                <select id="group_by"
+                        name="group_by"
+                        ng-options="column.name as column.title for column in columns"
+                        ng-model="groupBy">
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td><label for="display_sums">Display Sums</label></td>
+              <td>
+                <input id="display_sums"
+                       name="display_sums"
+                       type="checkbox"
+                       value="1"
+                       ng-model="query.display_sums"/>
+               </td>
+            </tr>
+          </tbody>
         </table>
-        <%= call_hook(:view_issue_query_form_options_bottom, :query => query) %>
       </div>
+
     </fieldset>
+
   </div>
 
 
-  <!-- options angular, under construction -->
-
-  <fieldset query-form id="column_options" class="header_collapsible collapsible collapsed">
-    <legend title="<%= l(:description_option_toggle) %>", ng-click="showQueryOptions = !showQueryOptions"><a ng-href=""><%= l(:label_options) %></a></legend>
-
-    <div ng-show="showQueryOptions">
-      <table style="">
-        <tbody>
-          <tr>
-            <td><%= Query.human_attribute_name(:column_names) %></td>
-
-            <td>
-
-              <query-columns/>
-
-              <!-- end of partial query/columns -->
-
-            </td>
-          </tr>
-          <tr>
-            <td><label for="group_by">Group results by</label></td>
-            <td>
-              <select id="group_by"
-                      name="group_by"
-                      ng-options="column.name as column.title for column in columns"
-                      ng-model="groupBy">
-              </select>
-            </td>
-          </tr>
-          <tr>
-            <td><label for="display_sums">Display Sums</label></td>
-            <td>
-              <input id="display_sums"
-                     name="display_sums"
-                     type="checkbox"
-                     value="1"
-                     ng-model="query.display_sums"/>
-             </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-  </fieldset>
 
 
 
