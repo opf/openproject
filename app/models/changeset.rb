@@ -108,7 +108,7 @@ class Changeset < ActiveRecord::Base
   end
 
   before_create :sanitize_attributes
-  before_create :assign_redmine_user_from_comitter
+  before_create :assign_openproject_user_from_comitter
   after_create :scan_comment_for_work_package_ids
 
   TIMELOG_RE = /
@@ -271,7 +271,7 @@ class Changeset < ActiveRecord::Base
     self.comments  = self.class.normalize_comments(self.comments, repository.repo_log_encoding)
   end
 
-  def assign_redmine_user_from_comitter
+  def assign_openproject_user_from_comitter
     self.user = repository.find_committer_user(self.committer)
   end
 
