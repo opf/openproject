@@ -117,7 +117,7 @@
                     id="add_filter_select"
                     ng-change="add_filter()"
                     ng-model="filterToBeAdded"
-                    ng-options="filterName as filterOptions.name || filterName for (filterName, filterOptions) in query.available_work_package_filters"/>
+                    ng-options="filterName as filterOptions.name || filterName for (filterName, filterOptions) in (query.available_work_package_filters | subtractFilters:query.filters)"/>
             </select>
             <!-- TODO options | orderObjectBy: 'order' -->
           </td>
