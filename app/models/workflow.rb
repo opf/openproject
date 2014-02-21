@@ -103,10 +103,12 @@ class Workflow < ActiveRecord::Base
     else
       transaction do
         delete_all :type_id => target_type.id, :role_id => target_role.id
-        connection.insert "INSERT INTO #{Workflow.table_name} (type_id, role_id, old_status_id, new_status_id)" +
-                          " SELECT #{target_type.id}, #{target_role.id}, old_status_id, new_status_id" +
-                          " FROM #{Workflow.table_name}" +
-                          " WHERE type_id = #{source_type.id} AND role_id = #{source_role.id}"
+        connection.insert <<-SQL
+          INSERT INTO #{Workflow.table_name} (type_id, role_id, old_status_id, new_status_id, author, assignee)
+          SELECT #{target_type.id}, #{target_role.id}, old_status_id, new_status_id, author, assignee
+          FROM #{Workflow.table_name}
+          WHERE type_id = #{source_type.id} AND role_id = #{source_role.id}
+        SQL
       end
       true
     end
