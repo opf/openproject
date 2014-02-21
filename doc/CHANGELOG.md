@@ -34,6 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3725` Fix: Trying to delete a Project without checking "Yes" results in Error
 * `#3798` Fix: Typo leading to internal server error
 * `#4175` Fix: Wrong escaping in destroy info
+* `#4186` Long work package subject covers up edit buttons
 * `#4245` When adding a block to MyPage the other blocks are gone
 * `#4654` Activity: Wrong id of work package when time spent
 * `#4722` Wrong weekday in date picker
