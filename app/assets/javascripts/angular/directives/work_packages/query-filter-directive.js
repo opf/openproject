@@ -10,12 +10,10 @@ angular.module('openproject.workPackages.directives')
       scope.showValueOptionsAsSelect = ['list', 'list_optional', 'list_status', 'list_subprojects'].indexOf(scope.query.getFilterType(scope.filter.name)) !== -1;
 
       scope.$watch('filter.operator', function(operator) {
-        if(operator) scope.showValuesInput = requiresValues(operator);
+        if(operator) scope.showValuesInput = scope.filter.requiresValues();
       });
 
-      function requiresValues(operator) {
-        return ['o', 'c', '!*', '*', 't', 'w'].indexOf(operator) === -1;
-      }
+
     }
   };
 }]);

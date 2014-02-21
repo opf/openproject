@@ -1,6 +1,6 @@
 angular.module('openproject.models')
 
-.factory('Query', [function() {
+.factory('Query', ['Filter', function(Filter) {
 
   Query = function (data) {
     angular.extend(this, data);
@@ -36,7 +36,7 @@ angular.module('openproject.models')
       if (filter) {
         filter.deactivated = false;
       } else {
-        this.filters.push(angular.extend({name: filterName}, options));
+        this.filters.push(new Filter(angular.extend({name: filterName}, options)));
       }
     },
 
@@ -57,7 +57,7 @@ angular.module('openproject.models')
     },
 
     getActiveFilters: function() {
-      this.filters.filter(function(filter){
+      return this.filters.filter(function(filter){
         return !filter.deactivated;
       });
     }
