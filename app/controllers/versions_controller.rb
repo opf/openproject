@@ -120,7 +120,7 @@ class VersionsController < ApplicationController
       @version.safe_attributes = attributes
       if @version.save
         flash[:notice] = l(:notice_successful_update)
-        redirect_to :controller => '/projects', :action => 'settings', :tab => 'versions', :id => @project
+        redirect_back_or_default(settings_project_path(tab: 'versions', id: @project))
       else
         respond_to do |format|
           format.html { render :action => 'edit' }
