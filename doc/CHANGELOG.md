@@ -36,6 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#4175` Fix: Wrong escaping in destroy info
 * `#4186` Long work package subject covers up edit buttons
 * `#4245` When adding a block to MyPage the other blocks are gone
+* `#4337` Fix: HTTP 500 when creating WP with note via API
 * `#4654` Activity: Wrong id of work package when time spent
 * `#4722` Wrong weekday in date picker
 * `#4755` Wrong message "project identifier can't be edited"
