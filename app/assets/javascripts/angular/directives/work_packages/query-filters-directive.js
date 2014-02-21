@@ -18,9 +18,9 @@ angular.module('openproject.workPackages.directives')
             }
           });
 
-          scope.query.filters = [new Filter({name: 'status_id', operator: 'o', values: []}),
-                                 new Filter({name: 'subject', operator: '!~', values: []}),
-                                 new Filter({name: 'created_at', operator: 't-', values: []})]; // Mock
+          scope.query.filters = [new Filter({name: 'status_id', operator: 'o', values: undefined}),
+                                 new Filter({name: 'subject', operator: '!~', values: undefined}),
+                                 new Filter({name: 'created_at', operator: 't-', values: undefined})]; // Mock
 
         }
       };

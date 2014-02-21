@@ -27,17 +27,18 @@
                   <td style="width:150px;">
                     <label class="hidden-for-sighted" for="operators_{{filter.name}}">Filter</label>
                     <select class="select-small"
-                            id="operators_{{filter.name}}"
-                            name="op[{{filter.name}}]"
+                            id="operators-{{filter.name}}"
+                            name="op_{{filter.name}}"
                             ng-options="operator as label for (operator, label) in operatorsAndLabelsByFilterType[query.getFilterType(filter.name)]"
                             ng-model="filter.operator"
+                            ng-required
                             style="vertical-align: top;">
                     </select>
                   </td>
 
                   <!-- Values -->
                   <td>
-                    <div id="div_values_{{filter.name}}"
+                    <div id="div-values-{{filter.name}}"
                          ng-if="!showValueOptionsAsSelect"
                          ng-show="showValuesInput"
                          ng-switch="query.getFilterType(filter.name)">
@@ -45,8 +46,8 @@
                              ng-model="filter.values"
                              ng-minlength="3"
                              class="select-small"
-                             id="values_{{filter.name}}"
-                             name="v[{{filter.name}}][]"
+                             id="values-{{filter.name}}"
+                             name="v_{{filter.name}}"
                              size="30"
                              type="text"
                              value=""/>
@@ -60,8 +61,8 @@
                              ng-model="filter.values"
                              ng-minlength="3"
                              class="select-small"
-                             id="values_{{filter.name}}"
-                             name="v[{{filter.name}}][]"
+                             id="values-{{filter.name}}"
+                             name="v_{{filter.name}}"
                              size="30"
                              type="text"
                              value=""/>
@@ -70,8 +71,8 @@
                       <input ng-switch-when="integer"
                              ng-model="filter.values"
                              class="select-small"
-                             id="values_{{filter.name}}"
-                             name="v[{{filter.name}}][]"
+                             id="values-{{filter.name}}"
+                             name="v_{{filter.name}}"
                              size="3"
                              type="text"
                              value=""/>
@@ -80,8 +81,8 @@
                       <input ng-switch-when="date"
                              ng-model="filter.values"
                              class="select-small"
-                             id="values_{{filter.name}}"
-                             name="v[{{filter.name}}][]"
+                             id="values-{{filter.name}}"
+                             name="v_{{filter.name}}"
                              size="3"
                              type="text"/>
                       <label ng-switch-when="'date'" for="values_{{name}}" class="hidden-for-sighted">days</label>
@@ -89,8 +90,8 @@
                       <input ng-switch-when="date_past"
                              ng-model="filter.values"
                              class="select-small"
-                             id="values_{{filter.name}}"
-                             name="v[{{filter.name}}][]"
+                             id="values-{{filter.name}}"
+                             name="v_{{filter.name}}"
                              size="3"
                              type="text"/>
                       <label ng-switch-when="'date'" for="values_{{name}}" class="hidden-for-sighted">days</label>
@@ -99,9 +100,9 @@
 
                     <div ng-if="showValueOptionsAsSelect"
                          ng-show="showValuesInput">
-                      <select name="v[{{filter.name}}][]"
+                      <select name="v_{{filter.name}}"
                               ng-model="filter.values"
-                              id="values_{{filter.name}}"
+                              id="values-{{filter.name}}"
                               class="select-small"
                               style="vertical-align: top;"
                               ng-options="value[1] as value[0] for value in query.getAvailableFilterValues(filter.name)"/>
@@ -125,6 +126,8 @@
             </table>
           </td>
 
+          <!-- Add filters -->
+
           <td class="add-filter">
 
             <label for="add_filter_select">Add filter</label>:
@@ -132,7 +135,9 @@
                     id="add_filter_select"
                     ng-change="add_filter()"
                     ng-model="filterToBeAdded"
-                    ng-options="filterName as filterOptions.name || filterName for (filterName, filterOptions) in (query.available_work_package_filters | subtractActiveFilters:query.filters)"/>
+                    ng-options="filterName as filterOptions.name || filterName
+                                for (filterName, filterOptions)
+                                in (query.available_work_package_filters | subtractActiveFilters:query.filters)"/>
             </select>
             <!-- TODO options | orderObjectBy: 'order' -->
           </td>

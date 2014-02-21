@@ -10,16 +10,21 @@ angular.module('openproject.models')
 
   Query.prototype = {
     toParams: function() {
-      return {
-        'c[]': this.selectedColumns.map(function(column) {
-          return column.name;
-         }),
-        'group_by': this.group_by
-      };
+      return angular.extend.apply(this, [
+        {
+          'f[]': this.getFilterNames(this.getActiveConfiguredFilters()),
+          'c[]': this.selectedColumns.map(function(column) {
+            return column.name;
+           }),
+          'group_by': this.group_by
+        }].concat(this.getActiveConfiguredFilters().map(function(filter) {
+          return filter.toParams();
+        }))
+      );
     },
 
-    getFilterNames: function() {
-      return this.filters.map(function(filter){
+    getFilterNames: function(filters) {
+      return (filters || this.filters).map(function(filter){
         return filter.name;
       });
     },
@@ -59,6 +64,12 @@ angular.module('openproject.models')
     getActiveFilters: function() {
       return this.filters.filter(function(filter){
         return !filter.deactivated;
+      });
+    },
+
+    getActiveConfiguredFilters: function() {
+      return this.getActiveFilters().filter(function(filter){
+        return filter.isConfigured();
       });
     }
   };
