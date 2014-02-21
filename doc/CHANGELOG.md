@@ -34,7 +34,12 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3725` Fix: Trying to delete a Project without checking "Yes" results in Error
 * `#3798` Fix: Typo leading to internal server error
 * `#4175` Fix: Wrong escaping in destroy info
+* `#4245` When adding a block to MyPage the other blocks are gone
 * `#4654` Activity: Wrong id of work package when time spent
+* `#4722` Wrong weekday in date picker
+* `#4755` Wrong message "project identifier can't be edited"
+* `#4761` Internal error when creating or editing timeline in accessibility mode
+* `#4762` List of watchers displayed twice when creating a work package
 
 ## 3.0.0pre47
 
