@@ -38,7 +38,8 @@
                   <!-- Values -->
                   <td>
                     <div id="div_values_{{filter.name}}"
-                         ng-if="showValuesInput && !showValueOptionsAsSelect"
+                         ng-if="!showValueOptionsAsSelect"
+                         ng-show="showValuesInput"
                          ng-switch="query.getFilterType(filter.name)">
                       <input ng-switch-when="string"
                              class="select-small"
@@ -89,7 +90,8 @@
 
                     </div>
 
-                    <div ng-if="showValuesInput && showValueOptionsAsSelect">
+                    <div ng-if="showValueOptionsAsSelect"
+                         ng-show="showValuesInput">
                       <select name="v[{{filter.name}}][]"
                               ng-model="filter.values"
                               id="values_{{filter.name}}"
