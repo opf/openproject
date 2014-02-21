@@ -178,20 +178,21 @@ module ApplicationHelper
   #
   def link_to_project(project, options={}, html_options = nil, show_icon = false)
     link = ''
+    project_link_name = project.name
 
     if show_icon && User.current.member_of?(project)
-      link << icon_wrapper("icon-context icon-star1",I18n.t(:description_my_project))
+      project_link_name = icon_wrapper("icon-context icon-star1",I18n.t(:description_my_project).html_safe + "&nbsp;".html_safe) + project_link_name
     end
 
     if project.active?
       # backwards compatibility
       if options.delete(:action) == 'settings'
-        link << link_to(project.name, settings_project_path(project, options), html_options)
+        link << link_to(project_link_name, settings_project_path(project, options), html_options)
       else
-        link << link_to(project.name, project_path(project, options), html_options)
+        link << link_to(project_link_name, project_path(project, options), html_options)
       end
     else
-      link << project.name
+      link << project_link_name
     end
 
     link.html_safe
@@ -1032,14 +1033,6 @@ module ApplicationHelper
       options
     end
   end
-
-  # Expands the current menu item using JavaScript based on the params
-  def expand_current_menu
-    javascript_tag do
-      raw "jQuery.menu_expand({ item: jQuery('#main-menu .selected').parents('#main-menu li').last().find('a').first() });"
-    end
-  end
-
 
   def disable_accessibility_css!
     @accessibility_css_disabled = true
