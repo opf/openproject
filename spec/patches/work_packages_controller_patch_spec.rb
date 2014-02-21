@@ -62,4 +62,29 @@ describe WorkPackagesController, "rendering to xls", :type => :controller do
       it { response.header['Content-Type'].should == 'application/vnd.ms-excel' }
     end
   end
+
+  describe 'empty result' do
+    before do
+      work_package.delete
+
+      get 'index', :format => 'xls', :project_id => work_package.project_id
+    end
+
+    it 'should yield an empty XLS file' do
+      expect(response.response_code).to be(200)
+
+      f = Tempfile.new 'result.xls'
+      begin
+        f.binmode
+        f.write response.body
+      ensure
+        f.close
+      end
+
+      require 'spreadsheet'
+
+      sheet = Spreadsheet.open(f.path).worksheets.first
+      expect(sheet.rows.size).to eq(1) # just the headers
+    end
+  end
 end
