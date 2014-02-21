@@ -61,7 +61,7 @@ module RbMasterBacklogsHelper
     end
 
     menu = []
-    [:new_story, :stories_tasks, :task_board, :burndown, :cards, :wiki, :configs].each do |key|
+    [:new_story, :stories_tasks, :task_board, :burndown, :cards, :wiki, :configs, :properties].each do |key|
       menu << items[key] if items.keys.include?(key)
     end
 
@@ -86,6 +86,10 @@ module RbMasterBacklogsHelper
       items[:configs] = export_export_cards_link(backlog)
     end
 
+    if current_user.allowed_to?(:manage_versions, @project)
+      items[:properties] = properties_link(backlog)
+    end
+
     items
   end
 
@@ -101,6 +105,14 @@ module RbMasterBacklogsHelper
     else
       export_modal_link(backlog)
     end
+  end
+
+  def properties_link(backlog)
+    back_path = backlogs_project_backlogs_path(@project)
+
+    version_path = edit_version_path(backlog.sprint, :back_url => back_path)
+
+    link_to(l(:'backlogs.properties'), version_path)
   end
 
   def export_modal_link(backlog, options = {})
