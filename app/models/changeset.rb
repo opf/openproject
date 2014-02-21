@@ -273,6 +273,7 @@ class Changeset < ActiveRecord::Base
 
   def assign_openproject_user_from_comitter
     self.user = repository.find_committer_user(self.committer)
+    add_journal(self.user || User.anonymous, self.comments)
   end
 
   # TODO: refactor to a standard helper method
