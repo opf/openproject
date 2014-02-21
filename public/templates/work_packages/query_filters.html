@@ -14,7 +14,7 @@
               <tbody>
                 <tr query-filter
                     ng-repeat="filter in query.filters"
-                    ng-show="true"
+                    ng-show="!filter.deactivated"
                     id="tr_{{filter.name}}"
                     class="filter">
 
@@ -42,6 +42,7 @@
                          ng-show="showValuesInput"
                          ng-switch="query.getFilterType(filter.name)">
                       <input ng-switch-when="string"
+                             ng-model="filter.values"
                              class="select-small"
                              id="values_{{filter.name}}"
                              name="v[{{filter.name}}][]"
@@ -55,6 +56,7 @@
                       </label>
 
                       <input ng-switch-when="text"
+                             ng-model="filter.values"
                              class="select-small"
                              id="values_{{filter.name}}"
                              name="v[{{filter.name}}][]"
@@ -64,6 +66,7 @@
                       <label ng-switch-when="'text'"for="values_{{name}}" class="hidden-for-sighted">Enter text</label>
 
                       <input ng-switch-when="integer"
+                             ng-model="filter.values"
                              class="select-small"
                              id="values_{{filter.name}}"
                              name="v[{{filter.name}}][]"
@@ -73,6 +76,7 @@
                       <label ng-switch-when="'integer'" for="values_{{name}}" class="hidden-for-sighted">Enter number</label>
 
                       <input ng-switch-when="date"
+                             ng-model="filter.values"
                              class="select-small"
                              id="values_{{filter.name}}"
                              name="v[{{filter.name}}][]"
@@ -81,6 +85,7 @@
                       <label ng-switch-when="'date'" for="values_{{name}}" class="hidden-for-sighted">days</label>
 
                       <input ng-switch-when="date_past"
+                             ng-model="filter.values"
                              class="select-small"
                              id="values_{{filter.name}}"
                              name="v[{{filter.name}}][]"
@@ -104,6 +109,14 @@
 
                     </div>
                   </td>
+
+                  <!-- Delete filter -->
+                  <td>
+                    <icon-wrapper icon-name="delete2"
+                                  icon-title="'delete'"
+                                  ng-click="query.deactivateFilter(filter)" />
+                    <!-- TODO I18n -->
+                  </td>
                 </tr>
 
               </tbody>
@@ -117,7 +130,7 @@
                     id="add_filter_select"
                     ng-change="add_filter()"
                     ng-model="filterToBeAdded"
-                    ng-options="filterName as filterOptions.name || filterName for (filterName, filterOptions) in (query.available_work_package_filters | subtractFilters:query.filters)"/>
+                    ng-options="filterName as filterOptions.name || filterName for (filterName, filterOptions) in (query.available_work_package_filters | subtractActiveFilters:query.filters)"/>
             </select>
             <!-- TODO options | orderObjectBy: 'order' -->
           </td>

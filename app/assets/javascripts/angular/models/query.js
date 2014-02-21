@@ -19,13 +19,13 @@ angular.module('openproject.models')
     },
 
     getFilterNames: function() {
-      this.filters.map(function(filter){
+      return this.filters.map(function(filter){
         return filter.name;
       });
     },
 
     getFilterByName: function(filterName) {
-      this.filters.filter(function(filter){
+      return this.filters.filter(function(filter){
         return filter.name === filterName;
       }).first();
     },
@@ -44,8 +44,8 @@ angular.module('openproject.models')
       this.filters.splice(this.getFilterNames().indexOf(filterName), 1);
     },
 
-    deactivateFilter: function(filterName) {
-      this.getFilterByName(filterName).deactivated = true;
+    deactivateFilter: function(filter) {
+      filter.deactivated = true;
     },
 
     getAvailableFilterValues: function(filterName) {

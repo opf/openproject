@@ -4,12 +4,12 @@ angular.module('openproject.workPackages.filters')
   return WorkPackagesTableHelper.allRowsChecked;
 }])
 
-.filter('subtractFilters', [function() {
+.filter('subtractActiveFilters', [function() {
   return function(availableFilters, selectedFilters) {
     var filters = angular.copy(availableFilters);
 
     angular.forEach(selectedFilters, function(filter) {
-      delete filters[filter.name];
+      if(!filter.deactivated) delete filters[filter.name];
     });
 
     return filters;
