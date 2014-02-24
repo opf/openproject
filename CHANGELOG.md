@@ -1,5 +1,6 @@
 # Changelog
 
+* `#3216` Fix: Reporting creates 500 when a CustomField with content type version or user exists
 * `#4024` Subpages have no unique page titles
 
 ## 4.0.0.pre9
