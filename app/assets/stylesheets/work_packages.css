@@ -34,3 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
 .issue .attributes td.work_package_attribute_header {
   font-weight: bold;
 }
+
+.icon-button {
+  cursor: pointer;
+}
