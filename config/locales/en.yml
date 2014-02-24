@@ -597,6 +597,8 @@ en:
     label_collapse_all: "Collapse all"
     label_expand_all: "Expand all"
     label_menu_item_toggle: "Show/hide submenu items"
+    label_menu_collapse: "collapse"
+    label_menu_expand: "expand"
     tl_toolbar:
       zooms: "Zoom level"
       outlines: "Hierarchy level"

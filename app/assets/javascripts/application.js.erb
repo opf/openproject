@@ -41,7 +41,6 @@
 //= require jquery
 //= require jquery.ui.all
 //= require jquery-ui-i18n
-//= require jquery.menu_expand
 //= require jquery.atwho
 //= require jquery_ujs
 //= require jquery_noconflict
@@ -135,6 +134,14 @@ jQuery(document).ready(function ($) {
 
     $.datepicker.setDefaults(defaults);
   }
+
+  $('#show_more_wp_properties').live('click', function(el){
+    $(this).find('.icon').toggleClass('icon-arrow-right6-3 icon-arrow-right6-1');
+    Effect.toggle("work_package_descr_fields", "appear", {duration:0.3});
+    enable_textarea_auto_completion(jQuery("#work_package_description"));
+    return false;
+  });
+
 });
 
 function checkAll (id, checked) {
@@ -1272,6 +1279,7 @@ var activateFlash = function() {
   flashMessage.show();
 }
 
+jQuery(document).ready(initMainMenuExpandStatus);
 jQuery(document).ready(activateError);
 jQuery(document).ready(function () {
   activateFlash();
