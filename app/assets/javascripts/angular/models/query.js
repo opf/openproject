@@ -53,10 +53,6 @@ angular.module('openproject.models')
       filter.deactivated = true;
     },
 
-    toggleMultiselect: function(filter){
-      filter.isMultiselect = !filter.isMultiselect;
-    },
-
     getAvailableFilterValues: function(filterName) {
       return this.available_work_package_filters[filterName].values;
     },

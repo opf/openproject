@@ -1,0 +1,22 @@
+<div>
+  <select ng-show="!isMultiselect"
+          name="v_{{name}}"
+          ng-model="values"
+          id="values-{{name}}"
+          class="select-small"
+          style="vertical-align: top;"
+          ng-options="value[1] as value[0] for value in availableFilterValues"/>
+
+  <select multiple
+          ng-show="isMultiselect"
+          name="v_{{name}}"
+          ng-model="values"
+          id="values-{{name}}"
+          class="select-small"
+          style="vertical-align: top;"
+          ng-options="value[1] as value[0] for value in availableFilterValues"/>
+
+  <a alt="Toggle multiselect" href="#" style="vertical-align: bottom;" title="Toggle multiselect" ng-click="toggleMultiselect()">
+    <img alt="Bullet_toggle_plus" src="/assets/bullet_toggle_plus.png"/>
+  </a>
+</div>

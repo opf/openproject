@@ -100,26 +100,10 @@
 
                     <div ng-if="showValueOptionsAsSelect"
                          ng-show="showValuesInput">
-                      <select ng-show="!filter.isMultiselect"
-                              name="v_{{filter.name}}"
-                              ng-model="filter.values"
-                              id="values-{{filter.name}}"
-                              class="select-small"
-                              style="vertical-align: top;"
-                              ng-options="value[1] as value[0] for value in query.getAvailableFilterValues(filter.name)"/>
-
-                      <select multiple
-                              ng-show="filter.isMultiselect"
-                              name="v_{{filter.name}}"
-                              ng-model="filter.values"
-                              id="values-{{filter.name}}"
-                              class="select-small"
-                              style="vertical-align: top;"
-                              ng-options="value[1] as value[0] for value in query.getAvailableFilterValues(filter.name)"/>
-
-                      <a alt="Toggle multiselect" href="#" style="vertical-align: bottom;" title="Toggle multiselect" ng-click="query.toggleMultiselect(filter)">
-                        <img alt="Bullet_toggle_plus" src="/assets/bullet_toggle_plus.png"/>
-                      </a>
+                      <toggled-multiselect available-filter-values="query.getAvailableFilterValues(filter.name)"
+                                           name="filter.name"
+                                           values="filter.values"
+                                           is-multiselect="false"/>
 
                     </div>
                   </td>

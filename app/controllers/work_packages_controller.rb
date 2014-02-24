@@ -490,6 +490,7 @@ class WorkPackagesController < ApplicationController
 
   def push_query_and_results_via_gon(results, work_packages)
     get_query_and_results_as_json(results, work_packages).each_pair do |name, value|
+      # binding.pry if name == :query
       gon.send "#{name}=", value
     end
     # TODO later versions of gon support gon.push {Hash} - on the other hand they make it harder to deliver data to gon inside views
