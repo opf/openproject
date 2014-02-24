@@ -18,7 +18,7 @@ angular.module('openproject.workPackages.controllers', ['openproject.models', 'o
 angular.module('openproject.workPackages.directives', ['openproject.uiComponents', 'openproject.services']);
 
 // main app
-var openprojectApp = angular.module('openproject', ['ui.select2', 'openproject.uiComponents', 'openproject.timelines', 'openproject.workPackages']);
+var openprojectApp = angular.module('openproject', ['ui.select2', 'ui.date', 'openproject.uiComponents', 'openproject.timelines', 'openproject.workPackages']);
 
 openprojectApp
   .config(['$locationProvider', '$httpProvider', function($locationProvider, $httpProvider) {
