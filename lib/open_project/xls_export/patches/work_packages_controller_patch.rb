@@ -20,13 +20,11 @@ module OpenProject::XlsExport
               format.xls do
                 @issues = @query.results(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
                                         :order => sort_clause).work_packages
-                unless @issues.empty?
-                  send_data(issues_to_xls(:show_descriptions => params[:show_descriptions]),
-                            :type => "application/vnd.ms-excel",
-                            :filename => FilenameHelper.sane_filename(
-                              "#{Setting.app_title} #{I18n.t(:label_work_package_plural)} " +
-                              "#{format_time_as_date(Time.now, '%Y-%m-%d')}.xls"))
-                end
+                send_data(issues_to_xls(:show_descriptions => params[:show_descriptions]),
+                          :type => "application/vnd.ms-excel",
+                          :filename => FilenameHelper.sane_filename(
+                            "#{Setting.app_title} #{I18n.t(:label_work_package_plural)} " +
+                            "#{format_time_as_date(Time.now, '%Y-%m-%d')}.xls"))
               end
             end
           else
