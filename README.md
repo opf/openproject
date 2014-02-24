@@ -23,10 +23,11 @@ OpenProject's `Gemfile.plugin`:
 Installation
 ------------
 
-OpenProject Backlogs depends on OpenProject Plugins. Thus, if you haven't done
-it already, add the following line to the `Gemfile.plugins` to your OpenProject installation:
+OpenProject Backlogs depends on OpenProject Plugins and on OpenProject PDF export Plugin. Thus, if you haven't done
+it already, add the following lines to the `Gemfile.plugins` to your OpenProject installation:
 
 `gem "openproject-plugins", git: "https://github.com/opf/openproject-plugins.git", :branch => "dev"`
+`gem "openproject-pdf_export", git: "https://github.com/finnlabs/openproject-pdf_export.git", :branch => "dev"`
 
 For OpenProject Backlogs itself you need to add the following line to the
 `Gemfile.plugins` of OpenProject:
