@@ -27,6 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'rack/utils'
+
 class WorkPackages::AutoCompletesController < ApplicationController
   before_filter :find_project
 
@@ -55,9 +57,9 @@ class WorkPackages::AutoCompletesController < ApplicationController
 
   def wp_hash_with_string
     @work_packages.map do |wp|
-      hash = wp.attributes
-      hash['to_s'] = wp.to_s
-      hash
+      Hash[ wp.attributes.map do |key,value|
+        [ key, Rack::Utils.escape_html(value) ]
+      end << ['to_s', Rack::Utils.escape_html(wp.to_s)] ]
     end
   end
 
