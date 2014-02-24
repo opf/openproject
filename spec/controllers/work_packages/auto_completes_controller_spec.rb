@@ -117,6 +117,27 @@ describe WorkPackages::AutoCompletesController do
       end
     end
 
+    describe "returns work package for given id" do
+      render_views
+      let(:work_package_4) { FactoryGirl.create(:work_package,
+                                          id: 666,
+                                          subject: "<script>alert('danger!');</script>",
+                                          project: project) }
+      let(:expected_values) { work_package_4 }
+
+      before { get :index,
+                   project_id: project.id,
+                   q: work_package_4.id,
+                   format: :json }
+
+      it_behaves_like "successful response"
+      it_behaves_like "contains expected values"
+
+      it "should escape html" do
+        response.body.should_not include '<script>'
+      end
+    end
+
     describe :cross_project_work_package_relations do
       let(:project_2) { FactoryGirl.create(:project,
                                            parent: project) }
@@ -127,7 +148,7 @@ describe WorkPackages::AutoCompletesController do
       let(:work_package_4) { FactoryGirl.create(:work_package,
                                                 project: project_2) }
 
-      before do 
+      before do
         member_2
 
         work_package_4
@@ -153,7 +174,7 @@ describe WorkPackages::AutoCompletesController do
       context "with scope all but w/o cross project relations" do
         before do
           Setting.stub(:cross_project_work_package_relations?).and_return(false)
-          
+
           get :index,
               project_id: project.id,
               q: work_package_4.id,
