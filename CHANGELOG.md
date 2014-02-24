@@ -23,6 +23,7 @@ See doc/COPYRIGHT.md for more details.
 * `#3292` Fix: [User Management] Project members displayed multiple times in overview page when added as part of a group and individually
 * `#3440` New workpackage form layout
 * `#3734` Responsible widget for my project page
+* `#4786` Fix: Teaser edit buttons invisible
 
 ## 3.0.0.pre12
 
