@@ -1,6 +1,7 @@
 angular.module('openproject.models')
 
-.factory('Filter', [function() {
+.constant('OPERATORS_REQUIRING_VALUES', ['o', 'c', '!*', '*', 't', 'w'])
+.factory('Filter', ['OPERATORS_REQUIRING_VALUES', function(OPERATORS_REQUIRING_VALUES) {
   Filter = function (data) {
     angular.extend(this, data);
   };
@@ -16,7 +17,7 @@ angular.module('openproject.models')
     },
 
     valuesAsArray: function() {
-      if (typeof(this.values) === Array) {
+      if (this.values instanceof Array) {
         return this.values;
       } else {
         return [this.values];
@@ -24,7 +25,7 @@ angular.module('openproject.models')
     },
 
     requiresValues: function() {
-      return ['o', 'c', '!*', '*', 't', 'w'].indexOf(this.operator) === -1;
+      return OPERATORS_REQUIRING_VALUES.indexOf(this.operator) === -1;
     },
 
     isConfigured: function() {
