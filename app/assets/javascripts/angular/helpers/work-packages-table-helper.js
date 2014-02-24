@@ -50,6 +50,7 @@ angular.module('openproject.workPackages.helpers')
     },
 
     allRowsChecked: function(rows) {
+      if( rows.length == 0 ) return false;
       return rows
         .map(function(row) {
           return !!row.checked;
