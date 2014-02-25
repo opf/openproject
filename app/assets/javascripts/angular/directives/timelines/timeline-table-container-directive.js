@@ -1,15 +1,15 @@
 angular.module('openproject.timelines.directives')
 
-.directive('timelineTableContainer', ['TimelineLoaderService', 'TimelineTableHelper', function(TimelineLoaderService, TimelineTableHelper) {
+.directive('timelineTableContainer', ['TimelineLoaderService', 'TimelineTableHelper', 'SvgHelper', function(TimelineLoaderService, TimelineTableHelper, SvgHelper) {
+
   return {
     restrict: 'E',
     replace: true,
     templateUrl: '/templates/timelines/timeline_table_container.html',
     link: function(scope, element, attributes) {
       completeUI = function() {
-        // lift the curtain, paper otherwise doesn't show w/ VML.
-        scope.underConstruction = false;
-        scope.timeline.paper = new Raphael(scope.timeline.paperElement, 640, 480);
+
+        scope.timeline.paper = new SvgHelper(scope.timeline.paperElement);
 
         // perform some zooming. if there is a zoom level stored with the
         // report, zoom to it. otherwise, zoom out. this also constructs
@@ -35,6 +35,8 @@ angular.module('openproject.timelines.directives')
         // zooming and initial outline expansion have consequences in the
         // select inputs in the toolbar.
         if(scope.updateToolbar) scope.updateToolbar();
+
+        scope.underConstruction = false;
 
         scope.timeline.getChart().scroll(function() {
           scope.timeline.adjustTooltip();

@@ -218,8 +218,6 @@ angular.module('openproject.timelines.models')
         throw new Error('jQuery UI seems to be missing (jQuery().slider is undefined)');
       } else if ((1).month === undefined) {
         throw new Error('date.js seems to be missing ((1).month is undefined)');
-      } else if (Raphael === undefined) {
-        throw new Error('Raphael seems to be missing (Raphael is undefined)');
       }
       return true;
     },

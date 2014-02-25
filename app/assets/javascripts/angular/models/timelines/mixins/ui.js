@@ -170,7 +170,7 @@ angular.module('openproject.timelines.models')
         return parseInt(e, 16);
       });
     },
-    getLimunanceFor: function(color) {
+    getLuminanceFor: function(color) {
       var parts = this.getColorParts(color);
       var result = (0.299 * parts[0] + 0.587 * parts[1] + 0.114 * parts[2]) / 256;
       return result;
