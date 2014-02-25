@@ -38,7 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3798` Fix: Typo leading to internal server error
 * `#4105` Fix: Remove links from fieldset
 * `#4123` Fix: [Accessibility] Link comprehensibility
-* `#4175` Fix: Wrong escaping in destroy info
+* `#4715` Fix: Wrong escaping in destroy info
 * `#4186` Long work package subject covers up edit buttons
 * `#4245` When adding a block to MyPage the other blocks are gone
 * `#4337` Fix: HTTP 500 when creating WP with note via API
