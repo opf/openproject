@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `4858` XSS in wp auto-completion
 * Added pry-byebug for ruby 2.1
 
 ## 3.0.0pre48
