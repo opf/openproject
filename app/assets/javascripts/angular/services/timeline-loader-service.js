@@ -39,7 +39,7 @@
 
 angular.module('openproject.timelines.services')
 
-.service('TimelineLoaderService', ['$q', 'FilterQueryStringBuilder', 'Color', 'HistoricalPlanningElement', 'PlanningElement', 'PlanningElementType', 'Project', 'ProjectAssociation', 'ProjectType', 'Reporting', 'Status','Timeline', 'User', function($q, FilterQueryStringBuilder, Color, HistoricalPlanningElement, PlanningElement, PlanningElementType, Project, ProjectAssociation, ProjectType, Reporting, Status,Timeline, User) {
+.service('TimelineLoaderService', ['$q', 'FilterQueryStringBuilder', 'Color', 'HistoricalPlanningElement', 'PlanningElement', 'PlanningElementType', 'Project', 'ProjectAssociation', 'ProjectType', 'Reporting', 'Status','Timeline', 'User', 'CustomField', function($q, FilterQueryStringBuilder, Color, HistoricalPlanningElement, PlanningElement, PlanningElementType, Project, ProjectAssociation, ProjectType, Reporting, Status,Timeline, User, CustomField) {
 
   /**
    * QueueingLoader
@@ -232,7 +232,8 @@ angular.module('openproject.timelines.services')
       Project,
       ProjectAssociation,
       Reporting,
-      User
+      User,
+      CustomField
     ];
   };
 
@@ -693,6 +694,10 @@ angular.module('openproject.timelines.services')
   };
 
   TimelineLoader.prototype.registerGlobalElements = function () {
+    var projectPrefix = this.globalPrefix +
+                        this.options.project_prefix +
+                        "/" +
+                        this.options.project_id;
 
     this.loader.register(
       Status.identifier,
@@ -703,6 +708,9 @@ angular.module('openproject.timelines.services')
     this.loader.register(
       Color.identifier,
       { url : this.globalPrefix + '/colors.json' });
+    this.loader.register(
+      CustomField.identifier,
+      { url : projectPrefix + '/planning_element_custom_fields.json' });
     this.loader.register(
       ProjectType.identifier,
       { url : this.globalPrefix + '/project_types.json' });
@@ -767,6 +775,38 @@ angular.module('openproject.timelines.services')
     }
   };
 
+  TimelineLoader.prototype.provideServerSideFilterHashAssignee = function (hash) {
+    if (this.options.planning_element_assignee !== undefined) {
+      hash.assigned_to_id = this.options.planning_element_assignee;
+    }
+  };
+
+  TimelineLoader.prototype.provideServerSideFilterHashCustomFields = function (hash) {
+    var custom_fields = this.options.custom_fields, field_id;
+
+    if (custom_fields !== undefined) {
+      for (field_id in custom_fields) {
+        if (custom_fields.hasOwnProperty(field_id)) {
+
+          var value = custom_fields[field_id];
+
+          // -1 and the empty string both need to be added in the
+          // (none)-case, since (none) has to both match work packages
+          // w/ custom values that are empty and work packages w/o
+          // custom values.
+
+          if (value instanceof Array && value.indexOf("-1") !== -1) {
+            value.push("");
+          }
+
+          if (value && value !== "" && value.length > 0) {
+            hash["cf_" + field_id] = value;
+          }
+        }
+      }
+    }
+  };
+
   TimelineLoader.prototype.provideServerSideFilterHash = function() {
     // console.log('- TimelineLoader: provideServerSideFilterHash');
 
@@ -774,13 +814,12 @@ angular.module('openproject.timelines.services')
     this.provideServerSideFilterHashTypes(result);
     this.provideServerSideFilterHashResponsibles(result);
     this.provideServerSideFilterHashStatus(result);
+    this.provideServerSideFilterHashAssignee(result);
+    this.provideServerSideFilterHashCustomFields(result);
     return result;
   };
 
   TimelineLoader.prototype.registerPlanningElements = function (ids) {
-    // console.log('- TimelineLoader: registerPlanningElements');
-    // console.log({ids: ids});
-
     this.inChunks(ids, function (projectIdsOfPacket, i) {
       var projectPrefix = this.options.url_prefix +
                           this.options.api_prefix +
@@ -794,7 +833,7 @@ angular.module('openproject.timelines.services')
       // load current planning elements.
       this.loader.register(
         PlanningElement.identifier + '_' + i,
-        { url : qsb.build(projectPrefix + '/planning_elements.json') },
+        { url : qsb.append({timeline: this.options.timeline_id}).build(projectPrefix + '/planning_elements.json') },
         { storeIn: PlanningElement.identifier }
       );
 
@@ -941,11 +980,19 @@ angular.module('openproject.timelines.services')
   TimelineLoader.prototype.getUsersToLoad = function () {
     var results = [];
 
-    addUserIDsForElementsByAttribute(results, Timeline.USER_ATTRIBUTES.PLANNING_ELEMENT, this.data.planning_elements);
+    var i, userFields = [], cf = this.data.custom_fields;
+    for (attr in cf) {
+      if (cf.hasOwnProperty(attr) && cf[attr].field_format === "user") {
+          userFields.push("cf_" + cf[attr].id);
+      }
+    }
+
+    addUserIDsForElementsByAttribute(results, Timeline.USER_ATTRIBUTES.PLANNING_ELEMENT.concat(userFields), this.data.planning_elements);
     addUserIDsForElementsByAttribute(results, Timeline.USER_ATTRIBUTES.PROJECT, this.data.projects);
 
     return results;
   };
+
 
   TimelineLoader.prototype.getRelevantProjectIdsBasedOnReportings = function () {
     var i,

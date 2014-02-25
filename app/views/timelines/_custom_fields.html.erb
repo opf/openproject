@@ -2,7 +2,7 @@
 available_filter_types = ["bool", "list"]
 
 custom_fields.each do |custom_field|
-  if available_filter_types.include? custom_field.field_format then
+  if available_filter_types.include?(custom_field.field_format) && custom_field.is_filter then
 %>
   <p>
     <%= label_tag "timeline_options_custom_fields_#{custom_field.id}", custom_field.name %>

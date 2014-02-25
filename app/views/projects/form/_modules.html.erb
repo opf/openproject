@@ -27,10 +27,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<fieldset class="box" id="project_modules">
-  <legend><%= l(:label_module_plural) %>
-    <span style="font-size:0.9em">(<%= check_all_links 'project_modules' %>)</span>
-  </legend>
+<fieldset class="box with-legend-control" id="project_modules">
+  <legend><%= l(:label_module_plural) %></legend>
+  <div class="legend-control">
+    <span>(<%= check_all_links 'project_modules' %>)<span>
+  </div>
   <% Redmine::AccessControl.available_project_modules.each do |m| %>
     <label class="floating">
       <%= check_box_tag 'project[enabled_module_names][]', 

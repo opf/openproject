@@ -29,6 +29,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h3><%= l(:label_calendar) %></h3>
 
+<% if defined? block_name %>
+  <%= content_for "#{block_name}_remove_block" %>
+<% end %>
+
 <% calendar = Redmine::Helpers::Calendar.new(Date.today, current_language, :week)
    calendar.events = calendar_items(calendar.startdt, calendar.enddt) %>
 

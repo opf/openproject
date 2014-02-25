@@ -41,6 +41,64 @@ describe MembersController do
     User.stub(:current).and_return(admin)
   end
 
+  describe "create" do
+    let(:admin) { FactoryGirl.create(:admin) }
+    let(:project_2) { FactoryGirl.create(:project) }
+
+    before do
+      User.stub(:current).and_return(admin)
+    end
+
+    it "should work for multiple users" do
+      post :create,
+        :project_id => project_2.identifier,
+        :member => {
+          :user_ids => [admin.id, user.id],
+          :role_ids => [role.id]
+        }
+
+      response.response_code.should < 400
+
+      [admin, user].each do |u|
+        u.reload
+        u.memberships.should have_at_least(1).item
+
+        u.memberships.find do |m|
+          m.roles.should include(role)
+        end.should_not be_nil
+      end
+    end
+  end
+
+  describe "update" do
+    let(:admin) { FactoryGirl.create(:admin) }
+    let(:project_2) { FactoryGirl.create(:project) }
+    let(:role_1) { FactoryGirl.create(:role) }
+    let(:role_2) { FactoryGirl.create(:role) }
+    let(:member_2) { FactoryGirl.create(
+      :member,
+      :project => project_2,
+      :user => admin,
+      :roles => [role_1])
+    }
+
+    before do
+      User.stub(:current).and_return(admin)
+    end
+
+    it "should, however, allow roles to be updated through mass assignment" do
+      put 'update',
+        :project_id => project.identifier,
+        :id => member_2.id,
+        :member => {
+          :role_ids => [role_1.id, role_2.id]
+        }
+
+      Member.find(member_2.id).roles.should include(role_1, role_2)
+      expect(response.response_code).to be < 400
+    end
+  end
+
   describe :autocomplete_for_member do
     let(:params) { ActionController::Parameters.new({ "id" => project.identifier.to_s }) }
 

@@ -48,7 +48,7 @@ See doc/COPYRIGHT.rdoc for more details.
             :url  => project_reporting_path(@project, @reporting),
             :html => {:method => 'put'} do |f| %>
 
-  <%= f.error_messages %>
+  <%= error_messages_for 'project' %>
 
   <fieldset class="timelines-reporting-properties">
     <legend><%= l('timelines.properties') %></legend>

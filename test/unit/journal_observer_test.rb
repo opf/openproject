@@ -52,9 +52,9 @@ class JournalObserverTest < ActiveSupport::TestCase
     ActionMailer::Base.deliveries.clear
   end
 
-  context "#after_create for 'issue_updated'" do
+  context "#after_create for 'work_package_updated'" do
     should "should send a notification when configured as a notification" do
-      Setting.notified_events = ['issue_updated']
+      Setting.notified_events = ['work_package_updated']
       assert_difference('ActionMailer::Base.deliveries.size', +1) do
         @issue.add_journal(@user)
         @issue.subject = "A change to the issue"
@@ -72,11 +72,11 @@ class JournalObserverTest < ActiveSupport::TestCase
     end
   end
 
-  context "#after_create for 'issue_note_added'" do
+  context "#after_create for 'work_package_note_added'" do
     should "should send a notification when configured as a notification" do
       @issue.recreate_initial_journal!
 
-      Setting.notified_events = ['issue_note_added']
+      Setting.notified_events = ['work_package_note_added']
       assert_difference('ActionMailer::Base.deliveries.size', +1) do
         @issue.add_journal(@user, 'This update has a note')
         assert @issue.save(validate: false)
@@ -112,9 +112,9 @@ class JournalObserverTest < ActiveSupport::TestCase
     end
   end
 
-  context "#after_create for 'issue_priority_updated'" do
+  context "#after_create for 'work_package_priority_updated'" do
     should "should send a notification when configured as a notification" do
-      Setting.notified_events = ['issue_priority_updated']
+      Setting.notified_events = ['work_package_priority_updated']
       assert_difference('ActionMailer::Base.deliveries.size', +1) do
         @issue.add_journal(@user)
         @issue.priority = IssuePriority.generate!

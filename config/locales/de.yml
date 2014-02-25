@@ -237,7 +237,7 @@ de:
                 other: "wurde bereits verwendet. Bitte wählen Sie eines, das sich von den letzten %{count} unterscheidet."
         member:
           principal_blank: "Bitte wählen Sie mindestens einen Benutzer oder eine Gruppe."
-          role_blank: "Bitte wählen Sie eine mindestens Rolle."
+          role_blank: "Bitte wählen Sie mindestens eine Rolle."
       template:
         body: "Bitte überprüfen Sie die folgenden Felder:"
         header:
@@ -268,6 +268,10 @@ de:
       wiki: "Wiki"
       wiki_page: "Wiki-Seite"
       workflow: "Workflow"
+      work_package: "Arbeitspaket"
+
+  errors:
+    header_invalid_fields: "Bei den folgenden Feldern traten Fehler auf:"
 
   activity:
     created: "Erstellt: %{title}"
@@ -294,6 +298,7 @@ de:
     estimated_hours: "Geschätzter Aufwand"
     firstname: "Vorname"
     group: "Gruppe"
+    groupname: "Gruppenname"
     is_default: "Standardeinstellung"
     is_for_all: "Für alle Projekte"
     is_public: "Öffentlich"
@@ -335,6 +340,7 @@ de:
   button_create: "Anlegen"
   button_create_and_continue: "Anlegen und weiter"
   button_delete: "Löschen"
+  button_delete_watcher: "Lösche Beobachter %{name}"
   button_download: "Download"
   button_duplicate: "Duplizieren"
   button_edit: "Bearbeiten"
@@ -524,24 +530,23 @@ de:
   error_menu_item_not_saved: Menüpunkt konnte nicht aktualisiert werden.
 
   events:
+    project: 'Projekt bearbeitet'
     changeset: Changeset bearbeitet
     message: Nachricht bearbeitet
     news: News
     reply: Antwort erstellt
-    time_entry: Zeiterfassungseintrag-Bearbeitung
-    wiki_page: Wiki-Bearbeitung
+    time_entry: Zeiterfassungseintrag bearbeitet
+    wiki_page: Wiki-Seite bearbeitet
     work_package_closed: 'Arbeitspaket geschlossen'
     work_package_edit: 'Arbeitspaket bearbeitet'
     work_package_note: 'Arbeitspaket kommentiert'
 
   general_csv_decimal_separator: ","
-  general_csv_encoding: "ISO-8859-1"
+  general_csv_encoding: "UTF-8"
   general_csv_separator: ";"
   general_first_day_of_week: "1"
   general_lang_name: "Deutsch"
   general_pdf_encoding: "ISO-8859-1"
-  general_text_No: "Nein"
-  general_text_Yes: "Ja"
   general_text_no: "nein"
   general_text_yes: "ja"
 
@@ -559,11 +564,18 @@ de:
     filter:
       noneElement: "(keines)"
       noneSelection: "(keine)"
+    general_text_no: "nein"
+    general_text_yes: "ja"
     label_all_work_packages: "alle Arbeitspakete"
     label_collapse: "Zuklappen"
+    label_collapsed: "zugeklappt"
     label_collapse_all: "Alle zuklappen"
     label_expand: "Aufklappen"
+    label_expanded: "aufgeklappt"
     label_expand_all: "Alle aufklappen"
+    label_menu_collapse: "ausblenden"
+    label_menu_expand: "einblenden"
+    label_menu_item_toggle: "Untermenüpunkte ein-/ausblenden"
     label_sort_by: "Sortiert nach"
     label_sum_for: "Summe für"
     label_work_package: "Arbeitspaket"
@@ -630,6 +642,9 @@ de:
         months: "Monate"
         quarters: "Quartale"
         years: "Jahre"
+    tl_toolbar:
+      zooms: "Zoomstufe"
+      outlines: "Hierarchie-Stufe"
     unsupported_browser:
       title: "Ihr Browser wird nicht unterstützt"
       message: "Sie verwenden einen veralteten Browser. OpenProject unterstützt diesen Browser nicht länger. Bitte aktualisieren Sie Ihren Browser."
@@ -639,10 +654,12 @@ de:
       label_filter_plural: "Filter"
       description_filter: "Filter"
       description_enter_text: "Text eingeben"
+      really_close_dialog: "Dialog schließen und eingegebene Daten verwerfen?"
       time_relative:
         days: "Tagen"
         weeks: "Wochen"
         months: "Monaten"
+      zoom_slider: "Zoom Schieber"
 
   label_account: "Konto"
   label_activity: "Aktivität"
@@ -799,8 +816,10 @@ de:
   label_work_package_category_plural: "Arbeitspaket-Kategorien"
   label_work_package_hierarchy: "Arbeitspaket-Hierarchie"
   label_work_package_new: "Neues Arbeitspaket"
+  label_work_package_note_added: "Kommentar zu Arbeitspaket hinzugefügt"
   label_work_package_edit: "Arbeitspaket %{name} editieren"
   label_work_package_plural: "Arbeitspakete"
+  label_work_package_priority_updated: "Arbeitspaketpriorität aktualisiert"
   label_work_package_status_new: "Neuer Status"
   label_work_package_status_plural: "Arbeitspaket-Status"
   label_work_package_tracking: "Arbeitspakete"
@@ -831,7 +850,7 @@ de:
   label_login: "Anmelden"
   label_login_with_open_id_option: "oder mit OpenID anmelden"
   label_logout: "Abmelden"
-  label_main_menu: "Hauptmenü"
+  label_main_menu: "Nebenmenü"
   label_max_size: "Maximale Größe"
   label_me: "ich"
   label_member_new: "Neues Mitglied"
@@ -961,7 +980,8 @@ de:
   label_settings: "Konfiguration"
   label_show_completed_versions: "Abgeschlossene Versionen anzeigen"
   label_sort: "Sortierung"
-  label_sort_by: "Sortiert nach %{value}"
+  label_sort_by: "Sortiere nach %{value}"
+  label_sorted_by: "sortiert nach %{value}"
   label_sort_higher: "Eins höher"
   label_sort_highest: "An den Anfang"
   label_sort_lower: "Eins tiefer"
@@ -971,6 +991,7 @@ de:
   label_start_to_start: "Anfang bis Anfang"
   label_statistics: "Statistiken"
   label_status: "Status"
+  label_status_updated: "Arbeitspaketstatus aktualisiert"
   label_stay_logged_in: "Angemeldet bleiben"
   label_string: "Text"
   label_subproject_new: "Neues Unterprojekt"
@@ -1411,7 +1432,7 @@ de:
   text_plugin_assets_writable: "Verzeichnis für Plugin-Assets beschreibbar"
   text_powered_by: "Powered by %{link}"
   text_project_destroy_confirmation: "Sind Sie sicher, dass sie das Projekt löschen wollen?"
-  text_project_identifier_info: "Kleinbuchstaben (a-z), Ziffern, Binde- und Unterstriche erlaubt, muss mit einem Kleinbuchstaben beginnen.<br />Einmal gespeichert, kann die Kennung nicht mehr geändert werden."
+  text_project_identifier_info: "Kleinbuchstaben (a-z), Ziffern, Binde- und Unterstriche erlaubt, muss mit einem Kleinbuchstaben beginnen."
   text_reassign: "Neu zuweisen an"
   text_reassign_to: "Ziel-Arbeitspaket:"
   text_regexp_info: "z. B. ^[A-Z0-9]+$"
@@ -1540,6 +1561,8 @@ de:
       work_package_assignee: "Zugewiesen an"
 
       project_time_filter: "Projekte mit Arbeitspaket eines Typs in einem Zeitfenster"
+      project_time_filter_absolute_timeframe: "Absolutes Zeitfenster"
+      project_time_filter_relative_timeframe: "Relatives Zeitfenster"
       project_time_filter_historical: "von %{startdate} bis %{enddate}"
       project_time_filter_relative: "vor %{startspan}%{startspanunit} bis in %{endspan}%{endspanunit}"
       project_filters: "Projekte filtern"
@@ -1591,8 +1614,7 @@ de:
     reporting_could_not_be_saved: "Statusbericht konnte nicht gespeichert werden."
     reporting_for_project:
       show: "Statusbericht zu Projekt: %{title}"
-      delete: "Löschen des Statusberichts zu Projekt: %{title}"
-      edit: "Bearbeiten des Statusberichts zu Projekt: %{title}"
+      edit_delete: "des Statusberichts zu Projekt: %{title}"
       history: "Historie des Statusberichts zu Projekt:"
     reporting:
       delete: "Statusbericht löschen: %{comment}"

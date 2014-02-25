@@ -189,8 +189,14 @@ describe('Planning Element', function(){
       });
 
       expect(peWithHistorical.hasAlternateDates()).to.be.true;
-      expect(peWithHistorical.alternate_start().getTime()).to.equal(1352588400*1000);
-      expect(peWithHistorical.alternate_end().getTime()).to.equal(1352674800*1000);
+
+      expect(peWithHistorical.alternate_start().getDate()).to.equal(11);
+      expect(peWithHistorical.alternate_start().getMonth()).to.equal(10);
+      expect(peWithHistorical.alternate_start().getFullYear()).to.equal(2012);
+
+      expect(peWithHistorical.alternate_end().getDate()).to.equal(12);
+      expect(peWithHistorical.alternate_end().getMonth()).to.equal(10);
+      expect(peWithHistorical.alternate_end().getFullYear()).to.equal(2012);
     });
   });
 
@@ -310,8 +316,13 @@ describe('Planning Element', function(){
     });
 
     it('should return correct date', function () {
-      expect(this.peWithDates.start().getTime()).to.equal(1352588400*1000);
-      expect(this.peWithDates.end().getTime()).to.equal(1352674800*1000);
+      expect(this.peWithDates.start().getDate()).to.equal(11);
+      expect(this.peWithDates.start().getMonth()).to.equal(10);
+      expect(this.peWithDates.start().getFullYear()).to.equal(2012);
+
+      expect(this.peWithDates.end().getDate()).to.equal(12);
+      expect(this.peWithDates.end().getMonth()).to.equal(10);
+      expect(this.peWithDates.end().getFullYear()).to.equal(2012);
     });
 
     it('should return undefined for no date' , function () {

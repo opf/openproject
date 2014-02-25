@@ -47,6 +47,8 @@ See doc/COPYRIGHT.rdoc for more details.
                :project_b => '?') %>
   <h2><%= title.tap { |t| html_title t } %></h2>
 
+  <%= error_messages_for 'project_association' %>
+
   <%= label_tag 'project_association_select_project_b_id', l('timelines.project_association_new_for_with',
                                                 :project_a => h(@project.name)) %>
 

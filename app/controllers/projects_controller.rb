@@ -201,6 +201,10 @@ class ProjectsController < ApplicationController
       respond_to do |format|
         format.html { redirect_to :controller => '/admin', :action => 'projects' }
       end
+    else
+      flash[:error] = l(:notice_project_not_deleted)
+      redirect_to confirm_destroy_project_path(@project)
+      return
     end
 
     hide_project_in_layout

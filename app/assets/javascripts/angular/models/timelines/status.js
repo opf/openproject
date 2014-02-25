@@ -40,7 +40,6 @@
 angular.module('openproject.timelines.models')
 
 .factory('Status', [function() {
-
   Status = {
     identifier: 'statuses',
     all: function(timeline) {

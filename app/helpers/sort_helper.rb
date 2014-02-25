@@ -254,7 +254,14 @@ module SortHelper
     caption = options.delete(:caption) || column.to_s.humanize
     default_order = options.delete(:default_order) || 'asc'
     lang = options.delete(:lang) || nil
-    options[:title] = l(:label_sort_by, "\"#{caption}\"") unless options[:title]
+
+    if column.to_s == @sort_criteria.first_key
+      options[:title] = @sort_criteria.first_asc? ? l(:label_ascending) : l(:label_descending)
+      options[:title] += " #{l(:label_sorted_by, "\"#{caption}\"")}"
+    else
+      options[:title] = l(:label_sort_by, "\"#{caption}\"") unless options[:title]
+    end
+
     content_tag('th', sort_link(column, caption, default_order, :lang => lang), options)
   end
 end

@@ -40,7 +40,6 @@
 angular.module('openproject.timelines.models')
 
 .factory('HistoricalPlanningElement', [function() {
-
   HistoricalPlanningElement = {
     identifier: 'historical_planning_elements'
   };

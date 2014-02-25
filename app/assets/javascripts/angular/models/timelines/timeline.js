@@ -1,7 +1,7 @@
 
 angular.module('openproject.timelines.models')
 
-.factory('Timeline', ['Constants', 'TreeNode', 'UI', 'Color', 'HistoricalPlanningElement', 'PlanningElement', 'PlanningElementType', 'ProjectType', 'Project', 'ProjectAssociation', 'Reporting', function(Constants, TreeNode, UI, Color, HistoricalPlanningElement, PlanningElement, PlanningElementType, ProjectType, Project, ProjectAssociation, Reporting) {
+.factory('Timeline', ['Constants', 'TreeNode', 'UI', 'Color', 'HistoricalPlanningElement', 'PlanningElement', 'PlanningElementType', 'ProjectType', 'Project', 'ProjectAssociation', 'Reporting', 'CustomField', function(Constants, TreeNode, UI, Color, HistoricalPlanningElement, PlanningElement, PlanningElementType, ProjectType, Project, ProjectAssociation, Reporting, CustomField) {
 
   Timeline = {};
 
@@ -227,13 +227,16 @@ angular.module('openproject.timelines.models')
         url_prefix                    : this.options.url_prefix,
         project_prefix                : this.options.project_prefix,
         planning_element_prefix       : this.options.planning_element_prefix,
+        timeline_id                   : this.options.timeline_id,
         project_id                    : this.options.project_id,
         project_types                 : this.options.project_types,
         project_statuses              : this.options.project_status,
         project_responsibles          : this.options.project_responsibles,
         project_parents               : this.options.parents,
         planning_element_types        : this.options.planning_element_types,
+        planning_element_assignee     : this.options.planning_element_assignee,
         planning_element_responsibles : this.options.planning_element_responsibles,
+        custom_fields                 : this.options.custom_fields,
         planning_element_status       : this.options.planning_element_status,
         grouping_one                  : (this.options.grouping_one_enabled ? this.options.grouping_one_selection : undefined),
         grouping_two                  : (this.options.grouping_two_enabled ? this.options.grouping_two_selection : undefined),

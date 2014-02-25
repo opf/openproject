@@ -29,6 +29,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h3><%=l(:label_news_latest)%></h3>
 
+<% if defined? block_name %>
+  <%= content_for "#{block_name}_remove_block" %>
+<% end %>
+
 <%= render(:partial => 'news/news',
             :collection => News.find(:all,
                                      :limit => 10,

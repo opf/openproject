@@ -66,7 +66,7 @@ angular.module('openproject.timelines.helpers')
      *
      *   => /api/v2/projects/sample_project/planning_elements.json?f[]=type_id&op[type_id]==&v[type_id][]=4&v[type_id][]=5&at_time=1380795754
      */
-    var FilterQueryStringBuilder = function (filterHash) {
+    var FilterQueryStringBuilder = FilterQueryStringBuilder = function (filterHash) {
       this.filterHash = filterHash || {};
       this.paramsHash = {};
     };

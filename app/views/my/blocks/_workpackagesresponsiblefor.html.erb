@@ -39,6 +39,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h3><%=l(:label_responsible_for_work_packages)%> (<%= responsible_count %>)</h3>
 
+<% if defined? block_name %>
+  <%= content_for "#{block_name}_remove_block" %>
+<% end %>
+
 <%= render :partial => 'work_packages/list_simple', :locals => { :work_packages => responsible } %>
 
 <% if responsible.length > 0 %>
@@ -49,7 +53,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 set_filter: 1,
                 responsible_id: 'me',
                 sort: 'priority:desc,updated_at:desc'},
-                :class => 'button' %>
+                :class => 'button_highlight' %>
   </p>
 <% end %>
 

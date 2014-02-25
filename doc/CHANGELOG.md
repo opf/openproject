@@ -29,19 +29,73 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.0pre48
+
+* `#1390` Fix: Deleting Issue Categories from a project - route not defined
+* `#2701` Fix: [Groups] Error message not displayed correctly.
+* `#3217` Fix: [Project settings] Page not found when adding/deleting members and clicking pagination
+* `#3725` Fix: Trying to delete a Project without checking "Yes" results in Error
+* `#3798` Fix: Typo leading to internal server error
+* `#4105` Fix: Remove links from fieldset
+* `#4123` Fix: [Accessibility] Link comprehensibility
+* `#4715` Fix: Wrong escaping in destroy info
+* `#4186` Long work package subject covers up edit buttons
+* `#4245` When adding a block to MyPage the other blocks are gone
+* `#4337` Fix: HTTP 500 when creating WP with note via API
+* `#4654` Activity: Wrong id of work package when time spent
+* `#4722` Wrong weekday in date picker
+* `#4755` Wrong message "project identifier can't be edited"
+* `#4761` Internal error when creating or editing timeline in accessibility mode
+* `#4762` List of watchers displayed twice when creating a work package
+
+## 3.0.0pre47
+
+* `#3113` [API] Read access on work package workflows for API v2
+* `#3903` Fix: [Search] Project scope lost when clicking on search category link
+* `#4087` Fix: [Accessibility] No error messages for blind users
+* `#4169` Fix: CSV Export can't handle UTF-8 in conjunction with ASCII letters >= 160 (such as ä)
+* `#4266` Custom fields not used as filters are displayed in timeline configuration
+* `#4331` Wrong error message for custom fields in query
+
+## 3.0.0pre46
+
+* `#3335` Fix: Mass assignment in members controller
+* `#3371` [Work Package Tracking] Wrong 404 when custom query not exists
+* `#3440` New workpackage form layout
+* `#3947` [CodeClimate] Mass Assignment BoardsController
+* `#4087` Accessible form errors
+* `#4098` Keyboard operation: links accessible with Screenreadern
+* `#4090` [FIX] Tab order of my project page
+* `#4103` [Accessibility] Add missing field sets
+* `#4105` Remove links from fieldset
+* `#4109` Missing hidden tab selection label
+* `#4110` Position: Status/Funktion von Links ist nicht klar
+* `#4112` Usage of layout tables in work packages index
+* `#4118` Fix: Add missing labels
+* `#4123` Icon link table comprehensibility
+* `#4162` Missing html_safe on required list custom fields with non empty default value
+* Allow configuring memcache via configuration.yml or environment variables
+
+## 3.0.0pre45
+
 * `#3113` [API] Read access on work package workflows for API v2
 * `#3114` [API] Provide custom fields in work-package index
+* `#3116` [API] Distinguishable Status-Codes for wrong credentials and missing API
+* `#3347` [API] Make priorities available via API
 * `#3701` Filter custom fields of work packages in timeline reports
 * `#3732` Summary for work package responsibility
 * `#3733` Responsible widget for my pag
 * `#3884` [Timelines] Show custom fields of work packages in timeline reports
-* `#4024` [Accessibility] Add proper page titles for sub pages
-* `#4102` [Accessibility] Fixes screen reader compatibility for 'further analyze' links in work package summary
+* `#3980` In Email settings "Issue" is used
 * `#4023` [Accessibility] Fixes tabbing inside modals
+* `#4024` [Accessibility] Add proper page titles for sub pages
 * `#4090` 'Session Expires' setting breaks API
+* `#4100` use icon from icon font for toggle multiselect in filter section
 * `#4101` Headings: Fix typos in german translation
+* `#4102` [Accessibility] Fixes screen reader compatibility for 'further analyze' links in work package summary
 * `#4108` Fixes German translation of months
 * `#4163` Extend authorization-API to return current user id
+* Improves JavaScript tests.
 * News subject contained in URL
 * Removes mocha mocking framework.
 * Update pg-gem version

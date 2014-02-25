@@ -40,7 +40,6 @@
 angular.module('openproject.timelines.models')
 
 .factory('Color', [function() {
-
   Color = {
     identifier: 'colors',
     all: function(timeline) {

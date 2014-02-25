@@ -43,7 +43,9 @@ See doc/COPYRIGHT.rdoc for more details.
                           timeline.options["grouping_one_enabled"].present?) %>
 
         <span>
-          <%= l('timelines.filter.grouping_one_phrase') %>
+          <%= label_tag :timeline_options_grouping_one_selection,
+                        l('timelines.filter.grouping_one_phrase'),
+                        class: 'inline-label' %>
         </span>
 
         <% if User.current.impaired? %>
@@ -95,7 +97,9 @@ See doc/COPYRIGHT.rdoc for more details.
                           timeline.options["grouping_two_enabled"].present?) %>
 
         <span>
-          <%= l('timelines.filter.grouping_two_phrase') %>
+          <%= label_tag :timeline_options_grouping_two_selection,
+                        l('timelines.filter.grouping_two_phrase'),
+                        class: 'inline-label' %>
         </span>
 
         <% if User.current.impaired? %>

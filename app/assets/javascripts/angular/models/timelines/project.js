@@ -44,6 +44,7 @@ angular.module('openproject.timelines.models')
   Project = {
     objectType: 'Project',
     identifier: 'projects',
+
     is: function(t) {
       if (t === undefined) return false;
       return Project.identifier === t.identifier;

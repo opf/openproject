@@ -54,6 +54,9 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class="title-bar">
     <div class="title-bar-extras">
 
+      <%= error_messages_for 'query' %>
+
+
       <% html_title(query.new_record? ? l(:label_work_package_plural) : h(query.name)) %>
 
       <% if visible_queries.any? %>
@@ -67,10 +70,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
       <%= render partial: 'query_form', locals: { project: project, query: query } %>
 
+
     </div><!-- .title-bar-extras -->
   </div><!-- .title-bar -->
-
-  <%= error_messages_for 'query' %>
 
   <% if query.valid? %>
     <% if work_packages.empty? %>

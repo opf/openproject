@@ -80,7 +80,7 @@ Feature: General Reporting adminstration
      Then I should see "World Domination"
       And I should see "Hallo Junge"
 
-     When I follow "Edit status for project: World Domination"
+     When I follow link "Edit" for report "World Domination"
      Then I should see "Status comment:"
       And I should see "Project status:"
 
@@ -105,7 +105,7 @@ Feature: General Reporting adminstration
       And I should see "Careful Boy"
       And I should see "Don't be a-gamblin'"
 
-     When I follow "Edit status for project: Careful Boy"
+     When I follow link "Edit" for report "Careful Boy"
       And I fill in "So'n Feuerball" for "Status comment"
       And I click on "Save"
 
@@ -122,7 +122,7 @@ Feature: General Reporting adminstration
      When I go to the page of the project called "Santas Project"
       And I toggle the "Timelines" submenu
       And I click on "Status reportings"
-      And I follow "Delete status reported to project: World Domination"
+     When I follow link "Delete" for report "World Domination"
       And I click on "Delete"
 
      Then I should see "Successful deletion."

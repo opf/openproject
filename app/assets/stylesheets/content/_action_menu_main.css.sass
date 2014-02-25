@@ -34,6 +34,13 @@
     position: relative
     list-style: none
 
+@mixin contextual($margin-top: 8px)
+  float: right
+  white-space: nowrap
+  line-height: 1.4em
+  margin-top: $margin-top
+  padding-left: 10px
+
 ul.action_menu_main
   @include action_menu_defaults
 
@@ -72,3 +79,6 @@ ul.action_menu_more
   top: auto
   > li.drop-down
     position: relative
+
+.message-reply-menu
+  @include contextual(-39px)

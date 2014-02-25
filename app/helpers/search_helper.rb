@@ -58,7 +58,7 @@ module SearchHelper
     options = [[l(:label_project_all), 'all']]
     options << [l(:label_my_projects), 'my_projects'] unless User.current.memberships.empty?
     options << [l(:label_and_its_subprojects, @project.name), 'subprojects'] unless @project.nil? || @project.descendants.active.empty?
-    options << [@project.name, ''] unless @project.nil?
+    options << [@project.name, 'current_project'] unless @project.nil?
     label_tag("scope", l(:description_project_scope), :class => "hidden-for-sighted") +
     select_tag('scope', options_for_select(options, params[:scope].to_s)) if options.size > 1
   end
@@ -70,7 +70,17 @@ module SearchHelper
       c = results_by_type[t]
       next if c == 0
       text = "#{type_label(t)} (#{c})"
-      links << link_to(h(text), :q => params[:q], :titles_only => params[:title_only], :all_words => params[:all_words], :scope => params[:scope], t => 1)
+      target = {
+        :controller => 'search',
+        :project_id => (@project.identifier if @project),
+        :action => 'index',
+        :q => params[:q],
+        :titles_only => params[:title_only],
+        :all_words => params[:all_words],
+        :scope => params[:scope],
+        t => 1
+      }
+      links << link_to(h(text), target)
     end
     ('<ul>' + links.map {|link| content_tag('li', link)}.join(' ') + '</ul>').html_safe unless links.empty?
   end

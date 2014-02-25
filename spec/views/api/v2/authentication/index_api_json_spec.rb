@@ -49,7 +49,7 @@ describe 'api/v2/authentication/index.api.rabl' do
     subject { response.body }
 
     it_behaves_like 'valid authentication' do
-      let(:content) { %({"authorized": true, "authorized_user_id":null}) }
+      let(:content) { %({"authorized": true, "authenticated_user_id":null}) }
     end
   end
 
@@ -63,7 +63,7 @@ describe 'api/v2/authentication/index.api.rabl' do
     subject { response.body }
 
     it_behaves_like 'valid authentication' do
-      let(:content) { %({"authorized":null, "authorized_user_id": 12345}) }
+      let(:content) { %({"authorized":null, "authenticated_user_id": 12345}) }
     end
   end
 end

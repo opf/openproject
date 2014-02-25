@@ -42,6 +42,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <h2><%= title.tap { |t| html_title t } %></h2>
 
+  <%= error_messages_for 'project_association' %>
+
   <%= render :partial => 'form', :locals => {:f => f, :project => @project} %>
 
   <%= f.submit l(:button_update), :name => nil %>

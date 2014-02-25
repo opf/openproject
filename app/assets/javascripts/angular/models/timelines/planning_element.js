@@ -44,6 +44,7 @@ angular.module('openproject.timelines.models')
   PlanningElement = {
     objectType: 'PlanningElement',
     identifier: 'planning_elements',
+
     is: function(t) {
       if (t === undefined) return false;
       return PlanningElement.identifier === t.identifier;
