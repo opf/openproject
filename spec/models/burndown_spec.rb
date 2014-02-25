@@ -96,6 +96,18 @@ describe Burndown do
         Date.stub(:today).and_return(Date.civil(2011,04,04))
       end
 
+      describe "WITH having a version in the future" do
+        before(:each) do
+          version.start_date = Date.today + 1.days
+          version.effective_date = Date.today + 6.days
+          version.save!
+        end
+
+        it "should generate a burndown" do
+          sprint.burndown(project).series[:story_points].should be_empty
+        end
+      end
+
       describe "WITH having a 10 (working days) sprint and being 5 (working) days into it" do
         before(:each) do
           version.start_date = Date.today - 7.days
