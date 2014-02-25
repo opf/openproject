@@ -16,7 +16,7 @@ jQuery.fn.slider = {};
 var Raphael = {};
 
 var possibleData = {
-  projects: [{ 
+  projects: [{
       "id":1,
       "name":"Eltern",
       "identifier":"eltern-1",
