@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* Added pry-byebug for ruby 2.1
+
 ## 3.0.0pre48
 
 * `#1390` Fix: Deleting Issue Categories from a project - route not defined
