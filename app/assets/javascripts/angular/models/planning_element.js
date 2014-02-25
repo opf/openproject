@@ -619,7 +619,7 @@ openprojectApp.factory('PlanningElement', [function() {
                 4;                                         // small border from the right
             }
 
-            textColor = timeline.getLimunanceFor(color) > Timeline.PE_LUMINANCE_THRESHOLD ?
+            textColor = timeline.getLuminanceFor(color) > Timeline.PE_LUMINANCE_THRESHOLD ?
               Timeline.PE_DARK_TEXT_COLOR : Timeline.PE_LIGHT_TEXT_COLOR;
           } else {
 
@@ -627,7 +627,7 @@ openprojectApp.factory('PlanningElement', [function() {
             x = left + width * 0.5 +                             // center of the planning element
                 textWidth * (-0.5); // half of text width
 
-            textColor = timeline.getLimunanceFor(color) > Timeline.PE_LUMINANCE_THRESHOLD ?
+            textColor = timeline.getLuminanceFor(color) > Timeline.PE_LUMINANCE_THRESHOLD ?
               Timeline.PE_DARK_TEXT_COLOR : Timeline.PE_LIGHT_TEXT_COLOR;
           }
 
@@ -649,7 +649,7 @@ openprojectApp.factory('PlanningElement', [function() {
 
         } else if (label_space.w > Timeline.PE_TEXT_AGGREGATED_LABEL_WIDTH_THRESHOLD) {
 
-          textColor = timeline.getLimunanceFor(color) > Timeline.PE_LUMINANCE_THRESHOLD ?
+          textColor = timeline.getLuminanceFor(color) > Timeline.PE_LUMINANCE_THRESHOLD ?
                       Timeline.PE_DARK_TEXT_COLOR : Timeline.PE_LIGHT_TEXT_COLOR;
 
           var text = this.subject;
