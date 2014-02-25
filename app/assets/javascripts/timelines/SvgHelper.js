@@ -133,11 +133,11 @@ jQuery.each([SVGRectElement, SVGTextElement], function (i, klass) {
       'y': y
     });
   };
-});
 
-SVGTextElement.prototype.insertAfter = function(node) {
-  this.parentNode.insertBefore(node, this.nextSibling);
-};
+  klass.prototype.insertAfter = function(node) {
+    this.parentNode.insertBefore(node, this.nextSibling);
+  };
+});
 
 SVGRectElement.prototype.round = function(r) {
   this.attr({
