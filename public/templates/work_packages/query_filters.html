@@ -26,12 +26,12 @@
                   <!-- Operator -->
                   <td style="width:150px;">
                     <label class="hidden-for-sighted" for="operators_{{filter.name}}">Filter</label>
-                    <select class="select-small"
+                    <select require
+                            class="select-small to-validate"
                             id="operators-{{filter.name}}"
                             name="op_{{filter.name}}"
                             ng-options="operator as label for (operator, label) in operatorsAndLabelsByFilterType[query.getFilterType(filter.name)]"
                             ng-model="filter.operator"
-                            ng-required
                             style="vertical-align: top;">
                     </select>
                   </td>
@@ -45,7 +45,8 @@
                       <input ng-switch-when="string"
                              ng-model="filter.values"
                              ng-minlength="3"
-                             class="select-small"
+                             ng-required="true"
+                             class="select-small to-validate"
                              id="values-{{filter.name}}"
                              name="v_{{filter.name}}"
                              size="30"
@@ -60,7 +61,8 @@
                       <input ng-switch-when="text"
                              ng-model="filter.values"
                              ng-minlength="3"
-                             class="select-small"
+                             ng-required="true"
+                             class="select-small to-validate"
                              id="values-{{filter.name}}"
                              name="v_{{filter.name}}"
                              size="30"
@@ -70,7 +72,8 @@
 
                       <input ng-switch-when="integer"
                              ng-model="filter.values"
-                             class="select-small"
+                             ng-required="true"
+                             class="select-small to-validate"
                              id="values-{{filter.name}}"
                              name="v_{{filter.name}}"
                              size="3"
@@ -80,7 +83,8 @@
 
                       <input ng-switch-when="date"
                              ng-model="filter.values"
-                             class="select-small"
+                             ng-required="true"
+                             class="select-small to-validate"
                              id="values-{{filter.name}}"
                              name="v_{{filter.name}}"
                              size="3"
@@ -89,7 +93,8 @@
 
                       <input ng-switch-when="date_past"
                              ng-model="filter.values"
-                             class="select-small"
+                             ng-required="true"
+                             class="select-small to-validate"
                              id="values-{{filter.name}}"
                              name="v_{{filter.name}}"
                              size="3"
@@ -103,7 +108,8 @@
                       <toggled-multiselect available-filter-values="query.getAvailableFilterValues(filter.name)"
                                            name="filter.name"
                                            values="filter.values"
-                                           is-multiselect="false"/>
+                                           is-multiselect="false"
+                                           ng-required="true"/>
 
                     </div>
                   </td>
