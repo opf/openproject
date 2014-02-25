@@ -350,7 +350,7 @@ openprojectApp.factory('PlanningElement', [function() {
       var hover_left = left;
       var hover_width = width;
       var element = node.getDOMElement();
-      var captionElements = [];
+      var captionElement;
       var label;
       var deleted = true && this.is_deleted;
       var comparison_offset = deleted ? 0 : Timeline.DEFAULT_COMPARISON_OFFSET;
@@ -504,7 +504,7 @@ openprojectApp.factory('PlanningElement', [function() {
       var hover_left = left;
       var hover_width = width;
       var element = node.getDOMElement();
-      var captionElements = [];
+      var captionElement;
       var label, textWidth;
       var deleted = true && this.is_deleted;
       var comparison_offset = deleted ? 0 : Timeline.DEFAULT_COMPARISON_OFFSET;
@@ -583,23 +583,8 @@ openprojectApp.factory('PlanningElement', [function() {
           if (this.hasChildren() && node.isExpanded() ||
               textWidth > width - Timeline.PE_TEXT_INSIDE_PADDING) {
 
-            // place a white rect below the label.
-            captionElements.push(
-              timeline.paper.rect(
-                -3,
-                -12,
-                textWidth + 6,
-                15,
-                4.5
-              ).attr({
-                'fill': '#ffffff',
-                'opacity': 0.5,
-                'stroke': 'none'
-              }));
-
             // text outside planning element
             x = left + width + Timeline.PE_TEXT_OUTSIDE_PADDING;
-            textColor = Timeline.PE_DEFAULT_TEXT_COLOR;
 
             if (this.hasChildren()) {
               x += Timeline.PE_TEXT_ADDITIONAL_OUTSIDE_PADDING_WHEN_EXPANDED_WITH_CHILDREN;
@@ -608,6 +593,23 @@ openprojectApp.factory('PlanningElement', [function() {
             if (pet && pet.is_milestone) {
               x += Timeline.PE_TEXT_ADDITIONAL_OUTSIDE_PADDING_WHEN_MILESTONE;
             }
+
+            textColor = Timeline.PE_DEFAULT_TEXT_COLOR;
+
+            // place a white rect below the label.
+            captionElement = timeline.paper.rect(
+              x-3,
+              y-12,
+              textWidth + 6,
+              15,
+              4.5
+            ).attr({
+              'fill': '#ffffff',
+              'opacity': 0.5,
+              'stroke': 'none'
+            });
+
+            captionElement.insertAfter(label);
 
           } else if (!has_both_dates) {
             // text inside planning element
@@ -637,22 +639,15 @@ openprojectApp.factory('PlanningElement', [function() {
             'stroke': 'none'
           });
 
-          if (captionElements[0]) {
-            label.insertAfter(captionElements[0]);
-          }
-
-          captionElements.push(label);
-
-          jQuery.each(captionElements, function(i, e) {
-            e.translate(x, y);
-          });
+          // position label
+          label.translate(x,y);
 
         } else if (label_space.w > Timeline.PE_TEXT_AGGREGATED_LABEL_WIDTH_THRESHOLD) {
 
           textColor = timeline.getLuminanceFor(color) > Timeline.PE_LUMINANCE_THRESHOLD ?
                       Timeline.PE_DARK_TEXT_COLOR : Timeline.PE_LIGHT_TEXT_COLOR;
 
-          var text = this.subject;
+          text = this.subject;
           label = timeline.paper.text(0, 0, text);
           label.attr({
             'font-size': 12,
@@ -697,6 +692,7 @@ openprojectApp.factory('PlanningElement', [function() {
         //self.addElement(e);
       });
     },
+
     renderVertical: function(node) {
       var timeline = this.timeline;
       var paper = timeline.getPaper();
