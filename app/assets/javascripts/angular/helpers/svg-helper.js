@@ -39,6 +39,73 @@
 
 openprojectApp.factory('SvgHelper', [function() {
 
+  var SvgHelper = function(node) {
+    this.root = this.provideNode('svg').attr({
+      'width': 640,
+      'height': 480
+    });
+    jQuery(node).append(this.root);
+  };
+
+  SvgHelper.prototype.toString = function() {
+    return "SvgHelper";
+  };
+
+  SvgHelper.prototype.provideNode = function(elementName) {
+    return document.createElementNS(
+      'http://www.w3.org/2000/svg',
+      elementName
+    );
+  };
+
+  SvgHelper.prototype.clear = function() {
+    var node = this.root;
+    while (node.hasChildNodes() ){
+      node.removeChild(node.lastChild);
+    }
+    return this;
+  };
+
+  SvgHelper.prototype.setSize = function(w, h) {
+    this.root.attr({
+      'width': w,
+      'height': h,
+    });
+  };
+
+  SvgHelper.prototype.rect = function(x, y, w, h, r) {
+    var node = this.provideNode('rect').attr({
+      'x': x,
+      'y': y,
+      'width': w,
+      'height': h
+    });
+
+    if (r) {
+      node.round(r);
+    }
+
+    this.root.appendChild(node);
+    return node;
+  };
+
+  SvgHelper.prototype.path = function(direction) {
+    var node = this.provideNode('path').attr({
+      'd': direction
+    });
+    this.root.appendChild(node);
+    return node;
+  };
+
+  SvgHelper.prototype.text = function(x, y, text) {
+    var node = this.provideNode('text');
+    node.translate(x, y);
+    node.textContent = text;
+
+    this.root.appendChild(node);
+    return node;
+  };
+
   jQuery.each([SVGSVGElement, SVGRectElement, SVGPathElement,
       SVGTextElement], function (i, klass) {
     klass.prototype.attr = function(attributeHash) {
@@ -59,94 +126,36 @@ openprojectApp.factory('SvgHelper', [function() {
         'y': y
       });
     };
+
+    klass.prototype.insertAfter = function(node) {
+      this.parentNode.insertBefore(node, this.nextSibling);
+    };
   });
 
-  SVGTextElement.prototype.insertAfter = function() {
-    // TODO
-  }
+  SVGRectElement.prototype.round = function(r) {
+    this.attr({
+      'rx': r,
+      'ry': r
+    });
+  };
 
-  SVGRectElement.prototype.hover = function() {
-    // TODO
-  }
+  SVGRectElement.prototype.hover = function(f_in, f_out) {
+    this.addEventListener("mouseover", f_in);
+    this.addEventListener("mouseout", f_out);
+  };
 
   SVGRectElement.prototype.unhover = function() {
-    // TODO
-  }
+    // TODO (not sure if we even need this)
+  };
 
-  SVGRectElement.prototype.click = function() {
-    // TODO
-  }
+  SVGRectElement.prototype.click = function(cb) {
+    this.addEventListener("click", cb);
+  };
 
   SVGPathElement.prototype.transform = function(transform) {
     return this.attr({'transform': transform});
   };
 
-  var SvgHelper = (function() {
-
-    var SvgHelper = function(node) {
-      this.root = this.provideNode('svg').attr({
-        'width': 640,
-        'height': 480
-      });
-      jQuery(node).append(this.root);
-    };
-
-    SvgHelper.prototype.toString = function() {
-      return "SvgHelper";
-    };
-
-    SvgHelper.prototype.provideNode = function(elementName) {
-      return document.createElementNS(
-        'http://www.w3.org/2000/svg',
-        elementName
-      );
-    };
-
-    SvgHelper.prototype.clear = function() {
-      var node = this.root;
-      while (node.hasChildNodes() ){
-        node.removeChild(node.lastChild);
-      }
-      return this;
-    };
-
-    SvgHelper.prototype.setSize = function(w, h) {
-      this.root.attr({
-        'width': w,
-        'height': h,
-      });
-    };
-
-    SvgHelper.prototype.rect = function(x, y, w, h) {
-      var node = this.provideNode('rect').attr({
-        'x': x,
-        'y': y,
-        'width': w,
-        'height': h,
-      });
-      this.root.appendChild(node);
-      return node;
-    };
-
-    SvgHelper.prototype.path = function(direction) {
-      var node = this.provideNode('path').attr({
-        'd': direction
-      });
-      this.root.appendChild(node);
-      return node;
-    };
-
-    SvgHelper.prototype.text = function(x, y, text) {
-      var node = this.provideNode('text');
-      node.translate(x, y);
-      node.textContent = text;
-
-      this.root.appendChild(node);
-      return node;
-    };
-
-    return SvgHelper;
-  })();
 
   return SvgHelper;
 }]);
