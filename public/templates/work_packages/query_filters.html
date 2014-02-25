@@ -1,6 +1,6 @@
 <fieldset id="filters" class="header_collapsible collapsible">
   <legend ng-click="showFilters = !showFilters" title="{{showFilters && 'Hide' || 'Show'}} filters">
-    <a href="javascript:">Filters</a>
+    <a href="javascript:">{{ I18n.t('js.work_packages.label_filter_add') }}</a>
   </legend>
 
   <div ng-show="showFilters" class="filter-fields">
@@ -25,7 +25,7 @@
 
                   <!-- Operator -->
                   <td style="width:150px;">
-                    <label class="hidden-for-sighted" for="operators_{{filter.name}}">Filter</label>
+                    <label class="hidden-for-sighted" for="operators_{{filter.name}}">{{ I18n.t('js.work_packages.description_filter') }}</label>
                     <select require
                             class="select-small to-validate"
                             id="operators-{{filter.name}}"
@@ -42,6 +42,7 @@
                          ng-if="!showValueOptionsAsSelect"
                          ng-show="showValuesInput"
                          ng-switch="query.getFilterType(filter.name)">
+                      <div ng-switch-when="string">wassap</div>
                       <input ng-switch-when="string"
                              ng-model="filter.values"
                              ng-minlength="3"
@@ -55,7 +56,7 @@
                       <label ng-switch-when="string"
                              for="values_{{name}}"
                              class="hidden-for-sighted">
-                             Enter text
+                        {{ I18n.t('js.work_packages.description_enter_text') }}
                       </label>
 
                       <input ng-switch-when="text"
@@ -68,7 +69,9 @@
                              size="30"
                              type="text"
                              value=""/>
-                      <label ng-switch-when="'text'"for="values_{{name}}" class="hidden-for-sighted">Enter text</label>
+                      <label ng-switch-when="'text'"for="values_{{name}}" class="hidden-for-sighted">
+                        {{ I18n.t('js.work_packages.description_enter_text') }}
+                      </label>
 
                       <input ng-switch-when="integer"
                              ng-model="filter.values"
@@ -79,7 +82,9 @@
                              size="3"
                              type="text"
                              value=""/>
-                      <label ng-switch-when="'integer'" for="values_{{name}}" class="hidden-for-sighted">Enter number</label>
+                      <label ng-switch-when="'integer'" for="values_{{name}}" class="hidden-for-sighted">
+                        {{ I18n.t('js.work_packages.description_enter_text') }}
+                      </label>
 
                       <input ng-switch-when="date"
                              ng-model="filter.values"
@@ -89,7 +94,9 @@
                              name="v_{{filter.name}}"
                              size="3"
                              type="text"/>
-                      <label ng-switch-when="'date'" for="values_{{name}}" class="hidden-for-sighted">days</label>
+                      <label ng-switch-when="'date'" for="values_{{name}}" class="hidden-for-sighted">
+                        {{ I18n.t('js.work_packages.time_relative.days') }}
+                      </label>
 
                       <input ng-switch-when="date_past"
                              ng-model="filter.values"
@@ -99,7 +106,9 @@
                              name="v_{{filter.name}}"
                              size="3"
                              type="text"/>
-                      <label ng-switch-when="'date'" for="values_{{name}}" class="hidden-for-sighted">days</label>
+                      <label ng-switch-when="'date'" for="values_{{name}}" class="hidden-for-sighted">
+                        {{ I18n.t('js.work_packages.time_relative.days') }}
+                      </label>
 
                     </div>
 
@@ -130,7 +139,7 @@
 
           <td class="add-filter">
 
-            <label for="add_filter_select">Add filter</label>:
+            <label for="add_filter_select">{{ I18n.t('js.work_packages.label_filter_add') }}</label>:
             <select class="select-small"
                     id="add_filter_select"
                     ng-change="add_filter()"

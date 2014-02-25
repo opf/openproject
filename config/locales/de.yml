@@ -634,6 +634,15 @@ de:
       title: "Ihr Browser wird nicht unterstützt"
       message: "Sie verwenden einen veralteten Browser. OpenProject unterstützt diesen Browser nicht länger. Bitte aktualisieren Sie Ihren Browser."
       learn_more: "Mehr erfahren"
+    work_packages:
+      label_filter_add: "Filter hinzufügen"
+      label_filter_plural: "Filter"
+      description_filter: "Filter"
+      description_enter_text: "Text eingeben"
+      time_relative:
+        days: "Tagen"
+        weeks: "Wochen"
+        months: "Monaten"
 
   label_account: "Konto"
   label_activity: "Aktivität"
