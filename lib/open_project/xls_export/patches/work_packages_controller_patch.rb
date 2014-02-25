@@ -37,27 +37,24 @@ module OpenProject::XlsExport
           columns = query.columns
 
           sb = SpreadsheetBuilder.new("#{I18n.t(:label_work_package_plural)}")
+          formatters = OpenProject::XlsExport::Formatters.for_columns(columns)
 
           headers = columns.collect(&:caption).unshift("#")
           headers << WorkPackage.human_attribute_name(:description) if options[:show_descriptions]
           sb.add_headers headers, 0
 
-          issues.each do |issue|
+          issues.each do |work_package|
             row = (columns.collect do |column|
-                    cv = column.value(issue)
+                    cv = formatters[column].format work_package, column
                     (cv.respond_to? :name) ? cv.name : cv
-                  end).unshift(issue.id)
-            row << issue.description if options[:show_descriptions]
+                  end).unshift(work_package.id)
+            row << work_package.description if options[:show_descriptions]
             sb.add_row(row)
           end
 
-          headers.each_with_index do |h,idx|
-            h = h.to_s.downcase
-            if (h =~ /.*hours.*/ or h == "spent_time")
-              sb.add_format_option_to_column idx, :number_format => "0.0 h"
-            elsif (h =~ /.*cost.*/)
-              sb.add_format_option_to_column idx, :number_format => number_to_currency(0.00)
-            end
+          columns.each_with_index do |column, i|
+            options = formatters[column].format_options column
+            sb.add_format_option_to_column i + 1, options
           end
 
           sb
