@@ -53,7 +53,7 @@ describe Query do
   describe '#valid?' do
     it "should not be valid without a name" do
       query.name = ''
-      expect(query.valid?).to be_false
+      expect(query.save).to be_false
       expect(query.errors[:name].first).to include(I18n.t('activerecord.errors.messages.blank'))
     end
 
