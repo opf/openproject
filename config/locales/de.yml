@@ -149,7 +149,7 @@ de:
   label_sprint_velocity: "Geschwindigkeit %{velocity}, basiert auf %{sprints} Sprints mit einem Durchschnitt von %{days} Tagen"
   label_stories: "Stories"
   label_stories_tasks: "Stories/Aufgaben"
-  label_task_board: "Aufgabenliste"
+  label_task_board: "Taskboard"
   label_version_setting: "Versionen"
   label_webcal: "Webcal Feed"
   label_wiki: "Wiki"
