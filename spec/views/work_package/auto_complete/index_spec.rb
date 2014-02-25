@@ -32,10 +32,6 @@ describe 'work_packages/auto_completes/index.html.erb' do
   let(:work_package) { FactoryGirl.build( :work_package,
                                           :subject => '<script>alert("do not alert this");</script>') }
 
-  before do
-    params[:format] = 'json'
-  end
-
   it 'escapes work package subject in auto-completion' do
     assign :work_packages, [work_package]
     render
