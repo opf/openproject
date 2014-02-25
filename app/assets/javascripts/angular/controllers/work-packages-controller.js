@@ -1,6 +1,6 @@
 angular.module('openproject.workPackages.controllers')
 
-.controller('WorkPackagesController', ['$scope', 'WorkPackagesTableHelper', function($scope, WorkPackagesTableHelper) {
+.controller('WorkPackagesController', ['$scope', 'WorkPackagesTableHelper', 'Query', function($scope, WorkPackagesTableHelper, Query) {
 
   $scope.$watch('groupBy', function() {
     var groupByColumnIndex = $scope.columns.map(function(column){
@@ -11,23 +11,25 @@ angular.module('openproject.workPackages.controllers')
     $scope.query.group_by = $scope.groupBy; // keep the query in sync
   });
 
-  $scope.setupQuery = function(json) {
-    $scope.projectIdentifier = json.project_identifier;
+  function initialSetup() {
+    $scope.projectIdentifier = gon.project_identifier;
+    $scope.operatorsAndLabelsByFilterType = gon.operators_and_labels_by_filter_type;
+  }
 
-    $scope.query = json.query;
+  function setupQuery() {
+    $scope.query = new Query(gon.query);
 
     // Columns
-    $scope.columns = json.columns;
-    $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(json.available_columns, $scope.columns);
+    $scope.columns = gon.columns;
+    $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(gon.available_columns, $scope.columns);
 
     $scope.groupBy = $scope.query.group_by;
-    $scope.currentSortation = json.sort_criteria;
+    $scope.currentSortation = gon.sort_criteria;
 
     angular.extend($scope.query, {
       selectedColumns: $scope.columns
     });
   };
-
 
   $scope.setupWorkPackagesTable = function(json) {
     $scope.workPackageCountByGroup = json.work_package_count_by_group;
@@ -37,6 +39,8 @@ angular.module('openproject.workPackages.controllers')
   };
 
   // Initially setup scope via gon
-  $scope.setupQuery(gon);
+  initialSetup();
+  setupQuery(gon);
+
   $scope.setupWorkPackagesTable(gon);
 }]);

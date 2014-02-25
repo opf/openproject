@@ -227,6 +227,7 @@ class WorkPackagesController < ApplicationController
       format.html do
         # push work packages to client as JSON
         # TODO pull work packages via AJAX
+        push_filter_operators_and_labels
         push_query_and_results_via_gon results, work_packages
 
         render :index, :locals => { :query => @query,
@@ -271,7 +272,7 @@ class WorkPackagesController < ApplicationController
 
     column_names = params[:column_names]
     ids = params[:ids].map(&:to_i)
-    work_packages = Array.wrap(WorkPackage.find(*ids)).sort {|a,b| ids.index(a.id) <=> ids.index(b.id)}
+    work_packages = Array.wrap(WorkPackage.visible.find(*ids)).sort {|a,b| ids.index(a.id) <=> ids.index(b.id)}
 
     render json: fetch_columns_data(column_names, work_packages)
   end
@@ -512,12 +513,34 @@ class WorkPackagesController < ApplicationController
   # ------------------- Form JSON reponse for angular -------------------
   # TODO provide data in API
 
+  def push_filter_operators_and_labels
+    gon.operators_and_labels_by_filter_type = get_operators_and_labels_by_filter_type
+
+  end
+
   def push_query_and_results_via_gon(results, work_packages)
     get_query_and_results_as_json(results, work_packages).each_pair do |name, value|
+      # binding.pry if name == :query
       gon.send "#{name}=", value
     end
     # TODO later versions of gon support gon.push {Hash} - on the other hand they make it harder to deliver data to gon inside views
   end
+
+  # filter information
+
+  def get_operators_and_labels_by_filter_type
+    Queries::Filter.operators_by_filter_type.inject({}) do |hash, (type, operators)|
+      hash.merge type => get_operators_to_label_hash(operators)
+    end
+  end
+
+  def get_operators_to_label_hash(operators)
+    operators.inject({}) do |operators_with_labels, operator|
+      operators_with_labels.merge(operator => I18n.t(Queries::Filter.operators[operator]))
+    end
+  end
+
+  # query
 
   def get_query_and_results_as_json(results, work_packages)
     get_results_as_json(results, work_packages).merge(
@@ -539,7 +562,8 @@ class WorkPackagesController < ApplicationController
   end
 
   def get_query_as_json(query)
-    query.as_json only: [:group_by, :display_sums]
+    query.as_json only: [:id, :group_by, :display_sums],
+                  methods: [:available_work_package_filters]
   end
 
   def get_columns_for_json(columns)
@@ -553,6 +577,8 @@ class WorkPackagesController < ApplicationController
       }
     end
   end
+
+  # work packages
 
   def get_work_packages_as_json(work_packages, selected_columns=[])
     attributes_to_be_displayed = default_work_package_attributes +

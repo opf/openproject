@@ -38,17 +38,6 @@ angular.module('openproject.workPackages.directives')
             var removed = columns.splice(WorkPackagesTableHelper.getColumnIndexByName(columns, columnName), 1).first();
             return !(typeof(callback) === 'undefined') ? callback.call(this, removed) : null;
           }
-
-          function getColumnIndexes(columnNames, columns) {
-            return columnNames
-              .map(function(name) {
-                return WorkPackagesTableHelper.getColumnIndexByName(columns, name);
-              })
-              .filter(function(columnIndex){
-                return columnIndex !== -1;
-              });
-          }
-
         }
       };
     }

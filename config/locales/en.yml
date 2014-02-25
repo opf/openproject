@@ -631,6 +631,15 @@ en:
       title: "Your browser is not supported"
       message: "The browser you are using is no longer supported by OpenProject. Please update your browser."
       learn_more: "Learn more"
+    work_packages:
+      label_filter_add: "Add filter"
+      label_filter_plural: "Filters"
+      description_filter: "Filter"
+      description_enter_text: "Enter text"
+      time_relative:
+        days: "days"
+        weeks: "weeks"
+        months: "months"
 
   label_account: "Account"
   label_activity: "Activity"
