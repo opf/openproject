@@ -9,9 +9,10 @@ angular.module('openproject.workPackages.directives')
       return {
         pre: function(scope, iElement, iAttrs, controller) {
           function fetchSums() {
-            WorkPackageService.getWorkPackagesSums(scope.projectIdentifier, scope.columns).then(function(sumsData){
-              scope.sums = sumsData;
-            });
+            scope.withLoading(WorkPackageService.getWorkPackagesSums, [scope.projectIdentifier, scope.columns])
+              .then(function(sumsData){
+                scope.sums = sumsData;
+              });
           }
 
           scope.$watch('columns.length', function() {

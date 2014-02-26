@@ -17,7 +17,7 @@ angular.module('openproject.workPackages.directives')
           });
 
           function reloadWorkPackagesTableData() {
-            WorkPackageService.getWorkPackages(scope.projectIdentifier, scope.query)
+            scope.withLoading(WorkPackageService.getWorkPackages, [scope.projectIdentifier, scope.query])
               .then(scope.setupWorkPackagesTable);
           }
         }

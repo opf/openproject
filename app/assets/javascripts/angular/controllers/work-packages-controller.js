@@ -31,6 +31,23 @@ angular.module('openproject.workPackages.controllers')
     });
   };
 
+  $scope.withLoading = function(callback, params){
+    startedLoading();
+    return callback.apply(this, params).then(function(data){
+      finishedLoading();
+      return data;
+    });
+  };
+
+  function startedLoading() {
+    // TODO: We could also disable/enable everything to prevent multiple updates (Or maybe we want this anyway?)
+    $scope.loading++;
+  };
+
+  function finishedLoading() {
+    $scope.loading--;
+  };
+
   $scope.setupWorkPackagesTable = function(json) {
     $scope.workPackageCountByGroup = json.work_package_count_by_group;
     $scope.rows = WorkPackagesTableHelper.getRows(json.work_packages, $scope.groupBy);
@@ -43,4 +60,5 @@ angular.module('openproject.workPackages.controllers')
   setupQuery(gon);
 
   $scope.setupWorkPackagesTable(gon);
+  $scope.loading = 0;
 }]);
