@@ -306,7 +306,9 @@ class WorkPackagesController < ApplicationController
         end
       else
         work_packages.map do |work_package|
-          value = work_package.send(column_name) and value.is_a?(ActiveRecord::Base) ? value.attributes : value
+          # Note: Doing as_json here because if we just take the value.attributes then we can't get any methods later.
+          #       Name and subject are the default properties that the front end currently looks for to summarize an object.
+          value = work_package.send(column_name) and value.is_a?(ActiveRecord::Base) ? value.as_json( only: "id", methods: [:name, :subject] ) : value
         end
       end
   end
@@ -585,20 +587,19 @@ class WorkPackagesController < ApplicationController
   def get_column_meta(column)
     # This is where we want to add column specific behaviour to instruct the front end how to deal with it
     # Needs to be things like user link,project link, datetime
-
-    link_meta = !!(display_meta()[column.name]) ? display_meta()[column.name] : { link: { display: false } }
     {
       data_type: column_type(column),
-      link: link_meta
+      link: !!(link_meta()[column.name]) ? link_meta()[column.name] : { display: false }
     }
   end
 
-  def display_meta
+  def link_meta
     {
       subject: { display: true, model_type: "work_package" },
       type: { display: false },
       status: { display: false },
       priority: { display: false },
+      parent: { display: true, model_type: "user" },
       assigned_to: { display: true, model_type: "user" },
       responsible: { display: true, model_type: "user" },
       author: { display: true, model_type: "user" },
