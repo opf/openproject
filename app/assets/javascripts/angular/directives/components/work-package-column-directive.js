@@ -19,37 +19,33 @@ angular.module('openproject.uiComponents')
 
       function updateColumnData() {
         scope.displayText = WorkPackagesHelper.getColumnValue(scope.workPackage, scope.column) || defaultText;
-
-        // TODO RS: Manually set all the column display types. We will need:
-        //          Text, Link... what else?
-        //          Date formatting is much easier server side. Check time_with_zone_as_json initializer.
-
         scope.displayType = defaultType;
 
-        switch (scope.column.name){
-          case 'subject':
-            scope.displayType = 'link';
-            scope.url = PathHelper.workPackagePath(scope.workPackage.id);
-            break;
-          case 'assigned_to':
-            scope.displayType = 'link';
-            if (scope.workPackage.assigned_to) scope.url = PathHelper.userPath(scope.workPackage.assigned_to.id);
-            break;
-          case 'responsible':
-            scope.displayType = 'link';
-            if (scope.workPackage.responsible) scope.url = PathHelper.userPath(scope.workPackage.responsible.id);
-            break;
-          case 'author':
-            scope.displayType = 'link';
-            if (scope.workPackage.author) scope.url = PathHelper.userPath(scope.workPackage.author.id);
-            break;
-          case 'project':
-            scope.displayType = 'link';
-            if (scope.workPackage.project) scope.url = PathHelper.projectPath(scope.workPackage.project.identifier);
-            break;
+        // Example of how we can look to the provided meta data to format the column
+        // This relies on the meta being sent from the server
+        if (scope.column.meta_data.link.display) {
+          scope.displayType = 'link';
+          scope.url = getLinkFor(scope.column.meta_data.link);
         }
+
       }
 
+      function getLinkFor(link_meta){
+        switch (link_meta.model_type){
+          case 'work_package':
+            url = PathHelper.workPackagePath(scope.workPackage.id);
+            break;
+          case 'user':
+            if (scope.workPackage[scope.column.name]) url = PathHelper.userPath(scope.workPackage[scope.column.name].id);
+            break;
+          case 'project':
+            if (scope.workPackage.project) url = PathHelper.projectPath(scope.workPackage.project.identifier);
+            break;
+          default:
+            url = "";
+        };
+        return url;
+      }
 
     }
   };
