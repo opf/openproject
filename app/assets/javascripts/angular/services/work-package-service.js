@@ -63,7 +63,7 @@ angular.module('openproject.services')
       }).error(function(data, status, headers, config){
         return errorHanlder.call(this, data);
       }).then(function(response){
-        return data;
+        return response.data;
       });
     }
   };
