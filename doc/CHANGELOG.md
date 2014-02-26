@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#3084` Fix: [Administration - Work Packages] Workflow Status sorting not respected
+* `#3312` Fix: [Administration - Custom Fields] "Visible" and "Editable" in user custom field cannot be unchecked
 * `#4858` XSS in wp auto-completion
 * Added pry-byebug for ruby 2.1
 
