@@ -62,7 +62,7 @@ class WorkflowsController < ApplicationController
     if @type && @used_statuses_only && @type.statuses.any?
       @statuses = @type.statuses
     end
-    @statuses ||= Status.find(:all, :order => 'position')
+    @statuses ||= Status.all
 
     if @type && @role && @statuses.any?
       workflows = Workflow.all(:conditions => {:role_id => @role.id, :type_id => @type.id})

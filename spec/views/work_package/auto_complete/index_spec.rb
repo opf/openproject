@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
@@ -27,47 +26,20 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Reports::Report
+require 'spec_helper'
 
-  def initialize(project)
-    @project = project
+describe 'work_packages/auto_completes/index.html.erb' do
+  let(:work_package) { FactoryGirl.build( :work_package,
+                                          :subject => '<script>alert("do not alert this");</script>') }
+
+  it 'escapes work package subject in auto-completion' do
+    assign :work_packages, [work_package]
+    render
+    # there are items
+    response.should have_selector "li"
+    # but there is not script tag
+    response.should_not have_selector "script"
+    # normal text should be included
+    response.should include "do not alert this"
   end
-
-  def self.report_type
-    "default"
-  end
-
-  def report_type
-    self.class.report_type
-  end
-
-  def statuses
-    @statuses ||= Status.all
-  end
-
-  # ---- every report needs to implement these methods to supply all needed data for a report -----
-  def field
-    raise NotImplementedError
-  end
-
-  def rows
-    raise NotImplementedError
-  end
-
-  def data
-    raise NotImplementedError
-  end
-
-  def title
-    raise NotImplementedError
-  end
-
 end
-
-
-
-
-
-
-
-

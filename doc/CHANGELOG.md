@@ -29,6 +29,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#3084` Fix: [Administration - Work Packages] Workflow Status sorting not respected
+* `#4858` XSS in wp auto-completion
+* Added pry-byebug for ruby 2.1
+
 ## 3.0.0pre48
 
 * `#1390` Fix: Deleting Issue Categories from a project - route not defined
