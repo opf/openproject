@@ -1,0 +1,46 @@
+<div id="query_form_content" class="hide-when-print">
+
+  <query-filters></query-filters>
+
+  <!-- options angular, under construction -->
+  <fieldset query-form id="column_options" class="header_collapsible collapsible collapsed">
+    <legend title="{{ I18n.t('js.work_packages.description_option_toggle') }}", ng-click="showQueryOptions = !showQueryOptions"><a ng-href="">{{ I18n.t('js.work_packages.label_options') }}</a></legend>
+
+    <div ng-show="showQueryOptions">
+      <table style="">
+        <tbody>
+          <tr>
+            <td>{{ I18n.t('js.work_packages.query.column_names') }}</td>
+
+            <td>
+              <query-columns></query-columns>
+
+            </td>
+          </tr>
+          <tr>
+            <td><label for="group_by">{{ I18n.t('js.work_packages.query.group_by') }}</label></td>
+            <td>
+              <select id="group_by"
+                      name="group_by"
+                      ng-options="column.name as column.title for column in columns"
+                      ng-model="groupBy">
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td><label for="display_sums">{{ I18n.t('js.work_packages.query.display_sums') }}</label></td>
+            <td>
+              <input id="display_sums"
+                     name="display_sums"
+                     type="checkbox"
+                     value="1"
+                     ng-model="query.display_sums"/>
+             </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </fieldset>
+
+</div>

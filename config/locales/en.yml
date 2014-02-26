@@ -650,14 +650,22 @@ en:
       error: "An error has occured."
       label_filter_add: "Add filter"
       label_filter_plural: "Filters"
+      label_options: "Options"
       description_filter: "Filter"
       description_enter_text: "Enter text"
+      description_option_toggle: "Show/Hide options"
       really_close_dialog: "Do you really want to close the dialog and loose the entered data?"
       time_relative:
         days: "days"
         weeks: "weeks"
         months: "months"
       zoom_slider: "Zoom slider"
+      query:
+        column_names: "Columns"
+        group_by: "Group results by"
+        filters: "Filters"
+        group_by: "Group results by"
+        display_sums: "Display Sums"
 
   label_account: "Account"
   label_activity: "Activity"
