@@ -78,8 +78,6 @@ describe WorkPackagesController, "rendering to xls", :type => :controller do
 
       require 'spreadsheet'
 
-      %x[cp #{f.path} ~/Desktop/result.xls]
-
       @sheet = Spreadsheet.open(f.path).worksheets.first
       f.unlink
     end
