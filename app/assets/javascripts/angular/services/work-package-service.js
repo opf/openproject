@@ -9,7 +9,7 @@ angular.module('openproject.services')
       return WorkPackageService.doQuery(url, query.toParams());
     },
 
-    loadWorkPackageColumnsData: function(workPackages, columnNames) {
+    loadWorkPackageColumnsData: function(workPackages, columnNames, errorHanlder) {
       var url = PathHelper.workPackagesColumnDataPath();
 
       var params = {
@@ -19,7 +19,7 @@ angular.module('openproject.services')
         'column_names[]': columnNames
       };
 
-      return WorkPackageService.doQuery(url, params);
+      return WorkPackageService.doQuery(url, params, errorHanlder);
     },
 
     // Note: Should this be on a project-service?
@@ -37,12 +37,12 @@ angular.module('openproject.services')
       return WorkPackageService.doQuery(url, params);
     },
 
-    augmentWorkPackagesWithColumnsData: function(workPackages, columns) {
+    augmentWorkPackagesWithColumnsData: function(workPackages, columns, errorHanlder) {
       var columnNames = columns.map(function(column){
         return column.name;
       });
 
-      return WorkPackageService.loadWorkPackageColumnsData(workPackages, columnNames)
+      return WorkPackageService.loadWorkPackageColumnsData(workPackages, columnNames, errorHanlder)
         .then(function(columnsData){
           angular.forEach(workPackages, function(workPackage, i) {
             angular.forEach(columns, function(column, j){
@@ -54,14 +54,16 @@ angular.module('openproject.services')
         });
     },
 
-    doQuery: function(url, params) {
+    doQuery: function(url, params, errorHanlder) {
       return $http({
         method: 'GET',
         url: url,
         params: params,
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'
-      }}).then(function(response){
-        return response.data;
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+      }).error(function(data, status, headers, config){
+        return errorHanlder.call(this, data);
+      }).then(function(response){
+        return data;
       });
     }
   };

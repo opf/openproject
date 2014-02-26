@@ -33,6 +33,7 @@ angular.module('openproject.workPackages.controllers')
 
   $scope.withLoading = function(callback, params){
     startedLoading();
+    params.push(serviceErrorHandler);
     return callback.apply(this, params).then(function(data){
       finishedLoading();
       return data;
@@ -40,12 +41,16 @@ angular.module('openproject.workPackages.controllers')
   };
 
   function startedLoading() {
-    // TODO: We could also disable/enable everything to prevent multiple updates (Or maybe we want this anyway?)
-    $scope.loading++;
+    $scope.loading = true;
   };
 
   function finishedLoading() {
-    $scope.loading--;
+    $scope.loading = false;
+  };
+
+  function serviceErrorHandler(data){
+    // TODO RS: This is where we'd want to put an error message on the dom
+    $scope.loading = false;
   };
 
   $scope.setupWorkPackagesTable = function(json) {
