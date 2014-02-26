@@ -231,7 +231,7 @@ module Project::Copy
       # Copies queries from +project+
     def copy_queries(project)
       project.queries.each do |query|
-        new_query = ::Query.new name: ' '
+        new_query = ::Query.new name: '_'
         new_query.attributes = query.attributes.dup.except("id", "project_id", "sort_criteria")
         new_query.sort_criteria = query.sort_criteria if query.sort_criteria
         new_query.project = self
