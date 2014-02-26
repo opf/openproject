@@ -32,6 +32,7 @@ class SortHelperTest < HelperTestCase
   include SortHelper
 
   def setup
+    super
     @session = nil
     @sort_param = nil
   end
