@@ -588,7 +588,7 @@ class WorkPackagesController < ApplicationController
     # This is where we want to add column specific behaviour to instruct the front end how to deal with it
     # Needs to be things like user link,project link, datetime
     {
-      data_type: column_type(column),
+      data_type: column_data_type(column),
       link: !!(link_meta()[column.name]) ? link_meta()[column.name] : { display: false }
     }
   end
@@ -607,7 +607,7 @@ class WorkPackagesController < ApplicationController
     }
   end
 
-  def column_type(column)
+  def column_data_type(column)
     if column.is_a?(QueryCustomFieldColumn)
       return column.custom_field.field_format
     elsif (c = WorkPackage.columns_hash[column.name.to_s] and !c.nil?)

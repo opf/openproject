@@ -3,10 +3,10 @@ angular.module('openproject.services')
 .service('WorkPackageService', ['$http', 'PathHelper', 'WorkPackagesHelper', function($http, PathHelper, WorkPackagesHelper) {
 
   var WorkPackageService = {
-    getWorkPackages: function(projectId, query) {
+    getWorkPackages: function(projectId, query, errorHanlder) {
       var url = projectId ? PathHelper.projectWorkPackagesPath(projectId) : PathHelper.workPackagesPath();
 
-      return WorkPackageService.doQuery(url, query.toParams());
+      return WorkPackageService.doQuery(url, query.toParams(), errorHanlder);
     },
 
     loadWorkPackageColumnsData: function(workPackages, columnNames, errorHanlder) {
@@ -23,7 +23,7 @@ angular.module('openproject.services')
     },
 
     // Note: Should this be on a project-service?
-    getWorkPackagesSums: function(projectId, columns){
+    getWorkPackagesSums: function(projectId, columns, errorHanlder){
       var columnNames = columns.map(function(column){
         return column.name;
       });
@@ -34,7 +34,7 @@ angular.module('openproject.services')
         'column_names[]': columnNames
       };
 
-      return WorkPackageService.doQuery(url, params);
+      return WorkPackageService.doQuery(url, params, errorHanlder);
     },
 
     augmentWorkPackagesWithColumnsData: function(workPackages, columns, errorHanlder) {
