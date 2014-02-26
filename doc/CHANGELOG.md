@@ -15,6 +15,8 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+* Fixed non-functional plugin generation when this gem is taken from github directly
+
 ## 1.0.6
 
 * Allows plugin register to receive a block so plugins don't have to register with this plugin AND Redmine::Plugin
