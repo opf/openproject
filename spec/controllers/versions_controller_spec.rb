@@ -224,6 +224,19 @@ describe VersionsController do
       it { version1.reload.effective_date.should == Date.today }
     end
 
+    context "with valid params
+             with a redirect url" do
+      before do
+        User.stub(:current).and_return(user)
+        put :update, :id => version1.id,
+                     :version => { :name => 'New version name',
+                                   :effective_date => Date.today.strftime("%Y-%m-%d")},
+                     :back_url => home_path
+      end
+
+      it { response.should redirect_to(home_path) }
+    end
+
     context "with invalid params" do
       before do
         User.stub(:current).and_return(user)
