@@ -242,7 +242,7 @@ module Api
         if params[:f]
           #we need a project to make project-specific custom fields work
           project = timeline_to_project(params[:timeline])
-          query = Query.new(:project => project, :name => ' ')
+          query = Query.new(:project => project, :name => '_')
 
           query.add_filters(params[:f], params[:op], params[:v])
 
