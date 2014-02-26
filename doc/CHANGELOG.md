@@ -36,7 +36,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
-* `#2526` Burndown chart for future versions not working
+* `#542` Fix: Deleting the sprint dates still allows to create burndown charts that wont show
+* `#2526` Fix: Burndown chart for future versions not working
 * `#3440` New workpackage form layout
 * `#4118` [FIX] Add missing labels
 * `#4152` Page not found when only one export card configuration is specified
