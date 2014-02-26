@@ -35,6 +35,72 @@ describe WorkPackagesController, "rendering to xls", :type => :controller do
     end
   end
 
+  describe 'with cost and time entries' do
+    # Since this test has to work without the actual costs plugin we'll just add
+    # a custom field called 'costs' to emulate it.
+
+    let(:custom_field) { FactoryGirl.create(:work_package_custom_field, :name => 'unit costs', :field_format => 'float') }
+    let(:custom_value) { FactoryGirl.create(:custom_value, :custom_field => custom_field) }
+    let(:project)      { FactoryGirl.create(:project, :work_package_custom_fields => [custom_field]) }
+    let(:work_packages) do
+      value = lambda do |val|
+        FactoryGirl.create(:custom_value, :custom_field => custom_field, :value => val)
+      end
+      wps = FactoryGirl.create_list(:work_package, 4, :project => project)
+      wps[0].estimated_hours = 27.5
+      wps[0].save!
+      wps[1].custom_values << value.call(1)
+      wps[2].custom_values << value.call(99.99)
+      wps[3].custom_values << value.call(1000)
+      wps
+    end
+
+    before do
+      OpenProject::XlsExport::Formatters::TimeFormatter.stub(:apply?) do |column|
+        column.caption =~ /time/i
+      end
+
+      get 'index',
+        :format => 'xls',
+        :project_id => work_packages.first.project_id,
+        :set_filter => '1',
+        :c => ['subject', 'status', 'estimated_hours', "cf_#{custom_field.id}"]
+
+      expect(response.response_code).to eq(200)
+
+      f = Tempfile.new 'result.xls'
+      begin
+        f.binmode
+        f.write response.body
+      ensure
+        f.close
+      end
+
+      require 'spreadsheet'
+
+      %x[cp #{f.path} ~/Desktop/result.xls]
+
+      @sheet = Spreadsheet.open(f.path).worksheets.first
+      f.unlink
+    end
+
+    it 'should successfully export the work packages with a cost column' do
+      expect(@sheet.rows.size).to eq(4 + 1)
+
+      cost_column = @sheet.columns.last.to_a
+      [1, 99.99, 1000].each do |value|
+        expect(cost_column).to include(value)
+      end
+    end
+
+    it 'should include estimated hours' do
+      expect(@sheet.rows.size).to eq(4 + 1)
+
+      hours = @sheet.rows.last.values_at(3)
+      expect(hours).to include(27.5)
+    end
+  end
+
   context 'with descriptions' do
     before do
       get('index', :format => 'xls',
