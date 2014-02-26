@@ -663,7 +663,7 @@ Timeline.PlanningElement = {
           label.translate(x,y);
 
         } else if (label_space.w > Timeline.PE_TEXT_AGGREGATED_LABEL_WIDTH_THRESHOLD) {
-
+          // Elements in aggregation
           textColor = timeline.getLuminanceFor(color) > Timeline.PE_LUMINANCE_THRESHOLD ?
                       Timeline.PE_DARK_TEXT_COLOR : Timeline.PE_LIGHT_TEXT_COLOR;
 
@@ -676,7 +676,6 @@ Timeline.PlanningElement = {
           });
 
           x = label_space.x + label_space.w/2;
-          y -= 4;
 
           while (text.length > 0 && label.getBBox().width > label_space.w) {
             text = text.slice(0, -1);
