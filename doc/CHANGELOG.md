@@ -37,6 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#4793` Fix: [Search] Current project scope not shown
 * `#4858` XSS in wp auto-completion
 * Added pry-byebug for ruby 2.1
+* Allows redirecting to a back url on version#update
 
 ## 3.0.0pre48
 
