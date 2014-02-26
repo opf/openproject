@@ -28,10 +28,11 @@
 
 language: ruby
 rvm:
+  - jruby-18mode
+  - jruby-19mode
+  - jruby-20mode
+  - jruby-21mode
   - 2.1.0
-branches:
-  only:
-    - dev
 env:
   # mysql2
   - "TEST_SUITE=cucumber CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
