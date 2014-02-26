@@ -75,17 +75,17 @@ namespace :copyright do
   def copyright_regexp(format)
     case format
     when :ruby, :rb
-      /\A(?<shebang>#![^\n]+\n)?#--\s*copyright.*?\+\+/m
+      /\A(?<shebang>#![^\n]+\n)?(?<additional>.*)?#--\s*copyright.*?\+\+/m
     when :js, :css
-      /\A(?<shebang>#![^\n]+\n)?\/\/--\s*copyright.*?\/\/\+\+/m
+      /\A(?<shebang>#![^\n]+\n)?(?<additional>.*)?\/\/--\s*copyright.*?\/\/\+\+/m
     when :erb
-      /\A(?<shebang>#![^\n]+\n)?<%#--\s*copyright.*?\+\+#%>/m
+      /\A(?<shebang>#![^\n]+\n)?(?<additional>.*)?<%#--\s*copyright.*?\+\+#%>/m
     when :rdoc
-      /(?<shebang>)?-{10}\n={4} copyright\n\n[\s\S]*?\+\+\n-{10}\n\z/
+      /(?<shebang>)?(?<additional>.*)?-{10}\n={4} copyright\n\n[\s\S]*?\+\+\n-{10}\n\z/
     when :md, :html
-      /\A(?<shebang>#![^\n]+\n)?<!----\s*copyright.*?\+\+-->/m
+      /\A(?<shebang>#![^\n]+\n)?(?<additional>.*)?<!----\s*copyright.*?\+\+-->/m
     when :sql
-      /\A(?<shebang>#![^\n]+\n)?-- --\s*copyright.*?\+\+/m
+      /\A(?<shebang>#![^\n]+\n)?(?<additional>.*)?-- --\s*copyright.*?\+\+/m
     else
       raise "Undefined format #{format}"
     end
@@ -104,7 +104,7 @@ namespace :copyright do
 
       file_content = File.read(file_name)
       if file_content.match(regexp)
-        file_content.gsub!(regexp, '\k<shebang>' + copyright)
+        file_content.gsub!(regexp, '\k<shebang>' + '\k<additional>' + copyright)
       else
         if options[:position] == :bottom
           file_content = file_content + "\n\n" + copyright # append
