@@ -561,7 +561,7 @@ angular.module('openproject.timelines.models')
       }
 
       // ╭─────────────────────────────────────────────────────────╮
-      // │ Labels for rendered elements, either in aggregartion    │
+      // │ Labels for rendered elements, either in aggregation     │
       // │ or out of aggregation, inside of elements or outside.   │
       // ╰─────────────────────────────────────────────────────────╯
 
@@ -654,15 +654,17 @@ angular.module('openproject.timelines.models')
           label = timeline.paper.text(0, 0, text);
           label.attr({
             'font-size': 12,
+            'text-anchor': 'middle',
             'fill': textColor,
             'stroke': 'none'
           });
 
           x = label_space.x + label_space.w/2;
 
-          while (text.length > 0 && label.getBBox().width > label_space.w) {
+          // fit text to label space
+          while (text.length > 0 && label.getBBox().width + Timeline.PE_TEXT_INSIDE_PADDING / 2 > label_space.w) {
             text = text.slice(0, -1);
-            label.attr({ 'text': text });
+            label.textContent = text;
           }
 
           label.translate(x, y);
