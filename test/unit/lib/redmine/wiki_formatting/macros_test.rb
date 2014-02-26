@@ -43,9 +43,6 @@ class Redmine::WikiFormatting::MacrosTest < HelperTestCase
     @project = nil
   end
 
-  def teardown
-  end
-
   def test_macro_hello_world
     text = "{{hello_world}}"
     assert textilizable(text).match(/Hello world!/)

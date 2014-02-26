@@ -36,6 +36,7 @@ class FilesystemAdapterTest < ActiveSupport::TestCase
 
   if File.directory?(REPOSITORY_PATH)
     def setup
+      super
       @adapter = Redmine::Scm::Adapters::FilesystemAdapter.new(REPOSITORY_PATH)
     end
 

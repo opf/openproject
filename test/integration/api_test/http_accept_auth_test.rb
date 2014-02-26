@@ -33,11 +33,13 @@ class ApiTest::HttpAcceptAuthTest < ActionDispatch::IntegrationTest
   fixtures :all
 
   def setup
+    super
     Setting.rest_api_enabled = '1'
     Setting.login_required = '1'
   end
 
   def teardown
+    super
     Setting.rest_api_enabled = '0'
     Setting.login_required = '0'
   end
