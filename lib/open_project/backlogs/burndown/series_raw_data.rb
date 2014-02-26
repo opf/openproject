@@ -93,7 +93,7 @@ module OpenProject::Backlogs::Burndown
     end
 
     def data_for_dates(dates)
-
+      return [] if dates.empty?
       query_string = <<-SQL
       SELECT
         date_journals.date,
@@ -120,6 +120,8 @@ module OpenProject::Backlogs::Burndown
     end
 
     def authoritative_journal_for_date(dates)
+      raise 'dates must not be empty!' if dates.empty?
+
       query = <<-SQL
       SELECT
         d.date,
@@ -153,6 +155,8 @@ module OpenProject::Backlogs::Burndown
     end
 
     def dates_of_interest_join_table(dates)
+      raise 'dates must not be empty!' if dates.empty?
+
       @date_join ||= dates.map do |date|
         "SELECT CAST('#{date}' AS DATE) AS date"
       end.join(" UNION ")
