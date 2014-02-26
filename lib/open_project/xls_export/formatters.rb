@@ -8,12 +8,17 @@ module OpenProject::XlsExport
       end + [DefaultFormatter]
     end
 
+    def self.keys
+      all.map(&:key)
+    end
+
     ##
     # Returns a Hash mapping columns to formatters to be used.
     def self.for_columns(columns)
       formatters = self.all
       entries = columns.map do |column|
-        [column, formatters.find { |formatter| formatter.apply? column }.new]
+        formatter = formatters.find { |formatter| formatter.apply? column }
+        [column, (formatter || DefaultFormatter).new]
       end
       Hash[entries]
     end
@@ -22,13 +27,18 @@ module OpenProject::XlsExport
       ##
       # Takes a QueryColumn and returns true if this formatter should be used to handle it.
       def self.apply?(column)
-        true
+        column.xls_formatter == self.key
+      end
+
+      def self.key
+        name = self.name.underscore
+        name[0..(name.index("_") - 1)].to_sym
       end
 
       ##
       # Takes a WorkPackage and a QueryColumn and returns the value to be exported.
       def format(work_package, column)
-        column.value work_package
+        column.xls_value work_package
       end
 
       ##
@@ -40,32 +50,43 @@ module OpenProject::XlsExport
 
     class TimeFormatter < DefaultFormatter
       def self.apply?(column)
-        h = column.caption
-        h =~ /.*hours.*/ || h == "spent_time"
+        ##
+        # Fallback for code not defining any xls formatter.
+        # If there are columns with 'hours' in their caption that should
+        # not use the time formatter, they can simply define #xls_formatter
+        # to use something else, e.g. :default.
+        if column.xls_formatter.nil?
+          h = column.caption
+          h =~ /.*hours.*/i || h == "spent_time"
+        else
+          super.apply? column
+        end
       end
 
       def format_options(column)
-        {:number_format => "0.0 h"}
+        {:number_format => '0.0 "h"'}
       end
     end
 
-    class CostFormatter
-      include Redmine::I18n
-      include ActionView::Helpers::NumberHelper
-
+    class CostFormatter < DefaultFormatter
       def self.apply?(column)
-        column.name.to_s =~ /.*cost.*/
-      end
-
-      def format(work_package, column)
-        column.real_value work_package
+        ##
+        # Fallback for code not defining any xls formatter.
+        # If there are columns with 'cost' in their caption that should
+        # not use the cost formatter, they can simply define #xls_formatter
+        # to use something else, e.g. :default.
+        if column.xls_formatter.nil?
+          column.caption.to_s =~ /.*cost.*/i
+        else
+          super.apply?(column)
+        end
       end
 
       def format_options(column)
-        {:number_format => excel_format_string}
+        {:number_format => number_format_string}
       end
 
-      def excel_format_string
+      def number_format_string
         # [$CUR] makes sure we have an actually working currency format with arbitrary currencies
         curr = "[$CUR]".gsub "CUR", ERB::Util.h(Setting.plugin_openproject_costs['costs_currency'])
         format = ERB::Util.h Setting.plugin_openproject_costs['costs_currency_format']
