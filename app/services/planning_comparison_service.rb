@@ -63,7 +63,7 @@ SQL
                                       .joins(:project) # query doesn't provide these joins itself...
                                       .for_projects(projects)
 
-      query = Query.new
+      query = Query.new name: 'generated-query'
       query.add_filters(filter[:f], filter[:op], filter[:v])
 
       work_package_scope.with_query(query)

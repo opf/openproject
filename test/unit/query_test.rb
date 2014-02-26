@@ -252,12 +252,12 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_default_columns
-    q = Query.new
+    q = Query.new name: '_'
     assert !q.columns.empty?
   end
 
   def test_set_column_names
-    q = Query.new
+    q = Query.new name: '_'
     q.column_names = ['type', :subject, '', 'unknonw_column']
     assert_equal [:type, :subject], q.columns.collect {|c| c.name}
     c = q.columns.first
@@ -265,12 +265,12 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_groupable_columns_should_include_custom_fields
-    q = Query.new
+    q = Query.new name: '_'
     assert q.groupable_columns.detect {|c| c.is_a? QueryCustomFieldColumn}
   end
 
   def test_grouped_with_valid_column
-    q = Query.new(:group_by => 'status')
+    q = Query.new(:group_by => 'status', :name => '_')
     assert q.grouped?
     assert_not_nil q.group_by_column
     assert_equal :status, q.group_by_column.name
@@ -279,25 +279,25 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_grouped_with_invalid_column
-    q = Query.new(:group_by => 'foo')
+    q = Query.new(:group_by => 'foo', :name => '_')
     assert !q.grouped?
     assert_nil q.group_by_column
     assert_nil q.group_by_statement
   end
 
   def test_default_sort
-    q = Query.new
+    q = Query.new name: '_'
     assert_equal [], q.sort_criteria
   end
 
   def test_set_sort_criteria_with_hash
-    q = Query.new
+    q = Query.new name: '_'
     q.sort_criteria = {'0' => ['priority', 'desc'], '2' => ['type']}
     assert_equal [['priority', 'desc'], ['type', 'asc']], q.sort_criteria
   end
 
   def test_set_sort_criteria_with_array
-    q = Query.new
+    q = Query.new name: '_'
     q.sort_criteria = [['priority', 'desc'], 'type']
     assert_equal [['priority', 'desc'], ['type', 'asc']], q.sort_criteria
   end
@@ -311,7 +311,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_sort_by_string_custom_field_asc
-    q = Query.new
+    q = Query.new name: '_'
     c = q.available_columns.find {|col| col.is_a?(QueryCustomFieldColumn) && col.custom_field.field_format == 'string' }
     assert c
     assert c.sortable
@@ -325,7 +325,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_sort_by_string_custom_field_desc
-    q = Query.new
+    q = Query.new name: '_'
     c = q.available_columns.find {|col| col.is_a?(QueryCustomFieldColumn) && col.custom_field.field_format == 'string' }
     assert c
     assert c.sortable
@@ -339,7 +339,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_sort_by_float_custom_field_asc
-    q = Query.new
+    q = Query.new name: '_'
     c = q.available_columns.find {|col| col.is_a?(QueryCustomFieldColumn) && col.custom_field.field_format == 'float' }
     assert c
     assert c.sortable
@@ -353,7 +353,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_invalid_query_should_raise_query_statement_invalid_error
-    q = Query.new
+    q = Query.new name: '_'
     assert_raise ActiveRecord::StatementInvalid do
       q.results(:conditions => "foo = 1").work_packages.all
     end
@@ -386,7 +386,7 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_label_for
-    q = Query.new
+    q = Query.new name: '_'
     assert_equal 'assigned_to', q.label_for('assigned_to_id')
   end
 
@@ -702,5 +702,4 @@ class QueryTest < ActiveSupport::TestCase
       end
     end
   end
-
 end
