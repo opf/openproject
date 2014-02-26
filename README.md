@@ -85,7 +85,7 @@ OpenProject is supported by its community members, both companies as well as ind
 Join the OpenProject community and start collaborating. We envision building a platform to share ideas, contributions, and discussions around OpenProject and project collaboration. Each commitment is noteworthy as it helps to improve the software and the project.
 More details will be added on the OpenProject Community [contribution page](https://www.openproject.org/projects/openproject/wiki/Contribution).
 
-In case you find a bug or need a feature, please report at https://www.openproject.org/projects/plugin-plugins/issues
+In case you find a bug or need a feature, please report at https://www.openproject.org/projects/plugin-plugins/work_packages
 
 ## License
 
