@@ -107,6 +107,14 @@ describe PermittedParams do
     end
   end
 
+  describe :custom_field do
+    it "should permit move_to" do
+      params = ActionController::Parameters.new(:custom_field => { "editable" => "0", "visible" => "0", 'filtered' => 42 } )
+
+      PermittedParams.new(params, user).custom_field.should == { "editable" => "0", "visible" => "0" }
+    end
+  end
+
   describe :planning_element_type do
     it "should permit move_to" do
       hash = { "name" => "blubs" }
