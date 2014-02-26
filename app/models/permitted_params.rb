@@ -282,6 +282,7 @@ class PermittedParams < Struct.new(:params, :user)
         :hexcode,
         :move_to ],
       :custom_field => [
+        :editable,
         :field_format,
         :is_filter,
         :is_for_all,
@@ -293,6 +294,7 @@ class PermittedParams < Struct.new(:params, :user)
         :possible_values,
         :regexp,
         :searchable,
+        :visible,
         :translations_attributes => [
           :_destroy,
           :default_value,
