@@ -1,4 +1,6 @@
-<fieldset id="filters" class="header_collapsible collapsible">
+<fieldset id="filters"
+          class="header_collapsible collapsible"
+          ng-class="{collapsed: !showFilters }">
   <legend ng-click="showFilters = !showFilters" title="{{showFilters && 'Hide' || 'Show'}} filters">
     <a href="javascript:">{{ I18n.t('js.work_packages.label_filter_add') }}</a>
   </legend>

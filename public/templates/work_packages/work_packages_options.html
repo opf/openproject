@@ -3,7 +3,10 @@
   <query-filters></query-filters>
 
   <!-- options angular, under construction -->
-  <fieldset query-form id="column_options" class="header_collapsible collapsible collapsed">
+  <fieldset id="options"
+            query-form id="column_options"
+            class="header_collapsible collapsible"
+            ng-class="{collapsed: !showQueryOptions }">
     <legend title="{{ I18n.t('js.work_packages.description_option_toggle') }}", ng-click="showQueryOptions = !showQueryOptions"><a ng-href="">{{ I18n.t('js.work_packages.label_options') }}</a></legend>
 
     <div ng-show="showQueryOptions">
