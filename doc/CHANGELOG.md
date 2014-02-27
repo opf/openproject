@@ -32,9 +32,10 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2616` Fix:  Search: Clicking on 'Back' results in wrong data
 * `#3084` Fix: [Administration - Work Packages] Workflow Status sorting not respected
 * `#3312` Fix: [Administration - Custom Fields] "Visible" and "Editable" in user custom field cannot be unchecked
+* `#4296` Adapt new workpackage form layout
+* `#4793` Fix: [Search] Current project scope not shown
 * `#4858` XSS in wp auto-completion
 * Added pry-byebug for ruby 2.1
-* `#4793` Fix: [Search] Current project scope not shown
 
 ## 3.0.0pre48
 
