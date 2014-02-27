@@ -32,6 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2616` Fix:  Search: Clicking on 'Back' results in wrong data
 * `#3084` Fix: [Administration - Work Packages] Workflow Status sorting not respected
 * `#3312` Fix: [Administration - Custom Fields] "Visible" and "Editable" in user custom field cannot be unchecked
+* `#4046` Update copyright Information to include 2014
 * `#4115` [Subdirectory] Broken Redirects
 * `#4285` Copy Workflow mixes workflow scopes
 * `#4296` Adapt new workpackage form layout
