@@ -37,6 +37,7 @@
   font-family: $font_family_bold
   font-size: $global_font_size
   line-height: 30px
+  height: 32px
   margin: 0
   &:hover, &:focus
     border: $content_form_input_hover_border
@@ -89,7 +90,6 @@
   input
     &[type=password], &[type=text]
       @include input-style
-      height: 30px
     &#work_package_subject
       width: 50%
   textarea
@@ -157,7 +157,6 @@
       height: 32px
       > input
         @include input-style
-        height: 30px
         border: none
         &:hover, &:focus
           border: none
