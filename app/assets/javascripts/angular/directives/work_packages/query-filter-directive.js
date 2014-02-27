@@ -23,8 +23,6 @@ angular.module('openproject.workPackages.directives')
         }
       }, true);
 
-
-
       // TODO move to some application helper
       function withDelay(delay, callback, params){
         var currentRun;

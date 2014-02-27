@@ -13,12 +13,13 @@
         </a>
       </th>
 
-      <th sort-header header-name="status" header-title="#"/>
+      <th sort-header header-name="status" header-title="#" query="query"/>
 
       <th sort-header ng-repeat="column in columns"
                       header-name="{{column.name}}"
                       header-title="{{column.title}}"
-                      sortable="{{column.sortable}}"/>
+                      sortable="{{column.sortable}}"
+                      query="query"/>
     </tr>
   </thead>
 

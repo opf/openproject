@@ -1,6 +1,6 @@
 angular.module('openproject.workPackages.controllers')
 
-.controller('WorkPackagesController', ['$scope', 'WorkPackagesTableHelper', 'Query', function($scope, WorkPackagesTableHelper, Query) {
+.controller('WorkPackagesController', ['$scope', 'WorkPackagesTableHelper', 'Query', 'Sortation', function($scope, WorkPackagesTableHelper, Query, Sortation) {
 
   $scope.$watch('groupBy', function() {
     var groupByColumnIndex = $scope.columns.map(function(column){
@@ -17,14 +17,17 @@ angular.module('openproject.workPackages.controllers')
   }
 
   function setupQuery() {
-    $scope.query = new Query(gon.query);
+    sortation = new Sortation(gon.sort_criteria);
+    query = new Query(gon.query);
+    query.setSortation(sortation);
+    $scope.query = query;
 
     // Columns
     $scope.columns = gon.columns;
     $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(gon.available_columns, $scope.columns);
 
     $scope.groupBy = $scope.query.group_by;
-    $scope.currentSortation = gon.sort_criteria;
+    // $scope.currentSortation = gon.sort_criteria;
 
     angular.extend($scope.query, {
       selectedColumns: $scope.columns
