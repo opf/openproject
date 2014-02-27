@@ -49,39 +49,12 @@ module OpenProject::XlsExport
     end
 
     class TimeFormatter < DefaultFormatter
-      def self.apply?(column)
-        ##
-        # Fallback for code not defining any xls formatter.
-        # If there are columns with 'hours' in their caption that should
-        # not use the time formatter, they can simply define #xls_formatter
-        # to use something else, e.g. :default.
-        if column.xls_formatter.nil?
-          h = column.caption
-          h =~ /.*hours.*/i || h == "spent_time"
-        else
-          super.apply? column
-        end
-      end
-
       def format_options(column)
         {:number_format => '0.0 "h"'}
       end
     end
 
     class CostFormatter < DefaultFormatter
-      def self.apply?(column)
-        ##
-        # Fallback for code not defining any xls formatter.
-        # If there are columns with 'cost' in their caption that should
-        # not use the cost formatter, they can simply define #xls_formatter
-        # to use something else, e.g. :default.
-        if column.xls_formatter.nil?
-          column.caption.to_s =~ /.*cost.*/i
-        else
-          super.apply?(column)
-        end
-      end
-
       def format_options(column)
         {:number_format => number_format_string}
       end
