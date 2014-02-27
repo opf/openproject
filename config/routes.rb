@@ -30,15 +30,17 @@
 OpenProject::Application.routes.draw do
   root :to => 'welcome#index', :as => 'home'
 
+  rails_relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || ''
+
   # Redirect deprecated issue links to new work packages uris
-  match '/issues(/)'    => redirect('/work_packages/')
+  match '/issues(/)'    => redirect("#{rails_relative_url_root}/work_packages/")
   # The URI.escape doesn't escape / unless you ask it to.
   # see https://github.com/rails/rails/issues/5688
-  match '/issues/*rest' => redirect { |params, req| "/work_packages/#{URI.escape(params[:rest])}" }
+  match '/issues/*rest' => redirect { |params, req| "#{rails_relative_url_root}/work_packages/#{URI.escape(params[:rest])}" }
 
   # Redirect wp short url for work packages to full URL
-  match '/wp(/)'    => redirect('/work_packages/')
-  match '/wp/*rest' => redirect { |params, req| "/work_packages/#{URI.escape(params[:rest])}" }
+  match '/wp(/)'    => redirect('#{rails_relative_url_root}/work_packages/')
+  match '/wp/*rest' => redirect { |params, req| "#{rails_relative_url_root}/work_packages/#{URI.escape(params[:rest])}" }
 
   scope :controller => 'account' do
     get '/account/force_password_change', :action => 'force_password_change'
@@ -429,8 +431,8 @@ OpenProject::Application.routes.draw do
   end
   # redirect for backwards compatibility
   scope :constraints => { :id => /\d+/, :filename => /[^\/]*/ } do
-    match "/attachments/download/:id/:filename" => redirect("/attachments/%{id}/download/%{filename}"), :format => false
-    match "/attachments/download/:id" => redirect("/attachments/%{id}/download"), :format => false
+    match "/attachments/download/:id/:filename" => redirect("#{rails_relative_url_root}/attachments/%{id}/download/%{filename}"), :format => false
+    match "/attachments/download/:id" => redirect("#{rails_relative_url_root}/attachments/%{id}/download"), :format => false
   end
 
   scope :controller => 'sys' do
