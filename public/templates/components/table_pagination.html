@@ -1,0 +1,13 @@
+<p class="pagination">
+  <span class="range">{{ currentRange }}</span>
+  <span class="per_page_options">
+    Per page: <span class="current">{{ currentPerPage }}</span>
+    <span ng-repeat="perPageSelection in possiblePerPages">
+      <span ng-if="perPageSelection != perPage">
+      	<a href="" ng-click="selectPerPage(perPageSelection)">{{ perPageSelection }}</a>
+      </span>
+      <span ng-if="perPageSelection == perPage"
+            ng-click="selectPerPage(perPageSelection)">{{ perPageSelection }}</span>
+    </span>
+  </span>
+</p>

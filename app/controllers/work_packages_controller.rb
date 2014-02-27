@@ -554,6 +554,8 @@ class WorkPackagesController < ApplicationController
       columns:                      get_columns_for_json(@query.columns),
       available_columns:            get_columns_for_json(@query.available_columns),
       sort_criteria:                @sort_criteria.to_param,
+      page:                         page_param,
+      per_page:                     per_page_param
     )
   end
 
@@ -562,7 +564,9 @@ class WorkPackagesController < ApplicationController
       work_package_count_by_group:  results.work_package_count_by_group,
       work_packages:                get_work_packages_as_json(work_packages, @query.columns),
       sums:                         @query.columns.map { |column| results.total_sum_of(column) },
-      group_sums:                   @query.group_by_column && @query.columns.map { |column| results.grouped_sums(column) }
+      group_sums:                   @query.group_by_column && @query.columns.map { |column| results.grouped_sums(column) },
+      page:                         page_param,
+      per_page:                     per_page_param
     }
   end
 
