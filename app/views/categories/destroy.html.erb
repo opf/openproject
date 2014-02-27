@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h2><%= Category.model_name.human %>: <%=h @category.name %></h2>
 
-<%= form_tag({}) do %>
+<%= form_tag({}, {:method => :delete}) do %>
 <div class="box">
 <p><strong><%= l(:text_work_package_category_destroy_question, @issue_count) %></strong></p>
 <p><label><%= radio_button_tag 'todo', 'nullify', true %> <%= l(:text_work_package_category_destroy_assignments) %></label><br />

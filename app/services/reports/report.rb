@@ -42,7 +42,7 @@ class Reports::Report
   end
 
   def statuses
-    @statuses ||= Status.order('position')
+    @statuses ||= Status.all
   end
 
   # ---- every report needs to implement these methods to supply all needed data for a report -----

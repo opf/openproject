@@ -33,6 +33,7 @@ class SubversionAdapterTest < ActiveSupport::TestCase
 
   if repository_configured?('subversion')
     def setup
+      super
       @adapter = Redmine::Scm::Adapters::SubversionAdapter.new(self.class.subversion_repository_url)
     end
 

@@ -37,12 +37,14 @@ See doc/COPYRIGHT.rdoc for more details.
 		          :multiple => true, :size => 10, :style => "width:150px" %>
 		</td>
 		<td class="table-buttons" align="center" valign="middle">
-			<input type="button" value="&#8594;"
-			 onclick="moveOptions(this.form.available_columns, this.form.selected_columns);"
-       title="<%= l(:label_add_columns) %>"/><br />
-			<input type="button" value="&#8592;"
-			 onclick="moveOptions(this.form.selected_columns, this.form.available_columns);"
-       title="<%= l(:label_remove_columns) %>" />
+      <%= link_to icon_wrapper('icon icon-arrow-right5', l(:label_add_columns)), {},
+                               { title: l(:label_add_columns),
+                                 onclick: "moveOptions('available_columns', 'selected_columns'); return false;" } %>
+      <br />
+      <%= link_to icon_wrapper('icon icon-arrow-right5-1', l(:label_remove_columns)), {},
+                               { title: l(:label_remove_columns),
+                                 style: "margin-right: 5px",
+                                 onclick: "moveOptions('selected_columns', 'available_columns'); return false;" } %>
 		</td>
 		<td>
                 <%= label_tag "selected_columns", l(:description_selected_columns) %>
@@ -52,10 +54,14 @@ See doc/COPYRIGHT.rdoc for more details.
 		          :id => 'selected_columns', :multiple => true, :size => 10, :style => "width:150px" %>
 		</td>
 		<td class="table-buttons" align="center" valign="middle">
-			<input type="button" value="&#8593;" onclick="moveOptionUp(this.form.selected_columns);"
-       title="<%= l(:label_sort_higher) %>" /><br />
-			<input type="button" value="&#8595;" onclick="moveOptionDown(this.form.selected_columns);"
-       title="<%= l(:label_sort_lower) %>" />
+      <%= link_to icon_wrapper('icon icon-arrow-right5-3', l(:label_sort_higher)), {},
+                               { title: l(:label_sort_higher),
+                                 onclick: "moveOptionUp('selected_columns'); return false;" } %>
+      <br />
+      <%= link_to icon_wrapper('icon icon-arrow-right5-2', l(:label_sort_lower)), {},
+                               { title: l(:label_sort_lower),
+                                 style: "margin-right: 3px",
+                                 onclick: "moveOptionDown('selected_columns'); return false;" } %>
 		</td>
 	</tr>
 </table>

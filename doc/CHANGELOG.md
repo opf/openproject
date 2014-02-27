@@ -29,11 +29,30 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#3084` Fix: [Administration - Work Packages] Workflow Status sorting not respected
+* `#3312` Fix: [Administration - Custom Fields] "Visible" and "Editable" in user custom field cannot be unchecked
+* `#4858` XSS in wp auto-completion
+* Added pry-byebug for ruby 2.1
+* `#4793` Fix: [Search] Current project scope not shown
+
+## 3.0.0pre48
+
+* `#1390` Fix: Deleting Issue Categories from a project - route not defined
 * `#2701` Fix: [Groups] Error message not displayed correctly.
 * `#3217` Fix: [Project settings] Page not found when adding/deleting members and clicking pagination
 * `#3725` Fix: Trying to delete a Project without checking "Yes" results in Error
-* `#4175` Fix: Wrong escaping in destroy info
+* `#3798` Fix: Typo leading to internal server error
+* `#4105` Fix: Remove links from fieldset
+* `#4123` Fix: [Accessibility] Link comprehensibility
+* `#4715` Fix: Wrong escaping in destroy info
+* `#4186` Long work package subject covers up edit buttons
+* `#4245` When adding a block to MyPage the other blocks are gone
+* `#4337` Fix: HTTP 500 when creating WP with note via API
 * `#4654` Activity: Wrong id of work package when time spent
+* `#4722` Wrong weekday in date picker
+* `#4755` Wrong message "project identifier can't be edited"
+* `#4761` Internal error when creating or editing timeline in accessibility mode
+* `#4762` List of watchers displayed twice when creating a work package
 
 ## 3.0.0pre47
 

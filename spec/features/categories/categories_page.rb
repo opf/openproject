@@ -26,26 +26,15 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class ReportedProjectStatus < Enumeration
+class CategoriesPage
+  include Rails.application.routes.url_helpers
+  include Capybara::DSL
 
-  extend Pagination::Model
-
-  unloadable
-
-  has_many :reportings, :class_name  => "Reporting",
-                        :foreign_key => 'reported_project_status_id'
-
-  OptionName = :enumeration_reported_project_statuses
-
-  def option_name
-    OptionName
+  def initialize(project=nil)
+    @project = project
   end
 
-  def objects_count
-    reportings.count
-  end
-
-  def transfer_relations(to)
-    reportings.update_all(:reported_project_status_id => to.id)
+  def visit_settings
+    visit(settings_project_path(@project) + "/categories")
   end
 end

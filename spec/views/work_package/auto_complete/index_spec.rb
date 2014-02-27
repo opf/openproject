@@ -26,26 +26,20 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class ReportedProjectStatus < Enumeration
+require 'spec_helper'
 
-  extend Pagination::Model
+describe 'work_packages/auto_completes/index.html.erb' do
+  let(:work_package) { FactoryGirl.build( :work_package,
+                                          :subject => '<script>alert("do not alert this");</script>') }
 
-  unloadable
-
-  has_many :reportings, :class_name  => "Reporting",
-                        :foreign_key => 'reported_project_status_id'
-
-  OptionName = :enumeration_reported_project_statuses
-
-  def option_name
-    OptionName
-  end
-
-  def objects_count
-    reportings.count
-  end
-
-  def transfer_relations(to)
-    reportings.update_all(:reported_project_status_id => to.id)
+  it 'escapes work package subject in auto-completion' do
+    assign :work_packages, [work_package]
+    render
+    # there are items
+    response.should have_selector "li"
+    # but there is not script tag
+    response.should_not have_selector "script"
+    # normal text should be included
+    response.should include "do not alert this"
   end
 end

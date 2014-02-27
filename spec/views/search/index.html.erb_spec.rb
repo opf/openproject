@@ -26,26 +26,30 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class ReportedProjectStatus < Enumeration
+require 'spec_helper'
 
-  extend Pagination::Model
+describe 'search/index' do
+  let(:project)      { FactoryGirl.create :project }
+  let(:user)         { FactoryGirl.create :admin, :member_in_project => project }
+  let(:work_package) { FactoryGirl.create :work_package, :project => project }
 
-  unloadable
-
-  has_many :reportings, :class_name  => "Reporting",
-                        :foreign_key => 'reported_project_status_id'
-
-  OptionName = :enumeration_reported_project_statuses
-
-  def option_name
-    OptionName
+  before do
+    assign :project, project
+    assign :object_types, ["work_packages"]
+    assign :scope, ["work_packages", "changesets"]
+    assign :results, [work_package]
+    assign :results_by_type, {"work_packages" => 1}
+    assign :question, "foo"
+    assign :tokens, ["bar"]
   end
 
-  def objects_count
-    reportings.count
-  end
+  it 'selects the current project' do
+    render
 
-  def transfer_relations(to)
-    reportings.update_all(:reported_project_status_id => to.id)
+    # the current project should be selected as the scope
+    expect(response).to have_selector("option[selected]", :text => project.name)
+
+    # The grouped result link should retain the scope
+    response.should have_xpath("//a[contains(@href,'current_project')]", :text => /work packages.*/i)
   end
 end

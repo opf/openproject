@@ -43,7 +43,7 @@ module Queries::WorkPackages::AvailableFilterOptions
     types = project.nil? ? Type.find(:all, order: 'position') : project.rolled_up_types
 
     @available_work_package_filters = {
-      status_id:       { type: :list_status, order: 1, values: Status.find(:all, order: 'position').collect{|s| [s.name, s.id.to_s] } },
+      status_id:       { type: :list_status, order: 1, values: Status.all.collect{|s| [s.name, s.id.to_s] } },
       type_id:         { type: :list, order: 2, values: types.collect{|s| [s.name, s.id.to_s] } },
       priority_id:     { type: :list, order: 3, values: IssuePriority.all.collect{|s| [s.name, s.id.to_s] } },
       subject:         { type: :text, order: 8 },

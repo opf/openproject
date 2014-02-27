@@ -44,11 +44,11 @@ class Query < ActiveRecord::Base
 
   attr_protected :project_id #, :user_id
 
-  validates_presence_of :name, on: :save
+  validates :name, presence: true
   validates_length_of :name, :maximum => 255
 
   validate :validate_work_package_filters
-  validates_presence_of :filters
+  validates :filters, presence: true
 
   after_initialize :remember_project_scope
 

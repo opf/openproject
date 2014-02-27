@@ -29,9 +29,6 @@
 require File.expand_path('../../../../test_helper', __FILE__)
 
 class Redmine::NotifiableTest < ActiveSupport::TestCase
-  def setup
-  end
-
   def test_all
     assert_equal 11, Redmine::Notifiable.all.length
 
