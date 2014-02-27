@@ -36,6 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#4296` Adapt new workpackage form layout
 * `#4793` Fix: [Search] Current project scope not shown
 * `#4858` XSS in wp auto-completion
+* `#4887` Second grouping criterion seems to have an and conjunction
 * Added pry-byebug for ruby 2.1
 * Allows redirecting to a back url on version#update
 
