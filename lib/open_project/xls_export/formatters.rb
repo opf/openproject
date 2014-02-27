@@ -31,7 +31,7 @@ module OpenProject::XlsExport
       end
 
       def self.key
-        name = self.name.underscore
+        name = self.name.demodulize.underscore
         name[0..(name.index("_") - 1)].to_sym
       end
 
