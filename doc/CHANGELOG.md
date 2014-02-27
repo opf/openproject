@@ -32,6 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3084` Fix: [Administration - Work Packages] Workflow Status sorting not respected
 * `#3312` Fix: [Administration - Custom Fields] "Visible" and "Editable" in user custom field cannot be unchecked
 * `#4858` XSS in wp auto-completion
+* `#4887` Second grouping criterion seems to have an and conjunction
 * Added pry-byebug for ruby 2.1
 * `#4793` Fix: [Search] Current project scope not shown
 
