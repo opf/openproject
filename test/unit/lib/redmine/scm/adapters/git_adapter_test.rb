@@ -47,6 +47,7 @@ class GitAdapterTest < ActiveSupport::TestCase
 
   if File.directory?(REPOSITORY_PATH)
     def setup
+      super
       @adapter = Redmine::Scm::Adapters::GitAdapter.new(
                     REPOSITORY_PATH,
                     nil,

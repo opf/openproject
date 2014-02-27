@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
@@ -27,36 +26,30 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../../test_helper', __FILE__)
+require 'spec_helper'
 
-class ApiTest::HttpAcceptAuthTest < ActionDispatch::IntegrationTest
-  fixtures :all
+describe 'search/index' do
+  let(:project)      { FactoryGirl.create :project }
+  let(:user)         { FactoryGirl.create :admin, :member_in_project => project }
+  let(:work_package) { FactoryGirl.create :work_package, :project => project }
 
-  def setup
-    super
-    Setting.rest_api_enabled = '1'
-    Setting.login_required = '1'
+  before do
+    assign :project, project
+    assign :object_types, ["work_packages"]
+    assign :scope, ["work_packages", "changesets"]
+    assign :results, [work_package]
+    assign :results_by_type, {"work_packages" => 1}
+    assign :question, "foo"
+    assign :tokens, ["bar"]
   end
 
-  def teardown
-    super
-    Setting.rest_api_enabled = '0'
-    Setting.login_required = '0'
-  end
+  it 'selects the current project' do
+    render
 
-  # Using the NewsController because it's a simple API.
-  context "get /news" do
-    setup do
-      project = Project.find('onlinestore')
-      EnabledModule.create(:project => project, :name => 'news')
-    end
+    # the current project should be selected as the scope
+    expect(response).to have_selector("option[selected]", :text => project.name)
 
-    context "in :xml format" do
-      should_send_correct_authentication_scheme_when_header_authentication_scheme_is_session(:get, "/api/v1/projects/onlinestore/news.xml")
-    end
-
-    context "in :json format" do
-      should_send_correct_authentication_scheme_when_header_authentication_scheme_is_session(:get, "/api/v1/projects/onlinestore/news.json")
-    end
+    # The grouped result link should retain the scope
+    response.should have_xpath("//a[contains(@href,'current_project')]", :text => /work packages.*/i)
   end
 end

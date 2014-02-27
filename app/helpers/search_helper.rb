@@ -60,7 +60,7 @@ module SearchHelper
     options << [l(:label_and_its_subprojects, @project.name), 'subprojects'] unless @project.nil? || @project.descendants.active.empty?
     options << [@project.name, 'current_project'] unless @project.nil?
     label_tag("scope", l(:description_project_scope), :class => "hidden-for-sighted") +
-    select_tag('scope', options_for_select(options, params[:scope].to_s)) if options.size > 1
+    select_tag('scope', options_for_select(options, current_scope)) if options.size > 1
   end
 
   def render_results_by_type(results_by_type)
@@ -77,12 +77,16 @@ module SearchHelper
         :q => params[:q],
         :titles_only => params[:title_only],
         :all_words => params[:all_words],
-        :scope => params[:scope],
+        :scope => current_scope,
         t => 1
       }
       links << link_to(h(text), target)
     end
     ('<ul>' + links.map {|link| content_tag('li', link)}.join(' ') + '</ul>').html_safe unless links.empty?
+  end
+
+  def current_scope
+    params[:scope] || ('current_project' unless @project.nil?)
   end
 
   def link_to_previous_search_page(pagination_previous_date)
