@@ -27,7 +27,6 @@ angular.module('openproject.workPackages.controllers')
     $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(gon.available_columns, $scope.columns);
 
     $scope.groupBy = $scope.query.group_by;
-    // $scope.currentSortation = gon.sort_criteria;
 
     angular.extend($scope.query, {
       selectedColumns: $scope.columns
