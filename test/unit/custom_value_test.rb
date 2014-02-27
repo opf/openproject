@@ -122,13 +122,13 @@ class CustomValueTest < ActiveSupport::TestCase
   def test_default_value
     custom_field = FactoryGirl.create :issue_custom_field,
       :field_format => 'string',
-      :default_value => "Default String"
+      :default_value => "Some Default String"
 
-    field = CustomField.find_by_default_value('Default String')
+    field = CustomField.find_by_default_value('Some Default String')
     assert_not_nil field
 
     v = CustomValue.new(:custom_field => field)
-    assert_equal 'Default String', v.value
+    assert_equal 'Some Default String', v.value
 
     v = CustomValue.new(:custom_field => field, :value => 'Not empty')
     assert_equal 'Not empty', v.value
