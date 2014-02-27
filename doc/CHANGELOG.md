@@ -1,6 +1,6 @@
 <!---- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -37,6 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#4793` Fix: [Search] Current project scope not shown
 * `#4858` XSS in wp auto-completion
 * Added pry-byebug for ruby 2.1
+* Allows redirecting to a back url on version#update
 
 ## 3.0.0pre48
 
