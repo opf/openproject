@@ -651,7 +651,7 @@ jQuery.extend(Timeline, {
     }
     var i, selection = this.options.grouping_one_selection;
     var p, groups = [], children;
-    if (this.isGrouping()) {
+    if (this.isGrouping() && selection) {
       for ( i = 0; i < selection.length; i++ ) {
         p = this.getProject(selection[i]);
         if (p === undefined) {
