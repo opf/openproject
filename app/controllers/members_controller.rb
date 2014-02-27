@@ -55,6 +55,7 @@ JS
         format.html { redirect_to settings_project_path(@project, :tab => 'members') }
 
         format.js {
+          @pagination_url_options = {controller: 'projects', action: 'settings', id: @project}
           render(:update) {|page|
             page.replace_html "tab-content-members", :partial => 'projects/settings/members'
             page.insert_html :top, "tab-content-members", render_flash_messages
@@ -64,6 +65,7 @@ JS
         }
       else
         format.js {
+          @pagination_url_options = {controller: 'projects', action: 'settings', id: @project}
           render(:update) {|page|
             if params[:member]
               page.insert_html :top, "tab-content-members", :partial => "members/member_errors", :locals => {:member => members.first}
@@ -105,7 +107,9 @@ JS
     end
     respond_to do |format|
       format.html { redirect_to :controller => '/projects', :action => 'settings', :tab => 'members', :id => @project }
-      format.js { render(:update) {|page|
+      format.js {
+          @pagination_url_options = {controller: 'projects', action: 'settings', id: @project}
+          render(:update) {|page|
           page.replace_html "tab-content-members", :partial => 'projects/settings/members'
           page << TAB_SCRIPTS
         }
@@ -147,33 +151,33 @@ JS
   private
 
   def new_members_from_params
-    members = []
+    user_ids = possibly_seperated_ids_for_entity(params[:member], :user)
+    roles = Role.find_all_by_id(possibly_seperated_ids_for_entity(params[:member], :role))
 
-    attrs = params[:member].dup
-    user_ids = possibly_seperated_ids_for_entity(attrs, :user)
-    roles = Role.find_all_by_id(possibly_seperated_ids_for_entity(attrs, :role))
+    new_member = lambda do |user_id|
+      Member.new(permitted_params.member).tap do |member|
+        member.user_id = user_id if user_id
+      end
+    end
 
-    user_ids.each do |user_id|
-      member = Member.new attrs
-      # workaround due to mass-assignment protected member_roles.role_id
-      member.member_roles << roles.collect {|r| MemberRole.new :role => r }
-      member.user_id = user_id
-      members << member
+    members = user_ids.map do |user_id|
+      new_member.call(user_id)
     end
     # most likely wrong user input, use a dummy member for error handling
     if !members.present? && roles.present?
-      members = [Member.new(attrs.merge({ :member_roles => roles.collect {|r| MemberRole.new :role => r } }))]
+      members << new_member.call(nil)
     end
     members
   end
 
   def each_comma_seperated(array, &block)
-    array.each do |elem|
-      if elem.to_s.match /\d(,\d)*/
-        array += block.call(array.delete(elem))
+    array.map do |e|
+      if e.to_s.match /\d(,\d)*/
+        block.call(e)
+      else
+        e
       end
-    end
-    return array
+    end.flatten
   end
 
   def transform_array_of_comma_seperated_ids(array)
@@ -185,26 +189,24 @@ JS
 
   def possibly_seperated_ids_for_entity(array, entity = :user)
     if !array[:"#{entity}_ids"].nil?
-      transform_array_of_comma_seperated_ids(array.delete(:"#{entity}_ids"))
-    elsif (!array[:"#{entity}_id"].nil?) && ((id = array.delete(:"#{entity}_id")).present?)
+      transform_array_of_comma_seperated_ids(array[:"#{entity}_ids"])
+    elsif !array[:"#{entity}_id"].nil? && (id = array[:"#{entity}_id"]).present?
       [id]
     else
       []
     end
   end
 
-
   def update_member_from_params
     # this way, mass assignment is considered and all updates happen in one transaction (autosave)
-    attrs = params[:member].except(:user_id)
-    attrs.merge! params[:membership].dup if params[:membership].present?
-    attrs.delete(:project_id)
+    attrs = permitted_params.member.dup
+    attrs.merge! permitted_params.membership.dup if params[:membership].present?
 
-    role_ids = attrs.delete(:role_ids).map(&:to_i).select{ |i| i > 0 }
-
-    @member.assign_roles(role_ids)
-
-    @member.attributes = attrs
+    if attrs.include? :role_ids
+      role_ids = attrs.delete(:role_ids).map(&:to_i).select{ |i| i > 0 }
+      @member.assign_roles(role_ids)
+    end
+    @member.update_attributes(attrs)
     @member
   end
 end

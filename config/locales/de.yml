@@ -237,7 +237,7 @@ de:
                 other: "wurde bereits verwendet. Bitte wählen Sie eines, das sich von den letzten %{count} unterscheidet."
         member:
           principal_blank: "Bitte wählen Sie mindestens einen Benutzer oder eine Gruppe."
-          role_blank: "Bitte wählen Sie eine mindestens Rolle."
+          role_blank: "Bitte wählen Sie mindestens eine Rolle."
       template:
         body: "Bitte überprüfen Sie die folgenden Felder:"
         header:
@@ -268,6 +268,10 @@ de:
       wiki: "Wiki"
       wiki_page: "Wiki-Seite"
       workflow: "Workflow"
+      work_package: "Arbeitspaket"
+
+  errors:
+    header_invalid_fields: "Bei den folgenden Feldern traten Fehler auf:"
 
   activity:
     created: "Erstellt: %{title}"
@@ -294,6 +298,7 @@ de:
     estimated_hours: "Geschätzter Aufwand"
     firstname: "Vorname"
     group: "Gruppe"
+    groupname: "Gruppenname"
     is_default: "Standardeinstellung"
     is_for_all: "Für alle Projekte"
     is_public: "Öffentlich"
@@ -318,7 +323,7 @@ de:
 
   button_add: "Hinzufügen"
   button_add_watcher: "Beobachter hinzufügen"
-  button_annotate: "Annotieren"
+  button_annotate: "Kommentieren"
   button_apply: "Anwenden"
   button_archive: "Archivieren"
   button_back: "Zurück"
@@ -335,6 +340,7 @@ de:
   button_create: "Anlegen"
   button_create_and_continue: "Anlegen und weiter"
   button_delete: "Löschen"
+  button_delete_watcher: "Lösche Beobachter %{name}"
   button_download: "Download"
   button_duplicate: "Duplizieren"
   button_edit: "Bearbeiten"
@@ -399,13 +405,13 @@ de:
         other: "etwa %{count} Stunden"
       about_x_months:
         one: "etwa 1 Monat"
-        other: "etwa %{count} Monaten"
+        other: "etwa %{count} Monate"
       about_x_years:
         one: "etwa 1 Jahr"
-        other: "etwa %{count} Jahren"
+        other: "etwa %{count} Jahre"
       almost_x_years:
         one: "fast 1 Jahr"
-        other: "fast %{count} Jahren"
+        other: "fast %{count} Jahre"
       half_a_minute: "eine halbe Minute"
       less_than_x_minutes:
         one: "weniger als 1 Minute"
@@ -415,7 +421,7 @@ de:
         other: "weniger als %{count} Sekunden"
       over_x_years:
         one: "mehr als 1 Jahr"
-        other: "mehr als %{count} Jahren"
+        other: "mehr als %{count} Jahre"
       x_days:
         one: "1 Tag"
         other: "%{count} Tagen"
@@ -524,18 +530,19 @@ de:
   error_menu_item_not_saved: Menüpunkt konnte nicht aktualisiert werden.
 
   events:
+    project: 'Projekt bearbeitet'
     changeset: Changeset bearbeitet
     message: Nachricht bearbeitet
     news: News
     reply: Antwort erstellt
-    time_entry: Zeiterfassungseintrag-Bearbeitung
-    wiki_page: Wiki-Bearbeitung
+    time_entry: Zeiterfassungseintrag bearbeitet
+    wiki_page: Wiki-Seite bearbeitet
     work_package_closed: 'Arbeitspaket geschlossen'
     work_package_edit: 'Arbeitspaket bearbeitet'
     work_package_note: 'Arbeitspaket kommentiert'
 
   general_csv_decimal_separator: ","
-  general_csv_encoding: "ISO-8859-1"
+  general_csv_encoding: "UTF-8"
   general_csv_separator: ";"
   general_first_day_of_week: "1"
   general_lang_name: "Deutsch"
@@ -583,12 +590,22 @@ de:
       save: "Speichern"
       start_date: "Startdatum"
       really_close_dialog: "Dialog schließen und eingegebene Daten verwerfen?"
+      zoom_slider: "Zoom Schieber"
     filter:
       noneElement: "(keines)"
       noneSelection: "(keine)"
+    button_check_all: "Alles auswählen"
+    button_uncheck_all: "Alles abwählen"
+    label_collapsed: "zugeklappt"
+    label_expanded: "aufgeklappt"
     label_collapse_all: "Alle zuklappen"
     label_expand_all: "Alle aufklappen"
     label_menu_item_toggle: "Untermenüpunkte ein-/ausblenden"
+    label_menu_collapse: "ausblenden"
+    label_menu_expand: "einblenden"
+    tl_toolbar:
+      zooms: "Zoomstufe"
+      outlines: "Hierarchie-Stufe"
 
   label_account: "Konto"
   label_activity: "Aktivität"
@@ -714,10 +731,10 @@ de:
   label_feeds_access_key_created_on: "Atom-Zugriffsschlüssel vor %{value} erstellt"
   label_file_added: "Datei hinzugefügt"
   label_file_plural: "Dateien"
-  label_filesystem_path: "Root directory"
+  label_filesystem_path: "Wurzelverzeichnis"
   label_filter_add: "Filter hinzufügen"
   label_filter_plural: "Filter"
-  label_float: "Fließkommazahl"
+  label_float: "Gleitkommazahl"
   label_follows: "folgt"
   label_force_user_language_to_default: "Setze Sprache für Nutzer, die eine nicht erlaubte Sprache gewählt haben, auf die Default-Sprache"
   label_general: "Allgemein"
@@ -745,8 +762,10 @@ de:
   label_work_package_category_plural: "Arbeitspaket-Kategorien"
   label_work_package_hierarchy: "Arbeitspaket-Hierarchie"
   label_work_package_new: "Neues Arbeitspaket"
+  label_work_package_note_added: "Kommentar zu Arbeitspaket hinzugefügt"
   label_work_package_edit: "Arbeitspaket %{name} editieren"
   label_work_package_plural: "Arbeitspakete"
+  label_work_package_priority_updated: "Arbeitspaketpriorität aktualisiert"
   label_work_package_status_new: "Neuer Status"
   label_work_package_status_plural: "Arbeitspaket-Status"
   label_work_package_tracking: "Arbeitspakete"
@@ -754,6 +773,7 @@ de:
   label_work_package_view_all: "Alle Tickets anzeigen"
   label_work_package_view_all_assigned_to_me: "Alle mir zugewiesenen Arbeitspakete anzeigen"
   label_work_package_view_all_reported_by_me: "Alle von mir erstellten Arbeitspakete anzeigen"
+  label_work_package_view_all_responsible_for: "Alle von mir verantworteten Arbeitspakete anzeigen"
   label_work_package_view_all_watched: "Alle beobachteten Arbeitspakete anzeigen"
   label_work_package_watchers: "Beobachter"
   label_work_packages_by: "Arbeitspakete von %{value}"
@@ -776,7 +796,7 @@ de:
   label_login: "Anmelden"
   label_login_with_open_id_option: "oder mit OpenID anmelden"
   label_logout: "Abmelden"
-  label_main_menu: "Nebenmenu"
+  label_main_menu: "Nebenmenü"
   label_max_size: "Maximale Größe"
   label_me: "ich"
   label_member_new: "Neues Mitglied"
@@ -883,6 +903,7 @@ de:
   label_reporting_plural: "Statusberichte"
   label_repository: "Projektarchiv"
   label_repository_plural: "Projektarchive"
+  label_responsible_for_work_packages: "Von mir verantwortete Arbeitspakete"
   label_result_plural: "Resultate"
   label_reverse_chronological_order: "in umgekehrter zeitlicher Reihenfolge"
   label_revision: "Revision"
@@ -905,7 +926,8 @@ de:
   label_settings: "Konfiguration"
   label_show_completed_versions: "Abgeschlossene Versionen anzeigen"
   label_sort: "Sortierung"
-  label_sort_by: "Sortiert nach %{value}"
+  label_sort_by: "Sortiere nach %{value}"
+  label_sorted_by: "sortiert nach %{value}"
   label_sort_higher: "Eins höher"
   label_sort_highest: "An den Anfang"
   label_sort_lower: "Eins tiefer"
@@ -915,6 +937,7 @@ de:
   label_start_to_start: "Anfang bis Anfang"
   label_statistics: "Statistiken"
   label_status: "Status"
+  label_status_updated: "Arbeitspaketstatus aktualisiert"
   label_stay_logged_in: "Angemeldet bleiben"
   label_string: "Text"
   label_subproject_new: "Neues Unterprojekt"
@@ -933,7 +956,7 @@ de:
   label_time_entry_plural: "Benötigte Zeit"
   label_time_tracking: "Zeiterfassung"
   label_today: "heute"
-  label_top_menu: "Hauptmenu"
+  label_top_menu: "Hauptmenü"
   label_topic_plural: "Themen"
   label_total: "Gesamtzahl"
   label_type_new: "Neuer Typ"
@@ -1012,7 +1035,7 @@ de:
   label_keyboard_shortcut_help_heading: "Vorhandene Tastaturkürzel"
   label_keyboard_shortcut_within_project: "Innerhalb von Projekten:"
   label_keyboard_shortcut_global_shortcuts: "Globale Tastaturkürzel:"
-  label_keyboard_shortcut_some_pages_only: " Tastenkürzel auf speziellen Seiten:"
+  label_keyboard_shortcut_some_pages_only: "Tastaturkürzel auf speziellen Seiten:"
   label_keyboard_shortcut_search_global: "OpenProject weite Suche"
   label_keyboard_shortcut_search_project: "Projektsuche"
   label_keyboard_shortcut_go_my_page: "Gehe zu Meiner Seite'"
@@ -1133,9 +1156,10 @@ de:
   permission_add_subprojects: "Unterprojekte erstellen"
   permission_add_work_package_watchers: "Beobachter hinzufügen"
   permission_browse_repository: "Projektarchiv ansehen"
-  permission_change_wiki_parent_page: "Übergeordnete Wiki Seite ändern"
+  permission_change_wiki_parent_page: "Übergeordnete Wiki-Seite ändern"
   permission_comment_news: "News kommentieren"
   permission_commit_access: "Commit-Zugriff (über WebDAV)"
+  permission_copy_projects: "Projekte kopieren"
   permission_delete_work_package_watchers: "Beobachter löschen"
   permission_delete_work_packages: "Arbeitspakete löschen"
   permission_delete_messages: "Forenbeiträge löschen"
@@ -1172,6 +1196,7 @@ de:
   permission_manage_subtasks: "Unteraufgaben verwalten"
   permission_manage_versions: "Versionen verwalten"
   permission_manage_wiki: "Wiki verwalten"
+  permission_manage_wiki_menu: "Wiki-Menü verwalten"
   permission_move_work_packages: "Arbeitspakete verschieben"
   permission_protect_wiki_pages: "Wiki-Seiten schützen"
   permission_rename_wiki_pages: "Wiki-Seiten umbenennen"
@@ -1325,7 +1350,7 @@ de:
   text_enumeration_category_reassign_to: "Die Objekte statt dessen diesem Wert zuordnen:"
   text_enumeration_destroy_question: "%{count} Objekt(e) sind diesem Wert zugeordnet."
   text_file_repository_writable: "Verzeichnis für Dateien beschreibbar"
-  text_git_repo_example: "a bare and local repository (e.g. /gitrepo, c:\\gitrepo)"
+  text_git_repo_example: "ein freigegebenes,lokales Repository (z.B. /gitrepo, c:\\gitrepo)"
   text_work_package_added: "Arbeitspaket %{id} wurde erstellt von %{author}."
   text_work_package_category_destroy_assignments: "Kategorie-Zuordnung entfernen"
   text_work_package_category_destroy_question: "Einige Arbeitspakete (%{count}) sind dieser Kategorie zugeordnet. Was möchten Sie tun?"
@@ -1353,7 +1378,7 @@ de:
   text_plugin_assets_writable: "Verzeichnis für Plugin-Assets beschreibbar"
   text_powered_by: "Powered by %{link}"
   text_project_destroy_confirmation: "Sind Sie sicher, dass sie das Projekt löschen wollen?"
-  text_project_identifier_info: "Kleinbuchstaben (a-z), Ziffern, Binde- und Unterstriche erlaubt, muss mit einem Kleinbuchstaben beginnen.<br />Einmal gespeichert, kann die Kennung nicht mehr geändert werden."
+  text_project_identifier_info: "Kleinbuchstaben (a-z), Ziffern, Binde- und Unterstriche erlaubt, muss mit einem Kleinbuchstaben beginnen."
   text_reassign: "Neu zuweisen an"
   text_reassign_to: "Ziel-Arbeitspaket:"
   text_regexp_info: "z. B. ^[A-Z0-9]+$"
@@ -1378,8 +1403,8 @@ de:
   text_wiki_page_nullify_children: "Verschiebe die Unterseiten auf die oberste Ebene"
   text_wiki_page_reassign_children: "Ordne die Unterseiten dieser Seite zu"
   text_workflow_edit: "Workflow zum Bearbeiten auswählen"
-  text_zoom_in: "Zoom in"
-  text_zoom_out: "Zoom out"
+  text_zoom_in: "heranzoomen"
+  text_zoom_out: "herauszoomen"
 
   time:
     am: "vormittags"
@@ -1482,6 +1507,8 @@ de:
       work_package_assignee: "Zugewiesen an"
 
       project_time_filter: "Projekte mit Arbeitspaket eines Typs in einem Zeitfenster"
+      project_time_filter_absolute_timeframe: "Absolutes Zeitfenster"
+      project_time_filter_relative_timeframe: "Relatives Zeitfenster"
       project_time_filter_historical: "von %{startdate} bis %{enddate}"
       project_time_filter_relative: "vor %{startspan}%{startspanunit} bis in %{endspan}%{endspanunit}"
       project_filters: "Projekte filtern"
@@ -1533,8 +1560,7 @@ de:
     reporting_could_not_be_saved: "Statusbericht konnte nicht gespeichert werden."
     reporting_for_project:
       show: "Statusbericht zu Projekt: %{title}"
-      delete: "Löschen des Statusberichts zu Projekt: %{title}"
-      edit: "Bearbeiten des Statusberichts zu Projekt: %{title}"
+      edit_delete: "des Statusberichts zu Projekt: %{title}"
       history: "Historie des Statusberichts zu Projekt:"
     reporting:
       delete: "Statusbericht löschen: %{comment}"

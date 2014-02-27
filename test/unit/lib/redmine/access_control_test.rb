@@ -31,6 +31,7 @@ require File.expand_path('../../../../test_helper', __FILE__)
 class Redmine::AccessControlTest < ActiveSupport::TestCase
 
   def setup
+    super
     @access_module = Redmine::AccessControl
   end
 
@@ -44,7 +45,7 @@ class Redmine::AccessControlTest < ActiveSupport::TestCase
     perm = @access_module.permission(:view_work_packages)
     assert perm.is_a?(Redmine::AccessControl::Permission)
     assert_equal :view_work_packages, perm.name
-    assert_equal :issue_tracking, perm.project_module
+    assert_equal :work_package_tracking, perm.project_module
     assert perm.actions.is_a?(Array)
     assert perm.actions.include?('issues/index')
   end

@@ -31,9 +31,6 @@ require File.expand_path('../../../../test_helper', __FILE__)
 
 class Redmine::UnifiedDiffTest < ActiveSupport::TestCase
 
-  def setup
-  end
-
   def test_subversion_diff
     diff = Redmine::UnifiedDiff.new(read_diff_fixture('subversion.diff'))
     # number of files

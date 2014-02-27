@@ -29,13 +29,10 @@
 require File.expand_path('../../../../test_helper', __FILE__)
 
 class Redmine::NotifiableTest < ActiveSupport::TestCase
-  def setup
-  end
-
   def test_all
     assert_equal 11, Redmine::Notifiable.all.length
 
-    %w(issue_added issue_updated issue_note_added status_updated issue_priority_updated news_added news_comment_added file_added message_posted wiki_content_added wiki_content_updated).each do |notifiable|
+    %w(work_package_added work_package_updated work_package_note_added status_updated work_package_priority_updated news_added news_comment_added file_added message_posted wiki_content_added wiki_content_updated).each do |notifiable|
       assert Redmine::Notifiable.all.collect(&:name).include?(notifiable), "missing #{notifiable}"
     end
   end

@@ -57,6 +57,7 @@ class Redmine::SafeAttributesTest < ActiveSupport::TestCase
   end
 
   def setup
+    super
     @admin = User.find_by_login("admin") || FactoryGirl.create(:admin)
     @anonymous = User.anonymous || FactoryGirl.create(:anonymous)
   end

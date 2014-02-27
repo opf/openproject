@@ -31,12 +31,14 @@ require File.expand_path('../../../../test_helper', __FILE__)
 class Redmine::PluginTest < ActiveSupport::TestCase
 
   def setup
+    super
     @klass = Redmine::Plugin
     # In case some real plugins are installed
     @klass.clear
   end
 
   def teardown
+    super
     @klass.clear
   end
 

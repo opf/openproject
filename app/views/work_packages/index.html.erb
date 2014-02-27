@@ -50,6 +50,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= render :partial => 'layouts/action_menu_specific' %>
 
+<%= error_messages_for 'query' %>
+
 <div class="title-bar">
   <div class="title-bar-extras">
 
@@ -75,23 +77,19 @@ See doc/COPYRIGHT.rdoc for more details.
         </fieldset>
         <fieldset id="column_options" class="header_collapsible collapsible collapsed">
           <legend title="<%=l(:description_option_toggle)%>", onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_options) %></a></legend>
-          <div style="display: none;">
-            <table>
-              <tr>
-                <td><%= Query.human_attribute_name(:column_names) %></td>
-                <td><%= render :partial => 'queries/columns', :locals => {:query => query} %></td>
-              </tr>
-              <tr>
-                <td><label for='group_by'><%= Query.human_attribute_name(:group_by) %></label></td>
-                <td><%= select_tag('group_by', options_for_select([[]] + query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, query.group_by)) %></td>
-              </tr>
-              <% if query.any_summable_columns? %>
-                <tr>
-                  <td><%= label_tag :display_sums, Query.human_attribute_name(:display_sums) %></td>
-                  <td><%= check_box_tag :display_sums, 1, query.display_sums? %></td>
-                </tr>
-              <% end %>
-            </table>
+          <div style="display: none;" class="tabular">
+            <div class="horizontal_margin"><%= label_tag :available_columns, Query.human_attribute_name(:column_names), class: "header" %></div>
+            <div class="horizontal_margin">
+              <%= render :partial => 'queries/columns', :locals => {:query => query} %>
+            </div>
+            <div class="horizontal_margin"><label for='group_by' class='header'><%= Query.human_attribute_name(:group_by) %></label></div>
+            <div class="horizontal_margin">
+              <%= select_tag('group_by', options_for_select([[]] + query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, query.group_by)) %>
+            </div>
+            <% if query.any_summable_columns? %>
+                <div class="horizontal_margin"><%= label_tag :display_sums, Query.human_attribute_name(:display_sums), class: "header" %></div>
+                <div class="horizontal_margin"><%= check_box_tag :display_sums, 1, query.display_sums? %></div>
+            <% end %>
             <%= call_hook(:view_issue_query_form_options_bottom, :query => query) %>
           </div>
         </fieldset>
@@ -121,8 +119,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
   </div><!-- .title-bar-extras -->
 </div><!-- .title-bar -->
-
-<%= error_messages_for 'query' %>
 
 <% if query.valid? %>
   <% if work_packages.empty? %>

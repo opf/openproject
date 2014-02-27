@@ -34,11 +34,13 @@ class ThemesTest < ActionDispatch::IntegrationTest
   fixtures :all
 
   def setup
+    super
     @theme = OpenProject::Themes.default_theme
     Setting.ui_theme = @theme.identifier
   end
 
   def teardown
+    super
     Setting.ui_theme = nil
   end
 

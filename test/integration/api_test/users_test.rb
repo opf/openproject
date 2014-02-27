@@ -32,6 +32,7 @@ class ApiTest::UsersTest < ActionDispatch::IntegrationTest
   fixtures :all
 
   def setup
+    super
     Setting.rest_api_enabled = '1'
   end
 

@@ -232,8 +232,9 @@ class WorkPackagesController < ApplicationController
       end
       format.csv do
         serialized_work_packages = WorkPackage::Exporter.csv(work_packages, @project)
+        charset = "charset=#{l(:general_csv_encoding).downcase}"
 
-        send_data(serialized_work_packages, :type => 'text/csv; header=present',
+        send_data(serialized_work_packages, :type => "text/csv; #{charset}; header=present",
                                             :filename => 'export.csv')
       end
       format.pdf do
@@ -407,6 +408,8 @@ class WorkPackagesController < ApplicationController
 
   def load_query
     @query ||= retrieve_query
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   def not_found_unless_work_package

@@ -50,8 +50,8 @@
 /*jshint eqnull:true */
 
 // environment and other global vars
-/*jshint browser:true, devel:true*/
-/*global jQuery:false, Raphael:false, Timeline:true*/
+/*jshint browser:true, devel:true */
+/*global jQuery:false, Timeline:true */
 
 if (typeof Timeline === "undefined") {
   Timeline = {};
@@ -183,7 +183,7 @@ jQuery.extend(Timeline, {
       return parseInt(e, 16);
     });
   },
-  getLimunanceFor: function(color) {
+  getLuminanceFor: function(color) {
     var parts = this.getColorParts(color);
     var result = (0.299 * parts[0] + 0.587 * parts[1] + 0.114 * parts[2]) / 256;
     return result;
@@ -344,10 +344,44 @@ jQuery.extend(Timeline, {
       "project": "getProjectName"
     };
 
+    function booleanCustomFieldValue(value) {
+      if (value) {
+        if (value === "1") {
+          return timeline.i18n("general_text_Yes")
+        } else if (value === "0") {
+          return timeline.i18n("general_text_No")
+        }
+      }
+    }
+
+    function formatCustomFieldValue(value, custom_field_id) {
+      switch(timeline.custom_fields[custom_field_id].field_format) {
+        case "bool":
+          return booleanCustomFieldValue(value);
+        case "user":
+          if (timeline.users[value])
+            return timeline.users[value].name;
+        default:
+          return value;
+      }
+    }
+
+    function getCustomFieldValue(data, custom_field_name) {
+      var custom_field_id = parseInt(custom_field_name.substr(3), 10), value = data[custom_field_name];
+
+      if (value) {
+        return jQuery('<span class="tl-column">' + timeline.escape(formatCustomFieldValue(value, custom_field_id)) + '</span>');
+      }
+    }
+
     var timeline = this;
     return {
       all: ['due_date', 'type', 'status', 'responsible', 'start_date'],
       general: function (data, val) {
+        if (val.substr(0, 3) === "cf_") {
+          return getCustomFieldValue(data, val);
+        }
+
         if (!map[val]) {
           return;
         }
@@ -428,6 +462,12 @@ jQuery.extend(Timeline, {
     // │                                                       │
     // │  <div class="tl-toolbar"> ... </div>                  │
     // ╰───────────────────────────────────────────────────────╯
+    // TODO: Because it is easier to maintain HTML in HTML, this
+    //       method should actually become a partial. The
+    //       implementors of this method decided it to be in
+    //       JavaScript because it is then easier to connect the
+    //       toolbar to a specific timeline.
+
     var toolbar = jQuery('<div class="tl-toolbar"></div>');
     var timeline = this;
     var i, c, containers = [
@@ -438,6 +478,7 @@ jQuery.extend(Timeline, {
       0, 0          // outline
     ];
     var icon = '<a href="javascript://" title="%t" class="%c"/>';
+    var iconText = '<span class="hidden-for-sighted">';
 
     for (i = 0; i < containers.length; i++) {
       c = jQuery('<div class="tl-toolbar-container"></div>');
@@ -460,15 +501,19 @@ jQuery.extend(Timeline, {
       // │  Add element                                          │
       // ╰───────────────────────────────────────────────────────╯
 
-      containers[currentContainer++].append(
-        jQuery(icon
-          .replace(/%t/, timeline.i18n('timelines.new_work_package'))
-          .replace(/%c/, 'icon icon-add')
-        ).click(function(e) {
-          e.stopPropagation();
-          timeline.addPlanningElement();
-          return false;
-        }));
+      var workPackageAddIcon = jQuery(icon
+                                       .replace(/%t/, timeline.i18n('timelines.new_work_package'))
+                                       .replace(/%c/, 'icon icon-add')
+                                     ).click(function(e) {
+                                       e.stopPropagation();
+                                       timeline.addPlanningElement();
+                                       return false;
+                                     });
+      var workPackageAddLabel = jQuery(iconText).text(timeline.i18n('timelines.new_work_package'));
+
+      workPackageAddIcon.append(workPackageAddLabel);
+
+      containers[currentContainer++].append(workPackageAddIcon);
 
       // ╭───────────────────────────────────────────────────────╮
       // │  Spacer                                               │
@@ -488,13 +533,18 @@ jQuery.extend(Timeline, {
 
     // drop-down
     var form = jQuery('<form></form>');
-    var zooms = jQuery('<select name="zooms"></select>');
+    var zooms_label = jQuery('<label></label>').attr("for", "tl-toolbar-zooms")
+                                               .addClass("hidden-for-sighted")
+                                               .text(I18n.t("js.tl_toolbar.zooms"));
+    var zooms = jQuery('<select></select>').attr("name", "zooms")
+                                           .attr("id", "tl-toolbar-zooms");
     for (i = 0; i < Timeline.ZOOM_SCALES.length; i++) {
       zooms.append(jQuery(
             '<option>' +
             timeline.i18n(Timeline.ZOOM_CONFIGURATIONS[Timeline.ZOOM_SCALES[i]].name) +
             '</option>'));
     }
+    form.append(zooms_label);
     form.append(zooms);
     containers[currentContainer + 3].append(form);
 
@@ -515,6 +565,11 @@ jQuery.extend(Timeline, {
       // top right bottom left
       'margin': '4px 6px 3px'
     });
+    var sliderHandleLabel = jQuery(iconText).text(I18n.t('js.timelines.zoom_slider'));
+    var sliderHandle = slider.find('a.ui-slider-handle');
+
+    sliderHandle.append(sliderHandleLabel);
+
     containers[currentContainer + 1].append(slider);
     zooms.change(function() {
       slider.slider('value', this.selectedIndex + 1);
@@ -556,13 +611,18 @@ jQuery.extend(Timeline, {
     // TODO this is very similar to the way the zoom dropdown is
     // assembled. Refactor to avoid code duplication!
     form = jQuery('<form></form>');
-    var outlines = jQuery('<select name="outlines"></select>');
+    var outlines_label = jQuery('<label></label>').attr("for", "tl-toolbar-outlines")
+                                                  .addClass("hidden-for-sighted")
+                                                  .text(I18n.t("js.tl_toolbar.outlines"));
+    var outlines = jQuery('<select></select>').attr("name", "outlines")
+                                              .attr("id", "tl-toolbar-outlines");
     for (i = 0; i < Timeline.OUTLINE_LEVELS.length; i++) {
       outlines.append(jQuery(
             '<option>' +
             timeline.i18n(Timeline.OUTLINE_CONFIGURATIONS[Timeline.OUTLINE_LEVELS[i]].name) +
             '</option>'));
     }
+    form.append(outlines_label);
     form.append(outlines);
     containers[currentContainer + 1].append(form);
 
@@ -651,7 +711,7 @@ jQuery.extend(Timeline, {
 
     // lift the curtain, paper otherwise doesn't show w/ VML.
     jQuery('.timeline').removeClass('tl-under-construction');
-    this.paper = new Raphael(this.paperElement, 640, 480);
+    this.paper = new Timeline.SvgHelper(this.paperElement);
 
     // perform some zooming. if there is a zoom level stored with the
     // report, zoom to it. otherwise, zoom out. this also constructs
@@ -832,7 +892,14 @@ jQuery.extend(Timeline, {
     // everything else.
     var header = function(key) {
       var th = jQuery('<th></th>');
-      th.append(timeline.i18n('timelines.filter.column.' + key));
+      if (key.substr(0, 3) === "cf_") {
+        var timeline_id = parseInt(key.substr(3), 10);
+        if (timeline.custom_fields[timeline_id]) {
+          th.append(timeline.custom_fields[timeline_id].name);
+        }
+      } else {
+        th.append(timeline.i18n('timelines.filter.column.' + key));
+      }
       return th;
     };
     jQuery.each(timeline.options.columns, function(i, e) {
@@ -1133,7 +1200,9 @@ jQuery.extend(Timeline, {
             y: deco + 0.5, // the vertical line otherwise overlaps.
             w: width
           })
-        );
+        ).attr({
+          'stroke': '#000000'
+        });
       }
     }
 
@@ -1351,7 +1420,7 @@ jQuery.extend(Timeline, {
         })
       ).attr({
         'stroke': 'blue',
-        'stroke-dasharray': '- '
+        'stroke-dasharray': '4,3'
       });
     }
 
@@ -1366,7 +1435,7 @@ jQuery.extend(Timeline, {
         })
       ).attr({
         'stroke': 'blue',
-        'stroke-dasharray': '- '
+        'stroke-dasharray': '4,3'
       });
     }
   },
@@ -1390,7 +1459,7 @@ jQuery.extend(Timeline, {
       })
     ).attr({
       'stroke': 'red',
-      'stroke-dasharray': '- '
+      'stroke-dasharray': '4,3'
     });
 
     var setDateTime = 5 * 60 * 1000;

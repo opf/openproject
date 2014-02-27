@@ -168,3 +168,25 @@ end
 def locale_for_language language
    { "german" => "de", "english" => "en", "french" => "fr" }[language]
 end
+
+Then(/^I should see "(.*?)" for report "(.*?)"$/) do |link_name, table_value_name|
+  within 'table.timelines-reportings' do
+    table_data = first('td a', text: table_value_name)
+    row = table_data.find(:xpath, '../..')
+
+    expect(row).to have_selector('a', text: link_name)
+  end
+end
+
+When(/^I follow link "(.*?)" for report "(.*?)"$/) do |link_name, table_value_name|
+  within 'table.timelines-reportings' do
+    table_data = first('td a', text: table_value_name)
+    row = table_data.find(:xpath, '../..')
+
+    row.find('a', text: link_name).click
+  end
+end
+
+Then(/^I should see button "(.*?)"$/) do |button_name|
+  expect(page).to have_selector('span.hidden-for-sighted', text: button_name, visible: false)
+end

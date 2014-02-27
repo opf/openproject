@@ -39,7 +39,8 @@ describe BoardsController do
   end
 
   describe :create do
-    let(:params) { { :board => 'blubs_params' } }
+    let(:params) { {:board => board_params} }
+    let(:board_params) { {:name => 'my board', :description => 'awesome board'} }
 
     before do
       @controller.should_receive(:authorize)
@@ -47,7 +48,8 @@ describe BoardsController do
         @controller.instance_variable_set(:@project, project)
       end
 
-      Board.should_receive(:new).with(params[:board]).and_return(board)
+      # parameter expectation needs to have strings as keys
+      Board.should_receive(:new).with(board_params.stringify_keys).and_return(board)
     end
 
     describe 'w/ the params beeing valid' do

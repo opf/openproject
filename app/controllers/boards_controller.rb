@@ -92,7 +92,7 @@ class BoardsController < ApplicationController
   end
 
   def update
-    if @board.update_attributes(params[:board])
+    if @board.update_attributes(permitted_params.board)
       flash[:notice] = l(:notice_successful_update)
       redirect_to_settings_in_projects
     else
@@ -131,7 +131,7 @@ private
   end
 
   def new_board
-    @board = Board.new(params[:board])
+    @board = Board.new(permitted_params.board?)
     @board.project = @project
   end
 end

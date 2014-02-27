@@ -50,8 +50,9 @@ class SearchController < ApplicationController
         @project
       end
 
-    offset = nil
-    begin; offset = params[:offset].to_time if params[:offset]; rescue; end
+    offset = begin
+      Time.at(Rational(params[:offset])) if params[:offset]
+    rescue; end
 
     # quick jump to an work_package
     if @question.match(/\A#?(\d+)\z/) && WorkPackage.visible.find_by_id($1.to_i)

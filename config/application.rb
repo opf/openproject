@@ -135,5 +135,7 @@ module OpenProject
       ApplicationController.view_paths = ActionView::PathSet.new(ApplicationController.view_paths.to_ary.reverse)
       ActionMailer::Base.view_paths = ActionView::PathSet.new(ActionMailer::Base.view_paths.to_ary.reverse)
     end
+
+    OpenProject::Configuration.configure_cache(config)
   end
 end

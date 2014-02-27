@@ -91,7 +91,12 @@ class TimelogController < ApplicationController
                                   :include => [:project, :activity, :user, {:work_package => [:type, :assigned_to, :priority]}],
                                   :conditions => cond.conditions,
                                   :order => sort_clause)
-        send_data(entries_to_csv(@entries), :type => 'text/csv; header=present', :filename => 'timelog.csv')
+        charset = "charset=#{l(:general_csv_encoding).downcase}"
+
+        send_data(
+          entries_to_csv(@entries),
+          :type => "text/csv; #{charset}; header=present",
+          :filename => 'timelog.csv')
       }
     end
   end

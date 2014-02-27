@@ -688,6 +688,7 @@ describe WorkPackage do
     let(:work_package_1) { FactoryGirl.create(:work_package,
                                               author: user,
                                               assigned_to: user,
+                                              responsible: user,
                                               project: project,
                                               type: type,
                                               priority: priority,
@@ -696,6 +697,7 @@ describe WorkPackage do
     let(:work_package_2) { FactoryGirl.create(:work_package,
                                               author: user_2,
                                               assigned_to: user_2,
+                                              responsible: user_2,
                                               project: project,
                                               type: type_2,
                                               priority: priority_2,
@@ -747,6 +749,12 @@ describe WorkPackage do
 
     context "by assigned to" do
       let(:groups) { WorkPackage.by_assigned_to(project) }
+
+      it_behaves_like "group by"
+    end
+
+    context "by responsible" do
+      let(:groups) { WorkPackage.by_responsible(project) }
 
       it_behaves_like "group by"
     end

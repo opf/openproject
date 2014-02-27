@@ -706,6 +706,15 @@ class WorkPackage < ActiveRecord::Base
     users.select {|user| possible_watcher?(user)}
   end
 
+  # check if user is allowed to edit WorkPackage Journals.
+  # see Redmine::Acts::Journalized::Permissions#journal_editable_by
+  def editable_by?(user)
+    project = self.project
+    allowed = user.allowed_to? :edit_work_package_notes, project, { :global => project.present? }
+    allowed = user.allowed_to? :edit_own_work_package_notes, project, { :global => project.present? } unless allowed
+    return allowed
+  end
+
   protected
 
   def recalculate_attributes_for(work_package_id)
@@ -894,6 +903,12 @@ class WorkPackage < ActiveRecord::Base
   def self.by_assigned_to(project)
     count_and_group_by(:project => project,
                        :field => 'assigned_to_id',
+                       :joins => User.table_name)
+  end
+
+  def self.by_responsible(project)
+    count_and_group_by(:project => project,
+                       :field => 'responsible_id',
                        :joins => User.table_name)
   end
 

@@ -41,7 +41,6 @@
 //= require jquery
 //= require jquery.ui.all
 //= require jquery-ui-i18n
-//= require jquery.menu_expand
 //= require jquery.atwho
 //= require jquery_ujs
 //= require jquery_noconflict
@@ -115,13 +114,17 @@ jQuery(document).ready(function ($) {
       showWeek: true,
       changeMonth: true,
       changeYear: true,
+      yearRange: "c-100:c+10",
       dateFormat: 'yy-mm-dd',
       showButtonPanel: true,
-      calculateWeek: function (d) {
-        if (d.getDay() != 1) {
-          d.setDate(d.getDate() - d.getDay() + 1);
+      calculateWeek: function (day) {
+        var dayOfWeek = new Date(+day);
+
+        if (day.getDay() != 1) {
+          dayOfWeek.setDate(day.getDate() - day.getDay() + 1);
         }
-        return $.datepicker.iso8601Week(d);
+
+        return $.datepicker.iso8601Week(dayOfWeek);
       }
     };
 
@@ -131,6 +134,14 @@ jQuery(document).ready(function ($) {
 
     $.datepicker.setDefaults(defaults);
   }
+
+  $('#show_more_wp_properties').live('click', function(el){
+    $(this).find('.icon').toggleClass('icon-arrow-right6-3 icon-arrow-right6-1');
+    Effect.toggle("work_package_descr_fields", "appear", {duration:0.3});
+    enable_textarea_auto_completion(jQuery("#work_package_description"));
+    return false;
+  });
+
 });
 
 function checkAll (id, checked) {
@@ -201,12 +212,6 @@ function toggleAllRowGroups(el) {
       toggleRowGroup(collapseExpandButton);
     }
   });
-}
-
-function toggleFieldset(el) {
-	var fieldset = Element.up(el, 'fieldset');
-	fieldset.toggleClassName('collapsed');
-	Effect.toggle(fieldset.down('>div'), 'slide', {duration:0.2});
 }
 
 function hideFieldset(el) {
@@ -495,14 +500,14 @@ function setVisible(id, visible) {
 
 function observeProjectModules() {
   var f = function() {
-    /* Hides types and issues custom fields on the new project form when issue_tracking module is disabled */
-    var c = ($('project_enabled_module_names_issue_tracking').checked == true);
+    /* Hides types and issues custom fields on the new project form when work_package_tracking module is disabled */
+    var c = ($('project_enabled_module_names_work_package_tracking').checked == true);
     setVisible('project_types', c);
     setVisible('project_issue_custom_fields', c);
   };
 
   Event.observe(window, 'load', f);
-  Event.observe('project_enabled_module_names_issue_tracking', 'change', f);
+  Event.observe('project_enabled_module_names_work_package_tracking', 'change', f);
 }
 
 /*
@@ -1261,6 +1266,26 @@ var I18nForms = (function ($) {
 }(jQuery));
 
 jQuery(document).ready(I18nForms.init);
+
+var activateError = function() {
+  var errorHeader = jQuery('.errorExplanation h2[role="alert"]');
+
+  errorHeader.show();
+}
+
+var activateFlash = function() {
+  var flashMessage = jQuery('.flash');
+
+  flashMessage.show();
+}
+
+jQuery(document).ready(initMainMenuExpandStatus);
+jQuery(document).ready(activateError);
+jQuery(document).ready(function () {
+  activateFlash();
+
+  jQuery(document).ajaxComplete(activateFlash);
+});
 
 var SubmitConfirm = (function($) {
   var init;

@@ -45,6 +45,7 @@ class ActivityTest < ActiveSupport::TestCase
   end
 
   def teardown
+    super
     Journal.delete_all
   end
 

@@ -107,6 +107,14 @@ describe PermittedParams do
     end
   end
 
+  describe :custom_field do
+    it "should permit move_to" do
+      params = ActionController::Parameters.new(:custom_field => { "editable" => "0", "visible" => "0", 'filtered' => 42 } )
+
+      PermittedParams.new(params, user).custom_field.should == { "editable" => "0", "visible" => "0" }
+    end
+  end
+
   describe :planning_element_type do
     it "should permit move_to" do
       hash = { "name" => "blubs" }
@@ -709,6 +717,40 @@ describe PermittedParams do
       let(:hash) { { "lock_version" => "1" } }
 
       it_behaves_like 'allows params'
+    end
+  end
+
+  describe 'member' do
+    let (:attribute) { :member }
+
+    describe 'role_ids' do
+      let(:hash) { { "role_ids" => [] } }
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'user_id' do
+      let(:hash) { { "user_id" => "blubs" } }
+
+      it_behaves_like 'forbids params'
+    end
+
+    describe 'project_id' do
+      let(:hash) { { "user_id" => "blubs" } }
+
+      it_behaves_like 'forbids params'
+    end
+
+    describe 'created_on' do
+      let(:hash) { { "created_on" => "blubs" } }
+
+      it_behaves_like 'forbids params'
+    end
+
+    describe 'mail_notification' do
+      let(:hash) { { "mail_notification" => "blubs" } }
+
+      it_behaves_like 'forbids params'
     end
   end
 end

@@ -74,7 +74,7 @@ describe JournalsController do
       context 'without permission to edit work packages' do
         let(:permissions) { [:edit_own_work_package_notes] }
 
-        example { assert_response :forbidden }
+        example { assert_response :success }
       end
 
       context 'without permission to edit journals' do

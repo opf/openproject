@@ -29,7 +29,6 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 require 'sys_controller'
-require 'mocha/setup'
 
 # Re-raise errors caught by the controller.
 class SysController; def rescue_action(e) raise e end; end
@@ -69,13 +68,13 @@ class SysControllerTest < ActionController::TestCase
   end
 
   def test_fetch_changesets
-    Repository::Subversion.any_instance.expects(:fetch_changesets).returns(true)
+    Repository::Subversion.any_instance.should_receive(:fetch_changesets).and_return(true)
     get :fetch_changesets
     assert_response :success
   end
 
   def test_fetch_changesets_one_project
-    Repository::Subversion.any_instance.expects(:fetch_changesets).returns(true)
+    Repository::Subversion.any_instance.should_receive(:fetch_changesets).and_return(true)
     get :fetch_changesets, :id => 'ecookbook'
     assert_response :success
   end

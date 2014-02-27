@@ -51,6 +51,12 @@ describe Query do
   end
 
   describe '#valid?' do
+    it "should not be valid without a name" do
+      query.name = ''
+      expect(query.save).to be_false
+      expect(query.errors[:name].first).to include(I18n.t('activerecord.errors.messages.blank'))
+    end
+
     context 'with a missing value' do
       before do
         query.add_filter('due_date', 't-', [''])
@@ -69,6 +75,20 @@ describe Query do
       it 'is not valid and creates an error' do
         expect(query.valid?).to be_false
         expect(query.errors[:filters]).to include(I18n.t('activerecord.errors.messages.blank'))
+      end
+    end
+
+    context 'with a missing value for a custom field' do
+      let(:custom_field) { FactoryGirl.create :text_issue_custom_field }
+      let(:query) { FactoryGirl.build(:query)}
+
+      before do
+        query.filters = [Queries::WorkPackages::Filter.new("cf_" + custom_field.id.to_s, operator: "=", values: ['']) ]
+      end
+
+      it 'should have the name of the custom field in the error message' do
+        expect(query.valid?).to be_false
+        expect(query.errors.messages[:base].to_s).to include(custom_field.name)
       end
     end
   end

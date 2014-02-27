@@ -165,7 +165,7 @@ describe ApplicationHelper do
     before do
       @project = project
 
-      User.stubs(:current).returns(project_member)
+      User.stub(:current).and_return(project_member)
 
       Setting.enabled_scm = Setting.enabled_scm << "Filesystem" unless Setting.enabled_scm.include? "Filesystem"
     end

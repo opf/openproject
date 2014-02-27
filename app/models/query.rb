@@ -44,11 +44,11 @@ class Query < ActiveRecord::Base
 
   attr_protected :project_id #, :user_id
 
-  validates_presence_of :name, on: :save
+  validates :name, presence: true
   validates_length_of :name, :maximum => 255
 
   validate :validate_work_package_filters
-  validates_presence_of :filters
+  validates :filters, presence: true
 
   after_initialize :remember_project_scope
 
@@ -92,9 +92,16 @@ class Query < ActiveRecord::Base
   def validate_work_package_filters
     self.filters.each do |filter|
       unless filter.valid?
-        attribute_name = WorkPackage.human_attribute_name(filter.field)
         messages = filter.errors.messages.values.flatten.join(" #{I18n.t('support.array.sentence_connector')} ")
-        errors.add :base, errors.full_message(attribute_name, messages)
+        cf_id = custom_field_id filter
+
+        if cf_id && CustomField.find(cf_id)
+          attribute_name = CustomField.find(cf_id).name
+          errors.add :base, attribute_name + I18n.t({:default => " %{message}",:message   => messages})
+        else
+          attribute_name = WorkPackage.human_attribute_name(filter.field)
+          errors.add :base, errors.full_message(attribute_name, messages)
+        end
       end
     end
   end
@@ -435,6 +442,12 @@ class Query < ActiveRecord::Base
   end
 
   private
+
+  def custom_field_id(filter)
+    matchdata = /cf\_(?<id>\d+)/.match(filter.field.to_s)
+
+    matchdata.nil? ? nil : matchdata[:id]
+  end
 
   # Helper method to generate the WHERE sql for a +field+, +operator+ and a +value+
   def sql_for_field(field, operator, value, db_table, db_field, is_custom_filter=false)

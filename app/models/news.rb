@@ -89,6 +89,10 @@ class News < ActiveRecord::Base
     new_comment(attributes).post!
   end
 
+  def to_param
+    id && "#{id} #{title}".parameterize
+  end
+
   private
 
   def add_author_as_watcher

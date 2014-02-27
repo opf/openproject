@@ -80,7 +80,7 @@ OpenProject::Application.routes.draw do
       resources :reported_project_statuses
       resources :statuses, :only => [:index, :show]
       resources :timelines
-      resources :work_package_priorities, only: [:index]
+      resources :planning_element_priorities, only: [:index]
 
       resources :projects do
         resources :planning_elements
@@ -96,6 +96,7 @@ OpenProject::Application.routes.draw do
         member do
           get :planning_element_custom_fields
         end
+        resources :workflows, only: [:index]
       end
 
       resources :custom_fields
