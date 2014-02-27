@@ -40,13 +40,13 @@ module OpenProject::Backlogs::Patches::ProjectsControllerPatch
     base.class_eval do
       include InstanceMethods
 
-      alias_method_chain :settings, :backlogs_settings
+      alias_method_chain :load_project_settings, :backlogs_settings
     end
   end
 
   module InstanceMethods
-    def settings_with_backlogs_settings
-      settings_without_backlogs_settings
+    def load_project_settings_with_backlogs_settings
+      load_project_settings_without_backlogs_settings
       @statuses = Status.all
     end
 
