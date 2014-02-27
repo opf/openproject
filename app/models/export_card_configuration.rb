@@ -97,6 +97,10 @@ class ExportCardConfiguration < ActiveRecord::Base
 
   scope :active, -> { where(active: true) }
 
+  def self.default
+    ExportCardConfiguration.active.select { |c| c.is_default? }.first || ExportCardConfiguration.active.first
+  end
+
   def activate
     self.update_attributes!({active: true})
   end
