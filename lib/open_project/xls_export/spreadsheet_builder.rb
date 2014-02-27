@@ -142,7 +142,7 @@ module OpenProject::XlsExport
     # Add a default format to the column at index
     def add_format_option_to_column(index, opt)
       unless opt.empty?
-        fmt = @sheet.column(index).default_format
+        fmt = @sheet.column(index).default_format.clone
         opt.each do |k,v|
           fmt.send(:"#{k.to_sym}=", v) if fmt.respond_to? :"#{k.to_sym}="
         end
