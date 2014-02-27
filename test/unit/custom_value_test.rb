@@ -125,7 +125,7 @@ class CustomValueTest < ActiveSupport::TestCase
       :default_value => "Some Default String"
 
     field = CustomField.find_by_default_value('Some Default String')
-    assert_not_nil field
+    assert_equal field, custom_field
 
     v = CustomValue.new(:custom_field => field)
     assert_equal 'Some Default String', v.value
