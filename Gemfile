@@ -71,10 +71,6 @@ gem 'htmldiff'
 # used for statistics on svn repositories
 gem 'svg-graph'
 
-gem 'execjs'
-
-gem 'therubyracer'
-
 gem "date_validator"
 
 # replacing rsb with rabl --
@@ -114,6 +110,9 @@ group :assets do
   gem 'select2-rails', '~> 3.3.2'
   gem 'jquery-atwho-rails'
 end
+
+# You don't need therubyracer if you have nodejs installed on the machine precompiling assets.
+gem 'therubyracer', :group => :therubyracer
 
 gem "prototype-rails"
 # remove once we no longer use the deprecated "link_to_remote", "remote_form_for" and alike methods
@@ -176,10 +175,6 @@ group :development do
   gem 'rb-fsevent', :group => :test
   gem 'thin'
   gem 'faker'
-end
-
-group :tools do
-  # why tools? see: https://github.com/guard/guard-test
   gem 'guard-test'
 end
 
