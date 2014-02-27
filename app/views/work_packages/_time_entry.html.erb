@@ -32,22 +32,23 @@ See doc/COPYRIGHT.rdoc for more details.
                  { :builder => TabularFormBuilder,
                  :lang => current_language} do |fields| %>
 
-  <div class="splitcontentleft">
-    <div class="attribute_wrapper">
-      <%= fields.text_field :hours,
-                            :label => :label_spent_time,
-                            :placeholder => TimeEntry.human_attribute_name(:hours),
-                            :class => 'short' %>
+  <div class="clear">
+    <div class="splitcontentleft">
+      <div class="attribute_wrapper">
+        <%= fields.text_field :hours,
+                              :label => :label_spent_time,
+                              :placeholder => TimeEntry.human_attribute_name(:hours),
+                              :class => 'short' %>
+      </div>
+    </div>
+
+    <div class="splitcontentright">
+      <div class="attribute_wrapper">
+        <%= fields.select :activity_id, activity_collection_for_select_options %>
+      </div>
     </div>
   </div>
 
-  <div class="splitcontentright">
-    <div class="attribute_wrapper">
-      <%= fields.select :activity_id, activity_collection_for_select_options %>
-    </div>
-  </div>
-
-  <br class="clear" />
   <div class="attribute_wrapper">
     <%= fields.text_field :comments %>
   </div>
