@@ -30,6 +30,14 @@ module OpenProject::Costs::Patches::QueryPatch
     def real_value(work_package)
       super_value work_package
     end
+
+    def xls_formatter
+      :cost
+    end
+
+    def xls_value(work_package)
+      super_value work_package
+    end
   end
 
   def self.included(base) # :nodoc:
