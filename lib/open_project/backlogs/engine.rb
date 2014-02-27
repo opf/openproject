@@ -156,7 +156,7 @@ module OpenProject::Backlogs
             permission :view_taskboards,     {
               :rb_taskboards       => :show,
               :rb_sprints          => :show,
-              :rb_stories          => [:index, :show],
+              :rb_stories          => :show,
               :rb_tasks            => [:index, :show],
               :rb_impediments      => [:index, :show],
               :rb_wikis            => :show,

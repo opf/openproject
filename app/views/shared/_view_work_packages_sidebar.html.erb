@@ -55,15 +55,17 @@ See doc/COPYRIGHT.rdoc for more details.
                 :sprint_id => sprint
                 })
         %><br/>
-
-        <%= link_to(l(:label_sprint_cards), {
-                :controller => '/rb_stories',
-                :action => 'index',
-                :project_id => project,
-                :sprint_id => sprint,
-                :format => 'pdf'
-                })
-        %><br/>
+        <% if ExportCardConfiguration.default %>
+          <%= link_to(l(:label_sprint_cards), {
+                  :controller => '/rb_export_card_configurations',
+                  :action => 'show',
+                  :project_id => project,
+                  :sprint_id => sprint,
+                  :id => ExportCardConfiguration.default,
+                  :format => 'pdf'
+                  })
+          %><br/>
+        <% end %>
 
         <% if project.module_enabled? "wiki" %>
           <%= link_to(l(:label_wiki), {
