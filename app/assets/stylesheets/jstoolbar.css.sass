@@ -48,7 +48,7 @@
     width: 32px
     height: 32px
     padding: 6px 5px 4px 5px
-    border: 1px solid #CCCCCC
+    border: $content_form_input_border
     background: url(image-path('bg_input_file.png')) repeat-x 0 0
     font-size: 18px
     @include border-radius(2px)
@@ -56,7 +56,7 @@
       @include icon-common
 
     &:hover
-      border-color: #000
+      border: $content_form_input_hover_border
       cursor: pointer
 
     span
@@ -94,24 +94,14 @@
 .jstb_code:before
   content: "\e050"
 
-.jstb_h1
-  padding-bottom: 5px
-  &:before
-    font-family: $font_family_normal
-    font-size: 15px
-    content: "H1"
+.jstb_h1:before
+  content: "\e0d6"
 
-.jstb_h2
-  &:before
-    font-family: $font_family_normal
-    font-size: 15px
-    content: "H2"
+.jstb_h2:before
+  content: "\e0d7"
 
-.jstb_h3
-  &:before
-    font-family: $font_family_normal
-    font-size: 15px
-    content: "H3"
+.jstb_h3:before
+  content: "\e0d8"
 
 .jstb_ul:before
   content: "\e07b"
@@ -125,11 +115,8 @@
 .jstb_unbq:before
   content: "\e08e"
 
-.jstb_pre
-  &:before
-    font-family: $font_family_normal
-    font-size: 15px
-    content: "pre"
+.jstb_pre:before
+  content: "\e0d9"
 
 .jstb_link:before
   content: "\e013"
