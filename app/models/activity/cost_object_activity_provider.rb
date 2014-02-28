@@ -37,12 +37,11 @@ class Activity::CostObjectActivityProvider < Activity::BaseActivityProvider
   end
 
   def event_path(event, activity)
-    Rails.application.routes.url_helpers.cost_object_path(url_helper_parameter(event))
+    url_helpers.cost_object_path(url_helper_parameter(event))
   end
 
   def event_url(event, activity)
-    Rails.application.routes.url_helpers.cost_object_url(url_helper_parameter(event),
-                                                         host: ::Setting.host_name)
+    url_helpers.cost_object_url(url_helper_parameter(event))
   end
 
   private
