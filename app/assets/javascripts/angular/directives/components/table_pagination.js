@@ -7,15 +7,38 @@ angular.module('openproject.uiComponents')
     scope: {
       page: '=',
       perPage: '=',
+      totalEntries: '=',
       rows: '='
     },
     link: function(scope, element, attributes){
       scope.selectPerPage = function(perPage){
         scope.perPage = perPage;
+        scope.page = 1;
+        scope.currentRange = currentRange();
+        scope.pageNumbers = pageNumbers();
       };
 
-      scope.possiblePerPages = [100, 500, 1000]; // TODO: These should come from somewhere sensible
-      scope.currentRange = "(" + ((scope.perPage * (scope.page - 1)) + 1) + " - " + scope.rows.length + "/" + scope.rows.length + ")"
+      scope.showPage = function(pageNumber){
+        scope.page = pageNumber;
+        scope.currentRange = currentRange();
+        scope.pageNumbers = pageNumbers();
+      };
+
+      currentRange = function(){
+        return "(" + ((scope.perPage * (scope.page - 1)) + 1) + " - " + scope.rows.length + "/" + scope.totalEntries + ")";
+      };
+
+      pageNumbers = function(){
+        var pageNumbers = [];
+        for (var i = 1; i <= Math.ceil(scope.totalEntries / scope.perPage); i++){
+          pageNumbers.push(i);
+        }
+        return pageNumbers;
+      }
+
+      scope.possiblePerPages = [10, 20, 50, 100, 500, 1000]; // TODO: These need to come from the settings and put into gon/json
+      scope.currentRange = currentRange();
+      scope.pageNumbers = pageNumbers();
     }
   }
 }])

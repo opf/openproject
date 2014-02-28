@@ -222,7 +222,6 @@ class WorkPackagesController < ApplicationController
                       []
                     end
 
-
     respond_to do |format|
       format.html do
         # push work packages to client as JSON
@@ -553,9 +552,7 @@ class WorkPackagesController < ApplicationController
       query:                        get_query_as_json(@query),
       columns:                      get_columns_for_json(@query.columns),
       available_columns:            get_columns_for_json(@query.available_columns),
-      sort_criteria:                @sort_criteria.to_param,
-      page:                         page_param,
-      per_page:                     per_page_param
+      sort_criteria:                @sort_criteria.to_param
     )
   end
 
@@ -566,7 +563,8 @@ class WorkPackagesController < ApplicationController
       sums:                         @query.columns.map { |column| results.total_sum_of(column) },
       group_sums:                   @query.group_by_column && @query.columns.map { |column| results.grouped_sums(column) },
       page:                         page_param,
-      per_page:                     per_page_param
+      per_page:                     per_page_param,
+      total_entries:                work_packages.total_entries
     }
   end
 

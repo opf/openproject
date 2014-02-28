@@ -15,6 +15,10 @@ angular.module('openproject.workPackages.controllers')
     $scope.query.per_page = $scope.perPage;
   });
 
+  $scope.$watch('page', function() {
+    $scope.query.page = $scope.page;
+  });
+
   function initialSetup() {
     $scope.projectIdentifier = gon.project_identifier;
     $scope.operatorsAndLabelsByFilterType = gon.operators_and_labels_by_filter_type;
@@ -50,6 +54,7 @@ angular.module('openproject.workPackages.controllers')
     $scope.groupSums = json.group_sums;
     $scope.page = json.page;
     $scope.perPage = json.per_page;
+    $scope.totalEntries = json.total_entries;
   };
 
   // Initially setup scope via gon

@@ -19,8 +19,8 @@ angular.module('openproject.models')
            }),
           'group_by': this.group_by,
           'sort': this.sortation.encode(),
-          'page': this.page, // These aren't on the query, hmm
-          'per_page': this.per_page // These aren't on the query, hmm
+          'page': this.page,
+          'per_page': this.per_page
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {
           return filter.toParams();
         }))
