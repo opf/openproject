@@ -340,7 +340,12 @@ private
   end
 
   def self.default_url_options
-    super.merge :host => host, :protocol => protocol
+    options = super.merge :host => host, :protocol => protocol
+    unless OpenProject::Configuration.rails_relative_url_root.blank?
+      options[:script_name] = OpenProject::Configuration.rails_relative_url_root
+    end
+
+    options
   end
 
   def message_id(object, user)
