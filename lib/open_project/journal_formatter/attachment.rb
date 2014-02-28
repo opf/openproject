@@ -30,6 +30,7 @@ class OpenProject::JournalFormatter::Attachment < ::JournalFormatter::Base
   # unloadable
 
   include ApplicationHelper
+  include OpenProject::StaticRouting::UrlHelpers
 
   def self.default_url_options
     { :only_path => true }
