@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -41,7 +41,7 @@
 // to make svg creation easier
 //= require timelines/SvgHelper
 
-/* 
+/*
  * These files handle loading of timelines data.
  * The TimelineLoader finds all dependencies and issues
  * REST-server requests to grab the necessary data.
@@ -92,7 +92,7 @@
 //= require timelines/model/PlanningElementType
 //= require timelines/model/User
 
-/* startup 
+/* startup
  *   -> setupUI -> loader -> load & create model objects
  *                        -> link model objects
  *   -> getLeftHandTree
@@ -497,36 +497,29 @@ jQuery.extend(Timeline, {
    * For every base project it finds all associates with the given project type.
    * It removes every such project from the trees root and adds it underneath the base project.
    */
-  secondLevelGroupingAdjustments : function () {
+  secondLevelGroupingAdjustments: function () {
     var grouping = jQuery.map(this.options.grouping_two_selection || [], Timeline.pnum);
     var root = this.getProject();
     var associations = Timeline.ProjectAssociation.all(this);
     var listToRemove = [];
 
     // for all projects on the first level
-    jQuery.each(root.getReporters(), function (i, e) {
+    jQuery.each(root.getReporters(), function (i, reporter) {
 
       // find all projects that are associated
-      jQuery.each(associations, function (j, a) {
+      jQuery.each(associations, function (j, association) {
 
-        if (a.involves(e)) {
-          var other = a.getOther(e);
+        // check if the reporter is involved and hasn't already been included by a second level grouping adjustment
+        if (!reporter.hasSecondLevelGroupingAdjustment && association.involves(reporter)) {
+          var other = association.getOther(reporter);
           if (typeof other.getProjectType === "function") {
-            var pt = other.getProjectType();
-            var type = pt !== null ? pt.id : -1;
+            var projectType = other.getProjectType();
+            var projectTypeId = projectType !== null ? projectType.id : -1;
 
             //check if the type is selected as 2nd level grouping
-            var relevant = false;
-            jQuery.each(grouping, function(k, l) {
-              if (l === type) {
-                relevant = true;
-              }
-            });
-
-            if (relevant) {
-
+            if (grouping.indexOf(projectTypeId) !== -1) {
               // add the other project as a simulated reporter to the current one.
-              e.addReporter(other);
+              reporter.addReporter(other);
               other.hasSecondLevelGroupingAdjustment = true;
               // remove the project from the root level of the report.
               listToRemove.push(other);
@@ -538,8 +531,8 @@ jQuery.extend(Timeline, {
     });
 
     // remove all children of root that we couldn't remove while still iterating.
-    jQuery.each(listToRemove, function(i, e) {
-      root.removeReporter(e);
+    jQuery.each(listToRemove, function(i, reporter) {
+      root.removeReporter(reporter);
     });
   }
 });
@@ -651,7 +644,7 @@ jQuery.extend(Timeline, {
     }
     var i, selection = this.options.grouping_one_selection;
     var p, groups = [], children;
-    if (this.isGrouping()) {
+    if (this.isGrouping() && selection) {
       for ( i = 0; i < selection.length; i++ ) {
         p = this.getProject(selection[i]);
         if (p === undefined) {
