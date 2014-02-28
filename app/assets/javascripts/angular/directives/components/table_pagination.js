@@ -7,6 +7,7 @@ angular.module('openproject.uiComponents')
     scope: {
       page: '=',
       perPage: '=',
+      perPageOptions: '=',
       totalEntries: '=',
       rows: '='
     },
@@ -36,7 +37,6 @@ angular.module('openproject.uiComponents')
         return pageNumbers;
       }
 
-      scope.possiblePerPages = [10, 20, 50, 100, 500, 1000]; // TODO: These need to come from the settings and put into gon/json
       scope.currentRange = currentRange();
       scope.pageNumbers = pageNumbers();
     }

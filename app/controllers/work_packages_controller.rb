@@ -564,6 +564,7 @@ class WorkPackagesController < ApplicationController
       group_sums:                   @query.group_by_column && @query.columns.map { |column| results.grouped_sums(column) },
       page:                         page_param,
       per_page:                     per_page_param,
+      per_page_options:             Setting.per_page_options_array,
       total_entries:                work_packages.total_entries
     }
   end

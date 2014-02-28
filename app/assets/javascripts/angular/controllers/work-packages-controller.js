@@ -54,6 +54,7 @@ angular.module('openproject.workPackages.controllers')
     $scope.groupSums = json.group_sums;
     $scope.page = json.page;
     $scope.perPage = json.per_page;
+    $scope.perPageOptions = json.per_page_options;
     $scope.totalEntries = json.total_entries;
   };
 
