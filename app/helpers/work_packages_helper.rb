@@ -624,7 +624,8 @@ module WorkPackagesHelper
     call_hook(:work_packages_show_attributes,
               work_package: work_package,
               project: @project,
-              attributes: attributes)
+              attributes: attributes,
+              view_context: self)
     attributes
   end
 

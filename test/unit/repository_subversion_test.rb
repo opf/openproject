@@ -144,7 +144,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
                            :revision => '1', :comments => 'test')
       event = find_events(User.find(2)).first # manager
       assert event.event_title.include?('1:')
-      assert event.event_path =~ /\?rev=1$/
+      assert event.event_path.call =~ /\?rev=1$/
     end
 
     def test_activities_nine_digit
@@ -152,7 +152,7 @@ class RepositorySubversionTest < ActiveSupport::TestCase
                         :revision => '123456789', :comments => 'test')
       event = find_events(User.find(2)).first # manager
       assert event.event_title.include?('123456789:')
-      assert event.event_path =~ /\?rev=123456789$/
+      assert event.event_path.call =~ /\?rev=123456789$/
     end
 
     def test_log_encoding_ignore_setting

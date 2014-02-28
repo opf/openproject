@@ -269,7 +269,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
 
       event = find_events(User.find(2)).first # manager
       assert event.event_title.include?('abc7234c:')
-      assert event.event_path =~ /\?rev=abc7234cb2750b63f47bff735edc50a1c0a433c2$/
+      assert event.event_path.call =~ /\?rev=abc7234cb2750b63f47bff735edc50a1c0a433c2$/
     end
 
     def test_log_utf8
