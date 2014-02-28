@@ -104,7 +104,6 @@ module Redmine
           private
 
           def find_events_for_class(provider, activity, provider_options, user, from, to, options)
-            projects_table = Arel::Table.new(:projects)
             journals_table = Arel::Table.new(:journals)
             activity_journals_table = provider.activity_journals_table activity
 
