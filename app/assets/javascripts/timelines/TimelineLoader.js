@@ -558,6 +558,10 @@ Timeline.TimelineLoader = (function () {
       });
     };
 
+    DataEnhancer.prototype.clearUpCustomFieldColumns = function() {
+      this.timeline.clearUpCustomFieldColumns();
+    };
+
     /**
      *  TimelineLoader
      *
@@ -676,7 +680,7 @@ Timeline.TimelineLoader = (function () {
     };
 
     TimelineLoader.prototype.registerGlobalElements = function () {
-      var projectPrefix = this.globalPrefix + 
+      var projectPrefix = this.globalPrefix +
                           this.options.project_prefix +
                           "/" +
                           this.options.project_id;
@@ -1087,6 +1091,8 @@ Timeline.TimelineLoader = (function () {
       // have the following signature:
       //
       //   function (e, data) {}
+      this.dataEnhancer.clearUpCustomFieldColumns();
+
       return data;
     };
 
