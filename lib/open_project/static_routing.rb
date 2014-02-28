@@ -20,13 +20,18 @@ module OpenProject
             options[:script_name] = root
           end
 
-          host = Setting.host_name
+          host = OpenProject::StaticRouting::UrlHelpers.host
           unless options[:host] || host.blank?
-            options[:host] = host.gsub(/\/.*$/, "") # remove path in case it got into the host
+            options[:host] = host
           end
 
           options
         end
+      end
+
+      def self.host
+        host = Setting.host_name
+        host.gsub(/\/.*$/, "") if host # remove path in case it got into the host
       end
     end
 

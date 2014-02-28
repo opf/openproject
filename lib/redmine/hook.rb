@@ -108,7 +108,11 @@ module Redmine
       # Default to creating links using only the path.  Subclasses can
       # change this default as needed
       def self.default_url_options
-        {:only_path => true }
+        {
+          :host => OpenProject::StaticRouting::UrlHelpers.host,
+          :only_path => true,
+          :script_name => OpenProject::Configuration.rails_relative_url_root
+        }
       end
 
       # Helper method to directly render a partial using the context:
@@ -128,11 +132,11 @@ module Redmine
           end
         end
       end
-      
+
       def controller
         nil
       end
-      
+
       def config
         ActionController::Base.config
       end
