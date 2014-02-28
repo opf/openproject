@@ -36,7 +36,7 @@ Feature: Timeline View Tests
           | login | manager |
       And there is a role "manager"
       And the role "manager" may have the following rights:
-          | view_work_packages | 
+          | view_work_packages |
           | view_timelines     |
           | edit_timelines     |
           | edit_work_packages |
@@ -61,11 +61,14 @@ Feature: Timeline View Tests
         | cfBool  | bool  | true       | true      |                 |
         | cfList  | list  | true       | true      | A,B,C           |
         | cfUser  | user  | true       | true      |                 |
+        | cfLocal | bool  | false      | true      |                 |
 
     And the custom field "cfBool" is activated for type "Phase"
     And the custom field "cfList" is activated for type "Phase"
     And the custom field "cfUser" is activated for type "Phase"
+    And the custom field "cfLocal" is activated for type "Phase"
 
+    And the custom field "cfLocal" is enabled for the project "ecookbook"
 
   @javascript
   Scenario: Select custom field column
@@ -78,6 +81,17 @@ Feature: Timeline View Tests
       Then I should see the column "Start date" before the column "End date" in the timelines table
         And I should see the column "Start date" before the column "cfBool" in the timelines table
         And I should see the column "cfBool" before the column "End date" in the timelines table
+
+  @javascript
+  Scenario: Select custom field column and deactivate custom field
+    Given I am working in the timeline "Testline" of the project called "ecookbook"
+    When there is a timeline "Testline" for project "ecookbook"
+      And I set the columns shown in the timeline to:
+        | start_date |
+        | cf_4       |
+        | due_date   |
+      And the custom field "cfLocal" is disabled for the project "ecookbook"
+      Then I should see the column "Start date" immediately before the column "End date" in the timelines table
 
   @javascript
   Scenario: Show Boolean Custom Field Value
