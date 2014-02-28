@@ -383,7 +383,7 @@ class WorkPackagesController < ApplicationController
   end
 
   def priorities
-    IssuePriority.all
+    (IssuePriority.active + [work_package.priority]).uniq
   end
 
   def allowed_statuses
