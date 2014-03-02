@@ -28,7 +28,7 @@
 
 language: ruby
 rvm:
-  - 2.1.1
+  - 2.1.2p80
   - 2.1.0
 branches:
   only:
