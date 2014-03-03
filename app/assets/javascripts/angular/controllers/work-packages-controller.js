@@ -29,29 +29,38 @@ angular.module('openproject.workPackages.controllers')
     angular.extend($scope.query, {
       selectedColumns: $scope.columns
     });
-  };
+  }
 
+  /**
+   * @name withLoading
+   *
+   * @description Wraps a data-loading function and manages the loading state within the scope
+   * @param {function} callback Function returning a promise
+   * @param {array} params Params forwarded to the callback
+   * @returns {promise} Promise returned by the callback
+   */
   $scope.withLoading = function(callback, params){
     startedLoading();
     params.push(serviceErrorHandler);
-    return callback.apply(this, params).then(function(data){
-      finishedLoading();
-      return data;
-    });
+    return callback.apply(this, params)
+      .then(function(data){
+        finishedLoading();
+        return data;
+      }, serviceErrorHandler);
   };
 
   function startedLoading() {
     $scope.loading = true;
-  };
+  }
 
   function finishedLoading() {
     $scope.loading = false;
-  };
+  }
 
-  function serviceErrorHandler(data){
+  function serviceErrorHandler(data) {
     // TODO RS: This is where we'd want to put an error message on the dom
     $scope.loading = false;
-  };
+  }
 
   $scope.setupWorkPackagesTable = function(json) {
     $scope.workPackageCountByGroup = json.work_package_count_by_group;

@@ -3,13 +3,13 @@ angular.module('openproject.services')
 .service('WorkPackageService', ['$http', 'PathHelper', 'WorkPackagesHelper', function($http, PathHelper, WorkPackagesHelper) {
 
   var WorkPackageService = {
-    getWorkPackages: function(projectId, query, errorHandler) {
+    getWorkPackages: function(projectId, query) {
       var url = projectId ? PathHelper.projectWorkPackagesPath(projectId) : PathHelper.workPackagesPath();
 
-      return WorkPackageService.doQuery(url, query.toParams(), errorHandler);
+      return WorkPackageService.doQuery(url, query.toParams());
     },
 
-    loadWorkPackageColumnsData: function(workPackages, columnNames, errorHandler) {
+    loadWorkPackageColumnsData: function(workPackages, columnNames) {
       var url = PathHelper.workPackagesColumnDataPath();
 
       var params = {
@@ -19,11 +19,11 @@ angular.module('openproject.services')
         'column_names[]': columnNames
       };
 
-      return WorkPackageService.doQuery(url, params, errorHandler);
+      return WorkPackageService.doQuery(url, params);
     },
 
     // Note: Should this be on a project-service?
-    getWorkPackagesSums: function(projectId, columns, errorHandler){
+    getWorkPackagesSums: function(projectId, columns){
       var columnNames = columns.map(function(column){
         return column.name;
       });
@@ -34,15 +34,15 @@ angular.module('openproject.services')
         'column_names[]': columnNames
       };
 
-      return WorkPackageService.doQuery(url, params, errorHandler);
+      return WorkPackageService.doQuery(url, params);
     },
 
-    augmentWorkPackagesWithColumnsData: function(workPackages, columns, errorHandler) {
+    augmentWorkPackagesWithColumnsData: function(workPackages, columns) {
       var columnNames = columns.map(function(column){
         return column.name;
       });
 
-      return WorkPackageService.loadWorkPackageColumnsData(workPackages, columnNames, errorHandler)
+      return WorkPackageService.loadWorkPackageColumnsData(workPackages, columnNames)
         .then(function(columnsData){
           angular.forEach(workPackages, function(workPackage, i) {
             angular.forEach(columns, function(column, j){
@@ -54,14 +54,12 @@ angular.module('openproject.services')
         });
     },
 
-    doQuery: function(url, params, errorHandler) {
+    doQuery: function(url, params) {
       return $http({
         method: 'GET',
         url: url,
         params: params,
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-      }).error(function(data, status, headers, config){
-        return errorHandler.call(this, data);
       }).then(function(response){
         return response.data;
       });
