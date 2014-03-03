@@ -114,13 +114,13 @@ class Activity::MeetingActivityProvider < Activity::BaseActivityProvider
   def event_path(event, activity)
     id = activity_id(event, activity)
 
-    Rails.application.routes.url_helpers.meeting_path(id)
+    url_helpers.meeting_path(id)
   end
 
   def event_url(event, activity)
     id = activity_id(event, activity)
 
-    Rails.application.routes.url_helpers.meeting_url(id, host: ::Setting.host_name)
+    url_helpers.meeting_url(id)
   end
 
   private
