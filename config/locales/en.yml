@@ -163,7 +163,9 @@ en:
       work_package:
         done_ratio: "% done"
         fixed_version: "Target version"
-        parent: Parent
+        parent: "Parent"
+        parent_issue: "Parent"
+        parent_work_packae: "Parent"
         priority: "Priority"
         progress: "% done"
         responsible: "Responsible"

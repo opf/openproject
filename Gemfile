@@ -91,7 +91,9 @@ gem 'strong_parameters'
 gem 'delayed_job_active_record', '0.3.3'
 gem 'daemons'
 
-gem 'rack-protection'
+# include custom rack-protection for now until rkh/rack-protection is fixed and released
+# (see https://www.openproject.org/work_packages/3029)
+gem 'rack-protection', :git => "https://github.com/finnlabs/rack-protection.git", :ref => '5a7d1bd'
 
 gem 'syck', :platforms => [:ruby_20, :mingw_20, :ruby_21, :mingw_21], :require => false
 
