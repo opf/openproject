@@ -52,15 +52,17 @@ See doc/COPYRIGHT.rdoc for more details.
 <!-- page specific tags -->
 <%= content_for(:header_tags) if content_for?(:header_tags) %>
 
+<% if ENV['GOOGLE_ANALYTICS_TRACKING_ID'] %>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-48147636-1', 'auto');
+  ga('create', '<%= ENV['GOOGLE_ANALYTICS_TRACKING_ID'] %>', 'auto');
   ga('send', 'pageview');
 </script>
+<% end %>
 
 </head>
 <body class="<%= body_css_classes %>" ng-app="openproject" data-relative_url_root="<%= root_path %>">
