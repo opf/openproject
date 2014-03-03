@@ -1,5 +1,7 @@
+require 'subscribem/delayed_job/hooks'
+
 class DeliverWorkPackageUpdatedJob
-  include Apartment::Delayed::Job::Hooks
+  include Subscribem::Delayed::Job::Hooks
 
   def initialize(user_id, journal_id, current_user_id)
     @user_id         = user_id
