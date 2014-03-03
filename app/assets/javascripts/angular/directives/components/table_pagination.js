@@ -14,31 +14,30 @@ angular.module('openproject.uiComponents')
     link: function(scope, element, attributes){
       scope.selectPerPage = function(perPage){
         scope.perPage = perPage;
-        scope.page = 1;
-        scope.currentRange = currentRange();
-        scope.pageNumbers = pageNumbers();
+        updatePageNumbers();
+        scope.showPage(1);
       };
 
       scope.showPage = function(pageNumber){
         scope.page = pageNumber;
-        scope.currentRange = currentRange();
-        scope.pageNumbers = pageNumbers();
+        updateCurrentRange();
       };
 
-      currentRange = function(){
-        return "(" + ((scope.perPage * (scope.page - 1)) + 1) + " - " + scope.rows.length + "/" + scope.totalEntries + ")";
+      updateCurrentRange = function() {
+        scope.currentRange = "(" + ((scope.perPage * (scope.page - 1)) + 1) + " - " + scope.rows.length + "/" + scope.totalEntries + ")";
       };
 
-      pageNumbers = function(){
+      updatePageNumbers = function() {
         var pageNumbers = [];
         for (var i = 1; i <= Math.ceil(scope.totalEntries / scope.perPage); i++) {
           pageNumbers.push(i);
         }
-        return pageNumbers;
+        scope.pageNumbers = pageNumbers;
       };
 
-      scope.currentRange = currentRange();
-      scope.pageNumbers = pageNumbers();
+      // initially calculate current range and page numbers
+      updateCurrentRange();
+      updatePageNumbers();
     }
   };
 }]);
