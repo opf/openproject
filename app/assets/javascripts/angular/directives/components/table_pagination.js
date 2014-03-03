@@ -24,8 +24,16 @@ angular.module('openproject.uiComponents')
       };
 
       updateCurrentRange = function() {
-        scope.currentRange = "(" + ((scope.perPage * (scope.page - 1)) + 1) + " - " + scope.rows.length + "/" + scope.totalEntries + ")";
+        scope.currentRange = "(" + getLowerPageBound(scope.page, scope.perPage) + " - " + getUpperPageBound(scope.page, scope.perPage) + "/" + scope.totalEntries + ")";
       };
+
+      function getLowerPageBound(page, perPage) {
+        return perPage * (page - 1) + 1;
+      }
+
+      function getUpperPageBound(page, perPage) {
+        return Math.min(perPage * page, scope.totalEntries);
+      }
 
       updatePageNumbers = function() {
         var pageNumbers = [];
