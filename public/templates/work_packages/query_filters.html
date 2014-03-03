@@ -2,7 +2,10 @@
           class="header_collapsible collapsible"
           ng-class="{collapsed: !showFilters }">
   <legend ng-click="showFilters = !showFilters" title="{{showFilters && 'Hide' || 'Show'}} filters">
-    <a href="javascript:">{{ I18n.t('js.work_packages.label_filter_add') }}</a>
+    <a href="">
+      {{ I18n.t('js.work_packages.label_filter_add') }}
+      <span class="hidden-for-sighted">{{ showFilters ? I18n.t('js.label_expanded') : I18n.t('js.label_collapsed') }}</span>
+    </a>
   </legend>
 
   <div ng-show="showFilters" class="filter-fields">
