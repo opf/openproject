@@ -57,14 +57,8 @@ class Attachment < ActiveRecord::Base
                       end)
 
   cattr_accessor :storage_path
-  cattr_accessor :namespace
 
   self.storage_path = OpenProject::Configuration['attachments_storage_path'] || Rails.root.join('files').to_s
-  self.namespace    = ''
-
-  def self.namespace
-    @@namespace.is_a?(Proc) ? @@namespace.call : @@namespace
-  end
 
   def filesize_below_allowed_maximum
     if self.filesize > Setting.attachment_max_size.to_i.kilobytes
@@ -131,7 +125,7 @@ class Attachment < ActiveRecord::Base
 
   # Returns file's location on disk
   def diskfile
-    File.join(self.class.storage_path, self.class.namespace, disk_filename)
+    File.join(self.class.storage_path, disk_filename)
   end
 
   def increment_download
@@ -242,7 +236,7 @@ private
       # keep the extension if any
       ascii << $1 if filename =~ %r{(\.[a-zA-Z0-9]+)\z}
     end
-    while File.exist?(File.join(storage_path, namespace, "#{timestamp}_#{ascii}"))
+    while File.exist?(File.join(storage_path, "#{timestamp}_#{ascii}"))
       timestamp.succ!
     end
     "#{timestamp}_#{ascii}"
