@@ -16,7 +16,7 @@ module OpenProject::Documents
         version spec.version
         url spec.homepage
 
-        requires_openproject ">= 3.0.0pre36"
+        requires_openproject ">= 3.0.0pre49"
 
         menu :project_menu, :documents,
                             { :controller => '/documents', :action => 'index' },
