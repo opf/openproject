@@ -33,7 +33,7 @@ class JournalFormatter::Base
   include ActionView::Helpers::TagHelper
   include ActionView::Helpers::UrlHelper
   include ActionView::Helpers::TextHelper
-  include OpenProject::StaticRouting::UrlHelpers
+  include Rails.application.routes.url_helpers
   include ERB::Util
 
   def initialize(journal)

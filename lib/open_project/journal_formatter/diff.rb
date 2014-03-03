@@ -71,10 +71,10 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
   end
 
   def link(key, options)
-    url_attr = options.merge({ :controller => '/journals',
-                               :action => 'diff',
-                               :id => @journal.id,
-                               :field => key.downcase })
+    url_attr = default_attributes(options).merge({ :controller => '/journals',
+                                                   :action => 'diff',
+                                                   :id => @journal.id,
+                                                   :field => key.downcase })
 
     if options[:no_html]
       url_for url_attr
@@ -82,6 +82,20 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
       link_to(l(:label_details),
                 url_attr,
                 :class => 'description-details')
+    end
+  end
+
+  def default_attributes(options)
+    if options[:only_path]
+      { :only_path => options[:only_path],
+        # setting :script_name is a hack that allows for setting the sub uri.
+        # I am not yet sure why url_for normally returns the sub uri but does not within
+        # this class.
+        :script_name => ::OpenProject::Configuration.rails_relative_url_root }
+    else
+      { :only_path => options[:only_path],
+        :protocol => Setting.protocol,
+        :host => Setting.host_name }
     end
   end
 end
