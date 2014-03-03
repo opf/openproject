@@ -21,6 +21,7 @@ See doc/COPYRIGHT.md for more details.
 # Changelog
 
 * `#4024` Subpages have no unique page titles
+* `#4797` Fix: [Subdirectory] Broken Links
 
 ## 3.0.7
 
