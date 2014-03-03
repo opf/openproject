@@ -31,14 +31,14 @@ angular.module('openproject.uiComponents')
 
       pageNumbers = function(){
         var pageNumbers = [];
-        for (var i = 1; i <= Math.ceil(scope.totalEntries / scope.perPage); i++){
+        for (var i = 1; i <= Math.ceil(scope.totalEntries / scope.perPage); i++) {
           pageNumbers.push(i);
         }
         return pageNumbers;
-      }
+      };
 
       scope.currentRange = currentRange();
       scope.pageNumbers = pageNumbers();
     }
-  }
-}])
+  };
+}]);
