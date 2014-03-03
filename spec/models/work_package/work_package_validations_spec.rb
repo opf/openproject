@@ -173,9 +173,13 @@ describe WorkPackage do
 
       it "should validate on an inactive priority that has been assigned before becoming inactive" do
         wp.priority = active_priority
+        wp.save!
+
         active_priority.active = false
         active_priority.save!
         wp.reload
+
+        expect(wp.priority.active).to be_false
         expect(wp).to be_valid
       end
 
