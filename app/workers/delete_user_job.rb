@@ -7,6 +7,12 @@ class DeleteUserJob
   end
 
   def perform
-    User.find(@user_id).destroy
+    user.destroy
+  end
+
+private
+
+  def user
+    @user ||= User.find(@user_id)
   end
 end
