@@ -40,7 +40,7 @@
       title: I18n.t("js.unsupported_browser.title"),
       message: I18n.t("js.unsupported_browser.message"),
       link: I18n.t("js.unsupported_browser.learn_more"),
-      url: "https://www.openproject.org/unsupported_browser"
+      url: "https://www.openproject.org/supported_browsers"
     });
 
   });
