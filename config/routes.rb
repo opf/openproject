@@ -487,8 +487,6 @@ OpenProject::Application.routes.draw do
 
   resources :reported_project_statuses, :controller => 'reported_project_statuses'
 
-  # Install the default route as the lowest priority.
-  match '/:controller(/:action(/:id))'
   match '/robots' => 'welcome#robots', :defaults => { :format => :txt }
   # Used for OpenID
   root :to => 'account#login'
