@@ -160,6 +160,36 @@ describe WorkPackage do
 
     end
 
+    describe "validations of priority" do
+      let (:active_priority) { FactoryGirl.create(:priority) }
+      let (:inactive_priority) { FactoryGirl.create(:priority, active: false) }
+
+      let (:wp) { FactoryGirl.create(:work_package) }
+
+      it "should validate on active priority" do
+        wp.priority = active_priority
+        expect(wp).to be_valid
+      end
+
+      it "should validate on an inactive priority that has been assigned before becoming inactive" do
+        wp.priority = active_priority
+        wp.save!
+
+        active_priority.active = false
+        active_priority.save!
+        wp.reload
+
+        expect(wp.priority.active).to be_false
+        expect(wp).to be_valid
+      end
+
+      it "should not validate on an inactive priority" do
+        wp.priority = inactive_priority
+        expect(wp).not_to be_valid
+        expect(wp).to have(1).errors_on(:priority_id)
+      end
+    end
+
 
   end
 
