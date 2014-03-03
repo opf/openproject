@@ -71,6 +71,12 @@ angular.module('openproject.models')
       return this.getActiveFilters().filter(function(filter){
         return filter.isConfigured();
       });
+    },
+
+    clearFilters: function(){
+      this.filters.map(function(filter){
+        filter.deactivated = true;
+      });
     }
   };
 

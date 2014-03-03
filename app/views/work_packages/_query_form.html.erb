@@ -1,24 +1,11 @@
 <%= form_tag({ controller: '/queries', action: 'new' }, id: 'query_form', name: 'queryForm') do %>
   <%= hidden_field_tag('project_id', project.to_param) if project %>
 
-  <work-packages-options/>
+  <work-packages-options></work-packages-options>
 
   <p class="buttons hide-when-print">
-    <%= link_to_remote l(:button_apply),
-                       { :url => { :set_filter => 1 },
-                         :before => 'selectAllOptions("selected_columns");',
-                         :update => "content",
-                         :method => :get,
-                         :complete => "apply_filters_observer(); resetSelectedMenuItem(); initQuerySelectBehaviour();",
-                         :with => "jQuery('#query_form').serialize()"
-                       }, :class => 'icon icon-yes' %>
-
-    <%= link_to_remote l(:button_clear),
-                       { :url => { :set_filter => 1, :sort => WorkPackagesController::DEFAULT_SORT_ORDER.join(':'), :project_id => project },
-                         :method => :get,
-                         :update => "content",
-                         :complete => 'resetSelectedMenuItem(); initQuerySelectBehaviour();',
-                       }, :class => 'icon icon-undo'  %>
+    <filter-clear query="query">
+    </filter-clear>
 
     <% if query.new_record? && User.current.allowed_to?(:save_queries, project, :global => true) %>
       <%= link_to l(:button_save), {}, :onclick => "selectAllOptions('selected_columns'); jQuery('#query_form').submit(); return false;", :class => 'icon icon-save1' %>
