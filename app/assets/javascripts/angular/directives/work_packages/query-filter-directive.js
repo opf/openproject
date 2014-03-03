@@ -23,8 +23,6 @@ angular.module('openproject.workPackages.directives')
         }
       }, true);
 
-
-
       // TODO move to some application helper
       function withDelay(delay, callback, params){
         var currentRun;
@@ -38,6 +36,7 @@ angular.module('openproject.workPackages.directives')
       }
 
       function applyFiltersWithDelay() {
+        // maybe use `return withDelay(500, scope.updateResults);`, but then do not disable filters while loading
         return withDelay(500, WorkPackageService.getWorkPackages, [scope.projectIdentifier, scope.query]);
       }
 

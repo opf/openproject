@@ -1,6 +1,6 @@
 angular.module('openproject.models')
 
-.factory('Query', ['Filter', function(Filter) {
+.factory('Query', ['Filter', 'Sortation', function(Filter, Sortation) {
 
   Query = function (data) {
     angular.extend(this, data);
@@ -16,7 +16,8 @@ angular.module('openproject.models')
           'c[]': this.selectedColumns.map(function(column) {
             return column.name;
            }),
-          'group_by': this.group_by
+          'group_by': this.group_by,
+          'sort': this.sortation.encode()
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {
           return filter.toParams();
         }))
@@ -71,6 +72,10 @@ angular.module('openproject.models')
       return this.getActiveFilters().filter(function(filter){
         return filter.isConfigured();
       });
+    },
+
+    setSortation: function(sortation){
+      this.sortation = sortation;
     }
   };
 

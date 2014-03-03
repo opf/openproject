@@ -9,20 +9,19 @@ angular.module('openproject.workPackages.directives')
       projectIdentifier: '=',
       columns: '=',
       rows: '=',
-      currentSortation: '=',
+      query: '=',
       countByGroup: '=',
       groupBy: '=',
       groupByColumn: '=',
       displaySums: '=',
       totalSums: '=',
       groupSums: '=',
-      withLoading: '='
+      updateResults: '&'
     },
     link: function(scope, element, attributes) {
       scope.I18n = I18n;
 
       // groupings
-
       scope.grouped = scope.groupByColumn !== undefined;
       scope.groupExpanded = {};
 
