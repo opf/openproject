@@ -15,15 +15,15 @@ module OpenProject
         def default_url_options
           options = ActionMailer::Base.default_url_options
 
-          root = OpenProject::Configuration.rails_relative_url_root
-          unless options[:script_name] || root.blank?
-            options[:script_name] = root
+          reverse_merge = lambda do |opt, value|
+            unless options[opt] || value.blank?
+              options[opt] = value
+            end
           end
 
-          host = OpenProject::StaticRouting::UrlHelpers.host
-          unless options[:host] || host.blank?
-            options[:host] = host
-          end
+          reverse_merge.call :script_name, OpenProject::Configuration.rails_relative_url_root
+          reverse_merge.call :host,        OpenProject::StaticRouting::UrlHelpers.host
+          reverse_merge.call :protocol,    Setting.protocol
 
           options
         end
