@@ -1,6 +1,6 @@
 angular.module('openproject.workPackages.controllers')
 
-.controller('WorkPackagesController', ['$scope', 'WorkPackagesTableHelper', 'Query', 'Sortation', function($scope, WorkPackagesTableHelper, Query, Sortation) {
+.controller('WorkPackagesController', ['$scope', 'WorkPackagesTableHelper', 'Query', 'Sortation', 'WorkPackageService', function($scope, WorkPackagesTableHelper, Query, Sortation, WorkPackageService) {
 
   $scope.$watch('groupBy', function() {
     var groupByColumnIndex = $scope.columns.map(function(column){
@@ -14,6 +14,7 @@ angular.module('openproject.workPackages.controllers')
   function initialSetup() {
     $scope.projectIdentifier = gon.project_identifier;
     $scope.operatorsAndLabelsByFilterType = gon.operators_and_labels_by_filter_type;
+    $scope.loading = false;
   }
 
   function setupQuery() {
@@ -32,6 +33,23 @@ angular.module('openproject.workPackages.controllers')
       selectedColumns: $scope.columns
     });
   }
+
+  $scope.setupWorkPackagesTable = function(json) {
+    $scope.workPackageCountByGroup = json.work_package_count_by_group;
+    $scope.rows = WorkPackagesTableHelper.getRows(json.work_packages, $scope.groupBy);
+    $scope.totalSums = json.sums;
+    $scope.groupSums = json.group_sums;
+  };
+
+  // Initially setup scope via gon
+  initialSetup();
+  setupQuery(gon);
+  $scope.setupWorkPackagesTable(gon);
+
+  $scope.updateResults = function() {
+    $scope.withLoading(WorkPackageService.getWorkPackages, [$scope.projectIdentifier, $scope.query])
+      .then($scope.setupWorkPackagesTable);
+  };
 
   /**
    * @name withLoading
@@ -63,18 +81,4 @@ angular.module('openproject.workPackages.controllers')
     // TODO RS: This is where we'd want to put an error message on the dom
     $scope.loading = false;
   }
-
-  $scope.setupWorkPackagesTable = function(json) {
-    $scope.workPackageCountByGroup = json.work_package_count_by_group;
-    $scope.rows = WorkPackagesTableHelper.getRows(json.work_packages, $scope.groupBy);
-    $scope.totalSums = json.sums;
-    $scope.groupSums = json.group_sums;
-  };
-
-  // Initially setup scope via gon
-  initialSetup();
-  setupQuery(gon);
-
-  $scope.setupWorkPackagesTable(gon);
-  $scope.loading = 0;
 }]);
