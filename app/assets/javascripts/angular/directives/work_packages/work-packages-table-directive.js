@@ -1,6 +1,6 @@
 angular.module('openproject.workPackages.directives')
 
-.directive('workPackagesTable', ['I18n', 'WorkPackageService', function(I18n, WorkPackageService){
+.directive('workPackagesTable', ['I18n', function(I18n){
   return {
     restrict: 'E',
     replace: true,
@@ -21,20 +21,15 @@ angular.module('openproject.workPackages.directives')
     link: function(scope, element, attributes) {
       scope.$watch('query.page', function(oldValue, newValue) {
         if (newValue !== oldValue) {
-          reloadWorkPackagesTableData();
+          scope.updateResults();
         }
       });
 
       scope.$watch('query.per_page', function(oldValue, newValue) {
         if (newValue !== oldValue) {
-          reloadWorkPackagesTableData();
+          scope.updateResults();
         }
       });
-
-      function reloadWorkPackagesTableData() {
-        scope.withLoading(WorkPackageService.getWorkPackages, [scope.projectIdentifier, scope.query])
-          .then(scope.setupWorkPackagesTable);
-      };
 
       scope.I18n = I18n;
 
