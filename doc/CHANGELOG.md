@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 * `#4024` Subpages have no unique page titles
 * `#4123` Add missing translation of save rate button
 * `#4112` Layouttabellen: Zwei Layouttabellen erschweren das Verständnis
+* `#4797` Fix: [Subdirectory] Broken Links
 * Updated to use cost formatter in openproject-xls_export 1.0.0.pre5
 
 ## 5.0.2
