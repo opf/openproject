@@ -14,8 +14,16 @@
         </select>
       </td>
       <td class="table-buttons" align="center" valign="middle">
-        <input type="button" value="→" ng-click="moveColumns(markedAvailableColumns, availableColumns, columns)" title="Add selected columns"><br>
-        <input type="button" value="←" ng-click="moveColumns(markedSelectedColumns, columns, availableColumns)" title="Remove selected columns">
+        <input type="button"
+               value="→"
+               ng-click="moveColumns(markedAvailableColumns, availableColumns, columns)"
+               title="Add selected columns"
+               ng-disabled="loading"><br>
+        <input type="button"
+               value="←"
+               ng-click="moveColumns(markedSelectedColumns, columns, availableColumns)"
+               title="Remove selected columns"
+               ng-disabled="loading">
       </td>
       <td>
         <label for="selected_columns">Selected Columns</label>
@@ -30,8 +38,8 @@
         </select>
       </td>
       <td class="table-buttons" align="center" valign="middle">
-        <input type="button" value="↑" ng-click="moveSelectedColumnBy(-1);" title="Move up"><br>
-        <input type="button" value="↓" ng-click="moveSelectedColumnBy(1);" title="Move down">
+        <input type="button" value="↑" ng-click="moveSelectedColumnBy(-1);" title="Move up" ng-disabled="loading"><br>
+        <input type="button" value="↓" ng-click="moveSelectedColumnBy(1);" title="Move down" ng-disabled="loading">
       </td>
     </tr>
   </tbody>

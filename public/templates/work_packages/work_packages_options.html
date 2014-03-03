@@ -26,7 +26,8 @@
               <select id="group_by"
                       name="group_by"
                       ng-options="column.name as column.title for column in columns"
-                      ng-model="groupBy">
+                      ng-model="groupBy"
+                      ng-disabled="loading">
               </select>
             </td>
           </tr>
@@ -37,7 +38,8 @@
                      name="display_sums"
                      type="checkbox"
                      value="1"
-                     ng-model="query.display_sums"/>
+                     ng-model="query.display_sums"
+                     ng-disabled="loading"/>
              </td>
           </tr>
         </tbody>
