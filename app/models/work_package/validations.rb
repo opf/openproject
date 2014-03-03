@@ -49,6 +49,8 @@ module WorkPackage::Validations
     validate :validate_parent_constraint
 
     validate :validate_status_transition
+
+    validate :validate_active_priority
   end
 
   def validate_start_date_before_soonest_start_date
@@ -91,6 +93,12 @@ module WorkPackage::Validations
   def validate_status_transition
     if status_changed? && !(self.type_id_changed? || status_transition_exists?)
       errors.add :status_id, :status_transition_invalid
+    end
+  end
+
+  def validate_active_priority
+    if self.priority && !self.priority.active? && self.changes[:priority_id]
+      errors.add :priority_id, :only_active_priorities_allowed
     end
   end
 

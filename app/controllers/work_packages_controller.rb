@@ -383,7 +383,9 @@ class WorkPackagesController < ApplicationController
   end
 
   def priorities
-    IssuePriority.all
+    priorities = IssuePriority.active
+    priorities << work_package.priority if work_package
+    priorities
   end
 
   def allowed_statuses

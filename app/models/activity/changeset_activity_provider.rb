@@ -77,12 +77,11 @@ class Activity::ChangesetActivityProvider < Activity::BaseActivityProvider
   end
 
   def event_path(event, activity)
-    Rails.application.routes.url_helpers.revisions_project_repository_path(url_helper_parameter(event))
+    url_helpers.revisions_project_repository_path(url_helper_parameter(event))
   end
 
   def event_url(event, activity)
-    Rails.application.routes.url_helpers.revisions_project_repository_url(url_helper_parameter(event),
-                                                                          host: ::Setting.host_name)
+    url_helpers.revisions_project_repository_url(url_helper_parameter(event))
   end
 
   private

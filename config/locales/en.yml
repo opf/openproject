@@ -224,6 +224,8 @@ en:
               does_not_exist: "does not exist"
             status_id:
               status_transition_invalid: "no valid transition exists from old to new status for the current user roles"
+            priority_id:
+              only_active_priorities_allowed: "needs to be active"
         user:
           attributes:
             password:

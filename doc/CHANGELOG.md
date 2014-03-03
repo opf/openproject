@@ -29,15 +29,19 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.0pre49
+
 * `#2616` Fix:  Search: Clicking on 'Back' results in wrong data
 * `#3084` Fix: [Administration - Work Packages] Workflow Status sorting not respected
 * `#3312` Fix: [Administration - Custom Fields] "Visible" and "Editable" in user custom field cannot be unchecked
 * `#4003` Fix: Revisions in Activity overview are assigned to wrong person
+* `#4008` Fix: Deactivating work package priorities has no effect
 * `#4046` Update copyright Information to include 2014
 * `#4115` [Subdirectory] Broken Redirects
 * `#4285` Copy Workflow mixes workflow scopes
 * `#4296` Adapt new workpackage form layout
 * `#4793` Fix: [Search] Current project scope not shown
+* `#4797` Fix: [Subdirectory] Broken Links
 * `#4858` XSS in wp auto-completion
 * `#4887` Second grouping criterion seems to have an and conjunction
 * Added pry-byebug for ruby 2.1
