@@ -859,7 +859,7 @@ describe WorkPackagesController do
     it "should return all defined priorities" do
       expected = double('priorities')
 
-      IssuePriority.stub(:all).and_return(expected)
+      IssuePriority.stub(:active).and_return(expected)
 
       controller.priorities.should == expected
     end
