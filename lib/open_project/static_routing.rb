@@ -13,7 +13,7 @@ module OpenProject
 
       included do
         def default_url_options
-          options = ActionMailer::Base.default_url_options
+          options = ActionMailer::Base.default_url_options.clone
 
           reverse_merge = lambda do |opt, value|
             unless options[opt] || value.blank?
