@@ -75,14 +75,12 @@ class Activity::WorkPackageActivityProvider < Activity::BaseActivityProvider
   end
 
   def event_path(event, activity)
-    Rails.application.routes.url_helpers.work_package_path(event['journable_id'],
-                                                           anchor: notes_anchor(event))
+    url_helpers.work_package_path(event['journable_id'])
   end
 
   def event_url(event, activity)
-    Rails.application.routes.url_helpers.work_package_url(event['journable_id'],
-                                                          anchor: notes_anchor(event),
-                                                          host: ::Setting.host_name)
+    url_helpers.work_package_url(event['journable_id'],
+                                 anchor: notes_anchor(event))
   end
 
   private

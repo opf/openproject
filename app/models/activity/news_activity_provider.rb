@@ -53,12 +53,11 @@ class Activity::NewsActivityProvider < Activity::BaseActivityProvider
   end
 
   def event_path(event, activity)
-    Rails.application.routes.url_helpers.news_path(url_helper_parameter(event))
+    url_helpers.news_path(url_helper_parameter(event))
   end
 
   def event_url(event, activity)
-    Rails.application.routes.url_helpers.news_url(url_helper_parameter(event),
-                                                  host: ::Setting.host_name)
+    url_helpers.news_url(url_helper_parameter(event))
   end
 
   private

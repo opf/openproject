@@ -44,6 +44,7 @@
 class Activity::BaseActivityProvider
   include Redmine::Acts::ActivityProvider
   include Redmine::I18n
+  include OpenProject::StaticRouting
 
   #############################################################################
   # Activities may need information not available in the journal table. Thus, #
@@ -132,5 +133,9 @@ class Activity::BaseActivityProvider
 
   def event_name(event, activity)
     I18n.t(event_type(event, activity).underscore, scope: 'events')
+  end
+
+  def url_helpers
+    @url_helpers ||= OpenProject::StaticRouting::StaticUrlHelpers.new
   end
 end
