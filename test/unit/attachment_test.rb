@@ -70,6 +70,37 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 'cbb5b0f30978ba03731d61f9f6d10011', Attachment.disk_filename("test_accentué.ça")[13..-1]
   end
 
+  def test_dynamic_storage_path
+    # store the current storage path in order to reset it after the test
+    original_storage_path = Attachment.storage_path
+
+    attachment = Attachment.new
+    # we don't care about the individual filename
+    attachment.stub(:disk_filename).and_return 'filename'
+
+    # storage path set to a static string
+    Attachment.storage_path = 'static'
+    assert_equal 'static', Attachment.storage_path
+    assert_equal 'static/filename', attachment.diskfile
+
+    something_dynamic = 'public'
+
+    # storage path set to a lambda containing something dynamic
+    # should get evaluated on each access
+    Attachment.storage_path = lambda { something_dynamic }
+
+    assert_equal 'public', Attachment.storage_path
+    assert_equal 'public/filename', attachment.diskfile
+
+    something_dynamic = 'secret'
+
+    assert_equal 'secret', Attachment.storage_path
+    assert_equal 'secret/filename', attachment.diskfile
+
+  ensure
+    Attachment.storage_path = original_storage_path
+  end
+
   context "Attachmnet#attach_files" do
     should "add unsaved files to the object as unsaved attachments" do
       # Max size of 0 to force Attachment creation failures
