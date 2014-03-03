@@ -596,6 +596,46 @@ jQuery.extend(Timeline, {
     });
 
   },
+  getCustomFieldColumns: function() {
+    return this.options.columns.filter(function(column) {
+      return column.substr(0, 3) === 'cf_';
+    });
+  },
+  getCustomFields: function() {
+    var customFields = [];
+
+    jQuery.each(this.custom_fields, function(key, customField) {
+      customFields.push(customField);
+    });
+
+    return customFields;
+  },
+  getValidCustomFieldIds: function() {
+    return this.getCustomFields().map(function(cf) {
+      return cf.id;
+    });
+  },
+  getIdOfCustomFieldColumn: function(cfColumn) {
+    return parseInt(cfColumn.substr(3, 10), 10);
+  },
+  getInvalidCustomFieldColumns: function() {
+    var validCustomFieldIds = this.getValidCustomFieldIds();
+    var timeline = this;
+
+    return this.getCustomFieldColumns().filter(function(cfColumn) {
+      return validCustomFieldIds.indexOf(timeline.getIdOfCustomFieldColumn(cfColumn)) === -1;
+    });
+  },
+  removeColumnByName: function(columnName) {
+    this.options.columns.splice(this.options.columns.indexOf(columnName), 1);
+  },
+  clearUpCustomFieldColumns: function() {
+    var timeline = this;
+
+    jQuery.each(this.getInvalidCustomFieldColumns(), function(i, cfColumn) {
+      timeline.removeColumnByName(cfColumn);
+    });
+  },
   getReportings: function() {
     return Timeline.Reporting.all(this);
   },

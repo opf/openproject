@@ -452,7 +452,6 @@ jQuery.extend(Timeline, {
   },
 
   setupUI: function() {
-
     this.setupToolbar();
     this.setupChart();
   },
@@ -893,9 +892,9 @@ jQuery.extend(Timeline, {
     var header = function(key) {
       var th = jQuery('<th></th>');
       if (key.substr(0, 3) === "cf_") {
-        var timeline_id = parseInt(key.substr(3), 10);
-        if (timeline.custom_fields[timeline_id]) {
-          th.append(timeline.custom_fields[timeline_id].name);
+        var customFieldId = parseInt(key.substr(3), 10);
+        if (timeline.custom_fields[customFieldId]) {
+          th.append(timeline.custom_fields[customFieldId].name);
         }
       } else {
         th.append(timeline.i18n('timelines.filter.column.' + key));
