@@ -30,7 +30,8 @@ See doc/COPYRIGHT.rdoc for more details.
                                       :limit => 10,
                                       :include => [ :status, :project, :type ],
                                       :order => "#{WorkPackage.table_name}.updated_at DESC") %>
-<% reported_count = WorkPackage.visible.count(:conditions => { :author_id => User.current.id }) %>
+<% admin_user = User.admin.count == 1 ? User.admin : User.admin.first %>
+<% reported_count = WorkPackage.visible(admin_user).count(:conditions => { :author_id => User.current.id }) %>
 
 <h3><%=l(:label_reported_work_packages)%> (<%= reported_count %>)</h3>
 
