@@ -251,7 +251,8 @@ Redmine::MenuManager.map :my_menu do |menu|
   menu.push :delete_account, :deletion_info_path,
                              :caption => I18n.t('account.delete'),
                              :param => :user_id,
-                             :if => Proc.new { Setting.users_deletable_by_self? }
+                             :if => Proc.new { Setting.users_deletable_by_self? },
+                             :html => {:class => 'icon2 icon-delete'}
 end
 
 Redmine::MenuManager.map :admin_menu do |menu|
