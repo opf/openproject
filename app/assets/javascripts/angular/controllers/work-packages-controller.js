@@ -18,10 +18,10 @@ angular.module('openproject.workPackages.controllers')
   }
 
   function setupQuery() {
+    $scope.query = new Query(gon.query);
+
     sortation = new Sortation(gon.sort_criteria);
-    query = new Query(gon.query);
-    query.setSortation(sortation);
-    $scope.query = query;
+    $scope.query.setSortation(sortation);
 
     // Columns
     $scope.columns = gon.columns;
@@ -34,22 +34,40 @@ angular.module('openproject.workPackages.controllers')
     });
   }
 
+  function setupPagination(json) {
+    $scope.paginationOptions = {
+      page: json.page,
+      perPage: json.per_page
+    };
+    $scope.perPageOptions = json.per_page_options;
+  }
+
   $scope.setupWorkPackagesTable = function(json) {
     $scope.workPackageCountByGroup = json.work_package_count_by_group;
     $scope.rows = WorkPackagesTableHelper.getRows(json.work_packages, $scope.groupBy);
     $scope.totalSums = json.sums;
     $scope.groupSums = json.group_sums;
+    $scope.totalEntries = json.total_entries;
+
+    setupPagination(json);
   };
 
   // Initially setup scope via gon
   initialSetup();
   setupQuery(gon);
+  // Initialize work package table
   $scope.setupWorkPackagesTable(gon);
 
   $scope.updateResults = function() {
-    $scope.withLoading(WorkPackageService.getWorkPackages, [$scope.projectIdentifier, $scope.query])
+    $scope.withLoading(WorkPackageService.getWorkPackages, [$scope.projectIdentifier, $scope.query, $scope.paginationOptions])
       .then($scope.setupWorkPackagesTable);
   };
+
+
+  function serviceErrorHandler(data) {
+    // TODO RS: This is where we'd want to put an error message on the dom
+    $scope.loading = false;
+  }
 
   /**
    * @name withLoading
@@ -61,7 +79,6 @@ angular.module('openproject.workPackages.controllers')
    */
   $scope.withLoading = function(callback, params){
     startedLoading();
-    params.push(serviceErrorHandler);
     return callback.apply(this, params)
       .then(function(data){
         finishedLoading();
@@ -77,8 +94,4 @@ angular.module('openproject.workPackages.controllers')
     $scope.loading = false;
   }
 
-  function serviceErrorHandler(data) {
-    // TODO RS: This is where we'd want to put an error message on the dom
-    $scope.loading = false;
-  }
 }]);

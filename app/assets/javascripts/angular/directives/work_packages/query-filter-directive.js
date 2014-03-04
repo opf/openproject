@@ -16,6 +16,8 @@ angular.module('openproject.workPackages.directives')
       scope.$watch('filter', function(filter, oldFilter) {
         if (filter !== oldFilter) {
           if (filter.isConfigured()) {
+            scope.paginationOptions.page = 1; // reset page
+
             applyFiltersWithDelay().then(function(response) {
               scope.setupWorkPackagesTable(response);
             });
@@ -37,7 +39,7 @@ angular.module('openproject.workPackages.directives')
 
       function applyFiltersWithDelay() {
         // maybe use `return withDelay(500, scope.updateResults);`, but then do not disable filters while loading
-        return withDelay(500, WorkPackageService.getWorkPackages, [scope.projectIdentifier, scope.query]);
+        return withDelay(500, WorkPackageService.getWorkPackages, [scope.projectIdentifier, scope.query, scope.paginationOptions]);
       }
 
     }

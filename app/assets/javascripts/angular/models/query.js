@@ -2,8 +2,8 @@ angular.module('openproject.models')
 
 .factory('Query', ['Filter', 'Sortation', function(Filter, Sortation) {
 
-  Query = function (data) {
-    angular.extend(this, data);
+  Query = function (data, options) {
+    angular.extend(this, data, options);
 
     if (this.filters === undefined) this.filters = [];
   };
