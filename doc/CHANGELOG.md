@@ -29,6 +29,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.0pre50
+
+* Removed path from guessed host
+* `#4008` Deactivating work package priorities has no effect
+
 ## 3.0.0pre49
 
 * `#2616` Fix:  Search: Clicking on 'Back' results in wrong data
