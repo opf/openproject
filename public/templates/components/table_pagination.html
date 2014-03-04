@@ -1,21 +1,21 @@
 <p class="pagination">
-  <a ng-show="page != 1"
-     ng-click="showPage(page - 1)"
+  <a ng-show="paginationOptions.page != 1"
+     ng-click="showPage(paginationOptions.page - 1)"
      class="previous_page"
      rel="prev start"
      href="">Previous
   </a>
 
   <span ng-if="pageNumbers.length > 1" ng-repeat="pageNumber in pageNumbers">
-    <em ng-if="pageNumber == page" class="current">{{ pageNumber }}</em>
-    <a ng-if="pageNumber != page"
+    <em ng-if="pageNumber == paginationOptions.page" class="current">{{ pageNumber }}</em>
+    <a ng-if="pageNumber != paginationOptions.page"
        ng-click="showPage(pageNumber)"
        rel="next"
        href="">{{ pageNumber }}</a>
   </span>
 
-  <a ng-show="page != pageNumbers.length"
-     ng-click="showPage(page + 1)"
+  <a ng-show="paginationOptions.page != pageNumbers.length"
+     ng-click="showPage(paginationOptions.page + 1)"
      class="next_page"
      rel="next"
      href="">Next
@@ -24,12 +24,13 @@
   <span class="range">{{ currentRange }}</span>
 
   <span class="per_page_options">
-    Per page: <span class="current">{{ currentPerPage }}</span>
+    Per page: <span class="current">{{ paginationOptions.perPage }}</span>
     <span ng-repeat="perPageOption in perPageOptions">
-      <span ng-if="perPageOption != perPage">
+      <span ng-if="perPageOption != paginationOptions.perPage">
       	<a href="" ng-click="selectPerPage(perPageOption)">{{ perPageOption }}</a>
       </span>
-      <span ng-if="perPageOption == perPage">{{ perPageOption }}</span>
+      <span ng-if="perPageOption == paginationOptions.perPage"
+            ng-click="selectPerPage(perPageOption)">{{ perPageOption }}</span>
     </span>
   </span>
 </p>

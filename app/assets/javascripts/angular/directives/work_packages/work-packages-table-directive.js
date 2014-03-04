@@ -19,18 +19,6 @@ angular.module('openproject.workPackages.directives')
       updateResults: '&'
     },
     link: function(scope, element, attributes) {
-      scope.$watch('query.page', function(oldValue, newValue) {
-        if (newValue !== oldValue) {
-          scope.updateResults();
-        }
-      });
-
-      scope.$watch('query.per_page', function(oldValue, newValue) {
-        if (newValue !== oldValue) {
-          scope.updateResults();
-        }
-      });
-
       scope.I18n = I18n;
 
       // groupings

@@ -11,14 +11,6 @@ angular.module('openproject.workPackages.controllers')
     $scope.query.group_by = $scope.groupBy; // keep the query in sync
   });
 
-  $scope.$watch('perPage', function() {
-    $scope.query.per_page = $scope.perPage;
-  });
-
-  $scope.$watch('page', function() {
-    $scope.query.page = $scope.page;
-  });
-
   function initialSetup() {
     $scope.projectIdentifier = gon.project_identifier;
     $scope.operatorsAndLabelsByFilterType = gon.operators_and_labels_by_filter_type;
@@ -26,12 +18,7 @@ angular.module('openproject.workPackages.controllers')
   }
 
   function setupQuery() {
-    var options = {
-      page: gon.page,
-      per_page: gon.per_page
-    };
-
-    $scope.query = new Query(gon.query, options);
+    $scope.query = new Query(gon.query);
 
     sortation = new Sortation(gon.sort_criteria);
     $scope.query.setSortation(sortation);
@@ -47,23 +34,33 @@ angular.module('openproject.workPackages.controllers')
     });
   }
 
+  function setupPagination(json) {
+    $scope.paginationOptions = {
+      page: json.page,
+      perPage: json.per_page
+    };
+    $scope.perPageOptions = json.per_page_options;
+  }
+
   $scope.setupWorkPackagesTable = function(json) {
     $scope.workPackageCountByGroup = json.work_package_count_by_group;
     $scope.rows = WorkPackagesTableHelper.getRows(json.work_packages, $scope.groupBy);
     $scope.totalSums = json.sums;
     $scope.groupSums = json.group_sums;
-    $scope.page = json.page;
-    $scope.perPage = json.per_page;
-    $scope.perPageOptions = json.per_page_options;
     $scope.totalEntries = json.total_entries;
+
+    setupPagination(json);
   };
 
   // Initially setup scope via gon
   initialSetup();
   setupQuery(gon);
+  // Initialize work package table
   $scope.setupWorkPackagesTable(gon);
 
   $scope.updateResults = function() {
+    angular.extend($scope.query, $scope.paginationOptions); // TODO don't pass to service via query
+
     $scope.withLoading(WorkPackageService.getWorkPackages, [$scope.projectIdentifier, $scope.query])
       .then($scope.setupWorkPackagesTable);
   };

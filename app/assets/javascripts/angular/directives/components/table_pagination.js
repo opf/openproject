@@ -5,26 +5,36 @@ angular.module('openproject.uiComponents')
     restrict: 'EA',
     templateUrl: '/templates/components/table_pagination.html',
     scope: {
-      page: '=',
-      perPage: '=',
+      paginationOptions: '=',
       perPageOptions: '=',
       totalEntries: '=',
-      rows: '='
+      updateResults: '&'
     },
     link: function(scope, element, attributes){
       scope.selectPerPage = function(perPage){
-        scope.perPage = perPage;
+        scope.paginationOptions.perPage = perPage;
+
         updatePageNumbers();
         scope.showPage(1);
       };
 
       scope.showPage = function(pageNumber){
-        scope.page = pageNumber;
+        scope.paginationOptions.page = pageNumber;
+
         updateCurrentRange();
+        scope.updateResults(); // update table
       };
 
+      /**
+       * @name updateCurrentRange
+       *
+       * @description Defines a string containing page bound information inside the directive scope
+       */
       updateCurrentRange = function() {
-        scope.currentRange = "(" + getLowerPageBound(scope.page, scope.perPage) + " - " + getUpperPageBound(scope.page, scope.perPage) + "/" + scope.totalEntries + ")";
+        var page = scope.paginationOptions.page;
+        var perPage = scope.paginationOptions.perPage;
+
+        scope.currentRange = "(" + getLowerPageBound(page, perPage) + " - " + getUpperPageBound(page, perPage) + "/" + scope.totalEntries + ")";
       };
 
       function getLowerPageBound(page, perPage) {
@@ -35,17 +45,24 @@ angular.module('openproject.uiComponents')
         return Math.min(perPage * page, scope.totalEntries);
       }
 
+      /**
+       * @name updatePageNumbers
+       *
+       * @description Defines a list of all pages in numerical order inside the scope
+       */
       updatePageNumbers = function() {
         var pageNumbers = [];
-        for (var i = 1; i <= Math.ceil(scope.totalEntries / scope.perPage); i++) {
+        for (var i = 1; i <= Math.ceil(scope.totalEntries / scope.paginationOptions.perPage); i++) {
           pageNumbers.push(i);
         }
         scope.pageNumbers = pageNumbers;
       };
 
-      // initially calculate current range and page numbers
-      updateCurrentRange();
-      updatePageNumbers();
+      scope.$watch('totalEntries', function() {
+        updateCurrentRange();
+        updatePageNumbers();
+      });
+
     }
   };
 }]);

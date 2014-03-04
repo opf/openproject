@@ -20,7 +20,7 @@ angular.module('openproject.models')
           'group_by': this.group_by,
           'sort': this.sortation.encode(),
           'page': this.page,
-          'per_page': this.per_page
+          'per_page': this.perPage
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {
           return filter.toParams();
         }))
