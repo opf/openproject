@@ -65,6 +65,12 @@ angular.module('openproject.workPackages.controllers')
       .then($scope.setupWorkPackagesTable);
   };
 
+
+  function serviceErrorHandler(data) {
+    // TODO RS: This is where we'd want to put an error message on the dom
+    $scope.loading = false;
+  }
+
   /**
    * @name withLoading
    *
@@ -75,7 +81,6 @@ angular.module('openproject.workPackages.controllers')
    */
   $scope.withLoading = function(callback, params){
     startedLoading();
-    params.push(serviceErrorHandler);
     return callback.apply(this, params)
       .then(function(data){
         finishedLoading();
@@ -91,8 +96,4 @@ angular.module('openproject.workPackages.controllers')
     $scope.loading = false;
   }
 
-  function serviceErrorHandler(data) {
-    // TODO RS: This is where we'd want to put an error message on the dom
-    $scope.loading = false;
-  }
 }]);
