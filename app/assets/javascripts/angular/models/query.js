@@ -16,7 +16,8 @@ angular.module('openproject.models')
           'c[]': this.selectedColumns.map(function(column) {
             return column.name;
            }),
-          'group_by': this.group_by
+          'group_by': this.group_by,
+          'query_id': this.id
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {
           return filter.toParams();
         }))

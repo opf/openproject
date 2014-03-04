@@ -75,14 +75,10 @@ See doc/COPYRIGHT.rdoc for more details.
   </div><!-- .title-bar -->
 
   <% if query.valid? %>
-    <% if work_packages.empty? %>
-      <p class="nodata"><%= l(:label_no_data) %></p>
-    <% else %>
-      <%= render :partial => 'work_packages/list', :locals => { :work_packages => work_packages,
-                                                                :query => query,
-                                                                :results => results } %>
-      <%= pagination_links_full work_packages %>
-    <% end %>
+    <%= render :partial => 'work_packages/list', :locals => { :work_packages => work_packages,
+                                                              :query => query,
+                                                              :results => results } %>
+    <%= pagination_links_full work_packages %>
 
     <%= other_formats_links do |f| %>
       <%= f.link_to 'Atom', :url => { :project_id => project, :query_id => (query.new_record? ? nil : query), :key => User.current.rss_key } %>
