@@ -1258,7 +1258,7 @@ en:
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_gravatar_default: "Default Gravatar image"
   setting_gravatar_enabled: "Use Gravatar user icons"
-  setting_host_name: "Host name and path"
+  setting_host_name: "Host name"
   setting_work_package_done_ratio: "Calculate the work package done ratio with"
   setting_work_package_done_ratio_field: "Use the work package field"
   setting_work_package_done_ratio_status: "Use the work package status"
