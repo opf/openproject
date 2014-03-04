@@ -93,6 +93,9 @@ GEM
     acts_as_list (0.2.0)
       activerecord (>= 3.0)
     addressable (2.3.4)
+    airbrake (3.1.14)
+      builder
+      json
     arel (3.0.3)
     awesome_nested_set (2.1.6)
       activerecord (>= 3.0.0)
@@ -418,6 +421,7 @@ DEPENDENCIES
   activerecord-jdbcsqlite3-adapter
   activerecord-tableless (~> 1.0)
   acts_as_list (~> 0.2.0)
+  airbrake
   awesome_nested_set
   bourbon (~> 4.0)
   capybara (~> 2.3.0)
