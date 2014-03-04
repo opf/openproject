@@ -63,6 +63,10 @@ Given(/^the date is "(.*?)"$/) do |date|
   Support::ResetTimecop.reset_after
 end
 
+Given(/^the date is today$/) do
+  Timecop.return
+end
+
 module Support
   module ResetTimecop
     def self.reset_after
