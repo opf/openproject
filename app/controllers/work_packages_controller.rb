@@ -384,11 +384,15 @@ class WorkPackagesController < ApplicationController
 
   def priorities
     priorities = IssuePriority.active
-
-    current_priority = work_package.try :priority
-    priorities << current_priority if current_priority && !priorities.include?(current_priority)
+    augment_priorities_with_current_work_package_priority priorities
 
     priorities
+  end
+
+  def augment_priorities_with_current_work_package_priority(priorities)
+    current_priority = work_package.try :priority
+
+    priorities << current_priority if current_priority && !priorities.include?(current_priority)
   end
 
   def allowed_statuses
