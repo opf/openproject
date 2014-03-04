@@ -70,6 +70,9 @@ gem 'oj'
 # will need to be removed once we are on rails4 as it will be part of the rails4 core
 gem 'strong_parameters'
 
+# catches exceptions
+gem 'airbrake'
+
 # we need the old Version to be compatible with pgsql 8.4
 # see: http://stackoverflow.com/questions/14862144/rake-jobswork-gives-pgerror-error-select-for-update-share-is-not-allowed-in
 # or: https://github.com/collectiveidea/delayed_job/issues/323
