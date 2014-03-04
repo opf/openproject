@@ -21,7 +21,7 @@
                     class="filter">
 
                   <!-- Hidden for form -->
-                  <input id="h_{{ filter.name }}" name="f[]" type="hidden" value="{{ filter.name }}"/>
+                  <input id="h_{{ filter.name }}" name="f[]" type="hidden" value="{{ filter.name }}" ng-disabled="filter.deactivated"/>
 
                   <!-- Name -->
                   <td style="width:200px;">
