@@ -938,7 +938,7 @@ class WorkPackage < ActiveRecord::Base
   def set_default_values
     if new_record? # set default values for new records only
       self.status   ||= Status.default
-      self.priority ||= IssuePriority.default
+      self.priority ||= IssuePriority.active.default
     end
   end
 
