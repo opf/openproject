@@ -36,6 +36,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.5
+
 * `#542` Fix: Deleting the sprint dates still allows to create burndown charts that wont show
 * `#2526` Fix: Burndown chart for future versions not working
 * `#3440` New workpackage form layout
