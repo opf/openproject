@@ -31,6 +31,11 @@ angular.module('openproject.workPackages.controllers')
     });
   };
 
+  $scope.submitQueryForm = function(){
+    jQuery('#query_form').submit();
+    return false;
+  };
+
   $scope.withLoading = function(callback, params){
     startedLoading();
     return callback.apply(this, params).then(function(data){

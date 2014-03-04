@@ -1,4 +1,4 @@
-<%= form_tag({ controller: '/queries', action: 'new' }, id: 'query_form', name: 'queryForm') do %>
+<%= form_tag({ controller: '/queries', action: 'new' }, id: 'query_form', name: 'queryForm', novalidate: true) do %>
   <%= hidden_field_tag('project_id', project.to_param) if project %>
 
   <work-packages-options></work-packages-options>
@@ -8,7 +8,7 @@
     </filter-clear>
 
     <% if query.new_record? && User.current.allowed_to?(:save_queries, project, :global => true) %>
-      <%= link_to l(:button_save), {}, :onclick => "selectAllOptions('selected_columns'); jQuery('#query_form').submit(); return false;", :class => 'icon icon-save1' %>
+      <a href="" ng-click="submitQueryForm()" class="icon icon-save1">Save</a>
     <% end %>
   </p>
 <% end %>
