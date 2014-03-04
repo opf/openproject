@@ -42,7 +42,10 @@ class RepairInvalidDefaultWorkPackageCustomValues < ActiveRecord::Migration
 
   def create_missing_work_package_custom_values
     missing_custom_values.each do |c|
-      insert <<-SQL
+      # Use execute instead of insert as Rails' Postgres adapter's insert fails when inserting
+      # into tables ending in 'values'.
+      # See https://www.openproject.org/work_packages/5033
+      execute <<-SQL
         INSERT INTO custom_values (customized_type, customized_id, custom_field_id, value)
         VALUES ('WorkPackage',
                 '#{c['work_package_id']}',

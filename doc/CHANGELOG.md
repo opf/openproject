@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#5033` Migration RepairInvalidDefaultWorkPackageCustomValues fails on Postgres
+
 ## 3.0.0pre49
 
 * `#2616` Fix:  Search: Clicking on 'Back' results in wrong data
