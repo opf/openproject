@@ -15,6 +15,8 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+## 1.0.7
+
 * Fixed non-functional plugin generation when this gem is taken from github directly
 
 ## 1.0.6
