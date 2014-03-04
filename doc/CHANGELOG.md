@@ -29,10 +29,12 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#5033` Migration RepairInvalidDefaultWorkPackageCustomValues fails on Postgres
+
 ## 3.0.0pre50
 
-* Removed path from guessed host
 * `#4008` Deactivating work package priorities has no effect
+* Removed path from guessed host
 
 ## 3.0.0pre49
 
