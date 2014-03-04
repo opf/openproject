@@ -4,8 +4,8 @@ class DeleteUserJob
   include Subscribem::Delayed::Job::Hooks
 
   def initialize(user_id)
-    @user_id  = user_id
-    @database = Apartment::Database.current_database
+    super
+    @user_id = user_id
   end
 
   def perform
