@@ -1,5 +1,7 @@
 # Changelog
 
+## 1.0.1
+
 * `#4024` Subpages have no unique page titles
 * `#4255` Fix: Permissions not displayed when editing a global role
 
