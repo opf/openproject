@@ -59,9 +59,7 @@ angular.module('openproject.workPackages.controllers')
   $scope.setupWorkPackagesTable(gon);
 
   $scope.updateResults = function() {
-    angular.extend($scope.query, $scope.paginationOptions); // TODO don't pass to service via query
-
-    $scope.withLoading(WorkPackageService.getWorkPackages, [$scope.projectIdentifier, $scope.query])
+    $scope.withLoading(WorkPackageService.getWorkPackages, [$scope.projectIdentifier, $scope.query, $scope.paginationOptions])
       .then($scope.setupWorkPackagesTable);
   };
 
