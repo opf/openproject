@@ -4,9 +4,6 @@ angular.module('openproject.workPackages.directives')
   return {
     restrict: 'E',
     templateUrl: '/templates/work_packages/filter_clear.html',
-    // scope: {
-    //   query: '='
-    // },
     scope: true,
     link: function(scope, element, attributes) {
       scope.clearFilter = function(){
