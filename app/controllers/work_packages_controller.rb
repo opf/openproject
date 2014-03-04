@@ -384,7 +384,10 @@ class WorkPackagesController < ApplicationController
 
   def priorities
     priorities = IssuePriority.active
-    priorities << work_package.priority if work_package
+
+    current_priority = work_package.try :priority
+    priorities << current_priority if current_priority && !priorities.include?(current_priority)
+
     priorities
   end
 
