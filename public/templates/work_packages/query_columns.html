@@ -21,6 +21,7 @@
         <label for="selected_columns">Selected Columns</label>
         <br/>
         <select id="selected_columns"
+                name="c[]"
                 multiple="multiple"
                 ng-model="markedSelectedColumns"
                 ng-options="column.name as column.title for column in columns"
