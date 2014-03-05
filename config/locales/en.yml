@@ -4,6 +4,7 @@ en:
 
   comments: "Comment"
   cost_reports_title: "Cost Reports"
+  label_cost_report: "Cost Report"
 
   description_drill_down: "Show details"
   description_filter_selection: "Selection"

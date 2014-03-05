@@ -7,7 +7,7 @@
   <% end %>
 <% end %>
 
-<% html_title (@query.persisted? ? @query.name : l(:label_new_report)) %>
+<% html_title (@query.persisted? ? "#{l(:label_cost_report)}: #{@query.name}" : l(:label_new_report)) %>
 
 <h2 id="ur_caption">
   <%= render_widget Widget::Controls::QueryName, @query, :can_rename => allowed_to?(:rename, @query, current_user) %>
