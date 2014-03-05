@@ -197,6 +197,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <%
            historical_label_start = label_tag 'timeline_options_planning_element_time_absolute_one',
                                               l('timelines.filter.project_time_filter_historical_from'),
+                                              class: 'inline-label'
 
            historical_text1 = text_field_tag "timeline[options][planning_element_time_absolute_one]",
                                              timeline.options["planning_element_time_absolute_one"],
@@ -205,6 +206,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
            historical_label_end = label_tag 'timeline_options_planning_element_time_absolute_two',
                                             l('timelines.filter.project_time_filter_historical_to'),
+                                            class: 'inline-label'
 
            historical_text2 = text_field_tag "timeline[options][planning_element_time_absolute_two]",
                                              timeline.options["planning_element_time_absolute_two"],
@@ -232,6 +234,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <%
             relative_label_start = label_tag 'timeline_options_planning_element_time_relative_one',
                                              l('timelines.filter.project_time_filter_historical_from'),
+                                             class: 'inline-label'
 
             relative_text1 = text_field_tag "timeline[options][planning_element_time_relative_one]",
                                            timeline.options["planning_element_time_relative_one"],
@@ -248,6 +251,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
             relative_label_end = label_tag 'timeline_options_planning_element_time_relative_two',
                                            l('timelines.filter.project_time_filter_historical_to'),
+                                           class: 'inline-label'
 
             relative_text2 = text_field_tag "timeline[options][planning_element_time_relative_two]",
                                            timeline.options["planning_element_time_relative_two"],
