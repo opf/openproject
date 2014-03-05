@@ -26,6 +26,7 @@
               <select id="group_by"
                       name="group_by"
                       ng-model="groupBy">
+                <option value=""></option>
                 <option ng-repeat="column in columns" value="{{ column.name }}">{{ column.title }}</option>
               </select>
             </td>
