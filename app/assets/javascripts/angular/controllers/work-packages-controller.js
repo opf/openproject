@@ -32,6 +32,7 @@ angular.module('openproject.workPackages.controllers')
   };
 
   $scope.submitQueryForm = function(){
+    jQuery("#selected_columns option").attr('selected',true);
     jQuery('#query_form').submit();
     return false;
   };
