@@ -20,6 +20,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 # Changelog
 
+* `#4024` Fix: Subpages have no unique page titles
+
 ## 5.0.3
 
 * `#3440` New workpackage form layout
