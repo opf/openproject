@@ -31,6 +31,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#5033` Migration RepairInvalidDefaultWorkPackageCustomValues fails on Postgres
 
+## 3.0.0pre50
+
+* `#4008` Deactivating work package priorities has no effect
+* Removed path from guessed host
+
 ## 3.0.0pre49
 
 * `#2616` Fix:  Search: Clicking on 'Back' results in wrong data
