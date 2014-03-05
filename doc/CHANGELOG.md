@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#3701` Fix: Filter custom fields of work packages in timeline reports
 * `#5033` Migration RepairInvalidDefaultWorkPackageCustomValues fails on Postgres
 
 ## 3.0.0pre50
