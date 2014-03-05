@@ -29,6 +29,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.0pre51
+
+* `#3701` Fix: Filter custom fields of work packages in timeline reports
 * `#5033` Migration RepairInvalidDefaultWorkPackageCustomValues fails on Postgres
 * Fix project search accesskey
 * Fix new work package accesskey
