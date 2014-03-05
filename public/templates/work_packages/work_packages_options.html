@@ -9,7 +9,7 @@
             ng-class="{collapsed: !showQueryOptions }">
     <legend title="{{ I18n.t('js.work_packages.description_option_toggle') }}", ng-click="showQueryOptions = !showQueryOptions"><a ng-href="">{{ I18n.t('js.work_packages.label_options') }}</a></legend>
 
-    <div ng-show="showQueryOptions">
+    <div slide-toggle collapsed="!showQueryOptions">
       <table style="">
         <tbody>
           <tr>
