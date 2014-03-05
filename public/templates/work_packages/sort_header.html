@@ -1,7 +1,7 @@
 <span title="{{sortable && (I18n.t('js.label_sort_by') + ' &quot;' + headerTitle + '&quot;') || ''}}">
   <a ng-if="sortable"
-     ng-href="{{path}}?{{queryString}}"
-     ng-class="[currentSortDirection && 'sort', currentSortDirection]">
+     ng-class="[currentSortDirection && 'sort', currentSortDirection]"
+     ng-click="performSort()">
      {{headerTitle}}
   </a>
   <span ng-if="!sortable">{{headerTitle}}</span>

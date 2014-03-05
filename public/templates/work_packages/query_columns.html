@@ -19,12 +19,14 @@
                type="button"
                value="→"
                ng-click="moveColumns(markedAvailableColumns, availableColumns, columns)"
-               title="{{ I18n.t('js.label_add_columns') }}"><br>
+               title="{{ I18n.t('js.label_add_columns') }}"
+               ng-disabled="loading"><br>
         <label class="hidden-for-sighted" for="add_selected_columns">{{ I18n.t('js.label_remove_columns') }}</label>
         <input type="button"
                value="←"
                ng-click="moveColumns(markedSelectedColumns, columns, availableColumns)"
-               title="{{ I18n.t('js.label_remove_columns') }}">
+               title="{{ I18n.t('js.label_remove_columns') }}"
+               ng-disabled="loading">
       </td>
       <td>
         <label for="selected_columns">{{ I18n.t('js.description_selected_columns') }}</label>
@@ -40,9 +42,9 @@
       </td>
       <td class="table-buttons" align="center" valign="middle">
         <label class="hidden-for-sighted" for="move_up">{{ I18n.t('js.label_sort_higher') }}</label>
-        <input id="move_up" type="button" value="↑" ng-click="moveSelectedColumnBy(-1);" title="{{ I18n.t('js.label_sort_higher') }}"><br>
+        <input id="move_up" type="button" value="↑" ng-click="moveSelectedColumnBy(-1);" title="{{ I18n.t('js.label_sort_higher') }}" ng-disabled="loading"><br>
         <label class="hidden-for-sighted" for="move_up">{{ I18n.t('js.label_sort_lower') }}</label>
-        <input id="move_down" type="button" value="↓" ng-click="moveSelectedColumnBy(1);" title="{{ I18n.t('js.label_sort_lower') }}">
+        <input id="move_down" type="button" value="↓" ng-click="moveSelectedColumnBy(1);" title="{{ I18n.t('js.label_sort_lower') }}" ng-disabled="loading">
       </td>
     </tr>
   </tbody>

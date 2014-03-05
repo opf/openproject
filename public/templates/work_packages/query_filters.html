@@ -8,7 +8,10 @@
     </a>
   </legend>
 
-  <div ng-show="showFilters" class="filter-fields">
+  <div slide-toggle
+       speed="fast"
+       collapsed="!showFilters"
+       class="filter-fields slide-animation">
 
     <table width="100%">
       <tbody>
@@ -37,7 +40,8 @@
                             name="op_{{filter.name}}"
                             ng-options="operator as label for (operator, label) in operatorsAndLabelsByFilterType[query.getFilterType(filter.name)]"
                             ng-model="filter.operator"
-                            style="vertical-align: top;">
+                            style="vertical-align: top;"
+                            ng-disabled="loading">
                     </select>
                   </td>
 
@@ -57,7 +61,8 @@
                              name="v_{{filter.name}}"
                              size="30"
                              type="text"
-                             value=""/>
+                             value=""
+                             ng-disabled="loading"/>
                       <label ng-switch-when="string"
                              for="values_{{name}}"
                              class="hidden-for-sighted">
@@ -73,7 +78,8 @@
                              name="v_{{filter.name}}"
                              size="30"
                              type="text"
-                             value=""/>
+                             value=""
+                             ng-disabled="loading"/>
                       <label ng-switch-when="'text'"for="values_{{name}}" class="hidden-for-sighted">
                         {{ I18n.t('js.work_packages.description_enter_text') }}
                       </label>
@@ -86,7 +92,8 @@
                              name="v_{{filter.name}}"
                              size="3"
                              type="text"
-                             value=""/>
+                             value=""
+                             ng-disabled="loading"/>
                       <label ng-switch-when="'integer'" for="values_{{name}}" class="hidden-for-sighted">
                         {{ I18n.t('js.work_packages.description_enter_text') }}
                       </label>
@@ -98,7 +105,8 @@
                              id="values-{{filter.name}}"
                              name="v_{{filter.name}}"
                              size="3"
-                             type="text"/>
+                             type="text"
+                             ng-disabled="loading"/>
                       <label ng-switch-when="'date'" for="values_{{name}}" class="hidden-for-sighted">
                         {{ I18n.t('js.work_packages.time_relative.days') }}
                       </label>
@@ -110,7 +118,8 @@
                              id="values-{{filter.name}}"
                              name="v_{{filter.name}}"
                              size="3"
-                             type="text"/>
+                             type="text"
+                             ng-disabled="loading"/>
                       <label ng-switch-when="'date'" for="values_{{name}}" class="hidden-for-sighted">
                         {{ I18n.t('js.work_packages.time_relative.days') }}
                       </label>
@@ -122,7 +131,8 @@
                       <toggled-multiselect available-filter-values="query.getAvailableFilterValues(filter.name)"
                                            name="filter.name"
                                            values="filter.values"
-                                           is-multiselect="false"/>
+                                           is-multiselect="false"
+                                           ng-disabled="loading"/>
 
                     </div>
                   </td>
@@ -131,7 +141,7 @@
                   <td>
                     <icon-wrapper icon-name="delete2"
                                   icon-title="'delete'"
-                                  ng-click="query.deactivateFilter(filter)" />
+                                  ng-click="query.deactivateFilter(filter, loading)"/>
                     <!-- TODO I18n -->
                   </td>
                 </tr>
@@ -151,7 +161,8 @@
                     ng-model="filterToBeAdded"
                     ng-options="filterName as filterOptions.name || filterName
                                 for (filterName, filterOptions)
-                                in (query.available_work_package_filters | subtractActiveFilters:query.filters)"/>
+                                in (query.available_work_package_filters | subtractActiveFilters:query.filters)"
+                    ng-disabled="loading"/>
             </select>
             <!-- TODO options | orderObjectBy: 'order' -->
           </td>

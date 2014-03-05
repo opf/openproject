@@ -1,9 +1,9 @@
 angular.module('openproject.models')
 
-.factory('Query', ['Filter', function(Filter) {
+.factory('Query', ['Filter', 'Sortation', function(Filter, Sortation) {
 
-  Query = function (data) {
-    angular.extend(this, data);
+  Query = function (data, options) {
+    angular.extend(this, data, options);
 
     if (this.filters === undefined) this.filters = [];
   };
@@ -16,7 +16,8 @@ angular.module('openproject.models')
           'c[]': this.selectedColumns.map(function(column) {
             return column.name;
            }),
-          'group_by': this.group_by
+          'group_by': this.group_by,
+          'sort': this.sortation.encode()
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {
           return filter.toParams();
         }))
@@ -49,8 +50,8 @@ angular.module('openproject.models')
       this.filters.splice(this.getFilterNames().indexOf(filterName), 1);
     },
 
-    deactivateFilter: function(filter) {
-      filter.deactivated = true;
+    deactivateFilter: function(filter, loading) {
+      if (!loading) filter.deactivated = true;
     },
 
     getAvailableFilterValues: function(filterName) {
@@ -71,6 +72,10 @@ angular.module('openproject.models')
       return this.getActiveFilters().filter(function(filter){
         return filter.isConfigured();
       });
+    },
+
+    setSortation: function(sortation){
+      this.sortation = sortation;
     }
   };
 

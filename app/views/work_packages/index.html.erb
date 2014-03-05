@@ -81,7 +81,6 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= render :partial => 'work_packages/list', :locals => { :work_packages => work_packages,
                                                                 :query => query,
                                                                 :results => results } %>
-      <%= pagination_links_full work_packages %>
     <% end %>
 
     <%= other_formats_links do |f| %>
