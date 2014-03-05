@@ -6,7 +6,8 @@
 == This is a beta-Release Branch
 
 You are currently on the beta-release branch. We prepare the OpenProject migration from rails version 2.3 to 3.2.
-Although this is the main development branch, it is *not* a stable code base. For production usage, we recommend to use the master-branch.
+Although this is the main development branch, it is *not* a stable code base.
+For production usage, we recommend to use the revision 36d04e7caa70a8079ca66516e2730dd1d621ec26.
 
 == What we do?
 
