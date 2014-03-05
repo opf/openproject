@@ -661,6 +661,9 @@ de:
       label_filter_plural: "Filter"
       description_filter: "Filter"
       description_enter_text: "Text eingeben"
+      description_option_toggle: "Optionen ein-/ausblenden"
+      description_options_hide: "Optionen ausblenden"
+      description_options_show: "Optionen einblenden"
       really_close_dialog: "Dialog schließen und eingegebene Daten verwerfen?"
       time_relative:
         days: "Tagen"

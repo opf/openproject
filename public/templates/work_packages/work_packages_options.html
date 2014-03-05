@@ -7,7 +7,10 @@
             query-form id="column_options"
             class="header_collapsible collapsible"
             ng-class="{collapsed: !showQueryOptions }">
-    <legend title="{{ I18n.t('js.work_packages.description_option_toggle') }}", ng-click="showQueryOptions = !showQueryOptions"><a ng-href="">{{ I18n.t('js.work_packages.label_options') }}</a></legend>
+    <legend title="{{ showQueryOptions && I18n.t('js.work_packages.description_options_hide') || I18n.t('js.work_packages.description_options_show') }}"
+            ng-click="showQueryOptions = !showQueryOptions">
+      <a ng-href="">{{ I18n.t('js.work_packages.label_options') }}</a>
+    </legend>
 
     <div slide-toggle collapsed="!showQueryOptions" class="tabular">
       <div class="horizontal_margin">

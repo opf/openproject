@@ -661,6 +661,8 @@ en:
       description_filter: "Filter"
       description_enter_text: "Enter text"
       description_option_toggle: "Show/Hide options"
+      description_options_hide: "Hide options"
+      description_options_show: "Show options"
       really_close_dialog: "Do you really want to close the dialog and loose the entered data?"
       time_relative:
         days: "days"
