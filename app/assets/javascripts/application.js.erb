@@ -1252,7 +1252,7 @@ var activateFlash = function() {
   // completely handled via JavaScript (see types_checkboxes.js for details).
   // We wouldn't have to ignore this message if the flash element would be
   // completely created via JavaScript and not available in the DOM by default.
-  if (!flashMessage.attr('id') == 'types_flash_notice') {
+  if (flashMessage.attr('id') != 'types_flash_notice') {
     flashMessage.show();
   }
 }
