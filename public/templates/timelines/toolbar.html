@@ -1,6 +1,8 @@
 <div class="tl-toolbar">
   <div class="tl-toolbar-container">
-    <a ng-if='timeline.USE_MODALS' ng-click="timeline.addPlanningElement()" title="{{I18n.t('js.timelines.new_work_package')}}" class="icon icon-add"></a>
+    <a ng-if='timeline.USE_MODALS' ng-click="timeline.addPlanningElement()" title="{{I18n.t('js.timelines.new_work_package')}}" class="icon icon-add">
+      <span class="hidden-for-sighted">{{ I18n.t('js.timelines.new_work_package') }}</span>
+    </a>
   </div>
 
   <div class="tl-toolbar-container" style="width: 1px; height: 20px; background-color: rgb(0, 0, 0);"></div>
@@ -20,7 +22,8 @@
 
   <div class="tl-toolbar-container">
     <form>
-      <select name="zooms" ng-model="currentScaleName" ng-options="I18n.t('js.' + timeline.ZOOM_CONFIGURATIONS[scale].name) for scale in timeline.ZOOM_SCALES">
+      <label for="tl-toolbar-zooms" class="hidden-for-sighted">{{ I18n.t('js.tl_toolbar.zooms') }}</label>
+      <select id="tl-toolbar-zooms" name="zooms" ng-model="currentScaleName" ng-options="I18n.t('js.' + timeline.ZOOM_CONFIGURATIONS[scale].name) for scale in timeline.ZOOM_SCALES">
       </select>
     </form>
   </div>
@@ -33,7 +36,8 @@
 
   <div class="tl-toolbar-container">
     <form>
-      <select name="outlines" ng-model="currentOutlineLevel" ng-options="I18n.t('js.' + timeline.OUTLINE_CONFIGURATIONS[level].name) for level in timeline.OUTLINE_LEVELS">
+      <label for="tl-toolbar-outlines" class="hidden-for-sighted">{{ I18n.t('js.tl_toolbar.outlines') }}</label>
+      <select id="tl-toolbar-outlines" name="outlines" ng-model="currentOutlineLevel" ng-options="I18n.t('js.' + timeline.OUTLINE_CONFIGURATIONS[level].name) for level in timeline.OUTLINE_LEVELS">
       </select>
     </form>
   </div>
