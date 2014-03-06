@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 # Changelog
 
 * `#4024` Fix: Subpages have no unique page titles
+* Fix: Edit accesskey for budget
 
 ## 5.0.3
 
