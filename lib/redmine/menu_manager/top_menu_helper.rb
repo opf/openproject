@@ -54,7 +54,7 @@ module Redmine::MenuManager::TopMenuHelper
                       { :controller => '/projects',
                         :action => 'index' },
                       :title => l(:label_project_plural),
-                      :access_key => OpenProject::AccessKeys.key_for(:project_search),
+                      :accesskey => OpenProject::AccessKeys.key_for(:project_search),
                       :class => "icon5 icon-unit"
 
     if User.current.impaired?
