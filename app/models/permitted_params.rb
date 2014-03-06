@@ -141,8 +141,14 @@ class PermittedParams < Struct.new(:params, :user)
     params.require(:planning_element_type).permit(*self.class.permitted_attributes[:move_to])
   end
 
-  def planning_element
-    params.require(:planning_element).permit(*self.class.permitted_attributes[:planning_element])
+  def planning_element(args = {})
+    permitted = permitted_attributes(:planning_element, args)
+
+    permitted_params = params.require(:planning_element).permit(*permitted)
+
+    permitted_params.merge!(custom_field_values(:planning_element))
+
+    permitted_params
   end
 
   def project_type
@@ -325,7 +331,6 @@ class PermittedParams < Struct.new(:params, :user)
         :start_date,
         :due_date,
         :parent_id,
-        :parent_id,
         :assigned_to_id,
         :responsible_id,
         :type_id,
@@ -365,6 +370,12 @@ class PermittedParams < Struct.new(:params, :user)
         :planning_element_status_comment,
         :parent_id,
         :responsible_id,
+        :assigned_to_id,
+        :fixed_version_id,
+        :estimated_hours,
+        :done_ratio,
+        :priority_id,
+        :category_id,
         :custom_fields => [ #json
           :id,
           :value,
