@@ -1,6 +1,6 @@
 = OpenProject
 
-{<img src="https://travis-ci.org/opf/openproject.png?branch=feature/rails3" alt="Build Status" />}[https://travis-ci.org/opf/openproject]
+{<img src="https://travis-ci.org/opf/openproject.png?branch=dev" alt="Build Status" />}[https://travis-ci.org/opf/openproject]
 {<img src="https://gemnasium.com/opf/openproject.png" alt="Dependency Status" />}[https://gemnasium.com/opf/openproject]
 
 == This is a beta-Release Branch
