@@ -40,7 +40,8 @@ See doc/COPYRIGHT.rdoc for more details.
                                            :action => 'edit',
                                            :project_id => @project,
                                            :id => @timeline},
-                                          :class => 'icon icon-edit') do %>
+                                           :class => 'icon icon-edit',
+                                           :accesskey => accesskey(:edit)) do %>
     <%= l(:button_edit) %><span class='hidden-for-sighted'><%= h(@timeline.name) %></span>
   <% end) %>
 
