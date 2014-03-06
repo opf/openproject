@@ -95,7 +95,7 @@ module OpenProject::Plugins
           base.class_eval do
             config.to_prepare do
               Setting.create_setting("plugin_#{plugin_name}",
-                                     { 'serialized' => true }.merge(options[:settings]))
+                                    {'default' => options[:settings][:default], 'serialized' => true})
               Setting.create_setting_accessors("plugin_#{plugin_name}")
             end
           end

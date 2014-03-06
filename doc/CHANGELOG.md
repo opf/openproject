@@ -15,6 +15,8 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+* Changed settings default parameter key to be a symbol like in the core
+
 ## 1.0.7
 
 * Fixed non-functional plugin generation when this gem is taken from github directly
