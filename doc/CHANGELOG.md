@@ -31,6 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#5033` Migration RepairInvalidDefaultWorkPackageCustomValues fails on Postgres
 * Fix project search accesskey
+* Fix new work package accesskey
 
 ## 3.0.0pre50
 
