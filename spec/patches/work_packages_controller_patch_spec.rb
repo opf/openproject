@@ -64,6 +64,8 @@ describe WorkPackagesController, "rendering to xls", :type => :controller do
         column.caption =~ /cost/i
       end
 
+      Setting.stub(:plugin_openproject_costs).and_return({ 'costs_currency' => 'EUR','costs_currency_format' => '%n %u' })
+
       get 'index',
         :format => 'xls',
         :project_id => work_packages.first.project_id,
