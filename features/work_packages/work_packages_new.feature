@@ -32,21 +32,39 @@ Feature: Disabled done ratio on the work package index
     Given there is 1 project with the following:
       | identifier | project1 |
       | name       | project1 |
+
+    And I am working in project "project1"
+
     And the project "project1" has the following types:
-      | name | position |
-      | Bug  |     1    |
-    And the project "project1" has 4 issues with the following:
-      | subject    | Issuesubject |
-    And I am already admin
+      | name    | position |
+      | Bug     |     1    |
+      | Feature |     2    |
+
+    And there is a role "member"
+
+    And the role "member" may have the following rights:
+      | view_work_packages |
+
+    And there is 1 user with the following:
+      | login | bob |
+    And there is 1 user with the following:
+      | login | jimmy |
+
+    And the user "bob" is a "member" in the project "project1"
+    And the user "jimmy" is a "member" in the project "project1"
+
+    And there are the following issues in project "project1":
+      | subject | type    | author | assignee |
+      | issue1  | Bug     | bob    | jimmy    |
+      | issue2  | Feature | bob    | jimmy    |
+      | issue3  | Bug     | bob    | jimmy    |
+      | issue4  | Feature | jimmy  | bob      |
+      | issue5  | Bug     | jimmy  | bob      |
+      | issue6  | Feature | jimmy  | bob      |
+
+    And I am already logged in as "bob"
 
   @javascript
-  Scenario: Total sums dialog should be displayed when the display sums checkbox is checked
-    When I go to the work packages index page of the project "project1"
-    And I click "Options"
-    And I check "display_sums"
-    Then I should see "Sum for all work packages" within "#work-packages-table"
-
- @javascript
   Scenario: Author column should be displayed when Author is moved to selected columns
     When I go to the work packages index page of the project "project1"
     And I click "Options"
@@ -59,3 +77,17 @@ Feature: Disabled done ratio on the work package index
     And I click "Options"
     And I select to not see column "Subject"
     Then I should not see "Subject" within ".list"
+
+  @javascript
+  Scenario: Total sums dialog should be displayed when the display sums checkbox is checked
+    When I go to the work packages index page of the project "project1"
+    And I click "Options"
+    And I check "display_sums"
+    Then I should see "Sum for all work packages" within "#work-packages-table"
+
+  @javascript
+  Scenario: Groupings should be displayed when a grouping is selected
+    When I go to the work packages index page of the project "project1"
+    And I click "Options"
+    And I select "Type" from "group_by"
+    Then I should see "(3)" within "#work-packages-table"

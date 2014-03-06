@@ -18,7 +18,7 @@
         <input id="add_selected_columns"
                type="button"
                value="→"
-               ng-click="moveColumns(markedAvailableColumns, availableColumns, columns)"
+               ng-click="moveColumns(markedAvailableColumns, availableColumns, columns, true)"
                title="{{ I18n.t('js.label_add_columns') }}"
                ng-disabled="loading"><br>
         <label class="hidden-for-sighted" for="add_selected_columns">{{ I18n.t('js.label_remove_columns') }}</label>
