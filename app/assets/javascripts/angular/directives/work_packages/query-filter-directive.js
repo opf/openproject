@@ -16,13 +16,13 @@ angular.module('openproject.workPackages.directives')
       scope.$watch('filter', function(filter, oldFilter) {
         if (filter !== oldFilter) {
           if (filter.isConfigured()) {
+            scope.query.hasChanged();
             applyFiltersWithDelay().then(function(response) {
               scope.setupWorkPackagesTable(response);
             });
           }
         }
       }, true);
-
 
 
       // TODO move to some application helper

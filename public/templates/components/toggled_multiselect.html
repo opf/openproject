@@ -6,7 +6,7 @@
           class="select-small"
           style="vertical-align: top;"
           require>
-    <option ng-repeat="value in availableFilterValues" value="{{ value[1] }}">{{ value[0] }}</option>
+    <option ng-repeat="value in availableFilterValues" value="{{ value[1] }}" ng-selected="values.indexOf(value[1]) >= 0">{{ value[0] }}</option>
   </select>
 
   <select multiple
@@ -17,7 +17,7 @@
           class="select-small"
           style="vertical-align: top;"
           require>
-    <option ng-repeat="value in availableFilterValues" value="{{ value[1] }}">{{ value[0] }}</option>
+    <option ng-repeat="value in availableFilterValues" value="{{ value[1] }}" ng-selected="values.indexOf(value[1]) >= 0">{{ value[0] }}</option>
   </select>
 
   <a alt="Toggle multiselect" href="#" style="vertical-align: bottom;" title="Toggle multiselect" ng-click="toggleMultiselect()">

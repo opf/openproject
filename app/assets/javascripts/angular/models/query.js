@@ -78,6 +78,12 @@ angular.module('openproject.models')
       this.filters.map(function(filter){
         filter.deactivated = true;
       });
+    },
+
+    // Note: If we pass an id for the query then any changes to filters are ignored by the server and it
+    //       just uses the queries filters. Therefor we have to set it to null.
+    hasChanged: function(){
+      this.id = null;
     }
   };
 

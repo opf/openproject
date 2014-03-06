@@ -17,7 +17,11 @@ angular.module('openproject.workPackages.directives')
               scope.filterToBeAdded = undefined;
             }
           });
-          scope.query.filters = []; // Mock
+
+          scope.query.filters = scope.query.filters.map(function(filter){
+            var name = Object.keys(filter)[0];
+            return new Filter(angular.extend(filter[name], { name: name }));
+          });
         }
       };
     }
