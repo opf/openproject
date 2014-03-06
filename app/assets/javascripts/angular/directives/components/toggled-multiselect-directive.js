@@ -9,13 +9,14 @@ angular.module('openproject.uiComponents')
       name: '=',
       values: '=',
       availableFilterValues: '=',
-      isMultiSelect: '='
     },
     templateUrl: '/templates/components/toggled_multiselect.html',
     link: function(scope, element, attributes){
       scope.toggleMultiselect = function(){
         scope.isMultiselect = !scope.isMultiselect;
       }
+
+      scope.isMultiselect = (scope.values != undefined && scope.values.length > 1);
     }
   };
 }]);

@@ -16,6 +16,7 @@ angular.module('openproject.workPackages.directives')
       scope.$watch('filter', function(filter, oldFilter) {
         if (filter !== oldFilter) {
           if (filter.isConfigured()) {
+            scope.query.hasChanged();
             scope.paginationOptions.page = 1; // reset page
 
             applyFiltersWithDelay().then(function(response) {

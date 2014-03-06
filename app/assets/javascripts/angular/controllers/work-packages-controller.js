@@ -27,12 +27,19 @@ angular.module('openproject.workPackages.controllers')
     $scope.columns = gon.columns;
     $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(gon.available_columns, $scope.columns);
 
-    $scope.groupBy = $scope.query.group_by;
+    $scope.groupBy = $scope.query.group_by || '';
+    $scope.currentSortation = gon.sort_criteria;
 
     angular.extend($scope.query, {
       selectedColumns: $scope.columns
     });
-  }
+  };
+
+  $scope.submitQueryForm = function(){
+    jQuery("#selected_columns option").attr('selected',true);
+    jQuery('#query_form').submit();
+    return false;
+  };
 
   function setupPagination(json) {
     $scope.paginationOptions = {

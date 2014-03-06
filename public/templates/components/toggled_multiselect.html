@@ -1,22 +1,24 @@
 <div>
   <select ng-show="!isMultiselect"
-          name="v_{{name}}"
+          name="v[{{name}}][]"
           ng-model="values"
           id="values-{{name}}"
           class="select-small"
           style="vertical-align: top;"
-          ng-options="value[1] as value[0] for value in availableFilterValues"
-          require/>
+          require>
+    <option ng-repeat="value in availableFilterValues" value="{{ value[1] }}" ng-selected="values.indexOf(value[1]) >= 0">{{ value[0] }}</option>
+  </select>
 
   <select multiple
           ng-show="isMultiselect"
-          name="v_{{name}}"
+          name="v[{{name}}][]"
           ng-model="values"
           id="values-{{name}}"
           class="select-small"
           style="vertical-align: top;"
-          ng-options="value[1] as value[0] for value in availableFilterValues"
-          require/>
+          require>
+    <option ng-repeat="value in availableFilterValues" value="{{ value[1] }}" ng-selected="values.indexOf(value[1]) >= 0">{{ value[0] }}</option>
+  </select>
 
   <a alt="Toggle multiselect" href="#" style="vertical-align: bottom;" title="Toggle multiselect" ng-click="toggleMultiselect()">
     <img alt="Bullet_toggle_plus" src="/assets/bullet_toggle_plus.png"/>

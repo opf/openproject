@@ -570,7 +570,7 @@ class WorkPackagesController < ApplicationController
   end
 
   def get_query_as_json(query)
-    query.as_json only: [:id, :group_by, :display_sums],
+    query.as_json only: [:id, :group_by, :display_sums, :filters],
                   methods: [:available_work_package_filters]
   end
 

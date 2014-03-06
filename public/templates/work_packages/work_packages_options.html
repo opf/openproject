@@ -30,10 +30,10 @@
       <div class="horizontal_margin">
         <select id="group_by"
                 name="group_by"
-                ng-options="column.name as column.title for column in columns"
                 ng-model="groupBy">
+          <option value=""></option>
+          <option ng-repeat="column in columns" value="{{ column.name }}">{{ column.title }}</option>
         </select>
-
       </div>
         <div class="horizontal_margin">
           <label for='display_sums' class='header'>

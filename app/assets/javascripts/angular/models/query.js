@@ -17,6 +17,7 @@ angular.module('openproject.models')
             return column.name;
            }),
           'group_by': this.group_by,
+          'query_id': this.id,
           'sort': this.sortation.encode()
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {
           return filter.toParams();
@@ -72,6 +73,18 @@ angular.module('openproject.models')
       return this.getActiveFilters().filter(function(filter){
         return filter.isConfigured();
       });
+    },
+
+    clearFilters: function(){
+      this.filters.map(function(filter){
+        filter.deactivated = true;
+      });
+    },
+
+    // Note: If we pass an id for the query then any changes to filters are ignored by the server and it
+    //       just uses the queries filters. Therefor we have to set it to null.
+    hasChanged: function(){
+      this.id = null;
     },
 
     setSortation: function(sortation){

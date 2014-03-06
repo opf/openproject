@@ -17,9 +17,11 @@ angular.module('openproject.workPackages.directives')
               scope.filterToBeAdded = undefined;
             }
           });
-          scope.query.filters = [new Filter({name: 'status_id', operator: 'o', values: undefined}),
-                                 new Filter({name: 'subject', operator: '!~', values: undefined}),
-                                 new Filter({name: 'created_at', operator: 't-', values: undefined})]; // Mock
+
+          scope.query.filters = scope.query.filters.map(function(filter){
+            var name = Object.keys(filter)[0];
+            return new Filter(angular.extend(filter[name], { name: name }));
+          });
         }
       };
     }

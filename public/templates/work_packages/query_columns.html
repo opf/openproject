@@ -32,12 +32,13 @@
         <label for="selected_columns">{{ I18n.t('js.description_selected_columns') }}</label>
         <br/>
         <select id="selected_columns"
+                name="c[]"
                 multiple="multiple"
                 ng-model="markedSelectedColumns"
-                ng-options="column.name as column.title for column in columns"
                 name="c[]"
                 size="10"
                 style="width:150px">
+          <option ng-repeat="column in columns" value="{{ column.name }}">{{ column.title }}</option>
         </select>
       </td>
       <td class="table-buttons" align="center" valign="middle">

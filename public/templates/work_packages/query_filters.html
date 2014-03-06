@@ -26,6 +26,9 @@
                     id="tr_{{filter.name}}"
                     class="filter">
 
+                  <!-- Hidden for form -->
+                  <input id="h_{{ filter.name }}" name="f[]" type="hidden" value="{{ filter.name }}" ng-disabled="filter.deactivated"/>
+
                   <!-- Name -->
                   <td style="width:200px;">
                     {{query.available_work_package_filters[filter.name].name}}
@@ -37,7 +40,7 @@
                     <select require
                             class="select-small to-validate"
                             id="operators-{{filter.name}}"
-                            name="op_{{filter.name}}"
+                            name="op[{{filter.name}}]"
                             ng-options="operator as label for (operator, label) in operatorsAndLabelsByFilterType[query.getFilterType(filter.name)]"
                             ng-model="filter.operator"
                             style="vertical-align: top;"
@@ -51,7 +54,6 @@
                          ng-if="!showValueOptionsAsSelect"
                          ng-show="showValuesInput"
                          ng-switch="query.getFilterType(filter.name)">
-                      <div ng-switch-when="string">wassap</div>
                       <input ng-switch-when="string"
                              ng-model="filter.values"
                              ng-minlength="3"
@@ -131,8 +133,7 @@
                       <toggled-multiselect available-filter-values="query.getAvailableFilterValues(filter.name)"
                                            name="filter.name"
                                            values="filter.values"
-                                           is-multiselect="false"
-                                           ng-disabled="loading"/>
+                                           ng-disabled="loading">
 
                     </div>
                   </td>
