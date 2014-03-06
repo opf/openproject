@@ -26,7 +26,7 @@ module OpenProject::Costs
     register 'openproject-costs',
              :author_url => 'http://finn.de',
              :requires_openproject => '>= 3.0.0pre49',
-             :settings =>  { 'default' => { 'costs_currency' => 'EUR','costs_currency_format' => '%n %u' },
+             :settings =>  { :default => { 'costs_currency' => 'EUR','costs_currency_format' => '%n %u' },
              :partial => 'settings/openproject_costs' } do
 
       project_module :costs_module do
