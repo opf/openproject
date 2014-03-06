@@ -36,6 +36,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* Migration fix: Also used plugin_redmine_backlogs as old setting name when migrating
+
 ## 3.0.5
 
 * `#542` Fix: Deleting the sprint dates still allows to create burndown charts that wont show
