@@ -31,7 +31,8 @@ See doc/COPYRIGHT.md for more details.
       if User.current.allowed_to?(:edit_project, project)
         context_links << link_to(l(:label_personalize_page),
                                  { :action => 'page_layout' },
-                                   :class => 'icon icon-edit')
+                                   :class => 'icon icon-edit',
+                                   :accesskey => accesskey(:edit))
       end
       context_links.join("&nbsp;&nbsp;&nbsp;").html_safe
     %>

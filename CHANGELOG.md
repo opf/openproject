@@ -20,6 +20,8 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+* Fix: Add edit accesskey for my project page personalization
+
 ## 3.0.0
 
 * `#3292` Fix: [User Management] Project members displayed multiple times in overview page when added as part of a group and individually
