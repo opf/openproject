@@ -20,6 +20,8 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+* Fix: Add edit accesskey for wiki
+
 ## 3.0.8
 
 * `#4024` Subpages have no unique page titles
