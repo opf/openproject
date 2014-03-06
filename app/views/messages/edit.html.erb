@@ -38,6 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= link_to l(:label_preview),
                 preview_topic_path(@message),
                 :class => 'preview',
-                :id => 'message-form-preview' %>
+                :id => 'message-form-preview',
+                :accesskey => accesskey(:preview) %>
 <% end %>
 <div id="preview" class="wiki"></div>
