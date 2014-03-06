@@ -34,6 +34,12 @@ Then(/^I should see a modal window with selector "(.*?)"$/) do |selector|
   dialog["class"].include?("ui-dialog-content").should be_true
 end
 
+Then(/^I should see the column "(.*?)" immediately before the column "(.*?)" in the timelines table$/) do |content1, content2|
+  steps %Q{
+    Then I should see the column "#{content1}" immediately before the column "#{content2}" in ".tl-main-table"
+  }
+end
+
 Then(/^I should see the column "(.*?)" before the column "(.*?)" in the timelines table$/) do |content1, content2|
   steps %Q{
     Then I should see the column "#{content1}" before the column "#{content2}" in ".tl-main-table"
@@ -50,6 +56,19 @@ Then(/^I should see the column "(.*?)" before the column "(.*?)" in "(.*?)"$/) d
   elements = find_lowest_containing_element content2, table
   elements[-1].should have_xpath("preceding::th/descendant-or-self::*[contains(text(),'#{content1}')]")
 end
+
+Then(/^I should see the column "(.*?)" immediately before the column "(.*?)" in "(.*?)"$/) do |content1, content2, table|
+  #Check that the things really exist and wait until the exist
+  steps %Q{
+    Then I should see "#{content1}" within "#{table}"
+    Then I should see "#{content2}" within "#{table}"
+  }
+
+  elements = find_lowest_containing_element content1, table
+  following = elements[0].first :xpath, 'following::th'
+  following.text.should == content2
+end
+
 
 Then(/^I should see a modal window$/) do
   steps 'Then I should see a modal window with selector "#modalDiv"'

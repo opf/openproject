@@ -565,6 +565,10 @@ angular.module('openproject.timelines.services')
     });
   };
 
+  DataEnhancer.prototype.clearUpCustomFieldColumns = function() {
+    this.timeline.clearUpCustomFieldColumns();
+  };
+
   /**
    *  TimelineLoader
    *
@@ -1126,6 +1130,8 @@ angular.module('openproject.timelines.services')
     // have the following signature:
     //
     //   function (e, data) {}
+    this.dataEnhancer.clearUpCustomFieldColumns();
+
     return data;
   };
 

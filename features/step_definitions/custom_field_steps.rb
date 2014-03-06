@@ -64,16 +64,11 @@ Given /^the work package "(.+?)" has the custom field "(.+?)" set to "(.+?)"$/ d
   wp = InstanceFinder.find(WorkPackage, wp_name)
   custom_field = InstanceFinder.find(WorkPackageCustomField, field_name)
 
-  set = false
+  custom_value = wp.custom_values.detect {|cv| cv.custom_field_id == custom_field.id}
 
-  wp.custom_values.each do |custom_value|
-    if custom_value.custom_field_id == custom_field.id then
-      set = true
-      custom_value.value = value
-    end
-  end  
-
-  if !set then
+  if custom_value
+    custom_value.value = value
+  else
     wp.custom_values.build(:custom_field => custom_field, :value => value)
   end
 
@@ -95,6 +90,12 @@ Given(/^the custom field "(.*?)" is enabled for the project "(.*?)"$/) do |field
   project.save!
 end
 
+Given(/^the custom field "(.*?)" is disabled for the project "(.*?)"$/) do |field_name, project_name|
+  custom_field = WorkPackageCustomField.find_by_name(field_name)
+  project = Project.find_by_name(project_name)
+
+  project.work_package_custom_fields.delete custom_field
+end
 
 Given /^the custom field "(.+)" is( not)? summable$/ do |field_name, negative|
   custom_field = WorkPackageCustomField.find_by_name(field_name)

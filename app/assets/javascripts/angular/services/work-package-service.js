@@ -3,10 +3,14 @@ angular.module('openproject.services')
 .service('WorkPackageService', ['$http', 'PathHelper', 'WorkPackagesHelper', function($http, PathHelper, WorkPackagesHelper) {
 
   var WorkPackageService = {
-    getWorkPackages: function(projectId, query) {
+    getWorkPackages: function(projectId, query, paginationOptions) {
       var url = projectId ? PathHelper.projectWorkPackagesPath(projectId) : PathHelper.workPackagesPath();
+      var params = angular.extend(query.toParams(), {
+        page: paginationOptions.page,
+        per_page: paginationOptions.perPage
+      });
 
-      return WorkPackageService.doQuery(url, query.toParams());
+      return WorkPackageService.doQuery(url, params);
     },
 
     loadWorkPackageColumnsData: function(workPackages, columnNames) {
@@ -59,8 +63,8 @@ angular.module('openproject.services')
         method: 'GET',
         url: url,
         params: params,
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'
-      }}).then(function(response){
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+      }).then(function(response){
         return response.data;
       });
     }

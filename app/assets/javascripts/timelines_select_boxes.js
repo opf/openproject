@@ -153,8 +153,19 @@ jQuery(document).ready(function($) {
         ((e.attr("type") === "text" || e.attr("type") === "hidden") && e.val() !== "" && !e.hasClass("select2-input")) ||
         (e.attr("type") === "checkbox" && e.attr("checked"))
     ) {
-      e.closest("fieldset").removeClass('collapsed').children("div").show();
+      showFieldSet(e);
     }
   });
+
+  $('#content').find('.cf_boolean_select').each(function (index, field) {
+    field = $(field);
+    if (field.val() !== '') {
+      showFieldSet(field);
+    }
+  });
+
+  function showFieldSet(field) {
+    field.closest("fieldset").removeClass('collapsed').children("div").show();
+  }
 });
 
