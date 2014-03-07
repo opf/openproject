@@ -32,6 +32,7 @@ rvm:
 branches:
   only:
     - dev
+    - stable
     - release/3.0
 env:
   # mysql2
