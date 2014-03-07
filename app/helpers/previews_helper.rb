@@ -27,19 +27,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class News::PreviewsController < ApplicationController
-  before_filter :find_model_object_and_project
+module PreviewsHelper
+  def preview_link(path, form_id, options = {})
+    options = { class: 'preview', accesskey: accesskey(:preview), id: form_id }.merge(options)
 
-  model_object News
-
-  def create
-    @text = news_params[:description]
-    render :partial => 'common/preview'
-  end
-
-private
-
-  def news_params
-    params.fetch(:news, {})
+    link_to path, options do
+      l(:label_preview)
+    end
   end
 end
