@@ -88,7 +88,7 @@ activity_days_default:
 per_page_options:
   default: '10, 20, 50, 100'
 mail_from:
-  default: openproject@aws.finn.de
+  default: openproject@openproject-demo.org
 bcc_recipients:
   default: 1
 plain_text_mail:
