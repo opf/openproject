@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#5057` Fix: Whitelisted more params for planning elements controller
+
 ## 3.0.0pre51
 
 * `#3701` Fix: Filter custom fields of work packages in timeline reports
