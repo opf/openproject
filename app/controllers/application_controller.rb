@@ -45,8 +45,6 @@ require_dependency 'principal'
 
 
 class ApplicationController < ActionController::Base
-  http_basic_authenticate_with name: ENV['HTTP_AUTH_USER'], password: ENV['HTTP_AUTH_PASSWORD'] if ENV.key?('HTTP_AUTH_PASSWORD')
-
   class_attribute :_model_object
   class_attribute :_model_scope
   class_attribute :accept_key_auth_actions
