@@ -108,13 +108,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= form_for @reply, :as => :reply, :url => reply_to_topic_path(@topic), :html => {:multipart => true, :id => 'message-form'} do |f| %>
   <%= render :partial => 'form', :locals => {:f => f, :replying => true} %>
   <%= submit_tag l(:button_submit) %>
-  <%= link_to_remote l(:label_preview),
-                     { :url => { :controller => '/messages', :action => 'preview', :board_id => @board },
-                       :method => 'post',
-                       :update => 'preview',
-                       :with => "Form.serialize('message-form')",
-                       :complete => "Element.scrollTo('preview')"
-                     }, :accesskey => accesskey(:preview) %>
+  <%= preview_link preview_topic_path(@message), 'message-form' %>
 <% end %>
 <div id="preview" class="wiki"></div>
 </div>

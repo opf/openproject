@@ -28,10 +28,11 @@
 #++
 
 class MessagesController < ApplicationController
+  include OpenProject::Concerns::Preview
   menu_item :boards
   default_search_scope :messages
   model_object Message, :scope => Board
-  before_filter :find_object_and_scope
+  before_filter :find_object_and_scope, except: [:preview]
   before_filter :authorize, :except => [:preview, :edit, :update, :destroy]
 
   include AttachmentsHelper
@@ -154,10 +155,13 @@ class MessagesController < ApplicationController
     }
   end
 
-  def preview
-    message = @board.messages.find_by_id(params[:id])
-    @attachements = message.attachments if message
-    @text = (params[:message] || params[:reply])[:content]
-    render :partial => 'common/preview'
+  protected
+
+  def parse_preview_data
+    if params[:message]
+      parse_preview_data_helper :message, :content
+    else
+      parse_preview_data_helper :reply, :content, Message
+    end
   end
 end

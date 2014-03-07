@@ -35,10 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
                         :id => 'message-form'} do |f| %>
   <%= render :partial => 'messages/form', :locals => {:f => f} %>
   <%= submit_tag l(:button_create) %>
-  <%= link_to l(:label_preview),
-              preview_board_topics_path(@board, @message),
-              :class => 'preview',
-              :id => 'message-form-preview' %>
+  <%= preview_link preview_board_topics_path(@board), 'message-form-preview' %>
 <% end %>
 
 <div id="preview" class="wiki"></div>

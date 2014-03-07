@@ -34,9 +34,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= labelled_tabular_form_for [@project, @news], :html => { :id => 'news-form' } do |f| %>
   <%= render :partial => 'news/form', :locals => { :f => f } %>
   <%= submit_tag l(:button_create) %>
-  <%= link_to l(:label_preview),
-              project_news_preview_path(@project, @news),
-              :class => 'preview',
-              :id => 'news-form-preview' %>
+  <%= preview_link preview_news_index_path, 'news-form-preview' %>
 <% end %>
 <div id="preview" class="wiki"></div>

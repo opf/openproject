@@ -27,6 +27,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<fieldset class="preview"><legend><%= l(:label_preview) %></legend>
-  <%= textilizable @text, :attachments => @attachements, :object => @previewed %>
-</fieldset>
+<% texts.each do |text| %>
+  <fieldset class="preview"><legend><%= l(:label_preview) %></legend>
+    <%= textilizable text, attachments: attachments, object: previewed %>
+  </fieldset>
+<% end %>
