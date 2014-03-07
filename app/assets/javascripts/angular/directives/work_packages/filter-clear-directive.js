@@ -6,8 +6,8 @@ angular.module('openproject.workPackages.directives')
     templateUrl: '/templates/work_packages/filter_clear.html',
     scope: true,
     link: function(scope, element, attributes) {
-      scope.clearFilter = function(){
-        scope.query.clearFilters();
+      scope.clearQuery = function(){
+        scope.query.clearAll();
       }
     }
   };

@@ -4,6 +4,7 @@ angular.module('openproject.models')
 
   Query = function (data, options) {
     angular.extend(this, data, options);
+    this.group_by = this.group_by || '';
 
     if (this.filters === undefined) this.filters = [];
   };
@@ -73,6 +74,13 @@ angular.module('openproject.models')
       return this.getActiveFilters().filter(function(filter){
         return filter.isConfigured();
       });
+    },
+
+    clearAll: function(){
+      this.group_by = '';
+      this.display_sums = false;
+      this.id = null;
+      this.clearFilters();
     },
 
     clearFilters: function(){

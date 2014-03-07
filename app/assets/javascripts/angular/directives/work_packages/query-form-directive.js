@@ -10,7 +10,7 @@ angular.module('openproject.workPackages.directives')
         pre: function(scope) {
           scope.showQueryOptions = false;
 
-          scope.$watch('groupBy', function(oldValue, newValue) {
+          scope.$watch('query.group_by', function(oldValue, newValue) {
             if (newValue !== oldValue) {
               scope.updateResults();
             }

@@ -30,7 +30,7 @@
       <div class="horizontal_margin">
         <select id="group_by"
                 name="group_by"
-                ng-model="groupBy">
+                ng-model="query.group_by">
           <option value=""></option>
           <option ng-repeat="column in columns" value="{{ column.name }}">{{ column.title }}</option>
         </select>
