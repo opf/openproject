@@ -11,7 +11,6 @@ angular.module('openproject.workPackages.directives')
         }).indexOf(scope.query.group_by);
 
         scope.groupByColumn = scope.columns[groupByColumnIndex];
-        // $scope.query.group_by = $scope.groupBy; // keep the query in sync
       });
     }
   };
