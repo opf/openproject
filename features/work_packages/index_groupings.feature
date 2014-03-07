@@ -65,8 +65,8 @@ Feature: Disabled done ratio on the work package index
     And I am already logged in as "bob"
 
   @javascript
-  Scenario: Total sums dialog should be displayed when the display sums checkbox is checked
+  Scenario: Groupings should be displayed when a grouping is selected
     When I go to the work packages index page of the project "project1"
     And I click "Options"
-    And I check "display_sums"
-    Then I should see "Sum for all work packages" within "#work-packages-table"
+    And I select "Type" from "group_by"
+    Then I should see "(3)" within "#group-header-Bug .count"
