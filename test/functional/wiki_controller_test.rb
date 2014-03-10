@@ -218,28 +218,6 @@ class WikiControllerTest < ActionController::TestCase
     assert_equal 2, c.version
   end
 
-  def test_preview
-    @request.session[:user_id] = 2
-    xhr :post, :preview, :project_id => 1, :id => 'CookBook_documentation',
-                                   :content => { :comments => '',
-                                                 :text => 'this is a *previewed text*',
-                                                 :lock_version => 3 }
-    assert_response :success
-    assert_template 'common/_preview'
-    assert_tag :tag => 'strong', :content => /previewed text/
-  end
-
-  def test_preview_new_page
-    @request.session[:user_id] = 2
-    xhr :post, :preview, :project_id => 1, :id => 'New page',
-                                   :content => { :text => 'h1. New page',
-                                                 :comments => '',
-                                                 :lock_version => 0 }
-    assert_response :success
-    assert_template 'common/_preview'
-    assert_tag :tag => 'h1', :content => /New page/
-  end
-
   def test_history
     FactoryGirl.create :wiki_content_journal,
                        journable_id: 1,

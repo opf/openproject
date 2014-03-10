@@ -49,19 +49,6 @@ describe WikiController do
                                                      :project_id => 'abc')
     end
 
-    it 'should connect POST /projects/:project_id/wiki/:id/preview to wiki/preview' do
-      post('/projects/abc/wiki/def/preview').should route_to(:controller => 'wiki',
-                                                             :action => 'preview',
-                                                             :project_id => 'abc',
-                                                             :id => 'def')
-    end
-
-    it 'should connect POST /projects/:project_id/wiki/preview to wiki/preview' do
-      post('/projects/abc/wiki/preview').should route_to(:controller => 'wiki',
-                                                         :action => 'preview',
-                                                         :project_id => 'abc')
-    end
-
     it do
       post('/projects/abc/wiki/abc_wiki?version=3').should
         route_to(controller: 'wiki',
