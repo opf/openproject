@@ -180,4 +180,18 @@ describe MessagesController do
       end
     end
   end
+
+  describe 'preview' do
+    let(:content) { "Message content" }
+
+    it_behaves_like 'valid preview' do
+      let(:preview_texts) { [content] }
+      let(:preview_params) { { message: { content: content } } }
+    end
+
+    it_behaves_like 'valid preview' do
+      let(:preview_texts) { [content] }
+      let(:preview_params) { { reply: { content: content } } }
+    end
+  end
 end
