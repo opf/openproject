@@ -110,7 +110,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
   gem 'jquery-ui-rails'
   gem 'select2-rails', '~> 3.3.2'
-  gem 'jquery-atwho-rails'
+  gem 'jquery-atwho-rails', '~> 0.4.7'
 end
 
 # You don't need therubyracer if you have nodejs installed on the machine precompiling assets.
