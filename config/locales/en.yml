@@ -165,7 +165,7 @@ en:
         fixed_version: "Target version"
         parent: "Parent"
         parent_issue: "Parent"
-        parent_work_packae: "Parent"
+        parent_work_package: "Parent"
         priority: "Priority"
         progress: "% done"
         responsible: "Responsible"
