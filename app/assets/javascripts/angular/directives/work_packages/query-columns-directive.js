@@ -16,7 +16,7 @@ angular.module('openproject.workPackages.directives')
               });
             });
 
-            if (requires_extension || false) extendRowsWithColumnData(columnNames);
+            if (requires_extension) extendRowsWithColumnData(columnNames);
           };
 
           scope.moveSelectedColumnBy = function(by) {
