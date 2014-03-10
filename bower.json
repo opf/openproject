@@ -1,0 +1,12 @@
+{
+  "name": "openproject",
+  "version": "3.0",
+  "dependencies": {
+    "openproject-ui_components": "openproject-ui_components#dev"
+  },
+  "devDependencies": {
+    "mocha": "~1.14.0",
+    "angular-mocks": "~1.2.14",
+    "angular-scenario": "~1.2.14"
+  }
+}
