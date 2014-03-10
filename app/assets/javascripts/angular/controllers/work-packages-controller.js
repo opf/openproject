@@ -6,6 +6,7 @@ angular.module('openproject.workPackages.controllers')
     $scope.projectIdentifier = gon.project_identifier;
     $scope.operatorsAndLabelsByFilterType = gon.operators_and_labels_by_filter_type;
     $scope.loading = false;
+    $scope.disableFilters = false;
   }
 
   function setupQuery() {
@@ -90,5 +91,4 @@ angular.module('openproject.workPackages.controllers')
   function finishedLoading() {
     $scope.loading = false;
   }
-
 }]);

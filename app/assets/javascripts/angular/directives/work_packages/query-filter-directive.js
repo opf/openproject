@@ -19,16 +19,15 @@ angular.module('openproject.workPackages.directives')
             scope.query.hasChanged();
             scope.paginationOptions.page = 1; // reset page
 
-            applyFiltersWithDelay().then(function(response) {
-              scope.setupWorkPackagesTable(response);
-            });
+            applyFiltersWithDelay();
           }
         }
       }, true);
 
+
+      var currentRun;
       // TODO move to some application helper
       function withDelay(delay, callback, params){
-        var currentRun;
         $timeout.cancel(currentRun);
 
         currentRun = $timeout(function() {
@@ -39,8 +38,7 @@ angular.module('openproject.workPackages.directives')
       }
 
       function applyFiltersWithDelay() {
-        // maybe use `return withDelay(500, scope.updateResults);`, but then do not disable filters while loading
-        return withDelay(500, WorkPackageService.getWorkPackages, [scope.projectIdentifier, scope.query, scope.paginationOptions]);
+        return withDelay(800, scope.updateResults);
       }
 
     }
