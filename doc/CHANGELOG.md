@@ -31,6 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#5057` Fix: Whitelisted more params for planning elements controller
 * Allowed sending of mails with only cc: or bcc: fields
+* Allow adding attachments to created work packages via planning elements controller
 
 ## 3.0.0pre51
 
