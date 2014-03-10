@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#4118` Fix: Add missing labels
 * `#5057` Fix: Whitelisted more params for planning elements controller
 * Allowed sending of mails with only cc: or bcc: fields
 * Allow adding attachments to created work packages via planning elements controller
