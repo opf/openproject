@@ -40,7 +40,8 @@ See doc/COPYRIGHT.rdoc for more details.
                                    { :class => 'icon icon-quote'} ) unless @topic.locked? %>
   <%= link_to(l(:button_edit),
               edit_topic_path(@topic),
-              :class => 'icon icon-edit') if @message.editable_by?(User.current) %>
+              :class => 'icon icon-edit',
+              accesskey: accesskey(:edit)) if @message.editable_by?(User.current) %>
   <%= link_to(l(:button_delete),
               topic_path(@topic),
               :method => :delete,
