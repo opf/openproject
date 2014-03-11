@@ -99,7 +99,7 @@ class TypesController < ApplicationController
     # types cannot be deleted when they have work packages
     # or they are standard types
     # put that into the model and do a `if @type.destroy`
-    if @type.work_packages.empty? || !@type.is_standard?
+    if @type.work_packages.empty? && !@type.is_standard?
       @type.destroy
       flash[:notice] = l(:notice_successful_delete)
     else
