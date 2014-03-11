@@ -24,12 +24,11 @@ See doc/COPYRIGHT.md for more details.
     <div class="handle">
       <div id="<%= block_name %>-form-div" style="display: none;">
         <div class="box-actions">
-          <a href="#" onclick="return saveTextilizable('<%= block_name %>');"
-             class="icon icon-save1"><%= l(:button_save) %></a>
-        </div>
-        <div class="box-actions">
           <a href="#" onclick="return resetTextilizable('<%= block_name %>');"
              class="icon icon-cancel"><%= l(:button_cancel) %></a>
+
+          <a href="#" onclick="return saveTextilizable('<%= block_name %>');"
+             class="icon icon-save1"><%= l(:button_save) %></a>
         </div>
         <div style="clear: right;"></div>
           <%= form_for :overview,
