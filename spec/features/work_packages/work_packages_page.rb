@@ -54,8 +54,8 @@ class WorkPackagesPage
     visit query_path(query);
   end
 
-  def has_selected_filter?(filter_name)
-    find(".filter-fields #cb_#{filter_name}", visible: false).checked?
+  def selected_filter(filter_name)
+    find(".filter-fields #h_#{filter_name}", visible: false)
   end
 
   private
