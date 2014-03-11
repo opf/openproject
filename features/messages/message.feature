@@ -78,3 +78,11 @@ Feature: Issue textile quickinfo links
     When I click on the first button matching "Create"
     Then there should be an error message
     Then the "message_subject" field should contain "New relase FAQ"
+
+  Scenario: Check field value after error message raise when description is empty
+    When I go to the boards page of the project called "parent"
+    And I follow "New message"
+    And I fill in "Here you find the most frequently asked questions" for "message_content"
+    When I click on the first button matching "Create"
+    Then there should be an error message
+    Then the "message_content" field should contain "Here you find the most frequently asked questions"
