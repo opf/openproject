@@ -1,0 +1,220 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+require 'spec_helper'
+
+describe TypesController do
+
+  let(:project) { FactoryGirl.create(:project,
+                                       work_package_custom_fields: [custom_field_2]) }
+  let(:custom_field_1) { FactoryGirl.create(:work_package_custom_field,
+                                            field_format: 'string',
+                                            is_for_all: true) }
+  let(:custom_field_2) { FactoryGirl.create(:work_package_custom_field) }
+  let(:status_0) { FactoryGirl.create(:status) }
+  let(:status_1) { FactoryGirl.create(:status) }
+  let(:existing_type) { FactoryGirl.create(:type, :name => 'Existing type') }
+  let(:workflow) { FactoryGirl.create(:workflow,
+                                          old_status: status_0,
+                                          new_status: status_1,
+                                          type_id: existing_type.id) }
+  #let(:current_user) { FactoryGirl.create(:user) }
+
+  before do
+    @controller.stub(:authorize)
+    @controller.stub(:check_if_login_required)
+    @controller.stub(:require_admin)
+  end
+
+  describe "GET index" do
+    before { get 'index' }
+    it { expect(response).to be_success }
+    it { expect(response).to render_template 'index' }
+  end
+
+  describe "GET new" do
+    before { get 'new' }
+    it { expect(response).to be_success }
+    it { expect(response).to render_template 'new' }
+  end
+
+  describe "POST create" do
+    describe "WITH all ok params" do
+      let(:params) { { 'type' => { :name => 'New type',
+                                   :project_ids => {'1' => project.id},
+                                   :custom_field_ids => {'1' => custom_field_1.id, '2' => custom_field_2.id}
+                                  } } }
+
+      before do
+        post :create, params
+      end
+
+      subject { response }
+      it { should be_redirect }
+      it { should redirect_to(types_path) }
+    end
+
+    describe "WITH one empty name param" do
+      render_views
+      let(:params) { { 'type' => { :name => '',
+                                   :project_ids => {'1' => project.id},
+                                   :custom_field_ids => {'1' => custom_field_1.id, '2' => custom_field_2.id}
+                                 } } }
+
+      it 'should show an error message' do
+        post :create, params
+        expect(response.status).to eq(200)
+        expect(response.body).to have_content("Name can't be blank")
+      end
+    end
+
+    describe "WITH workflow copy" do
+      let(:params) { { 'type' => { :name => 'New type',
+                                   :project_ids => {'1' => project.id},
+                                   :custom_field_ids => {'1' => custom_field_1.id, '2' => custom_field_2.id} },
+                       'copy_workflow_from' => existing_type.id
+      } }
+
+      before do
+        post :create, params
+      end
+
+      it { response.should be_redirect }
+      it { response.should redirect_to(types_path) }
+      it 'should have the copied workflows' do
+        Type.find_by_name('New type').workflows.should eq(existing_type.workflows)
+      end
+    end
+  end
+
+  describe "GET edit" do
+    render_views
+    let(:type) { FactoryGirl.create(:type, :name => 'My type', :is_milestone => true, :projects => [project]) }
+
+    before do
+      get 'edit', :id => type.id
+    end
+
+    it { expect(response).to be_success }
+    it { expect(response).to render_template 'edit' }
+    it { response.body.should have_selector "input[@name='type[name]'][@value='My type']" }
+    it { response.body.should have_selector "input[@name='type[project_ids][]'][@value='#{project.id}'][@checked='checked']" }
+    it { response.body.should have_selector "input[@name='type[is_milestone]'][@value='1'][@checked='checked']" }
+  end
+
+  describe "POST update" do
+    let(:project2) { FactoryGirl.create(:project) }
+    let(:type) { FactoryGirl.create(:type, :name => 'My type', :is_milestone => true, :projects => [project, project2]) }
+
+    describe "WITH type rename" do
+      let(:params) { { 'id' => type.id, 'type' => { :name => 'My type renamed' } } }
+
+      before do
+        put :update, params
+      end
+
+      it { response.should be_redirect }
+      it { response.should redirect_to(types_path) }
+      it 'should be renamed' do
+        Type.find_by_name('My type renamed').id.should eq(type.id)
+      end
+    end
+
+    describe "WITH projects removed" do
+      let(:params) { { 'id' => type.id, 'type' => { :project_ids => [''] } } }
+
+      before do
+        put :update, params
+      end
+
+      it { response.should be_redirect }
+      it { response.should redirect_to(types_path) }
+      it 'should have no projects assigned' do
+        Type.find_by_name('My type').projects.count.should eq(0)
+      end
+    end
+  end
+
+  describe "POST move" do
+    let(:type) { FactoryGirl.create(:type, :name => 'My type', :position => '1') }
+    let(:type2) { FactoryGirl.create(:type, :name => 'My type 2', :position => '2') }
+    let(:params) { { 'id' => type.id, 'type' => { :move_to => 'lower' } } }
+
+    before do
+      type
+      type2
+      post :move, params
+    end
+
+    it { response.should be_redirect }
+    it { response.should redirect_to(types_path) }
+    it 'should have the position updated' do
+      Type.find_by_name('My type').position.should eq(2)
+    end
+  end
+
+  describe "DELETE destroy" do
+    let(:type) { FactoryGirl.create(:type, :name => 'My type') }
+    let(:type2) { FactoryGirl.create(:type, :name => 'My type 2', :projects => [project]) }
+    let(:type3) { FactoryGirl.create(:type, :name => 'My type 3', :standard => true) }
+
+    describe "successful detroy" do
+      let(:params) { { 'id' => type.id } }
+
+      before do
+        delete :destroy, params
+      end
+
+      it { response.should be_redirect }
+      it { response.should redirect_to(types_path) }
+      it 'should have a successful destroy flash' do
+        flash[:notice].should == I18n.t(:notice_successful_delete)
+      end
+    end
+
+    describe "detroy type in use should fail" do
+      let(:project2) { FactoryGirl.create(:project,
+                                          work_package_custom_fields: [custom_field_2],
+                                          types: [type2]) }
+      let(:work_package) { FactoryGirl.create(:work_package,
+                                              type: type2,
+                                              project: project2) }
+      let(:params) { { 'id' => type2.id } }
+
+      before do
+        delete :destroy, params
+      end
+
+      it { response.should be_redirect }
+      it { response.should redirect_to(types_path) }
+      it 'should show an error message' do
+        flash[:notice].should == I18n.t(:error_can_not_delete_type)
+      end
+    end
+  end
+end
