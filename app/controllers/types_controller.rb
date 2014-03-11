@@ -35,9 +35,7 @@ class TypesController < ApplicationController
   before_filter :require_admin, :except => [:index, :show]
 
   def index
-    @types = Type.without_standard
-                 .page(params[:page])
-                 .per_page(per_page_param)
+    @types = Type.page(params[:page]).per_page(per_page_param)
 
     render :action => "index", :layout => false if request.xhr?
   end
@@ -99,12 +97,17 @@ class TypesController < ApplicationController
   def destroy
     @type = Type.find(params[:id])
     # types cannot be deleted when they have work packages
+    # or they are standard types
     # put that into the model and do a `if @type.destroy`
-    if @type.work_packages.empty?
+    if @type.work_packages.empty? || !@type.is_standard?
       @type.destroy
       flash[:notice] = l(:notice_successful_delete)
     else
-      flash[:error] = t(:error_can_not_delete_type)
+      if @type.is_standard?
+        flash[:error] = t(:error_can_not_delete_standard_type)
+      else
+        flash[:error] = t(:error_can_not_delete_type)
+      end
     end
     redirect_to :action => 'index'
   end
