@@ -555,10 +555,12 @@ angular.module('openproject.timelines.models')
           // horizontal bar.
           timeline.paper.path(
             timeline.psub('M0 #{y}H#{w}', {
-              y: deco + 0.5, // the vertical line otherwise overlaps.
+              y: deco + 1 + bbox.height + 2 * padding,
               w: width
             })
-          );
+          ).attr({
+            'stroke': styles[currentStyle].textColor || timeline.DEFAULT_COLOR,
+          });
         }
       }
 
