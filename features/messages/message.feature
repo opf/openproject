@@ -71,11 +71,10 @@ Feature: Issue textile quickinfo links
     When I go to the message page of message "message #1"
     Then I should see "Replies (2)"
 
-  Scenario: Check fields values after error message raise when title/description is empty
+  Scenario: Check field value after error message raise when title is empty
     When I go to the boards page of the project called "parent"
     And I follow "New message"
     And I fill in "New relase FAQ" for "message_subject"
     When I click on the first button matching "Create"
     Then there should be an error message
     Then the "message_subject" field should contain "New relase FAQ"
-
