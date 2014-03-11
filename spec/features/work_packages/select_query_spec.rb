@@ -57,7 +57,7 @@ describe 'Query selection' do
     context 'and the work packages menu item is clicked' do
       before { work_packages_page.click_work_packages_menu_item }
 
-      it 'clears selected queries' do
+      it 'clears selected queries', js: true do
         work_packages_page.should_not have_selected_filter(filter_name)
       end
     end

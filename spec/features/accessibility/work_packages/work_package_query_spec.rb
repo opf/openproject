@@ -46,7 +46,7 @@ describe 'Work package index accessibility' do
     let(:select_all_link) { find('table.list.issues th.checkbox a') }
     let(:description_for_blind) { select_all_link.find('span.hidden-for-sighted') }
 
-    describe 'Initial state' do
+    describe 'Initial state', js: true do
       it { expect(select_all_link).not_to be_nil }
 
       it { expect(select_all_link[:title]).to eq(I18n.t(:button_check_all)) }
