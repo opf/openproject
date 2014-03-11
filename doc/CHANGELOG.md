@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#2393` Fix: No warning when leaving site without saving
 * `#4118` Fix: Add missing labels
 * `#5057` Fix: Whitelisted more params for planning elements controller
 * Allowed sending of mails with only cc: or bcc: fields
