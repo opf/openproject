@@ -31,7 +31,10 @@ See doc/COPYRIGHT.rdoc for more details.
   body {
     line-height: 2em;
     font-family: sans-serif;
+    font-size: 1em;
   }
+  h1 { font-size: 1.5em; }
+  h2 { font-size: 1.2em; }
   kbd {
     background-color: #F2F2F2;
     border: 1px solid #CCCCCC;
@@ -47,8 +50,20 @@ See doc/COPYRIGHT.rdoc for more details.
     text-shadow: 0 1px 0 #FFFFFF;
     white-space: nowrap;
   }
-  table th { background-color: #dbdbdb; }
-  table td { vertical-align: top; background-color: #f5f5f5; height: 2em; vertical-align: middle;}
+  table th {
+    background-color: #dbdbdb;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  table td {
+    vertical-align: top;
+    background-color: #f5f5f5;
+    height: 2em;
+    vertical-align: middle;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
   /* Accessibility specific styles */
   .hidden-for-sighted {
     position: absolute;
@@ -61,6 +76,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <h1><%= l(:label_keyboard_shortcut_help_heading) %></h1>
+<hr style="margin-top:-20px" />
 <h2><%= l(:label_keyboard_shortcut_global_shortcuts) %></h2>
 <% global_shortcuts = [ { name: l(:label_keyboard_shortcut_show_help), shortcut: '?' },
                         { name: l(:label_keyboard_shortcut_search_global), shortcut: 's', accesskey: :quick_search },
