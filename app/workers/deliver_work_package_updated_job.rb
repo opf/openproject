@@ -17,7 +17,7 @@ class DeliverWorkPackageUpdatedJob
 private
 
   def notification_mail
-    @notification_mail ||= UserMailer.issue_updated(user, journal, current_user)
+    @notification_mail ||= UserMailer.work_package_updated(user, journal, current_user)
   end
 
   def user
