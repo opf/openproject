@@ -96,7 +96,8 @@ module OpenProject
 
     # Enable the asset pipeline
     config.assets.enabled = true
-    config.assets.append_path 'components'
+    config.assets.paths << File.join(Rails.root, 'vendor', 'assets', 'components', 'select2')
+    config.assets.paths << File.join(Rails.root, 'vendor', 'assets', 'components', 'jquery-ui', 'themes', 'base')
 
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true

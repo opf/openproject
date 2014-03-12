@@ -2,7 +2,14 @@
   "name": "openproject",
   "version": "3.0",
   "dependencies": {
+    "jquery": "1.7.2",
+    "jquery-ujs": "latest",
+    "select2": "~3.3.2",
     "openproject-ui_components": "openproject-ui_components#dev"
+    "angular": "~1.2.14",
+    "angular-animate": "~1.2.14",
+    "angular-ui-select2": "latest",
+    "angular-ui-date": "latest"
   },
   "devDependencies": {
     "mocha": "~1.14.0",
