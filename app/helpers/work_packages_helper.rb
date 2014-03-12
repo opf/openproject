@@ -37,7 +37,11 @@ module WorkPackagesHelper
   end
 
   def work_package_breadcrumb
-    full_path = ancestors_links.unshift(work_package_index_link)
+    full_path = if !@project.nil?
+                  link_to(t(:label_work_package_plural), project_path(@project, {:jump => current_menu_item}))
+                else
+                  ancestors_links.unshift(work_package_index_link)
+                end
 
     breadcrumb_paths(*full_path)
   end
