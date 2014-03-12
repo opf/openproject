@@ -1389,7 +1389,6 @@ de:
   text_reassign_to: "Ziel-Arbeitspaket:"
   text_regexp_info: "z. B. ^[A-Z0-9]+$"
   text_repository_usernames_mapping: "Bitte legen Sie die Zuordnung der OpenProject-Benutzer zu den Benutzernamen der Commit-Log-Meldungen des Projektarchivs fest.\nBenutzer mit identischen OpenProject- und Projektarchiv-Benutzernamen oder -E-Mail-Adressen werden automatisch zugeordnet."
-  text_rmagick_available: "RMagick verfügbar (optional)"
   text_select_mail_notifications: "Bitte wählen Sie die Aktionen aus, für die eine Mailbenachrichtigung gesendet werden soll."
   text_select_project_modules: "Bitte wählen Sie die Module aus, die in diesem Projekt aktiviert sein sollen:"
   text_status_changed_by_changeset: "Status geändert durch Changeset %{value}."

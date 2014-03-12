@@ -1374,7 +1374,6 @@ en:
   text_reassign_to: "work package:"
   text_regexp_info: "eg. ^[A-Z0-9]+$"
   text_repository_usernames_mapping: "Select or update the OpenProject user mapped to each username found in the repository log.\nUsers with the same OpenProject and repository username or email are automatically mapped."
-  text_rmagick_available: "RMagick available (optional)"
   text_select_mail_notifications: "Select actions for which email notifications should be sent."
   text_select_project_modules: "Select modules to enable for this project:"
   text_status_changed_by_changeset: "Applied in changeset %{value}."
