@@ -65,6 +65,7 @@
 /tmp/sockets/*
 /tmp/test/*
 /vendor/rails
+/vendor/assets/components
 /*.rbc
 /doc/app
 #/Gemfile.lock
