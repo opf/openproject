@@ -76,6 +76,10 @@ class MessagesController < ApplicationController
 
     @message.safe_attributes = params[:message]
 
+    if params[:message]['sticky'] == "1"
+      @message.update_attribute(:sticked_on,Time.now)
+    end
+
     @message.attach_files(params[:attachments])
 
     if @message.save
