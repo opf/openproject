@@ -31,18 +31,13 @@ require 'spec_helper'
 describe TypesController do
 
   let(:project) { FactoryGirl.create(:project,
-                                       work_package_custom_fields: [custom_field_2]) }
+                                     work_package_custom_fields: [custom_field_2]) }
   let(:custom_field_1) { FactoryGirl.create(:work_package_custom_field,
                                             field_format: 'string',
                                             is_for_all: true) }
   let(:custom_field_2) { FactoryGirl.create(:work_package_custom_field) }
   let(:status_0) { FactoryGirl.create(:status) }
   let(:status_1) { FactoryGirl.create(:status) }
-  let(:existing_type) { FactoryGirl.create(:type, :name => 'Existing type') }
-  let(:workflow) { FactoryGirl.create(:workflow,
-                                          old_status: status_0,
-                                          new_status: status_1,
-                                          type_id: existing_type.id) }
   let(:current_user) { FactoryGirl.create(:user) }
 
   before do
@@ -64,7 +59,7 @@ describe TypesController do
   end
 
   describe "POST create" do
-    describe "WITH all ok params" do
+    describe "WITH valid params" do
       let(:params) { { 'type' => { :name => 'New type',
                                    :project_ids => {'1' => project.id},
                                    :custom_field_ids => {'1' => custom_field_1.id, '2' => custom_field_2.id}
@@ -74,26 +69,33 @@ describe TypesController do
         post :create, params
       end
 
-      subject { response }
-      it { should be_redirect }
-      it { should redirect_to(types_path) }
+      it { expect(response).to be_redirect }
+      it { expect(response).to redirect_to(types_path) }
     end
 
-    describe "WITH one empty name param" do
+    describe "WITH an empty name" do
       render_views
       let(:params) { { 'type' => { :name => '',
                                    :project_ids => {'1' => project.id},
                                    :custom_field_ids => {'1' => custom_field_1.id, '2' => custom_field_2.id}
                                  } } }
 
-      it 'should show an error message' do
+      before do
         post :create, params
-        expect(response.status).to eq(200)
+      end
+
+      it { expect(response.status).to eq(200) }
+      it 'should show an error message' do
         expect(response.body).to have_content("Name can't be blank")
       end
     end
 
     describe "WITH workflow copy" do
+      let!(:existing_type) { FactoryGirl.create(:type, :name => 'Existing type') }
+      let!(:workflow) { FactoryGirl.create(:workflow,
+                                          old_status: status_0,
+                                          new_status: status_1,
+                                          type_id: existing_type.id) }
       let(:params) { { 'type' => { :name => 'New type',
                                    :project_ids => {'1' => project.id},
                                    :custom_field_ids => {'1' => custom_field_1.id, '2' => custom_field_2.id} },
@@ -104,10 +106,10 @@ describe TypesController do
         post :create, params
       end
 
-      it { response.should be_redirect }
-      it { response.should redirect_to(types_path) }
+      it { expect(response).to be_redirect }
+      it { expect(response).to redirect_to(types_path) }
       it 'should have the copied workflows' do
-        Type.find_by_name('New type').workflows.should eq(existing_type.workflows)
+        Type.find_by_name('New type').workflows.count.should eq(existing_type.workflows.count)
       end
     end
   end
@@ -138,8 +140,8 @@ describe TypesController do
         put :update, params
       end
 
-      it { response.should be_redirect }
-      it { response.should redirect_to(types_path) }
+      it { expect(response).to be_redirect }
+      it { expect(response).to redirect_to(types_path) }
       it 'should be renamed' do
         Type.find_by_name('My type renamed').id.should eq(type.id)
       end
@@ -152,8 +154,8 @@ describe TypesController do
         put :update, params
       end
 
-      it { response.should be_redirect }
-      it { response.should redirect_to(types_path) }
+      it { expect(response).to be_redirect }
+      it { expect(response).to redirect_to(types_path) }
       it 'should have no projects assigned' do
         Type.find_by_name('My type').projects.count.should eq(0)
       end
@@ -161,18 +163,16 @@ describe TypesController do
   end
 
   describe "POST move" do
-    let(:type) { FactoryGirl.create(:type, :name => 'My type', :position => '1') }
-    let(:type2) { FactoryGirl.create(:type, :name => 'My type 2', :position => '2') }
+    let!(:type) { FactoryGirl.create(:type, :name => 'My type', :position => '1') }
+    let!(:type2) { FactoryGirl.create(:type, :name => 'My type 2', :position => '2') }
     let(:params) { { 'id' => type.id, 'type' => { :move_to => 'lower' } } }
 
     before do
-      type
-      type2
       post :move, params
     end
 
-    it { response.should be_redirect }
-    it { response.should redirect_to(types_path) }
+    it { expect(response).to be_redirect }
+    it { expect(response).to redirect_to(types_path) }
     it 'should have the position updated' do
       Type.find_by_name('My type').position.should eq(2)
     end
@@ -190,10 +190,13 @@ describe TypesController do
         delete :destroy, params
       end
 
-      it { response.should be_redirect }
-      it { response.should redirect_to(types_path) }
+      it { expect(response).to be_redirect }
+      it { expect(response).to redirect_to(types_path) }
       it 'should have a successful destroy flash' do
-        flash[:notice].should == I18n.t(:notice_successful_delete)
+        expect(flash[:notice]).to eq(I18n.t(:notice_successful_delete))
+      end
+      it 'should not be present in the database' do
+        Type.find_by_name('My type').should eq(nil)
       end
     end
 
@@ -201,21 +204,23 @@ describe TypesController do
       let(:project2) { FactoryGirl.create(:project,
                                           work_package_custom_fields: [custom_field_2],
                                           types: [type2]) }
-      let(:work_package) { FactoryGirl.create(:work_package,
+      let!(:work_package) { FactoryGirl.create(:work_package,
                                               author: current_user,
                                               type: type2,
                                               project: project2) }
       let(:params) { { 'id' => type2.id } }
 
       before do
-        work_package
         delete :destroy, params
       end
 
-      it { response.should be_redirect }
-      it { response.should redirect_to(types_path) }
+      it { expect(response).to be_redirect }
+      it { expect(response).to redirect_to(types_path) }
       it 'should show an error message' do
-        flash[:error].should == I18n.t(:error_can_not_delete_type)
+        expect(flash[:error]).to eq(I18n.t(:error_can_not_delete_type))
+      end
+      it 'should be present in the database' do
+        Type.find_by_name('My type 2').id.should eq(type2.id)
       end
     end
 
@@ -226,10 +231,13 @@ describe TypesController do
         delete :destroy, params
       end
 
-      it { response.should be_redirect }
-      it { response.should redirect_to(types_path) }
+      it { expect(response).to be_redirect }
+      it { expect(response).to redirect_to(types_path) }
       it 'should show an error message' do
-        flash[:error].should == I18n.t(:error_can_not_delete_standard_type)
+        expect(flash[:error]).to eq(I18n.t(:error_can_not_delete_standard_type))
+      end
+      it 'should be present in the database' do
+        Type.find_by_name('My type 3').id.should eq(type3.id)
       end
     end
   end

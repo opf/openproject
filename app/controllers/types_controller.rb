@@ -74,6 +74,9 @@ class TypesController < ApplicationController
   def update
     @type = Type.find(params[:id])
 
+    # forbid renaming if it is a standard type
+    params[:type].delete :name if @type.is_standard?
+
     if @type.update_attributes(permitted_params.type)
       redirect_to types_path, :notice => t(:notice_successful_update)
     else
