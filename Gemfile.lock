@@ -185,7 +185,6 @@ GEM
     i18n (0.6.5)
     interception (0.3)
     journey (1.0.4)
-    jquery-atwho-rails (0.4.1)
     json (1.8.1)
     json_spec (1.1.1)
       multi_json (~> 1.0)
@@ -422,7 +421,6 @@ DEPENDENCIES
   guard-test
   htmldiff
   i18n-js!
-  jquery-atwho-rails
   jruby-openssl
   json_spec
   launchy (~> 2.3.0)
