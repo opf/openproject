@@ -47,6 +47,10 @@ require 'capybara/rails'
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
+# require 'capybara/rspec'
+# require 'capybara/webkit/matchers'
+# Capybara.javascript_driver = :webkit
+
 RSpec.configure do |config|
   # ## Mock Framework
   #

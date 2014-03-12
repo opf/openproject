@@ -44,7 +44,7 @@ describe 'Work package index accessibility' do
 
   describe 'Select all link' do
     let(:select_all_link) { find('table.list.issues th.checkbox a') }
-    let(:description_for_blind) { select_all_link.find('span.hidden-for-sighted') }
+    let(:description_for_blind) { select_all_link.find(:xpath, 'span/span[@class="hidden-for-sighted"]') }
 
     describe 'Initial state', js: true do
       it { expect(select_all_link).not_to be_nil }
@@ -63,7 +63,7 @@ describe 'Work package index accessibility' do
 
   describe 'Sort link' do
     shared_examples_for 'sort column' do
-      it { expect(find(sort_header_selector)[:title]).to eq(sort_text) }
+      it { expect(find(sort_header_selector).find("span")[:title]).to eq(sort_text) }
     end
 
     shared_examples_for 'unsorted column' do
@@ -118,7 +118,7 @@ describe 'Work package index accessibility' do
       end
     end
 
-    describe 'id column' do
+    describe 'id column', js: true do
       let(:link_caption) { '#' }
       let(:sort_header_selector) { 'table.list.issues th.checkbox + th' }
       let(:sort_link_selector) { sort_header_selector + ' a' }
@@ -128,7 +128,7 @@ describe 'Work package index accessibility' do
       it_behaves_like 'descending sortable first'
     end
 
-    describe 'type column' do
+    describe 'type column', js: true do
       let(:link_caption) { 'Type' }
       let(:sort_header_selector) { 'table.list.issues th.checkbox + th + th' }
       let(:sort_link_selector) { sort_header_selector + ' a' }

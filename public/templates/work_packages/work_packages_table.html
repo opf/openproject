@@ -2,14 +2,13 @@
   <thead>
     <tr>
       <th class="checkbox hide-when-print">
-        <a ng-href=""
+        <a href="#"
            alt="{{(rows | allRowsChecked) && I18n.t('js.button_uncheck_all') || I18n.t('js.button_check_all')}}"
            class="no-decoration-on-hover"
            ng-click="setCheckedStateForAllRows(!(rows | allRowsChecked))"
            title="{{(rows | allRowsChecked) && I18n.t('js.button_uncheck_all') || I18n.t('js.button_check_all')}}">
           <icon-wrapper icon-title="I18n.t('js.button_check_all') + '/' + I18n.t('js.button_uncheck_all')"
-                        icon-name="yes"/>
-
+                        icon-name="yes"></icon-wrapper>
         </a>
       </th>
 

@@ -20,12 +20,24 @@ angular.module('openproject.workPackages.directives')
         targetSortation = scope.query.sortation.getTargetSortationOfHeader(scope.headerName);
         scope.query.setSortation(targetSortation);
         scope.currentSortDirection = scope.query.sortation.getDisplayedSortDirectionOfHeader(scope.headerName);
+        scope.setFullTitle();
       };
+
+      scope.setFullTitle = function(){
+        if(!scope.sortable) scope.fullTitle = '';
+        if(scope.currentSortDirection){
+          var sortDirectionText = (scope.currentSortDirection == 'asc') ? I18n.t('js.label_ascending') : I18n.t('js.label_descending');
+          scope.fullTitle = sortDirectionText + " " + I18n.t('js.label_sorted_by') + ' \"' + scope.headerTitle + '\"';
+        } else {
+          scope.fullTitle = (I18n.t('js.label_sort_by') + ' \"' + scope.headerTitle + '\"');
+        }
+      }
 
       scope.headerName = attributes['headerName'];
       scope.headerTitle = attributes['headerTitle'];
       scope.sortable = attributes['sortable'];
       scope.currentSortDirection = scope.query.sortation.getDisplayedSortDirectionOfHeader(scope.headerName);
+      scope.setFullTitle();
     }
   };
 }]);
