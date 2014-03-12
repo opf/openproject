@@ -37,6 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * Allowed sending of mails with only cc: or bcc: fields
 * Allow adding attachments to created work packages via planning elements controller
 * Remove unused rmagick dependency
+* Fix: Work package short URI
 
 ## 3.0.0pre51
 
