@@ -31,14 +31,8 @@ require 'features/work_packages/work_packages_page'
 
 describe 'Toggable fieldset' do
   shared_context 'find legend with text' do
-    let(:legend_text) { find('legend a', text: fieldset_name) }
-    let(:fieldset) { legend_text.find(:xpath, '../..') }
-  end
-
-  shared_context 'find toggle label' do
-    let(:toggle_state_label) { legend_text.find('span.fieldset-toggle-state-label', visible: false) }
-
-    it { expect(toggle_state_label).not_to be_nil }
+    let(:legend_text) { find('legend a span', text: fieldset_name) }
+    let(:fieldset) { legend_text.find(:xpath, '../../..') }
   end
 
   shared_examples_for 'toggable fieldset initially collapsed' do
@@ -46,8 +40,6 @@ describe 'Toggable fieldset' do
 
     describe 'initial state', js: true do
       include_context 'find legend with text'
-
-      it_behaves_like 'toggle state set collapsed'
     end
 
     describe 'after click', js: true do
@@ -55,7 +47,7 @@ describe 'Toggable fieldset' do
 
       before { legend_text.click }
 
-      it_behaves_like 'toggle state set expanded'
+      it_behaves_like 'expanded fieldset'
     end
   end
 
@@ -65,7 +57,6 @@ describe 'Toggable fieldset' do
     describe 'initial state', js: true do
       include_context 'find legend with text'
 
-      it_behaves_like 'toggle state set expanded'
     end
 
     describe 'after click', js: true do
@@ -73,22 +64,8 @@ describe 'Toggable fieldset' do
 
       before { legend_text.click }
 
-      it_behaves_like 'toggle state set collapsed'
+      it_behaves_like 'collapsed fieldset'
     end
-  end
-
-  shared_examples_for 'toggle state set collapsed' do
-    include_context 'find legend with text'
-    include_context 'find toggle label'
-
-    it { expect(toggle_state_label.text(:all)).to include(I18n.t('js.label_collapsed')) }
-  end
-
-  shared_examples_for 'toggle state set expanded' do
-    include_context 'find legend with text'
-    include_context 'find toggle label'
-
-    it { expect(toggle_state_label.text(:all)).to include(I18n.t('js.label_expanded')) }
   end
 
   shared_context 'collapsed CSS' do

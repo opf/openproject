@@ -179,7 +179,7 @@ describe 'Custom field accessibility' do
                                                type: type,
                                                custom_values: { custom_field.id => 'value' }) }
 
-      describe 'index' do
+      describe 'index', js: true do
         shared_context "index page with query" do
           let!(:query) do
             query = FactoryGirl.build(:query, project: project)
