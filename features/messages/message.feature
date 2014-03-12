@@ -70,3 +70,20 @@ Feature: Issue textile quickinfo links
       | reply #2 |
     When I go to the message page of message "message #1"
     Then I should see "Replies (2)"
+
+  Scenario: Sticky message on top of messages list
+    Given the board "development discussion" has the following messages:
+      | message #1 |
+      | message #2 |
+      | message #3 |
+    When I go to the boards page of the project called "parent"
+    And I follow "New message"
+    And I fill in "How to?" for "message_subject"
+    And I fill in "How to st-up project on local mashine." for "message_content"
+    And I check "Sticky"
+    When I click on the first button matching "Create"
+    And I go to the boards page of the project called "parent"
+    And I start debugging
+    Then "How to?" should be the first row in table
+
+
