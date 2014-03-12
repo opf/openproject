@@ -42,7 +42,8 @@
           open: groupExpanded[currentGroup],
           closed: !groupExpanded[currentGroup],
           keyboard_hover: true
-        }">
+        }"
+        id="group-header-{{ row.groupName }}">
       <td colspan="{{ columns.length + 2 }}">
         <span ng-class="[
                 'expander',
