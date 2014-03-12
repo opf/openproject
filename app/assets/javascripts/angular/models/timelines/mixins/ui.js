@@ -572,13 +572,13 @@ angular.module('openproject.timelines.models')
         return this.previousRelativeVerticalOffset;
       }
       var result = parseInt(offset.attr("data-vertical-offset"), 10);
-      //if (isNaN(result)) {
+      if (isNaN(result)) {
         if (this.table_offset === undefined) {
           result = this.table_offset = this.getUiRoot().find('.tl-left-main table').position().top;
         }
         result = offset.position().top - this.table_offset;
         offset.attr("data-vertical-offset", result);
-      //}
+      }
 
       this.previousRelativeVerticalOffset = result;
       this.previousRelativeVerticalOffsetParameter = offset;
@@ -591,14 +591,14 @@ angular.module('openproject.timelines.models')
         return this.previousRelativeVerticalBottomOffset;
       }
       var result = parseInt(offset.attr("data-vertical-bottom-offset"), 10);
-      //if (isNaN(result)) {
+      if (isNaN(result)) {
         result = this.getRelativeVerticalOffset(offset);
         if (offset.find("div").length === 1) {
           result -= jQuery(offset.find("div")[0]).height();
         }
         result += offset.outerHeight();
         offset.attr("data-vertical-bottom-offset", result);
-      //}
+      }
       this.previousRelativeVerticalBottomOffset = result;
       this.previousRelativeVerticalBottomOffsetParameter = offset;
       return result;
