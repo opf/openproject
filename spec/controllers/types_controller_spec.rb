@@ -43,7 +43,7 @@ describe TypesController do
                                           old_status: status_0,
                                           new_status: status_1,
                                           type_id: existing_type.id) }
-  #let(:current_user) { FactoryGirl.create(:user) }
+  let(:current_user) { FactoryGirl.create(:user) }
 
   before do
     @controller.stub(:authorize)
@@ -181,7 +181,7 @@ describe TypesController do
   describe "DELETE destroy" do
     let(:type) { FactoryGirl.create(:type, :name => 'My type') }
     let(:type2) { FactoryGirl.create(:type, :name => 'My type 2', :projects => [project]) }
-    let(:type3) { FactoryGirl.create(:type, :name => 'My type 3', :standard => true) }
+    let(:type3) { FactoryGirl.create(:type, :name => 'My type 3', :is_standard => true) }
 
     describe "successful detroy" do
       let(:params) { { 'id' => type.id } }
@@ -202,9 +202,25 @@ describe TypesController do
                                           work_package_custom_fields: [custom_field_2],
                                           types: [type2]) }
       let(:work_package) { FactoryGirl.create(:work_package,
+                                              author: current_user,
                                               type: type2,
                                               project: project2) }
       let(:params) { { 'id' => type2.id } }
+
+      before do
+        work_package
+        delete :destroy, params
+      end
+
+      it { response.should be_redirect }
+      it { response.should redirect_to(types_path) }
+      it 'should show an error message' do
+        flash[:error].should == I18n.t(:error_can_not_delete_type)
+      end
+    end
+
+    describe "detroy standard type should fail" do
+      let(:params) { { 'id' => type3.id } }
 
       before do
         delete :destroy, params
@@ -213,7 +229,7 @@ describe TypesController do
       it { response.should be_redirect }
       it { response.should redirect_to(types_path) }
       it 'should show an error message' do
-        flash[:notice].should == I18n.t(:error_can_not_delete_type)
+        flash[:error].should == I18n.t(:error_can_not_delete_standard_type)
       end
     end
   end
