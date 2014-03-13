@@ -437,6 +437,7 @@ angular.module('openproject.timelines.models')
 
       $timeout(function() {
         // rebuild content
+        timeline.bustVerticalOffsetCache(tree);
         timeline.rebuildBackground(tree, width, height);
         chart.css({'display': 'block'});
         timeline.rebuildForeground(tree);
@@ -602,6 +603,13 @@ angular.module('openproject.timelines.models')
       this.previousRelativeVerticalBottomOffset = result;
       this.previousRelativeVerticalBottomOffsetParameter = offset;
       return result;
+    },
+    bustVerticalOffsetCache: function(tree) {
+      tree.iterateWithChildren(function(node) {
+        var currentElement = node.getDOMElement();
+        currentElement.removeAttr("data-vertical-offset");
+        currentElement.removeAttr("data-vertical-bottom-offset");
+      });
     },
     rebuildForeground: function(tree) {
       var timeline = this;
