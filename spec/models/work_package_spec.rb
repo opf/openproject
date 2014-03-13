@@ -1231,6 +1231,18 @@ describe WorkPackage do
           end
         end
 
+        describe "w/o a start date
+                  w an erroneous due date" do
+          before do
+            instance.start_date = nil
+            instance.due_date = '856742858941748214577'
+          end
+
+          it "should have a validation error" do
+            expect(instance).to have(1).error_on(:due_date)
+          end
+        end
+
       end
     end
   end
