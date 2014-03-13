@@ -1,15 +1,10 @@
 /*jshint expr: true*/
 
-describe('Timeline', function () {
-  it('should create a timeline object', function () {
-    Timeline.startup({
-      project_id: 1
-    });
-  });
-});
-
 describe('Planning Element', function(){
-  before(function(){
+
+  var PlanningElement, Timeline;
+
+  before(function() {
     this.peEmpty = Factory.build("PlanningElement", {
       timeline: Factory.build("Timeline"),
     });
@@ -21,19 +16,25 @@ describe('Planning Element', function(){
     });
   });
 
+  beforeEach(module('openproject.timelines.models'));
+  beforeEach(inject(function(_PlanningElement_, _Timeline_) {
+    PlanningElement = _PlanningElement_;
+    Timeline        = _Timeline_;
+  }));
+
   describe('is', function () {
     it('should return true for pes', function () {
-      expect(Timeline.PlanningElement.is(this.peWithDates)).to.be.true;
-      expect(this.peWithDates.is(Timeline.PlanningElement)).to.be.true;
+      expect(PlanningElement.is(this.peWithDates)).to.be.true;
+      expect(this.peWithDates.is(PlanningElement)).to.be.true;
     });
 
     it('should return false for non-pes', function () {
-      expect(Timeline.PlanningElement.is({})).to.be.false;
+      expect(PlanningElement.is({})).to.be.false;
     });
   });
 
   describe('children', function () {
-    before(function () {
+    before(function() {
       this.peWithNameA = Factory.build("PlanningElement", {
         name: "A"
       });

@@ -4,12 +4,6 @@ var modalHelperInstance = {
   setupTimeline: nop
 };
 
-Timeline.i18n = function(key) {
-  return "";
-};
-
-Timeline.completeUI = nop;
-Timeline.setupUI = nop;
 
 jQuery.fn.slider = {};
 
@@ -30,26 +24,28 @@ var possibleData = {
     }]
 };
 
-Timeline.TimelineLoader.QueueingLoader.prototype.loadElement = function (identifier, element) {
-  this.loading[identifier] = element;
+var I18n = { t: function() {} };
 
-  var that = this;
-
-  window.setTimeout(function () {
-      var readFrom = element.context.readFrom || element.context.storeIn  || identifier;
-
-      var data = {};
-      data[readFrom] = possibleData[readFrom] || [];
-
-      delete that.loading[identifier];
-
-      jQuery(that).trigger('success', {
-        identifier : identifier,
-        context    : element.context,
-        data       : data
-      });
-
-      that.onComplete();
-     }
-  );
-};
+// Timeline.TimelineLoader.QueueingLoader.prototype.loadElement = function (identifier, element) {
+//   this.loading[identifier] = element;
+//
+//   var that = this;
+//
+//   window.setTimeout(function () {
+//       var readFrom = element.context.readFrom || element.context.storeIn  || identifier;
+//
+//       var data = {};
+//       data[readFrom] = possibleData[readFrom] || [];
+//
+//       delete that.loading[identifier];
+//
+//       jQuery(that).trigger('success', {
+//         identifier : identifier,
+//         context    : element.context,
+//         data       : data
+//       });
+//
+//       that.onComplete();
+//      }
+//   );
+// };

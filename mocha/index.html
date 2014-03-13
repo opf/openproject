@@ -20,28 +20,50 @@
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script src="http://codeorigin.jquery.com/ui/1.9.2/jquery-ui.min.js"></script>
 
-    <script src="../app/assets/javascripts/timelines.js"></script>
+    <script src="../vendor/assets/components/angular/angular.js"></script>
+    <script src="../vendor/assets/components/angular-mocks/angular-mocks.js"></script>
 
-    <script src="../app/assets/javascripts/timelines/FilterQueryStringBuilder.js"></script>
-    <script src="../app/assets/javascripts/timelines/TimelineLoader.js"></script>
-    <script src="../app/assets/javascripts/timelines/TreeNode.js"></script>
-    <script src="../app/assets/javascripts/timelines/constants.js"></script>
-    <script src="../app/assets/javascripts/timelines/ui.js"></script>
-    <script src="../app/assets/javascripts/timelines/model/CustomFields.js"></script>
-    <script src="../app/assets/javascripts/timelines/model/Project.js"></script>
-    <script src="../app/assets/javascripts/timelines/model/PlanningElement.js"></script>
-    <script src="../app/assets/javascripts/timelines/model/ProjectAssociation.js"></script>
-    <script src="../app/assets/javascripts/timelines/model/Reporting.js"></script>
-    <script src="../app/assets/javascripts/timelines/model/ProjectType.js"></script>
-    <script src="../app/assets/javascripts/timelines/model/HistoricalPlanningElement.js"></script>
-    <script src="../app/assets/javascripts/timelines/model/Color.js"></script>
-    <script src="../app/assets/javascripts/timelines/model/Status.js"></script>
-    <script src="../app/assets/javascripts/timelines/model/PlanningElementType.js"></script>
-    <script src="../app/assets/javascripts/timelines/model/User.js"></script>
+    <!--
+    <script src="../vendor/assets/components/angular-animate/angular-animate.js"></script>
+    <script src="../vendor/assets/components/angular-scenario/angular-scenario.js"></script>
+    <script src="../vendor/assets/components/angular-ui-date/ui-date.js"></script>
+    <script src="../vendor/assets/components/angular-ui-select2/src/select2.js"></script>
+    -->
+
+    <script src="../app/assets/javascripts/angular/openproject-app.js"></script>
+
+    <script src="../app/assets/javascripts/angular/controllers/timelines_controller.js"></script>
+
+    <script src="../app/assets/javascripts/angular/models/filter.js"></script>
+    <script src="../app/assets/javascripts/angular/models/query.js"></script>
+    <script src="../app/assets/javascripts/angular/models/sortation.js"></script>
+
+    <script src="../app/assets/javascripts/angular/models/timelines/color.js"></script>
+    <script src="../app/assets/javascripts/angular/models/timelines/custom-field.js"></script>
+
+    <script src="../app/assets/javascripts/angular/models/timelines/timeline.js"></script>
+    <script src="../app/assets/javascripts/angular/models/timelines/color.js"></script>
+    <script src="../app/assets/javascripts/angular/models/timelines/custom-field.js"></script>
+    <script src="../app/assets/javascripts/angular/models/timelines/historical_planning_element.js"></script>
+    <script src="../app/assets/javascripts/angular/models/timelines/mixins/constants.js"></script>
+    <script src="../app/assets/javascripts/angular/models/timelines/mixins/ui.js"></script>
+    <script src="../app/assets/javascripts/angular/models/timelines/planning_element.js"></script>
+    <script src="../app/assets/javascripts/angular/models/timelines/planning_element_type.js"></script>
+    <script src="../app/assets/javascripts/angular/models/timelines/project.js"></script>
+    <script src="../app/assets/javascripts/angular/models/timelines/project_association.js"></script>
+    <script src="../app/assets/javascripts/angular/models/timelines/project_type.js"></script>
+    <script src="../app/assets/javascripts/angular/models/timelines/reporting.js"></script>
+    <script src="../app/assets/javascripts/angular/models/timelines/status.js"></script>
+    <script src="../app/assets/javascripts/angular/models/timelines/tree_node.js"></script>
+    <script src="../app/assets/javascripts/angular/models/timelines/user.js"></script>
 
     <script src="../app/assets/javascripts/date-en-US.js"></script>
 
     <script src="tests/timeline_stubs.js"></script>
+
+    <script>
+    window.$injector = angular.injector(['ng', 'ngMock', 'openproject.timelines.models']);
+    </script>
 
     <script src="factories/planning_element_factory.js"></script>
     <script src="factories/project_factory.js"></script>
@@ -49,11 +71,20 @@
     <script src="factories/timelines_factory.js"></script>
     <script src="factories/user_factory.js"></script>
     <script src="factories/reporting_factory.js"></script>
-
     <script src="tests/asset_functions.js"></script>
+
+    <script src="tests/models/filter_test.js"></script>
+    <script src="tests/models/query_test.js"></script>
+    <script src="tests/models/sortation_test.js"></script>
 
     <script src="tests/planning_element_test.js"></script>
     <script src="tests/project_test.js"></script>
+
+    <script src="tests/models/timelines/user_test.js"></script>
+    <script src="tests/models/timelines/timeline_test.js"></script>
+
+    <script src="tests/controllers/timelines_controller_test.js"></script>
+
     <script>
       if (window.mochaPhantomJS) {
         mochaPhantomJS.run();
