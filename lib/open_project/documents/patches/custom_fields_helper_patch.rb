@@ -1,5 +1,6 @@
 module OpenProject
   module Documents
+  module Patches
     module CustomFieldsHelperPatch
       def self.included(base)
 
@@ -16,8 +17,9 @@ module OpenProject
 
     end
   end
+  end
 end
 
-unless CustomFieldsHelper.included_modules.include?(OpenProject::Documents::CustomFieldsHelperPatch)
-  CustomFieldsHelper.send(:include, OpenProject::Documents::CustomFieldsHelperPatch)
+unless CustomFieldsHelper.included_modules.include?(OpenProject::Documents::Patches::CustomFieldsHelperPatch)
+  CustomFieldsHelper.send(:include, OpenProject::Documents::Patches::CustomFieldsHelperPatch)
 end
