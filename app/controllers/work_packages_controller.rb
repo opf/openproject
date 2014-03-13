@@ -582,7 +582,7 @@ class WorkPackagesController < ApplicationController
         sortable: column.sortable,
         groupable: column.groupable,
         custom_field: column.is_a?(QueryCustomFieldColumn) &&
-                      column.custom_field.as_json(only: [:id, :field_format]),
+                      column.custom_field.as_json(only: [:id, :field_format], methods: [:name_locale]),
         meta_data: get_column_meta(column)
       }
     end

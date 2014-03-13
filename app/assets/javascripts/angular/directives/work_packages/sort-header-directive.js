@@ -7,6 +7,7 @@ angular.module('openproject.workPackages.directives')
     templateUrl: '/templates/work_packages/sort_header.html',
     scope: {
       query: '=',
+      column: '=',
       updateResults: '&'
     },
     link: function(scope, element, attributes) {
