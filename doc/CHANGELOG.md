@@ -1,6 +1,13 @@
 # Changelog
 
+## 1.0.0.pre1
+
+* `#5191` Public Release ReportingEngine
+
 ## 0.0.1
+
+* Pushed plugin version with core
+
 ## 0.0.1.pre8
 
 * `#3788` [Accessibility] Required fields MUST be displayed as required - new cost report
