@@ -32,6 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2393` Fix: No warning when leaving site without saving
 * `#3267` Fix: Link in Breadcrumbs links to global work packages
 * `#3395` Fix: After error message values are gone during creation of message
+* `#3531` Fix: Type 'None' cannot be configured via admin settings
 * `#4097` Fix accesskeys
 * `#4118` Fix: Add missing labels
 * `#5057` Fix: Whitelisted more params for planning elements controller
