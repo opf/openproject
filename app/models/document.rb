@@ -35,7 +35,6 @@ class Document < ActiveRecord::Base
 
   after_initialize :set_default_category
 
-  # TODO: category_id needed for forms, can we make that differently?
   attr_accessible :title, :description, :project, :category, :category_id
 
   safe_attributes 'category_id', 'title', 'description'
