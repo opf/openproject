@@ -1,22 +1,22 @@
 module OpenProject
   module Documents
-  module Patches
-    module CustomFieldsHelperPatch
-      def self.included(base)
+    module Patches
+      module CustomFieldsHelperPatch
+        def self.included(base)
 
-        base.class_eval do
+          base.class_eval do
 
-          def custom_fields_tabs_with_documents
-            custom_fields_tabs_without_documents << {:name => 'DocumentCategoryCustomField', :partial => 'custom_fields/index', :label => DocumentCategory::OptionName}
+            def custom_fields_tabs_with_documents
+              custom_fields_tabs_without_documents << {:name => 'DocumentCategoryCustomField', :partial => 'custom_fields/index', :label => DocumentCategory::OptionName}
+            end
+
+            alias_method_chain :custom_fields_tabs, :documents
           end
 
-          alias_method_chain :custom_fields_tabs, :documents
         end
 
       end
-
     end
-  end
   end
 end
 
