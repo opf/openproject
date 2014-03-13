@@ -93,9 +93,9 @@ describe TypesController do
     describe "WITH workflow copy" do
       let!(:existing_type) { FactoryGirl.create(:type, :name => 'Existing type') }
       let!(:workflow) { FactoryGirl.create(:workflow,
-                                          old_status: status_0,
-                                          new_status: status_1,
-                                          type_id: existing_type.id) }
+                                           old_status: status_0,
+                                           new_status: status_1,
+                                           type_id: existing_type.id) }
       let(:params) { { 'type' => { :name => 'New type',
                                    :project_ids => {'1' => project.id},
                                    :custom_field_ids => {'1' => custom_field_1.id, '2' => custom_field_2.id} },
@@ -109,7 +109,7 @@ describe TypesController do
       it { expect(response).to be_redirect }
       it { expect(response).to redirect_to(types_path) }
       it 'should have the copied workflows' do
-        Type.find_by_name('New type').workflows.count.should eq(existing_type.workflows.count)
+        expect(Type.find_by_name('New type').workflows.count).to eq(existing_type.workflows.count)
       end
     end
   end
@@ -124,9 +124,9 @@ describe TypesController do
 
     it { expect(response).to be_success }
     it { expect(response).to render_template 'edit' }
-    it { response.body.should have_selector "input[@name='type[name]'][@value='My type']" }
-    it { response.body.should have_selector "input[@name='type[project_ids][]'][@value='#{project.id}'][@checked='checked']" }
-    it { response.body.should have_selector "input[@name='type[is_milestone]'][@value='1'][@checked='checked']" }
+    it { expect(response.body).to have_selector "input[@name='type[name]'][@value='My type']" }
+    it { expect(response.body).to have_selector "input[@name='type[project_ids][]'][@value='#{project.id}'][@checked='checked']" }
+    it { expect(response.body).to have_selector "input[@name='type[is_milestone]'][@value='1'][@checked='checked']" }
   end
 
   describe "POST update" do
@@ -143,7 +143,7 @@ describe TypesController do
       it { expect(response).to be_redirect }
       it { expect(response).to redirect_to(types_path) }
       it 'should be renamed' do
-        Type.find_by_name('My type renamed').id.should eq(type.id)
+        expect(Type.find_by_name('My type renamed').id).to eq(type.id)
       end
     end
 
@@ -157,7 +157,7 @@ describe TypesController do
       it { expect(response).to be_redirect }
       it { expect(response).to redirect_to(types_path) }
       it 'should have no projects assigned' do
-        Type.find_by_name('My type').projects.count.should eq(0)
+        expect(Type.find_by_name('My type').projects.count).to eq(0)
       end
     end
   end
@@ -174,7 +174,7 @@ describe TypesController do
     it { expect(response).to be_redirect }
     it { expect(response).to redirect_to(types_path) }
     it 'should have the position updated' do
-      Type.find_by_name('My type').position.should eq(2)
+      expect(Type.find_by_name('My type').position).to eq(2)
     end
   end
 
@@ -196,7 +196,7 @@ describe TypesController do
         expect(flash[:notice]).to eq(I18n.t(:notice_successful_delete))
       end
       it 'should not be present in the database' do
-        Type.find_by_name('My type').should eq(nil)
+        expect(Type.find_by_name('My type')).to eq(nil)
       end
     end
 
@@ -205,9 +205,9 @@ describe TypesController do
                                           work_package_custom_fields: [custom_field_2],
                                           types: [type2]) }
       let!(:work_package) { FactoryGirl.create(:work_package,
-                                              author: current_user,
-                                              type: type2,
-                                              project: project2) }
+                                               author: current_user,
+                                               type: type2,
+                                               project: project2) }
       let(:params) { { 'id' => type2.id } }
 
       before do
@@ -220,7 +220,7 @@ describe TypesController do
         expect(flash[:error]).to eq(I18n.t(:error_can_not_delete_type))
       end
       it 'should be present in the database' do
-        Type.find_by_name('My type 2').id.should eq(type2.id)
+        expect(Type.find_by_name('My type 2').id).to eq(type2.id)
       end
     end
 
@@ -237,7 +237,7 @@ describe TypesController do
         expect(flash[:error]).to eq(I18n.t(:error_can_not_delete_standard_type))
       end
       it 'should be present in the database' do
-        Type.find_by_name('My type 3').id.should eq(type3.id)
+        expect(Type.find_by_name('My type 3').id).to eq(type3.id)
       end
     end
   end
