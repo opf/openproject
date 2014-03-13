@@ -45,7 +45,7 @@ end
 source 'https://rubygems.org'
 
 gem "rails", "~> 3.2.17"
-gem "sprockets", "2.2.2.backport1"
+gem "sprockets", "2.2.2.backport2"
 
 gem "coderay", "~> 1.0.5"
 gem "rubytree", "~> 0.8.3"
