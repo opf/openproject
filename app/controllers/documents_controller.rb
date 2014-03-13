@@ -66,6 +66,8 @@ class DocumentsController < ApplicationController
     if @document.save
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'show', :id => @document
+    else
+      render :action => 'edit'
     end
   end
 
