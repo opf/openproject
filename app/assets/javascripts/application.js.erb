@@ -1248,11 +1248,12 @@ var activateError = function() {
 var activateFlash = function() {
   var flashMessage = jQuery('.flash');
 
-  // Ignore flash messages of 'types_flash_notice' because those messages are
-  // completely handled via JavaScript (see types_checkboxes.js for details).
-  // We wouldn't have to ignore this message if the flash element would be
-  // completely created via JavaScript and not available in the DOM by default.
-  if (flashMessage.attr('id') != 'types_flash_notice') {
+  // Ignore flash messages of class 'ignored-by-flash-activation' because those
+  // messages are completely handled via JavaScript (see types_checkboxes.js for
+  // details). We wouldn't have to ignore this message if the flash element
+  // would be completely created via JavaScript and not available in the DOM by
+  // default.
+  if (!flashMessage.hasClass('ignored-by-flash-activation')) {
     flashMessage.show();
   }
 }

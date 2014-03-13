@@ -31,7 +31,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= render_flash_message :notice,
                          l(:notice_automatic_set_of_standard_type),
-                         style: "display:none;", id: "types_flash_notice" %>
+                         style: "display:none;",
+                         id: "types_flash_notice",
+                         class: "ignored-by-flash-activation" %>
 
 <fieldset class="box with-legend-control" id="project_types">
   <legend><%=l(:label_type_plural)%></legend>
