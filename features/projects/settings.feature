@@ -78,7 +78,7 @@ Feature: Project Settings
   Scenario: Changing members per page keeps us on the members tab
     When I go to the settings page of the project "project1"
     And I follow "Members" within ".tabs"
-    And I follow "50" within ".per_page_options" within "#tab-content-members"
+    And I follow "20" within ".per_page_options" within "#tab-content-members"
     Then I should be on the members tab of the settings page of the project "project1"
 
   @javascript
