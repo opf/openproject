@@ -542,6 +542,8 @@ en:
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "no"
   general_text_yes: "yes"
+  general_text_No: "No"
+  general_text_Yes: "Yes"
 
   gui_validation_error: "1 error"
   gui_validation_error_plural: "%{count} errors"
