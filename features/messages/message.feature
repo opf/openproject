@@ -27,23 +27,24 @@
 #++
 
 Feature: Issue textile quickinfo links
+
   Background:
     Given there is 1 project with the following:
-      | name        | parent      |
-      | identifier  | parent      |
+      | name       | parent |
+      | identifier | parent |
     And I am working in project "parent"
     And there is a board "development discussion" for project "parent"
     And there is a role "member"
     And the role "member" may have the following rights:
-      | manage_boards          |
-      | add_messages           |
-      | edit_messages          |
-      | edit_own_messages      |
-      | delete_messages        |
-      | delete_messages        |
-      | delete_own_messages    |
+      | manage_boards       |
+      | add_messages        |
+      | edit_messages       |
+      | edit_own_messages   |
+      | delete_messages     |
+      | delete_messages     |
+      | delete_own_messages |
     And there is 1 user with the following:
-      | login | bob|
+      | login | bob |
     And the user "bob" is a "member" in the project "parent"
     And I am already logged in as "bob"
 
@@ -65,7 +66,7 @@ Feature: Issue textile quickinfo links
   Scenario: Message's reply count is two
     Given the board "development discussion" has the following messages:
       | message #1 |
-     And "message #1" has the following replies:
+    And "message #1" has the following replies:
       | reply #1 |
       | reply #2 |
     When I go to the message page of message "message #1"
@@ -83,7 +84,6 @@ Feature: Issue textile quickinfo links
     And I check "Sticky"
     When I click on the first button matching "Create"
     And I go to the boards page of the project called "parent"
-    And I start debugging
     Then "How to?" should be the first row in table
 
 
