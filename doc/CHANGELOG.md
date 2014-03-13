@@ -1,7 +1,7 @@
 <!---- copyright
 OpenProject Documents Plugin
 
-OpenProject Core functionality that was extracted into a plugin.
+Former OpenProject Core functionality extracted into a plugin.
 
 Copyright (C) 2009-2014 the OpenProject Foundation (OPF)
 
