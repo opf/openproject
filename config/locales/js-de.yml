@@ -13,6 +13,8 @@ de:
       noneElement: "(keines)"
     general_text_no: "nein"
     general_text_yes: "ja"
+    general_text_No: "Nein"
+    general_text_Yes: "Ja"
     label_add_columns: "Ausgewählte Spalten hinzufügen"
     label_all_work_packages: "alle Arbeitspakete"
     label_collapse: "Zuklappen"

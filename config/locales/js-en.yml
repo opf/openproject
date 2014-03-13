@@ -13,6 +13,8 @@ en:
       noneElement: "(none)"
     general_text_no: "no"
     general_text_yes: "yes"
+    general_text_No: "No"
+    general_text_Yes: "Yes"
     label_add_columns: "Add selected columns"
     label_all_work_packages: "all work packages"
     label_collapse: "Collapse"
