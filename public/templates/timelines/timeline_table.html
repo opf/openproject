@@ -2,7 +2,11 @@
   <thead>
     <tr>
       <th class="tl-first-column" ng-style="{height: height}">{{I18n.t('js.timelines.filter.column.name')}}</th>
-      <th ng-repeat="key in columns">{{I18n.t('js.timelines.filter.column.' + key)}}</th>
+      <th timeline-column-name
+          ng-repeat="columnName in columns"
+          column-name="columnName"
+          locale-prefix="js.timelines.filter.column"
+          custom-fields="timeline.custom_fields"></th>
     </tr>
   </thead>
 
