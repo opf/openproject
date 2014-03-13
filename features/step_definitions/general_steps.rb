@@ -205,6 +205,7 @@ Given /^there are the following types:$/ do |table|
     type.is_milestone   = t['is_milestone'] ? t['is_milestone'] : true
     type.is_default     = t['is_default'] ? t['is_default'] : false
     type.in_aggregation = t['in_aggregation'] ? t['in_aggregation'] : true
+    type.is_standard    = t['is_standard'] ? t['is_standard'] : false
     type.save!
   end
 end

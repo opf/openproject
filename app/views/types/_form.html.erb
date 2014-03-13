@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="splitcontentleft">
 <div class="box tabular">
 <!--[form:type]-->
-<p><%= f.text_field :name, :required => true %></p>
+<p><%= f.text_field :name, :required => true, :disabled => @type.is_standard? %></p>
 <p><%= f.check_box :is_in_roadmap %></p>
 <p><%= f.select :color_id, options_for_colors(controller.type) %></p>
 <p><%= f.check_box :in_aggregation %></p>
