@@ -40,6 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * Allow adding attachments to created work packages via planning elements controller
 * Remove unused rmagick dependency
 * Fix: Work package short URI
+* Fix: work package due date not validated when start date is not present 
 
 ## 3.0.0pre51
 
