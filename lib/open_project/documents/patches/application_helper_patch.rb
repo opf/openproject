@@ -1,6 +1,4 @@
-module OpenProject
-  module Documents
-    module Patches
+module OpenProject::Documents::Patches
       module ApplicationHelperPatch
         def self.included(base)
 
@@ -39,8 +37,6 @@ module OpenProject
         end
 
       end
-    end
-  end
 end
 
 unless ApplicationHelper.included_modules.include?(OpenProject::Documents::Patches::ApplicationHelperPatch)

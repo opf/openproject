@@ -1,6 +1,4 @@
-module OpenProject
-  module Documents
-    module Patches
+module OpenProject::Documents::Patches
       module CustomFieldsHelperPatch
         def self.included(base)
 
@@ -16,8 +14,6 @@ module OpenProject
         end
 
       end
-    end
-  end
 end
 
 unless CustomFieldsHelper.included_modules.include?(OpenProject::Documents::Patches::CustomFieldsHelperPatch)
