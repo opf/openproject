@@ -88,6 +88,8 @@ angular.module('openproject.workPackages.controllers')
   };
 
   function initialLoad(){
+    // TODO RS: Around about now we need to get the project from the api so that we know about its
+    // custom fields so that we can use them as filters.
     setupPagination(PAGINATION_OPTIONS);
     $scope.updateResults();
   };
