@@ -1,8 +1,11 @@
-<table class="progress" ng-style="{width: width}">
-  <tbody>
-    <tr>
-      <td class="closed" ng-if="progress > 0" ng-style="{width: progress + '%'}"></td>
-      <td class="todo" ng-style="{width: (scaleLength - progress) + '%'}"></td>
-    </tr>
-  </tbody>
-</table>
+<div>
+  <table class="progress" ng-style="{width: width}">
+    <tbody>
+      <tr>
+        <td class="closed" ng-if="progress > 0" ng-style="{width: progress + '%'}"></td>
+        <td class="todo" ng-style="{width: (scaleLength - progress) + '%'}"></td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="progress-bar-legend">{{legend}} Total progress</p>
+</div>
