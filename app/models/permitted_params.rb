@@ -342,9 +342,6 @@ class PermittedParams < Struct.new(:params, :user)
         :status_id,
         :type_id,
         :subject,
-        # attributes unique to :new_work_package
-        :notes,
-        :lock_version,
         Proc.new do |args|
           # avoid costly allowed_to? if the param is not there at all
           if args[:params]["work_package"].has_key?("watcher_user_ids") &&
@@ -360,7 +357,10 @@ class PermittedParams < Struct.new(:params, :user)
 
             { time_entry: [:hours, :activity_id, :comments] }
           end
-        end ],
+        end,
+        # attributes unique to :new_work_package
+        :notes,
+        :lock_version ],
       :planning_element => [
         # attributes common with :new_work_package above
         :assigned_to_id,
@@ -378,6 +378,22 @@ class PermittedParams < Struct.new(:params, :user)
         :status_id,
         :type_id,
         :subject,
+        Proc.new do |args|
+          # avoid costly allowed_to? if the param is not there at all
+          if args[:params]["planning_element"].has_key?("watcher_user_ids") &&
+            args[:user].allowed_to?(:add_work_package_watchers, args[:project])
+
+            { :watcher_user_ids => [] }
+          end
+        end,
+        Proc.new do |args|
+          # avoid costly allowed_to? if the param is not there at all
+          if args[:params]["planning_element"].has_key?("time_entry") &&
+             args[:user].allowed_to?(:log_time, args[:project])
+
+            { time_entry: [:hours, :activity_id, :comments] }
+          end
+        end,
         # attributes unique to planning_element
         :note,
         :planning_element_status_comment,
