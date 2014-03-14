@@ -227,7 +227,7 @@ class WorkPackagesController < ApplicationController
       format.html do
         # push work packages to client as JSON
         # TODO pull work packages via AJAX
-        push_filter_operators_and_labels
+        # push_filter_operators_and_labels
         push_query_and_results_via_gon results, work_packages
 
         render :index, :locals => { :query => @query,
@@ -546,9 +546,7 @@ class WorkPackagesController < ApplicationController
   end
 
   def push_query_and_results_via_gon(results, work_packages)
-    get_query_and_results_as_json(results, work_packages).each_pair do |name, value|
-      gon.send "#{name}=", value
-    end
+    gon.project_identifier = @project.to_param
     # TODO later versions of gon support gon.push {Hash} - on the other hand they make it harder to deliver data to gon inside views
   end
 
@@ -571,10 +569,10 @@ class WorkPackagesController < ApplicationController
   def get_query_and_results_as_json(results, work_packages)
     get_results_as_json(results, work_packages).merge(
       project_identifier:           @project.to_param,
-      query:                        get_query_as_json(@query),
+      # query:                        get_query_as_json(@query),
       # columns:                      get_columns_for_json(@query.columns),
       # available_columns:            get_columns_for_json(@query.available_columns),
-      sort_criteria:                @sort_criteria.to_param
+      # sort_criteria:                @sort_criteria.to_param
     )
   end
 
@@ -592,8 +590,7 @@ class WorkPackagesController < ApplicationController
   end
 
   def get_query_as_json(query)
-    query.as_json only: [:id, :group_by, :display_sums, :filters],
-                  methods: [:available_work_package_filters]
+    query.as_json only: [:id, :group_by, :display_sums, :filters]
   end
 
   def get_columns_for_json(columns)

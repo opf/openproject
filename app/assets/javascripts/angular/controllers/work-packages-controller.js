@@ -1,35 +1,31 @@
 angular.module('openproject.workPackages.controllers')
 
-.controller('WorkPackagesController', ['$scope', 'WorkPackagesTableHelper', 'Query', 'Sortation', 'WorkPackageService', 'AVAILABLE_COLUMNS', 'INITIALLY_SELECT_COLUMNS', function($scope, WorkPackagesTableHelper, Query, Sortation, WorkPackageService, AVAILABLE_COLUMNS, INITIALLY_SELECT_COLUMNS) {
+.controller('WorkPackagesController', ['$scope', 'WorkPackagesTableHelper', 'Query', 'Sortation', 'WorkPackageService', 'AVAILABLE_COLUMNS', 'INITIALLY_SELECT_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE', 'AVAILABLE_WORK_PACKAGE_FILTERS','DEFAULT_SORT_CRITERIA', 'DEFAULT_QUERY',
+            function($scope, WorkPackagesTableHelper, Query, Sortation, WorkPackageService, AVAILABLE_COLUMNS, INITIALLY_SELECT_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE, AVAILABLE_WORK_PACKAGE_FILTERS, DEFAULT_SORT_CRITERIA, DEFAULT_QUERY) {
 
   function initialSetup() {
     $scope.projectIdentifier = gon.project_identifier;
-    $scope.operatorsAndLabelsByFilterType = gon.operators_and_labels_by_filter_type;
+    $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.loading = false;
     $scope.disableFilters = false;
   }
 
   function setupQuery() {
-    $scope.query = new Query(gon.query);
+    // TODO: put the available filters onto the query?
+    $scope.query = new Query(DEFAULT_QUERY, { available_work_package_filters: AVAILABLE_WORK_PACKAGE_FILTERS});
 
-    sortation = new Sortation(gon.sort_criteria);
+    sortation = new Sortation(DEFAULT_SORT_CRITERIA);
     $scope.query.setSortation(sortation);
+    $scope.currentSortation = DEFAULT_SORT_CRITERIA;
+    // $scope.available_work_package_filters = AVAILABLE_WORK_PACKAGE_FILTERS;
 
     // Columns
     $scope.columns = INITIALLY_SELECT_COLUMNS;
     $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(AVAILABLE_COLUMNS, $scope.columns);
 
-    $scope.currentSortation = gon.sort_criteria;
-
     angular.extend($scope.query, {
       selectedColumns: $scope.columns
     });
-  };
-
-  $scope.submitQueryForm = function(){
-    jQuery("#selected_columns option").attr('selected',true);
-    jQuery('#query_form').submit();
-    return false;
   };
 
   function setupPagination(json) {
@@ -39,6 +35,12 @@ angular.module('openproject.workPackages.controllers')
     };
     $scope.perPageOptions = json.per_page_options;
   }
+
+  $scope.submitQueryForm = function(){
+    jQuery("#selected_columns option").attr('selected',true);
+    jQuery('#query_form').submit();
+    return false;
+  };
 
   $scope.setupWorkPackagesTable = function(json) {
     $scope.workPackageCountByGroup = json.work_package_count_by_group;
@@ -50,22 +52,15 @@ angular.module('openproject.workPackages.controllers')
     setupPagination(json);
   };
 
-  // Initially setup scope via gon
-  initialSetup();
-  setupQuery();
-  // Initialize work package table
-  $scope.setupWorkPackagesTable(gon);
-
   $scope.updateResults = function() {
     $scope.withLoading(WorkPackageService.getWorkPackages, [$scope.projectIdentifier, $scope.query, $scope.paginationOptions])
       .then($scope.setupWorkPackagesTable);
   };
 
-
   function serviceErrorHandler(data) {
     // TODO RS: This is where we'd want to put an error message on the dom
     $scope.loading = false;
-  }
+  };
 
   /**
    * @name withLoading
@@ -86,9 +81,20 @@ angular.module('openproject.workPackages.controllers')
 
   function startedLoading() {
     $scope.loading = true;
-  }
+  };
 
   function finishedLoading() {
     $scope.loading = false;
-  }
+  };
+
+  function initialLoad(){
+    $scope.updateResults();
+  };
+
+  initialSetup();
+  setupQuery();
+  // initialLoad();
+
+  // Initialize work package table
+  // $scope.setupWorkPackagesTable(gon);
 }]);

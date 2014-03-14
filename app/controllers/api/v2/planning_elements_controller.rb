@@ -258,6 +258,48 @@ module Api
         work_packages
       end
 
+      def current_work_packages_alt(projects)
+        # work_packages = WorkPackage.for_projects(projects)
+        #                            .changed_since(@since)
+        #                            .includes(:status, :project, :type, :custom_values)
+        project = timeline_to_project(params[:timeline])
+        query = Query.new(:project => project)
+
+        if params[:f]
+          #we need a project to make project-specific custom fields work
+          # project = timeline_to_project(params[:timeline])
+          # query = Query.new(:project => project)
+
+          query.add_filters(params[:f], params[:op], params[:v])
+
+          #if we do not remove the project, the filter will only add wps from this project
+          query.project = nil
+
+          # work_packages = work_packages.with_query query
+        end
+
+        results = query.results(:include => [:assigned_to, :type, :priority, :category, :fixed_version])
+        work_packages = results.work_packages.all
+
+        work_packages
+      end
+
+      # TODO: This needs to assign the meta data:
+      #       project_identifier
+      #       query
+      #       work_package_count_by_group
+      #       sort_criteria
+      #       sums
+      #       group_sums
+      #       page
+      #       per_page
+      #       per_page_options
+      #       total_entries
+      # Most of which can be lifted from work_packages_controller hopefully as long as the query is set up in the same way
+      def current_work_packages_meta(query, results, work_packages)
+        @planning_elements_meta = {}
+      end
+
       def historical_work_packages(projects)
         at_time = Time.at(params[:at_time].to_i).to_datetime
         filter = params[:f] ? {f: params[:f], op: params[:op], v: params[:v]}: {}
