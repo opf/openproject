@@ -313,7 +313,8 @@ module ApplicationHelper
   end
 
   def render_flash_message(type, message, html_options = {})
-    html_options = { :class => "flash #{type} icon icon-#{type}", role: "alert" }.merge(html_options)
+    css_classes = ["flash #{type} icon icon-#{type}", html_options.delete(:class)].join(' ')
+    html_options = { :class => css_classes, role: "alert" }.merge(html_options)
     if User.current.impaired?
       content_tag('div', content_tag('a', join_flash_messages(message), :href => 'javascript:;'), html_options)
     else
