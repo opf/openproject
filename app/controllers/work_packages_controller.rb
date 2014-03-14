@@ -654,7 +654,8 @@ class WorkPackagesController < ApplicationController
       responsible: { only: :id, methods: :name },
       status: { only: :name },
       type: { only: :name },
-      parent: { only: :subject }
+      parent: { only: :subject },
+      fixed_version: { only: :name }
     }.slice(*selected_columns.map(&:name))
 
     selected_associations.merge!(custom_values: { only: [:custom_field_id, :value] }) if selected_columns.any? {|c| c.is_a? QueryCustomFieldColumn}
