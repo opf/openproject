@@ -6,7 +6,14 @@ angular.module('openproject.models')
     angular.extend(this, data, options);
     this.group_by = this.group_by || '';
 
-    if (this.filters === undefined) this.filters = [];
+    if (this.filters === undefined){
+      this.filters = [];
+    } else {
+      this.filters = this.filters.map(function(filter){
+        var name = Object.keys(filter)[0];
+        return new Filter(angular.extend(filter[name], { name: name }));
+      });
+    }
   };
 
   Query.prototype = {
