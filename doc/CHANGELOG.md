@@ -2,7 +2,7 @@
 
 ## 4.0.1.pre1
 
-* `#5191` Public Release Reporting
+* `#5191` Public Release Reporting Plugin
 * `#4024` Fix: Subpages have no unique page titles
 
 ## 4.0.0
