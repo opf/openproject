@@ -160,9 +160,9 @@ describe VersionsController do
       it "returns updated select box with new version" do
         version = Version.find_by_name('test_add_version_from_issue_form')
 
-        pattern = "Element.replace\(\"issue_fixed_version_id\","
+        pattern = "Element.replace\(\"work_package_fixed_version_id\","
         # select tag with valid html
-        pattern << " \"<select id=\\\"issue_fixed_version_id\\\" name=\\\"issue[fixed_version_id]\\\">"
+        pattern << " \"<select id=\\\"work_package_fixed_version_id\\\" name=\\\"work_package[fixed_version_id]\\\">"
         # empty option tag with valid html
         pattern << "<option></option>"
         # selected option tag for the new version with valid html
