@@ -108,8 +108,11 @@
         <a ng-href="/work_packages/{{row.object.id}}">{{row.object.id}}</a>
       </td>
 
-      <td ng-repeat="column in columns" class="{{column.name}}" lang-attribute>
-        <span work-package-column work-package="row.object" column="column"/>
+      <td ng-repeat="column in columns" class="{{column.name}}">
+        <span work-package-column
+              work-package="row.object"
+              column="column"
+              display-type="column.meta_data.data_type"/>
       </td>
     </tr>
 

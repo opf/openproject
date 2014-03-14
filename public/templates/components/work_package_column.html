@@ -2,5 +2,9 @@
   <span ng-switch-when="text">
     {{ displayText }}
   </span>
+  <progress-bar ng-switch-when="integer"
+                progress="displayText"
+                width="80px">
+  </progress-bar>
   <a ng-switch-when="link" href="{{ url }}">{{ displayText }}</a>
 </span>

@@ -7,7 +7,8 @@ angular.module('openproject.uiComponents')
     replace: true,
     scope: {
       workPackage: '=',
-      column: '='
+      column: '=',
+      displayType: '='
     },
     templateUrl: '/templates/components/work_package_column.html',
     link: function(scope, element, attributes) {
@@ -19,7 +20,7 @@ angular.module('openproject.uiComponents')
 
       function updateColumnData() {
         scope.displayText = WorkPackagesHelper.getFormattedColumnValue(scope.workPackage, scope.column) || defaultText;
-        scope.displayType = defaultType;
+        scope.displayType = scope.displayType || defaultType;
 
         // Example of how we can look to the provided meta data to format the column
         // This relies on the meta being sent from the server
