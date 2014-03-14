@@ -23,6 +23,9 @@ angular.module('openproject.uiComponents')
     },
     workPackagesSumsPath: function(projectIdentifier) {
       return PathHelper.projectPath(projectIdentifier) + '/column_sums';
+    },
+    versionPath: function(versionId) {
+      return '/versions/' + versionId;
     }
   };
 

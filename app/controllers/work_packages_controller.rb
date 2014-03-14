@@ -603,7 +603,7 @@ class WorkPackagesController < ApplicationController
     # Needs to be things like user link,project link, datetime
     {
       data_type: column_data_type(column),
-      link: !!(link_meta()[column.name]) ? link_meta()[column.name] : { display: false }
+      link: !!(link_meta[column.name]) ? link_meta()[column.name] : { display: false }
     }
   end
 
@@ -617,7 +617,8 @@ class WorkPackagesController < ApplicationController
       assigned_to: { display: true, model_type: "user" },
       responsible: { display: true, model_type: "user" },
       author: { display: true, model_type: "user" },
-      project: { display: true, model_type: "project" }
+      project: { display: true, model_type: "project" },
+      fixed_version: { display: true, model_type: "version" }
     }
   end
 
@@ -655,7 +656,7 @@ class WorkPackagesController < ApplicationController
       status: { only: :name },
       type: { only: :name },
       parent: { only: :subject },
-      fixed_version: { only: :name }
+      fixed_version: { only: [:name, :id] }
     }.slice(*selected_columns.map(&:name))
 
     selected_associations.merge!(custom_values: { only: [:custom_field_id, :value] }) if selected_columns.any? {|c| c.is_a? QueryCustomFieldColumn}

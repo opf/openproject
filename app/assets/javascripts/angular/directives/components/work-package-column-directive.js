@@ -31,20 +31,21 @@ angular.module('openproject.uiComponents')
       }
 
       function getLinkFor(link_meta){
-        switch (link_meta.model_type){
-          case 'work_package':
-            url = PathHelper.workPackagePath(scope.workPackage.id);
-            break;
-          case 'user':
-            if (scope.workPackage[scope.column.name]) url = PathHelper.userPath(scope.workPackage[scope.column.name].id);
-            break;
-          case 'project':
-            if (scope.workPackage.project) url = PathHelper.projectPath(scope.workPackage.project.identifier);
-            break;
-          default:
-            url = "";
-        };
-        return url;
+        if (link_meta.model_type === 'work_package') {
+          return PathHelper.workPackagePath(scope.workPackage.id);
+        } else if (scope.workPackage[scope.column.name]) {
+          switch (link_meta.model_type) {
+            case 'user':
+              return PathHelper.userPath(scope.workPackage[scope.column.name].id);
+            case 'version':
+              return PathHelper.versionPath(scope.workPackage[scope.column.name].id);
+            case 'project':
+              return PathHelper.projectPath(scope.workPackage.project.identifier);
+            default:
+              return '';
+          }
+
+        }
       }
 
     }
