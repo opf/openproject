@@ -31,6 +31,9 @@ angular.module('openproject.helpers')
     },
     versionPath: function(versionId) {
       return '/versions/' + versionId;
+    },
+    statusesPath: function() {
+      return '/statuses'
     }
   };
 
