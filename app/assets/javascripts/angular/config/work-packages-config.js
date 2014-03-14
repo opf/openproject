@@ -69,3 +69,9 @@ angular.module('openproject.workPackages.config')
   group_by: null,
   id: null
 })
+
+.constant('PAGINATION_OPTIONS', {
+  page: 1,
+  per_page: 10,
+  per_page_options: [10, 20, 50, 100, 500, 1000]
+})

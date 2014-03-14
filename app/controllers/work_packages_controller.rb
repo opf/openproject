@@ -569,10 +569,6 @@ class WorkPackagesController < ApplicationController
   def get_query_and_results_as_json(results, work_packages)
     get_results_as_json(results, work_packages).merge(
       project_identifier:           @project.to_param,
-      # query:                        get_query_as_json(@query),
-      # columns:                      get_columns_for_json(@query.columns),
-      # available_columns:            get_columns_for_json(@query.available_columns),
-      # sort_criteria:                @sort_criteria.to_param
     )
   end
 

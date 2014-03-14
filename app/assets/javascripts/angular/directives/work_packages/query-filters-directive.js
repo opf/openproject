@@ -18,6 +18,7 @@ angular.module('openproject.workPackages.directives')
             }
           });
 
+          // TODO RS: Moved this into the Query constructor so this isn't dry. Still necessary?
           scope.query.filters = scope.query.filters.map(function(filter){
             var name = Object.keys(filter)[0];
             return new Filter(angular.extend(filter[name], { name: name }));

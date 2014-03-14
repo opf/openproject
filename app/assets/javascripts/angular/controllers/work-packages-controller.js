@@ -1,7 +1,7 @@
 angular.module('openproject.workPackages.controllers')
 
-.controller('WorkPackagesController', ['$scope', 'WorkPackagesTableHelper', 'Query', 'Sortation', 'WorkPackageService', 'AVAILABLE_COLUMNS', 'INITIALLY_SELECT_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE', 'AVAILABLE_WORK_PACKAGE_FILTERS','DEFAULT_SORT_CRITERIA', 'DEFAULT_QUERY',
-            function($scope, WorkPackagesTableHelper, Query, Sortation, WorkPackageService, AVAILABLE_COLUMNS, INITIALLY_SELECT_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE, AVAILABLE_WORK_PACKAGE_FILTERS, DEFAULT_SORT_CRITERIA, DEFAULT_QUERY) {
+.controller('WorkPackagesController', ['$scope', 'WorkPackagesTableHelper', 'Query', 'Sortation', 'WorkPackageService', 'AVAILABLE_COLUMNS', 'INITIALLY_SELECT_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE', 'AVAILABLE_WORK_PACKAGE_FILTERS','DEFAULT_SORT_CRITERIA', 'DEFAULT_QUERY', 'PAGINATION_OPTIONS',
+            function($scope, WorkPackagesTableHelper, Query, Sortation, WorkPackageService, AVAILABLE_COLUMNS, INITIALLY_SELECT_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE, AVAILABLE_WORK_PACKAGE_FILTERS, DEFAULT_SORT_CRITERIA, DEFAULT_QUERY, PAGINATION_OPTIONS) {
 
   function initialSetup() {
     $scope.projectIdentifier = gon.project_identifier;
@@ -88,12 +88,13 @@ angular.module('openproject.workPackages.controllers')
   };
 
   function initialLoad(){
+    setupPagination(PAGINATION_OPTIONS);
     $scope.updateResults();
   };
 
   initialSetup();
   setupQuery();
-  // initialLoad();
+  initialLoad();
 
   // Initialize work package table
   // $scope.setupWorkPackagesTable(gon);
