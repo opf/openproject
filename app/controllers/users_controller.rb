@@ -247,13 +247,14 @@ class UsersController < ApplicationController
         format.js {
           render(:update) {|page|
             page.replace_html "tab-content-memberships", :partial => 'users/memberships'
+            page.insert_html :top, "tab-content-memberships", :partial => "members/common_notice", :locals => {:message => l(:notice_successful_update)}
             page.visual_effect(:highlight, "member-#{@membership.id}")
           }
         }
       else
         format.js {
           render(:update) {|page|
-            page.alert(l(:notice_failed_to_save_members, :errors => @membership.errors.full_messages.join(', ')))
+            page.insert_html :top, "tab-content-memberships", :partial => "members/member_errors", :locals => {:member => @membership}
           }
         }
       end
@@ -295,7 +296,12 @@ class UsersController < ApplicationController
     end
     respond_to do |format|
       format.html { redirect_to :controller => '/users', :action => 'edit', :id => @user, :tab => 'memberships' }
-      format.js { render(:update) {|page| page.replace_html "tab-content-memberships", :partial => 'users/memberships'} }
+      format.js {
+        render(:update) { |page|
+          page.replace_html "tab-content-memberships", :partial => 'users/memberships'
+          page.insert_html :top, "tab-content-memberships", :partial => "members/common_notice", :locals => {:message => l(:notice_successful_delete)}
+        }
+      }
     end
   end
 
