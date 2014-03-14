@@ -1,6 +1,6 @@
 angular.module('openproject.workPackages.controllers')
 
-.controller('WorkPackagesController', ['$scope', 'WorkPackagesTableHelper', 'Query', 'Sortation', 'WorkPackageService', function($scope, WorkPackagesTableHelper, Query, Sortation, WorkPackageService) {
+.controller('WorkPackagesController', ['$scope', 'WorkPackagesTableHelper', 'Query', 'Sortation', 'WorkPackageService', 'AVAILABLE_COLUMNS', 'INITIALLY_SELECT_COLUMNS', function($scope, WorkPackagesTableHelper, Query, Sortation, WorkPackageService, AVAILABLE_COLUMNS, INITIALLY_SELECT_COLUMNS) {
 
   function initialSetup() {
     $scope.projectIdentifier = gon.project_identifier;
@@ -16,8 +16,8 @@ angular.module('openproject.workPackages.controllers')
     $scope.query.setSortation(sortation);
 
     // Columns
-    $scope.columns = gon.columns;
-    $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(gon.available_columns, $scope.columns);
+    $scope.columns = INITIALLY_SELECT_COLUMNS;
+    $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(AVAILABLE_COLUMNS, $scope.columns);
 
     $scope.currentSortation = gon.sort_criteria;
 
@@ -52,7 +52,7 @@ angular.module('openproject.workPackages.controllers')
 
   // Initially setup scope via gon
   initialSetup();
-  setupQuery(gon);
+  setupQuery();
   // Initialize work package table
   $scope.setupWorkPackagesTable(gon);
 
