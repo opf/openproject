@@ -1437,8 +1437,8 @@ en:
     edit_color: "Edit color"
     edit_project_type: "Edit project type"
     edit_thing: "Edit"
-    edit_timeline: "Edit timeline report"
-    delete_timeline: "Delete timeline report"
+    edit_timeline: "Edit timeline report %{timeline}"
+    delete_timeline: "Delete timeline report %{timeline}"
     empty: "(empty)"
     enable_type_in_project: 'Enable type "%{type}"'
     end: "End"
