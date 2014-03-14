@@ -1,8 +1,10 @@
-module OpenProject::Reporting::QueryHelper
-  def minimal_query
-    before do
-      @query = CostQuery.new
-      @query.send(:minimal_chain!)
+module OpenProject::Reporting
+  module QueryHelper
+    def minimal_query
+      before do
+        @query = CostQuery.new
+        @query.send(:minimal_chain!)
+      end
     end
   end
 end

@@ -1,6 +1,8 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe CostReportsController do
+  include OpenProject::Reporting::PluginSpecHelper
+
   let(:user) { FactoryGirl.build(:user) }
   let(:project) { FactoryGirl.build(:valid_project) }
 

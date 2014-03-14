@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.0.1.pre1
+
+* `#5191` Public Release Reporting
 * `#4024` Fix: Subpages have no unique page titles
 
 ## 4.0.0
