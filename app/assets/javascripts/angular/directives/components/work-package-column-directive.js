@@ -18,7 +18,7 @@ angular.module('openproject.uiComponents')
       scope.$watch('workPackage', updateColumnData, true);
 
       function updateColumnData() {
-        scope.displayText = WorkPackagesHelper.getColumnValue(scope.workPackage, scope.column) || defaultText;
+        scope.displayText = WorkPackagesHelper.getFormattedColumnValue(scope.workPackage, scope.column) || defaultText;
         scope.displayType = defaultType;
 
         // Example of how we can look to the provided meta data to format the column
