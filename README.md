@@ -15,7 +15,7 @@ Installation
 
 To use the ReportingEngine, add the following line to your `Gemfile`:
 
-`gem "reporting_engine", git: "https://github.com/opf/reporting_engine.git", :branch => "dev"`
+`gem "reporting_engine", git: "https://github.com/finnlabs/reporting_engine.git", :branch => "dev"`
 
 If you are running OpenProject, add the above line to the `Gemfile.plugins` in your OpenProject installation folder instead.
 
@@ -29,7 +29,7 @@ Deinstallation
 
 Remove the line
 
-`gem "reporting_engine", git: "https://github.com/opf/reporting_engine.git", :branch => "dev"`
+`gem "reporting_engine", git: "https://github.com/finnlabs/reporting_engine.git", :branch => "dev"`
 
 from your `Gemfile` or the `Gemfile.plugins` in your OpenProject installation and run:
 
