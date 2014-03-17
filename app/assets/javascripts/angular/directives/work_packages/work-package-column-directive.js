@@ -10,7 +10,7 @@ angular.module('openproject.workPackages.directives')
       column: '=',
       displayType: '='
     },
-    templateUrl: '/templates/components/work_package_column.html',
+    templateUrl: '/templates/work_packages/work_package_column.html',
     link: function(scope, element, attributes) {
       var defaultText = '';
       var defaultType = 'text';
