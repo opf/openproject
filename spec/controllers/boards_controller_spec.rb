@@ -175,4 +175,63 @@ describe BoardsController do
     end
 
   end
+
+  describe :sticky do
+
+    let!(:message1) { FactoryGirl.create(:message, board: board) }
+    let!(:message2) { FactoryGirl.create(:message, board: board) }
+    let!(:sticked_message1) { FactoryGirl.create(:message, board_id: board.id, subject: "How to",
+                                                 content: "How to install this cool app", sticky: "1") }
+
+    let!(:sticked_message2) { FactoryGirl.create(:message, board_id: board.id, subject: "FAQ",
+                                                 content: "Frequestly asked question", sticky: "1", sticked_on: Time.now - 1.minute) }
+
+    describe "all sticky messages" do
+      before do
+        @controller.should_receive(:authorize)
+        get :show, project_id: project.id, id: board.id
+      end
+
+      it { expect(response).to render_template 'show' }
+      it "should be displayed on top" do
+        expect(assigns[:topics][0].id).to eq(sticked_message2.id)
+      end
+    end
+
+    describe "edit a sticky message" do
+      before(:each) do
+        sticked_message1.sticky = 0
+        sticked_message1.save!
+      end
+
+      describe "when sticky is unset from message" do
+        before do
+          @controller.should_receive(:authorize)
+          get :show, project_id: project.id, id: board.id
+        end
+
+        it "it should not be displayed as sticky message" do
+
+          expect(sticked_message1.sticked_on).to be_nil
+          expect(assigns[:topics][0].id).to_not eq(sticked_message1.id)
+        end
+      end
+
+      describe "when sticky is set back to message" do
+        before do
+          sticked_message1.sticky = 1
+          sticked_message1.save!
+
+          @controller.should_receive(:authorize)
+          get :show, project_id: project.id, id: board.id
+        end
+
+        it "it should not be displayed on first position" do
+          expect(assigns[:topics][0].id).to eq(sticked_message2.id)
+        end
+      end
+
+    end
+
+  end
 end
