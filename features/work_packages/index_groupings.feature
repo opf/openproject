@@ -32,32 +32,41 @@ Feature: Disabled done ratio on the work package index
     Given there is 1 project with the following:
       | identifier | project1 |
       | name       | project1 |
+
+    And I am working in project "project1"
+
     And the project "project1" has the following types:
-      | name | position |
-      | Bug  |     1    |
-    And the project "project1" has 4 issues with the following:
-      | subject    | Issuesubject |
-    And I am already admin
+      | name    | position |
+      | Bug     |     1    |
+      | Feature |     2    |
+
+    And there is a role "member"
+
+    And the role "member" may have the following rights:
+      | view_work_packages |
+
+    And there is 1 user with the following:
+      | login | bob |
+    And there is 1 user with the following:
+      | login | jimmy |
+
+    And the user "bob" is a "member" in the project "project1"
+    And the user "jimmy" is a "member" in the project "project1"
+
+    And there are the following issues in project "project1":
+      | subject | type    | author | assignee |
+      | issue1  | Bug     | bob    | jimmy    |
+      | issue2  | Feature | bob    | jimmy    |
+      | issue3  | Bug     | bob    | jimmy    |
+      | issue4  | Feature | jimmy  | bob      |
+      | issue5  | Bug     | jimmy  | bob      |
+      | issue6  | Feature | jimmy  | bob      |
+
+    And I am already logged in as "bob"
 
   @javascript
-  Scenario: Column should be available when done ratio is enabled
+  Scenario: Groupings should be displayed when a grouping is selected
     When I go to the work packages index page of the project "project1"
     And I click "Options"
-    Then I should see "% done" within "#available_columns"
-
-  @javascript
-  Scenario: Column should not be available when done ratio is disabled
-    Given the "work_package_done_ratio" setting is set to disabled
-    When I go to the work packages index page of the project "project1"
-    And I click "Options"
-    Then I should not see "% done" within "#available_columns"
-
-  @javascript
-  Scenario: Column is selected and done ratio is disabled afterwards
-    When I go to the work packages index page of the project "project1"
-    And I select to see columns
-      | % done |
-    Then I should see "% done" within ".list"
-    Given the "work_package_done_ratio" setting is set to disabled
-    When I go to the work packages index page of the project "project1"
-    Then I should not see "% done" within ".list"
+    And I select "Type" from "group_by"
+    Then I should see "(3)" within "#group-header-Bug .count"

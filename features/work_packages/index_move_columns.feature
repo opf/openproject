@@ -26,46 +26,54 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Paginated work packages index list
+Feature: Disabled done ratio on the work package index
 
   Background:
-    Given we paginate after 3 items
-    And there is 1 project with the following:
+    Given there is 1 project with the following:
       | identifier | project1 |
       | name       | project1 |
+
+    And I am working in project "project1"
+
     And the project "project1" has the following types:
-      | name | position |
-      | Bug  |     1    |
-    And there is 1 user with the following:
-      | login      | bob      |
+      | name    | position |
+      | Bug     |     1    |
+      | Feature |     2    |
+
     And there is a role "member"
+
     And the role "member" may have the following rights:
       | view_work_packages |
+
+    And there is 1 user with the following:
+      | login | bob |
+    And there is 1 user with the following:
+      | login | jimmy |
+
     And the user "bob" is a "member" in the project "project1"
-    And the user "bob" has 4 issues with the following:
-      | subject    | Issuesubject |
+    And the user "jimmy" is a "member" in the project "project1"
+
+    And there are the following issues in project "project1":
+      | subject | type    | author | assignee |
+      | issue1  | Bug     | bob    | jimmy    |
+      | issue2  | Feature | bob    | jimmy    |
+      | issue3  | Bug     | bob    | jimmy    |
+      | issue4  | Feature | jimmy  | bob      |
+      | issue5  | Bug     | jimmy  | bob      |
+      | issue6  | Feature | jimmy  | bob      |
+
     And I am already logged in as "bob"
 
   @javascript
-  Scenario: Pagination within a project
+  Scenario: Author column should be displayed when Author is moved to selected columns
     When I go to the work packages index page of the project "project1"
-    Then I should see 3 issues
-    When I follow "2" within ".pagination"
-    Then I should be on the work packages index page of the project "project1"
-    And I should see 1 issue
+    And I click "Options"
+    And I select to see column "Author"
+    Then I should see "Author" within ".list"
 
   @javascript
-  Scenario: Pagination outside a project
-    When I go to the global index page of work packages
-    Then I should see 3 issues
-    When I follow "2" within ".pagination"
-    Then I should be on the global index page of work packages
-    And I should see 1 issue
-
-  @javascript
-  Scenario: Changing issues per page
+  Scenario: Subject column should not be displayed when Subject is moved out of selected columns
     When I go to the work packages index page of the project "project1"
-    Then I follow "2" within ".pagination"
-    Then I should see 1 issue
-    Then I follow "100" within ".per_page_options"
-    Then I should see 4 issues
+    And I click "Options"
+    And I select to not see column "Subject"
+    Then I should not see "Subject" within ".list"
