@@ -8,20 +8,21 @@ module OpenProject::Documents
              :author_url => "http://www.finn.de",
              :requires_openproject => ">= 3.0.0pre49" do
 
-        menu :project_menu, :documents,
-                            { :controller => '/documents', :action => 'index' },
-                            :param => :project_id,
-                            :caption => :label_document_plural,
-                            :html => { :class => 'icon2 icon-book1' }
+      menu :project_menu, :documents,
+                          { :controller => '/documents', :action => 'index' },
+                          :param => :project_id,
+                          :caption => :label_document_plural,
+                          :html => { :class => 'icon2 icon-book1' }
 
-        permission :manage_documents, {:documents => [:new, :create, :edit, :update, :destroy, :add_attachment]}, :require => :loggedin
-        permission :view_documents, :documents => [:index, :show, :download]
+      permission :manage_documents, {:documents => [:new, :create, :edit, :update, :destroy, :add_attachment]}, :require => :loggedin
+      permission :view_documents, :documents => [:index, :show, :download]
 
-        Redmine::Notifiable.all << Redmine::Notifiable.new('document_added')
+      Redmine::Notifiable.all << Redmine::Notifiable.new('document_added')
 
-        Redmine::Activity.map do |activity|
-          activity.register :documents, class_name: 'Activity::DocumentActivityProvider', default: false
-        end
+      Redmine::Activity.map do |activity|
+        activity.register :documents, class_name: 'Activity::DocumentActivityProvider', default: false
+      end
+
       Redmine::Search.register :documents
     end
 
