@@ -2,6 +2,7 @@ angular.module('openproject.helpers')
 
 .constant('CUSTOM_FIELD_PREFIX', 'cf_')
 .service('CustomFieldHelper', ['CUSTOM_FIELD_PREFIX', 'I18n', function(CUSTOM_FIELD_PREFIX, I18n) {
+
   CustomFieldHelper = {
     isCustomFieldKey: function(key) {
       return key.substr(0, CUSTOM_FIELD_PREFIX.length) === CUSTOM_FIELD_PREFIX;
@@ -23,9 +24,13 @@ angular.module('openproject.helpers')
         case 'bool':
           return CustomFieldHelper.booleanCustomFieldValue(value);
         case 'user':
-          if (users[value])
+          if (users && users[value])
             return users[value].name;
           break;
+        case 'int':
+          return parseInt(value, 10);
+        case 'float':
+          return parseFloat(value);
         default:
           return value;
       }

@@ -1,6 +1,6 @@
 angular.module('openproject.workPackages.helpers')
 
-.factory('WorkPackagesHelper', ['dateFilter', function(dateFilter) {
+.factory('WorkPackagesHelper', ['dateFilter', 'CustomFieldHelper', function(dateFilter, CustomFieldHelper) {
   var WorkPackagesHelper = {
     getRowObjectContent: function(object, option) {
       var content = object[option];
@@ -33,19 +33,8 @@ angular.module('openproject.workPackages.helpers')
         return customValue.custom_field_id === customField.id;
       }).first();
 
-      return WorkPackagesHelper.getCustomValue(customField, customValue);
-    },
-
-    getCustomValue: function(customField, customValue) {
-      if (!customValue) return '';
-
-      switch(customField.field_format) {
-        case 'int':
-          return parseInt(customValue.value, 10);
-        case 'float':
-          return parseFloat(customValue.value);
-        default:
-          return customValue.value;
+      if(customValue) {
+        return CustomFieldHelper.formatCustomFieldValue(customValue.value, customField.field_format);
       }
     },
 
@@ -53,12 +42,11 @@ angular.module('openproject.workPackages.helpers')
       var value;
 
       if (column.custom_field) {
-        value = WorkPackagesHelper.getRowObjectCustomValue(rowObject, column.custom_field);
+        return WorkPackagesHelper.getRowObjectCustomValue(rowObject, column.custom_field);
       } else {
         value = WorkPackagesHelper.getRowObjectContent(rowObject, column.name);
+        return WorkPackagesHelper.formatValue(value, column.meta_data.data_type);
       }
-
-      return WorkPackagesHelper.formatValue(value, column.meta_data.data_type);
     },
 
     formatValue: function(value, dataType) {
