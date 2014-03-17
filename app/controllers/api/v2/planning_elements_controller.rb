@@ -97,7 +97,7 @@ module Api
         @planning_element = WorkPackage.find(params[:id])
         @planning_element.attributes = permitted_params.planning_element({:project => @project}).except :note
 
-        @planning_element.add_journal(User.current, permitted_params.planning_element[:note])
+        @planning_element.add_journal(User.current, permitted_params.planning_element({:project => @project})[:note])
 
         successfully_updated = @planning_element.save
 

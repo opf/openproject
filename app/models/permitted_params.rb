@@ -344,15 +344,17 @@ class PermittedParams < Struct.new(:params, :user)
         :subject,
         Proc.new do |args|
           # avoid costly allowed_to? if the param is not there at all
-          if args[:params]["work_package"].has_key?("watcher_user_ids") &&
-            args[:user].allowed_to?(:add_work_package_watchers, args[:project])
+          if args[:params]["work_package"] &&
+             args[:params]["work_package"].has_key?("watcher_user_ids") &&
+             args[:user].allowed_to?(:add_work_package_watchers, args[:project])
 
             { :watcher_user_ids => [] }
           end
         end,
         Proc.new do |args|
           # avoid costly allowed_to? if the param is not there at all
-          if args[:params]["work_package"].has_key?("time_entry") &&
+          if args[:params]["work_package"] &&
+             args[:params]["work_package"].has_key?("time_entry") &&
              args[:user].allowed_to?(:log_time, args[:project])
 
             { time_entry: [:hours, :activity_id, :comments] }
@@ -380,15 +382,17 @@ class PermittedParams < Struct.new(:params, :user)
         :subject,
         Proc.new do |args|
           # avoid costly allowed_to? if the param is not there at all
-          if args[:params]["planning_element"].has_key?("watcher_user_ids") &&
-            args[:user].allowed_to?(:add_work_package_watchers, args[:project])
+          if args[:params]["planning_element"] &&
+             args[:params]["planning_element"].has_key?("watcher_user_ids") &&
+             args[:user].allowed_to?(:add_work_package_watchers, args[:project])
 
             { :watcher_user_ids => [] }
           end
         end,
         Proc.new do |args|
           # avoid costly allowed_to? if the param is not there at all
-          if args[:params]["planning_element"].has_key?("time_entry") &&
+          if args[:params]["planning_element"] &&
+             args[:params]["planning_element"].has_key?("time_entry") &&
              args[:user].allowed_to?(:log_time, args[:project])
 
             { time_entry: [:hours, :activity_id, :comments] }
