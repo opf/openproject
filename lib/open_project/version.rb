@@ -33,7 +33,7 @@ module OpenProject
   module VERSION #:nodoc:
 
     MAJOR = 3
-    MINOR = 0
+    MINOR = 1
     PATCH = 0
     TINY  = PATCH # Redmine compat
 
@@ -49,7 +49,7 @@ module OpenProject
     #
     #   2.0.0debian-2
     def self.special
-      'pre51'
+      'pre1'
     end
 
     def self.revision
