@@ -1,5 +1,5 @@
 // TODO forward rails routes
-angular.module('openproject.uiComponents')
+angular.module('openproject.helpers')
 
 .service('PathHelper', [function() {
   PathHelper = {

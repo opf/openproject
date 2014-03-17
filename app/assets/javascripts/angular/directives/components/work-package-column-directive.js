@@ -1,5 +1,5 @@
 // TODO move to UI components
-angular.module('openproject.uiComponents')
+angular.module('openproject.workPackages.directives')
 
 .directive('workPackageColumn', ['PathHelper', 'WorkPackagesHelper', function(PathHelper, WorkPackagesHelper){
   return {

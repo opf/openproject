@@ -1,4 +1,4 @@
-angular.module('openproject.uiComponents')
+angular.module('openproject.workPackages.helpers')
 
 .factory('WorkPackagesHelper', ['dateFilter', function(dateFilter) {
   var WorkPackagesHelper = {
