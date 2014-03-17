@@ -38,6 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#4097` Fix accesskeys
 * `#4118` Fix: Add missing labels
 * `#5057` Fix: Whitelisted more params for planning elements controller
+* `#5214` Allow setting watchers and time entries for work packages via API`
 * Allowed sending of mails with only cc: or bcc: fields
 * Allow adding attachments to created work packages via planning elements controller
 * Remove unused rmagick dependency
