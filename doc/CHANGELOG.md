@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#2393` Fix: No warning when leaving site without saving
+* `#2401` Fix: New target version cannot be created from work package view
 * `#3267` Fix: Link in Breadcrumbs links to global work packages
 * `#3395` Fix: After error message values are gone during creation of message
 * `#3531` Fix: Type 'None' cannot be configured via admin settings
