@@ -15,12 +15,14 @@ angular.module('openproject.uiComponents')
       var defaultText = '';
       var defaultType = 'text';
 
+      scope.displayType = scope.displayType || defaultType;
+      if (scope.column.name === 'done_ratio') scope.displayType = 'progress_bar';
+
       // Set text to be displayed
       scope.$watch('workPackage', updateColumnData, true);
 
       function updateColumnData() {
         scope.displayText = WorkPackagesHelper.getFormattedColumnValue(scope.workPackage, scope.column) || defaultText;
-        scope.displayType = scope.displayType || defaultType;
 
         // Example of how we can look to the provided meta data to format the column
         // This relies on the meta being sent from the server
