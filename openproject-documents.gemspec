@@ -13,9 +13,11 @@ Gem::Specification.new do |s|
   s.description = "An OpenProject plugin to allow creation of documents in projects"
   s.license     = "GPLv3"
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + %w(CHANGELOG.md)
+  s.files = Dir["{app,config,db,lib,doc}/**/*", "README.md"]
+  s.test_files = Dir["spec/**/*"]
 
   s.add_dependency "rails", "~> 3.2.9"
+  s.add_dependency "openproject-plugins", "~> 1.0.6"
 
   s.add_development_dependency 'rspec-rails'
   s.add_development_dependency 'cucumber-rails'
