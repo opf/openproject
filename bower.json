@@ -15,6 +15,7 @@
   "devDependencies": {
     "mocha": "~1.14.0",
     "angular-mocks": "~1.2.14",
-    "angular-scenario": "~1.2.14"
+    "angular-scenario": "~1.2.14",
+    "chai": "~1.9.0"
   }
 }
