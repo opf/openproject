@@ -1,4 +1,4 @@
-module OpenProject::LocalAvatars
+module OpenProject::Reporting
   class Engine < ::Rails::Engine
     engine_name :openproject_reporting
 
