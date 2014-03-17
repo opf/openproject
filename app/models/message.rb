@@ -94,7 +94,7 @@ class Message < ActiveRecord::Base
 
   def set_sticked_on_date
     if sticky?
-      self.sticked_on = Time.now
+      self.sticked_on = sticked_on.nil? ? Time.now : sticked_on
     else
       self.sticked_on = nil
     end
