@@ -17,7 +17,7 @@ angular.module('openproject.timelines.directives')
       scope.historicalDateKind = getHistoricalDateKind(scope.rowObject, scope.columnName);
 
       if (CustomFieldHelper.isCustomFieldKey(scope.columnName)) {
-        var customFieldId = CustomFieldHelper.getCustomFieldId(scope.columnName), customFieldName, customFieldFormat;
+        var customFieldId = CustomFieldHelper.getCustomFieldId(scope.columnName);
 
         // watch custom field because they are loaded after the rows are being iterated
         scope.$watch('timeline.custom_fields', function() {
