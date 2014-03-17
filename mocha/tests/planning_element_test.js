@@ -177,7 +177,7 @@ describe('Planning Element', function(){
   describe('historical', function () {
     it('empty should have no historical', function () {
       expect(this.peEmpty.has_historical()).to.be.false;
-      expect(this.peEmpty.historical()).to.deep.equal({});
+      expect(this.peEmpty.historical()).to.be.empty;
     });
 
     it('empty should have no alternate dates', function () {
