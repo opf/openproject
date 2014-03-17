@@ -9,14 +9,14 @@ angular.module('openproject.workPackages.directives')
     compile: function(tElement) {
       return {
         pre: function(scope) {
-          scope.moveColumns = function (columnNames, fromColumns, toColumns) {
+          scope.moveColumns = function (columnNames, fromColumns, toColumns, requires_extension) {
             angular.forEach(columnNames, function(columnName){
               removeColumn(columnName, fromColumns, function(removedColumn){
                 toColumns.push(removedColumn);
               });
             });
 
-            extendRowsWithColumnData(columnNames);
+            if (requires_extension) extendRowsWithColumnData(columnNames);
           };
 
           scope.moveSelectedColumnBy = function(by) {

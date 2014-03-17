@@ -268,7 +268,8 @@ class WorkPackagesController < ApplicationController
   # ------------------- Custom API method -------------------
   # TODO Move to API
   def column_data
-    raise 'API Error' unless params[:ids] && params[:column_names]
+    raise 'API Error: No IDs' unless params[:ids]
+    raise 'API Error: No column names' unless params[:column_names]
 
     column_names = params[:column_names]
     ids = params[:ids].map(&:to_i)
