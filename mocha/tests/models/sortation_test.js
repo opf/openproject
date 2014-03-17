@@ -2,20 +2,20 @@
 
 describe('Sortation', function() {
 
-  var model;
+  var Sortation;
 
   beforeEach(module('openproject.models'));
-  beforeEach(inject(function(Sortation) {
-    model = Sortation;
+  beforeEach(inject(function(_Sortation_) {
+    Sortation = _Sortation_;
   }));
 
   it('should exist', function() {
-    expect(model).to.exist;
+    expect(Sortation).to.exist;
   });
 
   it('should be a constructor function', function() {
-    expect(new model()).to.exist;
-    expect(new model()).to.be.an('object');
+    expect(new Sortation()).to.exist;
+    expect(new Sortation()).to.be.an('object');
   });
 
 });

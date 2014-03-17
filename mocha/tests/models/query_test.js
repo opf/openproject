@@ -2,20 +2,20 @@
 
 describe('Query', function() {
 
-  var model;
+  var Query;
 
   beforeEach(module('openproject.models'));
-  beforeEach(inject(function(Query) {
-    model = Query;
+  beforeEach(inject(function(_Query_) {
+    Query = _Query_;
   }));
 
   it('should exist', function() {
-    expect(model).to.exist;
+    expect(Query).to.exist;
   });
 
   it('should be a constructor function', function() {
-    expect(new model()).to.exist;
-    expect(new model()).to.be.an('object');
+    expect(new Query()).to.exist;
+    expect(new Query()).to.be.an('object');
   });
 
 });

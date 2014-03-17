@@ -2,20 +2,20 @@
 
 describe('Filter', function() {
 
-  var model;
+  var Filter;
 
   beforeEach(module('openproject.models'));
-  beforeEach(inject(function(Filter) {
-    model = Filter;
+  beforeEach(inject(function(_Filter_) {
+    Filter = _Filter_;
   }));
 
   it('should exist', function() {
-    expect(model).to.exist;
+    expect(Filter).to.exist;
   });
 
   it('should be a constructor function', function() {
-    expect(new model()).to.exist;
-    expect(new model()).to.be.an('object');
+    expect(new Filter()).to.exist;
+    expect(new Filter()).to.be.an('object');
   });
 
 });
