@@ -1,7 +1,7 @@
 // TODO move to UI components
 angular.module('openproject.workPackages.directives')
 
-.directive('workPackageColumn', ['PathHelper', 'WorkPackagesHelper', function(PathHelper, WorkPackagesHelper){
+.directive('workPackageColumn', ['PathHelper', 'WorkPackagesHelper', 'UserService', function(PathHelper, WorkPackagesHelper, UserService){
   return {
     restrict: 'EA',
     replace: true,
@@ -12,17 +12,21 @@ angular.module('openproject.workPackages.directives')
     },
     templateUrl: '/templates/work_packages/work_package_column.html',
     link: function(scope, element, attributes) {
-      var defaultText = '';
-      var defaultType = 'text';
+      scope.displayType = scope.displayType || 'text';
 
-      scope.displayType = scope.displayType || defaultType;
-      if (scope.column.name === 'done_ratio') scope.displayType = 'progress_bar';
+      // custom display types
+      if (scope.column.name === 'done_ratio') {
+        scope.displayType = 'progress_bar';
+      }
 
       // Set text to be displayed
-      scope.$watch('workPackage', updateColumnData, true);
+      scope.$watch('workPackage', setColumnData, true);
 
-      function updateColumnData() {
-        scope.displayText = WorkPackagesHelper.getFormattedColumnValue(scope.workPackage, scope.column) || defaultText;
+      function setColumnData() {
+        // retrieve column value from work package
+        scope.displayText = WorkPackagesHelper.getFormattedColumnValue(scope.workPackage, scope.column) || '';
+
+        if (scope.column.meta_data.data_type === 'user') loadUserName();
 
         // Example of how we can look to the provided meta data to format the column
         // This relies on the meta being sent from the server
@@ -30,7 +34,22 @@ angular.module('openproject.workPackages.directives')
           scope.displayType = 'link';
           scope.url = getLinkFor(scope.column.meta_data.link);
         }
+      }
 
+      function loadUserName() {
+        if (scope.user) return;
+
+        var userId = scope.displayText;
+
+        if(userId) {
+          scope.user = UserService.registerUserId(userId);
+
+          scope.$watch('user', function(user) {
+            // triggered when user data is loaded
+            // TODO replace watcher as soon as data is loaded via a promise chain
+            scope.displayText = user.name;
+          }, true);
+        }
       }
 
       function getLinkFor(link_meta){

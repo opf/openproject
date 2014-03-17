@@ -24,8 +24,12 @@ angular.module('openproject.helpers')
         case 'bool':
           return CustomFieldHelper.booleanCustomFieldValue(value);
         case 'user':
-          if (users && users[value])
+          if (users && users[value]) {
             return users[value].name;
+          } else {
+            // return user id
+            return value;
+          }
           break;
         case 'int':
           return parseInt(value, 10);
