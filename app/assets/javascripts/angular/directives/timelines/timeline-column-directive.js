@@ -17,11 +17,9 @@ angular.module('openproject.timelines.directives')
       scope.historicalDateKind = getHistoricalDateKind(scope.rowObject, scope.columnName);
 
       if (CustomFieldHelper.isCustomFieldKey(scope.columnName)) {
-        var customFieldId = CustomFieldHelper.getCustomFieldId(scope.columnName);
-
         // watch custom field because they are loaded after the rows are being iterated
         scope.$watch('timeline.custom_fields', function() {
-          scope.columnData = getCustomFieldColumnData(scope.rowObject, scope.columnName, scope.customFields, customFieldId, scope.timeline.users);
+          scope.columnData = getCustomFieldColumnData(scope.rowObject, scope.columnName, scope.customFields, scope.timeline.users);
         });
       } else {
         scope.columnData = getColumnData();
@@ -59,11 +57,13 @@ angular.module('openproject.timelines.directives')
         }
       }
 
-      function getCustomFieldColumnData(object, value, customFields, customFieldId, users) {
-        if (customFields && customFields[customFieldId]) {
-          var customField = customFields[customFieldId];
+      function getCustomFieldColumnData(object, customFieldName, customFields, users) {
+        if(!customFields) return; // custom_fields provides necessary meta information about the custom field column
 
-          return CustomFieldHelper.formatCustomFieldValue(object[value], customField.field_format, users);
+        var customField = customFields[CustomFieldHelper.getCustomFieldId(customFieldName)];
+
+        if (customField) {
+          return CustomFieldHelper.formatCustomFieldValue(object[customFieldName], customField.field_format, users);
         }
       }
     }
