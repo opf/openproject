@@ -50,10 +50,10 @@ class MessagesController < ApplicationController
       page = 1 + offset / REPLIES_PER_PAGE
     end
 
-    @replies =  @topic.children.includes(:author, :attachments, {:board => :project})
-                               .order("#{Message.table_name}.created_on ASC")
-                               .page(page)
-                               .per_page(per_page_param)
+    @replies = @topic.children.includes(:author, :attachments, {:board => :project})
+                              .order("#{Message.table_name}.created_on ASC")
+                              .page(page)
+                              .per_page(per_page_param)
 
     @reply = Message.new(:subject => "RE: #{@message.subject}")
     render :action => "show", :layout => !request.xhr?
@@ -75,10 +75,6 @@ class MessagesController < ApplicationController
     end
 
     @message.safe_attributes = params[:message]
-
-    if params[:message]['sticky'] == "1"
-      @message.update_attribute(:sticked_on,Time.now)
-    end
 
     @message.attach_files(params[:attachments])
 
