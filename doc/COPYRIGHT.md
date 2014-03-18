@@ -1,5 +1,7 @@
 OpenProject Documents Plugin
 
+This plugin adds features to connect and categorize documents with your project.
+
 Former OpenProject Core functionality extracted into a plugin.
 
 Copyright (C) 2009-2014 the OpenProject Foundation (OPF)
