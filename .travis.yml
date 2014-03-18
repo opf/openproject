@@ -45,6 +45,8 @@ script: "bundle exec rake $TEST_SUITE"
 before_install:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
+install:
+  - "sudo npm -g install bower"
 before_script:
   - "RAILS_ENV=production bundle exec rake ci:travis:prepare"
 notifications:
