@@ -27,6 +27,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+//
+
 // TODO check if this is still needed
 
 var WorkPackage = WorkPackage || {};
@@ -48,11 +50,13 @@ var WorkPackage = WorkPackage || {};
                  }, 200);
                },
       loaded: function(update) {
+
                 $('html, body').animate({
                   scrollTop: $(update).offset().top
                 }, 200);
                 enable_textarea_auto_completion($("#work_package_notes"));
                 $("#work_package_notes").focus();
+                new WarnLeavingUnsaved("<%= ::I18n.t(:text_warn_on_leaving_unsaved ) %>");
       }
     });
 
@@ -68,6 +72,7 @@ var WorkPackage = WorkPackage || {};
                  }, 200);
                },
       loaded: function(update, target) {
+
                 var content = $(target.context).parent().siblings('.wikicontent');
                 var text = content.text();
                 var user = content.attr('data-user');
