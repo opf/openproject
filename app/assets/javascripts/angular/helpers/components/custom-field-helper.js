@@ -25,6 +25,7 @@ angular.module('openproject.helpers')
           return CustomFieldHelper.booleanCustomFieldValue(value);
         case 'user':
           if (users && users[value]) {
+            // try to look up users
             return users[value].name;
           } else {
             // return user id
