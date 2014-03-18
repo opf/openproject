@@ -561,8 +561,8 @@ class WorkPackagesController < ApplicationController
     {
       work_package_count_by_group:  results.work_package_count_by_group,
       work_packages:                get_work_packages_as_json(work_packages, @query.columns),
-      sums:                         @query.columns.map { |column| results.total_sum_of(column) },
-      group_sums:                   @query.group_by_column && @query.columns.map { |column| results.grouped_sums(column) },
+      sums:                         results.column_total_sums,
+      group_sums:                   results.column_group_sums,
       page:                         page_param,
       per_page:                     per_page_param,
       per_page_options:             Setting.per_page_options_array,
@@ -582,7 +582,7 @@ class WorkPackagesController < ApplicationController
         sortable: column.sortable,
         groupable: column.groupable,
         custom_field: column.is_a?(QueryCustomFieldColumn) &&
-                      column.custom_field.as_json(only: [:id, :field_format]),
+                      column.custom_field.as_json(only: [:id, :field_format], methods: [:name_locale]),
         meta_data: get_column_meta(column)
       }
     end

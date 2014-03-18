@@ -45,8 +45,7 @@ Feature: Resetting filteres on work packages
     And I am already admin
     And I am on the work package index page of the project called "project1"
 
-    When I click "Add filter"
-    And I select "Type" from "Add filter"
+    When I select "Type" from "Add filter"
     And I select "is" from "operators-type_id"
     And I select "Other" from "values-type_id"
 
