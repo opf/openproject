@@ -286,7 +286,7 @@ class WorkPackagesController < ApplicationController
     project = Project.find_visible(current_user, params[:id])
     work_packages = project.work_packages
     sums = column_names.map do |column_name|
-      fetch_column_data(column_name, work_packages).map{|c| c.nil? ? 0 : c}.compact.sum if column_is_numeric?(column_name)
+      fetch_column_data(column_name, work_packages).map{|c| c.nil? ? 0 : c}.compact.sum if column_should_be_summed_up?(column_name)
     end
 
     render json: sums
@@ -313,6 +313,11 @@ class WorkPackagesController < ApplicationController
         value.is_a?(ActiveRecord::Base) ? value.as_json( only: "id", methods: [:name, :subject] ) : value
       end
     end
+  end
+
+  def column_should_be_summed_up?(column_name)
+    # see ::Query::Sums mix in
+    column_is_numeric?(column_name) && Setting.work_package_list_summable_columns.include?(column_name.to_s)
   end
 
   def column_is_numeric?(column_name)
