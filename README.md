@@ -3,7 +3,7 @@ ReportingEngine
 
 The ReportingEngine is a Rails engine containing base functionality to create customized database reports. A report consists of filters and grouping criteria, each of which selects an attribute to be used for filtering and grouping. It provides base filter and grouping classes to be used for adding new filters. It also adds some base widgets to visually represent the created reports.
 
-This engine is mainly used in the [OpenProject Reporting plugin](https://www.openproject.org/projects/reporting-plugin), allowing to create customized cost reports when the [OpenProject Costs plugin](https://www.openproject.org/project/costs-plugin) is used to track projects costs.
+This engine is mainly used in the [OpenProject Reporting plugin](https://www.openproject.org/projects/plugin-reporting), allowing to create customized cost reports when the [OpenProject Costs plugin](https://www.openproject.org/projects/costs-plugin) is used to track projects costs.
 
 Requirements
 ------------
