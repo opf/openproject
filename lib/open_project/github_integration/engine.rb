@@ -10,7 +10,7 @@ module OpenProject::GithubIntegration
 
     register 'openproject-github_integration',
              :author_url => 'http://finn.de',
-             :requires_openproject => '>= 3.0.0pre43',
+             :requires_openproject => '>= 3.0.0pre50',
              :settings => { 'default' => {"github_access_token" => ""},
                             :partial => 'settings/github_settings'}
 
@@ -21,6 +21,11 @@ module OpenProject::GithubIntegration
     ActiveSupport::Notifications.subscribe('github.ping') do |name, start, finish, id, payload|
       require 'pry'; binding.pry
       puts "PING!"
+    end
+
+    ActiveSupport::Notifications.subscribe('github.pull_request') do |name, start, finish, id, payload|
+      require 'pry'; binding.pry
+      puts "pull request"
     end
   end
 end
