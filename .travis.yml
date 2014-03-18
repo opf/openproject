@@ -32,6 +32,7 @@ rvm:
 branches:
   only:
     - dev
+    - /^feature\/ui-components-test-architecture-.*$/
 env:
   # mysql2
   - "TEST_SUITE=cucumber CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
