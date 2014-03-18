@@ -6,7 +6,7 @@
     "jquery-ujs": "latest",
     "select2": "~3.3.2",
     "jquery.atwho": "latest",
-    "openproject-ui_components": "file:///../openproject-ui_components/.git",
+    "openproject-ui_components": "opf/openproject-ui_components#with-bower",
     "angular": "~1.2.14",
     "angular-animate": "~1.2.14",
     "angular-ui-select2": "latest",
@@ -17,5 +17,9 @@
     "angular-mocks": "~1.2.14",
     "angular-scenario": "~1.2.14",
     "chai": "~1.9.0"
+  },
+  "resolutions": {
+    "select2": "~3.4",
+    "jquery": "1.7.2"
   }
 }
