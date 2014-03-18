@@ -1,3 +1,32 @@
+#-- encoding: UTF-8
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
 module Queries::WorkPackages::AvailableFilterOptions
   def available_work_package_filters
     return @available_work_package_filters if @available_work_package_filters
@@ -43,7 +72,7 @@ module Queries::WorkPackages::AvailableFilterOptions
     types = project.nil? ? Type.find(:all, order: 'position') : project.rolled_up_types
 
     @available_work_package_filters = {
-      status_id:       { type: :list_status, order: 1, values: Status.find(:all, order: 'position').collect{|s| [s.name, s.id.to_s] } },
+      status_id:       { type: :list_status, order: 1, values: Status.all.collect{|s| [s.name, s.id.to_s] } },
       type_id:         { type: :list, order: 2, values: types.collect{|s| [s.name, s.id.to_s] } },
       priority_id:     { type: :list, order: 3, values: IssuePriority.all.collect{|s| [s.name, s.id.to_s] } },
       subject:         { type: :text, order: 8 },

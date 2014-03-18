@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -163,7 +163,9 @@ en:
       work_package:
         done_ratio: "% done"
         fixed_version: "Target version"
-        parent: Parent
+        parent: "Parent"
+        parent_issue: "Parent"
+        parent_work_package: "Parent"
         priority: "Priority"
         progress: "% done"
         responsible: "Responsible"
@@ -222,6 +224,8 @@ en:
               does_not_exist: "does not exist"
             status_id:
               status_transition_invalid: "no valid transition exists from old to new status for the current user roles"
+            priority_id:
+              only_active_priorities_allowed: "needs to be active"
         user:
           attributes:
             password:
@@ -503,6 +507,7 @@ en:
   error_can_not_archive_project: "This project cannot be archived"
   error_can_not_delete_custom_field: "Unable to delete custom field"
   error_can_not_delete_type: "This type contains work packages and cannot be deleted."
+  error_can_not_delete_standard_type: "Standard types cannot be deleted."
   error_can_not_remove_role: "This role is in use and cannot be deleted."
   error_can_not_reopen_work_package_on_closed_version: "A work package assigned to a closed version cannot be reopened"
   error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
@@ -968,6 +973,9 @@ en:
     zero: "no projects"
   label_year: "Year"
   label_yesterday: "yesterday"
+  label_keyboard_function: "Function"
+  label_keyboard_shortcut: "Shortcut"
+  label_keyboard_accesskey: "Accesskey"
   label_keyboard_shortcut_help_heading: "Available Keyboard Shortcuts"
   label_keyboard_shortcut_within_project: "Project related shortcuts:"
   label_keyboard_shortcut_global_shortcuts: "Global shortcuts:"
@@ -1194,7 +1202,7 @@ en:
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_gravatar_default: "Default Gravatar image"
   setting_gravatar_enabled: "Use Gravatar user icons"
-  setting_host_name: "Host name and path"
+  setting_host_name: "Host name"
   setting_work_package_done_ratio: "Calculate the work package done ratio with"
   setting_work_package_done_ratio_field: "Use the work package field"
   setting_work_package_done_ratio_status: "Use the work package status"
@@ -1307,7 +1315,6 @@ en:
   text_reassign_to: "work package:"
   text_regexp_info: "eg. ^[A-Z0-9]+$"
   text_repository_usernames_mapping: "Select or update the OpenProject user mapped to each username found in the repository log.\nUsers with the same OpenProject and repository username or email are automatically mapped."
-  text_rmagick_available: "RMagick available (optional)"
   text_select_mail_notifications: "Select actions for which email notifications should be sent."
   text_select_project_modules: "Select modules to enable for this project:"
   text_status_changed_by_changeset: "Applied in changeset %{value}."
@@ -1441,8 +1448,10 @@ en:
       project_time_filter: "Projects with a work package of a certain type in a certain timeframe"
       project_time_filter_absolute_timeframe: "Absolute timeframe"
       project_time_filter_relative_timeframe: "Relative timeframe"
-      project_time_filter_historical: "from %{startdate} to %{enddate}"
-      project_time_filter_relative: "from %{startspan}%{startspanunit} ago, to %{endspan}%{endspanunit} from now"
+      project_time_filter_historical_from: "from"
+      project_time_filter_historical_to: "to"
+      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
+      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago, %{end_label} %{endspan}%{endspanunit} from now"
       project_filters: "Filter projects"
       project_responsible: "Show projects with responsible"
       project_status: "Show project status"

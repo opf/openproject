@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -160,9 +160,9 @@ describe VersionsController do
       it "returns updated select box with new version" do
         version = Version.find_by_name('test_add_version_from_issue_form')
 
-        pattern = "Element.replace\(\"issue_fixed_version_id\","
+        pattern = "Element.replace\(\"work_package_fixed_version_id\","
         # select tag with valid html
-        pattern << " \"<select id=\\\"issue_fixed_version_id\\\" name=\\\"issue[fixed_version_id]\\\">"
+        pattern << " \"<select id=\\\"work_package_fixed_version_id\\\" name=\\\"work_package[fixed_version_id]\\\">"
         # empty option tag with valid html
         pattern << "<option></option>"
         # selected option tag for the new version with valid html
@@ -222,6 +222,19 @@ describe VersionsController do
       it { response.should redirect_to(settings_project_path(project, :tab => 'versions')) }
       it { Version.find_by_name("New version name").should == version1 }
       it { version1.reload.effective_date.should == Date.today }
+    end
+
+    context "with valid params
+             with a redirect url" do
+      before do
+        User.stub(:current).and_return(user)
+        put :update, :id => version1.id,
+                     :version => { :name => 'New version name',
+                                   :effective_date => Date.today.strftime("%Y-%m-%d")},
+                     :back_url => home_path
+      end
+
+      it { response.should redirect_to(home_path) }
     end
 
     context "with invalid params" do

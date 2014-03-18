@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,6 +44,7 @@
 class Activity::BaseActivityProvider
   include Redmine::Acts::ActivityProvider
   include Redmine::I18n
+  include OpenProject::StaticRouting
 
   #############################################################################
   # Activities may need information not available in the journal table. Thus, #
@@ -132,5 +133,9 @@ class Activity::BaseActivityProvider
 
   def event_name(event, activity)
     I18n.t(event_type(event, activity).underscore, scope: 'events')
+  end
+
+  def url_helpers
+    @url_helpers ||= OpenProject::StaticRouting::StaticUrlHelpers.new
   end
 end

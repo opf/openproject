@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -54,7 +54,7 @@ module Redmine::MenuManager::TopMenuHelper
                       { :controller => '/projects',
                         :action => 'index' },
                       :title => l(:label_project_plural),
-                      :access_key => OpenProject::AccessKeys.key_for(:project_search),
+                      :accesskey => OpenProject::AccessKeys.key_for(:project_search),
                       :class => "icon5 icon-unit"
 
     if User.current.impaired?

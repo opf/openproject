@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -69,10 +69,12 @@ class Redmine::Hook::ManagerTest < ActionView::TestCase
   Redmine::Hook.clear_listeners
 
   def setup
+    super
     @hook_module = Redmine::Hook
   end
 
   def teardown
+    super
     @hook_module.clear_listeners
   end
 

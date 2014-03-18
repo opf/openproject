@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -451,7 +452,16 @@ class WorkPackagesController < ApplicationController
   end
 
   def priorities
-    IssuePriority.all
+    priorities = IssuePriority.active
+    augment_priorities_with_current_work_package_priority priorities
+
+    priorities
+  end
+
+  def augment_priorities_with_current_work_package_priority(priorities)
+    current_priority = work_package.try :priority
+
+    priorities << current_priority if current_priority && !priorities.include?(current_priority)
   end
 
   def allowed_statuses

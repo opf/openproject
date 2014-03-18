@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -58,7 +58,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <span>
   <label style="float:none; margin-left:0px; display: inline;">
     <%= l(:label_applied_status) %>:
-    <%= setting_select :commit_fix_status_id, [["", 0]] + Status.find(:all).collect{|status| [status.name, status.id.to_s]}, :label => false %>
+    <%= setting_select :commit_fix_status_id, [["", 0]] + Status.all.collect{|status| [status.name, status.id.to_s]}, :label => false %>
   </label>
   <label style="float:none; margin-left:0px; display: inline;">
     <%= WorkPackage.human_attribute_name(:done_ratio) %>:
