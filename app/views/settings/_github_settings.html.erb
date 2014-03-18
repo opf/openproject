@@ -1,0 +1,14 @@
+<% content_for :header_tags do %>
+  <script type="text/javascript">
+    jQuery(function($) {
+    });
+  </script>
+<% end %>
+
+<h2>Github Connection Status</h2>
+<p>
+  <% check_granted_permissions %>
+  <%= label_tag("settings[github_access_token]", l(:github_integration_client_id)) %>
+  <%= text_field_tag("settings[github_access_token]",
+                     Setting.plugin_openproject_github_integration["github_access_token"]) %>
+</p>
