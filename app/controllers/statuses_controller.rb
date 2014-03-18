@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,9 +36,8 @@ class StatusesController < ApplicationController
 
   verify :method => :get, :only => :index, :render => {:nothing => true, :status => :method_not_allowed }
   def index
-    @statuses = Status.order('position')
-                                 .page(params[:page])
-                                 .per_page(per_page_param)
+    @statuses = Status.page(params[:page])
+                      .per_page(per_page_param)
 
     render :action => "index", :layout => false if request.xhr?
   end

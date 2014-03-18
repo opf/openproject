@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,11 +41,6 @@ require 'redmine/notifiable'
 require 'redmine/wiki_formatting'
 require 'redmine/scm/base'
 
-begin
-  require 'RMagick' unless Object.const_defined?(:Magick)
-rescue LoadError
-  # RMagick is not available
-end
 
 require 'csv'
 require 'globalize'
@@ -251,7 +246,8 @@ Redmine::MenuManager.map :my_menu do |menu|
   menu.push :delete_account, :deletion_info_path,
                              :caption => I18n.t('account.delete'),
                              :param => :user_id,
-                             :if => Proc.new { Setting.users_deletable_by_self? }
+                             :if => Proc.new { Setting.users_deletable_by_self? },
+                             :html => {:class => 'icon2 icon-delete'}
 end
 
 Redmine::MenuManager.map :admin_menu do |menu|

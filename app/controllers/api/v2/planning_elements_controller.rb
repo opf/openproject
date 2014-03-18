@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -58,7 +59,9 @@ module Api
 
       def create
         @planning_element = @project.work_packages.build
-        @planning_element.update_attributes(permitted_params.planning_element.except :note)
+        @planning_element.update_attributes(permitted_params.planning_element({:project => @project}).except :note)
+
+        @planning_element.attach_files(params[:attachments])
 
         # The planning_element inherits from workpackage, which requires an author.
         # Using the current_user also satisfies this demand for API-calls
@@ -92,9 +95,9 @@ module Api
 
       def update
         @planning_element = WorkPackage.find(params[:id])
-        @planning_element.attributes = permitted_params.planning_element.except :note
+        @planning_element.attributes = permitted_params.planning_element({:project => @project}).except :note
 
-        @planning_element.add_journal(User.current, permitted_params.planning_element[:note])
+        @planning_element.add_journal(User.current, permitted_params.planning_element({:project => @project})[:note])
 
         successfully_updated = @planning_element.save
 
@@ -242,7 +245,7 @@ module Api
         if params[:f]
           #we need a project to make project-specific custom fields work
           project = timeline_to_project(params[:timeline])
-          query = Query.new(:project => project)
+          query = Query.new(:project => project, :name => '_')
 
           query.add_filters(params[:f], params[:op], params[:v])
 

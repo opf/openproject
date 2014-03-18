@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,6 +27,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<%# expects the following locals:
+  - @query and query: a Query object
+%>
+
 <%= error_messages_for 'query' %>
 <%= hidden_field_tag 'confirm', 1 %>
 
@@ -34,7 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <div class="tabular">
     <p>
-      <%= label :query, :name %>
+      <%= label :query, :name, required_field_name(Query.human_attribute_name(:name)) %>
       <%= text_field 'query', 'name', size: 80 %>
     </p>
     <% if query.any_summable_columns? %>

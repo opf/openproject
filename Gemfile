@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -72,10 +72,6 @@ gem 'htmldiff'
 # used for statistics on svn repositories
 gem 'svg-graph'
 
-gem 'execjs'
-
-gem 'therubyracer'
-
 gem "date_validator"
 
 # replacing rsb with rabl --
@@ -96,7 +92,9 @@ gem 'strong_parameters'
 gem 'delayed_job_active_record', '0.3.3'
 gem 'daemons'
 
-gem 'rack-protection'
+# include custom rack-protection for now until rkh/rack-protection is fixed and released
+# (see https://www.openproject.org/work_packages/3029)
+gem 'rack-protection', :git => "https://github.com/finnlabs/rack-protection.git", :ref => '5a7d1bd'
 
 gem 'syck', :platforms => [:ruby_20, :mingw_20, :ruby_21, :mingw_21], :require => false
 
@@ -114,6 +112,9 @@ group :assets do
   gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
 end
+
+# You don't need therubyracer if you have nodejs installed on the machine precompiling assets.
+gem 'therubyracer', :group => :therubyracer
 
 gem "prototype-rails"
 # remove once we no longer use the deprecated "link_to_remote", "remote_form_for" and alike methods
@@ -166,7 +167,7 @@ group :development do
   gem 'pry-rails'
   gem 'pry-stack_explorer'
   gem 'pry-rescue'
-  gem 'pry-byebug', :platforms => :mri_20
+  gem 'pry-byebug', :platforms => [:mri_20,:mri_21]
   gem 'pry-debugger', :platforms => :mri_19
   gem 'pry-doc'
   gem 'rails-dev-tweaks', '~> 0.6.1'
@@ -175,29 +176,7 @@ group :development do
   gem 'rb-fsevent', :group => :test
   gem 'thin'
   gem 'faker'
-end
-
-group :tools do
-  # why tools? see: https://github.com/guard/guard-test
   gem 'guard-test'
-end
-
-group :rmagick do
-  gem "rmagick", ">= 1.15.17"
-  # Older distributions might not have a sufficiently new ImageMagick version
-  # for the current rmagick release (current rmagick is rmagick 2, which
-  # requires ImageMagick 6.4.9 or later). If this is the case for you, comment
-  # the line above this comment block and uncomment the one underneath it to
-  # get an rmagick version known to work on older distributions.
-  #
-  # The following distributíons are known to *not* ship with a usable
-  # ImageMagick version. There might be additional ones.
-  #   * Ubuntu 9.10 and older
-  #   * Debian Lenny 5.0 and older
-  #   * CentOS 5 and older
-  #   * RedHat 5 and older
-  #
-  #gem "rmagick", "< 2.0.0"
 end
 
 # Use the commented pure ruby gems, if you have not the needed prerequisites on

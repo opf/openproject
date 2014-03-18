@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -138,7 +139,14 @@ describe WorkPackagesController do
     describe 'with valid query' do
       before do
         controller.stub(:retrieve_query).and_return(query)
+
+        # Note: Stubs for methods used to build up the json query results.
+        # TODO RS:  Clearly this isn't testing anything, but it all needs to be moved to an API controller anyway.
         query.stub_chain(:results, :work_packages, :page, :per_page, :all).and_return(work_packages)
+        query.stub_chain(:results, :work_package_count_by_group).and_return([])
+        query.stub_chain(:results, :column_total_sums).and_return([])
+        query.stub_chain(:results, :column_group_sums).and_return([])
+        query.stub(:as_json).and_return("")
       end
 
       describe 'html' do
@@ -859,7 +867,7 @@ describe WorkPackagesController do
     it "should return all defined priorities" do
       expected = double('priorities')
 
-      IssuePriority.stub(:all).and_return(expected)
+      IssuePriority.stub(:active).and_return(expected)
 
       controller.priorities.should == expected
     end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -54,8 +54,8 @@ class WorkPackagesPage
     visit query_path(query);
   end
 
-  def has_selected_filter?(filter_name)
-    find(".filter-fields #cb_#{filter_name}", visible: false).checked?
+  def selected_filter(filter_name)
+    find(".filter-fields #h_#{filter_name}", visible: false)
   end
 
   private

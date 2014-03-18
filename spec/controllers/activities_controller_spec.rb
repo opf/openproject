@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -126,16 +126,12 @@ describe ActivitiesController do
         describe 'global' do
           render_views
 
-          before do
-            Setting.stub(:host_name).and_return 'test.host'
-
-            get 'index', format: 'atom'
-          end
+          before { get 'index', format: 'atom' }
 
           it do
             assert_tag tag: 'entry',
                        child: { tag: 'link',
-                                attributes: { href: Regexp.new("http://test.host/work_packages/#{wp_1.id}") } }
+                                attributes: { href: Regexp.new("/work_packages/#{wp_1.id}#") } }
           end
         end
 

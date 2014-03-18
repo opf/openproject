@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -54,12 +54,9 @@ describe 'Query selection' do
       work_packages_page.select_query query
     end
 
-    context 'and the work packages menu item is clicked' do
-      before { work_packages_page.click_work_packages_menu_item }
-
-      it 'clears selected queries' do
-        work_packages_page.should_not have_selected_filter(filter_name)
-      end
+    it 'should show the filter', js: true do
+      expect(work_packages_page.selected_filter(filter_name)).not_to be_nil
     end
+
   end
 end

@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -140,8 +141,14 @@ class PermittedParams < Struct.new(:params, :user)
     params.require(:planning_element_type).permit(*self.class.permitted_attributes[:move_to])
   end
 
-  def planning_element
-    params.require(:planning_element).permit(*self.class.permitted_attributes[:planning_element])
+  def planning_element(args = {})
+    permitted = permitted_attributes(:planning_element, args)
+
+    permitted_params = params.require(:planning_element).permit(*permitted)
+
+    permitted_params.merge!(custom_field_values(:planning_element))
+
+    permitted_params
   end
 
   def project_type
@@ -282,6 +289,7 @@ class PermittedParams < Struct.new(:params, :user)
         :hexcode,
         :move_to ],
       :custom_field => [
+        :editable,
         :field_format,
         :is_filter,
         :is_for_all,
@@ -293,6 +301,7 @@ class PermittedParams < Struct.new(:params, :user)
         :possible_values,
         :regexp,
         :searchable,
+        :visible,
         :translations_attributes => [
           :_destroy,
           :default_value,
@@ -317,51 +326,81 @@ class PermittedParams < Struct.new(:params, :user)
       :member => [
         :role_ids => []],
       :new_work_package => [
-        :subject,
-        :description,
-        :start_date,
-        :due_date,
-        :parent_id,
-        :parent_id,
+        # attributes common with :planning_element below
         :assigned_to_id,
-        :responsible_id,
-        :type_id,
-        :fixed_version_id,
-        :estimated_hours,
-        :done_ratio,
-        :priority_id,
-        :category_id,
-        :status_id,
-        :notes,
-        :lock_version,
         { attachments: [:file, :description] },
+        :category_id,
+        :description,
+        :done_ratio,
+        :due_date,
+        :estimated_hours,
+        :fixed_version_id,
+        :parent_id,
+        :priority_id,
+        :responsible_id,
+        :start_date,
+        :status_id,
+        :type_id,
+        :subject,
         Proc.new do |args|
           # avoid costly allowed_to? if the param is not there at all
-          if args[:params]["work_package"].has_key?("watcher_user_ids") &&
-            args[:user].allowed_to?(:add_work_package_watchers, args[:project])
+          if args[:params]["work_package"] &&
+             args[:params]["work_package"].has_key?("watcher_user_ids") &&
+             args[:user].allowed_to?(:add_work_package_watchers, args[:project])
 
             { :watcher_user_ids => [] }
           end
         end,
         Proc.new do |args|
           # avoid costly allowed_to? if the param is not there at all
-          if args[:params]["work_package"].has_key?("time_entry") &&
+          if args[:params]["work_package"] &&
+             args[:params]["work_package"].has_key?("time_entry") &&
              args[:user].allowed_to?(:log_time, args[:project])
 
             { time_entry: [:hours, :activity_id, :comments] }
           end
-        end ],
+        end,
+        # attributes unique to :new_work_package
+        :notes,
+        :lock_version ],
       :planning_element => [
-        :subject,
+        # attributes common with :new_work_package above
+        :assigned_to_id,
+        { attachments: [:file, :description] },
+        :category_id,
         :description,
-        :start_date,
+        :done_ratio,
         :due_date,
-        :note,
-        :type_id,
-        :status_id,
-        :planning_element_status_comment,
+        :estimated_hours,
+        :fixed_version_id,
         :parent_id,
+        :priority_id,
         :responsible_id,
+        :start_date,
+        :status_id,
+        :type_id,
+        :subject,
+        Proc.new do |args|
+          # avoid costly allowed_to? if the param is not there at all
+          if args[:params]["planning_element"] &&
+             args[:params]["planning_element"].has_key?("watcher_user_ids") &&
+             args[:user].allowed_to?(:add_work_package_watchers, args[:project])
+
+            { :watcher_user_ids => [] }
+          end
+        end,
+        Proc.new do |args|
+          # avoid costly allowed_to? if the param is not there at all
+          if args[:params]["planning_element"] &&
+             args[:params]["planning_element"].has_key?("time_entry") &&
+             args[:user].allowed_to?(:log_time, args[:project])
+
+            { time_entry: [:hours, :activity_id, :comments] }
+          end
+        end,
+        # attributes unique to planning_element
+        :note,
+        :planning_element_status_comment,
         :custom_fields => [ #json
           :id,
           :value,

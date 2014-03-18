@@ -9,7 +9,7 @@ angular.module('openproject.workPackages.directives')
     compile: function(tElement) {
       return {
         pre: function(scope) {
-          scope.showFilters = scope.query.id !== null;
+          scope.showFilters = scope.query.filters.length > 0;
 
           scope.$watch('filterToBeAdded', function(filterName) {
             if (filterName) {

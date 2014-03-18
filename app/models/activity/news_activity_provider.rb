@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,12 +53,11 @@ class Activity::NewsActivityProvider < Activity::BaseActivityProvider
   end
 
   def event_path(event, activity)
-    Rails.application.routes.url_helpers.news_path(url_helper_parameter(event))
+    url_helpers.news_path(url_helper_parameter(event))
   end
 
   def event_url(event, activity)
-    Rails.application.routes.url_helpers.news_url(url_helper_parameter(event),
-                                                  host: ::Setting.host_name)
+    url_helpers.news_url(url_helper_parameter(event))
   end
 
   private

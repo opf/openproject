@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -164,11 +164,12 @@ de:
         done_ratio: "% erledigt"
         fixed_version: "Zielversion"
         parent: "Übergeordnete Aufgabe"
+        parent_issue: "Übergeordnete Aufgabe"
+        parent_work_package: "Übergeordnete Aufgabe"
         priority: "Priorität"
         progress: "% erledigt"
         responsible: "Verantwortlicher"
         spent_time: "Aufgewendete Zeit"
-        parent_issue: "Übergeordnete Aufgabe"
         subproject: "Unterprojekt von"
         time_entries: "Logzeit"
         type: "Typ"
@@ -221,6 +222,8 @@ de:
               does_not_exist: "existiert nicht"
             status_id:
               status_transition_invalid: "es existiert kein valider Übergang vom alten zum neuen Status für die aktuellen Nuter-Rollen"
+            priority_id:
+              only_active_priorities_allowed: "muss aktiv sein"
         project_association:
           identical_projects: "kann nicht von einem Projekt auf sich selbst erstellt werden"
           project_association_not_allowed: "erlaubt keine Projekt-Abhängigkeiten"
@@ -508,6 +511,7 @@ de:
   error_can_not_archive_project: "Dieses Projekt kann nicht archiviert werden."
   error_can_not_delete_custom_field: "Kann das benutzerdefinierte Feld nicht löschen."
   error_can_not_delete_type: "Dieser Typ enthält Tickets und kann nicht gelöscht werden."
+  error_can_not_delete_standard_type: "Standardtypen können nicht gelöscht werden."
   error_can_not_remove_role: "Diese Rolle wird verwendet und kann nicht gelöscht werden."
   error_can_not_reopen_work_package_on_closed_version: "Das Arbeitspaket ist einer abgeschlossenen Version zugeordnet und kann daher nicht wieder geöffnet werden."
   error_can_t_load_default_data: "Die Standard-Konfiguration konnte nicht geladen werden: %{value}"
@@ -547,6 +551,8 @@ de:
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "nein"
   general_text_yes: "ja"
+  general_text_No: "Nein"
+  general_text_Yes: "Ja"
 
   gui_validation_error: "1 Fehler"
   gui_validation_error_plural: "%{count} Fehler"
@@ -971,6 +977,9 @@ de:
     zero: "keine Projekte"
   label_year: "Jahr"
   label_yesterday: "gestern"
+  label_keyboard_function: "Funktion"
+  label_keyboard_shortcut: "Tastaturkürzel"
+  label_keyboard_accesskey: "Accesskey"
   label_keyboard_shortcut_help_heading: "Vorhandene Tastaturkürzel"
   label_keyboard_shortcut_within_project: "Innerhalb von Projekten:"
   label_keyboard_shortcut_global_shortcuts: "Globale Tastaturkürzel:"
@@ -1322,7 +1331,6 @@ de:
   text_reassign_to: "Ziel-Arbeitspaket:"
   text_regexp_info: "z. B. ^[A-Z0-9]+$"
   text_repository_usernames_mapping: "Bitte legen Sie die Zuordnung der OpenProject-Benutzer zu den Benutzernamen der Commit-Log-Meldungen des Projektarchivs fest.\nBenutzer mit identischen OpenProject- und Projektarchiv-Benutzernamen oder -E-Mail-Adressen werden automatisch zugeordnet."
-  text_rmagick_available: "RMagick verfügbar (optional)"
   text_select_mail_notifications: "Bitte wählen Sie die Aktionen aus, für die eine Mailbenachrichtigung gesendet werden soll."
   text_select_project_modules: "Bitte wählen Sie die Module aus, die in diesem Projekt aktiviert sein sollen:"
   text_status_changed_by_changeset: "Status geändert durch Changeset %{value}."
@@ -1443,8 +1451,10 @@ de:
       project_time_filter: "Projekte mit Arbeitspaket eines Typs in einem Zeitfenster"
       project_time_filter_absolute_timeframe: "Absolutes Zeitfenster"
       project_time_filter_relative_timeframe: "Relatives Zeitfenster"
-      project_time_filter_historical: "von %{startdate} bis %{enddate}"
-      project_time_filter_relative: "vor %{startspan}%{startspanunit} bis in %{endspan}%{endspanunit}"
+      project_time_filter_historical_from: "von"
+      project_time_filter_historical_to: "bis"
+      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
+      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} %{end_label} %{endspan}%{endspanunit}"
       project_filters: "Projekte filtern"
       project_responsible: "Projekte von diesem Verantwortlichen anzeigen"
       project_status: "Projekt-Status anzeigen"

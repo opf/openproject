@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,6 +32,9 @@ rvm:
 branches:
   only:
     - dev
+    - stable
+    - release/3.0
+    - /^feature\/ui-components-test-architecture-.*$/
 env:
   # mysql2
   - "TEST_SUITE=cucumber CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
@@ -45,6 +48,7 @@ script: "bundle exec rake $TEST_SUITE"
 before_install:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
+  - "nvm use 0.10 && npm -g install bower"
 before_script:
   - "RAILS_ENV=production bundle exec rake ci:travis:prepare"
 notifications:

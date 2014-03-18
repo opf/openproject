@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -340,7 +341,12 @@ private
   end
 
   def self.default_url_options
-    super.merge :host => host, :protocol => protocol
+    options = super.merge :host => host, :protocol => protocol
+    unless OpenProject::Configuration.rails_relative_url_root.blank?
+      options[:script_name] = OpenProject::Configuration.rails_relative_url_root
+    end
+
+    options
   end
 
   def message_id(object, user)
@@ -403,7 +409,10 @@ end
 
 class DoNotSendMailsWithoutReceiverInterceptor
   def self.delivering_email(mail)
-    mail.perform_deliveries = false if mail.to.blank?
+    receivers = [mail.to, mail.cc, mail.bcc]
+    # the above fields might be empty arrays (if entries have been removed
+    # by another interceptor) or nil, therefore checking for blank?
+    mail.perform_deliveries = false if receivers.all?(&:blank?)
   end
 end
 

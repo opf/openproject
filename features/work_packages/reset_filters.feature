@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,8 +45,7 @@ Feature: Resetting filteres on work packages
     And I am already admin
     And I am on the work package index page of the project called "project1"
 
-    When I click "Add filter"
-    And I select "Type" from "Add filter"
+    When I select "Type" from "Add filter"
     And I select "is" from "operators-type_id"
     And I select "Other" from "values-type_id"
 

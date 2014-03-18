@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,7 +53,7 @@ class SettingsController < ApplicationController
       @options[:user_format] = User::USER_FORMATS.keys.collect {|f| [User.current.name(f), f.to_s] }
       @deliveries = ActionMailer::Base.perform_deliveries
 
-      @guessed_host_and_path = request.host_with_port.dup + OpenProject::Configuration.rails_relative_url_root
+      @guessed_host = request.host_with_port.dup
     end
   end
 

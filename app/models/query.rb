@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,11 +44,11 @@ class Query < ActiveRecord::Base
 
   attr_protected :project_id #, :user_id
 
-  validates_presence_of :name, on: :save
+  validates :name, presence: true
   validates_length_of :name, :maximum => 255
 
   validate :validate_work_package_filters
-  validates_presence_of :filters
+  validates :filters, presence: true
 
   after_initialize :remember_project_scope
 

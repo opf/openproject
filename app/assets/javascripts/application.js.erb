@@ -1,31 +1,3 @@
-//-- copyright
-// OpenProject is a project management system.
-// Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License version 3.
-//
-// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-// Copyright (C) 2006-2013 Jean-Philippe Lang
-// Copyright (C) 2010-2013 the ChiliProject Team
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-//
-// See doc/COPYRIGHT.rdoc for more details.
-//++
-
 // This is a manifest file that'll be compiled into application.js, which will include all the files
 // listed below.
 //
@@ -552,7 +524,9 @@ var WarnLeavingUnsaved = Class.create({
 	},
 
 	unload: function(){
-		if(this.changedForms)
+    this.observedElements.each(function(item){ item.blur(); });
+
+		if (this.changedForms)
       return this.message;
 	},
 
@@ -1295,7 +1269,16 @@ var activateError = function() {
 var activateFlash = function() {
   var flashMessage = jQuery('.flash');
 
-  flashMessage.show();
+  // Ignore flash messages of class 'ignored-by-flash-activation' because those
+  // messages are completely handled via JavaScript (see types_checkboxes.js for
+  // details). We wouldn't have to ignore this message if the flash element
+  // would be completely created via JavaScript and not available in the DOM by
+  // default.
+  flashMessage.each(function (ix, e) {
+    if (!jQuery(e).hasClass('ignored-by-flash-activation')) {
+      flashMessage.show();
+    }
+  });
 }
 
 jQuery(document).ready(initMainMenuExpandStatus);
