@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@
 module OpenProject
   module AccessKeys
     ACCESSKEYS = {:preview => '1',
-                  :new_issue => '2',
+                  :new_work_package => '2',
                   :edit => '3',
                   :quick_search => '4',
                   :project_search => '5',

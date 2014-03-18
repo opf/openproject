@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -108,7 +108,7 @@ class Changeset < ActiveRecord::Base
   end
 
   before_create :sanitize_attributes
-  before_create :assign_redmine_user_from_comitter
+  before_create :assign_openproject_user_from_comitter
   after_create :scan_comment_for_work_package_ids
 
   TIMELOG_RE = /
@@ -271,8 +271,9 @@ class Changeset < ActiveRecord::Base
     self.comments  = self.class.normalize_comments(self.comments, repository.repo_log_encoding)
   end
 
-  def assign_redmine_user_from_comitter
+  def assign_openproject_user_from_comitter
     self.user = repository.find_committer_user(self.committer)
+    add_journal(self.user || User.anonymous, self.comments)
   end
 
   # TODO: refactor to a standard helper method

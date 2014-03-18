@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -104,6 +104,14 @@ describe PermittedParams do
       params = ActionController::Parameters.new(:color => { "move_to" => "1" } )
 
       PermittedParams.new(params, user).color_move.should == { "move_to" => "1" }
+    end
+  end
+
+  describe :custom_field do
+    it "should permit move_to" do
+      params = ActionController::Parameters.new(:custom_field => { "editable" => "0", "visible" => "0", 'filtered' => 42 } )
+
+      PermittedParams.new(params, user).custom_field.should == { "editable" => "0", "visible" => "0" }
     end
   end
 

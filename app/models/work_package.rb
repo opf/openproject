@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -938,7 +938,7 @@ class WorkPackage < ActiveRecord::Base
   def set_default_values
     if new_record? # set default values for new records only
       self.status   ||= Status.default
-      self.priority ||= IssuePriority.default
+      self.priority ||= IssuePriority.active.default
     end
   end
 

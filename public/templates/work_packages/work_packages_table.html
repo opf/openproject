@@ -2,14 +2,13 @@
   <thead>
     <tr>
       <th class="checkbox hide-when-print">
-        <a ng-href=""
+        <a href="#"
            alt="{{(rows | allRowsChecked) && I18n.t('js.button_uncheck_all') || I18n.t('js.button_check_all')}}"
            class="no-decoration-on-hover"
            ng-click="setCheckedStateForAllRows(!(rows | allRowsChecked))"
            title="{{(rows | allRowsChecked) && I18n.t('js.button_uncheck_all') || I18n.t('js.button_check_all')}}">
           <icon-wrapper icon-title="I18n.t('js.button_check_all') + '/' + I18n.t('js.button_uncheck_all')"
-                        icon-name="yes"/>
-
+                        icon-name="yes"></icon-wrapper>
         </a>
       </th>
 
@@ -25,6 +24,7 @@
                       header-title="{{column.title}}"
                       sortable="{{column.sortable}}"
                       query="query"
+                      column="column"
                       update-results="updateResults()"/>
     </tr>
   </thead>
@@ -108,7 +108,7 @@
         <a ng-href="/work_packages/{{row.object.id}}">{{row.object.id}}</a>
       </td>
 
-      <td ng-repeat="column in columns" class="{{column.name}}">
+      <td ng-repeat="column in columns" class="{{column.name}}" lang-attribute>
         <span work-package-column work-package="row.object" column="column"/>
       </td>
     </tr>

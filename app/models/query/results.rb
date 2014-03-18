@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -90,5 +91,13 @@ class ::Query::Results
                        :conditions => ::Query.merge_conditions(query.project_statement, options[:conditions])
   rescue ::ActiveRecord::StatementInvalid => e
     raise ::Query::StatementInvalid.new(e.message)
+  end
+
+  def column_total_sums
+    query.columns.map { |column| total_sum_of(column) }
+  end
+
+  def column_group_sums
+    query.group_by_column && query.columns.map { |column| grouped_sums(column) }
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ require 'features/accessibility/support/toggable_fieldsets_spec'
 require 'features/work_packages/work_packages_page'
 
 describe 'Work package index' do
-  describe 'Toggable fieldset' do
+  describe 'Toggable fieldset', js: true do
     let(:current_user) { FactoryGirl.create (:admin) }
     let(:work_packages_page) { WorkPackagesPage.new }
 
@@ -41,13 +41,13 @@ describe 'Work package index' do
       work_packages_page.visit_index
     end
 
-    describe 'Filter fieldset' do
+    describe 'Filter fieldset', js: true do
       it_behaves_like 'toggable fieldset initially expanded' do
-        let(:fieldset_name) { 'Filters' }
+        let(:fieldset_name) { 'Add filter' }
       end
     end
 
-    describe 'Options fieldset' do
+    describe 'Options fieldset', js: true do
       it_behaves_like 'toggable fieldset initially collapsed' do
         let(:fieldset_name) { 'Options' }
       end

@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -231,7 +232,7 @@ module Project::Copy
       # Copies queries from +project+
     def copy_queries(project)
       project.queries.each do |query|
-        new_query = ::Query.new
+        new_query = ::Query.new name: '_'
         new_query.attributes = query.attributes.dup.except("id", "project_id", "sort_criteria")
         new_query.sort_criteria = query.sort_criteria if query.sort_criteria
         new_query.project = self

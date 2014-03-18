@@ -2,7 +2,11 @@
   <thead>
     <tr>
       <th class="tl-first-column" ng-style="{height: height}">{{I18n.t('js.timelines.filter.column.name')}}</th>
-      <th ng-repeat="key in columns">{{I18n.t('js.timelines.filter.column.' + key)}}</th>
+      <th timeline-column-name
+          ng-repeat="columnName in columns"
+          column-name="columnName"
+          locale-prefix="js.timelines.filter.column"
+          custom-fields="timeline.custom_fields"></th>
     </tr>
   </thead>
 
@@ -25,6 +29,8 @@
         }"
         ng-if="!(hideTreeRoot && $first || rowObjectType === 'Project' && excludeEmpty && !row.childNodes)"
         ng-show="rowObjectType === 'Project' && row.level === 1 || (row.ancestors | ancestorsExpanded)">
+
+      <!-- tree node expansion toggle -->
 
       <td ng-class="[
             'tl-first-column',
@@ -49,26 +55,12 @@
         </span>
       </td>
 
-      <td option-column
-          ng-repeat="option in columns">
-        <span class="tl-historical" ng-show="rowObject.does_historical_differ(option)">
-          <a href="javascript://" title="{{I18n.t('js.timelines.change')}}"
-             ng-class="[
-               'icon',
-               'tl-icon-' + isDateOption(option) && (rowObject | historicalDateKind:option) || 'tl-icon-changed'
-             ]">
-            {{rowObject.historical()[option] || I18n.t('js.timelines.empty')}}
-          </a>
-          <br/>
-        </span>
-
-        <span ng-class="[
-          'tl-column',
-          isDateOption(option) && 'tl-current',
-          isDateOption(option) && rowObject.does_historical_differ(option) && 'tl-' + (rowObject | historicalDateKind:option)
-        ]">
-          {{rowObject | getOptionColumn:option}}
-        </span>
+      <td timeline-column
+          ng-repeat="columnName in columns"
+          column-name="columnName"
+          row-object="rowObject"
+          timeline="timeline"
+          custom-fields="timeline.custom_fields">
       </td>
     </tr>
   </tbody>

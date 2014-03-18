@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -212,8 +212,6 @@ Feature: Filtering work packages via the api
     And the json-response should not contain a work_package "work_package#1"
     And the json-response should contain a work_package "work_package#2"
 
-  # Always make sure, that historical tests are tagged with @timetravel:
-  # otherwise the time remains frozen for other features!!!
   Scenario: looking up historical data
     Given the date is "2014/01/01"
     And there are the following work packages in project "sample_project":
@@ -225,7 +223,8 @@ Feature: Filtering work packages via the api
     And the work_package "work_package#3" is updated with the following:
       | type        | Story       |
       | responsible | bob         |
-    Given the date is "2014/03/01"
+    # resetting to today as plugins might depend on the current time
+    Given the date is today
     And I call the work_package-api on project "sample_project" at time "2014/01/03" and filter for types "Story"
     Then the json-response should include 1 work package
     And the json-response for work_package "work_package#3" should have the type "Task"
@@ -241,7 +240,8 @@ Feature: Filtering work packages via the api
       | type        | Story       |
       | responsible | pamela      |
       | due_date    | 2014/01/20  |
-    Given the date is "2014/03/01"
+    # resetting to today as plugins might depend on the current time
+    Given the date is today
     And I call the work_package-api on project "sample_project" at time "2014/01/03" and filter for types "Story"
     Then the json-response for work_package "work_package#1" should have the due_date "2014/01/15"
     And the work package "work_package#1" has the due_date "2014/01/20"

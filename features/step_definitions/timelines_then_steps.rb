@@ -1,7 +1,7 @@
-#encoding: utf-8
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -86,7 +86,7 @@ end
 
 Then(/^I should see "(.*?)" in the row of the work package "(.*?)"$/) do |content, wp_name|
   elements = find_lowest_containing_element wp_name, ".tl-main-table"
-  elements[-1].should have_xpath("ancestor::tr/descendant-or-self::*[text()='#{content}']")
+  elements[-1].should have_xpath("ancestor::tr/descendant-or-self::*[contains(text(), '#{content}')]")
 end
 
 Then(/^I should not see "(.*?)" in the row of the work package "(.*?)"$/) do |content, wp_name|

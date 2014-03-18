@@ -1,8 +1,7 @@
-# encoding: utf-8
-
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -206,6 +205,7 @@ Given /^there are the following types:$/ do |table|
     type.is_milestone   = t['is_milestone'] ? t['is_milestone'] : true
     type.is_default     = t['is_default'] ? t['is_default'] : false
     type.in_aggregation = t['in_aggregation'] ? t['in_aggregation'] : true
+    type.is_standard    = t['is_standard'] ? t['is_standard'] : false
     type.save!
   end
 end

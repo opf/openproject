@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -158,6 +158,36 @@ describe WorkPackage do
         expect(work_package).to have(1).errors_on(:type_id)
       end
 
+    end
+
+    describe "validations of priority" do
+      let (:active_priority) { FactoryGirl.create(:priority) }
+      let (:inactive_priority) { FactoryGirl.create(:priority, active: false) }
+
+      let (:wp) { FactoryGirl.create(:work_package) }
+
+      it "should validate on active priority" do
+        wp.priority = active_priority
+        expect(wp).to be_valid
+      end
+
+      it "should validate on an inactive priority that has been assigned before becoming inactive" do
+        wp.priority = active_priority
+        wp.save!
+
+        active_priority.active = false
+        active_priority.save!
+        wp.reload
+
+        expect(wp.priority.active).to be_false
+        expect(wp).to be_valid
+      end
+
+      it "should not validate on an inactive priority" do
+        wp.priority = inactive_priority
+        expect(wp).not_to be_valid
+        expect(wp).to have(1).errors_on(:priority_id)
+      end
     end
 
 

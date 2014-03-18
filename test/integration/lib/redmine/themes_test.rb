@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,11 +34,13 @@ class ThemesTest < ActionDispatch::IntegrationTest
   fixtures :all
 
   def setup
+    super
     @theme = OpenProject::Themes.default_theme
     Setting.ui_theme = @theme.identifier
   end
 
   def teardown
+    super
     Setting.ui_theme = nil
   end
 

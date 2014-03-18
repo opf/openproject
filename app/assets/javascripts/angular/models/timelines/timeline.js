@@ -1,7 +1,7 @@
 
 angular.module('openproject.timelines.models')
 
-.factory('Timeline', ['Constants', 'TreeNode', 'UI', 'Color', 'HistoricalPlanningElement', 'PlanningElement', 'PlanningElementType', 'ProjectType', 'Project', 'ProjectAssociation', 'Reporting', 'CustomField', function(Constants, TreeNode, UI, Color, HistoricalPlanningElement, PlanningElement, PlanningElementType, ProjectType, Project, ProjectAssociation, Reporting, CustomField) {
+.factory('Timeline', ['Constants', 'TreeNode', 'UI', 'Color', 'HistoricalPlanningElement', 'PlanningElement', 'PlanningElementType', 'ProjectType', 'Project', 'ProjectAssociation', 'Reporting', 'CustomField', 'CustomFieldHelper', function(Constants, TreeNode, UI, Color, HistoricalPlanningElement, PlanningElement, PlanningElementType, ProjectType, Project, ProjectAssociation, Reporting, CustomField, CustomFieldHelper) {
 
   Timeline = {};
 
@@ -399,7 +399,7 @@ angular.module('openproject.timelines.models')
     },
     getCustomFieldColumns: function() {
       return this.options.columns.filter(function(column) {
-        return column.substr(0, 3) === 'cf_';
+        return CustomFieldHelper.isCustomFieldKey(column);
       });
     },
     getCustomFields: function() {
@@ -416,15 +416,12 @@ angular.module('openproject.timelines.models')
         return cf.id;
       });
     },
-    getIdOfCustomFieldColumn: function(cfColumn) {
-      return parseInt(cfColumn.substr(3, 10), 10);
-    },
     getInvalidCustomFieldColumns: function() {
       var validCustomFieldIds = this.getValidCustomFieldIds();
       var timeline = this;
 
       return this.getCustomFieldColumns().filter(function(cfColumn) {
-        return validCustomFieldIds.indexOf(timeline.getIdOfCustomFieldColumn(cfColumn)) === -1;
+        return validCustomFieldIds.indexOf(CustomFieldHelper.getCustomFieldId(cfColumn)) === -1;
       });
     },
     removeColumnByName: function(columnName) {

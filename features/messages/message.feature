@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -70,3 +70,19 @@ Feature: Issue textile quickinfo links
       | reply #2 |
     When I go to the message page of message "message #1"
     Then I should see "Replies (2)"
+
+  Scenario: Check field value after error message raise when title is empty
+    When I go to the boards page of the project called "parent"
+    And I follow "New message"
+    And I fill in "New relase FAQ" for "message_subject"
+    When I click on the first button matching "Create"
+    Then there should be an error message
+    Then the "message_subject" field should contain "New relase FAQ"
+
+  Scenario: Check field value after error message raise when description is empty
+    When I go to the boards page of the project called "parent"
+    And I follow "New message"
+    And I fill in "Here you find the most frequently asked questions" for "message_content"
+    When I click on the first button matching "Create"
+    Then there should be an error message
+    Then the "message_content" field should contain "Here you find the most frequently asked questions"

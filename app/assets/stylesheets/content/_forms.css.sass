@@ -30,7 +30,6 @@
 
 @mixin input-style
   width: $content_from_input_width
-  height: 30px
   line-height: 30px
   border: $content_form_input_border
   padding: 0 0 0 10px
@@ -38,6 +37,7 @@
   font-family: $font_family_bold
   font-size: $global_font_size
   line-height: 30px
+  height: 32px
   margin: 0
   &:hover, &:focus
     border: $content_form_input_hover_border
@@ -49,21 +49,20 @@
 @mixin select-style
   @include input-style
   margin: 0
-  height: 32px
   min-width: $content_from_input_width + 10
   max-width: $content_from_input_width + 10
-  padding: 0 0 0 10px
+  padding: 7px 10px 7px 10px
+  option
+    padding-left: 10px
 
 @mixin label-style
   width: 155px
   margin-left: 0
   text-align: left
   font-weight: normal
-  height: 30px
   float: none
   display: inline-block
   padding-right: 5px
-  @include text-shortener
   vertical-align: middle
 
 #login-form form, #work_package-form, #update #work_package-form
@@ -91,6 +90,14 @@
   input
     &[type=password], &[type=text]
       @include input-style
+    &#work_package_subject, &#work_package_time_entry_comments
+      width: 50%
+  textarea
+    font-family: $font_family_bold
+    font-size: $global_font_size
+    border: $content_form_input_border
+    &:hover, &:focus
+      border: $content_form_input_hover_border
 
   table
     border: 0 none
@@ -137,6 +144,7 @@
   .handle_attachments, #attachments
     > label
       @include label-style
+      height: 30px
       display: block
     margin-bottom: 30px
 

@@ -1,8 +1,7 @@
 #-- encoding: UTF-8
-#
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,7 +37,11 @@ module WorkPackagesHelper
   end
 
   def work_package_breadcrumb
-    full_path = ancestors_links.unshift(work_package_index_link)
+    full_path = if !@project.nil?
+                  link_to(t(:label_work_package_plural), project_path(@project, {:jump => current_menu_item}))
+                else
+                  ancestors_links.unshift(work_package_index_link)
+                end
 
     breadcrumb_paths(*full_path)
   end
@@ -541,7 +544,7 @@ module WorkPackagesHelper
       field += prompt_to_remote(icon_wrapper('icon icon-add',t(:label_version_new)),
                              l(:label_version_new),
                              'version[name]',
-                             new_project_version_path(locals[:project]),
+                             project_versions_path(locals[:project]),
                              :class => 'no-decoration-on-hover',
                              :title => l(:label_version_new)) if authorize_for('versions', 'new')
 

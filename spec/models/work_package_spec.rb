@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -1228,6 +1228,18 @@ describe WorkPackage do
 
           it "should have a duration of one" do
             instance.duration.should == 1
+          end
+        end
+
+        describe "w/o a start date
+                  w an erroneous due date" do
+          before do
+            instance.start_date = nil
+            instance.due_date = '856742858941748214577'
+          end
+
+          it "should have a validation error" do
+            expect(instance).to have(1).error_on(:due_date)
           end
         end
 
