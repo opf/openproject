@@ -32,6 +32,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 1.0.0
+
 * `#3329` Refactor Duplicated Code Journals
 * `#5190` Public Release Documents plugin
 * Adaptations for new icon font
