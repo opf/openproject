@@ -16,5 +16,9 @@
     "mocha": "~1.14.0",
     "angular-mocks": "~1.2.14",
     "angular-scenario": "~1.2.14"
+  },
+  "resolutions": {
+    "select2": "~3.4",
+    "jquery": "1.7.2"
   }
 }
