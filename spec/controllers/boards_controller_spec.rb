@@ -181,7 +181,7 @@ describe BoardsController do
     let!(:message1) { FactoryGirl.create(:message, board: board) }
     let!(:message2) { FactoryGirl.create(:message, board: board) }
     let!(:sticked_message1) { FactoryGirl.create(:message, board_id: board.id, subject: "How to",
-                                                 content: "How to install this cool app", sticky: "1") }
+                                                 content: "How to install this cool app", sticky: "1", sticked_on: Time.now - 2.minute) }
 
     let!(:sticked_message2) { FactoryGirl.create(:message, board_id: board.id, subject: "FAQ",
                                                  content: "Frequestly asked question", sticky: "1", sticked_on: Time.now - 1.minute) }
@@ -194,7 +194,7 @@ describe BoardsController do
 
       it { expect(response).to render_template 'show' }
       it "should be displayed on top" do
-        expect(assigns[:topics][0].id).to eq(sticked_message2.id)
+        expect(assigns[:topics][0].id).to eq(sticked_message1.id)
       end
     end
 
