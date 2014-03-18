@@ -18,7 +18,7 @@ OpenProject Reporting depends on OpenProject Plugins. Thus, if you haven't done 
 
 `gem "openproject-plugins", git: "https://github.com/opf/openproject-plugins.git", :branch => "dev"`
 
-Reporting also depends on the OpenProject Costs plugin. If you have not installed it yet, you can do so by adding the following ine to the `Gemfile.plugins` in your OpenProject installation:
+Reporting also depends on the OpenProject Costs plugin. If you have not installed it yet, you can do so by adding the following line to the `Gemfile.plugins` in your OpenProject installation:
 
 `gem "openproject-costs", git: "https://github.com/finnlabs/openproject-costs.git", :branch => "dev"`
 
