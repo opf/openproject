@@ -34,6 +34,8 @@ module Api
       unloadable
       helper :timelines, :planning_elements
 
+      include PaginationHelper
+      include QueriesHelper
       include ::Api::V2::ApiController
       include ExtendedHTTP
 
@@ -195,7 +197,7 @@ module Api
         if planning_comparison?
           @planning_elements = convert_to_struct(historical_work_packages(projects))
         else
-          @planning_elements = convert_to_struct(current_work_packages(projects))
+          @planning_elements = convert_to_struct(current_work_packages_alt(projects)) # TODO RS
           # only for current work_packages, the array of child-ids must be reconstructed
           # for historical packages, the re-wiring is not needed
           rewire_ancestors
@@ -259,27 +261,28 @@ module Api
       end
 
       def current_work_packages_alt(projects)
-        # work_packages = WorkPackage.for_projects(projects)
-        #                            .changed_since(@since)
-        #                            .includes(:status, :project, :type, :custom_values)
-        project = timeline_to_project(params[:timeline])
-        query = Query.new(:project => project)
+        # query = Query.new(:project => @project)
+        query = retrieve_query
 
-        if params[:f]
-          #we need a project to make project-specific custom fields work
-          # project = timeline_to_project(params[:timeline])
-          # query = Query.new(:project => project)
+        # if params[:f]
+        #   #we need a project to make project-specific custom fields work
+        #   # project = timeline_to_project(params[:timeline])
+        #   # query = Query.new(:project => project)
 
-          query.add_filters(params[:f], params[:op], params[:v])
+        #   query.add_filters(params[:f], params[:op], params[:v])
 
-          #if we do not remove the project, the filter will only add wps from this project
-          query.project = nil
-
-          # work_packages = work_packages.with_query query
-        end
+        #   #if we do not remove the project, the filter will only add wps from this project
+        #   query.project = nil
+        # end
 
         results = query.results(:include => [:assigned_to, :type, :priority, :category, :fixed_version])
-        work_packages = results.work_packages.all
+        work_packages = results.work_packages
+                               .page(page_param)
+                               .per_page(per_page_param)
+                               .changed_since(@since)
+                               .all
+
+        set_planning_elements_meta(query, results, work_packages)
 
         work_packages
       end
@@ -296,8 +299,35 @@ module Api
       #       per_page_options
       #       total_entries
       # Most of which can be lifted from work_packages_controller hopefully as long as the query is set up in the same way
-      def current_work_packages_meta(query, results, work_packages)
-        @planning_elements_meta = {}
+      def set_planning_elements_meta(query, results, work_packages)
+        # @query ||= retrieve_query
+        @display_meta = true
+        @columns = if params[:c]
+                     params[:c].map {|c| c.to_sym }
+                   else
+                     [:id, :start_date] # Defaults
+                   end
+        @planning_elements_meta = {
+          work_package_count_by_group:  results.work_package_count_by_group,
+          sums:                         query.columns.map { |column| results.total_sum_of(column) },
+          group_sums:                   query.group_by_column && query.columns.map { |column| results.grouped_sums(column) },
+          page:                         page_param,
+          per_page:                     per_page_param,
+          per_page_options:             Setting.per_page_options_array,
+          total_entries:                work_packages.total_entries
+        }
+      end
+
+      # TODO RS: Taken from work_packages_controller, not dry!
+      def per_page_param
+        case params[:format]
+        when 'csv', 'pdf'
+          Setting.work_packages_export_limit.to_i
+        when 'atom'
+          Setting.feeds_limit.to_i
+        else
+          super
+        end
       end
 
       def historical_work_packages(projects)
