@@ -1,4 +1,4 @@
-<%#-- copyright
+<!---- copyright
 OpenProject Documents Plugin
 
 Former OpenProject Core functionality extracted into a plugin.
@@ -28,10 +28,33 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 See doc/COPYRIGHT.rdoc for more details.
 
-++#%>
-<h3><%=l(:label_document_plural)%></h3>
+++-->
 
-<% if @user.allowed_to?(:view_documents, @project)%>
-    <%= render(:partial => 'documents/document',
-               :collection => Document.where(project_id: @project.id).limit(10).order("created_on DESC")) %>
-<% end %>
+# Changelog
+
+## 1.0.0
+
+* `#3329` Refactor Duplicated Code Journals
+* `#5190` Public Release Documents plugin
+* Adaptations for new icon font
+
+## 1.0.0.pre5
+
+* `#2402` Activated migrations running from the plugin
+* Additional namespacing of hook partials to prevent clashes on activity view
+
+## 1.0.0.pre4
+
+* `#1875` Added document block to my project page
+
+## 1.0.0.pre3
+
+* Removed hard wiring to specific core version
+
+## 1.0.0.pre2
+
+* `#1602` Adaptions to Core acts_as_journalized_changes
+
+## 1.0.0.pre1
+
+* `#1631` Initial creation of Documents plugin

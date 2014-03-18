@@ -1,4 +1,3 @@
-<%#-- copyright
 OpenProject Documents Plugin
 
 Former OpenProject Core functionality extracted into a plugin.
@@ -27,11 +26,3 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 See doc/COPYRIGHT.rdoc for more details.
-
-++#%>
-<h3><%=l(:label_document_plural)%></h3>
-
-<% if @user.allowed_to?(:view_documents, @project)%>
-    <%= render(:partial => 'documents/document',
-               :collection => Document.where(project_id: @project.id).limit(10).order("created_on DESC")) %>
-<% end %>
