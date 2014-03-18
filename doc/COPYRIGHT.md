@@ -1,5 +1,6 @@
-<%#-- copyright
 OpenProject Reporting Plugin
+
+An OpenProject plugin to create cost reports
 
 Copyright (C) 2010 - 2014 the OpenProject Foundation (OPF)
 
@@ -15,16 +16,3 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
-++#%>
-
-<%# needs locals:
-  report_type: symbol referring to helper methods of the sort #{report_type}_queries
-%>
-
-<% queries = respond_to?(:"#{report_type}_queries") ? send(:"#{report_type}_queries") : [] %>
-<% if queries.any? %>
-  <h3><%= l(:"label_#{report_type}_report_plural") %></h3>
-  <%= render :partial => "report_list", :locals => { :report_type => report_type, :queries => queries } %>
-<% end -%>
-

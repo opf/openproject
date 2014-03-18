@@ -1,38 +1,23 @@
+#-- copyright
+# OpenProject Reporting Plugin
+#
+# Copyright (C) 2010 - 2014 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# version 3.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#++
+
 require 'spec_helper'
 
-# prevent case where we are using rubygems and test-unit 2.x is installed
-begin
-  require 'rubygems'
-  gem "test-unit", "~> 1.2.3"
-rescue LoadError
-end
-
-
-def l(*args)
-  I18n.t(*args)
-end
-
 ENGINE_RAILS_ROOT = File.join(File.dirname(__FILE__), '../')
-
-# Requires supporting ruby files with custom matchers and macros, etc,
-# in spec/support/ and its subdirectories.
 Dir[File.join(ENGINE_RAILS_ROOT, "spec/support/**/*.rb")].each {|f| require f }
-
-# not sure whether these are required - commenting them out for now
-#  - mfrister
-# require File.join(RAILS_ROOT, "test", "object_daddy_helpers.rb")
-# Dir.glob(File.expand_path("#{__FILE__}/../../../redmine_costs/test/exemplars/*.rb")) { |e| require e }
-# Dir.glob(File.expand_path("#{__FILE__}/../models/helpers/*_helper.rb")) { |e| require e }
-
-def login_user(user)
-  @controller.send(:logged_user=, user)
-  @controller.stub!(:find_current_user).and_return(user)
-end
-
-def is_member(project, user, permissions = [])
-  role = FactoryGirl.create(:role, :permissions => permissions)
-
-  FactoryGirl.create(:member, :project => project,
-                          :principal => user,
-                          :roles => [role])
-end

@@ -17,27 +17,14 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-#explicitly require what will be patched to be loaded from the ReportingEngine
-require_dependency 'widget/settings'
-class Widget::Settings < Widget::Base
-  #make sure this patch gets unloaded as it does not fit
-  #the standard rails path
-  unloadable
+module OpenProject::Reporting
+  module PluginSpecHelper
+    def is_member(project, user, permissions = [])
+      role = FactoryGirl.create(:role, :permissions => permissions)
 
-  @@settings_to_render.insert -2, :cost_types
-
-  def render_cost_types_settings
-    render_widget Widget::Settings::Fieldset, @subject, { :type => "units" } do
-      render_widget Widget::CostTypes,
-                    @cost_types,
-                    :selected_type_id => @selected_type_id
+      FactoryGirl.create(:member, :project => project,
+                              :principal => user,
+                              :roles => [role])
     end
-  end
-
-  def render_with_options(options, &block)
-    @cost_types = options.delete(:cost_types)
-    @selected_type_id = options.delete(:selected_type_id)
-
-    super(options, &block)
   end
 end

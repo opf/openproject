@@ -10,16 +10,16 @@ Gem::Specification.new do |s|
   s.authors = "Finn GmbH"
   s.email = "info@finn.de"
   s.homepage = "http://www.finn.de"
-  s.summary     = "OpenProject plugin that creates table reports with custom fields and grouping"
-  # FIXME
-  #s.description = "This plugin adds features enabling agile teams to work with OpenProject in Scrum projects."
-  s.files = Dir["{app,config,db,lib}/**/*", "CHANGELOG.md", "README.md"]
-  # FIXME
-  # s.test_files = Dir["spec/**/*"]
+  s.summary     = "An OpenProject plugin to create cost reports"
+  s.description = "This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Costs plugin"
 
-  s.add_dependency "openproject-plugins", "~> 1.0.4"
-  s.add_dependency "reporting_engine", ">= 0.0.1.pre1"
-  s.add_dependency "openproject-costs", "> 4.0.0"
+  s.files = Dir["{app,config,db,lib,doc}/**/*", "README.md"]
+  s.test_files = Dir["spec/**/*"]
+
+  s.add_dependency "rails", "~> 3.2.9"
+  s.add_dependency "openproject-plugins", "~> 1.0.6"
+  s.add_dependency "reporting_engine", ">= 1.0.0"
+  s.add_dependency "openproject-costs", ">= 5.0.3"
 
   s.add_development_dependency "factory_girl_rails", "~> 4.0"
 end
