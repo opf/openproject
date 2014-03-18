@@ -9,13 +9,12 @@ Gem::Specification.new do |s|
   s.version     = ReportingEngine::VERSION
   s.authors = "Finn GmbH"
   s.email = "info@finn.de"
-  s.homepage = "http://www.finn.de"
-  s.summary     = "Creates table reports with custom fields and grouping"
-  # FIXME
-  # s.description = ""
+  s.homepage = "https://www.openproject.org/projects/plugin-reportingengine"
+  s.summary     = "A Rails engine to create custom database reports"
+  s.description = "This Rails engine adds classes to create custom database reports with filtering and grouping functionality."
+  s.license = "GPLv3"
 
-  s.files = Dir["{app,config,db,lib}/**/*", "CHANGELOG.md", "API_CHANGES.md", "README.md"]
-  s.test_files = Dir["test/**/*_test.rb"]
+  s.files = Dir["{config, doc, lib}/**/*", "README.md"]
 
   s.add_dependency "rails", "~> 3.2.9"
   s.add_dependency "json"
