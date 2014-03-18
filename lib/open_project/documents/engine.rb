@@ -38,7 +38,7 @@ module OpenProject::Documents
 
     register 'openproject-documents',
              :author_url => "http://www.finn.de",
-             :requires_openproject => ">= 3.0.0pre49" do
+             :requires_openproject => ">= 3.0.0" do
 
       menu :project_menu, :documents,
                           { :controller => '/documents', :action => 'index' },

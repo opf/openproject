@@ -16,7 +16,7 @@ who has access to the document.
 Requirements
 ------------
 
-The OpenProject Documents plug-in requires the [OpenProject Core](https://github.com/opf/openproject/) in version greater or equal to *3.0.0pre49*.
+The OpenProject Documents plug-in requires the [OpenProject Core](https://github.com/opf/openproject/) in version greater or equal to *3.0.0*.
 
 
 Installation
