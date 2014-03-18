@@ -6,7 +6,7 @@
     "jquery-ujs": "latest",
     "select2": "~3.3.2",
     "jquery.atwho": "latest",
-    "openproject-ui_components": "openproject-ui_components#dev",
+    "openproject-ui_components": "opf/openproject-ui_components#with-bower",
     "angular": "~1.2.14",
     "angular-animate": "~1.2.14",
     "angular-ui-select2": "latest",
