@@ -35,14 +35,22 @@ describe 'Toggable fieldset' do
     let(:fieldset) { legend_text.find(:xpath, '../../..') }
   end
 
+  shared_context 'find toggle label' do
+    let(:link) { legend_text.find(:xpath, '..') }
+    let(:toggle_state_label) { link.find("span.hidden-for-sighted", visible: false) }
+
+    it { expect(toggle_state_label).not_to be_nil }
+   end
+
   shared_examples_for 'toggable fieldset initially collapsed' do
     it_behaves_like 'collapsed fieldset'
 
-    describe 'initial state', js: true do
+    describe 'initial state' do
       include_context 'find legend with text'
+      it_behaves_like 'toggle state set collapsed'
     end
 
-    describe 'after click', js: true do
+    describe 'after click' do
       include_context 'find legend with text'
 
       before { legend_text.click }
@@ -54,18 +62,32 @@ describe 'Toggable fieldset' do
   shared_examples_for 'toggable fieldset initially expanded' do
     it_behaves_like 'expanded fieldset'
 
-    describe 'initial state', js: true do
+    describe 'initial state' do
       include_context 'find legend with text'
-
+      it_behaves_like 'toggle state set expanded'
     end
 
-    describe 'after click', js: true do
+    describe 'after click' do
       include_context 'find legend with text'
 
       before { legend_text.click }
 
       it_behaves_like 'collapsed fieldset'
     end
+  end
+
+  shared_examples_for 'toggle state set collapsed' do
+    include_context 'find legend with text'
+    include_context 'find toggle label'
+
+    it { expect(toggle_state_label.text(:all)).to include(I18n.t('js.label_collapsed')) }
+  end
+
+  shared_examples_for 'toggle state set expanded' do
+    include_context 'find legend with text'
+    include_context 'find toggle label'
+
+    it { expect(toggle_state_label.text(:all)).to include(I18n.t('js.label_expanded')) }
   end
 
   shared_context 'collapsed CSS' do

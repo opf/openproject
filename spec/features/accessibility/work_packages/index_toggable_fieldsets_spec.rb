@@ -41,13 +41,13 @@ describe 'Work package index' do
       work_packages_page.visit_index
     end
 
-    describe 'Filter fieldset' do
+    describe 'Filter fieldset', js: true do
       it_behaves_like 'toggable fieldset initially expanded' do
         let(:fieldset_name) { 'Add filter' }
       end
     end
 
-    describe 'Options fieldset' do
+    describe 'Options fieldset', js: true do
       it_behaves_like 'toggable fieldset initially collapsed' do
         let(:fieldset_name) { 'Options' }
       end
