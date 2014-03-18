@@ -43,6 +43,9 @@ Given(/^"(.*?)" has the following replies:$/) do |message_name, table|
   create_messages(table.raw.collect { |r| r.first }, message.board, message)
 end
 
+InstanceFinder.register(Message, Proc.new{ |name| Message.find_by_subject(name) })
+RouteMap.register(Message, "/topics")
+
 private
 
 def create_messages(names, board, parent=nil)

@@ -86,3 +86,15 @@ Feature: Issue textile quickinfo links
     When I click on the first button matching "Create"
     Then there should be an error message
     Then the "message_content" field should contain "Here you find the most frequently asked questions"
+
+  @javascript
+  Scenario: Previewing a message on edit
+    Given the board "development discussion" has the following messages:
+      | message #1 |
+    And "message #1" has the following replies:
+      | reply #1 |
+    And I am already admin
+   When I go to the edit page of the message called "reply #1"
+    And I fill in "Message reply updated" for "message_content"
+    And I follow "Preview"
+   Then I should see "Message reply updated" within "#preview"
