@@ -6,7 +6,7 @@ angular.module('openproject.helpers')
     apiPrefix: '/api/v2',
 
     projectPath: function(projectIdentifier) {
-      return '/projects/' + projectIdentifier;
+      return '/api/v2/projects/' + projectIdentifier;
     },
     workPackagesPath: function() {
       return '/work_packages';
@@ -15,7 +15,7 @@ angular.module('openproject.helpers')
       return '/work_packages/' + id;
     },
     projectWorkPackagesPath: function(projectIdentifier) {
-      return PathHelper.projectPath(projectIdentifier) + PathHelper.workPackagesPath();
+      return PathHelper.projectPath(projectIdentifier) + PathHelper.workPackagesPath() + ".json";
     },
     usersPath: function() {
       return '/users';
