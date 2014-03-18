@@ -50,10 +50,10 @@ class MessagesController < ApplicationController
       page = 1 + offset / REPLIES_PER_PAGE
     end
 
-    @replies =  @topic.children.includes(:author, :attachments, {:board => :project})
-                               .order("#{Message.table_name}.created_on ASC")
-                               .page(page)
-                               .per_page(per_page_param)
+    @replies = @topic.children.includes(:author, :attachments, {:board => :project})
+    .order("#{Message.table_name}.created_on ASC")
+    .page(page)
+    .per_page(per_page_param)
 
     @reply = Message.new(:subject => "RE: #{@message.subject}")
     render :action => "show", :layout => !request.xhr?
@@ -76,14 +76,10 @@ class MessagesController < ApplicationController
 
     @message.safe_attributes = params[:message]
 
-    if params[:message]['sticky'] == "1"
-      @message.update_attribute(:sticked_on,Time.now)
-    end
-
     @message.attach_files(params[:attachments])
 
     if @message.save
-      call_hook(:controller_messages_new_after_save, { :params => params, :message => @message})
+      call_hook(:controller_messages_new_after_save, {:params => params, :message => @message})
 
       redirect_to topic_path(@message)
     else
@@ -102,7 +98,7 @@ class MessagesController < ApplicationController
 
     @topic.children << @reply
     if !@reply.new_record?
-      call_hook(:controller_messages_reply_after_save, { :params => params, :message => @reply})
+      call_hook(:controller_messages_reply_after_save, {:params => params, :message => @reply})
       attachments = Attachment.attach_files(@reply, params[:attachments])
       render_attachment_warning_if_needed(@reply)
     end
@@ -137,8 +133,8 @@ class MessagesController < ApplicationController
     (render_403; return false) unless @message.destroyable_by?(User.current)
     @message.destroy
     redirect_to @message.parent.nil? ?
-      { :controller => '/boards', :action => 'show', :project_id => @project, :id => @board } :
-      { :action => 'show', :id => @message.parent, :r => @message }
+                    {:controller => '/boards', :action => 'show', :project_id => @project, :id => @board} :
+                    {:action => 'show', :id => @message.parent, :r => @message}
   end
 
   def quote
