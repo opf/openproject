@@ -75,3 +75,6 @@ Then(/^I should see the following fields:$/) do |table|
   end
 end
 
+Then(/^"([^"]*)" should be the first row in table$/) do |name|
+  should have_selector("table.list tbody tr td", :text => Regexp.new("#{name}"))
+end

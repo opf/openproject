@@ -58,16 +58,18 @@ class BoardsController < ApplicationController
                     'replies' => "#{Message.table_name}.replies_count",
                     'updated_on' => "#{Message.table_name}.updated_on"
 
-        @topics =  @board.topics.order(["#{Message.table_name}.sticky DESC", sort_clause].compact.join(', '))
+        @topics =  @board.topics.order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
                                 .includes(:author, { :last_reply => :author })
                                 .page(params[:page])
                                 .per_page(per_page_param)
+
+
 
         @message = Message.new
         render :action => 'show', :layout => !request.xhr?
       }
       format.atom {
-        @messages = @board.messages.order('created_on DESC')
+        @messages = @board.messages.order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
                                    .includes(:author, :board)
                                    .limit(Setting.feeds_limit.to_i)
 
