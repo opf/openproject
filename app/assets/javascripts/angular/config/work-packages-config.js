@@ -1,70 +1,11 @@
 angular.module('openproject.workPackages.config')
 
-.constant('AVAILABLE_COLUMNS', [
-  {
-    custom_field: false,
-    groupable: 'project',
-    meta_data: { data_type: 'object', link: { display: true, model_type: 'project' } },
-    name: 'project',
-    sortable: 'projects.name',
-    title: 'Project'
-  },
-  {
-    custom_field: false,
-    groupable: 'type',
-    meta_data: { data_type: 'object', link: { display: true } },
-    name: 'type',
-    sortable: 'types.postition',
-    title: 'Type'
-  }
-])
-
-.constant('INITIALLY_SELECT_COLUMNS', [
-  {
-    custom_field: false,
-    groupable: false,
-    meta_data: { data_type: 'integer', link: { display: true } },
-    name: 'id',
-    sortable: true,
-    title: '#'
-  },
-  {
-    custom_field: false,
-    groupable: false,
-    meta_data: { data_type: 'string' },
-    name: 'subject',
-    sortable: true,
-    title: 'Subject'
-  },
-  {
-    custom_field: false,
-    groupable: 'type',
-    meta_data: { data_type: 'object', link: { display: true } },
-    name: 'type',
-    sortable: 'types.postition',
-    title: 'Type'
-  },
-  {
-    custom_field: false,
-    groupable: false,
-    meta_data: { data_type: 'date' },
-    name: 'start_date',
-    sortable: true,
-    title: 'Started at'
-  },
-  {
-    custom_field: false,
-    groupable: false,
-    meta_data: { data_type: 'date' },
-    name: 'due_date',
-    sortable: true,
-    title: 'Due on'
-  },
-])
+.constant('INITIALLY_SELECT_COLUMNS', ["id", "subject"])
 
 .constant('OPERATORS_AND_LABELS_BY_FILTER_TYPE', {
   list: {"=":"is","!":"is not"},
-  list_status: {"o":"open","=":"is","!":"is not","c":"closed","*":"all"},
+  list_model: {"=":"is","!":"is not"},
+  list_status: {"o":"open","=":"is","!":"is not","c":"closed","*":"all"}, // TODO RS: Need a generalised solution
   list_optional: {"=":"is","!":"is not","!*":"none","*":"all"},
   list_subprojects: {"*":"all","!*":"none","=":"is"},
   date: {"<t+":"in less than",">t+":"in more than","t+":"in","t":"today","w":"this week",">t-":"less than days ago","<t-":"more than days ago","t-":"days ago"},
@@ -76,7 +17,7 @@ angular.module('openproject.workPackages.config')
 
 .constant('AVAILABLE_WORK_PACKAGE_FILTERS', {
   status_id: { type: "list_model", model_name: "status" ,order:1, name: "Status" },
-  type_id: { type:"list_model", model_name: "type", "order":2, name: "Type" },
+  // type_id: { type:"list_model", model_name: "type", "order":2, name: "Type" },
   // priority_id: {"type":"list","order":3,"values":[["Immediate","29"],["High","30"],["Low","31"],["Normal","32"]],"name":"Priority"},
   subject: {"type":"text","order":8,"name":"Subject"},
   created_at: {"type":"date_past","order":9,"name":"Created on"},
@@ -97,7 +38,7 @@ angular.module('openproject.workPackages.config')
 
 .constant('DEFAULT_QUERY', {
   display_sums: false,
-  filters: [{ status_id: {"operator":"o","values":[""], name: "status_id" }}],
+  // filters: [{ status_id: {"operator":"o","values":[""], name: "status_id" }}],
   group_by: null,
   id: null
 })

@@ -64,7 +64,7 @@ module Api
         @columns = if params[:c]
                      params[:c].map {|c| c.to_sym }
                    else
-                     [:id, :start_date] # TODO RS: Get defaults from somewhere sensible
+                     [:id, :start_date, :type] # TODO RS: Get defaults from somewhere sensible
                    end
 
         @work_packages_meta = {

@@ -26,18 +26,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-object false
-
-child @work_packages => :work_packages do
-
-  @columns.each do |c|
-    node(c, :if => lambda{ |wp| wp.respond_to?(c) }) do |wp|
-      wp.send(c)
-    end
-  end
-
-end
-
-if @display_meta
-  node(:meta) { @work_packages_meta }
-end
+collection @available_columns => :available_columns
+attributes :name,
+           :caption_key,
+           :default_order,
+           :groupable
