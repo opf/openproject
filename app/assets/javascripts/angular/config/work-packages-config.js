@@ -22,12 +22,44 @@ angular.module('openproject.workPackages.config')
 .constant('INITIALLY_SELECT_COLUMNS', [
   {
     custom_field: false,
+    groupable: false,
+    meta_data: { data_type: 'integer', link: { display: true } },
+    name: 'id',
+    sortable: true,
+    title: '#'
+  },
+  {
+    custom_field: false,
+    groupable: false,
+    meta_data: { data_type: 'string' },
+    name: 'subject',
+    sortable: true,
+    title: 'Subject'
+  },
+  {
+    custom_field: false,
     groupable: 'type',
     meta_data: { data_type: 'object', link: { display: true } },
     name: 'type',
     sortable: 'types.postition',
     title: 'Type'
-  }
+  },
+  {
+    custom_field: false,
+    groupable: false,
+    meta_data: { data_type: 'date' },
+    name: 'start_date',
+    sortable: true,
+    title: 'Started at'
+  },
+  {
+    custom_field: false,
+    groupable: false,
+    meta_data: { data_type: 'date' },
+    name: 'due_date',
+    sortable: true,
+    title: 'Due on'
+  },
 ])
 
 .constant('OPERATORS_AND_LABELS_BY_FILTER_TYPE', {
