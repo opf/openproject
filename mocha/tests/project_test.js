@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/ 
+/*jshint expr: true*/
 
 describe('Project', function(){
 
@@ -45,7 +45,7 @@ describe('Project', function(){
 
   });
 
-  beforeEach(module('openproject.timelines.models'));
+  beforeEach(module('openproject.timelines.models', 'openproject.uiComponents'));
   beforeEach(inject(function(_Project_, _PlanningElement_, _Timeline_) {
     Project         = _Project_;
     PlanningElement = _PlanningElement_;

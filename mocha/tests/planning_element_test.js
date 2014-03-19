@@ -44,7 +44,7 @@ describe('Planning Element', function(){
     });
   });
 
-  beforeEach(module('openproject.timelines.models'));
+  beforeEach(module('openproject.timelines.models', 'openproject.uiComponents'));
   beforeEach(inject(function(_PlanningElement_, _Timeline_) {
     PlanningElement = _PlanningElement_;
     Timeline        = _Timeline_;

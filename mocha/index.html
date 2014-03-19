@@ -26,6 +26,10 @@
 
     <script src="../app/assets/javascripts/angular/controllers/timelines_controller.js"></script>
 
+    <script src="../vendor/assets/components/openproject-ui_components/app/assets/javascripts/angular/ui-components-app.js"></script>
+    <script src="../app/assets/javascripts/angular/helpers/components/i18n.js"></script>
+    <script src="../app/assets/javascripts/angular/helpers/components/custom-field-helper.js"></script>
+
     <script src="../app/assets/javascripts/angular/models/filter.js"></script>
     <script src="../app/assets/javascripts/angular/models/query.js"></script>
     <script src="../app/assets/javascripts/angular/models/sortation.js"></script>
@@ -54,7 +58,7 @@
     <script src="tests/timeline_stubs.js"></script>
 
     <script>
-    window.$injector = angular.injector(['ng', 'ngMock', 'openproject.timelines.models']);
+    window.$injector = angular.injector(['ng', 'ngMock', 'openproject.uiComponents', 'openproject.timelines.models']);
     </script>
 
     <script src="factories/planning_element_factory.js"></script>
