@@ -21,7 +21,8 @@ See doc/COPYRIGHT.md for more details.
 <%= form_for content, :url => {:controller => '/' + content_type.pluralize, :action => 'update', :meeting_id => content.meeting}, :html => {:id => "#{content_type}_form", :method => :put} do |f| %>
 <%= error_messages_for content_type %>
 
-<p><%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit) %></p>
+<p><%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit),
+                   :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json) %></p>
 <%= f.hidden_field :lock_version %>
 <p><label for="<%= content_type %>_comment"><%= Meeting.human_attribute_name(:comments) %></label><br /><%= f.text_field :comment, :size => 120 %></p>
 <p><%= submit_tag l(:button_save) %>
