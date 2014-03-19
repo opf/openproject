@@ -27,7 +27,10 @@
 #++
 
 collection @available_columns => :available_columns
-attributes :name,
-           :caption_key,
-           :default_order,
-           :groupable
+
+node(:name) { |c| c[:name] }
+node(:title) { |c| c[:title] }
+node(:sortable) { |c| c[:sortable] }
+node(:groupable) { |c| c[:groupable] }
+node(:custom_field) { |c| c[:custom_field] }
+node(:meta_data) { |c| c[:meta_data] }
