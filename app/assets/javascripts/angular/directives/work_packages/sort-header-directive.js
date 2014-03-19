@@ -13,12 +13,6 @@ angular.module('openproject.workPackages.directives')
       updateResults: '&'
     },
     link: function(scope, element, attributes) {
-      scope.$watch('query.sortation', function(oldValue, newValue) {
-        if (newValue !== oldValue) {
-          scope.updateResults();
-        }
-      });
-
       scope.performSort = function(){
         targetSortation = scope.query.sortation.getTargetSortationOfHeader(scope.headerName);
         scope.query.setSortation(targetSortation);
