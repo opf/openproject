@@ -60,6 +60,7 @@ class MyController < ApplicationController
   def index
     @user = User.current
     @blocks = get_current_layout
+    @reported_count = WorkPackage.on_active_project.with_author(current_user).count
     render :action => 'page', :layout => 'base'
   end
   alias :page :index
