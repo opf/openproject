@@ -190,7 +190,7 @@ class Journal < ActiveRecord::Base
     @predecessor ||= Journal.where("journable_type = ? AND journable_id = ? AND version < ?",
                                    journable_type, journable_id, version)
                             .order("version DESC")
-                            .limit(1).first
+                            .first
   end
 
   def journalized_object_type
