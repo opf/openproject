@@ -322,7 +322,7 @@ class WorkPackagesController < ApplicationController
 
   def column_is_numeric?(column_name)
     # TODO RS: We want to leave out ids even though they are numeric
-    [:integer, :float].include? column_type(column_name)
+    [:int, :float].include? column_type(column_name)
   end
 
   def column_type(column_name)
