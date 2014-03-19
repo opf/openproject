@@ -115,6 +115,12 @@ OpenProject::Application.routes.draw do
       end
 
     end
+
+    namespace :v3 do
+      resources :projects, only: [:show] do
+        resources :work_packages, only: [:index]
+      end
+    end
   end
 
   match '/roles/workflow/:id/:role_id/:type_id' => 'roles#workflow'
