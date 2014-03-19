@@ -6,10 +6,10 @@ angular.module('openproject.helpers')
     apiPrefix: '/api/v2',
 
     projectPath: function(projectIdentifier) {
-      return '/api/v2/projects/' + projectIdentifier;
+      return '/api/v3/projects/' + projectIdentifier;
     },
     workPackagesPath: function() {
-      return '/planning_elements';
+      return '/work_packages';
     },
     workPackagePath: function(id) {
       return '/work_packages/' + id;
