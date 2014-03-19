@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#284`  Fix: Sticky does not apply to forum
 * `#2393` Fix: No warning when leaving site without saving
 * `#2401` Fix: New target version cannot be created from work package view
 * `#3267` Fix: Link in Breadcrumbs links to global work packages
