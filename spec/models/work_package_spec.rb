@@ -823,15 +823,17 @@ describe WorkPackage do
   end
 
   describe :with_author do
+    let(:user) { FactoryGirl.create(:user) }
     let(:project_archived) { FactoryGirl.create(:project,
                                                 status: Project::STATUS_ARCHIVED) }
-    let(:work_package) { FactoryGirl.create(:work_package) }
+    let(:work_package) { FactoryGirl.create(:work_package, :author => user) }
     let(:work_package_in_archived_project) { FactoryGirl.create(:work_package,
-                                                                project: project_archived) }
+                                                                :project => project_archived,
+                                                                :author => user) }
 
     before { work_package }
 
-    subject { WorkPackage.with_author.length }
+    subject { WorkPackage.with_author(user).length }
 
     context "one work package in active projects" do
       it { should eq(1) }
@@ -839,7 +841,7 @@ describe WorkPackage do
       context "and one work package in archived projects" do
         before { work_package_in_archived_project }
 
-        it { should eq(1) }
+        it { should eq(2) }
       end
     end
   end
