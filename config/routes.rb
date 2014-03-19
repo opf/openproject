@@ -119,6 +119,9 @@ OpenProject::Application.routes.draw do
     namespace :v3 do
       resources :projects, only: [:show] do
         resources :work_packages, only: [:index]
+        resources :queries, only: [:show] do
+          get :available_columns, on: :collection
+        end
       end
     end
   end

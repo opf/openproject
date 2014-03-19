@@ -1,7 +1,7 @@
 angular.module('openproject.workPackages.controllers')
 
-.controller('WorkPackagesController', ['$scope', 'WorkPackagesTableHelper', 'Query', 'Sortation', 'WorkPackageService', 'AVAILABLE_COLUMNS', 'INITIALLY_SELECT_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE', 'AVAILABLE_WORK_PACKAGE_FILTERS','DEFAULT_SORT_CRITERIA', 'DEFAULT_QUERY', 'PAGINATION_OPTIONS',
-            function($scope, WorkPackagesTableHelper, Query, Sortation, WorkPackageService, AVAILABLE_COLUMNS, INITIALLY_SELECT_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE, AVAILABLE_WORK_PACKAGE_FILTERS, DEFAULT_SORT_CRITERIA, DEFAULT_QUERY, PAGINATION_OPTIONS) {
+.controller('WorkPackagesController', ['$scope', 'WorkPackagesTableHelper', 'Query', 'Sortation', 'WorkPackageService', 'INITIALLY_SELECT_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE', 'AVAILABLE_WORK_PACKAGE_FILTERS','DEFAULT_SORT_CRITERIA', 'DEFAULT_QUERY', 'PAGINATION_OPTIONS',
+            function($scope, WorkPackagesTableHelper, Query, Sortation, WorkPackageService, INITIALLY_SELECT_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE, AVAILABLE_WORK_PACKAGE_FILTERS, DEFAULT_SORT_CRITERIA, DEFAULT_QUERY, PAGINATION_OPTIONS) {
 
   function initialSetup() {
     $scope.projectIdentifier = gon.project_identifier;
@@ -11,7 +11,7 @@ angular.module('openproject.workPackages.controllers')
   }
 
   function setupQuery() {
-    // TODO: put the available filters onto the query?
+    // TODO: we will have to load the query if we have a query id here.
     $scope.query = new Query(DEFAULT_QUERY, { available_work_package_filters: AVAILABLE_WORK_PACKAGE_FILTERS});
 
     sortation = new Sortation(DEFAULT_SORT_CRITERIA);
@@ -21,6 +21,7 @@ angular.module('openproject.workPackages.controllers')
 
     // Columns
     $scope.columns = INITIALLY_SELECT_COLUMNS;
+    // TODO: Get available columns from api
     $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(AVAILABLE_COLUMNS, $scope.columns);
 
     angular.extend($scope.query, {
