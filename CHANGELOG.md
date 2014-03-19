@@ -20,6 +20,7 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+* `#4040` Fix: Referencing work packages with ### in news, forums and meetings does not work
 * Fix: Add edit accesskey for wiki
 
 ## 3.0.8
