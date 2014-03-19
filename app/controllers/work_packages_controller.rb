@@ -286,41 +286,53 @@ class WorkPackagesController < ApplicationController
     column_names = params[:column_names]
     project = Project.find_visible(current_user, params[:id])
     work_packages = project.work_packages
-
     sums = column_names.map do |column_name|
-      column_is_numeric?(column_name) ? fetch_column_data(column_name, work_packages).map{|c| c.nil? ? 0 : c}.sum : nil
+      fetch_column_data(column_name, work_packages).map{|c| c.nil? ? 0 : c}.compact.sum if column_should_be_summed_up?(column_name)
     end
 
     render json: sums
   end
 
   def fetch_columns_data(column_names, work_packages)
-    columns = column_names.map do |column_name|
+    column_names.map do |column_name|
       fetch_column_data(column_name, work_packages)
     end
   end
 
   def fetch_column_data(column_name, work_packages)
-    column = if column_name =~ /cf_(.*)/
-        work_packages.map do |work_package|
-          value = work_package.custom_values.find_by_custom_field_id($1) and value.nil? ? {} : value.attributes
-        end
-      else
-        work_packages.map do |work_package|
-          # Note: Doing as_json here because if we just take the value.attributes then we can't get any methods later.
-          #       Name and subject are the default properties that the front end currently looks for to summarize an object.
-          value = work_package.send(column_name) and value.is_a?(ActiveRecord::Base) ? value.as_json( only: "id", methods: [:name, :subject] ) : value
-        end
+    if column_name =~ /cf_(.*)/
+      custom_field = CustomField.find($1)
+      work_packages.map do |work_package|
+        custom_value = work_package.custom_values.find_by_custom_field_id($1)
+        custom_field.cast_value custom_value.try(:value)
       end
+    else
+      work_packages.map do |work_package|
+        # Note: Doing as_json here because if we just take the value.attributes then we can't get any methods later.
+        #       Name and subject are the default properties that the front end currently looks for to summarize an object.
+        value = work_package.send(column_name)
+        value.is_a?(ActiveRecord::Base) ? value.as_json( only: "id", methods: [:name, :subject] ) : value
+      end
+    end
+  end
+
+  def column_should_be_summed_up?(column_name)
+    # see ::Query::Sums mix in
+    column_is_numeric?(column_name) && Setting.work_package_list_summable_columns.include?(column_name.to_s)
   end
 
   def column_is_numeric?(column_name)
     # TODO RS: We want to leave out ids even though they are numeric
-    [:integer, :float].include? column_type(column_name)
+    [:int, :float].include? column_type(column_name)
   end
 
   def column_type(column_name)
-    column_name =~ /cf_(.*)/ ? CustomField.find($1).field_format.to_sym : (c = WorkPackage.columns_hash[column_name] and c.nil? ? :none : c.type)
+    if column_name =~ /cf_(.*)/
+      CustomField.find($1).field_format.to_sym
+    else
+      column = WorkPackage.columns_hash[column_name]
+      column.nil? ? :none : column.type
+    end
   end
 
 
@@ -535,7 +547,6 @@ class WorkPackagesController < ApplicationController
 
   def push_query_and_results_via_gon(results, work_packages)
     get_query_and_results_as_json(results, work_packages).each_pair do |name, value|
-      # binding.pry if name == :query
       gon.send "#{name}=", value
     end
     # TODO later versions of gon support gon.push {Hash} - on the other hand they make it harder to deliver data to gon inside views
