@@ -11,7 +11,8 @@ angular.module('openproject.services')
       registeredUserIds.push(id);
       cachedUsers[id] = { name: '', firstname: '', lastname: '' }; // create an empty object and fill its values on load
 
-      FunctionDecorators.withDelay(10, UserService.loadRegisteredUsers);
+      FunctionDecorators.withDelay(10, UserService.loadRegisteredUsers); // HACK
+      // TODO hook into a given promise chain to post-load user data, or if ngView is used trigger load on $viewContentLoaded
 
       return cachedUsers[id];
     },

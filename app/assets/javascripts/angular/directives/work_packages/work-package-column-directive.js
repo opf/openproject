@@ -37,18 +37,16 @@ angular.module('openproject.workPackages.directives')
       }
 
       function loadUserName() {
-        if (scope.user) return;
-
         var userId = scope.displayText;
 
         if(userId) {
           scope.user = UserService.registerUserId(userId);
 
-          scope.$watch('user', function(user) {
+          scope.$watch('user.name', function(userName) {
             // triggered when user data is loaded
             // TODO replace watcher as soon as data is loaded via a promise chain
-            scope.displayText = user.name;
-          }, true);
+            scope.displayText = userName;
+          });
         }
       }
 
