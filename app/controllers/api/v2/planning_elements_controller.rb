@@ -307,6 +307,7 @@ module Api
                    else
                      [:id, :start_date] # Defaults
                    end
+
         @planning_elements_meta = {
           work_package_count_by_group:  results.work_package_count_by_group,
           sums:                         query.columns.map { |column| results.total_sum_of(column) },

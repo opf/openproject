@@ -9,7 +9,7 @@ angular.module('openproject.helpers')
       return '/api/v2/projects/' + projectIdentifier;
     },
     workPackagesPath: function() {
-      return '/work_packages';
+      return '/planning_elements';
     },
     workPackagePath: function(id) {
       return '/work_packages/' + id;

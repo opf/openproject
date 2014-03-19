@@ -35,10 +35,11 @@ child @planning_elements => :planning_elements do
 
   node(:start_date, :if => lambda{|pe| pe.start_date.present? && @columns.include?(:start_date)}) { |pe| pe.start_date.to_formatted_s(:db) }
 
-  node :due_date, :if => lambda{|pe| pe.due_date.present? && @columns.include?(:start_date)} {|pe| pe.due_date.to_formatted_s(:db) }
+  node :due_date, :if => lambda{|pe| pe.due_date.present? && @columns.include?(:due_date)} {|pe| pe.due_date.to_formatted_s(:db) }
 
-  node :created_at, if: lambda{|pe| pe.created_at.present? && @columns.include?(:start_date)} {|pe| pe.created_at.utc}
-  node :updated_at, if: lambda{|pe| pe.updated_at.present? && @columns.include?(:start_date)} {|pe| pe.updated_at.utc}
+  node :created_at, if: lambda{|pe| pe.created_at.present? && @columns.include?(:created_at)} {|pe| pe.created_at.utc}
+
+  node :updated_at, if: lambda{|pe| pe.updated_at.present? && @columns.include?(:updated_at)} {|pe| pe.updated_at.utc}
 
   node do |element|
     Hash[element.custom_values.map { |cv| ["cf_#{cv.custom_field_id}", cv.value] }]
