@@ -28,7 +28,7 @@ OpenProject Documents depends on OpenProject Plugins. Thus, if you haven't done 
 
 For OpenProject Documents itself you need to add the following line to the `Gemfile.plugins` of OpenProject:
 
-`gem "openproject-documents", git: "https://github.com/finnlabs/openproject-documents.git", :branch => "dev"`
+`gem "openproject-documents", git: "https://github.com/opf/openproject-documents.git", :branch => "dev"`
 
 Afterwards, run:
 
@@ -44,7 +44,7 @@ Deinstallation
 
 Remove the line
 
-`gem "openproject-documents", git: "https://github.com/finnlabs/openproject-documents.git"`, :branch => "dev"`
+`gem "openproject-documents", git: "https://github.com/opf/openproject-documents.git", :branch => "dev"`
 
 from the file `Gemfile.plugins` and run:
 
@@ -65,7 +65,7 @@ Development
 -----------
 
 To contribute, you can create pull request on the official repository at
-`https://github.com/finnlabs/openproject-documents`
+`https://github.com/opf/openproject-documents`
 
 Licence
 -------
