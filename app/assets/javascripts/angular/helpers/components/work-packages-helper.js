@@ -1,6 +1,6 @@
-angular.module('openproject.uiComponents')
+angular.module('openproject.workPackages.helpers')
 
-.factory('WorkPackagesHelper', [function() {
+.factory('WorkPackagesHelper', ['dateFilter', 'CustomFieldHelper', function(dateFilter, CustomFieldHelper) {
   var WorkPackagesHelper = {
     getRowObjectContent: function(object, option) {
       var content = object[option];
@@ -33,28 +33,35 @@ angular.module('openproject.uiComponents')
         return customValue.custom_field_id === customField.id;
       }).first();
 
-      return WorkPackagesHelper.getCustomValue(customField, customValue);
-    },
-
-    getCustomValue: function(customField, customValue) {
-      if (!customValue) return '';
-
-      switch(customField.field_format) {
-        case 'int':
-          return parseInt(customValue.value);
-        case 'float':
-          return parseFloat(customValue.value);
-        default:
-          return customValue.value;
+      if(customValue) {
+        return CustomFieldHelper.formatCustomFieldValue(customValue.value, customField.field_format);
       }
     },
 
-    getColumnValue: function(rowObject, column) {
+    getFormattedColumnValue: function(rowObject, column) {
+      var value;
+
       if (column.custom_field) {
         return WorkPackagesHelper.getRowObjectCustomValue(rowObject, column.custom_field);
       } else {
-        return WorkPackagesHelper.getRowObjectContent(rowObject, column.name);
+        value = WorkPackagesHelper.getRowObjectContent(rowObject, column.name);
+        return WorkPackagesHelper.formatValue(value, column.meta_data.data_type);
       }
+    },
+
+    formatValue: function(value, dataType) {
+      switch(dataType) {
+        case 'datetime':
+          return dateFilter(WorkPackagesHelper.parseDateTime(value), 'medium');
+        case 'date':
+          return dateFilter(value, 'mediumDate');
+        default:
+          return value;
+      }
+    },
+
+    parseDateTime: function(value) {
+      return new Date(Date.parse(value.replace(/(A|P)M$/, '')));
     },
 
     projectRowsToColumn: function(rows, column) {
