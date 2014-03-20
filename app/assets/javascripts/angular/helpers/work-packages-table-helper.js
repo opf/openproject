@@ -65,8 +65,18 @@ angular.module('openproject.workPackages.helpers')
         return column.name;
       });
 
+      return this.getColumnDifferenceByName(allColumns, columnValues)
+    },
+
+    getColumnDifferenceByName: function (allColumns, columnValues) {
       return allColumns.filter(function(column) {
         return !(columnValues.indexOf(column.name) > -1);
+      });
+    },
+
+    getColumnUnionByName: function (allColumns, columnValues) {
+      return allColumns.filter(function(column) {
+        return (columnValues.indexOf(column.name) > -1);
       });
     },
 

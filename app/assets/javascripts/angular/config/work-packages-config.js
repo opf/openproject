@@ -1,6 +1,6 @@
 angular.module('openproject.workPackages.config')
 
-.constant('INITIALLY_SELECT_COLUMNS', ["id", "subject"])
+.constant('INITIALLY_SELECTED_COLUMNS', ["id", "subject"])
 
 .constant('OPERATORS_AND_LABELS_BY_FILTER_TYPE', {
   list: {"=":"is","!":"is not"},
