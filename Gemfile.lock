@@ -185,7 +185,7 @@ GEM
     mime-types (1.25.1)
     mocha (0.13.3)
       metaclass (~> 0.0.1)
-    multi_json (1.8.2)
+    multi_json (1.9.2)
     multi_test (0.0.2)
     mysql2 (0.3.11)
     net-ldap (0.2.2)
