@@ -180,7 +180,7 @@ class UserMailer < ActionMailer::Base
                              :action     => :diff,
                              :project_id => wiki_content.project,
                              :id         => wiki_content.page.title,
-                             :version    => wiki_content.version)
+                             :version    => wiki_content.version + 1)
 
     open_project_headers 'Project'      => @wiki_content.project.identifier,
                          'Wiki-Page-Id' => @wiki_content.page.id,
