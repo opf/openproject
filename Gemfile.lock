@@ -20,33 +20,9 @@ GIT
   specs:
     prototype_legacy_helper (0.0.0)
 
-PATH
-  remote: ../openproject-plugins
-  specs:
-    openproject-plugins (1.0.6)
-      rails (~> 3.2.9)
-
-PATH
-  remote: /home/richard/projects/finnlabs/openproject-backlogs
-  specs:
-    openproject-backlogs (3.0.5.pre3)
-      acts_as_silent_list
-      openproject-pdf_export
-      openproject-plugins
-      rails (~> 3.2.9)
-
-PATH
-  remote: /home/richard/projects/finnlabs/openproject-pdf_export
-  specs:
-    openproject-pdf_export (0.0.1)
-      openproject-plugins (~> 1.0.5)
-      prawn (~> 0.14.0)
-      rails (~> 3.2.14)
-
 GEM
   remote: https://rubygems.org/
   specs:
-    Ascii85 (1.0.2)
     actionmailer (3.2.17)
       actionpack (= 3.2.17)
       mail (~> 2.5.4)
@@ -78,14 +54,10 @@ GEM
       multi_json (~> 1.0)
     acts_as_list (0.2.0)
       activerecord (>= 3.0)
-    acts_as_silent_list (1.2.0)
     addressable (2.3.4)
     arel (3.0.3)
     awesome_nested_set (2.1.6)
       activerecord (>= 3.0.0)
-    better_errors (1.1.0)
-      coderay (>= 1.0.0)
-      erubis (>= 2.6.6)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     bourne (1.4.0)
@@ -186,7 +158,6 @@ GEM
     guard-test (1.0.0)
       guard (>= 1.8)
       test-unit (~> 2.2)
-    hashery (2.1.1)
     hike (1.2.3)
     htmldiff (0.0.1)
     i18n (0.6.5)
@@ -224,20 +195,8 @@ GEM
     paper_trail (2.7.2)
       activerecord (~> 3.0)
       railties (~> 3.0)
-    pdf-inspector (1.1.0)
-      pdf-reader (~> 1.0)
-    pdf-reader (1.3.3)
-      Ascii85 (~> 1.0.0)
-      afm (~> 0.2.0)
-      hashery (~> 2.0)
-      ruby-rc4
-      ttfunk
     pg (0.17.1)
     polyglot (0.3.3)
-    prawn (0.14.0)
-      pdf-reader (~> 1.2)
-      ruby-rc4
-      ttfunk (~> 1.0.3)
     prototype-rails (3.2.1)
       rails (~> 3.2)
     pry (0.9.12.2)
@@ -261,8 +220,6 @@ GEM
     pry-stack_explorer (0.4.9.1)
       binding_of_caller (>= 0.7)
       pry (>= 0.9.11)
-    quiet_assets (1.0.2)
-      railties (>= 3.1, < 5.0)
     rabl (0.9.3)
       activesupport (>= 2.3.14)
     rack (1.4.5)
@@ -323,7 +280,6 @@ GEM
     ruby-openid (2.2.3)
     ruby-prof (0.13.0)
     ruby-progressbar (1.2.0)
-    ruby-rc4 (0.1.5)
     rubytree (0.8.3)
       json (>= 1.7.5)
       structured_warnings (>= 0.1.3)
@@ -338,8 +294,6 @@ GEM
       multi_json (~> 1.0)
       rubyzip
       websocket (~> 1.0.4)
-    sextant (0.2.4)
-      rails (>= 3.2)
     shoulda (3.5.0)
       shoulda-context (~> 1.0, >= 1.0.1)
       shoulda-matchers (>= 1.4.1, < 3.0)
@@ -380,7 +334,6 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    ttfunk (1.0.3)
     tzinfo (0.3.38)
     uglifier (2.1.1)
       execjs (>= 0.3.0)
@@ -401,7 +354,6 @@ DEPENDENCIES
   activerecord-tableless (~> 1.0)
   acts_as_list (~> 0.2.0)
   awesome_nested_set
-  better_errors
   capybara
   capybara-screenshot
   codeclimate-test-reporter
@@ -434,7 +386,6 @@ DEPENDENCIES
   object-daddy (~> 1.1.0)
   oj
   pg (~> 0.17.1)
-  prawn
   prototype-rails
   prototype_legacy_helper (= 0.0.0)!
   pry-byebug
@@ -443,7 +394,6 @@ DEPENDENCIES
   pry-rails
   pry-rescue
   pry-stack_explorer
-  quiet_assets
   rabl (= 0.9.3)
   rack-protection!
   rack_session_access
@@ -463,7 +413,6 @@ DEPENDENCIES
   rubytree (~> 0.8.3)
   sass-rails (~> 3.2.3)
   selenium-webdriver
-  sextant
   shoulda
   shoulda-matchers
   simplecov (>= 0.8.pre)
