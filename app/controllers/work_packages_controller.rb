@@ -30,7 +30,6 @@
 class WorkPackagesController < ApplicationController
   unloadable
 
-  DEFAULT_SORT_ORDER = ['parent', 'desc']
   EXPORT_FORMATS = %w[atom rss xls csv pdf]
 
   menu_item :new_work_package, :only => [:new, :create]
@@ -46,7 +45,6 @@ class WorkPackagesController < ApplicationController
   end
 
   include QueriesHelper
-  include SortHelper
   include PaginationHelper
 
   accept_key_auth :index, :show, :create, :update
@@ -209,35 +207,13 @@ class WorkPackagesController < ApplicationController
   end
 
   def index
-    sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
-    sort_update(@query.sortable_columns)
-
-    results = @query.results(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
-                            :order => sort_clause)
-
-    work_packages = if @query.valid?
-                      results.work_packages.page(page_param)
-                                           .per_page(per_page_param)
-                                           .all
-                    else
-                      []
-                    end
-
     respond_to do |format|
       format.html do
-        # push work packages to client as JSON
-        # TODO pull work packages via AJAX
-        # push_filter_operators_and_labels
-        push_query_and_results_via_gon results, work_packages
+        push_project_id_via_gon
 
         render :index, :locals => { :query => @query,
-                                    :work_packages => work_packages,
-                                    :results => results,
                                     :project => @project },
                        :layout => !request.xhr?
-      end
-      format.json do
-        render json: get_results_as_json(results, work_packages)
       end
       format.csv do
         serialized_work_packages = WorkPackage::Exporter.csv(work_packages, @project)
@@ -465,64 +441,14 @@ class WorkPackagesController < ApplicationController
   private
 
   # ------------------- Form JSON reponse for angular -------------------
-  # TODO provide data in API
 
-  def push_filter_operators_and_labels
-    gon.operators_and_labels_by_filter_type = get_operators_and_labels_by_filter_type
-
-  end
-
-  def push_query_and_results_via_gon(results, work_packages)
+  # TODO get from params
+  def push_project_id_via_gon
     gon.project_identifier = @project.to_param
     # TODO later versions of gon support gon.push {Hash} - on the other hand they make it harder to deliver data to gon inside views
   end
 
-  # filter information
-
-  def get_operators_and_labels_by_filter_type
-    Queries::Filter.operators_by_filter_type.inject({}) do |hash, (type, operators)|
-      hash.merge type => get_operators_to_label_hash(operators)
-    end
-  end
-
-  def get_operators_to_label_hash(operators)
-    operators.inject({}) do |operators_with_labels, operator|
-      operators_with_labels.merge(operator => I18n.t(Queries::Filter.operators[operator]))
-    end
-  end
-
-  # query
-
-  def get_query_and_results_as_json(results, work_packages)
-    get_results_as_json(results, work_packages).merge(
-      project_identifier:           @project.to_param,
-    )
-  end
-
-  def get_results_as_json(results, work_packages)
-    {
-      work_package_count_by_group:  results.work_package_count_by_group,
-      work_packages:                get_work_packages_as_json(work_packages, @query.columns),
-      sums:                         results.column_total_sums,
-      group_sums:                   results.column_group_sums,
-      page:                         page_param,
-      per_page:                     per_page_param,
-      per_page_options:             Setting.per_page_options_array,
-      total_entries:                work_packages.total_entries
-    }
-  end
-
-  # work packages
-
-  def get_work_packages_as_json(work_packages, selected_columns=[])
-    attributes_to_be_displayed = default_work_package_attributes +
-                                 (WorkPackage.attribute_names.map(&:to_sym) & selected_columns.map(&:name))
-
-    work_packages.as_json only: attributes_to_be_displayed,
-                          methods: [:leaf?, :overdue?],
-                          include: get_column_includes(selected_columns)
-  end
-
+  # TODO implement in API rabl template
   def get_column_includes(selected_columns=[])
     selected_associations = {
       assigned_to: { only: :id, methods: :name },
@@ -543,9 +469,5 @@ class WorkPackagesController < ApplicationController
     # WorkPackage.includes(:custom_values).where(['work_packages.id in (?) AND custom_values.custom_field_id in (?)', @query.results.map(&:id), custom_field_columns.map(&:id)])
 
     selected_associations
-  end
-
-  def default_work_package_attributes
-    %i(id parent_id)
   end
 end
