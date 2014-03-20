@@ -75,9 +75,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </div><!-- .title-bar -->
 
   <% if query.valid? %>
-    <%= render :partial => 'work_packages/list', :locals => { :work_packages => work_packages,
-                                                              :query => query,
-                                                              :results => results } %>
+    <%= render :partial => 'work_packages/list', :locals => { :query => query } %>
 
     <%= other_formats_links do |f| %>
       <%= f.link_to 'Atom', :url => { :project_id => project, :query_id => (query.new_record? ? nil : query), :key => User.current.rss_key } %>
@@ -91,7 +89,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 </div>
 
-<%= call_hook(:view_work_packages_index_bottom, { :issues => work_packages, :project => project, :query => query }) %>
+<%= call_hook(:view_work_packages_index_bottom, { :project => project, :query => query }) %>
 
 <% content_for :sidebar do %>
   <%= render :partial => 'sidebar' %>

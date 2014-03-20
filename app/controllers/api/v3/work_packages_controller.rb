@@ -6,8 +6,11 @@ module Api
     class WorkPackagesController < ApplicationController
       unloadable
 
+      DEFAULT_SORT_ORDER = ['parent', 'desc']
+
       include PaginationHelper
       include QueriesHelper
+      include SortHelper
       include ::Api::V3::ApiController
       include ExtendedHTTP
 
@@ -16,6 +19,9 @@ module Api
       before_filter :assign_planning_elements, only: [:index]
 
       def index
+        sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
+        sort_update(@query.sortable_columns)
+
         # the data for the index is already produced in the assign_planning_elements
         respond_to do |format|
           format.api
