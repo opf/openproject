@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -26,18 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Pagination
-  Background:
-    Given there are 15 work packages with "wurst" in their description
-    And I am admin
-
-  @javascript
-  Scenario: The search result pages do not change while going back and forth
-    When I search globally for "wurst"
-    Then I can see the 6th through 15th of those work packages
-  	And there are pagination links
-  	And I turn over to the next results page
-  	Then I can see the 1st through 5th of those work packages
-  	And there are pagination links
-  	And I turn over to the previous results page
-  	Then I can see the 6th through 15th of those work packages
+class AddStickedOnFieldToMessages < ActiveRecord::Migration
+  def change
+    add_column :messages, :sticked_on, :datetime,  default: nil,  null: true
+  end
+end

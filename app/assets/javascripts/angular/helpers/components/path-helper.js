@@ -1,8 +1,10 @@
 // TODO forward rails routes
-angular.module('openproject.uiComponents')
+angular.module('openproject.helpers')
 
 .service('PathHelper', [function() {
   PathHelper = {
+    apiPrefix: '/api/v2',
+
     projectPath: function(projectIdentifier) {
       return '/projects/' + projectIdentifier;
     },
@@ -15,14 +17,20 @@ angular.module('openproject.uiComponents')
     projectWorkPackagesPath: function(projectIdentifier) {
       return PathHelper.projectPath(projectIdentifier) + PathHelper.workPackagesPath();
     },
+    usersPath: function() {
+      return '/users';
+    },
     userPath: function(id) {
-      return '/users/' + id;
+      return PathHelper.usersPath() + id;
     },
     workPackagesColumnDataPath: function() {
       return PathHelper.workPackagesPath() + '/column_data';
     },
     workPackagesSumsPath: function(projectIdentifier) {
       return PathHelper.projectPath(projectIdentifier) + '/column_sums';
+    },
+    versionPath: function(versionId) {
+      return '/versions/' + versionId;
     }
   };
 

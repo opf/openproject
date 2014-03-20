@@ -1,6 +1,6 @@
 angular.module('openproject.workPackages.directives')
 
-.directive('queryFilter', ['WorkPackagesTableHelper', 'WorkPackageService', '$timeout', function(WorkPackagesTableHelper, WorkPackageService, $timeout) {
+.directive('queryFilter', ['WorkPackagesTableHelper', 'WorkPackageService', 'FunctionDecorators', function(WorkPackagesTableHelper, WorkPackageService, FunctionDecorators) {
 
   return {
     restrict: 'A',
@@ -24,23 +24,9 @@ angular.module('openproject.workPackages.directives')
         }
       }, true);
 
-
-      var currentRun;
-      // TODO move to some application helper
-      function withDelay(delay, callback, params){
-        $timeout.cancel(currentRun);
-
-        currentRun = $timeout(function() {
-          return callback.apply(this, params);
-        }, delay);
-
-        return currentRun;
-      }
-
       function applyFiltersWithDelay() {
-        return withDelay(800, scope.updateResults);
+        return FunctionDecorators.withDelay(800, scope.updateResults);
       }
-
     }
   };
 }]);

@@ -7,16 +7,12 @@ angular.module('openproject.workPackages.directives')
     templateUrl: '/templates/work_packages/sort_header.html',
     scope: {
       query: '=',
-      column: '=',
+      headerName: '=',
+      headerTitle: '=',
+      sortable: '=',
       updateResults: '&'
     },
     link: function(scope, element, attributes) {
-      scope.$watch('query.sortation', function(oldValue, newValue) {
-        if (newValue !== oldValue) {
-          scope.updateResults();
-        }
-      });
-
       scope.performSort = function(){
         targetSortation = scope.query.sortation.getTargetSortationOfHeader(scope.headerName);
         scope.query.setSortation(targetSortation);
@@ -32,11 +28,8 @@ angular.module('openproject.workPackages.directives')
         } else {
           scope.fullTitle = (I18n.t('js.label_sort_by') + ' \"' + scope.headerTitle + '\"');
         }
-      }
+      };
 
-      scope.headerName = attributes['headerName'];
-      scope.headerTitle = attributes['headerTitle'];
-      scope.sortable = attributes['sortable'];
       scope.currentSortDirection = scope.query.sortation.getDisplayedSortDirectionOfHeader(scope.headerName);
       scope.setFullTitle();
     }
