@@ -56,7 +56,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="message">
 <p><span class="author"><%= authoring @topic.created_on, @topic.author %></span></p>
 <div class="wiki">
-<%= textilizable(@topic.content, :attachments => @topic.attachments) %>
+<%= textilizable(@topic.content, :object => @topic, :attachments => @topic.attachments) %>
 </div>
 <%= link_to_attachments @topic, :author => false %>
 </div>

@@ -13,18 +13,17 @@
       </th>
 
       <th sort-header
-          header-name="id"
-          header-title="#"
+          header-name="'id'"
+          header-title="'#'"
           sortable="true"
           query="query"
           update-results="updateResults()"/>
 
       <th sort-header ng-repeat="column in columns"
-                      header-name="{{column.name}}"
-                      header-title="{{column.title}}"
-                      sortable="{{column.sortable}}"
+                      header-name="column.name"
+                      header-title="column.title"
+                      sortable="column.sortable"
                       query="query"
-                      column="column"
                       update-results="updateResults()"/>
     </tr>
   </thead>
@@ -108,8 +107,11 @@
         <a ng-href="/work_packages/{{row.object.id}}">{{row.object.id}}</a>
       </td>
 
-      <td ng-repeat="column in columns" class="{{column.name}}" lang-attribute>
-        <span work-package-column work-package="row.object" column="column"/>
+      <td ng-repeat="column in columns" class="{{column.name}}">
+        <span work-package-column
+              work-package="row.object"
+              column="column"
+              display-type="{{column.meta_data.data_type}}"/>
       </td>
     </tr>
 

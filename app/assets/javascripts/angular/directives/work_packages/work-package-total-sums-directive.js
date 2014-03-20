@@ -15,9 +15,9 @@ angular.module('openproject.workPackages.directives')
               });
           }
 
-          scope.$watch('columns.length', function() {
+          scope.$watch('columns.length', function(length, formerLength) {
             // map columns to sums if the column data is a number
-            fetchSums();
+            if(length >= formerLength) fetchSums();
           });
         }
       };

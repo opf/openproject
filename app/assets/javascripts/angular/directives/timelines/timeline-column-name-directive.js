@@ -19,7 +19,6 @@ angular.module('openproject.timelines.directives')
       } else {
         element.html(I18n.t(scope.localePrefix + '.' + scope.columnName));
       }
-
     }
   };
 }]);

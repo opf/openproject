@@ -37,7 +37,9 @@
 // │ OpenProject timelines module.                                 │
 // ╰───────────────────────────────────────────────────────────────╯
 
-openprojectApp.factory('SvgHelper', [function() {
+angular.module('openproject.helpers')
+
+.factory('SvgHelper', [function() {
 
   var SvgHelper = function(node) {
     this.root = this.provideNode('svg').attr({

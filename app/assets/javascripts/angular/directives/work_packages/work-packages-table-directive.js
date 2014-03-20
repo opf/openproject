@@ -32,6 +32,11 @@ angular.module('openproject.workPackages.directives')
         });
       };
 
+      scope.$watch('query.sortation.sortElements', function(oldValue, newValue) {
+        if (newValue !== oldValue) {
+          scope.updateResults();
+        }
+      });
     }
   };
 }]);
