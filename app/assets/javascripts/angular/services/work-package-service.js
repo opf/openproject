@@ -47,7 +47,8 @@ angular.module('openproject.services')
       });
 
       return WorkPackageService.loadWorkPackageColumnsData(workPackages, columnNames)
-        .then(function(columnsData){
+        .then(function(data){
+          var columnsData = data.columns_data;
           angular.forEach(workPackages, function(workPackage, i) {
             angular.forEach(columns, function(column, j){
               WorkPackagesHelper.augmentWorkPackageWithData(workPackage, column.name, !!column.custom_field, columnsData[j][i]);
