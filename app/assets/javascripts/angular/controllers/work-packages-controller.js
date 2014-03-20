@@ -8,48 +8,37 @@ angular.module('openproject.workPackages.controllers')
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.loading = false;
     $scope.disableFilters = false;
-  }
 
-  function setupQuery() {
-    // TODO: Get available columns from api
     setupColumns();
-    // $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(AVAILABLE_COLUMNS, $scope.columns);
-
   };
 
   function setupColumns(){
-    // TODO FIRST THING! Split this up into methods
     QueryService.getAvailableColumns($scope.projectIdentifier).then(function(data){
       $scope.columns = WorkPackagesTableHelper.getColumnUnionByName(data.available_columns, INITIALLY_SELECTED_COLUMNS);
       $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(data.available_columns, $scope.columns);
       return $scope.availableColumns;
-    }).then(function(data){
-      // TODO: we will have to load the query if we have a query id here.
-      $scope.query = new Query(DEFAULT_QUERY, { available_work_package_filters: data});
+    }).then(setupQuery).then(setupPagination).then($scope.updateResults)
+  };
 
-      sortation = new Sortation(DEFAULT_SORT_CRITERIA);
-      $scope.query.setSortation(sortation);
-      $scope.currentSortation = DEFAULT_SORT_CRITERIA;
-      // $scope.available_work_package_filters = AVAILABLE_WORK_PACKAGE_FILTERS;
+  function setupQuery() {
+    $scope.query = new Query(DEFAULT_QUERY, { available_work_package_filters: AVAILABLE_WORK_PACKAGE_FILTERS});
 
-      // Columns
-
-      angular.extend($scope.query, {
-        selectedColumns: $scope.columns
-      });
-
-      setupPagination(PAGINATION_OPTIONS);
-
-    }).then(initialLoad)
-  }
+    sortation = new Sortation(DEFAULT_SORT_CRITERIA);
+    $scope.query.setSortation(sortation);
+    $scope.currentSortation = DEFAULT_SORT_CRITERIA;
+    angular.extend($scope.query, {
+      selectedColumns: $scope.columns
+    });
+  };
 
   function setupPagination(json) {
+    meta = json || PAGINATION_OPTIONS;
     $scope.paginationOptions = {
-      page: json.page,
-      perPage: json.per_page
+      page: meta.page,
+      perPage: meta.per_page
     };
-    $scope.perPageOptions = json.per_page_options;
-  }
+    $scope.perPageOptions = meta.per_page_options;
+  };
 
   $scope.submitQueryForm = function(){
     jQuery("#selected_columns option").attr('selected',true);
@@ -103,16 +92,5 @@ angular.module('openproject.workPackages.controllers')
     $scope.loading = false;
   };
 
-  function initialLoad(){
-    // TODO RS: Around about now we need to get the project from the api so that we know about its
-    // custom fields so that we can use them as filters.
-    $scope.updateResults();
-  };
-
   initialSetup();
-  setupQuery();
-  // initialLoad();
-
-  // Initialize work package table
-  // $scope.setupWorkPackagesTable(gon);
 }]);

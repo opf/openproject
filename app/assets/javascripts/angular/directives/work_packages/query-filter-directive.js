@@ -14,10 +14,10 @@ angular.module('openproject.workPackages.directives')
 
       scope.showValueOptionsAsSelect = ['list', 'list_optional', 'list_status', 'list_subprojects', 'list_model'].indexOf(scope.query.getFilterType(scope.filter.name)) !== -1;
 
-      if(scope.filter.name == 'list_model'){
-        // Get possible values
-        StatusService.getStatuses().then(populateValues);
-      }
+      // if(scope.filter.name == 'list_model'){
+      //   // Get possible values
+      //   StatusesService.getStatuses().then(populateValues);
+      // }
 
       scope.$watch('filter.operator', function(operator) {
         if(operator) scope.showValuesInput = scope.filter.requiresValues();
