@@ -34,7 +34,10 @@ angular.module('openproject.helpers')
     },
     statusesPath: function() {
       return '/statuses'
-    }
+    },
+    availableColumnsPath: function(projectIdentifier) {
+      return PathHelper.projectPath(projectIdentifier) + '/queries/available_columns';
+    },
   };
 
   return PathHelper;
