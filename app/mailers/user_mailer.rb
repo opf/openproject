@@ -180,6 +180,7 @@ class UserMailer < ActionMailer::Base
                              :action     => :diff,
                              :project_id => wiki_content.project,
                              :id         => wiki_content.page.title,
+                             # using wiki_content.version + 1 because at this point the journal is not saved yet
                              :version    => wiki_content.version + 1)
 
     open_project_headers 'Project'      => @wiki_content.project.identifier,
