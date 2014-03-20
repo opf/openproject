@@ -59,7 +59,9 @@ module Api
       end
 
       def authorize_request
-        authorize_global unless performed?
+        # TODO: need to give this action a global role i think. tried making load_column_data role in reminde.rb
+        #       but couldn't get it working.
+        # authorize_global unless performed?
       end
 
       def assign_planning_elements
@@ -81,18 +83,6 @@ module Api
         work_packages
       end
 
-      # TODO: This needs to assign the meta data:
-      #       project_identifier
-      #       query
-      #       work_package_count_by_group
-      #       sort_criteria
-      #       sums
-      #       group_sums
-      #       page
-      #       per_page
-      #       per_page_options
-      #       total_entries
-      # Most of which can be lifted from work_packages_controller hopefully as long as the query is set up in the same way
       def set_planning_elements_meta(query, results, work_packages)
         @display_meta = true
         @columns = if params[:c]
@@ -102,6 +92,7 @@ module Api
                    end
 
         @work_packages_meta = {
+          query:                        query,
           work_package_count_by_group:  results.work_package_count_by_group,
           sums:                         query.columns.map { |column| results.total_sum_of(column) },
           group_sums:                   query.group_by_column && query.columns.map { |column| results.grouped_sums(column) },

@@ -46,6 +46,7 @@ class WorkPackagesController < ApplicationController
 
   include QueriesHelper
   include PaginationHelper
+  include SortHelper
 
   accept_key_auth :index, :show, :create, :update
 
@@ -209,7 +210,7 @@ class WorkPackagesController < ApplicationController
   def index
     respond_to do |format|
       format.html do
-        push_project_id_via_gon
+        push_identifiers_via_gon
 
         render :index, :locals => { :query => @query,
                                     :project => @project },
@@ -442,9 +443,9 @@ class WorkPackagesController < ApplicationController
 
   # ------------------- Form JSON reponse for angular -------------------
 
-  # TODO get from params
-  def push_project_id_via_gon
+  def push_identifiers_via_gon
     gon.project_identifier = @project.to_param
+    gon.query_id = params[:query_id] if params[:query_id]
     # TODO later versions of gon support gon.push {Hash} - on the other hand they make it harder to deliver data to gon inside views
   end
 

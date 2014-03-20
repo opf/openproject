@@ -39,8 +39,7 @@ angular.module('openproject.workPackages.config')
 .constant('DEFAULT_QUERY', {
   display_sums: false,
   // filters: [{ status_id: {"operator":"o","values":[""], name: "status_id" }}],
-  group_by: null,
-  id: null
+  group_by: null
 })
 
 .constant('DEFAULT_PAGINATION_OPTIONS', {
