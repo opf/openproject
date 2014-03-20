@@ -4,7 +4,7 @@ angular.module('openproject.services')
 
   var StatusService = {
     getStatuses: function() {
-      var url = PathHelper.statusesPath();
+      var url = PathHelper.apiStatusesPath();
 
       return WorkPackageService.doQuery(url);
     },

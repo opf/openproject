@@ -19,7 +19,7 @@ angular.module('openproject.services')
 
     loadRegisteredUsers: function() {
       if (registeredUserIds.length > 0) {
-        return $http.get(PathHelper.apiPrefix + PathHelper.usersPath(), {
+        return $http.get(PathHelper.apiUsersPath(), {
           params: { 'ids[]': registeredUserIds }
         }).then(function(response){
           UserService.storeUsers(response.data.users);

@@ -91,6 +91,9 @@ Redmine::AccessControl.map do |map|
                                   :copy_projects => [:copy, :copy_project],
                                   :members => [:paginate_users]
                                  }, :require => :member
+  map.permission :load_column_data, {
+                 :work_packages => [ :column_data ]
+                 }
 
   map.project_module :work_package_tracking do |map|
     # Issue categories
@@ -102,7 +105,7 @@ Redmine::AccessControl.map do |map|
                                          :versions => [:index, :show, :status_by],
                                          :journals => [:index, :diff],
                                          :queries => :index,
-                                         :work_packages => [:show, :index, :column_data], # TODO move column_data to API
+                                         :work_packages => [:show, :index],
                                          :'work_packages/reports' => [:report, :report_details],
                                          :planning_elements => [:index, :all, :show, :recycle_bin],
                                          :planning_element_journals => [:index]}

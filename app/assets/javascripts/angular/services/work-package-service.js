@@ -4,7 +4,7 @@ angular.module('openproject.services')
 
   var WorkPackageService = {
     getWorkPackages: function(projectId, query, paginationOptions) {
-      var url = projectId ? PathHelper.projectWorkPackagesPath(projectId) : PathHelper.workPackagesPath();
+      var url = projectId ? PathHelper.apiProjectWorkPackagesPath(projectId) : PathHelper.apiWorkPackagesPath();
       var params = angular.extend(query.toParams(), {
         page: paginationOptions.page,
         per_page: paginationOptions.perPage
@@ -14,7 +14,7 @@ angular.module('openproject.services')
     },
 
     loadWorkPackageColumnsData: function(workPackages, columnNames) {
-      var url = PathHelper.workPackagesColumnDataPath();
+      var url = PathHelper.apiWorkPackagesColumnDataPath();
 
       var params = {
         'ids[]': workPackages.map(function(workPackage){
@@ -32,7 +32,7 @@ angular.module('openproject.services')
         return column.name;
       });
 
-      var url = PathHelper.workPackagesSumsPath(projectId);
+      var url = PathHelper.apiWorkPackagesSumsPath(projectId);
 
       var params = {
         'column_names[]': columnNames
