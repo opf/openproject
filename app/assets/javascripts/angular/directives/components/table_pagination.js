@@ -30,12 +30,12 @@ angular.module('openproject.uiComponents')
        *
        * @description Defines a string containing page bound information inside the directive scope
        */
-      updateCurrentRange = function() {
+      function updateCurrentRange() {
         var page = scope.paginationOptions.page;
         var perPage = scope.paginationOptions.perPage;
 
         scope.currentRange = "(" + getLowerPageBound(page, perPage) + " - " + getUpperPageBound(page, perPage) + "/" + scope.totalEntries + ")";
-      };
+      }
 
       function getLowerPageBound(page, perPage) {
         return perPage * (page - 1) + 1;
@@ -59,6 +59,8 @@ angular.module('openproject.uiComponents')
       };
 
       scope.$watch('totalEntries', function() {
+        if (!scope.paginationOptions) return;
+
         updateCurrentRange();
         updatePageNumbers();
       });

@@ -10,7 +10,6 @@ angular.module('openproject.workPackages.directives')
       headerName: '=',
       headerTitle: '=',
       sortable: '=',
-      updateResults: '&'
     },
     link: function(scope, element, attributes) {
       scope.performSort = function(){

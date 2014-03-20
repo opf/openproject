@@ -1,4 +1,4 @@
-<table id="work-packages-table" ng-if="rows.length > 0 && columns.length > 0">
+<table id="work-packages-table">
   <thead>
     <tr>
       <th class="checkbox hide-when-print">
@@ -23,8 +23,7 @@
                       header-name="column.name"
                       header-title="column.title"
                       sortable="column.sortable"
-                      query="query"
-                      update-results="updateResults()"/>
+                      query="query"/>
     </tr>
   </thead>
 

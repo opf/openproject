@@ -3,6 +3,7 @@ angular.module('openproject.workPackages.controllers')
 .controller('WorkPackagesController', ['$scope', 'WorkPackagesTableHelper', 'Query', 'Sortation', 'WorkPackageService', 'QueryService', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE', 'AVAILABLE_WORK_PACKAGE_FILTERS','DEFAULT_SORT_CRITERIA', 'DEFAULT_QUERY', 'DEFAULT_PAGINATION_OPTIONS',
             function($scope, WorkPackagesTableHelper, Query, Sortation, WorkPackageService, QueryService, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE, AVAILABLE_WORK_PACKAGE_FILTERS, DEFAULT_SORT_CRITERIA, DEFAULT_QUERY, DEFAULT_PAGINATION_OPTIONS) {
 
+
   function initialSetup() {
     $scope.projectIdentifier = gon.project_identifier;
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
@@ -12,7 +13,8 @@ angular.module('openproject.workPackages.controllers')
     setupColumns()
       .then(setupQuery)
       .then(setupPagination)
-      .then($scope.updateResults);
+      .then($scope.updateResults)
+      .then(setupComplete);
 
   }
 
@@ -65,13 +67,17 @@ angular.module('openproject.workPackages.controllers')
   };
 
   $scope.updateResults = function() {
-    $scope.withLoading(WorkPackageService.getWorkPackages, [$scope.projectIdentifier, $scope.query, $scope.paginationOptions])
+    return $scope.withLoading(WorkPackageService.getWorkPackages, [$scope.projectIdentifier, $scope.query, $scope.paginationOptions])
       .then($scope.setupWorkPackagesTable);
   };
 
   function serviceErrorHandler(data) {
     // TODO RS: This is where we'd want to put an error message on the dom
     $scope.loading = false;
+  }
+
+  function setupComplete() {
+    $scope.setupComplete = true;
   }
 
   /**

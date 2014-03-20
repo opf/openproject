@@ -32,7 +32,8 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= hidden_field_tag 'back_url', url_for(params) %>
   <div class="autoscroll">
 
-    <work-packages-table project-identifier="projectIdentifier"
+    <work-packages-table ng-if="setupComplete"
+                         project-identifier="projectIdentifier"
                          columns="columns"
                          rows="rows"
                          query="query"
