@@ -5,6 +5,7 @@ angular.module('openproject.workPackages.controllers')
 
   function initialSetup() {
     $scope.projectIdentifier = gon.project_identifier;
+    if(gon.query_id) $scope.query_id = gon.query_id;
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.loading = false;
     $scope.disableFilters = false;
@@ -21,7 +22,11 @@ angular.module('openproject.workPackages.controllers')
   };
 
   function setupQuery() {
-    $scope.query = new Query(DEFAULT_QUERY, { available_work_package_filters: AVAILABLE_WORK_PACKAGE_FILTERS});
+    var query = DEFAULT_QUERY;
+    if($scope.query_id){
+      angular.extend(query, { id: $scope.query_id });
+    }
+    $scope.query = new Query(query, { available_work_package_filters: AVAILABLE_WORK_PACKAGE_FILTERS});
 
     sortation = new Sortation(DEFAULT_SORT_CRITERIA);
     $scope.query.setSortation(sortation);
@@ -47,6 +52,8 @@ angular.module('openproject.workPackages.controllers')
   };
 
   $scope.setupWorkPackagesTable = function(json) {
+    // TODO: We need to set the columns based on what's returned by the query for when we are loading using a query id.
+    //       Also perhaps the filters... and everything:/
     var meta = json.meta;
     $scope.workPackageCountByGroup = meta.work_package_count_by_group;
     $scope.rows = WorkPackagesTableHelper.getRows(json.work_packages, $scope.query.group_by);

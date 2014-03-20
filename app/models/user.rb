@@ -647,7 +647,6 @@ class User < Principal
         evaluator.denied_for_global? candidate, action, options
       end
 
-
       !denied && @registered_allowance_evaluators.any? do |evaluator|
         evaluator.granted_for_global? candidate, action, options
       end
