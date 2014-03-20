@@ -10,15 +10,20 @@ angular.module('openproject.workPackages.controllers')
     $scope.disableFilters = false;
 
     setupColumns();
-  };
+  }
 
   function setupColumns(){
+    $scope.columns = [];
+
     QueryService.getAvailableColumns($scope.projectIdentifier).then(function(data){
       $scope.columns = WorkPackagesTableHelper.getColumnUnionByName(data.available_columns, INITIALLY_SELECTED_COLUMNS);
       $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(data.available_columns, $scope.columns);
       return $scope.availableColumns;
-    }).then(setupQuery).then(setupPagination).then($scope.updateResults)
-  };
+    })
+      .then(setupQuery)
+      .then(setupPagination)
+      .then($scope.updateResults);
+  }
 
   function setupQuery() {
     $scope.query = new Query(DEFAULT_QUERY, { available_work_package_filters: AVAILABLE_WORK_PACKAGE_FILTERS});
@@ -29,7 +34,7 @@ angular.module('openproject.workPackages.controllers')
     angular.extend($scope.query, {
       selectedColumns: $scope.columns
     });
-  };
+  }
 
   function setupPagination(json) {
     meta = json || PAGINATION_OPTIONS;
@@ -38,7 +43,7 @@ angular.module('openproject.workPackages.controllers')
       perPage: meta.per_page
     };
     $scope.perPageOptions = meta.per_page_options;
-  };
+  }
 
   $scope.submitQueryForm = function(){
     jQuery("#selected_columns option").attr('selected',true);
@@ -65,7 +70,7 @@ angular.module('openproject.workPackages.controllers')
   function serviceErrorHandler(data) {
     // TODO RS: This is where we'd want to put an error message on the dom
     $scope.loading = false;
-  };
+  }
 
   /**
    * @name withLoading
