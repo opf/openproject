@@ -21,9 +21,9 @@ angular.module('openproject.models')
       return angular.extend.apply(this, [
         {
           'f[]': this.getFilterNames(this.getActiveConfiguredFilters()),
-          'c[]': this.selectedColumns.map(function(column) {
+          'c[]': ['id'].concat(this.selectedColumns.map(function(column) {
             return column.name;
-           }),
+           })),
           'group_by': this.group_by,
           'query_id': this.id,
           'sort': this.sortation.encode()
