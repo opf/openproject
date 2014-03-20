@@ -9,20 +9,22 @@ angular.module('openproject.workPackages.controllers')
     $scope.loading = false;
     $scope.disableFilters = false;
 
-    setupColumns();
+    setupColumns()
+      .then(setupQuery)
+      .then(setupPagination)
+      .then($scope.updateResults);
+
   }
 
   function setupColumns(){
     $scope.columns = [];
 
-    QueryService.getAvailableColumns($scope.projectIdentifier).then(function(data){
-      $scope.columns = WorkPackagesTableHelper.getColumnUnionByName(data.available_columns, INITIALLY_SELECTED_COLUMNS);
-      $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(data.available_columns, $scope.columns);
-      return $scope.availableColumns;
-    })
-      .then(setupQuery)
-      .then(setupPagination)
-      .then($scope.updateResults);
+    return QueryService.getAvailableColumns($scope.projectIdentifier)
+      .then(function(data){
+        $scope.columns = WorkPackagesTableHelper.getColumnUnionByName(data.available_columns, INITIALLY_SELECTED_COLUMNS);
+        $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(data.available_columns, $scope.columns);
+        return $scope.availableColumns;
+      });
   }
 
   function setupQuery() {
@@ -36,13 +38,13 @@ angular.module('openproject.workPackages.controllers')
     });
   }
 
-  function setupPagination(json) {
-    meta = json || PAGINATION_OPTIONS;
+  function setupPagination(paginationOptions) {
+    paginationOptions = paginationOptions || PAGINATION_OPTIONS;
     $scope.paginationOptions = {
-      page: meta.page,
-      perPage: meta.per_page
+      page: paginationOptions.page,
+      perPage: paginationOptions.per_page
     };
-    $scope.perPageOptions = meta.per_page_options;
+    $scope.perPageOptions = paginationOptions.per_page_options;
   }
 
   $scope.submitQueryForm = function(){
