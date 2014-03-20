@@ -4,9 +4,10 @@ angular.module('openproject.helpers')
 .service('PathHelper', [function() {
   PathHelper = {
     apiPrefix: '/api/v2',
+    apiPrefixV3: '/api/v3',
 
     projectPath: function(projectIdentifier) {
-      return '/api/v3/projects/' + projectIdentifier;
+      return '/projects/' + projectIdentifier;
     },
     workPackagesPath: function() {
       return '/work_packages';
@@ -14,29 +15,38 @@ angular.module('openproject.helpers')
     workPackagePath: function(id) {
       return '/work_packages/' + id;
     },
-    projectWorkPackagesPath: function(projectIdentifier) {
-      return PathHelper.projectPath(projectIdentifier) + PathHelper.workPackagesPath() + ".json";
-    },
     usersPath: function() {
       return '/users';
     },
     userPath: function(id) {
       return PathHelper.usersPath() + id;
     },
-    workPackagesColumnDataPath: function() {
-      return PathHelper.workPackagesPath() + '/column_data';
-    },
-    workPackagesSumsPath: function(projectIdentifier) {
-      return PathHelper.projectPath(projectIdentifier) + '/column_sums';
-    },
     versionPath: function(versionId) {
       return '/versions/' + versionId;
     },
-    statusesPath: function() {
-      return '/statuses'
+    apiProjectPath: function(projectIdentifier) {
+      return PathHelper.apiPrefixV3 + PathHelper.projectPath(projectIdentifier);
     },
-    availableColumnsPath: function(projectIdentifier) {
-      return PathHelper.projectPath(projectIdentifier) + '/queries/available_columns';
+    apiWorkPackagesPath: function() {
+      return PathHelper.apiPrefixV3 + '/work_packages';
+    },
+    apiProjectWorkPackagesPath: function(projectIdentifier) {
+      return PathHelper.apiProjectPath(projectIdentifier) + PathHelper.workPackagesPath();
+    },
+    apiAvailableColumnsPath: function(projectIdentifier) {
+      return PathHelper.apiProjectPath(projectIdentifier) + '/queries/available_columns';
+    },
+    apiWorkPackagesColumnDataPath: function() {
+      return PathHelper.apiWorkPackagesPath() + '/column_data';
+    },
+    apiStatusesPath: function() {
+      return PathHelper.apiPrefix + '/statuses'
+    },
+    apiUsersPath: function() {
+      return PathHelper.apiPrefix + PathHelper.usersPath();
+    },
+    apiWorkPackagesSumsPath: function(projectIdentifier) {
+      return PathHelper.apiProjectPath(projectIdentifier) + '/column_sums';
     },
   };
 

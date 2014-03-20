@@ -38,7 +38,8 @@ module Api
         /api\/v3\//
       end
 
-      permeate_permissions :apply_at_timestamp,
+      permeate_permissions :authorize,
+                           :apply_at_timestamp,
                            :determine_base,
                            :find_all_projects_by_project_id,
                            :find_project_by_project_id,
