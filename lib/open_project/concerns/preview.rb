@@ -59,9 +59,11 @@ module OpenProject::Concerns::Preview
   def preview
     texts, attachments, obj = parse_preview_data
 
-    render 'common/preview',
-           layout: false,
-           locals: { texts: texts, attachments: attachments, previewed: obj }
+    if obj.nil? || authorize_previewed_object(obj)
+      render 'common/preview',
+             layout: false,
+             locals: { texts: texts, attachments: attachments, previewed: obj }
+    end
   end
 
   protected
@@ -90,6 +92,11 @@ module OpenProject::Concerns::Preview
 
   def parse_previewed_id
     params[:id]
+  end
+
+  def authorize_previewed_object(obj)
+    @project = obj.project
+    authorize
   end
 
   def previewed_object_attachments(obj)
