@@ -7,9 +7,9 @@ angular.module('openproject.services')
       var url;
 
       if(projectIdentifier) {
-        url = PathHelper.apiProjectTypesPath(projectIdentifier);
+        url = PathHelper.apiProjectWorkPackageTypesPath(projectIdentifier);
       } else {
-        url = PathHelper.apiTypesPath();
+        url = PathHelper.apiWorkPackageTypesPath();
       }
 
 

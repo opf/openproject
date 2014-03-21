@@ -11,7 +11,7 @@ angular.module('openproject.services')
       return QueryService.doQuery(url);
     },
 
-    getAvailableFilterValues: function(filterName) {
+    getAvailableFilterValues: function(filterName, projectIdentifier) {
       var modelName = AVAILABLE_WORK_PACKAGE_FILTERS[filterName].modelName;
 
       if(availableFilterValues[modelName]) {
@@ -21,16 +21,16 @@ angular.module('openproject.services')
 
         switch(modelName) {
           case 'status':
-            retrieveAvailableValues = StatusService.getStatuses();
+            retrieveAvailableValues = StatusService.getStatuses(projectIdentifier);
             break;
           case 'type':
-            retrieveAvailableValues = TypeService.getTypes();
+            retrieveAvailableValues = TypeService.getTypes(projectIdentifier);
             break;
           case 'priority':
-            retrieveAvailableValues = TypeService.getPriorities();
+            retrieveAvailableValues = PriorityService.getPriorities(projectIdentifier);
             break;
           case 'user':
-            retrieveAvailableValues = UserService.getUsers();
+            retrieveAvailableValues = UserService.getUsers(projectIdentifier);
             break;
         }
 
