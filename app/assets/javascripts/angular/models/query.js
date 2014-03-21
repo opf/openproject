@@ -69,10 +69,6 @@ angular.module('openproject.models')
       if (!loading) filter.deactivated = true;
     },
 
-    getAvailableFilterValues: function(filterName) {
-      return this.available_work_package_filters[filterName].values;
-    },
-
     getFilterType: function(filterName) {
       return this.available_work_package_filters[filterName].type;
     },
