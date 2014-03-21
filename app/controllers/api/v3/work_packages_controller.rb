@@ -43,7 +43,7 @@ module Api
         raise 'API Error' unless params[:column_names]
 
         column_names = params[:column_names]
-        project = Project.find_visible(current_user, params[:id])
+        project = Project.find_visible(current_user, params[:project_id])
         work_packages = project.work_packages
 
         @column_sums = column_names.map do |column_name|
