@@ -34,7 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ## 1.0.1
 
-* Add missing journal data migration
+* `#5361` Add missing journal data migration
 
 ## 1.0.0
 
