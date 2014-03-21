@@ -93,6 +93,7 @@ OpenProject::Application.routes.draw do
           get :available_projects, :on => :collection
         end
         resources :statuses, :only => [:index, :show]
+        resources :users, only: [:index]
 
         member do
           get :planning_element_custom_fields

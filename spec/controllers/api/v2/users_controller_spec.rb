@@ -101,6 +101,21 @@ describe Api::V2::UsersController do
       end
     end
 
+    describe 'within a project' do
+      include_context "As a normal user"
+
+      let(:project) { FactoryGirl.create :project }
+      let!(:member)  { FactoryGirl.create :user, member_in_project: project }
+
+      let!(:non_member) { FactoryGirl.create :user }
+
+      before { get 'index', project_id: project.to_param, format: :json }
+
+      it_behaves_like "valid user API call" do
+        let(:user_count) { 1 }
+      end
+    end
+
     describe 'search for ids' do
       include_context "As an admin"
 
