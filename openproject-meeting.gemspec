@@ -11,8 +11,7 @@ Gem::Specification.new do |s|
   s.authors     = "Finn GmbH"
   s.email       = "info@finn.de"
   s.homepage    = "https://www.openproject.org/projects/plugin-meetings"
-  s.summary     = "This OpenProject plugin adds a meeting module with functionality to plan an " +
-                  "agenda and save the minutes of a meeting."
+  s.summary     = "OpenProject Meeting"
   s.description = "This plugin adds functions to support project meetings to OpenProject. Meetings
     can be scheduled selecting invitees from the same project to take part in the meeting. An agenda
     can be created and sent to the invitees. After the meeting, attendants can be selected and
@@ -20,11 +19,11 @@ Gem::Specification.new do |s|
     and invitees."
   s.license     = "GPLv3"
 
-  s.files = Dir["{app,config,db,lib,doc}/**/*", "CHANGELOG.md", "README.md"]
+  s.files = Dir["{app,config,db,lib,doc}/**/*", "README.md"]
   s.test_files = Dir["spec/**/*"]
 
   s.add_dependency "rails", "~> 3.2.9"
-  s.add_dependency "openproject-plugins", "~> 1.0.4"
+  s.add_dependency "openproject-plugins", "~> 1.0.6"
 
   s.add_development_dependency "factory_girl_rails", "~> 4.0"
 end
