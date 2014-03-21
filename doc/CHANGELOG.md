@@ -15,6 +15,9 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+## 1.0.8
+
+* `#5357` Updated readme and copyrights
 * Changed settings default parameter key to be a symbol like in the core
 
 ## 1.0.7
