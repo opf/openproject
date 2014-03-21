@@ -1035,7 +1035,7 @@ describe WorkPackagesController do
     describe 'preview.js' do
       before { xhr :put, :preview, preview_params }
 
-      it { expect(response).to render_template('common/_preview',
+      it { expect(response).to render_template('common/preview',
                                                format: ["html"],
                                                layout: false ) }
     end

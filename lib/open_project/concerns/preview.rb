@@ -59,7 +59,8 @@ module OpenProject::Concerns::Preview
   def preview
     texts, attachments, obj = parse_preview_data
 
-    render partial: 'common/preview',
+    render 'common/preview',
+           layout: false,
            locals: { texts: texts, attachments: attachments, previewed: obj }
   end
 
