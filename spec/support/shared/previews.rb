@@ -33,7 +33,7 @@ shared_examples_for 'valid preview' do
     put :preview, preview_params
   end
 
-  it { expect(response).to render_template('common/_preview') }
+  it { expect(response).to render_template('common/preview') }
 
   it 'renders all texts' do
     preview_texts.each do |text|
