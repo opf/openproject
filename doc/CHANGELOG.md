@@ -32,6 +32,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 1.0.1
+
+* `#5361` Add missing journal data migration
+
 ## 1.0.0
 
 * `#3329` Refactor Duplicated Code Journals
