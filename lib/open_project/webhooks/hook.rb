@@ -12,12 +12,9 @@ module OpenProject::Webhooks
       "webhooks/#{name}"
     end
 
-    def handle(environment = Hash.new, params = Hash.new, user = nil, project = nil)
-      callback.call self, environment, params, user, project
+    def handle(environment = Hash.new, params = Hash.new, user = nil)
+      callback.call self, environment, params, user
     end
 
-    def send_event(event_name, payload)
-      ActiveSupport::Notifications.instrument event_name, payload
-    end
   end
 end

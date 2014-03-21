@@ -30,22 +30,25 @@
 require 'json'
 
 class WebhooksController < ApplicationController
+  accept_key_auth :handle_hook
+
+  def api_request?
+    # OpenProject only allows API requests based on an Accept request header.
+    # Webhooks (at least GitHub) don't send an Accept header as they're not interested
+    # in any part of the response except the HTTP status code.
+    # Also handling requests with a application/json Content-Type as API requests
+    # should be safe regarding CSRF as browsers don't send forms as JSON.
+    super || request.content_type == "application/json"
+  end
+
   def handle_hook
     hook = OpenProject::Webhooks.find(params.require 'hook_name')
+
     if hook
-      code = hook.handle(env, params, find_current_user, find_project)
+      code = hook.handle(env, params, find_current_user)
       head code.is_a?(Integer) ? code : 200
     else
       head :not_found
     end
-  end
-
-private
-  # overwritten from ApplicationController to allow optional project
-  # and read params[:project_identifier] instead of params[:id]
-  def find_project
-    Project.find(params['project_identifier'])
-  rescue ActiveRecord::RecordNotFound
-    nil
   end
 end

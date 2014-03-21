@@ -12,7 +12,7 @@ module OpenProject
     end
 
     ##
-    # Registeres a webhook having name and a callback.
+    # Registers a webhook having name and a callback.
     # The name will be part of the webhook-url and may be used to unregister a webhook later.
     # The callback is executed with two parameters when the webhook was called.
     #    The parameters are the hook object, an environment-variables hash and a params hash of the current request.
