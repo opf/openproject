@@ -14,9 +14,9 @@ angular.module('openproject.uiComponents')
     link: function(scope, element, attributes){
       scope.toggleMultiselect = function(){
         scope.isMultiselect = !scope.isMultiselect;
-      }
+      };
 
-      scope.isMultiselect = (scope.values != undefined && scope.values.length > 1);
+      scope.isMultiselect = (scope.values !== undefined && scope.values.length > 1);
     }
   };
 }]);
