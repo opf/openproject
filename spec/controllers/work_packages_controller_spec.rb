@@ -1032,6 +1032,12 @@ describe WorkPackagesController do
       let(:preview_texts) { [description, notes] }
     end
 
+    it_behaves_like 'authorizes object access' do
+      let(:work_package) { FactoryGirl.create(:work_package) }
+      let(:preview_params) { { id: work_package.id,
+                               work_package: { } } }
+    end
+
     describe 'preview.js' do
       before { xhr :put, :preview, preview_params }
 

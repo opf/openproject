@@ -543,6 +543,13 @@ describe WikiController do
         let(:preview_params) { { project_id: project.id,
                                  content: { text: text } } }
       end
+
+      it_behaves_like 'authorizes object access' do
+        let(:wiki_page) { FactoryGirl.create(:wiki_page) }
+        let(:preview_params) { { project_id: wiki_page.wiki.project.id,
+                                 id: wiki_page.id,
+                                 content: { } } }
+      end
     end
   end
 end

@@ -193,5 +193,10 @@ describe MessagesController do
       let(:preview_texts) { [content] }
       let(:preview_params) { { reply: { content: content } } }
     end
+
+    it_behaves_like 'authorizes object access' do
+      let(:message) { FactoryGirl.create :message, board: board }
+      let(:preview_params) { { id: message.id, message: { } } }
+    end
   end
 end
