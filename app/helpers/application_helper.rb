@@ -158,12 +158,10 @@ module ApplicationHelper
   def link_to_message(message, options={}, html_options = nil)
     link_to(
       h(truncate(message.subject, :length => 60)),
-      { :controller => '/messages', :action => 'show',
-        :board_id => message.board_id,
-        :id => message.root,
-        :r => (message.parent_id && message.id),
-        :anchor => (message.parent_id ? "message-#{message.id}" : nil)
-      }.merge(options),
+      topic_path(message.root,
+                 { :r => (message.parent_id && message.id),
+                   :anchor => (message.parent_id ? "message-#{message.id}" : nil)
+                 }.merge(options)),
       html_options
     )
   end
