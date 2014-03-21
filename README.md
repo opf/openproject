@@ -24,11 +24,11 @@ Installation
 
 OpenProject Documents depends on OpenProject Plugins. Thus, if you haven't done it already, add the following line to the `Gemfile.plugins` in your OpenProject installation:
 
-`gem "openproject-plugins", git: "https://github.com/opf/openproject-plugins.git", :branch => "dev"`
+`gem "openproject-plugins", git: "https://github.com/opf/openproject-plugins.git", :branch => "stable"`
 
 For OpenProject Documents itself you need to add the following line to the `Gemfile.plugins` of OpenProject:
 
-`gem "openproject-documents", git: "https://github.com/opf/openproject-documents.git", :branch => "dev"`
+`gem "openproject-documents", git: "https://github.com/opf/openproject-documents.git", :branch => "stable"`
 
 Afterwards, run:
 
@@ -44,7 +44,7 @@ Deinstallation
 
 Remove the line
 
-`gem "openproject-documents", git: "https://github.com/opf/openproject-documents.git", :branch => "dev"`
+`gem "openproject-documents", git: "https://github.com/opf/openproject-documents.git", :branch => "stable"`
 
 from the file `Gemfile.plugins` and run:
 
