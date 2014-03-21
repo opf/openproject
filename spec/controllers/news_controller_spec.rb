@@ -167,5 +167,9 @@ describe NewsController do
       let(:preview_texts) { [description] }
       let(:preview_params) { { news: { description: description } } }
     end
+
+    it_behaves_like 'authorizes object access' do
+      let(:preview_params) { { id: news.id, news: { } } }
+    end
   end
 end

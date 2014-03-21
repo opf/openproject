@@ -41,3 +41,15 @@ shared_examples_for 'valid preview' do
     end
   end
 end
+
+shared_examples_for 'authorizes object access' do
+  let(:unauthorized_user) { FactoryGirl.create(:user) }
+
+  before do
+    User.stub(:current).and_return(unauthorized_user)
+
+    put :preview, preview_params
+  end
+
+  it { expect(response.status).to eq(403) }
+end
