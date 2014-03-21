@@ -127,6 +127,7 @@ OpenProject::Application.routes.draw do
         resources :queries, only: [:show] do
           get :available_columns, on: :collection
         end
+        resources :versions, only: [:index]
       end
     end
   end
