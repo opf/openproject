@@ -1,7 +1,7 @@
 angular.module('openproject.models')
 
 .constant('OPERATORS_REQUIRING_VALUES', ['o', 'c', '!*', '*', 't', 'w'])
-.factory('Filter', ['OPERATORS_REQUIRING_VALUES', function(OPERATORS_REQUIRING_VALUES) {
+.factory('Filter', ['OPERATORS_REQUIRING_VALUES', 'AVAILABLE_WORK_PACKAGE_FILTERS', function(OPERATORS_REQUIRING_VALUES, AVAILABLE_WORK_PACKAGE_FILTERS) {
   Filter = function (data) {
     angular.extend(this, data);
   };
@@ -30,6 +30,10 @@ angular.module('openproject.models')
 
     isConfigured: function() {
       return this.operator && (this.values || !this.requiresValues());
+    },
+
+    getModelName: function() {
+      return AVAILABLE_WORK_PACKAGE_FILTERS[this.name].modelName;
     }
   };
 

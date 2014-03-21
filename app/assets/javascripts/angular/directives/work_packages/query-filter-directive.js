@@ -1,6 +1,6 @@
 angular.module('openproject.workPackages.directives')
 
-.directive('queryFilter', ['WorkPackagesTableHelper', 'WorkPackageService', 'FunctionDecorators', 'QueryService', 'PaginationService', function(WorkPackagesTableHelper, WorkPackageService, FunctionDecorators, QueryService, PaginationService) {
+.directive('queryFilter', ['WorkPackagesTableHelper', 'WorkPackageService', 'FunctionDecorators', 'QueryService', 'PaginationService', 'I18n', function(WorkPackagesTableHelper, WorkPackageService, FunctionDecorators, QueryService, PaginationService, I18n) {
 
   return {
     restrict: 'A',
@@ -10,10 +10,10 @@ angular.module('openproject.workPackages.directives')
 
       if (scope.showValueOptionsAsSelect) {
         QueryService.getAvailableFilterValues(scope.filter.name, scope.projectIdentifier)
-          .then(function(values) {
-            scope.availableFilterValues = values.map(function(value) {
-              return [value.name, value.id];
-            });
+          .then(buildOptions)
+          .then(addStandardOptions)
+          .then(function(options) {
+            scope.availableFilterValues = options;
           });
       }
 
@@ -36,6 +36,20 @@ angular.module('openproject.workPackages.directives')
 
       function applyFiltersWithDelay() {
         return FunctionDecorators.withDelay(800, scope.updateResults);
+      }
+
+      function buildOptions(values) {
+        return values.map(function(value) {
+          return [value.name, value.id];
+        });
+      }
+
+      function addStandardOptions(options) {
+        if (scope.filter.getModelName() === 'user') {
+          options.unshift(['<< ' + scope.I18n.t('js.label_me') + ' >>', 'me']);
+        }
+
+        return options;
       }
     }
   };
