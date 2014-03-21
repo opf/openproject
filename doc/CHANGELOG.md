@@ -29,6 +29,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.1
+
+* `#5265` Fix: Error adding Work Package
+* `#5322` Fix: First Journal Entry of chiliproject issues shows incorrect diff
+
 ## 3.0.0
 
 ## 3.0.0pre51
