@@ -1,6 +1,8 @@
-OpenProject is a project management system.
+OpenProject Meeting Plugin
 
-Copyright (C) 2011-2013 the OpenProject Foundation (OPF)
+This plugin adds functions to support project meetings to
+
+Copyright (C) 2011-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
