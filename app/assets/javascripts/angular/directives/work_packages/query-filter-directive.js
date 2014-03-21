@@ -1,6 +1,6 @@
 angular.module('openproject.workPackages.directives')
 
-.directive('queryFilter', ['WorkPackagesTableHelper', 'WorkPackageService', 'FunctionDecorators', 'QueryService', 'StatusService', function(WorkPackagesTableHelper, WorkPackageService, FunctionDecorators, QueryService, StatusService) {
+.directive('queryFilter', ['WorkPackagesTableHelper', 'WorkPackageService', 'FunctionDecorators', 'QueryService', 'PaginationService', function(WorkPackagesTableHelper, WorkPackageService, FunctionDecorators, QueryService, PaginationService) {
 
   return {
     restrict: 'A',
@@ -27,7 +27,7 @@ angular.module('openproject.workPackages.directives')
         if (filter !== oldFilter) {
           if (filter.isConfigured()) {
             scope.query.hasChanged();
-            scope.paginationOptions.page = 1; // reset page
+            PaginationService.resetPage();
 
             applyFiltersWithDelay();
           }

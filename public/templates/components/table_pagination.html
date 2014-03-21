@@ -25,7 +25,7 @@
 
   <span class="per_page_options">
     Per page:
-    <span ng-repeat="perPageOption in perPageOptions">
+    <span ng-repeat="perPageOption in paginationOptions.perPageOptions">
       <span ng-if="perPageOption != paginationOptions.perPage">
       	<a href="" ng-click="selectPerPage(perPageOption)">{{ perPageOption }}</a>
       </span>

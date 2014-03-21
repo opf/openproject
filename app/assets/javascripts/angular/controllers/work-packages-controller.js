@@ -1,7 +1,7 @@
 angular.module('openproject.workPackages.controllers')
 
-.controller('WorkPackagesController', ['$scope', 'WorkPackagesTableHelper', 'Query', 'Sortation', 'WorkPackageService', 'QueryService', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE', 'AVAILABLE_WORK_PACKAGE_FILTERS','DEFAULT_SORT_CRITERIA', 'DEFAULT_QUERY', 'DEFAULT_PAGINATION_OPTIONS',
-            function($scope, WorkPackagesTableHelper, Query, Sortation, WorkPackageService, QueryService, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE, AVAILABLE_WORK_PACKAGE_FILTERS, DEFAULT_SORT_CRITERIA, DEFAULT_QUERY, DEFAULT_PAGINATION_OPTIONS) {
+.controller('WorkPackagesController', ['$scope', 'WorkPackagesTableHelper', 'Query', 'Sortation', 'WorkPackageService', 'QueryService', 'PaginationService', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE', 'AVAILABLE_WORK_PACKAGE_FILTERS','DEFAULT_SORT_CRITERIA', 'DEFAULT_QUERY',
+            function($scope, WorkPackagesTableHelper, Query, Sortation, WorkPackageService, QueryService, PaginationService, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE, AVAILABLE_WORK_PACKAGE_FILTERS, DEFAULT_SORT_CRITERIA, DEFAULT_QUERY) {
 
 
   function initialSetup() {
@@ -13,7 +13,6 @@ angular.module('openproject.workPackages.controllers')
 
     setupColumns()
       .then(setupQuery)
-      .then(setupPagination)
       .then($scope.updateResults)
       .then(setupComplete);
 
@@ -45,15 +44,6 @@ angular.module('openproject.workPackages.controllers')
     });
   }
 
-  function setupPagination(paginationOptions) {
-    paginationOptions = paginationOptions || DEFAULT_PAGINATION_OPTIONS;
-    $scope.paginationOptions = {
-      page: paginationOptions.page,
-      perPage: paginationOptions.per_page
-    };
-    $scope.perPageOptions = paginationOptions.per_page_options;
-  }
-
   $scope.submitQueryForm = function(){
     jQuery("#selected_columns option").attr('selected',true);
     jQuery('#query_form').submit();
@@ -69,12 +59,10 @@ angular.module('openproject.workPackages.controllers')
     $scope.totalSums = meta.sums;
     $scope.groupSums = meta.group_sums;
     $scope.totalEntries = meta.total_entries;
-
-    setupPagination(meta);
   };
 
   $scope.updateResults = function() {
-    return $scope.withLoading(WorkPackageService.getWorkPackages, [$scope.projectIdentifier, $scope.query, $scope.paginationOptions])
+    return $scope.withLoading(WorkPackageService.getWorkPackages, [$scope.projectIdentifier, $scope.query, PaginationService.getPaginationOptions()])
       .then($scope.setupWorkPackagesTable);
   };
 
