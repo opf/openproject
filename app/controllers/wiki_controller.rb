@@ -348,9 +348,9 @@ class WikiController < ApplicationController
     attachments = page && page.attachments
     previewed = page && page.content
 
-    text = params[:content][:text]
+    text = { WikiPage.human_attribute_name(:content) => params[:content][:text] }
 
-    return [text], attachments, previewed
+    return text, attachments, previewed
   end
 
   private
