@@ -446,6 +446,6 @@ class WorkPackagesController < ApplicationController
   end
 
   def parse_preview_data
-    parse_preview_data_helper :work_package, [:description, :notes]
+    parse_preview_data_helper :work_package, [:notes, :description]
   end
 end
