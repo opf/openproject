@@ -495,12 +495,8 @@ var WarnLeavingUnsaved = Class.create({
 
 	initialize: function(message){
 		this.observedForms = $$('form');
+		this.observedElements =  $$('textarea');
         this.message = message;
-
-        if($$('a#show_more_wp_properties').length)
-            this.observedElements =  $$('textarea#work_package_description');
-        else
-		    this.observedElements =  $$('textarea');
 
 		this.observedElements.each(this.observeChange.bind(this));
 		this.observedForms.each(this.submitAction.bind(this));
