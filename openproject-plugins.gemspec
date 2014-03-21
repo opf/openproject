@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.authors     = "Finn GmbH"
   s.email       = "info@finn.de"
   s.homepage    = "https://www.openproject.org/projects/plugin-plugins"
-  s.summary     = "OpenProject Plugins Plugin"
+  s.summary     = "OpenProject Plugins"
   s.description = <<-STR
     This plugin aims to make writing plugins easier. It provides a generator for creating a
     basic plugin structure and a module that simplifies setting up the plugin Rails engine.
