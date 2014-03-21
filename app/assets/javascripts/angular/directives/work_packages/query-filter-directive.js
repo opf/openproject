@@ -1,25 +1,23 @@
 angular.module('openproject.workPackages.directives')
 
-.directive('queryFilter', ['WorkPackagesTableHelper', 'WorkPackageService', 'FunctionDecorators', 'StatusService', function(WorkPackagesTableHelper, WorkPackageService, FunctionDecorators, StatusService) {
+.directive('queryFilter', ['WorkPackagesTableHelper', 'WorkPackageService', 'FunctionDecorators', 'QueryService', 'StatusService', function(WorkPackagesTableHelper, WorkPackageService, FunctionDecorators, QueryService, StatusService) {
 
   return {
     restrict: 'A',
     link: function(scope, element, attributes) {
-      function populateValues(data){
-        scope.availableValues = data.statuses.map(function(v){
-          return [v.id, v.name.toString()];
-        });
-      }
 
       scope.showValueOptionsAsSelect = ['list', 'list_optional', 'list_status', 'list_subprojects', 'list_model'].indexOf(scope.query.getFilterType(scope.filter.name)) !== -1;
 
-      if(scope.query.getFilterType(scope.filter.name) == 'list_model'){
-        // Get possible values
-        // TODO: Choose users, statuses, priorities etc based on filter something
-        StatusService.getStatuses().then(populateValues);
-      } else {
-        scope.availableValues = scope.query.getAvailableFilterValues(scope.filter.name);
+      if (scope.showValueOptionsAsSelect) {
+        QueryService.getAvailableFilterValues(scope.filter.name)
+          .then(function(values) {
+            scope.availableFilterValues = values.map(function(value) {
+              return [value.name, value.id];
+            });
+          });
       }
+
+      // Filter updates
 
       scope.$watch('filter.operator', function(operator) {
         if(operator) scope.showValuesInput = scope.filter.requiresValues();
