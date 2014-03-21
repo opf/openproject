@@ -16,9 +16,11 @@ angular.module('openproject.workPackages.config')
 })
 
 .constant('AVAILABLE_WORK_PACKAGE_FILTERS', {
-  status_id: { type: "list_model", model_name: "status" ,order:1, name: "Status" },
-  // type_id: { type:"list_model", model_name: "type", "order":2, name: "Type" },
-  // priority_id: {"type":"list","order":3,"values":[["Immediate","29"],["High","30"],["Low","31"],["Normal","32"]],"name":"Priority"},
+  status_id: { type: "list_model", model_name: "status" , order:1, name: "Status" },
+  type_id: { type:"list_model", model_name: "type", order:2, name: "Type" },
+  priority_id: { type:"list_model", model_name: "priority", order:3, name:"Priority"},
+  assigned_to_id: { type: "list_model", model_name: "user" , order:4, name: "Assigned to" },
+  author_id: { type: "list_model", model_name: "user" , order:4, name: "Author" },
   subject: {"type":"text","order":8,"name":"Subject"},
   created_at: {"type":"date_past","order":9,"name":"Created on"},
   updated_at: {"type":"date_past","order":10,"name":"Updated on"},
@@ -26,8 +28,6 @@ angular.module('openproject.workPackages.config')
   due_date: {"type":"date","order":12,"name":"Due date"},
   estimated_hours: {"type":"integer","order":13,"name":"Estimated time"},
   done_ratio: {"type":"integer","order":14,"name":"% done"},
-  // assigned_to_id: {"type":"list_optional","order":4,"values":[["<< me >>","me"],["Gianni Ward","133"],["PTU Administrator","113"],["Reece Hegmann","122"]],"name":"Assignee"},
-  // author_id: {"type":"list","order":5,"values":[["<< me >>","me"],["Gianni Ward","133"],["PTU Administrator","113"],["Reece Hegmann","122"]],"name":"Author"},
   // member_of_group: {"type":"list_optional","order":6,"values":[["Gruppe 00001","138"],["Gruppe 00002","139"],["Gruppe 00003","140"],["Gruppe 00004","141"],["Gruppe 00005","142"]],"name":"Assignee's group"},
   // assigned_to_role: {"type":"list_optional","order":7,"values":[["Project Admin","3"],["Release Manager","19"],["Project Member","4"],["Stakeholder","5"],["Controller Client","6"],["Controller","8"],["Developer","9"],["Tester","10"],["Reader","11"],["Timeline Reader","20"]],"name":"Assignee's role"},
   // responsible_id: {"type":"list_optional","order":4,"values":[["<< me >>","me"],["Gianni Ward","133"],["PTU Administrator","113"],["Reece Hegmann","122"]],"name":"Responsible"},"watcher_id":{"type":"list","order":15,"values":[["<< me >>","me"],["Gianni Ward","133"],["PTU Administrator","113"],["Reece Hegmann","122"]],"name":"Watcher"},

@@ -6,18 +6,20 @@ angular.module('openproject.workPackages.directives')
     restrict: 'A',
     link: function(scope, element, attributes) {
       function populateValues(data){
-        // Do something...
+        scope.availableValues = data.statuses.map(function(v){
+          return [v.id, v.name.toString()];
+        });
       }
-
-      // TODO RS: We need to extend this so that it gets possible values from the api if it is a 'list_model' filter
-      scope.availableValues = scope.query.getAvailableFilterValues(scope.filter.name);
 
       scope.showValueOptionsAsSelect = ['list', 'list_optional', 'list_status', 'list_subprojects', 'list_model'].indexOf(scope.query.getFilterType(scope.filter.name)) !== -1;
 
-      // if(scope.filter.name == 'list_model'){
-      //   // Get possible values
-      //   StatusesService.getStatuses().then(populateValues);
-      // }
+      if(scope.query.getFilterType(scope.filter.name) == 'list_model'){
+        // Get possible values
+        // TODO: Choose users, statuses, priorities etc based on filter something
+        StatusService.getStatuses().then(populateValues);
+      } else {
+        scope.availableValues = scope.query.getAvailableFilterValues(scope.filter.name);
+      }
 
       scope.$watch('filter.operator', function(operator) {
         if(operator) scope.showValuesInput = scope.filter.requiresValues();
