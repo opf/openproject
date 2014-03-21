@@ -3,21 +3,23 @@ angular.module('openproject.services')
 .service('StatusService', ['$http', 'PathHelper', function($http, PathHelper) {
 
   var StatusService = {
-    getStatuses: function() {
-      var url = PathHelper.apiStatusesPath();
+    getStatuses: function(projectIdentifier) {
+      var url;
+
+      if(projectIdentifier) {
+        url = PathHelper.apiProjectStatusesPath(projectIdentifier);
+      } else {
+        url = PathHelper.apiStatusesPath();
+      }
 
       return StatusService.doQuery(url);
     },
 
     doQuery: function(url, params) {
-      return $http({
-        method: 'GET',
-        url: url,
-        params: params,
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-      }).then(function(response){
-        return response.data;
-      });
+      return $http.get(url, { params: params })
+        .then(function(response){
+          return response.data.statuses;
+        });
     }
   };
 

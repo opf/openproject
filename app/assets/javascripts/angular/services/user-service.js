@@ -4,6 +4,12 @@ angular.module('openproject.services')
   var registeredUserIds = [], cachedUsers = {};
 
   UserService = {
+    getUsers: function() {
+      var url = PathHelper.apiUsersPath();
+
+      return UserService.doQuery(url);
+    },
+
     registerUserId: function(id) {
       var user = cachedUsers[id];
       if (user) return user;
@@ -19,12 +25,11 @@ angular.module('openproject.services')
 
     loadRegisteredUsers: function() {
       if (registeredUserIds.length > 0) {
-        return $http.get(PathHelper.apiUsersPath(), {
-          params: { 'ids[]': registeredUserIds }
-        }).then(function(response){
-          UserService.storeUsers(response.data.users);
-          return cachedUsers;
-        });
+        return UserService.doQuery(PathHelper.apiUsersPath(), { 'ids[]': registeredUserIds })
+          .then(function(users){
+            UserService.storeUsers(users);
+            return cachedUsers;
+          });
       }
     },
 
@@ -37,7 +42,20 @@ angular.module('openproject.services')
         cachedUser.lastname = user.lastname;
         cachedUser.name = user.name;
       });
+    },
+
+    doQuery: function(url, params) {
+      if(!params) {
+        // TODO find out which scope we want to apply here
+        params = {status: 'all'};
+      }
+
+      return $http.get(url, { params: params })
+        .then(function(response){
+          return response.data.users;
+        });
     }
+
   };
 
   return UserService;

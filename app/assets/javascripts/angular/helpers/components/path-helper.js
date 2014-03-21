@@ -39,8 +39,20 @@ angular.module('openproject.helpers')
     apiWorkPackagesColumnDataPath: function() {
       return PathHelper.apiWorkPackagesPath() + '/column_data';
     },
+    apiPrioritiesPath: function() {
+      return PathHelper.apiPrefix + '/planning_element_priorities';
+    },
     apiStatusesPath: function() {
-      return PathHelper.apiPrefix + '/statuses'
+      return PathHelper.apiPrefix + '/statuses';
+    },
+    apiProjectStatusesPath: function(projectIdentifier) {
+      return PathHelper.apiProjectPath(projectIdentifier) + '/statuses';
+    },
+    apiTypesPath: function() {
+      return PathHelper.apiPrefix + '/planning_element_types';
+    },
+    apiProjectTypesPath: function(projectIdentifier) {
+      return PathHelper.apiProjectPath(projectIdentifier) + '/planning_element_types';
     },
     apiUsersPath: function() {
       return PathHelper.apiPrefix + PathHelper.usersPath();
