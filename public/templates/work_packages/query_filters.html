@@ -159,7 +159,6 @@
             <label for="add_filter_select">{{ I18n.t('js.work_packages.label_filter_add') }}</label>:
             <select class="select-small"
                     id="add_filter_select"
-                    ng-change="add_filter()"
                     ng-model="filterToBeAdded"
                     ng-options="filterName as filterOptions.name || filterName
                                 for (filterName, filterOptions)
