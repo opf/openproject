@@ -38,7 +38,7 @@ class NewsController < ApplicationController
   before_filter :find_project_from_association, :except => [:new, :create, :index, :preview]
   before_filter :find_project, :only => [:new, :create]
   before_filter :authorize, :except => [:index, :preview]
-  before_filter :find_optional_project, only: [:index, :preview]
+  before_filter :find_optional_project, only: [:index]
   accept_key_auth :index
 
   menu_item :new_news, :only => [:new, :create]
