@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.authors     = "Finn GmbH"
   s.email       = "info@finn.de"
   s.homepage    = "https://www.openproject.org/projects/documents"
-  s.summary     = "An OpenProject plugin to allow creation of documents in projects"
+  s.summary     = "OpenProject Documents"
   s.description = "An OpenProject plugin to allow creation of documents in projects"
   s.license     = "GPLv3"
 
