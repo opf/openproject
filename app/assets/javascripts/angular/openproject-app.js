@@ -1,5 +1,5 @@
 // global
-angular.module('openproject.services', ['openproject.uiComponents', 'openproject.helpers']);
+angular.module('openproject.services', ['openproject.uiComponents', 'openproject.helpers', 'openproject.workPackages.config']);
 angular.module('openproject.helpers', ['openproject.services']);
 angular.module('openproject.models', []);
 

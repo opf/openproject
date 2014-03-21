@@ -17,6 +17,12 @@ angular.module('openproject.models')
   };
 
   Query.prototype = {
+    /**
+     * @name toParams
+     *
+     * @description Serializes the query to parameters required by the backend
+     * @returns {params} Request parameters
+     */
     toParams: function() {
       return angular.extend.apply(this, [
         {
