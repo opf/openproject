@@ -20,6 +20,9 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+## 3.0.1
+
+* `#5357` Adapt released plugins to base on plugins functionality
 * Fix: Add edit accesskey for my project page personalization
 
 ## 3.0.0
