@@ -35,7 +35,7 @@ module OpenProject::PdfExport
 
     register 'openproject-pdf_export',
              :author_url => 'http://finn.de',
-             :requires_openproject => '>= 3.0.0pre42' do
+             :requires_openproject => '>= 3.0.0' do
 
       menu :admin_menu,
             :export_card_configurations,

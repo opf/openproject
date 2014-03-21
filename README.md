@@ -9,7 +9,7 @@ Requirements
 ------------
 
 The OpenProject PDF Export plugin requires the [OpenProject Core](https://github.com/opf/openproject/) in
-version greater or equal to *3.0.0pre37*.
+version greater or equal to *3.0.0*.
 
 Tests for this plugin require `pdf-inspector`, so just add the following line to
 OpenProject's `Gemfile.plugin`:
@@ -23,12 +23,12 @@ Installation
 OpenProject PDF Export depends on OpenProject Plugins. Thus, if you haven't done
 it already, add the following line to the `Gemfile.plugins` to your OpenProject installation:
 
-`gem "openproject-plugins", git: "https://github.com/opf/openproject-plugins.git", :branch => "dev"`
+`gem "openproject-plugins", git: "https://github.com/opf/openproject-plugins.git", :branch => "stable"`
 
 For OpenProject PDF Export itself you need to add the following line to the
 `Gemfile.plugins` of the project which is using the plugin:
 
-`gem "openproject-pdf_export", git: "https://github.com/finnlabs/openproject-pdf_export.git", :branch => "dev"`
+`gem "openproject-pdf_export", git: "https://github.com/finnlabs/openproject-pdf_export.git", :branch => "stable"`
 
 Afterwards, run:
 
@@ -46,7 +46,7 @@ Deinstallation
 
 Remove the line
 
-`gem "openproject-pdf_export", git: "https://github.com/finnlabs/openproject-pdf_export.git", :branch => "dev"`
+`gem "openproject-pdf_export", git: "https://github.com/finnlabs/openproject-pdf_export.git", :branch => "stable"`
 
 from the file `Gemfile.plugins` and run:
 
