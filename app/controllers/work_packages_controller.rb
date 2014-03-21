@@ -57,7 +57,7 @@ class WorkPackagesController < ApplicationController
                 :project,
                 :authorize, :except => [:index, :preview]
   before_filter :find_optional_project,
-                :protect_from_unauthorized_export, :only => [:index, :all]
+                :protect_from_unauthorized_export, :only => [:index, :all, :preview]
   before_filter :load_query, :only => :index
 
   def show
