@@ -1645,3 +1645,5 @@ en:
   work_package:
     updated_automatically_by_child_changes: |
         _Updated automatically by changing values within child work package %{child}_
+
+  nothing_to_preview: "Nothing to preview"
