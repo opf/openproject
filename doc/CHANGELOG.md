@@ -36,6 +36,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.6
+
+* `#5357` Adapt released plugins to base on plugins functionality
 * Migration fix: Also used plugin_redmine_backlogs as old setting name when migrating
 
 ## 3.0.5
