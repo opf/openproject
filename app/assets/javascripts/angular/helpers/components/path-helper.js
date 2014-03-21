@@ -58,7 +58,7 @@ angular.module('openproject.helpers')
       return PathHelper.apiPrefix + PathHelper.usersPath();
     },
     apiWorkPackagesSumsPath: function(projectIdentifier) {
-      return PathHelper.apiProjectPath(projectIdentifier) + '/column_sums';
+      return PathHelper.apiProjectPath(projectIdentifier) + PathHelper.workPackagesPath() + '/column_sums';
     },
   };
 
