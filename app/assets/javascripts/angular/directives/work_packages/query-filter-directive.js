@@ -9,7 +9,7 @@ angular.module('openproject.workPackages.directives')
       scope.showValueOptionsAsSelect = ['list', 'list_optional', 'list_status', 'list_subprojects', 'list_model'].indexOf(scope.query.getFilterType(scope.filter.name)) !== -1;
 
       if (scope.showValueOptionsAsSelect) {
-        QueryService.getAvailableFilterValues(scope.filter.name)
+        QueryService.getAvailableFilterValues(scope.filter.name, scope.projectIdentifier)
           .then(function(values) {
             scope.availableFilterValues = values.map(function(value) {
               return [value.name, value.id];

@@ -4,10 +4,17 @@ angular.module('openproject.services')
   var registeredUserIds = [], cachedUsers = {};
 
   UserService = {
-    getUsers: function() {
-      var url = PathHelper.apiUsersPath();
+    getUsers: function(projectIdentifier) {
+      var url, params;
 
-      return UserService.doQuery(url);
+      if (projectIdentifier) {
+        url = PathHelper.apiProjectUsersPath(projectIdentifier);
+      } else {
+        url = PathHelper.apiUsersPath();
+        params = {status: 'all'};
+      }
+
+      return UserService.doQuery(url, params);
     },
 
     registerUserId: function(id) {
@@ -45,11 +52,6 @@ angular.module('openproject.services')
     },
 
     doQuery: function(url, params) {
-      if(!params) {
-        // TODO find out which scope we want to apply here
-        params = {status: 'all'};
-      }
-
       return $http.get(url, { params: params })
         .then(function(response){
           return response.data.users;

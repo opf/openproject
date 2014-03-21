@@ -43,7 +43,6 @@ angular.module('openproject.services')
     nextPage: function() {
       paginationOptions.page = paginationOptions.page + 1;
     },
-
     previousPage: function() {
       paginationOptions.page = paginationOptions.page - 1;
     }
