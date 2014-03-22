@@ -49,12 +49,26 @@ See doc/COPYRIGHT.rdoc for more details.
 * Fix: work package due date not validated when start date is not present
 * Fix: Use correct questions for deletion of documents/files in rake tasks
 
+## 3.0.0pre51 on only dev branch
+
+* Fix project search accesskey
+* Fix new work package accesskey
+
+## 3.0.0pre49 on only dev branch
+
+* Allows redirecting to a back url on version#update
+
+## 3.0.1
+
+* `#5265` Fix: Error adding Work Package
+* `#5322` Fix: First Journal Entry of chiliproject issues shows incorrect diff
+
+## 3.0.0
+
 ## 3.0.0pre51
 
 * `#3701` Fix: Filter custom fields of work packages in timeline reports
 * `#5033` Migration RepairInvalidDefaultWorkPackageCustomValues fails on Postgres
-* Fix project search accesskey
-* Fix new work package accesskey
 
 ## 3.0.0pre50
 
@@ -77,7 +91,6 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#4858` XSS in wp auto-completion
 * `#4887` Second grouping criterion seems to have an and conjunction
 * Added pry-byebug for ruby 2.1
-* Allows redirecting to a back url on version#update
 
 ## 3.0.0pre48
 
