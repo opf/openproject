@@ -4,7 +4,9 @@ angular.module('openproject.models')
 
   Query = function (data, options) {
     angular.extend(this, data, options);
+
     this.group_by = this.group_by || '';
+    this.selectedColumns = this.selectedColumns || [];
 
     if (this.filters === undefined){
       this.filters = [];
@@ -24,19 +26,17 @@ angular.module('openproject.models')
      * @returns {params} Request parameters
      */
     toParams: function() {
-      return angular.extend.apply(this, [
-        {
-          'f[]': this.getFilterNames(this.getActiveConfiguredFilters()),
-          'c[]': ['id'].concat(this.selectedColumns.map(function(column) {
-            return column.name;
-           })),
-          'group_by': this.group_by,
-          'query_id': this.id,
-          'sort': this.sortation.encode()
-        }].concat(this.getActiveConfiguredFilters().map(function(filter) {
-          return filter.toParams();
-        }))
-      );
+      return angular.extend({
+        'f[]': this.getFilterNames(this.getActiveConfiguredFilters()),
+        'c[]': this.selectedColumns.map(function(column) {
+          return column.name;
+         }),
+        'group_by': this.group_by,
+        'query_id': this.id,
+        'sort': this.sortation.encode()
+      }, this.getActiveConfiguredFilters().map(function(filter) {
+        return filter.toParams();
+      }));
     },
 
     getFilterNames: function(filters) {
