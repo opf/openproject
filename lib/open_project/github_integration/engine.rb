@@ -21,9 +21,6 @@ module OpenProject::GithubIntegration
     end
 
     initializer 'github_integration.subscribe_to_notifications' do
-      ::OpenProject::Notifications.subscribe('github.ping',
-                                             &NotificationHandlers.method(:ping))
-
       ::OpenProject::Notifications.subscribe('github.pull_request',
                                              &NotificationHandlers.method(:pull_request))
     end
