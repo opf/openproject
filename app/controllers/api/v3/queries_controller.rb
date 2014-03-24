@@ -6,7 +6,6 @@ module Api
     class QueriesController < ApplicationController
       unloadable
 
-      include PaginationHelper
       include QueriesHelper
       include ::Api::V3::ApiController
       include ExtendedHTTP
