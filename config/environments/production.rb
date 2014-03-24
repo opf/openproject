@@ -87,6 +87,7 @@ OpenProject::Application.configure do
                                   timelines_select_boxes.js
                                   types_checkboxes.js
                                   work_packages.js
+                                  timelines.css
                                   rtl.css context_menu_rtl.css
                                   accessibility.js accessibility.css
                                   copy_issue_actions.js repository_navigation.js
