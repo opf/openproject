@@ -85,9 +85,11 @@ OpenProject::Application.configure do
                                   project/responsible_attribute.js
                                   select_list_move.js
                                   timelines_select_boxes.js
+                                  timelines_modal.js
                                   types_checkboxes.js
                                   work_packages.js
                                   timelines.css
+                                  date-en-US.js date-de-DE.js
                                   rtl.css context_menu_rtl.css
                                   accessibility.js accessibility.css
                                   copy_issue_actions.js repository_navigation.js
