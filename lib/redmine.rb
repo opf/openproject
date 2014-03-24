@@ -104,7 +104,7 @@ Redmine::AccessControl.map do |map|
                                          :context_menus => [:issues],
                                          :versions => [:index, :show, :status_by],
                                          :journals => [:index, :diff],
-                                         :queries => :index,
+                                         :queries => [:index, :available_columns],
                                          :work_packages => [:show, :index],
                                          :'work_packages/reports' => [:report, :report_details],
                                          :planning_elements => [:index, :all, :show, :recycle_bin],
@@ -363,7 +363,7 @@ end
 Redmine::Activity.map do |activity|
   activity.register :work_packages, class_name: 'Activity::WorkPackageActivityProvider'
   activity.register :changesets, class_name: 'Activity::ChangesetActivityProvider'
-  activity.register :news, class_name: 'Activity::NewsActivityProvider', default: false 
+  activity.register :news, class_name: 'Activity::NewsActivityProvider', default: false
   activity.register :wiki_edits, class_name: 'Activity::WikiContentActivityProvider', default: false
   activity.register :messages, class_name: 'Activity::MessageActivityProvider', default: false
   activity.register :time_entries, class_name: 'Activity::TimeEntryActivityProvider', default: false
