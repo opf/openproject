@@ -32,7 +32,7 @@ module OpenProject::GithubIntegration
     #  source: string
     # Returns:
     #   Array<int>
-    def self.parse_work_package(source)
+    def self.extract_work_package_ids(source)
       # matches the following things (given that `Setting.host_name` equals 'www.openproject.org')
       #  - http://www.openproject.org/wp/1234
       #  - https://www.openproject.org/wp/1234

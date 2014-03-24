@@ -8,28 +8,28 @@ describe OpenProject::GithubIntegration do
   describe '.parse_work_package' do
     it 'should return an empty array for an empty source' do
       result = OpenProject::GithubIntegration::NotificationHandlers.send(
-                :parse_work_package, '')
+                :extract_work_package_ids, '')
       expect(result).to eql([])
     end
 
     it 'should find a plain work package url' do
       source = 'Blabla\nhttps://example.net/work_packages/234\n'
       result = OpenProject::GithubIntegration::NotificationHandlers.send(
-                :parse_work_package, source)
+                :extract_work_package_ids, source)
       expect(result).to eql([234])
     end
 
     it 'should find a work package url in markdown link syntax' do
       source = 'Blabla\n[WP 234](https://example.net/work_packages/234)\n'
       result = OpenProject::GithubIntegration::NotificationHandlers.send(
-                :parse_work_package, source)
+                :extract_work_package_ids, source)
       expect(result).to eql([234])
     end
 
     it 'should find multiple work package urls' do
       source = "I reference https://example.net/work_packages/434\n and Blabla\n[WP 234](https://example.net/wp/234)\n"
       result = OpenProject::GithubIntegration::NotificationHandlers.send(
-                :parse_work_package, source)
+                :extract_work_package_ids, source)
       expect(result).to eql([434, 234])
     end
 
