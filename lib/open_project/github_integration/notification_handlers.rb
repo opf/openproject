@@ -31,8 +31,9 @@ module OpenProject::GithubIntegration
     #  source: string
     # Returns:
     #   Array<int>
-    private def self.parse_work_package(source)
-      []
+    def self.parse_work_package(source)
+      # we could use a regexp like this here:
+      #http(?:s?):\/\/openproject\.org\/(?:.*\/?)(?:work_packages|wp)\/([0-9]+)
     end
 
   end
