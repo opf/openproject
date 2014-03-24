@@ -23,6 +23,10 @@ module OpenProject::GithubIntegration
     initializer 'github.subscribe_to_notifications' do
       ::OpenProject::Notifications.subscribe('github.pull_request',
                                              &NotificationHandlers.method(:pull_request))
+      ::OpenProject::Notifications.subscribe('github.issue_comment',
+                                             &NotificationHandlers.method(:issue_comment))
+      ::OpenProject::Notifications.subscribe('github.pull_request_review_comment',
+                                             &NotificationHandlers.method(:pull_request_review_comment))
     end
 
   end

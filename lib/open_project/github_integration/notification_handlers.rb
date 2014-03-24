@@ -21,9 +21,6 @@ module OpenProject::GithubIntegration
     #   repo: <the repository in action>
     # }
     def self.pull_request(payload)
-      puts '#' * 200
-      puts "pull_request", payload.to_json
-
       # Don't add comments on new pushes to the pull request
       return if payload['action'] == 'synchronize'
 
@@ -33,11 +30,37 @@ module OpenProject::GithubIntegration
 
       # FIXME check user is allowed to update work packages
       # TODO mergeable
+      # TODO extract method
 
       wps.each do |wp|
         wp.update_by!(user, :notes => notes_for_payload(payload))
       end
 
+    end
+
+    def self.pull_request_review_comment(payload)
+      require 'pry'; binding.pry
+    end
+
+    def self.issue_comment(payload)
+      # if the comment is not associated with a PR, ignore it
+      return unless payload['issue']['pull_request']['html_url']
+
+      user = User.find_by_id(payload['user_id'])
+      wp_ids = extract_work_package_ids(payload['issue']['body'])
+      wps = find_visible_work_packages(wp_ids, user)
+
+      # FIXME check user is allowed to update work packages
+      # TODO mergeable
+      # TODO extract method
+
+      # give the action a better name
+      payload['action'] = 'commented'
+
+      wps.each do |wp|
+        wp.update_by!(user, :notes => notes_for_payload(payload))
+      end
+      require 'pry'; binding.pry
     end
 
     ##
@@ -80,6 +103,7 @@ module OpenProject::GithubIntegration
         'opened' => 'opened',
         'reopened' => 'opened',
         'closed' => 'closed',
+        'referenced' => 'referenced',
         # We ignore synchrize actions for now. See pull_request method.
         'synchronize' => nil
       }[payload['action']]

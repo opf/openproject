@@ -1,7 +1,7 @@
 module OpenProject::GithubIntegration
   class HookHandler
     # List of the github events we can handle.
-    KNOWN_EVENTS = %w{ ping pull_request }
+    KNOWN_EVENTS = %w{ ping pull_request pull_request_review_comment issue_comment }
 
     # A github webhook happened.
     # We need to check validity of the data and send a Notification
@@ -9,6 +9,8 @@ module OpenProject::GithubIntegration
     def process(hook, environment, params, user)
       event_type = environment['HTTP_X_GITHUB_EVENT']
       event_delivery = environment['HTTP_X_GITHUB_DELIVERY']
+
+      Rails.logger.debug "Received github webhook #{event_type} (#{event_delivery})"
 
       return 404 unless KNOWN_EVENTS.include?(event_type) && event_delivery
       return 403 unless user.present?
