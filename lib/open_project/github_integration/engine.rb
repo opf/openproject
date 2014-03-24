@@ -1,6 +1,7 @@
 # Prevent load-order problems in case openproject-plugins is listed after a plugin in the Gemfile
 # or not at all
 require 'open_project/plugins'
+# require 'open_project/notifications'
 
 module OpenProject::GithubIntegration
   class Engine < ::Rails::Engine
@@ -10,22 +11,22 @@ module OpenProject::GithubIntegration
 
     register 'openproject-github_integration',
              :author_url => 'http://finn.de',
-             :requires_openproject => '>= 3.0.0pre50',
-             :settings => { 'default' => {"github_access_token" => ""},
-                            :partial => 'settings/github_settings'}
+             :requires_openproject => '>= 3.1.0pre1'
 
-    OpenProject::Webhooks.register_hook 'github' do |hook, environment, params, user, project|
-      OpenProject::GithubIntegration::HookHandler.new.process(hook, environment, params, user, project)
+
+    initializer 'github_integration.register_hook' do
+      ::OpenProject::Webhooks.register_hook 'github' do |hook, environment, params, user|
+        HookHandler.new.process(hook, environment, params, user)
+      end
     end
 
-    ActiveSupport::Notifications.subscribe('github.ping') do |name, start, finish, id, payload|
-      require 'pry'; binding.pry
-      puts "PING!"
+    initializer 'github_integration.subscribe_to_notifications' do
+      ::OpenProject::Notifications.subscribe('github.ping',
+                                             &NotificationHandlers.method(:ping))
+
+      ::OpenProject::Notifications.subscribe('github.pull_request',
+                                             &NotificationHandlers.method(:pull_request))
     end
 
-    ActiveSupport::Notifications.subscribe('github.pull_request') do |name, start, finish, id, payload|
-      require 'pry'; binding.pry
-      puts "pull request"
-    end
   end
 end

@@ -18,5 +18,4 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", "~> 3.2.14"
   s.add_dependency "openproject-plugins", "~> 1.0.6"
   s.add_dependency "openproject-webhooks", "~> 1.0"
-  s.add_dependency "octokit", "~> 2.0"
 end
