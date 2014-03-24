@@ -5,8 +5,8 @@ angular.module('openproject.services')
   var availableColumns = [], availableFilterValues = {};
 
   var QueryService = {
-    getAvailableColumns: function(projectId) {
-      var url = PathHelper.apiAvailableColumnsPath(projectId);
+    getAvailableColumns: function(projectIdentifier) {
+      var url = projectIdentifier ? PathHelper.apiProjectAvailableColumnsPath(projectIdentifier) : PathHelper.apiAvailableColumnsPath();
 
       return QueryService.doQuery(url);
     },

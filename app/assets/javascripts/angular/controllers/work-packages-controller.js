@@ -7,6 +7,7 @@ angular.module('openproject.workPackages.controllers')
   function initialSetup() {
     $scope.projectIdentifier = gon.project_identifier;
     if(gon.query_id) $scope.query_id = gon.query_id;
+
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.loading = false;
     $scope.disableFilters = false;
