@@ -23,5 +23,17 @@ module OpenProject::GithubIntegration
       puts "pull_request", payload
     end
 
+    ##
+    # Parses the given source string and returns a list of work_package ids
+    # which it finds.
+    # WorkPackages are identified by their URL.
+    # Params:
+    #  source: string
+    # Returns:
+    #   Array<int>
+    private def self.parse_work_package(source)
+      []
+    end
+
   end
 end
