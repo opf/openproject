@@ -14,13 +14,13 @@ module OpenProject::GithubIntegration
              :requires_openproject => '>= 3.1.0pre1'
 
 
-    initializer 'github_integration.register_hook' do
+    initializer 'github.register_hook' do
       ::OpenProject::Webhooks.register_hook 'github' do |hook, environment, params, user|
         HookHandler.new.process(hook, environment, params, user)
       end
     end
 
-    initializer 'github_integration.subscribe_to_notifications' do
+    initializer 'github.subscribe_to_notifications' do
       ::OpenProject::Notifications.subscribe('github.pull_request',
                                              &NotificationHandlers.method(:pull_request))
     end
