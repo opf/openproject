@@ -50,7 +50,7 @@ angular.module('openproject.workPackages.helpers')
     },
 
     allRowsChecked: function(rows) {
-      if( rows.length == 0 ) return false;
+      if( rows.length === 0 ) return false;
       return rows
         .map(function(row) {
           return !!row.checked;
@@ -65,18 +65,18 @@ angular.module('openproject.workPackages.helpers')
         return column.name;
       });
 
-      return this.getColumnDifferenceByName(allColumns, columnValues)
+      return this.getColumnDifferenceByName(allColumns, columnValues);
     },
 
     getColumnDifferenceByName: function (allColumns, columnValues) {
       return allColumns.filter(function(column) {
-        return !(columnValues.indexOf(column.name) > -1);
+        return columnValues.indexOf(column.name) === -1;
       });
     },
 
-    getColumnUnionByName: function (allColumns, columnValues) {
+    getColumnUnionByName: function (allColumns, columnNames) {
       return allColumns.filter(function(column) {
-        return (columnValues.indexOf(column.name) > -1);
+        return columnNames.indexOf(column.name) !== -1;
       });
     },
 
