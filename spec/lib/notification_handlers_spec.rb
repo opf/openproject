@@ -2,7 +2,6 @@ require File.expand_path('../../spec_helper', __FILE__)
 
 describe OpenProject::GithubIntegration do
   before do
-    Setting.stub(:protocol).and_return('https')
     Setting.stub(:host_name).and_return('example.net')
   end
 
@@ -16,15 +15,22 @@ describe OpenProject::GithubIntegration do
     it 'should find a plain work package url' do
       source = 'Blabla\nhttps://example.net/work_packages/234\n'
       result = OpenProject::GithubIntegration::NotificationHandlers.send(
-                :parse_work_package, '')
+                :parse_work_package, source)
       expect(result).to eql([234])
     end
 
     it 'should find a work package url in markdown link syntax' do
       source = 'Blabla\n[WP 234](https://example.net/work_packages/234)\n'
       result = OpenProject::GithubIntegration::NotificationHandlers.send(
-                :parse_work_package, '')
+                :parse_work_package, source)
       expect(result).to eql([234])
+    end
+
+    it 'should find multiple work package urls' do
+      source = "I reference https://example.net/work_packages/434\n and Blabla\n[WP 234](https://example.net/wp/234)\n"
+      result = OpenProject::GithubIntegration::NotificationHandlers.send(
+                :parse_work_package, source)
+      expect(result).to eql([434, 234])
     end
 
   end
