@@ -17,13 +17,13 @@ module Api
       before_filter :find_optional_project, only: [:index]
       # before_filter :authorize # TODO specify authorization
       before_filter :authorize_request, only: [:column_data]
-      before_filter :assign_planning_elements, only: [:index]
+      before_filter :assign_work_packages, only: [:index]
 
       def index
         sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
         sort_update(@query.sortable_columns)
 
-        # the data for the index is already produced in the assign_planning_elements
+        # the data for the index is already produced in the assign_work_packages
         respond_to do |format|
           format.api
         end
@@ -60,7 +60,7 @@ module Api
         # authorize_global unless performed?
       end
 
-      def assign_planning_elements
+      def assign_work_packages
         @work_packages = current_work_packages(@project) unless performed?
       end
 
