@@ -14,7 +14,8 @@ module Api
       include ::Api::V3::ApiController
       include ExtendedHTTP
 
-      before_filter :authorize_and_setup_project, only: [:index]
+      before_filter :find_optional_project, only: [:index]
+      # before_filter :authorize # TODO specify authorization
       before_filter :authorize_request, only: [:column_data]
       before_filter :assign_planning_elements, only: [:index]
 
@@ -52,11 +53,6 @@ module Api
       end
 
       private
-
-      def authorize_and_setup_project
-        find_project_by_project_id         unless performed?
-        authorize                          unless performed?
-      end
 
       def authorize_request
         # TODO: need to give this action a global role i think. tried making load_column_data role in reminde.rb

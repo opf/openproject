@@ -3,8 +3,8 @@ angular.module('openproject.services')
 .service('WorkPackageService', ['$http', 'PathHelper', 'WorkPackagesHelper', function($http, PathHelper, WorkPackagesHelper) {
 
   var WorkPackageService = {
-    getWorkPackages: function(projectId, query, paginationOptions) {
-      var url = projectId ? PathHelper.apiProjectWorkPackagesPath(projectId) : PathHelper.apiWorkPackagesPath();
+    getWorkPackages: function(projectIdentifier, query, paginationOptions) {
+      var url = projectIdentifier ? PathHelper.apiProjectWorkPackagesPath(projectIdentifier) : PathHelper.apiWorkPackagesPath();
       var params = angular.extend(query.toParams(), {
         page: paginationOptions.page,
         per_page: paginationOptions.perPage
@@ -27,12 +27,12 @@ angular.module('openproject.services')
     },
 
     // Note: Should this be on a project-service?
-    getWorkPackagesSums: function(projectId, columns){
+    getWorkPackagesSums: function(projectIdentifier, columns){
       var columnNames = columns.map(function(column){
         return column.name;
       });
 
-      var url = PathHelper.apiWorkPackagesSumsPath(projectId);
+      var url = PathHelper.apiWorkPackagesSumsPath(projectIdentifier);
 
       var params = {
         'column_names[]': columnNames

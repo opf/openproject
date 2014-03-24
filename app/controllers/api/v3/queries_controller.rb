@@ -11,7 +11,7 @@ module Api
       include ::Api::V3::ApiController
       include ExtendedHTTP
 
-      before_filter :authorize_and_setup_project
+      before_filter :find_optional_project
 
       def available_columns
         query = retrieve_query
@@ -70,12 +70,6 @@ module Api
         else
           return "default"
         end
-      end
-
-      def authorize_and_setup_project
-        find_project_by_project_id         unless performed?
-        # TODO: Sort out the authorisation for reading query controller
-        # authorize                          unless performed?
       end
     end
 
