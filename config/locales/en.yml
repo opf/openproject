@@ -1,0 +1,8 @@
+en:
+  github_integration:
+    pull_request_opened_comment: >
+      "**PR Opened:** Pull request %{pr_number} “%{pr_title}”":%{pr_url} for "%{repository}":%{repository_url}
+      has been opened by "%{github_user}":%{github_user_url}.
+    pull_request_closed_comment: >
+      "**PR Closed:** Pull request %{pr_number} “%{pr_title}”":%{pr_url} for "%{repository}":%{repository_url}
+      has been closed by "%{github_user}":%{github_user_url}.

@@ -21,7 +21,23 @@ module OpenProject::GithubIntegration
     #   repo: <the repository in action>
     # }
     def self.pull_request(payload)
-      puts "pull_request", payload
+      puts '#' * 200
+      puts "pull_request", payload.to_json
+
+      # Don't add comments on new pushes to the pull request
+      return if payload['action'] == 'synchronize'
+
+      user = User.find_by_id(payload['user_id'])
+      wp_ids = extract_work_package_ids(payload['pull_request']['body'])
+      wps = find_visible_work_packages(wp_ids, user)
+
+      # FIXME check user is allowed to update work packages
+      # TODO mergeable
+
+      wps.each do |wp|
+        wp.update_by!(user, :notes => notes_for_payload(payload))
+      end
+
     end
 
     ##
@@ -57,6 +73,25 @@ module OpenProject::GithubIntegration
       end.select do |wp|
         wp.present? && wp.visible?(user)
       end
+    end
+
+    def self.notes_for_payload(payload)
+      key = {
+        'opened' => 'opened',
+        'reopened' => 'opened',
+        'closed' => 'closed',
+        # We ignore synchrize actions for now. See pull_request method.
+        'synchronize' => nil
+      }[payload['action']]
+
+      I18n.t("github_integration.pull_request_#{key}_comment",
+             :pr_number => payload['number'],
+             :pr_title => payload['pull_request']['title'],
+             :pr_url => payload['pull_request']['url'],
+             :repository => payload['pull_request']['base']['repo']['full_name'],
+             :repository_url => payload['pull_request']['base']['repo']['html_url'],
+             :github_user => payload['pull_request']['user']['login'],
+             :github_user_url => payload['pull_request']['user']['html_url'])
     end
   end
 end

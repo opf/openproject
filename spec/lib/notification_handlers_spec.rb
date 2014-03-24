@@ -90,4 +90,8 @@ describe OpenProject::GithubIntegration do
       it_behaves_like 'GithubIntegration.find_visible_work_packages'
     end
   end
+
+  describe '.pull_request' do
+    OpenProject::GithubIntegration::NotificationHandlers.pull_request(1)
+  end
 end
