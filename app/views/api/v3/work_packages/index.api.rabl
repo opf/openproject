@@ -39,5 +39,5 @@ child @work_packages => :work_packages do
 end
 
 if @display_meta
-  node(:meta) { @work_packages_meta }
+  node(:meta) { @work_packages_meta_data }
 end
