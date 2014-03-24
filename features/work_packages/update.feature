@@ -51,6 +51,7 @@ Feature: Updating work packages
       | edit_work_packages |
       | view_work_packages |
       | manage_subtasks    |
+      | log_time           |
     And I am working in project "ecookbook"
     And the user "manager" is a "manager"
     And there are the following priorities:
@@ -127,3 +128,27 @@ Feature: Updating work packages
     Then I should be on the page of the work package "pe1"
      And I should see a journal with the following:
       | Notes | Note message |
+
+  @javascript
+  Scenario: Adding a localized time entry
+    Given the following languages are active:
+      | en |
+      | de |
+    And there is 1 user with:
+      | login    | bob |
+      | language | de  |
+    And the user "bob" is a "manager"
+    And the project uses the following modules:
+      | time_tracking |
+    And there is an activity "design"
+    And I am already logged in as "bob"
+    When I go to the edit page of the work package called "pe1"
+    And I follow "Mehr"
+    And I fill in the following:
+      | Thema             |        |
+      | Aufgewendete Zeit | 2,5    |
+      | Aktivität         | design |
+    And I submit the form by the "OK" button
+    Then I should be on the page of the work package "pe1"
+    And I should see 1 error message
+    And the "work_package_time_entry_hours" field should contain "2,5"
