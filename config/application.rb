@@ -104,6 +104,22 @@ module OpenProject
     config.assets.paths << bower_assets_path.join(*%w(jquery-ui themes base)).to_s
     config.assets.paths << bower_assets_path.join(*%w(jquery.atwho dist)).to_s
 
+    # Whitelist assets to be precompiled.
+    #
+    # This is a workaround for an issue where the precompilation process will
+    # fail on extensionless files (README, LICENSE, etc.)
+    # See: https://github.com/sstephenson/sprockets/issues/347
+    precompile_whitelist = %w(
+      .html .erb .haml
+      .png  .jpg .gif .jpeg .ico
+      .eot  .otf .svc .woff .ttf
+      .svg
+    )
+    config.assets.precompile.shift
+    config.assets.precompile.unshift -> (path) {
+      (extension = File.extname(path)).present? and extension.in?(precompile_whitelist)
+    }
+
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true
 
