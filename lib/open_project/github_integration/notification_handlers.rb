@@ -43,5 +43,20 @@ module OpenProject::GithubIntegration
       source.scan(wp_regex).flatten.map {|s| s.to_i }
     end
 
+    ##
+    # Given a list of work package ids this methods returns all work packages that match those ids
+    # and are visible by the given user.
+    # Params:
+    #  - Array<int>: An list of WorkPackage ids
+    #  - User: The user who may (or may not) see those WorkPackages
+    # Returns:
+    #  - Array<WorkPackage>
+    def self.find_visible_work_packages(ids, user)
+      ids.collect do |id|
+        WorkPackage.includes(:project).find_by_id(id)
+      end.select do |wp|
+        wp.present? && wp.visible?(user)
+      end
+    end
   end
 end
