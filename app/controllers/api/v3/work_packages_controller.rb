@@ -8,15 +8,21 @@ module Api
 
       DEFAULT_SORT_ORDER = ['parent', 'desc']
 
+      include ApiController
+      include Concerns::ColumnData
+
       include PaginationHelper
       include QueriesHelper
       include SortHelper
-      include ::Api::V3::ApiController
       include ExtendedHTTP
 
-      before_filter :find_optional_project, only: [:index]
+
       # before_filter :authorize # TODO specify authorization
       before_filter :authorize_request, only: [:column_data]
+
+      before_filter :find_optional_project, only: [:index]
+
+      before_filter :retrieve_query, only: [:index]
       before_filter :assign_work_packages, only: [:index]
 
       def index
@@ -65,21 +71,19 @@ module Api
       end
 
       def current_work_packages(projects)
-        query = retrieve_query
-
-        results = query.results(:include => [:assigned_to, :type, :priority, :category, :fixed_version])
+        results = @query.results(:include => [:assigned_to, :type, :priority, :category, :fixed_version])
         work_packages = results.work_packages
                                .page(page_param)
                                .per_page(per_page_param)
                                .changed_since(@since)
                                .all
 
-        set_planning_elements_meta(query, results, work_packages)
+        set_work_packages_meta_data(@query, results, work_packages)
 
         work_packages
       end
 
-      def set_planning_elements_meta(query, results, work_packages)
+      def set_work_packages_meta_data(query, results, work_packages)
         @display_meta = true
         @columns = if params[:c]
                      params[:c].map {|c| c.to_sym }
@@ -87,8 +91,9 @@ module Api
                      [:id, :start_date, :type] # TODO RS: Get defaults from somewhere sensible
                    end
 
-        @work_packages_meta = {
+        @work_packages_meta_data = {
           query:                        query,
+          columns:                      get_columns_for_json(query.columns),
           work_package_count_by_group:  results.work_package_count_by_group,
           sums:                         query.columns.map { |column| results.total_sum_of(column) },
           group_sums:                   query.group_by_column && query.columns.map { |column| results.grouped_sums(column) },
