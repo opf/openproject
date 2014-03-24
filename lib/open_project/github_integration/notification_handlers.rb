@@ -38,10 +38,6 @@ module OpenProject::GithubIntegration
 
     end
 
-    def self.pull_request_review_comment(payload)
-      require 'pry'; binding.pry
-    end
-
     def self.issue_comment(payload)
       # if the comment is not associated with a PR, ignore it
       return unless payload['issue']['pull_request']['html_url']

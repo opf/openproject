@@ -1,7 +1,7 @@
 module OpenProject::GithubIntegration
   class HookHandler
     # List of the github events we can handle.
-    KNOWN_EVENTS = %w{ ping pull_request pull_request_review_comment issue_comment }
+    KNOWN_EVENTS = %w{ ping pull_request issue_comment }
 
     # A github webhook happened.
     # We need to check validity of the data and send a Notification
