@@ -42,6 +42,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#4701` Fix: Wiki change notification mail contains invalid diff link
 * `#5057` Fix: Whitelisted more params for planning elements controller
 * `#5214` Allow setting watchers and time entries for work packages via API`
+* `#5311` Encapsulate ActiveSupport::Notifications
 * Allowed sending of mails with only cc: or bcc: fields
 * Allow adding attachments to created work packages via planning elements controller
 * Remove unused rmagick dependency
