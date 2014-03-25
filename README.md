@@ -1,7 +1,5 @@
 # OpenProject Github Integration Plugin
 
-**Warning**: This is work in progress.
-
 `openproject-github_integration` is an OpenProject plugin, which aims to integrate github code repositories and a pull request workflow with OpenProject.
 
 Currently we support pasting WorkPackage urls into a GitHub pull request.
@@ -14,7 +12,7 @@ To make that happen we happily integrate your pull requests :)
 ## Requirements
 
 * OpenProject version **3.1.0 or higher** ( or a current installation from the `dev` branch)
-* [`openproject-webhooks`](https://github.com/finnlabs/openproject-webhooks)
+* The [`openproject-webhooks`](https://github.com/finnlabs/openproject-webhooks) plugin
 * Repository management rights on the GitHub repositories you want to integrate
 
 ## Installation and Setup:
@@ -76,6 +74,6 @@ In case you find a bug or need a feature, please report at https://www.openproje
 
 ## License
 
-Copyright (C) 2013 the OpenProject Foundation (OPF)
+Copyright (C) 2014 the OpenProject Foundation (OPF)
 
 This plugin is licensed under the GNU GPL v3. See doc/COPYRIGHT.md for details.
