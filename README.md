@@ -1,6 +1,35 @@
 # OpenProject Webhooks Plugin
 
-FIXME Add description and check issue tracker link below
+`openproject-webhooks` is an OpenProject plugin, which adds a webhook API to OpenProject. Other plugins may build upon this plugin to implement their functionality.
+
+External services like GitHub or Travis could be integrated with the help of this plugin.
+
+**Note:** This is an infrastructure-only plugin. With this plugin alone, you will not notice any difference in your OpenProject installation.
+
+## Requirements
+
+* OpenProject version **3.1.0 or higher** ( or a current installation from the `dev` branch)
+
+## Installation and Setup:
+
+This is an OpenProject plugin, thus we follow the usual OpenProject plugin installation mechanism.
+Because we depend on the [`openproject-webhooks`](https://github.com/finnlabs/openproject-webhooks) plugin, we also install that plugin.
+
+### Plugin Installation
+
+Edit the `Gemfile.plugins` file in your openproject-installation directory to contain the following lines:
+
+<pre>
+gem "openproject-webhooks", :git => 'https://github.com/finnlabs/openproject-github_integration.git', :branch => 'stable'
+</pre>
+
+Then update your bundle with:
+
+<pre>
+bundle install
+</pre>
+
+and restart the OpenProject server.
 
 ## Get in Contact
 
@@ -17,6 +46,6 @@ In case you find a bug or need a feature, please report at https://www.openproje
 
 ## License
 
-Copyright (C) 2013 the OpenProject Foundation (OPF)
+Copyright (C) 2014 the OpenProject Foundation (OPF)
 
 This plugin is licensed under the GNU GPL v3. See doc/COPYRIGHT.md for details.
