@@ -98,7 +98,36 @@ describe OpenProject::GithubIntegration do
     end
   end
 
+  describe '.issue_comment' do
+    context 'for a non-pull request issue' do
+      let(:payload) do
+        { 'action' => 'created',
+          'issue' => { 'pull_request' => { 'html_url' => nil } } }
+      end
+
+      before do
+        OpenProject::GithubIntegration::NotificationHandlers.should_not_receive(
+          :comment_on_referenced_work_packages)
+      end
+
+      it 'should do nothing' do
+        OpenProject::GithubIntegration::NotificationHandlers.issue_comment(payload)
+      end
+    end
+  end
+
   describe '.pull_request' do
-    OpenProject::GithubIntegration::NotificationHandlers.pull_request(1)
+    context 'with a synchronize action' do
+      let(:payload) { {'action' => 'synchronize'} }
+
+      before do
+        OpenProject::GithubIntegration::NotificationHandlers.should_not_receive(
+          :comment_on_referenced_work_packages)
+      end
+
+      it 'should do nothing' do
+        OpenProject::GithubIntegration::NotificationHandlers.pull_request(payload)
+      end
+    end
   end
 end
