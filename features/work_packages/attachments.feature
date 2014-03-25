@@ -75,4 +75,4 @@ Feature: Attachments on work packages
      And I accept the alert dialog
 
     Then I should not see ".icon-attachment"
-     And the "Notes" field should contain "Note message"
+    And the "Notes" field should contain "Note message"

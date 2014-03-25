@@ -496,7 +496,7 @@ var WarnLeavingUnsaved = Class.create({
 	initialize: function(message){
 		this.observedForms = $$('form');
 		this.observedElements =  $$('textarea');
-		this.message = message;
+        this.message = message;
 
 		this.observedElements.each(this.observeChange.bind(this));
 		this.observedForms.each(this.submitAction.bind(this));
@@ -505,10 +505,9 @@ var WarnLeavingUnsaved = Class.create({
 	},
 
 	unload: function(){
-    this.observedElements.each(function(item){ item.blur(); });
-
-		if (this.changedForms)
-      return this.message;
+        this.observedElements.each(function(item){ item.blur(); });
+        if (this.changedForms)
+          return this.message;
 	},
 
 	setChanged: function(){
