@@ -27,6 +27,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<%= include_gon %>
+
+
 <% breadcrumb_paths(l(:label_work_package_plural)) %>
 <% if !query.new_record? && query.editable_by?(User.current) %>
   <% content_for :action_menu_specific do %>
