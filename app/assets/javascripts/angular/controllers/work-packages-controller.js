@@ -54,7 +54,7 @@ angular.module('openproject.workPackages.controllers')
     //       Also perhaps the filters... and everything:/
     var meta = json.meta;
 
-    $scope.columns = meta.columns;
+    if (!$scope.columns) $scope.columns = meta.columns;
     if (!$scope.query) initQuery(meta.query);
 
     $scope.rows = WorkPackagesTableHelper.getRows(json.work_packages, $scope.query.group_by);
