@@ -993,7 +993,12 @@ module ApplicationHelper
       I18n.locale = "#{I18n.locale}";
     })
     unless User.current.pref.warn_on_leaving_unsaved == '0'
-      tags += javascript_tag("jQuery(function(){ new WarnLeavingUnsaved('#{escape_javascript( l(:text_warn_on_leaving_unsaved) )}'); });")
+      tags += javascript_tag("jQuery(document).ready(function(){
+                                new WarnLeavingUnsaved('#{escape_javascript( l(:text_warn_on_leaving_unsaved) )}');
+                                jQuery(document).ajaxComplete(function(){
+                                    new WarnLeavingUnsaved('#{escape_javascript( l(:text_warn_on_leaving_unsaved) )}')
+                                });
+                            })")
     end
 
     if User.current.impaired? and accessibility_js_enabled?
