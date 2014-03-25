@@ -32,6 +32,13 @@ describe OpenProject::GithubIntegration do
                 :extract_work_package_ids, source)
       expect(result).to eql([434, 234])
     end
+
+    it 'should find multiple occurences of a work package only once' do
+      source = "I reference https://example.net/work_packages/434\n and Blabla\n[WP 234](https://example.net/work_packages/434)\n"
+      result = OpenProject::GithubIntegration::NotificationHandlers.send(
+                :extract_work_package_ids, source)
+      expect(result).to eql([434])
+    end
   end
 
   describe '.find_visible_work_packages' do
