@@ -125,7 +125,7 @@ class AccountController < ApplicationController
 
   # Token based account activation
   def activate
-    redirect_to(home_url) && return unless Setting.self_registration? && params[:token]
+    redirect_to_login_and_set_back_url && return unless Setting.self_registration? && params[:token]
     token = Token.find_by_action_and_value('register', params[:token].to_s)
     redirect_to(home_url) && return unless token and !token.expired?
     user = token.user
@@ -376,5 +376,12 @@ class AccountController < ApplicationController
   def account_pending
     flash[:notice] = l(:notice_account_pending)
     redirect_to :action => 'login'
+  end
+
+  def redirect_to_login_and_set_back_url
+    url = url_for(params)
+    return respond_to do |format|
+      format.any(:html, :atom) { redirect_to signin_path(:back_url => url) }
+    end
   end
 end
