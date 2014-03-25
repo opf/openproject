@@ -3,6 +3,13 @@ angular.module('openproject.services')
 .service('WorkPackageService', ['$http', 'PathHelper', 'WorkPackagesHelper', function($http, PathHelper, WorkPackagesHelper) {
 
   var WorkPackageService = {
+    getWorkPackagesByQueryId: function(projectIdentifier, queryId) {
+      var url = projectIdentifier ? PathHelper.apiProjectWorkPackagesPath(projectIdentifier) : PathHelper.apiWorkPackagesPath();
+      var params = { query_id: queryId };
+
+      return WorkPackageService.doQuery(url, params);
+    },
+
     getWorkPackages: function(projectIdentifier, query, paginationOptions) {
       var url = projectIdentifier ? PathHelper.apiProjectWorkPackagesPath(projectIdentifier) : PathHelper.apiWorkPackagesPath();
       var params = angular.extend(query.toParams(), {

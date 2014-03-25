@@ -1,22 +1,22 @@
 angular.module('openproject.workPackages.config')
 
-.constant('INITIALLY_SELECTED_COLUMNS', ["id", "subject"])
+.constant('INITIALLY_SELECTED_COLUMNS', ['id', 'project', 'type', 'status', 'priority', 'subject', 'assigned_to_id', 'updated_at'])
 
 .constant('OPERATORS_AND_LABELS_BY_FILTER_TYPE', {
-  list: {"=":"is","!":"is not"},
-  list_model: {"=":"is","!":"is not"},
-  list_status: {"o":"open","=":"is","!":"is not","c":"closed","*":"all"}, // TODO RS: Need a generalised solution
-  list_optional: {"=":"is","!":"is not","!*":"none","*":"all"},
-  list_subprojects: {"*":"all","!*":"none","=":"is"},
-  date: {"<t+":"in less than",">t+":"in more than","t+":"in","t":"today","w":"this week",">t-":"less than days ago","<t-":"more than days ago","t-":"days ago"},
-  date_past: {">t-":"less than days ago","<t-":"more than days ago","t-":"days ago","t":"today","w":"this week"},
-  string: {"=":"is","~":"contains","!":"is not","!~":"doesn't contain"},
-  text: {"~":"contains","!~":"doesn't contain"},
-  integer: {"=":"is",">=":">=","<=":"<=","!*":"none","*":"all"}
+  list: {'=':'is','!':'is not'},
+  list_model: {'=':'is','!':'is not'},
+  list_status: {'o':'open','=':'is','!':'is not','c':'closed','*':'all'}, // TODO RS: Need a generalised solution
+  list_optional: {'=':'is','!':'is not','!*':'none','*':'all'},
+  list_subprojects: {'*':'all','!*':'none','=':'is'},
+  date: {'<t+':'in less than','>t+':'in more than','t+':'in','t':'today','w':'this week','>t-':'less than days ago','<t-':'more than days ago','t-':'days ago'},
+  date_past: {'>t-':'less than days ago','<t-':'more than days ago','t-':'days ago','t':'today','w':'this week'},
+  string: {'=':'is','~':'contains','!':'is not','!~':"doesn't contain"},
+  text: {'~':'contains','!~':"doesn't contain"},
+  integer: {'=':'is','>=':'>=','<=':'<=','!*':'none','*':'all'}
 })
 
 .constant('AVAILABLE_WORK_PACKAGE_FILTERS', {
-  status_id: { type: 'list_model', modelName: 'status' , order: 1, name: 'Status' },
+  status_id: { type: 'list_status', modelName: 'status' , order: 1, name: 'Status' },
   type_id: { type: 'list_model', modelName: 'type', order: 2, name: 'Type' },
   priority_id: { type: 'list_model', modelName: 'priority', order: 3, name: 'Priority'},
   assigned_to_id: { type: 'list_model', modelName: 'user' , order: 4, name: 'Assigned to' },
@@ -34,11 +34,11 @@ angular.module('openproject.workPackages.config')
   // fixed_version_id: {type: 'list_optional','order':7,'values':[['HD Bridge - Version 00001.0','19'],['HD Bridge - Version 00002.0','20']],name: 'Target version'},'cf_4':{type: 'list_optional','values':['Client 1','Client 2'],'order':20,name: 'Client'}
 })
 
-.constant('DEFAULT_SORT_CRITERIA', "parent:desc")
+.constant('DEFAULT_SORT_CRITERIA', 'parent:desc')
 
-.constant('DEFAULT_QUERY', {
+.constant('DEFAULT_QUERY_OPTIONS', {
   display_sums: false,
-  // filters: [{ status_id: {"operator":"o","values":[""], name: "status_id" }}],
+  // filters: [{ status_id: {'operator':'o','values':['], name: 'status_id' }}],
   group_by: null
 })
 

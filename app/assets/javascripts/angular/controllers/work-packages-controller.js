@@ -1,7 +1,7 @@
 angular.module('openproject.workPackages.controllers')
 
-.controller('WorkPackagesController', ['$scope', 'WorkPackagesTableHelper', 'Query', 'Sortation', 'WorkPackageService', 'QueryService', 'PaginationService', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE', 'AVAILABLE_WORK_PACKAGE_FILTERS','DEFAULT_SORT_CRITERIA', 'DEFAULT_QUERY',
-            function($scope, WorkPackagesTableHelper, Query, Sortation, WorkPackageService, QueryService, PaginationService, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE, AVAILABLE_WORK_PACKAGE_FILTERS, DEFAULT_SORT_CRITERIA, DEFAULT_QUERY) {
+.controller('WorkPackagesController', ['$scope', 'WorkPackagesTableHelper', 'Query', 'Sortation', 'WorkPackageService', 'QueryService', 'PaginationService', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE', 'DEFAULT_SORT_CRITERIA', 'DEFAULT_QUERY_OPTIONS',
+            function($scope, WorkPackagesTableHelper, Query, Sortation, WorkPackageService, QueryService, PaginationService, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE, DEFAULT_SORT_CRITERIA, DEFAULT_QUERY_OPTIONS) {
 
 
   function initialSetup() {
@@ -12,37 +12,35 @@ angular.module('openproject.workPackages.controllers')
     $scope.loading = false;
     $scope.disableFilters = false;
 
-    setupColumns()
-      .then(setupQuery)
-      .then($scope.updateResults)
+    WorkPackageService.getWorkPackagesByQueryId($scope.projectIdentifier, $scope.query_id)
+      .then($scope.setupWorkPackagesTable)
+      .then(initAvailableColumns)
       .then(setupComplete);
-
   }
 
-  function setupColumns(){
-    $scope.columns = [];
-
-    return QueryService.getAvailableColumns($scope.projectIdentifier)
-      .then(function(data){
-        $scope.columns = WorkPackagesTableHelper.getColumnUnionByName(data.available_columns, INITIALLY_SELECTED_COLUMNS);
-        $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(data.available_columns, $scope.columns);
-        return $scope.availableColumns;
-      });
-  }
-
-  function setupQuery() {
-    var query = DEFAULT_QUERY;
-    if($scope.query_id){
-      angular.extend(query, { id: $scope.query_id });
-    }
-    $scope.query = new Query(query, { available_work_package_filters: AVAILABLE_WORK_PACKAGE_FILTERS});
+  function initQuery(queryData) {
+    $scope.query = new Query({
+      id: $scope.queryId,
+      displaySums: queryData.display_sums,
+      groupSums: queryData.group_sums,
+      sums: queryData.sums,
+      filters: queryData.filters,
+      columns: $scope.columns
+    }); // TODO sortation
 
     sortation = new Sortation(DEFAULT_SORT_CRITERIA);
     $scope.query.setSortation(sortation);
     $scope.currentSortation = DEFAULT_SORT_CRITERIA;
-    angular.extend($scope.query, {
-      selectedColumns: $scope.columns
-    });
+
+    return $scope.query;
+  }
+
+  function initAvailableColumns() {
+    return QueryService.getAvailableColumns($scope.projectIdentifier)
+      .then(function(data){
+        $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(data.available_columns, $scope.columns);
+        return $scope.availableColumns;
+      });
   }
 
   $scope.submitQueryForm = function(){
@@ -55,8 +53,13 @@ angular.module('openproject.workPackages.controllers')
     // TODO: We need to set the columns based on what's returned by the query for when we are loading using a query id.
     //       Also perhaps the filters... and everything:/
     var meta = json.meta;
-    $scope.workPackageCountByGroup = meta.work_package_count_by_group;
+
+    $scope.columns = meta.columns;
+    if (!$scope.query) initQuery(meta.query);
+
     $scope.rows = WorkPackagesTableHelper.getRows(json.work_packages, $scope.query.group_by);
+
+    $scope.workPackageCountByGroup = meta.work_package_count_by_group;
     $scope.totalSums = meta.sums;
     $scope.groupSums = meta.group_sums;
     $scope.totalEntries = meta.total_entries;
