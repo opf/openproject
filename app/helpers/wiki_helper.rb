@@ -53,4 +53,8 @@ module WikiHelper
       breadcrumb_paths(*(related_pages.collect{|parent| link_to h(parent.breadcrumb_title), {:id => parent.title, :project_id => parent.project, :action => "show"}} + [h(page.breadcrumb_title)]))
     end
   end
+
+  def nl2br(content)
+    content.gsub(/(?:\n\r?|\r\n?)/, '<br />').html_safe
+  end
 end
