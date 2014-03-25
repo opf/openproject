@@ -1,0 +1,79 @@
+require File.expand_path('../../spec_helper', __FILE__)
+
+describe OpenProject::GithubIntegration do
+  before do
+    Setting.stub(:host_name).and_return('example.net')
+  end
+
+  describe 'with sane set-up' do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:role) { FactoryGirl.create(:role,
+                                    permissions: [:add_work_package_notes]) }
+    let(:statuses) { (1..5).map{ |i| FactoryGirl.create(:status)}}
+    let(:priority) { FactoryGirl.create :priority, is_default: true }
+    let(:status) { statuses[0] }
+    let(:project) do
+      FactoryGirl.create(:project).tap do |p|
+        p.add_member(user, role).save
+      end
+    end
+    let(:project_without_permission) { FactoryGirl.create(:project) }
+    let(:wp1) do
+      FactoryGirl.create :work_package, project: project
+    end
+    let(:wp2) do
+      FactoryGirl.create :work_package, project: project
+    end
+    let(:wp3) do
+      FactoryGirl.create :work_package,
+                             project: project_without_permission
+    end
+    let(:wp4) do
+      FactoryGirl.create :work_package,
+                             project: project_without_permission
+    end
+    let(:wps) { [wp1, wp2, wp3, wp4] }
+
+    it "should handle the pull_request creation payload" do
+      params = ActionController::Parameters.new({
+        'webhook' => {
+          'action' => 'opened',
+          'number' => '5',
+          'pull_request' => {
+            'title' => 'Bugfixes',
+            'body' => "Fixes http://example.net/wp/#{wp1.id} and " +
+                      "https://example.net/work_packages/#{wp2.id} and " +
+                      "http://example.net/subdir/wp/#{wp3.id} and " +
+                      "https://example.net/subdir/work_packages/#{wp4.id}.",
+            'html_url' => 'http://pull.request',
+            'base' => {'repo' => {
+              'full_name' => 'full/name',
+              'html_url' => 'http://pull.request'
+            }},
+            'user' => {
+              'login' => 'github_login',
+              'html_url' => 'http://user.name'
+            }
+          },
+          'sender' => {},
+          'repository' => {}
+        }
+      })
+
+      environment = {
+        'HTTP_X_GITHUB_EVENT' => 'pull_request',
+        'HTTP_X_GITHUB_DELIVERY' => 'test delivery'
+      }
+
+      journal_count = wps.map { |wp| wp.journals.count }
+      OpenProject::GithubIntegration::HookHandler.new.process('github', environment, params, user)
+
+      expect(wp1.journals.count).to equal(journal_count[0] + 1)
+      expect(wp2.journals.count).to equal(journal_count[1] + 1)
+      expect(wp3.journals.count).to equal(journal_count[2] + 0)
+      expect(wp4.journals.count).to equal(journal_count[3] + 0)
+
+      expect(wp1.journals.last.note).to equal(journal_count[0] + 1)
+    end
+  end
+end
