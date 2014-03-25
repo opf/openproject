@@ -134,6 +134,50 @@ describe OpenProject::GithubIntegration do
       expect(wp1.journals.last.notes).to include('PR Closed')
     end
 
+    it "should handle the pull_request merged payload" do
+      params = ActionController::Parameters.new({
+        'webhook' => {
+          'action' => 'closed',
+          'number' => '5',
+          'pull_request' => {
+            'title' => 'Bugfixes',
+            'body' => "Fixes http://example.net/wp/#{wp1.id} and " +
+                      "https://example.net/work_packages/#{wp2.id} and " +
+                      "http://example.net/subdir/wp/#{wp3.id} and " +
+                      "https://example.net/subdir/work_packages/#{wp4.id}.",
+            'html_url' => 'http://pull.request',
+            'base' => {
+              'repo' => {
+                'full_name' => 'full/name',
+                'html_url' => 'http://pull.request'
+              }
+            },
+            'merged' => true
+          },
+          'sender' => {
+            'login' => 'github_login',
+            'html_url' => 'http://user.name'
+          },
+          'repository' => {}
+        }
+      })
+
+      environment = {
+        'HTTP_X_GITHUB_EVENT' => 'pull_request',
+        'HTTP_X_GITHUB_DELIVERY' => 'test delivery'
+      }
+
+      journal_count = wps.map { |wp| wp.journals.count }
+      OpenProject::GithubIntegration::HookHandler.new.process('github', environment, params, user)
+
+      expect(wp1.journals.count).to equal(journal_count[0] + 1)
+      expect(wp2.journals.count).to equal(journal_count[1] + 1)
+      expect(wp3.journals.count).to equal(journal_count[2] + 0)
+      expect(wp4.journals.count).to equal(journal_count[3] + 0)
+
+      expect(wp1.journals.last.notes).to include('PR Merged')
+    end
+
     it "should handle the pull_request comment creation payload" do
       params = ActionController::Parameters.new({
         'webhook' => {
