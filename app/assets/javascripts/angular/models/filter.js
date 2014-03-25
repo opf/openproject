@@ -38,9 +38,11 @@ angular.module('openproject.models')
     },
 
     pruneValues: function() {
-      this.values = this.values.filter(function(value) {
-        return value !== '';
-      });
+      if (this.values) {
+        this.values = this.values.filter(function(value) {
+          return value !== '';
+        });
+      }
     },
 
     hasValues: function() {
