@@ -59,7 +59,7 @@ module OpenProject::GithubIntegration
     def self.issue_comment(payload)
       # if the comment is not associated with a PR, ignore it
       return unless payload['issue']['pull_request']['html_url']
-      comment_on_referenced_work_packages payload['issue']['body'], payload
+      comment_on_referenced_work_packages payload['comment']['body'], payload
     end
 
     ##

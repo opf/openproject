@@ -138,16 +138,16 @@ describe OpenProject::GithubIntegration do
           'action' => 'created',
           'issue' => {
             'title' => 'Bugfixes',
-            'body' => "Fixes http://example.net/wp/#{wp1.id} and " +
-                      "https://example.net/work_packages/#{wp2.id} and " +
-                      "http://example.net/subdir/wp/#{wp3.id} and " +
-                      "https://example.net/subdir/work_packages/#{wp4.id}.",
             'number' => '5',
             'pull_request' => {
               'html_url' => 'http://pull.request'
             }
           },
           'comment' => {
+            'body' => "Fixes http://example.net/wp/#{wp1.id} and " +
+                      "https://example.net/work_packages/#{wp2.id} and " +
+                      "http://example.net/subdir/wp/#{wp3.id} and " +
+                      "https://example.net/subdir/work_packages/#{wp4.id}.",
             'html_url' => 'http://comment.url',
             'user' => {
               'login' => 'github_login',
