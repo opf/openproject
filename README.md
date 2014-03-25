@@ -2,15 +2,64 @@
 
 **Warning**: This is work in progress.
 
-`openproject-github_integration` is an OpenProject plugin, which aims to integrate github code repositories
-and a pull request workflow with OpenProject.
+`openproject-github_integration` is an OpenProject plugin, which aims to integrate github code repositories and a pull request workflow with OpenProject.
 
-##Features:
+Currently we support pasting WorkPackage urls into a GitHub pull request.
+When the pull request is opened/closed this plugin writes a comment in
+all mentioned WorkPackages.
 
-* OpenProject can be linked to a/multiple github repository/repositories
-* WorkPackages can be (automagically) linked to Pull Requests
-* Commits can link to work packages ("this commit is related to #1234")
-* PullRequest merges, reviews may lead to status changes
+We plan to integrate better with GitHub (e.g. show GitHub repository content within OpenProject, comment/merge pull requests from within OpenProject etc.).
+To make that happen we happily integrate your pull requests :)
+
+## Requirements
+
+* OpenProject version **3.1.0 or higher** ( or a current installation from the `dev` branch)
+* [`openproject-webhooks`](https://github.com/finnlabs/openproject-webhooks)
+* Repository management rights on the GitHub repositories you want to integrate
+
+## Installation and Setup:
+
+This is an OpenProject plugin, thus we follow the usual OpenProject plugin installation mechanism.
+Because we depend on the [`openproject-webhooks`](https://github.com/finnlabs/openproject-webhooks) plugin, we also install that plugin.
+
+### Plugin Installation
+
+Edit the `Gemfile.plugins` file in your openproject-installation directory to contain the following lines:
+
+<pre>
+gem "openproject-webhooks", :git => 'https://github.com/finnlabs/openproject-github_integration.git', :branch => 'stable'
+gem "openproject-github_integration", :git => 'https://github.com/finnlabs/openproject-github_integration.git', :branch => 'stable'
+</pre>
+
+Then update your bundle with:
+
+<pre>
+bundle install
+</pre>
+
+and restart the OpenProject server.
+
+### OpenProject configuration
+
+To enable GitHub integration we need an OpenProject API key of a user with sufficient rights on the projects which shall be synchronized.
+Any user will work, but we recommend to create a special 'GitHub' user in your OpenProject installation for that task.
+
+**Note:** Double check that the user whose API key you use has sufficient rights on the projects which shall be synced with GitHub (e.g. the user is a member if those projects and has the 'Create WorkPackage Comments' right).
+
+### GitHub configuration
+
+Visit the settings page of the GitHub repository you want to integrate.
+Go to the "Webhooks & Services" page.
+
+Within the "Webhooks" section you can create a new webhook with the "Add webhook" button in the top-right corner.
+
+The **Payload URL** is `<the url of your openproject instance>/webhooks/github?key=<API key of the OpenProject user>`.
+
+For **Payload version** select `application/vnd.github.v3+json` (not `...+form`!).
+
+Then select the events which GitHub will send to your OpenProject installation.
+We currently only need `Pull Request` and `Issue Comment`, but you are save to select the *Send me everything* option.
+
 
 ## Get in Contact
 
