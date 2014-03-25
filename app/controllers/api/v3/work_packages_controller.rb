@@ -85,11 +85,7 @@ module Api
 
       def set_work_packages_meta_data(query, results, work_packages)
         @display_meta = true
-        @columns = if params[:c]
-                     params[:c].map {|c| c.to_sym }
-                   else
-                     [:id, :start_date, :type] # TODO RS: Get defaults from somewhere sensible
-                   end
+        @columns = query.columns.map &:name
 
         @work_packages_meta_data = {
           query:                        query,

@@ -30,9 +30,9 @@ object false
 
 child @work_packages => :work_packages do
 
-  @columns.each do |c|
-    node(c, :if => lambda{ |wp| wp.respond_to?(c) }) do |wp|
-      wp.send(c)
+  @columns.each do |column_name|
+    node(column_name, :if => lambda{ |wp| wp.respond_to?(column_name) }) do |wp|
+      wp.send(column_name)
     end
   end
 
