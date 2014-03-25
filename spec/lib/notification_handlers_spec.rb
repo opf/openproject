@@ -35,15 +35,22 @@ describe OpenProject::GithubIntegration do
   end
 
   describe '.find_visible_work_packages' do
-    let(:user) { 'A User' }
+    let(:user) do
+      user = double('A User')
+      user.should_receive(:allowed_to?) do |permission, project|
+        expect(permission).to equal(:add_work_package_notes)
+        project == :project_with_permissions
+      end.at_least(:once)
+      user
+    end
     let(:visible_wp) do
       wp = double('Visible Work Package')
-      wp.should_receive(:visible?).at_least(:once).and_return(true)
+      wp.stub(:project).and_return(:project_with_permissions)
       wp
     end
     let(:invisible_wp) do
       wp = double('Invisible Work Package')
-      wp.should_receive(:visible?).at_least(:once).and_return(false)
+      wp.stub(:project).and_return(:project_without_permissions)
       wp
     end
 
