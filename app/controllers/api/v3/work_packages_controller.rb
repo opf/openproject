@@ -85,7 +85,7 @@ module Api
 
       def set_work_packages_meta_data(query, results, work_packages)
         @display_meta = true
-        @columns = query.columns.map &:name
+        @columns = ['id'] | query.columns.map(&:name)
 
         @work_packages_meta_data = {
           query:                        query,
