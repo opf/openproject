@@ -146,8 +146,8 @@ module OpenProject::GithubIntegration
              :pr_url => payload['pull_request']['html_url'],
              :repository => payload['pull_request']['base']['repo']['full_name'],
              :repository_url => payload['pull_request']['base']['repo']['html_url'],
-             :github_user => payload['pull_request']['user']['login'],
-             :github_user_url => payload['pull_request']['user']['html_url'])
+             :github_user => payload['sender']['login'],
+             :github_user_url => payload['sender']['html_url'])
     end
 
     def self.notes_for_issue_comment_payload(payload)

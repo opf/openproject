@@ -60,16 +60,17 @@ describe OpenProject::GithubIntegration do
                       "http://example.net/subdir/wp/#{wp3.id} and " +
                       "https://example.net/subdir/work_packages/#{wp4.id}.",
             'html_url' => 'http://pull.request',
-            'base' => {'repo' => {
-              'full_name' => 'full/name',
-              'html_url' => 'http://pull.request'
-            }},
-            'user' => {
-              'login' => 'github_login',
-              'html_url' => 'http://user.name'
+            'base' => {
+              'repo' => {
+                'full_name' => 'full/name',
+                'html_url' => 'http://pull.request'
+              }
             }
           },
-          'sender' => {},
+          'sender' => {
+            'login' => 'github_login',
+            'html_url' => 'http://user.name'
+          },
           'repository' => {}
         }
       })
@@ -102,16 +103,17 @@ describe OpenProject::GithubIntegration do
                       "http://example.net/subdir/wp/#{wp3.id} and " +
                       "https://example.net/subdir/work_packages/#{wp4.id}.",
             'html_url' => 'http://pull.request',
-            'base' => {'repo' => {
-              'full_name' => 'full/name',
-              'html_url' => 'http://pull.request'
-            }},
-            'user' => {
-              'login' => 'github_login',
-              'html_url' => 'http://user.name'
+            'base' => {
+              'repo' => {
+                'full_name' => 'full/name',
+                'html_url' => 'http://pull.request'
+              }
             }
           },
-          'sender' => {},
+          'sender' => {
+            'login' => 'github_login',
+            'html_url' => 'http://user.name'
+          },
           'repository' => {}
         }
       })
