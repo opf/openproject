@@ -137,6 +137,10 @@ module OpenProject::GithubIntegration
         'synchronize' => nil
       }[payload['action']]
 
+      # a closed pull request which has been merged
+      # deserves a different label :)
+      key = 'merged' if key == 'closed' && payload['pull_request']['merged']
+
       raise "Github action #{payload['action']} " +
             "for event #{payload['github_event']} not supported." unless key
 
