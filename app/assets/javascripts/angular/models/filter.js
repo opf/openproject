@@ -4,6 +4,7 @@ angular.module('openproject.models')
 .factory('Filter', ['OPERATORS_REQUIRING_VALUES', 'AVAILABLE_WORK_PACKAGE_FILTERS', function(OPERATORS_REQUIRING_VALUES, AVAILABLE_WORK_PACKAGE_FILTERS) {
   Filter = function (data) {
     angular.extend(this, data);
+    this.pruneValues();
   };
 
   Filter.prototype = {
@@ -29,11 +30,21 @@ angular.module('openproject.models')
     },
 
     isConfigured: function() {
-      return this.operator && (this.values || !this.requiresValues());
+      return this.operator && (this.hasValues() || !this.requiresValues());
     },
 
     getModelName: function() {
       return AVAILABLE_WORK_PACKAGE_FILTERS[this.name].modelName;
+    },
+
+    pruneValues: function() {
+      this.values = this.values.filter(function(value) {
+        return value !== '';
+      });
+    },
+
+    hasValues: function() {
+      return this.values && (this.values instanceof Array) ? this.values.length > 0 : !!this.values;
     }
   };
 
