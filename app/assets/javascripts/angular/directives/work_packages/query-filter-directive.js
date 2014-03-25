@@ -1,6 +1,6 @@
 angular.module('openproject.workPackages.directives')
 
-.directive('queryFilter', ['WorkPackagesTableHelper', 'WorkPackageService', 'FunctionDecorators', 'QueryService', 'PaginationService', 'I18n', function(WorkPackagesTableHelper, WorkPackageService, FunctionDecorators, QueryService, PaginationService, I18n) {
+.directive('queryFilter', ['WorkPackagesTableHelper', 'WorkPackageService', 'WorkPackageLoadingHelper', 'QueryService', 'PaginationService', 'I18n', function(WorkPackagesTableHelper, WorkPackageService, WorkPackageLoadingHelper, QueryService, PaginationService, I18n) {
 
   return {
     restrict: 'A',
@@ -35,7 +35,7 @@ angular.module('openproject.workPackages.directives')
       }, true);
 
       function applyFiltersWithDelay() {
-        return FunctionDecorators.withDelay(800, scope.updateResults);
+        return WorkPackageLoadingHelper.withDelay(800, scope.updateResults);
       }
 
       function buildOptions(values) {

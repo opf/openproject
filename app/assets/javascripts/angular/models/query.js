@@ -1,8 +1,10 @@
 angular.module('openproject.models')
 
-.factory('Query', ['Filter', 'Sortation', function(Filter, Sortation) {
+.factory('Query', ['Filter', 'Sortation', 'AVAILABLE_WORK_PACKAGE_FILTERS', function(Filter, Sortation, AVAILABLE_WORK_PACKAGE_FILTERS) {
 
   Query = function (data, options) {
+    this.available_work_package_filters = AVAILABLE_WORK_PACKAGE_FILTERS;
+
     angular.extend(this, data, options);
 
     this.group_by = this.group_by || '';
@@ -26,17 +28,20 @@ angular.module('openproject.models')
      * @returns {params} Request parameters
      */
     toParams: function() {
-      return angular.extend({
-        'f[]': this.getFilterNames(this.getActiveConfiguredFilters()),
-        'c[]': this.selectedColumns.map(function(column) {
-          return column.name;
-         }),
-        'group_by': this.group_by,
-        'query_id': this.id,
-        'sort': this.sortation.encode()
-      }, this.getActiveConfiguredFilters().map(function(filter) {
-        return filter.toParams();
-      }));
+
+      return angular.extend.apply(this, [
+        {
+          'f[]': this.getFilterNames(this.getActiveConfiguredFilters()),
+          'c[]': ['id'].concat(this.selectedColumns.map(function(column) {
+            return column.name;
+           })),
+          'group_by': this.group_by,
+          'query_id': this.id,
+          'sort': this.sortation.encode()
+        }].concat(this.getActiveConfiguredFilters().map(function(filter) {
+          return filter.toParams();
+        }))
+      );
     },
 
     getFilterNames: function(filters) {
@@ -70,7 +75,7 @@ angular.module('openproject.models')
     },
 
     getFilterType: function(filterName) {
-      return this.available_work_package_filters[filterName].type;
+      return AVAILABLE_WORK_PACKAGE_FILTERS[filterName].type;
     },
 
     getActiveFilters: function() {

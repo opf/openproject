@@ -1,7 +1,7 @@
 // TODO move to UI components
 angular.module('openproject.helpers')
 
-.service('FunctionDecorators', ['$timeout', function($timeout) {
+.service('WorkPackageLoadingHelper', ['$timeout', function($timeout) {
   var currentRun;
 
   return {
