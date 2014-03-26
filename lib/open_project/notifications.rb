@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -27,34 +26,26 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative 'shared/user_feedback'
-
-namespace :migrations do
-  namespace :attachments do
-    include ::Tasks::Shared::UserFeedback
-
-    desc "Removes all attachments from versions and projects"
-    task :delete_from_projects_and_versions => :environment do |task|
-      try_delete_attachments_from_projects_and_versions
-    end
-
-    def try_delete_attachments_from_projects_and_versions
-      begin
-        if !$stdout.isatty || user_agrees_to_delete_versions_and_projects_documents
-          puts "Delete all attachments attached to projects or versions..."
-
-          Attachment.where(:container_type => ['Version','Project']).destroy_all
-        end
-      rescue
-        raise "Cannot delete attachments from projects and versions! There may be migrations missing...?"
+module OpenProject
+  class Notifications
+    # Subscribe to a specific event with name
+    # Contrary to ActiveSupport::Notifications, we don't support regexps here, but only
+    # single events specified as string.
+    def self.subscribe(name, &block)
+      ActiveSupport::Notifications.subscribe(name.to_s) do |name, start, finish, id, payload|
+        block.call(payload)
       end
+      # Don't return a subscription object as it's an implementation detail.
+      return nil
     end
 
-    def user_agrees_to_delete_versions_and_projects_documents
-      questions = ["CAUTION: This rake task will delete ALL attachments attached to versions or projects!",
-                   "DISCLAIMER: This is the final warning: You're going to lose information!"]
-
-      ask_for_confirmation(questions)
+    # Send a notification
+    # payload should be a Hash and might be marshalled and unmarshalled before being
+    # delivered (although it is not at the moment), so don't count on object equality
+    # for the payload.
+    def self.send(name, payload)
+      ActiveSupport::Notifications.instrument(name, payload)
     end
+
   end
 end

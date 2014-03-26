@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -27,34 +26,27 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative 'shared/user_feedback'
+require 'spec_helper'
 
-namespace :migrations do
-  namespace :attachments do
-    include ::Tasks::Shared::UserFeedback
+describe OpenProject::Notifications do
+  let(:probe) { lambda{ |*args| } }
+  let(:payload) { { 'test' => 'payload' } }
 
-    desc "Removes all attachments from versions and projects"
-    task :delete_from_projects_and_versions => :environment do |task|
-      try_delete_attachments_from_projects_and_versions
-    end
+  describe '.send' do
+    before do
+      # We can't clean this up, so we need to use a unique name
+      OpenProject::Notifications.subscribe("notifications_spec_send", &probe)
 
-    def try_delete_attachments_from_projects_and_versions
-      begin
-        if !$stdout.isatty || user_agrees_to_delete_versions_and_projects_documents
-          puts "Delete all attachments attached to projects or versions..."
-
-          Attachment.where(:container_type => ['Version','Project']).destroy_all
-        end
-      rescue
-        raise "Cannot delete attachments from projects and versions! There may be migrations missing...?"
+      probe.should_receive(:call) do |payload|
+        # Don't check for object identity for the payload as it might be
+        # marshalled and unmarshalled before being delivered in the future.
+        expect(payload).to eql(payload)
       end
     end
 
-    def user_agrees_to_delete_versions_and_projects_documents
-      questions = ["CAUTION: This rake task will delete ALL attachments attached to versions or projects!",
-                   "DISCLAIMER: This is the final warning: You're going to lose information!"]
-
-      ask_for_confirmation(questions)
+    it 'should deliver a notification' do
+      OpenProject::Notifications.send("notifications_spec_send", payload)
     end
   end
+
 end

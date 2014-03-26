@@ -27,8 +27,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require_relative 'shared/user_feedback'
+
 namespace :migrations do
   namespace :documents do
+    include Tasks::Shared::UserFeedback
+
     class Document < ActiveRecord::Base
       belongs_to :project
       belongs_to :category, :class_name => "DocumentCategory", :foreign_key => "category_id"
@@ -41,7 +45,9 @@ namespace :migrations do
 
     def try_delete_documents
       begin
-        if !$stdout.isatty || user_agrees
+        if !$stdout.isatty || user_agrees_to_delete_all_documents
+          puts "Delete all attachments attached to projects or versions..."
+
           Document.destroy_all
           Attachment.where(:container_type => ['Document']).destroy_all
         end
@@ -50,25 +56,11 @@ namespace :migrations do
       end
     end
 
-    def user_agrees
-      questions = []
+    def user_agrees_to_delete_all_documents
+      questions = ["CAUTION: This rake task will delete ALL documents!",
+                   "DISCLAIMER: This is the final warning: You're going to lose information!"]
 
-      questions << "CAUTION: This rake task will delete ALL documents!"
-      questions << "DISCLAIMER: This is the final warning: You're going to lose information!"
-
-      return false unless ask_question(questions[0]) && ask_question(questions[1])
-
-      puts "Delete all attachments attached to projects or versions..."
-
-      true
-    end
-
-    def ask_question(question)
-      puts "\n\n"
-      puts question
-      puts "\nDo you want to continue? [y/N]"
-
-      STDIN.gets.chomp == 'y'
+      ask_for_confirmation(questions)
     end
   end
 end

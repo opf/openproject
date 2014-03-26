@@ -67,6 +67,19 @@ describe UserMailer do
     end
   end
 
+  describe :wiki_content_updated do
+    let(:wiki_content) { FactoryGirl.create(:wiki_content) }
+    let!(:mail) { UserMailer.wiki_content_updated(user, wiki_content) }
+
+    it "should link to the latest version diff page" do
+      expect(mail.body.encoded).to include "diff/2"
+    end
+
+    after do
+      User.current = nil
+    end
+  end
+
   describe :message_id do
     describe 'same user' do
       let(:journal_2) { FactoryGirl.build_stubbed(:work_package_journal) }

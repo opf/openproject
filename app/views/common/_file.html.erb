@@ -31,8 +31,11 @@ See doc/COPYRIGHT.rdoc for more details.
 <table class="filecontent syntaxhl">
 <tbody>
 <% line_num = 1 %>
-<%= syntax_highlight(filename, to_utf8_for_attachments(content)).each_line do |line| %>
-<tr><th class="line-num" id="L<%= line_num %>"><a href="#L<%= line_num %>"><%= line_num %></a></th><td class="line-code"><pre><%=raw line %></pre></td></tr>
+<% syntax_highlight(filename, to_utf8_for_attachments(content)).each_line do |line| %>
+  <tr>
+    <th class="line-num" id="L<%= line_num %>"><a href="#L<%= line_num %>"><%= line_num %></a></th>
+    <td class="line-code"><pre><%=raw line %></pre></td>
+  </tr>
 <% line_num += 1 %>
 <% end %>
 </tbody>
