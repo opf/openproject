@@ -1,14 +1,4 @@
 GIT
-  remote: git@github.com:opf/openproject-ui_components.git
-  revision: 8502ddae6cd761a412e7828542d5a91d3f5e8ae2
-  branch: dev
-  specs:
-    openproject-ui_components (0.0.1)
-      angular-ui-select2-rails
-      angularjs-rails
-      rails (~> 3.2.16)
-
-GIT
   remote: https://github.com/finnlabs/rack-protection.git
   revision: 5a7d1bd2f05ca75faf7909c8cc978732a0080898
   ref: 5a7d1bd
@@ -65,10 +55,6 @@ GEM
     acts_as_list (0.2.0)
       activerecord (>= 3.0)
     addressable (2.3.4)
-    angular-ui-select2-rails (0.1.1)
-      jquery-rails
-      select2-rails
-    angularjs-rails (1.2.9)
     arel (3.0.3)
     awesome_nested_set (2.1.6)
       activerecord (>= 3.0.0)
@@ -177,13 +163,6 @@ GEM
     i18n (0.6.5)
     interception (0.3)
     journey (1.0.4)
-    jquery-atwho-rails (0.4.7)
-    jquery-rails (2.0.3)
-      railties (>= 3.1.0, < 5.0)
-      thor (~> 0.14)
-    jquery-ui-rails (4.0.2)
-      jquery-rails
-      railties (>= 3.1.0)
     json (1.8.1)
     json_spec (1.1.1)
       multi_json (~> 1.0)
@@ -310,9 +289,6 @@ GEM
       railties (~> 3.2.0)
       sass (>= 3.1.10)
       tilt (~> 1.3)
-    select2-rails (3.3.2)
-      sass-rails (>= 3.2)
-      thor (~> 0.14)
     selenium-webdriver (2.39.0)
       childprocess (>= 0.2.5)
       multi_json (~> 1.0)
@@ -330,7 +306,7 @@ GEM
       simplecov-html (~> 0.7.1)
     simplecov-html (0.7.1)
     slop (3.4.6)
-    sprockets (2.2.2)
+    sprockets (2.2.2.backport2)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
@@ -377,8 +353,6 @@ DEPENDENCIES
   activerecord-jdbcsqlite3-adapter
   activerecord-tableless (~> 1.0)
   acts_as_list (~> 0.2.0)
-  angular-ui-select2-rails
-  angularjs-rails
   awesome_nested_set
   capybara
   capybara-screenshot
@@ -402,9 +376,6 @@ DEPENDENCIES
   guard-test
   htmldiff
   i18n-js!
-  jquery-atwho-rails (~> 0.4.7)
-  jquery-rails (~> 2.0.3)
-  jquery-ui-rails
   jruby-openssl
   json_spec
   launchy (~> 2.3.0)
@@ -414,7 +385,6 @@ DEPENDENCIES
   net-ldap (~> 0.2.2)
   object-daddy (~> 1.1.0)
   oj
-  openproject-ui_components!
   pg (~> 0.17.1)
   prototype-rails
   prototype_legacy_helper (= 0.0.0)!
@@ -442,11 +412,11 @@ DEPENDENCIES
   ruby-progressbar
   rubytree (~> 0.8.3)
   sass-rails (~> 3.2.3)
-  select2-rails (~> 3.3.2)
   selenium-webdriver
   shoulda
   shoulda-matchers
   simplecov (>= 0.8.pre)
+  sprockets (= 2.2.2.backport2)
   sqlite3
   strong_parameters
   svg-graph

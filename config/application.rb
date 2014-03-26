@@ -99,6 +99,11 @@ module OpenProject
     # Enable the asset pipeline
     config.assets.enabled = true
 
+    bower_assets_path    = Rails.root.join(*%w(vendor assets components))
+    config.assets.paths << bower_assets_path.join(*%w(select2)).to_s
+    config.assets.paths << bower_assets_path.join(*%w(jquery-ui themes base)).to_s
+    config.assets.paths << bower_assets_path.join(*%w(jquery.atwho dist)).to_s
+
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true
 

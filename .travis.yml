@@ -34,6 +34,7 @@ branches:
     - dev
     - stable
     - release/3.0
+    - /^feature\/ui-components-test-architecture-.*$/
 env:
   # mysql2
   - "TEST_SUITE=cucumber CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
@@ -47,6 +48,7 @@ script: "bundle exec rake $TEST_SUITE"
 before_install:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
+  - "nvm use 0.10 && npm -g install bower"
 before_script:
   - "RAILS_ENV=production bundle exec rake ci:travis:prepare"
 notifications:

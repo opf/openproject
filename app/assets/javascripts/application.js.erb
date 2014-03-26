@@ -11,26 +11,25 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
-//= require jquery.ui.all
-//= require jquery-ui-i18n
-//= require jquery.atwho/index
-//= require jquery_ujs
+//= require jquery-ujs
+//= require jquery-ui
+//= require jquery-ui/ui/i18n/jquery-ui-i18n
+
+//= require jquery.atwho
+//= require Caret.js/src/jquery.caret
 //= require jquery_noconflict
-//= require jquery.colorcontrast
-//= require openproject-ui-components
-//= require angular
-//= require angular-resource
-//= require angular-animate
-//= require angular-ui-select2
-//= require angular-ui-date
-//= require jquery.trap
 //= require prototype
 //= require effects
 //= require dragdrop
 //= require controls
 //= require i18n
 //= require i18n/translations
+
+//= require lib/jquery.colorcontrast
+//= require lib/jquery.trap
+
 //= require select2
+
 //= require top_menu
 //= require action_menu
 //= require openproject
@@ -45,11 +44,20 @@
 //= require top-shelf
 //= require unsupported-browsers
 //= require autocomplete_textareas
-//= require ./angular/openproject-app
-//= require_tree ./angular
-//= require_tree ./specific
 //= require openproject_plugins
 //= require versions
+//= require_tree ./specific
+
+//= require angular
+//= require angular-animate
+//= require angular-ui-select2
+//= require angular-ui-date/src/date
+
+//= require openproject-ui_components/app/assets/javascripts/angular/ui-components-app
+//= require ./angular/openproject-app
+//= require_tree ./angular
+
+
 
 //source: http://stackoverflow.com/questions/8120065/jquery-and-prototype-dont-work-together-with-array-prototype-reverse
 if (typeof []._reverse == 'undefined') {
