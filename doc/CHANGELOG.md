@@ -33,6 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2393` Fix: No warning when leaving site without saving
 * `#2401` Fix: New target version cannot be created from work package view
 * `#3267` Fix: Link in Breadcrumbs links to global work packages
+* `#3348` Fix: Menu item "more functions" is cut off where content ends
 * `#3395` Fix: After error message values are gone during creation of message
 * `#3531` Fix: Type 'None' cannot be configured via admin settings
 * `#4040` Fix: Referencing work packages with ### in news, forums and meetings does not work
