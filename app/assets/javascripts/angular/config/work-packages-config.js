@@ -36,12 +36,6 @@ angular.module('openproject.workPackages.config')
 
 .constant('DEFAULT_SORT_CRITERIA', 'parent:desc')
 
-.constant('DEFAULT_QUERY_OPTIONS', {
-  display_sums: false,
-  // filters: [{ status_id: {'operator':'o','values':['], name: 'status_id' }}],
-  group_by: null
-})
-
 .constant('DEFAULT_PAGINATION_OPTIONS', {
   page: 1,
   perPage: 10,

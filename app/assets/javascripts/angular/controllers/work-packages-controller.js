@@ -1,7 +1,7 @@
 angular.module('openproject.workPackages.controllers')
 
-.controller('WorkPackagesController', ['$scope', 'WorkPackagesTableHelper', 'Query', 'Sortation', 'WorkPackageService', 'QueryService', 'PaginationService', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE', 'DEFAULT_SORT_CRITERIA', 'DEFAULT_QUERY_OPTIONS',
-            function($scope, WorkPackagesTableHelper, Query, Sortation, WorkPackageService, QueryService, PaginationService, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE, DEFAULT_SORT_CRITERIA, DEFAULT_QUERY_OPTIONS) {
+.controller('WorkPackagesController', ['$scope', 'WorkPackagesTableHelper', 'Query', 'Sortation', 'WorkPackageService', 'QueryService', 'PaginationService', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE', 'DEFAULT_SORT_CRITERIA',
+            function($scope, WorkPackagesTableHelper, Query, Sortation, WorkPackageService, QueryService, PaginationService, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE, DEFAULT_SORT_CRITERIA) {
 
 
   function initialSetup() {
