@@ -14,8 +14,7 @@ angular.module('openproject.workPackages.controllers')
 
     WorkPackageService.getWorkPackagesByQueryId($scope.projectIdentifier, $scope.query_id)
       .then($scope.setupWorkPackagesTable)
-      .then(initAvailableColumns)
-      .then(setupComplete);
+      .then(initAvailableColumns);
   }
 
   function initQuery(queryData) {
@@ -73,10 +72,6 @@ angular.module('openproject.workPackages.controllers')
   function serviceErrorHandler(data) {
     // TODO RS: This is where we'd want to put an error message on the dom
     $scope.loading = false;
-  }
-
-  function setupComplete() {
-    $scope.setupComplete = true;
   }
 
   /**
