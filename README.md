@@ -2,6 +2,8 @@
 
 `openproject-github_integration` is an OpenProject plugin, which aims to integrate GitHub code repositories and a pull request workflow with OpenProject.
 
+**Note:** This plugin has not been tested in production.
+
 ![GitHub Integration Screenshot](doc/screenshot.png?raw=true)
 
 Currently we support the following workflow. When you create a pull request and paste a work package URL into its description, the plugin will add a comment to the work package when the pull request is opened, closed, merged or reopened.
