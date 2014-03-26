@@ -29,13 +29,29 @@
 object false
 
 child @work_packages => :work_packages do
-
   @columns.each do |column_name|
     node(column_name, :if => lambda{ |wp| wp.respond_to?(column_name) }) do |wp|
-      wp.send(column_name)
+      case wp.send(column_name)
+      when Category
+        wp.send(column_name).as_json(only: [:id, :name])
+      when Project
+        wp.send(column_name).as_json(only: [:id, :name])
+      when IssuePriority
+        wp.send(column_name).as_json(only: [:id, :name])
+      when Status
+        wp.send(column_name).as_json(only: [:id, :name])
+      when User
+        wp.send(column_name).as_json(only: [:id, :firstname], methods: :name)
+      when Version
+        wp.send(column_name).as_json(only: [:id, :name])
+      when WorkPackage
+        wp.send(column_name).as_json(only: [:id, :name])
+      else
+        wp.send(column_name)
+      end
     end
-  end
 
+  end
 end
 
 if @display_meta
