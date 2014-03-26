@@ -34,6 +34,7 @@ branches:
     - dev
     - stable
     - release/3.0
+    - feature/ui-component-table-widgets-merged
 env:
   # Frontend
   - "TEST_SUITE=mocha    CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
