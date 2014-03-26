@@ -77,10 +77,27 @@ OpenProject::Application.configure do
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   config.assets.precompile += %w( default.css
+                                  accessibility.css accessibility.js
+                                  activate_error_messages.js
+                                  admin_users.js
+                                  autocompleter.js
+                                  calendar/lang/*.js
+                                  contextual_fieldset.js
+                                  copy_issue_actions.js
+                                  date-de-DE.js date-en-US.js
+                                  jstoolbar/lang/*.js
+                                  members_form.js
+                                  members_select_boxes.js
+                                  project/responsible_attribute.js
+                                  repository_navigation.js
                                   rtl.css context_menu_rtl.css
-                                  accessibility.js accessibility.css
-                                  copy_issue_actions.js repository_navigation.js
-                                  jstoolbar/lang/*.js calendar/lang/*.js )
+                                  select_list_move.js
+                                  timelines.css
+                                  timelines_modal.js
+                                  timelines_select_boxes.js
+                                  types_checkboxes.js
+                                  work_packages.js
+                                )
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
