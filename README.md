@@ -44,7 +44,7 @@ and restart the OpenProject server.
 To enable GitHub integration we need an OpenProject API key of a user with sufficient rights on the projects which shall be synchronized.
 Any user will work, but we recommend to create a special 'GitHub' user in your OpenProject installation for that task.
 
-**Note:** Double check that the user whose API key you use has sufficient rights on the projects which shall be synced with GitHub (e.g. the user is a member if those projects and has the 'Create WorkPackage Comments' right).
+**Note:** Double check that the user whose API key you use has sufficient rights on the projects which shall be synced with GitHub. You can e.g. create a 'GitHub' role with 'Add notes' (Work package tracking) permission, assign the user to this role and add the user in this role to all Projects where you want the user to comment on work packages.
 
 ### GitHub configuration
 
@@ -55,7 +55,7 @@ Within the "Webhooks" section you can create a new webhook with the "Add webhook
 
 The **Payload URL** is `<the url of your openproject instance>/webhooks/github?key=<API key of the OpenProject user>`.
 
-For **Payload version** select `application/vnd.github.v3+json` (not `...+form`!).
+For **Payload version** select `application/vnd.github.v3+json` (not `...+form`!). If you see GitHub reporting a 403 error for the ping request later, make sure to select the correct one here.
 
 Then select the events which GitHub will send to your OpenProject installation.
 We currently only need `Pull Request` and `Issue Comment`, but its also ok to select the *Send me everything* option.
