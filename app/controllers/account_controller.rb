@@ -33,8 +33,6 @@ class AccountController < ApplicationController
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_filter :check_if_login_required
 
-  before_filter :not_found_unless_user_logged, :only => [:activate]
-
   # Login request and validation
   def login
     if User.current.logged?
@@ -380,9 +378,5 @@ class AccountController < ApplicationController
   def account_pending
     flash[:notice] = l(:notice_account_pending)
     redirect_to :action => 'login'
-  end
-
-  def not_found_unless_user_logged
-    render_404 unless User.current.logged?
   end
 end
