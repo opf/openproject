@@ -89,6 +89,13 @@ module OpenProject
         end
 
         context 'asset precompilation' do
+          around do |example|
+            old_precompile_config = Rails.application.config.assets.precompile
+            Rails.application.config.assets.precompile.clear
+            example.run
+            Rails.application.config.assets.precompile = old_precompile_config
+          end
+
           let(:asset_files) {
             %w(
               adn-bootstrap.css
@@ -98,10 +105,8 @@ module OpenProject
             )
           }
 
+          let(:precompile_list) { Rails.application.config.assets.precompile }
           let(:precompiled_assets) {
-            precompile_list = Rails.application.config.assets.precompile
-            precompile_list = Array(precompile_list.last)
-
             asset_files.map { |asset_path|
               precompile_list.map { |element|
                 element.respond_to?(:call) ? element.call(asset_path) : element
@@ -109,12 +114,17 @@ module OpenProject
             }.flatten
           }
 
-          # TODO: gives an error on the whole list
           # TODO: remove themes from the list, when clear_themes is called
 
           context 'with no stylesheet manifest registered' do
+            it 'should precompile none of asset files' do
+              expect(precompiled_assets).to be_none
+            end
+          end
+
+          context 'with a missing stylesheet manifest registered' do
             before do
-              Class.new(Theme) { def stylesheet_manifest; nil; end }
+              Class.new(Theme) { def stylesheet_manifest; 'missing_theme_stylesheet.css'; end }
             end
 
             it 'should precompile none of asset files' do
