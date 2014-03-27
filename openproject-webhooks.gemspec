@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.description = 'Provides a plug-in API to support OpenProject webhooks for better 3rd party integration'
   s.license     = 'GPLv3'
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + %w(CHANGELOG.md README.md)
+  s.files = Dir["{app,config,db,doc,lib}/**/*"] + %w(README.md)
 
   s.add_dependency "rails", "~> 3.2.14"
   s.add_dependency "openproject-plugins", "~> 1.0.6"
