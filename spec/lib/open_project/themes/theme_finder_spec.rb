@@ -80,25 +80,58 @@ module OpenProject
           expect(ThemeFinder.themes).to include theme
         end
 
-        # TODO: clean me up
-        it "registers the theme's stylesheet manifest for precompilation" do
-          Class.new(Theme) { def stylesheet_manifest; 'stylesheet_path.css'; end }
-
-          # TODO: gives an error on the whole list
-          # TODO: remove themes from the list, when clear_themes is called
-          precompile_list = Rails.application.config.assets.precompile
-          precompile_list = Array(precompile_list.last)
-          precompile_list.map! { |element| element.respond_to?(:call) ? element.call : element }
-
-          expect(precompile_list).to include 'stylesheet_path.css'
-        end
-
         it "clears the cache successfully" do
           ThemeFinder.registered_themes # fill the cache
           theme = Theme.new_theme do |theme|
             theme.identifier = :new_theme
           end
           expect(ThemeFinder.registered_themes).to include :new_theme => theme
+        end
+
+        context 'asset precompilation' do
+          let(:asset_files) {
+            %w(
+              adn-bootstrap.css
+              adn-bootstrap-theme.css
+              ms-rainbow-colours.css
+              theme_stylesheet.css
+            )
+          }
+
+          let(:precompiled_assets) {
+            precompile_list = Rails.application.config.assets.precompile
+            precompile_list = Array(precompile_list.last)
+
+            asset_files.map { |asset_path|
+              precompile_list.map { |element|
+                element.respond_to?(:call) ? element.call(asset_path) : element
+              }
+            }.flatten
+          }
+
+          # TODO: gives an error on the whole list
+          # TODO: remove themes from the list, when clear_themes is called
+
+          context 'with no stylesheet manifest registered' do
+            before do
+              Class.new(Theme) { def stylesheet_manifest; nil; end }
+            end
+
+            it 'should precompile none of asset files' do
+              expect(precompiled_assets).to be_none
+            end
+          end
+
+          context 'with a stylesheet manifest registered' do
+            before do
+              Class.new(Theme) { def stylesheet_manifest; 'theme_stylesheet.css'; end }
+            end
+
+            it 'should precompile one of the asset files' do
+              expect(precompiled_assets).to be_any
+              expect(precompiled_assets.count{ |c| c }).to eq 1
+            end
+          end
         end
       end
 
