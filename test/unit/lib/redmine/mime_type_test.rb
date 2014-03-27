@@ -28,8 +28,8 @@
 #++
 require File.expand_path('../../../../test_helper', __FILE__)
 
-class Redmine::MimeTypeTest < ActiveSupport::TestCase
-  def test_of
+describe Redmine::MimeType do
+  it 'should of' do
     to_test = { 'test.unk' => nil,
                 'test.txt' => 'text/plain',
                 'test.c' => 'text/x-c',
@@ -39,7 +39,7 @@ class Redmine::MimeTypeTest < ActiveSupport::TestCase
     end
   end
 
-  def test_css_class_of
+  it 'should css class of' do
     to_test = { 'test.unk' => nil,
                 'test.txt' => 'text-plain',
                 'test.c' => 'text-x-c',
@@ -49,7 +49,7 @@ class Redmine::MimeTypeTest < ActiveSupport::TestCase
     end
   end
 
-  def test_main_mimetype_of
+  it 'should main mimetype of' do
     to_test = { 'test.unk' => nil,
                 'test.txt' => 'text',
                 'test.c' => 'text',
@@ -59,7 +59,7 @@ class Redmine::MimeTypeTest < ActiveSupport::TestCase
     end
   end
 
-  def test_is_type
+  it 'should is type' do
     to_test = { ['text', 'test.unk'] => false,
                 ['text', 'test.txt'] => true,
                 ['text', 'test.c'] => true,
@@ -69,11 +69,11 @@ class Redmine::MimeTypeTest < ActiveSupport::TestCase
     end
   end
 
-  def test_narrow_type_for_equal_main_type
+  it 'should narrow type for equal main type' do
     assert_equal 'text/x-ruby', Redmine::MimeType.narrow_type('rubyfile.rb', 'text/plain')
   end
 
-  def test_use_original_type_if_main_type_differs
+  it 'should use original type if main type differs' do
     assert_equal 'application/zip', Redmine::MimeType.narrow_type('rubyfile.rb', 'application/zip')
   end
 end

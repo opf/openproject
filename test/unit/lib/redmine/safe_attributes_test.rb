@@ -28,7 +28,7 @@
 #++
 require File.expand_path('../../../../test_helper', __FILE__)
 
-class Redmine::SafeAttributesTest < ActiveSupport::TestCase
+describe Redmine::SafeAttributes do
   class Base
     def attributes=(attrs)
       attrs.each do |key, value|
@@ -54,19 +54,18 @@ class Redmine::SafeAttributesTest < ActiveSupport::TestCase
     safe_attributes :isbn
   end
 
-  def setup
-    super
+  before do
     @admin = User.find_by_login('admin') || FactoryGirl.create(:admin)
     @anonymous = User.anonymous || FactoryGirl.create(:anonymous)
   end
 
-  def test_safe_attribute_names
+  it 'should safe attribute names' do
     p = Person.new
     assert_equal ['firstname', 'lastname'], p.safe_attribute_names(@anonymous)
     assert_equal ['firstname', 'lastname', 'login'], p.safe_attribute_names(@admin)
   end
 
-  def test_safe_attribute_names_without_user
+  it 'should safe attribute names without user' do
     p = Person.new
     User.current = nil
     assert_equal ['firstname', 'lastname'], p.safe_attribute_names
@@ -74,7 +73,7 @@ class Redmine::SafeAttributesTest < ActiveSupport::TestCase
     assert_equal ['firstname', 'lastname', 'login'], p.safe_attribute_names
   end
 
-  def test_set_safe_attributes
+  it 'should set safe attributes' do
     p = Person.new
     p.send('safe_attributes=', { 'firstname' => 'John', 'lastname' => 'Smith', 'login' => 'jsmith' }, @anonymous)
     assert_equal 'John', p.firstname
@@ -89,7 +88,7 @@ class Redmine::SafeAttributesTest < ActiveSupport::TestCase
     assert_equal 'jsmith', p.login
   end
 
-  def test_set_safe_attributes_without_user
+  it 'should set safe attributes without user' do
     p = Person.new
     User.current = nil
     p.safe_attributes = { 'firstname' => 'John', 'lastname' => 'Smith', 'login' => 'jsmith' }
@@ -105,14 +104,14 @@ class Redmine::SafeAttributesTest < ActiveSupport::TestCase
     assert_equal 'jsmith', p.login
   end
 
-  def test_with_indifferent_access
+  it 'should with indifferent access' do
     p = Person.new
     p.safe_attributes = { 'firstname' => 'Jack', lastname: 'Miller' }
     assert_equal 'Jack', p.firstname
     assert_equal 'Miller', p.lastname
   end
 
-  def test_use_safe_attributes_in_subclasses
+  it 'should use safe attributes in subclasses' do
     b = Book.new
     p = PublishedBook.new
 

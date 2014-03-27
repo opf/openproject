@@ -28,11 +28,10 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class RepositoryFilesystemTest < ActiveSupport::TestCase
+describe Repository::Filesystem, type: :model do
   fixtures :all
 
-  def setup
-    super
+  before do
     @project = Project.find(3)
 
     with_existing_filesystem_scm do |repo_path|
@@ -41,7 +40,7 @@ class RepositoryFilesystemTest < ActiveSupport::TestCase
     end
   end
 
-  def test_fetch_changesets
+  it 'should fetch changesets' do
     with_existing_filesystem_scm do
       @repository.fetch_changesets
       @repository.reload
@@ -51,14 +50,14 @@ class RepositoryFilesystemTest < ActiveSupport::TestCase
     end
   end
 
-  def test_entries
+  it 'should entries' do
     with_existing_filesystem_scm do
       assert_equal 3, @repository.entries('', 2).size
       assert_equal 2, @repository.entries('dir', 3).size
     end
   end
 
-  def test_cat
+  it 'should cat' do
     with_existing_filesystem_scm do
       assert_equal "TEST CAT\n", @repository.scm.cat('test')
     end

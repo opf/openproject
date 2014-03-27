@@ -32,37 +32,36 @@ require 'enumerations_controller'
 # Re-raise errors caught by the controller.
 class EnumerationsController; def rescue_action(e) raise e end; end
 
-class EnumerationsControllerTest < ActionController::TestCase
+describe EnumerationsController, type: :controller do
   fixtures :all
 
-  def setup
-    super
+  before do
     @controller = EnumerationsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     @request.session[:user_id] = 1 # admin
   end
 
-  def test_index
+  it 'should index' do
     get :index
     assert_response :success
     assert_template 'index'
   end
 
-  def test_destroy_enumeration_not_in_use
+  it 'should destroy enumeration not in use' do
     post :destroy, id: 7
     assert_redirected_to enumerations_path
     assert_nil Enumeration.find_by_id(7)
   end
 
-  def test_destroy_enumeration_in_use
+  it 'should destroy enumeration in use' do
     post :destroy, id: 4
     assert_response :success
     assert_template 'destroy'
     assert_not_nil Enumeration.find_by_id(4)
   end
 
-  def test_destroy_enumeration_in_use_with_reassignment
+  it 'should destroy enumeration in use with reassignment' do
     issue = WorkPackage.find(:first, conditions: { priority_id: 4 })
     post :destroy, id: 4, reassign_to_id: 6
     assert_redirected_to enumerations_path

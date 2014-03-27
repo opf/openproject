@@ -33,11 +33,10 @@ require 'sys_controller'
 # Re-raise errors caught by the controller.
 class SysController; def rescue_action(e) raise e end; end
 
-class SysControllerTest < ActionController::TestCase
+describe SysController, type: :controller do
   fixtures :all
 
-  def setup
-    super
+  before do
     @controller = SysController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
@@ -45,7 +44,7 @@ class SysControllerTest < ActionController::TestCase
     Setting.enabled_scm = %w(Subversion Git)
   end
 
-  def test_projects_with_repository_enabled
+  it 'should projects with repository enabled' do
     get :projects
     assert_response :success
     assert_equal 'application/xml', @response.content_type
@@ -54,7 +53,7 @@ class SysControllerTest < ActionController::TestCase
     end
   end
 
-  def test_create_project_repository
+  it 'should create project repository' do
     assert_nil Project.find(4).repository
 
     post :create_project_repository, id: 4,
@@ -67,38 +66,38 @@ class SysControllerTest < ActionController::TestCase
     assert_equal 'file:///create/project/repository/subproject2', r.url
   end
 
-  def test_fetch_changesets
+  it 'should fetch changesets' do
     Repository::Subversion.any_instance.should_receive(:fetch_changesets).and_return(true)
     get :fetch_changesets
     assert_response :success
   end
 
-  def test_fetch_changesets_one_project
+  it 'should fetch changesets one project' do
     Repository::Subversion.any_instance.should_receive(:fetch_changesets).and_return(true)
     get :fetch_changesets, id: 'ecookbook'
     assert_response :success
   end
 
-  def test_fetch_changesets_unknown_project
+  it 'should fetch changesets unknown project' do
     get :fetch_changesets, id: 'unknown'
     assert_response 404
   end
 
-  def test_disabled_ws_should_respond_with_403_error
+  it 'should disabled ws should respond with 403 error' do
     with_settings sys_api_enabled: '0' do
       get :projects
       assert_response 403
     end
   end
 
-  def test_api_key
+  it 'should api key' do
     with_settings sys_api_key: 'my_secret_key' do
       get :projects, key: 'my_secret_key'
       assert_response :success
     end
   end
 
-  def test_wrong_key_should_respond_with_403_error
+  it 'should wrong key should respond with 403 error' do
     with_settings sys_api_enabled: 'my_secret_key' do
       get :projects, key: 'wrong_key'
       assert_response 403

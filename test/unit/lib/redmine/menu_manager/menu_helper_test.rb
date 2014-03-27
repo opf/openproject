@@ -28,7 +28,7 @@
 #++
 require File.expand_path('../../../../../test_helper', __FILE__)
 
-class Redmine::MenuManager::MenuHelperTest < HelperTestCase
+describe Redmine::MenuManager::MenuHelper, type: :helper do
   include Redmine::MenuManager::MenuHelper
   include ActionDispatch::Assertions::SelectorAssertions
   fixtures :all
@@ -38,8 +38,7 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
     HTML::Document.new(@response.body)
   end
 
-  def setup
-    super
+  before do
     @response = ActionController::TestResponse.new
     # Stub the current menu item in the controller
     def @controller.current_menu_item
@@ -48,26 +47,26 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
   end
 
   context 'MenuManager#current_menu_item' do
-    should 'be tested'
+    it 'should be tested'
   end
 
   context 'MenuManager#render_main_menu' do
-    should 'be tested'
+    it 'should be tested'
   end
 
   context 'MenuManager#render_menu' do
-    should 'be tested'
+    it 'should be tested'
   end
 
   context 'MenuManager#menu_item_and_children' do
-    should 'be tested'
+    it 'should be tested'
   end
 
   context 'MenuManager#extract_node_details' do
-    should 'be tested'
+    it 'should be tested'
   end
 
-  def test_render_single_menu_node
+  it 'should render single menu node' do
     node = Redmine::MenuManager::MenuItem.new(:testing, '/test', {})
     @response.body = render_single_menu_node(node, 'This is a test', node.url, false)
 
@@ -75,7 +74,7 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
     assert_select(html_node.root, 'a.testing-menu-item', 'This is a test')
   end
 
-  def test_render_menu_node
+  it 'should render menu node' do
     single_node = Redmine::MenuManager::MenuItem.new(:single_node, '/test', {})
     @response.body = render_menu_node(single_node, nil)
 
@@ -85,7 +84,7 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
     end
   end
 
-  def test_render_menu_node_with_nested_items
+  it 'should render menu node with nested items' do
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node, '/test', {})
     parent_node << Redmine::MenuManager::MenuItem.new(:child_one_node, '/test', {})
     parent_node << Redmine::MenuManager::MenuItem.new(:child_two_node, '/test', {})
@@ -111,7 +110,7 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
     end
   end
 
-  def test_render_menu_node_with_children
+  it 'should render menu node with children' do
     User.current = User.find(1)
 
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
@@ -140,7 +139,7 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
     end
   end
 
-  def test_render_menu_node_with_nested_items_and_children
+  it 'should render menu node with nested items and children' do
     User.current = User.find(1)
 
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
@@ -189,7 +188,7 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
     end
   end
 
-  def test_render_menu_node_with_children_without_an_array
+  it 'should render menu node with children without an array' do
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
                                                      { controller: 'issues', action: 'index' },
 
@@ -201,7 +200,7 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
     end
   end
 
-  def test_render_menu_node_with_incorrect_children
+  it 'should render menu node with incorrect children' do
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
                                                      { controller: 'issues', action: 'index' },
 
@@ -213,7 +212,7 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
     end
   end
 
-  def test_menu_items_for_should_yield_all_items_if_passed_a_block
+  it 'should menu items for should yield all items if passed a block' do
     menu_name = :test_menu_items_for_should_yield_all_items_if_passed_a_block
     Redmine::MenuManager.map menu_name do |menu|
       menu.push(:a_menu, '/', {})
@@ -229,7 +228,7 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
     assert_equal 3, items_yielded.size
   end
 
-  def test_menu_items_for_should_return_all_items
+  it 'should menu items for should return all items' do
     menu_name = :test_menu_items_for_should_return_all_items
     Redmine::MenuManager.map menu_name do |menu|
       menu.push(:a_menu, '/', {})
@@ -241,7 +240,7 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
     assert_equal 3, items.size
   end
 
-  def test_menu_items_for_should_skip_unallowed_items_on_a_project
+  it 'should menu items for should skip unallowed items on a project' do
     menu_name = :test_menu_items_for_should_skip_unallowed_items_on_a_project
     Redmine::MenuManager.map menu_name do |menu|
       menu.push(:a_menu, { controller: 'issues', action: 'index' }, {})
@@ -255,7 +254,7 @@ class Redmine::MenuManager::MenuHelperTest < HelperTestCase
     assert_equal 2, items.size
   end
 
-  def test_menu_items_for_should_skip_items_that_fail_the_conditions
+  it 'should menu items for should skip items that fail the conditions' do
     menu_name = :test_menu_items_for_should_skip_items_that_fail_the_conditions
     Redmine::MenuManager.map menu_name do |menu|
       menu.push(:a_menu, { controller: 'issues', action: 'index' }, {})

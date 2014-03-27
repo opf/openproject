@@ -33,13 +33,12 @@ require 'users_controller'
 # Re-raise errors caught by the controller.
 class UsersController; def rescue_action(e) raise e end; end
 
-class UsersControllerTest < ActionController::TestCase
+describe UsersController, type: :controller do
   include Redmine::I18n
 
   fixtures :all
 
-  def setup
-    super
+  before do
     @controller = UsersController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
@@ -47,13 +46,13 @@ class UsersControllerTest < ActionController::TestCase
     @request.session[:user_id] = 1 # admin
   end
 
-  def test_index
+  it 'should index' do
     get :index
     assert_response :success
     assert_template 'index'
   end
 
-  def test_index
+  it 'should index' do
     get :index
     assert_response :success
     assert_template 'index'
@@ -62,7 +61,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_nil assigns(:users).detect { |u| !u.active? }
   end
 
-  def test_index_with_name_filter
+  it 'should index with name filter' do
     get :index, name: 'john'
     assert_response :success
     assert_template 'index'
@@ -72,7 +71,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal 'John', users.first.firstname
   end
 
-  def test_index_with_group_filter
+  it 'should index with group filter' do
     get :index, group_id: '10'
     assert_response :success
     assert_template 'index'
@@ -81,7 +80,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal([], (users - Group.find(10).users))
   end
 
-  def test_show_should_not_display_hidden_custom_fields
+  it 'should show should not display hidden custom fields' do
     @request.session[:user_id] = nil
     UserCustomField.find_by_name('Phone number').update_attribute :visible, false
     get :show, id: 2
@@ -92,7 +91,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_no_tag 'li', content: /Phone number/
   end
 
-  def test_show_should_not_fail_when_custom_values_are_nil
+  it 'should show should not fail when custom values are nil' do
     user = User.find(2)
 
     # Create a custom field to illustrate the issue
@@ -103,26 +102,26 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  def test_show_inactive
+  it 'should show inactive' do
     @request.session[:user_id] = nil
     get :show, id: 5
     assert_response 404
   end
 
-  def test_show_should_not_reveal_users_with_no_visible_activity_or_project
+  it 'should show should not reveal users with no visible activity or project' do
     @request.session[:user_id] = nil
     get :show, id: 9
     assert_response 404
   end
 
-  def test_show_inactive_by_admin
+  it 'should show inactive by admin' do
     @request.session[:user_id] = 1
     get :show, id: 5
     assert_response 200
     assert_not_nil assigns(:user)
   end
 
-  def test_show_displays_memberships_based_on_project_visibility
+  it 'should show displays memberships based on project visibility' do
     @request.session[:user_id] = 1
     get :show, id: 2
     assert_response :success
@@ -132,13 +131,13 @@ class UsersControllerTest < ActionController::TestCase
     assert project_ids.include?(2) # private project admin can see
   end
 
-  def test_show_current_should_require_authentication
+  it 'should show current should require authentication' do
     @request.session[:user_id] = nil
     get :show, id: 'current'
     assert_response 302
   end
 
-  def test_show_current
+  it 'should show current' do
     @request.session[:user_id] = 2
     get :show, id: 'current'
     assert_response :success
@@ -146,7 +145,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal User.find(2), assigns(:user)
   end
 
-  def test_new
+  it 'should new' do
     get :new
 
     assert_response :success
@@ -154,7 +153,7 @@ class UsersControllerTest < ActionController::TestCase
     assert assigns(:user)
   end
 
-  def test_create
+  it 'should create' do
     Setting.bcc_recipients = '1'
 
     assert_difference 'User.count' do
@@ -189,7 +188,7 @@ class UsersControllerTest < ActionController::TestCase
     assert mail.body.encoded.include?('adminADMIN!')
   end
 
-  def test_create_with_failure
+  it 'should create with failure' do
     assert_no_difference 'User.count' do
       # Provide at least one user  field, otherwise strong_parameters regards the user parameter
       # as non-existent and raises ActionController::ParameterMissing, which in turn
@@ -201,7 +200,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_template 'new'
   end
 
-  def test_edit
+  it 'should edit' do
     get :edit, id: 2
 
     assert_response :success
@@ -209,7 +208,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal User.find(2), assigns(:user)
   end
 
-  def test_update_with_failure
+  it 'should update with failure' do
     assert_no_difference 'User.count' do
       put :update, id: 2, user: { firstname: '' }
     end
@@ -218,14 +217,14 @@ class UsersControllerTest < ActionController::TestCase
     assert_template 'edit'
   end
 
-  def test_update_with_group_ids_should_assign_groups
+  it 'should update with group ids should assign groups' do
     put :update, id: 2, user: { group_ids: ['10'] }
 
     user = User.find(2)
     assert_equal [10], user.group_ids
   end
 
-  def test_update_with_password_change_should_send_a_notification
+  it 'should update with password change should send a notification' do
     ActionMailer::Base.deliveries.clear
     Setting.bcc_recipients = '1'
 
@@ -239,14 +238,14 @@ class UsersControllerTest < ActionController::TestCase
     assert mail.body.encoded.include?('newpassPASS!')
   end
 
-  def test_edit_membership
+  it 'should edit membership' do
     post :edit_membership, id: 2, membership_id: 1,
                            membership: { role_ids: [2] }
     assert_redirected_to action: 'edit', id: '2', tab: 'memberships'
     assert_equal [2], Member.find(1).role_ids
   end
 
-  def test_destroy_membership
+  it 'should destroy membership' do
     post :destroy_membership, id: 2, membership_id: 1
     assert_redirected_to action: 'edit', id: '2', tab: 'memberships'
     assert_nil Member.find_by_id(1)

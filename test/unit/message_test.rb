@@ -28,17 +28,16 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class MessageTest < ActiveSupport::TestCase
+describe Message, type: :model do
   fixtures :all
 
-  def setup
-    super
+  before do
     Setting.notified_events = ['message_posted']
     @board = Board.find(1)
     @user = User.find(1)
   end
 
-  def test_create
+  it 'should create' do
     topics_count = @board.topics_count
     messages_count = @board.messages_count
 
@@ -54,7 +53,7 @@ class MessageTest < ActiveSupport::TestCase
     assert message.watched_by?(@user)
   end
 
-  def test_reply
+  it 'should reply' do
     topics_count = @board.topics_count
     messages_count = @board.messages_count
     @message = Message.find(1)
@@ -77,7 +76,7 @@ class MessageTest < ActiveSupport::TestCase
     assert @message.watched_by?(reply_author)
   end
 
-  def test_moving_message_should_update_counters
+  it 'should moving message should update counters' do
     @message = Message.find(1)
     assert_no_difference 'Message.count' do
       # Previous board
@@ -94,7 +93,7 @@ class MessageTest < ActiveSupport::TestCase
     end
   end
 
-  def test_destroy_topic
+  it 'should destroy topic' do
     message = Message.find(1)
     board = message.board
     topics_count, messages_count = board.topics_count, board.messages_count
@@ -112,7 +111,7 @@ class MessageTest < ActiveSupport::TestCase
     # Watchers removed
   end
 
-  def test_destroy_reply
+  it 'should destroy reply' do
     message = Message.find(5)
     board = message.board
     topics_count, messages_count = board.topics_count, board.messages_count
@@ -124,7 +123,7 @@ class MessageTest < ActiveSupport::TestCase
     assert_equal messages_count - 1, board.messages_count
   end
 
-  def test_editable_by
+  it 'should editable by' do
     message = Message.find(6)
     author = message.author
     assert message.editable_by?(author)
@@ -133,7 +132,7 @@ class MessageTest < ActiveSupport::TestCase
     assert !message.reload.editable_by?(author.reload)
   end
 
-  def test_destroyable_by
+  it 'should destroyable by' do
     message = Message.find(6)
     author = message.author
     assert message.destroyable_by?(author)
@@ -142,7 +141,7 @@ class MessageTest < ActiveSupport::TestCase
     assert !message.reload.destroyable_by?(author.reload)
   end
 
-  def test_set_sticky
+  it 'should set sticky' do
     message = Message.new
     assert_equal 0, message.sticky
     message.sticky = nil
@@ -157,7 +156,7 @@ class MessageTest < ActiveSupport::TestCase
     assert_equal 1, message.sticky
   end
 
-  test 'email notifications for creating a message' do
+  specify 'email notifications for creating a message' do
     assert_difference('ActionMailer::Base.deliveries.count', 3) do
       message = Message.new(board: @board, subject: 'Test message', content: 'Test message content', author: @user)
       assert message.save

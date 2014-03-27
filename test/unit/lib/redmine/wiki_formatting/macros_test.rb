@@ -29,7 +29,7 @@
 
 require File.expand_path('../../../../../test_helper', __FILE__)
 
-class Redmine::WikiFormatting::MacrosTest < HelperTestCase
+describe Redmine::WikiFormatting::Macros, type: :helper do
   include ApplicationHelper
   include WorkPackagesHelper
   include ActionView::Helpers::TextHelper
@@ -38,12 +38,11 @@ class Redmine::WikiFormatting::MacrosTest < HelperTestCase
 
   fixtures :all
 
-  def setup
-    super
+  before do
     @project = nil
   end
 
-  def test_macro_hello_world
+  it 'should macro hello world' do
     text = '{{hello_world}}'
     assert format_text(text).match(/Hello world!/)
     # escaping
@@ -51,7 +50,7 @@ class Redmine::WikiFormatting::MacrosTest < HelperTestCase
     assert_equal '<p>{{hello_world}}</p>', format_text(text)
   end
 
-  def test_macro_include
+  it 'should macro include' do
     @project = Project.find(1)
     # include a page of the current project wiki
     text = '{{include(Another page)}}'
@@ -69,7 +68,7 @@ class Redmine::WikiFormatting::MacrosTest < HelperTestCase
     assert format_text(text).match(/Page not found/)
   end
 
-  def test_macro_child_pages
+  it 'should macro child pages' do
     expected =  "<p><ul class=\"pages-hierarchy\">" +
                 "<li><a href=\"/projects/ecookbook/wiki/Child_1\">Child 1</a></li>" +
                 "<li><a href=\"/projects/ecookbook/wiki/Child_2\">Child 2</a></li>" +
@@ -85,7 +84,7 @@ class Redmine::WikiFormatting::MacrosTest < HelperTestCase
     assert_equal expected, format_text('{{child_pages(ecookbook:Another_page)}}', object: WikiPage.find(1).content)
   end
 
-  def test_macro_child_pages_with_option
+  it 'should macro child pages with option' do
     expected =  "<p><ul class=\"pages-hierarchy\">" +
                 "<li><a href=\"/projects/ecookbook/wiki/Another_page\">Another page</a>" +
                 "<ul class=\"pages-hierarchy\">" +

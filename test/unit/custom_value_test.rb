@@ -28,8 +28,8 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class CustomValueTest < ActiveSupport::TestCase
-  def test_string_field_validation_with_blank_value
+describe CustomValue, type: :model do
+  it 'should string field validation with blank value' do
     f = CustomField.new(field_format: 'string')
     v = CustomValue.new(custom_field: f)
 
@@ -45,7 +45,7 @@ class CustomValueTest < ActiveSupport::TestCase
     assert !v.valid?
   end
 
-  def test_string_field_validation_with_min_and_max_lengths
+  it 'should string field validation with min and max lengths' do
     f = CustomField.new(field_format: 'string', min_length: 2, max_length: 5)
     v = CustomValue.new(custom_field: f, value: '')
     assert v.valid?
@@ -57,7 +57,7 @@ class CustomValueTest < ActiveSupport::TestCase
     assert !v.valid?
   end
 
-  def test_string_field_validation_with_regexp
+  it 'should string field validation with regexp' do
     f = CustomField.new(field_format: 'string', regexp: '^[A-Z0-9]*$')
     v = CustomValue.new(custom_field: f, value: '')
     assert v.valid?
@@ -67,7 +67,7 @@ class CustomValueTest < ActiveSupport::TestCase
     assert v.valid?
   end
 
-  def test_date_field_validation
+  it 'should date field validation' do
     f = CustomField.new(field_format: 'date')
     v = CustomValue.new(custom_field: f, value: '')
     assert v.valid?
@@ -77,7 +77,7 @@ class CustomValueTest < ActiveSupport::TestCase
     assert v.valid?
   end
 
-  def test_list_field_validation
+  it 'should list field validation' do
     f = CustomField.new(field_format: 'list', possible_values: ['value1', 'value2'])
     v = CustomValue.new(custom_field: f, value: '')
     assert v.valid?
@@ -87,7 +87,7 @@ class CustomValueTest < ActiveSupport::TestCase
     assert v.valid?
   end
 
-  def test_int_field_validation
+  it 'should int field validation' do
     f = CustomField.new(field_format: 'int')
     v = CustomValue.new(custom_field: f, value: '')
     assert v.valid?
@@ -101,7 +101,7 @@ class CustomValueTest < ActiveSupport::TestCase
     assert v.valid?
   end
 
-  def test_float_field_validation
+  it 'should float field validation' do
     user = FactoryGirl.create :user
     # There are cases, where the custom-value-table is not cleared completely,
     # therefore making double sure, that we have a clean slate before we start
@@ -118,7 +118,7 @@ class CustomValueTest < ActiveSupport::TestCase
     assert !v.save
   end
 
-  def test_default_value
+  it 'should default value' do
     custom_field = FactoryGirl.create :issue_custom_field,
                                       field_format: 'string',
                                       default_value: 'Some Default String'
@@ -133,7 +133,7 @@ class CustomValueTest < ActiveSupport::TestCase
     assert_equal 'Not empty', v.value
   end
 
-  def test_sti_polymorphic_association
+  it 'should sti polymorphic association' do
     # Rails uses top level sti class for polymorphic association. See #3978.
     user = FactoryGirl.create :user
     custom_field = FactoryGirl.create :user_custom_field, field_format: 'string'

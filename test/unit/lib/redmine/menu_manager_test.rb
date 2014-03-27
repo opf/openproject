@@ -28,12 +28,12 @@
 #++
 require File.expand_path('../../../../test_helper', __FILE__)
 
-class Redmine::MenuManagerTest < ActiveSupport::TestCase
+describe Redmine::MenuManager do
   context 'MenuManager#map' do
-    should 'be tested'
+    it 'should be tested'
   end
 
   context 'MenuManager#items' do
-    should 'be tested'
+    it 'should be tested'
   end
 end

@@ -29,19 +29,18 @@
 
 require File.expand_path('../../../../../../test_helper', __FILE__)
 
-class SubversionAdapterTest < ActiveSupport::TestCase
+describe Redmine::Scm::Adapters::SubversionAdapter, type: :model do
   if repository_configured?('subversion')
-    def setup
-      super
+    before do
       @adapter = Redmine::Scm::Adapters::SubversionAdapter.new(self.class.subversion_repository_url)
     end
 
-    def test_client_version
+    it 'should client version' do
       v = Redmine::Scm::Adapters::SubversionAdapter.client_version
       assert v.is_a?(Array)
     end
 
-    def test_scm_version
+    it 'should scm version' do
       to_test = { "svn, version 1.6.13 (r1002816)\n"  => [1, 6, 13],
                   "svn, versione 1.6.13 (r1002816)\n" => [1, 6, 13],
                   "1.6.1\n1.7\n1.8"                   => [1, 6, 1],
@@ -60,6 +59,6 @@ class SubversionAdapterTest < ActiveSupport::TestCase
 
   else
     puts 'Subversion test repository NOT FOUND. Skipping unit tests !!!'
-    def test_fake; assert true end
+    it 'should fake' do; assert true end
   end
 end

@@ -28,7 +28,7 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class RepositoryGitTest < ActiveSupport::TestCase
+describe Repository::Git, type: :model do
   fixtures :all
 
   # No '..' in the repository path
@@ -44,13 +44,12 @@ class RepositoryGitTest < ActiveSupport::TestCase
   # WINDOWS_PASS = Redmine::Platform.mswin?
   WINDOWS_PASS = false
 
-  def setup
-    super
+  before do
     @project = Project.find(3)
     @repository = Repository::Git.create(
-                      project:       @project,
-                      url:           REPOSITORY_PATH,
-                      path_encoding: 'ISO-8859-1'
+      project:       @project,
+      url:           REPOSITORY_PATH,
+      path_encoding: 'ISO-8859-1'
                       )
     assert @repository
     @char_1        = CHAR_1_HEX.dup
@@ -60,7 +59,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
   end
 
   if File.directory?(REPOSITORY_PATH)
-    def test_fetch_changesets_from_scratch
+    it 'should fetch changesets from scratch' do
       @repository.fetch_changesets
       @repository.reload
 
@@ -82,7 +81,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       assert_equal 'A', change.action
     end
 
-    def test_fetch_changesets_incremental
+    it 'should fetch changesets incremental' do
       @repository.fetch_changesets
       # Remove the 3 latest changesets
       @repository.changesets.find(:all, order: 'committed_on DESC', limit: 8).each(&:destroy)
@@ -103,7 +102,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       assert_equal 21, @repository.changesets.count
     end
 
-    def test_latest_changesets
+    it 'should latest changesets' do
       @repository.fetch_changesets
       @repository.reload
       # with limit
@@ -202,34 +201,34 @@ class RepositoryGitTest < ActiveSupport::TestCase
 
       # latin-1 encoding path
       changesets = @repository.latest_changesets(
-                    "latin-1-dir/test-#{@char_1}-2.txt", '64f1f3e89')
+        "latin-1-dir/test-#{@char_1}-2.txt", '64f1f3e89')
       assert_equal [
         '64f1f3e89ad1cb57976ff0ad99a107012ba3481d',
         '4fc55c43bf3d3dc2efb66145365ddc17639ce81e',
       ], changesets.collect(&:revision)
 
       changesets = @repository.latest_changesets(
-                    "latin-1-dir/test-#{@char_1}-2.txt", '64f1f3e89', 1)
+        "latin-1-dir/test-#{@char_1}-2.txt", '64f1f3e89', 1)
       assert_equal [
         '64f1f3e89ad1cb57976ff0ad99a107012ba3481d',
       ], changesets.collect(&:revision)
     end
 
-    def test_latest_changesets_latin_1_dir
+    it 'should latest changesets latin 1 dir' do
       if WINDOWS_PASS
         #
       else
         @repository.fetch_changesets
         @repository.reload
         changesets = @repository.latest_changesets(
-                    "latin-1-dir/test-#{@char_1}-subdir", '1ca7f5ed')
+          "latin-1-dir/test-#{@char_1}-subdir", '1ca7f5ed')
         assert_equal [
           '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127',
         ], changesets.collect(&:revision)
       end
     end
 
-    def test_find_changeset_by_name
+    it 'should find changeset by name' do
       @repository.fetch_changesets
       @repository.reload
       ['7234cb2750b63f47bff735edc50a1c0a433c2518', '7234cb2750b'].each do |r|
@@ -238,7 +237,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       end
     end
 
-    def test_find_changeset_by_empty_name
+    it 'should find changeset by empty name' do
       @repository.fetch_changesets
       @repository.reload
       ['', ' ', nil].each do |r|
@@ -246,21 +245,21 @@ class RepositoryGitTest < ActiveSupport::TestCase
       end
     end
 
-    def test_identifier
+    it 'should identifier' do
       @repository.fetch_changesets
       @repository.reload
       c = @repository.changesets.find_by_revision('7234cb2750b63f47bff735edc50a1c0a433c2518')
       assert_equal c.scmid, c.identifier
     end
 
-    def test_format_identifier
+    it 'should format identifier' do
       @repository.fetch_changesets
       @repository.reload
       c = @repository.changesets.find_by_revision('7234cb2750b63f47bff735edc50a1c0a433c2518')
       assert_equal '7234cb27', c.format_identifier
     end
 
-    def test_activities
+    it 'should activities' do
       c = Changeset.create(repository: @repository,
                            committed_on: Time.now,
                            revision: 'abc7234cb2750b63f47bff735edc50a1c0a433c2',
@@ -272,7 +271,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       assert event.event_path =~ /\?rev=abc7234cb2750b63f47bff735edc50a1c0a433c2$/
     end
 
-    def test_log_utf8
+    it 'should log utf8' do
       @repository.fetch_changesets
       @repository.reload
       str_felix_hex  = FELIX_HEX.dup
@@ -283,7 +282,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       assert_equal "#{str_felix_hex} <felix@fachschaften.org>", c.committer
     end
 
-    def test_previous
+    it 'should previous' do
       @repository.fetch_changesets
       @repository.reload
       %w|1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127 1ca7f5ed|.each do |r1|
@@ -294,7 +293,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       end
     end
 
-    def test_previous_nil
+    it 'should previous nil' do
       @repository.fetch_changesets
       @repository.reload
       %w|7234cb2750b63f47bff735edc50a1c0a433c2518 7234cb2|.each do |r1|
@@ -303,7 +302,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       end
     end
 
-    def test_next
+    it 'should next' do
       @repository.fetch_changesets
       @repository.reload
       %w|64f1f3e89ad1cb57976ff0ad99a107012ba3481d 64f1f3e89ad1|.each do |r2|
@@ -314,7 +313,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
       end
     end
 
-    def test_next_nil
+    it 'should next nil' do
       @repository.fetch_changesets
       @repository.reload
       %w|1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127 1ca7f5ed|.each do |r1|
@@ -324,7 +323,7 @@ class RepositoryGitTest < ActiveSupport::TestCase
     end
   else
     puts 'Git test repository NOT FOUND. Skipping unit tests !!!'
-    def test_fake; assert true end
+    it 'should fake' do; assert true end
   end
 
   private

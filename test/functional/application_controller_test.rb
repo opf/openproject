@@ -32,17 +32,16 @@ require 'application_controller'
 # Re-raise errors caught by the controller.
 class ApplicationController; def rescue_action(e) raise e end; end
 
-class ApplicationControllerTest < ActionController::TestCase
+describe ApplicationController, type: :controller do
   include Redmine::I18n
 
-  def setup
-    super
+  before do
     @controller = ApplicationController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end
 
-  def test_call_hook_mixed_in
+  it 'should call hook mixed in' do
     assert @controller.respond_to?(:call_hook)
   end
 end

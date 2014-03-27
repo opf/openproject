@@ -33,11 +33,12 @@ require 'attachments_controller'
 # Re-raise errors caught by the controller.
 class AttachmentsController; def rescue_action(e) raise e end; end
 
-class AttachmentsControllerTest < ActionController::TestCase
+describe AttachmentsController, type: :controller do
+  render_views
+
   fixtures :all
 
-  def setup
-    super
+  before do
     @controller = AttachmentsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
@@ -45,7 +46,7 @@ class AttachmentsControllerTest < ActionController::TestCase
     User.current = nil
   end
 
-  def test_show_diff
+  it 'should show diff' do
     get :show, id: 14 # 060719210727_changeset_utf8.diff
     assert_response :success
     assert_template 'diff'
@@ -59,7 +60,7 @@ class AttachmentsControllerTest < ActionController::TestCase
                content: /Demande créée avec succès/
   end
 
-  def test_show_diff_should_strip_non_utf8_content
+  it 'should show diff should strip non utf8 content' do
     get :show, id: 5 # 060719210727_changeset_iso8859-1.diff
     assert_response :success
     assert_template 'diff'
@@ -73,14 +74,14 @@ class AttachmentsControllerTest < ActionController::TestCase
                content: /Demande cre avec succs/
   end
 
-  def test_show_text_file
+  it 'should show text file' do
     get :show, id: 4
     assert_response :success
     assert_template 'file'
     assert_equal 'text/html', @response.content_type
   end
 
-  def test_show_text_file_should_send_if_too_big
+  it 'should show text file should send if too big' do
     Setting.file_max_size_displayed = 512
     Attachment.find(4).update_attribute :filesize, 754.kilobyte
 
@@ -92,7 +93,7 @@ class AttachmentsControllerTest < ActionController::TestCase
     assert_equal 'text/x-ruby', @response.content_type
   end
 
-  def test_show_other
+  it 'should show other' do
     get :show, id: 6
 
     assert_redirected_to 'http://test.host/attachments/6/download/archive.zip'
@@ -101,23 +102,23 @@ class AttachmentsControllerTest < ActionController::TestCase
     assert_equal 'application/zip', @response.content_type
   end
 
-  def test_download_text_file
+  it 'should download text file' do
     get :download, id: 4
     assert_response :success
     assert_equal 'text/x-ruby', @response.content_type
   end
 
-  def test_download_missing_file
+  it 'should download missing file' do
     get :download, id: 2
     assert_response 404
   end
 
-  def test_anonymous_on_private_private
+  it 'should anonymous on private private' do
     get :download, id: 7
     assert_redirected_to '/login?back_url=http%3A%2F%2Ftest.host%2Fattachments%2F7%2Fdownload'
   end
 
-  def test_destroy_without_permission
+  it 'should destroy without permission' do
     delete :destroy, id: 3
     assert_redirected_to '/login?back_url=http%3A%2F%2Ftest.host%2Fattachments%2F3'
     assert Attachment.find_by_id(3)

@@ -33,17 +33,18 @@ require 'timelog_controller'
 # Re-raise errors caught by the controller.
 class TimelogController; def rescue_action(e) raise e end; end
 
-class TimelogControllerTest < ActionController::TestCase
+describe TimelogController, type: :controller do
+  render_views
+
   fixtures :all
 
-  def setup
-    super
+  before do
     @controller = TimelogController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end
 
-  def test_get_new
+  it 'should get new' do
     @request.session[:user_id] = 3
     get :new, project_id: 1
     assert_response :success
@@ -53,7 +54,7 @@ class TimelogControllerTest < ActionController::TestCase
                content: 'Development'
   end
 
-  def test_get_new_should_only_show_active_time_entry_activities
+  it 'should get new should only show active time entry activities' do
     @request.session[:user_id] = 3
     get :new, project_id: 1
     assert_response :success
@@ -61,7 +62,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_no_tag tag: 'option', content: 'Inactive Activity'
   end
 
-  def test_get_edit_existing_time
+  it 'should get edit existing time' do
     @request.session[:user_id] = 2
     get :edit, id: 2, project_id: nil
     assert_response :success
@@ -70,7 +71,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_tag tag: 'form', attributes: { action: '/projects/ecookbook/time_entries/2' }
   end
 
-  def test_get_edit_with_an_existing_time_entry_with_inactive_activity
+  it 'should get edit with an existing time entry with inactive activity' do
     te = TimeEntry.find(1)
     te.activity = TimeEntryActivity.find_by_name('Inactive Activity')
     te.save!
@@ -83,7 +84,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_tag tag: 'option', content: '--- Please select ---'
   end
 
-  def test_post_create
+  it 'should post create' do
     # TODO: should POST to issues’ time log instead of project. change form
     # and routing
     @request.session[:user_id] = 3
@@ -106,7 +107,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal i.project, t.project
   end
 
-  def test_post_create_with_blank_issue
+  it 'should post create with blank issue' do
     # TODO: should POST to issues’ time log instead of project. change form
     # and routing
     @request.session[:user_id] = 3
@@ -126,7 +127,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal 3, t.user_id
   end
 
-  def test_update
+  it 'should update' do
     entry = TimeEntry.find(1)
     assert_equal 1, entry.work_package_id
     assert_equal 2, entry.user_id
@@ -143,7 +144,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_equal 2, entry.user_id
   end
 
-  def test_destroy
+  it 'should destroy' do
     @request.session[:user_id] = 2
     delete :destroy, id: 1
     assert_redirected_to action: 'index', project_id: 'ecookbook'
@@ -151,7 +152,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert_nil TimeEntry.find_by_id(1)
   end
 
-  def test_destroy_should_fail
+  it 'should destroy should fail' do
     # simulate that this fails (e.g. due to a plugin), see #5700
     TimeEntry.class_eval do
       before_destroy :stop_callback_chain
@@ -168,7 +169,7 @@ class TimelogControllerTest < ActionController::TestCase
     TimeEntry._destroy_callbacks.reject! { |callback| callback.filter == :stop_callback_chain }
   end
 
-  def test_index_all_projects
+  it 'should index all projects' do
     get :index
     assert_response :success
     assert_template 'index'
@@ -178,7 +179,7 @@ class TimelogControllerTest < ActionController::TestCase
                attributes: { action: '/time_entries', id: 'query_form' }
   end
 
-  def test_index_at_project_level
+  it 'should index at project level' do
     get :index, project_id: 'ecookbook'
     assert_response :success
     assert_template 'index'
@@ -195,7 +196,7 @@ class TimelogControllerTest < ActionController::TestCase
                attributes: { action: '/projects/ecookbook/time_entries', id: 'query_form' }
   end
 
-  def test_index_at_project_level_with_date_range
+  it 'should index at project level with date range' do
     get :index, project_id: 'ecookbook', from: '2007-03-20', to: '2007-04-30'
     assert_response :success
     assert_template 'index'
@@ -209,7 +210,7 @@ class TimelogControllerTest < ActionController::TestCase
                attributes: { action: '/projects/ecookbook/time_entries', id: 'query_form' }
   end
 
-  def test_index_at_project_level_with_period
+  it 'should index at project level with period' do
     get :index, project_id: 'ecookbook', period: '7_days'
     assert_response :success
     assert_template 'index'
@@ -221,7 +222,7 @@ class TimelogControllerTest < ActionController::TestCase
                attributes: { action: '/projects/ecookbook/time_entries', id: 'query_form' }
   end
 
-  def test_index_one_day
+  it 'should index one day' do
     get :index, project_id: 'ecookbook', from: '2007-03-23', to: '2007-03-23'
     assert_response :success
     assert_template 'index'
@@ -231,7 +232,7 @@ class TimelogControllerTest < ActionController::TestCase
                attributes: { action: '/projects/ecookbook/time_entries', id: 'query_form' }
   end
 
-  def test_index_at_issue_level
+  it 'should index at issue level' do
     get :index, work_package_id: 1
     assert_response :success
     assert_template 'index'
@@ -246,7 +247,7 @@ class TimelogControllerTest < ActionController::TestCase
                attributes: { action: work_package_time_entries_path(1), id: 'query_form' }
   end
 
-  def test_index_atom_feed
+  it 'should index atom feed' do
     TimeEntry.all.each(&:recreate_initial_journal!)
 
     get :index, project_id: 1, format: 'atom'
@@ -256,7 +257,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert assigns(:items).first.is_a?(TimeEntry)
   end
 
-  def test_index_all_projects_csv_export
+  it 'should index all projects csv export' do
     Setting.date_format = '%m/%d/%Y'
     get :index, format: 'csv'
     assert_response :success
@@ -265,7 +266,7 @@ class TimelogControllerTest < ActionController::TestCase
     assert @response.body.include?("\n04/21/2007,redMine Admin,Design,eCookbook,3,Bug,Error 281 when updating a recipe,1.0,\"\"\n")
   end
 
-  def test_index_csv_export
+  it 'should index csv export' do
     Setting.date_format = '%m/%d/%Y'
     get :index, project_id: 1, format: 'csv'
     assert_response :success

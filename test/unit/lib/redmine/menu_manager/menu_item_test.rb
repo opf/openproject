@@ -35,7 +35,7 @@ module RedmineMenuTestHelper
   end
 end
 
-class Redmine::MenuManager::MenuItemTest < ActiveSupport::TestCase
+describe Redmine::MenuManager::MenuItem do
   include RedmineMenuTestHelper
 
   Redmine::MenuManager.map :test_menu do |menu|
@@ -45,37 +45,37 @@ class Redmine::MenuManager::MenuItemTest < ActiveSupport::TestCase
   end
 
   context 'MenuItem#caption' do
-    should 'be tested'
+    it 'should be tested'
   end
 
   context 'MenuItem#html_options' do
-    should 'be tested'
+    it 'should be tested'
   end
 
   # context new menu item
-  def test_new_menu_item_should_require_a_name
+  it 'should new menu item should require a name' do
     assert_raises ArgumentError do
       Redmine::MenuManager::MenuItem.new
     end
   end
 
-  def test_new_menu_item_should_require_an_url
+  it 'should new menu item should require an url' do
     assert_raises ArgumentError do
       Redmine::MenuManager::MenuItem.new(:test_missing_url)
     end
   end
 
-  def test_new_menu_item_should_require_the_options
+  it 'should new menu item should require the options' do
     assert_raises ArgumentError do
       Redmine::MenuManager::MenuItem.new(:test_missing_options, '/test')
     end
   end
 
-  def test_new_menu_item_with_all_required_parameters
+  it 'should new menu item with all required parameters' do
     assert Redmine::MenuManager::MenuItem.new(:test_good_menu, '/test', {})
   end
 
-  def test_new_menu_item_should_require_a_proc_to_use_for_the_if_condition
+  it 'should new menu item should require a proc to use for the if condition' do
     assert_raises ArgumentError do
       Redmine::MenuManager::MenuItem.new(:test_error, '/test',
 
@@ -89,7 +89,7 @@ class Redmine::MenuManager::MenuItemTest < ActiveSupport::TestCase
                                               )
   end
 
-  def test_new_menu_item_should_allow_a_hash_for_extra_html_options
+  it 'should new menu item should allow a hash for extra html options' do
     assert_raises ArgumentError do
       Redmine::MenuManager::MenuItem.new(:test_error, '/test',
 
@@ -103,7 +103,7 @@ class Redmine::MenuManager::MenuItemTest < ActiveSupport::TestCase
                                               )
   end
 
-  def test_new_menu_item_should_require_a_proc_to_use_the_children_option
+  it 'should new menu item should require a proc to use the children option' do
     assert_raises ArgumentError do
       Redmine::MenuManager::MenuItem.new(:test_error, '/test',
 
@@ -117,13 +117,13 @@ class Redmine::MenuManager::MenuItemTest < ActiveSupport::TestCase
                                               )
   end
 
-  def test_new_should_not_allow_setting_the_parent_item_to_the_current_item
+  it 'should new should not allow setting the parent item to the current item' do
     assert_raises ArgumentError do
       Redmine::MenuManager::MenuItem.new(:test_error, '/test',  parent: :test_error)
     end
   end
 
-  def test_has_children
+  it 'should has children' do
     parent_item = get_menu_item(:test_menu, :parent)
     assert parent_item.has_children?
     assert_equal 2, parent_item.children.size

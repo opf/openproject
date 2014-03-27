@@ -28,30 +28,29 @@
 #++
 require File.expand_path('../../../../test_helper', __FILE__)
 
-class Redmine::I18nTest < ActiveSupport::TestCase
+describe Redmine::I18n do
   include Redmine::I18n
   include ActionView::Helpers::NumberHelper
 
-  def setup
-    super
+  before do
     @hook_module = Redmine::Hook
   end
 
-  def test_date_format_default
+  it 'should date format default' do
     set_language_if_valid 'en'
     today = Date.today
     Setting.date_format = ''
     assert_equal I18n.l(today), format_date(today)
   end
 
-  def test_date_format
+  it 'should date format' do
     set_language_if_valid 'en'
     today = Date.today
     Setting.date_format = '%d %m %Y'
     assert_equal today.strftime('%d %m %Y'), format_date(today)
   end
 
-  def test_date_and_time_for_each_language
+  it 'should date and time for each language' do
     Setting.date_format = ''
     valid_languages.each do |lang|
       set_language_if_valid lang
@@ -70,7 +69,7 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     end
   end
 
-  def test_time_format
+  it 'should time format' do
     set_language_if_valid 'en'
     now = Time.parse('2011-02-20 15:45:22')
     with_settings time_format: '%H:%M' do
@@ -86,7 +85,7 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     end
   end
 
-  def test_time_format_default
+  it 'should time format default' do
     set_language_if_valid 'en'
     now = Time.parse('2011-02-20 15:45:22')
     with_settings time_format: '' do
@@ -102,7 +101,7 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     end
   end
 
-  def test_time_format
+  it 'should time format' do
     set_language_if_valid 'en'
     now = Time.now
     with_settings time_format: '%H %M' do
@@ -113,7 +112,7 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     end
   end
 
-  def test_utc_time_format
+  it 'should utc time format' do
     set_language_if_valid 'en'
     now = Time.now
     with_settings time_format: '%H %M' do
@@ -124,7 +123,7 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     end
   end
 
-  def test_number_to_human_size_for_each_language
+  it 'should number to human size for each language' do
     valid_languages.each do |lang|
       set_language_if_valid lang
       assert_nothing_raised "#{lang} failure" do
@@ -133,7 +132,7 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     end
   end
 
-  def test_fallback
+  it 'should fallback' do
     ::I18n.backend.store_translations(:en, untranslated: 'Untranslated string')
     ::I18n.locale = 'en'
     assert_equal 'Untranslated string', l(:untranslated)

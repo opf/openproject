@@ -32,23 +32,24 @@ require 'repositories_controller'
 # Re-raise errors caught by the controller.
 class RepositoriesController; def rescue_action(e) raise e end; end
 
-class RepositoriesGitControllerTest < ActionController::TestCase
+describe RepositoriesController, 'Git', type: :controller do
+  render_views
+
   fixtures :all
 
   # No '..' in the repository path
   REPOSITORY_PATH = Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository'
   REPOSITORY_PATH.gsub!(/\//, '\\') if Redmine::Platform.mswin?
 
-  def setup
-    super
+  before do
     @controller = RepositoriesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
     @repository = Repository::Git.create(
-                      project: Project.find(3),
-                      url:     REPOSITORY_PATH,
-                      path_encoding: 'ISO-8859-1'
+      project: Project.find(3),
+      url:     REPOSITORY_PATH,
+      path_encoding: 'ISO-8859-1'
                       )
 
     # see repositories_subversion_controller_test.rb
@@ -61,7 +62,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
   end
 
   if File.directory?(REPOSITORY_PATH)
-    def test_browse_root
+    it 'should browse root' do
       @repository.fetch_changesets
       @repository.reload
       get :show, project_id: 3
@@ -82,7 +83,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assigns(:changesets).size > 0
     end
 
-    def test_browse_branch
+    it 'should browse branch' do
       @repository.fetch_changesets
       @repository.reload
       get :show, project_id: 3, rev: 'test_branch'
@@ -98,7 +99,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assigns(:changesets).size > 0
     end
 
-    def test_browse_tag
+    it 'should browse tag' do
       @repository.fetch_changesets
       @repository.reload
       [
@@ -115,7 +116,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       end
     end
 
-    def test_browse_directory
+    it 'should browse directory' do
       @repository.fetch_changesets
       @repository.reload
       get :show, project_id: 3, path: 'images'
@@ -131,7 +132,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assigns(:changesets).size > 0
     end
 
-    def test_browse_at_given_revision
+    it 'should browse at given revision' do
       @repository.fetch_changesets
       @repository.reload
       get :show, project_id: 3, path: 'images', rev: '7234cb2750b63f47bff735edc50a1c0a433c2518'
@@ -143,14 +144,14 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assigns(:changesets).size > 0
     end
 
-    def test_changes
+    it 'should changes' do
       get :changes, project_id: 3, path: 'images/edit.png'
       assert_response :success
       assert_template 'changes'
       assert_tag tag: 'h2', content: 'edit.png'
     end
 
-    def test_entry_show
+    it 'should entry show' do
       get :entry, project_id: 3, path: 'sources/watchers_controller.rb'
       assert_response :success
       assert_template 'entry'
@@ -161,14 +162,14 @@ class RepositoriesGitControllerTest < ActionController::TestCase
                  sibling: { tag: 'td', content: /WITHOUT ANY WARRANTY/ }
     end
 
-    def test_entry_download
+    it 'should entry download' do
       get :entry, project_id: 3, path: 'sources/watchers_controller.rb', format: 'raw'
       assert_response :success
       # File content
       assert @response.body.include?('WITHOUT ANY WARRANTY')
     end
 
-    def test_directory_entry
+    it 'should directory entry' do
       get :entry, project_id: 3, path: 'sources'
       assert_response :success
       assert_template 'show'
@@ -176,7 +177,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert_equal 'sources', assigns(:entry).name
     end
 
-    def test_diff
+    it 'should diff' do
       @repository.fetch_changesets
       @repository.reload
 
@@ -193,7 +194,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert_tag tag: 'h2', content: /2f9c0091/
     end
 
-    def test_diff_two_revs
+    it 'should diff two revs' do
       @repository.fetch_changesets
       @repository.reload
 
@@ -207,7 +208,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert_tag tag: 'h2', content: /2f9c0091:61b685fb/
     end
 
-    def test_annotate
+    it 'should annotate' do
       get :annotate, project_id: 3, path: 'sources/watchers_controller.rb'
       assert_response :success
       assert_template 'annotate'
@@ -218,7 +219,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
                  sibling: { tag: 'td', content: /watcher =/ }
     end
 
-    def test_annotate_at_given_revision
+    it 'should annotate at given revision' do
       @repository.fetch_changesets
       @repository.reload
       get :annotate, project_id: 3, rev: 'deff7', path: 'sources/watchers_controller.rb'
@@ -227,14 +228,14 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       assert_tag tag: 'h2', content: /@ deff712f/
     end
 
-    def test_annotate_binary_file
+    it 'should annotate binary file' do
       get :annotate, project_id: 3, path: 'images/edit.png'
       assert_response 500
       assert_tag tag: 'div', attributes: { id: /errorExplanation/ },
                  content: /cannot be annotated/
     end
 
-    def test_revision
+    it 'should revision' do
       @repository.fetch_changesets
       @repository.reload
       ['61b685fbe55ab05b5ac68402d5720c1a6ac973d1', '61b685f'].each do |r|
@@ -244,7 +245,7 @@ class RepositoriesGitControllerTest < ActionController::TestCase
       end
     end
 
-    def test_empty_revision
+    it 'should empty revision' do
       @repository.fetch_changesets
       @repository.reload
       ['', ' ', nil].each do |r|
@@ -255,6 +256,6 @@ class RepositoriesGitControllerTest < ActionController::TestCase
     end
   else
     puts 'Git test repository NOT FOUND. Skipping functional tests !!!'
-    def test_fake; assert true end
+    it 'should fake' do; assert true end
   end
 end

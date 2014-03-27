@@ -32,13 +32,14 @@ require 'projects_controller'
 # Re-raise errors caught by the controller.
 class ProjectsController; def rescue_action(e) raise e end; end
 
-class ProjectsControllerTest < ActionController::TestCase
+describe ProjectsController, type: :controller do
   include MiniTest::Assertions # refute
+
+  render_views
 
   fixtures :all
 
-  def setup
-    super
+  before do
     @controller = ProjectsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
@@ -46,7 +47,7 @@ class ProjectsControllerTest < ActionController::TestCase
     Setting.default_language = 'en'
   end
 
-  def test_index
+  it 'should index' do
     get :index
     assert_response :success
     assert_template 'index'
@@ -64,7 +65,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_no_tag :a, content: /Private child of eCookbook/
   end
 
-  def test_index_atom
+  it 'should index atom' do
     get :index, format: 'atom'
     assert_response :success
     assert_template 'common/feed'
@@ -74,10 +75,10 @@ class ProjectsControllerTest < ActionController::TestCase
 
   context '#index' do
     context 'by non-admin user with view_time_entries permission' do
-      setup do
+      before do
         @request.session[:user_id] = 3
       end
-      should 'show overall spent time link' do
+      it 'should show overall spent time link' do
         get :index
         assert_template 'index'
         assert_tag :a, attributes: { href: '/time_entries' }
@@ -85,13 +86,13 @@ class ProjectsControllerTest < ActionController::TestCase
     end
 
     context 'by non-admin user without view_time_entries permission' do
-      setup do
+      before do
         Role.find(2).remove_permission! :view_time_entries
         Role.non_member.remove_permission! :view_time_entries
         Role.anonymous.remove_permission! :view_time_entries
         @request.session[:user_id] = 3
       end
-      should 'not show overall spent time link' do
+      it 'should not show overall spent time link' do
         get :index
         assert_template 'index'
         assert_no_tag :a, attributes: { href: '/time_entries' }
@@ -101,11 +102,11 @@ class ProjectsControllerTest < ActionController::TestCase
 
   context '#new' do
     context 'by admin user' do
-      setup do
+      before do
         @request.session[:user_id] = 1
       end
 
-      should 'accept get' do
+      it 'should accept get' do
         get :new
         assert_response :success
         assert_template 'new'
@@ -113,12 +114,12 @@ class ProjectsControllerTest < ActionController::TestCase
     end
 
     context 'by non-admin user with add_project permission' do
-      setup do
+      before do
         Role.non_member.add_permission! :add_project
         @request.session[:user_id] = 9
       end
 
-      should 'accept get' do
+      it 'should accept get' do
         get :new
         assert_response :success
         assert_template 'new'
@@ -127,13 +128,13 @@ class ProjectsControllerTest < ActionController::TestCase
     end
 
     context 'by non-admin user with add_subprojects permission' do
-      setup do
+      before do
         Role.find(1).remove_permission! :add_project
         Role.find(1).add_permission! :add_subprojects
         @request.session[:user_id] = 2
       end
 
-      should 'accept get' do
+      it 'should accept get' do
         get :new, parent_id: 'ecookbook'
         assert_response :success
         assert_template 'new'
@@ -149,11 +150,11 @@ class ProjectsControllerTest < ActionController::TestCase
 
   context 'POST :create' do
     context 'by admin user' do
-      setup do
+      before do
         @request.session[:user_id] = 1
       end
 
-      should 'create a new project' do
+      it 'should create a new project' do
         post :create,
              project: {
                name: 'blog',
@@ -182,7 +183,7 @@ class ProjectsControllerTest < ActionController::TestCase
         assert project.work_package_custom_fields.include?(WorkPackageCustomField.find(9))
       end
 
-      should 'create a new subproject' do
+      it 'should create a new subproject' do
         post :create, project: { name: 'blog',
                                  description: 'weblog',
                                  identifier: 'blog',
@@ -199,12 +200,12 @@ class ProjectsControllerTest < ActionController::TestCase
     end
 
     context 'by non-admin user with add_project permission' do
-      setup do
+      before do
         Role.non_member.add_permission! :add_project
         @request.session[:user_id] = 9
       end
 
-      should 'accept create a Project' do
+      it 'should accept create a Project' do
         post :create, project: { name: 'blog',
                                  description: 'weblog',
                                  identifier: 'blog',
@@ -228,7 +229,7 @@ class ProjectsControllerTest < ActionController::TestCase
         assert_equal 1, project.members.size
       end
 
-      should 'fail with parent_id' do
+      it 'should fail with parent_id' do
         assert_no_difference 'Project.count' do
           post :create, project: { name: 'blog',
                                    description: 'weblog',
@@ -246,13 +247,13 @@ class ProjectsControllerTest < ActionController::TestCase
     end
 
     context 'by non-admin user with add_subprojects permission' do
-      setup do
+      before do
         Role.find(1).remove_permission! :add_project
         Role.find(1).add_permission! :add_subprojects
         @request.session[:user_id] = 2
       end
 
-      should 'create a project with a parent_id' do
+      it 'should create a project with a parent_id' do
         post :create, project: { name: 'blog',
                                  description: 'weblog',
                                  identifier: 'blog',
@@ -264,7 +265,7 @@ class ProjectsControllerTest < ActionController::TestCase
         project = Project.find_by_name('blog')
       end
 
-      should 'fail without parent_id' do
+      it 'should fail without parent_id' do
         assert_no_difference 'Project.count' do
           post :create, project: { name: 'blog',
                                    description: 'weblog',
@@ -279,7 +280,7 @@ class ProjectsControllerTest < ActionController::TestCase
         refute_empty project.errors[:parent_id]
       end
 
-      should 'fail with unauthorized parent_id' do
+      it 'should fail with unauthorized parent_id' do
         assert !User.find(2).member_of?(Project.find(6))
         assert_no_difference 'Project.count' do
           post :create, project: { name: 'blog',
@@ -298,7 +299,7 @@ class ProjectsControllerTest < ActionController::TestCase
     end
   end
 
-  def test_create_should_preserve_modules_on_validation_failure
+  it 'should create should preserve modules on validation failure' do
     with_settings default_projects_modules: ['work_package_tracking', 'repository'] do
       @request.session[:user_id] = 1
       assert_no_difference 'Project.count' do
@@ -314,14 +315,14 @@ class ProjectsControllerTest < ActionController::TestCase
     end
   end
 
-  def test_show_by_id
+  it 'should show by id' do
     get :show, id: 1
     assert_response :success
     assert_template 'show'
     assert_not_nil assigns(:project)
   end
 
-  def test_show_by_identifier
+  it 'should show by identifier' do
     get :show, id: 'ecookbook'
     assert_response :success
     assert_template 'show'
@@ -331,7 +332,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_tag 'li', content: /Development status/
   end
 
-  def test_show_should_not_display_hidden_custom_fields
+  it 'should show should not display hidden custom fields' do
     ProjectCustomField.find_by_name('Development status').update_attribute :visible, false
     get :show, id: 'ecookbook'
     assert_response :success
@@ -341,7 +342,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_no_tag 'li', content: /Development status/
   end
 
-  def test_show_should_not_fail_when_custom_values_are_nil
+  it 'should show should not fail when custom values are nil' do
     project = Project.find_by_identifier('ecookbook')
     project.custom_values.first.update_attribute(:value, nil)
     get :show, id: 'ecookbook'
@@ -361,14 +362,14 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_tag tag: 'p', content: /archived/
   end
 
-  def test_private_subprojects_hidden
+  it 'should private subprojects hidden' do
     get :show, id: 'ecookbook'
     assert_response :success
     assert_template 'show'
     assert_no_tag tag: 'a', content: /Private child/
   end
 
-  def test_private_subprojects_visible
+  it 'should private subprojects visible' do
     @request.session[:user_id] = 2 # manager who is a member of the private subproject
     get :show, id: 'ecookbook'
     assert_response :success
@@ -376,14 +377,14 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_tag tag: 'a', content: /Private child/
   end
 
-  def test_settings
+  it 'should settings' do
     @request.session[:user_id] = 2 # manager
     get :settings, id: 1
     assert_response :success
     assert_template 'settings'
   end
 
-  def test_update
+  it 'should update' do
     @request.session[:user_id] = 2 # manager
     put :update, id: 1, project: { name: 'Test changed name',
                                    issue_custom_field_ids: [''] }
@@ -392,7 +393,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_equal 'Test changed name', project.name
   end
 
-  def test_modules
+  it 'should modules' do
     @request.session[:user_id] = 2
     Project.find(1).enabled_module_names = ['work_package_tracking', 'news']
 
@@ -401,7 +402,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_equal ['repository', 'work_package_tracking'], Project.find(1).enabled_module_names.sort
   end
 
-  def test_get_destroy_info
+  it 'should get destroy info' do
     @request.session[:user_id] = 1 # admin
     get :destroy_info, id: 1
     assert_response :success
@@ -409,21 +410,21 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_not_nil Project.find_by_id(1)
   end
 
-  def test_post_destroy
+  it 'should post destroy' do
     @request.session[:user_id] = 1 # admin
     delete :destroy, id: 1, confirm: 1
     assert_redirected_to '/admin/projects'
     assert_nil Project.find_by_id(1)
   end
 
-  def test_archive
+  it 'should archive' do
     @request.session[:user_id] = 1 # admin
     put :archive, id: 1
     assert_redirected_to '/admin/projects'
     assert !Project.find(1).active?
   end
 
-  def test_unarchive
+  it 'should unarchive' do
     @request.session[:user_id] = 1 # admin
     Project.find(1).archive
     put :unarchive, id: 1
@@ -431,18 +432,18 @@ class ProjectsControllerTest < ActionController::TestCase
     assert Project.find(1).active?
   end
 
-  def test_jump_should_redirect_to_active_tab
+  it 'should jump should redirect to active tab' do
     get :show, id: 1, jump: 'work_packages'
     assert_redirected_to controller: :work_packages, action: :index, project_id: 'ecookbook'
   end
 
-  def test_jump_should_not_redirect_to_inactive_tab
+  it 'should jump should not redirect to inactive tab' do
     get :show, id: 3, jump: 'news'
     assert_response :success
     assert_template 'show'
   end
 
-  def test_jump_should_not_redirect_to_unknown_tab
+  it 'should jump should not redirect to unknown tab' do
     get :show, id: 3, jump: 'foobar'
     assert_response :success
     assert_template 'show'
@@ -458,7 +459,7 @@ class ProjectsControllerTest < ActionController::TestCase
   # Don't use this hook now
   Redmine::Hook.clear_listeners
 
-  def test_hook_response
+  it 'should hook response' do
     Redmine::Hook.add_listener(ProjectBasedTemplate)
     get :show, id: 1
     assert_tag tag: 'link', attributes: { href: '/assets/ecookbook.css' },

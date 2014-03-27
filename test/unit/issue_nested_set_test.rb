@@ -28,19 +28,18 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class IssueNestedSetTest < ActiveSupport::TestCase
+describe 'IssueNestedSet', type: :model do
   include MiniTest::Assertions # refute
 
   fixtures :all
 
   self.use_transactional_fixtures = false
 
-  def setup
-    super
+  before do
     WorkPackage.delete_all
   end
 
-  def test_creating_a_child_in_different_project_should_not_validate_unless_allowed
+  it 'should creating a child in different project should not validate unless allowed' do
     Setting.cross_project_work_package_relations = '0'
     issue = create_issue!
     child = WorkPackage.new.tap do |i|
@@ -54,7 +53,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     refute_empty child.errors[:parent_id]
   end
 
-  def test_creating_a_child_in_different_project_should_validate_if_allowed
+  it 'should creating a child in different project should validate if allowed' do
     Setting.cross_project_work_package_relations = '1'
     issue = create_issue!
     child = WorkPackage.new.tap do |i|
@@ -68,7 +67,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_empty child.errors[:parent_id]
   end
 
-  def test_invalid_move_to_another_project
+  it 'should invalid move to another project' do
     parent1 = create_issue!
     child =   create_issue!(parent_id: parent1.id)
     grandchild = create_issue!(parent_id: child.id, type_id: 2)
@@ -89,7 +88,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_equal [1, parent1.id, 1], [grandchild.project_id, grandchild.root_id, grandchild.nested_set_span]
   end
 
-  def test_moving_an_to_a_descendant_should_not_validate
+  it 'should moving an to a descendant should not validate' do
     parent1 = create_issue!
     parent2 = create_issue!
     child =   create_issue!(parent_id: parent1.id)
@@ -101,7 +100,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     refute_empty child.errors[:parent_id]
   end
 
-  def test_moving_an_issue_should_keep_valid_relations_only
+  it 'should moving an issue should keep valid relations only' do
     issue1 = create_issue!
     issue2 = create_issue!
     issue3 = create_issue!(parent_id: issue2.id)
@@ -129,7 +128,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert Relation.exists?(r3.id)
   end
 
-  def test_destroy_should_destroy_children
+  it 'should destroy should destroy children' do
     issue1 = create_issue!
     issue2 = create_issue!
     issue3 = create_issue!(parent_id: issue2.id)
@@ -153,7 +152,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_equal [issue1.id, 1], [issue4.root_id, issue4.nested_set_span]
   end
 
-  def test_destroy_parent_work_package_updated_during_children_destroy
+  it 'should destroy parent work package updated during children destroy' do
     parent = create_issue!
     create_issue!(start_date: Date.today, parent_id: parent.id)
     create_issue!(start_date: 2.days.from_now, parent_id: parent.id)
@@ -163,7 +162,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     end
   end
 
-  def test_destroy_child_issue_with_children
+  it 'should destroy child issue with children' do
     root = create_issue!(project_id: 1, author_id: 2, type_id: 1, subject: 'root').reload
     child = create_issue!(project_id: 1, author_id: 2, type_id: 1, subject: 'child', parent_id: root.id).reload
     leaf = create_issue!(project_id: 1, author_id: 2, type_id: 1, subject: 'leaf', parent_id: child.id).reload
@@ -182,7 +181,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert root.leaf?, "Root issue is not a leaf (lft: #{root.lft}, rgt: #{root.rgt})"
   end
 
-  def test_destroy_issue_with_grand_child
+  it 'should destroy issue with grand child' do
     parent = create_issue!
     issue = create_issue!(parent_id: parent.id)
     child = create_issue!(parent_id: issue.id)
@@ -196,7 +195,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     end
   end
 
-  def test_parent_priority_should_be_the_highest_child_priority
+  it 'should parent priority should be the highest child priority' do
     parent = create_issue!(priority: IssuePriority.find_by_name('Normal'))
     # Create children
     child1 = create_issue!(priority: IssuePriority.find_by_name('High'), parent_id: parent.id)
@@ -215,7 +214,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_equal 'Normal', parent.reload.priority.name
   end
 
-  def test_parent_dates_should_be_lowest_start_and_highest_due_dates
+  it 'should parent dates should be lowest start and highest due dates' do
     parent = create_issue!
     create_issue!(start_date: '2010-01-25', due_date: '2010-02-15', parent_id: parent.id)
     create_issue!(due_date: '2010-02-13', parent_id: parent.id)
@@ -225,7 +224,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_equal Date.parse('2010-02-22'), parent.due_date
   end
 
-  def test_parent_done_ratio_should_be_average_done_ratio_of_leaves
+  it 'should parent done ratio should be average done ratio of leaves' do
     parent = create_issue!
     create_issue!(done_ratio: 20, parent_id: parent.id)
     assert_equal 20, parent.reload.done_ratio
@@ -240,7 +239,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_equal 40, parent.reload.done_ratio
   end
 
-  def test_parent_done_ratio_should_be_weighted_by_estimated_times_if_any
+  it 'should parent done ratio should be weighted by estimated times if any' do
     parent = create_issue!
     create_issue!(estimated_hours: 10, done_ratio: 20, parent_id: parent.id)
     assert_equal 20, parent.reload.done_ratio
@@ -248,7 +247,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_equal (50 * 20 + 20 * 10) / 30, parent.reload.done_ratio
   end
 
-  def test_parent_estimate_should_be_sum_of_leaves
+  it 'should parent estimate should be sum of leaves' do
     parent = create_issue!
     create_issue!(estimated_hours: nil, parent_id: parent.id)
     assert_equal nil, parent.reload.estimated_hours
@@ -258,7 +257,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_equal 12, parent.reload.estimated_hours
   end
 
-  def test_move_parent_updates_old_parent_attributes
+  it 'should move parent updates old parent attributes' do
     first_parent = create_issue!
     second_parent = create_issue!
     child = create_issue!(estimated_hours: 5,
@@ -270,7 +269,7 @@ class IssueNestedSetTest < ActiveSupport::TestCase
     assert_nil first_parent.reload.estimated_hours
   end
 
-  def test_project_copy_should_copy_issue_tree
+  it 'should project copy should copy issue tree' do
     Project.delete_all # make sure unqiue identifiers
     p = Project.create!(name: 'Tree copy', identifier: 'tree-copy', type_ids: [1, 2])
     i1 = create_issue!(project_id: p.id, subject: 'i1')

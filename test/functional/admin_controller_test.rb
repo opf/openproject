@@ -32,11 +32,12 @@ require 'admin_controller'
 # Re-raise errors caught by the controller.
 class AdminController; def rescue_action(e) raise e end; end
 
-class AdminControllerTest < ActionController::TestCase
+describe AdminController, type: :controller do
+  render_views
+
   fixtures :all
 
-  def setup
-    super
+  before do
     @controller = AdminController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
@@ -44,20 +45,20 @@ class AdminControllerTest < ActionController::TestCase
     @request.session[:user_id] = 1 # admin
   end
 
-  def test_index
+  it 'should index' do
     get :index
     assert_no_tag tag: 'div',
                   attributes: { class: /nodata/ }
   end
 
-  def test_index_with_no_configuration_data
+  it 'should index with no configuration data' do
     delete_configuration_data
     get :projects
     assert_tag tag: 'div',
                attributes: { class: /nodata/ }
   end
 
-  def test_projects
+  it 'should projects' do
     get :projects
     assert_response :success
     assert_template 'projects'
@@ -66,7 +67,7 @@ class AdminControllerTest < ActionController::TestCase
     assert_nil assigns(:projects).detect { |u| !u.active? }
   end
 
-  def test_projects_with_name_filter
+  it 'should projects with name filter' do
     get :projects, name: 'store', status: ''
     assert_response :success
     assert_template 'projects'
@@ -76,7 +77,7 @@ class AdminControllerTest < ActionController::TestCase
     assert_equal 'OnlineStore', projects.first.name
   end
 
-  def test_load_default_configuration_data
+  it 'should load default configuration data' do
     Setting.available_languages = [:de]
     delete_configuration_data
     post :default_configuration, lang: 'de'
@@ -85,7 +86,7 @@ class AdminControllerTest < ActionController::TestCase
     assert Status.find_by_name('neu')
   end
 
-  def test_test_email
+  it 'should test email' do
     get :test_email
     assert_redirected_to '/settings/edit?tab=notifications'
     mail = ActionMailer::Base.deliveries.last
@@ -94,7 +95,7 @@ class AdminControllerTest < ActionController::TestCase
     assert_equal [user.mail], mail.to
   end
 
-  def test_no_plugins
+  it 'should no plugins' do
     Redmine::Plugin.clear
 
     get :plugins
@@ -102,7 +103,7 @@ class AdminControllerTest < ActionController::TestCase
     assert_template 'plugins'
   end
 
-  def test_plugins
+  it 'should plugins' do
     # Register a few plugins
     Redmine::Plugin.register :foo do
       name 'Foo plugin'
@@ -122,13 +123,13 @@ class AdminControllerTest < ActionController::TestCase
     assert_tag :td, child: { tag: 'span', content: 'Bar' }
   end
 
-  def test_info
+  it 'should info' do
     get :info
     assert_response :success
     assert_template 'info'
   end
 
-  def test_admin_menu_plugin_extension
+  it 'should admin menu plugin extension' do
     Redmine::MenuManager.map :admin_menu do |menu|
       menu.push :test_admin_menu_plugin_extension,
                 { controller: 'projects', action: 'index' },

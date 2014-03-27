@@ -28,10 +28,10 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class TimeEntryTest < ActiveSupport::TestCase
+describe TimeEntry, type: :model do
   fixtures :all
 
-  def test_hours_format
+  it 'should hours format' do
     assertions = { '2'      => 2.0,
                    '21.1'   => 21.1,
                    '2,1'    => 2.1,
@@ -56,48 +56,48 @@ class TimeEntryTest < ActiveSupport::TestCase
     end
   end
 
-  def test_hours_should_default_to_nil
+  it 'should hours should default to nil' do
     assert_nil TimeEntry.new.hours
   end
 
-  def test_spent_on_with_blank
+  it 'should spent on with blank' do
     c = TimeEntry.new
     c.spent_on = ''
     assert_nil c.spent_on
   end
 
-  def test_spent_on_with_nil
+  it 'should spent on with nil' do
     c = TimeEntry.new
     c.spent_on = nil
     assert_nil c.spent_on
   end
 
-  def test_spent_on_with_string
+  it 'should spent on with string' do
     c = TimeEntry.new
     c.spent_on = '2011-01-14'
     assert_equal Date.parse('2011-01-14'), c.spent_on
   end
 
-  def test_spent_on_with_invalid_string
+  it 'should spent on with invalid string' do
     c = TimeEntry.new
     c.spent_on = 'foo'
     assert_nil c.spent_on
   end
 
-  def test_spent_on_with_date
+  it 'should spent on with date' do
     c = TimeEntry.new
     c.spent_on = Date.today
     assert_equal Date.today, c.spent_on
   end
 
-  def test_spent_on_with_time
+  it 'should spent on with time' do
     c = TimeEntry.new
     c.spent_on = Time.now
     assert_equal Date.today, c.spent_on
   end
 
   context '#earliest_date_for_project' do
-    setup do
+    before do
       User.current = nil
       @public_project = Project.generate!(is_public: true)
       @issue = FactoryGirl.create(:work_package, project: @public_project)
@@ -107,20 +107,20 @@ class TimeEntryTest < ActiveSupport::TestCase
     end
 
     context 'without a project' do
-      should 'return the lowest spent_on value that is visible to the current user' do
+      it 'should return the lowest spent_on value that is visible to the current user' do
         assert_equal '2007-03-12', TimeEntry.earliest_date_for_project.to_s
       end
     end
 
     context 'with a project' do
-      should "return the lowest spent_on value that is visible to the current user for that project and it's subprojects only" do
+      it "should return the lowest spent_on value that is visible to the current user for that project and it's subprojects only" do
         assert_equal '2010-01-01', TimeEntry.earliest_date_for_project(@public_project).to_s
       end
     end
   end
 
   context '#latest_date_for_project' do
-    setup do
+    before do
       User.current = nil
       @public_project = Project.generate!(is_public: true)
       @issue = FactoryGirl.create(:work_package, project: @public_project)
@@ -130,13 +130,13 @@ class TimeEntryTest < ActiveSupport::TestCase
     end
 
     context 'without a project' do
-      should 'return the highest spent_on value that is visible to the current user' do
+      it 'should return the highest spent_on value that is visible to the current user' do
         assert_equal '2010-01-01', TimeEntry.latest_date_for_project.to_s
       end
     end
 
     context 'with a project' do
-      should "return the highest spent_on value that is visible to the current user for that project and it's subprojects only" do
+      it "should return the highest spent_on value that is visible to the current user for that project and it's subprojects only" do
         project = Project.find(1)
         assert_equal '2007-04-22', TimeEntry.latest_date_for_project(project).to_s
       end

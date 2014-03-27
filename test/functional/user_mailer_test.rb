@@ -28,11 +28,10 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class UserMailerTest < ActionMailer::TestCase
+describe UserMailer, type: :mailer do
   include ActionDispatch::Assertions::SelectorAssertions
 
-  def setup
-    super
+  before do
     Setting.mail_from = 'john@doe.com'
     Setting.host_name = 'mydomain.foo'
     Setting.protocol = 'http'
@@ -48,7 +47,7 @@ class UserMailerTest < ActionMailer::TestCase
     User.current = User.anonymous
   end
 
-  def test_test_mail_sends_a_simple_greeting
+  it 'should test mail sends a simple greeting' do
     user = FactoryGirl.create(:user, mail: 'foo@bar.de')
 
     mail = UserMailer.test_mail(user)
@@ -62,7 +61,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match /OpenProject URL/, mail.body.encoded
   end
 
-  def test_generated_links_in_emails
+  it 'should generated links in emails' do
     Setting.default_language = 'en'
     Setting.host_name = 'mydomain.foo'
     Setting.protocol = 'https'
@@ -105,7 +104,7 @@ class UserMailerTest < ActionMailer::TestCase
     end
   end
 
-  def test_generated_links_with_prefix
+  it 'should generated links with prefix' do
     Setting.default_language = 'en'
     Setting.host_name = 'mydomain.foo/rdm'
     Setting.protocol = 'http'
@@ -148,56 +147,58 @@ class UserMailerTest < ActionMailer::TestCase
     end
   end
 
-  def test_generated_links_with_prefix_and_no_relative_url_root
-    Setting.default_language = 'en'
-    relative_url_root = OpenProject::Configuration['rails_relative_url_root']
-    Setting.host_name = 'mydomain.foo/rdm'
-    Setting.protocol = 'http'
-    OpenProject::Configuration['rails_relative_url_root'] = nil
+  it 'should generated links with prefix and no relative url root' do
+    begin
+      Setting.default_language = 'en'
+      relative_url_root = OpenProject::Configuration['rails_relative_url_root']
+      Setting.host_name = 'mydomain.foo/rdm'
+      Setting.protocol = 'http'
+      OpenProject::Configuration['rails_relative_url_root'] = nil
 
-    User.current = FactoryGirl.create(:admin)
+      User.current = FactoryGirl.create(:admin)
 
-    project, user, related_issue, issue, changeset, attachment, journal = setup_complex_issue_update
+      project, user, related_issue, issue, changeset, attachment, journal = setup_complex_issue_update
 
-    assert UserMailer.work_package_updated(user, journal).deliver
-    assert last_email
+      assert UserMailer.work_package_updated(user, journal).deliver
+      assert last_email
 
-    assert_select_email do
-      # link to the main ticket
-      assert_select 'a[href=?]',
-                    "http://mydomain.foo/rdm/work_packages/#{issue.id}",
-                    text: "My Type ##{issue.id}: My awesome Ticket"
-      # link to a description diff
-      assert_select 'li', text: /Description changed/
-      assert_select 'li>a[href=?]',
-                    "http://mydomain.foo/rdm/journals/#{journal.id}/diff/description",
-                    text: 'Details'
-      # link to a referenced ticket
-      assert_select 'a[href=?][title=?]',
-                    "http://mydomain.foo/rdm/work_packages/#{related_issue.id}",
-                    "My related Ticket (#{related_issue.status})",
-                    text: "##{related_issue.id}"
-      # link to a changeset
-      if changeset
+      assert_select_email do
+        # link to the main ticket
+        assert_select 'a[href=?]',
+                      "http://mydomain.foo/rdm/work_packages/#{issue.id}",
+                      text: "My Type ##{issue.id}: My awesome Ticket"
+        # link to a description diff
+        assert_select 'li', text: /Description changed/
+        assert_select 'li>a[href=?]',
+                      "http://mydomain.foo/rdm/journals/#{journal.id}/diff/description",
+                      text: 'Details'
+        # link to a referenced ticket
         assert_select 'a[href=?][title=?]',
-                      url_for(controller: 'repositories',
-                              action: 'revision',
-                              project_id: project,
-                              rev: changeset.revision),
-                      'This commit fixes #1, #2 and references #1 and #3',
-                      text: "r#{changeset.revision}"
+                      "http://mydomain.foo/rdm/work_packages/#{related_issue.id}",
+                      "My related Ticket (#{related_issue.status})",
+                      text: "##{related_issue.id}"
+        # link to a changeset
+        if changeset
+          assert_select 'a[href=?][title=?]',
+                        url_for(controller: 'repositories',
+                                action: 'revision',
+                                project_id: project,
+                                rev: changeset.revision),
+                        'This commit fixes #1, #2 and references #1 and #3',
+                        text: "r#{changeset.revision}"
+        end
+        # link to an attachment
+        assert_select 'a[href=?]',
+                      "http://mydomain.foo/rdm/attachments/#{attachment.id}/download",
+                      text: "#{attachment.filename}"
       end
-      # link to an attachment
-      assert_select 'a[href=?]',
-                    "http://mydomain.foo/rdm/attachments/#{attachment.id}/download",
-                    text: "#{attachment.filename}"
+    ensure
+      # restore it
+      OpenProject::Configuration['rails_relative_url_root'] = relative_url_root
     end
-  ensure
-    # restore it
-    OpenProject::Configuration['rails_relative_url_root'] = relative_url_root
   end
 
-  def test_email_headers
+  it 'should email headers' do
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
     mail = UserMailer.work_package_added(user, issue, user)
@@ -207,7 +208,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_equal 'auto-generated', mail.header['Auto-Submitted'].to_s
   end
 
-  def test_plain_text_mail
+  it 'should plain text mail' do
     Setting.plain_text_mail = 1
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
@@ -218,7 +219,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert !mail.encoded.include?('href')
   end
 
-  def test_html_mail
+  it 'should html mail' do
     Setting.plain_text_mail = 0
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
@@ -229,7 +230,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert mail.encoded.include?('href')
   end
 
-  def test_mail_from_with_phrase
+  it 'should mail from with phrase' do
     user  = FactoryGirl.create(:user)
     with_settings mail_from: 'Redmine app <redmine@example.net>' do
       UserMailer.test_mail(user).deliver
@@ -239,7 +240,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_equal 'Redmine app <redmine@example.net>', mail.header['From'].to_s
   end
 
-  def test_should_not_send_email_without_recipient
+  it 'should not send email without recipient' do
     user  = FactoryGirl.create(:user)
     news  = FactoryGirl.create(:news)
 
@@ -260,7 +261,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert ActionMailer::Base.deliveries.empty?
   end
 
-  def test_issue_add_message_id
+  it 'should issue add message id' do
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
     mail = UserMailer.work_package_added(user, issue, user)
@@ -270,7 +271,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_nil mail.references
   end
 
-  def test_work_package_updated_message_id
+  it 'should work package updated message id' do
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
     journal = issue.journals.first
@@ -281,7 +282,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match mail.references, UserMailer.generate_message_id(journal.journable, user)
   end
 
-  def test_message_posted_message_id
+  it 'should message posted message id' do
     user    = FactoryGirl.create(:user)
     message = FactoryGirl.create(:message)
     UserMailer.message_posted(user, message, user).deliver
@@ -295,7 +296,7 @@ class UserMailerTest < ActionMailer::TestCase
     end
   end
 
-  def test_reply_posted_message_id
+  it 'should reply posted message id' do
     user    = FactoryGirl.create(:user)
     parent  = FactoryGirl.create(:message)
     message = FactoryGirl.create(:message, parent: parent)
@@ -311,7 +312,7 @@ class UserMailerTest < ActionMailer::TestCase
   end
 
   context('#issue_add') do
-    should 'change mail language depending on recipient language' do
+    it 'should change mail language depending on recipient language' do
       issue = FactoryGirl.create(:work_package)
       user  = FactoryGirl.create(:user, mail: 'foo@bar.de', language: 'de')
       ActionMailer::Base.deliveries.clear
@@ -327,7 +328,7 @@ class UserMailerTest < ActionMailer::TestCase
       end
     end
 
-    should 'falls back to default language if user has no language' do
+    it 'should falls back to default language if user has no language' do
       # 1. user's language
       # 2. Setting.default_language
       # 3. I18n.default_locale
@@ -348,37 +349,37 @@ class UserMailerTest < ActionMailer::TestCase
     end
   end
 
-  def test_news_added
+  it 'should news added' do
     user = FactoryGirl.create(:user)
     news = FactoryGirl.create(:news)
     assert UserMailer.news_added(user, news, user).deliver
   end
 
-  def test_news_comment_added
+  it 'should news comment added' do
     user    = FactoryGirl.create(:user)
     news    = FactoryGirl.create(:news)
     comment = FactoryGirl.create(:comment, commented: news)
     assert UserMailer.news_comment_added(user, comment, user).deliver
   end
 
-  def test_message_posted
+  it 'should message posted' do
     user    = FactoryGirl.create(:user)
     message = FactoryGirl.create(:message)
     assert UserMailer.message_posted(user, message, user).deliver
   end
 
-  def test_account_information
+  it 'should account information' do
     user = FactoryGirl.create(:user)
     assert UserMailer.account_information(user, 'pAsswORd').deliver
   end
 
-  def test_lost_password
+  it 'should lost password' do
     user  = FactoryGirl.create(:user)
     token = FactoryGirl.create(:token, user: user)
     assert UserMailer.password_lost(token).deliver
   end
 
-  def test_register
+  it 'should register' do
     user  = FactoryGirl.create(:user)
     token = FactoryGirl.create(:token, user: user)
     Setting.host_name = 'redmine.foo'
@@ -389,7 +390,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert mail.body.encoded.include?("https://redmine.foo/account/activate?token=#{token.value}")
   end
 
-  def test_reminders
+  it 'should reminders' do
     user  = FactoryGirl.create(:user, mail: 'foo@bar.de')
     issue = FactoryGirl.create(:work_package, due_date: Date.tomorrow, assigned_to: user, subject: 'some issue')
     ActionMailer::Base.deliveries.clear
@@ -401,7 +402,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_equal '1 work package(s) due in the next 42 days', mail.subject
   end
 
-  def test_reminders_for_users
+  it 'should reminders for users' do
     user1  = FactoryGirl.create(:user, mail: 'foo1@bar.de')
     user2  = FactoryGirl.create(:user, mail: 'foo2@bar.de')
     issue = FactoryGirl.create(:work_package, due_date: Date.tomorrow, assigned_to: user1, subject: 'some issue')
@@ -419,7 +420,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_equal '1 work package(s) due in the next 42 days', mail.subject
   end
 
-  def test_mailer_should_not_change_locale
+  it 'should mailer should not change locale' do
     with_settings available_languages: ['en', 'de'],
                   default_language:    'en' do
       # Set current language to english
@@ -433,7 +434,7 @@ class UserMailerTest < ActionMailer::TestCase
     end
   end
 
-  def test_with_deliveries_off
+  it 'should with deliveries off' do
     user = FactoryGirl.create(:user)
     UserMailer.with_deliveries(false) do
       UserMailer.test_mail(user).deliver
@@ -444,7 +445,7 @@ class UserMailerTest < ActionMailer::TestCase
   end
 
   context 'layout' do
-    should 'include the emails_header depeding on the locale' do
+    it 'should include the emails_header depeding on the locale' do
       with_settings available_languages: [:en, :de],
                     emails_header: { 'de' => 'deutscher header',
                                      'en' => 'english header' } do

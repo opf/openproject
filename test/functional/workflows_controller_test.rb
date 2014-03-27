@@ -32,11 +32,12 @@ require 'workflows_controller'
 # Re-raise errors caught by the controller.
 class WorkflowsController; def rescue_action(e) raise e end; end
 
-class WorkflowsControllerTest < ActionController::TestCase
+describe WorkflowsController, type: :controller do
+  render_views
+
   fixtures :all
 
-  def setup
-    super
+  before do
     @controller = WorkflowsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
@@ -44,7 +45,7 @@ class WorkflowsControllerTest < ActionController::TestCase
     @request.session[:user_id] = 1 # admin
   end
 
-  def test_index
+  it 'should index' do
     get :index
     assert_response :success
     assert_template 'index'
@@ -54,7 +55,7 @@ class WorkflowsControllerTest < ActionController::TestCase
                attributes: { href: '/workflows/edit?role_id=1&amp;type_id=2' }
   end
 
-  def test_get_edit
+  it 'should get edit' do
     get :edit
     assert_response :success
     assert_template 'edit'
@@ -62,7 +63,7 @@ class WorkflowsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:types)
   end
 
-  def test_get_edit_with_role_and_type
+  it 'should get edit with role and type' do
     Workflow.delete_all
     Workflow.create!(role_id: 1, type_id: 1, old_status_id: 2, new_status_id: 3)
     Workflow.create!(role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 5)
@@ -90,7 +91,7 @@ class WorkflowsControllerTest < ActionController::TestCase
                                               name: 'status[1][1][]' }
   end
 
-  def test_get_edit_with_role_and_type_and_all_statuses
+  it 'should get edit with role and type and all statuses' do
     Workflow.delete_all
 
     get :edit, role_id: 2, type_id: 1, used_statuses_only: '0'
@@ -106,7 +107,7 @@ class WorkflowsControllerTest < ActionController::TestCase
                                            checked: nil }
   end
 
-  def test_post_edit
+  it 'should post edit' do
     post :edit, role_id: 2, type_id: 1,
                 status: {
                   '4' => { '5' => ['always'] },
@@ -119,7 +120,7 @@ class WorkflowsControllerTest < ActionController::TestCase
     assert_nil Workflow.find(:first, conditions: { role_id: 2, type_id: 1, old_status_id: 5, new_status_id: 4 })
   end
 
-  def test_post_edit_with_additional_transitions
+  it 'should post edit with additional transitions' do
     post :edit, role_id: 2, type_id: 1,
                 status: {
                   '4' => { '5' => ['always'] },
@@ -143,20 +144,20 @@ class WorkflowsControllerTest < ActionController::TestCase
     assert w.assignee
   end
 
-  def test_clear_workflow
+  it 'should clear workflow' do
     assert Workflow.count(conditions: { type_id: 1, role_id: 2 }) > 0
 
     post :edit, role_id: 2, type_id: 1
     assert_equal 0, Workflow.count(conditions: { type_id: 1, role_id: 2 })
   end
 
-  def test_get_copy
+  it 'should get copy' do
     get :copy
     assert_response :success
     assert_template 'copy'
   end
 
-  def test_post_copy_one_to_one
+  it 'should post copy one to one' do
     source_transitions = status_transitions(type_id: 1, role_id: 2)
 
     post :copy, source_type_id: '1', source_role_id: '2',
@@ -165,7 +166,7 @@ class WorkflowsControllerTest < ActionController::TestCase
     assert_equal source_transitions, status_transitions(type_id: 3, role_id: 1)
   end
 
-  def test_post_copy_one_to_many
+  it 'should post copy one to many' do
     source_transitions = status_transitions(type_id: 1, role_id: 2)
 
     post :copy, source_type_id: '1', source_role_id: '2',
@@ -177,7 +178,7 @@ class WorkflowsControllerTest < ActionController::TestCase
     assert_equal source_transitions, status_transitions(type_id: 3, role_id: 3)
   end
 
-  def test_post_copy_many_to_many
+  it 'should post copy many to many' do
     source_t2 = status_transitions(type_id: 2, role_id: 2)
     source_t3 = status_transitions(type_id: 3, role_id: 2)
 

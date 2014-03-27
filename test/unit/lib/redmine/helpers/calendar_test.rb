@@ -28,8 +28,8 @@
 #++
 require File.expand_path('../../../../../test_helper', __FILE__)
 
-class CalendarTest < ActiveSupport::TestCase
-  def test_monthly
+describe Redmine::Helpers::Calendar, type: :model do
+  it 'should monthly' do
     Setting.available_languages = [:de, :en]
     c = Redmine::Helpers::Calendar.new(Date.today, :de, :month)
     assert_equal [1, 7], [c.startdt.cwday, c.enddt.cwday]
@@ -41,7 +41,7 @@ class CalendarTest < ActiveSupport::TestCase
     assert_equal [7, 6], [c.startdt.cwday, c.enddt.cwday]
   end
 
-  def test_weekly
+  it 'should weekly' do
     Setting.available_languages = [:de, :en]
     c = Redmine::Helpers::Calendar.new(Date.today, :de, :week)
     assert_equal [1, 7], [c.startdt.cwday, c.enddt.cwday]
@@ -53,7 +53,7 @@ class CalendarTest < ActiveSupport::TestCase
     assert_equal [7, 6], [c.startdt.cwday, c.enddt.cwday]
   end
 
-  def test_monthly_start_day
+  it 'should monthly start day' do
     [1, 6, 7].each do |day|
       with_settings start_of_week: day do
         c = Redmine::Helpers::Calendar.new(Date.today, :en, :month)
@@ -63,7 +63,7 @@ class CalendarTest < ActiveSupport::TestCase
     end
   end
 
-  def test_weekly_start_day
+  it 'should weekly start day' do
     [1, 6, 7].each do |day|
       with_settings start_of_week: day do
         c = Redmine::Helpers::Calendar.new(Date.today, :en, :week)

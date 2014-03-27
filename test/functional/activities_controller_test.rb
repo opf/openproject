@@ -29,10 +29,12 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class ActivitiesControllerTest < ActionController::TestCase
+describe ActivitiesController, type: :controller do
   fixtures :all
 
-  def test_project_index
+  render_views
+
+  it 'project_index' do
     Journal.delete_all
     project = Project.find(1)
     public_project = FactoryGirl.create :public_project
@@ -77,7 +79,7 @@ class ActivitiesControllerTest < ActionController::TestCase
                }
   end
 
-  def test_previous_project_index
+  it 'previous_project_index' do
     issue = WorkPackage.find(1)
     FactoryGirl.create :work_package_journal,
                        journable_id: issue.id,
@@ -105,7 +107,7 @@ class ActivitiesControllerTest < ActionController::TestCase
                }
   end
 
-  def test_user_index
+  it 'user_index' do
     issue = WorkPackage.find(1)
     FactoryGirl.create :work_package_journal,
                        journable_id: issue.id,

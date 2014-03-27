@@ -29,14 +29,16 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class HelpControllerTest < ActionController::TestCase
-  test 'renders wiki_syntax properly' do
+describe HelpController, type: :controller do
+  render_views
+
+  specify 'renders wiki_syntax properly' do
     get 'wiki_syntax'
 
     assert_select 'h1', 'Wiki Syntax Quick Reference'
   end
 
-  test 'renders wiki_syntax_detailed properly' do
+  specify 'renders wiki_syntax_detailed properly' do
     get 'wiki_syntax_detailed'
 
     assert_select 'h1', 'Wiki Formatting'

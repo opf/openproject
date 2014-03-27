@@ -32,11 +32,12 @@ require 'types_controller'
 # Re-raise errors caught by the controller.
 class TypesController; def rescue_action(e) raise e end; end
 
-class TypesControllerTest < ActionController::TestCase
+describe TypesController, type: :controller do
+  render_views
+
   fixtures :all
 
-  def setup
-    super
+  before do
     @controller = TypesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
@@ -44,19 +45,19 @@ class TypesControllerTest < ActionController::TestCase
     @request.session[:user_id] = 1 # admin
   end
 
-  def test_index
+  it 'should index' do
     get :index
     assert_response :success
     assert_template 'index'
   end
 
-  def test_get_new
+  it 'should get new' do
     get :new
     assert_response :success
     assert_template 'new'
   end
 
-  def test_post_create
+  it 'should post create' do
     post :create, type: { name: 'New type', project_ids: ['1', '', ''], custom_field_ids: ['1', '6', ''] }
     assert_redirected_to action: 'index'
     type = Type.find_by_name('New type')
@@ -65,7 +66,7 @@ class TypesControllerTest < ActionController::TestCase
     assert_equal 0, type.workflows.count
   end
 
-  def test_post_create_with_workflow_copy
+  it 'should post create with workflow copy' do
     post :create, type: { name: 'New type' }, copy_workflow_from: 1
     assert_redirected_to action: 'index'
     type = Type.find_by_name('New type')
@@ -73,7 +74,7 @@ class TypesControllerTest < ActionController::TestCase
     assert_equal Type.find(1).workflows.count, type.workflows.count
   end
 
-  def test_get_edit
+  it 'should get edit' do
     Type.find(1).project_ids = [1, 3]
 
     get :edit, id: 1
@@ -93,27 +94,27 @@ class TypesControllerTest < ActionController::TestCase
                                      type: 'hidden' }
   end
 
-  def test_post_update
+  it 'should post update' do
     post :update, id: 1, type: { name: 'Renamed',
                                  project_ids: ['1', '2', ''] }
     assert_redirected_to action: 'index'
     assert_equal [1, 2], Type.find(1).project_ids.sort
   end
 
-  def test_post_update_without_projects
+  it 'should post update without projects' do
     post :update, id: 1, type: { name: 'Renamed',
                                  project_ids: [''] }
     assert_redirected_to action: 'index'
     assert Type.find(1).project_ids.empty?
   end
 
-  def test_move_lower
+  it 'should move lower' do
     type = Type.find_by_position(1)
     post :move, id: 1, type: { move_to: 'lower' }
     assert_equal 2, type.reload.position
   end
 
-  def test_destroy
+  it 'should destroy' do
     type = Type.create!(name: 'Destroyable')
     assert_difference 'Type.count', -1 do
       post :destroy, id: type.id
@@ -122,7 +123,7 @@ class TypesControllerTest < ActionController::TestCase
     assert_nil flash[:error]
   end
 
-  def test_destroy_type_in_use
+  it 'should destroy type in use' do
     assert_no_difference 'Type.count' do
       post :destroy, id: 1
     end

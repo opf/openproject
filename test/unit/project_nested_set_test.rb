@@ -28,9 +28,9 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class ProjectNestedSetTest < ActiveSupport::TestCase
+describe 'ProjectNestedSet', type: :model do
   context 'nested set' do
-    setup do
+    before do
       FactoryGirl.create(:type_standard)
       Project.delete_all
 
@@ -56,7 +56,7 @@ class ProjectNestedSetTest < ActiveSupport::TestCase
     end
 
     context '#create' do
-      should 'build valid tree' do
+      it 'should build valid tree' do
         assert_nested_set_values(
           @a   => [nil,   1,  6],
           @a1  => [@a.id, 2,  3],
@@ -72,7 +72,7 @@ class ProjectNestedSetTest < ActiveSupport::TestCase
     end
 
     context '#set_parent!' do
-      should 'keep valid tree' do
+      it 'should keep valid tree' do
         assert_no_difference 'Project.count' do
           Project.find_by_name('Project B1').set_parent!(Project.find_by_name('Project A2'))
         end
@@ -89,7 +89,7 @@ class ProjectNestedSetTest < ActiveSupport::TestCase
 
     context '#destroy' do
       context 'a root with children' do
-        should 'not mess up the tree' do
+        it 'should not mess up the tree' do
           assert_difference 'Project.count', -4 do
             Project.find_by_name('Project B').destroy
           end
@@ -104,7 +104,7 @@ class ProjectNestedSetTest < ActiveSupport::TestCase
       end
 
       context 'a child with children' do
-        should 'not mess up the tree' do
+        it 'should not mess up the tree' do
           assert_difference 'Project.count', -2 do
             Project.find_by_name('Project B1').destroy
           end

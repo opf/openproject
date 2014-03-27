@@ -28,20 +28,18 @@
 #++
 require File.expand_path('../../../../test_helper', __FILE__)
 
-class Redmine::PluginTest < ActiveSupport::TestCase
-  def setup
-    super
+describe Redmine::Plugin do
+  before do
     @klass = Redmine::Plugin
     # In case some real plugins are installed
     @klass.clear
   end
 
-  def teardown
-    super
+  after do
     @klass.clear
   end
 
-  def test_register
+  it 'should register' do
     @klass.register :foo do
       name 'Foo plugin'
       url 'http://example.net/plugins/foo'
@@ -65,7 +63,7 @@ class Redmine::PluginTest < ActiveSupport::TestCase
     assert_equal '0.0.1', plugin.version
   end
 
-  def test_requires_openproject
+  it 'should requires openproject' do
     test = self
     version = Redmine::VERSION.to_semver
 
@@ -88,7 +86,7 @@ class Redmine::PluginTest < ActiveSupport::TestCase
     end
   end
 
-  def test_requires_redmine_plugin
+  it 'should requires redmine plugin' do
     test = self
     other_version = '0.5.0'
 

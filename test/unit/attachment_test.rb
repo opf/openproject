@@ -28,10 +28,10 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class AttachmentTest < ActiveSupport::TestCase
+describe Attachment, type: :model do
   fixtures :all
 
-  def test_create
+  it 'should create' do
     a = Attachment.new(container: WorkPackage.find(1),
                        file: uploaded_test_file('testfile.txt', 'text/plain'),
                        author: User.find(1))
@@ -44,7 +44,7 @@ class AttachmentTest < ActiveSupport::TestCase
     assert File.exist?(a.diskfile)
   end
 
-  def test_create_should_auto_assign_content_type
+  it 'should create should auto assign content type' do
     a = Attachment.new(container: WorkPackage.find(1),
                        file: uploaded_test_file('testfile.txt', ''),
                        author: User.find(1))
@@ -52,7 +52,7 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 'text/plain', a.content_type
   end
 
-  def test_identical_attachments_at_the_same_time_should_not_overwrite
+  it 'should identical attachments at the same time should not overwrite' do
     a1 = Attachment.create!(container: WorkPackage.find(1),
                             file: uploaded_test_file('testfile.txt', ''),
                             author: User.find(1))
@@ -63,7 +63,7 @@ class AttachmentTest < ActiveSupport::TestCase
   end
 
   context 'Attachmnet#attach_files' do
-    should 'add unsaved files to the object as unsaved attachments' do
+    it 'should add unsaved files to the object as unsaved attachments' do
       # Max size of 0 to force Attachment creation failures
       with_settings(attachment_max_size: 0) do
         @issue = WorkPackage.find(1)

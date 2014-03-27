@@ -28,11 +28,10 @@
 #++
 require File.expand_path('../../../test_helper', __FILE__)
 
-class ApplicationHelperTest < ActionView::TestCase
+describe ApplicationHelper, type: :helper do
   include WorkPackagesHelper
 
-  def setup
-    super
+  before do
     # @project variable is used by helper
     @project = FactoryGirl.create :valid_project
     @project.reload # reload references to indirectly created entities (e.g. wiki)
@@ -66,7 +65,7 @@ class ApplicationHelperTest < ActionView::TestCase
     @request ||= ActionController::TestRequest.new
   end
 
-  def test_auto_links
+  it 'should auto links' do
     to_test = {
       'http://foo.bar' => '<a class="external" href="http://foo.bar">http://foo.bar</a>',
       'http://foo.bar/~user' => '<a class="external" href="http://foo.bar/~user">http://foo.bar/~user</a>',
@@ -100,12 +99,12 @@ class ApplicationHelperTest < ActionView::TestCase
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text) }
   end
 
-  def test_auto_mailto
+  it 'should auto mailto' do
     assert_equal '<p><a class="email" href="mailto:test@foo.bar">test@foo.bar</a></p>',
                  format_text('test@foo.bar')
   end
 
-  def test_inline_images
+  it 'should inline images' do
     to_test = {
       '!http://foo.bar/image.jpg!' => '<img src="http://foo.bar/image.jpg" alt="" />',
       'floating !>http://foo.bar/image.jpg!' => 'floating <div style="float:right"><img src="http://foo.bar/image.jpg" alt="" /></div>',
@@ -118,7 +117,7 @@ class ApplicationHelperTest < ActionView::TestCase
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text) }
   end
 
-  def test_inline_images_inside_tags
+  it 'should inline images inside tags' do
     raw = <<-RAW
 h1. !foo.png! Heading
 
@@ -131,7 +130,7 @@ RAW
     assert format_text(raw).include?('<img src="bar.gif" alt="" />')
   end
 
-  def test_attached_images
+  it 'should attached images' do
     to_test = {
       'Inline image: !logo.gif!' => "Inline image: <img src=\"/attachments/#{@attachment.id}/download\" title=\"This is a logo\" alt=\"This is a logo\" />",
       'Inline image: !logo.GIF!' => "Inline image: <img src=\"/attachments/#{@attachment.id}/download\" title=\"This is a logo\" alt=\"This is a logo\" />",
@@ -143,7 +142,7 @@ RAW
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text, attachments: [@attachment]) }
   end
 
-  def test_textile_external_links
+  it 'should textile external links' do
     to_test = {
       'This is a "link":http://foo.bar' => 'This is a <a href="http://foo.bar" class="external">link</a>',
       'This is an intern "link":/foo/bar' => 'This is an intern <a href="/foo/bar">link</a>',
@@ -162,7 +161,7 @@ RAW
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text) }
   end
 
-  def test_textile_relative_to_full_links_in_a_controller
+  it 'should textile relative to full links in a controller' do
     # we have a request here
     {
       # shouldn't change non-relative links
@@ -172,7 +171,7 @@ RAW
     }.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text, only_path: false) }
   end
 
-  def test_textile_relative_to_full_links_in_the_mailer
+  it 'should textile relative to full links in the mailer' do
     # we don't a request here
     undef request
     # mimic the mailer default_url_options
@@ -190,7 +189,7 @@ RAW
     }.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text, only_path: false) }
   end
 
-  def test_cross_project_redmine_links
+  it 'should cross project redmine links' do
     version = FactoryGirl.create :version,
                                  name: '1.0',
                                  project: @project
@@ -247,7 +246,7 @@ RAW
     end
   end
 
-  def test_redmine_links_git_commit
+  it 'should redmine links git commit' do
     User.stub(:current).and_return(@admin)
     changeset_link = link_to('abcd',
                              {
@@ -272,7 +271,7 @@ RAW
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text) }
   end
 
-  def test_attachment_links
+  it 'should attachment links' do
     attachment_link = link_to('logo.gif', { controller: 'attachments', action: 'download', id: @attachment }, class: 'attachment')
     to_test = {
       'attachment:logo.gif' => attachment_link
@@ -280,7 +279,7 @@ RAW
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text, attachments: [@attachment]), "#{text} failed" }
   end
 
-  def test_html_tags
+  it 'should html tags' do
     to_test = {
       '<div>content</div>' => '<p>&lt;div&gt;content&lt;/div&gt;</p>',
       "<div class=\"bold\">content</div>" => "<p>&lt;div class=\"bold\"&gt;content&lt;/div&gt;</p>",
@@ -304,7 +303,7 @@ RAW
     to_test.each { |text, result| assert_equal result, format_text(text) }
   end
 
-  def test_allowed_html_tags
+  it 'should allowed html tags' do
     to_test = {
       '<pre>preformatted text</pre>' => '<pre>preformatted text</pre>',
       '<notextile>no *textile* formatting</notextile>' => 'no *textile* formatting',
@@ -313,7 +312,7 @@ RAW
     to_test.each { |text, result| assert_equal result, format_text(text) }
   end
 
-  def test_pre_tags
+  it 'should pre tags' do
     raw = <<-RAW
 Before
 
@@ -335,7 +334,7 @@ EXPECTED
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), format_text(raw).gsub(%r{[\r\n\t]}, '')
   end
 
-  def test_syntax_highlight
+  it 'should syntax highlight' do
     raw = <<-RAW
 <pre><code class="ruby">
 # Some ruby code here
@@ -350,7 +349,7 @@ EXPECTED
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), format_text(raw).gsub(%r{[\r\n\t]}, '')
   end
 
-  def test_wiki_links_in_tables
+  it 'should wiki links in tables' do
     @project.wiki.start_page = 'Page'
     @project.wiki.save!
     FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: 'Other page'
@@ -365,7 +364,7 @@ EXPECTED
     to_test.each { |text, result| assert_equal "<table>#{result}</table>", format_text(text).gsub(/[\t\n]/, '') }
   end
 
-  def test_text_formatting
+  it 'should text formatting' do
     to_test = { '*_+bold, italic and underline+_*' => '<strong><em><ins>bold, italic and underline</ins></em></strong>',
                 '(_text within parentheses_)' => '(<em>text within parentheses</em>)',
                 'a *Humane Web* Text Generator' => 'a <strong>Humane Web</strong> Text Generator',
@@ -375,12 +374,12 @@ EXPECTED
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", format_text(text) }
   end
 
-  def test_wiki_horizontal_rule
+  it 'should wiki horizontal rule' do
     assert_equal '<hr />', format_text('---')
     assert_equal '<p>Dashes: ---</p>', format_text('Dashes: ---')
   end
 
-  def test_footnotes
+  it 'should footnotes' do
     raw = <<-RAW
 This is some text[1].
 
@@ -395,14 +394,14 @@ EXPECTED
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), format_text(raw).gsub(%r{[\r\n\t]}, '')
   end
 
-  def test_headings
+  it 'should headings' do
     raw = 'h1. Some heading'
     expected = %|<a name="Some-heading"></a>\n<h1 >Some heading<a href="#Some-heading" class="wiki-anchor">&para;</a></h1>|
 
     assert_equal expected, format_text(raw)
   end
 
-  def test_table_of_content
+  it 'should table of content' do
     @project.wiki.start_page = 'Wiki'
     @project.wiki.save!
     FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: 'Wiki'
@@ -464,7 +463,7 @@ RAW
     assert format_text(raw).gsub("\n", '').include?(expected), format_text(raw)
   end
 
-  def test_table_of_content_should_contain_included_page_headings
+  it 'should table of content should contain included page headings' do
     @project.wiki.start_page = 'Wiki'
     @project.save!
     page  = FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: 'Wiki'
@@ -488,14 +487,14 @@ RAW
     assert format_text(raw).gsub("\n", '').include?(expected), format_text(raw)
   end
 
-  def test_default_formatter
+  it 'should default formatter' do
     Setting.text_formatting = 'unknown'
     text = 'a *link*: http://www.example.net/'
     assert_equal '<p>a *link*: <a href="http://www.example.net/">http://www.example.net/</a></p>', format_text(text)
     Setting.text_formatting = 'textile'
   end
 
-  def test_due_date_distance_in_words
+  it 'should due date distance in words' do
     to_test = { Date.today => 'Due in 0 days',
                 Date.today + 1 => 'Due in 1 day',
                 Date.today + 100 => 'Due in about 3 months',
@@ -510,12 +509,12 @@ RAW
     end
   end
 
-  def test_link_to_user
+  it 'should link to user' do
     t = link_to_user(@admin)
     assert_equal "<a href=\"/users/#{ @admin.id }\">#{ @admin.name }</a>", t
   end
 
-  def test_link_to_user_should_not_link_to_locked_user
+  it 'should link to user should not link to locked user' do
     user = FactoryGirl.build :user
     user.lock!
     assert user.locked?
@@ -523,14 +522,14 @@ RAW
     assert_equal user.name, t
   end
 
-  def test_link_to_user_should_not_link_to_anonymous
+  it 'should link to user should not link to anonymous' do
     user = User.anonymous
     assert user.anonymous?
     t = link_to_user(user)
     assert_equal ::I18n.t(:label_user_anonymous), t
   end
 
-  def test_link_to_project
+  it 'should link to project' do
     p_id = @project.identifier
     p_name = @project.name
     assert_equal %(<a href="/projects/#{p_id}">#{p_name}</a>),

@@ -29,17 +29,15 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class ApiTest::HttpBasicLoginWithApiTokenTest < ActionDispatch::IntegrationTest
+describe 'ApiTest: HttpBasicLoginWithApiToken', type: :request do
   fixtures :all
 
-  def setup
-    super
+  before do
     Setting.rest_api_enabled = '1'
     Setting.login_required = '1'
   end
 
-  def teardown
-    super
+  after do
     Setting.rest_api_enabled = '0'
     Setting.login_required = '0'
   end

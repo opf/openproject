@@ -29,9 +29,8 @@
 
 require File.expand_path('../../../../../test_helper', __FILE__)
 
-class Redmine::WikiFormatting::TextileFormatterTest < HelperTestCase
-  def setup
-    super
+describe Redmine::WikiFormatting::Textile::Formatter do
+  before do
     @formatter = Redmine::WikiFormatting::Textile::Formatter
   end
 
@@ -44,7 +43,7 @@ class Redmine::WikiFormatting::TextileFormatterTest < HelperTestCase
     '~' => 'sub'     # subscript
   }
 
-  def test_modifiers
+  it 'should modifiers' do
     assert_html_output(
       '*bold*'                => '<strong>bold</strong>',
       'before *bold*'         => 'before <strong>bold</strong>',
@@ -59,7 +58,7 @@ class Redmine::WikiFormatting::TextileFormatterTest < HelperTestCase
     )
   end
 
-  def test_modifiers_combination
+  it 'should modifiers combination' do
     MODIFIERS.each do |m1, tag1|
       MODIFIERS.each do |m2, tag2|
         next if m1 == m2
@@ -70,33 +69,33 @@ class Redmine::WikiFormatting::TextileFormatterTest < HelperTestCase
     end
   end
 
-  def test_inline_code
+  it 'should inline code' do
     assert_html_output(
       'this is @some code@'      => 'this is <code>some code</code>',
       '@<Location /redmine>@'    => '<code>&lt;Location /redmine&gt;</code>'
     )
   end
 
-  def test_escaping
+  it 'should escaping' do
     assert_html_output(
       'this is a <script>'      => 'this is a &lt;script&gt;'
     )
   end
 
-  def test_use_of_backslashes_followed_by_numbers_in_headers
+  it 'should use of backslashes followed by numbers in headers' do
     assert_html_output({
                          'h1. 2009\02\09'      => '<h1>2009\02\09</h1>'
                        }, false)
   end
 
-  def test_double_dashes_should_not_strikethrough
+  it 'should double dashes should not strikethrough' do
     assert_html_output(
       'double -- dashes -- test'  => 'double -- dashes -- test',
       'double -- *dashes* -- test'  => 'double -- <strong>dashes</strong> -- test'
     )
   end
 
-  def test_acronyms
+  it 'should acronyms' do
     assert_html_output(
       'this is an acronym: GPL(General Public License)' => 'this is an acronym: <acronym title="General Public License">GPL</acronym>',
       '2 letters JP(Jean-Philippe) acronym' => '2 letters <acronym title="Jean-Philippe">JP</acronym> acronym',
@@ -104,19 +103,19 @@ class Redmine::WikiFormatting::TextileFormatterTest < HelperTestCase
     )
   end
 
-  def test_inline_auto_link
+  it 'should inline auto link' do
     assert_html_output(
-        'Autolink to http://www.google.com' =>         'Autolink to <a class="external" href="http://www.google.com">http://www.google.com</a>'
+      'Autolink to http://www.google.com' =>         'Autolink to <a class="external" href="http://www.google.com">http://www.google.com</a>'
     )
   end
 
-  def test_ignore_links_inside_macros
+  it 'should ignore links inside macros' do
     assert_html_output(
-        '{{embed_youtube(http://www.google.com)}}' =>         '{{embed_youtube(http://www.google.com)}}'
+      '{{embed_youtube(http://www.google.com)}}' =>         '{{embed_youtube(http://www.google.com)}}'
     )
   end
 
-  def test_blockquote
+  it 'should blockquote' do
     # orig raw text
     raw = <<-RAW
 John said:
@@ -156,7 +155,7 @@ EXPECTED
     assert_equal expected.gsub(%r{\s+}, ''), to_html(raw).gsub(%r{\s+}, '')
   end
 
-  def test_table
+  it 'should table' do
     raw = <<-RAW
 This is a table with empty cells:
 
@@ -178,7 +177,7 @@ EXPECTED
     assert_equal expected.gsub(%r{\s+}, ''), to_html(raw).gsub(%r{\s+}, '')
   end
 
-  def test_table_with_line_breaks
+  it 'should table with line breaks' do
     raw = <<-RAW
 This is a table with line breaks:
 
@@ -217,11 +216,11 @@ EXPECTED
     assert_equal expected.gsub(%r{\s+}, ''), to_html(raw).gsub(%r{\s+}, '')
   end
 
-  def test_textile_should_not_mangle_brackets
+  it 'should textile should not mangle brackets' do
     assert_equal '<p>[msg1][msg2]</p>', to_html('[msg1][msg2]')
   end
 
-  def test_textile_should_escape_image_urls
+  it 'should textile should escape image urls' do
     # this is onclick="alert('XSS');" in encoded form
     raw = '!/images/comment.png"onclick=&#x61;&#x6c;&#x65;&#x72;&#x74;&#x28;&#x27;&#x58;&#x53;&#x53;&#x27;&#x29;;&#x22;!'
     expected = '<p><img src="/images/comment.png&quot;onclick=&amp;#x61;&amp;#x6c;&amp;#x65;&amp;#x72;&amp;#x74;&amp;#x28;&amp;#x27;&amp;#x58;&amp;#x53;&amp;#x53;&amp;#x27;&amp;#x29;;&amp;#x22;" alt="" /></p>'

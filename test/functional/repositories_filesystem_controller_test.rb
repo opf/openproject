@@ -32,13 +32,14 @@ require 'repositories_controller'
 # Re-raise errors caught by the controller.
 class RepositoriesController; def rescue_action(e) raise e end; end
 
-class RepositoriesFilesystemControllerTest < ActionController::TestCase
+describe RepositoriesController, 'Filesystem', type: :controller do
+  render_views
+
   fixtures :all
 
   PRJ_ID = 3
 
-  def setup
-    super
+  before do
     @controller = RepositoriesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
@@ -53,11 +54,11 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
     end
   end
 
-  def teardown
+  after do
     User.current = nil
   end
 
-  def test_browse_root
+  it 'should browse root' do
     with_existing_filesystem_scm do
       @repository.fetch_changesets
       @repository.reload
@@ -71,7 +72,7 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
     end
   end
 
-  def test_show_no_extension
+  it 'should show no extension' do
     with_existing_filesystem_scm do
       get :entry, project_id: PRJ_ID, path: 'test'
       assert_response :success
@@ -83,7 +84,7 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
     end
   end
 
-  def test_entry_download_no_extension
+  it 'should entry download no extension' do
     with_existing_filesystem_scm do |_|
       get :entry, project_id: PRJ_ID, path: 'test', format: 'raw'
       assert_response :success
@@ -91,7 +92,7 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
     end
   end
 
-  def test_show_non_ascii_contents
+  it 'should show non ascii contents' do
     with_existing_filesystem_scm do
       with_settings repositories_encodings: 'UTF-8,EUC-JP' do
         get :entry, project_id: PRJ_ID, path: 'japanese/euc-jp.txt'
@@ -105,7 +106,7 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
     end
   end
 
-  def test_show_utf16
+  it 'should show utf16' do
     with_existing_filesystem_scm do
       with_settings repositories_encodings: 'UTF-16' do
         get :entry, project_id: PRJ_ID, path: 'japanese/utf-16.txt'
@@ -121,7 +122,7 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
     end
   end
 
-  def test_show_text_file_should_send_if_too_big
+  it 'should show text file should send if too big' do
     with_existing_filesystem_scm do
       with_settings file_max_size_displayed: 1 do
         get :entry, project_id: PRJ_ID, path: 'japanese/big-file.txt'

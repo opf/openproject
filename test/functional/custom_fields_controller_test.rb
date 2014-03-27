@@ -33,18 +33,19 @@ require 'custom_fields_controller'
 # Re-raise errors caught by the controller.
 class CustomFieldsController; def rescue_action(e) raise e end; end
 
-class CustomFieldsControllerTest < ActionController::TestCase
+describe CustomFieldsController, type: :controller do
+  render_views
+
   fixtures :all
 
-  def setup
-    super
+  before do
     @controller = CustomFieldsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     @request.session[:user_id] = 1
   end
 
-  def test_get_new_issue_custom_field
+  it 'should get new issue custom field' do
     get :new, type: 'WorkPackageCustomField'
     assert_response :success
     assert_template 'new'
@@ -64,12 +65,12 @@ class CustomFieldsControllerTest < ActionController::TestCase
                }
   end
 
-  def test_get_new_with_invalid_custom_field_class_should_redirect_to_list
+  it 'should get new with invalid custom field class should redirect to list' do
     get :new, type: 'UnknownCustomField'
     assert_redirected_to '/custom_fields'
   end
 
-  def test_post_new_list_custom_field
+  it 'should post new list custom field' do
     assert_difference 'CustomField.count' do
       post :create, type: 'WorkPackageCustomField',
                     custom_field: { name: 'test_post_new_list',

@@ -28,9 +28,8 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class MemberTest < ActiveSupport::TestCase
-  def setup
-    super
+describe Member, type: :model do
+  before do
     Role.non_member.add_permission! :view_work_packages # non_member users may be watchers of work units
     Role.non_member.add_permission! :view_wiki_pages # non_member users may be watchers of wikis
     @project = FactoryGirl.create :project_with_types
@@ -40,7 +39,7 @@ class MemberTest < ActiveSupport::TestCase
     @role.add_permission! :view_wiki_pages
   end
 
-  def test_create
+  it 'should create' do
     member = Member.new.tap do |m|
       m.force_attributes = { project_id: @project.id,
                              user_id: FactoryGirl.create(:user).id,
@@ -53,7 +52,7 @@ class MemberTest < ActiveSupport::TestCase
     assert_equal @role, member.roles.first
   end
 
-  def test_update
+  it 'should update' do
     assert_equal @project.name, @member.project.name
     assert_equal @role.name, @member.roles.first.name
     assert_equal @user.login, @member.user.login
@@ -62,14 +61,14 @@ class MemberTest < ActiveSupport::TestCase
     assert @member.save
   end
 
-  def test_update_roles
+  it 'should update roles' do
     assert_equal 1, @member.roles.size
     @member.role_ids = [@role.id, FactoryGirl.create(:role).id]
     assert @member.save
     assert_equal 2, @member.reload.roles.size
   end
 
-  def test_validate
+  it 'should validate' do
     members = []
     user_id = FactoryGirl.create(:user).id
     2.times do
@@ -93,7 +92,7 @@ class MemberTest < ActiveSupport::TestCase
     assert !member.save
   end
 
-  def test_destroy
+  it 'should destroy' do
     assert_difference 'Member.count', -1 do
       assert_difference 'MemberRole.count', -1 do
         @member.destroy
@@ -104,7 +103,7 @@ class MemberTest < ActiveSupport::TestCase
   end
 
   context 'removing permissions' do
-    setup do
+    before do
       @private_project = FactoryGirl.create :project_with_types,
                                             is_public: true # has to be public first to successfully create things. Will be set to private later
       @watcher_user = FactoryGirl.create(:user)
@@ -130,7 +129,7 @@ class MemberTest < ActiveSupport::TestCase
     end
 
     context 'of user' do
-      setup do
+      before do
         (@member = Member.new.tap do |m|
           m.force_attributes = { project_id: @private_project.id,
                                  user_id: @watcher_user.id,
@@ -139,7 +138,7 @@ class MemberTest < ActiveSupport::TestCase
       end
 
       context 'by deleting membership' do
-        should 'prune watchers' do
+        it 'should prune watchers' do
           assert_difference 'Watcher.count', -4 do
             @member.destroy
           end
@@ -147,7 +146,7 @@ class MemberTest < ActiveSupport::TestCase
       end
 
       context 'by updating roles' do
-        should 'prune watchers' do
+        it 'should prune watchers' do
           @private_role.remove_permission! :view_wiki_pages
           assert_difference 'Watcher.count', -2 do
             @member.role_ids = [@private_role.id]
@@ -159,7 +158,7 @@ class MemberTest < ActiveSupport::TestCase
     end
 
     context 'of group' do
-      setup do
+      before do
         @group = FactoryGirl.create :group
         @member = (Member.new.tap do |m|
           m.force_attributes = { project_id: @private_project.id,
@@ -173,7 +172,7 @@ class MemberTest < ActiveSupport::TestCase
       end
 
       context 'by deleting membership' do
-        should 'prune watchers' do
+        it 'should prune watchers' do
           assert_difference 'Watcher.count', -4 do
             @member.destroy
           end
@@ -181,7 +180,7 @@ class MemberTest < ActiveSupport::TestCase
       end
 
       context 'by updating roles' do
-        should 'prune watchers' do
+        it 'should prune watchers' do
           @private_role.remove_permission! :view_wiki_pages
           assert_difference 'Watcher.count', -2 do
             @member.role_ids = [@private_role.id]
