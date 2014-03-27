@@ -32,13 +32,13 @@ require 'copy_projects_controller'
 # Re-raise errors caught by the controller.
 class CopyProjectsController; def rescue_action(e) raise e end; end
 
-class CopyProjectsControllerTest < ActionController::TestCase
+describe CopyProjectsController do
   include MiniTest::Assertions # refute
 
-  fixtures :all
 
-  def setup
-    super
+
+  before do
+
     @controller = CopyProjectsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
@@ -46,7 +46,7 @@ class CopyProjectsControllerTest < ActionController::TestCase
     Setting.default_language = 'en'
   end
 
-  def test_copy_with_project
+  it 'copy_with_project' do
     @request.session[:user_id] = 1 # admin
     get :copy_project, :id => 1, :coming_from => "settings"
     assert_response :success
@@ -56,16 +56,16 @@ class CopyProjectsControllerTest < ActionController::TestCase
     assert_nil assigns(:copy_project).id
   end
 
-  def test_copy_without_project
+  it 'copy_without_project' do
     @request.session[:user_id] = 1 # admin
     get :copy_project
     assert_response 404
   end
 
   context "POST :copy" do
-    should "TODO: test the rest of the method"
+    it "TODO: test the rest of the method"
 
-    should "redirect to the project settings when successful" do
+    it "redirect to the project settings when successful" do
       @request.session[:user_id] = 1 # admin
       post :copy, :id => 1, :project => {:name => 'Copy', :identifier => 'unique-copy'}
       assert_response :redirect

@@ -28,15 +28,15 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class LdapAuthSourceTest < ActiveSupport::TestCase
-  fixtures :all
+describe LdapAuthSource do
 
-  def test_create
+
+  it 'should create' do
     a = LdapAuthSource.new(:name => 'My LDAP', :host => 'ldap.example.net', :port => 389, :base_dn => 'dc=example,dc=net', :attr_login => 'sAMAccountName')
     assert a.save
   end
 
-  def test_should_strip_ldap_attributes
+  it 'should should_strip_ldap_attributes' do
     a = LdapAuthSource.new(:name => 'My LDAP', :host => 'ldap.example.net', :port => 389, :base_dn => 'dc=example,dc=net', :attr_login => 'sAMAccountName',
                            :attr_firstname => 'givenName ')
     assert a.save
@@ -45,12 +45,12 @@ class LdapAuthSourceTest < ActiveSupport::TestCase
 
   if ldap_configured?
     context '#authenticate' do
-      setup do
+      before do
         @auth = LdapAuthSource.find(1)
       end
 
       context 'with a valid LDAP user' do
-        should 'return the user attributes' do
+        it 'return the user attributes' do
           attributes =  @auth.authenticate('example1','123456')
           assert attributes.is_a?(Hash), "An hash was not returned"
           assert_equal 'Example', attributes[:firstname]
@@ -64,19 +64,19 @@ class LdapAuthSourceTest < ActiveSupport::TestCase
       end
 
       context 'with an invalid LDAP user' do
-        should 'return nil' do
+        it 'return nil' do
           assert_equal nil, @auth.authenticate('nouser','123456')
         end
       end
 
       context 'without a login' do
-        should 'return nil' do
+        it 'return nil' do
           assert_equal nil, @auth.authenticate('','123456')
         end
       end
 
       context 'without a password' do
-        should 'return nil' do
+        it 'return nil' do
           assert_equal nil, @auth.authenticate('edavis','')
         end
       end

@@ -28,8 +28,8 @@
 #++
 require File.expand_path('../../../../test_helper', __FILE__)
 
-class Redmine::NotifiableTest < ActiveSupport::TestCase
-  def test_all
+describe Redmine::Notifiable do
+  it 'should all' do
     assert_equal 11, Redmine::Notifiable.all.length
 
     %w(work_package_added work_package_updated work_package_note_added status_updated work_package_priority_updated news_added news_comment_added file_added message_posted wiki_content_added wiki_content_updated).each do |notifiable|

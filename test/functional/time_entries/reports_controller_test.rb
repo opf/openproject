@@ -29,10 +29,10 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class TimeEntries::ReportsControllerTest < ActionController::TestCase
-  fixtures :all
+describe TimeEntries::ReportsController do
+  render_views
 
-  def test_report_at_project_level
+  it 'report_at_project_level' do
     get :show, :project_id => 'ecookbook'
     assert_response :success
     assert_template 'report'
@@ -40,7 +40,7 @@ class TimeEntries::ReportsControllerTest < ActionController::TestCase
       :attributes => {:action => "/projects/ecookbook/time_entries/report", :id => 'query_form'}
   end
 
-  def test_report_all_projects
+  it 'report_all_projects' do
     get :show
     assert_response :success
     assert_template 'report'
@@ -48,7 +48,7 @@ class TimeEntries::ReportsControllerTest < ActionController::TestCase
       :attributes => {:action => "/time_entries/report", :id => 'query_form'}
   end
 
-  def test_report_all_projects_denied
+  it 'report_all_projects_denied' do
     r = Role.anonymous
     r.permissions.delete(:view_time_entries)
     r.permissions_will_change!
@@ -57,7 +57,7 @@ class TimeEntries::ReportsControllerTest < ActionController::TestCase
     assert_redirected_to '/login?back_url=http%3A%2F%2Ftest.host%2Ftime_entries%2Freport'
   end
 
-  def test_report_all_projects_one_criteria
+  it 'report_all_projects_one_criteria' do
     get :show, :columns => 'week', :from => "2007-04-01", :to => "2007-04-30", :criterias => ['project']
     assert_response :success
     assert_template 'report'
@@ -65,7 +65,7 @@ class TimeEntries::ReportsControllerTest < ActionController::TestCase
     assert_equal "8.65", "%.2f" % assigns(:total_hours)
   end
 
-  def test_report_all_time
+  it 'report_all_time' do
     get :show, :project_id => 1, :criterias => ['project', 'issue']
     assert_response :success
     assert_template 'report'
@@ -73,7 +73,7 @@ class TimeEntries::ReportsControllerTest < ActionController::TestCase
     assert_equal "162.90", "%.2f" % assigns(:total_hours)
   end
 
-  def test_report_all_time_by_day
+  it 'report_all_time_by_day' do
     get :show, :project_id => 1, :criterias => ['project', 'issue'], :columns => 'day'
     assert_response :success
     assert_template 'report'
@@ -82,7 +82,7 @@ class TimeEntries::ReportsControllerTest < ActionController::TestCase
     assert_tag :tag => 'th', :content => '2007-03-12'
   end
 
-  def test_report_one_criteria
+  it 'report_one_criteria' do
     get :show, :project_id => 1, :columns => 'week', :from => "2007-04-01", :to => "2007-04-30", :criterias => ['project']
     assert_response :success
     assert_template 'report'
@@ -90,7 +90,7 @@ class TimeEntries::ReportsControllerTest < ActionController::TestCase
     assert_equal "8.65", "%.2f" % assigns(:total_hours)
   end
 
-  def test_report_two_criterias
+  it 'report_two_criterias' do
     get :show, :project_id => 1, :columns => 'month', :from => "2007-01-01", :to => "2007-12-31", :criterias => ["member", "activity"]
     assert_response :success
     assert_template 'report'
@@ -98,7 +98,7 @@ class TimeEntries::ReportsControllerTest < ActionController::TestCase
     assert_equal "162.90", "%.2f" % assigns(:total_hours)
   end
 
-  def test_report_one_day
+  it 'report_one_day' do
     get :show, :project_id => 1, :columns => 'day', :from => "2007-03-23", :to => "2007-03-23", :criterias => ["member", "activity"]
     assert_response :success
     assert_template 'report'
@@ -106,7 +106,7 @@ class TimeEntries::ReportsControllerTest < ActionController::TestCase
     assert_equal "4.25", "%.2f" % assigns(:total_hours)
   end
 
-  def test_report_at_issue_level
+  it 'report_at_issue_level' do
     get :show, :project_id => 1, :work_package_id => 1, :columns => 'month', :from => "2007-01-01", :to => "2007-12-31", :criterias => ["member", "activity"]
     assert_response :success
     assert_template 'report'
@@ -116,7 +116,7 @@ class TimeEntries::ReportsControllerTest < ActionController::TestCase
       :attributes => {:action => work_package_time_entries_report_path(1), :id => 'query_form'}
   end
 
-  def test_report_custom_field_criteria
+  it 'report_custom_field_criteria' do
     get :show, :project_id => 1, :criterias => ['project', 'cf_1', 'cf_7']
     assert_response :success
     assert_template 'report'
@@ -135,7 +135,7 @@ class TimeEntries::ReportsControllerTest < ActionController::TestCase
     assert_tag :tag => 'th', :content => 'Billable'
   end
 
-  def test_report_one_criteria_no_result
+  it 'report_one_criteria_no_result' do
     get :show, :project_id => 1, :columns => 'week', :from => "1998-04-01", :to => "1998-04-30", :criterias => ['project']
     assert_response :success
     assert_template 'report'
@@ -143,7 +143,7 @@ class TimeEntries::ReportsControllerTest < ActionController::TestCase
     assert_equal "0.00", "%.2f" % assigns(:total_hours)
   end
 
-  def test_report_all_projects_csv_export
+  it 'report_all_projects_csv_export' do
     get :show, :columns => 'month', :from => "2007-01-01", :to => "2007-06-30", :criterias => ["project", "member", "activity"], :format => "csv"
     assert_response :success
     assert_match(/text\/csv/, @response.content_type)
@@ -154,7 +154,7 @@ class TimeEntries::ReportsControllerTest < ActionController::TestCase
     assert_equal 'Total,"","","","",154.25,8.65,"","",162.90', lines.last
   end
 
-  def test_report_csv_export
+  it 'report_csv_export' do
     get :show, :project_id => 1, :columns => 'month', :from => "2007-01-01", :to => "2007-06-30", :criterias => ["project", "member", "activity"], :format => "csv"
     assert_response :success
     assert_match(/text\/csv/, @response.content_type)

@@ -28,11 +28,9 @@
 #++
 require File.expand_path('../../../test_helper', __FILE__)
 
-class ApiTest::UsersTest < ActionDispatch::IntegrationTest
-  fixtures :all
+describe "ApiTest::Users" do
 
-  def setup
-    super
+  before do
     Setting.rest_api_enabled = '1'
   end
 
@@ -43,7 +41,7 @@ class ApiTest::UsersTest < ActionDispatch::IntegrationTest
 
   context "GET /api/v1/users/2" do
     context ".xml" do
-      should "return requested user" do
+      it "return requested user" do
         get '/api/v1/users/2.xml', {}, credentials('admin')
 
         assert_tag :tag => 'user',
@@ -52,7 +50,7 @@ class ApiTest::UsersTest < ActionDispatch::IntegrationTest
     end
 
     context ".json" do
-      should "return requested user" do
+      it "return requested user" do
         get '/api/v1/users/2.json', {}, credentials('admin')
 
         json = ActiveSupport::JSON.decode(@response.body)
@@ -65,13 +63,13 @@ class ApiTest::UsersTest < ActionDispatch::IntegrationTest
 
   context "GET /api/v1/users/current" do
     context ".xml" do
-      should "require authentication" do
+      it "require authentication" do
         get '/api/v1/users/current.xml'
 
         assert_response 401
       end
 
-      should "return current user" do
+      it "return current user" do
         get '/api/v1/users/current.xml', {}, credentials('jsmith')
 
         assert_tag :tag => 'user',
@@ -82,7 +80,7 @@ class ApiTest::UsersTest < ActionDispatch::IntegrationTest
 
   context "POST /api/v1/users" do
     context "with valid parameters" do
-      setup do
+      before do
         @parameters = {:user => {:login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname', :mail => 'foo@example.net', :password => 'adminADMIN!', :mail_notification => 'only_assigned'}}
       end
 
@@ -92,7 +90,7 @@ class ApiTest::UsersTest < ActionDispatch::IntegrationTest
           {:user => {:login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname', :mail => 'foo@example.net', :password => 'adminADMIN!'}},
           {:success_code => :created})
 
-        should "create a user with the attributes" do
+        it "create a user with the attributes" do
           assert_difference('User.count') do
             post '/api/v1/users.xml', @parameters, credentials('admin')
           end
@@ -118,7 +116,7 @@ class ApiTest::UsersTest < ActionDispatch::IntegrationTest
           {:user => {:login => 'foo', :firstname => 'Firstname', :lastname => 'Lastname', :mail => 'foo@example.net'}},
           {:success_code => :created})
 
-        should "create a user with the attributes" do
+        it "create a user with the attributes" do
           assert_difference('User.count') do
             post '/api/v1/users.json', @parameters, credentials('admin')
           end
@@ -141,12 +139,12 @@ class ApiTest::UsersTest < ActionDispatch::IntegrationTest
     end
 
     context "with invalid parameters" do
-      setup do
+      before do
         @parameters = {:user => {:login => 'foo', :lastname => 'Lastname', :mail => 'foo'}}
       end
 
       context ".xml" do
-        should "return errors" do
+        it "return errors" do
           assert_no_difference('User.count') do
             post '/api/v1/users.xml', @parameters, credentials('admin')
           end
@@ -158,7 +156,7 @@ class ApiTest::UsersTest < ActionDispatch::IntegrationTest
       end
 
       context ".json" do
-        should "return errors" do
+        it "return errors" do
           assert_no_difference('User.count') do
             post '/api/v1/users.json', @parameters, credentials('admin')
           end
@@ -176,7 +174,7 @@ class ApiTest::UsersTest < ActionDispatch::IntegrationTest
 
   context "PUT /users/2" do
     context "with valid parameters" do
-      setup do
+      before do
         @parameters = {:user => {:login => 'jsmith', :firstname => 'John', :lastname => 'Renamed', :mail => 'jsmith@somenet.foo'}}
       end
 
@@ -186,7 +184,7 @@ class ApiTest::UsersTest < ActionDispatch::IntegrationTest
           {:user => {:login => 'jsmith', :firstname => 'John', :lastname => 'Renamed', :mail => 'jsmith@somenet.foo'}},
           {:success_code => :ok})
 
-        should "update user with the attributes" do
+        it "update user with the attributes" do
           assert_no_difference('User.count') do
             put '/api/v1/users/2.xml', @parameters, credentials('admin')
           end
@@ -208,7 +206,7 @@ class ApiTest::UsersTest < ActionDispatch::IntegrationTest
           {:user => {:login => 'jsmith', :firstname => 'John', :lastname => 'Renamed', :mail => 'jsmith@somenet.foo'}},
           {:success_code => :ok})
 
-        should "update user with the attributes" do
+        it "update user with the attributes" do
           assert_no_difference('User.count') do
             put '/api/v1/users/2.json', @parameters, credentials('admin')
           end
@@ -226,12 +224,12 @@ class ApiTest::UsersTest < ActionDispatch::IntegrationTest
     end
 
     context "with invalid parameters" do
-      setup do
+      before do
         @parameters = {:user => {:login => 'jsmith', :firstname => '', :lastname => 'Lastname', :mail => 'foo'}}
       end
 
       context ".xml" do
-        should "return errors" do
+        it "return errors" do
           assert_no_difference('User.count') do
             put '/api/v1/users/2.xml', @parameters, credentials('admin')
           end
@@ -243,7 +241,7 @@ class ApiTest::UsersTest < ActionDispatch::IntegrationTest
       end
 
       context ".json" do
-        should "return errors" do
+        it "return errors" do
           assert_no_difference('User.count') do
             put '/api/v1/users/2.json', @parameters, credentials('admin')
           end
@@ -260,7 +258,7 @@ class ApiTest::UsersTest < ActionDispatch::IntegrationTest
   end
 
   context "DELETE /api/v1/users/2" do
-    setup do
+    before do
       Setting.users_deletable_by_admins = "1"
       # setup deleted user to not tamper with the count
       # as the deleted user gets created lazily when it is required
@@ -275,7 +273,7 @@ class ApiTest::UsersTest < ActionDispatch::IntegrationTest
                                       {:success_code => :ok})
 
 
-      should "delete user" do
+      it "delete user" do
         assert_difference('User.count', -1) do
           delete '/api/v1/users/2.xml', {}, credentials('admin')
         end
@@ -292,7 +290,7 @@ class ApiTest::UsersTest < ActionDispatch::IntegrationTest
                                       {},
                                       {:success_code => :ok})
 
-      should "delete user" do
+      it "delete user" do
         assert_difference('User.count', -1) do
           delete '/api/v1/users/2.json', {}, credentials('admin')
         end

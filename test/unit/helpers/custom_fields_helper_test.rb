@@ -28,17 +28,18 @@
 #++
 require File.expand_path('../../../test_helper', __FILE__)
 
-class CustomFieldsHelperTest < HelperTestCase
+describe CustomFieldsHelper do
+  include HelperTestCase
   include CustomFieldsHelper
   include Redmine::I18n
 
-  def test_format_boolean_value
+  it 'should format_boolean_value' do
     I18n.locale = 'en'
     assert_equal 'Yes', format_value('1', 'bool')
     assert_equal 'No', format_value('0', 'bool')
   end
 
-  def test_unknow_field_format_should_be_edited_as_string
+  it 'should unknow_field_format_should_be_edited_as_string' do
     field = CustomField.new(:field_format => 'foo')
     value = CustomValue.new(:value => 'bar', :custom_field => field)
     field.id = 52
@@ -47,7 +48,7 @@ class CustomFieldsHelperTest < HelperTestCase
       custom_field_tag('object', value)
   end
 
-  def test_unknow_field_format_should_be_bulk_edited_as_string
+  it 'should unknow_field_format_should_be_bulk_edited_as_string' do
     field = CustomField.new(:field_format => 'foo')
     field.id = 52
 

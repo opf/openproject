@@ -29,9 +29,9 @@
 
 require File.expand_path('../../../../../../test_helper', __FILE__)
 
-class Redmine::Views::Builders::JsonTest < HelperTestCase
+describe Redmine::Views::Builders::Json do
 
-  def test_hash
+  it 'should hash' do
     assert_json_output({'person' => {'name' => 'Ryan', 'age' => 32}}) do |b|
       b.person do
         b.name 'Ryan'
@@ -40,7 +40,7 @@ class Redmine::Views::Builders::JsonTest < HelperTestCase
     end
   end
 
-  def test_hash_hash
+  it 'should hash_hash' do
     assert_json_output({'person' => {'name' => 'Ryan', 'birth' => {'city' => 'London', 'country' => 'UK'}}}) do |b|
       b.person do
         b.name 'Ryan'
@@ -56,7 +56,7 @@ class Redmine::Views::Builders::JsonTest < HelperTestCase
     end
   end
 
-  def test_array
+  it 'should array' do
     assert_json_output({'books' => [{'title' => 'Book 1', 'author' => 'B. Smith'}, {'title' => 'Book 2', 'author' => 'G. Cooper'}]}) do |b|
       b.array :books do |b|
         b.book :title => 'Book 1', :author => 'B. Smith'
@@ -76,7 +76,7 @@ class Redmine::Views::Builders::JsonTest < HelperTestCase
     end
   end
 
-  def test_array_with_content_tags
+  it 'should array_with_content_tags' do
     assert_json_output({'books' => [{'value' => 'Book 1', 'author' => 'B. Smith'}, {'value' => 'Book 2', 'author' => 'G. Cooper'}]}) do |b|
       b.array :books do |b|
         b.book 'Book 1', :author => 'B. Smith'

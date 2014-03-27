@@ -28,15 +28,15 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class SettingTest < ActiveSupport::TestCase
+describe Setting do
 
-  def test_read_default
+  it 'should read_default' do
     assert_equal "OpenProject", Setting.app_title
     assert Setting.self_registration?
     assert !Setting.login_required?
   end
 
-  def test_update
+  it 'should update' do
     Setting.app_title = "My title"
     assert_equal "My title", Setting.app_title
     # make sure db has been updated (INSERT)
@@ -48,7 +48,7 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal "My other title", Setting.find_by_name('app_title').value
   end
 
-  def test_serialized_setting
+  it 'should serialized_setting' do
     Setting.notified_events = ['work_package_added', 'work_package_updated', 'news_added']
     assert_equal ['work_package_added', 'work_package_updated', 'news_added'], Setting.notified_events
     assert_equal ['work_package_added', 'work_package_updated', 'news_added'], Setting.find_by_name('notified_events').value

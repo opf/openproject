@@ -29,9 +29,9 @@
 
 require File.expand_path('../../../../../../test_helper', __FILE__)
 
-class Redmine::Views::Builders::XmlTest < HelperTestCase
+describe Redmine::Views::Builders::Xml do
 
-  def test_hash
+  it 'should hash' do
     assert_xml_output('<person><name>Ryan</name><age>32</age></person>') do |b|
       b.person do
         b.name 'Ryan'
@@ -40,7 +40,7 @@ class Redmine::Views::Builders::XmlTest < HelperTestCase
     end
   end
 
-  def test_array
+  it 'should array' do
     assert_xml_output('<books type="array"><book title="Book 1"/><book title="Book 2"/></books>') do |b|
       b.array :books do |b|
         b.book :title => 'Book 1'
@@ -49,7 +49,7 @@ class Redmine::Views::Builders::XmlTest < HelperTestCase
     end
   end
 
-  def test_array_with_content_tags
+  it 'should array_with_content_tags' do
     assert_xml_output('<books type="array"><book author="B. Smith">Book 1</book><book author="G. Cooper">Book 2</book></books>') do |b|
       b.array :books do |b|
         b.book 'Book 1', :author => 'B. Smith'

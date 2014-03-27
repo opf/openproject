@@ -32,11 +32,11 @@ require 'groups_controller'
 # Re-raise errors caught by the controller.
 class GroupsController; def rescue_action(e) raise e end; end
 
-class GroupsControllerTest < ActionController::TestCase
-  fixtures :all
+describe GroupsController do
 
-  def setup
-    super
+
+  before do
+
     @controller = GroupsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
@@ -44,80 +44,80 @@ class GroupsControllerTest < ActionController::TestCase
     @request.session[:user_id] = 1
   end
 
-  def test_index
+  it 'index' do
     get :index
     assert_response :success
     assert_template 'index'
   end
 
-  def test_show
+  it 'show' do
     get :show, :id => 10
     assert_response :success
     assert_template 'show'
   end
 
-  def test_new
+  it 'new' do
     get :new
     assert_response :success
     assert_template 'new'
   end
 
-  def test_create
+  it 'create' do
     assert_difference 'Group.count' do
       post :create, :group => {:lastname => 'New group'}
     end
     assert_redirected_to groups_path
   end
 
-  def test_edit
+  it 'edit' do
     get :edit, :id => 10
     assert_response :success
     assert_template 'edit'
   end
 
-  def test_update
+  it 'update' do
     put :update, :id => 10, :group => {:lastname => 'new name'}
     assert_redirected_to groups_path
   end
 
-  def test_destroy
+  it 'destroy' do
     assert_difference 'Group.count', -1 do
       delete :destroy, :id => 10
     end
     assert_redirected_to groups_path
   end
 
-  def test_add_users
+  it 'add_users' do
     assert_difference 'Group.find(10).users.count', 2 do
       post :add_users, :id => 10, :user_ids => ['2', '3']
     end
   end
 
-  def test_remove_user
+  it 'remove_user' do
     assert_difference 'Group.find(10).users.count', -1 do
       delete :remove_user, :id => 10, :user_id => '8'
     end
   end
 
-  def test_create_membership
+  it 'create_membership' do
     assert_difference 'Group.find(10).members.count' do
       post :create_memberships, :id => 10, :membership => { :project_id => 2, :role_ids => ['1', '2']}
     end
   end
 
-  def test_edit_membership
+  it 'edit_membership' do
     assert_no_difference 'Group.find(10).members.count' do
       put :edit_membership, :id => 10, :membership_id => 6, :membership => { :role_ids => ['1', '3']}
     end
   end
 
-  def test_destroy_membership
+  it 'destroy_membership' do
     assert_difference 'Group.find(10).members.count', -1 do
       delete :destroy_membership, :id => 10, :membership_id => 6
     end
   end
 
-  def test_autocomplete_for_user
+  it 'autocomplete_for_user' do
     get :autocomplete_for_user, :id => 10, :q => 'mis'
     assert_response :success
     users = assigns(:users)

@@ -28,31 +28,31 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class CustomFieldTest < ActiveSupport::TestCase
-  def test_create
+describe CustomField do
+  it 'should create' do
     field = UserCustomField.new(:name => 'Money money money', :field_format => 'float')
     assert field.save
   end
 
-  def test_possible_values_should_accept_an_array
+  it 'should possible_values_should_accept_an_array' do
     field = CustomField.new
     field.possible_values = ["One value", ""]
     assert_equal ["One value"], field.possible_values
   end
 
-  def test_possible_values_should_accept_a_string
+  it 'should possible_values_should_accept_a_string' do
     field = CustomField.new
     field.possible_values = "One value"
     assert_equal ["One value"], field.possible_values
   end
 
-  def test_possible_values_should_accept_a_multiline_string
+  it 'should possible_values_should_accept_a_multiline_string' do
     field = CustomField.new
     field.possible_values = "One value\nAnd another one  \r\n \n"
     assert_equal ["One value", "And another one"], field.possible_values
   end
 
-  def test_destroy
+  it 'should destroy' do
     field = FactoryGirl.create :custom_field
     assert field.destroy
   end

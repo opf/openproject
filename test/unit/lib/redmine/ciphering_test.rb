@@ -28,9 +28,9 @@
 #++
 require File.expand_path('../../../../test_helper', __FILE__)
 
-class Redmine::CipheringTest < ActiveSupport::TestCase
+describe Redmine::Ciphering do
 
-  def test_password_should_be_encrypted
+  it 'should password_should_be_encrypted' do
     OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
       r = Repository::Subversion.generate!(:password => 'foo')
       assert_equal 'foo', r.password
@@ -38,7 +38,7 @@ class Redmine::CipheringTest < ActiveSupport::TestCase
     end
   end
 
-  def test_password_should_be_clear_with_blank_key
+  it 'should password_should_be_clear_with_blank_key' do
     OpenProject::Configuration.with 'database_cipher_key' => '' do
       r = Repository::Subversion.generate!(:password => 'foo')
       assert_equal 'foo', r.password
@@ -46,7 +46,7 @@ class Redmine::CipheringTest < ActiveSupport::TestCase
     end
   end
 
-  def test_password_should_be_clear_with_nil_key
+  it 'should password_should_be_clear_with_nil_key' do
     OpenProject::Configuration.with 'database_cipher_key' => nil do
       r = Repository::Subversion.generate!(:password => 'foo')
       assert_equal 'foo', r.password
@@ -54,7 +54,7 @@ class Redmine::CipheringTest < ActiveSupport::TestCase
     end
   end
 
-  def test_unciphered_password_should_be_readable
+  it 'should unciphered_password_should_be_readable' do
     OpenProject::Configuration.with 'database_cipher_key' => nil do
       r = Repository::Subversion.generate!(:password => 'clear')
     end
@@ -65,7 +65,7 @@ class Redmine::CipheringTest < ActiveSupport::TestCase
     end
   end
 
-  def test_encrypt_all
+  it 'should encrypt_all' do
     Repository.delete_all
     OpenProject::Configuration.with 'database_cipher_key' => nil do
       Repository::Subversion.generate!(:password => 'foo')
@@ -80,7 +80,7 @@ class Redmine::CipheringTest < ActiveSupport::TestCase
     end
   end
 
-  def test_decrypt_all
+  it 'should decrypt_all' do
     Repository.delete_all
     OpenProject::Configuration.with 'database_cipher_key' => 'secret' do
       Repository::Subversion.generate!(:password => 'foo')

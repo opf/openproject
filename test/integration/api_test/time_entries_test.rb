@@ -28,16 +28,14 @@
 #++
 require File.expand_path('../../../test_helper', __FILE__)
 
-class ApiTest::TimeEntriesTest < ActionDispatch::IntegrationTest
-  fixtures :all
+describe "ApiTest::TimeEntries" do
 
-  def setup
-    super
+  before do
     Setting.rest_api_enabled = '1'
   end
 
   context "GET /api/v1/time_entries.xml" do
-    should "return time entries" do
+    it "return time entries" do
       get '/api/v1/time_entries.xml', {}, credentials('jsmith')
       assert_response :success
       assert_equal 'application/xml', @response.content_type
@@ -47,7 +45,7 @@ class ApiTest::TimeEntriesTest < ActionDispatch::IntegrationTest
   end
 
   context "GET /api/v1/time_entries/2.xml" do
-    should "return requested time entry" do
+    it "return requested time entry" do
       get '/api/v1/time_entries/2.xml', {}, credentials('jsmith')
       assert_response :success
       assert_equal 'application/xml', @response.content_type
@@ -58,7 +56,7 @@ class ApiTest::TimeEntriesTest < ActionDispatch::IntegrationTest
 
   context "POST /api/v1/time_entries.xml" do
     context "with work_package_id" do
-      should "return create time entry" do
+      it "return create time entry" do
         assert_difference 'TimeEntry.count' do
           post '/api/v1/time_entries.xml', {:time_entry => {:work_package_id => '1', :spent_on => '2010-12-02', :hours => '3.5', :activity_id => '11'}}, credentials('jsmith')
         end
@@ -76,7 +74,7 @@ class ApiTest::TimeEntriesTest < ActionDispatch::IntegrationTest
     end
 
     context "with project_id" do
-      should "return create time entry" do
+      it "return create time entry" do
         assert_difference 'TimeEntry.count' do
           post '/api/v1/time_entries.xml', {:time_entry => {:project_id => '1', :spent_on => '2010-12-02', :hours => '3.5', :activity_id => '11'}}, credentials('jsmith')
         end
@@ -94,7 +92,7 @@ class ApiTest::TimeEntriesTest < ActionDispatch::IntegrationTest
     end
 
     context "with invalid parameters" do
-      should "return errors" do
+      it "return errors" do
         assert_no_difference 'TimeEntry.count' do
           post '/api/v1/time_entries.xml', {:time_entry => {:project_id => '1', :spent_on => '2010-12-02', :activity_id => '11'}}, credentials('jsmith')
         end
@@ -108,7 +106,7 @@ class ApiTest::TimeEntriesTest < ActionDispatch::IntegrationTest
 
   context "PUT /api/v1/time_entries/2.xml" do
     context "with valid parameters" do
-      should "update time entry" do
+      it "update time entry" do
         assert_no_difference 'TimeEntry.count' do
           put '/api/v1/time_entries/2.xml', {:time_entry => {:comments => 'API Update'}}, credentials('jsmith')
         end
@@ -118,7 +116,7 @@ class ApiTest::TimeEntriesTest < ActionDispatch::IntegrationTest
     end
 
     context "with invalid parameters" do
-      should "return errors" do
+      it "return errors" do
         assert_no_difference 'TimeEntry.count' do
           put '/api/v1/time_entries/2.xml', {:time_entry => {:hours => '', :comments => 'API Update'}}, credentials('jsmith')
         end
@@ -131,7 +129,7 @@ class ApiTest::TimeEntriesTest < ActionDispatch::IntegrationTest
   end
 
   context "DELETE /api/v1/time_entries/2.xml" do
-    should "destroy time entry" do
+    it "destroy time entry" do
       assert_difference 'TimeEntry.count', -1 do
         delete '/api/v1/time_entries/2.xml', {}, credentials('jsmith')
       end

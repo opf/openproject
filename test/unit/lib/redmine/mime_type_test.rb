@@ -28,9 +28,9 @@
 #++
 require File.expand_path('../../../../test_helper', __FILE__)
 
-class Redmine::MimeTypeTest < ActiveSupport::TestCase
+describe Redmine::MimeType do
 
-  def test_of
+  it 'should of' do
     to_test = {'test.unk' => nil,
                'test.txt' => 'text/plain',
                'test.c' => 'text/x-c',
@@ -40,7 +40,7 @@ class Redmine::MimeTypeTest < ActiveSupport::TestCase
     end
   end
 
-  def test_css_class_of
+  it 'should css_class_of' do
     to_test = {'test.unk' => nil,
                'test.txt' => 'text-plain',
                'test.c' => 'text-x-c',
@@ -50,7 +50,7 @@ class Redmine::MimeTypeTest < ActiveSupport::TestCase
     end
   end
 
-  def test_main_mimetype_of
+  it 'should main_mimetype_of' do
     to_test = {'test.unk' => nil,
                'test.txt' => 'text',
                'test.c' => 'text',
@@ -60,7 +60,7 @@ class Redmine::MimeTypeTest < ActiveSupport::TestCase
     end
   end
 
-  def test_is_type
+  it 'should is_type' do
     to_test = {['text', 'test.unk'] => false,
                ['text', 'test.txt'] => true,
                ['text', 'test.c'] => true,

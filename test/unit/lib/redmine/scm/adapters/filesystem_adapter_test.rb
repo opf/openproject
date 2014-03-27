@@ -30,17 +30,17 @@
 
 require File.expand_path('../../../../../../test_helper', __FILE__)
 
-class FilesystemAdapterTest < ActiveSupport::TestCase
+describe Redmine::Scm::Adapters::FilesystemAdapter do
 
   REPOSITORY_PATH = Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/filesystem_repository'
 
   if File.directory?(REPOSITORY_PATH)
-    def setup
-      super
+    before do
+
       @adapter = Redmine::Scm::Adapters::FilesystemAdapter.new(REPOSITORY_PATH)
     end
 
-    def test_entries
+    it 'should entries' do
       assert_equal 3, @adapter.entries.size
       assert_equal ["dir", "japanese", "test"], @adapter.entries.collect(&:name)
       assert_equal ["dir", "japanese", "test"], @adapter.entries(nil).collect(&:name)
@@ -55,7 +55,7 @@ class FilesystemAdapterTest < ActiveSupport::TestCase
       end
     end
 
-    def test_cat
+    it 'should cat' do
       assert_equal "TEST CAT\n", @adapter.cat("test")
       assert_equal "TEST CAT\n", @adapter.cat("/test")
       # Revision number is ignored
@@ -63,6 +63,6 @@ class FilesystemAdapterTest < ActiveSupport::TestCase
     end
   else
     puts "Filesystem test repository NOT FOUND. Skipping unit tests !!! See doc/RUNNING_TESTS."
-    def test_fake; assert true end
+    it 'should fake' do; assert true end
   end
 end

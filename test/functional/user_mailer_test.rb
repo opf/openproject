@@ -28,11 +28,10 @@
 
 require File.expand_path('../../test_helper', __FILE__)
 
-class UserMailerTest < ActionMailer::TestCase
+describe UserMailer do
   include ActionDispatch::Assertions::SelectorAssertions
 
-  def setup
-    super
+  before do
     Setting.mail_from = 'john@doe.com'
     Setting.host_name = 'mydomain.foo'
     Setting.protocol = 'http'
@@ -48,7 +47,7 @@ class UserMailerTest < ActionMailer::TestCase
     User.current = User.anonymous
   end
 
-  def test_test_mail_sends_a_simple_greeting
+  it 'test_mail_sends_a_simple_greeting' do
     user = FactoryGirl.create(:user, :mail => 'foo@bar.de')
 
     mail = UserMailer.test_mail(user)
@@ -62,7 +61,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match /OpenProject URL/, mail.body.encoded
   end
 
-  def test_issue_add
+  it 'issue_add' do
     user  = FactoryGirl.create(:user, :mail => 'foo@bar.de')
     issue = FactoryGirl.create(:work_package, :subject => 'some issue title')
 
@@ -80,7 +79,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match /has been reported/, mail.body.encoded
   end
 
-  def test_generated_links_in_emails
+  it 'generated_links_in_emails' do
     Setting.default_language = 'en'
     Setting.host_name = 'mydomain.foo'
     Setting.protocol = 'https'
@@ -121,7 +120,7 @@ class UserMailerTest < ActionMailer::TestCase
     end
   end
 
-  def test_generated_links_with_prefix
+  it 'generated_links_with_prefix' do
     Setting.default_language = 'en'
     Setting.host_name = 'mydomain.foo/rdm'
     Setting.protocol = 'http'
@@ -162,7 +161,7 @@ class UserMailerTest < ActionMailer::TestCase
     end
   end
 
-  def test_generated_links_with_prefix_and_no_relative_url_root
+  it 'generated_links_with_prefix_and_no_relative_url_root' do
     Setting.default_language = 'en'
     relative_url_root = OpenProject::Configuration['rails_relative_url_root']
     Setting.host_name = 'mydomain.foo/rdm'
@@ -204,12 +203,12 @@ class UserMailerTest < ActionMailer::TestCase
                     "http://mydomain.foo/rdm/attachments/#{attachment.id}/download",
                     :text => "#{attachment.filename}"
     end
-  ensure
+  # ensure FIXME: RSpec-port
     # restore it
     OpenProject::Configuration['rails_relative_url_root'] = relative_url_root
   end
 
-  def test_email_headers
+  it 'email_headers' do
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
     mail = UserMailer.work_package_added(user, issue)
@@ -219,7 +218,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_equal 'auto-generated', mail.header['Auto-Submitted'].to_s
   end
 
-  def test_plain_text_mail
+  it 'plain_text_mail' do
     Setting.plain_text_mail = 1
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
@@ -230,7 +229,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert !mail.encoded.include?('href')
   end
 
-  def test_html_mail
+  it 'html_mail' do
     Setting.plain_text_mail = 0
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
@@ -241,7 +240,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert mail.encoded.include?('href')
   end
 
-  def test_mail_from_with_phrase
+  it 'mail_from_with_phrase' do
     user  = FactoryGirl.create(:user)
     with_settings :mail_from => 'Redmine app <redmine@example.net>' do
       UserMailer.test_mail(user).deliver
@@ -251,7 +250,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_equal 'Redmine app <redmine@example.net>', mail.header['From'].to_s
   end
 
-  def test_should_not_send_email_without_recipient
+  it 'should_not_send_email_without_recipient' do
     user  = FactoryGirl.create(:user)
     news  = FactoryGirl.create(:news)
 
@@ -272,7 +271,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert ActionMailer::Base.deliveries.empty?
   end
 
-  def test_issue_add_message_id
+  it 'issue_add_message_id' do
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
     mail = UserMailer.work_package_added(user, issue)
@@ -282,7 +281,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_nil mail.references
   end
 
-  def test_work_package_updated_message_id
+  it 'work_package_updated_message_id' do
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
     journal = issue.journals.first
@@ -293,7 +292,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match mail.references, UserMailer.generate_message_id(journal.journable, user)
   end
 
-  def test_message_posted_message_id
+  it 'message_posted_message_id' do
     user    = FactoryGirl.create(:user)
     message = FactoryGirl.create(:message)
     UserMailer.message_posted(user, message).deliver
@@ -307,7 +306,7 @@ class UserMailerTest < ActionMailer::TestCase
     end
   end
 
-  def test_reply_posted_message_id
+  it 'reply_posted_message_id' do
     user    = FactoryGirl.create(:user)
     parent  = FactoryGirl.create(:message)
     message = FactoryGirl.create(:message, :parent => parent)
@@ -323,7 +322,7 @@ class UserMailerTest < ActionMailer::TestCase
   end
 
   context("#issue_add") do
-    should "send one email per recipient" do
+    it "send one email per recipient" do
       user  = FactoryGirl.create(:user, :mail => 'foo@bar.de')
       issue = FactoryGirl.create(:work_package)
       ActionMailer::Base.deliveries.clear
@@ -332,7 +331,7 @@ class UserMailerTest < ActionMailer::TestCase
       assert_equal ['foo@bar.de'], last_email.to
     end
 
-    should "change mail language depending on recipient language" do
+    it "change mail language depending on recipient language" do
       issue = FactoryGirl.create(:work_package)
       user  = FactoryGirl.create(:user, :mail => 'foo@bar.de', :language => 'de')
       ActionMailer::Base.deliveries.clear
@@ -348,7 +347,7 @@ class UserMailerTest < ActionMailer::TestCase
       end
     end
 
-    should "falls back to default language if user has no language" do
+    it "falls back to default language if user has no language" do
       # 1. user's language
       # 2. Setting.default_language
       # 3. I18n.default_locale
@@ -369,62 +368,62 @@ class UserMailerTest < ActionMailer::TestCase
     end
   end
 
-  def test_issue_add
+  it 'issue_add' do
     user  = FactoryGirl.create(:user)
     issue = FactoryGirl.create(:work_package)
     assert UserMailer.work_package_added(user, issue).deliver
   end
 
-  def test_work_package_updated
+  it 'work_package_updated' do
     user    = FactoryGirl.create(:user)
     issue   = FactoryGirl.create(:work_package)
     journal = issue.journals.first
     assert UserMailer.work_package_updated(user, journal).deliver
   end
 
-  def test_news_added
+  it 'news_added' do
     user = FactoryGirl.create(:user)
     news = FactoryGirl.create(:news)
     assert UserMailer.news_added(user, news).deliver
   end
 
-  def test_news_comment_added
+  it 'news_comment_added' do
     user    = FactoryGirl.create(:user)
     news    = FactoryGirl.create(:news)
     comment = FactoryGirl.create(:comment, :commented => news)
     assert UserMailer.news_comment_added(user, comment).deliver
   end
 
-  def test_message_posted
+  it 'message_posted' do
     user    = FactoryGirl.create(:user)
     message = FactoryGirl.create(:message)
     assert UserMailer.message_posted(user, message).deliver
   end
 
-  def test_wiki_content_added
+  it 'wiki_content_added' do
     user         = FactoryGirl.create(:user)
     wiki_content = FactoryGirl.create(:wiki_content)
     assert UserMailer.wiki_content_added(user, wiki_content).deliver
   end
 
-  def test_wiki_content_updated
+  it 'wiki_content_updated' do
     user         = FactoryGirl.create(:user)
     wiki_content = FactoryGirl.create(:wiki_content)
     assert UserMailer.wiki_content_updated(user, wiki_content).deliver
   end
 
-  def test_account_information
+  it 'account_information' do
     user = FactoryGirl.create(:user)
     assert UserMailer.account_information(user, 'pAsswORd').deliver
   end
 
-  def test_lost_password
+  it 'lost_password' do
     user  = FactoryGirl.create(:user)
     token = FactoryGirl.create(:token, :user => user)
     assert UserMailer.password_lost(token).deliver
   end
 
-  def test_register
+  it 'register' do
     user  = FactoryGirl.create(:user)
     token = FactoryGirl.create(:token, :user => user)
     Setting.host_name = 'redmine.foo'
@@ -435,7 +434,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert mail.body.encoded.include?("https://redmine.foo/account/activate?token=#{token.value}")
   end
 
-  def test_reminders
+  it 'reminders' do
     user  = FactoryGirl.create(:user, :mail => 'foo@bar.de')
     issue = FactoryGirl.create(:work_package, :due_date => Date.tomorrow, :assigned_to => user, :subject => 'some issue')
     ActionMailer::Base.deliveries.clear
@@ -447,7 +446,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_equal '1 work package(s) due in the next 42 days', mail.subject
   end
 
-  def test_reminders_for_users
+  it 'reminders_for_users' do
     user1  = FactoryGirl.create(:user, :mail => 'foo1@bar.de')
     user2  = FactoryGirl.create(:user, :mail => 'foo2@bar.de')
     issue = FactoryGirl.create(:work_package, :due_date => Date.tomorrow, :assigned_to => user1, :subject => 'some issue')
@@ -465,7 +464,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_equal '1 work package(s) due in the next 42 days', mail.subject
   end
 
-  def test_mailer_should_not_change_locale
+  it 'mailer_should_not_change_locale' do
     with_settings :available_languages => ['en', 'de'],
                   :default_language    => 'en' do
       # Set current language to english
@@ -479,7 +478,7 @@ class UserMailerTest < ActionMailer::TestCase
     end
   end
 
-  def test_with_deliveries_off
+  it 'with_deliveries_off' do
     user = FactoryGirl.create(:user)
     UserMailer.with_deliveries(false) do
       UserMailer.test_mail(user).deliver
@@ -490,7 +489,7 @@ class UserMailerTest < ActionMailer::TestCase
   end
 
   context "layout" do
-    should "include the emails_header depeding on the locale" do
+    it "include the emails_header depeding on the locale" do
       with_settings :available_languages => [:en, :de],
                     :emails_header => { "de" => "deutscher header",
                                         "en" => "english header" } do

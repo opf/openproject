@@ -32,18 +32,18 @@ require 'application_controller'
 # Re-raise errors caught by the controller.
 class ApplicationController; def rescue_action(e) raise e end; end
 
-class ApplicationControllerTest < ActionController::TestCase
+describe ApplicationController do
   include Redmine::I18n
 
-  def setup
-    super
+  before do
+
     @controller = ApplicationController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end
 
   # check that all language files are valid
-  def test_localization
+  it 'localization' do
     lang_files_count = Dir[Rails.root.join('config/locales/*.yml')].size
     Setting.available_languages = Setting.all_languages
     assert_equal lang_files_count, valid_languages.size
@@ -53,7 +53,7 @@ class ApplicationControllerTest < ActionController::TestCase
     set_language_if_valid('en')
   end
 
-  def test_call_hook_mixed_in
+  it 'call_hook_mixed_in' do
     assert @controller.respond_to?(:call_hook)
   end
 end

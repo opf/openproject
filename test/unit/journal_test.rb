@@ -28,14 +28,9 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class JournalTest < ActiveSupport::TestCase
-  fixtures :all
+describe Journal do
 
-  def setup
-    super
-  end
-
-  def test_create_should_send_email_notification
+  it 'should create_should_send_email_notification' do
     ActionMailer::Base.deliveries.clear
     issue = WorkPackage.find(:first)
     if issue.journals.empty?
@@ -49,7 +44,7 @@ class JournalTest < ActiveSupport::TestCase
     assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
-  def test_create_should_not_send_email_notification_if_told_not_to
+  it 'should create_should_not_send_email_notification_if_told_not_to' do
     ActionMailer::Base.deliveries.clear
     issue = WorkPackage.find(:first)
     user = User.find(:first)
@@ -62,7 +57,7 @@ class JournalTest < ActiveSupport::TestCase
     assert_equal 0, ActionMailer::Base.deliveries.size
   end
 
-  test "creating the initial journal should track the changes from creation" do
+  it "creating the initial journal should track the changes from creation" do
     Journal.delete_all
     @project = Project.generate!
     issue = WorkPackage.new do |i|
@@ -83,7 +78,7 @@ class JournalTest < ActiveSupport::TestCase
     assert_equal [nil, "Some content"], journal.changed_data[:description]
   end
 
-  test "creating a journal should update the updated_on value of the parent record (touch)" do
+  it "creating a journal should update the updated_on value of the parent record (touch)" do
     @user = FactoryGirl.create(:user)
     @project = FactoryGirl.create(:project)
     @issue = FactoryGirl.create(:work_package, project: @project)
@@ -98,14 +93,14 @@ class JournalTest < ActiveSupport::TestCase
     assert_not_equal start, @issue.reload.updated_at
   end
 
-  test "accessing #journaled on a Journal should not error (parent class)" do
+  it "accessing #journaled on a Journal should not error (parent class)" do
     journal = Journal.new
     assert_nothing_raised do
       assert_equal nil, journal.journable
     end
   end
 
-  test "setting journal fields through the journaled object for creation" do
+  it "setting journal fields through the journaled object for creation" do
     @issue = FactoryGirl.create(:work_package)
 
     @issue.add_journal @issue.author, 'Test setting fields on Journal from Issue'

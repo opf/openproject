@@ -28,10 +28,10 @@
 #++
 require File.expand_path('../../../test_helper', __FILE__)
 
-class News::PreviewsControllerTest < ActionController::TestCase
-  fixtures :all
+describe News::PreviewsController do
+  render_views
 
-  def test_create
+  it 'create' do
     post :create, :project_id => 1,
                   :news => { :title => '',
                              :description => 'News description',

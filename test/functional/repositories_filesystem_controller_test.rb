@@ -32,15 +32,13 @@ require 'repositories_controller'
 # Re-raise errors caught by the controller.
 class RepositoriesController; def rescue_action(e) raise e end; end
 
-class RepositoriesFilesystemControllerTest < ActionController::TestCase
-  fixtures :all
+describe RepositoriesController, 'filesystem' do
 
   # No '..' in the repository path
   REPOSITORY_PATH = Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/filesystem_repository'
   PRJ_ID = 3
 
-  def setup
-    super
+  before do
     @controller = RepositoriesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
@@ -55,7 +53,7 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
   end
 
   if File.directory?(REPOSITORY_PATH)
-    def test_browse_root
+    it 'browse_root' do
       @repository.fetch_changesets
       @repository.reload
       get :show, :project_id => PRJ_ID
@@ -67,7 +65,7 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
       assert assigns(:changesets).size == 0
     end
 
-    def test_show_no_extension
+    it 'show_no_extension' do
       get :entry, :project_id => PRJ_ID, :path => 'test'
       assert_response :success
       assert_template 'entry'
@@ -77,13 +75,13 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
                  :sibling => { :tag => 'td', :content => /TEST CAT/ }
     end
 
-    def test_entry_download_no_extension
+    it 'entry_download_no_extension' do
       get :entry, :project_id => PRJ_ID, :path => 'test', :format => 'raw'
       assert_response :success
       assert_equal 'application/octet-stream', @response.content_type
     end
 
-    def test_show_non_ascii_contents
+    it 'show_non_ascii_contents' do
       with_settings :repositories_encodings => 'UTF-8,EUC-JP' do
         get :entry, :project_id => PRJ_ID, :path => 'japanese/euc-jp.txt'
         assert_response :success
@@ -95,7 +93,7 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
       end
     end
 
-    def test_show_utf16
+    it 'show_utf16' do
       with_settings :repositories_encodings => 'UTF-16' do
         get :entry, :project_id => PRJ_ID, :path => 'japanese/utf-16.txt'
         assert_response :success
@@ -110,7 +108,7 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
       end
     end
 
-    def test_show_text_file_should_send_if_too_big
+    it 'show_text_file_should_send_if_too_big' do
       with_settings :file_max_size_displayed => 1 do
         get :entry, :project_id => PRJ_ID, :path => 'japanese/big-file.txt'
         assert_response :success
@@ -119,6 +117,6 @@ class RepositoriesFilesystemControllerTest < ActionController::TestCase
     end
   else
     puts "Filesystem test repository NOT FOUND. Skipping functional tests !!!"
-    def test_fake; assert true end
+    it 'fake' do; assert true end
   end
 end

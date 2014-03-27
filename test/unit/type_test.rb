@@ -28,10 +28,10 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class TypeTest < ActiveSupport::TestCase
-  fixtures :all
+describe Type do
 
-  def test_copy_workflows
+
+  it 'should copy_workflows' do
     source = Type.find(1)
     assert_equal 89, source.workflows.size
 
@@ -42,7 +42,7 @@ class TypeTest < ActiveSupport::TestCase
     assert_equal 89, target.workflows.size
   end
 
-  def test_statuses
+  it 'should statuses' do
     type = Type.find(1)
     Workflow.delete_all
     Workflow.create!(:role_id => 1, :type_id => 1, :old_status_id => 2, :new_status_id => 3)
@@ -53,7 +53,7 @@ class TypeTest < ActiveSupport::TestCase
     assert_equal [2, 3, 5], Type.find(1).statuses.collect(&:id)
   end
 
-  def test_statuses_empty
+  it 'should statuses_empty' do
     Workflow.delete_all("type_id = 1")
     assert_equal [], Type.find(1).statuses
   end

@@ -28,12 +28,12 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class ApplicationTest < ActionDispatch::IntegrationTest
+describe "Application" do
   include Redmine::I18n
 
-  fixtures :all
 
-  def test_set_localization
+
+  it 'set_localization' do
     Setting.available_languages = [:de, :en]
     Setting.default_language = 'en'
 
@@ -49,7 +49,7 @@ class ApplicationTest < ActionDispatch::IntegrationTest
     assert_tag :tag => 'h2', :content => 'Projects'
   end
 
-  def test_token_based_access_should_not_start_session
+  it 'token_based_access_should_not_start_session' do
     # work_packages of a private project
     get '/work_packages/4.atom'
     assert_response 404

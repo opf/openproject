@@ -28,15 +28,13 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class RepositoryTest < ActiveSupport::TestCase
-  fixtures :all
+describe Repository do
 
-  def setup
-    super
+  before do
     @repository = Project.find(1).repository
   end
 
-  def test_create
+  it 'should create' do
     repository = Repository::Subversion.new(:project => Project.find(3))
     assert !repository.save
 
@@ -48,7 +46,7 @@ class RepositoryTest < ActiveSupport::TestCase
     assert_equal repository, project.repository
   end
 
-  def test_destroy
+  it 'should destroy' do
     changesets = Changeset.where('repository_id = 10').size
     changes = Change.includes(:changeset).where("#{Changeset.table_name}.repository_id = 10").size
     assert_difference 'Changeset.count', -changesets do
@@ -58,7 +56,7 @@ class RepositoryTest < ActiveSupport::TestCase
     end
   end
 
-  def test_should_not_create_with_disabled_scm
+  it 'should should_not_create_with_disabled_scm' do
     Setting.enabled_scm = ['Git'] # disable Subversion
     repository = Repository::Subversion.new(:project => Project.find(3), :url => "svn://localhost")
     assert !repository.save
@@ -67,7 +65,7 @@ class RepositoryTest < ActiveSupport::TestCase
     Setting.delete_all
   end
 
-  def test_scan_changesets_for_work_package_ids
+  it 'should scan_changesets_for_work_package_ids' do
     WorkPackage.all.each {|w| w.recreate_initial_journal!}
 
     Setting.default_language = 'en'
@@ -111,7 +109,7 @@ class RepositoryTest < ActiveSupport::TestCase
     assert_equal [], WorkPackage.find(4).changesets
   end
 
-  def test_for_changeset_comments_strip
+  it 'should for_changeset_comments_strip' do
     repository = Repository::Subversion.create( :project => Project.find( 4 ), :url => 'svn://:login:password@host:/path/to/the/repository' )
     comment = "This is a looooooooooooooong comment" + (" " * 80 + "\n") * 5
     changeset = Changeset.new(
@@ -122,7 +120,7 @@ class RepositoryTest < ActiveSupport::TestCase
     assert_equal( 'This is a looooooooooooooong comment', changeset.comments )
   end
 
-  def test_for_urls_strip
+  it 'should for_urls_strip' do
     repository = Repository::Subversion.create(
         :project => Project.find(4),
         :url => ' svn://:login:password@host:/path/to/the/repository',
@@ -134,7 +132,7 @@ class RepositoryTest < ActiveSupport::TestCase
     assert_equal 'foo', repository.root_url
   end
 
-  def test_manual_user_mapping
+  it 'should manual_user_mapping' do
     assert_no_difference "Changeset.count(:conditions => 'user_id <> 2')" do
       c = Changeset.create!(:repository => @repository, :committer => 'foo', :committed_on => Time.now, :revision => 100, :comments => 'Committed by foo.')
       assert_nil c.user
@@ -146,12 +144,12 @@ class RepositoryTest < ActiveSupport::TestCase
     end
   end
 
-  def test_auto_user_mapping_by_username
+  it 'should auto_user_mapping_by_username' do
     c = Changeset.create!(:repository => @repository, :committer => 'jsmith', :committed_on => Time.now, :revision => 100, :comments => 'Committed by john.')
     assert_equal User.find(2), c.user
   end
 
-  def test_auto_user_mapping_by_email
+  it 'should auto_user_mapping_by_email' do
     c = Changeset.create!(:repository => @repository, :committer => 'john <jsmith@somenet.foo>', :committed_on => Time.now, :revision => 100, :comments => 'Committed by john.')
     assert_equal User.find(2), c.user
   end

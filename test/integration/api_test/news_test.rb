@@ -28,17 +28,15 @@
 #++
 require File.expand_path('../../../test_helper', __FILE__)
 
-class ApiTest::NewsTest < ActionDispatch::IntegrationTest
-  fixtures :all
+describe "ApiTest::News" do
 
-  def setup
-    super
+  before do
     Setting.rest_api_enabled = '1'
   end
 
   context "GET /api/v1/news" do
     context ".xml" do
-      should "return news" do
+      it "return news" do
         get '/api/v1/news.xml'
 
         assert_tag :tag => 'news',
@@ -54,7 +52,7 @@ class ApiTest::NewsTest < ActionDispatch::IntegrationTest
     end
 
     context ".json" do
-      should "return news" do
+      it "return news" do
         get '/api/v1/news.json'
 
         json = ActiveSupport::JSON.decode(response.body)
@@ -70,7 +68,7 @@ class ApiTest::NewsTest < ActionDispatch::IntegrationTest
     context ".xml" do
       should_allow_api_authentication(:get, "/api/v1/projects/onlinestore/news.xml")
 
-      should "return news" do
+      it "return news" do
         get '/api/v1/projects/ecookbook/news.xml'
 
         assert_tag :tag => 'news',
@@ -88,7 +86,7 @@ class ApiTest::NewsTest < ActionDispatch::IntegrationTest
     context ".json" do
       should_allow_api_authentication(:get, "/api/v1/projects/onlinestore/news.json")
 
-      should "return news" do
+      it "return news" do
         get '/api/v1/projects/ecookbook/news.json'
 
         json = ActiveSupport::JSON.decode(response.body)

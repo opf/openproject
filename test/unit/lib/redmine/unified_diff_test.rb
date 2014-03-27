@@ -29,21 +29,21 @@
 
 require File.expand_path('../../../../test_helper', __FILE__)
 
-class Redmine::UnifiedDiffTest < ActiveSupport::TestCase
+describe Redmine::UnifiedDiff do
 
-  def test_subversion_diff
+  it 'should subversion_diff' do
     diff = Redmine::UnifiedDiff.new(read_diff_fixture('subversion.diff'))
     # number of files
     assert_equal 4, diff.size
     assert diff.detect {|file| file.file_name =~ %r{\Aconfig/settings.yml}}
   end
 
-  def test_truncate_diff
+  it 'should truncate_diff' do
     diff = Redmine::UnifiedDiff.new(read_diff_fixture('subversion.diff'), :max_lines => 20)
     assert_equal 2, diff.size
   end
 
-  def test_inline_partials
+  it 'should inline_partials' do
     diff = Redmine::UnifiedDiff.new(read_diff_fixture('partials.diff'))
     assert_equal 1, diff.size
     diff = diff.first
@@ -75,7 +75,7 @@ class Redmine::UnifiedDiffTest < ActiveSupport::TestCase
     assert_equal [0, -38], diff[16].offsets
   end
 
-  def test_side_by_side_partials
+  it 'should side_by_side_partials' do
     diff = Redmine::UnifiedDiff.new(read_diff_fixture('partials.diff'), :type => 'sbs')
     assert_equal 1, diff.size
     diff = diff.first
@@ -100,7 +100,7 @@ class Redmine::UnifiedDiffTest < ActiveSupport::TestCase
 
   end
 
-  def test_line_starting_with_dashes
+  it 'should line_starting_with_dashes' do
     diff = Redmine::UnifiedDiff.new(<<-DIFF
 --- old.txt Wed Nov 11 14:24:58 2009
 +++ new.txt Wed Nov 11 14:25:02 2009
@@ -126,7 +126,7 @@ DIFF
     assert_equal 1, diff.size
   end
 
-  def test_one_line_new_files
+  it 'should one_line_new_files' do
     diff = Redmine::UnifiedDiff.new(<<-DIFF
 diff -r 000000000000 -r ea98b14f75f0 README1
 --- /dev/null

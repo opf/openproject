@@ -28,22 +28,22 @@
 #++
 require File.expand_path('../../../../test_helper', __FILE__)
 
-class ChiliProject::DatabaseTest < ActiveSupport::TestCase
-  setup do
+describe ChiliProject::Database do
+  before do
     ChiliProject::Database.stub(:adapter_name).and_return "SQLite"
   end
 
-  should "return the correct identifier" do
+  it "return the correct identifier" do
     assert_equal :sqlite, ChiliProject::Database.name
   end
 
-  should "be able to use the helper methods" do
+  it "be able to use the helper methods" do
     assert_equal false, ChiliProject::Database.mysql?
     assert_equal false, ChiliProject::Database.postgresql?
     assert_equal true, ChiliProject::Database.sqlite?
   end
 
-  should "return a version string for SQLite3" do
+  it "return a version string for SQLite3" do
     begin
       ChiliProject::Database.stub(:adapter_name).and_return "SQLite"
 
@@ -97,7 +97,7 @@ class ChiliProject::DatabaseTest < ActiveSupport::TestCase
     end
   end
 
-  should "return a version string for PostgreSQL" do
+  it "return a version string for PostgreSQL" do
     ChiliProject::Database.stub(:adapter_name).and_return "PostgreSQL"
     raw_version = "PostgreSQL 8.3.11 on x86_64-pc-linux-gnu, compiled by GCC gcc-4.3.real (Debian 4.3.2-1.1) 4.3.2"
     ActiveRecord::Base.connection.stub(:select_value).and_return raw_version
@@ -106,7 +106,7 @@ class ChiliProject::DatabaseTest < ActiveSupport::TestCase
     assert_equal raw_version, ChiliProject::Database.version(true)
   end
 
-  should "return a version string for MySQL" do
+  it "return a version string for MySQL" do
     ChiliProject::Database.stub(:adapter_name).and_return "MySQL"
     ActiveRecord::Base.connection.stub(:select_value).and_return "5.1.2"
 

@@ -32,18 +32,17 @@ require 'watchers_controller'
 # Re-raise errors caught by the controller.
 class WatchersController; def rescue_action(e) raise e end; end
 
-class WatchersControllerTest < ActionController::TestCase
-  fixtures :all
+describe WatchersController do
+  render_views
 
-  def setup
-    super
+  before do
     @controller = WatchersController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
-  def test_watch
+  it 'watch' do
     @request.session[:user_id] = 3
     assert_difference('Watcher.count') do
       xhr :post, :watch, :object_type => 'work_package', :object_id => '1'
@@ -54,7 +53,7 @@ class WatchersControllerTest < ActionController::TestCase
     assert WorkPackage.find(1).watched_by?(User.find(3))
   end
 
-  def test_watch_should_be_denied_without_permission
+  it 'watch_should_be_denied_without_permission' do
     Role.find(2).remove_permission! :view_work_packages
     @request.session[:user_id] = 3
     assert_no_difference('Watcher.count') do
@@ -63,7 +62,7 @@ class WatchersControllerTest < ActionController::TestCase
     end
   end
 
-  def test_watch_with_multiple_replacements
+  it 'watch_with_multiple_replacements' do
     @request.session[:user_id] = 3
     assert_difference('Watcher.count') do
       xhr :post, :watch, :object_type => 'work_package', :object_id => '1', :replace => ['#watch_item_1','.watch_item_2']
@@ -74,7 +73,7 @@ class WatchersControllerTest < ActionController::TestCase
     end
   end
 
-  def test_watch_with_watchers_special_logic
+  it 'watch_with_watchers_special_logic' do
     @request.session[:user_id] = 3
     assert_difference('Watcher.count') do
       xhr :post, :watch, :object_type => 'work_package', :object_id => '1', :replace => ['#watchers', '.watcher']
@@ -85,7 +84,7 @@ class WatchersControllerTest < ActionController::TestCase
     end
   end
 
-  def test_unwatch
+  it 'unwatch' do
     @request.session[:user_id] = 3
     assert_difference('Watcher.count', -1) do
       xhr :post, :unwatch, :object_type => 'work_package', :object_id => '2'
@@ -96,7 +95,7 @@ class WatchersControllerTest < ActionController::TestCase
     assert !WorkPackage.find(1).watched_by?(User.find(3))
   end
 
-  def test_unwatch_with_multiple_replacements
+  it 'unwatch_with_multiple_replacements' do
     @request.session[:user_id] = 3
     assert_difference('Watcher.count', -1) do
       xhr :post, :unwatch, :object_type => 'work_package', :object_id => '2', :replace => ['#watch_item_1', '.watch_item_2']
@@ -108,7 +107,7 @@ class WatchersControllerTest < ActionController::TestCase
     assert !WorkPackage.find(1).watched_by?(User.find(3))
   end
 
-  def test_unwatch_with_watchers_special_logic
+  it 'unwatch_with_watchers_special_logic' do
     @request.session[:user_id] = 3
     assert_difference('Watcher.count', -1) do
       xhr :post, :unwatch, :object_type => 'work_package', :object_id => '2', :replace => ['#watchers', '.watcher']
@@ -120,7 +119,7 @@ class WatchersControllerTest < ActionController::TestCase
     assert !WorkPackage.find(1).watched_by?(User.find(3))
   end
 
-  def test_new_watcher
+  it 'new_watcher' do
     Watcher.destroy_all
     @request.session[:user_id] = 2
     assert_difference('Watcher.count') do
@@ -131,7 +130,7 @@ class WatchersControllerTest < ActionController::TestCase
     assert WorkPackage.find(2).watched_by?(User.find(3))
   end
 
-  def test_remove_watcher
+  it 'remove_watcher' do
     @request.session[:user_id] = 2
     assert_difference('Watcher.count', -1) do
       xhr :delete, :destroy, :id => Watcher.find_by_user_id_and_watchable_id(3, 2).id

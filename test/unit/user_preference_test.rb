@@ -28,10 +28,10 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class UserPreferenceTest < ActiveSupport::TestCase
+describe UserPreference do
   include MiniTest::Assertions
 
-  def test_validations
+  it 'should validations' do
     # factory valid
     assert FactoryGirl.build(:user_preference).valid?
 
@@ -39,7 +39,7 @@ class UserPreferenceTest < ActiveSupport::TestCase
     refute FactoryGirl.build(:user_preference, :user => nil).valid?
   end
 
-  def test_create
+  it 'should create' do
     user = FactoryGirl.create :user
 
     assert_kind_of UserPreference, user.pref
@@ -47,7 +47,7 @@ class UserPreferenceTest < ActiveSupport::TestCase
     assert user.pref.save
   end
 
-  def test_update
+  it 'should update' do
     user = FactoryGirl.create :user
     pref = FactoryGirl.create :user_preference, :user => user, :hide_mail => true
     assert_equal true, user.pref.hide_mail
@@ -59,7 +59,7 @@ class UserPreferenceTest < ActiveSupport::TestCase
     assert_equal 'value', user.pref['preftest']
   end
 
-  def test_update_with_method
+  it 'should update_with_method' do
     user = FactoryGirl.create :user
     assert_equal nil, user.pref.comments_sorting
     user.pref.comments_sorting = 'value'

@@ -28,19 +28,19 @@
 #++
 require File.expand_path('../../../../test_helper', __FILE__)
 
-class Redmine::WikiFormattingTest < ActiveSupport::TestCase
+describe Redmine::WikiFormatting do
 
-  def test_textile_formatter
+  it 'should textile_formatter' do
     assert_equal Redmine::WikiFormatting::Textile::Formatter, Redmine::WikiFormatting.formatter_for('textile')
     assert_equal Redmine::WikiFormatting::Textile::Helper, Redmine::WikiFormatting.helper_for('textile')
   end
 
-  def test_null_formatter
+  it 'should null_formatter' do
     assert_equal Redmine::WikiFormatting::NullFormatter::Formatter, Redmine::WikiFormatting.formatter_for('')
     assert_equal Redmine::WikiFormatting::NullFormatter::Helper, Redmine::WikiFormatting.helper_for('')
   end
 
-  def test_should_link_urls_and_email_addresses
+  it 'should should_link_urls_and_email_addresses' do
     raw = <<-DIFF
 This is a sample *text* with a link: http://www.redmine.org
 and an email address foo@example.net

@@ -32,37 +32,36 @@ require 'account_controller'
 # Re-raise errors caught by the controller.
 class AccountController; def rescue_action(e) raise e end; end
 
-class AccountControllerTest < ActionController::TestCase
-  fixtures :all
+describe AccountController do
+  render_views
 
-  def setup
-    super
+  before do
     @controller = AccountController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
-  def test_login_with_wrong_password
+  it 'login_with_wrong_password' do
     post :login, :username => 'admin', :password => 'bad'
     assert_response :success
     assert_template 'login'
     assert_select "div.flash.error.icon.icon-error", /Invalid user or password/
   end
 
-  def test_login
+  it 'login' do
     get :login
     assert_template 'login'
   end
 
-  def test_login_should_reset_session
+  it 'login_should_reset_session' do
     @controller.should_receive(:reset_session).once
 
     post :login, :username => 'jsmith', :password => 'jsmith'
     assert_response 302
   end
 
-  def test_login_with_logged_account
+  it 'login_with_logged_account' do
     @request.session[:user_id] = 2
     get :login
     assert_redirected_to home_url
@@ -70,7 +69,7 @@ class AccountControllerTest < ActionController::TestCase
 
   if Object.const_defined?(:OpenID)
 
-  def test_login_with_openid_for_existing_user
+  it 'login_with_openid_for_existing_user' do
     Setting.self_registration = '3'
     Setting.openid = '1'
     existing_user = User.new(:firstname => 'Cool',
@@ -84,14 +83,14 @@ class AccountControllerTest < ActionController::TestCase
     assert_redirected_to '/my/first_login'
   end
 
-  def test_login_with_invalid_openid_provider
+  it 'login_with_invalid_openid_provider' do
     Setting.self_registration = '0'
     Setting.openid = '1'
     post :login, :openid_url => 'http;//openid.example.com/good_user'
     assert_redirected_to home_url
   end
 
-  def test_login_with_openid_for_existing_non_active_user
+  it 'login_with_openid_for_existing_non_active_user' do
     Setting.self_registration = '2'
     Setting.openid = '1'
     existing_user = User.new(:firstname => 'Cool',
@@ -106,7 +105,7 @@ class AccountControllerTest < ActionController::TestCase
     assert_redirected_to '/login'
   end
 
-  def test_login_with_openid_with_new_user_created
+  it 'login_with_openid_with_new_user_created' do
     Setting.self_registration = '3'
     Setting.openid = '1'
     post :login, :openid_url => 'http://openid.example.com/good_user'
@@ -117,7 +116,7 @@ class AccountControllerTest < ActionController::TestCase
     assert_equal 'User', user.lastname
   end
 
-  def test_login_with_openid_with_new_user_and_self_registration_off
+  it 'login_with_openid_with_new_user_and_self_registration_off' do
     Setting.self_registration = '0'
     Setting.openid = '1'
     post :login, :openid_url => 'http://openid.example.com/good_user'
@@ -126,7 +125,7 @@ class AccountControllerTest < ActionController::TestCase
     assert ! user
   end
 
-  def test_login_with_openid_with_new_user_created_with_email_activation_should_have_a_token
+  it 'login_with_openid_with_new_user_created_with_email_activation_should_have_a_token' do
     Setting.self_registration = '1'
     Setting.openid = '1'
     post :login, :openid_url => 'http://openid.example.com/good_user'
@@ -138,7 +137,7 @@ class AccountControllerTest < ActionController::TestCase
     assert token
   end
 
-  def test_login_with_openid_with_new_user_created_with_manual_activation
+  it 'login_with_openid_with_new_user_created_with_manual_activation' do
     Setting.self_registration = '2'
     Setting.openid = '1'
     post :login, :openid_url => 'http://openid.example.com/good_user'
@@ -148,7 +147,7 @@ class AccountControllerTest < ActionController::TestCase
     assert_equal User::STATUSES[:registered], user.status
   end
 
-  def test_login_with_openid_with_new_user_with_conflict_should_register
+  it 'login_with_openid_with_new_user_with_conflict_should_register' do
     Setting.self_registration = '3'
     Setting.openid = '1'
     existing_user = User.new(:firstname => 'Cool', :lastname => 'User', :mail => 'user@somedomain.com')
@@ -162,7 +161,7 @@ class AccountControllerTest < ActionController::TestCase
     assert_equal 'http://openid.example.com/good_user', assigns(:user)[:identity_url]
   end
 
-  def test_setting_openid_should_return_true_when_set_to_true
+  it 'setting_openid_should_return_true_when_set_to_true' do
     Setting.openid = '1'
     assert_equal true, Setting.openid?
   end
@@ -171,14 +170,14 @@ class AccountControllerTest < ActionController::TestCase
     puts "Skipping openid tests."
   end
 
-  def test_logout
+  it 'logout' do
     @request.session[:user_id] = 2
     get :logout
     assert_redirected_to '/'
     assert_nil @request.session[:user_id]
   end
 
-  def test_logout_should_reset_session
+  it 'logout_should_reset_session' do
     @controller.should_receive(:reset_session).once
 
     @request.session[:user_id] = 2

@@ -28,10 +28,10 @@
 #++
 require 'test_helper'
 
-class RoleTest < ActiveSupport::TestCase
-  fixtures :all
+describe Role do
 
-  def test_copy_workflows
+
+  it 'should copy_workflows' do
     source = Role.find(1)
     assert_equal 90, source.workflows.size
 
@@ -42,7 +42,7 @@ class RoleTest < ActiveSupport::TestCase
     assert_equal 90, target.workflows.size
   end
 
-  def test_add_permission
+  it 'should add_permission' do
     role = Role.find(1)
     size = role.permissions.size
     role.add_permission!("apermission", "anotherpermission")
@@ -51,7 +51,7 @@ class RoleTest < ActiveSupport::TestCase
     assert_equal size + 2, role.permissions.size
   end
 
-  def test_remove_permission
+  it 'should remove_permission' do
     role = Role.find(1)
     size = role.permissions.size
     perm = role.permissions[0..1]
@@ -62,24 +62,24 @@ class RoleTest < ActiveSupport::TestCase
   end
 
   context "#anonymous" do
-    should "return the anonymous role" do
+    it "return the anonymous role" do
       role = Role.anonymous
       assert role.builtin?
       assert_equal Role::BUILTIN_ANONYMOUS, role.builtin
     end
 
     context "with a missing anonymous role" do
-      setup do
+      before do
         Role.delete_all("builtin = #{Role::BUILTIN_ANONYMOUS}")
       end
 
-      should "create a new anonymous role" do
+      it "create a new anonymous role" do
         assert_difference('Role.count') do
           Role.anonymous
         end
       end
 
-      should "return the anonymous role" do
+      it "return the anonymous role" do
         role = Role.anonymous
         assert role.builtin?
         assert_equal Role::BUILTIN_ANONYMOUS, role.builtin
@@ -88,24 +88,24 @@ class RoleTest < ActiveSupport::TestCase
   end
 
   context "#non_member" do
-    should "return the non-member role" do
+    it "return the non-member role" do
       role = Role.non_member
       assert role.builtin?
       assert_equal Role::BUILTIN_NON_MEMBER, role.builtin
     end
 
     context "with a missing non-member role" do
-      setup do
+      before do
         Role.delete_all("builtin = #{Role::BUILTIN_NON_MEMBER}")
       end
 
-      should "create a new non-member role" do
+      it "create a new non-member role" do
         assert_difference('Role.count') do
           Role.non_member
         end
       end
 
-      should "return the non-member role" do
+      it "return the non-member role" do
         role = Role.non_member
         assert role.builtin?
         assert_equal Role::BUILTIN_NON_MEMBER, role.builtin

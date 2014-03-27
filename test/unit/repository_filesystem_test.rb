@@ -28,14 +28,13 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class RepositoryFilesystemTest < ActiveSupport::TestCase
-  fixtures :all
+describe Repository::Filesystem do
 
   # No '..' in the repository path
   REPOSITORY_PATH = Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/filesystem_repository'
 
-  def setup
-    super
+  before do
+
     @project = Project.find(3)
     Setting.enabled_scm = Setting.enabled_scm.dup << 'Filesystem' unless Setting.enabled_scm.include?('Filesystem')
     assert @repository = Repository::Filesystem.create(
@@ -43,7 +42,7 @@ class RepositoryFilesystemTest < ActiveSupport::TestCase
   end
 
   if File.directory?(REPOSITORY_PATH)
-    def test_fetch_changesets
+    it 'should fetch_changesets' do
       @repository.fetch_changesets
       @repository.reload
 
@@ -51,17 +50,17 @@ class RepositoryFilesystemTest < ActiveSupport::TestCase
       assert_equal 0, @repository.changes.count
     end
 
-    def test_entries
+    it 'should entries' do
       assert_equal 3, @repository.entries("", 2).size
       assert_equal 2, @repository.entries("dir", 3).size
     end
 
-    def test_cat
+    it 'should cat' do
       assert_equal "TEST CAT\n", @repository.scm.cat("test")
     end
 
   else
     puts "Filesystem test repository NOT FOUND. Skipping unit tests !!! See doc/RUNNING_TESTS."
-    def test_fake; assert true end
+    it 'should fake' do; assert true end
   end
 end

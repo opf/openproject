@@ -29,17 +29,14 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class ApiTest::TokenAuthenticationTest < ActionDispatch::IntegrationTest
-  fixtures :all
+describe "ApiTest::TokenAuthentication" do
 
-  def setup
-    super
+  before do
     Setting.rest_api_enabled = '1'
     Setting.login_required = '1'
   end
 
-  def teardown
-    super
+  after do
     Setting.rest_api_enabled = '0'
     Setting.login_required = '0'
   end

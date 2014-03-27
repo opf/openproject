@@ -32,18 +32,17 @@ require 'queries_controller'
 # Re-raise errors caught by the controller.
 class QueriesController; def rescue_action(e) raise e end; end
 
-class QueriesControllerTest < ActionController::TestCase
-  fixtures :all
+describe QueriesController do
+  render_views
 
-  def setup
-    super
+  before do
     @controller = QueriesController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
-  def test_get_new_project_query
+  it 'get_new_project_query' do
     @request.session[:user_id] = 2
     get :new, :project_id => 1
     assert_response :success
@@ -57,7 +56,7 @@ class QueriesControllerTest < ActionController::TestCase
                                                  :disabled => nil }
   end
 
-  def test_get_new_global_query
+  it 'get_new_global_query' do
     @request.session[:user_id] = 2
     get :new
     assert_response :success
@@ -70,7 +69,7 @@ class QueriesControllerTest < ActionController::TestCase
                                                  :disabled => nil }
   end
 
-  def test_new_project_public_query
+  it 'new_project_public_query' do
     @request.session[:user_id] = 2
     post :new,
          :project_id => 'ecookbook',
@@ -88,7 +87,7 @@ class QueriesControllerTest < ActionController::TestCase
     assert q.valid?
   end
 
-  def test_new_project_private_query
+  it 'new_project_private_query' do
     @request.session[:user_id] = 3
     post :new,
          :project_id => 'ecookbook',
@@ -106,7 +105,7 @@ class QueriesControllerTest < ActionController::TestCase
     assert q.valid?
   end
 
-  def test_new_global_private_query_with_custom_columns
+  it 'new_global_private_query_with_custom_columns' do
     @request.session[:user_id] = 3
     post :new,
          :confirm => '1',
@@ -124,7 +123,7 @@ class QueriesControllerTest < ActionController::TestCase
     assert q.valid?
   end
 
-  def test_new_with_sort
+  it 'new_with_sort' do
     @request.session[:user_id] = 1
     post :new,
          confirm: '1',
@@ -142,7 +141,7 @@ class QueriesControllerTest < ActionController::TestCase
     assert_equal [['due_date', 'desc'], ['type', 'asc']], query.sort_criteria
   end
 
-  def test_get_edit_global_public_query
+  it 'get_edit_global_public_query' do
     @request.session[:user_id] = 1
     get :edit, :id => 4
     assert_response :success
@@ -156,7 +155,7 @@ class QueriesControllerTest < ActionController::TestCase
                                                  :disabled => 'disabled' }
   end
 
-  def test_edit_global_public_query
+  it 'edit_global_public_query' do
     @request.session[:user_id] = 1
     post :edit,
          :id => 4,
@@ -174,7 +173,7 @@ class QueriesControllerTest < ActionController::TestCase
     assert q.valid?
   end
 
-  def test_get_edit_global_private_query
+  it 'get_edit_global_private_query' do
     @request.session[:user_id] = 3
     get :edit, :id => 3
     assert_response :success
@@ -187,7 +186,7 @@ class QueriesControllerTest < ActionController::TestCase
                                                  :disabled => 'disabled' }
   end
 
-  def test_edit_global_private_query
+  it 'edit_global_private_query' do
     @request.session[:user_id] = 3
     post :edit,
          :id => 3,
@@ -205,7 +204,7 @@ class QueriesControllerTest < ActionController::TestCase
     assert q.valid?
   end
 
-  def test_get_edit_project_private_query
+  it 'get_edit_project_private_query' do
     @request.session[:user_id] = 3
     get :edit, :id => 2
     assert_response :success
@@ -218,7 +217,7 @@ class QueriesControllerTest < ActionController::TestCase
                                                  :disabled => nil }
   end
 
-  def test_get_edit_project_public_query
+  it 'get_edit_project_public_query' do
     @request.session[:user_id] = 2
     get :edit, :id => 1
     assert_response :success
@@ -233,7 +232,7 @@ class QueriesControllerTest < ActionController::TestCase
                                                  :disabled => 'disabled' }
   end
 
-  def test_get_edit_sort_criteria
+  it 'get_edit_sort_criteria' do
     @request.session[:user_id] = 1
     get :edit, :id => 5
     assert_response :success
@@ -246,7 +245,7 @@ class QueriesControllerTest < ActionController::TestCase
                                                                                 :selected => 'selected' } }
   end
 
-  def test_destroy
+  it 'destroy' do
     @request.session[:user_id] = 2
     post :destroy, :id => 1
     assert_redirected_to :controller => 'work_packages', :action => 'index', :project_id => 'ecookbook', :set_filter => 1, :query_id => nil

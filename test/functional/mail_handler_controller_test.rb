@@ -32,20 +32,20 @@ require 'mail_handler_controller'
 # Re-raise errors caught by the controller.
 class MailHandlerController; def rescue_action(e) raise e end; end
 
-class MailHandlerControllerTest < ActionController::TestCase
-  fixtures :all
+describe MailHandlerController do
+
 
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
 
-  def setup
-    super
+  before do
+
     @controller = MailHandlerController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
   end
 
-  def test_should_create_issue
+  it 'should_create_issue' do
     # Enable API and set a key
     Setting.mail_handler_api_enabled = 1
     Setting.mail_handler_api_key = 'secret'
@@ -54,7 +54,7 @@ class MailHandlerControllerTest < ActionController::TestCase
     assert_response 201
   end
 
-  def test_should_not_allow
+  it 'should_not_allow' do
     # Disable API
     Setting.mail_handler_api_enabled = 0
     Setting.mail_handler_api_key = 'secret'

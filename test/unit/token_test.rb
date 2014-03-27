@@ -28,17 +28,17 @@
 #++
 require File.expand_path('../../test_helper', __FILE__)
 
-class TokenTest < ActiveSupport::TestCase
-  fixtures :all
+describe Token do
 
-  def test_create
+
+  it 'should create' do
     token = Token.new
     token.save
     assert_equal 40, token.value.length
     assert !token.expired?
   end
 
-  def test_create_should_remove_existing_tokens
+  it 'should create_should_remove_existing_tokens' do
     user = User.find(1)
     t1 = Token.create(:user => user, :action => 'autologin')
     t2 = Token.create(:user => user, :action => 'autologin')

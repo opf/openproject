@@ -29,12 +29,12 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
-class WatchersHelperTest < HelperTestCase
+describe WatchersHelper do
   include WatchersHelper
 
   # tested for backwards compatibility
   context '#watcher_tag' do
-    setup do
+    before do
       # mocking watcher_link to make sure, that new API is properly called from
       # the old one.
       def self.watcher_link(*args)
@@ -49,7 +49,7 @@ class WatchersHelperTest < HelperTestCase
     end
 
     context 'without options' do
-      should "call watcher_link with object, user and {:id => 'watcher', :replace => '#watcher'}" do
+      it "call watcher_link with object, user and {:id => 'watcher', :replace => '#watcher'}" do
         watcher_tag(:object, :user)
         assert_equal :object, @watcher_link_args.first
         assert_equal :user, @watcher_link_args.second
@@ -58,7 +58,7 @@ class WatchersHelperTest < HelperTestCase
     end
 
     context 'with replace, without id option' do
-      should "set id to replace value and prefix replace with a # to make it a valid css selectors" do
+      it "set id to replace value and prefix replace with a # to make it a valid css selectors" do
         watcher_tag(:object, :user, :replace => 'abc')
         assert_equal :object, @watcher_link_args.first
         assert_equal :user, @watcher_link_args.second
@@ -67,7 +67,7 @@ class WatchersHelperTest < HelperTestCase
     end
 
     context 'with all options' do
-      should "prefix all elements in replace with a # to make them valid css selectors" do
+      it "prefix all elements in replace with a # to make them valid css selectors" do
         watcher_tag(:object, :user, :id => 'abc', :replace => ['abc', 'def'])
         assert_equal :object, @watcher_link_args.first
         assert_equal :user, @watcher_link_args.second

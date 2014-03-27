@@ -28,27 +28,28 @@
 #++
 require File.expand_path('../../../test_helper', __FILE__)
 
-class SearchHelperTest < HelperTestCase
+describe SearchHelper do
+  include HelperTestCase
   include SearchHelper
 
-  def test_highlight_single_token
+  it 'should highlight_single_token' do
     assert_equal 'This is a <span class="highlight token-0">token</span>.',
                  highlight_tokens('This is a token.', %w(token))
   end
 
-  def test_highlight_multiple_tokens
+  it 'should highlight_multiple_tokens' do
     assert_equal 'This is a <span class="highlight token-0">token</span> and <span class="highlight token-1">another</span> <span class="highlight token-0">token</span>.',
                  highlight_tokens('This is a token and another token.', %w(token another))
   end
 
-  def test_highlight_should_not_exceed_maximum_length
+  it 'should highlight_should_not_exceed_maximum_length' do
     s = (('1234567890' * 100) + ' token ') * 100
     r = highlight_tokens(s, %w(token))
     assert r.include?('<span class="highlight token-0">token</span>')
     assert r.length <= 1300
   end
 
-  def test_highlight_multibyte
+  it 'should highlight_multibyte' do
     s = ('й' * 200) + ' token ' + ('й' * 200)
     r = highlight_tokens(s, %w(token))
     assert_equal  ('й' * 45) + ' ... ' + ('й' * 44) + ' <span class="highlight token-0">token</span> ' + ('й' * 44) + ' ... ' + ('й' * 45), r
