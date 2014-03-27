@@ -384,6 +384,14 @@ class WorkPackage < ActiveRecord::Base
   def assignable_responsibles
     project.possible_responsibles
   end
+  
+  def is_possible_assignee?(user)
+    self.assignable_assignees.map(&:id).include?(user.id)
+  end
+  
+  def is_possible_responsible?(user)
+    self.assignable_responsibles.map(&:id).include?(user.id)
+  end
 
   # Versions that the work_package can be assigned to
   # A work_package can be assigned to:
