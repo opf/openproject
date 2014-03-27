@@ -12,7 +12,7 @@ Requirements
 ------------
 
 The OpenProject Backlogs plug-in requires the [OpenProject Core](https://github.com/opf/openproject/) in
-version greater or equal to *3.0.0pre37*.
+version greater or equal to *3.0.0*.
 
 Tests for this plugin require `pdf-inspector`, so just add the following line to
 OpenProject's `Gemfile.plugin`:
@@ -26,13 +26,13 @@ Installation
 OpenProject Backlogs depends on OpenProject Plugins and on OpenProject PDF export Plugin. Thus, if you haven't done
 it already, add the following lines to the `Gemfile.plugins` to your OpenProject installation:
 
-`gem "openproject-plugins", git: "https://github.com/opf/openproject-plugins.git", :branch => "dev"`
-`gem "openproject-pdf_export", git: "https://github.com/finnlabs/openproject-pdf_export.git", :branch => "dev"`
+`gem "openproject-plugins", git: "https://github.com/opf/openproject-plugins.git", :branch => "stable"`
+`gem "openproject-pdf_export", git: "https://github.com/finnlabs/openproject-pdf_export.git", :branch => "stable"`
 
 For OpenProject Backlogs itself you need to add the following line to the
 `Gemfile.plugins` of OpenProject:
 
-`gem "openproject-backlogs", git: "https://github.com/finnlabs/openproject-backlogs.git", :branch => "dev"`
+`gem "openproject-backlogs", git: "https://github.com/finnlabs/openproject-backlogs.git", :branch => "stable"`
 
 Afterwards, run:
 
@@ -48,7 +48,7 @@ Deinstallation
 
 Remove the line
 
-`gem "openproject-backlogs", git: "https://github.com/finnlabs/openproject-backlogs.git"`
+`gem "openproject-backlogs", git: "https://github.com/finnlabs/openproject-backlogs.git"`, :branch => "stable"`
 
 from the file `Gemfile.plugins` and run:
 
@@ -104,7 +104,7 @@ Additionally, we would like to thank
 Licence
 -------
 
-Copyright (C)2013 the OpenProject Foundation (OPF)<br />
+Copyright (C)2013-2014 the OpenProject Foundation (OPF)<br />
 Copyright (C)2011 Marnen Laibow-Koser, Sandro Munda<br />
 Copyright (C)2010-2011 friflaj<br />
 Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns<br />

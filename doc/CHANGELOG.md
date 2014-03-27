@@ -1,7 +1,7 @@
 <!---- copyright
 OpenProject Backlogs Plugin
 
-Copyright (C)2013 the OpenProject Foundation (OPF)
+Copyright (C)2013-2014 the OpenProject Foundation (OPF)
 Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
 Copyright (C)2010-2011 friflaj
 Copyright (C)2010 Maxime Guilbot, Andrew Vit, Joakim Kolsjö, ibussieres, Daniel Passos, Jason Vasquez, jpic, Emiliano Heyns
@@ -36,6 +36,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.6
+
+* `#5357` Adapt released plugins to base on plugins functionality
 * Migration fix: Also used plugin_redmine_backlogs as old setting name when migrating
 
 ## 3.0.5
