@@ -1,6 +1,7 @@
 #-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2011-2013 the OpenProject Foundation (OPF)
+# OpenProject My Project Page Plugin
+#
+# Copyright (C) 2011-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -19,6 +20,6 @@
 
 module OpenProject
   module MyProjectPage
-    VERSION = "3.0.0"
+    VERSION = "3.0.1"
   end
 end

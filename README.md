@@ -7,18 +7,20 @@ to the "My Page" in the OpenProject Core.
 Requirements
 ------------
 
-The My Project Page plugin currently requires the OpenProject Core in
-version 3.0.0pre23 or newer.
+The My Project Page plugin currently requires the OpenProject Core in version 3.0.0 or newer.
 
 
 Installation
 ------------
 
-Please follow the default [plugin installation instructions for
-OpenProject](https://www.openproject.org/projects/openproject/wiki/Installation#222-Add-plugins),
-adding the following line to the Gemfile.plugins:
+OpenProject My Project Page depends on the OpenProject Plugins plugin. Thus, if you haven't done
+it already, add the following line to the `Gemfile.plugins` to your OpenProject installation:
 
-`gem "openproject-my_project_page"`
+`gem "openproject-plugins", :git => "https://github.com/opf/openproject-plugins.git", :branch => "stable"`
+
+To install the My Project Page plugin, add the following line to the `Gemfile.plugins` to your OpenProject installation:
+
+`gem "openproject-my_project_page", :git => "https://github.com/finnlabs/openproject-my_project_page.git", :branch => "stable"`
 
 Afterwards, run:
 
@@ -33,7 +35,7 @@ Deinstallation
 
 Remove the line
 
-`gem "openproject-my_project_page"`
+`gem "openproject-my_project_page", :git => "https://github.com/finnlabs/openproject-my_project_page.git", :branch => "stable"`
 
 from the file `Gemfile.plugins` and run:
 
@@ -59,7 +61,7 @@ To contribute, you can create pull request on the official repository at
 Licence
 -------
 
-(c) 2013 - Finn GmbH
+(c) 2011 - 2014 - the OpenProject Foundation (OPF)
 
 This plugin is licensed under the GNU GPL v3. See doc/COPYRIGHT.rdoc and
 doc/GPL.txt for details.
