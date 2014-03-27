@@ -15,7 +15,7 @@ Requirements
 ------------
 
 The Meeting plugin currently requires the [OpenProject Core](https://github.com/opf/openproject/) in
-version greater or equal to 3.0.0pre36.
+version greater or equal to 3.0.0.
 
 
 Installation
@@ -24,8 +24,8 @@ Installation
 OpenProject Meeting depends on the OpenProject Plugins plugin. Thus, if you haven't done
 it already, add the following line to the `Gemfile.plugins` to your OpenProject installation:
 
-`gem "openproject-plugins", :git => "https://github.com/opf/openproject-plugins.git", :branch => "dev"`
-`gem "openproject-meeting", :git => "https://github.com/finnlabs/openproject-meeting.git", :branch => "dev"`
+`gem "openproject-plugins", :git => "https://github.com/opf/openproject-plugins.git", :branch => "stable"`
+`gem "openproject-meeting", :git => "https://github.com/finnlabs/openproject-meeting.git", :branch => "stable"`
 
 Afterwards, run:
 
@@ -40,7 +40,7 @@ Deinstallation
 
 Remove the line
 
-`gem "openproject-meeting", :git => "https://github.com/finnlabs/openproject-meeting.git", :branch => "dev"`
+`gem "openproject-meeting", :git => "https://github.com/finnlabs/openproject-meeting.git", :branch => "stable"`
 
 from the file `Gemfile.plugins` and run:
 
@@ -69,12 +69,12 @@ Credits
 Special thanks go to
 
 * Deutsche Telekom AG (opensource@telekom.de) for project sponsorship
-* Le Moign Vincent and his fabulous Minicons icons on [webalys.com](http://www.webalys.com/minicons/icons-free-pack.php)
+* Vincent Le Moign and his fabulous Minicons icons on [webalys.com](http://www.webalys.com/minicons/icons-free-pack.php)
 
 License
 -------
 
-(c) 2011 - 2013 - the OpenProject Foundation (OPF)
+(c) 2011 - 2014 - the OpenProject Foundation (OPF)
 
 This plugin is licensed under the GNU GPL v3. See doc/COPYRIGHT.md and
 doc/GPL.txt for details.
