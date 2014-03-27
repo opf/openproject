@@ -1,6 +1,7 @@
 <!---- copyright
-OpenProject is a project management system.
-Copyright (C) 2013 the OpenProject Foundation (OPF)
+OpenProject Plugins Plugin
+
+Copyright (C) 2013 - 2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -15,6 +16,9 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+## 1.0.8
+
+* `#5357` Updated readme and copyrights
 * Changed settings default parameter key to be a symbol like in the core
 
 ## 1.0.7

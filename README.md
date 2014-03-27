@@ -44,7 +44,7 @@ module OpenProject::RepositoryAuthentication
 
     register 'openproject-repository_authentication',
              :author_url => 'http://finn.de',
-             :requires_openproject => '>= 3.0.0pre6' do
+             :requires_openproject => '>= 3.0.0' do
       menu :project_menu,
            :repo_auth,
            {:controller => '/repo_auth_controller', :action => :index},
@@ -89,6 +89,6 @@ In case you find a bug or need a feature, please report at https://www.openproje
 
 ## License
 
-Copyright (C) 2013 the OpenProject Foundation (OPF)
+Copyright (C) 2013 - 2014 the OpenProject Foundation (OPF)
 
 This plugin is licensed under the GNU GPL v3. See doc/COPYRIGHT.md for details.

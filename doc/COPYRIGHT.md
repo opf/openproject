@@ -1,6 +1,9 @@
-OpenProject is a project management system.
+OpenProject Plugins Plugin
 
-Copyright (C) 2013 the OpenProject Foundation (OPF)
+This plugin acts as a plugin generator and it provides base
+functionality for other plugins.
+
+Copyright (C) 2013 - 2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
