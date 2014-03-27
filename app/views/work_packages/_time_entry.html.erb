@@ -36,6 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="splitcontentleft">
       <div class="attribute_wrapper">
         <%= fields.text_field :hours,
+                              :value => number_with_delimiter(time_entry.hours, locale: I18n.locale),
                               :label => :label_spent_time,
                               :placeholder => TimeEntry.human_attribute_name(:hours),
                               :class => 'short' %>
