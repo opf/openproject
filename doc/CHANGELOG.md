@@ -26,6 +26,10 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+## 1.0.0
+
+* * `#5357` Update readme and gemspec
+
 ## 0.0.1
 
 * `#4024` Subpages have no unique page titles
