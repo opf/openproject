@@ -28,6 +28,7 @@
 #++
 
 require 'spec_helper'
+require 'support/shared/previews'
 
 describe WorkPackagesController do
 
@@ -583,48 +584,6 @@ describe WorkPackagesController do
     end
   end
 
-  describe 'preview.html' do
-    let(:wp_params) { { :wp_attribute => double('wp_attribute') } }
-    let(:params) { { work_package: wp_params } }
-    let(:call_action) { post 'preview', params }
-
-    requires_permission_in_project do
-      before do
-        controller.stub(:work_package).and_return(stub_work_package)
-        controller.send(:permitted_params).should_receive(:update_work_package)
-                                          .with(:project => stub_work_package.project)
-                                          .and_return(wp_params)
-      end
-
-      it 'render the preview ' do
-        call_action
-
-        response.should render_template('work_packages/preview', :formats => ["html"], :layout => false)
-      end
-    end
-  end
-
-  describe 'preview.js' do
-    let(:wp_params) { { :wp_attribute => double('wp_attribute') } }
-    let(:params) { { work_package: wp_params } }
-    let(:call_action) { xhr :post, :preview, params }
-
-    requires_permission_in_project do
-      before do
-        controller.stub(:work_package).and_return(stub_work_package)
-        controller.send(:permitted_params).should_receive(:update_work_package)
-                                          .with(:project => stub_work_package.project)
-                                          .and_return(wp_params)
-      end
-
-      it 'render the preview ' do
-        call_action
-
-        response.should render_template('work_packages/preview', :formats => ["html"], :layout => false)
-      end
-    end
-  end
-
   describe :work_package do
     describe 'when providing an id (wanting to see an existing wp)' do
       describe 'when beeing allowed to see the work_package' do
@@ -1052,6 +1011,39 @@ describe WorkPackagesController do
           it { subject[:attachments] =~ /too long/ }
         end
       end
+    end
+  end
+
+  describe 'preview' do
+    let(:project) { FactoryGirl.create(:project) }
+    let(:role) { FactoryGirl.create(:role,
+                                    permissions: [:add_work_packages]) }
+    let(:user) { FactoryGirl.create(:user,
+                                    member_in_project: project,
+                                    member_through_role: role) }
+    let(:description) { "Work package description" }
+    let(:notes) { "Work package note" }
+    let(:preview_params) { { work_package: { description: description,
+                                             notes: notes } } }
+
+    before { User.stub(:current).and_return(user) }
+
+    it_behaves_like 'valid preview' do
+      let(:preview_texts) { [description, notes] }
+    end
+
+    it_behaves_like 'authorizes object access' do
+      let(:work_package) { FactoryGirl.create(:work_package) }
+      let(:preview_params) { { id: work_package.id,
+                               work_package: { } } }
+    end
+
+    describe 'preview.js' do
+      before { xhr :put, :preview, preview_params }
+
+      it { expect(response).to render_template('common/preview',
+                                               format: ["html"],
+                                               layout: false ) }
     end
   end
 end

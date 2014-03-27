@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -27,19 +26,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class News::PreviewsController < ApplicationController
-  before_filter :find_model_object_and_project
+require 'spec_helper'
+require 'support/permission_specs'
 
-  model_object News
+describe NewsController, "manage_news permission", type: :controller do
+  include PermissionSpecs
 
-  def create
-    @text = news_params[:description]
-    render :partial => 'common/preview'
-  end
-
-private
-
-  def news_params
-    params.fetch(:news, {})
-  end
+  check_permission_required_for('news#preview', :manage_news)
 end

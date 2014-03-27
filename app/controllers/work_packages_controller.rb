@@ -48,15 +48,16 @@ class WorkPackagesController < ApplicationController
   include QueriesHelper
   include SortHelper
   include PaginationHelper
+  include OpenProject::Concerns::Preview
 
   accept_key_auth :index, :show, :create, :update
 
   before_filter :disable_api
   before_filter :not_found_unless_work_package,
                 :project,
-                :authorize, :except => [:index]
+                :authorize, :except => [:index, :preview]
   before_filter :find_optional_project,
-                :protect_from_unauthorized_export, :only => [:index, :all]
+                :protect_from_unauthorized_export, :only => [:index, :all, :preview]
   before_filter :load_query, :only => :index
 
   def show
@@ -121,16 +122,6 @@ class WorkPackagesController < ApplicationController
                                       :project => project,
                                       :priorities => priorities,
                                       :user => current_user } }
-    end
-  end
-
-  def preview
-    safe_params = permitted_params.update_work_package(project: project)
-    work_package.update_by(current_user, safe_params)
-
-    respond_to do |format|
-      format.any(:html, :js) { render 'preview', locals: { work_package: work_package },
-                                                 layout: false }
     end
   end
 
@@ -452,5 +443,9 @@ class WorkPackagesController < ApplicationController
     else
       super
     end
+  end
+
+  def parse_preview_data
+    parse_preview_data_helper :work_package, [:notes, :description]
   end
 end
