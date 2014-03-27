@@ -20,7 +20,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 # Changelog
 
+## 5.0.4
+
 * `#4024` Fix: Subpages have no unique page titles
+* `#5357` Adapt released plugins to base on plugins functionality
 * Fix: Edit accesskey for budget
 * Adapted setting registration to changes in plugins plugin
 

@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.authors = "Finn GmbH"
   s.email = "info@finn.de"
   s.homepage = "https://www.openproject.org/projects/costs-plugin"
-  s.summary     = "An OpenProject plugin to manage project costs"
+  s.summary     = "OpenProject Costs"
   s.description = "This Plugin adds features for planning and tracking costs of projects."
   s.license     = "GPLv3"
 
