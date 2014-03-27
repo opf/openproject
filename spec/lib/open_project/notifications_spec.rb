@@ -26,19 +26,27 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomFieldsPage
-  include Rails.application.routes.url_helpers
-  include Capybara::DSL
+require 'spec_helper'
 
-  def visit_new(type="WorkPackageCustomField")
-    visit new_custom_field_path type: type
+describe OpenProject::Notifications do
+  let(:probe) { lambda{ |*args| } }
+  let(:payload) { { 'test' => 'payload' } }
+
+  describe '.send' do
+    before do
+      # We can't clean this up, so we need to use a unique name
+      OpenProject::Notifications.subscribe("notifications_spec_send", &probe)
+
+      probe.should_receive(:call) do |payload|
+        # Don't check for object identity for the payload as it might be
+        # marshalled and unmarshalled before being delivered in the future.
+        expect(payload).to eql(payload)
+      end
+    end
+
+    it 'should deliver a notification' do
+      OpenProject::Notifications.send("notifications_spec_send", payload)
+    end
   end
 
-  def name_attributes
-    find '#custom_field_name_attributes span[lang]'
-  end
-
-  def default_value_attributes
-    find '#custom_field_default_value_attributes span[lang]'
-  end
 end

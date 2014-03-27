@@ -26,7 +26,7 @@ angular.module('openproject.workPackages.helpers')
       }
     },
 
-    getRowObjectCustomValue: function(object, customField) {
+    getFormattedCustomValue: function(object, customField) {
       if (!object.custom_values) return null;
 
       var customValue = object.custom_values.filter(function(customValue){
@@ -38,15 +38,10 @@ angular.module('openproject.workPackages.helpers')
       }
     },
 
-    getFormattedColumnValue: function(rowObject, column) {
-      var value;
+    getFormattedColumnData: function(object, column) {
+      var value = WorkPackagesHelper.getRowObjectContent(object, column.name);
 
-      if (column.custom_field) {
-        return WorkPackagesHelper.getRowObjectCustomValue(rowObject, column.custom_field);
-      } else {
-        value = WorkPackagesHelper.getRowObjectContent(rowObject, column.name);
-        return WorkPackagesHelper.formatValue(value, column.meta_data.data_type);
-      }
+      return WorkPackagesHelper.formatValue(value, column.meta_data.data_type);
     },
 
     formatValue: function(value, dataType) {

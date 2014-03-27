@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -26,19 +27,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomFieldsPage
-  include Rails.application.routes.url_helpers
-  include Capybara::DSL
+module Tasks
+  module Shared
+    module UserFeedback
+      def ask_for_confirmation(questions)
+        questions.all? do |question|
+          ask_confirmation_question(question)
+        end
+      end
 
-  def visit_new(type="WorkPackageCustomField")
-    visit new_custom_field_path type: type
-  end
+      def ask_confirmation_question(question)
+        puts "\n\n"
+        puts question
+        puts "\nDo you want to continue? [y/N]"
 
-  def name_attributes
-    find '#custom_field_name_attributes span[lang]'
-  end
-
-  def default_value_attributes
-    find '#custom_field_default_value_attributes span[lang]'
+        STDIN.gets.chomp == 'y'
+      end
+    end
   end
 end

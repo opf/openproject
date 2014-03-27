@@ -187,8 +187,8 @@ class Journal < ActiveRecord::Base
   end
 
   def predecessor
-    @predecessor ||= Journal.where("journable_type = ? AND journable_id = ? AND id < ?",
-                                   journable_type, journable_id, id)
+    @predecessor ||= Journal.where("journable_type = ? AND journable_id = ? AND version < ?",
+                                   journable_type, journable_id, version)
                             .order("version DESC")
                             .first
   end

@@ -14,17 +14,21 @@ angular.module('openproject.workPackages.directives')
     link: function(scope, element, attributes) {
       scope.displayType = scope.displayType || 'text';
 
-      // custom display types
-      if (scope.column.name === 'done_ratio') {
-        scope.displayType = 'progress_bar';
-      }
-
       // Set text to be displayed
       scope.$watch('workPackage', setColumnData, true);
 
       function setColumnData() {
         // retrieve column value from work package
-        scope.displayText = WorkPackagesHelper.getFormattedColumnValue(scope.workPackage, scope.column) || '';
+        if (scope.column.custom_field) {
+          var custom_field = scope.column.custom_field;
+
+          scope.displayText = WorkPackagesHelper.getFormattedCustomValue(scope.workPackage, custom_field) || '';
+        } else {
+          // custom display types
+          if (scope.column.name === 'done_ratio') scope.displayType = 'progress_bar';
+
+          scope.displayText = WorkPackagesHelper.getFormattedColumnData(scope.workPackage, scope.column) || '';
+        }
 
         if (scope.column.meta_data.data_type === 'user') loadUserName();
 

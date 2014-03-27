@@ -26,19 +26,26 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomFieldsPage
-  include Rails.application.routes.url_helpers
-  include Capybara::DSL
+module OpenProject
+  class Notifications
+    # Subscribe to a specific event with name
+    # Contrary to ActiveSupport::Notifications, we don't support regexps here, but only
+    # single events specified as string.
+    def self.subscribe(name, &block)
+      ActiveSupport::Notifications.subscribe(name.to_s) do |name, start, finish, id, payload|
+        block.call(payload)
+      end
+      # Don't return a subscription object as it's an implementation detail.
+      return nil
+    end
 
-  def visit_new(type="WorkPackageCustomField")
-    visit new_custom_field_path type: type
-  end
+    # Send a notification
+    # payload should be a Hash and might be marshalled and unmarshalled before being
+    # delivered (although it is not at the moment), so don't count on object equality
+    # for the payload.
+    def self.send(name, payload)
+      ActiveSupport::Notifications.instrument(name, payload)
+    end
 
-  def name_attributes
-    find '#custom_field_name_attributes span[lang]'
-  end
-
-  def default_value_attributes
-    find '#custom_field_default_value_attributes span[lang]'
   end
 end

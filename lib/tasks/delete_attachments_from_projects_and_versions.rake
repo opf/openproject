@@ -27,8 +27,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require_relative 'shared/user_feedback'
+
 namespace :migrations do
   namespace :attachments do
+    include ::Tasks::Shared::UserFeedback
+
     desc "Removes all attachments from versions and projects"
     task :delete_from_projects_and_versions => :environment do |task|
       try_delete_attachments_from_projects_and_versions
@@ -36,31 +40,21 @@ namespace :migrations do
 
     def try_delete_attachments_from_projects_and_versions
       begin
-        Attachment.where(:container_type => ['Version','Project']).destroy_all if !$stdout.isatty || user_agrees
+        if !$stdout.isatty || user_agrees_to_delete_versions_and_projects_documents
+          puts "Delete all attachments attached to projects or versions..."
+
+          Attachment.where(:container_type => ['Version','Project']).destroy_all
+        end
       rescue
         raise "Cannot delete attachments from projects and versions! There may be migrations missing...?"
       end
     end
 
-    def user_agrees
-      questions = []
+    def user_agrees_to_delete_versions_and_projects_documents
+      questions = ["CAUTION: This rake task will delete ALL attachments attached to versions or projects!",
+                   "DISCLAIMER: This is the final warning: You're going to lose information!"]
 
-      questions << "CAUTION: This rake task will delete ALL attachments attached to versions or projects!"
-      questions << "DISCLAIMER: This is the final warning: You're going to lose information!"
-
-      return false unless ask_question(questions[0]) && ask_question(questions[1])
-
-      puts "Delete all attachments attached to projects or versions..."
-
-      true
-    end
-
-    def ask_question(question)
-      puts "\n\n"
-      puts question
-      puts "\nDo you want to continue? [y/N]"
-
-      STDIN.gets.chomp == 'y'
+      ask_for_confirmation(questions)
     end
   end
 end

@@ -33,19 +33,24 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2393` Fix: No warning when leaving site without saving
 * `#2401` Fix: New target version cannot be created from work package view
 * `#3267` Fix: Link in Breadcrumbs links to global work packages
+* `#3348` Fix: Menu item "more functions" is cut off where content ends
 * `#3395` Fix: After error message values are gone during creation of message
 * `#3531` Fix: Type 'None' cannot be configured via admin settings
 * `#4040` Fix: Referencing work packages with ### in news, forums and meetings does not work
 * `#4087` Ignore type list flash when activating flash messages
 * `#4097` Fix accesskeys
 * `#4118` Fix: Add missing labels
+* `#4701` Fix: Wiki change notification mail contains invalid diff link
 * `#5057` Fix: Whitelisted more params for planning elements controller
 * `#5214` Allow setting watchers and time entries for work packages via API`
+* `#5311` Encapsulate ActiveSupport::Notifications
 * Allowed sending of mails with only cc: or bcc: fields
 * Allow adding attachments to created work packages via planning elements controller
 * Remove unused rmagick dependency
 * Fix: Work package short URI
-* Fix: work package due date not validated when start date is not present 
+* Fix: work package due date not validated when start date is not present
+* Fix: Use correct questions for deletion of documents/files in rake tasks
+* Fix: Use URL helpers for forum routes
 
 ## 3.0.0pre51
 

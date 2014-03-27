@@ -34,7 +34,7 @@ branches:
     - dev
     - stable
     - release/3.0
-    - /^feature\/ui-components-test-architecture-.*$/
+    - dev-angular
 env:
   # Frontend
   - "TEST_SUITE=mocha    CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
