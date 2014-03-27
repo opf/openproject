@@ -211,24 +211,32 @@ class QueryTest < ActiveSupport::TestCase
   end
 
   def test_filter_assigned_to_me
-    user = User.find(2)
-    group = Group.find(10)
-    project = Project.find(1)
-    User.current = user
-    i1 = FactoryGirl.create(:work_package, :project => project, :type => project.types.first, :assigned_to => user)
-    i2 = FactoryGirl.create(:work_package, :project => project, :type => project.types.first, :assigned_to => group)
-    i3 = FactoryGirl.create(:work_package, :project => project, :type => project.types.first, :assigned_to => Group.find(11))
-    group.users << user
+    with_settings(:work_package_group_assignment => '1') do
+      project = FactoryGirl.create :project
+      group = FactoryGirl.create(:group, :member_in_project => project)
+      group_user_is_not_member_of = FactoryGirl.create(:group, :member_in_project => project)
+      user = FactoryGirl.create(:user, :member_in_project => project)
+      group.users << user
+      group.save!
 
-    query = Query.new(:name => '_', filters: [Queries::WorkPackages::Filter.new(:assigned_to_id, operator: '=', values: ['me'])])
-    result = query.results.work_packages
-    assert_equal WorkPackage.visible.all(:conditions => {:assigned_to_id => ([2] + user.reload.group_ids)}).sort_by(&:id), result.sort_by(&:id)
+      User.current = user
+      
+      WorkPackageObserver.any_instance.stub(:send_notification).and_return false
+      i1 = FactoryGirl.create(:work_package, :project => project, :type => project.types.first, :assigned_to => user)
+      i2 = FactoryGirl.create(:work_package, :project => project, :type => project.types.first, :assigned_to => group)
+      i3 = FactoryGirl.create(:work_package, :project => project, :type => project.types.first, :assigned_to => group_user_is_not_member_of)
+      
+      query = Query.new(:name => '_', filters: [Queries::WorkPackages::Filter.new(:assigned_to_id, operator: '=', values: ['me'])])
+      
+      result = query.results.work_packages
+      assert_equal WorkPackage.visible.all(:conditions => {:assigned_to_id => ([user.id] + user.reload.group_ids)}).sort_by(&:id), result.sort_by(&:id)
 
-    assert result.include?(i1)
-    assert result.include?(i2)
-    assert !result.include?(i3)
+      assert result.include?(i1)
+      assert result.include?(i2)
+      assert !result.include?(i3)
 
-    User.current = nil
+      User.current = nil
+    end
   end
 
   def test_filter_watched_issues

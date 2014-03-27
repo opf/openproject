@@ -506,6 +506,8 @@ class UserTest < ActiveSupport::TestCase
         @project = Project.find(1)
         @author = User.generate_with_protected!
         @assignee = User.generate_with_protected!
+        @role = FactoryGirl.build(:role)
+        @project.add_member!(@assignee, @role)
         @issue = FactoryGirl.create(:work_package, project: @project, :assigned_to => @assignee, :author => @author)
       end
 

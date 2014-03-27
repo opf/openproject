@@ -28,7 +28,23 @@
 
 FactoryGirl.define do
   factory :group do
+  ignore do
+      member_in_project nil
+      member_in_projects nil
+      member_through_role nil
+    end
     # groups have lastnames? hmm...
     sequence(:lastname) { |g| "Group #{g}" }
+    
+    after(:build) do |group, evaluator| # this is also done after :create
+      (projects = evaluator.member_in_projects || [])
+      projects << evaluator.member_in_project if evaluator.member_in_project
+      if !projects.empty?
+        role = evaluator.member_through_role || FactoryGirl.build(:role, :permissions => [:view_work_packages, :edit_work_packages])
+        projects.each do |project|
+          project.add_member! group, role if project
+        end
+      end
+    end
   end
 end

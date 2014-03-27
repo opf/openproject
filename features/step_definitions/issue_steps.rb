@@ -100,13 +100,13 @@ Given (/^there are the following issues with attributes:$/) do |table|
     attributes = type_attributes.merge(:project_id => project.id) if project
 
     assignee = User.find_by_login(attributes.delete("assignee"))
-    attributes.merge! :assigned_to_id => assignee.id if assignee
+    attributes.merge! :assigned_to_id => assignee.id if assignee && assignee.class != AnonymousUser
 
     author   = User.find_by_login(attributes.delete("author"))
     attributes.merge! :author_id => author.id if author
 
     responsible = User.find_by_login(attributes.delete("responsible"))
-    attributes.merge! :responsible_id => responsible.id if responsible
+    attributes.merge! :responsible_id => responsible.id if responsible && responsible.class != AnonymousUser
 
     watchers = attributes.delete("watched_by")
 

@@ -304,7 +304,7 @@ describe WorkPackages::MovesController do
         context "with changing the work package's attribute" do
           let(:start_date) { Date.today }
           let(:due_date) { Date.today + 1 }
-          let(:target_user) { FactoryGirl.create :user }
+          let(:target_user) { FactoryGirl.create(:user, :member_in_project => target_project) }
 
           before do
             post :create,
