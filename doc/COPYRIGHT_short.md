@@ -1,6 +1,6 @@
-OpenProject is a project management system.
+OpenProject Global Roles Plugin
 
-Copyright (C)2010-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2010 - 2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

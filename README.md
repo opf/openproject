@@ -1,7 +1,6 @@
 OpenProject Global Roles Plugin
 ==========================
 
-
 This plugin adds global roles to [OpenProject](https://www.openproject.org).
 A user can have a global role allowing to perform actions outside of the scope
 of a specific project normally only allowed for administrators.
@@ -21,17 +20,19 @@ Requirements
 ------------
 
 The Global Roles plugin currently requires the [OpenProject Core](https://github.com/opf/openproject/) in
-version 3.0.0pre13 or newer.
+version 3.0.0 or newer.
 
 
 Installation
 ------------
 
-Please follow the default [plugin installation instructions for
-OpenProject](https://www.openproject.org/projects/openproject/wiki/Installation#222-Add-plugins),
-adding the following line to the Gemfile.plugins:
+OpenProject Global Roles depends on OpenProject Plugins. Thus, if you haven't done it already, add the following line to the `Gemfile.plugins` in your OpenProject installation:
 
-`gem "openproject-global_roles"`
+`gem "openproject-plugins", git: "https://github.com/opf/openproject-plugins.git", :branch => "stable"`
+
+For OpenProject Global Roles itself you need to add the following line to the `Gemfile.plugins` of OpenProject:
+
+`gem "openproject-global_roles", git: "https://github.com/finnlabs/openproject-global_roles.git", :branch => "stable"`
 
 Afterwards, run:
 
@@ -44,11 +45,11 @@ This plugin contains migrations. To migrate the database, run:
 Deinstallation
 --------------
 
-Currently, there complete automatic uninstall is not supported.
+Currently, a complete automatic uninstall is not supported.
 Before the plugin can be removed, all global roles have to be deleted.
 Afterwards, remove the line
 
-`gem "openproject-global_roles"`
+`gem "openproject-global_roles", git: "https://github.com/finnlabs/openproject-global_roles.git", :branch => "stable"`
 
 from the file `Gemfile.plugins` and run:
 
@@ -81,7 +82,7 @@ Special thanks go to
 License
 -------
 
-(c) 2010 - 2013 - Finn GmbH
+(c) 2010 - 2014 - Finn GmbH
 
 This plugin is licensed under the GNU GPL v3. See doc/COPYRIGHT.rdoc and
 doc/GPL.txt for details.

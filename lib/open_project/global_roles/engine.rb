@@ -1,94 +1,46 @@
 #-- copyright
-# OpenProject is a project management system.
+# OpenProject Global Roles Plugin
 #
-# Copyright (C) 2010-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2010 - 2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License version 3.
+# modify it under the terms of the GNU General Public License
+# version 3.
 #
-# See doc/COPYRIGHT.rdoc for more details.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
 module OpenProject::GlobalRoles
   class Engine < ::Rails::Engine
     engine_name :openproject_global_roles
 
-    config.autoload_paths += Dir["#{config.root}/lib/"]
+    include OpenProject::Plugins::ActsAsOpEngine
 
-    spec = Bundler.environment.specs['openproject-global_roles'][0]
-    initializer 'global_roles.register_plugin' do
-      require_dependency 'open_project/global_roles/patches/permission_patch'
+    register 'openproject-global_roles',
+             :author_url => 'http://finn.de',
+             :requires_openproject => '>= 3.0.0'
 
-      Redmine::Plugin.register :openproject_global_roles do
-        name 'OpenProject Global Roles'
-        author ((spec.authors.kind_of? Array) ? spec.authors[0] : spec.authors)
-        author_url "http://finn.de"
-        description spec.description
-        version spec.version
-        url spec.homepage
+    assets %w(global_roles.css global_roles.js)
 
-        requires_openproject ">= 3.0.0pre49"
+    patches [ :Principal, :Role, :User, :RolesController, :UsersController, :RolesHelper, :UsersHelper]
 
-        Redmine::AccessControl.permission(:add_project).global = true
-      end
+    initializer 'global_roles.patch_access_control' do
+      require 'open_project/global_roles/patches/access_control_patch'
+      require 'open_project/global_roles/patches/permission_patch'
     end
 
-    initializer 'global_roles.precompile_assets' do
-      Rails.application.config.assets.precompile += %w(global_roles.css global_roles.js)
+    initializer 'global_roles.register_global_permission' do
+      Redmine::AccessControl.permission(:add_project).global = true
     end
-
-    # adds our factories to factory girl's load path
-    initializer "global_roles.register_factories", :after => "factory_girl.set_factory_paths" do |app|
-      FactoryGirl.definition_file_paths << File.expand_path(self.root.to_s + '/spec/factories') if defined?(FactoryGirl)
-    end
-
-    initializer 'global_roles.register_test_paths' do |app|
-      app.config.plugins_to_test_paths << self.root
-    end
-
-    config.before_configuration do |app|
-      # This is required for the routes to be loaded first
-      # as the routes should be prepended so they take precedence over the core.
-      app.config.paths['config/routes'].unshift File.join(File.dirname(__FILE__), "..", "..", "..", "config", "routes.rb")
-    end
-
-    initializer "global_roles.remove_duplicate_routes", :after => "add_routing_paths" do |app|
-      # removes duplicate entry from app.routes_reloader
-      # As we prepend the plugin's routes to the load_path up front and rails
-      # adds all engines' config/routes.rb later, we have double loaded the routes
-      # This is not harmful as such but leads to duplicate routes which decreases performance
-      app.routes_reloader.paths.uniq!
-    end
-
-    initializer 'global_roles.append_migrations' do |app|
-      unless app.root.to_s.match root.to_s
-        config.paths["db/migrate"].expanded.each do |expanded_path|
-          app.config.paths["db/migrate"] << expanded_path
-        end
-      end
-    end
-
 
     config.to_prepare do
-      require_dependency 'open_project/global_roles/patches'
-
-      # lib patches
-      require_dependency 'open_project/global_roles/patches/access_control_patch'
-      require_dependency 'open_project/global_roles/patches/permission_patch'
-
-      # Model Patches
-      require_dependency 'open_project/global_roles/patches/principal_patch'
-      require_dependency 'open_project/global_roles/patches/role_patch'
-      require_dependency 'open_project/global_roles/patches/user_patch'
-
-      # Controller Patches
-      require_dependency 'open_project/global_roles/patches/roles_controller_patch'
-      require_dependency 'open_project/global_roles/patches/users_controller_patch'
-
-      # Helper Patches
-      require_dependency 'open_project/global_roles/patches/roles_helper_patch'
-      require_dependency 'open_project/global_roles/patches/users_helper_patch'
-
       User.register_allowance_evaluator OpenProject::GlobalRoles::PrincipalAllowanceEvaluator::Global
     end
   end
