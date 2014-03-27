@@ -650,12 +650,10 @@ class WorkPackage < ActiveRecord::Base
       unless new_project.shared_versions.include?(work_package.fixed_version)
         work_package.fixed_version = nil
       end
+
       work_package.project = new_project
 
-      if !Setting.cross_project_work_package_relations? &&
-         parent && parent.project_id != project_id
-        self.parent_id = nil
-      end
+      enforce_cross_project_settings(work_package)
     end
     if new_type
       work_package.type = new_type
@@ -1060,5 +1058,11 @@ class WorkPackage < ActiveRecord::Base
       work_package.add_journal User.current, journal_note
       work_package.save!
     end
+  end
+
+  def enforce_cross_project_settings(work_package)
+    parent_in_project = work_package.parent.nil? || work_package.parent.project == work_package.project
+
+    work_package.parent_id = nil unless Setting.cross_project_work_package_relations? || parent_in_project
   end
 end
