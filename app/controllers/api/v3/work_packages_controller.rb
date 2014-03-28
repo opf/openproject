@@ -22,13 +22,10 @@ module Api
 
       before_filter :find_optional_project, only: [:index]
 
-      before_filter :retrieve_query, only: [:index]
+      before_filter :load_query, only: [:index]
       before_filter :assign_work_packages, only: [:index]
 
       def index
-        sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
-        sort_update(@query.sortable_columns)
-
         # the data for the index is already produced in the assign_work_packages
         respond_to do |format|
           format.api
@@ -60,6 +57,12 @@ module Api
 
       private
 
+      def load_query
+        @query ||= retrieve_query
+      rescue ActiveRecord::RecordNotFound
+        render_404
+      end
+
       def authorize_request
         # TODO: need to give this action a global role i think. tried making load_column_data role in reminde.rb
         #       but couldn't get it working.
@@ -71,13 +74,17 @@ module Api
       end
 
       def current_work_packages(projects)
-        results = @query.results(:include => [:assigned_to, :type, :priority, :category, :fixed_version])
+        sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
+        sort_update(@query.sortable_columns)
+
+        results = @query.results include: [:assigned_to, :type, :priority, :category, :fixed_version],
+                                 order: sort_clause
+
         work_packages = results.work_packages
                                .page(page_param)
                                .per_page(per_page_param)
                                .changed_since(@since)
                                .all
-
         set_work_packages_meta_data(@query, results, work_packages)
 
         work_packages
