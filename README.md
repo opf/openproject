@@ -29,7 +29,7 @@ Because this plugin depends on the [`openproject-webhooks`](https://github.com/f
 Edit the `Gemfile.plugins` file in your openproject-installation directory to contain the following lines:
 
 ```ruby
-gem "openproject-webhooks", :git => 'https://github.com/finnlabs/openproject-github_integration.git', :branch => 'stable'
+gem "openproject-webhooks", :git => 'https://github.com/finnlabs/openproject-webhooks.git', :branch => 'stable'
 gem "openproject-github_integration", :git => 'https://github.com/finnlabs/openproject-github_integration.git', :branch => 'stable'
 ```
 
