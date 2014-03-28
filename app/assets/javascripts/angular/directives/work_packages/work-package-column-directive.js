@@ -30,27 +30,11 @@ angular.module('openproject.workPackages.directives')
           scope.displayText = WorkPackagesHelper.getFormattedColumnData(scope.workPackage, scope.column) || '';
         }
 
-        if (scope.column.meta_data.data_type === 'user') loadUserName();
-
         // Example of how we can look to the provided meta data to format the column
         // This relies on the meta being sent from the server
         if (scope.column.meta_data.link.display) {
           scope.displayType = 'link';
           scope.url = getLinkFor(scope.column.meta_data.link);
-        }
-      }
-
-      function loadUserName() {
-        var userId = scope.displayText;
-
-        if(userId) {
-          scope.user = UserService.registerUserId(userId);
-
-          scope.$watch('user.name', function(userName) {
-            // triggered when user data is loaded
-            // TODO replace watcher as soon as data is loaded via a promise chain
-            scope.displayText = userName;
-          });
         }
       }
 
