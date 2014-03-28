@@ -125,7 +125,7 @@ describe MyController do
       end
 
       it { should set_the_flash.to /reset/ }
-      it { should redirect_to('my account') {'/my/account' } }
+      it { should redirect_to('/my/account') }
     end
 
     context "with no rss_token" do
@@ -139,7 +139,7 @@ describe MyController do
       end
 
       it { should set_the_flash.to /reset/ }
-      it { should redirect_to('my account') {'/my/account' } }
+      it { should redirect_to('/my/account') }
     end
   end
 
@@ -159,7 +159,7 @@ describe MyController do
       end
 
       it { should set_the_flash.to /reset/ }
-      it { should redirect_to('my account') {'/my/account' } }
+      it { should redirect_to('/my/account') }
     end
 
     context "with no api_token" do
@@ -173,7 +173,7 @@ describe MyController do
       end
 
       it { should set_the_flash.to /reset/ }
-      it { should redirect_to('my account') {'/my/account' } }
+      it { should redirect_to('/my/account') }
     end
   end
 end
