@@ -1,15 +1,17 @@
 <div>
-  <select ng-show="!isMultiselect"
+  <select filter-value-select
+          ng-show="!isMultiselect"
           name="v[{{name}}][]"
           ng-model="values"
           id="values-{{name}}"
           class="select-small"
           style="vertical-align: top;"
           require>
-    <option ng-repeat="value in availableFilterValues" value="{{ value[1] }}" ng-selected="values.indexOf(value[1]) >= 0">{{ value[0] }}</option>
+    <option ng-repeat="value in availableOptions" value="{{ value[1] }}" ng-selected="isSelected(value[1])">{{ value[0] }}</option>
   </select>
 
   <select multiple
+          filter-value-select
           ng-show="isMultiselect"
           name="v[{{name}}][]"
           ng-model="values"
@@ -17,7 +19,7 @@
           class="select-small"
           style="vertical-align: top;"
           require>
-    <option ng-repeat="value in availableFilterValues" value="{{ value[1] }}" ng-selected="values.indexOf(value[1]) >= 0">{{ value[0] }}</option>
+    <option ng-repeat="value in availableOptions" value="{{ value[1] }}" ng-selected="isSelected(value[1])">{{ value[0] }}</option>
   </select>
 
   <a alt="Toggle multiselect" href="#" style="vertical-align: bottom;" title="Toggle multiselect" ng-click="toggleMultiselect()">

@@ -13,7 +13,7 @@ angular.module('openproject.workPackages.directives')
           .then(buildOptions)
           .then(addStandardOptions)
           .then(function(options) {
-            scope.availableFilterValues = options;
+            scope.availableFilterValueOptions = options;
           });
       }
 

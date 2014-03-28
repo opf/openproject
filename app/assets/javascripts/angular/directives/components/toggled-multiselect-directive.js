@@ -8,12 +8,16 @@ angular.module('openproject.uiComponents')
     scope: {
       name: '=',
       values: '=',
-      availableFilterValues: '=',
+      availableOptions: '=',
     },
     templateUrl: '/templates/components/toggled_multiselect.html',
     link: function(scope, element, attributes){
       scope.toggleMultiselect = function(){
         scope.isMultiselect = !scope.isMultiselect;
+      };
+
+      scope.isSelected = function(value) {
+        return scope.values instanceof Array && (scope.values.indexOf(value) !== -1 || scope.values.indexOf(value.toString()) !== -1);
       };
 
       scope.isMultiselect = (scope.values !== undefined && scope.values.length > 1);
