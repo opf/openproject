@@ -26,9 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/ 
+/*jshint expr: true*/
 
 describe('Project', function(){
+
+  var Project, PlanningElement, Timeline;
+
   before(function(){
     this.project = Factory.build("Project", {
       timeline: Factory.build("Timeline")
@@ -41,6 +44,13 @@ describe('Project', function(){
     });
 
   });
+
+  beforeEach(module('openproject.timelines.models', 'openproject.uiComponents'));
+  beforeEach(inject(function(_Project_, _PlanningElement_, _Timeline_) {
+    Project         = _Project_;
+    PlanningElement = _PlanningElement_;
+    Timeline        = _Timeline_;
+  }));
 
   describe('hidden', function () {
     it('should be true for empty', function () {
@@ -68,7 +78,7 @@ describe('Project', function(){
       var pe2 = {"id": 962, "name": "B", "start_date": "2012-11-15", "due_date": "2012-11-15" };
       var pe3 = {"id": 963, "name": "D", "start_date": "2012-11-15", "due_date": "2012-11-15" };
 
-      var testProject = Factory.build("Project", {timeline: Factory.build("Timeline"), 
+      var testProject = Factory.build("Project", {timeline: Factory.build("Timeline"),
         planning_elements: [pe2, pe3, pe1]
       });
 
@@ -113,7 +123,7 @@ describe('Project', function(){
 
       var pes = testProject.getPlanningElements();
 
-      expect(pes).to.satisfy(objectsortation(pe3, pe2, pe1));      
+      expect(pes).to.satisfy(objectsortation(pe3, pe2, pe1));
     });
     it('should sort pes with same start by end', function () {
       var pe1 = {"id": 971, "name": "B", "start_date": "2012-11-13", "due_date": "2012-11-15" };

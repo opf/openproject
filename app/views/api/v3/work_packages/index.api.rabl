@@ -50,7 +50,6 @@ child @work_packages => :work_packages do
         wp.send(column_name)
       end
     end
-
   end
 end
 

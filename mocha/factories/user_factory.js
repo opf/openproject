@@ -26,8 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-Factory.define('User', Timeline.User)
-  .sequence('id')
-  .sequence('name', function (i) {return "User No. " + i;})
-  .sequence('firstname', function (i) {return "Firstname No." + i;})
-  .sequence('lastname', function (i) {return "Lastname No." + i;});
+(function(User) {
+  Factory.define('User', User)
+    .sequence('id')
+    .sequence('name', function (i) {return "User No. " + i;})
+    .sequence('firstname', function (i) {return "Firstname No." + i;})
+    .sequence('lastname', function (i) {return "Lastname No." + i;});
+})($injector.get('User'));

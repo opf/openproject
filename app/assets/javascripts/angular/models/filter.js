@@ -19,7 +19,10 @@ angular.module('openproject.models')
 
     valuesAsArray: function() {
       if (this.values instanceof Array) {
-        return this.values;
+        if (this.values.length === 0) return ['']; // Workaround: The array must not be empty for backend compatibility so that the values are passed as a URL param at all even if `this` is the only query filter
+        // TODO fix this on the backend side, so that filters can be initialized on a query without providing values
+
+        return values;
       } else {
         return [this.values];
       }

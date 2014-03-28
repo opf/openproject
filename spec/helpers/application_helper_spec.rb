@@ -279,19 +279,18 @@ describe ApplicationHelper do
 
       before do
         message1.reload
-        @message_url = {:controller => 'messages', :action => 'show', :board_id => board.id, :id => message1.id}
       end
 
       context "Plain message" do
         subject { textilizable("message##{message1.id}") }
 
-        it { should eq("<p>#{link_to(message1.subject, @message_url, :class => 'message')}</p>") }
+        it { should eq("<p>#{link_to(message1.subject, topic_path(message1), :class => 'message')}</p>") }
       end
 
       context "Message with parent" do
         subject { textilizable("message##{message2.id}") }
 
-        it { should eq("<p>#{link_to(message2.subject, @message_url.merge(:anchor => "message-#{message2.id}", :r => message2.id), :class => 'message')}</p>") }
+        it { should eq("<p>#{link_to(message2.subject, topic_path(message1, :anchor => "message-#{message2.id}", :r => message2.id), :class => 'message')}</p>") }
       end
     end
 

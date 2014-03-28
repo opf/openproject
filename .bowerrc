@@ -1,0 +1,3 @@
+{
+  "directory": "vendor/assets/components"
+}
