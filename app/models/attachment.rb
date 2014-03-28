@@ -167,7 +167,7 @@ class Attachment < ActiveRecord::Base
   end
 
   def self.storage_path
-    @@storage_path.is_a?(Proc) ? @@storage_path.call : @@storage_path
+    @@storage_path.respond_to?(:call) ? @@storage_path.call : @@storage_path
   end
 
   # Bulk attaches a set of files to an object
