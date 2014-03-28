@@ -29,6 +29,9 @@ module Api
         sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
         sort_update(@query.sortable_columns)
 
+        @custom_field_column_names = @query.columns.select{|c| c.name.to_s =~ /cf_(.*)/}.map(&:name)
+        @column_names = ['id'] | @query.columns.select{|c| !@custom_field_column_names.include?(c.name)}.map(&:name)
+
         # the data for the index is already produced in the assign_work_packages
         respond_to do |format|
           format.api
@@ -85,7 +88,6 @@ module Api
 
       def set_work_packages_meta_data(query, results, work_packages)
         @display_meta = true
-        @columns = ['id'] | query.columns.map(&:name)
 
         @work_packages_meta_data = {
           query:                        query,
@@ -122,14 +124,7 @@ module Api
         if column_name =~ /cf_(.*)/
           custom_field = CustomField.find($1)
           work_packages.map do |work_package|
-            custom_value = work_package.custom_values.find_by_custom_field_id($1)
-            if !custom_value.nil?
-              {
-                custom_field_id: custom_field.id,
-                field_format: custom_field.field_format,
-                value: custom_value.value
-              }
-            end
+            work_package.get_custom_value_display_data(custom_field)
           end
         else
           work_packages.map do |work_package|

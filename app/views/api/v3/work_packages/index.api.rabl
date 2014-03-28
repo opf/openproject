@@ -29,7 +29,7 @@
 object false
 
 child @work_packages => :work_packages do
-  @columns.each do |column_name|
+  @column_names.each do |column_name|
     node(column_name, :if => lambda{ |wp| wp.respond_to?(column_name) }) do |wp|
       case wp.send(column_name)
       when Category
@@ -50,6 +50,10 @@ child @work_packages => :work_packages do
         wp.send(column_name)
       end
     end
+  end
+
+  node(:custom_values) do |wp|
+    wp.custom_values_display_data
   end
 end
 

@@ -715,6 +715,31 @@ class WorkPackage < ActiveRecord::Base
     return allowed
   end
 
+  # Begin Custom Value Display Helper Methods
+  def get_custom_value_display_data(custom_field)
+    custom_value = custom_values.find_by_custom_field_id(custom_field.id)
+    if !custom_value.nil?
+      {
+        custom_field_id: custom_field.id,
+        field_format: custom_field.field_format,
+        value: custom_value.value
+      }
+    end
+  end
+
+  def custom_values_display_data
+    custom_values.map do |custom_value|
+      if !custom_value.nil?
+        {
+          custom_field_id: custom_value.custom_field.id,
+          field_format: custom_value.custom_field.field_format,
+          value: custom_value.value
+        }
+      end
+    end
+  end
+  # End Custom Value Display Helper Methods
+
   protected
 
   def recalculate_attributes_for(work_package_id)
