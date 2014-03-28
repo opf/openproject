@@ -17,6 +17,11 @@
 #
 # See doc/COPYRIGHT.md for more details.
 #++
+
+# Prevent load-order problems in case openproject-plugins is listed after a plugin in the Gemfile
+# or not at all
+require 'open_project/plugins'
+
 module OpenProject::Meeting
   class Engine < ::Rails::Engine
     engine_name :openproject_meeting
