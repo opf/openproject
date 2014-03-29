@@ -37,15 +37,15 @@ describe UserMailer do
                                                  type: type_standard) }
 
   before do
-    work_package.stub(:reload).and_return(work_package)
+    allow(work_package).to receive(:reload).and_return(work_package)
 
-    journal.stub(:journable).and_return(work_package)
-    journal.stub(:user).and_return(user)
+    allow(journal).to receive(:journable).and_return(work_package)
+    allow(journal).to receive(:user).and_return(user)
 
-    Setting.stub(:mail_from).and_return('john@doe.com')
-    Setting.stub(:host_name).and_return('mydomain.foo')
-    Setting.stub(:protocol).and_return('http')
-    Setting.stub(:default_language).and_return('en')
+    allow(Setting).to receive(:mail_from).and_return('john@doe.com')
+    allow(Setting).to receive(:host_name).and_return('mydomain.foo')
+    allow(Setting).to receive(:protocol).and_return('http')
+    allow(Setting).to receive(:default_language).and_return('en')
   end
 
   describe :issue_update do
@@ -85,9 +85,9 @@ describe UserMailer do
       let(:journal_2) { FactoryGirl.build_stubbed(:work_package_journal) }
 
       before do
-        journal_2.stub(:journable).and_return(work_package)
-        journal_2.stub(:user).and_return(user)
-        journal_2.stub(:created_at).and_return(journal.created_at + 5.seconds)
+        allow(journal_2).to receive(:journable).and_return(work_package)
+        allow(journal_2).to receive(:user).and_return(user)
+        allow(journal_2).to receive(:created_at).and_return(journal.created_at + 5.seconds)
       end
 
       subject do
@@ -105,7 +105,7 @@ describe UserMailer do
       let(:user_2) { FactoryGirl.build_stubbed(:user) }
 
       before do
-        work_package.stub(:recipients).and_return([user, user_2])
+        allow(work_package).to receive(:recipients).and_return([user, user_2])
       end
 
       subject do
@@ -125,13 +125,13 @@ describe UserMailer do
 
     describe 'plain text mail' do
       before do
-        Setting.stub(:plain_text_mail).and_return('1')
+        allow(Setting).to receive(:plain_text_mail).and_return('1')
       end
 
       describe 'done ration modifications' do
         context 'changed done ratio' do
           before do
-            journal.stub(:details).and_return({"done_ratio" => [40, 100]})
+            allow(journal).to receive(:details).and_return({"done_ratio" => [40, 100]})
           end
 
           it 'displays changed done ratio' do
@@ -141,7 +141,7 @@ describe UserMailer do
 
         context 'new done ratio' do
           before do
-            journal.stub(:details).and_return({"done_ratio" => [nil, 100]})
+            allow(journal).to receive(:details).and_return({"done_ratio" => [nil, 100]})
           end
 
           it 'displays new done ratio' do
@@ -151,7 +151,7 @@ describe UserMailer do
 
         context 'deleted done ratio' do
           before do
-            journal.stub(:details).and_return({"done_ratio" => [50, nil]})
+            allow(journal).to receive(:details).and_return({"done_ratio" => [50, nil]})
           end
 
           it 'displays deleted done ratio' do
@@ -163,7 +163,7 @@ describe UserMailer do
       describe 'start_date attribute' do
         context 'format the start date' do
           before do
-            journal.stub(:details).and_return({"start_date" => ['2010-01-01', '2010-01-31']})
+            allow(journal).to receive(:details).and_return({"start_date" => ['2010-01-01', '2010-01-31']})
           end
 
           it 'old date should be formatted' do
@@ -179,7 +179,7 @@ describe UserMailer do
       describe 'due_date attribute' do
         context 'format the end date' do
           before do
-            journal.stub(:details).and_return({"due_date" => ['2010-01-01', '2010-01-31']})
+            allow(journal).to receive(:details).and_return({"due_date" => ['2010-01-01', '2010-01-31']})
           end
 
           it 'old date should be formatted' do
@@ -197,7 +197,7 @@ describe UserMailer do
         let(:project_2) { FactoryGirl.create(:project) }
 
         before do
-          journal.stub(:details).and_return({"project_id" => [project_1.id, project_2.id]})
+          allow(journal).to receive(:details).and_return({"project_id" => [project_1.id, project_2.id]})
         end
 
         it "shows the old project's name" do
@@ -214,7 +214,7 @@ describe UserMailer do
         let(:status_2) { FactoryGirl.create(:status) }
 
         before do
-          journal.stub(:details).and_return({"status_id" => [status_1.id, status_2.id]})
+          allow(journal).to receive(:details).and_return({"status_id" => [status_1.id, status_2.id]})
         end
 
         it "shows the old status' name" do
@@ -231,7 +231,7 @@ describe UserMailer do
         let(:type_2) { FactoryGirl.create(:type_bug) }
 
         before do
-          journal.stub(:details).and_return({"type_id" => [type_1.id, type_2.id]})
+          allow(journal).to receive(:details).and_return({"type_id" => [type_1.id, type_2.id]})
         end
 
         it "shows the old type's name" do
@@ -248,7 +248,7 @@ describe UserMailer do
         let(:assignee_2) { FactoryGirl.create(:user) }
 
         before do
-          journal.stub(:details).and_return({"assigned_to_id" => [assignee_1.id, assignee_2.id]})
+          allow(journal).to receive(:details).and_return({"assigned_to_id" => [assignee_1.id, assignee_2.id]})
         end
 
         it "shows the old assignee's name" do
@@ -265,7 +265,7 @@ describe UserMailer do
         let(:priority_2) { FactoryGirl.create(:priority) }
 
         before do
-          journal.stub(:details).and_return({"priority_id" => [priority_1.id, priority_2.id]})
+          allow(journal).to receive(:details).and_return({"priority_id" => [priority_1.id, priority_2.id]})
         end
 
         it "shows the old priority's name" do
@@ -282,7 +282,7 @@ describe UserMailer do
         let(:category_2) { FactoryGirl.create(:category) }
 
         before do
-          journal.stub(:details).and_return({"category_id" => [category_1.id, category_2.id]})
+          allow(journal).to receive(:details).and_return({"category_id" => [category_1.id, category_2.id]})
         end
 
         it "shows the old category's name" do
@@ -299,7 +299,7 @@ describe UserMailer do
         let(:version_2) { FactoryGirl.create(:version) }
 
         before do
-          journal.stub(:details).and_return({"fixed_version_id" => [version_1.id, version_2.id]})
+          allow(journal).to receive(:details).and_return({"fixed_version_id" => [version_1.id, version_2.id]})
         end
 
         it "shows the old version's name" do
@@ -316,7 +316,7 @@ describe UserMailer do
         let(:estimated_hours_2) { 35.912834 }
 
         before do
-          journal.stub(:details).and_return({"estimated_hours" => [estimated_hours_1, estimated_hours_2]})
+          allow(journal).to receive(:details).and_return({"estimated_hours" => [estimated_hours_1, estimated_hours_2]})
         end
 
         it "shows the old estimated hours" do
@@ -335,7 +335,7 @@ describe UserMailer do
                                                 field_format: "text" }
 
         before do
-          journal.stub(:details).and_return({"custom_fields_#{custom_field.id}" => [expected_text_1, expected_text_2]})
+          allow(journal).to receive(:details).and_return({"custom_fields_#{custom_field.id}" => [expected_text_1, expected_text_2]})
         end
 
         it "shows the old custom field value" do
@@ -352,7 +352,7 @@ describe UserMailer do
 
         context 'added' do
           before do
-            journal.stub(:details).and_return({"attachments_#{attachment.id}" => [nil, attachment.filename]})
+            allow(journal).to receive(:details).and_return({"attachments_#{attachment.id}" => [nil, attachment.filename]})
           end
 
           it "shows the attachment's filename" do
@@ -370,7 +370,7 @@ describe UserMailer do
 
         context 'removed' do
           before do
-            journal.stub(:details).and_return({"attachments_#{attachment.id}" => [attachment.filename, nil]})
+            allow(journal).to receive(:details).and_return({"attachments_#{attachment.id}" => [attachment.filename, nil]})
           end
 
           it "shows the attachment's filename" do
@@ -395,14 +395,14 @@ describe UserMailer do
       let(:expected_prefix) { "<li><strong>#{expected_translation}</strong>" }
 
       before do
-        Setting.stub(:plain_text_mail).and_return('0')
+        allow(Setting).to receive(:plain_text_mail).and_return('0')
       end
 
       context 'changed done ratio' do
         let(:expected) { "#{expected_prefix} changed from <i>40</i> to <i>100</i>" }
 
         before do
-          journal.stub(:details).and_return({"done_ratio" => [40, 100]})
+          allow(journal).to receive(:details).and_return({"done_ratio" => [40, 100]})
         end
 
         it 'displays changed done ratio' do
@@ -414,7 +414,7 @@ describe UserMailer do
         let(:expected) { "#{expected_prefix} changed from <i>0</i> to <i>100</i>" }
 
         before do
-          journal.stub(:details).and_return({"done_ratio" => [nil, 100]})
+          allow(journal).to receive(:details).and_return({"done_ratio" => [nil, 100]})
         end
 
         it 'displays new done ratio' do
@@ -426,7 +426,7 @@ describe UserMailer do
         let(:expected) { "#{expected_prefix} changed from <i>50</i> to <i>0</i>" }
 
         before do
-          journal.stub(:details).and_return({"done_ratio" => [50, nil]})
+          allow(journal).to receive(:details).and_return({"done_ratio" => [50, nil]})
         end
 
         it 'displays deleted done ratio' do

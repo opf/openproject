@@ -101,7 +101,7 @@ describe WorkPackage do
         let(:group) { FactoryGirl.create(:group) }
 
         before do
-          Setting.stub(:work_package_group_assignment).and_return(true)
+          allow(Setting).to receive(:work_package_group_assignment).and_return(true)
         end
 
         subject { FactoryGirl.create(:work_package,
@@ -171,7 +171,7 @@ describe WorkPackage do
     let(:user) { FactoryGirl.build_stubbed(:user) }
 
     context "single user" do
-      before { stub_work_package.project.stub(:possible_assignees).and_return([user]) }
+      before { allow(stub_work_package.project).to receive(:possible_assignees).and_return([user]) }
 
       subject { stub_work_package.assignable_assignees }
 
@@ -185,7 +185,7 @@ describe WorkPackage do
       let(:work_package) { FactoryGirl.create(:work_package) }
 
       before do
-        Setting.stub(:work_package_group_assignment?).and_return(true)
+        allow(Setting).to receive(:work_package_group_assignment?).and_return(true)
         work_package.project.add_member! group, FactoryGirl.create(:role)
       end
 
@@ -198,7 +198,7 @@ describe WorkPackage do
       let(:work_package) { FactoryGirl.create(:work_package) }
 
       before do
-        Setting.stub(:work_package_group_assignment?).and_return(false)
+        allow(Setting).to receive(:work_package_group_assignment?).and_return(false)
         work_package.project.add_member! group, FactoryGirl.create(:role)
       end
 
@@ -209,7 +209,7 @@ describe WorkPackage do
     context "multiple users" do
       let(:user_2) { FactoryGirl.build_stubbed(:user) }
 
-      before { stub_work_package.project.stub(:assignable_assignees).and_return([user, user_2]) }
+      before { allow(stub_work_package.project).to receive(:assignable_assignees).and_return([user, user_2]) }
 
       subject { stub_work_package.assignable_assignees.uniq }
 
@@ -243,22 +243,22 @@ describe WorkPackage do
         self
       end
 
-      stub_work_package.project.stub(:shared_versions).and_return(versions)
+      allow(stub_work_package.project).to receive(:shared_versions).and_return(versions)
     end
 
     it "should return all the project's shared versions" do
       stub_shared_versions(stub_version)
 
-      stub_work_package.assignable_versions.should == [stub_version]
+      expect(stub_work_package.assignable_versions).to eq([stub_version])
     end
 
     it "should return the current fixed_version" do
       stub_shared_versions
 
-      stub_work_package.stub(:fixed_version_id_was).and_return(5)
-      Version.stub(:find_by_id).with(5).and_return(stub_version)
+      allow(stub_work_package).to receive(:fixed_version_id_was).and_return(5)
+      allow(Version).to receive(:find_by_id).with(5).and_return(stub_version)
 
-      stub_work_package.assignable_versions.should == [stub_version]
+      expect(stub_work_package.assignable_versions).to eq([stub_version])
     end
   end
 
@@ -360,7 +360,7 @@ describe WorkPackage do
                                                  project: work_package.project,
                                                  roles: [workflow.role]) }
 
-          before { User.stub(:current).and_return(user) }
+          before { allow(User).to receive(:current).and_return(user) }
 
           shared_context "in locked version" do
             before do
@@ -608,7 +608,7 @@ describe WorkPackage do
 
     describe :value do
       context "work package field" do
-        before { Setting.stub(:work_package_done_ratio).and_return 'field' }
+        before { allow(Setting).to receive(:work_package_done_ratio).and_return 'field' }
 
         context "work package 1" do
           subject { work_package_1.done_ratio }
@@ -624,7 +624,7 @@ describe WorkPackage do
       end
 
       context "work package status" do
-        before { Setting.stub(:work_package_done_ratio).and_return 'status' }
+        before { allow(Setting).to receive(:work_package_done_ratio).and_return 'status' }
 
         context "work package 1" do
           subject { work_package_1.done_ratio }
@@ -643,29 +643,29 @@ describe WorkPackage do
     describe :update_done_ratio_from_status do
       context "work package field" do
         before do
-          Setting.stub(:work_package_done_ratio).and_return 'field'
+          allow(Setting).to receive(:work_package_done_ratio).and_return 'field'
 
           work_package_1.update_done_ratio_from_status
           work_package_2.update_done_ratio_from_status
         end
 
         it "does not update the done ratio" do
-          work_package_1.done_ratio.should eq(0)
-          work_package_2.done_ratio.should eq(30)
+          expect(work_package_1.done_ratio).to eq(0)
+          expect(work_package_2.done_ratio).to eq(30)
         end
       end
 
       context "work package status" do
         before do
-          Setting.stub(:work_package_done_ratio).and_return 'status'
+          allow(Setting).to receive(:work_package_done_ratio).and_return 'status'
 
           work_package_1.update_done_ratio_from_status
           work_package_2.update_done_ratio_from_status
         end
 
         it "updates the done ratio" do
-          work_package_1.done_ratio.should eq(50)
-          work_package_2.done_ratio.should eq(0)
+          expect(work_package_1.done_ratio).to eq(50)
+          expect(work_package_2.done_ratio).to eq(0)
         end
       end
     end
@@ -972,26 +972,26 @@ describe WorkPackage do
 
     it "should respect workflows w/o author and w/o assignee" do
       workflows
-      status.new_statuses_allowed_to([role], type, false, false).should =~ [statuses[1]]
-      status.find_new_statuses_allowed_to([role], type, false, false).should =~ [statuses[1]]
+      expect(status.new_statuses_allowed_to([role], type, false, false)).to match_array([statuses[1]])
+      expect(status.find_new_statuses_allowed_to([role], type, false, false)).to match_array([statuses[1]])
     end
 
     it "should respect workflows w/ author and w/o assignee" do
       workflows
-      status.new_statuses_allowed_to([role], type, true, false).should =~ [statuses[1], statuses[2]]
-      status.find_new_statuses_allowed_to([role], type, true, false).should =~ [statuses[1], statuses[2]]
+      expect(status.new_statuses_allowed_to([role], type, true, false)).to match_array([statuses[1], statuses[2]])
+      expect(status.find_new_statuses_allowed_to([role], type, true, false)).to match_array([statuses[1], statuses[2]])
     end
 
     it "should respect workflows w/o author and w/ assignee" do
       workflows
-      status.new_statuses_allowed_to([role], type, false, true).should =~ [statuses[1], statuses[3]]
-      status.find_new_statuses_allowed_to([role], type, false, true).should =~ [statuses[1], statuses[3]]
+      expect(status.new_statuses_allowed_to([role], type, false, true)).to match_array([statuses[1], statuses[3]])
+      expect(status.find_new_statuses_allowed_to([role], type, false, true)).to match_array([statuses[1], statuses[3]])
     end
 
     it "should respect workflows w/ author and w/ assignee" do
       workflows
-      status.new_statuses_allowed_to([role], type, true, true).should =~ [statuses[1], statuses[2], statuses[3], statuses[4]]
-      status.find_new_statuses_allowed_to([role], type, true, true).should =~ [statuses[1], statuses[2], statuses[3], statuses[4]]
+      expect(status.new_statuses_allowed_to([role], type, true, true)).to match_array([statuses[1], statuses[2], statuses[3], statuses[4]])
+      expect(status.find_new_statuses_allowed_to([role], type, true, true)).to match_array([statuses[1], statuses[2], statuses[3], statuses[4]])
     end
 
     it "should respect workflows w/o author and w/o assignee on work packages" do
@@ -1000,7 +1000,7 @@ describe WorkPackage do
                                         :status => status,
                                         :priority => priority,
                                         :project => project)
-      work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1]]
+      expect(work_package.new_statuses_allowed_to(user)).to match_array([statuses[0], statuses[1]])
     end
 
     it "should respect workflows w/ author and w/o assignee on work packages" do
@@ -1010,7 +1010,7 @@ describe WorkPackage do
                                         :priority => priority,
                                         :project => project,
                                         :author => user)
-      work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1], statuses[2]]
+      expect(work_package.new_statuses_allowed_to(user)).to match_array([statuses[0], statuses[1], statuses[2]])
     end
 
     it "should respect workflows w/o author and w/ assignee on work packages" do
@@ -1022,7 +1022,7 @@ describe WorkPackage do
                                         :project => project,
                                         :assigned_to => user,
                                         :author => other_user)
-      work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1], statuses[3]]
+      expect(work_package.new_statuses_allowed_to(user)).to match_array([statuses[0], statuses[1], statuses[3]])
     end
 
     it "should respect workflows w/ author and w/ assignee on work packages" do
@@ -1034,28 +1034,28 @@ describe WorkPackage do
                                         :project => project,
                                         :author => user,
                                         :assigned_to => user)
-      work_package.new_statuses_allowed_to(user).should =~ [statuses[0], statuses[1], statuses[2], statuses[3], statuses[4]]
+      expect(work_package.new_statuses_allowed_to(user)).to match_array([statuses[0], statuses[1], statuses[2], statuses[3], statuses[4]])
     end
 
   end
 
   describe :add_time_entry do
     it "should return a new time entry" do
-      stub_work_package.add_time_entry.should be_a TimeEntry
+      expect(stub_work_package.add_time_entry).to be_a TimeEntry
     end
 
     it "should already have the project assigned" do
       stub_work_package.project = stub_project
 
-      stub_work_package.add_time_entry.project.should == stub_project
+      expect(stub_work_package.add_time_entry.project).to eq(stub_project)
     end
 
     it "should already have the work_package assigned" do
-      stub_work_package.add_time_entry.work_package.should == stub_work_package
+      expect(stub_work_package.add_time_entry.work_package).to eq(stub_work_package)
     end
 
     it "should return an usaved entry" do
-      stub_work_package.add_time_entry.should be_new_record
+      expect(stub_work_package.add_time_entry).to be_new_record
     end
   end
 
@@ -1063,26 +1063,26 @@ describe WorkPackage do
     let(:instance) { FactoryGirl.create(:work_package) }
 
     it "should return true" do
-      instance.update_by!(user, {}).should be_true
+      expect(instance.update_by!(user, {})).to be_true
     end
 
     it "should set the values" do
       instance.update_by!(user, { :subject => "New subject" })
 
-      instance.subject.should == "New subject"
+      expect(instance.subject).to eq("New subject")
     end
 
     it "should create a journal with the journal's 'notes' attribute set to the supplied" do
       instance.update_by!(user, { :notes => "blubs" })
 
-      instance.journals.last.notes.should == "blubs"
+      expect(instance.journals.last.notes).to eq("blubs")
     end
 
     it "should attach an attachment" do
       raw_attachments = [double('attachment')]
       attachment = FactoryGirl.build(:attachment)
 
-      instance.should_receive(:attach_files)
+      expect(instance).to receive(:attach_files)
               .with(raw_attachments)
               .and_return(attachment)
 
@@ -1092,7 +1092,7 @@ describe WorkPackage do
     it "should only attach the attachment when saving was successful" do
       raw_attachments = [double('attachment')]
 
-      Attachment.should_not_receive(:attach_files)
+      expect(Attachment).not_to receive(:attach_files)
 
       instance.update_by!(user, { :subject => "", :attachments => raw_attachments })
     end
@@ -1104,15 +1104,15 @@ describe WorkPackage do
                                                   "activity_id" => activity.id.to_s,
                                                   "comments" => "blubs" } } )
 
-      instance.should have(1).time_entries
+      expect(instance).to have(1).time_entries
 
       entry = instance.time_entries.first
 
-      entry.should be_persisted
-      entry.work_package.should == instance
-      entry.user.should == user
-      entry.project.should == instance.project
-      entry.spent_on.should == Date.today
+      expect(entry).to be_persisted
+      expect(entry.work_package).to eq(instance)
+      expect(entry.user).to eq(user)
+      expect(entry.project).to eq(instance.project)
+      expect(entry.spent_on).to eq(Date.today)
     end
 
     it "should not persist the time entry if the work package update fails" do
@@ -1123,11 +1123,11 @@ describe WorkPackage do
                                                   "activity_id" => activity.id.to_s,
                                                   "comments" => "blubs" } } )
 
-      instance.should have(1).time_entries
+      expect(instance).to have(1).time_entries
 
       entry = instance.time_entries.first
 
-      entry.should_not be_persisted
+      expect(entry).not_to be_persisted
     end
 
     it "should not add a time entry if the time entry attributes are empty" do
@@ -1137,7 +1137,7 @@ describe WorkPackage do
 
       instance.update_by!(user, :time_entry => time_attributes)
 
-      instance.should have(0).time_entries
+      expect(instance).to have(0).time_entries
     end
   end
 
@@ -1148,7 +1148,7 @@ describe WorkPackage do
 
     context "admin user" do
       before do
-        User.stub(:current).and_return admin_user
+        allow(User).to receive(:current).and_return admin_user
         project
       end
 
@@ -1161,7 +1161,7 @@ describe WorkPackage do
 
     context "non admin user" do
       before do
-        User.stub(:current).and_return valid_user
+        allow(User).to receive(:current).and_return valid_user
 
         role = FactoryGirl.create :role, permissions: [:move_work_packages]
 
@@ -1191,7 +1191,7 @@ describe WorkPackage do
           end
 
           it "should have a duration of two" do
-            instance.duration.should == 2
+            expect(instance.duration).to eq(2)
           end
         end
 
@@ -1203,7 +1203,7 @@ describe WorkPackage do
           end
 
           it "should have a duration of one" do
-            instance.duration.should == 1
+            expect(instance.duration).to eq(1)
           end
         end
 
@@ -1215,7 +1215,7 @@ describe WorkPackage do
           end
 
           it "should have a duration of one" do
-            instance.duration.should == 1
+            expect(instance.duration).to eq(1)
           end
         end
 
@@ -1227,7 +1227,7 @@ describe WorkPackage do
           end
 
           it "should have a duration of one" do
-            instance.duration.should == 1
+            expect(instance.duration).to eq(1)
           end
         end
 
@@ -1275,7 +1275,7 @@ describe WorkPackage do
       @project ||= FactoryGirl.create(:project_with_types)
 
       @current = FactoryGirl.create(:user, :login => "user1", :mail => "user1@users.com")
-      User.stub(:current).and_return(@current)
+      allow(User).to receive(:current).and_return(@current)
       @project.add_member!(@current, role)
 
       @user2 = FactoryGirl.create(:user, :login => "user2", :mail => "user2@users.com")
@@ -1290,7 +1290,7 @@ describe WorkPackage do
         @issue.save!
 
         @issue.description = ""
-        @issue.send(:incremental_journal_changes).should be_empty
+        expect(@issue.send(:incremental_journal_changes)).to be_empty
       end
     end
 
@@ -1298,21 +1298,21 @@ describe WorkPackage do
       it 'should not include certain attributes' do
         recreated_journal = @issue.recreate_initial_journal!
 
-        recreated_journal.changed_data.include?('rgt').should == false
-        recreated_journal.changed_data.include?('lft').should == false
-        recreated_journal.changed_data.include?('lock_version').should == false
-        recreated_journal.changed_data.include?('updated_at').should == false
-        recreated_journal.changed_data.include?('updated_on').should == false
-        recreated_journal.changed_data.include?('id').should == false
-        recreated_journal.changed_data.include?('type').should == false
-        recreated_journal.changed_data.include?('root_id').should == false
+        expect(recreated_journal.changed_data.include?('rgt')).to eq(false)
+        expect(recreated_journal.changed_data.include?('lft')).to eq(false)
+        expect(recreated_journal.changed_data.include?('lock_version')).to eq(false)
+        expect(recreated_journal.changed_data.include?('updated_at')).to eq(false)
+        expect(recreated_journal.changed_data.include?('updated_on')).to eq(false)
+        expect(recreated_journal.changed_data.include?('id')).to eq(false)
+        expect(recreated_journal.changed_data.include?('type')).to eq(false)
+        expect(recreated_journal.changed_data.include?('root_id')).to eq(false)
       end
 
       it 'should not include useless transitions' do
         recreated_journal = @issue.recreate_initial_journal!
 
         recreated_journal.changed_data.values.each do |change|
-          change.first.should_not == change.last
+          expect(change.first).not_to eq(change.last)
         end
       end
 
@@ -1335,17 +1335,17 @@ describe WorkPackage do
         initial_journal = @issue.journals.first
         recreated_journal = @issue.recreate_initial_journal!
 
-        initial_journal.should be_identical(recreated_journal)
+        expect(initial_journal).to be_identical(recreated_journal)
       end
 
       it "should not validate with oddly set estimated_hours" do
         @issue.estimated_hours = "this should not work"
-        @issue.should_not be_valid
+        expect(@issue).not_to be_valid
       end
 
       it "should validate with sane estimated_hours" do
         @issue.estimated_hours = "13h"
-        @issue.should be_valid
+        expect(@issue).to be_valid
       end
     end
   end
@@ -1366,19 +1366,19 @@ describe WorkPackage do
                                       member_through_role: workflow.role) }
 
       before do
-        Setting.stub(:work_package_done_ratio).and_return('disabled')
+        allow(Setting).to receive(:work_package_done_ratio).and_return('disabled')
 
-        User.stub(:current).and_return(user)
+        allow(User).to receive(:current).and_return(user)
       end
 
       it 'should not update the work package done_ratio' do
-        work_package.done_ratio.should == 0
+        expect(work_package.done_ratio).to eq(0)
 
         child.status = closed_status
         child.save!
 
         work_package.reload
-        work_package.done_ratio.should == 0
+        expect(work_package.done_ratio).to eq(0)
       end
     end
   end
@@ -1389,7 +1389,7 @@ describe WorkPackage do
       let(:invalid_work_package) { FactoryGirl.build(:work_package, :project => project, :parent_id => 1) }
 
       it 'should raise an error' do
-        invalid_work_package.should_not be_valid
+        expect(invalid_work_package).not_to be_valid
       end
     end
   end

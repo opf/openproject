@@ -40,7 +40,7 @@ describe ::Query::Results do
       before { query.group_by = 'responsible' }
 
       it 'should produce a valid SQL statement' do
-        expect { query_results.work_package_count_by_group }.not_to raise_error ::Query::StatementInvalid
+        expect { query_results.work_package_count_by_group }.not_to raise_error
       end
     end
   end

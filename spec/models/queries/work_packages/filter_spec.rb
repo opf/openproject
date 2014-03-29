@@ -40,7 +40,7 @@ describe Queries::WorkPackages::Filter do
         let(:filter) { FactoryGirl.build :work_packages_filter, field: :status_id, operator: '*', values: [] }
 
         it 'is valid if no values are given' do
-          filter.should be_valid
+          expect(filter).to be_valid
         end
       end
 

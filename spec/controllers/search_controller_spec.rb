@@ -39,7 +39,7 @@ describe SearchController do
     it { expect(response).to render_template('index') }
   end
 
-  before { User.stub(:current).and_return user }
+  before { allow(User).to receive(:current).and_return user }
 
   describe 'project search' do
 

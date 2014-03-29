@@ -33,9 +33,9 @@ require 'support/shared/previews'
 describe WorkPackagesController do
 
   before do
-    User.stub(:current).and_return current_user
+    allow(User).to receive(:current).and_return current_user
     # disables sending mails
-    UserMailer.stub(:new).and_return(double('mailer').as_null_object)
+    allow(UserMailer).to receive(:new).and_return(double('mailer').as_null_object)
   end
 
   let(:planning_element) { FactoryGirl.create(:work_package, :project_id => project.id) }
@@ -51,13 +51,13 @@ describe WorkPackagesController do
   def self.requires_permission_in_project(&block)
     describe 'w/o the permission to see the project/work_package' do
       before do
-        controller.stub(:work_package).and_return(nil)
+        allow(controller).to receive(:work_package).and_return(nil)
 
         call_action
       end
 
       it 'should render a 404' do
-        response.response_code.should === 404
+        expect(response.response_code).to be === 404
       end
     end
 
@@ -65,8 +65,8 @@ describe WorkPackagesController do
               w/ having the necessary permissions' do
 
       before do
-        controller.stub(:work_package).and_return(stub_work_package)
-        controller.should_receive(:authorize).and_return(true)
+        allow(controller).to receive(:work_package).and_return(stub_work_package)
+        expect(controller).to receive(:authorize).and_return(true)
       end
 
       instance_eval(&block)
@@ -80,7 +80,7 @@ describe WorkPackagesController do
       let(:project) { nil }
 
       before do
-        User.current.should_receive(:allowed_to?)
+        expect(User.current).to receive(:allowed_to?)
                     .with(:export_work_packages,
                           project,
                           :global => true)
@@ -95,7 +95,7 @@ describe WorkPackagesController do
       before do
         params[:project_id] = project.id
 
-        User.current.should_receive(:allowed_to?)
+        expect(User.current).to receive(:allowed_to?)
                     .with(:export_work_packages,
                           project,
                           :global => false)
@@ -109,7 +109,7 @@ describe WorkPackagesController do
       let(:project) { nil }
 
       before do
-        User.current.should_receive(:allowed_to?)
+        expect(User.current).to receive(:allowed_to?)
                     .with(:export_work_packages,
                           project,
                           :global => true)
@@ -119,7 +119,7 @@ describe WorkPackagesController do
       end
 
       it 'should render a 403' do
-        response.response_code.should == 403
+        expect(response.response_code).to eq(403)
       end
     end
   end
@@ -129,7 +129,7 @@ describe WorkPackagesController do
     let(:work_packages) { double("work packages").as_null_object }
 
     before do
-      User.current.should_receive(:allowed_to?)
+      expect(User.current).to receive(:allowed_to?)
                   .with({ :controller => "work_packages",
                           :action => "index" },
                         project,
@@ -139,7 +139,7 @@ describe WorkPackagesController do
 
     describe 'with valid query' do
       before do
-        controller.stub(:retrieve_query).and_return(query)
+        allow(controller).to receive(:retrieve_query).and_return(query)
         query.stub_chain(:results, :work_packages, :page, :per_page, :all).and_return(work_packages)
       end
 
@@ -152,14 +152,14 @@ describe WorkPackagesController do
           let(:call_action) { get('index') }
 
           it 'should render the index template' do
-            response.should render_template('work_packages/index', :formats => ["html"],
+            expect(response).to render_template('work_packages/index', :formats => ["html"],
                                                                    :layout => :base)
           end
         end
 
         context "w/ a project" do
           it 'should render the index template' do
-            response.should render_template('work_packages/index', :formats => ["html"],
+            expect(response).to render_template('work_packages/index', :formats => ["html"],
                                                                    :layout => :base)
           end
         end
@@ -169,10 +169,10 @@ describe WorkPackagesController do
             FactoryGirl.build_stubbed(:query).tap {|q| q.filters = [Queries::WorkPackages::Filter.new('done_ratio', operator: ">=", values: [10]) ]}
           end
 
-          before { session.stub(:query).and_return query }
+          before { allow(session).to receive(:query).and_return query }
 
           it 'preserves the query' do
-            assigns['query'].filters.should == query.filters
+            expect(assigns['query'].filters).to eq(query.filters)
           end
         end
       end
@@ -186,10 +186,10 @@ describe WorkPackagesController do
           before do
             mock_csv = double('csv export')
 
-            WorkPackage::Exporter.should_receive(:csv).with(work_packages, project)
+            expect(WorkPackage::Exporter).to receive(:csv).with(work_packages, project)
                                                       .and_return(mock_csv)
 
-            controller.should_receive(:send_data).with(mock_csv,
+            expect(controller).to receive(:send_data).with(mock_csv,
                                                        :type => 'text/csv; charset=utf-8; header=present',
                                                        :filename => 'export.csv') do |*args|
               # We need to render something because otherwise
@@ -212,9 +212,9 @@ describe WorkPackagesController do
           before do
             mock_pdf = double('pdf export')
 
-            WorkPackage::Exporter.should_receive(:pdf).and_return(mock_pdf)
+            expect(WorkPackage::Exporter).to receive(:pdf).and_return(mock_pdf)
 
-            controller.should_receive(:send_data).with(mock_pdf,
+            expect(controller).to receive(:send_data).with(mock_pdf,
                                                        :type => 'application/pdf',
                                                        :filename => 'export.pdf') do |*args|
               # We need to render something because otherwise
@@ -235,7 +235,7 @@ describe WorkPackagesController do
 
         requires_export_permission do
           before do
-            controller.should_receive(:render_feed).with(work_packages, anything()) do |*args|
+            expect(controller).to receive(:render_feed).with(work_packages, anything()) do |*args|
               # We need to render something because otherwise
               # the controller will and he will not find a suitable template
               controller.render :text => "success"
@@ -255,11 +255,11 @@ describe WorkPackagesController do
                 before { call_action }
 
         it 'renders a 404' do
-          response.response_code.should === 404
+          expect(response.response_code).to be === 404
         end
 
         it 'preserves the project' do
-          assigns['project'].should === project
+          expect(assigns['project']).to be === project
         end
       end
     end
@@ -288,7 +288,7 @@ describe WorkPackagesController do
 
       expect do
         get :index, :format => 'csv'
-      end.to_not raise_error(Encoding::CompatibilityError)
+      end.to_not raise_error
 
       data = CSV.parse(response.body)
 
@@ -312,7 +312,7 @@ describe WorkPackagesController do
       it 'renders the show builder template' do
         call_action
 
-        response.should render_template('work_packages/show', :formats => ["html"],
+        expect(response).to render_template('work_packages/show', :formats => ["html"],
                                                               :layout => :base)
       end
     end
@@ -327,8 +327,8 @@ describe WorkPackagesController do
         pdf = double('pdf')
 
         expected_name = "#{stub_work_package.project.identifier}-#{stub_work_package.id}.pdf"
-        WorkPackage::Exporter.should_receive(:work_package_to_pdf).and_return(pdf)
-        controller.should_receive(:send_data).with(pdf,
+        expect(WorkPackage::Exporter).to receive(:work_package_to_pdf).and_return(pdf)
+        expect(controller).to receive(:send_data).with(pdf,
                                                    :type => 'application/pdf',
                                                    :filename => expected_name) do |*args|
           # We need to render something because otherwise
@@ -347,7 +347,7 @@ describe WorkPackagesController do
       it 'render the journal/index template' do
         call_action
 
-        response.should render_template('journals/index', :formats => ["atom"],
+        expect(response).to render_template('journals/index', :formats => ["atom"],
                                                           :layout => false,
                                                           :content_type => 'application/atom+xml')
       end
@@ -365,11 +365,11 @@ describe WorkPackagesController do
 
       it 'renders the new builder template' do
 
-        response.should render_template('work_packages/new', :formats => ["html"])
+        expect(response).to render_template('work_packages/new', :formats => ["html"])
       end
 
       it 'should respond with 200 OK' do
-        response.response_code.should == 200
+        expect(response.response_code).to eq(200)
       end
     end
   end
@@ -381,20 +381,20 @@ describe WorkPackagesController do
 
     requires_permission_in_project do
       before do
-        controller.send(:permitted_params).should_receive(:update_work_package)
+        expect(controller.send(:permitted_params)).to receive(:update_work_package)
                                           .with(:project => stub_project)
                                           .and_return(wp_params)
-        stub_work_package.should_receive(:update_by).with(current_user, wp_params).and_return(true)
+        expect(stub_work_package).to receive(:update_by).with(current_user, wp_params).and_return(true)
 
         call_action
       end
 
       it 'renders the new builder template' do
-        response.should render_template('work_packages/new_type', :formats => ["html"])
+        expect(response).to render_template('work_packages/new_type', :formats => ["html"])
       end
 
       it 'should respond with 200 OK' do
-        response.response_code.should == 200
+        expect(response.response_code).to eq(200)
       end
     end
   end
@@ -410,13 +410,13 @@ describe WorkPackagesController do
 
       describe 'w/ having a successful save' do
         before do
-          stub_work_package.should_receive(:save).and_return(true)
+          expect(stub_work_package).to receive(:save).and_return(true)
         end
 
         it 'redirect to show' do
           call_action
 
-          response.should redirect_to(work_package_path(stub_work_package))
+          expect(response).to redirect_to(work_package_path(stub_work_package))
         end
 
         it 'should show a flash message' do
@@ -424,14 +424,14 @@ describe WorkPackagesController do
 
           call_action
 
-          flash[:notice].should == I18n.t(:notice_successful_create)
+          expect(flash[:notice]).to eq(I18n.t(:notice_successful_create))
         end
 
         it 'should attach attachments if those are provided' do
           params[:attachments] = 'attachment-blubs-data'
 
-          stub_work_package.should_receive(:attach_files).with(params[:attachments])
-          controller.stub(:render_attachment_warning_if_needed)
+          expect(stub_work_package).to receive(:attach_files).with(params[:attachments])
+          allow(controller).to receive(:render_attachment_warning_if_needed)
 
           call_action
         end
@@ -440,13 +440,13 @@ describe WorkPackagesController do
       describe 'w/ having an unsuccessful save' do
 
         before do
-          stub_work_package.should_receive(:save).and_return(false)
+          expect(stub_work_package).to receive(:save).and_return(false)
 
           call_action
         end
 
         it 'renders the new template' do
-          response.should render_template('work_packages/new', :formats => ["html"])
+          expect(response).to render_template('work_packages/new', :formats => ["html"])
         end
       end
     end
@@ -459,7 +459,7 @@ describe WorkPackagesController do
       it 'renders the show builder template' do
         call_action
 
-        response.should render_template('work_packages/edit', :formats => ["html"], :layout => :base)
+        expect(response).to render_template('work_packages/edit', :formats => ["html"], :layout => :base)
       end
     end
   end
@@ -487,7 +487,7 @@ describe WorkPackagesController do
     end
 
     before do
-      User.stub(:current).and_return admin
+      allow(User).to receive(:current).and_return admin
     end
 
     it 'should not try to create a time entry if blank' do
@@ -513,8 +513,8 @@ describe WorkPackagesController do
 
     requires_permission_in_project do
       before do
-        controller.stub(:work_package).and_return(stub_work_package)
-        controller.send(:permitted_params).should_receive(:update_work_package)
+        allow(controller).to receive(:work_package).and_return(stub_work_package)
+        expect(controller.send(:permitted_params)).to receive(:update_work_package)
                                           .at_most(:twice)
                                           .with(:project => stub_work_package.project)
                                           .and_return(wp_params)
@@ -522,7 +522,7 @@ describe WorkPackagesController do
 
       describe 'w/ having a successful save' do
         before do
-          stub_work_package.should_receive(:update_by!)
+          expect(stub_work_package).to receive(:update_by!)
                            .with(current_user, wp_params)
                            .and_return(true)
         end
@@ -530,7 +530,7 @@ describe WorkPackagesController do
         it 'should respond with 200 OK' do
           call_action
 
-          response.response_code.should == 200
+          expect(response.response_code).to eq(200)
         end
 
         it 'should show a flash message' do
@@ -538,13 +538,13 @@ describe WorkPackagesController do
 
           call_action
 
-          flash[:notice].should == I18n.t(:notice_successful_update)
+          expect(flash[:notice]).to eq(I18n.t(:notice_successful_update))
         end
       end
 
       describe 'w/ having an unsuccessful save' do
         before do
-          stub_work_package.should_receive(:update_by!)
+          expect(stub_work_package).to receive(:update_by!)
                            .with(current_user, wp_params)
                            .and_return(false)
         end
@@ -552,7 +552,7 @@ describe WorkPackagesController do
         it 'render the edit action' do
           call_action
 
-          response.should render_template('work_packages/edit', :formats => ["html"], :layout => :base)
+          expect(response).to render_template('work_packages/edit', :formats => ["html"], :layout => :base)
         end
       end
 
@@ -560,17 +560,17 @@ describe WorkPackagesController do
                 w/ having a faulty attachment' do
 
         before do
-          stub_work_package.should_receive(:update_by!)
+          expect(stub_work_package).to receive(:update_by!)
                            .with(current_user, wp_params)
                            .and_return(true)
-          stub_work_package.stub(:unsaved_attachments)
+          allow(stub_work_package).to receive(:unsaved_attachments)
                            .and_return([double('unsaved_attachment')])
         end
 
         it 'should respond with 200 OK' do
           call_action
 
-          response.response_code.should == 200
+          expect(response.response_code).to eq(200)
         end
 
         it 'should show a flash message' do
@@ -578,7 +578,7 @@ describe WorkPackagesController do
 
           call_action
 
-          flash[:warning].should == I18n.t(:warning_attachments_not_saved, :count => 1)
+          expect(flash[:warning]).to eq(I18n.t(:warning_attachments_not_saved, :count => 1))
         end
       end
     end
@@ -592,13 +592,13 @@ describe WorkPackagesController do
         it 'should return the work_package' do
           controller.params = { id: planning_element.id }
 
-          controller.work_package.should == planning_element
+          expect(controller.work_package).to eq(planning_element)
         end
 
         it 'should return nil for non existing work_packages' do
           controller.params = { id: 0 }
 
-          controller.work_package.should be_nil
+          expect(controller.work_package).to be_nil
         end
       end
 
@@ -606,7 +606,7 @@ describe WorkPackagesController do
         it 'should return nil' do
           controller.params = { id: planning_element.id }
 
-          controller.work_package.should be_nil
+          expect(controller.work_package).to be_nil
         end
       end
     end
@@ -616,32 +616,32 @@ describe WorkPackagesController do
       let(:params) { { :project_id => stub_project.id } }
 
       before do
-        Project.stub(:find_visible).and_return stub_project
+        allow(Project).to receive(:find_visible).and_return stub_project
       end
 
       describe 'when we copy stuff' do
         before do
           controller.params = { :work_package => {} }.merge(params)
 
-          controller.stub(:current_user).and_return(stub_user)
-          controller.send(:permitted_params).should_receive(:new_work_package)
+          allow(controller).to receive(:current_user).and_return(stub_user)
+          expect(controller.send(:permitted_params)).to receive(:new_work_package)
                                             .with(:project => stub_project)
                                             .and_return(wp_params)
 
-          stub_project.should_receive(:add_work_package) do |args|
+          expect(stub_project).to receive(:add_work_package) { |args|
 
             expect(args[:author]).to eql stub_user
 
-          end.and_return(stub_issue)
+          }.and_return(stub_issue)
         end
 
         it 'should return a new issue on the project' do
-          controller.work_package.should == stub_issue
+          expect(controller.work_package).to eq(stub_issue)
         end
 
         it 'should copy over attributes from another work_package provided as the source' do
           controller.params[:copy_from] = 2
-          stub_issue.should_receive(:copy_from).with(2, :exclude => [:project_id])
+          expect(stub_issue).to receive(:copy_from).with(2, :exclude => [:project_id])
 
           controller.work_package
         end
@@ -650,12 +650,12 @@ describe WorkPackagesController do
       describe 'if the project is not visible for the current_user' do
         before do
           projects = [stub_project]
-          Project.stub(:visible).and_return projects
-          projects.stub(:find_by_id).and_return(stub_project)
+          allow(Project).to receive(:visible).and_return projects
+          allow(projects).to receive(:find_by_id).and_return(stub_project)
         end
 
         it 'should return nil' do
-          controller.work_package.should be_nil
+          expect(controller.work_package).to be_nil
 
         end
       end
@@ -665,16 +665,16 @@ describe WorkPackagesController do
       it "should return nil" do
         controller.params = {}
 
-        controller.work_package.should be_nil
+        expect(controller.work_package).to be_nil
       end
     end
   end
 
   describe :project do
     it "should be the work_packages's project" do
-      controller.stub(:work_package).and_return(planning_element)
+      allow(controller).to receive(:work_package).and_return(planning_element)
 
-      controller.project.should == planning_element.project
+      expect(controller.project).to eq(planning_element.project)
     end
   end
 
@@ -685,15 +685,15 @@ describe WorkPackagesController do
       planning_element.save
       planning_element.reload
 
-      controller.stub(:work_package).and_return(planning_element)
+      allow(controller).to receive(:work_package).and_return(planning_element)
 
-      controller.journals.should == [planning_element.journals.last]
+      expect(controller.journals).to eq([planning_element.journals.last])
     end
 
     it "should be empty if the work_package has only one journal" do
-      controller.stub(:work_package).and_return(planning_element)
+      allow(controller).to receive(:work_package).and_return(planning_element)
 
-      controller.journals.should be_empty
+      expect(controller.journals).to be_empty
     end
 
 
@@ -709,17 +709,17 @@ describe WorkPackagesController do
                                                   notes: 'lala2')}
 
       before do
-        controller.stub(:current_user).and_return(stub_user)
-        controller.stub(:work_package).and_return(planning_element)
+        allow(controller).to receive(:current_user).and_return(stub_user)
+        allow(controller).to receive(:work_package).and_return(planning_element)
       end
 
       it "chronological by default" do
-        controller.journals.should == [planning_element_note1, planning_element_note2]
+        expect(controller.journals).to eq([planning_element_note1, planning_element_note2])
       end
 
       it "reverse chronological order if the user wan'ts it that way" do
-        stub_user.stub(:wants_comments_in_reverse_order?).and_return(true)
-        controller.journals.should == [planning_element_note2, planning_element_note1]
+        allow(stub_user).to receive(:wants_comments_in_reverse_order?).and_return(true)
+        expect(controller.journals).to eq([planning_element_note2, planning_element_note1])
       end
     end
   end
@@ -730,25 +730,25 @@ describe WorkPackagesController do
     let(:changesets) { [change1, change2] }
 
     before do
-      planning_element.stub(:changesets).and_return(changesets)
+      allow(planning_element).to receive(:changesets).and_return(changesets)
       # couldn't get stub_chain to work
       # https://www.relishapp.com/rspec/rspec-mocks/v/2-0/docs/stubs/stub-a-chain-of-methods
       [:visible, :all, :includes].each do |meth|
-        changesets.stub(meth).and_return(changesets)
+        allow(changesets).to receive(meth).and_return(changesets)
       end
-      controller.stub(:work_package).and_return(planning_element)
+      allow(controller).to receive(:work_package).and_return(planning_element)
     end
 
     it "should have all the work_package's changesets" do
-      controller.changesets.should == changesets
+      expect(controller.changesets).to eq(changesets)
     end
 
     it "should have all the work_package's changesets in reverse order if the user wan'ts it that way" do
-      controller.stub(:current_user).and_return(stub_user)
+      allow(controller).to receive(:current_user).and_return(stub_user)
 
-      stub_user.stub(:wants_comments_in_reverse_order?).and_return(true)
+      allow(stub_user).to receive(:wants_comments_in_reverse_order?).and_return(true)
 
-      controller.changesets.should == [change2, change1]
+      expect(controller.changesets).to eq([change2, change1])
     end
   end
 
@@ -758,21 +758,21 @@ describe WorkPackagesController do
     let(:relations) { [relation] }
 
     before do
-      controller.stub(:work_package).and_return(stub_issue)
-      stub_issue.stub(:relations).and_return(relations)
-      relations.stub(:includes).and_return(relations)
+      allow(controller).to receive(:work_package).and_return(stub_issue)
+      allow(stub_issue).to receive(:relations).and_return(relations)
+      allow(relations).to receive(:includes).and_return(relations)
     end
 
     it "should return all the work_packages's relations visible to the user" do
-      stub_planning_element.stub(:visible?).and_return(true)
+      allow(stub_planning_element).to receive(:visible?).and_return(true)
 
-      controller.relations.should == relations
+      expect(controller.relations).to eq(relations)
     end
 
     it "should not return relations invisible to the user" do
-      stub_planning_element.stub(:visible?).and_return(false)
+      allow(stub_planning_element).to receive(:visible?).and_return(false)
 
-      controller.relations.should == []
+      expect(controller.relations).to eq([])
     end
   end
 
@@ -788,9 +788,9 @@ describe WorkPackagesController do
       let(:issue) { FactoryGirl.create(:work_package, :project => project, :parent_id => ancestor_issue.id) }
 
       it "should return the work_packages ancestors" do
-        controller.stub(:work_package).and_return(issue)
+        allow(controller).to receive(:work_package).and_return(issue)
 
-        controller.ancestors.should == [ancestor_issue]
+        expect(controller.ancestors).to eq([ancestor_issue])
       end
     end
 
@@ -798,20 +798,20 @@ describe WorkPackagesController do
       let(:descendant_planning_element) { FactoryGirl.create(:work_package, :project => project,
                                                                                 :parent_id => planning_element.id) }
       it "should return the work_packages ancestors" do
-        controller.stub(:work_package).and_return(descendant_planning_element)
+        allow(controller).to receive(:work_package).and_return(descendant_planning_element)
 
-        controller.ancestors.should == [planning_element]
+        expect(controller.ancestors).to eq([planning_element])
       end
     end
   end
 
   describe :descendants do
     before do
-      controller.stub(:work_package).and_return(planning_element)
+      allow(controller).to receive(:work_package).and_return(planning_element)
     end
 
     it "should be empty" do
-      controller.descendants.should be_empty
+      expect(controller.descendants).to be_empty
     end
   end
 
@@ -819,9 +819,9 @@ describe WorkPackagesController do
     it "should return all defined priorities" do
       expected = double('priorities')
 
-      IssuePriority.stub(:active).and_return(expected)
+      allow(IssuePriority).to receive(:active).and_return(expected)
 
-      controller.priorities.should == expected
+      expect(controller.priorities).to eq(expected)
     end
   end
 
@@ -829,25 +829,25 @@ describe WorkPackagesController do
     it "should return all statuses allowed by the issue" do
       expected = double('statuses')
 
-      controller.stub(:work_package).and_return(stub_issue)
+      allow(controller).to receive(:work_package).and_return(stub_issue)
 
-      stub_issue.stub(:new_statuses_allowed_to).with(current_user).and_return(expected)
+      allow(stub_issue).to receive(:new_statuses_allowed_to).with(current_user).and_return(expected)
 
-      controller.allowed_statuses.should == expected
+      expect(controller.allowed_statuses).to eq(expected)
     end
   end
 
   describe :time_entry do
     before do
-      controller.stub(:work_package).and_return(stub_planning_element)
+      allow(controller).to receive(:work_package).and_return(stub_planning_element)
     end
 
     it "should return a time entry" do
       expected = double('time_entry')
 
-      stub_planning_element.stub(:add_time_entry).and_return(expected)
+      allow(stub_planning_element).to receive(:add_time_entry).and_return(expected)
 
-      controller.time_entry.should == expected
+      expect(controller.time_entry).to eq(expected)
     end
   end
 
@@ -899,8 +899,8 @@ describe WorkPackagesController do
       subject { response }
 
       it do
-        assigns['new_work_package'].should_not == nil
-        assigns['new_work_package'].attributes.dup.except(*except).should == planning_element.attributes.dup.except(*except)
+        expect(assigns['new_work_package']).not_to eq(nil)
+        expect(assigns['new_work_package'].attributes.dup.except(*except)).to eq(planning_element.attributes.dup.except(*except))
       end
     end
 
@@ -915,11 +915,11 @@ describe WorkPackagesController do
                                               description: '' } } } }
 
       before do
-        controller.stub(:work_package).and_return(new_work_package)
-        controller.should_receive(:authorize).and_return(true)
+        allow(controller).to receive(:work_package).and_return(new_work_package)
+        expect(controller).to receive(:authorize).and_return(true)
 
-        Attachment.any_instance.stub(:filename).and_return(filename)
-        Attachment.any_instance.stub(:copy_file_to_destination)
+        allow_any_instance_of(Attachment).to receive(:filename).and_return(filename)
+        allow_any_instance_of(Attachment).to receive(:copy_file_to_destination)
       end
 
       # see ticket #2009 on OpenProject.org
@@ -933,7 +933,7 @@ describe WorkPackagesController do
 
           it { should have_key attachment_id }
 
-          it { subject[attachment_id].should eq([nil, filename]) }
+          it { expect(subject[attachment_id]).to eq([nil, filename]) }
         end
       end
 
@@ -941,7 +941,7 @@ describe WorkPackagesController do
         let(:max_filesize) { Setting.attachment_max_size.to_i.kilobytes }
 
         before do
-          Attachment.any_instance.stub(:filesize).and_return(max_filesize + 1)
+          allow_any_instance_of(Attachment).to receive(:filesize).and_return(max_filesize + 1)
 
           post :create, params
         end
@@ -981,18 +981,18 @@ describe WorkPackagesController do
                                                                 description: '' } } } } }
 
       before do
-        controller.stub(:work_package).and_return(work_package)
-        controller.should_receive(:authorize).and_return(true)
+        allow(controller).to receive(:work_package).and_return(work_package)
+        expect(controller).to receive(:authorize).and_return(true)
 
-        Attachment.any_instance.stub(:filename).and_return(filename)
-        Attachment.any_instance.stub(:copy_file_to_destination)
+        allow_any_instance_of(Attachment).to receive(:filename).and_return(filename)
+        allow_any_instance_of(Attachment).to receive(:copy_file_to_destination)
       end
 
       context "invalid attachment" do
         let(:max_filesize) { Setting.attachment_max_size.to_i.kilobytes }
 
         before do
-          Attachment.any_instance.stub(:filesize).and_return(max_filesize + 1)
+          allow_any_instance_of(Attachment).to receive(:filesize).and_return(max_filesize + 1)
 
           post :update, params
         end
@@ -1026,7 +1026,7 @@ describe WorkPackagesController do
     let(:preview_params) { { work_package: { description: description,
                                              notes: notes } } }
 
-    before { User.stub(:current).and_return(user) }
+    before { allow(User).to receive(:current).and_return(user) }
 
     it_behaves_like 'valid preview' do
       let(:preview_texts) { [description, notes] }

@@ -48,7 +48,7 @@ describe MenuItems::QueryMenuItem do
 
     it 'the associated query' do
       query.destroy
-      MenuItems::QueryMenuItem.where(navigatable_id: query.id).should be_empty
+      expect(MenuItems::QueryMenuItem.where(navigatable_id: query.id)).to be_empty
     end
   end
 end

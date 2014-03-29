@@ -163,7 +163,7 @@ describe WorkPackage do
 
         before do
           source_project_member
-          User.stub(:current).and_return user
+          allow(User).to receive(:current).and_return user
         end
 
         it_behaves_like "copied work package"
@@ -246,7 +246,7 @@ describe WorkPackage do
 
         it do
           should =~ source.watchers.map(&:user_id)
-          sink.watchers.each { |w| w.should be_valid }
+          sink.watchers.each { |w| expect(w).to be_valid }
         end
       end
     end

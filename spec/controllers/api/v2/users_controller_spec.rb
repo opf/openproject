@@ -33,13 +33,13 @@ describe Api::V2::UsersController do
   shared_context "As an admin" do
     let(:current_user) { FactoryGirl.create(:admin) }
 
-    before { User.stub(:current).and_return current_user }
+    before { allow(User).to receive(:current).and_return current_user }
   end
 
   shared_context "As a normal user" do
     let(:current_user) { FactoryGirl.create(:user) }
 
-    before { User.stub(:current).and_return current_user }
+    before { allow(User).to receive(:current).and_return current_user }
   end
 
   shared_examples_for "valid user API call" do

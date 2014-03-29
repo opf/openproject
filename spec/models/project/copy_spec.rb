@@ -42,8 +42,8 @@ describe Project::Copy do
     subject { copy }
 
     it "should be able to be copied" do
-      copy.should be_valid
-      copy.should_not be_new_record
+      expect(copy).to be_valid
+      expect(copy).not_to be_new_record
     end
   end
 
@@ -93,7 +93,7 @@ describe Project::Copy do
 
         subject { copy.is_public }
 
-        it { copy.is_public?.should == project.is_public? }
+        it { expect(copy.is_public?).to eq(project.is_public?) }
       end
 
       describe :public do
@@ -106,7 +106,7 @@ describe Project::Copy do
 
         subject { copy.is_public }
 
-        it { copy.is_public?.should == project.is_public? }
+        it { expect(copy.is_public?).to eq(project.is_public?) }
       end
     end
   end
@@ -139,8 +139,8 @@ describe Project::Copy do
         end
 
         it do
-          copy.work_packages.each { |wp| wp.should(be_valid) }
-          copy.work_packages.count.should == project.work_packages.count
+          copy.work_packages.each { |wp| expect(wp).to(be_valid) }
+          expect(copy.work_packages.count).to eq(project.work_packages.count)
         end
       end
 
@@ -158,8 +158,8 @@ describe Project::Copy do
         end
 
         it do
-          (parent_wp = copy.work_packages.detect { |wp| wp.parent }).should_not == nil
-          parent_wp.parent.project.should == copy
+          expect(parent_wp = copy.work_packages.detect { |wp| wp.parent }).not_to eq(nil)
+          expect(parent_wp.parent.project).to eq(copy)
         end
       end
 
@@ -177,8 +177,8 @@ describe Project::Copy do
         end
 
         it do
-          (cat = copy.work_packages[0].category).should_not == nil
-          cat.project.should == copy
+          expect(cat = copy.work_packages[0].category).not_to eq(nil)
+          expect(cat.project).to eq(copy)
         end
       end
 
@@ -200,7 +200,7 @@ describe Project::Copy do
           end
 
           it "does copy active watchers" do
-            copy.work_packages[0].watchers.first.user.should == watcher
+            expect(copy.work_packages[0].watchers.first.user).to eq(watcher)
           end
         end
 
@@ -221,7 +221,7 @@ describe Project::Copy do
           end
 
           it "does not copy locked watchers" do
-            copy.work_packages[0].watchers.should == []
+            expect(copy.work_packages[0].watchers).to eq([])
           end
         end
       end

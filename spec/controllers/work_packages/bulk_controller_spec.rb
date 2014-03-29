@@ -90,7 +90,7 @@ describe WorkPackages::BulkController do
     member1_p1
     member2_p1
 
-    User.stub(:current).and_return user
+    allow(User).to receive(:current).and_return user
   end
 
   describe :edit do
@@ -217,21 +217,21 @@ describe WorkPackages::BulkController do
         member1_p1
         member1_p2
         # let other_user perform the bulk update
-        User.stub(:current).and_return other_user
+        allow(User).to receive(:current).and_return other_user
         put :update, ids: work_package_ids, work_package: work_package_params
       end
 
       it 'updates the description if whitelisted' do
-        work_package_1.reload.description.should == description
-        work_package_3.reload.description.should == description
+        expect(work_package_1.reload.description).to eq(description)
+        expect(work_package_3.reload.description).to eq(description)
       end
 
       it 'updates the watchers if the watcher user ids are whitelisted' do
-        work_package_1.reload.watcher_users.should include user
+        expect(work_package_1.reload.watcher_users).to include user
       end
 
       it 'does not update the watchers if the watcher user ids are not whitelisted' do
-        work_package_3.reload.watcher_users.should_not include user
+        expect(work_package_3.reload.watcher_users).not_to include user
       end
     end
 
@@ -301,7 +301,7 @@ describe WorkPackages::BulkController do
       context "single project" do
         include_context :update_request
 
-        it { response.response_code.should == 302 }
+        it { expect(response.response_code).to eq(302) }
 
         it_behaves_like :delivered
 
@@ -316,7 +316,7 @@ describe WorkPackages::BulkController do
 
           include_context :update_request
 
-          it { response.response_code.should == 302 }
+          it { expect(response.response_code).to eq(302) }
 
           it_behaves_like :delivered
 
@@ -326,7 +326,7 @@ describe WorkPackages::BulkController do
         context "w/o permission" do
           include_context :update_request
 
-          it { response.response_code.should == 403 }
+          it { expect(response.response_code).to eq(403) }
 
           describe :journal do
             subject { Journal.count }
@@ -494,7 +494,7 @@ describe WorkPackages::BulkController do
       describe :delivery do
         include_context :update_request
 
-        it { response.response_code.should == 302 }
+        it { expect(response.response_code).to eq(302) }
 
         let(:delivery_size) { 0 }
 
@@ -507,19 +507,19 @@ describe WorkPackages::BulkController do
     let(:params) { { "ids" => "1", "to_do" => "blubs" } }
 
     before do
-      controller.should_receive(:find_work_packages) do
+      expect(controller).to receive(:find_work_packages) do
         controller.instance_variable_set(:@work_packages, [stub_work_package])
       end
 
-      controller.should_receive(:authorize)
+      expect(controller).to receive(:authorize)
     end
 
     describe 'w/ the cleanup beeing successful' do
       before do
-        stub_work_package.should_receive(:reload).and_return(stub_work_package)
-        stub_work_package.should_receive(:destroy)
+        expect(stub_work_package).to receive(:reload).and_return(stub_work_package)
+        expect(stub_work_package).to receive(:destroy)
 
-        WorkPackage.should_receive(:cleanup_associated_before_destructing_if_required).with([stub_work_package], user, params["to_do"]).and_return true
+        expect(WorkPackage).to receive(:cleanup_associated_before_destructing_if_required).with([stub_work_package], user, params["to_do"]).and_return true
 
         as_logged_in_user(user) do
           delete :destroy, params
@@ -527,13 +527,13 @@ describe WorkPackages::BulkController do
       end
 
       it 'should redirect to the project' do
-        response.should redirect_to(project_work_packages_path(stub_work_package.project))
+        expect(response).to redirect_to(project_work_packages_path(stub_work_package.project))
       end
     end
 
     describe 'w/o the cleanup beeing successful' do
       before do
-        WorkPackage.should_receive(:cleanup_associated_before_destructing_if_required).with([stub_work_package], user, params["to_do"]).and_return false
+        expect(WorkPackage).to receive(:cleanup_associated_before_destructing_if_required).with([stub_work_package], user, params["to_do"]).and_return false
 
         as_logged_in_user(user) do
           delete :destroy, params
@@ -541,7 +541,7 @@ describe WorkPackages::BulkController do
       end
 
       it 'should redirect to the project' do
-        response.should render_template('destroy')
+        expect(response).to render_template('destroy')
       end
     end
   end

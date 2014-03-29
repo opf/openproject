@@ -33,7 +33,7 @@ describe 'search/index' do
   let(:scope) { "foobar" }
 
   before do
-    helper.stub(:params).and_return({
+    allow(helper).to receive(:params).and_return({
       :q => "foobar",
       :all_words => "1",
       :scope => scope

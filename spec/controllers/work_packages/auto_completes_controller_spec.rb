@@ -52,7 +52,7 @@ describe WorkPackages::AutoCompletesController do
   before do
     member
 
-    User.stub(:current).and_return user
+    allow(User).to receive(:current).and_return user
 
     work_package_1
     work_package_2
@@ -134,7 +134,7 @@ describe WorkPackages::AutoCompletesController do
       it_behaves_like "contains expected values"
 
       it "should escape html" do
-        response.body.should_not include '<script>'
+        expect(response.body).not_to include '<script>'
       end
     end
 
@@ -158,7 +158,7 @@ describe WorkPackages::AutoCompletesController do
         let(:expected_values) { work_package_4 }
 
         before do
-          Setting.stub(:cross_project_work_package_relations?).and_return(true)
+          allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)
 
           get :index,
               project_id: project.id,
@@ -173,7 +173,7 @@ describe WorkPackages::AutoCompletesController do
 
       context "with scope all but w/o cross project relations" do
         before do
-          Setting.stub(:cross_project_work_package_relations?).and_return(false)
+          allow(Setting).to receive(:cross_project_work_package_relations?).and_return(false)
 
           get :index,
               project_id: project.id,

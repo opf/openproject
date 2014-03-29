@@ -41,7 +41,7 @@ describe 'api/v2/planning_element_types/index.api.rabl' do
       assign(:types, [])
       render
 
-      response.should have_json_size(0).at_path('planning_element_types')
+      expect(response).to have_json_size(0).at_path('planning_element_types')
     end
   end
 

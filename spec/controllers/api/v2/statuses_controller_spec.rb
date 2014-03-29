@@ -34,7 +34,7 @@ describe Api::V2::StatusesController do
   let(:status)     {FactoryGirl.create(:status)}
 
   before do
-    User.stub(:current).and_return valid_user
+    allow(User).to receive(:current).and_return valid_user
   end
 
   describe 'looking up a singular status' do
@@ -42,7 +42,7 @@ describe Api::V2::StatusesController do
 
     it 'that does not exist should raise an error' do
       get 'show', :id => '0', :format => 'json'
-      response.response_code.should == 404
+      expect(response.response_code).to eq(404)
     end
     it 'that exists should return the proper status' do
       get 'show', :id => closed.id, :format => 'json'
