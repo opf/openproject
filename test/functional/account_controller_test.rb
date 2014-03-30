@@ -69,14 +69,13 @@ class AccountControllerTest < ActionController::TestCase
   end
 
   def test_login_should_not_redirect_to_another_host
-    back_urls = [
-      'http://test.foo/fake',
-      '//test.foo/fake'
-    ]
-    back_urls.each do |back_url|
-      post :login, :username => 'jsmith', :password => 'jsmith', :back_url => back_url
-      assert_redirected_to '/my/page'
-    end
+    post :login, :username => 'jsmith', :password => 'jsmith', :back_url => 'http://test.foo/fake'
+    assert_redirected_to '/my/page'
+  end
+
+  def test_login_should_not_redirect_to_another_host_using_protocol_relative_url
+    post :login, :username => 'jsmith', :password => 'jsmith', :back_url => '//test.foo/fake'
+    assert_redirected_to '/my/page'
   end
 
   if Object.const_defined?(:OpenID)
