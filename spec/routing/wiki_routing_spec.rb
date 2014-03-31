@@ -49,9 +49,9 @@ describe WikiController do
                                                      :project_id => 'abc')
     end
 
-    it do
-      expect(post('/projects/abc/wiki/abc_wiki?version=3')).to
-        route_to(controller: 'wiki',
+    xit do
+      expect(post('/projects/abc/wiki/abc_wiki?version=3')).to route_to(
+                 controller: 'wiki',
                  action: 'show',
                  id: 'abc_wiki',
                  version: '3')
