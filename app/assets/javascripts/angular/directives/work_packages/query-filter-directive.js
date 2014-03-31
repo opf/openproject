@@ -4,7 +4,9 @@ angular.module('openproject.workPackages.directives')
 
   return {
     restrict: 'A',
+    scope: true,
     link: function(scope, element, attributes) {
+      scope.isLoading = false; // don't shadow isLoading as its used for a different purpose in this context
 
       scope.showValueOptionsAsSelect = ['list', 'list_optional', 'list_status', 'list_subprojects', 'list_model'].indexOf(scope.query.getFilterType(scope.filter.name)) !== -1;
 
@@ -50,7 +52,7 @@ angular.module('openproject.workPackages.directives')
 
       function addStandardOptions(options) {
         if (scope.filter.getModelName() === 'user') {
-          options.unshift(['<< ' + scope.I18n.t('js.label_me') + ' >>', 'me']);
+          options.unshift(['<< ' + I18n.t('js.label_me') + ' >>', 'me']);
         }
 
         return options;
