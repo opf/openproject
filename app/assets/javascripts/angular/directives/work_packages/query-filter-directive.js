@@ -9,7 +9,7 @@ angular.module('openproject.workPackages.directives')
       scope.showValueOptionsAsSelect = ['list', 'list_optional', 'list_status', 'list_subprojects', 'list_model'].indexOf(scope.query.getFilterType(scope.filter.name)) !== -1;
 
       if (scope.showValueOptionsAsSelect) {
-        QueryService.getAvailableFilterValues(scope.filter.name, scope.projectIdentifier)
+        WorkPackageLoadingHelper.withLoading(scope, QueryService.getAvailableFilterValues, [scope.filter.name, scope.projectIdentifier])
           .then(buildOptions)
           .then(addStandardOptions)
           .then(function(options) {
