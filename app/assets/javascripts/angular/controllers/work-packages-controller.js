@@ -100,11 +100,11 @@ angular.module('openproject.workPackages.controllers')
 
   function startedLoading() {
     $scope.loading = true;
-  };
+  }
 
   function finishedLoading() {
     $scope.loading = false;
-  };
+  }
 
   setUrlParams($window.location);
   initialSetup();

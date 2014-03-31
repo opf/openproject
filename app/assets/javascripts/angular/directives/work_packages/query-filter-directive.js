@@ -25,7 +25,7 @@ angular.module('openproject.workPackages.directives')
 
       scope.$watch('filter', function(filter, oldFilter) {
         if (filter !== oldFilter) {
-          if (filter.isConfigured()) {
+          if (filter.isConfigured() || filter.deactivated) {
             scope.query.hasChanged();
             PaginationService.resetPage();
 
