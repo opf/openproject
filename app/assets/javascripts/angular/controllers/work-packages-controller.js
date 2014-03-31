@@ -17,7 +17,10 @@ angular.module('openproject.workPackages.controllers')
     $scope.loading = false;
     $scope.disableFilters = false;
 
-    WorkPackageService.getWorkPackagesByQueryId($scope.projectIdentifier, $scope.query_id)
+    // $scope.withLoading(WorkPackageService.getWorkPackagesByQueryId, [$scope.projectIdentifier, $scope.query_id])
+    //   .then($scope.withLoading($scope.setupWorkPackagesTable))
+    //   .then($scope.withLoading(initAvailableColumns))
+    $scope.withLoading(WorkPackageService.getWorkPackagesByQueryId, [$scope.projectIdentifier, $scope.query_id])
       .then($scope.setupWorkPackagesTable)
       .then(initAvailableColumns);
   };
