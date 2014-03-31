@@ -29,13 +29,17 @@ angular.module('openproject.workPackages.directives')
             scope.query.hasChanged();
             PaginationService.resetPage();
 
-            applyFiltersWithDelay();
+            applyFilters();
           }
         }
       }, true);
 
-      function applyFiltersWithDelay() {
-        return WorkPackageLoadingHelper.withDelay(800, scope.updateResults);
+      function applyFilters() {
+        if (scope.showValueOptionsAsSelect) {
+          return scope.updateResults();
+        } else {
+          return WorkPackageLoadingHelper.withDelay(800, scope.updateResults);
+        }
       }
 
       function buildOptions(values) {

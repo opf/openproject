@@ -25,7 +25,7 @@ angular.module('openproject.workPackages.controllers')
       sums: queryData.sums,
       filters: queryData.filters,
       columns: $scope.columns
-    }); // TODO sortation
+    }); // TODO init sortation according to queryData
 
     sortation = new Sortation(DEFAULT_SORT_CRITERIA);
     $scope.query.setSortation(sortation);
