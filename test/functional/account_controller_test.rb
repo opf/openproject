@@ -80,6 +80,11 @@ class AccountControllerTest < ActionController::TestCase
     assert_redirected_to '/my/page'
   end
 
+  def test_login_should_redirect_to_home_url
+    post :login, :username => 'jsmith', :password => 'jsmith', :back_url => '/'
+    assert_redirected_to home_url
+  end
+
   if Object.const_defined?(:OpenID)
 
   def test_login_with_openid_for_existing_user
