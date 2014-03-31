@@ -58,6 +58,10 @@ angular.module('openproject.workPackages.controllers')
     if (!$scope.columns) $scope.columns = meta.columns;
     if (!$scope.query) initQuery(meta.query);
 
+    PaginationService.setPerPageOptions(meta.per_page_options);
+    PaginationService.setPerPage(meta.per_page);
+    PaginationService.setPage(meta.page);
+
     $scope.rows = WorkPackagesTableHelper.getRows(json.work_packages, $scope.query.group_by);
 
     $scope.workPackageCountByGroup = meta.work_package_count_by_group;

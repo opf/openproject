@@ -452,28 +452,4 @@ class WorkPackagesController < ApplicationController
 
   private
 
-  # ------------------- Form JSON reponse for angular -------------------
-
-  # TODO implement in API rabl template
-  def get_column_includes(selected_columns=[])
-    selected_associations = {
-      assigned_to: { only: :id, methods: :name },
-      author: { only: :id, methods: :name },
-      category: { only: :name },
-      priority: { only: :name },
-      project: { only: [:name, :identifier] },
-      responsible: { only: :id, methods: :name },
-      status: { only: :name },
-      type: { only: :name },
-      parent: { only: :subject },
-      fixed_version: { only: [:name, :id] }
-    }.slice(*selected_columns.map(&:name))
-
-    selected_associations.merge!(custom_values: { only: [:custom_field_id, :value] }) if selected_columns.any? {|c| c.is_a? QueryCustomFieldColumn}
-
-    # TODO retrieve custom values in a single query like this and extend the work_packages inside the JSON:
-    # WorkPackage.includes(:custom_values).where(['work_packages.id in (?) AND custom_values.custom_field_id in (?)', @query.results.map(&:id), custom_field_columns.map(&:id)])
-
-    selected_associations
-  end
 end
