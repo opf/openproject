@@ -30,6 +30,7 @@
 class WorkPackagesController < ApplicationController
   unloadable
 
+  DEFAULT_SORT_ORDER = ['parent', 'desc']
   EXPORT_FORMATS = %w[atom rss xls csv pdf]
 
   menu_item :new_work_package, :only => [:new, :create]
@@ -208,6 +209,18 @@ class WorkPackagesController < ApplicationController
   end
 
   def index
+    sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
+    sort_update(@query.sortable_columns)
+    results = @query.results(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
+                             :order => sort_clause)
+    work_packages = if @query.valid?
+                      results.work_packages.page(page_param)
+                                           .per_page(per_page_param)
+                                           .all
+                    else
+                      []
+                    end
+
     respond_to do |format|
       format.html do
         push_identifiers_via_gon

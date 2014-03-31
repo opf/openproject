@@ -33,7 +33,8 @@ describe 'api/v3/work_packages/index.api.rabl' do
     params[:format] = 'json'
 
     assign(:work_packages, work_packages)
-    assign(:columns,       columns)
+    assign(:column_names, column_names)
+    assign(:custom_field_column_names, custom_field_column_names)
     render
   end
 
@@ -41,7 +42,8 @@ describe 'api/v3/work_packages/index.api.rabl' do
 
   describe 'with no work packages available' do
     let(:work_packages) { [] }
-    let(:columns)       { [] }
+    let(:column_names) { [] }
+    let(:custom_field_column_names) { [] }
 
     it { should have_json_path('work_packages') }
     it { should have_json_size(0).at_path('work_packages') }
@@ -53,7 +55,8 @@ describe 'api/v3/work_packages/index.api.rabl' do
       FactoryGirl.build(:work_package),
       FactoryGirl.build(:work_package)
     ] }
-    let(:columns)       { [] }
+    let(:column_names)       { [] }
+    let(:custom_field_column_names) { [] }
 
     it { should have_json_path('work_packages') }
     it { should have_json_size(3).at_path('work_packages') }
@@ -66,7 +69,8 @@ describe 'api/v3/work_packages/index.api.rabl' do
       FactoryGirl.build(:work_package),
       FactoryGirl.build(:work_package)
     ] }
-    let(:columns)       { %w(subject description due_date) }
+    let(:column_names)       { %w(subject description due_date) }
+    let(:custom_field_column_names) { [] }
 
     it { should have_json_path('work_packages') }
     it { should have_json_size(2).at_path('work_packages') }
