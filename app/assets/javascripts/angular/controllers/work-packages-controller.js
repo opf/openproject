@@ -4,26 +4,23 @@ angular.module('openproject.workPackages.controllers')
             function($scope, $window, WorkPackagesTableHelper, Query, Sortation, WorkPackageService, QueryService, PaginationService, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE, DEFAULT_SORT_CRITERIA) {
 
 
-  function setUrlParams(location){
+  function setUrlParams(location) {
     $scope.projectIdentifier = location.pathname.split('/')[2];
-    var q = "query_id="
-    if(i = location.search.indexOf(q) > 0) {
-      $scope.query_id = location.search.slice(i + q.length, i + q.length + 1);
-    }
-  };
+
+    var regexp = /query_id=(\d+)/g;
+    var match = regexp.exec(location.search);
+    if(match) $scope.query_id = match[1];
+  }
 
   function initialSetup() {
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.loading = false;
     $scope.disableFilters = false;
 
-    // $scope.withLoading(WorkPackageService.getWorkPackagesByQueryId, [$scope.projectIdentifier, $scope.query_id])
-    //   .then($scope.withLoading($scope.setupWorkPackagesTable))
-    //   .then($scope.withLoading(initAvailableColumns))
     $scope.withLoading(WorkPackageService.getWorkPackagesByQueryId, [$scope.projectIdentifier, $scope.query_id])
       .then($scope.setupWorkPackagesTable)
       .then(initAvailableColumns);
-  };
+  }
 
   function initQuery(queryData) {
     $scope.query = new Query({

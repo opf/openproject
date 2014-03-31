@@ -19,7 +19,7 @@ angular.module('openproject.helpers')
       return '/users';
     },
     userPath: function(id) {
-      return PathHelper.usersPath() + id;
+      return PathHelper.usersPath() + '/' + id;
     },
     versionPath: function(versionId) {
       return '/versions/' + versionId;
