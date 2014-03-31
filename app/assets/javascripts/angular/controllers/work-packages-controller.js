@@ -1,7 +1,7 @@
 angular.module('openproject.workPackages.controllers')
 
-.controller('WorkPackagesController', ['$scope', '$window', 'WorkPackagesTableHelper', 'Query', 'Sortation', 'WorkPackageService', 'QueryService', 'PaginationService', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE', 'DEFAULT_SORT_CRITERIA',
-            function($scope, $window, WorkPackagesTableHelper, Query, Sortation, WorkPackageService, QueryService, PaginationService, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE, DEFAULT_SORT_CRITERIA) {
+.controller('WorkPackagesController', ['$scope', '$window', 'WorkPackagesTableHelper', 'Query', 'Sortation', 'WorkPackageService', 'QueryService', 'PaginationService', 'WorkPackageLoadingHelper', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE', 'DEFAULT_SORT_CRITERIA',
+            function($scope, $window, WorkPackagesTableHelper, Query, Sortation, WorkPackageService, QueryService, PaginationService, WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE, DEFAULT_SORT_CRITERIA) {
 
 
   function setUrlParams(location) {
@@ -78,33 +78,12 @@ angular.module('openproject.workPackages.controllers')
 
   function serviceErrorHandler(data) {
     // TODO RS: This is where we'd want to put an error message on the dom
-    $scope.loading = false;
+    $scope.isLoading = false;
   }
 
-  /**
-   * @name withLoading
-   *
-   * @description Wraps a data-loading function and manages the loading state within the scope
-   * @param {function} callback Function returning a promise
-   * @param {array} params Params forwarded to the callback
-   * @returns {promise} Promise returned by the callback
-   */
   $scope.withLoading = function(callback, params){
-    startedLoading();
-    return callback.apply(this, params)
-      .then(function(data){
-        finishedLoading();
-        return data;
-      }, serviceErrorHandler);
+    return WorkPackageLoadingHelper.withLoading($scope, callback, params, serviceErrorHandler);
   };
-
-  function startedLoading() {
-    $scope.loading = true;
-  }
-
-  function finishedLoading() {
-    $scope.loading = false;
-  }
 
   setUrlParams($window.location);
   initialSetup();
