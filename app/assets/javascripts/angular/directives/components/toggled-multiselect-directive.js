@@ -20,7 +20,7 @@ angular.module('openproject.uiComponents')
         return scope.values instanceof Array && (scope.values.indexOf(value) !== -1 || scope.values.indexOf(value.toString()) !== -1);
       };
 
-      scope.isMultiselect = (scope.values !== undefined && scope.values.length > 1);
+      scope.isMultiselect = (scope.values instanceof Array && scope.values.length > 1);
     }
   };
 }]);
