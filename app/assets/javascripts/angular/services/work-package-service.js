@@ -1,11 +1,14 @@
 angular.module('openproject.services')
 
-.service('WorkPackageService', ['$http', 'PathHelper', 'WorkPackagesHelper', function($http, PathHelper, WorkPackagesHelper) {
+.constant('DEFAULT_FILTER_PARAMS', {'fields[]': 'status_id', 'operators[status_id]': 'o'})
+
+.service('WorkPackageService', ['$http', 'PathHelper', 'WorkPackagesHelper', 'DEFAULT_FILTER_PARAMS', function($http, PathHelper, WorkPackagesHelper, DEFAULT_FILTER_PARAMS) {
 
   var WorkPackageService = {
     getWorkPackagesByQueryId: function(projectIdentifier, queryId) {
       var url = projectIdentifier ? PathHelper.apiProjectWorkPackagesPath(projectIdentifier) : PathHelper.apiWorkPackagesPath();
-      var params = { query_id: queryId };
+
+      var params = queryId ? { query_id: queryId } : DEFAULT_FILTER_PARAMS;
 
       return WorkPackageService.doQuery(url, params);
     },
