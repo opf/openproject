@@ -97,7 +97,7 @@ module Api
         @display_meta = true
 
         @work_packages_meta_data = {
-          query:                        query,
+          query:                        query.as_json(except: :filters, include: :filters),
           columns:                      get_columns_for_json(query.columns),
           work_package_count_by_group:  results.work_package_count_by_group,
           sums:                         query.columns.map { |column| results.total_sum_of(column) },
