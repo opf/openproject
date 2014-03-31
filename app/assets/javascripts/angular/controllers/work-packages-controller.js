@@ -29,7 +29,6 @@ angular.module('openproject.workPackages.controllers')
 
     sortation = new Sortation(DEFAULT_SORT_CRITERIA);
     $scope.query.setSortation(sortation);
-    $scope.currentSortation = DEFAULT_SORT_CRITERIA;
 
     return $scope.query;
   }
