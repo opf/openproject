@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#284`  Fix: Sticky does not apply to forum
+* `#1009` Wrong german translation when accessing a non-existent work package
 * `#2029` Fix: News preview
 * `#2393` Fix: No warning when leaving site without saving
 * `#2401` Fix: New target version cannot be created from work package view
