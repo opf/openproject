@@ -1,12 +1,15 @@
 angular.module('openproject.workPackages.controllers')
 
-.controller('WorkPackagesController', ['$scope', '$location', 'WorkPackagesTableHelper', 'Query', 'Sortation', 'WorkPackageService', 'QueryService', 'PaginationService', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE', 'DEFAULT_SORT_CRITERIA',
-            function($scope, $location, WorkPackagesTableHelper, Query, Sortation, WorkPackageService, QueryService, PaginationService, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE, DEFAULT_SORT_CRITERIA) {
+.controller('WorkPackagesController', ['$scope', '$window', 'WorkPackagesTableHelper', 'Query', 'Sortation', 'WorkPackageService', 'QueryService', 'PaginationService', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE', 'DEFAULT_SORT_CRITERIA',
+            function($scope, $window, WorkPackagesTableHelper, Query, Sortation, WorkPackageService, QueryService, PaginationService, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE, DEFAULT_SORT_CRITERIA) {
 
 
   function setUrlParams(location){
-    $scope.projectIdentifier = location.$$url.split('/')[2];
-    if(location.$$search['query_id']) $scope.query_id = location.$$search['query_id'];
+    $scope.projectIdentifier = location.pathname.split('/')[2];
+    var q = "query_id="
+    if(i = location.search.indexOf(q) > 0) {
+      $scope.query_id = location.search.slice(i + q.length, i + q.length + 1);
+    }
   };
 
   function initialSetup() {
@@ -57,7 +60,6 @@ angular.module('openproject.workPackages.controllers')
 
     if (!$scope.columns) $scope.columns = meta.columns;
     if (!$scope.query) initQuery(meta.query);
-
     PaginationService.setPerPageOptions(meta.per_page_options);
     PaginationService.setPerPage(meta.per_page);
     PaginationService.setPage(meta.page);
@@ -105,6 +107,6 @@ angular.module('openproject.workPackages.controllers')
     $scope.loading = false;
   };
 
-  setUrlParams($location);
+  setUrlParams($window.location);
   initialSetup();
 }]);
