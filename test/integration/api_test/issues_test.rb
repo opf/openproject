@@ -44,12 +44,12 @@ class ApiTest::IssuesTest < ActionDispatch::IntegrationTest
     should "contain metadata" do
       get '/api/v1/issues.xml'
 
-      assert_tag :tag => 'issues',
-        :attributes => {
-          :type => 'array',
-          :total_count => assigns(:issues).total_entries,
-          :limit => 100,
-          :offset => 0
+      assert_tag tag: 'issues',
+        attributes: {
+          type: 'array',
+          total_count: assigns(:issues).total_entries,
+          limit: Setting.per_page_options_array.first,
+          offset: 0
         }
     end
 

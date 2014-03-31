@@ -387,7 +387,7 @@ class QueryTest < ActiveSupport::TestCase
 
   def test_label_for
     q = Query.new name: '_'
-    assert_equal 'assigned_to', q.label_for('assigned_to_id')
+    assert_equal WorkPackage.human_attribute_name("assigned_to_id"), q.label_for('assigned_to_id')
   end
 
   def test_editable_by

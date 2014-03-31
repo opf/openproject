@@ -2,7 +2,8 @@
   <a ng-if="sortable"
      ng-class="[currentSortDirection && 'sort', currentSortDirection]"
      ng-click="performSort()"
-     lang-attribute>
+     lang-attribute
+     lang="{{locale}}">
      {{headerTitle}}
   </a>
   <span ng-if="!sortable">{{headerTitle}}</span>

@@ -4,7 +4,7 @@
   "dependencies": {
     "jquery": "1.7.2",
     "jquery-ujs": "latest",
-    "select2": "~3.3.2",
+    "select2": "3.3.2",
     "jquery.atwho": "latest",
     "openproject-ui_components": "opf/openproject-ui_components#with-bower",
     "angular": "~1.2.14",
@@ -19,7 +19,7 @@
     "chai": "~1.9.0"
   },
   "resolutions": {
-    "select2": "~3.4",
+    "select2": "3.3.2",
     "jquery": "1.7.2"
   }
 }

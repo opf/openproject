@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ## Cucumber
 
-The cucucmber features can be run using rake. You can run the following
+The cucumber features can be run using rake. You can run the following
 rake tasks using the command `bundle exec rake <task>`.
 
 * `cucumber` Run core features
@@ -121,5 +121,4 @@ You let test unit display test names instead of anonymous dots with the followin
 ## Manual acceptance tests
 
 * Sometimes you want to test things manually. Always remember: If you test something more than once, write an automated test for it.
-* Assuming you do not have all Internet Explorer version installed on your computer, you can grab a VM with preinstalled IE's directly from Mircrosoft: http://www.modern.ie/en-us/virtualization-tools#downloads
-
+* Assuming you do not have a version of Internet Explorer already installed on your computer, you can grab a VM with preinstalled IE's directly from Microsoft: http://www.modern.ie/en-us/virtualization-tools#downloads
