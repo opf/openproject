@@ -129,7 +129,7 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        @controller.instance_eval{ allow(flash).to receive(:sweep) }
+        disable_flash_sweep
         allow(Setting).to receive(:users_deletable_by_self?).and_return(true)
 
         as_logged_in_user user do
@@ -146,7 +146,7 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        @controller.instance_eval{ allow(flash).to receive(:sweep) }
+        disable_flash_sweep
         allow(Setting).to receive(:users_deletable_by_self?).and_return(false)
 
         as_logged_in_user user do
@@ -180,7 +180,7 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        @controller.instance_eval{ allow(flash).to receive(:sweep) }
+        disable_flash_sweep
         allow(Setting).to receive(:users_deletable_by_admins?).and_return(true)
 
         as_logged_in_user admin do
@@ -198,7 +198,7 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        @controller.instance_eval{ allow(flash).to receive(:sweep) }
+        disable_flash_sweep
         allow(Setting).to receive(:users_deletable_by_admins).and_return(false)
 
         as_logged_in_user admin do
