@@ -29,6 +29,7 @@
 
 class Queries::Filter
   include ActiveModel::Validations
+  include ActiveModel::Serialization
 
   class_attribute :filter_types_by_field, instance_writer: false
 
@@ -91,12 +92,19 @@ class Queries::Filter
     end
   end
 
+  # (de-)serialization
   def self.from_hash(filter_hash)
     filter_hash.keys.map {|field| new(field, filter_hash[field]) }
   end
 
   def to_hash
     { field => attributes_hash }
+  end
+
+  alias_method :name, :field
+
+  def attributes
+    { name: name, operator: operator, values: values }
   end
 
   def field=(field)
