@@ -31,6 +31,8 @@ require 'spec_helper'
 describe WorkPackages::MovesController do
 
   let(:user) { FactoryGirl.create(:user)}
+  let(:role) { FactoryGirl.create :role,
+                                  permissions: [:move_work_packages] }
   let(:type) { FactoryGirl.create :type }
   let(:type_2) { FactoryGirl.create :type }
   let(:status) { FactoryGirl.create :default_status }
@@ -108,17 +110,12 @@ describe WorkPackages::MovesController do
   describe '#create' do
     become_member_with_move_work_package_permissions
 
+    let!(:member) { FactoryGirl.create(:member, user: current_user, project: target_project, roles: [role]) }
     let(:target_project) { FactoryGirl.create(:project, :is_public => false) }
     let(:work_package_2) { FactoryGirl.create(:work_package,
                                               :project_id => project.id,
                                               :type => type_2,
                                               :priority => priority) }
-
-    before do
-      role = FactoryGirl.create :role, permissions: [:move_work_packages]
-
-      member = FactoryGirl.create(:member, user: current_user, project: target_project, roles: [role])
-    end
 
     describe 'an issue to another project' do
       context "w/o following" do
@@ -377,6 +374,60 @@ describe WorkPackages::MovesController do
           it { expect(subject.count).to eq(2) }
 
           it { expect(subject.sort_by(&:id).last.notes).to eq(note) }
+        end
+
+        context "child work package from one project to other" do
+          let(:to_project) { FactoryGirl.create(:project,
+                                                types: [type]) }
+          let!(:member) { FactoryGirl.create(:member,
+                                             user: current_user,
+                                             roles: [role],
+                                             project: to_project) }
+          let(:child_wp) { FactoryGirl.create(:work_package,
+                                              type: type,
+                                              project: project,
+                                              parent_id: work_package.id) }
+
+          shared_examples_for "successful move" do
+            it { expect(flash[:notice]).to eq(I18n.t(:notice_successful_create)) }
+          end
+
+          before do
+            User.stub(:current).and_return(current_user) 
+
+            def self.copy_child_work_package
+              post :create,
+                   ids: [child_wp.id],
+                   copy: '',
+                   new_project_id: to_project.id,
+                   work_package_id: child_wp.id,
+                   new_type_id: to_project.types.first.id
+            end
+          end
+
+          context "when cross_project_work_package_relations is disabled" do
+            before do
+              Setting.stub(:cross_project_work_package_relations?).and_return(false)
+
+              copy_child_work_package
+            end
+
+            it_behaves_like "successful move"
+
+            it { expect(to_project.work_packages.first.parent_id).to be_nil }
+          end
+
+          context "when cross_project_work_package_relations is enabled" do
+            before do
+              Setting.stub(:cross_project_work_package_relations?).and_return(true)
+
+              copy_child_work_package
+            end
+
+            it_behaves_like "successful move"
+
+            it { expect(to_project.work_packages.first.parent_id).to eq(child_wp.parent_id) }
+          end
         end
       end
     end
