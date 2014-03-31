@@ -57,3 +57,17 @@ Feature: Adding and Editing Wiki Tabs
       And I fill in "content_text" with "testing wookie"
       And I click "Save"
      Then I should see "testing wookie" within "#content"
+      And I click "Edit"
+
+
+  @javascript
+  Scenario: Overview and see the history of a wiki page
+    Given I am already admin
+    Given the wiki page "wookietest" of the project "Wookies" has 3 versions
+      And I go to the wiki page "wookietest" for the project called "Wookies"
+      And I follow "More functions" within "#content"
+     When I click "History"
+     Then I should see "History" within "#content"
+     When I press "View differences"
+     Then I should see "Version 1/4"
+     Then I should see "Version 2/4"
