@@ -35,7 +35,7 @@ module OpenProject
 
       it "is mixed into application controller's helper chain" do
         expect { helpers.current_theme }.to_not raise_error
-        expect { helpers.image_tag }.to_not raise_error
+        expect { helpers.image_tag('example.png') }.to_not raise_error
       end
 
       describe '#current_theme' do
