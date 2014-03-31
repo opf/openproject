@@ -245,7 +245,7 @@ describe WorkPackage do
         subject { sink.watchers.map(&:user_id) }
 
         it do
-          should =~ source.watchers.map(&:user_id)
+          should match_array(source.watchers.map(&:user_id))
           sink.watchers.each { |w| expect(w).to be_valid }
         end
       end

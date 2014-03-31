@@ -282,7 +282,7 @@ describe WorkPackage do
       shared_examples_for "all dependant work packages visible" do
         subject { work_package_1.all_dependent_packages.collect(&:id) }
 
-        it { should =~ expected_ids }
+        it { should match_array(expected_ids) }
       end
 
       context "w/o circular dependency" do

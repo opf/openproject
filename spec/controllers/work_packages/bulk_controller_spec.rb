@@ -1,4 +1,5 @@
 #-- copyright
+
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
@@ -262,7 +263,7 @@ describe WorkPackages::BulkController do
         describe :priority do
           subject { WorkPackage.find_all_by_priority_id(priority.id).collect(&:id) }
 
-          it { should =~ work_package_ids }
+          it { should match_array(work_package_ids) }
         end
 
         describe :custom_fields do
@@ -272,7 +273,7 @@ describe WorkPackages::BulkController do
                                .collect {|w| w.custom_value_for(custom_field_1.id).value }
                                .uniq }
 
-          it { should =~ result }
+          it { should match_array(result) }
         end
 
         describe :journal do
@@ -283,7 +284,7 @@ describe WorkPackages::BulkController do
                                  .collect {|w| w.last_journal.notes }
                                  .uniq }
 
-            it { should =~ result }
+            it { should match_array(result) }
           end
 
           describe :details do
@@ -293,7 +294,7 @@ describe WorkPackages::BulkController do
                                  .collect {|w| w.last_journal.details.size }
                                  .uniq }
 
-            it { should =~ result }
+            it { should match_array(result) }
           end
         end
       end
@@ -345,7 +346,7 @@ describe WorkPackages::BulkController do
 
           subject { work_packages.collect {|w| w.assigned_to_id }.uniq }
 
-          it { should =~ [group_id] }
+          it { should match_array [group_id] }
         end
 
         describe :responsible do
@@ -355,7 +356,7 @@ describe WorkPackages::BulkController do
 
           subject { work_packages.collect {|w| w.responsible_id }.uniq }
 
-          it { should =~ [responsible_id] }
+          it { should match_array [responsible_id] }
         end
 
         describe :status do
@@ -376,7 +377,7 @@ describe WorkPackages::BulkController do
 
           subject { work_packages.collect(&:status_id).uniq }
 
-          it { should =~ [closed_status.id] }
+          it { should match_array [closed_status.id] }
         end
 
         describe :parent do
@@ -392,7 +393,7 @@ describe WorkPackages::BulkController do
 
           subject { work_packages.collect(&:parent_id).uniq }
 
-          it { should =~ [parent.id] }
+          it { should match_array [parent.id] }
         end
 
         describe :custom_fields do
@@ -407,7 +408,7 @@ describe WorkPackages::BulkController do
           subject { work_packages.collect {|w| w.custom_value_for(custom_field_1.id).value }
                                  .uniq }
 
-          it { should =~ [result] }
+          it { should match_array [result] }
         end
 
         describe :unassign do
@@ -419,7 +420,7 @@ describe WorkPackages::BulkController do
 
           subject { work_packages.collect(&:assigned_to_id).uniq }
 
-          it { should =~ [nil] }
+          it { should match_array [nil] }
         end
 
         describe :delete_responsible do
@@ -431,7 +432,7 @@ describe WorkPackages::BulkController do
 
           subject { work_packages.collect(&:responsible_id).uniq }
 
-          it { should =~ [nil] }
+          it { should match_array [nil] }
         end
 
         describe :version do
@@ -458,13 +459,13 @@ describe WorkPackages::BulkController do
               describe :fixed_version do
                 subject { work_packages.collect(&:fixed_version_id).uniq }
 
-                it { should =~ [version.id] }
+                it { should match_array [version.id] }
               end
 
               describe :project do
                 subject { work_packages.collect(&:project_id).uniq }
 
-                it { should_not =~ [subproject.id] }
+                it { should_not match_array [subproject.id] }
               end
             end
           end
