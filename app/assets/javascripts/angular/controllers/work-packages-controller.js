@@ -1,13 +1,15 @@
 angular.module('openproject.workPackages.controllers')
 
-.controller('WorkPackagesController', ['$scope', 'WorkPackagesTableHelper', 'Query', 'Sortation', 'WorkPackageService', 'QueryService', 'PaginationService', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE', 'DEFAULT_SORT_CRITERIA',
-            function($scope, WorkPackagesTableHelper, Query, Sortation, WorkPackageService, QueryService, PaginationService, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE, DEFAULT_SORT_CRITERIA) {
+.controller('WorkPackagesController', ['$scope', '$location', 'WorkPackagesTableHelper', 'Query', 'Sortation', 'WorkPackageService', 'QueryService', 'PaginationService', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE', 'DEFAULT_SORT_CRITERIA',
+            function($scope, $location, WorkPackagesTableHelper, Query, Sortation, WorkPackageService, QueryService, PaginationService, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE, DEFAULT_SORT_CRITERIA) {
 
+
+  function setUrlParams(location){
+    $scope.projectIdentifier = location.$$url.split('/')[2];
+    if(location.$$search['query_id']) $scope.query_id = location.$$search['query_id'];
+  };
 
   function initialSetup() {
-    $scope.projectIdentifier = gon.project_identifier;
-    if(gon.query_id) $scope.query_id = gon.query_id;
-
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.loading = false;
     $scope.disableFilters = false;
@@ -15,7 +17,7 @@ angular.module('openproject.workPackages.controllers')
     WorkPackageService.getWorkPackagesByQueryId($scope.projectIdentifier, $scope.query_id)
       .then($scope.setupWorkPackagesTable)
       .then(initAvailableColumns);
-  }
+  };
 
   function initQuery(queryData) {
     $scope.query = new Query({
@@ -99,5 +101,6 @@ angular.module('openproject.workPackages.controllers')
     $scope.loading = false;
   };
 
+  setUrlParams($location);
   initialSetup();
 }]);
