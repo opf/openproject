@@ -1,21 +1,29 @@
 angular.module('openproject.workPackages.controllers')
 
-.controller('WorkPackagesController', ['$scope', 'WorkPackagesTableHelper', 'Query', 'Sortation', 'WorkPackageService', 'QueryService', 'PaginationService', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE', 'DEFAULT_SORT_CRITERIA',
-            function($scope, WorkPackagesTableHelper, Query, Sortation, WorkPackageService, QueryService, PaginationService, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE, DEFAULT_SORT_CRITERIA) {
+.controller('WorkPackagesController', ['$scope', '$window', 'WorkPackagesTableHelper', 'Query', 'Sortation', 'WorkPackageService', 'QueryService', 'PaginationService', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE', 'DEFAULT_SORT_CRITERIA',
+            function($scope, $window, WorkPackagesTableHelper, Query, Sortation, WorkPackageService, QueryService, PaginationService, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE, DEFAULT_SORT_CRITERIA) {
 
+
+  function setUrlParams(location){
+    $scope.projectIdentifier = location.pathname.split('/')[2];
+    var q = "query_id="
+    if(i = location.search.indexOf(q) > 0) {
+      $scope.query_id = location.search.slice(i + q.length, i + q.length + 1);
+    }
+  };
 
   function initialSetup() {
-    $scope.projectIdentifier = gon.project_identifier;
-    if(gon.query_id) $scope.query_id = gon.query_id;
-
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.loading = false;
     $scope.disableFilters = false;
 
-    WorkPackageService.getWorkPackagesByQueryId($scope.projectIdentifier, $scope.query_id)
+    // $scope.withLoading(WorkPackageService.getWorkPackagesByQueryId, [$scope.projectIdentifier, $scope.query_id])
+    //   .then($scope.withLoading($scope.setupWorkPackagesTable))
+    //   .then($scope.withLoading(initAvailableColumns))
+    $scope.withLoading(WorkPackageService.getWorkPackagesByQueryId, [$scope.projectIdentifier, $scope.query_id])
       .then($scope.setupWorkPackagesTable)
       .then(initAvailableColumns);
-  }
+  };
 
   function initQuery(queryData) {
     $scope.query = new Query({
@@ -54,6 +62,9 @@ angular.module('openproject.workPackages.controllers')
 
     if (!$scope.columns) $scope.columns = meta.columns;
     if (!$scope.query) initQuery(meta.query);
+    PaginationService.setPerPageOptions(meta.per_page_options);
+    PaginationService.setPerPage(meta.per_page);
+    PaginationService.setPage(meta.page);
 
     $scope.rows = WorkPackagesTableHelper.getRows(json.work_packages, $scope.query.group_by);
 
@@ -98,5 +109,6 @@ angular.module('openproject.workPackages.controllers')
     $scope.loading = false;
   };
 
+  setUrlParams($window.location);
   initialSetup();
 }]);
