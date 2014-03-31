@@ -1104,7 +1104,7 @@ de:
   notice_failed_to_save_work_packages: "%{count} von %{total} ausgewählten Arbeitspaketen konnte(n) nicht gespeichert werden: %{ids}."
   notice_failed_to_save_members: "Benutzer konnte nicht gespeichert werden: %{errors}."
   notice_feeds_access_key_reseted: "Ihr Atom-Zugriffsschlüssel wurde zurückgesetzt."
-  notice_file_not_found: "Anhang existiert nicht oder ist gelöscht worden."
+  notice_file_not_found: "Die von Ihnen aufgerufene Seite existiert nicht oder ist verschoben worden."
   notice_forced_logout: "Nach %{ttl_time} Minuten Inaktivität wurden Sie automatisch ausgeloggt."
   notice_internal_server_error: "Auf der von Ihnen aufgerufenen Seite ist ein Fehler aufgetreten. Kontaktieren Sie bitte Ihren %{app_title} Administrator, wenn Sie wiederholt Probleme mit dem Aufrufen der Seite haben."
   notice_work_package_done_ratios_updated: "Der Arbeitspaket-Fortschritt wurde aktualisiert."
