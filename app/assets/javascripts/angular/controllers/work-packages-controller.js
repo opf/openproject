@@ -35,6 +35,8 @@ angular.module('openproject.workPackages.controllers')
     sortation = new Sortation(DEFAULT_SORT_CRITERIA);
     $scope.query.setSortation(sortation);
 
+    $scope.showFilters = $scope.query.filters.length > 0;
+
     return $scope.query;
   }
 
