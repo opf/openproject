@@ -36,6 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#2280` Fix: Spent Time not localized
 * `#3019` Fix: Quote icon in wrong position
 * `#3063` Fix: Quotes in versions are not properly HTML-escaped
+* `#3118` Fix: Copying a work package to a new project with parent and cross_project_work_package_relations disabled does not work
 * `#3148` Fix: Comparison of history versions in wiki pages ignores newlines
 * `#3267` Fix: Link in Breadcrumbs links to global work packages
 * `#3348` Fix: Menu item "more functions" is cut off where content ends
