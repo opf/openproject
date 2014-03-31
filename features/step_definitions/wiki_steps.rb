@@ -86,7 +86,8 @@ Given /^the wiki page "([^"]*)" of the project "([^"]*)" has (\d+) versions{0,1}
   project = Project.find_by_name project
   wiki = project.wiki
   wp = wiki.pages.find_or_create_by_title(page)
-  wc = wp.content || wp.create_content
+  wp.save! unless wp.persisted?
+  wc = wp.content || FactoryGirl.create(:wiki_content, page: wp)
 
   last_version = wc.journals.max(&:version).version
 
