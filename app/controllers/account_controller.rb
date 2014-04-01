@@ -42,6 +42,31 @@ class AccountController < ApplicationController
     end
   end
 
+  def omniauth_login
+    auth = request.env['omniauth.auth']
+    identity_url = "#{auth[:provider]}:#{auth[:uid]}"
+
+    user = User.find_or_initialize_by_identity_url(identity_url)
+    if user.new_record?
+      # Self-registration off
+      redirect_to(login_url) && return unless Setting.self_registration?
+
+      # Create on the fly
+      user = fill_user_fields_from_omniauth(user, auth)
+
+      register_user_according_to_setting(user) do
+        onthefly_creation_failed(user)
+      end
+    else
+      # Existing record
+      if user.active?
+        successful_authentication(user)
+      else
+        account_pending
+      end
+    end
+  end
+
   # Log out current user and redirect to welcome page
   def logout
     logout_user
@@ -111,14 +136,7 @@ class AccountController < ApplicationController
         @user.login = params[:user][:login]
         @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation]
 
-        case Setting.self_registration
-        when '1'
-          register_by_email_activation(@user)
-        when '3'
-          register_automatically(@user)
-        else
-          register_manually_by_administrator(@user)
-        end
+        register_user_according_to_setting(@user)
       end
     end
   end
@@ -178,11 +196,7 @@ class AccountController < ApplicationController
   end
 
   def authenticate_user
-    if Setting.openid? && using_open_id?
-      open_id_authenticate(params[:openid_url])
-    else
-      password_authentication(params[:username], params[:password])
-    end
+    password_authentication(params[:username], params[:password])
   end
 
   def password_authentication(username, password)
@@ -221,40 +235,7 @@ class AccountController < ApplicationController
   def open_id_authenticate(openid_url)
     authenticate_with_open_id(openid_url, :required => [:nickname, :fullname, :email], :return_to => signin_url) do |result, identity_url, registration|
       if result.successful?
-        user = User.find_or_initialize_by_identity_url(identity_url)
-        if user.new_record?
-          # Self-registration off
-          redirect_to(home_url) && return unless Setting.self_registration?
 
-          # Create on the fly
-          user.login = registration['nickname'] unless registration['nickname'].nil?
-          user.mail = registration['email'] unless registration['email'].nil?
-          user.firstname, user.lastname = registration['fullname'].split(' ') unless registration['fullname'].nil?
-          user.random_password!
-          user.register
-
-          case Setting.self_registration
-          when '1'
-            register_by_email_activation(user) do
-              onthefly_creation_failed(user)
-            end
-          when '3'
-            register_automatically(user) do
-              onthefly_creation_failed(user)
-            end
-          else
-            register_manually_by_administrator(user) do
-              onthefly_creation_failed(user)
-            end
-          end
-        else
-          # Existing record
-          if user.active?
-            successful_authentication(user)
-          else
-            account_pending
-          end
-        end
       end
     end
   end
@@ -288,6 +269,20 @@ class AccountController < ApplicationController
       :httponly => true
     }
     cookies[OpenProject::Configuration['autologin_cookie_name']] = cookie_options
+  end
+
+  def fill_user_fields_from_omniauth(user, auth)
+    info = auth[:info]
+    user.login = info['email'] unless info['email'].nil?
+    if info[:first_name].nil? || info[:last_name].nil?
+      user.firstname, user.lastname = info['name'].split(' ') + ['-']
+    else
+      user.firstname, user.lastname = info[:first_name], info[:last_name]
+    end
+    user.mail = info['email'] unless info['email'].nil?
+    user.random_password!
+    user.register
+    user
   end
 
   # Onthefly creation failed, display the registration form to fill/fix attributes
@@ -325,6 +320,18 @@ class AccountController < ApplicationController
     flash[:error] = message
     @username = params[:username]
     render 'my/password'
+  end
+
+  # Register a user depending on Setting.self_registration
+  def register_user_according_to_setting(user, &block)
+    case Setting.self_registration
+    when '1'
+      register_by_email_activation(user, &block)
+    when '3'
+      register_automatically(user, &block)
+    else
+      register_manually_by_administrator(user, &block)
+    end
   end
 
   # Register a user for email activation.

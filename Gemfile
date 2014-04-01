@@ -50,7 +50,7 @@ gem "coderay", "~> 1.0.5"
 gem "rubytree", "~> 0.8.3"
 gem "rdoc", ">= 2.4.2"
 gem 'globalize'
-
+gem 'omniauth'
 gem 'request_store'
 
 # TODO: adds #auto_link which was deprecated in rails 3.1
@@ -157,10 +157,6 @@ end
 
 group :ldap do
   gem "net-ldap", '~> 0.2.2'
-end
-
-group :openid do
-  gem "ruby-openid", '~> 2.2.3', :require => 'openid'
 end
 
 group :development do

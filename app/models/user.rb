@@ -207,19 +207,6 @@ class User < Principal
     write_attribute(:mail, arg.to_s.strip)
   end
 
-  def identity_url=(url)
-    if url.blank?
-      write_attribute(:identity_url, '')
-    else
-      begin
-        write_attribute(:identity_url, OpenIdAuthentication.normalize_identifier(url))
-      rescue OpenIdAuthentication::InvalidOpenId
-        # Invalid url, don't save
-      end
-    end
-    self.read_attribute(:identity_url)
-  end
-
   def self.search_in_project(query, options)
     Project.find(options.fetch(:project)).users.like(query)
   end
