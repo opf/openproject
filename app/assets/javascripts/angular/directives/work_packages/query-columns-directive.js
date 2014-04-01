@@ -31,7 +31,9 @@ angular.module('openproject.workPackages.directives')
             var newColumns = WorkPackagesTableHelper.selectColumnsByName(scope.columns, columnNames);
 
             // work package rows
-            scope.withLoading(WorkPackageService.augmentWorkPackagesWithColumnsData, [workPackages, newColumns]);
+            var params = [workPackages, newColumns];
+            if( scope.groupByColumn) params.push(scope.groupByColumn.name);
+            scope.withLoading(WorkPackageService.augmentWorkPackagesWithColumnsData, params);
           }
 
           function removeColumn(columnName, columns, callback) {
