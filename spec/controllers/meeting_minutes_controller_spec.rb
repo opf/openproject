@@ -18,14 +18,26 @@
 # See doc/COPYRIGHT.md for more details.
 #++
 
-class MeetingMinutesController < MeetingContentsController
+require File.dirname(__FILE__) + '/../spec_helper'
 
-  menu_item :meetings
+describe MeetingMinutesController do
+  let(:meeting) { FactoryGirl.create(:meeting) }
+  let(:user) { FactoryGirl.create(:admin) }
 
-  private
+  before { User.stub(:current).and_return(user) }
 
-  def find_content
-    @content = @meeting.minutes || @meeting.build_minutes
-    @content_type = "meeting_minutes"
+  describe 'preview' do
+    let(:text) { "Meeting minutes content" }
+
+    before { MeetingMinutes.any_instance.stub(:editable?).and_return(true) }
+
+    it_behaves_like 'valid preview' do
+      let(:preview_texts) { [text] }
+      let(:preview_params) { { meeting_id: meeting.id, meeting_minutes: { text: text } } }
+    end
+
+    it_behaves_like 'authorizes object access' do
+      let(:preview_params) { { meeting_id: meeting.id, meeting_minutes: { } } }
+    end
   end
 end
