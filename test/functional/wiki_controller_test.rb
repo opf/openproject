@@ -177,6 +177,9 @@ class WikiControllerTest < ActionController::TestCase
     assert_tag :tag => 'input', :attributes => {:id => 'content_lock_version', :value => '1'}
   end
 
+  # NOTE: this test seems to depend on other tests in suite
+  # because running whole suite is fine, but running only this test
+  # results in failure
   def test_update_stale_page_should_not_raise_an_error
     journal = FactoryGirl.create :wiki_content_journal,
                                  journable_id: 2,
