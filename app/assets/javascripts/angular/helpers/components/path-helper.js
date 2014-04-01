@@ -21,8 +21,11 @@ angular.module('openproject.helpers')
     userPath: function(id) {
       return PathHelper.usersPath() + '/' + id;
     },
+    versionsPath: function() {
+      return '/versions';
+    },
     versionPath: function(versionId) {
-      return '/versions/' + versionId;
+      return PathHelper.versionsPath() + '/' + versionId;
     },
 
     apiV2ProjectPath: function(projectIdentifier) {
@@ -55,6 +58,12 @@ angular.module('openproject.helpers')
     apiProjectStatusesPath: function(projectIdentifier) {
       return PathHelper.apiV2ProjectPath(projectIdentifier) + '/statuses';
     },
+    apiGroupsPath: function() {
+      return PathHelper.apiPrefixV3 + '/groups';
+    },
+    apiRolesPath: function() {
+      return PathHelper.apiPrefixV3 + '/roles';
+    },
     apiWorkPackageTypesPath: function() {
       return PathHelper.apiPrefixV2 + '/planning_element_types';
     },
@@ -63,6 +72,9 @@ angular.module('openproject.helpers')
     },
     apiUsersPath: function() {
       return PathHelper.apiPrefixV2 + PathHelper.usersPath();
+    },
+    apiProjectVersionsPath: function(projectIdentifier) {
+      return PathHelper.apiV3ProjectPath(projectIdentifier) + PathHelper.versionsPath();
     },
     apiProjectUsersPath: function(projectIdentifier) {
       return PathHelper.apiV2ProjectPath(projectIdentifier) + PathHelper.usersPath();
