@@ -48,6 +48,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#4097` Fix accesskeys
 * `#4118` Fix: Add missing labels
 * `#4701` Fix: Wiki change notification mail contains invalid diff link
+* `#4928` Fix: Journal note hits not shown
 * `#5057` Fix: Whitelisted more params for planning elements controller
 * `#5214` Allow setting watchers and time entries for work packages via API`
 * `#5311` Encapsulate ActiveSupport::Notifications
