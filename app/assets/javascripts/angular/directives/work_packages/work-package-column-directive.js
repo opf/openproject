@@ -51,8 +51,6 @@ angular.module('openproject.workPackages.directives')
           var custom_field = scope.column.custom_field;
 
           scope.displayText = WorkPackagesHelper.getFormattedCustomValue(scope.workPackage, custom_field) || '';
-
-          if (scope.column.meta_data.data_type === 'user') loadUserName();
         } else {
           // custom display types
           if (scope.column.name === 'done_ratio') scope.displayType = 'progress_bar';
@@ -65,20 +63,6 @@ angular.module('openproject.workPackages.directives')
         if (scope.column.meta_data.link.display) {
           scope.displayType = 'link';
           scope.url = getLinkFor(scope.column.meta_data.link);
-        }
-      }
-
-      function loadUserName() {
-        var userId = scope.displayText;
-
-        if(userId) {
-          scope.user = UserService.registerUserId(userId);
-
-          scope.$watch('user.name', function(userName) {
-            // triggered when user data is loaded
-            // TODO replace watcher as soon as data is loaded via a promise chain
-            scope.displayText = userName;
-          });
         }
       }
 
