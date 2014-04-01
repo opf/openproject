@@ -58,6 +58,12 @@ angular.module('openproject.helpers')
     apiProjectStatusesPath: function(projectIdentifier) {
       return PathHelper.apiV2ProjectPath(projectIdentifier) + '/statuses';
     },
+    apiGroupsPath: function() {
+      return PathHelper.apiPrefixV3 + '/groups';
+    },
+    apiRolesPath: function() {
+      return PathHelper.apiPrefixV3 + '/roles';
+    },
     apiWorkPackageTypesPath: function() {
       return PathHelper.apiPrefixV2 + '/planning_element_types';
     },
