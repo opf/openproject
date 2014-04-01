@@ -12,6 +12,7 @@
     "grunt-jscoverage": "0.0.3",
     "rimraf": "~2.2.5",
     "json2htmlcov": "~0.1.1",
-    "exec": "0.0.6"
+    "exec": "0.0.6",
+    "readable-stream": "1.1.11"
   }
 }
