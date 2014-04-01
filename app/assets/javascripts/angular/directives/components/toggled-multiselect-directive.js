@@ -1,17 +1,19 @@
 // TODO move to UI components
 angular.module('openproject.uiComponents')
 
-.directive('toggledMultiselect', ['WorkPackagesHelper', function(WorkPackagesHelper){
+.directive('toggledMultiselect', ['WorkPackagesHelper', 'I18n', function(WorkPackagesHelper, I18n){
   return {
     restrict: 'EA',
     replace: true,
     scope: {
       name: '=',
       values: '=',
-      availableOptions: '=',
+      availableOptions: '='
     },
     templateUrl: '/templates/components/toggled_multiselect.html',
     link: function(scope, element, attributes){
+      scope.I18n = I18n;
+
       scope.toggleMultiselect = function(){
         scope.isMultiselect = !scope.isMultiselect;
       };

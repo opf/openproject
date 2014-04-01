@@ -4,6 +4,7 @@ de:
       hide: "Verbergen"
       loading: "Lädt ..."
     button_check_all: "Alles auswählen"
+    button_delete: "Löschen"
     button_uncheck_all: "Alles abwählen"
     description_available_columns: "Verfügbare Spalten"
     description_select_work_package: "Arbeitspaket auswählen"

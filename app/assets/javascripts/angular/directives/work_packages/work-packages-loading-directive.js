@@ -5,8 +5,6 @@ angular.module('openproject.workPackages.directives')
   return {
     restrict: 'E',
     templateUrl: '/templates/work_packages/work_packages_loading.html',
-    scope: true,
-    link: function(scope, element, attributes) {
-    }
+    scope: true
   };
 }]);

@@ -6,7 +6,8 @@ angular.module('openproject.workPackages.directives')
     restrict: 'A',
     scope: true,
     link: function(scope, element, attributes) {
-      scope.isLoading = false; // don't shadow isLoading as its used for a different purpose in this context
+      scope.I18n = I18n;
+      scope.isLoading = false; // shadow isLoading as its used for a different purpose in this context
 
       scope.showValueOptionsAsSelect = ['list', 'list_optional', 'list_status', 'list_subprojects', 'list_model'].indexOf(scope.query.getFilterType(scope.filter.name)) !== -1;
 

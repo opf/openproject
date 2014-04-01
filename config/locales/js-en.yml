@@ -4,6 +4,7 @@ en:
       hide: "Hide"
       loading: "Loading ..."
     button_check_all: "Check all"
+    button_delete: "Delete"
     button_uncheck_all: "Uncheck all"
     description_available_columns: "Available Columns"
     description_select_work_package: "Select work package"
