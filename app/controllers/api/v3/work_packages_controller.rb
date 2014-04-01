@@ -133,7 +133,8 @@ module Api
           custom_field = CustomField.find($1)
           work_packages.map do |work_package|
             custom_value = work_package.custom_values.find_by_custom_field_id($1)
-            custom_field.cast_value custom_value.try(:value)
+            # custom_field.cast_value custom_value.try(:value)
+            work_package.custom_value_display(custom_value)
           end
         else
           work_packages.map do |work_package|
