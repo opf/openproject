@@ -138,7 +138,7 @@ group :test do
   gem "cucumber-rails-training-wheels" # http://aslakhellesoy.com/post/11055981222/the-training-wheels-came-off
   gem 'rspec', '~> 2.14'
   # also add to development group, so "spec" rake task gets loaded
-  gem "rspec-rails", "~> 2.0", :group => :development
+  gem "rspec-rails", "~> 2.14", :group => :development
   gem 'rspec-example_disabler'
   gem 'capybara'
   gem 'capybara-screenshot'
@@ -221,3 +221,4 @@ Dir.glob File.expand_path("../{Gemfile.local,Gemfile.plugins,lib/plugins/*/Gemfi
   next unless File.readable?(file)
   instance_eval File.read(file)
 end
+
