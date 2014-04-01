@@ -52,7 +52,7 @@ angular.module('openproject.services')
     },
 
     augmentWorkPackagesWithColumnsData: function(workPackages, columns) {
-      var columnNames = columns.map(function(column){
+      var columnNames = columns.map(function(column) {
         return column.name;
       });
 
