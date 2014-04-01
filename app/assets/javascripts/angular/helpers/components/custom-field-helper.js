@@ -26,10 +26,10 @@ angular.module('openproject.helpers')
         case 'user':
           if (users && users[value]) {
             // try to look up users
-            return users[value].name;
+            return users.name;
           } else {
             // return user id
-            return value;
+            return value.name;
           }
           break;
         case 'int':
