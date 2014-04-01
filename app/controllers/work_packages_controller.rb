@@ -209,18 +209,6 @@ class WorkPackagesController < ApplicationController
   end
 
   def index
-    sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
-    sort_update(@query.sortable_columns)
-    results = @query.results(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
-                             :order => sort_clause)
-    work_packages = if @query.valid?
-                      results.work_packages.page(page_param)
-                                           .per_page(per_page_param)
-                                           .all
-                    else
-                      []
-                    end
-
     respond_to do |format|
       format.html do
         render :index, :locals => { :query => @query,
@@ -228,17 +216,19 @@ class WorkPackagesController < ApplicationController
                        :layout => !request.xhr?
       end
       format.csv do
-        serialized_work_packages = WorkPackage::Exporter.csv(work_packages, @project)
+        load_work_packages
+        serialized_work_packages = WorkPackage::Exporter.csv(@work_packages, @project)
         charset = "charset=#{l(:general_csv_encoding).downcase}"
 
         send_data(serialized_work_packages, :type => "text/csv; #{charset}; header=present",
                                             :filename => 'export.csv')
       end
       format.pdf do
-        serialized_work_packages = WorkPackage::Exporter.pdf(work_packages,
+        load_work_packages
+        serialized_work_packages = WorkPackage::Exporter.pdf(@work_packages,
                                                              @project,
                                                              @query,
-                                                             results,
+                                                             @results,
                                                              :show_descriptions => params[:show_descriptions])
 
         send_data(serialized_work_packages,
@@ -246,7 +236,8 @@ class WorkPackagesController < ApplicationController
                   :filename => 'export.pdf')
       end
       format.atom do
-        render_feed(work_packages,
+        load_work_packages
+        render_feed(@work_packages,
                     :title => "#{@project || Setting.app_title}: #{l(:label_work_package_plural)}")
       end
     end
@@ -451,5 +442,17 @@ class WorkPackagesController < ApplicationController
   end
 
   private
+
+  def load_work_packages
+    @results = @query.results(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
+                             :order => sort_clause)
+    @work_packages = if @query.valid?
+                      results.work_packages.page(page_param)
+                                           .per_page(per_page_param)
+                                           .all
+                    else
+                      []
+                    end
+  end
 
 end

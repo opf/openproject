@@ -54,7 +54,7 @@ module Api
         work_packages = project.work_packages
 
         @column_sums = column_names.map do |column_name|
-          fetch_column_data(column_name, work_packages).map{|c| c.nil? ? 0 : c}.compact.sum if column_should_be_summed_up?(column_name)
+          fetch_column_data(column_name, work_packages, false).map{|c| c.nil? ? 0 : c}.compact.sum if column_should_be_summed_up?(column_name)
         end
       end
 
@@ -128,13 +128,16 @@ module Api
         end
       end
 
-      def fetch_column_data(column_name, work_packages)
+      def fetch_column_data(column_name, work_packages, display = true)
         if column_name =~ /cf_(.*)/
           custom_field = CustomField.find($1)
           work_packages.map do |work_package|
             custom_value = work_package.custom_values.find_by_custom_field_id($1)
-            # custom_field.cast_value custom_value.try(:value)
-            work_package.custom_value_display(custom_value)
+            if display
+              work_package.custom_value_display(custom_value)
+            else
+              custom_field.cast_value custom_value.try(:value)
+            end
           end
         else
           work_packages.map do |work_package|
