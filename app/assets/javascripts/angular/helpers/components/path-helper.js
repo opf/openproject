@@ -21,8 +21,11 @@ angular.module('openproject.helpers')
     userPath: function(id) {
       return PathHelper.usersPath() + '/' + id;
     },
+    versionsPath: function() {
+      return '/versions';
+    },
     versionPath: function(versionId) {
-      return '/versions/' + versionId;
+      return PathHelper.versionsPath() + '/' + versionId;
     },
 
     apiV2ProjectPath: function(projectIdentifier) {
@@ -63,6 +66,9 @@ angular.module('openproject.helpers')
     },
     apiUsersPath: function() {
       return PathHelper.apiPrefixV2 + PathHelper.usersPath();
+    },
+    apiProjectVersionsPath: function(projectIdentifier) {
+      return PathHelper.apiV3ProjectPath(projectIdentifier) + PathHelper.versionsPath();
     },
     apiProjectUsersPath: function(projectIdentifier) {
       return PathHelper.apiV2ProjectPath(projectIdentifier) + PathHelper.usersPath();
