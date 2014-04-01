@@ -1,7 +1,7 @@
 // global
 angular.module('openproject.services', ['openproject.uiComponents', 'openproject.helpers', 'openproject.workPackages.config']);
 angular.module('openproject.helpers', ['openproject.services']);
-angular.module('openproject.models', []);
+angular.module('openproject.models', ['openproject.workPackages.config']);
 
 // timelines
 angular.module('openproject.timelines', ['openproject.timelines.controllers', 'openproject.timelines.directives', 'openproject.uiComponents']);
