@@ -30,9 +30,14 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#284`  Fix: Sticky does not apply to forum
+* `#1009` Wrong german translation when accessing a non-existent work package
+* `#2029` Fix: News preview
 * `#2393` Fix: No warning when leaving site without saving
 * `#2401` Fix: New target version cannot be created from work package view
 * `#2280` Fix: Spent Time not localized
+* `#3019` Fix: Quote icon in wrong position
+* `#3063` Fix: Quotes in versions are not properly HTML-escaped
+* `#3118` Fix: Copying a work package to a new project with parent and cross_project_work_package_relations disabled does not work
 * `#3148` Fix: Comparison of history versions in wiki pages ignores newlines
 * `#3267` Fix: Link in Breadcrumbs links to global work packages
 * `#3348` Fix: Menu item "more functions" is cut off where content ends
@@ -43,6 +48,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#4097` Fix accesskeys
 * `#4118` Fix: Add missing labels
 * `#4701` Fix: Wiki change notification mail contains invalid diff link
+* `#4928` Fix: Journal note hits not shown
 * `#5057` Fix: Whitelisted more params for planning elements controller
 * `#5214` Allow setting watchers and time entries for work packages via API`
 * `#5311` Encapsulate ActiveSupport::Notifications

@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -26,31 +25,12 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require File.expand_path('../../../test_helper', __FILE__)
 
-class SearchHelperTest < HelperTestCase
-  include SearchHelper
+require 'spec_helper'
+require 'support/permission_specs'
 
-  def test_highlight_single_token
-    assert_equal 'This is a <span class="highlight token-0">token</span>.',
-                 highlight_tokens('This is a token.', %w(token))
-  end
+describe WikiController, "edit_wiki_pages permission", type: :controller do
+  include PermissionSpecs
 
-  def test_highlight_multiple_tokens
-    assert_equal 'This is a <span class="highlight token-0">token</span> and <span class="highlight token-1">another</span> <span class="highlight token-0">token</span>.',
-                 highlight_tokens('This is a token and another token.', %w(token another))
-  end
-
-  def test_highlight_should_not_exceed_maximum_length
-    s = (('1234567890' * 100) + ' token ') * 100
-    r = highlight_tokens(s, %w(token))
-    assert r.include?('<span class="highlight token-0">token</span>')
-    assert r.length <= 1300
-  end
-
-  def test_highlight_multibyte
-    s = ('й' * 200) + ' token ' + ('й' * 200)
-    r = highlight_tokens(s, %w(token))
-    assert_equal  ('й' * 45) + ' ... ' + ('й' * 44) + ' <span class="highlight token-0">token</span> ' + ('й' * 44) + ' ... ' + ('й' * 45), r
-  end
+  check_permission_required_for('wiki#preview', :edit_wiki_pages)
 end

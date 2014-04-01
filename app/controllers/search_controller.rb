@@ -55,9 +55,8 @@ class SearchController < ApplicationController
     rescue; end
 
     # quick jump to an work_package
-    if @question.match(/\A#?(\d+)\z/) && WorkPackage.visible.find_by_id($1.to_i)
-      redirect_to work_package_path(:id => $1)
-      return
+    scan_work_package_reference @question do |id|
+      return redirect_to work_package_path(id: id) if WorkPackage.visible.find_by_id(id.to_i)
     end
 
     @object_types = Redmine::Search.available_search_types.dup
@@ -73,11 +72,11 @@ class SearchController < ApplicationController
 
     # extract tokens from the question
     # eg. hello "bye bye" => ["hello", "bye bye"]
-    @tokens = @question.scan(%r{((\s|^)"[\s\w]+"(\s|$)|\S+)}).collect {|m| m.first.gsub(%r{(^\s*"\s*|\s*"\s*$)}, '')}
+    @tokens = scan_query_tokens @question
     # tokens must be at least 2 characters long
     @tokens = @tokens.uniq.select {|w| w.length > 1 }
 
-    if !@tokens.empty?
+    if @tokens.any?
       # no more than 5 tokens to search for
       @tokens.slice! 5..-1 if @tokens.size > 5
 
@@ -122,5 +121,13 @@ private
     check_project_privacy
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def scan_query_tokens(query)
+    query.scan(%r{((\s|^)"[\s\w]+"(\s|$)|\S+)}).collect {|m| m.first.gsub(%r{(^\s*"\s*|\s*"\s*$)}, '')}
+  end
+
+  def scan_work_package_reference(query, &blk)
+    query.match(/\A#?(\d+)\z/) && ((blk && blk.call($1)) || true)
   end
 end

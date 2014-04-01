@@ -27,6 +27,12 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<fieldset class="preview"><legend><%= l(:label_preview) %></legend>
-  <%= textilizable @text, :attachments => @attachements, :object => @previewed %>
-</fieldset>
+<% texts.each_pair do |caption, text| %>
+  <fieldset class="preview"><legend><%= "#{l(:label_preview)} - #{caption}" %></legend>
+    <% if text.blank? %>
+      <span class="nothing-to-preview"><%= l(:nothing_to_preview) %></span>
+    <% else %>
+      <%= textilizable text, attachments: attachments, object: previewed %>
+    <% end %>
+  </fieldset>
+<% end %>
