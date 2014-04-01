@@ -27,7 +27,7 @@ module Api
 
       def index
         @custom_field_column_names = @query.columns.select{|c| c.name.to_s =~ /cf_(.*)/}.map(&:name)
-        @column_names = ['id'] | @query.columns.select{|c| !@custom_field_column_names.include?(c.name)}.map(&:name)
+        @column_names = ['id'] | @query.columns.map(&:name) - @custom_field_column_names
 
         # the data for the index is already produced in the assign_work_packages
         respond_to do |format|
