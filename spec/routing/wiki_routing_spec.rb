@@ -49,12 +49,12 @@ describe WikiController do
                                                      :project_id => 'abc')
     end
 
-    xit do
-      expect(post('/projects/abc/wiki/abc_wiki?version=3')).to route_to(
+    it do
+      expect(get('/projects/abc/wiki/abc_wiki?version=3')).to route_to(
                  controller: 'wiki',
                  action: 'show',
-                 id: 'abc_wiki',
-                 version: '3')
+                 project_id: 'abc',
+                 id: 'abc_wiki')
     end
   end
 end
