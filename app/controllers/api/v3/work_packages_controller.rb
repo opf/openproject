@@ -58,6 +58,7 @@ module Api
         end
       end
 
+
       private
 
       def load_query
@@ -131,7 +132,8 @@ module Api
         if column_name =~ /cf_(.*)/
           custom_field = CustomField.find($1)
           work_packages.map do |work_package|
-            work_package.get_custom_value_display_data(custom_field)
+            custom_value = work_package.custom_values.find_by_custom_field_id($1)
+            custom_field.cast_value custom_value.try(:value)
           end
         else
           work_packages.map do |work_package|
