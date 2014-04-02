@@ -473,8 +473,7 @@ class PermittedParams < Struct.new(:params, :current_user)
         :mail,
         :mail_notification,
         :language,
-        :custom_fields,
-        :identity_url ],
+        :custom_fields ],
       :wiki_page => [
         :title,
         :parent_id,
