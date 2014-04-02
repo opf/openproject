@@ -167,6 +167,10 @@ class UsersController < ApplicationController
     @user.admin = params[:user][:admin] if params[:user][:admin]
     @user.login = params[:user][:login] if params[:user][:login]
     @user.attributes = permitted_params.user_update_as_admin
+
+    # Don't allow setting an auth source for users with external authentication
+    params[:auth_source_id] = nil if @user.identity_url
+
     if @user.change_password_allowed?
       if params[:user][:assign_random_password]
         @user.random_password!
