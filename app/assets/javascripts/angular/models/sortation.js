@@ -1,16 +1,21 @@
 angular.module('openproject.models')
 
-.factory('Sortation', [function() {
+.factory('Sortation', ['DEFAULT_SORT_CRITERIA', function(DEFAULT_SORT_CRITERIA) {
   var defaultSortDirection = 'asc';
 
-  var Sortation = function(encodedSortation) {
-    if (encodedSortation) {
-      this.sortElements = encodedSortation.split(',').map(function(sortParam) {
-        fieldAndDirection = sortParam.split(':');
-        return { field: fieldAndDirection[0], direction: fieldAndDirection[1] || defaultSortDirection};
-      });
+  var Sortation = function(sortation) {
+    if (Array.isArray(sortation)) {
+      if (sortation.length > 0) {
+        // Convert sortation element from API meta format
+        this.sortElements = sortation.map(function(sortElement) {
+          return {field: sortElement.first(), direction: sortElement.last()};
+        });
+      } else {
+        this.sortElements = this.decodeEncodedSortation(DEFAULT_SORT_CRITERIA);
+      }
     } else {
-      this.sortElements = [];
+      // Unless it's an array we expect the sortation to be in a serialized form
+      this.sortElements = this.decodeEncodedSortation(sortation || DEFAULT_SORT_CRITERIA);
     }
   };
 
@@ -57,6 +62,13 @@ angular.module('openproject.models')
     targetSortation.addSortElement({field: headerName, direction: targetSortDirection}, targetSortation);
 
     return targetSortation;
+  };
+
+  Sortation.prototype.decodeEncodedSortation = function(encodedSortation) {
+    return encodedSortation.split(',').map(function(sortParam) {
+      fieldAndDirection = sortParam.split(':');
+      return { field: fieldAndDirection[0], direction: fieldAndDirection[1] || defaultSortDirection};
+    });
   };
 
   Sortation.prototype.encode = function() {
