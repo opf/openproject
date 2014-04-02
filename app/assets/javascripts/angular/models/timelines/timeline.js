@@ -516,7 +516,7 @@ angular.module('openproject.timelines.models')
 
       // if parents is not an array, turn it into one with length 1, so
       // the following each does not fail.
-      if (!(parents instanceof Array)) {
+      if (!(Array.isArray(parents))) {
         parents = [parents];
       }
 

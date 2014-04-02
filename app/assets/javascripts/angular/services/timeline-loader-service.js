@@ -242,7 +242,7 @@ angular.module('openproject.timelines.services')
 
     var i, e, id, map = {};
 
-    if (data instanceof Array) {
+    if (Array.isArray(data)) {
       for (i = 0; i < data.length; i++) {
         e = data[i];
         e.timeline = this.timeline;
@@ -424,7 +424,7 @@ angular.module('openproject.timelines.services')
       var associations = e[ProjectAssociation.identifier];
       var j, a, other;
 
-      if (associations instanceof Array) {
+      if (Array.isArray(associations)) {
         for (j = 0; j < associations.length; j++) {
           a = associations[j];
           a.timeline = dataEnhancer.timeline;
@@ -799,7 +799,7 @@ angular.module('openproject.timelines.services')
           // w/ custom values that are empty and work packages w/o
           // custom values.
 
-          if (value instanceof Array && value.indexOf("-1") !== -1) {
+          if (Array.isArray(value) && value.indexOf("-1") !== -1) {
             value.push("");
           }
 
