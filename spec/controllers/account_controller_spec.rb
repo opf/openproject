@@ -39,13 +39,24 @@ describe AccountController do
 
     describe "User logging in with back_url" do
 
-      it "should redirect to the same host" do
-        post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http%3A%2F%2Ftest.host%2Fwork_packages%2Fshow%2F1'}
+      it "should redirect to a relative path" do
+        post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => '/'}
+        expect(response).to redirect_to '/'
+      end
+
+      it "should redirect to an absolute path given the same host" do
+        # note: test.host is the hostname during tests
+        post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http://test.host/work_packages/show/1'}
         expect(response).to redirect_to '/work_packages/show/1'
       end
 
       it "should not redirect to another host" do
-        post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http%3A%2F%2Ftest.foo%2Ffake'}
+        post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http://test.foo/work_packages/show/1'}
+        expect(response).to redirect_to '/my/page'
+      end
+
+      it "should not redirect to another host with a protocol relative url" do
+        post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => '//test.foo/fake'}
         expect(response).to redirect_to '/my/page'
       end
 
