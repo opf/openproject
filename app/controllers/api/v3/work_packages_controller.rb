@@ -44,6 +44,10 @@ module Api
         work_packages = Array.wrap(WorkPackage.visible.find(*ids)).sort {|a,b| ids.index(a.id) <=> ids.index(b.id)}
 
         @columns_data = fetch_columns_data(column_names, work_packages)
+        @columns_meta = {
+          total_sums: columns_total_sums(column_names, work_packages),
+          group_sums: columns_group_sums(column_names, work_packages, params[:group_by])
+        }
       end
 
       def column_sums
@@ -53,13 +57,33 @@ module Api
         project = Project.find_visible(current_user, params[:project_id])
         work_packages = project.work_packages
 
-        @column_sums = column_names.map do |column_name|
-          fetch_column_data(column_name, work_packages, false).map{|c| c.nil? ? 0 : c}.compact.sum if column_should_be_summed_up?(column_name)
+        @column_sums = columns_total_sums(column_names, work_packages)
+      end
+
+      private
+
+      def columns_total_sums(column_names, work_packages)
+        column_names.map do |column_name|
+          column_sum(column_name, work_packages)
         end
       end
 
+      def column_sum(column_name, work_packages)
+        fetch_column_data(column_name, work_packages, false).map{|c| c.nil? ? 0 : c}.compact.sum if column_should_be_summed_up?(column_name)
+      end
 
-      private
+      def columns_group_sums(column_names, work_packages, group_by)
+        # NOTE RS: This is basically the grouped_sums method from sums.rb but we have no query to play with here
+        return unless group_by
+        column_names.map do |column_name|
+          work_packages.map { |wp| wp.send(group_by) }
+            .uniq
+            .inject({}) do |group_sums, current_group|
+              work_packages_in_current_group = work_packages.select{|wp| wp.send(group_by) == current_group}
+              group_sums.merge current_group => column_sum(column_name, work_packages_in_current_group)
+            end
+        end
+      end
 
       def load_query
         @query ||= retrieve_query

@@ -11,7 +11,9 @@ angular.module('openproject.workPackages.directives')
           function fetchSums() {
             scope.withLoading(WorkPackageService.getWorkPackagesSums, [scope.projectIdentifier, scope.columns])
               .then(function(data){
-                scope.sums = data.column_sums;
+                angular.forEach(scope.columns, function(column, i){
+                  column.total_sum = data.column_sums[i];
+                });
               });
           }
 
