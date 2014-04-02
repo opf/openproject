@@ -106,11 +106,14 @@ JS
       @member.destroy
     end
     respond_to do |format|
+      flash.now.notice = l(:notice_successful_delete)
+
       format.html { redirect_to :controller => '/projects', :action => 'settings', :tab => 'members', :id => @project }
       format.js {
           @pagination_url_options = {controller: 'projects', action: 'settings', id: @project}
           render(:update) {|page|
           page.replace_html "tab-content-members", :partial => 'projects/settings/members'
+          page.insert_html :top, "tab-content-members", render_flash_messages
           page << TAB_SCRIPTS
         }
       }
