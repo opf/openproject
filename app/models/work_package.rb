@@ -713,6 +713,30 @@ class WorkPackage < ActiveRecord::Base
     return allowed
   end
 
+  # Begin Custom Value Display Helper Methods
+  # TODO RS: This probably isn't the right place for display helpers. It's convenient though to have
+  #          the method on the model so that it can be used in the rabl template.
+  def get_custom_value_display_data(custom_field)
+    custom_value_display(custom_values.find_by_custom_field_id(custom_field.id))
+  end
+
+  def custom_values_display_data(field_names)
+    field_names.map do |field_name|
+      custom_value_display(custom_values.find_by_custom_field_id(field_name.to_s.gsub('cf_','')))
+    end
+  end
+
+  def custom_value_display(custom_value)
+    if !custom_value.nil?
+      {
+        custom_field_id: custom_value.custom_field.id,
+        field_format: custom_value.custom_field.field_format,
+        value: custom_value.value
+      }
+    end
+  end
+  # End Custom Value Display Helper Methods
+
   protected
 
   def recalculate_attributes_for(work_package_id)

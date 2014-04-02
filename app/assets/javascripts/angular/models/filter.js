@@ -1,9 +1,10 @@
 angular.module('openproject.models')
 
 .constant('OPERATORS_REQUIRING_VALUES', ['o', 'c', '!*', '*', 't', 'w'])
-.factory('Filter', ['OPERATORS_REQUIRING_VALUES', function(OPERATORS_REQUIRING_VALUES) {
+.factory('Filter', ['OPERATORS_REQUIRING_VALUES', 'AVAILABLE_WORK_PACKAGE_FILTERS', function(OPERATORS_REQUIRING_VALUES, AVAILABLE_WORK_PACKAGE_FILTERS) {
   Filter = function (data) {
     angular.extend(this, data);
+    this.pruneValues();
   };
 
   Filter.prototype = {
@@ -17,7 +18,10 @@ angular.module('openproject.models')
     },
 
     valuesAsArray: function() {
-      if (this.values instanceof Array) {
+      if (Array.isArray(this.values)) {
+        if (this.values.length === 0) return ['']; // Workaround: The array must not be empty for backend compatibility so that the values are passed as a URL param at all even if `this` is the only query filter
+        // TODO fix this on the backend side, so that filters can be initialized on a query without providing values
+
         return this.values;
       } else {
         return [this.values];
@@ -29,7 +33,23 @@ angular.module('openproject.models')
     },
 
     isConfigured: function() {
-      return this.operator && (this.values || !this.requiresValues());
+      return this.operator && (this.hasValues() || !this.requiresValues());
+    },
+
+    getModelName: function() {
+      return AVAILABLE_WORK_PACKAGE_FILTERS[this.name].modelName;
+    },
+
+    pruneValues: function() {
+      if (this.values) {
+        this.values = this.values.filter(function(value) {
+          return value !== '';
+        });
+      }
+    },
+
+    hasValues: function() {
+      return Array.isArray(this.values) ? this.values.length > 0 : !!this.values;
     }
   };
 

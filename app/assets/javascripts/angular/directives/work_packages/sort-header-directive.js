@@ -10,7 +10,6 @@ angular.module('openproject.workPackages.directives')
       headerName: '=',
       headerTitle: '=',
       sortable: '=',
-      updateResults: '&',
       locale: '='
     },
     link: function(scope, element, attributes) {

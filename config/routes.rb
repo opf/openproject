@@ -93,6 +93,7 @@ OpenProject::Application.routes.draw do
           get :available_projects, :on => :collection
         end
         resources :statuses, :only => [:index, :show]
+        resources :users, only: [:index]
 
         member do
           get :planning_element_custom_fields
@@ -114,6 +115,28 @@ OpenProject::Application.routes.draw do
         end
       end
 
+    end
+
+    namespace :v3 do
+      resources :work_packages, only: [:index] do
+        get :column_data, on: :collection
+      end
+      resources :queries, only: [:show] do
+        get :available_columns, on: :collection
+      end
+
+      resources :projects, only: [:show] do
+        resources :work_packages, only: [:index] do
+          get :column_sums, on: :collection
+        end
+        resources :queries, only: [:show] do
+          get :available_columns, on: :collection
+        end
+        resources :versions, only: [:index]
+      end
+
+      resources :groups, only: [:index]
+      resources :roles, only: [:index]
     end
   end
 

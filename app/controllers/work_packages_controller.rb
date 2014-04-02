@@ -46,8 +46,8 @@ class WorkPackagesController < ApplicationController
   end
 
   include QueriesHelper
-  include SortHelper
   include PaginationHelper
+  include SortHelper
   include OpenProject::Concerns::Preview
 
   accept_key_auth :index, :show, :create, :update
@@ -56,7 +56,6 @@ class WorkPackagesController < ApplicationController
   before_filter :not_found_unless_work_package,
                 :project,
                 :authorize, :except => [:index, :preview, :column_data, :column_sums]
-
   before_filter :find_optional_project,
                 :protect_from_unauthorized_export, :only => [:index, :all, :preview]
   before_filter :load_query, :only => :index
@@ -201,48 +200,26 @@ class WorkPackagesController < ApplicationController
   end
 
   def index
-    sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
-    sort_update(@query.sortable_columns)
-
-    results = @query.results(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
-                            :order => sort_clause)
-
-    work_packages = if @query.valid?
-                      results.work_packages.page(page_param)
-                                           .per_page(per_page_param)
-                                           .all
-                    else
-                      []
-                    end
-
     respond_to do |format|
       format.html do
-        # push work packages to client as JSON
-        # TODO pull work packages via AJAX
-        push_filter_operators_and_labels
-        push_query_and_results_via_gon results, work_packages
-
         render :index, :locals => { :query => @query,
-                                    :work_packages => work_packages,
-                                    :results => results,
                                     :project => @project },
                        :layout => !request.xhr?
       end
-      format.json do
-        render json: get_results_as_json(results, work_packages)
-      end
       format.csv do
-        serialized_work_packages = WorkPackage::Exporter.csv(work_packages, @project)
+        load_work_packages
+        serialized_work_packages = WorkPackage::Exporter.csv(@work_packages, @project)
         charset = "charset=#{l(:general_csv_encoding).downcase}"
 
         send_data(serialized_work_packages, :type => "text/csv; #{charset}; header=present",
                                             :filename => 'export.csv')
       end
       format.pdf do
-        serialized_work_packages = WorkPackage::Exporter.pdf(work_packages,
+        load_work_packages
+        serialized_work_packages = WorkPackage::Exporter.pdf(@work_packages,
                                                              @project,
                                                              @query,
-                                                             results,
+                                                             @results,
                                                              :show_descriptions => params[:show_descriptions])
 
         send_data(serialized_work_packages,
@@ -250,86 +227,14 @@ class WorkPackagesController < ApplicationController
                   :filename => 'export.pdf')
       end
       format.atom do
-        render_feed(work_packages,
+        load_work_packages
+        render_feed(@work_packages,
                     :title => "#{@project || Setting.app_title}: #{l(:label_work_package_plural)}")
       end
     end
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-
-  # ------------------- Custom API method -------------------
-  # TODO Move to API
-  def column_data
-    raise 'API Error: No IDs' unless params[:ids]
-    raise 'API Error: No column names' unless params[:column_names]
-
-    column_names = params[:column_names]
-    ids = params[:ids].map(&:to_i)
-    work_packages = Array.wrap(WorkPackage.visible.find(*ids)).sort {|a,b| ids.index(a.id) <=> ids.index(b.id)}
-
-    render json: fetch_columns_data(column_names, work_packages)
-  end
-
-  def column_sums
-    # TODO RS: Needs to work for groups, what's the deal?
-    raise 'API Error' unless params[:column_names]
-
-    column_names = params[:column_names]
-    project = Project.find_visible(current_user, params[:id])
-    work_packages = project.work_packages
-    sums = column_names.map do |column_name|
-      fetch_column_data(column_name, work_packages).map{|c| c.nil? ? 0 : c}.compact.sum if column_should_be_summed_up?(column_name)
-    end
-
-    render json: sums
-  end
-
-  def fetch_columns_data(column_names, work_packages)
-    column_names.map do |column_name|
-      fetch_column_data(column_name, work_packages)
-    end
-  end
-
-  def fetch_column_data(column_name, work_packages)
-    if column_name =~ /cf_(.*)/
-      custom_field = CustomField.find($1)
-      work_packages.map do |work_package|
-        custom_value = work_package.custom_values.find_by_custom_field_id($1)
-        custom_field.cast_value custom_value.try(:value)
-      end
-    else
-      work_packages.map do |work_package|
-        # Note: Doing as_json here because if we just take the value.attributes then we can't get any methods later.
-        #       Name and subject are the default properties that the front end currently looks for to summarize an object.
-        value = work_package.send(column_name)
-        value.is_a?(ActiveRecord::Base) ? value.as_json( only: "id", methods: [:name, :subject] ) : value
-      end
-    end
-  end
-
-  def column_should_be_summed_up?(column_name)
-    # see ::Query::Sums mix in
-    column_is_numeric?(column_name) && Setting.work_package_list_summable_columns.include?(column_name.to_s)
-  end
-
-  def column_is_numeric?(column_name)
-    # TODO RS: We want to leave out ids even though they are numeric
-    [:int, :float].include? column_type(column_name)
-  end
-
-  def column_type(column_name)
-    if column_name =~ /cf_(.*)/
-      CustomField.find($1).field_format.to_sym
-    else
-      column = WorkPackage.columns_hash[column_name]
-      column.nil? ? :none : column.type
-    end
-  end
-
-
-  # ---------------------------------------------------------
-
 
   def quoted
     text, author = if params[:journal_id]
@@ -529,149 +434,19 @@ class WorkPackagesController < ApplicationController
 
   private
 
-  # ------------------- Form JSON reponse for angular -------------------
-  # TODO provide data in API
+  def load_work_packages
+    sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
+    sort_update(@query.sortable_columns)
 
-  def push_filter_operators_and_labels
-    gon.operators_and_labels_by_filter_type = get_operators_and_labels_by_filter_type
-
-  end
-
-  def push_query_and_results_via_gon(results, work_packages)
-    get_query_and_results_as_json(results, work_packages).each_pair do |name, value|
-      gon.send "#{name}=", value
-    end
-    # TODO later versions of gon support gon.push {Hash} - on the other hand they make it harder to deliver data to gon inside views
-  end
-
-  # filter information
-
-  def get_operators_and_labels_by_filter_type
-    Queries::Filter.operators_by_filter_type.inject({}) do |hash, (type, operators)|
-      hash.merge type => get_operators_to_label_hash(operators)
-    end
-  end
-
-  def get_operators_to_label_hash(operators)
-    operators.inject({}) do |operators_with_labels, operator|
-      operators_with_labels.merge(operator => I18n.t(Queries::Filter.operators[operator]))
-    end
-  end
-
-  # query
-
-  def get_query_and_results_as_json(results, work_packages)
-    get_results_as_json(results, work_packages).merge(
-      project_identifier:           @project.to_param,
-      query:                        get_query_as_json(@query),
-      columns:                      get_columns_for_json(@query.columns),
-      available_columns:            get_columns_for_json(@query.available_columns),
-      sort_criteria:                @sort_criteria.to_param
-    )
-  end
-
-  def get_results_as_json(results, work_packages)
-    {
-      work_package_count_by_group:  results.work_package_count_by_group,
-      work_packages:                get_work_packages_as_json(work_packages, @query.columns),
-      sums:                         results.column_total_sums,
-      group_sums:                   results.column_group_sums,
-      page:                         page_param,
-      per_page:                     per_page_param,
-      per_page_options:             Setting.per_page_options_array,
-      total_entries:                work_packages.total_entries
-    }
-  end
-
-  def get_query_as_json(query)
-    query.as_json only: [:id, :group_by, :display_sums, :filters],
-                  methods: [:available_work_package_filters]
-  end
-
-  def get_columns_for_json(columns)
-    columns.map do |column|
-      { name: column.name,
-        title: column.caption,
-        sortable: column.sortable,
-        groupable: column.groupable,
-        custom_field: column.is_a?(QueryCustomFieldColumn) &&
-                      column.custom_field.as_json(only: [:id, :field_format], methods: [:name_locale]),
-        meta_data: get_column_meta(column)
-      }
-    end
-  end
-
-  def get_column_meta(column)
-    # This is where we want to add column specific behaviour to instruct the front end how to deal with it
-    # Needs to be things like user link,project link, datetime
-    {
-      data_type: column_data_type(column),
-      link: !!(link_meta[column.name]) ? link_meta()[column.name] : { display: false }
-    }
-  end
-
-  def link_meta
-    {
-      subject: { display: true, model_type: "work_package" },
-      type: { display: false },
-      status: { display: false },
-      priority: { display: false },
-      parent: { display: true, model_type: "user" },
-      assigned_to: { display: true, model_type: "user" },
-      responsible: { display: true, model_type: "user" },
-      author: { display: true, model_type: "user" },
-      project: { display: true, model_type: "project" },
-      fixed_version: { display: true, model_type: "version" }
-    }
-  end
-
-  def column_data_type(column)
-    if column.is_a?(QueryCustomFieldColumn)
-      return column.custom_field.field_format
-    elsif (c = WorkPackage.columns_hash[column.name.to_s] and !c.nil?)
-      return c.type.to_s
-    elsif (c = WorkPackage.columns_hash[column.name.to_s + "_id"] and !c.nil?)
-      return "object"
-    else
-      return "default"
-    end
-  end
-
-  # work packages
-
-  def get_work_packages_as_json(work_packages, selected_columns=[])
-    attributes_to_be_displayed = default_work_package_attributes +
-                                 (WorkPackage.attribute_names.map(&:to_sym) & selected_columns.map(&:name))
-
-    work_packages.as_json only: attributes_to_be_displayed,
-                          methods: [:leaf?, :overdue?],
-                          include: get_column_includes(selected_columns)
-  end
-
-  def get_column_includes(selected_columns=[])
-    selected_associations = {
-      assigned_to: { only: :id, methods: :name },
-      author: { only: :id, methods: :name },
-      category: { only: :name },
-      priority: { only: :name },
-      project: { only: [:name, :identifier] },
-      responsible: { only: :id, methods: :name },
-      status: { only: :name },
-      type: { only: :name },
-      parent: { only: :subject },
-      fixed_version: { only: [:name, :id] }
-    }.slice(*selected_columns.map(&:name))
-
-    selected_associations.merge!(custom_values: { only: [:custom_field_id, :value] }) if selected_columns.any? {|c| c.is_a? QueryCustomFieldColumn}
-
-    # TODO retrieve custom values in a single query like this and extend the work_packages inside the JSON:
-    # WorkPackage.includes(:custom_values).where(['work_packages.id in (?) AND custom_values.custom_field_id in (?)', @query.results.map(&:id), custom_field_columns.map(&:id)])
-
-    selected_associations
-  end
-
-  def default_work_package_attributes
-    %i(id parent_id)
+    @results = @query.results(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
+                             :order => sort_clause)
+    @work_packages = if @query.valid?
+                      @results.work_packages.page(page_param)
+                                            .per_page(per_page_param)
+                                            .all
+                    else
+                      []
+                    end
   end
 
   def parse_preview_data
