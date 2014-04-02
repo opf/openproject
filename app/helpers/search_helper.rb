@@ -50,6 +50,42 @@ module SearchHelper
     result.html_safe
   end
 
+  def highlight_first(texts, tokens)
+    texts.each do |text|
+      if has_tokens? text, tokens
+        return highlight_tokens text, tokens
+      end
+    end
+    highlight_tokens texts[-1], tokens
+  end
+
+  def has_tokens?(text, tokens)
+    return false unless text && tokens && !tokens.empty?
+    re_tokens = tokens.collect {|t| Regexp.escape(t)}
+    regexp = Regexp.new "(#{re_tokens.join('|')})", Regexp::IGNORECASE
+    !! regexp.match(text)
+  end
+
+  def last_journal(event)
+    if event.respond_to? :last_journal
+      event.last_loaded_journal
+    end
+  end
+
+  def notes_anchor(event)
+    version = event.version.to_i
+
+    (version > 1) ? "note-#{version - 1}" : ""
+  end
+
+  def with_notes_anchor(event, tokens)
+    if has_tokens? last_journal(event).try(:notes), tokens
+      event.event_url.merge anchor: notes_anchor(last_journal event)
+    else
+      event.event_url
+    end
+  end
+
   def type_label(t)
     l("label_#{t.singularize}_plural", :default => t.to_s.humanize)
   end
