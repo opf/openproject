@@ -83,6 +83,8 @@ JS
     member.save
 
     respond_to do |format|
+      flash.now.notice = l(:notice_successful_update)
+
       format.html { redirect_to :controller => '/projects', :action => 'settings', :tab => 'members', :id => @project, :page => params[:page] }
       format.js {
         @pagination_url_options = {controller: 'projects', action: 'settings', id: @project}
@@ -94,6 +96,7 @@ JS
           else
             page.replace_html "tab-content-members", :partial => 'projects/settings/members'
           end
+          page.insert_html :top, "tab-content-members", render_flash_messages
           page << TAB_SCRIPTS
           page.visual_effect(:highlight, "member-#{@member.id}") unless Member.find_by_id(@member.id).nil?
         }
