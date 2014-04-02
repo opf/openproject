@@ -29,13 +29,19 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% disable_accessibility_css! %>
 
-<h2><%=l(:label_register)%> <%=link_to l(:label_login_with_open_id_option), signin_url if Setting.openid? %></h2>
+<h2>
+  <%= if @omniauth_strategy
+    l("label_register_with_#{@omniauth_strategy}")
+  else
+    l(:label_register)
+  end %>
+</h2>
 
 <%= labelled_tabular_form_for(@user, :url => url_for(:action => 'register')) do |f| %>
   <%= error_messages_for :user %>
 
   <div class="box">
-    <% if @user.auth_source_id.nil? %>
+    <% if @user.change_password_allowed? %>
       <p><%= f.text_field :login, :size => 25, :required => true %></p>
       <p>
         <%= f.password_field :password,

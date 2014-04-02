@@ -44,18 +44,24 @@ class AccountController < ApplicationController
 
   def omniauth_login
     auth = request.env['omniauth.auth']
-    identity_url = "#{auth[:provider]}:#{auth[:uid]}"
 
-    user = User.find_or_initialize_by_identity_url(identity_url)
+    user = User.find_or_initialize_by_identity_url(identity_url_from_omniauth(auth))
     if user.new_record?
       # Self-registration off
       redirect_to(login_url) && return unless Setting.self_registration?
 
       # Create on the fly
-      user = fill_user_fields_from_omniauth(user, auth)
+      fill_user_fields_from_omniauth(user, auth)
 
       register_user_according_to_setting(user) do
-        onthefly_creation_failed(user)
+        # Allow registration form to show provider-specific title
+        @omniauth_strategy = auth[:provider]
+
+        # Store a timestamp so we can later make sure that authentication information can
+        # only be reused for a short time.
+        session_info = auth.merge({:omniauth => true, :timestamp => Time.new})
+
+        onthefly_creation_failed(user, session_info)
       end
     else
       # Existing record
@@ -119,20 +125,31 @@ class AccountController < ApplicationController
       @user = User.new(:language => Setting.default_language)
     else
       @user = User.new
-      @user.attributes = permitted_params.user
       @user.admin = false
       @user.register
       if session[:auth_source_registration]
-        @user.activate
-        @user.login = session[:auth_source_registration][:login]
-        @user.auth_source_id = session[:auth_source_registration][:auth_source_id]
-        if @user.save
+        # on-the-fly registration via omniauth or via auth source
+
+        if session[:auth_source_registration][:omniauth]
+          auth = session[:auth_source_registration]
+          # Allow registration form to show provider-specific title
+          @omniauth_strategy = auth[:provider]
+
+          fill_user_fields_from_omniauth(@user, auth)
+          @user.update_attributes(permitted_params.user_register_via_omniauth)
+          register_user_according_to_setting(@user)
+        else
+          @user.attributes = permitted_params.user
+          @user.activate
+          @user.login = session[:auth_source_registration][:login]
+          @user.auth_source_id = session[:auth_source_registration][:auth_source_id]
           session[:auth_source_registration] = nil
           self.logged_user = @user
           flash[:notice] = l(:notice_account_activated)
           redirect_to :controller => '/my', :action => 'account'
         end
       else
+        @user.attributes = permitted_params.user
         @user.login = params[:user][:login]
         @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation]
 
@@ -273,16 +290,20 @@ class AccountController < ApplicationController
 
   def fill_user_fields_from_omniauth(user, auth)
     info = auth[:info]
+    user.identity_url = identity_url_from_omniauth(auth)
     user.login = info['email'] unless info['email'].nil?
     if info[:first_name].nil? || info[:last_name].nil?
-      user.firstname, user.lastname = info['name'].split(' ') + ['-']
+      user.firstname, user.lastname = info['name'].split(' ')
     else
       user.firstname, user.lastname = info[:first_name], info[:last_name]
     end
     user.mail = info['email'] unless info['email'].nil?
-    user.random_password!
     user.register
     user
+  end
+
+  def identity_url_from_omniauth(auth)
+    "#{auth[:provider]}:#{auth[:uid]}"
   end
 
   # Onthefly creation failed, display the registration form to fill/fix attributes
