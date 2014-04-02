@@ -29,3 +29,5 @@
 object false
 
 node(:columns_data) { @columns_data }
+
+node(:columns_meta) { @columns_meta }

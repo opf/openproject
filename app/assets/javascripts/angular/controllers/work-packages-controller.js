@@ -54,8 +54,6 @@ angular.module('openproject.workPackages.controllers')
   };
 
   $scope.setupWorkPackagesTable = function(json) {
-    // TODO: We need to set the columns based on what's returned by the query for when we are loading using a query id.
-    //       Also perhaps the filters... and everything:/
     var meta = json.meta;
 
     if (!$scope.columns) $scope.columns = meta.columns;
@@ -67,9 +65,11 @@ angular.module('openproject.workPackages.controllers')
     $scope.rows = WorkPackagesTableHelper.getRows(json.work_packages, $scope.query.group_by);
 
     $scope.workPackageCountByGroup = meta.work_package_count_by_group;
-    $scope.totalSums = meta.sums;
-    $scope.groupSums = meta.group_sums;
     $scope.totalEntries = meta.total_entries;
+    angular.forEach($scope.columns, function(column, i){
+      column.total_sum = meta.sums[i];
+      if (meta.group_sums) column.group_sums = meta.group_sums[i];
+    });
   };
 
   $scope.updateResults = function() {
