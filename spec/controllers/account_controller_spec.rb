@@ -40,12 +40,12 @@ describe AccountController do
     describe "User logging in with back_url" do
 
       it "should redirect to the same host" do
-        post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http%3A%2F%2Ftest.host%2Fwork_packages%2Fshow%2F1'}
+        post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http://test.host/work_packages/show/1'}
         expect(response).to redirect_to '/work_packages/show/1'
       end
 
       it "should not redirect to another host" do
-        post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http%3A%2F%2Ftest.foo%2Ffake'}
+        post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http://test.foo/fake'}
         expect(response).to redirect_to '/my/page'
       end
 
