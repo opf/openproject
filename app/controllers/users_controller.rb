@@ -164,12 +164,12 @@ class UsersController < ApplicationController
 
   verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
   def update
-    @user.admin = params[:user][:admin] if params[:user][:admin]
-    @user.login = params[:user][:login] if params[:user][:login]
-    @user.attributes = permitted_params.user_update_as_admin
+    filtered_params = permitted_params.user_update_as_admin
 
     # Don't allow setting an auth source for users with external authentication
-    params[:auth_source_id] = nil if @user.identity_url
+    filtered_params[:auth_source_id] = nil if @user.identity_url
+
+    @user.attributes = filtered_params
 
     if @user.change_password_allowed?
       if params[:user][:assign_random_password]
