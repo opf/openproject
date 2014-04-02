@@ -68,6 +68,25 @@ class AccountControllerTest < ActionController::TestCase
     assert_redirected_to home_url
   end
 
+  def test_login_should_not_redirect_to_another_host
+    back_urls = [
+      'http://test.foo/fake',
+      '//test.foo/fake'
+    ]
+    back_urls.each do |back_url|
+      post :login, :username => 'jsmith', :password => 'jsmith', :back_url => back_url
+      assert_redirected_to '/my/page'
+
+      # User.current = nil has no effect
+      @request.session.delete(:user_id)
+    end
+  end
+
+  def test_login_should_redirect_to_home_url
+    post :login, :username => 'jsmith', :password => 'jsmith', :back_url => '/'
+    assert_redirected_to home_url
+  end
+
   if Object.const_defined?(:OpenID)
 
   def test_login_with_openid_for_existing_user
