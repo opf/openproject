@@ -886,6 +886,7 @@ en:
   label_query_menu_item: "Query menu item"
   label_read: "Read..."
   label_register: "Register"
+  label_register_with_developer: "Register as developer"
   label_registered_on: "Registered on"
   label_registration_activation_by_email: "account activation by email"
   label_registration_automatic_activation: "automatic account activation"

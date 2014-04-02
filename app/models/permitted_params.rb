@@ -189,6 +189,11 @@ class PermittedParams < Struct.new(:params, :current_user)
     permitted_params.merge!(custom_field_values(:user))
   end
 
+  def user_register_via_omniauth
+    params.require(:user).permit(:firstname, :lastname, :mail, :language)
+    permitted_params.merge!(custom_field_values(:user))
+  end
+
   def user_update_as_admin
     if current_user.admin?
       allowed_params = self.class.permitted_attributes[:user] + \
