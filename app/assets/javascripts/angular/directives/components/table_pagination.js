@@ -22,6 +22,7 @@ angular.module('openproject.uiComponents')
         PaginationService.setPage(pageNumber);
 
         updateCurrentRangeLabel();
+        updatePageNumbers();
 
         scope.updateResults(); // update table
       };
@@ -41,10 +42,30 @@ angular.module('openproject.uiComponents')
        * @description Defines a list of all pages in numerical order inside the scope
        */
       function updatePageNumbers() {
+        var maxVisible = PaginationService.getMaxVisiblePageOptions();
+        var truncSize = PaginationService.getOptionsTruncationSize();
+
         var pageNumbers = [];
         for (var i = 1; i <= Math.ceil(scope.totalEntries / scope.paginationOptions.perPage); i++) {
           pageNumbers.push(i);
         }
+
+        if (PaginationService.getPage() >= maxVisible){
+          var prePageNumbers = pageNumbers.splice(0, Math.min(PaginationService.getPage() - Math.ceil(maxVisible / 2), pageNumbers.length - maxVisible));
+          if (prePageNumbers.length >= truncSize * 2) prePageNumbers.splice(truncSize, prePageNumbers.length - truncSize)
+          scope.prePageNumbers = prePageNumbers;
+        } else {
+          scope.prePageNumbers = [];
+        }
+
+        if (pageNumbers.length >= maxVisible + (truncSize * 2)){
+          var postPageNumbers = pageNumbers.splice(maxVisible, pageNumbers.length);
+          if (postPageNumbers.length >= truncSize * 2) postPageNumbers.splice(0, postPageNumbers.length - truncSize)
+          scope.postPageNumbers = postPageNumbers;
+        } else {
+          scope.postPageNumbers = [];
+        }
+
         scope.pageNumbers = pageNumbers;
       }
 
