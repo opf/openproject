@@ -18,7 +18,7 @@
 #++
 
 FactoryGirl.define do
-  factory :global_role do |gr|
-    gr.name "global_role"
+  factory :global_role do
+    sequence(:name) { |n| "Global Role #{n}" }
   end
 end
