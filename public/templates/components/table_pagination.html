@@ -6,10 +6,24 @@
      href="">Previous
   </a>
 
+  <span ng-if="prePageNumbers" ng-repeat="pageNumber in prePageNumbers">
+    <a ng-click="showPage(pageNumber)"
+       rel="next"
+       href="">{{ pageNumber }}</a>
+  </span>
+  <span ng-if="prePageNumbers" class="gap">...</span>
+
   <span ng-if="pageNumbers.length > 1" ng-repeat="pageNumber in pageNumbers">
     <em ng-if="pageNumber == paginationOptions.page" class="current">{{ pageNumber }}</em>
     <a ng-if="pageNumber != paginationOptions.page"
        ng-click="showPage(pageNumber)"
+       rel="next"
+       href="">{{ pageNumber }}</a>
+  </span>
+
+  <span ng-if="postPageNumbers" class="gap">...</span>
+  <span ng-if="postPageNumbers" ng-repeat="pageNumber in postPageNumbers">
+    <a ng-click="showPage(pageNumber)"
        rel="next"
        href="">{{ pageNumber }}</a>
   </span>

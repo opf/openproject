@@ -22,6 +22,7 @@ angular.module('openproject.uiComponents')
         PaginationService.setPage(pageNumber);
 
         updateCurrentRangeLabel();
+        updatePageNumbers();
 
         scope.updateResults(); // update table
       };
@@ -33,7 +34,7 @@ angular.module('openproject.uiComponents')
        */
       function updateCurrentRangeLabel() {
         scope.currentRange = "(" + PaginationService.getLowerPageBound() + " - " + PaginationService.getUpperPageBound(scope.totalEntries) + "/" + scope.totalEntries + ")";
-      }
+      };
 
       /**
        * @name updatePageNumbers
@@ -41,12 +42,29 @@ angular.module('openproject.uiComponents')
        * @description Defines a list of all pages in numerical order inside the scope
        */
       function updatePageNumbers() {
+        var maxVisible = PaginationService.getMaxVisiblePageOptions();
+        var truncSize = PaginationService.getOptionsTruncationSize();
+
         var pageNumbers = [];
         for (var i = 1; i <= Math.ceil(scope.totalEntries / scope.paginationOptions.perPage); i++) {
           pageNumbers.push(i);
         }
+
+        scope.prePageNumbers = truncatePageNums(pageNumbers, PaginationService.getPage() >= maxVisible, 0, Math.min(PaginationService.getPage() - Math.ceil(maxVisible / 2), pageNumbers.length - maxVisible), truncSize);
+        scope.postPageNumbers = truncatePageNums(pageNumbers, pageNumbers.length >= maxVisible + (truncSize * 2), maxVisible, pageNumbers.length, 0);
         scope.pageNumbers = pageNumbers;
-      }
+      };
+
+      function truncatePageNums(pageNumbers, perform, disectFrom, disectLength, truncateFrom){
+        if (perform){
+          var tuncationSize = PaginationService.getOptionsTruncationSize();
+          var truncatedNums = pageNumbers.splice(disectFrom, disectLength);
+          if (truncatedNums.length >= tuncationSize * 2) truncatedNums.splice(truncateFrom, truncatedNums.length - tuncationSize)
+          return truncatedNums;
+        } else {
+          return [];
+        }
+      };
 
       scope.$watch('totalEntries', function() {
         updateCurrentRangeLabel();
