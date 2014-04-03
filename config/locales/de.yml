@@ -1096,6 +1096,7 @@ de:
   notice_account_update_failed: "Konto konnte nicht aktualisiert werden. Bitte besuchen Sie ihre Profilseite und überprüfen Sie die Einstellungen."
   notice_account_updated: "Konto wurde erfolgreich aktualisiert."
   notice_account_wrong_password: "Falsches Kennwort."
+  notice_account_registered_and_logged_in: "Willkommen, ihr Benutzerkonto wurde aktiviert. Sie sind nun angemeldet."
   notice_api_access_key_reseted: "Ihr API-Zugriffsschlüssel wurde zurückgesetzt."
   notice_can_t_change_password: "Dieses Konto verwendet eine externe Authentifizierungs-Quelle; das Kennwort kann nicht geändert werden."
   notice_default_data_loaded: "Die Standard-Konfiguration wurde erfolgreich geladen."
