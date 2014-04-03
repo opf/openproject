@@ -72,6 +72,46 @@ describe AccountController do
         user.current_password.should be_nil
       end
 
+      context 'with a relative url root' do
+        before do
+          @old_relative_url_root, ApplicationController.relative_url_root = ApplicationController.relative_url_root, "/openproject"
+        end
+
+        after do
+          ApplicationController.relative_url_root = @old_relative_url_root
+        end
+
+        it "should redirect to the same subdirectory with an absolute path" do
+          post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http://test.host/openproject/work_packages/show/1'}
+          expect(response).to redirect_to '/openproject/work_packages/show/1'
+        end
+
+        it "should redirect to the same subdirectory with a relative path" do
+          post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => '/openproject/work_packages/show/1'}
+          expect(response).to redirect_to '/openproject/work_packages/show/1'
+        end
+
+        it "should not redirect to another subdirectory with an absolute path" do
+          post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http://test.host/foo/work_packages/show/1'}
+          expect(response).to redirect_to '/my/page'
+        end
+
+        it "should not redirect to another subdirectory with a relative path" do
+          post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => '/foo/work_packages/show/1'}
+          expect(response).to redirect_to '/my/page'
+        end
+
+        it "should not redirect to another subdirectory by going up the path hierarchy" do
+          post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http://test.host/openproject/../foo/work_packages/show/1'}
+          expect(response).to redirect_to '/my/page'
+        end
+
+        it "should not redirect to another subdirectory with a protocol relative path" do
+          post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => '//test.host/foo/work_packages/show/1'}
+          expect(response).to redirect_to '/my/page'
+        end
+      end
+
     end
   end
 
