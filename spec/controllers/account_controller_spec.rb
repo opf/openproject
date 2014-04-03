@@ -39,13 +39,24 @@ describe AccountController do
 
     describe "User logging in with back_url" do
 
-      it "should redirect to the same host" do
-        post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http%3A%2F%2Ftest.host%2Fwork_packages%2Fshow%2F1'}
+      it "should redirect to a relative path" do
+        post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => '/'}
+        expect(response).to redirect_to '/'
+      end
+
+      it "should redirect to an absolute path given the same host" do
+        # note: test.host is the hostname during tests
+        post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http://test.host/work_packages/show/1'}
         expect(response).to redirect_to '/work_packages/show/1'
       end
 
       it "should not redirect to another host" do
-        post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http%3A%2F%2Ftest.foo%2Ffake'}
+        post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http://test.foo/work_packages/show/1'}
+        expect(response).to redirect_to '/my/page'
+      end
+
+      it "should not redirect to another host with a protocol relative url" do
+        post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => '//test.foo/fake'}
         expect(response).to redirect_to '/my/page'
       end
 
@@ -59,6 +70,46 @@ describe AccountController do
         user.should be_an_instance_of User
         user.auth_source_id.should == 66
         user.current_password.should be_nil
+      end
+
+      context 'with a relative url root' do
+        before do
+          @old_relative_url_root, ApplicationController.relative_url_root = ApplicationController.relative_url_root, "/openproject"
+        end
+
+        after do
+          ApplicationController.relative_url_root = @old_relative_url_root
+        end
+
+        it "should redirect to the same subdirectory with an absolute path" do
+          post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http://test.host/openproject/work_packages/show/1'}
+          expect(response).to redirect_to '/openproject/work_packages/show/1'
+        end
+
+        it "should redirect to the same subdirectory with a relative path" do
+          post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => '/openproject/work_packages/show/1'}
+          expect(response).to redirect_to '/openproject/work_packages/show/1'
+        end
+
+        it "should not redirect to another subdirectory with an absolute path" do
+          post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http://test.host/foo/work_packages/show/1'}
+          expect(response).to redirect_to '/my/page'
+        end
+
+        it "should not redirect to another subdirectory with a relative path" do
+          post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => '/foo/work_packages/show/1'}
+          expect(response).to redirect_to '/my/page'
+        end
+
+        it "should not redirect to another subdirectory by going up the path hierarchy" do
+          post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http://test.host/openproject/../foo/work_packages/show/1'}
+          expect(response).to redirect_to '/my/page'
+        end
+
+        it "should not redirect to another subdirectory with a protocol relative path" do
+          post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => '//test.host/foo/work_packages/show/1'}
+          expect(response).to redirect_to '/my/page'
+        end
       end
 
     end

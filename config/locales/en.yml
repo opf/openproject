@@ -220,7 +220,7 @@ en:
             parent_id:
               cannot_be_milestone: "cannot be a milestone"
               cannot_be_in_another_project: "cannot be in another project"
-              not_a_valid_parent: "is invaild"
+              not_a_valid_parent: "is invalid"
               does_not_exist: "does not exist"
             status_id:
               status_transition_invalid: "no valid transition exists from old to new status for the current user roles"

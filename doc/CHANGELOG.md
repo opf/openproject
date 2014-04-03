@@ -59,6 +59,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * Fix: work package due date not validated when start date is not present
 * Fix: Use correct questions for deletion of documents/files in rake tasks
 * Fix: Use URL helpers for forum routes
+* Fix: Back URL verification
 
 ## 3.0.0pre51
 
