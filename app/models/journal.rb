@@ -139,7 +139,7 @@ class Journal < ActiveRecord::Base
     return {} if data.nil?
 
     if @changes.nil?
-      @changes = {}
+      @changes = HashWithIndifferentAccess.new
 
       if predecessor.nil?
         @changes = data.journaled_attributes.select{|_,v| !v.nil?}
