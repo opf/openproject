@@ -200,7 +200,7 @@ class WorkPackagesController < ApplicationController
   end
 
   def index
-    load_work_packages
+    load_work_packages unless request.format.html?
 
     respond_to do |format|
       format.html do
