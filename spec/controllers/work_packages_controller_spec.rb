@@ -286,9 +286,9 @@ describe WorkPackagesController do
     it "performs a successful export" do
       wp = work_package
 
-      expect do
+      expect {
         get :index, :format => 'csv'
-      end.to_not raise_error
+      }.to_not raise_error
 
       data = CSV.parse(response.body)
 

@@ -91,9 +91,9 @@ describe Api::V2::PlanningElementTypeColorsController do
 
       else # but have to write it that way
         it 'raises ActiveRecord::RecordNotFound errors' do
-          expect do
+          expect {
             get 'show', :id => '1337', :format => 'xml'
-          end.to raise_error(ActiveRecord::RecordNotFound)
+          }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
     end

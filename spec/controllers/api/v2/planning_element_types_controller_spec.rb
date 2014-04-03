@@ -51,9 +51,9 @@ describe Api::V2::PlanningElementTypesController do
 
       describe 'with unknown project' do
         it 'raises ActiveRecord::RecordNotFound errors' do
-          expect do
+          expect {
             get 'index', :project_id => 'blah', :format => 'xml'
-          end.to raise_error(ActiveRecord::RecordNotFound)
+          }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 
@@ -114,17 +114,17 @@ describe Api::V2::PlanningElementTypesController do
 
       describe 'with unknown project' do
         it 'raises ActiveRecord::RecordNotFound errors' do
-          expect do
+          expect {
             get 'show', :project_id => 'blah', :id => '1337', :format => 'xml'
-          end.to raise_error(ActiveRecord::RecordNotFound)
+          }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 
       describe 'with unknown planning element type' do
         it 'raises ActiveRecord::RecordNotFound errors' do
-          expect do
+          expect {
             get 'show', :project_id => project.identifier, :id => '1337', :format => 'xml'
-          end.to raise_error(ActiveRecord::RecordNotFound)
+          }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 
@@ -134,9 +134,9 @@ describe Api::V2::PlanningElementTypesController do
         end
 
         it 'raises ActiveRecord::RecordNotFound errors' do
-          expect do
+          expect {
             get 'show', :project_id => project.identifier, :id => '1337', :format => 'xml'
-          end.to raise_error(ActiveRecord::RecordNotFound)
+          }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 
@@ -218,9 +218,9 @@ describe Api::V2::PlanningElementTypesController do
 
         else # but have to write it that way
           it 'raises ActiveRecord::RecordNotFound errors' do
-            expect do
+            expect {
               get 'show', :id => '1337', :format => 'xml'
-            end.to raise_error(ActiveRecord::RecordNotFound)
+            }.to raise_error(ActiveRecord::RecordNotFound)
           end
         end
       end

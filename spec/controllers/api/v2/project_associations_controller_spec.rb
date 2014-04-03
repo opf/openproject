@@ -124,9 +124,9 @@ describe Api::V2::ProjectAssociationsController do
 
         describe 'w/ the current user being a member' do
           it 'raises ActiveRecord::RecordNotFound errors' do
-            expect do
+            expect {
               get 'show', :project_id => project.id, :id => '1337', :format => 'xml'
-            end.to raise_error(ActiveRecord::RecordNotFound)
+            }.to raise_error(ActiveRecord::RecordNotFound)
           end
         end
       end

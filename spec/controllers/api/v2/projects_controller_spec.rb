@@ -106,9 +106,9 @@ describe Api::V2::ProjectsController do
 
       describe 'with unknown project' do
         it 'raises ActiveRecord::RecordNotFound errors' do
-          expect do
+          expect {
             get 'show', :id => 'unknown_project', :format => 'xml'
-          end.to raise_error(ActiveRecord::RecordNotFound)
+          }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 
