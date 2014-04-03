@@ -298,6 +298,7 @@ Feature: Scrum Master
      And Story D should be in the 2nd position of the sprint named Sprint 005
      And Story E should be the higher item of Story D
 
+  @javascript
   Scenario: View epic, stories, tasks, subtasks in the work_package list
    Given I am on the work_packages index page
     Then I should see "Epic 1" within "#content"
