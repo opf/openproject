@@ -157,7 +157,7 @@ describe WorkPackage do
           [:subject, :description, :type_id, :status_id, :priority_id,
            :start_date, :due_date, :estimated_hours, :assigned_to_id,
            :responsible_id, :parent_id].each do |a|
-            subject.should have_key(a), "Missing change for #{a.to_s}"
+            subject.should have_key(a.to_s), "Missing change for #{a.to_s}"
           end
         end
       end
@@ -195,7 +195,7 @@ describe WorkPackage do
 
     context "attachments" do
       let(:attachment) { FactoryGirl.build :attachment }
-      let(:attachment_id) { "attachments_#{attachment.id}".to_sym }
+      let(:attachment_id) { "attachments_#{attachment.id}" }
 
       before do
         work_package.attachments << attachment
@@ -240,7 +240,7 @@ describe WorkPackage do
                                               customized: work_package,
                                               custom_field: custom_field }
 
-      let(:custom_field_id) { "custom_fields_#{custom_value.custom_field_id}".to_sym }
+      let(:custom_field_id) { "custom_fields_#{custom_value.custom_field_id}" }
 
       shared_context "work package with custom value" do
         before do
