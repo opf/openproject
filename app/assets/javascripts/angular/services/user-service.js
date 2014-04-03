@@ -28,10 +28,23 @@
 
 angular.module('openproject.services')
 
-.service('UserService', ['$http', 'PathHelper', 'FunctionDecorators', function($http, PathHelper, FunctionDecorators) {
+.service('UserService', ['$http', 'PathHelper', 'WorkPackageLoadingHelper', function($http, PathHelper, WorkPackageLoadingHelper) {
   var registeredUserIds = [], cachedUsers = {};
 
   UserService = {
+    getUsers: function(projectIdentifier) {
+      var url, params;
+
+      if (projectIdentifier) {
+        url = PathHelper.apiProjectUsersPath(projectIdentifier);
+      } else {
+        url = PathHelper.apiUsersPath();
+        params = {status: 'all'};
+      }
+
+      return UserService.doQuery(url, params);
+    },
+
     registerUserId: function(id) {
       var user = cachedUsers[id];
       if (user) return user;
@@ -39,7 +52,7 @@ angular.module('openproject.services')
       registeredUserIds.push(id);
       cachedUsers[id] = { name: '', firstname: '', lastname: '' }; // create an empty object and fill its values on load
 
-      FunctionDecorators.withDelay(10, UserService.loadRegisteredUsers); // HACK
+      WorkPackageLoadingHelper.withDelay(10, UserService.loadRegisteredUsers); // HACK
       // TODO hook into a given promise chain to post-load user data, or if ngView is used trigger load on $viewContentLoaded
 
       return cachedUsers[id];
@@ -47,12 +60,11 @@ angular.module('openproject.services')
 
     loadRegisteredUsers: function() {
       if (registeredUserIds.length > 0) {
-        return $http.get(PathHelper.apiPrefix + PathHelper.usersPath(), {
-          params: { 'ids[]': registeredUserIds }
-        }).then(function(response){
-          UserService.storeUsers(response.data.users);
-          return cachedUsers;
-        });
+        return UserService.doQuery(PathHelper.apiUsersPath(), { 'ids[]': registeredUserIds })
+          .then(function(users){
+            UserService.storeUsers(users);
+            return cachedUsers;
+          });
       }
     },
 
@@ -65,7 +77,15 @@ angular.module('openproject.services')
         cachedUser.lastname = user.lastname;
         cachedUser.name = user.name;
       });
+    },
+
+    doQuery: function(url, params) {
+      return $http.get(url, { params: params })
+        .then(function(response){
+          return response.data.users;
+        });
     }
+
   };
 
   return UserService;

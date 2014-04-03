@@ -58,7 +58,7 @@ angular.module('openproject.workPackages.helpers')
       if (!object.custom_values) return null;
 
       var customValue = object.custom_values.filter(function(customValue){
-        return customValue.custom_field_id === customField.id;
+        return customValue && customValue.custom_field_id === customField.id;
       }).first();
 
       if(customValue) {

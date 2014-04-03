@@ -28,11 +28,21 @@
 
 angular.module('openproject.services')
 
-.service('WorkPackageService', ['$http', 'PathHelper', 'WorkPackagesHelper', function($http, PathHelper, WorkPackagesHelper) {
+.constant('DEFAULT_FILTER_PARAMS', {'fields[]': 'status_id', 'operators[status_id]': 'o'})
+
+.service('WorkPackageService', ['$http', 'PathHelper', 'WorkPackagesHelper', 'DEFAULT_FILTER_PARAMS', function($http, PathHelper, WorkPackagesHelper, DEFAULT_FILTER_PARAMS) {
 
   var WorkPackageService = {
-    getWorkPackages: function(projectId, query, paginationOptions) {
-      var url = projectId ? PathHelper.projectWorkPackagesPath(projectId) : PathHelper.workPackagesPath();
+    getWorkPackagesByQueryId: function(projectIdentifier, queryId) {
+      var url = projectIdentifier ? PathHelper.apiProjectWorkPackagesPath(projectIdentifier) : PathHelper.apiWorkPackagesPath();
+
+      var params = queryId ? { query_id: queryId } : DEFAULT_FILTER_PARAMS;
+
+      return WorkPackageService.doQuery(url, params);
+    },
+
+    getWorkPackages: function(projectIdentifier, query, paginationOptions) {
+      var url = projectIdentifier ? PathHelper.apiProjectWorkPackagesPath(projectIdentifier) : PathHelper.apiWorkPackagesPath();
       var params = angular.extend(query.toParams(), {
         page: paginationOptions.page,
         per_page: paginationOptions.perPage
@@ -41,26 +51,27 @@ angular.module('openproject.services')
       return WorkPackageService.doQuery(url, params);
     },
 
-    loadWorkPackageColumnsData: function(workPackages, columnNames) {
-      var url = PathHelper.workPackagesColumnDataPath();
+    loadWorkPackageColumnsData: function(workPackages, columnNames, group_by) {
+      var url = PathHelper.apiWorkPackagesColumnDataPath();
 
       var params = {
         'ids[]': workPackages.map(function(workPackage){
           return workPackage.id;
         }),
-        'column_names[]': columnNames
+        'column_names[]': columnNames,
+        'group_by': group_by
       };
 
       return WorkPackageService.doQuery(url, params);
     },
 
     // Note: Should this be on a project-service?
-    getWorkPackagesSums: function(projectId, columns){
+    getWorkPackagesSums: function(projectIdentifier, columns){
       var columnNames = columns.map(function(column){
         return column.name;
       });
 
-      var url = PathHelper.workPackagesSumsPath(projectId);
+      var url = PathHelper.apiWorkPackagesSumsPath(projectIdentifier);
 
       var params = {
         'column_names[]': columnNames
@@ -69,16 +80,22 @@ angular.module('openproject.services')
       return WorkPackageService.doQuery(url, params);
     },
 
-    augmentWorkPackagesWithColumnsData: function(workPackages, columns) {
-      var columnNames = columns.map(function(column){
+    augmentWorkPackagesWithColumnsData: function(workPackages, columns, group_by) {
+      var columnNames = columns.map(function(column) {
         return column.name;
       });
 
-      return WorkPackageService.loadWorkPackageColumnsData(workPackages, columnNames)
-        .then(function(columnsData){
-          angular.forEach(workPackages, function(workPackage, i) {
-            angular.forEach(columns, function(column, j){
-              WorkPackagesHelper.augmentWorkPackageWithData(workPackage, column.name, !!column.custom_field, columnsData[j][i]);
+      return WorkPackageService.loadWorkPackageColumnsData(workPackages, columnNames, group_by)
+        .then(function(data){
+          var columnsData = data.columns_data;
+          var columnsMeta = data.columns_meta;
+
+          angular.forEach(columns, function(column, i){
+            column.total_sum = columnsMeta.total_sums[i];
+            if (columnsMeta.group_sums) column.group_sums = columnsMeta.group_sums[i];
+
+            angular.forEach(workPackages, function(workPackage, j) {
+              WorkPackagesHelper.augmentWorkPackageWithData(workPackage, column.name, !!column.custom_field, columnsData[i][j]);
             });
           });
 

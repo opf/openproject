@@ -28,31 +28,52 @@
 
 angular.module('openproject.workPackages.controllers')
 
-.controller('WorkPackagesController', ['$scope', 'WorkPackagesTableHelper', 'Query', 'Sortation', 'WorkPackageService', function($scope, WorkPackagesTableHelper, Query, Sortation, WorkPackageService) {
+.controller('WorkPackagesController', ['$scope', '$window', 'WorkPackagesTableHelper', 'Query', 'Sortation', 'WorkPackageService', 'QueryService', 'PaginationService', 'WorkPackageLoadingHelper', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
+            function($scope, $window, WorkPackagesTableHelper, Query, Sortation, WorkPackageService, QueryService, PaginationService, WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
 
-  function initialSetup() {
-    $scope.projectIdentifier = gon.project_identifier;
-    $scope.operatorsAndLabelsByFilterType = gon.operators_and_labels_by_filter_type;
-    $scope.loading = false;
-    $scope.disableFilters = false;
+
+  function setUrlParams(location) {
+    $scope.projectIdentifier = location.pathname.split('/')[2];
+
+    var regexp = /query_id=(\d+)/g;
+    var match = regexp.exec(location.search);
+    if(match) $scope.query_id = match[1];
   }
 
-  function setupQuery() {
-    $scope.query = new Query(gon.query);
+  function initialSetup() {
+    $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
+    $scope.loading = false;
+    $scope.disableFilters = false;
 
-    sortation = new Sortation(gon.sort_criteria);
-    $scope.query.setSortation(sortation);
+    $scope.withLoading(WorkPackageService.getWorkPackagesByQueryId, [$scope.projectIdentifier, $scope.query_id])
+      .then($scope.setupWorkPackagesTable)
+      .then(initAvailableColumns);
+  }
 
-    // Columns
-    $scope.columns = gon.columns;
-    $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(gon.available_columns, $scope.columns);
+  function initQuery(queryData) {
+    $scope.query = new Query({
+      id: $scope.queryId,
+      displaySums: queryData.display_sums,
+      groupSums: queryData.group_sums,
+      sums: queryData.sums,
+      filters: queryData.filters,
+      columns: $scope.columns
+    }); // TODO init sortation according to queryData
 
-    $scope.currentSortation = gon.sort_criteria;
+    $scope.query.setSortation(new Sortation(queryData.sort_criteria));
 
-    angular.extend($scope.query, {
-      selectedColumns: $scope.columns
-    });
-  };
+    $scope.showFilters = $scope.query.filters.length > 0;
+
+    return $scope.query;
+  }
+
+  function initAvailableColumns() {
+    return QueryService.getAvailableColumns($scope.projectIdentifier)
+      .then(function(data){
+        $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(data.available_columns, $scope.columns);
+        return $scope.availableColumns;
+      });
+  }
 
   $scope.submitQueryForm = function(){
     jQuery("#selected_columns option").attr('selected',true);
@@ -60,63 +81,39 @@ angular.module('openproject.workPackages.controllers')
     return false;
   };
 
-  function setupPagination(json) {
-    $scope.paginationOptions = {
-      page: json.page,
-      perPage: json.per_page
-    };
-    $scope.perPageOptions = json.per_page_options;
-  }
-
   $scope.setupWorkPackagesTable = function(json) {
-    $scope.workPackageCountByGroup = json.work_package_count_by_group;
-    $scope.rows = WorkPackagesTableHelper.getRows(json.work_packages, $scope.query.group_by);
-    $scope.totalSums = json.sums;
-    $scope.groupSums = json.group_sums;
-    $scope.totalEntries = json.total_entries;
+    var meta = json.meta;
 
-    setupPagination(json);
+    if (!$scope.columns) $scope.columns = meta.columns;
+    if (!$scope.query) initQuery(meta.query);
+    PaginationService.setPerPageOptions(meta.per_page_options);
+    PaginationService.setPerPage(meta.per_page);
+    PaginationService.setPage(meta.page);
+
+    $scope.rows = WorkPackagesTableHelper.getRows(json.work_packages, $scope.query.group_by);
+
+    $scope.workPackageCountByGroup = meta.work_package_count_by_group;
+    $scope.totalEntries = meta.total_entries;
+    angular.forEach($scope.columns, function(column, i){
+      column.total_sum = meta.sums[i];
+      if (meta.group_sums) column.group_sums = meta.group_sums[i];
+    });
   };
 
-  // Initially setup scope via gon
-  initialSetup();
-  setupQuery(gon);
-  // Initialize work package table
-  $scope.setupWorkPackagesTable(gon);
-
   $scope.updateResults = function() {
-    $scope.withLoading(WorkPackageService.getWorkPackages, [$scope.projectIdentifier, $scope.query, $scope.paginationOptions])
+    return $scope.withLoading(WorkPackageService.getWorkPackages, [$scope.projectIdentifier, $scope.query, PaginationService.getPaginationOptions()])
       .then($scope.setupWorkPackagesTable);
   };
 
-
   function serviceErrorHandler(data) {
     // TODO RS: This is where we'd want to put an error message on the dom
-    $scope.loading = false;
+    $scope.isLoading = false;
   }
 
-  /**
-   * @name withLoading
-   *
-   * @description Wraps a data-loading function and manages the loading state within the scope
-   * @param {function} callback Function returning a promise
-   * @param {array} params Params forwarded to the callback
-   * @returns {promise} Promise returned by the callback
-   */
   $scope.withLoading = function(callback, params){
-    startedLoading();
-    return callback.apply(this, params)
-      .then(function(data){
-        finishedLoading();
-        return data;
-      }, serviceErrorHandler);
+    return WorkPackageLoadingHelper.withLoading($scope, callback, params, serviceErrorHandler);
   };
 
-  function startedLoading() {
-    $scope.loading = true;
-  }
-
-  function finishedLoading() {
-    $scope.loading = false;
-  }
+  setUrlParams($window.location);
+  initialSetup();
 }]);

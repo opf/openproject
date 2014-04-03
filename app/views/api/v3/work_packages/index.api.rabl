@@ -1,7 +1,6 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,19 +26,42 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class News::PreviewsController < ApplicationController
-  before_filter :find_model_object_and_project
+object false
 
-  model_object News
-
-  def create
-    @text = news_params[:description]
-    render :partial => 'common/preview'
+child @work_packages => :work_packages do
+  @column_names.each do |column_name|
+    node(column_name, :if => lambda{ |wp| wp.respond_to?(column_name) }) do |wp|
+      case wp.send(column_name)
+      when Category
+        wp.send(column_name).as_json(only: [:id, :name])
+      when Project
+        wp.send(column_name).as_json(only: [:id, :name])
+      when IssuePriority
+        wp.send(column_name).as_json(only: [:id, :name])
+      when Status
+        wp.send(column_name).as_json(only: [:id, :name])
+      when User
+        wp.send(column_name).as_json(only: [:id, :firstname], methods: :name)
+      when Version
+        wp.send(column_name).as_json(only: [:id, :name])
+      when WorkPackage
+        wp.send(column_name).as_json(only: [:id, :name])
+      else
+        wp.send(column_name)
+      end
+    end
   end
 
-private
-
-  def news_params
-    params.fetch(:news, {})
+  node(:custom_values) do |wp|
+    wp.custom_values_display_data @custom_field_column_names
   end
+
+  # add parent id by default to make hierarchies transparent
+  node :parent_id do |wp|
+    wp.parent_id
+  end
+end
+
+if @display_meta
+  node(:meta) { @work_packages_meta_data }
 end

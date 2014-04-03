@@ -28,21 +28,37 @@
 
 angular.module('openproject.models')
 
-.factory('Query', ['Filter', 'Sortation', function(Filter, Sortation) {
+.factory('Query', ['Filter', 'Sortation', 'AVAILABLE_WORK_PACKAGE_FILTERS', function(Filter, Sortation, AVAILABLE_WORK_PACKAGE_FILTERS) {
 
   Query = function (data, options) {
+    this.available_work_package_filters = AVAILABLE_WORK_PACKAGE_FILTERS;
+
     angular.extend(this, data, options);
+
     this.group_by = this.group_by || '';
 
-    if (this.filters === undefined) this.filters = [];
+    if (this.filters === undefined){
+      this.filters = [];
+    } else {
+      this.filters = this.filters.map(function(filterData){
+        return new Filter(filterData);
+      });
+    }
   };
 
   Query.prototype = {
+    /**
+     * @name toParams
+     *
+     * @description Serializes the query to parameters required by the backend
+     * @returns {params} Request parameters
+     */
     toParams: function() {
+
       return angular.extend.apply(this, [
         {
           'f[]': this.getFilterNames(this.getActiveConfiguredFilters()),
-          'c[]': this.selectedColumns.map(function(column) {
+          'c[]': this.columns.map(function(column) {
             return column.name;
            }),
           'group_by': this.group_by,
@@ -84,12 +100,8 @@ angular.module('openproject.models')
       if (!loading) filter.deactivated = true;
     },
 
-    getAvailableFilterValues: function(filterName) {
-      return this.available_work_package_filters[filterName].values;
-    },
-
     getFilterType: function(filterName) {
-      return this.available_work_package_filters[filterName].type;
+      return AVAILABLE_WORK_PACKAGE_FILTERS[filterName].type;
     },
 
     getActiveFilters: function() {

@@ -91,6 +91,9 @@ Redmine::AccessControl.map do |map|
                                   :copy_projects => [:copy, :copy_project],
                                   :members => [:paginate_users]
                                  }, :require => :member
+  map.permission :load_column_data, {
+                 :work_packages => [ :column_data ]
+                 }
 
   map.project_module :work_package_tracking do |map|
     # Issue categories
@@ -101,8 +104,8 @@ Redmine::AccessControl.map do |map|
                                          :context_menus => [:issues],
                                          :versions => [:index, :show, :status_by],
                                          :journals => [:index, :diff],
-                                         :queries => :index,
-                                         :work_packages => [:show, :index, :column_data], # TODO move column_data to API
+                                         :queries => [:index, :available_columns],
+                                         :work_packages => [:show, :index],
                                          :'work_packages/reports' => [:report, :report_details],
                                          :planning_elements => [:index, :all, :show, :recycle_bin],
                                          :planning_element_journals => [:index]}
@@ -148,7 +151,7 @@ Redmine::AccessControl.map do |map|
   end
 
   map.project_module :news do |map|
-    map.permission :manage_news, {:news => [:new, :create, :edit, :update, :destroy], :'news/comments' => [:destroy]}, :require => :member
+    map.permission :manage_news, {:news => [:new, :create, :edit, :update, :destroy, :preview], :'news/comments' => [:destroy]}, :require => :member
     map.permission :view_news, {:news => [:index, :show]}, :public => true
     map.permission :comment_news, {:'news/comments' => :create}
   end
@@ -180,9 +183,9 @@ Redmine::AccessControl.map do |map|
   map.project_module :boards do |map|
     map.permission :manage_boards, {:boards => [:new, :create, :edit, :update, :move, :destroy]}, :require => :member
     map.permission :view_messages, {:boards => [:index, :show], :messages => [:show]}, :public => true
-    map.permission :add_messages, {:messages => [:new, :create, :reply, :quote]}
-    map.permission :edit_messages, {:messages => [:edit, :update]}, :require => :member
-    map.permission :edit_own_messages, {:messages => [:edit, :update]}, :require => :loggedin
+    map.permission :add_messages, {:messages => [:new, :create, :reply, :quote, :preview]}
+    map.permission :edit_messages, {:messages => [:edit, :update, :preview]}, :require => :member
+    map.permission :edit_own_messages, {:messages => [:edit, :update, :preview]}, :require => :loggedin
     map.permission :delete_messages, {:messages => :destroy}, :require => :member
     map.permission :delete_own_messages, {:messages => :destroy}, :require => :loggedin
   end
@@ -360,7 +363,7 @@ end
 Redmine::Activity.map do |activity|
   activity.register :work_packages, class_name: 'Activity::WorkPackageActivityProvider'
   activity.register :changesets, class_name: 'Activity::ChangesetActivityProvider'
-  activity.register :news, class_name: 'Activity::NewsActivityProvider', default: false 
+  activity.register :news, class_name: 'Activity::NewsActivityProvider', default: false
   activity.register :wiki_edits, class_name: 'Activity::WikiContentActivityProvider', default: false
   activity.register :messages, class_name: 'Activity::MessageActivityProvider', default: false
   activity.register :time_entries, class_name: 'Activity::TimeEntryActivityProvider', default: false

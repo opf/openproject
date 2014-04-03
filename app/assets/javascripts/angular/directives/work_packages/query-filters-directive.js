@@ -37,8 +37,6 @@ angular.module('openproject.workPackages.directives')
     compile: function(tElement) {
       return {
         pre: function(scope) {
-          scope.showFilters = scope.query.filters.length > 0;
-
           scope.$watch('filterToBeAdded', function(filterName) {
             if (filterName) {
               scope.query.addFilter(filterName);
@@ -46,10 +44,6 @@ angular.module('openproject.workPackages.directives')
             }
           });
 
-          scope.query.filters = scope.query.filters.map(function(filter){
-            var name = Object.keys(filter)[0];
-            return new Filter(angular.extend(filter[name], { name: name }));
-          });
         }
       };
     }

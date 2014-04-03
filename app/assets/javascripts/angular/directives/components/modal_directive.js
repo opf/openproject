@@ -36,7 +36,9 @@ angular.module('openproject.uiComponents')
     },
     link: function(scope, element, attributes) {
       element.on('click', function(e){
-        modalHelperInstance.createModal(scope.target, function (modalDiv) {});
+        e.preventDefault();
+
+        modalHelperInstance.createModal(scope.target || attributes['href'], function (modalDiv) {});
       });
     }
   };

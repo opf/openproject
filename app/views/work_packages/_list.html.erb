@@ -26,13 +26,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= include_gon %>
 
 <%= form_tag({}) do -%>
   <%= hidden_field_tag 'back_url', url_for(params) %>
   <div class="autoscroll">
 
-    <work-packages-table project-identifier="projectIdentifier"
+    <work-packages-table ng-if="rows && columns"
+                         project-identifier="projectIdentifier"
                          columns="columns"
                          rows="rows"
                          query="query"
@@ -47,11 +47,10 @@ See doc/COPYRIGHT.rdoc for more details.
                          with-loading="withLoading">
     </work-packages-table>
 
-    <table-pagination pagination-options="paginationOptions"
-                      per-page-options="perPageOptions"
-                      total-entries="totalEntries"
+    <table-pagination total-entries="totalEntries"
                       update-results="updateResults()">
     </table-pagination>
+
     <work-packages-loading>
     </work-packages-loading>
 

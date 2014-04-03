@@ -101,7 +101,7 @@ angular.module('openproject.timelines.helpers')
     };
 
     FilterQueryStringBuilder.prototype.buildFilterDataForValue = function(key, value) {
-      if (value instanceof Array) {
+      if (Array.isArray(value)) {
         this.prepareFilterDataForKeyAndArrayOfValues(key, value);
       } else {
         this.prepareFilterDataForKeyAndValue(key, value);

@@ -119,6 +119,7 @@ module OpenProject
     config.assets.precompile.unshift -> (path) {
       (extension = File.extname(path)).present? and extension.in?(precompile_whitelist)
     }
+    config.assets.precompile += %w(jquery-ui/themes/base/jquery-ui.css)
 
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true
