@@ -152,7 +152,7 @@ class AccountController < ApplicationController
           @user.auth_source_id = session[:auth_source_registration][:auth_source_id]
           session[:auth_source_registration] = nil
           self.logged_user = @user
-          flash[:notice] = l(:notice_account_activated)
+          flash[:notice] = l(:notice_account_registered_and_logged_in)
           redirect_to :controller => '/my', :action => 'account'
         end
       else
@@ -378,7 +378,7 @@ class AccountController < ApplicationController
     user.last_login_on = Time.now
     if user.save
       self.logged_user = user
-      flash[:notice] = l(:notice_account_activated)
+      flash[:notice] = l(:notice_account_registered_and_logged_in)
       redirect_according_to_first_login(user)
     else
       yield if block_given?

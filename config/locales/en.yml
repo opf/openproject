@@ -1094,6 +1094,7 @@ en:
   notice_account_update_failed: "Account setting could not be safed. Please have a look at your account page."
   notice_account_updated: "Account was successfully updated."
   notice_account_wrong_password: "Wrong password"
+  notice_account_registered_and_logged_in: "Welcome, your account has been activated. You are logged in now."
   notice_api_access_key_reseted: "Your API access key was reset."
   notice_can_t_change_password: "This account uses an external authentication source. Impossible to change the password."
   notice_default_data_loaded: "Default configuration successfully loaded."
