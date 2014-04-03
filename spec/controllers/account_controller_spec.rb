@@ -29,6 +29,8 @@
 require 'spec_helper'
 
 describe AccountController do
+  render_views
+
   after do
     User.delete_all
     User.current = nil
