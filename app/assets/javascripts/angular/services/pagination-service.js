@@ -4,7 +4,9 @@ angular.module('openproject.services')
   var paginationOptions = {
     page: DEFAULT_PAGINATION_OPTIONS.page,
     perPage: DEFAULT_PAGINATION_OPTIONS.perPage,
-    perPageOptions: DEFAULT_PAGINATION_OPTIONS.perPageOptions
+    perPageOptions: DEFAULT_PAGINATION_OPTIONS.perPageOptions,
+    maxVisiblePageOptions: DEFAULT_PAGINATION_OPTIONS.maxVisiblePageOptions,
+    optionsTruncationSize: DEFAULT_PAGINATION_OPTIONS.optionsTruncationSize
   };
 
   PaginationService = {
@@ -19,6 +21,12 @@ angular.module('openproject.services')
     },
     getPerPage: function() {
       return paginationOptions.perPage;
+    },
+    getMaxVisiblePageOptions: function() {
+      return paginationOptions.maxVisiblePageOptions;
+    },
+    getOptionsTruncationSize: function() {
+      return paginationOptions.optionsTruncationSize;
     },
     setPerPage: function(perPage) {
       paginationOptions.perPage = perPage;
