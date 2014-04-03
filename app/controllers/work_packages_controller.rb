@@ -200,6 +200,8 @@ class WorkPackagesController < ApplicationController
   end
 
   def index
+    load_work_packages
+
     respond_to do |format|
       format.html do
         render :index, :locals => { :query => @query,
@@ -207,7 +209,6 @@ class WorkPackagesController < ApplicationController
                        :layout => !request.xhr?
       end
       format.csv do
-        load_work_packages
         serialized_work_packages = WorkPackage::Exporter.csv(@work_packages, @project)
         charset = "charset=#{l(:general_csv_encoding).downcase}"
 
@@ -215,7 +216,6 @@ class WorkPackagesController < ApplicationController
                                             :filename => 'export.csv')
       end
       format.pdf do
-        load_work_packages
         serialized_work_packages = WorkPackage::Exporter.pdf(@work_packages,
                                                              @project,
                                                              @query,
@@ -227,7 +227,6 @@ class WorkPackagesController < ApplicationController
                   :filename => 'export.pdf')
       end
       format.atom do
-        load_work_packages
         render_feed(@work_packages,
                     :title => "#{@project || Setting.app_title}: #{l(:label_work_package_plural)}")
       end
