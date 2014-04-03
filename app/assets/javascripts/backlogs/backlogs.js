@@ -33,7 +33,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-//= require jquery.ui.all
+//= require jquery-ui
 //= require backlogs/jquery.flot/jquery.flot
 //= require backlogs/jquery.flot/excanvas
 //= require backlogs/jquery.jeditable.mini

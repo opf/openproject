@@ -34,8 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++*/
 
-/* *
- *= require jquery.ui.all
+/*
  *= require backlogs/global
  *= require backlogs/global_print
  *= require backlogs/livepipe-ui/base
