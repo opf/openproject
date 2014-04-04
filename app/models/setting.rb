@@ -152,9 +152,11 @@ class Setting < ActiveRecord::Base
 
   def self.[]=(name, v)
     setting = find_or_default(name)
+    old_value = setting.value
     setting.value = (v ? v : "")
     Rails.cache.delete(cache_key(name))
     setting.save
+    fire_callbacks(name, setting.value, old_value)
     setting.value
   end
 
@@ -231,4 +233,7 @@ private
     # accessing settings a lot.
     @settings_table_exists_yet ||= connection.table_exists?(table_name)
   end
+
+  require_dependency 'setting/callbacks'
+  extend Callbacks
 end
