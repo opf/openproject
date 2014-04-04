@@ -875,45 +875,45 @@ class WorkPackage < ActiveRecord::Base
 
   # Extracted from the ReportsController.
   def self.by_type(project)
-    count_and_group_by(:project => project,
+    count_and_group_by :project => project,
                        :field => 'type_id',
-                       :joins => Type.table_name)
+                       :joins => Type.table_name
   end
 
   def self.by_version(project)
-    count_and_group_by(:project => project,
+    count_and_group_by :project => project,
                        :field => 'fixed_version_id',
-                       :joins => Version.table_name)
+                       :joins => Version.table_name
   end
 
   def self.by_priority(project)
-    count_and_group_by(:project => project,
+    count_and_group_by :project => project,
                        :field => 'priority_id',
-                       :joins => IssuePriority.table_name)
+                       :joins => IssuePriority.table_name
   end
 
   def self.by_category(project)
-    count_and_group_by(:project => project,
+    count_and_group_by :project => project,
                        :field => 'category_id',
-                       :joins => Category.table_name)
+                       :joins => Category.table_name
   end
 
   def self.by_assigned_to(project)
-    count_and_group_by(:project => project,
+    count_and_group_by :project => project,
                        :field => 'assigned_to_id',
-                       :joins => User.table_name)
+                       :joins => User.table_name
   end
 
   def self.by_responsible(project)
-    count_and_group_by(:project => project,
+    count_and_group_by :project => project,
                        :field => 'responsible_id',
-                       :joins => User.table_name)
+                       :joins => User.table_name
   end
 
   def self.by_author(project)
-    count_and_group_by(:project => project,
+    count_and_group_by :project => project,
                        :field => 'author_id',
-                       :joins => User.table_name)
+                       :joins => User.table_name
   end
 
   def self.by_subproject(project)
@@ -1020,13 +1020,15 @@ class WorkPackage < ActiveRecord::Base
   end
 
   # Query generator for selecting groups of issue counts for a project
-  # based on specific criteria
+  # based on specific criteria.
+  # DANGER: :field and :joins MUST never come from user input, because
+  # they are not SQL-escaped.
   #
   # Options
   # * project - Project to search in.
   # * field - String. Issue field to key off of in the grouping.
   # * joins - String. The table name to join against.
-  def self.count_and_group_by(options)
+  private_class_method def self.count_and_group_by(options)
     project = options.delete(:project)
     select_field = options.delete(:field)
     joins = options.delete(:joins)
