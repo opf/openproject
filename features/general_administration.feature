@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: General Timelines adminstration
+Feature: General Timelines administration
   As a ChiliProject Admin
   I want to see 'No data to display' instead of an empty table
   So that I can see the reason why I cannot see anything

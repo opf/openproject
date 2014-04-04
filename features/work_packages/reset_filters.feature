@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Resetting filteres on work packages
+Feature: Resetting filters on work packages
   Background:
     Given there is a project named "project1"
     And the project "project1" has the following types:

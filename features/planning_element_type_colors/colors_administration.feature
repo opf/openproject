@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Color Adminstration
+Feature: Color Administration
   As a ChiliProject Admin
   I want to configure which colors are available
   So that I can support my teams with useful settings while still controlling
