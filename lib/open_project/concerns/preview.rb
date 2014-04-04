@@ -44,8 +44,8 @@
 # end                                                                          #
 #                                                                              #
 # The first parameter 'param_name' specifies the key in the params object that #
-# contains the values. The second parameter 'attributes' speciffies the value  #
-# keys. Optionally, if 'param_name' is not equivallent to a class name, you    #
+# contains the values. The second parameter 'attributes' specifies the value   #
+# keys. Optionally, if 'param_name' is not equivalent to a class name, you     #
 # can pass the objects class as third parameter.                               #
 #                                                                              #
 # For object identification #parse_preview_data_helper uses the params         #
