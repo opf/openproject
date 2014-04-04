@@ -58,7 +58,7 @@ module OpenProject::Plugins
 
       # Define assets provided by the plugin
       base.send(:define_method, :assets) do |assets|
-        base.initializer '#{engine_name}.precompile_assets' do |app|
+        base.initializer "#{engine_name}.precompile_assets" do |app|
           app.config.assets.precompile += assets.to_a
         end
       end
