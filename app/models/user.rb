@@ -134,8 +134,6 @@ class User < Principal
 
   attr_accessor :password, :password_confirmation
   attr_accessor :last_before_login_on
-  # Prevents unauthorized assignments
-  attr_protected :login, :admin, :password, :password_confirmation
 
   validates_presence_of :login,
                         :firstname,
