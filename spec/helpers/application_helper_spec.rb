@@ -471,13 +471,13 @@ describe ApplicationHelper do
         it { should eq("<p><a href=\"/projects/onlinestore/wiki/Unknown_page\" class=\"wiki-page new\">Unknown page</a></p>") }
       end
 
-      context "Striked through link to wiki page" do
+      context "Struck through link to wiki page" do
         subject { textilizable('-[[Another page|Page]]-') }
 
         it { should eql("<p><del><a href=\"/projects/#{project.identifier}/wiki/Another_page\" class=\"wiki-page\">Page</a></del></p>") }
       end
 
-      context "Named striked through link to wiki page" do
+      context "Named struck through link to wiki page" do
         subject { textilizable('-[[Another page|Page]] link-') }
 
         it { should eql("<p><del><a href=\"/projects/#{project.identifier}/wiki/Another_page\" class=\"wiki-page\">Page</a> link</del></p>") }

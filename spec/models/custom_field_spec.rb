@@ -286,7 +286,7 @@ describe CustomField do
 
     describe "WITH a list field
               WITH two translations
-              WITH possible_values beeing empty in a fallbacked translation" do
+              WITH possible_values being empty in a fallbacked translation" do
 
       before do
         field.field_format = 'list'
@@ -302,7 +302,7 @@ describe CustomField do
     end
 
     describe "WITH a list field
-              WITH the field beeing required
+              WITH the field being required
               WITH two translations
               WITH neither translation defining a default_value" do
 
@@ -320,8 +320,8 @@ describe CustomField do
     end
 
     describe "WITH a boolean field
-              WITH the field beeing required
-              WITH two translations beeing provided
+              WITH the field being required
+              WITH two translations being provided
               WITH only one translation specifying a default value" do
 
       before do

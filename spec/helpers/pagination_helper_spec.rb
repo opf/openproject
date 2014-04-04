@@ -224,7 +224,7 @@ describe PaginationHelper do
       end
     end
 
-    it "preferes the value stored in the session if it is valid according to the settings" do
+    it "prefers the value stored in the session if it is valid according to the settings" do
       with_settings :per_page_options => '1,2,3' do
         session[:per_page] = 2
 
@@ -240,7 +240,7 @@ describe PaginationHelper do
       end
     end
 
-    it "uses limit synonomously to per_page" do
+    it "uses limit synonymously to per_page" do
       with_settings :per_page_options => '1,2,3' do
         limit = 2
 
@@ -248,7 +248,7 @@ describe PaginationHelper do
       end
     end
 
-    it "preferes per_page over limit" do
+    it "prefers per_page over limit" do
       with_settings :per_page_options => '1,2,3' do
         limit = 2
         per_page = 3

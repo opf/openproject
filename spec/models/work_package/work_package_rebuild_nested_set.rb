@@ -242,7 +242,7 @@ describe WorkPackage, "rebuilding nested set" do
     end
 
     describe "WITH two three issues deep trees
-              WITH the right value of each grandchildren beeing equal to the left value
+              WITH the right value of each grandchildren being equal to the left value
               WITH selecting to fix only one tree" do
 
       before do

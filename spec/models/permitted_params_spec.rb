@@ -225,7 +225,7 @@ describe PermittedParams do
       PermittedParams.new(params, user).new_work_package.should == hash
     end
 
-    it "should permit prioritiy_id" do
+    it "should permit priority_id" do
       hash = { "priority_id" => "1" }
 
       params = ActionController::Parameters.new(:work_package => hash)
@@ -387,7 +387,7 @@ describe PermittedParams do
       PermittedParams.new(params, user).update_work_package.should == hash
     end
 
-    it "should permit prioritiy_id" do
+    it "should permit priority_id" do
       hash = { "priority_id" => "1" }
 
       params = ActionController::Parameters.new(:work_package => hash)

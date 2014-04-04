@@ -224,7 +224,7 @@ describe TypesController do
       end
     end
 
-    describe "detroy standard type should fail" do
+    describe "destroy standard type should fail" do
       let(:params) { { 'id' => type3.id } }
 
       before do
