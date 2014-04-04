@@ -43,8 +43,9 @@ angular.module('openproject.models')
     initFilters: function() {
       this.available_work_package_filters = AVAILABLE_WORK_PACKAGE_FILTERS;
       if (this.project_id){
-        // Remove project
-        delete this.available_work_package_filters["project_id"]
+        delete this.available_work_package_filters["project_id"];
+      } else {
+        delete this.available_work_package_filters["subproject_id"];
       }
       // TODO RS: Need to assertain if there are any sub-projects and remove this filter if not.
       // The project will have to be fetch prior to this.
