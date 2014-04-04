@@ -9,6 +9,12 @@ angular.module('openproject.services')
       return ProjectService.doQuery(url);
     },
 
+    getProjects: function() {
+      var url = PathHelper.apiV3ProjectsPath();
+
+      return ProjectService.doQuery(url);
+    },
+
     getSubProjects: function(projectIdentifier) {
       var url = PathHelper.apiProjectSubProjectsPath(projectIdentifier);
 

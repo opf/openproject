@@ -125,7 +125,7 @@ OpenProject::Application.routes.draw do
         get :available_columns, on: :collection
       end
 
-      resources :projects, only: [:show] do
+      resources :projects, only: [:show, :index] do
         resources :work_packages, only: [:index] do
           get :column_sums, on: :collection
         end

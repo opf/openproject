@@ -34,8 +34,11 @@ angular.module('openproject.helpers')
     apiPrefixV2: '/api/v2',
     apiPrefixV3: '/api/v3',
 
+    projectsPath: function(){
+      return '/projects';
+    },
     projectPath: function(projectIdentifier) {
-      return '/projects/' + projectIdentifier;
+      return PathHelper.projectsPath() + '/' + projectIdentifier;
     },
     workPackagesPath: function() {
       return '/work_packages';
@@ -61,6 +64,9 @@ angular.module('openproject.helpers')
 
     apiV2ProjectPath: function(projectIdentifier) {
       return PathHelper.apiPrefixV2 + PathHelper.projectPath(projectIdentifier);
+    },
+    apiV3ProjectsPath: function(){
+      return PathHelper.apiPrefixV3 + PathHelper.projectsPath();
     },
     apiV3ProjectPath: function(projectIdentifier) {
       return PathHelper.apiPrefixV3 + PathHelper.projectPath(projectIdentifier);

@@ -31,9 +31,16 @@ module Api
   module V3
 
     class ProjectsController < ApplicationController
-      before_filter :find_project
-
       include ::Api::V3::ApiController
+
+      before_filter :find_project, except: [:index]
+
+      def index
+        @projects = Project.visible
+        respond_to do |format|
+          format.api
+        end
+      end
 
       def show
         respond_to do |format|
