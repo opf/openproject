@@ -232,7 +232,9 @@ describe AccountController do
       before do
         allow(Setting).to receive(:self_registration).and_return("0")
         allow(Setting).to receive(:self_registration?).and_return(false)
+        allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false)
         allow(AuthSource).to receive(:authenticate).and_return({:login => 'foo', :lastname => 'Smith', :auth_source_id => 66})
+
         post :login, :username => 'foo', :password => 'bar'
       end
 
