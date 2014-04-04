@@ -48,13 +48,16 @@ angular.module('openproject.workPackages.controllers', ['openproject.models', 'o
 angular.module('openproject.workPackages.directives', ['openproject.uiComponents', 'openproject.services']);
 
 // main app
-var openprojectApp = angular.module('openproject', ['ui.select2', 'ui.date', 'openproject.uiComponents', 'openproject.timelines', 'openproject.workPackages', 'ngAnimate']);
+var openprojectApp = angular.module('openproject', ['ui.select2', 'ui.date', 'openproject.uiComponents', 'openproject.timelines', 'openproject.workPackages', 'ngAnimate', 'tmh.dynamicLocale']);
 
 openprojectApp
-  .config(['$locationProvider', '$httpProvider', function($locationProvider, $httpProvider) {
+  .config(['$locationProvider', '$httpProvider', 'tmhDynamicLocaleProvider', function($locationProvider, $httpProvider, tmhDynamicLocaleProvider) {
     $locationProvider.html5Mode(true);
     $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = jQuery('meta[name=csrf-token]').attr('content'); // TODO find a more elegant way to keep the session alive
+    tmhDynamicLocaleProvider.localeLocationPattern('/assets/angular-i18n/angular-locale_{{locale}}.js');
   }])
-  .run(['$http', function($http){
+  .run(['$http', 'tmhDynamicLocale', 'I18n', function($http, tmhDynamicLocale, I18n){
     $http.defaults.headers.common.Accept = 'application/json';
+
+    tmhDynamicLocale.set(I18n.locale === 'de' ? 'de-de' : 'en-us');
   }]);
