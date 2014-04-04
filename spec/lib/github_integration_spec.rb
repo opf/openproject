@@ -222,7 +222,7 @@ describe OpenProject::GithubIntegration do
       expect(wp3.journals.count).to equal(journal_count[2] + 0)
       expect(wp4.journals.count).to equal(journal_count[3] + 0)
 
-      expect(wp1.journals.last.notes).to include('PR Referenced')
+      expect(wp1.journals.last.notes).to include('Referenced')
     end
   end
 end
