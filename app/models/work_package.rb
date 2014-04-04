@@ -1020,13 +1020,15 @@ class WorkPackage < ActiveRecord::Base
   end
 
   # Query generator for selecting groups of issue counts for a project
-  # based on specific criteria
+  # based on specific criteria.
+  # DANGER: :field and :joins MUST never come from user input, because
+  # they are not SQL-escaped.
   #
   # Options
   # * project - Project to search in.
   # * field - String. Issue field to key off of in the grouping.
   # * joins - String. The table name to join against.
-  def self.count_and_group_by(options)
+  private_class_method def self.count_and_group_by(options)
     project = options.delete(:project)
     select_field = options.delete(:field)
     joins = options.delete(:joins)
