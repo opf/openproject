@@ -29,10 +29,10 @@
 
 class PermittedParams < Struct.new(:params, :user)
 
-  # This class intends to provide a method for all params hashes comming from the
+  # This class intends to provide a method for all params hashes coming from the
   # client and that are used for mass assignment.
   #
-  # As such, please make it a deliberate decission to whitelist attributes.
+  # As such, please make it a deliberate decision to whitelist attributes.
   #
   # This implementation depends on the strong_parameters gem. For further
   # information see here: https://github.com/rails/strong_parameters
@@ -160,8 +160,8 @@ class PermittedParams < Struct.new(:params, :user)
   end
 
   def query
-    # there is a wierd bug in strong_parameters gem which makes the permit call
-    # on the sort_criteria pattern return the sort_criteria-hash contens AND
+    # there is a weird bug in strong_parameters gem which makes the permit call
+    # on the sort_criteria pattern return the sort_criteria-hash contents AND
     # the sort_criteria hash itself (again with content) in the same hash.
     # Here we try to circumvent this
     p = params.require(:query).permit(*self.class.permitted_attributes[:query])

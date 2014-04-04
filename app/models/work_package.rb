@@ -28,7 +28,7 @@
 #++
 
 # While loading the Issue class below, we lazy load the Project class. Which itself need WorkPackage.
-# So we create an 'emtpy' Issue class first, to make Project happy.
+# So we create an 'empty' Issue class first, to make Project happy.
 
 class WorkPackage < ActiveRecord::Base
 
@@ -471,7 +471,7 @@ class WorkPackage < ActiveRecord::Base
   end
 
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  # Returns the mail adresses of users that should be notified
+  # Returns the mail addresses of users that should be notified
   def recipients
     notified = project.notified_users
     # Author and assignee are always notified unless they have been
@@ -1006,11 +1006,11 @@ class WorkPackage < ActiveRecord::Base
   def close_duplicates
     if closing?
       duplicates.each do |duplicate|
-        # Reload is need in case the duplicate was updated by a previous duplicate
+        # Reload is needed in case the duplicate was updated by a previous duplicate
         duplicate.reload
         # Don't re-close it if it's already closed
         next if duplicate.closed?
-        # Implicitely creates a new journal
+        # Implicitly creates a new journal
         duplicate.update_attribute :status, self.status
         # Same user and notes
         duplicate.journals.last.user = current_journal.user

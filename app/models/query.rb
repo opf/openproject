@@ -323,7 +323,7 @@ class Query < ActiveRecord::Base
 
       operator = filter.operator
 
-      # "me" value subsitution
+      # "me" value substitution
       if @@user_filters.include? field
         if values.delete("me")
           if User.current.logged?
