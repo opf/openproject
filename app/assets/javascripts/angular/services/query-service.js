@@ -71,7 +71,7 @@ angular.module('openproject.services')
             retrieveAvailableValues = GroupService.getGroups();
             break;
           case 'project':
-            retrieveAvailableValues = ProjectService.getProject();
+            retrieveAvailableValues = ProjectService.getProjects();
             break;
           case 'sub_project':
             retrieveAvailableValues = ProjectService.getSubProjects(projectIdentifier);
