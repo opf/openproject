@@ -53,6 +53,7 @@ angular.module('openproject.workPackages.controllers')
   function initQuery(queryData) {
     $scope.query = new Query({
       id: $scope.queryId,
+      project_id: queryData.project_id,
       displaySums: queryData.display_sums,
       groupSums: queryData.group_sums,
       sums: queryData.sums,

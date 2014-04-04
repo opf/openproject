@@ -55,6 +55,9 @@ angular.module('openproject.helpers')
     versionPath: function(versionId) {
       return PathHelper.versionsPath() + '/' + versionId;
     },
+    subProjectsPath: function() {
+      return '/sub_projects';
+    },
 
     apiV2ProjectPath: function(projectIdentifier) {
       return PathHelper.apiPrefixV2 + PathHelper.projectPath(projectIdentifier);
@@ -67,6 +70,9 @@ angular.module('openproject.helpers')
     },
     apiProjectWorkPackagesPath: function(projectIdentifier) {
       return PathHelper.apiV3ProjectPath(projectIdentifier) + PathHelper.workPackagesPath();
+    },
+    apiProjectSubProjectsPath: function(projectIdentifier) {
+      return PathHelper.apiV3ProjectPath(projectIdentifier) + PathHelper.subProjectsPath();
     },
     apiAvailableColumnsPath: function() {
       return PathHelper.apiPrefixV3 + '/queries/available_columns';
