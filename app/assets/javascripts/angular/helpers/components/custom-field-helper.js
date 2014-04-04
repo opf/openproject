@@ -52,12 +52,13 @@ angular.module('openproject.helpers')
         case 'bool':
           return CustomFieldHelper.booleanCustomFieldValue(value);
         case 'user':
-          if (users && users[value]) {
-            // try to look up users
-            return users.name;
+          // not the nicest piece of code, but to be discarded soon
+          if (users) {
+            // try to look up users, assume value is an id
+            if (users[value]) return users[value].name;
           } else {
-            // return user id
-            return value.name;
+            // assume value is already a user object
+            if (value) return value.name;
           }
           break;
         case 'int':
