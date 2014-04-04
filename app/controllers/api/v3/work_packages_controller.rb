@@ -26,8 +26,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-
-
 module Api
   module V3
 
@@ -186,7 +184,7 @@ module Api
           work_packages.map do |work_package|
             custom_value = work_package.custom_values.find_by_custom_field_id($1)
             if display
-              work_package.custom_value_display(custom_value)
+              work_package.get_cast_custom_value_with_meta(custom_value)
             else
               custom_field.cast_value custom_value.try(:value)
             end
