@@ -107,10 +107,10 @@ class Version < ActiveRecord::Base
   end
 
   def behind_schedule?
-    if completed_pourcent == 100
+    if completed_percent == 100
       return false
     elsif due_date && start_date
-      done_date = start_date + ((due_date - start_date+1)* completed_pourcent/100).floor
+      done_date = start_date + ((due_date - start_date+1)* completed_percent/100).floor
       return done_date <= Date.today
     else
       false # No issues so it's not late
@@ -119,7 +119,7 @@ class Version < ActiveRecord::Base
 
   # Returns the completion percentage of this version based on the amount of open/closed issues
   # and the time spent on the open issues.
-  def completed_pourcent
+  def completed_percent
     if issues_count == 0
       0
     elsif open_issues_count == 0
@@ -128,15 +128,17 @@ class Version < ActiveRecord::Base
       issues_progress(false) + issues_progress(true)
     end
   end
+  alias_method :completed_pourcent, :completed_percent
 
   # Returns the percentage of issues that have been marked as 'closed'.
-  def closed_pourcent
+  def closed_percent
     if issues_count == 0
       0
     else
       issues_progress(false)
     end
   end
+  alias_method :closed_pourcent, :closed_percent
 
   # Returns true if the version is overdue: due date reached and some open issues
   def overdue?
