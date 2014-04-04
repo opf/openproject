@@ -60,6 +60,8 @@ See doc/COPYRIGHT.rdoc for more details.
 * Fix: Use correct questions for deletion of documents/files in rake tasks
 * Fix: Use URL helpers for forum routes
 * Fix: Back URL verification
+* Fix: Asset require for plug-ins
+* Fix: at.who styling
 
 ## 3.0.0pre51
 
