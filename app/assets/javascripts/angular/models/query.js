@@ -31,22 +31,32 @@ angular.module('openproject.models')
 .factory('Query', ['Filter', 'Sortation', 'AVAILABLE_WORK_PACKAGE_FILTERS', function(Filter, Sortation, AVAILABLE_WORK_PACKAGE_FILTERS) {
 
   Query = function (data, options) {
-    this.available_work_package_filters = AVAILABLE_WORK_PACKAGE_FILTERS;
 
     angular.extend(this, data, options);
 
     this.group_by = this.group_by || '';
 
-    if (this.filters === undefined){
-      this.filters = [];
-    } else {
-      this.filters = this.filters.map(function(filterData){
-        return new Filter(filterData);
-      });
-    }
+    this.initFilters();
   };
 
   Query.prototype = {
+    initFilters: function() {
+      this.available_work_package_filters = AVAILABLE_WORK_PACKAGE_FILTERS;
+      if (this.project_id){
+        // Remove project
+        delete this.available_work_package_filters["project_id"]
+      }
+      // TODO RS: Need to assertain if there are any sub-projects and remove this filter if not.
+      // The project will have to be fetch prior to this.
+
+      if (this.filters === undefined){
+        this.filters = [];
+      } else {
+        this.filters = this.filters.map(function(filterData){
+          return new Filter(filterData);
+        });
+      }
+    },
     /**
      * @name toParams
      *

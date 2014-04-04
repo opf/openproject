@@ -133,6 +133,7 @@ OpenProject::Application.routes.draw do
           get :available_columns, on: :collection
         end
         resources :versions, only: [:index]
+        get :sub_projects
       end
 
       resources :groups, only: [:index]

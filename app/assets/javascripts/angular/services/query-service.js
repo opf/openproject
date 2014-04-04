@@ -28,7 +28,8 @@
 
 angular.module('openproject.services')
 
-.service('QueryService', ['$http', 'PathHelper', '$q', 'AVAILABLE_WORK_PACKAGE_FILTERS', 'StatusService', 'TypeService', 'PriorityService', 'UserService', 'VersionService', 'RoleService', 'GroupService', function($http, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService) {
+.service('QueryService', ['$http', 'PathHelper', '$q', 'AVAILABLE_WORK_PACKAGE_FILTERS', 'StatusService', 'TypeService', 'PriorityService', 'UserService', 'VersionService', 'RoleService', 'GroupService', 'ProjectService',
+  function($http, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService) {
 
   var availableColumns = [], availableFilterValues = {};
 
@@ -68,6 +69,12 @@ angular.module('openproject.services')
             break;
           case 'group':
             retrieveAvailableValues = GroupService.getGroups();
+            break;
+          case 'project':
+            retrieveAvailableValues = ProjectService.getProject();
+            break;
+          case 'sub_project':
+            retrieveAvailableValues = ProjectService.getSubProjects(projectIdentifier);
             break;
         }
 

@@ -61,7 +61,7 @@ angular.module('openproject.workPackages.config')
   estimated_hours: { type: 'integer', order: 15, name: 'Estimated time' },
   done_ratio: { type: 'integer', order: 16, name: '% done' },
   project_id: { type: 'list_model', modelName: 'project', order: 17, name: 'Project' },
-  subproject_id: { type: 'list_model', modelName: 'project', order: 18, name: 'Sub-project' },
+  subproject_id: { type: 'list_model', modelName: 'sub_project', order: 18, name: 'Sub-project' },
 })
 
 .constant('DEFAULT_SORT_CRITERIA', 'parent:desc')
