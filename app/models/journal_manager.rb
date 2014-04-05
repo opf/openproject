@@ -174,7 +174,7 @@ class JournalManager
     journal_class.new new_data
   end
 
-  USER_DELETION_JOURNAL_BUCKET_SIZE = 1000;
+  USER_DELETION_JOURNAL_BUCKET_SIZE = 1000
 
   def self.update_user_references(current_user_id, substitute_id)
     foreign_keys = ['author_id', 'user_id', 'assigned_to_id', 'responsible_id']
