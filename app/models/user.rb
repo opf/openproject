@@ -145,7 +145,7 @@ class User < Principal
 
   validates_uniqueness_of :login, :if => Proc.new { |user| !user.login.blank? }, :case_sensitive => false
   validates_uniqueness_of :mail, :allow_blank => true, :case_sensitive => false
-  # Login must contain lettres, numbers, underscores only
+  # Login must contain letters, numbers, underscores only
   validates_format_of :login, :with => /\A[a-z0-9_\-@\.]*\z/i
   validates_length_of :login, :maximum => 256
   validates_length_of :firstname, :lastname, :maximum => 30
@@ -216,7 +216,7 @@ class User < Principal
       begin
         write_attribute(:identity_url, OpenIdAuthentication.normalize_identifier(url))
       rescue OpenIdAuthentication::InvalidOpenId
-        # Invlaid url, don't save
+        # Invalid url, don't save
       end
     end
     self.read_attribute(:identity_url)
@@ -656,7 +656,7 @@ class User < Principal
   end
 
   # These are also implemented as strong_parameters, so also see
-  # app/modles/permitted_params.rb
+  # app/models/permitted_params.rb
   # Delete these if everything in the UsersController uses strong_parameters.
   safe_attributes 'firstname', 'lastname', 'mail', 'mail_notification', 'language',
                   'custom_field_values', 'custom_fields', 'identity_url'
