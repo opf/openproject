@@ -8,6 +8,7 @@ app/assets/javascripts/pages/**/*
 app/assets/javascripts/project/**/*
 app/assets/javascripts/jquery.menu_expand.js
 app/assets/javascripts/jquery-ui-i18n.js
+app/assets/javascripts/lib/**/*
 
 #we sould fix this ones
 app/assets/javascripts/select_list_move.js
