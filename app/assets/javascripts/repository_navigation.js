@@ -60,4 +60,4 @@ Event.observe(window,'load',function() {
       $$('#branch,#tag').invoke('enable');
     }
   });
-})
+});
