@@ -62,7 +62,7 @@ angular.module('openproject.uiComponents')
        */
       function updateCurrentRangeLabel() {
         scope.currentRange = "(" + PaginationService.getLowerPageBound() + " - " + PaginationService.getUpperPageBound(scope.totalEntries) + "/" + scope.totalEntries + ")";
-      };
+      }
 
       /**
        * @name updatePageNumbers
@@ -81,18 +81,18 @@ angular.module('openproject.uiComponents')
         scope.prePageNumbers = truncatePageNums(pageNumbers, PaginationService.getPage() >= maxVisible, 0, Math.min(PaginationService.getPage() - Math.ceil(maxVisible / 2), pageNumbers.length - maxVisible), truncSize);
         scope.postPageNumbers = truncatePageNums(pageNumbers, pageNumbers.length >= maxVisible + (truncSize * 2), maxVisible, pageNumbers.length, 0);
         scope.pageNumbers = pageNumbers;
-      };
+      }
 
       function truncatePageNums(pageNumbers, perform, disectFrom, disectLength, truncateFrom){
         if (perform){
           var tuncationSize = PaginationService.getOptionsTruncationSize();
           var truncatedNums = pageNumbers.splice(disectFrom, disectLength);
-          if (truncatedNums.length >= tuncationSize * 2) truncatedNums.splice(truncateFrom, truncatedNums.length - tuncationSize)
+          if (truncatedNums.length >= tuncationSize * 2) truncatedNums.splice(truncateFrom, truncatedNums.length - tuncationSize);
           return truncatedNums;
         } else {
           return [];
         }
-      };
+      }
 
       scope.$watch('totalEntries', function() {
         updateCurrentRangeLabel();

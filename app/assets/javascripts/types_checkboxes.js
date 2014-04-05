@@ -85,7 +85,7 @@
     },
 
     enable_all_checkboxes: function () {
-      this.enable(this.all_checkboxes())
+      this.enable(this.all_checkboxes());
     },
 
     check: function (boxes) {

@@ -131,7 +131,7 @@
     dom_lists = $('table.list');
     dom_lists.find('tbody tr').each(function(index, tr){
       var first_link = $(tr).find('a:visible')[0];
-      if ( first_link !== undefined ) { focus_elements.push(first_link); };
+      if ( first_link !== undefined ) { focus_elements.push(first_link); }
     });
     return focus_elements;
   };
