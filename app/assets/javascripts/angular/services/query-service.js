@@ -66,9 +66,13 @@ angular.module('openproject.services')
           var modelName = filter.modelName
 
           if(filter.values) {
-            // We have filter values already because it is a custom field and the server give the possible values.
+            // Note: We have filter values already because it is a custom field and the server gives the possible values.
             var values = filter.values.map(function(value){
-              return { id: value[1], name: value[0] };
+              if(Array.isArray(value)){
+                return { id: value[1], name: value[0] };
+              } else {
+                return { id: value, name: value };
+              }
             })
             return $q.when(QueryService.storeAvailableFilterValues(modelName, values));
           }
