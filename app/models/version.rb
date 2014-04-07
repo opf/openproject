@@ -29,6 +29,8 @@
 
 class Version < ActiveRecord::Base
   include Redmine::SafeAttributes
+  extend DeprecatedAlias
+
   after_update :update_issues_from_sharing_change
   belongs_to :project
   has_many :fixed_issues, :class_name => 'WorkPackage', :foreign_key => 'fixed_version_id', :dependent => :nullify
@@ -128,7 +130,7 @@ class Version < ActiveRecord::Base
       issues_progress(false) + issues_progress(true)
     end
   end
-  alias_method :completed_pourcent, :completed_percent
+  deprecated_alias :completed_pourcent, :completed_percent
 
   # Returns the percentage of issues that have been marked as 'closed'.
   def closed_percent
@@ -138,7 +140,7 @@ class Version < ActiveRecord::Base
       issues_progress(false)
     end
   end
-  alias_method :closed_pourcent, :closed_percent
+  deprecated_alias :closed_pourcent, :closed_percent
 
   # Returns true if the version is overdue: due date reached and some open issues
   def overdue?
