@@ -80,7 +80,7 @@ module Api
 
       def create
         @user = User.new(:language => Setting.default_language, :mail_notification => Setting.default_notification_option)
-        @user.safe_attributes = params[:user]
+        @user.attributes = permitted_params.user_create_as_admin
         @user.admin = params[:user][:admin] || false
         @user.login = params[:user][:login]
         @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation] if @user.change_password_allowed?
@@ -112,7 +112,7 @@ module Api
       def update
         @user.admin = params[:user][:admin] if params[:user][:admin]
         @user.login = params[:user][:login] if params[:user][:login]
-        @user.safe_attributes = params[:user].except(:login) # :login is protected
+        @user.attributes = permitted_params.user_update_as_admin
         if params[:user][:password].present? && @user.change_password_allowed?
           @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation]
         end

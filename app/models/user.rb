@@ -30,7 +30,7 @@
 require "digest/sha1"
 
 class User < Principal
-  include Redmine::SafeAttributes
+  include ActiveModel::ForbiddenAttributesProtection
 
   # Account statuses
   # Code accessing the keys assumes they are ordered, which they are since Ruby 1.9
@@ -134,8 +134,6 @@ class User < Principal
 
   attr_accessor :password, :password_confirmation
   attr_accessor :last_before_login_on
-  # Prevents unauthorized assignments
-  attr_protected :login, :admin, :password, :password_confirmation
 
   validates_presence_of :login,
                         :firstname,
@@ -654,18 +652,6 @@ class User < Principal
       end
     end
   end
-
-  # These are also implemented as strong_parameters, so also see
-  # app/models/permitted_params.rb
-  # Delete these if everything in the UsersController uses strong_parameters.
-  safe_attributes 'firstname', 'lastname', 'mail', 'mail_notification', 'language',
-                  'custom_field_values', 'custom_fields', 'identity_url'
-
-  safe_attributes 'auth_source_id', 'force_password_change',
-    :if => lambda {|user, current_user| current_user.admin?}
-
-  safe_attributes 'group_ids',
-    :if => lambda {|user, current_user| current_user.admin? && !user.new_record?}
 
   # Utility method to help check if a user should be notified about an
   # event.
