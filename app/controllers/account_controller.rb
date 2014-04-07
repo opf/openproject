@@ -273,7 +273,7 @@ class AccountController < ApplicationController
     end
     call_hook(:controller_account_success_authentication_after, {:user => user })
 
-    redirect_according_to_first_login(user)
+    redirect_after_login(user)
   end
 
   def set_autologin_cookie(user)
@@ -379,7 +379,7 @@ class AccountController < ApplicationController
     if user.save
       self.logged_user = user
       flash[:notice] = l(:notice_account_registered_and_logged_in)
-      redirect_according_to_first_login(user)
+      redirect_after_login(user)
     else
       yield if block_given?
     end
@@ -406,7 +406,7 @@ class AccountController < ApplicationController
     redirect_to :action => 'login'
   end
 
-  def redirect_according_to_first_login(user)
+  def redirect_after_login(user)
     if user.first_login
       user.update_attribute(:first_login, false)
       redirect_to :controller => "/my", :action => "first_login", :back_url => params[:back_url]
