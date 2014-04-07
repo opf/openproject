@@ -70,6 +70,10 @@ module OpenProject::Meeting
 
     patches [:Project]
 
+    initializer 'meeting.precompile_assets' do
+      Rails.application.config.assets.precompile += %w(meeting/meeting.css)
+    end
+
     initializer "meeting.register_hooks" do
       require 'open_project/meeting/hooks'
     end
