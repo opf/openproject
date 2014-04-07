@@ -80,11 +80,11 @@ JS
 
   def update
     member = update_member_from_params
-    member.save
+    if member.save
+      flash.now.notice = l(:notice_successful_update)
+    end
 
     respond_to do |format|
-      flash.now.notice = l(:notice_successful_update)
-
       format.html { redirect_to :controller => '/projects', :action => 'settings', :tab => 'members', :id => @project, :page => params[:page] }
       format.js do
         @pagination_url_options = {controller: 'projects', action: 'settings', id: @project}
@@ -107,10 +107,9 @@ JS
   def destroy
     if @member.deletable?
       @member.destroy
+      flash.now.notice = l(:notice_successful_delete)
     end
     respond_to do |format|
-      flash.now.notice = l(:notice_successful_delete)
-
       format.html { redirect_to :controller => '/projects', :action => 'settings', :tab => 'members', :id => @project }
       format.js do
         @pagination_url_options = {controller: 'projects', action: 'settings', id: @project}
