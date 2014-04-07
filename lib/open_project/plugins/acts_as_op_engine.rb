@@ -63,6 +63,22 @@ module OpenProject::Plugins
         end
       end
 
+      # Add permitted attributes (strong_parameters)
+      #
+      # Useful when adding a field to an OpenProject core model. We discourage adding
+      # a field to a core model, but at the moment there's no API to do this in a better way
+      # and a lot of existing plugins already do it.
+      #
+      # See PermittedParams in OpenProject for available models
+      #
+      # Example:
+      #  additional_permitted_attributes :user => [:registration_reason]
+      base.send(:define_method, :additional_permitted_attributes) do |attributes|
+        base.initializer "#{engine_name}.add_permitted_attributes" do |app|
+          ::PermittedParams.send(:add_permitted_attributes, attributes)
+        end
+      end
+
       # Register a plugin with OpenProject
       #
       # Uses Gem specification for plugin name, author etc.
