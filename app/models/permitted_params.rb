@@ -274,7 +274,8 @@ class PermittedParams < Struct.new(:params, :user)
         :attr_login,
         :attr_firstname,
         :attr_lastname,
-        :attr_mail],
+        :attr_mail,
+        :filter],
       :board => [
         :name,
         :description],

@@ -44,6 +44,7 @@ See doc/COPYRIGHT.rdoc for more details.
             :label => AuthSource.human_attribute_name(:password),
             :placeholder => ((@auth_source.new_record? || @auth_source.account_password.blank?) ? '' : ('●'*15)) %></p>
   <p><%= f.text_field 'base_dn', :size => 60 %></p>
+  <p><%= f.text_field 'filter', :size => 60%></p>
   <p><%= f.check_box 'onthefly_register', :label => AuthSource.human_attribute_name(:onthefly) %></p>
 </div>
 

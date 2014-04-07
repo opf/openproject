@@ -35,9 +35,32 @@ class LdapAuthSource < AuthSource
   validates_length_of :account, :account_password, :base_dn, :maximum => 255, :allow_nil => true
   validates_length_of :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :maximum => 30, :allow_nil => true
   validates_numericality_of :port, :only_integer => true
+  validate :validate_filter
 
   before_validation :strip_ldap_attributes
   after_initialize :set_default_port
+
+  def validate_filter
+    if filter.present? && ldap_filter.nil?
+      errors.add(:filter, :invalid)
+    end
+  end
+
+  def ldap_filter
+    if filter.present?
+      Net::LDAP::Filter.construct(filter)
+    end
+  rescue Net::LDAP::LdapError
+    nil
+  end
+
+  def base_filter
+    filter = Net::LDAP::Filter.eq("objectClass", "*")
+    if f = ldap_filter
+      filter = filter & f
+    end
+    filter
+  end
 
   def authenticate(login, password)
     return nil if login.blank? || password.blank?
@@ -111,11 +134,10 @@ class LdapAuthSource < AuthSource
   def get_user_dn(login)
     ldap_con = initialize_ldap_con(self.account, self.account_password)
     login_filter = Net::LDAP::Filter.eq( self.attr_login, login )
-    object_filter = Net::LDAP::Filter.eq( "objectClass", "*" )
     attrs = {}
 
     ldap_con.search( :base => self.base_dn,
-                     :filter => object_filter & login_filter,
+                     :filter => base_filter & login_filter,
                      :attributes=> search_attributes) do |entry|
 
       if onthefly_register?
