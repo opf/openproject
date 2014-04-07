@@ -533,7 +533,7 @@ describe PermittedParams do
           field_sample = { :user => Hash[admin_permissions.zip(admin_permissions)] }
 
           params = ActionController::Parameters.new(field_sample)
-          PermittedParams.new(params, user).method(method).call.should == {}
+          expect(PermittedParams.new(params, user).method(method).call).to eq({})
         end
 
         admin_permissions.each do |field|
@@ -541,8 +541,9 @@ describe PermittedParams do
             hash = { field => 'test' }
             params = ActionController::Parameters.new(:user => hash)
 
-            PermittedParams.new(params, admin).method(method).call.should ==
+            expect(PermittedParams.new(params, admin).method(method).call).to eq(
               { field => 'test' }
+            )
           end
         end
 
@@ -551,7 +552,7 @@ describe PermittedParams do
 
           params = ActionController::Parameters.new(:user => hash)
 
-          PermittedParams.new(params, admin).method(method).call.should == hash
+          expect(PermittedParams.new(params, admin).method(method).call).to eq(hash)
         end
 
         it "should remove custom field values that do not follow the schema 'id as string' => 'value as string'" do
@@ -559,7 +560,7 @@ describe PermittedParams do
 
           params = ActionController::Parameters.new(:user => hash)
 
-          PermittedParams.new(params, admin).method(method).call.should == {}
+          expect(PermittedParams.new(params, admin).method(method).call).to eq({})
         end
 
       end
@@ -570,7 +571,7 @@ describe PermittedParams do
         hash = { 'group_ids' => ['1', '2'] }
         params = ActionController::Parameters.new(:user => hash)
 
-        PermittedParams.new(params, admin).user_update_as_admin.should == hash
+        expect(PermittedParams.new(params, admin).user_update_as_admin).to eq(hash)
       end
     end
 
@@ -579,7 +580,7 @@ describe PermittedParams do
         hash = { 'group_ids' => ['1', '2'] }
         params = ActionController::Parameters.new(:user => hash)
 
-        PermittedParams.new(params, admin).user_create_as_admin.should == {}
+        expect(PermittedParams.new(params, admin).user_create_as_admin).to eq({})
       end
     end
 
@@ -599,8 +600,9 @@ describe PermittedParams do
           hash = { field => 'test' }
           params = ActionController::Parameters.new(:user => hash)
 
-          PermittedParams.new(params, admin).user.should ==
+          expect(PermittedParams.new(params, admin).user).to eq(
             { field => 'test' }
+          )
         end
       end
 
@@ -609,7 +611,7 @@ describe PermittedParams do
             hash = { field => 'test' }
             params = ActionController::Parameters.new(:user => hash)
 
-            PermittedParams.new(params, admin).user.should == {}
+            expect(PermittedParams.new(params, admin).user).to eq({})
           end
         end
 
@@ -618,7 +620,7 @@ describe PermittedParams do
 
         params = ActionController::Parameters.new(:user => hash)
 
-        PermittedParams.new(params, admin).user.should == hash
+        expect(PermittedParams.new(params, admin).user).to eq(hash)
       end
 
       it "should remove custom field values that do not follow the schema 'id as string' => 'value as string'" do
@@ -626,7 +628,7 @@ describe PermittedParams do
 
         params = ActionController::Parameters.new(:user => hash)
 
-        PermittedParams.new(params, admin).user.should == {}
+        expect(PermittedParams.new(params, admin).user).to eq({})
       end
     end
   end
@@ -857,7 +859,7 @@ describe PermittedParams do
       let(:hash) { {'a_test_field' => 'a test value'} }
 
       before do
-        Rails.logger.should_receive(:warn)
+        expect(Rails.logger).to receive(:warn)
         PermittedParams.send(:add_permitted_attributes, :unknown_key => [:a_test_field])
       end
 
