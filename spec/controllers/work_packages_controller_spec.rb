@@ -927,7 +927,7 @@ describe WorkPackagesController do
         before { post 'create', params }
 
         describe :journal do
-          let(:attachment_id) { "attachments_#{new_work_package.attachments.first.id}".to_sym }
+          let(:attachment_id) { "attachments_#{new_work_package.attachments.first.id}" }
 
           subject { new_work_package.journals.last.changed_data }
 

@@ -281,7 +281,7 @@ describe WorkPackage do
       pe.update_attribute(:due_date, Date.new(2012, 2, 1))
 
       expect(pe.journals.size).to eq(2)
-      changes = pe.journals.last.changed_data.to_hash
+      changes = pe.journals.last.changed_data
 
       expect(changes.size).to eq(1)
 
@@ -319,7 +319,7 @@ describe WorkPackage do
         pe.reload
 
         expect(pe.journals.size).to eq(3)
-        changes = pe.journals.last.changed_data.to_hash
+        changes = pe.journals.last.changed_data
 
         expect(changes.size).to eq(1)
         expect(changes).to include(:start_date)

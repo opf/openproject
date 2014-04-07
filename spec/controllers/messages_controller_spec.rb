@@ -61,7 +61,7 @@ describe MessagesController do
         end
 
         describe :journal do
-          let(:attachment_id) { "attachments_#{Message.last.attachments.first.id}".to_sym }
+          let(:attachment_id) { "attachments_#{Message.last.attachments.first.id}" }
 
           subject { Message.last.journals.last.changed_data }
 
@@ -89,7 +89,7 @@ describe MessagesController do
 
   describe :attachment do
     let!(:message) { FactoryGirl.create(:message) }
-    let(:attachment_id) { "attachments_#{message.attachments.first.id}".to_sym }
+    let(:attachment_id) { "attachments_#{message.attachments.first.id}" }
     let(:params) { { id: message.id,
                      attachments: { '1' => { file: filename,
                                              description: '' } } } }
@@ -164,7 +164,7 @@ describe MessagesController do
       end
 
       context :journal do
-        let(:attachment_id) { "attachments_#{attachment.id}".to_sym }
+        let(:attachment_id) { "attachments_#{attachment.id}" }
 
         describe :key do
           subject { message.journals.last.changed_data }

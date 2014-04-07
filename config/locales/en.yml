@@ -220,7 +220,7 @@ en:
             parent_id:
               cannot_be_milestone: "cannot be a milestone"
               cannot_be_in_another_project: "cannot be in another project"
-              not_a_valid_parent: "is invaild"
+              not_a_valid_parent: "is invalid"
               does_not_exist: "does not exist"
             status_id:
               status_transition_invalid: "no valid transition exists from old to new status for the current user roles"
@@ -1437,8 +1437,8 @@ en:
     edit_color: "Edit color"
     edit_project_type: "Edit project type"
     edit_thing: "Edit"
-    edit_timeline: "Edit timeline report"
-    delete_timeline: "Delete timeline report"
+    edit_timeline: "Edit timeline report %{timeline}"
+    delete_timeline: "Delete timeline report %{timeline}"
     empty: "(empty)"
     enable_type_in_project: 'Enable type "%{type}"'
     end: "End"

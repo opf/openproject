@@ -98,12 +98,12 @@ class Setting < ActiveRecord::Base
     # or set using Setting.some_setting_name = "some value"
     src = <<-END_SRC
       def self.#{name}
-        # when runnung too early, there is no settings table. do nothing
+        # when running too early, there is no settings table. do nothing
         self[:#{name}] if settings_table_exists_yet?
       end
 
       def self.#{name}?
-        # when runnung too early, there is no settings table. do nothing
+        # when running too early, there is no settings table. do nothing
         self[:#{name}].to_i > 0 if settings_table_exists_yet?
       end
 
