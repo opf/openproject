@@ -31,7 +31,7 @@ angular.module('openproject.services')
 .service('QueryService', ['$http', 'PathHelper', '$q', 'AVAILABLE_WORK_PACKAGE_FILTERS', 'StatusService', 'TypeService', 'PriorityService', 'UserService', 'VersionService', 'RoleService', 'GroupService', 'ProjectService',
   function($http, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService) {
 
-  var availableColumns = [], availableFilterValues = {}, availableFilters = [];
+  var availableColumns = [], availableFilterValues = {}, availableFilters = null;
 
   var QueryService = {
     getAvailableColumns: function(projectIdentifier) {
@@ -41,7 +41,7 @@ angular.module('openproject.services')
     },
 
     getAvailableFilters: function(projectIdentifier){
-      if(availableFilters.length > 0){
+      if(availableFilters){
         return $q.when(availableFilters);
       } else{
         if (projectIdentifier){
