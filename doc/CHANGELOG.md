@@ -44,6 +44,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3348` Fix: Menu item "more functions" is cut off where content ends
 * `#3395` Fix: After error message values are gone during creation of message
 * `#3531` Fix: Type 'None' cannot be configured via admin settings
+* `#4007` Timeline page title does not contain name of timeline
 * `#4040` Fix: Referencing work packages with ### in news, forums and meetings does not work
 * `#4087` Ignore type list flash when activating flash messages
 * `#4097` Fix accesskeys
