@@ -105,7 +105,7 @@ module OpenProject::Costs
     patches [:WorkPackage, :Project, :Query, :User, :TimeEntry, :Version, :PermittedParams,
              :ProjectsController, :ApplicationHelper, :UsersHelper]
 
-    assets %w(costs.css costs.js)
+    assets %w(costs/costs.css costs/costs.js)
 
     initializer "costs.register_hooks" do
       require 'open_project/costs/hooks'
