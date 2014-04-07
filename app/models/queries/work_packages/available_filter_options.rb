@@ -36,7 +36,7 @@ module Queries::WorkPackages::AvailableFilterOptions
     add_visible_projects_options unless project || visible_projects.empty?
     add_user_options
 
-    if project
+    @available_work_package_filters = if project
       add_project_options
     else
       add_global_options
