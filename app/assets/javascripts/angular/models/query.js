@@ -28,7 +28,7 @@
 
 angular.module('openproject.models')
 
-.factory('Query', ['Filter', 'Sortation', 'AVAILABLE_WORK_PACKAGE_FILTERS', function(Filter, Sortation, AVAILABLE_WORK_PACKAGE_FILTERS) {
+.factory('Query', ['Filter', 'Sortation', 'QueryService', function(Filter, Sortation, QueryService) {
 
   Query = function (data, options) {
 
@@ -40,23 +40,27 @@ angular.module('openproject.models')
   };
 
   Query.prototype = {
-    initFilters: function() {
-      this.available_work_package_filters = AVAILABLE_WORK_PACKAGE_FILTERS;
-      if (this.project_id){
-        delete this.available_work_package_filters["project_id"];
-      } else {
-        delete this.available_work_package_filters["subproject_id"];
-      }
-      // TODO RS: Need to assertain if there are any sub-projects and remove this filter if not.
-      // The project will have to be fetch prior to this.
+    initFilters: function(projectIdentifier) {
+      var self = this;
+      QueryService.getAvailableFilters(projectIdentifier)
+        .then(function(filters){
+          self.available_work_package_filters = filters;
+          if (self.project_id){
+            delete self.available_work_package_filters["project_id"];
+          } else {
+            delete self.available_work_package_filters["subproject_id"];
+          }
+          // TODO RS: Need to assertain if there are any sub-projects and remove self filter if not.
+          // The project will have to be fetch prior to this.
 
-      if (this.filters === undefined){
-        this.filters = [];
-      } else {
-        this.filters = this.filters.map(function(filterData){
-          return new Filter(filterData);
+          if (self.filters === undefined){
+            self.filters = [];
+          } else {
+            self.filters = self.filters.map(function(filterData){
+              return new Filter(filterData);
+            });
+          }
         });
-      }
     },
     /**
      * @name toParams
@@ -112,7 +116,7 @@ angular.module('openproject.models')
     },
 
     getFilterType: function(filterName) {
-      return AVAILABLE_WORK_PACKAGE_FILTERS[filterName].type;
+      return this.available_work_package_filters[filterName].type;
     },
 
     getActiveFilters: function() {
