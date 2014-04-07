@@ -32,6 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#284`  Fix: Sticky does not apply to forum
 * `#1009` Wrong german translation when accessing a non-existent work package
 * `#1502` Multiple escaping on user select2 field in project settingsmembers tab
+* `#1865` Journal creates Symbols from attachment ids
 * `#2029` Fix: News preview
 * `#2393` Fix: No warning when leaving site without saving
 * `#2401` Fix: New target version cannot be created from work package view
