@@ -281,7 +281,7 @@ describe WorkPackage do
       pe.update_attribute(:due_date, Date.new(2012, 2, 1))
 
       pe.journals.size.should == 2
-      changes = pe.journals.last.changed_data.to_hash
+      changes = pe.journals.last.changed_data
 
       changes.size.should == 1
 
@@ -319,7 +319,7 @@ describe WorkPackage do
         pe.reload
 
         pe.journals.size.should == 3
-        changes = pe.journals.last.changed_data.to_hash
+        changes = pe.journals.last.changed_data
 
         changes.size.should == 1
         changes.should include(:start_date)

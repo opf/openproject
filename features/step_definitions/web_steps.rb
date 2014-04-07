@@ -470,6 +470,19 @@ When /^I confirm popups$/ do
   page.driver.browser.switch_to.alert.accept
 end
 
+# Needs Selenium!
+Then(/^I should( not )?see a(?:n) alert dialog$/) do |negative|
+  negative = !!negative
+  if Capybara.current_driver.to_s.include?("selenium")
+    begin
+      page.driver.browser.switch_to.alert
+      expect(negative).to eq(false)
+    rescue Selenium::WebDriver::Error::NoAlertPresentError
+      expect(negative).to eq(true)
+    end
+  end
+end
+
 Then(/^I should see a confirm dialog$/) do
   page.should have_selector("#confirm_dialog")
 end

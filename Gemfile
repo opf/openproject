@@ -147,7 +147,7 @@ group :test do
   gem 'rb-readline' # ruby on CI needs this
   # why in Gemfile? see: https://github.com/guard/guard-test
   gem 'ruby-prof'
-  gem 'simplecov', ">= 0.8.pre"
+  gem 'simplecov', '0.8.0.pre'
   gem "shoulda-matchers"
   gem "json_spec"
   gem "activerecord-tableless", "~> 1.0"
