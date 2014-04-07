@@ -31,4 +31,4 @@
     .sequence('id')
     .sequence("to_project_id")
     .attr("description", "");
-})($injector.get('ProjectAssociation');
+})($injector.get('ProjectAssociation'));
