@@ -154,10 +154,13 @@ class AccountController < ApplicationController
           @user.activate
           @user.login = session[:auth_source_registration][:login]
           @user.auth_source_id = session[:auth_source_registration][:auth_source_id]
-          session[:auth_source_registration] = nil
-          self.logged_user = @user
-          flash[:notice] = l(:notice_account_registered_and_logged_in)
-          redirect_to :controller => '/my', :action => 'account'
+          
+          if @user.save
+            session[:auth_source_registration] = nil
+            self.logged_user = @user
+            flash[:notice] = l(:notice_account_activated)
+            redirect_to :controller => '/my', :action => 'account'
+          end
         end
       else
         @user.attributes = permitted_params.user

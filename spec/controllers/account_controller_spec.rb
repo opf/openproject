@@ -137,7 +137,7 @@ describe AccountController do
           })
         end
         it "registers the user on-the-fly" do
-          request.env["omniauth.auth"] = omniauth_hash_full 
+          request.env["omniauth.auth"] = omniauth_hash
           get :omniauth_login
           expect(response).to redirect_to '/my/first_login'
 
@@ -166,25 +166,32 @@ describe AccountController do
         end
         
         it "registers user via post" do 
-          pending
-         
-          request.env["omniauth.auth"] = omniauth_hash 
-          get :omniauth_login
-
-          expect(response).to render_template :register
-
+          # set session
+          omniauth_hash.merge({:omniauth => true, :timestamp => Time.new})
+          # might be reasonable to write an extra spec to verify session content
+          session[:auth_source_registration] = omniauth_hash.merge({:omniauth => true, :timestamp => Time.new})
           post :register, :user => {:firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com'}
           expect(response).to redirect_to '/my/first_login'
 
-          user = User.find_by_login('foo')
-          assert user.is_a?(User)
-          assert_equal 66, user.auth_source_id
-          assert user.current_password.nil?
+          user = User.find_by_login('foo@bar.com')
+          expect(user).to be_an_instance_of(User)
+          expect(user.auth_source_id).to be_nil
+          expect(user.current_password).to be_nil
+          expect(user.identity_url).to eql('google:123545')
         end
       end
     end
 
     describe 'Login using provider url' do      
+      let(:omniauth_hash) do
+        OmniAuth::AuthHash.new({
+          provider: 'google',
+          uid: '123545',
+          info: { name: 'foo', 
+                  email: 'foo@bar.com',
+          } 
+        })
+      end
       it 'should login in after successfull external authentication' do
         request.env["omniauth.auth"] = omniauth_hash 
         FactoryGirl.create(:user, force_password_change: false, identity_url: 'google:123545')
@@ -199,27 +206,6 @@ describe AccountController do
         expect(response).to redirect_to signin_path
       end
     end
-  end
-
-  def omniauth_hash
-    OmniAuth::AuthHash.new({
-      provider: 'google',
-      uid: '123545',
-      info: { name: 'foo', email: 'foo@bar.com' } 
-      # etc.
-    })
-  end
-  def omniauth_hash_full
-    OmniAuth::AuthHash.new({
-      provider: 'google',
-      uid: '123545',
-      info: { name: 'foo', 
-              email: 'foo@bar.com',
-              first_name: 'foo',
-              last_name: 'bar' 
-      } 
-      # etc.
-    })
   end
 
   describe "Login for user with forced password change" do
@@ -399,14 +385,13 @@ describe AccountController do
         expect(response).to render_template :register
 
         post :register, :user => {:firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com'}
-        should redirect_to '/my/account'
-        #expect(response).to redirect_to '/my/account'
-
+        expect(response).to redirect_to '/my/account'
+         
         user = User.find_by_login('foo')
 
-        assert user.is_a?(User)
-        assert_equal 66, user.auth_source_id
-        assert user.current_password.nil?
+        expect(user).to be_an_instance_of(User)
+        expect(user.auth_source_id).to eql 66
+        expect(user.current_password).to be_nil
       end
     end
   end
