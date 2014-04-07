@@ -817,4 +817,54 @@ describe PermittedParams do
       it_behaves_like 'forbids params'
     end
   end
+
+  describe '.add_permitted_attributes' do
+    before do
+      @original_permitted_attributes = PermittedParams.permitted_attributes.clone
+    end
+
+    after do
+      # Class variable is not accessible within class_eval
+      original_permitted_attributes = @original_permitted_attributes
+
+      PermittedParams.class_eval do
+        @whitelisted_params = original_permitted_attributes
+      end
+    end
+
+    describe 'with a known key' do
+      let(:attribute) { :user }
+
+      before do
+        PermittedParams.send(:add_permitted_attributes, :user => [:a_test_field])
+      end
+
+      context 'with an allowed parameter' do
+        let(:hash) { {'a_test_field' => 'a test value'} }
+
+        it_behaves_like 'allows params'
+      end
+
+      context 'with a disallowed parameter' do
+        let(:hash) { {'a_not_allowed_field' => 'a test value'} }
+
+        it_behaves_like 'forbids params'
+      end
+    end
+
+    describe 'with an unknown key' do
+      let(:attribute) { :unknown_key }
+      let(:hash) { {'a_test_field' => 'a test value'} }
+
+      before do
+        Rails.logger.should_receive(:warn)
+        PermittedParams.send(:add_permitted_attributes, :unknown_key => [:a_test_field])
+      end
+
+      it 'permitted attributes should not include the key and the rails logger should receive a warning' do
+        expect(PermittedParams.permitted_attributes.keys).to_not include(:unknown_key)
+      end
+    end
+
+  end
 end
