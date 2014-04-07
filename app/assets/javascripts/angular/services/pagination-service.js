@@ -65,14 +65,12 @@ angular.module('openproject.services')
     setPerPageOptions: function(perPageOptions) {
       paginationOptions.perPageOptions = perPageOptions;
     },
-
     getLowerPageBound: function() {
       return paginationOptions.perPage * (paginationOptions.page - 1) + 1;
     },
     getUpperPageBound: function(limit) {
       return Math.min(paginationOptions.perPage * paginationOptions.page, limit);
     },
-
     resetPage: function() {
       paginationOptions.page = 1;
     },

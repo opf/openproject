@@ -31,7 +31,7 @@ angular.module('openproject.services')
 .service('QueryService', ['$http', 'PathHelper', '$q', 'AVAILABLE_WORK_PACKAGE_FILTERS', 'StatusService', 'TypeService', 'PriorityService', 'UserService', 'VersionService', 'RoleService', 'GroupService', 'ProjectService',
   function($http, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService) {
 
-  var availableColumns = [], availableFilterValues = {};
+  var availableColumns = [], availableFilterValues = {}, availableFilters = [];
 
   var QueryService = {
     getAvailableColumns: function(projectIdentifier) {
@@ -40,53 +40,90 @@ angular.module('openproject.services')
       return QueryService.doQuery(url);
     },
 
-    getAvailableFilterValues: function(filterName, projectIdentifier) {
-      var modelName = AVAILABLE_WORK_PACKAGE_FILTERS[filterName].modelName;
-
-      if(availableFilterValues[modelName]) {
-        return $q.when(availableFilterValues[modelName]);
-      } else {
-        var retrieveAvailableValues;
-
-        switch(modelName) {
-          case 'status':
-            retrieveAvailableValues = StatusService.getStatuses(projectIdentifier);
-            break;
-          case 'type':
-            retrieveAvailableValues = TypeService.getTypes(projectIdentifier);
-            break;
-          case 'priority':
-            retrieveAvailableValues = PriorityService.getPriorities(projectIdentifier);
-            break;
-          case 'user':
-            retrieveAvailableValues = UserService.getUsers(projectIdentifier);
-            break;
-          case 'version':
-            retrieveAvailableValues = VersionService.getProjectVersions(projectIdentifier);
-            break;
-          case 'role':
-            retrieveAvailableValues = RoleService.getRoles();
-            break;
-          case 'group':
-            retrieveAvailableValues = GroupService.getGroups();
-            break;
-          case 'project':
-            retrieveAvailableValues = ProjectService.getProjects();
-            break;
-          case 'sub_project':
-            retrieveAvailableValues = ProjectService.getSubProjects(projectIdentifier);
-            break;
+    getAvailableFilters: function(projectIdentifier){
+      if(availableFilters.length > 0){
+        return $q.when(availableFilters);
+      } else{
+        if (projectIdentifier){
+          return QueryService.getCustomFieldFilters(projectIdentifier)
+            .then(function(data){
+              return QueryService.storeAvailableFilters(angular.extend(AVAILABLE_WORK_PACKAGE_FILTERS, data.custom_field_filters));
+            });
+        } else {
+          return $q.when(AVAILABLE_WORK_PACKAGE_FILTERS);
         }
-
-        return retrieveAvailableValues.then(function(values) {
-          return QueryService.storeAvailableFilterValues(modelName, values);
-        });
       }
+    },
+
+    getCustomFieldFilters: function(projectIdentifier) {
+      return QueryService.doQuery(PathHelper.apiProjectCustomFieldsPath(projectIdentifier));
+    },
+
+    getAvailableFilterValues: function(filterName, projectIdentifier) {
+      return QueryService.getAvailableFilters()
+        .then(function(filters){
+          var filter = filters[filterName];
+          var modelName = filter.modelName
+
+          if(filter.values) {
+            // We have filter values already because it is a custom field and the server give the possible values.
+            var values = filter.values.map(function(value){
+              return { id: value[1], name: value[0] };
+            })
+            return $q.when(QueryService.storeAvailableFilterValues(modelName, values));
+          }
+
+          if(availableFilterValues[modelName]) {
+            return $q.when(availableFilterValues[modelName]);
+          } else {
+            var retrieveAvailableValues;
+
+            switch(modelName) {
+              case 'status':
+                retrieveAvailableValues = StatusService.getStatuses(projectIdentifier);
+                break;
+              case 'type':
+                retrieveAvailableValues = TypeService.getTypes(projectIdentifier);
+                break;
+              case 'priority':
+                retrieveAvailableValues = PriorityService.getPriorities(projectIdentifier);
+                break;
+              case 'user':
+                retrieveAvailableValues = UserService.getUsers(projectIdentifier);
+                break;
+              case 'version':
+                retrieveAvailableValues = VersionService.getProjectVersions(projectIdentifier);
+                break;
+              case 'role':
+                retrieveAvailableValues = RoleService.getRoles();
+                break;
+              case 'group':
+                retrieveAvailableValues = GroupService.getGroups();
+                break;
+              case 'project':
+                retrieveAvailableValues = ProjectService.getProjects();
+                break;
+              case 'sub_project':
+                retrieveAvailableValues = ProjectService.getSubProjects(projectIdentifier);
+                break;
+            }
+
+            return retrieveAvailableValues.then(function(values) {
+              return QueryService.storeAvailableFilterValues(modelName, values);
+            });
+          }
+        });
+
     },
 
     storeAvailableFilterValues: function(modelName, values) {
       availableFilterValues[modelName] = values;
       return values;
+    },
+
+    storeAvailableFilters: function(filters){
+      availableFilters = filters;
+      return availableFilters;
     },
 
     doQuery: function(url, params) {

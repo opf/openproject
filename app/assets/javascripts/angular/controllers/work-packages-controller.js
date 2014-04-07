@@ -44,6 +44,10 @@ angular.module('openproject.workPackages.controllers')
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.loading = false;
     $scope.disableFilters = false;
+    initAvailableFilters($scope.projectIdentifier)
+      .then(function(filters){
+        $scope.availableFilters = filters;
+      });
 
     $scope.withLoading(WorkPackageService.getWorkPackagesByQueryId, [$scope.projectIdentifier, $scope.query_id])
       .then($scope.setupWorkPackagesTable)
@@ -74,6 +78,10 @@ angular.module('openproject.workPackages.controllers')
         $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(data.available_columns, $scope.columns);
         return $scope.availableColumns;
       });
+  }
+
+  function initAvailableFilters(projectIdentifier) {
+    return QueryService.getAvailableFilters(projectIdentifier);
   }
 
   $scope.submitQueryForm = function(){

@@ -39,14 +39,29 @@ module Api::V3
     include ExtendedHTTP
 
     before_filter :find_optional_project
+    before_filter :setup_query
 
     def available_columns
-      query = retrieve_query
-      @available_columns = get_columns_for_json(query.available_columns)
+      @available_columns = get_columns_for_json(@query.available_columns)
 
       respond_to do |format|
         format.api
       end
+    end
+
+    def custom_field_filters
+      custom_fields = @project.all_work_package_custom_fields
+      @custom_field_filters = @query.get_custom_field_options(custom_fields)
+
+      respond_to do |format|
+        format.api
+      end
+    end
+
+    private
+
+    def setup_query
+      @query = retrieve_query
     end
   end
 end
