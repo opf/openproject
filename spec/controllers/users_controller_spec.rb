@@ -27,6 +27,7 @@
 #++
 
 require 'spec_helper'
+require 'work_package'
 
 describe UsersController do
   before do
@@ -447,6 +448,13 @@ describe UsersController do
       before { User.stub(:current).and_return(user.reload) }
 
       it { get :show, id: user.id }
+    end
+    
+    it "passes the correct number of reported work packages for user" do
+      work_package_double = class_double("WorkPackage") 
+      get :show
+      work_package_double.should_receive("on_active_project") 
+      work_package_double.should_receive("with_author").with(user)
     end
   end
 end

@@ -27,6 +27,7 @@
 #++
 
 require 'spec_helper'
+require 'work_package'
 
 describe MyController, :type => :controller do
   let(:user) { FactoryGirl.create(:user) }
@@ -124,6 +125,18 @@ describe MyController, :type => :controller do
       it "renders editable custom fields" do
         expect(response.body).to have_content(custom_field.name)
       end
+    end
+  end
+  
+  describe "index" do
+    before do
+      User.stub(:current).and_return user
+    end
+    it "passes the correct number of reported work packages for user" do
+      work_package_double = class_double("WorkPackage") 
+      get :index
+      work_package_double.should_receive("on_active_project") 
+      work_package_double.should_receive("with_author").with(user)
     end
   end
 end
