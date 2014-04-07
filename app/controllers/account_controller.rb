@@ -43,23 +43,22 @@ class AccountController < ApplicationController
   end
 
   def omniauth_login
-    auth = request.env['omniauth.auth']
-
-    user = User.find_or_initialize_by_identity_url(identity_url_from_omniauth(auth))
+    user = User.find_or_initialize_by_identity_url(identity_url_from_omniauth(auth_hash))
     if user.new_record?
+
       # Self-registration off
-      redirect_to(login_url) && return unless Setting.self_registration?
+      redirect_to(signin_url) && return unless Setting.self_registration?
 
       # Create on the fly
-      fill_user_fields_from_omniauth(user, auth)
+      fill_user_fields_from_omniauth(user, auth_hash)
 
       register_user_according_to_setting(user) do
         # Allow registration form to show provider-specific title
-        @omniauth_strategy = auth[:provider]
+        @omniauth_strategy = auth_hash[:provider]
 
         # Store a timestamp so we can later make sure that authentication information can
         # only be reused for a short time.
-        session_info = auth.merge({:omniauth => true, :timestamp => Time.new})
+        session_info = auth_hash.merge({:omniauth => true, :timestamp => Time.new})
 
         onthefly_creation_failed(user, session_info)
       end
@@ -71,6 +70,11 @@ class AccountController < ApplicationController
         account_pending
       end
     end
+  end
+
+  def omniauth_failure
+    flash[:error] = params['message']
+    redirect_to :action => 'login'
   end
 
   # Log out current user and redirect to welcome page
@@ -255,7 +259,6 @@ class AccountController < ApplicationController
     end
   end
 
-
   def open_id_authenticate(openid_url)
     authenticate_with_open_id(openid_url, :required => [:nickname, :fullname, :email], :return_to => signin_url) do |result, identity_url, registration|
       if result.successful?
@@ -376,6 +379,7 @@ class AccountController < ApplicationController
     # Automatic activation
     user.activate
     user.last_login_on = Time.now
+
     if user.save
       self.logged_user = user
       flash[:notice] = l(:notice_account_registered_and_logged_in)
@@ -413,5 +417,9 @@ class AccountController < ApplicationController
     else
       redirect_back_or_default :controller => '/my', :action => 'page'
     end
+  end
+
+  def auth_hash
+    request.env['omniauth.auth']
   end
 end
