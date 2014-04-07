@@ -117,6 +117,111 @@ describe AccountController do
     end
   end
 
+  context 'GET #omniauth_login' do
+    before do 
+      Setting.stub(:self_registration?).and_return(true)
+      Setting.stub(:self_registration).and_return("3")
+    end
+    
+    describe 'Register using provider url' do
+      context "with on-the-fly registration" do
+        let(:omniauth_hash) do
+          OmniAuth::AuthHash.new({
+            provider: 'google',
+            uid: '123545',
+            info: { name: 'foo', 
+                    email: 'foo@bar.com',
+                    first_name: 'foo',
+                    last_name: 'bar' 
+            } 
+          })
+        end
+        it "registers the user on-the-fly" do
+          request.env["omniauth.auth"] = omniauth_hash_full 
+          get :omniauth_login
+          expect(response).to redirect_to '/my/first_login'
+
+          user = User.find_by_login('foo@bar.com')
+          expect(user).to be_an_instance_of(User)
+          expect(user.auth_source_id).to be_nil
+          expect(user.current_password).to be_nil
+          expect(user.identity_url).to eql('google:123545')
+        end
+      end
+
+      context "with redirect to register form" do
+        let(:omniauth_hash) do
+          OmniAuth::AuthHash.new({
+            provider: 'google',
+            uid: '123545',
+            info: { name: 'foo', email: 'foo@bar.com' } 
+            # etc.
+          })
+        end
+        
+        it "renders user form" do 
+          request.env["omniauth.auth"] = omniauth_hash 
+          get :omniauth_login
+          expect(response).to render_template :register
+        end
+        
+        it "registers user via post" do 
+          pending
+         
+          request.env["omniauth.auth"] = omniauth_hash 
+          get :omniauth_login
+
+          expect(response).to render_template :register
+
+          post :register, :user => {:firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com'}
+          expect(response).to redirect_to '/my/first_login'
+
+          user = User.find_by_login('foo')
+          assert user.is_a?(User)
+          assert_equal 66, user.auth_source_id
+          assert user.current_password.nil?
+        end
+      end
+    end
+
+    describe 'Login using provider url' do      
+      it 'should login in after successfull external authentication' do
+        request.env["omniauth.auth"] = omniauth_hash 
+        FactoryGirl.create(:user, force_password_change: false, identity_url: 'google:123545')
+        get :omniauth_login 
+        expect(response).to redirect_to controller: 'my', action: 'page' 
+      end
+    end
+
+    describe 'Error occurs during authentication' do
+      it 'should redirect to login page' do
+        get :omniauth_failure
+        expect(response).to redirect_to signin_path
+      end
+    end
+  end
+
+  def omniauth_hash
+    OmniAuth::AuthHash.new({
+      provider: 'google',
+      uid: '123545',
+      info: { name: 'foo', email: 'foo@bar.com' } 
+      # etc.
+    })
+  end
+  def omniauth_hash_full
+    OmniAuth::AuthHash.new({
+      provider: 'google',
+      uid: '123545',
+      info: { name: 'foo', 
+              email: 'foo@bar.com',
+              first_name: 'foo',
+              last_name: 'bar' 
+      } 
+      # etc.
+    })
+  end
+
   describe "Login for user with forced password change" do
     let(:user) do
       FactoryGirl.create(:admin, force_password_change: true)
@@ -196,10 +301,10 @@ describe AccountController do
         }
       end
 
-      it "redirects to my account page"  do
+      it "redirects to first_login page"  do
         should respond_with :redirect
         expect(assigns[:user]).not_to be_nil
-        should redirect_to('/my/account')
+        should redirect_to('/my/first_login')
         expect(User.last(:conditions => {:login => 'register'})).not_to be_nil
       end
 
@@ -295,8 +400,10 @@ describe AccountController do
 
         post :register, :user => {:firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com'}
         should redirect_to '/my/account'
+        #expect(response).to redirect_to '/my/account'
 
         user = User.find_by_login('foo')
+
         assert user.is_a?(User)
         assert_equal 66, user.auth_source_id
         assert user.current_password.nil?
