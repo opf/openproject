@@ -803,11 +803,10 @@ describe WorkPackage do
   describe :on_active_project do
     let(:project_archived) { FactoryGirl.create(:project,
                                                 status: Project::STATUS_ARCHIVED) }
-    let(:work_package) { FactoryGirl.create(:work_package) }
+    let!(:work_package) { FactoryGirl.create(:work_package) }
     let(:work_package_in_archived_project) { FactoryGirl.create(:work_package,
                                                                 project: project_archived) }
 
-    before { work_package }
 
     subject { WorkPackage.on_active_project.length }
 
@@ -826,12 +825,11 @@ describe WorkPackage do
     let(:user) { FactoryGirl.create(:user) }
     let(:project_archived) { FactoryGirl.create(:project,
                                                 status: Project::STATUS_ARCHIVED) }
-    let(:work_package) { FactoryGirl.create(:work_package, :author => user) }
+    let!(:work_package) { FactoryGirl.create(:work_package, :author => user) }
     let(:work_package_in_archived_project) { FactoryGirl.create(:work_package,
                                                                 :project => project_archived,
                                                                 :author => user) }
 
-    before { work_package }
 
     subject { WorkPackage.with_author(user).length }
 
