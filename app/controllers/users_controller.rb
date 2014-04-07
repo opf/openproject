@@ -254,6 +254,7 @@ class UsersController < ApplicationController
       else
         format.js {
           render(:update) {|page|
+            page.replace_html "tab-content-memberships", :partial => 'users/memberships'
             page.insert_html :top, "tab-content-memberships", :partial => "members/member_errors", :locals => {:member => @membership}
           }
         }
