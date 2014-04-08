@@ -115,7 +115,7 @@ class UsersController < ApplicationController
   verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
   def create
     @user = User.new(:language => Setting.default_language, :mail_notification => Setting.default_notification_option)
-    @user.safe_attributes = params[:user]
+    @user.attributes = permitted_params.user_create_as_admin
     @user.admin = params[:user][:admin] || false
     @user.login = params[:user][:login]
     if @user.change_password_allowed?

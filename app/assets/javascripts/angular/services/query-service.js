@@ -58,26 +58,6 @@ angular.module('openproject.services')
           });
       }
 
-
-      // if(projectIdentifier){
-      //   if(availableFilters[projectIdentifier]){
-      //     return $q.when(availableFilters[projectIdentifier]);
-      //   } else {
-      //     return QueryService.getProjectCustomFieldFilters(projectIdentifier)
-      //       .then(function(data){
-      //         return QueryService.storeAvailableFilters(projectIdentifier, angular.extend(AVAILABLE_WORK_PACKAGE_FILTERS, data.custom_field_filters));
-      //       });
-      //   }
-      // } else {
-      //   if(availableFilters['global']){
-      //     return $q.when(availableFilters['global']);
-      //   } else {
-      //     return QueryService.getCustomFieldFilters()
-      //       .then(function(data){
-      //         return QueryService.storeAvailableFilters('global', angular.extend(AVAILABLE_WORK_PACKAGE_FILTERS, data.custom_field_filters));
-      //       });
-      //   }
-      // }
     },
 
     getProjectCustomFieldFilters: function(projectIdentifier) {

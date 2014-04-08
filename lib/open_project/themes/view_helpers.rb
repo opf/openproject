@@ -59,6 +59,6 @@ end
 
 module ApplicationHelper
   # including a module is way better than defining methods directly in the application helper's module
-  # it plays nicely with inheritence and it will show up in ApplicationHelper.ancestors list
+  # it plays nicely with inheritance and it will show up in ApplicationHelper.ancestors list
   include OpenProject::Themes::ViewHelpers
 end

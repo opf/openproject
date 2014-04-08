@@ -322,7 +322,7 @@ class Query < ActiveRecord::Base
       operator = filter.operator
       values = filter.values ? filter.values.clone : [''] # HACK - some operators don't require values, but they are needed for building the statement
 
-      # "me" value subsitution
+      # "me" value substitution
       if @@user_filters.include? field
         if values.delete("me")
           if User.current.logged?

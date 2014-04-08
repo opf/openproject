@@ -87,7 +87,7 @@ module PlanningElementsHelper
   end
 
   def user_friendly_change(journal, attribute)
-    # unfortunately there is currently no public method for retreiving
+    # unfortunately there is currently no public method for retrieving
     # human friendly:
     # + label
     # + old value

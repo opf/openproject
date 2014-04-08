@@ -135,7 +135,7 @@ module Project::Copy
     # Copies issues from +project+
     def copy_work_packages(project)
       # Stores the source issue id as a key and the copied issues as the
-      # value.  Used to map the two togeather for issue relations.
+      # value.  Used to map the two together for issue relations.
       work_packages_map = {}
 
       # Get issues sorted by root_id, lft so that parent issues

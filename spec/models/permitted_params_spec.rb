@@ -525,45 +525,109 @@ describe PermittedParams do
                          'auth_source_id',
                          'force_password_change']
 
-    it 'should permit nothing for a non-admin user' do
-      # Hash with {'key' => 'key'} for all admin_permissions
-      field_sample = { :user => Hash[admin_permissions.zip(admin_permissions)] }
+    [:user_update_as_admin, :user_create_as_admin].each do |method|
+      describe method do
 
-      params = ActionController::Parameters.new(field_sample)
-      PermittedParams.new(params, user).user_update_as_admin.should == {}
-    end
+        it 'should permit nothing for a non-admin user' do
+          # Hash with {'key' => 'key'} for all admin_permissions
+          field_sample = { :user => Hash[admin_permissions.zip(admin_permissions)] }
 
-    admin_permissions.each do |field|
-      it "should permit #{field}" do
-        hash = { field => 'test' }
-        params = ActionController::Parameters.new(:user => hash)
+          params = ActionController::Parameters.new(field_sample)
+          PermittedParams.new(params, user).method(method).call.should == {}
+        end
 
-        PermittedParams.new(params, admin).user_update_as_admin.should ==
-          { field => 'test' }
+        admin_permissions.each do |field|
+          it "should permit #{field}" do
+            hash = { field => 'test' }
+            params = ActionController::Parameters.new(:user => hash)
+
+            PermittedParams.new(params, admin).method(method).call.should ==
+              { field => 'test' }
+          end
+        end
+
+        it "should permit custom field values" do
+          hash = { "custom_field_values" => { "1" => "5" } }
+
+          params = ActionController::Parameters.new(:user => hash)
+
+          PermittedParams.new(params, admin).method(method).call.should == hash
+        end
+
+        it "should remove custom field values that do not follow the schema 'id as string' => 'value as string'" do
+          hash = { "custom_field_values" => { "blubs" => "5", "5" => {"1" => "2"} } }
+
+          params = ActionController::Parameters.new(:user => hash)
+
+          PermittedParams.new(params, admin).method(method).call.should == {}
+        end
+
       end
     end
 
-    it 'should permit a group_ids list' do
-      hash = { 'group_ids' => ['1', '2'] }
-      params = ActionController::Parameters.new(:user => hash)
+    describe :user_update_as_admin do
+      it 'should permit a group_ids list' do
+        hash = { 'group_ids' => ['1', '2'] }
+        params = ActionController::Parameters.new(:user => hash)
 
-      PermittedParams.new(params, admin).user_update_as_admin.should == hash
+        PermittedParams.new(params, admin).user_update_as_admin.should == hash
+      end
     end
 
-    it "should permit custom field values" do
-      hash = { "custom_field_values" => { "1" => "5" } }
+    describe :user_create_as_admin do
+      it 'should not permit a group_ids list' do
+        hash = { 'group_ids' => ['1', '2'] }
+        params = ActionController::Parameters.new(:user => hash)
 
-      params = ActionController::Parameters.new(:user => hash)
-
-      PermittedParams.new(params, admin).user_update_as_admin.should == hash
+        PermittedParams.new(params, admin).user_create_as_admin.should == {}
+      end
     end
 
-    it "should remove custom field values that do not follow the schema 'id as string' => 'value as string'" do
-      hash = { "custom_field_values" => { "blubs" => "5", "5" => {"1" => "2"} } }
+    user_permissions = [
+      'firstname',
+      'lastname',
+      'mail',
+      'mail_notification',
+      'language',
+      'custom_fields',
+      'identity_url'
+    ]
 
-      params = ActionController::Parameters.new(:user => hash)
+    describe :user do
+      user_permissions.each do |field|
+        it "should permit #{field}" do
+          hash = { field => 'test' }
+          params = ActionController::Parameters.new(:user => hash)
 
-      PermittedParams.new(params, admin).user_update_as_admin.should == {}
+          PermittedParams.new(params, admin).user.should ==
+            { field => 'test' }
+        end
+      end
+
+      (admin_permissions - user_permissions).each do |field|
+          it "should not permit #{field} (admin-only)" do
+            hash = { field => 'test' }
+            params = ActionController::Parameters.new(:user => hash)
+
+            PermittedParams.new(params, admin).user.should == {}
+          end
+        end
+
+      it "should permit custom field values" do
+        hash = { "custom_field_values" => { "1" => "5" } }
+
+        params = ActionController::Parameters.new(:user => hash)
+
+        PermittedParams.new(params, admin).user.should == hash
+      end
+
+      it "should remove custom field values that do not follow the schema 'id as string' => 'value as string'" do
+        hash = { "custom_field_values" => { "blubs" => "5", "5" => {"1" => "2"} } }
+
+        params = ActionController::Parameters.new(:user => hash)
+
+        PermittedParams.new(params, admin).user.should == {}
+      end
     end
   end
 
@@ -752,5 +816,55 @@ describe PermittedParams do
 
       it_behaves_like 'forbids params'
     end
+  end
+
+  describe '.add_permitted_attributes' do
+    before do
+      @original_permitted_attributes = PermittedParams.permitted_attributes.clone
+    end
+
+    after do
+      # Class variable is not accessible within class_eval
+      original_permitted_attributes = @original_permitted_attributes
+
+      PermittedParams.class_eval do
+        @whitelisted_params = original_permitted_attributes
+      end
+    end
+
+    describe 'with a known key' do
+      let(:attribute) { :user }
+
+      before do
+        PermittedParams.send(:add_permitted_attributes, :user => [:a_test_field])
+      end
+
+      context 'with an allowed parameter' do
+        let(:hash) { {'a_test_field' => 'a test value'} }
+
+        it_behaves_like 'allows params'
+      end
+
+      context 'with a disallowed parameter' do
+        let(:hash) { {'a_not_allowed_field' => 'a test value'} }
+
+        it_behaves_like 'forbids params'
+      end
+    end
+
+    describe 'with an unknown key' do
+      let(:attribute) { :unknown_key }
+      let(:hash) { {'a_test_field' => 'a test value'} }
+
+      before do
+        Rails.logger.should_receive(:warn)
+        PermittedParams.send(:add_permitted_attributes, :unknown_key => [:a_test_field])
+      end
+
+      it 'permitted attributes should not include the key and the rails logger should receive a warning' do
+        expect(PermittedParams.permitted_attributes.keys).to_not include(:unknown_key)
+      end
+    end
+
   end
 end

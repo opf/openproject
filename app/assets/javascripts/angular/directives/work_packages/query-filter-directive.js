@@ -80,11 +80,13 @@ angular.module('openproject.workPackages.directives')
       }
 
       function addStandardOptions(options) {
-        if (scope.filter.getModelName() === 'user') {
-          options.unshift(['<< ' + I18n.t('js.label_me') + ' >>', 'me']);
-        }
+        return scope.filter.getModelName().then(function(modelName) {
+          if (modelName === 'user') {
+            options.unshift(['<< ' + I18n.t('js.label_me') + ' >>', 'me']);
+          }
 
-        return options;
+          return options;
+        });
       }
 
       function valueReset(filter, oldFilter) {

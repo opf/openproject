@@ -48,6 +48,7 @@ angular.module('openproject.workPackages.controllers')
 
     $scope.withLoading(WorkPackageService.getWorkPackagesByQueryId, [$scope.projectIdentifier, $scope.query_id])
       .then($scope.setupWorkPackagesTable)
+      .then(initAvailableFilters)
       .then(initAvailableColumns);
   }
 
@@ -67,6 +68,13 @@ angular.module('openproject.workPackages.controllers')
     $scope.showFilters = $scope.query.filters.length > 0;
 
     return $scope.query;
+  }
+
+  function initAvailableFilters(projectIdentifier) {
+    return QueryService.getAvailableFilters($scope.projectIdentifier)
+      .then(function(filters){
+        $scope.availableFilters = filters;
+      });
   }
 
   function initAvailableColumns() {
