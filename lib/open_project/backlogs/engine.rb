@@ -121,7 +121,7 @@ module OpenProject::Backlogs
         :html => {:class => 'icon2 icon-backlogs-icon'}
       end
 
-    assets %w( backlogs/backlogs.css backlogs/backlogs.js backlogs/master_backlogs.css backlogs/taskboard.css)
+    assets %w( backlogs/backlogs.css backlogs/backlogs.js backlogs/master_backlog.css backlogs/taskboard.css)
 
     patches [:PermittedParams, :WorkPackage, :Status, :MyController, :Project,
       :ProjectsController, :ProjectsHelper, :Query, :User, :VersionsController, :Version]
