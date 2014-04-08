@@ -123,7 +123,7 @@ describe AccountController do
       Setting.stub(:self_registration).and_return("3")
     end
     
-    describe 'Register using provider url' do
+    describe 'register' do
       context "with on-the-fly registration" do
         let(:omniauth_hash) do
           OmniAuth::AuthHash.new({
@@ -155,7 +155,7 @@ describe AccountController do
             provider: 'google',
             uid: '123545',
             info: { name: 'foo', email: 'foo@bar.com' } 
-            # etc.
+            # first_name and last_name not set
           })
         end
         
@@ -166,10 +166,8 @@ describe AccountController do
         end
         
         it "registers user via post" do 
-          # set session
-          omniauth_hash.merge({:omniauth => true, :timestamp => Time.new})
-          # might be reasonable to write an extra spec to verify session content
-          session[:auth_source_registration] = omniauth_hash.merge({:omniauth => true, :timestamp => Time.new})
+          auth_source_registration = omniauth_hash.merge({:omniauth => true, :timestamp => Time.new})
+          session[:auth_source_registration] = auth_source_registration
           post :register, :user => {:firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com'}
           expect(response).to redirect_to '/my/first_login'
 
@@ -182,7 +180,7 @@ describe AccountController do
       end
     end
 
-    describe 'Login using provider url' do      
+    describe 'login' do      
       let(:omniauth_hash) do
         OmniAuth::AuthHash.new({
           provider: 'google',
@@ -192,7 +190,7 @@ describe AccountController do
           } 
         })
       end
-      it 'should login in after successfull external authentication' do
+      it 'should sign in the user after successful external authentication' do
         request.env["omniauth.auth"] = omniauth_hash 
         FactoryGirl.create(:user, force_password_change: false, identity_url: 'google:123545')
         get :omniauth_login 
