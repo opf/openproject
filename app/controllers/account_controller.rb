@@ -43,6 +43,7 @@ class AccountController < ApplicationController
   end
 
   def omniauth_login
+    auth_hash = request.env['omniauth.auth']
     user = User.find_or_initialize_by_identity_url(identity_url_from_omniauth(auth_hash))
     if user.new_record?
 
@@ -420,9 +421,5 @@ class AccountController < ApplicationController
     else
       redirect_back_or_default :controller => '/my', :action => 'page'
     end
-  end
-
-  def auth_hash
-    request.env['omniauth.auth']
   end
 end
