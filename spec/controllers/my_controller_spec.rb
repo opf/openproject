@@ -129,14 +129,10 @@ describe MyController, :type => :controller do
   end
   
   describe "index" do
-    before do
-      User.stub(:current).and_return user
-    end
-    it "passes the correct number of reported work packages for user" do
-      work_package_double = class_double("WorkPackage") 
+    it "passes the correct number of reported work packages for the user" do
+      WorkPackage.should_receive(:on_active_project).and_return(WorkPackage.where :id => 0)
+      WorkPackage.should_receive(:with_author).and_return(WorkPackage.where :id => 0)
       get :index
-      work_package_double.should_receive("on_active_project") 
-      work_package_double.should_receive("with_author").with(user)
     end
   end
 end
