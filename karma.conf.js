@@ -30,6 +30,8 @@ module.exports = function(config) {
       "app/assets/javascripts/angular/controllers/timelines_controller.js",
       "app/assets/javascripts/angular/helpers/components/i18n.js",
       "app/assets/javascripts/angular/helpers/components/custom-field-helper.js",
+      'app/assets/javascripts/angular/helpers/components/path-helper.js',
+
       "app/assets/javascripts/angular/config/work-packages-config.js",
       "app/assets/javascripts/angular/models/filter.js",
       "app/assets/javascripts/angular/models/query.js",
@@ -51,6 +53,16 @@ module.exports = function(config) {
       "app/assets/javascripts/angular/models/timelines/status.js",
       "app/assets/javascripts/angular/models/timelines/tree_node.js",
       "app/assets/javascripts/angular/models/timelines/user.js",
+
+      'app/assets/javascripts/angular/services/status-service.js',
+      'app/assets/javascripts/angular/services/type-service.js',
+      'app/assets/javascripts/angular/services/priority-service.js',
+      'app/assets/javascripts/angular/services/user-service.js',
+      'app/assets/javascripts/angular/services/version-service.js',
+      'app/assets/javascripts/angular/services/role-service.js',
+      'app/assets/javascripts/angular/services/group-service.js',
+      'app/assets/javascripts/angular/services/project-service.js',
+      'app/assets/javascripts/angular/services/query-service.js',
 
       'app/assets/javascripts/date-en-US.js',
 
