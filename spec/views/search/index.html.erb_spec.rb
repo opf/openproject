@@ -50,6 +50,6 @@ describe 'search/index' do
     expect(response).to have_selector("option[selected]", :text => project.name)
 
     # The grouped result link should retain the scope
-    response.should have_xpath("//a[contains(@href,'current_project')]", :text => /work packages.*/i)
+    expect(response).to have_xpath("//a[contains(@href,'current_project')]", :text => /work packages.*/i)
   end
 end

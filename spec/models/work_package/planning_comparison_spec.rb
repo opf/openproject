@@ -35,7 +35,7 @@ describe "Planning Comparison" do
 
   before do
     # query implicitly uses the logged in user to check for allowed work_packages/projects
-    User.stub(:current).and_return(admin)
+    allow(User).to receive(:current).and_return(admin)
   end
 
   describe "going back in history" do

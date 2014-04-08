@@ -43,7 +43,7 @@ describe OpenProject::Acts::Watchable::Routes do
         let(:id) { "1" }
 
         it "should be true" do
-          OpenProject::Acts::Watchable::Routes.matches?(request).should be_true
+          expect(OpenProject::Acts::Watchable::Routes.matches?(request)).to be_true
         end
       end
 
@@ -51,7 +51,7 @@ describe OpenProject::Acts::Watchable::Routes do
         let(:id) { "schmu" }
 
         it "should be false" do
-          OpenProject::Acts::Watchable::Routes.matches?(request).should be_false
+          expect(OpenProject::Acts::Watchable::Routes.matches?(request)).to be_false
         end
       end
     end
@@ -70,7 +70,7 @@ describe OpenProject::Acts::Watchable::Routes do
       let(:id) { "4" }
 
       it "should be false" do
-        OpenProject::Acts::Watchable::Routes.matches?(request).should be_false
+        expect(OpenProject::Acts::Watchable::Routes.matches?(request)).to be_false
       end
     end
   end

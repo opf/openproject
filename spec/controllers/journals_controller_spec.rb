@@ -50,8 +50,8 @@ describe JournalsController do
       get :diff, params
     end
 
-    it { response.should be_success }
-    it { response.body.strip.should == "<div class=\"text-diff\">\n  <ins class=\"diffmod\">description</ins>\n</div>" }
+    it { expect(response).to be_success }
+    it { expect(response.body.strip).to eq("<div class=\"text-diff\">\n  <ins class=\"diffmod\">description</ins>\n</div>") }
   end
 
   describe :edit do
@@ -60,7 +60,7 @@ describe JournalsController do
         work_package.update_attribute :description, 'description'
         role.add_permission! *permissions
         member.save and user.reload
-        User.stub(:current).and_return user
+        allow(User).to receive(:current).and_return user
 
         get :edit, id: work_package.journals.last.id
       end

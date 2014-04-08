@@ -75,7 +75,7 @@ module OpenProject
 
       describe '.register_theme' do
         it "remembers whatever is passed in (this is called by #inherited hook)" do
-          theme = stub # do not invoke inherited callback
+          theme = double # do not invoke inherited callback
           ThemeFinder.register_theme(theme)
           expect(ThemeFinder.themes).to include theme
         end

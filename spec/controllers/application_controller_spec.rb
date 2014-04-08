@@ -47,11 +47,11 @@ describe ApplicationController do
 
     describe 'with log_requesting_user enabled' do
       before do
-        Setting.stub(:log_requesting_user?).and_return(true)
+        allow(Setting).to receive(:log_requesting_user?).and_return(true)
       end
 
       it 'should log the current user' do
-        Rails.logger.should_receive(:info).once.with(user_message)
+        expect(Rails.logger).to receive(:info).once.with(user_message)
 
         as_logged_in_user(user) do
           get(:index)
@@ -59,7 +59,7 @@ describe ApplicationController do
       end
 
       it 'should log an anonymous user' do
-        Rails.logger.should_receive(:info).once.with(anonymous_message)
+        expect(Rails.logger).to receive(:info).once.with(anonymous_message)
 
         # no login, so this is done as Anonymous
         get(:index)
@@ -68,11 +68,11 @@ describe ApplicationController do
 
     describe 'with log_requesting_user disabled' do
       before do
-        Setting.stub(:log_requesting_user?).and_return(false)
+        allow(Setting).to receive(:log_requesting_user?).and_return(false)
       end
 
       it 'should not log the current user' do
-        Rails.logger.should_not_receive(:info).with(user_message)
+        expect(Rails.logger).not_to receive(:info).with(user_message)
 
         as_logged_in_user(user) do
           get(:index)

@@ -38,7 +38,7 @@ describe WorkPackages::CalendarsController do
   let(:work_package) { FactoryGirl.create(:work_package,
                                           project: project) }
 
-  before { User.stub(:current).and_return(user) }
+  before { allow(User).to receive(:current).and_return(user) }
 
   describe :index do
     shared_examples_for "calendar#index" do
@@ -84,7 +84,7 @@ describe WorkPackages::CalendarsController do
     describe "start of week" do
       context "Sunday" do
         before do
-          Setting.stub(:start_of_week).and_return(7)
+          allow(Setting).to receive(:start_of_week).and_return(7)
 
           get :index, month: '1', year: '2010'
         end
@@ -112,7 +112,7 @@ describe WorkPackages::CalendarsController do
 
       context "Monday" do
         before do
-          Setting.stub(:start_of_week).and_return(1)
+          allow(Setting).to receive(:start_of_week).and_return(1)
 
           get :index, month: '1', year: '2010'
         end

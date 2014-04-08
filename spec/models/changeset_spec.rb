@@ -37,7 +37,7 @@ describe Changeset do
                                       committer: email,
                                       comments: "Initial commit") }
 
-  before { Setting.stub(:enabled_scm).and_return(['Filesystem']) }
+  before { allow(Setting).to receive(:enabled_scm).and_return(['Filesystem']) }
 
   shared_examples_for 'valid changeset' do
     it { expect(changeset.revision).to eq('1') }
@@ -79,7 +79,7 @@ describe Changeset do
       let!(:committer) { FactoryGirl.create(:user, login: email) }
 
       before do
-        User.stub(:current).and_return current_user
+        allow(User).to receive(:current).and_return current_user
 
         changeset.save!
       end

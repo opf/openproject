@@ -36,7 +36,7 @@ describe 'Work package index' do
     let(:work_packages_page) { WorkPackagesPage.new }
 
     before do
-      User.stub(:current).and_return current_user
+      allow(User).to receive(:current).and_return current_user
 
       work_packages_page.visit_index
     end

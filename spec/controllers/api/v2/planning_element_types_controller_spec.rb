@@ -32,7 +32,7 @@ describe Api::V2::PlanningElementTypesController do
   let (:current_user) { FactoryGirl.create(:admin) }
 
   before do
-    User.stub(:current).and_return current_user
+    allow(User).to receive(:current).and_return current_user
   end
 
   def enable_type(project, type)
@@ -51,21 +51,21 @@ describe Api::V2::PlanningElementTypesController do
 
       describe 'with unknown project' do
         it 'raises ActiveRecord::RecordNotFound errors' do
-          lambda do
+          expect do
             get 'index', :project_id => 'blah', :format => 'xml'
-          end.should raise_error(ActiveRecord::RecordNotFound)
+          end.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 
       describe 'with only the standard type available' do
         it 'assigns an type array including the standard type' do
           get 'index', :project_id => project.identifier, :format => 'xml'
-          assigns(:types).should == project.types
+          expect(assigns(:types)).to eq(project.types)
         end
 
         it 'renders the index builder template' do
           get 'index', :project_id => project.identifier, :format => 'xml'
-          response.should render_template('planning_element_types/index', :formats => ["api"])
+          expect(response).to render_template('planning_element_types/index', :formats => ["api"])
         end
       end
 
@@ -93,12 +93,12 @@ describe Api::V2::PlanningElementTypesController do
 
         it 'assigns an array with all planning element types' do
           get 'index', :project_id => project.identifier, :format => 'xml'
-          assigns(:types).should == @all_types
+          expect(assigns(:types)).to eq(@all_types)
         end
 
         it 'renders the index template' do
           get 'index', :project_id => project.identifier, :format => 'xml'
-          response.should render_template('planning_element_types/index', :formats => ["api"])
+          expect(response).to render_template('planning_element_types/index', :formats => ["api"])
         end
       end
     end
@@ -114,17 +114,17 @@ describe Api::V2::PlanningElementTypesController do
 
       describe 'with unknown project' do
         it 'raises ActiveRecord::RecordNotFound errors' do
-          lambda do
+          expect do
             get 'show', :project_id => 'blah', :id => '1337', :format => 'xml'
-          end.should raise_error(ActiveRecord::RecordNotFound)
+          end.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 
       describe 'with unknown planning element type' do
         it 'raises ActiveRecord::RecordNotFound errors' do
-          lambda do
+          expect do
             get 'show', :project_id => project.identifier, :id => '1337', :format => 'xml'
-          end.should raise_error(ActiveRecord::RecordNotFound)
+          end.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 
@@ -134,9 +134,9 @@ describe Api::V2::PlanningElementTypesController do
         end
 
         it 'raises ActiveRecord::RecordNotFound errors' do
-          lambda do
+          expect do
             get 'show', :project_id => project.identifier, :id => '1337', :format => 'xml'
-          end.should raise_error(ActiveRecord::RecordNotFound)
+          end.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 
@@ -150,12 +150,12 @@ describe Api::V2::PlanningElementTypesController do
 
         it 'assigns the available planning element type' do
           get 'show', :project_id => project.identifier, :id => '1337', :format => 'xml'
-          assigns(:type).should == @available_planning_element_type
+          expect(assigns(:type)).to eq(@available_planning_element_type)
         end
 
         it 'renders the show template' do
           get 'show', :project_id => project.identifier, :id => '1337', :format => 'xml'
-          response.should render_template('planning_element_types/show', :formats => ["api"])
+          expect(response).to render_template('planning_element_types/show', :formats => ["api"])
         end
       end
     end
@@ -171,12 +171,12 @@ describe Api::V2::PlanningElementTypesController do
       describe 'with no planning element types available' do
         it 'assigns an empty planning_element_types array' do
           get 'index', :format => 'xml'
-          assigns(:types).should == []
+          expect(assigns(:types)).to eq([])
         end
 
         it 'renders the index builder template' do
           get 'index', :format => 'xml'
-          response.should render_template('planning_element_types/index', :formats => ["api"])
+          expect(response).to render_template('planning_element_types/index', :formats => ["api"])
         end
       end
 
@@ -191,12 +191,12 @@ describe Api::V2::PlanningElementTypesController do
 
         it 'assigns an array with all planning element types' do
           get 'index', :format => 'xml'
-          assigns(:types).should == @created_planning_element_types
+          expect(assigns(:types)).to eq(@created_planning_element_types)
         end
 
         it 'renders the index template' do
           get 'index', :format => 'xml'
-          response.should render_template('planning_element_types/index', :formats => ["api"])
+          expect(response).to render_template('planning_element_types/index', :formats => ["api"])
         end
       end
     end
@@ -207,20 +207,20 @@ describe Api::V2::PlanningElementTypesController do
           it 'returns status code 404' do
             get 'show', :id => '1337', :format => 'xml'
 
-            response.status.should == '404 Not Found'
+            expect(response.status).to eq('404 Not Found')
           end
 
           it 'returns an empty body' do
             get 'show', :id => '1337', :format => 'xml'
 
-            response.body.should be_empty
+            expect(response.body).to be_empty
           end
 
         else # but have to write it that way
           it 'raises ActiveRecord::RecordNotFound errors' do
-            lambda do
+            expect do
               get 'show', :id => '1337', :format => 'xml'
-            end.should raise_error(ActiveRecord::RecordNotFound)
+            end.to raise_error(ActiveRecord::RecordNotFound)
           end
         end
       end
@@ -237,12 +237,12 @@ describe Api::V2::PlanningElementTypesController do
 
         it 'assigns the available planning element type' do
           get 'show', :id => '1337', :format => 'xml'
-          assigns(:type).should == @available_planning_element_type
+          expect(assigns(:type)).to eq(@available_planning_element_type)
         end
 
         it 'renders the show template' do
           get 'show', :id => '1337', :format => 'xml'
-          response.should render_template('planning_element_types/show', :formats => ["api"])
+          expect(response).to render_template('planning_element_types/show', :formats => ["api"])
         end
       end
     end

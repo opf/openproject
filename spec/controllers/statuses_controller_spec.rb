@@ -32,7 +32,7 @@ describe StatusesController do
   let(:user) { FactoryGirl.create(:admin) }
   let(:status) { FactoryGirl.create(:status) }
 
-  before { User.stub(:current).and_return user }
+  before { allow(User).to receive(:current).and_return user }
 
   shared_examples_for :response do
     subject { response }
@@ -186,7 +186,7 @@ describe StatusesController do
       let(:message) { /not updated/ } 
 
       before do
-        Setting.stub(:work_package_done_ratio).and_return 'field'
+        allow(Setting).to receive(:work_package_done_ratio).and_return 'field'
 
         post :update_work_package_done_ratio
       end
@@ -200,7 +200,7 @@ describe StatusesController do
       let(:message) { /Work package done ratios updated/ } 
 
       before do
-        Setting.stub(:work_package_done_ratio).and_return 'status'
+        allow(Setting).to receive(:work_package_done_ratio).and_return 'status'
 
         post :update_work_package_done_ratio
       end

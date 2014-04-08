@@ -53,7 +53,7 @@ describe OpenProject::JournalFormatter::CustomField do
                               :label => "<strong>#{custom_field.name}</strong>",
                               :value => "<i>#{ format_value(values.last, custom_field.field_format) }</i>") }
 
-      it { instance.render(key, values).should == expected }
+      it { expect(instance.render(key, values)).to eq(expected) }
     end
 
     describe "WITH the first value beeing a valid value as a string, and the second beeing a valid value as a string" do
@@ -64,7 +64,7 @@ describe OpenProject::JournalFormatter::CustomField do
                               :old => "<i>#{ format_value(values.first, custom_field.field_format) }</i>",
                               :new => "<i>#{ format_value(values.last, custom_field.field_format) }</i>") }
 
-      it { instance.render(key, values).should == expected }
+      it { expect(instance.render(key, values)).to eq(expected) }
     end
 
     describe "WITH the first value beeing a valid value as a string, and the second beeing nil" do
@@ -74,7 +74,7 @@ describe OpenProject::JournalFormatter::CustomField do
                               :label => "<strong>#{custom_field.name}</strong>",
                               :old => "<strike><i>#{ format_value(values.first, custom_field.field_format) }</i></strike>") }
 
-      it { instance.render(key, values).should == expected }
+      it { expect(instance.render(key, values)).to eq(expected) }
     end
 
     describe "WITH the first value beeing nil, and the second a valid value as string
@@ -85,7 +85,7 @@ describe OpenProject::JournalFormatter::CustomField do
                               :label => "#{custom_field.name}",
                               :value => "#{ format_value(values.last, custom_field.field_format) }") }
 
-      it { instance.render(key, values, :no_html => true).should == expected }
+      it { expect(instance.render(key, values, :no_html => true)).to eq(expected) }
     end
 
     describe "WITH the first value beeing a valid value as a string, and the second beeing a valid value as a string
@@ -97,7 +97,7 @@ describe OpenProject::JournalFormatter::CustomField do
                               :old => "#{ format_value(values.first, custom_field.field_format) }",
                               :new => "#{ format_value(values.last, custom_field.field_format) }") }
 
-      it { instance.render(key, values, :no_html => true).should == expected }
+      it { expect(instance.render(key, values, :no_html => true)).to eq(expected) }
     end
 
     describe "WITH the first value beeing a valid value as a string, and the second beeing nil
@@ -108,7 +108,7 @@ describe OpenProject::JournalFormatter::CustomField do
                               :label => "#{custom_field.name}",
                               :old => "#{ format_value(values.first, custom_field.field_format) }") }
 
-      it { instance.render(key, values, :no_html => true).should == expected }
+      it { expect(instance.render(key, values, :no_html => true)).to eq(expected) }
     end
 
     describe "WITH the first value beeing nil, and the second a valid value as string
@@ -120,7 +120,7 @@ describe OpenProject::JournalFormatter::CustomField do
                               :label => "<strong>#{I18n.t(:label_deleted_custom_field)}</strong>",
                               :value => "<i>#{ values.last }</i>") }
 
-      it { instance.render(key, values).should == expected }
+      it { expect(instance.render(key, values)).to eq(expected) }
     end
 
     describe "WITH the first value beeing a valid value as a string, and the second beeing a valid value as a string
@@ -133,7 +133,7 @@ describe OpenProject::JournalFormatter::CustomField do
                               :old => "<i>#{ values.first }</i>",
                               :new => "<i>#{ values.last }</i>") }
 
-      it { instance.render(key, values).should == expected }
+      it { expect(instance.render(key, values)).to eq(expected) }
     end
 
     describe "WITH the first value beeing a valid value as a string, and the second beeing nil
@@ -145,7 +145,7 @@ describe OpenProject::JournalFormatter::CustomField do
                               :label => "<strong>#{I18n.t(:label_deleted_custom_field)}</strong>",
                               :old => "<strike><i>#{ values.first }</i></strike>") }
 
-      it { instance.render(key, values).should == expected }
+      it { expect(instance.render(key, values)).to eq(expected) }
     end
   end
 end
