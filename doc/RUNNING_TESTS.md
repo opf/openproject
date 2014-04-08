@@ -83,14 +83,14 @@ If you need Firebug and Firepath while debugging a scenario, just replace
 @javascript with @firebug.
 
 
-## Running tests with Mocha
+## Running tests with Karma
 
-To run JavaScript tests install phantomjs and mocha-phantomjs, e.g. via npm. You can then run
+To run JavaScript tests, first ensure you have Karma and all necessary
+dependencies installed via npm (i.e. `npm install`). You can then execute tests
+as follows:
 
-  ``mocha-phantomjs mocha/index.html``
-
-Alternatively open mocha/index.html in a browser.
-
+    ./node_modules/karma/bin/karma start --single-run
+    ./node_modules/karma/bin/karma start --browsers Chrome,Firefox
 
 ## RSpec
 
