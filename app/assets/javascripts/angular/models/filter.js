@@ -29,7 +29,7 @@
 angular.module('openproject.models')
 
 .constant('OPERATORS_REQUIRING_VALUES', ['o', 'c', '!*', '*', 't', 'w'])
-.factory('Filter', ['OPERATORS_REQUIRING_VALUES', 'AVAILABLE_WORK_PACKAGE_FILTERS', function(OPERATORS_REQUIRING_VALUES, AVAILABLE_WORK_PACKAGE_FILTERS) {
+.factory('Filter', ['OPERATORS_REQUIRING_VALUES', 'QueryService', function(OPERATORS_REQUIRING_VALUES, QueryService) {
   Filter = function (data) {
     angular.extend(this, data);
     this.pruneValues();
@@ -64,8 +64,18 @@ angular.module('openproject.models')
       return this.operator && (this.hasValues() || !this.requiresValues());
     },
 
+    /**
+     * @name getModelName
+     *
+     * @description Looks through the available filters and looks up the model name
+     * @returns {promise} Promise yielding the model name
+     */
     getModelName: function() {
-      return AVAILABLE_WORK_PACKAGE_FILTERS[this.name].modelName;
+      var self = this;
+      return QueryService.getAvailableFilters()
+        .then(function(filters){
+          return filters[self.name].modelName;
+        });
     },
 
     pruneValues: function() {

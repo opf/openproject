@@ -51,7 +51,7 @@ angular.module('openproject.workPackages.directives')
       // Filter updates
 
       scope.$watch('filter.operator', function(operator) {
-        if(operator) scope.showValuesInput = scope.filter.requiresValues();
+        if(operator && scope.filter.requiresValues) scope.showValuesInput = scope.filter.requiresValues();
       });
 
       scope.$watch('filter', function(filter, oldFilter) {
@@ -80,11 +80,13 @@ angular.module('openproject.workPackages.directives')
       }
 
       function addStandardOptions(options) {
-        if (scope.filter.getModelName() === 'user') {
-          options.unshift(['<< ' + I18n.t('js.label_me') + ' >>', 'me']);
-        }
+        return scope.filter.getModelName().then(function(modelName) {
+          if (modelName === 'user') {
+            options.unshift(['<< ' + I18n.t('js.label_me') + ' >>', 'me']);
+          }
 
-        return options;
+          return options;
+        });
       }
 
       function valueReset(filter, oldFilter) {
