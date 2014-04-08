@@ -94,10 +94,9 @@
 #
 # === More configuration options
 #
-# See the "Configuration options" at the following website for a list of the
-# full options allowed:
+# See following page:
 #
-# http://wiki.rubyonrails.org/rails/pages/HowToSendEmailsWithActionMailer
+# http://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration
 
 
 # default configuration options for all environments

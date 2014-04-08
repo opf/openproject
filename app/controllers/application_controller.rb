@@ -58,6 +58,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   def handle_unverified_request
     super
+    self.logged_user = nil
     cookies.delete(:autologin)
   end
 
