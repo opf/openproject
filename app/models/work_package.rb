@@ -978,7 +978,7 @@ class WorkPackage < ActiveRecord::Base
 
   # Update issues so their versions are not pointing to a
   # fixed_version that is not shared with the issue's project
-  def self.update_versions(conditions=nil)
+  private_class_method def self.update_versions(conditions=nil)
     # Only need to update issues with a fixed_version from
     # a different project and that is not systemwide shared
     WorkPackage.all(:conditions => merge_conditions("#{WorkPackage.table_name}.fixed_version_id IS NOT NULL" +
