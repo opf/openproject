@@ -57,6 +57,7 @@ module.exports = function(config) {
       "app/assets/javascripts/angular/models/timelines/status.js",
       "app/assets/javascripts/angular/models/timelines/tree_node.js",
       "app/assets/javascripts/angular/models/timelines/user.js",
+      "app/assets/javascripts/angular/directives/components/*.js",
 
       'app/assets/javascripts/angular/services/status-service.js',
       'app/assets/javascripts/angular/services/type-service.js',
@@ -69,6 +70,7 @@ module.exports = function(config) {
       'app/assets/javascripts/angular/services/project-service.js',
       'app/assets/javascripts/angular/services/work-package-service.js',
       'app/assets/javascripts/angular/services/query-service.js',
+      'app/assets/javascripts/angular/services/pagination-service.js',
 
       "app/assets/javascripts/angular/controllers/timelines-controller.js",
       "app/assets/javascripts/angular/controllers/work-packages-controller.js",
