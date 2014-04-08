@@ -69,6 +69,13 @@ module OpenProject::Reporting
       require 'open_project/reporting/hooks'
     end
 
+    initializer 'reporting.precompile_assets' do
+      Rails.application.config.assets.precompile += %w(
+        reporting_engine/reporting_engine.css
+        reporting_engine/reporting_engine.js
+      )
+    end
+
     config.to_prepare do
       require_dependency 'report/walker'
       require_dependency 'report/transformer'
