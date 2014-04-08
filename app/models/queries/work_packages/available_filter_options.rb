@@ -36,7 +36,7 @@ module Queries::WorkPackages::AvailableFilterOptions
     add_visible_projects_options unless project || visible_projects.empty?
     add_user_options
 
-    if project
+    @available_work_package_filters = if project
       add_project_options
     else
       add_global_options
@@ -47,6 +47,31 @@ module Queries::WorkPackages::AvailableFilterOptions
 
   def work_package_filter_available?(key)
     available_work_package_filters.has_key?(key.to_s)
+  end
+
+  def get_custom_field_options(custom_fields)
+    filters = {}
+    custom_fields.select(&:is_filter?).each do |field|
+      case field.field_format
+      when "int", "float"
+        options = { type: :integer, order: 20 }
+      when "text"
+        options = { type: :text, order: 20 }
+      when "list"
+        options = { type: :list_optional, values: field.possible_values, order: 20}
+      when "date"
+        options = { type: :date, order: 20 }
+      when "bool"
+        options = { type: :list, values: [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]], order: 20 }
+      when "user", "version"
+        next unless project
+        options = { type: :list_optional, values: field.possible_values_options(project), order: 20}
+      else
+        options = { type: :string, order: 20 }
+      end
+      filters["cf_#{field.id}"] = options.merge({ name: field.name })
+    end
+    filters
   end
 
   private
@@ -179,25 +204,6 @@ module Queries::WorkPackages::AvailableFilterOptions
     available_work_package_filters # compute default available_work_package_filters
     return available_work_package_filters if available_work_package_filters.any? { |key, _| key.starts_with? 'cf_' }
 
-    custom_fields.select(&:is_filter?).each do |field|
-      case field.field_format
-      when "int", "float"
-        options = { type: :integer, order: 20 }
-      when "text"
-        options = { type: :text, order: 20 }
-      when "list"
-        options = { type: :list_optional, values: field.possible_values, order: 20}
-      when "date"
-        options = { type: :date, order: 20 }
-      when "bool"
-        options = { type: :list, values: [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]], order: 20 }
-      when "user", "version"
-        next unless project
-        options = { type: :list_optional, values: field.possible_values_options(project), order: 20}
-      else
-        options = { type: :string, order: 20 }
-      end
-      @available_work_package_filters["cf_#{field.id}"] = options.merge({ name: field.name })
-    end
+    @available_work_package_filters.merge(get_custom_field_options(custom_fields))
   end
 end

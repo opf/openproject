@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -26,46 +27,41 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+module Api
+  module V3
 
+    class ProjectsController < ApplicationController
+      include ::Api::V3::ApiController
 
-module Api::V3
-  class QueriesController < ApplicationController
-    unloadable
+      before_filter :find_project, except: [:index]
 
-    include ApiController
-    include Concerns::ColumnData
-
-    include QueriesHelper
-    include ExtendedHTTP
-
-    before_filter :find_optional_project
-    before_filter :setup_query
-
-    def available_columns
-      @available_columns = get_columns_for_json(@query.available_columns)
-
-      respond_to do |format|
-        format.api
+      def index
+        @projects = Project.visible
+        respond_to do |format|
+          format.api
+        end
       end
-    end
 
-    def custom_field_filters
-      custom_fields = if @project
-                        @project.all_work_package_custom_fields
-                      else
-                        WorkPackageCustomField.for_all
-                      end
-      @custom_field_filters = @query.get_custom_field_options(custom_fields)
-
-      respond_to do |format|
-        format.api
+      def show
+        respond_to do |format|
+          format.api
+        end
       end
-    end
 
-    private
+      def sub_projects
+        @sub_projects = @project.descendants.visible
 
-    def setup_query
-      @query = retrieve_query
+        respond_to do |format|
+          format.api
+        end
+      end
+
+      private
+
+      def find_project
+        @project = Project.find(params[:project_id])
+      end
+
     end
   end
 end
