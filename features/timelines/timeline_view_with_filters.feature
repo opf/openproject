@@ -97,6 +97,7 @@ Feature: Timeline view with filter tests
           | Login     | hubert     |
           | Firstname | Hubert     |
           | Lastname  | Farnsworth |
+      And the user "hubert" is a "manager" in the project "Space Pilot 3000"
       And there are the following work packages in project "Space Pilot 3000":
           | Subject                             | Start date | Due date   | Responsible | Parent      |
           | Hubert Farnsworth's Birthday        | 2841-04-09 | 2841-04-09 | hubert      |             |
@@ -118,6 +119,7 @@ Feature: Timeline view with filter tests
           | Login     | hubert     |
           | Firstname | Hubert     |
           | Lastname  | Farnsworth |
+      And the user "hubert" is a "manager" in the project "Space Pilot 3000"
       And there are the following work packages in project "Space Pilot 3000":
           | Subject                             | Start date | Due date   | Responsible | Parent      |
           | Hubert Farnsworth's Birthday        | 2841-04-09 | 2841-04-09 | hubert      |             |

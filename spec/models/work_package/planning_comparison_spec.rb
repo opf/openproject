@@ -97,7 +97,8 @@ describe "Planning Comparison" do
 
 
   describe "filtering work_packages also applies to the history" do
-    let(:assigned_to_user) {FactoryGirl.create(:user)}
+    let(:assigned_to_user) {FactoryGirl.create(:user, :member_in_project => project)}
+    let(:other_user) { FactoryGirl.create(:user, :member_in_project => project) }
     let (:filter) do
       { f: ["assigned_to_id"],
         op: {"assigned_to_id" => "="},
@@ -119,7 +120,6 @@ describe "Planning Comparison" do
     end
 
     let (:filtered_work_package) do
-      other_user = FactoryGirl.create(:user)
       wp = nil
       # create 2 journal-entries, to make sure, that the comparison actually picks up the latest one
       Timecop.travel(1.week.ago) do
@@ -135,6 +135,7 @@ describe "Planning Comparison" do
 
     before do
       work_package
+      project.reload
       filtered_work_package
     end
 

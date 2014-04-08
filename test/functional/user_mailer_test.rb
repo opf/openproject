@@ -436,8 +436,9 @@ class UserMailerTest < ActionMailer::TestCase
   end
 
   def test_reminders
-    user  = FactoryGirl.create(:user, :mail => 'foo@bar.de')
-    issue = FactoryGirl.create(:work_package, :due_date => Date.tomorrow, :assigned_to => user, :subject => 'some issue')
+    project = FactoryGirl.create(:project)
+    user  = FactoryGirl.create(:user, :mail => 'foo@bar.de', :member_in_project => project)
+    issue = FactoryGirl.create(:work_package, :project => project, :due_date => Date.tomorrow, :assigned_to => user, :subject => 'some issue')
     ActionMailer::Base.deliveries.clear
     DueIssuesReminder.new(42).remind_users
     assert_equal 1, ActionMailer::Base.deliveries.size
@@ -448,9 +449,10 @@ class UserMailerTest < ActionMailer::TestCase
   end
 
   def test_reminders_for_users
-    user1  = FactoryGirl.create(:user, :mail => 'foo1@bar.de')
+    project = FactoryGirl.create(:project)
+    user1  = FactoryGirl.create(:user, :mail => 'foo1@bar.de', :member_in_project => project)
     user2  = FactoryGirl.create(:user, :mail => 'foo2@bar.de')
-    issue = FactoryGirl.create(:work_package, :due_date => Date.tomorrow, :assigned_to => user1, :subject => 'some issue')
+    issue = FactoryGirl.create(:work_package, :project => project, :due_date => Date.tomorrow, :assigned_to => user1, :subject => 'some issue')
     ActionMailer::Base.deliveries.clear
 
     DueIssuesReminder.new(42, nil, nil, [user2.id]).remind_users

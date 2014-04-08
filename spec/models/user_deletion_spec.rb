@@ -31,7 +31,7 @@ require 'spec_helper'
 describe User, 'deletion' do
   let(:project) { FactoryGirl.create(:project_with_types) }
   let(:user) { FactoryGirl.build(:user, :member_in_project => project) }
-  let(:user2) { FactoryGirl.build(:user) }
+  let(:user2) { FactoryGirl.build(:user, :member_in_project => project) }
   let(:member) { project.members.first }
   let(:role) { member.roles.first }
   let(:status) { FactoryGirl.create(:status) }
@@ -321,7 +321,7 @@ describe User, 'deletion' do
   describe "WHEN the user is a member of a project" do
     before do
       member #saving
-      user.destroy
+      member.user.destroy
     end
 
     it { Member.find_by_id(member.id).should be_nil }

@@ -47,7 +47,10 @@ describe Group do
         become_member_with_permissions project, group, [:view_work_packages]
         package.assigned_to = group
 
-        package.save!
+        with_settings(:work_package_group_assignment => '1') do
+          project.reload
+          package.save!
+        end
       end
 
       it 'should reassign the work package to nobody' do

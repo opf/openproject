@@ -98,14 +98,16 @@ describe WorkPackage do
 
     describe :assigned_to do
       context :group_assignment do
-        let(:group) { FactoryGirl.create(:group) }
+        
+        let(:group) { FactoryGirl.create(:group, :member_in_project => project) }
 
         before do
-          Setting.stub(:work_package_group_assignment).and_return(true)
+          WorkPackageObserver.any_instance.stub(:send_notification).and_return false
         end
 
-        subject { FactoryGirl.create(:work_package,
-                                     assigned_to: group).assigned_to }
+        subject { with_settings(:work_package_group_assignment => '1') { FactoryGirl.create(:work_package,
+                                     :project => project, 
+                                     :assigned_to => group).assigned_to } }
 
         it { should eq(group) }
       end
@@ -683,8 +685,9 @@ describe WorkPackage do
                                           project: project) }
     let(:category_2) { FactoryGirl.create(:category,
                                           project: project) }
-    let(:user_2) { FactoryGirl.create(:user) }
-
+    let(:user) { FactoryGirl.create(:user, member_in_project: project) } 
+    let(:user_2) { FactoryGirl.create(:user, member_in_project: project) }
+ 
     let(:work_package_1) { FactoryGirl.create(:work_package,
                                               author: user,
                                               assigned_to: user,
@@ -705,6 +708,7 @@ describe WorkPackage do
                                               category: category_2) }
 
     before do
+      user_2
       work_package_1
       work_package_2
     end
@@ -826,7 +830,7 @@ describe WorkPackage do
     let(:project) { FactoryGirl.create(:project) }
     let(:member) { FactoryGirl.create(:user) }
     let(:author) { FactoryGirl.create(:user) }
-    let(:assignee) { FactoryGirl.create(:user) }
+    let(:assignee) { FactoryGirl.create(:user, :member_in_project => project) }
     let(:role) { FactoryGirl.create(:role,
                                     permissions: [:view_work_packages]) }
     let(:project_member) { FactoryGirl.create(:member,
@@ -837,10 +841,6 @@ describe WorkPackage do
                                               user: author,
                                               project: project,
                                               roles: [role]) }
-    let(:project_assignee) { FactoryGirl.create(:member,
-                                                user: assignee,
-                                                project: project,
-                                                roles: [role]) }
     let(:work_package) { FactoryGirl.create(:work_package,
                                             author: author,
                                             assigned_to: assignee,
@@ -887,8 +887,6 @@ describe WorkPackage do
     end
 
     describe "includes work package assignee" do
-      before { project_assignee }
-
       context "pre-condition" do
         subject { work_package.assigned_to }
 
@@ -903,7 +901,6 @@ describe WorkPackage do
     context "mail notification settings" do
       before do
         project_author
-        project_assignee
       end
 
       describe :none do
@@ -1278,7 +1275,7 @@ describe WorkPackage do
       User.stub(:current).and_return(@current)
       @project.add_member!(@current, role)
 
-      @user2 = FactoryGirl.create(:user, :login => "user2", :mail => "user2@users.com")
+      @user2 = FactoryGirl.create(:user, :login => "user2", :mail => "user2@users.com", :member_in_project => @project)
 
 
       @issue ||= FactoryGirl.create(:work_package, :project => @project, :status => @status_open, :type => @type, :author => @current)
@@ -1330,6 +1327,7 @@ describe WorkPackage do
         @issue.status = @status_rejected
         @issue.priority = @priority_low
         @issue.estimated_hours = 3
+        @issue.project = @project
         @issue.save!
 
         initial_journal = @issue.journals.first

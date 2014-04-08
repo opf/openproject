@@ -131,8 +131,12 @@ describe WorkPackage do
       let(:type_2) { FactoryGirl.create :type }
       let(:status_2) { FactoryGirl.create :status }
       let(:priority_2) { FactoryGirl.create :priority }
+      let(:member) { FactoryGirl.build :member, :user => User.current, :project => project }
+      let(:role) { FactoryGirl.create :role }
 
       before do
+        member.role_ids = [role]
+        member.save!
         project.types << type_2
 
         work_package.subject = "changed"

@@ -52,6 +52,9 @@ module WorkPackage::Validations
     validate :validate_status_transition
 
     validate :validate_active_priority
+    
+    validate :validate_assigned_to_is_valid
+    validate :validate_responsible_is_valid
   end
 
   def validate_start_date_before_soonest_start_date
@@ -100,6 +103,22 @@ module WorkPackage::Validations
   def validate_active_priority
     if self.priority && !self.priority.active? && self.changes[:priority_id]
       errors.add :priority_id, :only_active_priorities_allowed
+    end
+  end
+  
+  def validate_assigned_to_is_valid
+    if self.assigned_to.present?
+      unless is_possible_assignee?(self.assigned_to)
+        errors.add(:assigned_to, l(:error_must_be_project_member))
+      end
+    end
+  end
+  
+  def validate_responsible_is_valid
+    if self.responsible.present?
+      unless is_possible_responsible?(self.responsible)
+        errors.add(:responsible, l(:error_must_be_project_member))
+      end
     end
   end
 
