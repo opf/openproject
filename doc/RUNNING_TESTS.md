@@ -86,10 +86,15 @@ If you need Firebug and Firepath while debugging a scenario, just replace
 ## Running tests with Karma
 
 To run JavaScript tests, first ensure you have Karma and all necessary
-dependencies installed via npm (i.e. `npm install`). You can then execute tests
-as follows:
+dependencies installed via npm (i.e. `npm install`). If you want a single test
+run, use the standard npm command:
 
-    ./node_modules/karma/bin/karma start --single-run
+    npm test
+
+By default tests will be run with PhantomJS and Firefox. To start a server or for
+more options (such as another Browsers), invoke the Karma command directly. e.g.
+
+    ./node_modules/karma/bin/karma start
     ./node_modules/karma/bin/karma start --browsers Chrome,Firefox
 
 ## RSpec
