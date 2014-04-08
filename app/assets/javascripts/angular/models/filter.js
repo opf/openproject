@@ -64,6 +64,12 @@ angular.module('openproject.models')
       return this.operator && (this.hasValues() || !this.requiresValues());
     },
 
+    /**
+     * @name getModelName
+     *
+     * @description Looks through the available filters and looks up the model name
+     * @returns {promise} Promise yielding the model name
+     */
     getModelName: function() {
       var self = this;
       return QueryService.getAvailableFilters()
