@@ -28,7 +28,7 @@
 
 angular.module('openproject.workPackages.helpers')
 
-.factory('FiltersHelper', [function(WorkPackagesHelper) {
+.factory('FiltersHelper', [function() {
   var FiltersHelper = {
 
     assignAncestorLevels: function(projects){
