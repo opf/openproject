@@ -50,7 +50,11 @@ module Api::V3
     end
 
     def custom_field_filters
-      custom_fields = @project.all_work_package_custom_fields
+      custom_fields = if @project
+                        @project.all_work_package_custom_fields
+                      else
+                        WorkPackageCustomField.for_all
+                      end
       @custom_field_filters = @query.get_custom_field_options(custom_fields)
 
       respond_to do |format|

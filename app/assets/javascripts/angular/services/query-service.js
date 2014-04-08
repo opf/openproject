@@ -31,7 +31,7 @@ angular.module('openproject.services')
 .service('QueryService', ['$http', 'PathHelper', '$q', 'AVAILABLE_WORK_PACKAGE_FILTERS', 'StatusService', 'TypeService', 'PriorityService', 'UserService', 'VersionService', 'RoleService', 'GroupService', 'ProjectService',
   function($http, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService) {
 
-  var availableColumns = [], availableFilterValues = {}, availableFilters = null;
+  var availableColumns = [], availableFilterValues = {}, availableFilters = {};
 
   var QueryService = {
     getAvailableColumns: function(projectIdentifier) {
@@ -41,26 +41,55 @@ angular.module('openproject.services')
     },
 
     getAvailableFilters: function(projectIdentifier){
-      if(availableFilters){
-        return $q.when(availableFilters);
-      } else{
-        if (projectIdentifier){
-          return QueryService.getCustomFieldFilters(projectIdentifier)
-            .then(function(data){
-              return QueryService.storeAvailableFilters(angular.extend(AVAILABLE_WORK_PACKAGE_FILTERS, data.custom_field_filters));
-            });
-        } else {
-          return $q.when(AVAILABLE_WORK_PACKAGE_FILTERS);
-        }
+      var identifier = 'global';
+      var getFilters = QueryService.getCustomFieldFilters;
+      var getFiltersArgs = [];
+      if(projectIdentifier){
+        identifier = projectIdentifier;
+        getFilters = QueryService.getProjectCustomFieldFilters;
+        getFiltersArgs.push(identifier);
       }
+      if(availableFilters[identifier]){
+        return $q.when(availableFilters[identifier]);
+      } else {
+        return getFilters.apply(this, getFiltersArgs)
+          .then(function(data){
+            return QueryService.storeAvailableFilters(identifier, angular.extend(AVAILABLE_WORK_PACKAGE_FILTERS, data.custom_field_filters));
+          });
+      }
+
+
+      // if(projectIdentifier){
+      //   if(availableFilters[projectIdentifier]){
+      //     return $q.when(availableFilters[projectIdentifier]);
+      //   } else {
+      //     return QueryService.getProjectCustomFieldFilters(projectIdentifier)
+      //       .then(function(data){
+      //         return QueryService.storeAvailableFilters(projectIdentifier, angular.extend(AVAILABLE_WORK_PACKAGE_FILTERS, data.custom_field_filters));
+      //       });
+      //   }
+      // } else {
+      //   if(availableFilters['global']){
+      //     return $q.when(availableFilters['global']);
+      //   } else {
+      //     return QueryService.getCustomFieldFilters()
+      //       .then(function(data){
+      //         return QueryService.storeAvailableFilters('global', angular.extend(AVAILABLE_WORK_PACKAGE_FILTERS, data.custom_field_filters));
+      //       });
+      //   }
+      // }
     },
 
-    getCustomFieldFilters: function(projectIdentifier) {
+    getProjectCustomFieldFilters: function(projectIdentifier) {
       return QueryService.doQuery(PathHelper.apiProjectCustomFieldsPath(projectIdentifier));
     },
 
+    getCustomFieldFilters: function() {
+      return QueryService.doQuery(PathHelper.apiCustomFieldsPath());
+    },
+
     getAvailableFilterValues: function(filterName, projectIdentifier) {
-      return QueryService.getAvailableFilters()
+      return QueryService.getAvailableFilters(projectIdentifier)
         .then(function(filters){
           var filter = filters[filterName];
           var modelName = filter.modelName
@@ -125,9 +154,9 @@ angular.module('openproject.services')
       return values;
     },
 
-    storeAvailableFilters: function(filters){
-      availableFilters = filters;
-      return availableFilters;
+    storeAvailableFilters: function(projectIdentifier, filters){
+      availableFilters[projectIdentifier] = filters;
+      return availableFilters[projectIdentifier];
     },
 
     doQuery: function(url, params) {

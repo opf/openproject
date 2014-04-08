@@ -51,7 +51,7 @@ angular.module('openproject.workPackages.directives')
       // Filter updates
 
       scope.$watch('filter.operator', function(operator) {
-        if(operator) scope.showValuesInput = scope.filter.requiresValues();
+        if(operator && scope.filter.requiresValues) scope.showValuesInput = scope.filter.requiresValues();
       });
 
       scope.$watch('filter', function(filter, oldFilter) {

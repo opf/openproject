@@ -83,6 +83,9 @@ angular.module('openproject.helpers')
     apiAvailableColumnsPath: function() {
       return PathHelper.apiPrefixV3 + '/queries/available_columns';
     },
+    apiCustomFieldsPath: function() {
+      return PathHelper.apiPrefixV3 + '/queries/custom_field_filters';
+    },
     apiProjectCustomFieldsPath: function(projectIdentifier) {
       return PathHelper.apiV3ProjectPath(projectIdentifier) + '/queries/custom_field_filters';
     },

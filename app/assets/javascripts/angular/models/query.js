@@ -116,7 +116,11 @@ angular.module('openproject.models')
     },
 
     getFilterType: function(filterName) {
-      return this.available_work_package_filters[filterName].type;
+      if (this.available_work_package_filters && this.available_work_package_filters[filterName]){
+        return this.available_work_package_filters[filterName].type;
+      } else {
+        return 'none';
+      }
     },
 
     getActiveFilters: function() {
