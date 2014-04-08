@@ -870,7 +870,7 @@ class WorkPackage < ActiveRecord::Base
   def self.update_versions_from_hierarchy_change(project)
     moved_project_ids = project.self_and_descendants.reload.collect(&:id)
     # Update issues of the moved projects and issues assigned to a version of a moved project
-    WorkPackage.update_versions(["#{Version.table_name}.project_id IN (?) OR #{WorkPackage.table_name}.project_id IN (?)", moved_project_ids, moved_project_ids])
+    update_versions(["#{Version.table_name}.project_id IN (?) OR #{WorkPackage.table_name}.project_id IN (?)", moved_project_ids, moved_project_ids])
   end
 
   # Extracted from the ReportsController.
