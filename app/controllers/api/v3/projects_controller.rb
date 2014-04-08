@@ -36,7 +36,12 @@ module Api
       before_filter :find_project, except: [:index]
 
       def index
-        @projects = Project.visible
+        # Note: Ordering by project hierarchy by default
+        @projects = []
+        Project.project_tree(Project.visible) do |project, level|
+          @projects << project
+        end
+
         respond_to do |format|
           format.api
         end

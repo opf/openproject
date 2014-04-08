@@ -1,6 +1,6 @@
 angular.module('openproject.services')
 
-.service('ProjectService', ['$http', 'PathHelper', function($http, PathHelper) {
+.service('ProjectService', ['$http', '$q', 'PathHelper', 'FiltersHelper', function($http, $q, PathHelper, FiltersHelper) {
 
   var ProjectService = {
     getProject: function(projectIdentifier) {
@@ -12,7 +12,10 @@ angular.module('openproject.services')
     getProjects: function() {
       var url = PathHelper.apiV3ProjectsPath();
 
-      return ProjectService.doQuery(url);
+      return ProjectService.doQuery(url)
+        .then(function(projects){
+          return $q.when(FiltersHelper.assignAncestorLevels(projects));
+        });
     },
 
     getSubProjects: function(projectIdentifier) {
@@ -26,7 +29,7 @@ angular.module('openproject.services')
         .then(function(response){
           return response.data.projects;
         });
-    }
+    },
   };
 
   return ProjectService;
