@@ -1,6 +1,6 @@
 angular.module('openproject.services')
 
-.service('ProjectService', ['$http', '$q', 'PathHelper', 'FiltersHelper', function($http, $q, PathHelper, FiltersHelper) {
+.service('ProjectService', ['$http', 'PathHelper', 'FiltersHelper', function($http, PathHelper, FiltersHelper) {
 
   var ProjectService = {
     getProject: function(projectIdentifier) {
