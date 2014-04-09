@@ -49,29 +49,31 @@ describe Setting do
   # checks whether settings can be set and are persisted in the database
   describe "changing a setting" do
     context "setting doesn't exist in the database" do
-      before { Setting.destroy_all }
+      before do
+        Setting.destroy_all
+        Setting.host_name = "some name"
+      end
 
       it "sets the setting" do
-        Setting.host_name = "some name"
         expect(Setting.host_name).to eq "some name"
       end
 
       it "stores the setting" do
-        Setting.host_name = "some name"
         expect(Setting.find_by_name('host_name').value).to eq "some name"
       end
     end
 
     context "setting already exist in the database" do
-      before { Setting.host_name = "some name" }
+      before do
+        Setting.host_name = "some name"
+        Setting.host_name = "some other name"
+      end
 
       it "sets the setting" do
-        Setting.host_name = "some other name"
         expect(Setting.host_name).to eq "some other name"
       end
 
       it "stores the setting" do
-        Setting.host_name = "some other name"
         expect(Setting.find_by_name('host_name').value).to eq "some other name"
       end
     end
