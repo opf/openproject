@@ -515,7 +515,9 @@ describe PermittedParams do
   end
 
   describe :user do
-    admin_permissions = ['firstname',
+    admin_permissions = ['admin',
+                         'login',
+                         'firstname',
                          'lastname',
                          'mail',
                          'mail_notification',
