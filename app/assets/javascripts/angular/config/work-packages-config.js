@@ -31,16 +31,16 @@ angular.module('openproject.workPackages.config')
 .constant('INITIALLY_SELECTED_COLUMNS', ['id', 'project', 'type', 'status', 'priority', 'subject', 'assigned_to_id', 'updated_at'])
 
 .constant('OPERATORS_AND_LABELS_BY_FILTER_TYPE', {
-  list: {'=':'is','!':'is not'},
-  list_model: {'=':'is','!':'is not'},
-  list_status: {'o':'open','=':'is','!':'is not','c':'closed','*':'all'}, // TODO RS: Need a generalised solution
-  list_optional: {'=':'is','!':'is not','!*':'none','*':'all'},
-  list_subprojects: {'*':'all','!*':'none','=':'is'},
-  date: {'<t+':'in less than','>t+':'in more than','t+':'in','t':'today','w':'this week','>t-':'less than days ago','<t-':'more than days ago','t-':'days ago'},
-  date_past: {'>t-':'less than days ago','<t-':'more than days ago','t-':'days ago','t':'today','w':'this week'},
-  string: {'=':'is','~':'contains','!':'is not','!~':"doesn't contain"},
-  text: {'~':'contains','!~':"doesn't contain"},
-  integer: {'=':'is','>=':'>=','<=':'<=','!*':'none','*':'all'}
+  list: {'=':'label_equals','!':'label_not_equals'},
+  list_model: {'=':'label_equals','!':'label_not_equals'},
+  list_status: {'o':'label_open_work_packages','=':'label_equals','!':'label_not_equals','c':'label_closed_work_packages','*':'label_all'},
+  list_optional: {'=':'label_equals','!':'label_not_equals','!*':'label_none','*':'label_all'},
+  list_subprojects: {'*':'label_all','!*':'label_none','=':'label_equals'},
+  date: {'<t+':'label_in_less_than','>t+':'label_in_more_than','t+':'label_in','t':'label_today','w':'label_this_week','>t-':'label_less_than_ago','<t-':'label_more_than_ago','t-':'label_ago'},
+  date_past: {'>t-':'label_less_than_ago','<t-':'label_more_than_ago','t-':'label_ago','t':'label_today','w':'label_this_week'},
+  string: {'=':'label_equals','~':'label_contains','!':'label_not_equals','!~':"label_not_contains"},
+  text: {'~':'label_contains','!~':"label_not_contains"},
+  integer: {'=':'label_equals','>=':'label_greater_or_equal','<=':'label_less_or_equal','!*':'label_none','*':'label_all'}
 })
 
 .constant('AVAILABLE_WORK_PACKAGE_FILTERS', {

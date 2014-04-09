@@ -28,7 +28,7 @@
 
 angular.module('openproject.workPackages.helpers')
 
-.factory('FiltersHelper', [function() {
+.factory('FiltersHelper', ['I18n', function(I18n) {
   var FiltersHelper = {
 
     assignAncestorLevels: function(projects){
@@ -55,6 +55,15 @@ angular.module('openproject.workPackages.helpers')
         indentation = indentation + '--';
       }
       return indentation + " " + name;
+    },
+
+    localiseFilterOperatorsAndLabels: function(filterOperatorsAndLabels){
+      angular.forEach(filterOperatorsAndLabels, function(values, filterType){
+        angular.forEach(values, function(label, operator){
+          values[operator] = I18n.t('js.' + label);
+        });
+      });
+      return filterOperatorsAndLabels;
     }
   };
 
