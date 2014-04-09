@@ -27,7 +27,7 @@
 //++
 
 // global
-angular.module('openproject.services', ['openproject.uiComponents', 'openproject.helpers', 'openproject.workPackages.config']);
+angular.module('openproject.services', ['openproject.uiComponents', 'openproject.helpers', 'openproject.workPackages.config', 'openproject.workPackages.helpers']);
 angular.module('openproject.helpers', ['openproject.services']);
 angular.module('openproject.models', ['openproject.workPackages.config', 'openproject.services']);
 

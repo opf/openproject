@@ -1,4 +1,6 @@
 
 collection @projects => :projects
 attributes :id,
-           :name
+           :name,
+           :parent_id,
+           :"leaf?"
