@@ -14,7 +14,7 @@ angular.module('openproject.services')
 
       return ProjectService.doQuery(url)
         .then(function(projects){
-          return $q.when(FiltersHelper.assignAncestorLevels(projects));
+          return FiltersHelper.assignAncestorLevels(projects);
         });
     },
 
