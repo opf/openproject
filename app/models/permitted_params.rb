@@ -201,7 +201,7 @@ class PermittedParams < Struct.new(:params, :current_user)
                          :force_password_change,
                          # Found these in safe_attributes and added them here as I
                          # didn't know the consequences of removing these.
-                         # They were not allowed on update.
+                         # They were not allowed on create.
                          :group_ids => []]
 
       permitted_params = params.require(:user).permit(*allowed_params)
