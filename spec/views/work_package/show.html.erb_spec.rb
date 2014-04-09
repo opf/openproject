@@ -30,39 +30,32 @@ require 'spec_helper'
 
 describe 'work_packages/show' do
   let(:story_points) { 42 }
-  let(:user) { FactoryGirl.create(:user) }
-  let(:project) { FactoryGirl.create(:public_project) }
-  let(:story_type) { FactoryGirl.create(:type_feature) }
-  let(:status) { FactoryGirl.create(:default_status) }
-  let(:story) { FactoryGirl.create(:story,
-                                   author: user,
-                                   type: story_type,
-                                   project: project,
-                                   status: status,
-                                   story_points: story_points) }
+  let(:project) { FactoryGirl.build(:public_project,
+                                    enabled_module_names: %w[work_package_tracking backlogs]) }
+  let(:user) { FactoryGirl.build(:user,
+                                 member_in_project: project) }
+  let(:story_type) { FactoryGirl.build(:type_feature) }
+  let(:status) { FactoryGirl.build(:default_status) }
+  let(:story) { FactoryGirl.build(:story,
+                                  author: user,
+                                  type: story_type,
+                                  project: project,
+                                  status: status,
+                                  story_points: story_points) }
 
-  before do
-    view.stub(:current_menu_item).and_return(:work_packages)
-    view.stub(:current_user).and_return(user)
+  before  { User.stub(:current).and_return(user) }
 
-    controller.stub(:work_package).and_return(story)
-    controller.stub(:ancestors).and_return([])
+  describe 'work_packages/attributes' do
+    before do
+      story.stub(:spent_hours).and_return(0)
+      story.stub(:backlogs_enabled?).and_return(true)
+      story.stub(:is_story?).and_return(true)
 
-    story.stub(:backlogs_enabled?).and_return(true)
-    story.stub(:is_story?).and_return(true)
+      assign(:project, project)
 
-    assign(:project, project)
+      render partial: 'work_packages/show_attributes', locals: { work_package: story }
+    end
 
-    render template: 'work_packages/show', locals: { work_package: story,
-                                                     project: story.project,
-                                                     priorities: [],
-                                                     user: user,
-                                                     ancestors: [],
-                                                     descendants: [],
-                                                     changesets: [],
-                                                     relations: [],
-                                                     journals: [] }
-            end
-
-  it { expect(rendered).to have_selector('table.attributes td.work_package_attribute_header + td.story-points', text: story_points.to_s) }
+    it { expect(rendered).to have_selector('table.attributes td.work_package_attribute_header + td.story-points', text: story_points.to_s) }
+  end
 end
