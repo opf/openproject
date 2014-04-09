@@ -59,6 +59,24 @@ describe WorkPackagesController do
   let(:closed_task) { FactoryGirl.create(:story, type: task_type, author: current_user, project: project, status: closed, parent: story) }
   let(:params) { { copy_from: story.id, project_id: project.id } }
 
+  describe 'show' do
+    let(:story_points) { 42 }
+    let(:story_with_sp) { FactoryGirl.create(:story,
+                                             type: story_type,
+                                             author: current_user,
+                                             project: project,
+                                             status: status,
+                                             story_points: story_points) }
+
+    before { get 'show', id: story_with_sp.id }
+
+    subject { response }
+
+    it { should be_success }
+
+    it { should render_template('work_packages/show', formats: ['html']) }
+  end
+
   describe 'create with copy_from' do
     describe do 'copying no tasks'
       before do
