@@ -222,8 +222,10 @@ class PermittedParams < Struct.new(:params, :current_user)
   def user_create_as_admin
     if current_user.admin?
       allowed_params = self.class.permitted_attributes[:user] + \
-                       [ :auth_source_id,
-                         :force_password_change]
+                       [ :admin,
+                         :auth_source_id,
+                         :force_password_change,
+                         :login ]
 
       permitted_params = params.require(:user).permit(*allowed_params)
       permitted_params.merge!(custom_field_values(:user))
