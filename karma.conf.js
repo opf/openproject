@@ -133,7 +133,7 @@ module.exports = function(config) {
 
 
     junitReporter: {
-      outputFile: 'karma/test-results.xml'
+      outputFile: 'karma/reports/test-results.xml'
     }
   });
 };
