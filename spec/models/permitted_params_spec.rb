@@ -521,7 +521,6 @@ describe PermittedParams do
                          'mail_notification',
                          'language',
                          'custom_fields',
-                         'identity_url',
                          'auth_source_id',
                          'force_password_change']
 
@@ -591,7 +590,6 @@ describe PermittedParams do
       'mail_notification',
       'language',
       'custom_fields',
-      'identity_url'
     ]
 
     describe :user do
@@ -625,6 +623,14 @@ describe PermittedParams do
 
       it "should remove custom field values that do not follow the schema 'id as string' => 'value as string'" do
         hash = { "custom_field_values" => { "blubs" => "5", "5" => {"1" => "2"} } }
+
+        params = ActionController::Parameters.new(:user => hash)
+
+        expect(PermittedParams.new(params, admin).user).to eq({})
+      end
+
+      it 'should not allow identity_url' do
+        hash = { 'identity_url'  => 'test_identity_url' }
 
         params = ActionController::Parameters.new(:user => hash)
 
