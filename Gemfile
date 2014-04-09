@@ -139,7 +139,7 @@ group :test do
   gem 'rspec', '~> 2.14'
   # also add to development group, so "spec" rake task gets loaded
   gem "rspec-rails", "~> 2.14", :group => :development
-  gem 'rspec-example_disabler'
+  gem 'rspec-example_disabler', github: 'finnlabs/rspec-example_disabler', branch: 'master'
   gem 'capybara'
   gem 'capybara-screenshot'
   gem 'selenium-webdriver'
