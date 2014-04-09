@@ -115,6 +115,12 @@ describe Setting do
     end
 
     it "calls multiple callbacks when a setting is set" do
+      Setting.register_callback(:notified_events, &callback)
+      Setting.notified_events = [:some_event]
+      expect(collector.size).to eq 2
+    end
+
+    it "calls callbacks every time a setting is set" do
       Setting.notified_events = [:some_event]
       Setting.notified_events = [:some_event]
       expect(collector.size).to eq 2
