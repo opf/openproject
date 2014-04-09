@@ -46,7 +46,7 @@ module Api
       # before_filter :authorize # TODO specify authorization
       before_filter :authorize_request, only: [:column_data]
 
-      before_filter :find_optional_project, only: [:index]
+      before_filter :find_optional_project, only: [:index, :column_sums]
 
       before_filter :load_query, only: [:index]
       before_filter :assign_work_packages, only: [:index]
@@ -80,8 +80,11 @@ module Api
         raise 'API Error' unless params[:column_names]
 
         column_names = params[:column_names]
-        project = Project.find_visible(current_user, params[:project_id])
-        work_packages = project.work_packages
+        work_packages = if @project
+                          @project.work_packages
+                        else
+                          WorkPackage.visible
+                        end
 
         @column_sums = columns_total_sums(column_names, work_packages)
       end

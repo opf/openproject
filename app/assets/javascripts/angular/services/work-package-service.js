@@ -71,7 +71,11 @@ angular.module('openproject.services')
         return column.name;
       });
 
-      var url = PathHelper.apiWorkPackagesSumsPath(projectIdentifier);
+      if (projectIdentifier){
+        var url = PathHelper.apiProjectWorkPackagesSumsPath(projectIdentifier);
+      } else {
+        var url = PathHelper.apiWorkPackagesSumsPath();
+      }
 
       var params = {
         'column_names[]': columnNames
