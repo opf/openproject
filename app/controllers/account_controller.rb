@@ -155,7 +155,7 @@ class AccountController < ApplicationController
           @user.activate
           @user.login = session[:auth_source_registration][:login]
           @user.auth_source_id = session[:auth_source_registration][:auth_source_id]
-          
+
           if @user.save
             session[:auth_source_registration] = nil
             self.logged_user = @user
