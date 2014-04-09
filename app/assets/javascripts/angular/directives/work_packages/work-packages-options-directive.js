@@ -33,7 +33,7 @@ angular.module('openproject.workPackages.directives')
     restrict: 'E',
     templateUrl: '/templates/work_packages/work_packages_options.html',
     link: function(scope, element, attributes) {
-      scope.$watch('query.group_by', function(groupBy) {
+      scope.$watch('query.groupBy', function(groupBy) {
         if (scope.columns) {
           var groupByColumnIndex = scope.columns.map(function(column){
             return column.name;

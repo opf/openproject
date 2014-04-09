@@ -34,7 +34,7 @@ angular.module('openproject.models')
 
     angular.extend(this, data, options);
 
-    this.group_by = this.group_by || '';
+    this.groupBy = this.groupBy || '';
 
     this.initFilters();
   };
@@ -76,7 +76,7 @@ angular.module('openproject.models')
           'c[]': this.columns.map(function(column) {
             return column.name;
            }),
-          'group_by': this.group_by,
+          'group_by': this.groupBy,
           'query_id': this.id,
           'sort': this.sortation.encode()
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {

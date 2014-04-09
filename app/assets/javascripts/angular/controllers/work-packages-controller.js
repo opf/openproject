@@ -44,7 +44,7 @@ angular.module('openproject.workPackages.controllers')
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.loading = false;
     $scope.disableFilters = false;
-    initAvailableFilters($scope.projectIdentifier)
+    initAvailableFilters($scope.projectIdentifier);
 
     $scope.withLoading(WorkPackageService.getWorkPackagesByQueryId, [$scope.projectIdentifier, $scope.query_id])
       .then($scope.setupWorkPackagesTable)
@@ -60,7 +60,8 @@ angular.module('openproject.workPackages.controllers')
       groupSums: queryData.group_sums,
       sums: queryData.sums,
       filters: queryData.filters,
-      columns: $scope.columns
+      columns: $scope.columns,
+      groupBy: queryData.group_by
     }); // TODO init sortation according to queryData
 
     $scope.query.setSortation(new Sortation(queryData.sort_criteria));
@@ -107,7 +108,7 @@ angular.module('openproject.workPackages.controllers')
     PaginationService.setPerPage(meta.per_page);
     PaginationService.setPage(meta.page);
 
-    $scope.rows = WorkPackagesTableHelper.getRows(json.work_packages, $scope.query.group_by);
+    $scope.rows = WorkPackagesTableHelper.getRows(json.work_packages, $scope.query.groupBy);
 
     $scope.workPackageCountByGroup = meta.work_package_count_by_group;
     $scope.totalEntries = meta.total_entries;
