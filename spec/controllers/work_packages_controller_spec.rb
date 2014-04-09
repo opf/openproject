@@ -75,14 +75,6 @@ describe WorkPackagesController do
     it { should be_success }
 
     it { should render_template('work_packages/show', formats: ['html']) }
-
-    context 'view' do
-      render_views
-
-      subject { response.body }
-
-      it { should have_selector('table.attributes td.work_package_attribute_header + td.story-points', text: story_points.to_s) }
-    end
   end
 
   describe 'create with copy_from' do
