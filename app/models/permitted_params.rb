@@ -201,8 +201,10 @@ class PermittedParams < Struct.new(:params, :current_user)
   def user_update_as_admin
     if current_user.admin?
       allowed_params = self.class.permitted_attributes[:user] + \
-                       [ :auth_source_id,
+                       [ :admin,
+                         :auth_source_id,
                          :force_password_change,
+                         :login,
                          # Found these in safe_attributes and added them here as I
                          # didn't know the consequences of removing these.
                          # They were not allowed on create.
