@@ -108,6 +108,12 @@ describe Setting do
       expect(collector).to_not be_empty
     end
 
+    it "calls no callback on invalid setting" do
+      Setting.any_instance.stub(:valid?).and_return(false)
+      Setting.notified_events = 'invalid'
+      expect(collector).to be_empty
+    end
+
     it "calls multiple callbacks when a setting is set" do
       Setting.notified_events = [:some_event]
       Setting.notified_events = [:some_event]

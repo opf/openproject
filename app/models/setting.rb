@@ -155,9 +155,12 @@ class Setting < ActiveRecord::Base
     old_value = setting.value
     setting.value = (v ? v : "")
     Rails.cache.delete(cache_key(name))
-    setting.save
-    fire_callbacks(name, setting.value, old_value)
-    setting.value
+    if setting.save
+      fire_callbacks(name, setting.value, old_value)
+      setting.value
+    else
+      old_value
+    end
   end
 
   # Check whether a setting was defined
