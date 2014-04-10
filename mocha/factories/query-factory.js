@@ -26,22 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
-
-.directive('workPackagesOptions', ['I18n', function(I18n){
-  return {
-    restrict: 'E',
-    templateUrl: '/templates/work_packages/work_packages_options.html',
-    link: function(scope, element, attributes) {
-      scope.$watch('query.groupBy', function(groupBy) {
-        if (scope.columns) {
-          var groupByColumnIndex = scope.columns.map(function(column){
-            return column.name;
-          }).indexOf(groupBy);
-
-          scope.groupByColumn = scope.columns[groupByColumnIndex];
-        }
-      });
-    }
-  };
-}]);
+(function(Query, Filter) {
+  Factory.define('Query', Query)
+    .attr('availableWorkPackageFilters', {
+      type_id: {
+        modelName: 'type',
+        name: 'Type',
+        order: 2,
+        type: 'list_model'
+      }
+    })
+    .attr('filters', function () {return [Factory.build('Filter')];})
+    .attr('reported_project_status_comment', '');
+})($injector.get('Query'), $injector.get('Filter'));

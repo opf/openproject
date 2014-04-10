@@ -46,4 +46,16 @@ describe('Filter', function() {
     expect(new Filter()).to.be.an('object');
   });
 
+  it('should be serializable to params', function() {
+    var filter = Factory.build('Filter');
+
+    var params = filter.toParams();
+
+    expect(params).to.have.property('op[type_id]')
+                  .and.equal('~');
+    expect(params).to.have.property('v[type_id][]')
+                  .and.contain('Bug');
+
+  });
+
 });

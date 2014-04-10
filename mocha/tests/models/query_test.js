@@ -46,4 +46,32 @@ describe('Query', function() {
     expect(new Query()).to.be.an('object');
   });
 
+  describe('adding filters', function(){
+    beforeEach(function(){
+      query = Factory.build('Query', {filters: []});
+      filter = Factory.build('Filter', {name: 'type_id'});
+    })
+
+    it('should augment filters with meta data when set via setFilters', function() {
+      query.setFilters([filter]);
+
+      expect(query.filters[0]).to.have.property('type')
+                              .and.equal('list_model');
+
+      expect(query.filters[0]).to.have.property('modelName')
+                              .and.equal('type');
+    });
+
+    it('should augment filters with meta data when set via addFilter', function() {
+      query.addFilter(filter.name, filter);
+
+      expect(query.filters[0]).to.have.property('type')
+                              .and.equal('list_model');
+
+      expect(query.filters[0]).to.have.property('modelName')
+                              .and.equal('type');
+    });
+  });
+
+
 });

@@ -28,12 +28,43 @@
 
 angular.module('openproject.services')
 
-.service('QueryService', ['$http', 'PathHelper', '$q', 'FiltersHelper', 'StatusService', 'TypeService', 'PriorityService', 'UserService', 'VersionService', 'RoleService', 'GroupService', 'ProjectService', 'AVAILABLE_WORK_PACKAGE_FILTERS',
-  function($http, PathHelper, $q, FiltersHelper, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService, AVAILABLE_WORK_PACKAGE_FILTERS) {
+.service('QueryService', ['Query', 'Sortation', '$http', 'PathHelper', '$q', 'AVAILABLE_WORK_PACKAGE_FILTERS', 'StatusService', 'TypeService', 'PriorityService', 'UserService', 'VersionService', 'RoleService', 'GroupService', 'ProjectService',
+  function(Query, Sortation, $http, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService) {
+
+  var query;
 
   var availableColumns = [], availableFilterValues = {}, availableFilters = {};
 
   var QueryService = {
+    initQuery: function(queryId, queryData, selectedColumns, afterQuerySetupCallback) {
+      query = new Query({
+        id: queryId,
+        project_id: queryData.project_id,
+        displaySums: queryData.display_sums,
+        groupSums: queryData.group_sums,
+        sums: queryData.sums,
+        columns: selectedColumns,
+        groupBy: queryData.group_by
+      });
+      query.setSortation(new Sortation(queryData.sort_criteria));
+
+      QueryService.getAvailableFilters(query.project_id)
+        .then(function(availableFilters) {
+          query.setAvailableWorkPackageFilters(availableFilters);
+          query.setFilters(queryData.filters);
+
+          return query;
+        })
+        .then(afterQuerySetupCallback);
+
+      return query;
+    },
+    getQuery: function() {
+      return query;
+    },
+
+    // data loading
+
     getAvailableColumns: function(projectIdentifier) {
       var url = projectIdentifier ? PathHelper.apiProjectAvailableColumnsPath(projectIdentifier) : PathHelper.apiAvailableColumnsPath();
 
@@ -41,6 +72,7 @@ angular.module('openproject.services')
     },
 
     getAvailableFilters: function(projectIdentifier){
+      // TODO once this is becoming more single-page-app-like keep the available filters of the query model in sync when the project identifier is changed on the scope but the page isn't reloaded
       var identifier = 'global';
       var getFilters = QueryService.getCustomFieldFilters;
       var getFiltersArgs = [];
@@ -72,7 +104,7 @@ angular.module('openproject.services')
       return QueryService.getAvailableFilters(projectIdentifier)
         .then(function(filters){
           var filter = filters[filterName];
-          var modelName = filter.modelName
+          var modelName = filter.modelName;
 
           if(filter.values) {
             // Note: We have filter values already because it is a custom field and the server gives the possible values.

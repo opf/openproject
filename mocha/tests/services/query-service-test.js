@@ -26,22 +26,50 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
+/*jshint expr: true*/
 
-.directive('workPackagesOptions', ['I18n', function(I18n){
-  return {
-    restrict: 'E',
-    templateUrl: '/templates/work_packages/work_packages_options.html',
-    link: function(scope, element, attributes) {
-      scope.$watch('query.groupBy', function(groupBy) {
-        if (scope.columns) {
-          var groupByColumnIndex = scope.columns.map(function(column){
-            return column.name;
-          }).indexOf(groupBy);
+describe('QueryService', function() {
 
-          scope.groupByColumn = scope.columns[groupByColumnIndex];
+  var QueryService;
+  beforeEach(module('openproject.services', 'openproject.models'));
+
+  beforeEach(inject(function(_QueryService_){
+    QueryService = _QueryService_;
+  }));
+
+  describe('query setup', function () {
+
+    beforeEach(function() {
+      queryData = {
+        group_by: 'type',
+        display_sums: 1,
+        filters: {
+          type_id: {
+            operator: '~',
+            values: ['Bug', 'Feature']
+          }
         }
-      });
-    }
-  };
-}]);
+      };
+
+      query = QueryService.initQuery(null, queryData);
+    });
+
+    it('should set query.groupBy', function() {
+      expect(query.groupBy).to.equal(queryData.group_by);
+    });
+
+    it('should set query.displaySums', function() {
+      expect(query.displaySums).to.equal(queryData.display_sums);
+    });
+
+    describe('filters', function() {
+      // TODO mock promise-returning `getAvailableWorkPackageFilters` method
+
+      it('should load the available filters');
+
+      it('should assign filters to the query');
+    });
+  });
+
+});
+

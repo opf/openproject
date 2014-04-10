@@ -28,14 +28,21 @@
 
 angular.module('openproject.models')
 
-.constant('OPERATORS_REQUIRING_VALUES', ['o', 'c', '!*', '*', 't', 'w'])
-.factory('Filter', ['OPERATORS_REQUIRING_VALUES', 'QueryService', function(OPERATORS_REQUIRING_VALUES, QueryService) {
+.constant('OPERATORS_NOT_REQUIRING_VALUES', ['o', 'c', '!*', '*', 't', 'w'])
+.factory('Filter', ['OPERATORS_NOT_REQUIRING_VALUES', function(OPERATORS_NOT_REQUIRING_VALUES) {
   Filter = function (data) {
     angular.extend(this, data);
     this.pruneValues();
   };
 
   Filter.prototype = {
+    /**
+     * @name toParams
+     * @function
+     *
+     * @description Serializes the filter to parameters required by the backend
+     * @returns {Object} Request parameters
+     */
     toParams: function() {
       var params = {};
 
@@ -57,25 +64,11 @@ angular.module('openproject.models')
     },
 
     requiresValues: function() {
-      return OPERATORS_REQUIRING_VALUES.indexOf(this.operator) === -1;
+      return OPERATORS_NOT_REQUIRING_VALUES.indexOf(this.operator) === -1;
     },
 
     isConfigured: function() {
       return this.operator && (this.hasValues() || !this.requiresValues());
-    },
-
-    /**
-     * @name getModelName
-     *
-     * @description Looks through the available filters and looks up the model name
-     * @returns {promise} Promise yielding the model name
-     */
-    getModelName: function() {
-      var self = this;
-      return QueryService.getAvailableFilters()
-        .then(function(filters){
-          return filters[self.name].modelName;
-        });
     },
 
     pruneValues: function() {

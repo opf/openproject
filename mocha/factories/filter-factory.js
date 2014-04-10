@@ -26,22 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
-
-.directive('workPackagesOptions', ['I18n', function(I18n){
-  return {
-    restrict: 'E',
-    templateUrl: '/templates/work_packages/work_packages_options.html',
-    link: function(scope, element, attributes) {
-      scope.$watch('query.groupBy', function(groupBy) {
-        if (scope.columns) {
-          var groupByColumnIndex = scope.columns.map(function(column){
-            return column.name;
-          }).indexOf(groupBy);
-
-          scope.groupByColumn = scope.columns[groupByColumnIndex];
-        }
-      });
-    }
-  };
-}]);
+(function(Filter) {
+  Factory.define('Filter', Filter)
+    .attr('name', 'type_id')
+    .attr('operator', '~')
+    .attr('values', ['Bug', 'Feature']);
+})($injector.get('Filter'));
