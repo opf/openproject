@@ -351,7 +351,8 @@ describe UsersController do
       let(:user) { FactoryGirl.create(:user, :firstname => 'Firstname',
                                              :admin => true,
                                              :login => 'testlogin',
-                                             :mail_notification => 'all')}
+                                             :mail_notification => 'all',
+                                             :force_password_change => false)}
 
       before do
         ActionMailer::Base.deliveries.clear
@@ -360,7 +361,8 @@ describe UsersController do
           put :update, :id => user.id, :user => {:admin => false,
                                                  :firstname => 'Changed',
                                                  :login => 'changedlogin',
-                                                 :mail_notification => 'only_assigned'},
+                                                 :mail_notification => 'only_assigned',
+                                                 :force_password_change => true},
                                        :pref => {:hide_mail => '1', :comments_sorting => 'desc'}
        end
       end
@@ -375,12 +377,28 @@ describe UsersController do
         expect(user_from_db.firstname).to eql('Changed')
         expect(user_from_db.login).to eql('changedlogin')
         expect(user_from_db.mail_notification).to eql('only_assigned')
+        expect(user_from_db.force_password_change).to eql(true)
         expect(user_from_db.pref[:hide_mail]).to be_true
         expect(user_from_db.pref[:comments_sorting]).to eql('desc')
       end
 
       it 'should not send an email' do
         expect(ActionMailer::Base.deliveries.empty?).to be_true
+      end
+    end
+
+    context "with external authentication" do
+      let(:user) { FactoryGirl.create(:user, :identity_url => 'some:identity')}
+
+      before do
+        as_logged_in_user(admin) do
+          put :update, :id => user.id, :user => {:force_password_change => 'true'}
+        end
+        user.reload
+      end
+
+      it 'should ignore setting force_password_change' do
+        expect(user.force_password_change).to eql(false)
       end
     end
 
