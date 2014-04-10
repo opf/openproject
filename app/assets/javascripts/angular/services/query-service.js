@@ -28,8 +28,8 @@
 
 angular.module('openproject.services')
 
-.service('QueryService', ['$http', 'PathHelper', '$q', 'AVAILABLE_WORK_PACKAGE_FILTERS', 'StatusService', 'TypeService', 'PriorityService', 'UserService', 'VersionService', 'RoleService', 'GroupService', 'ProjectService',
-  function($http, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService) {
+.service('QueryService', ['$http', 'PathHelper', '$q', 'FiltersHelper', 'StatusService', 'TypeService', 'PriorityService', 'UserService', 'VersionService', 'RoleService', 'GroupService', 'ProjectService', 'AVAILABLE_WORK_PACKAGE_FILTERS',
+  function($http, PathHelper, $q, FiltersHelper, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService, AVAILABLE_WORK_PACKAGE_FILTERS) {
 
   var availableColumns = [], availableFilterValues = {}, availableFilters = {};
 

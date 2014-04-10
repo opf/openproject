@@ -31,7 +31,7 @@
 
                   <!-- Name -->
                   <td style="width:200px;">
-                    {{query.available_work_package_filters[filter.name].name}}
+                    {{ FiltersHelper.localisedFilterName(query.available_work_package_filters[filter.name]) }}
                   </td>
 
                   <!-- Operator -->
@@ -41,7 +41,7 @@
                             class="select-small to-validate"
                             id="operators-{{filter.name}}"
                             name="op[{{filter.name}}]"
-                            ng-options="operator as label for (operator, label) in operatorsAndLabelsByFilterType[query.getFilterType(filter.name)]"
+                            ng-options="operator as I18n.t('js.' + label) for (operator, label) in operatorsAndLabelsByFilterType[query.getFilterType(filter.name)]"
                             ng-model="filter.operator"
                             style="vertical-align: top;"
                             ng-disabled="isLoading">
@@ -160,7 +160,7 @@
             <select class="select-small"
                     id="add_filter_select"
                     ng-model="filterToBeAdded"
-                    ng-options="filterName as filterOptions.name || filterName
+                    ng-options="filterName as FiltersHelper.localisedFilterName(filterOptions)
                                 for (filterName, filterOptions)
                                 in (query.available_work_package_filters | subtractActiveFilters:query.filters)" />
             </select>

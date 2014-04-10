@@ -28,7 +28,7 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('queryFilters', ['WorkPackagesTableHelper', 'WorkPackageService', function(WorkPackagesTableHelper, WorkPackageService) {
+.directive('queryFilters', ['WorkPackagesTableHelper', 'FiltersHelper', 'WorkPackageService', 'I18n', function(WorkPackagesTableHelper, FiltersHelper, WorkPackageService, I18n) {
 
   return {
     restrict: 'E',
@@ -37,6 +37,8 @@ angular.module('openproject.workPackages.directives')
     compile: function(tElement) {
       return {
         pre: function(scope) {
+          scope.I18n = I18n;
+          scope.FiltersHelper = FiltersHelper;
           scope.$watch('filterToBeAdded', function(filterName) {
             if (filterName) {
               scope.query.addFilter(filterName);

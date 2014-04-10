@@ -57,14 +57,17 @@ angular.module('openproject.workPackages.helpers')
       return indentation + " " + name;
     },
 
-    localiseFilterOperatorsAndLabels: function(filterOperatorsAndLabels){
-      angular.forEach(filterOperatorsAndLabels, function(values, filterType){
-        angular.forEach(values, function(label, operator){
-          values[operator] = I18n.t('js.' + label);
-        });
-      });
-      return filterOperatorsAndLabels;
-    }
+    localisedFilterName: function(filter){
+      if(filter){
+        if(filter.name){
+          return filter.name;
+        }
+        if(filter.locale_name){
+          return I18n.t('js.filter_labels.' + filter["locale_name"]);
+        }
+      }
+      return "";
+    },
   };
 
   return FiltersHelper;
