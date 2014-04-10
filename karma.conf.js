@@ -27,12 +27,16 @@ module.exports = function(config) {
 
       "vendor/assets/components/openproject-ui_components/app/assets/javascripts/angular/ui-components-app.js",
       "app/assets/javascripts/angular/openproject-app.js",
-      "app/assets/javascripts/angular/controllers/timelines_controller.js",
       "app/assets/javascripts/angular/helpers/components/i18n.js",
+      "app/assets/javascripts/angular/config/work-packages-config.js",
+
       "app/assets/javascripts/angular/helpers/components/custom-field-helper.js",
       'app/assets/javascripts/angular/helpers/components/path-helper.js',
+      'app/assets/javascripts/angular/helpers/filters-helper.js',
+      'app/assets/javascripts/angular/helpers/components/work-packages-helper.js',
+      'app/assets/javascripts/angular/helpers/work-packages-table-helper.js',
+      'app/assets/javascripts/angular/helpers/function-decorators.js',
 
-      "app/assets/javascripts/angular/config/work-packages-config.js",
       "app/assets/javascripts/angular/models/filter.js",
       "app/assets/javascripts/angular/models/query.js",
       "app/assets/javascripts/angular/models/sortation.js",
@@ -61,8 +65,14 @@ module.exports = function(config) {
       'app/assets/javascripts/angular/services/version-service.js',
       'app/assets/javascripts/angular/services/role-service.js',
       'app/assets/javascripts/angular/services/group-service.js',
+      'app/assets/javascripts/angular/services/pagination-service.js',
       'app/assets/javascripts/angular/services/project-service.js',
+      'app/assets/javascripts/angular/services/work-package-service.js',
       'app/assets/javascripts/angular/services/query-service.js',
+
+      "app/assets/javascripts/angular/controllers/timelines-controller.js",
+      "app/assets/javascripts/angular/controllers/work-packages-controller.js",
+
 
       'app/assets/javascripts/date-en-US.js',
 
@@ -92,7 +102,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: ['progress', 'junit'],
 
 
     // web server port
@@ -119,6 +129,11 @@ module.exports = function(config) {
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false
+    singleRun: false,
+
+
+    junitReporter: {
+      outputFile: 'karma/reports/test-results.xml'
+    }
   });
 };
