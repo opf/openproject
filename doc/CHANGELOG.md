@@ -41,6 +41,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#4152` Page not found when only one export card configuration is specified
 * `#4223` Fix: Taskboard is translated to "Aufgabenliste" in German
 * `#4224` "Create stories" is translated to "Sprints anlegen" in Roles & Permissions
+* `#4821` Edit sprint from menu
 * show description on pdf export modal
 
 ## 3.0.5.pre3
