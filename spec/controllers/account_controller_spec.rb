@@ -207,19 +207,14 @@ describe AccountController do
   end
 
   describe "Login for user with forced password change" do
-    let(:user) do
-      FactoryGirl.create(:admin, force_password_change: true)
-      allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false)
-    end
+    let(:admin) { FactoryGirl.create(:admin, :force_password_change => true) }
 
     before do
-      User.current = user
+      allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false)
     end
 
     describe "User who is not allowed to change password can't login" do
       before do
-        admin = User.find_by_admin(true)
-
         post "change_password", :username => admin.login,
           :password => 'adminADMIN!',
           :new_password => 'adminADMIN!New',
@@ -233,7 +228,6 @@ describe AccountController do
 
     describe "User who is not allowed to change password, is not redirected to the login page" do
       before do
-        admin = User.find_by_admin(true)
         post "login", {:username => admin.login, :password => 'adminADMIN!'}
       end
 
