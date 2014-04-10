@@ -31,7 +31,7 @@
 
                   <!-- Name -->
                   <td style="width:200px;">
-                    {{ FiltersHelper.localisedFilterName(query.available_work_package_filters[filter.name]) }}
+                    {{ localisedFilterName(query.available_work_package_filters[filter.name]) }}
                   </td>
 
                   <!-- Operator -->
@@ -160,7 +160,7 @@
             <select class="select-small"
                     id="add_filter_select"
                     ng-model="filterToBeAdded"
-                    ng-options="filterName as FiltersHelper.localisedFilterName(filterOptions)
+                    ng-options="filterName as localisedFilterName(filterOptions)
                                 for (filterName, filterOptions)
                                 in (query.available_work_package_filters | subtractActiveFilters:query.filters)" />
             </select>

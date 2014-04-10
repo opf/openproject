@@ -38,7 +38,7 @@ angular.module('openproject.workPackages.directives')
       return {
         pre: function(scope) {
           scope.I18n = I18n;
-          scope.FiltersHelper = FiltersHelper;
+          scope.localisedFilterName = FiltersHelper.localisedFilterName;
           scope.$watch('filterToBeAdded', function(filterName) {
             if (filterName) {
               scope.query.addFilter(filterName);
