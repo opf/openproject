@@ -44,6 +44,10 @@ class AccountController < ApplicationController
 
   def omniauth_login
     auth_hash = request.env['omniauth.auth']
+
+    # Set back url to page the omniauth login link was clicked on
+    params[:back_url] = request.env['omniauth.origin']
+
     user = User.find_or_initialize_by_identity_url(identity_url_from_omniauth(auth_hash))
     if user.new_record?
 
