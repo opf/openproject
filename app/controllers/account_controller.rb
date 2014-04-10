@@ -417,7 +417,10 @@ class AccountController < ApplicationController
 
   def account_pending
     flash[:notice] = l(:notice_account_pending)
-    redirect_to :action => 'login'
+    # Set back_url to make sure user is not redirected to an external login page
+    # when registering via the external service. This also redirects the user
+    # to the original page where the user clicked on the omniauth login link for a provider.
+    redirect_to :action => 'login', :back_url => params[:back_url]
   end
 
   def redirect_after_login(user)
