@@ -35,7 +35,7 @@ module Api
       include ::Api::V3::ApiController
 
       def index
-        @roles = Role.all
+        @roles = Role.givable
 
         respond_to do |format|
           format.api
