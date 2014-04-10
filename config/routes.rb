@@ -136,10 +136,12 @@ OpenProject::Application.routes.draw do
         end
         resources :versions, only: [:index]
         get :sub_projects
+        resources :users, only: [:index]
       end
 
       resources :groups, only: [:index]
       resources :roles, only: [:index]
+      resources :users, only: [:index]
     end
   end
 

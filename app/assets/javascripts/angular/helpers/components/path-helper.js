@@ -117,13 +117,13 @@ angular.module('openproject.helpers')
       return PathHelper.apiV2ProjectPath(projectIdentifier) + '/planning_element_types';
     },
     apiUsersPath: function() {
-      return PathHelper.apiPrefixV2 + PathHelper.usersPath();
+      return PathHelper.apiPrefixV3 + PathHelper.usersPath();
     },
     apiProjectVersionsPath: function(projectIdentifier) {
       return PathHelper.apiV3ProjectPath(projectIdentifier) + PathHelper.versionsPath();
     },
     apiProjectUsersPath: function(projectIdentifier) {
-      return PathHelper.apiV2ProjectPath(projectIdentifier) + PathHelper.usersPath();
+      return PathHelper.apiV3ProjectPath(projectIdentifier) + PathHelper.usersPath();
     },
     apiWorkPackagesSumsPath: function(projectIdentifier) {
       return PathHelper.apiV3ProjectPath(projectIdentifier) + PathHelper.workPackagesPath() + '/column_sums';
