@@ -36,6 +36,13 @@ angular.module('openproject.models')
   };
 
   Filter.prototype = {
+    /**
+     * @name toParams
+     * @function
+     *
+     * @description Serializes the filter to parameters required by the backend
+     * @returns {Object} Request parameters
+     */
     toParams: function() {
       var params = {};
 
@@ -62,20 +69,6 @@ angular.module('openproject.models')
 
     isConfigured: function() {
       return this.operator && (this.hasValues() || !this.requiresValues());
-    },
-
-    /**
-     * @name getModelName
-     *
-     * @description Looks through the available filters and looks up the model name
-     * @returns {promise} Promise yielding the model name
-     */
-    getModelName: function() {
-      var self = this;
-      return QueryService.getAvailableFilters()
-        .then(function(filters){
-          return filters[self.name].modelName;
-        });
     },
 
     pruneValues: function() {

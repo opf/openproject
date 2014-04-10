@@ -31,7 +31,7 @@
 
                   <!-- Name -->
                   <td style="width:200px;">
-                    {{ localisedFilterName(query.available_work_package_filters[filter.name]) }}
+                    {{ localisedFilterName(query.availableWorkPackageFilters[filter.name]) }}
                   </td>
 
                   <!-- Operator -->
@@ -41,7 +41,7 @@
                             class="select-small to-validate"
                             id="operators-{{filter.name}}"
                             name="op[{{filter.name}}]"
-                            ng-options="operator as I18n.t('js.' + label) for (operator, label) in operatorsAndLabelsByFilterType[query.getFilterType(filter.name)]"
+                            ng-options="operator as I18n.t('js.' + label) for (operator, label) in operatorsAndLabelsByFilterType[filter.type]"
                             ng-model="filter.operator"
                             style="vertical-align: top;"
                             ng-disabled="isLoading">
@@ -53,7 +53,7 @@
                     <div id="div-values-{{filter.name}}"
                          ng-if="!showValueOptionsAsSelect"
                          ng-show="showValuesInput"
-                         ng-switch="query.getFilterType(filter.name)">
+                         ng-switch="filter.type">
                       <input ng-switch-when="string"
                              ng-model="filter.values"
                              ng-minlength="3"
@@ -162,7 +162,7 @@
                     ng-model="filterToBeAdded"
                     ng-options="filterName as localisedFilterName(filterOptions)
                                 for (filterName, filterOptions)
-                                in (query.available_work_package_filters | subtractActiveFilters:query.filters)" />
+                                in (query.availableWorkPackageFilters | subtractActiveFilters:query.filters)" />
             </select>
             <!-- TODO options | orderObjectBy: 'order' -->
           </td>

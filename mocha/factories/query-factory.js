@@ -26,36 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
-
-describe('Filter', function() {
-
-  var Filter;
-
-  beforeEach(module('openproject.models'));
-  beforeEach(inject(function(_Filter_) {
-    Filter = _Filter_;
-  }));
-
-  it('should exist', function() {
-    expect(Filter).to.exist;
-  });
-
-  it('should be a constructor function', function() {
-    expect(new Filter()).to.exist;
-    expect(new Filter()).to.be.an('object');
-  });
-
-  it('should be serializable to params', function() {
-    var filter = Factory.build('Filter');
-
-    var params = filter.toParams();
-
-    expect(params).to.have.property('op[type_id]')
-                  .and.equal('~');
-    expect(params).to.have.property('v[type_id][]')
-                  .and.contain('Bug');
-
-  });
-
-});
+(function(Query, Filter) {
+  Factory.define('Query', Query)
+    .attr('availableWorkPackageFilters', {
+      type_id: {
+        modelName: 'type',
+        name: 'Type',
+        order: 2,
+        type: 'list_model'
+      }
+    })
+    .attr('filters', function () {return [Factory.build('Filter')];})
+    .attr('reported_project_status_comment', '');
+})($injector.get('Query'), $injector.get('Filter'));

@@ -28,48 +28,26 @@
 
 angular.module('openproject.models')
 
-.factory('Query', ['Filter', 'Sortation', 'QueryService', function(Filter, Sortation, QueryService) {
+.factory('Query', ['Filter', 'Sortation', function(Filter, Sortation) {
 
-  Query = function (data, options) {
+  Query = function (queryData, options) {
+    angular.extend(this, queryData, options);
 
-    angular.extend(this, data, options);
-
+    this.filters = [];
     this.groupBy = this.groupBy || '';
 
-    this.initFilters();
+    if(queryData) this.setFilters(queryData.filters);
   };
 
   Query.prototype = {
-    initFilters: function(projectIdentifier) {
-      var self = this;
-      QueryService.getAvailableFilters(projectIdentifier)
-        .then(function(filters){
-          self.available_work_package_filters = filters;
-          if (self.project_id){
-            delete self.available_work_package_filters["project_id"];
-          } else {
-            delete self.available_work_package_filters["subproject_id"];
-          }
-          // TODO RS: Need to assertain if there are any sub-projects and remove self filter if not.
-          // The project will have to be fetch prior to this.
-
-          if (self.filters === undefined){
-            self.filters = [];
-          } else {
-            self.filters = self.filters.map(function(filterData){
-              return new Filter(filterData);
-            });
-          }
-        });
-    },
     /**
      * @name toParams
+     * @function
      *
      * @description Serializes the query to parameters required by the backend
-     * @returns {params} Request parameters
+     * @returns {Object} Request parameters
      */
     toParams: function() {
-
       return angular.extend.apply(this, [
         {
           'f[]': this.getFilterNames(this.getActiveConfiguredFilters()),
@@ -77,12 +55,69 @@ angular.module('openproject.models')
             return column.name;
            }),
           'group_by': this.groupBy,
-          'query_id': this.id,
           'sort': this.sortation.encode()
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {
           return filter.toParams();
         }))
       );
+    },
+
+    /**
+     * @name setAvailableWorkPackageFilters
+     * @function
+     *
+     * @description
+     * Sets the available filters, which hold filter data of all selectable filters.
+     * This data is also used to augment filters with their type and a modelname.
+     *
+     * @returns {undefined}
+     */
+    setAvailableWorkPackageFilters: function(availableFilters) {
+      this.availableWorkPackageFilters = availableFilters;
+
+      if (this.project_id){
+        delete this.availableWorkPackageFilters["project_id"];
+      } else {
+        delete this.availableWorkPackageFilters["subproject_id"];
+      }
+      // TODO RS: Need to assertain if there are any sub-projects and remove filter if not.
+      // The project will have to be fetched prior to this.
+    },
+
+    /**
+     * @name setFilters
+     * @function
+     *
+     * @description
+     * Aggregates the filter data with meta data from availableWorkPackageFilters.
+     * Then initializes filter objects and sets the query filter reference to them.
+
+     * @returns {undefined}
+     */
+    setFilters: function(filters) {
+      if (filters){
+        var self = this;
+
+        this.filters = filters.map(function(filterData){
+          return new Filter(self.getExtendedFilterData(filterData));
+        });
+      }
+    },
+
+    /**
+     * @name getExtendedFilterData
+     * @function
+     *
+     * @description
+     * Extends filter data with meta data from availableWorkPackageFilters.
+
+     * @returns {object} Extended filter data.
+     */
+    getExtendedFilterData: function(filterData) {
+      return angular.extend(filterData, {
+        type: this.getFilterType(filterData.name),
+        modelName: this.getFilterModelName(filterData.name)
+      });
     },
 
     getFilterNames: function(filters) {
@@ -94,7 +129,7 @@ angular.module('openproject.models')
     getFilterByName: function(filterName) {
       return this.filters.filter(function(filter){
         return filter.name === filterName;
-      }).first();
+      })[0];
     },
 
     addFilter: function(filterName, options) {
@@ -103,7 +138,10 @@ angular.module('openproject.models')
       if (filter) {
         filter.deactivated = false;
       } else {
-        this.filters.push(new Filter(angular.extend({name: filterName}, options)));
+        var filterData = this.getExtendedFilterData(angular.extend({name: filterName}, options));
+        filter = new Filter(filterData);
+
+        this.filters.push(filter);
       }
     },
 
@@ -116,11 +154,15 @@ angular.module('openproject.models')
     },
 
     getFilterType: function(filterName) {
-      if (this.available_work_package_filters && this.available_work_package_filters[filterName]){
-        return this.available_work_package_filters[filterName].type;
+      if (this.availableWorkPackageFilters && this.availableWorkPackageFilters[filterName]){
+        return this.availableWorkPackageFilters[filterName].type;
       } else {
         return 'none';
       }
+    },
+
+    getFilterModelName: function(filterName) {
+      if (this.availableWorkPackageFilters && this.availableWorkPackageFilters[filterName]) return this.availableWorkPackageFilters[filterName].modelName;
     },
 
     getActiveFilters: function() {
@@ -136,7 +178,7 @@ angular.module('openproject.models')
     },
 
     clearAll: function(){
-      this.group_by = '';
+      this.groupBy = '';
       this.display_sums = false;
       this.id = null;
       this.clearFilters();

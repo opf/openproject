@@ -28,8 +28,8 @@
 
 angular.module('openproject.workPackages.controllers')
 
-.controller('WorkPackagesController', ['$scope', '$window', 'WorkPackagesTableHelper', 'Query', 'Sortation', 'WorkPackageService', 'QueryService', 'PaginationService', 'WorkPackageLoadingHelper', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
-            function($scope, $window, WorkPackagesTableHelper, Query, Sortation, WorkPackageService, QueryService, PaginationService, WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
+.controller('WorkPackagesController', ['$scope', '$window', 'WorkPackagesTableHelper', 'WorkPackageService', 'QueryService', 'PaginationService', 'WorkPackageLoadingHelper', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
+            function($scope, $window, WorkPackagesTableHelper, WorkPackageService, QueryService, PaginationService, WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
 
 
   function setUrlParams(location) {
@@ -50,31 +50,16 @@ angular.module('openproject.workPackages.controllers')
       .then(initAvailableColumns);
   }
 
-  function initQuery(queryData) {
-    $scope.query = new Query({
-      id: $scope.queryId,
-      project_id: queryData.project_id,
-      displaySums: queryData.display_sums,
-      groupSums: queryData.group_sums,
-      sums: queryData.sums,
-      filters: queryData.filters,
-      columns: $scope.columns,
-      groupBy: queryData.group_by
-    }); // TODO init sortation according to queryData
-
-    $scope.query.setSortation(new Sortation(queryData.sort_criteria));
-
-    $scope.showFilters = $scope.query.filters.length > 0;
-
-    return $scope.query;
-  }
-
   function initAvailableColumns() {
     return QueryService.getAvailableColumns($scope.projectIdentifier)
       .then(function(data){
         $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(data.available_columns, $scope.columns);
         return $scope.availableColumns;
       });
+  }
+
+  function afterQuerySetupCallback(query) {
+    $scope.showFilters = query.filters.length > 0;
   }
 
   $scope.submitQueryForm = function(){
@@ -87,7 +72,8 @@ angular.module('openproject.workPackages.controllers')
     var meta = json.meta;
 
     if (!$scope.columns) $scope.columns = meta.columns;
-    if (!$scope.query) initQuery(meta.query);
+    $scope.query = QueryService.getQuery() || QueryService.initQuery($scope.query_id, meta.query, $scope.columns, afterQuerySetupCallback);
+
     PaginationService.setPerPageOptions(meta.per_page_options);
     PaginationService.setPerPage(meta.per_page);
     PaginationService.setPage(meta.page);
