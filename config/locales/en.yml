@@ -365,6 +365,7 @@ en:
   button_submit: "Submit"
   button_test: "Test"
   button_unarchive: "Unarchive"
+  button_uncheck_all: "Uncheck all"
   button_unlock: "Unlock"
   button_unwatch: "Unwatch"
   button_update: "Update"
