@@ -141,15 +141,8 @@ class AccountController < ApplicationController
       @user.register
       if session[:auth_source_registration]
         # on-the-fly registration via omniauth or via auth source
-
         if session[:auth_source_registration][:omniauth]
-          auth = session[:auth_source_registration]
-          # Allow registration form to show provider-specific title
-          @omniauth_strategy = auth[:provider]
-
-          fill_user_fields_from_omniauth(@user, auth)
-          @user.update_attributes(permitted_params.user_register_via_omniauth)
-          register_user_according_to_setting(@user)
+          register_via_omniauth(@user, session, permitted_params)
         else
           @user.attributes = permitted_params.user
           @user.activate
@@ -293,6 +286,16 @@ class AccountController < ApplicationController
       :httponly => true
     }
     cookies[OpenProject::Configuration['autologin_cookie_name']] = cookie_options
+  end
+
+  def register_via_omniauth(user, session, permitted_params)
+    auth = session[:auth_source_registration]
+    # Allow registration form to show provider-specific title
+    @omniauth_strategy = auth[:provider]
+
+    fill_user_fields_from_omniauth(@user, auth)
+    @user.update_attributes(permitted_params.user_register_via_omniauth)
+    register_user_according_to_setting(@user)
   end
 
   def fill_user_fields_from_omniauth(user, auth)
