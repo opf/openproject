@@ -247,14 +247,6 @@ class AccountController < ApplicationController
     end
   end
 
-  def open_id_authenticate(openid_url)
-    authenticate_with_open_id(openid_url, :required => [:nickname, :fullname, :email], :return_to => signin_url) do |result, identity_url, registration|
-      if result.successful?
-
-      end
-    end
-  end
-
   def successful_authentication(user)
     # Valid user
     self.logged_user = user
