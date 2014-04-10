@@ -144,17 +144,7 @@ class AccountController < ApplicationController
         if session[:auth_source_registration][:omniauth]
           register_via_omniauth(@user, session, permitted_params)
         else
-          @user.attributes = permitted_params.user
-          @user.activate
-          @user.login = session[:auth_source_registration][:login]
-          @user.auth_source_id = session[:auth_source_registration][:auth_source_id]
-
-          if @user.save
-            session[:auth_source_registration] = nil
-            self.logged_user = @user
-            flash[:notice] = l(:notice_account_activated)
-            redirect_to :controller => '/my', :action => 'account'
-          end
+          register_and_login_via_authsource(@user, session, permitted_params)
         end
       else
         @user.attributes = permitted_params.user
@@ -314,6 +304,21 @@ class AccountController < ApplicationController
 
   def identity_url_from_omniauth(auth)
     "#{auth[:provider]}:#{auth[:uid]}"
+  end
+
+  def register_and_login_via_authsource(user, session, permitted_params)
+    @user.attributes = permitted_params.user
+    @user.activate
+    @user.login = session[:auth_source_registration][:login]
+    @user.auth_source_id = session[:auth_source_registration][:auth_source_id]
+
+    if @user.save
+      session[:auth_source_registration] = nil
+      self.logged_user = @user
+      flash[:notice] = l(:notice_account_activated)
+      redirect_to :controller => '/my', :action => 'account'
+    end
+    # Otherwise render register view again
   end
 
   # Onthefly creation failed, display the registration form to fill/fix attributes
