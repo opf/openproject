@@ -356,7 +356,7 @@ class User < Principal
 
   # Does the backend storage allow this user to change their password?
   def change_password_allowed?
-    return false unless identity_url.blank?
+    return false if uses_external_authentication?
     return true if auth_source_id.blank?
     return auth_source.allow_password_changes?
   end

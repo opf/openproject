@@ -54,7 +54,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="box tabular">
   <h3><%=l(:label_authentication)%></h3>
-  <% if @user.identity_url.present? %>
+  <% if @user.uses_external_authentication? %>
     <%= I18n.t('user.authentication_settings_disabled_due_to_external_authentication') %>
   <% else %>
     <% unless @auth_sources.empty? %>
