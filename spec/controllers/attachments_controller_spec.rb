@@ -40,7 +40,7 @@ describe AttachmentsController do
                                      principal: user,
                                      roles: [role]) }
 
-  before { User.stub(:current).and_return user }
+  before { allow(User).to receive(:current).and_return user }
 
   describe :destroy do
     let(:attachment) { FactoryGirl.create(:attachment,

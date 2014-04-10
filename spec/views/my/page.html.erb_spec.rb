@@ -49,7 +49,7 @@ describe 'my/page' do
 
     render
 
-    response.should have_selector("tr.time-entry td.subject a[href='#{work_package_path(issue)}']",
+    expect(response).to have_selector("tr.time-entry td.subject a[href='#{work_package_path(issue)}']",
                                   :text => "#{issue.type.name} ##{issue.id}")
   end
 end

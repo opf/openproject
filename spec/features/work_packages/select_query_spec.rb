@@ -45,7 +45,7 @@ describe 'Query selection' do
   let(:work_packages_page) { WorkPackagesPage.new(project) }
 
   before do
-    User.stub(:current).and_return current_user
+    allow(User).to receive(:current).and_return current_user
   end
 
   context 'when a query is selected' do

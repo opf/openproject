@@ -42,6 +42,6 @@ describe 'work_packages/show' do
     work_package.attachments << attachment
     work_package.save
     render 'history', :work_package => work_package, :journals => work_package.journals
-    rendered.should have_selector "img[src='/attachments/#{attachment.id}/download']"
+    expect(rendered).to have_selector "img[src='/attachments/#{attachment.id}/download']"
   end
 end

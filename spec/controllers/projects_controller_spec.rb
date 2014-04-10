@@ -35,11 +35,11 @@ describe ProjectsController do
   end
 
   before do
-    @controller.stub(:set_localization)
+    allow(@controller).to receive(:set_localization)
 
     @role = FactoryGirl.create(:non_member)
     @user = FactoryGirl.create(:admin)
-    User.stub(:current).and_return @user
+    allow(User).to receive(:current).and_return @user
 
     @params = {}
   end
@@ -70,8 +70,8 @@ describe ProjectsController do
 
       it 'renders show' do
         get 'show', @params
-        response.should be_success
-        response.should render_template 'show'
+        expect(response).to be_success
+        expect(response).to render_template 'show'
       end
 
       it 'renders main menu without wiki menu item' do
@@ -91,8 +91,8 @@ describe ProjectsController do
       describe 'without custom wiki menu items' do
         it 'renders show' do
           get 'show', @params
-          response.should be_success
-          response.should render_template 'show'
+          expect(response).to be_success
+          expect(response).to render_template 'show'
         end
 
         it 'renders main menu with wiki menu item' do
@@ -110,8 +110,8 @@ describe ProjectsController do
 
         it 'renders show' do
           get 'show', @params
-          response.should be_success
-          response.should render_template 'show'
+          expect(response).to be_success
+          expect(response).to render_template 'show'
         end
 
         it 'renders main menu with wiki menu item' do
@@ -136,8 +136,8 @@ describe ProjectsController do
 
       it 'renders show' do
         get 'show', @params
-        response.should be_success
-        response.should render_template 'show'
+        expect(response).to be_success
+        expect(response).to render_template 'show'
       end
 
       it 'renders main menu with activity tab' do
@@ -154,13 +154,13 @@ describe ProjectsController do
 
       it 'renders show' do
         get 'show', @params
-        response.should be_success
-        response.should render_template 'show'
+        expect(response).to be_success
+        expect(response).to render_template 'show'
       end
 
       it 'renders main menu without activity tab' do
         get 'show', @params
-        response.body.should_not have_selector '#main-menu a.activity'
+        expect(response.body).not_to have_selector '#main-menu a.activity'
       end
     end
   end
@@ -183,15 +183,15 @@ describe ProjectsController do
 
       it "renders 'new'" do
         get 'new', @params
-        response.should be_success
-        response.should render_template 'new'
+        expect(response).to be_success
+        expect(response).to render_template 'new'
       end
 
       it 'renders available modules list with activity being selected' do
         get 'new', @params
 
-        response.body.should have_selector "input[@name='project[enabled_module_names][]'][@value='activity'][@checked='checked']"
-        response.body.should have_selector "input[@name='project[enabled_module_names][]'][@value='wiki'][@checked='checked']"
+        expect(response.body).to have_selector "input[@name='project[enabled_module_names][]'][@value='activity'][@checked='checked']"
+        expect(response.body).to have_selector "input[@name='project[enabled_module_names][]'][@value='wiki'][@checked='checked']"
       end
     end
 
@@ -202,16 +202,16 @@ describe ProjectsController do
 
       it "renders 'new'" do
         get 'new', @params
-        response.should be_success
-        response.should render_template 'new'
+        expect(response).to be_success
+        expect(response).to render_template 'new'
       end
 
       it 'renders available modules list without activity being selected' do
         get 'new', @params
 
-        response.body.should have_selector "input[@name='project[enabled_module_names][]'][@value='wiki'][@checked='checked']"
-        response.body.should have_selector "input[@name='project[enabled_module_names][]'][@value='activity']"
-        response.body.should_not have_selector "input[@name='project[enabled_module_names][]'][@value='activity'][@checked='checked']"
+        expect(response.body).to have_selector "input[@name='project[enabled_module_names][]'][@value='wiki'][@checked='checked']"
+        expect(response.body).to have_selector "input[@name='project[enabled_module_names][]'][@value='activity']"
+        expect(response.body).not_to have_selector "input[@name='project[enabled_module_names][]'][@value='activity'][@checked='checked']"
       end
     end
   end
@@ -227,14 +227,14 @@ describe ProjectsController do
 
       it 'renders settings/modules' do
         get 'settings', @params.merge(:tab => 'modules')
-        response.should be_success
-        response.should render_template 'settings'
+        expect(response).to be_success
+        expect(response).to render_template 'settings'
       end
 
       it 'renders available modules list with activity being selected' do
         get 'settings', @params.merge(:tab => 'modules')
-        response.body.should have_selector "#modules-form input[@name='enabled_module_names[]'][@value='activity'][@checked='checked']"
-        response.body.should have_selector "#modules-form input[@name='enabled_module_names[]'][@value='wiki'][@checked='checked']"
+        expect(response.body).to have_selector "#modules-form input[@name='enabled_module_names[]'][@value='activity'][@checked='checked']"
+        expect(response.body).to have_selector "#modules-form input[@name='enabled_module_names[]'][@value='wiki'][@checked='checked']"
       end
     end
 
@@ -246,16 +246,16 @@ describe ProjectsController do
 
       it 'renders settings/modules' do
         get 'settings', @params.merge(:tab => 'modules')
-        response.should be_success
-        response.should render_template 'settings'
+        expect(response).to be_success
+        expect(response).to render_template 'settings'
       end
 
       it 'renders available modules list without activity being selected' do
         get 'settings', @params.merge(:tab => 'modules')
 
-        response.body.should have_selector "#modules-form input[@name='enabled_module_names[]'][@value='wiki'][@checked='checked']"
-        response.body.should have_selector "#modules-form input[@name='enabled_module_names[]'][@value='activity']"
-        response.body.should_not have_selector "#modules-form input[@name='enabled_module_names[]'][@value='activity'][@checked='checked']"
+        expect(response.body).to have_selector "#modules-form input[@name='enabled_module_names[]'][@value='wiki'][@checked='checked']"
+        expect(response.body).to have_selector "#modules-form input[@name='enabled_module_names[]'][@value='activity']"
+        expect(response.body).not_to have_selector "#modules-form input[@name='enabled_module_names[]'][@value='activity'][@checked='checked']"
       end
     end
 
@@ -283,7 +283,7 @@ describe ProjectsController do
         it { should be_redirect }
       end
 
-      before { User.stub(:current).and_return user }
+      before { allow(User).to receive(:current).and_return user }
 
       shared_context :work_packages do
         before do

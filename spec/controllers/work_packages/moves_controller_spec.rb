@@ -51,7 +51,7 @@ describe WorkPackages::MovesController do
   let(:current_user) { FactoryGirl.create(:user) }
 
   before do
-    User.stub(:current).and_return current_user
+    allow(User).to receive(:current).and_return current_user
   end
 
   describe 'new.html' do
@@ -65,7 +65,7 @@ describe WorkPackages::MovesController do
         it 'renders a 404 page' do
           get 'new', :id => '1337'
 
-          response.response_code.should === 404
+          expect(response.response_code).to be === 404
         end
       end
 
@@ -75,7 +75,7 @@ describe WorkPackages::MovesController do
         it 'raises ActiveRecord::RecordNotFound errors' do
           get 'new', :id => '1337'
 
-          response.response_code.should === 404
+          expect(response.response_code).to be === 404
         end
       end
     end
@@ -89,7 +89,7 @@ describe WorkPackages::MovesController do
         it 'renders a 403 Forbidden page' do
           get 'new', :work_package_id => work_package.id
 
-          response.response_code.should == 403
+          expect(response.response_code).to eq(403)
         end
       end
 
@@ -101,7 +101,7 @@ describe WorkPackages::MovesController do
         end
 
         it 'renders the new builder template' do
-          response.should render_template('work_packages/moves/new', :formats => ["html"], :layout => :base)
+          expect(response).to render_template('work_packages/moves/new', :formats => ["html"], :layout => :base)
         end
       end
     end
@@ -176,13 +176,13 @@ describe WorkPackages::MovesController do
         end
 
         it "project id is changed for both work packages" do
-          work_package.project_id.should eq(target_project.id)
-          work_package_2.project_id.should eq(target_project.id)
+          expect(work_package.project_id).to eq(target_project.id)
+          expect(work_package_2.project_id).to eq(target_project.id)
         end
 
         it "changed no types" do
-          work_package.type_id.should eq(type.id)
-          work_package_2.type_id.should eq(type_2.id)
+          expect(work_package.type_id).to eq(type.id)
+          expect(work_package_2.type_id).to eq(type_2.id)
         end
       end
 
@@ -197,8 +197,8 @@ describe WorkPackages::MovesController do
         end
 
         it "changed work packages' types" do
-          work_package.type_id.should eq(type_2.id)
-          work_package_2.type_id.should eq(type_2.id)
+          expect(work_package.type_id).to eq(type_2.id)
+          expect(work_package_2.type_id).to eq(type_2.id)
         end
       end
 
@@ -213,8 +213,8 @@ describe WorkPackages::MovesController do
         end
 
         it "changed work packages' priority" do
-          work_package.priority_id.should eq(target_priority.id)
-          work_package_2.priority_id.should eq(target_priority.id)
+          expect(work_package.priority_id).to eq(target_priority.id)
+          expect(work_package_2.priority_id).to eq(target_priority.id)
         end
       end
 
@@ -282,19 +282,19 @@ describe WorkPackages::MovesController do
           subject { WorkPackage.first(:order => 'id desc', :conditions => {:project_id => project.id}) }
 
           it "did not change the type" do
-            subject.type_id.should eq(work_package.type_id)
+            expect(subject.type_id).to eq(work_package.type_id)
           end
 
           it "did not change the status" do
-            subject.status_id.should eq(work_package.status_id)
+            expect(subject.status_id).to eq(work_package.status_id)
           end
 
           it "did not change the assignee" do
-            subject.assigned_to_id.should eq(work_package.assigned_to_id)
+            expect(subject.assigned_to_id).to eq(work_package.assigned_to_id)
           end
 
           it "did not change the responsible" do
-            subject.responsible_id.should eq(work_package.responsible_id)
+            expect(subject.responsible_id).to eq(work_package.responsible_id)
           end
         end
 
@@ -319,42 +319,42 @@ describe WorkPackages::MovesController do
           subject { WorkPackage.all(:limit => 2, :order => 'id desc', :conditions => {:project_id => target_project.id}) }
 
           it "copied two work packages" do
-            subject.count.should eq(2)
+            expect(subject.count).to eq(2)
           end
 
           it "did change the project" do
             subject.map(&:project_id).each do |id|
-              id.should eq(target_project.id)
+              expect(id).to eq(target_project.id)
             end
           end
 
           it "did change the assignee" do
             subject.map(&:assigned_to_id).each do |id|
-              id.should eq(target_user.id)
+              expect(id).to eq(target_user.id)
             end
           end
 
           it "did change the responsible" do
             subject.map(&:responsible_id).each do |id|
-              id.should eq(target_user.id)
+              expect(id).to eq(target_user.id)
             end
           end
 
           it "did change the status" do
             subject.map(&:status_id).each do |id|
-              id.should eq(target_status.id)
+              expect(id).to eq(target_status.id)
             end
           end
 
           it "did change the start date" do
             subject.map(&:start_date).each do |date|
-              date.should eq(start_date)
+              expect(date).to eq(start_date)
             end
           end
 
           it "did change the end date" do
             subject.map(&:due_date).each do |date|
-              date.should eq(due_date)
+              expect(date).to eq(due_date)
             end
           end
         end

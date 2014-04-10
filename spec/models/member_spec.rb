@@ -42,8 +42,8 @@ describe Member do
     end
 
     context(:roles) do
-      it { member.roles.should include role }
-      it { member.roles.should include second_role }
+      it { expect(member.roles).to include role }
+      it { expect(member.roles).to include second_role }
     end
   end
 
@@ -54,8 +54,8 @@ describe Member do
     end
 
     context(:roles) do
-      it { member.roles.should include role }
-      it { member.roles.should include second_role }
+      it { expect(member.roles).to include role }
+      it { expect(member.roles).to include second_role }
     end
   end
 
@@ -67,8 +67,8 @@ describe Member do
         member.reload
       end
       context :roles do
-        it { member.roles.should_not include role }
-        it { member.roles.should include second_role }
+        it { expect(member.roles).not_to include role }
+        it { expect(member.roles).to include second_role }
       end
     end
 
@@ -78,8 +78,8 @@ describe Member do
         res = member.save
       end
 
-      context(:roles) { it { member.roles.should include role } }
-      context(:errors) { it { member.errors.map {|k,v| v}.should include "Please choose at least one role." } }
+      context(:roles) { it { expect(member.roles).to include role } }
+      context(:errors) { it { expect(member.errors.map {|k,v| v}).to include "Please choose at least one role." } }
     end
   end
 
@@ -91,8 +91,8 @@ describe Member do
         member.reload
       end
       context :roles do
-        it { member.roles.should_not include role }
-        it { member.roles.should include second_role }
+        it { expect(member.roles).not_to include role }
+        it { expect(member.roles).to include second_role }
       end
     end
 
@@ -101,8 +101,8 @@ describe Member do
         member.assign_and_save_roles_and_destroy_member_if_none_left([])
       end
 
-      it('member should be destroyed') { member.destroyed?.should == true }
-      context(:roles) { it { member.roles(true).should be_empty } }
+      it('member should be destroyed') { expect(member.destroyed?).to eq(true) }
+      context(:roles) { it { expect(member.roles(true)).to be_empty } }
     end
   end
 
@@ -120,8 +120,8 @@ describe Member do
         member.reload
       end
 
-      context(:roles) { it { member.roles.length.should == 1 } }
-      context(:member_roles) { it { member.member_roles.length.should == 1 } }
+      context(:roles) { it { expect(member.roles.length).to eq(1) } }
+      context(:member_roles) { it { expect(member.member_roles.length).to eq(1) } }
     end
 
     context 'before saving the member when removing the last role' do
@@ -130,9 +130,9 @@ describe Member do
         member.mark_member_role_for_destruction(member_role)
       end
 
-      context(:roles) { it { member.roles.should_not be_empty } }
-      context(:member_roles) { it { member.member_roles.should_not be_empty } }
-      context(:member) { it { member.should_not be_valid } }
+      context(:roles) { it { expect(member.roles).not_to be_empty } }
+      context(:member_roles) { it { expect(member.member_roles).not_to be_empty } }
+      context(:member) { it { expect(member).not_to be_valid } }
     end
   end
 
@@ -146,10 +146,10 @@ describe Member do
         member.remove_member_role_and_destroy_member_if_last(member_role)
       end
 
-      it('member should not be destroyed') { member.destroyed?.should == false }
+      it('member should not be destroyed') { expect(member.destroyed?).to eq(false) }
       context(:roles) do
-        it { member.roles(true).length.should == 1 }
-        it { member.roles(true).first.id.should == second_role.id }
+        it { expect(member.roles(true).length).to eq(1) }
+        it { expect(member.roles(true).first.id).to eq(second_role.id) }
       end
     end
 
@@ -159,8 +159,8 @@ describe Member do
         member.remove_member_role_and_destroy_member_if_last(member_role)
       end
 
-      it('member should be destroyed') { member.destroyed?.should == true }
-      context(:roles) { it { member.roles(true).should be_empty } }
+      it('member should be destroyed') { expect(member.destroyed?).to eq(true) }
+      context(:roles) { it { expect(member.roles(true)).to be_empty } }
     end
   end
 end

@@ -895,7 +895,7 @@ class WorkPackage < ActiveRecord::Base
   def self.update_versions_from_hierarchy_change(project)
     moved_project_ids = project.self_and_descendants.reload.collect(&:id)
     # Update issues of the moved projects and issues assigned to a version of a moved project
-    WorkPackage.update_versions(["#{Version.table_name}.project_id IN (?) OR #{WorkPackage.table_name}.project_id IN (?)", moved_project_ids, moved_project_ids])
+    update_versions(["#{Version.table_name}.project_id IN (?) OR #{WorkPackage.table_name}.project_id IN (?)", moved_project_ids, moved_project_ids])
   end
 
   # Extracted from the ReportsController.
@@ -1019,6 +1019,7 @@ class WorkPackage < ActiveRecord::Base
       end
     end
   end
+  private_class_method :update_versions
 
   # Default assignment based on category
   def default_assign
@@ -1053,7 +1054,7 @@ class WorkPackage < ActiveRecord::Base
   # * project - Project to search in.
   # * field - String. Issue field to key off of in the grouping.
   # * joins - String. The table name to join against.
-  private_class_method def self.count_and_group_by(options)
+  def self.count_and_group_by(options)
     project = options.delete(:project)
     select_field = options.delete(:field)
     joins = options.delete(:joins)
@@ -1072,6 +1073,8 @@ class WorkPackage < ActiveRecord::Base
                                                 and i.project_id=#{project.id}
                                               group by s.id, s.is_closed, j.id")
   end
+  private_class_method :count_and_group_by
+
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   def set_attachments_error_details

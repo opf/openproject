@@ -37,7 +37,7 @@ describe 'Work package index accessibility' do
   let(:work_packages_page) { WorkPackagesPage.new(project) }
 
   before do
-    User.stub(:current).and_return(user)
+    allow(User).to receive(:current).and_return(user)
 
     work_packages_page.visit_index
   end
