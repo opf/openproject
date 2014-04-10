@@ -72,7 +72,7 @@ describe Api::V2::PlanningElementTypesController, type: :controller do
       describe 'with only the standard type available' do
         it 'assigns an type array including the standard type' do
           get 'index', :project_id => project.identifier, :format => 'xml'
-          expect(assigns(:types)).to eq(project.types)
+          expect(assigns(:types)).to match_array(project.types)
         end
 
         it 'renders the index builder template' do
