@@ -45,10 +45,6 @@ See doc/COPYRIGHT.rdoc for more details.
       </tr>
     </table>
     <div id = "optional_login_fields" style = "top = 10px; white-space:nowrap">
-      <% if Setting.openid? %>
-        <%= text_field_tag "openid_url", nil, :placeholder => User.human_attribute_name(:identity_url) %>
-      <% end %>
-
       <% if Setting.autologin? %>
         <label for="autologin"><%= check_box_tag 'autologin', 1, false %> <%= l(:label_stay_logged_in) %></label>
       <% end %>
