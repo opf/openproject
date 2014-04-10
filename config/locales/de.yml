@@ -79,6 +79,7 @@ de:
     points: "Punkte"
     positions_could_not_be_rebuilt: "Positionen konnten nicht neu berechnet werden."
     positions_rebuilt_successfully: "Positionen wurden neu berechnet."
+    properties: "Eigenschaften"
     rebuild: "Neu berechnen"
     rebuild_positions: "Positionen neu berechnen"
     remaining_hours: "Verbleibende Stunden"

@@ -79,6 +79,7 @@ en:
     points: "Points"
     positions_could_not_be_rebuilt: "Positions could not be rebuild."
     positions_rebuilt_successfully: "Positions rebuilt successfully."
+    properties: "Properties"
     rebuild: "Rebuild"
     rebuild_positions: "Rebuild positions"
     remaining_hours: "Remaining hours"
