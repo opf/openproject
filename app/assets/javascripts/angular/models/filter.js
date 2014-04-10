@@ -28,8 +28,8 @@
 
 angular.module('openproject.models')
 
-.constant('OPERATORS_REQUIRING_VALUES', ['o', 'c', '!*', '*', 't', 'w'])
-.factory('Filter', ['OPERATORS_REQUIRING_VALUES', 'QueryService', function(OPERATORS_REQUIRING_VALUES, QueryService) {
+.constant('OPERATORS_NOT_REQUIRING_VALUES', ['o', 'c', '!*', '*', 't', 'w'])
+.factory('Filter', ['OPERATORS_NOT_REQUIRING_VALUES', function(OPERATORS_NOT_REQUIRING_VALUES) {
   Filter = function (data) {
     angular.extend(this, data);
     this.pruneValues();
@@ -64,7 +64,7 @@ angular.module('openproject.models')
     },
 
     requiresValues: function() {
-      return OPERATORS_REQUIRING_VALUES.indexOf(this.operator) === -1;
+      return OPERATORS_NOT_REQUIRING_VALUES.indexOf(this.operator) === -1;
     },
 
     isConfigured: function() {
