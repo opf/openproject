@@ -74,7 +74,8 @@ class AccountController < ApplicationController
   end
 
   def omniauth_failure
-    flash[:error] = params['message']
+    logger.warn(params[:message]) if params[:message]
+    flash[:error] = I18n.t(:error_external_authentication_failed)
     redirect_to :action => 'login'
   end
 
