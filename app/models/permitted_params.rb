@@ -198,22 +198,22 @@ class PermittedParams < Struct.new(:params, :current_user)
     permitted_params
   end
 
-  def user_update_as_admin(external_authentication)
+  def user_update_as_admin(external_authentication, change_password_allowed)
     # Found group_ids in safe_attributes and added them here as I
     # didn't know the consequences of removing these.
     # They were not allowed on create.
-    user_create_as_admin(external_authentication, [:group_ids => []])
+    user_create_as_admin(external_authentication, change_password_allowed, [:group_ids => []])
   end
 
-  def user_create_as_admin(external_authentication, additional_params = [])
+  def user_create_as_admin(external_authentication, change_password_allowed, additional_params = [])
     if current_user.admin?
       additional_params << :auth_source_id unless external_authentication
+      additional_params << :force_password_change if change_password_allowed
 
       allowed_params = self.class.permitted_attributes[:user] + \
                        additional_params + \
                        [ :admin,
                          :auth_source_id,
-                         :force_password_change,
                          :login ]
 
       permitted_params = params.require(:user).permit(*allowed_params)

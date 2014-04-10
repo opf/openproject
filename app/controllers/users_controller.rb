@@ -115,7 +115,7 @@ class UsersController < ApplicationController
   verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
   def create
     @user = User.new(:language => Setting.default_language, :mail_notification => Setting.default_notification_option)
-    @user.attributes = permitted_params.user_create_as_admin(false)
+    @user.attributes = permitted_params.user_create_as_admin(false, @user.change_password_allowed?)
     @user.admin = params[:user][:admin] || false
 
     if @user.change_password_allowed?
@@ -164,7 +164,8 @@ class UsersController < ApplicationController
 
   verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
   def update
-    @user.attributes = permitted_params.user_update_as_admin(@user.uses_external_authentication?)
+    @user.attributes = permitted_params.user_update_as_admin(@user.uses_external_authentication?,
+                                                             @user.change_password_allowed?)
 
     if @user.change_password_allowed?
       if params[:user][:assign_random_password]
