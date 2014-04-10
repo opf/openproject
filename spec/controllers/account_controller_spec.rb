@@ -203,6 +203,11 @@ describe AccountController do
         get :omniauth_failure
         expect(response).to redirect_to signin_path
       end
+
+      it 'should log a warn message' do
+        expect(Rails.logger).to receive(:warn).with('invalid_credentials')
+        get :omniauth_failure, { message: 'invalid_credentials' }
+      end
     end
   end
 

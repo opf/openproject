@@ -533,6 +533,8 @@ de:
   error_menu_item_not_created: Menüpunkt konnte nicht hinzugefügt werden.
   error_menu_item_not_saved: Menüpunkt konnte nicht aktualisiert werden.
 
+  error_external_authentication_failed: "Die externe Authentifizierung ist fehlgeschlagen. Bitte versuchen Sie es erneut."
+
   events:
     project: 'Projekt bearbeitet'
     changeset: Changeset bearbeitet

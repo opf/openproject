@@ -530,6 +530,8 @@ en:
   error_menu_item_not_created: Menu item could not be added
   error_menu_item_not_saved: Menu item could not be saved
 
+  error_external_authentication_failed: "An error occured during external authentication. Please try again."
+
   events:
     project: 'Project edited'
     changeset: 'Changeset edited'
