@@ -198,30 +198,19 @@ class PermittedParams < Struct.new(:params, :current_user)
     permitted_params
   end
 
-  def user_update_as_admin
-    if current_user.admin?
-      allowed_params = self.class.permitted_attributes[:user] + \
-                       [ :admin,
-                         :auth_source_id,
-                         :force_password_change,
-                         :login,
-                         # Found these in safe_attributes and added them here as I
-                         # didn't know the consequences of removing these.
-                         # They were not allowed on create.
-                         :group_ids => []]
-
-      permitted_params = params.require(:user).permit(*allowed_params)
-      permitted_params.merge!(custom_field_values(:user))
-
-      permitted_params
-    else
-      params.require(:user).permit()
-    end
+  def user_update_as_admin(external_authentication)
+    # Found group_ids in safe_attributes and added them here as I
+    # didn't know the consequences of removing these.
+    # They were not allowed on create.
+    user_create_as_admin(external_authentication, [:group_ids => []])
   end
 
-  def user_create_as_admin
+  def user_create_as_admin(external_authentication, additional_params = [])
     if current_user.admin?
+      additional_params << :auth_source_id unless external_authentication
+
       allowed_params = self.class.permitted_attributes[:user] + \
+                       additional_params + \
                        [ :admin,
                          :auth_source_id,
                          :force_password_change,

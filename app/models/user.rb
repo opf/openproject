@@ -361,6 +361,11 @@ class User < Principal
     return auth_source.allow_password_changes?
   end
 
+  # Is the user authenticated via an external authentication source via OmniAuth?
+  def uses_external_authentication?
+    return identity_url.present?
+  end
+
   #
   # Generate and set a random password.
   #
