@@ -422,8 +422,8 @@ DEPENDENCIES
   selenium-webdriver
   shoulda
   shoulda-matchers
-  sprockets (= 2.2.2.backport2)
   simplecov (= 0.8.0.pre)
+  sprockets (= 2.2.2.backport2)
   sqlite3
   strong_parameters
   svg-graph
