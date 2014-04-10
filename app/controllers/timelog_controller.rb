@@ -45,13 +45,13 @@ class TimelogController < ApplicationController
   include OpenProject::ClientPreferenceExtractor
 
   def index
-    sort_init 'spent_on', 'desc'
-    sort_update 'spent_on' => 'spent_on',
-                'user' => 'user_id',
-                'activity' => 'activity_id',
+    sort_init "#{TimeEntry.table_name}.spent_on", 'desc'
+    sort_update 'spent_on' => "#{TimeEntry.table_name}.spent_on",
+                'user' => "#{TimeEntry.table_name}.user_id",
+                'activity' => "#{TimeEntry.table_name}.activity_id",
                 'project' => "#{Project.table_name}.name",
-                'work_package' => 'work_package_id',
-                'hours' => 'hours'
+                'work_package' => "#{TimeEntry.table_name}.work_package_id",
+                'hours' => "#{TimeEntry.table_name}.hours"
 
     cond = ARCondition.new
     if @issue
