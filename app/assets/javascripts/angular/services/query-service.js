@@ -72,6 +72,7 @@ angular.module('openproject.services')
     },
 
     getAvailableFilters: function(projectIdentifier){
+      // TODO once this is becoming more single-page-app-like keep the available filters of the query model in sync when the project identifier is changed on the scope but the page isn't reloaded
       var identifier = 'global';
       var getFilters = QueryService.getCustomFieldFilters;
       var getFiltersArgs = [];
@@ -103,7 +104,7 @@ angular.module('openproject.services')
       return QueryService.getAvailableFilters(projectIdentifier)
         .then(function(filters){
           var filter = filters[filterName];
-          var modelName = filter.modelName
+          var modelName = filter.modelName;
 
           if(filter.values) {
             // Note: We have filter values already because it is a custom field and the server gives the possible values.
