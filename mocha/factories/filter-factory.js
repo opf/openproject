@@ -26,36 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
-
-describe('Filter', function() {
-
-  var Filter;
-
-  beforeEach(module('openproject.models'));
-  beforeEach(inject(function(_Filter_) {
-    Filter = _Filter_;
-  }));
-
-  it('should exist', function() {
-    expect(Filter).to.exist;
-  });
-
-  it('should be a constructor function', function() {
-    expect(new Filter()).to.exist;
-    expect(new Filter()).to.be.an('object');
-  });
-
-  it('should be serializable to params', function() {
-    var filter = Factory.build('Filter');
-
-    var params = filter.toParams();
-
-    expect(params).to.have.property('op[type_id]')
-                  .and.equal('~');
-    expect(params).to.have.property('v[type_id][]')
-                  .and.contain('Bug');
-
-  });
-
-});
+(function(Filter) {
+  Factory.define('Filter', Filter)
+    .attr('name', 'type_id')
+    .attr('operator', '~')
+    .attr('values', ['Bug', 'Feature']);
+})($injector.get('Filter'));
