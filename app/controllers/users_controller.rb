@@ -115,13 +115,13 @@ class UsersController < ApplicationController
   verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
   def create
     @user = User.new(:language => Setting.default_language, :mail_notification => Setting.default_notification_option)
-    @user.attributes = permitted_params.user_create_as_admin
+    @user.attributes = permitted_params.user_create_as_admin(false)
     @user.admin = params[:user][:admin] || false
-    @user.login = params[:user][:login]
+
     if @user.change_password_allowed?
       if params[:user][:assign_random_password]
         @user.random_password!
-      else 
+      else
         @user.password = params[:user][:password]
         @user.password_confirmation = params[:user][:password_confirmation]
       end
@@ -164,12 +164,7 @@ class UsersController < ApplicationController
 
   verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
   def update
-    filtered_params = permitted_params.user_update_as_admin
-
-    # Don't allow setting an auth source for users with external authentication
-    filtered_params[:auth_source_id] = nil if @user.identity_url
-
-    @user.attributes = filtered_params
+    @user.attributes = permitted_params.user_update_as_admin(@user.uses_external_authentication?)
 
     if @user.change_password_allowed?
       if params[:user][:assign_random_password]
