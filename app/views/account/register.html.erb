@@ -64,10 +64,6 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= call_hook :view_account_register_after_basic_information, :f => f %>
     <p><%= f.select(:language, lang_options_for_select) %></p>
 
-    <% if Setting.openid? %>
-      <p><%= f.text_field :identity_url %></p>
-    <% end %>
-
     <% @user.custom_field_values.select {|v| v.editable? || v.required?}.each do |value| %>
       <p><%= custom_field_tag_with_label :user, value %></p>
     <% end %>
