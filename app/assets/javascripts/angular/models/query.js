@@ -179,7 +179,7 @@ angular.module('openproject.models')
 
     clearAll: function(){
       this.groupBy = '';
-      this.display_sums = false;
+      this.displaySums = false;
       this.id = null;
       this.clearFilters();
     },
