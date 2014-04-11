@@ -89,7 +89,11 @@ angular.module('openproject.models')
     },
 
     hasValues: function() {
-      return Array.isArray(this.values) ? this.values.length > 0 : !!this.values;
+      if (this.isSingleInputField()) {
+        return !!this.textValue;
+      } else {
+        return Array.isArray(this.values) ? this.values.length > 0 : !!this.values;
+      }
     }
   };
 

@@ -58,4 +58,25 @@ describe('Filter', function() {
 
   });
 
+  describe('when it is a single input filter', function() {
+    beforeEach(function(){
+      filter = Factory.build('Filter', {name: 'subject', values: []});
+    });
+
+    describe('and the text value is set', function() {
+      beforeEach(function() {
+        textValue = 'abc';
+        filter.textValue = textValue;
+      });
+
+      it('is considered to be configured', function() {
+        expect(filter.isConfigured()).to.be.true;
+      });
+
+      it('should serialize the text value', function() {
+        expect(filter.getValuesAsArray()).to.eql([textValue]);
+      });
+    });
+  });
+
 });
