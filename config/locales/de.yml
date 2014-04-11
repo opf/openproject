@@ -891,6 +891,7 @@ de:
   label_query_menu_item: "Filter-Menüpunkt"
   label_read: "Lesen ..."
   label_register: "Registrieren"
+  label_register_with_developer: "Als Entwickler anmelden"
   label_registered_on: "Angemeldet am"
   label_registration_activation_by_email: "Kontoaktivierung durch E-Mail"
   label_registration_automatic_activation: "Automatische Kontoaktivierung"
@@ -1621,6 +1622,10 @@ de:
     activate: "Aktivieren"
     activate_and_reset_failed_logins: "Aktivieren und fehlgeschlagene Logins zurücksetzen"
     assign_random_password: "Zufälliges Passwort zuweisen (wird dem Nutzer per E-Mail geschickt)"
+    authentication_provider: "Authentifizierungsprovider"
+    authentication_settings_disabled_due_to_external_authentication: >
+      Dieser Nutzer authentifiziert sich über einen externen Authentifizierungsprovider, so dass
+      das Passwort über OpenProject nicht geändert werden kann.
     blocked: "temporär gesperrt"
     blocked_num_failed_logins:
       one: "temporär gesperrt (ein fehlgeschlagener Loginversuch)"
