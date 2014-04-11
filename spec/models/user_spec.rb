@@ -103,6 +103,17 @@ describe User do
     end
   end
 
+  describe '#authentication_provider' do
+    before do
+      user.identity_url = 'test_provider:veryuniqueid'
+      user.save!
+    end
+
+    it 'should create a human readable name' do
+      expect(user.authentication_provider).to eql('Test Provider')
+    end
+  end
+
   describe :blocked do
     let!(:blocked_user) do
       FactoryGirl.create(:user,
