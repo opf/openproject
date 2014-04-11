@@ -109,9 +109,10 @@
                              size="3"
                              type="text"
                              ng-disabled="isLoading"/>
-                      <label ng-switch-when="'date'" for="values_{{name}}" class="hidden-for-sighted">
+                      <label ng-switch-when="date" for="values_{{name}}" class="hidden-for-sighted">
                         {{ I18n.t('js.work_packages.time_relative.days') }}
                       </label>
+                      <label ng-switch-when="date" for="values_{{name}}">days</label>
 
                       <input ng-switch-when="date_past"
                              ng-model="filter.textValue"
@@ -122,9 +123,10 @@
                              size="3"
                              type="text"
                              ng-disabled="isLoading"/>
-                      <label ng-switch-when="'date'" for="values_{{name}}" class="hidden-for-sighted">
+                      <label ng-switch-when="date_past" for="values_{{name}}" class="hidden-for-sighted">
                         {{ I18n.t('js.work_packages.time_relative.days') }}
                       </label>
+                      <label ng-switch-when="date_past" for="values_{{name}}">days</label>
 
                     </div>
 
