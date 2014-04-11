@@ -30,8 +30,6 @@
 
 describe('Work package filters', function() {
 
-  var t;
-
   beforeEach(module('openproject.workPackages.filters'));
 
   describe('remainingFilterNames', function() {
@@ -60,20 +58,26 @@ describe('Work package filters', function() {
     }));
 
     describe('when there are filter locales for the remaining filters', function() {
-      beforeEach(function(){
+      var I18n, t;
+
+      beforeEach(inject(function(_I18n_){
+        I18n = _I18n_;
+        t = sinon.stub(I18n, 't');
         selectedFilters = [];
-      });
+      }));
 
-      it('respects the alphabetical locale ordering', inject(function($filter, _I18n_) {
-        // TODO test this
+      afterEach(inject(function() {
+        I18n.t.restore();
+      }));
 
-        // I18n = _I18n_;
-        // t = sinon.spy(I18n, 't');
-        // expect(t).to.be.called.with('created_at').and.to.return('a');
-        // expect(t).to.be.called.with('subject').and.to.return('b');
-        // I18n.t('js.filter_labels.created_at')
+      it('respects the alphabetical locale ordering', inject(function($filter) {
+        t.withArgs('js.filter_labels.subject').returns('Betreff');
+        t.withArgs('js.filter_labels.created_at').returns('angelegt');
 
-        // expect($filter('remainingFilterNames')(availableFilters, selectedFilters)).to.eql(['created_at', 'subject']);
+        expect($filter('remainingFilterNames')(availableFilters, selectedFilters)).to.eql(['created_at', 'subject']);
+
+        expect(t).to.have.been.calledTwice;
+        expect(t).to.have.been.calledWithMatch(sinon.match('js.filter_labels'));
       }));
     });
   });
