@@ -57,6 +57,7 @@ module.exports = function(config) {
       "app/assets/javascripts/angular/models/timelines/status.js",
       "app/assets/javascripts/angular/models/timelines/tree_node.js",
       "app/assets/javascripts/angular/models/timelines/user.js",
+      "app/assets/javascripts/angular/directives/components/*.js",
 
       'app/assets/javascripts/angular/services/status-service.js',
       'app/assets/javascripts/angular/services/type-service.js',
@@ -69,6 +70,7 @@ module.exports = function(config) {
       'app/assets/javascripts/angular/services/project-service.js',
       'app/assets/javascripts/angular/services/work-package-service.js',
       'app/assets/javascripts/angular/services/query-service.js',
+      'app/assets/javascripts/angular/services/pagination-service.js',
 
       "app/assets/javascripts/angular/controllers/timelines-controller.js",
       "app/assets/javascripts/angular/controllers/work-packages-controller.js",
@@ -82,7 +84,9 @@ module.exports = function(config) {
       'mocha/factories/*factory.js',
 
       'mocha/tests/asset_functions.js',
-      'mocha/tests/**/*test.js'
+      'mocha/tests/**/*test.js',
+
+      'public/templates/**/*.html'
     ],
 
 
@@ -95,7 +99,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-
+      'public/templates/**/*.html': ['ng-html2js']
     },
 
 
@@ -132,8 +136,14 @@ module.exports = function(config) {
     singleRun: false,
 
 
+
     junitReporter: {
       outputFile: 'karma/reports/test-results.xml'
+    },
+
+    ngHtml2JsPreprocessor: {
+      stripPrefix:  'public',
+      moduleName:   'templates'
     }
   });
 };
