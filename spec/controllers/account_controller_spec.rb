@@ -334,24 +334,42 @@ describe AccountController do
     end
 
     context "with manual activation" do
-      before do
-        allow(Setting).to receive(:self_registration).and_return("2")
-        post :register, :user => {
-          :login => 'register',
+      let(:user_hash) do
+        { :login => 'register',
           :password => 'adminADMIN!',
           :password_confirmation => 'adminADMIN!',
           :firstname => 'John',
           :lastname => 'Doe',
-          :mail => 'register@example.com'
-        }
+          :mail => 'register@example.com' }
       end
 
-      it "redirects to the login page" do
-        should redirect_to '/login'
+      before do
+        allow(Setting).to receive(:self_registration).and_return("2")
       end
 
-      it "doesn't activate the user" do
-        expect(User.find_by_login('register')).not_to be_active
+      context "without back_url" do
+        before do
+          post :register, :user => user_hash
+        end
+
+        it "redirects to the login page" do
+          expect(response).to redirect_to '/login'
+        end
+
+        it "doesn't activate the user" do
+          expect(User.find_by_login('register')).not_to be_active
+        end
+      end
+
+      context "with back_url" do
+        before do
+          post :register, :user => user_hash, :back_url => 'https://example.net/some_back_url'
+        end
+
+        it 'preserves the back url' do
+          expect(response).to redirect_to(
+            '/login?back_url=https%3A%2F%2Fexample.net%2Fsome_back_url')
+        end
       end
     end
 
