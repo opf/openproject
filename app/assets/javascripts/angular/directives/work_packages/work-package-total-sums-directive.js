@@ -37,7 +37,7 @@ angular.module('openproject.workPackages.directives')
       return {
         pre: function(scope, iElement, iAttrs, controller) {
           function fetchSums() {
-            scope.withLoading(WorkPackageService.getWorkPackagesSums, [scope.projectIdentifier, scope.columns])
+            scope.withLoading(WorkPackageService.getWorkPackagesSums, [scope.projectIdentifier, scope.query, scope.columns])
               .then(function(data){
                 angular.forEach(scope.columns, function(column, i){
                   column.total_sum = data.column_sums[i];
