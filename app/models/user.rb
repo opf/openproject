@@ -304,6 +304,12 @@ class User < Principal
     end
   end
 
+  # Return user's authentication provider for display
+  def authentication_provider
+    return if identity_url.blank?
+    identity_url.split(':', 2).first.titleize
+  end
+
   def status_name
     STATUSES.keys[self.status].to_s
   end

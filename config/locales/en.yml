@@ -1608,8 +1608,9 @@ en:
     active: "active"
     activate: "Activate"
     activate_and_reset_failed_logins: "Activate and reset failed logins"
+    authentication_provider: "Authentication Provider"
     authentication_settings_disabled_due_to_external_authentication: >
-      This user authenticates via an external authentication source, so there is no password
+      This user authenticates via an external authentication provider, so there is no password
       in OpenProject to be changed.
     assign_random_password: "Assign random password (sent to user via e-mail)"
     blocked: "locked temporarily"
