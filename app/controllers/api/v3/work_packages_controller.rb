@@ -206,7 +206,7 @@ module Api
 
       def column_is_numeric?(column_name)
         # TODO RS: We want to leave out ids even though they are numeric
-        [:int, :float].include? column_type(column_name)
+        [:integer, :float].include? column_type(column_name)
       end
 
       def column_type(column_name)
