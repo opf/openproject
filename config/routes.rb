@@ -451,6 +451,8 @@ OpenProject::Application.routes.draw do
   scope :controller => 'my' do
     get '/my/password', :action => 'password'
     post '/my/change_password', :action => 'change_password'
+    match '/my/first_login', :action => 'first_login', :via => [:get, :put]
+    get '/my/page', :action => 'page'
   end
 
   get 'authentication' => 'authentication#index'
