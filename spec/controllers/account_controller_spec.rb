@@ -43,7 +43,7 @@ describe AccountController do
 
       it "should redirect to a relative path" do
         post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => '/'}
-        expect(response).to redirect_to '/'
+        expect(response).to redirect_to root_path
       end
 
       it "should redirect to an absolute path given the same host" do
@@ -54,12 +54,12 @@ describe AccountController do
 
       it "should not redirect to another host" do
         post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http://test.foo/work_packages/show/1'}
-        expect(response).to redirect_to '/my/page'
+        expect(response).to redirect_to my_page_path
       end
 
       it "should not redirect to another host with a protocol relative url" do
         post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => '//test.foo/fake'}
-        expect(response).to redirect_to '/my/page'
+        expect(response).to redirect_to my_page_path
       end
 
       it "should create users on the fly" do
@@ -67,7 +67,7 @@ describe AccountController do
         allow(AuthSource).to receive(:authenticate).and_return({:login => 'foo', :firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com', :auth_source_id => 66})
         post :login , {:username => 'foo', :password => 'bar'}
 
-        expect(response).to redirect_to '/my/first_login'
+        expect(response).to redirect_to my_first_login_path
         user = User.find_by_login('foo')
         expect(user).to be_an_instance_of User
         expect(user.auth_source_id).to eq(66)
@@ -95,22 +95,22 @@ describe AccountController do
 
         it "should not redirect to another subdirectory with an absolute path" do
           post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http://test.host/foo/work_packages/show/1'}
-          expect(response).to redirect_to '/my/page'
+          expect(response).to redirect_to my_page_path
         end
 
         it "should not redirect to another subdirectory with a relative path" do
           post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => '/foo/work_packages/show/1'}
-          expect(response).to redirect_to '/my/page'
+          expect(response).to redirect_to my_page_path
         end
 
         it "should not redirect to another subdirectory by going up the path hierarchy" do
           post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http://test.host/openproject/../foo/work_packages/show/1'}
-          expect(response).to redirect_to '/my/page'
+          expect(response).to redirect_to my_page_path
         end
 
         it "should not redirect to another subdirectory with a protocol relative path" do
           post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => '//test.host/foo/work_packages/show/1'}
-          expect(response).to redirect_to '/my/page'
+          expect(response).to redirect_to my_page_path
         end
       end
 
@@ -153,7 +153,7 @@ describe AccountController do
 
         it 'redirects to the first login page with a back_url' do
           expect(response).to redirect_to(
-            '/my/first_login?back_url=https%3A%2F%2Fexample.net%2Fsome_back_url')
+            my_first_login_path(:back_url => 'https://example.net/some_back_url'))
         end
       end
 
@@ -177,7 +177,7 @@ describe AccountController do
           auth_source_registration = omniauth_hash.merge({:omniauth => true, :timestamp => Time.new})
           session[:auth_source_registration] = auth_source_registration
           post :register, :user => {:firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com'}
-          expect(response).to redirect_to '/my/first_login'
+          expect(response).to redirect_to my_first_login_path
 
           user = User.find_by_login('foo@bar.com')
           expect(user).to be_an_instance_of(User)
@@ -295,7 +295,7 @@ describe AccountController do
       it "redirects to first_login page"  do
         should respond_with :redirect
         expect(assigns[:user]).not_to be_nil
-        should redirect_to('/my/first_login')
+        should redirect_to(my_first_login_path)
         expect(User.last(:conditions => {:login => 'register'})).not_to be_nil
       end
 
