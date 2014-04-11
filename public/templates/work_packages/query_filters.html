@@ -162,9 +162,9 @@
             <select class="select-small"
                     id="add_filter_select"
                     ng-model="filterToBeAdded"
-                    ng-options="filterName as localisedFilterName(filterOptions)
-                                for (filterName, filterOptions)
-                                in (query.availableWorkPackageFilters | subtractActiveFilters:query.filters)" />
+                    ng-options="filterName as localisedFilterName(query.availableWorkPackageFilters[filterName])
+                                for filterName
+                                in query.availableWorkPackageFilters | remainingFilterNames:query.filters" />
             </select>
             <!-- TODO options | orderObjectBy: 'order' -->
           </td>
