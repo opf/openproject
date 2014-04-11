@@ -90,6 +90,8 @@ describe 'api/v2/projects/show.api.rabl', :type => :view do
     let(:project) { FactoryGirl.create(:project).tap { |p| p.move_to_child_of(parent_project.id)} }
 
     before do
+      allow(User).to receive(:current).and_return anonymous
+
       assign(:project, project)
       render
     end
@@ -243,6 +245,8 @@ describe 'api/v2/projects/show.api.rabl', :type => :view do
     end
 
     before do
+      allow(User).to receive(:current).and_return anonymous
+
       assign(:project, project)
       render
     end
