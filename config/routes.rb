@@ -269,7 +269,7 @@ OpenProject::Application.routes.draw do
 
       member do
         get '/diff/:version/vs/:version_from' => 'wiki#diff', :as => 'wiki_diff'
-        get '/diff(/:version)' => 'wiki#diff', :as => 'wiki_diff'
+        # get '/diff(/:version)' => 'wiki#diff', :as => 'wiki_diff'
         get '/annotate/:version' => 'wiki#annotate', :as => 'wiki_annotate'
         match :rename, :via => [:get, :put]
         get :parent_page, :action => 'edit_parent_page'
@@ -371,7 +371,7 @@ OpenProject::Application.routes.draw do
         match "/members/:user_id" => 'groups#remove_user', :via => :delete, :as => 'member_of'
         #this should be put into it's own resource
         match "/memberships/:membership_id" => 'groups#edit_membership', :via => :put, :as => 'membership_of'
-        match "/memberships/:membership_id" => 'groups#destroy_membership', :via => :delete, :as => 'membership_of'
+        # match "/memberships/:membership_id" => 'groups#destroy_membership', :via => :delete, :as => 'membership_of'
         match "/memberships" => 'groups#create_memberships', :via => :post, :as => 'memberships_of'
       end
     end
