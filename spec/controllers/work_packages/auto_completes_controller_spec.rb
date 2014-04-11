@@ -38,15 +38,12 @@ describe WorkPackages::AutoCompletesController do
                                     principal: user,
                                     roles: [role]) }
   let(:work_package_1) { FactoryGirl.create(:work_package,
-                                            id: 21,
                                             subject: "Can't print recipes",
                                             project: project) }
   let(:work_package_2) { FactoryGirl.create(:work_package,
-                                            id: 2101,
                                             subject: "Error 281 when updating a recipe",
                                             project: project) }
   let(:work_package_3) { FactoryGirl.create(:work_package,
-                                            id: 2102,
                                             project: project) }
 
   before do
@@ -97,12 +94,41 @@ describe WorkPackages::AutoCompletesController do
     end
 
     describe "returns work package for given id" do
-      let(:expected_values) { [work_package_1, work_package_2, work_package_3] }
-      let(:ids) { '21' }
+      # this relies on all expected work packages to have ids that contain the given string
+      # we do not want to have work_package_3 so we take it's id + 1 to create a string
+      # we are sure to not be part of work_package_3's id.
+      let(:ids) do
+        taken_ids = WorkPackage.pluck(:id).map(&:to_s)
 
-      before { get :index,
-                   project_id: project.id,
-                   q: ids }
+        id = work_package_3.id + 1
+
+        while taken_ids.include?(id.to_s) || work_package_3.id.to_s.include?(id.to_s)
+         id = id + 1
+        end
+
+        id.to_s
+      end
+
+      let!(:expected_values) do
+        expected = [work_package_1, work_package_2]
+
+        WorkPackage.pluck(:id)
+
+        expected_return = []
+        expected.each do |wp|
+          new_id = wp.id.to_s + ids
+          WorkPackage.update_all({ id: new_id }, { id: wp.id })
+          expected_return << WorkPackage.find(new_id)
+        end
+
+        expected_return
+      end
+
+      before do
+        get :index,
+            project_id: project.id,
+            q: ids
+      end
 
       it_behaves_like  "successful response"
 
@@ -120,9 +146,8 @@ describe WorkPackages::AutoCompletesController do
     describe "returns work package for given id" do
       render_views
       let(:work_package_4) { FactoryGirl.create(:work_package,
-                                          id: 666,
-                                          subject: "<script>alert('danger!');</script>",
-                                          project: project) }
+                                                subject: "<script>alert('danger!');</script>",
+                                                project: project) }
       let(:expected_values) { work_package_4 }
 
       before { get :index,
