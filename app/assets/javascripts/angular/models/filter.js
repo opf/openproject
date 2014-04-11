@@ -29,9 +29,13 @@
 angular.module('openproject.models')
 
 .constant('OPERATORS_NOT_REQUIRING_VALUES', ['o', 'c', '!*', '*', 't', 'w'])
-.factory('Filter', ['OPERATORS_NOT_REQUIRING_VALUES', function(OPERATORS_NOT_REQUIRING_VALUES) {
+.constant('SELECTABLE_FILTER_TYPES', ['list', 'list_optional', 'list_status', 'list_subprojects', 'list_model'])
+.factory('Filter', ['OPERATORS_NOT_REQUIRING_VALUES', 'SELECTABLE_FILTER_TYPES', function(OPERATORS_NOT_REQUIRING_VALUES, SELECTABLE_FILTER_TYPES) {
   Filter = function (data) {
     angular.extend(this, data);
+
+    if (this.isSingleInputField() && Array.isArray(this.values)) this.textValue = this.values[0];
+
     this.pruneValues();
   };
 
@@ -47,19 +51,24 @@ angular.module('openproject.models')
       var params = {};
 
       params['op[' + this.name + ']'] = this.operator;
-      params['v[' + this.name + '][]'] = this.valuesAsArray();
+      params['v[' + this.name + '][]'] = this.getValuesAsArray();
 
       return params;
     },
 
-    valuesAsArray: function() {
-      if (Array.isArray(this.values)) {
-        if (this.values.length === 0) return ['']; // Workaround: The array must not be empty for backend compatibility so that the values are passed as a URL param at all even if `this` is the only query filter
-        // TODO fix this on the backend side, so that filters can be initialized on a query without providing values
+    isSingleInputField: function() {
+      return SELECTABLE_FILTER_TYPES.indexOf(this.type) === -1;
+    },
 
+    getValuesAsArray: function() {
+      if(this.isSingleInputField()) {
+        return [this.textValue];
+      } else if (Array.isArray(this.values)) {
         return this.values;
-      } else {
+      } else if (this.values) {
         return [this.values];
+      } else {
+        return [];
       }
     },
 

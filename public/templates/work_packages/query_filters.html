@@ -55,7 +55,7 @@
                          ng-show="showValuesInput"
                          ng-switch="filter.type">
                       <input ng-switch-when="string"
-                             ng-model="filter.values"
+                             ng-model="filter.textValue"
                              ng-minlength="3"
                              ng-required="true"
                              class="select-small to-validate"
@@ -72,7 +72,7 @@
                       </label>
 
                       <input ng-switch-when="text"
-                             ng-model="filter.values"
+                             ng-model="filter.textValue"
                              ng-minlength="3"
                              ng-required="true"
                              class="select-small to-validate"
@@ -87,7 +87,7 @@
                       </label>
 
                       <input ng-switch-when="integer"
-                             ng-model="filter.values"
+                             ng-model="filter.textValue"
                              ng-required="true"
                              class="select-small to-validate"
                              id="values-{{filter.name}}"
@@ -101,7 +101,7 @@
                       </label>
 
                       <input ng-switch-when="date"
-                             ng-model="filter.values"
+                             ng-model="filter.textValue"
                              ng-required="true"
                              class="select-small to-validate"
                              id="values-{{filter.name}}"
@@ -114,7 +114,7 @@
                       </label>
 
                       <input ng-switch-when="date_past"
-                             ng-model="filter.values"
+                             ng-model="filter.textValue"
                              ng-required="true"
                              class="select-small to-validate"
                              id="values-{{filter.name}}"

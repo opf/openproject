@@ -37,7 +37,7 @@ angular.module('openproject.workPackages.directives')
       scope.I18n = I18n;
       scope.isLoading = false; // shadow isLoading as its used for a different purpose in this context
 
-      scope.showValueOptionsAsSelect = ['list', 'list_optional', 'list_status', 'list_subprojects', 'list_model'].indexOf(scope.filter.type) !== -1;
+      scope.showValueOptionsAsSelect = !scope.filter.isSingleInputField();
 
       if (scope.showValueOptionsAsSelect) {
         WorkPackageLoadingHelper.withLoading(scope, QueryService.getAvailableFilterValues, [scope.filter.name, scope.projectIdentifier])

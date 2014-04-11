@@ -30,16 +30,31 @@
 module Api
   module V3
 
-    class RolesController < ApplicationController
+    class UsersController < ApplicationController
+      before_filter :find_optional_project, only: [:index]
 
       include ::Api::V3::ApiController
 
       def index
-        @roles = Role.givable
+        @users = if @project
+                   @project.users.sort
+                 else
+                   visible_users
+                 end
 
         respond_to do |format|
           format.api
         end
+      end
+
+      private
+
+      def visible_users
+        Principal.active.where(["#{User.table_name}.id IN (SELECT DISTINCT user_id FROM members WHERE project_id IN (?))", Project.visible.all.collect(&:id)]).sort.group_by(&:class)[User]
+      end
+
+      def find_optional_project
+        @project = Project.find(params[:project_id]) unless params[:project_id].blank?
       end
 
     end
