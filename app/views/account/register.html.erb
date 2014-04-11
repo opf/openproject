@@ -38,6 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
 </h2>
 
 <%= labelled_tabular_form_for(@user, :url => url_for(:action => 'register')) do |f| %>
+  <%= back_url_hidden_field_tag %>
   <%= error_messages_for :user %>
 
   <div class="box">
