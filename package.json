@@ -24,7 +24,9 @@
     "chai": "~1.9.1",
     "karma-chai": "~0.1.0",
     "karma-ng-html2js-preprocessor": "^0.1.0",
-    "karma-junit-reporter": "~0.2.2"
+    "karma-junit-reporter": "~0.2.2",
+    "sinon": "^1.9.1",
+    "sinon-chai": "^2.5.0"
   },
   "scripts": {
     "test": "./node_modules/karma/bin/karma start --single-run --browsers Firefox,PhantomJS"
