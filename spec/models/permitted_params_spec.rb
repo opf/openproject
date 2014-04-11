@@ -534,17 +534,36 @@ describe PermittedParams do
           field_sample = { :user => Hash[admin_permissions.zip(admin_permissions)] }
 
           params = ActionController::Parameters.new(field_sample)
-          expect(PermittedParams.new(params, user).method(method).call).to eq({})
+          expect(PermittedParams.new(params, user).method(method).call(false, true)).to eq({})
         end
 
         admin_permissions.each do |field|
           it "should permit #{field}" do
             hash = { field => 'test' }
             params = ActionController::Parameters.new(:user => hash)
+            result = PermittedParams.new(params, admin).method(method).call(false, true)
 
-            expect(PermittedParams.new(params, admin).method(method).call).to eq(
-              { field => 'test' }
-            )
+            expect(result).to eq({ field => 'test' })
+          end
+        end
+
+        context 'with no password change allowed' do
+          it 'should not permit force_password_change' do
+            hash = { 'force_password_change' => 'true' }
+            params = ActionController::Parameters.new(:user => hash)
+            result = PermittedParams.new(params, admin).method(method).call(false, false)
+
+            expect(result).to eq({})
+          end
+        end
+
+        context 'with external authentication' do
+          it 'should not permit auth_source_id' do
+            hash = { 'auth_source_id' => 'true' }
+            params = ActionController::Parameters.new(:user => hash)
+            result = PermittedParams.new(params, admin).method(method).call(true, true)
+
+            expect(result).to eq({})
           end
         end
 
@@ -552,16 +571,18 @@ describe PermittedParams do
           hash = { "custom_field_values" => { "1" => "5" } }
 
           params = ActionController::Parameters.new(:user => hash)
+          result = PermittedParams.new(params, admin).method(method).call(false, true)
 
-          expect(PermittedParams.new(params, admin).method(method).call).to eq(hash)
+          expect(result).to eq(hash)
         end
 
         it "should remove custom field values that do not follow the schema 'id as string' => 'value as string'" do
           hash = { "custom_field_values" => { "blubs" => "5", "5" => {"1" => "2"} } }
 
           params = ActionController::Parameters.new(:user => hash)
+          result = PermittedParams.new(params, admin).method(method).call(false, true)
 
-          expect(PermittedParams.new(params, admin).method(method).call).to eq({})
+          expect(result).to eq({})
         end
 
       end
@@ -572,7 +593,7 @@ describe PermittedParams do
         hash = { 'group_ids' => ['1', '2'] }
         params = ActionController::Parameters.new(:user => hash)
 
-        expect(PermittedParams.new(params, admin).user_update_as_admin).to eq(hash)
+        expect(PermittedParams.new(params, admin).user_update_as_admin(false, false)).to eq(hash)
       end
     end
 
@@ -581,7 +602,7 @@ describe PermittedParams do
         hash = { 'group_ids' => ['1', '2'] }
         params = ActionController::Parameters.new(:user => hash)
 
-        expect(PermittedParams.new(params, admin).user_create_as_admin).to eq({})
+        expect(PermittedParams.new(params, admin).user_create_as_admin(false, false)).to eq({})
       end
     end
 
