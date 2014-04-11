@@ -95,11 +95,10 @@ describe Setting do
     let(:collector) { [] }
 
     # a dummy callback that collects data
-    let(:callback)  { lambda { |value| collector << value } }
+    let(:callback)  { lambda { |args| collector << args[:value] } }
 
     # registers the dummy callback
     before do
-      Setting.clear_callbacks
       Setting.register_callback(:notified_events, &callback)
     end
 
@@ -132,14 +131,7 @@ describe Setting do
       expect(collector.size).to eq 1
     end
 
-    it "can clear all callbacks" do
-      Setting.clear_callbacks
-      Setting.notified_events = [:some_event]
-      expect(collector).to be_empty
-    end
-
     it "attaches to the right setting by passing a string" do
-      Setting.clear_callbacks
       Setting.register_callback('notified_events', &callback)
       Setting.notified_events = [:some_event]
       expect(collector).to_not be_empty
@@ -152,83 +144,18 @@ describe Setting do
 
     it "optionally passes the old setting value to the callback as the second argument" do
       Setting.host_name = 'some name' # set old value
-      cb = lambda { |_, old_value| collector << old_value }
+      cb = lambda { |args| collector << args[:old_value] }
       Setting.register_callback(:host_name, &cb)
       Setting.host_name = 'some other name'
       expect(collector).to include 'some name'
     end
 
-    it "optionally passes the setting name to the callback as the third argument" do
-      cb = lambda { |_, _, name| collector << name }
-      Setting.register_callback(:host_name, &cb)
-      Setting.host_name = 'some name'
-      expect(collector).to include :host_name
-    end
-
-    # the callback object can be any object that responds to #call
-    describe "callback object" do
-      # returns a callback object with three different signatures for #call
-      def callback_object(callback_method = :call_1)
-        Struct.new(:collector) {
-          def call_1(value)
-            self.collector << value;
-          end
-          def call_2(value, old_value)
-            self.collector << old_value;
-          end
-          def call_3(value, old_value, name);
-            self.collector << name
-          end
-          alias_method :call, callback_method
-        }.new(collector)
-      end
-
-      before { Setting.clear_callbacks }
-
-      it "takes a callback object" do
-        Setting.register_callback(:notified_events, callback_object)
-        Setting.notified_events = [:some_event]
-        expect(collector).to include [:some_event]
-      end
-
-      it "takes a callback object that responds to call with two parameters" do
-        Setting.notified_events = [:initial_value] # set old value
-        Setting.register_callback(:notified_events, callback_object(:call_2))
-        Setting.notified_events = [:some_event]
-        expect(collector).to include [:initial_value]
-      end
-
-      it "takes a callback object that responds to call with three parameters" do
-        Setting.register_callback(:notified_events, callback_object(:call_3))
-        Setting.notified_events = [:some_event]
-        expect(collector).to include :notified_events
-      end
-    end
-
     # tests proper throwing of exceptions
     describe "exception" do
-      it "throws an error when setting name is missing" do
-        expect { Setting.register_callback }.to raise_error ArgumentError, /wrong number of arguments/
-      end
-
       it "throws an error when no callback is given" do
         expect {
           Setting.register_callback(:notified_events)
-        }.to raise_error ArgumentError, /provide either a block or a callback object/
-      end
-
-      it "throws an error when callback object doesn't respond to #call" do
-        expect {
-          Setting.register_callback(:notified_events, Object.new)
-        }.to raise_error ArgumentError, /provide a callback object that responds to #call/
-      end
-
-      # currently, optional parameters in callback objects aren't supported
-      it "throws an error when callback object takes optional parameters" do
-        cb = Class.new { def call(value, old_value = nil, name = nil); end }.new
-        expect {
-          Setting.register_callback(:notified_events, cb)
-        }.to raise_error ArgumentError, /must not take optional parameters/
+        }.to raise_error ArgumentError, /provide a block as a callback/
       end
     end
   end
