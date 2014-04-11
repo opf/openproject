@@ -152,14 +152,16 @@ class Setting < ActiveRecord::Base
 
   def self.[]=(name, v)
     setting = find_or_default(name)
-    old_value = setting.value
+    # remember the old setting and mark it as read-only
+    old_setting = setting.dup.freeze
     setting.value = (v ? v : "")
     Rails.cache.delete(cache_key(name))
     if setting.save
-      fire_callbacks(name, setting.value, old_value)
+      # fire callbacks for name and pass as much information as possible
+      fire_callbacks(name, setting, old_setting)
       setting.value
     else
-      old_value
+      old_setting.value
     end
   end
 

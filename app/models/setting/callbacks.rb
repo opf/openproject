@@ -31,56 +31,36 @@ class Setting
   module Callbacks
 
     # register a callback for a setting named #name
-    # valid callbacks are either a block or an object that responds to #call
-    def register_callback(name, callback = nil, &block)
-      # passing blocks takes precedence over providing a callback object
-      callback = block if block_given?
-      # if no callback object nor a block is given, raise an error
-      raise ArgumentError, 'please provide either a block or a callback object that responds to #call' unless callback
-      # if the callback object doesn't respond to #call, raise an error
-      raise ArgumentError, 'please provide a callback object that responds to #call or use a block' unless callback.respond_to?(:call)
-      # optional arguments lead to a negative arity, we don't support that case
-      raise ArgumentError, 'your callback object must not take optional parameters' if _callback_arity(callback) < 0
-      # store the callback in the list of callbacks for the given setting
-      _callbacks_for(name) << callback
+    def register_callback(name, &callback)
+      # if no block is given, raise an error
+      raise ArgumentError, 'please provide a block as a callback' unless block_given?
+
+      # register the block with the underlying notifications system
+      _notifier.subscribe(_notification_event_for(name), &callback)
     end
 
-    # execute all callbacks registered for a setting named #name
-    # depending on the arity of the callback, different parameters are passed in
-    # the new value of the setting is always passed in as the first argument
-    def fire_callbacks(name, value, old_value)
-      _callbacks_for(name).each do |cb|
-        # get the number of parameters the callback takes
-        arity  = _callback_arity(cb)
-        # always pass in the new setting value
-        params = [value]
-        # pass in the old value as the second argument
-        params << old_value   if arity > 1
-        # pass in the setting name as the third argument
-        params << name        if arity > 2
-        # call the callback with the params
-        cb.call *params
-      end
-    end
-
-    # remove all callbacks from all settings
-    def clear_callbacks
-      @_callbacks = nil
+    # instructs the underlying notifications system to publish all setting events for setting #name
+    # based on the new and old setting objects different events can be triggered
+    # currently, that's whenever a setting is set regardless whether the value changed
+    def fire_callbacks(name, setting, old_setting)
+      _notifier.send(_notification_event_for(name), _event_payload_for(setting, old_setting))
     end
 
   private
 
-    def _callbacks
-      @_callbacks ||= Hash.new { |h,k| h[k] = [] }
+    # encapsulates the event name broadcast to all subscribers
+    def _notification_event_for(name)
+      :"setting.#{name}.changed"
     end
 
-    def _callbacks_for(name)
-      _callbacks[name.to_s]
+    # encapsulates the payload expected by the notifier
+    def _event_payload_for(setting, old_setting)
+      { value: setting.value, old_value: old_setting.value }
     end
 
-    def _callback_arity(cb)
-      # getting the right arity differs between blocks and methods
-      cb.is_a?(Proc) ? cb.arity : cb.method(:call).arity
+    # the notifier to delegate to
+    def _notifier
+      OpenProject::Notifications
     end
 
   end
