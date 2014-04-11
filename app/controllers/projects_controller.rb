@@ -218,14 +218,6 @@ class ProjectsController < ApplicationController
   end
 
 private
-  def find_optional_project
-    return true unless params[:id]
-    @project = Project.find(params[:id])
-    authorize
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
   def jump_to_project_menu_item
     if params[:jump]
       # try to redirect to the requested menu item
