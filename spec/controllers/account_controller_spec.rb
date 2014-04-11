@@ -136,16 +136,24 @@ describe AccountController do
             }
           })
         end
-        it "registers the user on-the-fly" do
-          request.env["omniauth.auth"] = omniauth_hash
-          get :omniauth_login
-          expect(response).to redirect_to '/my/first_login'
 
+        before do
+          request.env["omniauth.auth"] = omniauth_hash
+          request.env["omniauth.origin"] = 'https://example.net/some_back_url'
+          get :omniauth_login
+        end
+
+        it "registers the user on-the-fly" do
           user = User.find_by_login('foo@bar.com')
           expect(user).to be_an_instance_of(User)
           expect(user.auth_source_id).to be_nil
           expect(user.current_password).to be_nil
           expect(user.identity_url).to eql('google:123545')
+        end
+
+        it 'redirects to the first login page with a back_url' do
+          expect(response).to redirect_to(
+            '/my/first_login?back_url=https%3A%2F%2Fexample.net%2Fsome_back_url')
         end
       end
 
