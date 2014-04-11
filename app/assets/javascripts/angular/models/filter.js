@@ -56,10 +56,6 @@ angular.module('openproject.models')
       return params;
     },
 
-    requiresValues: function() {
-      return OPERATORS_NOT_REQUIRING_VALUES.indexOf(this.operator) === -1;
-    },
-
     isSingleInputField: function() {
       return SELECTABLE_FILTER_TYPES.indexOf(this.type) === -1;
     },
@@ -70,7 +66,7 @@ angular.module('openproject.models')
       } else if (Array.isArray(this.values)) {
         return this.values;
       } else if (this.values) {
-        return [values];
+        return [this.values];
       } else {
         return [];
       }
