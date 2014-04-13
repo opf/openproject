@@ -35,8 +35,8 @@ describe "API v2" do
 
   before do
     @api_key = api_key
-    Setting.stub(:login_required?).and_return true
-    Setting.stub(:rest_api_enabled?).and_return true
+    allow(Setting).to receive(:login_required?).and_return true
+    allow(Setting).to receive(:rest_api_enabled?).and_return true
   end
 
   after do

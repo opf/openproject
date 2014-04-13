@@ -57,7 +57,7 @@ describe '/api/v2/projects/index.api.rabl' do
 
     before do
       # stub out helpers that are defined on the controller
-      view.stub(:has_associations?).and_return false
+      allow(view).to receive(:has_associations?).and_return false
       assign(:projects, projects)
       render
     end

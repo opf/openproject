@@ -34,7 +34,7 @@ describe "routes for old issue uris" do
       get("/issues")
     end
 
-    it { response.should redirect_to("/work_packages/") }
+    it { expect(response).to redirect_to("/work_packages/") }
   end
 
   describe "with specific id" do
@@ -42,7 +42,7 @@ describe "routes for old issue uris" do
       get("/issues/1234")
     end
 
-    it { response.should redirect_to("/work_packages/1234") }
+    it { expect(response).to redirect_to("/work_packages/1234") }
   end
 end
 

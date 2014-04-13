@@ -55,7 +55,7 @@ describe Group do
 
         package.reload
 
-        package.assigned_to.should == DeletedUser.first
+        expect(package.assigned_to).to eq(DeletedUser.first)
       end
 
       it 'should update all journals to have the deleted user as assigned' do
@@ -63,7 +63,7 @@ describe Group do
 
         package.reload
 
-        package.journals.all?{ |j| j.data.assigned_to_id == DeletedUser.first.id }.should be_true
+        expect(package.journals.all?{ |j| j.data.assigned_to_id == DeletedUser.first.id }).to be_true
       end
     end
   end

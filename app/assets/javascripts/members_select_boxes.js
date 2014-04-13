@@ -51,7 +51,7 @@ jQuery(document).ready(function($) {
     };
 
     formatItemSelection = function (item) {
-      return OpenProject.Helpers.markupEscape(item.name);
+      return item.name;
     };
     
     $("#members_add_form select.select2-select").each(function (ix, elem){
@@ -87,13 +87,7 @@ jQuery(document).ready(function($) {
                       };
                   },
                   results: function (data, page) {
-
-                      active_items = [];
-                      data.results.items.each(function (e) {
-                        e.name = $('<pre>').text(e.name).html();
-                        active_items.push(e);
-                      });
-                      return {'results': active_items, 'more': data.results.more};
+                      return {'results': data.results.items, 'more': data.results.more};
                   }
               },
               formatResult: formatItems,

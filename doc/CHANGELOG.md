@@ -31,6 +31,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#284`  Fix: Sticky does not apply to forum
 * `#1009` Wrong german translation when accessing a non-existent work package
+* `#1502` Multiple escaping on user select2 field in project settingsmembers tab
+* `#1865` Journal creates Symbols from attachment ids
 * `#2029` Fix: News preview
 * `#2393` Fix: No warning when leaving site without saving
 * `#2401` Fix: New target version cannot be created from work package view
@@ -43,6 +45,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3348` Fix: Menu item "more functions" is cut off where content ends
 * `#3395` Fix: After error message values are gone during creation of message
 * `#3531` Fix: Type 'None' cannot be configured via admin settings
+* `#4007` Timeline page title does not contain name of timeline
 * `#4040` Fix: Referencing work packages with ### in news, forums and meetings does not work
 * `#4087` Ignore type list flash when activating flash messages
 * `#4097` Fix accesskeys

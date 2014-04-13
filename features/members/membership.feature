@@ -47,6 +47,11 @@ Feature: Membership
         | Firstname | Hannibal |
         | Lastname  | Smith    |
 
+      And there is 1 User with:
+        | Login     | crash                         |
+        | Firstname | <script>alert('h4x');<script> |
+        | Lastname  | <script>alert('h4x');<script> |
+
       And there is a group named "A-Team" with the following members:
         | peter    |
         | hannibal |
@@ -85,6 +90,20 @@ Feature: Membership
      When I go to the members tab of the settings page of the project "project1"
       And I enter the principal name "Smith, H"
       Then I should see "Hannibal Smith"
+
+  @javascript
+  Scenario: Escaping should work properly when entering a name
+     When I go to the members tab of the settings page of the project "project1"
+     And  I enter the principal name "script"
+     Then I should not see an alert dialog
+      And I should see "<script>alert('h4x');<script>"
+
+  @javascript
+  Scenario: Escaping should work properly when selecting a user
+     When I go to the members tab of the settings page of the project "project1"
+     When I select the principal "script"
+     Then I should not see an alert dialog
+      And I should see "<script>alert('h4x');<script>"
 
   @javascript
   Scenario: Adding and Removing a Group as Member, impaired

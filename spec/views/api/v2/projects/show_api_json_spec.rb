@@ -52,7 +52,7 @@ describe 'api/v2/projects/show.api.rabl' do
 
 
     before do
-      User.stub(:current).and_return(admin)
+      allow(User).to receive(:current).and_return(admin)
 
       assign(:project,  sample_project)
       render
@@ -99,7 +99,7 @@ describe 'api/v2/projects/show.api.rabl' do
     describe 'project node' do
       it 'contains a parent element with name and id attributes' do
         expected_json = {id: parent_project.id, name: 'Parent', identifier: 'parent'}.to_json
-        response.should be_json_eql(expected_json).at_path('project/parent')
+        expect(response).to be_json_eql(expected_json).at_path('project/parent')
       end
     end
   end
@@ -110,7 +110,7 @@ describe 'api/v2/projects/show.api.rabl' do
     let(:project) { FactoryGirl.create(:project).tap { |p| p.move_to_child_of(parent_project.id)} }
 
     before do
-      User.stub(:current).and_return anonymous
+      allow(User).to receive(:current).and_return anonymous
 
       assign(:project, project)
       render
@@ -119,7 +119,7 @@ describe 'api/v2/projects/show.api.rabl' do
     subject {response.body}
 
     it 'does not contain a parent element' do
-      response.should_not have_json_path('project/parent')
+      expect(response).not_to have_json_path('project/parent')
     end
 
   end
@@ -135,7 +135,7 @@ describe 'api/v2/projects/show.api.rabl' do
     let(:project)              { FactoryGirl.create(:project).tap { |p| p.move_to_child_of(parent_project.id)} }
 
     before do
-      User.stub(:current).and_return anonymous
+      allow(User).to receive(:current).and_return anonymous
 
       assign(:project, project)
       render
@@ -145,7 +145,7 @@ describe 'api/v2/projects/show.api.rabl' do
 
     it 'contains a parent element with name and id attributes of the grand parent' do
       expected_json = {id: parent_project.id, name: 'Grand-Parent', identifier: 'granny'}.to_json
-      response.should be_json_eql(expected_json).at_path('project/parent')
+      expect(response).to be_json_eql(expected_json).at_path('project/parent')
     end
 
   end

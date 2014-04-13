@@ -94,7 +94,7 @@ class AccountController < ApplicationController
       @user = User.new(:language => Setting.default_language)
     else
       @user = User.new
-      @user.safe_attributes = params[:user]
+      @user.attributes = permitted_params.user
       @user.admin = false
       @user.register
       if session[:auth_source_registration]

@@ -34,17 +34,17 @@ describe Query do
   describe 'available_columns' do
     context 'with work_package_done_ratio NOT disabled' do
       it 'should include the done_ratio column' do
-        query.available_columns.find {|column| column.name == :done_ratio}.should be_true
+        expect(query.available_columns.find {|column| column.name == :done_ratio}).to be_true
       end
     end
 
     context 'with work_package_done_ratio disabled' do
       before do
-        Setting.stub(:work_package_done_ratio).and_return('disabled')
+        allow(Setting).to receive(:work_package_done_ratio).and_return('disabled')
       end
 
       it 'should NOT include the done_ratio column' do
-        query.available_columns.find {|column| column.name == :done_ratio}.should be_nil
+        expect(query.available_columns.find {|column| column.name == :done_ratio}).to be_nil
       end
     end
 

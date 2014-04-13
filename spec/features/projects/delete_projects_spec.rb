@@ -36,7 +36,7 @@ describe 'Delete project' do
   let(:delete_button) { find('input[type="submit"]') }
 
   before do
-    User.stub(:current).and_return current_user
+    allow(User).to receive(:current).and_return current_user
 
     projects_page.visit_confirm_destroy
   end

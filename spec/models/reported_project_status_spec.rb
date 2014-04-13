@@ -38,8 +38,8 @@ describe ReportedProjectStatus do
 
         reported_project_status.reload
 
-        reported_project_status.reportings.size.should == 1
-        reported_project_status.reportings.first.should == reporting
+        expect(reported_project_status.reportings.size).to eq(1)
+        expect(reported_project_status.reportings.first).to eq(reporting)
       end
     end
   end

@@ -54,7 +54,7 @@ describe Activity::WorkPackageActivityProvider do
 
         context 'and has been closed' do
           before do
-            User.stub(:current).and_return(user)
+            allow(User).to receive(:current).and_return(user)
 
             work_package.status = status_closed
             work_package.save!

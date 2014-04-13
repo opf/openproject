@@ -30,49 +30,49 @@ require 'spec_helper'
 
 describe Api::V2::Pagination::PrincipalsController do
   it "should connect GET /api/v2/pagination/principals to principals#edit" do
-    get("/api/v2/pagination/principals").should route_to(:controller => 'api/v2/pagination/principals',
+    expect(get("/api/v2/pagination/principals")).to route_to(:controller => 'api/v2/pagination/principals',
                                                          :action => 'index')
   end
 end
 
 describe Api::V2::Pagination::UsersController do
   it "should connect GET /api/v2/pagination/users to users#edit" do
-    get("/api/v2/pagination/users").should route_to(:controller => 'api/v2/pagination/users',
+    expect(get("/api/v2/pagination/users")).to route_to(:controller => 'api/v2/pagination/users',
                                                     :action => 'index')
   end
 end
 
 describe Api::V2::Pagination::StatusesController do
   it "should connect GET /api/v2/pagination/users to statuses#edit" do
-    get("/api/v2/pagination/statuses").should route_to(:controller => 'api/v2/pagination/statuses',
+    expect(get("/api/v2/pagination/statuses")).to route_to(:controller => 'api/v2/pagination/statuses',
                                                        :action => 'index')
   end
 end
 
 describe Api::V2::Pagination::TypesController do
   it "should connect GET /api/v2/pagination/types to types#edit" do
-    get("/api/v2/pagination/types").should route_to(:controller => 'api/v2/pagination/types',
+    expect(get("/api/v2/pagination/types")).to route_to(:controller => 'api/v2/pagination/types',
                                                     :action => 'index')
   end
 end
 
 describe Api::V2::Pagination::ProjectTypesController do
   it "should connect GET /api/v2/pagination/project_types to project_types#edit" do
-    get("/api/v2/pagination/project_types").should route_to(:controller => 'api/v2/pagination/project_types',
+    expect(get("/api/v2/pagination/project_types")).to route_to(:controller => 'api/v2/pagination/project_types',
                                                             :action => 'index')
   end
 end
 
 describe Api::V2::Pagination::ReportedProjectStatusesController do
   it "should connect GET /api/v2/pagination/reported_project_statuses to reported_project_statuses#edit" do
-    get("/api/v2/pagination/reported_project_statuses").should route_to(:controller => 'api/v2/pagination/reported_project_statuses',
+    expect(get("/api/v2/pagination/reported_project_statuses")).to route_to(:controller => 'api/v2/pagination/reported_project_statuses',
                                                                         :action => 'index')
   end
 end
 
 describe Api::V2::Pagination::ProjectsController do
   it "should connect GET /api/v2/pagination/projects to projects#edit" do
-    get("/api/v2/pagination/projects").should route_to(:controller => 'api/v2/pagination/projects',
+    expect(get("/api/v2/pagination/projects")).to route_to(:controller => 'api/v2/pagination/projects',
                                                        :action => 'index')
   end
 end
