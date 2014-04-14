@@ -184,10 +184,10 @@ describe WorkPackage do
       let(:source_project) { FactoryGirl.create(:project) }
       let(:target_project) { FactoryGirl.create(:project) }
       let(:assignee) { FactoryGirl.create(:user, 
-      									  :member_in_project => source_project) }
+                                          :member_in_project => source_project) }
       let(:work_package) { FactoryGirl.build(:work_package, 
-      										  :project => source_project,
-      										  :assigned_to => assignee) }
+                                             :project => source_project,
+                                             :assigned_to => assignee) }
       let(:copy) { work_package.move_to_project(target_project, nil, :copy => true) }
       
       it "gives an error" do
