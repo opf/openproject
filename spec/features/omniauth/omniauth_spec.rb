@@ -2,10 +2,6 @@ require 'spec_helper'
 
 describe 'Omniauth authentication' do
 
-  @omniauth_test_mode = OmniAuth.config.test_mode
-  @capybara_ignore_elements = Capybara.ignore_hidden_elements
-  @omniauth_logger = OmniAuth.config.logger
-
   after do
     User.delete_all
     User.current = nil
@@ -15,6 +11,9 @@ describe 'Omniauth authentication' do
   end
 
   before do
+    @omniauth_test_mode = OmniAuth.config.test_mode
+    @capybara_ignore_elements = Capybara.ignore_hidden_elements
+    @omniauth_logger = OmniAuth.config.logger
     OmniAuth.config.logger = Rails.logger
     Capybara.ignore_hidden_elements = false
   end
