@@ -62,9 +62,17 @@ angular.module('openproject.helpers')
           }
           break;
         case 'int':
-          return parseInt(value, 10);
+          if(value){
+            return parseInt(value, 10);
+          } else{
+            return '';
+          }
         case 'float':
-          return parseFloat(value);
+          if(value){
+            return parseFloat(value);
+          } else{
+            return '';
+          }
         default:
           return value;
       }
