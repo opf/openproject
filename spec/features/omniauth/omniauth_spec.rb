@@ -2,20 +2,20 @@ require 'spec_helper'
 
 describe 'Omniauth authentication' do
 
-  after do
-    User.delete_all
-    User.current = nil
-    OmniAuth.config.test_mode = @omniauth_test_mode
-    Capybara.ignore_hidden_elements = @capybara_ignore_elements
-    OmniAuth.config.logger = @omniauth_logger
-  end
-
   before do
     @omniauth_test_mode = OmniAuth.config.test_mode
     @capybara_ignore_elements = Capybara.ignore_hidden_elements
     @omniauth_logger = OmniAuth.config.logger
     OmniAuth.config.logger = Rails.logger
     Capybara.ignore_hidden_elements = false
+  end
+
+  after do
+    User.delete_all
+    User.current = nil
+    OmniAuth.config.test_mode = @omniauth_test_mode
+    Capybara.ignore_hidden_elements = @capybara_ignore_elements
+    OmniAuth.config.logger = @omniauth_logger
   end
 
   context 'sign in existing user' do
@@ -53,19 +53,17 @@ describe 'Omniauth authentication' do
 
   context 'register on the fly' do
     let(:user) do
-       User.new(
-         { force_password_change: false,
-           identity_url: 'developer:omnibob@example.com',
-           login: 'omnibob',
-           mail: 'omnibob@example.com',
-           firstname: 'omni',
-           lastname: 'bob'
-         })
+      User.new(force_password_change: false,
+               identity_url: 'developer:omnibob@example.com',
+               login: 'omnibob',
+               mail: 'omnibob@example.com',
+               firstname: 'omni',
+               lastname: 'bob')
     end
 
     before do
-      Setting.stub(:self_registration?).and_return(true)
-      Setting.stub(:self_registration).and_return("3")
+      allow(Setting).to receive(:self_registration?).and_return(true)
+      allow(Setting).to receive(:self_registration).and_return('3')
     end
 
     it 'should register new user' do
