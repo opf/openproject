@@ -50,7 +50,7 @@ describe('Query', function() {
     beforeEach(function(){
       query = Factory.build('Query', {filters: []});
       filter = Factory.build('Filter', {name: 'type_id'});
-    })
+    });
 
     it('should augment filters with meta data when set via setFilters', function() {
       query.setFilters([filter]);

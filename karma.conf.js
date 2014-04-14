@@ -15,7 +15,7 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha', 'chai'],
+    frameworks: ['mocha', 'chai-sinon'],
 
 
     // list of files / patterns to load in the browser
@@ -36,6 +36,8 @@ module.exports = function(config) {
       'app/assets/javascripts/angular/helpers/components/work-packages-helper.js',
       'app/assets/javascripts/angular/helpers/work-packages-table-helper.js',
       'app/assets/javascripts/angular/helpers/function-decorators.js',
+
+      'app/assets/javascripts/angular/filters/work-packages-filters.js',
 
       "app/assets/javascripts/angular/models/filter.js",
       "app/assets/javascripts/angular/models/query.js",

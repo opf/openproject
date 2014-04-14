@@ -32,16 +32,51 @@ angular.module('openproject.workPackages.filters')
   return WorkPackagesTableHelper.allRowsChecked;
 }])
 
-.filter('subtractActiveFilters', [function() {
+/**
+ * filter
+ * @name remainingFilterNames
+ * @function
+ *
+ * @description
+ * Gets a hash of available filters and selected filters and calculates the difference.
+ * Returns the keys of those filters that haven't been selected sorted by the localised
+ * filter names.
+ *
+ * @param {Object} availableFilters The set of available filters, stored with their
+ *    filter name.
+ * @param {Array} selectedFilters An array with the selected filters.
+ *
+ * @returns {Array} An array of the filter names of those available filters that haven't
+ *    been selected, ordered by the corresponding filters localised names.
+*/
+.filter('remainingFilterNames', ['orderByFilter', 'FiltersHelper', function(orderByFilter, FiltersHelper) {
+
+  function subtractActiveFilters(filters, filtersToSubtract) {
+    var filterDiff = angular.copy(filters);
+
+    angular.forEach(filtersToSubtract, function(filter) {
+      if(!filter.deactivated) delete filterDiff[filter.name];
+    });
+
+    return filterDiff;
+  }
+
+  function flattenFiltersHash(filtersHash) {
+    var flattenedHash = [];
+    angular.forEach(filtersHash, function(filterValues, filterName) {
+      flattenedHash.push(angular.extend({filterName: filterName}, filterValues));
+    });
+
+    return flattenedHash;
+  }
+
   return function(availableFilters, selectedFilters) {
-    if(availableFilters){
-      var filters = angular.copy(availableFilters);
+    if(!availableFilters) return [];
 
-      angular.forEach(selectedFilters, function(filter) {
-        if(!filter.deactivated) delete filters[filter.name];
-      });
-    }
+    var filters = subtractActiveFilters(availableFilters, selectedFilters);
 
-    return filters;
+    return orderByFilter(flattenFiltersHash(filters), FiltersHelper.localisedFilterName).map(function(filter) {
+      return filter.filterName;
+    });
   };
 }]);
