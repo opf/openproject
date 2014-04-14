@@ -77,7 +77,6 @@ describe('Work package filters', function() {
         expect($filter('remainingFilterNames')(availableFilters, selectedFilters)).to.eql(['created_at', 'subject']);
 
         expect(t).to.have.been.calledTwice;
-        expect(t).to.have.been.calledWithMatch(sinon.match('js.filter_labels'));
       }));
     });
   });
