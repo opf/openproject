@@ -50,33 +50,9 @@ class AccountController < ApplicationController
 
     user = User.find_or_initialize_by_identity_url(identity_url_from_omniauth(auth_hash))
     if user.new_record?
-
-      # Self-registration off
-      unless Setting.self_registration?
-        redirect_to(signin_url)
-        return
-      end
-
-      # Create on the fly
-      fill_user_fields_from_omniauth(user, auth_hash)
-
-      register_user_according_to_setting(user) do
-        # Allow registration form to show provider-specific title
-        @omniauth_strategy = auth_hash[:provider]
-
-        # Store a timestamp so we can later make sure that authentication information can
-        # only be reused for a short time.
-        session_info = auth_hash.merge(omniauth: true, timestamp: Time.new)
-
-        onthefly_creation_failed(user, session_info)
-      end
+      create_user_from_omniauth(user, auth_hash)
     else
-      # Existing record
-      if user.active?
-        successful_authentication(user)
-      else
-        account_pending
-      end
+      login_user_if_active(user)
     end
   end
 
@@ -276,6 +252,38 @@ class AccountController < ApplicationController
       :httponly => true
     }
     cookies[OpenProject::Configuration['autologin_cookie_name']] = cookie_options
+  end
+
+  # a user may login via omniauth and (if that user does not exist
+  # in our database) will be created using this method.
+  def create_user_from_omniauth(user, auth_hash)
+    # Self-registration off
+    unless Setting.self_registration?
+      redirect_to(signin_url)
+      return
+    end
+
+    # Create on the fly
+    fill_user_fields_from_omniauth(user, auth_hash)
+
+    register_user_according_to_setting(user) do
+      # Allow registration form to show provider-specific title
+      @omniauth_strategy = auth_hash[:provider]
+
+      # Store a timestamp so we can later make sure that authentication information can
+      # only be reused for a short time.
+      session_info = auth_hash.merge(omniauth: true, timestamp: Time.new)
+
+      onthefly_creation_failed(user, session_info)
+    end
+  end
+
+  def login_user_if_active(user)
+    if user.active?
+      successful_authentication(user)
+    else
+      account_pending
+    end
   end
 
   def register_via_omniauth(user, session, permitted_params)
