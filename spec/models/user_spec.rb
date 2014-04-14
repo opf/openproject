@@ -133,6 +133,59 @@ describe User do
     end
   end
 
+  describe '#change_password_allowed?' do
+    let(:user) { FactoryGirl.build(:user) }
+
+    context 'for user without auth source' do
+      before do
+        user.auth_source = nil
+      end
+
+      it 'should be true' do
+        assert user.change_password_allowed?
+      end
+    end
+
+    context 'for user with an auth source' do
+      let(:allowed_auth_source) { AuthSource.generate! }
+
+      context 'that allows password changes' do
+        before do
+          def allowed_auth_source.allow_password_changes?; true; end
+          user.auth_source = allowed_auth_source
+        end
+
+        it 'should allow password changes' do
+          expect(user.change_password_allowed?).to be_true
+        end
+      end
+
+      context 'that does not allow password changes' do
+        let(:denied_auth_source) { AuthSource.generate! }
+
+        before do
+          def denied_auth_source.allow_password_changes?; false; end
+          user.auth_source = denied_auth_source
+        end
+
+        it 'should not allow password changes' do
+          expect(user.change_password_allowed?).to be_false
+        end
+      end
+    end
+
+    context 'for user without authsource and with external authentication' do
+      before do
+        user.auth_source = nil
+        allow(user).to receive(:uses_external_authentication?).and_return(true)
+      end
+
+      it 'should not allow a password change' do
+        expect(user.change_password_allowed?).to be_false
+      end
+    end
+  end
+
   describe :watches do
     before do
       user.save!
