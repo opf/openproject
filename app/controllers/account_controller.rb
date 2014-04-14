@@ -27,8 +27,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'concerns/omniauth_login'
+
 class AccountController < ApplicationController
   include CustomFieldsHelper
+  include OmniauthLogin
 
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_filter :check_if_login_required
@@ -40,26 +43,6 @@ class AccountController < ApplicationController
     elsif request.post?
       authenticate_user
     end
-  end
-
-  def omniauth_login
-    auth_hash = request.env['omniauth.auth']
-
-    # Set back url to page the omniauth login link was clicked on
-    params[:back_url] = request.env['omniauth.origin']
-
-    user = User.find_or_initialize_by_identity_url(identity_url_from_omniauth(auth_hash))
-    if user.new_record?
-      create_user_from_omniauth(user, auth_hash)
-    else
-      login_user_if_active(user)
-    end
-  end
-
-  def omniauth_failure
-    logger.warn(params[:message]) if params[:message]
-    flash[:error] = I18n.t(:error_external_authentication_failed)
-    redirect_to :action => 'login'
   end
 
   # Log out current user and redirect to welcome page
@@ -254,64 +237,12 @@ class AccountController < ApplicationController
     cookies[OpenProject::Configuration['autologin_cookie_name']] = cookie_options
   end
 
-  # a user may login via omniauth and (if that user does not exist
-  # in our database) will be created using this method.
-  def create_user_from_omniauth(user, auth_hash)
-    # Self-registration off
-    unless Setting.self_registration?
-      redirect_to(signin_url)
-      return
-    end
-
-    # Create on the fly
-    fill_user_fields_from_omniauth(user, auth_hash)
-
-    register_user_according_to_setting(user) do
-      # Allow registration form to show provider-specific title
-      @omniauth_strategy = auth_hash[:provider]
-
-      # Store a timestamp so we can later make sure that authentication information can
-      # only be reused for a short time.
-      session_info = auth_hash.merge(omniauth: true, timestamp: Time.new)
-
-      onthefly_creation_failed(user, session_info)
-    end
-  end
-
   def login_user_if_active(user)
     if user.active?
       successful_authentication(user)
     else
       account_pending
     end
-  end
-
-  def register_via_omniauth(user, session, permitted_params)
-    auth = session[:auth_source_registration]
-    # Allow registration form to show provider-specific title
-    @omniauth_strategy = auth[:provider]
-
-    fill_user_fields_from_omniauth(@user, auth)
-    @user.update_attributes(permitted_params.user_register_via_omniauth)
-    register_user_according_to_setting(@user)
-  end
-
-  def fill_user_fields_from_omniauth(user, auth)
-    info = auth[:info]
-    user.identity_url = identity_url_from_omniauth(auth)
-    user.login = info['email'] unless info['email'].nil?
-    if info[:first_name].nil? || info[:last_name].nil?
-      user.firstname, user.lastname = info['name'].split(' ')
-    else
-      user.firstname, user.lastname = info[:first_name], info[:last_name]
-    end
-    user.mail = info['email'] unless info['email'].nil?
-    user.register
-    user
-  end
-
-  def identity_url_from_omniauth(auth)
-    "#{auth[:provider]}:#{auth[:uid]}"
   end
 
   def register_and_login_via_authsource(user, session, permitted_params)
