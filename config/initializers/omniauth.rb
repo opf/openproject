@@ -1,3 +1,5 @@
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :developer unless Rails.env.production?
+  unless Rails.env.production?
+    provider :developer, :fields => [:first_name, :last_name, :email]
+  end
 end

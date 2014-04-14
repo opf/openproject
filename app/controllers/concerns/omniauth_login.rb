@@ -62,14 +62,11 @@ module OmniauthLogin
 
   def fill_user_fields_from_omniauth(user, auth)
     info = auth[:info]
-    user.identity_url = identity_url_from_omniauth(auth)
-    user.login = info['email'] unless info['email'].nil?
-    if info[:first_name].nil? || info[:last_name].nil?
-      user.firstname, user.lastname = info['name'].split(' ')
-    else
-      user.firstname, user.lastname = info[:first_name], info[:last_name]
-    end
-    user.mail = info['email'] unless info['email'].nil?
+    user.update_attributes login:        info[:email],
+                           mail:         info[:email],
+                           firstname:    info[:first_name] || info[:name],
+                           lastname:     info[:last_name],
+                           identity_url: identity_url_from_omniauth(auth)
     user.register
     user
   end

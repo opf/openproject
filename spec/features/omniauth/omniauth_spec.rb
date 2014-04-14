@@ -33,7 +33,8 @@ describe 'Omniauth authentication' do
     it 'should redirect to back url' do
       visit account_lost_password_path
       find_link('Omniauth Developer').click
-      fill_in('name', with: user.login)
+      fill_in('first_name', with: user.firstname)
+      fill_in('last_name', with: user.lastname)
       fill_in('email', with: user.mail)
       click_link_or_button 'Sign In'
 
@@ -42,7 +43,8 @@ describe 'Omniauth authentication' do
 
     it 'should sign in user' do
       visit '/auth/developer'
-      fill_in('name', with: user.login)
+      fill_in('first_name', with: user.firstname)
+      fill_in('last_name', with: user.lastname)
       fill_in('email', with: user.mail)
       click_link_or_button 'Sign In'
 
@@ -70,11 +72,12 @@ describe 'Omniauth authentication' do
       visit '/auth/developer'
 
       # login form developer strategy
-      fill_in('name', with: user.login)
+      fill_in('first_name', with: user.firstname)
+      # intentionally do not supply last_name
       fill_in('email', with: user.mail)
       click_link_or_button 'Sign In'
 
-      # on register form
+      # on register form, we are prompted for a last name
       fill_in('user_lastname', with: user.lastname)
       click_link_or_button 'Submit'
 
@@ -87,11 +90,12 @@ describe 'Omniauth authentication' do
       find_link('Omniauth Developer').click
 
       # login form developer strategy
-      fill_in('name', with: user.login)
+      fill_in('first_name', with: user.firstname)
+      # intentionally do not supply last_name
       fill_in('email', with: user.mail)
       click_link_or_button 'Sign In'
 
-      # on register form
+      # on register form, we are prompted for a last name
       fill_in('user_lastname', with: user.lastname)
       click_link_or_button 'Submit'
 
