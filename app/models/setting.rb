@@ -182,10 +182,6 @@ class Setting < ActiveRecord::Base
     per_page_options.split(%r{[\s,]}).collect(&:to_i).select {|n| n > 0}.sort
   end
 
-  def self.openid?
-    Object.const_defined?(:OpenID) && self[:openid].to_i > 0
-  end
-
   # Deprecation Warning: This method is no longer available. There is no
   # replacement.
   def self.check_cache
