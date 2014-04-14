@@ -98,7 +98,8 @@ describe 'Omniauth authentication' do
       fill_in('user_lastname', with: user.lastname)
       click_link_or_button 'Submit'
 
-      expect(current_url).to eql my_first_login_url(back_url: account_lost_password_url)
+      click_link_or_button 'Save'
+      expect(current_url).to eql account_lost_password_url
     end
   end
 
