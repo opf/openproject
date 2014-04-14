@@ -161,6 +161,24 @@ describe User do
     end
   end
 
+  describe '#uses_external_authentication?' do
+    context 'with identity_url' do
+      let(:user) { FactoryGirl.build(:user, :identity_url => 'test_provider:veryuniqueid') }
+
+      it 'should return true' do
+        expect(user.uses_external_authentication?).to be_true
+      end
+    end
+
+    context 'without identity_url' do
+      let(:user) { FactoryGirl.build(:user, :identity_url => nil) }
+
+      it 'should return false' do
+        expect(user.uses_external_authentication?).to be_false
+      end
+    end
+  end
+
   describe 'user create with empty password' do
     before do
       @u = User.new(:firstname => "new", :lastname => "user", :mail => "newuser@somenet.foo")
