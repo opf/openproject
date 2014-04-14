@@ -35,6 +35,8 @@ class LegacyIssueJournalData < ActiveRecord::Migration
   include Migration::Utils
 
   def up
+    add_index "work_package_journals", ["journal_id"]
+
     migrator.run
 
     reset_public_key_sequence_in_postgres 'journals'
@@ -43,6 +45,8 @@ class LegacyIssueJournalData < ActiveRecord::Migration
   def down
     migrator.remove_journals_derived_from_legacy_journals 'customizable_journals',
                                                           'attachable_journals'
+
+    remove_index "work_package_journals", ["journal_id"]
   end
 
   def migrator

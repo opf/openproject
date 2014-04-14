@@ -32,11 +32,15 @@ require_relative 'migration_utils/legacy_journal_migrator'
 class LegacyAttachmentJournalData < ActiveRecord::Migration
 
   def up
+    add_index "attachment_journals", ["journal_id"]
+
     migrator.run
   end
 
   def down
     migrator.remove_journals_derived_from_legacy_journals
+
+    remove_index "attachment_journals", ["journal_id"]
   end
 
   private
