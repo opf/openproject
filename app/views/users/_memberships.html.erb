@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% roles = Role.find_all_givable %>
 <% projects = Project.active.find(:all, :order => 'lft') %>
+<%= javascript_include_tag "activate_error_messages" %>
 
 <div class="splitcontentleft">
 <% if @user.memberships.any? %>
