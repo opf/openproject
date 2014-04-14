@@ -418,4 +418,14 @@ describe AccountController do
       end
     end
   end
+
+  describe '#identity_url_from_omniauth' do
+    let(:omniauth_hash) { { provider: 'developer', uid: 'veryuniqueid' } }
+
+    it 'should return the correct identity_url' do
+      result = AccountController.new.send(:identity_url_from_omniauth, omniauth_hash)
+      expect(result).to eql('developer:veryuniqueid')
+    end
+  end
+
 end
