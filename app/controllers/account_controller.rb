@@ -52,7 +52,10 @@ class AccountController < ApplicationController
     if user.new_record?
 
       # Self-registration off
-      redirect_to(signin_url) && return unless Setting.self_registration?
+      unless Setting.self_registration?
+        redirect_to(signin_url)
+        return
+      end
 
       # Create on the fly
       fill_user_fields_from_omniauth(user, auth_hash)
@@ -63,7 +66,7 @@ class AccountController < ApplicationController
 
         # Store a timestamp so we can later make sure that authentication information can
         # only be reused for a short time.
-        session_info = auth_hash.merge({:omniauth => true, :timestamp => Time.new})
+        session_info = auth_hash.merge(omniauth: true, timestamp: Time.new)
 
         onthefly_creation_failed(user, session_info)
       end
