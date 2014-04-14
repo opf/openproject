@@ -53,6 +53,9 @@ angular.module('openproject.timelines.directives')
           scope.currentScaleIndex--;
         }
       };
+      scope.resetOutline = function(){
+        scope.timeline.expandTo(0);
+      }
 
       scope.$watch('currentScaleName', function(newScaleName, oldScaleName){
         if (newScaleName !== oldScaleName) {
