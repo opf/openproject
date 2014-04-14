@@ -1,7 +1,6 @@
 ##
 # Intended to be used by the AccountController to handle omniauth logins
 module OmniauthLogin
-
   def omniauth_login
     auth_hash = request.env['omniauth.auth']
     # TODO: throw this to permitted params
@@ -74,5 +73,4 @@ module OmniauthLogin
   def identity_url_from_omniauth(auth)
     "#{auth[:provider]}:#{auth[:uid]}"
   end
-
 end
