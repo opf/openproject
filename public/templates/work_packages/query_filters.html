@@ -41,7 +41,7 @@
                             class="select-small to-validate"
                             id="operators-{{filter.name}}"
                             name="op[{{filter.name}}]"
-                            ng-options="operator as I18n.t('js.' + label) for (operator, label) in operatorsAndLabelsByFilterType[filter.type]"
+                            ng-options="operator[0] as I18n.t('js.' + operator[1]) for operator in operatorsAndLabelsByFilterType[filter.type]"
                             ng-model="filter.operator"
                             style="vertical-align: top;"
                             ng-disabled="isLoading">

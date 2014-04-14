@@ -80,13 +80,13 @@ module.exports = function(config) {
 
       'app/assets/javascripts/date-en-US.js',
 
-      'mocha/tests/timeline_stubs.js',
-      'mocha/lib/rosie.js',
-      'mocha/tests/test-helper.js',
-      'mocha/factories/*factory.js',
+      'karma/tests/timeline_stubs.js',
+      'karma/lib/rosie.js',
+      'karma/tests/test-helper.js',
+      'karma/factories/*factory.js',
 
-      'mocha/tests/asset_functions.js',
-      'mocha/tests/**/*test.js',
+      'karma/tests/asset_functions.js',
+      'karma/tests/**/*test.js',
 
       'public/templates/**/*.html'
     ],
