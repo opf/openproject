@@ -31,7 +31,7 @@ require 'spec_helper'
 describe MyController, :type => :controller do
   let(:user) { FactoryGirl.create(:user) }
   before(:each) do
-    User.stub(:current).and_return(user)
+    allow(User).to receive(:current).and_return(user)
   end
 
   describe 'password change' do
@@ -56,8 +56,8 @@ describe MyController, :type => :controller do
       it 'should show an error message' do
         assert_response :success
         assert_template 'password'
-        user.errors.keys.should == [:password]
-        user.errors.values.flatten.join('').should include('confirmation')
+        expect(user.errors.keys).to eq([:password])
+        expect(user.errors.values.flatten.join('')).to include('confirmation')
       end
     end
 
@@ -73,11 +73,11 @@ describe MyController, :type => :controller do
       it 'should show an error message' do
         assert_response :success
         assert_template 'password'
-        flash[:error].should == 'Wrong password'
+        expect(flash[:error]).to eq('Wrong password')
       end
 
       it 'should not change the password' do
-        user.current_password.id.should == @current_password
+        expect(user.current_password.id).to eq(@current_password)
       end
     end
 

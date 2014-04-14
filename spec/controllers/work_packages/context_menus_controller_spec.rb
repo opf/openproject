@@ -66,7 +66,7 @@ describe WorkPackages::ContextMenusController do
   before do
     member
 
-    User.stub(:current).and_return user
+    allow(User).to receive(:current).and_return user
   end
 
   describe :index do
@@ -284,7 +284,7 @@ describe WorkPackages::ContextMenusController do
       context "anonymous user" do
         let(:anonymous) { FactoryGirl.create(:anonymous) }
 
-        before { User.stub(:current).and_return anonymous }
+        before { allow(User).to receive(:current).and_return anonymous }
 
         it_behaves_like "successful response"
 
@@ -353,7 +353,7 @@ describe WorkPackages::ContextMenusController do
           describe :work_packages do
             before { get :index, ids: ids }
 
-            it { assigns(:work_packages).collect(&:id).should =~ [work_package_1.id, work_package_2.id] }
+            it { expect(assigns(:work_packages).collect(&:id)).to match_array([work_package_1.id, work_package_2.id]) }
           end
         end
       end

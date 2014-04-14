@@ -57,16 +57,16 @@ describe AvatarHelper do
       digest = Digest::MD5.hexdigest(user.mail)
 
       with_settings :gravatar_enabled => '1' do
-        helper.avatar(user).should == expected_image_tag(digest)
+        expect(helper.avatar(user)).to eq(expected_image_tag(digest))
       end
     end
 
     it "should return a gravatar image tag with ssl if the request was ssl required" do
       digest = Digest::MD5.hexdigest(user.mail)
-      helper.request.stub(:ssl?).and_return(true)
+      allow(helper.request).to receive(:ssl?).and_return(true)
 
       with_settings :gravatar_enabled => '1' do
-        helper.avatar(user).should == expected_image_tag(digest, :ssl => true)
+        expect(helper.avatar(user)).to eq(expected_image_tag(digest, :ssl => true))
       end
     end
 
@@ -75,33 +75,33 @@ describe AvatarHelper do
         mail = "<e-mail@mail.de>"
         digest = Digest::MD5.hexdigest("e-mail@mail.de")
 
-        helper.avatar(mail).should == expected_image_tag(digest)
+        expect(helper.avatar(mail)).to eq(expected_image_tag(digest))
       end
     end
 
     it "should return an empty string if a non parsable (e-mail) string is provided" do
       with_settings :gravatar_enabled => '1' do
-        helper.avatar('just the name').should == ''
+        expect(helper.avatar('just the name')).to eq('')
       end
     end
 
     it "should return an empty string if nil is provided" do
       with_settings :gravatar_enabled => '1' do
-        helper.avatar(nil).should == ''
+        expect(helper.avatar(nil)).to eq('')
       end
     end
 
     it "should return an empty string if gravatar is disabled" do
       with_settings :gravatar_enabled => '0' do
-        helper.avatar(user).should == ''
+        expect(helper.avatar(user)).to eq('')
       end
     end
 
     it "should return an empty string if any error is produced in the lib" do
-      helper.stub(:gravatar).and_raise(ArgumentError)
+      allow(helper).to receive(:gravatar).and_raise(ArgumentError)
 
       with_settings :gravatar_enabled => '1' do
-        helper.avatar(user).should == ''
+        expect(helper.avatar(user)).to eq('')
       end
     end
   end

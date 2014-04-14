@@ -28,7 +28,7 @@
 #++
 
 # While loading the Issue class below, we lazy load the Project class. Which itself need WorkPackage.
-# So we create an 'emtpy' Issue class first, to make Project happy.
+# So we create an 'empty' Issue class first, to make Project happy.
 
 class WorkPackage < ActiveRecord::Base
 
@@ -471,7 +471,7 @@ class WorkPackage < ActiveRecord::Base
   end
 
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  # Returns the mail adresses of users that should be notified
+  # Returns the mail addresses of users that should be notified
   def recipients
     notified = project.notified_users
     # Author and assignee are always notified unless they have been
@@ -870,50 +870,50 @@ class WorkPackage < ActiveRecord::Base
   def self.update_versions_from_hierarchy_change(project)
     moved_project_ids = project.self_and_descendants.reload.collect(&:id)
     # Update issues of the moved projects and issues assigned to a version of a moved project
-    WorkPackage.update_versions(["#{Version.table_name}.project_id IN (?) OR #{WorkPackage.table_name}.project_id IN (?)", moved_project_ids, moved_project_ids])
+    update_versions(["#{Version.table_name}.project_id IN (?) OR #{WorkPackage.table_name}.project_id IN (?)", moved_project_ids, moved_project_ids])
   end
 
   # Extracted from the ReportsController.
   def self.by_type(project)
-    count_and_group_by(:project => project,
+    count_and_group_by :project => project,
                        :field => 'type_id',
-                       :joins => Type.table_name)
+                       :joins => Type.table_name
   end
 
   def self.by_version(project)
-    count_and_group_by(:project => project,
+    count_and_group_by :project => project,
                        :field => 'fixed_version_id',
-                       :joins => Version.table_name)
+                       :joins => Version.table_name
   end
 
   def self.by_priority(project)
-    count_and_group_by(:project => project,
+    count_and_group_by :project => project,
                        :field => 'priority_id',
-                       :joins => IssuePriority.table_name)
+                       :joins => IssuePriority.table_name
   end
 
   def self.by_category(project)
-    count_and_group_by(:project => project,
+    count_and_group_by :project => project,
                        :field => 'category_id',
-                       :joins => Category.table_name)
+                       :joins => Category.table_name
   end
 
   def self.by_assigned_to(project)
-    count_and_group_by(:project => project,
+    count_and_group_by :project => project,
                        :field => 'assigned_to_id',
-                       :joins => User.table_name)
+                       :joins => User.table_name
   end
 
   def self.by_responsible(project)
-    count_and_group_by(:project => project,
+    count_and_group_by :project => project,
                        :field => 'responsible_id',
-                       :joins => User.table_name)
+                       :joins => User.table_name
   end
 
   def self.by_author(project)
-    count_and_group_by(:project => project,
+    count_and_group_by :project => project,
                        :field => 'author_id',
-                       :joins => User.table_name)
+                       :joins => User.table_name
   end
 
   def self.by_subproject(project)
@@ -994,6 +994,7 @@ class WorkPackage < ActiveRecord::Base
       end
     end
   end
+  private_class_method :update_versions
 
   # Default assignment based on category
   def default_assign
@@ -1006,11 +1007,11 @@ class WorkPackage < ActiveRecord::Base
   def close_duplicates
     if closing?
       duplicates.each do |duplicate|
-        # Reload is need in case the duplicate was updated by a previous duplicate
+        # Reload is needed in case the duplicate was updated by a previous duplicate
         duplicate.reload
         # Don't re-close it if it's already closed
         next if duplicate.closed?
-        # Implicitely creates a new journal
+        # Implicitly creates a new journal
         duplicate.update_attribute :status, self.status
         # Same user and notes
         duplicate.journals.last.user = current_journal.user
@@ -1020,7 +1021,9 @@ class WorkPackage < ActiveRecord::Base
   end
 
   # Query generator for selecting groups of issue counts for a project
-  # based on specific criteria
+  # based on specific criteria.
+  # DANGER: :field and :joins MUST never come from user input, because
+  # they are not SQL-escaped.
   #
   # Options
   # * project - Project to search in.
@@ -1045,6 +1048,8 @@ class WorkPackage < ActiveRecord::Base
                                                 and i.project_id=#{project.id}
                                               group by s.id, s.is_closed, j.id")
   end
+  private_class_method :count_and_group_by
+
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   def set_attachments_error_details

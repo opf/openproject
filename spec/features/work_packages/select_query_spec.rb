@@ -45,7 +45,7 @@ describe 'Query selection' do
   let(:work_packages_page) { WorkPackagesPage.new(project) }
 
   before do
-    User.stub(:current).and_return current_user
+    allow(User).to receive(:current).and_return current_user
   end
 
   context 'when a query is selected' do
@@ -58,7 +58,7 @@ describe 'Query selection' do
       before { work_packages_page.click_work_packages_menu_item }
 
       it 'clears selected queries' do
-        work_packages_page.should_not have_selected_filter(filter_name)
+        expect(work_packages_page).not_to have_selected_filter(filter_name)
       end
     end
   end

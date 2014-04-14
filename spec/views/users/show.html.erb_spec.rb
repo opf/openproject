@@ -48,6 +48,6 @@ describe 'users/show' do
   it 'renders the visible custom values' do
     render
 
-    response.should have_selector("li", :text => "TextUserCustomField")
+    expect(response).to have_selector("li", :text => "TextUserCustomField")
   end
 end

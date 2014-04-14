@@ -31,7 +31,7 @@ require File.expand_path('../../../../../spec_helper', __FILE__)
 describe 'api/v2/planning_elements/show.api.rabl' do
 
   before do
-    view.stub(:include_journals?).and_return(false)
+    allow(view).to receive(:include_journals?).and_return(false)
 
     params[:format] = 'json'
 
@@ -140,7 +140,7 @@ describe 'api/v2/planning_elements/show.api.rabl' do
 
     it 'renders a parent node containing the parent\'s id and subject' do
       expected_json = {id: 1337, subject: "Parent Element"}.to_json
-      response.should be_json_eql(expected_json).at_path('planning_element/parent')
+      expect(response).to be_json_eql(expected_json).at_path('planning_element/parent')
     end
   end
 
@@ -194,7 +194,7 @@ describe 'api/v2/planning_elements/show.api.rabl' do
 
     it 'renders a responsible node containing the responsible\'s id and name' do
 
-      response.should be_json_eql({name: "Paul McCartney"}.to_json).at_path('planning_element/responsible')
+      expect(response).to be_json_eql({name: "Paul McCartney"}.to_json).at_path('planning_element/responsible')
     end
   end
 
@@ -209,7 +209,7 @@ describe 'api/v2/planning_elements/show.api.rabl' do
 
     it 'renders an author node containing the author\'s id and name' do
       author_json = {id: author.id, name: author.name}.to_json
-      response.should be_json_eql(author_json).at_path('planning_element/author')
+      expect(response).to be_json_eql(author_json).at_path('planning_element/author')
     end
   end
 
@@ -224,7 +224,7 @@ describe 'api/v2/planning_elements/show.api.rabl' do
     end
 
     it 'renders a planning_element node having destroyed=true' do
-      response.should be_json_eql(true.to_json).at_path('planning_element/destroyed')
+      expect(response).to be_json_eql(true.to_json).at_path('planning_element/destroyed')
     end
   end
 
@@ -232,7 +232,7 @@ describe 'api/v2/planning_elements/show.api.rabl' do
   describe 'with an assigned planning element
             when requesting journals' do
     before do
-      view.stub(:include_journals?).and_return(true)
+      allow(view).to receive(:include_journals?).and_return(true)
     end
 
     let(:user) { FactoryGirl.create(:user) }
@@ -245,15 +245,15 @@ describe 'api/v2/planning_elements/show.api.rabl' do
 
     before do
       # prevents problems related to the journal not having a user associated
-      User.stub(:current).and_return(user)
+      allow(User).to receive(:current).and_return(user)
 
-      journal_1.stub(:journable).and_return planning_element
-      journal_2.stub(:journable).and_return planning_element
+      allow(journal_1).to receive(:journable).and_return planning_element
+      allow(journal_2).to receive(:journable).and_return planning_element
 
-      journal_1.stub(:get_changes).and_return({"subject"=> ["old_subject", "new_subject"]})
-      journal_2.stub(:get_changes).and_return({"project_id"=> [1,2]})
+      allow(journal_1).to receive(:get_changes).and_return({"subject"=> ["old_subject", "new_subject"]})
+      allow(journal_2).to receive(:get_changes).and_return({"project_id"=> [1,2]})
 
-      planning_element.stub(:journals).and_return [journal_1,journal_2]
+      allow(planning_element).to receive(:journals).and_return [journal_1,journal_2]
 
 
       assign(:planning_element, planning_element)

@@ -1446,8 +1446,8 @@ de:
     edit_color: "Farbe bearbeiten"
     edit_project_type: "Projekt-Typ bearbeiten"
     edit_thing: "Bearbeiten"
-    edit_timeline: "Zeitplan-Report bearbeiten"
-    delete_timeline: "Zeitplan-Report löschen"
+    edit_timeline: "Zeitplan-Report %{timeline} bearbeiten"
+    delete_timeline: "Zeitplan-Report %{timeline} löschen"
     empty: "(leer)"
     enable_type_in_project: 'Typ "%{type}" aktivieren'
     end: "Abschluss"

@@ -78,7 +78,7 @@ OpenProject::Application.configure do
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   config.assets.precompile += %w( default.css
                                   rtl.css context_menu_rtl.css
-                                  accessibility.js accessibility.css
+                                  accessibility.js accessibility.css activate_error_messages.js
                                   copy_issue_actions.js repository_navigation.js select_list_move.js
                                   jstoolbar/lang/*.js calendar/lang/*.js )
 

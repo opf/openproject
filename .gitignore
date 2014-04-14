@@ -59,6 +59,7 @@
 /public/dispatch.*
 /public/plugin_assets
 /public/assets
+/public/javascripts
 /tmp/*
 /tmp/cache/*
 /tmp/sessions/*

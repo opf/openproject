@@ -41,19 +41,19 @@ describe '/api/v1/issues/show', :type => :api do
     before { render }
 
     it 'should include a done_ratio' do
-      response.should have_selector('issue done_ratio')
-      response.should have_xpath("//issue/done_ratio[.='50']")
+      expect(response).to have_selector('issue done_ratio')
+      expect(response).to have_xpath("//issue/done_ratio[.='50']")
     end
   end
 
   context 'with done_ratio disabled' do
     before do
-      Setting.stub(:work_package_done_ratio).and_return('disabled')
+      allow(Setting).to receive(:work_package_done_ratio).and_return('disabled')
       render
     end
 
     it 'should NOT include a done_ratio' do
-      response.should_not have_selector('issue done_ratio')
+      expect(response).not_to have_selector('issue done_ratio')
     end
   end
 end

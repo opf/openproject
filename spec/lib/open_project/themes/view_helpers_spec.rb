@@ -34,14 +34,14 @@ module OpenProject
       let(:helpers) { ApplicationController.helpers }
 
       it "is mixed into application controller's helper chain" do
-        expect { helpers.current_theme }.to_not raise_error NoMethodError
-        expect { helpers.image_tag }.to_not raise_error NoMethodError
+        expect { helpers.current_theme }.to_not raise_error
+        expect { helpers.image_tag('example.png') }.to_not raise_error
       end
 
       describe '#current_theme' do
         it "returns whatever the Themes class returns" do
           theme = Themes.new_theme
-          Themes.stub(:current_theme).and_return theme
+          allow(Themes).to receive(:current_theme).and_return theme
           expect(helpers.current_theme).to eq theme
         end
       end
@@ -51,10 +51,10 @@ module OpenProject
 
         before do
           # set a list of overridden images
-          theme.stub(:overridden_images).and_return(['add.png'])
+          allow(theme).to receive(:overridden_images).and_return(['add.png'])
 
           # set the theme as current
-          helpers.stub(:current_theme).and_return(theme)
+          allow(helpers).to receive(:current_theme).and_return(theme)
         end
 
         it 'it is nested if overridden' do
@@ -79,10 +79,10 @@ module OpenProject
 
         before do
           # set a list of overridden images
-          theme.stub(:overridden_images).and_return(['add.png'])
+          allow(theme).to receive(:overridden_images).and_return(['add.png'])
 
           # set the theme as current
-          helpers.stub(:current_theme).and_return(theme)
+          allow(helpers).to receive(:current_theme).and_return(theme)
         end
 
         it 'it is nested if overridden' do

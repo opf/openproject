@@ -68,7 +68,7 @@ module AccessibilityHelper
 
   private
 
-  # Return the contranst and brightness difference between two RGB values
+  # Return the contrast and brightness difference between two RGB values
   def find_color_diff(c1, c2)
     r1, g1, b1 = break_color c1
     r2, g2, b2 = break_color c2

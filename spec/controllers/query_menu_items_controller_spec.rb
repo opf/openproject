@@ -36,7 +36,7 @@ describe QueryMenuItemsController do
 
   before do
     # log in user
-    User.stub(:current).and_return current_user
+    allow(User).to receive(:current).and_return current_user
   end
 
   describe '#create' do
@@ -46,11 +46,11 @@ describe QueryMenuItemsController do
     end
 
     it 'creates a query menu item' do
-      @query_menu_item.should be_present
+      expect(@query_menu_item).to be_present
     end
 
     it 'redirects to the query on work_packages#index' do
-      response.should redirect_to project_work_packages_path(project, query_id: public_query.id)
+      expect(response).to redirect_to project_work_packages_path(project, query_id: public_query.id)
     end
   end
 
@@ -59,7 +59,7 @@ describe QueryMenuItemsController do
 
     it 'destroys the query_menu_item' do
       delete :destroy, id: query_menu_item, project_id: project, query_id: public_query
-      MenuItems::QueryMenuItem.exists?(query_menu_item.id).should be_false
+      expect(MenuItems::QueryMenuItem.exists?(query_menu_item.id)).to be_false
     end
   end
 end

@@ -32,9 +32,9 @@ describe '/api/v1/issues/index', :type => :api do
   let(:work_package) { FactoryGirl.build(:work_package, :done_ratio => 50) }
   let(:work_packages) do
     packages = [work_package]
-    packages.stub(:total_entries).and_return(1)
-    packages.stub(:offset).and_return(0)
-    packages.stub(:per_page).and_return(1)
+    allow(packages).to receive(:total_entries).and_return(1)
+    allow(packages).to receive(:offset).and_return(0)
+    allow(packages).to receive(:per_page).and_return(1)
     packages
   end
 
@@ -48,19 +48,19 @@ describe '/api/v1/issues/index', :type => :api do
     before { render }
 
     it 'should include a done_ratio' do
-      response.should have_selector('issue done_ratio')
-      response.should have_xpath("//issue/done_ratio[.='50']")
+      expect(response).to have_selector('issue done_ratio')
+      expect(response).to have_xpath("//issue/done_ratio[.='50']")
     end
   end
 
   context 'with done_ratio disabled' do
     before do
-      Setting.stub(:work_package_done_ratio).and_return('disabled')
+      allow(Setting).to receive(:work_package_done_ratio).and_return('disabled')
       render
     end
 
     it 'should NOT include a done_ratio' do
-      response.should_not have_selector('issue done_ratio')
+      expect(response).not_to have_selector('issue done_ratio')
     end
   end
 end

@@ -40,7 +40,7 @@ class SystemUser < User
       # The symptoms are, that saving User.system, which will happen when calling
       # User.system.run_given, from inside a migration fails.
       #
-      # The callback sends self.custom_values which leads to an eror
+      # The callback sends self.custom_values which leads to an error
       # stating that no column "name", "default_value" or "possible_values"
       # exists in the db. It is correct that such a field does not exist, as those are
       # translated attributes so that they are to be found in custom_field_translations.

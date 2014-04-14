@@ -52,7 +52,7 @@ describe WorkPackages::ReportsController do
   before do
     member
 
-    User.stub(:current).and_return user
+    allow(User).to receive(:current).and_return user
 
     work_package_1
     work_package_2

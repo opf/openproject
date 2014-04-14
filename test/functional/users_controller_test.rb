@@ -191,7 +191,10 @@ class UsersControllerTest < ActionController::TestCase
 
   def test_create_with_failure
     assert_no_difference 'User.count' do
-      post :create, :user => {}
+      # Provide at least one user  field, otherwise strong_parameters regards the user parameter
+      # as non-existent and raises ActionController::ParameterMissing, which in turn
+      # results in a 400.
+      post :create, :user => { :login => 'jdoe' }
     end
 
     assert_response :success

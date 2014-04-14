@@ -35,7 +35,7 @@ describe News::CommentsController do
   let(:news) { FactoryGirl.create(:news)    }
 
   before do
-    User.stub(:current).and_return user
+    allow(User).to receive(:current).and_return user
   end
 
   describe "#create" do

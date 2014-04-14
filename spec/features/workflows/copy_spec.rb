@@ -41,7 +41,7 @@ describe 'Workflow copy' do
                                                  :assignee => false)}
 
   before do
-    User.stub(:current).and_return(admin)
+    allow(User).to receive(:current).and_return(admin)
   end
 
   context 'lala' do
@@ -53,12 +53,12 @@ describe 'Workflow copy' do
     it 'shows existing types and roles' do
       select(role.name, :from => :source_role_id)
       within('#source_role_id') do
-        page.should have_content(role.name)
-        page.should have_content("--- #{I18n.t(:actionview_instancetag_blank_option)} ---")
+        expect(page).to have_content(role.name)
+        expect(page).to have_content("--- #{I18n.t(:actionview_instancetag_blank_option)} ---")
       end
       within('#source_type_id') do
-        page.should have_content(type.name)
-        page.should have_content("--- #{I18n.t(:actionview_instancetag_blank_option)} ---")
+        expect(page).to have_content(type.name)
+        expect(page).to have_content("--- #{I18n.t(:actionview_instancetag_blank_option)} ---")
       end
     end
   end

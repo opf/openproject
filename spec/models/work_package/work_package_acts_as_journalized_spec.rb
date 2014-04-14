@@ -43,28 +43,28 @@ describe WorkPackage do
     let(:current_user) { FactoryGirl.create(:user) }
 
     before do
-      User.stub(:current).and_return current_user
+      allow(User).to receive(:current).and_return current_user
 
       work_package
     end
 
     context "on work package creation" do
-      it { Journal.all.count.should eq(1) }
+      it { expect(Journal.all.count).to eq(1) }
 
       it "has a journal entry" do
-        Journal.first.journable.should eq(work_package)
+        expect(Journal.first.journable).to eq(work_package)
       end
     end
 
     context "nothing is changed" do
       before { work_package.save! }
 
-      it { Journal.all.count.should eq(1) }
+      it { expect(Journal.all.count).to eq(1) }
     end
 
     context 'when the journal manager does not detect a change to be tracked' do
       before do
-        JournalManager.stub(:changed?).with(work_package).and_return false
+        allow(JournalManager).to receive(:changed?).with(work_package).and_return false
         work_package.assign_attributes subject: "#{work_package.subject} with changes"
       end
 
@@ -157,7 +157,7 @@ describe WorkPackage do
           [:subject, :description, :type_id, :status_id, :priority_id,
            :start_date, :due_date, :estimated_hours, :assigned_to_id,
            :responsible_id, :parent_id].each do |a|
-            subject.should have_key(a), "Missing change for #{a.to_s}"
+            expect(subject).to have_key(a.to_s), "Missing change for #{a.to_s}"
           end
         end
       end
@@ -195,7 +195,7 @@ describe WorkPackage do
 
     context "attachments" do
       let(:attachment) { FactoryGirl.build :attachment }
-      let(:attachment_id) { "attachments_#{attachment.id}".to_sym }
+      let(:attachment_id) { "attachments_#{attachment.id}" }
 
       before do
         work_package.attachments << attachment
@@ -207,7 +207,7 @@ describe WorkPackage do
 
         it { should have_key attachment_id }
 
-        it { subject[attachment_id].should eq([nil, attachment.filename]) }
+        it { expect(subject[attachment_id]).to eq([nil, attachment.filename]) }
       end
 
       context "attachment saved w/o change" do
@@ -229,7 +229,7 @@ describe WorkPackage do
 
         it { should have_key attachment_id }
 
-        it { subject[attachment_id].should eq([attachment.filename, nil]) }
+        it { expect(subject[attachment_id]).to eq([attachment.filename, nil]) }
       end
     end
 
@@ -240,7 +240,7 @@ describe WorkPackage do
                                               customized: work_package,
                                               custom_field: custom_field }
 
-      let(:custom_field_id) { "custom_fields_#{custom_value.custom_field_id}".to_sym }
+      let(:custom_field_id) { "custom_fields_#{custom_value.custom_field_id}" }
 
       shared_context "work package with custom value" do
         before do
@@ -258,7 +258,7 @@ describe WorkPackage do
 
         it { should have_key custom_field_id }
 
-        it { subject[custom_field_id].should eq([nil, custom_value.value]) }
+        it { expect(subject[custom_field_id]).to eq([nil, custom_value.value]) }
       end
 
       context "custom value modified" do
@@ -276,7 +276,7 @@ describe WorkPackage do
 
         it { should have_key custom_field_id }
 
-        it { subject[custom_field_id].should eq([custom_value.value.to_s, modified_custom_value.value.to_s]) }
+        it { expect(subject[custom_field_id]).to eq([custom_value.value.to_s, modified_custom_value.value.to_s]) }
       end
 
       context "work package saved w/o change" do
@@ -309,7 +309,7 @@ describe WorkPackage do
 
         it { should have_key custom_field_id }
 
-        it { subject[custom_field_id].should eq([custom_value.value, nil]) }
+        it { expect(subject[custom_field_id]).to eq([custom_value.value, nil]) }
       end
 
       context "custom value did not exist before" do
