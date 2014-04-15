@@ -27,6 +27,7 @@
 #++
 
 require 'spec_helper'
+require 'rspec-steps'
 
 describe "OpenID Connect" do
   let(:provider) { OmniAuth::OpenIDConnect::Heroku.new }
