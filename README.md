@@ -1,6 +1,6 @@
 # OpenProject OpenID Connect Plugin
 
-Adds support for OmniAuth OpenID Connect strategy providers, most imporantly Google.
+Adds support for OmniAuth OpenID Connect strategy providers, most importantly Google.
 
 ## Dependencies
 
