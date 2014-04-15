@@ -19,7 +19,7 @@ If you want to run the tests you will have add the following as well:
 
 ## Configuration
 
-The provider configuration can be either done in @configuration.yml@ or within the settings.
+The provider configuration can be either done in `configuration.yml` or within the settings.
 
 ### configuration.yml
 
