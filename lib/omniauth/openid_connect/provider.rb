@@ -83,7 +83,11 @@ module OmniAuth
       end
 
       def self.config
-        from_settings = Hash(Hash(Setting.plugin_openproject_openid_connect["providers"])[provider_name])
+        from_settings = if Setting.plugin_openproject_openid_connect.is_a? Hash
+          Hash(Hash(Setting.plugin_openproject_openid_connect["providers"])[provider_name])
+        else
+          {}
+        end
 
         if from_settings.empty?
           Hash(Hash(OpenProject::Configuration["openid_connect"])[provider_name])
