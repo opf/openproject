@@ -85,7 +85,7 @@ describe 'Omniauth authentication' do
       expect(page).to have_link('Sign out')
     end
 
-    it 'should redirect to bach url' do
+    it 'should redirect to back url' do
       visit account_lost_password_path
       find_link('Omniauth Developer').click
 
@@ -99,7 +99,9 @@ describe 'Omniauth authentication' do
       fill_in('user_lastname', with: user.lastname)
       click_link_or_button 'Submit'
 
+      # now, we see the my/first_login page and just save
       click_link_or_button 'Save'
+
       expect(current_url).to eql account_lost_password_url
     end
   end
