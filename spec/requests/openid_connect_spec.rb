@@ -66,6 +66,17 @@ describe "OpenID Connect" do
       # Since the test is not supposed to make an actual call it is be stubbed too.
       OpenIDConnect::AccessToken.any_instance.stub(:userinfo!).and_return(
         OpenIDConnect::ResponseObject::UserInfo.new(user_info))
+
+      Setting.stub(:plugin_openproject_openid_connect).and_return(
+        {
+          "providers" => {
+            "heroku" => {
+              "identifier" => "does not",
+              "secret" => "matter"
+            }
+          }
+        }
+      )
     end
 
     after(:all) do
