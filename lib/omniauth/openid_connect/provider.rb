@@ -70,6 +70,10 @@ module OmniAuth
         all.select(&:available?)
       end
 
+      def self.unavailable
+        all.reject(&:available?)
+      end
+
       def self.available?
         !!config["secret"] && !!config["identifier"]
       end
@@ -79,16 +83,26 @@ module OmniAuth
       end
 
       def self.config
-        Hash(Hash(OpenProject::Configuration["openid_connect"])[provider_name])
+        from_settings = Hash(Hash(Setting.plugin_openproject_openid_connect["providers"])[provider_name])
+
+        if from_settings.empty?
+          Hash(Hash(OpenProject::Configuration["openid_connect"])[provider_name])
+        else
+          from_settings
+        end
       end
 
       def to_hash
         options
       end
 
+      def name
+        self.class.provider_name
+      end
+
       def options
         {
-          :name => self.class.provider_name,
+          :name => name,
           :scope => [:openid, :email, :profile],
           :client_options => client_options.merge( # override with settings from configuration.yml
             Hash[
