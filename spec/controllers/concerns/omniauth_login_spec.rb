@@ -78,7 +78,7 @@ describe AccountController do
         end
       end
 
-      context 'with redirect to register form' do
+      context 'not providing all required fields' do
         let(:omniauth_hash) do
           OmniAuth::AuthHash.new(
             provider: 'google',
@@ -110,6 +110,35 @@ describe AccountController do
           expect(user.auth_source_id).to be_nil
           expect(user.current_password).to be_nil
           expect(user.identity_url).to eql('google:123545')
+        end
+
+        context 'after a timeout expired' do
+
+          before do
+            session[:auth_source_registration] = omniauth_hash.merge(
+              omniauth: true,
+              timestamp: Time.new - 42.days)
+          end
+
+          it 'does not register the user when providing all the missing fields' do
+            post :register, :user => { firstname: 'Foo',
+                                       lastname: 'Smith',
+                                       mail: 'foo@bar.com' }
+
+            expect(response).to redirect_to signin_path
+            expect(flash[:error]).to eq(I18n.t(:error_omniauth_registration_timed_out))
+            expect(User.find_by_login('foo@bar.com')).to be_nil
+          end
+
+          it 'does not register the user when providing all the missing fields' do
+            post :register, :user => { firstname: 'Foo',
+                                       # lastname intentionally not provided
+                                       mail: 'foo@bar.com' }
+
+            expect(response).to redirect_to signin_path
+            expect(flash[:error]).to eq(I18n.t(:error_omniauth_registration_timed_out))
+            expect(User.find_by_login('foo@bar.com')).to be_nil
+          end
         end
       end
 
