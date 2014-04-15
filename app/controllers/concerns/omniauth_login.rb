@@ -4,7 +4,7 @@ module OmniauthLogin
   def omniauth_login
     auth_hash = request.env['omniauth.auth']
     # TODO: throw this to permitted params
-    fail 'we need a valid auth_hash' unless auth_hash['uid']
+    fail 'we need a valid auth_hash' unless auth_hash.valid?
 
     # Set back url to page the omniauth login link was clicked on
     params[:back_url] = request.env['omniauth.origin']
