@@ -49,8 +49,7 @@ There is no UI for the settings just yet. One way to set them until then is the 
     }
 
 While Google and Heroku are pre-defined you can add arbitrary providers through configuration.
-Those will then require the host to be specified. Providers not adhering to the default endpoints may require
-you to override those as well.
+Those will then may require the host and/or endpoints to be specified depending on whether or not a particular provider adheres to the default endpoint paths or not.
 
     Setting["plugin_openproject_openid_connect"] = {
       "providers" => {
@@ -69,7 +68,7 @@ you to override those as well.
         "theirprovider" => {
           "identifier" => "foobar",
           "secret" => "baz",
-          "host" => "https://signin.theirprovider.co.uk",
+          "host" => "signin.theirprovider.co.uk",
           "authorization_endpoint" => "/oauth2/authorization/new"
   		  "token_endpoint" => "/oauth2/tokens"
   		  "userinfo_endpoint" => "/oauth2/users/me"
@@ -78,3 +77,4 @@ you to override those as well.
     }
 
 If a host is given, relative endpoint paths will refer to said host.
+No host is required if absolute endpoint URIs are given.
