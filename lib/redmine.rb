@@ -36,11 +36,11 @@ require 'redmine/mime_type'
 require 'redmine/core_ext'
 require 'open_project/themes'
 require 'redmine/hook'
+require 'hooks'
 require 'redmine/plugin'
 require 'redmine/notifiable'
 require 'redmine/wiki_formatting'
 require 'redmine/scm/base'
-
 
 require 'csv'
 require 'globalize'

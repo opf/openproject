@@ -26,9 +26,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-##
-# A placeholder module which contains OpenProject hooks
-module Hooks; end
-
-# actual hooks are added with the following require statemens
-require 'hooks/view_account_login_auth_provider'
+module Hooks
+  ##
+  # Hook called in the login forms which displays the different auth providers
+  class ViewAccountLoginAuthProviderHook < Redmine::Hook::ViewListener
+    render_on :view_account_login_auth_provider,
+              :partial => 'hooks/login/auth_provider'
+  end
+end

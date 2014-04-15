@@ -57,9 +57,9 @@ See doc/COPYRIGHT.rdoc for more details.
         <% if Setting.self_registration? %>
           <%= "|" if Setting.lost_password? %>
           <%= link_to l(:label_register), { :controller => '/account', :action => 'register' } %>
-          |
         <% end %>
-        <%= link_to "Omniauth Developer", :controller => '/auth', :action => 'developer' %>
+        <br>
+        <%= call_hook :view_account_login_auth_provider %>
       <% end %>
     </div>
   <% end %>
