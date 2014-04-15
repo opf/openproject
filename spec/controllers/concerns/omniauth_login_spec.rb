@@ -66,6 +66,10 @@ describe AccountController do
           expect(user.auth_source_id).to be_nil
           expect(user.current_password).to be_nil
           expect(user.identity_url).to eql('google:123545')
+          expect(user.login).to eql('foo@bar.com')
+          expect(user.firstname).to eql('foo')
+          expect(user.lastname).to eql('bar')
+          expect(user.mail).to eql('foo@bar.com')
         end
 
         it 'redirects to the first login page with a back_url' do
@@ -88,6 +92,7 @@ describe AccountController do
           request.env['omniauth.auth'] = omniauth_hash
           get :omniauth_login
           expect(response).to render_template :register
+          expect(assigns(:user).mail).to eql('foo@bar.com')
         end
 
         it 'registers user via post' do
