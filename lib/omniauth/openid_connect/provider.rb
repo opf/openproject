@@ -39,8 +39,8 @@ module OmniAuth
       end
 
       def self.load_generic_providers
-        providers = Hash(OpenProject::Configuration["openid_connect"]).reject do |key, value|
-          all.any? { |p| p.provider_name == key }
+        providers = configs.reject do |pro, config|
+          all.any? { |p| p.provider_name == pro }
         end
 
         providers.each do |name, config|
@@ -83,17 +83,17 @@ module OmniAuth
       end
 
       def self.config
+        Hash(configs[provider_name])
+      end
+
+      def self.configs
         from_settings = if Setting.plugin_openproject_openid_connect.is_a? Hash
-          Hash(Hash(Setting.plugin_openproject_openid_connect["providers"])[provider_name])
+          Hash(Setting.plugin_openproject_openid_connect["providers"])
         else
           {}
         end
-
-        if from_settings.empty?
-          Hash(Hash(OpenProject::Configuration["openid_connect"])[provider_name])
-        else
-          from_settings
-        end
+        # Settings override configuration.yml
+        Hash(OpenProject::Configuration["openid_connect"]).merge(from_settings)
       end
 
       def to_hash
