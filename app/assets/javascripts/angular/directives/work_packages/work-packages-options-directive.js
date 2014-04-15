@@ -35,7 +35,7 @@ angular.module('openproject.workPackages.directives')
     link: function(scope, element, attributes) {
       scope.$watch('query.groupBy', function(groupBy) {
         if (scope.columns) {
-          var groupByColumnIndex = scope.columns.map(function(column){
+          var groupByColumnIndex = scope.groupableColumns.map(function(column){
             return column.name;
           }).indexOf(groupBy);
 

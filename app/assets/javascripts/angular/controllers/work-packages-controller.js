@@ -72,6 +72,7 @@ angular.module('openproject.workPackages.controllers')
     var meta = json.meta;
 
     if (!$scope.columns) $scope.columns = meta.columns;
+    if (!$scope.groupableColumns) $scope.groupableColumns = meta.groupable_columns;
     $scope.query = QueryService.getQuery() || QueryService.initQuery($scope.query_id, meta.query, $scope.columns, afterQuerySetupCallback);
 
     PaginationService.setPerPageOptions(meta.per_page_options);
