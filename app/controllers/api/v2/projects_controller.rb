@@ -71,6 +71,14 @@ module Api
         end
       end
 
+      def level_list
+        respond_to do |format|
+          format.api do
+            @elements = Project.project_level_list(Project.visible)
+          end
+        end
+      end
+
       def planning_element_custom_fields
         @custom_fields = @project.all_work_package_custom_fields :include => [:projects, :types, :translations]
 
