@@ -48,6 +48,23 @@ describe UserMailer do
     allow(Setting).to receive(:default_language).and_return('en')
   end
 
+  describe :test_mail do
+    let(:test_email) { 'bob.bobbi@example.com' }
+    let(:test_user) { User.new(firstname: 'Bob', lastname: 'Bobbi', mail: test_email) }
+    let(:mail) { UserMailer.test_mail(test_user) }
+
+    before do
+      # the name method uses a format setting to determine how to concatenate first name
+      # and last name whereby an unescaped comma will lead to have two email addresses
+      # defined instead of one (['Bobbi', 'bob.bobbi@example.com'] vs. ['bob.bobbi@example.com'])
+      test_user.stub(:name).and_return('Bobbi, Bob')
+    end
+
+     it 'escapes the name attribute properly' do
+       expect(mail.to).to eql [test_email]
+     end
+  end
+
   describe :issue_update do
     context :delayed_job do
       before do
