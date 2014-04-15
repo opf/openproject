@@ -30,15 +30,18 @@ require 'spec_helper'
 
 # Concern is included into AccountController and depends on methods available there
 describe AccountController do
+  after do
+    User.current = nil
+  end
 
   context 'GET #omniauth_login' do
     before do
-      Setting.stub(:self_registration?).and_return(true)
-      Setting.stub(:self_registration).and_return('3')
+      allow(Setting).to receive(:self_registration?).and_return(true)
+      allow(Setting).to receive(:self_registration).and_return('3')
     end
 
-    describe 'register' do
-      context 'with on-the-fly registration' do
+    describe 'with on-the-fly registration' do
+      context 'providing all required fields' do
         let(:omniauth_hash) do
           OmniAuth::AuthHash.new(
             provider: 'google',
@@ -102,6 +105,33 @@ describe AccountController do
           expect(user.auth_source_id).to be_nil
           expect(user.current_password).to be_nil
           expect(user.identity_url).to eql('google:123545')
+        end
+      end
+
+      context 'with self-registration disabled' do
+        let(:omniauth_hash) do
+          OmniAuth::AuthHash.new(
+            provider: 'google',
+            uid: '123',
+            info: { name: 'foo',
+                    email: 'foo@bar.com',
+                    first_name: 'foo',
+                    last_name: 'bar'
+            }
+          )
+        end
+
+        before do
+          allow(Setting).to receive(:self_registration?).and_return(false)
+
+          request.env['omniauth.auth'] = omniauth_hash
+          request.env['omniauth.origin'] = 'https://example.net/some_back_url'
+
+          get :omniauth_login
+        end
+
+        it 'redirects to signin_path' do
+          expect(response).to redirect_to signin_path
         end
       end
     end
