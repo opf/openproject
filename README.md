@@ -17,6 +17,64 @@ If you want to run the tests you will have add the following as well:
   	  gem 'rspec-steps', '~> 0.4.0'
   	end
 
-## Issue Tracker
+## Configuration
 
-https://www.openproject.org/projects/openid-connect/work_packages
+The provider configuration can be either done in @configuration.yml@ or within the settings.
+
+### configuration.yml
+
+Example configuration:
+
+    default:
+      openid_connect:
+  	    google:
+          identifier: "9295222hfbiu2btgu3b4i.apps.googleusercontent.com"
+          secret: "4z389thugh334t8h"
+
+### Settings
+
+There is no UI for the settings just yet. One way to set them until then is the rails console:
+
+    Setting["plugin_openproject_openid_connect"] = {
+      "providers" => {
+        "google" => {
+          "identifier" => "9295222hfbiu2btgu3b4i.apps.googleusercontent.com",
+          "secret" => "4z389thugh334t8h"
+        },
+        "heroku" => {
+          "identifier" => "foobar",
+          "secret" => "baz"
+        }
+      }
+    }
+
+While Google and Heroku are pre-defined you can add arbitrary providers through configuration.
+Those will then require the host to be specified. Providers not adhering to the default endpoints may require
+you to override those as well.
+
+    Setting["plugin_openproject_openid_connect"] = {
+      "providers" => {
+        "myprovider" => {
+          "host" => "login.myprovider.net",
+          "identifier" => "9295222hfbiu2btgu3b4i.apps.googleusercontent.com",
+          "secret" => "4z389thugh334t8h"
+        },
+        "yourprovider" => {
+          "identifier" => "foobar",
+          "secret" => "baz",
+          "authorization_endpoint" => "https://auth.yourprovider.com/oauth2/authorize"
+  		  "token_endpoint" => "https://auth.yourprovider.com/oauth2/token?api-version=1.0"
+  		  "userinfo_endpoint" => "https://users.yourprovider.com/me"
+        },
+        "theirprovider" => {
+          "identifier" => "foobar",
+          "secret" => "baz",
+          "host" => "https://signin.theirprovider.co.uk",
+          "authorization_endpoint" => "/oauth2/authorization/new"
+  		  "token_endpoint" => "/oauth2/tokens"
+  		  "userinfo_endpoint" => "/oauth2/users/me"
+        }
+      }
+    }
+
+If a host is given, relative endpoint paths will refer to said host.
