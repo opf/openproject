@@ -399,7 +399,7 @@ def modify_user(u, table)
   u
 end
 
-# Encapsule the logic to set a custom field on an issue
+# Encapsulate the logic to set a custom field on an issue
 def add_custom_value_to_issue(object, key, value)
   if WorkPackageCustomField.all.collect(&:name).include? key.to_s
     cv = CustomValue.find(:first, :conditions => ["customized_id = '#{object.id}'"])

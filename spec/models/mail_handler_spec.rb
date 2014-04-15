@@ -346,7 +346,7 @@ describe MailHandler do
   #   work_package.type.should == type_j
   # end
 
-  # it "should ignore emails from emission adress" do
+  # it "should ignore emails from emission address" do
   #   Role.anonymous.update_attribute :permissions, [:add_work_packages]
   #   lambda do
   #     submit_email('ticket_from_emission_address.eml', {:work_package => {'project' => 'onlinestore'}, :unknown_user => 'create'}).should be_false

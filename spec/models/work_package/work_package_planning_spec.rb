@@ -337,7 +337,7 @@ describe WorkPackage do
                             :subject    => "Numero Uno")
     end
 
-    it 'should delete the object permanantly when using destroy' do
+    it 'should delete the object permanently when using destroy' do
       @pe1.destroy
 
       expect(WorkPackage.find_by_id(@pe1.id)).to be_nil

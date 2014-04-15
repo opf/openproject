@@ -216,7 +216,7 @@ describe 'api/v2/projects/show.api.rabl' do
     end
 
 
-    it 'renders the corrent name, color, is_milestone for a planning_element_type' do
+    it 'renders the current name, color, is_milestone for a planning_element_type' do
       expected_json = {name: "SampleType", is_milestone: true, color: {hexcode: "#FF0000", name: "red"}}.to_json
 
       should be_json_eql(expected_json).at_path("project/types/0")
