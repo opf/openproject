@@ -32,11 +32,15 @@ require_relative 'migration_utils/journal_migrator_concerns'
 
 class LegacyTimeEntryJournalData < ActiveRecord::Migration
   def up
+    add_index "time_entry_journals", ["journal_id"]
+
     migrator.run
   end
 
   def down
     migrator.remove_journals_derived_from_legacy_journals 'customizable_journals'
+
+    remove_index "time_entry_journals", ["journal_id"]
   end
 
   private
