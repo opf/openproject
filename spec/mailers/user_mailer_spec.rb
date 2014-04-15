@@ -48,6 +48,19 @@ describe UserMailer do
     Setting.stub(:default_language).and_return('en')
   end
 
+  describe :test_mail do
+    let(:test_user) { User.new(firstname: 'Bob', lastname: 'Bobbi', mail: 'bob.bobbi@example.com') }
+    let(:mail) { UserMailer.test_mail(test_user) }
+
+    before do
+      test_user.stub(:name).and_return('Bobbi, Bob')
+    end
+
+     it 'escapes the name attribute properly' do
+       expect(mail.to).to eql ['bob.bobbi@example.com']
+     end
+  end
+
   describe :issue_update do
     context :delayed_job do
       before do
