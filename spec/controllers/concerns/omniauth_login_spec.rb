@@ -57,7 +57,7 @@ describe AccountController do
         before do
           request.env['omniauth.auth'] = omniauth_hash
           request.env['omniauth.origin'] = 'https://example.net/some_back_url'
-          get :omniauth_login
+          post :omniauth_login
         end
 
         it 'registers the user on-the-fly' do
@@ -90,7 +90,7 @@ describe AccountController do
 
         it 'renders user form' do
           request.env['omniauth.auth'] = omniauth_hash
-          get :omniauth_login
+          post :omniauth_login
           expect(response).to render_template :register
           expect(assigns(:user).mail).to eql('foo@bar.com')
         end
@@ -132,7 +132,7 @@ describe AccountController do
           request.env['omniauth.auth'] = omniauth_hash
           request.env['omniauth.origin'] = 'https://example.net/some_back_url'
 
-          get :omniauth_login
+          post :omniauth_login
         end
 
         it 'redirects to signin_path' do
@@ -154,20 +154,50 @@ describe AccountController do
       it 'should sign in the user after successful external authentication' do
         request.env['omniauth.auth'] = omniauth_hash
         FactoryGirl.create(:user, force_password_change: false, identity_url: 'google:123545')
-        get :omniauth_login
+        post :omniauth_login
         expect(response).to redirect_to controller: 'my', action: 'page'
+      end
+    end
+
+    describe 'with an invalid auth_hash' do
+      let(:omniauth_hash) do
+        OmniAuth::AuthHash.new(
+          provider: 'google',
+          # id is deliberately missing here to make the auth_hash invalid
+          info: { name: 'foo',
+                  email: 'foo@bar.com'
+          }
+        )
+      end
+
+      before do
+        request.env['omniauth.auth'] = omniauth_hash
+
+        post :omniauth_login
+      end
+
+      it 'should respond with a 400' do
+        expect(response.code.to_i).to eql(400)
+      end
+
+      it 'should not sign in the user' do
+        expect(controller.send(:current_user).logged?).to be_false
+      end
+
+      it 'does not set registration information in the session' do
+        expect(session[:auth_source_registration]).to be_nil
       end
     end
 
     describe 'Error occurs during authentication' do
       it 'should redirect to login page' do
-        get :omniauth_failure
+        post :omniauth_failure
         expect(response).to redirect_to signin_path
       end
 
       it 'should log a warn message' do
         expect(Rails.logger).to receive(:warn).with('invalid_credentials')
-        get :omniauth_failure, message: 'invalid_credentials'
+        post :omniauth_failure, message: 'invalid_credentials'
       end
     end
   end
