@@ -67,7 +67,12 @@ See doc/COPYRIGHT.rdoc for more details.
 * Fix: Asset require for plug-ins
 * Fix: at.who styling
 
-## 3.0.0pre51
+## 3.0.1
+
+* `#5265` Fix: Error adding Work Package
+* `#5322` Fix: First Journal Entry of chiliproject issues shows incorrect diff
+
+## 3.0.0
 
 * `#3701` Fix: Filter custom fields of work packages in timeline reports
 * `#5033` Migration RepairInvalidDefaultWorkPackageCustomValues fails on Postgres
