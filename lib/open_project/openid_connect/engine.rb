@@ -31,7 +31,6 @@ module OpenProject::OpenIDConnect
           provider :openid_connect, pro.new.to_hash
         end
 
-        puts
         OmniAuth::OpenIDConnect::Provider.unavailable.each do |pro|
           p = pro.new
           Rails.logger.info "[OpenID Connect] Registering dynamic provider for #{p.name} (settings missing)"
@@ -44,6 +43,10 @@ module OpenProject::OpenIDConnect
           }
         end
       end
+    end
+
+    initializer 'openid_connect.register_hooks' do
+      require 'open_project/openid_connect/hooks'
     end
   end
 end

@@ -1,0 +1,3 @@
+<% OmniAuth::OpenIDConnect::Provider.available.each do |pro| %>
+  //&nbsp;<%= link_to pro.provider_name.camelize, :controller => '/auth', :action => pro.provider_name %>
+<% end %>
