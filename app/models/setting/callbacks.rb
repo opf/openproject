@@ -32,9 +32,6 @@ class Setting
 
     # register a callback for a setting named #name
     def register_callback(name, &callback)
-      # if no block is given, raise an error
-      raise ArgumentError, 'please provide a block as a callback' unless block_given?
-
       # register the block with the underlying notifications system
       _notifier.subscribe(_notification_event_for(name), &callback)
     end

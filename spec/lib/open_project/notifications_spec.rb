@@ -49,4 +49,12 @@ describe OpenProject::Notifications do
     end
   end
 
+  describe '.subscribe' do
+    it "throws an error when no callback is given" do
+      expect {
+        OpenProject::Notifications.subscribe("notifications_spec_send")
+      }.to raise_error ArgumentError, /provide a block as a callback/
+    end
+  end
+
 end

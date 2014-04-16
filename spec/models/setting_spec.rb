@@ -149,15 +149,6 @@ describe Setting do
       Setting.host_name = 'some other name'
       expect(collector).to include 'some name'
     end
-
-    # tests proper throwing of exceptions
-    describe "exception" do
-      it "throws an error when no callback is given" do
-        expect {
-          Setting.register_callback(:notified_events)
-        }.to raise_error ArgumentError, /provide a block as a callback/
-      end
-    end
   end
 
 end
