@@ -27,6 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+# log delayed job's output to whatever rails logs to
 Delayed::Worker.logger = Rails.logger
 
 # By default bypass worker queue and execute asynchronous tasks at once
