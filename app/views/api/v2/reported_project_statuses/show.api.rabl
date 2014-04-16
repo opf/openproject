@@ -25,8 +25,6 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-object @reported_project_status
-node :reported_project_status do |reported_project_status|
-  partial '/api/v2/reported_project_statuses/reported_project_status.api', :object  => reported_project_status
-end
+object @reported_project_status => :reported_project_status
 
+extends '/api/v2/reported_project_statuses/reported_project_status.api'

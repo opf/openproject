@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,6 +29,8 @@
 require 'spec_helper'
 
 describe AccountController do
+  render_views
+
   after do
     User.delete_all
     User.current = nil
@@ -39,26 +41,77 @@ describe AccountController do
 
     describe "User logging in with back_url" do
 
-      it "should redirect to the same host" do
-        post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http%3A%2F%2Ftest.host%2Fwork_packages%2Fshow%2F1'}
+      it "should redirect to a relative path" do
+        post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => '/'}
+        expect(response).to redirect_to '/'
+      end
+
+      it "should redirect to an absolute path given the same host" do
+        # note: test.host is the hostname during tests
+        post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http://test.host/work_packages/show/1'}
         expect(response).to redirect_to '/work_packages/show/1'
       end
 
       it "should not redirect to another host" do
-        post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http%3A%2F%2Ftest.foo%2Ffake'}
+        post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http://test.foo/work_packages/show/1'}
+        expect(response).to redirect_to '/my/page'
+      end
+
+      it "should not redirect to another host with a protocol relative url" do
+        post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => '//test.foo/fake'}
         expect(response).to redirect_to '/my/page'
       end
 
       it "should create users on the fly" do
         Setting.self_registration = '0'
-        AuthSource.stub(:authenticate).and_return({:login => 'foo', :firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com', :auth_source_id => 66})
+        allow(AuthSource).to receive(:authenticate).and_return({:login => 'foo', :firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com', :auth_source_id => 66})
         post :login , {:username => 'foo', :password => 'bar'}
 
         expect(response).to redirect_to '/my/first_login'
         user = User.find_by_login('foo')
-        user.should be_an_instance_of User
-        user.auth_source_id.should == 66
-        user.current_password.should be_nil
+        expect(user).to be_an_instance_of User
+        expect(user.auth_source_id).to eq(66)
+        expect(user.current_password).to be_nil
+      end
+
+      context 'with a relative url root' do
+        before do
+          @old_relative_url_root, ApplicationController.relative_url_root = ApplicationController.relative_url_root, "/openproject"
+        end
+
+        after do
+          ApplicationController.relative_url_root = @old_relative_url_root
+        end
+
+        it "should redirect to the same subdirectory with an absolute path" do
+          post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http://test.host/openproject/work_packages/show/1'}
+          expect(response).to redirect_to '/openproject/work_packages/show/1'
+        end
+
+        it "should redirect to the same subdirectory with a relative path" do
+          post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => '/openproject/work_packages/show/1'}
+          expect(response).to redirect_to '/openproject/work_packages/show/1'
+        end
+
+        it "should not redirect to another subdirectory with an absolute path" do
+          post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http://test.host/foo/work_packages/show/1'}
+          expect(response).to redirect_to '/my/page'
+        end
+
+        it "should not redirect to another subdirectory with a relative path" do
+          post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => '/foo/work_packages/show/1'}
+          expect(response).to redirect_to '/my/page'
+        end
+
+        it "should not redirect to another subdirectory by going up the path hierarchy" do
+          post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http://test.host/openproject/../foo/work_packages/show/1'}
+          expect(response).to redirect_to '/my/page'
+        end
+
+        it "should not redirect to another subdirectory with a protocol relative path" do
+          post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => '//test.host/foo/work_packages/show/1'}
+          expect(response).to redirect_to '/my/page'
+        end
       end
 
     end
@@ -67,7 +120,7 @@ describe AccountController do
   describe "Login for user with forced password change" do
     let(:user) do
       FactoryGirl.create(:admin, force_password_change: true)
-      User.any_instance.stub(:change_password_allowed?).and_return(false)
+      allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false)
     end
 
     before do
@@ -104,7 +157,7 @@ describe AccountController do
   context "GET #register" do
     context "with self registration on" do
       before do
-        Setting.stub(:self_registration).and_return("3")
+        allow(Setting).to receive(:self_registration).and_return("3")
         get :register
       end
 
@@ -117,8 +170,8 @@ describe AccountController do
 
     context "with self registration off" do
       before do
-        Setting.stub(:self_registration).and_return("0")
-        Setting.stub(:self_registration?).and_return(false)
+        allow(Setting).to receive(:self_registration).and_return("0")
+        allow(Setting).to receive(:self_registration?).and_return(false)
         get :register
       end
 
@@ -132,7 +185,7 @@ describe AccountController do
   context "POST #register" do
     context "with self registration on automatic" do
       before do
-        Setting.stub(:self_registration).and_return("3")
+        allow(Setting).to receive(:self_registration).and_return("3")
         post :register, :user => {
           :login => 'register',
           :password => 'adminADMIN!',
@@ -159,7 +212,7 @@ describe AccountController do
 
     context "with self registration by email" do
       before do
-        Setting.stub(:self_registration).and_return("1")
+        allow(Setting).to receive(:self_registration).and_return("1")
         Token.delete_all
         post :register, :user => {
           :login => 'register',
@@ -186,7 +239,7 @@ describe AccountController do
 
     context "with manual activation" do
       before do
-        Setting.stub(:self_registration).and_return("2")
+        allow(Setting).to receive(:self_registration).and_return("2")
         post :register, :user => {
           :login => 'register',
           :password => 'adminADMIN!',
@@ -208,8 +261,8 @@ describe AccountController do
 
     context "with self registration off" do
       before do
-        Setting.stub(:self_registration).and_return("0")
-        Setting.stub(:self_registration?).and_return(false)
+        allow(Setting).to receive(:self_registration).and_return("0")
+        allow(Setting).to receive(:self_registration?).and_return(false)
         post :register, :user => {
           :login => 'register',
           :password => 'adminADMIN!',
@@ -228,9 +281,11 @@ describe AccountController do
     context "with on-the-fly registration" do
 
       before do
-        Setting.stub(:self_registration).and_return("0")
-        Setting.stub(:self_registration?).and_return(false)
-        AuthSource.stub(:authenticate).and_return({:login => 'foo', :lastname => 'Smith', :auth_source_id => 66})
+        allow(Setting).to receive(:self_registration).and_return("0")
+        allow(Setting).to receive(:self_registration?).and_return(false)
+        allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false)
+        allow(AuthSource).to receive(:authenticate).and_return({:login => 'foo', :lastname => 'Smith', :auth_source_id => 66})
+
         post :login, :username => 'foo', :password => 'bar'
       end
 

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,11 +45,11 @@ class Attachment < ActiveRecord::Base
   before_save :copy_file_to_destination
   after_destroy :delete_file_on_disk
 
-  acts_as_journalized :event_title => :filename,
-       :event_url => (Proc.new do |o|
-         { :controller => '/attachments', :action => 'download',
-           :id => o.journable_id, :filename => o.filename }
-       end), :acts_as_activity => false
+  acts_as_journalized
+  acts_as_event title: :filename,
+                url: (Proc.new do |o|
+                        { :controller => '/attachments', :action => 'download', :id => o.id, :filename => o.filename }
+                      end)
 
   cattr_accessor :storage_path
   @@storage_path = OpenProject::Configuration['attachments_storage_path'] ||
@@ -65,7 +65,7 @@ class Attachment < ActiveRecord::Base
     unless incoming_file.nil?
       @temp_file = incoming_file
       if @temp_file.size > 0
-        # Incomming_file might be a String if you parse an incomming mail having an attachment
+        # Incoming_file might be a String if you parse an incoming mail having an attachment
         # It is a Mail::Part.decoded String then, which doesn't have the usual file methods.
         if @temp_file.respond_to?(:original_filename)
           self.filename = @temp_file.original_filename
@@ -101,7 +101,7 @@ class Attachment < ActiveRecord::Base
       logger.info("Saving attachment '#{self.diskfile}' (#{@temp_file.size} bytes)")
       md5 = Digest::MD5.new
       File.open(diskfile, "wb") do |f|
-        # @temp_file might be a String if you parse an incomming mail having an attachment
+        # @temp_file might be a String if you parse an incoming mail having an attachment
         # It is a Mail::Part.decoded String then, which doesn't have the usual file methods.
         if @temp_file.is_a? String
           f.write(@temp_file)

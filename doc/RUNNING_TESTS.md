@@ -1,6 +1,6 @@
 <!---- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ## Cucumber
 
-The cucucmber features can be run using rake. You can run the following
+The cucumber features can be run using rake. You can run the following
 rake tasks using the command `bundle exec rake <task>`.
 
 * `cucumber` Run core features
@@ -83,6 +83,15 @@ If you need Firebug and Firepath while debugging a scenario, just replace
 @javascript with @firebug.
 
 
+## Running tests with Mocha
+
+To run JavaScript tests install phantomjs and mocha-phantomjs, e.g. via npm. You can then run
+
+  ``mocha-phantomjs mocha/index.html``
+
+Alternatively open mocha/index.html in a browser.
+
+
 ## RSpec
 
 You can run the specs with the following commands:
@@ -108,8 +117,8 @@ You let test unit display test names instead of anonymous dots with the followin
   https://travis-ci.org/opf/openproject
 * If you have enabled the terminal bell, add `; echo -e "\a"` to the end of your test command. The terminal bell will then tell you when your tests finished.
 
+
 ## Manual acceptance tests
 
 * Sometimes you want to test things manually. Always remember: If you test something more than once, write an automated test for it.
-* Assuming you do not have all Internet Explorer version installed on your computer, you can grab a VM with preinstalled IE's directly from Mircrosoft: http://www.modern.ie/en-us/virtualization-tools#downloads
-
+* Assuming you do not have a version of Internet Explorer already installed on your computer, you can grab a VM with preinstalled IE's directly from Microsoft: http://www.modern.ie/en-us/virtualization-tools#downloads

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,8 +42,8 @@ describe Project::Copy do
     subject { copy }
 
     it "should be able to be copied" do
-      copy.should be_valid
-      copy.should_not be_new_record
+      expect(copy).to be_valid
+      expect(copy).not_to be_new_record
     end
   end
 
@@ -93,7 +93,7 @@ describe Project::Copy do
 
         subject { copy.is_public }
 
-        it { copy.is_public?.should == project.is_public? }
+        it { expect(copy.is_public?).to eq(project.is_public?) }
       end
 
       describe :public do
@@ -106,7 +106,7 @@ describe Project::Copy do
 
         subject { copy.is_public }
 
-        it { copy.is_public?.should == project.is_public? }
+        it { expect(copy.is_public?).to eq(project.is_public?) }
       end
     end
   end
@@ -123,23 +123,107 @@ describe Project::Copy do
     end
 
     describe :copy_work_packages do
-      before do
-        version = FactoryGirl.create(:version, :project => project)
-        wp1 = FactoryGirl.create(:work_package, :project => project, :fixed_version => version)
-        wp2 = FactoryGirl.create(:work_package, :project => project, :fixed_version => version)
-        wp3 = FactoryGirl.create(:work_package, :project => project, :fixed_version => version)
-        relation = FactoryGirl.create(:relation, :from => wp1, :to => wp2)
-        wp1.parent = wp3
-        wp1.category = FactoryGirl.create(:category, :project => project)
-        [wp1, wp2, wp3].each { |wp| project.work_packages << wp }
+      let(:work_package) { FactoryGirl.create(:work_package, :project => project) }
+      let(:work_package2) { FactoryGirl.create(:work_package, :project => project) }
+      let(:version) { FactoryGirl.create(:version, :project => project) }
 
-        copy.send :copy_work_packages, project
-        copy.save
+      describe :relation do
+        before do
+          wp = work_package
+          wp2 = work_package2
+          FactoryGirl.create(:relation, :from => wp, :to => wp2)
+          [wp, wp2].each { |wp| project.work_packages << wp }
+
+          copy.send :copy_work_packages, project
+          copy.save
+        end
+
+        it do
+          copy.work_packages.each { |wp| expect(wp).to(be_valid) }
+          expect(copy.work_packages.count).to eq(project.work_packages.count)
+        end
       end
 
-      it do
-        copy.work_packages.each { |wp| wp.should(be_valid) && wp.fixed_version.should(be_nil) }
-        copy.work_packages.count.should == project.work_packages.count
+      describe :parent do
+        before do
+          wp = work_package
+          wp2 = work_package2
+          wp.parent = wp2
+          wp.save
+
+          [wp, wp2].each { |wp| project.work_packages << wp }
+
+          copy.send :copy_work_packages, project
+          copy.save
+        end
+
+        it do
+          expect(parent_wp = copy.work_packages.detect { |wp| wp.parent }).not_to eq(nil)
+          expect(parent_wp.parent.project).to eq(copy)
+        end
+      end
+
+      describe :category do
+        before do
+          wp = work_package
+          wp.category = FactoryGirl.create(:category, :project => project)
+          wp.save
+
+          project.work_packages << wp.reload
+
+          copy.send :copy_categories, project
+          copy.send :copy_work_packages, project
+          copy.save
+        end
+
+        it do
+          expect(cat = copy.work_packages[0].category).not_to eq(nil)
+          expect(cat.project).to eq(copy)
+        end
+      end
+
+      describe :watchers do
+        let(:role) { FactoryGirl.create(:role, permissions:[:view_work_packages]) }
+        let(:watcher) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
+
+        describe :active_watcher do
+          before do
+            wp = work_package
+            wp.add_watcher watcher
+            wp.save
+
+            project.work_packages << wp
+
+            copy.send :copy_members, project
+            copy.send :copy_work_packages, project
+            copy.save
+          end
+
+          it "does copy active watchers" do
+            expect(copy.work_packages[0].watchers.first.user).to eq(watcher)
+          end
+        end
+
+        describe :locked_watcher do
+          before do
+            user = watcher
+            wp = work_package
+            wp.add_watcher user
+            wp.save
+
+            user.lock!
+
+            project.work_packages << wp
+
+            copy.send :copy_members, project
+            copy.send :copy_work_packages, project
+            copy.save
+          end
+
+          it "does not copy locked watchers" do
+            expect(copy.work_packages[0].watchers).to eq([])
+          end
+        end
       end
     end
 

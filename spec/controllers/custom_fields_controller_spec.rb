@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,15 +32,15 @@ describe CustomFieldsController do
   let(:custom_field) { FactoryGirl.build(:custom_field) }
 
   before do
-    @controller.stub(:authorize)
-    @controller.stub(:check_if_login_required)
-    @controller.stub(:require_admin)
+    allow(@controller).to receive(:authorize)
+    allow(@controller).to receive(:check_if_login_required)
+    allow(@controller).to receive(:require_admin)
   end
 
   describe "POST edit" do
     before do
       Setting.available_languages = ["de", "en"]
-      CustomField.stub(:find).and_return(custom_field)
+      allow(CustomField).to receive(:find).and_return(custom_field)
     end
 
     describe "WITH all ok params" do
@@ -49,12 +49,12 @@ describe CustomFieldsController do
       let(:params) { { "custom_field" => { "translations_attributes" => { "0" => { "name" => de_name, "locale" => "de" }, "1" => { "name" => en_name, "locale" => "en" } } } } }
 
       before do
-        put :edit, params
+        put :update, params
       end
 
-      it { response.should be_redirect }
-      it { custom_field.name(:de).should == de_name }
-      it { custom_field.name(:en).should == en_name }
+      it { expect(response).to be_redirect }
+      it { expect(custom_field.name(:de)).to eq(de_name) }
+      it { expect(custom_field.name(:en)).to eq(en_name) }
     end
 
     describe "WITH one empty name params" do
@@ -63,12 +63,12 @@ describe CustomFieldsController do
       let(:params) { { "custom_field" => { "translations_attributes" => { "0" => { "name" => de_name, "locale" => "de" }, "1" => { "name" => en_name, "locale" => "en" } } } } }
 
       before do
-        put :edit, params
+        put :update, params
       end
 
-      it { response.should be_redirect }
-      it { custom_field.name(:de).should == en_name }
-      it { custom_field.name(:en).should == en_name }
+      it { expect(response).to be_redirect }
+      it { expect(custom_field.name(:de)).to eq(en_name) }
+      it { expect(custom_field.name(:en)).to eq(en_name) }
     end
   end
 
@@ -84,12 +84,12 @@ describe CustomFieldsController do
                        "custom_field" => { "translations_attributes" => { "0" => { "name" => de_name, "locale" => "de" }, "1" => { "name" => en_name, "locale" => "en" } } } } }
 
       before do
-        post :new, params
+        post :create, params
       end
 
-      it { response.should be_success }
-      it { assigns(:custom_field).name(:de).should == de_name }
-      it { assigns(:custom_field).name(:en).should == en_name }
+      it { expect(response).to be_success }
+      it { expect(assigns(:custom_field).name(:de)).to eq(de_name) }
+      it { expect(assigns(:custom_field).name(:en)).to eq(en_name) }
     end
 
     describe "WITH one empty name params" do
@@ -99,12 +99,12 @@ describe CustomFieldsController do
                        "custom_field" => { "translations_attributes" => { "0" => { "name" => de_name, "locale" => "de" }, "1" => { "name" => en_name, "locale" => "en" } } } } }
 
       before do
-        post :new, params
+        post :create, params
       end
 
-      it { response.should be_success }
-      it { assigns(:custom_field).name(:de).should == en_name }
-      it { assigns(:custom_field).name(:en).should == en_name }
+      it { expect(response).to be_success }
+      it { expect(assigns(:custom_field).name(:de)).to eq(en_name) }
+      it { expect(assigns(:custom_field).name(:en)).to eq(en_name) }
     end
   end
 end

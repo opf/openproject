@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,27 +29,30 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= form_tag({:action => 'edit', :tab => 'display'}) do %>
 
-<div class="box tabular settings">
-<p><%= setting_select :ui_theme, OpenProject::Themes.collect { |theme| [theme.name, theme.identifier] }, :label => :label_theme %></p>
+  <div class="box tabular settings">
+    <p><%= setting_select :ui_theme, OpenProject::Themes.collect { |theme| [theme.name, theme.identifier] }, :label => :label_theme %></p>
+    <p><%= setting_check_box :user_may_override_theme %></p>
 
-<p id="setting_available_languages"><%= setting_multiselect :available_languages, all_lang_options_for_select(false) %></p>
+    <p><%= setting_check_box :accessibility_mode_for_anonymous %></p>
 
-<p id="setting_default_language"><%= setting_select :default_language, all_lang_options_for_select(false) %></p>
+    <p id="setting_available_languages"><%= setting_multiselect :available_languages, all_lang_options_for_select(false) %></p>
 
-<p><%= setting_select :start_of_week, [[day_name(1),'1'], [day_name(6),'6'], [day_name(7),'7']], :blank => :label_language_based %></p>
+    <p id="setting_default_language"><%= setting_select :default_language, all_lang_options_for_select(false) %></p>
 
-<p><%= setting_select :date_format, Setting::DATE_FORMATS.collect {|f| [Date.today.strftime(f), f]}, :blank => :label_language_based %></p>
+    <p><%= setting_select :start_of_week, [[day_name(1),'1'], [day_name(6),'6'], [day_name(7),'7']], :blank => :label_language_based %></p>
 
-<p><%= setting_select :time_format, Setting::TIME_FORMATS.collect {|f| [Time.now.strftime(f), f]}, :blank => :label_language_based %></p>
+    <p><%= setting_select :date_format, Setting::DATE_FORMATS.collect {|f| [Date.today.strftime(f), f]}, :blank => :label_language_based %></p>
 
-<p><%= setting_select :user_format, @options[:user_format] %></p>
+    <p><%= setting_select :time_format, Setting::TIME_FORMATS.collect {|f| [Time.now.strftime(f), f]}, :blank => :label_language_based %></p>
 
-<p><%= setting_check_box :gravatar_enabled %></p>
+    <p><%= setting_select :user_format, @options[:user_format] %></p>
 
-<p><%= setting_select :gravatar_default, [["Wavatars", 'wavatar'], ["Identicons", 'identicon'], ["Monster ids", 'monsterid'], ["Retro", 'retro'], ["Mystery man", 'mm']], :blank => :label_none %></p>
-</div>
+    <p><%= setting_check_box :gravatar_enabled %></p>
 
-<%= submit_tag l(:button_save) %>
+    <p><%= setting_select :gravatar_default, [["Wavatars", 'wavatar'], ["Identicons", 'identicon'], ["Monster ids", 'monsterid'], ["Retro", 'retro'], ["Mystery man", 'mm']], :blank => :label_none %></p>
+  </div>
+
+  <%= submit_tag l(:button_save) %>
 <% end %>
 
 <div style="float:right">

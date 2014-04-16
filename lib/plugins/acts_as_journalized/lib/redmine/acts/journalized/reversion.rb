@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -82,6 +82,18 @@ module Redmine::Acts::Journalized
 
       def last_journal
         journals.last
+      end
+
+      # some eager loading may mess up the order
+      # journals.order('created_at').last will not work
+      # (especially when journals already filtered)
+      # thats why this method exists
+      # it is impossible to incorporate this into #last_journal
+      # because some logic is based on this eager loading bug/feature
+      def last_loaded_journal
+        if journals.loaded?
+          journals.sort_by(&:version).last
+        end
       end
 
       # Accepts a value corresponding to a specific journal record, builds a history of changes

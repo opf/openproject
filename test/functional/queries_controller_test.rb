@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -127,13 +127,15 @@ class QueriesControllerTest < ActionController::TestCase
   def test_new_with_sort
     @request.session[:user_id] = 1
     post :new,
-         :confirm => '1',
-         :default_columns => '1',
-         :operators => {"status_id" => "o"},
-         :values => {"status_id" => ["1"]},
-         :query => {:name => "test_new_with_sort",
-                    :is_public => "1",
-                    :sort_criteria => {"0" => ["due_date", "desc"], "1" => ["type", ""]}}
+         confirm: '1',
+         default_columns: '1',
+         operators: {"status_id" => "o"},
+         values: {"status_id" => ["1"]},
+         query: {name: "test_new_with_sort",
+                    is_public: "1",
+                    sort_criteria: {"0" => ["due_date", "desc"], "1" => ["type", ""]}},
+         f: ["status_id", ""],
+         op: {"status_id" => "o"}
 
     query = Query.find_by_name("test_new_with_sort")
     assert_not_nil query

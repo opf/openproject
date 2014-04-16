@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,6 +47,6 @@ class ReportedProjectStatus < Enumeration
   end
 
   def transfer_relations(to)
-    reportings.update.all(:reported_project_status_id => to.id)
+    reportings.update_all(:reported_project_status_id => to.id)
   end
 end

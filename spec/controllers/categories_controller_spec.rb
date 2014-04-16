@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,7 +41,7 @@ describe CategoriesController do
   before do
     member
 
-    User.stub(:current).and_return user
+    allow(User).to receive(:current).and_return user
   end
 
   shared_examples_for :redirect do
@@ -73,9 +73,9 @@ describe CategoriesController do
     describe :categories do
       subject { Category.find_by_name(category_name) }
 
-      it { subject.project_id.should eq(project.id) }
+      it { expect(subject.project_id).to eq(project.id) }
 
-      it { subject.assigned_to_id.should eq(user.id) }
+      it { expect(subject.assigned_to_id).to eq(user.id) }
     end
 
     it_behaves_like :redirect

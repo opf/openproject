@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,5 +40,10 @@ describe Version do
 
     expect(version).not_to be_valid
     expect(version.errors).to have(1).error_on(:effective_date)
+  end
+
+  context 'deprecated methods' do
+    it { should respond_to :completed_pourcent }
+    it { should respond_to :closed_pourcent    }
   end
 end

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,18 +28,19 @@
 #++
 
 class Member < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
+
   belongs_to :user
   belongs_to :principal, :foreign_key => 'user_id'
   has_many :member_roles, :dependent => :destroy, :autosave => true
   has_many :roles, :through => :member_roles
   belongs_to :project
 
-  attr_protected :project_id, :user_id, :role_ids
-
-  validates_presence_of :principal, :project
+  validates_presence_of :project
   validates_uniqueness_of :user_id, :scope => :project_id
 
   validate :validate_presence_of_role
+  validate :validate_presence_of_principal
 
   before_destroy :remove_from_category_assignments
   after_destroy :unwatch_from_permission_change
@@ -114,7 +115,7 @@ class Member < ActiveRecord::Base
     Category.update_all "assigned_to_id = NULL", ["project_id = ? AND assigned_to_id = ?", project.id, user.id] if user
   end
 
-  # Find or initilize a Member with an id, attributes, and for a Principal
+  # Find or initialize a Member with an id, attributes, and for a Principal
   def self.edit_membership(id, new_attributes, principal=nil)
     @membership = id.present? ? Member.find(id) : Member.new(:principal => principal)
     # interface refactoring needed
@@ -133,12 +134,16 @@ class Member < ActiveRecord::Base
 
   def validate_presence_of_role
     if member_roles.empty?
-      errors.add :roles, :empty if roles.empty?
+      errors.add :base, :role_blank if roles.empty?
     else
-      errors.add :roles, :empty if member_roles.all? do |member_role|
+      errors.add :base, :role_blank if member_roles.all? do |member_role|
         member_role.marked_for_destruction? || member_role.destroyed?
       end
     end
+  end
+
+  def validate_presence_of_principal
+    errors.add :base, :principal_blank if principal.blank?
   end
 
   def do_add_role(role_or_role_id, inherited_from_id, save_immediately)

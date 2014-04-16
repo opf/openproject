@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,6 +46,7 @@ class Reports::ReportsService
   add_report Reports::SubprojectReport
   add_report Reports::AuthorReport
   add_report Reports::AssigneeReport
+  add_report Reports::ResponsibleReport
   add_report Reports::TypeReport
   add_report Reports::PriorityReport
   add_report Reports::CategoryReport

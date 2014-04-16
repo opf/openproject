@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,10 +29,6 @@
 require 'spec_helper'
 
 describe WorkPackage do
-  before :each do
-    Delayed::Worker.delay_jobs = false
-  end
-
   describe ActionMailer::Base do
     let(:user_1) { FactoryGirl.create(:user,
                                       mail: "dlopper@somenet.foo") }
@@ -43,8 +39,8 @@ describe WorkPackage do
     before do
       ActionMailer::Base.deliveries.clear
 
-      work_package.stub(:recipients).and_return([user_1.mail])
-      work_package.stub(:watcher_recipients).and_return([user_2.mail])
+      allow(work_package).to receive(:recipients).and_return([user_1.mail])
+      allow(work_package).to receive(:watcher_recipients).and_return([user_2.mail])
 
       work_package.save
     end

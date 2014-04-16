@@ -1,6 +1,6 @@
 /*-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++*/
 
 .top-shelf {
-  background: #FFC38C url(<%= asset_path 'webalys/warning.png' %>) 22px 18px no-repeat;
+  background-color: #FFC38C;
   border-bottom: 1px solid black;
   font-size: 12px;
   font-weight: normal;
@@ -36,6 +36,11 @@ See doc/COPYRIGHT.rdoc for more details.
   padding-left: 55px;
   padding-right: 18px;
   padding-top: 18px;
+}
+
+.top-shelf:before {
+  position: absolute;
+  left: 15px;
 }
 
 .top-shelf h1 {

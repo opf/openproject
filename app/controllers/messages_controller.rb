@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,10 +28,11 @@
 #++
 
 class MessagesController < ApplicationController
+  include OpenProject::Concerns::Preview
   menu_item :boards
   default_search_scope :messages
   model_object Message, :scope => Board
-  before_filter :find_object_and_scope
+  before_filter :find_object_and_scope, except: [:preview]
   before_filter :authorize, :except => [:preview, :edit, :update, :destroy]
 
   include AttachmentsHelper
@@ -50,10 +51,10 @@ class MessagesController < ApplicationController
       page = 1 + offset / REPLIES_PER_PAGE
     end
 
-    @replies =  @topic.children.includes(:author, :attachments, {:board => :project})
-                               .order("#{Message.table_name}.created_on ASC")
-                               .page(page)
-                               .per_page(per_page_param)
+    @replies = @topic.children.includes(:author, :attachments, {:board => :project})
+                              .order("#{Message.table_name}.created_on ASC")
+                              .page(page)
+                              .per_page(per_page_param)
 
     @reply = Message.new(:subject => "RE: #{@message.subject}")
     render :action => "show", :layout => !request.xhr?
@@ -154,10 +155,13 @@ class MessagesController < ApplicationController
     }
   end
 
-  def preview
-    message = @board.messages.find_by_id(params[:id])
-    @attachements = message.attachments if message
-    @text = (params[:message] || params[:reply])[:content]
-    render :partial => 'common/preview'
+  protected
+
+  def parse_preview_data
+    if params[:message]
+      parse_preview_data_helper :message, :content
+    else
+      parse_preview_data_helper :reply, :content, Message
+    end
   end
 end

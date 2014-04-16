@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -58,6 +58,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   def handle_unverified_request
     super
+    self.logged_user = nil
     cookies.delete(:autologin)
   end
 
@@ -423,11 +424,22 @@ class ApplicationController < ActionController::Base
 
   def redirect_back_or_default(default)
     back_url = URI.escape(CGI.unescape(params[:back_url].to_s))
-    if !back_url.blank?
+    # if we have a back_url it must not contain two consecutive dots
+    if back_url.present? && !back_url.match(%r{\.\.})
       begin
         uri = URI.parse(back_url)
-        # do not redirect user to another host or to the login or register page
-        if (uri.relative? || (uri.host == request.host)) && !uri.path.match(%r{/(login|account/register)})
+
+        # do not redirect user to another host (even protocol relative urls have the host set)
+        # whenever a host is set it must match the request's host
+        uri_local_to_host = uri.host.nil? || uri.host == request.host
+
+        # do not redirect user to the login or register page
+        uri_path_allowed  = !uri.path.match(%r{/(login|account/register)})
+
+        # do not redirect to another subdirectory
+        uri_subdir_allowed = relative_url_root.blank? || uri.path.match(%r{\A#{relative_url_root}})
+
+        if uri_local_to_host && uri_path_allowed && uri_subdir_allowed
           redirect_to(back_url)
           return
         end
@@ -437,6 +449,12 @@ class ApplicationController < ActionController::Base
     end
     redirect_to default
     false
+  end
+
+  def render_400(options={})
+    @project = nil
+    render_error({:message => :notice_bad_request, :status => 400}.merge(options))
+    return false
   end
 
   def render_403(options={})
@@ -510,18 +528,10 @@ class ApplicationController < ActionController::Base
 
   def render_feed(items, options={})
     @items = items || []
-    @items.sort! {|x,y| sort_feed_items(x, y) }
+    @items.sort! {|x,y| y.event_datetime <=> x.event_datetime }
     @items = @items.slice(0, Setting.feeds_limit.to_i)
     @title = options[:title] || Setting.app_title
     render :template => "common/feed", :layout => false, :content_type => 'application/atom+xml'
-  end
-
-  def sort_feed_items(x, y)
-    if x.respond_to? :data
-      y.data.event_datetime <=> x.data.event_datetime
-    else
-      y.event_datetime <=> x.event_datetime
-    end
   end
 
   def self.accept_key_auth(*actions)
@@ -653,7 +663,6 @@ class ApplicationController < ActionController::Base
     end
     true
   end
-  ActiveSupport.run_load_hooks(:application_controller, self)
 
   def check_session_lifetime
     if session_expired?
@@ -687,7 +696,7 @@ class ApplicationController < ActionController::Base
   private
 
   def session_expired?
-    current_user.logged? &&
+    !api_request? && current_user.logged? &&
     (session_ttl_enabled? && (session[:updated_at].nil? ||
                              (session[:updated_at] + Setting.session_ttl.to_i.minutes) < Time.now))
   end
@@ -699,4 +708,10 @@ class ApplicationController < ActionController::Base
   def permitted_params
     @permitted_params ||= PermittedParams.new(params, current_user)
   end
+
+  # active support load hooks provide plugins with a consistent entry point to patch core classes.
+  # they should be called at the very end of a class definition or file, so plugins can be sure everything has been loaded.
+  # this load hook allows plugins to register callbacks when the core application controller is fully loaded.
+  # good explanation of load hooks: http://simonecarletti.com/blog/2011/04/understanding-ruby-and-rails-lazy-load-hooks/
+  ActiveSupport.run_load_hooks(:application_controller, self)
 end

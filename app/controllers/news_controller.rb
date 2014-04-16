@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,16 +29,16 @@
 
 class NewsController < ApplicationController
   include PaginationHelper
+  include OpenProject::Concerns::Preview
 
   default_search_scope :news
-  model_object News
 
   before_filter :disable_api
-  before_filter :find_model_object, :except => [:new, :create, :index]
-  before_filter :find_project_from_association, :except => [:new, :create, :index]
+  before_filter :find_news_object, :except => [:new, :create, :index, :preview]
+  before_filter :find_project_from_association, :except => [:new, :create, :index, :preview]
   before_filter :find_project, :only => [:new, :create]
-  before_filter :authorize, :except => [:index]
-  before_filter :find_optional_project, :only => :index
+  before_filter :authorize, :except => [:index, :preview]
+  before_filter :find_optional_project, only: [:index]
   accept_key_auth :index
 
   menu_item :new_news, :only => [:new, :create]
@@ -95,7 +95,24 @@ class NewsController < ApplicationController
     redirect_to :action => 'index', :project_id => @project
   end
 
-private
+  protected
+
+  def parse_preview_data
+    parse_preview_data_helper :news, :description
+  end
+
+  def parse_preview_id
+    params[:id].to_i
+  end
+
+  private
+
+  def find_news_object
+    @news = @object = News.find(params[:id].to_i)
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
   def find_project
     @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound

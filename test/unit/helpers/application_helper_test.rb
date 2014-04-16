@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -57,7 +57,7 @@ class ApplicationHelperTest < ActionView::TestCase
         :filesize => 280,
         :description => 'This is a logo'
 
-    User.stubs(:current).returns(@project_member)
+    User.stub(:current).and_return(@project_member)
   end
 
   def request
@@ -231,7 +231,7 @@ RAW
   end
 
   def test_redmine_links_git_commit
-    User.stubs(:current).returns(@admin)
+    User.stub(:current).and_return(@admin)
     changeset_link = link_to('abcd',
                                {
                                  :controller => 'repositories',

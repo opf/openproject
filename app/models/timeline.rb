@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,10 +62,13 @@ class Timeline < ActiveRecord::Base
   before_save :split_joined_options_values
 
   @@allowed_option_keys = [
+    "custom_fields",
     "columns",
     "compare_to_absolute",
     "compare_to_relative",
     "compare_to_relative_unit",
+    "compare_to_historical_one",
+    "compare_to_historical_two",
     "comparison",
     "exclude_empty",
     "exclude_own_planning_elements",
@@ -81,6 +85,7 @@ class Timeline < ActiveRecord::Base
     "initial_outline_expansion",
     "parents",
     "planning_element_responsibles",
+    "planning_element_assignee",
     "planning_element_status",
     "planning_element_time",
     "planning_element_time_absolute_one",
@@ -140,7 +145,7 @@ class Timeline < ActiveRecord::Base
           errors.add :options, l("timelines.filter.errors." + field) + l("activerecord.errors.messages.not_a_number")
         end
       rescue ArgumentError
-        
+
       end
     end
   end
@@ -174,6 +179,10 @@ class Timeline < ActiveRecord::Base
   def json_options
     json = with_escape_html_entities_in_json{ options.to_json }
     json.html_safe
+  end
+
+  def custom_field_columns
+    project.all_work_package_custom_fields.map { |a| {name: a.name, id: "cf_#{a.id}"}}
   end
 
   def available_columns
@@ -222,29 +231,29 @@ class Timeline < ActiveRecord::Base
 
   def selected_planning_element_status
     resolve_with_none_element(:planning_element_status) do |ary|
-      Status.find(ary)
+      Status.find_all_by_id(ary)
     end
   end
 
   def selected_planning_element_types
     resolve_with_none_element(:planning_element_types) do |ary|
-      Type.find(ary)
+      Type.find_all_by_id(ary)
     end
   end
 
   def selected_planning_element_time_types
     resolve_with_none_element(:planning_element_time_types) do |ary|
-      Type.find(ary)
+      Type.find_all_by_id(ary)
     end
   end
 
   def available_project_types
-    ProjectType.find(:all)
+    ProjectType.all
   end
 
   def selected_project_types
     resolve_with_none_element(:project_types) do |ary|
-      ProjectType.find(ary)
+      ProjectType.find_all_by_id(ary)
     end
   end
 
@@ -254,7 +263,7 @@ class Timeline < ActiveRecord::Base
 
   def selected_project_status
     resolve_with_none_element(:project_status) do |ary|
-      ReportedProjectStatus.find(ary)
+      ReportedProjectStatus.find_all_by_id(ary)
     end
   end
 
@@ -264,12 +273,35 @@ class Timeline < ActiveRecord::Base
 
   def selected_project_responsibles
     resolve_with_none_element(:project_responsibles) do |ary|
-      User.find(ary)
+      User.find_all_by_id(ary)
     end
   end
 
   def selected_planning_element_responsibles
     resolve_with_none_element(:planning_element_responsibles) do |ary|
+      User.find_all_by_id(ary)
+    end
+  end
+
+  def custom_field_list_value(field_id)
+    value = self.custom_fields_filter[field_id]
+    if value then
+      value.join(",")
+    else
+      ""
+    end
+  end
+
+  def custom_fields_filter
+    options["custom_fields"] || {}
+  end
+
+  def get_custom_fields
+    project.all_work_package_custom_fields
+  end
+
+  def selected_planning_element_assignee
+    resolve_with_none_element(:planning_element_assignee) do |ary|
       User.find(ary)
     end
   end
@@ -280,7 +312,7 @@ class Timeline < ActiveRecord::Base
 
   def selected_parents
     resolve_with_none_element(:parents) do |ary|
-      Project.find(ary)
+      Project.find_all_by_id(ary)
     end
   end
 
@@ -310,7 +342,7 @@ class Timeline < ActiveRecord::Base
 
   def selected_grouping_projects
     resolve_with_none_element(:grouping_one_selection) do |ary|
-      projects = Project.find(ary)
+      projects = Project.find_all_by_id(ary)
       projectsHashMap = Hash[projects.collect { |v| [v.id, v]}]
 
       ary.map { |a| projectsHashMap[a] }
@@ -327,7 +359,7 @@ class Timeline < ActiveRecord::Base
 
   def selected_grouping_project_types
     resolve_with_none_element(:grouping_two_selection) do |ary|
-      ProjectType.find(ary)
+      ProjectType.find_all_by_id(ary)
     end
   end
 
@@ -352,6 +384,14 @@ class Timeline < ActiveRecord::Base
           self[:options][key] = value[0].split(",")
         end
       end
+
+      unless self[:options][:custom_fields].nil?
+        self[:options][:custom_fields].each_pair do |key, value|
+          if value.instance_of?(Array) && value.length == 1 then
+            self[:options][:custom_fields][key] = value[0].split(",")
+          end
+        end
+      end
     end
   end
 
@@ -373,7 +413,7 @@ class Timeline < ActiveRecord::Base
 
   def resolve_with_none_element(options_field, &block)
     collection = []
-    collection += [Empty.new] if (ary = array_of_comma_seperated(options_field)).delete(-1)
+    collection += [Empty.new] if (ary = array_of_comma_separated(options_field)).delete(-1)
     begin
       collection += block.call(ary);
     rescue
@@ -382,7 +422,7 @@ class Timeline < ActiveRecord::Base
     return collection
   end
 
-  def array_of_comma_seperated(options_field)
+  def array_of_comma_separated(options_field)
     array_or_empty(options_field) do |ary|
       ary.map(&:to_i).reject do |value|
         value < -1 || value == 0

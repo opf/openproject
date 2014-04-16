@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -57,7 +57,7 @@ module WatchersHelper
     path = send(:"#{(watched ? 'unwatch' : 'watch')}_path", :object_type => object.class.to_s.underscore.pluralize,
                                                             :object_id => object.id,
                                                             :replace => options.delete('replace') )
-    html_options[:class] = html_options[:class].to_s + (watched ? ' icon icon-fav' : ' icon icon-fav-off')
+    html_options[:class] = html_options[:class].to_s + (watched ? ' icon icon-watch-1' : ' icon icon-not-watch')
 
     method = watched ?
       :delete :
@@ -78,12 +78,14 @@ module WatchersHelper
         avatar(watch.user, :size => "16") +
           link_to_user(watch.user, :class => 'user') +
           if remove_allowed
-            ' '.html_safe + link_to(image_tag('webalys/red_x.png', :alt => l(:button_delete), :title => l(:button_delete)),
+            ' '.html_safe + link_to(icon_wrapper('icon-context icon-close delete-ctrl',
+                                                 l(:button_delete_watcher, name: watch.user.name)),
                              watcher_path(watch),
                              :method => :delete,
                              :remote => true,
                              :style => "vertical-align: middle",
-                             :class => "delete")
+                             :title => l(:button_delete_watcher, name: watch.user.name),
+                             :class => "delete no-decoration-on-hover")
           else
             ''.html_safe
           end

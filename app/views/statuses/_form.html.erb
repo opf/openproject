@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,27 +27,20 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= error_messages_for 'status' %>
+<%= error_messages_for :status %>
 
 <div class="box">
-<!--[form:status]-->
-<p><label for="status_name"><%= Status.human_attribute_name(:name) %><span class="required"> *</span></label>
-<%= text_field 'status', 'name'  %></p>
+  <p><%= f.text_field 'name', :required => true %></p>
+  <% if WorkPackage.use_status_for_done_ratio? %>
+    <p><%= f.select :default_done_ratio,
+                    ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }),
+                    :include_blank => true,
+                    :label => WorkPackage.human_attribute_name(:done_ratio) %></p>
+  <% end %>
+  <p><%= f.check_box 'is_closed' %></p>
+  <% unless @status.is_default? %>
+    <p><%= f.check_box 'is_default' %></p>
+  <% end %>
 
-<% if WorkPackage.use_status_for_done_ratio? %>
-<p><label for="issue_done_ratio"><%= WorkPackage.human_attribute_name(:done_ratio) %></label>
-<%= select 'status', :default_done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }), :include_blank => true %></p>
-<% end %>
-
-<p><label for="status_is_closed"><%=Status.human_attribute_name(:is_closed) %></label>
-<%= check_box 'status', 'is_closed' %></p>
-
-<% unless @status.is_default? %>
-  <p><label for="status_is_default"><%= Status.human_attribute_name(:is_default) %></label>
-  <%= check_box 'status', 'is_default' %></p>
-<% end %>
-
-<%= call_hook(:view_statuses_form, :status => @status) %>
-
-<!--[eoform:status]-->
+  <%= call_hook(:view_statuses_form, :status => @status) %>
 </div>

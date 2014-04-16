@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,8 +46,6 @@ class WorkPackages::MovesController < ApplicationController
     @work_packages.each do |work_package|
       work_package.reload
 
-      JournalManager.add_journal work_package, User.current, @notes || ""
-
       call_hook(:controller_work_packages_move_before_save, { :params => params, :work_package => work_package, :target_project => @target_project, :copy => !!@copy })
 
       permitted_params = params.permit(:copy,
@@ -62,7 +60,9 @@ class WorkPackages::MovesController < ApplicationController
                                        ids:[],
                                        status_id:[])
 
-      if r = work_package.move_to_project(@target_project, new_type, {:copy => @copy, :attributes => permitted_params})
+      if r = work_package.move_to_project(@target_project, new_type, { copy: @copy,
+                                                                       attributes: permitted_params,
+                                                                       journal_note: @notes })
         moved_work_packages << r
       else
         unsaved_work_package_ids << work_package.id

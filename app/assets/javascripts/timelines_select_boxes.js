@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -48,14 +48,32 @@ jQuery(document).ready(function($) {
     });
   });
 
+  $(".cf_boolean_select").each(function (i, item) {
+    $("input[name='" + $(item).attr("name")+"']").remove();
+
+    $(item).select2({
+      'minimumResultsForSearch': 12
+    });
+  });
+
+  $(".cf_list_select").each(function (i, item) {
+    $(item).autocomplete({
+      'multiple': true
+    });
+  });
+
+
   [
     $("#timeline_options_project_responsibles"),
     $("#timeline_options_project_status"),
     $("#timeline_options_project_types"),
     $("#timeline_options_planning_element_responsibles"),
+    $("#timeline_options_planning_element_assignee"),
     $("#timeline_options_grouping_two_selection")
   ].each(function (item) {
-    $(item).timelinesAutocomplete({ ajax: {null_element: {id: -1, name: I18n.t("js.timelines.filter.noneElement")}} });
+    $(item).autocomplete({ multiple: true,
+                           ajax: {null_element: {id: -1, name: I18n.t("js.filter.noneElement")}}
+                        });
   });
 
   [
@@ -63,11 +81,14 @@ jQuery(document).ready(function($) {
     $("#timeline_options_planning_element_time_types"),
     $("#timeline_options_planning_element_status")
   ].each(function (item) {
-    $(item).timelinesAutocomplete({});
+    $(item).autocomplete({
+      multiple: true
+    });
   });
 
   var item = $("#timeline_options_columns_");
-  item.timelinesAutocomplete({
+  item.autocomplete({
+    multiple: true,
     sortable: true
   });
 
@@ -76,7 +97,7 @@ jQuery(document).ready(function($) {
     $("#project_association_select_project_b_id")
   ].each(function (item) {
     // Stuff borrowed from Core application.js Project Jump Box
-    $(item).timelinesAutocomplete({
+    $(item).autocomplete({
       multiple: false,
       formatSelection: function (item) {
         return item.name || item.project.name;
@@ -94,7 +115,8 @@ jQuery(document).ready(function($) {
     $("#timeline_options_grouping_one_selection")
   ].each(function (item) {
     // Stuff borrowed from Core application.js Project Jump Box
-    $(item).timelinesAutocomplete({
+    $(item).autocomplete({
+      multiple: true,
       sortable: true,
       formatSelection: function (item) {
         return item.name || item.project.name;
@@ -104,7 +126,7 @@ jQuery(document).ready(function($) {
       query        : OpenProject.Helpers.Search.projectQueryWithHierarchy(
                           jQuery.proxy(openProject, 'fetchProjects'),
                           20),
-      ajax: {null_element: {id: -1, name: I18n.t("js.timelines.filter.noneElement")}}
+      ajax: {null_element: {id: -1, name: I18n.t("js.filter.noneElement")}}
     });
   });
 
@@ -112,7 +134,8 @@ jQuery(document).ready(function($) {
     $("#timeline_options_parents")
   ].each(function (item) {
     // Stuff borrowed from Core application.js Project Jump Box
-    $(item).timelinesAutocomplete({
+    $(item).autocomplete({
+      multiple: true,
       formatSelection: function (item) {
         return item.name || item.project.name;
       },
@@ -121,7 +144,7 @@ jQuery(document).ready(function($) {
       query        : OpenProject.Helpers.Search.projectQueryWithHierarchy(
                           jQuery.proxy(openProject, 'fetchProjects'),
                           20),
-      ajax: {null_element: {id: -1, name: I18n.t("js.timelines.filter.noneElement")}}
+      ajax: {null_element: {id: -1, name: I18n.t("js.filter.noneElement")}}
     });
   });
 
@@ -131,8 +154,19 @@ jQuery(document).ready(function($) {
         ((e.attr("type") === "text" || e.attr("type") === "hidden") && e.val() !== "" && !e.hasClass("select2-input")) ||
         (e.attr("type") === "checkbox" && e.attr("checked"))
     ) {
-      e.closest("fieldset").removeClass('collapsed').children("div").show();
+      showFieldSet(e);
     }
   });
+
+  $('#content').find('.cf_boolean_select').each(function (index, field) {
+    field = $(field);
+    if (field.val() !== '') {
+      showFieldSet(field);
+    }
+  });
+
+  function showFieldSet(field) {
+    field.closest("fieldset").removeClass('collapsed').children("div").show();
+  }
 });
 

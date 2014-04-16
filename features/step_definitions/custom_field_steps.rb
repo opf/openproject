@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -64,8 +65,37 @@ Given /^the work package "(.+?)" has the custom field "(.+?)" set to "(.+?)"$/ d
   wp = InstanceFinder.find(WorkPackage, wp_name)
   custom_field = InstanceFinder.find(WorkPackageCustomField, field_name)
 
-  wp.custom_values.build(:custom_field => custom_field, :value => value)
+  custom_value = wp.custom_values.detect {|cv| cv.custom_field_id == custom_field.id}
+
+  if custom_value
+    custom_value.value = value
+  else
+    wp.custom_values.build(:custom_field => custom_field, :value => value)
+  end
+
   wp.save!
+end
+
+Given /^the work package "(.+?)" has the custom user field "(.+?)" set to "(.+?)"$/ do |wp_name, field_name, username|
+  user = User.find_by_login(username)
+  steps %Q{
+    Given the work package "#{wp_name}" has the custom field "#{field_name}" set to "#{user.id}"
+  }
+end
+
+Given(/^the custom field "(.*?)" is enabled for the project "(.*?)"$/) do |field_name, project_name|
+  custom_field = WorkPackageCustomField.find_by_name(field_name)
+  project = Project.find_by_name(project_name)
+
+  project.work_package_custom_fields << custom_field
+  project.save!
+end
+
+Given(/^the custom field "(.*?)" is disabled for the project "(.*?)"$/) do |field_name, project_name|
+  custom_field = WorkPackageCustomField.find_by_name(field_name)
+  project = Project.find_by_name(project_name)
+
+  project.work_package_custom_fields.delete custom_field
 end
 
 Given /^the custom field "(.+)" is( not)? summable$/ do |field_name, negative|

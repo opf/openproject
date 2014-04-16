@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -69,7 +69,7 @@ describe OpenProject::JournalFormatter::Attachment do
       #it { instance.render(key, [nil, attachment.id.to_s]).should == expected }
       #
       # Setting value by hand is just a workaround until rspec bug is fixed
-      it { instance.render(key, [nil, attachment.id.to_s]).should == I18n.t(:text_journal_added, :label => "<strong>#{I18n.t(:'activerecord.models.attachment')}</strong>", :value => "<a href=\"#{Setting.protocol}://#{Setting.host_name}/attachments/#{attachment.id}/#{attachment.filename}\">#{attachment.filename}</a>") }
+      it { expect(instance.render(key, [nil, attachment.id.to_s])).to eq(I18n.t(:text_journal_added, :label => "<strong>#{I18n.t(:'activerecord.models.attachment')}</strong>", :value => "<a href=\"#{Setting.protocol}://#{Setting.host_name}/attachments/#{attachment.id}/#{attachment.filename}\">#{attachment.filename}</a>")) }
     end
 
     describe "WITH the first value beeing an id as string, and the second nil" do
@@ -77,7 +77,7 @@ describe OpenProject::JournalFormatter::Attachment do
                               :label => "<strong>#{I18n.t(:'activerecord.models.attachment')}</strong>",
                               :old => "<strike><i>#{attachment.id}</i></strike>") }
 
-      it { instance.render(key, [attachment.id.to_s, nil]).should == expected }
+      it { expect(instance.render(key, [attachment.id.to_s, nil])).to eq(expected) }
     end
 
     describe "WITH the first value beeing nil, and the second an id as a string
@@ -86,7 +86,7 @@ describe OpenProject::JournalFormatter::Attachment do
                               :label => I18n.t(:'activerecord.models.attachment'),
                               :value => attachment.id) }
 
-      it { instance.render(key, [nil, attachment.id.to_s], :no_html => true).should == expected }
+      it { expect(instance.render(key, [nil, attachment.id.to_s], :no_html => true)).to eq(expected) }
     end
 
     describe "WITH the first value beeing an id as string, and the second nil,
@@ -95,7 +95,7 @@ describe OpenProject::JournalFormatter::Attachment do
                               :label => I18n.t(:'activerecord.models.attachment'),
                               :old => attachment.id) }
 
-      it { instance.render(key, [attachment.id.to_s, nil], :no_html => true).should == expected }
+      it { expect(instance.render(key, [attachment.id.to_s, nil], :no_html => true)).to eq(expected) }
     end
   end
 end

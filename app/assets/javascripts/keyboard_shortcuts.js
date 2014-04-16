@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -171,8 +171,8 @@
   Mousetrap.bind('k',     function(){ focus_previous_item(); return false; });
   Mousetrap.bind('m',     function(){ open_more_menu();      return false; });
 
-  Mousetrap.bind('s p',   function(){ search_project();      return false; });
-  Mousetrap.bind('s g',   function(){ search_global();       return false; });
+  Mousetrap.bind('p',     function(){ search_project();      return false; });
+  Mousetrap.bind('s',     function(){ search_global();       return false; });
 })(jQuery);
 
 jQuery(function(){

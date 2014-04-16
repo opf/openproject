@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -71,18 +72,13 @@ OpenProject::Application.configure do
   # Use a different logger for distributed setups
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
-  # rails defaults to :file_store, use :dalli when :memcaches is configured in configuration.yml
-  if OpenProject::Configuration['rails_cache_store'] == :memcache
-    config.cache_store = :dalli_store
-  end
-
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  config.assets.precompile += %w( ie6.css ie7.css
+  config.assets.precompile += %w( default.css
                                   rtl.css context_menu_rtl.css
-                                  accessibility.js accessibility.css
+                                  accessibility.js accessibility.css activate_error_messages.js
                                   copy_issue_actions.js repository_navigation.js select_list_move.js
                                   jstoolbar/lang/*.js calendar/lang/*.js )
 

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -56,7 +56,7 @@ class LayoutTest < ActionDispatch::IntegrationTest
   end
 
   test "page titles should be properly escaped" do
-    project = Project.generate(:name => "C&A")
+    project = Project.generate(:name => "C&A", :is_public => true)
 
     with_settings :app_title => '<3' do
       get "/projects/#{project.to_param}"

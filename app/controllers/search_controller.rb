@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,13 +50,13 @@ class SearchController < ApplicationController
         @project
       end
 
-    offset = nil
-    begin; offset = params[:offset].to_time if params[:offset]; rescue; end
+    offset = begin
+      Time.at(Rational(params[:offset])) if params[:offset]
+    rescue; end
 
     # quick jump to an work_package
-    if @question.match(/\A#?(\d+)\z/) && WorkPackage.visible.find_by_id($1.to_i)
-      redirect_to work_package_path(:id => $1)
-      return
+    scan_work_package_reference @question do |id|
+      return redirect_to work_package_path(id: id) if WorkPackage.visible.find_by_id(id.to_i)
     end
 
     @object_types = Redmine::Search.available_search_types.dup
@@ -72,11 +72,11 @@ class SearchController < ApplicationController
 
     # extract tokens from the question
     # eg. hello "bye bye" => ["hello", "bye bye"]
-    @tokens = @question.scan(%r{((\s|^)"[\s\w]+"(\s|$)|\S+)}).collect {|m| m.first.gsub(%r{(^\s*"\s*|\s*"\s*$)}, '')}
+    @tokens = scan_query_tokens @question
     # tokens must be at least 2 characters long
     @tokens = @tokens.uniq.select {|w| w.length > 1 }
 
-    if !@tokens.empty?
+    if @tokens.any?
       # no more than 5 tokens to search for
       @tokens.slice! 5..-1 if @tokens.size > 5
 
@@ -116,10 +116,18 @@ class SearchController < ApplicationController
 
 private
   def find_optional_project
-    return true unless params[:id]
-    @project = Project.find(params[:id])
+    return true unless params[:project_id]
+    @project = Project.find(params[:project_id])
     check_project_privacy
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def scan_query_tokens(query)
+    query.scan(%r{((\s|^)"[\s\w]+"(\s|$)|\S+)}).collect {|m| m.first.gsub(%r{(^\s*"\s*|\s*"\s*$)}, '')}
+  end
+
+  def scan_work_package_reference(query, &blk)
+    query.match(/\A#?(\d+)\z/) && ((blk && blk.call($1)) || true)
   end
 end

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,9 +36,9 @@ module CalendarsHelper
                                 end
 
     name = if target_month == 12
-             "#{month_name(target_month)} #{target_year}"
+             "#{localized_month_name target_month} #{target_year}"
            else
-             "#{month_name(target_month)}"
+             "#{localized_month_name target_month}"
            end
 
     link_to_month(name, target_year, target_month, options.merge(:class => 'navigate-left'))
@@ -52,9 +52,9 @@ module CalendarsHelper
                                 end
 
     name = if target_month == 1
-             "#{month_name(target_month)} #{target_year}"
+             "#{localized_month_name target_month} #{target_year}"
            else
-             "#{month_name(target_month)}"
+             "#{localized_month_name target_month}"
            end
 
     link_to_month(name, target_year, target_month, options.merge(:class => 'navigate-right'))
@@ -62,5 +62,11 @@ module CalendarsHelper
 
   def link_to_month(link_name, year, month, options={})
     link_to_content_update(link_name, params.merge(:year => year, :month => month), options)
+  end
+
+  private
+
+  def localized_month_name(month_index)
+    ::I18n.t('date.month_names')[month_index]
   end
 end

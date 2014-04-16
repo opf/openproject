@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -38,7 +38,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= Relation.human_attribute_name(:delay) %>: <%= f.text_field :delay, :size => 3 %> <%= l(:label_day_plural) %>
   </span>
   <%= submit_tag l(:button_add) %>
-  <%= toggle_link l(:button_cancel), 'new-relation-form'%>
+  <%= toggle_link l(:button_cancel), 'new-relation-form' %>
 </p>
 
 <%= javascript_tag "setPredecessorFieldsVisibility();" %>

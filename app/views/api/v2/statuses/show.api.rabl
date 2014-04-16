@@ -26,7 +26,5 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 object @status
-node :status do |status|
-  partial '/api/v2/statuses/status.api', :object  => @status
-end
 
+extends '/api/v2/statuses/status.api'

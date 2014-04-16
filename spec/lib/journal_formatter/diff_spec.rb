@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -64,7 +64,7 @@ describe OpenProject::JournalFormatter::Diff do
                               :label => "<strong>#{key.camelize}</strong>",
                               :link => link) }
 
-      it { instance.render(key, [nil, "new value"]).should == expected }
+      it { expect(instance.render(key, [nil, "new value"])).to eq(expected) }
     end
 
     describe "WITH the first value beeing a string, and the second a string" do
@@ -72,7 +72,7 @@ describe OpenProject::JournalFormatter::Diff do
                               :label => "<strong>#{key.camelize}</strong>",
                               :link => link) }
 
-      it { instance.render(key, ["old value", "new value"]).should == expected }
+      it { expect(instance.render(key, ["old value", "new value"])).to eq(expected) }
     end
 
     describe "WITH the first value beeing a string, and the second a string
@@ -86,7 +86,7 @@ describe OpenProject::JournalFormatter::Diff do
         I18n.locale = :de
       end
 
-      it { instance.render(key, ["old value", "new value"]).should == expected }
+      it { expect(instance.render(key, ["old value", "new value"])).to eq(expected) }
 
       after do
         I18n.locale = :en
@@ -98,7 +98,7 @@ describe OpenProject::JournalFormatter::Diff do
                               :label => "<strong>#{key.camelize}</strong>",
                               :link => link) }
 
-      it { instance.render(key, ["old_value", nil]).should == expected }
+      it { expect(instance.render(key, ["old_value", nil])).to eq(expected) }
     end
 
     describe "WITH the first value beeing nil, and the second a string
@@ -107,7 +107,7 @@ describe OpenProject::JournalFormatter::Diff do
                               :label => key.camelize,
                               :link => url) }
 
-      it { instance.render(key, [nil, "new value"], :no_html => true).should == expected }
+      it { expect(instance.render(key, [nil, "new value"], :no_html => true)).to eq(expected) }
     end
 
     describe "WITH the first value beeing a string, and the second a string
@@ -116,7 +116,7 @@ describe OpenProject::JournalFormatter::Diff do
                               :label => key.camelize,
                               :link => url) }
 
-      it { instance.render(key, ["old value", "new value"], :no_html => true).should == expected }
+      it { expect(instance.render(key, ["old value", "new value"], :no_html => true)).to eq(expected) }
     end
 
     describe "WITH the first value beeing a string, and the second a string
@@ -125,7 +125,7 @@ describe OpenProject::JournalFormatter::Diff do
                               :label => "<strong>#{key.camelize}</strong>",
                               :link => full_url_link) }
 
-      it { instance.render(key, ["old value", "new value"], :only_path => false).should == expected }
+      it { expect(instance.render(key, ["old value", "new value"], :only_path => false)).to eq(expected) }
     end
 
     describe "WITH the first value beeing a string, and the second nil" do
@@ -133,7 +133,7 @@ describe OpenProject::JournalFormatter::Diff do
                               :label => key.camelize,
                               :link => url) }
 
-      it { instance.render(key, ["old_value", nil], :no_html => true).should == expected }
+      it { expect(instance.render(key, ["old_value", nil], :no_html => true)).to eq(expected) }
     end
   end
 end

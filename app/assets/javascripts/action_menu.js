@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -84,12 +84,11 @@ jQuery(function ($) {
   // open the given submenu when clicking on it
   function install_menu_logic(menu) {
     menu.find(" > li.drop-down").click(function(event) {
-      $(this).find("ul.action_menu_more").css({ top: menu_top_position(menu) });
       open_menu(menu);
     });
   };
 
-  $('.action_menu_main').each(function(idx, menu){
+  $('.action_menu_main, .action_menu_specific').each(function(idx, menu){
     install_menu_logic($(menu));
   });
 });

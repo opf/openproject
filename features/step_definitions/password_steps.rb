@@ -1,8 +1,7 @@
-#encoding: utf-8
-
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,7 +46,7 @@ Given /^users are not allowed to reuse the last ([0-9]+) passwords$/ do |count|
 end
 
 def fill_change_password(old_password, new_password, confirmation=new_password)
-  # use find and set with id to prevent ambigious match I get with fill_in
+  # use find and set with id to prevent ambiguous match I get with fill_in
   find('#password').set(old_password)
 
   fill_in('new_password', :with => new_password)

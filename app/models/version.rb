@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,6 +29,8 @@
 
 class Version < ActiveRecord::Base
   include Redmine::SafeAttributes
+  extend DeprecatedAlias
+
   after_update :update_issues_from_sharing_change
   belongs_to :project
   has_many :fixed_issues, :class_name => 'WorkPackage', :foreign_key => 'fixed_version_id', :dependent => :nullify
@@ -107,10 +109,10 @@ class Version < ActiveRecord::Base
   end
 
   def behind_schedule?
-    if completed_pourcent == 100
+    if completed_percent == 100
       return false
     elsif due_date && start_date
-      done_date = start_date + ((due_date - start_date+1)* completed_pourcent/100).floor
+      done_date = start_date + ((due_date - start_date+1)* completed_percent/100).floor
       return done_date <= Date.today
     else
       false # No issues so it's not late
@@ -119,7 +121,7 @@ class Version < ActiveRecord::Base
 
   # Returns the completion percentage of this version based on the amount of open/closed issues
   # and the time spent on the open issues.
-  def completed_pourcent
+  def completed_percent
     if issues_count == 0
       0
     elsif open_issues_count == 0
@@ -128,15 +130,17 @@ class Version < ActiveRecord::Base
       issues_progress(false) + issues_progress(true)
     end
   end
+  deprecated_alias :completed_pourcent, :completed_percent
 
   # Returns the percentage of issues that have been marked as 'closed'.
-  def closed_pourcent
+  def closed_percent
     if issues_count == 0
       0
     else
       issues_progress(false)
     end
   end
+  deprecated_alias :closed_pourcent, :closed_percent
 
   # Returns true if the version is overdue: due date reached and some open issues
   def overdue?
@@ -235,7 +239,7 @@ class Version < ActiveRecord::Base
 
   # Returns the average estimated time of assigned issues
   # or 1 if no issue has an estimated time
-  # Used to weigth unestimated issues in progress calculation
+  # Used to weight unestimated issues in progress calculation
   def estimated_average
     if @estimated_average.nil?
       average = fixed_issues.average(:estimated_hours).to_f

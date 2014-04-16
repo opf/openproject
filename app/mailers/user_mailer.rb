@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,11 +41,11 @@ class UserMailer < ActionMailer::Base
     headers['X-OpenProject-Type'] = 'Test'
 
     with_locale_for(user) do
-      mail :to => "#{user.name} <#{user.mail}>", :subject => 'OpenProject Test'
+      mail :to => "\"#{user.name}\" <#{user.mail}>", :subject => 'OpenProject Test'
     end
   end
 
-  def issue_added(user, issue)
+  def work_package_added(user, issue)
     @issue = issue
 
     open_project_headers 'Project'        => @issue.project.identifier,
@@ -63,13 +64,13 @@ class UserMailer < ActionMailer::Base
     end
   end
 
-  def issue_updated(user, journal, author=User.current)
+  def work_package_updated(user, journal, author=User.current)
     # Delayed job do not preserve the closure of the job that is delayed. Thus,
     # if the method is called within a delayed job, it does contain the default
     # user (anonymous) and not the original user that called the method.
     #
     # The mail interceptor 'RemoveSelfNotificationsInterceptor' assumes the
-    # orginal user to be available. Otherwise, it cannot fulfill its duty.
+    # original user to be available. Otherwise, it cannot fulfill its duty.
     User.current = author if User.current != author
 
     @journal = journal
@@ -179,7 +180,8 @@ class UserMailer < ActionMailer::Base
                              :action     => :diff,
                              :project_id => wiki_content.project,
                              :id         => wiki_content.page.title,
-                             :version    => wiki_content.version)
+                             # using wiki_content.version + 1 because at this point the journal is not saved yet
+                             :version    => wiki_content.version + 1)
 
     open_project_headers 'Project'      => @wiki_content.project.identifier,
                          'Wiki-Page-Id' => @wiki_content.page.id,
@@ -266,7 +268,7 @@ class UserMailer < ActionMailer::Base
     end
   end
 
-  # Activates/desactivates email deliveries during +block+
+  # Activates/deactivates email deliveries during +block+
   def self.with_deliveries(temporary_state = true, &block)
     old_state = ActionMailer::Base.perform_deliveries
     ActionMailer::Base.perform_deliveries = temporary_state
@@ -302,11 +304,11 @@ protected
   # different ways to create a mail (passing a block, giving parameters
   # with optional template, or passing the body directly), we would have
   # to replicate a lot of rails code to modify all three ways.
-  # Therefore, we use option 2: modiyfing the set of parts rails
+  # Therefore, we use option 2: modifying the set of parts rails
   # created internally as a result of the above ways, as this is
   # much shorter.
   # On the downside, this might break if ActionMailer changes the signature
-  # or semantics of the following funtion. However, we should at least
+  # or semantics of the following function. However, we should at least
   # notice this as there are tests for checking the no-html setting.
   def collect_responses_and_parts_order(headers)
     responses, parts_order = super(headers)
@@ -328,7 +330,7 @@ private
   end
 
   def self.host
-    if Redmine::Utils.relative_url_root.blank?
+    if OpenProject::Configuration.rails_relative_url_root.blank?
       Setting.host_name
     else
       Setting.host_name.to_s.gsub(%r{\/.*\z}, '')
@@ -340,7 +342,12 @@ private
   end
 
   def self.default_url_options
-    super.merge :host => host, :protocol => protocol
+    options = super.merge :host => host, :protocol => protocol
+    unless OpenProject::Configuration.rails_relative_url_root.blank?
+      options[:script_name] = OpenProject::Configuration.rails_relative_url_root
+    end
+
+    options
   end
 
   def message_id(object, user)
@@ -388,16 +395,25 @@ end
 
 class RemoveSelfNotificationsInterceptor
   def self.delivering_email(mail)
-    current_user = User.current
-    if current_user.pref[:no_self_notified].present?
-      mail.to = mail.to.reject {|address| address == current_user.mail} if mail.to.present?
+    user_mail = User.current.mail
+    # This may be called within a delayed job. Within a delayed job user
+    # preferences may not be loaded. Furthermore, some users don't have
+    # persisted preferences. Thus, we only load user preferences if preferences
+    # are available.
+    user_pref = User.current.pref.reload if User.current.pref.persisted?
+
+    if user_pref && user_pref[:no_self_notified]
+      mail.to = mail.to.reject {|address| address == user_mail} if mail.to.present?
     end
   end
 end
 
 class DoNotSendMailsWithoutReceiverInterceptor
   def self.delivering_email(mail)
-    mail.perform_deliveries = false if mail.to.blank?
+    receivers = [mail.to, mail.cc, mail.bcc]
+    # the above fields might be empty arrays (if entries have been removed
+    # by another interceptor) or nil, therefore checking for blank?
+    mail.perform_deliveries = false if receivers.all?(&:blank?)
   end
 end
 

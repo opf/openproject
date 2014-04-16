@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,6 +39,7 @@ module Api
 
       before_filter :find_project_by_project_id,
                     :authorize, :except => [:index]
+      before_filter :parse_changed_since, only: [:index]
       before_filter :assign_planning_elements, :except => [:index, :update, :create]
 
       # Attention: find_all_projects_by_project_id needs to mimic all of the above
@@ -56,7 +58,10 @@ module Api
       end
 
       def create
-        @planning_element = planning_element_scope.new(permitted_params.planning_element)
+        @planning_element = @project.work_packages.build
+        @planning_element.update_attributes(permitted_params.planning_element({:project => @project}).except :note)
+
+        @planning_element.attach_files(params[:attachments])
 
         # The planning_element inherits from workpackage, which requires an author.
         # Using the current_user also satisfies this demand for API-calls
@@ -89,8 +94,10 @@ module Api
       end
 
       def update
-        @planning_element = planning_element_scope.find(params[:id])
-        @planning_element.attributes = permitted_params.planning_element
+        @planning_element = WorkPackage.find(params[:id])
+        @planning_element.attributes = permitted_params.planning_element({:project => @project}).except :note
+
+        @planning_element.add_journal(User.current, permitted_params.planning_element({:project => @project})[:note])
 
         successfully_updated = @planning_element.save
 
@@ -106,7 +113,7 @@ module Api
       end
 
       def destroy
-        @planning_element = planning_element_scope.find(params[:id])
+        @planning_element = WorkPackage.find(params[:id])
         @planning_element.destroy
 
         respond_to do |format|
@@ -196,21 +203,55 @@ module Api
 
       end
 
+      def convert_object_to_struct(model)
+        OpenStruct.new(model.attributes)
+      end
+
+      def convert_wp_object_to_struct(model)
+        result = convert_object_to_struct(model)
+        result.custom_values = model.custom_values.select{|cv| cv.value != ""}.map do |model|
+            convert_object_to_struct(model)
+        end
+        result
+      end
+
       def convert_to_struct(collection)
-        collection.map{|model| OpenStruct.new(model.attributes)}
+        collection.map do |model|
+          convert_wp_object_to_struct(model)
+        end
       end
 
       def planning_comparison?
         params[:at_time].present?
       end
 
+      def timeline_to_project(timeline_id)
+        if timeline_id then
+          project = Timeline.find_by_id(params[:timeline]).project
+          user_has_access = User.current.allowed_to?({:controller => "planning_elements",
+                                                      :action     => "index"},
+                                                      project)
+          if user_has_access then
+            return project
+          end
+        end
+      end
+
       def current_work_packages(projects)
-        work_packages = WorkPackage.for_projects(projects).without_deleted
-                                   .includes(:status, :project, :type)
+        work_packages = WorkPackage.for_projects(projects)
+                                   .changed_since(@since)
+                                   .includes(:status, :project, :type, :custom_values)
 
         if params[:f]
-          query = Query.new
+          #we need a project to make project-specific custom fields work
+          project = timeline_to_project(params[:timeline])
+          query = Query.new(:project => project, :name => '_')
+
           query.add_filters(params[:f], params[:op], params[:v])
+
+          #if we do not remove the project, the filter will only add wps from this project
+          query.project = nil
+
           work_packages = work_packages.with_query query
         end
 
@@ -221,12 +262,6 @@ module Api
         at_time = Time.at(params[:at_time].to_i).to_datetime
         filter = params[:f] ? {f: params[:f], op: params[:op], v: params[:v]}: {}
         historical = PlanningComparisonService.compare(projects, at_time, filter)
-      end
-
-      # remove this and replace by calls it with calls
-      # to assign_planning_elements once WorkPackages can be created
-      def planning_element_scope
-        @project.work_packages.without_deleted
       end
 
       # Helpers
@@ -282,6 +317,12 @@ module Api
         end
 
 
+      end
+
+      private
+
+      def parse_changed_since
+        @since = Time.at(Float(params[:changed_since] || 0).to_i) rescue render_400
       end
     end
   end

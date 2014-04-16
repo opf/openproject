@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,15 +29,18 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= header_tags %>
 
-<div class='contextual'>
+<% content_for :action_menu_specific do %>
   <%= link_to(l("timelines.new_color"),
               new_color_path,
               :title => l("timelines.new_color"),
               :class => 'icon icon-add') %>
-</div>
+<% end %>
 
-<% html_title l("timelines.admin_menu.colors") %>
+<% html_title l(:label_administration), l("timelines.admin_menu.colors") %>
+
 <h2><%= l('timelines.admin_menu.colors') %></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
 
 <% if @colors.blank? %>
   <p class="nodata"><%= l(:label_no_data) %></p>
@@ -72,7 +75,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <td class="timelines-color-reorder"><%= reorder_links('color', {:action => 'move', :id => color}) %></td>
           <td class="timelines-color-actions buttons">
             <%= link_to(confirm_destroy_color_path(color),
-                       :class => 'icon icon-del') do %>
+                       :class => 'icon icon-delete') do %>
               <%= l(:button_delete) %>
               <span class="hidden-for-sighted"><%=h color.name %></span>
             <% end %>

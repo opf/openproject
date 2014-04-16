@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% roles = Role.find_all_givable %>
 <% projects = Project.active.find(:all, :order => 'lft') %>
+<%= javascript_include_tag "activate_error_messages" %>
 
 <div class="splitcontentleft">
 <% if @user.memberships.any? %>
@@ -67,7 +68,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                        :membership_id => membership },
                                       :remote => true,
                                       :method => :post,
-                                      :class => 'icon icon-del') if membership.deletable? %>
+                                      :class => 'icon icon-delete') if membership.deletable? %>
   </td>
       <%= call_hook(:view_users_memberships_table_row, :user => @user, :membership => membership, :roles => roles, :projects => projects )%>
 	</tr>

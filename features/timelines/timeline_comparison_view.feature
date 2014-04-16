@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,7 +43,7 @@ Feature: Timeline Comparison View Tests
       And there is a project named "Volatile Planning"
       And I am working in project "Volatile Planning"
       And the user "manager" is a "manager"
-      And I am already logged in as "manager"
+      And I am logged in as "manager"
 
       And there are the following status:
           | name        | default |
@@ -59,11 +59,11 @@ Feature: Timeline Comparison View Tests
       And the project uses the following modules:
           | timelines |
       And there are the following work packages were added "three weeks ago":
-          | Subject  | Start date | Due date   |
-          | January  | 2014-01-01 | 2014-01-31 |
-          | February | 2014-02-01 | 2014-02-28 |
-          | March    | 2014-03-01 | 2014-03-31 |
-          | April    | 2014-04-01 | 2014-04-30 |
+          | Subject  | Start date | Due date   | type | status |
+          | January  | 2014-01-01 | 2014-01-31 | Bug  | new    |
+          | February | 2014-02-01 | 2014-02-28 | Bug  | new    |
+          | March    | 2014-03-01 | 2014-03-31 | Bug  | new    |
+          | April    | 2014-04-01 | 2014-04-30 | Bug  | new    |
       And the work package "February" was changed "two weeks ago" to:
           | Subject  | Start date | Due date   | status id |
           | May      | 2014-05-01 | 2014-05-31 | 3         |

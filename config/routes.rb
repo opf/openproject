@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,14 +27,21 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+
 OpenProject::Application.routes.draw do
   root :to => 'welcome#index', :as => 'home'
 
+  rails_relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || ''
+
   # Redirect deprecated issue links to new work packages uris
-  match '/issues(/)'    => redirect('/work_packages/')
+  match '/issues(/)'    => redirect("#{rails_relative_url_root}/work_packages/")
   # The URI.escape doesn't escape / unless you ask it to.
   # see https://github.com/rails/rails/issues/5688
-  match '/issues/*rest' => redirect { |params, req| "/work_packages/#{URI.escape(params[:rest])}" }
+  match '/issues/*rest' => redirect { |params, req| "#{rails_relative_url_root}/work_packages/#{URI.escape(params[:rest])}" }
+
+  # Redirect wp short url for work packages to full URL
+  match '/wp(/)'    => redirect("#{rails_relative_url_root}/work_packages/")
+  match '/wp/*rest' => redirect { |params, req| "#{rails_relative_url_root}/work_packages/#{URI.escape(params[:rest])}" }
 
   scope :controller => 'account' do
     get '/account/force_password_change', :action => 'force_password_change'
@@ -74,6 +81,7 @@ OpenProject::Application.routes.draw do
       resources :reported_project_statuses
       resources :statuses, :only => [:index, :show]
       resources :timelines
+      resources :planning_element_priorities, only: [:index]
 
       resources :projects do
         resources :planning_elements
@@ -89,6 +97,7 @@ OpenProject::Application.routes.draw do
         member do
           get :planning_element_custom_fields
         end
+        resources :workflows, only: [:index]
       end
 
       resources :custom_fields
@@ -112,7 +121,13 @@ OpenProject::Application.routes.draw do
   match '/help/:ctrl/:page' => 'help#index'
 
   resources :types
-  resources :search, :controller => 'search', :only => ['index']
+  resources :statuses, :except => :show do
+    collection do
+      post 'update_work_package_done_ratio'
+    end
+  end
+  resources :custom_fields, :except => :show
+  match "(projects/:project_id)/search" => 'search#index', :as => "search"
 
   # only providing routes for journals when there are multiple subclasses of journals
   # all subclasses will look for the journals routes
@@ -131,9 +146,9 @@ OpenProject::Application.routes.draw do
 
   get   'projects/:project_id/wiki/new' => 'wiki#new', :as => 'wiki_new'
   post  'projects/:project_id/wiki/new' => 'wiki#create', :as => 'wiki_create'
-  post  'projects/:project_id/wiki/preview' => 'wiki#preview', :as => 'wiki_preview'
   get   'projects/:project_id/wiki/:id/new' => 'wiki#new_child', :as => 'wiki_new_child'
   get   'projects/:project_id/wiki/:id/toc' => 'wiki#index', :as => 'wiki_page_toc'
+  post  'projects/:project_id/wiki/preview' => 'wiki#preview', as: 'preview_wiki'
   post  'projects/:id/wiki' => 'wikis#edit'
   match 'projects/:id/wiki/destroy' => 'wikis#destroy'
 
@@ -166,7 +181,8 @@ OpenProject::Application.routes.draw do
       #
       get 'settings(/:tab)', :action => 'settings', :as => :settings
 
-      match "copy_project_from_(:coming_from)" => "copy_projects#copy_project", :via => :get, :as => :copy_from
+      match "copy_project_from_(:coming_from)" => "copy_projects#copy_project", :via => :get, :as => :copy_from,
+            constraints: { coming_from: /(admin|settings)/ }
       match "copy" => "copy_projects#copy", :via => :post
       put :modules
       put :archive
@@ -190,11 +206,7 @@ OpenProject::Application.routes.draw do
     # this could probably be rewritten with a resource :as => 'roadmap'
     match '/roadmap' => 'versions#index', :via => :get
 
-    resources :news, :only => [:index, :new, :create] do
-      collection do
-        resource :preview, :controller => "news/previews", :only => [:create], :as => "news_preview"
-      end
-    end
+    resources :news, :only => [:index, :new, :create]
 
     namespace :time_entries do
       resource :report, :controller => 'reports', :only => [:show]
@@ -216,12 +228,12 @@ OpenProject::Application.routes.draw do
         get :parent_page, :action => 'edit_parent_page'
         put :parent_page, :action => 'update_parent_page'
         get :history
-        post :preview
         post :protect
         post :add_attachment
         get  :list_attachments
         get :select_main_menu_item, to: 'wiki_menu_items#select_main_menu_item'
         post :replace_main_menu_item, to: 'wiki_menu_items#replace_main_menu_item'
+        post :preview
       end
     end
     # as routes for index and show are swapped
@@ -236,7 +248,6 @@ OpenProject::Application.routes.draw do
 
     resources :work_packages, :only => [:new, :create, :index] do
       get :new_type, :on => :collection
-      put :preview, :on => :collection
 
       collection do
         match '/report/:detail' => 'work_packages/reports#report_details', :via => :get
@@ -328,7 +339,7 @@ OpenProject::Application.routes.draw do
   end
 
   namespace :work_packages do
-    match 'auto_complete' => 'auto_completes#index', :via => [:get, :post], :format => false
+    match 'auto_complete' => 'auto_completes#index', :via => [:get, :post]
     match 'context_menu' => 'context_menus#index', :via => [:get, :post], :format => false
     resources :calendar, :controller => 'calendars', :only => [:index]
     resource :bulk, :controller => 'bulk', :only => [:edit, :update, :destroy]
@@ -336,7 +347,6 @@ OpenProject::Application.routes.draw do
 
   resources :work_packages, :only => [:show, :edit, :update, :index] do
     get :new_type, :on => :member
-    put :preview, :on => :member
 
     resources :relations, :controller => 'work_package_relations', :only => [:create, :destroy]
 
@@ -351,6 +361,9 @@ OpenProject::Application.routes.draw do
       resource :report, :controller => 'reports'
     end
     resources :time_entries, :controller => 'timelog'
+
+    post :preview, on: :collection
+    post :preview, on: :member
   end
 
   resources :versions, :only => [:show, :edit, :update, :destroy] do
@@ -387,22 +400,22 @@ OpenProject::Application.routes.draw do
 
   resources :boards, :only => [] do
     resources :topics, :controller => 'messages', :except => [:index], :shallow => true do
-      collection do
-        post :preview
-      end
 
       member do
         get :quote
         post :reply, :as => 'reply_to'
         post :preview
       end
+
+      post :preview, on: :collection
     end
   end
 
   resources :news, :only => [:index, :destroy, :update, :edit, :show] do
     resources :comments, :controller => 'news/comments', :only => [:create, :destroy], :shallow => true
 
-    resource :preview, :controller => 'news/previews', :only => [:create]
+    post :preview, on: :member
+    post :preview, on: :collection
   end
 
 
@@ -416,8 +429,8 @@ OpenProject::Application.routes.draw do
   end
   # redirect for backwards compatibility
   scope :constraints => { :id => /\d+/, :filename => /[^\/]*/ } do
-    match "/attachments/download/:id/:filename" => redirect("/attachments/%{id}/download/%{filename}"), :format => false
-    match "/attachments/download/:id" => redirect("/attachments/%{id}/download"), :format => false
+    match "/attachments/download/:id/:filename" => redirect("#{rails_relative_url_root}/attachments/%{id}/download/%{filename}"), :format => false
+    match "/attachments/download/:id" => redirect("#{rails_relative_url_root}/attachments/%{id}/download"), :format => false
   end
 
   scope :controller => 'sys' do

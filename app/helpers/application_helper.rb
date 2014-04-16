@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -66,6 +66,10 @@ module ApplicationHelper
     end
   end
 
+  def required_field_name(name = '')
+    safe_join [name, ' ', content_tag('span', '*', class: 'required')]
+  end
+
   def li_unless_nil(link)
     content_tag(:li, link) if link
   end
@@ -91,18 +95,11 @@ module ApplicationHelper
   end
 
   def link_to_work_package_preview(context = nil, options = {})
-    url = context.is_a?(Project) ?
-            preview_project_work_packages_path(context) :
-            preview_work_package_path(context)
+    form_id = options[:form_id] || 'work_package-form-preview'
+    path = (context.is_a? WorkPackage) ? preview_work_package_path(context)
+                                       : preview_work_packages_path
 
-    id = options[:form_id] || 'work_package-form-preview'
-
-    link_to l(:label_preview),
-              url,
-              :id => id,
-              :class => 'preview',
-              :accesskey => accesskey(:preview)
-
+    preview_link path, form_id, { class: 'preview button' }
   end
 
   # Show a sorted linkified (if active) comma-joined list of users
@@ -154,12 +151,10 @@ module ApplicationHelper
   def link_to_message(message, options={}, html_options = nil)
     link_to(
       h(truncate(message.subject, :length => 60)),
-      { :controller => '/messages', :action => 'show',
-        :board_id => message.board_id,
-        :id => message.root,
-        :r => (message.parent_id && message.id),
-        :anchor => (message.parent_id ? "message-#{message.id}" : nil)
-      }.merge(options),
+      topic_path(message.root,
+                 { :r => (message.parent_id && message.id),
+                   :anchor => (message.parent_id ? "message-#{message.id}" : nil)
+                 }.merge(options)),
       html_options
     )
   end
@@ -174,30 +169,41 @@ module ApplicationHelper
   #
   def link_to_project(project, options={}, html_options = nil, show_icon = false)
     link = ''
+    project_link_name = project.name
 
     if show_icon && User.current.member_of?(project)
-      link << image_tag('webalys/fav.png', :alt => l(:description_my_project), :title => l(:description_my_project))
+      project_link_name = icon_wrapper("icon-context icon-star1",I18n.t(:description_my_project).html_safe + "&nbsp;".html_safe) + project_link_name
     end
 
     if project.active?
       # backwards compatibility
       if options.delete(:action) == 'settings'
-        link << link_to(project.name, settings_project_path(project, options), html_options)
+        link << link_to(project_link_name, settings_project_path(project, options), html_options)
       else
-        link << link_to(project.name, project_path(project, options), html_options)
+        link << link_to(project_link_name, project_path(project, options), html_options)
       end
     else
-      link << project.name
+      link << project_link_name
     end
 
     link.html_safe
   end
 
-  def toggle_link(name, id, options={})
+  def toggle_link(name, id, options={}, html_options={})
     onclick = "Element.toggle('#{id}'); "
     onclick << (options[:focus] ? "Form.Element.focus('#{options[:focus]}'); " : "this.blur(); ")
     onclick << "return false;"
-    link_to(name, "#", :onclick => onclick)
+    link_to(name, "#", {:onclick => onclick}.merge(html_options))
+  end
+
+  def delete_link(url, options={})
+    options = {
+      :method => :delete,
+      :data => {:confirm => l(:text_are_you_sure)},
+      :class => 'icon icon-delete'
+    }.merge(options)
+
+    link_to l(:button_delete), url, options
   end
 
   def image_to_function(name, function, html_options = {})
@@ -253,13 +259,40 @@ module ApplicationHelper
     end
   end
 
+  def error_messages_for(*params)
+    objects, options = extract_objects_from_params(params)
+
+    error_messages = objects.map{ |o| o.errors.full_messages }.flatten
+
+    unless error_messages.empty?
+      render partial: 'common/validation_error', locals: { error_messages: error_messages,
+                                                           object_name: options[:object_name].to_s.gsub('_', '') }
+    end
+  end
+
+  # Taken from Dynamic Form
+  #
+  # lib/action_view/helpers/dynamic_form.rb:187-198
+  def extract_objects_from_params(params)
+    options = params.extract_options!.symbolize_keys
+
+    objects = Array.wrap(options.delete(:object) || params).map do |object|
+      object = instance_variable_get("@#{object}") unless object.respond_to?(:to_model)
+      object = convert_to_model(object)
+
+      if object.class.respond_to?(:model_name)
+        options[:object_name] ||= object.class.model_name.human.downcase
+      end
+
+      object
+    end
+
+    [objects.compact, options]
+  end
+
   # Renders flash messages
   def render_flash_messages
-    if User.current.impaired?
-      flash.map { |k,v| content_tag('div', content_tag('a', join_flash_messages(v), :href => 'javascript:;'), :class => "flash #{k}") }.join.html_safe
-    else
-      flash.map { |k,v| content_tag('div', join_flash_messages(v), :class => "flash #{k}") }.join.html_safe
-    end
+    flash.map { |k,v| render_flash_message(k, v) }.join.html_safe
   end
 
   def join_flash_messages(messages)
@@ -267,6 +300,16 @@ module ApplicationHelper
       messages.join('<br />').html_safe
     else
       messages
+    end
+  end
+
+  def render_flash_message(type, message, html_options = {})
+    css_classes = ["flash #{type} icon icon-#{type}", html_options.delete(:class)].join(' ')
+    html_options = { :class => css_classes, role: "alert" }.merge(html_options)
+    if User.current.impaired?
+      content_tag('div', content_tag('a', join_flash_messages(message), :href => 'javascript:;'), html_options)
+    else
+      content_tag('div', join_flash_messages(message), html_options)
     end
   end
 
@@ -463,15 +506,11 @@ module ApplicationHelper
   # Returns the theme, controller name, and action as css classes for the
   # HTML body.
   def body_css_classes
-    theme = OpenProject::Themes.theme(Setting.ui_theme)
-
-    css = ['theme-' + theme.identifier.to_s]
-
+    css = ['theme-' + current_theme.identifier.to_s]
     if params[:controller] && params[:action]
       css << 'controller-' + params[:controller]
       css << 'action-' + params[:action]
     end
-
     css.join(' ')
   end
 
@@ -906,7 +945,7 @@ module ApplicationHelper
 
   def checked_image(checked=true)
     if checked
-      image_tag('webalys/check.png', :alt => l(:label_checked), :title => l(:label_checked))
+      icon_wrapper('icon-context icon-yes',l(:label_checked))
     end
   end
 
@@ -940,14 +979,19 @@ module ApplicationHelper
     tags = ''
     tags += javascript_tag(%Q{
       window.openProject = new OpenProject({
-        urlRoot : '#{Redmine::Utils.relative_url_root}',
+        urlRoot : '#{OpenProject::Configuration.rails_relative_url_root}',
         loginUrl: '#{url_for :controller => "/account", :action => "login"}'
       });
       I18n.defaultLocale = "#{I18n.default_locale}";
       I18n.locale = "#{I18n.locale}";
     })
     unless User.current.pref.warn_on_leaving_unsaved == '0'
-      tags += javascript_tag("jQuery(function(){ new WarnLeavingUnsaved('#{escape_javascript( l(:text_warn_on_leaving_unsaved) )}'); });")
+      tags += javascript_tag("jQuery(document).ready(function(){
+                                new WarnLeavingUnsaved('#{escape_javascript( l(:text_warn_on_leaving_unsaved) )}');
+                                jQuery(document).ajaxComplete(function(){
+                                    new WarnLeavingUnsaved('#{escape_javascript( l(:text_warn_on_leaving_unsaved) )}')
+                                });
+                            })")
     end
 
     if User.current.impaired? and accessibility_js_enabled?
@@ -980,20 +1024,12 @@ module ApplicationHelper
   def api_meta(options)
     if params[:nometa].present? || request.headers['X-OpenProject-Nometa']
       # compatibility mode for activeresource clients that raise
-      # an error when unserializing an array with attributes
+      # an error when deserializing an array with attributes
       nil
     else
       options
     end
   end
-
-  # Expands the current menu item using JavaScript based on the params
-  def expand_current_menu
-    javascript_tag do
-      raw "jQuery.menu_expand({ item: jQuery('#main-menu .selected').parents('#main-menu li').last().find('a').first() });"
-    end
-  end
-
 
   def disable_accessibility_css!
     @accessibility_css_disabled = true
@@ -1050,6 +1086,11 @@ module ApplicationHelper
     s = raw "<em>" + OpenProject::Passwords::Evaluator.min_length_description + "</em>"
     s += raw "<br /><em>" + rules + "</em>" unless rules.empty?
     s
+  end
+
+  def icon_wrapper(icon_class, label)
+    content =  content_tag(:span, '', :class => icon_class)
+    content += content_tag(:span, label, :class => 'hidden-for-sighted')
   end
 
 end

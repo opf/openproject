@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -70,7 +70,7 @@ describe 'api/v2/planning_elements/index.api.rabl' do
 
     it 'renders the subject' do
       first_planning_element = subject.xpath('//planning_elements/planning_element')[0]
-      first_planning_element.should have_selector("subject", text: "Subject #1")
+      expect(first_planning_element).to have_selector("subject", text: "Subject #1")
     end
 
 

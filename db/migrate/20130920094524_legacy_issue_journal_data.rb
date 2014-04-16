@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,6 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-#
 
 require_relative 'migration_utils/utils'
 require_relative 'migration_utils/legacy_journal_migrator'
@@ -36,6 +35,8 @@ class LegacyIssueJournalData < ActiveRecord::Migration
   include Migration::Utils
 
   def up
+    add_index "work_package_journals", ["journal_id"]
+
     migrator.run
 
     reset_public_key_sequence_in_postgres 'journals'
@@ -44,6 +45,8 @@ class LegacyIssueJournalData < ActiveRecord::Migration
   def down
     migrator.remove_journals_derived_from_legacy_journals 'customizable_journals',
                                                           'attachable_journals'
+
+    remove_index "work_package_journals", ["journal_id"]
   end
 
   def migrator

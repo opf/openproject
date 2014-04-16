@@ -26,7 +26,5 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 object @project_association
-node :project_association do |project_association|
-  partial '/api/v2/project_associations/project_association.api', :object  => project_association
-end
 
+extends '/api/v2/project_associations/project_association.api'

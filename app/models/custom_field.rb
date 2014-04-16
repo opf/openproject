@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,10 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-#
 
 class CustomField < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
+
   has_many :custom_values, :dependent => :delete_all
   acts_as_list :scope => 'type = \'#{self.class}\''
   translates :name,
@@ -56,8 +57,8 @@ class CustomField < ActiveRecord::Base
 
   validates_presence_of :name, :field_format
 
-  validate :uniquess_of_name_with_scope
-  def uniquess_of_name_with_scope
+  validate :uniqueness_of_name_with_scope
+  def uniqueness_of_name_with_scope
     taken_names = CustomField.where(:type => type)
     taken_names = taken_names.where('id != ?', id) if id
     taken_names = taken_names.map { |cf| cf.read_attribute(:name, :locale => I18n.locale) }
@@ -218,7 +219,23 @@ class CustomField < ActiveRecord::Base
     nil
   end
 
+  def name_locale
+    attribute_locale :name, name
+  end
+
+  def default_value_locale
+    attribute_locale :default_value, default_value
+  end
+
   private
+
+  def attribute_locale(attribute, value)
+    locales_for_value = translations.select { |t| t.send(attribute) == value }
+                                    .collect(&:locale)
+                                    .uniq
+
+    locales_for_value.detect { |l| l == I18n.locale } || locales_for_value.first || I18n.locale
+  end
 
   def blank_attributes(attributes)
     value_keys = attributes.reject{ |k,v| v.blank? }.keys.map(&:to_sym)

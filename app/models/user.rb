@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@
 require "digest/sha1"
 
 class User < Principal
-  include Redmine::SafeAttributes
+  include ActiveModel::ForbiddenAttributesProtection
 
   # Account statuses
   # Code accessing the keys assumes they are ordered, which they are since Ruby 1.9
@@ -86,6 +86,12 @@ class User < Principal
   has_many :assigned_issues, :foreign_key => 'assigned_to_id',
                              :class_name => 'WorkPackage',
                              :dependent => :nullify
+  has_many :responsible_for_issues, :foreign_key => 'responsible_id',
+                                    :class_name => 'WorkPackage',
+                                    :dependent => :nullify
+  has_many :responsible_for_projects, :foreign_key => 'responsible_id',
+                                      :class_name => 'Project',
+                                      :dependent => :nullify
   has_many :watches, :class_name => 'Watcher',
                      :dependent => :delete_all
   has_many :changesets, :dependent => :nullify
@@ -128,8 +134,6 @@ class User < Principal
 
   attr_accessor :password, :password_confirmation
   attr_accessor :last_before_login_on
-  # Prevents unauthorized assignments
-  attr_protected :login, :admin, :password, :password_confirmation
 
   validates_presence_of :login,
                         :firstname,
@@ -139,7 +143,7 @@ class User < Principal
 
   validates_uniqueness_of :login, :if => Proc.new { |user| !user.login.blank? }, :case_sensitive => false
   validates_uniqueness_of :mail, :allow_blank => true, :case_sensitive => false
-  # Login must contain lettres, numbers, underscores only
+  # Login must contain letters, numbers, underscores only
   validates_format_of :login, :with => /\A[a-z0-9_\-@\.]*\z/i
   validates_length_of :login, :maximum => 256
   validates_length_of :firstname, :lastname, :maximum => 30
@@ -152,8 +156,9 @@ class User < Principal
 
   after_save :update_password
   before_create :sanitize_mail_notification_setting
-  before_destroy :delete_associated_public_queries
+  before_destroy :delete_associated_private_queries
   before_destroy :reassign_associated
+  before_destroy :remove_from_filter
 
   scope :in_group, lambda {|group|
     group_id = group.is_a?(Group) ? group.id : group.to_i
@@ -209,10 +214,14 @@ class User < Principal
       begin
         write_attribute(:identity_url, OpenIdAuthentication.normalize_identifier(url))
       rescue OpenIdAuthentication::InvalidOpenId
-        # Invlaid url, don't save
+        # Invalid url, don't save
       end
     end
     self.read_attribute(:identity_url)
+  end
+
+  def self.search_in_project(query, options)
+    Project.find(options.fetch(:project)).users.like(query)
   end
 
   def self.register_allowance_evaluator(filter)
@@ -409,7 +418,7 @@ class User < Principal
   end
 
   def impaired
-    anonymous? || !!self.pref.impaired
+    (anonymous? && Setting.accessibility_mode_for_anonymous?) || !!self.pref.impaired
   end
 
   def impaired?
@@ -644,18 +653,6 @@ class User < Principal
     end
   end
 
-  # These are also implemented as strong_parameters, so also see
-  # app/modles/permitted_params.rb
-  # Delete these if everything in the UsersController uses strong_parameters.
-  safe_attributes 'firstname', 'lastname', 'mail', 'mail_notification', 'language',
-                  'custom_field_values', 'custom_fields', 'identity_url'
-
-  safe_attributes 'auth_source_id', 'force_password_change',
-    :if => lambda {|user, current_user| current_user.admin?}
-
-  safe_attributes 'group_ids',
-    :if => lambda {|user, current_user| current_user.admin? && !user.new_record?}
-
   # Utility method to help check if a user should be notified about an
   # event.
   def notify_about?(object)
@@ -700,6 +697,10 @@ class User < Principal
 
   def self.current
     @current_user ||= User.anonymous
+  end
+
+  def roles(project)
+    User.current.admin? ? Role.all : User.current.roles_for_project(project)
   end
 
   # Returns the anonymous user.  If the anonymous user does not exist, it is created.  There can be only
@@ -800,6 +801,25 @@ class User < Principal
     (passwords[keep_count..-1] || []).each { |p| p.destroy }
   end
 
+  def remove_from_filter
+    timelines_filter = ["planning_element_responsibles", "planning_element_assignee", "project_responsibles"]
+    substitute = DeletedUser.first
+
+    timelines = Timeline.all(:conditions => ['options LIKE ?', "%#{id}%"])
+
+    timelines.each do |timeline|
+      timelines_filter.each do |field|
+        fieldOptions = timeline.options[field]
+        if fieldOptions && index = fieldOptions.index(id.to_s) then
+          timeline.options_will_change!
+          fieldOptions[index] = substitute.id.to_s
+        end
+      end
+
+      timeline.save!
+    end
+  end
+
   def reassign_associated
     substitute = DeletedUser.first
 
@@ -814,7 +834,7 @@ class User < Principal
     JournalManager.update_user_references id, substitute.id
   end
 
-  def delete_associated_public_queries
+  def delete_associated_private_queries
     ::Query.delete_all ['user_id = ? AND is_public = ?', id, false]
   end
 

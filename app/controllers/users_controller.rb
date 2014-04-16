@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -93,7 +93,7 @@ class UsersController < ApplicationController
     @memberships = @user.memberships.all(:conditions => Project.visible_by(User.current))
 
     events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
-    @events_by_day = events.map(&:data).group_by(&:event_date)
+    @events_by_day = events.group_by(&:event_datetime)
 
     unless User.current.admin?
       if !(@user.active? || @user.registered?) || (@user != User.current  && @memberships.empty? && events.empty?)
@@ -115,7 +115,7 @@ class UsersController < ApplicationController
   verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
   def create
     @user = User.new(:language => Setting.default_language, :mail_notification => Setting.default_notification_option)
-    @user.safe_attributes = params[:user]
+    @user.attributes = permitted_params.user_create_as_admin
     @user.admin = params[:user][:admin] || false
     @user.login = params[:user][:login]
     if @user.change_password_allowed?
@@ -247,13 +247,15 @@ class UsersController < ApplicationController
         format.js {
           render(:update) {|page|
             page.replace_html "tab-content-memberships", :partial => 'users/memberships'
+            page.insert_html :top, "tab-content-memberships", :partial => "members/common_notice", :locals => {:message => l(:notice_successful_update)}
             page.visual_effect(:highlight, "member-#{@membership.id}")
           }
         }
       else
         format.js {
           render(:update) {|page|
-            page.alert(l(:notice_failed_to_save_members, :errors => @membership.errors.full_messages.join(', ')))
+            page.replace_html "tab-content-memberships", :partial => 'users/memberships'
+            page.insert_html :top, "tab-content-memberships", :partial => "members/member_errors", :locals => {:member => @membership}
           }
         }
       end
@@ -261,27 +263,25 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    # true if the user deletes him/herself
+    self_delete = (@user == User.current)
+
     # as destroying users is a lengthy process we handle it in the background
     # and lock the account now so that no action can be performed with it
     @user.status = User::STATUSES[:locked]
     @user.save
 
-    # TODO: use Delayed::Worker.delay_jobs = false in test environment as soon as
-    # delayed job allows for it
-    Rails.env.test? ?
-      @user.destroy :
-      @user.delay.destroy
+    @user.delay.destroy
+
+    # log the user out if it's a self-delete
+    # must be called before setting the flash message
+    self.logged_user = nil if self_delete
 
     flash[:notice] = l('account.deleted')
 
     respond_to do |format|
       format.html do
-        if @user == User.current
-          logged_user = nil
-          redirect_to signin_path
-        else
-          redirect_to users_path
-        end
+        redirect_to self_delete ? signin_path : users_path
       end
     end
   end
@@ -293,7 +293,12 @@ class UsersController < ApplicationController
     end
     respond_to do |format|
       format.html { redirect_to :controller => '/users', :action => 'edit', :id => @user, :tab => 'memberships' }
-      format.js { render(:update) {|page| page.replace_html "tab-content-memberships", :partial => 'users/memberships'} }
+      format.js {
+        render(:update) { |page|
+          page.replace_html "tab-content-memberships", :partial => 'users/memberships'
+          page.insert_html :top, "tab-content-memberships", :partial => "members/common_notice", :locals => {:message => l(:notice_successful_delete)}
+        }
+      }
     end
   end
 

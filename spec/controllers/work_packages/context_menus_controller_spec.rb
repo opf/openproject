@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -66,7 +66,7 @@ describe WorkPackages::ContextMenusController do
   before do
     member
 
-    User.stub(:current).and_return user
+    allow(User).to receive(:current).and_return user
   end
 
   describe :index do
@@ -101,7 +101,7 @@ describe WorkPackages::ContextMenusController do
         assert_tag tag: 'a',
                    content: 'Edit',
                    attributes: { href: edit_link,
-                                 :class => 'icon-edit' }
+                                 :class => 'icon-context icon-edit' }
       end
     end
 
@@ -181,18 +181,27 @@ describe WorkPackages::ContextMenusController do
       end
     end
 
-    shared_examples_for :assigned_to do
-      let(:assigned_to_link) { "/work_packages/bulk?#{ids_link}"\
-                               "&amp;work_package%5Bassigned_to_id%5D=#{user.id}" }
-
+    shared_examples_for :assignee_or_responsible do
+      let(:link) { "/work_packages/bulk?#{ids_link}"\
+                               "&amp;work_package%5B#{assignee_or_responsible}_id%5D=#{user.id}" }
       before { get :index, ids: ids }
 
       it do
         assert_tag tag: 'a',
                    content: user.name,
-                   attributes: { href: assigned_to_link,
+                   attributes: { href: link,
                                  :class => '' }
       end
+    end
+
+    shared_examples_for :assigned_to do
+      let(:assignee_or_responsible) { "assigned_to"}
+      include_examples :assignee_or_responsible
+    end
+
+    shared_examples_for :responsible do
+      let(:assignee_or_responsible) { "responsible"}
+      include_examples :assignee_or_responsible
     end
 
     shared_examples_for :duplicate do
@@ -205,7 +214,7 @@ describe WorkPackages::ContextMenusController do
         assert_tag tag: 'a',
                    content: 'Duplicate',
                    attributes: { href: duplicate_link,
-                                 :class => 'icon-duplicate' }
+                                 :class => 'icon-context icon-duplicate' }
       end
     end
 
@@ -262,6 +271,8 @@ describe WorkPackages::ContextMenusController do
 
       it_behaves_like :assigned_to
 
+      it_behaves_like :responsible
+
       it_behaves_like :duplicate
 
       it_behaves_like :copy
@@ -273,7 +284,7 @@ describe WorkPackages::ContextMenusController do
       context "anonymous user" do
         let(:anonymous) { FactoryGirl.create(:anonymous) }
 
-        before { User.stub(:current).and_return anonymous }
+        before { allow(User).to receive(:current).and_return anonymous }
 
         it_behaves_like "successful response"
 
@@ -299,6 +310,8 @@ describe WorkPackages::ContextMenusController do
         it_behaves_like :priority
 
         it_behaves_like :assigned_to
+
+        it_behaves_like :responsible
 
         it_behaves_like :copy
 
@@ -329,6 +342,8 @@ describe WorkPackages::ContextMenusController do
 
           it_behaves_like :assigned_to
 
+          it_behaves_like :responsible
+
           it_behaves_like :delete
         end
 
@@ -338,7 +353,7 @@ describe WorkPackages::ContextMenusController do
           describe :work_packages do
             before { get :index, ids: ids }
 
-            it { assigns(:work_packages).collect(&:id).should =~ [work_package_1.id, work_package_2.id] }
+            it { expect(assigns(:work_packages).collect(&:id)).to match_array([work_package_1.id, work_package_2.id]) }
           end
         end
       end

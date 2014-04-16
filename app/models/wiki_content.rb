@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,6 +30,8 @@
 require 'zlib'
 
 class WikiContent < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
+
   belongs_to :page, :class_name => 'WikiPage', :foreign_key => 'page_id'
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   validates_presence_of :text
@@ -41,12 +43,11 @@ class WikiContent < ActiveRecord::Base
 
   before_save :comments_to_journal_notes
 
-  acts_as_journalized :event_type => 'wiki-page',
-    :event_title => Proc.new {|o| "#{l(:label_wiki_edit)}: #{o.journal.journable.page.title} (##{o.journal.journable.version})"},
-    :event_url => Proc.new {|o| {:controller => '/wiki', :action => 'show', :id => o.journal.journable.page, :project_id => o.journal.journable.page.wiki.project, :version => o.journal.journable.version}},
-    :activity_type => 'wiki_edits',
-    :activity_permission => :view_wiki_edits,
-    :activity_find_options => { :include => { :page => { :wiki => :project } } }
+  acts_as_journalized
+
+  acts_as_event type: 'wiki-page',
+                title: Proc.new {|o| "#{l(:label_wiki_edit)}: #{o.journal.journable.page.title} (##{o.journal.journable.version})"},
+                url: Proc.new {|o| {controller: '/wiki', action: 'show', id: o.journal.journable.page, project_id: o.journal.journable.page.wiki.project, version: o.journal.journable.version}}
 
   def activity_type
     'wiki_edits'

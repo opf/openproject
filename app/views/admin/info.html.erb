@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,6 +27,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<% html_title(l(:label_administration), l(:label_information_plural)) -%>
+
 <%= content_tag :h2, I18n.t('label_information_plural') %>
 <%= call_hook(:view_admin_info_top) %>
 
@@ -38,9 +40,8 @@ See doc/COPYRIGHT.rdoc for more details.
   <% @checklist.each do |label, result| %>
     <tr class="<%= cycle 'odd', 'even' %>">
       <td><%= l(label) %></td>
-      <td width="30px"><%= image_tag((result ? 'webalys/check.png' : 'webalys/error.png'), :style => "vertical-align:bottom;", :alt => (result ? l(:general_text_Yes) : l(:general_text_No))) %></td>
+      <td width="30px"><%= icon_wrapper((result ? 'icon-context icon-yes' : 'icon-context icon-error'), (result ? l(:general_text_Yes) : l(:general_text_No))) %></td>
     </tr>
   <% end %>
 </table>
 <%= call_hook(:view_admin_info_bottom) %>
-<% html_title(l(:label_information_plural)) -%>

@@ -1,6 +1,6 @@
 <!---- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,12 +29,328 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#284`  Fix: Sticky does not apply to forum
+* `#1009` Wrong german translation when accessing a non-existent work package
+* `#1502` Multiple escaping on user select2 field in project settingsmembers tab
+* `#1865` Journal creates Symbols from attachment ids
+* `#2029` Fix: News preview
+* `#2393` Fix: No warning when leaving site without saving
+* `#2401` Fix: New target version cannot be created from work package view
+* `#2280` Fix: Spent Time not localized
+* `#3019` Fix: Quote icon in wrong position
+* `#3063` Fix: Quotes in versions are not properly HTML-escaped
+* `#3118` Fix: Copying a work package to a new project with parent and cross_project_work_package_relations disabled does not work
+* `#3148` Fix: Comparison of history versions in wiki pages ignores newlines
+* `#3267` Fix: Link in Breadcrumbs links to global work packages
+* `#3348` Fix: Menu item "more functions" is cut off where content ends
+* `#3395` Fix: After error message values are gone during creation of message
+* `#3531` Fix: Type 'None' cannot be configured via admin settings
+* `#3775` No success message when adding a user to a project
+* `#4007` Timeline page title does not contain name of timeline
+* `#4040` Fix: Referencing work packages with ### in news, forums and meetings does not work
+* `#4087` Ignore type list flash when activating flash messages
+* `#4097` Fix accesskeys
+* `#4118` Fix: Add missing labels
+* `#4701` Fix: Wiki change notification mail contains invalid diff link
+* `#4928` Fix: Journal note hits not shown
+* `#5057` Fix: Whitelisted more params for planning elements controller
+* `#5214` Allow setting watchers and time entries for work packages via API`
+* `#5311` Encapsulate ActiveSupport::Notifications
+* Allowed sending of mails with only cc: or bcc: fields
+* Allow adding attachments to created work packages via planning elements controller
+* Remove unused rmagick dependency
+* Add settings callback
+* Fix: Work package short URI
+* Fix: work package due date not validated when start date is not present
+* Fix: Use correct questions for deletion of documents/files in rake tasks
+* Fix: Use URL helpers for forum routes
+* Fix: Back URL verification
+* Fix: Asset require for plug-ins
+* Fix: at.who styling
+
+## 3.0.1
+
+* `#5265` Fix: Error adding Work Package
+* `#5322` Fix: First Journal Entry of chiliproject issues shows incorrect diff
+
+## 3.0.0
+
+* `#3701` Fix: Filter custom fields of work packages in timeline reports
+* `#5033` Migration RepairInvalidDefaultWorkPackageCustomValues fails on Postgres
+* Fix project search accesskey
+* Fix new work package accesskey
+
+## 3.0.0pre50
+
+* `#4008` Deactivating work package priorities has no effect
+* Removed path from guessed host
+
+## 3.0.0pre49
+
+* `#2616` Fix:  Search: Clicking on 'Back' results in wrong data
+* `#3084` Fix: [Administration - Work Packages] Workflow Status sorting not respected
+* `#3312` Fix: [Administration - Custom Fields] "Visible" and "Editable" in user custom field cannot be unchecked
+* `#4003` Fix: Revisions in Activity overview are assigned to wrong person
+* `#4008` Fix: Deactivating work package priorities has no effect
+* `#4046` Update copyright Information to include 2014
+* `#4115` [Subdirectory] Broken Redirects
+* `#4285` Copy Workflow mixes workflow scopes
+* `#4296` Adapt new workpackage form layout
+* `#4793` Fix: [Search] Current project scope not shown
+* `#4797` Fix: [Subdirectory] Broken Links
+* `#4858` XSS in wp auto-completion
+* `#4887` Second grouping criterion seems to have an and conjunction
+* Added pry-byebug for ruby 2.1
+* Allows redirecting to a back url on version#update
+
+## 3.0.0pre48
+
+* `#1390` Fix: Deleting Issue Categories from a project - route not defined
+* `#2701` Fix: [Groups] Error message not displayed correctly.
+* `#3217` Fix: [Project settings] Page not found when adding/deleting members and clicking pagination
+* `#3725` Fix: Trying to delete a Project without checking "Yes" results in Error
+* `#3798` Fix: Typo leading to internal server error
+* `#4105` Fix: Remove links from fieldset
+* `#4123` Fix: [Accessibility] Link comprehensibility
+* `#4715` Fix: Wrong escaping in destroy info
+* `#4186` Long work package subject covers up edit buttons
+* `#4245` When adding a block to MyPage the other blocks are gone
+* `#4337` Fix: HTTP 500 when creating WP with note via API
+* `#4654` Activity: Wrong id of work package when time spent
+* `#4722` Wrong weekday in date picker
+* `#4755` Wrong message "project identifier can't be edited"
+* `#4761` Internal error when creating or editing timeline in accessibility mode
+* `#4762` List of watchers displayed twice when creating a work package
+
+## 3.0.0pre47
+
+* `#3113` [API] Read access on work package workflows for API v2
+* `#3903` Fix: [Search] Project scope lost when clicking on search category link
+* `#4087` Fix: [Accessibility] No error messages for blind users
+* `#4169` Fix: CSV Export can't handle UTF-8 in conjunction with ASCII letters >= 160 (such as ä)
+* `#4266` Custom fields not used as filters are displayed in timeline configuration
+* `#4331` Wrong error message for custom fields in query
+
+## 3.0.0pre46
+
+* `#3335` Fix: Mass assignment in members controller
+* `#3371` [Work Package Tracking] Wrong 404 when custom query not exists
+* `#3440` New workpackage form layout
+* `#3947` [CodeClimate] Mass Assignment BoardsController
+* `#4087` Accessible form errors
+* `#4098` Keyboard operation: links accessible with Screenreadern
+* `#4090` [FIX] Tab order of my project page
+* `#4103` [Accessibility] Add missing field sets
+* `#4105` Remove links from fieldset
+* `#4109` Missing hidden tab selection label
+* `#4110` Position: Status/Funktion von Links ist nicht klar
+* `#4112` Usage of layout tables in work packages index
+* `#4118` Fix: Add missing labels
+* `#4123` Icon link table comprehensibility
+* `#4162` Missing html_safe on required list custom fields with non empty default value
+* Allow configuring memcache via configuration.yml or environment variables
+
+## 3.0.0pre45
+
+* `#3113` [API] Read access on work package workflows for API v2
+* `#3114` [API] Provide custom fields in work-package index
+* `#3116` [API] Distinguishable Status-Codes for wrong credentials and missing API
+* `#3347` [API] Make priorities available via API
+* `#3701` Filter custom fields of work packages in timeline reports
+* `#3732` Summary for work package responsibility
+* `#3733` Responsible widget for my pag
+* `#3884` [Timelines] Show custom fields of work packages in timeline reports
+* `#3980` In Email settings "Issue" is used
+* `#4023` [Accessibility] Fixes tabbing inside modals
+* `#4024` [Accessibility] Add proper page titles for sub pages
+* `#4090` 'Session Expires' setting breaks API
+* `#4100` use icon from icon font for toggle multiselect in filter section
+* `#4101` Headings: Fix typos in german translation
+* `#4102` [Accessibility] Fixes screen reader compatibility for 'further analyze' links in work package summary
+* `#4108` Fixes German translation of months
+* `#4163` Extend authorization-API to return current user id
+* Improves JavaScript tests.
+* News subject contained in URL
+* Removes mocha mocking framework.
+* Update pg-gem version
+
+## 3.0.0pre44
+
+* `#2018` Cleanup journal tables
+* `#2244` Fix: [Accessibility] correctly label document language - custom fields
+* `#2520` Creating projects is possible with no types selected
+* `#2594` Fix: [Activity] Too many filter selects than necessary
+* `#3215` Datepicker - Timelines calendar weeks out of sync
+* `#3249` [Work Package Tracking] Work packages of type none are displayed as if they were of type work packages
+* `#3332` [CodeClimate] Mass Assignment AuthSourcesController
+* `#3333` [CodeClimate] Mass Assignment RolesController
+* `#3347` [API] Make priorities available via API
+* `#3438` Activity default value makes log time required
+* `#3451` API references hidden users
+* `#3481` Fix: [Activity] Not possible to unselect all filters
+* `#3653` Entries in field "Responsible" are not ordered alphabetically
+* `#3730` Setting responsible via bulk edit
+* `#3731` Setting responsible via context menu
+* `#3774` Fix: [API] Not possible to set journal notes via API
+* `#3808` Assignee cannot be set to "none" via bulk edit
+* `#3843` Prettier translations for member errors
+* `#3844` Fixed Work Package status translation
+* `#3854` Move function and Query filters allows to select groups as responsible
+* `#3865` Detailed filters on dates
+* `#3974` [Timelines] Typo at creating timelines
+* `#4023` [Accessibility] Keep keyboard focus within modal while it's open
+* Add Gruntfile for easier JavaScript testing.
+
+## 3.0.0pre43
+
+* `#2153` [Accessibility] Required fields MUST be displayed as required - group new
+* `#2157` [Accessibility] Required fields MUST be displayed as required - enumeration new
+* `#2162` [Accessibility] Required fields MUST be displayed as required - new project_type
+* `#2228` [Accessibility] low contrast in backlogs task view
+* `#2231` [Accessibility] alt texts for openproject project menu
+* `#2240` [Accessibility] correctly label document language of menu items
+* `#2250` [Accessibility] activity icon labels
+* `#2260` [Accessibility] no-existent alt-text for collapse/expand functionality in grouped work-package list
+* `#2263` [Accessibility] Correct markup for tables
+* `#2366` [Timelines] Add support for user deletion to timelines
+* `#2502` New Layout for overview / my page
+* `#2734` [API] Access-Key not supported for all controllers
+* `#3065` Fixed internal error when selecting costs-columns and displaying sums in work package list
+* `#3120` Implement a test suite the spikes can be developed against
+* `#3251` [Timelines] Filtering for Responsible filters everything
+* `#3393` [Timelines] Filter Work Packages by Assignee
+* `#3401` [Work package tracking] Notes are not saved when copying a work package
+* `#3409` New Layout for fallback Login page
+* `#3453` Highlight project in bread crumb
+* `#3546` Better icon for Timelines Module
+* `#3547` Change color of Apply button in Activity
+* `#3667` Better icon for Roadmap
+* `#3863` Strange additional journal entry when moving work package
+* `#3879` Work Package Show: Attachments are shown within attributes table
+
+## 3.0.0pre42
+
+* `#1951` Layout for ## and ### textile link help is broken
+* `#2146` [Accessibility] Link form elements to their label - timeline groupings
+* `#2147` [Accessibility] Link form elements to their label - new timeline
+* `#2150` [Accessibility] Link form elements to their label - new issue query
+* `#2151` [Accessibility] Link form elements to their label - new wiki page
+* `#2152` [Accessibility] Link form elements to their label - new forum message
+* `#2155` [Accessibility] Link form elements to their label - copy workflow
+* `#2156` [Accessibility] Link form elements to their label - new custom field
+* `#2159` [Accessibility] Link form elements to their label - repository administration
+* `#2160` [Accessibility] Link form elements to their label - new LDAP authentication
+* `#2161` [Accessibility] Link form elements to their label - new color
+* `#2229` [Accessibility] low contrast in calendar view
+* `#2244` [Accessibility] correctly label document language - custom fields
+* `#2250` [Accessibility] activity icon labels
+* `#2258` [Accessibility] linearisation of issue show form
+* `#2264` [Accessibility] Table headers for work package hierarchy and relations
+* `#2500` Change default configuration in new OpenProject application so new projects are not public by default
+* `#3370` [Design] Clean-up and refactoring existing CSS for content area
+* `#3528` [Data Migration] Type 'none' is not migrated properly in Timelines
+* `#3532` Fix: [API] It is possible to set statuses that are not allowed by the workflow
+* `#3539` [Work package tracking] Modul view of work packages is too broad
+* `#3666` Fix: [API] Show-action does not contain author_id
+* `#3723` Fix: The activity event type of work package creations is resolved as "closed"
+* [Accessibility] Reactivate accessibility css; Setting for Accessibility mode for anonymous users
+* Fixed workflow copy view
+* Add redirect from /wp to /work_packages for less typing
+
+## 3.0.0pre41
+
+* `#2743` Clear work packages filters when the work packages menu item is clicked
+* `#3072` Timelines rendering of top table border and text is slightly off
+* `#3108` [Work package tracking] Too many users selectable as watchers in public projects
+* `#3334` [CodeClimate] Mass Assignment WikiController
+* `#3336` Fix: use permitted_params for queries controller
+* `#3364` [Performance] Create index on enabled_modules.name
+* `#3407` Fix: [Roadmap] Missing dropdown menu for displaying work packages by different criteria
+* `#3455` Fix: [Projects] Tab "Types" missing in newly created projects
+* `#3245` Fix: Search bar does not display results on a project basis
+
+## 3.0.0pre40
+
+* `#3066` [Work package tracking] Bulk edit causes page not found
+* update will paginate
+
+## 3.0.0pre39
+
+* `#3306` Switch to Ruby 2.0
+* `#3321` [Data migration] Data in timeline settings not copied to new project
+* `#3322` Fix: [Data migration] Journal entries display changes to custom fields
+* `#3329` Refactor Duplicated Code Journals
+
+## 3.0.0pre38
+
+* `#2399` Fix: Translation missing (en and de) for not_a_valid_parent
+* `#3054` Fix: Some Projects cannot be deleted
+* `#3149` Fix: duplicate XML root nodes in API v2 show
+* `#3229` Fix: Can't set planning element status
+* `#3234` Fix: [Work package tracking] Sorting of work package statuses does not work
+* `#3266` Fix: [Work package tracking] % done in work package status cannot be modified
+* `#3291` Fix: Internal error when clicking on member
+* `#3303` Fix: [Work package tracking] Search results are linked to wrong location
+* `#3322` [Data migration] Journal entries display changes to custom fields
+* `#3331` use permitted_params for group_controller
+* `#3337` Fix: Use permitted params in EnumerationsController
+* `#3363` [Timelines] Autocompleter broken multiple times in timelines edit
+* `#3390` [Design] Implement new look for header and project navigation
+* Change global search keyboard shortcut to 's' and project menu shortcut to 'p'
+* Add auto-completion for work-packages in all textareas's with wiki-edit class
+* Fixed a small bug with a non-functional validation for parents when creating a work package
+
+## 3.0.0pre37
+
+* `#1966` Select person responsible for project with auto-completion form
+* `#2289` Fix: Deploying in a subdirectory
+* `#2395` [Work Package Tracking] Internal Error when entering a character in a number field in a filter
+* `#2527` Create project has useless responsible field
+* `#3091` Both Top menu sides can be open at the same time
+* `#3202` Fix: Fix: [Bug] Grouping work packages by responsible is broken
+* `#3222` Fix: Validation errors on copying OpenProject
+
+## 3.0.0pre36
+
+* `#3155` Icons from icon font in content area
+* Rename German i18n Planungsverantwortlicher -> Verantwortlicher
+
+## 3.0.0pre35
+
+* `#2759` Fix: [Performance] Activity View very slow
+* `#3050` Fix: Fix: [Work Package Tracking] Internal error with query from the time before work packages
+* `#3104` Fix: [Forums] Number of replies to a topic are not displayed
+* `#3202` Fix: [Bug] Grouping work packages by responsible is broken
+* `#3212` First Grouping Criteria Selection broken when more than one element pre-selected
+* `#3055` [Work Package Tracking] Former deleted planning elements not handled in any way
+
+## 3.0.0pre34
+
+* `#2361` [Timelines] Refactoring of Timelines file structure.
+* `#2660` fixed bug
+* `#3050` Fix: [Work Package Tracking] Internal error with query from the time before work packages
+* `#3040` Fix: [Work Package Tracking] 404 for Work Package Index does not work, results in 500
+* `#3111` fixed bug
+* `#3193` Fix: [Bug] Copying the project OpenProject results in 500
+* Fix position of 'more functions' menu on wp#show
+* Fix queries on work packages index if no project is selected
+* Fix wiki menu item breadcrumb
+* Fixed grammatical error in translation missing warning
+* Fixed other user preferences not being saved correctly in cukes
+* Settings: Fix work package tab not being shown after save
+
+## 3.0.0pre33
+
 * `#2761` Fix: [Work Package Tracking] Assigning work packages to no target version not working in buld edit
 * `#2762` [Work package tracking] Copying a work package in bulk edit mode opens move screen
+* `#3021` Fix: Fix: emails sent for own changes
 * `#3058` [Work Package Tracking] Broken subtask hierarchy layout
+* `#3061` [Timelines] When the anonymous user does not have the right to view a reporting but tries to see a timeline w/ reportings, the error message is wrong
 * `#3068` Fix: [Migration] Automatic update text references to planning elements not migrated
 * `#3075` Fix: [Work Package Tracking] Save takes too long with many ancestors
+* `#3110` Fix: [Migration] Default status not set to right status on planning element migration
 * Fix timezone migration for MySQL with custom timezone
+* Timeline performance improvements.
 
 ## 3.0.0pre32
 

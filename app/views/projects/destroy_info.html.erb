@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%=l(:text_project_destroy_confirmation)%>
 
 <% if @project_to_destroy.descendants.any? %>
-<br /><%= l(:text_subprojects_destroy_warning, content_tag('strong', h(@project_to_destroy.descendants.collect{|p| p.to_s}.join(', ')))) %>
+<br /><%= l(:text_subprojects_destroy_warning, content_tag('strong', h(@project_to_destroy.descendants.collect{|p| p.to_s}.join(', ')))).html_safe %>
 <% end %>
 </p>
 <p>

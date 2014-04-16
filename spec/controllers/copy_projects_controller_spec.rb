@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ describe CopyProjectsController do
   let(:current_user) { FactoryGirl.create(:admin) }
 
   before do
-    User.stub(:current).and_return current_user
+    allow(User).to receive(:current).and_return current_user
   end
 
   describe "copy_from_settings uses correct project to copy from" do
@@ -43,7 +43,7 @@ describe CopyProjectsController do
     let(:permission) { :copy_projects }
     let(:project) { FactoryGirl.create(:project, :is_public => false) }
 
-    it { assigns(:project).should == project }
+    it { expect(assigns(:project)).to eq(project) }
   end
 
   describe 'copy_from_settings permissions' do
@@ -71,7 +71,7 @@ describe CopyProjectsController do
     let(:permission) { :copy_projects }
     let(:project) { FactoryGirl.create(:project, :is_public => false) }
 
-    it { assigns(:project).should_not == project }
+    it { expect(assigns(:project)).not_to eq(project) }
   end
 
   describe 'copy permissions' do

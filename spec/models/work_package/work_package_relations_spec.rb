@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,16 +36,30 @@ describe WorkPackage do
     describe :duplicate do
       let(:original) { FactoryGirl.create(:work_package) }
       let(:dup_1) { FactoryGirl.create(:work_package,
-                                       project: original.project) }
+                                       project: original.project,
+                                       type: original.type,
+                                       status: original.status) }
       let(:relation_org_dup_1) { FactoryGirl.create(:relation,
                                                     from: dup_1,
                                                     to: original,
                                                     relation_type: Relation::TYPE_DUPLICATES) }
+      let(:workflow) { FactoryGirl.create(:workflow,
+                                          old_status: original.status,
+                                          new_status: closed_state,
+                                          type_id: original.type_id) }
+      let(:user) { FactoryGirl.create(:user) }
+
+      before do
+        allow(User).to receive(:current).and_return user
+
+        original.project.add_member!(user, workflow.role)
+      end
 
       context "closes duplicates" do
-        let(:user) { FactoryGirl.create(:user) }
         let(:dup_2) { FactoryGirl.create(:work_package,
-                                         project: original.project) }
+                                         project: original.project,
+                                         type: original.type,
+                                         status: original.status) }
         let(:relation_dup_1_dup_2) { FactoryGirl.create(:relation,
                                                         from: dup_2,
                                                         to: dup_1,
@@ -57,8 +71,6 @@ describe WorkPackage do
                                                       relation_type: Relation::TYPE_DUPLICATES) }
 
         before do
-          User.stub(:current).and_return user
-
           relation_org_dup_1
           relation_dup_1_dup_2
           relation_dup_2_org
@@ -71,8 +83,8 @@ describe WorkPackage do
         end
 
         it "only duplicates are closed" do
-          dup_1.closed?.should be_true
-          dup_2.closed?.should be_true
+          expect(dup_1.closed?).to be_true
+          expect(dup_2.closed?).to be_true
         end
       end
 
@@ -270,7 +282,7 @@ describe WorkPackage do
       shared_examples_for "all dependant work packages visible" do
         subject { work_package_1.all_dependent_packages.collect(&:id) }
 
-        it { should =~ expected_ids }
+        it { should match_array(expected_ids) }
       end
 
       context "w/o circular dependency" do

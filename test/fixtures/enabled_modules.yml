@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 ---
 enabled_modules_001:
-  name: issue_tracking
+  name: work_package_tracking
   project_id: 1
   id: 1
 enabled_modules_002:
@@ -60,7 +60,7 @@ enabled_modules_010:
   project_id: 3
   id: 10
 enabled_modules_011:
-  name: issue_tracking
+  name: work_package_tracking
   project_id: 2
   id: 11
 enabled_modules_012:
@@ -68,11 +68,11 @@ enabled_modules_012:
   project_id: 3
   id: 12
 enabled_modules_013:
-  name: issue_tracking
+  name: work_package_tracking
   project_id: 3
   id: 13
 enabled_modules_014:
-  name: issue_tracking
+  name: work_package_tracking
   project_id: 5
   id: 14
 enabled_modules_015:

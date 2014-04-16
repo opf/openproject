@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,7 +43,7 @@ module Redmine
         line_encoding = nil
         if line.respond_to?(:force_encoding)
           line_encoding = line.encoding
-          # TODO: UTF-16 and Japanese CP932 which is imcompatible with ASCII
+          # TODO: UTF-16 and Japanese CP932 which is incompatible with ASCII
           #       In Japan, diffrence between file path encoding
           #       and file contents encoding is popular.
           line.force_encoding('ASCII-8BIT')

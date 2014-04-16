@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,11 +29,15 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= header_tags %>
 
-<div class="contextual">
-<%= link_to l(:label_type_new), {:action => 'new'}, :class => 'icon icon-add' %>
-</div>
+<% content_for :action_menu_specific do %>
+  <%= link_to l(:label_type_new), {:action => 'new'}, :class => 'icon icon-add' %>
+<% end %>
+
+<% html_title l(:label_administration), l("label_type_plural") %>
 
 <h2><%=l(:label_type_plural)%></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
 
 <table class="list timelines-pet">
   <thead>
@@ -62,16 +66,18 @@ See doc/COPYRIGHT.rdoc for more details.
 <% for type in @types %>
   <tr class="<%= cycle("odd", "even") %>">
     <td class="timelines-pet-name"><%= link_to type.name, edit_type_path(type) %></td>
-    <td align="center"><% if type.workflows.empty? %><span class="icon icon-warning"><%= l(:text_type_no_workflow) %> (<%= link_to l(:button_edit), {:controller => '/workflows', :action => 'edit', :type_id => type} %>)</span><% end %></td>
+    <td align="center"><% if type.workflows.empty? %><span class="icon-context icon-warning"><%= l(:text_type_no_workflow) %> (<%= link_to l(:button_edit), {:controller => '/workflows', :action => 'edit', :type_id => type} %>)</span><% end %></td>
     <td class="timelines-pet-color"><%= icon_for_type type %></td>
     <td class="timelines-pet-is_default"><%= checked_image(type.is_default) %></td>
     <td class="timelines-pet-in_aggregation"><%= checked_image(type.in_aggregation) %></td>
     <td class="timelines-pet-is_milestone"><%= checked_image(type.is_milestone) %></td>
     <td class="timelines-pet-reorder"><%= reorder_links('type', {:action => 'move', :id => type}) %></td>
     <td class="buttons">
-      <%= link_to type, :method => :delete, :confirm => t(:text_are_you_sure), :class => 'icon icon-del' do %>
-        <%= t(:button_delete) %>
-        <span class="hidden-for-sighted"><%=h type.name %></span>
+      <% if !type.is_standard? %>
+        <%= link_to type, :method => :delete, :confirm => t(:text_are_you_sure), :class => 'icon-context icon-delete' do %>
+          <%= t(:button_delete) %>
+          <span class="hidden-for-sighted"><%=h type.name %></span>
+        <% end %>
       <% end %>
     </td>
   </tr>
@@ -80,5 +86,3 @@ See doc/COPYRIGHT.rdoc for more details.
 </table>
 
 <%= pagination_links_full @types %>
-
-<% html_title(l(:label_type_plural)) -%>

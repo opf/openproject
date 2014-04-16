@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -52,7 +52,7 @@ describe WorkPackages::ReportsController do
   before do
     member
 
-    User.stub(:current).and_return user
+    allow(User).to receive(:current).and_return user
 
     work_package_1
     work_package_2
@@ -76,6 +76,8 @@ describe WorkPackages::ReportsController do
       it { assigns :work_packages_by_category }
 
       it { assigns :work_packages_by_assigned_to }
+
+      it { assigns :work_packages_by_responsible }
 
       it { assigns :work_packages_by_author }
 
@@ -127,6 +129,12 @@ describe WorkPackages::ReportsController do
 
       describe :assigned_to do
         let(:detail) { 'assigned_to' }
+
+        it_behaves_like "details view"
+      end
+
+      describe :responsible do
+        let(:detail) { 'responsible' }
 
         it_behaves_like "details view"
       end

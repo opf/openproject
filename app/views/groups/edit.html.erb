@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,8 +27,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<% html_title l(:label_administration), "#{l(:label_edit)} #{Group.model_name.human} #{@group.name}" %>
+
 <h2><%= link_to l(:label_group_plural), groups_path %> &#187; <%= h(@group) %></h2>
 
 <%= render_tabs group_settings_tabs %>
-
-<% html_title( Group.model_name.human, @group, l(:label_administration)) -%>

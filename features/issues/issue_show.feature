@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -54,9 +54,9 @@ Feature: Watch issues
   @javascript
   Scenario: Watch an issue
     When I go to the page of the issue "issue1"
-    Then I should see "Watch" within "#content > .action_menu_main"
-    When I click on "Watch" within "#content > .action_menu_main"
-    Then I should see "Unwatch" within "#content > .action_menu_main"
+    Then I should see "Watch" within "#content > .action_menu_specific"
+    When I click on "Watch" within "#content > .action_menu_specific"
+    Then I should see "Unwatch" within "#content > .action_menu_specific"
     Then the issue "issue1" should have 1 watchers
 
   @javascript
@@ -64,15 +64,15 @@ Feature: Watch issues
     Given the issue "issue1" is watched by:
       | bob |
     When I go to the page of the issue "issue1"
-    Then I should see "Unwatch" within "#content > .action_menu_main"
-    When I click on "Unwatch" within "#content > .action_menu_main"
-    Then I should see "Watch" within "#content > .action_menu_main"
+    Then I should see "Unwatch" within "#content > .action_menu_specific"
+    When I click on "Unwatch" within "#content > .action_menu_specific"
+    Then I should see "Watch" within "#content > .action_menu_specific"
     Then the issue "issue1" should have 0 watchers
 
   @javascript
   Scenario: Add a watcher to an issue
     When I go to the page of the issue "issue1"
-    Then I should see "Add watcher" within "#watchers"
+    Then I should see button "Add watcher"
     When I click on "Add watcher" within "#watchers"
     And I select "Bob Bobbit" from "watcher_user_id" within "#watchers"
     And I press "Add" within "#watchers"

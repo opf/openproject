@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,6 +26,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+
 
 require File.expand_path('../boot', __FILE__)
 
@@ -54,6 +56,8 @@ if defined?(Bundler)
     Bundler.require(:default, :assets, :opf_plugins, Rails.env)
   end
 end
+
+require File.dirname(__FILE__) + '/../lib/open_project/configuration'
 
 module OpenProject
   class Application < Rails::Application
@@ -121,6 +125,10 @@ module OpenProject
     # initialize variable for register plugin tests
     config.plugins_to_test_paths = []
 
+    # Configure the relative url root to be whatever the configuration is set to.
+    # This allows for setting the root either via config file or via environment variable.
+    config.action_controller.relative_url_root = OpenProject::Configuration['rails_relative_url_root']
+
     config.to_prepare do
       # Rails loads app/views paths of all plugin on each request and appends it to the view_paths.
       # Thus, they end up behind the core view path and core views are found before plugin views.
@@ -129,5 +137,7 @@ module OpenProject
       ApplicationController.view_paths = ActionView::PathSet.new(ApplicationController.view_paths.to_ary.reverse)
       ActionMailer::Base.view_paths = ActionView::PathSet.new(ActionMailer::Base.view_paths.to_ary.reverse)
     end
+
+    OpenProject::Configuration.configure_cache(config)
   end
 end

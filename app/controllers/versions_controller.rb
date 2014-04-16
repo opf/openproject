@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,6 +35,7 @@ class VersionsController < ApplicationController
   before_filter :find_project, :only => [:index, :new, :create, :close_completed]
   before_filter :authorize
 
+  include VersionsHelper
 
   def index
     @types = @project.types.find(:all, :order => 'position')
@@ -93,8 +94,8 @@ class VersionsController < ApplicationController
           end
           format.js do
             # IE doesn't support the replace_html rjs method for select box options
-            render(:update) {|page| page.replace "issue_fixed_version_id",
-              content_tag('select', '<option></option>'.html_safe + version_options_for_select(@project.shared_versions.open, @version).html_safe, :id => 'issue_fixed_version_id', :name => 'issue[fixed_version_id]')
+            render(:update) {|page| page.replace "work_package_fixed_version_id",
+              content_tag('select', '<option></option>'.html_safe + version_options_for_select(@project.shared_versions.open, @version).html_safe, :id => 'work_package_fixed_version_id', :name => 'work_package[fixed_version_id]')
             }
           end
         end
@@ -119,7 +120,7 @@ class VersionsController < ApplicationController
       @version.safe_attributes = attributes
       if @version.save
         flash[:notice] = l(:notice_successful_update)
-        redirect_to :controller => '/projects', :action => 'settings', :tab => 'versions', :id => @project
+        redirect_back_or_default(settings_project_path(tab: 'versions', id: @project))
       else
         respond_to do |format|
           format.html { render :action => 'edit' }
@@ -148,7 +149,7 @@ class VersionsController < ApplicationController
   def status_by
     respond_to do |format|
       format.html { render :action => 'show' }
-      format.js { render(:update) {|page| page.replace_html 'status_by', render_status_by(@version, params[:status_by])} }
+      format.js { render_status_by @version, params[:status_by] }
     end
   end
 

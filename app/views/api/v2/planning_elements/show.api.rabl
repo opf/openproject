@@ -26,8 +26,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-object @planning_element
-node :planning_element do
-  partial("api/v2/planning_elements/planning_element", object: @planning_element)
-end
+object @planning_element => :planning_element
 
+extends "api/v2/planning_elements/planning_element"

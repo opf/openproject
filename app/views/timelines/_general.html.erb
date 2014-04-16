@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -81,30 +81,37 @@ See doc/COPYRIGHT.rdoc for more details.
       </p>
 
       <p class="tl-form-overflow">
-        <%= label_tag :timeline_options_display_timeframe,
+        <%= label_tag :timeline_options_timeframe_start,
                       l('timelines.filter.timeframe') %>
 
-        <%= l('timelines.filter.timeframe_start') %>
+        <span>
+          <%= label_tag :timeline_options_timeframe_start,
+                        l('timelines.filter.timeframe_start'),
+                        style: "margin-left:5px; width:auto;" %>
 
-        <%= text_field_tag "timeline[options][timeframe_start]",
-                           timeline.options["timeframe_start"],
-                           :size => 10 %>
-        <%= calendar_for('timeline_options_timeframe_start') %>
+          <%= text_field_tag "timeline[options][timeframe_start]",
+                             timeline.options["timeframe_start"],
+                             :size => 10 %>
+          <%= calendar_for('timeline_options_timeframe_start') %>
+        </span>
 
-        <%= l('timelines.filter.timeframe_end') %>
+        <span>
+          <%= label_tag :timeline_options_timeframe_end,
+                        l('timelines.filter.timeframe_end'),
+                        style: "margin-left:5px; width:auto;" %>
 
-        <%= text_field_tag "timeline[options][timeframe_end]",
-                           timeline.options["timeframe_end"],
-                           :size => 10 %>
-        <%= calendar_for('timeline_options_timeframe_end') %>
-
+          <%= text_field_tag "timeline[options][timeframe_end]",
+                             timeline.options["timeframe_end"],
+                             :size => 10 %>
+          <%= calendar_for('timeline_options_timeframe_end') %>
+        </span>
       </p>
 
       <p class="tl-form-overflow">
-        <%= label_tag 'timeline_options_columns',
-                      l("timelines.filter.columns") %>
-
         <% if User.current.impaired? %>
+          <%= label_tag 'timeline_options_columns',
+                        l("timelines.filter.columns") %>
+
           <%= select("timeline[options]",
                      :columns,
                      internationalized_columns_select(timeline.available_columns),
@@ -112,10 +119,13 @@ See doc/COPYRIGHT.rdoc for more details.
                      {:multiple => true,
                       :size => 12}) %>
         <% else %>
+          <%= label_tag 'timeline_options_columns_',
+                        l("timelines.filter.columns") %>
+
           <%= hidden_field_tag("timeline[options][columns][]",
                   timeline.selected_columns.join(","),
                   {
-                    :"data-values" => internationalized_columns_select_object(timeline.available_columns).to_json
+                    :"data-values" => internationalized_columns_select_object(timeline.available_columns).concat(timeline.custom_field_columns).to_json
                   }
                 ) %>
         <% end %>

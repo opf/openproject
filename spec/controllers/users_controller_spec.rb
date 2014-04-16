@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,16 +48,16 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        Setting.stub(:users_deletable_by_self?).and_return(true)
+        allow(Setting).to receive(:users_deletable_by_self?).and_return(true)
 
         as_logged_in_user user do
           get :deletion_info, params
         end
       end
 
-      it { response.should be_success }
-      it { assigns(:user).should == user }
-      it { response.should render_template("deletion_info") }
+      it { expect(response).to be_success }
+      it { expect(assigns(:user)).to eq(user) }
+      it { expect(response).to render_template("deletion_info") }
     end
 
     describe "WHEN the current user is the requested user
@@ -65,14 +65,14 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        Setting.stub(:users_deletable_by_self?).and_return(false)
+        allow(Setting).to receive(:users_deletable_by_self?).and_return(false)
 
         as_logged_in_user user do
           get :deletion_info, params
         end
       end
 
-      it { response.response_code.should == 404 }
+      it { expect(response.response_code).to eq(404) }
     end
 
     describe "WHEN the current user is the anonymous user" do
@@ -84,7 +84,7 @@ describe UsersController do
         end
       end
 
-      it { response.should redirect_to({ :controller => 'account',
+      it { expect(response).to redirect_to({ :controller => 'account',
                                          :action => 'login',
                                          :back_url => @controller.url_for({ :controller => 'users',
                                                                             :action => 'deletion_info' }) }) }
@@ -95,16 +95,16 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        Setting.stub(:users_deletable_by_admins?).and_return(true)
+        allow(Setting).to receive(:users_deletable_by_admins?).and_return(true)
 
         as_logged_in_user admin do
           get :deletion_info, params
         end
       end
 
-      it { response.should be_success }
-      it { assigns(:user).should == user }
-      it { response.should render_template("deletion_info") }
+      it { expect(response).to be_success }
+      it { expect(assigns(:user)).to eq(user) }
+      it { expect(response).to render_template("deletion_info") }
     end
 
     describe "WHEN the current user is admin
@@ -112,14 +112,14 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        Setting.stub(:users_deletable_by_admins?).and_return(false)
+        allow(Setting).to receive(:users_deletable_by_admins?).and_return(false)
 
         as_logged_in_user admin do
           get :deletion_info, params
         end
       end
 
-      it { response.response_code.should == 404 }
+      it { expect(response.response_code).to eq(404) }
     end
   end
 
@@ -129,16 +129,16 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        @controller.instance_eval{ flash.stub(:sweep) }
-        Setting.stub(:users_deletable_by_self?).and_return(true)
+        disable_flash_sweep
+        allow(Setting).to receive(:users_deletable_by_self?).and_return(true)
 
         as_logged_in_user user do
           post :destroy, params
         end
       end
 
-      it { response.should redirect_to({ :controller => 'account', :action => 'login' }) }
-      it { flash[:notice].should == I18n.t('account.deleted') }
+      it { expect(response).to redirect_to({ :controller => 'account', :action => 'login' }) }
+      it { expect(flash[:notice]).to eq(I18n.t('account.deleted')) }
     end
 
     describe "WHEN the current user is the requested one
@@ -146,15 +146,15 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        @controller.instance_eval{ flash.stub(:sweep) }
-        Setting.stub(:users_deletable_by_self?).and_return(false)
+        disable_flash_sweep
+        allow(Setting).to receive(:users_deletable_by_self?).and_return(false)
 
         as_logged_in_user user do
           post :destroy, params
         end
       end
 
-      it { response.response_code.should == 404 }
+      it { expect(response.response_code).to eq(404) }
     end
 
     describe "WHEN the current user is the anonymous user
@@ -162,8 +162,8 @@ describe UsersController do
       let(:params) { { "id" => anonymous.id.to_s } }
 
       before do
-        @controller.stub(:find_current_user).and_return(anonymous)
-        Setting.stub(:login_required?).and_return(false)
+        allow(@controller).to receive(:find_current_user).and_return(anonymous)
+        allow(Setting).to receive(:login_required?).and_return(false)
 
         as_logged_in_user anonymous do
           post :destroy, params
@@ -171,7 +171,7 @@ describe UsersController do
       end
 
       # redirecting post is not possible for now
-      it { response.response_code.should == 403 }
+      it { expect(response.response_code).to eq(403) }
     end
 
     describe "WHEN the current user is the admin
@@ -180,16 +180,16 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        @controller.instance_eval{ flash.stub(:sweep) }
-        Setting.stub(:users_deletable_by_admins?).and_return(true)
+        disable_flash_sweep
+        allow(Setting).to receive(:users_deletable_by_admins?).and_return(true)
 
         as_logged_in_user admin do
           post :destroy, params
         end
       end
 
-      it { response.should redirect_to({ :controller => 'users', :action => 'index' }) }
-      it { flash[:notice].should == I18n.t('account.deleted') }
+      it { expect(response).to redirect_to({ :controller => 'users', :action => 'index' }) }
+      it { expect(flash[:notice]).to eq(I18n.t('account.deleted')) }
     end
 
     describe "WHEN the current user is the admin
@@ -198,15 +198,15 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        @controller.instance_eval{ flash.stub(:sweep) }
-        Setting.stub(:users_deletable_by_admins).and_return(false)
+        disable_flash_sweep
+        allow(Setting).to receive(:users_deletable_by_admins).and_return(false)
 
         as_logged_in_user admin do
           post :destroy, params
         end
       end
 
-      it { response.response_code.should == 404 }
+      it { expect(response.response_code).to eq(404) }
     end
   end
 
@@ -257,22 +257,22 @@ describe UsersController do
 
       shared_examples_for "index action with disabled session lifetime or inactivity not exceeded" do
         it "doesn't logout the user and renders the index action" do
-          User.current.should == admin
-          response.should render_template "index"
+          expect(User.current).to eq(admin)
+          expect(response).to render_template "index"
         end
       end
 
       shared_examples_for 'index action with enabled session lifetime and inactivity exceeded' do
         it "logs out the user and redirects with a warning that he has been locked out" do
-          response.redirect_url.should == (signin_url + "?back_url=" + CGI::escape(@controller.url_for(:controller => "users", :action => "index")))
-          User.current.should_not == admin
-          flash[:warning].should == I18n.t(:notice_forced_logout, :ttl_time => Setting.session_ttl)
+          expect(response.redirect_url).to eq(signin_url + "?back_url=" + CGI::escape(@controller.url_for(:controller => "users", :action => "index")))
+          expect(User.current).not_to eq(admin)
+          expect(flash[:warning]).to eq(I18n.t(:notice_forced_logout, :ttl_time => Setting.session_ttl))
         end
       end
 
       context "disabled" do
         before do
-          Setting.stub(:session_ttl_enabled?).and_return(false)
+          allow(Setting).to receive(:session_ttl_enabled?).and_return(false)
           @controller.send(:logged_user=, admin)
           get :index
         end
@@ -282,8 +282,8 @@ describe UsersController do
 
       context "enabled " do
         before do
-          Setting.stub(:session_ttl_enabled?).and_return(true)
-          Setting.stub(:session_ttl).and_return("120")
+          allow(Setting).to receive(:session_ttl_enabled?).and_return(true)
+          allow(Setting).to receive(:session_ttl).and_return("120")
           @controller.send(:logged_user=, admin)
         end
 
@@ -306,7 +306,7 @@ describe UsersController do
 
         context "without last activity time in the session" do
           before do
-            Setting.stub(:session_ttl).and_return("60")
+            allow(Setting).to receive(:session_ttl).and_return("60")
             session[:updated_at] = nil
             get :index
           end
@@ -315,7 +315,7 @@ describe UsersController do
 
         context "with ttl = 0" do
           before do
-            Setting.stub(:session_ttl).and_return("0")
+            allow(Setting).to receive(:session_ttl).and_return("0")
             session[:updated_at] = Time.now - 1.hours
             get :index
           end
@@ -325,7 +325,7 @@ describe UsersController do
 
         context "with ttl < 0" do
           before do
-            Setting.stub(:session_ttl).and_return("-60")
+            allow(Setting).to receive(:session_ttl).and_return("-60")
             session[:updated_at] = Time.now - 1.hours
             get :index
           end
@@ -335,7 +335,7 @@ describe UsersController do
 
         context "with ttl < 5 > 0" do
           before do
-            Setting.stub(:session_ttl).and_return("4")
+            allow(Setting).to receive(:session_ttl).and_return("4")
             session[:updated_at] = Time.now - 1.hours
             get :index
           end
@@ -360,6 +360,31 @@ describe UsersController do
     end
   end
 
+  describe "update memberships" do
+    let(:project) { FactoryGirl.create(:project) }
+    let(:role) { FactoryGirl.create(:role) }
+
+    it "works" do
+      # i.e. it should successfully add a user to a project's members
+      as_logged_in_user admin do
+        post :edit_membership,
+          :id => user.id,
+          :membership => {
+            :project_id => project.id,
+            :role_ids => [role.id]
+          },
+          :format => "js"
+      end
+
+      expect(response.status).to eql(200)
+
+      is_member = user.reload.memberships.any? do |m|
+        m.project_id == project.id && m.role_ids.include?(role.id)
+      end
+      expect(is_member).to eql(true)
+    end
+  end
+
   describe "Anonymous should not be able to create a user" do
 
     it "should redirect to the login page" do
@@ -367,5 +392,61 @@ describe UsersController do
       expect(response).to redirect_to '/login?back_url=http%3A%2F%2Ftest.host%2Fusers'
     end
 
+  end
+
+  describe "show" do
+    describe "general" do
+      before do
+        as_logged_in_user user do
+          get :show, :id => user.id
+        end
+      end
+
+      it "responds with success" do
+        expect(response).to be_success
+      end
+
+      it "renders the show template" do
+        expect(response).to render_template 'show'
+      end
+
+      it "assigns @user" do
+        expect(assigns(:user)).to eq(user)
+      end
+    end
+
+    describe 'for user with Activity' do
+      render_views
+
+      let(:work_package) { FactoryGirl.create(:work_package,
+                                              author: user) }
+      let!(:member) { FactoryGirl.create(:member,
+                                         project: work_package.project,
+                                         principal: user,
+                                         roles: [FactoryGirl.create(:role,
+                                                                    permissions: [:view_work_packages])]) }
+      let!(:journal_1) { FactoryGirl.create(:work_package_journal,
+                                            user: user,
+                                            journable_id: work_package.id,
+                                            version: Journal.maximum(:version) + 1,
+                                            data: FactoryGirl.build(:journal_work_package_journal,
+                                                                    subject: work_package.subject,
+                                                                    status_id: work_package.status_id,
+                                                                    type_id: work_package.type_id,
+                                                                    project_id: work_package.project_id)) }
+      let!(:journal_2) { FactoryGirl.create(:work_package_journal,
+                                            user: user,
+                                            journable_id: work_package.id,
+                                            version: Journal.maximum(:version) + 1,
+                                            data: FactoryGirl.build(:journal_work_package_journal,
+                                                                    subject: work_package.subject,
+                                                                    status_id: work_package.status_id,
+                                                                    type_id: work_package.type_id,
+                                                                    project_id: work_package.project_id)) }
+
+      before { allow(User).to receive(:current).and_return(user.reload) }
+
+      it { get :show, id: user.id }
+    end
   end
 end

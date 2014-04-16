@@ -26,7 +26,5 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 object @project_type
-node :project_type do |project_type|
- partial '/api/v2/project_types/project_type.api', :object => project_type
-end
 
+extends '/api/v2/project_types/project_type.api'

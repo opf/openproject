@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <div style="display:none;">
     <div>
       <p class="tl-form-overflow">
-        <%= label_tag :timeline_options_grouping_one,
+        <%= label_tag :timeline_options_grouping_one_enabled,
                       l('timelines.filter.grouping_one') %>
 
         <%= check_box_tag("timeline[options][grouping_one_enabled]",
@@ -43,7 +43,9 @@ See doc/COPYRIGHT.rdoc for more details.
                           timeline.options["grouping_one_enabled"].present?) %>
 
         <span>
-          <%= l('timelines.filter.grouping_one_phrase') %>
+          <%= label_tag :timeline_options_grouping_one_selection,
+                        l('timelines.filter.grouping_one_phrase'),
+                        class: 'inline-label' %>
         </span>
 
         <% if User.current.impaired? %>
@@ -87,7 +89,7 @@ See doc/COPYRIGHT.rdoc for more details.
       </p>
 
       <p class="tl-form-overflow">
-        <%= label_tag :timeline_options_grouping_two,
+        <%= label_tag :timeline_options_grouping_two_enabled,
                       l('timelines.filter.grouping_two') %>
 
         <%= check_box_tag("timeline[options][grouping_two_enabled]",
@@ -95,7 +97,9 @@ See doc/COPYRIGHT.rdoc for more details.
                           timeline.options["grouping_two_enabled"].present?) %>
 
         <span>
-          <%= l('timelines.filter.grouping_two_phrase') %>
+          <%= label_tag :timeline_options_grouping_two_selection,
+                        l('timelines.filter.grouping_two_phrase'),
+                        class: 'inline-label' %>
         </span>
 
         <% if User.current.impaired? %>

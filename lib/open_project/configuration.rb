@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,7 +41,13 @@ module OpenProject
       'scm_subversion_command'  => nil,
       'disable_browser_cache'   => true,
       # default cache_store is :file_store in production and :memory_store in development
-      'rails_cache_store'       => :default,
+      'rails_cache_store'       => nil,
+      'cache_expires_in_seconds' => nil,
+      'cache_namespace' => nil,
+      # use dalli defaults for memcache
+      'cache_memcache_server'   => nil,
+      # url-path prefix
+      'rails_relative_url_root' => "",
 
       # email configuration
       'email_delivery_method' => nil,
@@ -60,7 +66,7 @@ module OpenProject
     @config = nil
 
     class << self
-      # Loads the Redmine configuration file
+      # Loads the OpenProject configuration file
       # Valid options:
       # * <tt>:file</tt>: the configuration file to load (default: config/configuration.yml)
       # * <tt>:env</tt>: the environment to load the configuration for (default: Rails.env)
@@ -80,6 +86,8 @@ module OpenProject
           configure_action_mailer(@config)
         end
 
+        define_config_methods
+
         @config
       end
 
@@ -97,6 +105,12 @@ module OpenProject
         @config[name]
       end
 
+      # Sets configuration setting
+      def []=(name, value)
+        load unless @config
+        @config[name] = value
+      end
+
       # Yields a block with the specified hash configuration settings
       def with(settings)
         settings.stringify_keys!
@@ -105,6 +119,23 @@ module OpenProject
         @config.merge! settings
         yield if block_given?
         @config.merge! was
+      end
+
+      def configure_cache(application_config)
+        return unless @config['rails_cache_store']
+
+        # rails defaults to :file_store, use :dalli when :memcaches is configured in configuration.yml
+        cache_store = @config['rails_cache_store'].to_sym
+        if cache_store == :memcache
+          cache_config = [:dalli_store]
+          cache_config << @config['cache_memcache_server'] \
+            if @config['cache_memcache_server']
+        else
+          cache_config = [cache_store]
+        end
+        parameters = cache_parameters(@config)
+        cache_config << parameters if parameters.size > 0
+        application_config.cache_store = cache_config
       end
 
       private
@@ -175,6 +206,21 @@ module OpenProject
         end
       end
 
+      def cache_parameters(config)
+        mapping = {
+          'cache_expires_in_seconds' => [:expires_in, :to_i],
+          'cache_namespace' => [:namespace, :to_s]
+        }
+        parameters = {}
+        mapping.each_pair do |from, to|
+          if config[from]
+            to_key, method = to
+            parameters[to_key] = config[from].method(method).call
+          end
+        end
+        parameters
+      end
+
       # Filters a hash with String keys by a key prefix and removes the prefix from the keys
       def filter_hash_by_key_prefix(hash, prefix)
         filtered_hash = {}
@@ -186,6 +232,15 @@ module OpenProject
         filtered_hash
       end
 
+      def define_config_methods
+        @config.keys.each do |setting|
+          (class << self; self; end).class_eval do
+            define_method setting do
+              self[setting]
+            end
+          end
+        end
+      end
     end
   end
 end

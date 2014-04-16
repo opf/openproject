@@ -1,10 +1,28 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -111,7 +129,7 @@ class MigrateTimelinesOptions < ActiveRecord::Migration
     calling_class.contains_none_element = calling_class.contains_none_element? || pe_types.empty?
 
     pe_types = pe_types.empty? ? new_ids_of_former_pes
-                               : pe_types.map { |p| pe_type_id_map[p] }
+                               : pe_types.map { |p| pe_type_id_map[p.to_i].to_s }
 
     timelines_opts[PE_TYPE_KEY] = pe_types
 
@@ -123,7 +141,7 @@ class MigrateTimelinesOptions < ActiveRecord::Migration
 
     pe_time_types = timelines_opts[PE_TIME_TYPE_KEY]
 
-    pe_time_types.map! { |p| pe_type_id_map[p] }
+    pe_time_types.map! { |p| pe_type_id_map[p.to_i].to_s }
 
     timelines_opts[PE_TIME_TYPE_KEY] = pe_time_types
 
@@ -137,7 +155,7 @@ class MigrateTimelinesOptions < ActiveRecord::Migration
                                                     .map { |p| p.strip }
 
     unless vertical_pes.empty?
-      mapped_pes = vertical_pes.map { |v| pe_id_map[v] }
+      mapped_pes = vertical_pes.map { |v| pe_id_map[v.to_i] }
                                .compact
 
       timelines_opts[VERTICAL_PE_TYPES] = mapped_pes.join(',')
@@ -154,7 +172,7 @@ class MigrateTimelinesOptions < ActiveRecord::Migration
   end
 
   def pe_type_id_map
-    @pe_type_id_map ||= pe_types_ids_with_new_ids.each_with_object({}) do |r, h|
+    @pe_type_id_map ||= pe_types_ids_with_new_ids.each_with_object({ -1 => 0 }) do |r, h|
       h[r['id']] = r['new_id']
     end
   end

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require File.expand_path('../../../../test_helper', __FILE__)
 
 class ChiliProject::DatabaseTest < ActiveSupport::TestCase
   setup do
-    ChiliProject::Database.stubs(:adapter_name).returns "SQLite"
+    ChiliProject::Database.stub(:adapter_name).and_return "SQLite"
   end
 
   should "return the correct identifier" do
@@ -45,7 +45,7 @@ class ChiliProject::DatabaseTest < ActiveSupport::TestCase
 
   should "return a version string for SQLite3" do
     begin
-      ChiliProject::Database.stubs(:adapter_name).returns "SQLite"
+      ChiliProject::Database.stub(:adapter_name).and_return "SQLite"
 
       if Object.const_defined?('RUBY_ENGINE') && ::RUBY_ENGINE == 'jruby'
         # If we have the SQLite3 gem installed, save the old constant
@@ -66,7 +66,7 @@ class ChiliProject::DatabaseTest < ActiveSupport::TestCase
         elsif %w(SQLite3 Driver Native API).inject(Object){ |m, defined|
           m = (m && m.const_defined?(defined)) ? m.const_get(defined) : false
         }
-          SQLite3::Driver::Native::API.stubs('sqlite3_libversion').returns "1.2.3"
+          SQLite3::Driver::Native::API.stub('sqlite3_libversion').and_return "1.2.3"
         # Fallback if nothing else worked: Stub the old SQLite3 API
         else
           # if we don't have any sqlite3 module, stub the whole module
@@ -98,17 +98,17 @@ class ChiliProject::DatabaseTest < ActiveSupport::TestCase
   end
 
   should "return a version string for PostgreSQL" do
-    ChiliProject::Database.stubs(:adapter_name).returns "PostgreSQL"
+    ChiliProject::Database.stub(:adapter_name).and_return "PostgreSQL"
     raw_version = "PostgreSQL 8.3.11 on x86_64-pc-linux-gnu, compiled by GCC gcc-4.3.real (Debian 4.3.2-1.1) 4.3.2"
-    ActiveRecord::Base.connection.stubs(:select_value).returns raw_version
+    ActiveRecord::Base.connection.stub(:select_value).and_return raw_version
 
     assert_equal "8.3.11", ChiliProject::Database.version
     assert_equal raw_version, ChiliProject::Database.version(true)
   end
 
   should "return a version string for MySQL" do
-    ChiliProject::Database.stubs(:adapter_name).returns "MySQL"
-    ActiveRecord::Base.connection.stubs(:select_value).returns "5.1.2"
+    ChiliProject::Database.stub(:adapter_name).and_return "MySQL"
+    ActiveRecord::Base.connection.stub(:select_value).and_return "5.1.2"
 
     assert_equal "5.1.2", ChiliProject::Database.version
     assert_equal "5.1.2", ChiliProject::Database.version(true)

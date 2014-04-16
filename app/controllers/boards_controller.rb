@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,23 +51,25 @@ class BoardsController < ApplicationController
   end
 
   def show
+    sort_init 'updated_on', 'desc'
+    sort_update	'created_on' => "#{Message.table_name}.created_on",
+                'replies' => "#{Message.table_name}.replies_count",
+                'updated_on' => "#{Message.table_name}.updated_on"
+
     respond_to do |format|
       format.html {
-        sort_init 'updated_on', 'desc'
-        sort_update	'created_on' => "#{Message.table_name}.created_on",
-                    'replies' => "#{Message.table_name}.replies_count",
-                    'updated_on' => "#{Message.table_name}.updated_on"
-
-        @topics =  @board.topics.order(["#{Message.table_name}.sticky DESC", sort_clause].compact.join(', '))
+        @topics =  @board.topics.order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
                                 .includes(:author, { :last_reply => :author })
                                 .page(params[:page])
                                 .per_page(per_page_param)
+
+
 
         @message = Message.new
         render :action => 'show', :layout => !request.xhr?
       }
       format.atom {
-        @messages = @board.messages.order('created_on DESC')
+        @messages = @board.messages.order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
                                    .includes(:author, :board)
                                    .limit(Setting.feeds_limit.to_i)
 
@@ -92,7 +94,7 @@ class BoardsController < ApplicationController
   end
 
   def update
-    if @board.update_attributes(params[:board])
+    if @board.update_attributes(permitted_params.board)
       flash[:notice] = l(:notice_successful_update)
       redirect_to_settings_in_projects
     else
@@ -131,7 +133,7 @@ private
   end
 
   def new_board
-    @board = Board.new(params[:board])
+    @board = Board.new(permitted_params.board?)
     @board.project = @project
   end
 end

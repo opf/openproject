@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ describe StatusesController do
   let(:user) { FactoryGirl.create(:admin) }
   let(:status) { FactoryGirl.create(:status) }
 
-  before { User.stub(:current).and_return user }
+  before { allow(User).to receive(:current).and_return user }
 
   shared_examples_for :response do
     subject { response }
@@ -130,7 +130,7 @@ describe StatusesController do
     before do
       status
 
-      post :update,
+      put :update,
            id: status.id,
            status: { name: name }
     end
@@ -153,7 +153,7 @@ describe StatusesController do
       before do
         status
 
-        post :destroy, id: status.id
+        delete :destroy, id: status.id
       end
 
       it_behaves_like :destroyed
@@ -168,7 +168,7 @@ describe StatusesController do
       before do
         work_package
 
-        post :destroy, id: status.id
+        delete :destroy, id: status.id
       end
 
       it_behaves_like :statuses
@@ -186,7 +186,7 @@ describe StatusesController do
       let(:message) { /not updated/ } 
 
       before do
-        Setting.stub(:work_package_done_ratio).and_return 'field'
+        allow(Setting).to receive(:work_package_done_ratio).and_return 'field'
 
         post :update_work_package_done_ratio
       end
@@ -200,7 +200,7 @@ describe StatusesController do
       let(:message) { /Work package done ratios updated/ } 
 
       before do
-        Setting.stub(:work_package_done_ratio).and_return 'status'
+        allow(Setting).to receive(:work_package_done_ratio).and_return 'status'
 
         post :update_work_package_done_ratio
       end

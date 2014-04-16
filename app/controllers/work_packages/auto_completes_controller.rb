@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,6 +27,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'rack/utils'
+
 class WorkPackages::AutoCompletesController < ApplicationController
   before_filter :find_project
 
@@ -45,10 +47,21 @@ class WorkPackages::AutoCompletesController < ApplicationController
                                            conditions: ["LOWER(#{WorkPackage.table_name}.subject) LIKE :q OR CAST(#{WorkPackage.table_name}.id AS CHAR(13)) LIKE :q", {q: "%#{q.downcase}%" }])
     end
 
-    render layout: false
+    respond_to do |format|
+      format.html { render layout: false }
+      format.any(:xml, :json) { render request.format.to_sym => wp_hash_with_string }
+    end
   end
 
   private
+
+  def wp_hash_with_string
+    @work_packages.map do |wp|
+      Hash[ wp.attributes.map do |key,value|
+        [ key, Rack::Utils.escape_html(value) ]
+      end << ['to_s', Rack::Utils.escape_html(wp.to_s)] ]
+    end
+  end
 
   def find_project
     project_id = (params[:work_package] && params[:work_package][:project_id]) || params[:project_id]

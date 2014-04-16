@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,9 +47,7 @@ class AccountControllerTest < ActionController::TestCase
     post :login, :username => 'admin', :password => 'bad'
     assert_response :success
     assert_template 'login'
-    assert_tag 'div',
-               :attributes => { :class => "flash error" },
-               :content => /Invalid user or password/
+    assert_select "div.flash.error.icon.icon-error", /Invalid user or password/
   end
 
   def test_login
@@ -58,7 +56,7 @@ class AccountControllerTest < ActionController::TestCase
   end
 
   def test_login_should_reset_session
-    @controller.expects(:reset_session).once
+    @controller.should_receive(:reset_session).once
 
     post :login, :username => 'jsmith', :password => 'jsmith'
     assert_response 302
@@ -181,7 +179,7 @@ class AccountControllerTest < ActionController::TestCase
   end
 
   def test_logout_should_reset_session
-    @controller.expects(:reset_session).once
+    @controller.should_receive(:reset_session).once
 
     @request.session[:user_id] = 2
     get :logout

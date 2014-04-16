@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,7 +38,7 @@ module Api
                              "format" => "json" } }
 
             before do
-              model.should_receive(scope)
+              expect(model).to receive(scope)
                    .with(params["q"])
                    .and_return(model)
 
@@ -46,7 +46,7 @@ module Api
             end
 
             it 'should be successful' do
-              response.should be_success
+              expect(response).to be_success
             end
           end
         end
