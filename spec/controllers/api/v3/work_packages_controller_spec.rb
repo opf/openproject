@@ -66,8 +66,11 @@ describe Api::V3::WorkPackagesController do
 
     context 'with column ids and column names' do
       before do
+        allow(Setting).to receive(:work_package_list_summable_columns).and_return(
+          %w(estimated_hours story_points)
+        )
         WorkPackage.stub_chain(:visible, :find) {
-          FactoryGirl.create_list(:work_package, 2, estimated_hours: 5)
+          FactoryGirl.create_list(:work_package, 2, estimated_hours: 5, story_points: 3)
         }
       end
 
@@ -83,13 +86,15 @@ describe Api::V3::WorkPackagesController do
       end
 
       it 'assigns column metadata' do
-        get :column_data, format: 'xml', ids: [1, 2], column_names: %w(subject status estimated_hours)
+        get :column_data, format: 'xml', ids: [1, 2],
+          column_names: %w(subject status estimated_hours story_points)
 
         expect(assigns(:columns_meta)).to have_key('group_sums')
         expect(assigns(:columns_meta)).to have_key('total_sums')
 
-        expect(assigns(:columns_meta)['total_sums'].size).to eq(3)
+        expect(assigns(:columns_meta)['total_sums'].size).to eq(4)
         expect(assigns(:columns_meta)['total_sums'][2]).to eq(10.0)
+        expect(assigns(:columns_meta)['total_sums'][3]).to eq(3)
       end
 
       it 'renders the column_data template' do
