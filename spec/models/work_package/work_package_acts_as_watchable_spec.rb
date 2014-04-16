@@ -134,10 +134,6 @@ describe WorkPackage do
   context 'notifications' do
     let(:number_of_recipients) { (work_package.recipients | work_package.watcher_recipients).length }
 
-    before :each do
-      Delayed::Worker.delay_jobs = false
-    end
-
     it 'sends one delayed mail notification for each watcher recipient' do
       UserMailer.stub_chain :work_package_updated, :deliver
       expect(UserMailer).to receive(:work_package_updated).exactly(number_of_recipients).times
