@@ -31,7 +31,7 @@
 
 session_store = Rails.env.production? ? :cache_store : :cookie_store
 
-relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || '/'
+relative_url_root = OpenProject::Configuration['rails_relative_url_root'].presence
 
 session_options = {
   :key    => '_open_project_session',
