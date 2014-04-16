@@ -47,6 +47,12 @@ angular.module('openproject.helpers')
         }
       }
     },
+    parseNumeric: function(value, parseMethod){
+      if(value && ((typeof(value) == "string" && value.length > 0) || typeof(value) == "number") && !isNaN(value)){
+        return parseMethod(value);
+      }
+      return '';
+    },
     formatCustomFieldValue: function(value, fieldFormat, users) {
       switch(fieldFormat) {
         case 'bool':
@@ -62,17 +68,9 @@ angular.module('openproject.helpers')
           }
           break;
         case 'int':
-          if(value){
-            return parseInt(value, 10);
-          } else{
-            return '';
-          }
+          return CustomFieldHelper.parseNumeric(value, parseInt);
         case 'float':
-          if(value){
-            return parseFloat(value);
-          } else{
-            return '';
-          }
+          return CustomFieldHelper.parseNumeric(value, parseFloat);
         default:
           return value;
       }

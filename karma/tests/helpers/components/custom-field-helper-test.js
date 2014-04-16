@@ -85,15 +85,15 @@ describe('Custom field helper', function() {
       it('should parse a string, displaying as integer', function() {
         expect(formatCustomFieldValue('49',      'int')).to.equal(49);
         expect(formatCustomFieldValue('49.99',   'int')).to.equal(49);
-        expect(formatCustomFieldValue('49.BLAH', 'int')).to.equal(49);
+        expect(formatCustomFieldValue('49.BLAH', 'int')).to.equal('');
       });
 
       it('should preserve an integer', function() {
         expect(formatCustomFieldValue(49, 'int')).to.equal(49);
       });
 
-      xit('should handle a meaningless string', function() {
-        expect(formatCustomFieldValue('BLAHBLAH','int')).to.be.a(NaN);
+      it('should handle a meaningless string', function() {
+        expect(formatCustomFieldValue('BLAHBLAH','int')).to.equal('');
       });
     });
 
@@ -109,15 +109,15 @@ describe('Custom field helper', function() {
 
       it('should parse a string, displaying as float', function() {
         expect(formatCustomFieldValue('49.99',    'float')).to.equal(49.99);
-        expect(formatCustomFieldValue('49.99BLAH','float')).to.equal(49.99);
+        expect(formatCustomFieldValue('49.99BLAH','float')).to.equal('');
       });
 
       it('should preserve a float', function() {
         expect(formatCustomFieldValue(11.11, 'float')).to.equal(11.11);
       });
 
-      xit('should handle a meaningless string', function() {
-        expect(formatCustomFieldValue('BLAHBLAH','int')).to.be.a(NaN);
+      it('should handle a meaningless string', function() {
+        expect(formatCustomFieldValue('BLAHBLAH','int')).to.equal('');
       });
     });
 
