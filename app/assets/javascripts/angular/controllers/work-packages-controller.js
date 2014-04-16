@@ -45,7 +45,6 @@ angular.module('openproject.workPackages.controllers')
     $scope.loading = false;
     $scope.disableFilters = false;
 
-    // This is where we should get work packages based on url query params if we have them
     if($location.search()['f[]']){
       var getMethod = WorkPackageService.getWorkPackagesFromUrlQueryParams;
       var params = [$scope.projectIdentifier, $location];

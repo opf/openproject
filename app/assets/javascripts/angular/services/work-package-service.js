@@ -43,8 +43,6 @@ angular.module('openproject.services')
 
     getWorkPackagesFromUrlQueryParams: function(projectIdentifier, location) {
       var url = projectIdentifier ? PathHelper.apiProjectWorkPackagesPath(projectIdentifier) : PathHelper.apiWorkPackagesPath();
-
-      // Build up query from params...
       var params = {};
       angular.extend(params, location.search());
 

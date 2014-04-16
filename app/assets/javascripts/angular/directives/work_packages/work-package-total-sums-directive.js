@@ -47,7 +47,10 @@ angular.module('openproject.workPackages.directives')
 
           scope.$watch('columns.length', function(length, formerLength) {
             // map columns to sums if the column data is a number
-            if(length >= formerLength) fetchSums();
+            if(length >= formerLength){
+              fetchSums();
+              scope.updateBackUrl();
+            }
           });
         }
       };
