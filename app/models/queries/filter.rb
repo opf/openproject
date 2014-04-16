@@ -130,7 +130,7 @@ class Queries::Filter
   private
 
   def validate_presence_of_values
-    errors.add(:values, I18n.t('activerecord.errors.messages.blank')) if values.reject(&:blank?).empty?
+    errors.add(:values, I18n.t('activerecord.errors.messages.blank')) if values.nil? || values.reject(&:blank?).empty?
   end
 
   def validate_filter_values
