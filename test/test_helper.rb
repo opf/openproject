@@ -93,8 +93,6 @@ class ActiveSupport::TestCase
         ActiveRecord::Base.connection.reset_pk_sequence!(model.table_name)
       end
     end
-    # By default bypass worker queue and execute asynchronous tasks at once
-    Delayed::Worker.delay_jobs = false
 
     # initializes the mocking features
     RSpec::Mocks.setup(self)
