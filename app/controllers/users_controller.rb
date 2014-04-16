@@ -271,11 +271,7 @@ class UsersController < ApplicationController
     @user.status = User::STATUSES[:locked]
     @user.save
 
-    # TODO: use Delayed::Worker.delay_jobs = false in test environment as soon as
-    # delayed job allows for it
-    Rails.env.test? ?
-      @user.destroy :
-      @user.delay.destroy
+    @user.delay.destroy
 
     # log the user out if it's a self-delete
     # must be called before setting the flash message
