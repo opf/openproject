@@ -166,8 +166,11 @@ module OmniAuth
               openid_connect:
                 #{self.class.provider_name}:
                   #{name}: <value>
+
+              You can also configure it in Settings["plugin_openproject_openid_connect"]["providers"]
+              in form of a hash analog to the yaml configuration shown above.
         MSG
-        raise msg.strip
+        raise ArgumentError, msg.strip
       end
     end
   end
