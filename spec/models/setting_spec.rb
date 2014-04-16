@@ -132,8 +132,8 @@ describe Setting do
     end
 
     it "attaches to the right setting by passing a string" do
-      Setting.register_callback('notified_events', &callback)
-      Setting.notified_events = [:some_event]
+      Setting.register_callback('app_title', &callback)
+      Setting.app_title = 'some title'
       expect(collector).to_not be_empty
     end
 
