@@ -34,7 +34,7 @@
                 name="group_by"
                 ng-model="query.groupBy">
           <option value=""></option>
-          <option ng-repeat="column in columns"
+          <option ng-repeat="column in groupableColumns"
                   ng-selected="column.name === query.groupBy"
                   value="{{ column.name }}">{{ column.title }}</option>
         </select>

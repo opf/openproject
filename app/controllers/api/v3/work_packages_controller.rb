@@ -155,6 +155,7 @@ module Api
         @work_packages_meta_data = {
           query:                        query.as_json(except: :filters, include: :filters),
           columns:                      get_columns_for_json(query.columns),
+          groupable_columns:            get_columns_for_json(query.groupable_columns),
           work_package_count_by_group:  results.work_package_count_by_group,
           sums:                         query.columns.map { |column| results.total_sum_of(column) },
           group_sums:                   query.group_by_column && query.columns.map { |column| results.grouped_sums(column) },
