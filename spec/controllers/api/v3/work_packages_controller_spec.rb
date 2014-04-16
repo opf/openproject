@@ -66,11 +66,12 @@ describe Api::V3::WorkPackagesController do
 
     context 'with column ids and column names' do
       before do
+        # N.B.: for the purpose of example only. It makes little sense to sum a ratio.
         allow(Setting).to receive(:work_package_list_summable_columns).and_return(
-          %w(estimated_hours story_points)
+          %w(estimated_hours done_ratio)
         )
         WorkPackage.stub_chain(:visible, :find) {
-          FactoryGirl.create_list(:work_package, 2, estimated_hours: 5, story_points: 3)
+          FactoryGirl.create_list(:work_package, 2, estimated_hours: 5, done_ratio: 33)
         }
       end
 
@@ -87,14 +88,14 @@ describe Api::V3::WorkPackagesController do
 
       it 'assigns column metadata' do
         get :column_data, format: 'xml', ids: [1, 2],
-          column_names: %w(subject status estimated_hours story_points)
+          column_names: %w(subject status estimated_hours done_ratio)
 
         expect(assigns(:columns_meta)).to have_key('group_sums')
         expect(assigns(:columns_meta)).to have_key('total_sums')
 
         expect(assigns(:columns_meta)['total_sums'].size).to eq(4)
         expect(assigns(:columns_meta)['total_sums'][2]).to eq(10.0)
-        expect(assigns(:columns_meta)['total_sums'][3]).to eq(6)
+        expect(assigns(:columns_meta)['total_sums'][3]).to eq(66)
       end
 
       it 'renders the column_data template' do
