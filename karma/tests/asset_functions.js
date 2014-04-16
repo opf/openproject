@@ -38,7 +38,7 @@ function objectSortationEqual(array1, array2) {
       }
     }
 
-    return true;  
+    return true;
 }
 
 function objectsortation() {
