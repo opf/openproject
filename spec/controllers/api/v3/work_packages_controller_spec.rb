@@ -94,7 +94,7 @@ describe Api::V3::WorkPackagesController do
 
         expect(assigns(:columns_meta)['total_sums'].size).to eq(4)
         expect(assigns(:columns_meta)['total_sums'][2]).to eq(10.0)
-        expect(assigns(:columns_meta)['total_sums'][3]).to eq(3)
+        expect(assigns(:columns_meta)['total_sums'][3]).to eq(6)
       end
 
       it 'renders the column_data template' do
