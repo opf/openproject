@@ -66,4 +66,3 @@ angular.module('openproject.uiComponents')
     }
   };
 });
-
