@@ -33,30 +33,30 @@ class Setting
     # register a callback for a setting named #name
     def register_callback(name, &callback)
       # register the block with the underlying notifications system
-      _notifier.subscribe(_notification_event_for(name), &callback)
+      notifier.subscribe(notification_event_for(name), &callback)
     end
 
     # instructs the underlying notifications system to publish all setting events for setting #name
     # based on the new and old setting objects different events can be triggered
     # currently, that's whenever a setting is set regardless whether the value changed
     def fire_callbacks(name, setting, old_setting)
-      _notifier.send(_notification_event_for(name), _event_payload_for(setting, old_setting))
+      notifier.send(notification_event_for(name), event_payload_for(setting, old_setting))
     end
 
   private
 
     # encapsulates the event name broadcast to all subscribers
-    def _notification_event_for(name)
+    def notification_event_for(name)
       :"setting.#{name}.changed"
     end
 
     # encapsulates the payload expected by the notifier
-    def _event_payload_for(setting, old_setting)
+    def event_payload_for(setting, old_setting)
       { value: setting.value, old_value: old_setting.value }
     end
 
     # the notifier to delegate to
-    def _notifier
+    def notifier
       OpenProject::Notifications
     end
 
