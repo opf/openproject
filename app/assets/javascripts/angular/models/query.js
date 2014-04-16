@@ -67,10 +67,10 @@ angular.module('openproject.models')
       var serialised = '';
       angular.forEach(params, function(value, key){
         if(typeof value == "string"){
-          serialised = serialised + "&" + key + "=" + value;
+          serialised = serialised + "&" + key + "=" + encodeURIComponent(value);
         } else if(Array.isArray(value)){
           angular.forEach(value, function(v){
-            serialised = serialised + "&" + key + "=" + v;
+            serialised = serialised + "&" + key + "=" + encodeURIComponent(v);
           });
         }
       });

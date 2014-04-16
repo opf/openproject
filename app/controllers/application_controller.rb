@@ -427,7 +427,7 @@ class ApplicationController < ActionController::Base
                else
                  params[:back_url]
                end
-    binding.pry
+
     # if we have a back_url it must not contain two consecutive dots
     if back_url.present? && !back_url.match(%r{\.\.})
       begin
