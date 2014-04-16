@@ -28,8 +28,8 @@
 
 angular.module('openproject.workPackages.controllers')
 
-.controller('WorkPackagesController', ['$scope', '$window', 'WorkPackagesTableHelper', 'WorkPackageService', 'QueryService', 'PaginationService', 'WorkPackageLoadingHelper', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
-            function($scope, $window, WorkPackagesTableHelper, WorkPackageService, QueryService, PaginationService, WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
+.controller('WorkPackagesController', ['$scope', '$window', '$location', 'WorkPackagesTableHelper', 'WorkPackageService', 'QueryService', 'PaginationService', 'WorkPackageLoadingHelper', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
+            function($scope, $window, $location, WorkPackagesTableHelper, WorkPackageService, QueryService, PaginationService, WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
 
 
   function setUrlParams(location) {
@@ -45,7 +45,15 @@ angular.module('openproject.workPackages.controllers')
     $scope.loading = false;
     $scope.disableFilters = false;
 
-    $scope.withLoading(WorkPackageService.getWorkPackagesByQueryId, [$scope.projectIdentifier, $scope.query_id])
+    if($location.search()['f[]']){
+      var getMethod = WorkPackageService.getWorkPackagesFromUrlQueryParams;
+      var params = [$scope.projectIdentifier, $location];
+    } else {
+      var getMethod = WorkPackageService.getWorkPackagesByQueryId;
+      var params = [$scope.projectIdentifier, $scope.query_id];
+    }
+
+    $scope.withLoading(getMethod, params)
       .then($scope.setupWorkPackagesTable)
       .then(initAvailableColumns);
   }
@@ -61,6 +69,20 @@ angular.module('openproject.workPackages.controllers')
   function afterQuerySetupCallback(query) {
     $scope.showFilters = query.filters.length > 0;
   }
+
+  $scope.updateBackUrl = function(){
+    // Easier than trying to extract it from $location
+    var relativeUrl = "/work_packages";
+    if ($scope.projectIdentifier){
+      relativeUrl = "/projects/" + $scope.projectIdentifier + relativeUrl;
+    }
+
+    if($scope.query){
+      relativeUrl = relativeUrl + "#?" + $scope.query.serialiseForAngular();
+    }
+
+    $scope.backUrl = relativeUrl;
+  };
 
   $scope.submitQueryForm = function(){
     jQuery("#selected_columns option").attr('selected',true);
@@ -86,6 +108,7 @@ angular.module('openproject.workPackages.controllers')
       column.total_sum = meta.sums[i];
       if (meta.group_sums) column.group_sums = meta.group_sums[i];
     });
+    $scope.updateBackUrl();
   };
 
   $scope.updateResults = function() {

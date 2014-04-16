@@ -52,7 +52,8 @@ var openprojectApp = angular.module('openproject', ['ui.select2', 'ui.date', 'op
 
 openprojectApp
   .config(['$locationProvider', '$httpProvider', function($locationProvider, $httpProvider) {
-    $locationProvider.html5Mode(true);
+    // Note: Not using this because we want to use $location to get the url params and html5Mode prevents all the links from working normally.
+    // $locationProvider.html5Mode(true);
     $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = jQuery('meta[name=csrf-token]').attr('content'); // TODO find a more elegant way to keep the session alive
   }])
   .run(['$http', function($http){

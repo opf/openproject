@@ -62,6 +62,21 @@ angular.module('openproject.models')
       );
     },
 
+    serialiseForAngular: function(){
+      var params = this.toParams();
+      var serialised = '';
+      angular.forEach(params, function(value, key){
+        if(typeof value == "string"){
+          serialised = serialised + "&" + key + "=" + encodeURIComponent(value);
+        } else if(Array.isArray(value)){
+          angular.forEach(value, function(v){
+            serialised = serialised + "&" + key + "=" + encodeURIComponent(v);
+          });
+        }
+      });
+      return serialised.slice(1, serialised.length);
+    },
+
     /**
      * @name setAvailableWorkPackageFilters
      * @function

@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%= form_tag({}) do -%>
-  <%= hidden_field_tag 'back_url', url_for(params) %>
+  <back-url></back-url>
   <div class="autoscroll">
 
     <work-packages-table ng-if="rows && columns"
@@ -44,7 +44,8 @@ See doc/COPYRIGHT.rdoc for more details.
                          group-sums="groupSums"
                          class="list issues"
                          update-results="updateResults()"
-                         with-loading="withLoading">
+                         with-loading="withLoading"
+                         update-back-url="updateBackUrl">
     </work-packages-table>
 
     <table-pagination total-entries="totalEntries"

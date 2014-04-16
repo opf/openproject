@@ -41,6 +41,14 @@ angular.module('openproject.services')
       return WorkPackageService.doQuery(url, params);
     },
 
+    getWorkPackagesFromUrlQueryParams: function(projectIdentifier, location) {
+      var url = projectIdentifier ? PathHelper.apiProjectWorkPackagesPath(projectIdentifier) : PathHelper.apiWorkPackagesPath();
+      var params = {};
+      angular.extend(params, location.search());
+
+      return WorkPackageService.doQuery(url, params);
+    },
+
     getWorkPackages: function(projectIdentifier, query, paginationOptions) {
       var url = projectIdentifier ? PathHelper.apiProjectWorkPackagesPath(projectIdentifier) : PathHelper.apiWorkPackagesPath();
       var params = angular.extend(query.toParams(), {
