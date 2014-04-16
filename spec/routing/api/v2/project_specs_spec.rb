@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -26,21 +27,19 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-api.array :projects, api_meta(:total_count => @projects.total_entries,
-                              :offset => @projects.offset,
-                              :limit => @projects.per_page) do
-  @projects.each do |project|
-    api.project do
-      api.id          project.id
-      api.name        project.name
-      api.identifier  project.identifier
-      api.description project.description
-      api.parent(:id => project.parent_id, :name => project.parent.name) unless project.parent.nil?
+require 'spec_helper'
 
-      render_api_custom_values project.visible_custom_field_values, api
-
-      api.created_on  project.created_on
-      api.updated_on  project.updated_on
-    end
+describe ProjectsController do
+  it "should connect GET /api/v2/projects/level_list.json to projects#level_list" do
+    expect(get("/api/v2/projects/level_list.json")).to route_to( :controller => 'api/v2/projects',
+                                                                 :action => 'level_list',
+                                                                 :format => 'json' )
   end
+
+  it "should connect GET /api/v2/projects/level_list.xml to projects#level_list" do
+    expect(get("/api/v2/projects/level_list.xml")).to route_to( :controller => 'api/v2/projects',
+                                                                 :action => 'level_list',
+                                                                 :format => 'xml' )
+  end
+
 end

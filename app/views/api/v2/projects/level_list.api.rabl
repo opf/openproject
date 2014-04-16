@@ -26,19 +26,24 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-api.array :time_entries do
-  @entries.each do |time_entry|
-    api.time_entry do
-      api.id time_entry.id
-      api.project(:id => time_entry.project_id, :name => time_entry.project.name) unless time_entry.project.nil?
-      api.issue(:id => time_entry.work_package_id) unless time_entry.work_package.nil?
-      api.user(:id => time_entry.user_id, :name => time_entry.user.name) unless time_entry.user.nil?
-      api.activity(:id => time_entry.activity_id, :name => time_entry.activity.name) unless time_entry.activity.nil?
-      api.hours time_entry.hours
-      api.comments time_entry.comments
-      api.spent_on time_entry.spent_on
-      api.created_on time_entry.created_on
-      api.updated_on time_entry.updated_on
-    end
-  end
+collection @projects => "projects"
+
+# This is a bit verbose as Project.level_list produces an array of hashes with the form:
+# [
+#  { :project => <Project object>,
+#    :level   => <hierarchy level> }
+# ]
+
+node(:id)           { |p| p[:project].id }
+node(:name)         { |p| p[:project].name }
+node(:identifier)   { |p| p[:project].identifier }
+node(:has_children) { |p| !p[:project].leaf? }
+node(:level)        { |p| p[:level] }
+
+node(:created_on, :if => lambda { |p| p[:project].created_on }) do |p|
+  p[:project].created_on.utc
+end
+
+node(:updated_on, :if => lambda { |p| p[:project].updated_on }) do |p|
+  p[:project].updated_on.utc
 end
