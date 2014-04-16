@@ -1046,7 +1046,7 @@ class ProjectTest < ActiveSupport::TestCase
 
   end
 
-  context "Project#completed_percentage" do
+  context "Project#completed_percent" do
     setup do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
       @project = Project.generate!(:identifier => 'test0')
