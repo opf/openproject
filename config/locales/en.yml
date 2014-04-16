@@ -119,7 +119,6 @@ en:
       user:
         admin: "Administrator"
         auth_source: "Authentication mode"
-        identity_url: "OpenID URL"
         language: "Language"
         last_login_on: "Last connection"
         mail_notification: "Email notifications"
