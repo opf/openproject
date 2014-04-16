@@ -41,6 +41,20 @@ describe "OpenID Connect" do
     }
   end
 
+  before do
+    # The redirect will include an authorisation code.
+    # Since we don't actually get a valid code in the test we will stub the resulting AccessToken.
+    OpenIDConnect::Client.any_instance.stub(:access_token!) do
+      OpenIDConnect::AccessToken.new :client => self, :access_token => "foo bar baz"
+    end
+
+    # Using the granted AccessToken the client then performs another request to the OpenID Connect
+    # provider to retrieve user information such as name and email address.
+    # Since the test is not supposed to make an actual call it is be stubbed too.
+    OpenIDConnect::AccessToken.any_instance.stub(:userinfo!).and_return(
+      OpenIDConnect::ResponseObject::UserInfo.new(user_info))
+  end
+
   def redirect_from_provider
     # Emulate the provider's redirect with a nonsense code.
     get "/auth/#{provider.class.provider_name}/callback",
@@ -48,25 +62,13 @@ describe "OpenID Connect" do
       :redirect_uri => "http://localhost:3000/auth/#{provider.class.provider_name}/callack"
   end
 
-  def click_on_signin
+  def click_on_signin(pro_name = provider.class.provider_name)
     # Emulate click on sign-in for that particular provider
-    get "/auth/#{provider.class.provider_name}"
+    get "/auth/#{pro_name}"
   end
 
   steps "sign-up and login" do
     before do
-      # The redirect will include an authorisation code.
-      # Since we don't actually get a valid code in the test we will stub the resulting AccessToken.
-      OpenIDConnect::Client.any_instance.stub(:access_token!) do
-        OpenIDConnect::AccessToken.new :client => self, :access_token => "foo bar baz"
-      end
-
-      # Using the granted AccessToken the client then performs another request to the OpenID Connect
-      # provider to retrieve user information such as name and email address.
-      # Since the test is not supposed to make an actual call it is be stubbed too.
-      OpenIDConnect::AccessToken.any_instance.stub(:userinfo!).and_return(
-        OpenIDConnect::ResponseObject::UserInfo.new(user_info))
-
       Setting.stub(:plugin_openproject_openid_connect).and_return(
         {
           "providers" => {
@@ -132,6 +134,34 @@ describe "OpenID Connect" do
 
       expect(response.status).to be 302
       expect(response.location).to match /my\/first_login$/
+    end
+  end
+
+  context "provider configuration through the settings" do
+    it "should make providers that are not configured unavailable" do
+      get "/login"
+      expect(response.body).not_to include "Google"
+
+      expect{click_on_signin("google")}.to raise_error(ArgumentError)
+    end
+
+    it "should make providers that have been configured through settings available without requiring a restart" do
+      Setting.stub(:plugin_openproject_openid_connect).and_return(
+        {
+          "providers" => {
+            "google" => {
+              "identifier" => "does not",
+              "secret" => "matter"
+            }
+          }
+        }
+      )
+
+      get "/login"
+      expect(response.body).to include "Google"
+
+      expect{click_on_signin("google")}.not_to raise_error(ArgumentError)
+      expect(response.status).to be 302
     end
   end
 end
