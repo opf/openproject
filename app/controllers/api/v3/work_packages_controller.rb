@@ -45,10 +45,8 @@ module Api
 
       # before_filter :authorize # TODO specify authorization
       before_filter :authorize_request, only: [:column_data]
-
-      before_filter :find_optional_project, only: [:index]
-
-      before_filter :load_query, only: [:index]
+      before_filter :find_optional_project, only: [:index, :column_sums]
+      before_filter :load_query, only: [:index, :column_sums]
       before_filter :assign_work_packages, only: [:index]
 
       def index
@@ -80,10 +78,7 @@ module Api
         raise 'API Error' unless params[:column_names]
 
         column_names = params[:column_names]
-        project = Project.find_visible(current_user, params[:project_id])
-        work_packages = project.work_packages
-
-        @column_sums = columns_total_sums(column_names, work_packages)
+        @column_sums = columns_total_sums(column_names, all_query_work_packages)
       end
 
       private
@@ -123,6 +118,10 @@ module Api
         # authorize_global unless performed?
       end
 
+      def find_optional_project
+        @project = Project.find(params[:project_id]) if params[:project_id]
+      end
+
       def assign_work_packages
         @work_packages = current_work_packages(@project) unless performed?
       end
@@ -142,6 +141,12 @@ module Api
         set_work_packages_meta_data(@query, results, work_packages)
 
         work_packages
+      end
+
+      def all_query_work_packages
+        # Note: Do not apply pagination. Used to obtain total query meta data.
+        results = @query.results include: [:assigned_to, :type, :priority, :category, :fixed_version]
+        work_packages = results.work_packages.all
       end
 
       def set_work_packages_meta_data(query, results, work_packages)

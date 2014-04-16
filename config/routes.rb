@@ -120,6 +120,7 @@ OpenProject::Application.routes.draw do
     namespace :v3 do
       resources :work_packages, only: [:index] do
         get :column_data, on: :collection
+        get :column_sums, on: :collection
       end
       resources :queries, only: [:show] do
         get :available_columns, on: :collection

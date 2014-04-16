@@ -125,9 +125,12 @@ angular.module('openproject.helpers')
     apiProjectUsersPath: function(projectIdentifier) {
       return PathHelper.apiV3ProjectPath(projectIdentifier) + PathHelper.usersPath();
     },
-    apiWorkPackagesSumsPath: function(projectIdentifier) {
+    apiProjectWorkPackagesSumsPath: function(projectIdentifier) {
       return PathHelper.apiV3ProjectPath(projectIdentifier) + PathHelper.workPackagesPath() + '/column_sums';
     },
+    apiWorkPackagesSumsPath: function() {
+      return PathHelper.apiWorkPackagesPath() + '/column_sums';
+    }
   };
 
   return PathHelper;
