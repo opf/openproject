@@ -421,8 +421,13 @@ class ApplicationController < ActionController::Base
     params[:back_url] || request.env['HTTP_REFERER']
   end
 
-  def redirect_back_or_default(default)
-    back_url = URI.escape(CGI.unescape(params[:back_url].to_s))
+  def redirect_back_or_default(default, escape = true)
+    back_url = if escape
+                 URI.escape(CGI.unescape(params[:back_url].to_s))
+               else
+                 params[:back_url]
+               end
+    binding.pry
     # if we have a back_url it must not contain two consecutive dots
     if back_url.present? && !back_url.match(%r{\.\.})
       begin

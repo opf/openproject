@@ -42,6 +42,7 @@ angular.module('openproject.workPackages.directives')
             if (newValue !== oldValue && newValue !== undefined) {
               // TODO find out why newValue get set to undefined on initial page load
               scope.updateResults();
+              scope.updateBackUrl();
             }
           });
         }

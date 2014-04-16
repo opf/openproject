@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%= form_tag({}) do -%>
-  <%= hidden_field_tag 'back_url', url_for(params) %>
+  <back-url back-url="backUrl"></back-url>
   <div class="autoscroll">
 
     <work-packages-table ng-if="rows && columns"
