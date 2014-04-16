@@ -137,7 +137,6 @@ de:
       user:
         admin: "Administrator"
         auth_source: "Authentifizierungs-Modus"
-        identity_url: "OpenID-URL"
         language: "Sprache"
         last_login_on: "Letzte Anmeldung"
         mail_notification: "Mailbenachrichtigung"
