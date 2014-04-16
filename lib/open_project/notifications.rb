@@ -32,6 +32,9 @@ module OpenProject
     # Contrary to ActiveSupport::Notifications, we don't support regexps here, but only
     # single events specified as string.
     def self.subscribe(name, &block)
+      # if no block is given, raise an error
+      raise ArgumentError, 'please provide a block as a callback' unless block_given?
+
       ActiveSupport::Notifications.subscribe(name.to_s) do |name, start, finish, id, payload|
         block.call(payload)
       end
