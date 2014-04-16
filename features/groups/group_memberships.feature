@@ -167,3 +167,20 @@ Feature: Group Memberships
      Then I should see "A-Team" within ".members"
       And I should see "Hannibal Smith" within ".members"
       And I should see "Peter Pan" within ".members"
+
+  @javascript
+  Scenario: Adding/Removing a group to/from a project displays success message
+     When I go to the admin page of the group called "A-Team"
+      And I click on "tab-memberships"
+      And I select "Project1" from "Projects"
+      And I check "Manager"
+      And I press "Add" within "#tab-content-memberships"
+      And I wait for the AJAX requests to finish
+
+     Then I should see "Successful update." within ".notice"
+      And I should see "Project1"
+
+     When I follow "Delete" within "table.list.memberships"
+
+     Then I should see "Successful deletion." within ".notice"
+      And I should see "No data to display"
