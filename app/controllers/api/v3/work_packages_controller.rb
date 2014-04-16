@@ -193,6 +193,7 @@ module Api
           work_packages.map do |work_package|
             # Note: Doing as_json here because if we just take the value.attributes then we can't get any methods later.
             #       Name and subject are the default properties that the front end currently looks for to summarize an object.
+            raise 'API Error: Unknown column name' if !work_package.respond_to?(column_name)
             value = work_package.send(column_name)
             value.is_a?(ActiveRecord::Base) ? value.as_json( only: "id", methods: [:name, :subject] ) : value
           end

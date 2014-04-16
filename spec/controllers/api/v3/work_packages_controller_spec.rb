@@ -74,8 +74,8 @@ describe Api::V3::WorkPackagesController do
         }
       end
 
-      xit 'handles incorrect column names' do
-        get :column_data, format: 'xml', ids: [1, 2], column_names: %w(non_existent status)
+      it 'handles incorrect column names' do
+        expect { get :column_data, format: 'xml', ids: [1, 2], column_names: %w(non_existent status) }.to raise_error(/API Error/)
       end
 
       it 'assigns column data' do
