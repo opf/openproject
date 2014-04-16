@@ -37,7 +37,7 @@ namespace :doc do
   RDoc::Task.new("app") { |rdoc|
     rdoc.rdoc_dir = 'doc/app'
     rdoc.template = ENV['template'] if ENV['template']
-    rdoc.title    = ENV['title'] || "ChiliProject"
+    rdoc.title    = ENV['title'] || "OpenProject"
     rdoc.options << '--line-numbers' << '--inline-source'
     rdoc.options << '--charset' << 'utf-8'
     rdoc.rdoc_files.include('app/**/*.rb')

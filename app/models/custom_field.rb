@@ -57,8 +57,8 @@ class CustomField < ActiveRecord::Base
 
   validates_presence_of :name, :field_format
 
-  validate :uniquess_of_name_with_scope
-  def uniquess_of_name_with_scope
+  validate :uniqueness_of_name_with_scope
+  def uniqueness_of_name_with_scope
     taken_names = CustomField.where(:type => type)
     taken_names = taken_names.where('id != ?', id) if id
     taken_names = taken_names.map { |cf| cf.read_attribute(:name, :locale => I18n.locale) }

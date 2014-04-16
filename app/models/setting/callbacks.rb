@@ -26,31 +26,39 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require File.expand_path('../../test_helper', __FILE__)
 
-class SettingTest < ActiveSupport::TestCase
+class Setting
+  module Callbacks
 
-  def test_read_default
-    assert_equal "OpenProject", Setting.app_title
-    assert Setting.self_registration?
-    assert !Setting.login_required?
-  end
+    # register a callback for a setting named #name
+    def register_callback(name, &callback)
+      # register the block with the underlying notifications system
+      notifier.subscribe(notification_event_for(name), &callback)
+    end
 
-  def test_update
-    Setting.app_title = "My title"
-    assert_equal "My title", Setting.app_title
-    # make sure db has been updated (INSERT)
-    assert_equal "My title", Setting.find_by_name('app_title').value
+    # instructs the underlying notifications system to publish all setting events for setting #name
+    # based on the new and old setting objects different events can be triggered
+    # currently, that's whenever a setting is set regardless whether the value changed
+    def fire_callbacks(name, setting, old_setting)
+      notifier.send(notification_event_for(name), event_payload_for(setting, old_setting))
+    end
 
-    Setting.app_title = "My other title"
-    assert_equal "My other title", Setting.app_title
-    # make sure db has been updated (UPDATE)
-    assert_equal "My other title", Setting.find_by_name('app_title').value
-  end
+  private
 
-  def test_serialized_setting
-    Setting.notified_events = ['work_package_added', 'work_package_updated', 'news_added']
-    assert_equal ['work_package_added', 'work_package_updated', 'news_added'], Setting.notified_events
-    assert_equal ['work_package_added', 'work_package_updated', 'news_added'], Setting.find_by_name('notified_events').value
+    # encapsulates the event name broadcast to all subscribers
+    def notification_event_for(name)
+      :"setting.#{name}.changed"
+    end
+
+    # encapsulates the payload expected by the notifier
+    def event_payload_for(setting, old_setting)
+      { value: setting.value, old_value: old_setting.value }
+    end
+
+    # the notifier to delegate to
+    def notifier
+      OpenProject::Notifications
+    end
+
   end
 end

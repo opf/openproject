@@ -145,7 +145,7 @@ class Timeline < ActiveRecord::Base
           errors.add :options, l("timelines.filter.errors." + field) + l("activerecord.errors.messages.not_a_number")
         end
       rescue ArgumentError
-        
+
       end
     end
   end
@@ -413,7 +413,7 @@ class Timeline < ActiveRecord::Base
 
   def resolve_with_none_element(options_field, &block)
     collection = []
-    collection += [Empty.new] if (ary = array_of_comma_seperated(options_field)).delete(-1)
+    collection += [Empty.new] if (ary = array_of_comma_separated(options_field)).delete(-1)
     begin
       collection += block.call(ary);
     rescue
@@ -422,7 +422,7 @@ class Timeline < ActiveRecord::Base
     return collection
   end
 
-  def array_of_comma_seperated(options_field)
+  def array_of_comma_separated(options_field)
     array_or_empty(options_field) do |ary|
       ary.map(&:to_i).reject do |value|
         value < -1 || value == 0
