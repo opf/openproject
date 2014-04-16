@@ -7,7 +7,7 @@ Adds support for OmniAuth OpenID Connect strategy providers, most importantly Go
 You will have to add the following lines to your OpenProject's _Gemfile.plugins_ for the time being:
 
     gem 'omniauth-openid-connect', :git => 'git@github.com:finnlabs/omniauth-openid-connect.git', :branch => 'master'
-	gem 'openproject-openid_connect', :git => 'git@github.com:finnlabs/openproject-openid_connect.git', :branch => 'master'
+    gem 'openproject-openid_connect', :git => 'git@github.com:finnlabs/openproject-openid_connect.git', :branch => 'dev'
 
 ### Development
 
