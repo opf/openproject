@@ -32,6 +32,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* Fix: Acts as event datetime
+
 ## 1.0.1
 
 * `#5361` Add missing journal data migration
