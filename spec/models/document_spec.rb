@@ -101,4 +101,11 @@ describe Document do
     end
   end
 
+  describe "acts as event" do
+    let(:now) { Time.now }
+    let(:document) { FactoryGirl.build(:document,
+                                       created_on: now) }
+
+    it { expect(document.event_datetime).to eq(now) }
+  end
 end
