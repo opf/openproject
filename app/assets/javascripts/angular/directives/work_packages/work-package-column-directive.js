@@ -50,13 +50,17 @@ angular.module('openproject.workPackages.directives')
         // retrieve column value from work package
         if (scope.column.custom_field) {
           var custom_field = scope.column.custom_field;
-
-          scope.displayText = WorkPackagesHelper.getFormattedCustomValue(scope.workPackage, custom_field) || scope.displayEmpty || '';
+          var formattedValue = WorkPackagesHelper.getFormattedCustomValue(scope.workPackage, custom_field);
         } else {
           // custom display types
           if (scope.column.name === 'done_ratio') scope.displayType = 'progress_bar';
+          var formattedValue = WorkPackagesHelper.getFormattedColumnData(scope.workPackage, scope.column);
+        }
 
-          scope.displayText = WorkPackagesHelper.getFormattedColumnData(scope.workPackage, scope.column) || scope.displayEmpty || '';
+        if (typeof formattedValue == 'number' || formattedValue){
+          scope.displayText = formattedValue;
+        } else {
+          scope.displayText = scope.displayEmpty || '';
         }
 
         // Example of how we can look to the provided meta data to format the column

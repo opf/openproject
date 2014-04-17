@@ -41,6 +41,8 @@ angular.module('openproject.workPackages.helpers')
         case 'object':
           if (content === null) return '';
           return content.name || content.subject;
+        case 'number':
+          return content;
         default:
           return content || '';
       }
