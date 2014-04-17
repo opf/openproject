@@ -8,6 +8,7 @@
 
   <span ng-if="prePageNumbers" ng-repeat="pageNumber in prePageNumbers">
     <a ng-click="showPage(pageNumber)"
+       class="page-no"
        rel="next"
        href="">{{ pageNumber }}</a>
   </span>
@@ -17,6 +18,7 @@
     <em ng-if="pageNumber == paginationOptions.page" class="current">{{ pageNumber }}</em>
     <a ng-if="pageNumber != paginationOptions.page"
        ng-click="showPage(pageNumber)"
+       class="page-no"
        rel="next"
        href="">{{ pageNumber }}</a>
   </span>
@@ -24,6 +26,7 @@
   <span ng-if="postPageNumbers" class="gap">...</span>
   <span ng-if="postPageNumbers" ng-repeat="pageNumber in postPageNumbers">
     <a ng-click="showPage(pageNumber)"
+       class="page-no"
        rel="next"
        href="">{{ pageNumber }}</a>
   </span>

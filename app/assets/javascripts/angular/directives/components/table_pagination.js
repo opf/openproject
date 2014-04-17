@@ -61,7 +61,9 @@ angular.module('openproject.uiComponents')
        * @description Defines a string containing page bound information inside the directive scope
        */
       function updateCurrentRangeLabel() {
-        scope.currentRange = "(" + PaginationService.getLowerPageBound() + " - " + PaginationService.getUpperPageBound(scope.totalEntries) + "/" + scope.totalEntries + ")";
+        if (scope.totalEntries){
+          scope.currentRange = "(" + PaginationService.getLowerPageBound() + " - " + PaginationService.getUpperPageBound(scope.totalEntries) + "/" + scope.totalEntries + ")";
+        }
       }
 
       /**
