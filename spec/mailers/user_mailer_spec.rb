@@ -57,7 +57,7 @@ describe UserMailer do
       # the name method uses a format setting to determine how to concatenate first name
       # and last name whereby an unescaped comma will lead to have two email addresses
       # defined instead of one (['Bobbi', 'bob.bobbi@example.com'] vs. ['bob.bobbi@example.com'])
-      test_user.stub(:name).and_return('Bobbi, Bob')
+      allow(test_user).to receive(:name).and_return('Bobbi, Bob')
     end
 
      it 'escapes the name attribute properly' do

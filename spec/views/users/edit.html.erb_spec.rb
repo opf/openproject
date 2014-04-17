@@ -39,7 +39,7 @@ describe 'users/edit' do
       assign(:user, user)
       assign(:auth_sources, [])
 
-      view.stub(:current_user).and_return(current_user)
+      allow(view).to receive(:current_user).and_return(current_user)
 
       render
     end
