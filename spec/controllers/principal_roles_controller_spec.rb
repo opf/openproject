@@ -55,11 +55,26 @@ describe PrincipalRolesController do
           before :each do
             @global_role = mock_model(GlobalRole)
             @global_role.stub!(:id).and_return(42)
+            ##
+            # Note this test uses doubles which may break depending on the loaded plugins.
+            # Specifically extra stubs have been added for these tests to work with the
+            # openproject-impermanent_memberships plugin which would be otherwise unexpected.
+            # Those stubs are marked with the comment "only necessary with impermanent-memberships".
+            #
+            # If this problem occurs again with another plugin (or the same, really) this should be fixed for good
+            # by using FactoryGirl to create actual model instances.
+            # I'm only patching this up right now because I don't want to spend any more time on it and
+            # the added methods are orthogonal to the test, also additional, unused stubs won't break things
+            # as opposed to missing ones.
+            #
+            # And yet: @TODO Don't use doubles but FactoryGirl.
+            @global_role.stub!(:permanent?).and_return(false) # only necessary with impermanent-memberships
             Role.stub!(:find).and_return([@global_role])
             PrincipalRole.stub!(:new).and_return(@principal_role)
             @user = mock_model User
             @user.stub!(:valid?).and_return(true)
             @user.stub!(:logged?).and_return(true)
+            @user.stub!(:global_roles).and_return([]) # only necessary with impermanent-memberships
             Principal.stub!(:find).and_return(@user)
             @principal_role.stub!(:role=)
             @principal_role.stub!(:role).and_return(@global_role)
@@ -142,8 +157,10 @@ describe PrincipalRolesController do
       @principal_role.stub!(:principal_id).and_return(1)
       @user = mock_model User
       @user.stub!(:logged?).and_return(true)
+      @user.stub!(:global_roles).and_return([]) # only necessary with impermanent-memberships
       Principal.stub(:find).and_return(@user)
       @principal_role.stub!(:destroy)
+      @principal_role.stub!(:role).and_return(Struct.new(:id, :permanent?).new(42, false)) # only necessary with impermanent-memberships
       @params = {"id" => "1"}
     end
 
