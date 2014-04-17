@@ -39,6 +39,31 @@ This plugin contains migrations. To migrate the database, run:
 `rake db:migrate`
 
 
+Tests
+-----
+
+Assuming you have to following directory structure:
+
+```
+.
+├── openproject
+├── openproject-documents
+```
+
+Replace the openproject-document ``gemfile.plugins`` entry with the following:
+
+```
+gem "openproject-documents", path: "../openproject-documents"
+```
+
+You run the specs with the following commands:
+
+```
+cd openproject
+rake db:test:load # this needs to be done only once
+rspec ../openproject-documents
+```
+
 Deinstallation
 --------------
 
