@@ -56,6 +56,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#5057` Fix: Whitelisted more params for planning elements controller
 * `#5214` Allow setting watchers and time entries for work packages via API`
 * `#5311` Encapsulate ActiveSupport::Notifications
+* `#5553` Integrate OmniAuth
 * `#6309` Remove API v1 & add level_list to API v2
 * Allowed sending of mails with only cc: or bcc: fields
 * Allow adding attachments to created work packages via planning elements controller
