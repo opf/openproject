@@ -207,19 +207,6 @@ class User < Principal
     write_attribute(:mail, arg.to_s.strip)
   end
 
-  def identity_url=(url)
-    if url.blank?
-      write_attribute(:identity_url, '')
-    else
-      begin
-        write_attribute(:identity_url, OpenIdAuthentication.normalize_identifier(url))
-      rescue OpenIdAuthentication::InvalidOpenId
-        # Invalid url, don't save
-      end
-    end
-    self.read_attribute(:identity_url)
-  end
-
   def self.search_in_project(query, options)
     Project.find(options.fetch(:project)).users.like(query)
   end
@@ -317,6 +304,12 @@ class User < Principal
     end
   end
 
+  # Return user's authentication provider for display
+  def authentication_provider
+    return if identity_url.blank?
+    identity_url.split(':', 2).first.titleize
+  end
+
   def status_name
     STATUSES.keys[self.status].to_s
   end
@@ -369,8 +362,14 @@ class User < Principal
 
   # Does the backend storage allow this user to change their password?
   def change_password_allowed?
+    return false if uses_external_authentication?
     return true if auth_source_id.blank?
     return auth_source.allow_password_changes?
+  end
+
+  # Is the user authenticated via an external authentication source via OmniAuth?
+  def uses_external_authentication?
+    return identity_url.present?
   end
 
   #

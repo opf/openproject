@@ -45,10 +45,6 @@ See doc/COPYRIGHT.rdoc for more details.
       </tr>
     </table>
     <div id = "optional_login_fields" style = "top = 10px; white-space:nowrap">
-      <% if Setting.openid? %>
-        <%= text_field_tag "openid_url", nil, :placeholder => User.human_attribute_name(:identity_url) %>
-      <% end %>
-
       <% if Setting.autologin? %>
         <label for="autologin"><%= check_box_tag 'autologin', 1, false %> <%= l(:label_stay_logged_in) %></label>
       <% end %>
@@ -57,9 +53,13 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= link_to l(:label_password_lost), {:controller => '/account', :action => 'lost_password'} %>
       <% end %>
 
-      <% if !User.current.logged? && Setting.self_registration? %>
-        <%= "|" if Setting.lost_password? %>
-         <%= link_to l(:label_register), { :controller => '/account', :action => 'register' } %>
+      <% if !User.current.logged? %>
+        <% if Setting.self_registration? %>
+          <%= "|" if Setting.lost_password? %>
+          <%= link_to l(:label_register), { :controller => '/account', :action => 'register' } %>
+        <% end %>
+        <br>
+        <%= call_hook :view_account_login_auth_provider %>
       <% end %>
     </div>
   <% end %>

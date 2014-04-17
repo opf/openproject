@@ -137,7 +137,6 @@ de:
       user:
         admin: "Administrator"
         auth_source: "Authentifizierungs-Modus"
-        identity_url: "OpenID-URL"
         language: "Sprache"
         last_login_on: "Letzte Anmeldung"
         mail_notification: "Mailbenachrichtigung"
@@ -523,6 +522,7 @@ de:
   error_must_be_project_member: "muss Mitglied des Projekts sein"
   error_no_default_work_package_status: "Es ist kein Status als Standard definiert. Bitte überprüfen Sie Ihre Konfiguration (unter \"Administration -> Ticket-Status\")."
   error_no_type_in_project: "Diesem Projekt ist kein Typ zugeordnet. Bitte überprüfen Sie die Projekteinstellungen."
+  error_omniauth_registration_timed_out: "Die Registrierung über einen externen Authentifizierungsprovider ist fehlgeschlagen. Bitte versuchen Sie es erneut."
   error_scm_annotate: "Der Eintrag existiert nicht oder kann nicht annotiert werden."
   error_scm_command_failed: "Beim Zugriff auf das Projektarchiv ist ein Fehler aufgetreten: %{value}"
   error_scm_not_found: "Eintrag und/oder Revision existiert nicht im Projektarchiv."
@@ -532,6 +532,8 @@ de:
   error_workflow_copy_target: "Bitte wählen Sie die Ziel-Typ und -Rollen."
   error_menu_item_not_created: Menüpunkt konnte nicht hinzugefügt werden.
   error_menu_item_not_saved: Menüpunkt konnte nicht aktualisiert werden.
+
+  error_external_authentication_failed: "Die externe Authentifizierung ist fehlgeschlagen. Bitte versuchen Sie es erneut."
 
   events:
     project: 'Projekt bearbeitet'
@@ -798,7 +800,6 @@ de:
   label_loading: "Lade..."
   label_logged_as: "Angemeldet als"
   label_login: "Anmelden"
-  label_login_with_open_id_option: "oder mit OpenID anmelden"
   label_logout: "Abmelden"
   label_main_menu: "Nebenmenü"
   label_max_size: "Maximale Größe"
@@ -889,6 +890,7 @@ de:
   label_query_menu_item: "Filter-Menüpunkt"
   label_read: "Lesen ..."
   label_register: "Registrieren"
+  label_register_with_developer: "Als Entwickler anmelden"
   label_registered_on: "Angemeldet am"
   label_registration_activation_by_email: "Kontoaktivierung durch E-Mail"
   label_registration_automatic_activation: "Automatische Kontoaktivierung"
@@ -1096,6 +1098,7 @@ de:
   notice_account_update_failed: "Konto konnte nicht aktualisiert werden. Bitte besuchen Sie ihre Profilseite und überprüfen Sie die Einstellungen."
   notice_account_updated: "Konto wurde erfolgreich aktualisiert."
   notice_account_wrong_password: "Falsches Kennwort."
+  notice_account_registered_and_logged_in: "Willkommen, ihr Benutzerkonto wurde aktiviert. Sie sind nun angemeldet."
   notice_api_access_key_reseted: "Ihr API-Zugriffsschlüssel wurde zurückgesetzt."
   notice_can_t_change_password: "Dieses Konto verwendet eine externe Authentifizierungs-Quelle; das Kennwort kann nicht geändert werden."
   notice_default_data_loaded: "Die Standard-Konfiguration wurde erfolgreich geladen."
@@ -1291,7 +1294,6 @@ de:
   setting_mail_handler_api_key: "API-Schlüssel"
   setting_mail_handler_body_delimiters: "Schneide E-Mails nach einer dieser Zeilen ab"
   setting_new_project_user_role_id: "Rolle, die einem Nicht-Administrator zugeordnet wird, der ein Projekt erstellt"
-  setting_openid: "Erlaube OpenID-Anmeldung und -Registrierung"
   setting_password_active_rules: "Aktive Zeichenklassen"
   setting_password_count_former_banned: "Anzahl zuletzt benutzter Passwörter, die nicht wiederverwendet werden dürfen"
   setting_password_days_valid: "Anzahl von Tagen, nach denen ein Passwortwechsel erwzwungen wird (deaktivieren mit 0)"
@@ -1618,6 +1620,10 @@ de:
     activate: "Aktivieren"
     activate_and_reset_failed_logins: "Aktivieren und fehlgeschlagene Logins zurücksetzen"
     assign_random_password: "Zufälliges Passwort zuweisen (wird dem Nutzer per E-Mail geschickt)"
+    authentication_provider: "Authentifizierungsprovider"
+    authentication_settings_disabled_due_to_external_authentication: >
+      Dieser Nutzer authentifiziert sich über einen externen Authentifizierungsprovider, so dass
+      das Passwort über OpenProject nicht geändert werden kann.
     blocked: "temporär gesperrt"
     blocked_num_failed_logins:
       one: "temporär gesperrt (ein fehlgeschlagener Loginversuch)"

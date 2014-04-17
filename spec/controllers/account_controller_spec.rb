@@ -36,38 +36,48 @@ describe AccountController do
     User.current = nil
   end
 
-  context "POST #login" do
+  context 'POST #login' do
     let(:admin) { FactoryGirl.create(:admin) }
 
-    describe "User logging in with back_url" do
+    describe 'User logging in with back_url' do
 
-      it "should redirect to a relative path" do
-        post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => '/'}
-        expect(response).to redirect_to '/'
+      it 'should redirect to a relative path' do
+        post :login , :username => admin.login, :password => 'adminADMIN!', :back_url => '/'
+        expect(response).to redirect_to root_path
       end
 
-      it "should redirect to an absolute path given the same host" do
+      it 'should redirect to an absolute path given the same host' do
         # note: test.host is the hostname during tests
-        post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http://test.host/work_packages/show/1'}
+        post :login , username: admin.login,
+                      password: 'adminADMIN!',
+                      back_url: 'http://test.host/work_packages/show/1'
         expect(response).to redirect_to '/work_packages/show/1'
       end
 
-      it "should not redirect to another host" do
-        post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http://test.foo/work_packages/show/1'}
-        expect(response).to redirect_to '/my/page'
+      it 'should not redirect to another host' do
+        post :login , username: admin.login,
+                      password: 'adminADMIN!',
+                      back_url: 'http://test.foo/work_packages/show/1'
+        expect(response).to redirect_to my_page_path
       end
 
-      it "should not redirect to another host with a protocol relative url" do
-        post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => '//test.foo/fake'}
-        expect(response).to redirect_to '/my/page'
+      it 'should not redirect to another host with a protocol relative url' do
+        post :login , username: admin.login,
+                      password: 'adminADMIN!',
+                      back_url: '//test.foo/fake'
+        expect(response).to redirect_to my_page_path
       end
 
-      it "should create users on the fly" do
+      it 'should create users on the fly' do
         Setting.self_registration = '0'
-        allow(AuthSource).to receive(:authenticate).and_return({:login => 'foo', :firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com', :auth_source_id => 66})
-        post :login , {:username => 'foo', :password => 'bar'}
+        allow(AuthSource).to receive(:authenticate).and_return(login: 'foo',
+                                                               firstname: 'Foo',
+                                                               lastname: 'Smith',
+                                                               mail: 'foo@bar.com',
+                                                               auth_source_id: 66)
+        post :login , username: 'foo', password: 'bar'
 
-        expect(response).to redirect_to '/my/first_login'
+        expect(response).to redirect_to my_first_login_path
         user = User.find_by_login('foo')
         expect(user).to be_an_instance_of User
         expect(user.auth_source_id).to eq(66)
@@ -76,116 +86,124 @@ describe AccountController do
 
       context 'with a relative url root' do
         before do
-          @old_relative_url_root, ApplicationController.relative_url_root = ApplicationController.relative_url_root, "/openproject"
+          @old_relative_url_root = ApplicationController.relative_url_root
+          ApplicationController.relative_url_root = '/openproject'
         end
 
         after do
           ApplicationController.relative_url_root = @old_relative_url_root
         end
 
-        it "should redirect to the same subdirectory with an absolute path" do
-          post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http://test.host/openproject/work_packages/show/1'}
+        it 'should redirect to the same subdirectory with an absolute path' do
+          post :login , username: admin.login,
+                        password: 'adminADMIN!',
+                        back_url: 'http://test.host/openproject/work_packages/show/1'
           expect(response).to redirect_to '/openproject/work_packages/show/1'
         end
 
-        it "should redirect to the same subdirectory with a relative path" do
-          post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => '/openproject/work_packages/show/1'}
+        it 'should redirect to the same subdirectory with a relative path' do
+          post :login , username: admin.login,
+                        password: 'adminADMIN!',
+                        back_url: '/openproject/work_packages/show/1'
           expect(response).to redirect_to '/openproject/work_packages/show/1'
         end
 
-        it "should not redirect to another subdirectory with an absolute path" do
-          post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http://test.host/foo/work_packages/show/1'}
-          expect(response).to redirect_to '/my/page'
+        it 'should not redirect to another subdirectory with an absolute path' do
+          post :login , username: admin.login,
+                        password: 'adminADMIN!',
+                        back_url: 'http://test.host/foo/work_packages/show/1'
+          expect(response).to redirect_to my_page_path
         end
 
-        it "should not redirect to another subdirectory with a relative path" do
-          post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => '/foo/work_packages/show/1'}
-          expect(response).to redirect_to '/my/page'
+        it 'should not redirect to another subdirectory with a relative path' do
+          post :login , username: admin.login,
+                        password: 'adminADMIN!',
+                        back_url: '/foo/work_packages/show/1'
+          expect(response).to redirect_to my_page_path
         end
 
-        it "should not redirect to another subdirectory by going up the path hierarchy" do
-          post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => 'http://test.host/openproject/../foo/work_packages/show/1'}
-          expect(response).to redirect_to '/my/page'
+        it 'should not redirect to another subdirectory by going up the path hierarchy' do
+          post :login , username: admin.login,
+                        password: 'adminADMIN!',
+                        back_url: 'http://test.host/openproject/../foo/work_packages/show/1'
+          expect(response).to redirect_to my_page_path
         end
 
-        it "should not redirect to another subdirectory with a protocol relative path" do
-          post :login , {:username => admin.login, :password => 'adminADMIN!', :back_url => '//test.host/foo/work_packages/show/1'}
-          expect(response).to redirect_to '/my/page'
+        it 'should not redirect to another subdirectory with a protocol relative path' do
+          post :login , username: admin.login,
+                        password: 'adminADMIN!',
+                        back_url: '//test.host/foo/work_packages/show/1'
+          expect(response).to redirect_to my_page_path
         end
       end
 
     end
   end
 
-  describe "Login for user with forced password change" do
-    let(:user) do
-      FactoryGirl.create(:admin, force_password_change: true)
-      allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false)
-    end
+
+  describe 'Login for user with forced password change' do
+    let(:admin) { FactoryGirl.create(:admin, :force_password_change => true) }
 
     before do
-      User.current = user
+      allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false)
     end
 
     describe "User who is not allowed to change password can't login" do
       before do
-        admin = User.find_by_admin(true)
-
-        post "change_password", :username => admin.login,
-          :password => 'adminADMIN!',
-          :new_password => 'adminADMIN!New',
-          :new_password_confirmation => 'adminADMIN!New'
+        post 'change_password', :username => admin.login,
+                                :password => 'adminADMIN!',
+                                :new_password => 'adminADMIN!New',
+                                :new_password_confirmation => 'adminADMIN!New'
       end
 
-      it "should redirect to the login page" do
+      it 'should redirect to the login page' do
         expect(response).to redirect_to '/login'
       end
     end
 
-    describe "User who is not allowed to change password, is not redirected to the login page" do
+    describe 'User who is not allowed to change password, is not redirected to the login page' do
       before do
-        admin = User.find_by_admin(true)
-        post "login", {:username => admin.login, :password => 'adminADMIN!'}
+        post 'login', :username => admin.login, :password => 'adminADMIN!'
       end
 
-      it "should redirect ot the login page" do
+      it 'should redirect ot the login page' do
         expect(response).to redirect_to '/login'
       end
     end
   end
 
-  context "GET #register" do
-    context "with self registration on" do
+  context 'GET #register' do
+    context 'with self registration on' do
       before do
-        allow(Setting).to receive(:self_registration).and_return("3")
+        allow(Setting).to receive(:self_registration).and_return('3')
         get :register
       end
 
-      it "is successful" do
+      it 'is successful' do
         should respond_with :success
         expect(response).to render_template :register
         expect(assigns[:user]).not_to be_nil
       end
     end
 
-    context "with self registration off" do
+    context 'with self registration off' do
       before do
-        allow(Setting).to receive(:self_registration).and_return("0")
+        allow(Setting).to receive(:self_registration).and_return('0')
         allow(Setting).to receive(:self_registration?).and_return(false)
         get :register
       end
 
-      it "redirects to home" do
+      it 'redirects to home' do
         should redirect_to('/') { home_url }
       end
     end
   end
 
   # See integration/account_test.rb for the full test
-  context "POST #register" do
-    context "with self registration on automatic" do
+  context 'POST #register' do
+    context 'with self registration on automatic' do
       before do
-        allow(Setting).to receive(:self_registration).and_return("3")
+        allow(Setting).to receive(:self_registration).and_return('3')
         post :register, :user => {
           :login => 'register',
           :password => 'adminADMIN!',
@@ -196,23 +214,23 @@ describe AccountController do
         }
       end
 
-      it "redirects to my account page"  do
+      it 'redirects to first_login page' do
         should respond_with :redirect
         expect(assigns[:user]).not_to be_nil
-        should redirect_to('/my/account')
-        expect(User.last(:conditions => {:login => 'register'})).not_to be_nil
+        should redirect_to(my_first_login_path)
+        expect(User.last(:conditions => { :login => 'register' })).not_to be_nil
       end
 
       it 'set the user status to active' do
-        user = User.last(:conditions => {:login => 'register'})
+        user = User.last(:conditions => { :login => 'register' })
         expect(user).not_to be_nil
         expect(user.status).to eq(User::STATUSES[:active])
       end
     end
 
-    context "with self registration by email" do
+    context 'with self registration by email' do
       before do
-        allow(Setting).to receive(:self_registration).and_return("1")
+        allow(Setting).to receive(:self_registration).and_return('1')
         Token.delete_all
         post :register, :user => {
           :login => 'register',
@@ -224,7 +242,7 @@ describe AccountController do
         }
       end
 
-      it "redirects to the login page" do
+      it 'redirects to the login page' do
         should redirect_to '/login'
       end
 
@@ -237,31 +255,49 @@ describe AccountController do
       end
     end
 
-    context "with manual activation" do
-      before do
-        allow(Setting).to receive(:self_registration).and_return("2")
-        post :register, :user => {
-          :login => 'register',
+    context 'with manual activation' do
+      let(:user_hash) do
+        { :login => 'register',
           :password => 'adminADMIN!',
           :password_confirmation => 'adminADMIN!',
           :firstname => 'John',
           :lastname => 'Doe',
-          :mail => 'register@example.com'
-        }
+          :mail => 'register@example.com' }
       end
 
-      it "redirects to the login page" do
-        should redirect_to '/login'
+      before do
+        allow(Setting).to receive(:self_registration).and_return('2')
       end
 
-      it "doesn't activate the user" do
-        expect(User.find_by_login('register')).not_to be_active
+      context 'without back_url' do
+        before do
+          post :register, :user => user_hash
+        end
+
+        it 'redirects to the login page' do
+          expect(response).to redirect_to '/login'
+        end
+
+        it "doesn't activate the user" do
+          expect(User.find_by_login('register')).not_to be_active
+        end
+      end
+
+      context 'with back_url' do
+        before do
+          post :register, :user => user_hash, :back_url => 'https://example.net/some_back_url'
+        end
+
+        it 'preserves the back url' do
+          expect(response).to redirect_to(
+            '/login?back_url=https%3A%2F%2Fexample.net%2Fsome_back_url')
+        end
       end
     end
 
-    context "with self registration off" do
+    context 'with self registration off' do
       before do
-        allow(Setting).to receive(:self_registration).and_return("0")
+        allow(Setting).to receive(:self_registration).and_return('0')
         allow(Setting).to receive(:self_registration?).and_return(false)
         post :register, :user => {
           :login => 'register',
@@ -273,34 +309,41 @@ describe AccountController do
         }
       end
 
-      it "redirects to home" do
+      it 'redirects to home' do
         should redirect_to('/') { home_url }
       end
     end
 
-    context "with on-the-fly registration" do
+    context 'with on-the-fly registration' do
 
       before do
-        allow(Setting).to receive(:self_registration).and_return("0")
+        allow(Setting).to receive(:self_registration).and_return('0')
         allow(Setting).to receive(:self_registration?).and_return(false)
         allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false)
-        allow(AuthSource).to receive(:authenticate).and_return({:login => 'foo', :lastname => 'Smith', :auth_source_id => 66})
+        allow(AuthSource).to receive(:authenticate).and_return(login: 'foo',
+                                                               lastname: 'Smith',
+                                                               auth_source_id: 66)
 
         post :login, :username => 'foo', :password => 'bar'
       end
 
-      it "registers the user on-the-fly" do
+      it 'registers the user on-the-fly' do
         should respond_with :success
         expect(response).to render_template :register
 
-        post :register, :user => {:firstname => 'Foo', :lastname => 'Smith', :mail => 'foo@bar.com'}
-        should redirect_to '/my/account'
+        post :register, :user => { firstname: 'Foo',
+                                   lastname: 'Smith',
+                                   mail: 'foo@bar.com' }
+        expect(response).to redirect_to '/my/account'
 
         user = User.find_by_login('foo')
-        assert user.is_a?(User)
-        assert_equal 66, user.auth_source_id
-        assert user.current_password.nil?
+
+        expect(user).to be_an_instance_of(User)
+        expect(user.auth_source_id).to eql 66
+        expect(user.current_password).to be_nil
       end
     end
   end
+
+
 end

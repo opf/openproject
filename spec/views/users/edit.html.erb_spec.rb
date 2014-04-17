@@ -26,9 +26,26 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-##
-# A placeholder module which contains OpenProject hooks
-module Hooks; end
+require 'spec_helper'
 
-# actual hooks are added with the following require statemens
-require 'hooks/view_account_login_auth_provider'
+describe 'users/edit' do
+  let(:current_user) { FactoryGirl.build :admin }
+
+  context 'authentication provider' do
+    let(:user)  { FactoryGirl.build :user, :id => 1,  # id is required to create route to edit
+                                           :identity_url => 'test_provider:veryuniqueid' }
+
+    before do
+      assign(:user, user)
+      assign(:auth_sources, [])
+
+      view.stub(:current_user).and_return(current_user)
+
+      render
+    end
+
+    it 'shows the authentication provider' do
+      expect(response.body).to include('Test Provider')
+    end
+  end
+end

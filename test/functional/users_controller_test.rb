@@ -209,18 +209,6 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal User.find(2), assigns(:user)
   end
 
-  def test_update
-    ActionMailer::Base.deliveries.clear
-    put :update, :id => 2, :user => {:firstname => 'Changed', :mail_notification => 'only_assigned'}, :pref => {:hide_mail => '1', :comments_sorting => 'desc'}
-
-    user = User.find(2)
-    assert_equal 'Changed', user.firstname
-    assert_equal 'only_assigned', user.mail_notification
-    assert_equal true, user.pref[:hide_mail]
-    assert_equal 'desc', user.pref[:comments_sorting]
-    assert ActionMailer::Base.deliveries.empty?
-  end
-
   def test_update_with_failure
     assert_no_difference 'User.count' do
       put :update, :id => 2, :user => {:firstname => ''}

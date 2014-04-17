@@ -47,6 +47,13 @@ OpenProject::Application.routes.draw do
     get '/account/force_password_change', :action => 'force_password_change'
     post '/account/change_password', :action => 'change_password'
     get '/account/lost_password', :action => 'lost_password'
+
+    # omniauth routes
+    match '/auth/:provider/callback', :action => 'omniauth_login',
+                                     :as => 'omniauth_login',
+                                     :via => [:get, :post]
+    get '/auth/failure', action: 'omniauth_failure'
+
     match '/login', :action => 'login',  :as => 'signin', :via => [:get, :post]
     get '/logout', :action => 'logout', :as => 'signout'
   end
@@ -435,6 +442,8 @@ OpenProject::Application.routes.draw do
   scope :controller => 'my' do
     get '/my/password', :action => 'password'
     post '/my/change_password', :action => 'change_password'
+    match '/my/first_login', :action => 'first_login', :via => [:get, :put]
+    get '/my/page', :action => 'page'
   end
 
   get 'authentication' => 'authentication#index'
@@ -476,6 +485,5 @@ OpenProject::Application.routes.draw do
   # Install the default route as the lowest priority.
   match '/:controller(/:action(/:id))'
   match '/robots' => 'welcome#robots', :defaults => { :format => :txt }
-  # Used for OpenID
   root :to => 'account#login'
 end
