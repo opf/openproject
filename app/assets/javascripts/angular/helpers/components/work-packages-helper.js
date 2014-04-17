@@ -31,7 +31,11 @@ angular.module('openproject.workPackages.helpers')
 .factory('WorkPackagesHelper', ['dateFilter', 'CustomFieldHelper', function(dateFilter, CustomFieldHelper) {
   var WorkPackagesHelper = {
     getRowObjectContent: function(object, option) {
-      var content = object[option];
+      if(CustomFieldHelper.isCustomFieldKey(option)){
+        var content = WorkPackagesHelper.getRawCustomValue(object, CustomFieldHelper.getCustomFieldId(option));
+      } else {
+        var content = object[option];
+      }
 
       switch(typeof(content)) {
         case 'object':
@@ -51,6 +55,20 @@ angular.module('openproject.workPackages.helpers')
         }
       } else {
         workPackage[attributeName] = data;
+      }
+    },
+
+    getRawCustomValue: function(object, customFieldId) {
+      if (!object.custom_values) return null;
+
+      var customValue = object.custom_values.filter(function(customValue){
+        return customValue && customValue.custom_field_id === customFieldId;
+      }).first();
+
+      if (customValue) {
+        return customValue.value;
+      } else {
+        return '';
       }
     },
 

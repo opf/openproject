@@ -36,7 +36,8 @@ angular.module('openproject.workPackages.directives')
     scope: {
       workPackage: '=',
       column: '=',
-      displayType: '@'
+      displayType: '@',
+      displayEmpty: '='
     },
     templateUrl: '/templates/work_packages/work_package_column.html',
     link: function(scope, element, attributes) {
@@ -50,12 +51,12 @@ angular.module('openproject.workPackages.directives')
         if (scope.column.custom_field) {
           var custom_field = scope.column.custom_field;
 
-          scope.displayText = WorkPackagesHelper.getFormattedCustomValue(scope.workPackage, custom_field) || '';
+          scope.displayText = WorkPackagesHelper.getFormattedCustomValue(scope.workPackage, custom_field) || scope.displayEmpty || '';
         } else {
           // custom display types
           if (scope.column.name === 'done_ratio') scope.displayType = 'progress_bar';
 
-          scope.displayText = WorkPackagesHelper.getFormattedColumnData(scope.workPackage, scope.column) || '';
+          scope.displayText = WorkPackagesHelper.getFormattedColumnData(scope.workPackage, scope.column) || scope.displayEmpty || '';
         }
 
         // Example of how we can look to the provided meta data to format the column
