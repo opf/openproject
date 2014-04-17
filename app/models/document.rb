@@ -39,6 +39,7 @@ class Document < ActiveRecord::Base
   acts_as_journalized
   acts_as_event title: Proc.new { |o| "#{Document.model_name.human}: #{o.title}" },
                 url: Proc.new { |o| { controller: '/documents', action: 'show', id: o.id } },
+                datetime: :created_on,
                 author: ( Proc.new do |o|
                             o.attachments.find(:first, order: "#{Attachment.table_name}.created_on ASC").try(:author)
                           end)
