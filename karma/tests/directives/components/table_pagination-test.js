@@ -26,39 +26,92 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-describe('tablePagination Directive', function() {
-    var compile, element, rootScope, scope;
+describe('tablePagination Directive', function () {
+  var compile, element, rootScope, scope;
 
-    beforeEach(angular.mock.module('openproject.uiComponents', 'openproject.services'));
-    beforeEach(module('templates'));
+  beforeEach(angular.mock.module('openproject.uiComponents', 'openproject.services'));
+  beforeEach(module('templates'));
 
-    beforeEach(inject(function($rootScope, $compile) {
-      var html;
-      html = '<table-pagination  icon-name="totalResults" update-results="showUserSomething()"></table-pagination>';
+  beforeEach(inject(function ($rootScope, $compile) {
+    var html;
+    html = '<table-pagination total-entries="tableEntries" icon-name="totalResults" update-results="showUserSomething()"></table-pagination>';
 
-      element = angular.element(html);
-      rootScope = $rootScope;
-      scope = $rootScope.$new();
+    element = angular.element(html);
+    rootScope = $rootScope;
+    scope = $rootScope.$new();
 
-      compile = function() {
-        $compile(element)(scope);
-        scope.$digest();
-      };
-    }));
+    compile = function () {
+      $compile(element)(scope);
+      scope.$digest();
+    };
+  }));
 
-    describe('element', function() {
-      beforeEach(function() {
-        scope.totalResults  = 10;
-        scope.showUserSomething = function() {
-          alert("FOO");
-        };
-        compile();
-      });
-
-      it('should render perPage options', function() {
-        var perPageOptions = element.find('span.per_page_options');
-
-        expect(perPageOptions.text()).to.include('Per page:');
-      });
+  describe('page ranges and links', function () {
+    beforeEach(function() {
+      compile();
     });
+
+    it('should display the correct page range', function () {
+      var range = element.find('.range');
+
+      expect(range.text()).to.equal('');
+
+      scope.tableEntries = 11;
+      scope.$apply();
+      expect(range.text()).to.equal('(1 - 10/11)');
+
+      scope.tableEntries = 663;
+      scope.$apply();
+      expect(range.text()).to.equal('(1 - 10/663)');
+    });
+
+    it('should display correct number of page number links', function () {
+      var numberOfPageNumberLinks = function () {
+        return element.find('a.page-no').size();
+      };
+
+      expect(numberOfPageNumberLinks()).to.eq(0);
+
+      scope.tableEntries = 11;
+      scope.$apply();
+      expect(numberOfPageNumberLinks()).to.eq(1);
+
+      scope.tableEntries = 59;
+      scope.$apply();
+      expect(numberOfPageNumberLinks()).to.eq(5);
+
+      scope.tableEntries = 101;
+      scope.$apply();
+      expect(numberOfPageNumberLinks()).to.eq(10);
+    });
+  });
+
+  describe('perPage options', function () {
+    it('should always render perPage options', function () {
+      compile();
+      var perPageOptions = element.find('span.per_page_options');
+
+      expect(perPageOptions.text()).to.include('Per page:');
+    });
+  });
+
+  describe('callback function', function() {
+    var updateResultsFn;
+
+    beforeEach(function () {
+      updateResultsFn = sinon.spy();
+
+      scope.showUserSomething = updateResultsFn;
+      compile();
+    });
+
+    it('should call the updateResults function on navigating page', function () {
+      var nextPage = element.find('.next_page');
+      var previousPage = element.find('.previous_page');
+      nextPage.click();
+      previousPage.click();
+
+      expect(updateResultsFn).to.have.been.calledTwice;
+    });
+  });
 });
