@@ -30,11 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% disable_accessibility_css! %>
 
 <h2>
-  <%= if @omniauth_strategy
-    l("label_register_with_#{@omniauth_strategy}")
-  else
-    l(:label_register)
-  end %>
+  <%= l(:label_register) %>
 </h2>
 
 <%= labelled_tabular_form_for(@user, :url => url_for(:action => 'register')) do |f| %>

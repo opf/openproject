@@ -49,8 +49,6 @@ module OmniauthLogin
   def register_via_omniauth(user, session, permitted_params)
     auth = session[:auth_source_registration]
     return if handle_omniauth_registration_expired(auth)
-    # Allow registration form to show provider-specific title
-    @omniauth_strategy = auth[:provider]
 
     fill_user_fields_from_omniauth(@user, auth)
     @user.update_attributes(permitted_params.user_register_via_omniauth)
