@@ -286,7 +286,7 @@ describe MailHandler do
     expect do
       work_package = submit_email('ticket_by_unknown_user.eml', {:issue => {:project => 'onlinestore'}, :unknown_user => 'create'})
       work_package_created(work_package)
-      expect(work_package.author.active?).to be_true
+      expect(work_package.author.active?).to be_truthy
       expect(work_package.author.mail).to eq('john.doe@somenet.foo')
       expect(work_package.author.firstname).to eq('John')
       expect(work_package.author.lastname).to eq('Doe')
@@ -301,7 +301,7 @@ describe MailHandler do
       # Can't log in here since randomly assigned password must be changed
       found_user = User.find_by_login(login)
       expect(work_package.author).to eq(found_user)
-      expect(found_user.check_password?(password)).to be_true
+      expect(found_user.check_password?(password)).to be_truthy
 
     end.to change(User, :count).by(1)
   end
@@ -526,7 +526,7 @@ describe MailHandler do
   end
 
   def work_package_created(work_package)
-    expect(work_package.is_a?(WorkPackage)).to be_true
+    expect(work_package.is_a?(WorkPackage)).to be_truthy
     expect(work_package).not_to be_new_record
     work_package.reload
   end

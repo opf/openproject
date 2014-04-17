@@ -38,11 +38,11 @@ describe Setting do
     end
 
     it "allows users to register themselves" do
-      expect(Setting.self_registration?).to be_true
+      expect(Setting.self_registration?).to be_truthy
     end
 
     it "allows anonymous users to access public information" do
-      expect(Setting.login_required?).to be_false
+      expect(Setting.login_required?).to be_falsey
     end
   end
 
@@ -108,7 +108,7 @@ describe Setting do
     end
 
     it "calls no callback on invalid setting" do
-      Setting.any_instance.stub(:valid?).and_return(false)
+      allow_any_instance_of(Setting).to receive(:valid?).and_return(false)
       Setting.notified_events = 'invalid'
       expect(collector).to be_empty
     end

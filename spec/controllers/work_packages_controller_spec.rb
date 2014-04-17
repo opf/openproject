@@ -301,7 +301,7 @@ describe WorkPackagesController do
   describe 'index with a broken project reference' do
     before { get('index', :project_id => 'project_that_doesnt_exist') }
 
-    it { should respond_with :not_found }
+    it { is_expected.to respond_with :not_found }
   end
 
 
@@ -858,8 +858,8 @@ describe WorkPackagesController do
       context "description" do
         subject { get :quoted, id: planning_element.id }
 
-        it { should be_success }
-        it { should render_template('edit') }
+        it { is_expected.to be_success }
+        it { is_expected.to render_template('edit') }
       end
 
       context "journal" do
@@ -867,8 +867,8 @@ describe WorkPackagesController do
 
         subject { get :quoted, id: planning_element.id, journal_id: journal_id }
 
-        it { should be_success }
-        it { should render_template('edit') }
+        it { is_expected.to be_success }
+        it { is_expected.to render_template('edit') }
       end
     end
   end
@@ -931,7 +931,7 @@ describe WorkPackagesController do
 
           subject { new_work_package.journals.last.changed_data }
 
-          it { should have_key attachment_id }
+          it { is_expected.to have_key attachment_id }
 
           it { expect(subject[attachment_id]).to eq([nil, filename]) }
         end
@@ -949,13 +949,13 @@ describe WorkPackagesController do
         describe :view do
           subject { response }
 
-          it { should render_template('work_packages/new', formats: ["html"]) }
+          it { is_expected.to render_template('work_packages/new', formats: ["html"]) }
         end
 
         describe :error do
           subject { new_work_package.errors.messages }
 
-          it { should have_key(:attachments) }
+          it { is_expected.to have_key(:attachments) }
 
           it { subject[:attachments] =~ /too long/ }
         end
@@ -1000,13 +1000,13 @@ describe WorkPackagesController do
         describe :view do
           subject { response }
 
-          it { should render_template('work_packages/edit', formats: ["html"]) }
+          it { is_expected.to render_template('work_packages/edit', formats: ["html"]) }
         end
 
         describe :error do
           subject { work_package.errors.messages }
 
-          it { should have_key(:attachments) }
+          it { is_expected.to have_key(:attachments) }
 
           it { subject[:attachments] =~ /too long/ }
         end

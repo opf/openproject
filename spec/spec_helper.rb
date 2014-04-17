@@ -82,7 +82,7 @@ RSpec.configure do |config|
   # add helpers to parse json-responses
   config.include JsonSpec::Helpers
 
-  config.after(:each) do
+  config.after(:each) do |example|
     OpenProject::RSpecLazinessWarn.warn_if_user_current_set(example)
   end
 
@@ -90,6 +90,10 @@ RSpec.configure do |config|
     [User, Project, WorkPackage].each do |cls|
       raise "your specs leave a #{cls} in the DB\ndid you use before(:all) instead of before or forget to kill the instances in a after(:all)?" if cls.count > 0
     end
+  end
+
+  config.mock_with :rspec do |c|
+    c.yield_receiver_to_any_instance_implementation_blocks = true
   end
 end
 

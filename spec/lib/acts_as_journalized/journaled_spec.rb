@@ -128,7 +128,7 @@ describe "Journalized Objects" do
           role.remove_permission! :edit_work_packages
         end
 
-        it { should be_false }
+        it { is_expected.to be_falsey }
       end
     end
   end

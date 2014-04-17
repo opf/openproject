@@ -180,7 +180,7 @@ describe AccountController do
       end
 
       it 'is successful' do
-        should respond_with :success
+        is_expected.to respond_with :success
         expect(response).to render_template :register
         expect(assigns[:user]).not_to be_nil
       end
@@ -194,7 +194,7 @@ describe AccountController do
       end
 
       it 'redirects to home' do
-        should redirect_to('/') { home_url }
+        is_expected.to redirect_to('/') { home_url }
       end
     end
   end
@@ -215,9 +215,9 @@ describe AccountController do
       end
 
       it 'redirects to first_login page' do
-        should respond_with :redirect
+        is_expected.to respond_with :redirect
         expect(assigns[:user]).not_to be_nil
-        should redirect_to(my_first_login_path)
+        is_expected.to redirect_to(my_first_login_path)
         expect(User.last(:conditions => { :login => 'register' })).not_to be_nil
       end
 
@@ -243,7 +243,7 @@ describe AccountController do
       end
 
       it 'redirects to the login page' do
-        should redirect_to '/login'
+        is_expected.to redirect_to '/login'
       end
 
       it "doesn't activate the user but sends out a token instead" do
@@ -310,7 +310,7 @@ describe AccountController do
       end
 
       it 'redirects to home' do
-        should redirect_to('/') { home_url }
+        is_expected.to redirect_to('/') { home_url }
       end
     end
 
@@ -328,7 +328,7 @@ describe AccountController do
       end
 
       it 'registers the user on-the-fly' do
-        should respond_with :success
+        is_expected.to respond_with :success
         expect(response).to render_template :register
 
         post :register, :user => { firstname: 'Foo',

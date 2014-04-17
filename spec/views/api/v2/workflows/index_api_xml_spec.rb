@@ -43,8 +43,8 @@ describe 'api/v2/workflows/index.api.rabl' do
     subject { response.body }
 
     it 'renders an empty workflows document' do
-      should have_selector('workflows', count: 1)
-      should have_selector('workflows[type=array]') do
+      is_expected.to have_selector('workflows', count: 1)
+      is_expected.to have_selector('workflows[type=array]') do
         without_tag 'workflow'
       end
     end

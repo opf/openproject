@@ -59,7 +59,7 @@ describe QueryMenuItemsController do
 
     it 'destroys the query_menu_item' do
       delete :destroy, id: query_menu_item, project_id: project, query_id: public_query
-      expect(MenuItems::QueryMenuItem.exists?(query_menu_item.id)).to be_false
+      expect(MenuItems::QueryMenuItem.exists?(query_menu_item.id)).to be_falsey
     end
   end
 end

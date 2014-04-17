@@ -42,12 +42,12 @@ describe ApplicationHelper do
       text = "Lorem ipsum dolor sit \namet, consetetur sadipscing elitr, sed diam nonumy eirmod\r tempor invidunt"
       text_html = "Lorem ipsum dolor sit <br />amet, consetetur sadipscing elitr, sed diam nonumy eirmod<br /> tempor invidunt"
       expect(format_activity_description(text)).to eq(text_html)
-      expect(format_activity_description(text).html_safe?).to be_true
+      expect(format_activity_description(text).html_safe?).to be_truthy
     end
 
     it "escapes potentially harmful code" do
       text = "Lorem ipsum dolor <script>alert('pwnd');</script> tempor invidunt"
-      expect(format_activity_description(text).include?("lt;script&gt;alert(&#x27;pwnd&#x27;);&lt;/script&gt;")).to be_true
+      expect(format_activity_description(text).include?("lt;script&gt;alert(&#x27;pwnd&#x27;);&lt;/script&gt;")).to be_truthy
     end
   end
 
@@ -66,8 +66,8 @@ describe ApplicationHelper do
         OpenProject::Footer.add_content("openproject","footer")
       end
 
-      it { expect(footer_content.include?(I18n.t(:text_powered_by, :link => link_to(OpenProject::Info.app_name, OpenProject::Info.url)))).to be_true  }
-      it { expect(footer_content.include?("<span class=\"footer_openproject\">footer</span>")).to be_true  }
+      it { expect(footer_content.include?(I18n.t(:text_powered_by, :link => link_to(OpenProject::Info.app_name, OpenProject::Info.url)))).to be_truthy  }
+      it { expect(footer_content.include?("<span class=\"footer_openproject\">footer</span>")).to be_truthy  }
     end
 
     context "proc as additional footer content" do
@@ -76,7 +76,7 @@ describe ApplicationHelper do
         OpenProject::Footer.add_content("openproject",Proc.new{Date.parse(Time.now.to_s)})
       end
 
-      it { expect(footer_content.include?("<span class=\"footer_openproject\">#{Date.parse(Time.now.to_s)}</span>")).to be_true  }
+      it { expect(footer_content.include?("<span class=\"footer_openproject\">#{Date.parse(Time.now.to_s)}</span>")).to be_truthy  }
     end
 
     context "proc which returns nothing" do
@@ -85,7 +85,7 @@ describe ApplicationHelper do
         OpenProject::Footer.add_content("openproject",Proc.new{"footer" if false})
       end
 
-      it { expect(footer_content.include?("<span class=\"footer_openproject\">")).to be_false }
+      it { expect(footer_content.include?("<span class=\"footer_openproject\">")).to be_falsey }
     end
   end
 
@@ -114,9 +114,9 @@ describe ApplicationHelper do
 
       subject { @response }
 
-      it { should match /href/ }
+      it { is_expected.to match /href/ }
 
-      it { should match /fancy_css_class/ }
+      it { is_expected.to match /fancy_css_class/ }
     end
 
     context "if user is unauthorized" do
@@ -131,7 +131,7 @@ describe ApplicationHelper do
 
       subject { @response }
 
-      it { should be_nil }
+      it { is_expected.to be_nil }
     end
 
     context "allow using the :controller and :action for the target link" do
@@ -145,7 +145,7 @@ describe ApplicationHelper do
 
       subject { @response }
 
-      it { should match /href/ }
+      it { is_expected.to match /href/ }
     end
   end
 
@@ -198,31 +198,31 @@ describe ApplicationHelper do
       context "Single link" do
         subject { textilizable("r#{changeset1.revision}") }
 
-        it { should eq("<p>#{changeset_link}</p>") }
+        it { is_expected.to eq("<p>#{changeset_link}</p>") }
       end
 
       context "Single link with dot" do
         subject { textilizable("r#{changeset1.revision}.") }
 
-        it { should eq("<p>#{changeset_link}.</p>") }
+        it { is_expected.to eq("<p>#{changeset_link}.</p>") }
       end
 
       context "Two links comma separated" do
         subject { textilizable("r#{changeset1.revision}, r#{changeset2.revision}") }
 
-        it { should eq("<p>#{changeset_link}, #{changeset_link2}</p>") }
+        it { is_expected.to eq("<p>#{changeset_link}, #{changeset_link2}</p>") }
       end
 
       context "Single link comma separated without a space" do
         subject { textilizable("r#{changeset1.revision},r#{changeset2.revision}") }
 
-        it { should eq("<p>#{changeset_link},#{changeset_link2}</p>") }
+        it { is_expected.to eq("<p>#{changeset_link},#{changeset_link2}</p>") }
       end
 
       context "Escaping" do
         subject { textilizable("!r#{changeset1.id}") }
 
-        it { should eq("<p>r#{changeset1.id}</p>") }
+        it { is_expected.to eq("<p>r#{changeset1.id}</p>") }
       end
     end
 
@@ -237,36 +237,36 @@ describe ApplicationHelper do
       context "Link with version id" do
         subject { textilizable("version##{version.id}") }
 
-        it { should eq("<p>#{version_link}</p>") }
+        it { is_expected.to eq("<p>#{version_link}</p>") }
       end
 
       context "Link with version" do
         subject { textilizable("version:1.0") }
-        it { should eq("<p>#{version_link}</p>") }
+        it { is_expected.to eq("<p>#{version_link}</p>") }
       end
 
       context "Link with quoted version" do
         subject { textilizable('version:"1.0"') }
 
-        it { should eq("<p>#{version_link}</p>") }
+        it { is_expected.to eq("<p>#{version_link}</p>") }
       end
 
       context "Escaping link with version id" do
         subject { textilizable("!version##{version.id}") }
 
-        it { should eq("<p>version##{version.id}</p>") }
+        it { is_expected.to eq("<p>version##{version.id}</p>") }
       end
 
       context "Escaping link with version" do
         subject { textilizable("!version:1.0") }
 
-        it { should eq("<p>version:1.0</p>") }
+        it { is_expected.to eq("<p>version:1.0</p>") }
       end
 
       context "Escaping link with quoted version" do
         subject { textilizable('!version:"1.0"') }
 
-        it { should eq('<p>version:"1.0"</p>') }
+        it { is_expected.to eq('<p>version:"1.0"</p>') }
       end
     end
 
@@ -284,13 +284,13 @@ describe ApplicationHelper do
       context "Plain message" do
         subject { textilizable("message##{message1.id}") }
 
-        it { should eq("<p>#{link_to(message1.subject, topic_path(message1), :class => 'message')}</p>") }
+        it { is_expected.to eq("<p>#{link_to(message1.subject, topic_path(message1), :class => 'message')}</p>") }
       end
 
       context "Message with parent" do
         subject { textilizable("message##{message2.id}") }
 
-        it { should eq("<p>#{link_to(message2.subject, topic_path(message1, :anchor => "message-#{message2.id}", :r => message2.id), :class => 'message')}</p>") }
+        it { is_expected.to eq("<p>#{link_to(message2.subject, topic_path(message1, :anchor => "message-#{message2.id}", :r => message2.id), :class => 'message')}</p>") }
       end
     end
 
@@ -302,19 +302,19 @@ describe ApplicationHelper do
       context "Plain issue link" do
         subject { textilizable("##{issue.id}, [##{issue.id}], (##{issue.id}) and ##{issue.id}.") }
 
-        it { should eq("<p>#{issue_link}, [#{issue_link}], (#{issue_link}) and #{issue_link}.</p>") }
+        it { is_expected.to eq("<p>#{issue_link}, [#{issue_link}], (#{issue_link}) and #{issue_link}.</p>") }
       end
 
       context "Plain issue link to non-existing element" do
         subject { textilizable('#0123456789') }
 
-        it { should eq('<p>#0123456789</p>') }
+        it { is_expected.to eq('<p>#0123456789</p>') }
       end
 
       context "Escaping issue link" do
         subject { textilizable("!##{issue.id}.") }
 
-        it { should eq("<p>##{issue.id}.</p>") }
+        it { is_expected.to eq("<p>##{issue.id}.</p>") }
       end
 
       context "Cyclic Description Links" do
@@ -353,26 +353,26 @@ describe ApplicationHelper do
       context "Plain project link" do
         subject { textilizable("project##{subproject.id}") }
 
-        it { should eq("<p>#{link_to(subproject.name, project_url, :class => 'project')}</p>") }
+        it { is_expected.to eq("<p>#{link_to(subproject.name, project_url, :class => 'project')}</p>") }
       end
 
       context "Plain project link via identifier" do
         subject { textilizable("project:#{subproject.identifier}") }
 
-        it { should eq("<p>#{link_to(subproject.name, project_url, :class => 'project')}</p>") }
+        it { is_expected.to eq("<p>#{link_to(subproject.name, project_url, :class => 'project')}</p>") }
       end
 
       context "Plain project link via name" do
         subject { textilizable("project:\"#{subproject.name}\"") }
 
-        it { should eq("<p>#{link_to(subproject.name, project_url, :class => 'project')}</p>") }
+        it { is_expected.to eq("<p>#{link_to(subproject.name, project_url, :class => 'project')}</p>") }
       end
     end
 
     context "Url links" do
       subject { textilizable("http://foo.bar/FAQ#3") }
 
-      it { should eq('<p><a class="external" href="http://foo.bar/FAQ#3">http://foo.bar/FAQ#3</a></p>') }
+      it { is_expected.to eq('<p><a class="external" href="http://foo.bar/FAQ#3">http://foo.bar/FAQ#3</a></p>') }
     end
 
     context "Wiki links" do
@@ -408,97 +408,97 @@ describe ApplicationHelper do
       context "Plain wiki link" do
         subject { textilizable('[[CookBook documentation]]') }
 
-        it { should eq("<p><a href=\"/projects/#{project.identifier}/wiki/CookBook_documentation\" class=\"wiki-page\">CookBook documentation</a></p>") }
+        it { is_expected.to eq("<p><a href=\"/projects/#{project.identifier}/wiki/CookBook_documentation\" class=\"wiki-page\">CookBook documentation</a></p>") }
       end
 
       context "Plain wiki page link" do
         subject { textilizable('[[Another page|Page]]') }
 
-        it { should eq("<p><a href=\"/projects/#{project.identifier}/wiki/Another_page\" class=\"wiki-page\">Page</a></p>") }
+        it { is_expected.to eq("<p><a href=\"/projects/#{project.identifier}/wiki/Another_page\" class=\"wiki-page\">Page</a></p>") }
       end
 
       context "Wiki link with anchor" do
         subject { textilizable('[[CookBook documentation#One-section]]') }
 
-        it { should eq("<p><a href=\"/projects/#{project.identifier}/wiki/CookBook_documentation#One-section\" class=\"wiki-page\">CookBook documentation</a></p>") }
+        it { is_expected.to eq("<p><a href=\"/projects/#{project.identifier}/wiki/CookBook_documentation#One-section\" class=\"wiki-page\">CookBook documentation</a></p>") }
       end
 
       context "Wiki page link with anchor" do
         subject { textilizable('[[Another page#anchor|Page]]') }
 
-        it { should eq("<p><a href=\"/projects/#{project.identifier}/wiki/Another_page#anchor\" class=\"wiki-page\">Page</a></p>") }
+        it { is_expected.to eq("<p><a href=\"/projects/#{project.identifier}/wiki/Another_page#anchor\" class=\"wiki-page\">Page</a></p>") }
       end
 
       context "Wiki link to an unknown page" do
         subject { textilizable('[[Unknown page]]') }
 
-        it { should eq("<p><a href=\"/projects/#{project.identifier}/wiki/Unknown_page\" class=\"wiki-page new\">Unknown page</a></p>") }
+        it { is_expected.to eq("<p><a href=\"/projects/#{project.identifier}/wiki/Unknown_page\" class=\"wiki-page new\">Unknown page</a></p>") }
       end
 
       context "Wiki page link to an unknown page" do
         subject { textilizable('[[Unknown page|404]]') }
 
-        it { should eq("<p><a href=\"/projects/#{project.identifier}/wiki/Unknown_page\" class=\"wiki-page new\">404</a></p>") }
+        it { is_expected.to eq("<p><a href=\"/projects/#{project.identifier}/wiki/Unknown_page\" class=\"wiki-page new\">404</a></p>") }
       end
 
       context "Link to another project's wiki" do
         subject { textilizable('[[onlinestore:]]') }
 
-        it { should eq("<p><a href=\"/projects/onlinestore/wiki\" class=\"wiki-page\">onlinestore</a></p>") }
+        it { is_expected.to eq("<p><a href=\"/projects/onlinestore/wiki\" class=\"wiki-page\">onlinestore</a></p>") }
       end
 
       context "Link to another project's wiki with label" do
         subject { textilizable('[[onlinestore:|Wiki]]') }
 
-        it { should eq("<p><a href=\"/projects/onlinestore/wiki\" class=\"wiki-page\">Wiki</a></p>") }
+        it { is_expected.to eq("<p><a href=\"/projects/onlinestore/wiki\" class=\"wiki-page\">Wiki</a></p>") }
       end
 
       context "Link to another project's wiki page" do
         subject { textilizable('[[onlinestore:Start page]]') }
 
-        it { should eq("<p><a href=\"/projects/onlinestore/wiki/Start_page\" class=\"wiki-page\">Start page</a></p>") }
+        it { is_expected.to eq("<p><a href=\"/projects/onlinestore/wiki/Start_page\" class=\"wiki-page\">Start page</a></p>") }
       end
 
       context "Link to another project's wiki page with label" do
         subject { textilizable('[[onlinestore:Start page|Text]]') }
 
-        it { should eq("<p><a href=\"/projects/onlinestore/wiki/Start_page\" class=\"wiki-page\">Text</a></p>") }
+        it { is_expected.to eq("<p><a href=\"/projects/onlinestore/wiki/Start_page\" class=\"wiki-page\">Text</a></p>") }
       end
 
       context "Link to an unknown wiki page in another project" do
         subject { textilizable('[[onlinestore:Unknown page]]') }
 
-        it { should eq("<p><a href=\"/projects/onlinestore/wiki/Unknown_page\" class=\"wiki-page new\">Unknown page</a></p>") }
+        it { is_expected.to eq("<p><a href=\"/projects/onlinestore/wiki/Unknown_page\" class=\"wiki-page new\">Unknown page</a></p>") }
       end
 
       context "Struck through link to wiki page" do
         subject { textilizable('-[[Another page|Page]]-') }
 
-        it { should eql("<p><del><a href=\"/projects/#{project.identifier}/wiki/Another_page\" class=\"wiki-page\">Page</a></del></p>") }
+        it { is_expected.to eql("<p><del><a href=\"/projects/#{project.identifier}/wiki/Another_page\" class=\"wiki-page\">Page</a></del></p>") }
       end
 
       context "Named struck through link to wiki page" do
         subject { textilizable('-[[Another page|Page]] link-') }
 
-        it { should eql("<p><del><a href=\"/projects/#{project.identifier}/wiki/Another_page\" class=\"wiki-page\">Page</a> link</del></p>") }
+        it { is_expected.to eql("<p><del><a href=\"/projects/#{project.identifier}/wiki/Another_page\" class=\"wiki-page\">Page</a> link</del></p>") }
       end
 
       context "Escaped link to wiki page" do
         subject { textilizable('![[Another page|Page]]') }
 
-        it { should eql('<p>[[Another page|Page]]</p>') }
+        it { is_expected.to eql('<p>[[Another page|Page]]</p>') }
       end
 
       context "Link to wiki of non-existing project" do
         subject { textilizable('[[unknowproject:Start]]') }
 
-        it { should eql('<p>[[unknowproject:Start]]</p>') }
+        it { is_expected.to eql('<p>[[unknowproject:Start]]</p>') }
       end
 
       context "Link to wiki page of non-existing project" do
         subject { textilizable('[[unknowproject:Start|Page title]]') }
 
-        it { should eql('<p>[[unknowproject:Start|Page title]]</p>') }
+        it { is_expected.to eql('<p>[[unknowproject:Start|Page title]]</p>') }
       end
     end
 
@@ -576,7 +576,7 @@ EXPECTED
 
       subject { textilizable(raw).gsub(%r{[\r\n\t]}, '')}
 
-      it { should eql(expected.gsub(%r{[\r\n\t]}, ''))}
+      it { is_expected.to eql(expected.gsub(%r{[\r\n\t]}, ''))}
     end
   end
 

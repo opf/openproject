@@ -37,12 +37,12 @@ describe WorkPackage do
 
     # validations
     [:subject, :priority, :project, :type, :author, :status].each do |field|
-      it{ should validate_presence_of field}
+      it{ is_expected.to validate_presence_of field}
     end
 
-    it { should ensure_length_of(:subject).is_at_most 255 }
-    it { should ensure_inclusion_of(:done_ratio).in_range 0..100 }
-    it { should validate_numericality_of :estimated_hours}
+    it { is_expected.to ensure_length_of(:subject).is_at_most 255 }
+    it { is_expected.to ensure_inclusion_of(:done_ratio).in_range 0..100 }
+    it { is_expected.to validate_numericality_of :estimated_hours}
 
     it "validates, that start-date is before end-date" do
       wp = FactoryGirl.build(:work_package, start_date: 1.day.from_now, due_date: 1.day.ago)
@@ -179,7 +179,7 @@ describe WorkPackage do
         active_priority.save!
         wp.reload
 
-        expect(wp.priority.active).to be_false
+        expect(wp.priority.active).to be_falsey
         expect(wp).to be_valid
       end
 

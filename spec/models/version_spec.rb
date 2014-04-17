@@ -32,7 +32,7 @@ describe Version do
 
   subject(:version){ FactoryGirl.build(:version, name: "Test Version") }
 
-  it { should be_valid }
+  it { is_expected.to be_valid }
 
   it "rejects a due date that is smaller than the start date" do
     version.start_date = '2013-05-01'
@@ -43,7 +43,7 @@ describe Version do
   end
 
   context 'deprecated methods' do
-    it { should respond_to :completed_pourcent }
-    it { should respond_to :closed_pourcent    }
+    it { is_expected.to respond_to :completed_pourcent }
+    it { is_expected.to respond_to :closed_pourcent    }
   end
 end

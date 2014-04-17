@@ -44,14 +44,14 @@ describe WorkPackages::CalendarsController do
     shared_examples_for "calendar#index" do
       subject { response }
 
-      it { should be_success }
+      it { is_expected.to be_success }
 
-      it { should render_template('calendar') }
+      it { is_expected.to render_template('calendar') }
 
       context :assigns do
         subject { assigns(:calendar) }
 
-        it { should be_true }
+        it { is_expected.to be_truthy }
       end
     end
 

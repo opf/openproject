@@ -62,7 +62,7 @@ describe 'api/v2/planning_element_types/index.api.rabl' do
     subject{response.body}
 
     it 'renders 3 planning_element_types' do
-      should have_json_size(3).at_path('planning_element_types')
+      is_expected.to have_json_size(3).at_path('planning_element_types')
     end
   end
 end

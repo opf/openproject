@@ -65,7 +65,7 @@ describe Project::Copy do
     describe :types do
       subject { copy.types }
 
-      it { should == project.types }
+      it { is_expected.to eq(project.types) }
     end
 
     describe :work_package_custom_fields do
@@ -79,7 +79,7 @@ describe Project::Copy do
 
       subject { copy.work_package_custom_fields }
 
-      it { should == project.work_package_custom_fields }
+      it { is_expected.to eq(project.work_package_custom_fields) }
     end
 
     describe :is_public do
@@ -239,7 +239,7 @@ describe Project::Copy do
 
       subject { copy.timelines.count }
 
-      it { should == project.timelines.count }
+      it { is_expected.to eq(project.timelines.count) }
     end
 
     describe :copy_queries do
@@ -252,7 +252,7 @@ describe Project::Copy do
 
       subject { copy.queries.count }
 
-      it { should == project.queries.count }
+      it { is_expected.to eq(project.queries.count) }
     end
 
     describe :copy_members do
@@ -267,7 +267,7 @@ describe Project::Copy do
 
         subject { copy.members.count }
 
-        it { should == project.members.count }
+        it { is_expected.to eq(project.members.count) }
       end
 
       describe :with_group do
@@ -280,7 +280,7 @@ describe Project::Copy do
 
         subject { copy.principals.count }
 
-        it { should == project.principals.count }
+        it { is_expected.to eq(project.principals.count) }
       end
     end
 
@@ -295,7 +295,7 @@ describe Project::Copy do
 
       subject { copy.wiki }
 
-      it { should_not == nil && should.be_valid }
+      it { is_expected.not_to eq(nil) && is_expected.to.be_valid }
 
       describe :copy_wiki_pages do
         describe :dont_copy_wiki_page_without_content do
@@ -308,7 +308,7 @@ describe Project::Copy do
 
           subject { copy.wiki.pages.count }
 
-          it { should == 0 }
+          it { is_expected.to eq(0) }
         end
 
         describe :copy_wiki_page_with_content do
@@ -321,7 +321,7 @@ describe Project::Copy do
 
           subject { copy.wiki.pages.count }
 
-          it { should == project.wiki.pages.count }
+          it { is_expected.to eq(project.wiki.pages.count) }
         end
       end
       describe :copy_wiki_menu_items do
@@ -333,7 +333,7 @@ describe Project::Copy do
 
         subject { copy.wiki.wiki_menu_items.count }
 
-        it { should == project.wiki.wiki_menu_items.count }
+        it { is_expected.to eq(project.wiki.wiki_menu_items.count) }
       end
     end
 
@@ -347,7 +347,7 @@ describe Project::Copy do
 
       subject { copy.boards.count }
 
-      it { should == project.boards.count }
+      it { is_expected.to eq(project.boards.count) }
     end
 
     describe :copy_versions do
@@ -360,7 +360,7 @@ describe Project::Copy do
 
       subject { copy.versions.count }
 
-      it { should == project.versions.count }
+      it { is_expected.to eq(project.versions.count) }
     end
 
     describe :copy_project_associations do
@@ -376,7 +376,7 @@ describe Project::Copy do
 
         subject { copy.send(:project_a_associations).count }
 
-        it { should == project.send(:project_a_associations).count }
+        it { is_expected.to eq(project.send(:project_a_associations).count) }
       end
 
       describe :project_b_associations do
@@ -389,7 +389,7 @@ describe Project::Copy do
 
         subject { copy.send(:project_b_associations).count }
 
-        it { should == project.send(:project_b_associations).count }
+        it { is_expected.to eq(project.send(:project_b_associations).count) }
       end
     end
 
@@ -403,7 +403,7 @@ describe Project::Copy do
 
       subject { copy.categories.count }
 
-      it { should == project.categories.count }
+      it { is_expected.to eq(project.categories.count) }
     end
   end
 end

@@ -66,7 +66,7 @@ describe MenuItem do
 
     example 'all children when deleting the parent' do
       menu_item.destroy
-      expect(MenuItem.exists?(child_item.id)).to be_false
+      expect(MenuItem.exists?(child_item.id)).to be_falsey
     end
   end
 end

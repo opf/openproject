@@ -210,7 +210,7 @@ describe AccountController do
       end
 
       it 'should not sign in the user' do
-        expect(controller.send(:current_user).logged?).to be_false
+        expect(controller.send(:current_user).logged?).to be_falsey
       end
 
       it 'does not set registration information in the session' do

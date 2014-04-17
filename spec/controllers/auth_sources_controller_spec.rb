@@ -41,8 +41,8 @@ describe AuthSourcesController do
     end
 
     it { expect(assigns(:auth_source)).to eq @auth_source }
-    it { should respond_with :success }
-    it { should render_template :index }
+    it { is_expected.to respond_with :success }
+    it { is_expected.to render_template :index }
   end
 
   describe "new" do
@@ -51,8 +51,8 @@ describe AuthSourcesController do
     end
 
     it { expect(assigns(:auth_source)).not_to be_nil }
-    it { should respond_with :success }
-    it { should render_template :new }
+    it { is_expected.to respond_with :success }
+    it { is_expected.to render_template :new }
 
     it "initializes a new AuthSource" do
       expect(assigns(:auth_source).class).to eq(AuthSource)
@@ -65,9 +65,9 @@ describe AuthSourcesController do
       post :create, :auth_source => {:name => 'Test'}
     end
 
-    it { should respond_with :redirect }
-    it { should redirect_to auth_sources_path }
-    it { should set_the_flash.to /success/i }
+    it { is_expected.to respond_with :redirect }
+    it { is_expected.to redirect_to auth_sources_path }
+    it { is_expected.to set_the_flash.to /success/i }
   end
 
   describe "edit" do
@@ -77,8 +77,8 @@ describe AuthSourcesController do
     end
 
     it { expect(assigns(:auth_source)).to eq @auth_source }
-    it { should respond_with :success }
-    it { should render_template :edit }
+    it { is_expected.to respond_with :success }
+    it { is_expected.to render_template :edit }
   end
 
   describe "update" do
@@ -87,9 +87,9 @@ describe AuthSourcesController do
       post :update, id: @auth_source.id, auth_source: {name: 'TestUpdate'}
     end
 
-    it { should respond_with :redirect }
-    it { should redirect_to auth_sources_path }
-    it { should set_the_flash.to /update/i }
+    it { is_expected.to respond_with :redirect }
+    it { is_expected.to redirect_to auth_sources_path }
+    it { is_expected.to set_the_flash.to /update/i }
   end
 
   describe "destroy" do
@@ -102,9 +102,9 @@ describe AuthSourcesController do
         post :destroy, id: @auth_source.id
       end
 
-      it { should respond_with :redirect }
-      it { should redirect_to auth_sources_path }
-      it { should set_the_flash.to /deletion/i }
+      it { is_expected.to respond_with :redirect }
+      it { is_expected.to redirect_to auth_sources_path }
+      it { is_expected.to set_the_flash.to /deletion/i }
     end
 
     context "with users" do
@@ -113,7 +113,7 @@ describe AuthSourcesController do
         post :destroy, id: @auth_source.id
       end
 
-      it { should respond_with :redirect }
+      it { is_expected.to respond_with :redirect }
       it "doesn not destroy the AuthSource" do
         expect(AuthSource.find(@auth_source.id)).not_to be_nil
       end

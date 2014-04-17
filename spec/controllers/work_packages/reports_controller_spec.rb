@@ -65,9 +65,9 @@ describe WorkPackages::ReportsController do
 
       subject { response }
 
-      it { should be_success }
+      it { is_expected.to be_success }
 
-      it { should render_template('report') }
+      it { is_expected.to render_template('report') }
 
       it { assigns :work_packages_by_type }
 
@@ -90,9 +90,9 @@ describe WorkPackages::ReportsController do
 
         subject { response }
 
-        it { should be_success }
+        it { is_expected.to be_success }
 
-        it { should render_template('report_details') }
+        it { is_expected.to render_template('report_details') }
 
         it { assigns :field }
 
@@ -156,9 +156,9 @@ describe WorkPackages::ReportsController do
 
         subject { response }
 
-        it { should be_redirect }
+        it { is_expected.to be_redirect }
 
-        it { should redirect_to(report_project_work_packages_path(project.identifier)) }
+        it { is_expected.to redirect_to(report_project_work_packages_path(project.identifier)) }
       end
     end
   end

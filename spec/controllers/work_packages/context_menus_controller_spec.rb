@@ -77,9 +77,9 @@ describe WorkPackages::ContextMenusController do
 
       subject { response }
 
-      it { should be_success }
+      it { is_expected.to be_success }
 
-      it { should render_template('context_menu') }
+      it { is_expected.to render_template('context_menu') }
     end
 
     shared_examples_for :edit do

@@ -133,8 +133,8 @@ describe WorkPackages::MovesController do
         end
 
         it "redirects to the project's work packages page" do
-          should be_redirect
-          should redirect_to(project_work_packages_path(project))
+          is_expected.to be_redirect
+          is_expected.to redirect_to(project_work_packages_path(project))
         end
       end
 
@@ -153,8 +153,8 @@ describe WorkPackages::MovesController do
         end
 
         it "redirects to the work package page" do
-          should be_redirect
-          should redirect_to(work_package_path(work_package))
+          is_expected.to be_redirect
+          is_expected.to redirect_to(work_package_path(work_package))
         end
       end
     end
@@ -267,7 +267,7 @@ describe WorkPackages::MovesController do
 
           it "redirects to the work package copy" do
             copy = WorkPackage.first(:order => 'id desc')
-            should redirect_to(work_package_path(copy))
+            is_expected.to redirect_to(work_package_path(copy))
           end
         end
 
@@ -393,7 +393,7 @@ describe WorkPackages::MovesController do
           end
 
           before do
-            User.stub(:current).and_return(current_user) 
+            allow(User).to receive(:current).and_return(current_user) 
 
             def self.copy_child_work_package
               post :create,
@@ -407,7 +407,7 @@ describe WorkPackages::MovesController do
 
           context "when cross_project_work_package_relations is disabled" do
             before do
-              Setting.stub(:cross_project_work_package_relations?).and_return(false)
+              allow(Setting).to receive(:cross_project_work_package_relations?).and_return(false)
 
               copy_child_work_package
             end
@@ -419,7 +419,7 @@ describe WorkPackages::MovesController do
 
           context "when cross_project_work_package_relations is enabled" do
             before do
-              Setting.stub(:cross_project_work_package_relations?).and_return(true)
+              allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)
 
               copy_child_work_package
             end

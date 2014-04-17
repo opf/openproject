@@ -50,7 +50,7 @@ describe Activity::WorkPackageActivityProvider do
       context 'when a work package has been created' do
         before { work_package.save! }
 
-        it { should == work_package_edit_event }
+        it { is_expected.to eq(work_package_edit_event) }
 
         context 'and has been closed' do
           before do
@@ -60,7 +60,7 @@ describe Activity::WorkPackageActivityProvider do
             work_package.save!
           end
 
-          it { should == work_package_closed_event }
+          it { is_expected.to eq(work_package_closed_event) }
         end
       end
     end
