@@ -135,9 +135,9 @@ group :test do
   gem 'rack_session_access'
   gem 'database_cleaner'
   gem "cucumber-rails-training-wheels" # http://aslakhellesoy.com/post/11055981222/the-training-wheels-came-off
-  gem 'rspec', '~> 2.14'
+  gem 'rspec', '~> 2.99.0.beta2'
   # also add to development group, so "spec" rake task gets loaded
-  gem "rspec-rails", "~> 2.14", :group => :development
+  gem "rspec-rails", "~> 2.99.0.beta2", :group => :development
   gem 'rspec-example_disabler', github: 'finnlabs/rspec-example_disabler', branch: 'master'
   gem 'capybara'
   gem 'capybara-screenshot'
