@@ -50,7 +50,7 @@ Assuming you have to following directory structure:
 ├── openproject-documents
 ```
 
-Replace the openproject-document ``gemfile.plugins`` entry with the following:
+Replace the openproject-document ``Gemfile.plugins`` entry with the following:
 
 ```
 gem "openproject-documents", path: "../openproject-documents"
