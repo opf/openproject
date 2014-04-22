@@ -587,10 +587,9 @@ document.observe("dom:loaded", function() {
 });
 
 function hideOnLoad() {
-  $$('.hol').each(function(el) {
-  	el.hide();
-	});
+  jQuery('.hol').hide();
 }
+jQuery(hideOnLoad);
 
 function addClickEventToAllErrorMessages() {
   $$('a.afocus').each(function(a) {
@@ -633,7 +632,6 @@ $(document).observe('dom:loaded', function() {
   addClickEventToAllErrorMessages();
 });
 
-Event.observe(window, 'load', hideOnLoad);
 
 // a few constants for animations speeds, etc.
 var animationRate = 100;
