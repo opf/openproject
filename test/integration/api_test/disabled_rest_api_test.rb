@@ -44,15 +44,14 @@ class ApiTest::DisabledRestApiTest < ActionDispatch::IntegrationTest
     Setting.login_required = '0'
   end
 
-  # Using the NewsController because it's a simple API.
-  context "get /api/v1/news with the API disabled" do
+  context "get /api/v2/projects with the API disabled" do
 
     context "in :xml format" do
       context "with a valid api token" do
         setup do
           @user = User.generate_with_protected!
           @token = Token.generate!(:user => @user, :action => 'api')
-          get "/api/v1/news.xml?key=#{@token.value}"
+          get "/api/v2/projects.xml?key=#{@token.value}"
         end
 
         should respond_with :unauthorized
@@ -66,7 +65,7 @@ class ApiTest::DisabledRestApiTest < ActionDispatch::IntegrationTest
         setup do
           @user = User.generate_with_protected!(:password => 'adminADMIN!', :password_confirmation => 'adminADMIN!')
           @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@user.login, 'adminADMIN!')
-          get "/api/v1/news.xml", nil, :authorization => @authorization
+          get '/api/v2/projects.xml', nil, :authorization => @authorization
         end
 
         should respond_with :unauthorized
@@ -81,7 +80,7 @@ class ApiTest::DisabledRestApiTest < ActionDispatch::IntegrationTest
           @user = User.generate_with_protected!
           @token = Token.generate!(:user => @user, :action => 'api')
           @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@token.value, 'X')
-          get "/api/v1/news.xml", nil, :authorization => @authorization
+          get '/api/v2/projects.xml', nil, :authorization => @authorization
         end
 
         should respond_with :unauthorized
@@ -97,7 +96,7 @@ class ApiTest::DisabledRestApiTest < ActionDispatch::IntegrationTest
         setup do
           @user = User.generate_with_protected!
           @token = Token.generate!(:user => @user, :action => 'api')
-          get "/api/v1/news.json?key=#{@token.value}"
+          get "/api/v2/projects.json?key=#{@token.value}"
         end
 
         should respond_with :unauthorized
@@ -111,7 +110,7 @@ class ApiTest::DisabledRestApiTest < ActionDispatch::IntegrationTest
         setup do
           @user = User.generate_with_protected!(:password => 'adminADMIN!', :password_confirmation => 'adminADMIN!')
           @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@user.login, 'adminADMIN!')
-          get "/api/v1/news.json", nil, :authorization => @authorization
+          get '/api/v2/projects.json', nil, :authorization => @authorization
         end
 
         should respond_with :unauthorized
@@ -126,7 +125,7 @@ class ApiTest::DisabledRestApiTest < ActionDispatch::IntegrationTest
           @user = User.generate_with_protected!
           @token = Token.generate!(:user => @user, :action => 'api')
           @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@token.value, 'DoesNotMatter')
-          get "/api/v1/news.json", nil, :authorization => @authorization
+          get '/api/v2/projects.json', nil, :authorization => @authorization
         end
 
         should respond_with :unauthorized

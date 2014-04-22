@@ -26,19 +26,26 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-api.array :time_entries do
-  @entries.each do |time_entry|
-    api.time_entry do
-      api.id time_entry.id
-      api.project(:id => time_entry.project_id, :name => time_entry.project.name) unless time_entry.project.nil?
-      api.issue(:id => time_entry.work_package_id) unless time_entry.work_package.nil?
-      api.user(:id => time_entry.user_id, :name => time_entry.user.name) unless time_entry.user.nil?
-      api.activity(:id => time_entry.activity_id, :name => time_entry.activity.name) unless time_entry.activity.nil?
-      api.hours time_entry.hours
-      api.comments time_entry.comments
-      api.spent_on time_entry.spent_on
-      api.created_on time_entry.created_on
-      api.updated_on time_entry.updated_on
+require 'spec_helper'
+
+describe 'users/edit' do
+  let(:current_user) { FactoryGirl.build :admin }
+
+  context 'authentication provider' do
+    let(:user)  { FactoryGirl.build :user, :id => 1,  # id is required to create route to edit
+                                           :identity_url => 'test_provider:veryuniqueid' }
+
+    before do
+      assign(:user, user)
+      assign(:auth_sources, [])
+
+      view.stub(:current_user).and_return(current_user)
+
+      render
+    end
+
+    it 'shows the authentication provider' do
+      expect(response.body).to include('Test Provider')
     end
   end
 end

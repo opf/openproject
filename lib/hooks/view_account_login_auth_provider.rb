@@ -26,21 +26,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-api.array :projects, api_meta(:total_count => @projects.total_entries,
-                              :offset => @projects.offset,
-                              :limit => @projects.per_page) do
-  @projects.each do |project|
-    api.project do
-      api.id          project.id
-      api.name        project.name
-      api.identifier  project.identifier
-      api.description project.description
-      api.parent(:id => project.parent_id, :name => project.parent.name) unless project.parent.nil?
-
-      render_api_custom_values project.visible_custom_field_values, api
-
-      api.created_on  project.created_on
-      api.updated_on  project.updated_on
-    end
+module Hooks
+  ##
+  # Hook called in the login forms which displays the different auth providers
+  class ViewAccountLoginAuthProviderHook < Redmine::Hook::ViewListener
+    render_on :view_account_login_auth_provider,
+              :partial => 'hooks/login/auth_provider'
   end
 end

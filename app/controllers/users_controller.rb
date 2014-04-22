@@ -115,13 +115,13 @@ class UsersController < ApplicationController
   verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
   def create
     @user = User.new(:language => Setting.default_language, :mail_notification => Setting.default_notification_option)
-    @user.attributes = permitted_params.user_create_as_admin
+    @user.attributes = permitted_params.user_create_as_admin(false, @user.change_password_allowed?)
     @user.admin = params[:user][:admin] || false
-    @user.login = params[:user][:login]
+
     if @user.change_password_allowed?
       if params[:user][:assign_random_password]
         @user.random_password!
-      else 
+      else
         @user.password = params[:user][:password]
         @user.password_confirmation = params[:user][:password_confirmation]
       end
@@ -164,9 +164,9 @@ class UsersController < ApplicationController
 
   verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
   def update
-    @user.admin = params[:user][:admin] if params[:user][:admin]
-    @user.login = params[:user][:login] if params[:user][:login]
-    @user.attributes = permitted_params.user_update_as_admin
+    @user.attributes = permitted_params.user_update_as_admin(@user.uses_external_authentication?,
+                                                             @user.change_password_allowed?)
+
     if @user.change_password_allowed?
       if params[:user][:assign_random_password]
         @user.random_password!
@@ -271,11 +271,7 @@ class UsersController < ApplicationController
     @user.status = User::STATUSES[:locked]
     @user.save
 
-    # TODO: use Delayed::Worker.delay_jobs = false in test environment as soon as
-    # delayed job allows for it
-    Rails.env.test? ?
-      @user.destroy :
-      @user.delay.destroy
+    @user.delay.destroy
 
     # log the user out if it's a self-delete
     # must be called before setting the flash message

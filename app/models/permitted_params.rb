@@ -187,32 +187,32 @@ class PermittedParams < Struct.new(:params, :current_user)
   def user
     permitted_params = params.require(:user).permit(*self.class.permitted_attributes[:user])
     permitted_params.merge!(custom_field_values(:user))
+
+    permitted_params
   end
 
-  def user_update_as_admin
-    if current_user.admin?
-      allowed_params = self.class.permitted_attributes[:user] + \
-                       [ :auth_source_id,
-                         :force_password_change,
-                         # Found these in safe_attributes and added them here as I
-                         # didn't know the consequences of removing these.
-                         # They were not allowed on update.
-                         :group_ids => []]
+  def user_register_via_omniauth
+    permitted_params = params.require(:user).permit(:firstname, :lastname, :mail, :language)
+    permitted_params.merge!(custom_field_values(:user))
 
-      permitted_params = params.require(:user).permit(*allowed_params)
-      permitted_params.merge!(custom_field_values(:user))
-
-      permitted_params
-    else
-      params.require(:user).permit()
-    end
+    permitted_params
   end
 
-  def user_create_as_admin
+  def user_update_as_admin(external_authentication, change_password_allowed)
+    # Found group_ids in safe_attributes and added them here as I
+    # didn't know the consequences of removing these.
+    # They were not allowed on create.
+    user_create_as_admin(external_authentication, change_password_allowed, [:group_ids => []])
+  end
+
+  def user_create_as_admin(external_authentication, change_password_allowed, additional_params = [])
     if current_user.admin?
+      additional_params << :auth_source_id unless external_authentication
+      additional_params << :force_password_change if change_password_allowed
+
       allowed_params = self.class.permitted_attributes[:user] + \
-                       [ :auth_source_id,
-                         :force_password_change]
+                       additional_params + \
+                       [ :admin, :login ]
 
       permitted_params = params.require(:user).permit(*allowed_params)
       permitted_params.merge!(custom_field_values(:user))
@@ -468,8 +468,7 @@ class PermittedParams < Struct.new(:params, :current_user)
         :mail,
         :mail_notification,
         :language,
-        :custom_fields,
-        :identity_url ],
+        :custom_fields ],
       :wiki_page => [
         :title,
         :parent_id,

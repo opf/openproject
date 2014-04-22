@@ -27,16 +27,19 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'blankslate'
+require 'spec_helper'
 
-module Redmine
-  module Views
-    module Builders
-      class Json < Structure
-        def output
-          @struct.first.to_json
-        end
-      end
-    end
+describe ProjectsController do
+  it "should connect GET /api/v2/projects/level_list.json to projects#level_list" do
+    expect(get("/api/v2/projects/level_list.json")).to route_to( :controller => 'api/v2/projects',
+                                                                 :action => 'level_list',
+                                                                 :format => 'json' )
   end
+
+  it "should connect GET /api/v2/projects/level_list.xml to projects#level_list" do
+    expect(get("/api/v2/projects/level_list.xml")).to route_to( :controller => 'api/v2/projects',
+                                                                 :action => 'level_list',
+                                                                 :format => 'xml' )
+  end
+
 end

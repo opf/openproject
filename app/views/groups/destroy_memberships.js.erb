@@ -27,4 +27,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-jQuery('#tab-content-memberships').html('<%= escape_javascript render(:partial => 'memberships') %>');
+<% content = escape_javascript render(partial: 'memberships') %>
+<% flash_message = escape_javascript render(partial: "members/common_notice",
+                                            locals: { message: l(:notice_successful_delete) }) %>
+jQuery('#tab-content-memberships').html('<%= content %>');
+jQuery('#tab-content-memberships').prepend('<%= flash_message %>');

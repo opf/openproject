@@ -27,8 +27,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'concerns/omniauth_login'
+
 class AccountController < ApplicationController
   include CustomFieldsHelper
+  include OmniauthLogin
 
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_filter :check_if_login_required
@@ -70,10 +73,17 @@ class AccountController < ApplicationController
     else
       if request.post?
         user = User.find_by_mail(params[:mail])
-        # user not found in db
-        (flash.now[:error] = l(:notice_account_unknown_email); return) unless user
-        # user uses an external authentification
-        (flash.now[:error] = l(:notice_can_t_change_password); return) if user.auth_source_id
+
+        unless user
+          # user not found in db
+          (flash.now[:error] = l(:notice_account_unknown_email); return)
+        end
+
+        unless user.change_password_allowed?
+          # user uses an external authentification
+          (flash.now[:error] = l(:notice_can_t_change_password); return)
+        end
+
         # create a new token for password recovery
         token = Token.new(:user => user, :action => "recovery")
         if token.save
@@ -94,31 +104,21 @@ class AccountController < ApplicationController
       @user = User.new(:language => Setting.default_language)
     else
       @user = User.new
-      @user.attributes = permitted_params.user
       @user.admin = false
       @user.register
       if session[:auth_source_registration]
-        @user.activate
-        @user.login = session[:auth_source_registration][:login]
-        @user.auth_source_id = session[:auth_source_registration][:auth_source_id]
-        if @user.save
-          session[:auth_source_registration] = nil
-          self.logged_user = @user
-          flash[:notice] = l(:notice_account_activated)
-          redirect_to :controller => '/my', :action => 'account'
+        # on-the-fly registration via omniauth or via auth source
+        if session[:auth_source_registration][:omniauth]
+          register_via_omniauth(@user, session, permitted_params)
+        else
+          register_and_login_via_authsource(@user, session, permitted_params)
         end
       else
+        @user.attributes = permitted_params.user
         @user.login = params[:user][:login]
         @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation]
 
-        case Setting.self_registration
-        when '1'
-          register_by_email_activation(@user)
-        when '3'
-          register_automatically(@user)
-        else
-          register_manually_by_administrator(@user)
-        end
+        register_user_according_to_setting(@user)
       end
     end
   end
@@ -178,11 +178,7 @@ class AccountController < ApplicationController
   end
 
   def authenticate_user
-    if Setting.openid? && using_open_id?
-      open_id_authenticate(params[:openid_url])
-    else
-      password_authentication(params[:username], params[:password])
-    end
+    password_authentication(params[:username], params[:password])
   end
 
   def password_authentication(username, password)
@@ -217,48 +213,6 @@ class AccountController < ApplicationController
     end
   end
 
-
-  def open_id_authenticate(openid_url)
-    authenticate_with_open_id(openid_url, :required => [:nickname, :fullname, :email], :return_to => signin_url) do |result, identity_url, registration|
-      if result.successful?
-        user = User.find_or_initialize_by_identity_url(identity_url)
-        if user.new_record?
-          # Self-registration off
-          redirect_to(home_url) && return unless Setting.self_registration?
-
-          # Create on the fly
-          user.login = registration['nickname'] unless registration['nickname'].nil?
-          user.mail = registration['email'] unless registration['email'].nil?
-          user.firstname, user.lastname = registration['fullname'].split(' ') unless registration['fullname'].nil?
-          user.random_password!
-          user.register
-
-          case Setting.self_registration
-          when '1'
-            register_by_email_activation(user) do
-              onthefly_creation_failed(user)
-            end
-          when '3'
-            register_automatically(user) do
-              onthefly_creation_failed(user)
-            end
-          else
-            register_manually_by_administrator(user) do
-              onthefly_creation_failed(user)
-            end
-          end
-        else
-          # Existing record
-          if user.active?
-            successful_authentication(user)
-          else
-            account_pending
-          end
-        end
-      end
-    end
-  end
-
   def successful_authentication(user)
     # Valid user
     self.logged_user = user
@@ -268,14 +222,7 @@ class AccountController < ApplicationController
     end
     call_hook(:controller_account_success_authentication_after, {:user => user })
 
-    if user.first_login
-      user.update_attribute(:first_login, false)
-
-      redirect_to :controller => "/my", :action => "first_login", :back_url => params[:back_url]
-    else
-
-      redirect_back_or_default :controller => '/my', :action => 'page'
-    end
+    redirect_after_login(user)
   end
 
   def set_autologin_cookie(user)
@@ -288,6 +235,29 @@ class AccountController < ApplicationController
       :httponly => true
     }
     cookies[OpenProject::Configuration['autologin_cookie_name']] = cookie_options
+  end
+
+  def login_user_if_active(user)
+    if user.active?
+      successful_authentication(user)
+    else
+      account_pending
+    end
+  end
+
+  def register_and_login_via_authsource(user, session, permitted_params)
+    @user.attributes = permitted_params.user
+    @user.activate
+    @user.login = session[:auth_source_registration][:login]
+    @user.auth_source_id = session[:auth_source_registration][:auth_source_id]
+
+    if @user.save
+      session[:auth_source_registration] = nil
+      self.logged_user = @user
+      flash[:notice] = l(:notice_account_activated)
+      redirect_to :controller => '/my', :action => 'account'
+    end
+    # Otherwise render register view again
   end
 
   # Onthefly creation failed, display the registration form to fill/fix attributes
@@ -312,8 +282,9 @@ class AccountController < ApplicationController
   end
 
   def redirect_if_password_change_not_allowed(user)
-    logger.warn "Password change for user '#{user}' forced, but user is not allowed to change password"
     if user and not user.change_password_allowed?
+      logger.warn "Password change for user '#{user}' forced, but user is not allowed " +
+                  "to change password"
       flash[:error] = l(:notice_can_t_change_password)
       redirect_to :action => 'login'
       return true
@@ -325,6 +296,18 @@ class AccountController < ApplicationController
     flash[:error] = message
     @username = params[:username]
     render 'my/password'
+  end
+
+  # Register a user depending on Setting.self_registration
+  def register_user_according_to_setting(user, &block)
+    case Setting.self_registration
+    when '1'
+      register_by_email_activation(user, &block)
+    when '3'
+      register_automatically(user, &block)
+    else
+      register_manually_by_administrator(user, &block)
+    end
   end
 
   # Register a user for email activation.
@@ -348,10 +331,11 @@ class AccountController < ApplicationController
     # Automatic activation
     user.activate
     user.last_login_on = Time.now
+
     if user.save
       self.logged_user = user
-      flash[:notice] = l(:notice_account_activated)
-      redirect_to :controller => '/my', :action => 'account'
+      flash[:notice] = l(:notice_account_registered_and_logged_in)
+      redirect_after_login(user)
     else
       yield if block_given?
     end
@@ -375,6 +359,18 @@ class AccountController < ApplicationController
 
   def account_pending
     flash[:notice] = l(:notice_account_pending)
-    redirect_to :action => 'login'
+    # Set back_url to make sure user is not redirected to an external login page
+    # when registering via the external service. This also redirects the user
+    # to the original page where the user clicked on the omniauth login link for a provider.
+    redirect_to :action => 'login', :back_url => params[:back_url]
+  end
+
+  def redirect_after_login(user)
+    if user.first_login
+      user.update_attribute(:first_login, false)
+      redirect_to :controller => "/my", :action => "first_login", :back_url => params[:back_url]
+    else
+      redirect_back_or_default :controller => '/my', :action => 'page'
+    end
   end
 end

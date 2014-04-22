@@ -165,6 +165,7 @@ GEM
     guard-test (1.0.0)
       guard (>= 1.8)
       test-unit (~> 2.2)
+    hashie (2.0.5)
     hike (1.2.3)
     htmldiff (0.0.1)
     i18n (0.6.5)
@@ -199,6 +200,9 @@ GEM
     nokogiri (1.5.9)
     object-daddy (1.1.1)
     oj (2.1.6)
+    omniauth (1.2.1)
+      hashie (>= 1.2, < 3)
+      rack (~> 1.0)
     paper_trail (2.7.2)
       activerecord (~> 3.0)
       railties (~> 3.0)
@@ -284,7 +288,6 @@ GEM
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
       rspec-mocks (~> 2.14.0)
-    ruby-openid (2.2.3)
     ruby-prof (0.13.0)
     ruby-progressbar (1.2.0)
     rubytree (0.8.3)
@@ -392,6 +395,7 @@ DEPENDENCIES
   net-ldap (~> 0.2.2)
   object-daddy (~> 1.1.0)
   oj
+  omniauth
   pg (~> 0.17.1)
   prototype-rails
   prototype_legacy_helper (= 0.0.0)!
@@ -414,7 +418,6 @@ DEPENDENCIES
   rspec (~> 2.14)
   rspec-example_disabler!
   rspec-rails (~> 2.14)
-  ruby-openid (~> 2.2.3)
   ruby-prof
   ruby-progressbar
   rubytree (~> 0.8.3)
