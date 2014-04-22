@@ -160,7 +160,7 @@ describe "OpenID Connect" do
       get "/login"
       expect(response.body).to include "Google"
 
-      expect{click_on_signin("google")}.not_to raise_error(ArgumentError)
+      expect{click_on_signin("google")}.not_to raise_error
       expect(response.status).to be 302
     end
   end
