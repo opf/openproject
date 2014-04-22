@@ -47,8 +47,12 @@ angular.module('openproject.workPackages.config', []);
 angular.module('openproject.workPackages.controllers', ['openproject.models', 'openproject.workPackages.helpers', 'openproject.services', 'openproject.workPackages.config']);
 angular.module('openproject.workPackages.directives', ['openproject.uiComponents', 'openproject.services']);
 
+// messages
+angular.module('openproject.messages', ['openproject.messages.controllers']);
+angular.module('openproject.messages.controllers', []);
+
 // main app
-var openprojectApp = angular.module('openproject', ['ui.select2', 'ui.date', 'openproject.uiComponents', 'openproject.timelines', 'openproject.workPackages', 'ngAnimate']);
+var openprojectApp = angular.module('openproject', ['ui.select2', 'ui.date', 'openproject.uiComponents', 'openproject.timelines', 'openproject.workPackages', 'openproject.messages', 'ngAnimate']);
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
 
