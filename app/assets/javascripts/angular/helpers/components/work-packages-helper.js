@@ -40,7 +40,7 @@ angular.module('openproject.workPackages.helpers')
       switch(typeof(content)) {
         case 'object':
           if (content === null) return '';
-          return content.name || content.subject;
+          return content.name || content.subject || '';
         case 'number':
           return content;
         default:
@@ -63,12 +63,12 @@ angular.module('openproject.workPackages.helpers')
     getRawCustomValue: function(object, customFieldId) {
       if (!object.custom_values) return null;
 
-      var customValue = object.custom_values.filter(function(customValue){
+      var values = object.custom_values.filter(function(customValue){
         return customValue && customValue.custom_field_id === customFieldId;
-      }).first();
+      });
 
-      if (customValue) {
-        return customValue.value;
+      if (values && values.length > 0) {
+        return values[0].value;
       } else {
         return '';
       }
