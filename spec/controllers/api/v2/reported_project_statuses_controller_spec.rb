@@ -234,6 +234,7 @@ describe Api::V2::ReportedProjectStatusesController do
         end
 
         it 'assigns the available reported_project_status' do
+          get 'show', :id => '1337', :format => 'xml'
           expect(assigns(:reported_project_status)).to eq(@available_reported_project_status)
         end
 
