@@ -26,14 +26,15 @@ module OpenProject::OpenIDConnect
       OmniAuth::OpenIDConnect::Provider.load_generic_providers
 
       app.config.middleware.use OmniAuth::Builder do
-        OmniAuth::OpenIDConnect::Provider.available.each do |pro|
-          Rails.logger.info "[OpenID Connect] Registering configured provider #{pro.provider_name} (settings available)"
-          provider :openid_connect, pro.new.to_hash
-        end
-
-        OmniAuth::OpenIDConnect::Provider.unavailable.each do |pro|
+        OmniAuth::OpenIDConnect::Provider.all.each do |pro|
           p = pro.new
-          Rails.logger.info "[OpenID Connect] Registering dynamic provider for #{p.name} (settings missing)"
+          settings_available = if pro.available?
+            "settings available"
+          else
+            "settings missing"
+          end
+
+          Rails.logger.info "[OpenID Connect] Registering provider for #{p.name} (#{settings_available})"
           provider :openid_connect, :name => p.name, :setup => lambda { |env|
             Rails.logger.info "[OpenID Connect] Trying dynamic provider #{p.name}"
             opt = env['omniauth.strategy'].options
