@@ -41,12 +41,14 @@ angular.module('openproject.uiComponents')
     templateUrl: '/templates/components/progress_bar.html',
     link: function(scope) {
       // apply defaults
-      scope.progress = scope.progress || 0;
       scope.width = scope.width || '100px';
       scope.legend = scope.legend || '';
 
       scope.scaleLength = 100;
-      scope.progress = Math.round(scope.progress);
+
+      scope.$watch('progress', function(progress) {
+        scope.progressInPercent = Math.round(Number(progress));
+      });
     }
   };
 }]);
