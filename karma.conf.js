@@ -74,6 +74,8 @@ module.exports = function(config) {
       'app/assets/javascripts/angular/services/query-service.js',
       'app/assets/javascripts/angular/services/pagination-service.js',
 
+      "app/assets/javascripts/angular/directives/work_packages/*.js",
+
       "app/assets/javascripts/angular/controllers/timelines-controller.js",
       "app/assets/javascripts/angular/controllers/work-packages-controller.js",
 

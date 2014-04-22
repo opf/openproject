@@ -67,7 +67,7 @@ angular.module('openproject.workPackages.helpers')
         return customValue && customValue.custom_field_id === customFieldId;
       });
 
-      if (values && values.length > 0) {
+      if (values && values.length) {
         return values[0].value;
       } else {
         return '';
@@ -77,12 +77,12 @@ angular.module('openproject.workPackages.helpers')
     getFormattedCustomValue: function(object, customField) {
       if (!object.custom_values) return null;
 
-      var customValue = object.custom_values.filter(function(customValue){
+      var values = object.custom_values.filter(function(customValue){
         return customValue && customValue.custom_field_id === customField.id;
-      }).first();
+      });
 
-      if(customValue) {
-        return CustomFieldHelper.formatCustomFieldValue(customValue.value, customField.field_format);
+      if(values && values.length) {
+        return CustomFieldHelper.formatCustomFieldValue(values[0].value, customField.field_format);
       }
     },
 
