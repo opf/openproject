@@ -481,9 +481,7 @@ function observeProjectModules() {
 }
 
 function hideOnLoad() {
-  $$('.hol').each(function(el) {
-  	el.hide();
-	});
+  jQuery('.hol').hide();
 }
 
 function addClickEventToAllErrorMessages() {
@@ -527,7 +525,6 @@ $(document).observe('dom:loaded', function() {
   addClickEventToAllErrorMessages();
 });
 
-Event.observe(window, 'load', hideOnLoad);
 
 // a few constants for animations speeds, etc.
 var animationRate = 100;
@@ -541,6 +538,7 @@ jQuery.viewportHeight = function() {
 };
 
 
+jQuery(document).ready(hideOnLoad);
 /*
 * 1 - registers a callback which copies the csrf token into the
 * X-CSRF-Token header with each ajax request.  Necessary to
