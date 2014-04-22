@@ -36,7 +36,8 @@ angular.module('openproject.workPackages.directives')
     scope: {
       workPackage: '=',
       column: '=',
-      displayType: '@'
+      displayType: '@',
+      displayEmpty: '@'
     },
     templateUrl: '/templates/work_packages/work_package_column.html',
     link: function(scope, element, attributes) {
@@ -45,25 +46,56 @@ angular.module('openproject.workPackages.directives')
       // Set text to be displayed
       scope.$watch('workPackage', setColumnData, true);
 
+
       function setColumnData() {
+        setDisplayText(getFormattedColumnValue());
+
+        if (scope.column.meta_data.link.display) {
+          displayDataAsLink();
+        } else {
+          setCustomDisplayType();
+        }
+      }
+
+      function getFormattedColumnValue() {
         // retrieve column value from work package
         if (scope.column.custom_field) {
           var custom_field = scope.column.custom_field;
-
-          scope.displayText = WorkPackagesHelper.getFormattedCustomValue(scope.workPackage, custom_field) || '';
+          return WorkPackagesHelper.getFormattedCustomValue(scope.workPackage, custom_field);
         } else {
-          // custom display types
-          if (scope.column.name === 'done_ratio') scope.displayType = 'progress_bar';
-
-          scope.displayText = WorkPackagesHelper.getFormattedColumnData(scope.workPackage, scope.column) || '';
+          return WorkPackagesHelper.getFormattedColumnData(scope.workPackage, scope.column);
         }
+      }
 
+      /**
+       * @name setDisplayText
+       * @function
+       *
+       * @description
+       * Sets scope.displayText to the passed value or applies a default
+       *
+       * @param {String|Number} value The value for scope.displayText
+       *
+       * @returns null
+       */
+      function setDisplayText(value) {
+        if (typeof value == 'number' || value){
+          scope.displayText = value;
+        } else {
+          scope.displayText = scope.displayEmpty || '';
+        }
+      }
+
+      function setCustomDisplayType() {
+        if (scope.column.name === 'done_ratio') scope.displayType = 'progress_bar';
+        // ...
+      }
+
+      function displayDataAsLink() {
         // Example of how we can look to the provided meta data to format the column
         // This relies on the meta being sent from the server
-        if (scope.column.meta_data.link.display) {
-          scope.displayType = 'link';
-          scope.url = getLinkFor(scope.column.meta_data.link);
-        }
+        scope.displayType = 'link';
+        scope.url = getLinkFor(scope.column.meta_data.link);
       }
 
       function getLinkFor(link_meta){

@@ -80,4 +80,13 @@ describe 'api/v3/work_packages/index.api.rabl' do
     it { should have_json_path('work_packages/1/description')     }
     it { should have_json_path('work_packages/1/due_date')        }
   end
+
+  describe 'with project column' do
+    let(:work_packages) { [FactoryGirl.build(:work_package)] }
+    let(:column_names) { %w(subject project) }
+    let(:custom_field_column_names) { [] }
+
+    it { should have_json_path('work_packages/0/project') }
+    it { should have_json_path('work_packages/0/project/identifier') }
+  end
 end

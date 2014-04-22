@@ -51,9 +51,7 @@ angular.module('openproject.models')
       return angular.extend.apply(this, [
         {
           'f[]': this.getFilterNames(this.getActiveConfiguredFilters()),
-          'c[]': this.columns.map(function(column) {
-            return column.name;
-           }),
+          'c[]': this.getParamColumns(),
           'group_by': this.groupBy,
           'sort': this.sortation.encode()
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {
@@ -139,6 +137,17 @@ angular.module('openproject.models')
       return (filters || this.filters).map(function(filter){
         return filter.name;
       });
+    },
+
+    getParamColumns: function(){
+      var selectedColumns = this.columns.map(function(column) {
+        return column.name;
+      });
+      // To be able to group the work packages we need to add in the group by column if it is not already in the selected columns
+      if(selectedColumns.indexOf(this.groupBy) == -1){
+        selectedColumns.push(this.groupBy);
+      }
+      return selectedColumns;
     },
 
     getFilterByName: function(filterName) {

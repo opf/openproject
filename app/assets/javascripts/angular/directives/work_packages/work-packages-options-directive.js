@@ -39,7 +39,7 @@ angular.module('openproject.workPackages.directives')
             return column.name;
           }).indexOf(groupBy);
 
-          scope.groupByColumn = scope.columns[groupByColumnIndex];
+          scope.groupByColumn = scope.groupableColumns[groupByColumnIndex];
           scope.updateBackUrl();
         }
       });

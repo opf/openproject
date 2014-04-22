@@ -31,12 +31,18 @@ angular.module('openproject.workPackages.helpers')
 .factory('WorkPackagesHelper', ['dateFilter', 'CustomFieldHelper', function(dateFilter, CustomFieldHelper) {
   var WorkPackagesHelper = {
     getRowObjectContent: function(object, option) {
-      var content = object[option];
+      if(CustomFieldHelper.isCustomFieldKey(option)){
+        var content = WorkPackagesHelper.getRawCustomValue(object, CustomFieldHelper.getCustomFieldId(option));
+      } else {
+        var content = object[option];
+      }
 
       switch(typeof(content)) {
         case 'object':
           if (content === null) return '';
-          return content.name || content.subject;
+          return content.name || content.subject || '';
+        case 'number':
+          return content;
         default:
           return content || '';
       }
@@ -54,15 +60,29 @@ angular.module('openproject.workPackages.helpers')
       }
     },
 
+    getRawCustomValue: function(object, customFieldId) {
+      if (!object.custom_values) return null;
+
+      var values = object.custom_values.filter(function(customValue){
+        return customValue && customValue.custom_field_id === customFieldId;
+      });
+
+      if (values && values.length) {
+        return values[0].value;
+      } else {
+        return '';
+      }
+    },
+
     getFormattedCustomValue: function(object, customField) {
       if (!object.custom_values) return null;
 
-      var customValue = object.custom_values.filter(function(customValue){
+      var values = object.custom_values.filter(function(customValue){
         return customValue && customValue.custom_field_id === customField.id;
-      }).first();
+      });
 
-      if(customValue) {
-        return CustomFieldHelper.formatCustomFieldValue(customValue.value, customField.field_format);
+      if(values && values.length) {
+        return CustomFieldHelper.formatCustomFieldValue(values[0].value, customField.field_format);
       }
     },
 
