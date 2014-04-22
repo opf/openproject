@@ -34,10 +34,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% content_for :action_menu_specific do %>
   <%= watcher_link(@topic, User.current) %>
-  <%= link_to_remote_if_authorized(l(:button_quote),
-                                   { :url => {:action => 'quote', :id => @topic} ,
-                                     :method => :get },
-                                   { :class => 'icon icon-quote'} ) unless @topic.locked? %>
+  <%= link_to(l(:button_quote),
+              { action: 'quote', id: @topic },
+              remote: true,
+              method: 'get',
+              class: 'icon icon-quote') if !@topic.locked? && authorize_for('messages', 'reply') %>
   <%= link_to(l(:button_edit),
               edit_topic_path(@topic),
               :class => 'icon icon-edit',
@@ -75,12 +76,13 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= authoring message.created_on, message.author %>
     </h4>
     <div class="message-reply-menu">
-      <%= link_to_remote_if_authorized(icon_wrapper('icon-context icon-quote', l(:button_quote)),
-                                       { :url => {:action => 'quote', :id => message},
-                                         :method => :get },
-                                       :title => l(:button_quote),
-                                       :class => 'no-decoration-on-hover',
-                                       :alt => l(:button_quote)) unless @topic.locked? %>
+      <%= link_to(icon_wrapper('icon-context icon-quote', l(:button_quote)),
+                  { action: 'quote', id: message },
+                  remote: true,
+                  method: 'get',
+                  title: l(:button_quote),
+                  class: 'no-decoration-on-hover',
+                  alt: l(:button_quote)) if !@topic.locked? && authorize_for('messages', 'reply') %>
       <%= link_to(icon_wrapper('icon-context icon-edit', l(:button_edit)),
                   { :action => 'edit', :id => message },
                   :title => l(:button_edit),
