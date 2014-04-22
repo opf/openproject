@@ -37,7 +37,7 @@ angular.module('openproject.workPackages.directives')
       workPackage: '=',
       column: '=',
       displayType: '@',
-      displayEmpty: '='
+      displayEmpty: '@'
     },
     templateUrl: '/templates/work_packages/work_package_column.html',
     link: function(scope, element, attributes) {
