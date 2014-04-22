@@ -141,9 +141,11 @@ function setCheckboxesBySelector(checked, selector) {
 }
 
 function showAndScrollTo(id, focus) {
-	Element.show(id);
-	if (focus!=null) { Form.Element.focus(focus); }
-	Element.scrollTo(id);
+  jQuery('#'+id).show();
+  if (focus!=null) {
+    jQuery('#'+focus).focus();
+  }
+  jQuery('html, body').animate({scrollTop: $('#'+id).offset().top}, 100);
 }
 
 function setGroupRowStatus(el) {
@@ -160,7 +162,7 @@ function setGroupRowStatus(el) {
 
 function toggleRowGroup(el) {
   var row = jQuery(el).closest("tr");
-  
+
   row.toggleClass("open closed");
 
   setGroupRowStatus(el);
