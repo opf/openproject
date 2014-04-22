@@ -63,7 +63,7 @@ class BoardsController < ApplicationController
                                 .page(params[:page])
                                 .per_page(per_page_param)
 
-
+        gon.rabl "app/views/messages/index.rabl"
 
         @message = Message.new
         render :action => 'show', :layout => !request.xhr?
