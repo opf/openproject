@@ -89,8 +89,8 @@ class WelcomeControllerTest < ActionController::TestCase
 
     get :index
     assert_tag 'script',
-      :attributes => {:type => "text/javascript"},
-      :content => %r{new WarnLeavingUnsaved}
+               attributes: { type: 'text/javascript' },
+               content: /warnLeavingUnsaved/
   end
 
   def test_warn_on_leaving_unsaved_turn_off
@@ -101,7 +101,7 @@ class WelcomeControllerTest < ActionController::TestCase
 
     get :index
     assert_no_tag 'script',
-      :attributes => {:type => "text/javascript"},
-      :content => %r{new WarnLeavingUnsaved}
+                  attributes: { type: 'text/javascript' },
+                  content: /warnLeavingUnsaved/
   end
 end
