@@ -66,5 +66,17 @@ describe('progressBar Directive', function() {
         expect(cell.length).to.equal(2); // ng-if adds 2 to DOM
         expect(cell.css('width')).to.equal('50%');
       });
+
+      describe('when the progress is updated within the scope', function() {
+        beforeEach(function() {
+          scope.progress = '20';
+          scope.$apply();
+        });
+
+        it('should update the progress bar', function() {
+          var cell = element.find('table td');
+          expect(cell.css('width')).to.equal('20%');
+        });
+      });
     });
 });
