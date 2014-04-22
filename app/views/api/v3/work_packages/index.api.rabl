@@ -35,7 +35,7 @@ child @work_packages => :work_packages do
       when Category
         wp.send(column_name).as_json(only: [:id, :name])
       when Project
-        wp.send(column_name).as_json(only: [:id, :name])
+        wp.send(column_name).as_json(only: [:id, :name, :identifier])
       when IssuePriority
         wp.send(column_name).as_json(only: [:id, :name])
       when Status
