@@ -29,7 +29,7 @@ module OmniauthLogin
   # in our database) will be created using this method.
   def create_user_from_omniauth(user, auth_hash)
     # Self-registration off
-    return redirect_to(signin_url) unless Setting.self_registration?
+    return self_registration_disabled unless Setting.self_registration?
 
     # Create on the fly
     fill_user_fields_from_omniauth(user, auth_hash)
