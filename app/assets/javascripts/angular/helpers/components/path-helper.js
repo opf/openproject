@@ -34,7 +34,13 @@ angular.module('openproject.helpers')
     apiPrefixV2: '/api/v2',
     apiPrefixV3: '/api/v3',
 
-    projectsPath: function(){
+    messagesPath: function(boardIdentifier) {
+      return '/boards/' + boardIdentifier + '/topics';
+    },
+    messagePath: function(messageIdentifier) {
+      return '/topics/' + messageIdentifier;
+    },
+    projectsPath: function() {
       return '/projects';
     },
     projectPath: function(projectIdentifier) {

@@ -26,9 +26,27 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.messages.controllers')
+// TODO move to UI components
+angular.module('openproject.uiComponents')
 
-.controller('MessagesController', ['$scope', 'PathHelper', function ($scope, PathHelper) {
-  $scope.PathHelper = PathHelper;
-  $scope.messages = gon.messages;
+.directive('authoring', ['I18n', 'PathHelper', function(I18n, PathHelper) {
+  return {
+    restrict: 'E',
+    replace: true,
+    scope: { createdOn: '=', author: '=' },
+    templateUrl: '/templates/components/authoring.html',
+    link: function(scope, element, attrs) {
+      moment.lang(I18n.locale);
+
+      // TODO: The timezone of scope.time is UTC. Thus, we need to adapt the
+      // time to the local timezone or user setting.
+      var createdOn = moment.utc(scope.createdOn);
+      var timeago = createdOn.fromNow();
+      var time = createdOn.format('LLL');
+
+      scope.I18n = I18n;
+      scope.authorLink = '<a href="'+ PathHelper.userPath(scope.author.id) + '">' + scope.author.name + '</a>';
+      scope.timestamp = '<span class="timestamp" title="' + time + '">' + timeago + '</span>';
+    }
+  };
 }]);

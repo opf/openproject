@@ -26,9 +26,21 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.messages.controllers')
+// TODO move to UI components
+angular.module('openproject.uiComponents')
 
-.controller('MessagesController', ['$scope', 'PathHelper', function ($scope, PathHelper) {
-  $scope.PathHelper = PathHelper;
-  $scope.messages = gon.messages;
+.directive('dateTime', ['I18n', function(I18n) {
+  return {
+    restrict: 'EA',
+    replace: false,
+    scope: { dateTime: '=' },
+    template: '<span>{{time}}</span>',
+    link: function(scope, element, attrs) {
+      moment.lang(I18n.locale);
+
+      // TODO: The timezone of scope.time is UTC. Thus, we need to adapt the
+      // time to the local timezone or user setting.
+      scope.time = moment(scope.dateTime, "MM/DD/YYYY/ HH:mm A").utc().format('LLL');
+    }
+  };
 }]);
