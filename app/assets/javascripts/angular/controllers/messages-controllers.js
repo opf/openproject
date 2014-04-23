@@ -31,4 +31,13 @@ angular.module('openproject.messages.controllers')
 .controller('MessagesController', ['$scope', 'PathHelper', function ($scope, PathHelper) {
   $scope.PathHelper = PathHelper;
   $scope.messages = gon.messages;
+  $scope.predicate = "";
+
+  $scope.filterByStickedOn = function(message) {
+    if (message.isSticky) {
+      return moment(message.sticked_on, "MM/DD/YYYY/ HH:mm A").unix();
+    }
+
+    return Number.MAX_VALUE;
+  };
 }]);
