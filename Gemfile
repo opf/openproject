@@ -167,12 +167,8 @@ group :development do
   gem 'pry-debugger', :platforms => :mri_19
   gem 'pry-doc'
   gem 'rails-dev-tweaks', '~> 0.6.1'
-  gem 'guard-rspec'
-  gem 'guard-cucumber'
-  gem 'rb-fsevent', :group => :test
   gem 'thin'
   gem 'faker'
-  gem 'guard-test'
 end
 
 # Use the commented pure ruby gems, if you have not the needed prerequisites on
