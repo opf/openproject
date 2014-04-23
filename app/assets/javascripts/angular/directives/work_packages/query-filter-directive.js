@@ -28,7 +28,9 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('queryFilter', ['WorkPackagesTableHelper', 'WorkPackageService', 'WorkPackageLoadingHelper', 'QueryService', 'PaginationService', 'I18n', function(WorkPackagesTableHelper, WorkPackageService, WorkPackageLoadingHelper, QueryService, PaginationService, I18n) {
+.directive('queryFilter', ['WorkPackagesTableHelper', 'WorkPackageService', 'WorkPackageLoadingHelper', 'QueryService', 'PaginationService', 'I18n', '$timeout', function(WorkPackagesTableHelper, WorkPackageService, WorkPackageLoadingHelper, QueryService, PaginationService, I18n, $timeout) {
+
+  var updateResultsJob;
 
   return {
     restrict: 'A',
@@ -47,6 +49,10 @@ angular.module('openproject.workPackages.directives')
             scope.availableFilterValueOptions = options;
           });
       }
+
+      scope.$on('openproject.workPackages.updateResults', function() {
+        $timeout.cancel(updateResultsJob);
+      });
 
       // Filter updates
 
@@ -70,7 +76,8 @@ angular.module('openproject.workPackages.directives')
         if (scope.showValueOptionsAsSelect) {
           return scope.updateResults();
         } else {
-          return WorkPackageLoadingHelper.withDelay(800, scope.updateResults);
+          updateResultsJob = WorkPackageLoadingHelper.withDelay(800, scope.updateResults);
+          return updateResultsJob;
         }
       }
 
