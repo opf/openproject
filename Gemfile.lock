@@ -302,6 +302,7 @@ GEM
     structured_warnings (0.1.4)
     svg-graph (1.0.5)
     syck (1.0.1)
+    test-unit (2.5.5)
     therubyracer (0.11.4)
       libv8 (~> 3.11.8.12)
       ref
@@ -399,6 +400,7 @@ DEPENDENCIES
   strong_parameters
   svg-graph
   syck
+  test-unit (= 2.5.5)
   therubyracer
   thin
   timecop (~> 0.6.1)
