@@ -193,8 +193,12 @@ describe AccountController do
         get :register
       end
 
-      it 'redirects to home' do
-        should redirect_to('/') { home_url }
+      it 'redirects to signin_path' do
+        expect(response).to redirect_to signin_path
+      end
+
+      it 'shows the right flash message' do
+        expect(flash[:error]).to eq(I18n.t('account.error_self_registration_disabled'))
       end
     end
   end
@@ -309,8 +313,12 @@ describe AccountController do
         }
       end
 
-      it 'redirects to home' do
-        should redirect_to('/') { home_url }
+      it 'redirects to signin_path' do
+        expect(response).to redirect_to signin_path
+      end
+
+      it 'shows the right flash message' do
+        expect(flash[:error]).to eq(I18n.t('account.error_self_registration_disabled'))
       end
     end
 
