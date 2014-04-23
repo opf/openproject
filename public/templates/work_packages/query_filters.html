@@ -41,10 +41,11 @@
                             class="select-small to-validate"
                             id="operators-{{filter.name}}"
                             name="op[{{filter.name}}]"
-                            ng-options="operator[0] as I18n.t('js.' + operator[1]) for operator in operatorsAndLabelsByFilterType[filter.type]"
                             ng-model="filter.operator"
                             style="vertical-align: top;"
                             ng-disabled="isLoading">
+
+                      <option ng-repeat="option in operatorsAndLabelsByFilterType[filter.type]" value="{{ option[0] }}" ng-selected="isSelected(option[0])">{{ I18n.t('js.' + option[1]) }}</option>
                     </select>
                   </td>
 
