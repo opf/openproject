@@ -49,7 +49,7 @@ There is no UI for the settings just yet. One way to set them until then is the 
     }
 
 While Google and Heroku are pre-defined you can add arbitrary providers through configuration.
-Those may then require the host and/or endpoints to be specified depending on whether or not a particular provider adheres to the default endpoint paths or not.
+Those may then require the host and/or endpoints to be specified depending on whether or not a particular provider adheres to the default endpoint paths.
 
     Setting["plugin_openproject_openid_connect"] = {
       "providers" => {
