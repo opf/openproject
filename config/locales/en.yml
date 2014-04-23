@@ -42,6 +42,9 @@ en:
       login_consequences:
         other: "The account will be deleted from the system. Therefore, the user will no longer be able to log in with his current credentials. He/she can choose to become a user of this application again by the means this application grants."
         self: "Your account will be deleted from the system. Therefore, you will no longer be able to log in with your current credentials. If you choose to become a user of this application again, you can do so by using the means this application grants."
+    error_self_registration_disabled: >
+      User registration is disabled on this system. Please ask an administrator to create an
+      account for you.
 
   actionview_instancetag_blank_option: "Please select"
 

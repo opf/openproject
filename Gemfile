@@ -151,6 +151,7 @@ group :test do
   gem "json_spec"
   gem "activerecord-tableless", "~> 1.0"
   gem "codeclimate-test-reporter", :require => nil
+  gem 'test-unit', '2.5.5'
 end
 
 group :ldap do
@@ -163,15 +164,10 @@ group :development do
   gem 'pry-stack_explorer'
   gem 'pry-rescue'
   gem 'pry-byebug', :platforms => [:mri_20,:mri_21]
-  gem 'pry-debugger', :platforms => :mri_19
   gem 'pry-doc'
   gem 'rails-dev-tweaks', '~> 0.6.1'
-  gem 'guard-rspec'
-  gem 'guard-cucumber'
-  gem 'rb-fsevent', :group => :test
   gem 'thin'
   gem 'faker'
-  gem 'guard-test'
 end
 
 # Use the commented pure ruby gems, if you have not the needed prerequisites on

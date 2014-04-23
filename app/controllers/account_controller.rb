@@ -98,7 +98,10 @@ class AccountController < ApplicationController
 
   # User self-registration
   def register
-    redirect_to(home_url) && return unless Setting.self_registration? || session[:auth_source_registration]
+    unless Setting.self_registration? || pending_auth_source_registration?
+      return self_registration_disabled
+    end
+
     if request.get?
       session[:auth_source_registration] = nil
       @user = User.new(:language => Setting.default_language)
@@ -245,6 +248,10 @@ class AccountController < ApplicationController
     end
   end
 
+  def pending_auth_source_registration?
+    session[:auth_source_registration] && !session[:auth_source_registration][:omniauth]
+  end
+
   def register_and_login_via_authsource(user, session, permitted_params)
     @user.attributes = permitted_params.user
     @user.activate
@@ -355,6 +362,11 @@ class AccountController < ApplicationController
     else
       yield if block_given?
     end
+  end
+
+  def self_registration_disabled
+    flash[:error] = I18n.t('account.error_self_registration_disabled')
+    redirect_to signin_url
   end
 
   def account_pending
