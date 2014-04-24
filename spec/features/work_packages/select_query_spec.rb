@@ -54,12 +54,9 @@ describe 'Query selection' do
       work_packages_page.select_query query
     end
 
-    context 'and the work packages menu item is clicked' do
-      before { work_packages_page.click_work_packages_menu_item }
-
-      it 'clears selected queries' do
-        expect(work_packages_page).not_to have_selected_filter(filter_name)
-      end
+    it 'should show the filter', js: true do
+      expect(work_packages_page.selected_filter(filter_name)).not_to be_nil
     end
+
   end
 end

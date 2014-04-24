@@ -54,6 +54,7 @@
 /db/*.sqlite3
 /db/schema.rb
 /files/*
+/karma/reports
 /log/*.log*
 /log/mongrel_debug
 /public/dispatch.*
@@ -66,6 +67,7 @@
 /tmp/sockets/*
 /tmp/test/*
 /vendor/rails
+/vendor/assets/components
 /*.rbc
 /doc/app
 #/Gemfile.lock

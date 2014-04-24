@@ -48,7 +48,6 @@ class Query < ActiveRecord::Base
   validates_length_of :name, :maximum => 255
 
   validate :validate_work_package_filters
-  validates :filters, presence: true
 
   after_initialize :remember_project_scope
 
@@ -116,7 +115,7 @@ class Query < ActiveRecord::Base
 
 
   def add_filter(field, operator, values)
-    return unless values && values.is_a?(Array) && work_package_filter_available?(field)
+    return unless work_package_filter_available?(field)
 
     if filter = filter_for(field)
       filter.operator = operator
@@ -134,6 +133,8 @@ class Query < ActiveRecord::Base
 
   # Add multiple filters using +add_filter+
   def add_filters(fields, operators, values)
+    values ||= {}
+
     if fields.is_a?(Array) && operators.is_a?(Hash) && values.is_a?(Hash)
       fields.each do |field|
         add_filter(field, operators[field], values[field])
@@ -318,10 +319,8 @@ class Query < ActiveRecord::Base
       field = filter.field.to_s
       next if field == "subproject_id"
 
-      values = filter.values.clone
-      next if values.blank?
-
       operator = filter.operator
+      values = filter.values ? filter.values.clone : [''] # HACK - some operators don't require values, but they are needed for building the statement
 
       # "me" value substitution
       if @@user_filters.include? field

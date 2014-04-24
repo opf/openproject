@@ -46,15 +46,12 @@ Feature: Resetting filters on work packages
     And I am on the work package index page of the project called "project1"
 
     When I select "Type" from "Add filter"
-     And I select "Other" from "values_type_id"
-     And I follow "Apply"
+    And I select "is" from "operators-type_id"
+    And I select "Other" from "values-type_id"
 
     Then I should not see "Some issue"
-     And I should see "No data to display"
 
   @javascript
   Scenario: Clearing filters via the filter buttons
-    When I follow "Clear"
-
-    Then I should be on the work package index page of the project called "project1"
-     And I should see "Some issue"
+    When I click "Clear"
+    Then I should see "Some issue"

@@ -56,7 +56,6 @@ Feature: Work Package Query
      And I go to the work packages index page for the project "project"
      And I follow "Options" within "#query_form"
      And I select "Assignee" from "group_by"
-     And I follow "Apply"
      And I follow "Save"
      And I fill in "Query" for "Name"
      And I press "Save"

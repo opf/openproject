@@ -1,13 +1,11 @@
-app/assets/javascripts/raphael.js
-app/assets/javascripts/raphael-min.js
 app/assets/javascripts/date-de-DE.js
 app/assets/javascripts/date-en-US.js
 app/assets/javascripts/jstoolbar/**/*
 app/assets/javascripts/jquery_noconflict.js
 app/assets/javascripts/pages/**/*
 app/assets/javascripts/project/**/*
-app/assets/javascripts/jquery.menu_expand.js
 app/assets/javascripts/jquery-ui-i18n.js
+app/assets/javascripts/lib/**/*
 
 #we sould fix this ones
 app/assets/javascripts/select_list_move.js
