@@ -28,7 +28,7 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('sortHeader', ['I18n', 'PathHelper', function(I18n, PathHelper){
+.directive('sortHeader', ['I18n', function(I18n){
 
   return {
     restrict: 'A',
@@ -41,6 +41,10 @@ angular.module('openproject.workPackages.directives')
       locale: '='
     },
     link: function(scope, element, attributes) {
+      scope.$watch('query.sortation.sortElements', function(newValue, oldValue){
+        if (scope.headerName != newValue[0].field) scope.currentSortDirection = null;
+      }, true);
+
       scope.performSort = function(){
         targetSortation = scope.query.sortation.getTargetSortationOfHeader(scope.headerName);
         scope.query.setSortation(targetSortation);
