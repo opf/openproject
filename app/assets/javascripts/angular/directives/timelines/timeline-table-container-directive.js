@@ -36,6 +36,10 @@ angular.module('openproject.timelines.directives')
     replace: true,
     templateUrl: '/templates/timelines/timeline_table_container.html',
     link: function(scope, element, attributes) {
+      function fetchData() {
+        return TimelineLoaderService.loadTimelineData(scope.timeline);
+      }
+
       function completeUI() {
 
         scope.timeline.paper = new SvgHelper(scope.timeline.paperElement);
@@ -117,7 +121,7 @@ angular.module('openproject.timelines.directives')
       }
 
       function renderTimeline() {
-        TimelineLoaderService.loadTimelineData(scope.timeline)
+        fetchData()
           .then(buildWorkPackageTable)
           .then(drawChart);
       }
@@ -135,7 +139,9 @@ angular.module('openproject.timelines.directives')
         );
 
         jQuery(scope.timeline.modalHelper).on('closed', function() {
-          renderTimeline(); // TODO remove and do updates via scope
+          fetchData().then(function(timeline){
+            window.clearTimeout(timeline.safetyHook);
+          }); // TODO remove and do updates via scope
         });
       }
 
