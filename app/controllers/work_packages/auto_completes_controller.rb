@@ -34,7 +34,7 @@ class WorkPackages::AutoCompletesController < ApplicationController
 
   def index
     @work_packages = []
-    q = params[:q].to_s
+    q = (params[:q] || params[:term]).to_s
 
     if q.present?
       query = (params[:scope] == "all" && Setting.cross_project_work_package_relations?) ? WorkPackage : @project.work_packages

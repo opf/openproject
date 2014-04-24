@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= link_to_if_authorized l(:label_message_new),
                             {:controller => '/messages', :action => 'new', :board_id => @board},
                             :class => 'icon icon-add',
-                            :onclick => 'Element.show("add-message"); Form.Element.focus("message_subject"); return false;' %>
+                            :onclick => 'showAndScrollTo("add-message", "message_subject"); return false;' %>
     <%= watcher_link(@board, User.current) %>
 <% end %>
 
@@ -45,7 +45,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= render :partial => 'messages/form', :locals => {:f => f} %>
   <p><%= submit_tag l(:button_create) %>
   <%= preview_link preview_board_topics_path(@board), 'message-form-preview' %>
-  <%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("add-message")' %></p>
+  <%= link_to l(:button_cancel), "#", :onclick => 'jquery("#add-message").hide(); return false;' %></p>
 <% end %>
 <div id="preview" class="wiki"></div>
 <% end %>

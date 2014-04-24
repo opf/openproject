@@ -39,6 +39,7 @@
 //= require top-shelf
 //= require unsupported-browsers
 //= require autocomplete_textareas
+//= require warn_leaving_unsaved
 //= require_tree ./specific
 //= require openproject_plugins
 //= require versions
@@ -140,9 +141,11 @@ function setCheckboxesBySelector(checked, selector) {
 }
 
 function showAndScrollTo(id, focus) {
-	Element.show(id);
-	if (focus!=null) { Form.Element.focus(focus); }
-	Element.scrollTo(id);
+  jQuery('#'+id).show();
+  if (focus!=null) {
+    jQuery('#'+focus).focus();
+  }
+  jQuery('html, body').animate({scrollTop: $('#'+id).offset().top}, 100);
 }
 
 function setGroupRowStatus(el) {
@@ -159,7 +162,7 @@ function setGroupRowStatus(el) {
 
 function toggleRowGroup(el) {
   var row = jQuery(el).closest("tr");
-  
+
   row.toggleClass("open closed");
 
   setGroupRowStatus(el);
@@ -465,111 +468,22 @@ function observeRelatedIssueField(url) {
                            });
 }
 
-function setVisible(id, visible) {
-  var el = $(id);
-  if (el) {if (visible) {el.show();} else {el.hide();}}
-}
-
 function observeProjectModules() {
   var f = function() {
     /* Hides types and issues custom fields on the new project form when work_package_tracking module is disabled */
-    var c = ($('project_enabled_module_names_work_package_tracking').checked == true);
-    setVisible('project_types', c);
-    setVisible('project_issue_custom_fields', c);
+    if (jQuery('#project_enabled_module_names_work_package_tracking').attr('checked')) {
+      jQuery('#project_types, #project_issue_custom_fields').show();
+    } else {
+      jQuery('#project_types, #project_issue_custom_fields').hide();
+    }
   };
 
-  Event.observe(window, 'load', f);
-  Event.observe('project_enabled_module_names_work_package_tracking', 'change', f);
+  jQuery(window).load(f);
+  jQuery('#project_enabled_module_names_work_package_tracking').change(f);
 }
 
-/*
- * Class used to warn user when leaving a page with unsaved textarea
- * Author: mathias.fischer@berlinonline.de
-*/
-
-var WarnLeavingUnsaved = Class.create({
-	observedForms: false,
-	observedElements: false,
-	changedForms: false,
-	message: null,
-
-	initialize: function(message){
-		this.observedForms = $$('form');
-		this.observedElements =  $$('textarea');
-		this.message = message;
-
-		this.observedElements.each(this.observeChange.bind(this));
-		this.observedForms.each(this.submitAction.bind(this));
-
-		window.onbeforeunload = this.unload.bind(this);
-	},
-
-	unload: function(){
-    this.observedElements.each(function(item){ item.blur(); });
-
-		if (this.changedForms)
-      return this.message;
-	},
-
-	setChanged: function(){
-    this.changedForms = true;
-	},
-
-	setUnchanged: function(){
-    this.changedForms = false;
-	},
-
-	observeChange: function(element){
-    element.observe('change',this.setChanged.bindAsEventListener(this));
-	},
-
-	submitAction: function(element){
-    element.observe('submit',this.setUnchanged.bindAsEventListener(this));
-	}
-});
-
-/*
- * 1 - registers a callback which copies the csrf token into the
- * X-CSRF-Token header with each ajax request.  Necessary to
- * work with rails applications which have fixed
- * CVE-2011-0447
- * 2 - shows and hides ajax indicator
- */
-document.observe("dom:loaded", function() {
-  Ajax.Responders.register({
-    onCreate: function(request){
-      var csrf_meta_tag = $$('meta[name=csrf-token]')[0];
-
-      if (!request.options.requestHeaders) {
-        request.options.requestHeaders = {};
-      }
-
-      if (csrf_meta_tag) {
-        var header = 'X-CSRF-Token',
-        token = csrf_meta_tag.readAttribute('content');
-
-        request.options.requestHeaders[header] = token;
-      }
-
-      request.options.requestHeaders['X-Authentication-Scheme'] = "Session";
-
-      if ($('ajax-indicator') && Ajax.activeRequestCount > 0) {
-        Element.show('ajax-indicator');
-      }
-    },
-    onComplete: function(request, result){
-      if ($('ajax-indicator') && Ajax.activeRequestCount == 0) {
-        Element.hide('ajax-indicator');
-      }
-      addClickEventToAllErrorMessages();
-    }
-  });
-});
-
 function hideOnLoad() {
-  $$('.hol').each(function(el) {
-  	el.hide();
-	});
+  jQuery('.hol').hide();
 }
 
 function addClickEventToAllErrorMessages() {
@@ -613,7 +527,6 @@ $(document).observe('dom:loaded', function() {
   addClickEventToAllErrorMessages();
 });
 
-Event.observe(window, 'load', hideOnLoad);
 
 // a few constants for animations speeds, etc.
 var animationRate = 100;
@@ -627,6 +540,7 @@ jQuery.viewportHeight = function() {
 };
 
 
+jQuery(document).ready(hideOnLoad);
 /*
 * 1 - registers a callback which copies the csrf token into the
 * X-CSRF-Token header with each ajax request.  Necessary to

@@ -99,7 +99,7 @@ function apply_filters_observer() {
     }
   });
 }
-Event.observe(document,"dom:loaded", apply_filters_observer);
+jQuery(function(){ apply_filters_observer(); });
 //]]>
 </script>
 
