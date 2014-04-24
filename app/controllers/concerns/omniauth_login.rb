@@ -13,7 +13,7 @@ module OmniauthLogin
     if user.new_record?
       create_user_from_omniauth(user, auth_hash)
     else
-      login_user_if_active(user)
+      login_user_if_active(user, log_login = true)
     end
   end
 

@@ -242,7 +242,7 @@ class User < Principal
       try_authentication_and_create_user(login, password)
     end
     unless prevent_brute_force_attack(user, login).nil?
-      user.update_attribute(:last_login_on, Time.now) if user && !user.new_record?
+      user.log_successful_login if user && !user.new_record?
       return user
     end
     nil
@@ -289,7 +289,7 @@ class User < Principal
     if tokens.size == 1
       token = tokens.first
       if (token.created_on > Setting.autologin.to_i.day.ago) && token.user && token.user.active?
-        token.user.update_attribute(:last_login_on, Time.now)
+        log_successful_login
         token.user
       end
     end
@@ -402,6 +402,9 @@ class User < Principal
     save
   end
 
+  def log_successful_login
+    update_attribute(:last_login_on, Time.now)
+  end
 
   def pref
     preference || build_preference

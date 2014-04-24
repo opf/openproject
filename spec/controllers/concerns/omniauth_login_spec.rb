@@ -196,11 +196,22 @@ describe AccountController do
       end
 
       context 'with an active account' do
-        it 'should sign in the user after successful external authentication' do
+        before do
           user.save!
+        end
+
+        it 'should sign in the user after successful external authentication' do
           post :omniauth_login
 
           expect(response).to redirect_to my_page_path
+        end
+
+        it 'should log an successful login' do
+          post_at = Time.now.utc
+          post :omniauth_login
+
+          user.reload
+          expect(user.last_login_on.utc.to_i).to be >= post_at.utc.to_i
         end
       end
 
