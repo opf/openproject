@@ -108,7 +108,7 @@ angular.module('openproject.timelines.directives')
           if (scope.rows.length > 0) {
             completeUI();
           } else {
-            timeline.warn(I18n.t('js.label_no_data'), 'warning', this.showWarning, scope);
+            timeline.warn(I18n.t('js.label_no_data'), 'warning', this.showWarning);
           }
         } catch (e) {
           timeline.die(e);
