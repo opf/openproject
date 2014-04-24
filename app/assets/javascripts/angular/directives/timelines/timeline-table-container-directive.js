@@ -79,6 +79,7 @@ angular.module('openproject.timelines.directives')
       showWarning = function(){
         scope.underConstruction = false;
         scope.warning = true;
+        scope.$apply();
       };
 
       buildWorkPackageTable = function(timeline){
@@ -107,7 +108,7 @@ angular.module('openproject.timelines.directives')
           if (scope.rows.length > 0) {
             completeUI();
           } else {
-            timeline.warn(I18n.t('js.label_no_data'), 'warning', this.showWarning);
+            timeline.warn(I18n.t('js.label_no_data'), 'warning', this.showWarning, scope);
           }
         } catch (e) {
           timeline.die(e);

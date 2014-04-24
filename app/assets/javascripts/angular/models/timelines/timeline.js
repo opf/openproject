@@ -290,7 +290,7 @@ angular.module('openproject.timelines.models')
 
       throw error;
     },
-    warn: function(message, classes, callback) {
+    warn: function(message, classes, viewCallback) {
       var root = this.getUiRoot();
 
       window.setTimeout(function() {
@@ -298,7 +298,9 @@ angular.module('openproject.timelines.models')
         // generate and display the error message.
         var warning = jQuery('<div class="' + classes + '">' + message + '</div>');
         root.empty().append(warning);
-        if (callback) callback();
+        if (viewCallback) {
+          viewCallback();
+        }
 
       }, Timeline.DISPLAY_ERROR_DELAY);
     },
