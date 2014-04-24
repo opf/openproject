@@ -1149,19 +1149,6 @@ angular.module('openproject.timelines.services')
       try {
         // prerequisites (3rd party libs)
         timeline.checkPrerequisites();
-        timeline.modalHelper = modalHelperInstance;
-        timeline.modalHelper.setupTimeline(
-          timeline,
-          {
-            api_prefix                : timeline.options.api_prefix,
-            url_prefix                : timeline.options.url_prefix,
-            project_prefix            : timeline.options.project_prefix
-          }
-        );
-
-        jQuery(timeline.modalHelper).on("closed", function () {
-          TimelineLoaderService.loadTimelineData(timeline); // TODO remove and do updates via scope
-        });
 
         timelineLoader = TimelineLoaderService.createTimelineLoader(timeline);
         timelineLoader.registerTimelineElements();
