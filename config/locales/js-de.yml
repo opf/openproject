@@ -131,6 +131,8 @@ de:
       due_date: "Abschlussdatum"
       empty: "(leer)"
       error: "Ein Fehler ist aufgetreten."
+      errors:
+        report_timeout: "Zeitüberschreitung beim Laden des Zeitplans."
       filter:
         column:
           assigned_to: "Zugewiesen an"
