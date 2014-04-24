@@ -48,7 +48,7 @@ angular.module('openproject.models')
   };
 
   Sortation.prototype.getPrimarySortationCriterion = function() {
-    return this.sortElements.first();
+    return this.sortElements[0];
   };
 
   Sortation.prototype.getDisplayedSortDirectionOfHeader = function(headerName) {
