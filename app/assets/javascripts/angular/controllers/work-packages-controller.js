@@ -113,6 +113,8 @@ angular.module('openproject.workPackages.controllers')
   };
 
   $scope.updateResults = function() {
+    $scope.$broadcast('openproject.workPackages.updateResults');
+
     return $scope.withLoading(WorkPackageService.getWorkPackages, [$scope.projectIdentifier, $scope.query, PaginationService.getPaginationOptions()])
       .then($scope.setupWorkPackagesTable);
   };
