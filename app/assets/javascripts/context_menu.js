@@ -244,7 +244,7 @@ function setSelectionState(checkbox, select) {
   } else {
     table_row.removeClass('context-menu-selection');
   }
-};
+}
 
 function getCheckboxes(link) {
   var form = jQuery(link).parents('form');

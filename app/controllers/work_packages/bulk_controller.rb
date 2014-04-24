@@ -68,7 +68,7 @@ class WorkPackages::BulkController < ApplicationController
       end
     end
     set_flash_from_bulk_save(@work_packages, unsaved_work_package_ids)
-    redirect_back_or_default({controller: '/work_packages', action: :index, project_id: @project})
+    redirect_back_or_default({controller: '/work_packages', action: :index, project_id: @project}, false)
   end
 
   def destroy

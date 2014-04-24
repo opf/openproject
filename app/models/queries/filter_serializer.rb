@@ -34,6 +34,6 @@ module Queries::FilterSerializer
   end
 
   def self.dump(filters)
-    YAML.dump (filters || []).map(&:to_hash).reduce(:merge).stringify_keys
+    YAML.dump ((filters || []).map(&:to_hash).reduce(:merge) || {}).stringify_keys
   end
 end

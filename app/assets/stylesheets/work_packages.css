@@ -34,3 +34,16 @@ See doc/COPYRIGHT.rdoc for more details.
 .issue .attributes td.work_package_attribute_header {
   font-weight: bold;
 }
+
+.icon-button {
+  cursor: pointer;
+}
+
+.sort-header {
+  cursor: pointer;
+}
+
+select.to-validate.ng-dirty.ng-valid, input.to-validate.ng-dirty.ng-valid { border:1px solid Green; }
+select.to-validate.ng-dirty.ng-invalid, input.to-validate.ng-dirty.ng-invalid { border:1px solid Red; }
+select.to-validate.ng-dirty.ng-valid ~ span.ok, input.to-validate.ng-dirty.ng-valid ~ span.ok { color:green; display:inline; }
+select.to-validate.ng-dirty.ng-invalid ~ span.ko, input.to-validate.ng-dirty.ng-invalid ~ span.ko { color:red; display:inline; }

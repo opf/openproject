@@ -45,6 +45,7 @@ end
 source 'https://rubygems.org'
 
 gem "rails", "~> 3.2.17"
+gem "sprockets", "2.2.2.backport2"
 
 gem "coderay", "~> 1.0.5"
 gem "rubytree", "~> 0.8.3"
@@ -96,6 +97,8 @@ gem 'rack-protection', :git => "https://github.com/finnlabs/rack-protection.git"
 
 gem 'syck', :platforms => [:ruby_20, :mingw_20, :ruby_21, :mingw_21], :require => false
 
+gem 'gon', '~> 4.0'
+
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
@@ -107,9 +110,6 @@ group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
-  gem 'jquery-ui-rails'
-  gem 'select2-rails', '~> 3.3.2'
-  gem 'jquery-atwho-rails', '~> 0.4.7'
 end
 
 # You don't need therubyracer if you have nodejs installed on the machine precompiling assets.
@@ -120,7 +120,6 @@ gem "prototype-rails"
 # replace those with :remote => true
 gem 'prototype_legacy_helper', '0.0.0', :git => 'https://github.com/rails/prototype_legacy_helper.git'
 
-gem 'jquery-rails', '~> 2.0.3'
 # branch rewrite has commit 6bfdcd7e14df1efffc00b2bbdf4e14e614d00418 which adds
 # a "magic comment" in the translations.js.erb and somehow breaks i18n-js
 # using the commit before this comment

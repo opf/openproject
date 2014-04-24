@@ -58,23 +58,14 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= render :partial => 'layouts/action_menu_specific' %>
 
-<%= form_tag :id => "specialForm" do %>
-  <%= label_tag 'timeline_select', l("timelines.timeline") %>
-  <%= collection_select(:timeline, :id, @visible_timelines, :id, :name, {}, {:id => 'timeline_select'}) %>
-<% end %>
+<div id="timeline">
+  <%= form_tag '', {:id => "specialForm", 'ng-controller' => 'TimelineSelectionController'} do %>
+    <%= label_tag 'timeline_select', l("timelines.timeline") %>
+    <%= collection_select(:timeline, :id, @visible_timelines, :id, :name, {}, {ui_select2: 'ui-select2', id: 'timeline_select', ng_model: 'currentTimelineId', ng_change: 'switchTimeline()'}) %>
+  <% end %>
 
-<script type="text/javascript">
-  (function() {
-    var timelines = {};
-    <% @visible_timelines.each do |timeline| %>
-    timelines[<%= timeline.id %>] = {
-      url: '<%= project_timeline_path(@project, timeline) %>'
-    }
-    <% end %>
-    jQuery('#timeline_select').change(function() {
-      document.location.href = timelines[this.value].url;
-    });
-  })();
-</script>
+  <% push_visible_timeline_paths @visible_timelines %>
+  <% push_current_timeline_id @timeline.id %>
 
-<%= render :partial => "timeline", :locals => {:timeline => @timeline} %>
+  <%= render :partial => "timeline", :locals => {:timeline => @timeline} %>
+</div>

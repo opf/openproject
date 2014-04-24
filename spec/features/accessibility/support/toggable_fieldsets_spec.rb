@@ -31,49 +31,48 @@ require 'features/work_packages/work_packages_page'
 
 describe 'Toggable fieldset' do
   shared_context 'find legend with text' do
-    let(:legend_text) { find('legend a', text: fieldset_name) }
-    let(:fieldset) { legend_text.find(:xpath, '../..') }
+    let(:legend_text) { find('legend a span', text: fieldset_name) }
+    let(:fieldset) { legend_text.find(:xpath, '../../..') }
   end
 
   shared_context 'find toggle label' do
-    let(:toggle_state_label) { legend_text.find('span.fieldset-toggle-state-label', visible: false) }
+    let(:link) { legend_text.find(:xpath, '..') }
+    let(:toggle_state_label) { link.find("span.hidden-for-sighted", visible: false) }
 
     it { expect(toggle_state_label).not_to be_nil }
-  end
+   end
 
   shared_examples_for 'toggable fieldset initially collapsed' do
     it_behaves_like 'collapsed fieldset'
 
-    describe 'initial state', js: true do
+    describe 'initial state' do
       include_context 'find legend with text'
-
       it_behaves_like 'toggle state set collapsed'
     end
 
-    describe 'after click', js: true do
+    describe 'after click' do
       include_context 'find legend with text'
 
       before { legend_text.click }
 
-      it_behaves_like 'toggle state set expanded'
+      it_behaves_like 'expanded fieldset'
     end
   end
 
   shared_examples_for 'toggable fieldset initially expanded' do
     it_behaves_like 'expanded fieldset'
 
-    describe 'initial state', js: true do
+    describe 'initial state' do
       include_context 'find legend with text'
-
       it_behaves_like 'toggle state set expanded'
     end
 
-    describe 'after click', js: true do
+    describe 'after click' do
       include_context 'find legend with text'
 
       before { legend_text.click }
 
-      it_behaves_like 'toggle state set collapsed'
+      it_behaves_like 'collapsed fieldset'
     end
   end
 

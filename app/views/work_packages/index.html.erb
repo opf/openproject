@@ -27,6 +27,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<%= include_gon %>
+
+
 <% breadcrumb_paths(l(:label_work_package_plural)) %>
 <% if !query.new_record? && query.editable_by?(User.current) %>
   <% content_for :action_menu_specific do %>
@@ -50,98 +53,46 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= render :partial => 'layouts/action_menu_specific' %>
 
-<%= error_messages_for 'query' %>
+<div id="work-packages-index" ng-controller="WorkPackagesController">
+  <div class="title-bar">
+    <div class="title-bar-extras">
 
-<div class="title-bar">
-  <div class="title-bar-extras">
+      <%= error_messages_for 'query' %>
 
-    <% html_title(query.new_record? ? l(:label_work_package_plural) : h(query.name)) %>
 
-    <% if visible_queries.any? %>
-      <div id='work-packages-query-selection'>
-        <%= label_tag 'query-select', l('apply_filter', :scope => 'queries') %>
+      <% html_title(query.new_record? ? l(:label_work_package_plural) : h(query.name)) %>
 
-        <%= select :query, :id, grouped_options_for_select(grouped_query_options, query.id), {:include_blank => query.new_record?, :selected => query.id}, {:id => 'query-select'} %>
+      <% if visible_queries.any? %>
+        <div id='work-packages-query-selection'>
+          <%= label_tag 'query-select', l('apply_filter', :scope => 'queries') %>
 
-      </div>
-    <% end %>
+          <%= select :query, :id, grouped_options_for_select(grouped_query_options, query.id), {:include_blank => query.new_record?, :selected => query.id}, {:id => 'query-select'} %>
 
-    <%= form_tag({ :controller => '/queries', :action => 'new' }, :id => 'query_form') do %>
-      <%= hidden_field_tag('project_id', project.to_param) if project %>
-      <div id="query_form_content" class="hide-when-print">
-        <fieldset id="filters" class="header_collapsible collapsible <%= query.new_record? ? "" : "collapsed" %>">
-          <legend title="<%=l(:description_filter_toggle)%>", onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_filter_plural) %></a></legend>
-          <div class="filter-fields" style="<%= query.new_record? ? "" : "display: none;" %>">
-            <%= render :partial => 'queries/filters', :locals => {:query => query} %>
-          </div>
-        </fieldset>
-        <fieldset id="column_options" class="header_collapsible collapsible collapsed">
-          <legend title="<%=l(:description_option_toggle)%>", onclick="toggleFieldset(this);"><a href="javascript:"><%= l(:label_options) %></a></legend>
-          <div style="display: none;" class="tabular">
-            <div class="horizontal_margin"><%= label_tag :available_columns, Query.human_attribute_name(:column_names), class: "header" %></div>
-            <div class="horizontal_margin">
-              <%= render :partial => 'queries/columns', :locals => {:query => query} %>
-            </div>
-            <div class="horizontal_margin"><label for='group_by' class='header'><%= Query.human_attribute_name(:group_by) %></label></div>
-            <div class="horizontal_margin">
-              <%= select_tag('group_by', options_for_select([[]] + query.groupable_columns.collect {|c| [c.caption, c.name.to_s]}, query.group_by)) %>
-            </div>
-            <% if query.any_summable_columns? %>
-                <div class="horizontal_margin"><%= label_tag :display_sums, Query.human_attribute_name(:display_sums), class: "header" %></div>
-                <div class="horizontal_margin"><%= check_box_tag :display_sums, 1, query.display_sums? %></div>
-            <% end %>
-            <%= call_hook(:view_issue_query_form_options_bottom, :query => query) %>
-          </div>
-        </fieldset>
-      </div>
-      <p class="buttons hide-when-print">
-        <%= link_to_remote l(:button_apply),
-                           { :url => { :set_filter => 1 },
-                             :before => 'selectAllOptions("selected_columns");',
-                             :update => "content",
-                             :method => :get,
-                             :complete => "apply_filters_observer(); resetSelectedMenuItem(); initQuerySelectBehaviour();",
-                             :with => "jQuery('#query_form').serialize()"
-                           }, :class => 'icon icon-yes' %>
+        </div>
+      <% end %>
 
-        <%= link_to_remote l(:button_clear),
-                           { :url => { :set_filter => 1, :sort => WorkPackagesController::DEFAULT_SORT_ORDER.join(':'), :project_id => project },
-                             :method => :get,
-                             :update => "content",
-                             :complete => 'resetSelectedMenuItem(); initQuerySelectBehaviour();',
-                           }, :class => 'icon icon-undo'  %>
+      <%= render partial: 'query_form', locals: { project: project, query: query } %>
 
-        <% if query.new_record? && User.current.allowed_to?(:save_queries, project, :global => true) %>
-          <%= link_to l(:button_save), {}, :onclick => "selectAllOptions('selected_columns'); jQuery('#query_form').submit(); return false;", :class => 'icon icon-save1' %>
-        <% end %>
-      </p>
-    <% end %>
 
-  </div><!-- .title-bar-extras -->
-</div><!-- .title-bar -->
+    </div><!-- .title-bar-extras -->
+  </div><!-- .title-bar -->
 
-<% if query.valid? %>
-  <% if work_packages.empty? %>
-    <p class="nodata"><%= l(:label_no_data) %></p>
-  <% else %>
-    <%= render :partial => 'work_packages/list', :locals => { :work_packages => work_packages,
-                                                              :query => query,
-                                                              :results => results } %>
-    <%= pagination_links_full work_packages %>
+  <% if query.valid? %>
+    <%= render :partial => 'work_packages/list', :locals => { :query => query } %>
+
+    <%= other_formats_links do |f| %>
+      <%= f.link_to 'Atom', :url => { :project_id => project, :query_id => (query.new_record? ? nil : query), :key => User.current.rss_key } %>
+      <%= f.link_to 'CSV', :url => { :project_id => project } %>
+      <%= f.link_to 'PDF', :url => { :project_id => project } %>
+      <%= f.link_to I18n.t(:label_pdf_with_descriptions), :url => { :project_id => project,
+                                                                    :show_descriptions => true,
+                                                                    :format => 'pdf' } %>
+      <%= call_hook(:view_work_packages_index_other_formats, :link_formatter => f, :project => project) %>
+    <% end if User.current.allowed_to? :export_work_packages, project, :global => project.nil? %>
   <% end %>
+</div>
 
-  <%= other_formats_links do |f| %>
-    <%= f.link_to 'Atom', :url => { :project_id => project, :query_id => (query.new_record? ? nil : query), :key => User.current.rss_key } %>
-    <%= f.link_to 'CSV', :url => { :project_id => project } %>
-    <%= f.link_to 'PDF', :url => { :project_id => project } %>
-    <%= f.link_to I18n.t(:label_pdf_with_descriptions), :url => { :project_id => project,
-                                                                  :show_descriptions => true,
-                                                                  :format => 'pdf' } %>
-    <%= call_hook(:view_work_packages_index_other_formats, :link_formatter => f, :project => project) %>
-  <% end if User.current.allowed_to? :export_work_packages, project, :global => project.nil? %>
-<% end %>
-
-<%= call_hook(:view_work_packages_index_bottom, { :issues => work_packages, :project => project, :query => query }) %>
+<%= call_hook(:view_work_packages_index_bottom, { :project => project, :query => query }) %>
 
 <% content_for :sidebar do %>
   <%= render :partial => 'sidebar' %>
