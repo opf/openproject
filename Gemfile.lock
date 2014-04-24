@@ -193,7 +193,7 @@ GEM
     multi_test (0.0.2)
     mysql2 (0.3.11)
     net-ldap (0.2.2)
-    nokogiri (1.5.9)
+    nokogiri (1.5.11)
     object-daddy (1.1.1)
     oj (2.1.6)
     paper_trail (2.7.2)
