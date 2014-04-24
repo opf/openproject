@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -165,7 +165,7 @@ describe ApplicationHelper do
     before do
       @project = project
 
-      User.stubs(:current).returns(project_member)
+      User.stub(:current).and_return(project_member)
 
       Setting.enabled_scm = Setting.enabled_scm << "Filesystem" unless Setting.enabled_scm.include? "Filesystem"
     end
@@ -348,7 +348,7 @@ describe ApplicationHelper do
     end
 
     context "Project links" do
-      let(:subproject) { FactoryGirl.create :valid_project, :parent => project }
+      let(:subproject) { FactoryGirl.create :valid_project, :parent => project, :is_public => true }
       let(:project_url) { {:controller => 'projects', :action => 'show', :id => subproject.identifier} }
 
       context "Plain project link" do
@@ -586,7 +586,7 @@ EXPECTED
       before do
         @links = other_formats_links{|f| f.link_to 'Atom', :url => {:controller => :projects, :action => :index} }
       end
-      it { @links.should == "<p class=\"other-formats\">Also available in:<span><a href=\"/projects.atom\" class=\"atom\" rel=\"nofollow\">Atom</a></span></p>"}
+      it { @links.should == "<p class=\"other-formats\">Also available in:<span><a href=\"/projects.atom\" class=\"icon icon-atom\" rel=\"nofollow\">Atom</a></span></p>"}
     end
 
     context "link given but disabled" do

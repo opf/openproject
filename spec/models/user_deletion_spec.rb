@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -186,7 +186,7 @@ describe User, 'deletion' do
                                                                  :project => project,
                                                                  :status => status) }
     let(:associated_class) { WorkPackage }
-    let(:associations) { [:author, :assigned_to] }
+    let(:associations) { [:author, :assigned_to, :responsible] }
 
     it_should_behave_like "created journalized associated object"
   end
@@ -196,18 +196,20 @@ describe User, 'deletion' do
                                                                  :project => project,
                                                                  :status => status) }
     let(:associated_class) { WorkPackage }
-    let(:associations) { [:author, :assigned_to] }
+    let(:associations) { [:author, :assigned_to, :responsible] }
 
     before do
       User.stub(:current).and_return user2
       associated_instance.author = user2
       associated_instance.assigned_to = user2
+      associated_instance.responsible = user2
       associated_instance.save!
 
       User.stub(:current).and_return user # in order to have the content journal created by the user
       associated_instance.reload
       associated_instance.author = user
       associated_instance.assigned_to = user
+      associated_instance.responsible = user
       associated_instance.save!
 
       user.destroy
@@ -218,6 +220,7 @@ describe User, 'deletion' do
     it "should replace the user on all associations" do
       associated_instance.author.should == substitute_user
       associated_instance.assigned_to.should be_nil
+      associated_instance.responsible.should be_nil
     end
     it { associated_instance.journals.first.user.should == user2 }
     it "should update first journal changes" do
@@ -427,6 +430,18 @@ describe User, 'deletion' do
     end
   end
 
+  describe "WHEN the user is responsible for a project" do
+    before do
+      project.responsible = user
+      project.save!
+      user.destroy
+      project.reload
+    end
+
+    it { Project.find_by_id(project.id).should == project }
+    it { project.responsible.should be_nil }
+  end
+
   describe "WHEN the user is assigned an issue category" do
     let(:category) { FactoryGirl.build(:category, :assigned_to => user,
                                                           :project => project) }
@@ -440,4 +455,23 @@ describe User, 'deletion' do
     it { Category.find_by_id(category.id).should == category }
     it { category.assigned_to.should be_nil }
   end
+
+  describe "WHEN the user is used in a timelines filter" do
+    let(:timeline) { FactoryGirl.build(:timeline, :project_id => project.id, :name => 'Testline') }
+
+    before do
+      timeline.options["planning_element_responsibles"] = [user.id.to_s]
+      timeline.options["planning_element_assignee"] = [user.id.to_s]
+      timeline.options["project_responsibles"] = [user.id.to_s]
+      timeline.save!
+      
+      user.destroy
+      timeline.reload
+    end
+
+    it { expect(timeline.options["planning_element_responsibles"].index(user.id.to_s)).to be_nil }
+    it { expect(timeline.options["planning_element_assignee"].index(user.id.to_s)).to be_nil }
+    it { expect(timeline.options["project_responsibles"].index(user.id.to_s)).to be_nil }
+  end
+
 end

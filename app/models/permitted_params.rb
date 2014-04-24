@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -66,12 +67,20 @@ class PermittedParams < Struct.new(:params, :user)
     permitted_attributes[key].concat(params)
   end
 
-  def project_type
-    params.require(:project_type).permit(*self.class.permitted_attributes[:project_type])
+  def auth_source
+    params.require(:auth_source).permit(*self.class.permitted_attributes[:auth_source])
   end
 
-  def project_type_move
-    params.require(:project_type).permit(*self.class.permitted_attributes[:project_type_move])
+  def board
+    params.require(:board).permit(*self.class.permitted_attributes[:board])
+  end
+
+  def board?
+    params[:board] ? board : nil
+  end
+
+  def board_move
+    params.require(:board).permit(*self.class.permitted_attributes[:move_to])
   end
 
   def color
@@ -79,19 +88,35 @@ class PermittedParams < Struct.new(:params, :user)
   end
 
   def color_move
-    params.require(:color).permit(*self.class.permitted_attributes[:color_move])
+    params.require(:color).permit(*self.class.permitted_attributes[:move_to])
   end
 
-  def planning_element_type
-    params.require(:planning_element_type).permit(*self.class.permitted_attributes[:planning_element_type])
+  def custom_field
+    params.require(:custom_field).permit(*self.class.permitted_attributes[:custom_field])
   end
 
-  def planning_element_type_move
-    params.require(:planning_element_type).permit(*self.class.permitted_attributes[:planning_element_type_move])
+  def custom_field_type
+    params.require(:type)
   end
 
-  def planning_element
-    params.require(:planning_element).permit(*self.class.permitted_attributes[:planning_element])
+  def enumeration_type
+    params.require(:type)
+  end
+
+  def enumeration
+    permitted_params = params.require(:enumeration).permit(*self.class.permitted_attributes[:enumeration])
+
+    permitted_params.merge!(custom_field_values(:enumeration))
+
+    permitted_params
+  end
+
+  def group
+    params.require(:group).permit(*self.class.permitted_attributes[:group])
+  end
+
+  def group_membership
+    params.permit(*self.class.permitted_attributes[:group_membership])
   end
 
   def new_work_package(args = {})
@@ -102,6 +127,53 @@ class PermittedParams < Struct.new(:params, :user)
     permitted_params.merge!(custom_field_values(:work_package))
 
     permitted_params
+  end
+
+  def member
+    params.require(:member).permit(*self.class.permitted_attributes[:member])
+  end
+
+  def planning_element_type
+    params.require(:planning_element_type).permit(*self.class.permitted_attributes[:planning_element_type])
+  end
+
+  def planning_element_type_move
+    params.require(:planning_element_type).permit(*self.class.permitted_attributes[:move_to])
+  end
+
+  def planning_element
+    params.require(:planning_element).permit(*self.class.permitted_attributes[:planning_element])
+  end
+
+  def project_type
+    params.require(:project_type).permit(*self.class.permitted_attributes[:project_type])
+  end
+
+  def project_type_move
+    params.require(:project_type).permit(*self.class.permitted_attributes[:move_to])
+  end
+
+  def query
+    # there is a wierd bug in strong_parameters gem which makes the permit call
+    # on the sort_criteria pattern return the sort_criteria-hash contens AND
+    # the sort_criteria hash itself (again with content) in the same hash.
+    # Here we try to circumvent this
+    p = params.require(:query).permit(*self.class.permitted_attributes[:query])
+    p[:sort_criteria] = params.require(:query).permit(:sort_criteria => {'0' => [], '1' => [], '2' => []})
+    p[:sort_criteria].delete :sort_criteria
+    p
+  end
+
+  def role
+    params.require(:role).permit(*self.class.permitted_attributes[:role])
+  end
+
+  def role?
+    params[:role] ? role : nil
+  end
+
+  def status
+    params.require(:status).permit(*self.class.permitted_attributes[:status])
   end
 
   alias :update_work_package :new_work_package
@@ -131,7 +203,7 @@ class PermittedParams < Struct.new(:params, :user)
   end
 
   def type_move
-    params.require(:type).permit(*self.class.permitted_attributes[:type_move])
+    params.require(:type).permit(*self.class.permitted_attributes[:move_to])
   end
 
   def work_package
@@ -148,8 +220,16 @@ class PermittedParams < Struct.new(:params, :user)
                                          :lock_version)
   end
 
-  def board_move
-    params.require(:board).permit(*self.class.permitted_attributes[:board_move])
+  def wiki_page
+    permitted = permitted_attributes(:wiki_page)
+
+    permitted_params = params.require(:page).permit(*permitted)
+
+    permitted_params
+  end
+
+  def wiki_content
+    params.require(:content).permit(*self.class.permitted_attributes[:wiki_content])
   end
 
   protected
@@ -171,7 +251,7 @@ class PermittedParams < Struct.new(:params, :user)
   def permitted_attributes(key, additions = {})
     merged_args = { :params => params, :user => user }.merge(additions)
 
-    self.class.permitted_attributes[:new_work_package].map do |permission|
+    self.class.permitted_attributes[key].map do |permission|
       if permission.respond_to?(:call)
         permission.call(merged_args)
       else
@@ -182,95 +262,160 @@ class PermittedParams < Struct.new(:params, :user)
 
   def self.permitted_attributes
     @whitelisted_params ||= {
-                              :new_work_package => [
-                                                     :subject,
-                                                     :description,
-                                                     :start_date,
-                                                     :due_date,
-                                                     :parent_id,
-                                                     :parent_id,
-                                                     :assigned_to_id,
-                                                     :responsible_id,
-                                                     :type_id,
-                                                     :fixed_version_id,
-                                                     :estimated_hours,
-                                                     :done_ratio,
-                                                     :priority_id,
-                                                     :category_id,
-                                                     :status_id,
-                                                     :notes,
-                                                     :lock_version,
-                                                     { attachments: [:file, :description] },
-                                                     Proc.new do |args|
-                                                       # avoid costly allowed_to? if the param is not there at all
-                                                       if args[:params]["work_package"].has_key?("watcher_user_ids") &&
-                                                          args[:user].allowed_to?(:add_work_package_watchers, args[:project])
+      :auth_source => [
+        :name,
+        :host,
+        :port,
+        :tls,
+        :account,
+        :account_password,
+        :base_dn,
+        :onthefly_register,
+        :attr_login,
+        :attr_firstname,
+        :attr_lastname,
+        :attr_mail],
+      :board => [
+        :name,
+        :description],
+      :color => [
+        :name,
+        :hexcode,
+        :move_to ],
+      :custom_field => [
+        :editable,
+        :field_format,
+        :is_filter,
+        :is_for_all,
+        :is_required,
+        :max_length,
+        :min_length,
+        :move_to,
+        :name,
+        :possible_values,
+        :regexp,
+        :searchable,
+        :visible,
+        :translations_attributes => [
+          :_destroy,
+          :default_value,
+          :id,
+          :locale,
+          :name,
+          :possible_values],
+        :type_ids => []],
+      :enumeration => [
+        :active,
+        :is_default,
+        :move_to,
+        :name,
+        :reassign_to_id],
+      :group => [
+        :lastname],
+      :group_membership => [
+        :membership_id,
+        :membership => [
+          :project_id,
+          :role_ids => []]],
+      :member => [
+        :role_ids => []],
+      :new_work_package => [
+        :subject,
+        :description,
+        :start_date,
+        :due_date,
+        :parent_id,
+        :parent_id,
+        :assigned_to_id,
+        :responsible_id,
+        :type_id,
+        :fixed_version_id,
+        :estimated_hours,
+        :done_ratio,
+        :priority_id,
+        :category_id,
+        :status_id,
+        :notes,
+        :lock_version,
+        { attachments: [:file, :description] },
+        Proc.new do |args|
+          # avoid costly allowed_to? if the param is not there at all
+          if args[:params]["work_package"].has_key?("watcher_user_ids") &&
+            args[:user].allowed_to?(:add_work_package_watchers, args[:project])
 
-                                                         { :watcher_user_ids => [] }
-                                                       end
-                                                     end,
-                                                     Proc.new do |args|
-                                                       # avoid costly allowed_to? if the param is not there at all
-                                                       if args[:params]["work_package"].has_key?("time_entry") &&
-                                                          args[:user].allowed_to?(:log_time, args[:project])
+            { :watcher_user_ids => [] }
+          end
+        end,
+        Proc.new do |args|
+          # avoid costly allowed_to? if the param is not there at all
+          if args[:params]["work_package"].has_key?("time_entry") &&
+             args[:user].allowed_to?(:log_time, args[:project])
 
-                                                         { time_entry: [:hours, :activity_id, :comments] }
-                                                       end
-                                                     end
-                                                   ],
-                               :color_move => [:move_to],
-                               :color => [
-                                           :name,
-                                           :hexcode,
-                                           :move_to
-                                         ],
-                               :planning_element => [
-                                                      :subject,
-                                                      :description,
-                                                      :start_date,
-                                                      :due_date,
-                                                      :note,
-                                                      :type_id,
-                                                      :planning_element_status_comment,
-                                                      :planning_element_status_id,
-                                                      :parent_id,
-                                                      :responsible_id,
-                                                      :custom_fields => [ #json
-                                                                          :id,
-                                                                          :value,
-                                                                          :custom_field => [ # xml
-                                                                                             :id,
-                                                                                             :value
-                                                                                           ]
-                                                                        ]
-                                                    ],
-                               :planning_element_type => [
-                                                           :name,
-                                                           :in_aggregation,
-                                                           :is_milestone,
-                                                           :is_default,
-                                                           :color_id
-                                                         ],
-                               :planning_element_type_move => [:move_to],
-                               :project_type_move => [:move_to],
-                               :project_type => [
-                                                  :name,
-                                                  :allows_association,
-                                                  :type_ids => [],
-                                                  :reported_project_status_ids => []
-                                                ],
-                               :type => [
-                                          :name,
-                                          :is_in_roadmap,
-                                          :in_aggregation,
-                                          :is_milestone,
-                                          :is_default,
-                                          :color_id,
-                                          :project_ids => [],
-                                          :custom_field_ids => []
-                                        ],
-                               :type_move => [:move_to],
-                               :board_move => [:move_to]
-                            }
+            { time_entry: [:hours, :activity_id, :comments] }
+          end
+        end ],
+      :planning_element => [
+        :subject,
+        :description,
+        :start_date,
+        :due_date,
+        :note,
+        :type_id,
+        :status_id,
+        :planning_element_status_comment,
+        :parent_id,
+        :responsible_id,
+        :custom_fields => [ #json
+          :id,
+          :value,
+          :custom_field => [ # xml
+            :id,
+            :value ]]],
+      :planning_element_type => [
+        :name,
+        :in_aggregation,
+        :is_milestone,
+        :is_default,
+        :color_id ],
+      :project_type => [
+        :name,
+        :allows_association,
+        :type_ids => [],
+        :reported_project_status_ids => []],
+      :query => [
+        :name,
+        :display_sums,
+        :is_public,
+        :group_by],
+      :role => [
+        :name,
+        :assignable,
+        :move_to,
+        :permissions => []],
+      :status => [
+        :name,
+        :default_done_ratio,
+        :is_closed,
+        :is_default,
+        :move_to ],
+      :type => [
+        :name,
+        :is_in_roadmap,
+        :in_aggregation,
+        :is_milestone,
+        :is_default,
+        :color_id,
+        :project_ids => [],
+        :custom_field_ids => [] ],
+      :wiki_page => [
+        :title,
+        :parent_id,
+        :redirect_existing_links ],
+      :wiki_content => [
+        :comments,
+        :text,
+        :lock_version ],
+      :move_to => [ :move_to ]
+    }
   end
 end

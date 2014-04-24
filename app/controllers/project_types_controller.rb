@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -59,7 +60,6 @@ class ProjectTypesController < ApplicationController
       flash[:notice] = l(:notice_successful_create)
       redirect_to project_types_path
     else
-      flash.now[:error] = l('timelines.project_type_could_not_be_saved')
       render :action => 'new'
     end
   end
@@ -84,7 +84,6 @@ class ProjectTypesController < ApplicationController
       flash[:notice] = l(:notice_successful_update)
       redirect_to project_types_path
     else
-      flash.now[:error] = l('timelines.project_type_could_not_be_saved')
       render :action => :edit
     end
   end

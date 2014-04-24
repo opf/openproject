@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,7 +39,7 @@ class UserPreference < ActiveRecord::Base
   attr_accessible :hide_mail, :time_zone, :impaired
 
   # shortcut methods to others hash
-  attr_accessible :comments_sorting, :warn_on_leaving_unsaved
+  attr_accessible :comments_sorting, :warn_on_leaving_unsaved, :theme
 
   after_initialize :init_other_preferences
 
@@ -57,6 +57,14 @@ class UserPreference < ActiveRecord::Base
 
   def comments_sorting=(order)
     others[:comments_sorting] = order
+  end
+
+  def theme
+    others[:theme] || OpenProject::Themes.application_theme_identifier
+  end
+
+  def theme=(order)
+    others[:theme] = order
   end
 
   def warn_on_leaving_unsaved

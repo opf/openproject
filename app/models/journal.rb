@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,7 +60,6 @@ class Journal < ActiveRecord::Base
     if attributes.kind_of? Hash and attributes.values.first.kind_of? Array
       attributes.each {|k,v| attributes[k] = v[1]}
     end
-
     data.update_attributes attributes
   end
 
@@ -188,8 +187,8 @@ class Journal < ActiveRecord::Base
   end
 
   def predecessor
-    @predecessor ||= Journal.where("journable_type = ? AND journable_id = ? AND id < ?",
-                                   journable_type, journable_id, id)
+    @predecessor ||= Journal.where("journable_type = ? AND journable_id = ? AND version < ?",
+                                   journable_type, journable_id, version)
                             .order("version DESC")
                             .first
   end

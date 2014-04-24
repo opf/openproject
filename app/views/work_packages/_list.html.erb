@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -34,12 +34,14 @@ See doc/COPYRIGHT.rdoc for more details.
 
     <thead>
       <tr>
-        <th class="checkbox hide-when-print"><%= link_to image_tag('webalys/check.png'), {},
-                                                         :onclick => 'toggleIssuesSelection(Element.up(this, "form")); return false;',
-                                                         :title   => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
-                                                         :alt     => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
+        <th class="checkbox hide-when-print"><%= link_to icon_wrapper('icon-context icon-yes', l(:button_check_all)), {},
+                                                         :onclick => 'toggleSelection(this); return false;',
+                                                         :class => 'no-decoration-on-hover',
+                                                         :title   => l(:button_check_all),
+                                                         :alt     => l(:button_check_all),
+                                                         :id => 'button_check_all' %>
         </th>
-		    <%= sort_header_tag('id', :caption => '#', :default_order => 'desc') %>
+        <%= sort_header_tag('id', :caption => '#', :default_order => 'desc') %>
 
         <% query.columns.each do |column| %>
           <%= column_header(column) %>
@@ -48,31 +50,36 @@ See doc/COPYRIGHT.rdoc for more details.
       </tr>
     </thead>
 
-	<% previous_group = false %>
+  <% previous_group = false %>
 
-	<tbody>
+  <tbody>
 
-	<% issue_list(work_packages) do |work_package, level| -%>
+  <% issue_list(work_packages) do |work_package, level| -%>
 
     <% if query.grouped? && (group = query.group_by_column.value(work_package)) != previous_group %>
       <% reset_cycle %>
       <tr class="group open">
         <td colspan="<%= query.columns.size + 2 %>">
-          <span class="expander" onclick="toggleRowGroup(this); return false;">
-            &nbsp;
+          <span class="expander icon-context icon-minus" onclick="toggleRowGroup(this); return false;">
+            <span class="hidden-for-sighted expand"><%= I18n.t('label_expand') %></span>
+            <span class="hidden-for-sighted collapse"><%= I18n.t('label_collapse') %></span>
           </span>
 
+          <span>
           <%= group.blank? ?
                 '-' :
                 column_content(query.group_by_column, work_package) %>
 
-          <span class="count">
-            (<%= results.work_package_count_for(group) %>)
-          </span>
+            <span class="count">
+              (<%= results.work_package_count_for(group) %>)
 
-          <%= link_to_function("#{l(:button_collapse_all)}/#{l(:button_expand_all)}",
-                               "toggleAllRowGroups(this)",
-                               :class => 'toggle-all') %>
+              <span aria-hidden="true" role="presentation" tabindex="-1">
+                <%= link_to_function("#{l(:button_collapse_all)}",
+                                     "toggleAllRowGroups(this)",
+                                     :class => 'toggle-all') %>
+              </span>
+            </span>
+          </span>
         </td>
       </tr>
       <% previous_group = group %>
@@ -85,7 +92,11 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= l(:description_select_work_package) + '#' + work_package.id.to_s %>
         </label>
 
-        <%= check_box_tag("ids[]", work_package.id, false, :id => "work_package#{work_package.id}") %>
+        <%= check_box_tag("ids[]",
+                          work_package.id,
+                          false,
+                          id: "work_package#{work_package.id}",
+                          onclick: 'setAllSelectLinkState(jQuery("a#button_check_all"));' ) %>
       </td>
 
       <td class="id">
@@ -99,11 +110,11 @@ See doc/COPYRIGHT.rdoc for more details.
       </td>
 
       <% query.columns.each do |column| %>
-        <%= content_tag 'td', column_content(column, work_package), :class => column.name %>
+        <%= content_tag 'td', column_content(column, work_package), :class => column.name, :lang => column_locale(column) %>
       <% end %>
-	  </tr>
+    </tr>
 
-	  <% if query.display_sums? %>
+    <% if query.display_sums? %>
 
       <% results.caching_issue(work_package) %>
       <%# Check if we are at the end of a group or the end of a page %>

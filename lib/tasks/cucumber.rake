@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,11 +51,14 @@ begin
       ::CodeStatistics::TEST_TYPES << "Cucumber features" if File.exist?('features')
     end
 
-    def get_plugin_features(prefix = '')
+    def get_plugin_features(prefix = nil)
       features = []
       Rails.application.config.plugins_to_test_paths.each do |dir|
         feature_dir = Shellwords.escape(File.join(dir, 'features'))
-        features += [prefix, feature_dir] if File.directory?(feature_dir)
+        if File.directory?(feature_dir)
+          features << prefix unless prefix.nil?
+          features << feature_dir
+        end
       end
       features
     end

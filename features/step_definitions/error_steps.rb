@@ -1,8 +1,7 @@
-#encoding: utf-8
-
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,7 +48,7 @@ Then /^there should( not)? be a flash (error|notice) message$/ do |no_message, k
 end
 
 Then /^the flash message should contain "([^"]*)"$/ do |message|
-  page.find(:css, '.flash > a').text.should include(message)
+  page.find(:css, '.flash').text.should include(message)
 end
 
 Then /^I should( not)? see (\d+) error message(?:s)?$/ do |negative, count|

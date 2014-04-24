@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,22 +27,19 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= error_messages_for 'enumeration' %>
+<%#
+  needs locals:
+  :f => labelled form builder
+%>
+
+<%= error_messages_for :enumeration %>
 <div class="box">
-<!--[form:optvalue]-->
-<%= hidden_field 'enumeration', 'type' %>
+  <%= f.hidden_field 'type' %>
+  <p><%= f.text_field 'name', :required => true %></p>
+  <p><%= f.check_box 'active' %></p>
+  <p><%= f.check_box 'is_default' %></p>
 
-<p><label for="enumeration_name"><%= Enumeration.human_attribute_name(:name) %></label>
-<%= text_field 'enumeration', 'name' %></p>
-
-<p><label for="enumeration_active"><%= Enumeration.human_attribute_name(:active) %></label>
-<%= check_box 'enumeration', 'active' %></p>
-
-<p><label for="enumeration_is_default"><%= Enumeration.human_attribute_name(:is_default) %></label>
-<%= check_box 'enumeration', 'is_default' %></p>
-<!--[eoform:optvalue]-->
-
-<% @enumeration.custom_field_values.each do |value| %>
-  <p><%= custom_field_tag_with_label :enumeration, value %></p>
-<% end %>
+  <% @enumeration.custom_field_values.each do |value| %>
+    <p><%= custom_field_tag_with_label :enumeration, value %></p>
+  <% end %>
 </div>

@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -31,24 +31,26 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= javascript_include_tag 'repository_navigation' %>
 <% end %>
 
-<!--[if gt IE 8]><!-->
-<%= link_to l(:label_statistics), stats_project_repository_path(@project),
-                                  :class => 'icon icon-stats' %> |
-<!--<![endif]-->
+<% content_for :action_menu_specific do %>
+  <!--[if gt IE 8]><!-->
+  <%= link_to l(:label_statistics), stats_project_repository_path(@project),
+                                    :class => 'icon icon-stats' %> |
+  <!--<![endif]-->
 
-<%# rev => nil prevents overwriting the rev parameter queried for in the form with the parameter from the request %>
-<%= form_tag({:action => controller.action_name, :project_id => @project, :path => to_path_param(@path), :rev => nil}, {:method => :get, :id => 'revision_selector'}) do -%>
-  <!-- Branches Dropdown -->
-  <% if !@repository.branches.nil? && @repository.branches.length > 0 -%>
-    <%= l(:label_branch) %>:
-    <%= select_tag :branch, options_for_select([''] + @repository.branches,@rev), :id => 'branch' %> |
+  <%# rev => nil prevents overwriting the rev parameter queried for in the form with the parameter from the request %>
+  <%= form_tag({:action => controller.action_name, :project_id => @project, :path => to_path_param(@path), :rev => nil}, {:method => :get, :id => 'revision_selector'}) do -%>
+    <!-- Branches Dropdown -->
+    <% if !@repository.branches.nil? && @repository.branches.length > 0 -%>
+      <%= l(:label_branch) %>:
+      <%= select_tag :branch, options_for_select([''] + @repository.branches,@rev), :id => 'branch' %> |
+    <% end -%>
+
+    <% if !@repository.tags.nil? && @repository.tags.length > 0 -%>
+      <%= l(:label_tag) %>:
+      <%= select_tag :tag, options_for_select([''] + @repository.tags,@rev), :id => 'tag' %> |
+    <% end -%>
+
+    <%= l(:label_revision) %>:
+    <%= text_field_tag 'rev', @rev, :size => 8 %>
   <% end -%>
-
-  <% if !@repository.tags.nil? && @repository.tags.length > 0 -%>
-    <%= l(:label_tag) %>:
-    <%= select_tag :tag, options_for_select([''] + @repository.tags,@rev), :id => 'tag' %> |
-  <% end -%>
-
-  <%= l(:label_revision) %>:
-  <%= text_field_tag 'rev', @rev, :size => 8 %>
-<% end -%>
+<% end %>

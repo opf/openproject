@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -204,7 +204,24 @@ class JournalManager
   end
 
   def self.journal_class(type)
-    "Journal::#{journal_class_name(type)}".constantize
+    namespace = type.name.deconstantize
+
+    if namespace == 'Journal'
+      type
+    else
+      "Journal::#{journal_class_name(type)}".constantize
+    end
+  end
+
+  def self.journaled_class(journal_type)
+    namespace = journal_type.name.deconstantize
+
+    if namespace == 'Journal'
+      class_name = journal_type.name.demodulize
+      class_name.gsub('Journal', '').constantize
+    else
+      journal_type
+    end
   end
 
   def self.normalize_newlines(data)

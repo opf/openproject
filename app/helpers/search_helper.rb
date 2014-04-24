@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -58,9 +58,9 @@ module SearchHelper
     options = [[l(:label_project_all), 'all']]
     options << [l(:label_my_projects), 'my_projects'] unless User.current.memberships.empty?
     options << [l(:label_and_its_subprojects, @project.name), 'subprojects'] unless @project.nil? || @project.descendants.active.empty?
-    options << [@project.name, ''] unless @project.nil?
+    options << [@project.name, 'current_project'] unless @project.nil?
     label_tag("scope", l(:description_project_scope), :class => "hidden-for-sighted") +
-    select_tag('scope', options_for_select(options, params[:scope].to_s)) if options.size > 1
+    select_tag('scope', options_for_select(options, current_scope)) if options.size > 1
   end
 
   def render_results_by_type(results_by_type)
@@ -70,18 +70,32 @@ module SearchHelper
       c = results_by_type[t]
       next if c == 0
       text = "#{type_label(t)} (#{c})"
-      links << link_to(h(text), :q => params[:q], :titles_only => params[:title_only], :all_words => params[:all_words], :scope => params[:scope], t => 1)
+      target = {
+        :controller => 'search',
+        :project_id => (@project.identifier if @project),
+        :action => 'index',
+        :q => params[:q],
+        :titles_only => params[:title_only],
+        :all_words => params[:all_words],
+        :scope => current_scope,
+        t => 1
+      }
+      links << link_to(h(text), target)
     end
     ('<ul>' + links.map {|link| content_tag('li', link)}.join(' ') + '</ul>').html_safe unless links.empty?
   end
 
+  def current_scope
+    params[:scope] || ('current_project' unless @project.nil?)
+  end
+
   def link_to_previous_search_page(pagination_previous_date)
     link_to_content_update(l(:label_previous),
-                           params.merge(:previous => 1, :offset => pagination_previous_date.strftime("%Y%m%d%H%M%S")), :class => 'navigate-left')
+                           params.merge(:previous => 1, :offset => pagination_previous_date.to_r.to_s), :class => 'navigate-left')
   end
 
   def link_to_next_search_page(pagination_next_date)
     link_to_content_update(l(:label_next),
-                           params.merge(:previous => nil, :offset => pagination_next_date.strftime("%Y%m%d%H%M%S")), :class => 'navigate-right')
+                           params.merge(:previous => nil, :offset => pagination_next_date.to_r.to_s), :class => 'navigate-right')
   end
 end

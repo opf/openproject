@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,44 +29,47 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <table class="list transitions-<%= name %>">
 <thead>
-	<tr>
-		<th align="left">
-			<%= link_to_function(image_tag('webalys/check.png'), "toggleCheckboxesBySelector('table.transitions-#{name} input')",
+  <tr>
+    <th align="left">
+      <%= link_to_function(icon_wrapper('icon-context icon-yes',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), "toggleCheckboxesBySelector('table.transitions-#{name} input')",
+                           :class => 'no-decoration-on-hover',
                            :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
                            :alt => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
       <%=l(:label_current_status)%>
     </th>
-		<th align="center" colspan="<%= @statuses.length %>"><%=l(:label_new_statuses_allowed)%></th>
-	</tr>
-	<tr>
-		<td></td>
-		<% for new_status in @statuses %>
-		<td width="<%= 75 / @statuses.size %>%" align="center">
-			<%= link_to_function(image_tag('webalys/check.png'), "toggleCheckboxesBySelector('table.transitions-#{name} input.new-status-#{new_status.id}')",
-	                         :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
+    <th align="center" colspan="<%= @statuses.length %>"><%=l(:label_new_statuses_allowed)%></th>
+  </tr>
+  <tr>
+    <td></td>
+    <% for new_status in @statuses %>
+    <td width="<%= 75 / @statuses.size %>%" align="center">
+      <%= link_to_function(icon_wrapper('icon-context icon-yes',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), "toggleCheckboxesBySelector('table.transitions-#{name} input.new-status-#{new_status.id}')",
+                           :class => 'no-decoration-on-hover',
+                           :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
                            :alt => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
-			<%=h new_status.name %>
-		</td>
-		<% end %>
-	</tr>
+      <%=h new_status.name %>
+    </td>
+    <% end %>
+  </tr>
 </thead>
 <tbody>
-	<% for old_status in @statuses %>
-	<tr class="<%= cycle("odd", "even") %>">
-		<td>
-			<%= link_to_function(image_tag('webalys/check.png'), "toggleCheckboxesBySelector('table.transitions-#{name} input.old-status-#{old_status.id}')",
-			                               :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
+  <% for old_status in @statuses %>
+  <tr class="<%= cycle("odd", "even") %>">
+    <td>
+      <%= link_to_function(icon_wrapper('icon-context icon-yes',"#{l(:button_check_all)}/#{l(:button_uncheck_all)}"), "toggleCheckboxesBySelector('table.transitions-#{name} input.old-status-#{old_status.id}')",
+                                     :class => 'no-decoration-on-hover',
+                                     :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}",
                                      :alt => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
 
-			<%=h old_status.name %>
-		</td>
-		<% for new_status in @statuses -%>
-		<td align="center">
-			<%= check_box_tag "status[#{ old_status.id }][#{new_status.id}][]", name, workflows.detect {|w| w.old_status_id == old_status.id && w.new_status_id == new_status.id},
-						:class => "old-status-#{old_status.id} new-status-#{new_status.id}" %>
-		</td>
-		<% end -%>
-	</tr>
-	<% end %>
+      <%=h old_status.name %>
+    </td>
+    <% for new_status in @statuses -%>
+    <td align="center">
+      <%= check_box_tag "status[#{ old_status.id }][#{new_status.id}][]", name, workflows.detect {|w| w.old_status_id == old_status.id && w.new_status_id == new_status.id},
+            :class => "old-status-#{old_status.id} new-status-#{new_status.id}" %>
+    </td>
+    <% end -%>
+  </tr>
+  <% end %>
 </tbody>
 </table>

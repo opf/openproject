@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -37,9 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <%= h(" - #{attachment.description}") unless attachment.description.blank? %>
             <span class="size">(<%= number_to_human_size attachment.filesize %>)</span>
             <% if options[:deletable] %>
-              <%= link_to image_tag('webalys/delete.png',
-                                    alt: l(:button_delete),
-                                    title: l(:button_delete)),
+              <%= link_to icon_wrapper('icon-context icon-delete', l(:button_delete)),
                           attachment,
                           { confirm: l(:text_are_you_sure),
                             method: :delete,

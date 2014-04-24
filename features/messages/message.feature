@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -55,3 +55,18 @@ Feature: Issue textile quickinfo links
     When I click on the first button matching "Create"
     Then I should see "New relase" within "#content"
     Then I should see "We have release a new version of our software." within "#content"
+
+  Scenario: Message's reply count is zero
+    Given the board "development discussion" has the following messages:
+      | message #1 |
+    When I go to the message page of message "message #1"
+    Then I should not see "Replies"
+
+  Scenario: Message's reply count is two
+    Given the board "development discussion" has the following messages:
+      | message #1 |
+     And "message #1" has the following replies:
+      | reply #1 |
+      | reply #2 |
+    When I go to the message page of message "message #1"
+    Then I should see "Replies (2)"

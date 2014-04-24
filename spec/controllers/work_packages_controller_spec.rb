@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -123,7 +124,7 @@ describe WorkPackagesController do
   end
 
   describe 'index' do
-    let(:query) { FactoryGirl.build_stubbed(:query) }
+    let(:query) { FactoryGirl.build_stubbed(:query).tap(&:add_default_filter) }
     let(:work_packages) { double("work packages").as_null_object }
 
     before do
@@ -133,96 +134,175 @@ describe WorkPackagesController do
                         project,
                         :global => true)
                   .and_return(true)
-
-      controller.stub(:retrieve_query).and_return(query)
-      query.stub_chain(:results, :work_packages, :page, :per_page, :all).and_return(work_packages)
     end
 
-    describe 'html' do
-      describe "w/o a project" do
-        let(:project) { nil }
-        let(:call_action) { get('index') }
-
-        it 'should render the index template' do
-          call_action
-
-          response.should render_template('work_packages/index', :formats => ["html"],
-                                                                 :layout => :base)
-        end
+    describe 'with valid query' do
+      before do
+        controller.stub(:retrieve_query).and_return(query)
+        query.stub_chain(:results, :work_packages, :page, :per_page, :all).and_return(work_packages)
       end
 
-      describe "w/ a project" do
+      describe 'html' do
         let(:call_action) { get('index', :project_id => project.id) }
+        before { call_action }
 
-        it 'should render the index template' do
-          call_action
+        describe "w/o a project" do
+          let(:project) { nil }
+          let(:call_action) { get('index') }
 
-          response.should render_template('work_packages/index', :formats => ["html"],
-                                                                 :layout => :base)
+          it 'should render the index template' do
+            response.should render_template('work_packages/index', :formats => ["html"],
+                                                                   :layout => :base)
+          end
+        end
+
+        context "w/ a project" do
+          it 'should render the index template' do
+            response.should render_template('work_packages/index', :formats => ["html"],
+                                                                   :layout => :base)
+          end
+        end
+
+        context 'when a query has been previously selected' do
+          let(:query) do
+            FactoryGirl.build_stubbed(:query).tap {|q| q.filters = [Queries::WorkPackages::Filter.new('done_ratio', operator: ">=", values: [10]) ]}
+          end
+
+          before { session.stub(:query).and_return query }
+
+          it 'preserves the query' do
+            assigns['query'].filters.should == query.filters
+          end
+        end
+      end
+
+      describe 'csv' do
+        let(:params) { {} }
+        let(:call_action) { get('index', params.merge(:format => 'csv')) }
+
+        requires_export_permission do
+
+          before do
+            mock_csv = double('csv export')
+
+            WorkPackage::Exporter.should_receive(:csv).with(work_packages, project)
+                                                      .and_return(mock_csv)
+
+            controller.should_receive(:send_data).with(mock_csv,
+                                                       :type => 'text/csv; charset=utf-8; header=present',
+                                                       :filename => 'export.csv') do |*args|
+              # We need to render something because otherwise
+              # the controller will and he will not find a suitable template
+              controller.render :text => "success"
+            end
+          end
+
+          it 'should fulfill the defined should_receives' do
+            call_action
+          end
+        end
+      end
+
+      describe 'pdf' do
+        let(:params) { {} }
+        let(:call_action) { get('index', params.merge(:format => 'pdf')) }
+
+        requires_export_permission do
+          before do
+            mock_pdf = double('pdf export')
+
+            WorkPackage::Exporter.should_receive(:pdf).and_return(mock_pdf)
+
+            controller.should_receive(:send_data).with(mock_pdf,
+                                                       :type => 'application/pdf',
+                                                       :filename => 'export.pdf') do |*args|
+              # We need to render something because otherwise
+              # the controller will and he will not find a suitable template
+              controller.render :text => "success"
+            end
+          end
+
+          it 'should fulfill the defined should_receives' do
+            call_action
+          end
+        end
+      end
+
+      describe 'atom' do
+        let(:params) { {} }
+        let(:call_action) { get('index', params.merge(:format => 'atom')) }
+
+        requires_export_permission do
+          before do
+            controller.should_receive(:render_feed).with(work_packages, anything()) do |*args|
+              # We need to render something because otherwise
+              # the controller will and he will not find a suitable template
+              controller.render :text => "success"
+            end
+          end
+
+          it 'should fulfill the defined should_receives' do
+            call_action
+          end
         end
       end
     end
 
-    describe 'csv' do
-      let(:params) { {} }
-      let(:call_action) { get('index', params.merge(:format => 'csv')) }
+    describe 'with invalid query' do
+      context 'when a non-existant query has been previously selected' do
+        let(:call_action) { get('index', :project_id => project.id, :query_id => "hokusbogus") }
+                before { call_action }
 
-      requires_export_permission do
-
-        before do
-          mock_csv = double('csv export')
-
-          WorkPackage::Exporter.should_receive(:csv).with(work_packages, project)
-                                                    .and_return(mock_csv)
-
-          controller.should_receive(:send_data).with(mock_csv,
-                                                     :type => 'text/csv; header=present',
-                                                     :filename => 'export.csv').and_call_original
+        it 'renders a 404' do
+          response.response_code.should === 404
         end
 
-        it 'should fulfill the defined should_receives' do
-          call_action
+        it 'preserves the project' do
+          assigns['project'].should === project
         end
       end
     end
-
-    describe 'pdf' do
-      let(:params) { {} }
-      let(:call_action) { get('index', params.merge(:format => 'pdf')) }
-
-      requires_export_permission do
-        before do
-          mock_pdf = double('pdf export')
-
-          WorkPackage::Exporter.should_receive(:pdf).and_return(mock_pdf)
-
-          controller.should_receive(:send_data).with(mock_pdf,
-                                                     :type => 'application/pdf',
-                                                     :filename => 'export.pdf').and_call_original
-        end
-
-        it 'should fulfill the defined should_receives' do
-          call_action
-        end
-      end
-    end
-
-    describe 'atom' do
-      let(:params) { {} }
-      let(:call_action) { get('index', params.merge(:format => 'atom')) }
-
-      requires_export_permission do
-        before do
-          controller.should_receive(:render_feed).with(work_packages, anything()).and_call_original
-        end
-
-        it 'should fulfill the defined should_receives' do
-          call_action
-        end
-      end
-    end
-
   end
+
+  describe 'index with actual data' do
+    require 'csv'
+    render_views
+
+    ##
+    # When Ruby tries to join the following work package's subject encoded in ISO-8859-1
+    # and its description encoded in UTF-8 it will result in a CompatibilityError.
+    # This would not happen if the description contained only letters covered by
+    # ISO-8859-1. Since this can happen, though, it is more sensible to encode everything
+    # in UTF-8 which gets rid of this problem altogether.
+    let(:work_package) do
+      FactoryGirl.create(
+        :work_package,
+        :subject => "Ruby encodes ß as '\\xDF' in ISO-8859-1.",
+        :description => "\u2022 requires unicode.")
+    end
+    let(:current_user) { FactoryGirl.create(:admin) }
+
+    it "performs a successful export" do
+      wp = work_package
+
+      expect do
+        get :index, :format => 'csv'
+      end.to_not raise_error(Encoding::CompatibilityError)
+
+      data = CSV.parse(response.body)
+
+      expect(data.size).to eq(2)
+      expect(data.last).to include(wp.subject)
+      expect(data.last).to include(wp.description)
+    end
+  end
+
+  describe 'index with a broken project reference' do
+    before { get('index', :project_id => 'project_that_doesnt_exist') }
+
+    it { should respond_with :not_found }
+  end
+
 
   describe 'show.html' do
     let(:call_action) { get('show', :id => '1337') }
@@ -249,7 +329,11 @@ describe WorkPackagesController do
         WorkPackage::Exporter.should_receive(:work_package_to_pdf).and_return(pdf)
         controller.should_receive(:send_data).with(pdf,
                                                    :type => 'application/pdf',
-                                                   :filename => expected_name).and_call_original
+                                                   :filename => expected_name) do |*args|
+          # We need to render something because otherwise
+          # the controller will and he will not find a suitable template
+          controller.render :text => "success"
+        end
         call_action
       end
     end
@@ -376,6 +460,48 @@ describe WorkPackagesController do
 
         response.should render_template('work_packages/edit', :formats => ["html"], :layout => :base)
       end
+    end
+  end
+
+  describe 'update w/ a time entry' do
+    render_views
+
+    let(:admin) { FactoryGirl.create(:admin) }
+    let(:work_package) { FactoryGirl.create(:work_package) }
+    let(:default_activity) { FactoryGirl.create(:default_activity) }
+    let(:activity) { FactoryGirl.create(:activity) }
+    let(:params) do
+      lambda do |work_package_id, activity_id|
+        {
+          :id => work_package_id,
+          :work_package => {
+            :time_entry => {
+              :hours => '',
+              :comments => '',
+              :activity_id => activity_id
+            }
+          }
+        }
+      end
+    end
+
+    before do
+      User.stub(:current).and_return admin
+    end
+
+    it 'should not try to create a time entry if blank' do
+      # default activity counts as blank as long as everything else is blank too
+      put 'update', params.call(work_package.id, default_activity.id)
+
+      expect(response.status).to eq(200)
+      expect(response.body).to have_content("Successful update")
+    end
+
+    it 'should still give an error for a non-blank time entry' do
+      put 'update', params.call(work_package.id, activity.id)
+
+      expect(response.status).to eq(200) # shouldn't this be 400 or similar?
+      expect(response.body).to have_content("Log time is invalid")
     end
   end
 
@@ -543,7 +669,7 @@ describe WorkPackagesController do
                                             .with(:project => stub_project)
                                             .and_return(wp_params)
 
-          stub_project.should_receive(:add_issue) do |args|
+          stub_project.should_receive(:add_work_package) do |args|
 
             expect(args[:author]).to eql stub_user
 
@@ -734,7 +860,7 @@ describe WorkPackagesController do
     it "should return all defined priorities" do
       expected = double('priorities')
 
-      IssuePriority.stub(:all).and_return(expected)
+      IssuePriority.stub(:active).and_return(expected)
 
       controller.priorities.should == expected
     end
@@ -796,6 +922,28 @@ describe WorkPackagesController do
                                        types: [type] }
     let(:status) { FactoryGirl.create :default_status }
     let(:priority) { FactoryGirl.create :priority }
+
+    context :copy do
+      let(:current_user) { FactoryGirl.create(:admin) }
+      let(:params) { { copy_from: planning_element.id, project_id: project.id } }
+      let(:except) { ["id",
+                      "root_id",
+                      "parent_id",
+                      "lft",
+                      "rgt",
+                      "type",
+                      "created_at",
+                      "updated_at"] }
+
+      before { post 'create', params }
+
+      subject { response }
+
+      it do
+        assigns['new_work_package'].should_not == nil
+        assigns['new_work_package'].attributes.dup.except(*except).should == planning_element.attributes.dup.except(*except)
+      end
+    end
 
     context :attachments do
       let(:new_work_package) { FactoryGirl.build(:work_package,

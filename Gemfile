@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,15 +26,29 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+if Gem::Version.new(Bundler::VERSION) < Gem::Version.new('1.5.0')
+  abort <<-Message
+
+  *****************************************************
+  *                                                   *
+  *   OpenProject requires bundler version >= 1.5.0   *
+  *                                                   *
+  *   Please install bundler with:                    *
+  *                                                   *
+  *   gem install bundler                             *
+  *                                                   *
+  *****************************************************
+
+  Message
+end
+
 source 'https://rubygems.org'
 
-gem "rails", "~> 3.2.15"
+gem "rails", "~> 3.2.17"
 
 gem "coderay", "~> 1.0.5"
 gem "rubytree", "~> 0.8.3"
 gem "rdoc", ">= 2.4.2"
-# Needed only on RUBY_VERSION = 1.8, ruby 1.9+ compatible interpreters should bring their csv
-gem "fastercsv", "~> 1.5.0", :platforms => [:ruby_18, :jruby, :mingw_18]
 gem 'globalize'
 
 gem 'request_store'
@@ -58,12 +72,17 @@ gem 'htmldiff'
 gem 'svg-graph'
 
 gem 'execjs'
+
 gem 'therubyracer'
 
 gem "date_validator"
 
-# replacing rsb with rabl
-gem 'rabl'
+# replacing rsb with rabl --
+# We rely on this specific version, which is the latest as of now (end of 2013),
+# because we have to apply to it a bugfix which could break things in other versions.
+# This can be removed as soon as said bugfix is integrated into rabl itself.
+# See: config/initializers/rabl_hack.rb
+gem 'rabl', '0.9.3'
 gem 'multi_json'
 gem 'oj'
 
@@ -76,9 +95,11 @@ gem 'strong_parameters'
 gem 'delayed_job_active_record', '0.3.3'
 gem 'daemons'
 
-gem 'rack-protection'
+# include custom rack-protection for now until rkh/rack-protection is fixed and released
+# (see https://www.openproject.org/work_packages/3029)
+gem 'rack-protection', :git => "https://github.com/finnlabs/rack-protection.git", :ref => '5a7d1bd'
 
-gem 'syck', :platforms => [:ruby_20, :mingw_20], :require => false
+gem 'syck', :platforms => [:ruby_20, :mingw_20, :ruby_21, :mingw_21], :require => false
 
 group :production do
   # we use dalli as standard memcache client
@@ -93,6 +114,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
   gem 'jquery-ui-rails'
   gem 'select2-rails', '~> 3.3.2'
+  gem 'jquery-atwho-rails'
 end
 
 gem "prototype-rails"
@@ -109,7 +131,6 @@ gem "i18n-js", :git => "https://github.com/fnando/i18n-js.git", :ref => '8801f8d
 group :test do
   gem 'shoulda'
   gem 'object-daddy', '~> 1.1.0'
-  gem 'mocha', '~> 0.13.1', :require => false
   gem "launchy", "~> 2.3.0"
   gem "factory_girl_rails", "~> 4.0"
   gem 'cucumber-rails', :require => false
@@ -148,7 +169,7 @@ group :development do
   gem 'pry-rails'
   gem 'pry-stack_explorer'
   gem 'pry-rescue'
-  gem 'pry-byebug', :platforms => :mri_20
+  gem 'pry-byebug', :platforms => [:mri_20,:mri_21]
   gem 'pry-debugger', :platforms => :mri_19
   gem 'pry-doc'
   gem 'rails-dev-tweaks', '~> 0.6.1'
@@ -194,7 +215,7 @@ platforms :mri, :mingw do
   end
 
   group :postgres do
-    gem 'pg'
+    gem 'pg', "~> 0.17.1"
   end
 
   group :sqlite do
@@ -223,3 +244,4 @@ Dir.glob File.expand_path("../{Gemfile.local,Gemfile.plugins,lib/plugins/*/Gemfi
   next unless File.readable?(file)
   instance_eval File.read(file)
 end
+

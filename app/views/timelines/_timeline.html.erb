@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
     For lack of a requiring policy (such as requirejs), just include the
     autocompleter on its own.
   %>
-  <%= javascript_include_tag "timelines_autocompleter.js" %>
+  <%= javascript_include_tag "autocompleter.js" %>
   <%= javascript_include_tag "timelines_select_boxes.js" %>
 <% end %>
 
@@ -43,6 +43,8 @@ See doc/COPYRIGHT.rdoc for more details.
   (function() {
     var i18n = {
     <%= props = ['label_no_data',
+                 'general_text_Yes',
+                 'general_text_No',
                  'timelines.change',
                  'timelines.errors.report_epicfail',
                  'timelines.errors.report_timeout',
@@ -79,8 +81,9 @@ See doc/COPYRIGHT.rdoc for more details.
     };
     var config = jQuery.extend({
       i18n: i18n,
+      timeline_id: '<%= timeline.id %>',
       project_id: '<%= timeline.project.identifier %>',
-      url_prefix: '<%= Redmine::Utils.relative_url_root %>',
+      url_prefix: '<%= OpenProject::Configuration.rails_relative_url_root %>',
       ui_root: jQuery("#<%= timeline_div_id %>")
     }, <%= timeline.json_options %>);
     jQuery(function(jQuery) {
@@ -104,7 +107,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= include_calendar_headers_tags %>
 
-<%= javascript_include_tag 'raphael-min.js', :plugin => 'chiliproject_timelines' %>
 <%= javascript_include_tag 'timelines.js', :plugin => 'chiliproject_timelines' %>
 <%= javascript_include_tag 'timelines_modal.js', :plugin => 'chiliproject_timelines' %>
 <% @timeline_header_included = true %>

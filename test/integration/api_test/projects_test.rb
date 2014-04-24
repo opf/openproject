@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,6 +32,7 @@ class ApiTest::ProjectsTest < ActionDispatch::IntegrationTest
   fixtures :all
 
   def setup
+    super
     Setting.rest_api_enabled = '1'
   end
 
@@ -112,7 +113,7 @@ class ApiTest::ProjectsTest < ActionDispatch::IntegrationTest
   context "POST /api/v1/projects" do
     context "with valid parameters" do
       setup do
-        Setting.default_projects_modules = ['issue_tracking', 'repository']
+        Setting.default_projects_modules = ['work_package_tracking', 'repository']
         @parameters = {:project => {:name => 'API test', :identifier => 'api-test'}}
       end
 
@@ -131,7 +132,7 @@ class ApiTest::ProjectsTest < ActionDispatch::IntegrationTest
           project = Project.first(:order => 'id DESC')
           assert_equal 'API test', project.name
           assert_equal 'api-test', project.identifier
-          assert_equal ['issue_tracking', 'repository'], project.enabled_module_names.sort
+          assert_equal ['repository', 'work_package_tracking'], project.enabled_module_names.sort
           assert_equal Type.all.size, project.types.size
 
           assert_response :created
@@ -140,14 +141,14 @@ class ApiTest::ProjectsTest < ActionDispatch::IntegrationTest
         end
 
         should "accept enabled_module_names attribute" do
-          @parameters[:project].merge!({:enabled_module_names => ['issue_tracking', 'news', 'time_tracking']})
+          @parameters[:project].merge!({:enabled_module_names => ['work_package_tracking', 'news', 'time_tracking']})
 
           assert_difference('Project.count') do
             post '/api/v1/projects.xml', @parameters, credentials('admin')
           end
 
           project = Project.first(:order => 'id DESC')
-          assert_equal ['issue_tracking', 'news', 'time_tracking'], project.enabled_module_names.sort
+          assert_equal ['news', 'time_tracking', 'work_package_tracking'], project.enabled_module_names.sort
         end
 
         should "accept type_ids attribute" do
@@ -205,14 +206,14 @@ class ApiTest::ProjectsTest < ActionDispatch::IntegrationTest
         end
 
         should "accept enabled_module_names attribute" do
-          @parameters[:project].merge!({:enabled_module_names => ['issue_tracking', 'news', 'time_tracking']})
+          @parameters[:project].merge!({:enabled_module_names => ['work_package_tracking', 'news', 'time_tracking']})
 
           assert_no_difference 'Project.count' do
             put '/api/v1/projects/2.xml', @parameters, credentials('admin')
           end
           assert_response :ok
           project = Project.find(2)
-          assert_equal ['issue_tracking', 'news', 'time_tracking'], project.enabled_module_names.sort
+          assert_equal ['news', 'time_tracking', 'work_package_tracking'], project.enabled_module_names.sort
         end
 
         should "accept type_ids attribute" do

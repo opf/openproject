@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -35,6 +35,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= content_tag('h2', work_package.to_s) %>
 
+<%= render :partial => 'layouts/action_menu_specific' %>
+
 <div class = "details">
   <div class="profile-wrap">
     <%= avatar(work_package.author, :size => "40") %>
@@ -49,27 +51,29 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <div class="issue details">
     <div class="meta">
-      <table class="attributes">
-        <% work_package_show_attributes(work_package).each_slice(2) do |attributes| %>
-          <tr>
-          <% attributes.each do |attribute| %>
-
-              <%= attribute.field %>
-
+      <% attributes = work_package_show_attributes(work_package) %>
+      <div id="left" style="float:left; width:50%;">
+        <table class="attributes">
+          <% attributes[:left].each do |attribute| %>
+            <tr><%= attribute.field.html_safe %> </tr>
           <% end %>
-          </tr>
-        <% end %>
-
-        <%= render_custom_fields_rows(work_package) %>
-        <%= call_hook(:view_work_packages_show_details_bottom, :issue => work_package) %>
-      </table>
+        </table>
+      </div>
+      <div id="right" style="float:left; width:50%;">
+        <table class="attributes">
+          <% attributes[:right].each do |attribute| %>
+            <tr><%= attribute.field.html_safe %> </tr>
+          <% end %>
+        </table>
+      </div>
+      <br style="clear:both;" />
     </div>
   </div>
   <% if work_package.description? %>
     <hr />
     <div class="description work_package_part">
       <div class="contextual">
-        <%= link_to_if_authorized(l(:button_quote), { controller: :work_packages, action: :quoted, id: work_package }, :class => 'quote-link icon icon-comment') %>
+        <%= link_to_if_authorized(l(:button_quote), { controller: :work_packages, action: :quoted, id: work_package }, :class => 'quote-link icon icon-quote') %>
       </div>
       <p><strong><%= WorkPackage.human_attribute_name(:description)%></strong></p>
       <div class="wiki wikicontent" data-user="<%= work_package.author %>">

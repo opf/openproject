@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,8 +38,6 @@ describe 'api/v2/reportings/index.api.rabl' do
     it 'renders an empty reportings document' do
       assign(:reportings, [])
       render
-
-      puts response.body
       response.should have_json_size(0).at_path 'reportings'
     end
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -94,10 +94,9 @@
 #
 # === More configuration options
 #
-# See the "Configuration options" at the following website for a list of the
-# full options allowed:
+# See following page:
 #
-# http://wiki.rubyonrails.org/rails/pages/HowToSendEmailsWithActionMailer
+# http://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration
 
 
 # default configuration options for all environments
@@ -110,6 +109,17 @@ default:
   smtp_authentication: :login
   smtp_user_name: "openproject@example.net"
   smtp_password: "my_openproject_password"
+
+  # Prefix to the url-path. This path is then prepended to all
+  # the routes and is used to correclty identify the path to the assets.
+  # Defaults to having no prefix.
+  # Examples:
+  # For OpenProject to be reachable as
+  # https://example.org/open_project
+  # the setting has o be:
+  # rails_relative_url_root: "/open_project"
+  #
+  # rails_relative_url_root: ""
 
   # Absolute path to the directory where attachments are stored.
   # The default is the 'files' directory in your OpenProject instance.

@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -105,7 +105,7 @@
     },
 
     dropdowns: function () {
-      return this.menu_container.find(" > li.drop-down");
+      return this.menu_container.find("li.drop-down");
     },
 
     withHeadingFoldOutAtBorder: function () {
@@ -240,13 +240,26 @@
     }
   });
 
+  // this holds all top menus currently active.
+  // if one opens, all others are closed.
+  var top_menus = [];
   $.fn.top_menu = function () {
+    var new_menu;
     $(this).each(function () {
-      new TopMenu($(this));
+      new_menu = new TopMenu($(this));
+      top_menus.each(function (menu) {
+        menu.menu_container.on("openedMenu", function () {
+          new_menu.closing();
+        });
+        new_menu.menu_container.on("openedMenu", function () {
+          menu.closing();
+        });
+      });
+      top_menus.push(new_menu);
     });
   }
 }(jQuery));
 
 jQuery(document).ready(function($) {
-  $(".account-nav").top_menu();
+  $("#top-menu-items").top_menu();
 });

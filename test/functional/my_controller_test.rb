@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,15 +53,6 @@ class MyControllerTest < ActionController::TestCase
     get :page
     assert_response :success
     assert_template 'page'
-  end
-
-  def test_my_account_should_show_editable_custom_fields
-    get :account
-    assert_response :success
-    assert_template 'account'
-    assert_equal User.find(2), assigns(:user)
-
-    assert_tag :input, :attributes => { :name => 'user[custom_field_values][4]'}
   end
 
   def test_my_account_should_not_show_non_editable_custom_fields

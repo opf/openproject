@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,4 +27,25 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<p><%= form.select :responsible_id, options_for_responsible(project), :include_blank => true %></p>
+<p>
+<% if project && project.persisted? %>
+  <% if User.current.impaired? %>
+    <%= form.select :responsible_id, project.possible_responsibles.map {|m| [m.name, m.id]}, :include_blank => true %>
+  <% else %>
+    <% options = { :'data-ajaxURL' => url_for({:controller => "/members",
+                                               :action     => "paginate_users" }),
+                   :'data-projectId' => project.id
+                 } %>
+
+    <%= javascript_include_tag "autocompleter.js" %>
+    <%= javascript_include_tag "project/responsible_attribute.js" %>
+    <%= form.select(:responsible_id, options_for_select([]),
+        {},
+        project.responsible.nil? ? options : options.merge({ :'data-selected' =>
+                                                             [[project.responsible.name, project.
+                                                             responsible.id]].to_json
+                                                            }))
+     %>
+  <% end %>
+<% end %>
+</p>

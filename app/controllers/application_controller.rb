@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -58,6 +58,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   def handle_unverified_request
     super
+    self.logged_user = nil
     cookies.delete(:autologin)
   end
 
@@ -439,6 +440,12 @@ class ApplicationController < ActionController::Base
     false
   end
 
+  def render_400(options={})
+    @project = nil
+    render_error({:message => :notice_bad_request, :status => 400}.merge(options))
+    return false
+  end
+
   def render_403(options={})
     @project = nil
     render_error({:message => :notice_not_authorized, :status => 403}.merge(options))
@@ -510,18 +517,10 @@ class ApplicationController < ActionController::Base
 
   def render_feed(items, options={})
     @items = items || []
-    @items.sort! {|x,y| sort_feed_items(x, y) }
+    @items.sort! {|x,y| y.event_datetime <=> x.event_datetime }
     @items = @items.slice(0, Setting.feeds_limit.to_i)
     @title = options[:title] || Setting.app_title
     render :template => "common/feed", :layout => false, :content_type => 'application/atom+xml'
-  end
-
-  def sort_feed_items(x, y)
-    if x.respond_to? :data
-      y.data.event_datetime <=> x.data.event_datetime
-    else
-      y.event_datetime <=> x.event_datetime
-    end
   end
 
   def self.accept_key_auth(*actions)
@@ -653,7 +652,6 @@ class ApplicationController < ActionController::Base
     end
     true
   end
-  ActiveSupport.run_load_hooks(:application_controller, self)
 
   def check_session_lifetime
     if session_expired?
@@ -687,7 +685,7 @@ class ApplicationController < ActionController::Base
   private
 
   def session_expired?
-    current_user.logged? &&
+    !api_request? && current_user.logged? &&
     (session_ttl_enabled? && (session[:updated_at].nil? ||
                              (session[:updated_at] + Setting.session_ttl.to_i.minutes) < Time.now))
   end
@@ -699,4 +697,10 @@ class ApplicationController < ActionController::Base
   def permitted_params
     @permitted_params ||= PermittedParams.new(params, current_user)
   end
+
+  # active support load hooks provide plugins with a consistent entry point to patch core classes.
+  # they should be called at the very end of a class definition or file, so plugins can be sure everything has been loaded.
+  # this load hook allows plugins to register callbacks when the core application controller is fully loaded.
+  # good explanation of load hooks: http://simonecarletti.com/blog/2011/04/understanding-ruby-and-rails-lazy-load-hooks/
+  ActiveSupport.run_load_hooks(:application_controller, self)
 end

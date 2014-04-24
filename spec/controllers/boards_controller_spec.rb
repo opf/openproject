@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,7 +39,8 @@ describe BoardsController do
   end
 
   describe :create do
-    let(:params) { { :board => 'blubs_params' } }
+    let(:params) { {:board => board_params} }
+    let(:board_params) { {:name => 'my board', :description => 'awesome board'} }
 
     before do
       @controller.should_receive(:authorize)
@@ -47,7 +48,8 @@ describe BoardsController do
         @controller.instance_variable_set(:@project, project)
       end
 
-      Board.should_receive(:new).with(params[:board]).and_return(board)
+      # parameter expectation needs to have strings as keys
+      Board.should_receive(:new).with(board_params.stringify_keys).and_return(board)
     end
 
     describe 'w/ the params beeing valid' do

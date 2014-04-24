@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -122,10 +122,6 @@ describe "Journalized Objects" do
                                                              description: '') }
 
       subject { work_package.journal_editable_by?(user) }
-
-      context 'and the user has permissions to "edit_work_packages"' do
-        it { should be_true }
-      end
 
       context 'and the user has no permission to "edit_work_packages"' do
         before do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,7 +43,11 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
     item_event = (not first_item.nil? and first_item.respond_to?(:data)) ? item.data : item
 
     xml.entry do
-      url = url_for(item_event.event_url(:only_path => false))
+      if item_event.is_a? Redmine::Acts::ActivityProvider::Event
+        url = item_event.event_url
+      else
+        url = url_for(item_event.event_url(:only_path => false))
+      end
       if @project
         xml.title truncate_single_line(item_event.event_title, :length => 100)
       else

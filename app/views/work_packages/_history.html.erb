@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +36,7 @@ a journal as the cache could then not be used between all of an issue's journals
 <% for journal in journals %>
   <%= render_journal work_package,
                      journal,
-                     :edit_permission => :edit_work_packages_notes,
+                     :edit_permission => :edit_work_package_notes,
                      :quote_permission => :edit_work_packages,
                      :edit_own_permission => :edit_own_work_package_notes,
                      :cache => @journal_cache %>

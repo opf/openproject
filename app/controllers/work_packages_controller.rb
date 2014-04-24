@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +38,7 @@ class WorkPackagesController < ApplicationController
   current_menu_item :index do |controller|
     query = controller.instance_variable_get :"@query"
 
-    if query.persisted? && current = query.query_menu_item.try(:name)
+    if query && query.persisted? && current = query.query_menu_item.try(:name)
       current.to_sym
     else
       :work_packages
@@ -232,8 +233,9 @@ class WorkPackagesController < ApplicationController
       end
       format.csv do
         serialized_work_packages = WorkPackage::Exporter.csv(work_packages, @project)
+        charset = "charset=#{l(:general_csv_encoding).downcase}"
 
-        send_data(serialized_work_packages, :type => 'text/csv; header=present',
+        send_data(serialized_work_packages, :type => "text/csv; #{charset}; header=present",
                                             :filename => 'export.csv')
       end
       format.pdf do
@@ -318,7 +320,7 @@ class WorkPackagesController < ApplicationController
 
       permitted[:author] = current_user
 
-      wp = project.add_issue(permitted)
+      wp = project.add_work_package(permitted)
       wp.copy_from(params[:copy_from], :exclude => [:project_id]) if params[:copy_from]
 
       wp
@@ -381,7 +383,16 @@ class WorkPackagesController < ApplicationController
   end
 
   def priorities
-    IssuePriority.all
+    priorities = IssuePriority.active
+    augment_priorities_with_current_work_package_priority priorities
+
+    priorities
+  end
+
+  def augment_priorities_with_current_work_package_priority(priorities)
+    current_priority = work_package.try :priority
+
+    priorities << current_priority if current_priority && !priorities.include?(current_priority)
   end
 
   def allowed_statuses
@@ -407,6 +418,8 @@ class WorkPackagesController < ApplicationController
 
   def load_query
     @query ||= retrieve_query
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   def not_found_unless_work_package
@@ -415,7 +428,7 @@ class WorkPackagesController < ApplicationController
 
   def protect_from_unauthorized_export
     if EXPORT_FORMATS.include?(params[:format]) &&
-       !User.current.allowed_to?(:export_work_packages, @project, :global => @project.nil?)
+      !User.current.allowed_to?(:export_work_packages, @project, :global => @project.nil?)
 
       deny_access
       false

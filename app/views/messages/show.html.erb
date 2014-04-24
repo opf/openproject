@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -32,23 +32,25 @@ See doc/COPYRIGHT.rdoc for more details.
   link_to(h(@board.name), {:controller => '/boards', :action => 'show', :project_id => @project, :id => @board}))
 %>
 
-<div class="contextual">
-    <%= watcher_link(@topic, User.current) %>
-    <%= link_to_remote_if_authorized(l(:button_quote),
-                                     { :url => {:action => 'quote', :id => @topic} ,
-                                       :method => :get },
-                                     { :class => 'icon icon-comment'} ) unless @topic.locked? %>
-    <%= link_to(l(:button_edit),
-                edit_topic_path(@topic),
-                :class => 'icon icon-edit') if @message.editable_by?(User.current) %>
-    <%= link_to(l(:button_delete),
-                topic_path(@topic),
-                :method => :delete,
-                :confirm => l(:text_are_you_sure),
-                :class => 'icon icon-del') if @message.destroyable_by?(User.current) %>
-</div>
+<% content_for :action_menu_specific do %>
+  <%= watcher_link(@topic, User.current) %>
+  <%= link_to_remote_if_authorized(l(:button_quote),
+                                   { :url => {:action => 'quote', :id => @topic} ,
+                                     :method => :get },
+                                   { :class => 'icon icon-quote'} ) unless @topic.locked? %>
+  <%= link_to(l(:button_edit),
+              edit_topic_path(@topic),
+              :class => 'icon icon-edit') if @message.editable_by?(User.current) %>
+  <%= link_to(l(:button_delete),
+              topic_path(@topic),
+              :method => :delete,
+              :confirm => l(:text_are_you_sure),
+              :class => 'icon icon-delete') if @message.destroyable_by?(User.current) %>
+<% end %>
 
 <h2><%= avatar(@topic.author, :size => "24") %><%=h @topic.subject %></h2>
+
+<%= render :partial => 'layouts/action_menu_specific' %>
 
 <div class="message">
 <p><span class="author"><%= authoring @topic.created_on, @topic.author %></span></p>
@@ -60,34 +62,39 @@ See doc/COPYRIGHT.rdoc for more details.
 <br />
 
 <% unless @replies.empty? %>
-<h3 class="comments"><%= l(:label_reply_plural) %> (<%= @reply_count %>)</h3>
+<h3 class="icon-context icon-quote"><%= l(:label_reply_plural) %> (<%= @replies.count %>)</h3>
 <% @replies.each do |message| %>
   <div class="message reply" id="<%= "message-#{message.id}" %>">
-    <div class="contextual">
-      <%= link_to_remote_if_authorized(image_tag('webalys/quote.png'),
+    <h4>
+      <%= avatar(message.author, :size => "24") %>
+      <%= link_to h(message.subject), { :controller => '/messages', :action => 'show', :board_id => @board, :id => @topic, :r => message, :anchor => "message-#{message.id}" } %>
+      -
+      <%= authoring message.created_on, message.author %>
+    </h4>
+    <div class="message-reply-menu">
+      <%= link_to_remote_if_authorized(icon_wrapper('icon-context icon-quote', l(:button_quote)),
                                        { :url => {:action => 'quote', :id => message},
                                          :method => :get },
                                        :title => l(:button_quote),
+                                       :class => 'no-decoration-on-hover',
                                        :alt => l(:button_quote)) unless @topic.locked? %>
-      <%= link_to(image_tag('webalys/edit.png'),
+      <%= link_to(icon_wrapper('icon-context icon-edit', l(:button_edit)),
                   { :action => 'edit', :id => message },
                   :title => l(:button_edit),
+                  :class => 'no-decoration-on-hover',
                   :alt => l(:button_edit)) if message.editable_by?(User.current) %>
-      <%= link_to(image_tag('webalys/delete.png'),
+      <%= link_to(icon_wrapper('icon-context icon-delete', l(:button_delete)),
                   { :action => 'destroy', :id => message},
                   :method => :delete,
                   :confirm => l(:text_are_you_sure),
                   :title => l(:button_delete),
+                  :class => 'no-decoration-on-hover',
                   :alt => l(:button_delete)) if message.destroyable_by?(User.current) %>
     </div>
-  <h4>
-  	<%= avatar(message.author, :size => "24") %>
-    <%= link_to h(message.subject), { :controller => '/messages', :action => 'show', :board_id => @board, :id => @topic, :r => message, :anchor => "message-#{message.id}" } %>
-    -
-    <%= authoring message.created_on, message.author %>
-  </h4>
-  <div class="wiki"><%= textilizable message, :content, :attachments => message.attachments %></div>
-  <%= link_to_attachments message, :author => false %>
+    <div class="wiki">
+      <%= textilizable message, :content, :attachments => message.attachments %>
+    </div>
+    <%= link_to_attachments message, :author => false %>
   </div>
 <% end %>
 

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,11 +37,11 @@ module Redmine
     # TODO: Plugin API for adding a new notification?
     def self.all
       notifications = []
-      notifications << Notifiable.new('issue_added')
-      notifications << Notifiable.new('issue_updated')
-      notifications << Notifiable.new('issue_note_added', 'issue_updated')
-      notifications << Notifiable.new('status_updated', 'issue_updated')
-      notifications << Notifiable.new('issue_priority_updated', 'issue_updated')
+      notifications << Notifiable.new('work_package_added')
+      notifications << Notifiable.new('work_package_updated')
+      notifications << Notifiable.new('work_package_note_added', 'work_package_updated')
+      notifications << Notifiable.new('status_updated', 'work_package_updated')
+      notifications << Notifiable.new('work_package_priority_updated', 'work_package_updated')
       notifications << Notifiable.new('news_added')
       notifications << Notifiable.new('news_comment_added')
       notifications << Notifiable.new('file_added')

@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -167,4 +168,26 @@ end
 
 def locale_for_language language
    { "german" => "de", "english" => "en", "french" => "fr" }[language]
+end
+
+Then(/^I should see "(.*?)" for report "(.*?)"$/) do |link_name, table_value_name|
+  within 'table.timelines-reportings' do
+    table_data = first('td a', text: table_value_name)
+    row = table_data.find(:xpath, '../..')
+
+    expect(row).to have_selector('a', text: link_name)
+  end
+end
+
+When(/^I follow link "(.*?)" for report "(.*?)"$/) do |link_name, table_value_name|
+  within 'table.timelines-reportings' do
+    table_data = first('td a', text: table_value_name)
+    row = table_data.find(:xpath, '../..')
+
+    row.find('a', text: link_name).click
+  end
+end
+
+Then(/^I should see button "(.*?)"$/) do |button_name|
+  expect(page).to have_selector('span.hidden-for-sighted', text: button_name, visible: false)
 end

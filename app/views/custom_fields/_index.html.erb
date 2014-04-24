@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,36 +29,33 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <table class="list">
   <thead><tr>
-	<th width="30%"><%= CustomField.human_attribute_name(:name) %></th>
-	<th><%= CustomField.human_attribute_name(:field_format) %></th>
-	<th><%= CustomField.human_attribute_name(:is_required) %></th>
-	<% if tab[:name] == 'WorkPackageCustomField' %>
-	<th><%= CustomField.human_attribute_name(:is_for_all) %></th>
-	<th><%=l(:label_used_by)%></th>
-	<% end %>
-	<th><%=l(:button_sort)%></th>
-	<th width="10%"></th>
+  <th width="30%"><%= CustomField.human_attribute_name(:name) %></th>
+  <th><%= CustomField.human_attribute_name(:field_format) %></th>
+  <th><%= CustomField.human_attribute_name(:is_required) %></th>
+  <% if tab[:name] == 'WorkPackageCustomField' %>
+  <th><%= CustomField.human_attribute_name(:is_for_all) %></th>
+  <th><%=l(:label_used_by)%></th>
+  <% end %>
+  <th><%=l(:button_sort)%></th>
+  <th width="10%"></th>
   </tr></thead>
   <tbody>
-	<% (@custom_fields_by_type[tab[:name]] || []).sort.each do |custom_field| -%>
-		<tr class="<%= cycle("odd", "even") %>">
-			<td><%= link_to h(custom_field.name), :action => 'edit', :id => custom_field %></td>
-			<td align="center"><%= Redmine::CustomFieldFormat.label_for(custom_field.field_format) %></td>
-			<td align="center"><%= checked_image custom_field.is_required? %></td>
-			<% if tab[:name] == 'WorkPackageCustomField' %>
-			<td align="center"><%= checked_image custom_field.is_for_all? %></td>
-			<td align="center"><%= l(:label_x_projects, :count => custom_field.projects.count) if custom_field.is_a? WorkPackageCustomField and !custom_field.is_for_all? %></td>
-			<% end %>
-		  <td align="center" style="width:15%;"><%= reorder_links('custom_field', {:action => 'edit', :id => custom_field}) %></td>
-			<td class="buttons">
-				<%= link_to(l(:button_delete), { :action => 'destroy', :id => custom_field },
-																			 :method => :post,
-																			 :confirm => l(:text_are_you_sure),
-																			 :class => 'icon icon-del') %>
-		  </td>
-		</tr>
-	<% end; reset_cycle %>
+  <% (@custom_fields_by_type[tab[:name]] || []).sort.each do |custom_field| -%>
+    <tr class="<%= cycle("odd", "even") %>">
+      <td><%= link_to h(custom_field.name), edit_custom_field_path(custom_field), lang: custom_field.name_locale %></td>
+      <td align="center"><%= Redmine::CustomFieldFormat.label_for(custom_field.field_format) %></td>
+      <td align="center"><%= checked_image custom_field.is_required? %></td>
+      <% if tab[:name] == 'WorkPackageCustomField' %>
+      <td align="center"><%= checked_image custom_field.is_for_all? %></td>
+      <td align="center"><%= l(:label_x_projects, :count => custom_field.projects.count) if custom_field.is_a? WorkPackageCustomField and !custom_field.is_for_all? %></td>
+      <% end %>
+      <td align="center" style="width:15%;"><%= reorder_links('custom_field', {:action => 'update', :id => custom_field}, method: :put) %></td>
+      <td class="buttons">
+        <%= delete_link custom_field_path(custom_field) %>
+      </td>
+    </tr>
+  <% end; reset_cycle %>
   </tbody>
 </table>
 
-<p><%= link_to l(:label_custom_field_new), {:action => 'new', :type => tab[:name]}, :class => 'icon icon-add' %></p>
+<p><%= link_to l(:label_custom_field_new), new_custom_field_path(:type => tab[:name]), :class => 'icon icon-add' %></p>

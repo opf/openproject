@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,6 +28,8 @@
 #++
 
 class Enumeration < ActiveRecord::Base
+  include ActiveModel::ForbiddenAttributesProtection
+
   default_scope :order => "#{Enumeration.table_name}.position ASC"
 
   belongs_to :project
@@ -37,8 +39,6 @@ class Enumeration < ActiveRecord::Base
   acts_as_tree :order => 'position ASC'
 
   before_destroy :check_integrity
-
-  attr_protected :project_id
 
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => [:type, :project_id]
@@ -93,7 +93,7 @@ class Enumeration < ActiveRecord::Base
   end
 
   def unmark_old_default_value
-    Enumeration.update_all("is_default = #{connection.quoted_false}", {:type => type})
+    Enumeration.where(:type => type).update_all(:is_default => false)
   end
 
   # Overloaded on concrete classes

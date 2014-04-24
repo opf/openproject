@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,8 +50,9 @@ class SearchController < ApplicationController
         @project
       end
 
-    offset = nil
-    begin; offset = params[:offset].to_time if params[:offset]; rescue; end
+    offset = begin
+      Time.at(Rational(params[:offset])) if params[:offset]
+    rescue; end
 
     # quick jump to an work_package
     if @question.match(/\A#?(\d+)\z/) && WorkPackage.visible.find_by_id($1.to_i)
@@ -116,8 +117,8 @@ class SearchController < ApplicationController
 
 private
   def find_optional_project
-    return true unless params[:id]
-    @project = Project.find(params[:id])
+    return true unless params[:project_id]
+    @project = Project.find(params[:project_id])
     check_project_privacy
   rescue ActiveRecord::RecordNotFound
     render_404

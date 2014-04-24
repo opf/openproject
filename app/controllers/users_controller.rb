@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -93,7 +93,7 @@ class UsersController < ApplicationController
     @memberships = @user.memberships.all(:conditions => Project.visible_by(User.current))
 
     events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
-    @events_by_day = events.map(&:data).group_by(&:event_date)
+    @events_by_day = events.group_by(&:event_datetime)
 
     unless User.current.admin?
       if !(@user.active? || @user.registered?) || (@user != User.current  && @memberships.empty? && events.empty?)
@@ -261,6 +261,9 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    # true if the user deletes him/herself
+    self_delete = (@user == User.current)
+
     # as destroying users is a lengthy process we handle it in the background
     # and lock the account now so that no action can be performed with it
     @user.status = User::STATUSES[:locked]
@@ -272,16 +275,15 @@ class UsersController < ApplicationController
       @user.destroy :
       @user.delay.destroy
 
+    # log the user out if it's a self-delete
+    # must be called before setting the flash message
+    self.logged_user = nil if self_delete
+
     flash[:notice] = l('account.deleted')
 
     respond_to do |format|
       format.html do
-        if @user == User.current
-          logged_user = nil
-          redirect_to signin_path
-        else
-          redirect_to users_path
-        end
+        redirect_to self_delete ? signin_path : users_path
       end
     end
   end

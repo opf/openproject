@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -86,6 +86,12 @@ class User < Principal
   has_many :assigned_issues, :foreign_key => 'assigned_to_id',
                              :class_name => 'WorkPackage',
                              :dependent => :nullify
+  has_many :responsible_for_issues, :foreign_key => 'responsible_id',
+                                    :class_name => 'WorkPackage',
+                                    :dependent => :nullify
+  has_many :responsible_for_projects, :foreign_key => 'responsible_id',
+                                      :class_name => 'Project',
+                                      :dependent => :nullify
   has_many :watches, :class_name => 'Watcher',
                      :dependent => :delete_all
   has_many :changesets, :dependent => :nullify
@@ -152,8 +158,9 @@ class User < Principal
 
   after_save :update_password
   before_create :sanitize_mail_notification_setting
-  before_destroy :delete_associated_public_queries
+  before_destroy :delete_associated_private_queries
   before_destroy :reassign_associated
+  before_destroy :remove_from_filter
 
   scope :in_group, lambda {|group|
     group_id = group.is_a?(Group) ? group.id : group.to_i
@@ -213,6 +220,10 @@ class User < Principal
       end
     end
     self.read_attribute(:identity_url)
+  end
+
+  def self.search_in_project(query, options)
+    Project.find(options.fetch(:project)).users.like(query)
   end
 
   def self.register_allowance_evaluator(filter)
@@ -409,7 +420,7 @@ class User < Principal
   end
 
   def impaired
-    anonymous? || !!self.pref.impaired
+    (anonymous? && Setting.accessibility_mode_for_anonymous?) || !!self.pref.impaired
   end
 
   def impaired?
@@ -702,6 +713,10 @@ class User < Principal
     @current_user ||= User.anonymous
   end
 
+  def roles(project)
+    User.current.admin? ? Role.all : User.current.roles_for_project(project)
+  end
+
   # Returns the anonymous user.  If the anonymous user does not exist, it is created.  There can be only
   # one anonymous user per database.
   def self.anonymous
@@ -800,6 +815,25 @@ class User < Principal
     (passwords[keep_count..-1] || []).each { |p| p.destroy }
   end
 
+  def remove_from_filter
+    timelines_filter = ["planning_element_responsibles", "planning_element_assignee", "project_responsibles"]
+    substitute = DeletedUser.first
+
+    timelines = Timeline.all(:conditions => ['options LIKE ?', "%#{id}%"])
+
+    timelines.each do |timeline|
+      timelines_filter.each do |field|
+        fieldOptions = timeline.options[field]
+        if fieldOptions && index = fieldOptions.index(id.to_s) then
+          timeline.options_will_change!
+          fieldOptions[index] = substitute.id.to_s
+        end
+      end
+
+      timeline.save!
+    end
+  end
+
   def reassign_associated
     substitute = DeletedUser.first
 
@@ -814,7 +848,7 @@ class User < Principal
     JournalManager.update_user_references id, substitute.id
   end
 
-  def delete_associated_public_queries
+  def delete_associated_private_queries
     ::Query.delete_all ['user_id = ? AND is_public = ?', id, false]
   end
 

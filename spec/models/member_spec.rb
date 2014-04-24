@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -79,7 +79,7 @@ describe Member do
       end
 
       context(:roles) { it { member.roles.should include role } }
-      context(:errors) { it { member.errors[:roles].should include "can't be empty" } }
+      context(:errors) { it { member.errors.map {|k,v| v}.should include "Please choose at least one role." } }
     end
   end
 

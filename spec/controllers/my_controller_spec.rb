@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,11 +29,12 @@
 require 'spec_helper'
 
 describe MyController, :type => :controller do
+  let(:user) { FactoryGirl.create(:user) }
+  before(:each) do
+    User.stub(:current).and_return(user)
+  end
+
   describe 'password change' do
-    let(:user) { FactoryGirl.create(:user) }
-    before(:each) do
-      User.stub(:current).and_return(user)
-    end
 
     describe :password do
       before do
@@ -93,6 +94,35 @@ describe MyController, :type => :controller do
 
       it 'should allow the user to login with the new password' do
         assert User.try_to_login(user.login, 'adminADMIN!New')
+      end
+    end
+  end
+
+  describe "account" do
+    let(:custom_field) { FactoryGirl.create :text_user_custom_field }
+    before do
+      custom_field
+      as_logged_in_user user do
+        get :account
+      end
+    end
+
+    it "responds with success" do
+      expect(response).to be_success
+    end
+
+    it "renders the account template" do
+      expect(response).to render_template 'account'
+    end
+
+    it "assigns @user" do
+      expect(assigns(:user)).to eq(user)
+    end
+
+    context "with render_views" do
+      render_views
+      it "renders editable custom fields" do
+        expect(response.body).to have_content(custom_field.name)
       end
     end
   end

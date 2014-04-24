@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -69,7 +70,7 @@ Given(/^there are the following work packages were added "(.*?)"(?: in project "
 end
 
 Given(/^the work package "(.*?)" was changed "(.*?)" to:$/) do |name, time, table|
-  table.map_headers! { |header| header.underscore.gsub(' ', '_') }
+  table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
 
   #TODO provide better time support with some gem that can parse this:
   case time

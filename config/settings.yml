@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -167,8 +167,8 @@ work_package_group_assignment:
 notified_events:
   serialized: true
   default:
-  - issue_added
-  - issue_updated
+  - work_package_added
+  - work_package_updated
 mail_handler_body_delimiters:
   default: ''
 mail_handler_api_enabled:
@@ -193,13 +193,13 @@ display_subprojects_work_packages:
 work_package_done_ratio:
   default: 'field'
 default_projects_public:
-  default: 1
+  default: 0
 default_projects_modules:
   serialized: true
   default:
   - boards
   - calendar
-  - issue_tracking
+  - work_package_tracking
   - news
   - repository
   - time_tracking
@@ -223,6 +223,10 @@ repository_log_display_limit:
   default: 100
 ui_theme:
   default: 'default'
+user_may_override_theme:
+  default: 1
+accessibility_mode_for_anonymous:
+  default: 0
 emails_footer:
   serialized: true
   default:

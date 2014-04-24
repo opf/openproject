@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,10 +31,9 @@ class NewsController < ApplicationController
   include PaginationHelper
 
   default_search_scope :news
-  model_object News
 
   before_filter :disable_api
-  before_filter :find_model_object, :except => [:new, :create, :index]
+  before_filter :find_news_object, :except => [:new, :create, :index]
   before_filter :find_project_from_association, :except => [:new, :create, :index]
   before_filter :find_project, :only => [:new, :create]
   before_filter :authorize, :except => [:index]
@@ -96,6 +95,13 @@ class NewsController < ApplicationController
   end
 
 private
+
+  def find_news_object
+    @news = @object = News.find(params[:id].to_i)
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
   def find_project
     @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound

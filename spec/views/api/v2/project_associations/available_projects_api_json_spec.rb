@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,7 +61,6 @@ describe 'api/v2/project_associations/available_projects.api.rabl' do
     subject {response.body}
 
     it 'renders a list of projects available for association' do
-      puts subject
       expected_json = { name: 'Test Project A',
                         identifier: 'test_project_a',
                         level: 1,

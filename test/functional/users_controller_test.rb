@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -79,16 +79,6 @@ class UsersControllerTest < ActionController::TestCase
     users = assigns(:users)
     assert users.any?
     assert_equal([], (users - Group.find(10).users))
-  end
-
-  def test_show
-    @request.session[:user_id] = nil
-    get :show, :id => 2
-    assert_response :success
-    assert_template 'show'
-    assert_not_nil assigns(:user)
-
-    assert_tag 'li', :content => /Phone number/
   end
 
   def test_show_should_not_display_hidden_custom_fields

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -86,7 +86,7 @@ describe 'api/v2/projects/show.api.rabl' do
   end
 
   describe 'with a project having a parent project' do
-    let(:parent_project) { FactoryGirl.create(:project, :name => 'Parent', :identifier => 'parent') }
+    let(:parent_project) { FactoryGirl.create(:public_project, :name => 'Parent', :identifier => 'parent') }
     let(:project) { FactoryGirl.create(:project).tap { |p| p.move_to_child_of(parent_project.id)} }
 
     before do
@@ -125,7 +125,7 @@ describe 'api/v2/projects/show.api.rabl' do
   end
 
   describe 'with a project having an invisible parent project and a visible grand-parent' do
-    let(:grand_parent_project) { FactoryGirl.create(:project,
+    let(:grand_parent_project) { FactoryGirl.create(:public_project,
                                                     :name => 'Grand-Parent',
                                                     :identifier => 'granny') }
     let(:parent_project)       { FactoryGirl.create(:project,
@@ -226,7 +226,7 @@ describe 'api/v2/projects/show.api.rabl' do
 
 
   describe 'with a project having project_associations' do
-    let(:project) { FactoryGirl.create(:project) }
+    let(:project) { FactoryGirl.create(:public_project) }
 
     before do
       FactoryGirl.create(:project_association,

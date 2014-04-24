@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -227,6 +227,28 @@ describe WorkPackage do
         end
 
         it { should eq('true') }
+      end
+    end
+
+    describe "custom field type 'text'" do
+      let(:value) { "text" * 1024 }
+      let(:custom_field) { FactoryGirl.create(:work_package_custom_field,
+                                              name: 'Test Text',
+                                              field_format: 'text',
+                                              is_required: true) }
+
+      include_context "project with required custom field"
+
+      it_behaves_like "work package with required custom field"
+
+      describe 'value' do
+        before do
+          change_custom_field_value(work_package, value)
+        end
+
+        subject { work_package.journals.first.customizable_journals.first.value }
+
+        it { expect(subject).to eq(value) }
       end
     end
   end

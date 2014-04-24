@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -360,6 +360,31 @@ describe UsersController do
     end
   end
 
+  describe "update memberships" do
+    let(:project) { FactoryGirl.create(:project) }
+    let(:role) { FactoryGirl.create(:role) }
+
+    it "works" do
+      # i.e. it should successfully add a user to a project's members
+      as_logged_in_user admin do
+        post :edit_membership,
+          :id => user.id,
+          :membership => {
+            :project_id => project.id,
+            :role_ids => [role.id]
+          },
+          :format => "js"
+      end
+
+      expect(response.status).to eql(200)
+
+      is_member = user.reload.memberships.any? do |m|
+        m.project_id == project.id && m.role_ids.include?(role.id)
+      end
+      expect(is_member).to eql(true)
+    end
+  end
+
   describe "Anonymous should not be able to create a user" do
 
     it "should redirect to the login page" do
@@ -367,5 +392,61 @@ describe UsersController do
       expect(response).to redirect_to '/login?back_url=http%3A%2F%2Ftest.host%2Fusers'
     end
 
+  end
+
+  describe "show" do
+    describe "general" do
+      before do
+        as_logged_in_user user do
+          get :show, :id => user.id
+        end
+      end
+
+      it "responds with success" do
+        expect(response).to be_success
+      end
+
+      it "renders the show template" do
+        expect(response).to render_template 'show'
+      end
+
+      it "assigns @user" do
+        expect(assigns(:user)).to eq(user)
+      end
+    end
+
+    describe 'for user with Activity' do
+      render_views
+
+      let(:work_package) { FactoryGirl.create(:work_package,
+                                              author: user) }
+      let!(:member) { FactoryGirl.create(:member,
+                                         project: work_package.project,
+                                         principal: user,
+                                         roles: [FactoryGirl.create(:role,
+                                                                    permissions: [:view_work_packages])]) }
+      let!(:journal_1) { FactoryGirl.create(:work_package_journal,
+                                            user: user,
+                                            journable_id: work_package.id,
+                                            version: Journal.maximum(:version) + 1,
+                                            data: FactoryGirl.build(:journal_work_package_journal,
+                                                                    subject: work_package.subject,
+                                                                    status_id: work_package.status_id,
+                                                                    type_id: work_package.type_id,
+                                                                    project_id: work_package.project_id)) }
+      let!(:journal_2) { FactoryGirl.create(:work_package_journal,
+                                            user: user,
+                                            journable_id: work_package.id,
+                                            version: Journal.maximum(:version) + 1,
+                                            data: FactoryGirl.build(:journal_work_package_journal,
+                                                                    subject: work_package.subject,
+                                                                    status_id: work_package.status_id,
+                                                                    type_id: work_package.type_id,
+                                                                    project_id: work_package.project_id)) }
+
+      before { User.stub(:current).and_return(user.reload) }
+
+      it { get :show, id: user.id }
+    end
   end
 end

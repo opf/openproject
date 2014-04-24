@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -194,8 +194,8 @@ describe WorkPackage do
 
             planning_element.should_not be_valid
 
-            planning_element.errors[:parent].should be_present
-            planning_element.errors[:parent].should == [self.send("#{I18n.locale}_message")]
+            planning_element.errors[:parent_id].should be_present
+            planning_element.errors[:parent_id].should == [self.send("#{I18n.locale}_message")]
           end
 
         end
@@ -340,7 +340,6 @@ describe WorkPackage do
     it 'should delete the object permanantly when using destroy' do
       @pe1.destroy
 
-      WorkPackage.without_deleted.find_by_id(@pe1.id).should be_nil
       WorkPackage.find_by_id(@pe1.id).should be_nil
     end
 
@@ -354,11 +353,8 @@ describe WorkPackage do
       pe1.destroy
 
       [pe1, pe11, pe12, pe121].each do |pe|
-        WorkPackage.without_deleted.find_by_id(pe.id).should be_nil
         WorkPackage.find_by_id(pe.id).should be_nil
       end
-
-      WorkPackage.without_deleted.find_by_id(pe2.id).should == pe2
     end
   end
 end

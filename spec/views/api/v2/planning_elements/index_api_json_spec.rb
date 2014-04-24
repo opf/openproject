@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -89,5 +89,43 @@ describe 'api/v2/planning_elements/index.api.rabl' do
 
 
 
+  end
+
+  describe 'with 1 custom field planning element' do
+    let (:custom_field) { FactoryGirl.create(:work_package_custom_field,
+                                             name: 'Database',
+                                             field_format: 'list',
+                                             possible_values: ['MySQL', 'PostgreSQL', 'Oracle'],
+                                             is_for_all: true)}
+
+
+
+    let(:project){FactoryGirl.build(:project_with_types, name: "Sample Project", identifier: "sample_project")}
+    let(:wp1){FactoryGirl.build(:work_package, subject: "Subject #1", project: project)}
+    let(:wp2){FactoryGirl.build(:work_package, subject: "Subject #2", project: project)}
+
+    let(:planning_elements) {[wp1, wp2]}
+
+    before do
+      project.types[0].custom_fields << custom_field
+      project.save!
+
+      wp1.save!
+      wp1.custom_values[0].value = "MySQL"
+      wp1.save!
+
+      assign(:planning_elements, planning_elements)
+      render
+    end
+
+    subject do
+      response.body
+    end
+
+    it 'should render custom field values' do
+      response.body.should be_json_eql("MySQL".to_json).at_path("planning_elements/0/cf_#{custom_field.id}")
+      response.body.should have_json_path("planning_elements/1")
+      response.body.should_not have_json_path("planning_elements/1/cf_#{custom_field.id}")
+    end
   end
 end

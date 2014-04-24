@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -127,15 +127,3 @@ Feature: Updating work packages
     Then I should be on the page of the work package "pe1"
      And I should see a journal with the following:
       | Notes | Note message |
-
-  @javascript
-  Scenario: Bulk updating the fixed version of several work packages
-    When I go to the work package index page of the project called "ecookbook"
-    And  I open the context menu on the work packages:
-      | pe1 |
-      | pe2 |
-    And I hover over ".fixed_version .context_item"
-    And I follow "none" within "#context-menu"
-    Then I should see "Successful update"
-    And I follow "pe1"
-    And I should see "deleted (version1)"

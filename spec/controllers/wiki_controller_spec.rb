@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -232,7 +232,7 @@ describe WikiController do
 
       User.stub(:current).and_return @user
 
-      @project = FactoryGirl.create(:project)
+      @project = FactoryGirl.create(:public_project)
       @project.reload # to get the wiki into the proxy
 
       # creating pages

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,11 +45,11 @@ class Attachment < ActiveRecord::Base
   before_save :copy_file_to_destination
   after_destroy :delete_file_on_disk
 
-  acts_as_journalized :event_title => :filename,
-       :event_url => (Proc.new do |o|
-         { :controller => '/attachments', :action => 'download',
-           :id => o.journable_id, :filename => o.filename }
-       end), :acts_as_activity => false
+  acts_as_journalized
+  acts_as_event title: :filename,
+                url: (Proc.new do |o|
+                        { :controller => '/attachments', :action => 'download', :id => o.id, :filename => o.filename }
+                      end)
 
   cattr_accessor :storage_path
   @@storage_path = OpenProject::Configuration['attachments_storage_path'] ||

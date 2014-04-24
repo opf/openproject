@@ -1,11 +1,28 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-#
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -33,6 +50,7 @@ namespace :migrations do
     private
 
     PE_TYPE_KEY = 'planning_element_types'
+    PE_TIME_TYPE_KEY = 'planning_element_time_types'
 
     # We create the migration class dynamically because rake would try to
     # execute the migration on 'rake db:migrate' otherwise.
@@ -63,14 +81,16 @@ namespace :migrations do
         end
 
         def add_none_type_id_to_options(options)
-          pe_types = []
-          pe_types = options[PE_TYPE_KEY] if options.has_key? PE_TYPE_KEY
+          [PE_TYPE_KEY, PE_TIME_TYPE_KEY].each do |key|
+            pe_types = []
+            pe_types = options[key] if options.has_key? key
 
-          # Compare strings instead of plain integers because timelines
-          # options may contain strings or integers.
-          pe_types.map! { |t| (t.to_s == '0') ? @standard_type.id : t }
+            # Compare strings instead of plain integers because timelines
+            # options may contain strings or integers.
+            pe_types.map! { |t| (t.to_s == '0') ? @standard_type.id.to_s : t.to_s }
 
-          options[PE_TYPE_KEY] = pe_types
+            options[key] = pe_types
+          end
 
           options
         end

@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,6 +30,7 @@
 class ::Query::Results
 
   include Sums
+  include Redmine::I18n
 
   attr_accessor :options,
                 :query
@@ -80,6 +82,7 @@ class ::Query::Results
 
     WorkPackage.where(::Query.merge_conditions(query.statement, options[:conditions]))
                .includes([:status, :project] + (options[:include] || []).uniq)
+               .joins((query.group_by_column ? query.group_by_column.join : nil))
                .order(order_option)
   end
 

@@ -1,8 +1,7 @@
-# encoding: utf-8
-
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -197,7 +196,7 @@ Given /^the [pP]roject "([^\"]*)" has 1 [sS]ubproject with the following:$/ do |
 end
 
 Given /^there are the following types:$/ do |table|
-  table.map_headers! { |header| header.underscore.gsub(' ', '_') }
+  table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
   table.hashes.each_with_index do |t, i|
     type = Type.find_by_name(t['name'])
     type = Type.new :name => t['name'] if type.nil?
@@ -328,6 +327,11 @@ Given /^the [pP]roject uses the following modules:$/ do |table|
   step %Q{the project "#{get_project}" uses the following modules:}, table
 end
 
+Given(/^the user "(.*?)" is responsible$/) do |user|
+  project = get_project
+  project.responsible_id = User.find_by_login(user).id
+  project.save
+end
 
 Given /^the [pP]roject(?: "([^\"]*)")? has the following types:$/ do |project_name, table|
   p = get_project(project_name)
@@ -425,7 +429,7 @@ def send_table_to_object(object, table, except = {}, rescue_block = nil)
         raise "No such method #{_key} on a #{object.class}"
       end
     end
-    object.save! if object.changed?
+    object.save!
   end
 end
 

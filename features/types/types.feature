@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,7 +48,6 @@ Feature: Types Settings
       And the role "project admin" may have the following rights:
           | edit_project                 |
           | manage_types                 |
-          | manage_project_configuration |
       And the user "padme" is a "project admin"
 
       And I am already logged in as "padme"

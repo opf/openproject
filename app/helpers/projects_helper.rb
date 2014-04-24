@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,7 +42,7 @@ module ProjectsHelper
             {:name => 'repository', :action => :manage_repository, :partial => 'projects/settings/repository', :label => :label_repository},
             {:name => 'boards', :action => :manage_boards, :partial => 'projects/settings/boards', :label => :label_board_plural},
             {:name => 'activities', :action => :manage_project_activities, :partial => 'projects/settings/activities', :label => :enumeration_activities},
-            {:name => 'types', :action => :manage_project_configuration, :partial => 'projects/settings/types', :label => :'label_type_plural'}
+            {:name => 'types', :action => :manage_types, :partial => 'projects/settings/types', :label => :'label_type_plural'}
             ]
     tabs.select {|tab| User.current.allowed_to?(tab[:action], @project)}
   end

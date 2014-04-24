@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,6 +26,8 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+
+#TODO: convert this controller and its routes to not use the catch-all-route
 
 class QueriesController < ApplicationController
   menu_item :issues
@@ -59,29 +61,27 @@ class QueriesController < ApplicationController
 
 private
   def prepare_for_creating
-    @query = Query.new(params[:query])
-    @query.project = params[:query_is_for_all] ? nil : @project
+    @query = Query.new params[:query] ? permitted_params.query : nil
+    @query.project = @project unless params[:query_is_for_all]
+    prepare_query @query
     @query.user = User.current
-    @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
-
-    @query.add_filters(params[:fields] || params[:f], params[:operators] || params[:op], params[:values] || params[:v]) if params[:fields] || params[:f]
-    @query.group_by ||= params[:group_by]
-    @query.display_sums ||= params[:display_sums].present?
-    @query.column_names = params[:c] if params[:c]
-    @query.column_names = nil if params[:default_columns]
   end
 
   def prepare_for_editing
     if request.post?
-      @query.filters = {}
-      @query.add_filters(params[:fields] || params[:f], params[:operators] || params[:op], params[:values] || params[:v]) if params[:fields] || params[:f]
-      @query.attributes = params[:query]
-      @query.project = nil if params[:query_is_for_all]
-      @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
-      @query.group_by ||= params[:group_by]
-      @query.column_names = params[:c] if params[:c]
-      @query.column_names = nil if params[:default_columns]
+      @query.update_attributes permitted_params.query
+      prepare_query @query
     end
+  end
+
+  def prepare_query(query)
+    @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
+    view_context.add_filter_from_params if params[:fields] || params[:f]
+    @query.group_by ||= params[:group_by]
+    @query.project = nil if params[:query_is_for_all]
+    @query.display_sums ||= params[:display_sums].present?
+    @query.column_names = params[:c] if params[:c]
+    @query.column_names = nil if params[:default_columns]
   end
 
   def find_query

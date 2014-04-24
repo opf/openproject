@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -149,7 +149,7 @@ module IssuesHelper
   end
 
   def entries_for_filter_select_sorted(query)
-    [["",""]] + query.available_filters.collect{|field| [ field[1][:name] || WorkPackage.human_attribute_name(field[0]), field[0]] unless query.has_filter?(field[0])}.compact.sort_by do |el|
+    [["",""]] + query.available_work_package_filters.collect{|field| [ field[1][:name] || WorkPackage.human_attribute_name(field[0]), field[0]] unless query.has_filter?(field[0])}.compact.sort_by do |el|
       ActiveSupport::Inflector.transliterate(el[0]).downcase
     end
   end

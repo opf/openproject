@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -59,18 +59,18 @@ describe WorkPackage do
     end
 
     context 'when it is a public project' do
-      it 'contains non-anonymous users who are allowed to view work packages' do
-        users_allowed_to_view_work_packages = User.not_builtin.select{ |u| u.allowed_to?(:view_work_packages, project) }
+      it 'contains project members who are allowed to view work packages' do
+        users_allowed_to_view_work_packages = project.users.select{ |u| u.allowed_to?(:view_work_packages, project) }
         work_package.possible_watcher_users.sort.should == users_allowed_to_view_work_packages.sort
       end
 
-      it { should include(admin) }
       it { should include(project_member) }
+      it { should_not include(admin) }
 
       context 'and the non member role has the permission to view work packages' do
         include_context 'non member role has the permission to view work packages'
 
-        it { should include(non_member_user) }
+        it { should_not include(non_member_user) }
       end
 
       context 'and the anonymous role has the permission to view work packages' do
@@ -139,8 +139,8 @@ describe WorkPackage do
     end
 
     it 'sends one delayed mail notification for each watcher recipient' do
-      UserMailer.stub_chain :issue_updated, :deliver
-      UserMailer.should_receive(:issue_updated).exactly(number_of_recipients).times
+      UserMailer.stub_chain :work_package_updated, :deliver
+      UserMailer.should_receive(:work_package_updated).exactly(number_of_recipients).times
       work_package.update_attributes :description => 'Any new description'
     end
   end

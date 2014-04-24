@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -66,4 +67,13 @@ end
 # This moves the mouse to the OP header logo
 When /^I stop hovering over "([^"]*)"$/ do |selector|
   page.driver.browser.action.move_to(page.find("#logo").native).perform
+end
+
+When /^I press the "([^"]*)" key on element "([^"]*)"$/ do |key, element|
+  press_key_on_element(key.to_sym, element)
+end
+
+When /^I focus the element "([^"]*)"$/ do |element|
+  # moving to an element triggers focus on it as well
+  step %Q{I hover over "#{element}"}
 end

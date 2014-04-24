@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -63,7 +63,11 @@ class Repository::Git < Repository
 
   # Returns the readable identifier for the given git changeset
   def self.format_changeset_identifier(changeset)
-    changeset.revision[0, 8]
+    self.format_revision(changeset.revision)
+  end
+
+  def self.format_revision(revision)
+    revision[0, 8]
   end
 
   def branches

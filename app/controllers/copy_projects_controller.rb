@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,7 +61,7 @@ class CopyProjectsController < ApplicationController
   end
 
   def copy_project
-    from = params[:coming_from].to_sym || :settings
+    from = (["admin", "settings"].include?(params[:coming_from]) ? params[:coming_from] : "settings")
     @issue_custom_fields = WorkPackageCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @types = Type.all
     @root_projects = Project.find(:all,
@@ -70,10 +70,10 @@ class CopyProjectsController < ApplicationController
     @copy_project = Project.copy_attributes(@project)
     if @copy_project
       @copy_project.identifier = Project.next_identifier if Setting.sequential_project_identifiers?
+      render :action => "copy_from_#{from}"
     else
       redirect_to :back
     end
-    render :action => :"copy_from_#{from}"
   rescue ActiveRecord::RecordNotFound
     redirect_to :back
   end

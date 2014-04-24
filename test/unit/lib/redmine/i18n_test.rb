@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -118,8 +118,8 @@ class Redmine::I18nTest < ActiveSupport::TestCase
     now = Time.now
     with_settings :time_format => '%H %M' do
       with_settings :date_format => '%d %m %Y' do
-        assert_equal now.strftime('%d %m %Y %H %M'), format_time(now.utc)
-        assert_equal now.strftime('%H %M'), format_time(now.utc, false)
+        assert_equal now.localtime.strftime('%d %m %Y %H %M'), format_time(now.utc)
+        assert_equal now.localtime.strftime('%H %M'), format_time(now.utc, false)
       end
     end
   end

@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -56,7 +56,7 @@ describe UserMailer do
         # the job. Instead, the anonymous user is returned.
         User.current = User.anonymous
 
-        UserMailer.issue_updated(user, journal, user)
+        UserMailer.work_package_updated(user, journal, user)
       end
 
       it { expect(User.current).to eq(user) }
@@ -79,7 +79,7 @@ describe UserMailer do
 
       subject do
         message_ids = [journal, journal_2].each_with_object([]) do |j, l|
-          l << UserMailer.issue_updated(user, j).message_id
+          l << UserMailer.work_package_updated(user, j).message_id
         end
 
         message_ids.uniq.count
@@ -97,7 +97,7 @@ describe UserMailer do
 
       subject do
         message_ids = [user, user_2].each_with_object([]) do |u, l|
-          l << UserMailer.issue_updated(u, journal).message_id
+          l << UserMailer.work_package_updated(u, journal).message_id
         end
 
         message_ids.uniq.count
@@ -108,7 +108,7 @@ describe UserMailer do
   end
 
   describe 'journal details' do
-    subject { UserMailer.issue_updated(user, journal).body.encoded }
+    subject { UserMailer.work_package_updated(user, journal).body.encoded }
 
     describe 'plain text mail' do
       before do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -328,6 +328,39 @@ describe User do
       end
 
       it { User.find_by_rss_key(@rss_key).should == nil }
+    end
+  end
+
+  describe '#impaired?' do
+    let(:anonymous) { FactoryGirl.create(:anonymous)}
+    let(:user) { FactoryGirl.create(:user)}
+
+    context 'anonymous user with accessibility mode disabled for anonymous users' do
+      before do
+        Setting.stub(:accessibility_mode_for_anonymous?).and_return(false)
+      end
+
+      it { anonymous.impaired?.should be_false }
+    end
+
+    context 'anonymous user with accessibility mode enabled for anonymous users' do
+      before do
+        Setting.stub(:accessibility_mode_for_anonymous?).and_return(true)
+      end
+
+      it { anonymous.impaired?.should be_true }
+    end
+
+    context 'not impaired user' do
+      it { user.impaired?.should be_false }
+    end
+
+    context 'impaired user' do
+      before do
+        user.pref[:impaired] = true
+      end
+
+      it { user.impaired?.should be_true }
     end
   end
 end

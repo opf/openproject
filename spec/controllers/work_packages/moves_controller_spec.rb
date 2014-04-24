@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -129,6 +129,7 @@ describe WorkPackages::MovesController do
                :type_id => '',
                :author_id => user.id,
                :assigned_to_id => '',
+               :responsible_id => '',
                :status_id => '',
                :start_date => '',
                :due_date => ''
@@ -147,6 +148,7 @@ describe WorkPackages::MovesController do
                :new_project_id => target_project.id,
                :new_type_id => target_project.types.first.id, # FIXME (see #1868) the validation on the work_package requires a proper target-type, other cases are not tested here
                :assigned_to_id => '',
+               :responsible_id => '',
                :status_id => '',
                :start_date => '',
                :due_date => '',
@@ -219,22 +221,40 @@ describe WorkPackages::MovesController do
         end
       end
 
-      context "with given note" do
-        let(:note) { "Moving two work packages" }
+      shared_examples_for 'single note for moved work package' do
+        it { expect(moved_work_package.journals.count).to eq(2) }
 
-        before do
-          post :create,
-               :ids => [work_package.id, work_package_2.id],
-               :notes => note
+        it { expect(moved_work_package.journals.sort_by(&:id).last.notes).to eq(note) }
+      end
 
-          work_package.reload
-          work_package_2.reload
+      describe "move with given note" do
+        let(:note) { "Moving a work package" }
+
+        context "w/o work package changes" do
+          before do
+            post :create,
+                 ids: [work_package.id],
+                 notes: note
+          end
+
+          it_behaves_like 'single note for moved work package' do
+            let(:moved_work_package) { work_package.reload }
+          end
         end
 
-        it "adds note to work packages" do
-          work_package.journals.sort_by(&:id).last.notes.should eq(note)
-          work_package_2.journals.sort_by(&:id).last.notes.should eq(note)
+        context "w/o work package changes" do
+          before do
+            post :create,
+                 ids: [work_package.id],
+                 notes: note,
+                 priority_id: target_priority.id
+          end
+
+          it_behaves_like 'single note for moved work package' do
+            let(:moved_work_package) { work_package.reload }
+          end
         end
+
       end
 
       describe '&copy' do
@@ -275,6 +295,10 @@ describe WorkPackages::MovesController do
           it "did not change the assignee" do
             subject.assigned_to_id.should eq(work_package.assigned_to_id)
           end
+
+          it "did not change the responsible" do
+            subject.responsible_id.should eq(work_package.responsible_id)
+          end
         end
 
         context "with changing the work package's attribute" do
@@ -289,6 +313,7 @@ describe WorkPackages::MovesController do
                  :new_project_id => target_project.id,
                  :new_type_id => target_project.types.first.id, #FIXME see #1868
                  :assigned_to_id => target_user.id,
+                 :responsible_id => target_user.id,
                  :status_id => [target_status],
                  :start_date => start_date,
                  :due_date => due_date
@@ -312,6 +337,12 @@ describe WorkPackages::MovesController do
             end
           end
 
+          it "did change the responsible" do
+            subject.map(&:responsible_id).each do |id|
+              id.should eq(target_user.id)
+            end
+          end
+
           it "did change the status" do
             subject.map(&:status_id).each do |id|
               id.should eq(target_status.id)
@@ -329,6 +360,23 @@ describe WorkPackages::MovesController do
               date.should eq(due_date)
             end
           end
+        end
+
+        context "with given note" do
+          let(:note) { "Copying a work package" }
+
+          before do
+            post :create,
+                 ids: [work_package.id],
+                 copy: '',
+                 notes: note
+          end
+
+          subject { WorkPackage.all(limit: 1, order: 'id desc').last.journals }
+
+          it { expect(subject.count).to eq(2) }
+
+          it { expect(subject.sort_by(&:id).last.notes).to eq(note) }
         end
       end
     end

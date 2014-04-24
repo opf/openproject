@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,6 +36,7 @@ class MyController < ApplicationController
   menu_item :password, :only => [:password]
 
   DEFAULT_BLOCKS = { 'issuesassignedtome' => :label_assigned_to_me_work_packages,
+             'workpackagesresponsiblefor' => :label_responsible_for_work_packages,
              'issuesreportedbyme' => :label_reported_work_packages,
              'issueswatched' => :label_watched_work_packages,
              'news' => :label_news_latest,
@@ -58,7 +59,7 @@ class MyController < ApplicationController
   # Show user's page
   def index
     @user = User.current
-    @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT
+    @blocks = get_current_layout
     render :action => 'page', :layout => 'base'
   end
   alias :page :index
@@ -151,7 +152,7 @@ class MyController < ApplicationController
   # User's page layout configuration
   def page_layout
     @user = User.current
-    @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT.dup
+    @blocks = get_current_layout
     @block_options = []
     MyController.available_blocks.each {|k, v| @block_options << [l("my.blocks.#{v}", :default => [v, v.to_s.humanize]), k.dasherize]}
   end
@@ -163,7 +164,7 @@ class MyController < ApplicationController
     block = params[:block].to_s.underscore
     (render :nothing => true; return) unless block && (MyController.available_blocks.keys.include? block)
     @user = User.current
-    layout = @user.pref[:my_page_layout] || {}
+    layout = get_current_layout
     # remove if already present in a group
     %w(top left right).each {|f| (layout[f] ||= []).delete block }
     # add it on top
@@ -179,7 +180,7 @@ class MyController < ApplicationController
     block = params[:block].to_s.underscore
     @user = User.current
     # remove block in all groups
-    layout = @user.pref[:my_page_layout] || {}
+    layout = get_current_layout
     %w(top left right).each {|f| (layout[f] ||= []).delete block }
     @user.pref[:my_page_layout] = layout
     @user.pref.save
@@ -195,7 +196,7 @@ class MyController < ApplicationController
     if group.is_a?(String)
       group_items = (params["list-#{group}"] || []).collect(&:underscore)
       if group_items and group_items.is_a? Array
-        layout = @user.pref[:my_page_layout] || {}
+        layout = get_current_layout
         # remove group blocks if they are presents in other groups
         %w(top left right).each {|f|
           layout[f] = (layout[f] || []) - group_items
@@ -220,5 +221,9 @@ class MyController < ApplicationController
       return true
     end
     false
+  end
+
+  def get_current_layout
+    @user.pref[:my_page_layout] || DEFAULT_LAYOUT.dup
   end
 end

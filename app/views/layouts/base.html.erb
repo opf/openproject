@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%><!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= I18n.locale.to_s %>" xml:lang="<%= I18n.locale.to_s %>">
+<% show_decoration = params["layout"].nil? %>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= I18n.locale.to_s %>" xml:lang="<%= I18n.locale.to_s %>" class="<%= 'in_modal' unless show_decoration %>">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><%= html_title %></title>
@@ -37,6 +38,10 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= csrf_meta_tags %>
 <%= favicon_link_tag 'favicon.ico' %>
 <%= stylesheet_link_tag current_theme.stylesheet_manifest, :media => "all" %>
+<% if User.current.impaired? && accessibility_css_enabled? %>
+  <%= stylesheet_link_tag 'accessibility' %>
+<% end %>
+
 <%= javascript_include_tag 'application' %>
 <!-- user specific tags -->
 <%= user_specific_javascript_includes %>
@@ -45,10 +50,9 @@ See doc/COPYRIGHT.rdoc for more details.
 <!-- page specific tags -->
 <%= content_for(:header_tags) if content_for?(:header_tags) %>
 </head>
-<% show_decoration = params["layout"].nil? %>
 <body class="<%= body_css_classes %>">
 <noscript>
-  <div class="top-shelf">
+  <div class="top-shelf icon icon-warning">
     <h1><%=l(:noscript_heading)%></h1>
     <p>
       <%=l(:noscript_description)%>
@@ -66,7 +70,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <div id="top-menu">
       <div id="header">
         <div id="logo">
-          <%= link_to(image_tag(asset_path('logo_openproject_white_big.png'), :alt => I18n.t('label_home'), :class => 'home-link-image'), home_url, :class => 'home-link') %>
+          <%= link_to(I18n.t('label_home'), home_url, :class => 'home-link') %>
         </div>
         <div id="top-menu-items">
           <%= render_top_menu_left %>
@@ -89,7 +93,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <div id="main-menu">
         <h1 class="hidden-for-sighted"><%= l(:label_main_menu) %></h1>
         <div id="toggle-project-menu">
-          <a href="javascript:;" title="<%= l(:show_hide_project_menu) %>" data-icon4="9" class="navigation-toggler"></a>
+          <a href="javascript:;" title="<%= l(:show_hide_project_menu) %>" class="navigation-toggler icon4 icon-double-arrow-left"></a>
         </div>
         <div id="menu-sidebar">
           <%= main_menu %>
@@ -101,8 +105,6 @@ See doc/COPYRIGHT.rdoc for more details.
           </div>
         </div>
       </div>
-
-      <%= expand_current_menu %>
     <% end %>
 
     <% if show_decoration %>

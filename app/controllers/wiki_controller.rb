@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -110,10 +110,9 @@ class WikiController < ApplicationController
   end
 
   def create
-    @page.title     = params[:page][:title]
-    @page.parent_id = params[:page][:parent_id]
+    @page.attributes = permitted_params.wiki_page
 
-    @content.attributes = params[:content].slice(:comments, :text)
+    @content.attributes = permitted_params.wiki_content
     @content.author = User.current
 
     if @page.save
@@ -193,8 +192,7 @@ class WikiController < ApplicationController
       redirect_to_show
       return
     end
-    params[:content].delete(:version) # The version count is automatically increased
-    @content.attributes = params[:content]
+    @content.attributes = permitted_params.wiki_content
     @content.author = User.current
     @content.add_journal User.current, params["content"]["comments"]
     # if page is new @page.save will also save content, but not if page isn't a new record
@@ -219,7 +217,7 @@ class WikiController < ApplicationController
     @page.redirect_existing_links = true
     # used to display the *original* title if some AR validation errors occur
     @original_title = @page.pretty_title
-    if request.put? && @page.update_attributes(params[:wiki_page])
+    if request.put? && @page.update_attributes(permitted_params.wiki_page)
       flash[:notice] = l(:notice_successful_update)
       redirect_to_show
     end

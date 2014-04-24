@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,7 +45,7 @@ class UserMailer < ActionMailer::Base
     end
   end
 
-  def issue_added(user, issue)
+  def work_package_added(user, issue)
     @issue = issue
 
     open_project_headers 'Project'        => @issue.project.identifier,
@@ -63,7 +64,7 @@ class UserMailer < ActionMailer::Base
     end
   end
 
-  def issue_updated(user, journal, author=User.current)
+  def work_package_updated(user, journal, author=User.current)
     # Delayed job do not preserve the closure of the job that is delayed. Thus,
     # if the method is called within a delayed job, it does contain the default
     # user (anonymous) and not the original user that called the method.
@@ -328,7 +329,7 @@ private
   end
 
   def self.host
-    if Redmine::Utils.relative_url_root.blank?
+    if OpenProject::Configuration.rails_relative_url_root.blank?
       Setting.host_name
     else
       Setting.host_name.to_s.gsub(%r{\/.*\z}, '')
@@ -340,7 +341,12 @@ private
   end
 
   def self.default_url_options
-    super.merge :host => host, :protocol => protocol
+    options = super.merge :host => host, :protocol => protocol
+    unless OpenProject::Configuration.rails_relative_url_root.blank?
+      options[:script_name] = OpenProject::Configuration.rails_relative_url_root
+    end
+
+    options
   end
 
   def message_id(object, user)
@@ -388,9 +394,15 @@ end
 
 class RemoveSelfNotificationsInterceptor
   def self.delivering_email(mail)
-    current_user = User.current
-    if current_user.pref[:no_self_notified].present?
-      mail.to = mail.to.reject {|address| address == current_user.mail} if mail.to.present?
+    user_mail = User.current.mail
+    # This may be called within a delayed job. Within a delayed job user
+    # preferences may not be loaded. Furthermore, some users don't have
+    # persisted preferences. Thus, we only load user preferences if preferences
+    # are available.
+    user_pref = User.current.pref.reload if User.current.pref.persisted?
+
+    if user_pref && user_pref[:no_self_notified]
+      mail.to = mail.to.reject {|address| address == user_mail} if mail.to.present?
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -73,7 +73,7 @@ class ResetTest < Test::Unit::TestCase
       end
 
       should 'not destroy all journals after the target journal' do
-        VestalVersions::Version.any_instance.stubs(:destroy).raises(RuntimeError)
+        VestalVersions::Version.any_instance.stub(:destroy).and_raise(RuntimeError)
         @journals.reverse.each do |journal|
           assert_nothing_raised do
             @user.reset_to!(journal)
@@ -100,7 +100,7 @@ class ResetTest < Test::Unit::TestCase
       end
 
       should 'destroy all journals after the target journal' do
-        VestalVersions::Version.any_instance.stubs(:destroy).raises(RuntimeError)
+        VestalVersions::Version.any_instance.stub(:destroy).and_raise(RuntimeError)
         @journals.reverse.each do |journal|
           later_journals = @user.journals.after(journal)
           if later_journals.empty?

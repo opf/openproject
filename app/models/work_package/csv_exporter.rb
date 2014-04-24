@@ -1,8 +1,7 @@
 #-- encoding: UTF-8
-#
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,7 +60,7 @@ module WorkPackage::CsvExporter
       custom_fields.each {|f| headers << f.name}
       # Description in the last column
       headers << CustomField.human_attribute_name(:description)
-      csv << headers.collect {|c| begin; c.to_s.encode(l(:general_csv_encoding), 'UTF-8'); rescue; c.to_s; end }
+      csv << encode_csv_columns(headers)
       # csv lines
       work_packages.each do |work_package|
         fields = [work_package.id,
@@ -84,10 +83,16 @@ module WorkPackage::CsvExporter
                   ]
         custom_fields.each {|f| fields << show_value(work_package.custom_value_for(f)) }
         fields << work_package.description
-        csv << fields.collect {|c| begin; c.to_s.encode(l(:general_csv_encoding), 'UTF-8'); rescue; c.to_s; end }
+        csv << encode_csv_columns(fields)
       end
     end
 
     export
+  end
+
+  def encode_csv_columns(columns, encoding = l(:general_csv_encoding))
+    columns.map do |cell|
+      Redmine::CodesetUtil.from_utf8(cell.to_s, encoding)
+    end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -64,6 +64,20 @@ describe Group do
         package.reload
 
         package.journals.all?{ |j| j.data.assigned_to_id == DeletedUser.first.id }.should be_true
+      end
+    end
+  end
+  
+  describe :create do
+    describe 'group with empty group name' do
+      let(:group) { FactoryGirl.build(:group, lastname: '') }
+
+      it { expect(group.valid?).to be_false }
+      
+      describe 'error message' do
+        before { group.valid? }
+
+        it { expect(group.errors.full_messages[0]).to include I18n.t('attributes.groupname')}
       end
     end
   end

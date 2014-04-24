@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -252,8 +252,6 @@ describe VersionsController do
   end
 
   describe "#status_by" do
-    render_views
-
     before do
       User.stub(:current).and_return(user)
     end
@@ -264,7 +262,7 @@ describe VersionsController do
       end
 
       it { response.should be_success }
-      it { response.should render_template("issue_counts") }
+      it { response.should render_template("work_package_counts") }
     end
 
     context "status by version with status_by" do
@@ -273,7 +271,7 @@ describe VersionsController do
       end
 
       it { response.should be_success }
-      it { response.should render_template("issue_counts") }
+      it { response.should render_template("work_package_counts") }
     end
   end
 end

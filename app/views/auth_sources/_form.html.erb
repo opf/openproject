@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,16 +27,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= error_messages_for 'auth_source' %>
+<%#
+  needs locals:
+  :f => labelled form builder
+%>
 
+<%= error_messages_for :auth_source %>
 <div class="box">
-<!--[form:auth_source]-->
-<p><label for="auth_source_name"><%= AuthSource.human_attribute_name(:name) %> <span class="required">*</span></label>
-<%= text_field 'auth_source', 'name'  %></p>
-
-<p><label for="auth_source_onthefly_register"><%= AuthSource.human_attribute_name(:onthefly) %></label>
-<%= check_box 'auth_source', 'onthefly_register' %></p>
+  <p><%= f.text_field 'name', :required => true %></p>
+  <p><%= f.check_box 'onthefly_register', :label => AuthSource.human_attribute_name(:onthefly) %></p>
 </div>
-
-<!--[eoform:auth_source]-->
-

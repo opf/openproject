@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,6 +35,7 @@ class VersionsController < ApplicationController
   before_filter :find_project, :only => [:index, :new, :create, :close_completed]
   before_filter :authorize
 
+  include VersionsHelper
 
   def index
     @types = @project.types.find(:all, :order => 'position')
@@ -148,7 +149,7 @@ class VersionsController < ApplicationController
   def status_by
     respond_to do |format|
       format.html { render :action => 'show' }
-      format.js { render(:update) {|page| page.replace_html 'status_by', render_status_by(@version, params[:status_by])} }
+      format.js { render_status_by @version, params[:status_by] }
     end
   end
 

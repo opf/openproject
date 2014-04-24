@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,13 +33,14 @@ class Changeset < ActiveRecord::Base
   has_many :changes, :dependent => :delete_all
   has_and_belongs_to_many :work_packages
 
-  acts_as_journalized :event_title => Proc.new {|o| "#{l(:label_revision)} #{o.journal.journable.format_identifier}" + (o.journal.journable.short_comments.blank? ? '' : (': ' + o.journal.journable.short_comments))},
-                :event_description => :long_comments,
-                :event_datetime => :committed_on,
-                :event_url => Proc.new {|o| {:controller => '/repositories', :action => 'revision', :id => o.journal.journable.repository.project, :rev => o.journal.journable.identifier}},
-                :event_author => Proc.new {|o| o.journal.journable.author},
-                :activity_timestamp => "#{table_name}.committed_on",
-                :activity_find_options => {:include => [:user, {:repository => :project}]}
+  acts_as_journalized
+
+  acts_as_event title: Proc.new {|o| "#{l(:label_revision)} #{o.format_identifier}" + (o.short_comments.blank? ? '' : (': ' + o.short_comments))},
+                description: :long_comments,
+                datetime: :committed_on,
+                url: Proc.new {|o| {:controller => '/repositories', :action => 'revision', :id => o.repository.project, :rev => o.identifier}},
+                author: Proc.new {|o| o.author}
+
   acts_as_searchable :columns => 'comments',
                      :include => {:repository => :project},
                      :project_key => "#{Repository.table_name}.project_id",
@@ -107,7 +108,7 @@ class Changeset < ActiveRecord::Base
   end
 
   before_create :sanitize_attributes
-  before_create :assign_redmine_user_from_comitter
+  before_create :assign_openproject_user_from_comitter
   after_create :scan_comment_for_work_package_ids
 
   TIMELOG_RE = /
@@ -211,7 +212,7 @@ class Changeset < ActiveRecord::Base
 
     # the work_package may have been updated by the closure of another one (eg. duplicate)
     work_package.reload
-    # don't change the status is the work package is closed
+    # don't change the status if the work package is closed
     return if work_package.status && work_package.status.is_closed?
 
     work_package.add_journal(user || User.anonymous, ll(Setting.default_language, :text_status_changed_by_changeset, text_tag))
@@ -221,7 +222,7 @@ class Changeset < ActiveRecord::Base
     end
     Redmine::Hook.call_hook(:model_changeset_scan_commit_for_issue_ids_pre_issue_update,
                             { :changeset => self, :issue => work_package })
-    unless work_package.save
+    unless work_package.save(:validate => false)
       logger.warn("Work package ##{work_package.id} could not be saved by changeset #{id}: #{work_package.errors.full_messages}") if logger
     end
     work_package
@@ -270,8 +271,9 @@ class Changeset < ActiveRecord::Base
     self.comments  = self.class.normalize_comments(self.comments, repository.repo_log_encoding)
   end
 
-  def assign_redmine_user_from_comitter
+  def assign_openproject_user_from_comitter
     self.user = repository.find_committer_user(self.committer)
+    add_journal(self.user || User.anonymous, self.comments)
   end
 
   # TODO: refactor to a standard helper method

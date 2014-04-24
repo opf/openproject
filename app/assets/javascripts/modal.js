@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -101,6 +101,10 @@ var ModalHelper = (function() {
         this.hideLoadingModal();
         this.loadingModal = false;
 
+        // use jquery.trap.js to keep the keyboard focus within the modal
+        // while it's open
+        body.trap();
+
         body.on("keyup", function (e) {
           if (e.which == 27) {
             modalHelper.close();
@@ -147,6 +151,14 @@ var ModalHelper = (function() {
         modalDiv.parent().show();
 
         modalIframe.attr("height", modalDiv.height());
+
+        // we cannot focus an element within
+        // the modal before focusing the modal
+        modalIframe.focus();
+
+        // foucs an element within the modal so
+        // that the user can start tabbing in it
+        body.focus();
       } else {
         this.showLoadingModal();
       }

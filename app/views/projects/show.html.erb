@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,13 +27,14 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div class="contextual">
+<% content_for :action_menu_specific do %>
   <% if User.current.allowed_to?(:add_subprojects, @project) %>
     <%= link_to l(:label_subproject_new), {:controller => '/projects', :action => 'new', :parent_id => @project}, :class => 'icon icon-add' %>
   <% end %>
-</div>
+<% end %>
 
 <h2><%=l(:label_overview)%></h2>
+<%= render :partial => 'layouts/action_menu_specific' %>
 <% breadcrumb_paths(l(:label_overview)) %>
 
 <div class="splitcontentleft">
@@ -58,7 +59,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </ul>
 
   <% if User.current.allowed_to?(:view_work_packages, @project) %>
-  <div class="issues box">
+  <div class="issues content-box">
     <h3><%=l(:label_work_package_tracking)%></h3>
     <ul>
       <% for type in @types %>
@@ -72,9 +73,9 @@ See doc/COPYRIGHT.rdoc for more details.
       <% end %>
     </ul>
     <p>
-      <%= link_to l(:label_work_package_view_all), controller: :work_packages, action: :index, project_id: @project, set_filter: 1 %>
+      <%= link_to l(:label_work_package_view_all), {controller: :work_packages, action: :index, project_id: @project, set_filter: 1}, :class => 'button_highlight' %>
       <% if User.current.allowed_to?(:view_calendar, @project, :global => true) %>
-        | <%= link_to(l(:label_calendar), :controller => '/work_packages/calendars', :action => 'index', :project_id => @project) %>
+        <%= link_to(l(:label_calendar), {:controller => '/work_packages/calendars', :action => 'index', :project_id => @project}, :class => 'button_highlight') %>
       <% end %>
     </p>
   </div>
@@ -86,10 +87,10 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= render :partial => 'members_box' %>
 
   <% if @news.any? && authorize_for('news', 'index') %>
-    <div class="news box">
+    <div class="news content-box">
       <h3><%=l(:label_news_latest)%></h3>
       <%= render :partial => 'news/news', :collection => @news %>
-      <p><%= link_to l(:label_news_view_all), :controller => '/news', :action => 'index', :project_id => @project %></p>
+      <p><%= link_to l(:label_news_view_all), {:controller => '/news', :action => 'index', :project_id => @project}, :class => 'button_highlight' %></p>
     </div>
   <% end %>
   <%= call_hook(:view_projects_show_right, :project => @project) %>
@@ -98,7 +99,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% content_for :sidebar do %>
   <% if @total_hours.present? %>
     <h3><%= l(:label_spent_time) %></h3>
-    <p><span class="icon" data-icon3="f"><%= l_hours(@total_hours) %></span></p>
+    <p><span class="icon5 icon-time"><%= l_hours(@total_hours) %></span></p>
     <p>
       <%= link_to(l(:label_details), {:controller => '/timelog', :action => 'index', :project_id => @project}) %> |
       <%= link_to(l(:label_report), project_time_entries_report_path(@project)) %>

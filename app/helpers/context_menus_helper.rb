@@ -1,7 +1,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,7 +43,7 @@ module ContextMenusHelper
   def context_menu_link(name, url, options={})
     options[:class] ||= ''
     if options.delete(:selected)
-      options[:class] << ' icon-checked disabled'
+      options[:class] << ' icon-context icon-yes disabled'
       options[:disabled] = true
     end
     if options.delete(:disabled)

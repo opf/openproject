@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -57,10 +58,14 @@ Given /^the [Uu]ser "([^\"]*)" has (\d+) [iI]ssue(?:s)? with(?: the following)?:
   u = User.find_by_login user
   raise "This user must be member of a project to have issues" unless u.projects.last
   as_admin count do
-    i = FactoryGirl.create(:work_package, project: u.projects.last)
-    i.author = u
-    i.assigned_to = u
+    i = FactoryGirl.create(:work_package,
+                           project: u.projects.last,
+                           author: u,
+                           assigned_to: u,
+                           status: Status.default || FactoryGirl.create(:status))
+
     i.type = Type.find_by_name(table.rows_hash.delete("type")) if table.rows_hash["type"]
+
     send_table_to_object(i, table, {}, method(:add_custom_value_to_issue))
     i.save!
   end
@@ -88,7 +93,7 @@ end
 
 Given (/^there are the following issues with attributes:$/) do |table|
 
-  table.map_headers! { |header| header.underscore.gsub(' ', '_') }
+  table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
   table.hashes.each do |type_attributes|
 
     project  = get_project(type_attributes.delete("project"))

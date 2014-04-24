@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is a project management system.
-Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -32,10 +32,12 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= label_tag "notes", l(:description_notes),
                          :class => "hidden-for-sighted" %>
 
-  <% rows = (@journal.notes.blank? ? 10 : [[10, @journal.notes.length / 50].max, 100].min %>
+  <% rows = @journal.notes.blank? ? 10 : [[10, @journal.notes.length / 50].max, 100].min %>
   <%= text_area_tag :notes, @journal.notes,
                             :class => 'wiki-edit',
-                            :rows => rows) %>
+                            :rows => rows,
+                            :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json) %>
+  <%= javascript_tag("enable_textarea_auto_completion(jQuery('#notes'));") %>
 
   <%= call_hook(:view_journals_notes_form_after_notes, { :journal => @journal}) %>
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -195,6 +195,21 @@ describe 'api/v2/planning_elements/show.api.rabl' do
     it 'renders a responsible node containing the responsible\'s id and name' do
 
       response.should be_json_eql({name: "Paul McCartney"}.to_json).at_path('planning_element/responsible')
+    end
+  end
+
+  describe 'with a planning element having an author' do
+    let(:author)            { FactoryGirl.create(:user) }
+    let(:planning_element)  { FactoryGirl.build(:work_package, :author => author) }
+
+    before do
+      assign(:planning_element, planning_element)
+      render
+    end
+
+    it 'renders an author node containing the author\'s id and name' do
+      author_json = {id: author.id, name: author.name}.to_json
+      response.should be_json_eql(author_json).at_path('planning_element/author')
     end
   end
 
