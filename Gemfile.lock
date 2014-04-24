@@ -142,7 +142,7 @@ GEM
     hashie (2.0.5)
     hike (1.2.3)
     htmldiff (0.0.1)
-    i18n (0.6.5)
+    i18n (0.6.8)
     interception (0.3)
     journey (1.0.4)
     jquery-atwho-rails (0.4.7)
@@ -353,6 +353,7 @@ DEPENDENCIES
   faker
   globalize
   htmldiff
+  i18n (>= 0.6.8)
   i18n-js!
   jquery-atwho-rails (~> 0.4.7)
   jquery-rails (~> 2.0.3)
@@ -364,6 +365,7 @@ DEPENDENCIES
   multi_json
   mysql2 (~> 0.3.11)
   net-ldap (~> 0.2.2)
+  nokogiri (>= 1.5.11)
   object-daddy (~> 1.1.0)
   oj
   omniauth
