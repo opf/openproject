@@ -88,6 +88,8 @@ angular.module('openproject.timelines.directives')
       }
 
       function buildWorkPackageTable(timeline){
+        timeline.lefthandTree = null; // reset cached data tree
+
         if (timeline.isGrouping() && timeline.options.grouping_two_enabled) {
           timeline.secondLevelGroupingAdjustments();
         }
@@ -139,9 +141,7 @@ angular.module('openproject.timelines.directives')
         );
 
         jQuery(scope.timeline.modalHelper).on('closed', function() {
-          fetchData().then(function(timeline){
-            window.clearTimeout(timeline.safetyHook);
-          }); // TODO remove and do updates via scope
+          renderTimeline(); // TODO remove and do updates via scope
         });
       }
 
