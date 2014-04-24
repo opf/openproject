@@ -30,12 +30,13 @@ angular.module('openproject.timelines.directives')
 
 .directive('timelineTableContainer', ['TimelineLoaderService', 'TimelineTableHelper', 'SvgHelper', function(TimelineLoaderService, TimelineTableHelper, SvgHelper) {
 
+
   return {
     restrict: 'E',
     replace: true,
     templateUrl: '/templates/timelines/timeline_table_container.html',
     link: function(scope, element, attributes) {
-      completeUI = function() {
+      function completeUI() {
 
         scope.timeline.paper = new SvgHelper(scope.timeline.paperElement);
 
@@ -74,15 +75,15 @@ angular.module('openproject.timelines.directives')
         jQuery(window).scroll(function() {
           scope.timeline.adjustTooltip();
         });
-      };
+      }
 
-      showWarning = function(){
+      function showWarning() {
         scope.underConstruction = false;
         scope.warning = true;
         scope.$apply();
-      };
+      }
 
-      buildWorkPackageTable = function(timeline){
+      function buildWorkPackageTable(timeline){
         if (timeline.isGrouping() && timeline.options.grouping_two_enabled) {
           timeline.secondLevelGroupingAdjustments();
         }
@@ -97,9 +98,9 @@ angular.module('openproject.timelines.directives')
         }
 
         return scope.rows;
-      };
+      }
 
-      drawChart = function(tree) {
+      function drawChart(tree) {
         timeline = scope.timeline;
 
         try {
@@ -113,14 +114,36 @@ angular.module('openproject.timelines.directives')
         } catch (e) {
           timeline.die(e);
         }
-      };
+      }
+
+      function renderTimeline() {
+        TimelineLoaderService.loadTimelineData(scope.timeline)
+          .then(buildWorkPackageTable)
+          .then(drawChart);
+      }
+
+      function registerModalHelper() {
+        scope.timeline.modalHelper = modalHelperInstance;
+
+        scope.timeline.modalHelper.setupTimeline(
+          scope.timeline,
+          {
+            api_prefix                : scope.timeline.options.api_prefix,
+            url_prefix                : scope.timeline.options.url_prefix,
+            project_prefix            : scope.timeline.options.project_prefix
+          }
+        );
+
+        jQuery(scope.timeline.modalHelper).on('closed', function() {
+          renderTimeline(); // TODO remove and do updates via scope
+        });
+      }
 
       // start timeline
       scope.timeline.registerTimelineContainer(element);
+      registerModalHelper();
 
-      TimelineLoaderService.loadTimelineData(scope.timeline)
-        .then(buildWorkPackageTable)
-        .then(drawChart);
+      renderTimeline();
     }
   };
 }]);
