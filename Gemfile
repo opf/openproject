@@ -128,6 +128,9 @@ gem 'jquery-rails', '~> 2.0.3'
 # using the commit before this comment
 gem "i18n-js", :git => "https://github.com/fnando/i18n-js.git", :ref => '8801f8d17ef96c48a7a0269e251fcf1648c8f441'
 
+# small wrapper around the command line
+gem 'cocaine'
+
 
 # Security fixes
 # Gems we don't depend directly on, but specify here to make sure we don't use a vulnerable

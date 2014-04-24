@@ -49,10 +49,12 @@ class AttachmentsController < ApplicationController
       @attachment.increment_download
     end
 
-    # images are sent inline
+    # browsers should not try to guess the content-type
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+
     send_file @attachment.diskfile, :filename => filename_for_content_disposition(@attachment.filename),
-                                    :type => detect_content_type(@attachment),
-                                    :disposition => (@attachment.image? ? 'inline' : 'attachment')
+                                    :type => @attachment.content_type,
+                                    :disposition => @attachment.content_disposition
 
   end
 
@@ -88,14 +90,6 @@ private
 
   def delete_authorize
     @attachment.deletable? ? true : deny_access
-  end
-
-  def detect_content_type(attachment)
-    content_type = attachment.content_type
-    if content_type.blank?
-      content_type = Redmine::MimeType.of(attachment.filename)
-    end
-    content_type.to_s
   end
 
   def destroy_response_url(container)
