@@ -47,7 +47,6 @@ angular.module('openproject.workPackages.directives')
 
       scope.performSort = function(){
         targetSortation = scope.query.sortation.getTargetSortationOfHeader(scope.headerName);
-        scope.currentSortColumn = scope.headerName;
         scope.query.setSortation(targetSortation);
         scope.currentSortDirection = scope.query.sortation.getDisplayedSortDirectionOfHeader(scope.headerName);
         scope.setFullTitle();
