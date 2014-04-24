@@ -60,7 +60,7 @@ In case you want to use environment variables, but you have no easy way to set t
 * `autologin_cookie_secure` (default: false)
 * `database_cipher_key`     (default: nil)
 * `scm_git_command` (default: 'git')
-* `scm_subversion_command` (default: 'git')
+* `scm_subversion_command` (default: 'svn')
 * `session_store`: `active_record_store`, `cache_store`, or `cookie_store` (default: cache_store)
 * [`omniauth_direct_login_provider`](#omniauth-direct-login-provider) (default: nil)
 * [`disable_password_login`](#disable-password-login) (default: false)
