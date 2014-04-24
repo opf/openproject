@@ -53,7 +53,8 @@ angular.module('openproject.models')
           'f[]': this.getFilterNames(this.getActiveConfiguredFilters()),
           'c[]': this.getParamColumns(),
           'group_by': this.groupBy,
-          'sort': this.sortation.encode()
+          'sort': this.sortation.encode(),
+          'display_sums': this.displaySums
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {
           return filter.toParams();
         }))
@@ -64,7 +65,7 @@ angular.module('openproject.models')
       var params = this.toParams();
       var serialised = '';
       angular.forEach(params, function(value, key){
-        if(typeof value == "string"){
+        if(typeof value == "string" || typeof value == "boolean"){
           serialised = serialised + "&" + key + "=" + encodeURIComponent(value);
         } else if(Array.isArray(value)){
           angular.forEach(value, function(v){
