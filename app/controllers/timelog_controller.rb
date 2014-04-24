@@ -75,6 +75,8 @@ class TimelogController < ApplicationController
 
         @total_hours = TimeEntry.visible.sum(:hours, :include => [:project, :work_package], :conditions => cond.conditions).to_f
 
+        gon.rabl "app/views/timelog/index.rabl"
+
         render :layout => !request.xhr?
       }
       format.atom {
