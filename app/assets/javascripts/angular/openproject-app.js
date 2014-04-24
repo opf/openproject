@@ -55,6 +55,16 @@ openprojectApp
     // Note: Not using this because we want to use $location to get the url params and html5Mode prevents all the links from working normally.
     // $locationProvider.html5Mode(true);
     $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = jQuery('meta[name=csrf-token]').attr('content'); // TODO find a more elegant way to keep the session alive
+
+    var appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
+    $httpProvider.interceptors.push(function ($q) {
+      return {
+        'request': function (config) {
+          config.url = appBasePath + config.url;
+          return config || $q.when(config);
+        }
+      }
+    });
   }])
   .run(['$http', function($http){
     $http.defaults.headers.common.Accept = 'application/json';
