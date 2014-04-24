@@ -49,6 +49,12 @@ angular.module('openproject.helpers')
     projectPath: function(projectIdentifier) {
       return PathHelper.projectsPath() + '/' + projectIdentifier;
     },
+    timeEntryPath: function(timeEntryIdentifier) {
+      return '/time_entries/' + timeEntryIdentifier;
+    },
+    timeEntryEditPath: function(timeEntryIdentifier) {
+      return PathHelper.timeEntryPath(timeEntryIdentifier) + '/edit';
+    },
     workPackagesPath: function() {
       return '/work_packages';
     },
