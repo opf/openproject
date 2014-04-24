@@ -65,6 +65,7 @@ angular.module('openproject.timelines.directives')
         if(scope.updateToolbar) scope.updateToolbar();
 
         scope.underConstruction = false;
+        scope.warning = false;
 
         scope.timeline.getChart().scroll(function() {
           scope.timeline.adjustTooltip();
@@ -73,6 +74,12 @@ angular.module('openproject.timelines.directives')
         jQuery(window).scroll(function() {
           scope.timeline.adjustTooltip();
         });
+      };
+
+      showWarning = function(){
+        scope.underConstruction = false;
+        scope.warning = true;
+        scope.$apply();
       };
 
       buildWorkPackageTable = function(timeline){
@@ -98,10 +105,10 @@ angular.module('openproject.timelines.directives')
         try {
           window.clearTimeout(timeline.safetyHook);
 
-          if (rows.length > 0) {
+          if (scope.rows.length > 0) {
             completeUI();
           } else {
-            timeline.warn(I18n.t('js.label_no_data'), 'warning');
+            timeline.warn(I18n.t('js.label_no_data'), 'warning', this.showWarning);
           }
         } catch (e) {
           timeline.die(e);
