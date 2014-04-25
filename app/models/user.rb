@@ -289,7 +289,7 @@ class User < Principal
     if tokens.size == 1
       token = tokens.first
       if (token.created_on > Setting.autologin.to_i.day.ago) && token.user && token.user.active?
-        log_successful_login
+        token.user.log_successful_login
         token.user
       end
     end
