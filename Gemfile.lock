@@ -157,7 +157,7 @@ GEM
       test-unit (~> 2.2)
     hike (1.2.3)
     htmldiff (0.0.1)
-    i18n (0.6.5)
+    i18n (0.6.8)
     interception (0.3)
     journey (1.0.4)
     jquery-atwho-rails (0.4.1)
@@ -193,7 +193,7 @@ GEM
     multi_test (0.0.2)
     mysql2 (0.3.11)
     net-ldap (0.2.2)
-    nokogiri (1.5.9)
+    nokogiri (1.5.11)
     object-daddy (1.1.1)
     oj (2.1.6)
     paper_trail (2.7.2)
@@ -383,6 +383,7 @@ DEPENDENCIES
   guard-rspec
   guard-test
   htmldiff
+  i18n (>= 0.6.8)
   i18n-js!
   jquery-atwho-rails
   jquery-rails (~> 2.0.3)
@@ -394,6 +395,7 @@ DEPENDENCIES
   multi_json
   mysql2 (~> 0.3.11)
   net-ldap (~> 0.2.2)
+  nokogiri (>= 1.5.11)
   object-daddy (~> 1.1.0)
   oj
   pg (~> 0.17.1)
