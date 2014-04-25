@@ -89,6 +89,8 @@ de:
     label_today: "heute"
     label_work_package: "Arbeitspaket"
 
+    text_are_you_sure: "Sind Sie sicher?"
+
     filter_labels:
       assigned_to: "Zugewiesen an"
       assigned_to_role: "Zuständigkeitsrolle"

@@ -28,8 +28,28 @@
 
 angular.module('openproject.timeEntries.controllers')
 
-.controller('TimeEntriesController', ['$scope', 'PathHelper', function ($scope, PathHelper) {
+.controller('TimeEntriesController', ['$scope', '$http', 'PathHelper', function ($scope, $http, PathHelper) {
   $scope.PathHelper = PathHelper;
   $scope.timeEntries = gon.timeEntries;
   $scope.predicate = "";
+
+  $scope.deleteTimeEntry = function(id) {
+    if (window.confirm(I18n.t('js.text_are_you_sure'))) {
+      $http.delete(PathHelper.timeEntryPath(id))
+           .success(function(data, status, headers, config) {
+             var index = 0;
+
+             for (var i = 0; i < $scope.timeEntries.length; i++) {
+               if ($scope.timeEntries[i].id == id) {
+                 index = i;
+                 break;
+               }
+             }
+
+             $scope.timeEntries.splice(index, 1);
+           })
+           .error(function(data, status, headers, config) {
+           });
+    }
+  };
 }]);

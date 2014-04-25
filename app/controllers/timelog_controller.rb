@@ -30,7 +30,7 @@
 class TimelogController < ApplicationController
   menu_item :issues
 
-  before_filter :disable_api
+  before_filter :disable_api, except: [:destroy]
   before_filter :find_work_package, :only => [:new, :create]
   before_filter :find_project, :only => [:new, :create]
   before_filter :find_time_entry, :only => [:show, :edit, :update, :destroy]
@@ -171,6 +171,7 @@ class TimelogController < ApplicationController
           flash[:notice] = l(:notice_successful_delete)
           redirect_to :back
         }
+        format.json { render nothing: true }
       end
     else
       respond_to do |format|
@@ -178,6 +179,7 @@ class TimelogController < ApplicationController
           flash[:error] = l(:notice_unable_delete_time_entry)
           redirect_to :back
         }
+        format.json { render nothing: true }
       end
     end
   rescue ::ActionController::RedirectBackError
