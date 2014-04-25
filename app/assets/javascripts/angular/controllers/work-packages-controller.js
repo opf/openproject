@@ -28,8 +28,8 @@
 
 angular.module('openproject.workPackages.controllers')
 
-.controller('WorkPackagesController', ['$scope', '$window', '$location', 'WorkPackagesTableHelper', 'WorkPackageService', 'QueryService', 'PaginationService', 'WorkPackageLoadingHelper', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
-            function($scope, $window, $location, WorkPackagesTableHelper, WorkPackageService, QueryService, PaginationService, WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
+.controller('WorkPackagesController', ['$scope', '$window', '$location', 'WorkPackagesTableHelper', 'WorkPackageService', 'QueryService', 'PaginationService', 'WorkPackageLoadingHelper', 'INITIALLY_SELECTED_COLUMNS',
+            function($scope, $window, $location, WorkPackagesTableHelper, WorkPackageService, QueryService, PaginationService, WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS) {
 
 
   function setUrlParams(location) {
@@ -41,7 +41,6 @@ angular.module('openproject.workPackages.controllers')
   }
 
   function initialSetup() {
-    $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.loading = false;
     $scope.disableFilters = false;
 

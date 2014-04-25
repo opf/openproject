@@ -28,7 +28,7 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('queryFilter', ['WorkPackagesTableHelper', 'WorkPackageService', 'WorkPackageLoadingHelper', 'QueryService', 'PaginationService', 'I18n', '$timeout', function(WorkPackagesTableHelper, WorkPackageService, WorkPackageLoadingHelper, QueryService, PaginationService, I18n, $timeout) {
+.directive('queryFilter', ['WorkPackagesTableHelper', 'WorkPackageService', 'WorkPackageLoadingHelper', 'QueryService', 'FilterService', 'PaginationService', 'I18n', '$timeout', function(WorkPackagesTableHelper, WorkPackageService, WorkPackageLoadingHelper, QueryService, FilterService, PaginationService, I18n, $timeout) {
 
   var updateResultsJob;
 
@@ -38,6 +38,7 @@ angular.module('openproject.workPackages.directives')
     link: function(scope, element, attributes) {
       scope.I18n = I18n;
       scope.isLoading = false; // shadow isLoading as its used for a different purpose in this context
+      scope.operatorsAndLabelsByFilterType = FilterService.getOperatorsAndTranslatedLabelsByFilterType();
 
       scope.showValueOptionsAsSelect = !scope.filter.isSingleInputField();
 
