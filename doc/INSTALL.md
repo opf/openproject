@@ -29,11 +29,14 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Install
 
+
+Detailed installation instructions for different platforms are located on the [OpenProject website](https://www.openproject.org/projects/openproject/wiki/Download_and_Installation).
+
+You can find information on configuring OpenProject in [`config/CONFIGURATION.md`](CONFIGURATION.md).
+
 ## Fast install
 
-These are generic (and condensed) installation instructions for the **current dev** branch *without plugins*, and optimised for a development environment.
-
-See below for wiki links to instructions for **stable** branch, OpenProject configurations with plugins and platform-specific guides.
+These are generic (and condensed) installation instructions for the **current dev** branch *without plugins*, and optimised for a development environment. Refer to the OpenProject website for instructions for the **stable** branch, OpenProject configurations with plugins, as well as platform-specific guides.
 
 ### Prerequisites
 
@@ -89,12 +92,6 @@ See below for wiki links to instructions for **stable** branch, OpenProject conf
 
         bundle exec rails server
 
-
-## More detailed
-
-Detailed installation instructions for different platforms are located on the [OpenProject website](https://www.openproject.org/projects/openproject/wiki/Download_and_Installation).
-
-You can find information on configuring OpenProject in [`config/CONFIGURATION.md`](CONFIGURATION.md).
 
 [Node.js]:http://nodejs.org/
 [Bundler]:http://bundler.io/
