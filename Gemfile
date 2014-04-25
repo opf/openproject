@@ -214,6 +214,11 @@ group :postgres do
   gem 'pg', "~> 0.17.1"
 end
 
+# We don't support sqlite, but some tests require it.
+group :sqlite do
+  gem "sqlite3"
+end
+
 # Load Gemfile.local, Gemfile.plugins and plugins' Gemfiles
 Dir.glob File.expand_path("../{Gemfile.local,Gemfile.plugins,lib/plugins/*/Gemfile}", __FILE__) do |file|
   next unless File.readable?(file)
