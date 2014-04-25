@@ -26,16 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.timelines.controllers')
+angular.module('openproject.timelines.directives')
 
-.controller('TimelinesController', ['$scope', 'Timeline', function($scope, Timeline) {
-  // Setup
+.constant('TITLE_WIDTH', 0.25)
+.directive('timelineTruncatedTitle', ['TITLE_WIDTH', function(TITLE_WIDTH) {
+  return {
+    restrict: 'A',
+    scope: true,
+    link: function(scope, element, attributes) {
+      scope.$watch(function() { return element.is(':visible') }, function() {
+        setWidth(scope.contentWidth);
+      });
 
-  // Get server-side stuff into scope
-  $scope.timelineOptions = gon.timeline_options;
-
-  // Count timeline containers
-  $scope.timelineContainerCount = 0;
-
-  $scope.contentWidth = jQuery("#content").width();
+      function setWidth(contentWidth){
+        var el = angular.element(element);
+        var maxWidth = contentWidth * TITLE_WIDTH;
+        var indent = el.offset().left - el.parent().offset().left;
+        if (el.width() > maxWidth - indent) {
+          el.css('width', maxWidth - indent);
+        }
+      }
+    }
+  };
 }]);
