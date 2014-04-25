@@ -42,6 +42,12 @@ de:
       login_consequences:
         other: "Der Account wird aus dem System entfernt. Der Nutzer wird daher nicht mehr in der Lage sein, sich mit seinem derzeitigen Nutzernamen und Passwort anzumelden. Sofern der Nutzer es wünscht, kann er sich über die von der Anwendung zur Verfügung gestellten Mechanismen einen neuen Account zulegen."
         self: "Ihr Account wird aus dem System entfernt. Sie werden daher nicht mehr in der Lage sein, sich mit Ihrem derzeitigen Nutzernamen und Passwort anzumelden. Sofern Sie es wünschen, können Sie sich über die von der Anwendung zur Verfügung gestellten Mechanismen einen neuen Account zulegen."
+    error_inactive_activation_by_mail: >
+      Ihr Konto wurde noch nicht aktiviert. Zur Aktivierung folgen Sie bitte dem Link,
+      der Ihnen bei der Registrierung per E-Mail zugeschickt wurde.
+    error_inactive_manual_activation: >
+      Ihr Konto wurde noch nicht aktiviert. Bitte warten Sie auf die Aktivierung
+      Ihres Kontos durch einen Administrator.
     error_self_registration_disabled: >
       Auf diesem System ist die Nutzerregistierung deaktiviert. Bitte fragen Sie einen
       Administrator nach einem Nutzerkonto.
@@ -1029,7 +1035,6 @@ de:
   noscript_learn_more: "Weitere Informationen"
 
   notice_account_activated: "Ihr Konto ist aktiviert. Sie können sich jetzt anmelden."
-  notice_account_inactive: "Ihr Konto ist nicht aktiviert. Zur Aktivierung folgen Sie bitte dem Link, der Ihnen bei der Registrierung per E-Mail zugeschickt wurde."
   notice_account_invalid_credentials: "Benutzer oder Kennwort ist ungültig."
   notice_account_invalid_credentials_or_blocked: "Benutzer oder Kennwort ist ungültig oder der Account wurde wegen mehrfacher Falscheingabe temporär gesperrt, in diesem Fall wird er in Kürze automatisch wieder freigeschaltet."
   notice_account_lost_email_sent: "Eine E-Mail mit Anweisungen, wie ein neues Kennwort gewählt wird, wurde Ihnen zugeschickt."
