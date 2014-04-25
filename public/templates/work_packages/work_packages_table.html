@@ -61,7 +61,7 @@
         </span>
 
         <span>
-          <span work-package-column work-package="row.object" column="groupByColumn" display-empty="-">
+          <span work-package-column-data work-package="row.object" column="groupByColumn" display-empty="-">
           </span>
 
           <span class="count">
@@ -108,7 +108,7 @@
       </td>
 
       <td ng-repeat="column in columns" class="{{column.name}}" lang="{{column.custom_field && column.custom_field.name_locale || I18n.locale}}">
-        <span work-package-column
+        <span work-package-column-data
               work-package="row.object"
               column="column"
               display-type="{{column.meta_data.data_type}}"/>
@@ -132,7 +132,7 @@
         ]">
         <td colspan="2">
           {{ I18n.t('js.label_sum_for') }}
-          <span work-package-column work-package="row.object" column="groupByColumn"/>
+          <span work-package-column-data work-package="row.object" column="groupByColumn"/>
         </td>
         <td ng-repeat="column in columns">
           {{ column.group_sums[row.groupName] }}

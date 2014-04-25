@@ -29,7 +29,7 @@
 // TODO move to UI components
 angular.module('openproject.workPackages.directives')
 
-.directive('workPackageColumn', ['PathHelper', 'WorkPackagesHelper', 'UserService', function(PathHelper, WorkPackagesHelper, UserService){
+.directive('workPackageColumnData', ['PathHelper', 'WorkPackagesHelper', 'UserService', function(PathHelper, WorkPackagesHelper, UserService){
   return {
     restrict: 'EA',
     replace: true,

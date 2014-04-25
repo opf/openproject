@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-describe('workPackageColumn Directive', function() {
+describe('workPackageColumnData Directive', function() {
     var compile, element, rootScope, scope;
 
     beforeEach(angular.mock.module('openproject.workPackages.directives'));
@@ -34,7 +34,7 @@ describe('workPackageColumn Directive', function() {
 
     beforeEach(inject(function($rootScope, $compile) {
       var html;
-      html = '<span work-package-column work-package="workPackage" column="column" display-type="displayType" display-empty="-"></span>';
+      html = '<span work-package-column-data work-package="workPackage" column="column" display-type="displayType" display-empty="-"></span>';
 
       element = angular.element(html);
       rootScope = $rootScope;
