@@ -19,8 +19,9 @@
           query="query"
           update-results="updateResults()"/>
 
-      <th sort-header ng-repeat="column in columns"
-                      locale="column.custom_field && columns.custom_field.name_locale || I18n.locale"
+      <th sort-header work-package-table-cell
+                      ng-repeat="column in columns"
+                      locale="customFieldLocale || locale"
                       header-name="column.name"
                       header-title="column.title"
                       sortable="column.sortable"
@@ -107,11 +108,14 @@
         <a ng-href="/work_packages/{{row.object.id}}">{{row.object.id}}</a>
       </td>
 
-      <td ng-repeat="column in columns" class="{{column.name}}" lang="{{column.custom_field && column.custom_field.name_locale || I18n.locale}}">
+      <td ng-repeat="column in columns"
+          work-package-table-cell
+          class="{{column.name}}"
+          lang="{{customFieldLocale || locale}}">
         <span work-package-column-data
               work-package="row.object"
               column="column"
-              display-type="{{column.meta_data.data_type}}"/>
+              display-type="columnDataType"/>
       </td>
     </tr>
 
