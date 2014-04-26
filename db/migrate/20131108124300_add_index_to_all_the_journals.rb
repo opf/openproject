@@ -29,12 +29,26 @@
 
 class AddIndexToAllTheJournals < ActiveRecord::Migration
   def change
-    add_index "attachment_journals", ["journal_id"]
-    add_index "changeset_journals", ["journal_id"]
-    add_index "message_journals", ["journal_id"]
-    add_index "news_journals", ["journal_id"]
-    add_index "time_entry_journals", ["journal_id"]
-    add_index "wiki_content_journals", ["journal_id"]
-    add_index "work_package_journals", ["journal_id"]
+    # This now is only a no op.
+    #
+    # The creation of indexes has been moved in order to speed up migration.
+    #
+    # It remains here as some installations might already have
+    # executed the migration.
+    #
+    # Moved to 20130920081135_legacy_attachment_journal_data.rb
+    # add_index "attachment_journals", ["journal_id"]
+    # Moved to 20130920085055_legacy_changeset_journal_data.rb
+    # add_index "changeset_journals", ["journal_id"]
+    # Moved to 20130920090641_legacy_message_journal_data.rb
+    # add_index "message_journals", ["journal_id"]
+    # Moved to 20130920090201_legacy_news_journal_data.rb
+    # add_index "news_journals", ["journal_id"]
+    # Moved to 20130920092800_legacy_time_entry_journal_data.rb
+    # add_index "time_entry_journals", ["journal_id"]
+    # Moved to 20130920093823_legacy_wiki_content_journal_data.rb
+    # add_index "wiki_content_journals", ["journal_id"]
+    # Moved to 20130920094524_legacy_issue_journal_data.rb
+    # add_index "work_package_journals", ["journal_id"]
   end
 end

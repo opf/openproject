@@ -128,6 +128,18 @@ gem 'jquery-rails', '~> 2.0.3'
 # using the commit before this comment
 gem "i18n-js", :git => "https://github.com/fnando/i18n-js.git", :ref => '8801f8d17ef96c48a7a0269e251fcf1648c8f441'
 
+
+# Security fixes
+# Gems we don't depend directly on, but specify here to make sure we don't use a vulnerable
+# version. Please add a link to a security advisory when adding a Gem here.
+
+gem 'i18n', '>=0.6.8'
+# see https://groups.google.com/forum/#!topic/ruby-security-ann/pLrh6DUw998
+
+gem 'nokogiri', '>=1.5.11'
+# see https://groups.google.com/forum/#!topic/ruby-security-ann/DeJpjTAg1FA
+
+
 group :test do
   gem 'shoulda'
   gem 'object-daddy', '~> 1.1.0'
