@@ -29,8 +29,13 @@
 
 # Be sure to restart your server when you modify this file.
 
-if Rails.env.production?
-  OpenProject::Application.config.session_store ActionDispatch::Session::CacheStore
-else
-  OpenProject::Application.config.session_store :cookie_store, :key => '_open_project_session'
-end
+session_store = Rails.env.production? ? :cache_store : :cookie_store
+
+relative_url_root = OpenProject::Configuration['rails_relative_url_root'].presence
+
+session_options = {
+  :key    => '_open_project_session',
+  :path   => relative_url_root
+}
+
+OpenProject::Application.config.session_store session_store, session_options

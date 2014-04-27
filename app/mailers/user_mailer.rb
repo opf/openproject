@@ -41,7 +41,7 @@ class UserMailer < ActionMailer::Base
     headers['X-OpenProject-Type'] = 'Test'
 
     with_locale_for(user) do
-      mail :to => "#{user.name} <#{user.mail}>", :subject => 'OpenProject Test'
+      mail :to => "\"#{user.name}\" <#{user.mail}>", :subject => 'OpenProject Test'
     end
   end
 
