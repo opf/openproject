@@ -47,7 +47,8 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= render :partial => 'timelog/date_range' %>
   <%= render 'timelog/time_entry_tabs' %>
 
-  <p><label for='columns'><%= l(:label_details) %></label>: <%= select_tag 'columns', options_for_select([[l(:label_year), 'year'],
+  <p class="timelog-report-selection">
+    <label for='columns'><%= l(:label_details) %></label>: <%= select_tag 'columns', options_for_select([[l(:label_year), 'year'],
                                                                             [l(:label_month), 'month'],
                                                                             [l(:label_week), 'week'],
                                                                             [l(:label_day_plural).titleize, 'day']], @columns),
