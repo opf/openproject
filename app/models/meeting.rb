@@ -106,8 +106,8 @@ class Meeting < ActiveRecord::Base
   def all_changeable_participants
     changeable_participants = self.participants.select(&:invited).collect{|p| p.user}
     changeable_participants = changeable_participants + self.participants.select(&:attended).collect{|p| p.user}
-    changeable_participants = changeable_participants 
-                              + self.project.users.all(:include => { :memberships => [:roles, :project] } ).select{|u| self.visible?(u) }
+    changeable_participants = changeable_participants + \
+                              self.project.users.all(:include => { :memberships => [:roles, :project] } ).select{|u| self.visible?(u) }
     
     changeable_participants.uniq{|user| user.id}
   end
