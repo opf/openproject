@@ -188,6 +188,9 @@ group :development do
   gem 'quiet_assets'
 end
 
+# API gems
+gem 'grape', '~> 0.7.0'
+
 # Use the commented pure ruby gems, if you have not the needed prerequisites on
 # board to compile the native ones.  Note, that their use is discouraged, since
 # their integration is propbably not that well tested and their are slower in
