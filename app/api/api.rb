@@ -1,7 +1,15 @@
 class API < Grape::API
-  format :json
+  content_type 'hal+json', 'application/hal+json'
+  format 'hal+json'
 
-  get '/' do
-    "I work!"
+  get do
+    "Entry point"
   end
+
+  get :search do
+    "search"
+  end
+
+  mount WorkPackages::API
+  mount Users::API
 end
