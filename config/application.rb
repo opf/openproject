@@ -160,6 +160,10 @@ module OpenProject
       ActionMailer::Base.view_paths = ActionView::PathSet.new(ActionMailer::Base.view_paths.to_ary.reverse)
     end
 
+    # Load API files
+    config.paths.add File.join('app', 'api'), glob: File.join('**', '*.rb')
+    config.autoload_paths += Dir[Rails.root.join('app', 'api', '*')]
+
     OpenProject::Configuration.configure_cache(config)
   end
 end
