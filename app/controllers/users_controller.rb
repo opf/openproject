@@ -90,7 +90,7 @@ class UsersController < ApplicationController
 
   def show
     # show projects based on current user visibility
-    @reported_count = WorkPackage.on_active_project.with_author(current_user).count
+    @reported_count = WorkPackage.on_active_project.with_author(@user).count
     @memberships = @user.memberships.all(:conditions => Project.visible_by(User.current))
 
     events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
