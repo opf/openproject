@@ -1,0 +1,38 @@
+{
+  "name": "At.js",
+  "version": "0.4.9",
+  "main": "dist/js/jquery.atwho.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components",
+    "libs",
+    "spec"
+  ],
+  "dependencies": {
+    "Caret.js": "ichord/Caret.js#0.0.8"
+  },
+  "devDependencies": {
+    "jasmine-jquery": "~2.0.2"
+  },
+  "keywords": [
+    "mention",
+    "mentions",
+    "autocomplete",
+    "autocompletion",
+    "autosuggest",
+    "autosuggestion",
+    "atjs",
+    "at.js"
+  ],
+  "homepage": "https://github.com/ichord/At.js",
+  "_release": "0.4.9",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.4.9",
+    "commit": "b3d55dffe88d3398d9578f8084d4a939af63dd1b"
+  },
+  "_source": "git://github.com/ichord/At.js.git",
+  "_target": "*",
+  "_originalSource": "jquery.atwho"
+}

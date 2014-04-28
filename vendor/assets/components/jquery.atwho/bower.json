@@ -1,0 +1,28 @@
+{
+  "name": "At.js",
+  "version": "0.4.9",
+  "main": "dist/js/jquery.atwho.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components",
+    "libs",
+    "spec"
+  ],
+  "dependencies": {
+    "Caret.js": "ichord/Caret.js#0.0.8"
+  },
+  "devDependencies": {
+    "jasmine-jquery": "~2.0.2"
+  },
+  "keywords": [
+    "mention",
+    "mentions",
+    "autocomplete",
+    "autocompletion",
+    "autosuggest",
+    "autosuggestion",
+    "atjs",
+    "at.js"
+  ]
+}

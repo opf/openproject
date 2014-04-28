@@ -1,0 +1,167 @@
+<!DOCTYPE HTML>
+
+<html lang="en">
+<head>
+  <meta http-equiv="x-ua-compatible" content="IE=Edge"/>
+  <!-- <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" /> -->
+  <!-- <meta http-equiv="x-ua-compatible" content="IE=Edge"/> -->
+	<title></title>
+        <link rel="stylesheet" type="text/css" href="dist/css/jquery.atwho.css"/>
+        <script type="text/javascript" src="libs/jquery/jquery.js"></script>
+        <script type="text/javascript" src="dist/js/jquery.atwho.js"></script>
+        <script type="text/javascript">
+        $(function(){
+            var data = ["Jacob","Isabella","Ethan","Emma","Michael","Olivia","Alexander","Sophia","William","Ava","Joshua","Emily","Daniel","Madison","Jayden","lepture","Abigail","Noah","Chloe","aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","你好","你你你", "高富帅"
+            ];
+
+            // =========================
+
+            emojis = [
+            "six_pointed_star", "ski", "skull", "sleepy", "slot_machine", "smile",
+            "smiley", "smirk", "smoking", "snake", "snowman", "sob", "soccer",
+            "space_invader", "spades", "spaghetti", "sparkler", "sparkles",
+            "speaker", "speedboat", "squirrel", "star", "star2", "stars", "station",
+            "statue_of_liberty", "stew", "strawberry", "sunflower", "sunny",
+            "sunrise", "sunrise_over_mountains", "surfer", "sushi", "suspect",
+            "sweat", "sweat_drops", "swimmer", "syringe", "tada", "tangerine",
+            "taurus", "taxi", "tea", "telephone", "tennis", "tent", "thumbsdown", "+1","-1"]
+            emojis = $.map(emojis,function(value,i){
+                return {id: i, 'nickname':value}
+            })
+            data = $.map(data,function(value,i) {
+                return {id: i, 'name':value,'email':value+"@email.com"};
+            });
+
+            $('.inputor').atwho('run').atwho({
+                at: "@",
+                alias: "at-mentions",
+                // tpl: "<li data-value='${name}'>${name} <small>${name}</small></li>",
+                // max_len: 3,
+                // 'data':data,
+                'callbacks': {
+                    // filter: function (query, data, search_key) {
+                    //     console.log("custom filter",query, data);
+                    //     return this.super_call("filter", query, data, search_key)
+                    //     // return $.map(data, function(item, i) {
+                    //     //     return item[search_key].toLowerCase().indexOf(query) < 0 ? null : item
+                    //     // })
+                    // },
+                    remote_filter: function (query, callback) {
+                        // this.super_call("remote_filter", query, callback)
+                        console.log("calling remote_filter width query: " + query);
+                        callback(null);
+                    },
+                    filter: function (query, data, search_key) {
+                        console.log("calling filter with query: " + query);
+                        return this.call_default("filter", query, data, search_key);
+                    }
+                }
+            }).atwho({
+                at: ":",
+                // alias: "emojis",
+                search_key: "nickname",
+                tpl:"<li data-value=':${nickname}:'>${nickname} <img src='http://a248.e.akamai.net/assets.github.com/images/icons/emoji/${nickname}.png'  height='20' width='20' /></li>"
+                ,insert_tpl:"<img src='http://a248.e.akamai.net/assets.github.com/images/icons/emoji/${nickname}.png'  height='20' width='20' />"
+                ,'data':emojis
+                ,show_the_at: false
+                ,'start_with_space': false
+            }).one('focus', function(e) {
+                console.log(this, data);
+                // $(this).atwho('load', "@", data);
+                $(this).atwho('load', "at-mentions", data);
+            }).one('matched-at-mentions.atwho', function(e, key, query) {
+                console.log("matched.at-mentions", e.namespace, key, query)
+            }).one('matched-emojis.atwho', function(e) {
+                console.log("matched emojis", e.namespace)
+                inputor.atwho('load', ":", data).atwho('run')
+            }).one('matched.atwho', function(e) {
+                console.log(e.type, e.namespace)
+            });
+
+            $('#inputor').atwho({
+                at: '#',
+                data: ['1', '2', '3']
+            })
+
+            $('#inputor2').atwho({
+                at: '#',
+                data: ['a', 'b', 'c']
+            })
+
+            // $('#inputor3').atwho({
+            //   at: "@",
+            //   data: data
+            // }).one('focus',function(e){
+            //   console.log("contenteditable", this);
+            // }).on('keyup',function(e){
+            //   console.log("contenteditable", e);
+            // });
+
+
+            // $("textarea#inputor2").atwho({
+            //     at: "@",
+            //     tpl: "<li data-value='${email}'>${name} <small>${email}</small></li>",
+            //     'data':data,
+            //     search_key: "email"
+            // })
+            // .atwho({
+            //     at: "/:",
+            //     tpl:"<li data-value='${key}'>${name} <img src='http://a248.e.akamai.net/assets.github.com/images/icons/emoji/${name}.png'  height='20' width='20' /></li>"
+            //     ,'data':emojis
+            //     ,display_flag: false
+            // })
+
+            // $('input').atwho({at: "@", 'data':data})
+
+        });
+
+</script>
+<style type="text/css" media="screen">
+body {
+    font: 14px/1.6 "Lucida Grande", "Helvetica", sans-serif;
+}
+.box {
+    background:gray;
+    height:100px;
+    width:100px;
+    margin:10px;
+}
+textarea {
+    width: 300px;
+}
+#inputor{
+    width:480px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.inputor {
+  width: 380px;
+  height: 200px;
+  color: rgb(131,148,150);
+  background: rgb(13,43,54);
+  margin: 50px;
+}
+</style>
+</head>
+<body>
+    <div class="box"></div>
+    <div class="box"></div>
+    <button id="reflash">reflash</button>
+    <textarea id="inputor" class="inputor" name="at" rows="8" cols="40">
+        this textarea register "@" with static data
+        and ":" with ajax.
+        type "@" to try
+    </textarea>
+    <textarea id="inputor2" class="inputor" name="Name" rows="8" cols="40">
+        this register "/:" with static data
+    </textarea>
+    <div id="inputor3" class="inputor" contenteditable="true">
+      <strong>hello</strong><p>what do you want?!?!!?</p>
+    </div>
+    <textarea></textarea>
+    <textarea></textarea>
+    <textarea></textarea>
+    <br/>
+    <input value="hello"/>
+</body>
+</html>
