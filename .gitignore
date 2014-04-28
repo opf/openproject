@@ -53,6 +53,9 @@
 /db/*.db
 /db/*.sqlite3
 /db/schema.rb
+# ignored, because engines copy their migrations here.
+# do `git add -f <migration file>` to explicitly add a new core migration
+/db/migrate/*.rb
 /files/*
 /karma/reports
 /log/*.log*
@@ -70,7 +73,6 @@
 /vendor/assets/components
 /*.rbc
 /doc/app
-#/Gemfile.lock
 /Gemfile.local
 /Gemfile.plugins
 /.rvmrc*
