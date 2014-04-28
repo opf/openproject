@@ -100,12 +100,13 @@ describe AccountController do
             omniauth: true,
             timestamp: Time.new)
           session[:auth_source_registration] = auth_source_registration
-          post :register, :user => { :firstname => 'Foo',
+          post :register, :user => { :login => 'login@bar.com',
+                                     :firstname => 'Foo',
                                      :lastname => 'Smith',
                                      :mail => 'foo@bar.com' }
           expect(response).to redirect_to my_first_login_path
 
-          user = User.find_by_login('foo@bar.com')
+          user = User.find_by_login('login@bar.com')
           expect(user).to be_an_instance_of(User)
           expect(user.auth_source_id).to be_nil
           expect(user.current_password).to be_nil

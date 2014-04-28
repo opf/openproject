@@ -38,8 +38,10 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= error_messages_for :user %>
 
   <div class="box">
-    <% if @user.change_password_allowed? %>
+    <% if @user.auth_source_id.nil? %>
       <p><%= f.text_field :login, :size => 25, :required => true %></p>
+    <% end %>
+    <% if @user.change_password_allowed? %>
       <p>
         <%= f.password_field :password,
                              :required => true,
