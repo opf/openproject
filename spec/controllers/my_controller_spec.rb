@@ -129,7 +129,7 @@ describe MyController, :type => :controller do
   end
   
   describe "index" do
-    it "passes the correct number of reported work packages for the user" do
+    it "uses the correct scopes for number of reported work packages(just like users_controller)" do
       WorkPackage.should_receive(:on_active_project).and_return(WorkPackage.where :id => 0)
       WorkPackage.should_receive(:with_author).and_return(WorkPackage.where :id => 0)
       get :index
