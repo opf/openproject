@@ -1175,11 +1175,19 @@ var activateFlashError = function () {
   activateFlash(error);
 }
 
+var focusFirstErroneousField = function() {
+  var firstErrorSpan = jQuery('span.errorSpan').first();
+  var erroneousInput = firstErrorSpan.find('*').filter(":input");
+
+  erroneousInput.focus();
+}
+
 var setupServerResponse = function() {
   I18nForms.init();
   initMainMenuExpandStatus();
   activateFlashNotice();
   activateFlashError();
+  focusFirstErroneousField();
 
   jQuery(document).ajaxComplete(activateFlashNotice);
   jQuery(document).ajaxComplete(activateFlashError);
