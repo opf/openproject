@@ -72,6 +72,7 @@ module.exports = function(config) {
       'app/assets/javascripts/angular/services/pagination-service.js',
       'app/assets/javascripts/angular/services/project-service.js',
       'app/assets/javascripts/angular/services/work-package-service.js',
+      'app/assets/javascripts/angular/services/filter-service.js',
       'app/assets/javascripts/angular/services/query-service.js',
       'app/assets/javascripts/angular/services/pagination-service.js',
 
