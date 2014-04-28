@@ -28,21 +28,24 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('workPackageTableCell', [function() {
+.directive('workPackageRow', ['I18n', function(I18n){
+
+  function setCheckboxTitle(scope) {
+    var checkboxTitleLocale = I18n.t('js.description_select_work_package');
+    scope.checkboxTitle = checkboxTitleLocale + '#' + scope.workPackage.id;
+  }
+
+  var parentWorkPackageLabel = I18n.t('js.description_subwork_package') + ' ' + I18n.t('js.label_work_package') + ' ';
+  function setHiddenWorkPackageLabel(scope) {
+    scope.parentWorkPackageHiddenText = parentWorkPackageLabel + '"' + scope.row.parent.object.subject + '"';
+  }
+
   return {
     restrict: 'A',
-    link: function(scope, elememnt, attrs) {
-      function setColumnData(column) {
-        if (column.custom_field && column.custom_field.name_locale) {
-          scope.customFieldLocale = column.custom_field.name_locale;
-        } else {
-          scope.customFieldLocale = null;
-        }
-      }
-
-      scope.$watch('column', function(column) {
-        if (column) setColumnData(column);
-      });
+    link: function(scope) {
+      scope.workPackage = scope.row.object;
+      setCheckboxTitle(scope);
+      if (scope.workPackage.parent_id) setHiddenWorkPackageLabel(scope);
     }
   };
 }]);

@@ -81,7 +81,8 @@
 
     <!-- Work package rows -->
 
-    <tr id="work-package-{{ row.object.id }}"
+    <tr work-package-row
+        id="work-package-{{ row.object.id }}"
         ng-class="[
           'hascontextmenu',
           row.checked && 'context-menu-selection',
@@ -96,14 +97,13 @@
       <td class="checkbox hide-when-print">
         <accessible-checkbox name="ids[]"
                              checkbox-id="work_package{{row.object.id}}"
-                             checkbox-title="{{I18n.t('js.description_select_work_package')}}#{{row.object.id}}"
                              checkbox-value="row.object.id"
+                             checkbox-title="{{checkboxTitle}}"
                              model="row.checked"/>
       </td>
 
       <td class="id">
-        <span ng-if="row.object.parent_id" class="hidden-for-sighted">
-          {{I18n.t('js.description_subwork_package')}} {{I18n.t('js.label_work_package')}} #{{row.parent.object.name}}
+        <span ng-if="workPackage.parent_id" class="hidden-for-sighted" ng-bind="parentWorkPackageHiddenText">
         </span>
         <a ng-href="/work_packages/{{row.object.id}}">{{row.object.id}}</a>
       </td>
@@ -115,7 +115,7 @@
         <span work-package-column-data
               work-package="row.object"
               column="column"
-              display-type="columnDataType"/>
+              display-type="{{column.meta_data.data_type}}"/>
       </td>
     </tr>
 
