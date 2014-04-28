@@ -1149,13 +1149,7 @@ var I18nForms = (function ($) {
 
 jQuery(document).ready(I18nForms.init);
 
-var activateError = function() {
-  var errorHeader = jQuery('.errorExplanation h2[role="alert"]');
-
-  errorHeader.show();
-}
-
-var activateFlash = function() {
+var activateFlash = function(query) {
   var flashMessages = jQuery('.flash');
 
   // Ignore flash messages of class 'ignored-by-flash-activation' because those
@@ -1171,13 +1165,28 @@ var activateFlash = function() {
   });
 }
 
-jQuery(document).ready(initMainMenuExpandStatus);
-jQuery(document).ready(activateError);
-jQuery(document).ready(function () {
-  activateFlash();
+var activateFlashNotice = function () {
+  var notice = '.flash';
 
-  jQuery(document).ajaxComplete(activateFlash);
-});
+  activateFlash(notice);
+}
+
+var activateFlashError = function () {
+  var error = '.errorExplanation h2[role="alert"]';
+
+  activateFlash(error);
+}
+
+var setupServerResponse = function() {
+  activateFlashNotice();
+  activateFlashError();
+
+  jQuery(document).ajaxComplete(activateFlashNotice);
+  jQuery(document).ajaxComplete(activateFlashError);
+}
+
+jQuery(document).ready(initMainMenuExpandStatus);
+jQuery(document).ready(setupServerResponse);
 
 var SubmitConfirm = (function($) {
   var init;
