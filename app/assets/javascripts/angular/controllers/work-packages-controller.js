@@ -45,7 +45,7 @@ angular.module('openproject.workPackages.controllers')
     $scope.loading = false;
     $scope.disableFilters = false;
 
-    if($location.search()['f[]']){
+    if($location.search()['c[]']){
       var getMethod = WorkPackageService.getWorkPackagesFromUrlQueryParams;
       var params = [$scope.projectIdentifier, $location];
     } else {
@@ -68,6 +68,7 @@ angular.module('openproject.workPackages.controllers')
 
   function afterQuerySetupCallback(query) {
     $scope.showFilters = query.filters.length > 0;
+    $scope.updateBackUrl();
   }
 
   $scope.updateBackUrl = function(){

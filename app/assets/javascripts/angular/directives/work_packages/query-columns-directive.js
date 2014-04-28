@@ -61,7 +61,8 @@ angular.module('openproject.workPackages.directives')
             // work package rows
             var params = [workPackages, newColumns];
             if( scope.groupByColumn) params.push(scope.groupByColumn.name);
-            scope.withLoading(WorkPackageService.augmentWorkPackagesWithColumnsData, params);
+            scope.withLoading(WorkPackageService.augmentWorkPackagesWithColumnsData, params)
+              .then(scope.updateBackUrl);
           }
 
           function removeColumn(columnName, columns, callback) {
