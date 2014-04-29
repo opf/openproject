@@ -50,17 +50,18 @@ angular.module('openproject.workPackages.directives', ['openproject.uiComponents
 // main app
 var openprojectApp = angular.module('openproject', ['ui.select2', 'ui.date', 'openproject.uiComponents', 'openproject.timelines', 'openproject.workPackages', 'ngAnimate']);
 
+window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
+
 openprojectApp
   .config(['$locationProvider', '$httpProvider', function($locationProvider, $httpProvider) {
     // Note: Not using this because we want to use $location to get the url params and html5Mode prevents all the links from working normally.
     // $locationProvider.html5Mode(true);
     $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = jQuery('meta[name=csrf-token]').attr('content'); // TODO find a more elegant way to keep the session alive
 
-    var appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
     $httpProvider.interceptors.push(function ($q) {
       return {
         'request': function (config) {
-          config.url = appBasePath + config.url;
+          config.url = window.appBasePath + config.url;
           return config || $q.when(config);
         }
       }

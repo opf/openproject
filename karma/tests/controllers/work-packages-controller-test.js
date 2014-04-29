@@ -30,6 +30,7 @@
 
 describe('WorkPackagesController', function() {
   var scope, ctrl, win, testWorkPackageService, testQueryService, testPaginationService;
+  var buildController;
 
   beforeEach(module('openproject.workPackages.controllers'));
   beforeEach(inject(function($rootScope, $controller, $timeout) {
@@ -83,20 +84,39 @@ describe('WorkPackagesController', function() {
       }
     };
 
-    ctrl = $controller("WorkPackagesController", {
-      $scope:  scope,
-      $window: win,
-      QueryService:       testQueryService,
-      PaginationService:  testPaginationService,
-      WorkPackageService: testWorkPackageService
-    });
+    buildController = function() {
+      ctrl = $controller("WorkPackagesController", {
+        $scope:  scope,
+        $window: win,
+        QueryService:       testQueryService,
+        PaginationService:  testPaginationService,
+        WorkPackageService: testWorkPackageService
+      });
 
-    $timeout.flush();
+      $timeout.flush();
+    };
+
   }));
 
   describe('initialisation', function() {
     it('should initialise', function() {
+      buildController();
       expect(scope.loading).to.be.false;
+    });
+  });
+
+  describe('setting projectIdentifier', function() {
+    it('should set the projectIdentifier', function() {
+      win.location.pathname = '/projects/my-project/something-else';
+      buildController();
+      expect(scope.projectIdentifier).to.eq('my-project');
+    });
+
+    it('should set the projectIdentifier with a custom appBasePath', function() {
+      win.appBasePath = '/my-instanz';
+      win.location.pathname = '/my-instanz/projects/my-project/something-else';
+      buildController();
+      expect(scope.projectIdentifier).to.eq('my-project');
     });
   });
 
