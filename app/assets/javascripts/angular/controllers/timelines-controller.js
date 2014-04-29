@@ -36,4 +36,5 @@ angular.module('openproject.timelines.controllers')
 
   // Count timeline containers
   $scope.timelineContainerCount = 0;
+
 }]);
