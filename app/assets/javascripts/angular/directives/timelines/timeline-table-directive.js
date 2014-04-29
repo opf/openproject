@@ -40,6 +40,20 @@ angular.module('openproject.timelines.directives')
       scope.excludeEmpty = scope.timeline.options.exclude_empty === 'yes';
       scope.isGrouping = scope.timeline.isGrouping();
       scope.hideTreeRoot = scope.isGrouping || scope.timeline.options.hide_tree_root;
+
+      scope.toggleRowExpansion = function(row){
+        if(row.expanded) {
+          var childOperation = function(node){ node.resetVisible(); };
+        } else {
+          var childOperation = function(node){ node.setVisible(); };
+        }
+        row.expanded = !row.expanded;
+        angular.forEach(row.childNodes, function(node){
+          childOperation(node);
+        });
+
+        scope.setLastVisible();
+      };
     }
   };
 }]);

@@ -45,6 +45,7 @@ angular.module('openproject.timelines.models')
     parentNode: undefined,
     childNodes: undefined,
     expanded: false,
+    lastExpanded: false,
 
     totalCount: 0,
     projectCount: 0,
@@ -120,6 +121,18 @@ angular.module('openproject.timelines.models')
     },
     expandAll: function() {
       return this.setExpandedAll(true);
+    },
+    setVisible: function(){
+      this.visible = true;
+    },
+    resetVisible: function(){
+      this.visible = false;
+    },
+    setLastVisible: function(){
+      this.lastVisible = true;
+    },
+    resetLastVisible: function(){
+      this.lastVisible = false;
     },
     collapseAll: function() {
       return this.setExpandedAll(false);
