@@ -180,6 +180,8 @@ group :development do
   gem 'guard-test'
 end
 
+gem 'pundit'
+
 # API gems
 gem 'grape', '~> 0.7.0'
 gem 'roar',   '~> 0.12.6'
