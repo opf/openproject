@@ -66,12 +66,12 @@ describe('timelineColumnData Directive', function() {
         compile();
       });
 
-      it('should render object data', function() {
+      it('should render the object data', function() {
         expect(element.find('.tl-column').text()).to.equal(type.name);
       });
     });
 
-    describe('rendering historical data', function() {
+    describe('rendering a changed historical date', function() {
       beforeEach(function() {
         historicalStartDate = '2014-04-20';
 
@@ -83,15 +83,54 @@ describe('timelineColumnData Directive', function() {
         compile();
       })
 
-      it('should render the historical data', function() {
-        var historicalContent = element.find('.tl-historical a').text();
-        expect(historicalContent).to.equal(historicalStartDate);
-      })
-
       it('should assign a historical date kind class to the data container', function() {
         var container = element.find('.tl-column');
         expect(container.hasClass('tl-preponed')).to.be.true;
       });
+
+      describe('the historical data container', function() {
+        beforeEach(function() {
+          historicalDataContainer = element.find('.tl-historical a');
+        });
+
+        it('should contain the historical data', function() {
+          var historicalContent = historicalDataContainer.text();
+          expect(historicalContent).to.equal(historicalStartDate);
+        });
+
+        it('should have a css class indicating the change', function() {
+          expect(historicalDataContainer.hasClass('tl-icon-preponed')).to.be.true;
+        });
+      })
+    });
+
+    describe('rendering changed data which is not a date', function() {
+      beforeEach(function() {
+        historicalType = Factory.build('PlanningElementType');
+
+        scope.rowObject.historical_element =  Factory.build("PlanningElement", {
+          planning_element_type: historicalType
+        });
+
+        scope.columnName = 'type';
+        compile();
+      })
+
+      describe('the historical data container', function() {
+        beforeEach(function() {
+          historicalDataContainer = element.find('.tl-historical a');
+        });
+
+        it('should contain the historical data', function() {
+          var historicalContent = historicalDataContainer.text();
+          expect(historicalContent).to.equal(historicalType.name);
+        });
+
+        it('should have a css class indicating the change', function() {
+          expect(historicalDataContainer.hasClass('tl-icon-changed')).to.be.true;
+        });
+      })
+
     });
   });
 });

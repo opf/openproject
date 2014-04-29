@@ -56,22 +56,28 @@ angular.module('openproject.timelines.directives')
       setHistoricalData(scope);
 
       function getColumnData() {
-        var map = {
-          "type": "getTypeName",
-          "status": "getStatusName",
-          "responsible": "getResponsibleName",
-          "assigned_to": "getAssignedName",
-          "project": "getProjectName"
-        };
-
         switch(scope.columnName) {
           case 'start_date':
             return scope.rowObject.start_date;
           case 'due_date':
             return scope.rowObject.due_date;
           default:
-            return scope.rowObject[map[scope.columnName]]();
+            return scope.rowObject.getAttribute(getAttributeAccessor(scope.columnName));
         }
+      }
+
+      function getAttributeAccessor(attr) {
+        return {
+          "type": "getTypeName",
+          "status": "getStatusName",
+          "responsible": "getResponsibleName",
+          "assigned_to": "getAssignedName",
+          "project": "getProjectName"
+        }[attr] || attr;
+      }
+
+      function hasChanged(planningElement, attr) {
+        return planningElement.does_historical_differ(getAttributeAccessor(attr));
       }
 
       function getCustomFieldColumnData(object, customFieldName, customFields, users) {
@@ -85,21 +91,21 @@ angular.module('openproject.timelines.directives')
       }
 
       function setHistoricalData() {
-        scope.historicalDataDiffers = scope.rowObject.does_historical_differ(scope.columnName);
+        scope.historicalDataDiffers = hasChanged(scope.rowObject, scope.columnName);
 
         scope.historicalDateKind = getHistoricalDateKind(scope.rowObject, scope.columnName);
         scope.labelTimelineChanged = I18n.t('js.timelines.change');
 
         if (scope.rowObject.historical_element) {
-          scope.historicalData = scope.rowObject.historical_element[scope.columnName] || I18n.t('js.timelines.empty');
+          scope.historicalData = scope.rowObject.historical_element.getAttribute(getAttributeAccessor(scope.columnName)) || I18n.t('js.timelines.empty');
         }
       }
 
-      function getHistoricalDateKind(object, value) {
-        if (!object.does_historical_differ(value)) return;
+      function getHistoricalDateKind(planningElement, attr) {
+        if (!hasChanged(planningElement, attr)) return;
 
-        var newDate = object[value];
-        var oldDate = object.historical()[value];
+        var newDate = planningElement[attr];
+        var oldDate = planningElement.historical_element[attr];
 
         if (oldDate && newDate) {
           return (newDate < oldDate ? 'postponed' : 'preponed');

@@ -2,7 +2,7 @@
   <a href="javascript://" title="{{labelTimelineChanged}}"
      ng-class="[
        'icon',
-       'tl-icon-' + isDateColumn && historicalDateKind || 'tl-icon-changed'
+       'tl-icon-' + (isDateColumn && historicalDateKind || 'changed')
      ]" ng-bind="historicalData"></a>
   <br/>
 </span>
