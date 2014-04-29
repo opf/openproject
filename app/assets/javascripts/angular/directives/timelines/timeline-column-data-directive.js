@@ -29,7 +29,7 @@
 angular.module('openproject.timelines.directives')
 
 .constant('WORK_PACKAGE_DATE_COLUMNS', ['start_date', 'due_date'])
-.directive('timelineColumn', ['WORK_PACKAGE_DATE_COLUMNS', 'I18n', 'CustomFieldHelper', function(WORK_PACKAGE_DATE_COLUMNS, I18n, CustomFieldHelper) {
+.directive('timelineColumnData', ['WORK_PACKAGE_DATE_COLUMNS', 'I18n', 'CustomFieldHelper', function(WORK_PACKAGE_DATE_COLUMNS, I18n, CustomFieldHelper) {
 
 
   return {
@@ -40,7 +40,7 @@ angular.module('openproject.timelines.directives')
       timeline: '=',
       customFields: '='
     },
-    templateUrl: '/templates/timelines/timeline_column.html',
+    templateUrl: '/templates/timelines/timeline_column_data.html',
     link: function(scope, element) {
       scope.isDateColumn = WORK_PACKAGE_DATE_COLUMNS.indexOf(scope.columnName) !== -1;
 
