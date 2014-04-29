@@ -35,6 +35,7 @@ module.exports = function(config) {
       'app/assets/javascripts/angular/helpers/filters-helper.js',
       'app/assets/javascripts/angular/helpers/components/work-packages-helper.js',
       'app/assets/javascripts/angular/helpers/work-packages-table-helper.js',
+      'app/assets/javascripts/angular/helpers/timeline-table-helper.js',
       'app/assets/javascripts/angular/helpers/function-decorators.js',
 
       'app/assets/javascripts/angular/filters/work-packages-filters.js',
