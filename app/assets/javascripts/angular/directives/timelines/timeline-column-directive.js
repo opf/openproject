@@ -30,6 +30,8 @@ angular.module('openproject.timelines.directives')
 
 .constant('WORK_PACKAGE_DATE_COLUMNS', ['start_date', 'due_date'])
 .directive('timelineColumn', ['WORK_PACKAGE_DATE_COLUMNS', 'I18n', 'CustomFieldHelper', function(WORK_PACKAGE_DATE_COLUMNS, I18n, CustomFieldHelper) {
+
+
   return {
     restrict: 'A',
     scope: {
@@ -42,8 +44,6 @@ angular.module('openproject.timelines.directives')
     link: function(scope, element) {
       scope.isDateColumn = WORK_PACKAGE_DATE_COLUMNS.indexOf(scope.columnName) !== -1;
 
-      scope.historicalDateKind = getHistoricalDateKind(scope.rowObject, scope.columnName);
-
       if (CustomFieldHelper.isCustomFieldKey(scope.columnName)) {
         // watch custom field because they are loaded after the rows are being iterated
         scope.$watch('timeline.custom_fields', function() {
@@ -53,18 +53,7 @@ angular.module('openproject.timelines.directives')
         scope.columnData = getColumnData();
       }
 
-      function getHistoricalDateKind(object, value) {
-        if (!object.does_historical_differ()) return;
-
-        var newDate = object[value];
-        var oldDate = object.historical()[value];
-
-        if (oldDate && newDate) {
-          return (newDate < oldDate ? 'postponed' : 'preponed');
-        }
-        return "changed";
-      }
-
+      setHistoricalData(scope);
 
       function getColumnData() {
         var map = {
@@ -93,6 +82,29 @@ angular.module('openproject.timelines.directives')
         if (customField) {
           return CustomFieldHelper.formatCustomFieldValue(object[customFieldName], customField.field_format, users);
         }
+      }
+
+      function setHistoricalData() {
+        scope.historicalDataDiffers = scope.rowObject.does_historical_differ(scope.columnName);
+
+        scope.historicalDateKind = getHistoricalDateKind(scope.rowObject, scope.columnName);
+        scope.labelTimelineChanged = I18n.t('js.timelines.change');
+
+        if (scope.rowObject.historical_element) {
+          scope.historicalData = scope.rowObject.historical_element[scope.columnName] || I18n.t('js.timelines.empty');
+        }
+      }
+
+      function getHistoricalDateKind(object, value) {
+        if (!object.does_historical_differ()) return;
+
+        var newDate = object[value];
+        var oldDate = object.historical()[value];
+
+        if (oldDate && newDate) {
+          return (newDate < oldDate ? 'postponed' : 'preponed');
+        }
+        return "changed";
       }
     }
   };

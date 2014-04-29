@@ -1,18 +1,14 @@
-<span class="tl-historical" ng-show="rowObject.does_historical_differ(columnName)">
-  <a href="javascript://" title="{{I18n.t('js.timelines.change')}}"
+<span class="tl-historical" ng-if="historicalDataDiffers">
+  <a href="javascript://" title="{{labelTimelineChanged}}"
      ng-class="[
        'icon',
        'tl-icon-' + isDateColumn && historicalDateKind || 'tl-icon-changed'
-     ]">
-    {{rowObject.historical()[columnName] || I18n.t('js.timelines.empty')}}
-  </a>
+     ]" ng-bind="historicalData"></a>
   <br/>
 </span>
 
 <span ng-class="[
   'tl-column',
   isDateColumn && 'tl-current',
-  isDateColumn && rowObject.does_historical_differ(columnName) && 'tl-' + (historicalDateKind)
-]">
-  {{columnData}}
-</span>
+  isDateColumn && historicalDataDiffers && 'tl-' + historicalDateKind
+]" ng-bind="columnData"></span>
