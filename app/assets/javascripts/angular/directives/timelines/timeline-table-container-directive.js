@@ -37,6 +37,12 @@ angular.module('openproject.timelines.directives')
     templateUrl: '/templates/timelines/timeline_table_container.html',
     link: function(scope, element, attributes) {
 
+      function showWarning() {
+        scope.underConstruction = false;
+        scope.warning = true;
+        scope.$apply();
+      }
+
       function fetchData() {
         return TimelineLoaderService.loadTimelineData(scope.timeline);
       }
@@ -110,7 +116,7 @@ angular.module('openproject.timelines.directives')
           if (scope.rows.length > 0) {
             completeUI();
           } else {
-            timeline.warn(I18n.t('js.label_no_data'), 'warning', scope.showWarning);
+            timeline.warn(I18n.t('js.label_no_data'), 'warning', showWarning);
           }
         } catch (e) {
           timeline.die(e);
