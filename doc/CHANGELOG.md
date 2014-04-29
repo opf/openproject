@@ -30,6 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#7177` Fix: Journal not created in connection with deleted note
+* `#6310` API v1 is now deprecated and will be removed in the next major release of OpenProject
 
 ## 3.0.1
 
