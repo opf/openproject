@@ -2,7 +2,15 @@ module WorkPackages
   class API < Grape::API
 
     resources :work_packages do
+      params do
+        optional :page, type: Integer, default:  1
+        optional :per_page, type: Integer, default: 100
+        optional :filters, type: Array
+        optional :sort_expression, type: String
+        optional :extend, type: String
+      end
       get do
+        binding.pry
         work_packages = WorkPackage.all
       end
 
