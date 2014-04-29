@@ -41,6 +41,7 @@
 //= require settings
 //= require modal
 //= require keyboard_shortcuts
+//= require tab_handling
 //= require top-shelf
 //= require unsupported-browsers
 //= require autocomplete_textareas
@@ -222,70 +223,6 @@ function addFileField() {
   clone.writeAttribute('id', '');
   clone.innerHTML = clone.innerHTML.replace(/\[1\]/g, '['+ fileFieldCount + ']');
   $('attachments_fields').appendChild(clone);
-}
-
-function showTab(name) {
-    var f = $$('div#content .tab-content');
-	for(var i=0; i<f.length; i++){
-		Element.hide(f[i]);
-	}
-    var f = $$('div.tabs a');
-	for(var i=0; i<f.length; i++){
-		Element.removeClassName(f[i], "selected");
-	}
-	Element.show('tab-content-' + name);
-	Element.addClassName('tab-' + name, "selected");
-        Element.insert('tab-' + name, {top: $$('div.tabs .hidden-for-sighted')[0]})
-	return false;
-}
-
-function moveTabRight(el) {
-	var lis = Element.up(el, 'div.tabs').down('ul').childElements();
-	var tabsWidth = 0;
-	var i;
-	for (i=0; i<lis.length; i++) {
-		if (lis[i].visible()) {
-			tabsWidth += lis[i].getWidth() + 6;
-		}
-	}
-	if (tabsWidth < Element.up(el, 'div.tabs').getWidth() - 60) {
-		return;
-	}
-	i=0;
-	while (i<lis.length && !lis[i].visible()) {
-		i++;
-	}
-	lis[i].hide();
-}
-
-function moveTabLeft(el) {
-	var lis = Element.up(el, 'div.tabs').down('ul').childElements();
-	var i = 0;
-	while (i<lis.length && !lis[i].visible()) {
-		i++;
-	}
-	if (i>0) {
-		lis[i-1].show();
-	}
-}
-
-function displayTabsButtons() {
-	var lis;
-	var tabsWidth = 0;
-	var i;
-	$$('div.tabs').each(function(el) {
-		lis = el.down('ul').childElements();
-		for (i=0; i<lis.length; i++) {
-			if (lis[i].visible()) {
-				tabsWidth += lis[i].getWidth() + 6;
-			}
-		}
-		if ((tabsWidth < el.getWidth() - 20) && (lis[0].visible())) {
-			el.down('div.tabs-buttons').hide();
-		} else {
-			el.down('div.tabs-buttons').show();
-		}
-	});
 }
 
 function setPredecessorFieldsVisibility() {
