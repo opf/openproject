@@ -123,9 +123,17 @@ angular.module('openproject.timelines.directives')
       }
 
       function renderTimeline() {
-        fetchData()
+        return fetchData()
           .then(buildWorkPackageTable)
           .then(drawChart);
+      }
+
+      function reloadTimeline() {
+        return fetchData()
+          .then(buildWorkPackageTable)
+          .then(function() {
+            scope.timeline.rebuildAll();
+          });
       }
 
       function registerModalHelper() {
@@ -141,7 +149,10 @@ angular.module('openproject.timelines.directives')
         );
 
         jQuery(scope.timeline.modalHelper).on('closed', function() {
-          renderTimeline(); // TODO remove and do updates via scope
+          reloadTimeline().then(function() {
+            window.clearTimeout(scope.timeline.safetyHook);
+          });
+          // TODO remove and do updates via scope
         });
       }
 
