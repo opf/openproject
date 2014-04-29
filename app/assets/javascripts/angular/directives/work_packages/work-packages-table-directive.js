@@ -35,6 +35,7 @@ angular.module('openproject.workPackages.directives')
     templateUrl: '/templates/work_packages/work_packages_table.html',
     scope: {
       projectIdentifier: '=',
+      numberOfDisplayedRows: '=',
       columns: '=',
       rows: '=',
       query: '=',

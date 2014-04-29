@@ -34,7 +34,7 @@
     <!-- Group headers -->
 
     <tr work-package-group-header
-        ng-repeat-start="row in rows"
+        ng-repeat-start="row in rows | limitTo:numberOfDisplayedRows"
         ng-if="!!groupByColumn &&
                ($first || row.groupName !== rows[$index-1].groupName)"
         ng-class="{

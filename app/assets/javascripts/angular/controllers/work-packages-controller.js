@@ -43,6 +43,7 @@ angular.module('openproject.workPackages.controllers')
   function initialSetup() {
     $scope.loading = false;
     $scope.disableFilters = false;
+    initNumberOfDisplayedRows();
 
     if($location.search()['c[]']){
       var getMethod = WorkPackageService.getWorkPackagesFromUrlQueryParams;
@@ -115,8 +116,19 @@ angular.module('openproject.workPackages.controllers')
   $scope.updateResults = function() {
     $scope.$broadcast('openproject.workPackages.updateResults');
 
+    initNumberOfDisplayedRows();
     return $scope.withLoading(WorkPackageService.getWorkPackages, [$scope.projectIdentifier, $scope.query, PaginationService.getPaginationOptions()])
       .then($scope.setupWorkPackagesTable);
+  };
+
+  function initNumberOfDisplayedRows() {
+    $scope.numberOfDisplayedRows = 50;
+  }
+  $scope.showMoreRows = function() {
+    if ($scope.rows && $scope.rows.length > $scope.numberOfDisplayedRows) {
+      $scope.numberOfDisplayedRows += 100;
+      $scope.$digest();
+    }
   };
 
   function serviceErrorHandler(data) {

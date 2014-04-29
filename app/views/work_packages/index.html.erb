@@ -53,7 +53,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= render :partial => 'layouts/action_menu_specific' %>
 
-<div id="work-packages-index" ng-controller="WorkPackagesController">
+<div id="work-packages-index"
+     ng-controller="WorkPackagesController"
+     infinite-scroll="showMoreRows()"
+     infinite-scroll-distance="1">
   <div class="title-bar">
     <div class="title-bar-extras">
 
