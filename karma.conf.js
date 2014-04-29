@@ -24,6 +24,7 @@ module.exports = function(config) {
       "vendor/assets/components/angular/angular.js",
       "vendor/assets/components/angular-mocks/angular-mocks.js",
       "vendor/assets/components/angular-ui-select2/src/select2.js",
+      "vendor/assets/components/ngInfiniteScroll/build/ng-infinite-scroll.js",
 
       "vendor/assets/components/openproject-ui_components/app/assets/javascripts/angular/ui-components-app.js",
       "app/assets/javascripts/angular/openproject-app.js",
