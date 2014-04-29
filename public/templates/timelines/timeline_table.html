@@ -37,7 +37,7 @@
             'tl-indent-' + indent,
             row.childNodes.length > 0 && (row.isExpanded() && 'tl-expanded' || 'tl-collapsed')
           ]">
-        <a ng-click="row.expanded = !row.expanded" ng-if="row.childNodes.length > 0">{{row.expanded && '-' || '+'}}</a>
+        <a ng-click="toggleRowExpansion(row)" ng-if="row.childNodes.length > 0">{{row.expanded && '-' || '+'}}</a>
 
         <span class="tl-word-ellipsis">
           <span ng-if="changeDetected">
@@ -52,6 +52,8 @@
           <span>
             <a href="" modal title="{{row.text}}" target="row.url" ng-class="{'tl-discreet-link': true, 'tl-project': rowObjectType === 'Project'}">{{row.text}}</a>
           </span>
+
+          <div ng-show="row.lastVisible" class="tl-invisible" style="height: 15px; width: 15px;"></div>
         </span>
       </td>
 

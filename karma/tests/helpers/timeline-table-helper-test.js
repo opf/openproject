@@ -26,32 +26,36 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.timelines.directives')
+/*jshint expr: true*/
 
-.directive('timelineTable', ['TimelineTableHelper', function(TimelineTableHelper) {
-  return {
-    restrict: 'E',
-    replace: true,
-    templateUrl: '/templates/timelines/timeline_table.html',
-    scope: true,
-    link: function(scope, element, attributes) {
-      scope.columns = scope.timeline.options.columns;
-      scope.height = scope.timeline.decoHeight();
-      scope.excludeEmpty = scope.timeline.options.exclude_empty === 'yes';
-      scope.isGrouping = scope.timeline.isGrouping();
-      scope.hideTreeRoot = scope.isGrouping || scope.timeline.options.hide_tree_root;
+describe('Timeline table helper', function() {
+  var TimelineTableHelper;
 
-      scope.toggleRowExpansion = function(row){
-        if(row.expanded) {
-          var expansionMethod = function(node){ node.resetVisible(); }
-        } else {
-          var expansionMethod = function(node){ node.setVisible(); }
+  beforeEach(module('openproject.timelines.helpers'));
+  beforeEach(inject(function(_TimelineTableHelper_) {
+    TimelineTableHelper = _TimelineTableHelper_;
+  }));
+
+  describe('setRowLevelVisibility', function() {
+    var setRowLevelVisibility;
+
+    beforeEach(function() {
+      setRowLevelVisibility = TimelineTableHelper.setRowLevelVisibility;
+    });
+
+    describe('with 3 levels', function() {
+      it('should set levels 0 to 3 to visible', function() {
+        var nodes = [];
+        for(i = 0; i < 10; i++){
+          var node = Object.create(TreeNode);
+          node.level = i;
+          nodes.push(node);
         }
+        setRowLevelVisibility(nodes, 3);
 
-        TimelineTableHelper.applyToNodes(row.childNodes, expansionMethod, row.expanded);
-        row.expanded = !row.expanded;
-        TimelineTableHelper.setLastVisible(scope.rows);
-      };
-    }
-  };
-}]);
+        expect(nodes.filter(function(node){ return node.visible; }).length).to.equal(4);
+      });
+    });
+
+  });
+});

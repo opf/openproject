@@ -94,6 +94,41 @@ angular.module('openproject.timelines.helpers')
       rows.unshift(tree);
 
       return rows;
+    },
+
+    setLastVisible: function(rows) {
+      var set = false;
+      i = rows.length - 1;
+      while(i >= 0){
+        if(!set && rows[i].visible){
+          rows[i].setLastVisible();
+          set = true;
+        } else {
+          rows[i].resetLastVisible();
+        }
+        i--;
+      }
+    },
+
+    setRowLevelVisibility: function(rows, level) {
+      angular.forEach(rows, function(row) {
+        if(row.level <= level) {
+          row.setVisible();
+        } else {
+          row.resetVisible();
+        }
+      });
+      TimelineTableHelper.setLastVisible(rows);
+    },
+
+    applyToNodes: function(nodes, method, recurse){
+      var method = method;
+      angular.forEach(nodes, function(node){
+        method(node);
+        if(node.childNodes && recurse){
+          TimelineTableHelper.applyToNodes(node.childNodes, method, recurse);
+        }
+      });
     }
   };
 
