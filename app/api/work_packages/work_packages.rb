@@ -7,7 +7,8 @@ module WorkPackages
       end
 
       get ':id' do
-        work_package = current_user.work_packages.find(params[:id])
+        work_package = WorkPackage.find(params[:id])
+        authorize work_package, :show?
         WorkPackageRepresenter.new(work_package).to_json
       end
 

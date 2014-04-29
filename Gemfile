@@ -188,6 +188,8 @@ group :development do
   gem 'quiet_assets'
 end
 
+gem 'pundit'
+
 # API gems
 gem 'grape', '~> 0.7.0'
 gem 'roar',   '~> 0.12.6'
