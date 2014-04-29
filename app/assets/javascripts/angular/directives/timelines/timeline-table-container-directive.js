@@ -132,7 +132,7 @@ angular.module('openproject.timelines.directives')
         return fetchData()
           .then(buildWorkPackageTable)
           .then(function() {
-            scope.timeline.rebuildAll();
+            scope.timeline.expandToOutlineLevel(scope.currentOutlineLevel); // also triggers rebuildAll()
           });
       }
 
