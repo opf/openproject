@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#7177` Fix: Journal not created in connection with deleted note
+
 ## 3.0.1
 
 * `#5265` Fix: Error adding Work Package

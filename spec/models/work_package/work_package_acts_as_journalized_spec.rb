@@ -191,6 +191,24 @@ describe WorkPackage do
           end
         end
       end
+
+      describe "adding journal with a missing journal and an existing journal" do
+        before do
+          work_package.update_by!(current_user, notes: 'note to be deleted')
+          work_package.reload
+          work_package.update_by!(current_user, description: 'description v2')
+          work_package.reload
+          work_package.journals.find_by_notes('note to be deleted').delete
+
+          work_package.update_by!(current_user, description: 'description v4')
+        end
+
+        it 'should create a journal for the last change' do
+          last_journal = work_package.journals.order(:id).last
+
+          expect(last_journal.data.description).to eql('description v4')
+        end
+      end
     end
 
     context "attachments" do
