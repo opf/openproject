@@ -1,6 +1,6 @@
 # OpenProject
 
-[<img src="https://travis-ci.org/opf/openproject.png?branch=dev" alt="Build Status" />](https://travis-ci.org/opf/openproject)
+[<img src="https://travis-ci.org/opf/openproject.svg?branch=dev" alt="Build Status" />](https://travis-ci.org/opf/openproject)
 [<img src="https://gemnasium.com/opf/openproject.png" alt="Dependency Status" />](https://gemnasium.com/opf/openproject)
 
 OpenProject is a web-based project management software. Its key features are:
