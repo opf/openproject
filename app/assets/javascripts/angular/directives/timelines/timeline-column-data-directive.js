@@ -96,7 +96,7 @@ angular.module('openproject.timelines.directives')
       }
 
       function getHistoricalDateKind(object, value) {
-        if (!object.does_historical_differ()) return;
+        if (!object.does_historical_differ(value)) return;
 
         var newDate = object[value];
         var oldDate = object.historical()[value];

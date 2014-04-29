@@ -87,6 +87,11 @@ describe('timelineColumnData Directive', function() {
         var historicalContent = element.find('.tl-historical a').text();
         expect(historicalContent).to.equal(historicalStartDate);
       })
+
+      it('should assign a historical date kind class to the data container', function() {
+        var container = element.find('.tl-column');
+        expect(container.hasClass('tl-preponed')).to.be.true;
+      });
     });
   });
 });
