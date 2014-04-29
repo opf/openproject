@@ -94,6 +94,16 @@ angular.module('openproject.timelines.helpers')
       rows.unshift(tree);
 
       return rows;
+    },
+
+    applyToNodes: function(nodes, method, recurse){
+      var method = method;
+      angular.forEach(nodes, function(node){
+        method(node);
+        if(node.childNodes && recurse){
+          TimelineTableHelper.applyToNodes(node.childNodes, method, recurse);
+        }
+      });
     }
   };
 

@@ -176,6 +176,17 @@ angular.module('openproject.timelines.directives')
           i--;
         }
       };
+
+      scope.setRowLevelVisibility = function(level) {
+        angular.forEach(scope.rows, function(row) {
+          if(row.level <= level) {
+            row.setVisible();
+          } else {
+            row.resetVisible();
+          }
+        });
+        scope.setLastVisible();
+      };
     }
   };
 }]);

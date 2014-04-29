@@ -46,6 +46,7 @@ angular.module('openproject.timelines.models')
     childNodes: undefined,
     expanded: false,
     lastExpanded: false,
+    visible: false,
 
     totalCount: 0,
     projectCount: 0,

@@ -28,7 +28,7 @@
 
 angular.module('openproject.timelines.directives')
 
-.directive('timelineTable', [function() {
+.directive('timelineTable', ['TimelineTableHelper', function(TimelineTableHelper) {
   return {
     restrict: 'E',
     replace: true,
@@ -43,14 +43,13 @@ angular.module('openproject.timelines.directives')
 
       scope.toggleRowExpansion = function(row){
         if(row.expanded) {
-          var childOperation = function(node){ node.resetVisible(); };
+          var expansionMethod = function(node){ node.resetVisible(); }
         } else {
-          var childOperation = function(node){ node.setVisible(); };
+          var expansionMethod = function(node){ node.setVisible(); }
         }
+
+        TimelineTableHelper.applyToNodes(row.childNodes, expansionMethod, row.expanded);
         row.expanded = !row.expanded;
-        angular.forEach(row.childNodes, function(node){
-          childOperation(node);
-        });
 
         scope.setLastVisible();
       };
