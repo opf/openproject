@@ -50,8 +50,7 @@ angular.module('openproject.timelines.directives')
 
         TimelineTableHelper.applyToNodes(row.childNodes, expansionMethod, row.expanded);
         row.expanded = !row.expanded;
-
-        scope.setLastVisible();
+        TimelineTableHelper.setLastVisible(scope.rows);
       };
     }
   };

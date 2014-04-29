@@ -162,31 +162,6 @@ angular.module('openproject.timelines.directives')
       registerModalHelper();
 
       renderTimeline();
-
-      scope.setLastVisible = function() {
-        var set = false;
-        i = scope.rows.length - 1;
-        while(i >= 0){
-          if(!set && scope.rows[i].visible){
-            scope.rows[i].setLastVisible();
-            set = true;
-          } else {
-            scope.rows[i].resetLastVisible();
-          }
-          i--;
-        }
-      };
-
-      scope.setRowLevelVisibility = function(level) {
-        angular.forEach(scope.rows, function(row) {
-          if(row.level <= level) {
-            row.setVisible();
-          } else {
-            row.resetVisible();
-          }
-        });
-        scope.setLastVisible();
-      };
     }
   };
 }]);
