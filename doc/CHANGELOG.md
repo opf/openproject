@@ -62,6 +62,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#6309` Remove API v1 & add level_list to API v2
 * `#7050` Fix: Cannot change the login when login is already taken during creation of account
 * `#7051` Wrong success message when user is not allowed to register himself
+* `#7149` Fix: Wrong success message when login is already in use
 * Allowed sending of mails with only cc: or bcc: fields
 * Allow adding attachments to created work packages via planning elements controller
 * Remove unused rmagick dependency

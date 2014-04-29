@@ -379,7 +379,7 @@ class AccountController < ApplicationController
   end
 
   # Log an attempt to log in to a locked account or with invalid credentials
-  #  and show a flash message.
+  # and show a flash message.
   def invalid_credentials(flash_now: true)
     flash_hash = flash_now ? flash.now : flash
 
