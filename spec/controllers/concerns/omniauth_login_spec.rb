@@ -206,7 +206,7 @@ describe AccountController do
           expect(response).to redirect_to my_page_path
         end
 
-        it 'should log an successful login' do
+        it 'should log a successful login' do
           post_at = Time.now.utc
           post :omniauth_login
 
