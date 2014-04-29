@@ -29,10 +29,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= form_tag({}) do -%>
   <back-url></back-url>
-  <div class="autoscroll">
+  <div class="autoscroll"
+       ng-if="rows && columns">
 
-    <work-packages-table ng-if="rows && columns"
-                         project-identifier="projectIdentifier"
+    <work-packages-table project-identifier="projectIdentifier"
+                         number-of-displayed-rows="numberOfDisplayedRows"
                          columns="columns"
                          rows="rows"
                          query="query"
