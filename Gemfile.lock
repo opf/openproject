@@ -1,17 +1,16 @@
 GIT
-  remote: git://github.com/finnlabs/rspec-example_disabler.git
-  revision: deb9c38e3f4e3688724583ac1ff58e1ae8aba409
-  branch: master
-  specs:
-    rspec-example_disabler (0.0.1)
-
-GIT
   remote: https://github.com/finnlabs/rack-protection.git
   revision: 5a7d1bd2f05ca75faf7909c8cc978732a0080898
   ref: 5a7d1bd
   specs:
     rack-protection (1.5.2)
       rack
+
+GIT
+  remote: https://github.com/finnlabs/rspec-example_disabler.git
+  revision: deb9c38e3f4e3688724583ac1ff58e1ae8aba409
+  specs:
+    rspec-example_disabler (0.0.1)
 
 GIT
   remote: https://github.com/fnando/i18n-js.git
