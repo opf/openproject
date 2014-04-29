@@ -3,18 +3,19 @@ module WorkPackages
 
     resources :work_packages do
       get do
-        WorkPackage.all
+        work_packages = WorkPackage.all
       end
 
-      get :id do
-        WorkPackage.find(params[:id])
+      get ':id' do
+        work_package = current_user.work_packages.find(params[:id])
+        WorkPackageRepresenter.new(work_package).to_json
       end
 
-      patch :id do
+      patch ':id' do
         "work package update"
       end
 
-      delete :id do
+      delete :':id' do
         "work package delete"
       end
 

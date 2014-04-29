@@ -297,7 +297,13 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     ref (1.0.5)
+    representable (1.8.1)
+      multi_json
+      nokogiri
+      uber
     request_store (1.0.5)
+    roar (0.12.6)
+      representable (>= 1.6.0)
     rspec (2.14.1)
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
@@ -376,6 +382,7 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.38)
+    uber (0.0.4)
     uglifier (2.1.1)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
@@ -453,6 +460,7 @@ DEPENDENCIES
   rb-readline
   rdoc (>= 2.4.2)
   request_store
+  roar (~> 0.12.6)
   rspec (~> 2.14)
   rspec-example_disabler!
   rspec-rails (~> 2.14)

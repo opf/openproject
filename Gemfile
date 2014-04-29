@@ -182,6 +182,7 @@ end
 
 # API gems
 gem 'grape', '~> 0.7.0'
+gem 'roar',   '~> 0.12.6'
 
 # Use the commented pure ruby gems, if you have not the needed prerequisites on
 # board to compile the native ones.  Note, that their use is discouraged, since
