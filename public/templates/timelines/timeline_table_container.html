@@ -1,8 +1,5 @@
-<div ng-class="{timeline: !(warning || errorMessage), 'tl-under-construction': underConstruction}" >
-  <div ng-if="!!errorMessage" ng-bind="errorMessage" class="flash error">
-  </div>
-
-  <div class="tl-left" ng-if="!errorMessage">
+<div ng-class="{timeline: !warning, 'tl-under-construction': underConstruction}" >
+  <div class="tl-left">
     <div class="tl-left-top tl-decoration"></div>
     <div class="tl-left-main">
       <timeline-table/>

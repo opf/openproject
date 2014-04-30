@@ -34,8 +34,9 @@ angular.module('openproject.timelines.directives')
   return {
     restrict: 'E',
     replace: true,
+    require: '^timelineContainer',
     templateUrl: '/templates/timelines/timeline_table_container.html',
-    link: function(scope, element, attributes) {
+    link: function(scope, element, attributes, timelineContrainerCtrl) {
 
       function showWarning() {
         scope.underConstruction = false;
@@ -45,7 +46,7 @@ angular.module('openproject.timelines.directives')
 
       function showError(errorMessage) {
         scope.underConstruction = false;
-        scope.errorMessage = errorMessage;
+        timelineContrainerCtrl.showError(errorMessage);
       }
 
       function fetchData() {
@@ -138,7 +139,11 @@ angular.module('openproject.timelines.directives')
         return fetchData()
           .then(buildWorkPackageTable)
           .then(function() {
-            scope.timeline.expandToOutlineLevel(scope.currentOutlineLevel); // also triggers rebuildAll()
+            if (scope.currentOutlineLevel) {
+              scope.timeline.expandToOutlineLevel(scope.currentOutlineLevel); // also triggers rebuildAll()
+            } else {
+              scope.rebuildAll();
+            }
           }, showError);
       }
 
