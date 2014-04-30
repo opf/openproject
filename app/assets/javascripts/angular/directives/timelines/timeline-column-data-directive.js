@@ -29,7 +29,9 @@
 angular.module('openproject.timelines.directives')
 
 .constant('WORK_PACKAGE_DATE_COLUMNS', ['start_date', 'due_date'])
-.directive('timelineColumn', ['WORK_PACKAGE_DATE_COLUMNS', 'I18n', 'CustomFieldHelper', function(WORK_PACKAGE_DATE_COLUMNS, I18n, CustomFieldHelper) {
+.directive('timelineColumnData', ['WORK_PACKAGE_DATE_COLUMNS', 'I18n', 'CustomFieldHelper', function(WORK_PACKAGE_DATE_COLUMNS, I18n, CustomFieldHelper) {
+
+
   return {
     restrict: 'A',
     scope: {
@@ -38,11 +40,9 @@ angular.module('openproject.timelines.directives')
       timeline: '=',
       customFields: '='
     },
-    templateUrl: '/templates/timelines/timeline_column.html',
+    templateUrl: '/templates/timelines/timeline_column_data.html',
     link: function(scope, element) {
       scope.isDateColumn = WORK_PACKAGE_DATE_COLUMNS.indexOf(scope.columnName) !== -1;
-
-      scope.historicalDateKind = getHistoricalDateKind(scope.rowObject, scope.columnName);
 
       if (CustomFieldHelper.isCustomFieldKey(scope.columnName)) {
         // watch custom field because they are loaded after the rows are being iterated
@@ -53,36 +53,31 @@ angular.module('openproject.timelines.directives')
         scope.columnData = getColumnData();
       }
 
-      function getHistoricalDateKind(object, value) {
-        if (!object.does_historical_differ()) return;
-
-        var newDate = object[value];
-        var oldDate = object.historical()[value];
-
-        if (oldDate && newDate) {
-          return (newDate < oldDate ? 'postponed' : 'preponed');
-        }
-        return "changed";
-      }
-
+      setHistoricalData(scope);
 
       function getColumnData() {
-        var map = {
-          "type": "getTypeName",
-          "status": "getStatusName",
-          "responsible": "getResponsibleName",
-          "assigned_to": "getAssignedName",
-          "project": "getProjectName"
-        };
-
         switch(scope.columnName) {
           case 'start_date':
             return scope.rowObject.start_date;
           case 'due_date':
             return scope.rowObject.due_date;
           default:
-            return scope.rowObject[map[scope.columnName]]();
+            return scope.rowObject.getAttribute(getAttributeAccessor(scope.columnName));
         }
+      }
+
+      function getAttributeAccessor(attr) {
+        return {
+          "type": "getTypeName",
+          "status": "getStatusName",
+          "responsible": "getResponsibleName",
+          "assigned_to": "getAssignedName",
+          "project": "getProjectName"
+        }[attr] || attr;
+      }
+
+      function hasChanged(planningElement, attr) {
+        return planningElement.does_historical_differ(getAttributeAccessor(attr));
       }
 
       function getCustomFieldColumnData(object, customFieldName, customFields, users) {
@@ -93,6 +88,29 @@ angular.module('openproject.timelines.directives')
         if (customField) {
           return CustomFieldHelper.formatCustomFieldValue(object[customFieldName], customField.field_format, users);
         }
+      }
+
+      function setHistoricalData() {
+        scope.historicalDataDiffers = hasChanged(scope.rowObject, scope.columnName);
+
+        scope.historicalDateKind = getHistoricalDateKind(scope.rowObject, scope.columnName);
+        scope.labelTimelineChanged = I18n.t('js.timelines.change');
+
+        if (scope.rowObject.historical_element) {
+          scope.historicalData = scope.rowObject.historical_element.getAttribute(getAttributeAccessor(scope.columnName)) || I18n.t('js.timelines.empty');
+        }
+      }
+
+      function getHistoricalDateKind(planningElement, attr) {
+        if (!hasChanged(planningElement, attr)) return;
+
+        var newDate = planningElement[attr];
+        var oldDate = planningElement.historical_element[attr];
+
+        if (oldDate && newDate) {
+          return (newDate < oldDate ? 'preponed' : 'postponed');
+        }
+        return "changed";
       }
     }
   };
