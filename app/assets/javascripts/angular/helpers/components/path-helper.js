@@ -37,8 +37,14 @@ angular.module('openproject.helpers')
     assetPath: function(assetIdentifier) {
       return '/assets/' + assetIdentifier;
     },
+    boardsPath: function(projectIdentifier) {
+      return PathHelper.projectPath(projectIdentifier) + '/boards';
+    },
+    boardPath: function(projectIdentifier, boardIdentifier) {
+      return PathHelper.boardsPath(projectIdentifier) + '/' + boardIdentifier;
+    },
     messagesPath: function(boardIdentifier) {
-      return '/boards/' + boardIdentifier + '/topics';
+      return PathHelper.boardsPath() + '/' + boardIdentifier + '/topics';
     },
     messagePath: function(messageIdentifier) {
       return '/topics/' + messageIdentifier;

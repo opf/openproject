@@ -58,15 +58,24 @@ class BoardsController < ApplicationController
 
     respond_to do |format|
       format.html {
-        @topics =  @board.topics.order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
-                                .includes(:author, { :last_reply => :author })
-                                .page(params[:page])
-                                .per_page(per_page_param)
+        set_topics
 
         gon.rabl "app/views/messages/index.rabl"
+        gon.project_id = @project.id
+        gon.board_id = @board.id
+        gon.sort_column = 'updated_on'
+        gon.sort_direction = 'desc'
+        gon.total_count = @board.topics.count
 
         @message = Message.new
         render :action => 'show', :layout => !request.xhr?
+      }
+      format.json {
+        set_topics
+
+        gon.rabl "app/views/messages/index.rabl"
+
+        render template: "messages/index"
       }
       format.atom {
         @messages = @board.messages.order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
@@ -76,6 +85,13 @@ class BoardsController < ApplicationController
         render_feed(@messages, :title => "#{@project}: #{@board}")
       }
     end
+  end
+
+  def set_topics
+    @topics =  @board.topics.order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
+                            .includes(:author, { :last_reply => :author })
+                            .page(params[:page])
+                            .per_page(per_page_param)
   end
 
   def new

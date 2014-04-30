@@ -28,16 +28,31 @@
 
 angular.module('openproject.messages.controllers')
 
-.controller('MessagesController', ['$scope', 'PathHelper', function ($scope, PathHelper) {
+.controller('MessagesController', ['$scope', '$http', 'PathHelper', 'SortService', 'PaginationService', function ($scope, $http, PathHelper, SortService, PaginationService) {
   $scope.PathHelper = PathHelper;
   $scope.messages = gon.messages;
-  $scope.predicate = "";
+  $scope.totalMessageCount = gon.total_count;
+  $scope.isLoading = false;
 
-  $scope.filterByStickedOn = function(message) {
-    if (message.isSticky) {
-      return moment(message.sticked_on, "MM/DD/YYYY/ HH:mm A").unix();
-    }
+  SortService.setColumn(gon.sort_column);
+  SortService.setDirection(gon.sort_direction);
 
-    return Number.MAX_VALUE;
+  $scope.loadMessages = function() {
+    $scope.isLoading = true;
+
+    $http.get(PathHelper.boardPath(gon.project_id, gon.board_id),
+              {
+                params: {
+                          sort: SortService.getSortParam(),
+                          page: PaginationService.getPage()
+                        }
+              })
+         .success(function(data, status, headers, config) {
+           $scope.messages = data.messages;
+           $scope.isLoading = false;
+         })
+         .error(function(data, status, headers, config) {
+           $scope.isLoading = false;
+         });
   };
 }]);
