@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
              :method => :post,
              :remote => true,
              :loading => '$(\'member-add-submit\').disable();',
-             :complete => 'if($(\'member-add-submit\')) $(\'member-add-submit\').enable(); activateError();',
+             :complete => 'if($(\'member-add-submit\')) $(\'member-add-submit\').enable(); activateFlashError();',
              :html => {:id => "members_add_form"}) do |f| %>
   <fieldset>
     <legend><%=l(:label_member_new)%></legend>
