@@ -266,6 +266,13 @@ end
 # * https://www.ruby-lang.org/en/news/2014/03/10/regression-of-hash-reject-in-ruby-2-1-1/
 # * https://github.com/rails/rails/issues/14188
 # * https://github.com/rails/rails/pull/14198/files
+# * https://bugs.ruby-lang.org/issues/9576
+
+ruby_ver = RUBY_VERSION.split('.').map{|s| s.to_i}
+if Rails::VERSION::MAJOR < 4 &&
+    ruby_ver[0] >= 2 &&
+    ((ruby_ver[1] == 1 && RUBY_PATCHLEVEL < 79) ||
+     ruby_ver[1] >= 2)
 module ActiveSupport
   class HashWithIndifferentAccess
     def select(*args, &block)
@@ -287,7 +294,7 @@ module ActiveSupport
     end
   end
 end
-
+end
 
 module CollectiveIdea
   module Acts
