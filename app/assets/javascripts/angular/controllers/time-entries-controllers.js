@@ -28,9 +28,10 @@
 
 angular.module('openproject.timeEntries.controllers')
 
-.controller('TimeEntriesController', ['$scope', '$rootScope', '$http', 'PathHelper', 'SortService', function ($scope, $rootScope, $http, PathHelper, SortService) {
+.controller('TimeEntriesController', ['$scope', '$http', 'PathHelper', 'SortService', 'PaginationService', function ($scope, $http, PathHelper, SortService, PaginationService) {
   $scope.PathHelper = PathHelper;
   $scope.timeEntries = gon.timeEntries;
+  $scope.totalEntryCount = gon.total_count;
 
   SortService.setColumn(gon.sort_column);
   SortService.setDirection(gon.sort_direction);
@@ -40,6 +41,7 @@ angular.module('openproject.timeEntries.controllers')
               {
                 params: {
                           sort: SortService.getSortParam(),
+                          page: PaginationService.getPage()
                         }
               })
          .success(function(data, status, headers, config) {

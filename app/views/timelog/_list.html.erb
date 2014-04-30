@@ -27,9 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= include_gon %>
-
-<table class="list time-entries" ng-controller="TimeEntriesController">
+<table class="list time-entries">
   <thead>
     <tr>
       <th><sort-link sort-attr="spent_on" sort-func="loadTimeEntries()"><%= TimeEntry.human_attribute_name(:spent_on) %></sort-link></th>
