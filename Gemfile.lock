@@ -66,6 +66,9 @@ GEM
       activerecord (>= 3.0.0)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    bourbon (4.0.0)
+      sass (~> 3.3)
+      thor
     bourne (1.4.0)
       mocha (~> 0.13.2)
     builder (3.0.4)
@@ -332,6 +335,7 @@ DEPENDENCIES
   activerecord-tableless (~> 1.0)
   acts_as_list (~> 0.2.0)
   awesome_nested_set
+  bourbon (~> 4.0)
   capybara
   capybara-screenshot
   cocaine
