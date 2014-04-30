@@ -83,23 +83,23 @@ describe('timelineColumnData Directive', function() {
         compile();
       })
 
-      it('should assign a historical date kind class to the data container', function() {
+      it('should assign a change kind class to the current date', function() {
         var container = element.find('.tl-column');
         expect(container.hasClass('tl-preponed')).to.be.true;
       });
 
       describe('the historical data container', function() {
         beforeEach(function() {
-          historicalDataContainer = element.find('.tl-historical a');
+          historicalContainerElement = element.find('.tl-historical');
+          historicalDataContainer = historicalContainerElement.find('.historical-data');
         });
 
         it('should contain the historical data', function() {
-          var historicalContent = historicalDataContainer.text();
-          expect(historicalContent).to.equal(historicalStartDate);
+          expect(historicalDataContainer.text()).to.equal(historicalStartDate);
         });
 
-        it('should have a css class indicating the change', function() {
-          expect(historicalDataContainer.hasClass('tl-icon-preponed')).to.be.true;
+        it('should contain a link with a css class indicating the change', function() {
+          expect(historicalContainerElement.find('a').hasClass('tl-icon-preponed')).to.be.true;
         });
       })
     });
@@ -118,16 +118,16 @@ describe('timelineColumnData Directive', function() {
 
       describe('the historical data container', function() {
         beforeEach(function() {
-          historicalDataContainer = element.find('.tl-historical a');
+          historicalContainerElement = element.find('.tl-historical');
+          historicalDataContainer = historicalContainerElement.find('.historical-data');
         });
 
         it('should contain the historical data', function() {
-          var historicalContent = historicalDataContainer.text();
-          expect(historicalContent).to.equal(historicalType.name);
+          expect(historicalDataContainer.text()).to.equal(historicalType.name);
         });
 
-        it('should have a css class indicating the change', function() {
-          expect(historicalDataContainer.hasClass('tl-icon-changed')).to.be.true;
+        it('should contain a link with a css class indicating the change', function() {
+          expect(historicalContainerElement.find('a').hasClass('tl-icon-changed')).to.be.true;
         });
       })
 
