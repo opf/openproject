@@ -662,6 +662,28 @@ describe PermittedParams do
     end
   end
 
+  describe '#user_register_via_omniauth' do
+    user_permissions = %w(login firstname lastname mail language)
+
+    user_permissions.each do |field|
+      it "should permit #{field}" do
+        hash = { field => 'test' }
+        params = ActionController::Parameters.new(:user => hash)
+
+        expect(PermittedParams.new(params, admin).user_register_via_omniauth).to eq(
+          field => 'test')
+      end
+    end
+
+    it 'should not allow identity_url' do
+      hash = { 'identity_url'  => 'test_identity_url' }
+
+      params = ActionController::Parameters.new(:user => hash)
+
+      expect(PermittedParams.new(params, admin).user_register_via_omniauth).to eq({})
+    end
+  end
+
   shared_context 'prepare params comparison' do
     let(:params_key) { (defined? hash_key) ? hash_key : attribute }
     let(:params) { ActionController::Parameters.new(params_key => hash) }

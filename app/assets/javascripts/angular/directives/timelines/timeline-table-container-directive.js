@@ -36,6 +36,13 @@ angular.module('openproject.timelines.directives')
     replace: true,
     templateUrl: '/templates/timelines/timeline_table_container.html',
     link: function(scope, element, attributes) {
+
+      function showWarning() {
+        scope.underConstruction = false;
+        scope.warning = true;
+        scope.$apply();
+      }
+
       function fetchData() {
         return TimelineLoaderService.loadTimelineData(scope.timeline);
       }
@@ -81,12 +88,6 @@ angular.module('openproject.timelines.directives')
         });
       }
 
-      function showWarning() {
-        scope.underConstruction = false;
-        scope.warning = true;
-        scope.$apply();
-      }
-
       function buildWorkPackageTable(timeline){
         timeline.lefthandTree = null; // reset cached data tree
 
@@ -115,7 +116,7 @@ angular.module('openproject.timelines.directives')
           if (scope.rows.length > 0) {
             completeUI();
           } else {
-            timeline.warn(I18n.t('js.label_no_data'), 'warning', this.showWarning);
+            timeline.warn(I18n.t('js.label_no_data'), 'warning', showWarning);
           }
         } catch (e) {
           timeline.die(e);
@@ -123,9 +124,17 @@ angular.module('openproject.timelines.directives')
       }
 
       function renderTimeline() {
-        fetchData()
+        return fetchData()
           .then(buildWorkPackageTable)
           .then(drawChart);
+      }
+
+      function reloadTimeline() {
+        return fetchData()
+          .then(buildWorkPackageTable)
+          .then(function() {
+            scope.timeline.expandToOutlineLevel(scope.currentOutlineLevel); // also triggers rebuildAll()
+          });
       }
 
       function registerModalHelper() {
@@ -141,7 +150,10 @@ angular.module('openproject.timelines.directives')
         );
 
         jQuery(scope.timeline.modalHelper).on('closed', function() {
-          renderTimeline(); // TODO remove and do updates via scope
+          reloadTimeline().then(function() {
+            window.clearTimeout(scope.timeline.safetyHook);
+          });
+          // TODO remove and do updates via scope
         });
       }
 

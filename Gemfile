@@ -125,6 +125,18 @@ gem 'prototype_legacy_helper', '0.0.0', :git => 'https://github.com/rails/protot
 # using the commit before this comment
 gem "i18n-js", :git => "https://github.com/fnando/i18n-js.git", :ref => '8801f8d17ef96c48a7a0269e251fcf1648c8f441'
 
+
+# Security fixes
+# Gems we don't depend directly on, but specify here to make sure we don't use a vulnerable
+# version. Please add a link to a security advisory when adding a Gem here.
+
+gem 'i18n', '>=0.6.8'
+# see https://groups.google.com/forum/#!topic/ruby-security-ann/pLrh6DUw998
+
+gem 'nokogiri', '>=1.5.11'
+# see https://groups.google.com/forum/#!topic/ruby-security-ann/DeJpjTAg1FA
+
+
 group :test do
   gem 'shoulda'
   gem 'object-daddy', '~> 1.1.0'
@@ -137,7 +149,7 @@ group :test do
   gem 'rspec', '~> 2.14'
   # also add to development group, so "spec" rake task gets loaded
   gem "rspec-rails", "~> 2.14", :group => :development
-  gem 'rspec-example_disabler', github: 'finnlabs/rspec-example_disabler', branch: 'master'
+  gem 'rspec-example_disabler', git: "https://github.com/finnlabs/rspec-example_disabler.git"
   gem 'capybara'
   gem 'capybara-screenshot'
   gem 'selenium-webdriver'

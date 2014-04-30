@@ -26,22 +26,23 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
 
-.directive('workPackagesOptions', ['I18n', function(I18n){
-  return {
-    restrict: 'E',
-    templateUrl: '/templates/work_packages/work_packages_options.html',
-    link: function(scope, element, attributes) {
-      scope.$watch('query.groupBy', function(groupBy) {
-        if (scope.columns) {
-          var groupByColumnIndex = scope.groupableColumns.map(function(column){
-            return column.name;
-          }).indexOf(groupBy);
-
-          scope.groupByColumn = scope.groupableColumns[groupByColumnIndex];
-        }
-      });
-    }
+var warnLeavingUnsavedMessage;
+function warnLeavingUnsaved(message) {
+  warnLeavingUnsavedMessage = message;
+  jQuery('form').submit(function(){
+    jQuery('textarea').removeData('changed');
+  });
+  jQuery('textarea').change(function(){
+    jQuery(this).data('changed', 'changed');
+  });
+  window.onbeforeunload = function(){
+    var warn = false;
+    jQuery('textarea').blur().each(function(){
+      if (jQuery(this).data('changed')) {
+        warn = true;
+      }
+    });
+    if (warn) {return warnLeavingUnsavedMessage;}
   };
-}]);
+};

@@ -28,7 +28,7 @@
 
 language: ruby
 rvm:
-  - 2.1.0
+  - 2.1
 branches:
   only:
     - dev
@@ -51,7 +51,7 @@ before_install:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - "nvm use 0.10"
-  - "travis_retry npm -g install bower@~1.3.2"
+  - "travis_retry npm -g install bower@~1.3.3"
   - "travis_retry bower install -F"
   - "if [[ $TEST_SUITE == 'karma' ]]; then travis_retry npm install; fi"
 before_script:

@@ -26,22 +26,36 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
+/*jshint expr: true*/
 
-.directive('workPackagesOptions', ['I18n', function(I18n){
-  return {
-    restrict: 'E',
-    templateUrl: '/templates/work_packages/work_packages_options.html',
-    link: function(scope, element, attributes) {
-      scope.$watch('query.groupBy', function(groupBy) {
-        if (scope.columns) {
-          var groupByColumnIndex = scope.groupableColumns.map(function(column){
-            return column.name;
-          }).indexOf(groupBy);
+describe('Timeline table helper', function() {
+  var TimelineTableHelper;
 
-          scope.groupByColumn = scope.groupableColumns[groupByColumnIndex];
+  beforeEach(module('openproject.timelines.helpers'));
+  beforeEach(inject(function(_TimelineTableHelper_) {
+    TimelineTableHelper = _TimelineTableHelper_;
+  }));
+
+  describe('setRowLevelVisibility', function() {
+    var setRowLevelVisibility;
+
+    beforeEach(function() {
+      setRowLevelVisibility = TimelineTableHelper.setRowLevelVisibility;
+    });
+
+    describe('with 3 levels', function() {
+      it('should set levels 0 to 3 to visible', function() {
+        var nodes = [];
+        for(i = 0; i < 10; i++){
+          var node = Object.create(TreeNode);
+          node.level = i;
+          nodes.push(node);
         }
+        setRowLevelVisibility(nodes, 3);
+
+        expect(nodes.filter(function(node){ return node.visible; }).length).to.equal(4);
       });
-    }
-  };
-}]);
+    });
+
+  });
+});

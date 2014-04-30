@@ -74,12 +74,6 @@ module ApplicationHelper
     content_tag(:li, link) if link
   end
 
-  # Display a link to remote if user is authorized
-  def link_to_remote_if_authorized(name, options = {}, html_options = nil)
-    url = options[:url] || {}
-    link_to_remote(name, options, html_options) if authorize_for(url[:controller] || params[:controller], url[:action])
-  end
-
   # Displays a link to user's account page if active or registered
   def link_to_user(user, options={})
     if user.is_a?(User)
@@ -189,11 +183,11 @@ module ApplicationHelper
     link.html_safe
   end
 
-  def toggle_link(name, id, options={}, html_options={})
-    onclick = "Element.toggle('#{id}'); "
-    onclick << (options[:focus] ? "Form.Element.focus('#{options[:focus]}'); " : "this.blur(); ")
-    onclick << "return false;"
-    link_to(name, "#", {:onclick => onclick}.merge(html_options))
+  def toggle_link(name, id, options = {}, html_options = {})
+    onclick = "jQuery('##{id}').toggle(); "
+    onclick << (options[:focus] ? "jQuery('##{options[:focus]}').focus(); " : 'this.blur(); ')
+    onclick << 'return false;'
+    link_to(name, '#', { onclick: onclick }.merge(html_options))
   end
 
   def delete_link(url, options={})
@@ -986,12 +980,14 @@ module ApplicationHelper
       I18n.locale = "#{I18n.locale}";
     })
     unless User.current.pref.warn_on_leaving_unsaved == '0'
-      tags += javascript_tag("jQuery(document).ready(function(){
-                                new WarnLeavingUnsaved('#{escape_javascript( l(:text_warn_on_leaving_unsaved) )}');
-                                jQuery(document).ajaxComplete(function(){
-                                    new WarnLeavingUnsaved('#{escape_javascript( l(:text_warn_on_leaving_unsaved) )}')
-                                });
-                            })")
+      tags += javascript_tag(%Q{
+        jQuery(document).ready(function(){
+          warnLeavingUnsaved('#{escape_javascript(l(:text_warn_on_leaving_unsaved))}');
+          jQuery(document).ajaxComplete(function(){
+            warnLeavingUnsaved('#{escape_javascript(l(:text_warn_on_leaving_unsaved))}')
+          });
+        });
+      })
     end
 
     if User.current.impaired? and accessibility_js_enabled?

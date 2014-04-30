@@ -28,7 +28,7 @@
 
 angular.module('openproject.timelines.directives')
 
-.directive('timelineTable', [function() {
+.directive('timelineTable', ['TimelineTableHelper', function(TimelineTableHelper) {
   return {
     restrict: 'E',
     replace: true,
@@ -40,6 +40,18 @@ angular.module('openproject.timelines.directives')
       scope.excludeEmpty = scope.timeline.options.exclude_empty === 'yes';
       scope.isGrouping = scope.timeline.isGrouping();
       scope.hideTreeRoot = scope.isGrouping || scope.timeline.options.hide_tree_root;
+
+      scope.toggleRowExpansion = function(row){
+        if(row.expanded) {
+          var expansionMethod = function(node){ node.resetVisible(); }
+        } else {
+          var expansionMethod = function(node){ node.setVisible(); }
+        }
+
+        TimelineTableHelper.applyToNodes(row.childNodes, expansionMethod, row.expanded);
+        row.expanded = !row.expanded;
+        TimelineTableHelper.setLastVisible(scope.rows);
+      };
     }
   };
 }]);

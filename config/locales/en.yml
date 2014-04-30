@@ -42,6 +42,12 @@ en:
       login_consequences:
         other: "The account will be deleted from the system. Therefore, the user will no longer be able to log in with his current credentials. He/she can choose to become a user of this application again by the means this application grants."
         self: "Your account will be deleted from the system. Therefore, you will no longer be able to log in with your current credentials. If you choose to become a user of this application again, you can do so by using the means this application grants."
+    error_inactive_activation_by_mail: >
+      Your account has not yet been activated.
+      To activate your account, click on the link that was emailed to you.
+    error_inactive_manual_activation: >
+      Your account has not yet been activated.
+      Please wait for an administrator to activate your account.
     error_self_registration_disabled: >
       User registration is disabled on this system. Please ask an administrator to create an
       account for you.
@@ -1026,7 +1032,6 @@ en:
   noscript_learn_more: "Learn more"
 
   notice_account_activated: "Your account has been activated. You can now log in."
-  notice_account_inactive: "Your account has not yet been activated. To activate your account, click on the link that was emailed to you."
   notice_account_invalid_credentials: "Invalid user or password"
   notice_account_invalid_credentials_or_blocked: "Invalid user or password or the account is blocked due to multiple failed login attempts. If so, it will be unblocked automatically in a short time."
   notice_account_lost_email_sent: "An email with instructions to choose a new password has been sent to you."
