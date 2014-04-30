@@ -32,11 +32,14 @@ angular.module('openproject.timeEntries.controllers')
   $scope.PathHelper = PathHelper;
   $scope.timeEntries = gon.timeEntries;
   $scope.totalEntryCount = gon.total_count;
+  $scope.isLoading = false;
 
   SortService.setColumn(gon.sort_column);
   SortService.setDirection(gon.sort_direction);
 
   $scope.loadTimeEntries = function() {
+    $scope.isLoading = true;
+
     $http.get(PathHelper.timeEntriesPath(gon.project_id),
               {
                 params: {
@@ -46,8 +49,10 @@ angular.module('openproject.timeEntries.controllers')
               })
          .success(function(data, status, headers, config) {
            $scope.timeEntries = data.timeEntries;
+           $scope.isLoading = false;
          })
          .error(function(data, status, headers, config) {
+           $scope.isLoading = false;
          });
   };
 
