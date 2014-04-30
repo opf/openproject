@@ -68,16 +68,12 @@ Feature: Permission View Own hourly and cost rates
     And I should not see "49.00 EUR" # material costs of me and Manager
     And I am on the work_packages page for the project called "Standard Project"
     And I toggle the Options fieldset
-    And I select to see columns
-      | Overall costs  |
-      | Labor costs    |
-      | Unit costs     |
-    And I follow "Apply"
-    Then I should see "24.00 EUR"
-    And I should see "10.00 EUR"
-    And I should see "14.00 EUR"
-    And I should not see "33.00 EUR" # labour costs only of Manager
-    And I should not see "35.00 EUR" # material costs only of Manager
-    And I should not see "43.00 EUR" # labour costs of me and Manager
-    And I should not see "49.00 EUR" # material costs of me and Manager
-
+    And I select to see column "Overall costs"
+    And I select to see column "Labor costs"
+    And I select to see column "Unit costs"
+    Then I should see "EUR 24.00"
+    And I should see "EUR 10.00"
+    And I should see "EUR 14.00"
+    And I should not see "EUR 33.00" # labour costs only of Manager
+    And I should not see "EUR 35.00" # material costs only of Manager
+    And I should not see "EUR 43.00" # labour costs of me and Manager
