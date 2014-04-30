@@ -1147,8 +1147,8 @@ var I18nForms = (function ($) {
   };
 }(jQuery));
 
-var activateFlash = function(query) {
-  var flashMessages = jQuery('.flash');
+var activateFlash = function(selector) {
+  var flashMessages = jQuery(selector);
 
   // Ignore flash messages of class 'ignored-by-flash-activation' because those
   // messages are completely handled via JavaScript (see types_checkboxes.js for
