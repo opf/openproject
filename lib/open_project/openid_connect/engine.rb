@@ -11,7 +11,13 @@ module OpenProject::OpenIDConnect
     register 'openproject-openid_connect',
              :author_url => 'http://finn.de',
              :requires_openproject => '>= 3.1.0pre1',
+             :global_assets => { css: 'openid_connect/openid_connect.css' },
              :settings => { 'default' => { 'providers' => {} } }
+
+    assets %w(
+      openid_connect/openid_connect.css
+      openid_connect/auth_provider-google.png
+    )
 
     initializer "openid_connect.middleware" do |app|
       # Loading OpenID providers manually since rails doesn't do it automatically,
