@@ -32,18 +32,18 @@ See doc/COPYRIGHT.rdoc for more details.
 <table class="list time-entries" ng-controller="TimeEntriesController">
   <thead>
     <tr>
-      <th><sort-link sort-attr="spent_on" sort-predicate="predicate"><%= TimeEntry.human_attribute_name(:spent_on) %></sort-link></th>
-      <th><sort-link sort-attr="user.name" sort-predicate="predicate"><%= TimeEntry.human_attribute_name(:user) %></sort-link></th>
-      <th><sort-link sort-attr="activity.name" sort-predicate="predicate"><%= TimeEntry.human_attribute_name(:activity) %></sort-link></th>
-      <th><sort-link sort-attr="project.name" sort-predicate="predicate"><%= TimeEntry.human_attribute_name(:project) %></sort-link></th>
-      <th><sort-link sort-attr="work_package.subject" sort-predicate="predicate"><%= TimeEntry.human_attribute_name(:issue) %></sort-link></th>
+      <th><sort-link sort-attr="spent_on" sort-func="loadTimeEntries()"><%= TimeEntry.human_attribute_name(:spent_on) %></sort-link></th>
+      <th><sort-link sort-attr="user" sort-func="loadTimeEntries()"><%= TimeEntry.human_attribute_name(:user) %></sort-link></th>
+      <th><sort-link sort-attr="activity" sort-func="loadTimeEntries()"><%= TimeEntry.human_attribute_name(:activity) %></sort-link></th>
+      <th><sort-link sort-attr="project" sort-func="loadTimeEntries()"><%= TimeEntry.human_attribute_name(:project) %></sort-link></th>
+      <th><sort-link sort-attr="work_package" sort-func="loadTimeEntries()"><%= TimeEntry.human_attribute_name(:issue) %></sort-link></th>
       <th><%= TimeEntry.human_attribute_name(:comments) %></th>
-      <th><sort-link sort-attr="hours" sort-predicate="predicate"><%= TimeEntry.human_attribute_name(:hours) %></sort-link></th>
+      <th><sort-link sort-attr="hours" sort-func="loadTimeEntries()"><%= TimeEntry.human_attribute_name(:hours) %></sort-link></th>
       <th></th>
     </tr>
   </thead>
   <tbody>
-    <tr class="time-entry" ng-repeat="timeEntry in timeEntries | orderBy:predicate" ng-class-even="'even'" ng-class-odd="'odd'">
+    <tr class="time-entry" ng-repeat="timeEntry in timeEntries" ng-class-even="'even'" ng-class-odd="'odd'">
       <td class="spent_on" date="timeEntry.spent_on"></td>
       <td class="user"><a ng-href="{{PathHelper.userPath(timeEntry.user.id)}}">{{timeEntry.user.name}}</a></td>
       <td class="activity">{{timeEntry.activity.name}}</td>

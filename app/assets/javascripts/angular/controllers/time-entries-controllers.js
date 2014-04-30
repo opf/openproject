@@ -28,10 +28,26 @@
 
 angular.module('openproject.timeEntries.controllers')
 
-.controller('TimeEntriesController', ['$scope', '$rootScope', '$http', 'PathHelper', function ($scope, $rootScope, $http, PathHelper) {
+.controller('TimeEntriesController', ['$scope', '$rootScope', '$http', 'PathHelper', 'SortService', function ($scope, $rootScope, $http, PathHelper, SortService) {
   $scope.PathHelper = PathHelper;
   $scope.timeEntries = gon.timeEntries;
-  $scope.predicate = "spent_on";
+
+  SortService.setColumn(gon.sort_column);
+  SortService.setDirection(gon.sort_direction);
+
+  $scope.loadTimeEntries = function() {
+    $http.get(PathHelper.timeEntriesPath(gon.project_id),
+              {
+                params: {
+                          sort: SortService.getSortParam(),
+                        }
+              })
+         .success(function(data, status, headers, config) {
+           $scope.timeEntries = data.timeEntries;
+         })
+         .error(function(data, status, headers, config) {
+         });
+  };
 
   $scope.deleteTimeEntry = function(id) {
     if (window.confirm(I18n.t('js.text_are_you_sure'))) {

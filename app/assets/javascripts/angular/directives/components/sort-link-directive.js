@@ -28,19 +28,19 @@
 
 angular.module('openproject.uiComponents')
 
-.directive('sortLink', ['I18n', function(I18n) {
+.directive('sortLink', ['I18n', 'SortService', function(I18n, SortService) {
   return {
     restrict: 'E',
     transclude: true,
-    scope: { sortAttr: '@', sortPredicate: '=' },
+    scope: { sortAttr: '@', sortFunc: '&' },
     templateUrl: '/templates/components/sort_link.html',
     link: function(scope, element, attrs) {
       var getSortTitle = function() {
         var title = "";
         var attribute = angular.element(element[0]).find('span.ng-scope').text();
 
-        if (scope.sortPredicate.indexOf(scope.sortAttr) >= 0) {
-          if (scope.sortPredicate.indexOf('-') >= 0) {
+        if (SortService.getColumn().indexOf(scope.sortAttr) >= 0) {
+          if (SortService.isDescending()) {
             title = I18n.t('js.label_descending');
           } else {
             title = I18n.t('js.label_ascending');
@@ -57,7 +57,7 @@ angular.module('openproject.uiComponents')
       var getSortCss = function() {
         var sortDirection = 'asc';
 
-        if (scope.sortPredicate.indexOf('-') >= 0) {
+        if (SortService.isDescending()) {
           sortDirection = 'desc';
         }
 
@@ -67,23 +67,27 @@ angular.module('openproject.uiComponents')
       scope.sortDirection = getSortCss();
       scope.sortTitle = getSortTitle();
 
-      scope.$watch('sortPredicate', function() {
-        if (scope.sortPredicate.indexOf(scope.sortAttr) < 0) {
+      scope.$watch(SortService.getColumn, function() {
+        if (SortService.getColumn().indexOf(scope.sortAttr) < 0) {
           scope.sortDirection = "";
           scope.sortTitle = getSortTitle();
         }
       });
 
       scope.sort = function() {
-        var sortPrefix = '-';
+        var sortPrefix = 'desc';
 
-        if (scope.sortPredicate.indexOf('-') >= 0) {
+        if (SortService.isDescending()) {
           sortPrefix = '';
         }
 
-        scope.sortPredicate = sortPrefix + scope.sortAttr;
+        SortService.setColumn(scope.sortAttr);
+        SortService.setDirection(sortPrefix);
+
         scope.sortDirection = getSortCss();
         scope.sortTitle = getSortTitle();
+
+        scope.sortFunc();
       };
     }
   };
