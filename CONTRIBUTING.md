@@ -4,3 +4,4 @@ OpenProject is an open source project and we encourage you to help us out. We'd 
 * Help out other people on our [forums](https://www.openproject.org/projects/openproject/boards)
 * Help us [translate OpenProject to more languages](https://www.openproject.org/projects/openproject/wiki/Translations)
 * Contribute code via GitHub Pull Requests, see our [contribution page](https://www.openproject.org/projects/openproject/wiki/Contribution) for more information
+* See [Git Flow](https://www.openproject.org/projects/openproject/wiki/Git_Branching_Model)
