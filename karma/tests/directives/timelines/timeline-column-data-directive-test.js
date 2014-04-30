@@ -85,7 +85,7 @@ describe('timelineColumnData Directive', function() {
 
       it('should assign a change kind class to the current date', function() {
         var container = element.find('.tl-column');
-        expect(container.hasClass('tl-preponed')).to.be.true;
+        expect(container.hasClass('tl-postponed')).to.be.true;
       });
 
       describe('the historical data container', function() {
@@ -99,7 +99,7 @@ describe('timelineColumnData Directive', function() {
         });
 
         it('should contain a link with a css class indicating the change', function() {
-          expect(historicalContainerElement.find('a').hasClass('tl-icon-preponed')).to.be.true;
+          expect(historicalContainerElement.find('a').hasClass('tl-icon-postponed')).to.be.true;
         });
       })
     });

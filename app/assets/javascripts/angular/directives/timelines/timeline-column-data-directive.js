@@ -108,7 +108,7 @@ angular.module('openproject.timelines.directives')
         var oldDate = planningElement.historical_element[attr];
 
         if (oldDate && newDate) {
-          return (newDate < oldDate ? 'postponed' : 'preponed');
+          return (newDate < oldDate ? 'preponed' : 'postponed');
         }
         return "changed";
       }
