@@ -128,9 +128,12 @@ class JournalManager
 
   def self.add_journal(journable, user = User.current, notes = "")
     if is_journalized? journable
+      # Maximum version might be nil, so use to_i here.
+      version = journable.journals.maximum(:version).to_i + 1
+
       journal_attributes = { journable_id: journable.id,
                              journable_type: journal_class_name(journable.class),
-                             version: (journable.journals.count + 1),
+                             version: version,
                              activity_type: journable.send(:activity_type),
                              changed_data: journable.attributes.symbolize_keys }
 
