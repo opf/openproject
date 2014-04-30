@@ -31,7 +31,7 @@
 
 config = OpenProject::Configuration
 
-session_store     = config['session_store'] || :cookie_store
+session_store     = config['session_store'].to_sym || :cookie_store
 relative_url_root = config['rails_relative_url_root'].presence
 
 session_options = {
