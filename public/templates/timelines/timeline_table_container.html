@@ -1,10 +1,11 @@
-<div ng-class="{timeline: !warning, 'tl-under-construction': underConstruction}" >
-  <div class="tl-left">
+<div ng-class="{timeline: !(warning || errorMessage), 'tl-under-construction': underConstruction}" >
+  <div ng-if="!!errorMessage" ng-bind="errorMessage" class="flash error">
+  </div>
+
+  <div class="tl-left" ng-if="!errorMessage">
     <div class="tl-left-top tl-decoration"></div>
     <div class="tl-left-main">
-
       <timeline-table/>
-
     </div>
   </div>
   <div class="tl-right">
@@ -18,5 +19,5 @@
   <div class="tl-tooltip fade above in">
     <div class="tl-tooltip-inner"></div>
     <div class="tl-tooltip-arrow"></div>
-  </div>
+    </div>
 </div>

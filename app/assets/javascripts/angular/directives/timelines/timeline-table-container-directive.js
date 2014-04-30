@@ -43,6 +43,11 @@ angular.module('openproject.timelines.directives')
         scope.$apply();
       }
 
+      function showError(errorMessage) {
+        scope.underConstruction = false;
+        scope.errorMessage = errorMessage;
+      }
+
       function fetchData() {
         return TimelineLoaderService.loadTimelineData(scope.timeline);
       }
@@ -126,7 +131,7 @@ angular.module('openproject.timelines.directives')
       function renderTimeline() {
         return fetchData()
           .then(buildWorkPackageTable)
-          .then(drawChart);
+          .then(drawChart, showError);
       }
 
       function reloadTimeline() {
@@ -134,7 +139,7 @@ angular.module('openproject.timelines.directives')
           .then(buildWorkPackageTable)
           .then(function() {
             scope.timeline.expandToOutlineLevel(scope.currentOutlineLevel); // also triggers rebuildAll()
-          });
+          }, showError);
       }
 
       function registerModalHelper() {

@@ -1159,14 +1159,12 @@ angular.module('openproject.timelines.services')
         });
 
         timeline.safetyHook = window.setTimeout(function() {
-          timeline.die(I18n.t('js.timelines.errors.report_timeout'));
           deferred.reject(I18n.t('js.timelines.errors.report_timeout'));
         }, Timeline.LOAD_ERROR_TIMEOUT);
 
         timelineLoader.load();
 
       } catch (e) {
-        timeline.die(e);
         deferred.reject(e);
       }
       return deferred.promise;
