@@ -183,3 +183,7 @@ development:
 # Configuration for the test environment
 test:
   email_delivery_method: :test
+
+# specific configuration options for production environment
+production:
+  session_store: :cache_store
