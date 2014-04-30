@@ -26,13 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
+angular.module('openproject.uiComponents')
 
-.directive('workPackagesLoading', ['I18n', function(I18n){
+.directive('modalLoading', ['I18n', function(I18n){
 
   return {
     restrict: 'E',
-    templateUrl: '/templates/work_packages/work_packages_loading.html',
+    templateUrl: '/templates/components/modal_loading.html',
     scope: true
   };
 }]);
