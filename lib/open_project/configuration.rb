@@ -47,7 +47,7 @@ module OpenProject
       # use dalli defaults for memcache
       'cache_memcache_server'   => nil,
       # where to store session data
-      'session_store'           => nil,
+      'session_store'           => :cookie_store,
       # url-path prefix
       'rails_relative_url_root' => "",
 
