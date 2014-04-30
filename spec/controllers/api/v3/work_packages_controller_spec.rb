@@ -29,9 +29,45 @@
 require File.expand_path('../../../../spec_helper', __FILE__)
 
 describe Api::V3::WorkPackagesController do
+  let(:user) { FactoryGirl.create(:user) }
+  let(:type) { FactoryGirl.create(:type_standard) }
+  let(:project_1) { FactoryGirl.create(:project,
+                                       types: [type]) }
+  let(:project_2) { FactoryGirl.create(:project,
+                                       types: [type],
+                                       is_public: false) }
+  let(:role) { FactoryGirl.create(:role,
+                                    permissions: [:view_work_packages,
+                                                  :add_work_packages,
+                                                  :edit_work_packages,
+                                                  :move_work_packages,
+                                                  :delete_work_packages]) }
+  let(:member) { FactoryGirl.create(:member,
+                                      project: project_1,
+                                      principal: user,
+                                      roles: [role]) }
+  let(:status_1) { FactoryGirl.create(:status) }
+  let(:work_package_1) { FactoryGirl.create(:work_package,
+                                            author: user,
+                                            type: type,
+                                            status: status_1,
+                                            project: project_1) }
+  let(:work_package_2) { FactoryGirl.create(:work_package,
+                                            author: user,
+                                            type: type,
+                                            status: status_1,
+                                            project: project_1) }
+  let(:work_package_3) { FactoryGirl.create(:work_package,
+                                            author: user,
+                                            type: type,
+                                            status: status_1,
+                                            project: project_2) }
+
+
   let(:current_user) { FactoryGirl.create(:admin) }
 
   before do
+    member
     allow(User).to receive(:current).and_return(current_user)
   end
 
@@ -40,11 +76,78 @@ describe Api::V3::WorkPackagesController do
       it 'assigns an empty work packages array' do
         get 'index', format: 'xml'
         expect(assigns(:work_packages)).to eq([])
+
+        # expect(assigns(:allowed_statuses)).to eq([])
       end
 
       it 'renders the index template' do
         get 'index', format: 'xml'
         expect(response).to render_template('api/v3/work_packages/index', formats: %w(api))
+      end
+    end
+
+    context 'with work packages' do
+      let(:query) { FactoryGirl.build_stubbed(:query).tap(&:add_default_filter) }
+
+      before do
+        # FIXME: find a better solution does not involve reaching into the internals
+        allow(controller).to receive(:retrieve_query).and_return(query)
+        query.stub_chain(:results, :work_packages, :page, :per_page, :changed_since, :all).and_return(work_packages)
+        query.stub_chain(:results, :work_package_count_by_group).and_return([])
+        query.stub_chain(:results, :column_total_sums).and_return([])
+        query.stub_chain(:results, :column_group_sums).and_return([])
+        query.stub_chain(:results, :total_sum_of).and_return(2)
+        query.stub_chain(:results, :total_entries).and_return([])
+
+        # FIXME: METADATA TOO TRICKY TO DEAL WITH
+        controller.stub(:set_work_packages_meta_data)
+      end
+
+      context 'with 2 work packages' do
+        let(:work_packages) { [ work_package_1, work_package_2 ] }
+
+        it 'assigns work packages array + actions' do
+          get 'index', format: 'xml', query_id: 1
+
+          expect(assigns(:work_packages).size).to eq(2)
+
+          expect(assigns(:can).size).to eq(6)
+          expect(assigns(:can)['edit']).to be_true
+          expect(assigns(:can)['log_time']).to be_true
+          expect(assigns(:can)['update']).to be_true
+          expect(assigns(:can)['move']).to be_true
+          expect(assigns(:can)['copy']).to be_false
+          expect(assigns(:can)['delete']).to be_true
+
+          expect(assigns(:projects)).to eq([project_1])
+          expect(assigns(:project)).to eq(project_1)
+          expect(assigns(:allowed_statuses)).to eq([])
+          expect(assigns(:assignables)).to eq([user])
+          expect(assigns(:responsibles)).to eq([user])
+          expect(assigns(:types)).to eq([type])
+
+          # expect(assigns(:priorities)).to eq([])
+          # expect(assigns(:statuses)).to eq([])
+        end
+      end
+
+      context 'with 3 work packages' do
+        let(:work_packages) { [ work_package_1, work_package_2, work_package_3 ] }
+
+        it 'assigns work packages array + actions' do
+          get 'index', format: 'xml', query_id: 1
+
+          expect(assigns(:work_packages).size).to eq(3)
+          expect(assigns(:projects)).to include(project_1, project_2)
+          expect(assigns(:project)).to be_nil
+          expect(assigns(:allowed_statuses)).to eq([])
+          expect(assigns(:assignables)).to eq([])
+          expect(assigns(:responsibles)).to eq([])
+          expect(assigns(:types)).to eq([type])
+
+          # expect(assigns(:priorities)).to eq([])
+          # expect(assigns(:statuses)).to eq([])
+        end
       end
     end
   end

@@ -35,10 +35,27 @@ describe 'api/v3/work_packages/index.api.rabl' do
     assign(:work_packages, work_packages)
     assign(:column_names, column_names)
     assign(:custom_field_column_names, custom_field_column_names)
+
+    assign(:can,          can)
+    assign(:project,      project)
+    assign(:assignables,  assignees)
+    assign(:responsibles, responsibles)
+    assign(:types,        types)
+    assign(:priorities,   priorities)
+    assign(:statuses,     statuses)
+
     render
   end
 
   subject { response.body }
+
+  let(:can)          { {} }
+  let(:project)      { [] }
+  let(:assignees)    { [] }
+  let(:responsibles) { [] }
+  let(:types)        { [] }
+  let(:priorities)   { [] }
+  let(:statuses)     { [] }
 
   describe 'with no work packages available' do
     let(:work_packages) { [] }
@@ -88,5 +105,81 @@ describe 'api/v3/work_packages/index.api.rabl' do
 
     it { should have_json_path('work_packages/0/project') }
     it { should have_json_path('work_packages/0/project/identifier') }
+  end
+
+  context 'with actions, links based on permissions' do
+    let(:work_packages) { [FactoryGirl.create(:work_package)] }
+    let(:column_names) { %w(subject project) }
+    let(:custom_field_column_names) { [] }
+
+    context 'with no actions' do
+      it { should have_json_path('work_packages/0/_actions') }
+      it { should have_json_type(Array).at_path('work_packages/0/_actions') }
+      it { should have_json_size(0).at_path('work_packages/0/_actions') }
+
+      it { should have_json_path('work_packages/0/_links') }
+      it { should have_json_type(Hash).at_path('work_packages/0/_links') }
+      it { should have_json_size(0).at_path('work_packages/0/_links') }
+    end
+
+    context 'with some actions' do
+      let(:can) {
+        {
+          edit:     false,
+          log_time: true,
+          update:   false,
+          move:     nil,
+          copy:     true,
+          delete:   false
+        }
+      }
+
+      it { should have_json_path('work_packages/0/_actions') }
+      it { should have_json_type(Array).at_path('work_packages/0/_actions') }
+      it { should have_json_size(2).at_path('work_packages/0/_actions') }
+
+      it { should have_json_path('work_packages/0/_links') }
+      it { should have_json_type(Hash).at_path('work_packages/0/_links') }
+      it { should have_json_size(2).at_path('work_packages/0/_links') }
+
+      specify {
+        expect(parse_json(subject, 'work_packages/0/_links/log_time')).to match(%r{/work_packages/(\d+)/time_entries/new})
+      }
+
+      specify {
+        expect(parse_json(subject, 'work_packages/0/_links/copy')).to match(%r{/work_packages/move/new\?copy\=true})
+      }
+    end
+
+    context 'with all actions' do
+      let(:can) {
+        {
+          edit:     true,
+          log_time: true,
+          update:   true,
+          move:     true,
+          copy:     true,
+          delete:   true
+        }
+      }
+
+      it { should have_json_path('work_packages/0/_actions') }
+      it { should have_json_type(Array).at_path('work_packages/0/_actions') }
+      it { should have_json_size(6).at_path('work_packages/0/_actions') }
+
+      it { should have_json_path('work_packages/0/_links') }
+      it { should have_json_type(Hash).at_path('work_packages/0/_links') }
+
+      # FIXME: check missing permission
+      it { should have_json_size(5).at_path('work_packages/0/_links') }
+
+      specify {
+        expect(parse_json(subject, 'work_packages/0/_links/edit')).to match(%r{/work_packages/(\d+)/edit})
+      }
+
+      specify {
+        expect(parse_json(subject, 'work_packages/0/_links/delete')).to match(%r{/work_packages/bulk\?ids(.+)method\=delete})
+      }
+    end
   end
 end

@@ -53,6 +53,14 @@ module Api
         @custom_field_column_names = @query.columns.select{|c| c.name.to_s =~ /cf_(.*)/}.map(&:name)
         @column_names = ['id'] | @query.columns.map(&:name) - @custom_field_column_names
 
+        # determine what actions may be performed
+        @allowed_statuses = @work_packages.map do |i|
+          i.new_statuses_allowed_to(User.current)
+        end.inject do |memo,s|
+          memo & s
+        end
+        setup_context_menu_actions
+
         # the data for the index is already produced in the assign_work_packages
         respond_to do |format|
           format.api
@@ -82,6 +90,35 @@ module Api
       end
 
       private
+
+      def setup_context_menu_actions
+        @projects = @work_packages.collect(&:project).compact.uniq
+        @project = @projects.first if @projects.size == 1
+
+        @can = {:edit => User.current.allowed_to?(:edit_work_packages, @projects),
+                :log_time => (@project && User.current.allowed_to?(:log_time, @project)),
+                :update => (User.current.allowed_to?(:edit_work_packages, @projects) || (User.current.allowed_to?(:change_status, @projects) && !@allowed_statuses.blank?)),
+                :move => (@project && User.current.allowed_to?(:move_work_packages, @project)),
+                :copy => (@work_package && @project.types.include?(@work_package.type) && User.current.allowed_to?(:add_work_packages, @project)),
+                :delete => User.current.allowed_to?(:delete_work_packages, @projects)
+                }
+        if @project
+          @assignables = @project.possible_assignees
+          @assignables << @work_package.assigned_to if @work_package && @work_package.assigned_to && !@assignables.include?(@work_package.assigned_to)
+          @responsibles = @project.possible_responsibles
+          @responsibles << @work_package.responsible if @work_package && @work_package.responsible && !@responsibles.include?(@work_package.responsible)
+          @types = @project.types
+        else
+          #when multiple projects, we only keep the intersection of each set
+          @assignables = @projects.map(&:possible_assignees).inject{|memo,a| memo & a}
+          @responsibles = @projects.map(&:possible_responsibles).inject{|memo,a| memo & a}
+          @types = @projects.map(&:types).inject{|memo,t| memo & t}
+        end
+
+        @priorities = IssuePriority.all.reverse
+        @statuses = Status.all
+        @back = back_url
+      end
 
       def columns_total_sums(column_names, work_packages)
         column_names.map do |column_name|
