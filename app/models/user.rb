@@ -706,11 +706,11 @@ class User < Principal
   end
 
   def self.current=(user)
-    @current_user = user
+    RequestStore.store[:current_user] = user
   end
 
   def self.current
-    @current_user ||= User.anonymous
+    RequestStore.store[:current_user] ||= User.anonymous
   end
 
   def roles(project)
