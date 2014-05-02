@@ -57,7 +57,7 @@ describe 'Custom field accessibility' do
 
     describe 'Custom Field Admin Page', js: true do
       let(:custom_fields_page) { CustomFieldsPage.new }
-      let(:element) { find("#custom_field_name_attributes span[lang]") }
+      let(:element) { custom_fields_page.name_attributes }
 
       shared_context "custom field new page" do
         let(:available_languages) { [locale] }
@@ -119,7 +119,7 @@ describe 'Custom field accessibility' do
         end
 
         describe 'Default value locale change' do
-          let(:element) { find("#custom_field_default_value_attributes span[lang]") }
+          let(:element) { custom_fields_page.default_value_attributes }
           let(:element_selector) { "#custom_field_default_value_attributes select.locale_selector option[value='#{element_locale}']" }
 
           context "en" do
@@ -145,7 +145,7 @@ describe 'Custom field accessibility' do
 
     describe 'Project Settings' do
       let(:project_settings_page) { ProjectSettingsPage.new(project) }
-      let(:element) { find("fieldset#project_issue_custom_fields label span") }
+      let(:element) { project_settings_page.fieldset_label }
 
       shared_context "project settings page" do
         before do
@@ -179,7 +179,7 @@ describe 'Custom field accessibility' do
                                                type: type,
                                                custom_values: { custom_field.id => 'value' }) }
 
-      describe 'index' do
+      describe 'index', js: true do
         shared_context "index page with query" do
           let!(:query) do
             query = FactoryGirl.build(:query, project: project)

@@ -11,20 +11,25 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
-//= require jquery.ui.all
-//= require jquery-ui-i18n
-//= require jquery.atwho/index
-//= require jquery_ujs
+//= require jquery-ujs
+//= require jquery-ui
+//= require jquery-ui/ui/i18n/jquery-ui-i18n
+
+//= require jquery.atwho/dist/js/jquery.atwho.js
+//= require Caret.js/src/jquery.caret
 //= require jquery_noconflict
-//= require jquery.colorcontrast
-//= require jquery.trap
 //= require prototype
 //= require effects
 //= require dragdrop
 //= require controls
 //= require i18n
 //= require i18n/translations
+
+//= require lib/jquery.colorcontrast
+//= require lib/jquery.trap
+
 //= require select2
+
 //= require top_menu
 //= require action_menu
 //= require openproject
@@ -36,12 +41,25 @@
 //= require settings
 //= require modal
 //= require keyboard_shortcuts
+//= require tab_handling
 //= require top-shelf
 //= require unsupported-browsers
 //= require autocomplete_textareas
-//= require_tree ./specific
+//= require warn_leaving_unsaved
 //= require openproject_plugins
 //= require versions
+//= require_tree ./specific
+
+//= require angular
+//= require angular-animate
+//= require angular-ui-select2
+//= require angular-ui-date/src/date
+
+//= require openproject-ui_components/app/assets/javascripts/angular/ui-components-app
+//= require ./angular/openproject-app
+//= require_tree ./angular
+
+
 
 //source: http://stackoverflow.com/questions/8120065/jquery-and-prototype-dont-work-together-with-array-prototype-reverse
 if (typeof []._reverse == 'undefined') {
@@ -111,6 +129,7 @@ jQuery(document).ready(function ($) {
     $(this).find('.icon').toggleClass('icon-arrow-right6-3 icon-arrow-right6-1');
     Effect.toggle("work_package_descr_fields", "appear", {duration:0.3});
     enable_textarea_auto_completion(jQuery("#work_package_description"));
+
     return false;
   });
 
@@ -145,6 +164,7 @@ function showAndScrollTo(id, focus) {
 	Element.scrollTo(id);
 }
 
+// TODO de-implement once table component has been used
 function setGroupRowStatus(el) {
   var collapseExpandButton = jQuery(el);
   var row = jQuery(el).closest("tr");
@@ -157,9 +177,10 @@ function setGroupRowStatus(el) {
   toggleAllLink.text(toggleAllLinkText);
 }
 
+// TODO de-implement once table component has been used
 function toggleRowGroup(el) {
   var row = jQuery(el).closest("tr");
-  
+
   row.toggleClass("open closed");
 
   setGroupRowStatus(el);
@@ -169,6 +190,7 @@ function toggleRowGroup(el) {
   });
 }
 
+// TODO de-implement once table component has been used
 function toggleAllRowGroups(el) {
   var row = jQuery(el).closest("tr");
   var collapseExpandButton = jQuery(row).find(".expander");
@@ -201,70 +223,6 @@ function addFileField() {
   clone.writeAttribute('id', '');
   clone.innerHTML = clone.innerHTML.replace(/\[1\]/g, '['+ fileFieldCount + ']');
   $('attachments_fields').appendChild(clone);
-}
-
-function showTab(name) {
-    var f = $$('div#content .tab-content');
-	for(var i=0; i<f.length; i++){
-		Element.hide(f[i]);
-	}
-    var f = $$('div.tabs a');
-	for(var i=0; i<f.length; i++){
-		Element.removeClassName(f[i], "selected");
-	}
-	Element.show('tab-content-' + name);
-	Element.addClassName('tab-' + name, "selected");
-        Element.insert('tab-' + name, {top: $$('div.tabs .hidden-for-sighted')[0]})
-	return false;
-}
-
-function moveTabRight(el) {
-	var lis = Element.up(el, 'div.tabs').down('ul').childElements();
-	var tabsWidth = 0;
-	var i;
-	for (i=0; i<lis.length; i++) {
-		if (lis[i].visible()) {
-			tabsWidth += lis[i].getWidth() + 6;
-		}
-	}
-	if (tabsWidth < Element.up(el, 'div.tabs').getWidth() - 60) {
-		return;
-	}
-	i=0;
-	while (i<lis.length && !lis[i].visible()) {
-		i++;
-	}
-	lis[i].hide();
-}
-
-function moveTabLeft(el) {
-	var lis = Element.up(el, 'div.tabs').down('ul').childElements();
-	var i = 0;
-	while (i<lis.length && !lis[i].visible()) {
-		i++;
-	}
-	if (i>0) {
-		lis[i-1].show();
-	}
-}
-
-function displayTabsButtons() {
-	var lis;
-	var tabsWidth = 0;
-	var i;
-	$$('div.tabs').each(function(el) {
-		lis = el.down('ul').childElements();
-		for (i=0; i<lis.length; i++) {
-			if (lis[i].visible()) {
-				tabsWidth += lis[i].getWidth() + 6;
-			}
-		}
-		if ((tabsWidth < el.getWidth() - 20) && (lis[0].visible())) {
-			el.down('div.tabs-buttons').hide();
-		} else {
-			el.down('div.tabs-buttons').show();
-		}
-	});
 }
 
 function setPredecessorFieldsVisibility() {
@@ -465,68 +423,20 @@ function observeRelatedIssueField(url) {
                            });
 }
 
-function setVisible(id, visible) {
-  var el = $(id);
-  if (el) {if (visible) {el.show();} else {el.hide();}}
-}
-
+// Hides types and issues custom fields on the new project form when
+// work_package_tracking module is disabled.
 function observeProjectModules() {
   var f = function() {
-    /* Hides types and issues custom fields on the new project form when work_package_tracking module is disabled */
-    var c = ($('project_enabled_module_names_work_package_tracking').checked == true);
-    setVisible('project_types', c);
-    setVisible('project_issue_custom_fields', c);
+    if (jQuery('#project_enabled_module_names_work_package_tracking').attr('checked')) {
+      jQuery('#project_types, #project_issue_custom_fields').show();
+    } else {
+      jQuery('#project_types, #project_issue_custom_fields').hide();
+    }
   };
 
-  Event.observe(window, 'load', f);
-  Event.observe('project_enabled_module_names_work_package_tracking', 'change', f);
+  jQuery(window).load(f);
+  jQuery('#project_enabled_module_names_work_package_tracking').change(f);
 }
-
-/*
- * Class used to warn user when leaving a page with unsaved textarea
- * Author: mathias.fischer@berlinonline.de
-*/
-
-var WarnLeavingUnsaved = Class.create({
-	observedForms: false,
-	observedElements: false,
-	changedForms: false,
-	message: null,
-
-	initialize: function(message){
-		this.observedForms = $$('form');
-		this.observedElements =  $$('textarea');
-		this.message = message;
-
-		this.observedElements.each(this.observeChange.bind(this));
-		this.observedForms.each(this.submitAction.bind(this));
-
-		window.onbeforeunload = this.unload.bind(this);
-	},
-
-	unload: function(){
-    this.observedElements.each(function(item){ item.blur(); });
-
-		if (this.changedForms)
-      return this.message;
-	},
-
-	setChanged: function(){
-    this.changedForms = true;
-	},
-
-	setUnchanged: function(){
-    this.changedForms = false;
-	},
-
-	observeChange: function(element){
-    element.observe('change',this.setChanged.bindAsEventListener(this));
-	},
-
-	submitAction: function(element){
-    element.observe('submit',this.setUnchanged.bindAsEventListener(this));
-	}
-});
 
 /*
  * 1 - registers a callback which copies the csrf token into the
@@ -567,10 +477,9 @@ document.observe("dom:loaded", function() {
 });
 
 function hideOnLoad() {
-  $$('.hol').each(function(el) {
-  	el.hide();
-	});
+  jQuery('.hol').hide();
 }
+jQuery(hideOnLoad);
 
 function addClickEventToAllErrorMessages() {
   $$('a.afocus').each(function(a) {
@@ -613,7 +522,6 @@ $(document).observe('dom:loaded', function() {
   addClickEventToAllErrorMessages();
 });
 
-Event.observe(window, 'load', hideOnLoad);
 
 // a few constants for animations speeds, etc.
 var animationRate = 100;

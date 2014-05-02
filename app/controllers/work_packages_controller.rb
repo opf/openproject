@@ -46,16 +46,16 @@ class WorkPackagesController < ApplicationController
   end
 
   include QueriesHelper
-  include SortHelper
   include PaginationHelper
+  include SortHelper
   include OpenProject::Concerns::Preview
 
   accept_key_auth :index, :show, :create, :update
 
-  before_filter :disable_api
+  # before_filter :disable_api # TODO re-enable once API is used for any JSON request
   before_filter :not_found_unless_work_package,
                 :project,
-                :authorize, :except => [:index, :preview]
+                :authorize, :except => [:index, :preview, :column_data, :column_sums]
   before_filter :find_optional_project,
                 :protect_from_unauthorized_export, :only => [:index, :all, :preview]
   before_filter :load_query, :only => :index
@@ -200,40 +200,26 @@ class WorkPackagesController < ApplicationController
   end
 
   def index
-    sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
-    sort_update(@query.sortable_columns)
-
-    results = @query.results(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
-                            :order => sort_clause)
-
-    work_packages = if @query.valid?
-                      results.work_packages.page(page_param)
-                                           .per_page(per_page_param)
-                                           .all
-                    else
-                      []
-                    end
+    load_work_packages unless request.format.html?
 
     respond_to do |format|
       format.html do
         render :index, :locals => { :query => @query,
-                                    :work_packages => work_packages,
-                                    :results => results,
                                     :project => @project },
                        :layout => !request.xhr?
       end
       format.csv do
-        serialized_work_packages = WorkPackage::Exporter.csv(work_packages, @project)
+        serialized_work_packages = WorkPackage::Exporter.csv(@work_packages, @project)
         charset = "charset=#{l(:general_csv_encoding).downcase}"
 
         send_data(serialized_work_packages, :type => "text/csv; #{charset}; header=present",
                                             :filename => 'export.csv')
       end
       format.pdf do
-        serialized_work_packages = WorkPackage::Exporter.pdf(work_packages,
+        serialized_work_packages = WorkPackage::Exporter.pdf(@work_packages,
                                                              @project,
                                                              @query,
-                                                             results,
+                                                             @results,
                                                              :show_descriptions => params[:show_descriptions])
 
         send_data(serialized_work_packages,
@@ -241,7 +227,7 @@ class WorkPackagesController < ApplicationController
                   :filename => 'export.pdf')
       end
       format.atom do
-        render_feed(work_packages,
+        render_feed(@work_packages,
                     :title => "#{@project || Setting.app_title}: #{l(:label_work_package_plural)}")
       end
     end
@@ -443,6 +429,23 @@ class WorkPackagesController < ApplicationController
     else
       super
     end
+  end
+
+  private
+
+  def load_work_packages
+    sort_init(@query.sort_criteria.empty? ? [DEFAULT_SORT_ORDER] : @query.sort_criteria)
+    sort_update(@query.sortable_columns)
+
+    @results = @query.results(:include => [:assigned_to, :type, :priority, :category, :fixed_version],
+                             :order => sort_clause)
+    @work_packages = if @query.valid?
+                      @results.work_packages.page(page_param)
+                                            .per_page(per_page_param)
+                                            .all
+                    else
+                      []
+                    end
   end
 
   def parse_preview_data

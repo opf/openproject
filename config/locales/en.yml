@@ -42,6 +42,15 @@ en:
       login_consequences:
         other: "The account will be deleted from the system. Therefore, the user will no longer be able to log in with his current credentials. He/she can choose to become a user of this application again by the means this application grants."
         self: "Your account will be deleted from the system. Therefore, you will no longer be able to log in with your current credentials. If you choose to become a user of this application again, you can do so by using the means this application grants."
+    error_inactive_activation_by_mail: >
+      Your account has not yet been activated.
+      To activate your account, click on the link that was emailed to you.
+    error_inactive_manual_activation: >
+      Your account has not yet been activated.
+      Please wait for an administrator to activate your account.
+    error_self_registration_disabled: >
+      User registration is disabled on this system. Please ask an administrator to create an
+      account for you.
 
   actionview_instancetag_blank_option: "Please select"
 
@@ -484,7 +493,6 @@ en:
   description_message_content: "Message content"
   description_my_project: "You are member"
   description_notes: "Notes"
-  description_option_toggle: "Show/Hide options"
   description_parent_work_package: "Parent work package of current"
   description_project_scope: "Search scope"
   description_query_sort_criteria_attribute: "Sort attribute"
@@ -493,7 +501,6 @@ en:
   description_select_work_package: "Select work package"
   description_selected_columns: "Selected Columns"
   description_sub_work_package: "Sub work package of current"
-  description_subwork_package: "Sub work package of"
   description_toc_toggle: "Show/Hide table of contents"
   description_user_mail_notification: "Mail notification settings"
   description_wiki_subpages_reassign: "Choose new parent page"
@@ -550,65 +557,13 @@ en:
   general_first_day_of_week: "7"
   general_lang_name: "English"
   general_pdf_encoding: "ISO-8859-1"
-  general_text_No: "No"
-  general_text_Yes: "Yes"
   general_text_no: "no"
   general_text_yes: "yes"
+  general_text_No: "No"
+  general_text_Yes: "Yes"
 
   gui_validation_error: "1 error"
   gui_validation_error_plural: "%{count} errors"
-
-  js:
-    unsupported_browser:
-      title: "Your browser is not supported"
-      message: "The browser you are using is no longer supported by OpenProject. Please update your browser."
-      learn_more: "Learn more"
-    logoff: You have been logged off
-    redirect_login: Do you want to be redirected to the login page?
-    ajax:
-      hide: "Hide"
-      loading: "Loading ..."
-    select2:
-      input_too_short:
-        one: "Please enter one more character"
-        other: "Please enter {{count}} more characters"
-        zero: "Please enter more characters"
-      load_more: "Loading more results ..."
-      no_matches: "No matches found"
-      searching: "Searching ..."
-      selection_too_big:
-        one: "You can only select one item"
-        other: "You can only select {{limit}} items"
-        zero: "You cannot select any items"
-    timelines:
-      tooManyProjects: "More than %{count} Projects. Please use a better filter!"
-      cancel: Cancel
-      save: Save
-      due_date: "Due date"
-      name: "Name"
-      project_status: "Project status"
-      project_type: "Project type"
-      responsible: "Responsible"
-      start_date: "Start date"
-      error: "An error has occured."
-      create_planning_select_project: "Project:"
-      really_close_dialog: "Do you really want to close the dialog and loose the entered data?"
-      zoom_slider: "Zoom slider"
-    filter:
-      noneElement: "(none)"
-      noneSelection: "(none)"
-    button_check_all: "Check all"
-    button_uncheck_all: "Uncheck all"
-    label_collapsed: "collapsed"
-    label_expanded: "expanded"
-    label_collapse_all: "Collapse all"
-    label_expand_all: "Expand all"
-    label_menu_item_toggle: "Show/hide submenu items"
-    label_menu_collapse: "collapse"
-    label_menu_expand: "expand"
-    tl_toolbar:
-      zooms: "Zoom level"
-      outlines: "Hierarchy level"
 
   label_account: "Account"
   label_activity: "Activity"
@@ -626,7 +581,6 @@ en:
   label_age: "Age"
   label_ago: "days ago"
   label_all: "all"
-  label_all_work_packages: "all work packages"
   label_all_time: "all time"
   label_all_words: "All words"
   label_and_its_subprojects: "%{value} and its subprojects"
@@ -671,7 +625,6 @@ en:
   label_close_versions: "Close completed versions"
   label_closed_work_packages: "closed"
   label_collapse: "Collapse"
-  label_collapse_all: "Collapse all"
   label_comment_add: "Add a comment"
   label_comment_added: "Comment added"
   label_comment_delete: "Delete comments"
@@ -724,8 +677,6 @@ en:
   label_environment: "Environment"
   label_equals: "is"
   label_example: "Example"
-  label_expand: "Expand"
-  label_expand_all: "Expand all"
   label_export_to: "Also available in:"
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
@@ -946,7 +897,6 @@ en:
   label_subproject_new: "New subproject"
   label_subproject_plural: "Subprojects"
   label_subtask_plural: "Subtasks"
-  label_sum_for: "Sum for %{value}"
   label_summary: "Summary"
   label_system: "System"
   label_table_of_contents: "Table of Contents"
@@ -1082,7 +1032,6 @@ en:
   noscript_learn_more: "Learn more"
 
   notice_account_activated: "Your account has been activated. You can now log in."
-  notice_account_inactive: "Your account has not yet been activated. To activate your account, click on the link that was emailed to you."
   notice_account_invalid_credentials: "Invalid user or password"
   notice_account_invalid_credentials_or_blocked: "Invalid user or password or the account is blocked due to multiple failed login attempts. If so, it will be unblocked automatically in a short time."
   notice_account_lost_email_sent: "An email with instructions to choose a new password has been sent to you."

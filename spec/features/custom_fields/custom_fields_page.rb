@@ -31,6 +31,14 @@ class CustomFieldsPage
   include Capybara::DSL
 
   def visit_new(type="WorkPackageCustomField")
-    visit new_custom_field_path(type: type)
+    visit new_custom_field_path type: type
+  end
+
+  def name_attributes
+    find '#custom_field_name_attributes span[lang]'
+  end
+
+  def default_value_attributes
+    find '#custom_field_default_value_attributes span[lang]'
   end
 end

@@ -352,6 +352,10 @@ module NavigationHelpers
       issue_id = WorkPackage.find_by_subject($1).id
       "/work_packages/#{issue_id}/time_entries"
 
+    when /^the time entry report page of issue "(.+)"$/
+      issue_id = WorkPackage.find_by_subject($1).id
+      "/work_packages/#{issue_id}/time_entries/report"
+
     when /^the move new page of the work package "(.+)"$/
       work_package_id = WorkPackage.find_by_subject($1).id
       "/work_packages/#{work_package_id}/move/new?copy="

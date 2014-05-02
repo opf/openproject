@@ -59,7 +59,7 @@ Feature: Group Memberships
       And I click on "tab-members"
       And I add the principal "A-Team" as a member with the roles:
         | Manager |
-     Then I should be on the settings page of the project called "Project1"
+     Then I should be on the "members" tab of the settings page of the project called "Project1"
       And I should see "A-Team" within ".members"
       And I should see "Hannibal Smith" within ".members"
       And I should see "Peter Pan" within ".members"
@@ -93,7 +93,7 @@ Feature: Group Memberships
       And I add the principal "A-Team" as a member with the roles:
         | Manager |
 
-     Then I should be on the settings page of the project called "Project1"
+     Then I should be on the "members" tab of the settings page of the project called "Project1"
       And I wait for the AJAX requests to finish
 
      When I delete the "A-Team" membership

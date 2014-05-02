@@ -638,13 +638,11 @@ class User < Principal
     return true if admin?
 
     initialize_allowance_evaluators
-
     # authorize if user has at least one membership granting this permission
     candidates_for_global_allowance.any? do |candidate|
       denied = @registered_allowance_evaluators.any? do |evaluator|
         evaluator.denied_for_global? candidate, action, options
       end
-
 
       !denied && @registered_allowance_evaluators.any? do |evaluator|
         evaluator.granted_for_global? candidate, action, options

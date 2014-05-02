@@ -13,7 +13,7 @@ describe "gravatar_url with a custom default URL" do
   end
   
   it "should include the \"default\" argument in the result" do
-    @url.should match(/&default=no_avatar.png/)
+    expect(@url).to match(/&default=no_avatar.png/)
   end
   
   after(:each) do
@@ -28,17 +28,17 @@ describe "gravatar_url with default settings" do
   end
   
   it "should have a nil default URL" do
-    DEFAULT_OPTIONS[:default].should be_nil
+    expect(DEFAULT_OPTIONS[:default]).to be_nil
   end
   
   it "should not include the \"default\" argument in the result" do
-    @url.should_not match(/&default=/)
+    expect(@url).not_to match(/&default=/)
   end  
   
 end
 
 describe "gravatar with a custom title option" do
   it "should include the title in the result" do
-    gravatar('example@example.com', :title => "This is a title attribute").should match(/This is a title attribute/)
+    expect(gravatar('example@example.com', :title => "This is a title attribute")).to match(/This is a title attribute/)
   end
 end

@@ -34,7 +34,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= label_tag "period_type_list", l(:description_date_range_list), :class => "hidden-for-sighted" %>
 <%= radio_button_tag 'period_type', '1', !@free_period, :onclick => 'Form.Element.disable("from");Form.Element.disable("to");Form.Element.enable("period");', :id => "period_type_list"%>
 <%= select_tag 'period', options_for_period_select(params[:period]),
-                         :onchange => 'this.form.submit();',
                          :onfocus => '$("period_type_1").checked = true;',
                          :disabled => @free_period %>
 </p>

@@ -100,12 +100,13 @@ describe AccountController do
             omniauth: true,
             timestamp: Time.new)
           session[:auth_source_registration] = auth_source_registration
-          post :register, :user => { :firstname => 'Foo',
+          post :register, :user => { :login => 'login@bar.com',
+                                     :firstname => 'Foo',
                                      :lastname => 'Smith',
                                      :mail => 'foo@bar.com' }
           expect(response).to redirect_to my_first_login_path
 
-          user = User.find_by_login('foo@bar.com')
+          user = User.find_by_login('login@bar.com')
           expect(user).to be_an_instance_of(User)
           expect(user.auth_source_id).to be_nil
           expect(user.current_password).to be_nil
@@ -167,6 +168,10 @@ describe AccountController do
         it 'redirects to signin_path' do
           expect(response).to redirect_to signin_path
         end
+
+        it 'shows the right flash message' do
+          expect(flash[:error]).to eq(I18n.t('account.error_self_registration_disabled'))
+        end
       end
     end
 
@@ -180,12 +185,64 @@ describe AccountController do
           }
         )
       end
-      it 'should sign in the user after successful external authentication' do
-        request.env['omniauth.auth'] = omniauth_hash
-        FactoryGirl.create(:user, force_password_change: false, identity_url: 'google:123545')
-        post :omniauth_login
-        expect(response).to redirect_to controller: 'my', action: 'page'
+
+      let(:user) do
+        FactoryGirl.build(:user, force_password_change: false,
+                                 identity_url: 'google:123545')
       end
+
+      before do
+        request.env['omniauth.auth'] = omniauth_hash
+      end
+
+      context 'with an active account' do
+        it 'should sign in the user after successful external authentication' do
+          user.save!
+          post :omniauth_login
+
+          expect(response).to redirect_to my_page_path
+        end
+      end
+
+      context 'with a registered and not activated accout' do
+        before do
+          user.register
+          user.save!
+
+          with_settings(self_registration: '1') do
+            post :omniauth_login
+          end
+        end
+
+        it 'should show an error about a not activated account' do
+          expect(flash[:error]).to eql(I18n.t('account.error_inactive_manual_activation'))
+        end
+
+        it 'should redirect to signin_path' do
+          expect(response).to redirect_to signin_path
+        end
+      end
+
+      context 'with a locked account' do
+        before do
+          user.lock
+          user.save!
+
+          # Make sure we don't get a specific message when brute-force protection is enabled
+          with_settings(brute_force_block_after_failed_logins: '0') do
+            post :omniauth_login
+          end
+        end
+
+        it 'should show an error indicating a failed login' do
+          expect(flash[:error]).to eql(I18n.t(:notice_account_invalid_credentials))
+        end
+
+        it 'should redirect to signin_path' do
+          expect(response).to redirect_to signin_path
+        end
+      end
+
     end
 
     describe 'with an invalid auth_hash' do

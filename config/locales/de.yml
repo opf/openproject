@@ -42,6 +42,15 @@ de:
       login_consequences:
         other: "Der Account wird aus dem System entfernt. Der Nutzer wird daher nicht mehr in der Lage sein, sich mit seinem derzeitigen Nutzernamen und Passwort anzumelden. Sofern der Nutzer es wünscht, kann er sich über die von der Anwendung zur Verfügung gestellten Mechanismen einen neuen Account zulegen."
         self: "Ihr Account wird aus dem System entfernt. Sie werden daher nicht mehr in der Lage sein, sich mit Ihrem derzeitigen Nutzernamen und Passwort anzumelden. Sofern Sie es wünschen, können Sie sich über die von der Anwendung zur Verfügung gestellten Mechanismen einen neuen Account zulegen."
+    error_inactive_activation_by_mail: >
+      Ihr Konto wurde noch nicht aktiviert. Zur Aktivierung folgen Sie bitte dem Link,
+      der Ihnen bei der Registrierung per E-Mail zugeschickt wurde.
+    error_inactive_manual_activation: >
+      Ihr Konto wurde noch nicht aktiviert. Bitte warten Sie auf die Aktivierung
+      Ihres Kontos durch einen Administrator.
+    error_self_registration_disabled: >
+      Auf diesem System ist die Nutzerregistierung deaktiviert. Bitte fragen Sie einen
+      Administrator nach einem Nutzerkonto.
 
   actionview_instancetag_blank_option: "Bitte auswählen"
 
@@ -487,7 +496,6 @@ de:
   description_message_content: "Nachrichteninhalt"
   description_my_project: "Sie sind Mitglied"
   description_notes: "Kommentare"
-  description_option_toggle: "Optionen aus/einblenden"
   description_parent_work_package: "Übergeordnetes Arbeitspaket"
   description_project_scope: "Suchbereich"
   description_query_sort_criteria_attribute: "Sortierattribut"
@@ -496,7 +504,6 @@ de:
   description_select_work_package: "Arbeitspaket auswählen"
   description_selected_columns: "Ausgewählte Spalten"
   description_sub_work_package: "Untergeordnetes Arbeitspaket"
-  description_subwork_package: "Untergeordnetes Arbeitspaket von"
   description_toc_toggle: "Inhaltsverzeichnis aus/einblenden"
   description_user_mail_notification: "Mailbenachrichtigungseinstellung"
   description_wiki_subpages_reassign: "Neue Elternseite wählen"
@@ -553,65 +560,13 @@ de:
   general_first_day_of_week: "1"
   general_lang_name: "Deutsch"
   general_pdf_encoding: "ISO-8859-1"
-  general_text_No: "Nein"
-  general_text_Yes: "Ja"
   general_text_no: "nein"
   general_text_yes: "ja"
+  general_text_No: "Nein"
+  general_text_Yes: "Ja"
 
   gui_validation_error: "1 Fehler"
   gui_validation_error_plural: "%{count} Fehler"
-
-  js:
-    unsupported_browser:
-      title: "Ihr Browser wird nicht unterstützt"
-      message: "Sie verwenden einen veralteten Browser. OpenProject unterstützt diesen Browser nicht länger. Bitte aktualisieren Sie Ihren Browser."
-      learn_more: "Mehr erfahren"
-    logoff: "Sie wurden ausgeloggt."
-    redirect_login: "Wollen Sie auf die Login-Seite weitergeleitet werden?"
-    ajax:
-      hide: "Verbergen"
-      loading: "Lädt ..."
-    select2:
-      input_too_short:
-        one: "Bitte geben Sie ein weiteres Zeichen ein"
-        other: "Bitte geben Sie {{count}} weitere Zeichen ein"
-        zero: "Bitte geben Sie weitere Zeichen ein"
-      load_more: "Mehr Ergebnisse werden geladen ..."
-      no_matches: "Keine Treffer"
-      searching: "Suche ..."
-      selection_too_big:
-        one: "Sie dürfen nur ein Element auswählen"
-        other: "Sie dürfen nur {{limit}} Elemente auswählen"
-        zero: "Sie dürfen keine Elemente auswählen"
-    timelines:
-      tooManyProjects: "Mehr als %{count} Projekte. Bitte genauer filtern!"
-      cancel: "Abbrechen"
-      create_planning_select_project: "Projekt:"
-      due_date: "Abschlussdatum"
-      error: "Ein Fehler ist aufgetreten."
-      name: "Name"
-      project_status: "Projekt-Status"
-      project_type: "Projekt-Typ"
-      responsible: "Verantwortlicher"
-      save: "Speichern"
-      start_date: "Startdatum"
-      really_close_dialog: "Dialog schließen und eingegebene Daten verwerfen?"
-      zoom_slider: "Zoom Schieber"
-    filter:
-      noneElement: "(keines)"
-      noneSelection: "(keine)"
-    button_check_all: "Alles auswählen"
-    button_uncheck_all: "Alles abwählen"
-    label_collapsed: "zugeklappt"
-    label_expanded: "aufgeklappt"
-    label_collapse_all: "Alle zuklappen"
-    label_expand_all: "Alle aufklappen"
-    label_menu_item_toggle: "Untermenüpunkte ein-/ausblenden"
-    label_menu_collapse: "ausblenden"
-    label_menu_expand: "einblenden"
-    tl_toolbar:
-      zooms: "Zoomstufe"
-      outlines: "Hierarchie-Stufe"
 
   label_account: "Konto"
   label_activity: "Aktivität"
@@ -629,7 +584,6 @@ de:
   label_age: "Geändert vor"
   label_ago: "vor"
   label_all: "alle"
-  label_all_work_packages: "alle Arbeitspakete"
   label_all_time: "gesamter Zeitraum"
   label_all_words: "Alle Wörter"
   label_and_its_subprojects: "%{value} und dessen Unterprojekte"
@@ -674,7 +628,6 @@ de:
   label_close_versions: "Vollständige Versionen schließen"
   label_closed_work_packages: "geschlossen"
   label_collapse: "Zuklappen"
-  label_collapse_all: "Alle zuklappen"
   label_comment_add: "Kommentar hinzufügen"
   label_comment_added: "Kommentar hinzugefügt"
   label_comment_delete: "Kommentar löschen"
@@ -727,8 +680,6 @@ de:
   label_environment: "Umgebung"
   label_equals: "ist"
   label_example: "Beispiel"
-  label_expand: "Aufklappen"
-  label_expand_all: "Alle aufklappen"
   label_export_to: "Auch abrufbar als:"
   label_f_hour: "%{value} Stunde"
   label_f_hour_plural: "%{value} Stunden"
@@ -949,7 +900,6 @@ de:
   label_subproject_new: "Neues Unterprojekt"
   label_subproject_plural: "Unterprojekte"
   label_subtask_plural: "Unteraufgaben"
-  label_sum_for: "Summe für %{value}"
   label_summary: "Zusammenfassung"
   label_system: "System"
   label_table_of_contents: "Inhaltsverzeichnis"
@@ -1085,7 +1035,6 @@ de:
   noscript_learn_more: "Weitere Informationen"
 
   notice_account_activated: "Ihr Konto ist aktiviert. Sie können sich jetzt anmelden."
-  notice_account_inactive: "Ihr Konto ist nicht aktiviert. Zur Aktivierung folgen Sie bitte dem Link, der Ihnen bei der Registrierung per E-Mail zugeschickt wurde."
   notice_account_invalid_credentials: "Benutzer oder Kennwort ist ungültig."
   notice_account_invalid_credentials_or_blocked: "Benutzer oder Kennwort ist ungültig oder der Account wurde wegen mehrfacher Falscheingabe temporär gesperrt, in diesem Fall wird er in Kürze automatisch wieder freigeschaltet."
   notice_account_lost_email_sent: "Eine E-Mail mit Anweisungen, wie ein neues Kennwort gewählt wird, wurde Ihnen zugeschickt."
@@ -1453,11 +1402,6 @@ de:
     empty: "(leer)"
     enable_type_in_project: 'Typ "%{type}" aktivieren'
     end: "Abschluss"
-    errors:
-      not_implemented: "Der Zeitplan-Report konnte nicht gezeichnet werden, da eine noch nicht implementierte Funktionalität benutzt wird."
-      report_comparison: "Der Zeitplan-Report konnte nicht gezeichnet werden, weil es ein Problem mit den konfigurierten Planungsvergleichen gibt. Ein Zurücksetzen der Vergleichsoptionen kann dieses Problem beheben."
-      report_epicfail: "Der Zeitplan-Report konnte wegen eines unerwarteten Fehlers nicht geladen werden."
-      report_timeout: "Der Zeitplan-Report konnte nicht innerhalb einer gewissen Zeit geladen werden."
     filter:
       errors:
         timeframe_start: "Der Start des Zeitausschnitt "

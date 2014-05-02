@@ -98,7 +98,10 @@ class AccountController < ApplicationController
 
   # User self-registration
   def register
-    redirect_to(home_url) && return unless Setting.self_registration? || session[:auth_source_registration]
+    unless Setting.self_registration? || pending_auth_source_registration?
+      return self_registration_disabled
+    end
+
     if request.get?
       session[:auth_source_registration] = nil
       @user = User.new(:language => Setting.default_language)
@@ -189,8 +192,7 @@ class AccountController < ApplicationController
       if user and user.check_password?(password)
         # correct password
         if not user.active?
-          return inactive_account if user.registered?
-          invalid_credentials
+          account_inactive(user, flash_now: true)
         elsif user.force_password_change
           return if redirect_if_password_change_not_allowed(user)
           render_password_change(I18n.t(:notice_account_new_password_forced))
@@ -241,8 +243,13 @@ class AccountController < ApplicationController
     if user.active?
       successful_authentication(user)
     else
-      account_pending
+      account_inactive(user, flash_now: false)
+      redirect_to signin_path
     end
+  end
+
+  def pending_auth_source_registration?
+    session[:auth_source_registration] && !session[:auth_source_registration][:omniauth]
   end
 
   def register_and_login_via_authsource(user, session, permitted_params)
@@ -265,20 +272,6 @@ class AccountController < ApplicationController
     @user = user
     session[:auth_source_registration] = auth_source_options unless auth_source_options.empty?
     render :action => 'register'
-  end
-
-  def invalid_credentials
-    logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip} at #{Time.now.utc}"
-    if Setting.brute_force_block_after_failed_logins.to_i == 0
-      flash.now[:error] = I18n.t(:notice_account_invalid_credentials)
-    else
-      flash.now[:error] = I18n.t(:notice_account_invalid_credentials_or_blocked)
-    end
-  end
-
-  def inactive_account
-    logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip} at #{Time.now.utc} (INACTIVE)"
-    flash.now[:error] = l(:notice_account_inactive)
   end
 
   def redirect_if_password_change_not_allowed(user)
@@ -354,6 +347,49 @@ class AccountController < ApplicationController
       account_pending
     else
       yield if block_given?
+    end
+  end
+
+  def self_registration_disabled
+    flash[:error] = I18n.t('account.error_self_registration_disabled')
+    redirect_to signin_url
+  end
+
+  # Call if an account is inactive - either registered or locked
+  def account_inactive(user, flash_now: true)
+    if user.registered?
+      account_not_activated(flash_now: flash_now)
+    else
+      invalid_credentials(flash_now: flash_now)
+    end
+  end
+
+  # Log an attempt to log in to an account in "registered" state and show a flash message.
+  def account_not_activated(flash_now: true)
+    flash_hash = flash_now ? flash.now : flash
+
+    logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip}" \
+                " at #{Time.now.utc} (NOT ACTIVATED)"
+
+    if Setting.self_registration == '1'
+      flash_hash[:error] = I18n.t('account.error_inactive_activation_by_mail')
+    else
+      flash_hash[:error] = I18n.t('account.error_inactive_manual_activation')
+    end
+  end
+
+  # Log an attempt to log in to a locked account or with invalid credentials
+  # and show a flash message.
+  def invalid_credentials(flash_now: true)
+    flash_hash = flash_now ? flash.now : flash
+
+    logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip}" \
+                " at #{Time.now.utc}"
+
+    if Setting.brute_force_block_after_failed_logins.to_i == 0
+      flash_hash[:error] = I18n.t(:notice_account_invalid_credentials)
+    else
+      flash_hash[:error] = I18n.t(:notice_account_invalid_credentials_or_blocked)
     end
   end
 

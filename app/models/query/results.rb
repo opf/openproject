@@ -92,4 +92,12 @@ class ::Query::Results
   rescue ::ActiveRecord::StatementInvalid => e
     raise ::Query::StatementInvalid.new(e.message)
   end
+
+  def column_total_sums
+    query.columns.map { |column| total_sum_of(column) }
+  end
+
+  def column_group_sums
+    query.group_by_column && query.columns.map { |column| grouped_sums(column) }
+  end
 end

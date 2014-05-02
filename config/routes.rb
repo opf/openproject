@@ -85,6 +85,7 @@ OpenProject::Application.routes.draw do
           get :available_projects, :on => :collection
         end
         resources :statuses, :only => [:index, :show]
+        resources :users, only: [:index]
 
         member do
           get :planning_element_custom_fields
@@ -110,6 +111,34 @@ OpenProject::Application.routes.draw do
         end
       end
 
+    end
+
+    namespace :v3 do
+      resources :work_packages, only: [:index] do
+        get :column_data, on: :collection
+        get :column_sums, on: :collection
+      end
+      resources :queries, only: [:show] do
+        get :available_columns, on: :collection
+        get :custom_field_filters, on: :collection
+      end
+
+      resources :projects, only: [:show, :index] do
+        resources :work_packages, only: [:index] do
+          get :column_sums, on: :collection
+        end
+        resources :queries, only: [:show] do
+          get :available_columns, on: :collection
+          get :custom_field_filters, on: :collection
+        end
+        resources :versions, only: [:index]
+        get :sub_projects
+        resources :users, only: [:index]
+      end
+
+      resources :groups, only: [:index]
+      resources :roles, only: [:index]
+      resources :users, only: [:index]
     end
   end
 
@@ -184,9 +213,10 @@ OpenProject::Application.routes.draw do
       put :archive
       put :unarchive
 
+      get 'column_sums', :controller => 'work_packages'
+
       # Destroy uses a get request to prompt the user before the actual DELETE request
       get :destroy_info, :as => 'confirm_destroy'
-
     end
 
     resource :enumerations, :controller => 'project_enumerations', :only => [:update, :destroy]
@@ -343,6 +373,8 @@ OpenProject::Application.routes.draw do
 
   resources :work_packages, :only => [:show, :edit, :update, :index] do
     get :new_type, :on => :member
+
+    get :column_data, on: :collection # TODO move to API
 
     resources :relations, :controller => 'work_package_relations', :only => [:create, :destroy]
 

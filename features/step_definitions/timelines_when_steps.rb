@@ -28,7 +28,7 @@
 #++
 
 When (/^I click on the Planning Element with name "(.*?)"$/) do |planning_element_subject|
-  click_link(planning_element_subject);
+  first('a', text: planning_element_subject).click
 end
 
 When (/^I click on the Edit Link$/) do
@@ -109,7 +109,7 @@ When (/^I enable the hide other group option$/) do
   steps %Q{
     When I edit the settings of the current timeline
   }
-  
+
   page.should have_selector("#timeline_options_hide_other_group")
 
   page.execute_script("jQuery('#timeline_options_hide_other_group').prop('checked', true)")
@@ -160,7 +160,7 @@ When (/^I show only projects which have responsible set to "(.*?)"$/) do |respon
 
   responsible = User.find_by_login(responsible)
   page.execute_script("jQuery('#timeline_options_project_responsibles').val('#{responsible.id}')")
-  page.execute_script("jQuery('#content form').submit()")  
+  page.execute_script("jQuery('#content form').submit()")
 end
 
 When (/^I show only projects which have a planning element which lies between "(.*?)" and "(.*?)" and has the type "(.*?)"$/) do |start_date, due_date, type|
