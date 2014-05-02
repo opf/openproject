@@ -2,7 +2,7 @@
   "name": "openproject",
   "version": "3.0",
   "dependencies": {
-    "jquery": "1.7.2",
+    "jquery": "1.11.0",
     "jquery-ujs": "latest",
     "select2": "3.3.2",
     "jquery.atwho": "finnlabs/At.js#0025862f7600c8dddec98caab13a76b11cfaba18",
@@ -21,7 +21,6 @@
     "chai": "~1.9.0"
   },
   "resolutions": {
-    "select2": "3.3.2",
-    "jquery": "1.7.2"
+    "select2": "3.3.2"
   }
 }
