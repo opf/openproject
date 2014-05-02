@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.2
+
 * `#1725` Content-sniffing-based XSS for attachments
 * `#6310` API v1 is now deprecated and will be removed in the next major release of OpenProject
 * `#7056` Enable Active Record Session Store
