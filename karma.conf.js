@@ -20,7 +20,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      "vendor/assets/components/jquery/jquery.js",
+      "vendor/assets/components/jquery/dist/jquery.js",
       "vendor/assets/components/angular/angular.js",
       "vendor/assets/components/angular-mocks/angular-mocks.js",
       "vendor/assets/components/angular-ui-select2/src/select2.js",
