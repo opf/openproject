@@ -165,9 +165,9 @@ describe Api::V2::TimelinesController do
           become_member_with_all_permissions
 
           it 'raises ActiveRecord::RecordNotFound errors' do
-            expect do
+            expect {
               fetch :project_id => project.id, :id => '1337'
-            end.to raise_error(ActiveRecord::RecordNotFound)
+            }.to raise_error(ActiveRecord::RecordNotFound)
           end
         end
       end
@@ -189,9 +189,9 @@ describe Api::V2::TimelinesController do
         let(:other_project)  { FactoryGirl.create(:project, :identifier => 'other') }
 
         it 'raises ActiveRecord::RecordNotFound errors' do
-          expect do
+          expect {
             fetch :project_id => other_project.identifier,:id => timeline.id
-          end.to raise_error(ActiveRecord::RecordNotFound)
+          }.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 

@@ -526,9 +526,9 @@ describe Api::V2::PlanningElementsController do
           become_member_with_view_planning_element_permissions
 
           it 'raises ActiveRecord::RecordNotFound errors' do
-            expect do
+            expect {
               get 'show', :project_id => project.id, :id => '1337', :format => 'xml'
-            end.to raise_error(ActiveRecord::RecordNotFound)
+            }.to raise_error(ActiveRecord::RecordNotFound)
           end
         end
       end
@@ -786,9 +786,9 @@ describe Api::V2::PlanningElementsController do
           become_member_with_delete_planning_element_permissions
 
           it 'raises ActiveRecord::RecordNotFound errors' do
-            expect do
+            expect {
               get 'destroy', :project_id => project.id, :id => '1337', :format => 'xml'
-            end.to raise_error(ActiveRecord::RecordNotFound)
+            }.to raise_error(ActiveRecord::RecordNotFound)
           end
         end
       end
@@ -834,9 +834,9 @@ describe Api::V2::PlanningElementsController do
 
           it 'deletes the record' do
             get 'destroy', :project_id => project.id, :id => planning_element.id, :format => 'xml'
-            expect do
+            expect {
               planning_element.reload
-            end.to raise_error(ActiveRecord::RecordNotFound)
+            }.to raise_error(ActiveRecord::RecordNotFound)
           end
         end
       end

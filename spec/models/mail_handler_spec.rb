@@ -283,7 +283,7 @@ describe MailHandler do
     Setting.default_language = 'en'
     Role.non_member.update_attribute :permissions, [:add_work_packages]
     project.update_attribute :is_public, true
-    expect do
+    expect {
       work_package = submit_email('ticket_by_unknown_user.eml', {:issue => {:project => 'onlinestore'}, :unknown_user => 'create'})
       work_package_created(work_package)
       expect(work_package.author.active?).to be_true
@@ -303,7 +303,7 @@ describe MailHandler do
       expect(work_package.author).to eq(found_user)
       expect(found_user.check_password?(password)).to be_true
 
-    end.to change(User, :count).by(1)
+    }.to change(User, :count).by(1)
   end
 
   # it "should not add an work_package if from header is missing" do

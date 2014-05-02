@@ -204,7 +204,7 @@ describe SearchController do
             # NOTE: this is how it is favored to do in RSpec3
             # expect(check_block).to receive :call
             # but we have only RSpec2 here, so:
-            check_block.should_receive :call
+            expect(check_block).to receive :call
             @controller.send(:scan_work_package_reference, query, &check_block)
           end
 
