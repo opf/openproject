@@ -36,7 +36,7 @@ angular.module('openproject.timelines.directives')
     replace: true,
     require: '^timelineContainer',
     templateUrl: '/templates/timelines/timeline_table_container.html',
-    link: function(scope, element, attributes, timelineContrainerCtrl) {
+    link: function(scope, element, attributes, timelineContainerCtrl) {
 
       function showWarning() {
         scope.underConstruction = false;
@@ -46,7 +46,7 @@ angular.module('openproject.timelines.directives')
 
       function showError(errorMessage) {
         scope.underConstruction = false;
-        timelineContrainerCtrl.showError(errorMessage);
+        timelineContainerCtrl.showError(errorMessage);
       }
 
       function fetchData() {

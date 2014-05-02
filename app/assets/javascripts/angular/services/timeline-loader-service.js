@@ -39,7 +39,7 @@
 
 angular.module('openproject.timelines.services')
 
-.service('TimelineLoaderService', ['$q', 'FilterQueryStringBuilder', 'Color', 'HistoricalPlanningElement', 'PlanningElement', 'PlanningElementType', 'Project', 'ProjectAssociation', 'ProjectType', 'Reporting', 'Status','Timeline', 'User', 'CustomField', function($q, FilterQueryStringBuilder, Color, HistoricalPlanningElement, PlanningElement, PlanningElementType, Project, ProjectAssociation, ProjectType, Reporting, Status,Timeline, User, CustomField) {
+.service('TimelineLoaderService', ['$q', 'FilterQueryStringBuilder', 'Color', 'HistoricalPlanningElement', 'PlanningElement', 'PlanningElementType', 'Project', 'ProjectAssociation', 'ProjectType', 'Reporting', 'Status','Timeline', 'User', 'CustomField', function($q, FilterQueryStringBuilder, Color, HistoricalPlanningElement, PlanningElement, PlanningElementType, Project, ProjectAssociation, ProjectType, Reporting, Status, Timeline, User, CustomField) {
 
   /**
    * QueueingLoader
