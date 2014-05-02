@@ -28,13 +28,14 @@
 
 angular.module('openproject.timelines.directives')
 
-.directive('timelineToolbar', ['TimelineTableHelper', function(TimelineTableHelper) {
+.directive('timelineToolbar', ['TimelineTableHelper', 'Timeline', function(TimelineTableHelper, Timeline) {
 
   return {
     restrict: 'E',
     replace: true,
     templateUrl: '/templates/timelines/toolbar.html',
     link: function(scope) {
+      scope.scaleOptions = Timeline.ZOOM_SCALES;
       scope.currentScaleName = 'monthly';
 
       scope.updateToolbar = function() {
