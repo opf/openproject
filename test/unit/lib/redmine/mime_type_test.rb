@@ -69,4 +69,12 @@ class Redmine::MimeTypeTest < ActiveSupport::TestCase
       assert_equal expected, Redmine::MimeType.is_type?(*args)
     end
   end
+
+  def test_narrow_type_for_equal_main_type
+    assert_equal 'text/x-ruby', Redmine::MimeType.narrow_type('rubyfile.rb', 'text/plain')
+  end
+
+  def test_use_original_type_if_main_type_differs
+    assert_equal 'application/zip', Redmine::MimeType.narrow_type('rubyfile.rb', 'application/zip')
+  end
 end

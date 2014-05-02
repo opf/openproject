@@ -78,6 +78,10 @@ GEM
       timers (~> 1.1.0)
     childprocess (0.3.9)
       ffi (~> 1.0, >= 1.0.11)
+    climate_control (0.0.3)
+      activesupport (>= 3.0)
+    cocaine (0.5.4)
+      climate_control (>= 0.0.3, < 1.0)
     codeclimate-test-reporter (0.1.1)
       simplecov (>= 0.7.1, < 1.0.0)
     coderay (1.0.9)
@@ -364,6 +368,7 @@ DEPENDENCIES
   awesome_nested_set
   capybara
   capybara-screenshot
+  cocaine
   codeclimate-test-reporter
   coderay (~> 1.0.5)
   coffee-rails (~> 3.2.1)
