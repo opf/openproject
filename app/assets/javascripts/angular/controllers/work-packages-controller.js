@@ -33,7 +33,8 @@ angular.module('openproject.workPackages.controllers')
 
 
   function setUrlParams(location) {
-    $scope.projectIdentifier = location.pathname.split('/')[2];
+    var normalisedPath = location.pathname.replace($window.appBasePath, '');
+    $scope.projectIdentifier = normalisedPath.split('/')[2];
 
     var regexp = /query_id=(\d+)/g;
     var match = regexp.exec(location.search);
