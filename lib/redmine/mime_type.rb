@@ -112,5 +112,10 @@ module Redmine
       main_mimetype = main_mimetype_of(name)
       type.to_s == main_mimetype
     end
+
+    def self.narrow_type(name, content_type)
+      (content_type.split('/').first == main_mimetype_of(name)) ? of(name) : content_type
+    end
+
   end
 end
