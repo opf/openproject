@@ -29,15 +29,6 @@ OpenProject is supported by its community members, both companies and individual
 
 Please find ways to contact us on the OpenProject [support page](https://www.openproject.org/support).
 
-## Contributing
-
-OpenProject is an open source project and we encourage you to help us out. We'd be happy if you do one of these things:
-
-* Create a [new work package on openproject.org](https://www.openproject.org/projects/openproject/work_packages) if you find a bug or need a feature
-* Help out other people on our [forums](https://www.openproject.org/projects/openproject/boards)
-* Help us [translate OpenProject to more languages](https://www.openproject.org/projects/openproject/wiki/Translations)
-* Contribute code via GitHub Pull Requests, see our [contribution page](https://www.openproject.org/projects/openproject/wiki/Contribution) for more information
-
 ## Community
 
 OpenProject is driven by an active group of open source enthusiasts: software engineers, project managers, creatives, and consultants. OpenProject is supported by companies as well as individuals. We share the vision to build great open source project collaboration software.

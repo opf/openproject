@@ -180,6 +180,7 @@ class WikiControllerTest < ActionController::TestCase
   def test_update_stale_page_should_not_raise_an_error
     journal = FactoryGirl.create :wiki_content_journal,
                                  journable_id: 2,
+                                 version: 1,
                                  data: FactoryGirl.build(:journal_wiki_content_journal,
                                                          text: "h1. Another page\n\n\nthis is a link to ticket: #2")
     @request.session[:user_id] = 2
@@ -214,7 +215,7 @@ class WikiControllerTest < ActionController::TestCase
 
     c.reload
     assert_equal 'Previous text', c.text
-    assert_equal journal.version, c.version
+    assert_equal 2, c.version
   end
 
   def test_preview
