@@ -38,6 +38,10 @@ class ProjectSettingsPage
     visit settings_path
   end
 
+  def fieldset_label
+    find 'fieldset#project_issue_custom_fields label span'
+  end
+
   private
 
   def settings_path

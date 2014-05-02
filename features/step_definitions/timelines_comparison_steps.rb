@@ -35,7 +35,7 @@ def get_timeline_cell(name, valueName)
   wpRow = get_timeline_row_by_name(name)
   index = get_timelines_row_number_by_name(valueName)
 
-  wpRow.all(:xpath, "./td")[index]
+  wpRow.all('td')[index]
 end
 
 def get_timelines_row_number_by_name(name)

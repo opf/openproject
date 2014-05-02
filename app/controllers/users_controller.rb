@@ -115,13 +115,13 @@ class UsersController < ApplicationController
   verify :method => :post, :only => :create, :render => {:nothing => true, :status => :method_not_allowed }
   def create
     @user = User.new(:language => Setting.default_language, :mail_notification => Setting.default_notification_option)
-    @user.safe_attributes = params[:user]
+    @user.attributes = permitted_params.user_create_as_admin(false, @user.change_password_allowed?)
     @user.admin = params[:user][:admin] || false
-    @user.login = params[:user][:login]
+
     if @user.change_password_allowed?
       if params[:user][:assign_random_password]
         @user.random_password!
-      else 
+      else
         @user.password = params[:user][:password]
         @user.password_confirmation = params[:user][:password_confirmation]
       end
@@ -164,9 +164,9 @@ class UsersController < ApplicationController
 
   verify :method => :put, :only => :update, :render => {:nothing => true, :status => :method_not_allowed }
   def update
-    @user.admin = params[:user][:admin] if params[:user][:admin]
-    @user.login = params[:user][:login] if params[:user][:login]
-    @user.attributes = permitted_params.user_update_as_admin
+    @user.attributes = permitted_params.user_update_as_admin(@user.uses_external_authentication?,
+                                                             @user.change_password_allowed?)
+
     if @user.change_password_allowed?
       if params[:user][:assign_random_password]
         @user.random_password!
@@ -247,13 +247,15 @@ class UsersController < ApplicationController
         format.js {
           render(:update) {|page|
             page.replace_html "tab-content-memberships", :partial => 'users/memberships'
+            page.insert_html :top, "tab-content-memberships", :partial => "members/common_notice", :locals => {:message => l(:notice_successful_update)}
             page.visual_effect(:highlight, "member-#{@membership.id}")
           }
         }
       else
         format.js {
           render(:update) {|page|
-            page.alert(l(:notice_failed_to_save_members, :errors => @membership.errors.full_messages.join(', ')))
+            page.replace_html "tab-content-memberships", :partial => 'users/memberships'
+            page.insert_html :top, "tab-content-memberships", :partial => "members/member_errors", :locals => {:member => @membership}
           }
         }
       end
@@ -269,11 +271,7 @@ class UsersController < ApplicationController
     @user.status = User::STATUSES[:locked]
     @user.save
 
-    # TODO: use Delayed::Worker.delay_jobs = false in test environment as soon as
-    # delayed job allows for it
-    Rails.env.test? ?
-      @user.destroy :
-      @user.delay.destroy
+    @user.delay.destroy
 
     # log the user out if it's a self-delete
     # must be called before setting the flash message
@@ -295,7 +293,12 @@ class UsersController < ApplicationController
     end
     respond_to do |format|
       format.html { redirect_to :controller => '/users', :action => 'edit', :id => @user, :tab => 'memberships' }
-      format.js { render(:update) {|page| page.replace_html "tab-content-memberships", :partial => 'users/memberships'} }
+      format.js {
+        render(:update) { |page|
+          page.replace_html "tab-content-memberships", :partial => 'users/memberships'
+          page.insert_html :top, "tab-content-memberships", :partial => "members/common_notice", :locals => {:message => l(:notice_successful_delete)}
+        }
+      }
     end
   end
 

@@ -60,7 +60,7 @@ describe MessagesController do
         message.children << m
       end
     end
-    get :show, :board_id => 1, :id => 1, :r => message.children.last(:order => 'id').id
+    get :show, board_id: 1, id: 1, per_page: 100, r: message.children.last(order: 'id').id
     assert_response :success
     assert_template 'show'
     replies = assigns(:replies)

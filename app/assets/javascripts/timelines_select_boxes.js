@@ -31,7 +31,6 @@
 jQuery(document).ready(function($) {
   [
     $("#reporting_reported_project_status_id"),
-    $("#timeline_select"),
     $("#timeline_options_initial_outline_expansion"),
     $("#timeline_options_zoom_factor"),
     $("#timeline_options_compare_to_relative_unit"),

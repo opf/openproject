@@ -50,7 +50,7 @@ describe WorkPackage do
       let(:user) { FactoryGirl.create(:user) }
 
       before do
-        User.stub(:current).and_return user
+        allow(User).to receive(:current).and_return user
 
         original.project.add_member!(user, workflow.role)
       end
@@ -83,8 +83,8 @@ describe WorkPackage do
         end
 
         it "only duplicates are closed" do
-          dup_1.closed?.should be_true
-          dup_2.closed?.should be_true
+          expect(dup_1.closed?).to be_true
+          expect(dup_2.closed?).to be_true
         end
       end
 
@@ -282,7 +282,7 @@ describe WorkPackage do
       shared_examples_for "all dependant work packages visible" do
         subject { work_package_1.all_dependent_packages.collect(&:id) }
 
-        it { should =~ expected_ids }
+        it { should match_array(expected_ids) }
       end
 
       context "w/o circular dependency" do

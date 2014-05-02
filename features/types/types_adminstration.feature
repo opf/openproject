@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Type Adminstration
+Feature: Type Administration
   As an OpenProject Admin
   I want to configure which types are available
   So that I can support my teams with useful settings while still controlling

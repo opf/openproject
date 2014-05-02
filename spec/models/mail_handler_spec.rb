@@ -283,27 +283,27 @@ describe MailHandler do
     Setting.default_language = 'en'
     Role.non_member.update_attribute :permissions, [:add_work_packages]
     project.update_attribute :is_public, true
-    lambda do
+    expect {
       work_package = submit_email('ticket_by_unknown_user.eml', {:issue => {:project => 'onlinestore'}, :unknown_user => 'create'})
       work_package_created(work_package)
-      work_package.author.active?.should be_true
-      work_package.author.mail.should == 'john.doe@somenet.foo'
-      work_package.author.firstname.should == 'John'
-      work_package.author.lastname.should == 'Doe'
+      expect(work_package.author.active?).to be_true
+      expect(work_package.author.mail).to eq('john.doe@somenet.foo')
+      expect(work_package.author.firstname).to eq('John')
+      expect(work_package.author.lastname).to eq('Doe')
 
       #account information
       email = ActionMailer::Base.deliveries.first
-      email.should_not be_nil
-      email.subject.should == I18n.t('mail_subject_register', :value => Setting.app_title)
+      expect(email).not_to be_nil
+      expect(email.subject).to eq(I18n.t('mail_subject_register', :value => Setting.app_title))
       login = email.body.encoded.match(/\* Login: (\S+)\s?$/)[1]
       password = email.body.encoded.match(/\* Password: (\S+)\s?$/)[1]
 
       # Can't log in here since randomly assigned password must be changed
       found_user = User.find_by_login(login)
-      work_package.author.should == found_user
-      found_user.check_password?(password).should be_true
+      expect(work_package.author).to eq(found_user)
+      expect(found_user.check_password?(password)).to be_true
 
-    end.should change(User, :count).by(1)
+    }.to change(User, :count).by(1)
   end
 
   # it "should not add an work_package if from header is missing" do
@@ -346,7 +346,7 @@ describe MailHandler do
   #   work_package.type.should == type_j
   # end
 
-  # it "should ignore emails from emission adress" do
+  # it "should ignore emails from emission address" do
   #   Role.anonymous.update_attribute :permissions, [:add_work_packages]
   #   lambda do
   #     submit_email('ticket_from_emission_address.eml', {:work_package => {'project' => 'onlinestore'}, :unknown_user => 'create'}).should be_false
@@ -526,8 +526,8 @@ describe MailHandler do
   end
 
   def work_package_created(work_package)
-    work_package.is_a?(WorkPackage).should be_true
-    work_package.should_not be_new_record
+    expect(work_package.is_a?(WorkPackage)).to be_true
+    expect(work_package).not_to be_new_record
     work_package.reload
   end
 end

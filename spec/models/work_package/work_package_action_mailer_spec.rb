@@ -29,10 +29,6 @@
 require 'spec_helper'
 
 describe WorkPackage do
-  before :each do
-    Delayed::Worker.delay_jobs = false
-  end
-
   describe ActionMailer::Base do
     let(:user_1) { FactoryGirl.create(:user,
                                       mail: "dlopper@somenet.foo") }
@@ -43,8 +39,8 @@ describe WorkPackage do
     before do
       ActionMailer::Base.deliveries.clear
 
-      work_package.stub(:recipients).and_return([user_1.mail])
-      work_package.stub(:watcher_recipients).and_return([user_2.mail])
+      allow(work_package).to receive(:recipients).and_return([user_1.mail])
+      allow(work_package).to receive(:watcher_recipients).and_return([user_2.mail])
 
       work_package.save
     end

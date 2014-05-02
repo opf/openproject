@@ -41,7 +41,7 @@ class UserMailer < ActionMailer::Base
     headers['X-OpenProject-Type'] = 'Test'
 
     with_locale_for(user) do
-      mail :to => "#{user.name} <#{user.mail}>", :subject => 'OpenProject Test'
+      mail :to => "\"#{user.name}\" <#{user.mail}>", :subject => 'OpenProject Test'
     end
   end
 
@@ -70,7 +70,7 @@ class UserMailer < ActionMailer::Base
     # user (anonymous) and not the original user that called the method.
     #
     # The mail interceptor 'RemoveSelfNotificationsInterceptor' assumes the
-    # orginal user to be available. Otherwise, it cannot fulfill its duty.
+    # original user to be available. Otherwise, it cannot fulfill its duty.
     User.current = author if User.current != author
 
     @journal = journal
@@ -268,7 +268,7 @@ class UserMailer < ActionMailer::Base
     end
   end
 
-  # Activates/desactivates email deliveries during +block+
+  # Activates/deactivates email deliveries during +block+
   def self.with_deliveries(temporary_state = true, &block)
     old_state = ActionMailer::Base.perform_deliveries
     ActionMailer::Base.perform_deliveries = temporary_state
@@ -304,11 +304,11 @@ protected
   # different ways to create a mail (passing a block, giving parameters
   # with optional template, or passing the body directly), we would have
   # to replicate a lot of rails code to modify all three ways.
-  # Therefore, we use option 2: modiyfing the set of parts rails
+  # Therefore, we use option 2: modifying the set of parts rails
   # created internally as a result of the above ways, as this is
   # much shorter.
   # On the downside, this might break if ActionMailer changes the signature
-  # or semantics of the following funtion. However, we should at least
+  # or semantics of the following function. However, we should at least
   # notice this as there are tests for checking the no-html setting.
   def collect_responses_and_parts_order(headers)
     responses, parts_order = super(headers)

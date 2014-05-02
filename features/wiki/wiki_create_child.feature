@@ -39,8 +39,22 @@ Feature: Creating a wiki child page
     And there is 1 project with the following:
       | name       | project1 |
       | identifier | project1 |
+      | name       | project1 |
     And the user "bob" is a "member" in the project "project1"
     And I am already logged in as "bob"
+
+  @javascript
+  Scenario: A user with proper rights can add a child wiki page
+    Given the project "project1" has 1 wiki page with the following:
+      | title | Wikiparentpage |
+    Given I go to the wiki index page of the project called "project1"
+      And I click "Wikiparentpage"
+      And I follow "More functions" within "#content"
+      And I click "Create new child page"
+      And I fill in "page_title" with "Todd's wiki"
+      And I press "Save"
+    When I go to the wiki index page of the project called "project1"
+    Then I should see "Todd's wiki" within "#content"
 
   @javascript
   Scenario: Creating a wiki child page the title of which contains special characters

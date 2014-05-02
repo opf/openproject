@@ -42,7 +42,7 @@ describe TimelogController do
   let(:project_id) { project.id }
   let(:work_package_id) { "" }
 
-  before { User.stub(:current).and_return(user) }
+  before { allow(User).to receive(:current).and_return(user) }
 
   describe :create do
     shared_examples_for "successful timelog creation" do

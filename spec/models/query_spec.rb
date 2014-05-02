@@ -34,17 +34,17 @@ describe Query do
   describe 'available_columns' do
     context 'with work_package_done_ratio NOT disabled' do
       it 'should include the done_ratio column' do
-        query.available_columns.find {|column| column.name == :done_ratio}.should be_true
+        expect(query.available_columns.find {|column| column.name == :done_ratio}).to be_true
       end
     end
 
     context 'with work_package_done_ratio disabled' do
       before do
-        Setting.stub(:work_package_done_ratio).and_return('disabled')
+        allow(Setting).to receive(:work_package_done_ratio).and_return('disabled')
       end
 
       it 'should NOT include the done_ratio column' do
-        query.available_columns.find {|column| column.name == :done_ratio}.should be_nil
+        expect(query.available_columns.find {|column| column.name == :done_ratio}).to be_nil
       end
     end
 
@@ -57,7 +57,7 @@ describe Query do
       expect(query.errors[:name].first).to include(I18n.t('activerecord.errors.messages.blank'))
     end
 
-    context 'with a missing value' do
+    context 'with a missing value and an operator that requires values' do
       before do
         query.add_filter('due_date', 't-', [''])
       end
@@ -72,9 +72,8 @@ describe Query do
       let(:status) { FactoryGirl.create :status }
       let(:query) { FactoryGirl.build(:query).tap {|q| q.filters = []} }
 
-      it 'is not valid and creates an error' do
-        expect(query.valid?).to be_false
-        expect(query.errors[:filters]).to include(I18n.t('activerecord.errors.messages.blank'))
+      it 'is valid' do
+        expect(query.valid?).to be_true
       end
     end
 

@@ -38,7 +38,7 @@ describe NewsController do
   let(:news)    { FactoryGirl.create(:news)    }
 
   before do
-    User.stub(:current).and_return user
+    allow(User).to receive(:current).and_return user
   end
 
   describe "#index" do
@@ -157,6 +157,19 @@ describe NewsController do
 
       expect(response).to redirect_to project_news_index_path(news.project)
       expect { news.reload }.to raise_error ActiveRecord::RecordNotFound
+    end
+  end
+
+  describe 'preview' do
+    let(:description) { "News description" }
+
+    it_behaves_like 'valid preview' do
+      let(:preview_texts) { [description] }
+      let(:preview_params) { { news: { description: description } } }
+    end
+
+    it_behaves_like 'authorizes object access' do
+      let(:preview_params) { { id: news.id, news: { } } }
     end
   end
 end

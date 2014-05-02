@@ -37,7 +37,7 @@ describe OpenProject::Notifications do
       # We can't clean this up, so we need to use a unique name
       OpenProject::Notifications.subscribe("notifications_spec_send", &probe)
 
-      probe.should_receive(:call) do |payload|
+      expect(probe).to receive(:call) do |payload|
         # Don't check for object identity for the payload as it might be
         # marshalled and unmarshalled before being delivered in the future.
         expect(payload).to eql(payload)
@@ -46,6 +46,14 @@ describe OpenProject::Notifications do
 
     it 'should deliver a notification' do
       OpenProject::Notifications.send("notifications_spec_send", payload)
+    end
+  end
+
+  describe '.subscribe' do
+    it "throws an error when no callback is given" do
+      expect {
+        OpenProject::Notifications.subscribe("notifications_spec_send")
+      }.to raise_error ArgumentError, /provide a block as a callback/
     end
   end
 

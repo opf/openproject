@@ -31,6 +31,7 @@ class UserSearchService
   attr_accessor :params
 
   SEARCH_SCOPES = [
+    'project_id',
     'ids',
     'group_id',
     'status',
@@ -42,7 +43,8 @@ class UserSearchService
   end
 
   def search
-    scope = User
+    scope = params[:project_id] ? Project.find(params[:project_id]).users : User
+
     params[:ids].present? ? ids_search(scope) : query_search(scope)
   end
 

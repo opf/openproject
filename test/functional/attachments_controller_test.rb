@@ -85,19 +85,19 @@ describe AttachmentsController do
 
     get :show, :id => 4
     assert_response :success
-    assert_equal 'application/x-ruby', @response.content_type
+    assert_equal 'text/x-ruby', @response.content_type
   end
 
   it 'show_other' do
     get :show, :id => 6
     assert_response :success
-    assert_equal 'application/octet-stream', @response.content_type
+    assert_equal 'application/zip', @response.content_type
   end
 
   it 'download_text_file' do
     get :download, :id => 4
     assert_response :success
-    assert_equal 'application/x-ruby', @response.content_type
+    assert_equal 'text/x-ruby', @response.content_type
   end
 
   it 'download_should_assign_content_type_if_blank' do
@@ -105,7 +105,7 @@ describe AttachmentsController do
 
     get :download, :id => 4
     assert_response :success
-    assert_equal 'text/x-ruby', @response.content_type
+    assert_equal 'application/binary', @response.content_type
   end
 
   it 'download_missing_file' do

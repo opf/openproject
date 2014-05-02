@@ -125,27 +125,6 @@ describe "Routing", type: :routing do
   end
 
   context "issues" do
-    # REST actions
-    it { should route(:get, "/api/v1/issues.xml").to( :controller => 'api/v1/issues',
-                                                 :action => 'index',
-                                                 :format => 'xml' ) }
-    it { should route(:get, "/api/v1/projects/23/issues.xml").to( :controller => 'api/v1/issues',
-                                                             :action => 'index',
-                                                             :project_id => '23',
-                                                             :format => 'xml' ) }
-    it { should route(:get, "/api/v1/issues/64.xml").to( :controller => 'api/v1/issues',
-                                                    :action => 'show',
-                                                    :id => '64',
-                                                    :format => 'xml' ) }
-    it { should route(:get, "/api/v1/projects/23/issues/new.xml").to( :controller => 'api/v1/issues',
-                                                                 :action => 'new',
-                                                                 :project_id => '23',
-                                                                 :format => 'xml' ) }
-    it { should route(:delete, "/api/v1/issues/1.xml").to( :controller => 'api/v1/issues',
-                                                      :action => 'destroy',
-                                                      :id => '1',
-                                                      :format => 'xml' ) }
-
     # Extra actions
     it { should route(:get, "/issues/changes").to( :controller => 'journals',
                                               :action => 'index' ) }
@@ -245,11 +224,6 @@ describe "Routing", type: :routing do
       it { should route(:post, "/boards/lala/topics").to( :controller => 'messages',
                                                      :action => 'create',
                                                      :board_id => 'lala' ) }
-
-      it { should route(:post, "/boards/22/topics/preview").to( :controller => 'messages',
-                                                           :action => 'preview',
-                                                           :board_id => '22' ) }
-
     end
 
     it { should route(:get, "/topics/2").to( :controller => 'messages',
@@ -275,14 +249,6 @@ describe "Routing", type: :routing do
     it { should route(:post, "/topics/555/reply").to( :controller => 'messages',
                                                  :action => 'reply',
                                                  :id => '555' ) }
-
-    it { should route(:post, "/topics/2/preview").to( :controller => 'messages',
-                                                 :action => 'preview',
-                                                 :id => '2' ) }
-
-
-
-
   end
 
   context "news" do
@@ -296,16 +262,6 @@ describe "Routing", type: :routing do
                                                         :format => 'atom',
                                                         :project_id => '567' ) }
 
-      it { should route(:get, "/api/v1/projects/567/news.xml").to( :controller => 'api/v1/news',
-                                                              :action => 'index',
-                                                              :format => 'xml',
-                                                              :project_id => '567' ) }
-
-      it { should route(:get, "/api/v1/projects/567/news.json").to( :controller => 'api/v1/news',
-                                                               :action => 'index',
-                                                               :format => 'json',
-                                                               :project_id => '567' ) }
-
       it { should route(:get, "/projects/567/news/new").to( :controller => 'news',
                                                        :action => 'new',
                                                        :project_id => '567' ) }
@@ -313,10 +269,6 @@ describe "Routing", type: :routing do
       it { should route(:post, "/projects/567/news").to( :controller => 'news',
                                                     :action => 'create',
                                                     :project_id => '567' ) }
-
-      it { should route(:post, "/projects/567/news/preview").to( :controller => 'news/previews',
-                                                            :action => 'create',
-                                                            :project_id => '567' ) }
 
     end
 
@@ -326,14 +278,6 @@ describe "Routing", type: :routing do
     it { should route(:get, "/news.atom").to( :controller => 'news',
                                          :action => 'index',
                                          :format => 'atom' ) }
-
-    it { should route(:get, "/api/v1/news.xml").to( :controller => 'api/v1/news',
-                                               :action => 'index',
-                                               :format => 'xml' ) }
-
-    it { should route(:get, "/api/v1/news.json").to( :controller => 'api/v1/news',
-                                                :action => 'index',
-                                                :format => 'json' ) }
 
     it { should route(:get, "/news/2").to( :controller => 'news',
                                       :action => 'show',
@@ -369,14 +313,6 @@ describe "Routing", type: :routing do
     it { should route(:delete, "/comments/15").to( :controller => 'news/comments',
                                               :action => 'destroy',
                                               :id => '15' ) }
-  end
-
-  context "news/previews" do
-    context "news scoped" do
-      it { should route(:post, "/news/567/preview").to( :controller => 'news/previews',
-                                                   :action => 'create',
-                                                   :news_id => '567' ) }
-    end
   end
 
   context "project_enumerations" do
@@ -645,10 +581,6 @@ describe "Routing", type: :routing do
                                                           :action => 'export',
                                                           :project_id => '567' ) }
 
-      it { should route(:post, "/projects/567/wiki/CookBook_documentation/preview").to( :controller => 'wiki',
-                                                                                   :action => 'preview',
-                                                                                   :project_id => '567',
-                                                                                   :id => 'CookBook_documentation' ) }
       it { should route(:put, "/projects/22/wiki/ladida/rename").to( :controller => 'wiki',
                                                                  :action => 'rename',
                                                                  :project_id => '22',

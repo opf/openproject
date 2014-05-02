@@ -1,6 +1,6 @@
 # OpenProject
 
-[<img src="https://travis-ci.org/opf/openproject.png?branch=dev" alt="Build Status" />](https://travis-ci.org/opf/openproject)
+[<img src="https://travis-ci.org/opf/openproject.svg?branch=dev" alt="Build Status" />](https://travis-ci.org/opf/openproject)
 [<img src="https://gemnasium.com/opf/openproject.png" alt="Dependency Status" />](https://gemnasium.com/opf/openproject)
 
 OpenProject is a web-based project management software. Its key features are:
@@ -28,15 +28,6 @@ There is an [installation guide](https://www.openproject.org/projects/openprojec
 OpenProject is supported by its community members, both companies and individuals.
 
 Please find ways to contact us on the OpenProject [support page](https://www.openproject.org/support).
-
-## Contributing
-
-OpenProject is an open source project and we encourage you to help us out. We'd be happy if you do one of these things:
-
-* Create a [new work package on openproject.org](https://www.openproject.org/projects/openproject/work_packages) if you find a bug or need a feature
-* Help out other people on our [forums](https://www.openproject.org/projects/openproject/boards)
-* Help us [translate OpenProject to more languages](https://www.openproject.org/projects/openproject/wiki/Translations)
-* Contribute code via GitHub Pull Requests, see our [contribution page](https://www.openproject.org/projects/openproject/wiki/Contribution) for more information
 
 ## Community
 

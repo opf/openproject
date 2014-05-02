@@ -32,11 +32,15 @@ require_relative 'migration_utils/journal_migrator_concerns'
 
 class LegacyMessageJournalData < ActiveRecord::Migration
   def up
+    add_index "message_journals", ["journal_id"]
+
     migrator.run
   end
 
   def down
     migrator.remove_journals_derived_from_legacy_journals 'attachable_journals'
+
+    remove_index "message_journals", ["journal_id"]
   end
 
   private

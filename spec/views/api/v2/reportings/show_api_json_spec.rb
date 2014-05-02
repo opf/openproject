@@ -59,7 +59,7 @@ describe 'api/v2/reportings/show.api.rabl' do
     subject {response.body}
 
     it 'renders a reporting document' do
-      response.should have_json_path('reporting')
+      expect(response).to have_json_path('reporting')
     end
 
     it 'renders the details of a reporting' do

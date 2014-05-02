@@ -30,31 +30,60 @@ See doc/COPYRIGHT.rdoc for more details.
 # Changelog
 
 * `#284`  Fix: Sticky does not apply to forum
+* `#1009` Wrong german translation when accessing a non-existent work package
+* `#1502` Multiple escaping on user select2 field in project settingsmembers tab
+* `#1865` Journal creates Symbols from attachment ids
+* `#2029` Fix: News preview
 * `#2393` Fix: No warning when leaving site without saving
 * `#2401` Fix: New target version cannot be created from work package view
 * `#2280` Fix: Spent Time not localized
+* `#3019` Fix: Quote icon in wrong position
+* `#3063` Fix: Quotes in versions are not properly HTML-escaped
+* `#3118` Fix: Copying a work package to a new project with parent and cross_project_work_package_relations disabled does not work
 * `#3148` Fix: Comparison of history versions in wiki pages ignores newlines
 * `#3267` Fix: Link in Breadcrumbs links to global work packages
 * `#3348` Fix: Menu item "more functions" is cut off where content ends
 * `#3395` Fix: After error message values are gone during creation of message
 * `#3531` Fix: Type 'None' cannot be configured via admin settings
+* `#3775` No success message when adding a user to a project
+* `#4007` Timeline page title does not contain name of timeline
+* `#4020` Prevent timelog page reload on selection change
 * `#4040` Fix: Referencing work packages with ### in news, forums and meetings does not work
 * `#4087` Ignore type list flash when activating flash messages
 * `#4097` Fix accesskeys
 * `#4118` Fix: Add missing labels
 * `#4701` Fix: Wiki change notification mail contains invalid diff link
+* `#4928` Fix: Journal note hits not shown
 * `#5057` Fix: Whitelisted more params for planning elements controller
 * `#5214` Allow setting watchers and time entries for work packages via API`
 * `#5311` Encapsulate ActiveSupport::Notifications
+* `#5553` Integrate OmniAuth
+* `#5632` Check whether cookies are not shared between sub-uris
+* `#6309` Remove API v1 & add level_list to API v2
+* `#6310` API v1 is now deprecated and will be removed in the next major release of OpenProject
+* `#6310` API v2 is now deprecated and will be removed in a future version of OpenProject
+* `#7050` Fix: Cannot change the login when login is already taken during creation of account
+* `#7051` Wrong success message when user is not allowed to register himself
+* `#7149` Fix: Wrong success message when login is already in use
+* `#7177` Fix: Journal not created in connection with deleted note
 * Allowed sending of mails with only cc: or bcc: fields
 * Allow adding attachments to created work packages via planning elements controller
 * Remove unused rmagick dependency
+* Add settings callback
 * Fix: Work package short URI
 * Fix: work package due date not validated when start date is not present
 * Fix: Use correct questions for deletion of documents/files in rake tasks
 * Fix: Use URL helpers for forum routes
+* Fix: Back URL verification
+* Fix: Asset require for plug-ins
+* Fix: at.who styling
 
-## 3.0.0pre51
+## 3.0.1
+
+* `#5265` Fix: Error adding Work Package
+* `#5322` Fix: First Journal Entry of chiliproject issues shows incorrect diff
+
+## 3.0.0
 
 * `#3701` Fix: Filter custom fields of work packages in timeline reports
 * `#5033` Migration RepairInvalidDefaultWorkPackageCustomValues fails on Postgres

@@ -191,7 +191,10 @@ describe UsersController do
 
   it 'create_with_failure' do
     assert_no_difference 'User.count' do
-      post :create, :user => {}
+      # Provide at least one user  field, otherwise strong_parameters regards the user parameter
+      # as non-existent and raises ActionController::ParameterMissing, which in turn
+      # results in a 400.
+      post :create, :user => { :login => 'jdoe' }
     end
 
     assert_response :success
@@ -204,18 +207,6 @@ describe UsersController do
     assert_response :success
     assert_template 'edit'
     assert_equal User.find(2), assigns(:user)
-  end
-
-  it 'update' do
-    ActionMailer::Base.deliveries.clear
-    put :update, :id => 2, :user => {:firstname => 'Changed', :mail_notification => 'only_assigned'}, :pref => {:hide_mail => '1', :comments_sorting => 'desc'}
-
-    user = User.find(2)
-    assert_equal 'Changed', user.firstname
-    assert_equal 'only_assigned', user.mail_notification
-    assert_equal true, user.pref[:hide_mail]
-    assert_equal 'desc', user.pref[:comments_sorting]
-    assert ActionMailer::Base.deliveries.empty?
   end
 
   it 'update_with_failure' do

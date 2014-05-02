@@ -387,7 +387,7 @@ describe Query do
 
   it 'should label_for' do
     q = Query.new name: '_'
-    assert_equal 'assigned_to', q.label_for('assigned_to_id')
+    assert_equal WorkPackage.human_attribute_name("assigned_to_id"), q.label_for('assigned_to_id')
   end
 
   it 'should editable_by' do

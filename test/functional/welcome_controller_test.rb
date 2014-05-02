@@ -88,8 +88,8 @@ describe WelcomeController do
 
     get :index
     assert_tag 'script',
-      :attributes => {:type => "text/javascript"},
-      :content => %r{new WarnLeavingUnsaved}
+               attributes: { type: 'text/javascript' },
+               content: /warnLeavingUnsaved/
   end
 
   it 'warn_on_leaving_unsaved_turn_off' do
@@ -100,7 +100,7 @@ describe WelcomeController do
 
     get :index
     assert_no_tag 'script',
-      :attributes => {:type => "text/javascript"},
-      :content => %r{new WarnLeavingUnsaved}
+                  attributes: { type: 'text/javascript' },
+                  content: /warnLeavingUnsaved/
   end
 end

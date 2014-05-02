@@ -30,11 +30,11 @@ require 'spec_helper'
 
 describe SettingsController do
   before :each do
-    @controller.stub(:set_localization)
+    allow(@controller).to receive(:set_localization)
     @params = {}
 
     @user = FactoryGirl.create(:admin)
-    User.stub(:current).and_return @user
+    allow(User).to receive(:current).and_return @user
   end
 
   describe 'edit' do
@@ -63,9 +63,9 @@ describe SettingsController do
     it 'contains a check box for the activity module on the projects tab' do
       get 'edit', :tab => 'projects'
 
-      response.should be_success
-      response.should render_template 'edit'
-      response.body.should have_selector "input[@name='settings[default_projects_modules][]'][@value='activity']"
+      expect(response).to be_success
+      expect(response).to render_template 'edit'
+      expect(response.body).to have_selector "input[@name='settings[default_projects_modules][]'][@value='activity']"
     end
 
     it 'does not store the activity in the default_projects_modules if unchecked' do
@@ -73,10 +73,10 @@ describe SettingsController do
         :default_projects_modules => ['wiki']
       }
 
-      response.should be_redirect
-      response.should redirect_to :action => 'edit', :tab => 'projects'
+      expect(response).to be_redirect
+      expect(response).to redirect_to :action => 'edit', :tab => 'projects'
 
-      Setting.default_projects_modules.should == ['wiki']
+      expect(Setting.default_projects_modules).to eq(['wiki'])
     end
 
     it 'stores the activity in the default_projects_modules if checked' do
@@ -84,10 +84,10 @@ describe SettingsController do
         :default_projects_modules => ['activity', 'wiki']
       }
 
-      response.should be_redirect
-      response.should redirect_to :action => 'edit', :tab => 'projects'
+      expect(response).to be_redirect
+      expect(response).to redirect_to :action => 'edit', :tab => 'projects'
 
-      Setting.default_projects_modules.should == ['activity', 'wiki']
+      expect(Setting.default_projects_modules).to eq(['activity', 'wiki'])
     end
 
     describe 'with activity in Setting.default_projects_modules' do
@@ -98,10 +98,10 @@ describe SettingsController do
       it 'contains a checked checkbox for activity' do
         get 'edit', :tab => 'projects'
 
-        response.should be_success
-        response.should render_template 'edit'
+        expect(response).to be_success
+        expect(response).to render_template 'edit'
 
-        response.body.should have_selector "input[@name='settings[default_projects_modules][]'][@value='activity'][@checked='checked']"
+        expect(response.body).to have_selector "input[@name='settings[default_projects_modules][]'][@value='activity'][@checked='checked']"
       end
     end
 
@@ -113,10 +113,10 @@ describe SettingsController do
       it 'contains an unchecked checkbox for activity' do
         get 'edit', :tab => 'projects'
 
-        response.should be_success
-        response.should render_template 'edit'
+        expect(response).to be_success
+        expect(response).to render_template 'edit'
 
-        response.body.should_not have_selector "input[@name='settings[default_projects_modules][]'][@value='activity'][@checked='checked']"
+        expect(response.body).not_to have_selector "input[@name='settings[default_projects_modules][]'][@value='activity'][@checked='checked']"
       end
     end
   end

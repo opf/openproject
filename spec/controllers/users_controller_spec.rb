@@ -48,16 +48,16 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        Setting.stub(:users_deletable_by_self?).and_return(true)
+        allow(Setting).to receive(:users_deletable_by_self?).and_return(true)
 
         as_logged_in_user user do
           get :deletion_info, params
         end
       end
 
-      it { response.should be_success }
-      it { assigns(:user).should == user }
-      it { response.should render_template("deletion_info") }
+      it { expect(response).to be_success }
+      it { expect(assigns(:user)).to eq(user) }
+      it { expect(response).to render_template("deletion_info") }
     end
 
     describe "WHEN the current user is the requested user
@@ -65,14 +65,14 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        Setting.stub(:users_deletable_by_self?).and_return(false)
+        allow(Setting).to receive(:users_deletable_by_self?).and_return(false)
 
         as_logged_in_user user do
           get :deletion_info, params
         end
       end
 
-      it { response.response_code.should == 404 }
+      it { expect(response.response_code).to eq(404) }
     end
 
     describe "WHEN the current user is the anonymous user" do
@@ -84,7 +84,7 @@ describe UsersController do
         end
       end
 
-      it { response.should redirect_to({ :controller => 'account',
+      it { expect(response).to redirect_to({ :controller => 'account',
                                          :action => 'login',
                                          :back_url => @controller.url_for({ :controller => 'users',
                                                                             :action => 'deletion_info' }) }) }
@@ -95,16 +95,16 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        Setting.stub(:users_deletable_by_admins?).and_return(true)
+        allow(Setting).to receive(:users_deletable_by_admins?).and_return(true)
 
         as_logged_in_user admin do
           get :deletion_info, params
         end
       end
 
-      it { response.should be_success }
-      it { assigns(:user).should == user }
-      it { response.should render_template("deletion_info") }
+      it { expect(response).to be_success }
+      it { expect(assigns(:user)).to eq(user) }
+      it { expect(response).to render_template("deletion_info") }
     end
 
     describe "WHEN the current user is admin
@@ -112,14 +112,14 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        Setting.stub(:users_deletable_by_admins?).and_return(false)
+        allow(Setting).to receive(:users_deletable_by_admins?).and_return(false)
 
         as_logged_in_user admin do
           get :deletion_info, params
         end
       end
 
-      it { response.response_code.should == 404 }
+      it { expect(response.response_code).to eq(404) }
     end
   end
 
@@ -129,16 +129,16 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        @controller.instance_eval{ flash.stub(:sweep) }
-        Setting.stub(:users_deletable_by_self?).and_return(true)
+        disable_flash_sweep
+        allow(Setting).to receive(:users_deletable_by_self?).and_return(true)
 
         as_logged_in_user user do
           post :destroy, params
         end
       end
 
-      it { response.should redirect_to({ :controller => 'account', :action => 'login' }) }
-      it { flash[:notice].should == I18n.t('account.deleted') }
+      it { expect(response).to redirect_to({ :controller => 'account', :action => 'login' }) }
+      it { expect(flash[:notice]).to eq(I18n.t('account.deleted')) }
     end
 
     describe "WHEN the current user is the requested one
@@ -146,15 +146,15 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        @controller.instance_eval{ flash.stub(:sweep) }
-        Setting.stub(:users_deletable_by_self?).and_return(false)
+        disable_flash_sweep
+        allow(Setting).to receive(:users_deletable_by_self?).and_return(false)
 
         as_logged_in_user user do
           post :destroy, params
         end
       end
 
-      it { response.response_code.should == 404 }
+      it { expect(response.response_code).to eq(404) }
     end
 
     describe "WHEN the current user is the anonymous user
@@ -162,8 +162,8 @@ describe UsersController do
       let(:params) { { "id" => anonymous.id.to_s } }
 
       before do
-        @controller.stub(:find_current_user).and_return(anonymous)
-        Setting.stub(:login_required?).and_return(false)
+        allow(@controller).to receive(:find_current_user).and_return(anonymous)
+        allow(Setting).to receive(:login_required?).and_return(false)
 
         as_logged_in_user anonymous do
           post :destroy, params
@@ -171,7 +171,7 @@ describe UsersController do
       end
 
       # redirecting post is not possible for now
-      it { response.response_code.should == 403 }
+      it { expect(response.response_code).to eq(403) }
     end
 
     describe "WHEN the current user is the admin
@@ -180,16 +180,16 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        @controller.instance_eval{ flash.stub(:sweep) }
-        Setting.stub(:users_deletable_by_admins?).and_return(true)
+        disable_flash_sweep
+        allow(Setting).to receive(:users_deletable_by_admins?).and_return(true)
 
         as_logged_in_user admin do
           post :destroy, params
         end
       end
 
-      it { response.should redirect_to({ :controller => 'users', :action => 'index' }) }
-      it { flash[:notice].should == I18n.t('account.deleted') }
+      it { expect(response).to redirect_to({ :controller => 'users', :action => 'index' }) }
+      it { expect(flash[:notice]).to eq(I18n.t('account.deleted')) }
     end
 
     describe "WHEN the current user is the admin
@@ -198,15 +198,15 @@ describe UsersController do
       let(:params) { { "id" => user.id.to_s } }
 
       before do
-        @controller.instance_eval{ flash.stub(:sweep) }
-        Setting.stub(:users_deletable_by_admins).and_return(false)
+        disable_flash_sweep
+        allow(Setting).to receive(:users_deletable_by_admins).and_return(false)
 
         as_logged_in_user admin do
           post :destroy, params
         end
       end
 
-      it { response.response_code.should == 404 }
+      it { expect(response.response_code).to eq(404) }
     end
   end
 
@@ -257,22 +257,22 @@ describe UsersController do
 
       shared_examples_for "index action with disabled session lifetime or inactivity not exceeded" do
         it "doesn't logout the user and renders the index action" do
-          User.current.should == admin
-          response.should render_template "index"
+          expect(User.current).to eq(admin)
+          expect(response).to render_template "index"
         end
       end
 
       shared_examples_for 'index action with enabled session lifetime and inactivity exceeded' do
         it "logs out the user and redirects with a warning that he has been locked out" do
-          response.redirect_url.should == (signin_url + "?back_url=" + CGI::escape(@controller.url_for(:controller => "users", :action => "index")))
-          User.current.should_not == admin
-          flash[:warning].should == I18n.t(:notice_forced_logout, :ttl_time => Setting.session_ttl)
+          expect(response.redirect_url).to eq(signin_url + "?back_url=" + CGI::escape(@controller.url_for(:controller => "users", :action => "index")))
+          expect(User.current).not_to eq(admin)
+          expect(flash[:warning]).to eq(I18n.t(:notice_forced_logout, :ttl_time => Setting.session_ttl))
         end
       end
 
       context "disabled" do
         before do
-          Setting.stub(:session_ttl_enabled?).and_return(false)
+          allow(Setting).to receive(:session_ttl_enabled?).and_return(false)
           @controller.send(:logged_user=, admin)
           get :index
         end
@@ -282,8 +282,8 @@ describe UsersController do
 
       context "enabled " do
         before do
-          Setting.stub(:session_ttl_enabled?).and_return(true)
-          Setting.stub(:session_ttl).and_return("120")
+          allow(Setting).to receive(:session_ttl_enabled?).and_return(true)
+          allow(Setting).to receive(:session_ttl).and_return("120")
           @controller.send(:logged_user=, admin)
         end
 
@@ -306,7 +306,7 @@ describe UsersController do
 
         context "without last activity time in the session" do
           before do
-            Setting.stub(:session_ttl).and_return("60")
+            allow(Setting).to receive(:session_ttl).and_return("60")
             session[:updated_at] = nil
             get :index
           end
@@ -315,7 +315,7 @@ describe UsersController do
 
         context "with ttl = 0" do
           before do
-            Setting.stub(:session_ttl).and_return("0")
+            allow(Setting).to receive(:session_ttl).and_return("0")
             session[:updated_at] = Time.now - 1.hours
             get :index
           end
@@ -325,7 +325,7 @@ describe UsersController do
 
         context "with ttl < 0" do
           before do
-            Setting.stub(:session_ttl).and_return("-60")
+            allow(Setting).to receive(:session_ttl).and_return("-60")
             session[:updated_at] = Time.now - 1.hours
             get :index
           end
@@ -335,7 +335,7 @@ describe UsersController do
 
         context "with ttl < 5 > 0" do
           before do
-            Setting.stub(:session_ttl).and_return("4")
+            allow(Setting).to receive(:session_ttl).and_return("4")
             session[:updated_at] = Time.now - 1.hours
             get :index
           end
@@ -347,16 +347,73 @@ describe UsersController do
   end
 
   describe "update" do
-    let(:ldap_auth_source) { FactoryGirl.create(:ldap_auth_source) }
+    context "fields" do
+      let(:user) { FactoryGirl.create(:user, :firstname => 'Firstname',
+                                             :admin => true,
+                                             :login => 'testlogin',
+                                             :mail_notification => 'all',
+                                             :force_password_change => false)}
 
-    it "with a password change to an AuthSource user switching to Internal authentication" do
-      user.auth_source = ldap_auth_source
-      as_logged_in_user admin do
-        put :update, :id => user.id, :user => {:auth_source_id => '', :password => 'newpassPASS!', :password_confirmation => 'newpassPASS!'}
+      before do
+        ActionMailer::Base.deliveries.clear
+
+        as_logged_in_user(admin) do
+          put :update, :id => user.id, :user => {:admin => false,
+                                                 :firstname => 'Changed',
+                                                 :login => 'changedlogin',
+                                                 :mail_notification => 'only_assigned',
+                                                 :force_password_change => true},
+                                       :pref => {:hide_mail => '1', :comments_sorting => 'desc'}
+       end
       end
 
-      expect(user.reload.auth_source).to be_nil
-      expect(user.check_password?('newpassPASS!')).to be_true
+      it 'should redirect to the edit page' do
+        expect(response).to redirect_to(edit_user_url(user))
+      end
+
+      it 'should be assigned their new values' do
+        user_from_db = User.find(user.id)
+        expect(user_from_db.admin).to be_false
+        expect(user_from_db.firstname).to eql('Changed')
+        expect(user_from_db.login).to eql('changedlogin')
+        expect(user_from_db.mail_notification).to eql('only_assigned')
+        expect(user_from_db.force_password_change).to eql(true)
+        expect(user_from_db.pref[:hide_mail]).to be_true
+        expect(user_from_db.pref[:comments_sorting]).to eql('desc')
+      end
+
+      it 'should not send an email' do
+        expect(ActionMailer::Base.deliveries.empty?).to be_true
+      end
+    end
+
+    context "with external authentication" do
+      let(:user) { FactoryGirl.create(:user, :identity_url => 'some:identity')}
+
+      before do
+        as_logged_in_user(admin) do
+          put :update, :id => user.id, :user => {:force_password_change => 'true'}
+        end
+        user.reload
+      end
+
+      it 'should ignore setting force_password_change' do
+        expect(user.force_password_change).to eql(false)
+      end
+    end
+
+    context "ldap auth source" do
+      let(:ldap_auth_source) { FactoryGirl.create(:ldap_auth_source) }
+
+      it "switchting to internal authentication on a password change" do
+        user.auth_source = ldap_auth_source
+        as_logged_in_user admin do
+          put :update, :id => user.id, :user => {:auth_source_id => '', :password => 'newpassPASS!', :password_confirmation => 'newpassPASS!'}
+        end
+
+        expect(user.reload.auth_source).to be_nil
+        expect(user.check_password?('newpassPASS!')).to be_true
+      end
     end
   end
 
@@ -444,7 +501,7 @@ describe UsersController do
                                                                     type_id: work_package.type_id,
                                                                     project_id: work_package.project_id)) }
 
-      before { User.stub(:current).and_return(user.reload) }
+      before { allow(User).to receive(:current).and_return(user.reload) }
 
       it { get :show, id: user.id }
     end

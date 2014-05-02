@@ -258,6 +258,13 @@ Given /^I select to see [cC]olumn "([^\"]*)"$/ do |column_name|
   }
 end
 
+Given /^I select to not see [cC]olumn "([^\"]*)"$/ do |column_name|
+  steps %Q{
+    When I select \"#{column_name}\" from \"selected_columns\"
+    When I press \"←\"
+  }
+end
+
 Given /^I select to see [cC]olumn(?:s)?$/ do |table|
   params = "?set_filter=1&" + table.raw.collect(&:first).collect do |name|
     page.source =~ /<option value="(.*?)">#{name}<\/option>/
@@ -399,7 +406,7 @@ def modify_user(u, table)
   u
 end
 
-# Encapsule the logic to set a custom field on an issue
+# Encapsulate the logic to set a custom field on an issue
 def add_custom_value_to_issue(object, key, value)
   if WorkPackageCustomField.all.collect(&:name).include? key.to_s
     cv = CustomValue.find(:first, :conditions => ["customized_id = '#{object.id}'"])

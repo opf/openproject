@@ -34,11 +34,15 @@ class LegacyWikiContentJournalData < ActiveRecord::Migration
   end
 
   def up
+    add_index "wiki_content_journals", ["journal_id"]
+
     migrator.run
   end
 
   def down
     migrator.remove_journals_derived_from_legacy_journals
+
+    remove_index "wiki_content_journals", ["journal_id"]
   end
 
   def migrator

@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-desc "Run the Continous Integration tests for Redmine"
+desc "Run the Continuous Integration tests for OpenProject"
 task :ci do
   # RAILS_ENV and ENV[] can diverge so force them both to test
   ENV['RAILS_ENV'] = 'test'
@@ -90,12 +90,14 @@ namespace :ci do
       Rake::Task["db:migrate"].invoke
       Rake::Task["db:schema:dump"].invoke
 
+      Rake::Task["bower:install"].invoke('-F')
+
       # Create test repositories
       Rake::Task["test:scm:setup:all"].invoke
     end
   end
 
-  desc "Setup Redmine for a new build."
+  desc "Setup OpenProject for a new build."
   task :setup do
     Rake::Task["ci:dump_environment"].invoke
     Rake::Task["db:drop"].invoke
@@ -105,7 +107,7 @@ namespace :ci do
     Rake::Task["test:scm:update"].invoke
   end
 
-  desc "Build Redmine"
+  desc "Build OpenProject"
   task :build do
     Rake::Task["test"].invoke
   end
@@ -125,4 +127,3 @@ namespace :ci do
 
   end
 end
-

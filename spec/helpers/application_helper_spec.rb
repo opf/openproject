@@ -35,19 +35,19 @@ describe ApplicationHelper do
   describe "format_activity_description" do
     it "truncates given text" do
       text = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lore"
-      format_activity_description(text).size.should == 120
+      expect(format_activity_description(text).size).to eq(120)
     end
 
     it "replaces escaped line breaks with html line breaks and should be html_safe" do
       text = "Lorem ipsum dolor sit \namet, consetetur sadipscing elitr, sed diam nonumy eirmod\r tempor invidunt"
       text_html = "Lorem ipsum dolor sit <br />amet, consetetur sadipscing elitr, sed diam nonumy eirmod<br /> tempor invidunt"
-      format_activity_description(text).should == text_html
-      format_activity_description(text).html_safe?.should be_true
+      expect(format_activity_description(text)).to eq(text_html)
+      expect(format_activity_description(text).html_safe?).to be_true
     end
 
     it "escapes potentially harmful code" do
       text = "Lorem ipsum dolor <script>alert('pwnd');</script> tempor invidunt"
-      format_activity_description(text).include?("lt;script&gt;alert(&#x27;pwnd&#x27;);&lt;/script&gt;").should be_true
+      expect(format_activity_description(text).include?("lt;script&gt;alert(&#x27;pwnd&#x27;);&lt;/script&gt;")).to be_true
     end
   end
 
@@ -57,7 +57,7 @@ describe ApplicationHelper do
         OpenProject::Footer.content = nil
       end
 
-      it { footer_content.should == I18n.t(:text_powered_by, :link => link_to(OpenProject::Info.app_name, OpenProject::Info.url)) }
+      it { expect(footer_content).to eq(I18n.t(:text_powered_by, :link => link_to(OpenProject::Info.app_name, OpenProject::Info.url))) }
     end
 
     context "string as additional footer content" do
@@ -66,8 +66,8 @@ describe ApplicationHelper do
         OpenProject::Footer.add_content("openproject","footer")
       end
 
-      it { footer_content.include?(I18n.t(:text_powered_by, :link => link_to(OpenProject::Info.app_name, OpenProject::Info.url))).should be_true  }
-      it { footer_content.include?("<span class=\"footer_openproject\">footer</span>").should be_true  }
+      it { expect(footer_content.include?(I18n.t(:text_powered_by, :link => link_to(OpenProject::Info.app_name, OpenProject::Info.url)))).to be_true  }
+      it { expect(footer_content.include?("<span class=\"footer_openproject\">footer</span>")).to be_true  }
     end
 
     context "proc as additional footer content" do
@@ -76,7 +76,7 @@ describe ApplicationHelper do
         OpenProject::Footer.add_content("openproject",Proc.new{Date.parse(Time.now.to_s)})
       end
 
-      it { footer_content.include?("<span class=\"footer_openproject\">#{Date.parse(Time.now.to_s)}</span>").should be_true  }
+      it { expect(footer_content.include?("<span class=\"footer_openproject\">#{Date.parse(Time.now.to_s)}</span>")).to be_true  }
     end
 
     context "proc which returns nothing" do
@@ -85,7 +85,7 @@ describe ApplicationHelper do
         OpenProject::Footer.add_content("openproject",Proc.new{"footer" if false})
       end
 
-      it { footer_content.include?("<span class=\"footer_openproject\">").should be_false }
+      it { expect(footer_content.include?("<span class=\"footer_openproject\">")).to be_false }
     end
   end
 
@@ -104,7 +104,7 @@ describe ApplicationHelper do
 
     context "if user is authorized" do
       before do
-        self.should_receive(:authorize_for).and_return(true)
+        expect(self).to receive(:authorize_for).and_return(true)
         @response = link_to_if_authorized('link_content', {
                                           :controller => 'issues',
                                           :action => 'show',
@@ -121,7 +121,7 @@ describe ApplicationHelper do
 
     context "if user is unauthorized" do
       before do
-        self.should_receive(:authorize_for).and_return(false)
+        expect(self).to receive(:authorize_for).and_return(false)
         @response = link_to_if_authorized('link_content', {
                                           :controller => 'issues',
                                           :action => 'show',
@@ -136,7 +136,7 @@ describe ApplicationHelper do
 
     context "allow using the :controller and :action for the target link" do
       before do
-        self.should_receive(:authorize_for).and_return(true)
+        expect(self).to receive(:authorize_for).and_return(true)
         @response = link_to_if_authorized("By controller/action",
                                          { :controller => 'issues',
                                            :action => 'edit',
@@ -165,7 +165,7 @@ describe ApplicationHelper do
     before do
       @project = project
 
-      User.stub(:current).and_return(project_member)
+      allow(User).to receive(:current).and_return(project_member)
 
       Setting.enabled_scm = Setting.enabled_scm << "Filesystem" unless Setting.enabled_scm.include? "Filesystem"
     end
@@ -471,13 +471,13 @@ describe ApplicationHelper do
         it { should eq("<p><a href=\"/projects/onlinestore/wiki/Unknown_page\" class=\"wiki-page new\">Unknown page</a></p>") }
       end
 
-      context "Striked through link to wiki page" do
+      context "Struck through link to wiki page" do
         subject { textilizable('-[[Another page|Page]]-') }
 
         it { should eql("<p><del><a href=\"/projects/#{project.identifier}/wiki/Another_page\" class=\"wiki-page\">Page</a></del></p>") }
       end
 
-      context "Named striked through link to wiki page" do
+      context "Named struck through link to wiki page" do
         subject { textilizable('-[[Another page|Page]] link-') }
 
         it { should eql("<p><del><a href=\"/projects/#{project.identifier}/wiki/Another_page\" class=\"wiki-page\">Page</a> link</del></p>") }
@@ -533,7 +533,7 @@ describe ApplicationHelper do
 
       it "" do
         @to_test.each do |text, result|
-          textilizable(text).should eql("<p>#{result}</p>")
+          expect(textilizable(text)).to eql("<p>#{result}</p>")
         end
       end
     end
@@ -585,15 +585,15 @@ EXPECTED
       before do
         @links = other_formats_links{|f| f.link_to 'Atom', :url => {:controller => :projects, :action => :index} }
       end
-      it { @links.should == "<p class=\"other-formats\">Also available in:<span><a href=\"/projects.atom\" class=\"icon icon-atom\" rel=\"nofollow\">Atom</a></span></p>"}
+      it { expect(@links).to eq("<p class=\"other-formats\">Also available in:<span><a href=\"/projects.atom\" class=\"icon icon-atom\" rel=\"nofollow\">Atom</a></span></p>")}
     end
 
     context "link given but disabled" do
       before do
-        Setting.stub(:feeds_enabled?).and_return(false)
+        allow(Setting).to receive(:feeds_enabled?).and_return(false)
         @links = other_formats_links{|f| f.link_to 'Atom', :url => {:controller => :projects, :action => :index} }
       end
-      it { @links.should be_nil}
+      it { expect(@links).to be_nil}
     end
 
   end

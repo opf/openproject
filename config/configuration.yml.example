@@ -94,10 +94,9 @@
 #
 # === More configuration options
 #
-# See the "Configuration options" at the following website for a list of the
-# full options allowed:
+# See following page:
 #
-# http://wiki.rubyonrails.org/rails/pages/HowToSendEmailsWithActionMailer
+# http://guides.rubyonrails.org/action_mailer_basics.html#action-mailer-configuration
 
 
 # default configuration options for all environments
@@ -145,6 +144,10 @@ default:
   # use memcache for performance, memcached must be installed
   # rails_cache_store: :memcache
 
+  # defines where session data is stored
+  # possible values are :cookie_store, :cache_store, :active_record_store
+  session_store: :cookie_store
+
   # Configuration of SCM executable command.
   # Absolute path (e.g. /usr/local/bin/hg) or command name (e.g. hg.exe, bzr.exe)
   # On Windows, *.cmd, *.bat (e.g. hg.cmd, bzr.bat) does not work.
@@ -180,3 +183,7 @@ development:
 # Configuration for the test environment
 test:
   email_delivery_method: :test
+
+# specific configuration options for production environment
+production:
+  session_store: :cache_store
