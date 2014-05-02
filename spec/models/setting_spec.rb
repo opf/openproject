@@ -108,7 +108,7 @@ describe Setting do
     end
 
     it "calls no callback on invalid setting" do
-      Setting.any_instance.stub(:valid?).and_return(false)
+      allow_any_instance_of(Setting).to receive(:valid?).and_return(false)
       Setting.notified_events = 'invalid'
       expect(collector).to be_empty
     end

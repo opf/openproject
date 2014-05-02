@@ -68,6 +68,8 @@ module Api::V3::Concerns::ColumnData
   def column_data_type(column)
     if column.is_a?(QueryCustomFieldColumn)
       return column.custom_field.field_format
+    elsif column.class.to_s =~ /CurrencyQueryColumn/
+      return 'currency'
     elsif (c = WorkPackage.columns_hash[column.name.to_s] and !c.nil?)
       return c.type.to_s
     elsif (c = WorkPackage.columns_hash[column.name.to_s + "_id"] and !c.nil?)

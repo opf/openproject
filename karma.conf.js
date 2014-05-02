@@ -34,6 +34,7 @@ module.exports = function(config) {
       'app/assets/javascripts/angular/helpers/components/path-helper.js',
       'app/assets/javascripts/angular/helpers/filters-helper.js',
       'app/assets/javascripts/angular/helpers/components/work-packages-helper.js',
+      'app/assets/javascripts/angular/helpers/work-package-loading-helper.js',
       'app/assets/javascripts/angular/helpers/work-packages-table-helper.js',
       'app/assets/javascripts/angular/helpers/timeline-table-helper.js',
       'app/assets/javascripts/angular/helpers/function-decorators.js',
@@ -76,6 +77,7 @@ module.exports = function(config) {
       'app/assets/javascripts/angular/services/pagination-service.js',
 
       "app/assets/javascripts/angular/directives/work_packages/*.js",
+      "app/assets/javascripts/angular/directives/timelines/*.js",
 
       "app/assets/javascripts/angular/controllers/timelines-controller.js",
       "app/assets/javascripts/angular/controllers/work-packages-controller.js",

@@ -42,6 +42,16 @@ describe('Planning Element', function(){
       "start_date": "2012-11-11",
       "due_date": "2012-11-12"
     });
+
+    this.peWithDueDate = Factory.build("PlanningElement", {
+      timeline: Factory.build("Timeline"),
+      "due_date": "2012-11-12"
+    });
+
+    this.peWithStartDate = Factory.build("PlanningElement", {
+      timeline: Factory.build("Timeline"),
+      "start_date": "2012-11-11",
+    });
   });
 
   beforeEach(module('openproject.timelines.models', 'openproject.uiComponents'));
@@ -226,6 +236,18 @@ describe('Planning Element', function(){
       expect(peWithHistorical.alternate_end().getDate()).to.equal(12);
       expect(peWithHistorical.alternate_end().getMonth()).to.equal(10);
       expect(peWithHistorical.alternate_end().getFullYear()).to.equal(2012);
+    });
+
+    it('historical should have alternate dates with only one date different', function () {
+      peWithHistorical = Factory.build("PlanningElement", {
+        historical_element: this.peWithDueDate
+      });
+      expect(peWithHistorical.hasAlternateDates()).to.be.true;
+
+      peWithHistorical = Factory.build("PlanningElement", {
+        historical_element: this.peWithStartDate
+      });
+      expect(peWithHistorical.hasAlternateDates()).to.be.true;
     });
   });
 

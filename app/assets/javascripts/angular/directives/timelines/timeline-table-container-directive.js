@@ -34,13 +34,19 @@ angular.module('openproject.timelines.directives')
   return {
     restrict: 'E',
     replace: true,
+    require: '^timelineContainer',
     templateUrl: '/templates/timelines/timeline_table_container.html',
-    link: function(scope, element, attributes) {
+    link: function(scope, element, attributes, timelineContainerCtrl) {
 
       function showWarning() {
         scope.underConstruction = false;
         scope.warning = true;
         scope.$apply();
+      }
+
+      function showError(errorMessage) {
+        scope.underConstruction = false;
+        timelineContainerCtrl.showError(errorMessage);
       }
 
       function fetchData() {
@@ -126,15 +132,19 @@ angular.module('openproject.timelines.directives')
       function renderTimeline() {
         return fetchData()
           .then(buildWorkPackageTable)
-          .then(drawChart);
+          .then(drawChart, showError);
       }
 
       function reloadTimeline() {
         return fetchData()
           .then(buildWorkPackageTable)
           .then(function() {
-            scope.timeline.expandToOutlineLevel(scope.currentOutlineLevel); // also triggers rebuildAll()
-          });
+            if (scope.currentOutlineLevel) {
+              scope.timeline.expandToOutlineLevel(scope.currentOutlineLevel); // also triggers rebuildAll()
+            } else {
+              scope.rebuildAll();
+            }
+          }, showError);
       }
 
       function registerModalHelper() {

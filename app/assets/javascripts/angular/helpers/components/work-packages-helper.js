@@ -28,7 +28,7 @@
 
 angular.module('openproject.workPackages.helpers')
 
-.factory('WorkPackagesHelper', ['dateFilter', 'CustomFieldHelper', function(dateFilter, CustomFieldHelper) {
+.factory('WorkPackagesHelper', ['dateFilter', 'currencyFilter', 'CustomFieldHelper', function(dateFilter, currencyFilter, CustomFieldHelper) {
   var WorkPackagesHelper = {
     getRowObjectContent: function(object, option) {
       if(CustomFieldHelper.isCustomFieldKey(option)){
@@ -98,6 +98,8 @@ angular.module('openproject.workPackages.helpers')
           return dateFilter(WorkPackagesHelper.parseDateTime(value), 'medium');
         case 'date':
           return dateFilter(value, 'mediumDate');
+        case 'currency':
+          return currencyFilter(value, 'EUR ');
         default:
           return value;
       }

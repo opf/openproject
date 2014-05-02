@@ -77,9 +77,9 @@ describe Api::V2::ProjectTypesController do
   describe 'show.xml' do
     describe 'with unknown project type' do
       it 'raises ActiveRecord::RecordNotFound errors' do
-        expect do
+        expect {
           get 'show', :id => '1337', :format => 'xml'
-        end.to raise_error(ActiveRecord::RecordNotFound)
+        }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 

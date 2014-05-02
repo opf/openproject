@@ -26,26 +26,27 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe 'users/edit' do
-  let(:current_user) { FactoryGirl.build :admin }
+describe 'ColumnData' do
+  include Api::V3::Concerns::ColumnData
 
-  context 'authentication provider' do
-    let(:user)  { FactoryGirl.build :user, :id => 1,  # id is required to create route to edit
-                                           :identity_url => 'test_provider:veryuniqueid' }
+  describe '#column_data_type' do
+    it 'should recognise custom field columns based on field format' do
+      field  = double('field', id: 1, order_statement: '', field_format: 'user')
+      column = ::QueryCustomFieldColumn.new(field)
 
-    before do
-      assign(:user, user)
-      assign(:auth_sources, [])
-
-      allow(view).to receive(:current_user).and_return(current_user)
-
-      render
+      expect(column_data_type(column)).to eq('user')
     end
 
-    it 'shows the authentication provider' do
-      expect(response.body).to include('Test Provider')
+    it 'should recognise Currency columns based on class name' do
+      DodgeCoinCurrencyQueryColumn = Class.new(QueryColumn)
+      column = DodgeCoinCurrencyQueryColumn.new('overspend')
+
+      expect(column_data_type(column)).to eq('currency')
     end
+
+    xit 'should test the full gamut of types'
   end
+
 end

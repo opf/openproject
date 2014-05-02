@@ -105,4 +105,19 @@ describe('Work packages helper', function() {
     });
 
   });
+
+  describe('formatValue', function() {
+    var formatValue;
+
+    beforeEach(function() {
+      formatValue = WorkPackagesHelper.formatValue;
+    });
+
+    it('should display a currency value', function() {
+      expect(formatValue(99,     'currency')).to.equal("EUR 99.00");
+      expect(formatValue(20.99,  'currency')).to.equal("EUR 20.99");
+      expect(formatValue("20",   'currency')).to.equal("EUR 20.00");
+    });
+  });
+
 });

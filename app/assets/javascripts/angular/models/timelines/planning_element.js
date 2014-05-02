@@ -206,7 +206,7 @@ angular.module('openproject.timelines.models')
     },
     hasAlternateDates: function() {
       return (this.does_historical_differ("start_date") ||
-              this.does_historical_differ("end_date") ||
+              this.does_historical_differ("due_date") ||
               this.is_deleted);
     },
     isDeleted: function() {
