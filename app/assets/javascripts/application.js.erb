@@ -708,17 +708,7 @@ $(window).resize(function() {
 });
 
   $.fn.mySlide = function(callback) {
-    if (parseInt($.browser.version, 10) < 8 && $.browser.msie) {
-      // no animations, just toggle
-      this.toggle();
-       if (typeof callback === 'function') {
-         callback.apply(this);
-       }
-      // this forces IE to redraw the menu area, un-bollocksing things
-      $("#main-menu").css({paddingBottom:5}).animate({paddingBottom:0}, 10);
-    } else {
-      this.slideToggle(animationRate,callback);
-    }
+    this.slideToggle(animationRate,callback);
 
     return this;
   };
