@@ -183,6 +183,7 @@ group :development do
   gem 'rails-dev-tweaks', '~> 0.6.1'
   gem 'thin'
   gem 'faker'
+  gem 'quiet_assets'
 end
 
 # Use the commented pure ruby gems, if you have not the needed prerequisites on
