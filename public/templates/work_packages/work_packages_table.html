@@ -81,6 +81,9 @@
     <!-- Work package rows -->
 
     <tr id="work-package-{{ row.object.id }}"
+        context-menu="adaptVerticalPosition"
+        target="context-menu"
+        process-event="adaptVerticalPosition"
         ng-class="[
           'hascontextmenu',
           row.checked && 'context-menu-selection',

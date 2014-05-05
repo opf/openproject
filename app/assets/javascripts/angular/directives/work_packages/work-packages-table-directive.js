@@ -51,6 +51,11 @@ angular.module('openproject.workPackages.directives')
     link: function(scope, element, attributes) {
       scope.I18n = I18n;
 
+      var topMenuHeight = document.getElementById('top-menu').getHeight() || 0;
+      scope.adaptVerticalPosition = function(event) {
+        event.pageY -= topMenuHeight;
+      };
+
       // groupings
       scope.grouped = scope.groupByColumn !== undefined;
       scope.groupExpanded = {};

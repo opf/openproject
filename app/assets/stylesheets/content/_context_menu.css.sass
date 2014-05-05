@@ -35,12 +35,15 @@
   border: 0
 
 #context-menu
+  display: none
   position: absolute
   font-size: 0.9em
   left: -7px
   top: -7px
   padding: 6px
   z-index: 21
+  &.open
+    display: block
   ul
     @include context_menu_defaults
     width: 140px
