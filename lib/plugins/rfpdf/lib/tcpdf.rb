@@ -89,9 +89,7 @@ class TCPDF
   @@k_path_url_cache = Rails.root.join('tmp').to_s
   
   cattr_accessor :decoder
-		
-	attr_accessor :barcode
-	
+
 	attr_accessor :buffer
 	
 	attr_accessor :diffs
@@ -222,7 +220,6 @@ class TCPDF
 		end
 		
 		#Initialization of properties
-  	@barcode ||= false
 		@buffer ||= ''
 		@diffs ||= []
 		@color_flag ||= false
@@ -997,15 +994,7 @@ class TCPDF
 			#get footer y position
 			footer_y = @h - @footer_margin - footer_height;
 			#set current position
-			SetXY(@original_l_margin, footer_y); 
-			
-			#print document barcode
-			if (@barcode)
-				Ln();
-				barcode_width = ((@w - @original_l_margin - @original_r_margin)).round; #max width
-				writeBarcode(@original_l_margin, footer_y + line_width, barcode_width, footer_height - line_width, "C128B", false, false, 2, @barcode);
-			end
-			
+			SetXY(@original_l_margin, footer_y);
 			SetXY(@original_l_margin, footer_y); 
 			
 			#Print page number
@@ -3265,79 +3254,7 @@ class TCPDF
 		@l = language;
 	end
 	alias_method :set_language_array, :SetLanguageArray
-	#
- 	# Set document barcode.
-	# @param string :bc barcode
-	#
-	def SetBarcode(bc="")
-		@barcode = bc;
-	end
-	
-	#
- 	# Print Barcode.
-	# @param int :x x position in user units
-	# @param int :y y position in user units
-	# @param int :w width in user units
-	# @param int :h height position in user units
-	# @param string :type type of barcode (I25, C128A, C128B, C128C, C39)
-	# @param string :style barcode style
-	# @param string :font font for text
-	# @param int :xres x resolution
-	# @param string :code code to print
-	#
-	def writeBarcode(x, y, w, h, type, style, font, xres, code)
-		require(File.dirname(__FILE__) + "/barcode/barcode.rb");
-		require(File.dirname(__FILE__) + "/barcode/i25object.rb");
-		require(File.dirname(__FILE__) + "/barcode/c39object.rb");
-		require(File.dirname(__FILE__) + "/barcode/c128aobject.rb");
-		require(File.dirname(__FILE__) + "/barcode/c128bobject.rb");
-		require(File.dirname(__FILE__) + "/barcode/c128cobject.rb");
-		
-		if (code.empty?)
-			return;
-		end
-		
-		if (style.empty?)
-			style  = BCS_ALIGN_LEFT;
-			style |= BCS_IMAGE_PNG;
-			style |= BCS_TRANSPARENT;
-			#:style |= BCS_BORDER;
-			#:style |= BCS_DRAW_TEXT;
-			#:style |= BCS_STRETCH_TEXT;
-			#:style |= BCS_REVERSE_COLOR;
-		end
-		if (font.empty?) then font = BCD_DEFAULT_FONT; end
-		if (xres.empty?) then xres = BCD_DEFAULT_XRES; end
-		
-		scale_factor = 1.5 * xres * @k;
-		bc_w = (w * scale_factor).round #width in points
-		bc_h = (h * scale_factor).round #height in points
-		
-		case (type.upcase)
-			when "I25"
-				obj = I25Object.new(bc_w, bc_h, style, code);
-			when "C128A"
-				obj = C128AObject.new(bc_w, bc_h, style, code);
-			when "C128B"
-				obj = C128BObject.new(bc_w, bc_h, style, code);
-			when "C128C"
-				obj = C128CObject.new(bc_w, bc_h, style, code);
-			when "C39"
-				obj = C39Object.new(bc_w, bc_h, style, code);
-		end
-		
-		obj.SetFont(font);   
-		obj.DrawObject(xres);
-		
-		#use a temporary file....
-		tmpName = tempnam(@@k_path_cache,'img');
-		imagepng(obj.getImage(), tmpName);
-		Image(tmpName, x, y, w, h, 'png');
-		obj.DestroyObject();
-		obj = nil
-		unlink(tmpName);
-	end
-	
+
 	#
  	# Returns the PDF data.
 	#
