@@ -59,7 +59,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <%= link_to l(:label_register), { :controller => '/account', :action => 'register' } %>
         <% end %>
         <br>
-        <%= call_hook :view_account_login_auth_provider %>
+        <%= render :partial => 'account/auth_providers' %>
       <% end %>
     </div>
   <% end %>

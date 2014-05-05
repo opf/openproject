@@ -68,5 +68,5 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
   <% end %>
 </div>
-<%= call_hook :view_account_login_auth_provider %>
+<%= render :partial => 'auth_providers' %>
 <%= call_hook :view_account_login_bottom %>
