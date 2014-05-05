@@ -1,6 +1,6 @@
 /*-- copyright
  * OpenProject is a project management system.
- * Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+ * Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License version 3.
@@ -66,7 +66,7 @@
   padding-right: 5px
   vertical-align: middle
 
-#login-form form, #work_package-form, #update #work_package-form
+%form-style
   padding: 30px 20px
   background-color: $content_form_bg_color
   display: block
@@ -114,83 +114,11 @@
         vertical-align: middle
         width: 160px
 
-#login-form form
-  .button_highlight
-    margin-right: 0
-
-#work_package-form
-  .attributes
-    margin-bottom: 30px
-    overflow: auto
-
-  #watchers_form
-    position: relative
-    padding-left: 160px
-    margin-bottom: 30px
-    font-size: 14px
-    line-height: 30px
-
-    .watcher_label
-      @include label-style
-      width: 152px
-      margin-left: -160px
-
-    .floating
-      float: none
-      display: inline-block
-
-  #attachments
-    padding-left: 0
-    padding-right: 0
-
-  .handle_attachments, #attachments
-    > label
-      @include label-style
-      height: 30px
-      display: block
-    margin-bottom: 30px
-
-    #attachments_fields
-      display: inline-block
-
-    .attachment_field
-      display: block
-      margin-bottom: 10px
-      height: 32px
-      > input
-        @include input-style
-        border: none
-        &:hover, &:focus
-          border: none
-      label
-        @include label-style
-        width: auto
-        height: 32px
-        input
-          margin-left: 50px
-    .add_another_file
-      padding-left: 10px
-
-  fieldset
-    margin-bottom: 20px
-    padding: 30px 20px
-
-  legend.change_properties
-    padding-right: 20px
-  #show_more_wp_properties
-    float: left
-    margin-left: 115px
-    margin-top: -48px
-    background-color: $content_form_bg_color
-
 hr.form_separator
   border: 0
   border-bottom: 1px solid $content_form_separator_color
   margin: 0 0 30px
   background: none
-
-#lost_password
-  margin-top: 20px
 
 .form-space
   padding-top: 10px
