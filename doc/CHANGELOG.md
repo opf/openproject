@@ -78,6 +78,14 @@ See doc/COPYRIGHT.rdoc for more details.
 * Fix: Asset require for plug-ins
 * Fix: at.who styling
 
+## 3.0.2
+
+* `#1725` Content-sniffing-based XSS for attachments
+* `#6310` API v1 is now deprecated and will be removed in the next major release of OpenProject
+* `#7056` Enable Active Record Session Store
+* `#7177` Fix: Journal not created in connection with deleted note
+* `#7295` Fix: Regression in Ruby 2.1.1
+
 ## 3.0.1
 
 * `#5265` Fix: Error adding Work Package
