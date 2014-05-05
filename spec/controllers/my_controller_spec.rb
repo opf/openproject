@@ -27,6 +27,7 @@
 #++
 
 require 'spec_helper'
+require 'work_package'
 
 describe MyController, :type => :controller do
   let(:user) { FactoryGirl.create(:user) }
@@ -124,6 +125,14 @@ describe MyController, :type => :controller do
       it "renders editable custom fields" do
         expect(response.body).to have_content(custom_field.name)
       end
+    end
+  end
+  
+  describe "index" do
+    it "uses the correct scopes for number of reported work packages(just like users_controller)" do
+      WorkPackage.should_receive(:on_active_project).and_return(WorkPackage.where :id => 0)
+      WorkPackage.should_receive(:with_author).and_return(WorkPackage.where :id => 0)
+      get :index
     end
   end
 end
