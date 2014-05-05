@@ -1170,7 +1170,7 @@ var activateFlashNotice = function () {
 }
 
 var activateFlashError = function () {
-  var error = '.errorExplanation h2[role="alert"]';
+  var error = '.errorExplanation[role="alert"]';
 
   activateFlash(error);
 }
@@ -1185,9 +1185,9 @@ var focusFirstErroneousField = function() {
 var setupServerResponse = function() {
   I18nForms.init();
   initMainMenuExpandStatus();
+  focusFirstErroneousField();
   activateFlashNotice();
   activateFlashError();
-  focusFirstErroneousField();
 
   jQuery(document).ajaxComplete(activateFlashNotice);
   jQuery(document).ajaxComplete(activateFlashError);
