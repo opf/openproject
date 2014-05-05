@@ -28,6 +28,38 @@
 
 @import content/forms
 
+#login-form
+  margin-left: auto
+  margin-right: auto
+  // label width + label padding-right + input width + input padding-left + input border
+  width: 155px + 5px + $content_from_input_width + 10px + 2px
+
+  .button_highlight
+    // align with input fields
+    // label width + label padding-right
+    margin-left: 155px + 5px
+
+    height: 32px
+
+  label
+    // inline-block can't guarantee a specific width (possibly due to whitespace)
+    display: block
+    float: left
+
+  input
+    &[type=password], &[type=text]
+      // inline-block can't guarantee a specific width
+      display: block
+
+  .login-button-links-container
+    margin-bottom: 10px
+    input
+      display: block
+    div
+      float: right
+      text-align: right
+      font-size: 12px
+
 a.auth-provider
   float: left
   width: 120px
@@ -47,13 +79,3 @@ a.auth-provider .auth-provider-name
   vertical-align: middle
   height: 60px
   display: table-cell
-
-
-#login-form form
-  @extend %form-style
-  .button_highlight
-    margin-right: 0
-
-#lost_password
-  margin-top: 20px
-

@@ -114,6 +114,14 @@
         vertical-align: middle
         width: 160px
 
+// A general CSS class to be applied to forms using the above defined form style.
+// We can't define this on form itself as this would break a lot of existing forms.
+//
+// Using this form class allows to easily override defaults defined here with a more
+// specific definition.
+.form
+  @extend %form-style
+
 hr.form_separator
   border: 0
   border-bottom: 1px solid $content_form_separator_color

@@ -31,42 +31,35 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% breadcrumb_paths(l(:label_login)) %>
 <%= call_hook :view_account_login_top %>
-<div id="login-form">
-  <%= form_tag({:action=> "login"}, :autocomplete => 'off') do %>
-    <%= back_url_hidden_field_tag %>
-    <table>
-      <tr>
-        <td class="label"><label for="username"><%= User.human_attribute_name :login %>:</label></td>
-        <td><%= text_field_tag 'username', nil %></td>
-      </tr>
-      <tr>
-        <td class="label"><label for="password"><%= User.human_attribute_name :password %>:</label></td>
-        <td><%= password_field_tag 'password', nil %></td>
-      </tr>
-      <tr>
-        <td></td>
-        <td>
-          <% if Setting.autologin? %>
-            <label for="autologin"><%= check_box_tag 'autologin', 1, false %> <%= l(:label_stay_logged_in) %></label>
-          <% end %>
-        </td>
-      </tr>
-      <tr>
-        <td>
-        </td>
-        <td align="right">
-          <input type="submit" name="login" value="<%=l(:button_login)%>" class="button_highlight" />
-        </td>
-      </tr>
-    </table>
-    <%= javascript_tag "Form.Element.focus('username');" %>
-  <% end %>
+<%= form_tag({:action=> "login"}, autocomplete: 'off', id: 'login-form', class: 'form') do %>
+  <%= back_url_hidden_field_tag %>
+  <h1><%= I18n.t(:label_login) %></h1>
 
-  <% if Setting.lost_password? %>
-    <div id="lost_password">
-      <%= link_to l(:label_password_lost), :controller => '/account', :action => 'lost_password' %>
+  <hr class="form_separator">
+
+  <div class="attribute_wrapper">
+    <label for="username"><%= User.human_attribute_name :login %></label>
+    <%= text_field_tag 'username', nil %>
+  </div>
+
+  <div class="attribute_wrapper">
+    <label for="password"><%= User.human_attribute_name :password %></label>
+    <%= password_field_tag 'password', nil %>
+  </div>
+
+  <div class="login-button-links-container">
+    <div>
+    <% if Setting.lost_password? %>
+        <%= link_to l(:label_password_lost), :controller => '/account', :action => 'lost_password' %>
+        <br>
+    <% end %>
+    <% if Setting.self_registration? %>
+      <%= link_to l(:label_register), { :controller => '/account', :action => 'register' } %>
+    <% end %>
     </div>
-  <% end %>
-</div>
-<%= render :partial => 'auth_providers' %>
+    <input type="submit" name="login" value="<%=l(:button_login)%>" class="button_highlight" />
+  </div>
+  <%= render :partial => 'auth_providers' %>
+  <%= javascript_tag "Form.Element.focus('username');" %>
+<% end %>
 <%= call_hook :view_account_login_bottom %>
