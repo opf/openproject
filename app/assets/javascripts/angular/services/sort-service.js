@@ -50,6 +50,10 @@ angular.module('openproject.services')
         sortDirection = 'desc';
       }
 
+      if (sortDirection != '' && sortDirection != 'asc' && sortDirection != 'desc') {
+        throw new Error("Parameter does not match possible values 'asc' or 'desc'!");
+      }
+
       sortOptions.direction = sortDirection;
     },
     isDescending: function() {
