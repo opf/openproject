@@ -69,6 +69,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * Allow adding attachments to created work packages via planning elements controller
 * Remove unused rmagick dependency
 * Add settings callback
+* Use Lato 2.0 font
 * Fix: Work package short URI
 * Fix: work package due date not validated when start date is not present
 * Fix: Use correct questions for deletion of documents/files in rake tasks
