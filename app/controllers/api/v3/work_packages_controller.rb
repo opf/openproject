@@ -102,22 +102,6 @@ module Api
                 :copy => (@work_package && @project.types.include?(@work_package.type) && User.current.allowed_to?(:add_work_packages, @project)),
                 :delete => User.current.allowed_to?(:delete_work_packages, @projects)
                 }
-        if @project
-          @assignables = @project.possible_assignees
-          @assignables << @work_package.assigned_to if @work_package && @work_package.assigned_to && !@assignables.include?(@work_package.assigned_to)
-          @responsibles = @project.possible_responsibles
-          @responsibles << @work_package.responsible if @work_package && @work_package.responsible && !@responsibles.include?(@work_package.responsible)
-          @types = @project.types
-        else
-          #when multiple projects, we only keep the intersection of each set
-          @assignables = @projects.map(&:possible_assignees).inject{|memo,a| memo & a}
-          @responsibles = @projects.map(&:possible_responsibles).inject{|memo,a| memo & a}
-          @types = @projects.map(&:types).inject{|memo,t| memo & t}
-        end
-
-        @priorities = IssuePriority.all.reverse
-        @statuses = Status.all
-        @back = back_url
       end
 
       def columns_total_sums(column_names, work_packages)

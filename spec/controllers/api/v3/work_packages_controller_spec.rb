@@ -122,12 +122,6 @@ describe Api::V3::WorkPackagesController do
           expect(assigns(:projects)).to eq([project_1])
           expect(assigns(:project)).to eq(project_1)
           expect(assigns(:allowed_statuses)).to eq([])
-          expect(assigns(:assignables)).to eq([user])
-          expect(assigns(:responsibles)).to eq([user])
-          expect(assigns(:types)).to eq([type])
-
-          # expect(assigns(:priorities)).to eq([])
-          # expect(assigns(:statuses)).to eq([])
         end
       end
 
@@ -141,12 +135,6 @@ describe Api::V3::WorkPackagesController do
           expect(assigns(:projects)).to include(project_1, project_2)
           expect(assigns(:project)).to be_nil
           expect(assigns(:allowed_statuses)).to eq([])
-          expect(assigns(:assignables)).to eq([])
-          expect(assigns(:responsibles)).to eq([])
-          expect(assigns(:types)).to eq([type])
-
-          # expect(assigns(:priorities)).to eq([])
-          # expect(assigns(:statuses)).to eq([])
         end
       end
     end
