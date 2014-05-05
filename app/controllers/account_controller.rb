@@ -215,14 +215,13 @@ class AccountController < ApplicationController
     end
   end
 
-  def successful_authentication(user, log_login = false)
+  def successful_authentication(user)
     # Valid user
     self.logged_user = user
     # generate a key and set cookie if autologin
     if params[:autologin] && Setting.autologin?
       set_autologin_cookie(user)
     end
-    user.log_successful_login if log_login
 
     call_hook(:controller_account_success_authentication_after, {:user => user })
 
@@ -241,9 +240,9 @@ class AccountController < ApplicationController
     cookies[OpenProject::Configuration['autologin_cookie_name']] = cookie_options
   end
 
-  def login_user_if_active(user, log_login = false)
+  def login_user_if_active(user)
     if user.active?
-      successful_authentication(user, log_login)
+      successful_authentication(user)
     else
       account_inactive(user, flash_now: false)
       redirect_to signin_path
