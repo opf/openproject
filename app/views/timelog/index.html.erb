@@ -34,6 +34,10 @@ See doc/COPYRIGHT.rdoc for more details.
                  :class => 'icon icon-time' %>
 <% end %>
 
+<div ng-controller="TimeEntriesController">
+  <flash-message></flash-message>
+</div>
+
 <%= render_timelog_breadcrumb %>
 
 <h2><%= l(:label_spent_time) %></h2>

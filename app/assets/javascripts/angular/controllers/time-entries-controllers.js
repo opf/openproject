@@ -28,7 +28,7 @@
 
 angular.module('openproject.timeEntries.controllers')
 
-.controller('TimeEntriesController', ['$scope', '$http', 'PathHelper', function ($scope, $http, PathHelper) {
+.controller('TimeEntriesController', ['$scope', '$rootScope', '$http', 'PathHelper', function ($scope, $rootScope, $http, PathHelper) {
   $scope.PathHelper = PathHelper;
   $scope.timeEntries = gon.timeEntries;
   $scope.predicate = "";
@@ -47,8 +47,11 @@ angular.module('openproject.timeEntries.controllers')
              }
 
              $scope.timeEntries.splice(index, 1);
+
+             $scope.$emit('flashMessage', data);
            })
            .error(function(data, status, headers, config) {
+             $scope.$emit('flashMessage', data);
            });
     }
   };

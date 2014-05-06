@@ -171,7 +171,7 @@ class TimelogController < ApplicationController
           flash[:notice] = l(:notice_successful_delete)
           redirect_to :back
         }
-        format.json { render nothing: true }
+        format.json { render json: { text:l(:notice_successful_delete) } }
       end
     else
       respond_to do |format|
@@ -179,7 +179,7 @@ class TimelogController < ApplicationController
           flash[:error] = l(:notice_unable_delete_time_entry)
           redirect_to :back
         }
-        format.json { render nothing: true }
+        format.json { render json: { isError:true, text:l(:notice_unable_delete_time_entry) } }
       end
     end
   rescue ::ActionController::RedirectBackError
