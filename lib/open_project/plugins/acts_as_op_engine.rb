@@ -74,7 +74,7 @@ module OpenProject::Plugins
       # Example:
       #  additional_permitted_attributes :user => [:registration_reason]
       base.send(:define_method, :additional_permitted_attributes) do |attributes|
-        base.initializer "#{engine_name}.add_permitted_attributes" do |app|
+        config.to_prepare do
           ::PermittedParams.send(:add_permitted_attributes, attributes)
         end
       end
