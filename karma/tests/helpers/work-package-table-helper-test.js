@@ -29,7 +29,7 @@
 /*jshint expr: true*/
 
 describe('WorkPackagesTableHelper', function() {
-  var TimelineTableHelper;
+  var WorkPackagesTableHelper;
 
   beforeEach(module('openproject.workPackages.helpers'));
   beforeEach(inject(function(_WorkPackagesTableHelper_) {
