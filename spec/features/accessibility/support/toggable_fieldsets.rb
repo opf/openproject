@@ -29,82 +29,80 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'Toggable fieldset' do
-  shared_context 'find legend with text' do
-    let(:legend_text) { find('legend a span', text: fieldset_name) }
-    let(:fieldset) { legend_text.find(:xpath, '../../..') }
+shared_context 'find legend with text' do
+  let(:legend_text) { find('legend a span', text: fieldset_name) }
+  let(:fieldset) { legend_text.find(:xpath, '../../..') }
+end
+
+shared_context 'find toggle label' do
+  let(:link) { legend_text.find(:xpath, '..') }
+  let(:toggle_state_label) { link.find("span.hidden-for-sighted", visible: false) }
+
+  it { expect(toggle_state_label).not_to be_nil }
+ end
+
+shared_examples_for 'toggable fieldset initially collapsed' do
+  it_behaves_like 'collapsed fieldset'
+
+  describe 'initial state' do
+    include_context 'find legend with text'
+    it_behaves_like 'toggle state set collapsed'
   end
 
-  shared_context 'find toggle label' do
-    let(:link) { legend_text.find(:xpath, '..') }
-    let(:toggle_state_label) { link.find("span.hidden-for-sighted", visible: false) }
+  describe 'after click' do
+    include_context 'find legend with text'
 
-    it { expect(toggle_state_label).not_to be_nil }
-   end
+    before { legend_text.click }
 
-  shared_examples_for 'toggable fieldset initially collapsed' do
-    it_behaves_like 'collapsed fieldset'
-
-    describe 'initial state' do
-      include_context 'find legend with text'
-      it_behaves_like 'toggle state set collapsed'
-    end
-
-    describe 'after click' do
-      include_context 'find legend with text'
-
-      before { legend_text.click }
-
-      it_behaves_like 'expanded fieldset'
-    end
-  end
-
-  shared_examples_for 'toggable fieldset initially expanded' do
     it_behaves_like 'expanded fieldset'
-
-    describe 'initial state' do
-      include_context 'find legend with text'
-      it_behaves_like 'toggle state set expanded'
-    end
-
-    describe 'after click' do
-      include_context 'find legend with text'
-
-      before { legend_text.click }
-
-      it_behaves_like 'collapsed fieldset'
-    end
   end
+end
 
-  shared_examples_for 'toggle state set collapsed' do
+shared_examples_for 'toggable fieldset initially expanded' do
+  it_behaves_like 'expanded fieldset'
+
+  describe 'initial state' do
     include_context 'find legend with text'
-    include_context 'find toggle label'
-
-    it { expect(toggle_state_label.text(:all)).to include(I18n.t('js.label_collapsed')) }
+    it_behaves_like 'toggle state set expanded'
   end
 
-  shared_examples_for 'toggle state set expanded' do
-    include_context 'find legend with text'
-    include_context 'find toggle label'
-
-    it { expect(toggle_state_label.text(:all)).to include(I18n.t('js.label_expanded')) }
-  end
-
-  shared_context 'collapsed CSS' do
-    let(:collapsed_class_name) { 'collapsed' }
-  end
-
-  shared_examples_for 'collapsed fieldset' do
-    include_context 'collapsed CSS'
+  describe 'after click' do
     include_context 'find legend with text'
 
-    it { expect(fieldset[:class]).to include(collapsed_class_name) }
-  end
+    before { legend_text.click }
 
-  shared_examples_for 'expanded fieldset' do
-    include_context 'collapsed CSS'
-    include_context 'find legend with text'
-
-    it { expect(fieldset[:class]).not_to include(collapsed_class_name) }
+    it_behaves_like 'collapsed fieldset'
   end
+end
+
+shared_examples_for 'toggle state set collapsed' do
+  include_context 'find legend with text'
+  include_context 'find toggle label'
+
+  it { expect(toggle_state_label.text(:all)).to include(I18n.t('js.label_collapsed')) }
+end
+
+shared_examples_for 'toggle state set expanded' do
+  include_context 'find legend with text'
+  include_context 'find toggle label'
+
+  it { expect(toggle_state_label.text(:all)).to include(I18n.t('js.label_expanded')) }
+end
+
+shared_context 'collapsed CSS' do
+  let(:collapsed_class_name) { 'collapsed' }
+end
+
+shared_examples_for 'collapsed fieldset' do
+  include_context 'collapsed CSS'
+  include_context 'find legend with text'
+
+  it { expect(fieldset[:class]).to include(collapsed_class_name) }
+end
+
+shared_examples_for 'expanded fieldset' do
+  include_context 'collapsed CSS'
+  include_context 'find legend with text'
+
+  it { expect(fieldset[:class]).not_to include(collapsed_class_name) }
 end
