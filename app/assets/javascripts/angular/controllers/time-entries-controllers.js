@@ -31,7 +31,7 @@ angular.module('openproject.timeEntries.controllers')
 .controller('TimeEntriesController', ['$scope', '$rootScope', '$http', 'PathHelper', function ($scope, $rootScope, $http, PathHelper) {
   $scope.PathHelper = PathHelper;
   $scope.timeEntries = gon.timeEntries;
-  $scope.predicate = "";
+  $scope.predicate = "spent_on";
 
   $scope.deleteTimeEntry = function(id) {
     if (window.confirm(I18n.t('js.text_are_you_sure'))) {
