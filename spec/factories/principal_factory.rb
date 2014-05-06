@@ -26,37 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path('../../../../../spec_helper', __FILE__)
-
-describe 'api/v3/projects/index.api.rabl' do
-  before do
-    params[:format] = 'json'
-
-    assign(:projects, projects)
-    render
-  end
-
-  subject { response.body }
-
-  describe 'with no projects available' do
-    let(:projects) { [] }
-
-    it { should have_json_path('projects') }
-    it { should have_json_size(0).at_path('projects') }
-  end
-
-  describe 'with 2 projects available' do
-    let(:projects) { [
-      FactoryGirl.build(:project), FactoryGirl.build(:project)
-    ] }
-
-    it { should have_json_path('projects') }
-    it { should have_json_size(2).at_path('projects') }
-
-    it { should have_json_type(Object).at_path('projects/1')  }
-    it { should have_json_path('projects/1/name')             }
-    it { should have_json_path('projects/1/embedded/possible_responsibles') }
-    it { should have_json_path('projects/1/embedded/possible_assignees')    }
-    it { should have_json_path('projects/1/embedded/types')   }
+FactoryGirl.define do
+  factory :principal do
   end
 end
