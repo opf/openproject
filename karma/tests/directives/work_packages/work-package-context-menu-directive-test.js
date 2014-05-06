@@ -34,13 +34,14 @@ describe('workPackageContextMenu Directive', function() {
   beforeEach(angular.mock.module('openproject.workPackages.directives'));
   beforeEach(module('templates'));
 
-  beforeEach(inject(function($rootScope, $compile) {
+  beforeEach(inject(function($rootScope, $compile, _ContextMenuService_) {
     var html;
     html = '<work-package-context-menu></work-package-context-menu>';
 
     element = angular.element(html);
     rootScope = $rootScope;
     scope = $rootScope.$new();
+    ContextMenuService = _ContextMenuService_;
 
     compile = function() {
       $compile(element)(scope);
@@ -56,5 +57,38 @@ describe('workPackageContextMenu Directive', function() {
     it('should render a surrounding div', function() {
       expect(element.prop('tagName')).to.equal('DIV');
     });
+
+  });
+
+  describe('when the context menu context contains one work package', function() {
+    var actions = ['edit', 'move'];
+    var actionLinks = {
+      edit: '/work_packages/123/edit',
+      move: '/work_packages/move/new?ids%5B%5D=123',
+    };
+    var workPackage = Factory.build('PlanningElement', {
+      _actions: actions,
+      _links: actionLinks
+    });
+
+    var directListElements, listElement;
+
+    beforeEach(function() {
+      ContextMenuService.setContext({rows: [], row: {object: workPackage}});
+      compile();
+
+      directListElements = element.find('.menu > li:not(.folder)');
+      listElement = directListElements[0];
+    });
+
+    it('lists link tags for any permitted action', function(){
+      expect(directListElements.length).to.equal(2);
+    });
+
+    it('lists link tags for any permitted action', function(){
+      expect(listElement.className).to.equal('edit');
+    });
+
+    // TODO continue
   });
 });

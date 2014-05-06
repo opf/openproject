@@ -31,10 +31,12 @@ angular.module('openproject.workPackages.helpers')
 .factory('WorkPackagesHelper', ['dateFilter', 'currencyFilter', 'CustomFieldHelper', function(dateFilter, currencyFilter, CustomFieldHelper) {
   var WorkPackagesHelper = {
     getRowObjectContent: function(object, option) {
+      var content;
+
       if(CustomFieldHelper.isCustomFieldKey(option)){
-        var content = WorkPackagesHelper.getRawCustomValue(object, CustomFieldHelper.getCustomFieldId(option));
+        content = WorkPackagesHelper.getRawCustomValue(object, CustomFieldHelper.getCustomFieldId(option));
       } else {
-        var content = object[option];
+        content = object[option];
       }
 
       switch(typeof(content)) {

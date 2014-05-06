@@ -1,16 +1,19 @@
 angular.module('openproject.workPackages.directives')
 
-.directive('workPackageContextMenu', ['ContextMenuService', 'WorkPackagesTableHelper', function(ContextMenuService, WorkPackagesTableHelper) {
+.directive('workPackageContextMenu', ['ContextMenuService', 'WorkPackagesTableHelper', 'WorkPackageContextMenuHelper', 'I18n', function(ContextMenuService, WorkPackagesTableHelper, WorkPackageContextMenuHelper, I18n) {
   return {
     restrict: 'EA',
     replace: true,
     scope: {},
     templateUrl: '/templates/work_packages/work_package_context_menu.html',
     link: function(scope, element, attrs) {
-      ContextMenuService.setTarget(element);
-
-      scope.contextMenu = ContextMenuService.getContextMenu();
+      scope.I18n = I18n;
       scope.opened = false;
+
+      // wire up context menu event handler
+
+      ContextMenuService.setTarget(element);
+      scope.contextMenu = ContextMenuService.getContextMenu();
 
       scope.$watch('contextMenu.opened', function(opened) {
         scope.opened = opened;
@@ -20,6 +23,10 @@ angular.module('openproject.workPackages.directives')
         console.log({context: scope.contextMenu.context});
         updateContextMenu(getWorkPackagesFromContext(scope.contextMenu.context));
       });
+
+      function updateContextMenu(workPackages) {
+        scope.permittedActions = WorkPackageContextMenuHelper.getPermittedActions(workPackages);
+      }
 
       function getWorkPackagesFromSelectedRows(rows) {
         var selectedRows = WorkPackagesTableHelper.getSelectedRows(rows);
@@ -43,9 +50,6 @@ angular.module('openproject.workPackages.directives')
         }
       }
 
-      function updateContextMenu(workPackages) {
-        console.log({workPackage: workPackages});
-      }
     }
   };
 }]);
