@@ -1,6 +1,6 @@
 angular.module('openproject.workPackages.directives')
 
-.directive('workPackageContextMenu', ['ContextMenuService', function(ContextMenuService) {
+.directive('workPackageContextMenu', ['ContextMenuService', 'WorkPackagesTableHelper', function(ContextMenuService, WorkPackagesTableHelper) {
   return {
     restrict: 'EA',
     replace: true,
@@ -22,13 +22,9 @@ angular.module('openproject.workPackages.directives')
       });
 
       function getWorkPackagesFromSelectedRows(rows) {
-        return rows
-          .filter(function(row) {
-            return row.checked;
-          })
-          .map(function(row) {
-            return row.object;
-          });
+        var selectedRows = WorkPackagesTableHelper.getSelectedRows(rows);
+
+        return WorkPackagesTableHelper.getWorkPackagesFromRows(selectedRows);
       }
 
       function getWorkPackagesFromContext(context) {
