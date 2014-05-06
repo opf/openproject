@@ -35,27 +35,14 @@ describe 'api/v3/work_packages/index.api.rabl' do
     assign(:work_packages, work_packages)
     assign(:column_names, column_names)
     assign(:custom_field_column_names, custom_field_column_names)
-
-    assign(:can,          can)
-    assign(:project,      project)
-    assign(:assignables,  assignees)
-    assign(:responsibles, responsibles)
-    assign(:types,        types)
-    assign(:priorities,   priorities)
-    assign(:statuses,     statuses)
+    assign(:can, can)
 
     render
   end
 
   subject { response.body }
 
-  let(:can)          { {} }
-  let(:project)      { [] }
-  let(:assignees)    { [] }
-  let(:responsibles) { [] }
-  let(:types)        { [] }
-  let(:priorities)   { [] }
-  let(:statuses)     { [] }
+  let(:can) { {} }
 
   describe 'with no work packages available' do
     let(:work_packages) { [] }
