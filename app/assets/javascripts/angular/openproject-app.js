@@ -44,7 +44,7 @@ angular.module('openproject.workPackages', ['openproject.workPackages.controller
 angular.module('openproject.workPackages.helpers', ['openproject.helpers']);
 angular.module('openproject.workPackages.filters', ['openproject.workPackages.helpers']);
 angular.module('openproject.workPackages.config', []);
-angular.module('openproject.workPackages.controllers', ['openproject.models', 'openproject.workPackages.helpers', 'openproject.services', 'openproject.workPackages.config']);
+angular.module('openproject.workPackages.controllers', ['openproject.models', 'openproject.workPackages.helpers', 'openproject.services', 'openproject.workPackages.config', 'btford.modal']);
 angular.module('openproject.workPackages.directives', ['openproject.uiComponents', 'openproject.services']);
 
 // main app

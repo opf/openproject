@@ -32,7 +32,7 @@ describe('WorkPackagesController', function() {
   var scope, ctrl, win, testWorkPackageService, testQueryService, testPaginationService;
   var buildController;
 
-  beforeEach(module('openproject.workPackages.controllers'));
+  beforeEach(module('openproject.workPackages.controllers', 'btford.modal'));
   beforeEach(inject(function($rootScope, $controller, $timeout) {
     scope = $rootScope.$new();
     win   = {
@@ -88,6 +88,7 @@ describe('WorkPackagesController', function() {
       ctrl = $controller("WorkPackagesController", {
         $scope:  scope,
         $window: win,
+        exportModal:        {},
         QueryService:       testQueryService,
         PaginationService:  testPaginationService,
         WorkPackageService: testWorkPackageService

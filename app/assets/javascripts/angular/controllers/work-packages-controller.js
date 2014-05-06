@@ -28,8 +28,21 @@
 
 angular.module('openproject.workPackages.controllers')
 
-.controller('WorkPackagesController', ['$scope', '$window', '$location', 'WorkPackagesTableHelper', 'WorkPackageService', 'QueryService', 'PaginationService', 'WorkPackageLoadingHelper', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
-            function($scope, $window, $location, WorkPackagesTableHelper, WorkPackageService, QueryService, PaginationService, WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
+.factory('exportModal', ['btfModal', function(btfModal) {
+  return btfModal({
+    controller:   'ExportModalController',
+    controllerAs: 'modal',
+    templateUrl:  '/templates/work_packages/modals/export.html'
+  });
+}])
+
+.controller('ExportModalController', ['exportModal', function(exportModal) {
+  this.name    = 'Export';
+  this.closeMe = exportModal.deactivate;
+}])
+
+.controller('WorkPackagesController', ['$scope', '$window', '$location', 'exportModal', 'WorkPackagesTableHelper', 'WorkPackageService', 'QueryService', 'PaginationService', 'WorkPackageLoadingHelper', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
+            function($scope, $window, $location, exportModal, WorkPackagesTableHelper, WorkPackageService, QueryService, PaginationService, WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
 
   $scope.showFiltersOptions = false;
 
@@ -72,6 +85,8 @@ angular.module('openproject.workPackages.controllers')
     $scope.showFilters = query.filters.length > 0;
     $scope.updateBackUrl();
   }
+
+  $scope.showExportModal = exportModal.activate;
 
   $scope.updateBackUrl = function(){
     // Easier than trying to extract it from $location
