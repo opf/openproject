@@ -107,29 +107,6 @@ angular.module('openproject.workPackages.helpers')
 
     parseDateTime: function(value) {
       return new Date(Date.parse(value.replace(/(A|P)M$/, '')));
-    },
-
-    projectRowsToColumn: function(rows, column) {
-      return rows.map(function(row){
-        return WorkPackagesHelper.getColumnValue(row.object, column);
-      });
-    },
-
-    getSums: function(rows, column) {
-      var values = WorkPackagesHelper.projectRowsToColumn(rows, column)
-        .filter(function(value) {
-          return typeof(value) === 'number';
-        });
-
-      if (values.length > 0) {
-        sum = values.reduce(function(a, b) {
-          return a + b;
-        });
-      } else {
-        sum = null;
-      }
-
-      return sum;
     }
 
   };
