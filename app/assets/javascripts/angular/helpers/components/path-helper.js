@@ -34,6 +34,9 @@ angular.module('openproject.helpers')
     apiPrefixV2: '/api/v2',
     apiPrefixV3: '/api/v3',
 
+    assetPath: function(assetIdentifier) {
+      return '/assets/' + assetIdentifier;
+    },
     messagesPath: function(boardIdentifier) {
       return '/boards/' + boardIdentifier + '/topics';
     },
