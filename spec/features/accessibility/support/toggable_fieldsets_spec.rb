@@ -29,19 +29,19 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'Toggable fieldset' do
-  shared_context 'find legend with text' do
-    let(:legend_text) { find('legend a span', text: fieldset_name) }
-    let(:fieldset) { legend_text.find(:xpath, '../../..') }
-  end
+shared_context 'find legend with text' do
+  let(:legend_text) { find('legend a span', text: fieldset_name) }
+  let(:fieldset) { legend_text.find(:xpath, '../../..') }
+end
 
-  shared_context 'find toggle label' do
-    let(:link) { legend_text.find(:xpath, '..') }
-    let(:toggle_state_label) { link.find("span.hidden-for-sighted", visible: false) }
+shared_context 'find toggle label' do
+  let(:link) { legend_text.find(:xpath, '..') }
+  let(:toggle_state_label) { link.find("span.hidden-for-sighted", visible: false) }
 
-    it { expect(toggle_state_label).not_to be_nil }
-   end
+  it { expect(toggle_state_label).not_to be_nil }
+end
 
+shared_context 'Toggable fieldset examples' do
   shared_examples_for 'toggable fieldset initially collapsed' do
     it_behaves_like 'collapsed fieldset'
 

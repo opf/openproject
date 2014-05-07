@@ -27,11 +27,12 @@
 #++
 
 require 'spec_helper'
-require 'features/accessibility/support/toggable_fieldsets_spec'
 require 'features/work_packages/work_packages_page'
 
 describe 'Work package index' do
   describe 'Toggable fieldset', js: true do
+    include_context 'Toggable fieldset examples'
+
     let(:current_user) { FactoryGirl.create (:admin) }
     let(:work_packages_page) { WorkPackagesPage.new }
 
