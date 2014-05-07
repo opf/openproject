@@ -82,7 +82,7 @@ describe Meeting do
     end
   end
 
-  describe "all_possible_participants" do
+  describe "all_changeable_participants" do
     describe "WITH a user having the view_meetings permission" do
       before do
         project.add_member user1, [role]
@@ -90,7 +90,7 @@ describe Meeting do
       end
 
       it "should contain the user" do
-        meeting.all_possible_participants.should == [user1]
+        meeting.all_changeable_participants.should == [user1]
       end
     end
 
@@ -106,10 +106,20 @@ describe Meeting do
       end
 
       it "should not contain the user" do
-        meeting.all_possible_participants.include?(user2).should be_false
+        meeting.all_changeable_participants.include?(user2).should be_false
       end
     end
 
+    describe "WITH a user being locked but invited" do
+      let(:locked_user) { FactoryGirl.create(:locked_user) }
+      before do
+        meeting.participants_attributes = [{"user_id" => locked_user.id, "invited" => 1}]
+      end
+
+      it "should contain the user" do
+        meeting.all_changeable_participants.include?(locked_user).should be_true
+      end
+    end
   end
 
   describe "participants and author as watchers" do
