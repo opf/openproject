@@ -1,0 +1,25 @@
+<div style="float:left">
+  <div class="ax_paragraph h2">
+    <!-- TODO: where do we get image from? prototype/transparent.gif -->
+    <img class="img " src="">
+    <!-- Unnamed () -->
+    <div class="text">
+      <p><span with-dropdown dropdown-id="querySelectDropdown">{{ selectedTitle }}</span></p>
+    </div>
+  </div>
+
+  <div class="dropdown dropdown-relative dropdown-anchor-right" id="querySelectDropdown">
+    <ul class="dropdown-menu">
+      <li><input type="search" value=""></li>
+      <li ng-if="globalQueries.length">CUSTOM QUERIES</li>
+      <li ng-repeat="query in globalQueries">
+        <a href="" ng-click="loadQuery( query[1], query[0] )">{{ query[0] }}</a>
+      </li>
+      <li ng-if="customQueries.length">MY QUERIES</li>
+      <li ng-repeat="query in customQueries">
+        <a href=""  ng-click="loadQuery( query[1], query[0] )">{{ query[0] }}</a>
+      </li>
+    </ul>
+  </div>
+
+</div>

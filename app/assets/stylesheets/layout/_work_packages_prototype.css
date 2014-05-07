@@ -1,0 +1,582 @@
+/*-- copyright
+ * OpenProject is a project management system.
+ * Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 3.
+ *
+ * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+ * Copyright (C) 2006-2013 Jean-Philippe Lang
+ * Copyright (C) 2010-2013 the ChiliProject Team
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * See doc/COPYRIGHT.rdoc for more details.  ++
+ *
+ * !! THIS IS TAKEN FROM THE PROTOTYPE SITE AND I HAVE NO IDEA HOW IT SHOULD BE DIVIDED UP AND NAMED !!
+ */
+
+.ax_shape {
+  font-family:'Arial Regular', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  color:#333333;
+  text-align:center;
+  line-height:normal;
+}
+.ax_paragraph {
+  font-family:'Arial Regular', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  color:#333333;
+  text-align:left;
+  line-height:normal;
+}
+.ax_h1 {
+  font-family:'Arial Bold', 'Arial';
+  font-weight:700;
+  font-style:normal;
+  font-size:32px;
+  color:#333333;
+  text-align:left;
+  line-height:normal;
+}
+.ax_h2 {
+  font-family:'Arial Bold', 'Arial';
+  font-weight:700;
+  font-style:normal;
+  font-size:24px;
+  color:#333333;
+  text-align:left;
+  line-height:normal;
+}
+.ax_h3 {
+  font-family:'Arial Bold', 'Arial';
+  font-weight:700;
+  font-style:normal;
+  font-size:18px;
+  color:#333333;
+  text-align:left;
+  line-height:normal;
+}
+.ax_h4 {
+  font-family:'Arial Bold', 'Arial';
+  font-weight:700;
+  font-style:normal;
+  font-size:14px;
+  color:#333333;
+  text-align:left;
+  line-height:normal;
+}
+.ax_h5 {
+  font-family:'Arial Bold', 'Arial';
+  font-weight:700;
+  font-style:normal;
+  font-size:13px;
+  color:#333333;
+  text-align:left;
+  line-height:normal;
+}
+.ax_h6 {
+  font-family:'Arial Bold', 'Arial';
+  font-weight:700;
+  font-style:normal;
+  font-size:10px;
+  color:#333333;
+  text-align:left;
+  line-height:normal;
+}
+.ax_image {
+  font-family:'Arial Regular', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  color:#000000;
+  text-align:center;
+  line-height:normal;
+}
+.ax_text_link {
+  color:#0000FF;
+}
+.ax_text_link_mouse_over {
+}
+.ax_text_link_mouse_down {
+}
+.ax_text_field {
+  font-family:'Arial Regular', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  color:#000000;
+  text-align:left;
+  line-height:normal;
+}
+.ax_text_area {
+  font-family:'Arial Regular', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  color:#000000;
+  text-align:left;
+  line-height:normal;
+}
+.ax_droplist {
+  font-family:'Arial Regular', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  color:#000000;
+  text-align:left;
+  line-height:normal;
+}
+.ax_list_box {
+  font-family:'Arial Regular', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  color:#000000;
+  text-align:left;
+  line-height:normal;
+}
+.ax_checkbox {
+  font-family:'Arial Regular', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  color:#333333;
+  text-align:left;
+  line-height:normal;
+}
+.ax_radio_button {
+  font-family:'Arial Regular', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  color:#333333;
+  text-align:left;
+  line-height:normal;
+}
+.ax_flow_shape {
+  font-family:'Arial Regular', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  color:#333333;
+  text-align:center;
+  line-height:normal;
+}
+.ax_tree_node {
+  font-family:'Arial Regular', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  color:#333333;
+  text-align:left;
+  line-height:normal;
+}
+.ax_html_button {
+  font-family:'Arial Regular', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  color:#000000;
+  text-align:center;
+  line-height:normal;
+}
+.ax_hot_spot {
+  font-family:'Arial Regular', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  color:#333333;
+  text-align:center;
+  line-height:normal;
+}
+.ax_inline_frame {
+  font-family:'Arial Regular', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  color:#333333;
+  text-align:center;
+  line-height:normal;
+}
+.ax_dynamic_panel {
+  font-family:'Arial Regular', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  color:#333333;
+  text-align:center;
+  line-height:normal;
+}
+.ax_master {
+  font-family:'Arial Regular', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  color:#333333;
+  text-align:center;
+  line-height:normal;
+}
+.ax_repeater {
+  font-family:'Arial Regular', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  color:#333333;
+  text-align:center;
+  line-height:normal;
+}
+.ax_table {
+  font-family:'Arial Regular', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  color:#333333;
+  text-align:center;
+  line-height:normal;
+}
+.ax_table_cell {
+  font-family:'Arial Regular', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  color:#333333;
+  text-align:left;
+  line-height:normal;
+}
+.ax_menu {
+  font-family:'Arial Regular', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  color:#000000;
+  text-align:center;
+  line-height:normal;
+}
+.ax_horizontal_line {
+  font-family:'Arial Regular', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  color:#333333;
+  text-align:center;
+  line-height:normal;
+}
+.ax_vertical_line {
+  font-family:'Arial Regular', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  color:#333333;
+  text-align:center;
+  line-height:normal;
+}
+.ax_connector {
+  font-family:'Arial Regular', 'Arial';
+  font-weight:400;
+  font-style:normal;
+  font-size:13px;
+  color:#333333;
+  text-align:center;
+  line-height:normal;
+}
+.h1 {
+}
+.openproject_-_input_text {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  color:#333333;
+}
+.openproject_-_input_pulldown_items {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  font-size:13px;
+  color:#333333;
+}
+.openproject_-_input_pulldown_items_hover {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  font-size:13px;
+  color:#333333;
+}
+.openproject_-_body_text {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  font-size:13px;
+  color:#333333;
+}
+.openproject_-_hyperlinks {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  font-size:13px;
+  color:#06799F;
+}
+.openproject_-_table_container {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  color:#333333;
+}
+.openproject_-_table_head {
+  font-family:'Lato Bold', 'Lato';
+  font-weight:700;
+  font-style:normal;
+  font-size:13px;
+}
+.openproject_-_table_row {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  font-size:13px;
+  color:#333333;
+}
+.openproject_-_table_links {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  font-size:13px;
+  color:#06799F;
+}
+.openproject_-_table_row_alternate {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  font-size:13px;
+}
+.openproject_-_table_row_hover {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  font-size:13px;
+}
+.openproject_-_input_-_table_inline_editing {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  color:#333333;
+}
+.openproject_-_btn_grey_small {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  font-size:13px;
+  color:#333333;
+}
+.openproject_-_btn_grey_small_hover {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  font-size:13px;
+  color:#333333;
+}
+.h2_border {
+}
+.telekom_-_input_-_pulldown_items {
+  font-family:'Tele-GroteskNor Regular', 'Tele-GroteskNor';
+  font-size:14px;
+}
+.telekom_-_input_field {
+}
+.telekom_-_body_text {
+  font-family:'Tele-GroteskNor Regular', 'Tele-GroteskNor';
+  font-weight:400;
+  font-style:normal;
+  font-size:16px;
+  color:#444444;
+}
+.telekom_-_input_-_table_inline_editing {
+  font-family:'Tele-GroteskNor Regular', 'Tele-GroteskNor';
+  font-size:14px;
+  color:#333333;
+}
+.telekom_-_h2 {
+  font-family:'Tele-GroteskHal Regular', 'Tele-GroteskHal';
+  font-weight:400;
+  font-style:normal;
+  font-size:18px;
+  color:#E20074;
+}
+.telekom_-_h3_-_magenta {
+  font-family:'Tele-GroteskHal Regular', 'Tele-GroteskHal';
+  font-weight:400;
+  font-style:normal;
+  font-size:16px;
+  color:#E20074;
+}
+.telekom_-_h3_-_black {
+  font-family:'Tele-GroteskFet Regular', 'Tele-GroteskFet';
+  font-size:16px;
+  color:#333333;
+}
+.telekom_-_btn_edit_small {
+  font-family:'Tele-GroteskNor Regular', 'Tele-GroteskNor';
+  font-weight:400;
+  font-style:normal;
+  font-size:14px;
+  color:#222222;
+}
+.telekom_-_btn_edit_small_magenta {
+  font-family:'Tele-GroteskNor Regular', 'Tele-GroteskNor';
+  font-weight:400;
+  font-style:normal;
+  font-size:14px;
+  color:#FFFFFF;
+}
+.telekom_-_btn_edit_small_magenta_hover {
+  font-family:'Tele-GroteskNor Regular', 'Tele-GroteskNor';
+  font-weight:400;
+  font-style:normal;
+  font-size:14px;
+  color:#FFFFFF;
+}
+.telekom_-_btn_edit_small_hover {
+  font-family:'Tele-GroteskNor Regular', 'Tele-GroteskNor';
+  font-weight:400;
+  font-style:normal;
+  font-size:14px;
+  color:#222222;
+}
+.h2 {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  font-size:16px;
+  color:#06799F;
+}
+.project_navigation_menu_item {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  font-size:15px;
+  color:#333333;
+}
+.project_navigation_menu_item_hover {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  font-size:15px;
+  color:#FFFFFF;
+}
+.project_navigation_menu_sub_item {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  font-size:13px;
+  color:#333333;
+}
+.project_navigation_menu_sub_item_hover {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  font-size:13px;
+  color:#FFFFFF;
+}
+.btn_standard_grey_default {
+  font-weight:bold;
+  color:#333333;
+}
+.btn_standard_grey_hover {
+  font-weight:bold;
+  color:#FFFFFF;
+}
+.btn_save_small {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  font-size:13px;
+  color:#FFFFFF;
+}
+.btn_save_small_hover {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  font-size:13px;
+  color:#FFFFFF;
+}
+.btn_gear {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  font-size:13px;
+  color:#222222;
+}
+.btn_gear_hover {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  font-size:13px;
+  color:#222222;
+}
+.action_menu_hover {
+  color:#06799F;
+}
+.btn_edit_small_inactive {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  font-size:13px;
+  color:#999999;
+}
+.btn_edit_large {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  font-size:13px;
+  color:#222222;
+}
+.btn_edit_large_hover {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  font-size:13px;
+  color:#222222;
+}
+.btn_edit_small {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  font-size:13px;
+  color:#222222;
+}
+.btn_edit_small_hover {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  font-size:13px;
+  color:#222222;
+}
+.btn_save_large {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  font-size:13px;
+  color:#FFFFFF;
+}
+.btn_save_large_hover {
+  font-family:'Lato';
+  font-weight:normal;
+  font-style:normal;
+  font-size:13px;
+  color:#FFFFFF;
+}
