@@ -96,22 +96,28 @@ angular.module('openproject.workPackages.controllers')
   $scope.setupWorkPackagesTable = function(json) {
     var meta = json.meta;
 
+    // columns
     if (!$scope.columns) $scope.columns = meta.columns;
-    if (!$scope.groupableColumns) $scope.groupableColumns = meta.groupable_columns;
-    $scope.query = QueryService.getQuery() || QueryService.initQuery($scope.query_id, meta.query, $scope.columns, afterQuerySetupCallback);
-
-    PaginationService.setPerPageOptions(meta.per_page_options);
-    PaginationService.setPerPage(meta.per_page);
-    PaginationService.setPage(meta.page);
-
-    $scope.rows = WorkPackagesTableHelper.getRows(json.work_packages, $scope.query.groupBy);
-
-    $scope.workPackageCountByGroup = meta.work_package_count_by_group;
-    $scope.totalEntries = meta.total_entries;
     angular.forEach($scope.columns, function(column, i){
       column.total_sum = meta.sums[i];
       if (meta.group_sums) column.group_sums = meta.group_sums[i];
     });
+    if (!$scope.groupableColumns) $scope.groupableColumns = meta.groupable_columns;
+
+    // query
+    $scope.query = QueryService.getQuery() || QueryService.initQuery($scope.query_id, meta.query, $scope.columns, afterQuerySetupCallback);
+
+    // table data
+    $scope.rows = WorkPackagesTableHelper.getRows(json.work_packages, $scope.query.groupBy);
+    $scope.workPackageCountByGroup = meta.work_package_count_by_group;
+
+    // pagination data
+    PaginationService.setPerPageOptions(meta.per_page_options);
+    PaginationService.setPerPage(meta.per_page);
+    PaginationService.setPage(meta.page);
+    $scope.totalEntries = meta.total_entries;
+
+    // back url
     $scope.updateBackUrl();
   };
 
