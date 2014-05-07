@@ -22,6 +22,7 @@
     "chai": "~1.9.0"
   },
   "resolutions": {
-    "select2": "3.3.2"
+    "select2": "3.3.2",
+    "Caret.js": "72495fcb194a0beec14de25956a7c615ede630b2"
   }
 }
