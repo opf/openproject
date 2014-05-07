@@ -27,6 +27,19 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
+<%
+if User.current.allowed_to? :export_work_packages, project, global: project.nil?
+  gon.export_formats = {
+    atom:     url_for(format: 'atom',project_id: project, query_id: (query.new_record? ? nil : query), key: User.current.rss_key),
+    csv:      url_for(format: 'csv', project_id: project),
+    pdf:      url_for(format: 'pdf', project_id: project),
+    pdf_desc: url_for(format: 'pdf', project_id: project, show_descriptions: true)
+  }
+  # I18n.t(:label_pdf_with_descriptions)
+  # call_hook(:view_work_packages_index_other_formats, link_formatter: f, project: project)
+end
+%>
+
 <%= include_gon %>
 
 <h2><%= query.new_record? ? l(:label_work_package_plural) : h(query.name) %></h2>
@@ -74,16 +87,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <% if query.valid? %>
     <%= render :partial => 'work_packages/list', :locals => { :query => query } %>
-
-    <%= other_formats_links do |f| %>
-      <%= f.link_to 'Atom', :url => { :project_id => project, :query_id => (query.new_record? ? nil : query), :key => User.current.rss_key } %>
-      <%= f.link_to 'CSV', :url => { :project_id => project } %>
-      <%= f.link_to 'PDF', :url => { :project_id => project } %>
-      <%= f.link_to I18n.t(:label_pdf_with_descriptions), :url => { :project_id => project,
-                                                                    :show_descriptions => true,
-                                                                    :format => 'pdf' } %>
-      <%= call_hook(:view_work_packages_index_other_formats, :link_formatter => f, :project => project) %>
-    <% end if User.current.allowed_to? :export_work_packages, project, :global => project.nil? %>
   <% end %>
 </div>
 
