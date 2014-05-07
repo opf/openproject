@@ -28,19 +28,6 @@
 
 angular.module('openproject.workPackages.controllers')
 
-.factory('exportModal', ['btfModal', function(btfModal) {
-  return btfModal({
-    controller:   'ExportModalController',
-    controllerAs: 'modal',
-    templateUrl:  '/templates/work_packages/modals/export.html'
-  });
-}])
-
-.controller('ExportModalController', ['exportModal', function(exportModal) {
-  this.name    = 'Export';
-  this.closeMe = exportModal.deactivate;
-}])
-
 .controller('WorkPackagesController', [
     '$scope',
     '$window',
