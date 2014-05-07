@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* Update Rails to 3.2.18 to fix CVE-2014-0130
+
 ## 3.0.2
 
 * `#1725` Content-sniffing-based XSS for attachments
