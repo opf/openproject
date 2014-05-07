@@ -26,24 +26,35 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// TODO move to UI components
-angular.module('openproject.uiComponents')
+describe('selectableTitle Directive', function() {
+  var compile, element, rootScope, scope;
 
-.directive('selectableTitle', [function() {
-  return {
-    restrict: 'E',
-    scope: {
-      selectedTitle: '=',
-      reloadMethod: '=',
-      primaryModels: '=',
-      secondardModels: '='
-    },
-    templateUrl: '/templates/components/selectable_title.html',
-    link: function(scope) {
-      scope.reload = function(modelId, newTitle){
-        scope.selectedTitle = newTitle;
-        scope.reloadMethod(modelId);
-      }
-    }
-  };
-}]);
+  beforeEach(angular.mock.module('openproject.uiComponents'));
+  beforeEach(module('templates'));
+
+  beforeEach(inject(function($rootScope, $compile) {
+    var html;
+    html = '<selectable-title></selectable-title>';
+
+    element = angular.element(html);
+    rootScope = $rootScope;
+    scope = $rootScope.$new();
+    scope.doNotShow = true;
+
+    compile = function() {
+      $compile(element)(scope);
+      scope.$digest();
+    };
+  }));
+
+  describe('element', function() {
+    beforeEach(function() {
+      compile();
+    });
+
+    // Any thoughts here?
+    xit('should preserve its div', function() {
+      expect(element.prop('tagName')).to.equal('DIV');
+    });
+  });
+});

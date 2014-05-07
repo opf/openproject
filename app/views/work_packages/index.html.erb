@@ -56,7 +56,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <div class="toolbar-container">
     <toolbar>
-      <selectable-title></selectable-title>
+      <selectable-title selected-title="selectedTitle"
+                        reload-method="reloadQuery"
+                        primary-models="customQueries"
+                        secondary-models="globalQueries">
+      </selectable-title>
       <ul>
         <li><button class="button_highlight" with-dropdown dropdown-id="tasksDropdown">New Task</button></li>
         <li><button class="button" ng-click="showFiltersOptions = !showFiltersOptions">Filter</button></li>
