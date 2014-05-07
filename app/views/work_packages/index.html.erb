@@ -70,15 +70,15 @@ end
 
   <div class="dropdown dropdown-relative dropdown-anchor-right" id="settingsDropdown">
     <ul class="dropdown-menu">
-      <li><a href="#1">Columns…</a></li>
-      <li><a href="#2">Sorting…</a></li>
-      <li><a href="#3">Display sums</a></li>
+      <li><a href ng-click="showColumnsModal()">Columns…</a></li>
+      <li><a href ng-click="showSortingModal()">Sorting…</a></li>
+      <li><a href>Display sums</a></li>
       <li class="dropdown-divider"></li>
-      <li><a href="#4">Save</a></li>
-      <li><a href="#5">Save as</a></li>
+      <li><a href ng-click="showSaveModal()">Save</a></li>
+      <li><a href ng-click="showSaveModal()">Save as</a></li>
       <li><a href ng-click="showExportModal()">Export</a></li>
-      <li><a href="#5">Share</a></li>
-      <li><a href="#5">Page settings</a></li>
+      <li><a href ng-click="showShareModal()">Share</a></li>
+      <li><a href ng-click="showSettingsModal()">Page settings</a></li>
     </ul>
   </div>
 

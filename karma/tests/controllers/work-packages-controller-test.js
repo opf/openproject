@@ -95,7 +95,12 @@ describe('WorkPackagesController', function() {
       ctrl = $controller("WorkPackagesController", {
         $scope:  scope,
         $window: win,
+        columnsModal:       {},
         exportModal:        {},
+        saveModal:          {},
+        settingsModal:      {},
+        shareModal:         {},
+        sortingModal:       {},
         QueryService:       testQueryService,
         PaginationService:  testPaginationService,
         WorkPackageService: testWorkPackageService

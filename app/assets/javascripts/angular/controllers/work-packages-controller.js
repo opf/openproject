@@ -32,7 +32,12 @@ angular.module('openproject.workPackages.controllers')
     '$scope',
     '$window',
     '$location',
+    'columnsModal',
     'exportModal',
+    'saveModal',
+    'settingsModal',
+    'shareModal',
+    'sortingModal',
     'WorkPackagesTableHelper',
     'WorkPackageService',
     'QueryService',
@@ -40,7 +45,9 @@ angular.module('openproject.workPackages.controllers')
     'WorkPackageLoadingHelper',
     'INITIALLY_SELECTED_COLUMNS',
     'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
-    function($scope, $window, $location, exportModal, WorkPackagesTableHelper,
+    function($scope, $window, $location, columnsModal, exportModal, saveModal,
+      settingsModal, shareModal, sortingModal,
+      WorkPackagesTableHelper,
       WorkPackageService, QueryService, PaginationService,
       WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS,
       OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
@@ -97,7 +104,12 @@ angular.module('openproject.workPackages.controllers')
     $scope.updateBackUrl();
   }
 
-  $scope.showExportModal = exportModal.activate;
+  $scope.showColumnsModal  = columnsModal.activate;
+  $scope.showExportModal   = exportModal.activate;
+  $scope.showSaveModal     = saveModal.activate;
+  $scope.showSettingsModal = settingsModal.activate;
+  $scope.showShareModal    = shareModal.activate;
+  $scope.showSortingModal  = sortingModal.activate;
 
   $scope.reloadQuery = function(queryId) {
     QueryService.resetQuery();
