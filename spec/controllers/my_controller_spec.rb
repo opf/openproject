@@ -126,13 +126,17 @@ describe MyController, :type => :controller do
       end
     end
   end
-  
+
   describe "index" do
-    it "uses the correct scopes for number of reported work packages(just like users_controller)" do
-      WorkPackage.should_receive(:on_active_project).and_return(WorkPackage.where :id => 0)
-      WorkPackage.should_receive(:with_author).and_return(WorkPackage.where :id => 0)
-      WorkPackage.should_receive(:visible).and_return(WorkPackage.where :id => 0)
+    render_views
+
+    before do
+      User.any_instance.should_receive(:reported_work_package_count).and_return(42)
       get :index
+    end
+
+    it "should show the number of reported packages" do
+      expect(response.body).to include("Reported work packages (42)")
     end
   end
 end
