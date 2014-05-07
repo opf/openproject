@@ -30,26 +30,12 @@ angular.module('openproject.helpers')
 
 .service('UrlParamsHelper', [function() {
   var UrlParamsHelper = {
-    getConvertedParams: function(object) {
-      var params = {};
-
-      angular.forEach(object, function(value, key) {
-        if (Array.isArray(value)) {
-          params[key + '[]'] = value;
-        } else {
-          params[key] = value;
-        }
-      });
-
-      return params;
-    },
-
-    // copied from angular buildUrl
-    getRailsCompliantQueryString: function(params) {
+    // copied more or less from angular buildUrl
+    getQueryString: function(params) {
       if (!params) return;
 
       var parts = [];
-      angular.forEach(UrlParamsHelper.getConvertedParams(params), function(value, key) {
+      angular.forEach(params, function(value, key) {
         if (!value) return;
         if (!Array.isArray(value)) value = [value];
 

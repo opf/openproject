@@ -70,11 +70,11 @@ angular.module('openproject.workPackages.helpers')
     var linkAndQueryString = bulkLinks[action].split('?');
     var link = linkAndQueryString.shift();
     var workPackageIdParams = {
-      ids: workPackages.map(function(wp){
-             return wp.id;
-           })
+      'ids[]': workPackages.map(function(wp){
+        return wp.id;
+      })
     };
-    var queryParts = linkAndQueryString.push(UrlParamsHelper.getRailsCompliantQueryString(workPackageIdParams));
+    linkAndQueryString.push(UrlParamsHelper.getQueryString(workPackageIdParams));
 
     return link + '?' + linkAndQueryString.join('&');
   }
