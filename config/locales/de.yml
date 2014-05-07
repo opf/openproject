@@ -59,7 +59,7 @@ de:
   label_version: "Version"
 
   notice_successful_notification: "Benachrichtigung erfolgreich gesendet"
-  notice_timezone_missing: Keine Zeitzone eingestellt und daher %{zone} angenommen. Um Ihre Zeitzone einzustellen, clicken Sie bitte hier.
+  notice_timezone_missing: Keine Zeitzone eingestellt und daher %{zone} angenommen. Um Ihre Zeitzone einzustellen, klicken Sie bitte hier.
 
   permission_create_meetings: "Besprechungen erstellen"
   permission_edit_meetings: "Besprechungen bearbeiten"
