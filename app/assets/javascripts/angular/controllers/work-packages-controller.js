@@ -41,8 +41,22 @@ angular.module('openproject.workPackages.controllers')
   this.closeMe = exportModal.deactivate;
 }])
 
-.controller('WorkPackagesController', ['$scope', '$window', '$location', 'exportModal', 'WorkPackagesTableHelper', 'WorkPackageService', 'QueryService', 'PaginationService', 'WorkPackageLoadingHelper', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
-            function($scope, $window, $location, exportModal, WorkPackagesTableHelper, WorkPackageService, QueryService, PaginationService, WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
+.controller('WorkPackagesController', [
+    '$scope',
+    '$window',
+    '$location',
+    'exportModal',
+    'WorkPackagesTableHelper',
+    'WorkPackageService',
+    'QueryService',
+    'PaginationService',
+    'WorkPackageLoadingHelper',
+    'INITIALLY_SELECTED_COLUMNS',
+    'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
+    function($scope, $window, $location, exportModal, WorkPackagesTableHelper,
+      WorkPackageService, QueryService, PaginationService,
+      WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS,
+      OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
 
   $scope.showFiltersOptions = false;
 
