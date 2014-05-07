@@ -64,6 +64,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#6310` API v2 is now deprecated and will be removed in a future version of OpenProject
 * `#7050` Fix: Cannot change the login when login is already taken during creation of account
 * `#7051` Wrong success message when user is not allowed to register himself
+* `#7137` Fix: No last connection for users authenticated with omniauth
 * `#7149` Fix: Wrong success message when login is already in use
 * `#7177` Fix: Journal not created in connection with deleted note
 * Allowed sending of mails with only cc: or bcc: fields
