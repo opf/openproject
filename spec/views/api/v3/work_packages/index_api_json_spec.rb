@@ -167,6 +167,16 @@ describe 'api/v3/work_packages/index.api.rabl' do
       specify {
         expect(parse_json(subject, 'work_packages/0/_links/delete')).to match(%r{/work_packages/bulk\?ids(.+)method\=delete})
       }
+
+      it { should have_json_size(4).at_path('_bulk_links') }
+
+      specify {
+        expect(parse_json(subject, '_bulk_links/edit')).to match(%r{/work_packages/bulk/edit})
+      }
+
+      specify {
+        expect(parse_json(subject, '_bulk_links/delete')).to match(%r{/work_packages/bulk.+method\=delete})
+      }
     end
   end
 end

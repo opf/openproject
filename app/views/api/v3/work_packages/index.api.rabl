@@ -84,3 +84,12 @@ end
 if @display_meta
   node(:meta) { @work_packages_meta_data }
 end
+
+node(:_bulk_links) do
+  links = {
+    edit: edit_work_packages_bulk_path,
+    move: new_move_work_packages_path,
+    copy: new_move_work_packages_path(copy: true),
+    delete: work_packages_bulk_path(method: :delete)
+  }
+end
