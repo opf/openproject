@@ -28,11 +28,15 @@
 
 angular.module('openproject.workPackages.helpers')
 
-.factory('WorkPackageContextMenuHelper', [function() {
+.constant('PERMITTED_CONTEXT_MENU_ACTIONS', ['edit', 'watch', 'log_time', 'duplicate', 'move', 'copy', 'delete'])
+.constant('PERMITTED_BULK_ACTIONS',         ['edit', 'watch', 'move', 'copy', 'delete'])
+
+.factory('WorkPackageContextMenuHelper', ['PERMITTED_CONTEXT_MENU_ACTIONS', 'PERMITTED_BULK_ACTIONS', 'PathHelper', function(PERMITTED_CONTEXT_MENU_ACTIONS, PERMITTED_BULK_ACTIONS, PathHelper) {
   function getPermittedActionLinks(workPackage) {
     var linksToPermittedActions = {};
+    var permittedActions = getIntersection([workPackage._actions, PERMITTED_CONTEXT_MENU_ACTIONS]);
 
-    angular.forEach(workPackage._actions, function(permittedAction) {
+    angular.forEach(permittedActions, function(permittedAction) {
       linksToPermittedActions[permittedAction] = workPackage._links[permittedAction];
     });
 
@@ -40,14 +44,49 @@ angular.module('openproject.workPackages.helpers')
   }
 
   function getIntersectOfPermittedActions(workPackages) {
-    return {};
+    var linksToPermittedActions = {};
+    var permittedActions = getIntersection(
+      workPackages
+        .map(function(workPackage) {
+          return workPackage._actions;
+        })
+        .concat(new Array(PERMITTED_BULK_ACTIONS))
+    );
+
+    angular.forEach(permittedActions, function(permittedAction) {
+      linksToPermittedActions[permittedAction] = getBulkActionLink(permittedAction, workPackages);
+    });
+
+    return linksToPermittedActions;
+  }
+
+  function getBulkActionLink(action, workPackages) {
+    var ids = workPackages.map(function(wp) {
+      return wp.id;
+    });
+
+    switch(action) {
+      case 'edit':
+        return PathHelper.workPackagesBulkEditPath(ids);
+    }
+  }
+
+  // TODO move to a global tools helper
+  function getIntersection(arrays) {
+    var candidates = arrays.shift();
+
+    return candidates.filter(function(element) {
+      return arrays.every(function(array) {
+        return array.indexOf(element) !== -1;
+      });
+    });
   }
 
   var WorkPackageContextMenuHelper = {
     getPermittedActions: function(workPackages) {
       if (workPackages.length === 1) {
         return getPermittedActionLinks(workPackages[0]);
-      } else {
+      } else if (workPackages.length > 1) {
         return getIntersectOfPermittedActions(workPackages);
       }
     }

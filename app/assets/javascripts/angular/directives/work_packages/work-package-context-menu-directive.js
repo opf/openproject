@@ -20,7 +20,6 @@ angular.module('openproject.workPackages.directives')
       });
 
       scope.$watch('contextMenu.context.row', function() {
-        console.log({context: scope.contextMenu.context});
         updateContextMenu(getWorkPackagesFromContext(scope.contextMenu.context));
       });
 

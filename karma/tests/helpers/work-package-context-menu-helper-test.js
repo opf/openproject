@@ -46,14 +46,15 @@ describe('WorkPackageContextMenuHelper', function() {
       delete: '/work_packages/bulk?ids%5B%5D=123&method=delete'
     };
 
-    describe('when an array with a single work package is passed as an argument', function() {
-      var permittedAction = actions[0];
-      var notPermittedAction = actions[1];
+    var permittedAction = actions[0],
+        notPermittedAction = actions[1];
 
-      var workPackage = Factory.build('PlanningElement', {
-        _actions: new Array(permittedAction),
-        _links: actionLinks
-      });
+    var workPackage = Factory.build('PlanningElement', {
+      _actions: new Array(permittedAction),
+      _links: actionLinks
+    });
+
+    describe('when an array with a single work package is passed as an argument', function() {
       var workPackages = new Array(workPackage);
 
       it('returns the link of a listed action', function() {
@@ -63,6 +64,28 @@ describe('WorkPackageContextMenuHelper', function() {
 
       it('does not return the link of an action which is not listed', function() {
         expect(WorkPackageContextMenuHelper.getPermittedActions(workPackages)).not.to.have.property(notPermittedAction);
+      });
+    });
+
+    describe('when more than one work package is passed as an argument', function() {
+      var anotherPermittedAction = actions[3],
+          anotherWorkPackage = Factory.build('PlanningElement', {
+            _actions: [permittedAction, anotherPermittedAction],
+            _links: actionLinks
+          });
+      var workPackages = [anotherWorkPackage, workPackage];
+
+
+      it('returns the link of an action listed for all work packages', function() {
+        expect(WorkPackageContextMenuHelper.getPermittedActions(workPackages)).to.have.property(permittedAction);
+      });
+
+      it('does not return the action if it is not permitted on all work packages', function() {
+        expect(WorkPackageContextMenuHelper.getPermittedActions(workPackages)).not.to.have.property(anotherPermittedAction);
+      });
+
+      it('links to the bulk action and passes all work package ids', function() {
+        expect(WorkPackageContextMenuHelper.getPermittedActions(workPackages)[permittedAction]).to.equal('/work_packages/bulk/edit?ids[]=' + anotherWorkPackage.id + '&ids[]=' + workPackage.id);
       });
     });
   });
