@@ -56,7 +56,7 @@ angular.module('openproject.workPackages.controllers')
     }
 
     $scope.withLoading(getMethod, params)
-      .then($scope.setupWorkPackagesTable)
+      .then(setupWorkPackagesTable)
       .then(initAvailableColumns);
   }
 
@@ -93,7 +93,7 @@ angular.module('openproject.workPackages.controllers')
     return false;
   };
 
-  $scope.setupWorkPackagesTable = function(json) {
+  function setupWorkPackagesTable(json) {
     var meta = json.meta;
 
     // columns
@@ -119,13 +119,13 @@ angular.module('openproject.workPackages.controllers')
 
     // back url
     $scope.updateBackUrl();
-  };
+  }
 
   $scope.updateResults = function() {
     $scope.$broadcast('openproject.workPackages.updateResults');
 
     return $scope.withLoading(WorkPackageService.getWorkPackages, [$scope.projectIdentifier, $scope.query, PaginationService.getPaginationOptions()])
-      .then($scope.setupWorkPackagesTable);
+      .then(setupWorkPackagesTable);
   };
 
   function serviceErrorHandler(data) {
