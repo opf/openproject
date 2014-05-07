@@ -27,6 +27,7 @@
 #++
 
 require 'spec_helper'
+require 'work_package'
 
 describe UsersController do
   before do
@@ -504,6 +505,12 @@ describe UsersController do
       before { allow(User).to receive(:current).and_return(user.reload) }
 
       it { get :show, id: user.id }
+    end
+    
+    it "uses the correct scopes for number of reported work packages(just like my_controller)" do
+      WorkPackage.should_receive(:on_active_project).and_return(WorkPackage.where :id => 0)
+      WorkPackage.should_receive(:with_author).and_return(WorkPackage.where :id => 0)
+      get :show, id: user.id
     end
   end
 end
