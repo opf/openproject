@@ -41,11 +41,12 @@ angular.module('openproject.timelines.directives', ['openproject.timelines.model
 
 // work packages
 angular.module('openproject.workPackages', ['openproject.workPackages.controllers', 'openproject.workPackages.filters', 'openproject.workPackages.directives', 'openproject.uiComponents']);
+angular.module('openproject.workPackages.services', []);
 angular.module('openproject.workPackages.helpers', ['openproject.helpers']);
 angular.module('openproject.workPackages.filters', ['openproject.workPackages.helpers']);
 angular.module('openproject.workPackages.config', []);
 angular.module('openproject.workPackages.controllers', ['openproject.models', 'openproject.workPackages.helpers', 'openproject.services', 'openproject.workPackages.config', 'ng-context-menu']);
-angular.module('openproject.workPackages.directives', ['openproject.uiComponents', 'openproject.services', 'ng-context-menu']);
+angular.module('openproject.workPackages.directives', ['openproject.uiComponents', 'openproject.services', 'openproject.workPackages.services', 'ng-context-menu']);
 
 // main app
 var openprojectApp = angular.module('openproject', ['ui.select2', 'ui.date', 'openproject.uiComponents', 'openproject.timelines', 'openproject.workPackages', 'ngAnimate']);

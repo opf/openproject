@@ -28,8 +28,8 @@
 
 angular.module('openproject.workPackages.controllers')
 
-.controller('WorkPackagesController', ['$scope', '$window', '$location', 'WorkPackagesTableHelper', 'WorkPackageService', 'QueryService', 'PaginationService', 'WorkPackageLoadingHelper', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
-            function($scope, $window, $location, WorkPackagesTableHelper, WorkPackageService, QueryService, PaginationService, WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
+.controller('WorkPackagesController', ['$scope', '$window', '$location', 'WorkPackagesTableHelper', 'WorkPackageService', 'QueryService', 'WorkPackagesTableService', 'PaginationService', 'WorkPackageLoadingHelper', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
+            function($scope, $window, $location, WorkPackagesTableHelper, WorkPackageService, QueryService, WorkPackagesTableService, PaginationService, WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
 
 
   function setUrlParams(location) {
@@ -46,12 +46,13 @@ angular.module('openproject.workPackages.controllers')
     $scope.loading = false;
     $scope.disableFilters = false;
 
+    var getMethod, params;
     if($location.search()['c[]']){
-      var getMethod = WorkPackageService.getWorkPackagesFromUrlQueryParams;
-      var params = [$scope.projectIdentifier, $location];
+      getMethod = WorkPackageService.getWorkPackagesFromUrlQueryParams;
+      params = [$scope.projectIdentifier, $location];
     } else {
-      var getMethod = WorkPackageService.getWorkPackagesByQueryId;
-      var params = [$scope.projectIdentifier, $scope.query_id];
+      getMethod = WorkPackageService.getWorkPackagesByQueryId;
+      params = [$scope.projectIdentifier, $scope.query_id];
     }
 
     $scope.withLoading(getMethod, params)
