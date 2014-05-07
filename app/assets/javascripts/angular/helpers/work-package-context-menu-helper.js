@@ -31,7 +31,7 @@ angular.module('openproject.workPackages.helpers')
 .constant('PERMITTED_CONTEXT_MENU_ACTIONS', ['edit', 'watch', 'log_time', 'duplicate', 'move', 'copy', 'delete'])
 .constant('PERMITTED_BULK_ACTIONS',         ['edit', 'watch', 'move', 'copy', 'delete'])
 
-.factory('WorkPackageContextMenuHelper', ['PERMITTED_CONTEXT_MENU_ACTIONS', 'PERMITTED_BULK_ACTIONS', 'PathHelper', function(PERMITTED_CONTEXT_MENU_ACTIONS, PERMITTED_BULK_ACTIONS, PathHelper) {
+.service('WorkPackageContextMenuHelper', ['PERMITTED_CONTEXT_MENU_ACTIONS', 'PERMITTED_BULK_ACTIONS', 'PathHelper', function(PERMITTED_CONTEXT_MENU_ACTIONS, PERMITTED_BULK_ACTIONS, PathHelper) {
   function getPermittedActionLinks(workPackage) {
     var linksToPermittedActions = {};
     var permittedActions = getIntersection([workPackage._actions, PERMITTED_CONTEXT_MENU_ACTIONS]);
