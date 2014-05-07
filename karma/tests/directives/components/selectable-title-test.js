@@ -52,8 +52,7 @@ describe('selectableTitle Directive', function() {
       compile();
     });
 
-    // Any thoughts here?
-    xit('should preserve its div', function() {
+    it('should compile to a div', function() {
       expect(element.prop('tagName')).to.equal('DIV');
     });
   });

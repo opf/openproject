@@ -32,11 +32,11 @@ angular.module('openproject.uiComponents')
 .directive('selectableTitle', [function() {
   return {
     restrict: 'E',
+    replace: true,
     scope: {
       selectedTitle: '=',
       reloadMethod: '=',
-      primaryModels: '=',
-      secondardModels: '='
+      groups: '='
     },
     templateUrl: '/templates/components/selectable_title.html',
     link: function(scope) {

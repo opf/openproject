@@ -73,8 +73,8 @@ angular.module('openproject.workPackages.controllers')
   function initAvailableQueries() {
     return QueryService.getAvailableGroupedQueries($scope.projectIdentifier)
       .then(function(data){
-        $scope.customQueries = data["user_queries"];
-        $scope.globalQueries = data["queries"];
+        $scope.groups = [{ name: 'CUSTOM QUERIES', models: data["user_queries"]},
+          { name: 'GLOBAL QUERIES', models: data["queries"]}];
       });
   }
 

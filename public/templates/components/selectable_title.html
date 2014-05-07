@@ -11,13 +11,11 @@
   <div class="dropdown dropdown-relative dropdown-anchor-right" id="querySelectDropdown">
     <ul class="dropdown-menu">
       <li><input type="search" value=""></li>
-      <li ng-if="primaryModels.length">CUSTOM QUERIES</li>
-      <li ng-repeat="query in primaryModels">
-        <a href="" ng-click="reload( query[1], query[0] )">{{ query[0] }}</a>
-      </li>
-      <li ng-if="secondardModels.length">MY QUERIES</li>
-      <li ng-repeat="query in secondardModels">
-        <a href=""  ng-click="reload( query[1], query[0] )">{{ query[0] }}</a>
+    </ul>
+    <ul class="dropdown-menu" ng-repeat="group in groups">
+      <li ng-if="group.models">{{ group.name }}</li>
+      <li ng-repeat="model in group.models">
+        <a href="" ng-click="reload( model[1], model[0] )">{{ model[0] }}</a>
       </li>
     </ul>
   </div>
