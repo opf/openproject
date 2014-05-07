@@ -8,5 +8,7 @@
       opts[:origin] = params["back_url"]
     end
   %>
-  //&nbsp;<%= link_to pro.provider_name.camelize, opts %>
+  <a href="<%= url_for opts %>" class="auth-provider auth-provider-<%= pro.provider_name %>">
+    <span class="auth-provider-name"><%= pro.provider_name.camelize %></span>
+  </a>
 <% end %>
