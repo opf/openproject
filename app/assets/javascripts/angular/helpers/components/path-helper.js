@@ -130,21 +130,6 @@ angular.module('openproject.helpers')
     },
     apiWorkPackagesSumsPath: function() {
       return PathHelper.apiWorkPackagesPath() + '/column_sums';
-    },
-
-    workPackagesBulkEditPath: function(ids) {
-      var path = PathHelper.workPackagesPath() + '/bulk/edit';
-
-      return path + '?' + PathHelper.getParamsFromIds(ids);
-    },
-    getParamsFromIds: function(ids) {
-      ids = ids || [];
-
-      return ids
-        .map(function(id) {
-          return 'ids[]=' + id;
-        })
-        .join('&');
     }
   };
 

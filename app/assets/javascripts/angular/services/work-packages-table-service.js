@@ -29,9 +29,9 @@
 angular.module('openproject.workPackages.services')
 
 .service('WorkPackagesTableService', [function() {
-  var bulkLinks;
+  var bulkLinks = {};
 
-  var WorkPackageTableService = {
+  var WorkPackagesTableService = {
     setBulkLinks: function(links) {
       bulkLinks = links;
     },
@@ -40,5 +40,5 @@ angular.module('openproject.workPackages.services')
     }
   };
 
-  return WorkPackageTableService;
+  return WorkPackagesTableService;
 }]);

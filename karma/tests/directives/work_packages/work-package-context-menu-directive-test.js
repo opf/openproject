@@ -105,4 +105,8 @@ describe('workPackageContextMenu Directive', function() {
       // TODO find out how to stub I18n.t inside directive
     });
   });
+
+  xdescribe('when the context menu context contains multiple work packages', function() {
+
+  });
 });

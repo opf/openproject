@@ -31,7 +31,7 @@ angular.module('openproject.workPackages.helpers')
 .constant('PERMITTED_CONTEXT_MENU_ACTIONS', ['edit', 'watch', 'log_time', 'duplicate', 'move', 'copy', 'delete'])
 .constant('PERMITTED_BULK_ACTIONS',         ['edit', 'watch', 'move', 'copy', 'delete'])
 
-.service('WorkPackageContextMenuHelper', ['PERMITTED_CONTEXT_MENU_ACTIONS', 'PERMITTED_BULK_ACTIONS', 'PathHelper', function(PERMITTED_CONTEXT_MENU_ACTIONS, PERMITTED_BULK_ACTIONS, PathHelper) {
+.service('WorkPackageContextMenuHelper', ['PERMITTED_CONTEXT_MENU_ACTIONS', 'PERMITTED_BULK_ACTIONS', 'WorkPackagesTableService', 'UrlParamsHelper', function(PERMITTED_CONTEXT_MENU_ACTIONS, PERMITTED_BULK_ACTIONS, WorkPackagesTableService, UrlParamsHelper) {
   function getPermittedActionLinks(workPackage) {
     var linksToPermittedActions = {};
     var permittedActions = getIntersection([workPackage._actions, PERMITTED_CONTEXT_MENU_ACTIONS]);
@@ -61,14 +61,22 @@ angular.module('openproject.workPackages.helpers')
   }
 
   function getBulkActionLink(action, workPackages) {
+    var bulkLinks = WorkPackagesTableService.getBulkLinks();
+
     var ids = workPackages.map(function(wp) {
       return wp.id;
     });
 
-    switch(action) {
-      case 'edit':
-        return PathHelper.workPackagesBulkEditPath(ids);
-    }
+    var linkAndQueryString = bulkLinks[action].split('?');
+    var link = linkAndQueryString.shift();
+    var workPackageIdParams = {
+      ids: workPackages.map(function(wp){
+             return wp.id;
+           })
+    };
+    var queryParts = linkAndQueryString.push(UrlParamsHelper.getRailsCompliantQueryString(workPackageIdParams));
+
+    return link + '?' + linkAndQueryString.join('&');
   }
 
   // TODO move to a global tools helper

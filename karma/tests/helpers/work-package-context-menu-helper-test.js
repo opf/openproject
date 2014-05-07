@@ -75,6 +75,12 @@ describe('WorkPackageContextMenuHelper', function() {
           });
       var workPackages = [anotherWorkPackage, workPackage];
 
+      beforeEach(inject(function(_WorkPackagesTableService_) {
+        var WorkPackagesTableService = _WorkPackagesTableService_;
+        WorkPackagesTableService.setBulkLinks({
+          edit: '/work_packages/bulk/edit'
+        });
+      }));
 
       it('returns the link of an action listed for all work packages', function() {
         expect(WorkPackageContextMenuHelper.getPermittedActions(workPackages)).to.have.property(permittedAction);
@@ -85,7 +91,10 @@ describe('WorkPackageContextMenuHelper', function() {
       });
 
       it('links to the bulk action and passes all work package ids', function() {
-        expect(WorkPackageContextMenuHelper.getPermittedActions(workPackages)[permittedAction]).to.equal('/work_packages/bulk/edit?ids[]=' + anotherWorkPackage.id + '&ids[]=' + workPackage.id);
+        var key = encodeURIComponent('ids[]');
+        var queryString = key + '=' + anotherWorkPackage.id + '&' + key + '=' + workPackage.id;
+
+        expect(WorkPackageContextMenuHelper.getPermittedActions(workPackages)[permittedAction]).to.equal('/work_packages/bulk/edit?' + queryString);
       });
     });
   });
