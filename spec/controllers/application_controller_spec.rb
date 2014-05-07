@@ -80,4 +80,23 @@ describe ApplicationController do
       end
     end
   end
+
+  describe 'unverified request' do
+    it 'should give 422' do
+      expect(@controller).to receive(:render_error) do |options|
+        expect(options[:status]).to eql(422)
+      end
+
+      @controller.send :handle_unverified_request
+    end
+
+    it 'deletes the autologin cookie' do
+      cookies[OpenProject::Configuration['autologin_cookie_name']] = 'some value'
+      allow(@controller).to receive(:render_error)
+
+      @controller.send :handle_unverified_request
+
+      expect(cookies[OpenProject::Configuration['autologin_cookie_name']]).to be_nil
+    end
+  end
 end

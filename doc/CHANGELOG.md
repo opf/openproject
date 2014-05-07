@@ -54,22 +54,25 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#4118` Fix: Add missing labels
 * `#4701` Fix: Wiki change notification mail contains invalid diff link
 * `#4928` Fix: Journal note hits not shown
+* `#5002` Fix: Number of reported work packages in personal activity differs from number in My page
 * `#5057` Fix: Whitelisted more params for planning elements controller
 * `#5214` Allow setting watchers and time entries for work packages via API`
 * `#5311` Encapsulate ActiveSupport::Notifications
 * `#5553` Integrate OmniAuth
 * `#5632` Check whether cookies are not shared between sub-uris
+* `#5743` Potential data leak in "Invalid form authenticity token" error screen
 * `#6309` Remove API v1 & add level_list to API v2
-* `#6310` API v1 is now deprecated and will be removed in the next major release of OpenProject
 * `#6310` API v2 is now deprecated and will be removed in a future version of OpenProject
 * `#7050` Fix: Cannot change the login when login is already taken during creation of account
 * `#7051` Wrong success message when user is not allowed to register himself
+* `#7137` Fix: No last connection for users authenticated with omniauth
 * `#7149` Fix: Wrong success message when login is already in use
 * `#7177` Fix: Journal not created in connection with deleted note
 * Allowed sending of mails with only cc: or bcc: fields
 * Allow adding attachments to created work packages via planning elements controller
 * Remove unused rmagick dependency
 * Add settings callback
+* Use Lato 2.0 font
 * Fix: Work package short URI
 * Fix: work package due date not validated when start date is not present
 * Fix: Use correct questions for deletion of documents/files in rake tasks
@@ -77,6 +80,18 @@ See doc/COPYRIGHT.rdoc for more details.
 * Fix: Back URL verification
 * Fix: Asset require for plug-ins
 * Fix: at.who styling
+
+## 3.0.3
+
+* Update Rails to 3.2.18 to fix CVE-2014-0130
+
+## 3.0.2
+
+* `#1725` Content-sniffing-based XSS for attachments
+* `#6310` API v1 is now deprecated and will be removed in the next major release of OpenProject
+* `#7056` Enable Active Record Session Store
+* `#7177` Fix: Journal not created in connection with deleted note
+* `#7295` Fix: Regression in Ruby 2.1.1
 
 ## 3.0.1
 

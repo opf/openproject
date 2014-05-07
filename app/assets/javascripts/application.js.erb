@@ -11,6 +11,7 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
+//= require jquery-migrate/jquery-migrate
 //= require jquery-ujs
 //= require jquery-ui
 //= require jquery-ui/ui/i18n/jquery-ui-i18n
@@ -126,7 +127,7 @@ jQuery(document).ready(function ($) {
     $.datepicker.setDefaults(defaults);
   }
 
-  $('#show_more_wp_properties').live('click', function(el){
+  $(document).on('click', '#show_more_wp_properties', function(el){
     $(this).find('.icon').toggleClass('icon-arrow-right6-3 icon-arrow-right6-1');
     Effect.toggle("work_package_descr_fields", "appear", {duration:0.3});
     enable_textarea_auto_completion(jQuery("#work_package_description"));
@@ -708,17 +709,7 @@ $(window).resize(function() {
 });
 
   $.fn.mySlide = function(callback) {
-    if (parseInt($.browser.version, 10) < 8 && $.browser.msie) {
-      // no animations, just toggle
-      this.toggle();
-       if (typeof callback === 'function') {
-         callback.apply(this);
-       }
-      // this forces IE to redraw the menu area, un-bollocksing things
-      $("#main-menu").css({paddingBottom:5}).animate({paddingBottom:0}, 10);
-    } else {
-      this.slideToggle(animationRate,callback);
-    }
+    this.slideToggle(animationRate,callback);
 
     return this;
   };
