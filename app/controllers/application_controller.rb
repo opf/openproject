@@ -58,8 +58,9 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   def handle_unverified_request
     super
+    cookies.delete(OpenProject::Configuration['autologin_cookie_name'])
     self.logged_user = nil
-    cookies.delete(:autologin)
+    render_error :status => 422, :message => "Invalid form authenticity token."
   end
 
   before_filter :user_setup,
