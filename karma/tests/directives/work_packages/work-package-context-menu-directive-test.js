@@ -61,34 +61,48 @@ describe('workPackageContextMenu Directive', function() {
   });
 
   describe('when the context menu context contains one work package', function() {
-    var actions = ['edit', 'move'];
-    var actionLinks = {
-      edit: '/work_packages/123/edit',
-      move: '/work_packages/move/new?ids%5B%5D=123',
-    };
-    var workPackage = Factory.build('PlanningElement', {
-      _actions: actions,
-      _links: actionLinks
-    });
-
-    var directListElements, listElement;
+    var I18n;
+    var actions = ['edit', 'move'],
+        actionLinks = {
+          edit: '/work_packages/123/edit',
+          move: '/work_packages/move/new?ids%5B%5D=123',
+        },
+        workPackage = Factory.build('PlanningElement', {
+          _actions: actions,
+          _links: actionLinks
+        });
+    var directListElements;
 
     beforeEach(function() {
       ContextMenuService.setContext({rows: [], row: {object: workPackage}});
       compile();
 
       directListElements = element.find('.menu > li:not(.folder)');
-      listElement = directListElements[0];
     });
+
+    beforeEach(inject(function(_I18n_) {
+      I18n = _I18n_;
+      sinon.stub(I18n, 't').withArgs('js.button_' + actions[0]).returns('anything');
+    }));
+    afterEach(inject(function() {
+      I18n.t.restore();
+    }));
 
     it('lists link tags for any permitted action', function(){
       expect(directListElements.length).to.equal(2);
     });
 
-    it('lists link tags for any permitted action', function(){
-      expect(listElement.className).to.equal('edit');
+    it('assigns a css class named by the action', function(){
+      expect(directListElements[0].className).to.equal(actions[0]);
     });
 
-    // TODO continue
+    it('adds an icon from the icon fonts to each list element', function() {
+      expect(element.find('.' + actions[0] +' a').attr('class')).to.include('icon-' + actions[0]);
+    });
+
+    xit('translates the action name', function() {
+      expect(element.find('.' + actions[0] +' a').contents()).to.equal('anything');
+      // TODO find out how to stub I18n.t inside directive
+    });
   });
 });

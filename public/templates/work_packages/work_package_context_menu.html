@@ -1,10 +1,9 @@
 <div id="context-menu" ng-show="opened">
-  {{permittedActions}}
   <ul class="menu">
     <li ng-repeat="(action, link) in permittedActions"
         class="{{action}}">
       <a ng-href="{{link}}"
-         ng-class="['icon-context', 'icon-' + action.gsub('_', '-')]"
+         ng-class="['icon-context', 'icon-' + action]"
          ng-bind="I18n.t('js.button_' + action)">
       </a>
     </li>
