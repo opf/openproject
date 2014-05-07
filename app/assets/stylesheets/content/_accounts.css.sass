@@ -26,6 +26,7 @@
  * See doc/COPYRIGHT.rdoc for more details.  ++
  */
 
+@import global/mixins
 @import content/forms
 
 #login-form
@@ -41,6 +42,9 @@
 
     height: 32px
 
+  .attribute_wrapper
+    @include prevent-float-collapse
+
   label
     // inline-block can't guarantee a specific width (possibly due to whitespace)
     display: block
@@ -51,11 +55,9 @@
       // inline-block can't guarantee a specific width
       display: block
 
-  .login-button-links-container
+  .login-options-container
     margin-bottom: 10px
-    input
-      display: block
-    div
+    .login-links
       float: right
       text-align: right
       font-size: 12px
@@ -101,12 +103,7 @@
       padding: 0 15px
 
   .login-auth-provider-list
-    // Make sure this element doesn't collapse due to floated elements inside
-    &:after
-      content: " "
-      display: block
-      height: 0
-      clear: both
+    @include prevent-float-collapse
 
   a.auth-provider
     float: left

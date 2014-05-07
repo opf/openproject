@@ -172,6 +172,14 @@ $button_gray_font_color: #222222
   ul
     margin-bottom: 20px
 
+// Make sure an element doesn't collapse due to floated elements inside
+@mixin prevent-float-collapse
+  &:after
+    content: " "
+    display: block
+    height: 0
+    clear: both
+
 @mixin text-shortener
   white-space: nowrap
   overflow: hidden
