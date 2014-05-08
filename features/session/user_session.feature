@@ -36,7 +36,7 @@ Feature: User session
     Then I should be on the login page
     When I fill in "bob" for "username" within "#login-form"
     And I fill in "adminADMIN!" for "password" within "#login-form"
-    And I click on "Login" within "#login-form"
+    And I click on "t:button_login" within "#login-form"
     And I go to the my account page
     Then I should be on the my account page
 
@@ -45,7 +45,7 @@ Feature: User session
     Then I should be on the login page
     When I fill in "bob" for "username" within "#login-form"
     And I fill in "adminADMIN!" for "password" within "#login-form"
-    And I click on "Login" within "#login-form"
+    And I click on "t:button_login" within "#login-form"
     Then I should be on the my account page
 
   Scenario: Autologin works if enabled
