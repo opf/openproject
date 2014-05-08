@@ -131,7 +131,7 @@ describe MyController, :type => :controller do
     render_views
 
     before do
-      User.any_instance.should_receive(:reported_work_package_count).and_return(42)
+      allow_any_instance_of(User).to receive(:reported_work_package_count).and_return(42)
       get :index
     end
 
