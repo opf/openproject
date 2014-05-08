@@ -72,7 +72,7 @@ angular.module('openproject.workPackages.directives')
       };
 
       scope.$watch('query.sortation.sortElements', function(oldValue, newValue) {
-        if (newValue !== oldValue) {
+        if (JSON.stringify(newValue) != JSON.stringify(oldValue)) {
           scope.updateResults();
           scope.updateBackUrl();
         }

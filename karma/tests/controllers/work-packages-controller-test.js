@@ -45,6 +45,8 @@ describe('WorkPackagesController', function() {
     };
     var columnData = {
     };
+    var availableQueryiesData = {
+    };
 
     testWorkPackageService = {
       getWorkPackages: function () {
@@ -72,6 +74,11 @@ describe('WorkPackagesController', function() {
       getAvailableColumns: function () {
         return $timeout(function () {
           return columnData;
+        }, 10);
+      },
+      getAvailableGroupedQueries: function () {
+        return $timeout(function () {
+          return availableQueryiesData;
         }, 10);
       }
     };

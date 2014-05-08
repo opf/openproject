@@ -26,38 +26,38 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
+describe('toolbar Directive', function() {
+  var compile, element, rootScope, scope;
 
-.directive('workPackageGroupHeader', [function() {
+  beforeEach(angular.mock.module('openproject.uiComponents'));
+  beforeEach(module('templates'));
 
-  return {
-    restrict: 'A',
-    compile: function(tElement) {
-      return {
-        pre: function(scope, iElement, iAttrs, controller) {
-          scope.currentGroup = scope.row.groupName;
+  beforeEach(inject(function($rootScope, $compile) {
+    var html;
+    html = '<div toolbar></div>';
 
-          pushGroup(scope.currentGroup);
+    element = angular.element(html);
+    rootScope = $rootScope;
+    scope = $rootScope.$new();
+    scope.doNotShow = true;
 
-          scope.toggleAllGroups = function() {
-            var targetExpansion = !scope.groupExpanded[scope.currentGroup];
+    compile = function() {
+      $compile(element)(scope);
+      scope.$digest();
+    };
+  }));
 
-            angular.forEach(scope.groupExpanded, function(currentExpansion, group) {
-              scope.groupExpanded[group] = targetExpansion;
-            });
-          };
+  describe('element', function() {
+    beforeEach(function() {
+      compile();
+    });
 
-          scope.toggleCurrentGroup = function() {
-            scope.groupExpanded[scope.currentGroup] = !scope.groupExpanded[scope.currentGroup];
-          };
+    it('should preserve its div', function() {
+      expect(element.prop('tagName')).to.equal('DIV');
+    });
 
-          function pushGroup(group) {
-            if (scope.groupExpanded[group] === undefined) {
-              scope.groupExpanded[group] = true;
-            }
-          }
-        }
-      };
-    }
-  };
-}]);
+    it('should be in a collapsed state', function() {
+      expect(element.is(":visible")).to.be.false;
+    });
+  });
+});

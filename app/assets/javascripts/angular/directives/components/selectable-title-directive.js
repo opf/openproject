@@ -26,38 +26,37 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
+// TODO move to UI components
+angular.module('openproject.uiComponents')
 
-.directive('workPackageGroupHeader', [function() {
-
+.directive('selectableTitle', [function() {
   return {
-    restrict: 'A',
-    compile: function(tElement) {
-      return {
-        pre: function(scope, iElement, iAttrs, controller) {
-          scope.currentGroup = scope.row.groupName;
+    restrict: 'E',
+    replace: true,
+    scope: {
+      selectedTitle: '=',
+      reloadMethod: '=',
+      groups: '='
+    },
+    templateUrl: '/templates/components/selectable_title.html',
+    link: function(scope) {
+      scope.$watch('groups', function(oldValue, newValue){
+        scope.filteredGroups = angular.copy(scope.groups);
+      })
 
-          pushGroup(scope.currentGroup);
+      scope.reload = function(modelId, newTitle) {
+        scope.selectedTitle = newTitle;
+        scope.reloadMethod(modelId);
+      }
 
-          scope.toggleAllGroups = function() {
-            var targetExpansion = !scope.groupExpanded[scope.currentGroup];
-
-            angular.forEach(scope.groupExpanded, function(currentExpansion, group) {
-              scope.groupExpanded[group] = targetExpansion;
-            });
-          };
-
-          scope.toggleCurrentGroup = function() {
-            scope.groupExpanded[scope.currentGroup] = !scope.groupExpanded[scope.currentGroup];
-          };
-
-          function pushGroup(group) {
-            if (scope.groupExpanded[group] === undefined) {
-              scope.groupExpanded[group] = true;
-            }
-          }
-        }
-      };
+      scope.filterModels = function(filterBy) {
+        scope.filteredGroups = angular.copy(scope.groups);
+        angular.forEach(scope.filteredGroups, function(group) {
+          group.models = group.models.filter(function(model){
+            return model[0].toLowerCase().indexOf(filterBy.toLowerCase()) >= 0;
+          });
+        });
+      }
     }
   };
 }]);
