@@ -31,7 +31,7 @@ angular.module('openproject.helpers')
 .service('UrlParamsHelper', [function() {
   var UrlParamsHelper = {
     // copied more or less from angular buildUrl
-    getQueryString: function(params) {
+    buildQueryString: function(params) {
       if (!params) return;
 
       var parts = [];

@@ -63,20 +63,18 @@ angular.module('openproject.workPackages.helpers')
   function getBulkActionLink(action, workPackages) {
     var bulkLinks = WorkPackagesTableService.getBulkLinks();
 
-    var ids = workPackages.map(function(wp) {
-      return wp.id;
-    });
-
-    var linkAndQueryString = bulkLinks[action].split('?');
-    var link = linkAndQueryString.shift();
     var workPackageIdParams = {
       'ids[]': workPackages.map(function(wp){
         return wp.id;
       })
     };
-    linkAndQueryString.push(UrlParamsHelper.getQueryString(workPackageIdParams));
+    var serializedIdParams = UrlParamsHelper.buildQueryString(workPackageIdParams);
 
-    return link + '?' + linkAndQueryString.join('&');
+    var linkAndQueryString = bulkLinks[action].split('?');
+    var link = linkAndQueryString.shift();
+    var queryParts = linkAndQueryString.concat(new Array(serializedIdParams));
+
+    return link + '?' + queryParts.join('&');
   }
 
   // TODO move to a global tools helper
