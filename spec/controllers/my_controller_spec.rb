@@ -27,7 +27,6 @@
 #++
 
 require 'spec_helper'
-require 'work_package'
 
 describe MyController, :type => :controller do
   let(:user) { FactoryGirl.create(:user) }
@@ -127,12 +126,19 @@ describe MyController, :type => :controller do
       end
     end
   end
-  
+
   describe "index" do
-    it "uses the correct scopes for number of reported work packages(just like users_controller)" do
-      WorkPackage.should_receive(:on_active_project).and_return(WorkPackage.where :id => 0)
-      WorkPackage.should_receive(:with_author).and_return(WorkPackage.where :id => 0)
+    render_views
+
+    before do
+      allow_any_instance_of(User).to receive(:reported_work_package_count).and_return(42)
       get :index
+    end
+
+    it "should show the number of reported packages" do
+      label = Regexp.escape(I18n.t(:label_reported_work_packages))
+
+      expect(response.body).to have_selector("h3", :text => /#{label}.*42/)
     end
   end
 end

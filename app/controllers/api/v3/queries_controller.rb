@@ -39,7 +39,7 @@ module Api::V3
     include ExtendedHTTP
 
     before_filter :find_optional_project
-    before_filter :setup_query
+    before_filter :setup_query, only: [:available_columns, :custom_field_filters]
 
     def available_columns
       @available_columns = get_columns_for_json(@query.available_columns)
@@ -62,10 +62,33 @@ module Api::V3
       end
     end
 
+    def grouped
+      @user_queries = visible_queries.select{|query| !query.is_public?}.map{|query| [query.name, query.id]}
+      @queries = visible_queries.select(&:is_public?).map{|query| [query.name, query.id]}
+
+      respond_to do |format|
+        format.api
+      end
+    end
+
     private
 
     def setup_query
       @query = retrieve_query
+    end
+
+    def visible_queries
+      unless @visible_queries
+        # User can see public queries and his own queries
+        visible = ARCondition.new(["is_public = ? OR user_id = ?", true, (User.current.logged? ? User.current.id : 0)])
+        # Project specific queries and global queries
+        visible << (@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id])
+        @visible_queries = Query.find(:all,
+                                      :select => 'id, name, is_public',
+                                      :order => "name ASC",
+                                      :conditions => visible.conditions)
+      end
+      @visible_queries
     end
   end
 end

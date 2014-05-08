@@ -26,38 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
+// TODO move to UI components
+angular.module('openproject.uiComponents')
 
-.directive('workPackageGroupHeader', [function() {
-
-  return {
-    restrict: 'A',
-    compile: function(tElement) {
-      return {
-        pre: function(scope, iElement, iAttrs, controller) {
-          scope.currentGroup = scope.row.groupName;
-
-          pushGroup(scope.currentGroup);
-
-          scope.toggleAllGroups = function() {
-            var targetExpansion = !scope.groupExpanded[scope.currentGroup];
-
-            angular.forEach(scope.groupExpanded, function(currentExpansion, group) {
-              scope.groupExpanded[group] = targetExpansion;
-            });
-          };
-
-          scope.toggleCurrentGroup = function() {
-            scope.groupExpanded[scope.currentGroup] = !scope.groupExpanded[scope.currentGroup];
-          };
-
-          function pushGroup(group) {
-            if (scope.groupExpanded[group] === undefined) {
-              scope.groupExpanded[group] = true;
-            }
-          }
-        }
-      };
-    }
-  };
-}]);
+  .directive('dropdown', function() {
+    return {
+      restrict: 'EA',
+      scope: {},
+      link: function(scope, element, attributes) {
+        // TODO: implement me
+      }
+    };
+  });

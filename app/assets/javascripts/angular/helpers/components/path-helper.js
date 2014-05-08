@@ -80,6 +80,9 @@ angular.module('openproject.helpers')
     apiProjectSubProjectsPath: function(projectIdentifier) {
       return PathHelper.apiV3ProjectPath(projectIdentifier) + PathHelper.subProjectsPath();
     },
+    apiGroupedQueriesPath: function() {
+      return PathHelper.apiPrefixV3 + '/queries/grouped';
+    },
     apiAvailableColumnsPath: function() {
       return PathHelper.apiPrefixV3 + '/queries/available_columns';
     },
@@ -91,6 +94,9 @@ angular.module('openproject.helpers')
     },
     apiProjectAvailableColumnsPath: function(projectIdentifier) {
       return PathHelper.apiV3ProjectPath(projectIdentifier) + '/queries/available_columns';
+    },
+    apiProjectGroupedQueriesPath: function(projectIdentifier) {
+      return PathHelper.apiV3ProjectPath(projectIdentifier) + '/queries/grouped';
     },
     apiWorkPackagesColumnDataPath: function() {
       return PathHelper.apiWorkPackagesPath() + '/column_data';

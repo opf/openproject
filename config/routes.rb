@@ -121,6 +121,7 @@ OpenProject::Application.routes.draw do
       resources :queries, only: [:show] do
         get :available_columns, on: :collection
         get :custom_field_filters, on: :collection
+        get :grouped, on: :collection
       end
 
       resources :projects, only: [:show, :index] do
@@ -130,6 +131,7 @@ OpenProject::Application.routes.draw do
         resources :queries, only: [:show] do
           get :available_columns, on: :collection
           get :custom_field_filters, on: :collection
+          get :grouped, on: :collection
         end
         resources :versions, only: [:index]
         get :sub_projects

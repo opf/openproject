@@ -691,6 +691,10 @@ class User < Principal
     end
   end
 
+  def reported_work_package_count
+    WorkPackage.on_active_project.with_author(self).visible.count
+  end
+
   def self.current=(user)
     @current_user = user
   end

@@ -31,6 +31,7 @@ angular.module('openproject.workPackages.controllers')
 .controller('WorkPackagesController', ['$scope', '$window', '$location', 'WorkPackagesTableHelper', 'WorkPackageService', 'QueryService', 'PaginationService', 'WorkPackageLoadingHelper', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
             function($scope, $window, $location, WorkPackagesTableHelper, WorkPackageService, QueryService, PaginationService, WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
 
+  $scope.showFiltersOptions = false;
 
   function setUrlParams(location) {
     var normalisedPath = location.pathname.replace($window.appBasePath, '');
@@ -42,6 +43,7 @@ angular.module('openproject.workPackages.controllers')
   }
 
   function initialSetup() {
+    $scope.selectedTitle = "Work Packages";
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.loading = false;
     $scope.disableFilters = false;
@@ -56,6 +58,7 @@ angular.module('openproject.workPackages.controllers')
 
     $scope.withLoading(getMethod, params)
       .then($scope.setupWorkPackagesTable)
+      .then(initAvailableQueries)
       .then(initAvailableColumns);
   }
 
@@ -67,9 +70,27 @@ angular.module('openproject.workPackages.controllers')
       });
   }
 
+  function initAvailableQueries() {
+    return QueryService.getAvailableGroupedQueries($scope.projectIdentifier)
+      .then(function(data){
+        $scope.groups = [{ name: 'CUSTOM QUERIES', models: data["user_queries"]},
+          { name: 'GLOBAL QUERIES', models: data["queries"]}];
+      });
+  }
+
   function afterQuerySetupCallback(query) {
     $scope.showFilters = query.filters.length > 0;
     $scope.updateBackUrl();
+  }
+
+  $scope.reloadQuery = function(queryId) {
+    QueryService.resetQuery();
+    $scope.query_id = queryId;
+
+    $scope.withLoading(WorkPackageService.getWorkPackagesByQueryId, [$scope.projectIdentifier, $scope.query_id])
+      .then($scope.setupWorkPackagesTable)
+      .then(initAvailableQueries)
+      .then(initAvailableColumns);
   }
 
   $scope.updateBackUrl = function(){
