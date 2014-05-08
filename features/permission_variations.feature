@@ -29,15 +29,15 @@ Feature: Permissions
     Given there is a standard permission test project named "Permission_Test"
     And I am not logged in
     And I am on the Cost Reports page for the project called "Permission_Test" without filters or groups
-    Then I should see "Login:"
-    And I should see "Password:"
+    Then I should see "Login"
+    And I should see "Password"
 
   Scenario: Anonymous can not access the overall cost reports page as there are no other public projects
     Given there is a standard permission test project named "Permission_Test"
     And I am not logged in
     And I am on the overall Cost Reports page without filters or groups
-    Then I should see "Login:"
-    And I should see "Password:"
+    Then I should see "Login"
+    And I should see "Password"
 
   Scenario: Admin sees everything
     Given there is a standard permission test project named "Permission_Test"
