@@ -50,6 +50,7 @@ describe('selectableTitle Directive', function() {
   describe('element', function() {
     beforeEach(function() {
       scope.selectedTitle = 'Title1';
+      scope.reloadMethod = function(){ return false; };
       scope.groups = [
         { name: 'pinkies', models: [['pinky1', 1], ['pinky2', 2]] },
         { name: 'perkies', models: [['perky1', 3], ['perky2', 4]] }
@@ -79,6 +80,14 @@ describe('selectableTitle Directive', function() {
       expect(jQuery(models[1]).text()).to.equal('pinky2');
       expect(jQuery(models[2]).text()).to.equal('perky1');
       expect(jQuery(models[3]).text()).to.equal('perky2');
+    });
+
+    it('should change the title when a model is clicked on', function() {
+      var title = element.find('span').first();
+      expect(title.text()).to.equal('Title1');
+
+      element.find('a').first().click();
+      expect(title.text()).to.equal('pinky1');
     });
   });
 });
