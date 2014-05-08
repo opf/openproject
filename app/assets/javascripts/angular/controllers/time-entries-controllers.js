@@ -40,7 +40,7 @@ angular.module('openproject.timeEntries.controllers')
   $scope.loadTimeEntries = function() {
     $scope.isLoading = true;
 
-    $http.get(PathHelper.timeEntriesPath(gon.project_id),
+    $http.get(PathHelper.timeEntriesPath(gon.project_id, gon.work_package_id),
               {
                 params: {
                           sort: SortService.getSortParam(),

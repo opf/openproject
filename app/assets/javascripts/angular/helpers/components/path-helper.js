@@ -55,12 +55,16 @@ angular.module('openproject.helpers')
     projectPath: function(projectIdentifier) {
       return PathHelper.projectsPath() + '/' + projectIdentifier;
     },
-    timeEntriesPath: function(projectIdentifier) {
-      if (projectIdentifier) {
-        return PathHelper.projectPath(projectIdentifier) + '/time_entries/';
-      } else {
-        return '/time_entries/';
+    timeEntriesPath: function(projectIdentifier, workPackageIdentifier) {
+      var path = '/time_entries/';
+
+      if (workPackageIdentifier) {
+        return PathHelper.workPackagePath(workPackageIdentifier) + path;
+      } else if (projectIdentifier) {
+        return PathHelper.projectPath(projectIdentifier) + path;
       }
+
+      return path;
     },
     timeEntryPath: function(timeEntryIdentifier) {
       return '/time_entries/' + timeEntryIdentifier;

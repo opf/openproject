@@ -72,6 +72,7 @@ class TimelogController < ApplicationController
 
         gon.rabl "app/views/timelog/index.rabl"
         gon.project_id = @project.id if @project
+        gon.work_package_id = @issue.id if @issue
         gon.sort_column = 'spent_on'
         gon.sort_direction = 'desc'
         gon.total_count = total_entry_count(cond)
