@@ -55,6 +55,8 @@ angular.module('openproject.workPackages.directives')
       scope.grouped = scope.groupByColumn !== undefined;
       scope.groupExpanded = {};
 
+      scope.toggleRowsLabel = I18n.t('js.button_check_all');
+
       scope.setCheckedStateForAllRows = function(state) {
         angular.forEach(scope.rows, function(row) {
           row.checked = state;

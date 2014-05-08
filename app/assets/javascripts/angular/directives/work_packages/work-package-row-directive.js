@@ -28,7 +28,7 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('workPackageRow', ['I18n', function(I18n){
+.directive('workPackageRow', ['I18n', '$filter', function(I18n, $filter){
 
   function setCheckboxTitle(scope) {
     var checkboxTitleLocale = I18n.t('js.description_select_work_package');
@@ -40,12 +40,25 @@ angular.module('openproject.workPackages.directives')
     scope.parentWorkPackageHiddenText = parentWorkPackageLabel + '"' + scope.row.parent.object.subject + '"';
   }
 
+  function allRowsChecked(rows, currentRow, currentState) {
+    rows = rows.filter(function(row) {
+      return row !== currentRow;
+    });
+    return $filter('allRowsChecked')(rows) && currentState;
+  }
+
   return {
     restrict: 'A',
     link: function(scope) {
       scope.workPackage = scope.row.object;
       setCheckboxTitle(scope);
       if (scope.workPackage.parent_id) setHiddenWorkPackageLabel(scope);
+
+      scope.$watch('row.checked', function(checked, formerState) {
+        if (checked !== formerState) {
+          scope.toggleRowsLabel = allRowsChecked(scope.rows, scope.row, checked) ? I18n.t('js.button_uncheck_all') : I18n.t('js.button_check_all');
+        }
+      });
     }
   };
 }]);
