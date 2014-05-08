@@ -29,18 +29,18 @@
 // TODO move to UI components
 angular.module('openproject.uiComponents')
 
-.directive('dateTime', ['I18n', function(I18n) {
+.directive('formattedDate', ['I18n', function(I18n) {
   return {
     restrict: 'EA',
     replace: false,
-    scope: { dateTime: '=' },
+    scope: { formattedDate: '=' },
     template: '<span>{{time}}</span>',
     link: function(scope, element, attrs) {
       moment.lang(I18n.locale);
 
       // TODO: The timezone of scope.time is UTC. Thus, we need to adapt the
       // time to the local timezone or user setting.
-      scope.time = moment(scope.dateTime, "MM/DD/YYYY/ HH:mm A").utc().format('LLL');
+      scope.time = moment(scope.formattedDate, "MM/DD/YYYY/ HH:mm A").utc().format('LLL');
     }
   };
 }]);
