@@ -1,47 +1,1569 @@
 FORMAT: 1A
-HOST: http://www.google.com
 
-# Notes API
-Notes API is a *short texts saving* service similar to its physical paper presence on your table.
+# OpenProject API v3
+TODO: Description
 
-# Group Notes
-Notes related resources of the **Notes API**
+# Group Hypermedia
+TODO: Description & Resources
 
-## Notes Collection [/notes]
-### List all Notes [GET]
-+ Response 200 (application/json)
+# Group Formats
+TODO: Description and why only JSON
 
-        [{
-          "id": 1, "title": "Jogging in park"
+# Group HAL+JSON
+HAL is a simple format that gives a consistent and easy way to hyperlink between resources in your API.
+Read more: http://stateless.co/hal_specification.html
+
+**OpenProject API implementation of HAL+JSON format** enriches JSON and introduces few meta attributes:
+
+    - `_type` - specifies the type of the resource (E.g.: WorkPackage, Project)
+    - `_links` - contains all links available for the resource
+    - `_embedded` - contains all embedded objects
+    - `_collection` - contains the collection of objects
+    - `_count` - number of records fetched in the response
+    - `_total` - number of available records
+    
+# Group API response structure
+Depending on performed request, the OpenProject API will return a response in one of the following possible structures:
+
+- As a **simple HAL+JSON object** (E.g.: GET /projects/:id)
+- As a **collection of HAL+JSON objects** (E.g.: GET /projects)
+- As a **collection of HTTP statuses and HAL+JSON objects** (E.g.: PATCH /projects?id[]=1&id[]=2)
+- As an **OpenProject API error object**
+
+### Simple HAL+JSON object
+Contains it's own data attributes and some meta attributes:
+
+        {
+            "id": "1",
+            "name": "My awesome project",
+            ...
+            
+            "_type": "Project",
+            "_links": {
+                "self": { "href": "/projects/1", "title": "My awesome project" },
+                "update": { "href": "/projects/1", "method": "patch", "title": "Update My awesome project" },
+                "delete": { "href": "/projects/1", "method": "delete", "title": "Delete My awesome project" }
+            },
+            "_embedded": {
+                ...
+            }
+        }
+        
+### Collection of HAL+JSON objects
+Contains collection of simple HAL+JSON objects in it's `_collection` attribute. Also contains some collection
+specific meta data:
+
+    {
+        "_collection": [{
+            "id": "1",
+            ...
+            
+            "_type": "Project"
+            "_links": {
+                "self": { "href": "/projects/1", "title": "My awesome project" },
+                "update": { "href": "/projects/1", "method": "patch", "title": "Update My awesome project" },
+                "delete": { "href": "/projects/1", "method": "delete", "title": "Delete My awesome project" }
+            },
+            "_embedded": {
+                ...
+            }
         }, {
-          "id": 2, "title": "Pick-up posters from post-office"
-        }]
+            "id": "2",
+            ...
+            
+            "_type": "Project"
+            "_links": {
+                "self": { "href": "/projects/2", "title": "My awesome project" },
+                "update": { "href": "/projects/2", "method": "patch", "title": "Update My awesome project" },
+                "delete": { "href": "/projects/2", "method": "delete", "title": "Delete My awesome project" }
+            },
+            "_embedded": {
+                ...
+            }
+        }],
+        "_type": "Project",
+        "_links": {
+            ...
+        },
+        "_count": "2",
+        "_total": "476"
+    }
+    
+### Collection of HTTP statuses and HAL+JSON objects
+Response with this structure will be returned by endpoints performing **batch operations** (e.g.: update multiple projects).
+The main HTTP status code of the response will be `207 Multi-Status` and the response body will contain different response
+codes based on the results of each individual operation.
 
-### Create a Note [POST]
-+ Request (application/json)
+For example if you perform a batch update request on multiple projects (`PATCH /projects`) it is possible that one project will
+be updated successfully while the update of other one will fail:
 
-        { "title": "Buy cheese and bread for breakfast." }
+    {
+        "_collection": [{
+            "status": { "code": "200", "text": "Ok" },
+            "object": {
+                "id": "1",
+                "name": "My awesome project",
+                ...
+                
+                "_type": "Project",
+                "_links": {
+                    ...
+                },
+                "_embedded": {
+                    ...
+                }
+            }
+        }, {
+            "status": { "code": "500", "text": "Internal Server Error" },
+            "error": { "opCode": "51", "messages": [{ "key": "serverError", "text": "Something went wrong. Please try again latter." }]},
+            "request": { requestParams }
+        }],
+        "_type": "Project",
+        "_links": {
+            ...
+        }
+    }
 
-+ Response 201 (application/json)
+This allows you to see exactly what went wrong and inform user.
 
-        { "id": 3, "title": "Buy cheese and bread for breakfast." }
+### Error object
+In case your request contains some errors or something went wrong on the server you'll get back an error object:
 
-## Note [/notes/{id}]
-A single Note object with all its details
+    { "error": { "opCode": "51", "message": "Something went wrong. Please try again latter." }}
 
-+ Parameters
-    + id (required, number, `1`) ... Numeric `id` of the Note to perform action with. Has example value.
 
-### Retrieve a Note [GET]
-+ Response 200 (application/json)
+# Group Allowed HTTP methods
 
-    + Header
+- `GET` - Get a single resource or collection of resources
+- `POST` - Create a new resource or perform
+- `PATCH` - Update a resource
+- `DELETE` - Delete a resource
 
-            X-My-Header: The Value
+# Group Response codes
+
+- `200 OK` - Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource.
+- `201 Created` - The request has been fulfilled and resulted in a new resource being created
+- `202 Accepted` - The request has been accepted for processing, but the processing has not been completed. The request might or might not eventually be acted upon, as it might be disallowed when processing actually takes place.
+- `204 No content` - The server successfully processed the request, but is not returning any content. Usually used as a response to a successful delete request. Also returned for requests containing the If-Modified-Since header if the document is up-to-date.
+- `207 Multi-Status` - The message body that follows can contain a number of separate response codes, depending on how many sub-requests were made.
+
+- `301 Moved Permanently` - This and all future requests should be directed to the given
+- `303 See Other` - The response to the request can be found under another URI using a GET method. When received in response to a POST (or PUT/DELETE), it should be assumed that the server has received the data and the redirect should be issued with a separate GET message.
+
+- `400 Bad Request` - The request cannot be fulfilled due to bad syntax.
+- `401 Unauthorized` - Similar to 403 Forbidden, but specifically for use when authentication is required and has failed or has not yet been provided.
+- `403 Forbidden` - The request was a valid request, but the server is refusing to respond to it. Unlike a 401 Unauthorized response, authenticating will make no difference.
+- `404 Not Found` - The requested resource could not be found but may be available again in the future. Subsequent requests by the client are permissible.
+- `405 Method Not Allowed` - A request was made of a resource using a request method not supported by that resource
+- `406 Not Acceptable` - The requested resource is only capable of generating content not acceptable according to the Accept headers sent in the request.
+- `422 Unprocessable Entity` - The request was well-formed but was unable to be followed due to semantic errors.
+
+- `500 Internal Server Error` - A generic error message, given when an unexpected condition was encountered and no more specific message is suitable.
+- `501 Not Implemented` - The server either does not recognize the request method, or it lacks the ability to fulfill the request. Usually this implies future availability.
+- `503 Service Unavailable` - The server is currently unavailable (because it is overloaded or down for maintenance).
+
+# OpenProject API error objects
+**TODO**
+In case something went wrong, you will get back an OpenProject API error object in the following form:
+
+    { "error": { "opCode": "41", "messages": [{ "key": "unauthenticated", "text": "You need to be login to access this resource" }]}}
+    
+Attribute `opCode` is internal OpenProject API error code:
+
+**Client errors**
+
+- 41 -
+- 42 - 
+
+**Server errors**
+
+- 51 -
+- 52 -
+
+# Group API entry point
+
+## /
+### GET
+Provides all available actions in form of links and some API documentation.
+
++ Response 200 (application/hal+json)
+    + Headers
+    
+            Link: </>; rel="self" title="OpenProject API entry point", </projects>; rel="projects" title="Projects"
 
     + Body
+    
+            {
+                "_type": "Root",
+                "_links": {
+                    "self": { "href": "/", "title": "OpenProject API entry point" },
+                    "projects" { "href": "/projects", "title": "Projects" }
+                }
+            }
 
-            { "id": 2, "title": "Pick-up posters from post-office" }
+# Group Projects
 
-### Remove a Note [DELETE]
+## Project's embedded resources
+
+- `versions` - Version[ ]
+- `author`  - User
+- `responsible` - User
+- `workPackagesResponsible` - User
+- `members` - User[ ]
+- `workPackages` - WorkPackage[ ]
+- `possibleAssignees` - User[ ]
+- `possibleResponsibles` - User [ ]
+
+**Use** `?embedded` **query parameter to specify which embedded resources should the response contain.**
+
+## /projects{?filter,page,per_page,sort_expression,embedded}
+### GET
+List all projects.
+
++ Parameters
+    + filter (optional, array, `filter[author_id]=1`) ... Filter.
+    + page = `1` (optional, integer, `324`) ... Number of page.
+    + per_page = `100` (optional, integer, `250`) ... Number of records per page.
+    + sort_expression (optional, string, `type,subject,priority:desc`) ... Sorting.
+    + embedded (optional, string, `version,author`) ...  Embedded resources to include in the response
+
++ Response 200 (application/hal+json)
+    + Body
+        
+            {
+                "_collection": [
+                        "id": "1",
+                        "name": "My project name",
+                        "description": "My project description",
+                        "homepage": "http://my-project.com",
+                        "createdAt": "2014-05-07T03:42:54Z",
+                        "updatedAt": "2014-05-07T03:42:54Z",
+                        "identifier": "my-project",
+                        "status": "New",
+                        "summary": "My project summary",
+        
+                        "_type": "Project",
+                        "_links": {
+                            "root": { "href": "/", "title": "API entry point & documentation" },
+                            "self": { "href": "/projects/1", "title": "Project name" },
+                            "createChildren": { "href": "/projects?parent_id=1", "method": "post", "title": "Project name - Create subproject" },
+                            "update": { "href": "/projects/1", "method": "patch", "title": "Update project" },
+                            "delete": { "href": "/projects/1", "method": "delete", "title": "Delete project" },
+                            "version": { "href": "/versions/1", "title": "Project name - version" },
+                            "author": { "href": "/users/1", "title": "User name" },
+                            "responsible": { "href": "/users/1", "title": "User name" },
+                            "workPackagesResponsible": { "href": "/users/1", "title": "User name" },
+                            "members": { "href": "/projects/1/members", "title": "Project name - members" },
+                            "workPackages": { "href": "/projects/1/work_packages", "title": "Project name - Work packages" },
+                            "createWorkPackages": { "href": "/projects/1/work_packages", "method": "post", "title": "Project name - Create new work packges" },
+                            "possibleAssignees": { "href": "/projects/1/possible_assignees", "title": "Project name - Possible assignees" },
+                            "possibleResponsibles": { "href": "projects/1/possible_responsibles", "title": "Project name - Possible responsibles" }
+                        },
+                        "embedded": { }
+                    }, {
+                        "id": "2",
+                        "name": "My project name",
+                        "description": "My project description",
+                        "homepage": "http://my-project.com",
+                        "createdAt": "2014-05-07T03:42:54Z",
+                        "updatedAt": "2014-05-07T03:42:54Z",
+                        "identifier": "my-project",
+                        "status": "New",
+                        "summary": "My project summary",
+        
+                        "_type": "Project",
+                        "_links": {
+                            "root": { "href": "/", "title": "API entry point & documentation" },
+                            "self": { "href": "/projects/2", "title": "Project name" },
+                            "createChildren": { "href": "/projects?parent_id=2", "method": "post", "title": "Project name - Create subproject" },
+                            "update": { "href": "/projects/2", "method": "patch", "title": "Update project" },
+                            "delete": { "href": "/projects/2", "method": "delete", "title": "Delete project" },
+                            "version": { "href": "/versions/1", "title": "Project name - version" },
+                            "author": { "href": "/users/1", "title": "User name" },
+                            "responsible": { "href": "/users/1", "title": "User name" },
+                            "workPackagesResponsible": { "href": "/users/1", "title": "User name" },
+                            "members": { "href": "/projects/2/members", "title": "Project name - members" },
+                            "workPackages": { "href": "/projects/2/work_packages", "title": "Project name - Work packages" },
+                            "createWorkPackages": { "href": "/projects/2/work_packages", "method": "post", "title": "Project name - Create new work packges" },
+                            "possibleAssignees": { "href": "/projects/2/possible_assignees", "title": "Project name - Possible assignees" },
+                            "possibleResponsibles": { "href": "projects/2/possible_responsibles", "title": "Project name - Possible responsibles" }
+                        },
+                        "embedded": { }
+                }],
+                "_type": "Project",
+                "_links": {
+                    "root": { "href": "/", "title": "API entry point & documentation" },
+                    "self": { "href": "/projects", "title": "Projects" },
+                    "next": { "href": "/projects?page=2", "title": "Next page" },
+                    "last": { "href": "/projects?page=101", "title": "Last page" },
+                    "create": { "href": "/projects/", "method": "post", "title": "Create new project(s)" },
+                    "batchUpdate": { "href": "/projects{?ids}", "method": "patch", "title": "Update projects" },
+                    "batchDelete": { "href": "/projects?{ids}", "method": "delete", "title": "Delete Projects" }
+                },
+                "_count": "2",
+                "_total": "476"
+            }
+
+## /projects{?embedded}
+### POST
+Create new project(s)
+
++ Parameters
+    + embedded (optional, string, `project,author`) ...  Embedded resources to extend in the response.
+
++ Request (application/json)
+    + Body 
+    
+            {
+                "name": "Create project name",
+                "description": "Create project description",
+                "homepage": "http://create-project.com",
+                "parent_id": "1",
+                "summary": "Create project summary",
+                "identifier": "create-project",
+                "isPublic": "true",
+                "project_type_id": "1",
+                "modules": "work_package_tracking,calendar",
+                "types": "none,bug,feature_test"
+                "customFields": "custom_field1,custom_field2",
+                "responsible_id": "1"
+            }
+
+                OR
+                
+            [{
+                "name": "Create project name",
+                "description": "Create project description",
+                "homepage": "http://create-project.com",
+                "parent_id": "1",
+                "summary": "Create project summary",
+                "identifier": "create-project",
+                "isPublic": "true",
+                "project_type_id": "1",
+                "modules": "work_package_tracking,calendar",
+                "types": "none,bug,feature_test"
+                "customFields": "custom_field1,custom_field2",
+                "responsible_id": "1"
+            }, {
+                "name": "",
+                "description": "",
+                "homepage": "http://create-project-2.com",
+                "summary": "Create project summary",
+                "identifier": "create-project-2",
+                "isPublic": "true",
+                "project_type_id": "1",
+                "modules": "work_package_tracking,calendar",
+                "types": "none,bug,feature_test"
+                "customFields": "custom_field1,custom_field2",
+                "responsible_id": "1"
+            }]
+            
++ Response 201 (application/hal+json)
+    + Body
+    
+            {
+                "id": "2",
+                "name": "Create project name",
+                "description": "Create project description",
+                "homepage": "http://create-project.com",
+                "createdAt": "2014-05-07T03:42:54Z",
+                "updatedAt": "2014-05-07T03:42:54Z",
+                "identifier": "create-project",
+                "status": "New",
+                "summary": "Create project summary",
+
+                "_type": "Project",
+                "_links": {
+                    "root": { "href": "/", "title": "API entry point & documentation" },
+                    "self": { "href": "/projects/2", "title": "Project name" },
+                    "createChildren": { "href": "/projects?parent_id=2", "method": "post", "title": "Project name - Create subproject" },
+                    "update": { "href": "/projects/2", "method": "patch", "title": "Update project" },
+                    "delete": { "href": "/projects/2", "method": "delete", "title": "Delete project" },
+                    "version": { "href": "/versions/2", "title": "Project name - version" },
+                    "author": { "href": "/users/1", "title": "User name" },
+                    "responsible": { "href": "/users/1", "title": "User name" },
+                    "workPackagesResponsible": { "href": "/users/1", "title": "User name" },
+                    "members": { "href": "/projects/2/members", "title": "Project name - members" },
+                    "workPackages": { "href": "/projects/2/work_packages", "title": "Project name - Work packages" },
+                    "createWorkPackages": { "href": "/projects/2/work_packages", "method": "post", "title": "Project name - Create new work packges" },
+                    "possibleAssignees": { "href": "/projects/2/possible_assignees", "title": "Project name - Possible assignees" },
+                    "possibleResponsibles": { "href": "projects/2/possible_responsibles", "title": "Project name - Possible responsibles" }
+                },
+                "embedded": { }
+            }
+            
++ Response 207 (application/hal+json)
+    + Body
+    
+            {
+                "_collection": [{
+                    "status": { "code": 201", "text": "Created" },
+                    "object": {
+                        "id": "1",
+                        "name": "Create project name",
+                        "description": "Create project description",
+                        "homepage": "http://my-project.com",
+                        "createdAt": "2014-05-07T03:42:54Z",
+                        "updatedAt": "2014-05-07T03:42:54Z",
+                        "identifier": "my-project",
+                        "status": "Closed",
+                        "summary": "My project summary",
+        
+                        "_type": "Project",
+                        "_links": {
+                            "root": { "href": "/", "title": "API entry point & documentation" },
+                            "self": { "href": "/projects/1", "title": "Project name" },
+                            "createChildren": { "href": "/projects?parent_id=1", "method": "post", "title": "Project name - Create subproject" },
+                            "update": { "href": "/projects/1", "method": "patch", "title": "Update project" },
+                            "delete": { "href": "/projects/1", "method": "delete", "title": "Delete project" },
+                            "version": { "href": "/versions/1", "title": "Project name - version" },
+                            "author": { "href": "/users/1", "title": "User name" },
+                            "responsible": { "href": "/users/1", "title": "User name" },
+                            "workPackagesResponsible": { "href": "/users/1", "title": "User name" },
+                            "members": { "href": "/projects/1/members", "title": "Project name - members" },
+                            "workPackages": { "href": "/projects/1/work_packages", "title": "Project name - Work packages" },
+                            "createWorkPackages": { "href": "/projects/1/work_packages", "method": "post", "title": "Project name - Create new work packges" },
+                            "possibleAssignees": { "href": "/projects/1/possible_assignees", "title": "Project name - Possible assignees" },
+                            "possibleResponsibles": { "href": "projects/1/possible_responsibles", "title": "Project name - Possible responsibles" }
+                        },
+                        "embedded": { }
+                    }
+                }, {
+                    "status": { "code": "422", "text": "Unprocessable Entity" },
+                    "error":  { "opCode": "42", "messages": [{ "key": "name", "text": "Can't be blank" }, { "key": "description", "text": "Can't be blank" }]},
+                    "request": {  }
+                }],
+                "_type": "Project",
+                "_links": {
+                    "root": { "href": "/", "title": "API entry point & documentation" },
+                    "self": { "href": "/projects", "method": "post", "title": "Create new project(s)" },
+                    "projects": { "href": "/projects", "title": "Projects" }
+                }
+            }
+
+            
+## /projects/{id}{?embedded}
+### GET
+Get a project details.
+
++ Parameters
+    + id (required, integer, `1`) ... Project id.
+    + embedded (optional, string, `author`) ...  Embedded resources to extend in the response.
+
++ Response 200 (application/hal+json)
+    + Body
+    
+            {
+                "id": "1",
+                "name": "My project name",
+                "description": "My project description",
+                "homepage": "http://my-project.com",
+                "createdAt": "2014-05-07T03:42:54Z",
+                "updatedAt": "2014-05-07T03:42:54Z",
+                "identifier": "my-project",
+                "status": "New",
+                "summary": "My project summary",
+
+                "_type": "Project",
+                "_links": {
+                    "root": { "href": "/", "title": "API entry point & documentation" },
+                    "self": { "href": "/projects/1", "title": "Project name" },
+                    "createChildren": { "href": "/projects?parent_id=1", "method": "post", "title": "Project name - Create subproject" },
+                    "update": { "href": "/projects/1", "method": "patch", "title": "Update project" },
+                    "delete": { "href": "/projects/1", "method": "delete", "title": "Delete project" },
+                    "version": { "href": "/versions/1", "title": "Project name - version" },
+                    "author": { "href": "/users/1", "title": "User name" },
+                    "responsible": { "href": "/users/1", "title": "User name" },
+                    "workPackagesResponsible": { "href": "/users/1", "title": "User name" },
+                    "members": { "href": "/projects/1/members", "title": "Project name - members" },
+                    "workPackages": { "href": "/projects/1/work_packages", "title": "Project name - Work packages" },
+                    "createWorkPackages": { "href": "/projects/1/work_packages", "method": "post", "title": "Project name - Create new work packges" },
+                    "possibleAssignees": { "href": "/projects/1/possible_assignees", "title": "Project name - Possible assignees" },
+                    "possibleResponsibles": { "href": "projects/1/possible_responsibles", "title": "Project name - Possible responsibles" }
+                },
+                "embedded": { }
+            }
+            
+### PATCH
+Update a project.
+
++ Parameters
+    + id (required, integer, `1`) ... Project id.
+    + embedded (optional, string, `author`) ...  Embedded resources to extend in the response.
+
++ Request (application/json)
+    + Body
+    
+            {
+                "name": "Project update",
+                "description": "Updated project description"
+            }
+            
++ Response 200 (applicaiton/hal+json)
+    + Body
+    
+            {
+                "id": "1",
+                "name": "Project update",
+                "description": "Updated project description",
+                "homepage": "http://my-project.com",
+                "createdAt": "2014-05-07T03:42:54Z",
+                "updatedAt": "2014-05-07T03:42:54Z",
+                "identifier": "my-project",
+                "status": "New",
+                "summary": "My project summary",
+
+                "_type": "Project",
+                "_links": {
+                    "root": { "href": "/", "title": "API entry point & documentation" },
+                    "self": { "href": "/projects/1", "title": "Project name" },
+                    "createChildren": { "href": "/projects?parent_id=1", "method": "post", "title": "Project name - Create subproject" },
+                    "update": { "href": "/projects/1", "method": "patch", "title": "Update project" },
+                    "delete": { "href": "/projects/1", "method": "delete", "title": "Delete project" },
+                    "version": { "href": "/versions/1", "title": "Project name - version" },
+                    "author": { "href": "/users/1", "title": "User name" },
+                    "responsible": { "href": "/users/1", "title": "User name" },
+                    "workPackagesResponsible": { "href": "/users/1", "title": "User name" },
+                    "members": { "href": "/projects/1/members", "title": "Project name - members" },
+                    "workPackages": { "href": "/projects/1/work_packages", "title": "Project name - Work packages" },
+                    "createWorkPackages": { "href": "/projects/1/work_packages", "method": "post", "title": "Project name - Create new work packges" },
+                    "possibleAssignees": { "href": "/projects/1/possible_assignees", "title": "Project name - Possible assignees" },
+                    "possibleResponsibles": { "href": "projects/1/possible_responsibles", "title": "Project name - Possible responsibles" }
+                },
+                "embedded": { }
+            }
+
+## /projects/{id}            
+### DELETE
+Delete a project.
+
++ Parameters
+    + id (required, integer, `1`) ... Project id.
+
 + Response 204
+
+## /projects{?ids,embedded}
+### PATCH
+Batch update selected projects. There are two possible ways to perform a batch update:
+
+1. **update the same attribute(s) of multiple projects with the same values.** In this case, you specify projects ids in the query parameter and attributes and values in request body.
+2. **update voluntary attribute(s) of multiple work packages with different values.** This way, you can specify work package id directly in the request body and therefore you can update multiple work packages with different values.
+
+            1. Call: PATCH /projects?ids[]=1&ids[]=2&ids[]=3
+            Request body: { "status": "closed" }
+
+            2. Call: PATCH /projects
+            Request body: 
+            [
+                { "id": "1", "status": "Closed" }, 
+                { "id": "2", "name": "Updated name" }, 
+                { "id": "3", "name": "Another updated name", "status": "Closed" }
+            ]
+        
++ Parameters
+    + ids (optional, array, `[1, 2, 3]`) ... Projects ids.
+    + embedded (optional, string, `author`) ...  Embedded resources to extend in the response.
+    
++ Request (application/json)
+    + Body
+    
+            {
+                "status": "Closed"
+            }
+            
+                OR
+            
+            [
+                { "id": "1", "name": "Updated project's name" },
+                { "id": "2", "description": "Updated project's description" }
+            ]
+
++ Response 207 (application/hal+json)
+    + Body
+    
+            {
+                "_collection": [{
+                    "status": { "code": 200", "text": "Ok" },
+                    "object": {
+                        "id": "1",
+                        "name": "Updated project's name",
+                        "description": "Project description",
+                        "homepage": "http://my-project.com",
+                        "createdAt": "2014-05-07T03:42:54Z",
+                        "updatedAt": "2014-05-07T03:42:54Z",
+                        "identifier": "my-project",
+                        "status": "Closed",
+                        "summary": "My project summary",
+        
+                        "_type": "Project",
+                        "_links": {
+                            "root": { "href": "/", "title": "API entry point & documentation" },
+                            "self": { "href": "/projects/1", "title": "Project name" },
+                            "createChildren": { "href": "/projects?parent_id=1", "method": "post", "title": "Project name - Create subproject" },
+                            "update": { "href": "/projects/1", "method": "patch", "title": "Update project" },
+                            "delete": { "href": "/projects/1", "method": "delete", "title": "Delete project" },
+                            "version": { "href": "/versions/1", "title": "Project name - version" },
+                            "author": { "href": "/users/1", "title": "User name" },
+                            "responsible": { "href": "/users/1", "title": "User name" },
+                            "workPackagesResponsible": { "href": "/users/1", "title": "User name" },
+                            "members": { "href": "/projects/1/members", "title": "Project name - members" },
+                            "workPackages": { "href": "/projects/1/work_packages", "title": "Project name - Work packages" },
+                            "createWorkPackages": { "href": "/projects/1/work_packages", "method": "post", "title": "Project name - Create new work packges" },
+                            "possibleAssignees": { "href": "/projects/1/possible_assignees", "title": "Project name - Possible assignees" },
+                            "possibleResponsibles": { "href": "projects/1/possible_responsibles", "title": "Project name - Possible responsibles" }
+                        },
+                        "embedded": { }
+                    }
+                }, {
+                    "status": { "code": 200", "text": "Ok" },
+                    "object": {
+                        "id": "2",
+                        "name": "Project name",
+                        "description": "Updated project's description",
+                        "homepage": "http://my-project.com",
+                        "createdAt": "2014-05-07T03:42:54Z",
+                        "updatedAt": "2014-05-07T03:42:54Z",
+                        "identifier": "my-project",
+                        "status": "Closed",
+                        "summary": "My project summary",
+        
+                        "_type": "Project",
+                        "_links": {
+                            "root": { "href": "/", "title": "API entry point & documentation" },
+                            "self": { "href": "/projects/1", "title": "Project name" },
+                            "createChildren": { "href": "/projects?parent_id=1", "method": "post", "title": "Project name - Create subproject" },
+                            "update": { "href": "/projects/1", "method": "patch", "title": "Update project" },
+                            "delete": { "href": "/projects/1", "method": "delete", "title": "Delete project" },
+                            "version": { "href": "/versions/1", "title": "Project name - version" },
+                            "author": { "href": "/users/1", "title": "User name" },
+                            "responsible": { "href": "/users/1", "title": "User name" },
+                            "workPackagesResponsible": { "href": "/users/1", "title": "User name" },
+                            "members": { "href": "/projects/1/members", "title": "Project name - members" },
+                            "workPackages": { "href": "/projects/1/work_packages", "title": "Project name - Work packages" },
+                            "createWorkPackages": { "href": "/projects/1/work_packages", "method": "post", "title": "Project name - Create new work packges" },
+                            "possibleAssignees": { "href": "/projects/1/possible_assignees", "title": "Project name - Possible assignees" },
+                            "possibleResponsibles": { "href": "projects/1/possible_responsibles", "title": "Project name - Possible responsibles" }
+                        },
+                        "embedded": { }
+                }],
+                "_type": "Project",
+                "_links": {
+                    "root": { "href": "/", "title": "API entry point & documentation" },
+                    "self": { "href": "/projects{?ids}", "method": "patch", "title": "Update projects" },
+                    "projects": { "href": "/projects", "title": "Projects" }
+                }
+            }
+
+### DELETE
+Batch delete selected projects.
+
++ Parameters
+    + ids (required, array, `[1, 2, 3]`) ... Projects ids.
+    + embedded (optional, string, `author`) ...  Embedded resources to extend in the response.
+            
++ Response 207 (application/hal+json)
+    + Body
+    
+            {
+                "_collection": [{
+                    "status": { "code": 200", "text": "Ok" },
+                    "object": {
+                        "id": "1",
+                        "name": "Create project name",
+                        "description": "Create project description",
+                        "homepage": "http://my-project.com",
+                        "createdAt": "2014-05-07T03:42:54Z",
+                        "updatedAt": "2014-05-07T03:42:54Z",
+                        "identifier": "my-project",
+                        "status": "Closed",
+                        "summary": "My project summary",
+        
+                        "_type": "Project",
+                        "_links": {
+                            "root": { "href": "/", "title": "API entry point & documentation" },
+                            "self": { "href": "/projects/1", "title": "Project name" },
+                            "createChildren": { "href": "/projects?parent_id=1", "method": "post", "title": "Project name - Create subproject" },
+                            "update": { "href": "/projects/1", "method": "patch", "title": "Update project" },
+                            "delete": { "href": "/projects/1", "method": "delete", "title": "Delete project" },
+                            "version": { "href": "/versions/1", "title": "Project name - version" },
+                            "author": { "href": "/users/1", "title": "User name" },
+                            "responsible": { "href": "/users/1", "title": "User name" },
+                            "workPackagesResponsible": { "href": "/users/1", "title": "User name" },
+                            "members": { "href": "/projects/1/members", "title": "Project name - members" },
+                            "workPackages": { "href": "/projects/1/work_packages", "title": "Project name - Work packages" },
+                            "createWorkPackages": { "href": "/projects/1/work_packages", "method": "post", "title": "Project name - Create new work packges" },
+                            "possibleAssignees": { "href": "/projects/1/possible_assignees", "title": "Project name - Possible assignees" },
+                            "possibleResponsibles": { "href": "projects/1/possible_responsibles", "title": "Project name - Possible responsibles" }
+                        },
+                        "embedded": { }
+                    }
+                }, {
+                    "status": { "code": "500", "text": "Internal Server Error" },
+                    "error":  { "opCode": "451", "messages": [{ "key": "serverError", "text": "Oooops..." }]},
+                    "request": {  }
+                }],
+                "_type": "Project",
+                "_links": {
+                    "root": { "href": "/", "title": "API entry point & documentation" },
+                    "self": { "href": "/projects", "method": "delete", "title": "Delete project" },
+                    "projects": { "href": "/projects", "title": "Projects" }
+                }
+            }
+
+# Group Work packages
+
+## Work package's embedded resources
+
+- `project` - Project
+- `author`  - User
+- `assignee` - User
+- `responsible` - User
+- `fixedVersion` - Version
+- `descendands` - WorkPackage[ ]
+- `children` - WorkPackage[ ]
+- `relatedTo` - WorkPackage[ ]
+- `duplicates` - WorkPackage[ ]
+- `duplicatedBy` - WorkPackage[ ]
+- `blocks` - WorkPackage[ ]
+- `blockedBy` - WorkPackage[ ]
+- `precedes` - WorkPackage[ ]
+- `follows` - WorkPackage[ ]
+
+**Use** `?embedded` **query parameter to specify which embedded resources should the response contain.**
+
+## /work_packages{?filter,page,per_page,group_by,sort_expression,embedded}
+### GET
+List all work packages.
+
++ Parameters
+    + filter (optional, array, `filter[project_id]=1`) ... Filter.
+    + page = `1` (optional, integer, `324`) ... Number of page.
+    + per_page = `100` (optional, integer, `250`) ... Number of records per page.
+    + group_by (optional, string, `status`) ... An attribute to group records by.
+    + sort_expression (optional, string, `type,subject,priority:desc`) ... Sorting.
+    + embedded (optional, string, `project,author`) ...  Embedded resources to include in the response.
+
++ Response 200 (application/hal+json)
+
+    + Body
+    
+            {
+                "_collection": [{
+                    "id": "1",
+                    "subject": "API Work package",
+                    "description": "Lorem ipsum",
+                    "type": "Feature",
+                    "dueDate": "2014-05-07T03:42:54Z",
+                    "status": "New",
+                    "priority": "High",
+                    "lockVersion": "1",
+                    "doneRatio": "90",
+                    "estimatedHours": "10",
+                    "startDate": "2014-05-07T03:42:54Z",
+                    "createdAt": "2014-05-07T03:42:54Z",
+                    "updatedAt": "2014-05-07T03:42:54Z",
+                    "customFields": [{
+                        "id": "1",
+                        "name": "Custom field name",
+                        "type": "string",
+                        "value": "Some value"
+                    }, {
+                        "id": "2",
+                        "name": "Custom field name",
+                        "type": "string",
+                        "value": "Some value"
+                    }],
+
+                    "_type": "WorkPackage",
+                    "_links": {
+                        "root": { "href": "/", "title": "API entry point & documentation" },
+                        "self": { "href": "/work_packages/1", "title": "Work package subject" },
+                        "createChildren": { "href": "/projects/3/work_packages?parent_id=1", "method": "post", "title": "Project name - Create new work package" },
+                        "update": { "href": "/work_packages/1", "method": "patch", "title": "Update work package name" },
+                        "delete": { "href": "/work_packages/1", "method": "delete", "title": "Delete work package name" },
+                        "project": { "href": "/projects/3", "title": "Project name" },
+                        "author": { "href": "/users/1", "title": "User name" },
+                        "assignee": { "href": "/users/1", "title": "User name" },
+                        "responsible": { "href": "/users/1", "title": "User name" },
+                        "fixedVersion": { "href": "/versions/1", "title": "Version" },
+                        "projectWorkPackages": { "href": "/work_packages?filter[project_id]=3", "title": "Project name - Work packages" },
+                        "descendants": { "href": "/projects/3/work_packages?filter[ancestor_id]=1", "title": "Descendant work packages" },
+                        "children": { "href": "/projects/3/work_packages?filter[parent_id]=1", "title": "First children work packages" },
+                        "relations": { "href": "/projects/3/work_packages?filter[related_to_id]=1", "title": "Related work packages" }
+                    },
+                    "_embedded": { }
+                }, {
+                    "id": "2",
+                    "subject": "API Work package",
+                    "description": "Lorem ipsum",
+                    "type": "Feature",
+                    "dueDate": "2014-05-07T03:42:54Z",
+                    "status": "New",
+                    "priority": "High",
+                    "lockVersion": "1",
+                    "doneRatio": "90",
+                    "estimatedHours": "10",
+                    "startDate": "2014-05-07T03:42:54Z",
+                    "createdAt": "2014-05-07T03:42:54Z",
+                    "updatedAt": "2014-05-07T03:42:54Z",
+                    "customFields": [ ],
+
+                    "_type": "WorkPackage",
+                    "_links": {
+                        "root": { "href": "/", "title": "API entry point & documentation" },
+                        "self": { "href": "/work_packages/2", "title": "Work package subject" },
+                        "createChildren": { "href": "/projects/3/work_packages?parent_id=2", "method": "post", "title": "Project name - Create new work package" },
+                        "update": { "href": "/work_packages/2", "method": "patch", "title": "Update work package name" },
+                        "delete": { "href": "/work_packages/2", "method": "delete", "title": "Delete work package name" },
+                        "project": { "href": "/projects/3", "title": "Project name" },
+                        "author": { "href": "/users/1", "title": "User name" },
+                        "assignee": { "href": "/users/1", "title": "User name" },
+                        "responsible": { "href": "/users/1", "title": "User name" },
+                        "fixedVersion": { "href": "/versions/1", "title": "Version" },
+                        "projectWorkPackages": { "href": "/work_packages?filter[project_id]=3", "title": "Project name - Work packages" },
+                        "descendants": { "href": "/projects/3/work_packages?filter[ancestor_id]=2", "title": "Descendant work packages" },
+                        "children": { "href": "/projects/3/work_packages?filter[parent_id]=2", "title": "First children work packages" },
+                        "relations": { "href": "/projects/3/work_packages?filter[related_to_id]=2", "title": "Related work packages" }
+                    },
+                    "_embedded": { }
+                }],
+                "_links": {
+                    "root": { "href": "/", "title": "API entry point & documentation" },
+                    "self": { "href": "/work_packages", "title": "Work packages" },
+                    "next": { "href": "/work_packages?page=2", "title": "Next page" },
+                    "last": { "href": "/work_packages?page=101", "title": "Last page" },
+                    "projects": { "href": "/projects", "title": "Projects" },
+                    "create": { "href": "/projects/3/work_packages", "method": "post", "title": "Project name - Create new work package(s)" },
+                    "batchUpdate": { "href": "/work_packages{?ids}", "method": "patch", "title": "Update work packages" },
+                    "batchDelete": { "href": "/work_packages?{ids}", "method": "delete", "title": "Delete work packages" }
+                },
+                "_count": "2",
+                "_total": "456"
+            }
+
+## /work_packages/{id}{?embedded}
+### GET
+Get a work package details.
+
++ Parameters
+    + id (required, integer, `1`) ... Work package id.
+    + embedded (optional, string, `project,author`) ...  Embedded resources to extend in the response.
+
++ Response 200 (application/hal+json)
+    + Body
+    
+            {
+                "id": "1",
+                "subject": "API Work package",
+                "description": "Lorem ipsum",
+                "type": "Feature",
+                "dueDate": "2014-05-07T03:42:54Z",
+                "status": "New",
+                "priority": "High",
+                "lockVersion": "1",
+                "doneRatio": "90",
+                "estimatedHours": "10",
+                "startDate": "2014-05-07T03:42:54Z",
+                "createdAt": "2014-05-07T03:42:54Z",
+                "updatedAt": "2014-05-07T03:42:54Z",
+                "customFields": [ ],
+
+                "_type": "WorkPackage",
+                "_links": {
+                    "root": { "href": "/", "title": "API entry point & documentation" },
+                    "self": { "href": "/work_packages/1", "title": "Work package subject" },
+                    "createChildren": { "href": "/projects/3/work_packages?parent_id=1", "method": "post", "title": "Project name - Create new work package" },
+                    "update": { "href": "/work_packages/1", "method": "patch", "title": "Update work package name" },
+                    "delete": { "href": "/work_packages/1", "method": "delete", "title": "Delete work package name" },
+                    "project": { "href": "/projects/3", "title": "Project name" },
+                    "author": { "href": "/users/1", "title": "User name" },
+                    "assignee": { "href": "/users/1", "title": "User name" },
+                    "responsible": { "href": "/users/1", "title": "User name" },
+                    "fixedVersion": { "href": "/versions/1", "title": "Version" },
+                    "projectWorkPackages": { "href": "/work_packages?filter[project_id]=3", "title": "Project name - Work packages" },
+                    "descendants": { "href": "/projects/3/work_packages?filter[ancestor_id]=1", "title": "Descendant work packages" },
+                    "children": { "href": "/projects/3/work_packages?filter[parent_id]=1", "title": "First children work packages" },
+                    "relations": { "href": "/projects/3/work_packages?filter[related_to_id]=1", "title": "Related work packages" }
+                },
+                "_embedded": { }
+            }
+            
+### PATCH
+Update a work package.
+
++ Parameters
+    + id (required, integer, `1`) ... Work package id.
+    + embedded (optional, string, `project,author`) ...  Embedded resources to extend in the response.
+
++ Request (application/json)
+    + Body
+    
+            {
+                "subject": "API work package update",
+                "description": "Updated API work package description"
+            }
+            
++ Response 200 (applicaion/hal+json)
+    + Body
+    
+            {
+                "id": "1",
+                "subject": "API work package update",
+                "description": "Updated API work package description",
+                "type": "Feature",
+                "dueDate": "2014-05-07T03:42:54Z",
+                "status": "New",
+                "priority": "High",
+                "lockVersion": "1",
+                "doneRatio": "90",
+                "estimatedHours": "10",
+                "startDate": "2014-05-07T03:42:54Z",
+                "createdAt": "2014-05-07T03:42:54Z",
+                "updatedAt": "2014-05-07T03:42:54Z",
+                "customFields": [ ],
+
+                "_type": "WorkPackage",
+                "_links": {
+                    "root": { "href": "/", "title": "API entry point & documentation" },
+                    "self": { "href": "/work_packages/1", "title": "Work package subject" },
+                    "createChildren": { "href": "/projects/3/work_packages?parent_id=1", "method": "post", "title": "Project name - Create new work package" },
+                    "update": { "href": "/work_packages/1", "method": "patch", "title": "Update work package name" },
+                    "delete": { "href": "/work_packages/1", "method": "delete", "title": "Delete work package name" },
+                    "project": { "href": "/projects/3", "title": "Project name" },
+                    "author": { "href": "/users/1", "title": "User name" },
+                    "assignee": { "href": "/users/1", "title": "User name" },
+                    "responsible": { "href": "/users/1", "title": "User name" },
+                    "fixedVersion": { "href": "/versions/1", "title": "Version" },
+                    "projectWorkPackages": { "href": "/work_packages?filter[project_id]=3", "title": "Project name - Work packages" },
+                    "descendants": { "href": "/projects/3/work_packages?filter[ancestor_id]=1", "title": "Descendant work packages" },
+                    "children": { "href": "/projects/3/work_packages?filter[parent_id]=1", "title": "First children work packages" },
+                    "relations": { "href": "/projects/3/work_packages?filter[related_to_id]=1", "title": "Related work packages" }
+                },
+                "_embedded": { }
+            }
+
+## /work_packages/{id}
+### DELETE
+Delete a work package.
+
++ Parameters
+    + id (required, integer, `1`) ... Work package id.
+
++ Response 204
+
+## /projects/{project_id}/work_packages{?embedded}
+### POST
+Create a work package(s) for a project.
+
++ Parameters
+    + project_id (required, integer, `1`) ... Project id.
+    + embedded (optional, string, `project,author`) ...  Embedded resources to extend in the response.
+
++ Request (application/json)
+    + Body 
+    
+            {
+                "subject": "Create a work package",
+                "description": "Description of work package",
+                "typeId": "1",
+                "dueDate": "2014-05-07T03:42:54Z",
+                "statusId": "1",
+                "priorityId": "1",
+                "fixedVersionId": "1",
+                "lockVersion": "0",
+                "doneRatio": "0",
+                "estimatedHours": "10",
+                "startDate": "2014-05-07T03:42:54Z",
+                "projectId": "1",
+                "authorId": "1",
+                "assignedToId": "1",
+                "responsibleId": "1"
+            }
+
+                OR
+                
+            [
+                { 
+                    "subject": "Create a work package",
+                    "description": "Description of work package",
+                    "typeId": "1",
+                    "dueDate": "2014-05-07T03:42:54Z",
+                    "statusId": "1",
+                    "priorityId": "1",
+                    "fixedVersionId": "1",
+                    "lockVersion": "0",
+                    "doneRatio": "0",
+                    "estimatedHours": "10",
+                    "startDate": "2014-05-07T03:42:54Z",
+                    "projectId": "1",
+                    "authorId": "1",
+                    "assignedToId": "1",
+                    "responsibleId": "1"
+                }, {
+                    "subject": "Create a work package 2
+                    "description": "Description of work package 2
+                    "typeId": "1",
+                    "dueDate": "2014-05-07T03:42:54Z",
+                    "statusId": "1",
+                    "priorityId": "1",
+                    "fixedVersionId": "1",
+                    "lockVersion": "0",
+                    "doneRatio": "0",
+                    "estimatedHours": "10",
+                    "startDate": "2014-05-07T03:42:54Z",
+                    "projectId": "1",
+                    "authorId": "1",
+                    "assignedToId": "1",
+                    "responsibleId": "1"
+                }
+            ]
++ Response 201 (application/hal+json)
+    + Body
+    
+            {
+                "id": "1",
+                "subject": "Create a work package",
+                "description": "Description of work package",
+                "type": "Feature",
+                "dueDate": "2014-05-07T03:42:54Z",
+                "status": "New",
+                "priority": "High",
+                "lockVersion": "1",
+                "doneRatio": "0",
+                "estimatedHours": "10",
+                "startDate": "2014-05-07T03:42:54Z",
+                "createdAt": "2014-05-07T03:42:54Z",
+                "updatedAt": "2014-05-07T03:42:54Z",
+                "customFields": [ ],
+
+                "_type": "WorkPackage",
+                "_links": {
+                    "root": { "href": "/", "title": "API entry point & documentation" },
+                    "self": { "href": "/work_packages/1", "title": "Work package subject" },
+                    "createChildren": { "href": "/projects/3/work_packages?parent_id=1", "method": "post", "title": "Project name - Create new work package" },
+                    "update": { "href": "/work_packages/1", "method": "patch", "title": "Update work package name" },
+                    "delete": { "href": "/work_packages/1", "method": "delete", "title": "Delete work package name" },
+                    "project": { "href": "/projects/3", "title": "Project name" },
+                    "author": { "href": "/users/1", "title": "User name" },
+                    "assignee": { "href": "/users/1", "title": "User name" },
+                    "responsible": { "href": "/users/1", "title": "User name" },
+                    "fixedVersion": { "href": "/versions/1", "title": "Version" },
+                    "projectWorkPackages": { "href": "/work_packages?filter[project_id]=3", "title": "Project name - Work packages" },
+                    "descendants": { "href": "/projects/3/work_packages?filter[ancestor_id]=1", "title": "Descendant work packages" },
+                    "children": { "href": "/projects/3/work_packages?filter[parent_id]=1", "title": "First children work packages" },
+                    "relations": { "href": "/projects/3/work_packages?filter[related_to_id]=1", "title": "Related work packages" }
+                },
+                "_embedded": { }
+            }
+
++ Response 207 (application/hal+json)
+    + Body
+    
+            {
+                "_collection": [{
+                    "status": { "code": "201", "text": "Created" },
+                    "object": {
+                        "id": "1",
+                        "subject": "Create a work package",
+                        "description": "Description of work package",
+                        "type": "Feature",
+                        "dueDate": "2014-05-07T03:42:54Z",
+                        "status": "New",
+                        "priority": "High",
+                        "lockVersion": "1",
+                        "doneRatio": "0",
+                        "estimatedHours": "10",
+                        "startDate": "2014-05-07T03:42:54Z",
+                        "createdAt": "2014-05-07T03:42:54Z",
+                        "updatedAt": "2014-05-07T03:42:54Z",
+                        "customFields": [ ],
+        
+                        "_type": "WorkPackage",
+                        "_links": {
+                            "root": { "href": "/", "title": "API entry point & documentation" },
+                            "self": { "href": "/work_packages/1", "title": "Work package subject" },
+                            "createChildren": { "href": "/projects/3/work_packages?parent_id=1", "method": "post", "title": "Project name - Create new work package" },
+                            "update": { "href": "/work_packages/1", "method": "patch", "title": "Update work package name" },
+                            "delete": { "href": "/work_packages/1", "method": "delete", "title": "Delete work package name" },
+                            "project": { "href": "/projects/3", "title": "Project name" },
+                            "author": { "href": "/users/1", "title": "User name" },
+                            "assignee": { "href": "/users/1", "title": "User name" },
+                            "responsible": { "href": "/users/1", "title": "User name" },
+                            "fixedVersion": { "href": "/versions/1", "title": "Version" },
+                            "projectWorkPackages": { "href": "/work_packages?filter[project_id]=3", "title": "Project name - Work packages" },
+                            "descendants": { "href": "/projects/3/work_packages?filter[ancestor_id]=1", "title": "Descendant work packages" },
+                            "children": { "href": "/projects/3/work_packages?filter[parent_id]=1", "title": "First children work packages" },
+                            "relations": { "href": "/projects/3/work_packages?filter[related_to_id]=1", "title": "Related work packages" }
+                        },
+                        "_embedded": { }
+                    }
+                }, {
+                    "status": { "code": "500", "text": "Internal server error" },
+                    "error":  { "opCode": "51", "messages": [{ "key": "serverError", "text": "Oooops." }]},
+                    "request": {  }
+                }],
+                "_type": "WorkPackage",
+                "_links": {
+                    "root": { "href": "/", "title": "API entry point & documentation" },
+                    "self": { "href": "/projects/3/work_packages", "method": "post", "title": "Project name - Create new work package(s)" },
+                    "project": { "href": "/projects", "title": "Projects" },
+                    "workPackages": { "href": "/projects/3/work_packages", "title": "Project name - Work packages" }
+                }
+            }
+
+## /work_packages{?ids,embedded}
+### PATCH
+
+Batch update selected work packages. There are two possible ways to perform a batch update:
+
+- **update the same attribute(s) of multiple work packages with the same values.** In this case, you 
+specify work packages ids in the query parameter and attributes and values in request body.
+- **update voluntary attribute(s) of multiple work packages with different values.** This way, you can 
+specify work package id directly in the request body and therefore you can update multiple work packages
+with different values.
+
+            Call: PATCH /work_packages?ids[]=1&ids[]=2&ids[]=3
+            Request body: { "project_id": "2", "status": "closed" }
+
+            Call: PATCH /work_packages
+            Request body: 
+                [
+                    { "id": "1", "project_id": "3" }, 
+                    { "id": "2", "status": "closed" }, 
+                    { "id": "3", "project_id": "3", "status": "closed" }
+                ]
+
++ Parameters
+    + ids (optional, array, `ids[]=1&ids[]=2`) ... Ids of work packages to update.
+    + embedded (optional, string, `project,author`) ...  Embedded resources to extend in the response.
+
++ Request (application/json)
+    + Body
+    
+            {
+                "project_id": "1"
+            }
+
+                OR
+                
+            [
+                { "id": "1", "subject": "My new subject" },
+                { "id": "2", "description": "My new description" }
+            ]
+            
++ Response 207 (application/hal+json)
+    + Body 
+    
+            {
+                "_collection": [{
+                    "status": { "code": "200", "text": "Ok" },
+                    "object": {
+                        "id": "1",
+                        "subject": "My new subject",
+                        "description": "Description of work package",
+                        "type": "Feature",
+                        "dueDate": "2014-05-07T03:42:54Z",
+                        "status": "New",
+                        "priority": "High",
+                        "lockVersion": "1",
+                        "doneRatio": "0",
+                        "estimatedHours": "10",
+                        "startDate": "2014-05-07T03:42:54Z",
+                        "createdAt": "2014-05-07T03:42:54Z",
+                        "updatedAt": "2014-05-07T03:42:54Z",
+                        "customFields": [ ],
+        
+                        "_type": "WorkPackage",
+                        "_links": {
+                            "root": { "href": "/", "title": "API entry point & documentation" },
+                            "self": { "href": "/work_packages/1", "title": "Work package subject" },
+                            "createChildren": { "href": "/projects/3/work_packages?parent_id=1", "method": "post", "title": "Project name - Create new work package" },
+                            "update": { "href": "/work_packages/1", "method": "patch", "title": "Update work package name" },
+                            "delete": { "href": "/work_packages/1", "method": "delete", "title": "Delete work package name" },
+                            "project": { "href": "/projects/3", "title": "Project name" },
+                            "author": { "href": "/users/1", "title": "User name" },
+                            "assignee": { "href": "/users/1", "title": "User name" },
+                            "responsible": { "href": "/users/1", "title": "User name" },
+                            "fixedVersion": { "href": "/versions/1", "title": "Version" },
+                            "projectWorkPackages": { "href": "/work_packages?filter[project_id]=3", "title": "Project name - Work packages" },
+                            "descendants": { "href": "/projects/3/work_packages?filter[ancestor_id]=1", "title": "Descendant work packages" },
+                            "children": { "href": "/projects/3/work_packages?filter[parent_id]=1", "title": "First children work packages" },
+                            "relations": { "href": "/projects/3/work_packages?filter[related_to_id]=1", "title": "Related work packages" }
+                        },
+                        "_embedded": { }
+                    }
+                }, {
+                     "status": { "code": "200", "text": "Ok" },
+                    "object": {
+                        "id": "2",
+                        "subject": "Work package subject",
+                        "description": "My new description",
+                        "type": "Feature",
+                        "dueDate": "2014-05-07T03:42:54Z",
+                        "status": "New",
+                        "priority": "High",
+                        "lockVersion": "1",
+                        "doneRatio": "0",
+                        "estimatedHours": "10",
+                        "startDate": "2014-05-07T03:42:54Z",
+                        "createdAt": "2014-05-07T03:42:54Z",
+                        "updatedAt": "2014-05-07T03:42:54Z",
+                        "customFields": [ ],
+        
+                        "_type": "WorkPackage",
+                        "_links": {
+                            "root": { "href": "/", "title": "API entry point & documentation" },
+                            "self": { "href": "/work_packages/2", "title": "Work package subject" },
+                            "createChildren": { "href": "/projects/3/work_packages?parent_id=2", "method": "post", "title": "Project name - Create new work package" },
+                            "update": { "href": "/work_packages/2", "method": "patch", "title": "Update work package name" },
+                            "delete": { "href": "/work_packages/2", "method": "delete", "title": "Delete work package name" },
+                            "project": { "href": "/projects/3", "title": "Project name" },
+                            "author": { "href": "/users/1", "title": "User name" },
+                            "assignee": { "href": "/users/1", "title": "User name" },
+                            "responsible": { "href": "/users/1", "title": "User name" },
+                            "fixedVersion": { "href": "/versions/1", "title": "Version" },
+                            "projectWorkPackages": { "href": "/work_packages?filter[project_id]=3", "title": "Project name - Work packages" },
+                            "descendants": { "href": "/projects/3/work_packages?filter[ancestor_id]=2", "title": "Descendant work packages" },
+                            "children": { "href": "/projects/3/work_packages?filter[parent_id]=2", "title": "First children work packages" },
+                            "relations": { "href": "/projects/3/work_packages?filter[related_to_id]=2", "title": "Related work packages" }
+                        },
+                        "_embedded": { }
+                    }
+                }],
+                "_type": "WorkPackage",
+                "_links": {
+                    "root": { "href": "/", "title": "API entry point & documentation" },
+                    "self": { "href": "/work_packages", "method": "patch", "title": "Update work package(s)" },
+                    "workPackages": { "href": "/work_packages", "title": "Work packages" }
+                }
+            }
+
+### DELETE
+
+Batch delete selected work packages.
+
++ Parameters
+    + ids (required, array, `ids[]=1&ids[]=2`) ... Ids of work packages to delete.
+    + embedded (optional, string, `project,author`) ...  Embedded resources to extend in the response.
+            
++ Response 207 (application/hal+json)
+    + Body 
+    
+            {
+                "_collection": [{
+                    "status": { "code": "200", "text": "Ok" },
+                    "object": {
+                        "id": "1",
+                        "subject": "My new subject",
+                        "description": "Description of work package",
+                        "type": "Feature",
+                        "dueDate": "2014-05-07T03:42:54Z",
+                        "status": "New",
+                        "priority": "High",
+                        "lockVersion": "1",
+                        "doneRatio": "0",
+                        "estimatedHours": "10",
+                        "startDate": "2014-05-07T03:42:54Z",
+                        "createdAt": "2014-05-07T03:42:54Z",
+                        "updatedAt": "2014-05-07T03:42:54Z",
+                        "customFields": [ ],
+        
+                        "_type": "WorkPackage",
+                        "_links": {
+                            "root": { "href": "/", "title": "API entry point & documentation" },
+                            "self": { "href": "/work_packages/1", "title": "Work package subject" },
+                            "createChildren": { "href": "/projects/3/work_packages?parent_id=1", "method": "post", "title": "Project name - Create new work package" },
+                            "update": { "href": "/work_packages/1", "method": "patch", "title": "Update work package name" },
+                            "delete": { "href": "/work_packages/1", "method": "delete", "title": "Delete work package name" },
+                            "project": { "href": "/projects/3", "title": "Project name" },
+                            "author": { "href": "/users/1", "title": "User name" },
+                            "assignee": { "href": "/users/1", "title": "User name" },
+                            "responsible": { "href": "/users/1", "title": "User name" },
+                            "fixedVersion": { "href": "/versions/1", "title": "Version" },
+                            "projectWorkPackages": { "href": "/work_packages?filter[project_id]=3", "title": "Project name - Work packages" },
+                            "descendants": { "href": "/projects/3/work_packages?filter[ancestor_id]=1", "title": "Descendant work packages" },
+                            "children": { "href": "/projects/3/work_packages?filter[parent_id]=1", "title": "First children work packages" },
+                            "relations": { "href": "/projects/3/work_packages?filter[related_to_id]=1", "title": "Related work packages" }
+                        },
+                        "_embedded": { }
+                    }
+                }, {
+                    "status": { "code": "200", "text": "Ok" },
+                    "object": {
+                        "id": "2",
+                        "subject": "Work package subject",
+                        "description": "My new description",
+                        "type": "Feature",
+                        "dueDate": "2014-05-07T03:42:54Z",
+                        "status": "New",
+                        "priority": "High",
+                        "lockVersion": "1",
+                        "doneRatio": "0",
+                        "estimatedHours": "10",
+                        "startDate": "2014-05-07T03:42:54Z",
+                        "createdAt": "2014-05-07T03:42:54Z",
+                        "updatedAt": "2014-05-07T03:42:54Z",
+                        "customFields": [ ],
+        
+                        "_type": "WorkPackage",
+                        "_links": {
+                            "root": { "href": "/", "title": "API entry point & documentation" },
+                            "self": { "href": "/work_packages/2", "title": "Work package subject" },
+                            "createChildren": { "href": "/projects/3/work_packages?parent_id=2", "method": "post", "title": "Project name - Create new work package" },
+                            "update": { "href": "/work_packages/2", "method": "patch", "title": "Update work package name" },
+                            "delete": { "href": "/work_packages/2", "method": "delete", "title": "Delete work package name" },
+                            "project": { "href": "/projects/3", "title": "Project name" },
+                            "author": { "href": "/users/1", "title": "User name" },
+                            "assignee": { "href": "/users/1", "title": "User name" },
+                            "responsible": { "href": "/users/1", "title": "User name" },
+                            "fixedVersion": { "href": "/versions/1", "title": "Version" },
+                            "projectWorkPackages": { "href": "/work_packages?filter[project_id]=3", "title": "Project name - Work packages" },
+                            "descendants": { "href": "/projects/3/work_packages?filter[ancestor_id]=2", "title": "Descendant work packages" },
+                            "children": { "href": "/projects/3/work_packages?filter[parent_id]=2", "title": "First children work packages" },
+                            "relations": { "href": "/projects/3/work_packages?filter[related_to_id]=2", "title": "Related work packages" }
+                        },
+                        "_embedded": { }
+                    }
+                }],
+                "_type": "WorkPackage",
+                "_links": {
+                    "root": { "href": "/", "title": "API entry point & documentation" },
+                    "self": { "href": "/work_packages", "method": "delete", "title": "Delete work package(s)" },
+                    "workPackages": { "href": "/work_packages", "title": "Work packages" }
+                }
+            }
+
+# Group Users
+
+## /users
+### GET
+List users
+
++ Response 200 (application/hal+json)
+    + Headers
+    
+            Link: </>;
+
+    + Body
+    
+            { 
+
+            }
+            
+### POST
+Create user
+
++ Request (application/json)
+    + Headers
+    
+            Link: </>;
+
+    + Body
+            
+            {
+            
+            }
+            
++ Response 201 (application/hal+json)
+    + Headers
+    
+            Link: </>;
+
+    + Body
+    
+            {
+            
+            }
+            
+## /users/{id}
+### GET
+Get user
+
++ Response 200 (application/hal+json)
+    + Headers
+    
+            Link: </>;
+
+    + Body 
+    
+            {
+            
+            }
+            
+### PATCH
+Update user
+
++ Request (application/json)
+    + Headers
+    
+            Link: </>;
+
+    + Body
+            
+            {
+            
+            }
+            
++ Response 200 (application/hal+json)
+    + Headers
+    
+            Link: </>;
+
+    + Body
+    
+            {
+            
+            }
+            
+### DELETE
+Delete user
+
++ Response 204
+    + Headers
+    
+            Link: </>;
+
+## /users/{id}/lock
+### PATCH
+Lock user
+
++ Request
+    + Headers
+    
+            Link: </>;
+            
++ Response 200 (application/hal+json)
+    + Headers
+    
+            Link: </>;
+
+    + Body
+    
+            {
+            
+            }
+
+## /users/{id}/unlock            
+### PATCH
+Unlock user
+
++ Request
+    + Headers
+    
+            Link: </>;
+            
++ Response 200 (application/hal+json)
+    + Headers
+    
+            Link: </>;
+
+    + Body
+    
+            {
+            
+            }
+            
+# Group Versions
+
+## /versions
+### GET
+List versions
+
++ Response 200 (application/hal+json)
+    + Headers
+    
+            Link: </>;
+
+    + Body
+    
+            {
+            
+            }
+            
+## /version/{id}
+### GET
+Get version
+
++ Response 200 (application/hal+json)
+    + Headers
+    
+            Link: </>;
+
+    + Body
+    
+            {
+            
+            }
+            
+### PATCH
+Update a version
+
++ Request (application/json)
+    + Headers
+    
+            Link: </>;
+
+    + Body
+    
+            {
+            
+            }
+
++ Response 200 (application/hal+json)
+    + Header
+    
+            Link: </>;
+
+    + Body
+    
+            {
+            
+            }
+            
+### DELETE
+Delete a version
+
++ Response 204
+    + Headers
+    
+            Link: </>;
+
+## /projects/{project_id}/versions
+### GET
+Get versions for a project
+
++ Response 200 (application/hal+json)
+    + Headers
+    
+            Link: </>;
+
+    + Body
+    
+            {
+            
+            }
+            
+### POST
+Create a version for a project
+
++ Request (application/json)
+    + Headers
+    
+            Link: </>;
+
+    + Body
+    
+            {
+            
+            }
+            
++ Response 201 (application/hal+json)
+    + Headers
+    
+            Link: </>;
+
+    + Body
+    
+            {
+            
+            }
