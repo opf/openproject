@@ -75,11 +75,7 @@ angular.module('openproject.uiComponents')
       });
 
       scope.sort = function() {
-        var sortPrefix = 'desc';
-
-        if (SortService.isDescending()) {
-          sortPrefix = '';
-        }
+        var sortPrefix = SortService.isDescending() ? '' : 'desc';
 
         SortService.setColumn(scope.sortAttr);
         SortService.setDirection(sortPrefix);
