@@ -502,15 +502,18 @@ describe UsersController do
                                                                     type_id: work_package.type_id,
                                                                     project_id: work_package.project_id)) }
 
-      before { allow(User).to receive(:current).and_return(user.reload) }
+      before do
+        allow(User).to receive(:current).and_return(user.reload)
+        allow_any_instance_of(User).to receive(:reported_work_package_count).and_return(42)
 
-      it { get :show, id: user.id }
-    end
-    
-    it "uses the correct scopes for number of reported work packages(just like my_controller)" do
-      WorkPackage.should_receive(:on_active_project).and_return(WorkPackage.where :id => 0)
-      WorkPackage.should_receive(:with_author).and_return(WorkPackage.where :id => 0)
-      get :show, id: user.id
+        get :show, id: user.id
+      end
+
+      it "should include the number of reported work packages" do
+        label = Regexp.escape(I18n.t(:label_reported_work_packages))
+
+        expect(response.body).to have_selector("p", :text => /#{label}.*42/)
+      end
     end
   end
 end
