@@ -43,14 +43,15 @@ describe 'Work package index accessibility' do
   end
 
   describe 'Select all link' do
+    let(:select_all_checkbox_selector) { 'table.list.issues th.checkbox a' }
     #let(:description_for_blind) { find('table.list.issues th.checkbox a').find(:xpath, 'span/span[@class="hidden-for-sighted"]') }
 
     describe 'Initial state', js: true do
-      it { expect(find('table.list.issues th.checkbox a')).not_to be_nil }
+      it { expect(find(select_all_checkbox_selector)).not_to be_nil }
 
-      it { expect(find('table.list.issues th.checkbox a')[:title]).to eq(I18n.t(:button_check_all)) }
+      it { expect(find(select_all_checkbox_selector)[:title]).to eq(I18n.t(:button_check_all)) }
 
-      it { expect(find('table.list.issues th.checkbox a')[:alt]).to eq(I18n.t(:button_check_all)) }
+      it { expect(find(select_all_checkbox_selector)[:alt]).to eq(I18n.t(:button_check_all)) }
 
       # TODO: This test is failing because of what seems to be a bug in selenium.
       #       The hidden-for-sighted elements cannot be found using because they are styled with
