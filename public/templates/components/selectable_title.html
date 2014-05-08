@@ -9,11 +9,12 @@
   </div>
 
   <div class="dropdown dropdown-relative dropdown-anchor-right" id="querySelectDropdown">
-    <ul class="dropdown-menu">
-      <li><input type="search" value=""></li>
-    </ul>
-    <ul class="dropdown-menu" ng-repeat="group in groups">
-      <li ng-if="group.models">{{ group.name }}</li>
+    <div>
+      <input type="search" ng-model="filterBy" ng-change="filterModels(filterBy)" id="title-filter">
+    </div>
+
+    <ul class="dropdown-menu" ng-if="group.models" ng-repeat="group in filteredGroups">
+      <div class="title-group-header">{{ group.name }}</div>
       <li ng-repeat="model in group.models">
         <a href="" ng-click="reload( model[1], model[0] )">{{ model[0] }}</a>
       </li>

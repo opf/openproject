@@ -40,9 +40,22 @@ angular.module('openproject.uiComponents')
     },
     templateUrl: '/templates/components/selectable_title.html',
     link: function(scope) {
-      scope.reload = function(modelId, newTitle){
+      scope.$watch('groups', function(oldValue, newValue){
+        scope.filteredGroups = angular.copy(scope.groups);
+      })
+
+      scope.reload = function(modelId, newTitle) {
         scope.selectedTitle = newTitle;
         scope.reloadMethod(modelId);
+      }
+
+      scope.filterModels = function(filterBy) {
+        scope.filteredGroups = angular.copy(scope.groups);
+        angular.forEach(scope.filteredGroups, function(group) {
+          group.models = group.models.filter(function(model){
+            return model[0].toLowerCase().indexOf(filterBy.toLowerCase()) >= 0;
+          });
+        });
       }
     }
   };

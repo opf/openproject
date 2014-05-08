@@ -34,7 +34,7 @@ describe('selectableTitle Directive', function() {
 
   beforeEach(inject(function($rootScope, $compile) {
     var html;
-    html = '<selectable-title></selectable-title>';
+    html = '<selectable-title selected-title="selectedTitle" reload-method="reloadMethod" groups="groups"></selectable-title>';
 
     element = angular.element(html);
     rootScope = $rootScope;
@@ -49,11 +49,36 @@ describe('selectableTitle Directive', function() {
 
   describe('element', function() {
     beforeEach(function() {
+      scope.selectedTitle = 'Title1';
+      scope.groups = [
+        { name: 'pinkies', models: [['pinky1', 1], ['pinky2', 2]] },
+        { name: 'perkies', models: [['perky1', 3], ['perky2', 4]] }
+      ];
+
       compile();
     });
 
     it('should compile to a div', function() {
       expect(element.prop('tagName')).to.equal('DIV');
+    });
+
+    it('should show the title', function() {
+      var content = element.find('span').first();
+      expect(content.text()).to.equal('Title1');
+    });
+
+    it('should show all group titles and models', function() {
+      var headers = element.find('.title-group-header');
+      expect(headers.length).to.equal(2);
+      expect(jQuery(headers[0]).text()).to.equal('pinkies');
+      expect(jQuery(headers[1]).text()).to.equal('perkies');
+
+      var models = element.find('a');
+      expect(models.length).to.equal(4);
+      expect(jQuery(models[0]).text()).to.equal('pinky1');
+      expect(jQuery(models[1]).text()).to.equal('pinky2');
+      expect(jQuery(models[2]).text()).to.equal('perky1');
+      expect(jQuery(models[3]).text()).to.equal('perky2');
     });
   });
 });
