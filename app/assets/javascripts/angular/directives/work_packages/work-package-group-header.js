@@ -28,7 +28,7 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('workPackageGroupHeader', ['WorkPackagesHelper', function(WorkPackagesHelper) {
+.directive('workPackageGroupHeader', [function() {
 
   return {
     restrict: 'A',
