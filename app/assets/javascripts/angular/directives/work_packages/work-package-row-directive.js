@@ -26,35 +26,32 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.services')
+angular.module('openproject.workPackages.directives')
 
-.service('WorkPackagesTableService', ['$filter', function($filter) {
-  var workPackagesTableData = {
-    allRowsChecked: false
-  };
-  var bulkLinks = {};
+.directive('workPackageRow', ['I18n', 'WorkPackagesTableService', function(I18n, WorkPackagesTableService){
 
-  var WorkPackagesTableService = {
-    setBulkLinks: function(links) {
-      bulkLinks = links;
-    },
-    getBulkLinks: function() {
-      return bulkLinks;
-    },
-    getWorkPackagesTableData: function() {
-      return workPackagesTableData;
-    },
-    setAllRowsChecked: function(rows, currentRow, currentState) {
-      rows = rows.filter(function(row) {
-        return row !== currentRow;
+  function setCheckboxTitle(scope) {
+    var checkboxTitleLocale = I18n.t('js.description_select_work_package');
+    scope.checkboxTitle = checkboxTitleLocale + '#' + scope.workPackage.id;
+  }
+
+  var parentWorkPackageLabel = I18n.t('js.description_subwork_package') + ' ' + I18n.t('js.label_work_package') + ' ';
+  function setHiddenWorkPackageLabel(scope) {
+    scope.parentWorkPackageHiddenText = parentWorkPackageLabel + '"' + scope.row.parent.object.subject + '"';
+  }
+
+  return {
+    restrict: 'A',
+    link: function(scope) {
+      scope.workPackage = scope.row.object;
+      setCheckboxTitle(scope);
+      if (scope.workPackage.parent_id) setHiddenWorkPackageLabel(scope);
+
+      scope.$watch('row.checked', function(checked, formerState) {
+        if (checked !== formerState) {
+          WorkPackagesTableService.setAllRowsChecked(scope.rows, scope.row, checked);
+        }
       });
-      workPackagesTableData.allRowsChecked = $filter('allRowsChecked')(rows) && currentState;
-    },
-    allRowsChecked: function() {
-      return workPackagesTableData.allRowsChecked;
     }
-
   };
-
-  return WorkPackagesTableService;
 }]);
