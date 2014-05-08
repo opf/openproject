@@ -71,8 +71,8 @@ describe('authoring Directive', function() {
 
     describe('authoring arguments', function() {
       it('should pass correct information to I18n', function() {
-        var args = I18n.t.args[0]
-        var obj = args[1]
+        var args = I18n.t.args[0];
+        var obj = args[1];
         var author = obj.author;
         var age = obj.age;
         var utc = moment.utc(createdOn);
