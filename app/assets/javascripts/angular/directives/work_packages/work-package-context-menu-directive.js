@@ -36,13 +36,14 @@ angular.module('openproject.workPackages.directives')
       function getWorkPackagesFromContext(context) {
         if (!context.row) return [];
 
+        context.row.checked = true;
+
         var workPackagefromContext = context.row.object;
         var workPackagesfromSelectedRows = getWorkPackagesFromSelectedRows(context.rows);
 
         if (workPackagesfromSelectedRows.length === 0) {
           return [workPackagefromContext];
         } else if (workPackagesfromSelectedRows.indexOf(workPackagefromContext) === -1) {
-          context.row.checked = true;
           return [workPackagefromContext].concat(workPackagesfromSelectedRows);
         } else {
           return workPackagesfromSelectedRows;

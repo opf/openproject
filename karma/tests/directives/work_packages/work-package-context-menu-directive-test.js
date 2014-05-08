@@ -104,6 +104,10 @@ describe('workPackageContextMenu Directive', function() {
       expect(element.find('.' + actions[0] +' a').contents()).to.equal('anything');
       // TODO find out how to stub I18n.t inside directive
     });
+
+    it('sets the checked property of the row within the context to true', function() {
+      expect(ContextMenuService.getContextMenu().context.row.checked).to.be.true;
+    });
   });
 
   xdescribe('when the context menu context contains multiple work packages', function() {
