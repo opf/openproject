@@ -80,3 +80,7 @@ If a host is given, relative endpoint paths will refer to said host.
 No host is required if absolute endpoint URIs are given.
 
 The configuration of the pre-defined providers (currently Google and Heroku) can be overriden as well.
+
+## Credits
+
+This plugin uses some of Neil Hainsworth' [Free Social Icons](http://www.neilorangepeel.com/free-social-icons/).
