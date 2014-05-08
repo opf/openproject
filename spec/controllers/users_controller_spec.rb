@@ -510,7 +510,9 @@ describe UsersController do
       end
 
       it "should include the number of reported work packages" do
-        expect(response.body).to include("Reported work packages: 42")
+        label = Regexp.escape(I18n.t(:label_reported_work_packages))
+
+        expect(response.body).to have_selector("p", :text => /#{label}.*42/)
       end
     end
   end

@@ -136,7 +136,9 @@ describe MyController, :type => :controller do
     end
 
     it "should show the number of reported packages" do
-      expect(response.body).to include("Reported work packages (42)")
+      label = Regexp.escape(I18n.t(:label_reported_work_packages))
+
+      expect(response.body).to have_selector("h3", :text => /#{label}.*42/)
     end
   end
 end
