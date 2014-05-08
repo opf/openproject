@@ -30,15 +30,13 @@ require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
 shared_context 'find legend with text' do
-  let(:legend_text) { find('legend a span', text: fieldset_name) }
-  let(:fieldset) { legend_text.find(:xpath, '../../..') }
+  let(:fieldset) {  }
 end
 
 shared_context 'find toggle label' do
-  let(:link) { legend_text.find(:xpath, '..') }
-  let(:toggle_state_label) { link.find("span.hidden-for-sighted", visible: false) }
+  let(:link) { find('legend a span', text: fieldset_name).find(:xpath, '..') }
 
-  it { expect(toggle_state_label).not_to be_nil }
+  it { expect(link.find("span.hidden-for-sighted", visible: false)).not_to be_nil }
 end
 
 shared_context 'Toggable fieldset examples' do
@@ -53,7 +51,7 @@ shared_context 'Toggable fieldset examples' do
     describe 'after click' do
       include_context 'find legend with text'
 
-      before { legend_text.click }
+      before { find('legend a span', text: fieldset_name).click }
 
       it_behaves_like 'expanded fieldset'
     end
@@ -70,7 +68,7 @@ shared_context 'Toggable fieldset examples' do
     describe 'after click' do
       include_context 'find legend with text'
 
-      before { legend_text.click }
+      before { find('legend a span', text: fieldset_name).click }
 
       it_behaves_like 'collapsed fieldset'
     end
@@ -80,14 +78,14 @@ shared_context 'Toggable fieldset examples' do
     include_context 'find legend with text'
     include_context 'find toggle label'
 
-    it { expect(toggle_state_label.text(:all)).to include(I18n.t('js.label_collapsed')) }
+    it { expect(link.find("span.hidden-for-sighted", visible: false).text(:all)).to include(I18n.t('js.label_collapsed')) }
   end
 
   shared_examples_for 'toggle state set expanded' do
     include_context 'find legend with text'
     include_context 'find toggle label'
 
-    it { expect(toggle_state_label.text(:all)).to include(I18n.t('js.label_expanded')) }
+    it { expect(link.find("span.hidden-for-sighted", visible: false).text(:all)).to include(I18n.t('js.label_expanded')) }
   end
 
   shared_context 'collapsed CSS' do
@@ -98,13 +96,13 @@ shared_context 'Toggable fieldset examples' do
     include_context 'collapsed CSS'
     include_context 'find legend with text'
 
-    it { expect(fieldset[:class]).to include(collapsed_class_name) }
+    it { expect(find('legend a span', text: fieldset_name).find(:xpath, '../../..')[:class]).to include(collapsed_class_name) }
   end
 
   shared_examples_for 'expanded fieldset' do
     include_context 'collapsed CSS'
     include_context 'find legend with text'
 
-    it { expect(fieldset[:class]).not_to include(collapsed_class_name) }
+    it { expect(find('legend a span', text: fieldset_name).find(:xpath, '../../..')[:class]).not_to include(collapsed_class_name) }
   end
 end
