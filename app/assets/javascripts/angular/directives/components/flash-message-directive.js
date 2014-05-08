@@ -45,8 +45,6 @@ angular.module('openproject.uiComponents')
           scope.flashClass = "errorExplanation";
           scope.flashId = "errorExplanation";
         }
-
-        activateError();
       });
     }
   };
