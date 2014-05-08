@@ -186,3 +186,22 @@ $button_gray_font_color: #222222
   text-overflow: ellipsis
   -o-text-overflow: ellipsis
   -ms-text-overflow: ellipsis
+
+// Based on Bourbon mixin: http://bourbon.io/docs/#font-face
+@mixin font-face($font-family, $file-path, $weight: normal, $style: normal, $svg-font-id: $font-family)
+  @font-face
+    font-family: $font-family
+    font-weight: $weight
+    font-style:  $style
+    src: font-url('#{$file-path}.eot')
+    src: font-url('#{$file-path}.eot?#iefix') format('embedded-opentype'), font-url('#{$file-path}.woff') format('woff'), font-url('#{$file-path}.ttf') format('truetype'), font-url('#{$file-path}.svg##{$svg-font-id}') format('svg')
+    text-rendering: optimizeLegibility
+
+  // Always use SVG fonts (rather than WOFF/TTF) in WebKit-based browers
+  // FIXME: we only want to target Chrome on Windows
+  @media screen and (-webkit-min-device-pixel-ratio:0)
+    @font-face
+      font-family: $font-family
+      font-weight: $weight
+      font-style:  $style
+      src: font-url('#{$file-path}.svg##{$svg-font-id}') format('svg')
