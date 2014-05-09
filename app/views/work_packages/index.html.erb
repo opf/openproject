@@ -28,6 +28,8 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%
+gon.project_types = @project.types.map{ |type| [type.id, type.name] }
+
 if User.current.allowed_to? :export_work_packages, project, global: project.nil?
   gon.export_formats = {
     atom:     url_for(format: 'atom',project_id: project, query_id: (query.new_record? ? nil : query), key: User.current.rss_key),
@@ -62,9 +64,7 @@ end
 
   <div class="dropdown dropdown-relative dropdown-anchor-right" id="tasksDropdown">
     <ul class="dropdown-menu">
-      <li><a href="#1">Bug</a></li>
-      <li><a href="#2">Deliverable</a></li>
-      <li><a href="#3">User Story</a></li>
+      <li><a ng-href="" ng-repeat="(id, obj) in projectTypes">{{obj[1]}}</a></li>
     </ul>
   </div>
 
