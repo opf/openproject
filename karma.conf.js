@@ -24,12 +24,9 @@ module.exports = function(config) {
       "vendor/assets/components/angular/angular.js",
       "vendor/assets/components/angular-mocks/angular-mocks.js",
       "vendor/assets/components/angular-ui-select2/src/select2.js",
-<<<<<<< HEAD
-      "vendor/assets/components/ng-context-menu/dist/ng-context-menu.js",
-=======
       "vendor/assets/components/angular-sanitize/angular-sanitize.js",
       "vendor/assets/components/momentjs/moment.js",
->>>>>>> dev-angular
+      "vendor/assets/components/ng-context-menu/dist/ng-context-menu.js",
 
       "vendor/assets/components/openproject-ui_components/app/assets/javascripts/angular/ui-components-app.js",
       "app/assets/javascripts/angular/openproject-app.js",
@@ -83,12 +80,7 @@ module.exports = function(config) {
       'app/assets/javascripts/angular/services/user-service.js',
       'app/assets/javascripts/angular/services/version-service.js',
       'app/assets/javascripts/angular/services/work-package-service.js',
-<<<<<<< HEAD
-      'app/assets/javascripts/angular/services/query-service.js',
-      'app/assets/javascripts/angular/services/pagination-service.js',
       'app/assets/javascripts/angular/services/work-packages-table-service.js',
-=======
->>>>>>> dev-angular
 
       "app/assets/javascripts/angular/directives/work_packages/*.js",
       "app/assets/javascripts/angular/directives/timelines/*.js",
