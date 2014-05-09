@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                       :include => [ :status, :project, :type ],
                                       :order => "#{WorkPackage.table_name}.updated_at DESC") %>
 
-<h3><%=l(:label_reported_work_packages)%> (<%= @reported_count %>)</h3>
+<h3><%=l(:label_reported_work_packages)%> (<%= @user.reported_work_package_count %>)</h3>
 
 <% if defined? block_name %>
   <%= content_for "#{block_name}_remove_block" %>

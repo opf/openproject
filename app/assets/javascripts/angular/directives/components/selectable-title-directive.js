@@ -26,13 +26,37 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
+// TODO move to UI components
+angular.module('openproject.uiComponents')
 
-.directive('workPackagesLoading', ['I18n', function(I18n){
-
+.directive('selectableTitle', [function() {
   return {
     restrict: 'E',
-    templateUrl: '/templates/work_packages/work_packages_loading.html',
-    scope: true
+    replace: true,
+    scope: {
+      selectedTitle: '=',
+      reloadMethod: '=',
+      groups: '='
+    },
+    templateUrl: '/templates/components/selectable_title.html',
+    link: function(scope) {
+      scope.$watch('groups', function(oldValue, newValue){
+        scope.filteredGroups = angular.copy(scope.groups);
+      })
+
+      scope.reload = function(modelId, newTitle) {
+        scope.selectedTitle = newTitle;
+        scope.reloadMethod(modelId);
+      }
+
+      scope.filterModels = function(filterBy) {
+        scope.filteredGroups = angular.copy(scope.groups);
+        angular.forEach(scope.filteredGroups, function(group) {
+          group.models = group.models.filter(function(model){
+            return model[0].toLowerCase().indexOf(filterBy.toLowerCase()) >= 0;
+          });
+        });
+      }
+    }
   };
 }]);

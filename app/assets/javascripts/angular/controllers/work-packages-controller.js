@@ -57,6 +57,7 @@ angular.module('openproject.workPackages.controllers')
   }
 
   function initialSetup() {
+    $scope.selectedTitle = "Work Packages";
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.loading = false;
     $scope.disableFilters = false;
@@ -71,6 +72,7 @@ angular.module('openproject.workPackages.controllers')
 
     $scope.withLoading(getMethod, params)
       .then($scope.setupWorkPackagesTable)
+      .then(initAvailableQueries)
       .then(initAvailableColumns);
   }
 
@@ -82,12 +84,30 @@ angular.module('openproject.workPackages.controllers')
       });
   }
 
+  function initAvailableQueries() {
+    return QueryService.getAvailableGroupedQueries($scope.projectIdentifier)
+      .then(function(data){
+        $scope.groups = [{ name: 'CUSTOM QUERIES', models: data["user_queries"]},
+          { name: 'GLOBAL QUERIES', models: data["queries"]}];
+      });
+  }
+
   function afterQuerySetupCallback(query) {
     $scope.showFilters = query.filters.length > 0;
     $scope.updateBackUrl();
   }
 
   $scope.showExportModal = exportModal.activate;
+
+  $scope.reloadQuery = function(queryId) {
+    QueryService.resetQuery();
+    $scope.query_id = queryId;
+
+    $scope.withLoading(WorkPackageService.getWorkPackagesByQueryId, [$scope.projectIdentifier, $scope.query_id])
+      .then($scope.setupWorkPackagesTable)
+      .then(initAvailableQueries)
+      .then(initAvailableColumns);
+  }
 
   $scope.updateBackUrl = function(){
     // Easier than trying to extract it from $location

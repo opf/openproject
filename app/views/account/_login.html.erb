@@ -43,24 +43,27 @@ See doc/COPYRIGHT.rdoc for more details.
                                    :id => 'password-pulldown' %></td>
         <td><input type="submit" name="login" value="<%=l(:button_login)%>" class="button_highlight" /></td>
       </tr>
+      <tr>
+        <td>
+          <% if Setting.autologin? %>
+            <label for="autologin"><%= check_box_tag 'autologin', 1, false %> <%= l(:label_stay_logged_in) %></label>
+          <% elsif Setting.self_registration? %>
+            <%# show here if autologin is disabled, otherwise below lost_password link %>
+            <%= link_to l(:label_register), { :controller => '/account', :action => 'register' } %>
+          <% end %>
+        </td>
+        <td>
+          <% if Setting.lost_password? %>
+            <%= link_to l(:label_password_lost), {:controller => '/account', :action => 'lost_password'} %>
+          <% end %>
+          <% if Setting.autologin? && Setting.self_registration? %>
+            <%# show here if autologin is enabled, otherwise below login field %>
+            <%= '<br>'.html_safe if Setting.lost_password? %>
+            <%= link_to l(:label_register), { :controller => '/account', :action => 'register' } %>
+          <% end %>
+        </td>
+      </tr>
     </table>
-    <div id = "optional_login_fields" style = "top = 10px; white-space:nowrap">
-      <% if Setting.autologin? %>
-        <label for="autologin"><%= check_box_tag 'autologin', 1, false %> <%= l(:label_stay_logged_in) %></label>
-      <% end %>
-
-      <% if Setting.lost_password? %>
-        <%= link_to l(:label_password_lost), {:controller => '/account', :action => 'lost_password'} %>
-      <% end %>
-
-      <% if !User.current.logged? %>
-        <% if Setting.self_registration? %>
-          <%= "|" if Setting.lost_password? %>
-          <%= link_to l(:label_register), { :controller => '/account', :action => 'register' } %>
-        <% end %>
-        <br>
-        <%= call_hook :view_account_login_auth_provider %>
-      <% end %>
-    </div>
+    <%= render :partial => 'account/auth_providers' %>
   <% end %>
 </div>

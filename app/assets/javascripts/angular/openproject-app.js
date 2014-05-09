@@ -47,8 +47,16 @@ angular.module('openproject.workPackages.config', []);
 angular.module('openproject.workPackages.controllers', ['openproject.models', 'openproject.workPackages.helpers', 'openproject.services', 'openproject.workPackages.config', 'btford.modal']);
 angular.module('openproject.workPackages.directives', ['openproject.uiComponents', 'openproject.services']);
 
+// messages
+angular.module('openproject.messages', ['openproject.messages.controllers']);
+angular.module('openproject.messages.controllers', []);
+
+// time entries
+angular.module('openproject.timeEntries', ['openproject.timeEntries.controllers']);
+angular.module('openproject.timeEntries.controllers', []);
+
 // main app
-var openprojectApp = angular.module('openproject', ['ui.select2', 'ui.date', 'openproject.uiComponents', 'openproject.timelines', 'openproject.workPackages', 'ngAnimate']);
+var openprojectApp = angular.module('openproject', ['ui.select2', 'ui.date', 'openproject.uiComponents', 'openproject.timelines', 'openproject.workPackages', 'openproject.messages', 'openproject.timeEntries', 'ngAnimate', 'ngSanitize']);
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
 

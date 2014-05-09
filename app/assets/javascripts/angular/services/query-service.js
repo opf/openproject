@@ -60,11 +60,21 @@ angular.module('openproject.services')
       return query;
     },
 
+    resetQuery: function() {
+      query = null;
+    },
+
     getQuery: function() {
       return query;
     },
 
     // data loading
+
+    getAvailableGroupedQueries: function(projectIdentifier) {
+      var url = projectIdentifier ? PathHelper.apiProjectGroupedQueriesPath(projectIdentifier) : PathHelper.apiGroupedQueriesPath();
+
+      return QueryService.doQuery(url);
+    },
 
     getAvailableColumns: function(projectIdentifier) {
       var url = projectIdentifier ? PathHelper.apiProjectAvailableColumnsPath(projectIdentifier) : PathHelper.apiAvailableColumnsPath();

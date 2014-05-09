@@ -51,6 +51,7 @@ de:
     error_self_registration_disabled: >
       Auf diesem System ist die Nutzerregistierung deaktiviert. Bitte fragen Sie einen
       Administrator nach einem Nutzerkonto.
+    login_with_auth_provider: "oder melden Sie sich mit einem bestehenden Konto an"
 
   actionview_instancetag_blank_option: "Bitte auswählen"
 
@@ -806,7 +807,7 @@ de:
   label_overall_activity: "Aktivität aller Projekte anzeigen"
   label_overall_spent_time: "Aufgewendete Zeit aller Projekte anzeigen"
   label_overview: "Übersicht"
-  label_password_lost: "Kennwort vergessen"
+  label_password_lost: "Kennwort vergessen?"
   label_password_rule_lowercase: "Kleinbuchstaben"
   label_password_rule_numeric: "Ziffern"
   label_password_rule_special: "Sonderzeichen"
@@ -840,7 +841,7 @@ de:
   label_query_plural: "Benutzerdefinierte Berichte"
   label_query_menu_item: "Filter-Menüpunkt"
   label_read: "Lesen ..."
-  label_register: "Registrieren"
+  label_register: "Neues Konto erstellen"
   label_register_with_developer: "Als Entwickler anmelden"
   label_registered_on: "Angemeldet am"
   label_registration_activation_by_email: "Kontoaktivierung durch E-Mail"

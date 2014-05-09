@@ -42,12 +42,16 @@ end
 
 <%= include_gon %>
 
-<h2><%= query.new_record? ? l(:label_work_package_plural) : h(query.name) %></h2>
-
 <div id="work-packages-index" ng-controller="WorkPackagesController">
 
   <div class="toolbar-container">
     <toolbar>
+      <selectable-title selected-title="selectedTitle"
+                        reload-method="reloadQuery"
+                        data-groups="dataGroups"
+                        groups="groups">
+      </selectable-title>
+
       <ul>
         <li><button class="button_highlight" with-dropdown dropdown-id="tasksDropdown">New Task</button></li>
         <li><button class="button" ng-click="showFiltersOptions = !showFiltersOptions">Filter</button></li>

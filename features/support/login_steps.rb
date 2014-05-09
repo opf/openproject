@@ -32,8 +32,8 @@ module LoginSteps
     # visit '/logout' # uncomment me if needed
     visit '/login'
     within('#login-form') do
-      fill_in User.human_attribute_name(:login)+":", :with => login
-      fill_in 'Password:', :with => password
+      fill_in User.human_attribute_name(:login), :with => login
+      fill_in 'Password', :with => password
       click_button 'Login'
     end
   end

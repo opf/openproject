@@ -14,7 +14,9 @@
     "angular-ui-date": "latest",
     "angular-i18n": "~1.3.0",
     "angular-modal": "~0.3.0",
-    "jquery-migrate": "~1.2.1"
+    "angular-sanitize": "~1.2.14",
+    "jquery-migrate": "~1.2.1",
+    "momentjs": "~2.6.0"
   },
   "devDependencies": {
     "mocha": "~1.14.0",
@@ -23,7 +25,6 @@
     "chai": "~1.9.0"
   },
   "resolutions": {
-    "select2": "3.3.2",
-    "Caret.js": "72495fcb194a0beec14de25956a7c615ede630b2"
+    "select2": "3.3.2"
   }
 }
