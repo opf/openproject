@@ -32,7 +32,7 @@ angular.module('openproject.uiComponents')
   .directive('withDropdown', function () {
 
     function hideAllDropdowns() {
-      jQuery('.dropdown').hide()
+      jQuery('.dropdown').hide();
     }
 
     function position(dropdown, trigger) {

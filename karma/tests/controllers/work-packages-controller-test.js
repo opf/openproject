@@ -32,7 +32,7 @@ describe('WorkPackagesController', function() {
   var scope, ctrl, win, testWorkPackageService, testQueryService, testPaginationService;
   var buildController;
 
-  beforeEach(module('openproject.workPackages.controllers', 'openproject.workPackages.services', 'ng-context-menu'));
+  beforeEach(module('openproject.workPackages.controllers', 'openproject.workPackages.services', 'ng-context-menu', 'btford.modal'));
   beforeEach(inject(function($rootScope, $controller, $timeout) {
     scope = $rootScope.$new();
     win   = {
@@ -95,6 +95,12 @@ describe('WorkPackagesController', function() {
       ctrl = $controller("WorkPackagesController", {
         $scope:  scope,
         $window: win,
+        columnsModal:       {},
+        exportModal:        {},
+        saveModal:          {},
+        settingsModal:      {},
+        shareModal:         {},
+        sortingModal:       {},
         QueryService:       testQueryService,
         PaginationService:  testPaginationService,
         WorkPackageService: testWorkPackageService

@@ -28,9 +28,32 @@
 
 angular.module('openproject.workPackages.controllers')
 
-.controller('WorkPackagesController', ['$scope', '$window', '$location', 'WorkPackagesTableHelper', 'WorkPackageService', 'QueryService', 'WorkPackagesTableService', 'PaginationService', 'WorkPackageLoadingHelper', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
-            function($scope, $window, $location, WorkPackagesTableHelper, WorkPackageService, QueryService, WorkPackagesTableService, PaginationService, WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
+.controller('WorkPackagesController', [
+    '$scope',
+    '$window',
+    '$location',
+    'columnsModal',
+    'exportModal',
+    'saveModal',
+    'settingsModal',
+    'shareModal',
+    'sortingModal',
+    'WorkPackagesTableHelper',
+    'WorkPackagesTableService',
+    'WorkPackageService',
+    'QueryService',
+    'PaginationService',
+    'WorkPackageLoadingHelper',
+    'INITIALLY_SELECTED_COLUMNS',
+    'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
+    function($scope, $window, $location, columnsModal, exportModal, saveModal,
+      settingsModal, shareModal, sortingModal,
+      WorkPackagesTableHelper, WorkPackagesTableService,
+      WorkPackageService, QueryService, PaginationService,
+      WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS,
+      OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
 
+  $scope.projectTypes = $window.gon.project_types;
   $scope.showFiltersOptions = false;
 
   function setUrlParams(location) {
@@ -83,6 +106,13 @@ angular.module('openproject.workPackages.controllers')
     $scope.showFilters = query.filters.length > 0;
     $scope.updateBackUrl();
   }
+
+  $scope.showColumnsModal  = columnsModal.activate;
+  $scope.showExportModal   = exportModal.activate;
+  $scope.showSaveModal     = saveModal.activate;
+  $scope.showSettingsModal = settingsModal.activate;
+  $scope.showShareModal    = shareModal.activate;
+  $scope.showSortingModal  = sortingModal.activate;
 
   $scope.reloadQuery = function(queryId) {
     QueryService.resetQuery();
