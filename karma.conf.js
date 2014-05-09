@@ -78,6 +78,7 @@ module.exports = function(config) {
       'app/assets/javascripts/angular/services/work-package-service.js',
       'app/assets/javascripts/angular/services/query-service.js',
       'app/assets/javascripts/angular/services/pagination-service.js',
+      'app/assets/javascripts/angular/services/work-package-service.js',
       'app/assets/javascripts/angular/services/work-packages-table-service.js',
 
       "app/assets/javascripts/angular/directives/work_packages/*.js",

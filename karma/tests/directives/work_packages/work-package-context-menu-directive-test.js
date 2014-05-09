@@ -108,9 +108,32 @@ describe('workPackageContextMenu Directive', function() {
     it('sets the checked property of the row within the context to true', function() {
       expect(ContextMenuService.getContextMenu().context.row.checked).to.be.true;
     });
+
+    describe('when delete is permitted on a work package', function() {
+      var actions = ['delete'],
+          actionLinks = {
+            delete: '/work_packages/bulk',
+          },
+          workPackage = Factory.build('PlanningElement', {
+            _actions: actions,
+            _links: actionLinks
+          });
+
+      beforeEach(function() {
+        ContextMenuService.setContext({rows: [], row: {object: workPackage}});
+        compile();
+
+        directListElements = element.find('.menu > li:not(.folder)');
+      });
+
+      it('displays a link triggering deleteWorkPackages within the scope', function() {
+        expect(directListElements.find('a').attr('ng-click')).to.equal('deleteWorkPackages()');
+      });
+    });
   });
 
   xdescribe('when the context menu context contains multiple work packages', function() {
 
   });
+
 });

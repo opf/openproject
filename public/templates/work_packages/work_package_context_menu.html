@@ -2,8 +2,14 @@
   <ul class="menu">
     <li ng-repeat="(action, link) in permittedActions"
         class="{{action}}">
-      <a ng-href="{{link}}"
+      <a ng-if="action !== 'delete'"
+         ng-href="{{link}}"
          ng-class="['icon-context', 'icon-' + action]"
+         ng-bind="I18n.t('js.button_' + action)">
+      </a>
+      <a ng-if="action === 'delete'"
+         ng-href="#"
+         ng-click="deleteWorkPackages()"
          ng-bind="I18n.t('js.button_' + action)">
       </a>
     </li>

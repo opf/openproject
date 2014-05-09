@@ -1,6 +1,6 @@
 angular.module('openproject.workPackages.directives')
 
-.directive('workPackageContextMenu', ['ContextMenuService', 'WorkPackagesTableHelper', 'WorkPackageContextMenuHelper', 'I18n', function(ContextMenuService, WorkPackagesTableHelper, WorkPackageContextMenuHelper, I18n) {
+.directive('workPackageContextMenu', ['ContextMenuService', 'WorkPackagesTableHelper', 'WorkPackageContextMenuHelper', 'WorkPackageService', 'I18n', function(ContextMenuService, WorkPackagesTableHelper, WorkPackageContextMenuHelper, WorkPackageService, I18n) {
   return {
     restrict: 'EA',
     replace: true,
@@ -22,6 +22,16 @@ angular.module('openproject.workPackages.directives')
       scope.$watch('contextMenu.context.row', function() {
         updateContextMenu(getWorkPackagesFromContext(scope.contextMenu.context));
       });
+
+      scope.deleteWorkPackages = function() {
+        WorkPackageService.performBulkDelete(getWorkPackagesFromContext(scope.contextMenu.context))
+          .success(function() {
+            scope.$emit('flash', 'Successfully deleted');
+          })
+          .error(function() {
+            scope.$emit('flash', ':(');
+          });
+      };
 
       function updateContextMenu(workPackages) {
         scope.permittedActions = WorkPackageContextMenuHelper.getPermittedActions(workPackages);
