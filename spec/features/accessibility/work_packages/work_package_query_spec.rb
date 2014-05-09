@@ -67,7 +67,10 @@ describe 'Work package index accessibility' do
 
   describe 'Sort link', js: true do
     shared_examples_for 'sort column' do
-      it { expect(find(sort_header_selector).find("span")[:title]).to eq(sort_text) }
+      it do
+        expect(find(sort_header_selector)).not_to be_nil
+        expect(find(sort_header_selector).find("span")[:title]).to eq(sort_text)
+      end
     end
 
     shared_examples_for 'unsorted column' do
