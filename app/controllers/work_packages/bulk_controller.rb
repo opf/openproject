@@ -77,7 +77,7 @@ class WorkPackages::BulkController < ApplicationController
         format.html { render :locals => { work_packages: @work_packages,
                                           associated: WorkPackage.associated_classes_to_address_before_destruction_of(@work_packages) }
                     }
-        format.json { head :ok } # TODO find a solution here if called via AJAX
+        format.json { render json: { error_message: 'Clean up of associated objects required'}, status: 420 }
       end
 
     else
