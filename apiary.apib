@@ -21,7 +21,7 @@ Read more: http://stateless.co/hal_specification.html
     - `_collection` - contains the collection of objects
     - `_count` - number of records fetched in the response
     - `_total` - number of available records
-    
+
 # Group API response structure
 Depending on performed request, the OpenProject API will return a response in one of the following possible structures:
 
@@ -34,10 +34,10 @@ Depending on performed request, the OpenProject API will return a response in on
 Contains it's own data attributes and some meta attributes:
 
         {
-            "id": "1",
+            "id": 1,
             "name": "My awesome project",
             ...
-            
+
             "_type": "Project",
             "_links": {
                 "self": { "href": "/projects/1", "title": "My awesome project" },
@@ -48,16 +48,16 @@ Contains it's own data attributes and some meta attributes:
                 ...
             }
         }
-        
+
 ### Collection of HAL+JSON objects
 Contains collection of simple HAL+JSON objects in it's `_collection` attribute. Also contains some collection
 specific meta data:
 
     {
         "_collection": [{
-            "id": "1",
+            "id": 1,
             ...
-            
+
             "_type": "Project"
             "_links": {
                 "self": { "href": "/projects/1", "title": "My awesome project" },
@@ -68,9 +68,9 @@ specific meta data:
                 ...
             }
         }, {
-            "id": "2",
+            "id": 2,
             ...
-            
+
             "_type": "Project"
             "_links": {
                 "self": { "href": "/projects/2", "title": "My awesome project" },
@@ -85,10 +85,10 @@ specific meta data:
         "_links": {
             ...
         },
-        "_count": "2",
-        "_total": "476"
+        "_count": 2,
+        "_total": 476
     }
-    
+
 ### Collection of HTTP statuses and HAL+JSON objects
 Response with this structure will be returned by endpoints performing **batch operations** (e.g.: update multiple projects).
 The main HTTP status code of the response will be `207 Multi-Status` and the response body will contain different response
@@ -99,12 +99,12 @@ be updated successfully while the update of other one will fail:
 
     {
         "_collection": [{
-            "status": { "code": "200", "text": "Ok" },
+            "status": { "code": 200, "text": "Ok" },
             "object": {
-                "id": "1",
+                "id": 1,
                 "name": "My awesome project",
                 ...
-                
+
                 "_type": "Project",
                 "_links": {
                     ...
@@ -114,8 +114,8 @@ be updated successfully while the update of other one will fail:
                 }
             }
         }, {
-            "status": { "code": "500", "text": "Internal Server Error" },
-            "error": { "opCode": "51", "messages": [{ "key": "serverError", "text": "Something went wrong. Please try again latter." }]},
+            "status": { "code": 500, "text": "Internal Server Error" },
+            "error": { "opCode": 51, "messages": [{ "key": "serverError", "text": "Something went wrong. Please try again latter." }]},
             "request": { requestParams }
         }],
         "_type": "Project",
@@ -129,7 +129,7 @@ This allows you to see exactly what went wrong and inform user.
 ### Error object
 In case your request contains some errors or something went wrong on the server you'll get back an error object:
 
-    { "error": { "opCode": "51", "message": "Something went wrong. Please try again latter." }}
+    { "error": { "opCode": 51, "message": "Something went wrong. Please try again latter." }}
 
 
 # Group Allowed HTTP methods
@@ -166,14 +166,14 @@ In case your request contains some errors or something went wrong on the server 
 **TODO**
 In case something went wrong, you will get back an OpenProject API error object in the following form:
 
-    { "error": { "opCode": "41", "messages": [{ "key": "unauthenticated", "text": "You need to be login to access this resource" }]}}
-    
+    { "error": { "opCode": 41, "messages": [{ "key": "unauthenticated", "text": "You need to be login to access this resource" }]}}
+
 Attribute `opCode` is internal OpenProject API error code:
 
 **Client errors**
 
 - 41 -
-- 42 - 
+- 42 -
 
 **Server errors**
 
@@ -188,11 +188,11 @@ Provides all available actions in form of links and some API documentation.
 
 + Response 200 (application/hal+json)
     + Headers
-    
+
             Link: </>; rel="self" title="OpenProject API entry point", </projects>; rel="projects" title="Projects"
 
     + Body
-    
+
             {
                 "_type": "Root",
                 "_links": {
@@ -229,10 +229,10 @@ List all projects.
 
 + Response 200 (application/hal+json)
     + Body
-        
+
             {
                 "_collection": [
-                        "id": "1",
+                        "id": 1,
                         "name": "My project name",
                         "description": "My project description",
                         "homepage": "http://my-project.com",
@@ -241,7 +241,7 @@ List all projects.
                         "identifier": "my-project",
                         "status": "New",
                         "summary": "My project summary",
-        
+
                         "_type": "Project",
                         "_links": {
                             "root": { "href": "/", "title": "API entry point & documentation" },
@@ -261,7 +261,7 @@ List all projects.
                         },
                         "embedded": { }
                     }, {
-                        "id": "2",
+                        "id": 2,
                         "name": "My project name",
                         "description": "My project description",
                         "homepage": "http://my-project.com",
@@ -270,7 +270,7 @@ List all projects.
                         "identifier": "my-project",
                         "status": "New",
                         "summary": "My project summary",
-        
+
                         "_type": "Project",
                         "_links": {
                             "root": { "href": "/", "title": "API entry point & documentation" },
@@ -300,8 +300,8 @@ List all projects.
                     "batchUpdate": { "href": "/projects{?ids}", "method": "patch", "title": "Update projects" },
                     "batchDelete": { "href": "/projects?{ids}", "method": "delete", "title": "Delete Projects" }
                 },
-                "_count": "2",
-                "_total": "476"
+                "_count": 2,
+                "_total": 476
             }
 
 ## /projects{?embedded}
@@ -312,38 +312,38 @@ Create new project(s)
     + embedded (optional, string, `project,author`) ...  Embedded resources to extend in the response.
 
 + Request (application/json)
-    + Body 
-    
+    + Body
+
             {
                 "name": "Create project name",
                 "description": "Create project description",
                 "homepage": "http://create-project.com",
-                "parent_id": "1",
+                "parent_id": 1,
                 "summary": "Create project summary",
                 "identifier": "create-project",
                 "isPublic": "true",
-                "project_type_id": "1",
+                "project_type_id": 1,
                 "modules": "work_package_tracking,calendar",
                 "types": "none,bug,feature_test"
                 "customFields": "custom_field1,custom_field2",
-                "responsible_id": "1"
+                "responsible_id": 1
             }
 
                 OR
-                
+
             [{
                 "name": "Create project name",
                 "description": "Create project description",
                 "homepage": "http://create-project.com",
-                "parent_id": "1",
+                "parent_id": 1,
                 "summary": "Create project summary",
                 "identifier": "create-project",
                 "isPublic": "true",
-                "project_type_id": "1",
+                "project_type_id": 1,
                 "modules": "work_package_tracking,calendar",
                 "types": "none,bug,feature_test"
                 "customFields": "custom_field1,custom_field2",
-                "responsible_id": "1"
+                "responsible_id": 1
             }, {
                 "name": "",
                 "description": "",
@@ -351,18 +351,18 @@ Create new project(s)
                 "summary": "Create project summary",
                 "identifier": "create-project-2",
                 "isPublic": "true",
-                "project_type_id": "1",
+                "project_type_id": 1,
                 "modules": "work_package_tracking,calendar",
                 "types": "none,bug,feature_test"
                 "customFields": "custom_field1,custom_field2",
-                "responsible_id": "1"
+                "responsible_id": 1
             }]
-            
+
 + Response 201 (application/hal+json)
     + Body
-    
+
             {
-                "id": "2",
+                "id": 2,
                 "name": "Create project name",
                 "description": "Create project description",
                 "homepage": "http://create-project.com",
@@ -391,15 +391,15 @@ Create new project(s)
                 },
                 "embedded": { }
             }
-            
+
 + Response 207 (application/hal+json)
     + Body
-    
+
             {
                 "_collection": [{
-                    "status": { "code": 201", "text": "Created" },
+                    "status": { "code": 201, "text": "Created" },
                     "object": {
-                        "id": "1",
+                        "id": 1,
                         "name": "Create project name",
                         "description": "Create project description",
                         "homepage": "http://my-project.com",
@@ -408,7 +408,7 @@ Create new project(s)
                         "identifier": "my-project",
                         "status": "Closed",
                         "summary": "My project summary",
-        
+
                         "_type": "Project",
                         "_links": {
                             "root": { "href": "/", "title": "API entry point & documentation" },
@@ -429,8 +429,8 @@ Create new project(s)
                         "embedded": { }
                     }
                 }, {
-                    "status": { "code": "422", "text": "Unprocessable Entity" },
-                    "error":  { "opCode": "42", "messages": [{ "key": "name", "text": "Can't be blank" }, { "key": "description", "text": "Can't be blank" }]},
+                    "status": { "code": 422, "text": "Unprocessable Entity" },
+                    "error":  { "opCode": 42, "messages": [{ "key": "name", "text": "Can't be blank" }, { "key": "description", "text": "Can't be blank" }]},
                     "request": {  }
                 }],
                 "_type": "Project",
@@ -441,7 +441,7 @@ Create new project(s)
                 }
             }
 
-            
+
 ## /projects/{id}{?embedded}
 ### GET
 Get a project details.
@@ -452,9 +452,9 @@ Get a project details.
 
 + Response 200 (application/hal+json)
     + Body
-    
+
             {
-                "id": "1",
+                "id": 1,
                 "name": "My project name",
                 "description": "My project description",
                 "homepage": "http://my-project.com",
@@ -483,7 +483,7 @@ Get a project details.
                 },
                 "embedded": { }
             }
-            
+
 ### PATCH
 Update a project.
 
@@ -493,17 +493,17 @@ Update a project.
 
 + Request (application/json)
     + Body
-    
+
             {
                 "name": "Project update",
                 "description": "Updated project description"
             }
-            
+
 + Response 200 (applicaiton/hal+json)
     + Body
-    
+
             {
-                "id": "1",
+                "id": 1,
                 "name": "Project update",
                 "description": "Updated project description",
                 "homepage": "http://my-project.com",
@@ -533,7 +533,7 @@ Update a project.
                 "embedded": { }
             }
 
-## /projects/{id}            
+## /projects/{id}
 ### DELETE
 Delete a project.
 
@@ -553,39 +553,39 @@ Batch update selected projects. There are two possible ways to perform a batch u
             Request body: { "status": "closed" }
 
             2. Call: PATCH /projects
-            Request body: 
+            Request body:
             [
-                { "id": "1", "status": "Closed" }, 
-                { "id": "2", "name": "Updated name" }, 
-                { "id": "3", "name": "Another updated name", "status": "Closed" }
+                { "id": 1, "status": "Closed" },
+                { "id": 2, "name": "Updated name" },
+                { "id": 3, "name": "Another updated name", "status": "Closed" }
             ]
-        
+
 + Parameters
     + ids (optional, array, `[1, 2, 3]`) ... Projects ids.
     + embedded (optional, string, `author`) ...  Embedded resources to extend in the response.
-    
+
 + Request (application/json)
     + Body
-    
+
             {
                 "status": "Closed"
             }
-            
+
                 OR
-            
+
             [
-                { "id": "1", "name": "Updated project's name" },
-                { "id": "2", "description": "Updated project's description" }
+                { "id": 1, "name": "Updated project's name" },
+                { "id": 2, "description": "Updated project's description" }
             ]
 
 + Response 207 (application/hal+json)
     + Body
-    
+
             {
                 "_collection": [{
-                    "status": { "code": 200", "text": "Ok" },
+                    "status": { "code": 200, "text": "Ok" },
                     "object": {
-                        "id": "1",
+                        "id": 1,
                         "name": "Updated project's name",
                         "description": "Project description",
                         "homepage": "http://my-project.com",
@@ -594,7 +594,7 @@ Batch update selected projects. There are two possible ways to perform a batch u
                         "identifier": "my-project",
                         "status": "Closed",
                         "summary": "My project summary",
-        
+
                         "_type": "Project",
                         "_links": {
                             "root": { "href": "/", "title": "API entry point & documentation" },
@@ -615,9 +615,9 @@ Batch update selected projects. There are two possible ways to perform a batch u
                         "embedded": { }
                     }
                 }, {
-                    "status": { "code": 200", "text": "Ok" },
+                    "status": { "code": 200, "text": "Ok" },
                     "object": {
-                        "id": "2",
+                        "id": 2,
                         "name": "Project name",
                         "description": "Updated project's description",
                         "homepage": "http://my-project.com",
@@ -626,7 +626,7 @@ Batch update selected projects. There are two possible ways to perform a batch u
                         "identifier": "my-project",
                         "status": "Closed",
                         "summary": "My project summary",
-        
+
                         "_type": "Project",
                         "_links": {
                             "root": { "href": "/", "title": "API entry point & documentation" },
@@ -660,15 +660,15 @@ Batch delete selected projects.
 + Parameters
     + ids (required, array, `[1, 2, 3]`) ... Projects ids.
     + embedded (optional, string, `author`) ...  Embedded resources to extend in the response.
-            
+
 + Response 207 (application/hal+json)
     + Body
-    
+
             {
                 "_collection": [{
-                    "status": { "code": 200", "text": "Ok" },
+                    "status": { "code": 200, "text": "Ok" },
                     "object": {
-                        "id": "1",
+                        "id": 1,
                         "name": "Create project name",
                         "description": "Create project description",
                         "homepage": "http://my-project.com",
@@ -677,7 +677,7 @@ Batch delete selected projects.
                         "identifier": "my-project",
                         "status": "Closed",
                         "summary": "My project summary",
-        
+
                         "_type": "Project",
                         "_links": {
                             "root": { "href": "/", "title": "API entry point & documentation" },
@@ -698,8 +698,8 @@ Batch delete selected projects.
                         "embedded": { }
                     }
                 }, {
-                    "status": { "code": "500", "text": "Internal Server Error" },
-                    "error":  { "opCode": "451", "messages": [{ "key": "serverError", "text": "Oooops..." }]},
+                    "status": { "code": 500, "text": "Internal Server Error" },
+                    "error":  { "opCode": 51, "messages": [{ "key": "serverError", "text": "Oooops..." }]},
                     "request": {  }
                 }],
                 "_type": "Project",
@@ -746,29 +746,29 @@ List all work packages.
 + Response 200 (application/hal+json)
 
     + Body
-    
+
             {
                 "_collection": [{
-                    "id": "1",
+                    "id": 1,
                     "subject": "API Work package",
                     "description": "Lorem ipsum",
                     "type": "Feature",
                     "dueDate": "2014-05-07T03:42:54Z",
                     "status": "New",
                     "priority": "High",
-                    "lockVersion": "1",
-                    "doneRatio": "90",
-                    "estimatedHours": "10",
+                    "lockVersion": 1,
+                    "doneRatio": 90,
+                    "estimatedHours": 10,
                     "startDate": "2014-05-07T03:42:54Z",
                     "createdAt": "2014-05-07T03:42:54Z",
                     "updatedAt": "2014-05-07T03:42:54Z",
                     "customFields": [{
-                        "id": "1",
+                        "id": 1,
                         "name": "Custom field name",
                         "type": "string",
                         "value": "Some value"
                     }, {
-                        "id": "2",
+                        "id": 2,
                         "name": "Custom field name",
                         "type": "string",
                         "value": "Some value"
@@ -793,16 +793,16 @@ List all work packages.
                     },
                     "_embedded": { }
                 }, {
-                    "id": "2",
+                    "id": 2,
                     "subject": "API Work package",
                     "description": "Lorem ipsum",
                     "type": "Feature",
                     "dueDate": "2014-05-07T03:42:54Z",
                     "status": "New",
                     "priority": "High",
-                    "lockVersion": "1",
-                    "doneRatio": "90",
-                    "estimatedHours": "10",
+                    "lockVersion": 1,
+                    "doneRatio": 90,
+                    "estimatedHours": 10,
                     "startDate": "2014-05-07T03:42:54Z",
                     "createdAt": "2014-05-07T03:42:54Z",
                     "updatedAt": "2014-05-07T03:42:54Z",
@@ -837,8 +837,8 @@ List all work packages.
                     "batchUpdate": { "href": "/work_packages{?ids}", "method": "patch", "title": "Update work packages" },
                     "batchDelete": { "href": "/work_packages?{ids}", "method": "delete", "title": "Delete work packages" }
                 },
-                "_count": "2",
-                "_total": "456"
+                "_count": 2,
+                "_total": 456
             }
 
 ## /work_packages/{id}{?embedded}
@@ -851,18 +851,18 @@ Get a work package details.
 
 + Response 200 (application/hal+json)
     + Body
-    
+
             {
-                "id": "1",
+                "id": 1,
                 "subject": "API Work package",
                 "description": "Lorem ipsum",
                 "type": "Feature",
                 "dueDate": "2014-05-07T03:42:54Z",
                 "status": "New",
                 "priority": "High",
-                "lockVersion": "1",
-                "doneRatio": "90",
-                "estimatedHours": "10",
+                "lockVersion": 1,
+                "doneRatio": 90,
+                "estimatedHours": 10,
                 "startDate": "2014-05-07T03:42:54Z",
                 "createdAt": "2014-05-07T03:42:54Z",
                 "updatedAt": "2014-05-07T03:42:54Z",
@@ -887,7 +887,7 @@ Get a work package details.
                 },
                 "_embedded": { }
             }
-            
+
 ### PATCH
 Update a work package.
 
@@ -897,26 +897,26 @@ Update a work package.
 
 + Request (application/json)
     + Body
-    
+
             {
                 "subject": "API work package update",
                 "description": "Updated API work package description"
             }
-            
+
 + Response 200 (applicaion/hal+json)
     + Body
-    
+
             {
-                "id": "1",
+                "id": 1,
                 "subject": "API work package update",
                 "description": "Updated API work package description",
                 "type": "Feature",
                 "dueDate": "2014-05-07T03:42:54Z",
                 "status": "New",
                 "priority": "High",
-                "lockVersion": "1",
-                "doneRatio": "90",
-                "estimatedHours": "10",
+                "lockVersion": 1,
+                "doneRatio": 90,
+                "estimatedHours": 10,
                 "startDate": "2014-05-07T03:42:54Z",
                 "createdAt": "2014-05-07T03:42:54Z",
                 "updatedAt": "2014-05-07T03:42:54Z",
@@ -960,77 +960,77 @@ Create a work package(s) for a project.
     + embedded (optional, string, `project,author`) ...  Embedded resources to extend in the response.
 
 + Request (application/json)
-    + Body 
-    
+    + Body
+
             {
                 "subject": "Create a work package",
                 "description": "Description of work package",
-                "typeId": "1",
+                "typeId": 1,
                 "dueDate": "2014-05-07T03:42:54Z",
-                "statusId": "1",
-                "priorityId": "1",
-                "fixedVersionId": "1",
-                "lockVersion": "0",
-                "doneRatio": "0",
-                "estimatedHours": "10",
+                "statusId": 1,
+                "priorityId": 1,
+                "fixedVersionId": 1,
+                "lockVersion": 0,
+                "doneRatio": 0,
+                "estimatedHours": 10,
                 "startDate": "2014-05-07T03:42:54Z",
-                "projectId": "1",
-                "authorId": "1",
-                "assignedToId": "1",
-                "responsibleId": "1"
+                "projectId": 1,
+                "authorId": 1,
+                "assignedToId": 1,
+                "responsibleId": 1
             }
 
                 OR
-                
+
             [
-                { 
+                {
                     "subject": "Create a work package",
                     "description": "Description of work package",
-                    "typeId": "1",
+                    "typeId": 1,
                     "dueDate": "2014-05-07T03:42:54Z",
-                    "statusId": "1",
-                    "priorityId": "1",
-                    "fixedVersionId": "1",
-                    "lockVersion": "0",
-                    "doneRatio": "0",
-                    "estimatedHours": "10",
+                    "statusId": 1,
+                    "priorityId": 1,
+                    "fixedVersionId": 1,
+                    "lockVersion": 0,
+                    "doneRatio": 0,
+                    "estimatedHours": 10,
                     "startDate": "2014-05-07T03:42:54Z",
-                    "projectId": "1",
-                    "authorId": "1",
-                    "assignedToId": "1",
-                    "responsibleId": "1"
+                    "projectId": 1,
+                    "authorId": 1,
+                    "assignedToId": 1,
+                    "responsibleId": 1
                 }, {
                     "subject": "Create a work package 2
                     "description": "Description of work package 2
-                    "typeId": "1",
+                    "typeId": 1,
                     "dueDate": "2014-05-07T03:42:54Z",
-                    "statusId": "1",
-                    "priorityId": "1",
-                    "fixedVersionId": "1",
-                    "lockVersion": "0",
-                    "doneRatio": "0",
-                    "estimatedHours": "10",
+                    "statusId": 1,
+                    "priorityId": 1,
+                    "fixedVersionId": 1,
+                    "lockVersion": 0,
+                    "doneRatio": 0,
+                    "estimatedHours": 10,
                     "startDate": "2014-05-07T03:42:54Z",
-                    "projectId": "1",
-                    "authorId": "1",
-                    "assignedToId": "1",
-                    "responsibleId": "1"
+                    "projectId": 1,
+                    "authorId": 1,
+                    "assignedToId": 1,
+                    "responsibleId": 1
                 }
             ]
 + Response 201 (application/hal+json)
     + Body
-    
+
             {
-                "id": "1",
+                "id": 1,
                 "subject": "Create a work package",
                 "description": "Description of work package",
                 "type": "Feature",
                 "dueDate": "2014-05-07T03:42:54Z",
                 "status": "New",
                 "priority": "High",
-                "lockVersion": "1",
-                "doneRatio": "0",
-                "estimatedHours": "10",
+                "lockVersion": 1,
+                "doneRatio": 0,
+                "estimatedHours": 10,
                 "startDate": "2014-05-07T03:42:54Z",
                 "createdAt": "2014-05-07T03:42:54Z",
                 "updatedAt": "2014-05-07T03:42:54Z",
@@ -1058,26 +1058,26 @@ Create a work package(s) for a project.
 
 + Response 207 (application/hal+json)
     + Body
-    
+
             {
                 "_collection": [{
-                    "status": { "code": "201", "text": "Created" },
+                    "status": { "code": 201, "text": "Created" },
                     "object": {
-                        "id": "1",
+                        "id": 1,
                         "subject": "Create a work package",
                         "description": "Description of work package",
                         "type": "Feature",
                         "dueDate": "2014-05-07T03:42:54Z",
                         "status": "New",
                         "priority": "High",
-                        "lockVersion": "1",
-                        "doneRatio": "0",
-                        "estimatedHours": "10",
+                        "lockVersion": 1,
+                        "doneRatio": 0,
+                        "estimatedHours": 10,
                         "startDate": "2014-05-07T03:42:54Z",
                         "createdAt": "2014-05-07T03:42:54Z",
                         "updatedAt": "2014-05-07T03:42:54Z",
                         "customFields": [ ],
-        
+
                         "_type": "WorkPackage",
                         "_links": {
                             "root": { "href": "/", "title": "API entry point & documentation" },
@@ -1098,8 +1098,8 @@ Create a work package(s) for a project.
                         "_embedded": { }
                     }
                 }, {
-                    "status": { "code": "500", "text": "Internal server error" },
-                    "error":  { "opCode": "51", "messages": [{ "key": "serverError", "text": "Oooops." }]},
+                    "status": { "code": 500, "text": "Internal server error" },
+                    "error":  { "opCode": 51, "messages": [{ "key": "serverError", "text": "Oooops." }]},
                     "request": {  }
                 }],
                 "_type": "WorkPackage",
@@ -1116,9 +1116,9 @@ Create a work package(s) for a project.
 
 Batch update selected work packages. There are two possible ways to perform a batch update:
 
-- **update the same attribute(s) of multiple work packages with the same values.** In this case, you 
+- **update the same attribute(s) of multiple work packages with the same values.** In this case, you
 specify work packages ids in the query parameter and attributes and values in request body.
-- **update voluntary attribute(s) of multiple work packages with different values.** This way, you can 
+- **update voluntary attribute(s) of multiple work packages with different values.** This way, you can
 specify work package id directly in the request body and therefore you can update multiple work packages
 with different values.
 
@@ -1126,11 +1126,11 @@ with different values.
             Request body: { "project_id": "2", "status": "closed" }
 
             Call: PATCH /work_packages
-            Request body: 
+            Request body:
                 [
-                    { "id": "1", "project_id": "3" }, 
-                    { "id": "2", "status": "closed" }, 
-                    { "id": "3", "project_id": "3", "status": "closed" }
+                    { "id": 1, "project_id": 3 },
+                    { "id": 2, "status": "closed" },
+                    { "id": 3, "project_id": 3, "status": "closed" }
                 ]
 
 + Parameters
@@ -1139,40 +1139,40 @@ with different values.
 
 + Request (application/json)
     + Body
-    
+
             {
-                "project_id": "1"
+                "project_id": 1
             }
 
                 OR
-                
+
             [
-                { "id": "1", "subject": "My new subject" },
-                { "id": "2", "description": "My new description" }
+                { "id": 1, "subject": "My new subject" },
+                { "id": 2, "description": "My new description" }
             ]
-            
+
 + Response 207 (application/hal+json)
-    + Body 
-    
+    + Body
+
             {
                 "_collection": [{
-                    "status": { "code": "200", "text": "Ok" },
+                    "status": { "code": 200, "text": "Ok" },
                     "object": {
-                        "id": "1",
+                        "id": 1,
                         "subject": "My new subject",
                         "description": "Description of work package",
                         "type": "Feature",
                         "dueDate": "2014-05-07T03:42:54Z",
                         "status": "New",
                         "priority": "High",
-                        "lockVersion": "1",
-                        "doneRatio": "0",
-                        "estimatedHours": "10",
+                        "lockVersion": 1,
+                        "doneRatio": 0,
+                        "estimatedHours": 10,
                         "startDate": "2014-05-07T03:42:54Z",
                         "createdAt": "2014-05-07T03:42:54Z",
                         "updatedAt": "2014-05-07T03:42:54Z",
                         "customFields": [ ],
-        
+
                         "_type": "WorkPackage",
                         "_links": {
                             "root": { "href": "/", "title": "API entry point & documentation" },
@@ -1193,23 +1193,23 @@ with different values.
                         "_embedded": { }
                     }
                 }, {
-                     "status": { "code": "200", "text": "Ok" },
+                     "status": { "code": 200, "text": "Ok" },
                     "object": {
-                        "id": "2",
+                        "id": 2,
                         "subject": "Work package subject",
                         "description": "My new description",
                         "type": "Feature",
                         "dueDate": "2014-05-07T03:42:54Z",
                         "status": "New",
                         "priority": "High",
-                        "lockVersion": "1",
-                        "doneRatio": "0",
-                        "estimatedHours": "10",
+                        "lockVersion": 1,
+                        "doneRatio": 0,
+                        "estimatedHours": 10,
                         "startDate": "2014-05-07T03:42:54Z",
                         "createdAt": "2014-05-07T03:42:54Z",
                         "updatedAt": "2014-05-07T03:42:54Z",
                         "customFields": [ ],
-        
+
                         "_type": "WorkPackage",
                         "_links": {
                             "root": { "href": "/", "title": "API entry point & documentation" },
@@ -1245,29 +1245,29 @@ Batch delete selected work packages.
 + Parameters
     + ids (required, array, `ids[]=1&ids[]=2`) ... Ids of work packages to delete.
     + embedded (optional, string, `project,author`) ...  Embedded resources to extend in the response.
-            
+
 + Response 207 (application/hal+json)
-    + Body 
-    
+    + Body
+
             {
                 "_collection": [{
-                    "status": { "code": "200", "text": "Ok" },
+                    "status": { "code": 200, "text": "Ok" },
                     "object": {
-                        "id": "1",
+                        "id": 1,
                         "subject": "My new subject",
                         "description": "Description of work package",
                         "type": "Feature",
                         "dueDate": "2014-05-07T03:42:54Z",
                         "status": "New",
                         "priority": "High",
-                        "lockVersion": "1",
-                        "doneRatio": "0",
-                        "estimatedHours": "10",
+                        "lockVersion": 1,
+                        "doneRatio": 0,
+                        "estimatedHours": 10,
                         "startDate": "2014-05-07T03:42:54Z",
                         "createdAt": "2014-05-07T03:42:54Z",
                         "updatedAt": "2014-05-07T03:42:54Z",
                         "customFields": [ ],
-        
+
                         "_type": "WorkPackage",
                         "_links": {
                             "root": { "href": "/", "title": "API entry point & documentation" },
@@ -1288,23 +1288,23 @@ Batch delete selected work packages.
                         "_embedded": { }
                     }
                 }, {
-                    "status": { "code": "200", "text": "Ok" },
+                    "status": { "code": 200, "text": "Ok" },
                     "object": {
-                        "id": "2",
+                        "id": 2,
                         "subject": "Work package subject",
                         "description": "My new description",
                         "type": "Feature",
                         "dueDate": "2014-05-07T03:42:54Z",
                         "status": "New",
                         "priority": "High",
-                        "lockVersion": "1",
-                        "doneRatio": "0",
-                        "estimatedHours": "10",
+                        "lockVersion": 1,
+                        "doneRatio": 0,
+                        "estimatedHours": 10,
                         "startDate": "2014-05-07T03:42:54Z",
                         "createdAt": "2014-05-07T03:42:54Z",
                         "updatedAt": "2014-05-07T03:42:54Z",
                         "customFields": [ ],
-        
+
                         "_type": "WorkPackage",
                         "_links": {
                             "root": { "href": "/", "title": "API entry point & documentation" },
@@ -1341,86 +1341,86 @@ List users
 
 + Response 200 (application/hal+json)
     + Headers
-    
+
             Link: </>;
 
     + Body
-    
-            { 
+
+            {
 
             }
-            
+
 ### POST
 Create user
 
 + Request (application/json)
     + Headers
-    
+
             Link: </>;
 
     + Body
-            
+
             {
-            
+
             }
-            
+
 + Response 201 (application/hal+json)
     + Headers
-    
+
             Link: </>;
 
     + Body
-    
+
             {
-            
+
             }
-            
+
 ## /users/{id}
 ### GET
 Get user
 
 + Response 200 (application/hal+json)
     + Headers
-    
+
             Link: </>;
 
-    + Body 
-    
+    + Body
+
             {
-            
+
             }
-            
+
 ### PATCH
 Update user
 
 + Request (application/json)
     + Headers
-    
+
             Link: </>;
 
     + Body
-            
+
             {
-            
+
             }
-            
+
 + Response 200 (application/hal+json)
     + Headers
-    
+
             Link: </>;
 
     + Body
-    
+
             {
-            
+
             }
-            
+
 ### DELETE
 Delete user
 
 + Response 204
     + Headers
-    
+
             Link: </>;
 
 ## /users/{id}/lock
@@ -1429,40 +1429,40 @@ Lock user
 
 + Request
     + Headers
-    
+
             Link: </>;
-            
+
 + Response 200 (application/hal+json)
     + Headers
-    
+
             Link: </>;
 
     + Body
-    
+
             {
-            
+
             }
 
-## /users/{id}/unlock            
+## /users/{id}/unlock
 ### PATCH
 Unlock user
 
 + Request
     + Headers
-    
+
             Link: </>;
-            
+
 + Response 200 (application/hal+json)
     + Headers
-    
+
             Link: </>;
 
     + Body
-    
+
             {
-            
+
             }
-            
+
 # Group Versions
 
 ## /versions
@@ -1471,61 +1471,61 @@ List versions
 
 + Response 200 (application/hal+json)
     + Headers
-    
+
             Link: </>;
 
     + Body
-    
+
             {
-            
+
             }
-            
+
 ## /version/{id}
 ### GET
 Get version
 
 + Response 200 (application/hal+json)
     + Headers
-    
+
             Link: </>;
 
     + Body
-    
+
             {
-            
+
             }
-            
+
 ### PATCH
 Update a version
 
 + Request (application/json)
     + Headers
-    
+
             Link: </>;
 
     + Body
-    
+
             {
-            
+
             }
 
 + Response 200 (application/hal+json)
     + Header
-    
+
             Link: </>;
 
     + Body
-    
+
             {
-            
+
             }
-            
+
 ### DELETE
 Delete a version
 
 + Response 204
     + Headers
-    
+
             Link: </>;
 
 ## /projects/{project_id}/versions
@@ -1534,36 +1534,36 @@ Get versions for a project
 
 + Response 200 (application/hal+json)
     + Headers
-    
+
             Link: </>;
 
     + Body
-    
+
             {
-            
+
             }
-            
+
 ### POST
 Create a version for a project
 
 + Request (application/json)
     + Headers
-    
+
             Link: </>;
 
     + Body
-    
+
             {
-            
+
             }
-            
+
 + Response 201 (application/hal+json)
     + Headers
-    
+
             Link: </>;
 
     + Body
-    
+
             {
-            
+
             }
