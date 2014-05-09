@@ -1,6 +1,6 @@
 angular.module('openproject.workPackages.directives')
 
-.directive('workPackageContextMenu', ['ContextMenuService', 'WorkPackagesTableHelper', 'WorkPackageContextMenuHelper', 'WorkPackageService', 'I18n', function(ContextMenuService, WorkPackagesTableHelper, WorkPackageContextMenuHelper, WorkPackageService, I18n) {
+.directive('workPackageContextMenu', ['ContextMenuService', 'WorkPackagesTableHelper', 'WorkPackageContextMenuHelper', 'WorkPackageService', 'WorkPackagesTableService', 'I18n', function(ContextMenuService, WorkPackagesTableHelper, WorkPackageContextMenuHelper, WorkPackageService, WorkPackagesTableService, I18n) {
   return {
     restrict: 'EA',
     replace: true,
@@ -24,12 +24,19 @@ angular.module('openproject.workPackages.directives')
       });
 
       scope.deleteWorkPackages = function() {
+        var rows = WorkPackagesTableHelper.getSelectedRows(scope.contextMenu.context.rows);
+
         WorkPackageService.performBulkDelete(getWorkPackagesFromContext(scope.contextMenu.context))
           .success(function(data, status) {
             // TODO wire up to API and processs API response
             scope.$emit('flashMessage', {
+              isError: false,
               text: I18n.t('js.work_packages.message_successful_bulk_delete')
             });
+
+            WorkPackagesTableService.removeRows(rows);
+            // TODO remove via a controller linked to the work packages row
+            // Remark: This controller has to be forwarded by the hasContextMenu directive somehow
           })
           .error(function(data, status) {
             // TODO wire up to API and processs API response

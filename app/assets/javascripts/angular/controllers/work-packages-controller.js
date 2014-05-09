@@ -131,6 +131,9 @@ angular.module('openproject.workPackages.controllers')
     // table data
     $scope.rows = WorkPackagesTableHelper.getRows(json.work_packages, $scope.query.groupBy);
     $scope.workPackageCountByGroup = meta.work_package_count_by_group;
+
+    // shared table data
+    WorkPackagesTableService.setRows($scope.rows);
     WorkPackagesTableService.setBulkLinks(json._bulk_links);
 
     // pagination data

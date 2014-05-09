@@ -41,9 +41,11 @@ angular.module('openproject.workPackages.services')
     getBulkLinks: function() {
       return bulkLinks;
     },
+
     getWorkPackagesTableData: function() {
       return workPackagesTableData;
     },
+
     setAllRowsChecked: function(rows, currentRow, currentState) {
       rows = rows.filter(function(row) {
         return row !== currentRow;
@@ -52,6 +54,22 @@ angular.module('openproject.workPackages.services')
     },
     allRowsChecked: function() {
       return workPackagesTableData.allRowsChecked;
+    },
+
+    setRows: function(rows) {
+      workPackagesTableData.rows = rows;
+    },
+
+    removeRow: function(row) {
+      var rows = workPackagesTableData.rows;
+      var index = rows.indexOf(row);
+
+      if (index > -1) rows.splice(index, 1);
+    },
+    removeRows: function(rows) {
+      angular.forEach(rows, function(row) {
+        WorkPackagesTableService.removeRow(row);
+      });
     }
 
   };
