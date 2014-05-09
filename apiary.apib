@@ -774,7 +774,7 @@ List all work packages.
                     "_links": {
                         "root": { "href": "/", "title": "API entry point & documentation" },
                         "self": { "href": "/work_packages/1", "title": "Work package subject" },
-                        "createChildren": { "href": "/projects/3/work_packages?parent_id=1", "method": "post", "title": "Project name - Create new work package" },
+                        "createChildren": { "href": "/work_packages?parent_id=1", "method": "post", "title": "Project name - Create new work package" },
                         "update": { "href": "/work_packages/1", "method": "patch", "title": "Update work package name" },
                         "delete": { "href": "/work_packages/1", "method": "delete", "title": "Delete work package name" },
                         "project": { "href": "/projects/3", "title": "Project name" },
@@ -783,9 +783,11 @@ List all work packages.
                         "responsible": { "href": "/users/1", "title": "User name" },
                         "fixedVersion": { "href": "/versions/1", "title": "Version" },
                         "projectWorkPackages": { "href": "/work_packages?filter[project_id]=3", "title": "Project name - Work packages" },
-                        "descendants": { "href": "/projects/3/work_packages?filter[ancestor_id]=1", "title": "Descendant work packages" },
-                        "children": { "href": "/projects/3/work_packages?filter[parent_id]=1", "title": "First children work packages" },
-                        "relations": { "href": "/projects/3/work_packages?filter[related_to_id]=1", "title": "Related work packages" }
+                        "descendants": { "href": "/work_packages?filter[ancestor_id]=1", "title": "Descendant work packages" },
+                        "children": { "href": "/work_packages?filter[parent_id]=1", "title": "Children work packages" },
+                        "parent": { "href": "/work_packages?filter[child_id]=1", "title": "Parent work package" },
+                        "ancestor": { "href": "/work_packages?filter[descendant_id=1]", "title": "Ancestor work packages" },
+                        "relations": { "href": "/work_packages?filter[related_to_id]=1", "title": "Related work packages" }
                     },
                     "_embedded": { }
                 }, {
@@ -807,19 +809,21 @@ List all work packages.
                     "_type": "WorkPackage",
                     "_links": {
                         "root": { "href": "/", "title": "API entry point & documentation" },
-                        "self": { "href": "/work_packages/2", "title": "Work package subject" },
-                        "createChildren": { "href": "/projects/3/work_packages?parent_id=2", "method": "post", "title": "Project name - Create new work package" },
-                        "update": { "href": "/work_packages/2", "method": "patch", "title": "Update work package name" },
-                        "delete": { "href": "/work_packages/2", "method": "delete", "title": "Delete work package name" },
+                        "self": { "href": "/work_packages/1", "title": "Work package subject" },
+                        "createChildren": { "href": "/work_packages?parent_id=1", "method": "post", "title": "Project name - Create new work package" },
+                        "update": { "href": "/work_packages/1", "method": "patch", "title": "Update work package name" },
+                        "delete": { "href": "/work_packages/1", "method": "delete", "title": "Delete work package name" },
                         "project": { "href": "/projects/3", "title": "Project name" },
                         "author": { "href": "/users/1", "title": "User name" },
                         "assignee": { "href": "/users/1", "title": "User name" },
                         "responsible": { "href": "/users/1", "title": "User name" },
                         "fixedVersion": { "href": "/versions/1", "title": "Version" },
                         "projectWorkPackages": { "href": "/work_packages?filter[project_id]=3", "title": "Project name - Work packages" },
-                        "descendants": { "href": "/projects/3/work_packages?filter[ancestor_id]=2", "title": "Descendant work packages" },
-                        "children": { "href": "/projects/3/work_packages?filter[parent_id]=2", "title": "First children work packages" },
-                        "relations": { "href": "/projects/3/work_packages?filter[related_to_id]=2", "title": "Related work packages" }
+                        "descendants": { "href": "/work_packages?filter[ancestor_id]=1", "title": "Descendant work packages" },
+                        "children": { "href": "/work_packages?filter[parent_id]=1", "title": "Children work packages" },
+                        "parent": { "href": "/work_packages?filter[child_id]=1", "title": "Parent work package" },
+                        "ancestor": { "href": "/work_packages?filter[descendant_id=1]", "title": "Ancestor work packages" },
+                        "relations": { "href": "/work_packages?filter[related_to_id]=1", "title": "Related work packages" }
                     },
                     "_embedded": { }
                 }],
@@ -868,7 +872,7 @@ Get a work package details.
                 "_links": {
                     "root": { "href": "/", "title": "API entry point & documentation" },
                     "self": { "href": "/work_packages/1", "title": "Work package subject" },
-                    "createChildren": { "href": "/projects/3/work_packages?parent_id=1", "method": "post", "title": "Project name - Create new work package" },
+                    "createChildren": { "href": "/work_packages?parent_id=1", "method": "post", "title": "Project name - Create new work package" },
                     "update": { "href": "/work_packages/1", "method": "patch", "title": "Update work package name" },
                     "delete": { "href": "/work_packages/1", "method": "delete", "title": "Delete work package name" },
                     "project": { "href": "/projects/3", "title": "Project name" },
@@ -877,9 +881,11 @@ Get a work package details.
                     "responsible": { "href": "/users/1", "title": "User name" },
                     "fixedVersion": { "href": "/versions/1", "title": "Version" },
                     "projectWorkPackages": { "href": "/work_packages?filter[project_id]=3", "title": "Project name - Work packages" },
-                    "descendants": { "href": "/projects/3/work_packages?filter[ancestor_id]=1", "title": "Descendant work packages" },
-                    "children": { "href": "/projects/3/work_packages?filter[parent_id]=1", "title": "First children work packages" },
-                    "relations": { "href": "/projects/3/work_packages?filter[related_to_id]=1", "title": "Related work packages" }
+                    "descendants": { "href": "/work_packages?filter[ancestor_id]=1", "title": "Descendant work packages" },
+                    "children": { "href": "/work_packages?filter[parent_id]=1", "title": "Children work packages" },
+                    "parent": { "href": "/work_packages?filter[child_id]=1", "title": "Parent work package" },
+                    "ancestor": { "href": "/work_packages?filter[descendant_id=1]", "title": "Ancestor work packages" },
+                    "relations": { "href": "/work_packages?filter[related_to_id]=1", "title": "Related work packages" }
                 },
                 "_embedded": { }
             }
@@ -922,7 +928,7 @@ Update a work package.
                 "_links": {
                     "root": { "href": "/", "title": "API entry point & documentation" },
                     "self": { "href": "/work_packages/1", "title": "Work package subject" },
-                    "createChildren": { "href": "/projects/3/work_packages?parent_id=1", "method": "post", "title": "Project name - Create new work package" },
+                    "createChildren": { "href": "/work_packages?parent_id=1", "method": "post", "title": "Project name - Create new work package" },
                     "update": { "href": "/work_packages/1", "method": "patch", "title": "Update work package name" },
                     "delete": { "href": "/work_packages/1", "method": "delete", "title": "Delete work package name" },
                     "project": { "href": "/projects/3", "title": "Project name" },
@@ -931,9 +937,11 @@ Update a work package.
                     "responsible": { "href": "/users/1", "title": "User name" },
                     "fixedVersion": { "href": "/versions/1", "title": "Version" },
                     "projectWorkPackages": { "href": "/work_packages?filter[project_id]=3", "title": "Project name - Work packages" },
-                    "descendants": { "href": "/projects/3/work_packages?filter[ancestor_id]=1", "title": "Descendant work packages" },
-                    "children": { "href": "/projects/3/work_packages?filter[parent_id]=1", "title": "First children work packages" },
-                    "relations": { "href": "/projects/3/work_packages?filter[related_to_id]=1", "title": "Related work packages" }
+                    "descendants": { "href": "/work_packages?filter[ancestor_id]=1", "title": "Descendant work packages" },
+                    "children": { "href": "/work_packages?filter[parent_id]=1", "title": "Children work packages" },
+                    "parent": { "href": "/work_packages?filter[child_id]=1", "title": "Parent work package" },
+                    "ancestor": { "href": "/work_packages?filter[descendant_id=1]", "title": "Ancestor work packages" },
+                    "relations": { "href": "/work_packages?filter[related_to_id]=1", "title": "Related work packages" }
                 },
                 "_embedded": { }
             }
@@ -1036,7 +1044,7 @@ Create a work package(s) for a project.
                 "_links": {
                     "root": { "href": "/", "title": "API entry point & documentation" },
                     "self": { "href": "/work_packages/1", "title": "Work package subject" },
-                    "createChildren": { "href": "/projects/3/work_packages?parent_id=1", "method": "post", "title": "Project name - Create new work package" },
+                    "createChildren": { "href": "/work_packages?parent_id=1", "method": "post", "title": "Project name - Create new work package" },
                     "update": { "href": "/work_packages/1", "method": "patch", "title": "Update work package name" },
                     "delete": { "href": "/work_packages/1", "method": "delete", "title": "Delete work package name" },
                     "project": { "href": "/projects/3", "title": "Project name" },
@@ -1045,9 +1053,11 @@ Create a work package(s) for a project.
                     "responsible": { "href": "/users/1", "title": "User name" },
                     "fixedVersion": { "href": "/versions/1", "title": "Version" },
                     "projectWorkPackages": { "href": "/work_packages?filter[project_id]=3", "title": "Project name - Work packages" },
-                    "descendants": { "href": "/projects/3/work_packages?filter[ancestor_id]=1", "title": "Descendant work packages" },
-                    "children": { "href": "/projects/3/work_packages?filter[parent_id]=1", "title": "First children work packages" },
-                    "relations": { "href": "/projects/3/work_packages?filter[related_to_id]=1", "title": "Related work packages" }
+                    "descendants": { "href": "/work_packages?filter[ancestor_id]=1", "title": "Descendant work packages" },
+                    "children": { "href": "/work_packages?filter[parent_id]=1", "title": "Children work packages" },
+                    "parent": { "href": "/work_packages?filter[child_id]=1", "title": "Parent work package" },
+                    "ancestor": { "href": "/work_packages?filter[descendant_id=1]", "title": "Ancestor work packages" },
+                    "relations": { "href": "/work_packages?filter[related_to_id]=1", "title": "Related work packages" }
                 },
                 "_embedded": { }
             }
@@ -1078,7 +1088,7 @@ Create a work package(s) for a project.
                         "_links": {
                             "root": { "href": "/", "title": "API entry point & documentation" },
                             "self": { "href": "/work_packages/1", "title": "Work package subject" },
-                            "createChildren": { "href": "/projects/3/work_packages?parent_id=1", "method": "post", "title": "Project name - Create new work package" },
+                            "createChildren": { "href": "/work_packages?parent_id=1", "method": "post", "title": "Project name - Create new work package" },
                             "update": { "href": "/work_packages/1", "method": "patch", "title": "Update work package name" },
                             "delete": { "href": "/work_packages/1", "method": "delete", "title": "Delete work package name" },
                             "project": { "href": "/projects/3", "title": "Project name" },
@@ -1087,9 +1097,11 @@ Create a work package(s) for a project.
                             "responsible": { "href": "/users/1", "title": "User name" },
                             "fixedVersion": { "href": "/versions/1", "title": "Version" },
                             "projectWorkPackages": { "href": "/work_packages?filter[project_id]=3", "title": "Project name - Work packages" },
-                            "descendants": { "href": "/projects/3/work_packages?filter[ancestor_id]=1", "title": "Descendant work packages" },
-                            "children": { "href": "/projects/3/work_packages?filter[parent_id]=1", "title": "First children work packages" },
-                            "relations": { "href": "/projects/3/work_packages?filter[related_to_id]=1", "title": "Related work packages" }
+                            "descendants": { "href": "/work_packages?filter[ancestor_id]=1", "title": "Descendant work packages" },
+                            "children": { "href": "/work_packages?filter[parent_id]=1", "title": "Children work packages" },
+                            "parent": { "href": "/work_packages?filter[child_id]=1", "title": "Parent work package" },
+                            "ancestor": { "href": "/work_packages?filter[descendant_id=1]", "title": "Ancestor work packages" },
+                            "relations": { "href": "/work_packages?filter[related_to_id]=1", "title": "Related work packages" }
                         },
                         "_embedded": { }
                     }
@@ -1173,7 +1185,7 @@ with different values.
                         "_links": {
                             "root": { "href": "/", "title": "API entry point & documentation" },
                             "self": { "href": "/work_packages/1", "title": "Work package subject" },
-                            "createChildren": { "href": "/projects/3/work_packages?parent_id=1", "method": "post", "title": "Project name - Create new work package" },
+                            "createChildren": { "href": "/work_packages?parent_id=1", "method": "post", "title": "Project name - Create new work package" },
                             "update": { "href": "/work_packages/1", "method": "patch", "title": "Update work package name" },
                             "delete": { "href": "/work_packages/1", "method": "delete", "title": "Delete work package name" },
                             "project": { "href": "/projects/3", "title": "Project name" },
@@ -1182,9 +1194,11 @@ with different values.
                             "responsible": { "href": "/users/1", "title": "User name" },
                             "fixedVersion": { "href": "/versions/1", "title": "Version" },
                             "projectWorkPackages": { "href": "/work_packages?filter[project_id]=3", "title": "Project name - Work packages" },
-                            "descendants": { "href": "/projects/3/work_packages?filter[ancestor_id]=1", "title": "Descendant work packages" },
-                            "children": { "href": "/projects/3/work_packages?filter[parent_id]=1", "title": "First children work packages" },
-                            "relations": { "href": "/projects/3/work_packages?filter[related_to_id]=1", "title": "Related work packages" }
+                            "descendants": { "href": "/work_packages?filter[ancestor_id]=1", "title": "Descendant work packages" },
+                            "children": { "href": "/work_packages?filter[parent_id]=1", "title": "Children work packages" },
+                            "parent": { "href": "/work_packages?filter[child_id]=1", "title": "Parent work package" },
+                            "ancestor": { "href": "/work_packages?filter[descendant_id=1]", "title": "Ancestor work packages" },
+                            "relations": { "href": "/work_packages?filter[related_to_id]=1", "title": "Related work packages" }
                         },
                         "_embedded": { }
                     }
@@ -1209,19 +1223,21 @@ with different values.
                         "_type": "WorkPackage",
                         "_links": {
                             "root": { "href": "/", "title": "API entry point & documentation" },
-                            "self": { "href": "/work_packages/2", "title": "Work package subject" },
-                            "createChildren": { "href": "/projects/3/work_packages?parent_id=2", "method": "post", "title": "Project name - Create new work package" },
-                            "update": { "href": "/work_packages/2", "method": "patch", "title": "Update work package name" },
-                            "delete": { "href": "/work_packages/2", "method": "delete", "title": "Delete work package name" },
+                            "self": { "href": "/work_packages/1", "title": "Work package subject" },
+                            "createChildren": { "href": "/work_packages?parent_id=1", "method": "post", "title": "Project name - Create new work package" },
+                            "update": { "href": "/work_packages/1", "method": "patch", "title": "Update work package name" },
+                            "delete": { "href": "/work_packages/1", "method": "delete", "title": "Delete work package name" },
                             "project": { "href": "/projects/3", "title": "Project name" },
                             "author": { "href": "/users/1", "title": "User name" },
                             "assignee": { "href": "/users/1", "title": "User name" },
                             "responsible": { "href": "/users/1", "title": "User name" },
                             "fixedVersion": { "href": "/versions/1", "title": "Version" },
                             "projectWorkPackages": { "href": "/work_packages?filter[project_id]=3", "title": "Project name - Work packages" },
-                            "descendants": { "href": "/projects/3/work_packages?filter[ancestor_id]=2", "title": "Descendant work packages" },
-                            "children": { "href": "/projects/3/work_packages?filter[parent_id]=2", "title": "First children work packages" },
-                            "relations": { "href": "/projects/3/work_packages?filter[related_to_id]=2", "title": "Related work packages" }
+                            "descendants": { "href": "/work_packages?filter[ancestor_id]=1", "title": "Descendant work packages" },
+                            "children": { "href": "/work_packages?filter[parent_id]=1", "title": "Children work packages" },
+                            "parent": { "href": "/work_packages?filter[child_id]=1", "title": "Parent work package" },
+                            "ancestor": { "href": "/work_packages?filter[descendant_id=1]", "title": "Ancestor work packages" },
+                            "relations": { "href": "/work_packages?filter[related_to_id]=1", "title": "Related work packages" }
                         },
                         "_embedded": { }
                     }
@@ -1268,7 +1284,7 @@ Batch delete selected work packages.
                         "_links": {
                             "root": { "href": "/", "title": "API entry point & documentation" },
                             "self": { "href": "/work_packages/1", "title": "Work package subject" },
-                            "createChildren": { "href": "/projects/3/work_packages?parent_id=1", "method": "post", "title": "Project name - Create new work package" },
+                            "createChildren": { "href": "/work_packages?parent_id=1", "method": "post", "title": "Project name - Create new work package" },
                             "update": { "href": "/work_packages/1", "method": "patch", "title": "Update work package name" },
                             "delete": { "href": "/work_packages/1", "method": "delete", "title": "Delete work package name" },
                             "project": { "href": "/projects/3", "title": "Project name" },
@@ -1277,9 +1293,11 @@ Batch delete selected work packages.
                             "responsible": { "href": "/users/1", "title": "User name" },
                             "fixedVersion": { "href": "/versions/1", "title": "Version" },
                             "projectWorkPackages": { "href": "/work_packages?filter[project_id]=3", "title": "Project name - Work packages" },
-                            "descendants": { "href": "/projects/3/work_packages?filter[ancestor_id]=1", "title": "Descendant work packages" },
-                            "children": { "href": "/projects/3/work_packages?filter[parent_id]=1", "title": "First children work packages" },
-                            "relations": { "href": "/projects/3/work_packages?filter[related_to_id]=1", "title": "Related work packages" }
+                            "descendants": { "href": "/work_packages?filter[ancestor_id]=1", "title": "Descendant work packages" },
+                            "children": { "href": "/work_packages?filter[parent_id]=1", "title": "Children work packages" },
+                            "parent": { "href": "/work_packages?filter[child_id]=1", "title": "Parent work package" },
+                            "ancestor": { "href": "/work_packages?filter[descendant_id=1]", "title": "Ancestor work packages" },
+                            "relations": { "href": "/work_packages?filter[related_to_id]=1", "title": "Related work packages" }
                         },
                         "_embedded": { }
                     }
@@ -1304,19 +1322,21 @@ Batch delete selected work packages.
                         "_type": "WorkPackage",
                         "_links": {
                             "root": { "href": "/", "title": "API entry point & documentation" },
-                            "self": { "href": "/work_packages/2", "title": "Work package subject" },
-                            "createChildren": { "href": "/projects/3/work_packages?parent_id=2", "method": "post", "title": "Project name - Create new work package" },
-                            "update": { "href": "/work_packages/2", "method": "patch", "title": "Update work package name" },
-                            "delete": { "href": "/work_packages/2", "method": "delete", "title": "Delete work package name" },
+                            "self": { "href": "/work_packages/1", "title": "Work package subject" },
+                            "createChildren": { "href": "/work_packages?parent_id=1", "method": "post", "title": "Project name - Create new work package" },
+                            "update": { "href": "/work_packages/1", "method": "patch", "title": "Update work package name" },
+                            "delete": { "href": "/work_packages/1", "method": "delete", "title": "Delete work package name" },
                             "project": { "href": "/projects/3", "title": "Project name" },
                             "author": { "href": "/users/1", "title": "User name" },
                             "assignee": { "href": "/users/1", "title": "User name" },
                             "responsible": { "href": "/users/1", "title": "User name" },
                             "fixedVersion": { "href": "/versions/1", "title": "Version" },
                             "projectWorkPackages": { "href": "/work_packages?filter[project_id]=3", "title": "Project name - Work packages" },
-                            "descendants": { "href": "/projects/3/work_packages?filter[ancestor_id]=2", "title": "Descendant work packages" },
-                            "children": { "href": "/projects/3/work_packages?filter[parent_id]=2", "title": "First children work packages" },
-                            "relations": { "href": "/projects/3/work_packages?filter[related_to_id]=2", "title": "Related work packages" }
+                            "descendants": { "href": "/work_packages?filter[ancestor_id]=1", "title": "Descendant work packages" },
+                            "children": { "href": "/work_packages?filter[parent_id]=1", "title": "Children work packages" },
+                            "parent": { "href": "/work_packages?filter[child_id]=1", "title": "Parent work package" },
+                            "ancestor": { "href": "/work_packages?filter[descendant_id=1]", "title": "Ancestor work packages" },
+                            "relations": { "href": "/work_packages?filter[related_to_id]=1", "title": "Related work packages" }
                         },
                         "_embedded": { }
                     }
