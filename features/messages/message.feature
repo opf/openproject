@@ -88,6 +88,7 @@ Feature: Issue textile quickinfo links
     Then there should be an error message
     Then the "message_content" field should contain "Here you find the most frequently asked questions"
 
+  @javascript
   Scenario: Sticky message on top of messages list
     Given the board "development discussion" has the following messages:
       | message #1 |
