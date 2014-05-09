@@ -208,10 +208,8 @@ Provides all available actions in form of links and some API documentation.
 - `versions` - Version[ ]
 - `author`  - User
 - `responsible` - User
-- `workPackagesResponsible` - User
 - `members` - User[ ]
 - `workPackages` - WorkPackage[ ]
-- `possibleAssignees` - User[ ]
 - `possibleResponsibles` - User [ ]
 
 **Use** `?embedded` **query parameter to specify which embedded resources should the response contain.**
@@ -235,11 +233,8 @@ List all projects.
                         "id": 1,
                         "name": "My project name",
                         "description": "My project description",
-                        "homepage": "http://my-project.com",
                         "createdAt": "2014-05-07T03:42:54Z",
                         "updatedAt": "2014-05-07T03:42:54Z",
-                        "identifier": "my-project",
-                        "status": "New",
                         "summary": "My project summary",
 
                         "_type": "Project",
@@ -252,11 +247,9 @@ List all projects.
                             "version": { "href": "/versions/1", "title": "Project name - version" },
                             "author": { "href": "/users/1", "title": "User name" },
                             "responsible": { "href": "/users/1", "title": "User name" },
-                            "workPackagesResponsible": { "href": "/users/1", "title": "User name" },
                             "members": { "href": "/projects/1/members", "title": "Project name - members" },
                             "workPackages": { "href": "/projects/1/work_packages", "title": "Project name - Work packages" },
                             "createWorkPackages": { "href": "/projects/1/work_packages", "method": "post", "title": "Project name - Create new work packges" },
-                            "possibleAssignees": { "href": "/projects/1/possible_assignees", "title": "Project name - Possible assignees" },
                             "possibleResponsibles": { "href": "projects/1/possible_responsibles", "title": "Project name - Possible responsibles" }
                         },
                         "embedded": { }
@@ -264,11 +257,8 @@ List all projects.
                         "id": 2,
                         "name": "My project name",
                         "description": "My project description",
-                        "homepage": "http://my-project.com",
                         "createdAt": "2014-05-07T03:42:54Z",
                         "updatedAt": "2014-05-07T03:42:54Z",
-                        "identifier": "my-project",
-                        "status": "New",
                         "summary": "My project summary",
 
                         "_type": "Project",
@@ -281,11 +271,9 @@ List all projects.
                             "version": { "href": "/versions/1", "title": "Project name - version" },
                             "author": { "href": "/users/1", "title": "User name" },
                             "responsible": { "href": "/users/1", "title": "User name" },
-                            "workPackagesResponsible": { "href": "/users/1", "title": "User name" },
                             "members": { "href": "/projects/2/members", "title": "Project name - members" },
                             "workPackages": { "href": "/projects/2/work_packages", "title": "Project name - Work packages" },
                             "createWorkPackages": { "href": "/projects/2/work_packages", "method": "post", "title": "Project name - Create new work packges" },
-                            "possibleAssignees": { "href": "/projects/2/possible_assignees", "title": "Project name - Possible assignees" },
                             "possibleResponsibles": { "href": "projects/2/possible_responsibles", "title": "Project name - Possible responsibles" }
                         },
                         "embedded": { }
@@ -317,10 +305,8 @@ Create new project(s)
             {
                 "name": "Create project name",
                 "description": "Create project description",
-                "homepage": "http://create-project.com",
                 "parent_id": 1,
                 "summary": "Create project summary",
-                "identifier": "create-project",
                 "isPublic": "true",
                 "project_type_id": 1,
                 "modules": "work_package_tracking,calendar",
@@ -334,10 +320,9 @@ Create new project(s)
             [{
                 "name": "Create project name",
                 "description": "Create project description",
-                "homepage": "http://create-project.com",
+
                 "parent_id": 1,
                 "summary": "Create project summary",
-                "identifier": "create-project",
                 "isPublic": "true",
                 "project_type_id": 1,
                 "modules": "work_package_tracking,calendar",
@@ -347,9 +332,8 @@ Create new project(s)
             }, {
                 "name": "",
                 "description": "",
-                "homepage": "http://create-project-2.com",
+
                 "summary": "Create project summary",
-                "identifier": "create-project-2",
                 "isPublic": "true",
                 "project_type_id": 1,
                 "modules": "work_package_tracking,calendar",
@@ -365,11 +349,9 @@ Create new project(s)
                 "id": 2,
                 "name": "Create project name",
                 "description": "Create project description",
-                "homepage": "http://create-project.com",
+
                 "createdAt": "2014-05-07T03:42:54Z",
                 "updatedAt": "2014-05-07T03:42:54Z",
-                "identifier": "create-project",
-                "status": "New",
                 "summary": "Create project summary",
 
                 "_type": "Project",
@@ -382,11 +364,9 @@ Create new project(s)
                     "version": { "href": "/versions/2", "title": "Project name - version" },
                     "author": { "href": "/users/1", "title": "User name" },
                     "responsible": { "href": "/users/1", "title": "User name" },
-                    "workPackagesResponsible": { "href": "/users/1", "title": "User name" },
                     "members": { "href": "/projects/2/members", "title": "Project name - members" },
                     "workPackages": { "href": "/projects/2/work_packages", "title": "Project name - Work packages" },
                     "createWorkPackages": { "href": "/projects/2/work_packages", "method": "post", "title": "Project name - Create new work packges" },
-                    "possibleAssignees": { "href": "/projects/2/possible_assignees", "title": "Project name - Possible assignees" },
                     "possibleResponsibles": { "href": "projects/2/possible_responsibles", "title": "Project name - Possible responsibles" }
                 },
                 "embedded": { }
@@ -402,11 +382,9 @@ Create new project(s)
                         "id": 1,
                         "name": "Create project name",
                         "description": "Create project description",
-                        "homepage": "http://my-project.com",
+
                         "createdAt": "2014-05-07T03:42:54Z",
                         "updatedAt": "2014-05-07T03:42:54Z",
-                        "identifier": "my-project",
-                        "status": "Closed",
                         "summary": "My project summary",
 
                         "_type": "Project",
@@ -419,11 +397,9 @@ Create new project(s)
                             "version": { "href": "/versions/1", "title": "Project name - version" },
                             "author": { "href": "/users/1", "title": "User name" },
                             "responsible": { "href": "/users/1", "title": "User name" },
-                            "workPackagesResponsible": { "href": "/users/1", "title": "User name" },
                             "members": { "href": "/projects/1/members", "title": "Project name - members" },
                             "workPackages": { "href": "/projects/1/work_packages", "title": "Project name - Work packages" },
                             "createWorkPackages": { "href": "/projects/1/work_packages", "method": "post", "title": "Project name - Create new work packges" },
-                            "possibleAssignees": { "href": "/projects/1/possible_assignees", "title": "Project name - Possible assignees" },
                             "possibleResponsibles": { "href": "projects/1/possible_responsibles", "title": "Project name - Possible responsibles" }
                         },
                         "embedded": { }
@@ -457,11 +433,9 @@ Get a project details.
                 "id": 1,
                 "name": "My project name",
                 "description": "My project description",
-                "homepage": "http://my-project.com",
+
                 "createdAt": "2014-05-07T03:42:54Z",
                 "updatedAt": "2014-05-07T03:42:54Z",
-                "identifier": "my-project",
-                "status": "New",
                 "summary": "My project summary",
 
                 "_type": "Project",
@@ -474,11 +448,9 @@ Get a project details.
                     "version": { "href": "/versions/1", "title": "Project name - version" },
                     "author": { "href": "/users/1", "title": "User name" },
                     "responsible": { "href": "/users/1", "title": "User name" },
-                    "workPackagesResponsible": { "href": "/users/1", "title": "User name" },
                     "members": { "href": "/projects/1/members", "title": "Project name - members" },
                     "workPackages": { "href": "/projects/1/work_packages", "title": "Project name - Work packages" },
                     "createWorkPackages": { "href": "/projects/1/work_packages", "method": "post", "title": "Project name - Create new work packges" },
-                    "possibleAssignees": { "href": "/projects/1/possible_assignees", "title": "Project name - Possible assignees" },
                     "possibleResponsibles": { "href": "projects/1/possible_responsibles", "title": "Project name - Possible responsibles" }
                 },
                 "embedded": { }
@@ -506,11 +478,9 @@ Update a project.
                 "id": 1,
                 "name": "Project update",
                 "description": "Updated project description",
-                "homepage": "http://my-project.com",
+
                 "createdAt": "2014-05-07T03:42:54Z",
                 "updatedAt": "2014-05-07T03:42:54Z",
-                "identifier": "my-project",
-                "status": "New",
                 "summary": "My project summary",
 
                 "_type": "Project",
@@ -523,11 +493,9 @@ Update a project.
                     "version": { "href": "/versions/1", "title": "Project name - version" },
                     "author": { "href": "/users/1", "title": "User name" },
                     "responsible": { "href": "/users/1", "title": "User name" },
-                    "workPackagesResponsible": { "href": "/users/1", "title": "User name" },
                     "members": { "href": "/projects/1/members", "title": "Project name - members" },
                     "workPackages": { "href": "/projects/1/work_packages", "title": "Project name - Work packages" },
                     "createWorkPackages": { "href": "/projects/1/work_packages", "method": "post", "title": "Project name - Create new work packges" },
-                    "possibleAssignees": { "href": "/projects/1/possible_assignees", "title": "Project name - Possible assignees" },
                     "possibleResponsibles": { "href": "projects/1/possible_responsibles", "title": "Project name - Possible responsibles" }
                 },
                 "embedded": { }
@@ -550,14 +518,14 @@ Batch update selected projects. There are two possible ways to perform a batch u
 2. **update voluntary attribute(s) of multiple work packages with different values.** This way, you can specify work package id directly in the request body and therefore you can update multiple work packages with different values.
 
             1. Call: PATCH /projects?ids[]=1&ids[]=2&ids[]=3
-            Request body: { "status": "closed" }
+            Request body: { "parent_id": 3 }
 
             2. Call: PATCH /projects
             Request body:
             [
-                { "id": 1, "status": "Closed" },
+                { "id": 1, "parent_id": 3 },
                 { "id": 2, "name": "Updated name" },
-                { "id": 3, "name": "Another updated name", "status": "Closed" }
+                { "id": 3, "name": "Another updated name", "parent_id": 3 }
             ]
 
 + Parameters
@@ -568,7 +536,7 @@ Batch update selected projects. There are two possible ways to perform a batch u
     + Body
 
             {
-                "status": "Closed"
+                "parent_id": 3
             }
 
                 OR
@@ -588,11 +556,8 @@ Batch update selected projects. There are two possible ways to perform a batch u
                         "id": 1,
                         "name": "Updated project's name",
                         "description": "Project description",
-                        "homepage": "http://my-project.com",
                         "createdAt": "2014-05-07T03:42:54Z",
                         "updatedAt": "2014-05-07T03:42:54Z",
-                        "identifier": "my-project",
-                        "status": "Closed",
                         "summary": "My project summary",
 
                         "_type": "Project",
@@ -605,11 +570,9 @@ Batch update selected projects. There are two possible ways to perform a batch u
                             "version": { "href": "/versions/1", "title": "Project name - version" },
                             "author": { "href": "/users/1", "title": "User name" },
                             "responsible": { "href": "/users/1", "title": "User name" },
-                            "workPackagesResponsible": { "href": "/users/1", "title": "User name" },
                             "members": { "href": "/projects/1/members", "title": "Project name - members" },
                             "workPackages": { "href": "/projects/1/work_packages", "title": "Project name - Work packages" },
                             "createWorkPackages": { "href": "/projects/1/work_packages", "method": "post", "title": "Project name - Create new work packges" },
-                            "possibleAssignees": { "href": "/projects/1/possible_assignees", "title": "Project name - Possible assignees" },
                             "possibleResponsibles": { "href": "projects/1/possible_responsibles", "title": "Project name - Possible responsibles" }
                         },
                         "embedded": { }
@@ -620,11 +583,8 @@ Batch update selected projects. There are two possible ways to perform a batch u
                         "id": 2,
                         "name": "Project name",
                         "description": "Updated project's description",
-                        "homepage": "http://my-project.com",
                         "createdAt": "2014-05-07T03:42:54Z",
                         "updatedAt": "2014-05-07T03:42:54Z",
-                        "identifier": "my-project",
-                        "status": "Closed",
                         "summary": "My project summary",
 
                         "_type": "Project",
@@ -637,11 +597,9 @@ Batch update selected projects. There are two possible ways to perform a batch u
                             "version": { "href": "/versions/1", "title": "Project name - version" },
                             "author": { "href": "/users/1", "title": "User name" },
                             "responsible": { "href": "/users/1", "title": "User name" },
-                            "workPackagesResponsible": { "href": "/users/1", "title": "User name" },
                             "members": { "href": "/projects/1/members", "title": "Project name - members" },
                             "workPackages": { "href": "/projects/1/work_packages", "title": "Project name - Work packages" },
                             "createWorkPackages": { "href": "/projects/1/work_packages", "method": "post", "title": "Project name - Create new work packges" },
-                            "possibleAssignees": { "href": "/projects/1/possible_assignees", "title": "Project name - Possible assignees" },
                             "possibleResponsibles": { "href": "projects/1/possible_responsibles", "title": "Project name - Possible responsibles" }
                         },
                         "embedded": { }
@@ -671,11 +629,8 @@ Batch delete selected projects.
                         "id": 1,
                         "name": "Create project name",
                         "description": "Create project description",
-                        "homepage": "http://my-project.com",
                         "createdAt": "2014-05-07T03:42:54Z",
                         "updatedAt": "2014-05-07T03:42:54Z",
-                        "identifier": "my-project",
-                        "status": "Closed",
                         "summary": "My project summary",
 
                         "_type": "Project",
@@ -688,11 +643,9 @@ Batch delete selected projects.
                             "version": { "href": "/versions/1", "title": "Project name - version" },
                             "author": { "href": "/users/1", "title": "User name" },
                             "responsible": { "href": "/users/1", "title": "User name" },
-                            "workPackagesResponsible": { "href": "/users/1", "title": "User name" },
                             "members": { "href": "/projects/1/members", "title": "Project name - members" },
                             "workPackages": { "href": "/projects/1/work_packages", "title": "Project name - Work packages" },
                             "createWorkPackages": { "href": "/projects/1/work_packages", "method": "post", "title": "Project name - Create new work packges" },
-                            "possibleAssignees": { "href": "/projects/1/possible_assignees", "title": "Project name - Possible assignees" },
                             "possibleResponsibles": { "href": "projects/1/possible_responsibles", "title": "Project name - Possible responsibles" }
                         },
                         "embedded": { }
