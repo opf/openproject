@@ -50,6 +50,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#4020` Prevent timelog page reload on selection change
 * `#4040` Fix: Referencing work packages with ### in news, forums and meetings does not work
 * `#4087` Ignore type list flash when activating flash messages
+* `#4088` No keyboard focus for erroneous fields
 * `#4097` Fix accesskeys
 * `#4118` Fix: Add missing labels
 * `#4701` Fix: Wiki change notification mail contains invalid diff link
