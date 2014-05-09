@@ -25,11 +25,18 @@ angular.module('openproject.workPackages.directives')
 
       scope.deleteWorkPackages = function() {
         WorkPackageService.performBulkDelete(getWorkPackagesFromContext(scope.contextMenu.context))
-          .success(function() {
-            scope.$emit('flash', 'Successfully deleted');
+          .success(function(data, status) {
+            // TODO wire up to API and processs API response
+            scope.$emit('flashMessage', {
+              text: I18n.t('js.work_packages.message_successful_bulk_delete')
+            });
           })
-          .error(function() {
-            scope.$emit('flash', ':(');
+          .error(function(data, status) {
+            // TODO wire up to API and processs API response
+            scope.$emit('flashMessage', {
+              isError: true,
+              text: I18n.t('js.work_packages.message_error_during_bulk_delete')
+            });
           });
       };
 

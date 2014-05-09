@@ -190,6 +190,8 @@ de:
       label_enable_multi_select: "Mehrfachauswahl umschalten"
       label_filter_add: "Filter hinzufügen"
       label_options: "Optionen"
+      message_error_during_bulk_delete: Fehler beim Löschen der Arbeitspakete.
+      message_successful_bulk_delete: Arbeitspakete erfolgreich gelöscht.
       description_filter: "Filter"
       description_enter_text: "Text eingeben"
       description_options_hide: "Optionen ausblenden"
