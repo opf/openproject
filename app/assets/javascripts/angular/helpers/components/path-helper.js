@@ -94,6 +94,10 @@ angular.module('openproject.helpers')
       return '/sub_projects';
     },
 
+    workPackagesBulkDeletePath: function() {
+      return PathHelper.workPackagesPath() + '/bulk';
+    },
+
     apiV2ProjectPath: function(projectIdentifier) {
       return PathHelper.apiPrefixV2 + PathHelper.projectPath(projectIdentifier);
     },

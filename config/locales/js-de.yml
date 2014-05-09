@@ -34,7 +34,10 @@ de:
     button_check_all: "Alles auswählen"
     button_delete: "Löschen"
     button_edit: "Bearbeiten"
+    button_log_time: "Aufwand buchen"
+    button_move: "Verschieben"
     button_uncheck_all: "Alles abwählen"
+    button_update: "Bearbeiten"
     description_available_columns: "Verfügbare Spalten"
     description_select_work_package: "Arbeitspaket auswählen"
     description_selected_columns: "Ausgewählte Spalten"
@@ -187,6 +190,8 @@ de:
       label_enable_multi_select: "Mehrfachauswahl umschalten"
       label_filter_add: "Filter hinzufügen"
       label_options: "Optionen"
+      message_error_during_bulk_delete: Fehler beim Löschen der Arbeitspakete.
+      message_successful_bulk_delete: Arbeitspakete erfolgreich gelöscht.
       description_filter: "Filter"
       description_enter_text: "Text eingeben"
       description_options_hide: "Optionen ausblenden"

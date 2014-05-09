@@ -32,7 +32,7 @@ describe('WorkPackagesController', function() {
   var scope, ctrl, win, testWorkPackageService, testQueryService, testPaginationService;
   var buildController;
 
-  beforeEach(module('openproject.workPackages.controllers'));
+  beforeEach(module('openproject.workPackages.controllers', 'openproject.workPackages.services', 'ng-context-menu'));
   beforeEach(inject(function($rootScope, $controller, $timeout) {
     scope = $rootScope.$new();
     win   = {
@@ -67,7 +67,7 @@ describe('WorkPackagesController', function() {
         return {
           serialiseForAngular: function () {
           }
-        }
+        };
       },
       initQuery: function () {
       },

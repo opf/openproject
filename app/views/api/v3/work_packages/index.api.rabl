@@ -60,8 +60,36 @@ child @work_packages => :work_packages do
   node :parent_id do |wp|
     wp.parent_id
   end
+
+  node :_actions do |wp|
+    @can.each_with_object([]) { |(k, v), a| a << k if v }
+  end
+
+  node :_links do |wp|
+    if wp.persisted?
+      links = {
+        edit:       -> { edit_work_package_path(wp) },
+        log_time:   -> { new_work_package_time_entry_path(wp) },
+        watch:      -> { watcher_link(wp, User.current) },
+        duplicate:  -> { new_project_work_package_path({ project_id: @project, copy_from: wp }) },
+        move:       -> { new_move_work_packages_path(ids: [wp.id]) },
+        copy:       -> { new_move_work_packages_path(ids: [wp.id], copy: true) },
+        delete:     -> { work_packages_bulk_path(ids: [wp.id], method: :delete) }
+      }.select { |action, link| @can[action] }
+      links = links.update(links) { |key, old_val, new_val| new_val.() }
+    end
+  end
 end
 
 if @display_meta
   node(:meta) { @work_packages_meta_data }
+end
+
+node(:_bulk_links) do
+  links = {
+    edit: edit_work_packages_bulk_path,
+    move: new_move_work_packages_path,
+    copy: new_move_work_packages_path(copy: true),
+    delete: work_packages_bulk_path(_method: :delete)
+  }
 end

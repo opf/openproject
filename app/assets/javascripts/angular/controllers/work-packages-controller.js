@@ -28,8 +28,8 @@
 
 angular.module('openproject.workPackages.controllers')
 
-.controller('WorkPackagesController', ['$scope', '$window', '$location', 'WorkPackagesTableHelper', 'WorkPackageService', 'QueryService', 'PaginationService', 'WorkPackageLoadingHelper', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
-            function($scope, $window, $location, WorkPackagesTableHelper, WorkPackageService, QueryService, PaginationService, WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
+.controller('WorkPackagesController', ['$scope', '$window', '$location', 'WorkPackagesTableHelper', 'WorkPackageService', 'QueryService', 'WorkPackagesTableService', 'PaginationService', 'WorkPackageLoadingHelper', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
+            function($scope, $window, $location, WorkPackagesTableHelper, WorkPackageService, QueryService, WorkPackagesTableService, PaginationService, WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
 
   $scope.showFiltersOptions = false;
 
@@ -48,16 +48,17 @@ angular.module('openproject.workPackages.controllers')
     $scope.loading = false;
     $scope.disableFilters = false;
 
+    var getMethod, params;
     if($location.search()['c[]']){
-      var getMethod = WorkPackageService.getWorkPackagesFromUrlQueryParams;
-      var params = [$scope.projectIdentifier, $location];
+      getMethod = WorkPackageService.getWorkPackagesFromUrlQueryParams;
+      params = [$scope.projectIdentifier, $location];
     } else {
-      var getMethod = WorkPackageService.getWorkPackagesByQueryId;
-      var params = [$scope.projectIdentifier, $scope.query_id];
+      getMethod = WorkPackageService.getWorkPackagesByQueryId;
+      params = [$scope.projectIdentifier, $scope.query_id];
     }
 
     $scope.withLoading(getMethod, params)
-      .then($scope.setupWorkPackagesTable)
+      .then(setupWorkPackagesTable)
       .then(initAvailableQueries)
       .then(initAvailableColumns);
   }
@@ -113,33 +114,43 @@ angular.module('openproject.workPackages.controllers')
     return false;
   };
 
-  $scope.setupWorkPackagesTable = function(json) {
+  function setupWorkPackagesTable(json) {
     var meta = json.meta;
 
+    // columns
     if (!$scope.columns) $scope.columns = meta.columns;
-    if (!$scope.groupableColumns) $scope.groupableColumns = meta.groupable_columns;
-    $scope.query = QueryService.getQuery() || QueryService.initQuery($scope.query_id, meta.query, $scope.columns, afterQuerySetupCallback);
-
-    PaginationService.setPerPageOptions(meta.per_page_options);
-    PaginationService.setPerPage(meta.per_page);
-    PaginationService.setPage(meta.page);
-
-    $scope.rows = WorkPackagesTableHelper.getRows(json.work_packages, $scope.query.groupBy);
-
-    $scope.workPackageCountByGroup = meta.work_package_count_by_group;
-    $scope.totalEntries = meta.total_entries;
     angular.forEach($scope.columns, function(column, i){
       column.total_sum = meta.sums[i];
       if (meta.group_sums) column.group_sums = meta.group_sums[i];
     });
+    if (!$scope.groupableColumns) $scope.groupableColumns = meta.groupable_columns;
+
+    // query
+    $scope.query = QueryService.getQuery() || QueryService.initQuery($scope.query_id, meta.query, $scope.columns, afterQuerySetupCallback);
+
+    // table data
+    $scope.rows = WorkPackagesTableHelper.getRows(json.work_packages, $scope.query.groupBy);
+    $scope.workPackageCountByGroup = meta.work_package_count_by_group;
+
+    // shared table data
+    WorkPackagesTableService.setRows($scope.rows);
+    WorkPackagesTableService.setBulkLinks(json._bulk_links);
+
+    // pagination data
+    PaginationService.setPerPageOptions(meta.per_page_options);
+    PaginationService.setPerPage(meta.per_page);
+    PaginationService.setPage(meta.page);
+    $scope.totalEntries = meta.total_entries;
+
+    // back url
     $scope.updateBackUrl();
-  };
+  }
 
   $scope.updateResults = function() {
     $scope.$broadcast('openproject.workPackages.updateResults');
 
     return $scope.withLoading(WorkPackageService.getWorkPackages, [$scope.projectIdentifier, $scope.query, PaginationService.getPaginationOptions()])
-      .then($scope.setupWorkPackagesTable);
+      .then(setupWorkPackagesTable);
   };
 
   function serviceErrorHandler(data) {

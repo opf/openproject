@@ -31,10 +31,12 @@ angular.module('openproject.workPackages.helpers')
 .factory('WorkPackagesHelper', ['dateFilter', 'currencyFilter', 'CustomFieldHelper', function(dateFilter, currencyFilter, CustomFieldHelper) {
   var WorkPackagesHelper = {
     getRowObjectContent: function(object, option) {
+      var content;
+
       if(CustomFieldHelper.isCustomFieldKey(option)){
-        var content = WorkPackagesHelper.getRawCustomValue(object, CustomFieldHelper.getCustomFieldId(option));
+        content = WorkPackagesHelper.getRawCustomValue(object, CustomFieldHelper.getCustomFieldId(option));
       } else {
-        var content = object[option];
+        content = object[option];
       }
 
       switch(typeof(content)) {
@@ -107,29 +109,6 @@ angular.module('openproject.workPackages.helpers')
 
     parseDateTime: function(value) {
       return new Date(Date.parse(value.replace(/(A|P)M$/, '')));
-    },
-
-    projectRowsToColumn: function(rows, column) {
-      return rows.map(function(row){
-        return WorkPackagesHelper.getColumnValue(row.object, column);
-      });
-    },
-
-    getSums: function(rows, column) {
-      var values = WorkPackagesHelper.projectRowsToColumn(rows, column)
-        .filter(function(value) {
-          return typeof(value) === 'number';
-        });
-
-      if (values.length > 0) {
-        sum = values.reduce(function(a, b) {
-          return a + b;
-        });
-      } else {
-        sum = null;
-      }
-
-      return sum;
     }
 
   };

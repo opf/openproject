@@ -26,12 +26,37 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe WorkPackages::ContextMenusController do
+describe 'api/v3/projects/index.api.rabl' do
+  before do
+    params[:format] = 'json'
 
-  it "should connect GET /work_packages/context_menu to work_package/context_menu#index" do
-    expect(get("/work_packages/context_menu")).to route_to( controller: 'work_packages/context_menus',
-                                                        action: 'index' )
+    assign(:projects, projects)
+    render
+  end
+
+  subject { response.body }
+
+  describe 'with no projects available' do
+    let(:projects) { [] }
+
+    it { should have_json_path('projects') }
+    it { should have_json_size(0).at_path('projects') }
+  end
+
+  describe 'with 2 projects available' do
+    let(:projects) { [
+      FactoryGirl.build(:project), FactoryGirl.build(:project)
+    ] }
+
+    it { should have_json_path('projects') }
+    it { should have_json_size(2).at_path('projects') }
+
+    it { should have_json_type(Object).at_path('projects/1')  }
+    it { should have_json_path('projects/1/name')             }
+    it { should have_json_path('projects/1/embedded/possible_responsibles') }
+    it { should have_json_path('projects/1/embedded/possible_assignees')    }
+    it { should have_json_path('projects/1/embedded/types')   }
   end
 end
