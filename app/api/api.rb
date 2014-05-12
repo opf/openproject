@@ -40,6 +40,8 @@ class API < Grape::API
     "search"
   end
 
+  mount Projects::API
   mount WorkPackages::API
   mount Users::API
+
 end
