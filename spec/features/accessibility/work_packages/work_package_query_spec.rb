@@ -44,7 +44,7 @@ describe 'Work package index accessibility' do
 
   describe 'Select all link' do
     let(:select_all_checkbox_selector) { 'table.list.issues th.checkbox a' }
-    #let(:description_for_blind) { find('table.list.issues th.checkbox a').find(:xpath, 'span/span[@class="hidden-for-sighted"]') }
+    let(:checkbox_link) { 'table.list.issues th.checkbox a' }
 
     describe 'Initial state', js: true do
       it { expect(find(select_all_checkbox_selector)).not_to be_nil }
@@ -53,11 +53,14 @@ describe 'Work package index accessibility' do
 
       it { expect(find(select_all_checkbox_selector)[:alt]).to eq(I18n.t(:button_check_all)) }
 
-      # TODO: This test is failing because of what seems to be a bug in selenium.
-      #       The hidden-for-sighted elements cannot be found using because they are styled with
-      #       absolute positioning and have an x index off the side of the page. If you remove
-      #       the x coord then it will find them but that doesn't seem like a satisfactory solution.
-      # it { expect(description_for_blind.text).to eq(I18n.t(:button_check_all)) }
+      it do
+        pending("This test is failing because of what seems to be a bug in selenium. " \
+                "The hidden-for-sighted elements cannot be found using because they are styled with " \
+                "absolute positioning and have an x index off the side of the page. If you remove " \
+                "the x coord then it will find them but that doesn't seem like a satisfactory solution.")
+        expect(find(checkbox_link)).not_to be_nil
+        expect(find(checkbox_link).find(:xpath, 'span/span[@class="hidden-for-sighted"]').text).to eq(I18n.t(:button_check_all))
+      end
     end
 
     describe 'Change state', js: true do
