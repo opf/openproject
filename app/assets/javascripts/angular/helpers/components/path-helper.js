@@ -112,6 +112,9 @@ angular.module('openproject.helpers')
     apiProjectSubProjectsPath: function(projectIdentifier) {
       return PathHelper.apiV3ProjectPath(projectIdentifier) + PathHelper.subProjectsPath();
     },
+    apiProjectQueriesPath: function(projectIdentifier) {
+      return PathHelper.apiV3ProjectPath(projectIdentifier) + '/queries'
+    },
     apiGroupedQueriesPath: function() {
       return PathHelper.apiPrefixV3 + '/queries/grouped';
     },

@@ -54,7 +54,8 @@ angular.module('openproject.models')
           'c[]': this.getParamColumns(),
           'group_by': this.groupBy,
           'sort': this.sortation.encode(),
-          'display_sums': this.displaySums
+          'display_sums': this.displaySums,
+          'name': this.name
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {
           return filter.toParams();
         }))
@@ -223,6 +224,10 @@ angular.module('openproject.models')
 
     setSortation: function(sortation){
       this.sortation = sortation;
+    },
+
+    setName: function(name) {
+      this.name = name;
     }
   };
 

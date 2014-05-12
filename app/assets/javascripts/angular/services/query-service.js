@@ -191,6 +191,23 @@ angular.module('openproject.services')
       }).then(function(response){
         return response.data;
       });
+    },
+
+    saveQueryAs: function(name) {
+      query.setName(name);
+      var url = PathHelper.apiProjectQueriesPath(query.project_id);
+      return QueryService.postQuery(url);
+    },
+
+    postQuery: function(url) {
+      return $http({
+        method: 'POST',
+        url: url,
+        params: query.toParams(),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+      }).then(function(response){
+        return response.data;
+      });
     }
   };
 

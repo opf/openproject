@@ -36,7 +36,14 @@ angular.module('openproject.workPackages.controllers')
   });
 }])
 
-.controller('SaveModalController', ['saveModal', function(saveModal) {
+.controller('SaveModalController', ['$scope', 'saveModal', 'QueryService', function($scope, saveModal, QueryService) {
   this.name    = 'Save';
   this.closeMe = saveModal.deactivate;
+
+  $scope.saveQueryAs = function(name) {
+    QueryService.saveQueryAs(name)
+      .then(function(data){
+        saveModal.deactivate();
+      });
+  }
 }]);
