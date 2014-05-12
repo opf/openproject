@@ -64,7 +64,7 @@ Then I should see "Admin" within "#top-menu-items"
 Scenario: Lost password notification mail will not be sent in case incorrect mail is given
 Given I am on the login page
 And I open the "Openproject Admin" menu
-And I follow "t:label_password_lost" within "#login-form"
+And I follow "t:label_password_lost" within "#login-form" [i18n]
 Then I should be on the lost password page
 And I fill in "mail" with "bilbo@shire.com"
 And I click on "Submit"
