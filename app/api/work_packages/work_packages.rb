@@ -10,14 +10,14 @@ module WorkPackages
         optional :extend, type: String
       end
       get do
-        binding.pry
         work_packages = WorkPackage.all
       end
 
       get ':id' do
         work_package = WorkPackage.find(params[:id])
         authorize work_package, :show?
-        WorkPackageRepresenter.new(work_package).to_json
+        resource = WorkPackageMapper.new(work_package).to_resource
+        Yaks::HalSerializer.new(resource).serialize.to_json
       end
 
       patch ':id' do
