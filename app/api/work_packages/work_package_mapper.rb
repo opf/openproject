@@ -19,6 +19,18 @@ module WorkPackages
     attributes :id, :subject, :description, :type, :dueDate, :status, :priority, :percentageDone,
         :estimatedTime, :startDate, :createdAt, :updatedAt, :customFields, :_type
 
+    has_one :project, mapper: Projects::ProjectMapper
+    has_one :author, mapper: Users::UserMapper
+    has_one :assigned_to, mapper: Users::UserMapper, as: :assignee
+    has_one :responsible, mapper: Users::UserMapper
+    has_one :fixed_version, mapper: Versions::VersionMapper, as: :targetVersion
+    has_one :parent, mapper: WorkPackages::WorkPackageMapper
+
+    has_many :descendants, mapper: WorkPackages::WorkPackageMapper
+    has_many :ancestors, mapper: WorkPackages::WorkPackageMapper
+    has_many :children, mapper: WorkPackages::WorkPackageMapper
+    has_many :relations, mapper: WorkPackages::RelationMapper
+
     def type
         object.type.name
     end
@@ -65,6 +77,10 @@ module WorkPackages
 
     def _type
         "WorkPackage"
+    end
+
+    def relations
+        []
     end
   end
 end
