@@ -179,6 +179,13 @@ angular.module('openproject.workPackages.controllers')
     return WorkPackageLoadingHelper.withLoading($scope, callback, params, serviceErrorHandler);
   };
 
+  // Note: I know we don't want watchers on the controller but I want all the toolbar directives to have restricted scopes. Thoughts welcome.
+  $scope.$watch('query.name', function(newValue, oldValue){
+    if(newValue != oldValue){
+      $scope.selectedTitle = newValue;
+    }
+  });
+
   setUrlParams($window.location);
   initialSetup();
 }]);

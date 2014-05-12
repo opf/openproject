@@ -196,18 +196,18 @@ angular.module('openproject.services')
     saveQueryAs: function(name) {
       query.setName(name);
       var url = PathHelper.apiProjectQueriesPath(query.project_id);
-      return QueryService.postQuery(url);
+      return QueryService.postQuery(url, function(response){
+        return query.save(response.data);
+      });
     },
 
-    postQuery: function(url) {
+    postQuery: function(url, callback) {
       return $http({
         method: 'POST',
         url: url,
         params: query.toParams(),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-      }).then(function(response){
-        return response.data;
-      });
+      }).then(callback);
     }
   };
 

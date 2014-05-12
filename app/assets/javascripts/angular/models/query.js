@@ -62,6 +62,12 @@ angular.module('openproject.models')
       );
     },
 
+    save: function(data){
+      // Note: query has already been updated, only the id needs to be set
+      this.id = data.id;
+      return this;
+    },
+
     serialiseForAngular: function(){
       var params = this.toParams();
       var serialised = '';
@@ -218,8 +224,12 @@ angular.module('openproject.models')
 
     // Note: If we pass an id for the query then any changes to filters are ignored by the server and it
     //       just uses the queries filters. Therefor we have to set it to null.
-    hasChanged: function(){
-      this.id = null;
+    // hasChanged: function(){
+    //   this.id = null;
+    // },
+
+    isNew: function(){
+      return this.id;
     },
 
     setSortation: function(sortation){

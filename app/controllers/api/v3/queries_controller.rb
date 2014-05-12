@@ -72,7 +72,6 @@ module Api::V3
     end
 
     def create
-      binding.pry
       @query.save
 
       respond_to do |format|
