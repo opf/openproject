@@ -193,19 +193,26 @@ angular.module('openproject.services')
       });
     },
 
+    saveQuery: function() {
+      var url = PathHelper.apiProjectQueryPath(query.project_id, query.id);
+      return QueryService.performQuery(url, 'PUT', query.toUpdateParams(), function(response){
+        return response.data;
+      });
+    },
+
     saveQueryAs: function(name) {
       query.setName(name);
       var url = PathHelper.apiProjectQueriesPath(query.project_id);
-      return QueryService.postQuery(url, function(response){
+      return QueryService.performQuery(url, 'POST', query.toParams(), function(response){
         return query.save(response.data);
       });
     },
 
-    postQuery: function(url, callback) {
+    performQuery: function(url, method, params, callback) {
       return $http({
-        method: 'POST',
+        method: method,
         url: url,
-        params: query.toParams(),
+        params: params,
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
       }).then(callback);
     }

@@ -106,10 +106,16 @@ angular.module('openproject.workPackages.controllers')
 
   $scope.showColumnsModal  = columnsModal.activate;
   $scope.showExportModal   = exportModal.activate;
-  $scope.showSaveModal     = saveModal.activate;
   $scope.showSettingsModal = settingsModal.activate;
   $scope.showShareModal    = shareModal.activate;
   $scope.showSortingModal  = sortingModal.activate;
+  $scope.showSaveModal     = function(saveAs){
+    if( saveAs || $scope.query.isNew() ){
+      saveModal.activate();
+    } else {
+      QueryService.saveQuery();
+    }
+  }
 
   $scope.reloadQuery = function(queryId) {
     QueryService.resetQuery();

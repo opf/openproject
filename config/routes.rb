@@ -128,7 +128,7 @@ OpenProject::Application.routes.draw do
         resources :work_packages, only: [:index] do
           get :column_sums, on: :collection
         end
-        resources :queries, only: [:show, :create] do
+        resources :queries, only: [:show, :create, :update] do
           get :available_columns, on: :collection
           get :custom_field_filters, on: :collection
           get :grouped, on: :collection
