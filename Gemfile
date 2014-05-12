@@ -79,7 +79,7 @@ gem "date_validator"
 # See: config/initializers/rabl_hack.rb
 gem 'rabl', '0.9.3'
 gem 'multi_json'
-gem 'oj'
+gem 'oj', platforms: [:mri_20, :mri_21]
 
 # will need to be removed once we are on rails4 as it will be part of the rails4 core
 gem 'strong_parameters'
@@ -118,7 +118,7 @@ gem 'livingstyleguide'
 
 
 # You don't need therubyracer if you have nodejs installed on the machine precompiling assets.
-gem 'therubyracer', :group => :therubyracer
+gem 'therubyracer', :group => :therubyracer, platforms: [:mri_20, :mri_21]
 
 gem "prototype-rails"
 # remove once we no longer use the deprecated "link_to_remote", "remote_form_for" and alike methods
@@ -162,7 +162,7 @@ group :test do
 
   gem 'rb-readline' # ruby on CI needs this
   # why in Gemfile? see: https://github.com/guard/guard-test
-  gem 'ruby-prof'
+  gem 'ruby-prof', platforms: [:mri_20, :mri_21]
   gem 'simplecov', '0.8.0.pre'
   gem "shoulda-matchers"
   gem "json_spec"
@@ -178,12 +178,12 @@ end
 group :development do
   gem 'letter_opener', '~> 1.0.0'
   gem 'pry-rails'
-  gem 'pry-stack_explorer'
+  gem 'pry-stack_explorer', platforms: [:mri_20, :mri_21]
   gem 'pry-rescue'
   gem 'pry-byebug', :platforms => [:mri_20,:mri_21]
   gem 'pry-doc'
   gem 'rails-dev-tweaks', '~> 0.6.1'
-  gem 'thin'
+  gem 'thin', platforms: [:mri_20, :mri_21]
   gem 'faker'
   gem 'quiet_assets'
 end
@@ -229,4 +229,3 @@ Dir.glob File.expand_path("../{Gemfile.local,Gemfile.plugins,lib/plugins/*/Gemfi
   next unless File.readable?(file)
   instance_eval File.read(file)
 end
-
