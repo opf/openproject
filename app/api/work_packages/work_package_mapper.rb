@@ -1,12 +1,23 @@
 module WorkPackages
   class WorkPackageMapper < Yaks::Mapper
     link :self, '/api/v3/work_packages/{id}'
+    link :createChildren, '/api/v3/work_packages?parent_id={id}', method: :post
+    link :update, '/api/v3/work_packages/{id}', method: :patch
+    link :delete, '/api/v3/work_packages/{id}', method: :delete
+    link :project, '/api/v3/projects/{project_id}'
+    link :author, '/api/v3/users/{author_id}'
+    link :assignee, '/api/v3/users/{assigned_to_id}'
+    link :responsible, '/api/v3/users/{responsible_id}'
+    link :targetVersion, '/api/v3/versions/{fixed_version_id}'
+    link :projectWorkPackages, '/api/v3/work_packages?filter=project_ideql{project_id}'
+    link :descendants, '/api/v3/work_packages?filter=ancestors_idscontain{id}'
+    link :children, '/api/v3/work_packages?filter=parent_ideql{id}'
+    link :parent, '/api/v3/work_packages?filter=children_idscontain{id}'
+    link :ancestors, '/api/v3/work_packages?filter=descendants_idscontain{id}'
+    link :relations, '/api/v3/work_packages/{id}/relations'
 
     attributes :id, :subject, :description, :type, :dueDate, :status, :priority, :percentageDone,
         :estimatedTime, :startDate, :createdAt, :updatedAt, :customFields, :_type
-
-    # has_one :responsible, mapper: Users::UserMapper
-    # has_many :users, mapper: Users::UserMapper, as: :members
 
     def type
         object.type.name
