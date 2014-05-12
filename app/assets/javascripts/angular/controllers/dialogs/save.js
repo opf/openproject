@@ -44,6 +44,7 @@ angular.module('openproject.workPackages.controllers')
     QueryService.saveQueryAs(name)
       .then(function(data){
         saveModal.deactivate();
+        $scope.$emit('flashMessage', data.status);
       });
   }
 }]);

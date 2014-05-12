@@ -28,8 +28,8 @@
 
 angular.module('openproject.services')
 
-.service('QueryService', ['Query', 'Sortation', '$http', '$location', 'PathHelper', '$q', 'AVAILABLE_WORK_PACKAGE_FILTERS', 'StatusService', 'TypeService', 'PriorityService', 'UserService', 'VersionService', 'RoleService', 'GroupService', 'ProjectService',
-  function(Query, Sortation, $http, $location, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService) {
+.service('QueryService', ['Query', 'Sortation', '$http', '$location', 'PathHelper', '$q', 'AVAILABLE_WORK_PACKAGE_FILTERS', 'StatusService', 'TypeService', 'PriorityService', 'UserService', 'VersionService', 'RoleService', 'GroupService', 'ProjectService', 'I18n',
+  function(Query, Sortation, $http, $location, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService, I18n) {
 
   var query;
 
@@ -182,33 +182,33 @@ angular.module('openproject.services')
       return availableFilters[projectIdentifier];
     },
 
-    doQuery: function(url, params) {
-      return $http({
-        method: 'GET',
-        url: url,
-        params: params,
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-      }).then(function(response){
-        return response.data;
-      });
-    },
-
     saveQuery: function() {
       var url = PathHelper.apiProjectQueryPath(query.project_id, query.id);
-      return QueryService.performQuery(url, 'PUT', query.toUpdateParams(), function(response){
-        return response.data;
+      return QueryService.doQuery(url, query.toUpdateParams(), 'PUT', function(response){
+        // TODO RS: Currently API V3 doesn't give back any helpful errors but when it does we need to handle them
+        return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_update') }} );
       });
     },
 
     saveQueryAs: function(name) {
       query.setName(name);
       var url = PathHelper.apiProjectQueriesPath(query.project_id);
-      return QueryService.performQuery(url, 'POST', query.toParams(), function(response){
-        return query.save(response.data);
+      return QueryService.doQuery(url, query.toParams(), 'POST', function(response){
+        // TODO RS: Currently API V3 doesn't give back any helpful errors but when it does we need to handle them
+        query.save(response.data);
+        return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_create') }} );
       });
     },
 
-    performQuery: function(url, method, params, callback) {
+    doQuery: function(url, params, method, callback) {
+      if(!method){
+        var method = 'GET';
+      }
+      if(!callback){
+        var callback = function(response){
+          return response.data;
+        };
+      }
       return $http({
         method: method,
         url: url,

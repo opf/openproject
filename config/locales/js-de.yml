@@ -200,3 +200,6 @@ de:
         group_by: "Gruppiere Ergebnisse nach"
         filters: "Filter"
         display_sums: "Summen anzeigen"
+    notice_successful_create: "Erfolgreich angelegt"
+    notice_successful_delete: "Erfolgreich gelöscht."
+    notice_successful_update: "Erfolgreich aktualisiert."

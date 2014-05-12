@@ -113,7 +113,10 @@ angular.module('openproject.workPackages.controllers')
     if( saveAs || $scope.query.isNew() ){
       saveModal.activate();
     } else {
-      QueryService.saveQuery();
+      QueryService.saveQuery()
+        .then(function(data){
+          $scope.$emit('flashMessage', data.status);
+        });
     }
   }
 
