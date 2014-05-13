@@ -56,11 +56,36 @@ class ApplicationController < ActionController::Base
   layout 'base'
 
   protect_from_forgery
+  # CSRF protection prevents an attacker from using a user's session to execute
+  # requests. API requests each contain their own authentication token, e.g.
+  # as key parameter or header, so they don't have to be protected by CSRF
+  # protection. We can't reliably determine here whether a request is an API
+  # request as this happens in our way too complex find_current_user method
+  # that is only executed after this method. E.g we might have to check that
+  # no session is active and that no autologin cookie is set.
+  #
+  # Thus, we always reset any active session and the autologin cookie to make
+  # sure find_current user doesn't find a user based on an active session.
+  # Nevertheless, API requests should not be aborted, which they would be
+  # if we raised an error here. Still, users should see an error message
+  # when sending a form with a wrong CSRF token (e.g. after session expiration).
+  # Thus, we show an error message unless the request probably is an API
+  # request.
   def handle_unverified_request
     super
     cookies.delete(OpenProject::Configuration['autologin_cookie_name'])
     self.logged_user = nil
-    render_error :status => 422, :message => "Invalid form authenticity token."
+
+    # The following is not there for security, but only for a nice error message.
+    # Don't render an error message for requests that appear to be API requests.
+    #
+    # The api_request? method uses the format parameter or a header
+    # to determine whether a request is an API request. Unfortunately, having
+    # an API request doesn't mean we don't use a session for authentication.
+    # Also, attackers can send CSRF requests with arbitrary headers using
+    # browser plugins. For more information on this, see:
+    # http://weblog.rubyonrails.org/2011/2/8/csrf-protection-bypass-in-ruby-on-rails/
+    render_error status: 422, message: 'Invalid form authenticity token.' unless api_request?
   end
 
   before_filter :user_setup,
