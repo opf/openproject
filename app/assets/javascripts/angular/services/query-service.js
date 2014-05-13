@@ -28,8 +28,8 @@
 
 angular.module('openproject.services')
 
-.service('QueryService', ['Query', 'Sortation', '$http', '$location', 'PathHelper', '$q', 'AVAILABLE_WORK_PACKAGE_FILTERS', 'StatusService', 'TypeService', 'PriorityService', 'UserService', 'VersionService', 'RoleService', 'GroupService', 'ProjectService',
-  function(Query, Sortation, $http, $location, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService) {
+.service('QueryService', ['Query', 'Sortation', '$http', '$location', 'PathHelper', '$q', 'AVAILABLE_WORK_PACKAGE_FILTERS', 'StatusService', 'TypeService', 'PriorityService', 'UserService', 'VersionService', 'RoleService', 'GroupService', 'ProjectService', 'I18n',
+  function(Query, Sortation, $http, $location, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService, I18n) {
 
   var query;
 
@@ -182,15 +182,37 @@ angular.module('openproject.services')
       return availableFilters[projectIdentifier];
     },
 
-    doQuery: function(url, params) {
+    saveQuery: function() {
+      var url = PathHelper.apiProjectQueryPath(query.project_id, query.id);
+      return QueryService.doQuery(url, query.toUpdateParams(), 'PUT', function(response){
+        return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_update') }} );
+      });
+    },
+
+    saveQueryAs: function(name) {
+      query.setName(name);
+      var url = PathHelper.apiProjectQueriesPath(query.project_id);
+      return QueryService.doQuery(url, query.toParams(), 'POST', function(response){
+        query.save(response.data);
+        return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_create') }} );
+      });
+    },
+
+    doQuery: function(url, params, method, success, failure) {
+      method = method || 'GET';
+      success = success || function(response){
+        return response.data;
+      };
+      failure = failure || function(response){
+        return angular.extend(response.data, { status: { text: I18n.t('js.notice_bad_request'), isError: true }} );
+      }
+
       return $http({
-        method: 'GET',
+        method: method,
         url: url,
         params: params,
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-      }).then(function(response){
-        return response.data;
-      });
+      }).then(success, failure);
     }
   };
 

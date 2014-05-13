@@ -55,6 +55,9 @@ angular.module('openproject.helpers')
     projectPath: function(projectIdentifier) {
       return PathHelper.projectsPath() + '/' + projectIdentifier;
     },
+    queryPath: function(queryIdentifier) {
+      return '/queries/' + queryIdentifier;
+    },
     timeEntriesPath: function(projectIdentifier, workPackageIdentifier) {
       var path = '/time_entries/';
 
@@ -115,6 +118,12 @@ angular.module('openproject.helpers')
     },
     apiProjectSubProjectsPath: function(projectIdentifier) {
       return PathHelper.apiV3ProjectPath(projectIdentifier) + PathHelper.subProjectsPath();
+    },
+    apiProjectQueriesPath: function(projectIdentifier) {
+      return PathHelper.apiV3ProjectPath(projectIdentifier) + '/queries'
+    },
+    apiProjectQueryPath: function(projectIdentifier, queryIdentifier) {
+      return PathHelper.apiV3ProjectPath(projectIdentifier) + PathHelper.queryPath(queryIdentifier)
     },
     apiGroupedQueriesPath: function() {
       return PathHelper.apiPrefixV3 + '/queries/grouped';

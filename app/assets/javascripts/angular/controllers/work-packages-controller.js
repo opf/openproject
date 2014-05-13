@@ -109,10 +109,21 @@ angular.module('openproject.workPackages.controllers')
 
   $scope.showColumnsModal  = columnsModal.activate;
   $scope.showExportModal   = exportModal.activate;
-  $scope.showSaveModal     = saveModal.activate;
   $scope.showSettingsModal = settingsModal.activate;
   $scope.showShareModal    = shareModal.activate;
   $scope.showSortingModal  = sortingModal.activate;
+
+  $scope.showSaveModal     = function(saveAs){
+    $scope.$emit('hideAllDropdowns');
+    if( saveAs || $scope.query.isNew() ){
+      saveModal.activate();
+    } else {
+      QueryService.saveQuery()
+        .then(function(data){
+          $scope.$emit('flashMessage', data.status);
+        });
+    }
+  }
 
   $scope.reloadQuery = function(queryId) {
     QueryService.resetQuery();
@@ -191,6 +202,13 @@ angular.module('openproject.workPackages.controllers')
   $scope.withLoading = function(callback, params){
     return WorkPackageLoadingHelper.withLoading($scope, callback, params, serviceErrorHandler);
   };
+
+  // Note: I know we don't want watchers on the controller but I want all the toolbar directives to have restricted scopes. Thoughts welcome.
+  $scope.$watch('query.name', function(newValue, oldValue){
+    if(newValue != oldValue){
+      $scope.selectedTitle = newValue;
+    }
+  });
 
   setUrlParams($window.location);
   initialSetup();

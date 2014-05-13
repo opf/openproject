@@ -34,7 +34,6 @@ angular.module('openproject.uiComponents')
       restrict: 'EA',
       scope: {},
       link: function(scope, element, attributes) {
-        // TODO: implement me
       }
     };
   });
