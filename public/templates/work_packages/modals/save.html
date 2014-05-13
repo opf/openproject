@@ -4,5 +4,14 @@
 
     <h1>Save</h1>
 
+    <div>
+      <label for="name">Name</label>
+      <input type="text" name="query_name" ng-model="queryName"></input>
+    </div>
+    <div>
+      <button ng-click="modal.closeMe()">Cancel</button>
+      <button ng-click="saveQueryAs(queryName)">Save</button>
+    </div>
+
   </div>
 </div>

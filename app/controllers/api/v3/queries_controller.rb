@@ -39,6 +39,8 @@ module Api::V3
     include ExtendedHTTP
 
     before_filter :find_optional_project
+    before_filter :setup_query_for_create, only: [:create]
+    before_filter :setup_query_for_update, only: [:update]
     before_filter :setup_query, only: [:available_columns, :custom_field_filters]
 
     def available_columns
@@ -71,10 +73,55 @@ module Api::V3
       end
     end
 
+    def create
+      if @query.save
+        respond_to do |format|
+          format.api
+        end
+      else
+        render json: @query.errors.to_json, status: 422
+      end
+    end
+
+    def update
+      if @query.save
+        respond_to do |format|
+          format.api
+        end
+      else
+        render json: @query.errors.to_json, status: 422
+      end
+    end
+
     private
 
     def setup_query
       @query = retrieve_query
+    end
+
+    # Note: Not dry - lifted straight from old queries controller
+    def setup_query_for_create
+      @query = Query.new params[:query] ? permitted_params.query : nil
+      @query.project = @project unless params[:query_is_for_all]
+      prepare_query @query
+      @query.user = User.current
+    end
+
+    def setup_query_for_update
+      @query = Query.find(params[:id])
+      prepare_query(@query)
+    end
+
+    # Note: Not dry - lifted straight from old queries controller
+    def prepare_query(query)
+      @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
+      view_context.add_filter_from_params if params[:fields] || params[:f]
+      @query.group_by ||= params[:group_by]
+      @query.project = nil if params[:query_is_for_all]
+      @query.display_sums ||= params[:display_sums].present?
+      @query.column_names = params[:c] if params[:c]
+      @query.column_names = nil if params[:default_columns]
+      @query.name = params[:name] if params[:name]
     end
 
     def visible_queries

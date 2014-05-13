@@ -54,11 +54,33 @@ angular.module('openproject.models')
           'c[]': this.getParamColumns(),
           'group_by': this.groupBy,
           'sort': this.sortation.encode(),
+          'display_sums': this.displaySums,
+          'name': this.name
+        }].concat(this.getActiveConfiguredFilters().map(function(filter) {
+          return filter.toParams();
+        }))
+      );
+    },
+
+    toUpdateParams: function() {
+      return angular.extend.apply(this, [
+        {
+          'id': this.id,
+          'f[]': this.getFilterNames(this.getActiveConfiguredFilters()),
+          'c[]': this.getParamColumns(),
+          'group_by': this.groupBy,
+          'sort': this.sortation.encode(),
           'display_sums': this.displaySums
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {
           return filter.toParams();
         }))
       );
+    },
+
+    save: function(data){
+      // Note: query has already been updated, only the id needs to be set
+      this.id = data.id;
+      return this;
     },
 
     serialiseForAngular: function(){
@@ -215,14 +237,16 @@ angular.module('openproject.models')
       });
     },
 
-    // Note: If we pass an id for the query then any changes to filters are ignored by the server and it
-    //       just uses the queries filters. Therefor we have to set it to null.
-    hasChanged: function(){
-      this.id = null;
+    isNew: function(){
+      return !this.id;
     },
 
     setSortation: function(sortation){
       this.sortation = sortation;
+    },
+
+    setName: function(name) {
+      this.name = name;
     }
   };
 

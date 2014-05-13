@@ -208,3 +208,7 @@ en:
         group_by: "Group results by"
         filters: "Filters"
         display_sums: "Display Sums"
+    notice_successful_create: "Successful creation."
+    notice_successful_delete: "Successful deletion."
+    notice_successful_update: "Successful update."
+    notice_bad_request: "Bad Request."
