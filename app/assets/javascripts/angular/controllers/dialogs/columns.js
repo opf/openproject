@@ -36,7 +36,36 @@ angular.module('openproject.workPackages.controllers')
   });
 }])
 
-.controller('ColumnsModalController', ['columnsModal', function(columnsModal) {
+.controller('ColumnsModalController', ['$scope', '$timeout', 'columnsModal', 'QueryService', function($scope, $timeout, columnsModal, QueryService) {
   this.name    = 'Columns';
   this.closeMe = columnsModal.deactivate;
+
+  // Selected Columns
+  $scope.selectedColumnsString = QueryService.getSelectedColumns()
+    .map(function(column){ return column.name; })
+    .join();
+
+  // Available Columns
+  QueryService.getAvailableColumns()
+    .then(function(data){
+      var cols = data.available_columns.map(function(column){
+        return { name: column.title, id: column.name };
+      });
+      $scope.availableColumnsString = JSON.stringify(cols);
+    })
+    .then(function(){
+      $timeout(function(){
+        var colsInput = jQuery('#selected_columns_new');
+        colsInput.autocomplete({
+          multiple: true,
+          sortable: true
+        });
+      });
+    });
+
+  // TODO: Method to pass back selected columns to service on closing/saving
+  $scope.updateSelectedColumns = function(){
+    // Hack alert: autocomplete is change the value of the hidden input and so ng-value isn't keeping track of it so just using jQuery
+    var cols = jQuery('#selected_columns_new').val();
+  }
 }]);

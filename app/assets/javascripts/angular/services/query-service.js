@@ -28,8 +28,8 @@
 
 angular.module('openproject.services')
 
-.service('QueryService', ['Query', 'Sortation', '$http', '$location', 'PathHelper', '$q', 'AVAILABLE_WORK_PACKAGE_FILTERS', 'StatusService', 'TypeService', 'PriorityService', 'UserService', 'VersionService', 'RoleService', 'GroupService', 'ProjectService', 'I18n',
-  function(Query, Sortation, $http, $location, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService, I18n) {
+.service('QueryService', ['Query', 'Sortation', '$http', '$location', 'PathHelper', 'QueriesHelper', '$q', 'AVAILABLE_WORK_PACKAGE_FILTERS', 'StatusService', 'TypeService', 'PriorityService', 'UserService', 'VersionService', 'RoleService', 'GroupService', 'ProjectService', 'I18n',
+  function(Query, Sortation, $http, $location, PathHelper, QueriesHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService, I18n) {
 
   var query;
 
@@ -87,10 +87,21 @@ angular.module('openproject.services')
       return QueryService.doQuery(url);
     },
 
+    getAvailableUnusedColumns: function(projectIdentifier) {
+      return QueryService.getAvailableColumns(projectIdentifier)
+        .then(function(data){
+          return QueriesHelper.getAvailableColumns(data.available_columns, QueryService.getSelectedColumns());
+        });
+    },
+
     getAvailableColumns: function(projectIdentifier) {
       var url = projectIdentifier ? PathHelper.apiProjectAvailableColumnsPath(projectIdentifier) : PathHelper.apiAvailableColumnsPath();
 
-      return QueryService.doQuery(url);
+      return QueryService.doQuery(url)
+    },
+
+    getSelectedColumns: function() {
+      return query.getSelectedColumns();
     },
 
     getAvailableFilters: function(projectIdentifier){

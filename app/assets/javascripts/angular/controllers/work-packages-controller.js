@@ -139,10 +139,9 @@ angular.module('openproject.workPackages.controllers')
   }
 
   function initAvailableColumns() {
-    return QueryService.getAvailableColumns($scope.projectIdentifier)
+    return QueryService.getAvailableUnusedColumns($scope.projectIdentifier)
       .then(function(data){
-        $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(data.available_columns, $scope.columns);
-        return $scope.availableColumns;
+        $scope.availableColumns = data;
       });
   }
 
