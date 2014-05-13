@@ -62,7 +62,11 @@ child @work_packages => :work_packages do
   end
 
   node :_actions do |wp|
-    @can.each_with_object([]) { |(k, v), a| a << k if v }
+    if !!@can[:move]
+      @can.each_with_object([]) { |(k, v), a| a << k if v } | [:copy, :duplicate]
+    else
+      @can.each_with_object([]) { |(k, v), a| a << k if v }
+    end
   end
 
   node :_links do |wp|
@@ -71,11 +75,11 @@ child @work_packages => :work_packages do
         edit:       -> { edit_work_package_path(wp) },
         log_time:   -> { new_work_package_time_entry_path(wp) },
         watch:      -> { watcher_link(wp, User.current) },
-        duplicate:  -> { new_project_work_package_path({ project_id: @project, copy_from: wp }) },
+        duplicate:  -> { new_project_work_package_path({ project_id: wp.project, copy_from: wp }) },
         move:       -> { new_move_work_packages_path(ids: [wp.id]) },
         copy:       -> { new_move_work_packages_path(ids: [wp.id], copy: true) },
         delete:     -> { work_packages_bulk_path(ids: [wp.id], method: :delete) }
-      }.select { |action, link| @can[action] }
+      }.select { |action, link| @can[action] || @can[:move] && [:copy, :duplicate].include?(action) }
       links = links.update(links) { |key, old_val, new_val| new_val.() }
     end
   end

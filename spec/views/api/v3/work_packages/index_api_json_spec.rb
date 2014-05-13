@@ -116,8 +116,7 @@ describe 'api/v3/work_packages/index.api.rabl' do
           log_time: true,
           update:   false,
           move:     nil,
-          copy:     true,
-          delete:   false
+          delete:   true
         }
       }
 
@@ -132,10 +131,6 @@ describe 'api/v3/work_packages/index.api.rabl' do
       specify {
         expect(parse_json(subject, 'work_packages/0/_links/log_time')).to match(%r{/work_packages/(\d+)/time_entries/new})
       }
-
-      specify {
-        expect(parse_json(subject, 'work_packages/0/_links/copy')).to match(%r{/work_packages/move/new\?copy\=true})
-      }
     end
 
     context 'with all actions' do
@@ -145,20 +140,31 @@ describe 'api/v3/work_packages/index.api.rabl' do
           log_time: true,
           update:   true,
           move:     true,
-          copy:     true,
           delete:   true
         }
       }
 
       it { should have_json_path('work_packages/0/_actions') }
       it { should have_json_type(Array).at_path('work_packages/0/_actions') }
-      it { should have_json_size(6).at_path('work_packages/0/_actions') }
+      it { should have_json_size(7).at_path('work_packages/0/_actions') }
+      it { should have_json_path('work_packages/0/_actions/' ) }
+
+      specify {
+        expect(parse_json(subject, 'work_packages/0/_actions/5')).to match(%r{copy})
+      }
+      specify {
+        expect(parse_json(subject, 'work_packages/0/_actions/6')).to match(%r{duplicate})
+      }
 
       it { should have_json_path('work_packages/0/_links') }
       it { should have_json_type(Hash).at_path('work_packages/0/_links') }
 
       # FIXME: check missing permission
-      it { should have_json_size(5).at_path('work_packages/0/_links') }
+      it { should have_json_size(6).at_path('work_packages/0/_links') }
+
+      specify {
+        expect(parse_json(subject, 'work_packages/0/_links/copy')).to match(%r{/work_packages/move/new\?copy\=true})
+      }
 
       specify {
         expect(parse_json(subject, 'work_packages/0/_links/edit')).to match(%r{/work_packages/(\d+)/edit})
