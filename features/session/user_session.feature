@@ -100,3 +100,14 @@ Feature: User session
     When I login as blocked_user with password iamblocked
     Then there should be a flash error message
     And the flash message should contain "Invalid user or password"
+
+  @javascript
+  Scenario: A deleted block is always visible in My page block list
+    Given I am already admin
+    When I go to the My page personalization page
+    And  I select "Calendar" from the available widgets drop down
+    And  I click on "Add"
+    Then the "Calendar" widget should be in the top block
+    And "Calendar" should be disabled in the my page available widgets drop down
+    When I click the first delete block link
+    Then "Calendar" should not be disabled in the my page available widgets drop down
