@@ -67,6 +67,7 @@ Feature: Disabled done ratio on the work package index
   @javascript
   Scenario: Author column should be displayed when Author is moved to selected columns
     When I go to the work packages index page of the project "project1"
+    And I click the toolbar button named "Filter"
     And I click "Options"
     And I select to see column "Author"
     Then I should see "Author" within ".list"
@@ -74,6 +75,7 @@ Feature: Disabled done ratio on the work package index
   @javascript
   Scenario: Subject column should not be displayed when Subject is moved out of selected columns
     When I go to the work packages index page of the project "project1"
+    And I click the toolbar button named "Filter"
     And I click "Options"
     And I select to not see column "Subject"
     Then I should not see "Subject" within ".list"
