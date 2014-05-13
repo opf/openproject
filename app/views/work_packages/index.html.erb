@@ -28,9 +28,10 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%
-# TODO fetch data from API endpoint
 possible_project_types = @project ? @project.types : Project.all.map(&:types).inject{|memo,t| memo & t}
 gon.project_types = possible_project_types.map{ |type| [type.id, type.name] }
+# TODO fetch data from API endpoint
+# TODO: move this out of the view
 
 if User.current.allowed_to? :export_work_packages, project, global: project.nil?
   gon.export_formats = {
