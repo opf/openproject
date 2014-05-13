@@ -47,6 +47,7 @@ angular.module('openproject.uiComponents')
       scope.reload = function(modelId, newTitle) {
         scope.selectedTitle = newTitle;
         scope.reloadMethod(modelId);
+        scope.$emit('hideAllDropdowns');
       }
 
       scope.filterModels = function(filterBy) {

@@ -201,14 +201,11 @@ angular.module('openproject.services')
     },
 
     doQuery: function(url, params, method, callback) {
-      if(!method){
-        var method = 'GET';
-      }
-      if(!callback){
-        var callback = function(response){
-          return response.data;
-        };
-      }
+      method = method || 'GET';
+      callback = callback || function(response){
+        return response.data;
+      };
+
       return $http({
         method: method,
         url: url,
