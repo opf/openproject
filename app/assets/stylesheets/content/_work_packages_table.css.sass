@@ -26,40 +26,21 @@
  * See doc/COPYRIGHT.rdoc for more details.  ++
  */
 
-@import bourbon
-@import bitters/bitters
-@import global/all
-@import fonts/lato
-@import fonts/openproject_icon_font
-@import external
-@import select2_customizing
-@import jstoolbar
-@import content/context_menu
-@import print
-@import scm
-@import top-shelf
-@import work_packages
-@import openproject_plugins
-@import layout/all
-@import content/accounts
-@import content/forms
-@import content/flash_messages
-@import content/calendar
-@import content/wiki
-@import content/links
-@import content/action_menu_main
-@import content/my_page
-@import content/buttons
-@import content/boxes
-@import content/tabular
-@import content/work_packages
-@import content/work_packages_table
-@import content/expandable_group_content
-@import content/control_colors
-@import content/tabular
-@import content/headings
-@import content/timelines
-@import content/preview
-@import content/modal
-@import content/grid_table
-@import default/main
++keyframes(fade-out)
+  +fade-out()
+
+#work-packages-table
+  tr.issue
+    &.ng-enter, &.ng-move
+      -webkit-transition: 0.5s linear all
+      -moz-transition: 0.5s linear all
+      -o-transition: 0.5s linear all
+      transition: 0.5s linear all
+      opacity: 0
+    &.ng-enter.ng-enter-active, &.ng-move.ng-move-active
+      opacity: 1
+    &.ng-leave
+      -webkit-animation: 0.5s fade-out
+      -moz-animation: 0.5s fade-out
+      -o-animation: 0.5s fade-out
+      animation: 0.5s fade-out
