@@ -185,7 +185,6 @@ angular.module('openproject.services')
     saveQuery: function() {
       var url = PathHelper.apiProjectQueryPath(query.project_id, query.id);
       return QueryService.doQuery(url, query.toUpdateParams(), 'PUT', function(response){
-        // TODO RS: Currently API V3 doesn't give back any helpful errors but when it does we need to handle them
         return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_update') }} );
       });
     },
@@ -194,24 +193,26 @@ angular.module('openproject.services')
       query.setName(name);
       var url = PathHelper.apiProjectQueriesPath(query.project_id);
       return QueryService.doQuery(url, query.toParams(), 'POST', function(response){
-        // TODO RS: Currently API V3 doesn't give back any helpful errors but when it does we need to handle them
         query.save(response.data);
         return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_create') }} );
       });
     },
 
-    doQuery: function(url, params, method, callback) {
+    doQuery: function(url, params, method, success, failure) {
       method = method || 'GET';
-      callback = callback || function(response){
+      success = success || function(response){
         return response.data;
       };
+      failure = failure || function(response){
+        return angular.extend(response.data, { status: { text: I18n.t('js.notice_bad_request'), isError: true }} );
+      }
 
       return $http({
         method: method,
         url: url,
         params: params,
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-      }).then(callback);
+      }).then(success, failure);
     }
   };
 

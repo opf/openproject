@@ -74,18 +74,22 @@ module Api::V3
     end
 
     def create
-      @query.save
-
-      respond_to do |format|
-        format.api
+      if @query.save
+        respond_to do |format|
+          format.api
+        end
+      else
+        render json: @query.errors.to_json, status: 422
       end
     end
 
     def update
-      @query.save
-
-      respond_to do |format|
-        format.api
+      if @query.save
+        respond_to do |format|
+          format.api
+        end
+      else
+        render json: @query.errors.to_json, status: 422
       end
     end
 

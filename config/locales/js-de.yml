@@ -203,3 +203,4 @@ de:
     notice_successful_create: "Erfolgreich angelegt"
     notice_successful_delete: "Erfolgreich gelöscht."
     notice_successful_update: "Erfolgreich aktualisiert."
+    notice_bad_request: "Fehlerhafte Anfrage."
