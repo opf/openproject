@@ -43,8 +43,13 @@ describe 'Work package index accessibility' do
   end
 
   describe 'Select all link' do
-    let(:select_all_link) { find('table.list.issues th.checkbox a') }
-    let(:description_for_blind) { select_all_link.find(:xpath, 'span/span[@class="hidden-for-sighted"]') }
+    def select_all_link
+      find('table.list.issues th.checkbox a')
+    end
+
+    def description_for_blind
+      select_all_link.find(:xpath, 'span/span[@class="hidden-for-sighted"]')
+    end
 
     describe 'Initial state', js: true do
       it { expect(select_all_link).not_to be_nil }
@@ -53,11 +58,13 @@ describe 'Work package index accessibility' do
 
       it { expect(select_all_link[:alt]).to eq(I18n.t(:button_check_all)) }
 
-      # TODO: This test is failing because of what seems to be a bug in selenium.
-      #       The hidden-for-sighted elements cannot be found using because they are styled with
-      #       absolute positioning and have an x index off the side of the page. If you remove
-      #       the x coord then it will find them but that doesn't seem like a satisfactory solution.
-      # it { expect(description_for_blind.text).to eq(I18n.t(:button_check_all)) }
+      it do
+        pending("This test is failing because of what seems to be a bug in selenium. " \
+                "The hidden-for-sighted elements cannot be found using because they are styled with " \
+                "absolute positioning and have an x index off the side of the page. If you remove " \
+                "the x coord then it will find them but that doesn't seem like a satisfactory solution.")
+        expect(description_for_blind.text).to eq(I18n.t(:button_check_all))
+      end
     end
 
     describe 'Change state', js: true do
@@ -66,8 +73,19 @@ describe 'Work package index accessibility' do
   end
 
   describe 'Sort link', js: true do
+    def sort_link
+      find(sort_link_selector)
+    end
+
     shared_examples_for 'sort column' do
-      it { expect(find(sort_header_selector).find("span")[:title]).to eq(sort_text) }
+      def sort_header
+        find(sort_header_selector)
+      end
+
+      it do
+        expect(sort_header).not_to be_nil
+        expect(sort_header.find("span")[:title]).to eq(sort_text)
+      end
     end
 
     shared_examples_for 'unsorted column' do
@@ -90,12 +108,12 @@ describe 'Work package index accessibility' do
 
     shared_examples_for 'descending sortable first' do
       describe 'one click' do
-        before { find(sort_link_selector).click }
+        before { sort_link.click }
 
         it_behaves_like 'descending sorted column'
 
         describe 'two clicks' do
-          before { find(sort_link_selector).click }
+          before { sort_link.click }
 
           it_behaves_like 'ascending sorted column'
         end
@@ -104,12 +122,12 @@ describe 'Work package index accessibility' do
 
     shared_examples_for 'ascending sortable first' do
       describe 'one click' do
-        before { find(sort_link_selector).click }
+        before { sort_link.click }
 
         it_behaves_like 'ascending sorted column'
 
         describe 'two clicks' do
-          before { find(sort_link_selector).click }
+          before { sort_link.click }
 
           it_behaves_like 'descending sorted column'
         end
