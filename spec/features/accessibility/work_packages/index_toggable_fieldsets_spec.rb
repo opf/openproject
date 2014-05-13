@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require 'features/accessibility/support/toggable_fieldsets'
+require 'features/support/toggable_fieldsets'
 require 'features/work_packages/work_packages_page'
 
 describe 'Work package index' do
