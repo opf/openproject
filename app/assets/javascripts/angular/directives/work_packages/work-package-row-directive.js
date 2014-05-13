@@ -45,7 +45,7 @@ angular.module('openproject.workPackages.directives')
     link: function(scope) {
       scope.workPackage = scope.row.object;
       setCheckboxTitle(scope);
-      if (scope.workPackage.parent_id) setHiddenWorkPackageLabel(scope);
+      if (scope.row.parent) setHiddenWorkPackageLabel(scope);
 
       scope.$watch('row.checked', function(checked, formerState) {
         if (checked !== formerState) {
