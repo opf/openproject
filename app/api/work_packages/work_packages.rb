@@ -5,9 +5,9 @@ module WorkPackages
       params do
         optional :page, type: Integer, default:  1
         optional :per_page, type: Integer, default: 100
-        optional :filters, type: Array
+        optional :filters, type: String
         optional :sort_expression, type: String
-        optional :extend, type: String
+        optional :embedded, type: String
       end
       get do
         work_packages = WorkPackage.all
@@ -16,8 +16,9 @@ module WorkPackages
       get ':id' do
         work_package = WorkPackage.find(params[:id])
         authorize work_package, :show?
-        resource = WorkPackageMapper.new(work_package).to_resource
-        Yaks::HalSerializer.new(resource).serialize.to_json
+        resource = WorkPackageMapper.new(work_package, 'rest').to_resource
+        binding.pry
+        Yaks::HalSerializer.new(resource).to_hal.to_json
       end
 
       patch ':id' do

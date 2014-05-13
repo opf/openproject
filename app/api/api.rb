@@ -33,7 +33,7 @@ class API < Grape::API
     end
 
   get do
-    "Entry point"
+    { test: 'test' }.to_json
   end
 
   get :search do
