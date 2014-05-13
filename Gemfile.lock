@@ -75,7 +75,7 @@ GEM
     byebug (2.7.0)
       columnize (~> 0.3)
       debugger-linecache (~> 1.2)
-    capybara (2.1.0)
+    capybara (2.2.1)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
       rack (>= 1.0.0)
@@ -206,6 +206,8 @@ GEM
     pry-stack_explorer (0.4.9.1)
       binding_of_caller (>= 0.7)
       pry (>= 0.9.11)
+    quiet_assets (1.0.2)
+      railties (>= 3.1, < 5.0)
     rabl (0.9.3)
       activesupport (>= 2.3.14)
     rack (1.4.5)
@@ -376,6 +378,7 @@ DEPENDENCIES
   pry-rails
   pry-rescue
   pry-stack_explorer
+  quiet_assets
   rabl (= 0.9.3)
   rack-protection!
   rack_session_access

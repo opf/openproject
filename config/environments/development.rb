@@ -64,6 +64,9 @@ OpenProject::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
+  # Mute asset pipeline logging (using Quiet Assets)
+  config.quiet_assets = true
+
   # Send mails to browser window
   config.action_mailer.delivery_method = :letter_opener
 end
