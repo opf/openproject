@@ -28,7 +28,10 @@
 
 angular.module('openproject.models')
 
-.factory('Query', ['Filter', 'Sortation', function(Filter, Sortation) {
+.factory('Query', ['Filter',
+                   'Sortation',
+                   'UrlParamsHelper',
+                   function(Filter, Sortation, UrlParamsHelper) {
 
   Query = function (queryData, options) {
     angular.extend(this, queryData, options);
@@ -83,19 +86,8 @@ angular.module('openproject.models')
       return this;
     },
 
-    serialiseForAngular: function(){
-      var params = this.toParams();
-      var serialised = '';
-      angular.forEach(params, function(value, key){
-        if(typeof value == "string" || typeof value == "boolean"){
-          serialised = serialised + "&" + key + "=" + encodeURIComponent(value);
-        } else if(Array.isArray(value)){
-          angular.forEach(value, function(v){
-            serialised = serialised + "&" + key + "=" + encodeURIComponent(v);
-          });
-        }
-      });
-      return serialised.slice(1, serialised.length);
+    getQueryString: function(){
+      return UrlParamsHelper.buildQueryString(this.toParams());
     },
 
     /**

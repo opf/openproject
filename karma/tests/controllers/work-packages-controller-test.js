@@ -66,7 +66,7 @@ describe('WorkPackagesController', function() {
     testQueryService = {
       getQuery: function () {
         return {
-          serialiseForAngular: function () {
+          getQueryString: function () {
           }
         };
       },

@@ -143,7 +143,7 @@ angular.module('openproject.workPackages.controllers')
     }
 
     if($scope.query){
-      relativeUrl = relativeUrl + "#?" + $scope.query.serialiseForAngular();
+      relativeUrl = relativeUrl + "#?" + $scope.query.getQueryString();
     }
 
     $scope.backUrl = relativeUrl;
