@@ -42,6 +42,10 @@ describe 'Work package index' do
       work_packages_page.visit_index
     end
 
+    before :each do
+      work_packages_page.click_toolbar_button 'Filter'
+    end
+
     describe 'Filter fieldset', js: true do
       it_behaves_like 'toggable fieldset initially expanded' do
         let(:fieldset_name) { 'Add filter' }
