@@ -28,7 +28,15 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <%
-gon.project_types = @project.types.map{ |type| [type.id, type.name] }
+# TODO: move this out of the view
+
+types = if @project
+  @project.types
+else
+  @projects.map(&:types).inject{|memo,t| memo & t}
+end
+
+gon.project_types = types.map{ |type| [type.id, type.name] }
 
 if User.current.allowed_to? :export_work_packages, project, global: project.nil?
   gon.export_formats = {
