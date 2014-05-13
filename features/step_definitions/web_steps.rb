@@ -430,6 +430,11 @@ Then /^(.*) in the iframe "([^\"]+)"$/ do |step, iframe_name|
   browser.switch_to.default_content
 end
 
+When /^(?:|I )choose "(.*?)" from the toolbar "(.*?)" dropdown$/ do |action_name, dropdown_id|
+  find("button[dropdown-id=#{dropdown_id}Dropdown]").click
+  find("##{dropdown_id}Dropdown").click_link action_name
+end
+
 # that's capybara's old behaviour: clicking the first button that matches
 When /^(?:|I )click on the first button matching "([^"]*)"$/ do |button|
   first(:button, button).click
