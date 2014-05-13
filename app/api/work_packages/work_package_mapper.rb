@@ -1,5 +1,9 @@
 module WorkPackages
   class WorkPackageMapper < Yaks::Mapper
+    def initialize(object, embedded)
+        super(object)
+    end
+
     link :self, '/api/v3/work_packages/{id}'
     link :createChildren, '/api/v3/work_packages?parent_id={id}', method: :post
     link :update, '/api/v3/work_packages/{id}', method: :patch

@@ -91,6 +91,9 @@ RSpec.configure do |config|
       raise "your specs leave a #{cls} in the DB\ndid you use before(:all) instead of before or forget to kill the instances in a after(:all)?" if cls.count > 0
     end
   end
+
+  # include spec/api for API request specs
+  config.include RSpec::Rails::RequestExampleGroup, type: :request, example_group: { file_path: /spec\/api/ }
 end
 
 # load disable_specs.rbs from plugins
