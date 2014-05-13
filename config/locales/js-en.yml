@@ -135,6 +135,7 @@ en:
         one: "You can only select one item"
         other: "You can only select {{limit}} items"
         zero: "You cannot select any items"
+    text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
     timelines:
       cancel: Cancel
       change: "Change in planning"
