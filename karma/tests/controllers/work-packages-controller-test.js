@@ -32,11 +32,12 @@ describe('WorkPackagesController', function() {
   var scope, ctrl, win, testWorkPackageService, testQueryService, testPaginationService;
   var buildController;
 
-  beforeEach(module('openproject.workPackages.controllers', 'btford.modal'));
+  beforeEach(module('openproject.workPackages.controllers', 'openproject.workPackages.services', 'ng-context-menu', 'btford.modal'));
   beforeEach(inject(function($rootScope, $controller, $timeout) {
     scope = $rootScope.$new();
     win   = {
-     location: { pathname: "" }
+     location: { pathname: "" },
+     gon: { project_types: [] }
     };
 
     var workPackageData = {
@@ -67,7 +68,7 @@ describe('WorkPackagesController', function() {
         return {
           serialiseForAngular: function () {
           }
-        }
+        };
       },
       initQuery: function () {
       },

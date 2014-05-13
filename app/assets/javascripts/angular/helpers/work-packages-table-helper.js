@@ -140,8 +140,21 @@ angular.module('openproject.workPackages.helpers')
       var index = WorkPackagesTableHelper.getColumnIndexByName(columns, columnName);
 
       WorkPackagesTableHelper.moveElementBy(columns, index, by);
-    }
+    },
 
+    getSelectedRows: function(rows) {
+      return rows
+        .filter(function(row) {
+          return row.checked;
+        });
+    },
+
+    getWorkPackagesFromRows: function(rows) {
+      return rows
+        .map(function(row) {
+          return row.object;
+        });
+    }
   };
 
   return WorkPackagesTableHelper;

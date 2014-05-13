@@ -71,7 +71,7 @@ Feature: Updating work packages
       | pe2     |         |         |               | manager     |
     And I am already logged in as "manager"
 
-  @javascript
+  @wip @javascript
   Scenario: Bulk updating the fixed version of several work packages
     When I go to the work package index page of the project called "ecookbook"
     And  I open the context menu on the work packages:
@@ -93,7 +93,7 @@ Feature: Updating work packages
       And I press "Submit"
       Then I should see "Work packages" within "#content"
 
-  @javascript
+  @wip @javascript
   Scenario: Bulk updating the fixed version of several work packages
     When I go to the work package index page of the project called "ecookbook"
     And  I open the context menu on the work packages:

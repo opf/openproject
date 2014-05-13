@@ -124,6 +124,15 @@ angular.module('openproject.services')
       }).then(function(response){
         return response.data;
       });
+    },
+
+    performBulkDelete: function(workPackages) {
+      var params = {
+        'ids[]': workPackages.map(function(wp) {
+          return wp.id;
+        })
+      };
+      return $http.delete(PathHelper.workPackagesBulkDeletePath(), { params: params });
     }
   };
 

@@ -42,6 +42,7 @@ Feature: Work Package Query
   Scenario: Create a query and give it a name
     When I am already admin
      And I go to the work packages index page for the project "project"
+     And I press "Filter"
      And I follow "Save" within "#query_form"
      And I fill in "Query" for "Name"
      And I press "Save"
@@ -54,6 +55,7 @@ Feature: Work Package Query
       | subject | issue1 |
      And I am already admin
      And I go to the work packages index page for the project "project"
+     And I press "Filter"
      And I follow "Options" within "#query_form"
      And I select "Assignee" from "group_by"
      And I follow "Save"

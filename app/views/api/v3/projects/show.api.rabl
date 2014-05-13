@@ -26,5 +26,17 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-collection @projects => :projects
-extends('api/v3/projects/show')
+object @project
+
+attributes :id,
+           :name,
+           :parent_id,
+           :"leaf?"
+
+node(:embedded) do |project|
+  {
+    possible_assignees:    project.possible_assignees,
+    possible_responsibles: project.possible_responsibles,
+    types:                 project.types
+  }
+end

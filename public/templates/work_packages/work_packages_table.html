@@ -3,11 +3,11 @@
     <tr>
       <th class="checkbox hide-when-print">
         <a href="#"
-           alt="{{(rows | allRowsChecked) && I18n.t('js.button_uncheck_all') || I18n.t('js.button_check_all')}}"
+           alt="{{toggleRowsLabel}}"
            class="no-decoration-on-hover"
            ng-click="setCheckedStateForAllRows(!(rows | allRowsChecked))"
-           title="{{(rows | allRowsChecked) && I18n.t('js.button_uncheck_all') || I18n.t('js.button_check_all')}}">
-          <icon-wrapper icon-title="I18n.t('js.button_check_all') + '/' + I18n.t('js.button_uncheck_all')"
+           title="{{toggleRowsLabel}}">
+          <icon-wrapper icon-title="{{toggleRowsLabel}}"
                         icon-name="yes"></icon-wrapper>
         </a>
       </th>
@@ -80,7 +80,10 @@
 
     <!-- Work package rows -->
 
-    <tr id="work-package-{{ row.object.id }}"
+    <tr work-package-row
+        id="work-package-{{ row.object.id }}"
+        has-context-menu
+        process-event="adaptVerticalPosition"
         ng-class="[
           'hascontextmenu',
           row.checked && 'context-menu-selection',
@@ -95,14 +98,13 @@
       <td class="checkbox hide-when-print">
         <accessible-checkbox name="ids[]"
                              checkbox-id="work_package{{row.object.id}}"
-                             checkbox-title="{{I18n.t('js.description_select_work_package')}}#{{row.object.id}}"
                              checkbox-value="row.object.id"
+                             checkbox-title="{{checkboxTitle}}"
                              model="row.checked"/>
       </td>
 
       <td class="id">
-        <span ng-if="row.object.parent_id" class="hidden-for-sighted">
-          {{I18n.t('js.description_subwork_package')}} {{I18n.t('js.label_work_package')}} #{{row.parent.object.name}}
+        <span ng-if="workPackage.parent_id" class="hidden-for-sighted" ng-bind="parentWorkPackageHiddenText">
         </span>
         <a ng-href="/work_packages/{{row.object.id}}">{{row.object.id}}</a>
       </td>

@@ -26,7 +26,33 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-jQuery(document).ajaxComplete(function() {
-  activateError();
-});
+/*jshint expr: true*/
 
+describe('UrlParamsHelper', function() {
+  var UrlParamsHelper;
+
+  beforeEach(module('openproject.helpers'));
+  beforeEach(inject(function(_UrlParamsHelper_) {
+    UrlParamsHelper = _UrlParamsHelper_;
+  }));
+
+  describe('buildQueryString', function() {
+    var params = {
+      ids: [1, 2, 3],
+      str: '@#$%'
+    };
+    var queryString;
+
+    beforeEach(function() {
+      queryString = UrlParamsHelper.buildQueryString(params);
+    });
+
+    it('concatenates propertys with \'&\'', function() {
+      expect(queryString.split('&')).to.have.length(4);
+    });
+
+    it('escapes special characters', function() {
+      expect(queryString).not.to.include('@');
+    });
+  });
+});

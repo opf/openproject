@@ -26,5 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-collection @projects => :projects
-extends('api/v3/projects/show')
+FactoryGirl.define do
+  factory :principal do
+  end
+end

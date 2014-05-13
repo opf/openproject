@@ -104,7 +104,6 @@ Redmine::AccessControl.map do |map|
     # Issues
     map.permission :view_work_packages, {:'issues' => [:index, :all, :show],
                                          :auto_complete => [:issues],
-                                         :context_menus => [:issues],
                                          :versions => [:index, :show, :status_by],
                                          :journals => [:index, :diff],
                                          :queries => [:index, :create, :update, :available_columns, :custom_field_filters, :grouped],

@@ -34,7 +34,10 @@ en:
     button_check_all: "Check all"
     button_delete: "Delete"
     button_edit: "Edit"
+    button_log_time: "Log time"
+    button_move: "Move"
     button_uncheck_all: "Uncheck all"
+    button_update: "Update"
     description_available_columns: "Available Columns"
     description_select_work_package: "Select work package"
     description_selected_columns: "Selected Columns"
@@ -190,6 +193,8 @@ en:
       label_enable_multi_select: "Toggle multiselect"
       label_filter_add: "Add filter"
       label_options: "Options"
+      message_error_during_bulk_delete: An error occurred while trying to delete work packages.
+      message_successful_bulk_delete: Successfully deleted work packages.
       description_filter: "Filter"
       description_enter_text: "Enter text"
       description_options_hide: "Hide options"

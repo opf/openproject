@@ -42,13 +42,12 @@ div.flash
   display: none
 
 #errorExplanation
+  display: none
   ul
     font-size: 0.9em
     margin-left: 30px
   h2, p
     @include hidden_for_sighted
-  h2
-    display: none
 
 div.flash.error, #errorExplanation
   background-color: $content_flash_error_msg_bg_color
