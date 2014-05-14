@@ -45,6 +45,15 @@ angular.module('openproject.workPackages.controllers')
 
   $scope.sortByOptions = {};
 
+  $scope.initSortation = function(){
+    var currentSortation = QueryService.getSortation();
+
+    var element = currentSortation.sortElements[0];
+    $scope.selectedColumn1 = $scope.availableColumnsData.filter(function(column) {
+      return column.id == element.field;
+    })[0];
+  }
+
   $scope.getAvailableColumnsData = function(term, result) {
     result($scope.availableColumnsData);
   }
@@ -67,5 +76,6 @@ angular.module('openproject.workPackages.controllers')
       $scope.availableColumnsData = data.available_columns.map(function(column){
         return { id: column.name, label: column.title, other: column.title };
       });
+      $scope.initSortation();
     });
 }]);
