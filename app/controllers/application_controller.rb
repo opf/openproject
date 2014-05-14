@@ -97,8 +97,6 @@ class ApplicationController < ActionController::Base
                 :stop_if_feeds_disabled,
                 :set_cache_buster
 
-  rescue_from ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
-
   include Redmine::Search::Controller
   include Redmine::MenuManager::MenuController
   helper Redmine::MenuManager::MenuHelper
@@ -535,14 +533,6 @@ class ApplicationController < ActionController::Base
   # @return [boolean, string] name of the layout to use or false for no layout
   def use_layout
     request.xhr? ? false : 'base'
-  end
-
-  def invalid_authenticity_token
-    if api_request?
-      logger.error 'Form authenticity token is missing or is invalid. ' \
-                   'API calls must include a proper Content-type header (text/xml or text/json).'
-    end
-    render_error 'Invalid form authenticity token.'
   end
 
   def render_feed(items, options = {})
