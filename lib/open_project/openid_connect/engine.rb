@@ -24,8 +24,8 @@ module OpenProject::OpenIDConnect
       require 'omniauth/openid_connect/provider'
 
       # load pre-defined providers
-      Dir[File.join(File.dirname(__FILE__), "../../omniauth/openid_connect/*.rb")].each do |file|
-        require file.gsub("^.*lib/", "").gsub(".rb", "")
+      Dir[File.expand_path('../../../omniauth/openid_connect/*.rb', __FILE__)].each do |file|
+        require file
       end
 
       # Use OpenSSL default certificate store instead of HTTPClient's.
