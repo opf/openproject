@@ -8,8 +8,11 @@
       <label for="selected_columns">Selected Columns</label>
       <input id="selected_columns_new"
              type="hidden"
-             value="{{ selectedColumnsString }}"
-             data-values="{{ availableColumnsString }}"></input>
+             ui-select2-sortable="select2Options"
+             simple-query="getObjectsData"
+             ng-model="selectedColumnsString"
+             multiple
+             sortable></input>
     </div>
 
     <div>

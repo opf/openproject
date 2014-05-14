@@ -11,6 +11,7 @@
     "angular": "~1.2.14",
     "angular-animate": "~1.2.14",
     "angular-ui-select2": "latest",
+    "angular-ui-select2-sortable": "latest",
     "angular-ui-date": "latest",
     "angular-i18n": "~1.3.0",
     "angular-modal": "~0.3.0",

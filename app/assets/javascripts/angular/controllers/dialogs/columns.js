@@ -36,36 +36,52 @@ angular.module('openproject.workPackages.controllers')
   });
 }])
 
-.controller('ColumnsModalController', ['$scope', '$timeout', 'columnsModal', 'QueryService', function($scope, $timeout, columnsModal, QueryService) {
+.controller('ColumnsModalController', ['$scope', '$timeout', 'columnsModal', 'QueryService', 'QueriesHelper', function($scope, $timeout, columnsModal, QueryService, QueriesHelper) {
   this.name    = 'Columns';
   this.closeMe = columnsModal.deactivate;
 
+  // $scope.select2Options = {
+  //   'multiple': true,
+  //   'simple_tags': true
+  // };
+  $scope.getObjectsData = function(term, result) {
+    result([
+       { id: 1, label: "one", other: "ONE"},
+       { id: 2, label: "two", other: "TWO"},
+       { id: 3, label: "three", other: "THREE"}
+    ]);
+  };
+
   // Selected Columns
   $scope.selectedColumnsString = QueryService.getSelectedColumns()
-    .map(function(column){ return column.name; })
-    .join();
+    .map(function(column){ return { id: column.name, label: column.title }; });
 
   // Available Columns
   QueryService.getAvailableColumns()
     .then(function(data){
       var cols = data.available_columns.map(function(column){
-        return { name: column.title, id: column.name };
+        return column.title;
       });
-      $scope.availableColumnsString = JSON.stringify(cols);
-    })
-    .then(function(){
-      $timeout(function(){
-        var colsInput = jQuery('#selected_columns_new');
-        colsInput.autocomplete({
-          multiple: true,
-          sortable: true
-        });
-      });
+      // $scope.availableColumns = cols;
+      // $scope.availableColumnsString = JSON.stringify(cols);
+      
     });
+    // .then(function(){
+    //   $timeout(function(){
+    //     var colsInput = jQuery('#selected_columns_new');
+    //     colsInput.autocomplete({
+    //       multiple: true,
+    //       sortable: true
+    //     });
+    //   });
+    // });
 
   // TODO: Method to pass back selected columns to service on closing/saving
   $scope.updateSelectedColumns = function(){
     // Hack alert: autocomplete is change the value of the hidden input and so ng-value isn't keeping track of it so just using jQuery
-    var cols = jQuery('#selected_columns_new').val();
+    var selectedColumnNames = jQuery('#selected_columns_new').val().split(',');
+    var selectedColumns = QueriesHelper.getColumnsByName($scope.availableColumns, selectedColumnNames);
+    QueryService.setSelectedColumns(selectedColumns);
+    columnsModal.deactivate();
   }
 }]);

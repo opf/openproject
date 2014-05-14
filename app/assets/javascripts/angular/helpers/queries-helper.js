@@ -34,6 +34,12 @@ angular.module('openproject.workPackages.helpers')
       return allColumns.filter(function(column) {
         return columns.map(function(c){ return c.name; }).indexOf(column.name) === -1;
       });
+    },
+
+    getColumnsByName: function(columns, columnIdentifiers) {
+      return columns.filter(function(column) {
+        return columnIdentifiers.indexOf(column.id) >= 0;
+      });
     }
   };
 

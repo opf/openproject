@@ -104,6 +104,10 @@ angular.module('openproject.services')
       return query.getSelectedColumns();
     },
 
+    setSelectedColumns: function(columns) {
+      return query.setSelectedColumns(columns);
+    },
+
     getAvailableFilters: function(projectIdentifier){
       // TODO once this is becoming more single-page-app-like keep the available filters of the query model in sync when the project identifier is changed on the scope but the page isn't reloaded
       var identifier = 'global';
