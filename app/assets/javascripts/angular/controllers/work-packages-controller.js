@@ -130,7 +130,7 @@ angular.module('openproject.workPackages.controllers')
     $scope.query_id = queryId;
 
     $scope.withLoading(WorkPackageService.getWorkPackagesByQueryId, [$scope.projectIdentifier, $scope.query_id])
-      .then($scope.setupWorkPackagesTable)
+      .then(setupWorkPackagesTable)
       .then(initAvailableQueries)
       .then(initAvailableColumns);
   };
