@@ -68,16 +68,16 @@ angular.module('openproject.workPackages.controllers')
     $scope.loading = false;
     $scope.disableFilters = false;
 
-    var getMethod, params;
+    var getWorkPackages, params;
     if($location.search()['c[]']){
-      getMethod = WorkPackageService.getWorkPackagesFromUrlQueryParams;
+      getWorkPackages = WorkPackageService.getWorkPackagesFromUrlQueryParams;
       params = [$scope.projectIdentifier, $location];
     } else {
-      getMethod = WorkPackageService.getWorkPackagesByQueryId;
+      getWorkPackages = WorkPackageService.getWorkPackagesByQueryId;
       params = [$scope.projectIdentifier, $scope.query_id];
     }
 
-    $scope.withLoading(getMethod, params)
+    $scope.withLoading(getWorkPackages, params)
       .then(setupPage);
   }
 
