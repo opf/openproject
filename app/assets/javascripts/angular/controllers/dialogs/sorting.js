@@ -36,7 +36,36 @@ angular.module('openproject.workPackages.controllers')
   });
 }])
 
-.controller('SortingModalController', ['sortingModal', function(sortingModal) {
+.controller('SortingModalController', ['sortingModal',
+	'$scope',
+	'QueryService',
+	function(sortingModal, $scope, QueryService) {
   this.name    = 'Sorting';
   this.closeMe = sortingModal.deactivate;
+
+  $scope.sortByOptions = {};
+
+  $scope.getAvailableColumnsData = function(term, result) {
+    result($scope.availableColumnsData);
+  }
+
+  $scope.getDirectionsData = function(term, result) {
+    result([{ id: 'asc', label: 'Ascending'}, { id: 'desc', label: 'Descending'}]);
+  }
+
+  $scope.updateSortation = function(){
+    // TODO RS: Clean this up once we have a sortation directive
+    var sortation = [[ $scope.selectedColumn1.id, $scope.selectedDirection1.id ],
+                     [ $scope.selectedColumn2.id, $scope.selectedDirection2.id ],
+                     [ $scope.selectedColumn3.id, $scope.selectedDirection3.id ]];
+    QueryService.setSortation(sortation);
+  }
+
+  QueryService.getAvailableColumns()
+    .then(function(data){
+      $scope.availableColumns = data.available_columns
+      $scope.availableColumnsData = data.available_columns.map(function(column){
+        return { id: column.name, label: column.title, other: column.title };
+      });
+    });
 }]);

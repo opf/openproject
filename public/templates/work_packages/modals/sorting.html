@@ -4,5 +4,49 @@
 
     <h1>Sorting</h1>
 
+    <div>
+      <input id="sort_by_column1"
+             type="hidden"
+             ui-select2-sortable="sortByOptions"
+             simple-query="getAvailableColumnsData"
+             ng-model="selectedColumn1"></input>
+      <input id="sort_direction1"
+             type="hidden"
+             ui-select2-sortable="sortDirectionOptions"
+             simple-query="getDirectionsData"
+             ng-model="selectedDirection1"></input>
+    </div>
+
+    <div>
+      <input id="sort_by_column2"
+             type="hidden"
+             ui-select2-sortable="sortByOptions"
+             simple-query="getAvailableColumnsData"
+             ng-model="selectedColumn2"></input>
+      <input id="sort_direction2"
+             type="hidden"
+             ui-select2-sortable="sortDirectionOptions"
+             simple-query="getDirectionsData"
+             ng-model="selectedDirection2"></input>
+    </div>
+
+    <div>
+      <input id="sort_by_column3"
+             type="hidden"
+             ui-select2-sortable="sortByOptions"
+             simple-query="getAvailableColumnsData"
+             ng-model="selectedColumn3"></input>
+      <input id="sort_direction3"
+             type="hidden"
+             ui-select2-sortable="sortDirectionOptions"
+             simple-query="getDirectionsData"
+             ng-model="selectedDirection3"></input>
+    </div>
+
+    <div>
+      <button ng-click="updateSortation()">Apply</button>
+      <button ng-click="modal.closeMe()">Cancel</button>
+    </div>
+
   </div>
 </div>
