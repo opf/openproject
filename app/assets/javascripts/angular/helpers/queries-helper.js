@@ -38,7 +38,7 @@ angular.module('openproject.workPackages.helpers')
 
     getColumnsByName: function(columns, columnIdentifiers) {
       return columns.filter(function(column) {
-        return columnIdentifiers.indexOf(column.id) >= 0;
+        return columnIdentifiers.indexOf(column.name) >= 0;
       });
     }
   };

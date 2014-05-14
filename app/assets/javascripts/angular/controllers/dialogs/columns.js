@@ -40,47 +40,27 @@ angular.module('openproject.workPackages.controllers')
   this.name    = 'Columns';
   this.closeMe = columnsModal.deactivate;
 
-  // $scope.select2Options = {
-  //   'multiple': true,
-  //   'simple_tags': true
-  // };
   $scope.getObjectsData = function(term, result) {
-    result([
-       { id: 1, label: "one", other: "ONE"},
-       { id: 2, label: "two", other: "TWO"},
-       { id: 3, label: "three", other: "THREE"}
-    ]);
+    // TODO: This is waiting on QueryService.getAvailableColumns() which means if you click to early then it doesn't
+    // display anything and will not even if you wait. We need to disable the input while the available columns are being fetched.
+    result($scope.availableColumnsData);
   };
 
   // Selected Columns
-  $scope.selectedColumnsString = QueryService.getSelectedColumns()
+  $scope.selectedColumns = QueryService.getSelectedColumns()
     .map(function(column){ return { id: column.name, label: column.title }; });
 
   // Available Columns
   QueryService.getAvailableColumns()
     .then(function(data){
-      var cols = data.available_columns.map(function(column){
-        return column.title;
+      $scope.availableColumns = data.available_columns
+      $scope.availableColumnsData = data.available_columns.map(function(column){
+        return { id: column.name, label: column.title, other: column.title };
       });
-      // $scope.availableColumns = cols;
-      // $scope.availableColumnsString = JSON.stringify(cols);
-      
     });
-    // .then(function(){
-    //   $timeout(function(){
-    //     var colsInput = jQuery('#selected_columns_new');
-    //     colsInput.autocomplete({
-    //       multiple: true,
-    //       sortable: true
-    //     });
-    //   });
-    // });
 
-  // TODO: Method to pass back selected columns to service on closing/saving
   $scope.updateSelectedColumns = function(){
-    // Hack alert: autocomplete is change the value of the hidden input and so ng-value isn't keeping track of it so just using jQuery
-    var selectedColumnNames = jQuery('#selected_columns_new').val().split(',');
-    var selectedColumns = QueriesHelper.getColumnsByName($scope.availableColumns, selectedColumnNames);
+    var selectedColumns = QueriesHelper.getColumnsByName($scope.availableColumns, $scope.selectedColumns.map(function(column){ return column.id; }));
     QueryService.setSelectedColumns(selectedColumns);
     columnsModal.deactivate();
   }
