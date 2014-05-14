@@ -123,7 +123,7 @@ angular.module('openproject.workPackages.controllers')
           $scope.$emit('flashMessage', data.status);
         });
     }
-  }
+  };
 
   $scope.reloadQuery = function(queryId) {
     QueryService.resetQuery();
@@ -133,7 +133,7 @@ angular.module('openproject.workPackages.controllers')
       .then($scope.setupWorkPackagesTable)
       .then(initAvailableQueries)
       .then(initAvailableColumns);
-  }
+  };
 
   $scope.updateBackUrl = function(){
     // Easier than trying to extract it from $location
@@ -205,7 +205,7 @@ angular.module('openproject.workPackages.controllers')
 
   // Note: I know we don't want watchers on the controller but I want all the toolbar directives to have restricted scopes. Thoughts welcome.
   $scope.$watch('query.name', function(newValue, oldValue){
-    if(newValue != oldValue){
+    if(newValue != oldValue && $scope.query.hasName()){
       $scope.selectedTitle = newValue;
     }
   });

@@ -42,13 +42,13 @@ angular.module('openproject.uiComponents')
     link: function(scope) {
       scope.$watch('groups', function(oldValue, newValue){
         scope.filteredGroups = angular.copy(scope.groups);
-      })
+      });
 
       scope.reload = function(modelId, newTitle) {
         scope.selectedTitle = newTitle;
         scope.reloadMethod(modelId);
         scope.$emit('hideAllDropdowns');
-      }
+      };
 
       scope.filterModels = function(filterBy) {
         scope.filteredGroups = angular.copy(scope.groups);
@@ -57,7 +57,7 @@ angular.module('openproject.uiComponents')
             return model[0].toLowerCase().indexOf(filterBy.toLowerCase()) >= 0;
           });
         });
-      }
+      };
     }
   };
 }]);
