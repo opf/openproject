@@ -70,6 +70,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#7149` Fix: Wrong success message when login is already in use
 * `#7177` Fix: Journal not created in connection with deleted note
 * `#7384` Headlines in wiki table of content are broken
+* `#7608` Make highlight buttons styleable
 * Allowed sending of mails with only cc: or bcc: fields
 * Allow adding attachments to created work packages via planning elements controller
 * Remove unused rmagick dependency
