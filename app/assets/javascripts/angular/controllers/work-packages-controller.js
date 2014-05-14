@@ -57,16 +57,12 @@ angular.module('openproject.workPackages.controllers')
   $scope.projectTypes = $window.gon.project_types;
   $scope.showFiltersOptions = false;
 
-  function setUrlParams(location) {
-    var normalisedPath = location.pathname.replace($window.appBasePath, '');
-    $scope.projectIdentifier = normalisedPath.split('/')[2];
 
-    var regexp = /query_id=(\d+)/g;
-    var match = regexp.exec(location.search);
-    if(match) $scope.query_id = match[1];
-  }
+  // Setup
 
   function initialSetup() {
+    setUrlParams($window.location);
+
     $scope.selectedTitle = "Work Packages";
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.loading = false;
@@ -85,73 +81,14 @@ angular.module('openproject.workPackages.controllers')
       .then(setupPage);
   }
 
-  function initAvailableColumns() {
-    return QueryService.getAvailableColumns($scope.projectIdentifier)
-      .then(function(data){
-        $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(data.available_columns, $scope.columns);
-        return $scope.availableColumns;
-      });
+  function setUrlParams(location) {
+    var normalisedPath = location.pathname.replace($window.appBasePath, '');
+    $scope.projectIdentifier = normalisedPath.split('/')[2];
+
+    var regexp = /query_id=(\d+)/g;
+    var match = regexp.exec(location.search);
+    if(match) $scope.query_id = match[1];
   }
-
-  function initAvailableQueries() {
-    return QueryService.getAvailableGroupedQueries($scope.projectIdentifier)
-      .then(function(data){
-        $scope.groups = [{ name: 'CUSTOM QUERIES', models: data["user_queries"]},
-          { name: 'GLOBAL QUERIES', models: data["queries"]}];
-      });
-  }
-
-  function afterQuerySetupCallback(query) {
-    $scope.showFilters = query.filters.length > 0;
-    $scope.updateBackUrl();
-  }
-
-  $scope.showColumnsModal  = columnsModal.activate;
-  $scope.showExportModal   = exportModal.activate;
-  $scope.showSettingsModal = settingsModal.activate;
-  $scope.showShareModal    = shareModal.activate;
-  $scope.showSortingModal  = sortingModal.activate;
-
-  $scope.showSaveModal     = function(saveAs){
-    $scope.$emit('hideAllDropdowns');
-    if( saveAs || $scope.query.isNew() ){
-      saveModal.activate();
-    } else {
-      QueryService.saveQuery()
-        .then(function(data){
-          $scope.$emit('flashMessage', data.status);
-        });
-    }
-  };
-
-  $scope.reloadQuery = function(queryId) {
-    QueryService.resetQuery();
-    $scope.query_id = queryId;
-
-    $scope.withLoading(WorkPackageService.getWorkPackagesByQueryId, [$scope.projectIdentifier, $scope.query_id])
-      .then(setupPage);
-  };
-
-  $scope.updateBackUrl = function(){
-    // Easier than trying to extract it from $location
-    var relativeUrl = "/work_packages";
-    if ($scope.projectIdentifier){
-      relativeUrl = "/projects/" + $scope.projectIdentifier + relativeUrl;
-    }
-
-    if($scope.query){
-      relativeUrl = relativeUrl + "#?" + $scope.query.getQueryString();
-    }
-
-    $scope.backUrl = relativeUrl;
-  };
-
-  $scope.submitQueryForm = function(){
-    jQuery("#selected_columns option").attr('selected',true);
-    jQuery('#query_form').submit();
-    return false;
-  };
-
 
   function setupPage(json) {
     initQuery(json.meta);
@@ -168,6 +105,11 @@ angular.module('openproject.workPackages.controllers')
         columnData = metaData.columns;
 
     $scope.query = QueryService.getQuery() || QueryService.initQuery($scope.query_id, queryData, columnData, afterQuerySetupCallback);
+  }
+
+  function afterQuerySetupCallback(query) {
+    $scope.showFilters = query.filters.length > 0;
+    $scope.updateBackUrl();
   }
 
   function setupWorkPackagesTable(json) {
@@ -202,12 +144,54 @@ angular.module('openproject.workPackages.controllers')
     $scope.updateBackUrl();
   }
 
+  function initAvailableColumns() {
+    return QueryService.getAvailableColumns($scope.projectIdentifier)
+      .then(function(data){
+        $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(data.available_columns, $scope.columns);
+        return $scope.availableColumns;
+      });
+  }
+
+  function initAvailableQueries() {
+    return QueryService.getAvailableGroupedQueries($scope.projectIdentifier)
+      .then(function(data){
+        $scope.groups = [{ name: 'CUSTOM QUERIES', models: data["user_queries"]},
+          { name: 'GLOBAL QUERIES', models: data["queries"]}];
+      });
+  }
+
+  // Updates
+
+  $scope.reloadQuery = function(queryId) {
+    QueryService.resetQuery();
+    $scope.query_id = queryId;
+
+    $scope.withLoading(WorkPackageService.getWorkPackagesByQueryId, [$scope.projectIdentifier, $scope.query_id])
+      .then(setupPage);
+  };
+
+  $scope.updateBackUrl = function(){
+    // Easier than trying to extract it from $location
+    var relativeUrl = "/work_packages";
+    if ($scope.projectIdentifier){
+      relativeUrl = "/projects/" + $scope.projectIdentifier + relativeUrl;
+    }
+
+    if($scope.query){
+      relativeUrl = relativeUrl + "#?" + $scope.query.getQueryString();
+    }
+
+    $scope.backUrl = relativeUrl;
+  };
+
   $scope.updateResults = function() {
     $scope.$broadcast('openproject.workPackages.updateResults');
 
     return $scope.withLoading(WorkPackageService.getWorkPackages, [$scope.projectIdentifier, $scope.query, PaginationService.getPaginationOptions()])
       .then(setupWorkPackagesTable);
   };
+
+  // More
 
   function serviceErrorHandler(data) {
     // TODO RS: This is where we'd want to put an error message on the dom
@@ -218,6 +202,36 @@ angular.module('openproject.workPackages.controllers')
     return WorkPackageLoadingHelper.withLoading($scope, callback, params, serviceErrorHandler);
   };
 
+  $scope.submitQueryForm = function(){
+    jQuery("#selected_columns option").attr('selected',true);
+    jQuery('#query_form').submit();
+    return false;
+  };
+
+  // Modals
+
+  $scope.showColumnsModal  = columnsModal.activate;
+  $scope.showExportModal   = exportModal.activate;
+  $scope.showSettingsModal = settingsModal.activate;
+  $scope.showShareModal    = shareModal.activate;
+  $scope.showSortingModal  = sortingModal.activate;
+
+  $scope.showSaveModal     = function(saveAs){
+    $scope.$emit('hideAllDropdowns');
+    if( saveAs || $scope.query.isNew() ){
+      saveModal.activate();
+    } else {
+      QueryService.saveQuery()
+        .then(function(data){
+          $scope.$emit('flashMessage', data.status);
+        });
+    }
+  };
+
+  // Go
+
+  initialSetup();
+
   // Note: I know we don't want watchers on the controller but I want all the toolbar directives to have restricted scopes. Thoughts welcome.
   $scope.$watch('query.name', function(newValue, oldValue){
     if(newValue != oldValue && $scope.query.hasName()){
@@ -225,6 +239,4 @@ angular.module('openproject.workPackages.controllers')
     }
   });
 
-  setUrlParams($window.location);
-  initialSetup();
 }]);
