@@ -210,20 +210,3 @@ $button_gray_font_color: #222222
     // See https://www.openproject.org/work_packages/7479
     select
       font-family: sans-serif !important
-
-// keyframes mixin
-=keyframes($name)
-  @-webkit-keyframes #{$name}
-    @content
-  @-moz-keyframes #{$name}
-    @content
-  @-ms-keyframes #{$name}
-    @content
-  @keyframes #{$name}
-    @content
-
-@mixin fade-out
-  from
-    opacity: 1
-  to
-    opacity: 0

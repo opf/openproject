@@ -26,8 +26,11 @@
  * See doc/COPYRIGHT.rdoc for more details.  ++
  */
 
-+keyframes(fade-out)
-  +fade-out()
+@include keyframes(fade-out)
+  from
+    opacity: 1
+  to
+    opacity: 0
 
 #work-packages-table
   tr.issue
