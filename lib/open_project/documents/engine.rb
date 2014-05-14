@@ -46,8 +46,10 @@ module OpenProject::Documents
                           :caption => :label_document_plural,
                           :html => { :class => 'icon2 icon-book1' }
 
-      permission :manage_documents, {:documents => [:new, :create, :edit, :update, :destroy, :add_attachment]}, :require => :loggedin
-      permission :view_documents, :documents => [:index, :show, :download]
+      project_module :documents do |map|
+        permission :manage_documents, {:documents => [:new, :create, :edit, :update, :destroy, :add_attachment]}, :require => :loggedin
+        permission :view_documents, :documents => [:index, :show, :download]
+      end
 
       Redmine::Notifiable.all << Redmine::Notifiable.new('document_added')
 
