@@ -56,16 +56,20 @@ class ApplicationController < ActionController::Base
   layout 'base'
 
   protect_from_forgery
-  # CSRF protection prevents an attacker from using a user's session to execute
-  # requests. API requests each contain their own authentication token, e.g.
-  # as key parameter or header, so they don't have to be protected by CSRF
-  # protection. We can't reliably determine here whether a request is an API
+  # CSRF protection prevents two things. It prevents an attacker from using a
+  # user's session to execute requests. It also prevents an attacker to log in
+  # a user with the attacker's account. API requests each contain their own
+  # authentication token, e.g. as key parameter or header, so they don't have
+  # to be protected by CSRF protection as long as they don't create a session
+  #
+  # We can't reliably determine here whether a request is an API
   # request as this happens in our way too complex find_current_user method
   # that is only executed after this method. E.g we might have to check that
   # no session is active and that no autologin cookie is set.
   #
   # Thus, we always reset any active session and the autologin cookie to make
   # sure find_current user doesn't find a user based on an active session.
+  #
   # Nevertheless, API requests should not be aborted, which they would be
   # if we raised an error here. Still, users should see an error message
   # when sending a form with a wrong CSRF token (e.g. after session expiration).
@@ -76,7 +80,6 @@ class ApplicationController < ActionController::Base
     cookies.delete(OpenProject::Configuration['autologin_cookie_name'])
     self.logged_user = nil
 
-    # The following is not there for security, but only for a nice error message.
     # Don't render an error message for requests that appear to be API requests.
     #
     # The api_request? method uses the format parameter or a header
@@ -85,6 +88,21 @@ class ApplicationController < ActionController::Base
     # Also, attackers can send CSRF requests with arbitrary headers using
     # browser plugins. For more information on this, see:
     # http://weblog.rubyonrails.org/2011/2/8/csrf-protection-bypass-in-ruby-on-rails/
+    #
+    # Resetting the session above is enough for preventing an attacking from
+    # using a user's session to execute requests with the user's account.
+    #
+    # It's not enough to prevent login CSRF, so we have to explicitly deny requests
+    # with invalid CSRF token for all requests that create a session with a logged in
+    # user. This is implemented as a before filter on AccountController that disallows
+    # all requests classified as API calls by api_request (via disable_api). It's
+    # important that disable_api and handle_unverified_request both use the same method
+    # to determine whether a request is an API request to ensure that a request either
+    # has a valid CSRF token and is not classified as API request, so no error is raised
+    # here OR a request has an invalid CSRF token and is classified as API request, no error
+    # is raised here, but is denied by disable_api.
+    #
+    # See http://stackoverflow.com/a/15350123 for more information on login CSRF.
     render_error status: 422, message: 'Invalid form authenticity token.' unless api_request?
   end
 
@@ -672,6 +690,9 @@ class ApplicationController < ActionController::Base
   end
 
   def disable_api
+    # Changing this to not use api_request? to determine whether a request is an API
+    # request can have security implications regarding CSRF. See handle_unverified_request
+    # for more information.
     if api_request?
       head 410
       return false

@@ -138,6 +138,22 @@ describe AccountController do
       end
 
     end
+
+    describe 'for a user trying to log in via an API request' do
+      before do
+        post :login, username: admin.login,
+                     password: 'adminADMIN!',
+                     format: :json
+      end
+
+      it 'should return a 410' do
+        expect(response.code.to_s).to eql('410')
+      end
+
+      it 'should not login the user' do
+        expect(@controller.send(:current_user).anonymous?).to be_true
+      end
+    end
   end
 
 
