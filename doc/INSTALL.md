@@ -70,6 +70,7 @@ These are generic (and condensed) installation instructions for the **current de
 2. Copy `config/configuration.yml.example` to `config/configuration.yml`:
 
         cp configuration.yml.example configuration.yml
+        cd ..
 
    Edit `configuration.yml` according to your preferred settings for email, etc. (see [`config/CONFIGURATION.md`](CONFIGURATION.md) for a full list of configuration options).
 
