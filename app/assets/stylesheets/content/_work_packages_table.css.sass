@@ -32,15 +32,9 @@
 #work-packages-table
   tr.issue
     &.ng-enter, &.ng-move
-      -webkit-transition: 0.5s linear all
-      -moz-transition: 0.5s linear all
-      -o-transition: 0.5s linear all
-      transition: 0.5s linear all
+      @include transition(0.5s linear all)
       opacity: 0
     &.ng-enter.ng-enter-active, &.ng-move.ng-move-active
       opacity: 1
     &.ng-leave
-      -webkit-animation: 0.5s fade-out
-      -moz-animation: 0.5s fade-out
-      -o-animation: 0.5s fade-out
-      animation: 0.5s fade-out
+      @include animation(0.5s fade-out)
