@@ -1,0 +1,104 @@
+body {
+  color: $base-font-color;
+  font-family: $base-font-family;
+  font-size: $base-font-size;
+  -webkit-font-smoothing: antialiased;
+  line-height: $base-line-height;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $header-font-family;
+  line-height: 1.25em;
+  margin: 0;
+  text-rendering: optimizeLegibility; // Fix the character spacing for headings
+}
+
+h1 {
+  font-size: $base-font-size * 2.25; // 16 * 2.25 = 36px
+}
+
+h2 {
+  font-size: $base-font-size * 2; // 16 * 2 = 32px
+}
+
+h3 {
+  font-size: $base-font-size * 1.75; // 16 * 1.75 = 28px
+}
+
+h4 {
+  font-size: $base-font-size * 1.5; // 16 * 1.5 = 24px
+}
+
+h5 {
+  font-size: $base-font-size * 1.25; // 16 * 1.25 = 20px
+}
+
+h6 {
+  font-size: $base-font-size;
+}
+
+p {
+  margin: 0 0 ($base-line-height * .5);
+}
+
+a {
+  color: $base-link-color;
+  text-decoration: none;
+  @include transition(color 0.1s linear);
+
+  &:hover {
+    color: $hover-link-color;
+  }
+
+  &:active, &:focus {
+    color: $hover-link-color;
+    outline: none;
+  }
+}
+
+hr {
+  border-bottom: 1px solid $base-border-color;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  margin: $base-line-height 0;
+}
+
+img {
+  margin: 0;
+  max-width: 100%;
+}
+
+abbr, acronym {
+  border-bottom: 1px dotted $base-border-color;
+  cursor: help;
+}
+
+address {
+  display: block;
+  margin: 0 0 ($base-line-height / 2);
+}
+
+hgroup {
+  margin-bottom: $base-line-height / 2;
+}
+
+del {
+  color: lighten($base-font-color, 15);
+}
+
+blockquote {
+  border-left: 2px solid $base-border-color;
+  color: lighten($base-font-color, 15);
+  margin: $base-line-height 0;
+  padding-left: $base-line-height / 2;
+}
+
+cite {
+  color: lighten($base-font-color, 25);
+  font-style: italic;
+
+  &:before {
+    content: '\2014 \00A0';
+  }
+}
