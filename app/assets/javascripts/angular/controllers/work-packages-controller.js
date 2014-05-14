@@ -30,6 +30,7 @@ angular.module('openproject.workPackages.controllers')
 
 .controller('WorkPackagesController', [
     '$scope',
+    '$q',
     '$window',
     '$location',
     'columnsModal',
@@ -46,7 +47,7 @@ angular.module('openproject.workPackages.controllers')
     'WorkPackageLoadingHelper',
     'INITIALLY_SELECTED_COLUMNS',
     'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
-    function($scope, $window, $location, columnsModal, exportModal, saveModal,
+    function($scope, $q, $window, $location, columnsModal, exportModal, saveModal,
       settingsModal, shareModal, sortingModal,
       WorkPackagesTableHelper, WorkPackagesTableService,
       WorkPackageService, QueryService, PaginationService,
@@ -81,9 +82,7 @@ angular.module('openproject.workPackages.controllers')
     }
 
     $scope.withLoading(getMethod, params)
-      .then(setupWorkPackagesTable)
-      .then(initAvailableQueries)
-      .then(initAvailableColumns);
+      .then(setupPage);
   }
 
   function initAvailableColumns() {
@@ -130,9 +129,7 @@ angular.module('openproject.workPackages.controllers')
     $scope.query_id = queryId;
 
     $scope.withLoading(WorkPackageService.getWorkPackagesByQueryId, [$scope.projectIdentifier, $scope.query_id])
-      .then(setupWorkPackagesTable)
-      .then(initAvailableQueries)
-      .then(initAvailableColumns);
+      .then(setupPage);
   };
 
   $scope.updateBackUrl = function(){
@@ -155,27 +152,45 @@ angular.module('openproject.workPackages.controllers')
     return false;
   };
 
+
+  function setupPage(json) {
+    initQuery(json.meta);
+    setupWorkPackagesTable(json);
+
+    return $q.all([
+      initAvailableColumns(),
+      initAvailableQueries()
+    ]);
+  }
+
+  function initQuery(metaData) {
+    var queryData = metaData.query,
+        columnData = metaData.columns;
+
+    $scope.query = QueryService.getQuery() || QueryService.initQuery($scope.query_id, queryData, columnData, afterQuerySetupCallback);
+  }
+
   function setupWorkPackagesTable(json) {
-    var meta = json.meta;
+    var meta = json.meta,
+        workPackages = json.work_packages,
+        bulkLinks = json._bulk_links;
 
     // columns
-    if (!$scope.columns) $scope.columns = meta.columns;
+    $scope.columns = $scope.query.columns;
     angular.forEach($scope.columns, function(column, i){
       column.total_sum = meta.sums[i];
       if (meta.group_sums) column.group_sums = meta.group_sums[i];
     });
     if (!$scope.groupableColumns) $scope.groupableColumns = meta.groupable_columns;
 
-    // query
-    $scope.query = QueryService.getQuery() || QueryService.initQuery($scope.query_id, meta.query, $scope.columns, afterQuerySetupCallback);
 
     // table data
-    $scope.rows = WorkPackagesTableHelper.getRows(json.work_packages, $scope.query.groupBy);
+    $scope.rows = WorkPackagesTableHelper.getRows(workPackages, $scope.query.groupBy);
     $scope.workPackageCountByGroup = meta.work_package_count_by_group;
 
     // shared table data
     WorkPackagesTableService.setRows($scope.rows);
-    WorkPackagesTableService.setBulkLinks(json._bulk_links);
+    WorkPackagesTableService.setBulkLinks(bulkLinks);
 
     // pagination data
     PaginationService.setPerPageOptions(meta.per_page_options);
