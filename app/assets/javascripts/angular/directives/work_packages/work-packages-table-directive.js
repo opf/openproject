@@ -28,7 +28,11 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('workPackagesTable', ['I18n', 'WorkPackagesTableService', function(I18n, WorkPackagesTableService){
+.directive('workPackagesTable', [
+  'I18n',
+  'WorkPackagesTableService',
+  function(I18n, WorkPackagesTableService){
+
   return {
     restrict: 'E',
     replace: true,

@@ -56,6 +56,24 @@ angular.module('openproject.workPackages.services')
       return workPackagesTableData.allRowsChecked;
     },
 
+    setColumns: function(columns) {
+      workPackagesTableData.columns = columns;
+    },
+
+    addColumnMetaData: function(metaData) {
+      angular.forEach(workPackagesTableData.columns, function(column, i){
+        column.total_sum = metaData.sums[i];
+
+        if (metaData.group_sums) column.group_sums = metaData.group_sums[i];
+      });
+
+      if (!workPackagesTableData.groupableColumns) workPackagesTableData.groupableColumns = metaData.groupable_columns;
+    },
+
+    getGroupableColumns: function() {
+      return workPackagesTableData.groupableColumns;
+    },
+
     setRows: function(rows) {
       workPackagesTableData.rows = rows;
     },

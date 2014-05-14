@@ -81,6 +81,13 @@ describe('WorkPackagesController', function() {
         return $timeout(function () {
           return availableQueryiesData;
         }, 10);
+      },
+
+      getTotalEntries: function() {
+      },
+
+      setTotalEntries: function() {
+        return 10;
       }
     };
     testPaginationService = {

@@ -117,28 +117,29 @@ angular.module('openproject.workPackages.controllers')
         workPackages = json.work_packages,
         bulkLinks = json._bulk_links;
 
-    // columns
-    $scope.columns = $scope.query.columns;
-    angular.forEach($scope.columns, function(column, i){
-      column.total_sum = meta.sums[i];
-      if (meta.group_sums) column.group_sums = meta.group_sums[i];
-    });
-    if (!$scope.groupableColumns) $scope.groupableColumns = meta.groupable_columns;
-
+    // register data
 
     // table data
-    $scope.rows = WorkPackagesTableHelper.getRows(workPackages, $scope.query.groupBy);
-    $scope.workPackageCountByGroup = meta.work_package_count_by_group;
-
-    // shared table data
+    WorkPackagesTableService.setColumns($scope.query.columns);
+    WorkPackagesTableService.addColumnMetaData(meta);
     WorkPackagesTableService.setRows($scope.rows);
     WorkPackagesTableService.setBulkLinks(bulkLinks);
+
+    // query data
+    QueryService.setTotalEntries(meta.total_entries);
 
     // pagination data
     PaginationService.setPerPageOptions(meta.per_page_options);
     PaginationService.setPerPage(meta.per_page);
     PaginationService.setPage(meta.page);
-    $scope.totalEntries = meta.total_entries;
+
+
+    // yield updatable data to scope
+    $scope.columns = $scope.query.columns;
+    $scope.rows = WorkPackagesTableHelper.getRows(workPackages, $scope.query.groupBy);
+    $scope.groupableColumns = WorkPackagesTableService.getGroupableColumns();
+    $scope.workPackageCountByGroup = meta.work_package_count_by_group;
+    $scope.totalEntries = QueryService.getTotalEntries();
 
     // back url
     $scope.updateBackUrl();
