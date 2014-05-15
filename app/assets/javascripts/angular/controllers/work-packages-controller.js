@@ -122,7 +122,7 @@ angular.module('openproject.workPackages.controllers')
     // table data
     WorkPackagesTableService.setColumns($scope.query.columns);
     WorkPackagesTableService.addColumnMetaData(meta);
-    WorkPackagesTableService.setRows($scope.rows);
+    WorkPackagesTableService.setRows(WorkPackagesTableHelper.getRows(workPackages, $scope.query.groupBy));
     WorkPackagesTableService.setBulkLinks(bulkLinks);
 
     // query data
@@ -136,7 +136,7 @@ angular.module('openproject.workPackages.controllers')
 
     // yield updatable data to scope
     $scope.columns = $scope.query.columns;
-    $scope.rows = WorkPackagesTableHelper.getRows(workPackages, $scope.query.groupBy);
+    $scope.rows = WorkPackagesTableService.getRows();
     $scope.groupableColumns = WorkPackagesTableService.getGroupableColumns();
     $scope.workPackageCountByGroup = meta.work_package_count_by_group;
     $scope.totalEntries = QueryService.getTotalEntries();

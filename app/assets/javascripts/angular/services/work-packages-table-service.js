@@ -77,6 +77,9 @@ angular.module('openproject.workPackages.services')
     setRows: function(rows) {
       workPackagesTableData.rows = rows;
     },
+    getRows: function() {
+      return workPackagesTableData.rows;
+    },
 
     removeRow: function(row) {
       var rows = workPackagesTableData.rows;
