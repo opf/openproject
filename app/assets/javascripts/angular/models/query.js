@@ -90,6 +90,14 @@ angular.module('openproject.models')
       return UrlParamsHelper.buildQueryString(this.toParams());
     },
 
+    setSortation: function(sortation){
+      this.sortation = sortation;
+    },
+
+    setName: function(name) {
+      this.name = name;
+    },
+
     /**
      * @name setAvailableWorkPackageFilters
      * @function
@@ -233,13 +241,10 @@ angular.module('openproject.models')
       return !this.id;
     },
 
-    setSortation: function(sortation){
-      this.sortation = sortation;
+    hasName: function() {
+      return !!this.name && this.name !== '_';
     },
 
-    setName: function(name) {
-      this.name = name;
-    }
   };
 
   return Query;
