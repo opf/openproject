@@ -45,6 +45,7 @@ module.exports = function(config) {
       'app/assets/javascripts/angular/helpers/timeline-table-helper.js',
       'app/assets/javascripts/angular/helpers/function-decorators.js',
       'app/assets/javascripts/angular/helpers/url-params-helper.js',
+      'app/assets/javascripts/angular/helpers/queries-helper.js',
 
       'app/assets/javascripts/angular/filters/work-packages-filters.js',
 
