@@ -28,7 +28,11 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('workPackageTotalSums', ['WorkPackageService', function(WorkPackageService) {
+.directive('workPackageTotalSums', [
+  'WorkPackageService',
+  function(WorkPackageService) {
+
+  var latestQueryReference;
 
   return {
     restrict: 'A',
@@ -36,6 +40,8 @@ angular.module('openproject.workPackages.directives')
     compile: function(tElement) {
       return {
         pre: function(scope, iElement, iAttrs, controller) {
+          latestQueryReference = scope.query;
+
           function fetchSums() {
             scope.withLoading(WorkPackageService.getWorkPackagesSums, [scope.projectIdentifier, scope.query, scope.columns])
               .then(function(data){
@@ -47,7 +53,9 @@ angular.module('openproject.workPackages.directives')
 
           scope.$watch('columns.length', function(length, formerLength) {
             // map columns to sums if the column data is a number
-            if(length >= formerLength){
+            if (scope.query !== latestQueryReference) {
+              latestQueryReference = scope.query;
+            } else if(length >= formerLength){
               fetchSums();
               scope.updateBackUrl();
             }

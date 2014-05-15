@@ -216,7 +216,7 @@ angular.module('openproject.services')
       };
       failure = failure || function(response){
         return angular.extend(response.data, { status: { text: I18n.t('js.notice_bad_request'), isError: true }} );
-      }
+      };
 
       return $http({
         method: method,

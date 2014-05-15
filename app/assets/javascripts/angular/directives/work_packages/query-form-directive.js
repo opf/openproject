@@ -30,16 +30,21 @@ angular.module('openproject.workPackages.directives')
 
 .directive('queryForm', ['WorkPackagesTableHelper', 'WorkPackageService', function(WorkPackagesTableHelper, WorkPackageService) {
 
+  var latestQueryReference;
+
   return {
     restrict: 'EA',
 
     compile: function(tElement) {
       return {
         pre: function(scope) {
+          latestQueryReference = scope.query;
           scope.showQueryOptions = false;
 
-          scope.$watch('query.groupBy', function(oldValue, newValue) {
-            if (newValue !== oldValue && newValue !== undefined) {
+          scope.$watch('query.groupBy', function(newValue, oldValue) {
+            if (scope.query !== latestQueryReference) {
+              latestQueryReference = scope.query;
+            } else if (newValue !== oldValue && oldValue !== undefined) {
               // TODO find out why newValue get set to undefined on initial page load
               scope.updateResults();
               scope.updateBackUrl();
