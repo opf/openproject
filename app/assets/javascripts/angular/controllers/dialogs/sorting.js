@@ -72,9 +72,9 @@ angular.module('openproject.workPackages.controllers')
   }
 
   QueryService.getAvailableColumns()
-    .then(function(data){
-      $scope.availableColumns = data.available_columns
-      $scope.availableColumnsData = data.available_columns.map(function(column){
+    .then(function(available_columns){
+      $scope.availableColumns = available_columns
+      $scope.availableColumnsData = available_columns.map(function(column){
         return { id: column.name, label: column.title, other: column.title };
       });
       $scope.initSortation();
