@@ -1,6 +1,14 @@
 angular.module('openproject.workPackages.directives')
 
-.directive('workPackageContextMenu', ['ContextMenuService', 'WorkPackagesTableHelper', 'WorkPackageContextMenuHelper', 'WorkPackageService', 'WorkPackagesTableService', 'I18n', function(ContextMenuService, WorkPackagesTableHelper, WorkPackageContextMenuHelper, WorkPackageService, WorkPackagesTableService, I18n) {
+.directive('workPackageContextMenu', [
+  'ContextMenuService',
+  'WorkPackagesTableHelper',
+  'WorkPackageContextMenuHelper',
+  'WorkPackageService',
+  'WorkPackagesTableService',
+  'I18n',
+  '$window',
+  function(ContextMenuService, WorkPackagesTableHelper, WorkPackageContextMenuHelper, WorkPackageService, WorkPackagesTableService, I18n, $window) {
   return {
     restrict: 'EA',
     replace: true,
@@ -23,7 +31,17 @@ angular.module('openproject.workPackages.directives')
         updateContextMenu(getWorkPackagesFromContext(scope.contextMenu.context));
       });
 
-      scope.deleteWorkPackages = function() {
+      scope.triggerContextMenuAction = function(action, link) {
+        if (action === 'delete') {
+          deleteSelectedWorkPackages();
+        } else {
+          $window.location.href = link;
+        }
+      };
+
+      function deleteSelectedWorkPackages() {
+        if (!deleteConfirmed()) return;
+
         var rows = WorkPackagesTableHelper.getSelectedRows(scope.contextMenu.context.rows);
 
         WorkPackageService.performBulkDelete(getWorkPackagesFromContext(scope.contextMenu.context))
@@ -45,7 +63,11 @@ angular.module('openproject.workPackages.directives')
               text: I18n.t('js.work_packages.message_error_during_bulk_delete')
             });
           });
-      };
+      }
+
+      function deleteConfirmed() {
+        return $window.confirm(I18n.t('js.text_work_packages_destroy_confirmation'));
+      }
 
       function updateContextMenu(workPackages) {
         scope.permittedActions = WorkPackageContextMenuHelper.getPermittedActions(workPackages);
