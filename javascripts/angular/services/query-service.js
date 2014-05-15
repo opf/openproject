@@ -35,10 +35,13 @@ angular.module('openproject.services')
 
   var availableColumns = [], availableFilterValues = {}, availableFilters = {};
 
+  var totalEntries;
+
   var QueryService = {
     initQuery: function(queryId, queryData, selectedColumns, afterQuerySetupCallback) {
       query = new Query({
         id: queryId,
+        name: queryData.name,
         project_id: queryData.project_id,
         displaySums: queryData.display_sums,
         groupSums: queryData.group_sums,
@@ -66,6 +69,14 @@ angular.module('openproject.services')
 
     getQuery: function() {
       return query;
+    },
+
+    setTotalEntries: function(numberOfEntries) {
+      totalEntries = numberOfEntries;
+    },
+
+    getTotalEntries: function() {
+      return totalEntries;
     },
 
     // data loading
