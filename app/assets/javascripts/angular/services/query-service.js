@@ -89,15 +89,23 @@ angular.module('openproject.services')
 
     getAvailableUnusedColumns: function(projectIdentifier) {
       return QueryService.getAvailableColumns(projectIdentifier)
-        .then(function(data){
-          return QueriesHelper.getAvailableColumns(data.available_columns, QueryService.getSelectedColumns());
+        .then(function(available_columns){
+          return QueriesHelper.getAvailableColumns(available_columns, QueryService.getSelectedColumns());
         });
     },
 
     getAvailableColumns: function(projectIdentifier) {
+      // TODO: Once we have a single page app we need to differentiate between different project columns
+      if(availableColumns.length) {
+        return $q.when(availableColumns);
+      }
+
       var url = projectIdentifier ? PathHelper.apiProjectAvailableColumnsPath(projectIdentifier) : PathHelper.apiAvailableColumnsPath();
 
-      return QueryService.doQuery(url)
+      return QueryService.doGet(url, function(response){
+        availableColumns = response.data.available_columns;
+        return availableColumns;
+      })
     },
 
     getSelectedColumns: function() {
@@ -226,6 +234,10 @@ angular.module('openproject.services')
         query.save(response.data);
         return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_create') }} );
       });
+    },
+
+    doGet: function(url, success, failure) {
+      return QueryService.doQuery(url, null, 'GET', success, failure);
     },
 
     doQuery: function(url, params, method, success, failure) {
