@@ -71,11 +71,11 @@ end
     </ul>
   </div>
 
-  <div class="dropdown dropdown-relative dropdown-anchor-right" id="settingsDropdown">
+  <div options-dropdown class="dropdown dropdown-relative dropdown-anchor-right" id="settingsDropdown">
     <ul class="dropdown-menu">
       <li><a href ng-click="showColumnsModal()">Columns…</a></li>
       <li><a href ng-click="showSortingModal()">Sorting…</a></li>
-      <li><a href>Display sums</a></li>
+      <li><a href ng-click="toggleDisplaySums()">Display sums</a></li>
       <li class="dropdown-divider"></li>
       <li><a href ng-click="showSaveModal()">Save</a></li>
       <li><a href ng-click="showSaveModal(true)">Save as</a></li>

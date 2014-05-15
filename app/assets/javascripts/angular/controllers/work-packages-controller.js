@@ -33,12 +33,6 @@ angular.module('openproject.workPackages.controllers')
     '$q',
     '$window',
     '$location',
-    'columnsModal',
-    'exportModal',
-    'saveModal',
-    'settingsModal',
-    'shareModal',
-    'sortingModal',
     'WorkPackagesTableHelper',
     'WorkPackagesTableService',
     'WorkPackageService',
@@ -47,8 +41,7 @@ angular.module('openproject.workPackages.controllers')
     'WorkPackageLoadingHelper',
     'INITIALLY_SELECTED_COLUMNS',
     'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
-    function($scope, $q, $window, $location, columnsModal, exportModal, saveModal,
-      settingsModal, shareModal, sortingModal,
+    function($scope, $q, $window, $location,
       WorkPackagesTableHelper, WorkPackagesTableService,
       WorkPackageService, QueryService, PaginationService,
       WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS,
@@ -207,26 +200,6 @@ angular.module('openproject.workPackages.controllers')
     jQuery("#selected_columns option").attr('selected',true);
     jQuery('#query_form').submit();
     return false;
-  };
-
-  // Modals
-
-  $scope.showColumnsModal  = columnsModal.activate;
-  $scope.showExportModal   = exportModal.activate;
-  $scope.showSettingsModal = settingsModal.activate;
-  $scope.showShareModal    = shareModal.activate;
-  $scope.showSortingModal  = sortingModal.activate;
-
-  $scope.showSaveModal     = function(saveAs){
-    $scope.$emit('hideAllDropdowns');
-    if( saveAs || $scope.query.isNew() ){
-      saveModal.activate();
-    } else {
-      QueryService.saveQuery()
-        .then(function(data){
-          $scope.$emit('flashMessage', data.status);
-        });
-    }
   };
 
   // Go
