@@ -112,6 +112,9 @@ group :assets do
   gem 'bourbon',      '~> 4.0'
   gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
+
+  gem 'compass',      '1.0.0.alpha.19'
+  gem 'livingstyleguide'
 end
 
 # You don't need therubyracer if you have nodejs installed on the machine precompiling assets.
