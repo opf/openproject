@@ -1,14 +1,10 @@
 <div id="context-menu" ng-show="opened">
   <ul class="menu">
     <li ng-repeat="(action, link) in permittedActions"
+        ng-click="triggerContextMenuAction(action, link)"
         class="{{action}}">
-      <a ng-if="action !== 'delete'"
-         ng-href="{{link}}"
+      <a href="#"
          ng-class="['icon-context', 'icon-' + action]"
-         ng-bind="I18n.t('js.button_' + action)">
-      </a>
-      <a ng-if="action === 'delete'"
-         ng-href="#"
          ng-click="deleteWorkPackages()"
          ng-bind="I18n.t('js.button_' + action)">
       </a>
