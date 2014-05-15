@@ -31,7 +31,15 @@ angular.module('openproject.workPackages.directives')
         updateContextMenu(getWorkPackagesFromContext(scope.contextMenu.context));
       });
 
-      scope.deleteWorkPackages = function() {
+      scope.triggerContextMenuAction = function(action, link) {
+        if (action === 'delete') {
+          deleteSelectedWorkPackages();
+        } else {
+          $window.location.href = link;
+        }
+      };
+
+      function deleteSelectedWorkPackages() {
         if (!deleteConfirmed()) return;
 
         var rows = WorkPackagesTableHelper.getSelectedRows(scope.contextMenu.context.rows);
@@ -55,7 +63,7 @@ angular.module('openproject.workPackages.directives')
               text: I18n.t('js.work_packages.message_error_during_bulk_delete')
             });
           });
-      };
+      }
 
       function deleteConfirmed() {
         return $window.confirm(I18n.t('js.text_work_packages_destroy_confirmation'));
