@@ -49,8 +49,7 @@ angular.module('openproject.workPackages.controllers')
   this.closeMe = columnsModal.deactivate;
 
   $scope.getObjectsData = function(term, result) {
-    // TODO: This is waiting on QueryService.getAvailableColumns() which means if you click to early then it doesn't
-    // display anything and will not even if you wait. We need to disable the input while the available columns are being fetched.
+    // Note: This relies on the columns having been cached in the service so they can be instantly available.
     result($scope.availableColumnsData);
   };
 

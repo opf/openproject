@@ -166,11 +166,6 @@ angular.module('openproject.models')
       return this.columns;
     },
 
-    setSelectedColumns: function(columns){
-      this.columns = columns;
-      return this;
-    },
-
     getParamColumns: function(){
       var selectedColumns = this.columns.map(function(column) {
         return column.name;
