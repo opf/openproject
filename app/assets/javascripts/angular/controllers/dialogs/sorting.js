@@ -48,10 +48,10 @@ angular.module('openproject.workPackages.controllers')
   $scope.initSortation = function(){
     var currentSortation = QueryService.getSortation();
 
-    var element = currentSortation.sortElements[0];
-    $scope.selectedColumn1 = $scope.availableColumnsData.filter(function(column) {
-      return column.id == element.field;
-    })[0];
+    $scope.sortElements = currentSortation.sortElements.map(function(element){
+      return [$scope.availableColumnsData.filter(function(column) { return column.id == element.field; })[0],
+              $scope.availableDirectionsData.filter(function(direction) { return direction.id == element.direction; })[0]]
+    });
   }
 
   $scope.getAvailableColumnsData = function(term, result) {
@@ -63,11 +63,12 @@ angular.module('openproject.workPackages.controllers')
   }
 
   $scope.updateSortation = function(){
-    // TODO RS: Clean this up once we have a sortation directive
-    var sortation = [[ $scope.selectedColumn1.id, $scope.selectedDirection1.id ],
-                     [ $scope.selectedColumn2.id, $scope.selectedDirection2.id ],
-                     [ $scope.selectedColumn3.id, $scope.selectedDirection3.id ]];
-    QueryService.setSortation(sortation);
+    var sortElements = $scope.sortElements.map(function(element){
+      return { field: element[0].id, direction: element[1].id }
+    })
+    QueryService.updateSortElements(sortElements);
+
+    sortingModal.deactivate();
   }
 
   QueryService.getAvailableColumns()
@@ -78,4 +79,6 @@ angular.module('openproject.workPackages.controllers')
       });
       $scope.initSortation();
     });
+
+  $scope.availableDirectionsData = [{ id: 'desc', label: 'Descending'}, { id: 'asc', label: 'Ascending'}];
 }]);

@@ -148,8 +148,8 @@ angular.module('openproject.services')
       this.showColumns(selectedColumnNames);
     },
 
-    setSortation: function(sortation) {
-      return query.setSortation(new Sortation(sortation));
+    updateSortElements: function(sortation) {
+      return query.updateSortElements(sortation);
     },
 
     getSortation: function() {

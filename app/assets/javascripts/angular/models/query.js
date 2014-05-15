@@ -98,6 +98,14 @@ angular.module('openproject.models')
       this.sortation = sortation;
     },
 
+    updateSortElements: function(sortElements){
+      this.sortation.sortElements.length = 0;
+      var self = this;
+      angular.forEach(sortElements, function(sortElement){
+        self.sortation.addSortElement(sortElement);
+      })
+    },
+
     setName: function(name) {
       this.name = name;
     },
