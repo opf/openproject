@@ -37,9 +37,18 @@ angular.module('openproject.workPackages.helpers')
     },
 
     getColumnsByName: function(columns, columnIdentifiers) {
-      return columns.filter(function(column) {
-        return columnIdentifiers.indexOf(column.name) >= 0;
+      var selected = []; // Note: This is to preserve ordering in columnIdentifiers
+      angular.forEach(columnIdentifiers, function(id){
+        var c = columns.filter(function(column){
+          return column.name == id;
+        });
+
+        if(c.length) {
+          selected.push(c[0]);
+        }
       });
+
+      return selected;
     }
   };
 

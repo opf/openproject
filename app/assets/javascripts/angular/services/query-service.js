@@ -104,8 +104,12 @@ angular.module('openproject.services')
       return query.getSelectedColumns();
     },
 
-    setSelectedColumns: function(columns) {
-      return query.setSelectedColumns(columns);
+    setSelectedColumns: function(availableColumns, selectedIds) {
+      query.columns.length = 0; // Clear array but keep same reference
+      var newSelectedColumns = QueriesHelper.getColumnsByName(availableColumns, selectedIds);
+      angular.forEach(newSelectedColumns, function(column){
+        query.columns.push(column);
+      });
     },
 
     getAvailableFilters: function(projectIdentifier){

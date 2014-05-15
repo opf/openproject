@@ -116,6 +116,7 @@ angular.module('openproject.workPackages.controllers')
     WorkPackagesTableService.setColumns($scope.query.columns);
     WorkPackagesTableService.addColumnMetaData(meta);
     WorkPackagesTableService.setRows(WorkPackagesTableHelper.getRows(workPackages, $scope.query.groupBy));
+    WorkPackagesTableService.setGroupBy($scope.query.groupBy);
     WorkPackagesTableService.setBulkLinks(bulkLinks);
 
     // query data

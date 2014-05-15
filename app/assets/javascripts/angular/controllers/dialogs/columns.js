@@ -36,7 +36,15 @@ angular.module('openproject.workPackages.controllers')
   });
 }])
 
-.controller('ColumnsModalController', ['$scope', '$timeout', 'columnsModal', 'QueryService', 'QueriesHelper', function($scope, $timeout, columnsModal, QueryService, QueriesHelper) {
+.controller('ColumnsModalController', ['$scope',
+  '$timeout',
+  'columnsModal',
+  'QueryService',
+  'WorkPackageService',
+  'WorkPackagesTableService',
+  'QueriesHelper',
+  function($scope, $timeout, columnsModal, QueryService, WorkPackageService, WorkPackagesTableService, QueriesHelper) {
+
   this.name    = 'Columns';
   this.closeMe = columnsModal.deactivate;
 
@@ -47,8 +55,11 @@ angular.module('openproject.workPackages.controllers')
   };
 
   // Selected Columns
-  $scope.selectedColumns = QueryService.getSelectedColumns()
+  $scope.selectedColumns = QueryService.getSelectedColumns();
+  $scope.selectedColumnsData = $scope.selectedColumns
     .map(function(column){ return { id: column.name, label: column.title }; });
+  $scope.previouslySelectedColumnNames = $scope.selectedColumns
+    .map(function(column){ return column.name; });
 
   // Available Columns
   QueryService.getAvailableColumns()
@@ -60,8 +71,17 @@ angular.module('openproject.workPackages.controllers')
     });
 
   $scope.updateSelectedColumns = function(){
-    var selectedColumns = QueriesHelper.getColumnsByName($scope.availableColumns, $scope.selectedColumns.map(function(column){ return column.id; }));
-    QueryService.setSelectedColumns(selectedColumns);
+    // Note: Can't directly manipulate selected columns because select2 returns a new array when you change the values:(
+    QueryService.setSelectedColumns($scope.availableColumns, $scope.selectedColumnsData.map(function(column){ return column.id; }));
+
+    // Augment work packages with new columns data
+    var addedColumns = $scope.selectedColumns.select(function(column){
+      return $scope.previouslySelectedColumnNames.indexOf(column.name) < 0;
+    });
+    WorkPackageService.augmentWorkPackagesWithColumnsData(WorkPackagesTableService.getRowsData(),
+      addedColumns,
+      WorkPackagesTableService.getGroupBy());
+
     columnsModal.deactivate();
   }
 }]);
