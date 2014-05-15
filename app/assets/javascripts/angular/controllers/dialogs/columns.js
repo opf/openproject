@@ -78,9 +78,11 @@ angular.module('openproject.workPackages.controllers')
     var addedColumns = $scope.selectedColumns.select(function(column){
       return $scope.previouslySelectedColumnNames.indexOf(column.name) < 0;
     });
-    WorkPackageService.augmentWorkPackagesWithColumnsData(WorkPackagesTableService.getRowsData(),
-      addedColumns,
-      WorkPackagesTableService.getGroupBy());
+    var args = [WorkPackagesTableService.getRowsData(), addedColumns];
+    if (WorkPackagesTableService.getGroupBy().length){
+      args.push(WorkPackagesTableService.getGroupBy());
+    }
+    WorkPackageService.augmentWorkPackagesWithColumnsData.apply(this, args);
 
     columnsModal.deactivate();
   }
