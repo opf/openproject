@@ -94,13 +94,55 @@ end
   <div class="title-bar" ng-show="showFiltersOptions">
     <div class="title-bar-extras">
       <%= error_messages_for 'query' %>
-      <%= render partial: 'query_form', locals: { project: project, query: query } %>
+      <%= form_tag({ controller: '/queries', action: 'new' }, id: 'query_form', name: 'queryForm', novalidate: true) do %>
+        <%= hidden_field_tag('project_id', project.to_param) if project %>
+
+        <work-packages-options></work-packages-options>
+
+        <p class="buttons hide-when-print">
+          <filter-clear query="query">
+          </filter-clear>
+
+          <% if query.new_record? && User.current.allowed_to?(:save_queries, project, :global => true) %>
+            <a href="" ng-click="submitQueryForm()" class="icon icon-save1">Save</a>
+          <% end %>
+        </p>
+      <% end %>
     </div>
   </div>
 
-  <% if query.valid? %>
-    <%= render :partial => 'work_packages/list', :locals => { :query => query } %>
-  <% end %>
+  <%= form_tag({}) do -%>
+    <back-url></back-url>
+    <div class="autoscroll">
+
+      <work-packages-table ng-if="rows && columns"
+                           project-identifier="projectIdentifier"
+                           columns="columns"
+                           rows="rows"
+                           query="query"
+                           group-by="query.groupBy"
+                           group-by-column="groupByColumn"
+                           count-by-group="workPackageCountByGroup"
+                           display-sums="query.displaySums"
+                           total-sums="totalSums"
+                           group-sums="groupSums"
+                           class="list issues"
+                           update-results="updateResults()"
+                           with-loading="withLoading"
+                           update-back-url="updateBackUrl">
+      </work-packages-table>
+
+      <table-pagination total-entries="totalEntries"
+                        update-results="updateResults()">
+      </table-pagination>
+
+      <modal-loading>
+      </modal-loading>
+
+      <work-package-context-menu></work-package-context-menu>
+
+    </div>
+  <% end -%>
 </div>
 
 <%= call_hook(:view_work_packages_index_bottom, { :project => project, :query => query }) %>
