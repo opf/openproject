@@ -175,6 +175,23 @@ describe StatusesController do
 
       it_behaves_like :redirect
     end
+
+    context "default" do
+      let!(:status_default) { FactoryGirl.create(:status,
+                                                 is_default: true) }
+
+      before do
+        delete :destroy, id: status_default.id
+      end
+
+      it_behaves_like :statuses
+
+      it_behaves_like :redirect
+
+      it "shows the right flash message" do
+        expect(flash[:error]).to eq(I18n.t('error_unable_delete_default_status'))
+      end
+    end
   end
 
   describe :update_work_package_done_ratio do
