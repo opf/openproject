@@ -173,6 +173,12 @@ angular.module('openproject.models')
       return selectedColumns;
     },
 
+    getColumnNames: function() {
+      return this.columns.map(function(column) {
+        return column.name;
+      });
+    },
+
     getFilterByName: function(filterName) {
       return this.filters.filter(function(filter){
         return filter.name === filterName;
