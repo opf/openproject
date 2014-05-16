@@ -180,27 +180,6 @@ Attribute `opCode` is internal OpenProject API error code:
 - 51 -
 - 52 -
 
-# Group API entry point
-
-## /
-### GET
-Provides all available actions in form of links and some API documentation.
-
-+ Response 200 (application/hal+json)
-    + Headers
-
-            Link: </>; rel="self" title="OpenProject API entry point", </projects>; rel="projects" title="Projects"
-
-    + Body
-
-            {
-                "_type": "Root",
-                "_links": {
-                    "self": { "href": "/", "title": "OpenProject API entry point" },
-                    "projects" { "href": "/projects", "title": "Projects" }
-                }
-            }
-
 # Group Work packages
 
 ## Work package's embedded resources
@@ -225,49 +204,73 @@ Provides all available actions in form of links and some API documentation.
     + Body
 
                 {
-                    "id": 1,
-                    "subject": "API Work package",
-                    "description": "Lorem ipsum",
-                    "type": "Feature",
-                    "dueDate": "2014-05-07T03:42:54Z",
+                    "id": 4,
+                    "subject": "Updated",
+                    "description": "Depono calcar vinculum pauci. Vomito dolor contra aegrus vinitor claro curso. Urbs cribro aequus adnuo admoneo nihil armo. Minus una tricesimus conturbo charisma. Ventosus cado annus tondeo supra vergo.",
+                    "type": "Bug",
+                    "dueDate": "2014-05-01",
                     "status": "New",
-                    "priority": "High",
-                    "lockVersion": 1,
-                    "percentageRatio": 90,
-                    "estimatedTime": { "unit": "hours", "value": "10" },
-                    "startDate": "2014-05-07T03:42:54Z",
-                    "createdAt": "2014-05-07T03:42:54Z",
-                    "updatedAt": "2014-05-07T03:42:54Z",
-                    "customFields": [ ],
-
+                    "priority": "Normal",
+                    "percentageDone": 0,
+                    "estimatedTime": {
+                        "units": "hours",
+                        "value": null
+                    },
+                    "startDate": "2014-04-03",
+                    "createdAt": "2014-04-15 08:36:56 UTC",
+                    "updatedAt": "2014-05-16 09:38:36 UTC",
+                    "responsible": { },
+                    "assignee": { },
+                    "customFields": [
+                        {
+                            "name": "libero qui",
+                            "format": "text",
+                            "value": null
+                        },
+                        {
+                            "name": "magni officia",
+                            "format": "text",
+                            "value": null
+                        },
+                        {
+                            "name": "non aut",
+                            "format": "text",
+                            "value": null
+                        }
+                    ],
                     "_type": "WorkPackage",
                     "_links": {
-                        "root": { "href": "/", "title": "API entry point & documentation" },
-                        "self": { "href": "/work_packages/1", "title": "Work package subject" },
-                        "createChildren": { "href": "/work_packages?parent_id=1", "method": "post", "title": "Project name - Create new work package" },
-                        "update": { "href": "/work_packages/1", "method": "patch", "title": "Update work package name" },
-                        "delete": { "href": "/work_packages/1", "method": "delete", "title": "Delete work package name" },
-                        "project": { "href": "/projects/3", "title": "Project name" },
-                        "author": { "href": "/users/1", "title": "User name" },
-                        "assignee": { "href": "/users/1", "title": "User name" },
-                        "responsible": { "href": "/users/1", "title": "User name" },
-                        "fixedVersion": { "href": "/versions/1", "title": "Version" },
-                        "projectWorkPackages": { "href": "/work_packages?filter[project_id]=3", "title": "Project name - Work packages" },
-                        "descendants": { "href": "/work_packages?filter[ancestor_id]=1", "title": "Descendant work packages" },
-                        "children": { "href": "/work_packages?filter[parent_id]=1", "title": "Children work packages" },
-                        "parent": { "href": "/work_packages?filter[child_id]=1", "title": "Parent work package" },
-                        "ancestor": { "href": "/work_packages?filter[descendant_id=1]", "title": "Ancestor work packages" },
-                        "relations": { "href": "/work_packages?filter[related_to_id]=1", "title": "Related work packages" }
-                    },
-                    "_embedded": { }
+                        "self": {
+                            "href": "/api/v3/work_packages/4"
+                        },
+                        "update": {
+                            "href": "/api/v3/work_packages/4",
+                            "method": "put"
+                        }
+                    }
                 }
 
-## GET Work package [GET]
+## Update Work package [PUT]
 
 + Parameters
     + id (required, integer, `1`) ... Work package id.
-    + embedded (optional, string, `project,author`) ...  Embedded resources to extend in the response.
 
-+ Response 200 (application/hal+json)
++ Request (application/json)
+    + Headers
+
+            Accept: application/json
+
+    + Body
+
+            {
+                "type": "Bug",
+                "subject": "Updated work package",
+                "description": "Updated description",
+                "priority": "Low",
+                "assignee_id": 1,
+                "responsible_id": 1
+            }
+
++ Response 200 (application/json; charset=utf-8)
 
     [WorkPackage][]
