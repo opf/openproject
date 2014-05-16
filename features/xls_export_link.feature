@@ -1,5 +1,6 @@
 Feature: Show link to XLS format below work package list
 
+  @wip
   Scenario: There is a link to the work package list in XML format
     Given there is a project named "Test Project"
     And I am already admin
