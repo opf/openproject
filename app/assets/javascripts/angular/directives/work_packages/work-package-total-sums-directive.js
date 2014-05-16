@@ -36,6 +36,41 @@ angular.module('openproject.workPackages.directives')
 
   return {
     restrict: 'A',
-    scope: true
+    scope: true,
+    link: function(scope) {
+      function fetchTotalSums() {
+        scope.withLoading(WorkPackageService.getWorkPackagesSums, [scope.projectIdentifier, scope.query, scope.columns])
+          .then(function(data){
+            angular.forEach(scope.columns, function(column, i){
+              column.total_sum = data.column_sums[i];
+            });
+          });
+      }
+
+      function totalSumsFetched() {
+        return scope.columns.length > 0 && scope.columns[0].hasOwnProperty('total_sum');
+      }
+
+      if (!totalSumsFetched()) fetchTotalSums(); // don't reload on every toggle
+
+      function observedProperties() {
+        if (scope.query !== undefined) {
+          return {
+            queryId: scope.query && scope.query.id,
+            columnNames: scope.columns.map(function(column) {
+              return column.name;
+            })
+          };
+        }
+      }
+      scope.$watch(observedProperties, function(newProperties, oldProperties) {
+        if (oldProperties && oldProperties.queryId === newProperties.queryId) {
+          if (!angular.equals(newProperties.columnNames, oldProperties.columnNames)) {
+            fetchTotalSums();
+            scope.updateBackUrl();
+          }
+        }
+      }, true);
+    }
   };
 }]);

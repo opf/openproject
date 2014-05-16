@@ -38,15 +38,6 @@ angular.module('openproject.workPackages.directives')
         pre: function(scope) {
           scope.showQueryOptions = false;
 
-          function fetchSums() {
-            scope.withLoading(WorkPackageService.getWorkPackagesSums, [scope.projectIdentifier, scope.query, scope.columns])
-              .then(function(data){
-                angular.forEach(scope.columns, function(column, i){
-                  column.total_sum = data.column_sums[i];
-                });
-              });
-          }
-
           function querySwitched(currentProperties, formerProperties) {
             if (formerProperties === undefined) {
               return true;
@@ -73,8 +64,7 @@ angular.module('openproject.workPackages.directives')
               return {
                 id: query.id,
                 groupBy: query.groupBy,
-                sortElements: query.sortation.sortElements,
-                columnNames: query.getColumnNames()
+                sortElements: query.sortation.sortElements
               };
             }
           }
@@ -83,9 +73,6 @@ angular.module('openproject.workPackages.directives')
             if (!querySwitched(newProperties, oldProperties)) {
               if (queryPropertiesChanged(newProperties, oldProperties)) {
                 scope.updateResults();
-                scope.updateBackUrl();
-              } else if (!angular.equals(newProperties.columnNames, oldProperties.columnNames)) {
-                fetchSums();
                 scope.updateBackUrl();
               }
             }
