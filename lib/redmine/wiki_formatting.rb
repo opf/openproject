@@ -57,7 +57,7 @@ module Redmine
 
       def to_html(format, text, options = {}, &block)
         edit = !!options.delete(:edit)
-        text = if Setting.cache_formatted_text? && text.size > 2.kilobyte && cache_store && cache_key = cache_key_for(format, options[:object], options[:attribute, options[:edit]])
+        text = if Setting.cache_formatted_text? && text.size > 2.kilobyte && cache_store && cache_key = cache_key_for(format, options[:object], options[:attribute], options[:edit])
           # Text retrieved from the cache store may be frozen
           # We need to dup it so we can do in-place substitutions with gsub!
           cache_store.fetch cache_key do
