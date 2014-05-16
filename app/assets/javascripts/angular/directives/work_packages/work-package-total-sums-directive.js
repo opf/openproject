@@ -36,32 +36,6 @@ angular.module('openproject.workPackages.directives')
 
   return {
     restrict: 'A',
-    scope: true,
-    compile: function(tElement) {
-      return {
-        pre: function(scope, iElement, iAttrs, controller) {
-          latestQueryReference = scope.query;
-
-          function fetchSums() {
-            scope.withLoading(WorkPackageService.getWorkPackagesSums, [scope.projectIdentifier, scope.query, scope.columns])
-              .then(function(data){
-                angular.forEach(scope.columns, function(column, i){
-                  column.total_sum = data.column_sums[i];
-                });
-              });
-          }
-
-          scope.$watch('columns.length', function(length, formerLength) {
-            // map columns to sums if the column data is a number
-            if (scope.query !== latestQueryReference) {
-              latestQueryReference = scope.query;
-            } else if(length >= formerLength){
-              fetchSums();
-              scope.updateBackUrl();
-            }
-          });
-        }
-      };
-    }
+    scope: true
   };
 }]);
