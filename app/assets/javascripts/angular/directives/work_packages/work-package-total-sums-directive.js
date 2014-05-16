@@ -48,27 +48,23 @@ angular.module('openproject.workPackages.directives')
       }
 
       function totalSumsFetched() {
-        return scope.columns.length > 0 && scope.columns[0].hasOwnProperty('total_sum');
+        return scope.columns.every(function(column) {
+          return column.hasOwnProperty('total_sum');
+        });
       }
 
-      if (!totalSumsFetched()) fetchTotalSums(); // don't reload on every toggle
+      if (!totalSumsFetched()) fetchTotalSums();
 
-      function observedProperties() {
-        if (scope.query !== undefined) {
-          return {
-            queryId: scope.query && scope.query.id,
-            columnNames: scope.columns.map(function(column) {
-              return column.name;
-            })
-          };
-        }
+      function columnNames() {
+        return scope.columns.map(function(column) {
+          return column.name;
+        });
       }
-      scope.$watch(observedProperties, function(newProperties, oldProperties) {
-        if (oldProperties && oldProperties.queryId === newProperties.queryId) {
-          if (!angular.equals(newProperties.columnNames, oldProperties.columnNames)) {
-            fetchTotalSums();
-            scope.updateBackUrl();
-          }
+
+      scope.$watch(columnNames, function(columnNames, formerNames) {
+        if (!angular.equals(columnNames, formerNames) && !totalSumsFetched()) {
+          fetchTotalSums();
+          scope.updateBackUrl();
         }
       }, true);
     }
