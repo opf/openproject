@@ -33,7 +33,9 @@ a.button_highlight, .button_highlight
 
 a.button, .button
   @include button
-  
+  &.active
+    @include button-active
+
 a.button_active, .button_active
   @include button-active
 

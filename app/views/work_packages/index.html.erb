@@ -59,8 +59,14 @@ end
 
       <ul>
         <li><button class="button_highlight" with-dropdown dropdown-id="tasksDropdown"><i class="icon-add icon4"></i>New Task<i class="icon-pulldown-arrow1 icon-dropdown"></i></button></li>
-        <li><button class="button" ng-click="showFiltersOptions = !showFiltersOptions"><i class="icon-pin icon-buttons"></i>Filter</button></li>
-        <li><button class="button last" with-dropdown dropdown-id="settingsDropdown"><i class="icon-settings"></i><i class="icon-pulldown-arrow1 icon-dropdown"></i></button></li>      
+        <li>
+          <button class="button"
+                  ng-click="showFiltersOptions = !showFiltersOptions"
+                  ng-class="{active: showFiltersOptions}">
+            <i class="icon-pin icon-buttons"></i>Filter
+          </button>
+        </li>
+        <li><button class="button last" with-dropdown dropdown-id="settingsDropdown"><i class="icon-settings"></i><i class="icon-pulldown-arrow1 icon-dropdown"></i></button></li>
       </ul>
     </toolbar>
   </div>
