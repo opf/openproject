@@ -26,16 +26,40 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.timelines.controllers')
+describe('timelineTruncatedTitle Directive', function() {
+    var compile, element, rootScope, scope;
 
-.controller('TimelinesController', ['$scope', 'Timeline', function($scope, Timeline) {
-  // Setup
+    beforeEach(angular.mock.module('openproject.timelines.directives'));
+    beforeEach(module('templates'));
 
-  // Get server-side stuff into scope
-  $scope.timelineOptions = gon.timeline_options;
+    beforeEach(inject(function($rootScope, $compile) {
+      var html;
+      html = '<span timeline-truncated-title>long string long string long string long string long string long string long string long string long string long string long string long string long string long string long string </span>'
 
-  // Count timeline containers
-  $scope.timelineContainerCount = 0;
+      element = angular.element(html);
+      rootScope = $rootScope;
+      scope = $rootScope.$new();
 
-  $scope.contentWidth = jQuery("#content").width();
-}]);
+      compile = function() {
+        $compile(element)(scope);
+        scope.$digest();
+      };
+    }));
+
+    describe('element', function() {
+
+      describe('rendering an object field', function(){
+        beforeEach(function(){
+          scope.contentWidth = 1000;
+          compile();
+        });
+
+        xit('should render a span', function() {
+          // Not sure how to test this as the directive is using jquery to look at the page width and stuff
+          expect(element.prop('tagName')).to.equal('SPAN');
+        });
+
+      });
+
+    });
+});
