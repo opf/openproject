@@ -68,18 +68,18 @@ $button_gray_font_color: #222222
   border-radius: $radius
 
 @mixin button-highlight-background
-  border: 1px solid #06799F
-  background: #0b8db8
-  background: -moz-linear-gradient(top,  #0b8db8 0%, #06799f 100%)
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0b8db8), color-stop(100%,#06799f))
-  background: -webkit-linear-gradient(top,  #0b8db8 0%,#06799f 100%)
-  background: -o-linear-gradient(top,  #0b8db8 0%,#06799f 100%)
-  background: -ms-linear-gradient(top,  #0b8db8 0%,#06799f 100%)
-  background: linear-gradient(to bottom,  #0b8db8 0%,#06799f 100%)
+  border: 1px solid $button_highlight_border_color
+  background: $button_highlight_background_color
+  background: $button_highlight_background_gradient_moz
+  background: $button_highlight_background_gradient_webkit
+  background: $button_highlight_background_gradient_webkit_l
+  background: $button_highlight_background_gradient_o
+  background: $button_highlight_background_gradient_ms
+  background: $button_highlight_background_gradient
 
   &:hover
-    border: 1px solid #3493B3
-    background: #3493B3
+    border: 1px solid $button_highlight_background_hover_color
+    background: $button_highlight_border_hover_color
 
 @mixin button-background
   border: 1px solid #ccc
@@ -116,7 +116,7 @@ $button_gray_font_color: #222222
   cursor: pointer
 
 @mixin button-normal-size
-  padding: 3px 8px
+  padding: 3px 8px 2px
 
 @mixin button-big-size
   padding: 7px 16px 5px
