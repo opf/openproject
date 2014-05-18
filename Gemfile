@@ -107,7 +107,7 @@ group :production do
 end
 
 group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
+  gem 'sass-rails', git: 'https://github.com/guilleiguaran/sass-rails.git', branch: 'backport'
   gem 'sass',         '~> 3.3.6'
   gem 'bourbon',      '~> 4.0'
   gem 'coffee-rails', '~> 3.2.1'
