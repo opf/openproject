@@ -14,8 +14,8 @@ GIT
 
 GIT
   remote: https://github.com/fnando/i18n-js.git
-  revision: 8801f8d17ef96c48a7a0269e251fcf1648c8f441
-  ref: 8801f8d17ef96c48a7a0269e251fcf1648c8f441
+  revision: 4e5c525ff6e1ec4d3449852746fa5651a0577d68
+  branch: rewrite
   specs:
     i18n-js (3.0.0.rc5)
       i18n

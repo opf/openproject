@@ -125,10 +125,7 @@ gem "prototype-rails"
 # replace those with :remote => true
 gem 'prototype_legacy_helper', '0.0.0', :git => 'https://github.com/rails/prototype_legacy_helper.git'
 
-# branch rewrite has commit 6bfdcd7e14df1efffc00b2bbdf4e14e614d00418 which adds
-# a "magic comment" in the translations.js.erb and somehow breaks i18n-js
-# using the commit before this comment
-gem "i18n-js", :git => "https://github.com/fnando/i18n-js.git", :ref => '8801f8d17ef96c48a7a0269e251fcf1648c8f441'
+gem 'i18n-js', git: "https://github.com/fnando/i18n-js.git", branch: 'rewrite'
 
 # small wrapper around the command line
 gem 'cocaine'
