@@ -41,3 +41,46 @@
       opacity: 1
     &.ng-leave
       @include animation(0.5s fade-out)
+      
+table.workpackages-table
+  border-collapse: collapse
+  width: 100%
+  margin: 0
+  thead th
+    border-bottom: 2px solid #dddddd
+    text-transform: uppercase
+    font-size: 14px
+    text-align: left
+    line-height: 34px
+    padding: 0 8px
+    &.icon-table
+      font-size: 20px
+    &.active-column
+      background: #f8f8f8
+  tr
+    border-bottom: 1px solid #dddddd
+    &:hover
+      background: #e4f7fb
+  tr td
+    text-align: left
+    line-height: 34px
+    &.icon-table 
+      font-size: 20px
+    &.checkbox
+      width: 20px
+    &.info
+      width: 20px
+  p
+    padding: 0 8px
+    margin: 0   
+  p:hover
+    background: #fff598
+
+div.active-column
+  position: absolute
+  top: 10px
+  left: 142px
+  border: 1px solid #dddddd
+  height: 139px
+  width: 105px
+  background: none
