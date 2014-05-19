@@ -26,9 +26,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-##
-# A placeholder module which contains OpenProject hooks
-module Hooks; end
-
-# actual hooks are added with the following require statemens
-require 'hooks/view_account_login_auth_provider'
+module OpenProject
+  class Hooks::ActivityIndexHeadHook < Redmine::Hook::ViewListener
+    render_on :activity_index_head, :partial => 'hooks/timelines/activity_index_head'
+  end
+end
