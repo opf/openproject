@@ -45,7 +45,6 @@ end
 source 'https://rubygems.org'
 
 gem "rails", "~> 3.2.18"
-gem "sprockets", "2.2.2.backport2"
 
 gem "coderay", "~> 1.0.5"
 gem "rubytree", "~> 0.8.3"
@@ -106,16 +105,16 @@ group :production do
   gem 'dalli'
 end
 
-group :assets do
-  gem 'sass-rails', git: 'https://github.com/guilleiguaran/sass-rails.git', branch: 'backport'
-  gem 'sass',         '~> 3.3.6'
-  gem 'bourbon',      '~> 4.0'
-  gem 'coffee-rails', '~> 3.2.1'
-  gem 'uglifier', '>= 1.0.3'
+gem 'sprockets',        '2.2.2.backport2'
+gem 'sprockets-rails',  '2.0.0.backport1'
+gem 'sass-rails',        git: 'https://github.com/guilleiguaran/sass-rails.git', branch: 'backport'
+gem 'sass',             '~> 3.3.6'
+gem 'bourbon',          '~> 4.0'
+gem 'coffee-rails',     '~> 3.2.1'
+gem 'uglifier',         '>= 1.0.3'
+gem 'compass',          '1.0.0.alpha.19'
+gem 'livingstyleguide'
 
-  gem 'compass',      '1.0.0.alpha.19'
-  gem 'livingstyleguide'
-end
 
 # You don't need therubyracer if you have nodejs installed on the machine precompiling assets.
 gem 'therubyracer', :group => :therubyracer
