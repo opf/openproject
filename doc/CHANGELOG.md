@@ -21,6 +21,8 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+* `#1565` Fix: Not possible to withdraw invitation of inactive users
+
 ## 3.0.9
 
 * `#5357` Adapt released plugins to base on plugins functionality
