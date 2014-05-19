@@ -1,7 +1,7 @@
 <div id="columnContextMenu" class="context-menu" ng-show="opened">
   <ul class="menu">
-    <li>
-      <a href="#">#1</a>
+    <li ng-click="groupBy(column.name)">
+      <a href="#"><span ng-bind="I18n.t('js.work_packages.query.group_by')"/> {{column.title}}</a>
     </li>
 
     <li>

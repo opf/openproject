@@ -58,8 +58,6 @@ angular.module('openproject.workPackages.directives')
             });
 
             WorkPackagesTableService.removeRows(rows);
-            // TODO remove via a controller linked to the work packages row
-            // Remark: This controller has to be forwarded by the hasContextMenu directive somehow
           })
           .error(function(data, status) {
             // TODO wire up to API and processs API response
