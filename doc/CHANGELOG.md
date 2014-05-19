@@ -75,6 +75,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#7533` Fixes: Deleted block not addable
 * `#7562` Regression: creating ticket via API fails with HTTP 422
 * `#7608` Make highlight buttons styleable
+* `#7609` Fix: Blue icons in Telekom theme
 * Allowed sending of mails with only cc: or bcc: fields
 * Allow adding attachments to created work packages via planning elements controller
 * Remove unused rmagick dependency
