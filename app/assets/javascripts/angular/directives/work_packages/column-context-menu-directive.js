@@ -4,7 +4,8 @@ angular.module('openproject.workPackages.directives')
   'ContextMenuService',
   'I18n',
   'QueryService',
-  function(ContextMenuService, I18n, QueryService) {
+  'WorkPackagesTableHelper',
+  function(ContextMenuService, I18n, QueryService, WorkPackagesTableHelper) {
 
 
   return {
@@ -16,6 +17,7 @@ angular.module('openproject.workPackages.directives')
       var contextMenuName = 'columnContextMenu';
 
       // Wire up context menu handlers
+
       ContextMenuService.registerMenuElement(contextMenuName, element);
       scope.contextMenu = ContextMenuService.getContextMenu();
 
@@ -25,14 +27,30 @@ angular.module('openproject.workPackages.directives')
       scope.$watch('contextMenu.targetMenu', function(target) {
         scope.opened = scope.contextMenu.opened && target === contextMenuName;
       });
+
+      // shared context information
+
       scope.$watch('contextMenu.context.column', function(column) {
         scope.column = column;
+      });
+      scope.$watch('contextMenu.context.columns', function(columns) {
+        scope.columns = columns;
       });
 
       scope.I18n = I18n;
 
-      scope.groupBy = function(groupBy) {
-        QueryService.getQuery().groupBy = groupBy;
+      // context menu actions
+
+      scope.groupBy = function(columnName) {
+        QueryService.getQuery().groupBy = columnName;
+      };
+
+      scope.moveLeft = function(columnName) {
+        WorkPackagesTableHelper.moveColumnBy(scope.columns, columnName, -1);
+      };
+
+      scope.moveRight = function(columnName) {
+        WorkPackagesTableHelper.moveColumnBy(scope.columns, columnName, 1);
       };
     }
   };

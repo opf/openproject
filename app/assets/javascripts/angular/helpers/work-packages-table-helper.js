@@ -131,7 +131,7 @@ angular.module('openproject.workPackages.helpers')
       var newPosition = index + positions;
 
       if (newPosition > -1 && newPosition < array.length) {
-        var elementToMove = array.splice(index, 1).first();
+        var elementToMove = array.splice(index, 1)[0];
         array.splice(newPosition, 0, elementToMove);
       }
     },

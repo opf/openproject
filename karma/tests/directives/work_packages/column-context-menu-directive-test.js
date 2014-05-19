@@ -61,14 +61,26 @@ describe('columnContextMenu Directive', function() {
   });
 
   describe('when the context menu handler of a column is clicked', function() {
-    var I18n;
-    var column = { name: 'status', title: 'Status' };
+    var I18n,
+        QueryService,
+        query = Factory.build('Query');
+    var column = { name: 'status', title: 'Status' },
+        anotherColumn = { name: 'subject', title: 'Subject' },
+        columns = [column, anotherColumn];
     var directiveScope;
+
+    beforeEach(inject(function(_QueryService_) {
+      QueryService = _QueryService_;
+      sinon.stub(QueryService, 'getQuery').returns(query);
+    }));
+    afterEach(inject(function() {
+      QueryService.getQuery.restore();
+    }));
 
     beforeEach(function() {
       compile();
 
-      ContextMenuService.setContext({column: column});
+      ContextMenuService.setContext({ column: column, columns: columns });
       ContextMenuService.open('columnContextMenu');
       scope.$apply();
 
@@ -77,6 +89,26 @@ describe('columnContextMenu Directive', function() {
 
     it('fetches the column from the context handle context', function() {
       expect(directiveScope.column).to.have.property('name').and.contain(column.name);
+    });
+
+    describe('and the group by option is clicked', function() {
+      beforeEach(function() {
+        directiveScope.groupBy(column.name);
+      });
+
+      it('changes the query group by', function() {
+        expect(query.groupBy).to.equal(column.name);
+      });
+    });
+
+    describe('and "move column right" is clicked', function() {
+      beforeEach(function() {
+        directiveScope.moveRight(column.name);
+      });
+
+      it('moves the column right', function() {
+        expect(columns[1]).to.equal(column);
+      });
     });
   });
 });

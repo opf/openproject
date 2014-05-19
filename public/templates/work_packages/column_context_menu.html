@@ -4,12 +4,21 @@
       <a href="#"><span ng-bind="I18n.t('js.work_packages.query.group_by')"/> {{column.title}}</a>
     </li>
 
-    <li>
-      <a href="#">#2</a>
+    <li ng-click="sortAscending()">
+      <a href="#"><span ng-bind="I18n.t('js.label_sort_by')"/> <span ng-bind="I18n.t('js.label_ascending')"/></a>
     </li>
 
-    <li>
-      <a href="#">#3</a>
+    <li ng-click="sortDescending()">
+      <a href="#"><span ng-bind="I18n.t('js.label_sort_by')"/> <span ng-bind="I18n.t('js.label_descending')"/></a>
     </li>
+
+    <li ng-click="moveLeft(column.name)">
+      <a href="#"><span ng-bind="I18n.t('js.label_move_column_left')"/></a>
+    </li>
+
+    <li ng-click="moveRight(column.name)">
+      <a href="#"><span ng-bind="I18n.t('js.label_move_column_right')"/></a>
+    </li>
+
   </ul>
 </div>
