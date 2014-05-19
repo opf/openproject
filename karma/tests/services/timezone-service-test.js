@@ -26,35 +26,48 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.messages.controllers')
+/*jshint expr: true*/
 
-.controller('MessagesController', ['$scope', '$http', 'PathHelper', 'TimezoneService', 'SortService', 'PaginationService', function ($scope, $http, PathHelper, TimezoneService, SortService, PaginationService) {
-  $scope.PathHelper = PathHelper;
-  $scope.messages = gon.messages;
-  $scope.totalMessageCount = gon.total_count;
-  $scope.isLoading = false;
+describe('TimezoneService', function() {
 
-  TimezoneService.setTimezone(gon.timezone);
+  var TIME = '05/19/2014 11:49 AM';
+  var TimezoneService;
 
-  SortService.setColumn(gon.sort_column);
-  SortService.setDirection(gon.sort_direction);
+  beforeEach(module('openproject.services'));
 
-  $scope.loadMessages = function() {
-    $scope.isLoading = true;
+  beforeEach(inject(function(_TimezoneService_){
+    TimezoneService = _TimezoneService_;
+  }));
 
-    $http.get(PathHelper.boardPath(gon.project_id, gon.board_id),
-              {
-                params: {
-                          sort: SortService.getSortParam(),
-                          page: PaginationService.getPage()
-                        }
-              })
-         .success(function(data, status, headers, config) {
-           $scope.messages = data.messages;
-           $scope.isLoading = false;
-         })
-         .error(function(data, status, headers, config) {
-           $scope.isLoading = false;
-         });
-  };
-}]);
+  describe('#parseDate', function() {
+    it('is UTC', function() {
+      expect(TimezoneService.parseDate(TIME).zone()).to.equal(0);
+    });
+
+    describe('Non-UTC timezone', function() {
+      var timezone = 'Europe/Berlin';
+      var momentStub;
+      var dateStub;
+
+      beforeEach(function() {
+        TimezoneService.setTimezone(timezone);
+
+        momentStub = sinon.stub(moment, "utc");
+        dateStub = sinon.stub();
+
+        momentStub.returns(dateStub);
+        dateStub.tz = sinon.spy();
+
+        TimezoneService.parseDate(TIME);
+      });
+
+      afterEach(function() {
+        momentStub.restore();
+      });
+
+      it('is Europe/Berlin', function() {
+        expect(dateStub.tz.calledWithExactly(timezone)).to.be.true;
+      });
+    });
+  });
+});

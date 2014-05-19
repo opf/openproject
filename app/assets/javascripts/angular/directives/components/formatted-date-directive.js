@@ -29,7 +29,7 @@
 // TODO move to UI components
 angular.module('openproject.uiComponents')
 
-.directive('formattedDate', ['I18n', function(I18n) {
+.directive('formattedDate', ['I18n', 'TimezoneService', function(I18n, TimezoneService) {
   return {
     restrict: 'EA',
     replace: false,
@@ -40,7 +40,7 @@ angular.module('openproject.uiComponents')
 
       // TODO: The timezone of scope.time is UTC. Thus, we need to adapt the
       // time to the local timezone or user setting.
-      scope.time = moment(scope.formattedDate, "MM/DD/YYYY/ HH:mm A").utc().format('LLL');
+      scope.time = TimezoneService.parseDate(scope.formattedDate).format('LLL');
     }
   };
 }]);

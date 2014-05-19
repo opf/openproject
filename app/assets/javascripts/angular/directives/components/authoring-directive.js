@@ -29,7 +29,7 @@
 // TODO move to UI components
 angular.module('openproject.uiComponents')
 
-.directive('authoring', ['I18n', 'PathHelper', function(I18n, PathHelper) {
+.directive('authoring', ['I18n', 'PathHelper', 'TimezoneService', function(I18n, PathHelper, TimezoneService) {
   return {
     restrict: 'E',
     replace: true,
@@ -40,7 +40,7 @@ angular.module('openproject.uiComponents')
 
       // TODO: The timezone of scope.time is UTC. Thus, we need to adapt the
       // time to the local timezone or user setting.
-      var createdOn = moment(scope.createdOn, "MM/DD/YYYY/ HH:mm A").utc();
+      var createdOn = TimezoneService.parseDate(scope.createdOn);
       var timeago = createdOn.fromNow();
       var time = createdOn.format('LLL');
 

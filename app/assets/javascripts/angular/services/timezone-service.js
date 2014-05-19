@@ -26,35 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.messages.controllers')
+angular.module('openproject.services')
 
-.controller('MessagesController', ['$scope', '$http', 'PathHelper', 'TimezoneService', 'SortService', 'PaginationService', function ($scope, $http, PathHelper, TimezoneService, SortService, PaginationService) {
-  $scope.PathHelper = PathHelper;
-  $scope.messages = gon.messages;
-  $scope.totalMessageCount = gon.total_count;
-  $scope.isLoading = false;
-
-  TimezoneService.setTimezone(gon.timezone);
-
-  SortService.setColumn(gon.sort_column);
-  SortService.setDirection(gon.sort_direction);
-
-  $scope.loadMessages = function() {
-    $scope.isLoading = true;
-
-    $http.get(PathHelper.boardPath(gon.project_id, gon.board_id),
-              {
-                params: {
-                          sort: SortService.getSortParam(),
-                          page: PaginationService.getPage()
-                        }
-              })
-         .success(function(data, status, headers, config) {
-           $scope.messages = data.messages;
-           $scope.isLoading = false;
-         })
-         .error(function(data, status, headers, config) {
-           $scope.isLoading = false;
-         });
-  };
+.service('TimezoneService', [function() {
 }]);
