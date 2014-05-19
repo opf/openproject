@@ -15,20 +15,25 @@ angular.module('openproject.workPackages.directives')
     scope: {},
     templateUrl: '/templates/work_packages/work_package_context_menu.html',
     link: function(scope, element, attrs) {
+      var contextMenuName = 'workPackageContextMenu';
+
       scope.I18n = I18n;
-      scope.opened = false;
 
       // wire up context menu event handler
-
-      ContextMenuService.setTarget(element);
+      ContextMenuService.registerMenuElement(contextMenuName, element);
       scope.contextMenu = ContextMenuService.getContextMenu();
 
       scope.$watch('contextMenu.opened', function(opened) {
-        scope.opened = opened;
+        scope.opened = opened && scope.contextMenu.targetMenu === contextMenuName;
+      });
+      scope.$watch('contextMenu.targetMenu', function(target) {
+        scope.opened = scope.contextMenu.opened && target === contextMenuName;
       });
 
-      scope.$watch('contextMenu.context.row', function() {
-        updateContextMenu(getWorkPackagesFromContext(scope.contextMenu.context));
+      scope.$watch('contextMenu.context.row', function(row) {
+        if (row && scope.contextMenu.targetMenu === contextMenuName) {
+          updateContextMenu(getWorkPackagesFromContext(scope.contextMenu.context));
+        }
       });
 
       scope.triggerContextMenuAction = function(action, link) {

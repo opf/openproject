@@ -17,7 +17,7 @@
     "angular-sanitize": "~1.2.14",
     "jquery-migrate": "~1.2.1",
     "momentjs": "~2.6.0",
-    "ng-context-menu": "finnlabs/ng-context-menu#customized"
+    "ng-context-menu": "finnlabs/ng-context-menu#context-sharing-with-multiple-targets"
   },
   "devDependencies": {
     "mocha": "~1.14.0",
