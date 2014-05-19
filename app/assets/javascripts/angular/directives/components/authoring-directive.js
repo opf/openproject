@@ -38,8 +38,6 @@ angular.module('openproject.uiComponents')
     link: function(scope, element, attrs) {
       moment.lang(I18n.locale);
 
-      // TODO: The timezone of scope.time is UTC. Thus, we need to adapt the
-      // time to the local timezone or user setting.
       var createdOn = TimezoneService.parseDate(scope.createdOn);
       var timeago = createdOn.fromNow();
       var time = createdOn.format('LLL');
