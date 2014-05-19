@@ -70,6 +70,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#7149` Fix: Wrong success message when login is already in use
 * `#7177` Fix: Journal not created in connection with deleted note
 * `#7384` Headlines in wiki table of content are broken
+* `#7499` No default work package status possible
 * `#7562` Regression: creating ticket via API fails with HTTP 422
 * `#7608` Make highlight buttons styleable
 * Allowed sending of mails with only cc: or bcc: fields
