@@ -48,21 +48,6 @@ module Sprockets
   end
 end
 
-require 'livingstyleguide'
-
-module LivingStyleGuide::SassExtensions::Functions
-  [:image, :video, :audio, :javascript, :stylesheet, :font].each do |asset_class|
-     class_eval %Q{
-       def #{asset_class}_path(asset)
-         Sass::Script::String.new("/assets/\#{asset.value}", true)
-       end
-       def #{asset_class}_url(asset)
-         Sass::Script::String.new("url(/assets/\#{asset.value})")
-       end
-     }, __FILE__, __LINE__ - 6
-  end
-end
-
 require 'active_record'
 
 module ActiveRecord
