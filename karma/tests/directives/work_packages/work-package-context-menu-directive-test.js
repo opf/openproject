@@ -74,8 +74,11 @@ describe('workPackageContextMenu Directive', function() {
     var directListElements;
 
     beforeEach(function() {
-      ContextMenuService.setContext({rows: [], row: {object: workPackage}});
       compile();
+
+      ContextMenuService.setContext({rows: [], row: {object: workPackage}});
+      ContextMenuService.open('workPackageContextMenu');
+      scope.$apply();
 
       directListElements = element.find('.menu > li:not(.folder)');
     });
