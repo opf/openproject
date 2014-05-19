@@ -24,7 +24,12 @@
                       header-name="column.name"
                       header-title="column.title"
                       sortable="column.sortable"
-                      query="query"/>
+                      query="query">
+        <span has-context-menu
+              target="columnContextMenu"
+              process-event="adaptVerticalPosition"
+              trigger-on-event="click">Click</span>
+      </th>
     </tr>
   </thead>
 

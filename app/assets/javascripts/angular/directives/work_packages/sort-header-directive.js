@@ -33,6 +33,7 @@ angular.module('openproject.workPackages.directives')
   return {
     restrict: 'A',
     templateUrl: '/templates/work_packages/sort_header.html',
+    transclude: true,
     scope: {
       query: '=',
       headerName: '=',
