@@ -72,6 +72,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#7384` Headlines in wiki table of content are broken
 * `#7499` No default work package status possible
 * `#7531` Projects menu not visible if there are no projects
+* `#7533` Fixes: Deleted block not addable
 * `#7562` Regression: creating ticket via API fails with HTTP 422
 * `#7608` Make highlight buttons styleable
 * Allowed sending of mails with only cc: or bcc: fields
