@@ -62,6 +62,7 @@ class BoardsController < ApplicationController
 
         gon.rabl "app/views/messages/index.rabl"
         gon.project_id = @project.id
+        gon.activity_modul_enabled = @project.module_enabled?("activity");
         gon.board_id = @board.id
         gon.sort_column = 'updated_on'
         gon.sort_direction = 'desc'

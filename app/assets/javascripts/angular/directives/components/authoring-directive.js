@@ -33,7 +33,7 @@ angular.module('openproject.uiComponents')
   return {
     restrict: 'E',
     replace: true,
-    scope: { createdOn: '=', author: '=' },
+    scope: { createdOn: '=', author: '=', project: '=', activity: '=' },
     templateUrl: '/templates/components/authoring.html',
     link: function(scope, element, attrs) {
       moment.lang(I18n.locale);
@@ -44,7 +44,12 @@ angular.module('openproject.uiComponents')
 
       scope.I18n = I18n;
       scope.authorLink = '<a href="'+ PathHelper.userPath(scope.author.id) + '">' + scope.author.name + '</a>';
-      scope.timestamp = '<span class="timestamp" title="' + time + '">' + timeago + '</span>';
+
+      if (scope.activity) {
+        scope.timestamp = '<a title="' + time + '" href="' + PathHelper.activityPath(scope.project, createdOn.format('YYYY-MM-DD')) + '">' + timeago + '</a>';
+      } else {
+        scope.timestamp = '<span class="timestamp" title="' + time + '">' + timeago + '</span>';
+      }
     }
   };
 }]);
