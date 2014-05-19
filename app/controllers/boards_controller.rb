@@ -66,6 +66,7 @@ class BoardsController < ApplicationController
         gon.sort_column = 'updated_on'
         gon.sort_direction = 'desc'
         gon.total_count = @board.topics.count
+        gon.timezone = User.current.time_zone ? ActiveSupport::TimeZone::MAPPING[User.current.time_zone.name] : ""
 
         @message = Message.new
         render :action => 'show', :layout => !request.xhr?
