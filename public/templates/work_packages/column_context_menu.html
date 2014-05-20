@@ -5,11 +5,11 @@
     </li>
 
     <li ng-click="sortAscending(column.name)">
-      <a href="#"><span ng-bind="I18n.t('js.label_sort_by')"/> <span ng-bind="I18n.t('js.label_ascending')"/></a>
+      <a href="#"><span ng-bind="I18n.t('js.label_sort_by')"/> <span ng-bind="column.title"/> <span ng-bind="I18n.t('js.label_ascending')"/></a>
     </li>
 
     <li ng-click="sortDescending(column.name)">
-      <a href="#"><span ng-bind="I18n.t('js.label_sort_by')"/> <span ng-bind="I18n.t('js.label_descending')"/></a>
+      <a href="#"><span ng-bind="I18n.t('js.label_sort_by')"/> <span ng-bind="column.title"/> <span ng-bind="I18n.t('js.label_descending')"/></a>
     </li>
 
     <li ng-click="moveLeft(column.name)">
