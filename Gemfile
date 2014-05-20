@@ -143,6 +143,7 @@ gem 'nokogiri', '>=1.5.11'
 
 
 group :test do
+  gem 'pry'
   gem 'shoulda'
   gem 'object-daddy', '~> 1.1.0'
   gem "launchy", "~> 2.3.0"

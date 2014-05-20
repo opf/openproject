@@ -502,6 +502,7 @@ DEPENDENCIES
   pg (~> 0.17.1)
   prototype-rails
   prototype_legacy_helper (= 0.0.0)!
+  pry
   pry-byebug
   pry-doc
   pry-rails
