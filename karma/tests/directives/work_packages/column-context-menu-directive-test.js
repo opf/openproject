@@ -110,5 +110,19 @@ describe('columnContextMenu Directive', function() {
         expect(columns[1]).to.equal(column);
       });
     });
+
+    describe('and "Sort ascending" is clicked', function() {
+      var Sortation;
+
+      beforeEach(inject(function(_Sortation_) {
+        Sortation = _Sortation_;
+        query.sortation = new Sortation();
+        directiveScope.sortAscending(column.name);
+      }));
+
+      it('updates the query sortation', function() {
+        expect(query.sortation.getPrimarySortationCriterion()).to.deep.equal({ field: column.name, direction: 'asc' });
+      });
+    });
   });
 });
