@@ -44,6 +44,9 @@ en:
     meeting_minutes: Meeting minutes edited
     meeting_minutes_created: Meeting minutes created
 
+  label_meeting_hour: "Time (hour)"
+  label_meeting_minute: "Time (minute)"
+
   label_meeting: "Meeting"
   label_meeting_plural: "Meetings"
   label_meeting_new: "New Meeting"
