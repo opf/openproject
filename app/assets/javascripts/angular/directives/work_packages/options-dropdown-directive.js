@@ -61,6 +61,11 @@ angular.module('openproject.workPackages.directives')
         }
       };
 
+      $scope.showColumnsModal  = function(){
+        $scope.$emit('hideAllDropdowns');
+        columnsModal.activate();
+      };
+
       scope.toggleDisplaySums = function(){
         scope.query.displaySums = !scope.query.displaySums;
       }

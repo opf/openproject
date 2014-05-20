@@ -4,5 +4,21 @@
 
     <h1>Columns</h1>
 
+    <div>
+      <label for="selected_columns">Selected Columns</label>
+      <input id="selected_columns_new"
+             type="hidden"
+             ui-select2-sortable="select2Options"
+             simple-query="getObjectsData"
+             ng-model="selectedColumnsData"
+             multiple
+             sortable></input>
+    </div>
+
+    <div>
+      <button ng-click="updateSelectedColumns()">Apply</button>
+      <button ng-click="modal.closeMe()">Cancel</button>
+    </div>
+
   </div>
 </div>

@@ -34,6 +34,7 @@ angular.module('openproject.services')
   '$http',
   '$location',
   'PathHelper',
+  'QueriesHelper',
   '$q',
   'AVAILABLE_WORK_PACKAGE_FILTERS',
   'StatusService',
@@ -46,7 +47,7 @@ angular.module('openproject.services')
   'ProjectService',
   'WorkPackagesTableHelper',
   'I18n',
-  function(Query, Sortation, $http, $location, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService, WorkPackagesTableHelper, I18n) {
+  function(Query, Sortation, $http, $location, PathHelper, QueriesHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService, WorkPackagesTableHelper, I18n) {
 
   var query;
 
@@ -117,10 +118,37 @@ angular.module('openproject.services')
       return QueryService.doQuery(url);
     },
 
+    getAvailableUnusedColumns: function(projectIdentifier) {
+      return QueryService.getAvailableColumns(projectIdentifier)
+        .then(function(available_columns){
+          return QueriesHelper.getAvailableColumns(available_columns, QueryService.getSelectedColumns());
+        });
+    },
+
     getAvailableColumns: function(projectIdentifier) {
+      // TODO: Once we have a single page app we need to differentiate between different project columns
+      if(availableColumns.length) {
+        return $q.when(availableColumns);
+      }
+
       var url = projectIdentifier ? PathHelper.apiProjectAvailableColumnsPath(projectIdentifier) : PathHelper.apiAvailableColumnsPath();
 
-      return QueryService.doQuery(url);
+      return QueryService.doGet(url, function(response){
+        availableColumns = response.data.available_columns;
+        return availableColumns;
+      })
+    },
+
+    getSelectedColumns: function() {
+      return query.getSelectedColumns();
+    },
+
+    setSelectedColumns: function(availableColumns, selectedIds) {
+      query.columns.length = 0; // Clear array but keep same reference
+      var newSelectedColumns = QueriesHelper.getColumnsByName(availableColumns, selectedIds);
+      angular.forEach(newSelectedColumns, function(column){
+        query.columns.push(column);
+      });
     },
 
     getAvailableFilters: function(projectIdentifier){
@@ -239,6 +267,10 @@ angular.module('openproject.services')
         query.save(response.data);
         return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_create') }} );
       });
+    },
+
+    doGet: function(url, success, failure) {
+      return QueryService.doQuery(url, null, 'GET', success, failure);
     },
 
     doQuery: function(url, params, method, success, failure) {
