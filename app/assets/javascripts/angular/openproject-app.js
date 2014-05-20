@@ -105,6 +105,7 @@ angular.module('openproject.timeEntries.controllers', []);
 var openprojectApp = angular.module('openproject', [
   'ui.select2',
   'ui.date',
+  'ui.router',
   'openproject.uiComponents',
   'openproject.timelines',
   'openproject.workPackages',
@@ -115,6 +116,9 @@ var openprojectApp = angular.module('openproject', [
 ]);
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
+
+// FIXME: replace with actual data
+window.gon = { project_types: [] };
 
 openprojectApp
   .config(['$locationProvider', '$httpProvider', function($locationProvider, $httpProvider) {

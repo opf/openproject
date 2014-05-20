@@ -206,7 +206,7 @@ class WorkPackagesController < ApplicationController
       format.html do
         render :index, :locals => { :query => @query,
                                     :project => @project },
-                       :layout => !request.xhr?
+                       :layout => 'angular' # !request.xhr?
       end
       format.csv do
         serialized_work_packages = WorkPackage::Exporter.csv(@work_packages, @project)

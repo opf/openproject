@@ -47,8 +47,7 @@ end
 
 <%= include_gon %>
 
-<!-- TODO: replace with Angular routing solution -->
-<ng-include src="'/templates/work_packages.html'"></ng-include>
+<!-- TODO: remove this view -->
 
 <%= call_hook(:view_work_packages_index_bottom, { :project => project, :query => query }) %>
 

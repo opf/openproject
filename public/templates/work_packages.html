@@ -17,6 +17,7 @@
             <i class="icon-pin icon-buttons"></i>Filter
           </button>
         </li>
+        <li><button class="button" ui-sref="work-packages.list.details({})">Details</button></li>
         <li><button class="button last" with-dropdown dropdown-id="settingsDropdown"><i class="icon-settings"></i><i class="icon-pulldown-arrow1 icon-dropdown"></i></button></li>
       </ul>
     </toolbar>
@@ -59,33 +60,7 @@
   </div>
 
   <back-url></back-url>
-  <div class="autoscroll">
 
-    <work-packages-table ng-if="rows && columns"
-                         project-identifier="projectIdentifier"
-                         columns="columns"
-                         rows="rows"
-                         query="query"
-                         group-by="query.groupBy"
-                         group-by-column="groupByColumn"
-                         count-by-group="workPackageCountByGroup"
-                         display-sums="query.displaySums"
-                         total-sums="totalSums"
-                         group-sums="groupSums"
-                         class="list issues"
-                         update-results="updateResults()"
-                         with-loading="withLoading"
-                         update-back-url="updateBackUrl">
-    </work-packages-table>
+  <div ui-view></div>
 
-    <table-pagination total-entries="totalEntries"
-                      update-results="updateResults()">
-    </table-pagination>
-
-    <modal-loading>
-    </modal-loading>
-
-    <work-package-context-menu></work-package-context-menu>
-
-  </div>
 </div>
