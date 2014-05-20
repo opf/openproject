@@ -162,6 +162,10 @@ angular.module('openproject.models')
       });
     },
 
+    getSelectedColumns: function(){
+      return this.columns;
+    },
+
     getParamColumns: function(){
       var selectedColumns = this.columns.map(function(column) {
         return column.name;
