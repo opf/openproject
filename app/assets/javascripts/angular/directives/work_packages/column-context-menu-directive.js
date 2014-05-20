@@ -5,7 +5,8 @@ angular.module('openproject.workPackages.directives')
   'I18n',
   'QueryService',
   'WorkPackagesTableHelper',
-  function(ContextMenuService, I18n, QueryService, WorkPackagesTableHelper) {
+  'WorkPackagesTableService',
+  function(ContextMenuService, I18n, QueryService, WorkPackagesTableHelper, WorkPackagesTableService) {
 
 
   return {
@@ -43,6 +44,14 @@ angular.module('openproject.workPackages.directives')
 
       scope.groupBy = function(columnName) {
         QueryService.getQuery().groupBy = columnName;
+      };
+
+      scope.sortAscending = function(columnName) {
+        WorkPackagesTableService.sortBy(columnName, 'asc');
+      };
+
+      scope.sortDescending = function(columnName) {
+        WorkPackagesTableService.sortBy(columnName, 'desc');
       };
 
       scope.moveLeft = function(columnName) {

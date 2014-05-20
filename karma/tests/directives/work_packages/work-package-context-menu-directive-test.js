@@ -32,7 +32,7 @@ describe('workPackageContextMenu Directive', function() {
   var compile, element, rootScope, scope;
 
   beforeEach(angular.mock.module('openproject.workPackages.directives'));
-  beforeEach(module('templates'));
+  beforeEach(module('templates', 'openproject.models'));
 
   beforeEach(inject(function($rootScope, $compile, _ContextMenuService_) {
     var html;

@@ -28,7 +28,10 @@
 
 angular.module('openproject.workPackages.services')
 
-.service('WorkPackagesTableService', ['$filter', function($filter) {
+.service('WorkPackagesTableService', [
+  '$filter',
+  'QueryService',
+  function($filter, QueryService) {
   var workPackagesTableData = {
     allRowsChecked: false
   };
@@ -91,8 +94,14 @@ angular.module('openproject.workPackages.services')
       angular.forEach(rows, function(row) {
         WorkPackagesTableService.removeRow(row);
       });
-    }
+    },
 
+    sortBy: function(columnName, direction) {
+      QueryService.getQuery().sortation.addSortElement({
+        field: columnName,
+        direction: direction
+      });
+    }
   };
 
   return WorkPackagesTableService;
