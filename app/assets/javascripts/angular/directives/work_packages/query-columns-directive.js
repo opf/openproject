@@ -38,11 +38,7 @@ angular.module('openproject.workPackages.directives')
       return {
         pre: function(scope) {
           scope.moveColumns = function (columnNames, fromColumns, toColumns, requires_extension) {
-            angular.forEach(columnNames, function(columnName){
-              removeColumn(columnName, fromColumns, function(removedColumn){
-                toColumns.push(removedColumn);
-              });
-            });
+            WorkPackagesTableHelper.moveColumns(columnNames, fromColumns, toColumns);
 
             if (requires_extension) extendRowsWithColumnData(columnNames);
           };
@@ -63,11 +59,6 @@ angular.module('openproject.workPackages.directives')
             if( scope.groupByColumn) params.push(scope.groupByColumn.name);
             scope.withLoading(WorkPackageService.augmentWorkPackagesWithColumnsData, params)
               .then(scope.updateBackUrl);
-          }
-
-          function removeColumn(columnName, columns, callback) {
-            var removed = columns.splice(WorkPackagesTableHelper.getColumnIndexByName(columns, columnName), 1).first();
-            return !(typeof(callback) === 'undefined') ? callback.call(this, removed) : null;
           }
         }
       };

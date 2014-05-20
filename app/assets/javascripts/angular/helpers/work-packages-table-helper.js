@@ -142,6 +142,20 @@ angular.module('openproject.workPackages.helpers')
       WorkPackagesTableHelper.moveElementBy(columns, index, by);
     },
 
+    moveColumns: function (columnNames, fromColumns, toColumns) {
+      angular.forEach(columnNames, function(columnName){
+        WorkPackagesTableHelper.removeColumn(columnName, fromColumns, function(removedColumn){
+          toColumns.push(removedColumn);
+        });
+      });
+    },
+
+    removeColumn: function(columnName, columns, callback) {
+      var removed = columns.splice(this.getColumnIndexByName(columns, columnName), 1).first();
+
+      return typeof(callback) !== 'undefined' ? callback.call(this, removed) : null;
+    },
+
     getSelectedRows: function(rows) {
       return rows
         .filter(function(row) {
