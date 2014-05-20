@@ -42,8 +42,7 @@ angular.module('openproject.workPackages.controllers')
   'QueryService',
   'WorkPackageService',
   'WorkPackagesTableService',
-  'QueriesHelper',
-  function($scope, $timeout, columnsModal, QueryService, WorkPackageService, WorkPackagesTableService, QueriesHelper) {
+  function($scope, $timeout, columnsModal, QueryService, WorkPackageService, WorkPackagesTableService) {
 
   this.name    = 'Columns';
   this.closeMe = columnsModal.deactivate;

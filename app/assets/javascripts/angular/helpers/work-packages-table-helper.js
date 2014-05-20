@@ -89,16 +89,16 @@ angular.module('openproject.workPackages.helpers')
     },
 
     getColumnDifference: function (allColumns, columns) {
-      var columnValues = columns.map(function(column){
+      var identifiers = columns.map(function(column){
         return column.name;
       });
 
-      return this.getColumnDifferenceByName(allColumns, columnValues);
+      return this.getColumnDifferenceByName(allColumns, identifiers);
     },
 
-    getColumnDifferenceByName: function (allColumns, columnValues) {
+    getColumnDifferenceByName: function (allColumns, identifiers) {
       return allColumns.filter(function(column) {
-        return columnValues.indexOf(column.name) === -1;
+        return identifiers.indexOf(column.name) === -1;
       });
     },
 
@@ -123,6 +123,12 @@ angular.module('openproject.workPackages.helpers')
     selectColumnsByName: function(columns, columnNames) {
       return columns.filter(function(column) {
         return columnNames.indexOf(column.name) !== -1;
+      });
+    },
+
+    mapIdentifiersToColumns: function(columns, columnNames) {
+      return columnNames.map(function(columnName) {
+        return WorkPackagesTableHelper.detectColumnByName(columns, columnName);
       });
     },
 

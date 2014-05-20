@@ -34,7 +34,6 @@ angular.module('openproject.services')
   '$http',
   '$location',
   'PathHelper',
-  'QueriesHelper',
   '$q',
   'AVAILABLE_WORK_PACKAGE_FILTERS',
   'StatusService',
@@ -47,7 +46,7 @@ angular.module('openproject.services')
   'ProjectService',
   'WorkPackagesTableHelper',
   'I18n',
-  function(Query, Sortation, $http, $location, PathHelper, QueriesHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService, WorkPackagesTableHelper, I18n) {
+  function(Query, Sortation, $http, $location, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService, WorkPackagesTableHelper, I18n) {
 
   var query;
 
@@ -97,17 +96,12 @@ angular.module('openproject.services')
       return totalEntries;
     },
 
-    setAvailableColumns: function(columns) {
-      // TODO discard this function after merging Richard's PR
-      availableColumns = columns;
-    },
-
     hideColumns: function(columnNames) {
-      WorkPackagesTableHelper.moveColumns(columnNames, this.getQuery().columns, availableColumns);
+      WorkPackagesTableHelper.moveColumns(columnNames, this.getSelectedColumns(), availableColumns);
     },
 
     showColumns: function(columnNames) {
-      WorkPackagesTableHelper.moveColumns(columnNames, availableColumns, this.getQuery().columns);
+      WorkPackagesTableHelper.moveColumns(columnNames, availableColumns, this.getSelectedColumns());
     },
 
     // data loading
@@ -121,7 +115,7 @@ angular.module('openproject.services')
     getAvailableUnusedColumns: function(projectIdentifier) {
       return QueryService.getAvailableColumns(projectIdentifier)
         .then(function(available_columns){
-          return QueriesHelper.getAvailableColumns(available_columns, QueryService.getSelectedColumns());
+          return WorkPackagesTableHelper.getColumnDifference(available_columns, QueryService.getSelectedColumns());
         });
     },
 
@@ -136,16 +130,18 @@ angular.module('openproject.services')
       return QueryService.doGet(url, function(response){
         availableColumns = response.data.available_columns;
         return availableColumns;
-      })
+      });
     },
 
     getSelectedColumns: function() {
-      return query.getSelectedColumns();
+      return this.getQuery().getSelectedColumns();
     },
 
-    setSelectedColumns: function(availableColumns, selectedIds) {
+    setSelectedColumns: function(availableColumns, selectedColumnNames) {
       query.columns.length = 0; // Clear array but keep same reference
-      var newSelectedColumns = QueriesHelper.getColumnsByName(availableColumns, selectedIds);
+
+      var newSelectedColumns = WorkPackagesTableHelper.selectColumnsByName(availableColumns, selectedColumnNames);
+
       angular.forEach(newSelectedColumns, function(column){
         query.columns.push(column);
       });
