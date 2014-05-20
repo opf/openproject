@@ -77,6 +77,9 @@
 @mixin icon-context-rules
   padding: 0 4px 0 0
   color: $content_icon_color
+  
+@mixin icon-table-rules
+  padding: 0 0 0 0
 
 [data-icon]:before
   @include icon-common
@@ -112,6 +115,11 @@
   @include icon-common
   content: attr(data-icon-button)
   @include icon-button-rules
+  
+[data-icon-table]:before
+  @include icon-common
+  content: attr(data-icon-table)
+  @include icon-table-rules
 
 [class^="icon-"]:before,
 [class*=" icon-"]:before
@@ -147,6 +155,10 @@
 // used for icons in buttons
 .icon-buttons:before
   @include icon-button-rules
+  
+// used for icons in workpackage table
+.icon-table:before
+  @include icon-table-rules
 
 #errorExplanation:before
   @include icon-common

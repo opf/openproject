@@ -36,6 +36,10 @@ class AccountController < ApplicationController
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_filter :check_if_login_required
 
+  # This prevents login CSRF
+  # See AccountController#handle_unverified_request for more information.
+  before_filter :disable_api
+
   # Login request and validation
   def login
     if User.current.logged?

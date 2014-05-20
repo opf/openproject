@@ -12,7 +12,7 @@ $ng-modal-image-width:   $ng-modal-image-height
 .ng-modal-window
   // overlay
   +position(fixed, 0px 0px 0px 0px)
-  background: rgba(0, 0, 0, 0.85)
+  background: rgba(0, 0, 0, 0.2)
   text-align: left
   z-index: 99999999999
 
@@ -55,6 +55,7 @@ $ng-modal-image-width:   $ng-modal-image-height
 .ng-modal-inner
   +transition(opacity 0.25s ease)
   border-radius: $base-border-radius
+  box-shadow: 0 5px 10px rgba(0, 0, 0, .2)
   background: $ng-modal-background
   margin: auto
   max-height: 95%

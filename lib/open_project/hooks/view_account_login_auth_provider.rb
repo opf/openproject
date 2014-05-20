@@ -26,8 +26,13 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Hooks::ViewProjectsFormHook < Redmine::Hook::ViewListener
-  render_on :view_projects_form,
-            :partial => 'hooks/timelines/view_projects_form'
-
+module OpenProject
+  module Hooks
+    ##
+    # Hook called in the login forms which displays the different auth providers
+    class ViewAccountLoginAuthProviderHook < Redmine::Hook::ViewListener
+      render_on :view_account_login_auth_provider,
+                :partial => 'hooks/login/auth_provider'
+    end
+  end
 end
