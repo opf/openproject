@@ -2,54 +2,49 @@ module WorkPackages
   class API < Grape::API
 
     resources :work_packages do
-      params do
-        optional :page, type: Integer, default:  1
-        optional :per_page, type: Integer, default: 100
-        optional :filters, type: String
-        optional :sort_expression, type: String
-        optional :embedded, type: String
-      end
+
       get do
-        work_packages = WorkPackage.all
+        'list all work packages'
       end
 
-      get ':id' do
-        work_package = WorkPackage.find(params[:id])
-        authorize work_package, :show?
-        resource = WorkPackageMapper.new(work_package, 'rest').to_resource
-        binding.pry
-        Yaks::HalSerializer.new(resource).to_hal.to_json
-      end
-
-      patch ':id' do
-        "work package update"
-      end
-
-      delete :':id' do
-        "work package delete"
+      post do
+        'create new work package(s)'
       end
 
       patch do
-        "work packages batch update"
+        'batch update work packages'
       end
 
       delete do
-        "work packages batch delete"
+        'batch delete work packages'
       end
-    end
 
-    resources :projects do
-        namespace ':project_id' do
-          get :work_packages do
-            project = Project.find(params[:project_id])
-            project.work_packages
-          end
+      params do
+        requires :id, type: Integer, desc: 'Work package id.'
+      end
+      namespace ':id' do
 
-          post :work_packages do
-            "create work packages for project (batch and single)"
-          end
+        before do
+          @work_package = WorkPackage.find(params[:id])
+        end
+
+        get do
+          'show a work package'
+        end
+
+        put do
+          'update a work package (provide whole resource)'
+        end
+
+        patch do
+          @work_package
+        end
+
+        delete do
+          'delete a work package'
         end
       end
 
+    end
   end
 end
