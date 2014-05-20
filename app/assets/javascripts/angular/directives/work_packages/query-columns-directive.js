@@ -28,7 +28,11 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('queryColumns', ['WorkPackagesTableHelper', 'WorkPackageService', function(WorkPackagesTableHelper, WorkPackageService) {
+.directive('queryColumns', [
+  'WorkPackagesTableHelper',
+  'WorkPackageService',
+  'QueryService',
+  function(WorkPackagesTableHelper, WorkPackageService, QueryService) {
 
   return {
     restrict: 'E',
@@ -37,10 +41,14 @@ angular.module('openproject.workPackages.directives')
     compile: function(tElement) {
       return {
         pre: function(scope) {
-          scope.moveColumns = function (columnNames, fromColumns, toColumns, requires_extension) {
-            WorkPackagesTableHelper.moveColumns(columnNames, fromColumns, toColumns);
+          scope.showColumns = function(columnNames) {
+            QueryService.showColumns(columnNames);
 
-            if (requires_extension) extendRowsWithColumnData(columnNames);
+            extendRowsWithColumnData(columnNames); // TODO move to QueryService
+          };
+
+          scope.hideColumns = function(columnNames) {
+            QueryService.hideColumns(columnNames);
           };
 
           scope.moveSelectedColumnBy = function(by) {
@@ -48,6 +56,7 @@ angular.module('openproject.workPackages.directives')
             WorkPackagesTableHelper.moveColumnBy(scope.columns, nameOfColumnToBeMoved, by);
           };
 
+          // TODO move to WorkPackagesService
           function extendRowsWithColumnData(columnNames) {
             var workPackages = scope.rows.map(function(row) {
               return row.object;
