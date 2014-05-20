@@ -17,7 +17,10 @@
             <i class="icon-pin icon-buttons"></i>Filter
           </button>
         </li>
-        <li><button class="button" ui-sref="work-packages.list.details({})">Details</button></li>
+        <li>
+          <button class="button" ui-sref="work-packages.list" ui-sref-active="active">List</button>
+          <button class="button" ui-sref="work-packages.list.details({})" ui-sref-active="active">Details</button>
+        </li>
         <li><button class="button last" with-dropdown dropdown-id="settingsDropdown"><i class="icon-settings"></i><i class="icon-pulldown-arrow1 icon-dropdown"></i></button></li>
       </ul>
     </toolbar>
