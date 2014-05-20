@@ -128,6 +128,7 @@ gem 'jquery-rails', '~> 2.0.3'
 gem "i18n-js", :git => "https://github.com/fnando/i18n-js.git", :ref => '8801f8d17ef96c48a7a0269e251fcf1648c8f441'
 
 group :test do
+  gem 'pry'
   gem 'shoulda'
   gem 'object-daddy', '~> 1.1.0'
   gem "launchy", "~> 2.3.0"
