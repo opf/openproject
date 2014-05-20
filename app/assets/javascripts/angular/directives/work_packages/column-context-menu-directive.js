@@ -61,6 +61,10 @@ angular.module('openproject.workPackages.directives')
       scope.moveRight = function(columnName) {
         WorkPackagesTableHelper.moveColumnBy(scope.columns, columnName, 1);
       };
+
+      scope.hideColumn = function(columnName) {
+        QueryService.hideColumns(new Array(columnName));
+      };
     }
   };
 }]);

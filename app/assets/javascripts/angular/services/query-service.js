@@ -28,8 +28,25 @@
 
 angular.module('openproject.services')
 
-.service('QueryService', ['Query', 'Sortation', '$http', '$location', 'PathHelper', '$q', 'AVAILABLE_WORK_PACKAGE_FILTERS', 'StatusService', 'TypeService', 'PriorityService', 'UserService', 'VersionService', 'RoleService', 'GroupService', 'ProjectService', 'I18n',
-  function(Query, Sortation, $http, $location, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService, I18n) {
+.service('QueryService', [
+  'Query',
+  'Sortation',
+  '$http',
+  '$location',
+  'PathHelper',
+  '$q',
+  'AVAILABLE_WORK_PACKAGE_FILTERS',
+  'StatusService',
+  'TypeService',
+  'PriorityService',
+  'UserService',
+  'VersionService',
+  'RoleService',
+  'GroupService',
+  'ProjectService',
+  'WorkPackagesTableHelper',
+  'I18n',
+  function(Query, Sortation, $http, $location, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService, WorkPackagesTableHelper, I18n) {
 
   var query;
 
@@ -77,6 +94,19 @@ angular.module('openproject.services')
 
     getTotalEntries: function() {
       return totalEntries;
+    },
+
+    setAvailableColumns: function(columns) {
+      // TODO discard this function after merging Richard's PR
+      availableColumns = columns;
+    },
+
+    hideColumns: function(columnNames) {
+      WorkPackagesTableHelper.moveColumns(columnNames, this.getQuery().columns, availableColumns);
+    },
+
+    showColumns: function(columnNames) {
+      WorkPackagesTableHelper.moveColumns(columnNames, availableColumns, this.getQuery().columns);
     },
 
     // data loading
@@ -192,6 +222,8 @@ angular.module('openproject.services')
       availableFilters[projectIdentifier] = filters;
       return availableFilters[projectIdentifier];
     },
+
+    // synchronization
 
     saveQuery: function() {
       var url = PathHelper.apiProjectQueryPath(query.project_id, query.id);

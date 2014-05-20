@@ -69,6 +69,7 @@ de:
     label_expanded: "aufgeklappt"
     label_expand_all: "Alle aufklappen"
     label_greater_or_equal: ">="
+    label_hide_column: "Spalte ausblenden"
     label_in: "an"
     label_in_less_than: "in weniger als"
     label_in_more_than: "in mehr als"

@@ -151,7 +151,7 @@ angular.module('openproject.workPackages.helpers')
     },
 
     removeColumn: function(columnName, columns, callback) {
-      var removed = columns.splice(this.getColumnIndexByName(columns, columnName), 1).first();
+      var removed = columns.splice(this.getColumnIndexByName(columns, columnName), 1)[0];
 
       return typeof(callback) !== 'undefined' ? callback.call(this, removed) : null;
     },

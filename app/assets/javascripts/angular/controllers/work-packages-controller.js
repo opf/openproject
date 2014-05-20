@@ -142,6 +142,8 @@ angular.module('openproject.workPackages.controllers')
     return QueryService.getAvailableColumns($scope.projectIdentifier)
       .then(function(data){
         $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(data.available_columns, $scope.columns);
+        // TODO let the query build the difference and keep the reference by itsself - see Richard's PR
+        QueryService.setAvailableColumns($scope.availableColumns); // TODO discard
         return $scope.availableColumns;
       });
   }

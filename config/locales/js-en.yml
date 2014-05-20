@@ -69,6 +69,7 @@ en:
     label_expanded: "expanded"
     label_expand_all: "Expand all"
     label_greater_or_equal: ">="
+    label_hide_column: "Hide column"
     label_in: "in"
     label_in_less_than: "in less than"
     label_in_more_than: "in more than"

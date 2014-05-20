@@ -61,12 +61,11 @@ describe('columnContextMenu Directive', function() {
   });
 
   describe('when the context menu handler of a column is clicked', function() {
-    var I18n,
-        QueryService,
-        query = Factory.build('Query');
-    var column = { name: 'status', title: 'Status' },
+    var I18n, QueryService;
+    var column        = { name: 'status', title: 'Status' },
         anotherColumn = { name: 'subject', title: 'Subject' },
-        columns = [column, anotherColumn];
+        columns       = [column, anotherColumn],
+        query         = Factory.build('Query', { columns: columns });
     var directiveScope;
 
     beforeEach(inject(function(_QueryService_) {
@@ -122,6 +121,16 @@ describe('columnContextMenu Directive', function() {
 
       it('updates the query sortation', function() {
         expect(query.sortation.getPrimarySortationCriterion()).to.deep.equal({ field: column.name, direction: 'asc' });
+      });
+    });
+
+    describe('and "Hide column" is clicked', function() {
+      beforeEach(function() {
+        directiveScope.hideColumn(column.name);
+      });
+
+      it('removes the column from the query columns', function() {
+        expect(query.columns).to.not.include(column);
       });
     });
   });
