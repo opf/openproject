@@ -17,27 +17,36 @@ class API < Grape::API
       end
 
       def authorize(record, query=nil)
-        query ||= params[:action].to_s + "?"
-        @_policy_authorized = true
-
-        policy = Pundit.policy(current_user, record)
-        unless policy.public_send(query)
-          error = NotAuthorizedError.new("not allowed to #{query} this #{record}")
-          error.query, error.record, error.policy = query, record, policy
-
-          raise error
-        end
-
         true
+       end
+
+       def root_url
+          'http://localhost:3000/api/v3'
+       end
+
+       def rels_url
+          "#{root_url}/rels"
        end
     end
 
   get do
-    { test: 'test' }.to_json
-  end
-
-  get :search do
-    "search"
+    {
+      _links: {
+        self: {
+          href: "#{root_url}",
+          title: "OpenProject API entry point."
+        },
+        "#{rels_url}" => {
+          href: "#{rels_url}",
+          title: "Custom link relationships supported by OpenProject API."
+        },
+        "#{rels_url}/work_packages" => {
+          href: "#{root_url}/work_packages",
+          title: "Your work packages."
+        }
+      },
+      message: "Welcome to OpenProject Hypermedia API"
+    }.to_json
   end
 
   mount Projects::API
