@@ -35,7 +35,8 @@ openprojectApp.config(['$stateProvider', '$urlRouterProvider',
     .state('work-packages', {
       url: "/wp",
       abstract: true,
-      templateUrl: "/templates/work_packages.html"
+      templateUrl: "/templates/work_packages.html",
+      controller: 'WorkPackagesController'
     })
     .state('work-packages.list', {
       url: "",
