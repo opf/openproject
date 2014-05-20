@@ -44,10 +44,21 @@ openprojectApp.config(['$stateProvider', '$urlRouterProvider',
       }
     })
     .state('work-packages.list.details', {
-      url: "/details",
+      url: "/:workPackageId",
       templateUrl: "/templates/work_packages.list.details.html",
-      controller: function($scope) {
-        //
-      }
+      controller: ['$scope', '$stateParams',
+        function($scope, $stateParams) {
+          $scope.workPackageId = $stateParams.workPackageId
+
+          $scope.$watch('rows', function(rows){
+            if (rows && rows.length > 0) {
+              var row = $scope.rows.find(function(row) {
+                return row.object.id == $scope.workPackageId;
+              });
+              $scope.workPackage = row ? row.object : {};
+            }
+          });
+
+        }]
     })
 }]);

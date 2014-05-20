@@ -1,3 +1,12 @@
+<hr>
+
+<h3>{{ workPackage.type.name }}</h3>
+<h2>{{ workPackage.subject }}</h2>
 <p>TODO: details panel goes here</p>
+
+<h3>Debug</h3>
+<pre>
+{{ workPackage | json }}
+</pre>
 
 <button class="button" ui-sref="work-packages.list">Close details</button>
