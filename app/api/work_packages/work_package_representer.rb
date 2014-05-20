@@ -1,8 +1,10 @@
 require 'roar/representer/json'
 require 'roar/decorator'
+require 'roar/representer/json/hal'
 
 class WorkPackageRepresenter < Roar::Decorator
   include Roar::Representer::JSON
+  include Roar::Representer::JSON::HAL
   include Roar::Representer::Feature::Hypermedia
   include Rails.application.routes.url_helpers
 
