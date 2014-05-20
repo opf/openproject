@@ -34,10 +34,11 @@ openprojectApp.config(['$stateProvider', '$urlRouterProvider',
   $stateProvider
     .state('work-packages', {
       url: "/wp",
+      abstract: true,
       templateUrl: "/templates/work_packages.html"
     })
     .state('work-packages.list', {
-      url: "/list",
+      url: "",
       templateUrl: "/templates/work_packages.list.html",
       controller: function($scope) {
         //
