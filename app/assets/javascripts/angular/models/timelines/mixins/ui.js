@@ -819,7 +819,7 @@ angular.module('openproject.timelines.models')
         })
       ).attr({
         'stroke': 'red',
-        'stroke-dasharray': '- '
+        'stroke-dasharray': '3,3'
       });
 
       var setDateTime = 5 * 60 * 1000;

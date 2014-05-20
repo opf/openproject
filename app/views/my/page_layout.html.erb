@@ -42,9 +42,11 @@ function recreateSortables() {
 function updateSelect() {
     s = $('block-select')
     for (var i = 0; i < s.options.length; i++) {
-        if ($('block_' + s.options[i].value)) {
+        var block = $('block_' + s.options[i].value);
+        if (block && block.visible()) {
             s.options[i].disabled = true;
         } else {
+            if (block) { block.remove(); }
             s.options[i].disabled = false;
         }
     }
@@ -57,8 +59,9 @@ function afterAddBlock() {
 }
 
 function removeBlock(block) {
-    Effect.DropOut(block);
-    updateSelect();
+    Effect.DropOut(block,{ 'afterFinish':function(){
+        updateSelect();
+    }});
 }
 //]]>
 </script>
