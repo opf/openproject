@@ -137,7 +137,7 @@ angular.module('openproject.services')
       return this.getQuery().getSelectedColumns();
     },
 
-    setSelectedColumns: function(availableColumns, selectedColumnNames) {
+    setSelectedColumns: function(selectedColumnNames) {
       query.columns.length = 0; // Clear array but keep same reference
 
       var newSelectedColumns = WorkPackagesTableHelper.selectColumnsByName(availableColumns, selectedColumnNames);
