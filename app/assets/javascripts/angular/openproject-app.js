@@ -57,7 +57,17 @@ angular.module('openproject.timeEntries', ['openproject.timeEntries.controllers'
 angular.module('openproject.timeEntries.controllers', []);
 
 // main app
-var openprojectApp = angular.module('openproject', ['ui.select2', 'ui.date', 'openproject.uiComponents', 'openproject.timelines', 'openproject.workPackages', 'openproject.messages', 'openproject.timeEntries', 'ngAnimate', 'ngSanitize']);
+var openprojectApp = angular.module('openproject', [
+  'ui.select2', 
+  'ui.date', 
+  'openproject.uiComponents', 
+  'openproject.timelines',
+  'openproject.workPackages',
+  'openproject.messages',
+  'openproject.timeEntries',
+  'ngAnimate',
+  'ngSanitize'
+]);
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
 
