@@ -29,12 +29,42 @@
 angular.module('openproject.workPackages.directives')
 
 .directive('optionsDropdown', ['I18n',
-  function(I18n){
+  'columnsModal',
+  'exportModal',
+  'saveModal',
+  'settingsModal',
+  'shareModal',
+  'sortingModal',
+  function(I18n, columnsModal, exportModal, saveModal, settingsModal, shareModal, sortingModal){
 
   return {
     restrict: 'AE',
     scope: true,
     link: function(scope, element, attributes) {
+
+      // Modals
+      scope.showColumnsModal  = columnsModal.activate;
+      scope.showExportModal   = exportModal.activate;
+      scope.showSettingsModal = settingsModal.activate;
+      scope.showShareModal    = shareModal.activate;
+      scope.showSortingModal  = sortingModal.activate;
+
+      scope.showSaveModal     = function(saveAs){
+        scope.$emit('hideAllDropdowns');
+        if( saveAs || scope.query.isNew() ){
+          saveModal.activate();
+        } else {
+          QueryService.saveQuery()
+            .then(function(data){
+              scope.$emit('flashMessage', data.status);
+            });
+        }
+      };
+
+      scope.showColumnsModal  = function(){
+        scope.$emit('hideAllDropdowns');
+        columnsModal.activate();
+      };
 
       scope.toggleDisplaySums = function(){
         scope.query.displaySums = !scope.query.displaySums;
