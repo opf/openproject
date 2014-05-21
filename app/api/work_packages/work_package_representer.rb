@@ -2,48 +2,47 @@ require 'roar/representer/json'
 require 'roar/decorator'
 require 'roar/representer/json/hal'
 
-class WorkPackageRepresenter < Roar::Decorator
-  include Roar::Representer::JSON
-  include Roar::Representer::JSON::HAL
-  include Roar::Representer::Feature::Hypermedia
-  include Rails.application.routes.url_helpers
+module WorkPackages
+  class WorkPackageRepresenter < Roar::Decorator
+    include Roar::Representer::JSON
+    include Roar::Representer::JSON::HAL
+    include Roar::Representer::Feature::Hypermedia
+    include Rails.application.routes.url_helpers
 
-  property :id
-  property :subject
-  property :description
-  property :type, getter: lambda { |*| self.type.try(:name) }
-  property :due_date, as: :dueDate, getter: lambda { |*| self.due_date.try(:to_s) }
-  property :status, getter: lambda { |*| self.status.try(:name) }
-  property :priority, getter: lambda { |*| self.priority.try(:name) }
-  property :done_ratio, as: :percentageDone
-  property :estimated_time, as: :estimatedTime, exec_context: :decorator
-  property :start_date, as: :startDate, getter: lambda { |*| self.start_date.try(:to_s) }
-  property :created_at, as: :createdAt, getter: lambda { |*| self.created_at.try(:to_s) }
-  property :updated_at, as: :updatedAt, getter: lambda { |*| self.updated_at.try(:to_s) }
-  property :custom_fields, as: :customFields, exec_context: :decorator
-  property :_type, exec_context: :decorator
-  property :_links, exec_context: :decorator
+    property :_type, exec_context: :decorator
 
-  def estimated_time
-    { units: :hours, value: represented.estimated_hours}
-  end
-
-  def custom_fields
-    fields = []
-    represented.custom_field_values.each do |value|
-      fields << { name: value.custom_field.name, format: value.custom_field.field_format, value: value.value }
+    link :self do
+      { href: "http://localhost:3000/api/v3/work_packages/#{represented.work_package.id}", title: "Work package" }
     end
-    fields
-  end
 
-  def _type
-    "WorkPackage"
-  end
+    property :id, getter: lambda { |*| work_package.id }
+    property :subject
+    property :type
+    property :description
+    property :status
+    property :priority
+    property :start_date
+    property :due_date
+    property :estimated_time
+    property :percentage_done
+    property :project_id, getter: lambda { |*| work_package.project.id }
+    property :project_name, getter: lambda { |*| work_package.project.name }
+    property :responsible_id, getter: lambda { |*| work_package.responsible.try(:id) }, render_nil: true
+    property :responsible_name, getter: lambda { |*| work_package.responsible.try(:name) }, render_nil: true
+    property :responsible_login, getter: lambda { |*| work_package.responsible.try(:login) }, render_nil: true
+    property :responsible_mail, getter: lambda { |*| work_package.responsible.try(:mail) }, render_nil: true
+    property :assignee_id, getter: lambda { |*| work_package.assigned_to.try(:id) }, render_nil: true
+    property :assignee_name, getter: lambda { |*| work_package.assigned_to.try(:name) }, render_nil: true
+    property :assignee_login, getter: lambda { |*| work_package.assigned_to.try(:login) }, render_nil: true
+    property :assignee_mail, getter: lambda { |*| work_package.assigned_to.try(:mail) }, render_nil: true
+    property :author_name, getter: lambda { |*| work_package.author.name }
+    property :author_login, getter: lambda { |*| work_package.author.login }
+    property :author_mail, getter: lambda { |*| work_package.author.mail }
+    property :created_at
+    property :updated_at
 
-  def _links
-    {
-      self: { href: api_v3_work_package_path(represented.id) },
-      update: { href: api_v3_work_package_path(represented.id), method: :put }
-    }
+    def _type
+      "WorkPackage"
+    end
   end
 end

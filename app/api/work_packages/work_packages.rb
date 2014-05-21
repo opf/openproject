@@ -29,7 +29,9 @@ module WorkPackages
         end
 
         get do
-          'show a work package'
+          work_package_model = WorkPackageModel.new(work_package: @work_package)
+          work_package_representer = WorkPackageRepresenter.new(work_package_model)
+          work_package_representer.to_json
         end
 
         put do
@@ -37,7 +39,16 @@ module WorkPackages
         end
 
         patch do
-          @work_package
+          work_package_model = WorkPackageModel.new(work_package: @work_package)
+          work_package_representer = WorkPackageRepresenter.new(work_package_model)
+          work_package_representer.from_json(request.POST.to_json)
+
+          if work_package_representer.represented.valid?
+            work_package_representer.represented.save!
+            work_package_representer.to_json
+          else
+            work_package_representer.represented.errors.to_json
+          end
         end
 
         delete do
