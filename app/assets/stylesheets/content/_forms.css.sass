@@ -134,11 +134,24 @@ hr.form_separator
 .form-space
   padding-top: 10px
 
-fieldset.with-legend-control
-  legend
-    float: left
-    background-color: white
-    margin-top: -15px
+fieldset
+  legend:after
+    @include icon-common
+    float: right
+    padding:
+      right: 5px
+      top: 4px
+  &.collapsible
+    legend:after
+      content: "\e0d4"
+    &.collapsed
+      legend:after
+        content: "\e0d2"
+  &.with-legend-control
+    legend
+      float: left
+      background-color: white
+      margin-top: -15px
 
   div.legend-control
     margin-top: -15px
