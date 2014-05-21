@@ -100,10 +100,6 @@ angular.module('openproject.models')
       this.name = name;
     },
 
-    setIsPublic: function(isPublic) {
-      this.isPublic = isPublic;
-    },
-
     /**
      * @name setAvailableWorkPackageFilters
      * @function
