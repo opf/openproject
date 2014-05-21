@@ -12,6 +12,9 @@ module WorkPackages
     property :created_at, on: :work_package
     property :updated_at, on: :work_package
     property :author, on: :work_package
+    property :project_id, on: :work_package
+    property :responsible_id, on: :work_package
+    property :assigned_to_id, on: :work_package
 
     def type
       work_package.type.name
@@ -40,32 +43,6 @@ module WorkPackages
       work_package.priority = priority
     end
 
-    def  responsible_login
-      work_package.responsible.try(:login)
-    end
-
-    def responsible_login=(value)
-      responsible_user = User.find(:first, conditions: ['login ilike ?', value])
-      work_package.responsible = responsible_user
-    end
-
-    def responsible
-      work_package.responsible
-    end
-
-    def  assignee_login
-      work_package.assigned_to.try(:login)
-    end
-
-    def assignee_login=(value)
-      assignee_user = User.find(:first, conditions: ['login ilike ?', value])
-      work_package.assigned_to = assignee_user
-    end
-
-    def assignee
-      work_package.assigned_to
-    end
-
     def estimated_time
       { units: 'hours', value: work_package.estimated_hours }
     end
@@ -75,6 +52,19 @@ module WorkPackages
       work_package.estimated_hours = hours
     end
 
+    def project_id=(value)
+      work_package.project_id = value
+    end
+
+    def responsible_id=(value)
+      work_package.responsible_id = value
+    end
+
+    def assigned_to_id=(value)
+      work_package.assigned_to_id = value
+    end
+
     validates :subject, presence: true
+    validates_inclusion_of :project_id, in: Project.pluck(:id)
   end
 end

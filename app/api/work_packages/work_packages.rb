@@ -38,16 +38,18 @@ module WorkPackages
           'update a work package (provide whole resource)'
         end
 
+        params do
+          optional :project_id, type: Integer, desc: 'Project id'
+          optional :responsible_id, type: Integer, desc: 'Responsible user id'
+        end
         patch do
-          work_package_model = WorkPackageModel.new(work_package: @work_package)
-          work_package_representer = WorkPackageRepresenter.new(work_package_model)
-          work_package_representer.from_json(request.POST.to_json)
-
-          if work_package_representer.represented.valid?
-            work_package_representer.represented.save!
-            work_package_representer.to_json
+          params.delete(:id)
+          @work_package_representer.from_json(params.to_json)
+          if @work_package_representer.represented.valid?
+            @work_package_representer.represented.save!
+            @work_package_representer.to_json
           else
-            work_package_representer.represented.errors.to_json
+            @work_package_representer.represented.errors.to_json
           end
         end
 

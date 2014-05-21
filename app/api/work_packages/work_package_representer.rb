@@ -26,12 +26,12 @@ module WorkPackages
     property :estimated_time
     property :percentage_done
     property :project_id, getter: lambda { |*| work_package.project.id }
-    property :project_name, getter: lambda { |*| work_package.project.name }
+    property :project_name, getter: lambda { |*| work_package.project.try(:name) }
     property :responsible_id, getter: lambda { |*| work_package.responsible.try(:id) }, render_nil: true
     property :responsible_name, getter: lambda { |*| work_package.responsible.try(:name) }, render_nil: true
     property :responsible_login, getter: lambda { |*| work_package.responsible.try(:login) }, render_nil: true
     property :responsible_mail, getter: lambda { |*| work_package.responsible.try(:mail) }, render_nil: true
-    property :assignee_id, getter: lambda { |*| work_package.assigned_to.try(:id) }, render_nil: true
+    property :assigned_to_id, as: :assignee_id, getter: lambda { |*| work_package.assigned_to.try(:id) }, render_nil: true
     property :assignee_name, getter: lambda { |*| work_package.assigned_to.try(:name) }, render_nil: true
     property :assignee_login, getter: lambda { |*| work_package.assigned_to.try(:login) }, render_nil: true
     property :assignee_mail, getter: lambda { |*| work_package.assigned_to.try(:mail) }, render_nil: true
