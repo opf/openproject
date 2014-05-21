@@ -6,6 +6,8 @@ This plugin adds features to connect and categorize documents with your project.
 Under `Modules >> Administration >> Enumerations` you can find the section `Document categories`
 where you can define several document categories that projects can use to categorize their documents.
 
+Documents can be enabled for every project individually. Simply activate the `Documents` module in the project settings.
+
 When you go to any of your projects you can see the entry `Documents` in the main menu. There you can
 attach new documents to the project by following the `New document` link located in the top right corner of the page.
 
