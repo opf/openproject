@@ -195,82 +195,138 @@ Attribute `opCode` is internal OpenProject API error code:
 - `ancestors` - WorkPackage [ ]
 - `relations`  - Relation [ ]
 
-**Use** `?embedded` **query parameter to specify which embedded resources should the response contain.**
+## Attributes:
+| Attribute | Description | Type | Constraints | Example | Supported operations |
+|:---------:|-------------| ---- | ----------- | ------- | -------------------- |
+| id | Work package id | Integer | Must be a positive integer | 12 | READ |
+| subject | Work package subject | String | | Refactor projecs module | READ / WRITE |
+| type | | String | Must be one of the types that exist in the system | Feature | READ / WRITE |
+| description | Work package description | Text | | Projects module should be refactored ... | READ / WRITE |
+| status | | String | Must be one of the statuses allowed for the current work package type | New | READ / WRITE |
+| priority | | String | Must be one of the priorities that exist in the system | High | READ / WRITE |
+| startDate | | Timestamp | Must be in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | 2014-05-21T08:51:20Z | READ / WRITE |
+| dueDate | | Timestamp | Must be in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | READ / WRITE |
+| estimatedTime | | Object | Must be in form of a json object with "units" and "value" as keys | { "units": "hours", "value": 12 } | READ / WRITE |
+| percentageDone | | Integer | Must be an integer between 0 and 100 | 50 | READ / WRITE |
+| projectId | | Integer | Must be an id of one of the existing projects | 1 | READ / WRITE |
+| projectTitle | | String | | My open project | READ |
+| responsibleId | | Integer | Must be an id of one of the allowed responsible users for the work package | 12 | READ / WRITE |
+| responsibleName | | String | | John Sheppard | READ |
+| responsibleLogin | | String | | j.sheppard | READ |
+| responsibleMail | | String | | j.sheppard@finn.de| READ |
+| assigneeId | | Integer | Must be an id of one of the allowed assignees for the work package | 12 | READ / WRITE |
+| assigneeName | | String | | John Sheppard | READ |
+| assigneeLogin | | String | | j.sheppard | READ |
+| assigneeMail | | String | | j.sheppard@finn.de| READ |
+| authorName | | String | | John Sheppard | READ |
+| authorLogin | | String | | j.sheppard | READ |
+| authorMail | | String | | j.sheppard@finn.de| READ |
+| createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
+| updatedAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 
-## WorkPackage [/work_packages/{id}]
+## WorkPackage [/work_packages/{id}{?extend}]
 
 + Model
-
-    + Body
-
-                {
-                    "id": 4,
-                    "subject": "Updated",
-                    "description": "Depono calcar vinculum pauci. Vomito dolor contra aegrus vinitor claro curso. Urbs cribro aequus adnuo admoneo nihil armo. Minus una tricesimus conturbo charisma. Ventosus cado annus tondeo supra vergo.",
-                    "type": "Bug",
-                    "dueDate": "2014-05-01",
-                    "status": "New",
-                    "priority": "Normal",
-                    "percentageDone": 0,
-                    "estimatedTime": {
-                        "units": "hours",
-                        "value": null
-                    },
-                    "startDate": "2014-04-03",
-                    "createdAt": "2014-04-15 08:36:56 UTC",
-                    "updatedAt": "2014-05-16 09:38:36 UTC",
-                    "responsible": { },
-                    "assignee": { },
-                    "customFields": [
-                        {
-                            "name": "libero qui",
-                            "format": "text",
-                            "value": null
-                        },
-                        {
-                            "name": "magni officia",
-                            "format": "text",
-                            "value": null
-                        },
-                        {
-                            "name": "non aut",
-                            "format": "text",
-                            "value": null
-                        }
-                    ],
-                    "_type": "WorkPackage",
-                    "_links": {
-                        "self": {
-                            "href": "/api/v3/work_packages/4"
-                        },
-                        "update": {
-                            "href": "/api/v3/work_packages/4",
-                            "method": "put"
-                        }
-                    }
-                }
-
-## Update Work package [PUT]
-
-+ Parameters
-    + id (required, integer, `1`) ... Work package id.
-
-+ Request (application/json)
-    + Headers
-
-            Accept: application/json
-
     + Body
 
             {
-                "type": "Bug",
-                "subject": "Updated work package",
-                "description": "Updated description",
-                "priority": "Low",
-                "assignee_id": 1,
-                "responsible_id": 1
+                "_type": "WorkPackage",
+                "_links": {
+                    "self": {
+                        "href": "https://openproject.org/api/v3/work_packages/1",
+                        "title": "Work package"
+                    }
+                },
+                "id": 1
+                "subject": "Quis numquam qui voluptatum quia praesentium blanditiis nisi",
+                "type": "Support",
+                "description": "Crux vel eos dolores admoveo summa veritatis acerbitas. Deleo venustas cubo curtus balbus sumo ambitus valens. Tener cotidie angelus illo. Cito verto comburo. Tergeo vinculum succedo ullus suppono.",
+                "status": "New",
+                "priority": "Normal",
+                "startDate": "2014-05-21T08:51:20Z",
+                "dueDate": "2014-07-21T11:56:39Z",
+                "estimatedTime": {
+                    "units": "hours",
+                    "value": 10
+                },
+                "percentageDone": 0,
+                "projectId": 1,
+                "projectTitle": "My open project",
+                "responsibleId": 12,
+                "responsibleName": "John Sheppard",
+                "responsibleLogin": "j.sheppard",
+                "responsibleMail": "j.sheppard@finn.de",
+                "assigneeId": 12,
+                "assigneeName": "John Sheppard",
+                "assigneeLogin": "j.sheppard",
+                "assigneeMail": "j.sheppard@finn.de",
+                "authorName": "John Sheppard",
+                "authorLogin": "j.sheppard",
+                "authorMail": "j.sheppard@finn.de",
+                "createdAt": "2014-05-21T08:51:20Z",
+                "updatedAt": "2014-05-21T11:56:39Z"
             }
+                
+## View work package [GET]
 
-+ Response 200 (application/json; charset=utf-8)
++ Parameters
+    + id (required, integer, `1`) ... Work package id
+    + extend (optional, string, `responsible,author`) ... Extend child resources
+    
++ Response 200 (application/hal+json)
 
     [WorkPackage][]
+
+## Update work package [PUT]
+Send whole work package
+
++ Parameters
+    + id (required, integer, `1`) ... Work package id.
+    
++ Response 200 (application/hal+json)
+
+    [WorkPackage][]
+
+## Update work package [PATCH]
+Send only the data you want to update
+
++ Parameters
+    + id (required, integer, `1`) ... Work package id.
+    
++ Response 200 (application/hal+json)
+
+    [WorkPackage][]
+
+## Delete work package [DELETE]
+
++ Parameters
+    + id (required, integer, `1`) ... Work package id.
+    
++ Response 204
+
+## Get header [HEAD]
+
+
++ Parameters
+    + id (required, integer, `1`) ... Work package id.
+    
++ Response 204
+    + Headers
+    
+            Link: </>
+
+## Get allowed HTTP methods [OPTIONS]
+
++ Parameters
+    + id (required, integer, `1`) ... Work package id.
+    
++ Response 200 (application/hal+json)
+    + Headers
+    
+            Allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+
+    + Body
+    
+            {
+                "message": "Lorem ipsum"
+            }
