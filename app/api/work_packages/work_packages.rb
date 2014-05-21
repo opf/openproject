@@ -26,12 +26,12 @@ module WorkPackages
 
         before do
           @work_package = WorkPackage.find(params[:id])
+          work_package_model = WorkPackageModel.new(work_package: @work_package)
+          @work_package_representer = WorkPackageRepresenter.new(work_package_model)
         end
 
         get do
-          work_package_model = WorkPackageModel.new(work_package: @work_package)
-          work_package_representer = WorkPackageRepresenter.new(work_package_model)
-          work_package_representer.to_json
+          @work_package_representer.to_json
         end
 
         put do
