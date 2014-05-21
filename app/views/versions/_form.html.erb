@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= error_messages_for 'version' %>
 
+<%= back_url_hidden_field_tag %>
+
 <div class="box">
 <p><%= f.text_field :name, :size => 60, :required => true %></p>
 <p><%= f.text_field :description, :size => 60 %></p>

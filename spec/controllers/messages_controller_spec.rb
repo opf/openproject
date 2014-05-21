@@ -41,17 +41,17 @@ describe MessagesController do
                                     project: project) }
   let(:filename) { "test1.test" }
 
-  before { User.stub(:current).and_return user }
+  before { allow(User).to receive(:current).and_return user }
 
   describe :create do
     context :attachments do
       # see ticket #2464 on OpenProject.org
       context "new attachment on new messages" do
         before do
-          controller.should_receive(:authorize).and_return(true)
+          expect(controller).to receive(:authorize).and_return(true)
 
-          Attachment.any_instance.stub(:filename).and_return(filename)
-          Attachment.any_instance.stub(:copy_file_to_destination)
+          allow_any_instance_of(Attachment).to receive(:filename).and_return(filename)
+          allow_any_instance_of(Attachment).to receive(:copy_file_to_destination)
 
           post 'create', board_id: board.id,
                          message: { subject: "Test created message",
@@ -61,13 +61,13 @@ describe MessagesController do
         end
 
         describe :journal do
-          let(:attachment_id) { "attachments_#{Message.last.attachments.first.id}".to_sym }
+          let(:attachment_id) { "attachments_#{Message.last.attachments.first.id}" }
 
           subject { Message.last.journals.last.changed_data }
 
           it { should have_key attachment_id }
 
-          it { subject[attachment_id].should eq([nil, filename]) }
+          it { expect(subject[attachment_id]).to eq([nil, filename]) }
         end
       end
     end
@@ -83,30 +83,30 @@ describe MessagesController do
     end
 
     it 'allows for changing the board' do
-      message.reload.board.should == other_board
+      expect(message.reload.board).to eq(other_board)
     end
   end
 
   describe :attachment do
     let!(:message) { FactoryGirl.create(:message) }
-    let(:attachment_id) { "attachments_#{message.attachments.first.id}".to_sym }
+    let(:attachment_id) { "attachments_#{message.attachments.first.id}" }
     let(:params) { { id: message.id,
                      attachments: { '1' => { file: filename,
                                              description: '' } } } }
 
     describe :add do
       before do
-        Message.any_instance.stub(:editable_by?).and_return(true)
+        allow_any_instance_of(Message).to receive(:editable_by?).and_return(true)
 
-        Attachment.any_instance.stub(:filename).and_return(filename)
-        Attachment.any_instance.stub(:copy_file_to_destination)
+        allow_any_instance_of(Attachment).to receive(:filename).and_return(filename)
+        allow_any_instance_of(Attachment).to receive(:copy_file_to_destination)
       end
 
       context "invalid attachment" do
         let(:max_filesize) { Setting.attachment_max_size.to_i.kilobytes }
 
         before do
-          Attachment.any_instance.stub(:filesize).and_return(max_filesize + 1)
+          allow_any_instance_of(Attachment).to receive(:filesize).and_return(max_filesize + 1)
 
           put :update, params
         end
@@ -164,7 +164,7 @@ describe MessagesController do
       end
 
       context :journal do
-        let(:attachment_id) { "attachments_#{attachment.id}".to_sym }
+        let(:attachment_id) { "attachments_#{attachment.id}" }
 
         describe :key do
           subject { message.journals.last.changed_data }
@@ -178,6 +178,25 @@ describe MessagesController do
           it { should eq(filename) }
         end
       end
+    end
+  end
+
+  describe 'preview' do
+    let(:content) { "Message content" }
+
+    it_behaves_like 'valid preview' do
+      let(:preview_texts) { [content] }
+      let(:preview_params) { { message: { content: content } } }
+    end
+
+    it_behaves_like 'valid preview' do
+      let(:preview_texts) { [content] }
+      let(:preview_params) { { reply: { content: content } } }
+    end
+
+    it_behaves_like 'authorizes object access' do
+      let(:message) { FactoryGirl.create :message, board: board }
+      let(:preview_params) { { id: message.id, message: { } } }
     end
   end
 end

@@ -115,8 +115,8 @@ describe "Copying Models" do
 
       copy = CopyDummy.copy(dummy)
 
-      dummy.safe_attribute1.should == copy.safe_attribute1
-      dummy.safe_attribute2.should == copy.safe_attribute2
+      expect(dummy.safe_attribute1).to eq(copy.safe_attribute1)
+      expect(dummy.safe_attribute2).to eq(copy.safe_attribute2)
     end
 
     it "should not copy unsafe attributes" do
@@ -125,8 +125,8 @@ describe "Copying Models" do
 
       copy = CopyDummy.copy(dummy)
 
-      dummy.safe_attribute1.should == copy.safe_attribute1
-      dummy.unsafe_attribute.should_not == copy.unsafe_attribute
+      expect(dummy.safe_attribute1).to eq(copy.safe_attribute1)
+      expect(dummy.unsafe_attribute).not_to eq(copy.unsafe_attribute)
     end
 
     it "should not copy safe attributes that are flagged as not_to_copy" do
@@ -135,8 +135,8 @@ describe "Copying Models" do
 
       copy = CopyDummy.copy(dummy)
 
-      dummy.safe_attribute1.should == copy.safe_attribute1
-      dummy.safe_attribute_that_should_not_be_copied.should_not == copy.safe_attribute_that_should_not_be_copied
+      expect(dummy.safe_attribute1).to eq(copy.safe_attribute1)
+      expect(dummy.safe_attribute_that_should_not_be_copied).not_to eq(copy.safe_attribute_that_should_not_be_copied)
     end
   end
 
@@ -147,10 +147,10 @@ describe "Copying Models" do
 
       copy = CopyDummy.copy(dummy)
 
-      copy.relation1.should == dummy.relation1
-      copy.relation1.should_not == nil
-      copy.relation2.should == dummy.relation2
-      copy.relation2.should_not == nil
+      expect(copy.relation1).to eq(dummy.relation1)
+      expect(copy.relation1).not_to eq(nil)
+      expect(copy.relation2).to eq(dummy.relation2)
+      expect(copy.relation2).not_to eq(nil)
     end
 
     it "should not copy associations, for which there are no methods in our model" do
@@ -159,10 +159,10 @@ describe "Copying Models" do
 
       copy = CopyDummy.copy(dummy)
 
-      copy.relation1.should == dummy.relation1
-      copy.relation1.should_not == nil
-      copy.relation3.should_not == dummy.relation3
-      copy.relation3.should == nil
+      expect(copy.relation1).to eq(dummy.relation1)
+      expect(copy.relation1).not_to eq(nil)
+      expect(copy.relation3).not_to eq(dummy.relation3)
+      expect(copy.relation3).to eq(nil)
     end
 
     it "should copy stuff within order (ordered by #copy_precedence)" do
@@ -172,17 +172,17 @@ describe "Copying Models" do
 
       copy = CopyDummy.copy(dummy)
 
-      copy.relation1.should == dummy.relation1
-      copy.relation2.should == dummy.relation2
-      copy.relation4.should == dummy.relation4
-      copy.call_order.should == copy.copy_precedence
+      expect(copy.relation1).to eq(dummy.relation1)
+      expect(copy.relation2).to eq(dummy.relation2)
+      expect(copy.relation4).to eq(dummy.relation4)
+      expect(copy.call_order).to eq(copy.copy_precedence)
     end
 
     it "should produce some errors when failing to copy associations" do
       copy = CopyDummy.new
       copy.copy_associations(dummy)
 
-      copy.errors.count.should == 1
+      expect(copy.errors.count).to eq(1)
     end
   end
 end

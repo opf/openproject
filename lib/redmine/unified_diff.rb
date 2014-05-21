@@ -43,7 +43,7 @@ module Redmine
         line_encoding = nil
         if line.respond_to?(:force_encoding)
           line_encoding = line.encoding
-          # TODO: UTF-16 and Japanese CP932 which is imcompatible with ASCII
+          # TODO: UTF-16 and Japanese CP932 which is incompatible with ASCII
           #       In Japan, diffrence between file path encoding
           #       and file contents encoding is popular.
           line.force_encoding('ASCII-8BIT')

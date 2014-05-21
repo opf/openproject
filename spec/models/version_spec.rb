@@ -41,4 +41,9 @@ describe Version do
     expect(version).not_to be_valid
     expect(version.errors).to have(1).error_on(:effective_date)
   end
+
+  context 'deprecated methods' do
+    it { should respond_to :completed_pourcent }
+    it { should respond_to :closed_pourcent    }
+  end
 end

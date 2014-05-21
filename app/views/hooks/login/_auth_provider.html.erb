@@ -1,0 +1,5 @@
+<% unless Rails.env.production? %>
+  <a href="<%= url_for controller: '/auth', action: 'developer' %>" class="auth-provider auth-provider-developer">
+    <span class="auth-provider-name">Omniauth Developer</span>
+  </a>
+<% end %>

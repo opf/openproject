@@ -60,7 +60,7 @@ class JournalManager
 
   def self.association_changed?(journable, journal_association, association, id, key, value)
     if journable.respond_to? association
-      journal_assoc_name = "#{journal_association}_journals".to_sym
+      journal_assoc_name = "#{journal_association}_journals"
       changes = {}
       current = journable.send(association).map {|a| { key.to_s => a.send(id), value.to_s => a.send(value)} }
       predecessor = journable.journals.last.send(journal_assoc_name).map(&:attributes)
@@ -97,17 +97,17 @@ class JournalManager
 
   def self.added_references(merged_references, key, value)
     merged_references.select {|_, v| v[0].nil? and not v[1].nil?}
-                     .each_with_object({}) { |k,h| h["#{key}_#{k[0]}".to_sym] = [nil, k[1][1][value]] }
+                     .each_with_object({}) { |k,h| h["#{key}_#{k[0]}"] = [nil, k[1][1][value]] }
   end
 
   def self.removed_references(merged_references, key, value)
     merged_references.select {|_, v| not v[0].nil? and v[1].nil?}
-                             .each_with_object({}) { |k,h| h["#{key}_#{k[0]}".to_sym] = [k[1][0][value], nil] }
+                             .each_with_object({}) { |k,h| h["#{key}_#{k[0]}"] = [k[1][0][value], nil] }
   end
 
   def self.changed_references(merged_references, key, value)
     merged_references.select {|_, v| not v[0].nil? and not v[1].nil? and v[0][value] != v[1][value]}
-                     .each_with_object({}) { |k,h| h["#{key}_#{k[0]}".to_sym] = [k[1][0][value], k[1][1][value]] }
+                     .each_with_object({}) { |k,h| h["#{key}_#{k[0]}"] = [k[1][0][value], k[1][1][value]] }
 
   end
 
@@ -177,7 +177,7 @@ class JournalManager
     journal_class.new new_data
   end
 
-  USER_DELETION_JOURNAL_BUCKET_SIZE = 1000;
+  USER_DELETION_JOURNAL_BUCKET_SIZE = 1000
 
   def self.update_user_references(current_user_id, substitute_id)
     foreign_keys = ['author_id', 'user_id', 'assigned_to_id', 'responsible_id']

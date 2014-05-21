@@ -1,6 +1,6 @@
 /*-- copyright
  * OpenProject is a project management system.
- * Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+ * Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,8 @@
   border: $content_form_input_border
   padding: 0 0 0 10px
   @include border-radius(2px)
-  font-family: $font_family_bold
+  font-family: $font_family_normal
+  font-weight: bold
   font-size: $global_font_size
   line-height: 30px
   height: 32px
@@ -65,7 +66,7 @@
   padding-right: 5px
   vertical-align: middle
 
-#login-form form, #work_package-form, #update #work_package-form
+%form-style
   padding: 30px 20px
   background-color: $content_form_bg_color
   display: block
@@ -84,6 +85,9 @@
       width: 100px
       margin-right: 200px
 
+    &.indented
+      margin-left: 160px
+
   select
     @include select-style
 
@@ -93,7 +97,8 @@
     &#work_package_subject, &#work_package_time_entry_comments
       width: 50%
   textarea
-    font-family: $font_family_bold
+    font-family: $font_family_normal
+    font-weight: bold
     font-size: $global_font_size
     border: $content_form_input_border
     &:hover, &:focus
@@ -112,74 +117,13 @@
         vertical-align: middle
         width: 160px
 
-#login-form form
-  .button_highlight
-    margin-right: 0
-
-#work_package-form
-  .attributes
-    margin-bottom: 30px
-    overflow: auto
-
-  #watchers_form
-    position: relative
-    padding-left: 160px
-    margin-bottom: 30px
-    font-size: 14px
-    line-height: 30px
-
-    .watcher_label
-      @include label-style
-      width: 152px
-      margin-left: -160px
-
-    .floating
-      float: none
-      display: inline-block
-
-  #attachments
-    padding-left: 0
-    padding-right: 0
-
-  .handle_attachments, #attachments
-    > label
-      @include label-style
-      height: 30px
-      display: block
-    margin-bottom: 30px
-
-    #attachments_fields
-      display: inline-block
-
-    .attachment_field
-      display: block
-      margin-bottom: 10px
-      height: 32px
-      > input
-        @include input-style
-        border: none
-        &:hover, &:focus
-          border: none
-      label
-        @include label-style
-        width: auto
-        height: 32px
-        input
-          margin-left: 50px
-    .add_another_file
-      padding-left: 10px
-
-  fieldset
-    margin-bottom: 20px
-    padding: 30px 20px
-
-  legend.change_properties
-    padding-right: 20px
-  #show_more_wp_properties
-    float: left
-    margin-left: 115px
-    margin-top: -48px
-    background-color: $content_form_bg_color
+// A general CSS class to be applied to forms using the above defined form style.
+// We can't define this on form itself as this would break a lot of existing forms.
+//
+// Using this form class allows to easily override defaults defined here with a more
+// specific definition.
+.form
+  @extend %form-style
 
 hr.form_separator
   border: 0
@@ -187,17 +131,27 @@ hr.form_separator
   margin: 0 0 30px
   background: none
 
-#lost_password
-  margin-top: 20px
-
 .form-space
   padding-top: 10px
 
-fieldset.with-legend-control
-  legend
-    float: left
-    background-color: white
-    margin-top: -15px
+fieldset
+  legend:after
+    @include icon-common
+    float: right
+    padding:
+      right: 5px
+      top: 4px
+  &.collapsible
+    legend:after
+      content: "\e0d4"
+    &.collapsed
+      legend:after
+        content: "\e0d2"
+  &.with-legend-control
+    legend
+      float: left
+      background-color: white
+      margin-top: -15px
 
   div.legend-control
     margin-top: -15px

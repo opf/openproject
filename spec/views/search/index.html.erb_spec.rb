@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,6 +50,6 @@ describe 'search/index' do
     expect(response).to have_selector("option[selected]", :text => project.name)
 
     # The grouped result link should retain the scope
-    response.should have_xpath("//a[contains(@href,'current_project')]", :text => /work packages.*/i)
+    expect(response).to have_xpath("//a[contains(@href,'current_project')]", :text => /work packages.*/i)
   end
 end

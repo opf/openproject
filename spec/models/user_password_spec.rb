@@ -35,19 +35,19 @@ describe UserPassword do
   describe :expired? do
     it 'should be true for an old password when password expiry is activated' do
       with_settings :password_days_valid => 30 do
-        old_password.expired?.should be_true
+        expect(old_password.expired?).to be_true
       end
     end
 
     it 'should be false when password expiry is enabled and the password was changed recently' do
       with_settings :password_days_valid => 30 do
-        password.expired?.should be_false
+        expect(password.expired?).to be_false
       end
     end
 
     it 'should be false for an old password when password expiry is disabled' do
       with_settings :password_days_valid => 0 do
-        old_password.expired?.should be_false
+        expect(old_password.expired?).to be_false
       end
     end
   end

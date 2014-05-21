@@ -29,14 +29,19 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% disable_accessibility_css! %>
 
-<h2><%=l(:label_register)%> <%=link_to l(:label_login_with_open_id_option), signin_url if Setting.openid? %></h2>
+<h2>
+  <%= l(:label_register) %>
+</h2>
 
 <%= labelled_tabular_form_for(@user, :url => url_for(:action => 'register')) do |f| %>
+  <%= back_url_hidden_field_tag %>
   <%= error_messages_for :user %>
 
   <div class="box">
     <% if @user.auth_source_id.nil? %>
       <p><%= f.text_field :login, :size => 25, :required => true %></p>
+    <% end %>
+    <% if @user.change_password_allowed? %>
       <p>
         <%= f.password_field :password,
                              :required => true,
@@ -57,10 +62,6 @@ See doc/COPYRIGHT.rdoc for more details.
     <p><%= f.text_field :mail,      :required => true %></p>
     <%= call_hook :view_account_register_after_basic_information, :f => f %>
     <p><%= f.select(:language, lang_options_for_select) %></p>
-
-    <% if Setting.openid? %>
-      <p><%= f.text_field :identity_url %></p>
-    <% end %>
 
     <% @user.custom_field_values.select {|v| v.editable? || v.required?}.each do |value| %>
       <p><%= custom_field_tag_with_label :user, value %></p>

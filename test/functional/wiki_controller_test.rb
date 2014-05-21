@@ -177,6 +177,9 @@ class WikiControllerTest < ActionController::TestCase
     assert_tag :tag => 'input', :attributes => {:id => 'content_lock_version', :value => '1'}
   end
 
+  # NOTE: this test seems to depend on other tests in suite
+  # because running whole suite is fine, but running only this test
+  # results in failure
   def test_update_stale_page_should_not_raise_an_error
     journal = FactoryGirl.create :wiki_content_journal,
                                  journable_id: 2,
@@ -216,28 +219,6 @@ class WikiControllerTest < ActionController::TestCase
     c.reload
     assert_equal 'Previous text', c.text
     assert_equal 2, c.version
-  end
-
-  def test_preview
-    @request.session[:user_id] = 2
-    xhr :post, :preview, :project_id => 1, :id => 'CookBook_documentation',
-                                   :content => { :comments => '',
-                                                 :text => 'this is a *previewed text*',
-                                                 :lock_version => 3 }
-    assert_response :success
-    assert_template 'common/_preview'
-    assert_tag :tag => 'strong', :content => /previewed text/
-  end
-
-  def test_preview_new_page
-    @request.session[:user_id] = 2
-    xhr :post, :preview, :project_id => 1, :id => 'New page',
-                                   :content => { :text => 'h1. New page',
-                                                 :comments => '',
-                                                 :lock_version => 0 }
-    assert_response :success
-    assert_template 'common/_preview'
-    assert_tag :tag => 'h1', :content => /New page/
   end
 
   def test_history

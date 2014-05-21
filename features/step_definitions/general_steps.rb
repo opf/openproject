@@ -205,6 +205,7 @@ Given /^there are the following types:$/ do |table|
     type.is_milestone   = t['is_milestone'] ? t['is_milestone'] : true
     type.is_default     = t['is_default'] ? t['is_default'] : false
     type.in_aggregation = t['in_aggregation'] ? t['in_aggregation'] : true
+    type.is_standard    = t['is_standard'] ? t['is_standard'] : false
     type.save!
   end
 end
@@ -254,6 +255,13 @@ Given /^I select to see [cC]olumn "([^\"]*)"$/ do |column_name|
   steps %Q{
     When I select \"#{column_name}\" from \"available_columns\"
     When I press \"→\"
+  }
+end
+
+Given /^I select to not see [cC]olumn "([^\"]*)"$/ do |column_name|
+  steps %Q{
+    When I select \"#{column_name}\" from \"selected_columns\"
+    When I press \"←\"
   }
 end
 
@@ -398,7 +406,7 @@ def modify_user(u, table)
   u
 end
 
-# Encapsule the logic to set a custom field on an issue
+# Encapsulate the logic to set a custom field on an issue
 def add_custom_value_to_issue(object, key, value)
   if WorkPackageCustomField.all.collect(&:name).include? key.to_s
     cv = CustomValue.find(:first, :conditions => ["customized_id = '#{object.id}'"])

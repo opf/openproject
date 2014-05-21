@@ -27,8 +27,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div class="errorExplanation" id="errorExplanation">
-  <h2 role="alert"><%= l("activerecord.errors.template.header.#{(error_messages.count == 1) ? 'one' : 'other'}", count: error_messages.count, model: object_name) %></h2>
+<div class="errorExplanation" id="errorExplanation" role="alert">
+  <h2><%= l("activerecord.errors.template.header.#{(error_messages.count == 1) ? 'one' : 'other'}", count: error_messages.count, model: object_name) %></h2>
   <p><%= l("errors.header_invalid_fields") %></p>
   <ul>
     <% error_messages.each do |message| %>

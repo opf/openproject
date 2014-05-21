@@ -29,44 +29,44 @@
 module PermissionSpecHelpers
   def spec_permissions(test_denied = true)
     describe 'w/ valid auth' do
-      before { User.stub(:current).and_return valid_user }
+      before { allow(User).to receive(:current).and_return valid_user }
 
       it 'grants access' do
         fetch
 
         if respond_to? :expect_redirect_to
-          response.should be_redirect
+          expect(response).to be_redirect
 
           case expect_redirect_to
           when true
-            response.redirect_url.should_not =~ %r'/login'
+            expect(response.redirect_url).not_to match(%r'/login')
           when Regexp
-            response.redirect_url.should =~ expect_redirect_to
+            expect(response.redirect_url).to match(expect_redirect_to)
           else
-            response.should redirect_to(expect_redirect_to)
+            expect(response).to redirect_to(expect_redirect_to)
           end
         elsif respond_to? :expect_no_content
-          response.response_code.should == 204
+          expect(response.response_code).to eq(204)
         else
-          response.response_code.should == 200
+          expect(response.response_code).to eq(200)
         end
       end
     end
 
     describe 'w/o valid auth' do
-      before { User.stub(:current).and_return invalid_user }
+      before { allow(User).to receive(:current).and_return invalid_user }
 
       it 'denies access' do
         fetch
 
         if invalid_user.logged?
-          response.response_code.should == 403
+          expect(response.response_code).to eq(403)
         else
           if controller.send(:api_request?)
-            response.response_code.should == 401
+            expect(response.response_code).to eq(401)
           else
-            response.should be_redirect
-            response.redirect_url.should =~ %r'/login'
+            expect(response).to be_redirect
+            expect(response.redirect_url).to match(%r'/login')
           end
         end
       end

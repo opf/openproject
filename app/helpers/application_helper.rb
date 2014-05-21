@@ -74,12 +74,6 @@ module ApplicationHelper
     content_tag(:li, link) if link
   end
 
-  # Display a link to remote if user is authorized
-  def link_to_remote_if_authorized(name, options = {}, html_options = nil)
-    url = options[:url] || {}
-    link_to_remote(name, options, html_options) if authorize_for(url[:controller] || params[:controller], url[:action])
-  end
-
   # Displays a link to user's account page if active or registered
   def link_to_user(user, options={})
     if user.is_a?(User)
@@ -95,18 +89,11 @@ module ApplicationHelper
   end
 
   def link_to_work_package_preview(context = nil, options = {})
-    url = context.is_a?(Project) ?
-            preview_project_work_packages_path(context) :
-            preview_work_package_path(context)
+    form_id = options[:form_id] || 'work_package-form-preview'
+    path = (context.is_a? WorkPackage) ? preview_work_package_path(context)
+                                       : preview_work_packages_path
 
-    id = options[:form_id] || 'work_package-form-preview'
-
-    link_to l(:label_preview),
-              url,
-              :id => id,
-              :class => 'preview button',
-              :accesskey => accesskey(:preview)
-
+    preview_link path, form_id, { class: 'preview button' }
   end
 
   # Show a sorted linkified (if active) comma-joined list of users
@@ -158,12 +145,10 @@ module ApplicationHelper
   def link_to_message(message, options={}, html_options = nil)
     link_to(
       h(truncate(message.subject, :length => 60)),
-      { :controller => '/messages', :action => 'show',
-        :board_id => message.board_id,
-        :id => message.root,
-        :r => (message.parent_id && message.id),
-        :anchor => (message.parent_id ? "message-#{message.id}" : nil)
-      }.merge(options),
+      topic_path(message.root,
+                 { :r => (message.parent_id && message.id),
+                   :anchor => (message.parent_id ? "message-#{message.id}" : nil)
+                 }.merge(options)),
       html_options
     )
   end
@@ -198,11 +183,11 @@ module ApplicationHelper
     link.html_safe
   end
 
-  def toggle_link(name, id, options={}, html_options={})
-    onclick = "Element.toggle('#{id}'); "
-    onclick << (options[:focus] ? "Form.Element.focus('#{options[:focus]}'); " : "this.blur(); ")
-    onclick << "return false;"
-    link_to(name, "#", {:onclick => onclick}.merge(html_options))
+  def toggle_link(name, id, options = {}, html_options = {})
+    onclick = "jQuery('##{id}').toggle(); "
+    onclick << (options[:focus] ? "jQuery('##{options[:focus]}').focus(); " : 'this.blur(); ')
+    onclick << 'return false;'
+    link_to(name, '#', { onclick: onclick }.merge(html_options))
   end
 
   def delete_link(url, options={})
@@ -313,7 +298,8 @@ module ApplicationHelper
   end
 
   def render_flash_message(type, message, html_options = {})
-    html_options = { :class => "flash #{type} icon icon-#{type}", role: "alert" }.merge(html_options)
+    css_classes = ["flash #{type} icon icon-#{type}", html_options.delete(:class)].join(' ')
+    html_options = { :class => css_classes, role: "alert" }.merge(html_options)
     if User.current.impaired?
       content_tag('div', content_tag('a', join_flash_messages(message), :href => 'javascript:;'), html_options)
     else
@@ -994,7 +980,14 @@ module ApplicationHelper
       I18n.locale = "#{I18n.locale}";
     })
     unless User.current.pref.warn_on_leaving_unsaved == '0'
-      tags += javascript_tag("jQuery(function(){ new WarnLeavingUnsaved('#{escape_javascript( l(:text_warn_on_leaving_unsaved) )}'); });")
+      tags += javascript_tag(%Q{
+        jQuery(document).ready(function(){
+          warnLeavingUnsaved('#{escape_javascript(l(:text_warn_on_leaving_unsaved))}');
+          jQuery(document).ajaxComplete(function(){
+            warnLeavingUnsaved('#{escape_javascript(l(:text_warn_on_leaving_unsaved))}')
+          });
+        });
+      })
     end
 
     if User.current.impaired? and accessibility_js_enabled?
@@ -1027,7 +1020,7 @@ module ApplicationHelper
   def api_meta(options)
     if params[:nometa].present? || request.headers['X-OpenProject-Nometa']
       # compatibility mode for activeresource clients that raise
-      # an error when unserializing an array with attributes
+      # an error when deserializing an array with attributes
       nil
     else
       options

@@ -82,8 +82,8 @@ class VersionTest < ActiveSupport::TestCase
     (v = Version.new.tap do |v|
       v.force_attributes = { :project => project, :name => 'Progress' }
     end).save!
-    assert_equal 0, v.completed_pourcent
-    assert_equal 0, v.closed_pourcent
+    assert_equal 0, v.completed_percent
+    assert_equal 0, v.closed_percent
   end
 
   def test_progress_should_be_0_with_unbegun_assigned_issues
@@ -93,8 +93,8 @@ class VersionTest < ActiveSupport::TestCase
     end).save!
     add_work_package(v)
     add_work_package(v, :done_ratio => 0)
-    assert_progress_equal 0, v.completed_pourcent
-    assert_progress_equal 0, v.closed_pourcent
+    assert_progress_equal 0, v.completed_percent
+    assert_progress_equal 0, v.closed_percent
   end
 
   def test_progress_should_be_100_with_closed_assigned_issues
@@ -107,8 +107,8 @@ class VersionTest < ActiveSupport::TestCase
     add_work_package(v, :status => status, :done_ratio => 20)
     add_work_package(v, :status => status, :done_ratio => 70, :estimated_hours => 25)
     add_work_package(v, :status => status, :estimated_hours => 15)
-    assert_progress_equal 100.0, v.completed_pourcent
-    assert_progress_equal 100.0, v.closed_pourcent
+    assert_progress_equal 100.0, v.completed_percent
+    assert_progress_equal 100.0, v.closed_percent
   end
 
   def test_progress_should_consider_done_ratio_of_open_assigned_issues
@@ -119,8 +119,8 @@ class VersionTest < ActiveSupport::TestCase
     add_work_package(v)
     add_work_package(v, :done_ratio => 20)
     add_work_package(v, :done_ratio => 70)
-    assert_progress_equal (0.0 + 20.0 + 70.0)/3, v.completed_pourcent
-    assert_progress_equal 0, v.closed_pourcent
+    assert_progress_equal (0.0 + 20.0 + 70.0)/3, v.completed_percent
+    assert_progress_equal 0, v.closed_percent
   end
 
   def test_progress_should_consider_closed_issues_as_completed
@@ -131,8 +131,8 @@ class VersionTest < ActiveSupport::TestCase
     add_work_package(v)
     add_work_package(v, :done_ratio => 20)
     add_work_package(v, :status => Status.find(:first, :conditions => {:is_closed => true}))
-    assert_progress_equal (0.0 + 20.0 + 100.0)/3, v.completed_pourcent
-    assert_progress_equal (100.0)/3, v.closed_pourcent
+    assert_progress_equal (0.0 + 20.0 + 100.0)/3, v.completed_percent
+    assert_progress_equal (100.0)/3, v.closed_percent
   end
 
   def test_progress_should_consider_estimated_hours_to_weigth_issues
@@ -144,8 +144,8 @@ class VersionTest < ActiveSupport::TestCase
     add_work_package(v, :estimated_hours => 20, :done_ratio => 30)
     add_work_package(v, :estimated_hours => 40, :done_ratio => 10)
     add_work_package(v, :estimated_hours => 25, :status => Status.find(:first, :conditions => {:is_closed => true}))
-    assert_progress_equal (10.0*0 + 20.0*0.3 + 40*0.1 + 25.0*1)/95.0*100, v.completed_pourcent
-    assert_progress_equal 25.0/95.0*100, v.closed_pourcent
+    assert_progress_equal (10.0*0 + 20.0*0.3 + 40*0.1 + 25.0*1)/95.0*100, v.completed_percent
+    assert_progress_equal 25.0/95.0*100, v.closed_percent
   end
 
   def test_progress_should_consider_average_estimated_hours_to_weigth_unestimated_issues
@@ -157,8 +157,8 @@ class VersionTest < ActiveSupport::TestCase
     add_work_package(v, :status => Status.find(:first, :conditions => {:is_closed => true}))
     add_work_package(v, :estimated_hours => 10, :done_ratio => 30)
     add_work_package(v, :estimated_hours => 40, :done_ratio => 10)
-    assert_progress_equal (25.0*0.2 + 25.0*1 + 10.0*0.3 + 40.0*0.1)/100.0*100, v.completed_pourcent
-    assert_progress_equal 25.0/100.0*100, v.closed_pourcent
+    assert_progress_equal (25.0*0.2 + 25.0*1 + 10.0*0.3 + 40.0*0.1)/100.0*100, v.completed_percent
+    assert_progress_equal 25.0/100.0*100, v.closed_percent
   end
 
   context "#behind_schedule?" do
@@ -187,7 +187,7 @@ class VersionTest < ActiveSupport::TestCase
                                FactoryGirl.create(:work_package, project: @project, start_date: 7.days.ago, done_ratio: 60), # 14 day span, 60% done, 50% time left
                                FactoryGirl.create(:work_package, project: @project, :start_date => 7.days.ago, :done_ratio => 60) # 14 day span, 60% done, 50% time left
                               ]
-      assert_equal 60, @version.completed_pourcent
+      assert_equal 60, @version.completed_percent
       assert_equal false, @version.behind_schedule?
     end
 
@@ -197,7 +197,7 @@ class VersionTest < ActiveSupport::TestCase
                                FactoryGirl.create(:work_package, project: @project, :start_date => 7.days.ago, :done_ratio => 60), # 14 day span, 60% done, 50% time left
                                FactoryGirl.create(:work_package, project: @project, :start_date => 7.days.ago, :done_ratio => 20) # 14 day span, 20% done, 50% time left
                               ]
-      assert_equal 40, @version.completed_pourcent
+      assert_equal 40, @version.completed_percent
       assert_equal true, @version.behind_schedule?
     end
 
@@ -207,7 +207,7 @@ class VersionTest < ActiveSupport::TestCase
                                FactoryGirl.create(:work_package, project: @project, :start_date => 14.days.ago, :done_ratio => 100, :status => Status.find(5)), # 7 day span
                                FactoryGirl.create(:work_package, project: @project, :start_date => 14.days.ago, :done_ratio => 100, :status => Status.find(5)) # 7 day span
                               ]
-      assert_equal 100, @version.completed_pourcent
+      assert_equal 100, @version.completed_percent
       assert_equal false, @version.behind_schedule?
 
     end

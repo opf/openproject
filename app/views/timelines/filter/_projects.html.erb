@@ -194,10 +194,19 @@ See doc/COPYRIGHT.rdoc for more details.
                          'absolute',
                          :checked => (timeline.planning_element_time == 'absolute')) %>
 
-        <% historical_text1 = text_field_tag "timeline[options][planning_element_time_absolute_one]",
+        <%
+           historical_label_start = label_tag 'timeline_options_planning_element_time_absolute_one',
+                                              l('timelines.filter.project_time_filter_historical_from'),
+                                              class: 'inline-label'
+
+           historical_text1 = text_field_tag "timeline[options][planning_element_time_absolute_one]",
                                              timeline.options["planning_element_time_absolute_one"],
                                              :size => 10
            historical_calendar1 = calendar_for('timeline_options_planning_element_time_absolute_one')
+
+           historical_label_end = label_tag 'timeline_options_planning_element_time_absolute_two',
+                                            l('timelines.filter.project_time_filter_historical_to'),
+                                            class: 'inline-label'
 
            historical_text2 = text_field_tag "timeline[options][planning_element_time_absolute_two]",
                                              timeline.options["planning_element_time_absolute_two"],
@@ -206,8 +215,10 @@ See doc/COPYRIGHT.rdoc for more details.
         %>
 
         <%= l('timelines.filter.project_time_filter_historical',
-              :startdate => historical_text1 + historical_calendar1 ,
-              :enddate => historical_text2 + historical_calendar2).html_safe %>
+              start_label: historical_label_start,
+              startdate: historical_text1 + historical_calendar1,
+              end_label: historical_label_end,
+              enddate: historical_text2 + historical_calendar2).html_safe %>
       </p>
 
       <p class="tl-form-overflow">
@@ -220,7 +231,12 @@ See doc/COPYRIGHT.rdoc for more details.
                          'relative',
                          :checked => (timeline.planning_element_time == 'relative')) %>
 
-        <% relative_text1 = text_field_tag "timeline[options][planning_element_time_relative_one]",
+        <%
+            relative_label_start = label_tag 'timeline_options_planning_element_time_relative_one',
+                                             l('timelines.filter.project_time_filter_historical_from'),
+                                             class: 'inline-label'
+
+            relative_text1 = text_field_tag "timeline[options][planning_element_time_relative_one]",
                                            timeline.options["planning_element_time_relative_one"],
                                            :size => 3
 
@@ -232,6 +248,10 @@ See doc/COPYRIGHT.rdoc for more details.
                                      ],
                                      { :selected => timeline.options['planning_element_time_relative_one_unit'] },
                                      { :multiple => false, :size => 1})
+
+            relative_label_end = label_tag 'timeline_options_planning_element_time_relative_two',
+                                           l('timelines.filter.project_time_filter_historical_to'),
+                                           class: 'inline-label'
 
             relative_text2 = text_field_tag "timeline[options][planning_element_time_relative_two]",
                                            timeline.options["planning_element_time_relative_two"],
@@ -248,10 +268,12 @@ See doc/COPYRIGHT.rdoc for more details.
         %>
 
         <%= l('timelines.filter.project_time_filter_relative',
-              :startspan => relative_text1,
-              :startspanunit => relative_select1,
-              :endspan => relative_text2,
-              :endspanunit => relative_select2
+              start_label: relative_label_start,
+              startspan: relative_text1,
+              startspanunit: relative_select1,
+              end_label: relative_label_end,
+              endspan: relative_text2,
+              endspanunit: relative_select2
 
               ).html_safe %>
 

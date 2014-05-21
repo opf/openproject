@@ -46,7 +46,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: User Authentification
+Feature: User Authentication
 
 
 @javascript 

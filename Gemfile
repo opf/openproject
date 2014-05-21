@@ -45,12 +45,13 @@ end
 source 'https://rubygems.org'
 
 gem "rails", "~> 3.2.18"
+gem "sprockets", "2.2.2.backport2"
 
 gem "coderay", "~> 1.0.5"
 gem "rubytree", "~> 0.8.3"
 gem "rdoc", ">= 2.4.2"
 gem 'globalize'
-
+gem 'omniauth'
 gem 'request_store'
 
 # TODO: adds #auto_link which was deprecated in rails 3.1
@@ -71,13 +72,8 @@ gem 'htmldiff'
 # used for statistics on svn repositories
 gem 'svg-graph'
 
-gem 'execjs'
-
-gem 'therubyracer'
-
 gem "date_validator"
 
-# replacing rsb with rabl --
 # We rely on this specific version, which is the latest as of now (end of 2013),
 # because we have to apply to it a bugfix which could break things in other versions.
 # This can be removed as soon as said bugfix is integrated into rabl itself.
@@ -101,6 +97,8 @@ gem 'rack-protection', :git => "https://github.com/finnlabs/rack-protection.git"
 
 gem 'syck', :platforms => [:ruby_20, :mingw_20, :ruby_21, :mingw_21], :require => false
 
+gem 'gon', '~> 4.0'
+
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
@@ -112,17 +110,16 @@ group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
-  gem 'jquery-ui-rails'
-  gem 'select2-rails', '~> 3.3.2'
-  gem 'jquery-atwho-rails'
 end
+
+# You don't need therubyracer if you have nodejs installed on the machine precompiling assets.
+gem 'therubyracer', :group => :therubyracer
 
 gem "prototype-rails"
 # remove once we no longer use the deprecated "link_to_remote", "remote_form_for" and alike methods
 # replace those with :remote => true
 gem 'prototype_legacy_helper', '0.0.0', :git => 'https://github.com/rails/prototype_legacy_helper.git'
 
-gem 'jquery-rails', '~> 2.0.3'
 # branch rewrite has commit 6bfdcd7e14df1efffc00b2bbdf4e14e614d00418 which adds
 # a "magic comment" in the translations.js.erb and somehow breaks i18n-js
 # using the commit before this comment
@@ -152,10 +149,10 @@ group :test do
   gem 'rack_session_access'
   gem 'database_cleaner'
   gem "cucumber-rails-training-wheels" # http://aslakhellesoy.com/post/11055981222/the-training-wheels-came-off
-  gem 'rspec', '~> 2.0'
+  gem 'rspec', '~> 2.14'
   # also add to development group, so "spec" rake task gets loaded
-  gem "rspec-rails", "~> 2.0", :group => :development
-  gem 'rspec-example_disabler'
+  gem "rspec-rails", "~> 2.14", :group => :development
+  gem 'rspec-example_disabler', git: "https://github.com/finnlabs/rspec-example_disabler.git"
   gem 'capybara'
   gem 'capybara-screenshot'
   gem 'selenium-webdriver'
@@ -164,19 +161,16 @@ group :test do
   gem 'rb-readline' # ruby on CI needs this
   # why in Gemfile? see: https://github.com/guard/guard-test
   gem 'ruby-prof'
-  gem 'simplecov', ">= 0.8.pre"
+  gem 'simplecov', '0.8.0.pre'
   gem "shoulda-matchers"
   gem "json_spec"
   gem "activerecord-tableless", "~> 1.0"
   gem "codeclimate-test-reporter", :require => nil
+  gem 'test-unit', '2.5.5'
 end
 
 group :ldap do
   gem "net-ldap", '~> 0.2.2'
-end
-
-group :openid do
-  gem "ruby-openid", '~> 2.2.3', :require => 'openid'
 end
 
 group :development do
@@ -185,37 +179,11 @@ group :development do
   gem 'pry-stack_explorer'
   gem 'pry-rescue'
   gem 'pry-byebug', :platforms => [:mri_20,:mri_21]
-  gem 'pry-debugger', :platforms => :mri_19
   gem 'pry-doc'
   gem 'rails-dev-tweaks', '~> 0.6.1'
-  gem 'guard-rspec'
-  gem 'guard-cucumber'
-  gem 'rb-fsevent', :group => :test
   gem 'thin'
   gem 'faker'
-end
-
-group :tools do
-  # why tools? see: https://github.com/guard/guard-test
-  gem 'guard-test'
-end
-
-group :rmagick do
-  gem "rmagick", ">= 1.15.17"
-  # Older distributions might not have a sufficiently new ImageMagick version
-  # for the current rmagick release (current rmagick is rmagick 2, which
-  # requires ImageMagick 6.4.9 or later). If this is the case for you, comment
-  # the line above this comment block and uncomment the one underneath it to
-  # get an rmagick version known to work on older distributions.
-  #
-  # The following distributíons are known to *not* ship with a usable
-  # ImageMagick version. There might be additional ones.
-  #   * Ubuntu 9.10 and older
-  #   * Debian Lenny 5.0 and older
-  #   * CentOS 5 and older
-  #   * RedHat 5 and older
-  #
-  #gem "rmagick", "< 2.0.0"
+  gem 'quiet_assets'
 end
 
 # Use the commented pure ruby gems, if you have not the needed prerequisites on

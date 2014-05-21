@@ -27,27 +27,29 @@
 #++
 
 require 'spec_helper'
-require 'features/accessibility/support/toggable_fieldsets_spec'
+require 'features/accessibility/support/toggable_fieldsets'
 require 'features/work_packages/work_packages_page'
 
 describe 'Work package index' do
-  describe 'Toggable fieldset' do
+  describe 'Toggable fieldset', js: true do
+    include_context 'Toggable fieldset examples'
+
     let(:current_user) { FactoryGirl.create (:admin) }
     let(:work_packages_page) { WorkPackagesPage.new }
 
     before do
-      User.stub(:current).and_return current_user
+      allow(User).to receive(:current).and_return current_user
 
       work_packages_page.visit_index
     end
 
-    describe 'Filter fieldset' do
+    describe 'Filter fieldset', js: true do
       it_behaves_like 'toggable fieldset initially expanded' do
-        let(:fieldset_name) { 'Filters' }
+        let(:fieldset_name) { 'Add filter' }
       end
     end
 
-    describe 'Options fieldset' do
+    describe 'Options fieldset', js: true do
       it_behaves_like 'toggable fieldset initially collapsed' do
         let(:fieldset_name) { 'Options' }
       end

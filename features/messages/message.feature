@@ -27,23 +27,24 @@
 #++
 
 Feature: Issue textile quickinfo links
+
   Background:
     Given there is 1 project with the following:
-      | name        | parent      |
-      | identifier  | parent      |
+      | name       | parent |
+      | identifier | parent |
     And I am working in project "parent"
     And there is a board "development discussion" for project "parent"
     And there is a role "member"
     And the role "member" may have the following rights:
-      | manage_boards          |
-      | add_messages           |
-      | edit_messages          |
-      | edit_own_messages      |
-      | delete_messages        |
-      | delete_messages        |
-      | delete_own_messages    |
+      | manage_boards       |
+      | add_messages        |
+      | edit_messages       |
+      | edit_own_messages   |
+      | delete_messages     |
+      | delete_messages     |
+      | delete_own_messages |
     And there is 1 user with the following:
-      | login | bob|
+      | login | bob |
     And the user "bob" is a "member" in the project "parent"
     And I am already logged in as "bob"
 
@@ -65,8 +66,39 @@ Feature: Issue textile quickinfo links
   Scenario: Message's reply count is two
     Given the board "development discussion" has the following messages:
       | message #1 |
-     And "message #1" has the following replies:
+    And "message #1" has the following replies:
       | reply #1 |
       | reply #2 |
     When I go to the message page of message "message #1"
     Then I should see "Replies (2)"
+
+  Scenario: Check field value after error message raise when title is empty
+    When I go to the boards page of the project called "parent"
+    And I follow "New message"
+    And I fill in "New relase FAQ" for "message_subject"
+    When I click on the first button matching "Create"
+    Then there should be an error message
+    Then the "message_subject" field should contain "New relase FAQ"
+
+  Scenario: Check field value after error message raise when description is empty
+    When I go to the boards page of the project called "parent"
+    And I follow "New message"
+    And I fill in "Here you find the most frequently asked questions" for "message_content"
+    When I click on the first button matching "Create"
+    Then there should be an error message
+    Then the "message_content" field should contain "Here you find the most frequently asked questions"
+
+  @javascript
+  Scenario: Sticky message on top of messages list
+    Given the board "development discussion" has the following messages:
+      | message #1 |
+      | message #2 |
+      | message #3 |
+    When I go to the boards page of the project called "parent"
+    And I follow "New message"
+    And I fill in "How to?" for "message_subject"
+    And I fill in "How to st-up project on local mashine." for "message_content"
+    And I check "Sticky"
+    When I click on the first button matching "Create"
+    And I go to the boards page of the project called "parent"
+    Then "How to?" should be the first row in table

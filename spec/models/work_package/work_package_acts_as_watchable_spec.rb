@@ -61,7 +61,7 @@ describe WorkPackage do
     context 'when it is a public project' do
       it 'contains project members who are allowed to view work packages' do
         users_allowed_to_view_work_packages = project.users.select{ |u| u.allowed_to?(:view_work_packages, project) }
-        work_package.possible_watcher_users.sort.should == users_allowed_to_view_work_packages.sort
+        expect(work_package.possible_watcher_users.sort).to eq(users_allowed_to_view_work_packages.sort)
       end
 
       it { should include(project_member) }
@@ -91,7 +91,7 @@ describe WorkPackage do
 
       it 'contains project members who are allowed to view work packages' do
         users_allowed_to_view_work_packages = project.users.select{ |u| u.allowed_to?(:view_work_packages, project) }
-        work_package.possible_watcher_users.sort.should == users_allowed_to_view_work_packages.sort
+        expect(work_package.possible_watcher_users.sort).to eq(users_allowed_to_view_work_packages.sort)
       end
 
       it { should include(project_member) }
@@ -134,13 +134,9 @@ describe WorkPackage do
   context 'notifications' do
     let(:number_of_recipients) { (work_package.recipients | work_package.watcher_recipients).length }
 
-    before :each do
-      Delayed::Worker.delay_jobs = false
-    end
-
     it 'sends one delayed mail notification for each watcher recipient' do
       UserMailer.stub_chain :work_package_updated, :deliver
-      UserMailer.should_receive(:work_package_updated).exactly(number_of_recipients).times
+      expect(UserMailer).to receive(:work_package_updated).exactly(number_of_recipients).times
       work_package.update_attributes :description => 'Any new description'
     end
   end

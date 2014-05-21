@@ -49,14 +49,14 @@ describe 'api/v2/statuses/show.api.rabl' do
     end
 
     it 'renders a status node' do
-      response.should have_json_path('status')
+      expect(response).to have_json_path('status')
     end
 
 
 
     it 'renders a status-details' do
       expected_json = {name: "Almost Done", position: 100, is_default: true, is_closed: false, default_done_ratio: 90}.to_json
-      response.should be_json_eql(expected_json).at_path('status')
+      expect(response).to be_json_eql(expected_json).at_path('status')
     end
 
 

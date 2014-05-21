@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Administring the enumerations
+Feature: Administering the enumerations
 
   Scenario: Creating an enumeration
     Given I am already admin

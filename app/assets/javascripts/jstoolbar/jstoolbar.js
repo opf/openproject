@@ -297,12 +297,14 @@ jsToolBar.prototype = {
           range.text = subst;
           this.textarea.caretPos -= suffix.length;
       } else if (typeof(this.textarea["setSelectionRange"]) != "undefined") {
+          var cursorPosition = start;
           this.textarea.value = this.textarea.value.substring(0, start) + subst + this.textarea.value.substring(end);
           if (sel) {
-              this.textarea.setSelectionRange(start + subst.length, start + subst.length);
+              cursorPosition += subst.length;
           } else {
-              this.textarea.setSelectionRange(start + prefix.length, start + prefix.length);
+              cursorPosition += prefix.length + res.length;
           }
+          this.textarea.setSelectionRange(cursorPosition, cursorPosition);
           this.textarea.scrollTop = scrollPos;
       }
   },

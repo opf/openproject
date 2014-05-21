@@ -53,8 +53,22 @@ module ::Query::Sums
     end
   end
 
-  def grouped_sum_of(column, issue = cached_issue)
-    sum_of(column, group_for_issue(issue))
+  def grouped_sum_of_issue(column, issue = cached_issue)
+    grouped_sum_of column, group_for_issue(issue)
+  end
+
+  def grouped_sum_of(column, group)
+    sum_of column, group
+  end
+
+  def grouped_sums(column)
+    all_work_packages
+      .map{|wp| query.group_by_column.value(wp)}
+      .uniq
+      .inject({}) do |group_sums, current_group|
+        work_packages_in_current_group = all_work_packages.select{|wp| query.group_by_column.value(wp) == current_group}
+        group_sums.merge current_group => sum_of(column, work_packages_in_current_group)
+      end
   end
 
   def total_sum_of(column)
@@ -63,7 +77,6 @@ module ::Query::Sums
 
   def sum_of(column, collection)
     return unless should_be_summed_up?(column)
-
     # This is a workaround to be able to sum up currency with the redmine_costs plugin
     values = collection.map do |issue|
                column.respond_to?(:real_value) ?

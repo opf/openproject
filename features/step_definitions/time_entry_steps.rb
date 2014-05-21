@@ -49,9 +49,19 @@ Then(/^I should see a time entry with (\d+) hours and comment "(.*)"$/) do |hour
   expect(page).to have_content(comment)
 end
 
-Then(/^I should see a total spent time of (\d+) hours$/) do |hours|
-  within('div.total-hours') do
-    expect(find("span.hours-int")).to have_content hours
+Then(/^I should (not )?see a total spent time of (\d+) hours$/) do |negative, hours|
+  available = find('div.total-hours') rescue false
+
+  if available || !negative
+    within('div.total-hours') do
+      element = find("span.hours-int")
+
+      if negative
+        expect(element).not_to have_content hours
+      else
+        expect(element).to have_content hours
+      end
+    end
   end
 end
 

@@ -25,23 +25,10 @@
  *
  * See doc/COPYRIGHT.rdoc for more details.  ++*/
 
-@font-face
-  font-family: 'LatoLight'
-  src: font-url('lato/Lato-Lig-webfont.eot')
-  src: font-url('lato/Lato-Lig-webfont.eot?#iefix') format("embedded-opentype"), font-url('lato/Lato-Lig-webfont.ttf') format("truetype"), font-url('lato/Lato-Lig-webfont.svg#untitled-font-1') format("svg"), font-url('lato/Lato-Lig-webfont.woff') format("woff")
-  font-weight: normal
-  font-style: normal
++font-face(LatoLight, 'lato/Lato-Light', $svg-font-id: 'latolight')
++font-face(LatoLight, 'lato/Lato-LightItalic', normal, italic, $svg-font-id: 'latolight_italic')
 
-@font-face
-  font-family: 'LatoRegular'
-  src: font-url('lato/Lato-Reg-webfont.eot')
-  src: font-url('lato/Lato-Reg-webfont.eot?#iefix') format("embedded-opentype"), font-url('lato/Lato-Reg-webfont.ttf') format("truetype"), font-url('lato/Lato-Reg-webfont.svg#untitled-font-1') format("svg"), font-url('lato/Lato-Reg-webfont.woff') format("woff")
-  font-weight: normal
-  font-style: normal
-
-@font-face
-  font-family: 'LatoBold'
-  src: font-url('lato/Lato-Bol-webfont.eot')
-  src: font-url('lato/Lato-Bol-webfont.eot?#iefix') format("embedded-opentype"), font-url('lato/Lato-Bol-webfont.ttf') format("truetype"), font-url('lato/Lato-Bol-webfont.svg#untitled-font-1') format("svg"), font-url('lato/Lato-Bol-webfont.woff') format("woff")
-  font-weight: normal
-  font-style: normal
++font-face(Lato, 'lato/Lato-Regular', $svg-font-id: 'latoregular')
++font-face(Lato, 'lato/Lato-Italic', normal, italic, $svg-font-id: 'latoitalic')
++font-face(Lato, 'lato/Lato-Bold', bold, $svg-font-id: 'latobold')
++font-face(Lato, 'lato/Lato-BoldItalic', bold, italic, $svg-font-id: 'latobold_italic')

@@ -59,7 +59,9 @@ module Api
 
       def create
         @planning_element = @project.work_packages.build
-        @planning_element.update_attributes(permitted_params.planning_element.except :note)
+        @planning_element.update_attributes(permitted_params.planning_element({:project => @project}).except :note)
+
+        @planning_element.attach_files(params[:attachments])
 
         # The planning_element inherits from workpackage, which requires an author.
         # Using the current_user also satisfies this demand for API-calls
@@ -93,9 +95,9 @@ module Api
 
       def update
         @planning_element = WorkPackage.find(params[:id])
-        @planning_element.attributes = permitted_params.planning_element.except :note
+        @planning_element.attributes = permitted_params.planning_element({:project => @project}).except :note
 
-        @planning_element.add_journal(User.current, permitted_params.planning_element[:note])
+        @planning_element.add_journal(User.current, permitted_params.planning_element({:project => @project})[:note])
 
         successfully_updated = @planning_element.save
 

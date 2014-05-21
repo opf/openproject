@@ -27,12 +27,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class PermittedParams < Struct.new(:params, :user)
+class PermittedParams < Struct.new(:params, :current_user)
 
-  # This class intends to provide a method for all params hashes comming from the
+  # This class intends to provide a method for all params hashes coming from the
   # client and that are used for mass assignment.
   #
-  # As such, please make it a deliberate decission to whitelist attributes.
+  # As such, please make it a deliberate decision to whitelist attributes.
   #
   # This implementation depends on the strong_parameters gem. For further
   # information see here: https://github.com/rails/strong_parameters
@@ -141,8 +141,14 @@ class PermittedParams < Struct.new(:params, :user)
     params.require(:planning_element_type).permit(*self.class.permitted_attributes[:move_to])
   end
 
-  def planning_element
-    params.require(:planning_element).permit(*self.class.permitted_attributes[:planning_element])
+  def planning_element(args = {})
+    permitted = permitted_attributes(:planning_element, args)
+
+    permitted_params = params.require(:planning_element).permit(*permitted)
+
+    permitted_params.merge!(custom_field_values(:planning_element))
+
+    permitted_params
   end
 
   def project_type
@@ -154,8 +160,8 @@ class PermittedParams < Struct.new(:params, :user)
   end
 
   def query
-    # there is a wierd bug in strong_parameters gem which makes the permit call
-    # on the sort_criteria pattern return the sort_criteria-hash contens AND
+    # there is a weird bug in strong_parameters gem which makes the permit call
+    # on the sort_criteria pattern return the sort_criteria-hash contents AND
     # the sort_criteria hash itself (again with content) in the same hash.
     # Here we try to circumvent this
     p = params.require(:query).permit(*self.class.permitted_attributes[:query])
@@ -178,18 +184,38 @@ class PermittedParams < Struct.new(:params, :user)
 
   alias :update_work_package :new_work_package
 
-  def user_update_as_admin
-    if user.admin?
-      permitted_params = params.require(:user).permit(:firstname,
-                                                      :lastname,
-                                                      :mail,
-                                                      :mail_notification,
-                                                      :language,
-                                                      :custom_fields,
-                                                      :identity_url,
-                                                      :auth_source_id,
-                                                      :force_password_change,
-                                                      :group_ids => [])
+  def user
+    permitted_params = params.require(:user).permit(*self.class.permitted_attributes[:user])
+    permitted_params.merge!(custom_field_values(:user))
+
+    permitted_params
+  end
+
+  def user_register_via_omniauth
+    permitted_params = params.require(:user) \
+                             .permit(:login, :firstname, :lastname, :mail, :language)
+    permitted_params.merge!(custom_field_values(:user))
+
+    permitted_params
+  end
+
+  def user_update_as_admin(external_authentication, change_password_allowed)
+    # Found group_ids in safe_attributes and added them here as I
+    # didn't know the consequences of removing these.
+    # They were not allowed on create.
+    user_create_as_admin(external_authentication, change_password_allowed, [:group_ids => []])
+  end
+
+  def user_create_as_admin(external_authentication, change_password_allowed, additional_params = [])
+    if current_user.admin?
+      additional_params << :auth_source_id unless external_authentication
+      additional_params << :force_password_change if change_password_allowed
+
+      allowed_params = self.class.permitted_attributes[:user] + \
+                       additional_params + \
+                       [ :admin, :login ]
+
+      permitted_params = params.require(:user).permit(*allowed_params)
       permitted_params.merge!(custom_field_values(:user))
 
       permitted_params
@@ -249,7 +275,7 @@ class PermittedParams < Struct.new(:params, :user)
   end
 
   def permitted_attributes(key, additions = {})
-    merged_args = { :params => params, :user => user }.merge(additions)
+    merged_args = { :params => params, :current_user => current_user }.merge(additions)
 
     self.class.permitted_attributes[key].map do |permission|
       if permission.respond_to?(:call)
@@ -320,51 +346,81 @@ class PermittedParams < Struct.new(:params, :user)
       :member => [
         :role_ids => []],
       :new_work_package => [
-        :subject,
-        :description,
-        :start_date,
-        :due_date,
-        :parent_id,
-        :parent_id,
+        # attributes common with :planning_element below
         :assigned_to_id,
-        :responsible_id,
-        :type_id,
-        :fixed_version_id,
-        :estimated_hours,
-        :done_ratio,
-        :priority_id,
-        :category_id,
-        :status_id,
-        :notes,
-        :lock_version,
         { attachments: [:file, :description] },
+        :category_id,
+        :description,
+        :done_ratio,
+        :due_date,
+        :estimated_hours,
+        :fixed_version_id,
+        :parent_id,
+        :priority_id,
+        :responsible_id,
+        :start_date,
+        :status_id,
+        :type_id,
+        :subject,
         Proc.new do |args|
           # avoid costly allowed_to? if the param is not there at all
-          if args[:params]["work_package"].has_key?("watcher_user_ids") &&
-            args[:user].allowed_to?(:add_work_package_watchers, args[:project])
+          if args[:params]["work_package"] &&
+             args[:params]["work_package"].has_key?("watcher_user_ids") &&
+             args[:current_user].allowed_to?(:add_work_package_watchers, args[:project])
 
             { :watcher_user_ids => [] }
           end
         end,
         Proc.new do |args|
           # avoid costly allowed_to? if the param is not there at all
-          if args[:params]["work_package"].has_key?("time_entry") &&
-             args[:user].allowed_to?(:log_time, args[:project])
+          if args[:params]["work_package"] &&
+             args[:params]["work_package"].has_key?("time_entry") &&
+             args[:current_user].allowed_to?(:log_time, args[:project])
 
             { time_entry: [:hours, :activity_id, :comments] }
           end
-        end ],
+        end,
+        # attributes unique to :new_work_package
+        :notes,
+        :lock_version ],
       :planning_element => [
-        :subject,
+        # attributes common with :new_work_package above
+        :assigned_to_id,
+        { attachments: [:file, :description] },
+        :category_id,
         :description,
-        :start_date,
+        :done_ratio,
         :due_date,
-        :note,
-        :type_id,
-        :status_id,
-        :planning_element_status_comment,
+        :estimated_hours,
+        :fixed_version_id,
         :parent_id,
+        :priority_id,
         :responsible_id,
+        :start_date,
+        :status_id,
+        :type_id,
+        :subject,
+        Proc.new do |args|
+          # avoid costly allowed_to? if the param is not there at all
+          if args[:params]["planning_element"] &&
+             args[:params]["planning_element"].has_key?("watcher_user_ids") &&
+             args[:current_user].allowed_to?(:add_work_package_watchers, args[:project])
+
+            { :watcher_user_ids => [] }
+          end
+        end,
+        Proc.new do |args|
+          # avoid costly allowed_to? if the param is not there at all
+          if args[:params]["planning_element"] &&
+             args[:params]["planning_element"].has_key?("time_entry") &&
+             args[:current_user].allowed_to?(:log_time, args[:project])
+
+            { time_entry: [:hours, :activity_id, :comments] }
+          end
+        end,
+        # attributes unique to planning_element
+        :note,
+        :planning_element_status_comment,
         :custom_fields => [ #json
           :id,
           :value,
@@ -407,6 +463,13 @@ class PermittedParams < Struct.new(:params, :user)
         :color_id,
         :project_ids => [],
         :custom_field_ids => [] ],
+      :user => [
+        :firstname,
+        :lastname,
+        :mail,
+        :mail_notification,
+        :language,
+        :custom_fields ],
       :wiki_page => [
         :title,
         :parent_id,
@@ -417,5 +480,26 @@ class PermittedParams < Struct.new(:params, :user)
         :lock_version ],
       :move_to => [ :move_to ]
     }
+  end
+
+  private
+  ## Add attributes as permitted attributes (only to be used by the plugins plugin)
+  #
+  # attributes should be given as a Hash in the form
+  # {:key => [:param1, :param2]}
+  def self.add_permitted_attributes(attributes)
+    # Make sure the permitted attributes are cached in @whitelisted_params
+    permitted_attributes
+
+    # Check no unsupported parameters are attempted to be whitelisted (they're ignored)
+    unknown_keys = (attributes.keys - @whitelisted_params.keys)
+    if unknown_keys.size > 0
+      Rails.logger.warn(
+        "Attempt to whitelist attributes for unknown keys: #{unknown_keys}, ignoring them.")
+    end
+
+    attributes.each_pair do |key, attrs|
+      @whitelisted_params[key] += attrs unless unknown_keys.include?(key)
+    end
   end
 end

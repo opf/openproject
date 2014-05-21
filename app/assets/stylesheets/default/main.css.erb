@@ -27,8 +27,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++*/
 
-input#openid_url { background: url(<%= asset_path 'openid-bg.gif' %>) no-repeat; background-color: #fff; background-position: 0 50%; padding-left: 18px; }
-
 .clear:after{ content: "."; display: block; height: 0; clear: both; visibility: hidden; }
 
 /***** Tables *****/
@@ -216,6 +214,9 @@ div.issue div.subject>div>p { margin-top: 0.5em; }
 #content fieldset#filters {
   padding-bottom: 10px;
 }
+#content fieldset#options {
+  padding-bottom: 10px;
+}
 #content fieldset.collapsible.header_collapsible {
   padding-top: 0px;
   padding-bottom: 0px;
@@ -236,7 +237,7 @@ fieldset.collapsible.header_collapsible > * {
   padding-left: 6px;
 }
 fieldset.collapsible.header_collapsible legend {
-  background: #E6E6E6 url(<%= asset_path 'projectnavi_arrow_up.png' %>) no-repeat 99% 50%; cursor: pointer;
+  background: #E6E6E6; cursor: pointer;
   width: 100%;
   height: 23px;
   line-height: 24px;
@@ -244,9 +245,6 @@ fieldset.collapsible.header_collapsible legend {
 
 fieldset.collapsible.header_collapsible legend:hover {
   background-color: #d8d8d8;
-}
-fieldset.collapsible.collapsed.header_collapsible legend {
-  background-image: url(<%= asset_path 'projectnavi_arrow_down.png' %>);
 }
 fieldset.collapsible { border-width: 1px 0 0 0; }
 fieldset.collapsible.borders { border-width: 1px; }
@@ -572,6 +570,7 @@ div.tooltip:hover span.tip, div.tooltip.hover span.tip {
 #content table.progress td.done { background: #DEF0DE none repeat scroll 0%; }
 #content table.progress td.open { background: #FFF none repeat scroll 0%; }
 p.pourcent {font-size: 80%;}
+p.progress-bar-legend {font-size: 80%; float: left;}
 p.progress-info {clear: left; font-style: italic; font-size: 80%;}
 
 /***** Tabs *****/
@@ -716,7 +715,6 @@ ins.diffmod, ins.diffins { background: #cfc; }
 
 /***** My page layout *****/
 img.gravatar {
-  border: solid 1px #d5d5d5;
   background: #fff;
 }
 
@@ -987,9 +985,6 @@ div.issue hr {
 #content div.issue table th {
   font-weight: bold;
 }
-.gravatar {
-  border: 1px solid #aaa;
-}
 .issue p {
   margin-bottom: 5px;
 }
@@ -1080,14 +1075,14 @@ table.files {
   display: block;
 }
 #content blockquote, .wiki ol, .wiki ul {
-  padding-left: 9px;
+  padding-left: 22px;
 }
 .wiki p {
   margin-bottom: 5px;
 }
 blockquote {
   font-style: italic;
-  background: url(<%= asset_path 'blockquote-bg.png' %>) no-repeat 25px 3px;
+  background: url(<%= asset_path 'blockquote-bg.png' %>) no-repeat 5px 3px;
 }
 .wiki ul li {
   list-style: disc inside none;
@@ -1854,4 +1849,8 @@ h4.comment img {
 .atwho-view .cur {
   background: #FFFFBB;
   color: #4B4B4B;
+}
+
+.atwho-view .cur strong {
+    color: black;
 }

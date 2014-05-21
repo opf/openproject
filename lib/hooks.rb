@@ -26,5 +26,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Hooks
-end
+##
+# A placeholder module which contains OpenProject hooks
+module Hooks; end
+
+# actual hooks are added with the following require statemens
+require 'hooks/view_account_login_auth_provider'

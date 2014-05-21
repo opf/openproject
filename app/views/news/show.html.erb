@@ -51,10 +51,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= render :partial => 'form', :locals => { :f => f } %>
   <%= submit_tag l(:button_save) %>
   <%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("edit-news"); return false;' %>
-  <%= link_to l(:label_preview),
-              news_preview_path(@news),
-              :class => 'preview',
-              :id => 'news-form-preview' %>
+  <%= preview_link preview_news_path(@news), 'news-form-preview' %>
 <% end %>
 <div id="preview" class="wiki"></div>
 </div>
@@ -63,7 +60,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <p><% unless @news.summary.blank? %><em><%=h @news.summary %></em><br /><% end %>
 <span class="author"><%= authoring @news.created_on, @news.author %></span></p>
 <div class="wiki">
-<%= textilizable(@news.description) %>
+<%= textilizable(@news.description, :object => @news) %>
 </div>
 <br />
 
@@ -81,7 +78,7 @@ See doc/COPYRIGHT.rdoc for more details.
                               :alt     => l(:button_delete) %>
   </div>
   <h4 class="comment"><%= avatar(comment.author, :size => "24") %><%= authoring comment.created_on, comment.author %></h4>
-  <%= textilizable(comment.comments) %>
+  <%= textilizable(comment.comments, :object => comment) %>
 <% end %>
 </div>
 

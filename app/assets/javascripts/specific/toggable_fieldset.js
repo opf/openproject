@@ -27,7 +27,7 @@
 //++
 
 function createFieldsetToggleStateLabel(legend, text) {
-  var labelClass = 'fieldset-toggle-state-label'
+  var labelClass = 'fieldset-toggle-state-label';
   var toggleLabel = legend.find('a span.' + labelClass);
   var legendLink = legend.children('a');
 

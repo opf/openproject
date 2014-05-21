@@ -26,7 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Type Adminstration
+Feature: Type Administration
   As an OpenProject Admin
   I want to configure which types are available
   So that I can support my teams with useful settings while still controlling
@@ -35,11 +35,12 @@ Feature: Type Adminstration
 
   Background:
     Given there are the following types:
-          | Name            | Is Milestone | In aggregation |
-          | Phase           | false        | true           |
-          | Milestone       | true         | true           |
-          | Minor Phase     | false        | false          |
-          | Minor Milestone | true         | false          |
+          | Name            | Is Milestone | In aggregation | Is Standard |
+          | Phase           | false        | true           | false       |
+          | Milestone       | true         | true           | false       |
+          | Minor Phase     | false        | false          | false       |
+          | Minor Milestone | true         | false          | false       |
+          | Standard        | true         | false          | true        |
       And I am already admin
 
   Scenario: The admin may see all types within the admin UI
@@ -90,3 +91,9 @@ Feature: Type Adminstration
 
      When I move "Minor Phase" down by one
      Then "Phase" should be the first element in the list
+
+  Scenario: A standard type cannot be deleted
+    When I go to the admin page
+     And I follow "Types"
+    Then "Standard" should be the last element in the list
+     And I should not see "Delete" within "table.timelines-pet tbody tr:last td:last"

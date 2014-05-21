@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ## Cucumber
 
-The cucucmber features can be run using rake. You can run the following
+The cucumber features can be run using rake. You can run the following
 rake tasks using the command `bundle exec rake <task>`.
 
 * `cucumber` Run core features
@@ -83,14 +83,19 @@ If you need Firebug and Firepath while debugging a scenario, just replace
 @javascript with @firebug.
 
 
-## Running tests with Mocha
+## Running tests with Karma
 
-To run JavaScript tests install phantomjs and mocha-phantomjs, e.g. via npm. You can then run
+To run JavaScript tests, first ensure you have Karma and all necessary
+dependencies installed via npm (i.e. `npm install`). If you want a single test
+run, use the standard npm command:
 
-  ``mocha-phantomjs mocha/index.html``
+    npm test
 
-Alternatively open mocha/index.html in a browser.
+By default tests will be run with PhantomJS and Firefox. To start a server or for
+more options (such as another Browsers), invoke the Karma command directly. e.g.
 
+    ./node_modules/karma/bin/karma start
+    ./node_modules/karma/bin/karma start --browsers Chrome,Firefox
 
 ## RSpec
 
@@ -121,5 +126,4 @@ You let test unit display test names instead of anonymous dots with the followin
 ## Manual acceptance tests
 
 * Sometimes you want to test things manually. Always remember: If you test something more than once, write an automated test for it.
-* Assuming you do not have all Internet Explorer version installed on your computer, you can grab a VM with preinstalled IE's directly from Mircrosoft: http://www.modern.ie/en-us/virtualization-tools#downloads
-
+* Assuming you do not have a version of Internet Explorer already installed on your computer, you can grab a VM with preinstalled IE's directly from Microsoft: http://www.modern.ie/en-us/virtualization-tools#downloads

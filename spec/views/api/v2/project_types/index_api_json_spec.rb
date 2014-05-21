@@ -39,7 +39,7 @@ describe 'api/v2/project_types/index.api.rabl' do
       assign(:project_types, [])
       render
 
-      response.should have_json_size(0).at_path('project_types')
+      expect(response).to have_json_size(0).at_path('project_types')
     end
   end
 
@@ -57,7 +57,7 @@ describe 'api/v2/project_types/index.api.rabl' do
       assign(:project_types, project_types)
       render
 
-      response.should have_json_size(3).at_path('project_types')
+      expect(response).to have_json_size(3).at_path('project_types')
     end
 
   end
