@@ -77,9 +77,9 @@ angular.module('openproject.workPackages.controllers')
 
   // Available selectable Columns
   QueryService.getAvailableUnusedColumns()
-    .then(function(available_columns){
-      $scope.availableColumns = available_columns;
-      $scope.availableColumnsData = convertColumnsForSelect2(available_columns);
+    .then(function(availableUnusedColumns){
+      $scope.availableUnusedColumns = availableUnusedColumns;
+      $scope.availableColumnsData = convertColumnsForSelect2(availableUnusedColumns);
     });
 
 
@@ -88,13 +88,13 @@ angular.module('openproject.workPackages.controllers')
     QueryService.setSelectedColumns(getColumnIdentifiersFromSelection($scope.selectedColumnsData));
 
     // Augment work packages with new columns data
-    var addedColumns = getNewlyAddedColumns(),
-        workPackages = WorkPackagesTableService.getRowsData(),
-        groupBy      = WorkPackagesTableService.getGroupBy();
+    var addedColumns        = getNewlyAddedColumns(),
+        currentWorkPackages = WorkPackagesTableService.getRowsData(),
+        groupBy             = WorkPackagesTableService.getGroupBy();
 
     if(groupBy.length === 0) groupBy = undefined; // don't pass an empty string as groupBy
 
-    WorkPackageService.augmentWorkPackagesWithColumnsData(workPackages, addedColumns, groupBy);
+    WorkPackageService.augmentWorkPackagesWithColumnsData(currentWorkPackages, addedColumns, groupBy);
 
     columnsModal.deactivate();
   }

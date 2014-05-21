@@ -108,6 +108,14 @@ angular.module('openproject.workPackages.helpers')
       });
     },
 
+    getIncludedColumnNames: function (columns, columnNames) {
+      return columnNames.filter(function(columnName) {
+        return columns.map(function(column) {
+          return column.name;
+        }).indexOf(columnName) !== -1;
+      });
+    },
+
     getColumnIndexByName: function(columns, columnName) {
       return columns
         .map(function(column){

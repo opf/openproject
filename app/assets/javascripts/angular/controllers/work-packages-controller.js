@@ -142,7 +142,7 @@ angular.module('openproject.workPackages.controllers')
   function initAvailableColumns() {
     return QueryService.getAvailableUnusedColumns($scope.projectIdentifier)
       .then(function(data){
-        $scope.availableColumns = data;
+        $scope.availableUnusedColumns = data;
       });
   }
 

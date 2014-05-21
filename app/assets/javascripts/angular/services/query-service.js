@@ -50,7 +50,10 @@ angular.module('openproject.services')
 
   var query;
 
-  var availableColumns = [], availableFilterValues = {}, availableFilters = {};
+  var availableColumns = [],
+      availableUnusedColumns = [],
+      availableFilterValues = {},
+      availableFilters = {};
 
   var totalEntries;
 
@@ -114,8 +117,9 @@ angular.module('openproject.services')
 
     getAvailableUnusedColumns: function(projectIdentifier) {
       return QueryService.getAvailableColumns(projectIdentifier)
-        .then(function(available_columns){
-          return WorkPackagesTableHelper.getColumnDifference(available_columns, QueryService.getSelectedColumns());
+        .then(function(available_columns) {
+          availableUnusedColumns = WorkPackagesTableHelper.getColumnDifference(available_columns, QueryService.getSelectedColumns());
+          return availableUnusedColumns;
         });
     },
 
@@ -138,13 +142,11 @@ angular.module('openproject.services')
     },
 
     setSelectedColumns: function(selectedColumnNames) {
-      query.columns.length = 0; // Clear array but keep same reference
+      var newSelectedColumnNames = WorkPackagesTableHelper.getIncludedColumnNames(availableUnusedColumns, selectedColumnNames);
+      var removedColumns = WorkPackagesTableHelper.getColumnDifferenceByName(this.getSelectedColumns(), selectedColumnNames);
 
-      var newSelectedColumns = WorkPackagesTableHelper.selectColumnsByName(availableColumns, selectedColumnNames);
-
-      angular.forEach(newSelectedColumns, function(column){
-        query.columns.push(column);
-      });
+      this.showColumns(newSelectedColumnNames);
+      this.hideColumns(removedColumns.map(function(column) { return column.name; }));
     },
 
     getAvailableFilters: function(projectIdentifier){

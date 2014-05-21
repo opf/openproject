@@ -8,7 +8,7 @@
                 multiple="multiple"
                 name="available_columns[]"
                 ng-model="markedAvailableColumns"
-                ng-options="column.name as column.title for column in availableColumns"
+                ng-options="column.name as column.title for column in availableUnusedColumns"
                 size="10"
                 style="width:150px">
         </select>
