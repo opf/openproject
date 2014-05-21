@@ -99,6 +99,10 @@ angular.module('openproject.services')
       return totalEntries;
     },
 
+    getAvailableUnusedColumns: function() {
+      return availableUnusedColumns;
+    },
+
     hideColumns: function(columnNames) {
       WorkPackagesTableHelper.moveColumns(columnNames, this.getSelectedColumns(), availableColumns);
     },
@@ -116,6 +120,10 @@ angular.module('openproject.services')
     },
 
     loadAvailableUnusedColumns: function(projectIdentifier) {
+      if(availableUnusedColumns.length) {
+        return $q.when(availableUnusedColumns);
+      }
+
       return QueryService.loadAvailableColumns(projectIdentifier)
         .then(function(available_columns) {
           availableUnusedColumns = WorkPackagesTableHelper.getColumnDifference(available_columns, QueryService.getSelectedColumns());
