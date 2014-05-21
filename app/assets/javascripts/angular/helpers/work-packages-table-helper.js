@@ -134,6 +134,12 @@ angular.module('openproject.workPackages.helpers')
       });
     },
 
+    orderColumnsByNames: function(columns, columnNames) {
+      columns.sort(function(a, b) {
+        return columnNames.indexOf(a.name) > columnNames.indexOf(b.name) ? 1 : -1;
+      });
+    },
+
     mapIdentifiersToColumns: function(columns, columnNames) {
       return columnNames.map(function(columnName) {
         return WorkPackagesTableHelper.detectColumnByName(columns, columnName);

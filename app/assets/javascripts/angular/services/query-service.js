@@ -142,11 +142,15 @@ angular.module('openproject.services')
     },
 
     setSelectedColumns: function(selectedColumnNames) {
+      var currentColumns = this.getSelectedColumns();
+
       var newSelectedColumnNames = WorkPackagesTableHelper.getIncludedColumnNames(availableUnusedColumns, selectedColumnNames);
-      var removedColumns = WorkPackagesTableHelper.getColumnDifferenceByName(this.getSelectedColumns(), selectedColumnNames);
+      var removedColumns = WorkPackagesTableHelper.getColumnDifferenceByName(currentColumns, selectedColumnNames);
 
       this.showColumns(newSelectedColumnNames);
       this.hideColumns(removedColumns.map(function(column) { return column.name; }));
+
+      WorkPackagesTableHelper.orderColumnsByNames(currentColumns, selectedColumnNames);
     },
 
     getAvailableFilters: function(projectIdentifier){
