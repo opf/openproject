@@ -47,61 +47,8 @@ end
 
 <%= include_gon %>
 
-<div id="work-packages-index" ng-controller="WorkPackagesController">
-
-  <div class="toolbar-container">
-    <toolbar>
-      <selectable-title selected-title="selectedTitle"
-                        reload-method="reloadQuery"
-                        data-groups="dataGroups"
-                        groups="groups">
-      </selectable-title>
-
-      <ul>
-        <li><button class="button_highlight" with-dropdown dropdown-id="tasksDropdown"><i class="icon-add icon4"></i>New Task<i class="icon-pulldown-arrow1 icon-dropdown"></i></button></li>
-        <li>
-          <button class="button"
-                  ng-click="showFiltersOptions = !showFiltersOptions"
-                  ng-class="{active: showFiltersOptions}">
-            <i class="icon-pin icon-buttons"></i>Filter
-          </button>
-        </li>
-        <li><button class="button last" with-dropdown dropdown-id="settingsDropdown"><i class="icon-settings"></i><i class="icon-pulldown-arrow1 icon-dropdown"></i></button></li>
-      </ul>
-    </toolbar>
-  </div>
-
-  <div class="dropdown dropdown-relative dropdown-anchor-right" id="tasksDropdown">
-    <ul class="dropdown-menu">
-      <li><a ng-href="" ng-repeat="(id, obj) in projectTypes">{{obj[1]}}</a></li>
-    </ul>
-  </div>
-
-  <div options-dropdown class="dropdown dropdown-relative dropdown-anchor-right" id="settingsDropdown">
-    <ul class="dropdown-menu">
-      <li><a href ng-click="showColumnsModal()">Columns…</a></li>
-      <li><a href ng-click="showSortingModal()">Sorting…</a></li>
-      <li><a href ng-click="toggleDisplaySums()">Display sums</a></li>
-      <li class="dropdown-divider"></li>
-      <li><a href ng-click="showSaveModal()">Save</a></li>
-      <li><a href ng-click="showSaveModal(true)">Save as</a></li>
-      <li><a href ng-click="showExportModal()">Export</a></li>
-      <li><a href ng-click="showShareModal()">Share</a></li>
-      <li><a href ng-click="showSettingsModal()">Page settings</a></li>
-    </ul>
-  </div>
-
-  <div class="title-bar" ng-show="showFiltersOptions">
-    <div class="title-bar-extras">
-      <%= error_messages_for 'query' %>
-      <%= render partial: 'query_form', locals: { project: project, query: query } %>
-    </div>
-  </div>
-
-  <% if query.valid? %>
-    <%= render :partial => 'work_packages/list', :locals => { :query => query } %>
-  <% end %>
-</div>
+<!-- TODO: replace with Angular routing solution -->
+<ng-include src="'/templates/work_packages.html'"></ng-include>
 
 <%= call_hook(:view_work_packages_index_bottom, { :project => project, :query => query }) %>
 
