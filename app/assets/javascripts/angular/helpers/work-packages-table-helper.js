@@ -108,14 +108,6 @@ angular.module('openproject.workPackages.helpers')
       });
     },
 
-    getIncludedColumnNames: function (columns, columnNames) {
-      return columnNames.filter(function(columnName) {
-        return columns.map(function(column) {
-          return column.name;
-        }).indexOf(columnName) !== -1;
-      });
-    },
-
     getColumnIndexByName: function(columns, columnName) {
       return columns
         .map(function(column){
@@ -131,12 +123,6 @@ angular.module('openproject.workPackages.helpers')
     selectColumnsByName: function(columns, columnNames) {
       return columns.filter(function(column) {
         return columnNames.indexOf(column.name) !== -1;
-      });
-    },
-
-    orderColumnsByNames: function(columns, columnNames) {
-      columns.sort(function(a, b) {
-        return columnNames.indexOf(a.name) > columnNames.indexOf(b.name) ? 1 : -1;
       });
     },
 
