@@ -134,7 +134,6 @@ angular.module('openproject.services')
       return QueryService.doGet(url, function(response){
         availableColumns = response.data.available_columns;
         return availableColumns;
-<<<<<<< HEAD
       });
     },
 
@@ -147,9 +146,6 @@ angular.module('openproject.services')
 
       this.hideColumns(currentColumns.map(function(column) { return column.name; }));
       this.showColumns(selectedColumnNames);
-=======
-      })
->>>>>>> Temp solution - moved sortation watcher to wp controller.
     },
 
     updateSortElements: function(sortation) {

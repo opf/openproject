@@ -52,6 +52,10 @@ angular.module('openproject.workPackages.controllers')
       return [$scope.availableColumnsData.filter(function(column) { return column.id == element.field; })[0],
               $scope.availableDirectionsData.filter(function(direction) { return direction.id == element.direction; })[0]]
     });
+
+    while($scope.sortElements.length < 3) {
+      $scope.sortElements.push([]);
+    }
   }
 
   $scope.getAvailableColumnsData = function(term, result) {
@@ -63,9 +67,13 @@ angular.module('openproject.workPackages.controllers')
   }
 
   $scope.updateSortation = function(){
-    var sortElements = $scope.sortElements.map(function(element){
-      return { field: element[0].id, direction: element[1].id }
-    })
+    var sortElements = $scope.sortElements
+      .filter(function(element){
+        return element.length == 2;
+      })
+      .map(function(element){
+        return { field: element[0].id, direction: element[1].id }
+      })
     QueryService.updateSortElements(sortElements);
 
     sortingModal.deactivate();
