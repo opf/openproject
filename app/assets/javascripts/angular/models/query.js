@@ -58,7 +58,8 @@ angular.module('openproject.models')
           'group_by': this.groupBy,
           'sort': this.sortation.encode(),
           'display_sums': this.displaySums,
-          'name': this.name
+          'name': this.name,
+          'is_public': this.isPublic
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {
           return filter.toParams();
         }))
@@ -73,7 +74,8 @@ angular.module('openproject.models')
           'c[]': this.getParamColumns(),
           'group_by': this.groupBy,
           'sort': this.sortation.encode(),
-          'display_sums': this.displaySums
+          'display_sums': this.displaySums,
+          'is_public': this.isPublic
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {
           return filter.toParams();
         }))
@@ -96,6 +98,10 @@ angular.module('openproject.models')
 
     setName: function(name) {
       this.name = name;
+    },
+
+    setIsPublic: function(isPublic) {
+      this.isPublic = isPublic;
     },
 
     /**

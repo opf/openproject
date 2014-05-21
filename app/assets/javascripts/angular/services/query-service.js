@@ -67,7 +67,8 @@ angular.module('openproject.services')
         groupSums: queryData.group_sums,
         sums: queryData.sums,
         columns: selectedColumns,
-        groupBy: queryData.group_by
+        groupBy: queryData.group_by,
+        isPublic: queryData.is_public
       });
       query.setSortation(new Sortation(queryData.sort_criteria));
 
