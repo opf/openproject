@@ -52,5 +52,4 @@ class API < Grape::API
   mount Projects::API
   mount WorkPackages::API
   mount Users::API
-
 end
