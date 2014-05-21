@@ -31,7 +31,7 @@ angular.module('openproject.workPackages.helpers')
 .factory('WorkPackagesTableHelper', ['WorkPackagesHelper', function(WorkPackagesHelper) {
   var WorkPackagesTableHelper = {
     /* builds rows from work packages, see IssuesHelper */
-    getRows: function(workPackages, groupBy) {
+    buildRows: function(workPackages, groupBy) {
       var rows = [], ancestors = [];
       var currentGroup, allGroups = [], groupIndex = -1;
 

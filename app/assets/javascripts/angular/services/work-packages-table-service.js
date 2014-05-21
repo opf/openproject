@@ -31,7 +31,8 @@ angular.module('openproject.workPackages.services')
 .service('WorkPackagesTableService', [
   '$filter',
   'QueryService',
-  function($filter, QueryService) {
+  'WorkPackagesTableHelper',
+  function($filter, QueryService, WorkPackagesTableHelper) {
   var workPackagesTableData = {
     allRowsChecked: false
   };
@@ -75,6 +76,10 @@ angular.module('openproject.workPackages.services')
 
     getGroupableColumns: function() {
       return workPackagesTableData.groupableColumns;
+    },
+
+    buildRows: function(workPackages, groupBy) {
+      this.setRows(WorkPackagesTableHelper.buildRows(workPackages, groupBy));
     },
 
     setRows: function(rows) {
