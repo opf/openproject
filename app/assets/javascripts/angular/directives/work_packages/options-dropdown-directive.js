@@ -35,12 +35,16 @@ angular.module('openproject.workPackages.directives')
   'settingsModal',
   'shareModal',
   'sortingModal',
-  function(I18n, columnsModal, exportModal, saveModal, settingsModal, shareModal, sortingModal){
+  '$window',
+  function(I18n, columnsModal, exportModal, saveModal, settingsModal, shareModal, sortingModal, $window){
 
   return {
     restrict: 'AE',
     scope: true,
     link: function(scope, element, attributes) {
+      angular.element($window).bind('click', function() {
+        scope.$emit('hideAllDropdowns');
+      });
 
       // Modals
       scope.showColumnsModal  = columnsModal.activate;
