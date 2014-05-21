@@ -209,7 +209,7 @@ Attribute `opCode` is internal OpenProject API error code:
 | estimatedTime | | Object | Must be in form of a json object with "units" and "value" as keys | { "units": "hours", "value": 12 } | READ / WRITE |
 | percentageDone | | Integer | Must be an integer between 0 and 100 | 50 | READ / WRITE |
 | projectId | | Integer | Must be an id of one of the existing projects | 1 | READ / WRITE |
-| projectTitle | | String | | My open project | READ |
+| projectName | | String | | My open project | READ |
 | responsibleId | | Integer | Must be an id of one of the allowed responsible users for the work package | 12 | READ / WRITE |
 | responsibleName | | String | | John Sheppard | READ |
 | responsibleLogin | | String | | j.sheppard | READ |
@@ -251,7 +251,7 @@ Attribute `opCode` is internal OpenProject API error code:
                 },
                 "percentageDone": 0,
                 "projectId": 1,
-                "projectTitle": "My open project",
+                "projectName": "My open project",
                 "responsibleId": 12,
                 "responsibleName": "John Sheppard",
                 "responsibleLogin": "j.sheppard",
