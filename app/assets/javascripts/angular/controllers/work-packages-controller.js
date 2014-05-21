@@ -33,6 +33,7 @@ angular.module('openproject.workPackages.controllers')
     '$q',
     '$window',
     '$location',
+    'ProjectService',
     'WorkPackagesTableHelper',
     'WorkPackagesTableService',
     'WorkPackageService',
@@ -41,13 +42,12 @@ angular.module('openproject.workPackages.controllers')
     'WorkPackageLoadingHelper',
     'INITIALLY_SELECTED_COLUMNS',
     'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
-    function($scope, $q, $window, $location,
+    function($scope, $q, $window, $location, ProjectService,
       WorkPackagesTableHelper, WorkPackagesTableService,
       WorkPackageService, QueryService, PaginationService,
       WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS,
       OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
 
-  $scope.projectTypes = $window.gon.project_types;
   $scope.showFiltersOptions = false;
 
 
@@ -55,6 +55,7 @@ angular.module('openproject.workPackages.controllers')
 
   function initialSetup() {
     setUrlParams($window.location);
+    initProject();
 
     $scope.selectedTitle = "Work Packages";
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
@@ -81,6 +82,30 @@ angular.module('openproject.workPackages.controllers')
     var regexp = /query_id=(\d+)/g;
     var match = regexp.exec(location.search);
     if(match) $scope.query_id = match[1];
+  }
+
+
+  function initProject() {
+    if ($scope.projectIdentifier) {
+      ProjectService.getProject($scope.projectIdentifier).then(function(project) {
+        $scope.project  = project;
+        $scope.projects = [ $scope.project ];
+        $scope.availableTypes = $scope.project.embedded.types;
+      });
+    } else {
+      ProjectService.getProjects().then(function(projects) {
+        var allTypes, availableTypes;
+
+        $scope.projects = projects;
+        allTypes = projects.map(function(project) {
+          return project.embedded.types;
+        }).reduce(function(a, b) {
+          return a.concat(b);
+        }, []);
+
+        $scope.availableTypes = allTypes; // TODO remove duplicates
+      });
+    }
   }
 
   function setupPage(json) {
