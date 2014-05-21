@@ -28,7 +28,11 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('queryColumns', ['WorkPackagesTableHelper', 'WorkPackageService', function(WorkPackagesTableHelper, WorkPackageService) {
+.directive('queryColumns', [
+  'WorkPackagesTableHelper',
+  'WorkPackageService',
+  'QueryService',
+  function(WorkPackagesTableHelper, WorkPackageService, QueryService) {
 
   return {
     restrict: 'E',
@@ -37,14 +41,14 @@ angular.module('openproject.workPackages.directives')
     compile: function(tElement) {
       return {
         pre: function(scope) {
-          scope.moveColumns = function (columnNames, fromColumns, toColumns, requires_extension) {
-            angular.forEach(columnNames, function(columnName){
-              removeColumn(columnName, fromColumns, function(removedColumn){
-                toColumns.push(removedColumn);
-              });
-            });
+          scope.showColumns = function(columnNames) {
+            QueryService.showColumns(columnNames);
 
-            if (requires_extension) extendRowsWithColumnData(columnNames);
+            extendRowsWithColumnData(columnNames); // TODO move to QueryService
+          };
+
+          scope.hideColumns = function(columnNames) {
+            QueryService.hideColumns(columnNames);
           };
 
           scope.moveSelectedColumnBy = function(by) {
@@ -52,6 +56,7 @@ angular.module('openproject.workPackages.directives')
             WorkPackagesTableHelper.moveColumnBy(scope.columns, nameOfColumnToBeMoved, by);
           };
 
+          // TODO move to WorkPackagesService
           function extendRowsWithColumnData(columnNames) {
             var workPackages = scope.rows.map(function(row) {
               return row.object;
@@ -63,11 +68,6 @@ angular.module('openproject.workPackages.directives')
             if( scope.groupByColumn) params.push(scope.groupByColumn.name);
             scope.withLoading(WorkPackageService.augmentWorkPackagesWithColumnsData, params)
               .then(scope.updateBackUrl);
-          }
-
-          function removeColumn(columnName, columns, callback) {
-            var removed = columns.splice(WorkPackagesTableHelper.getColumnIndexByName(columns, columnName), 1).first();
-            return !(typeof(callback) === 'undefined') ? callback.call(this, removed) : null;
           }
         }
       };

@@ -1,0 +1,28 @@
+<div id="column-context-menu" class="action-menu" ng-show="opened">
+  <ul class="menu">
+    <li ng-click="groupBy(column.name)">
+      <a href="#"><span ng-bind="I18n.t('js.work_packages.query.group_by')"/> {{column.title}}</a>
+    </li>
+
+    <li ng-click="sortAscending(column.name)">
+      <a href="#"><span ng-bind="I18n.t('js.label_sort_by')"/> <span ng-bind="column.title"/> <span ng-bind="I18n.t('js.label_ascending')"/></a>
+    </li>
+
+    <li ng-click="sortDescending(column.name)">
+      <a href="#"><span ng-bind="I18n.t('js.label_sort_by')"/> <span ng-bind="column.title"/> <span ng-bind="I18n.t('js.label_descending')"/></a>
+    </li>
+
+    <li ng-click="moveLeft(column.name)">
+      <a href="#"><span ng-bind="I18n.t('js.label_move_column_left')"/></a>
+    </li>
+
+    <li ng-click="moveRight(column.name)">
+      <a href="#"><span ng-bind="I18n.t('js.label_move_column_right')"/></a>
+    </li>
+
+    <li ng-click="hideColumn(column.name)">
+      <a href="#"><span ng-bind="I18n.t('js.label_hide_column')"/></a>
+    </li>
+
+  </ul>
+</div>

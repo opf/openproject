@@ -82,3 +82,49 @@ ul.action_menu_more
 
 .message-reply-menu
   @include contextual(-39px)
+
+.action-menu
+  float: left
+  width: 200px
+  border: 1px solid #dddddd
+  box-shadow: 1px 1px 4px #cccccc
+  -webkit-box-shadow: 1px 1px 4px #cccccc
+  padding: 3px 0
+  background: $action_menu_bg_color
+  ul
+    list-style-type: none
+    padding: 0
+    margin: 0
+  li
+    padding: 4px 10px
+    &:hover
+      background: #f0f0f0
+    &.hasnoicon
+      padding: 4px 10px 4px 35px
+    &.dropdown-divider
+      border-top: 1px solid #eeeeee
+      margin: 3px 0
+      padding: 0
+      font-size: 1px
+    a
+      color: $main_menu_font_color
+      font-weight: normal
+      white-space: nowrap
+      &:hover
+        text-decoration: none
+
+i
+.icon-actionmenu
+  padding: 0 10px 0 0
+  font-size: 15px
+  line-height: 5px
+  vertical-align: -40%
+.icon-submenu
+  padding: 0 0 0 0
+  float: right
+  font-size: 15px
+  line-height: 5px
+  vertical-align: -40%
+
+#submenu
+  margin: 81px 0 0 0

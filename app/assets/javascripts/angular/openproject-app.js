@@ -104,6 +104,7 @@ angular.module('openproject.timeEntries.controllers', []);
 // main app
 var openprojectApp = angular.module('openproject', [
   'ui.select2',
+  'ui.select2.sortable',
   'ui.date',
   'ui.router',
   'openproject.uiComponents',

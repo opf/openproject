@@ -89,16 +89,16 @@ angular.module('openproject.workPackages.helpers')
     },
 
     getColumnDifference: function (allColumns, columns) {
-      var columnValues = columns.map(function(column){
+      var identifiers = columns.map(function(column){
         return column.name;
       });
 
-      return this.getColumnDifferenceByName(allColumns, columnValues);
+      return this.getColumnDifferenceByName(allColumns, identifiers);
     },
 
-    getColumnDifferenceByName: function (allColumns, columnValues) {
+    getColumnDifferenceByName: function (allColumns, identifiers) {
       return allColumns.filter(function(column) {
-        return columnValues.indexOf(column.name) === -1;
+        return identifiers.indexOf(column.name) === -1;
       });
     },
 
@@ -126,12 +126,18 @@ angular.module('openproject.workPackages.helpers')
       });
     },
 
+    mapIdentifiersToColumns: function(columns, columnNames) {
+      return columnNames.map(function(columnName) {
+        return WorkPackagesTableHelper.detectColumnByName(columns, columnName);
+      });
+    },
+
     moveElementBy: function(array, index, positions) {
       // TODO maybe extend the Array prototype
       var newPosition = index + positions;
 
       if (newPosition > -1 && newPosition < array.length) {
-        var elementToMove = array.splice(index, 1).first();
+        var elementToMove = array.splice(index, 1)[0];
         array.splice(newPosition, 0, elementToMove);
       }
     },
@@ -140,6 +146,20 @@ angular.module('openproject.workPackages.helpers')
       var index = WorkPackagesTableHelper.getColumnIndexByName(columns, columnName);
 
       WorkPackagesTableHelper.moveElementBy(columns, index, by);
+    },
+
+    moveColumns: function (columnNames, fromColumns, toColumns) {
+      angular.forEach(columnNames, function(columnName){
+        WorkPackagesTableHelper.removeColumn(columnName, fromColumns, function(removedColumn){
+          toColumns.push(removedColumn);
+        });
+      });
+    },
+
+    removeColumn: function(columnName, columns, callback) {
+      var removed = columns.splice(this.getColumnIndexByName(columns, columnName), 1)[0];
+
+      return typeof(callback) !== 'undefined' ? callback.call(this, removed) : null;
     },
 
     getSelectedRows: function(rows) {

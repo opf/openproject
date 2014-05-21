@@ -116,6 +116,7 @@ angular.module('openproject.workPackages.controllers')
     WorkPackagesTableService.setColumns($scope.query.columns);
     WorkPackagesTableService.addColumnMetaData(meta);
     WorkPackagesTableService.setRows(WorkPackagesTableHelper.getRows(workPackages, $scope.query.groupBy));
+    WorkPackagesTableService.setGroupBy($scope.query.groupBy);
     WorkPackagesTableService.setBulkLinks(bulkLinks);
 
     // query data
@@ -139,10 +140,9 @@ angular.module('openproject.workPackages.controllers')
   }
 
   function initAvailableColumns() {
-    return QueryService.getAvailableColumns($scope.projectIdentifier)
+    return QueryService.getAvailableUnusedColumns($scope.projectIdentifier)
       .then(function(data){
-        $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(data.available_columns, $scope.columns);
-        return $scope.availableColumns;
+        $scope.availableUnusedColumns = data;
       });
   }
 

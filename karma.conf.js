@@ -24,6 +24,7 @@ module.exports = function(config) {
       "vendor/assets/components/angular/angular.js",
       "vendor/assets/components/angular-mocks/angular-mocks.js",
       "vendor/assets/components/angular-ui-select2/src/select2.js",
+      "vendor/assets/components/angular-ui-select2/src/select2sortable.js",
       "vendor/assets/components/angular-modal/modal.js",
       "vendor/assets/components/angular-sanitize/angular-sanitize.js",
       "vendor/assets/components/momentjs/moment.js",
@@ -44,6 +45,7 @@ module.exports = function(config) {
       'app/assets/javascripts/angular/helpers/timeline-table-helper.js',
       'app/assets/javascripts/angular/helpers/function-decorators.js',
       'app/assets/javascripts/angular/helpers/url-params-helper.js',
+      'app/assets/javascripts/angular/helpers/queries-helper.js',
 
       'app/assets/javascripts/angular/filters/work-packages-filters.js',
 

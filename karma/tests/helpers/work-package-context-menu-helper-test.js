@@ -31,7 +31,8 @@
 describe('WorkPackageContextMenuHelper', function() {
   var WorkPackageContextMenuHelper;
 
-  beforeEach(module('openproject.workPackages.helpers'));
+  beforeEach(module('openproject.workPackages.helpers', 'openproject.models'));
+
   beforeEach(inject(function(_WorkPackageContextMenuHelper_) {
     WorkPackageContextMenuHelper = _WorkPackageContextMenuHelper_;
   }));

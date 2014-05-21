@@ -78,4 +78,21 @@ describe('WorkPackagesTableHelper', function() {
     });
   });
 
+  describe('mapColumnNamesToColumns', function() {
+    // What do we even need this helper for at the moment?
+
+    var columns = [{ name: 'cheese' },
+      { name: 'biscuits' },
+      { name: 'grapes' },
+      { name: 'wine' },
+      { name: 'pandas' }];
+    var identifiers = ['cheese', 'wine'];
+
+    it('should get the columns for the names given', function() {
+      var selectedColumns = WorkPackagesTableHelper.mapIdentifiersToColumns(columns, identifiers);
+      expect(selectedColumns).to.deep.equal([{ name: 'cheese' }, { name: 'wine' }]);
+    });
+
+  });
+
 });
