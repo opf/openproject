@@ -70,6 +70,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#7149` Fix: Wrong success message when login is already in use
 * `#7177` Fix: Journal not created in connection with deleted note
 * `#7384` Headlines in wiki table of content are broken
+* `#7493` Work packages with only start date or end date not displayed properly
 * `#7499` No default work package status possible
 * `#7504` Timeline "Today" line not displayed properly
 * `#7531` Projects menu not visible if there are no projects
