@@ -83,6 +83,12 @@ describe('WorkPackagesController', function() {
         }, 10);
       },
 
+      getAvailableUnusedColumns: function() {
+        return $timeout(function () {
+          return columnData;
+        }, 10);
+      },
+
       getTotalEntries: function() {
       },
 

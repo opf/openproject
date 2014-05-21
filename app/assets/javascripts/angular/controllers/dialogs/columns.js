@@ -36,7 +36,67 @@ angular.module('openproject.workPackages.controllers')
   });
 }])
 
-.controller('ColumnsModalController', ['columnsModal', function(columnsModal) {
+.controller('ColumnsModalController', ['$scope',
+  '$timeout',
+  '$filter',
+  'columnsModal',
+  'QueryService',
+  'WorkPackageService',
+  'WorkPackagesTableService',
+  function($scope, $timeout, $filter, columnsModal, QueryService, WorkPackageService, WorkPackagesTableService) {
+
   this.name    = 'Columns';
   this.closeMe = columnsModal.deactivate;
+
+  $scope.getObjectsData = function(term, result) {
+    // Note: This relies on the columns having been cached in the service so they can be instantly available.
+    result($filter('filter')($scope.availableColumnsData, {label: term}));
+  };
+
+  // Data conversion for select2
+  function convertColumnsForSelect2(columns) {
+    return columns.map(function(column){
+      return { id: column.name, label: column.title, other: column.title };
+    })
+  }
+  function getColumnIdentifiersFromSelection(selectedColumnsData) {
+    return selectedColumnsData.map(function(column) { return column.id; })
+  }
+
+  // Selected Columns
+  var selectedColumns = QueryService.getSelectedColumns();
+  var previouslySelectedColumnNames = selectedColumns
+    .map(function(column){ return column.name; });
+
+  function getNewlyAddedColumns() {
+    return selectedColumns.select(function(column){
+      return previouslySelectedColumnNames.indexOf(column.name) < 0;
+    });
+  }
+
+  $scope.selectedColumnsData = convertColumnsForSelect2(selectedColumns);
+
+  // Available selectable Columns
+  QueryService.getAvailableUnusedColumns()
+    .then(function(availableUnusedColumns){
+      $scope.availableUnusedColumns = availableUnusedColumns;
+      $scope.availableColumnsData = convertColumnsForSelect2(availableUnusedColumns);
+    });
+
+
+  $scope.updateSelectedColumns = function(){
+    // Note: Can't directly manipulate selected columns because select2 returns a new array when you change the values:(
+    QueryService.setSelectedColumns(getColumnIdentifiersFromSelection($scope.selectedColumnsData));
+
+    // Augment work packages with new columns data
+    var addedColumns        = getNewlyAddedColumns(),
+        currentWorkPackages = WorkPackagesTableService.getRowsData(),
+        groupBy             = WorkPackagesTableService.getGroupBy();
+
+    if(groupBy.length === 0) groupBy = undefined; // don't pass an empty string as groupBy
+
+    if(addedColumns.length) WorkPackageService.augmentWorkPackagesWithColumnsData(currentWorkPackages, addedColumns, groupBy);
+
+    columnsModal.deactivate();
+  }
 }]);

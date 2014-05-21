@@ -33,6 +33,7 @@ angular.module('openproject.workPackages.directives')
   return {
     restrict: 'A',
     templateUrl: '/templates/work_packages/sort_header.html',
+    transclude: true,
     scope: {
       query: '=',
       headerName: '=',
@@ -41,29 +42,35 @@ angular.module('openproject.workPackages.directives')
       locale: '='
     },
     link: function(scope, element, attributes) {
-      scope.$watch('query.sortation.sortElements', function(newValue, oldValue){
-        if (scope.headerName != newValue[0].field) scope.currentSortDirection = null;
+      scope.$watch('query.sortation.sortElements', function(sortElements){
+        var latestSortElement = sortElements[0];
+
+        if (scope.headerName !== latestSortElement.field) {
+          scope.currentSortDirection = null;
+        } else {
+          scope.currentSortDirection = latestSortElement.direction;
+        }
+
+        setFullTitle();
       }, true);
 
       scope.performSort = function(){
-        targetSortation = scope.query.sortation.getTargetSortationOfHeader(scope.headerName);
+        var targetSortation = scope.query.sortation.getTargetSortationOfHeader(scope.headerName);
+
         scope.query.setSortation(targetSortation);
         scope.currentSortDirection = scope.query.sortation.getDisplayedSortDirectionOfHeader(scope.headerName);
-        scope.setFullTitle();
       };
 
-      scope.setFullTitle = function(){
+      function setFullTitle() {
         if(!scope.sortable) scope.fullTitle = '';
-        if(scope.currentSortDirection){
+
+        if(scope.currentSortDirection) {
           var sortDirectionText = (scope.currentSortDirection == 'asc') ? I18n.t('js.label_ascending') : I18n.t('js.label_descending');
           scope.fullTitle = sortDirectionText + " " + I18n.t('js.label_sorted_by') + ' \"' + scope.headerTitle + '\"';
         } else {
           scope.fullTitle = (I18n.t('js.label_sort_by') + ' \"' + scope.headerTitle + '\"');
         }
-      };
-
-      scope.currentSortDirection = scope.query.sortation.getDisplayedSortDirectionOfHeader(scope.headerName);
-      scope.setFullTitle();
+      }
     }
   };
 }]);

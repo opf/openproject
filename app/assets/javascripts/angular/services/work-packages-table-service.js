@@ -28,7 +28,10 @@
 
 angular.module('openproject.workPackages.services')
 
-.service('WorkPackagesTableService', ['$filter', function($filter) {
+.service('WorkPackagesTableService', [
+  '$filter',
+  'QueryService',
+  function($filter, QueryService) {
   var workPackagesTableData = {
     allRowsChecked: false
   };
@@ -77,8 +80,23 @@ angular.module('openproject.workPackages.services')
     setRows: function(rows) {
       workPackagesTableData.rows = rows;
     },
+
     getRows: function() {
       return workPackagesTableData.rows;
+    },
+
+    getRowsData: function() {
+      return WorkPackagesTableService.getRows().map(function(row) {
+        return row.object;
+      });
+    },
+
+    getGroupBy: function() {
+      return workPackagesTableData.groupBy;
+    },
+
+    setGroupBy: function(groupBy) {
+      workPackagesTableData.groupBy = groupBy;
     },
 
     removeRow: function(row) {
@@ -91,8 +109,14 @@ angular.module('openproject.workPackages.services')
       angular.forEach(rows, function(row) {
         WorkPackagesTableService.removeRow(row);
       });
-    }
+    },
 
+    sortBy: function(columnName, direction) {
+      QueryService.getQuery().sortation.addSortElement({
+        field: columnName,
+        direction: direction
+      });
+    }
   };
 
   return WorkPackagesTableService;
