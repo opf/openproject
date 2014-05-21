@@ -6,6 +6,8 @@ This plugin adds features to connect and categorize documents with your project.
 Under `Modules >> Administration >> Enumerations` you can find the section `Document categories`
 where you can define several document categories that projects can use to categorize their documents.
 
+Documents can be enabled for every project individually. Simply activate the `Documents` module in the project settings.
+
 When you go to any of your projects you can see the entry `Documents` in the main menu. There you can
 attach new documents to the project by following the `New document` link located in the top right corner of the page.
 
@@ -38,6 +40,31 @@ This plugin contains migrations. To migrate the database, run:
 
 `rake db:migrate`
 
+
+Tests
+-----
+
+Assuming you have to following directory structure:
+
+```
+.
+├── openproject
+├── openproject-documents
+```
+
+Replace the openproject-document ``Gemfile.plugins`` entry with the following:
+
+```
+gem "openproject-documents", path: "../openproject-documents"
+```
+
+You run the specs with the following commands:
+
+```
+cd openproject
+rake db:test:load # this needs to be done only once
+rspec ../openproject-documents
+```
 
 Deinstallation
 --------------

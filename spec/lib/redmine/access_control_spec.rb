@@ -28,9 +28,24 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require File.dirname(__FILE__) + '/../../spec_helper'
 
-module OpenProject
-  module Documents
-    VERSION = "1.0.2"
+describe Redmine::AccessControl do
+
+  describe 'manage documents permission' do
+    it 'should be part of the documents project module' do
+      permission = Redmine::AccessControl.permission(:manage_documents)
+
+      expect(permission.project_module).to eql(:documents)
+    end
   end
+
+  describe 'view documents permission' do
+    it 'should be part of the documents project module' do
+      permission = Redmine::AccessControl.permission(:view_documents)
+
+      expect(permission.project_module).to eql(:documents)
+    end
+  end
+
 end

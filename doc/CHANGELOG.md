@@ -32,6 +32,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 1.0.2
+
+* `#7679` Fix: Permissions not nested in 'documents' project module
+* `#5650` Fix: Acts as event datetime
+
 ## 1.0.1
 
 * `#5361` Add missing journal data migration
