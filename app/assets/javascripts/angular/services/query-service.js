@@ -115,15 +115,15 @@ angular.module('openproject.services')
       return QueryService.doQuery(url);
     },
 
-    getAvailableUnusedColumns: function(projectIdentifier) {
-      return QueryService.getAvailableColumns(projectIdentifier)
+    loadAvailableUnusedColumns: function(projectIdentifier) {
+      return QueryService.loadAvailableColumns(projectIdentifier)
         .then(function(available_columns) {
           availableUnusedColumns = WorkPackagesTableHelper.getColumnDifference(available_columns, QueryService.getSelectedColumns());
           return availableUnusedColumns;
         });
     },
 
-    getAvailableColumns: function(projectIdentifier) {
+    loadAvailableColumns: function(projectIdentifier) {
       // TODO: Once we have a single page app we need to differentiate between different project columns
       if(availableColumns.length) {
         return $q.when(availableColumns);
