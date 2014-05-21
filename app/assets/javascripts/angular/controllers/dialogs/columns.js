@@ -38,18 +38,19 @@ angular.module('openproject.workPackages.controllers')
 
 .controller('ColumnsModalController', ['$scope',
   '$timeout',
+  '$filter',
   'columnsModal',
   'QueryService',
   'WorkPackageService',
   'WorkPackagesTableService',
-  function($scope, $timeout, columnsModal, QueryService, WorkPackageService, WorkPackagesTableService) {
+  function($scope, $timeout, $filter, columnsModal, QueryService, WorkPackageService, WorkPackagesTableService) {
 
   this.name    = 'Columns';
   this.closeMe = columnsModal.deactivate;
 
   $scope.getObjectsData = function(term, result) {
     // Note: This relies on the columns having been cached in the service so they can be instantly available.
-    result($scope.availableColumnsData);
+    result($filter('filter')($scope.availableColumnsData, {label: term}));
   };
 
   // Data conversion for select2
