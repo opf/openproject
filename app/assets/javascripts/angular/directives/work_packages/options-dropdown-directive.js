@@ -67,6 +67,7 @@ angular.module('openproject.workPackages.directives')
       };
 
       scope.toggleDisplaySums = function(){
+        scope.$emit('hideAllDropdowns');
         scope.query.displaySums = !scope.query.displaySums;
       };
     }
