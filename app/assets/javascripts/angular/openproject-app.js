@@ -118,9 +118,6 @@ var openprojectApp = angular.module('openproject', [
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
 
-// FIXME: replace with actual data
-window.gon = { project_types: [] };
-
 openprojectApp
   .config(['$locationProvider', '$httpProvider', function($locationProvider, $httpProvider) {
     // Note: Not using this because we want to use $location to get the url params and html5Mode prevents all the links from working normally.
