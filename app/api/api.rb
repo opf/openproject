@@ -5,6 +5,8 @@ class API < Grape::API
   content_type 'hal+json', 'application/hal+json'
   format 'hal+json'
 
+  cascade false
+
   helpers do
       def current_user
         return nil if env['rack.session'][:user_id].nil?

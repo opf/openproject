@@ -193,6 +193,7 @@ gem 'pundit'
 
 # API gems
 gem 'grape', '~> 0.7.0'
+gem 'representable', :github => 'finnlabs/representable'
 gem 'roar',   '~> 0.12.6'
 gem 'reform'
 
