@@ -54,6 +54,10 @@ angular.module('openproject.workPackages.directives')
         setFullTitle();
       }, true);
 
+      scope.$watch('currentSortDirection', function(sort) {
+        element.toggleClass('active-column', !!sort);
+      })
+
       scope.performSort = function(){
         var targetSortation = scope.query.sortation.getTargetSortationOfHeader(scope.headerName);
 
