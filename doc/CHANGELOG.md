@@ -20,6 +20,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 # Changelog
 
+* `#7505` HTML/scripts are not escaped when renaming cost reports
+
 ## 1.0.0
 
 * `#5191` Public Release ReportingEngine

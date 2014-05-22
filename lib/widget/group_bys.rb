@@ -32,8 +32,7 @@ class Widget::GroupBys < Widget::Base
 
   def render_group_caption(type)
     content_tag :span do
-      out = content_tag :span, l("label_#{type}".to_sym), :class => 'in_row group_by_caption'
-      out += content_tag :span, :class => 'arrow in_row arrow_group_by_caption' do
+      out = content_tag :span, :class => 'arrow in_row arrow_group_by_caption' do
         '' #cannot use tag here as it would generate <span ... /> which leads to wrong interpretation in most browsers
       end
       out.html_safe
@@ -50,7 +49,7 @@ class Widget::GroupBys < Widget::Base
                 :class => 'drag_target drag_container',
                 :'data-initially-selected' => initially_selected.to_json.gsub('"', "'") do
 
-      out = content_tag :legend, l(:"label_#{type}"), :class => "hidden-for-sighted"
+      out = content_tag :legend, l(:"label_#{type}"), :class => 'in_row group_by_caption'
 
       out += render_group_caption type
 
