@@ -40,10 +40,7 @@ openprojectApp.config(['$stateProvider', '$urlRouterProvider',
     })
     .state('work-packages.list', {
       url: "",
-      templateUrl: "/templates/work_packages.list.html",
-      controller: function($scope) {
-        //
-      }
+      templateUrl: "/templates/work_packages.list.html"
     })
     .state('work-packages.list.details', {
       url: "/:workPackageId",
