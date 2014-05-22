@@ -12,7 +12,7 @@ $ng-modal-image-width:   $ng-modal-image-height
 .ng-modal-window
   // overlay
   +position(fixed, 0px 0px 0px 0px)
-  background: rgba(0, 0, 0, 0.2)
+  background: rgba(0, 0, 0, 0.5)
   text-align: left
   z-index: 10000
 
@@ -34,8 +34,6 @@ $ng-modal-image-width:   $ng-modal-image-height
 
 .ng-modal-inner
   +transition(opacity 0.25s ease)
-  border-radius: $base-border-radius
-  box-shadow: 0 5px 10px rgba(0, 0, 0, .2)
   background: $ng-modal-background
   margin: auto
   max-height: 95%
@@ -46,46 +44,32 @@ $ng-modal-image-width:   $ng-modal-image-height
   margin-top: .6em
   //+media($medium-screen)
   //padding: $ng-modal-padding
-  //width: 60%
-  //max-height: 60%
+  //width: 50%
+  //max-height: 50%
   //margin-top: 10em
 
   //+media($large-screen)
-  width: 50%
+  width: 40%
   margin-top: 10em
 
   .modal-header
     padding: 0
     i
       float: right
-      padding: 10px
-
-
-#content-behind-modal
-  position: absolute
-  z-index: 1
-  padding: 10px
-
-#modal-dark-overlay
-  position: absolute
-  z-index: 2
-  background: #000000
-  opacity: 0.3
-  width: 97%
-  height: 94%
-
-.modal-container
-  position: relative
-  z-index: 3
-  margin: 20px auto
-  width: 60%
-  background: #ffffff
-  padding: 0
-  .modal-header
-    padding: 0
-    i
-      float: right
-      padding: 10px
-  .modal-content
-    padding: 20px  20px 20px 20px
-
+      cursor: pointer
+  
+  label
+    padding: 0 50px 0 0
+  input
+    width: 230px
+    height: 30px
+    line-height: 30px
+    padding: 0 5px
+    background: #ffffff
+    border: 1px solid #cacaca
+    font-size: 13px
+    color: #222222
+    border-radius: 2px
+  button
+    margin: 30px 7px 0 0
+  
