@@ -12,7 +12,7 @@ module WorkPackages
     property :_type, exec_context: :decorator
 
     link :self do
-      { href: "http://localhost:3000/api/v3/work_packages/#{represented.work_package.id}", title: "Work package" }
+      { href: "http://localhost:3000/api/v3/work_packages/#{represented.work_package.id}", title: "#{represented.subject}" }
     end
 
     property :id, getter: lambda { |*| work_package.id }
@@ -25,6 +25,8 @@ module WorkPackages
     property :due_date
     property :estimated_time
     property :percentage_done
+    property :fixed_version_id, as: :target_version_id, getter: lambda { |*| work_package.fixed_version.try(:id) }, render_nil: true
+    property :target_version_name, getter: lambda { |*| work_package.fixed_version.try(:name) }, render_nil: true
     property :project_id, getter: lambda { |*| work_package.project.id }
     property :project_name, getter: lambda { |*| work_package.project.try(:name) }
     property :responsible_id, getter: lambda { |*| work_package.responsible.try(:id) }, render_nil: true
