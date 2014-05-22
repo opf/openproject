@@ -32,26 +32,6 @@ $ng-modal-image-width:   $ng-modal-image-height
     .ng-modal-inner
       top: 0
 
-.ng-modal-close
-  +position(absolute, $ng-modal-padding / 2 $ng-modal-padding / 2 0 0)
-  +size(1.5em)
-  cursor: pointer
-  background: $ng-modal-background
-  &:after,
-  &:before
-    +position(absolute, 3px 3px 0 50%)
-    +transform(rotate(45deg))
-    +size(0.15em 1.5em)
-    background: $ng-modal-close-color
-    content: ''
-    display: block
-    margin: -3px 0 0 -1px
-  &:hover:after,
-  &:hover:before
-    background: darken($ng-modal-close-color, 10)
-  &:before
-    +transform(rotate(-45deg))
-
 .ng-modal-inner
   +transition(opacity 0.25s ease)
   border-radius: $base-border-radius
@@ -74,34 +54,14 @@ $ng-modal-image-width:   $ng-modal-image-height
   width: 50%
   margin-top: 10em
 
-  h1
-    color: $base-font-color
-    margin-bottom: .6em
-    text-align: left
-    text-transform: capitalize
-  p
-    font-size: $base-font-size
-    max-width: 100% !important
+  .modal-header
     padding: 0
-    text-align: left
-    &.intro
-      color: $blue
-      line-height: 1.6em
-    &.body
-      color: $base-font-color
-      line-height: 1.45em
-      //+media($medium-screen)
-      +columns(2 8em)
+    i
+      float: right
+      padding: 10px
 
-  a.cta
-    color: white
-    display: inline-block
-    margin-right: .5em
-    margin-top: 1em
-    &:last-child
-      padding: 0 2em
 
-#sample-content-behind-modal
+#content-behind-modal
   position: absolute
   z-index: 1
   padding: 10px
@@ -113,7 +73,7 @@ $ng-modal-image-width:   $ng-modal-image-height
   opacity: 0.3
   width: 97%
   height: 94%
-  
+
 .modal-container
   position: relative
   z-index: 3
@@ -128,4 +88,4 @@ $ng-modal-image-width:   $ng-modal-image-height
       padding: 10px
   .modal-content
     padding: 20px  20px 20px 20px
-  
+
