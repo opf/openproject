@@ -80,6 +80,19 @@
   
 @mixin icon-table-rules
   padding: 0 0 0 0
+  
+@mixin icon-action-menu-rules
+  padding: 0 10px 0 0
+  font-size: 15px
+  line-height: 5px
+  vertical-align: -40%
+  
+@mixin icon-sub-menu-rules  
+  padding: 0 0 0 0
+  float: right
+  font-size: 15px
+  line-height: 5px
+  vertical-align: -40%
 
 [data-icon]:before
   @include icon-common
@@ -120,6 +133,14 @@
   @include icon-common
   content: attr(data-icon-table)
   @include icon-table-rules
+  
+[data-icon-action-menu]:before
+  content: attr(data-icon-action-menu)
+  @include icon-action-menu-rules
+
+[data-icon-sub-menu]:before
+  content: attr(data-icon-sub-menu)
+  @include icon-sub-menu-rules
 
 [class^="icon-"]:before,
 [class*=" icon-"]:before

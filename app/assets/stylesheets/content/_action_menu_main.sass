@@ -84,18 +84,18 @@ ul.action_menu_more
   @include contextual(-39px)
   
 .action-menu
-  float: left
-  width: 200px
-  border: 1px solid #dddddd
-  box-shadow: 1px 1px 4px #cccccc
-  -webkit-box-shadow: 1px 1px 4px #cccccc 
-  padding: 3px 0
   ul
     list-style-type: none
-    padding: 0
     margin: 0
+    
+    width: 200px
+    border: 1px solid #dddddd
+    box-shadow: 1px 1px 4px #cccccc
+    padding: 3px 0
+    background: #ffffff
+    
   li
-    padding: 4px 10px
+    padding: 4px 13px 4px 10px
     &:hover
       background: #f0f0f0
     &.hasnoicon
@@ -105,25 +105,22 @@ ul.action_menu_more
       margin: 3px 0
       padding: 0
       font-size: 1px
+    &:hover ul
+      display: block
+      margin: -28px 0 0 190px
+          
     a
       color: $main_menu_font_color
       font-weight: normal
-      white-space: nowrap
       &:hover
         text-decoration: none
+    ul
+      display: none
+      position: absolute  
 
-i
-.icon-actionmenu
-  padding: 0 10px 0 0
-  font-size: 15px
-  line-height: 5px
-  vertical-align: -40%
-.icon-submenu
-  padding: 0 0 0 0
-  float: right
-  font-size: 15px
-  line-height: 5px
-  vertical-align: -40%
+
+.icon-action-menu
+  @include icon-action-menu-rules
+.icon-sub-menu
+  @include icon-sub-menu-rules
   
-#submenu
-  margin: 81px 0 0 0
