@@ -73,7 +73,7 @@ openprojectApp
           config.url = window.appBasePath + config.url;
           return config || $q.when(config);
         }
-      }
+      };
     });
   }])
   .run(['$http', function($http){

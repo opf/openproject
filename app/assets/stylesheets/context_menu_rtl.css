@@ -27,6 +27,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++*/
 
+/* FIXME adapt modifications to the new action-menu component */
+
 #context-menu li.folder ul { left:auto; right:168px; }
 #context-menu li.folder>ul { left:auto; right:148px; }
 #context-menu li a.submenu { background:url("../images/bullet_arrow_left.png") left no-repeat; }
