@@ -128,7 +128,7 @@ Feature: Copying a work package
      And  I open the context menu on the work packages:
        | issue1 |
        | issue2 |
-     And I follow "Copy" within "#context-menu"
+     And I follow "Copy" within "#work-package-context-menu"
      Then I should see "Copy" within "#content"
       And I should not see "Move" within "#content"
 

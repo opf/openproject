@@ -32,7 +32,7 @@ describe('workPackageContextMenu Directive', function() {
   var compile, element, rootScope, scope;
 
   beforeEach(angular.mock.module('openproject.workPackages.directives'));
-  beforeEach(module('templates'));
+  beforeEach(module('templates', 'openproject.models'));
 
   beforeEach(inject(function($rootScope, $compile, _ContextMenuService_) {
     var html;
@@ -74,8 +74,11 @@ describe('workPackageContextMenu Directive', function() {
     var directListElements;
 
     beforeEach(function() {
-      ContextMenuService.setContext({rows: [], row: {object: workPackage}});
       compile();
+
+      ContextMenuService.setContext({rows: [], row: {object: workPackage}});
+      ContextMenuService.open('workPackageContextMenu');
+      scope.$apply();
 
       directListElements = element.find('.menu > li:not(.folder)');
     });

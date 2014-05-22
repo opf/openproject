@@ -1,0 +1,86 @@
+/*-- copyright
+ * OpenProject is a project management system.
+ * Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 3.
+ *
+ * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+ * Copyright (C) 2006-2013 Jean-Philippe Lang
+ * Copyright (C) 2010-2013 the ChiliProject Team
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * See doc/COPYRIGHT.rdoc for more details.  ++
+ */
+
+@include keyframes(fade-out)
+  from
+    opacity: 1
+  to
+    opacity: 0
+
+#work-packages-table
+  tr.issue
+    &.ng-enter, &.ng-move
+      @include transition(0.5s linear all)
+      opacity: 0
+    &.ng-enter.ng-enter-active, &.ng-move.ng-move-active
+      opacity: 1
+    &.ng-leave
+      @include animation(0.5s fade-out)
+      
+table.workpackages-table
+  border-collapse: collapse
+  width: 100%
+  margin: 0
+  thead th
+    border-bottom: 2px solid #dddddd
+    text-transform: uppercase
+    font-size: 14px
+    text-align: left
+    line-height: 34px
+    padding: 0 8px
+    &.icon-table
+      font-size: 20px
+    &.active-column
+      background: #f8f8f8
+  tr
+    border-bottom: 1px solid #dddddd
+    &:hover
+      background: #e4f7fb
+  tr td
+    text-align: left
+    line-height: 34px
+    &.icon-table 
+      font-size: 20px
+    &.checkbox
+      width: 20px
+    &.info
+      width: 20px
+  p
+    padding: 0 8px
+    margin: 0   
+  p:hover
+    background: #fff598
+
+div.active-column
+  position: absolute
+  top: 10px
+  left: 142px
+  border: 1px solid #dddddd
+  height: 139px
+  width: 105px
+  background: none

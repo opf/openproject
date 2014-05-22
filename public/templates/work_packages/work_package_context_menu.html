@@ -1,4 +1,4 @@
-<div id="context-menu" ng-show="opened">
+<div id="work-package-context-menu" class="action-menu" ng-show="opened">
   <ul class="menu">
     <li ng-repeat="(action, link) in permittedActions"
         ng-click="triggerContextMenuAction(action, link)"
@@ -12,7 +12,8 @@
 
     <li class="folder priority">
       <a href="#" class="context_item">TODO Priority</a>
-      <ul>
+      <i class="icon-pulldown-arrow4 icon-submenu"></i>
+      <ul class="sub-menu">
         <li><a href="#" class=" disabled">Immediate</a></li>
         <li><a href="#" class=" disabled">Urgent</a></li>
         <li><a href="#" class=" disabled">High</a></li>

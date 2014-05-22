@@ -58,7 +58,8 @@ angular.module('openproject.models')
           'group_by': this.groupBy,
           'sort': this.sortation.encode(),
           'display_sums': this.displaySums,
-          'name': this.name
+          'name': this.name,
+          'is_public': this.isPublic
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {
           return filter.toParams();
         }))
@@ -73,7 +74,8 @@ angular.module('openproject.models')
           'c[]': this.getParamColumns(),
           'group_by': this.groupBy,
           'sort': this.sortation.encode(),
-          'display_sums': this.displaySums
+          'display_sums': this.displaySums,
+          'is_public': this.isPublic
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {
           return filter.toParams();
         }))
@@ -162,6 +164,10 @@ angular.module('openproject.models')
       });
     },
 
+    getSelectedColumns: function(){
+      return this.columns;
+    },
+
     getParamColumns: function(){
       var selectedColumns = this.columns.map(function(column) {
         return column.name;
@@ -171,6 +177,12 @@ angular.module('openproject.models')
         selectedColumns.push(this.groupBy);
       }
       return selectedColumns;
+    },
+
+    getColumnNames: function() {
+      return this.columns.map(function(column) {
+        return column.name;
+      });
     },
 
     getFilterByName: function(filterName) {

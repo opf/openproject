@@ -65,11 +65,11 @@
 @mixin icon6-rules
   padding: 0 7px 0 9px
   font-size: 12px
-  
+
 @mixin icon-dropdown-rules
   padding: 0 0 0 3px
   font-size: 13px
-  
+
 @mixin icon-button-rules
   padding: 0 5px 0 0
   font-size: 13px
@@ -81,6 +81,22 @@
 @mixin icon-context-rules
   padding: 0 4px 0 0
   color: $content_icon_color
+
+@mixin icon-table-rules
+  padding: 0 0 0 0
+  
+@mixin icon-action-menu-rules
+  padding: 0 10px 0 0
+  font-size: 15px
+  line-height: 5px
+  vertical-align: -40%
+  
+@mixin icon-sub-menu-rules  
+  padding: 0 0 0 0
+  float: right
+  font-size: 15px
+  line-height: 5px
+  vertical-align: -40%
 
 [data-icon]:before
   @include icon-common
@@ -106,21 +122,34 @@
   @include icon-common
   content: attr(data-icon5)
   @include icon5-rules
-  
+
 [data-icon-dropwdown]:before
   @include icon-common
   content: attr(data-icon-dropdown)
   @include icon-dropdown-rules
-  
+
 [data-icon-dropdown-menu]:before
   @include icon-common
   content: attr(data-icon-dropdown-menu)
   @include icon-dropdown-menu-rules
-  
+
 [data-icon-button]:before
   @include icon-common
   content: attr(data-icon-button)
   @include icon-button-rules
+
+[data-icon-table]:before
+  @include icon-common
+  content: attr(data-icon-table)
+  @include icon-table-rules
+
+[data-icon-action-menu]:before
+  content: attr(data-icon-action-menu)
+  @include icon-action-menu-rules
+
+[data-icon-sub-menu]:before
+  content: attr(data-icon-sub-menu)
+  @include icon-sub-menu-rules
 
 [class^="icon-"]:before,
 [class*=" icon-"]:before
@@ -148,18 +177,22 @@
 // used for toggler icons in the project menu
 .icon6:before
   @include icon6-rules
-  
+
 // used for arrow icons in buttons with dropdown
 .icon-dropdown:before
   @include icon-dropdown-rules
-  
+
 // used for icons dropdown-menus
 .icon-dropdown-menu:before
   @include icon-dropdown-menu-rules
-  
+
 // used for icons in buttons
 .icon-buttons:before
   @include icon-button-rules
+
+// used for icons in workpackage table
+.icon-table:before
+  @include icon-table-rules
 
 #errorExplanation:before
   @include icon-common
@@ -167,7 +200,7 @@
   float: left
 
 // used for icons in the content area, which appear in context (menus)
-#context-menu .icon:before,
+.action-menu .icon:before,
 .icon-context:before
   @include icon-context-rules
 

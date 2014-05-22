@@ -74,13 +74,6 @@ angular.module('openproject.workPackages.directives')
           row.checked = state;
         });
       };
-
-      scope.$watch('query.sortation.sortElements', function(oldValue, newValue) {
-        if (JSON.stringify(newValue) != JSON.stringify(oldValue)) {
-          scope.updateResults();
-          scope.updateBackUrl();
-        }
-      });
     }
   };
 }]);

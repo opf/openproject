@@ -26,59 +26,18 @@
  * See doc/COPYRIGHT.rdoc for more details.  ++
  */
 
-@mixin action_menu_defaults($margin-top: 7px)
-  float: right
-  margin-top: $margin-top
-  > li
-    float: left
-    position: relative
-    list-style: none
-
-@mixin contextual($margin-top: 8px)
-  float: right
-  white-space: nowrap
-  line-height: 1.4em
-  margin-top: $margin-top
-  padding-left: 10px
-
-ul.action_menu_main
-  @include action_menu_defaults
-
-ul.action_menu_specific,
-.nosidebar ul.action_menu_specific
-  @include action_menu_defaults(-34px)
-
-p.subtitle + ul.action_menu_specific
-  @include action_menu_defaults(-57px)
-
-ul.action_menu_more
-  position: absolute
-  top: 23px
-  right: 0px
-  z-index: 100
-  white-space: nowrap
-  padding: 10px
-  padding-top: 5px
-
-  background: white
-  border: 1px solid #B7B7B7
-
-  box-shadow: 1px 1px 2px #aaa
-  > li
-    padding-top: 5px
-
-
-#lower-title-bar ul.action_menu_specific
-  @include action_menu_defaults
-  padding-top: 10px
-
-#lower-title-bar ul.action_menu_more
-  bottom: 0
-  right: 0
-  margin-bottom: 25px
-  top: auto
-  > li.drop-down
-    position: relative
-
-.message-reply-menu
-  @include contextual(-39px)
+#content
+  h2
+    padding-right: 340px
+    
+  
+h1
+  @include default-headline-h1
+h2
+  @include default-headline-h2
+h3
+  @include default-headline-h3
+h4  
+  @include default-headline-h4
+  
+  
