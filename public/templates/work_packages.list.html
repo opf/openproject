@@ -1,0 +1,31 @@
+<div class="autoscroll">
+
+  <work-packages-table ng-if="rows && columns"
+                       project-identifier="projectIdentifier"
+                       columns="columns"
+                       rows="rows"
+                       query="query"
+                       group-by="query.groupBy"
+                       group-by-column="groupByColumn"
+                       count-by-group="workPackageCountByGroup"
+                       display-sums="query.displaySums"
+                       total-sums="totalSums"
+                       group-sums="groupSums"
+                       update-results="updateResults()"
+                       with-loading="withLoading"
+                       update-back-url="updateBackUrl">
+  </work-packages-table>
+
+  <table-pagination total-entries="totalEntries"
+                    update-results="updateResults()">
+  </table-pagination>
+
+  <modal-loading>
+  </modal-loading>
+
+  <work-package-context-menu></work-package-context-menu>
+  <column-context-menu></column-context-menu>
+
+</div>
+
+<div ui-view></div>

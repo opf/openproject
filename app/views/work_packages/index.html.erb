@@ -47,60 +47,7 @@ end
 
 <%= include_gon %>
 
-<div id="work-packages-index" ng-controller="WorkPackagesController">
-
-  <div class="toolbar-container">
-    <toolbar>
-      <selectable-title selected-title="selectedTitle"
-                        reload-method="reloadQuery"
-                        data-groups="dataGroups"
-                        groups="groups">
-      </selectable-title>
-
-      <ul>
-        <li><button class="button_highlight" with-dropdown dropdown-id="tasksDropdown"><%=icon_wrapper("icon-add icon4", "New Task")%>New Task<%=icon_wrapper("icon-pulldown-arrow1", "")%></button></li>
-        <li>
-          <button class="button"
-                    ng-click="showFiltersOptions = !showFiltersOptions"
-                    ng-class="{active: showFiltersOptions}"><%=icon_wrapper("icon-pin icon-buttons", "Filter")%>Filter
-          </button>
-        </li>
-        <li><button class="button last" with-dropdown dropdown-id="settingsDropdown"><%=icon_wrapper("icon-settings icon-buttons", "Settings")%><%=icon_wrapper("icon-pulldown-arrow1", "")%>
-        </button></li>
-      </ul>
-    </toolbar>
-  </div>
-
-  <div class="dropdown dropdown-relative dropdown-anchor-right" id="tasksDropdown">
-    <ul class="dropdown-menu">
-      <li><a ng-href="" ng-repeat="(id, obj) in projectTypes">{{obj[1]}}</a></li>
-    </ul>
-  </div>
-
-  <div options-dropdown class="dropdown dropdown-relative dropdown-anchor-right" id="settingsDropdown">
-    <ul class="dropdown-menu">
-      <li><a href ng-click="showColumnsModal()">Columns…</a></li>
-      <li><a href ng-click="showSortingModal()">Sorting…</a></li>
-      <li><a href ng-click="toggleDisplaySums()">Display sums</a></li>
-      <li class="dropdown-divider"></li>
-      <li><a class="dropdown-menu-hasicons" href ng-click="showSaveModal()"><%=icon_wrapper("icon-save1 icon-dropdown-menu", "Save")%>Save</a></li>
-      <li><a class="dropdown-menu-hasicons" href ng-click="showSaveModal(true)"><%=icon_wrapper("icon-save1 icon-dropdown-menu", "Save as")%>Save as</a></li>
-      <li><a class="dropdown-menu-hasicons" href ng-click="showExportModal()"><%=icon_wrapper("icon-excel icon-dropdown-menu", "Export")%>Export</a></li>
-      <li ng-show="!query.isNew()"><a class="dropdown-menu-hasicons" href ng-click="showShareModal()"><%=icon_wrapper("icon-move icon-dropdown-menu", "Share")%>Share</a></li>
-    </ul>
-  </div>
-
-  <div class="title-bar" ng-show="showFiltersOptions">
-    <div class="title-bar-extras">
-      <%= error_messages_for 'query' %>
-      <%= render partial: 'query_form', locals: { project: project, query: query } %>
-    </div>
-  </div>
-
-  <% if query.valid? %>
-    <%= render :partial => 'work_packages/list', :locals => { :query => query } %>
-  <% end %>
-</div>
+<!-- TODO: remove this view -->
 
 <%= call_hook(:view_work_packages_index_bottom, { :project => project, :query => query }) %>
 
