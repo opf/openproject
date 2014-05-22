@@ -26,43 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// TODO move to UI components
-angular.module('openproject.uiComponents')
+angular.module('openproject.workPackages.controllers')
 
-.directive('selectableTitle', [function() {
-  return {
-    restrict: 'E',
-    replace: true,
-    scope: {
-      selectedTitle: '=',
-      reloadMethod: '=',
-      groups: '='
-    },
-    templateUrl: '/templates/components/selectable_title.html',
-    link: function(scope) {
-      scope.$watch('groups', function(oldValue, newValue){
-        scope.filteredGroups = angular.copy(scope.groups);
-      });
+.controller('WorkPackageDetailsController', [
+  '$scope',
+  '$stateParams',
+  function($scope, $stateParams) {
 
-      angular.element('#title-filter').bind('click', function(event) {
-        event.preventDefault();
-        event.stopPropagation();
-      });
+    $scope.workPackageId = $stateParams.workPackageId
 
-      scope.reload = function(modelId, newTitle) {
-        scope.selectedTitle = newTitle;
-        scope.reloadMethod(modelId);
-        scope.$emit('hideAllDropdowns');
-      };
-
-      scope.filterModels = function(filterBy) {
-        scope.filteredGroups = angular.copy(scope.groups);
-        angular.forEach(scope.filteredGroups, function(group) {
-          group.models = group.models.filter(function(model){
-            return model[0].toLowerCase().indexOf(filterBy.toLowerCase()) >= 0;
-          });
+    $scope.$watch('rows', function(rows) {
+      if (rows && rows.length > 0) {
+        var row = $scope.rows.find(function(row) {
+          return row.object.id == $scope.workPackageId;
         });
-      };
-    }
-  };
-}]);
+        $scope.workPackage = row ? row.object : {};
+      }
+    });
+  }
+]);

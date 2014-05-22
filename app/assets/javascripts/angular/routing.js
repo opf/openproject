@@ -26,43 +26,25 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// TODO move to UI components
-angular.module('openproject.uiComponents')
+openprojectApp.config(['$stateProvider', '$urlRouterProvider',
+  function($stateProvider, $urlRouterProvider) {
 
-.directive('selectableTitle', [function() {
-  return {
-    restrict: 'E',
-    replace: true,
-    scope: {
-      selectedTitle: '=',
-      reloadMethod: '=',
-      groups: '='
-    },
-    templateUrl: '/templates/components/selectable_title.html',
-    link: function(scope) {
-      scope.$watch('groups', function(oldValue, newValue){
-        scope.filteredGroups = angular.copy(scope.groups);
-      });
+  $urlRouterProvider.otherwise("/wp");
 
-      angular.element('#title-filter').bind('click', function(event) {
-        event.preventDefault();
-        event.stopPropagation();
-      });
-
-      scope.reload = function(modelId, newTitle) {
-        scope.selectedTitle = newTitle;
-        scope.reloadMethod(modelId);
-        scope.$emit('hideAllDropdowns');
-      };
-
-      scope.filterModels = function(filterBy) {
-        scope.filteredGroups = angular.copy(scope.groups);
-        angular.forEach(scope.filteredGroups, function(group) {
-          group.models = group.models.filter(function(model){
-            return model[0].toLowerCase().indexOf(filterBy.toLowerCase()) >= 0;
-          });
-        });
-      };
-    }
-  };
+  $stateProvider
+    .state('work-packages', {
+      url: "/wp",
+      abstract: true,
+      templateUrl: "/templates/work_packages.html",
+      controller: 'WorkPackagesController'
+    })
+    .state('work-packages.list', {
+      url: "",
+      templateUrl: "/templates/work_packages.list.html"
+    })
+    .state('work-packages.list.details', {
+      url: "/:workPackageId",
+      templateUrl: "/templates/work_packages.list.details.html",
+      controller: 'WorkPackageDetailsController'
+    })
 }]);

@@ -122,6 +122,7 @@ module Api::V3
       @query.column_names = params[:c] if params[:c]
       @query.column_names = nil if params[:default_columns]
       @query.name = params[:name] if params[:name]
+      @query.is_public = params[:is_public] if params[:is_public]
     end
 
     def visible_queries

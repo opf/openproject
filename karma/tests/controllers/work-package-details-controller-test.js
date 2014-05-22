@@ -26,43 +26,31 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// TODO move to UI components
-angular.module('openproject.uiComponents')
+/*jshint expr: true*/
 
-.directive('selectableTitle', [function() {
-  return {
-    restrict: 'E',
-    replace: true,
-    scope: {
-      selectedTitle: '=',
-      reloadMethod: '=',
-      groups: '='
-    },
-    templateUrl: '/templates/components/selectable_title.html',
-    link: function(scope) {
-      scope.$watch('groups', function(oldValue, newValue){
-        scope.filteredGroups = angular.copy(scope.groups);
+describe('WorkPackageDetailsController', function() {
+  var scope;
+  var buildController;
+
+  beforeEach(module('openproject.workPackages.controllers'));
+  beforeEach(inject(function($rootScope, $controller, $timeout) {
+    scope = $rootScope.$new();
+
+    buildController = function() {
+      ctrl = $controller("WorkPackageDetailsController", {
+        $scope:  scope,
+        $stateParams: { workPackageId: 99 }
       });
 
-      angular.element('#title-filter').bind('click', function(event) {
-        event.preventDefault();
-        event.stopPropagation();
-      });
+      // $timeout.flush();
+    };
 
-      scope.reload = function(modelId, newTitle) {
-        scope.selectedTitle = newTitle;
-        scope.reloadMethod(modelId);
-        scope.$emit('hideAllDropdowns');
-      };
+  }));
 
-      scope.filterModels = function(filterBy) {
-        scope.filteredGroups = angular.copy(scope.groups);
-        angular.forEach(scope.filteredGroups, function(group) {
-          group.models = group.models.filter(function(model){
-            return model[0].toLowerCase().indexOf(filterBy.toLowerCase()) >= 0;
-          });
-        });
-      };
-    }
-  };
-}]);
+  describe('initialisation', function() {
+    it('should initialise', function() {
+      buildController();
+    });
+  });
+
+});

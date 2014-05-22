@@ -20,7 +20,7 @@
 //= require momentjs/lang/de.js
 
 //= require jquery.atwho/dist/js/jquery.atwho.js
-//= require Caret.js/src/jquery.caret
+//= require Caret.js/src/jquery.caret.js
 //= require jquery_noconflict
 //= require prototype
 //= require effects
@@ -56,6 +56,7 @@
 //= require angular
 //= require angular-animate
 //= require angular-modal
+//= require angular-ui-router
 //= require angular-ui-select2
 //= require angular-ui-select2-sortable
 //= require angular-ui-date/src/date
@@ -144,19 +145,19 @@ jQuery(document).ready(function ($) {
 });
 
 function checkAll (id, checked) {
-	var els = Element.descendants(id);
-	for (var i = 0; i < els.length; i++) {
+  var els = Element.descendants(id);
+  for (var i = 0; i < els.length; i++) {
     if (els[i].disabled==false) {
       els[i].checked = checked;
     }
-	}
+  }
 }
 
 function toggleCheckboxesBySelector(selector) {
-	boxes = $$(selector);
-	var all_checked = true;
-	for (i = 0; i < boxes.length; i++) { if (boxes[i].checked == false) { all_checked = false; } }
-	for (i = 0; i < boxes.length; i++) { boxes[i].checked = !all_checked; }
+  boxes = $$(selector);
+  var all_checked = true;
+  for (i = 0; i < boxes.length; i++) { if (boxes[i].checked == false) { all_checked = false; } }
+  for (i = 0; i < boxes.length; i++) { boxes[i].checked = !all_checked; }
 }
 
 function setCheckboxesBySelector(checked, selector) {
@@ -167,9 +168,9 @@ function setCheckboxesBySelector(checked, selector) {
 }
 
 function showAndScrollTo(id, focus) {
-	Element.show(id);
-	if (focus!=null) { Form.Element.focus(focus); }
-	Element.scrollTo(id);
+  Element.show(id);
+  if (focus!=null) { Form.Element.focus(focus); }
+  Element.scrollTo(id);
 }
 
 // TODO de-implement once table component has been used
@@ -217,9 +218,9 @@ function toggleAllRowGroups(el) {
 }
 
 function hideFieldset(el) {
-	var fieldset = Element.up(el, 'fieldset');
-	fieldset.toggleClassName('collapsed');
-	fieldset.down('>div').hide();
+  var fieldset = Element.up(el, 'fieldset');
+  fieldset.toggleClassName('collapsed');
+  fieldset.down('>div').hide();
 }
 
 var fileFieldCount = 1;
@@ -252,10 +253,10 @@ function promptToRemote(text, param, url) {
 
 function collapseScmEntry(id) {
     var els = document.getElementsByClassName(id, 'browser');
-	for (var i = 0; i < els.length; i++) {
-	   if (els[i].hasClassName('open')) {
-	       collapseScmEntry(els[i].id);
-	   }
+  for (var i = 0; i < els.length; i++) {
+     if (els[i].hasClassName('open')) {
+         collapseScmEntry(els[i].id);
+     }
        Element.hide(els[i]);
     }
     $(id).removeClassName('open');
@@ -263,7 +264,7 @@ function collapseScmEntry(id) {
 
 function expandScmEntry(id) {
     var els = document.getElementsByClassName(id, 'browser');
-	for (var i = 0; i < els.length; i++) {
+  for (var i = 0; i < els.length; i++) {
        Element.show(els[i]);
        if (els[i].hasClassName('loaded') && !els[i].hasClassName('collapsed')) {
             expandScmEntry(els[i].id);
@@ -297,12 +298,12 @@ function scmEntryLoaded(id) {
 }
 
 function randomKey(size) {
-	var chars = new Array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z');
-	var key = '';
-	for (i = 0; i < size; i++) {
-  	key += chars[Math.floor(Math.random() * chars.length)];
-	}
-	return key;
+  var chars = new Array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z');
+  var key = '';
+  for (i = 0; i < size; i++) {
+    key += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return key;
 }
 
 // Automatic project identifier generation
@@ -682,27 +683,27 @@ jQuery(document).ready(function($) {
     });
   });
 
-	// file table thumbnails
-	$("table a.has-thumb").hover(function() {
-		$(this).removeAttr("title").toggleClass("active");
+  // file table thumbnails
+  $("table a.has-thumb").hover(function() {
+    $(this).removeAttr("title").toggleClass("active");
 
-		// grab the image dimensions to position it properly
-		var thumbImg = $(this).find("img");
-		var thumbImgLeft = -(thumbImg.outerWidth() );
-		var thumbImgTop = -(thumbImg.height() / 2 );
-		thumbImg.css({top: thumbImgTop, left: thumbImgLeft}).show();
+    // grab the image dimensions to position it properly
+    var thumbImg = $(this).find("img");
+    var thumbImgLeft = -(thumbImg.outerWidth() );
+    var thumbImgTop = -(thumbImg.height() / 2 );
+    thumbImg.css({top: thumbImgTop, left: thumbImgLeft}).show();
 
-	}, function() {
-		$(this).toggleClass("active").find("img").hide();
-	});
+  }, function() {
+    $(this).toggleClass("active").find("img").hide();
+  });
 
-	// show/hide the files table
-	$(".attachments h4").click(function() {
-	  $(this).toggleClass("closed").next().slideToggle(animationRate);
-	});
+  // show/hide the files table
+  $(".attachments h4").click(function() {
+    $(this).toggleClass("closed").next().slideToggle(animationRate);
+  });
 
-	// deal with potentially problematic super-long titles
-	$(".title-bar h2").css({paddingRight: $(".title-bar-actions").outerWidth() + 15 });
+  // deal with potentially problematic super-long titles
+  $(".title-bar h2").css({paddingRight: $(".title-bar-actions").outerWidth() + 15 });
 
 $(window).resize(function() {
     // wait 200 milliseconds for no further resize event
