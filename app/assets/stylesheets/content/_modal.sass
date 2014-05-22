@@ -100,3 +100,32 @@ $ng-modal-image-width:   $ng-modal-image-height
     margin-top: 1em
     &:last-child
       padding: 0 2em
+
+#sample-content-behind-modal
+  position: absolute
+  z-index: 1
+  padding: 10px
+
+#modal-dark-overlay
+  position: absolute
+  z-index: 2
+  background: #000000
+  opacity: 0.3
+  width: 97%
+  height: 94%
+  
+.modal-container
+  position: relative
+  z-index: 3
+  margin: 20px auto
+  width: 60%
+  background: #ffffff
+  padding: 0
+  .modal-header
+    padding: 0
+    i
+      float: right
+      padding: 10px
+  .modal-content
+    padding: 20px  20px 20px 20px
+  
