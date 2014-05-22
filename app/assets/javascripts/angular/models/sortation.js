@@ -83,6 +83,14 @@ angular.module('openproject.models')
     this.sortElements.unshift(sortElement);
   };
 
+  Sortation.prototype.setSortElements = function(sortElements) {
+    var elements = this.sortElements;
+    elements.length = 0;
+    angular.forEach(sortElements, function(element){
+      elements.push(element);
+    });
+  };
+
   Sortation.prototype.getTargetSortationOfHeader = function(headerName) {
     var targetSortation = angular.copy(this);
     var targetSortDirection = this.getCurrentSortDirectionOfHeader(headerName) === 'asc' ? 'desc' : 'asc';
