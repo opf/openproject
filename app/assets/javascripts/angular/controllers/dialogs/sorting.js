@@ -79,7 +79,7 @@ angular.module('openproject.workPackages.controllers')
     sortingModal.deactivate();
   }
 
-  QueryService.getAvailableColumns()
+  QueryService.loadAvailableColumns()
     .then(function(available_columns){
       $scope.availableColumns = available_columns
       $scope.availableColumnsData = available_columns.map(function(column){
