@@ -37,6 +37,40 @@ $button_gray_font_color: #222222
   @each $vendor in $vendors
     #{$vendor}transition: all 200ms ease-in-out 0s
 
+@mixin default-headline-h1
+  color:              $headline_h1_font-color
+  font-size:          $headline_h1_font_size
+  font-family:        $font_family_normal
+  font-weight:        normal
+  padding:		      0 0 8px 0
+  margin:			  0
+
+@mixin default-headline-h2
+  color:              $headline_h2_font-color
+  font-size:          $headline_h2_font_size
+  font-family:        $font_family_normal
+  font-weight:        normal
+  text-transform:	  uppercase
+  padding:		      0 0 8px 0
+  margin:			  0
+
+@mixin default-headline-h3
+  color:              $headline_h3_font-color
+  font-size:          $headline_h3_font_size
+  font-family:        $font_family_normal
+  font-weight:        normal
+  border-bottom:	  1px solid #dddddd
+  padding:		      0 0 8px 0
+  margin:		      0 0 20px 0
+
+@mixin default-headline-h4
+  color:              $headline_h4_font-color
+  font-size:          $headline_h4_font_size
+  font-family:        $font_family_normal
+  font-weight:        normal
+  padding:		      0 0 5px 0
+  margin:		      0 0 20px 0
+
 @mixin default-font-normal($color, $font-size: 13px)
   color:              $color
   font-size:          $font-size
