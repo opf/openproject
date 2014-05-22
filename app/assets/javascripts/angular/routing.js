@@ -26,7 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-openprojectApp.config(['$stateProvider', '$urlRouterProvider',
+openprojectApp.config([
+  '$stateProvider',
+  '$urlRouterProvider',
   function($stateProvider, $urlRouterProvider) {
 
   $urlRouterProvider.otherwise("/wp");
