@@ -32,6 +32,10 @@
 // https://github.com/plapier/jquery-dropdown
 // (dual MIT/GPL-Licensed)
 
+
+#settingsDropdown
+  margin: 10px 0 0 0
+   
 .dropdown
   position: absolute
   z-index: 9999999
@@ -45,7 +49,7 @@
   background: #FFF
   border: solid 1px #DDD
   border: solid 1px rgba(0, 0, 0, .2)
-  border-radius: 6px
+  border-radius: 0px
   box-shadow: 0 5px 10px rgba(0, 0, 0, .2)
   overflow: visible
   padding: 4px 0
@@ -103,21 +107,28 @@
   color: #555
   text-decoration: none
   line-height: 18px
-  padding: 3px 15px
+  padding: 3px 32px
   white-space: nowrap
-
+  
 .dropdown .dropdown-menu LI > A:hover,
 .dropdown .dropdown-menu LABEL:hover
-  background-color: #08C
-  color: #FFF
+  background-color: #F0F0F0
   cursor: pointer
 
+.dropdown LI > A.dropdown-menu-hasicons
+  display: block
+  color: #555
+  text-decoration: none
+  line-height: 18px
+  padding: 3px 10px
+  white-space: nowrap
+  
 
 .dropdown .dropdown-menu .dropdown-divider
   font-size: 1px
   border-top: solid 1px #E5E5E5
   padding: 0
-  margin: 5px 0
+  margin: 4px 0
 
 /* Icon Examples - icons courtesy of http://p.yusukekamiyamane.com/ */
 .dropdown.has-icons LI > A

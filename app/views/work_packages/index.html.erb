@@ -58,15 +58,15 @@ end
       </selectable-title>
 
       <ul>
-        <li><button class="button_highlight" with-dropdown dropdown-id="tasksDropdown"><i class="icon-add icon4"></i>New Task<i class="icon-pulldown-arrow1 icon-dropdown"></i></button></li>
+        <li><button class="button_highlight" with-dropdown dropdown-id="tasksDropdown"><%=icon_wrapper("icon-add icon4", "New Task")%>New Task<%=icon_wrapper("icon-pulldown-arrow1", "")%></button></li>
         <li>
           <button class="button"
-                  ng-click="showFiltersOptions = !showFiltersOptions"
-                  ng-class="{active: showFiltersOptions}">
-            <i class="icon-pin icon-buttons"></i>Filter
+                    ng-click="showFiltersOptions = !showFiltersOptions"
+                    ng-class="{active: showFiltersOptions}"><%=icon_wrapper("icon-pin icon-buttons", "Filter")%>Filter
           </button>
         </li>
-        <li><button class="button last" with-dropdown dropdown-id="settingsDropdown"><i class="icon-settings"></i><i class="icon-pulldown-arrow1 icon-dropdown"></i></button></li>
+        <li><button class="button last" with-dropdown dropdown-id="settingsDropdown"><%=icon_wrapper("icon-settings icon-buttons", "Settings")%><%=icon_wrapper("icon-pulldown-arrow1", "")%>
+        </button></li>
       </ul>
     </toolbar>
   </div>
@@ -83,10 +83,10 @@ end
       <li><a href ng-click="showSortingModal()">Sorting…</a></li>
       <li><a href ng-click="toggleDisplaySums()">Display sums</a></li>
       <li class="dropdown-divider"></li>
-      <li><a href ng-click="showSaveModal()">Save</a></li>
-      <li><a href ng-click="showSaveModal(true)">Save as</a></li>
-      <li><a href ng-click="showExportModal()">Export</a></li>
-      <li ng-show="!query.isNew()"><a href ng-click="showShareModal()">Share</a></li>
+      <li><a class="dropdown-menu-hasicons" href ng-click="showSaveModal()"><%=icon_wrapper("icon-save1 icon-dropdown-menu", "Save")%>Save</a></li>
+      <li><a class="dropdown-menu-hasicons" href ng-click="showSaveModal(true)"><%=icon_wrapper("icon-save1 icon-dropdown-menu", "Save as")%>Save as</a></li>
+      <li><a class="dropdown-menu-hasicons" href ng-click="showExportModal()"><%=icon_wrapper("icon-excel icon-dropdown-menu", "Export")%>Export</a></li>
+      <li ng-show="!query.isNew()"><a class="dropdown-menu-hasicons" href ng-click="showShareModal()"><%=icon_wrapper("icon-move icon-dropdown-menu", "Share")%>Share</a></li>
     </ul>
   </div>
 
