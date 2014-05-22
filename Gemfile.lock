@@ -1,4 +1,13 @@
 GIT
+  remote: git://github.com/finnlabs/representable.git
+  revision: 5f8fbcb1e61720699135c39be3f36a725ca870ad
+  specs:
+    representable (1.8.1)
+      multi_json
+      nokogiri
+      uber
+
+GIT
   remote: git://github.com/finnlabs/rspec-example_disabler.git
   revision: deb9c38e3f4e3688724583ac1ff58e1ae8aba409
   branch: master
@@ -307,10 +316,6 @@ GEM
       disposable (~> 0.0.3)
       representable (~> 1.8.1)
       uber (~> 0.0.4)
-    representable (1.8.1)
-      multi_json
-      nokogiri
-      uber
     request_store (1.0.5)
     roar (0.12.6)
       representable (>= 1.6.0)
@@ -472,6 +477,7 @@ DEPENDENCIES
   rb-readline
   rdoc (>= 2.4.2)
   reform
+  representable!
   request_store
   roar (~> 0.12.6)
   rspec (~> 2.14)

@@ -360,7 +360,7 @@ end
 Redmine::Activity.map do |activity|
   activity.register :work_packages, class_name: 'Activity::WorkPackageActivityProvider'
   activity.register :changesets, class_name: 'Activity::ChangesetActivityProvider'
-  activity.register :news, class_name: 'Activity::NewsActivityProvider', default: false 
+  activity.register :news, class_name: 'Activity::NewsActivityProvider', default: false
   activity.register :wiki_edits, class_name: 'Activity::WikiContentActivityProvider', default: false
   activity.register :messages, class_name: 'Activity::MessageActivityProvider', default: false
   activity.register :time_entries, class_name: 'Activity::TimeEntryActivityProvider', default: false

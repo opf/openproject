@@ -9,6 +9,8 @@ module WorkPackages
     include Roar::Representer::Feature::Hypermedia
     include Rails.application.routes.url_helpers
 
+    self.as_strategy = CamelCasingStrategy.new
+
     property :_type, exec_context: :decorator
 
     link :self do
@@ -25,7 +27,7 @@ module WorkPackages
     property :due_date
     property :estimated_time
     property :percentage_done
-    property :fixed_version_id, as: :target_version_id, getter: lambda { |*| work_package.fixed_version.try(:id) }, render_nil: true
+    property :fixed_version_id, as: :targetVersionId, getter: lambda { |*| work_package.fixed_version.try(:id) }, render_nil: true
     property :target_version_name, getter: lambda { |*| work_package.fixed_version.try(:name) }, render_nil: true
     property :project_id, getter: lambda { |*| work_package.project.id }
     property :project_name, getter: lambda { |*| work_package.project.try(:name) }
@@ -33,7 +35,7 @@ module WorkPackages
     property :responsible_name, getter: lambda { |*| work_package.responsible.try(:name) }, render_nil: true
     property :responsible_login, getter: lambda { |*| work_package.responsible.try(:login) }, render_nil: true
     property :responsible_mail, getter: lambda { |*| work_package.responsible.try(:mail) }, render_nil: true
-    property :assigned_to_id, as: :assignee_id, getter: lambda { |*| work_package.assigned_to.try(:id) }, render_nil: true
+    property :assigned_to_id, as: :assigneeId, getter: lambda { |*| work_package.assigned_to.try(:id) }, render_nil: true
     property :assignee_name, getter: lambda { |*| work_package.assigned_to.try(:name) }, render_nil: true
     property :assignee_login, getter: lambda { |*| work_package.assigned_to.try(:login) }, render_nil: true
     property :assignee_mail, getter: lambda { |*| work_package.assigned_to.try(:mail) }, render_nil: true

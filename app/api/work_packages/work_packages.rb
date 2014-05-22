@@ -49,11 +49,7 @@ module WorkPackages
           end
         end
 
-        delete do
-          'delete a work package'
-        end
       end
-
     end
   end
 end
