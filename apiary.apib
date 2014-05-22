@@ -224,7 +224,7 @@ Attribute `opCode` is internal OpenProject API error code:
 | createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 | updatedAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 
-## WorkPackage [/work_packages/{id}{?extend}]
+## WorkPackage [/work_packages/{id}]
 
 + Model
     + Body
@@ -234,47 +234,46 @@ Attribute `opCode` is internal OpenProject API error code:
                 "_links": {
                     "self": {
                         "href": "https://openproject.org/api/v3/work_packages/1",
-                        "title": "Work package"
+                        "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
                     }
                 },
-                "id": 1
-                "subject": "Quis numquam qui voluptatum quia praesentium blanditiis nisi",
+                "id": 1,
+                "subject": "quis numquam qui voluptatum quia praesentium blanditiis nisi",
                 "type": "Support",
                 "description": "Crux vel eos dolores admoveo summa veritatis acerbitas. Deleo venustas cubo curtus balbus sumo ambitus valens. Tener cotidie angelus illo. Cito verto comburo. Tergeo vinculum succedo ullus suppono.",
                 "status": "New",
                 "priority": "Normal",
-                "startDate": "2014-05-21T08:51:20Z",
-                "dueDate": "2014-07-21T11:56:39Z",
+                "startDate": "2014-05-29",
+                "dueDate": "2014-08-29",
                 "estimatedTime": {
                     "units": "hours",
                     "value": 10
                 },
                 "percentageDone": 0,
                 "targetVersionId": 1,
-                "targetVersionName": "Sprint-01",
+                "targetVersionName": "sprint-01",
                 "projectId": 1,
-                "projectName": "My open project",
-                "responsibleId": 12,
-                "responsibleName": "John Sheppard",
-                "responsibleLogin": "j.sheppard",
-                "responsibleMail": "j.sheppard@finn.de",
-                "assigneeId": 12,
-                "assigneeName": "John Sheppard",
-                "assigneeLogin": "j.sheppard",
-                "assigneeMail": "j.sheppard@finn.de",
-                "authorName": "John Sheppard",
-                "authorLogin": "j.sheppard",
-                "authorMail": "j.sheppard@finn.de",
+                "projectName": "Seeded Project",
+                "responsibleId": 1,
+                "responsibleName": "OpenProject Admin",
+                "responsibleLogin": "admin",
+                "responsibleMail": "admin@example.net",
+                "assigneeId": 22,
+                "assigneeName": "Vivienne Windler",
+                "assigneeLogin": "Yoshiko8884",
+                "assigneeMail": "gabriel.osinski@glover.name",
+                "authorName": "Delia Schneider",
+                "authorLogin": "Layla3137",
+                "authorMail": "charlene.terry@stromanko.org",
                 "createdAt": "2014-05-21T08:51:20Z",
-                "updatedAt": "2014-05-21T11:56:39Z"
+                "updatedAt": "2014-05-22T09:41:29Z"
             }
-                
+
 ## View work package [GET]
 
 + Parameters
     + id (required, integer, `1`) ... Work package id
-    + extend (optional, string, `responsible,author`) ... Extend child resources
-    
+
 + Response 200 (application/hal+json)
 
     [WorkPackage][]
@@ -283,42 +282,26 @@ Attribute `opCode` is internal OpenProject API error code:
 Send only the data you want to update
 
 + Parameters
-    + id (required, integer, `1`) ... Work package id.
-    
+    + id (required, integer, `1`) ... Work package id
+
++ Request (application/hal+JSON)
+    + Body
+
+                {
+                    "subject": "Lorem ipsum",
+                    "description": "Dolor sit amet."
+                }
+
 + Response 200 (application/hal+json)
 
     [WorkPackage][]
-
-## Delete work package [DELETE]
-
-+ Parameters
-    + id (required, integer, `1`) ... Work package id.
-    
-+ Response 204
-
-## Get header [HEAD]
-
-
-+ Parameters
-    + id (required, integer, `1`) ... Work package id.
-    
-+ Response 204
-    + Headers
-    
-            Link: </>
 
 ## Get allowed HTTP methods [OPTIONS]
 
 + Parameters
     + id (required, integer, `1`) ... Work package id.
-    
-+ Response 200 (application/hal+json)
-    + Headers
-    
-            Allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
 
-    + Body
-    
-            {
-                "message": "Lorem ipsum"
-            }
++ Response 204
+    + Headers
+
+            Allow: OPTIONS, GET, PATCH, HEAD
