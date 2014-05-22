@@ -1,12 +1,42 @@
-<hr>
+<div ng-if="workPackage.subject">
+  <h2>
+    <span>{{ workPackage.type.name }}</span>
+    {{ workPackage.subject }}
+  </h2>
+  #{{ workPackage.id }}
 
-<h3>{{ workPackage.type.name }}</h3>
-<h2>{{ workPackage.subject }}</h2>
-<p>TODO: details panel goes here</p>
+  <h3>Description</h3>
+  <p>TODO: Add description</p>
 
-<h3>Debug</h3>
-<pre>
-{{ workPackage | json }}
-</pre>
+  <dl>
+    <dt>Status</dt>
+    <dd>{{ workPackage.status.name }}</dd>
+    <dt>Priority</dt>
+    <dd>{{ workPackage.priority.name }}</dd>
+    <dt>Date</dt>
+    <dd></dd>
+    <dt>Responsible</dt>
+    <dd>{{ workPackage.assigned_to }}</dd>
+    <dt>Assignee</dt>
+    <dd>–</dd>
+    <dt>% Done</dt>
+    <dd>–</dd>
+  </dl>
 
-<button class="button" ui-sref="work-packages.list">Close details</button>
+  <button class="button" ui-sref="work-packages.list">Close details</button>
+
+  <small>
+    <input id="toggleDebugInfo" type="checkbox" ng-model="debugInfo">
+    <label for="toggleDebugInfo">Debug information</label>
+  </small>
+  <div ng-show="debugInfo">
+    <h3>Debug</h3>
+    <pre>
+      {{ workPackage | json }}
+    </pre>
+  </div>
+</div>
+
+<div ng-if="!workPackage.subject">
+  <p>Select a work package for more information.</p>
+</div>
