@@ -220,12 +220,6 @@ angular.module('openproject.workPackages.controllers')
     return WorkPackageLoadingHelper.withLoading($scope, callback, params, serviceErrorHandler);
   };
 
-  $scope.submitQueryForm = function(){
-    jQuery("#selected_columns option").attr('selected',true);
-    jQuery('#query_form').submit();
-    return false;
-  };
-
   // Go
 
   initialSetup();
