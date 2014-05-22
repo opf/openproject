@@ -96,6 +96,10 @@ angular.module('openproject.models')
       this.sortation = sortation;
     },
 
+    setGroupBy: function(groupBy) {
+      this.groupBy = groupBy;
+    },
+
     setName: function(name) {
       this.name = name;
     },
