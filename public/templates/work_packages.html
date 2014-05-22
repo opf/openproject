@@ -28,7 +28,7 @@
 
   <div class="dropdown dropdown-relative dropdown-anchor-right" id="tasksDropdown">
     <ul class="dropdown-menu">
-      <li><a ng-href="" ng-repeat="type in availableTypes">{{type.name}}</a></li>
+      <li><a ng-href="work_packages/new?work_package[type_id]={{type.id}}" ng-repeat="type in availableTypes">{{type.name}}</a></li>
     </ul>
   </div>
 
