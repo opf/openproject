@@ -237,4 +237,13 @@ angular.module('openproject.workPackages.controllers')
     }
   });
 
+  // Note: Again, this was in the work packages table directive but in an isolated scope so it wasn't picking up the changes to sortation.
+  // Think it would probably be a good idea to have the table directive just share the scope but that requires a refactor.
+  $scope.$watch('query.sortation.sortElements', function(oldValue, newValue) {
+    if (JSON.stringify(newValue) != JSON.stringify(oldValue)) {
+      $scope.updateResults();
+      $scope.updateBackUrl();
+    }
+  }, true);
+
 }]);

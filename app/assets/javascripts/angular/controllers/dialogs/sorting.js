@@ -36,7 +36,57 @@ angular.module('openproject.workPackages.controllers')
   });
 }])
 
-.controller('SortingModalController', ['sortingModal', function(sortingModal) {
+.controller('SortingModalController', ['sortingModal',
+	'$scope',
+	'QueryService',
+	function(sortingModal, $scope, QueryService) {
   this.name    = 'Sorting';
   this.closeMe = sortingModal.deactivate;
+
+  $scope.sortByOptions = {};
+
+  $scope.initSortation = function(){
+    var currentSortation = QueryService.getSortation();
+
+    $scope.sortElements = currentSortation.sortElements.map(function(element){
+      return [$scope.availableColumnsData.filter(function(column) { return column.id == element.field; })[0],
+              $scope.availableDirectionsData.filter(function(direction) { return direction.id == element.direction; })[0]]
+    });
+
+    while($scope.sortElements.length < 3) {
+      $scope.sortElements.push([]);
+    }
+  }
+
+  $scope.getAvailableColumnsData = function(term, result) {
+    result($scope.availableColumnsData);
+  }
+
+  $scope.getDirectionsData = function(term, result) {
+    result([{ id: 'asc', label: 'Ascending'}, { id: 'desc', label: 'Descending'}]);
+  }
+
+  $scope.updateSortation = function(){
+    var sortElements = $scope.sortElements
+      .filter(function(element){
+        return element.length == 2;
+      })
+      .map(function(element){
+        return { field: element[0].id, direction: element[1].id }
+      })
+    QueryService.updateSortElements(sortElements);
+
+    sortingModal.deactivate();
+  }
+
+  QueryService.loadAvailableColumns()
+    .then(function(available_columns){
+      $scope.availableColumns = available_columns
+      $scope.availableColumnsData = available_columns.map(function(column){
+        return { id: column.name, label: column.title, other: column.title };
+      });
+      $scope.initSortation();
+    });
+
+  $scope.availableDirectionsData = [{ id: 'desc', label: 'Descending'}, { id: 'asc', label: 'Ascending'}];
 }]);

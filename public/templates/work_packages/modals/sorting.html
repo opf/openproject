@@ -1,8 +1,24 @@
 <div class="ng-modal-window">
-  <div class="ng-modal-inner">
-    <a href class="ng-modal-close" ng-click="modal.closeMe()">&nbsp;</a>
+  <div class="ng-modal-inner modal-content">
+    <div class="modal-header"><i class="icon-close" ng-click="modal.closeMe()"></i></div>
 
     <h1>Sorting</h1>
+
+    <div ng-repeat="element in sortElements">
+      <input type="hidden"
+             ui-select2-sortable="sortByOptions"
+             simple-query="getAvailableColumnsData"
+             ng-model="element[0]"></input>
+      <input type="hidden"
+             ui-select2-sortable="sortDirectionOptions"
+             simple-query="getDirectionsData"
+             ng-model="element[1]"></input>
+    </div>
+
+    <div>
+      <button ng-click="updateSortation()">Apply</button>
+      <button ng-click="modal.closeMe()">Cancel</button>
+    </div>
 
   </div>
 </div>
