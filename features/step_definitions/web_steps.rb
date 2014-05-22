@@ -444,6 +444,10 @@ When /^(?:|I )click on the first button matching "([^"]*)"$/ do |button|
   first(:button, button).click
 end
 
+When /^(?:|I )follow the first link matching "([^"]*)"$/ do |link|
+  first(:link, link).click
+end
+
 def find_lowest_containing_element text, selector
   elements = []
 

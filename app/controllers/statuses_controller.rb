@@ -76,7 +76,12 @@ class StatusesController < ApplicationController
 
   verify :method => :delete, :only => :destroy, :render => {:nothing => true, :status => :method_not_allowed }
   def destroy
-    Status.find(params[:id]).destroy
+    status = Status.find(params[:id])
+    if status.is_default?
+      flash[:error] = l(:error_unable_delete_default_status)
+    else
+      status.destroy
+    end
     redirect_to :action => 'index'
   rescue
     flash[:error] = l(:error_unable_delete_status)

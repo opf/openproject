@@ -28,12 +28,32 @@
 
 angular.module('openproject.services')
 
-.service('QueryService', ['Query', 'Sortation', '$http', '$location', 'PathHelper', '$q', 'AVAILABLE_WORK_PACKAGE_FILTERS', 'StatusService', 'TypeService', 'PriorityService', 'UserService', 'VersionService', 'RoleService', 'GroupService', 'ProjectService', 'I18n',
-  function(Query, Sortation, $http, $location, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService, I18n) {
+.service('QueryService', [
+  'Query',
+  'Sortation',
+  '$http',
+  '$location',
+  'PathHelper',
+  '$q',
+  'AVAILABLE_WORK_PACKAGE_FILTERS',
+  'StatusService',
+  'TypeService',
+  'PriorityService',
+  'UserService',
+  'VersionService',
+  'RoleService',
+  'GroupService',
+  'ProjectService',
+  'WorkPackagesTableHelper',
+  'I18n',
+  function(Query, Sortation, $http, $location, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService, WorkPackagesTableHelper, I18n) {
 
   var query;
 
-  var availableColumns = [], availableFilterValues = {}, availableFilters = {};
+  var availableColumns = [],
+      availableUnusedColumns = [],
+      availableFilterValues = {},
+      availableFilters = {};
 
   var totalEntries;
 
@@ -47,7 +67,8 @@ angular.module('openproject.services')
         groupSums: queryData.group_sums,
         sums: queryData.sums,
         columns: selectedColumns,
-        groupBy: queryData.group_by
+        groupBy: queryData.group_by,
+        isPublic: queryData.is_public
       });
       query.setSortation(new Sortation(queryData.sort_criteria));
 
@@ -79,6 +100,18 @@ angular.module('openproject.services')
       return totalEntries;
     },
 
+    getAvailableUnusedColumns: function() {
+      return availableUnusedColumns;
+    },
+
+    hideColumns: function(columnNames) {
+      WorkPackagesTableHelper.moveColumns(columnNames, this.getSelectedColumns(), availableColumns);
+    },
+
+    showColumns: function(columnNames) {
+      WorkPackagesTableHelper.moveColumns(columnNames, availableColumns, this.getSelectedColumns());
+    },
+
     // data loading
 
     getAvailableGroupedQueries: function(projectIdentifier) {
@@ -87,10 +120,41 @@ angular.module('openproject.services')
       return QueryService.doQuery(url);
     },
 
-    getAvailableColumns: function(projectIdentifier) {
+    loadAvailableUnusedColumns: function(projectIdentifier) {
+      if(availableUnusedColumns.length) {
+        return $q.when(availableUnusedColumns);
+      }
+
+      return QueryService.loadAvailableColumns(projectIdentifier)
+        .then(function(available_columns) {
+          availableUnusedColumns = WorkPackagesTableHelper.getColumnDifference(available_columns, QueryService.getSelectedColumns());
+          return availableUnusedColumns;
+        });
+    },
+
+    loadAvailableColumns: function(projectIdentifier) {
+      // TODO: Once we have a single page app we need to differentiate between different project columns
+      if(availableColumns.length) {
+        return $q.when(availableColumns);
+      }
+
       var url = projectIdentifier ? PathHelper.apiProjectAvailableColumnsPath(projectIdentifier) : PathHelper.apiAvailableColumnsPath();
 
-      return QueryService.doQuery(url);
+      return QueryService.doGet(url, function(response){
+        availableColumns = response.data.available_columns;
+        return availableColumns;
+      });
+    },
+
+    getSelectedColumns: function() {
+      return this.getQuery().getSelectedColumns();
+    },
+
+    setSelectedColumns: function(selectedColumnNames) {
+      var currentColumns = this.getSelectedColumns();
+
+      this.hideColumns(currentColumns.map(function(column) { return column.name; }));
+      this.showColumns(selectedColumnNames);
     },
 
     getAvailableFilters: function(projectIdentifier){
@@ -193,6 +257,8 @@ angular.module('openproject.services')
       return availableFilters[projectIdentifier];
     },
 
+    // synchronization
+
     saveQuery: function() {
       var url = PathHelper.apiProjectQueryPath(query.project_id, query.id);
       return QueryService.doQuery(url, query.toUpdateParams(), 'PUT', function(response){
@@ -207,6 +273,10 @@ angular.module('openproject.services')
         query.save(response.data);
         return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_create') }} );
       });
+    },
+
+    doGet: function(url, success, failure) {
+      return QueryService.doQuery(url, null, 'GET', success, failure);
     },
 
     doQuery: function(url, params, method, success, failure) {

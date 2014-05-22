@@ -84,7 +84,7 @@ describe 'Work package index accessibility' do
 
       it do
         expect(sort_header).not_to be_nil
-        expect(sort_header.find("span")[:title]).to eq(sort_text)
+        expect(sort_header.find("span.sort-header")[:title]).to eq(sort_text)
       end
     end
 

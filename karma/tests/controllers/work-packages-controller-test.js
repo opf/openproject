@@ -72,7 +72,7 @@ describe('WorkPackagesController', function() {
       },
       initQuery: function () {
       },
-      getAvailableColumns: function () {
+      loadAvailableColumns: function () {
         return $timeout(function () {
           return columnData;
         }, 10);
@@ -80,6 +80,12 @@ describe('WorkPackagesController', function() {
       getAvailableGroupedQueries: function () {
         return $timeout(function () {
           return availableQueryiesData;
+        }, 10);
+      },
+
+      loadAvailableUnusedColumns: function() {
+        return $timeout(function () {
+          return columnData;
         }, 10);
       },
 
