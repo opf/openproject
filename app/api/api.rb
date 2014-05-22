@@ -1,35 +1,35 @@
 class API < Grape::API
   include Pundit
 
-  use Rack::Session::Cookie
   content_type 'hal+json', 'application/hal+json'
   format 'hal+json'
 
-  cascade false
+  # cascade false
 
   helpers do
-      def current_user
-        return nil if env['rack.session'][:user_id].nil?
-        @current_user ||= User.find(env['rack.session'][:user_id])
-      end
-
-      def current_user=(user)
-        env['rack.session'][:user_id] = user.id unless user
-        @current_user = user
-      end
-
-      def authorize(record, query=nil)
-        true
-       end
-
-       def root_url
-          'http://localhost:3000/api/v3'
-       end
-
-       def rels_url
-          "#{root_url}/rels"
-       end
+    def current_user
+      user_id = env['action_dispatch.request.unsigned_session_cookie']['user_id']
+      return nil if user_id.nil?
+      @current_user ||= User.find(user_id)
     end
+
+    def authorize(api, endpoint, project = nil, projects = nil, global = false)
+      is_authorized = AuthorizationService.new(api, endpoint, project, projects, global, current_user).perform
+
+      unless is_authorized
+        error!('403 Forbidden', 403)
+      end
+      is_authorized
+    end
+
+     def root_url
+        'http://localhost:3000/api/v3'
+     end
+
+     def rels_url
+        "#{root_url}/rels"
+     end
+  end
 
   get do
     {

@@ -31,6 +31,7 @@ module WorkPackages
         end
 
         get do
+          authorize(:work_packages_api, :get, @work_package.project)
           @work_package_representer.to_json
         end
 
@@ -39,6 +40,7 @@ module WorkPackages
           optional :responsible_id, type: Integer, desc: 'Responsible user id'
         end
         patch do
+          authorize(:work_packages_api, :patch, @work_package.project)
           params.delete(:id)
           @work_package_representer.from_json(params.to_json)
           if @work_package_representer.represented.valid?

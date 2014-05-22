@@ -28,16 +28,17 @@
 #++
 
 class AuthorizationService
-  def initialize(ctrl, action, project, projects, global)
+  def initialize(ctrl, action, project, projects, global, user = nil)
     @ctrl = ctrl
     @action = action
     @project = project
     @projects = projects
     @global = global
+    @user = user || User.current
   end
 
   def perform
-    allowed = User.current.allowed_to?({:controller => @ctrl, :action => @action}, @project || @projects, :global => @global)
+    allowed = @user.allowed_to?({:controller => @ctrl, :action => @action}, @project || @projects, :global => @global)
     if allowed
       true
     else
