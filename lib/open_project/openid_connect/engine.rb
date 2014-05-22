@@ -29,6 +29,12 @@ module OpenProject::OpenIDConnect
         require file.gsub("^.*lib/", "").gsub(".rb", "")
       end
 
+      # Use OpenSSL default certificate store instead of HTTPClient's.
+      # It's outdated and it's unclear how it's managed.
+      OpenIDConnect.http_config do |config|
+        config.ssl_config.set_default_paths
+      end
+
       OmniAuth::OpenIDConnect::Provider.load_generic_providers
 
       app.config.middleware.use OmniAuth::Builder do
