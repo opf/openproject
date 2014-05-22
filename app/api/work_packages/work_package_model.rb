@@ -15,6 +15,7 @@ module WorkPackages
     property :project_id, on: :work_package
     property :responsible_id, on: :work_package
     property :assigned_to_id, on: :work_package
+    property :fixed_version_id, on: :work_package
 
     def type
       work_package.type.name

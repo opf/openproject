@@ -34,10 +34,6 @@ module WorkPackages
           @work_package_representer.to_json
         end
 
-        put do
-          'update a work package (provide whole resource)'
-        end
-
         params do
           optional :project_id, type: Integer, desc: 'Project id'
           optional :responsible_id, type: Integer, desc: 'Responsible user id'
