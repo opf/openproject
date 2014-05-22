@@ -81,6 +81,18 @@ No host is required if absolute endpoint URIs are given.
 
 The configuration of the pre-defined providers (currently Google and Heroku) can be overriden as well.
 
+## Provider Client Registration
+
+Client ID and secret are often provided by the provider, otherwise refer to the provider on how to create them.
+
+Use the following scheme for creating a callback URL (you have to whitelist that URL at the provider):
+
+    https://YOURAPP.example.org/auth/PROVIDER_NAME/callback
+
+Replace `PROVIDER_NAME` with the key you used for the provider in the settings hash. So e.g. for an app running on openproject.example.org and authentication via Google, you can set up the following callback URL:
+
+    https://openproject.example.org/auth/google/callback
+
 ## Credits
 
 This plugin uses some of Neil Hainsworth' [Free Social Icons](http://www.neilorangepeel.com/free-social-icons/).
