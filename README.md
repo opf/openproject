@@ -93,6 +93,12 @@ Replace `PROVIDER_NAME` with the key you used for the provider in the settings h
 
     https://openproject.example.org/auth/google/callback
 
+## Provider SSL certificate validation
+
+This plugin uses OpenSSL's default certificate store (on Linux you can ususally find it in `/etc/ssl/certs`).
+
+If you want to use a different list of CAs for validating provider SSL certificates, you can set the environment variable `SSL_CERT_DIR` to another path containing CA certificates. Note that this environment variable is an OpenSSL feature, so it changes the CA list for all libraries using OpenSSL that don't explicitly specify another path.
+
 ## Credits
 
 This plugin uses some of Neil Hainsworth' [Free Social Icons](http://www.neilorangepeel.com/free-social-icons/).
