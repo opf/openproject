@@ -26,28 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-openprojectApp.config(['$stateProvider', '$urlRouterProvider',
-  function($stateProvider, $urlRouterProvider) {
+angular.module('openproject.workPackages.controllers')
 
-  $urlRouterProvider.otherwise("/wp");
+.controller('WorkPackageDetailsController', [
+  '$scope',
+  '$stateParams',
+  function($scope, $stateParams) {
 
-  $stateProvider
-    .state('work-packages', {
-      url: "/wp",
-      abstract: true,
-      templateUrl: "/templates/work_packages.html",
-      controller: 'WorkPackagesController'
-    })
-    .state('work-packages.list', {
-      url: "",
-      templateUrl: "/templates/work_packages.list.html",
-      controller: function($scope) {
-        //
+    $scope.workPackageId = $stateParams.workPackageId
+
+    $scope.$watch('rows', function(rows) {
+      if (rows && rows.length > 0) {
+        var row = $scope.rows.find(function(row) {
+          return row.object.id == $scope.workPackageId;
+        });
+        $scope.workPackage = row ? row.object : {};
       }
-    })
-    .state('work-packages.list.details', {
-      url: "/:workPackageId",
-      templateUrl: "/templates/work_packages.list.details.html",
-      controller: 'WorkPackageDetailsController'
-    })
-}]);
+    });
+  }
+]);

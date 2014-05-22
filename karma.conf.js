@@ -90,6 +90,7 @@ module.exports = function(config) {
 
       "app/assets/javascripts/angular/controllers/timelines-controller.js",
       "app/assets/javascripts/angular/controllers/work-packages-controller.js",
+      "app/assets/javascripts/angular/controllers/work-package-details-controller.js",
 
 
       'app/assets/javascripts/date-en-US.js',

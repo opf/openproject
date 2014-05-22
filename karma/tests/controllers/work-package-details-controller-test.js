@@ -26,28 +26,31 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-openprojectApp.config(['$stateProvider', '$urlRouterProvider',
-  function($stateProvider, $urlRouterProvider) {
+/*jshint expr: true*/
 
-  $urlRouterProvider.otherwise("/wp");
+describe('WorkPackageDetailsController', function() {
+  var scope;
+  var buildController;
 
-  $stateProvider
-    .state('work-packages', {
-      url: "/wp",
-      abstract: true,
-      templateUrl: "/templates/work_packages.html",
-      controller: 'WorkPackagesController'
-    })
-    .state('work-packages.list', {
-      url: "",
-      templateUrl: "/templates/work_packages.list.html",
-      controller: function($scope) {
-        //
-      }
-    })
-    .state('work-packages.list.details', {
-      url: "/:workPackageId",
-      templateUrl: "/templates/work_packages.list.details.html",
-      controller: 'WorkPackageDetailsController'
-    })
-}]);
+  beforeEach(module('openproject.workPackages.controllers'));
+  beforeEach(inject(function($rootScope, $controller, $timeout) {
+    scope = $rootScope.$new();
+
+    buildController = function() {
+      ctrl = $controller("WorkPackageDetailsController", {
+        $scope:  scope,
+        $stateParams: { workPackageId: 99 }
+      });
+
+      // $timeout.flush();
+    };
+
+  }));
+
+  describe('initialisation', function() {
+    it('should initialise', function() {
+      buildController();
+    });
+  });
+
+});
