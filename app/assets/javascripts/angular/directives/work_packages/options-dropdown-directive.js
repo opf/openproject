@@ -35,8 +35,9 @@ angular.module('openproject.workPackages.directives')
   'settingsModal',
   'shareModal',
   'sortingModal',
+  'QueryService',
   '$window',
-  function(I18n, columnsModal, exportModal, saveModal, settingsModal, shareModal, sortingModal, $window){
+  function(I18n, columnsModal, exportModal, saveModal, settingsModal, shareModal, sortingModal, QueryService, $window){
 
   return {
     restrict: 'AE',

@@ -36,7 +36,16 @@ angular.module('openproject.workPackages.controllers')
   });
 }])
 
-.controller('ShareModalController', ['shareModal', function(shareModal) {
+.controller('ShareModalController', ['$scope', 'shareModal', 'QueryService', function($scope, shareModal, QueryService) {
   this.name    = 'Share';
   this.closeMe = shareModal.deactivate;
+  $scope.query = QueryService.getQuery();
+
+  $scope.saveQuery = function() {
+    QueryService.saveQuery()
+      .then(function(data){
+        shareModal.deactivate();
+        $scope.$emit('flashMessage', data.status);
+      });
+  }
 }]);
