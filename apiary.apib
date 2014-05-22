@@ -250,6 +250,8 @@ Attribute `opCode` is internal OpenProject API error code:
                     "value": 10
                 },
                 "percentageDone": 0,
+                "targetVersionId": 1,
+                "targetVersionName": "Sprint-01",
                 "projectId": 1,
                 "projectName": "My open project",
                 "responsibleId": 12,
@@ -272,16 +274,6 @@ Attribute `opCode` is internal OpenProject API error code:
 + Parameters
     + id (required, integer, `1`) ... Work package id
     + extend (optional, string, `responsible,author`) ... Extend child resources
-    
-+ Response 200 (application/hal+json)
-
-    [WorkPackage][]
-
-## Update work package [PUT]
-Send whole work package
-
-+ Parameters
-    + id (required, integer, `1`) ... Work package id.
     
 + Response 200 (application/hal+json)
 
