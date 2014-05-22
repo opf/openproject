@@ -4,5 +4,14 @@
 
     <h1>Share</h1>
 
+    <div>
+      <label for="name">Page visible for others</label>
+      <input type="checkbox" name="is_public" ng-model="query.isPublic"></input>
+    </div>
+    <div>
+      <button ng-click="modal.closeMe()">Cancel</button>
+      <button ng-click="saveQuery()">Save</button>
+    </div>
+
   </div>
 </div>

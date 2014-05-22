@@ -77,7 +77,7 @@ angular.module('openproject.workPackages.controllers')
   $scope.selectedColumnsData = convertColumnsForSelect2(selectedColumns);
 
   // Available selectable Columns
-  QueryService.getAvailableUnusedColumns()
+  QueryService.loadAvailableUnusedColumns()
     .then(function(availableUnusedColumns){
       $scope.availableUnusedColumns = availableUnusedColumns;
       $scope.availableColumnsData = convertColumnsForSelect2(availableUnusedColumns);

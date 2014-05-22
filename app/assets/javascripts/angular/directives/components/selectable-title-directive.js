@@ -44,6 +44,11 @@ angular.module('openproject.uiComponents')
         scope.filteredGroups = angular.copy(scope.groups);
       });
 
+      angular.element('#title-filter').bind('click', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+      });
+
       scope.reload = function(modelId, newTitle) {
         scope.selectedTitle = newTitle;
         scope.reloadMethod(modelId);

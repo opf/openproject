@@ -34,7 +34,6 @@ angular.module('openproject.workPackages.controllers')
     '$window',
     '$location',
     'ProjectService',
-    'WorkPackagesTableHelper',
     'WorkPackagesTableService',
     'WorkPackageService',
     'QueryService',
@@ -43,7 +42,7 @@ angular.module('openproject.workPackages.controllers')
     'INITIALLY_SELECTED_COLUMNS',
     'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
     function($scope, $q, $window, $location, ProjectService,
-      WorkPackagesTableHelper, WorkPackagesTableService,
+      WorkPackagesTableService,
       WorkPackageService, QueryService, PaginationService,
       WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS,
       OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
@@ -140,8 +139,8 @@ angular.module('openproject.workPackages.controllers')
     // table data
     WorkPackagesTableService.setColumns($scope.query.columns);
     WorkPackagesTableService.addColumnMetaData(meta);
-    WorkPackagesTableService.setRows(WorkPackagesTableHelper.getRows(workPackages, $scope.query.groupBy));
     WorkPackagesTableService.setGroupBy($scope.query.groupBy);
+    WorkPackagesTableService.buildRows(workPackages, $scope.query.groupBy);
     WorkPackagesTableService.setBulkLinks(bulkLinks);
 
     // query data
@@ -165,7 +164,7 @@ angular.module('openproject.workPackages.controllers')
   }
 
   function initAvailableColumns() {
-    return QueryService.getAvailableUnusedColumns($scope.projectIdentifier)
+    return QueryService.loadAvailableUnusedColumns($scope.projectIdentifier)
       .then(function(data){
         $scope.availableUnusedColumns = data;
       });

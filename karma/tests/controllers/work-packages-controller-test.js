@@ -87,7 +87,7 @@ describe('WorkPackagesController', function() {
       },
       initQuery: function () {
       },
-      getAvailableColumns: function () {
+      loadAvailableColumns: function () {
         return $timeout(function () {
           return columnData;
         }, 10);
@@ -98,7 +98,7 @@ describe('WorkPackagesController', function() {
         }, 10);
       },
 
-      getAvailableUnusedColumns: function() {
+      loadAvailableUnusedColumns: function() {
         return $timeout(function () {
           return columnData;
         }, 10);
