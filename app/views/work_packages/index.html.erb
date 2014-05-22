@@ -50,7 +50,7 @@ end
 <div id="work-packages-index" ng-controller="WorkPackagesController">
 
   <div class="toolbar-container">
-    <toolbar>
+    <div toolbar id="toolbar">
       <selectable-title selected-title="selectedTitle"
                         reload-method="reloadQuery"
                         data-groups="dataGroups"
@@ -58,17 +58,46 @@ end
       </selectable-title>
 
       <ul>
-        <li><button class="button_highlight" with-dropdown dropdown-id="tasksDropdown"><i class="icon-add icon4"></i>New Task<i class="icon-pulldown-arrow1 icon-dropdown"></i></button></li>
-        <li>
+        <li class="toolbar-item">
+          <button class="button_highlight" with-dropdown dropdown-id="tasksDropdown">
+            <i class="icon-add icon4"></i>
+            New Task
+            <i class="icon-pulldown-arrow1 icon-dropdown"></i>
+          </button>
+        </li>
+        <li class="toolbar-item">
           <button class="button"
                   ng-click="showFiltersOptions = !showFiltersOptions"
                   ng-class="{active: showFiltersOptions}">
             <i class="icon-pin icon-buttons"></i>Filter
           </button>
         </li>
-        <li><button class="button last" with-dropdown dropdown-id="settingsDropdown"><i class="icon-settings"></i><i class="icon-pulldown-arrow1 icon-dropdown"></i></button></li>
+        <li class="toolbar-item">
+          <ul id="work-packages-view-mode-selection" class="toolbar-button-group">
+            <li>
+              <button class="button"
+                      ng-click="viewMode = 'list'"
+                      ng-class="{active: viewMode === 'list'}">
+                <i class="icon-view2 icon-buttons"></i>
+              </button>
+            </li>
+            <li>
+              <button class="button"
+                      ng-click="viewMode = 'work-package-details'"
+                      ng-class="{active: viewMode === 'work-package-details'}">
+                <i class="icon-cup icon-buttons"></i>
+              </button>
+            </li>
+          </ul>
+        </li>
+        <li class="toolbar-item">
+          <button class="button last" with-dropdown dropdown-id="settingsDropdown">
+            <i class="icon-settings"></i>
+            <i class="icon-pulldown-arrow1 icon-dropdown"></i>
+          </button>
+        </li>
       </ul>
-    </toolbar>
+    </div>
   </div>
 
   <div class="dropdown dropdown-relative dropdown-anchor-right" id="tasksDropdown">

@@ -8,6 +8,7 @@
   height:  $header_height
   padding: 0px
 
+#toolbar
   ul
     margin:  0
     padding: 0
@@ -16,13 +17,19 @@
   li
     list-style-type: none
     float: left
-    margin-right: 5 //$drop-nav-spacing // spacing between nav items
-    //font-size: $font-size
-    //line-height: $line-height
-    
+    &.toolbar-item
+      margin: 0 0 0 5px //$drop-nav-spacing // spacing between nav items
+
+  .toolbar-button-group
+    button
+      margin-right: 0
+
   a.last, .last
     margin-right: 0px
-    
+    //font-size: $font-size
+    //line-height: $line-height
+
+
 
 .title-container
   $line-height: 20px
