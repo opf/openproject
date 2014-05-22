@@ -38,6 +38,6 @@ angular.module('openproject.workPackages.controllers')
 
 .controller('ExportModalController', ['exportModal', function(exportModal) {
   this.name    = 'Export';
-  this.formats = window.gon.export_formats;
+  this.formats = { 'xls': 'XLS', 'atom': 'Atom' }; // TODO: populate properly
   this.closeMe = exportModal.deactivate;
 }]);
