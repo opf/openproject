@@ -67,12 +67,16 @@
   font-size: 12px
 
 @mixin icon-dropdown-rules
-  padding: 0 0px 0 3px
+  padding: 0 0 0 3px
   font-size: 13px
 
 @mixin icon-button-rules
-  padding: 0 5px 0 0px
+  padding: 0 5px 0 0
   font-size: 13px
+  
+@mixin icon-dropdown-menu-rules
+  padding: 0 8px 0 0
+  font-size: 14px
 
 @mixin icon-context-rules
   padding: 0 4px 0 0
@@ -80,6 +84,19 @@
 
 @mixin icon-table-rules
   padding: 0 0 0 0
+  
+@mixin icon-action-menu-rules
+  padding: 0 10px 0 0
+  font-size: 15px
+  line-height: 5px
+  vertical-align: -40%
+  
+@mixin icon-sub-menu-rules  
+  padding: 0 0 0 0
+  float: right
+  font-size: 15px
+  line-height: 5px
+  vertical-align: -40%
 
 [data-icon]:before
   @include icon-common
@@ -111,6 +128,11 @@
   content: attr(data-icon-dropdown)
   @include icon-dropdown-rules
 
+[data-icon-dropdown-menu]:before
+  @include icon-common
+  content: attr(data-icon-dropdown-menu)
+  @include icon-dropdown-menu-rules
+
 [data-icon-button]:before
   @include icon-common
   content: attr(data-icon-button)
@@ -120,6 +142,14 @@
   @include icon-common
   content: attr(data-icon-table)
   @include icon-table-rules
+
+[data-icon-action-menu]:before
+  content: attr(data-icon-action-menu)
+  @include icon-action-menu-rules
+
+[data-icon-sub-menu]:before
+  content: attr(data-icon-sub-menu)
+  @include icon-sub-menu-rules
 
 [class^="icon-"]:before,
 [class*=" icon-"]:before
@@ -151,6 +181,10 @@
 // used for arrow icons in buttons with dropdown
 .icon-dropdown:before
   @include icon-dropdown-rules
+
+// used for icons dropdown-menus
+.icon-dropdown-menu:before
+  @include icon-dropdown-menu-rules
 
 // used for icons in buttons
 .icon-buttons:before
