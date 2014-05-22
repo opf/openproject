@@ -53,7 +53,6 @@ angular.module('openproject.workPackages.directives')
       scope.showExportModal   = exportModal.activate;
       scope.showSettingsModal = settingsModal.activate;
       scope.showShareModal    = shareModal.activate;
-      scope.showSortingModal  = sortingModal.activate;
       scope.showGroupingModal = groupingModal.activate;
 
       scope.showSaveModal     = function(saveAs){
@@ -71,6 +70,11 @@ angular.module('openproject.workPackages.directives')
       scope.showColumnsModal  = function(){
         scope.$emit('hideAllDropdowns');
         columnsModal.activate();
+      };
+
+      scope.showSortingModal  = function(){
+        scope.$emit('hideAllDropdowns');
+        sortingModal.activate();
       };
 
       scope.toggleDisplaySums = function(){

@@ -165,6 +165,14 @@ angular.module('openproject.services')
       this.showColumns(selectedColumnNames);
     },
 
+    updateSortElements: function(sortation) {
+      return query.updateSortElements(sortation);
+    },
+
+    getSortation: function() {
+      return query.getSortation();
+    },
+
     getAvailableFilters: function(projectIdentifier){
       // TODO once this is becoming more single-page-app-like keep the available filters of the query model in sync when the project identifier is changed on the scope but the page isn't reloaded
       var identifier = 'global';

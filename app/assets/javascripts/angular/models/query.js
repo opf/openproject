@@ -92,12 +92,20 @@ angular.module('openproject.models')
       return UrlParamsHelper.buildQueryString(this.toParams());
     },
 
+    getSortation: function(){
+      return this.sortation;
+    },
+
     setSortation: function(sortation){
       this.sortation = sortation;
     },
 
     setGroupBy: function(groupBy) {
       this.groupBy = groupBy;
+    },
+
+    updateSortElements: function(sortElements){
+      this.sortation.setSortElements(sortElements);
     },
 
     setName: function(name) {

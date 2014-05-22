@@ -1,4 +1,4 @@
-<table id="work-packages-table">
+<table class="workpackages-table">
   <thead>
     <tr>
       <th class="checkbox hide-when-print">
@@ -11,7 +11,7 @@
                         icon-name="yes"></icon-wrapper>
         </a>
       </th>
-
+      <th class="icon-table"><i class="icon-info"></i></th>
       <th sort-header
           header-name="'id'"
           header-title="'#'"
@@ -50,7 +50,7 @@
           keyboard_hover: true
         }"
         id="group-header-{{ row.groupName }}">
-      <td colspan="{{ columns.length + 2 }}">
+      <td colspan="{{ columns.length + 3 }}">
         <span ng-class="[
                 'expander',
                 'icon-context',
@@ -95,8 +95,6 @@
         ng-class="[
           'hascontextmenu',
           row.checked && 'context-menu-selection',
-          'issue',
-          $even && 'even' || 'odd',
           !row.object['leaf?'] && 'parent' || '',
           row.level > 0 && 'child idnt' || '',
           row.level > 0 && ('idnt-' + row.level) || ''
@@ -109,6 +107,10 @@
                              checkbox-value="row.object.id"
                              checkbox-title="{{checkboxTitle}}"
                              model="row.checked"/>
+      </td>
+
+      <td class="icon-table info">
+        <p><a href ui-sref="work-packages.list.details({workPackageId: row.object.id})"><i class="icon-info"></i></a></p>
       </td>
 
       <td class="id">
@@ -140,7 +142,7 @@
           'issue',
           'work_package'
         ]">
-        <td colspan="2">
+        <td colspan="3">
           {{ I18n.t('js.label_sum_for') }}
           <span work-package-column work-package="row.object" column="groupByColumn"/>
         </td>
@@ -154,7 +156,7 @@
     <tr work-package-total-sums
         ng-if="displaySums"
         class="sum group all issue work_package">
-      <td colspan="2">{{ I18n.t('js.label_sum_for') }} {{ I18n.t('js.label_all_work_packages') }}</td>
+      <td colspan="3">{{ I18n.t('js.label_sum_for') }} {{ I18n.t('js.label_all_work_packages') }}</td>
       <td ng-repeat="column in columns">
         {{ column.total_sum }}
       </td>

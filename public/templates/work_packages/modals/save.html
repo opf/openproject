@@ -1,16 +1,16 @@
 <div class="ng-modal-window">
   <div class="ng-modal-inner">
-    <a href class="ng-modal-close" ng-click="modal.closeMe()">&nbsp;</a>
+    <div class="modal-header"><i class="icon-close" ng-click="modal.closeMe()"></i></div>
 
-    <h1>Save</h1>
+    <h3>Save</h3>
 
     <div>
       <label for="name">Name</label>
-      <input type="text" name="query_name" ng-model="queryName"></input>
+      <input class="short" type="text" name="query_name" ng-model="queryName"></input>
     </div>
     <div>
-      <button ng-click="modal.closeMe()">Cancel</button>
-      <button ng-click="saveQueryAs(queryName)">Save</button>
+      <button class="button_highlight" ng-click="saveQueryAs(queryName)">Save</button>
+      <button class="button" ng-click="modal.closeMe()">Cancel</button>
     </div>
 
   </div>
