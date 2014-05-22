@@ -73,6 +73,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#7493` Work packages with only start date or end date not displayed properly
 * `#7499` No default work package status possible
 * `#7504` Timeline "Today" line not displayed properly
+* `#7507` Open in new Tab from Backlog has become harder
 * `#7531` Projects menu not visible if there are no projects
 * `#7533` Fixes: Deleted block not addable
 * `#7562` Regression: creating ticket via API fails with HTTP 422
