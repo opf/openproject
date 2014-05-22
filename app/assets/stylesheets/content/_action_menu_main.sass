@@ -26,77 +26,19 @@
  * See doc/COPYRIGHT.rdoc for more details.  ++
  */
 
-@mixin action_menu_defaults($margin-top: 7px)
-  float: right
-  margin-top: $margin-top
-  > li
-    float: left
-    position: relative
-    list-style: none
-
-@mixin contextual($margin-top: 8px)
-  float: right
-  white-space: nowrap
-  line-height: 1.4em
-  margin-top: $margin-top
-  padding-left: 10px
-
-ul.action_menu_main
-  @include action_menu_defaults
-
-ul.action_menu_specific,
-.nosidebar ul.action_menu_specific
-  @include action_menu_defaults(-34px)
-
-p.subtitle + ul.action_menu_specific
-  @include action_menu_defaults(-57px)
-
-ul.action_menu_more
-  position: absolute
-  top: 23px
-  right: 0px
-  z-index: 100
-  white-space: nowrap
-  padding: 10px
-  padding-top: 5px
-
-  background: white
-  border: 1px solid #B7B7B7
-
-  box-shadow: 1px 1px 2px #aaa
-  > li
-    padding-top: 5px
-
-
-#lower-title-bar ul.action_menu_specific
-  @include action_menu_defaults
-  padding-top: 10px
-
-#lower-title-bar ul.action_menu_more
-  bottom: 0
-  right: 0
-  margin-bottom: 25px
-  top: auto
-  > li.drop-down
-    position: relative
-
-.message-reply-menu
-  @include contextual(-39px)
-
 .action-menu
-  float: left
-  width: 200px
-  border: 1px solid #dddddd
-  box-shadow: 1px 1px 4px #cccccc
-  -webkit-box-shadow: 1px 1px 4px #cccccc
-  padding: 3px 0
-  background: $action_menu_bg_color
   ul
     list-style-type: none
-    padding: 0
     margin: 0
+
+    width: 200px
+    border: 1px solid #dddddd
+    box-shadow: 1px 1px 4px #cccccc
+    padding: 3px 0
+    background: #ffffff
+
   li
-    padding: 4px 10px
+    padding: 4px 13px 4px 10px
     &:hover
       background: #f0f0f0
     &.hasnoicon
@@ -106,25 +48,22 @@ ul.action_menu_more
       margin: 3px 0
       padding: 0
       font-size: 1px
+    &:hover ul
+      display: block
+      margin: -28px 0 0 190px
+
     a
       color: $main_menu_font_color
       font-weight: normal
-      white-space: nowrap
       &:hover
         text-decoration: none
+    ul
+      display: none
+      position: absolute
 
-i
-.icon-actionmenu
-  padding: 0 10px 0 0
-  font-size: 15px
-  line-height: 5px
-  vertical-align: -40%
-.icon-submenu
-  padding: 0 0 0 0
-  float: right
-  font-size: 15px
-  line-height: 5px
-  vertical-align: -40%
 
-#submenu
-  margin: 81px 0 0 0
+.icon-action-menu
+  @include icon-action-menu-rules
+.icon-sub-menu
+  @include icon-sub-menu-rules
+
