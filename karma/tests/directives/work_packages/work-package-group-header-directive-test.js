@@ -49,7 +49,7 @@ describe('workPackageGroupHeader Directive', function() {
     describe('element', function() {
       beforeEach(function() {
         scope.row = { groupName: 'llama' };
-        scope.groupExpanded = {}
+        scope.groupExpanded = {};
       });
 
       describe('group header toggling', function(){
@@ -75,7 +75,7 @@ describe('workPackageGroupHeader Directive', function() {
     describe('element', function() {
       beforeEach(function() {
         scope.row = { groupName: 'donkey' };
-        scope.groupExpanded = { llama: true }
+        scope.groupExpanded = { llama: true };
       });
 
       describe('group header toggling', function(){

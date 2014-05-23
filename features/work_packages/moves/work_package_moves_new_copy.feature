@@ -114,6 +114,7 @@ Feature: Copying a work package
 
      And I should see "project_2" within ".breadcrumb"
 
+  @javascript
   Scenario: Move an issue to project with missing type
     When I go to the move page of the work package "issue3"
      And I select "project_1" from "Project"
@@ -128,8 +129,8 @@ Feature: Copying a work package
      And  I open the context menu on the work packages:
        | issue1 |
        | issue2 |
-     And I follow "Copy" within "#context-menu"
-     Then I should see "Copy" within "#content"
+     And I follow "Copy" within "#work-package-context-menu"
+     Then I should see "COPY" within "#content"
       And I should not see "Move" within "#content"
 
 #  FIXME: Please check this: is this the same issue as reported in #1868

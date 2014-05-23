@@ -44,7 +44,7 @@ describe 'Work package index accessibility' do
 
   describe 'Select all link' do
     def select_all_link
-      find('table.list.issues th.checkbox a')
+      find('table.workpackages-table th.checkbox a')
     end
 
     def description_for_blind
@@ -84,7 +84,7 @@ describe 'Work package index accessibility' do
 
       it do
         expect(sort_header).not_to be_nil
-        expect(sort_header.find("span")[:title]).to eq(sort_text)
+        expect(sort_header.find("span.sort-header")[:title]).to eq(sort_text)
       end
     end
 
@@ -142,7 +142,7 @@ describe 'Work package index accessibility' do
 
     describe 'id column' do
       let(:link_caption) { '#' }
-      let(:sort_header_selector) { 'table.list.issues th.checkbox + th' }
+      let(:sort_header_selector) { 'table.workpackages-table th.checkbox + th + th' }
       let(:sort_link_selector) { sort_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -152,7 +152,7 @@ describe 'Work package index accessibility' do
 
     describe 'type column' do
       let(:link_caption) { 'Type' }
-      let(:sort_header_selector) { 'table.list.issues th.checkbox + th + th' }
+      let(:sort_header_selector) { 'table.workpackages-table th.checkbox + th + th + th' }
       let(:sort_link_selector) { sort_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -162,7 +162,7 @@ describe 'Work package index accessibility' do
 
     describe 'status column' do
       let(:link_caption) { 'Status' }
-      let(:sort_header_selector) { 'table.list.issues th.checkbox + th + th + th' }
+      let(:sort_header_selector) { 'table.workpackages-table th.checkbox + th + th + th + th' }
       let(:sort_link_selector) { sort_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -172,7 +172,7 @@ describe 'Work package index accessibility' do
 
     describe 'priority column' do
       let(:link_caption) { 'Priority' }
-      let(:sort_header_selector) { 'table.list.issues th.checkbox + th + th + th + th' }
+      let(:sort_header_selector) { 'table.workpackages-table th.checkbox + th + th + th + th + th' }
       let(:sort_link_selector) { sort_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -182,7 +182,7 @@ describe 'Work package index accessibility' do
 
     describe 'subject column' do
       let(:link_caption) { 'Subject' }
-      let(:sort_header_selector) { 'table.list.issues th.checkbox + th + th + th + th + th' }
+      let(:sort_header_selector) { 'table.workpackages-table th.checkbox + th + th + th + th + th + th' }
       let(:sort_link_selector) { sort_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
@@ -192,7 +192,7 @@ describe 'Work package index accessibility' do
 
     describe 'assigned to column' do
       let(:link_caption) { 'Assignee' }
-      let(:sort_header_selector) { 'table.list.issues th.checkbox + th + th + th + th + th + th' }
+      let(:sort_header_selector) { 'table.workpackages-table th.checkbox + th + th + th + th + th + th + th' }
       let(:sort_link_selector) { sort_header_selector + ' a' }
 
       it_behaves_like 'sortable column'

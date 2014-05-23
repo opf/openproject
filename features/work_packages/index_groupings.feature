@@ -67,6 +67,7 @@ Feature: Disabled done ratio on the work package index
   @javascript
   Scenario: Groupings should be displayed when a grouping is selected
     When I go to the work packages index page of the project "project1"
+    And I click the toolbar button named "Filter"
     And I click "Options"
     And I select "Type" from "group_by"
     Then I should see "(3)" within "#group-header-Bug .count"

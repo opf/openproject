@@ -38,22 +38,24 @@ Feature: Work Package Query
       | name | position |
       | Bug  |     1    |
 
-  @javascript
+  @javascript @wip
   Scenario: Create a query and give it a name
     When I am already admin
      And I go to the work packages index page for the project "project"
+     And I press "Filter"
      And I follow "Save" within "#query_form"
      And I fill in "Query" for "Name"
      And I press "Save"
     Then I should see "Query" within "#content"
      And I should see "Successful creation."
 
-  @javascript
+  @javascript @wip
   Scenario: Group on empty Value (Assignee)
     Given the project "project" has 1 issue with the following:
       | subject | issue1 |
      And I am already admin
      And I go to the work packages index page for the project "project"
+     And I press "Filter"
      And I follow "Options" within "#query_form"
      And I select "Assignee" from "group_by"
      And I follow "Save"
@@ -63,6 +65,7 @@ Feature: Work Package Query
      And I should see "Successful creation."
      And I should see "None" within "#content"
 
+  @wip
   Scenario: Save Button should be visible for users with the proper rights
     Given there is 1 user with the following:
       | login     | bob    |
@@ -77,6 +80,7 @@ Feature: Work Package Query
      And I go to the work packages index page for the project "project"
     Then I should see "Save" within "#query_form"
 
+  @wip
   Scenario: Save Button should be invisible for users without the proper rights
     Given there is 1 user with the following:
       | login     | alice  |

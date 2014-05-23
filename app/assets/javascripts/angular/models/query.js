@@ -28,7 +28,10 @@
 
 angular.module('openproject.models')
 
-.factory('Query', ['Filter', 'Sortation', function(Filter, Sortation) {
+.factory('Query', ['Filter',
+                   'Sortation',
+                   'UrlParamsHelper',
+                   function(Filter, Sortation, UrlParamsHelper) {
 
   Query = function (queryData, options) {
     angular.extend(this, queryData, options);
@@ -54,26 +57,59 @@ angular.module('openproject.models')
           'c[]': this.getParamColumns(),
           'group_by': this.groupBy,
           'sort': this.sortation.encode(),
-          'display_sums': this.displaySums
+          'display_sums': this.displaySums,
+          'name': this.name,
+          'is_public': this.isPublic
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {
           return filter.toParams();
         }))
       );
     },
 
-    serialiseForAngular: function(){
-      var params = this.toParams();
-      var serialised = '';
-      angular.forEach(params, function(value, key){
-        if(typeof value == "string" || typeof value == "boolean"){
-          serialised = serialised + "&" + key + "=" + encodeURIComponent(value);
-        } else if(Array.isArray(value)){
-          angular.forEach(value, function(v){
-            serialised = serialised + "&" + key + "=" + encodeURIComponent(v);
-          });
-        }
-      });
-      return serialised.slice(1, serialised.length);
+    toUpdateParams: function() {
+      return angular.extend.apply(this, [
+        {
+          'id': this.id,
+          'f[]': this.getFilterNames(this.getActiveConfiguredFilters()),
+          'c[]': this.getParamColumns(),
+          'group_by': this.groupBy,
+          'sort': this.sortation.encode(),
+          'display_sums': this.displaySums,
+          'is_public': this.isPublic
+        }].concat(this.getActiveConfiguredFilters().map(function(filter) {
+          return filter.toParams();
+        }))
+      );
+    },
+
+    save: function(data){
+      // Note: query has already been updated, only the id needs to be set
+      this.id = data.id;
+      return this;
+    },
+
+    getQueryString: function(){
+      return UrlParamsHelper.buildQueryString(this.toParams());
+    },
+
+    getSortation: function(){
+      return this.sortation;
+    },
+
+    setSortation: function(sortation){
+      this.sortation = sortation;
+    },
+
+    setGroupBy: function(groupBy) {
+      this.groupBy = groupBy;
+    },
+
+    updateSortElements: function(sortElements){
+      this.sortation.setSortElements(sortElements);
+    },
+
+    setName: function(name) {
+      this.name = name;
     },
 
     /**
@@ -140,6 +176,10 @@ angular.module('openproject.models')
       });
     },
 
+    getSelectedColumns: function(){
+      return this.columns;
+    },
+
     getParamColumns: function(){
       var selectedColumns = this.columns.map(function(column) {
         return column.name;
@@ -149,6 +189,12 @@ angular.module('openproject.models')
         selectedColumns.push(this.groupBy);
       }
       return selectedColumns;
+    },
+
+    getColumnNames: function() {
+      return this.columns.map(function(column) {
+        return column.name;
+      });
     },
 
     getFilterByName: function(filterName) {
@@ -215,15 +261,14 @@ angular.module('openproject.models')
       });
     },
 
-    // Note: If we pass an id for the query then any changes to filters are ignored by the server and it
-    //       just uses the queries filters. Therefor we have to set it to null.
-    hasChanged: function(){
-      this.id = null;
+    isNew: function(){
+      return !this.id;
     },
 
-    setSortation: function(sortation){
-      this.sortation = sortation;
-    }
+    hasName: function() {
+      return !!this.name && this.name !== '_';
+    },
+
   };
 
   return Query;

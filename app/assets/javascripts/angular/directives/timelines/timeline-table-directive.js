@@ -43,9 +43,9 @@ angular.module('openproject.timelines.directives')
 
       scope.toggleRowExpansion = function(row){
         if(row.expanded) {
-          var expansionMethod = function(node){ node.resetVisible(); }
+          var expansionMethod = function(node){ node.resetVisible(); };
         } else {
-          var expansionMethod = function(node){ node.setVisible(); }
+          var expansionMethod = function(node){ node.setVisible(); };
         }
 
         TimelineTableHelper.applyToNodes(row.childNodes, expansionMethod, row.expanded);

@@ -81,7 +81,7 @@ describe('timelineColumnData Directive', function() {
 
         scope.columnName = 'start_date';
         compile();
-      })
+      });
 
       it('should assign a change kind class to the current date', function() {
         var container = element.find('.tl-column');
@@ -101,7 +101,7 @@ describe('timelineColumnData Directive', function() {
         it('should contain a link with a css class indicating the change', function() {
           expect(historicalContainerElement.find('a').hasClass('tl-icon-postponed')).to.be.true;
         });
-      })
+      });
     });
 
     describe('rendering changed data which is not a date', function() {
@@ -114,7 +114,7 @@ describe('timelineColumnData Directive', function() {
 
         scope.columnName = 'type';
         compile();
-      })
+      });
 
       describe('the historical data container', function() {
         beforeEach(function() {
@@ -129,7 +129,7 @@ describe('timelineColumnData Directive', function() {
         it('should contain a link with a css class indicating the change', function() {
           expect(historicalContainerElement.find('a').hasClass('tl-icon-changed')).to.be.true;
         });
-      })
+      });
 
     });
   });

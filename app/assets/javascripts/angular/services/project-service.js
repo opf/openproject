@@ -6,7 +6,9 @@ angular.module('openproject.services')
     getProject: function(projectIdentifier) {
       var url = PathHelper.apiV3ProjectPath(projectIdentifier);
 
-      return ProjectService.doQuery(url);
+      return $http.get(url).then(function(response) {
+        return response.data.project;
+      });
     },
 
     getProjects: function() {

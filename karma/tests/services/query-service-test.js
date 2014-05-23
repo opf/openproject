@@ -30,7 +30,8 @@
 
 describe('QueryService', function() {
 
-  var QueryService;
+  var QueryService, query;
+
   beforeEach(module('openproject.services', 'openproject.models'));
 
   beforeEach(inject(function(_QueryService_){
@@ -69,6 +70,6 @@ describe('QueryService', function() {
 
       it('should assign filters to the query');
     });
-  });
 
+  });
 });

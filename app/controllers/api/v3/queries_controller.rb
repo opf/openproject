@@ -39,7 +39,9 @@ module Api::V3
     include ExtendedHTTP
 
     before_filter :find_optional_project
-    before_filter :setup_query
+    before_filter :setup_query_for_create, only: [:create]
+    before_filter :setup_query_for_update, only: [:update]
+    before_filter :setup_query, only: [:available_columns, :custom_field_filters]
 
     def available_columns
       @available_columns = get_columns_for_json(@query.available_columns)
@@ -62,10 +64,79 @@ module Api::V3
       end
     end
 
+    def grouped
+      @user_queries = visible_queries.select{|query| !query.is_public?}.map{|query| [query.name, query.id]}
+      @queries = visible_queries.select(&:is_public?).map{|query| [query.name, query.id]}
+
+      respond_to do |format|
+        format.api
+      end
+    end
+
+    def create
+      if @query.save
+        respond_to do |format|
+          format.api
+        end
+      else
+        render json: @query.errors.to_json, status: 422
+      end
+    end
+
+    def update
+      if @query.save
+        respond_to do |format|
+          format.api
+        end
+      else
+        render json: @query.errors.to_json, status: 422
+      end
+    end
+
     private
 
     def setup_query
       @query = retrieve_query
+    end
+
+    # Note: Not dry - lifted straight from old queries controller
+    def setup_query_for_create
+      @query = Query.new params[:query] ? permitted_params.query : nil
+      @query.project = @project unless params[:query_is_for_all]
+      prepare_query @query
+      @query.user = User.current
+    end
+
+    def setup_query_for_update
+      @query = Query.find(params[:id])
+      prepare_query(@query)
+    end
+
+    # Note: Not dry - lifted straight from old queries controller
+    def prepare_query(query)
+      @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
+      view_context.add_filter_from_params if params[:fields] || params[:f]
+      @query.group_by ||= params[:group_by]
+      @query.project = nil if params[:query_is_for_all]
+      @query.display_sums ||= params[:display_sums].present?
+      @query.column_names = params[:c] if params[:c]
+      @query.column_names = nil if params[:default_columns]
+      @query.name = params[:name] if params[:name]
+      @query.is_public = params[:is_public] if params[:is_public]
+    end
+
+    def visible_queries
+      unless @visible_queries
+        # User can see public queries and his own queries
+        visible = ARCondition.new(["is_public = ? OR user_id = ?", true, (User.current.logged? ? User.current.id : 0)])
+        # Project specific queries and global queries
+        visible << (@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id])
+        @visible_queries = Query.find(:all,
+                                      :select => 'id, name, is_public',
+                                      :order => "name ASC",
+                                      :conditions => visible.conditions)
+      end
+      @visible_queries
     end
   end
 end

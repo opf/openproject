@@ -30,7 +30,12 @@ angular.module('openproject.services')
 
 .constant('DEFAULT_FILTER_PARAMS', {'fields[]': 'status_id', 'operators[status_id]': 'o'})
 
-.service('WorkPackageService', ['$http', 'PathHelper', 'WorkPackagesHelper', 'DEFAULT_FILTER_PARAMS', function($http, PathHelper, WorkPackagesHelper, DEFAULT_FILTER_PARAMS) {
+.service('WorkPackageService', [
+  '$http',
+  'PathHelper',
+  'WorkPackagesHelper',
+  'DEFAULT_FILTER_PARAMS',
+  function($http, PathHelper, WorkPackagesHelper, DEFAULT_FILTER_PARAMS) {
 
   var WorkPackageService = {
     getWorkPackagesByQueryId: function(projectIdentifier, queryId) {
@@ -124,6 +129,15 @@ angular.module('openproject.services')
       }).then(function(response){
         return response.data;
       });
+    },
+
+    performBulkDelete: function(workPackages) {
+      var params = {
+        'ids[]': workPackages.map(function(wp) {
+          return wp.id;
+        })
+      };
+      return $http.delete(PathHelper.workPackagesBulkDeletePath(), { params: params });
     }
   };
 

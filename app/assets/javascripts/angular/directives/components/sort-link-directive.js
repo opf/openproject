@@ -52,7 +52,7 @@ angular.module('openproject.uiComponents')
         }
 
         return title;
-      }
+      };
 
       var getSortCss = function() {
         var sortDirection = 'asc';
@@ -62,7 +62,7 @@ angular.module('openproject.uiComponents')
         }
 
         return sortDirection;
-      }
+      };
 
       scope.sortDirection = getSortCss();
       scope.sortTitle = getSortTitle();

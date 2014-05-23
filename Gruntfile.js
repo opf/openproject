@@ -40,6 +40,11 @@ module.exports = function(grunt) {
         }
       }
     },
+    karma: {
+      unit: {
+        configFile: 'karma.conf.js'
+      }
+    },
     jscoverage: {
       options: {
         inputDirectory: 'app/assets/javascripts/',
@@ -60,6 +65,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-jscoverage");
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-karma');
 
   // Default task(s).
   grunt.registerTask('default', ['jshint']);

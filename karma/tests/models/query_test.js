@@ -30,7 +30,7 @@
 
 describe('Query', function() {
 
-  var Query;
+  var Query, query;
 
   beforeEach(module('openproject.models'));
   beforeEach(inject(function(_Query_) {
@@ -73,5 +73,23 @@ describe('Query', function() {
     });
   });
 
+  describe('hasName', function() {
+    beforeEach(function() {
+      query = Factory.build('Query');
+    });
 
+    it('returns false if the query does not have a name', function() {
+      expect(query.hasName()).to.be.false;
+    });
+
+    it('returns false if the query name equals "_"', function() {
+      query.name = '_';
+      expect(query.hasName()).to.be.false;
+    });
+
+    it('returns true if the query name is present and different from "_"', function() {
+      query.name = 'abc';
+      expect(query.hasName()).to.be.true;
+    });
+  });
 });

@@ -1,0 +1,76 @@
+$ng-modal-padding:       3em
+$ng-modal-background:    $base-body-color
+$ng-modal-close-color:   $light-gray
+$ng-modal-image-height:  135px
+$ng-modal-image-width:   $ng-modal-image-height
+
+// Based on code by Kasper Mikiewicz
+
+.ng-modal-open
+  overflow: hidden
+
+.ng-modal-window
+  // overlay
+  +position(fixed, 0px 0px 0px 0px)
+  background: rgba(0, 0, 0, 0.5)
+  text-align: left
+  z-index: 10000
+
+  .ng-modal-bg
+    +position(absolute, 0px 0px 0px 0px)
+    cursor: pointer
+
+  &.ng-enter
+    +transition(opacity 0.25s ease)
+    opacity: 0
+    visibility: hidden
+
+  &.ng-enter.ng-enter-active
+    opacity: 1
+    visibility: visible
+
+    .ng-modal-inner
+      top: 0
+
+.ng-modal-inner
+  +transition(opacity 0.25s ease)
+  background: $ng-modal-background
+  margin: auto
+  max-height: 95%
+  position: relative
+  overflow: auto
+  width: 95%
+  padding: $ng-modal-padding / 2
+  margin-top: .6em
+  //+media($medium-screen)
+  //padding: $ng-modal-padding
+  //width: 50%
+  //max-height: 50%
+  //margin-top: 10em
+
+  //+media($large-screen)
+  width: 40%
+  margin-top: 10em
+
+  .modal-header
+    padding: 0
+    i
+      float: right
+      cursor: pointer
+  
+  label
+    padding: 0 50px 0 0
+  input
+    width: 230px
+    height: 30px
+    line-height: 30px
+    padding: 0 5px
+    background: #ffffff
+    border: 1px solid #cacaca
+    font-size: 13px
+    color: #222222
+    border-radius: 2px
+  button
+    margin: 30px 7px 0 0
+  .select2-container
+    margin: 0 0 10px 0

@@ -79,12 +79,12 @@ Feature: Timeline View Tests
       And I wait for timeline to load table
       And I click on the Planning Element with name "January"
      Then I should see a modal window
-      And I should see "#1: January" in the modal
+      And I should see "#1: JANUARY" in the modal
       And I should see "http://google.de" in the modal
       And I should see "01/01/2012" in the modal
       And I should see "01/31/2012" in the modal
       And I should see "New timeline report"
       And I should be on the page of the timeline "Testline" of the project called "ecookbook"
      When I ctrl-click on "#2" in the modal
-     Then I should see "February" in the new window
+     Then I should see "FEBRUARY" in the new window
      Then I should see "Avocado Rincon" in the new window

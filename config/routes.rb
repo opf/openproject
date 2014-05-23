@@ -118,18 +118,20 @@ OpenProject::Application.routes.draw do
         get :column_data, on: :collection
         get :column_sums, on: :collection
       end
-      resources :queries, only: [:show] do
+      resources :queries, only: [:show, :create, :update] do
         get :available_columns, on: :collection
         get :custom_field_filters, on: :collection
+        get :grouped, on: :collection
       end
 
       resources :projects, only: [:show, :index] do
         resources :work_packages, only: [:index] do
           get :column_sums, on: :collection
         end
-        resources :queries, only: [:show] do
+        resources :queries, only: [:show, :create, :update] do
           get :available_columns, on: :collection
           get :custom_field_filters, on: :collection
+          get :grouped, on: :collection
         end
         resources :versions, only: [:index]
         get :sub_projects
@@ -366,7 +368,6 @@ OpenProject::Application.routes.draw do
 
   namespace :work_packages do
     match 'auto_complete' => 'auto_completes#index', :via => [:get, :post]
-    match 'context_menu' => 'context_menus#index', :via => [:get, :post], :format => false
     resources :calendar, :controller => 'calendars', :only => [:index]
     resource :bulk, :controller => 'bulk', :only => [:edit, :update, :destroy]
   end

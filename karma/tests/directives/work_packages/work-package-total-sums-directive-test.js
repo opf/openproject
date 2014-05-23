@@ -48,28 +48,40 @@ describe('workPackageTotalSums Directive', function() {
 
     describe('element', function() {
       beforeEach(inject(function($q) {
-        var sumsData = [1, 2];
-
-        scope.columns = [];
-        scope.updateBackUrl = function(){ return 0; };
-        scope.withLoading = function(callback, params) {
-          // Note: Seems easier to mock out the withLoading method instead of WorkPackageService.getWorkPackagesSums which can be seperately unit tested
-          deferred = $q.defer();
-          deferred.resolve({ column_sums: sumsData } );
-          return deferred.promise;
-        };
+        scope.query = Factory.build('Query', {
+          id: null,
+          columns: [{ name: 'cheese', total_sum: 1 }]
+        });
+        scope.columns = scope.query.columns;
       }));
+      beforeEach(function(){
+        compile();
+      });
+
+      it('should render a tr', function() {
+        expect(element.prop('tagName')).to.equal('TR');
+      });
+
+      it('should set the sums', function() {
+        var td = element.find('td');
+        expect(td.length).to.equal(1);
+        expect(td.first().text()).to.equal('1');
+      });
 
       describe('setting total sums for the columns', function(){
-        beforeEach(function(){
-          compile();
-        });
+        beforeEach(inject(function($q) {
+          var sumsData = [1, 2];
 
-        it('should render a tr', function() {
-          expect(element.prop('tagName')).to.equal('TR');
-        });
+          scope.updateBackUrl = function(){ return 0; };
+          scope.withLoading = function(callback, params) {
+            // Note: Seems easier to mock out the withLoading method instead of WorkPackageService.getWorkPackagesSums which can be seperately unit tested
+            deferred = $q.defer();
+            deferred.resolve({ column_sums: sumsData } );
+            return deferred.promise;
+          };
+        }));
 
-        it('should set the sums when the columns change', function() {
+        it('should fetch the sums when the columns change', function() {
           scope.columns = [{ name: 'cheese' }, { name: 'toasties' }];
           scope.$apply();
 

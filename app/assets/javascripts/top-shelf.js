@@ -51,7 +51,7 @@
       topShelf.append(message);
     }
 
-    $("body").prepend(topShelf)
+    $("body").prepend(topShelf);
 
     return this;
   };

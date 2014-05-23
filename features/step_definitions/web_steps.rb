@@ -417,7 +417,7 @@ Given /^I (accept|dismiss) the alert dialog$/ do |method|
 end
 
 Then(/^(.*) in the new window$/) do |step|
-  new_window=page.driver.browser.window_handles.last 
+  new_window=page.driver.browser.window_handles.last
   page.within_window new_window do
     step(step)
   end
@@ -428,6 +428,15 @@ Then /^(.*) in the iframe "([^\"]+)"$/ do |step, iframe_name|
   browser.switch_to.frame(iframe_name)
   step(step)
   browser.switch_to.default_content
+end
+
+When /^(?:|I )click the toolbar button named "(.*?)"$/ do |action_name|
+  find(".toolbar-container").click_button action_name
+end
+
+When /^(?:|I )choose "(.*?)" from the toolbar "(.*?)" dropdown$/ do |action_name, dropdown_id|
+  find("button[dropdown-id=#{dropdown_id}Dropdown]").click
+  find("##{dropdown_id}Dropdown").click_link action_name
 end
 
 # that's capybara's old behaviour: clicking the first button that matches

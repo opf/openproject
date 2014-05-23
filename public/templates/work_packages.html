@@ -1,0 +1,92 @@
+<div id="work-packages-index">
+
+  <div class="toolbar-container">
+    <div toolbar id="toolbar">
+      <selectable-title selected-title="selectedTitle"
+                        reload-method="reloadQuery"
+                        data-groups="dataGroups"
+                        groups="groups">
+      </selectable-title>
+
+      <ul id="toolbar-items">
+        <li class="toolbar-item">
+          <button class="button_highlight" with-dropdown dropdown-id="tasksDropdown">
+            <i class="icon-add icon4"></i>
+            New Task
+            <i class="icon-pulldown-arrow1 icon-dropdown"></i>
+          </button>
+        </li>
+        <li class="toolbar-item">
+          <button class="button"
+                  ng-click="showFiltersOptions = !showFiltersOptions"
+                  ng-class="{active: showFiltersOptions}">
+            <i class="icon-pin icon-buttons"></i>Filter
+          </button>
+        </li>
+        <li class="toolbar-item">
+          <ul id="work-packages-view-mode-selection" class="toolbar-button-group">
+            <li>
+              <button class="button"
+                      ui-sref="work-packages.list"
+                      ui-sref-active="active">
+                <i class="icon-view2 icon-buttons"></i>
+              </button>
+            </li>
+            <li>
+              <button class="button"
+                      ui-sref="work-packages.list.details({})"
+                      ui-sref-active="active">
+                <i class="icon-cup icon-buttons"></i>
+              </button>
+            </li>
+          </ul>
+        </li>
+        <li class="toolbar-item">
+          <button class="button last" with-dropdown dropdown-id="settingsDropdown">
+            <i class="icon-settings"></i>
+            <i class="icon-pulldown-arrow1 icon-dropdown"></i>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="dropdown dropdown-relative dropdown-anchor-right" id="tasksDropdown">
+    <ul class="dropdown-menu">
+      <li><a ng-href="work_packages/new?work_package[type_id]={{type.id}}" ng-repeat="type in availableTypes">{{type.name}}</a></li>
+    </ul>
+  </div>
+
+  <div options-dropdown class="dropdown dropdown-relative dropdown-anchor-right" id="settingsDropdown">
+    <ul class="dropdown-menu">
+      <li><a href ng-click="showColumnsModal()">Columns…</a></li>
+      <li><a href ng-click="showSortingModal()">Sorting…</a></li>
+      <li><a href ng-click="showGroupingModal()">Group by …</a></li>
+      <li><a href ng-click="toggleDisplaySums()">Display sums</a></li>
+      <li class="dropdown-divider"></li>
+      <li><a href ng-click="showSaveModal()">Save</a></li>
+      <li><a href ng-click="showSaveModal(true)">Save as</a></li>
+      <li><a href ng-click="showExportModal()">Export</a></li>
+      <li ng-show="!query.isNew()"><a href ng-click="showShareModal()">Share</a></li>
+    </ul>
+  </div>
+
+  <div class="title-bar" ng-show="showFiltersOptions">
+    <div class="title-bar-extras">
+      <work-packages-options></work-packages-options>
+
+      <p class="buttons hide-when-print">
+        <filter-clear query="query">
+      </filter-clear>
+
+      <!-- TODO: serialize permission checks -->
+      <!-- User.current.allowed_to?(:save_queries, project, :global => true) -->
+    </p>
+    </div>
+  </div>
+
+  <back-url></back-url>
+
+  <div ui-view></div>
+
+</div>

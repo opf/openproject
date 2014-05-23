@@ -1,0 +1,17 @@
+<div class="ng-modal-window">
+  <div class="ng-modal-inner">
+    <div class="modal-header"><i class="icon-close" ng-click="modal.closeMe()"></i></div>
+
+    <h3>Share</h3>
+
+    <div>
+      <label for="name">Page visible for others</label>
+      <input type="checkbox" name="is_public" ng-model="query.isPublic"></input>
+    </div>
+    <div>
+      <button ng-click="saveQuery()">Save</button>
+      <button ng-click="modal.closeMe()">Cancel</button>
+    </div>
+
+  </div>
+</div>

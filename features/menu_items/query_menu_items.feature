@@ -53,7 +53,7 @@ Feature: Query menu items
       | Features | Feature    |
     And I am already logged in as "bob"
 
-    @javascript
+    @wip @javascript
   Scenario: Create a query menu item
     When I go to the applied query "Bugs" on the work packages index page of the project "Awesome Project"
     And I click on "More functions"
@@ -61,7 +61,7 @@ Feature: Query menu items
     Then I should see "Bugs" within "#main-menu"
     And I should see "Successful creation."
 
-    @javascript
+    @wip @javascript
   Scenario: Delete a query menu item
     Given the user "bob" has the following query menu items in the project "Awesome Project":
       | name       | title      | navigatable |

@@ -28,7 +28,11 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('workPackagesTable', ['I18n', function(I18n){
+.directive('workPackagesTable', [
+  'I18n',
+  'WorkPackagesTableService',
+  function(I18n, WorkPackagesTableService){
+
   return {
     restrict: 'E',
     replace: true,
@@ -50,23 +54,26 @@ angular.module('openproject.workPackages.directives')
     },
     link: function(scope, element, attributes) {
       scope.I18n = I18n;
+      scope.workPackagesTableData = WorkPackagesTableService.getWorkPackagesTableData();
+
+      var topMenuHeight = document.getElementById('top-menu').getHeight() || 0;
+      scope.adaptVerticalPosition = function(event) {
+        event.pageY -= topMenuHeight;
+      };
 
       // groupings
       scope.grouped = scope.groupByColumn !== undefined;
       scope.groupExpanded = {};
+
+      scope.$watch('workPackagesTableData.allRowsChecked', function(checked) {
+        scope.toggleRowsLabel = checked ? I18n.t('js.button_uncheck_all') : I18n.t('js.button_check_all');
+      });
 
       scope.setCheckedStateForAllRows = function(state) {
         angular.forEach(scope.rows, function(row) {
           row.checked = state;
         });
       };
-
-      scope.$watch('query.sortation.sortElements', function(oldValue, newValue) {
-        if (newValue !== oldValue) {
-          scope.updateResults();
-          scope.updateBackUrl();
-        }
-      });
     }
   };
 }]);

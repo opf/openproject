@@ -50,6 +50,10 @@ class WorkPackagesPage
     find('#main-menu .work-packages').click
   end
 
+  def click_toolbar_button(button)
+    find('.toolbar-container').click_button button
+  end
+
   def select_query(query)
     visit query_path(query);
   end

@@ -20,12 +20,15 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      "vendor/assets/components/jquery/jquery.js",
+      "vendor/assets/components/jquery/dist/jquery.js",
       "vendor/assets/components/angular/angular.js",
       "vendor/assets/components/angular-mocks/angular-mocks.js",
       "vendor/assets/components/angular-ui-select2/src/select2.js",
+      "vendor/assets/components/angular-ui-select2/src/select2sortable.js",
+      "vendor/assets/components/angular-modal/modal.js",
       "vendor/assets/components/angular-sanitize/angular-sanitize.js",
       "vendor/assets/components/momentjs/moment.js",
+      "vendor/assets/components/ng-context-menu/dist/ng-context-menu.js",
 
       "vendor/assets/components/openproject-ui_components/app/assets/javascripts/angular/ui-components-app.js",
       "app/assets/javascripts/angular/openproject-app.js",
@@ -38,8 +41,11 @@ module.exports = function(config) {
       'app/assets/javascripts/angular/helpers/components/work-packages-helper.js',
       'app/assets/javascripts/angular/helpers/work-package-loading-helper.js',
       'app/assets/javascripts/angular/helpers/work-packages-table-helper.js',
+      'app/assets/javascripts/angular/helpers/work-package-context-menu-helper.js',
       'app/assets/javascripts/angular/helpers/timeline-table-helper.js',
       'app/assets/javascripts/angular/helpers/function-decorators.js',
+      'app/assets/javascripts/angular/helpers/url-params-helper.js',
+      'app/assets/javascripts/angular/helpers/queries-helper.js',
 
       'app/assets/javascripts/angular/filters/work-packages-filters.js',
 
@@ -77,12 +83,14 @@ module.exports = function(config) {
       'app/assets/javascripts/angular/services/user-service.js',
       'app/assets/javascripts/angular/services/version-service.js',
       'app/assets/javascripts/angular/services/work-package-service.js',
+      'app/assets/javascripts/angular/services/work-packages-table-service.js',
 
       "app/assets/javascripts/angular/directives/work_packages/*.js",
       "app/assets/javascripts/angular/directives/timelines/*.js",
 
       "app/assets/javascripts/angular/controllers/timelines-controller.js",
       "app/assets/javascripts/angular/controllers/work-packages-controller.js",
+      "app/assets/javascripts/angular/controllers/work-package-details-controller.js",
 
 
       'app/assets/javascripts/date-en-US.js',

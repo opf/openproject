@@ -55,6 +55,9 @@ angular.module('openproject.helpers')
     projectPath: function(projectIdentifier) {
       return PathHelper.projectsPath() + '/' + projectIdentifier;
     },
+    queryPath: function(queryIdentifier) {
+      return '/queries/' + queryIdentifier;
+    },
     timeEntriesPath: function(projectIdentifier, workPackageIdentifier) {
       var path = '/time_entries/';
 
@@ -94,6 +97,10 @@ angular.module('openproject.helpers')
       return '/sub_projects';
     },
 
+    workPackagesBulkDeletePath: function() {
+      return PathHelper.workPackagesPath() + '/bulk';
+    },
+
     apiV2ProjectPath: function(projectIdentifier) {
       return PathHelper.apiPrefixV2 + PathHelper.projectPath(projectIdentifier);
     },
@@ -112,6 +119,15 @@ angular.module('openproject.helpers')
     apiProjectSubProjectsPath: function(projectIdentifier) {
       return PathHelper.apiV3ProjectPath(projectIdentifier) + PathHelper.subProjectsPath();
     },
+    apiProjectQueriesPath: function(projectIdentifier) {
+      return PathHelper.apiV3ProjectPath(projectIdentifier) + '/queries';
+    },
+    apiProjectQueryPath: function(projectIdentifier, queryIdentifier) {
+      return PathHelper.apiV3ProjectPath(projectIdentifier) + PathHelper.queryPath(queryIdentifier);
+    },
+    apiGroupedQueriesPath: function() {
+      return PathHelper.apiPrefixV3 + '/queries/grouped';
+    },
     apiAvailableColumnsPath: function() {
       return PathHelper.apiPrefixV3 + '/queries/available_columns';
     },
@@ -123,6 +139,9 @@ angular.module('openproject.helpers')
     },
     apiProjectAvailableColumnsPath: function(projectIdentifier) {
       return PathHelper.apiV3ProjectPath(projectIdentifier) + '/queries/available_columns';
+    },
+    apiProjectGroupedQueriesPath: function(projectIdentifier) {
+      return PathHelper.apiV3ProjectPath(projectIdentifier) + '/queries/grouped';
     },
     apiWorkPackagesColumnDataPath: function() {
       return PathHelper.apiWorkPackagesPath() + '/column_data';

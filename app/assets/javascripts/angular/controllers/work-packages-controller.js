@@ -28,9 +28,51 @@
 
 angular.module('openproject.workPackages.controllers')
 
-.controller('WorkPackagesController', ['$scope', '$window', '$location', 'WorkPackagesTableHelper', 'WorkPackageService', 'QueryService', 'PaginationService', 'WorkPackageLoadingHelper', 'INITIALLY_SELECTED_COLUMNS', 'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
-            function($scope, $window, $location, WorkPackagesTableHelper, WorkPackageService, QueryService, PaginationService, WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS, OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
+.controller('WorkPackagesController', [
+    '$scope',
+    '$q',
+    '$window',
+    '$location',
+    'ProjectService',
+    'WorkPackagesTableService',
+    'WorkPackageService',
+    'QueryService',
+    'PaginationService',
+    'WorkPackageLoadingHelper',
+    'INITIALLY_SELECTED_COLUMNS',
+    'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
+    function($scope, $q, $window, $location, ProjectService,
+      WorkPackagesTableService,
+      WorkPackageService, QueryService, PaginationService,
+      WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS,
+      OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
 
+  $scope.showFiltersOptions = false;
+
+
+  // Setup
+
+  function initialSetup() {
+    setUrlParams($window.location);
+    initProject();
+
+    $scope.selectedTitle = "Work Packages";
+    $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
+    $scope.loading = false;
+    $scope.disableFilters = false;
+
+    var getWorkPackages, params;
+    if($location.search()['c[]']){
+      getWorkPackages = WorkPackageService.getWorkPackagesFromUrlQueryParams;
+      params = [$scope.projectIdentifier, $location];
+    } else {
+      getWorkPackages = WorkPackageService.getWorkPackagesByQueryId;
+      params = [$scope.projectIdentifier, $scope.query_id];
+    }
+
+    $scope.withLoading(getWorkPackages, params)
+      .then(setupPage);
+  }
 
   function setUrlParams(location) {
     var normalisedPath = location.pathname.replace($window.appBasePath, '');
@@ -41,36 +83,110 @@ angular.module('openproject.workPackages.controllers')
     if(match) $scope.query_id = match[1];
   }
 
-  function initialSetup() {
-    $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
-    $scope.loading = false;
-    $scope.disableFilters = false;
 
-    if($location.search()['c[]']){
-      var getMethod = WorkPackageService.getWorkPackagesFromUrlQueryParams;
-      var params = [$scope.projectIdentifier, $location];
+  function initProject() {
+    if ($scope.projectIdentifier) {
+      ProjectService.getProject($scope.projectIdentifier).then(function(project) {
+        $scope.project  = project;
+        $scope.projects = [ $scope.project ];
+        $scope.availableTypes = $scope.project.embedded.types;
+      });
     } else {
-      var getMethod = WorkPackageService.getWorkPackagesByQueryId;
-      var params = [$scope.projectIdentifier, $scope.query_id];
-    }
+      ProjectService.getProjects().then(function(projects) {
+        var allTypes, availableTypes;
 
-    $scope.withLoading(getMethod, params)
-      .then($scope.setupWorkPackagesTable)
-      .then(initAvailableColumns);
+        $scope.projects = projects;
+        allTypes = projects.map(function(project) {
+          return project.embedded.types;
+        }).reduce(function(a, b) {
+          return a.concat(b);
+        }, []);
+
+        $scope.availableTypes = allTypes; // TODO remove duplicates
+      });
+    }
   }
 
-  function initAvailableColumns() {
-    return QueryService.getAvailableColumns($scope.projectIdentifier)
-      .then(function(data){
-        $scope.availableColumns = WorkPackagesTableHelper.getColumnDifference(data.available_columns, $scope.columns);
-        return $scope.availableColumns;
-      });
+  function setupPage(json) {
+    initQuery(json.meta);
+    setupWorkPackagesTable(json);
+
+    return $q.all([
+      initAvailableColumns(),
+      initAvailableQueries()
+    ]);
+  }
+
+  function initQuery(metaData) {
+    var queryData = metaData.query,
+        columnData = metaData.columns;
+
+    $scope.query = QueryService.getQuery() || QueryService.initQuery($scope.query_id, queryData, columnData, afterQuerySetupCallback);
   }
 
   function afterQuerySetupCallback(query) {
     $scope.showFilters = query.filters.length > 0;
     $scope.updateBackUrl();
   }
+
+  function setupWorkPackagesTable(json) {
+    var meta = json.meta,
+        workPackages = json.work_packages,
+        bulkLinks = json._bulk_links;
+
+    // register data
+
+    // table data
+    WorkPackagesTableService.setColumns($scope.query.columns);
+    WorkPackagesTableService.addColumnMetaData(meta);
+    WorkPackagesTableService.setGroupBy($scope.query.groupBy);
+    WorkPackagesTableService.buildRows(workPackages, $scope.query.groupBy);
+    WorkPackagesTableService.setBulkLinks(bulkLinks);
+
+    // query data
+    QueryService.setTotalEntries(meta.total_entries);
+
+    // pagination data
+    PaginationService.setPerPageOptions(meta.per_page_options);
+    PaginationService.setPerPage(meta.per_page);
+    PaginationService.setPage(meta.page);
+
+
+    // yield updatable data to scope
+    $scope.columns = $scope.query.columns;
+    $scope.rows = WorkPackagesTableService.getRows();
+    $scope.groupableColumns = WorkPackagesTableService.getGroupableColumns();
+    $scope.workPackageCountByGroup = meta.work_package_count_by_group;
+    $scope.totalEntries = QueryService.getTotalEntries();
+
+    // back url
+    $scope.updateBackUrl();
+  }
+
+  function initAvailableColumns() {
+    return QueryService.loadAvailableUnusedColumns($scope.projectIdentifier)
+      .then(function(data){
+        $scope.availableUnusedColumns = data;
+      });
+  }
+
+  function initAvailableQueries() {
+    return QueryService.getAvailableGroupedQueries($scope.projectIdentifier)
+      .then(function(data){
+        $scope.groups = [{ name: 'CUSTOM QUERIES', models: data["user_queries"]},
+          { name: 'GLOBAL QUERIES', models: data["queries"]}];
+      });
+  }
+
+  // Updates
+
+  $scope.reloadQuery = function(queryId) {
+    QueryService.resetQuery();
+    $scope.query_id = queryId;
+
+    $scope.withLoading(WorkPackageService.getWorkPackagesByQueryId, [$scope.projectIdentifier, $scope.query_id])
+      .then(setupPage);
+  };
 
   $scope.updateBackUrl = function(){
     // Easier than trying to extract it from $location
@@ -80,46 +196,20 @@ angular.module('openproject.workPackages.controllers')
     }
 
     if($scope.query){
-      relativeUrl = relativeUrl + "#?" + $scope.query.serialiseForAngular();
+      relativeUrl = relativeUrl + "#?" + $scope.query.getQueryString();
     }
 
     $scope.backUrl = relativeUrl;
-  };
-
-  $scope.submitQueryForm = function(){
-    jQuery("#selected_columns option").attr('selected',true);
-    jQuery('#query_form').submit();
-    return false;
-  };
-
-  $scope.setupWorkPackagesTable = function(json) {
-    var meta = json.meta;
-
-    if (!$scope.columns) $scope.columns = meta.columns;
-    if (!$scope.groupableColumns) $scope.groupableColumns = meta.groupable_columns;
-    $scope.query = QueryService.getQuery() || QueryService.initQuery($scope.query_id, meta.query, $scope.columns, afterQuerySetupCallback);
-
-    PaginationService.setPerPageOptions(meta.per_page_options);
-    PaginationService.setPerPage(meta.per_page);
-    PaginationService.setPage(meta.page);
-
-    $scope.rows = WorkPackagesTableHelper.getRows(json.work_packages, $scope.query.groupBy);
-
-    $scope.workPackageCountByGroup = meta.work_package_count_by_group;
-    $scope.totalEntries = meta.total_entries;
-    angular.forEach($scope.columns, function(column, i){
-      column.total_sum = meta.sums[i];
-      if (meta.group_sums) column.group_sums = meta.group_sums[i];
-    });
-    $scope.updateBackUrl();
   };
 
   $scope.updateResults = function() {
     $scope.$broadcast('openproject.workPackages.updateResults');
 
     return $scope.withLoading(WorkPackageService.getWorkPackages, [$scope.projectIdentifier, $scope.query, PaginationService.getPaginationOptions()])
-      .then($scope.setupWorkPackagesTable);
+      .then(setupWorkPackagesTable);
   };
+
+  // More
 
   function serviceErrorHandler(data) {
     // TODO RS: This is where we'd want to put an error message on the dom
@@ -130,6 +220,15 @@ angular.module('openproject.workPackages.controllers')
     return WorkPackageLoadingHelper.withLoading($scope, callback, params, serviceErrorHandler);
   };
 
-  setUrlParams($window.location);
+  // Go
+
   initialSetup();
+
+  // Note: I know we don't want watchers on the controller but I want all the toolbar directives to have restricted scopes. Thoughts welcome.
+  $scope.$watch('query.name', function(newValue, oldValue){
+    if(newValue != oldValue && $scope.query.hasName()){
+      $scope.selectedTitle = newValue;
+    }
+  });
+
 }]);

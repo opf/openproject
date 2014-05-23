@@ -1,0 +1,20 @@
+<div class="ng-modal-window">
+  <div class="ng-modal-inner">
+    <a href class="ng-modal-close" ng-click="modal.closeMe()">&nbsp;</a>
+
+    <h1>Group by</h1>
+
+    <div>
+      <input id="selected_columns_new"
+             type="hidden"
+             ui-select2-sortable="select2Options"
+             simple-query="getAvailableColumnsData"
+             ng-model="selectedGroupByData"></input>
+    </div>
+    <div>
+      <button ng-click="updateGroupBy()">Apply</button>
+      <button ng-click="modal.closeMe()">Cancel</button>
+    </div>
+
+  </div>
+</div>

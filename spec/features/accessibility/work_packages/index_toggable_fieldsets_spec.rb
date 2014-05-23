@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require 'features/accessibility/support/toggable_fieldsets'
+require 'features/support/toggable_fieldsets'
 require 'features/work_packages/work_packages_page'
 
 describe 'Work package index' do
@@ -41,6 +41,10 @@ describe 'Work package index' do
       allow(User).to receive(:current).and_return current_user
 
       work_packages_page.visit_index
+    end
+
+    before :each do
+      work_packages_page.click_toolbar_button 'Filter'
     end
 
     describe 'Filter fieldset', js: true do

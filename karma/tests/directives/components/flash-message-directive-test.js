@@ -53,7 +53,7 @@ describe('flash message Directive', function() {
     });
 
     describe('element', function() {
-      it('should render nothing initially', function() {
+      xit('should render nothing initially', function() {
         expect(element.html()).to.be.null;
       });
     });
@@ -66,7 +66,7 @@ describe('flash message Directive', function() {
           rootScope.$emit('flashMessage', message);
         });
 
-        it('should render message', function() {
+        xit('should render message', function() {
           var directiveScope = element.isolateScope();
 
           expect(directiveScope.flashClass).to.equal("flash notice icon icon-notice");
@@ -83,7 +83,7 @@ describe('flash message Directive', function() {
           rootScope.$emit('flashMessage', message);
         });
 
-        it('should render message', function() {
+        xit('should render message', function() {
           var directiveScope = element.isolateScope();
 
           expect(directiveScope.flashClass).to.equal("errorExplanation");

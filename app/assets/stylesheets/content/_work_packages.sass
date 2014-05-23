@@ -1,0 +1,114 @@
+/*-- copyright
+ * OpenProject is a project management system.
+ * Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 3.
+ *
+ * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+ * Copyright (C) 2006-2013 Jean-Philippe Lang
+ * Copyright (C) 2010-2013 the ChiliProject Team
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * See doc/COPYRIGHT.rdoc for more details.  ++
+ */
+
+@import content/forms
+@import layout/split_view
+
+.work-packages--split-view
+  @extend .split-view
+
+.work-packages--list
+  @extend %panel
+
+.work-packages--details
+  @extend %panel
+  padding: 0 1em 1em
+  border-left: 4px solid #eee
+
+div
+  .report-category-actions
+    margin-top: -28px
+    font-size: 17px // like h3
+    width: 100%
+    text-align: right
+
+#work_package-form
+  @extend %form-style
+  .attributes
+    margin-bottom: 30px
+    overflow: auto
+
+  #watchers_form
+    position: relative
+    padding-left: 160px
+    margin-bottom: 30px
+    font-size: 14px
+    line-height: 30px
+
+    .watcher_label
+      @include label-style
+      width: 152px
+      margin-left: -160px
+
+    .floating
+      float: none
+      display: inline-block
+
+  #attachments
+    padding-left: 0
+    padding-right: 0
+
+  .handle_attachments, #attachments
+    > label
+      @include label-style
+      height: 30px
+      display: block
+    margin-bottom: 30px
+
+    #attachments_fields
+      display: inline-block
+
+    .attachment_field
+      display: block
+      margin-bottom: 10px
+      height: 32px
+      > input
+        @include input-style
+        border: none
+        &:hover, &:focus
+          border: none
+      label
+        @include label-style
+        width: auto
+        height: 32px
+        input
+          margin-left: 50px
+    .add_another_file
+      padding-left: 10px
+
+  fieldset
+    margin-bottom: 20px
+    padding: 30px 20px
+
+  legend.change_properties
+    padding-right: 20px
+  #show_more_wp_properties
+    float: left
+    margin-left: 115px
+    margin-top: -48px
+    background-color: $content_form_bg_color

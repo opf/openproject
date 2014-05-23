@@ -50,7 +50,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </p>
 
   <%= render partial: 'show_attributes', locals: { work_package: work_package } %>
-  
+
   <% if work_package.description? %>
     <hr />
     <div class="description work_package_part">
@@ -126,8 +126,6 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{work_package.project} - #{work_package.to_s}") %>
   <%= stylesheet_link_tag 'context_menu_rtl' if l(:direction) == 'rtl' %>
 <% end %>
-<div id="context-menu" style="display: none;"></div>
-<%= javascript_tag "new ContextMenu('#{work_packages_context_menu_path}')" %>
 
 <% #include calendar js files in case they are needed for edit
   include_calendar_headers_tags -%>

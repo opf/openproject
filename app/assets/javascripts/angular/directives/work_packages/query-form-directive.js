@@ -38,13 +38,45 @@ angular.module('openproject.workPackages.directives')
         pre: function(scope) {
           scope.showQueryOptions = false;
 
-          scope.$watch('query.groupBy', function(oldValue, newValue) {
-            if (newValue !== oldValue && newValue !== undefined) {
-              // TODO find out why newValue get set to undefined on initial page load
-              scope.updateResults();
-              scope.updateBackUrl();
+          function querySwitched(currentProperties, formerProperties) {
+            if (formerProperties === undefined) {
+              return true;
+            } else {
+              return formerProperties.id !== currentProperties.id;
             }
-          });
+          }
+
+          function queryPropertiesChanged(currentProperties, formerProperties) {
+            if (formerProperties === undefined) return false;
+
+            var groupByChanged = currentProperties.groupBy !== formerProperties.groupBy;
+            var sortElementsChanged = JSON.stringify(currentProperties.sortElements) !== JSON.stringify(formerProperties.sortElements);
+
+            return groupByChanged || sortElementsChanged;
+          }
+
+          function observedQueryProperties() {
+            var query = scope.query;
+
+            if (query !== undefined) {
+              /* Oberve a few properties to avoid a full deep watch,
+                 filters are being watched within their own directive scope */
+              return {
+                id: query.id,
+                groupBy: query.groupBy,
+                sortElements: query.sortation.sortElements
+              };
+            }
+          }
+
+          scope.$watch(observedQueryProperties, function(newProperties, oldProperties) {
+            if (!querySwitched(newProperties, oldProperties)) {
+              if (queryPropertiesChanged(newProperties, oldProperties)) {
+                scope.updateResults();
+                scope.updateBackUrl();
+              }
+            }
+          }, true);
         }
       };
     }

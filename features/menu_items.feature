@@ -53,5 +53,5 @@ Feature: Menu items
     Then I should see "Summary" within "#main-menu"
 
     When I click on "Summary" within "#main-menu"
-    Then I should see "Summary" within "#content"
+    Then I should see "SUMMARY" within "#content"
 
