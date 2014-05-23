@@ -70,9 +70,10 @@ class CustomField < ActiveRecord::Base
   validates_inclusion_of :field_format, :in => Redmine::CustomFieldFormat.available_formats
 
   validate :validate_presence_of_possible_values
+
   validate :validate_default_value_in_translations
 
-  validate :validate_presence_of_name
+  validate :validate_name
 
   def initialize(attributes = nil, options = {})
     super
@@ -108,7 +109,8 @@ class CustomField < ActiveRecord::Base
     self.is_required = required_field
   end
 
-  def validate_presence_of_name
+  # check presence of name and check the length of name value
+  def validate_name
     if self.translations.empty?
       errors.add(:name, :blank) if self.name.nil?
     else
@@ -117,6 +119,10 @@ class CustomField < ActiveRecord::Base
         if translation.name.nil? && fallback_name.nil?
           errors.add(:name, :blank)
         else
+          if ( translation.name.nil? && fallback_name.name.length > 30 ) || ( !translation.name.nil? && translation.name.length > 30 )
+            errors.add(:name, I18n.t('activerecord.errors.messages.wrong_length', :count => 30))
+          end
+
           translation.name = fallback_name.name if translation.name.nil?
         end
       end
