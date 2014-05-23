@@ -21,7 +21,23 @@ module WorkPackages
       end
 
       patch do
-        'batch update work packages'
+        response = { _embedded: { results: [] }}
+        params[:workPackages].each do |param|
+          param = ActiveSupport::JSON.decode(param)
+          id = param.delete('id')
+          work_package = WorkPackage.find(id)
+          work_package_model = WorkPackageModel.new(work_package: work_package)
+          work_package_representer = WorkPackageRepresenter.new(work_package_model)
+          work_package_representer.from_json(param.to_json)
+
+          if work_package_representer.represented.valid?
+            work_package_representer.represented.save
+            response[:_embedded][:results] << { status: { code: 200, text: 'Ok' }, workPackage: work_package_representer }
+          else
+            response[:_embedded][:results] << {status: { code: 422, text: 'Unprocessable entity' }, errors: work_package_representer.represented.errors.to_json }
+          end
+        end
+        response.to_json
       end
 
       params do
@@ -49,7 +65,7 @@ module WorkPackages
           params.delete(:id)
           @work_package_representer.from_json(params.to_json)
           if @work_package_representer.represented.valid?
-            @work_package_representer.represented.save!
+            @work_package_representer.represented.save
             @work_package_representer.to_json
           else
             @work_package_representer.represented.errors.to_json
