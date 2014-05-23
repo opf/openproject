@@ -146,6 +146,14 @@ angular.module('openproject.services')
       });
     },
 
+    getGroupBy: function() {
+      return query.groupBy;
+    },
+
+    setGroupBy: function(groupBy) {
+      query.setGroupBy(groupBy);
+    },
+
     getSelectedColumns: function() {
       return this.getQuery().getSelectedColumns();
     },

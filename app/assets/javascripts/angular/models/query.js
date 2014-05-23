@@ -100,6 +100,10 @@ angular.module('openproject.models')
       this.sortation = sortation;
     },
 
+    setGroupBy: function(groupBy) {
+      this.groupBy = groupBy;
+    },
+
     updateSortElements: function(sortElements){
       this.sortation.setSortElements(sortElements);
     },

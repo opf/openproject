@@ -35,9 +35,10 @@ angular.module('openproject.workPackages.directives')
   'settingsModal',
   'shareModal',
   'sortingModal',
+  'groupingModal',
   'QueryService',
   '$window',
-  function(I18n, columnsModal, exportModal, saveModal, settingsModal, shareModal, sortingModal, QueryService, $window){
+  function(I18n, columnsModal, exportModal, saveModal, settingsModal, shareModal, sortingModal, groupingModal, QueryService, $window){
 
   return {
     restrict: 'AE',
@@ -52,6 +53,7 @@ angular.module('openproject.workPackages.directives')
       scope.showExportModal   = exportModal.activate;
       scope.showSettingsModal = settingsModal.activate;
       scope.showShareModal    = shareModal.activate;
+      scope.showGroupingModal = groupingModal.activate;
 
       scope.showSaveModal     = function(saveAs){
         scope.$emit('hideAllDropdowns');
