@@ -22,4 +22,3 @@
 //= require costs/subform
 //= require costs/rates
 //= require costs/editinplace
-//= require context_menu
