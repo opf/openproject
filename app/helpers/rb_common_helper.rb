@@ -288,4 +288,10 @@ module RbCommonHelper
   def get_backlogs_preference(assignee, attr)
     assignee.is_a?(User) ? assignee.backlogs_preference(attr) : '#24B3E7'
   end
+
+  def template_story
+    Story.new.tap do |s|
+      s.type = available_story_types.first
+    end
+  end
 end
