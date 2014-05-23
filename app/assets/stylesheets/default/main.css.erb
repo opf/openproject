@@ -237,7 +237,7 @@ fieldset.collapsible.header_collapsible > * {
   padding-left: 6px;
 }
 fieldset.collapsible.header_collapsible legend {
-  background: #E6E6E6 url(<%= asset_path 'projectnavi_arrow_up.png' %>) no-repeat 99% 50%; cursor: pointer;
+  background: #E6E6E6; cursor: pointer;
   width: 100%;
   height: 23px;
   line-height: 24px;
@@ -245,9 +245,6 @@ fieldset.collapsible.header_collapsible legend {
 
 fieldset.collapsible.header_collapsible legend:hover {
   background-color: #d8d8d8;
-}
-fieldset.collapsible.collapsed.header_collapsible legend {
-  background-image: url(<%= asset_path 'projectnavi_arrow_down.png' %>);
 }
 fieldset.collapsible { border-width: 1px 0 0 0; }
 fieldset.collapsible.borders { border-width: 1px; }

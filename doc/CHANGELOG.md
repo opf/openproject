@@ -69,9 +69,13 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#7137` Fix: No last connection for users authenticated with omniauth
 * `#7149` Fix: Wrong success message when login is already in use
 * `#7177` Fix: Journal not created in connection with deleted note
+* `#7234` Highlighting of differences in repository does not work
 * `#7384` Headlines in wiki table of content are broken
+* `#7493` Work packages with only start date or end date not displayed properly
 * `#7499` No default work package status possible
 * `#7504` Timeline "Today" line not displayed properly
+* `#7507` Open in new Tab from Backlog has become harder
+* `#7511` Fixes: Label "Email updates" cut off in bulk-edit view
 * `#7531` Projects menu not visible if there are no projects
 * `#7533` Fixes: Deleted block not addable
 * `#7562` Regression: creating ticket via API fails with HTTP 422
