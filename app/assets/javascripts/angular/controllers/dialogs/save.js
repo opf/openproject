@@ -46,5 +46,5 @@ angular.module('openproject.workPackages.controllers')
         saveModal.deactivate();
         $scope.$emit('flashMessage', data.status);
       });
-  }
+  };
 }]);

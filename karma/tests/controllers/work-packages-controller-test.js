@@ -62,7 +62,7 @@ describe('WorkPackagesController', function() {
           return projectsData;
         }, 10);
       }
-    }
+    };
 
     testWorkPackageService = {
       getWorkPackages: function () {

@@ -33,7 +33,7 @@ angular.module('openproject.workPackages.controllers')
   '$stateParams',
   function($scope, $stateParams) {
 
-    $scope.workPackageId = $stateParams.workPackageId
+    $scope.workPackageId = $stateParams.workPackageId;
 
     $scope.$watch('rows', function(rows) {
       if (rows && rows.length > 0) {

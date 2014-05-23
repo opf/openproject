@@ -48,5 +48,5 @@ openprojectApp.config([
       url: "/:workPackageId",
       templateUrl: "/templates/work_packages.list.details.html",
       controller: 'WorkPackageDetailsController'
-    })
+    });
 }]);

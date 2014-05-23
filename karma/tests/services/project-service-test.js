@@ -54,7 +54,7 @@ describe('ProjectService', function() {
             "leaf?": true
           }
         });
-    })
+    });
 
     it('sends a successful get request', function() {
       $httpBackend.expectGET('/api/v3/projects/superProject');

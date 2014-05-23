@@ -69,7 +69,7 @@ jQuery(function ($) {
   }
 
   function open_menu(menu) {
-    var drop_down = menu.find(" > li.drop-down")
+    var drop_down = menu.find(" > li.drop-down");
     // do not open a menu, which is already open
     if ( !drop_down.hasClass('open') ) {
       drop_down.find('> ul').slideDown(animationSpeed, function(){
@@ -90,5 +90,5 @@ jQuery(function ($) {
 
   $('.action_menu_main, .action_menu_specific').each(function(idx, menu){
     install_menu_logic($(menu));
-  })
+  });
 });

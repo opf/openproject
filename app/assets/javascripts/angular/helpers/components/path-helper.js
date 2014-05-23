@@ -120,10 +120,10 @@ angular.module('openproject.helpers')
       return PathHelper.apiV3ProjectPath(projectIdentifier) + PathHelper.subProjectsPath();
     },
     apiProjectQueriesPath: function(projectIdentifier) {
-      return PathHelper.apiV3ProjectPath(projectIdentifier) + '/queries'
+      return PathHelper.apiV3ProjectPath(projectIdentifier) + '/queries';
     },
     apiProjectQueryPath: function(projectIdentifier, queryIdentifier) {
-      return PathHelper.apiV3ProjectPath(projectIdentifier) + PathHelper.queryPath(queryIdentifier)
+      return PathHelper.apiV3ProjectPath(projectIdentifier) + PathHelper.queryPath(queryIdentifier);
     },
     apiGroupedQueriesPath: function() {
       return PathHelper.apiPrefixV3 + '/queries/grouped';

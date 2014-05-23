@@ -57,10 +57,10 @@ angular.module('openproject.workPackages.controllers')
   function convertColumnsForSelect2(columns) {
     return columns.map(function(column){
       return { id: column.name, label: column.title, other: column.title };
-    })
+    });
   }
   function getColumnIdentifiersFromSelection(selectedColumnsData) {
-    return selectedColumnsData.map(function(column) { return column.id; })
+    return selectedColumnsData.map(function(column) { return column.id; });
   }
 
   // Selected Columns
@@ -98,5 +98,5 @@ angular.module('openproject.workPackages.controllers')
     if(addedColumns.length) WorkPackageService.augmentWorkPackagesWithColumnsData(currentWorkPackages, addedColumns, groupBy);
 
     columnsModal.deactivate();
-  }
+  };
 }]);
