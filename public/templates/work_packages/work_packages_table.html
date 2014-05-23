@@ -95,6 +95,7 @@
         target="workPackageContextMenu"
         process-event="adaptVerticalPosition"
         ng-class="[
+          'issue',
           'hascontextmenu',
           row.checked && 'context-menu-selection',
           !row.object['leaf?'] && 'parent' || '',
