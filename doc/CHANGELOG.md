@@ -69,6 +69,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#7137` Fix: No last connection for users authenticated with omniauth
 * `#7149` Fix: Wrong success message when login is already in use
 * `#7177` Fix: Journal not created in connection with deleted note
+* `#7234` Highlighting of differences in repository does not work
 * `#7384` Headlines in wiki table of content are broken
 * `#7493` Work packages with only start date or end date not displayed properly
 * `#7499` No default work package status possible
