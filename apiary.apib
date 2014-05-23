@@ -299,9 +299,163 @@ Send only the data you want to update
 ## Get allowed HTTP methods [OPTIONS]
 
 + Parameters
-    + id (required, integer, `1`) ... Work package id.
+    + id (required, integer, `1`) ... Work package id
 
 + Response 204
     + Headers
 
             Allow: OPTIONS, GET, PATCH, HEAD
+            
+## WorkPackages [/work_packages{?limit,offset}]
+
++ Model
+    + Body
+    
+            {
+                "_links": {
+                    "self": {
+                        "href": "http://localhost:3000/api/v3/work_packages",
+                        "title": "Work packages"
+                    },
+                    "first": {
+                        "href": "http://localhost:3000/api/v3/work_packages?offset=0",
+                        "title": "Work packages"
+                    },
+                    "previous": {
+                        "href": "http://localhost:3000/api/v3/work_packages?offset=0",
+                        "title": "Work packages"
+                    },
+                    "next": {
+                        "href": "http://localhost:3000/api/v3/work_packages?offset=0",
+                        "title": "Work packages"
+                    },
+                    "last": {
+                        "href": "http://localhost:3000/api/v3/work_packages?offset=0",
+                        "title": "Work packages"
+                    }
+                },
+                "_count": 1,
+                "_total": 849,
+                "limit": 1,
+                "offset": 0,
+                "_embedded": {
+                    "work_packages": [
+                        {
+                            "_type": "WorkPackage",
+                            "_links": {
+                                "self": {
+                                    "href": "http://localhost:3000/api/v3/work_packages/629",
+                                    "title": "sint voluptas sed ut et maiores labore et"
+                                }
+                            },
+                            "id": 629,
+                            "subject": "sint voluptas sed ut et maiores labore et",
+                            "type": "Support",
+                            "description": "Sortitus campana ustulo cogito. Autem approbo adiuvo infit. Vinco corrigo tumultus caute solium. Veritatis thesis strenuus trado taceo truculenter coruscus. Quia cuius incidunt repudiandae adstringo aspernatur aptus. Tergiversatio abeo sono ascisco eaque. Arbitro centum avoco spectaculum degero carus animi terra.",
+                            "status": "Closed",
+                            "priority": "Normal",
+                            "startDate": "2014-05-02",
+                            "dueDate": "2014-05-04",
+                            "estimatedTime": {
+                                "units": "hours",
+                                "value": null
+                            },
+                            "percentageDone": 0,
+                            "targetVersionId": null,
+                            "targetVersionName": null,
+                            "projectId": 1,
+                            "projectName": "Seeded Project",
+                            "responsibleId": null,
+                            "responsibleName": null,
+                            "responsibleLogin": null,
+                            "responsibleMail": null,
+                            "assigneeId": null,
+                            "assigneeName": null,
+                            "assigneeLogin": null,
+                            "assigneeMail": null,
+                            "authorName": "Sienna Gottlieb",
+                            "authorLogin": "Trenton6220",
+                            "authorMail": "marisa.mckenzie@moore.com",
+                            "createdAt": "2014-05-21T08:54:10Z",
+                            "updatedAt": "2014-05-21T08:54:10Z"
+                        }
+                    ]
+                }
+            }
+
+## View list of work packages [GET]
+
++ Parameters
+    + limit = `100` (optional, integer, `250`) ... Number of records to fetch
+    + offset = `0` (optional, integer, `100`) ... Offset
+
++ Response 200 (application/hal+json)
+
+    [WorkPackages][]
+
+## Batch update work packages [PATCH]
+
++ Request (application/json)
+    + Body
+        
+            [
+                {
+                    "id": 1,
+                    "subject": "Lorem ipsum",
+                    "description": "Dolor sit amet."
+                }
+            ]
+
++ Response 207 (application/hal+json)
+    + Body
+    
+            {
+                "_embedded": {
+                    "results": [
+                        {
+                            "status": { "code": 200, "text": "Ok" },
+                            "workPackage": {
+                                "_type": "WorkPackage",
+                                "_links": {
+                                    "self": {
+                                        "href": "https://openproject.org/api/v3/work_packages/1",
+                                        "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
+                                    }
+                                },
+                                "id": 1,
+                                "subject": "Lorem ipsum",
+                                "type": "Support",
+                                "description": "Dolor sit amet.",
+                                "status": "New",
+                                "priority": "Normal",
+                                "startDate": "2014-05-29",
+                                "dueDate": "2014-08-29",
+                                "estimatedTime": {
+                                    "units": "hours",
+                                    "value": 10
+                                },
+                                "percentageDone": 0,
+                                "targetVersionId": 1,
+                                "targetVersionName": "sprint-01",
+                                "projectId": 1,
+                                "projectName": "Seeded Project",
+                                "responsibleId": 1,
+                                "responsibleName": "OpenProject Admin",
+                                "responsibleLogin": "admin",
+                                "responsibleMail": "admin@example.net",
+                                "assigneeId": 22,
+                                "assigneeName": "Vivienne Windler",
+                                "assigneeLogin": "Yoshiko8884",
+                                "assigneeMail": "gabriel.osinski@glover.name",
+                                "authorName": "Delia Schneider",
+                                "authorLogin": "Layla3137",
+                                "authorMail": "charlene.terry@stromanko.org",
+                                "createdAt": "2014-05-21T08:51:20Z",
+                                "updatedAt": "2014-05-22T09:41:29Z"
+                            }
+                        }
+                    ]
+                }
+            }
+                
+            
