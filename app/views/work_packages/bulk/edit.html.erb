@@ -125,7 +125,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit',
                   :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json) %>
 <%= wikitoolbar_for 'notes' %>
-<%= send_notification_option %>
+<p><%= send_notification_option %></p>
 </fieldset>
 </div>
 
