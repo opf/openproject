@@ -208,7 +208,7 @@ angular.module('openproject.services')
               } else {
                 return { id: value, name: value };
               }
-            })
+            });
             return $q.when(QueryService.storeAvailableFilterValues(modelName, values));
           }
 
