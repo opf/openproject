@@ -34,7 +34,7 @@ describe('Timeline', function() {
 
   beforeEach(module('openproject.timelines.models', 'openproject.uiComponents'));
   beforeEach(inject(function(Timeline) {
-    model = Timeline
+    model = Timeline;
   }));
 
   it('should exist', function() {
@@ -43,7 +43,7 @@ describe('Timeline', function() {
 
   it('should not create a timeline object without configuration options', function() {
     expect(function() {
-      model.create()
+      model.create();
     }).to.throw('No configuration options given');
   });
 
