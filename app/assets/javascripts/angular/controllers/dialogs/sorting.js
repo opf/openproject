@@ -37,9 +37,9 @@ angular.module('openproject.workPackages.controllers')
 }])
 
 .controller('SortingModalController', ['sortingModal',
-	'$scope',
-	'QueryService',
-	function(sortingModal, $scope, QueryService) {
+  '$scope',
+  'QueryService',
+  function(sortingModal, $scope, QueryService) {
   this.name    = 'Sorting';
   this.closeMe = sortingModal.deactivate;
 
