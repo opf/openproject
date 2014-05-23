@@ -3,23 +3,25 @@ module WorkPackages
 
     resources :work_packages do
 
+      params do
+        optional :offset, type: Integer, default: 0, desc: 'Offset'
+        optional :limit, type: Integer, default: 100, desc: 'Limit'
+      end
       get do
-        work_packages = WorkPackage.includes(:project, :author, :responsible, :assigned_to, :type, :status, :priority).all
+        limit = params[:limit]
+        offset = params[:offset]
+        work_packages =
+          WorkPackage
+            .includes(:project, :author, :responsible, :assigned_to, :type, :status, :priority)
+            .limit(limit)
+            .offset(offset)
         work_packages_models = work_packages.map { |wp| WorkPackageModel.new(work_package: wp) }
         work_packages_representer = WorkPackagesRepresenter.new(work_packages_models)
         work_packages_representer.to_json
       end
 
-      post do
-        'create new work package(s)'
-      end
-
       patch do
         'batch update work packages'
-      end
-
-      delete do
-        'batch delete work packages'
       end
 
       params do
