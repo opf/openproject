@@ -70,4 +70,4 @@ Feature: Disabled done ratio on the work package index
     And I click the toolbar button named "Filter"
     And I click "Options"
     And I check "display_sums"
-    Then I should see "Sum for all work packages" within "#work-packages-table"
+    Then I should see "Sum for all work packages" within ".workpackages-table"
