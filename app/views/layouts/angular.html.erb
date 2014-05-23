@@ -119,7 +119,8 @@ See doc/COPYRIGHT.rdoc for more details.
     <% end %>
 
     <div class="<%= (side_displayed) ? '' : "nosidebar" %><%= (show_decoration) ? '' : 'nomenus' %>" id="content">
-
+      <%= render_flash_messages %>
+      <flash-message></flash-message>
       <div ui-view></div>
 
       <%= call_hook :view_layouts_base_content %>
