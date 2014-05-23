@@ -56,7 +56,7 @@ Then /^I should see the burndown chart for sprint "(.+?)"$/ do |sprint|
 end
 
 Then /^I should see the WorkPackages page$/ do
-  page.should have_css("#query_form")
+  page.should have_css(".workpackages-table")
 end
 
 Then /^I should see the taskboard$/ do

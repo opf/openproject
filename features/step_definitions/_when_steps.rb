@@ -133,12 +133,12 @@ When /^I view the master backlog$/ do
 end
 
 When /^I view the stories of (.+) in the work_packages tab/ do |sprint_name|
-  sprint = Sprint.find(:first, :conditions => ["name=?", sprint_name])
-  visit url_for(:controller => '/rb_queries', :action => :show, :project_id => sprint.project, :sprint_id => sprint)
+  sprint = Sprint.find(:first, conditions: ["name=?", sprint_name])
+  visit url_for(controller: '/rb_queries', action: :show, project_id: sprint.project, sprint_id: sprint, only_path: true)
 end
 
 When /^I view the stories in the work_packages tab/ do
-  visit url_for(:controller => '/rb_queries', :action => :show, :project_id => @project)
+  visit url_for(controller: '/rb_queries', action: :show, project_id: @project, only_path: true)
 end
 
 # WARN: Depends on deprecated behavior of path_for('the task board for
