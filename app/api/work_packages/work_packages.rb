@@ -4,7 +4,10 @@ module WorkPackages
     resources :work_packages do
 
       get do
-        'list all work packages'
+        work_packages = WorkPackage.includes(:project, :author, :responsible, :assigned_to, :type, :status, :priority).all
+        work_packages_models = work_packages.map { |wp| WorkPackageModel.new(work_package: wp) }
+        work_packages_representer = WorkPackagesRepresenter.new(work_packages_models)
+        work_packages_representer.to_json
       end
 
       post do
