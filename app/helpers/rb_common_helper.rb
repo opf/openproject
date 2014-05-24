@@ -37,7 +37,7 @@ module RbCommonHelper
   unloadable
 
   def assignee_id_or_empty(story)
-    story.new_record? ? "" : story.assigned_to_id
+    story.assigned_to_id.to_s
   end
 
   def assignee_name_or_empty(story)
@@ -49,7 +49,7 @@ module RbCommonHelper
   end
 
   def build_inline_style(task)
-    is_assigned_task?(task) ? color_style(task) : '' 
+    is_assigned_task?(task) ? color_style(task) : ''
   end
 
   def color_style(task)
@@ -75,16 +75,8 @@ module RbCommonHelper
     background_color_hex = background_color.sub(/\#/, '0x').hex
   end
 
-  def breadcrumb_separator
-    "<span class='separator'>&gt;</span>"
-  end
-
-  def description_or_empty(story)
-    story.new_record? ? "" : textilizable(story, :description)
-  end
-
   def id_or_empty(item)
-    item.new_record? ? "" : item.id
+    item.id.to_s
   end
 
   def shortened_id(record)
@@ -116,19 +108,7 @@ module RbCommonHelper
   end
 
   def story_points_or_empty(story)
-    story.story_points.blank? ? "" : story.story_points
-  end
-
-  def record_id_or_empty(story)
-    story.new_record? ? "" : story.id
-  end
-
-  def sprint_status_id_or_default(sprint)
-    sprint.new_record? ? Version::VERSION_STATUSES.first : sprint.status
-  end
-
-  def sprint_status_label_or_default(sprint)
-    sprint.new_record? ? l("version_status_#{Version::VERSION_STATUSES.first}") : l("version_status_#{sprint.status}")
+    story.story_points.to_s
   end
 
   def status_id_or_default(story)
@@ -140,23 +120,19 @@ module RbCommonHelper
   end
 
   def sprint_html_id_or_empty(sprint)
-    sprint.new_record? ? "" : "sprint_#{sprint.id}"
+    sprint.id.nil? ? '' : "sprint_#{sprint.id}"
   end
 
   def story_html_id_or_empty(story)
-    story.new_record? ? "" : "story_#{story.id}"
-  end
-
-  def textile_description_or_empty(story)
-    story.new_record? ? "" : h(story.description).gsub(/&lt;(\/?pre)&gt;/, '<\1>')
+    story.id.nil? ? '' : "story_#{story.id}"
   end
 
   def type_id_or_empty(story)
-    story.new_record? ? "" : story.type_id
+    story.type_id.to_s
   end
 
   def type_name_or_empty(story)
-    story.new_record? ? "" : h(backlogs_types_by_id[story.type_id].name)
+    story.type.nil? ? '' : h(backlogs_types_by_id[story.type_id].name)
   end
 
   def updated_on_with_milliseconds(story)
@@ -287,5 +263,11 @@ module RbCommonHelper
 
   def get_backlogs_preference(assignee, attr)
     assignee.is_a?(User) ? assignee.backlogs_preference(attr) : '#24B3E7'
+  end
+
+  def template_story
+    Story.new.tap do |s|
+      s.type = available_story_types.first
+    end
   end
 end
