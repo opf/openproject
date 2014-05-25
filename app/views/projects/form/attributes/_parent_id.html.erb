@@ -28,6 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% unless project.allowed_parents.compact.empty? %>
+<%= javascript_include_tag "project/parent_field.js" %>
   <p>
     <%= label(:project, :parent_id, Project.human_attribute_name(:parent)) %>
     <%= parent_project_select_tag(project) %>
