@@ -160,6 +160,10 @@ module OpenProject
       ActionMailer::Base.view_paths = ActionView::PathSet.new(ActionMailer::Base.view_paths.to_ary.reverse)
     end
 
+    config.threadsafe!
+    #config.cache_classes = false
+    #config.eager_load    = false
+
     OpenProject::Configuration.configure_cache(config)
   end
 end
