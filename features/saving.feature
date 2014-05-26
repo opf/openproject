@@ -42,13 +42,13 @@ Feature: Saving Queries
     And I click on "Save"
     And I fill in "Testreport" for "query_name"
     And I click on "Save" within "#save_as_form"
-    Then I should see "TESTREPORT" within "#ur_caption"
+    Then I should see "Testreport" within "#ur_caption"
     And I should see "Testreport" within "#private_sidebar_report_list"
     And I should see "Work package" in columns
     And I should see "Project" in rows
     And filter "user_id" should be visible
 
-@javascript
+  @javascript
   Scenario: Reports can be saved as public
     Given there is a standard cost control project named "First Project"
     And the role "Controller" may have the following rights:
@@ -72,7 +72,7 @@ Feature: Saving Queries
     And I fill in "Testreport" for "query_name"
     And I check "Public"
     And I click on "Save" within "#save_as_form"
-    Then I should see "TESTREPORT" within "#ur_caption"
+    Then I should see "Testreport" within "#ur_caption"
     And I should see "Testreport" within "#public_sidebar_report_list"
     And I should see "Work package" in columns
     And I should see "Project" in rows
@@ -102,7 +102,7 @@ Feature: Saving Queries
     Then I should not see "Public"
     And I fill in "Testreport" for "query_name"
     And I click on "Save" within "#save_as_form"
-    Then I should see "TESTREPORT" within "#ur_caption"
+    Then I should see "Testreport" within "#ur_caption"
     And I should see "Testreport" within "#private_sidebar_report_list"
 
   @javascript
@@ -119,7 +119,7 @@ Feature: Saving Queries
     Then I should see "Public"
     And I fill in "Testreport" for "query_name"
     And I click on "Save" within "#save_as_form"
-    Then I should see "TESTREPORT" within "#ur_caption"
+    Then I should see "Testreport" within "#ur_caption"
     And I should see "Testreport" within "#private_sidebar_report_list"
     Then I should see "Save" within "#query-icon-save-as"
     And I click on "Save Report As..."
@@ -127,7 +127,7 @@ Feature: Saving Queries
     And I check "Public"
     And I fill in "Testreport2" for "query_name"
     And I follow "Save" within "#save_as_form"
-    Then I should see "TESTREPORT2" within "#ur_caption"
+    Then I should see "Testreport2" within "#ur_caption"
     And I should see "Testreport2" within "#public_sidebar_report_list"
     And I should see "Testreport" within "#private_sidebar_report_list"
 
