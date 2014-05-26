@@ -192,7 +192,8 @@ When /^(?:|I )attach the file "([^"]*)" to "([^"]*)"$/ do |path, field|
 end
 
 Then /^(?:|I )should see "([^"]*)"$/ do |text|
-  page.should have_content(text)
+  regexp = Regexp.new(Regexp.escape(text), Regexp::IGNORECASE)
+  page.should have_content(regexp)
 end
 
 Then /^(?:|I )should see \/([^\/]*)\/$/ do |regexp|
@@ -202,7 +203,8 @@ Then /^(?:|I )should see \/([^\/]*)\/$/ do |regexp|
 end
 
 Then /^(?:|I )should not see "([^"]*)"$/ do |text|
-  page.should have_no_content(text)
+  regexp = Regexp.new(Regexp.escape(text), Regexp::IGNORECASE)
+  page.should have_no_content(regexp)
 end
 
 Then /^(?:|I )should not see \/([^\/]*)\/$/ do |regexp|
