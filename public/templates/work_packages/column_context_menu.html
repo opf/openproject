@@ -1,6 +1,8 @@
 <div id="column-context-menu" class="action-menu" ng-show="opened">
   <ul class="menu">
-    <li ng-click="groupBy(column.name)" class="has-no-icon">
+    <li ng-click="groupBy(column.name)"
+        ng-if="isGroupable"
+        class="has-no-icon">
       <a href="#"><span ng-bind="I18n.t('js.work_packages.query.group_by')"/> <span ng-bind="column.title"/></a>
     </li>
 
@@ -29,7 +31,7 @@
     </li>
 
     <li ng-click="hideColumn(column.name)">
-      <i class="icon-action-menu icon-delete2"></i>
+    <i class="icon-action-menu icon-delete2"></i>
       <a href="#"><span ng-bind="I18n.t('js.label_hide_column')"/></a>
     </li>
 

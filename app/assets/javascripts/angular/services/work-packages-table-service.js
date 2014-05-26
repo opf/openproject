@@ -78,6 +78,14 @@ angular.module('openproject.workPackages.services')
       return workPackagesTableData.groupableColumns;
     },
 
+    isGroupable: function(column) {
+      if (!workPackagesTableData.groupableColumns || !column) return false;
+
+      return workPackagesTableData.groupableColumns.map(function(groupableColumn) {
+        return groupableColumn.name;
+      }).indexOf(column.name) !== -1;
+    },
+
     buildRows: function(workPackages, groupBy) {
       this.setRows(WorkPackagesTableHelper.buildRows(workPackages, groupBy));
     },
