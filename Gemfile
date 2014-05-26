@@ -131,7 +131,6 @@ gem "i18n-js", :git => "https://github.com/fnando/i18n-js.git", :ref => '8801f8d
 # small wrapper around the command line
 gem 'cocaine'
 
-
 # Security fixes
 # Gems we don't depend directly on, but specify here to make sure we don't use a vulnerable
 # version. Please add a link to a security advisory when adding a Gem here.
@@ -141,7 +140,6 @@ gem 'i18n', '>=0.6.8'
 
 gem 'nokogiri', '>=1.5.11'
 # see https://groups.google.com/forum/#!topic/ruby-security-ann/DeJpjTAg1FA
-
 
 group :test do
   gem 'shoulda'
@@ -259,4 +257,3 @@ Dir.glob File.expand_path("../{Gemfile.local,Gemfile.plugins,lib/plugins/*/Gemfi
   next unless File.readable?(file)
   instance_eval File.read(file)
 end
-
