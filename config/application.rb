@@ -160,6 +160,14 @@ module OpenProject
       ActionMailer::Base.view_paths = ActionView::PathSet.new(ActionMailer::Base.view_paths.to_ary.reverse)
     end
 
+    config.threadsafe!
+    #config.cache_classes = false
+    #config.eager_load    = false
+
+    # http://hightechsorcery.com/2013/01/fixing-uninitialized-constant-errors-in-rake-tasks-when-using-rails-threadsafe-mode/
+    # http://stackoverflow.com/questions/4300240/rails-3-rake-task-cant-find-model-in-production/4880253#4880253
+    config.dependency_loading = true if $rails_rake_task
+
     OpenProject::Configuration.configure_cache(config)
   end
 end
