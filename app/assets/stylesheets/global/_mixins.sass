@@ -42,34 +42,34 @@ $button_gray_font_color: #222222
   font-size:          $headline_h1_font_size
   font-family:        $font_family_normal
   font-weight:        normal
-  padding:		      0 0 8px 0
-  margin:			  0
+  padding:          0 0 8px 0
+  margin:        0
 
 @mixin default-headline-h2
   color:              $headline_h2_font-color
   font-size:          $headline_h2_font_size
   font-family:        $font_family_normal
   font-weight:        normal
-  text-transform:	  uppercase
-  padding:		      0 0 8px 0
-  margin:			  0
+  text-transform:    uppercase
+  padding:          0 0 8px 0
+  margin:        0
 
 @mixin default-headline-h3
   color:              $headline_h3_font-color
   font-size:          $headline_h3_font_size
   font-family:        $font_family_normal
   font-weight:        normal
-  border-bottom:	  1px solid #dddddd
-  padding:		      0 0 8px 0
-  margin:		      0 0 20px 0
+  border-bottom:    1px solid #dddddd
+  padding:          0 0 8px 0
+  margin:          0 0 20px 0
 
 @mixin default-headline-h4
   color:              $headline_h4_font-color
   font-size:          $headline_h4_font_size
   font-family:        $font_family_normal
   font-weight:        normal
-  padding:		      0 0 5px 0
-  margin:		      0 0 20px 0
+  padding:          0 0 5px 0
+  margin:          0 0 20px 0
 
 @mixin default-font-normal($color, $font-size: 13px)
   color:              $color
@@ -133,7 +133,7 @@ $button_gray_font_color: #222222
     background: -o-linear-gradient(top,  #ffffff 0%,#eeeeee 40%,#ddd 100%)
     background: -ms-linear-gradient(top,  #ffffff 0%,#eeeeee 40%,#ddd 100%)
     background: linear-gradient(to bottom,  #ffffff 0%,#eeeeee 40%,#ddd 100%)
-    
+
 @mixin button-active-background
   border: 1px solid #CCCCCC
   background: #EEEEEE
@@ -163,7 +163,7 @@ $button_gray_font_color: #222222
   color: $button_highlight_font_hover_color
   &:hover
     text-decoration: none
-    
+
 @mixin button
   color: $button_font_color
   @include button-common
@@ -172,13 +172,13 @@ $button_gray_font_color: #222222
   color: $button_font_hover_color
   &:hover
     text-decoration: none
-    
+
 @mixin button-active
   color: $button_active_font_color
   @include button-common
   @include button-normal-size
   @include button-active-background
-  
+
   &:hover
     text-decoration: none
 
