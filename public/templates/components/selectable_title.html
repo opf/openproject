@@ -14,7 +14,7 @@
       <ul class="dropdown-menu">
         <div class="title-group-header">{{ group.name }}</div>
         <li ng-repeat="model in group.models">
-          <a href="" ng-click="reload( model[1], model[0] )">{{ model[0] }}</a>
+          <a href="" ng-click="reload( model[1], model[0] )">{{ model[0] | characters:20 }}</a>
         </li>
       </ul>
     </div>
