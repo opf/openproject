@@ -69,15 +69,16 @@ angular.module('openproject.uiComponents')
 
         element.on('click', function (event) {
 
-          var trigger = jQuery(this),
-            dropdown = jQuery("#" + attributes.dropdownId);
+          var trigger     = jQuery(this),
+            dropdown      = jQuery("#" + attributes.dropdownId),
+            showDropdown  = dropdown.is(':hidden');
 
           event.preventDefault();
           event.stopPropagation();
 
           scope.$emit('hideAllDropdowns');
+          if (showDropdown) dropdown.show();
 
-          dropdown.show();
           position(dropdown, trigger);
         });
       }
