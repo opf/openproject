@@ -36,8 +36,6 @@ module OpenProject::Reporting::Patches
       def destroy_with_custom_fields
         id = @custom_field.id
 
-        destroy_without_custom_fields
-
         if @custom_field.destroyed?
           custom_field_name = "CustomField#{id}"
           reports = CostQuery.where("serialized LIKE '%CustomField#{id}%'")
@@ -50,6 +48,8 @@ module OpenProject::Reporting::Patches
             report.save!
           end
         end
+
+        destroy_without_custom_fields
       end
 
       private
