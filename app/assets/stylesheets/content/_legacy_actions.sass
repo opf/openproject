@@ -26,41 +26,61 @@
  * See doc/COPYRIGHT.rdoc for more details.  ++
  */
 
-@import bourbon
-@import bitters/bitters
-@import global/all
-@import fonts/lato
-@import fonts/openproject_icon_font
-@import external
-@import select2_customizing
-@import jstoolbar
-@import content/context_menu
-@import print
-@import scm
-@import top-shelf
-@import work_packages
-@import openproject_plugins
-@import layout/all
-@import content/accounts
-@import content/forms
-@import content/flash_messages
-@import content/calendar
-@import content/wiki
-@import content/links
-@import content/action_menu_main
-@import content/legacy_actions
-@import content/my_page
-@import content/buttons
-@import content/boxes
-@import content/tabular
-@import content/work_packages
-@import content/work_packages_table
-@import content/expandable_group_content
-@import content/control_colors
-@import content/tabular
-@import content/headings
-@import content/timelines
-@import content/preview
-@import content/modal
-@import content/grid_table
-@import default/main
+@mixin legacy_actions_defaults($margin-top: 7px)
+  float: right
+  margin-top: $margin-top
+  > li
+    float: left
+    position: relative
+    list-style: none
+
+@mixin contextual($margin-top: 8px)
+  float: right
+  white-space: nowrap
+  line-height: 1.4em
+  margin-top: $margin-top
+  padding-left: 10px
+
+
+ul.legacy-actions-main
+  @include legacy_actions_defaults
+
+ul.legacy-actions-specific,
+.nosidebar ul.legacy-actions-specific
+  @include legacy_actions_defaults(-34px)
+
+p.subtitle + ul.legacy-actions-specific
+  @include legacy_actions_defaults(-57px)
+
+ul.legacy-actions-more
+  position: absolute
+  top: 23px
+  right: 0px
+  z-index: 100
+  white-space: nowrap
+  padding: 10px
+  padding-top: 5px
+
+  background: white
+  border: 1px solid #B7B7B7
+
+  box-shadow: 1px 1px 2px #aaa
+  > li
+    padding-top: 5px
+
+
+#lower-title-bar ul.legacy-actions-specific
+  @include legacy_actions_defaults
+  padding-top: 10px
+
+#lower-title-bar ul.legacy-actions-more
+  bottom: 0
+  right: 0
+  margin-bottom: 25px
+  top: auto
+  > li.drop-down
+    position: relative
+
+.message-reply-menu
+  @include contextual(-39px)
+

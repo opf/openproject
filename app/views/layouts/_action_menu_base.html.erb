@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% action_menu_key = action_menu_key ? action_menu_key : :action_menu_main %>
-<ul class="<%= action_menu_key.to_s %>">
+<ul class="<%= action_menu_key %> <%= action_menu_key.to_s.gsub('action_menu_', 'legacy-actions-') %>">
   <%= content_for action_menu_key %>
   <% if content_for?(:action_menu_more) %>
     <li class="drop-down">
@@ -36,7 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
          accesskey="<%= OpenProject::AccessKeys.key_for(:more_menu) %>">
         <%= l(:more_actions) %>
       </a>
-      <ul class="action_menu_more" style="display:none;">
+      <ul class="action_menu_more legacy-actions-more" style="display:none;">
         <%= content_for :action_menu_more %>
       </ul>
     </li>
