@@ -67,7 +67,7 @@ angular.module('openproject.uiComponents')
           jQuery('.dropdown').hide();
         });
 
-        element.on('click', function () {
+        element.on('click', function (event) {
 
           var trigger = jQuery(this),
             dropdown = jQuery("#" + attributes.dropdownId);
