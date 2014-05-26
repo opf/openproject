@@ -78,6 +78,6 @@ module OpenProject::Reporting
       require_dependency 'widget/settings_patch'
     end
 
-    patches [:CostlogController, :TimelogController]
+    patches [:CostlogController, :TimelogController, :CustomFieldsController]
   end
 end
