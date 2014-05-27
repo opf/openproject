@@ -48,9 +48,6 @@ angular.module('openproject.workPackages.controllers')
       WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS,
       OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
 
-  $scope.showFiltersOptions = false;
-
-
   // Setup
 
   function initialSetup() {
@@ -126,7 +123,7 @@ angular.module('openproject.workPackages.controllers')
   }
 
   function afterQuerySetupCallback(query) {
-    $scope.showFilters = query.filters.length > 0;
+    $scope.showFiltersOptions = query.filters.length > 0;
     $scope.updateBackUrl();
   }
 
