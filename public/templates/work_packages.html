@@ -23,7 +23,7 @@
             <i class="icon-pin icon-buttons"></i>Filter
           </button>
         </li>
-        <li class="toolbar-item">
+        <li class="toolbar-item" ng-hide="hideWorkPackageDetails">
           <ul id="work-packages-view-mode-selection" class="toolbar-button-group">
             <li>
               <button class="button"
@@ -32,7 +32,7 @@
                 <i class="icon-view2 icon-buttons"></i>
               </button>
             </li>
-            <li>
+            <li ng-hide="hideWorkPackageDetails">
               <button class="button"
                       ui-sref="work-packages.list.details({})"
                       ui-sref-active="active">

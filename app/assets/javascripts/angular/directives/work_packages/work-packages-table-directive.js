@@ -74,6 +74,8 @@ angular.module('openproject.workPackages.directives')
           row.checked = state;
         });
       };
+
+      scope.hideWorkPackageDetails = true; // temporarily disable work package details links
     }
   };
 }]);
