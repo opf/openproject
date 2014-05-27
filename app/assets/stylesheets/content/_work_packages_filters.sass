@@ -1,8 +1,30 @@
-#content fieldset#filters
-  padding-bottom: 10px
+.work-packages-filters--container
+  background-color: #efefef
+  border:   1px solid #E6E6E6
+  padding:  10px
 
-#content fieldset#options
-  padding-bottom: 10px
+  // TODO: check accessibility
+  legend
+    display: none
+
+
+.work-packages-filters--filter-table
+  border-collapse: collapse
+
+  td
+    padding: 0
+    vertical-align: middle
+
+  tr.filter
+    height: 2em
+
+  td.add-filter
+    text-align: right
+    vertical-align: top
+
+  div.add-filter
+    text-align: right
+
 
 #content fieldset.collapsible.header_collapsible
   padding-top: 0px
@@ -46,16 +68,3 @@ fieldset.collapsible legend
 
 fieldset#date-range p
   margin: 2px 0 2px 0
-fieldset#filters table
-  border-collapse: collapse
-fieldset#filters table td
-  padding: 0
-  vertical-align: middle
-fieldset#filters tr.filter
-  height: 2em
-fieldset#filters td.add-filter
-  text-align: right
-  vertical-align: top
-
-fieldset#filters div.add-filter
-  text-align: right
