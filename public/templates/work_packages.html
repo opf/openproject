@@ -20,7 +20,7 @@
           <button class="button"
                   ng-click="showFiltersOptions = !showFiltersOptions"
                   ng-class="{active: showFiltersOptions}">
-            <i class="icon-pin icon-buttons"></i>Filter
+            <i class="icon-filter icon-buttons"></i>Filter
           </button>
         </li>
         <li class="toolbar-item">
@@ -29,14 +29,14 @@
               <button class="button"
                       ui-sref="work-packages.list"
                       ui-sref-active="active">
-                <i class="icon-view2 icon-buttons"></i>
+                <i class="icon-table-view icon-buttons"></i>
               </button>
             </li>
             <li>
               <button class="button"
                       ui-sref="work-packages.list.details({})"
                       ui-sref-active="active">
-                <i class="icon-cup icon-buttons"></i>
+                <i class="icon-table-detail-view icon-buttons"></i>
               </button>
             </li>
           </ul>
@@ -59,15 +59,15 @@
 
   <div options-dropdown class="dropdown dropdown-relative dropdown-anchor-right" id="settingsDropdown">
     <ul class="dropdown-menu">
-      <li><a href ng-click="showColumnsModal()">Columns…</a></li>
+      <li><a href ng-click="showColumnsModal()"><i class="icon-action-menu icon-columns"></i>Columns…</a></li>
       <li><a href ng-click="showSortingModal()">Sorting…</a></li>
       <li><a href ng-click="showGroupingModal()">Group by …</a></li>
       <li><a href ng-click="toggleDisplaySums()">Display sums</a></li>
       <li class="dropdown-divider"></li>
-      <li><a href ng-click="showSaveModal()">Save</a></li>
-      <li><a href ng-click="showSaveModal(true)">Save as</a></li>
-      <li><a href ng-click="showExportModal()">Export</a></li>
-      <li ng-show="!query.isNew()"><a href ng-click="showShareModal()">Share</a></li>
+      <li><a href ng-click="showSaveModal()"><i class="icon-action-menu icon-save1"></i>Save</a></li>
+      <li><a href ng-click="showSaveModal(true)"><i class="icon-action-menu icon-save1"></i>Save as</a></li>
+      <li><a href ng-click="showExportModal()"><i class="icon-action-menu icon-xls"></i>Export</a></li>
+      <li ng-show="!query.isNew()"><a href ng-click="showShareModal()"><i class="icon-action-menu icon-publish"></i>Share</a></li>
     </ul>
   </div>
 

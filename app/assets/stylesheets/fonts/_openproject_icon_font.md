@@ -229,4 +229,14 @@
 <i class="icon-yes3"></i>
 <i class="icon-zoom-in"></i>
 <i class="icon-zoom-out"></i>
+<i class="icon-columns"></i>
+<i class="icon-column-left"></i>
+<i class="icon-column-right"></i>
+<i class="icon-sort-ascending"></i>
+<i class="icon-sort-descending"></i>
+<i class="icon-filter"></i>
+<i class="icon-table-view"></i>
+<i class="icon-table-detail-view"></i>
+<i class="icon-timeline-view"></i>
+<i class="icon-toggler"></i>
 ```
