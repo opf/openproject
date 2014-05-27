@@ -71,7 +71,9 @@ angular.module('openproject.uiComponents')
         });
 
         angular.element($window).on('resize', function(event) {
-          position(dropdown, trigger);
+          if(dropdown.is(':visible')) {
+            position(dropdown, trigger);
+          }
         });
 
         element.on('click', function (event) {
