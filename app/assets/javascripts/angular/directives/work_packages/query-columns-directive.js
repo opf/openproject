@@ -30,17 +30,29 @@ angular.module('openproject.workPackages.directives')
 
 .directive('queryColumns', [
   'WorkPackagesTableHelper',
+  'WorkPackagesTableService',
   'WorkPackageService',
   'QueryService',
-  function(WorkPackagesTableHelper, WorkPackageService, QueryService) {
+  function(WorkPackagesTableHelper, WorkPackagesTableService, WorkPackageService, QueryService) {
 
   return {
     restrict: 'E',
     replace: true,
+    scope: {},
     templateUrl: '/templates/work_packages/query_columns.html',
     compile: function(tElement) {
       return {
         pre: function(scope) {
+          scope.tableData = WorkPackagesTableService.getWorkPackagesTableData();
+
+          scope.$watch('tableData.columns', function(columns) {
+            scope.columns = columns;
+          });
+
+          QueryService.loadAvailableUnusedColumns().then(function(availableUnusedColumns) {
+            scope.availableUnusedColumns = availableUnusedColumns;
+          });
+
           scope.showColumns = function(columnNames) {
             QueryService.showColumns(columnNames);
 
@@ -58,15 +70,12 @@ angular.module('openproject.workPackages.directives')
 
           // TODO move to WorkPackagesService
           function extendRowsWithColumnData(columnNames) {
-            var workPackages = scope.rows.map(function(row) {
-              return row.object;
-            });
+            var workPackages = WorkPackagesTableService.getRowsData(),
+                groupBy = WorkPackagesTableService.getGroupBy();
+
             var newColumns = WorkPackagesTableHelper.selectColumnsByName(scope.columns, columnNames);
 
-            // work package rows
-            var params = [workPackages, newColumns];
-            if( scope.groupByColumn) params.push(scope.groupByColumn.name);
-            scope.withLoading(WorkPackageService.augmentWorkPackagesWithColumnsData, params)
+            WorkPackageService.augmentWorkPackagesWithColumnsData(workPackages, newColumns, groupBy)
               .then(scope.updateBackUrl);
           }
         }
