@@ -8,25 +8,25 @@
 
     <li ng-click="sortAscending(column.name)">
       <a href="#">
-        <i class="icon-action-menu icon-pulldown-arrow3"></i>
+        <i class="icon-action-menu icon-sort-ascending"></i>
         <span ng-bind="I18n.t('js.label_sort_by')"/> <span ng-bind="column.title"/> <span ng-bind="I18n.t('js.label_ascending')"/>
       </a>
     </li>
 
     <li ng-click="sortDescending(column.name)">
-      <i class="icon-action-menu icon-pulldown-arrow1"></i>
+      <i class="icon-action-menu icon-sort-descending"></i>
       <a href="#"><span ng-bind="I18n.t('js.label_sort_by')"/> <span ng-bind="column.title"/> <span ng-bind="I18n.t('js.label_descending')"/></a>
     </li>
 
     <li ng-click="moveLeft(column.name)"
         ng-if="columns.indexOf(column) !== 0">
-      <i class="icon-action-menu icon-paragraph-left"></i>
+      <i class="icon-action-menu icon-column-left"></i>
       <a href="#"><span ng-bind="I18n.t('js.label_move_column_left')"/></a>
     </li>
 
     <li ng-click="moveRight(column.name)"
         ng-if="columns.indexOf(column) !== columns.length - 1">
-      <i class="icon-action-menu icon-paragraph-right"></i>
+      <i class="icon-action-menu icon-column-right"></i>
       <a href="#"><span ng-bind="I18n.t('js.label_move_column_right')"/></a>
     </li>
 
