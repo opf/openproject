@@ -61,7 +61,7 @@
       <li><a href ng-click="showColumnsModal()"><i class="icon-action-menu icon-columns"></i>Columns…</a></li>
       <li><a href ng-click="showSortingModal()">Sorting…</a></li>
       <li><a href ng-click="showGroupingModal()">Group by …</a></li>
-      <li><a href ng-click="toggleDisplaySums()">Display sums</a></li>
+      <li><a href ng-click="toggleDisplaySums()"><i ng-if="query.displaySums" class="icon-action-menu icon-yes"></i>Display sums</a></li>
       <li class="dropdown-divider"></li>
       <li><a href ng-click="showSaveModal()"><i class="icon-action-menu icon-save1"></i>Save</a></li>
       <li ng-show="!query.isNew()"><a href ng-click="showSaveModal(true)"><i class="icon-action-menu icon-save1"></i>Save as</a></li>
