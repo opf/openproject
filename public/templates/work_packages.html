@@ -71,7 +71,10 @@
 
   <div class="title-bar" ng-show="showFiltersOptions">
     <div class="title-bar-extras">
-      <work-packages-options></work-packages-options>
+
+      <div query-form id="query_form_content" class="hide-when-print">
+        <query-filters></query-filters>
+      </div>
 
       <p class="buttons hide-when-print">
         <filter-clear query="query">
