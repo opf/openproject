@@ -223,7 +223,6 @@ de:
         export: "Exportieren ..."
         share: "Sichtbarkeit ..."
       filter: "Filter"
-      task: "Aufgabe"
       unselected_title: "Arbeitspakete"
     notice_successful_create: "Erfolgreich angelegt"
     notice_successful_delete: "Erfolgreich gelöscht."
