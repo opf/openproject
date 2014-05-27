@@ -67,7 +67,6 @@
 /vendor/rails
 /*.rbc
 /doc/app
-#/Gemfile.lock
 /Gemfile.local
 /Gemfile.plugins
 /.rvmrc*
