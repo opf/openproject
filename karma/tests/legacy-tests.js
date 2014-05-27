@@ -64,113 +64,108 @@ describe("OpenProject instance `getFullUrl`", function() {
   });
 });
 
-//describe("OpenProject instance `fetchProjects`", {
-//  setup: function () {
-//    var defaultOptions = {
-//      url          : new RegExp('.*/projects/level_list\\.json'),
-//      responseTime : 0
-//    };
-//
-//    if (false) {
-//      jQuery.mockjax(jQuery.extend(defaultOptions, {
-//        proxy : 'mocks/projects.json'
-//      }));
-//    }
-//    else {
-//      jQuery.mockjax(jQuery.extend(defaultOptions, {
-//        responseText : '{"projects":[{"identifier":"bums","created_on":"2012-12-18T07:00:17Z","level":0,"updated_on":"2012-12-18T09:09:10Z","name":"Bums zzz","id":3},{"identifier":"things","created_on":"2012-12-14T14:01:27Z","level":0,"updated_on":"2012-12-14T14:01:27Z","name":"Things","id":1},{"identifier":"things-bums","created_on":"2012-12-18T06:59:50Z","level":1,"updated_on":"2012-12-18T14:26:05Z","name":"Thingsb-Bums","id":2},{"identifier":"bums-bums","created_on":"2012-12-18T08:57:46Z","level":2,"updated_on":"2012-12-18T08:57:46Z","name":"Bums Bums","id":5},{"identifier":"zzz","created_on":"2012-12-18T08:57:14Z","level":0,"updated_on":"2012-12-18T08:57:14Z","name":"ZZZ","id":4}],"size":5}'
-//      }));
-//    }
-//  },
-//  teardown: function () {
-//    jQuery.mockjaxClear();
-//  }
-//});
-//
-//QUnit.asyncTest("calls /projects/level_list.json to fetch results", 1, function() {
-//  var op = new OpenProject();
-//
-//  op.fetchProjects(function (projects) {
-//    assert.strictEqual(projects.length, 5);
-//    QUnit.start();
-//  });
-//});
-//
-//QUnit.asyncTest("adds hname to projects", 5, function() {
-//  var op = new OpenProject(),
-//      hname = OpenProject.Helpers.hname;
-//
-//  op.fetchProjects(function (projects) {
-//    assert.deepEqual(projects[0].hname, "Bums zzz");
-//    assert.deepEqual(projects[1].hname, "Things");
-//    assert.deepEqual(projects[2].hname, hname("Thingsb-Bums", 1));
-//    assert.deepEqual(projects[3].hname, hname("Bums Bums", 2));
-//    assert.deepEqual(projects[4].hname, "ZZZ");
-//    QUnit.start();
-//  });
-//});
-//
-//QUnit.asyncTest("adds parents array to projects", 5, function() {
-//  var op = new OpenProject();
-//
-//  op.fetchProjects(function (projects) {
-//    assert.deepEqual(projects[0].parents, []);
-//    assert.deepEqual(projects[1].parents, []);
-//    assert.deepEqual(projects[2].parents, [projects[1]]);
-//    assert.deepEqual(projects[3].parents, [projects[1], projects[2]]);
-//    assert.deepEqual(projects[4].parents, []);
-//    QUnit.start();
-//  });
-//});
-//
-//QUnit.asyncTest("adds tokens to projects", 5, function() {
-//  var op = new OpenProject();
-//
-//  op.fetchProjects(function (projects) {
-//    assert.deepEqual(projects[0].tokens, ["Bums", "zzz"]);
-//    assert.deepEqual(projects[1].tokens, ["Things"]);
-//    assert.deepEqual(projects[2].tokens, ["Thingsb", "Bums"]);
-//    assert.deepEqual(projects[3].tokens, ["Bums", "Bums"]);
-//    assert.deepEqual(projects[4].tokens, ["ZZZ"]);
-//    QUnit.start();
-//  });
-//});
-//
-//QUnit.asyncTest("adds url to projects", 5, function() {
-//  var op = new OpenProject();
-//
-//  op.fetchProjects(function (projects) {
-//    assert.deepEqual(projects[0].url, "/projects/bums");
-//    assert.deepEqual(projects[1].url, "/projects/things");
-//    assert.deepEqual(projects[2].url, "/projects/things-bums");
-//    assert.deepEqual(projects[3].url, "/projects/bums-bums");
-//    assert.deepEqual(projects[4].url, "/projects/zzz");
-//    QUnit.start();
-//  });
-//});
-//
-//QUnit.asyncTest("adds url to projects with different urlRoot", 5, function() {
-//  var op = new OpenProject({urlRoot : "/foo"});
-//
-//  op.fetchProjects(function (projects) {
-//    assert.deepEqual(projects[0].url, "/foo/projects/bums");
-//    assert.deepEqual(projects[1].url, "/foo/projects/things");
-//    assert.deepEqual(projects[2].url, "/foo/projects/things-bums");
-//    assert.deepEqual(projects[3].url, "/foo/projects/bums-bums");
-//    assert.deepEqual(projects[4].url, "/foo/projects/zzz");
-//    QUnit.start();
-//  });
-//});
-//
-//QUnit.asyncTest("caches result", 1, function() {
-//  var op = new OpenProject();
-//  op.projects = 'something';
-//
-//  op.fetchProjects(function (projects) {
-//    assert.strictEqual(projects, 'something');
-//    QUnit.start();
-//  });
-//});
+describe("OpenProject instance `fetchProjects`", function() {
+
+  var defaultOptions = {
+    url          : new RegExp('.*/projects/level_list\\.json'),
+    responseTime : 0
+  };
+
+  beforeEach(function() {
+    if (false) {
+      jQuery.mockjax(jQuery.extend(defaultOptions, {
+        proxy : 'mocks/projects.json'
+      }));
+    } else {
+      jQuery.mockjax(jQuery.extend(defaultOptions, {
+        responseText: '{"projects":[{"identifier":"bums","created_on":"2012-12-18T07:00:17Z","level":0,"updated_on":"2012-12-18T09:09:10Z","name":"Bums zzz","id":3},{"identifier":"things","created_on":"2012-12-14T14:01:27Z","level":0,"updated_on":"2012-12-14T14:01:27Z","name":"Things","id":1},{"identifier":"things-bums","created_on":"2012-12-18T06:59:50Z","level":1,"updated_on":"2012-12-18T14:26:05Z","name":"Thingsb-Bums","id":2},{"identifier":"bums-bums","created_on":"2012-12-18T08:57:46Z","level":2,"updated_on":"2012-12-18T08:57:46Z","name":"Bums Bums","id":5},{"identifier":"zzz","created_on":"2012-12-18T08:57:14Z","level":0,"updated_on":"2012-12-18T08:57:14Z","name":"ZZZ","id":4}],"size":5}'
+      }));
+    }
+  });
+
+  afterEach(function() {
+    jQuery.mockjaxClear();
+  });
+
+
+  it("calls /projects/level_list.json to fetch results", function() {
+    var op = new OpenProject();
+
+    op.fetchProjects(function (projects) {
+      assert.strictEqual(projects.length, 5);
+    });
+  });
+
+  it("adds hname to projects", function() {
+    var op = new OpenProject(),
+        hname = OpenProject.Helpers.hname;
+
+    op.fetchProjects(function (projects) {
+      assert.deepEqual(projects[0].hname, "Bums zzz");
+      assert.deepEqual(projects[1].hname, "Things");
+      assert.deepEqual(projects[2].hname, hname("Thingsb-Bums", 1));
+      assert.deepEqual(projects[3].hname, hname("Bums Bums", 2));
+      assert.deepEqual(projects[4].hname, "ZZZ");
+    });
+  });
+
+  it("adds parents array to projects", function() {
+    var op = new OpenProject();
+
+    op.fetchProjects(function (projects) {
+      assert.deepEqual(projects[0].parents, []);
+      assert.deepEqual(projects[1].parents, []);
+      assert.deepEqual(projects[2].parents, [projects[1]]);
+      assert.deepEqual(projects[3].parents, [projects[1], projects[2]]);
+      assert.deepEqual(projects[4].parents, []);
+    });
+  });
+
+  it("adds tokens to projects", function() {
+    var op = new OpenProject();
+
+    op.fetchProjects(function (projects) {
+      assert.deepEqual(projects[0].tokens, ["Bums", "zzz"]);
+      assert.deepEqual(projects[1].tokens, ["Things"]);
+      assert.deepEqual(projects[2].tokens, ["Thingsb", "Bums"]);
+      assert.deepEqual(projects[3].tokens, ["Bums", "Bums"]);
+      assert.deepEqual(projects[4].tokens, ["ZZZ"]);
+    });
+  });
+
+  it("adds url to projects", function() {
+    var op = new OpenProject();
+
+    op.fetchProjects(function (projects) {
+      assert.deepEqual(projects[0].url, "/projects/bums");
+      assert.deepEqual(projects[1].url, "/projects/things");
+      assert.deepEqual(projects[2].url, "/projects/things-bums");
+      assert.deepEqual(projects[3].url, "/projects/bums-bums");
+      assert.deepEqual(projects[4].url, "/projects/zzz");
+    });
+  });
+
+  it("adds url to projects with different urlRoot", function() {
+    var op = new OpenProject({urlRoot : "/foo"});
+
+    op.fetchProjects(function (projects) {
+      assert.deepEqual(projects[0].url, "/foo/projects/bums");
+      assert.deepEqual(projects[1].url, "/foo/projects/things");
+      assert.deepEqual(projects[2].url, "/foo/projects/things-bums");
+      assert.deepEqual(projects[3].url, "/foo/projects/bums-bums");
+      assert.deepEqual(projects[4].url, "/foo/projects/zzz");
+    });
+  });
+
+  it("caches result", function() {
+    var op = new OpenProject();
+    op.projects = 'something';
+
+    op.fetchProjects(function (projects) {
+      assert.strictEqual(projects, 'something');
+    });
+  });
+});
 
 
 /**
