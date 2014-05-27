@@ -204,10 +204,11 @@
 jQuery(function(){
   // simulated hover effect on tables when using the keyboard
   var content = jQuery('#content');
-  content.on('blur', 'table tr *', function(){
+  content.on('hover', 'table tr *', function(){
     jQuery(this).parents('table tr').first().removeClass('keyboard_hover');
   });
   content.on('focus', 'table tr *', function(){
+    jQuery('.keyboard_hover').removeClass('keyboard_hover');
     jQuery(this).parents('table tr').first().addClass('keyboard_hover');
   });
 });
