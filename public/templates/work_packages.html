@@ -11,7 +11,7 @@
         <li class="toolbar-item">
           <button class="button_highlight" with-dropdown dropdown-id="tasksDropdown">
             <i class="icon-add icon4"></i>
-            New Task
+            {{ I18n.t('js.toolbar.unselected_title') }}
             <i class="icon-pulldown-arrow1 icon-dropdown"></i>
           </button>
         </li>
@@ -19,7 +19,7 @@
           <button class="button"
                   ng-click="showFiltersOptions = !showFiltersOptions"
                   ng-class="{active: showFiltersOptions}">
-            <i class="icon-pin icon-buttons"></i>Filter
+            <i class="icon-pin icon-buttons"></i>{{ I18n.t('js.toolbar.filter') }}
           </button>
         </li>
         <li class="toolbar-item" ng-hide="hideWorkPackageDetails">
@@ -58,14 +58,14 @@
 
   <div options-dropdown class="dropdown dropdown-relative dropdown-anchor-right" id="settingsDropdown">
     <ul class="dropdown-menu">
-      <li><a href ng-click="showColumnsModal()">Columns…</a></li>
-      <li><a href ng-click="showSortingModal()">Sorting…</a></li>
-      <li><a href ng-click="showGroupingModal()">Group by …</a></li>
-      <li><a href ng-click="toggleDisplaySums()">Display sums</a></li>
+      <li><a href ng-click="showColumnsModal()">{{ I18n.t('js.toolbar.settings.columns') }}</a></li>
+      <li><a href ng-click="showSortingModal()">{{ I18n.t('js.toolbar.settings.sort_by') }}</a></li>
+      <li><a href ng-click="showGroupingModal()">{{ I18n.t('js.toolbar.settings.group_by') }}</a></li>
+      <li><a href ng-click="toggleDisplaySums()">{{ I18n.t('js.toolbar.settings.display_sums') }}</a></li>
       <li class="dropdown-divider"></li>
-      <li><a href ng-click="showSaveModal()">Save</a></li>
-      <li ng-show="!query.isNew()"><a href ng-click="showSaveModal(true)">Save as</a></li>
-      <li ng-show="!query.isNew()"><a href ng-click="showShareModal()">Share</a></li>
+      <li><a href ng-click="showSaveModal()">{{ I18n.t('js.toolbar.settings.save') }}</a></li>
+      <li ng-show="!query.isNew()"><a href ng-click="showSaveModal(true)">{{ I18n.t('js.toolbar.settings.save_as') }}</a></li>
+      <li ng-show="!query.isNew()"><a href ng-click="showShareModal()">{{ I18n.t('js.toolbar.settings.share') }}</a></li>
     </ul>
   </div>
 

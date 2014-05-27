@@ -215,6 +215,18 @@ en:
         group_by: "Group results by"
         filters: "Filters"
         display_sums: "Display Sums"
+    toolbar:
+      settings:
+        columns: "Columns ..."
+        sort_by: "Sort by ..."
+        group_by: "Group by ..."
+        display_sums: "Display sums"
+        save: "Save"
+        save_as: "Save as ..."
+        export: "Export ..."
+        share: "Share ..."
+      filter: "Filter"
+      unselected_title: "Work packages"
     notice_successful_create: "Successful creation."
     notice_successful_delete: "Successful deletion."
     notice_successful_update: "Successful update."
