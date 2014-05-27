@@ -72,7 +72,7 @@ module Report::QueryUtils
     if values.empty?
       ""
     else
-      "(#{values.flatten.map { |v| "'#{quote_string(v)}'" }.join ", "})"
+      "(#{values.split(',').flatten.map { |x| "'#{quote_string(x)}'" }.join(", ")})"
     end
   end
 
