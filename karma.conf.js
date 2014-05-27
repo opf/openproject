@@ -106,6 +106,8 @@ module.exports = function(config) {
       'karma/tests/test-helper.js',
       'karma/factories/*factory.js',
 
+      'karma/lib/jquery.mockjax.js',
+
       'karma/tests/asset_functions.js',
       'karma/tests/**/*test.js',
       'karma/tests/legacy-tests.js',
