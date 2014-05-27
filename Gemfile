@@ -232,26 +232,6 @@ platforms :mri, :mingw do
   group :postgres do
     gem 'pg', "~> 0.17.1"
   end
-
-  group :sqlite do
-    gem "sqlite3"
-  end
-end
-
-platforms :jruby do
-  gem "jruby-openssl"
-
-  group :mysql do
-    gem "activerecord-jdbcmysql-adapter"
-  end
-
-  group :postgres do
-    gem "activerecord-jdbcpostgresql-adapter"
-  end
-
-  group :sqlite do
-    gem "activerecord-jdbcsqlite3-adapter"
-  end
 end
 
 # Load Gemfile.local, Gemfile.plugins and plugins' Gemfiles
