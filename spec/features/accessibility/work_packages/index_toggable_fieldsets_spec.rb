@@ -52,11 +52,5 @@ describe 'Work package index' do
         let(:fieldset_name) { 'Add filter' }
       end
     end
-
-    describe 'Options fieldset', js: true do
-      it_behaves_like 'toggable fieldset initially collapsed' do
-        let(:fieldset_name) { 'Options' }
-      end
-    end
   end
 end
