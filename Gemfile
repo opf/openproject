@@ -234,18 +234,6 @@ platforms :mri, :mingw do
   end
 end
 
-platforms :jruby do
-  gem "jruby-openssl"
-
-  group :mysql do
-    gem "activerecord-jdbcmysql-adapter"
-  end
-
-  group :postgres do
-    gem "activerecord-jdbcpostgresql-adapter"
-  end
-end
-
 # Load Gemfile.local, Gemfile.plugins and plugins' Gemfiles
 Dir.glob File.expand_path("../{Gemfile.local,Gemfile.plugins,lib/plugins/*/Gemfile}", __FILE__) do |file|
   next unless File.readable?(file)
