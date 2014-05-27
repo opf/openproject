@@ -70,7 +70,7 @@ Feature: Disabled done ratio on the work package index
     And I click the toolbar button named "Filter"
     And I click "Options"
     And I select to see column "Author"
-    Then I should see "AUTHOR" within ".workpackages-table"
+    Then I should see "Author" within ".workpackages-table"
 
   @javascript
   Scenario: Subject column should not be displayed when Subject is moved out of selected columns
@@ -78,4 +78,4 @@ Feature: Disabled done ratio on the work package index
     And I click the toolbar button named "Filter"
     And I click "Options"
     And I select to not see column "Subject"
-    Then I should not see "SUBJECT" within ".workpackages-table"
+    Then I should not see "Subject" within ".workpackages-table"

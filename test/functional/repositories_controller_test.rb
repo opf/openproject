@@ -61,13 +61,13 @@ class RepositoriesControllerTest < ActionController::TestCase
     get :revision, {:project_id => 1, :rev => 1}
     assert_response :success
     assert_template 'revision'
-    assert_no_tag :tag => "ul", :attributes => { :class => "action_menu_specific" },
+    assert_no_tag :tag => "ul", :attributes => { :class => /action_menu_specific/ },
       :child => { :tag => "a", :attributes => { :href => @controller.url_for(:only_path => true,
                                                                              :controller => 'repositories',
                                                                              :action => 'revision',
                                                                              :project_id => 'ecookbook',
                                                                              :rev => '0') } }
-    assert_tag :tag => "ul", :attributes => { :class => "action_menu_specific" },
+    assert_tag :tag => "ul", :attributes => { :class => /action_menu_specific/ },
       :child => { :tag => "a", :attributes => { :href => @controller.url_for(:only_path => true,
                                                                              :controller => 'repositories',
                                                                              :action => 'revision',

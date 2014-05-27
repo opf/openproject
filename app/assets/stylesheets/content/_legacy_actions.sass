@@ -26,34 +26,61 @@
  * See doc/COPYRIGHT.rdoc for more details.  ++
  */
 
-@import global/all
-
-#content
-  .mypage-box
-    @include content-box
-
-.handle
-  cursor: move
-
-div.box-actions
+@mixin legacy_actions_defaults($margin-top: 7px)
   float: right
-  margin-right: 16px
-  z-index: 500
+  margin-top: $margin-top
+  > li
+    float: left
+    position: relative
+    list-style: none
 
-.block-receiver
-  border: 1px dashed $my_page_edit_box_border_color
-  margin-bottom: 20px
-  padding: 15px 0 15px 0
+@mixin contextual($margin-top: 8px)
+  float: right
+  white-space: nowrap
+  line-height: 1.4em
+  margin-top: $margin-top
+  padding-left: 10px
 
-  div.mypage-box
-    margin-top: 8px
-    padding-bottom: 8px
 
-  div.mypage-box div.box-actions
-    margin-top: -60px
+ul.legacy-actions-main
+  @include legacy_actions_defaults
 
-div.mypage-box p.summary
-  font-style: normal
+ul.legacy-actions-specific,
+.nosidebar ul.legacy-actions-specific
+  @include legacy_actions_defaults(-34px)
 
-div.mypage-box div.overview p.author
-  margin-bottom: 7px
+p.subtitle + ul.legacy-actions-specific
+  @include legacy_actions_defaults(-57px)
+
+ul.legacy-actions-more
+  position: absolute
+  top: 23px
+  right: 0px
+  z-index: 100
+  white-space: nowrap
+  padding: 10px
+  padding-top: 5px
+
+  background: white
+  border: 1px solid #B7B7B7
+
+  box-shadow: 1px 1px 2px #aaa
+  > li
+    padding-top: 5px
+
+
+#lower-title-bar ul.legacy-actions-specific
+  @include legacy_actions_defaults
+  padding-top: 10px
+
+#lower-title-bar ul.legacy-actions-more
+  bottom: 0
+  right: 0
+  margin-bottom: 25px
+  top: auto
+  > li.drop-down
+    position: relative
+
+.message-reply-menu
+  @include contextual(-39px)
+

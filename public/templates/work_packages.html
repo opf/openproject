@@ -4,7 +4,6 @@
     <div toolbar id="toolbar">
       <selectable-title selected-title="selectedTitle"
                         reload-method="reloadQuery"
-                        data-groups="dataGroups"
                         groups="groups">
       </selectable-title>
 
@@ -23,7 +22,7 @@
             <i class="icon-filter icon-buttons"></i>Filter
           </button>
         </li>
-        <li class="toolbar-item">
+        <li class="toolbar-item" ng-hide="hideWorkPackageDetails">
           <ul id="work-packages-view-mode-selection" class="toolbar-button-group">
             <li>
               <button class="button"
@@ -32,7 +31,7 @@
                 <i class="icon-table-view icon-buttons"></i>
               </button>
             </li>
-            <li>
+            <li ng-hide="hideWorkPackageDetails">
               <button class="button"
                       ui-sref="work-packages.list.details({})"
                       ui-sref-active="active">
@@ -65,8 +64,7 @@
       <li><a href ng-click="toggleDisplaySums()">Display sums</a></li>
       <li class="dropdown-divider"></li>
       <li><a href ng-click="showSaveModal()"><i class="icon-action-menu icon-save1"></i>Save</a></li>
-      <li><a href ng-click="showSaveModal(true)"><i class="icon-action-menu icon-save1"></i>Save as</a></li>
-      <li><a href ng-click="showExportModal()"><i class="icon-action-menu icon-xls"></i>Export</a></li>
+      <li ng-show="!query.isNew()"><a href ng-click="showSaveModal(true)"><i class="icon-action-menu icon-save1"></i>Save as</a></li>
       <li ng-show="!query.isNew()"><a href ng-click="showShareModal()"><i class="icon-action-menu icon-publish"></i>Share</a></li>
     </ul>
   </div>

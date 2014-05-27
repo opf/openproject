@@ -61,6 +61,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#5311` Encapsulate ActiveSupport::Notifications
 * `#5553` Integrate OmniAuth
 * `#5632` Check whether cookies are not shared between sub-uris
+* `#5652` Fixes: Custom fields with empty name can be created
 * `#5743` Potential data leak in "Invalid form authenticity token" error screen
 * `#6309` Remove API v1 & add level_list to API v2
 * `#6310` API v2 is now deprecated and will be removed in a future version of OpenProject

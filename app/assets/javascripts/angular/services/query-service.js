@@ -105,11 +105,11 @@ angular.module('openproject.services')
     },
 
     hideColumns: function(columnNames) {
-      WorkPackagesTableHelper.moveColumns(columnNames, this.getSelectedColumns(), availableColumns);
+      WorkPackagesTableHelper.moveColumns(columnNames, this.getSelectedColumns(), availableUnusedColumns);
     },
 
     showColumns: function(columnNames) {
-      WorkPackagesTableHelper.moveColumns(columnNames, availableColumns, this.getSelectedColumns());
+      WorkPackagesTableHelper.moveColumns(columnNames, availableUnusedColumns, this.getSelectedColumns());
     },
 
     // data loading

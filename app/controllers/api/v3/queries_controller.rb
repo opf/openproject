@@ -117,12 +117,19 @@ module Api::V3
       @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
       view_context.add_filter_from_params if params[:fields] || params[:f]
       @query.group_by ||= params[:group_by]
+      @query.sort_criteria = prepare_sort_criteria if params[:sort]
       @query.project = nil if params[:query_is_for_all]
       @query.display_sums ||= params[:display_sums].present?
       @query.column_names = params[:c] if params[:c]
       @query.column_names = nil if params[:default_columns]
       @query.name = params[:name] if params[:name]
       @query.is_public = params[:is_public] if params[:is_public]
+    end
+
+    def prepare_sort_criteria
+      # Note: There was a convention to have sortation strings in the form "type:desc,status:asc".
+      # For the sake of not breaking from convention we encoding/decoding the sortation.
+      params[:sort].split(',').collect{|p| [p.split(':')[0], p.split(':')[1] || 'asc']}
     end
 
     def visible_queries
