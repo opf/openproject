@@ -39,7 +39,7 @@ class CreateTimelinesAlternateDates < ActiveRecord::Migration
       t.timestamps
 
     end
-    add_index :timelines_alternate_dates, :planning_element_id
+    add_index :timelines_alternate_dates, :planning_element_id, :name => "idx_tadpei"
     add_index :timelines_alternate_dates, :scenario_id
   end
 

@@ -254,7 +254,6 @@ module ActiveRecord
   end
 end
 
-
 # Patches to fix Hash subclasses not preserving the class on reject and select
 # on Ruby 2.1.1. Apparently this will be standard behavior in Ruby 2.2, so
 # check please verify things work as expected before removing this.
@@ -266,6 +265,13 @@ end
 # * https://www.ruby-lang.org/en/news/2014/03/10/regression-of-hash-reject-in-ruby-2-1-1/
 # * https://github.com/rails/rails/issues/14188
 # * https://github.com/rails/rails/pull/14198/files
+# * https://bugs.ruby-lang.org/issues/9576
+
+ruby_ver = RUBY_VERSION.split('.').map{|s| s.to_i}
+if Rails::VERSION::MAJOR < 4 &&
+    ruby_ver[0] >= 2 &&
+    ((ruby_ver[1] == 1 && RUBY_PATCHLEVEL < 79) ||
+     ruby_ver[1] >= 2)
 module ActiveSupport
   class HashWithIndifferentAccess
     def select(*args, &block)
@@ -287,23 +293,6 @@ module ActiveSupport
     end
   end
 end
-
-
-module CollectiveIdea
-  module Acts
-    module NestedSet
-      module Model
-        # fixes IssueNestedSetTest#test_destroy_parent_work_package_updated_during_children_destroy
-        def destroy_descendants_with_reload
-          destroy_descendants_without_reload
-          # Reload is needed because children may have updated their parent (self) during deletion.
-          # fixes stale object error in issue_nested_set_test
-          reload
-        end
-        alias_method_chain :destroy_descendants, :reload
-      end
-    end
-  end
 end
 
 # Patch acts_as_list before any class includes the module
