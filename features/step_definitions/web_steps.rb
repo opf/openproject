@@ -172,60 +172,38 @@ When /^(?:|I )attach the file "([^"]*)" to "([^"]*)"$/ do |path, field|
 end
 
 Then /^(?:|I )should see "([^"]*)"$/ do |text|
-  if page.respond_to? :should
-    page.should have_content(text)
-  else
-    assert page.has_content?(text)
-  end
+  regexp = Regexp.new(Regexp.escape(text), Regexp::IGNORECASE)
+  page.should have_content(regexp)
 end
 
 Then /^(?:|I )should see \/([^\/]*)\/$/ do |regexp|
   regexp = Regexp.new(regexp)
 
-  if page.respond_to? :should
-    page.should have_xpath('//*', :text => regexp)
-  else
-    assert page.has_xpath?('//*', :text => regexp)
-  end
+  page.should have_xpath('//*', :text => regexp)
 end
 
 Then /^(?:|I )should not see "([^"]*)"$/ do |text|
-  if page.respond_to? :should
-    page.should have_no_content(text)
-  else
-    assert page.has_no_content?(text)
-  end
+  regexp = Regexp.new(Regexp.escape(text), Regexp::IGNORECASE)
+  page.should have_no_content(regexp)
 end
 
 Then /^(?:|I )should not see \/([^\/]*)\/$/ do |regexp|
   regexp = Regexp.new(regexp)
 
-  if page.respond_to? :should
-    page.should have_no_xpath('//*', :text => regexp)
-  else
-    assert page.has_no_xpath?('//*', :text => regexp)
-  end
+  page.should have_no_xpath('//*', :text => regexp)
 end
 
 Then /^the "([^"]*)" field(?: within (.*))? should contain "([^"]*)"$/ do |field, parent, value|
   with_scope(parent) do
     field = find_field(field)
-    if field.value.respond_to? :should
-      field.value.should =~ /#{value}/
-    else
-      assert_match(/#{value}/, field.value)
-    end
+    field.value.should =~ /#{value}/
   end
 end
 
 Then /^the "([^"]*)" field(?: within (.*))? should not contain "([^"]*)"$/ do |field, parent, value|
   with_scope(parent) do
     field = find_field(field)
-    if field.value.respond_to? :should_not
-      field.value.should_not =~ /#{value}/
-    else
-      assert_no_match(/#{value}/, field.value)
-    end
+    field.value.should_not =~ /#{value}/
   end
 end
 
@@ -237,66 +215,36 @@ Then /^the "([^"]*)" field should have the error "([^"]*)"$/ do |field, error_me
   using_formtastic = form_for_input[:class].include?('formtastic')
   error_class = using_formtastic ? 'error' : 'field_with_errors'
 
-  if classes.respond_to? :should
-    classes.should include(error_class)
-  else
-    assert classes.include?(error_class)
-  end
+  classes.should include(error_class)
 
-  if page.respond_to?(:should)
-    if using_formtastic
-      error_paragraph = element.find(:xpath, '../*[@class="inline-errors"][1]')
-      error_paragraph.should have_content(error_message)
-    else
-      page.should have_content("#{field.titlecase} #{error_message}")
-    end
+  if using_formtastic
+    error_paragraph = element.find(:xpath, '../*[@class="inline-errors"][1]')
+    error_paragraph.should have_content(error_message)
   else
-    if using_formtastic
-      error_paragraph = element.find(:xpath, '../*[@class="inline-errors"][1]')
-      assert error_paragraph.has_content?(error_message)
-    else
-      assert page.has_content?("#{field.titlecase} #{error_message}")
-    end
+    page.should have_content("#{field.titlecase} #{error_message}")
   end
 end
 
 Then /^the "([^"]*)" field should have no error$/ do |field|
   element = find_field(field)
   classes = element.find(:xpath, '..')[:class].split(' ')
-  if classes.respond_to? :should
-    classes.should_not include('field_with_errors')
-    classes.should_not include('error')
-  else
-    assert !classes.include?('field_with_errors')
-    assert !classes.include?('error')
-  end
+  classes.should_not include('field_with_errors')
+  classes.should_not include('error')
 end
 
 Then /^the (hidden )?"([^"]*)" checkbox should be checked$/ do |hidden, label |
   field_checked = find_field(label, :visible => hidden.nil?)['checked']
-  if field_checked.respond_to? :should
-    field_checked.should be_true
-  else
-    assert field_checked
-  end
+  field_checked.should be_true
 end
 
 Then /^the (hidden )?"([^"]*)" checkbox should not be checked$/ do |hidden, label |
   field_checked = find_field(label, :visible => hidden.nil?)['checked']
-  if field_checked.respond_to? :should
-    field_checked.should be_false
-  else
-    assert !field_checked
-  end
+  field_checked.should be_false
 end
 
 Then /^(?:|I )should be on (.+)$/ do |page_name|
   current_path = URI.parse(current_url).path
-  if current_path.respond_to? :should
-    current_path.should == path_to(page_name)
-  else
-    assert_equal path_to(page_name), current_path
-  end
+  current_path.should == path_to(page_name)
 end
 
 Then /^(?:|I )should have the following query string:$/ do |expected_pairs|
@@ -305,11 +253,7 @@ Then /^(?:|I )should have the following query string:$/ do |expected_pairs|
   expected_params = {}
   expected_pairs.rows_hash.each_pair{|k,v| expected_params[k] = v.split(',')}
 
-  if actual_params.respond_to? :should
-    actual_params.should == expected_params
-  else
-    assert_equal expected_params, actual_params
-  end
+  actual_params.should == expected_params
 end
 
 Then /^show me the page$/ do
