@@ -33,6 +33,7 @@ angular.module('openproject.workPackages.controllers')
     '$q',
     '$window',
     '$location',
+    'I18n',
     'ProjectService',
     'WorkPackagesTableService',
     'WorkPackageService',
@@ -41,7 +42,7 @@ angular.module('openproject.workPackages.controllers')
     'WorkPackageLoadingHelper',
     'INITIALLY_SELECTED_COLUMNS',
     'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
-    function($scope, $q, $window, $location, ProjectService,
+    function($scope, $q, $window, $location, I18n, ProjectService,
       WorkPackagesTableService,
       WorkPackageService, QueryService, PaginationService,
       WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS,
@@ -56,7 +57,7 @@ angular.module('openproject.workPackages.controllers')
     setUrlParams($window.location);
     initProject();
 
-    $scope.selectedTitle = "Work Packages";
+    $scope.selectedTitle = I18n.t('js.toolbar.unselected_title');
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.loading = false;
     $scope.disableFilters = false;
