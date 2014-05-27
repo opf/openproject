@@ -29,6 +29,7 @@ module.exports = function(config) {
       "vendor/assets/components/angular-truncate/dist/angular-truncate.js",
       "vendor/assets/components/angular-sanitize/angular-sanitize.js",
       "vendor/assets/components/momentjs/moment.js",
+      'vendor/assets/components/select2/select2.js',
       "vendor/assets/components/ng-context-menu/dist/ng-context-menu.js",
 
       "vendor/assets/components/openproject-ui_components/app/assets/javascripts/angular/ui-components-app.js",
@@ -93,6 +94,10 @@ module.exports = function(config) {
       "app/assets/javascripts/angular/controllers/work-packages-controller.js",
       "app/assets/javascripts/angular/controllers/work-package-details-controller.js",
 
+      'app/assets/javascripts/autocompleter.js',
+      'app/assets/javascripts/members_select_boxes.js',
+      'app/assets/javascripts/openproject.js',
+      'app/assets/javascripts/timelines_select_boxes.js',
 
       'app/assets/javascripts/date-en-US.js',
 
@@ -103,6 +108,7 @@ module.exports = function(config) {
 
       'karma/tests/asset_functions.js',
       'karma/tests/**/*test.js',
+      'karma/tests/legacy-tests.js',
 
       'public/templates/**/*.html'
     ],
