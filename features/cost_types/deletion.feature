@@ -36,3 +36,10 @@ Feature: Cost type deletion
 
     Then the cost type "cost_type1" should be listed as deleted on the index page
 
+  @javascript
+  Scenario: Click on the "delete" link for a cost type
+    When I go to the index page of cost types
+
+    Then I expect to click "OK" on a confirmation box saying "Are you sure?"
+    And I click the delete link for the cost type "cost_type1"
+    And the confirmation box should have been displayed
