@@ -202,13 +202,12 @@
 })(jQuery);
 
 jQuery(function(){
-  // simulated hover effect on table lists when using the keyboard
-  var tables = jQuery('table.list');
-  if (tables.size() === 0) { return; }
-  tables.on('blur', 'tr *', function(){
-    jQuery(this).parents('table.list tr').removeClass('keyboard_hover');
+  // simulated hover effect on tables when using the keyboard
+  var content = jQuery('#content');
+  content.on('blur', 'table tr *', function(){
+    jQuery(this).parents('table tr').first().removeClass('keyboard_hover');
   });
-  tables.on('focus', 'tr *', function(){
-    jQuery(this).parents('table.list tr').addClass('keyboard_hover');
+  content.on('focus', 'table tr *', function(){
+    jQuery(this).parents('table tr').first().addClass('keyboard_hover');
   });
 });
