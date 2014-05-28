@@ -140,6 +140,7 @@ en:
         other: "You can only select {{limit}} items"
         zero: "You cannot select any items"
     text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
+    text_query_destroy_confirmation: "Are you sure you want to delete the selected query?"
     timelines:
       cancel: Cancel
       change: "Change in planning"
@@ -232,6 +233,7 @@ en:
         export: "Export ..."
         share: "Share ..."
         page_settings: "Page settings ..."
+        delete: "Delete"
       filter: "Filter"
       unselected_title: "Work packages"
     modals:

@@ -63,6 +63,17 @@ angular.module('openproject.workPackages.directives')
         }
       };
 
+      scope.deleteQuery = function(){
+        if( deleteConfirmed() ){
+          QueryService.deleteQuery()
+            .then(function(data){
+              settingsModal.deactivate();
+              scope.$emit('flashMessage', data.status);
+              scope.$emit('queryResetRequired');
+            })
+        }
+      };
+
       scope.showColumnsModal = function(){
         showModal.call(columnsModal);
       };
@@ -91,6 +102,10 @@ angular.module('openproject.workPackages.directives')
       function showModal() {
         scope.$emit('hideAllDropdowns');
         this.activate();
+      }
+
+      function deleteConfirmed() {
+        return $window.confirm(I18n.t('js.text_query_destroy_confirmation'));
       }
     }
   };

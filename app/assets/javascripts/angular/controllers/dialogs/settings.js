@@ -44,19 +44,10 @@ angular.module('openproject.workPackages.controllers')
   $scope.deleteQuery = false;
 
   $scope.updateQuery = function(deleteQuery) {
-    if(deleteQuery) {
-      QueryService.deleteQuery()
-        .then(function(data){
-          settingsModal.deactivate();
-          $scope.$emit('flashMessage', data.status);
-          $scope.$emit('queryResetRequired');
-        })
-    } else {
-      QueryService.saveQuery()
-        .then(function(data){
-          settingsModal.deactivate();
-          $scope.$emit('flashMessage', data.status);
-        });
-    }
-  };
+    QueryService.saveQuery()
+      .then(function(data){
+        settingsModal.deactivate();
+        $scope.$emit('flashMessage', data.status);
+      });
+    };
 }]);

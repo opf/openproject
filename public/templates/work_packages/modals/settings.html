@@ -9,10 +9,6 @@
       <input class="short" type="text" name="query_name" ng-model="query.name"></input>
     </div>
     <div>
-      <label for="name">{{ I18n.t('js.modals.label_delete_page') }}</label>
-      <input type="checkbox" name="delete_query" ng-model="deleteQuery"></input>
-    </div>
-    <div>
       <button class="button_highlight" ng-click="updateQuery(deleteQuery)">{{ I18n.t('js.modals.button_submit') }}</button>
       <button class="button" ng-click="modal.closeMe()">{{ I18n.t('js.modals.button_cancel') }}</button>
     </div>
