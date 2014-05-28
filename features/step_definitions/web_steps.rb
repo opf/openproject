@@ -74,8 +74,12 @@ end
 World(WithinHelpers)
 
 # Single-line step scoper
-When /^(.*) within (.*[^:])$/ do |step_name, parent|
+When /^(.*) within "(.*[^:"])"$/ do |step_name, parent|
   with_scope(parent) { step step_name }
+end
+
+When /^(.*) \[i18n\]$/ do |actual_step|
+  step translate(actual_step)
 end
 
 When(/^I ctrl\-click on "([^\"]+)"$/) do |text|
