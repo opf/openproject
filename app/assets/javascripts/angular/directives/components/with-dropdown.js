@@ -29,7 +29,7 @@
 // TODO move to UI components
 angular.module('openproject.uiComponents')
 
-  .directive('withDropdown', ['$rootScope', function ($rootScope) {
+  .directive('withDropdown', ['$rootScope', '$window', function ($rootScope, $window) {
 
     function position(dropdown, trigger) {
       var hOffset = 0,
@@ -63,21 +63,30 @@ angular.module('openproject.uiComponents')
         dropdownId: '@'
       },
       link: function (scope, element, attributes) {
+        var dropdown = jQuery("#" + attributes.dropdownId),
+          trigger;
+
         $rootScope.$on('hideAllDropdowns', function(event){
           jQuery('.dropdown').hide();
         });
 
-        element.on('click', function () {
+        angular.element($window).on('resize', function(event) {
+          if(dropdown.is(':visible')) {
+            position(dropdown, trigger);
+          }
+        });
 
-          var trigger = jQuery(this),
-            dropdown = jQuery("#" + attributes.dropdownId);
+        element.on('click', function (event) {
+          var showDropdown = dropdown.is(':hidden');
+
+          trigger = jQuery(this);
 
           event.preventDefault();
           event.stopPropagation();
 
           scope.$emit('hideAllDropdowns');
+          if (showDropdown) dropdown.show();
 
-          dropdown.show();
           position(dropdown, trigger);
         });
       }

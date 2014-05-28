@@ -113,7 +113,8 @@ var openprojectApp = angular.module('openproject', [
   'openproject.messages',
   'openproject.timeEntries',
   'ngAnimate',
-  'ngSanitize'
+  'ngSanitize',
+  'truncate'
 ]);
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';

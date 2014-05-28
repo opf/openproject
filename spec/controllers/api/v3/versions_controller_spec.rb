@@ -26,37 +26,40 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require 'features/support/toggable_fieldsets'
-require 'features/work_packages/work_packages_page'
+require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe 'Work package index' do
-  describe 'Toggable fieldset', js: true do
-    include_context 'Toggable fieldset examples'
+describe Api::V3::VersionsController do
+  let(:current_user) { FactoryGirl.create(:admin) }
+  let(:project)      { FactoryGirl.create(:project) }
 
-    let(:current_user) { FactoryGirl.create (:admin) }
-    let(:work_packages_page) { WorkPackagesPage.new }
+  before do
+    allow(User).to receive(:current).and_return(current_user)
+    allow(Project).to receive(:find).and_return(project)
+  end
 
-    before do
-      allow(User).to receive(:current).and_return current_user
+  describe '#index' do
+    context 'with no versions available' do
+      it 'assigns an empty versions array' do
+        get 'index', format: 'xml', project_id: 1
+        expect(assigns(:versions)).to eq []
+      end
 
-      work_packages_page.visit_index
-    end
-
-    before :each do
-      work_packages_page.click_toolbar_button 'Filter'
-    end
-
-    describe 'Filter fieldset', js: true do
-      it_behaves_like 'toggable fieldset initially expanded' do
-        let(:fieldset_name) { 'Add filter' }
+      it 'renders the index template' do
+        get 'index', format: 'xml', project_id: 1
+        expect(response).to render_template('api/v3/versions/index', formats: ['api'])
       end
     end
 
-    describe 'Options fieldset', js: true do
-      it_behaves_like 'toggable fieldset initially collapsed' do
-        let(:fieldset_name) { 'Options' }
+    context 'with versions available' do
+      before do
+        project.stub_chain(:shared_versions, :all).and_return(FactoryGirl.build_list(:version, 2))
+      end
+
+      it 'assigns an array with 2 versions' do
+        get 'index', format: 'xml', project_id: 1
+        expect(assigns(:versions).size).to eq 2
       end
     end
   end
+
 end

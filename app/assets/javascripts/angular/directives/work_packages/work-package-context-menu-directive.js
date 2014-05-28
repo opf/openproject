@@ -19,6 +19,8 @@ angular.module('openproject.workPackages.directives')
 
       scope.I18n = I18n;
 
+      scope.hideResourceActions = true;
+
       // wire up context menu event handler
       ContextMenuService.registerMenuElement(contextMenuName, element);
       scope.contextMenu = ContextMenuService.getContextMenu();

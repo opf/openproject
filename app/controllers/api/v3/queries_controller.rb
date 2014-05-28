@@ -40,7 +40,7 @@ module Api::V3
 
     before_filter :find_optional_project
     before_filter :setup_query_for_create, only: [:create]
-    before_filter :setup_query_for_update, only: [:update]
+    before_filter :setup_existing_query, only: [:update, :destroy]
     before_filter :setup_query, only: [:available_columns, :custom_field_filters]
 
     def available_columns
@@ -93,6 +93,13 @@ module Api::V3
       end
     end
 
+    def destroy
+      @query.destroy
+      respond_to do |format|
+        format.api
+      end
+    end
+
     private
 
     def setup_query
@@ -107,7 +114,7 @@ module Api::V3
       @query.user = User.current
     end
 
-    def setup_query_for_update
+    def setup_existing_query
       @query = Query.find(params[:id])
       prepare_query(@query)
     end
@@ -117,12 +124,19 @@ module Api::V3
       @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
       view_context.add_filter_from_params if params[:fields] || params[:f]
       @query.group_by ||= params[:group_by]
+      @query.sort_criteria = prepare_sort_criteria if params[:sort]
       @query.project = nil if params[:query_is_for_all]
       @query.display_sums ||= params[:display_sums].present?
       @query.column_names = params[:c] if params[:c]
       @query.column_names = nil if params[:default_columns]
       @query.name = params[:name] if params[:name]
       @query.is_public = params[:is_public] if params[:is_public]
+    end
+
+    def prepare_sort_criteria
+      # Note: There was a convention to have sortation strings in the form "type:desc,status:asc".
+      # For the sake of not breaking from convention we encoding/decoding the sortation.
+      params[:sort].split(',').collect{|p| [p.split(':')[0], p.split(':')[1] || 'asc']}
     end
 
     def visible_queries

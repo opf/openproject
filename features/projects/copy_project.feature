@@ -202,7 +202,7 @@ Feature: Project Settings
     Then I should see "foo" within "#content"
     And  I follow "foo" within "#content"
     Then I should see "Alice Alison" within "#content"
-    And  I should see "FOO" within "#content"
+    And  I should see "foo" within "#content"
     And  I should see "Bob Bobbit" within "#content"
     And  I should see "version1" within "#content"
     And  I should see "Description" within "#content"

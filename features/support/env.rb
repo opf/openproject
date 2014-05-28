@@ -34,6 +34,7 @@
 # files.
 
 require 'cucumber/rails'
+require 'cucumber/rspec/doubles'
 require 'capybara-screenshot/cucumber'
 
 # json-spec is used to specifiy our json-apis

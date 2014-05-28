@@ -31,7 +31,7 @@ angular.module('openproject.services')
 .service('UserService', ['$http', 'PathHelper', function($http, PathHelper) {
   var registeredUserIds = [], cachedUsers = {};
 
-  UserService = {
+  var UserService = {
     getUsers: function(projectIdentifier) {
       var url, params;
 
