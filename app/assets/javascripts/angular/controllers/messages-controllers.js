@@ -34,7 +34,7 @@ angular.module('openproject.messages.controllers')
   $scope.totalMessageCount = gon.total_count;
   $scope.isLoading = false;
   $scope.projectId = gon.project_id;
-  $scope.activityModulEnabled = gon.activity_modul_enabled;
+  $scope.activityModuleEnabled = gon.activity_modul_enabled;
 
   TimezoneService.setTimezone(gon.timezone);
 
