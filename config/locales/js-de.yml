@@ -141,7 +141,7 @@ de:
         other: "Sie dürfen nur {{limit}} Elemente auswählen"
         zero: "Sie dürfen keine Elemente auswählen"
     text_work_packages_destroy_confirmation: "Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete löschen möchten?"
-    text_query_destroy_confirmation: "Are you sure you want to delete the selected query?"
+    text_query_destroy_confirmation: "Möchten Sie die ausgewählte Abfrage wirklich löschen?"
     timelines:
       cancel: "Abbrechen"
       change: "Planungsveränderung"
