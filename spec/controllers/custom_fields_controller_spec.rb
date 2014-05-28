@@ -54,7 +54,7 @@ describe CustomFieldsController do
       end
 
       it { expect(response).to be_redirect }
-      it {expect(custom_field.name(:de)).to eq(de_name)}
+      it { expect(custom_field.name(:de)).to eq(de_name) }
       it { expect(custom_field.name(:en)).to eq(en_name) }
     end
 
@@ -117,7 +117,6 @@ describe CustomFieldsController do
       let(:params) { { "type" => "WorkPackageCustomField",
                        "custom_field" => { "translations_attributes" => { "0" => { "name" => de_name, "locale" => "de" },
                                                                           "1" => { "name" => en_name, "locale" => "en" } } } } }
-
       before do
         post :create, params
       end

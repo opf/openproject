@@ -61,7 +61,6 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#5311` Encapsulate ActiveSupport::Notifications
 * `#5553` Integrate OmniAuth
 * `#5632` Check whether cookies are not shared between sub-uris
-* `#5652` Fixes: Custom fields with empty name can be created
 * `#5743` Potential data leak in "Invalid form authenticity token" error screen
 * `#6309` Remove API v1 & add level_list to API v2
 * `#6310` API v2 is now deprecated and will be removed in a future version of OpenProject
@@ -70,10 +69,6 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#7137` Fix: No last connection for users authenticated with omniauth
 * `#7149` Fix: Wrong success message when login is already in use
 * `#7177` Fix: Journal not created in connection with deleted note
-* `#7234` Highlighting of differences in repository does not work
-* `#7384` Headlines in wiki table of content are broken
-* `#7493` Work packages with only start date or end date not displayed properly
-* `#7499` No default work package status possible
 * `#7504` Timeline "Today" line not displayed properly
 * `#7507` Open in new Tab from Backlog has become harder
 * `#7511` Fixes: Label "Email updates" cut off in bulk-edit view
@@ -81,7 +76,6 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#7533` Fixes: Deleted block not addable
 * `#7562` Regression: creating ticket via API fails with HTTP 422
 * `#7608` Make highlight buttons styleable
-* `#7609` Fix: Blue icons in Telekom theme
 * Allowed sending of mails with only cc: or bcc: fields
 * Allow adding attachments to created work packages via planning elements controller
 * Remove unused rmagick dependency
@@ -94,6 +88,22 @@ See doc/COPYRIGHT.rdoc for more details.
 * Fix: Back URL verification
 * Fix: Asset require for plug-ins
 * Fix: at.who styling
+
+## 3.0.4
+
+* `#5652` Fixes: Custom fields with empty name can be created
+* `#7812` 404 when opening keyboard shortcuts in a OpenProject instance running in subfolder
+* `#7893` Notification message support for Internet explorer 9 missing
+* `#4031` Expand folder icon missing in front of repository folders
+* `#7234` Highlighting of differences in repository does not work
+* `#7493` Work packages with only start date or end date not displayed properly
+* `#7623` Replace remaining icons by icon font
+* `#7499` No default work package status possible
+* `#7492` Timeline outside of scroll area is broken in IE 11
+* `#7384` Headlines in wiki table of content are broken
+* Fix input parsing of respoman
+* Fix: Icon color in themes
+* Fix: Fixed typo which causes wiki pages to fail to load
 
 ## 3.0.3
 

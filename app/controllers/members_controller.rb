@@ -38,10 +38,11 @@ class MembersController < ApplicationController
   search_for User, :search_in_project
   search_options_for User, lambda { |_| {:project => @project} }
 
-  TAB_SCRIPTS = <<JS
-    hideOnLoad();
-    init_members_cb();
-JS
+  @@scripts = ['hideOnLoad', 'init_members_cb']
+
+  def self.add_tab_script(script)
+    @@scripts << script
+  end
 
   def create
     if params[:member]
@@ -154,6 +155,10 @@ JS
   end
 
   private
+
+  def self.tab_scripts
+    @@scripts.join('(); ') + '();'
+  end
 
   def new_members_from_params
     user_ids = possibly_seperated_ids_for_entity(params[:member], :user)

@@ -34,7 +34,6 @@ Given /^the [Uu]ser "([^\"]*)" is a "([^\"]*)" (?:in|of) the [Pp]roject "([^\"]*
   as_admin do
     Member.new.tap do |m|
       m.user = u
-      m.privacy_unnecessary = true if plugin_loaded?("redmine_dtag_privacy")
       m.roles << r
       m.project = p
     end.save!

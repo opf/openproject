@@ -25,6 +25,7 @@
  *
  * See doc/COPYRIGHT.rdoc for more details. ++*/
 
+@import fonts/openproject_icon_font
 
 div.changeset-changes ul
   margin: 0
@@ -411,3 +412,20 @@ div
     background: #505
     .head
       color: #f4f
+
+tr.dir
+  span
+    &.dir-expander
+      @include icon-common
+      margin-right: -15px
+      &:before
+        content: "\e089"
+  &.loading
+    span.dir-expander:before
+      content: "\e07a"
+  &.collapsed
+    span.dir-expander:before
+      content: "\e089"
+  &.open
+    span.dir-expander:before
+      content: "\e082"
