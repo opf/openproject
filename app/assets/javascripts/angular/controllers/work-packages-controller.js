@@ -172,12 +172,17 @@ angular.module('openproject.workPackages.controllers')
   }
 
   function initAvailableQueries() {
-    return QueryService.getAvailableGroupedQueries($scope.projectIdentifier)
-      .then(function(data){
-        $scope.groups = [{ name: 'CUSTOM QUERIES', models: data["user_queries"]},
-          { name: 'GLOBAL QUERIES', models: data["queries"]}];
-      });
+    QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
+
+    $scope.availableOptions = QueryService.getAvailableOptions(); // maybe generalize this approach
   }
+
+  $scope.$watch('availableOptions.availableGroupedQueries', function(availableQueries) {
+    if (availableQueries) {
+      $scope.groups = [{ name: 'CUSTOM QUERIES', models: availableQueries['user_queries']},
+                       { name: 'GLOBAL QUERIES', models: availableQueries['queries']}];
+    }
+  });
 
   // Updates
 

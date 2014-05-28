@@ -87,12 +87,15 @@ describe('WorkPackagesController', function() {
       },
       initQuery: function () {
       },
+      getAvailableOptions: function() {
+        return {};
+      },
       loadAvailableColumns: function () {
         return $timeout(function () {
           return columnData;
         }, 10);
       },
-      getAvailableGroupedQueries: function () {
+      loadAvailableGroupedQueries: function () {
         return $timeout(function () {
           return availableQueryiesData;
         }, 10);

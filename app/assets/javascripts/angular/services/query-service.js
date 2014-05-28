@@ -55,6 +55,8 @@ angular.module('openproject.services')
       availableFilterValues = {},
       availableFilters = {};
 
+  var availableOptions = {}; // used as a container object holding watchable object references
+
   var totalEntries;
 
   var QueryService = {
@@ -112,12 +114,28 @@ angular.module('openproject.services')
       WorkPackagesTableHelper.moveColumns(columnNames, availableUnusedColumns, this.getSelectedColumns());
     },
 
+    getAvailableOptions: function() {
+      return availableOptions;
+    },
+
     // data loading
 
-    getAvailableGroupedQueries: function(projectIdentifier) {
+    loadAvailableGroupedQueries: function(projectIdentifier) {
+      if (availableOptions.availableGroupedQueries) {
+        return $q.when(availableOptions.availableGroupedQueries);
+      }
+
+      return QueryService.fetchAvailableGroupedQueries(projectIdentifier);
+    },
+
+    fetchAvailableGroupedQueries: function(projectIdentifier) {
       var url = projectIdentifier ? PathHelper.apiProjectGroupedQueriesPath(projectIdentifier) : PathHelper.apiGroupedQueriesPath();
 
-      return QueryService.doQuery(url);
+      return QueryService.doQuery(url)
+        .then(function(groupedQueriesResults) {
+          availableOptions.availableGroupedQueries = groupedQueriesResults;
+          return availableOptions.availableGroupedQueries;
+        });
     },
 
     loadAvailableUnusedColumns: function(projectIdentifier) {
