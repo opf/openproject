@@ -63,11 +63,11 @@
       <li><a href ng-click="showGroupingModal()"><i class="icon-action-menu no-icon"></i>{{ I18n.t('js.toolbar.settings.group_by') }}</a></li>
       <li><a href ng-click="toggleDisplaySums()"><i ng-if="query.displaySums" class="icon-action-menu icon-yes"></i><i ng-if="!query.displaySums" class="icon-action-menu no-icon"></i>{{ I18n.t('js.toolbar.settings.display_sums') }}</a></li>
       <li class="dropdown-divider"></li>
-      <li><a href ng-click="showSaveModal()"><i class="icon-action-menu icon-save1"></i>{{ I18n.t('js.toolbar.settings.save') }}</a></li>
-      <li><a href ng-click="query.isNew() || showSaveModal(true)" ng-class="{'inactive': query.isNew()}">
+      <li><a href ng-click="saveQuery()"><i class="icon-action-menu icon-save1"></i>{{ I18n.t('js.toolbar.settings.save') }}</a></li>
+      <li><a href ng-click="showSaveAsModal($event)" ng-class="{'inactive': query.isNew()}">
         <i class="icon-action-menu icon-save1"></i>{{ I18n.t('js.toolbar.settings.save_as') }}</a>
       </li>
-      <li><a href ng-click="query.isNew() || showShareModal()" ng-class="{'inactive': query.isNew()}">
+      <li><a href ng-click="showShareModal($event)" ng-class="{'inactive': query.isNew()}">
         <i class="icon-action-menu icon-publish"></i>{{ I18n.t('js.toolbar.settings.share') }}</a>
       </li>
     </ul>

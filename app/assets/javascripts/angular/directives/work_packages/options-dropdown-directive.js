@@ -55,9 +55,23 @@ angular.module('openproject.workPackages.directives')
       scope.showShareModal    = shareModal.activate;
       scope.showGroupingModal = groupingModal.activate;
 
-      scope.showSaveModal     = function(saveAs){
-        scope.$emit('hideAllDropdowns');
-        if( saveAs || scope.query.isNew() ){
+      scope.showSaveAsModal = function(event){
+        if( preventDisabledAction(event) ){
+          scope.$emit('hideAllDropdowns');
+          saveModal.activate();
+        }
+      };
+
+      scope.showShareModal = function(event){
+        if( preventDisabledAction(event) ){
+          scope.$emit('hideAllDropdowns');
+          shareModal.activate();
+        }
+      }
+
+      scope.saveQuery = function(){
+        if(scope.query.isNew()){
+          scope.$emit('hideAllDropdowns');
           saveModal.activate();
         } else {
           QueryService.saveQuery()
@@ -81,6 +95,15 @@ angular.module('openproject.workPackages.directives')
         scope.$emit('hideAllDropdowns');
         scope.query.displaySums = !scope.query.displaySums;
       };
+
+      function preventDisabledAction(event){
+        if (event && scope.query.isNew()) {
+          event.preventDefault();
+          event.stopPropagation();
+          return false;
+        }
+        return true;
+      }
     }
   };
 }]);
