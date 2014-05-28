@@ -61,7 +61,7 @@ class MembersController < ApplicationController
             page.replace_html "tab-content-members", :partial => 'projects/settings/members'
             page.insert_html :top, "tab-content-members", render_flash_messages
 
-            page << TAB_SCRIPTS
+            page << MembersController.tab_scripts
           end
         end
       else
@@ -98,7 +98,7 @@ class MembersController < ApplicationController
             page.replace_html "tab-content-members", :partial => 'projects/settings/members'
           end
           page.insert_html :top, "tab-content-members", render_flash_messages
-          page << TAB_SCRIPTS
+          page << MembersController.tab_scripts
           page.visual_effect(:highlight, "member-#{@member.id}") unless Member.find_by_id(@member.id).nil?
         end
       end
@@ -117,7 +117,7 @@ class MembersController < ApplicationController
         render(:update) do |page|
           page.replace_html "tab-content-members", :partial => 'projects/settings/members'
           page.insert_html :top, "tab-content-members", render_flash_messages
-          page << TAB_SCRIPTS
+          page << MembersController.tab_scripts
         end
       end
     end
