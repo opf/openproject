@@ -15,16 +15,16 @@ module WorkPackages
       { href: "http://localhost:3000/api/v3/work_packages/#{represented.work_package.id}", title: "#{represented.subject}" }
     end
 
-    property :id, getter: lambda { |*| work_package.id }
-    property :subject
-    property :type
-    property :description
-    property :status
-    property :priority
+    property :id, getter: lambda { |*| work_package.id }, render_nil: true
+    property :subject, render_nil: true
+    property :type, render_nil: true
+    property :description, render_nil: true
+    property :status, render_nil: true
+    property :priority, render_nil: true
     property :start_date, getter: lambda { |*| work_package.start_date }, render_nil: true
     property :due_date, getter: lambda { |*| work_package.due_date }, render_nil: true
-    property :estimated_time
-    property :percentage_done
+    property :estimated_time, render_nil: true
+    property :percentage_done, render_nil: true
     property :version_id, getter: lambda { |*| work_package.fixed_version.try(:id) }, render_nil: true
     property :version_name,  getter: lambda { |*| work_package.fixed_version.try(:name) }, render_nil: true
     property :project_id, getter: lambda { |*| work_package.project.id }
@@ -37,11 +37,11 @@ module WorkPackages
     property :assignee_name, getter: lambda { |*| work_package.assigned_to.try(:name) }, render_nil: true
     property :assignee_login, getter: lambda { |*| work_package.assigned_to.try(:login) }, render_nil: true
     property :assignee_mail, getter: lambda { |*| work_package.assigned_to.try(:mail) }, render_nil: true
-    property :author_name, getter: lambda { |*| work_package.author.name }
-    property :author_login, getter: lambda { |*| work_package.author.login }
-    property :author_mail, getter: lambda { |*| work_package.author.mail }
-    property :created_at, getter: lambda { |*| work_package.created_at.utc.iso8601}
-    property :updated_at, getter: lambda { |*| work_package.updated_at.utc.iso8601}
+    property :author_name, getter: lambda { |*| work_package.author.name }, render_nil: true
+    property :author_login, getter: lambda { |*| work_package.author.login }, render_nil: true
+    property :author_mail, getter: lambda { |*| work_package.author.mail }, render_nil: true
+    property :created_at, getter: lambda { |*| work_package.created_at.utc.iso8601}, render_nil: true
+    property :updated_at, getter: lambda { |*| work_package.updated_at.utc.iso8601}, render_nil: true
 
     def _type
       "WorkPackage"

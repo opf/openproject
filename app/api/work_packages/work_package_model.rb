@@ -1,21 +1,23 @@
+require 'reform/form/coercion'
+
 module WorkPackages
   class WorkPackageModel < Reform::Form
     include Composition
+    include Coercion
 
     model :work_package
 
-    property :subject, on: :work_package
-    property :description, on: :work_package
-    property :due_date, on: :work_package
-    property :percentage_done, as: :done_ratio, on: :work_package
-    property :start_date, on: :work_package
-    property :created_at, on: :work_package
-    property :updated_at, on: :work_package
-    property :author, on: :work_package
-    property :project_id, on: :work_package
-    property :responsible_id, on: :work_package
-    property :assigned_to_id, on: :work_package
-    property :fixed_version_id, on: :work_package
+    property :subject, on: :work_package, type: String
+    property :description, on: :work_package, type: String
+    property :start_date, on: :work_package, type: Date
+    property :due_date, on: :work_package, type: Date
+    property :created_at, on: :work_package, type: DateTime
+    property :updated_at, on: :work_package, type: DateTime
+    property :author, on: :work_package, type: String
+    property :project_id, on: :work_package, type: Integer
+    property :responsible_id, on: :work_package, type: Integer
+    property :assigned_to_id, on: :work_package, type: Integer
+    property :fixed_version_id, on: :work_package, type: Integer
 
     def type
       work_package.type.name
@@ -55,6 +57,14 @@ module WorkPackages
 
     def version_id=(value)
       work_package.fixed_version_id = value
+    end
+
+    def percentage_done
+      work_package.done_ratio
+    end
+
+    def percentage_done=(value)
+      work_package.done_ratio = value
     end
   end
 end
