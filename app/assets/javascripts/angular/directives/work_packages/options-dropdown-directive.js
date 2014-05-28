@@ -49,11 +49,7 @@ angular.module('openproject.workPackages.directives')
       });
 
       // Modals
-      scope.showColumnsModal  = columnsModal.activate;
       scope.showExportModal   = exportModal.activate;
-      scope.showSettingsModal = settingsModal.activate;
-      scope.showShareModal    = shareModal.activate;
-      scope.showGroupingModal = groupingModal.activate;
 
       scope.showSaveModal     = function(saveAs){
         scope.$emit('hideAllDropdowns');
@@ -67,20 +63,50 @@ angular.module('openproject.workPackages.directives')
         }
       };
 
-      scope.showColumnsModal  = function(){
-        scope.$emit('hideAllDropdowns');
-        columnsModal.activate();
+      scope.deleteQuery = function(){
+        if( deleteConfirmed() ){
+          QueryService.deleteQuery()
+            .then(function(data){
+              settingsModal.deactivate();
+              scope.$emit('flashMessage', data.status);
+              scope.$emit('queryResetRequired');
+            })
+        }
       };
 
-      scope.showSortingModal  = function(){
-        scope.$emit('hideAllDropdowns');
-        sortingModal.activate();
+      scope.showColumnsModal = function(){
+        showModal.call(columnsModal);
+      };
+
+      scope.showSortingModal = function(){
+        showModal.call(sortingModal);
+      };
+
+      scope.showSettingsModal = function(){
+        showModal.call(settingsModal);
+      };
+
+      scope.showGroupingModal = function(){
+        showModal.call(groupingModal);
+      };
+
+      scope.showShareModal = function(){
+        showModal.call(shareModal);
       };
 
       scope.toggleDisplaySums = function(){
         scope.$emit('hideAllDropdowns');
         scope.query.displaySums = !scope.query.displaySums;
       };
+
+      function showModal() {
+        scope.$emit('hideAllDropdowns');
+        this.activate();
+      }
+
+      function deleteConfirmed() {
+        return $window.confirm(I18n.t('js.text_query_destroy_confirmation'));
+      }
     }
   };
 }]);
