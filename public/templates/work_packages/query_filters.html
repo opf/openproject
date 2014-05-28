@@ -1,19 +1,12 @@
-<fieldset id="filters"
-          class="header_collapsible collapsible"
-          ng-class="{collapsed: !showFilters }">
-  <legend ng-click="showFilters = !showFilters" title="{{showFilters && 'Hide' || 'Show'}} filters">
+<fieldset id="filters" class="work-packages-filters--container">
+  <legend>
     <a href="#">
-      <span>{{ I18n.t('js.work_packages.label_filter_add') }}</span>
-      <span class="hidden-for-sighted">{{ showFilters ? I18n.t('js.label_expanded') : I18n.t('js.label_collapsed') }}</span>
+      <span ng-bind="I18n.t('js.work_packages.label_filter_add')"/>
     </a>
   </legend>
 
-  <div slide-toggle
-       speed="fast"
-       collapsed="!showFilters"
-       class="filter-fields slide-animation">
-
-    <table width="100%">
+  <div class="filter-fields">
+    <table width="100%" class="work-packages-filters--filter-table">
       <tbody>
         <tr>
           <td>
