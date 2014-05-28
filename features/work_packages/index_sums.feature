@@ -64,7 +64,7 @@ Feature: Calculated sums on the work package index
 
     And I am already logged in as "bob"
 
-  @javascript
+  @javascript @wip
   Scenario: Total sum of summable column should be displayed when display sums checkbox is checked
     When I go to the work packages index page of the project "project1"
     And I click the toolbar button named "Filter"
