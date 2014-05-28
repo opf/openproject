@@ -77,6 +77,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#7562` Regression: creating ticket via API fails with HTTP 422
 * `#7608` Make highlight buttons styleable
 * `#8228` Icons in select2 elements missing
+* `#8277` Fix arrow of column headers not restrained to one line
 * Allowed sending of mails with only cc: or bcc: fields
 * Allow adding attachments to created work packages via planning elements controller
 * Remove unused rmagick dependency
