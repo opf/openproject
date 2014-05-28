@@ -213,6 +213,7 @@ GEM
     mysql2 (0.3.11)
     net-ldap (0.2.2)
     nokogiri (1.5.11)
+    non-stupid-digest-assets (1.0.4)
     object-daddy (1.1.1)
     oj (2.1.6)
     omniauth (1.2.1)
@@ -412,6 +413,7 @@ DEPENDENCIES
   mysql2 (~> 0.3.11)
   net-ldap (~> 0.2.2)
   nokogiri (>= 1.5.11)
+  non-stupid-digest-assets
   object-daddy (~> 1.1.0)
   oj
   omniauth
