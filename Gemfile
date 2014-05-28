@@ -21,7 +21,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklistn Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -128,6 +128,7 @@ gem 'jquery-rails', '~> 2.0.3'
 gem "i18n-js", :git => "https://github.com/fnando/i18n-js.git", :ref => '8801f8d17ef96c48a7a0269e251fcf1648c8f441'
 
 group :test do
+  gem 'rack-test', '~> 0.6.2'
   gem 'pry'
   gem 'shoulda'
   gem 'object-daddy', '~> 1.1.0'

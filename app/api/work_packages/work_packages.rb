@@ -8,8 +8,7 @@ module WorkPackages
         optional :limit, type: Integer, default: 100, desc: 'Limit'
       end
       get do
-        limit = params[:limit]
-        offset = params[:offset]
+        limit, offset = params[:limit], params[:offset]
         work_packages =
           WorkPackage
             .includes(:project, :author, :responsible, :assigned_to, :type, :status, :priority)
@@ -20,9 +19,12 @@ module WorkPackages
         work_packages_representer.to_json
       end
 
+      params do
+        optional :workPackages, type: Array
+      end
       patch do
         response = { _embedded: { results: [] }}
-        params[:workPackages].each do |param|
+        params['workPackages'].each do |param|
           param = ActiveSupport::JSON.decode(param)
           id = param.delete('id')
           work_package = WorkPackage.find(id)
@@ -57,19 +59,32 @@ module WorkPackages
         end
 
         params do
-          optional :project_id, type: Integer, desc: 'Project id'
-          optional :responsible_id, type: Integer, desc: 'Responsible user id'
+          optional :subject, desc: 'Subject'
+          optional :type, desc: 'Type'
+          optional :description, desc: 'Description'
+          optional :status, desc: 'Status'
+          optional :priority, desc: 'Priority'
+          optional :startDate
+          optional :dueDate
+          optional :estimatedTime, desc: 'Estimated time`'
+          optional :percentageDone, desc: 'Percentage done'
+          optional :versionId, desc: 'Version id'
+          optional :projectId, desc: 'Project id'
+          optional :responsibleId, desc: 'Responsible user id'
+          optional :assigneeId, desc: 'Assignee id'
         end
         patch do
           authorize(:work_packages_api, :patch, @work_package.project)
-          params.delete(:id)
-          @work_package_representer.from_json(params.to_json)
+          declared_params = declared(params).reject{ |key, value| key.to_sym == :id || value.nil? }
+
+          @work_package_representer.from_json(declared_params.to_json)
           if @work_package_representer.represented.valid?
             @work_package_representer.represented.save
             @work_package_representer.to_json
           else
             @work_package_representer.represented.errors.to_json
           end
+
         end
 
       end

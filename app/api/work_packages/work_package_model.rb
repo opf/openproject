@@ -53,19 +53,8 @@ module WorkPackages
       work_package.estimated_hours = hours
     end
 
-    def project_id=(value)
-      work_package.project_id = value
+    def version_id=(value)
+      work_package.fixed_version_id = value
     end
-
-    def responsible_id=(value)
-      work_package.responsible_id = value
-    end
-
-    def assigned_to_id=(value)
-      work_package.assigned_to_id = value
-    end
-
-    validates :subject, presence: true
-    validates_inclusion_of :project_id, in: Project.pluck(:id)
   end
 end
