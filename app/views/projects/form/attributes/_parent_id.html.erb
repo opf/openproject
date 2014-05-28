@@ -30,6 +30,14 @@ See doc/COPYRIGHT.rdoc for more details.
 <% unless project.allowed_parents.compact.empty? %>
   <p>
     <%= label(:project, :parent_id, Project.human_attribute_name(:parent)) %>
-    <%= parent_project_select_tag(project) %>
+    <% unless User.current.impaired? %>
+        <%= javascript_include_tag "project/parent_project_field.js" %>
+        <% options = {} %>
+    <% else %>
+        <% options = parent_project_select_options(project) %>
+    <% end %>
+
+    <%= content_tag('select', options, :name => 'project[parent_id]', :id => 'project_parent_id', data: { projectid: project.name.downcase.tr(' ', '_'), root: request.host_with_port(), protocol: request.protocol() }) %>
+
   </p>
 <% end %>
