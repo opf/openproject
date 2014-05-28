@@ -29,7 +29,21 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.4
+
+* `#5652` Fixes: Custom fields with empty name can be created
+* `#7812` 404 when opening keyboard shortcuts in a OpenProject instance running in subfolder
+* `#7893` Notification message support for Internet explorer 9 missing
+* `#4031` Expand folder icon missing in front of repository folders
+* `#7234` Highlighting of differences in repository does not work
+* `#7493` Work packages with only start date or end date not displayed properly
+* `#7623` Replace remaining icons by icon font
+* `#7499` No default work package status possible
 * `#7492` Timeline outside of scroll area is broken in IE 11
+* `#7384` Headlines in wiki table of content are broken
+* Fix input parsing of respoman
+* Fix: Icon color in themes
+* Fix: Fixed typo which causes wiki pages to fail to load
 
 ## 3.0.3
 
