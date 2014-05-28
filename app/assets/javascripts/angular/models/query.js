@@ -75,6 +75,7 @@ angular.module('openproject.models')
           'group_by': this.groupBy,
           'sort': this.sortation.encode(),
           'display_sums': this.displaySums,
+          'name': this.name,
           'is_public': this.isPublic
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {
           return filter.toParams();
