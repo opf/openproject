@@ -30,6 +30,7 @@ angular.module('openproject.workPackages.controllers')
 
 .controller('WorkPackagesController', [
     '$scope',
+    '$rootScope',
     '$q',
     '$window',
     '$location',
@@ -42,7 +43,7 @@ angular.module('openproject.workPackages.controllers')
     'WorkPackageLoadingHelper',
     'INITIALLY_SELECTED_COLUMNS',
     'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
-    function($scope, $q, $window, $location, I18n, ProjectService,
+    function($scope, $rootScope, $q, $window, $location, I18n, ProjectService,
       WorkPackagesTableService,
       WorkPackageService, QueryService, PaginationService,
       WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS,
@@ -230,6 +231,11 @@ angular.module('openproject.workPackages.controllers')
     if(newValue != oldValue && $scope.query.hasName()){
       $scope.selectedTitle = newValue;
     }
+  });
+
+  $rootScope.$on('queryResetRequired', function(event, message) {
+    $scope.query_id = null;
+    initialSetup();
   });
 
 }]);

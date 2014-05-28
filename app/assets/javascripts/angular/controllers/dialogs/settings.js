@@ -49,6 +49,7 @@ angular.module('openproject.workPackages.controllers')
         .then(function(data){
           settingsModal.deactivate();
           $scope.$emit('flashMessage', data.status);
+          $scope.$emit('queryResetRequired');
         })
     } else {
       QueryService.saveQuery()
