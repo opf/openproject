@@ -21,12 +21,12 @@ module WorkPackages
     property :description
     property :status
     property :priority
-    property :start_date
-    property :due_date
+    property :start_date, getter: lambda { |*| work_package.start_date }, render_nil: true
+    property :due_date, getter: lambda { |*| work_package.due_date }, render_nil: true
     property :estimated_time
     property :percentage_done
-    property :fixed_version_id, as: :targetVersionId, getter: lambda { |*| work_package.fixed_version.try(:id) }, render_nil: true
-    property :target_version_name, getter: lambda { |*| work_package.fixed_version.try(:name) }, render_nil: true
+    property :version_id, getter: lambda { |*| work_package.fixed_version.try(:id) }, render_nil: true
+    property :version_name,  getter: lambda { |*| work_package.fixed_version.try(:name) }, render_nil: true
     property :project_id, getter: lambda { |*| work_package.project.id }
     property :project_name, getter: lambda { |*| work_package.project.try(:name) }
     property :responsible_id, getter: lambda { |*| work_package.responsible.try(:id) }, render_nil: true
@@ -40,8 +40,8 @@ module WorkPackages
     property :author_name, getter: lambda { |*| work_package.author.name }
     property :author_login, getter: lambda { |*| work_package.author.login }
     property :author_mail, getter: lambda { |*| work_package.author.mail }
-    property :created_at
-    property :updated_at
+    property :created_at, getter: lambda { |*| work_package.created_at.utc.iso8601}
+    property :updated_at, getter: lambda { |*| work_package.updated_at.utc.iso8601}
 
     def _type
       "WorkPackage"

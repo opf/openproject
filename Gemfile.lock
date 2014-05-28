@@ -517,6 +517,7 @@ DEPENDENCIES
   pundit
   rabl (= 0.9.3)
   rack-protection!
+  rack-test (~> 0.6.2)
   rack_session_access
   rails (~> 3.2.18)
   rails-dev-tweaks (~> 0.6.1)

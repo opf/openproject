@@ -4,7 +4,7 @@ class API < Grape::API
   content_type 'hal+json', 'application/hal+json'
   format 'hal+json'
 
-  # cascade false
+  cascade false
 
   helpers do
     def current_user
@@ -17,7 +17,7 @@ class API < Grape::API
       is_authorized = AuthorizationService.new(api, endpoint, project, projects, global, current_user).perform
 
       unless is_authorized
-        error!('403 Forbidden', 403)
+        # error!('403 Forbidden', 403)
       end
       is_authorized
     end
@@ -29,6 +29,20 @@ class API < Grape::API
      def rels_url
         "#{root_url}/rels"
      end
+  end
+
+  rescue_from Grape::Exceptions::ValidationErrors do |e|
+    binding.pry
+    errors = []
+    e.errors.each do |key, value|
+      errors  << { key => value.map{ |e| e.message } }
+    end
+    Rack::Response.new(
+      {
+        title: :validation_error,
+        description: 'The object did not pass validation',
+        errors: errors
+      }.to_json, 422, { "Content-Type" => "application/hal+json" }).finish
   end
 
   get do
