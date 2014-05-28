@@ -291,6 +291,14 @@ angular.module('openproject.services')
       });
     },
 
+    deleteQuery: function() {
+      var url = PathHelper.apiProjectQueryPath(query.project_id, query.id);
+      return QueryService.doQuery(url, query.toUpdateParams(), 'DELETE', function(response){
+        QueryService.resetQuery();
+        return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_delete') }} );
+      });
+    },
+
     doGet: function(url, success, failure) {
       return QueryService.doQuery(url, null, 'GET', success, failure);
     },

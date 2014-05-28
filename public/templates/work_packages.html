@@ -70,6 +70,12 @@
       <li><a href ng-click="showShareModal($event)" ng-class="{'inactive': query.isNew()}">
         <i class="icon-action-menu icon-publish"></i>{{ I18n.t('js.toolbar.settings.share') }}</a>
       </li>
+      <li><a href ng-click="deleteQuery($event)" ng-class="{'inactive': query.isNew()}">
+        <i class="icon-action-menu icon-delete"></i>{{ I18n.t('js.toolbar.settings.delete') }}</a>
+      </li>
+      <li><a href ng-click="showSettingsModal($event)" ng-class="{'inactive': query.isNew()}">
+        <i class="icon-action-menu icon-settings"></i>{{ I18n.t('js.toolbar.settings.page_settings') }}</a>
+      </li>
     </ul>
   </div>
 

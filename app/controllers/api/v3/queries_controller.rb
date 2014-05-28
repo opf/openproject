@@ -40,7 +40,7 @@ module Api::V3
 
     before_filter :find_optional_project
     before_filter :setup_query_for_create, only: [:create]
-    before_filter :setup_query_for_update, only: [:update]
+    before_filter :setup_existing_query, only: [:update, :destroy]
     before_filter :setup_query, only: [:available_columns, :custom_field_filters]
 
     def available_columns
@@ -93,6 +93,13 @@ module Api::V3
       end
     end
 
+    def destroy
+      @query.destroy
+      respond_to do |format|
+        format.api
+      end
+    end
+
     private
 
     def setup_query
@@ -107,7 +114,7 @@ module Api::V3
       @query.user = User.current
     end
 
-    def setup_query_for_update
+    def setup_existing_query
       @query = Query.find(params[:id])
       prepare_query(@query)
     end

@@ -49,25 +49,7 @@ angular.module('openproject.workPackages.directives')
       });
 
       // Modals
-      scope.showColumnsModal  = columnsModal.activate;
       scope.showExportModal   = exportModal.activate;
-      scope.showSettingsModal = settingsModal.activate;
-      scope.showShareModal    = shareModal.activate;
-      scope.showGroupingModal = groupingModal.activate;
-
-      scope.showSaveAsModal = function(event){
-        if( preventDisabledAction(event) ){
-          scope.$emit('hideAllDropdowns');
-          saveModal.activate();
-        }
-      };
-
-      scope.showShareModal = function(event){
-        if( preventDisabledAction(event) ){
-          scope.$emit('hideAllDropdowns');
-          shareModal.activate();
-        }
-      }
 
       scope.saveQuery = function(){
         if(scope.query.isNew()){
@@ -81,14 +63,39 @@ angular.module('openproject.workPackages.directives')
         }
       };
 
-      scope.showColumnsModal  = function(){
-        scope.$emit('hideAllDropdowns');
-        columnsModal.activate();
+      scope.deleteQuery = function(){
+        if( deleteConfirmed() ){
+          QueryService.deleteQuery()
+            .then(function(data){
+              settingsModal.deactivate();
+              scope.$emit('flashMessage', data.status);
+              scope.$emit('queryResetRequired');
+            })
+        }
       };
 
-      scope.showSortingModal  = function(){
-        scope.$emit('hideAllDropdowns');
-        sortingModal.activate();
+      scope.showSaveAsModal = function(event){
+        showExistingQueryModal.call(saveModal, event);
+      };
+
+      scope.showShareModal = function(event){
+        showExistingQueryModal.call(shareModal, event);
+      }
+
+      scope.showSettingsModal = function(event){
+        showExistingQueryModal.call(settingsModal, event);
+      };
+
+      scope.showColumnsModal = function(){
+        showModal.call(columnsModal);
+      };
+
+      scope.showGroupingModal = function(){
+        showModal.call(groupingModal);
+      };
+
+      scope.showSortingModal = function(){
+        showModal.call(sortingModal);
       };
 
       scope.toggleDisplaySums = function(){
@@ -103,6 +110,22 @@ angular.module('openproject.workPackages.directives')
           return false;
         }
         return true;
+      }
+
+      function showModal() {
+        scope.$emit('hideAllDropdowns');
+        this.activate();
+      }
+
+      function showExistingQueryModal(event) {
+        if( preventDisabledAction(event) ){
+          scope.$emit('hideAllDropdowns');
+          this.activate();
+        }
+      }
+
+      function deleteConfirmed() {
+        return $window.confirm(I18n.t('js.text_query_destroy_confirmation'));
       }
     }
   };
