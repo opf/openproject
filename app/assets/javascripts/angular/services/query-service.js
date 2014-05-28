@@ -286,7 +286,7 @@ angular.module('openproject.services')
       query.setName(name);
       var url = PathHelper.apiProjectQueriesPath(query.project_id);
       return QueryService.doQuery(url, query.toParams(), 'POST', function(response){
-        query.save(response.data);
+        query.save(response.data.query);
         return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_create') }} );
       });
     },
