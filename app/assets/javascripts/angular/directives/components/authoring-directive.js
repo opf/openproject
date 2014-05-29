@@ -29,24 +29,27 @@
 // TODO move to UI components
 angular.module('openproject.uiComponents')
 
-.directive('authoring', ['I18n', 'PathHelper', function(I18n, PathHelper) {
+.directive('authoring', ['I18n', 'PathHelper', 'TimezoneService', function(I18n, PathHelper, TimezoneService) {
   return {
     restrict: 'E',
     replace: true,
-    scope: { createdOn: '=', author: '=' },
+    scope: { createdOn: '=', author: '=', project: '=', activity: '=' },
     templateUrl: '/templates/components/authoring.html',
     link: function(scope, element, attrs) {
       moment.lang(I18n.locale);
 
-      // TODO: The timezone of scope.time is UTC. Thus, we need to adapt the
-      // time to the local timezone or user setting.
-      var createdOn = moment.utc(scope.createdOn);
+      var createdOn = TimezoneService.parseDate(scope.createdOn);
       var timeago = createdOn.fromNow();
       var time = createdOn.format('LLL');
 
       scope.I18n = I18n;
       scope.authorLink = '<a href="'+ PathHelper.userPath(scope.author.id) + '">' + scope.author.name + '</a>';
-      scope.timestamp = '<span class="timestamp" title="' + time + '">' + timeago + '</span>';
+
+      if (scope.activity) {
+        scope.timestamp = '<a title="' + time + '" href="' + PathHelper.activityPath(scope.project, createdOn.format('YYYY-MM-DD')) + '">' + timeago + '</a>';
+      } else {
+        scope.timestamp = '<span class="timestamp" title="' + time + '">' + timeago + '</span>';
+      }
     }
   };
 }]);

@@ -26,19 +26,48 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// TODO move to UI components
-angular.module('openproject.uiComponents')
+/*jshint expr: true*/
 
-.directive('formattedDate', ['I18n', 'TimezoneService', function(I18n, TimezoneService) {
-  return {
-    restrict: 'EA',
-    replace: false,
-    scope: { formattedDate: '=' },
-    template: '<span>{{time}}</span>',
-    link: function(scope, element, attrs) {
-      moment.lang(I18n.locale);
+describe('TimezoneService', function() {
 
-      scope.time = TimezoneService.parseDate(scope.formattedDate).format('LLL');
-    }
-  };
-}]);
+  var TIME = '05/19/2014 11:49 AM';
+  var TimezoneService;
+
+  beforeEach(module('openproject.services'));
+
+  beforeEach(inject(function(_TimezoneService_){
+    TimezoneService = _TimezoneService_;
+  }));
+
+  describe('#parseDate', function() {
+    it('is UTC', function() {
+      expect(TimezoneService.parseDate(TIME).zone()).to.equal(0);
+    });
+
+    describe('Non-UTC timezone', function() {
+      var timezone = 'Europe/Berlin';
+      var momentStub;
+      var dateStub;
+
+      beforeEach(function() {
+        TimezoneService.setTimezone(timezone);
+
+        momentStub = sinon.stub(moment, "utc");
+        dateStub = sinon.stub();
+
+        momentStub.returns(dateStub);
+        dateStub.tz = sinon.spy();
+
+        TimezoneService.parseDate(TIME);
+      });
+
+      afterEach(function() {
+        momentStub.restore();
+      });
+
+      it('is Europe/Berlin', function() {
+        expect(dateStub.tz.calledWithExactly(timezone)).to.be.true;
+      });
+    });
+  });
+});

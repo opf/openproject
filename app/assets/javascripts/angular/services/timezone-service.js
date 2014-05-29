@@ -26,19 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// TODO move to UI components
-angular.module('openproject.uiComponents')
+angular.module('openproject.services')
 
-.directive('formattedDate', ['I18n', 'TimezoneService', function(I18n, TimezoneService) {
-  return {
-    restrict: 'EA',
-    replace: false,
-    scope: { formattedDate: '=' },
-    template: '<span>{{time}}</span>',
-    link: function(scope, element, attrs) {
-      moment.lang(I18n.locale);
-
-      scope.time = TimezoneService.parseDate(scope.formattedDate).format('LLL');
-    }
+.service('TimezoneService', [function() {
+  var timezoneOptions = {
+    name: ''
   };
+  TimezoneService = {
+    setTimezone: function(name) {
+      timezoneOptions.name = name;
+    },
+    parseDate: function(date) {
+      var d = moment.utc(date, "MM/DD/YYYY/ HH:mm A");
+
+      if (timezoneOptions.name) {
+        d.tz(timezoneOptions.name);
+      }
+
+      return d;
+    },
+  };
+
+  return TimezoneService;
 }]);

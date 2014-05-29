@@ -80,6 +80,7 @@ module.exports = function(config) {
       'app/assets/javascripts/angular/services/role-service.js',
       'app/assets/javascripts/angular/services/sort-service.js',
       'app/assets/javascripts/angular/services/status-service.js',
+      'app/assets/javascripts/angular/services/timezone-service.js',
       'app/assets/javascripts/angular/services/type-service.js',
       'app/assets/javascripts/angular/services/user-service.js',
       'app/assets/javascripts/angular/services/version-service.js',
