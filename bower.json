@@ -20,7 +20,8 @@
     "angular-truncate": "latest",
     "jquery-migrate": "~1.2.1",
     "momentjs": "~2.6.0",
-    "ng-context-menu": "finnlabs/ng-context-menu#context-sharing-with-multiple-targets"
+    "ng-context-menu": "finnlabs/ng-context-menu#context-sharing-with-multiple-targets",
+    "nvd3": "~1.1.15"
   },
   "devDependencies": {
     "mocha": "~1.14.0",

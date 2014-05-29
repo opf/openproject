@@ -60,18 +60,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <% if User.current.allowed_to?(:view_work_packages, @project) %>
   <div class="issues content-box">
-    <h3><%=l(:label_work_package_tracking)%></h3>
-    <ul>
-      <% for type in @types %>
-        <li><%= link_to (type.is_standard) ? l(:default_type) : h(type.name),
-                        controller: :work_packages, action: :index, project_id: @project,
-                        set_filter: 1,
-                        "type_id" => type.id %>:
-            <%= l(:label_x_open_work_packages_abbr_on_total, :count => @open_issues_by_type[type].to_i,
-                                                             :total => @total_issues_by_type[type].to_i) %>
-        </li>
-      <% end %>
-    </ul>
+    <%= javascript_include_tag "project/show.js" %>
+    <%= render_tabs project_overview_tabs %>
     <p>
       <%= link_to l(:label_work_package_view_all), {controller: :work_packages, action: :index, project_id: @project, set_filter: 1}, :class => 'button_highlight' %>
       <% if User.current.allowed_to?(:view_calendar, @project, :global => true) %>
