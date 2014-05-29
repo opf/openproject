@@ -265,4 +265,3 @@ module SortHelper
     content_tag('th', sort_link(column, caption, default_order, :lang => lang), options)
   end
 end
-
