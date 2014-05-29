@@ -71,4 +71,3 @@ When(/^I update the first time entry with (\d+) hours and the comment "(.*?)"$/)
   fill_in TimeEntry.human_attribute_name(:comment), with: comment
   click_button "Save"
 end
-
