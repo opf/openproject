@@ -63,11 +63,3 @@ class Reports::Report
   end
 
 end
-
-
-
-
-
-
-
-
