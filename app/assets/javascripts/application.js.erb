@@ -482,49 +482,44 @@ function observeProjectModules() {
   Event.observe('project_enabled_module_names_work_package_tracking', 'change', f);
 }
 
-/*
- * Class used to warn user when leaving a page with unsaved textarea
- * Author: mathias.fischer@berlinonline.de
-*/
+var WarnLeavingUnsaved = function(message) {
+  this.message = message;
+  var changedForms = false;
+  var isEmbed = window != window.parent;
+  var obj = this;
 
-var WarnLeavingUnsaved = Class.create({
-	observedForms: false,
-	observedElements: false,
-	changedForms: false,
-	message: null,
+  this.unload = function() {
+    if(changedForms && !isEmbed) {
+      return message;
+    }
+  };
 
-	initialize: function(message){
-		this.observedForms = $$('form');
-		this.observedElements =  $$('textarea');
-		this.message = message;
+  this.getChanged = function() {
+    return changedForms;
+  };
 
-		this.observedElements.each(this.observeChange.bind(this));
-		this.observedForms.each(this.submitAction.bind(this));
+  this.setChanged = function() {
+    changedForms = true;
+  };
 
-		window.onbeforeunload = this.unload.bind(this);
-	},
+  this.setUnchanged = function() {
+    changedForms = false;
+  };
 
-	unload: function(){
-		if(this.changedForms)
-      return this.message;
-	},
+  this.init = function() {
+    jQuery(document).on('change', 'textarea', function() {
+      obj.setChanged();
+    });
 
-	setChanged: function(){
-    this.changedForms = true;
-	},
+    jQuery(document).on('submit', 'form', function() {
+      obj.setUnchanged();
+    });
 
-	setUnchanged: function(){
-    this.changedForms = false;
-	},
+    jQuery(window).bind('beforeunload', this.unload);
+  };
 
-	observeChange: function(element){
-    element.observe('change',this.setChanged.bindAsEventListener(this));
-	},
-
-	submitAction: function(element){
-    element.observe('submit',this.setUnchanged.bindAsEventListener(this));
-	}
-});
+  this.init();
+};
 
 /*
  * 1 - registers a callback which copies the csrf token into the
