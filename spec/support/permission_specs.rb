@@ -64,4 +64,3 @@ module PermissionSpecs
     end
   end
 end
-
