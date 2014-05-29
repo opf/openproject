@@ -33,13 +33,13 @@ class ConfigurationTest < Test::Unit::TestCase
   context 'Global configuration options' do
     setup do
       module Extension; end
-      
+
       @options = {
         'class_name' => 'CustomVersion',
         :extend => Extension,
         :as => :parent
       }
-      
+
       VestalVersions.configure do |config|
         @options.each do |key, value|
           config.send("#{key}=", value)
