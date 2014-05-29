@@ -38,22 +38,22 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= form_tag({}) do %>
 <table class="list">
 <thead>
-	<tr>
-		<th><%= User.human_attribute_name(:login) %></th>
-		<th><%= User.model_name.human %></th>
-	</tr>
+  <tr>
+    <th><%= User.human_attribute_name(:login) %></th>
+    <th><%= User.model_name.human %></th>
+  </tr>
 </thead>
 <tbody>
 <% i = 0 -%>
 <% @committers.each do |committer, user_id| -%>
-	<tr class="<%= cycle 'odd', 'even' %>">
-		<td><%=h committer %></td>
-		<td>
-			<%= hidden_field_tag "committers[#{i}][]", committer %>
-			<%= select_tag "committers[#{i}][]", content_tag('option', "-- #{l :actionview_instancetag_blank_option} --", :value => '') + options_from_collection_for_select(@users, 'id', 'name', user_id.to_i) %>
-		</td>
-	</tr>
-	<% i += 1 -%>
+  <tr class="<%= cycle 'odd', 'even' %>">
+    <td><%=h committer %></td>
+    <td>
+      <%= hidden_field_tag "committers[#{i}][]", committer %>
+      <%= select_tag "committers[#{i}][]", content_tag('option', "-- #{l :actionview_instancetag_blank_option} --", :value => '') + options_from_collection_for_select(@users, 'id', 'name', user_id.to_i) %>
+    </td>
+  </tr>
+  <% i += 1 -%>
 <% end -%>
 </tbody>
 </table>
