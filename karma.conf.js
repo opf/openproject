@@ -101,12 +101,14 @@ module.exports = function(config) {
 
       'app/assets/javascripts/date-en-US.js',
 
+      //'vendor/assets/components/jquery-mockjax/jquery.mockjax.js',
+
       'karma/tests/timeline_stubs.js',
       'karma/lib/rosie.js',
       'karma/tests/test-helper.js',
       'karma/factories/*factory.js',
-
-      'karma/lib/jquery.mockjax.js',
+      
+      'vendor/assets/components/jquery-mockjax/jquery.mockjax.js',
 
       'karma/tests/asset_functions.js',
       'karma/tests/**/*test.js',
