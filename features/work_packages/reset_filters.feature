@@ -47,7 +47,6 @@ Feature: Resetting filters on work packages
 
   @javascript
   Scenario: Clearing filters via the filter buttons
-    And I click the toolbar button named "Filter"
     When I select "Type" from "Add filter"
     And I select "is" from "operators-type_id"
     And I select "Other" from "values-type_id"

@@ -80,7 +80,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <td class="replies">{{message.replies_count}}</td>
           <td class="last_message">
             <span ng-if="message.last_reply !== undefined">
-              <authoring created-on="message.last_reply.created_on" author="message.last_reply.author"></authoring>
+              <authoring created-on="message.last_reply.created_on" author="message.last_reply.author" project="projectId" activity="activityModuleEnabled"></authoring>
               <br />
               <a ng-href="{{PathHelper.messagePath(message.last_reply.id)}}">{{message.subject}}</a>
             </span>

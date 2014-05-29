@@ -105,11 +105,11 @@ angular.module('openproject.services')
     },
 
     hideColumns: function(columnNames) {
-      WorkPackagesTableHelper.moveColumns(columnNames, this.getSelectedColumns(), availableColumns);
+      WorkPackagesTableHelper.moveColumns(columnNames, this.getSelectedColumns(), availableUnusedColumns);
     },
 
     showColumns: function(columnNames) {
-      WorkPackagesTableHelper.moveColumns(columnNames, availableColumns, this.getSelectedColumns());
+      WorkPackagesTableHelper.moveColumns(columnNames, availableUnusedColumns, this.getSelectedColumns());
     },
 
     // data loading
@@ -286,8 +286,16 @@ angular.module('openproject.services')
       query.setName(name);
       var url = PathHelper.apiProjectQueriesPath(query.project_id);
       return QueryService.doQuery(url, query.toParams(), 'POST', function(response){
-        query.save(response.data);
+        query.save(response.data.query);
         return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_create') }} );
+      });
+    },
+
+    deleteQuery: function() {
+      var url = PathHelper.apiProjectQueryPath(query.project_id, query.id);
+      return QueryService.doQuery(url, query.toUpdateParams(), 'DELETE', function(response){
+        QueryService.resetQuery();
+        return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_delete') }} );
       });
     },
 

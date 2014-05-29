@@ -38,7 +38,9 @@
   };
 
   var show_help_modal = function(){
-    modalHelperInstance.createModal('/help/keyboard_shortcuts');
+    var relative_url_root = jQuery('body').data('relative_url_root');
+    var template_path = relative_url_root + 'help/keyboard_shortcuts';
+    modalHelperInstance.createModal(template_path);
   };
 
   var go_overview = function(){

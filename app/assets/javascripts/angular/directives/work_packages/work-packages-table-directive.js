@@ -74,6 +74,19 @@ angular.module('openproject.workPackages.directives')
           row.checked = state;
         });
       };
+
+      var groupableColumns = WorkPackagesTableService.getGroupableColumns();
+      scope.$watch('query.groupBy', function(groupBy) {
+        if (scope.columns) {
+          var groupByColumnIndex = groupableColumns.map(function(column){
+            return column.name;
+          }).indexOf(groupBy);
+
+          scope.groupByColumn = groupableColumns[groupByColumnIndex];
+       }
+      });
+
+      scope.hideWorkPackageDetails = true; // temporarily disable work package details links
     }
   };
 }]);

@@ -38,9 +38,10 @@ angular.module('openproject.workPackages.controllers')
 
 .controller('SortingModalController', ['sortingModal',
   '$scope',
+  '$filter',
   'QueryService',
   'I18n',
-  function(sortingModal, $scope, QueryService, I18n) {
+  function(sortingModal, $scope, $filter, QueryService, I18n) {
   this.name    = 'Sorting';
   this.closeMe = sortingModal.deactivate;
 
@@ -60,7 +61,7 @@ angular.module('openproject.workPackages.controllers')
   };
 
   $scope.getAvailableColumnsData = function(term, result) {
-    result($scope.availableColumnsData);
+    result($filter('filter')($scope.availableColumnsData, {label: term}));
   };
 
   $scope.getDirectionsData = function(term, result) {

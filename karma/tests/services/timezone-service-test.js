@@ -26,22 +26,48 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
+/*jshint expr: true*/
 
-.directive('workPackagesOptions', ['I18n', function(I18n){
-  return {
-    restrict: 'E',
-    templateUrl: '/templates/work_packages/work_packages_options.html',
-    link: function(scope, element, attributes) {
-      scope.$watch('query.groupBy', function(groupBy) {
-        if (scope.columns) {
-          var groupByColumnIndex = scope.groupableColumns.map(function(column){
-            return column.name;
-          }).indexOf(groupBy);
+describe('TimezoneService', function() {
 
-          scope.groupByColumn = scope.groupableColumns[groupByColumnIndex];
-        }
+  var TIME = '05/19/2014 11:49 AM';
+  var TimezoneService;
+
+  beforeEach(module('openproject.services'));
+
+  beforeEach(inject(function(_TimezoneService_){
+    TimezoneService = _TimezoneService_;
+  }));
+
+  describe('#parseDate', function() {
+    it('is UTC', function() {
+      expect(TimezoneService.parseDate(TIME).zone()).to.equal(0);
+    });
+
+    describe('Non-UTC timezone', function() {
+      var timezone = 'Europe/Berlin';
+      var momentStub;
+      var dateStub;
+
+      beforeEach(function() {
+        TimezoneService.setTimezone(timezone);
+
+        momentStub = sinon.stub(moment, "utc");
+        dateStub = sinon.stub();
+
+        momentStub.returns(dateStub);
+        dateStub.tz = sinon.spy();
+
+        TimezoneService.parseDate(TIME);
       });
-    }
-  };
-}]);
+
+      afterEach(function() {
+        momentStub.restore();
+      });
+
+      it('is Europe/Berlin', function() {
+        expect(dateStub.tz.calledWithExactly(timezone)).to.be.true;
+      });
+    });
+  });
+});

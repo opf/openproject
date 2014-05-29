@@ -37,7 +37,7 @@ Feature: Lost Password
 
   Scenario: Set a new password using lost password link
     And I am on the login page
-    When I follow "Lost password" within "#login-form"
+    When I follow "t:label_password_lost" within "#login-form" [i18n]
     And I fill in "johndoe@example.com" for "Email"
     And I press "Submit"
     Then I should see "has been sent to you"

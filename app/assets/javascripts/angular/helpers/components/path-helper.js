@@ -34,6 +34,19 @@ angular.module('openproject.helpers')
     apiPrefixV2: '/api/v2',
     apiPrefixV3: '/api/v3',
 
+    activityPath: function(projectIdentifier, from) {
+      var link = '/activity';
+
+      if (projectIdentifier) {
+        link = PathHelper.projectPath(projectIdentifier) + link;
+      }
+
+      if (from) {
+        link += '?from=' + from;
+      }
+
+      return link;
+    },
     assetPath: function(assetIdentifier) {
       return '/assets/' + assetIdentifier;
     },

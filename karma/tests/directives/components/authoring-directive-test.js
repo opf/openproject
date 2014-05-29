@@ -27,12 +27,18 @@
 //++
 
 describe('authoring Directive', function() {
-    var createdOn = moment().subtract('d', 1);
+    var createdOn = moment().utc().subtract('d', 1);
     var author = {id: '1', name: 'me, myself, and I'};
-    var I18n, t, compile, element, scope;
+    var I18n, t, compile, element, scope, timezoneService;
 
     beforeEach(angular.mock.module('openproject.uiComponents', 'openproject.helpers', 'ngSanitize'));
-    beforeEach(module('templates'));
+    beforeEach(module('templates', function($provide) {
+      timezoneService = new Object();
+
+      timezoneService.parseDate = sinon.stub().returns(createdOn);
+
+      $provide.constant('TimezoneService', timezoneService);
+    }));
 
     beforeEach(inject(function($rootScope, $compile, _I18n_) {
       var html = '<authoring created-on="createdOn" author="author"></authoring>';

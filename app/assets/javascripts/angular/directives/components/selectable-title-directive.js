@@ -40,8 +40,8 @@ angular.module('openproject.uiComponents')
     },
     templateUrl: '/templates/components/selectable_title.html',
     link: function(scope) {
-      scope.$watch('groups', function(oldValue, newValue){
-        scope.filteredGroups = angular.copy(scope.groups);
+      scope.$watch('groups', function(newValue, oldValue){
+        scope.filteredGroups = angular.copy(newValue);
       });
 
       angular.element('#title-filter').bind('click', function(event) {

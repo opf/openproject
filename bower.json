@@ -20,6 +20,7 @@
     "angular-truncate": "latest",
     "jquery-migrate": "~1.2.1",
     "momentjs": "~2.6.0",
+    "moment-timezone": "~0.0.6",
     "ng-context-menu": "finnlabs/ng-context-menu#context-sharing-with-multiple-targets"
   },
   "devDependencies": {
