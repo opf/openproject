@@ -1,0 +1,56 @@
+jQuery(document).ready(function($) {
+  d3.json( $('#chart1').data('path'), function(data) {
+    var jsdata =  data.planning_elements;
+    jsdata = d3.nest()
+            .key(function(d) { 
+                  if(d.status_id<5){
+                    return "Open"; 
+                  }else{
+                    return "Closed";
+                  }
+            })
+            .key(function(d) { 
+              switch(d.type_id) {
+                case 1:
+                    return "Work Package"
+                case 2:
+                    return "Bug"                    
+                case 3:
+                    return "Feature"      
+                case 4:
+                    return "Support"
+                case 4:
+                    return "Phase"
+                default:
+                    return "Milestone"
+              } 
+            })
+            .rollup(function(leaves){return leaves.length})
+            .entries(jsdata);
+
+    nv.addGraph(function() {
+    var chart = nv.models.multiBarChart()
+    .transitionDuration(350)
+    .reduceXTicks(false)   //If 'false', every single x-axis tick label will be rendered.
+    .rotateLabels(0)      //Angle to rotate x-axis labels.
+    .showControls(true)   //Allow user to switch between 'Grouped' and 'Stacked' mode.
+    .groupSpacing(0.1)    //Distance between each group of bars.
+    ;
+
+    chart.x(function(d) { return d.key })
+    .y(function(d) { return d.values })
+
+    chart.yAxis
+      .tickFormat(d3.format(',.1f'));
+
+    d3.select('#chart1 svg')
+      .datum(jsdata)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  });
+});

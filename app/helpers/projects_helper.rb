@@ -47,6 +47,11 @@ module ProjectsHelper
     tabs.select {|tab| User.current.allowed_to?(tab[:action], @project)}
   end
 
+  def project_overview_tabs
+    tabs = [{:name => 'text-based', :action => nil, :partial => 'projects/overview/textmode', :label => :label_text_based},
+            {:name => 'visual', :action => nil, :partial => 'projects/overview/visual', :label => :label_visual}]
+  end
+
   def parent_project_select_tag(project)
     selected = project.parent
     # retrieve the requested parent project
