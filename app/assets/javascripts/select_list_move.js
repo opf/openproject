@@ -64,4 +64,3 @@ function moveOptionDown(selectionId) {
 function selectAllOptions(id) {
   jQuery("#" + id + " option").attr('selected',true);
 }
-
