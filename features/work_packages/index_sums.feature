@@ -64,11 +64,11 @@ Feature: Calculated sums on the work package index
 
     And I am already logged in as "bob"
 
-  @javascript @wip
+  @javascript
   Scenario: Total sum of summable column should be displayed when display sums checkbox is checked
     When I go to the work packages index page of the project "project1"
-    And I click the toolbar button named "Filter"
-    And I click "Options"
+    And I choose "Columns" from the toolbar "settings" dropdown
     And I select to see column "Estimated time"
-    And I check "display_sums"
+    And I click "Apply"
+    And I choose "Display sums" from the toolbar "settings" dropdown
     Then I should see "26" within ".sum.group.all"
