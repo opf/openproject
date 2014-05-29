@@ -32,4 +32,3 @@ class TimeEntryCustomField < CustomField
     :label_spent_time
   end
 end
-

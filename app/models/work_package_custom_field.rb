@@ -38,4 +38,3 @@ class WorkPackageCustomField < CustomField
     :label_work_package_plural
   end
 end
-

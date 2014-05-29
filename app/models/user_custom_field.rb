@@ -32,4 +32,3 @@ class UserCustomField < CustomField
     :label_user_plural
   end
 end
-
