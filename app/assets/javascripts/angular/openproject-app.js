@@ -27,6 +27,7 @@
 //++
 
 // global
+angular.module('openproject.config', []);
 angular.module('openproject.services', [
   'openproject.uiComponents',
   'openproject.helpers',
@@ -107,6 +108,7 @@ var openprojectApp = angular.module('openproject', [
   'ui.select2.sortable',
   'ui.date',
   'ui.router',
+  'openproject.config',
   'openproject.uiComponents',
   'openproject.timelines',
   'openproject.workPackages',
