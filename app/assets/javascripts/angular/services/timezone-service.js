@@ -26,46 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// TODO move to UI components
-angular.module('openproject.uiComponents')
+angular.module('openproject.services')
 
-.directive('selectableTitle', [function() {
-  return {
-    restrict: 'E',
-    replace: true,
-    scope: {
-      selectedTitle: '=',
-      reloadMethod: '=',
-      groups: '='
+.service('TimezoneService', [function() {
+  var timezoneOptions = {
+    name: ''
+  };
+  TimezoneService = {
+    setTimezone: function(name) {
+      timezoneOptions.name = name;
     },
-    templateUrl: '/templates/components/selectable_title.html',
-    link: function(scope) {
-      scope.$watch('groups', refreshFilteredGroups);
+    parseDate: function(date) {
+      var d = moment.utc(date, "MM/DD/YYYY/ HH:mm A");
 
-      function refreshFilteredGroups() {
-        scope.filteredGroups = angular.copy(scope.groups);
+      if (timezoneOptions.name) {
+        d.tz(timezoneOptions.name);
       }
 
-      angular.element('#title-filter').bind('click', function(event) {
-        event.preventDefault();
-        event.stopPropagation();
-      });
-
-      scope.reload = function(modelId, newTitle) {
-        scope.selectedTitle = newTitle;
-        scope.reloadMethod(modelId);
-        scope.$emit('hideAllDropdowns');
-      };
-
-      scope.filterModels = function(filterBy) {
-        refreshFilteredGroups();
-
-        angular.forEach(scope.filteredGroups, function(group) {
-          group.models = group.models.filter(function(model){
-            return model[0].toLowerCase().indexOf(filterBy.toLowerCase()) >= 0;
-          });
-        });
-      };
-    }
+      return d;
+    },
   };
+
+  return TimezoneService;
 }]);

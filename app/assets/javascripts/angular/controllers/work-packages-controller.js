@@ -49,13 +49,10 @@ angular.module('openproject.workPackages.controllers')
       WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS,
       OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
 
-  $scope.showFiltersOptions = false;
-
-
   // Setup
 
   function initialSetup() {
-    setUrlParams($window.location);
+    setupPageParamsFromUrl($window.location);
     initProject();
 
     $scope.selectedTitle = I18n.t('js.toolbar.unselected_title');
@@ -76,7 +73,7 @@ angular.module('openproject.workPackages.controllers')
       .then(setupPage);
   }
 
-  function setUrlParams(location) {
+  function setupPageParamsFromUrl(location) {
     var normalisedPath = location.pathname.replace($window.appBasePath, '');
     $scope.projectIdentifier = normalisedPath.split('/')[2];
 
@@ -127,7 +124,7 @@ angular.module('openproject.workPackages.controllers')
   }
 
   function afterQuerySetupCallback(query) {
-    $scope.showFilters = query.filters.length > 0;
+    $scope.showFiltersOptions = query.filters.length > 0;
     $scope.updateBackUrl();
   }
 
@@ -173,12 +170,17 @@ angular.module('openproject.workPackages.controllers')
   }
 
   function initAvailableQueries() {
-    return QueryService.getAvailableGroupedQueries($scope.projectIdentifier)
-      .then(function(data){
-        $scope.groups = [{ name: 'CUSTOM QUERIES', models: data["user_queries"]},
-          { name: 'GLOBAL QUERIES', models: data["queries"]}];
-      });
+    QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
+
+    $scope.availableOptions = QueryService.getAvailableOptions(); // maybe generalize this approach
+    $scope.$watch('availableOptions.availableGroupedQueries', function(availableQueries) {
+      if (availableQueries) {
+        $scope.groups = [{ name: 'CUSTOM QUERIES', models: availableQueries['user_queries']},
+                         { name: 'GLOBAL QUERIES', models: availableQueries['queries']}];
+      }
+    });
   }
+
 
   // Updates
 

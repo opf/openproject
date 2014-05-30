@@ -70,7 +70,7 @@ angular.module('openproject.workPackages.directives')
               settingsModal.deactivate();
               scope.$emit('flashMessage', data.status);
               scope.$emit('queryResetRequired');
-            })
+            });
         }
       };
 
@@ -96,7 +96,7 @@ angular.module('openproject.workPackages.directives')
 
       scope.showSortingModal = function(){
         showModal.call(sortingModal);
-      };
+      }
 
       scope.toggleDisplaySums = function(){
         scope.$emit('hideAllDropdowns');
