@@ -1,20 +1,18 @@
 <div class="title-container">
-  <div class="ax_paragraph h2">
     <div class="text">
-      <p><span with-dropdown dropdown-id="querySelectDropdown">{{ selectedTitle | characters:50 }}</span></p>
+      <p><span with-dropdown dropdown-id="querySelectDropdown">{{ selectedTitle | characters:50 }}<i class="icon-pulldown-arrow1 icon-button"></i></span></p>
     </div>
-  </div>
 
   <div class="dropdown dropdown-relative" id="querySelectDropdown">
-    <div>
-      <input type="search" ng-model="filterBy" ng-change="filterModels(filterBy)" id="title-filter">
+    <div class="search-query-wrapper">
+      <input type="search" ng-model="filterBy" ng-change="filterModels(filterBy)" id="title-filter"><i id="magnifier" class="icon-search"></i>
     </div>
 
-    <div ng-if="group.models" ng-repeat="group in filteredGroups">
-      <ul class="dropdown-menu">
+    <div class="query-menu-container" ng-if="group.models" ng-repeat="group in filteredGroups">
+      <ul class="query-menu">
         <div class="title-group-header">{{ group.name }}</div>
         <li ng-repeat="model in group.models">
-          <a href="" ng-click="reload( model[1], model[0] )">{{ model[0] | characters:20 }}</a>
+          <a href="" ng-click="reload( model[1], model[0] )">{{ model[0] | characters:40 }}</a>
         </li>
       </ul>
     </div>
