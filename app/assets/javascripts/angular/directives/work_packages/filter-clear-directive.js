@@ -35,7 +35,7 @@ angular.module('openproject.workPackages.directives')
     scope: true,
     link: function(scope, element, attributes) {
       scope.clearQuery = function(){
-        scope.query.clearAll();
+        scope.$emit('queryResetRequired');
       };
     }
   };

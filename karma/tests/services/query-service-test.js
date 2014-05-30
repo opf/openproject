@@ -72,4 +72,56 @@ describe('QueryService', function() {
     });
 
   });
+
+  describe('loadAvailableGroupedQueries', function() {
+    var projectIdentifier = 'test_project',
+        $httpBackend,
+        $rootScope,
+        path,
+        groupedQueries;
+
+    function loadAvailableGroupedQueries() {
+      QueryService.loadAvailableGroupedQueries(projectIdentifier);
+      $httpBackend.flush();
+    }
+
+    beforeEach(inject(function(_$httpBackend_, _PathHelper_, _$rootScope_) {
+      $httpBackend = _$httpBackend_;
+      PathHelper = _PathHelper_;
+      $rootScope = _$rootScope_;
+
+      path = PathHelper.apiProjectGroupedQueriesPath(projectIdentifier);
+      groupedQueries = {
+        user_queries: [{}, {}],
+        queries: [{}]
+      };
+
+      $httpBackend.when('GET', path).respond(200, groupedQueries);
+    }));
+
+    describe('when called for the first time', function() {
+      it('triggers an http request', function() {
+        $httpBackend.expectGET(path);
+
+        loadAvailableGroupedQueries();
+      });
+
+      it('stores the grouped queries', function() {
+        loadAvailableGroupedQueries();
+
+        expect(QueryService.getAvailableOptions().availableGroupedQueries).to.deep.equal(groupedQueries);
+      });
+    });
+
+    describe('when called for the second time', function() {
+      it('does not do another http call', function() {
+        loadAvailableGroupedQueries();
+        QueryService.loadAvailableGroupedQueries(projectIdentifier);
+        $rootScope.$apply();
+
+        $httpBackend.verifyNoOutstandingRequest();
+      });
+    });
+
+  });
 });

@@ -4,7 +4,6 @@
     <div toolbar id="toolbar">
       <selectable-title selected-title="selectedTitle"
                         reload-method="reloadQuery"
-                        data-groups="dataGroups"
                         groups="groups">
       </selectable-title>
 
@@ -12,7 +11,7 @@
         <li class="toolbar-item">
           <button class="button_highlight" with-dropdown dropdown-id="tasksDropdown">
             <i class="icon-add icon4"></i>
-            New Task
+            {{ I18n.t('js.toolbar.unselected_title') }}
             <i class="icon-pulldown-arrow1 icon-dropdown"></i>
           </button>
         </li>
@@ -20,10 +19,10 @@
           <button class="button"
                   ng-click="showFiltersOptions = !showFiltersOptions"
                   ng-class="{active: showFiltersOptions}">
-            <i class="icon-filter icon-buttons"></i>Filter
+            <i class="icon-filter icon-buttons"></i>{{ I18n.t('js.toolbar.filter') }}
           </button>
         </li>
-        <li class="toolbar-item">
+        <li class="toolbar-item" ng-hide="hideWorkPackageDetails">
           <ul id="work-packages-view-mode-selection" class="toolbar-button-group">
             <li>
               <button class="button"
@@ -32,7 +31,7 @@
                 <i class="icon-table-view icon-buttons"></i>
               </button>
             </li>
-            <li>
+            <li ng-hide="hideWorkPackageDetails">
               <button class="button"
                       ui-sref="work-packages.list.details({})"
                       ui-sref-active="active">
@@ -59,21 +58,33 @@
 
   <div options-dropdown class="dropdown dropdown-relative dropdown-anchor-right" id="settingsDropdown">
     <ul class="dropdown-menu">
-      <li><a href ng-click="showColumnsModal()"><i class="icon-action-menu icon-columns"></i>Columns…</a></li>
-      <li><a href ng-click="showSortingModal()">Sorting…</a></li>
-      <li><a href ng-click="showGroupingModal()">Group by …</a></li>
-      <li><a href ng-click="toggleDisplaySums()">Display sums</a></li>
+      <li><a href ng-click="showColumnsModal()"><i class="icon-action-menu icon-columns"></i>{{ I18n.t('js.toolbar.settings.columns') }}</a></li>
+      <li><a href ng-click="showSortingModal()"><i class="icon-action-menu no-icon"></i>{{ I18n.t('js.toolbar.settings.sort_by') }}</a></li>
+      <li><a href ng-click="showGroupingModal()"><i class="icon-action-menu no-icon"></i>{{ I18n.t('js.toolbar.settings.group_by') }}</a></li>
+      <li><a href ng-click="toggleDisplaySums()"><i ng-if="query.displaySums" class="icon-action-menu icon-yes"></i><i ng-if="!query.displaySums" class="icon-action-menu no-icon"></i>{{ I18n.t('js.toolbar.settings.display_sums') }}</a></li>
       <li class="dropdown-divider"></li>
-      <li><a href ng-click="showSaveModal()"><i class="icon-action-menu icon-save1"></i>Save</a></li>
-      <li><a href ng-click="showSaveModal(true)"><i class="icon-action-menu icon-save1"></i>Save as</a></li>
-      <li><a href ng-click="showExportModal()"><i class="icon-action-menu icon-xls"></i>Export</a></li>
-      <li ng-show="!query.isNew()"><a href ng-click="showShareModal()"><i class="icon-action-menu icon-publish"></i>Share</a></li>
+      <li><a href ng-click="saveQuery()"><i class="icon-action-menu icon-save1"></i>{{ I18n.t('js.toolbar.settings.save') }}</a></li>
+      <li><a href ng-click="showSaveAsModal($event)" ng-class="{'inactive': query.isNew()}">
+        <i class="icon-action-menu icon-save1"></i>{{ I18n.t('js.toolbar.settings.save_as') }}</a>
+      </li>
+      <li><a href ng-click="showShareModal($event)" ng-class="{'inactive': query.isNew()}">
+        <i class="icon-action-menu icon-publish"></i>{{ I18n.t('js.toolbar.settings.share') }}</a>
+      </li>
+      <li><a href ng-click="deleteQuery($event)" ng-class="{'inactive': query.isNew()}">
+        <i class="icon-action-menu icon-delete"></i>{{ I18n.t('js.toolbar.settings.delete') }}</a>
+      </li>
+      <li><a href ng-click="showSettingsModal($event)" ng-class="{'inactive': query.isNew()}">
+        <i class="icon-action-menu icon-settings"></i>{{ I18n.t('js.toolbar.settings.page_settings') }}</a>
+      </li>
     </ul>
   </div>
 
   <div class="title-bar" ng-show="showFiltersOptions">
     <div class="title-bar-extras">
-      <work-packages-options></work-packages-options>
+
+      <div query-form id="query_form_content" class="hide-when-print">
+        <query-filters></query-filters>
+      </div>
 
       <p class="buttons hide-when-print">
         <filter-clear query="query">

@@ -1,6 +1,6 @@
 <div class="title-container">
     <div class="text">
-      <p><span with-dropdown dropdown-id="querySelectDropdown">{{ selectedTitle }}<i class="icon-pulldown-arrow1 icon-button"></i></span></p>
+      <p><span with-dropdown dropdown-id="querySelectDropdown">{{ selectedTitle | characters:50 }}<i class="icon-pulldown-arrow1 icon-button"></i></span></p>
     </div>
 
   <div class="dropdown dropdown-relative" id="querySelectDropdown">
@@ -12,7 +12,7 @@
       <ul class="query-menu">
         <div class="title-group-header">{{ group.name }}</div>
         <li ng-repeat="model in group.models">
-          <a href="" ng-click="reload( model[1], model[0] )">{{ model[0] }}</a>
+          <a href="" ng-click="reload( model[1], model[0] )">{{ model[0] | characters:40 }}</a>
         </li>
       </ul>
     </div>

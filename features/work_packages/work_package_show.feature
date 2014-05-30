@@ -154,7 +154,7 @@ Feature: Viewing a work package
     When I go to the page of the work package "issue1"
     When I select "Copy" from the action menu
 
-    Then I should see "COPY"
+    Then I should see "Copy"
 
   @javascript
   Scenario: For an issue move leads to work package copy page

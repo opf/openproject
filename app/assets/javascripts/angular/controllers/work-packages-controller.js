@@ -30,9 +30,11 @@ angular.module('openproject.workPackages.controllers')
 
 .controller('WorkPackagesController', [
     '$scope',
+    '$rootScope',
     '$q',
     '$window',
     '$location',
+    'I18n',
     'ProjectService',
     'WorkPackagesTableService',
     'WorkPackageService',
@@ -41,22 +43,19 @@ angular.module('openproject.workPackages.controllers')
     'WorkPackageLoadingHelper',
     'INITIALLY_SELECTED_COLUMNS',
     'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
-    function($scope, $q, $window, $location, ProjectService,
+    function($scope, $rootScope, $q, $window, $location, I18n, ProjectService,
       WorkPackagesTableService,
       WorkPackageService, QueryService, PaginationService,
       WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS,
       OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
 
-  $scope.showFiltersOptions = false;
-
-
   // Setup
 
   function initialSetup() {
-    setUrlParams($window.location);
+    setupPageParamsFromUrl($window.location);
     initProject();
 
-    $scope.selectedTitle = "Work Packages";
+    $scope.selectedTitle = I18n.t('js.toolbar.unselected_title');
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.loading = false;
     $scope.disableFilters = false;
@@ -74,7 +73,7 @@ angular.module('openproject.workPackages.controllers')
       .then(setupPage);
   }
 
-  function setUrlParams(location) {
+  function setupPageParamsFromUrl(location) {
     var normalisedPath = location.pathname.replace($window.appBasePath, '');
     $scope.projectIdentifier = normalisedPath.split('/')[2];
 
@@ -125,7 +124,7 @@ angular.module('openproject.workPackages.controllers')
   }
 
   function afterQuerySetupCallback(query) {
-    $scope.showFilters = query.filters.length > 0;
+    $scope.showFiltersOptions = query.filters.length > 0;
     $scope.updateBackUrl();
   }
 
@@ -171,12 +170,17 @@ angular.module('openproject.workPackages.controllers')
   }
 
   function initAvailableQueries() {
-    return QueryService.getAvailableGroupedQueries($scope.projectIdentifier)
-      .then(function(data){
-        $scope.groups = [{ name: 'CUSTOM QUERIES', models: data["user_queries"]},
-          { name: 'GLOBAL QUERIES', models: data["queries"]}];
-      });
+    QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
+
+    $scope.availableOptions = QueryService.getAvailableOptions(); // maybe generalize this approach
+    $scope.$watch('availableOptions.availableGroupedQueries', function(availableQueries) {
+      if (availableQueries) {
+        $scope.groups = [{ name: 'CUSTOM QUERIES', models: availableQueries['user_queries']},
+                         { name: 'GLOBAL QUERIES', models: availableQueries['queries']}];
+      }
+    });
   }
+
 
   // Updates
 
@@ -229,6 +233,11 @@ angular.module('openproject.workPackages.controllers')
     if(newValue != oldValue && $scope.query.hasName()){
       $scope.selectedTitle = newValue;
     }
+  });
+
+  $rootScope.$on('queryResetRequired', function(event, message) {
+    $scope.query_id = null;
+    initialSetup();
   });
 
 }]);

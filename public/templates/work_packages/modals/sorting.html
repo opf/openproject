@@ -4,15 +4,17 @@
 
     <h3>Sorting</h3>
 
-    <div ng-repeat="element in sortElements">
-      <input type="hidden"
-             ui-select2-sortable="sortByOptions"
-             simple-query="getAvailableColumnsData"
-             ng-model="element[0]"></input>
-      <input type="hidden"
-             ui-select2-sortable="sortDirectionOptions"
-             simple-query="getDirectionsData"
-             ng-model="element[1]"></input>
+    <div id="modal-sorting" class="modal-content-container">
+      <div ng-repeat="element in sortElements">
+        <input type="hidden"
+               ui-select2-sortable="sortByOptions"
+               simple-query="getAvailableColumnsData"
+               ng-model="element[0]"></input>
+        <input type="hidden"
+               ui-select2-sortable="sortDirectionOptions"
+               simple-query="getDirectionsData"
+               ng-model="element[1]"></input>
+      </div>
     </div>
 
     <div>
