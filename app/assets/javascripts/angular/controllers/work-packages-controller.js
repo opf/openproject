@@ -75,9 +75,7 @@ angular.module('openproject.workPackages.controllers')
 
   function setupPageParamsFromUrl(location) {
     var normalisedPath = location.pathname.replace($window.appBasePath, '');
-
     $scope.projectIdentifier = normalisedPath.split('/')[2];
-    $scope.$root.projectIdentifier = $scope.projectIdentifier; // temporary solution to share project identifier
 
     var regexp = /query_id=(\d+)/g;
     var match = regexp.exec(location.search);
