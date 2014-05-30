@@ -37,6 +37,10 @@ When /^I click(?:| on) "([^"]*)"$/ do |name|
   click_link_or_button(name)
 end
 
+When /^I click(?:| on) the div "([^"]*)"$/ do |name|
+  find("##{name}").click
+end
+
 When /^(?:|I )jump to [Pp]roject "([^\"]*)"$/ do |project|
   click_link('Projects')
   # supports both variants of finding: by class and by id
