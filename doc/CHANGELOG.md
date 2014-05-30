@@ -31,6 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ## 3.0.4
 
+* `#8421` Make subdirectory configuration less of a hassle
 * `#5652` Fixes: Custom fields with empty name can be created
 * `#7812` 404 when opening keyboard shortcuts in a OpenProject instance running in subfolder
 * `#7893` Notification message support for Internet explorer 9 missing
