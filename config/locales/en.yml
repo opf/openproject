@@ -203,3 +203,6 @@ en:
   x_entries:
     one: "1 Entry"
     other: "%{count} Entries"
+
+  js:
+    text_are_you_sure: "Are you sure?"

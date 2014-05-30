@@ -47,6 +47,29 @@ When(/^I delete the cost type "(.*?)"$/) do |name|
   end
 end
 
+When(/^I click the delete link for the cost type "(.*?)"$/) do |name|
+  ct = CostType.find_by_name name
+
+  within ("#delete_cost_type_#{ct.id}") do
+    find('a.submit_cost_type').click
+  end
+end
+
+When /^I expect to click "([^"]*)" on a confirmation box saying "([^"]*)"$/ do |option, message|
+  retval = (option == 'OK') ? 'true' : 'false'
+  page.evaluate_script("window.confirm = function (msg) {
+    document.cookie = msg
+    return #{retval}
+  }")
+  @expected_message = message.gsub("\\n", "\n")
+end
+
+When /^the confirmation box should have been displayed$/ do
+  assert page.evaluate_script('document.cookie').include?(@expected_message),
+         "Expected confirm box with message: '#{@expected_message}'" +
+             " got: '#{page.evaluate_script('document.cookie')}'"
+end
+
 Then(/^the cost type "(.*?)" should not be listed on the index page$/) do |name|
 
   if has_css?(".cost_types")
