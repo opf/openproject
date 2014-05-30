@@ -32,7 +32,8 @@ angular.module('openproject.uiComponents')
 .directive('flashMessage', [
   '$rootScope',
   '$timeout',
-  function($rootScope, $timeout) {
+  'ConfigurationService',
+  function($rootScope, $timeout, ConfigurationService) {
 
   return {
     restrict: 'E',
@@ -53,9 +54,11 @@ angular.module('openproject.uiComponents')
         }
 
         // fade out after time out
-        $timeout(function() {
-          scope.message = undefined;
-        }, fadeOutTime);
+        if (!ConfigurationService.accessibilityModeEnabled()) {
+          $timeout(function() {
+            scope.message = undefined;
+          }, fadeOutTime);
+        }
       });
     }
   };

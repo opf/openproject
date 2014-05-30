@@ -136,6 +136,11 @@ openprojectApp
       };
     });
   }])
-  .run(['$http', function($http){
+  .run([
+    '$http',
+    'ConfigurationService',
+    function($http, ConfigurationService){
     $http.defaults.headers.common.Accept = 'application/json';
+
+    ConfigurationService.addConfiguration('accessibilityMode', OpenProject.Helpers.accessibilityModeEnabled());
   }]);
