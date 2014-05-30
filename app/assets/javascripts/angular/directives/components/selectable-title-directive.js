@@ -40,9 +40,11 @@ angular.module('openproject.uiComponents')
     },
     templateUrl: '/templates/components/selectable_title.html',
     link: function(scope) {
-      scope.$watch('groups', function(newValue, oldValue){
-        scope.filteredGroups = angular.copy(newValue);
-      });
+      scope.$watch('groups', refreshFilteredGroups);
+
+      function refreshFilteredGroups() {
+        scope.filteredGroups = angular.copy(scope.groups);
+      }
 
       angular.element('#title-filter').bind('click', function(event) {
         event.preventDefault();
@@ -56,7 +58,8 @@ angular.module('openproject.uiComponents')
       };
 
       scope.filterModels = function(filterBy) {
-        scope.filteredGroups = angular.copy(scope.groups);
+        refreshFilteredGroups();
+
         angular.forEach(scope.filteredGroups, function(group) {
           group.models = group.models.filter(function(model){
             return model[0].toLowerCase().indexOf(filterBy.toLowerCase()) >= 0;
