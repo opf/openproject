@@ -29,22 +29,33 @@
 // TODO move to UI components
 angular.module('openproject.uiComponents')
 
-.directive('flashMessage', ['$rootScope', function($rootScope) {
+.directive('flashMessage', [
+  '$rootScope',
+  '$timeout',
+  function($rootScope, $timeout) {
+
   return {
     restrict: 'E',
     replace: true,
-    scope: { },
+    scope: {},
     templateUrl: '/templates/components/flash_message.html',
     link: function(scope, element, attrs) {
       $rootScope.$on('flashMessage', function(event, message) {
         scope.message = message;
-        scope.flashClass = "flash notice icon icon-notice";
-        scope.flashId = "";
+        scope.flashType = 'notice';
+        scope.flashId = 'flash-notice';
+
+        var fadeOutTime = attrs.fadeOutTime || 3000;
 
         if (message.isError) {
-          scope.flashClass = "errorExplanation";
+          scope.flashType = "errorExplanation";
           scope.flashId = "errorExplanation";
         }
+
+        // fade out after time out
+        $timeout(function() {
+          scope.message = undefined;
+        }, fadeOutTime);
       });
     }
   };
