@@ -51,9 +51,9 @@ angular.module('openproject.workPackages.directives')
       // Modals
       scope.showExportModal   = exportModal.activate;
 
-      scope.showSaveModal     = function(saveAs){
-        scope.$emit('hideAllDropdowns');
-        if( saveAs || scope.query.isNew() ){
+      scope.saveQuery = function(){
+        if(scope.query.isNew()){
+          scope.$emit('hideAllDropdowns');
           saveModal.activate();
         } else {
           QueryService.saveQuery()
@@ -63,8 +63,8 @@ angular.module('openproject.workPackages.directives')
         }
       };
 
-      scope.deleteQuery = function(){
-        if( deleteConfirmed() ){
+      scope.deleteQuery = function(event){
+        if( preventDisabledAction(event) && deleteConfirmed() ){
           QueryService.deleteQuery()
             .then(function(data){
               settingsModal.deactivate();
@@ -74,36 +74,54 @@ angular.module('openproject.workPackages.directives')
         }
       };
 
+      scope.showSaveAsModal = function(event){
+        showExistingQueryModal.call(saveModal, event);
+      };
+
+      scope.showShareModal = function(event){
+        showExistingQueryModal.call(shareModal, event);
+      }
+
+      scope.showSettingsModal = function(event){
+        showExistingQueryModal.call(settingsModal, event);
+      };
+
       scope.showColumnsModal = function(){
         showModal.call(columnsModal);
-      };
-
-      scope.showSortingModal = function(){
-        showModal.call(sortingModal);
-      };
-
-      scope.showSettingsModal = function(){
-        showModal.call(settingsModal);
       };
 
       scope.showGroupingModal = function(){
         showModal.call(groupingModal);
       };
 
-      scope.showShareModal = function() {
-        scope.$emit('hideAllDropdowns');
-        shareModal.activate({projectIdentifier: scope.projectIdentifier});
-        // TODO once client-side routing allows for changing the project context make sure it gets updated within this directive
-      };
+      scope.showSortingModal = function(){
+        showModal.call(sortingModal);
+      }
 
       scope.toggleDisplaySums = function(){
         scope.$emit('hideAllDropdowns');
         scope.query.displaySums = !scope.query.displaySums;
       };
 
+      function preventDisabledAction(event){
+        if (event && scope.query.isNew()) {
+          event.preventDefault();
+          event.stopPropagation();
+          return false;
+        }
+        return true;
+      }
+
       function showModal() {
         scope.$emit('hideAllDropdowns');
         this.activate();
+      }
+
+      function showExistingQueryModal(event) {
+        if( preventDisabledAction(event) ){
+          scope.$emit('hideAllDropdowns');
+          this.activate();
+        }
       }
 
       function deleteConfirmed() {
