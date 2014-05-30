@@ -18,6 +18,7 @@
     "angular-modal": "~0.3.0",
     "angular-sanitize": "~1.2.14",
     "angular-truncate": "latest",
+    "angular-feature-flags": "mjt01/angular-feature-flags",
     "jquery-migrate": "~1.2.1",
     "momentjs": "~2.6.0",
     "moment-timezone": "~0.0.6",
