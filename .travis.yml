@@ -57,6 +57,7 @@ before_install:
   - "if [[ $TEST_SUITE == 'karma' ]]; then travis_retry npm install; fi"
 before_script:
   - "if [[ $TEST_SUITE != 'karma' ]]; then RAILS_ENV=production bundle exec rake ci:travis:prepare; fi"
+  - "export JRUBY_OPTS=-J-Xmx1024m"
 notifications:
   email: false
 # Disabling coverage reporting until CodeClimate supports merging results from multiple partial tests
