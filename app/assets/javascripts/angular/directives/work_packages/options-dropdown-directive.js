@@ -63,8 +63,8 @@ angular.module('openproject.workPackages.directives')
         }
       };
 
-      scope.deleteQuery = function(){
-        if( deleteConfirmed() ){
+      scope.deleteQuery = function(event){
+        if( preventDisabledAction(event) && deleteConfirmed() ){
           QueryService.deleteQuery()
             .then(function(data){
               settingsModal.deactivate();
