@@ -57,3 +57,63 @@
 
   li
     float: none
+
+#querySelectDropdown
+  min-width: 250px
+  border: 1px solid #dddddd
+  box-shadow: 1px 1px 4px #cccccc
+  background: #ffffff
+  padding: 3px 0
+  .query-menu-container
+    float: left
+    clear: both
+    width: 100%
+    display: block
+  ul.query-menu    
+    width: 100%
+    margin: 0 0 10px 0
+    float: left
+    li 
+      padding: 4px 25px
+      display: block
+      &:hover
+        background: #f0f0f0
+      a
+        display: block
+        color: $main_menu_font_color
+        font-weight: normal
+        &:hover
+          text-decoration: none
+  .search-query-wrapper
+    padding: 15px  
+  input
+    margin: 0 auto
+    width: 100%
+    min-width: 250px
+    height: 30px
+    line-height: 30px
+    padding: 0 0px
+    background: #ffffff
+    border: 1px solid #cacaca
+    font-size: 13px
+    color: #222222
+    border-radius: 2px
+  .title-group-header
+    padding: 0 15px 0 15px
+    font-weight: bold
+  #magnifier
+    position: absolute
+    margin: 8px 0 0 -22px
+    color: #999999
+    font-size: 12px
+
+.text
+  cursor: pointer
+  i
+    float: right
+    display: none
+  &:hover
+    text-decoration: none
+    i
+      display: block
+      color: #333333
