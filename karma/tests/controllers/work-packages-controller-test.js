@@ -127,12 +127,6 @@ describe('WorkPackagesController', function() {
       ctrl = $controller("WorkPackagesController", {
         $scope:  scope,
         $window: win,
-        columnsModal:       {},
-        exportModal:        {},
-        saveModal:          {},
-        settingsModal:      {},
-        shareModal:         {},
-        sortingModal:       {},
         ProjectService:     testProjectService,
         QueryService:       testQueryService,
         PaginationService:  testPaginationService,
@@ -149,6 +143,7 @@ describe('WorkPackagesController', function() {
       buildController();
       expect(scope.loading).to.be.false;
     });
+
   });
 
   describe('setting projectIdentifier', function() {

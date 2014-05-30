@@ -50,12 +50,11 @@ angular.module('openproject.services')
 
   var query;
 
+  var availableOptions = {}; // used as a container object holding watchable object references
   var availableColumns = [],
       availableUnusedColumns = [],
       availableFilterValues = {},
       availableFilters = {};
-
-  var availableOptions = {}; // used as a container object holding watchable object references
 
   var totalEntries;
 

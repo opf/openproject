@@ -93,6 +93,7 @@ angular.module('openproject.workPackages.directives')
       scope.showShareModal = function() {
         scope.$emit('hideAllDropdowns');
         shareModal.activate({projectIdentifier: scope.projectIdentifier});
+        // TODO once client-side routing allows for changing the project context make sure it gets updated within this directive
       };
 
       scope.toggleDisplaySums = function(){
