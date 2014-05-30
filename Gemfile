@@ -114,7 +114,7 @@ gem 'bourbon',          '~> 4.0'
 gem 'uglifier',         '>= 1.0.3', require: false
 gem 'compass',          '1.0.0.alpha.19'
 gem 'compass-rails',    git: 'https://github.com/Compass/compass-rails'
-gem 'livingstyleguide'
+gem 'livingstyleguide', platforms: [:mri_20, :mri_21]
 
 
 # You don't need therubyracer if you have nodejs installed on the machine precompiling assets.
