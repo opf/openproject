@@ -52,7 +52,7 @@ angular.module('openproject.workPackages.controllers')
         shareModal.deactivate();
         $scope.$emit('flashMessage', data.status);
 
-        QueryService.fetchAvailableGroupedQueries($scope.projectIdentifier);
+        QueryService.fetchAvailableGroupedQueries($scope.query.project_id);
       });
   };
 }]);
