@@ -33,7 +33,6 @@ angular.module('openproject.uiComponents')
     return {
       restrict: 'EA',
       link: function(scope, element, attributes) {
-        scope.hideWorkPackageDetails = true; // temporarily disable work package details links
       }
     };
   });

@@ -31,7 +31,8 @@ angular.module('openproject.workPackages.directives')
 .directive('workPackagesTable', [
   'I18n',
   'WorkPackagesTableService',
-  function(I18n, WorkPackagesTableService){
+  'flags',
+  function(I18n, WorkPackagesTableService, flags){
 
   return {
     restrict: 'E',
@@ -86,7 +87,11 @@ angular.module('openproject.workPackages.directives')
        }
       });
 
-      scope.hideWorkPackageDetails = true; // temporarily disable work package details links
+      scope.$watch(function() {
+        return flags.isOn('detailsView');
+      }, function(detailsEnabled) {
+        scope.hideWorkPackageDetails = !detailsEnabled;
+      });
     }
   };
 }]);

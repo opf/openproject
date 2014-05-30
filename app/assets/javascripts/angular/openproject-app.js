@@ -114,7 +114,8 @@ var openprojectApp = angular.module('openproject', [
   'openproject.timeEntries',
   'ngAnimate',
   'ngSanitize',
-  'truncate'
+  'truncate',
+  'feature-flags'
 ]);
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
@@ -134,6 +135,8 @@ openprojectApp
       };
     });
   }])
-  .run(['$http', function($http){
+  .run(['$http', 'flags', function($http, flags) {
     $http.defaults.headers.common.Accept = 'application/json';
+
+    flags.set($http.get('/javascripts/feature-flags.json'));
   }]);
