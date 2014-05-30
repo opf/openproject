@@ -28,6 +28,10 @@
 @import global/all
 
 div.wiki
+  font-size: 14px
+  line-height: 1.7em
+  h1
+    margin-top: 1em
   table
     border: 1px solid #505050
     border-collapse: collapse
@@ -57,7 +61,6 @@ div.wiki
     margin-right: 12px
     margin-left: 0
     display: table
-    font-size: 0.8em
     &.right
       float: right
       margin-left: 12px
@@ -77,7 +80,6 @@ div.wiki
     li
       list-style-type: none
   ul
-    margin: 0
     padding: 0
   li
     margin: 0
@@ -161,6 +163,9 @@ h1:hover, h2:hover, h3:hover
     &.smallnote
       background: url(image-path('wiki_styles/note_small.png')) 5px 4px no-repeat #F5FFFA
       border: 1px solid #C7CFCA
+
+.wiki-content
+  width: 700px
 
 .controller-wiki
   #content
