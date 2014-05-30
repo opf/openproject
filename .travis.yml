@@ -29,6 +29,7 @@
 language: ruby
 rvm:
   - 2.1
+  - jruby-21mode
 branches:
   only:
     - dev
