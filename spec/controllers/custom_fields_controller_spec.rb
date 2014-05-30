@@ -48,7 +48,7 @@ describe CustomFieldsController do
   end
 
   describe '#destroy' do
-    shared_context 'custom field is removed from cost query' do
+    shared_context 'remove custom field' do
       before do
         cost_query.filter(custom_field_permanent_name, { operator: '=', values: [] })
         cost_query.group_by(custom_field_permanent_name)
@@ -56,6 +56,10 @@ describe CustomFieldsController do
 
         delete :destroy, id: custom_field.id
       end
+    end
+
+    shared_examples_for 'custom field is removed from cost query' do
+      include_context 'remove custom field'
 
       shared_examples_for 'custom field removed' do
         it { expect(subject).not_to include(name) }
@@ -112,6 +116,32 @@ describe CustomFieldsController do
       end
 
       it_behaves_like 'custom field is removed from cost query'
+    end
+
+    context 'session' do
+      let(:engine_name) { CostQuery.name.underscore.to_sym }
+      let(:key) { :"custom_field#{custom_field.id}" }
+      let(:query) { { filters:
+                      {
+                        operators: { user_id: "=", key => "=" },
+                        values: { user_id: ["96"], key => "" }
+                      },
+                      groups: { rows: [key.to_s], columns: [key.to_s] }
+                    }
+                  }
+      before { session[engine_name] = query }
+      
+      describe 'does not contain custom field reference' do
+        include_context 'remove custom field'
+
+        it { expect(session[engine_name][:filters][:operators][key]).to be_nil }
+
+        it { expect(session[engine_name][:filters][:values][key]).to be_nil }
+
+        it { expect(session[engine_name][:groups][:rows]).not_to include(key.to_s) }
+
+        it { expect(session[engine_name][:groups][:columns]).not_to include(key.to_s) }
+      end
     end
   end
 end
