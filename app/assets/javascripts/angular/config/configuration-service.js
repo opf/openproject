@@ -26,40 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// TODO move to UI components
-angular.module('openproject.uiComponents')
+angular.module('openproject.config')
 
-.directive('flashMessage', [
-  '$rootScope',
-  '$timeout',
-  'ConfigurationService',
-  function($rootScope, $timeout, ConfigurationService) {
+.service('ConfigurationService', [function() {
+  var configuration = {};
 
   return {
-    restrict: 'E',
-    replace: true,
-    scope: {},
-    templateUrl: '/templates/components/flash_message.html',
-    link: function(scope, element, attrs) {
-      $rootScope.$on('flashMessage', function(event, message) {
-        scope.message = message;
-        scope.flashType = 'notice';
-        scope.flashId = 'flash-notice';
-
-        var fadeOutTime = attrs.fadeOutTime || 3000;
-
-        if (message.isError) {
-          scope.flashType = "errorExplanation";
-          scope.flashId = "errorExplanation";
-        }
-
-        // fade out after time out
-        if (!ConfigurationService.accessibilityModeEnabled()) {
-          $timeout(function() {
-            scope.message = undefined;
-          }, fadeOutTime);
-        }
-      });
+    addConfiguration: function(key, value) {
+      configuration[key] = value;
+    },
+    accessibilityModeEnabled: function() {
+      return !!configuration.accessibilityMode;
     }
   };
 }]);
