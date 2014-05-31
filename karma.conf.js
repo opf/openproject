@@ -93,6 +93,13 @@ module.exports = function(config) {
       "app/assets/javascripts/angular/controllers/timelines-controller.js",
       "app/assets/javascripts/angular/controllers/work-packages-controller.js",
       "app/assets/javascripts/angular/controllers/work-package-details-controller.js",
+      "app/assets/javascripts/angular/controllers/dialogs/columns.js",
+      "app/assets/javascripts/angular/controllers/dialogs/export.js",
+      "app/assets/javascripts/angular/controllers/dialogs/group-by.js",
+      "app/assets/javascripts/angular/controllers/dialogs/save.js",
+      "app/assets/javascripts/angular/controllers/dialogs/settings.js",
+      "app/assets/javascripts/angular/controllers/dialogs/share.js",
+      "app/assets/javascripts/angular/controllers/dialogs/sorting.js",
 
 
       'app/assets/javascripts/date-en-US.js',

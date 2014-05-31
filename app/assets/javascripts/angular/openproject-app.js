@@ -27,6 +27,7 @@
 //++
 
 // global
+angular.module('openproject.config', []);
 angular.module('openproject.services', [
   'openproject.uiComponents',
   'openproject.helpers',
@@ -107,6 +108,7 @@ var openprojectApp = angular.module('openproject', [
   'ui.select2.sortable',
   'ui.date',
   'ui.router',
+  'openproject.config',
   'openproject.uiComponents',
   'openproject.timelines',
   'openproject.workPackages',
@@ -135,8 +137,14 @@ openprojectApp
       };
     });
   }])
-  .run(['$http', 'flags', function($http, flags) {
+  .run([
+    '$http',
+    'ConfigurationService',
+    'flags',
+    function($http, ConfigurationService, flags) {
     $http.defaults.headers.common.Accept = 'application/json';
+
+    ConfigurationService.addConfiguration('accessibilityMode', OpenProject.Helpers.accessibilityModeEnabled());
 
     flags.set($http.get('/javascripts/feature-flags.json'));
   }]);

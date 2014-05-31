@@ -41,7 +41,7 @@ class MembersController < ApplicationController
   @@scripts = ['hideOnLoad', 'init_members_cb']
 
   def self.add_tab_script(script)
-    @@scripts << script
+    @@scripts.unshift(script)
   end
 
   def create
