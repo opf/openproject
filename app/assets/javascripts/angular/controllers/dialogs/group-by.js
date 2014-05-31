@@ -38,16 +38,17 @@ angular.module('openproject.workPackages.controllers')
 
 .controller('GroupByModalController', [
   '$scope',
+  '$filter',
   'groupingModal',
   'QueryService',
   'WorkPackagesTableService',
-  function($scope, groupingModal, QueryService, WorkPackagesTableService) {
+  function($scope, $filter, groupingModal, QueryService, WorkPackagesTableService) {
 
   this.name    = 'GroupBy';
   this.closeMe = groupingModal.deactivate;
 
   $scope.getGroupableColumnsData = function(term, result) {
-    result($scope.groupableColumnsData);
+    result($filter('filter')($scope.groupableColumnsData, {label: term}));
   };
 
   $scope.updateGroupBy = function(){
