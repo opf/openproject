@@ -116,7 +116,8 @@ var openprojectApp = angular.module('openproject', [
   'openproject.timeEntries',
   'ngAnimate',
   'ngSanitize',
-  'truncate'
+  'truncate',
+  'feature-flags'
 ]);
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
@@ -139,8 +140,11 @@ openprojectApp
   .run([
     '$http',
     'ConfigurationService',
-    function($http, ConfigurationService){
+    'flags',
+    function($http, ConfigurationService, flags) {
     $http.defaults.headers.common.Accept = 'application/json';
 
     ConfigurationService.addConfiguration('accessibilityMode', OpenProject.Helpers.accessibilityModeEnabled());
+
+    flags.set($http.get('/javascripts/feature-flags.json'));
   }]);
