@@ -29,19 +29,44 @@
 require 'spec_helper'
 
 describe 'work_packages/show' do
-  let(:work_package) { FactoryGirl.build( :work_package,
-                                          :description => '') }
+  let(:work_package) { FactoryGirl.create( :work_package, :description => '') }
   let(:attachment)   { FactoryGirl.create(:attachment,
                                           :author => work_package.author,
                                           :container => work_package,
                                           :filename => 'foo.jpg') }
 
   it 'renders correct image paths in journal entries' do
-    work_package.save
     work_package.add_journal(work_package.author, "bar !foo.jpg! bar")
     work_package.attachments << attachment
     work_package.save
     render 'history', :work_package => work_package, :journals => work_package.journals
-    rendered.should have_selector "img[src='/attachments/#{attachment.id}/download']"
+    expect(rendered).to have_selector "img[src='/attachments/#{attachment.id}/download']"
+  end
+
+  context "watchers list is sorted alphabeticaly" do
+    let!(:project) { FactoryGirl.create(:project) }
+    let!(:work_package_watchers) { FactoryGirl.create( :work_package, project: project) }
+    let!(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
+
+    let!(:watching_user_1) do
+      FactoryGirl.create(:user, member_in_project: project, member_through_role: role, :firstname => 'Alan').tap {|user| Watcher.create(watchable: work_package_watchers, user: user)}
+    end
+    let!(:watching_user_2) do
+      FactoryGirl.create(:user, member_in_project: project, member_through_role: role, :firstname => 'Chris').tap {|user| Watcher.create(watchable: work_package_watchers, user: user)}
+    end
+    let!(:watching_user_3) do
+      FactoryGirl.create(:user, member_in_project: project, member_through_role: role, :firstname => 'Drew').tap {|user| Watcher.create(watchable: work_package_watchers, user: user)}
+    end
+
+    before do
+      render 'watchers/watchers', :watched => work_package_watchers
+    end
+
+    it {
+      expect(rendered).to have_xpath("//ul/li[1]/a", :text => watching_user_1.name)
+      expect(rendered).to have_xpath("//ul/li[2]/a", :text => watching_user_2.name)
+      expect(rendered).to have_xpath("//ul/li[3]/a", :text => watching_user_3.name)
+    }
+
   end
 end
