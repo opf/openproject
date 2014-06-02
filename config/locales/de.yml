@@ -1010,6 +1010,7 @@ de:
   label_wiki_show_new_page_link: "'Neue Unterseite anlegen' Link als Untermenüpunkt anzeigen"
   label_wiki_show_submenu_item: "als Untermenüpunkt anzeigen von "
   label_work_package: "Arbeitspaket"
+  label_work_package_copy_count_exceeded: "Es können keine Arbeitspakete kopiert werden: Das Project überschreitet die maximale Anzahl an Arbeitspakete"
   label_work_package_plural: "Arbeitspakete"
   label_work_package_new: "Neues Arbeitspaket"
   label_workflow: "Workflow"
