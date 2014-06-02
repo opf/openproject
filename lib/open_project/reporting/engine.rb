@@ -76,6 +76,7 @@ module OpenProject::Reporting
       require_dependency 'widget/simple_table'
       require_dependency 'widget/entry_table'
       require_dependency 'widget/settings_patch'
+      require_dependency 'cost_query/group_by'
     end
 
     patches [:CostlogController, :TimelogController, :CustomFieldsController]
