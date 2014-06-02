@@ -1273,6 +1273,7 @@ de:
   setting_gravatar_default: "Standard-Gravatar-Bild"
   setting_gravatar_enabled: "Gravatar-Benutzerbilder benutzen"
   setting_host_name: "Hostname"
+  setting_work_package_count_on_copy: "Maximale Anzahl zur kopierender Arbeitspakete"
   setting_work_package_done_ratio: "Berechne den Arbeitspaket-Fortschritt mittels"
   setting_work_package_done_ratio_field: "Arbeitspaket-Feld %-erledigt"
   setting_work_package_done_ratio_status: "Arbeitspaket-Status"

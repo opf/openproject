@@ -40,6 +40,10 @@ See doc/COPYRIGHT.rdoc for more details.
 <p><%= setting_select :new_project_user_role_id,
 											Role.find_all_givable.collect {|r| [r.name, r.id.to_s]},
 											:blank => "--- #{l(:actionview_instancetag_blank_option)} ---" %></p>
+<p>
+  <%= setting_text_field :work_package_count_on_copy, size: 6 %><br />
+  <em><%= l(:label_max_work_package_count_on_copy) %></em>
+</p>
 </div>
 
 <%= submit_tag l(:button_save) %>
