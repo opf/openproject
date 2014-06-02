@@ -49,6 +49,29 @@ describe CopyProjectsController do
 
       it { expect(assigns(:project)).to eq(project) }
     end
+
+    describe 'work package limit' do
+      context 'is 0' do
+        include_context 'start copy project'
+
+        it { expect(assigns(:copy_work_packages)).to be_true }
+      end
+
+      context 'is 1' do
+        before do
+          FactoryGirl.create(:work_package, project: project)
+          FactoryGirl.create(:work_package, project: project)
+
+          Setting.stub(:work_package_count_on_copy).and_return('1')
+        end
+
+        include_context 'start copy project'
+
+        it { expect(assigns(:copy_work_packages)).to be_false }
+
+        it { expect(flash.now[:warning]).to include(I18n.t(:label_work_package_copy_count_exceeded)) }
+      end
+    end
   end
 
   describe 'copy_from_settings permissions' do
