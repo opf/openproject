@@ -36,14 +36,12 @@ angular.module('openproject.workPackages.controllers')
   });
 }])
 
-.constant('SORT_DIRECTIONS', [{ id: 'asc', label: I18n.t('js.label_ascending')}, { id: 'desc', label: I18n.t('js.label_descending')}])
 .controller('SortingModalController', ['sortingModal',
   '$scope',
   '$filter',
   'QueryService',
   'I18n',
-  'SORT_DIRECTIONS',
-  function(sortingModal, $scope, $filter, QueryService, I18n, SORT_DIRECTIONS) {
+  function(sortingModal, $scope, $filter, QueryService, I18n) {
   this.name    = 'Sorting';
   this.closeMe = sortingModal.deactivate;
 
@@ -67,7 +65,8 @@ angular.module('openproject.workPackages.controllers')
   };
 
   $scope.getDirectionsData = function(term, result) {
-    result($filter('filter')(SORT_DIRECTIONS, { label: term }));
+    var sortDirections = [{ id: 'asc', label: I18n.t('js.label_ascending')}, { id: 'desc', label: I18n.t('js.label_descending')}];
+    result($filter('filter')(sortDirections, { label: term }));
   };
 
   $scope.updateSortation = function(){
