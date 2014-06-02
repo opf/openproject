@@ -35,7 +35,7 @@ openprojectApp.config([
 
   $stateProvider
     .state('work-packages', {
-      url: "/wp",
+      url: "/wp?query_id",
       abstract: true,
       templateUrl: "/templates/work_packages.html",
       controller: 'WorkPackagesController'

@@ -34,6 +34,7 @@ angular.module('openproject.workPackages.controllers')
     '$q',
     '$window',
     '$location',
+    '$stateParams',
     'I18n',
     'ProjectService',
     'WorkPackagesTableService',
@@ -43,7 +44,7 @@ angular.module('openproject.workPackages.controllers')
     'WorkPackageLoadingHelper',
     'INITIALLY_SELECTED_COLUMNS',
     'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
-    function($scope, $rootScope, $q, $window, $location, I18n, ProjectService,
+    function($scope, $rootScope, $q, $window, $location, $stateParams, I18n, ProjectService,
       WorkPackagesTableService,
       WorkPackageService, QueryService, PaginationService,
       WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS,
@@ -79,9 +80,7 @@ angular.module('openproject.workPackages.controllers')
     var normalisedPath = location.pathname.replace($window.appBasePath, '');
     $scope.projectIdentifier = normalisedPath.split('/')[2];
 
-    var regexp = /query_id=(\d+)/g;
-    var match = regexp.exec(location.search);
-    if(match) $scope.query_id = match[1];
+    $scope.query_id = $stateParams.query_id;
   }
 
 

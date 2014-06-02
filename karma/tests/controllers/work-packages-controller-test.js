@@ -134,7 +134,8 @@ describe('WorkPackagesController', function() {
         ProjectService:     testProjectService,
         QueryService:       testQueryService,
         PaginationService:  testPaginationService,
-        WorkPackageService: testWorkPackageService
+        WorkPackageService: testWorkPackageService,
+        $stateParams:       {}
       });
 
       $timeout.flush();
