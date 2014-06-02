@@ -35,15 +35,20 @@ describe CopyProjectsController do
     User.stub(:current).and_return current_user
   end
 
-  describe "copy_from_settings uses correct project to copy from" do
-    before do
-      get 'copy_project', :id => project.id, :coming_from => :settings
-    end
+  shared_context 'start copy project' do
+    before { get 'copy_project', id: project.id, coming_from: :settings }
+  end
 
+  describe 'copy_from_settings' do
     let(:permission) { :copy_projects }
-    let(:project) { FactoryGirl.create(:project, :is_public => false) }
+    let(:project) { FactoryGirl.create(:project, is_public: false) }
 
-    it { assigns(:project).should == project }
+
+    describe 'uses correct project to copy from' do
+      include_context 'start copy project'
+
+      it { expect(assigns(:project)).to eq(project) }
+    end
   end
 
   describe 'copy_from_settings permissions' do
