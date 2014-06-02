@@ -65,8 +65,7 @@ angular.module('openproject.workPackages.controllers')
   };
 
   $scope.getDirectionsData = function(term, result) {
-    var sortDirections = [{ id: 'asc', label: I18n.t('js.label_ascending')}, { id: 'desc', label: I18n.t('js.label_descending')}];
-    result($filter('filter')(sortDirections, { label: term }));
+    result($filter('filter')($scope.availableDirectionsData, { label: term }));
   };
 
   $scope.updateSortation = function(){
