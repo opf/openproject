@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 ## 4.0.1
 
+* `#7905` custom field not removed from cost report after delete
 * `#5191` Public Release Reporting Plugin
 * `#4024` Fix: Subpages have no unique page titles
 
