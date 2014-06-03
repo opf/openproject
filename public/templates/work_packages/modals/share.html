@@ -4,13 +4,12 @@
 
     <h3>Share</h3>
 
+    <label class="checkbox-label" for="name">
+      <input type="checkbox" name="is_public" ng-model="query.isPublic" /><div class="styled-checkbox"></div>Page visible for others</label>
+
     <div>
-      <label for="name">Page visible for others</label>
-      <input type="checkbox" name="is_public" ng-model="query.isPublic"></input>
-    </div>
-    <div>
-      <button ng-click="saveQuery()">Save</button>
-      <button ng-click="modal.closeMe()">Cancel</button>
+      <button class="button_highlight" ng-click="saveQuery()">Save</button>
+      <button class="button" ng-click="modal.closeMe()">Cancel</button>
     </div>
 
   </div>
