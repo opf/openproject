@@ -185,10 +185,7 @@ angular.module('openproject.models')
       var selectedColumns = this.columns.map(function(column) {
         return column.name;
       });
-      // To be able to group the work packages we need to add in the group by column if it is not already in the selected columns
-      if(selectedColumns.indexOf(this.groupBy) == -1){
-        selectedColumns.push(this.groupBy);
-      }
+
       return selectedColumns;
     },
 

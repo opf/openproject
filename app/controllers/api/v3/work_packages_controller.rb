@@ -51,7 +51,14 @@ module Api
 
       def index
         @custom_field_column_names = @query.columns.select{|c| c.name.to_s =~ /cf_(.*)/}.map(&:name)
-        @column_names = ['id'] | @query.columns.map(&:name) - @custom_field_column_names
+        @column_names = [:id] | @query.columns.map(&:name) - @custom_field_column_names
+        if !@query.group_by.blank?
+          if @query.group_by =~ /cf_(.*)/
+            @custom_field_column_names << @query.group_by
+          else
+            @column_names << @query.group_by.to_sym
+          end
+        end
 
         # determine what actions may be performed
         @allowed_statuses = @work_packages.map do |i|
