@@ -64,6 +64,7 @@ angular.module('openproject.workPackages.directives')
       };
 
       scope.hideColumn = function(columnName) {
+        ContextMenuService.close();
         QueryService.hideColumns(new Array(columnName));
       };
     }
