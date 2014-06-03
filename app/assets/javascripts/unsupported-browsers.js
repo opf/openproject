@@ -32,7 +32,7 @@
 
     var agent = navigator.userAgent;
 
-    if (agent.match(/MSIE [78]\.0/) === null) {
+    if (agent.match(/MSIE [789]\.0/) === null) {
       return;
     }
 

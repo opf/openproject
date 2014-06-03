@@ -32,7 +32,6 @@ angular.module('openproject.uiComponents')
   .directive('toolbar', function() {
     return {
       restrict: 'EA',
-      scope: {},
       link: function(scope, element, attributes) {
       }
     };

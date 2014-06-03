@@ -18,6 +18,8 @@
 //= require momentjs
 //= require momentjs/lang/en-gb.js
 //= require momentjs/lang/de.js
+//= require moment-timezone/moment-timezone.js
+//= require moment-timezone/moment-timezone-data.js
 
 //= require jquery.atwho/dist/js/jquery.atwho.js
 //= require Caret.js/src/jquery.caret.js
@@ -61,6 +63,8 @@
 //= require angular-ui-select2-sortable
 //= require angular-ui-date/src/date
 //= require angular-sanitize
+//= require angular-truncate
+//= require angular-feature-flags/dist/featureFlags.js
 
 //= require ng-context-menu
 
@@ -147,7 +151,7 @@ jQuery(document).ready(function ($) {
 function checkAll (id, checked) {
   var els = Element.descendants(id);
   for (var i = 0; i < els.length; i++) {
-    if (els[i].disabled==false) {
+    if (els[i].disabled === false) {
       els[i].checked = checked;
     }
   }
@@ -156,7 +160,7 @@ function checkAll (id, checked) {
 function toggleCheckboxesBySelector(selector) {
   boxes = $$(selector);
   var all_checked = true;
-  for (i = 0; i < boxes.length; i++) { if (boxes[i].checked == false) { all_checked = false; } }
+  for (i = 0; i < boxes.length; i++) { if (boxes[i].checked === false) { all_checked = false; } }
   for (i = 0; i < boxes.length; i++) { boxes[i].checked = !all_checked; }
 }
 
@@ -169,7 +173,7 @@ function setCheckboxesBySelector(checked, selector) {
 
 function showAndScrollTo(id, focus) {
   Element.show(id);
-  if (focus!=null) { Form.Element.focus(focus); }
+  if (focus !== null) { Form.Element.focus(focus); }
   Element.scrollTo(id);
 }
 
@@ -381,7 +385,7 @@ function observeProjectName() {
 
 function observeProjectIdentifier() {
   var f = function() {
-    if($('project_identifier').getValue() != '' && $('project_identifier').getValue() != generateProjectIdentifier()) {
+    if($('project_identifier').getValue() !== '' && $('project_identifier').getValue() != generateProjectIdentifier()) {
       projectIdentifierLocked = true;
     } else {
       projectIdentifierLocked = false;
@@ -477,7 +481,7 @@ document.observe("dom:loaded", function() {
       }
     },
     onComplete: function(request, result){
-      if ($('ajax-indicator') && Ajax.activeRequestCount == 0) {
+      if ($('ajax-indicator') && Ajax.activeRequestCount === 0) {
         Element.hide('ajax-indicator');
       }
       addClickEventToAllErrorMessages();
@@ -495,7 +499,7 @@ function addClickEventToAllErrorMessages() {
     $(a).observe('click', function(event) {
       var field;
       field = $($(a).readAttribute('href').substr(1));
-      if (field == null) {
+      if (field === null) {
         // Cut off '_id' (necessary for select boxes)
         field = $($(a).readAttribute('href').substr(1).concat('_id'));
       }
@@ -518,10 +522,10 @@ $(document).observe('dom:loaded', function() {
   // Set focus on first error message
   var error_focus = $$('a.afocus').first();
   var input_focus = $$('.autofocus').first();
-  if (error_focus != undefined) {
+  if (error_focus !== undefined) {
     error_focus.focus();
   }
-  else if (input_focus != undefined){
+  else if (input_focus !== undefined){
     input_focus.focus();
     if (input_focus.tagName === "INPUT") {
       input_focus.select();
@@ -931,7 +935,7 @@ var I18nForms = (function ($) {
 
     return {
       init : init
-    }
+    };
   })();
 
 
@@ -1166,20 +1170,20 @@ var activateFlashNotice = function () {
   var notice = '.flash';
 
   activateFlash(notice);
-}
+};
 
 var activateFlashError = function () {
   var error = '.errorExplanation[role="alert"]';
 
   activateFlash(error);
-}
+};
 
 var focusFirstErroneousField = function() {
   var firstErrorSpan = jQuery('span.errorSpan').first();
   var erroneousInput = firstErrorSpan.find('*').filter(":input");
 
   erroneousInput.focus();
-}
+};
 
 var setupServerResponse = function() {
   I18nForms.init();
@@ -1190,7 +1194,7 @@ var setupServerResponse = function() {
 
   jQuery(document).ajaxComplete(activateFlashNotice);
   jQuery(document).ajaxComplete(activateFlashError);
-}
+};
 
 jQuery(document).ready(setupServerResponse);
 

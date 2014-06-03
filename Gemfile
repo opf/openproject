@@ -107,6 +107,7 @@ end
 
 gem 'sprockets',        '2.2.2.backport2'
 gem 'sprockets-rails',  '2.0.0.backport1'
+gem 'non-stupid-digest-assets'
 gem 'sass-rails',        git: 'https://github.com/guilleiguaran/sass-rails.git', branch: 'backport'
 gem 'sass',             '~> 3.3.6'
 gem 'bourbon',          '~> 4.0'

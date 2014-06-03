@@ -38,10 +38,11 @@ class MembersController < ApplicationController
   search_for User, :search_in_project
   search_options_for User, lambda { |_| {:project => @project} }
 
-  TAB_SCRIPTS = <<JS
-    hideOnLoad();
-    init_members_cb();
-JS
+  @@scripts = ['hideOnLoad', 'init_members_cb']
+
+  def self.add_tab_script(script)
+    @@scripts.unshift(script)
+  end
 
   def create
     if params[:member]
@@ -60,7 +61,7 @@ JS
             page.replace_html "tab-content-members", :partial => 'projects/settings/members'
             page.insert_html :top, "tab-content-members", render_flash_messages
 
-            page << TAB_SCRIPTS
+            page << MembersController.tab_scripts
           end
         end
       else
@@ -97,7 +98,7 @@ JS
             page.replace_html "tab-content-members", :partial => 'projects/settings/members'
           end
           page.insert_html :top, "tab-content-members", render_flash_messages
-          page << TAB_SCRIPTS
+          page << MembersController.tab_scripts
           page.visual_effect(:highlight, "member-#{@member.id}") unless Member.find_by_id(@member.id).nil?
         end
       end
@@ -116,7 +117,7 @@ JS
         render(:update) do |page|
           page.replace_html "tab-content-members", :partial => 'projects/settings/members'
           page.insert_html :top, "tab-content-members", render_flash_messages
-          page << TAB_SCRIPTS
+          page << MembersController.tab_scripts
         end
       end
     end
@@ -154,6 +155,10 @@ JS
   end
 
   private
+
+  def self.tab_scripts
+    @@scripts.join('(); ') + '();'
+  end
 
   def new_members_from_params
     user_ids = possibly_seperated_ids_for_entity(params[:member], :user)

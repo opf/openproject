@@ -41,6 +41,10 @@ div.flash.error a:hover, div.flash.warning a:hover, div.flash.notice a:hover, #e
 div.flash
   display: none
 
+  &.ng-leave
+    @include animation(0.5s fade-out)
+
+
 #errorExplanation
   display: none
   ul
@@ -57,5 +61,3 @@ div.flash.notice
 
 div.flash.warning, .nodata, .warning
   background-color: $content_flash_warning_msg_bg_color
-
-

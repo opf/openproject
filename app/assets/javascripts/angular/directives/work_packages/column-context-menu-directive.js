@@ -33,6 +33,7 @@ angular.module('openproject.workPackages.directives')
 
       scope.$watch('contextMenu.context.column', function(column) {
         scope.column = column;
+        scope.isGroupable = WorkPackagesTableService.isGroupable(scope.column);
       });
       scope.$watch('contextMenu.context.columns', function(columns) {
         scope.columns = columns;

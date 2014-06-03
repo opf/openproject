@@ -43,11 +43,20 @@ a
     padding-right: 16px
     background-position: 100% 50%
     background-repeat: no-repeat
-    &.asc
-      background-image: url(image-path('sort_asc.png'))
+    &.asc:after
+      @include icon-common
+      content: "\e0dd"
+      margin-left: 5px
+      font-size: 1.2em
+      vertical-align: text-bottom
 
-    &.desc
-      background-image: url(image-path('sort_desc.png'))
+    &.desc:after
+      @include icon-common
+      content: "\e0de"
+      margin-left: 5px
+      font-size: 1.2em
+      vertical-align: text-bottom
+
   &.issue.closed, &.issue.closed:hover
     text-decoration: line-through
 
@@ -62,4 +71,3 @@ a.icon:hover, a.icon-context:hover
 
 #content table th a.no-decoration-on-hover:hover, a.no-decoration-on-hover:hover
   text-decoration: none
-

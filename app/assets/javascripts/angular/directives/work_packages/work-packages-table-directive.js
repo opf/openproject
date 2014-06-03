@@ -31,7 +31,8 @@ angular.module('openproject.workPackages.directives')
 .directive('workPackagesTable', [
   'I18n',
   'WorkPackagesTableService',
-  function(I18n, WorkPackagesTableService){
+  'flags',
+  function(I18n, WorkPackagesTableService, flags){
 
   return {
     restrict: 'E',
@@ -74,6 +75,23 @@ angular.module('openproject.workPackages.directives')
           row.checked = state;
         });
       };
+
+      var groupableColumns = WorkPackagesTableService.getGroupableColumns();
+      scope.$watch('query.groupBy', function(groupBy) {
+        if (scope.columns) {
+          var groupByColumnIndex = groupableColumns.map(function(column){
+            return column.name;
+          }).indexOf(groupBy);
+
+          scope.groupByColumn = groupableColumns[groupByColumnIndex];
+       }
+      });
+
+      scope.$watch(function() {
+        return flags.isOn('detailsView');
+      }, function(detailsEnabled) {
+        scope.hideWorkPackageDetails = !detailsEnabled;
+      });
     }
   };
 }]);

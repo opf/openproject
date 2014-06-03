@@ -51,7 +51,7 @@ Feature: User Registration
 Background:
 Given I am on the homepage
 And I open the "Sign in" menu
-And I follow "Register" within "#top-menu-items"
+And I follow "t:label_register" within "#top-menu-items" [i18n]
 Then I should be on the registration page
 
 Scenario: A user can register successfully after filling in the registration form

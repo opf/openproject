@@ -36,34 +36,44 @@ angular.module('openproject.workPackages.controllers')
   });
 }])
 
-.controller('GroupByModalController', ['$scope', 'groupingModal', 'QueryService', function($scope, groupingModal, QueryService) {
+.controller('GroupByModalController', [
+  '$scope',
+  '$filter',
+  'groupingModal',
+  'QueryService',
+  'WorkPackagesTableService',
+  function($scope, $filter, groupingModal, QueryService, WorkPackagesTableService) {
+
   this.name    = 'GroupBy';
   this.closeMe = groupingModal.deactivate;
 
-  $scope.getAvailableColumnsData = function(term, result) {
-    result($scope.availableColumnsData);
-  }
+  $scope.getGroupableColumnsData = function(term, result) {
+    result($filter('filter')($scope.groupableColumnsData, {label: term}));
+  };
 
   $scope.updateGroupBy = function(){
     QueryService.setGroupBy($scope.selectedGroupByData.id);
 
     groupingModal.deactivate();
-  }
+  };
 
-  QueryService.loadAvailableColumns()
-    .then(function(available_columns){
-      $scope.availableColumns = available_columns
-      $scope.availableColumnsData = available_columns.map(function(column){
-        return { id: column.name, label: column.title, other: column.title };
-      });
+  $scope.workPackageTableData = WorkPackagesTableService.getWorkPackagesTableData();
 
-      var currentGroupBy = $scope.availableColumnsData.filter(function(column){
-        return column.id == QueryService.getGroupBy();
-      });
+  $scope.$watch('workPackageTableData.groupableColumns', function(groupableColumns){
+    if (!groupableColumns) return;
 
-      if(currentGroupBy.length){
-        $scope.selectedGroupByData = currentGroupBy[0];
-      }
+    $scope.groupableColumns = groupableColumns;
+    $scope.groupableColumnsData = groupableColumns.map(function(column){
+      return { id: column.name, label: column.title, other: column.title };
     });
+
+    var currentGroupBy = $scope.groupableColumnsData.filter(function(column){
+      return column.id == QueryService.getGroupBy();
+    });
+
+    if(currentGroupBy.length){
+      $scope.selectedGroupByData = currentGroupBy[0];
+    }
+  });
 
 }]);

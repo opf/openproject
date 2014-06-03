@@ -50,6 +50,7 @@ angular.module('openproject.services')
 
   var query;
 
+  var availableOptions = {}; // used as a container object holding watchable object references
   var availableColumns = [],
       availableUnusedColumns = [],
       availableFilterValues = {},
@@ -105,19 +106,35 @@ angular.module('openproject.services')
     },
 
     hideColumns: function(columnNames) {
-      WorkPackagesTableHelper.moveColumns(columnNames, this.getSelectedColumns(), availableColumns);
+      WorkPackagesTableHelper.moveColumns(columnNames, this.getSelectedColumns(), availableUnusedColumns);
     },
 
     showColumns: function(columnNames) {
-      WorkPackagesTableHelper.moveColumns(columnNames, availableColumns, this.getSelectedColumns());
+      WorkPackagesTableHelper.moveColumns(columnNames, availableUnusedColumns, this.getSelectedColumns());
+    },
+
+    getAvailableOptions: function() {
+      return availableOptions;
     },
 
     // data loading
 
-    getAvailableGroupedQueries: function(projectIdentifier) {
+    loadAvailableGroupedQueries: function(projectIdentifier) {
+      if (availableOptions.availableGroupedQueries) {
+        return $q.when(availableOptions.availableGroupedQueries);
+      }
+
+      return QueryService.fetchAvailableGroupedQueries(projectIdentifier);
+    },
+
+    fetchAvailableGroupedQueries: function(projectIdentifier) {
       var url = projectIdentifier ? PathHelper.apiProjectGroupedQueriesPath(projectIdentifier) : PathHelper.apiGroupedQueriesPath();
 
-      return QueryService.doQuery(url);
+      return QueryService.doQuery(url)
+        .then(function(groupedQueriesResults) {
+          availableOptions.availableGroupedQueries = groupedQueriesResults;
+          return availableOptions.availableGroupedQueries;
+        });
     },
 
     loadAvailableUnusedColumns: function(projectIdentifier) {
@@ -286,8 +303,16 @@ angular.module('openproject.services')
       query.setName(name);
       var url = PathHelper.apiProjectQueriesPath(query.project_id);
       return QueryService.doQuery(url, query.toParams(), 'POST', function(response){
-        query.save(response.data);
+        query.save(response.data.query);
         return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_create') }} );
+      });
+    },
+
+    deleteQuery: function() {
+      var url = PathHelper.apiProjectQueryPath(query.project_id, query.id);
+      return QueryService.doQuery(url, query.toUpdateParams(), 'DELETE', function(response){
+        QueryService.resetQuery();
+        return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_delete') }} );
       });
     },
 

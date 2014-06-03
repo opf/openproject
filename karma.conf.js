@@ -26,6 +26,7 @@ module.exports = function(config) {
       "vendor/assets/components/angular-ui-select2/src/select2.js",
       "vendor/assets/components/angular-ui-select2/src/select2sortable.js",
       "vendor/assets/components/angular-modal/modal.js",
+      "vendor/assets/components/angular-truncate/src/truncate.js",
       "vendor/assets/components/angular-sanitize/angular-sanitize.js",
       "vendor/assets/components/momentjs/moment.js",
       "vendor/assets/components/ng-context-menu/dist/ng-context-menu.js",
@@ -79,6 +80,7 @@ module.exports = function(config) {
       'app/assets/javascripts/angular/services/role-service.js',
       'app/assets/javascripts/angular/services/sort-service.js',
       'app/assets/javascripts/angular/services/status-service.js',
+      'app/assets/javascripts/angular/services/timezone-service.js',
       'app/assets/javascripts/angular/services/type-service.js',
       'app/assets/javascripts/angular/services/user-service.js',
       'app/assets/javascripts/angular/services/version-service.js',
@@ -91,6 +93,13 @@ module.exports = function(config) {
       "app/assets/javascripts/angular/controllers/timelines-controller.js",
       "app/assets/javascripts/angular/controllers/work-packages-controller.js",
       "app/assets/javascripts/angular/controllers/work-package-details-controller.js",
+      "app/assets/javascripts/angular/controllers/dialogs/columns.js",
+      "app/assets/javascripts/angular/controllers/dialogs/export.js",
+      "app/assets/javascripts/angular/controllers/dialogs/group-by.js",
+      "app/assets/javascripts/angular/controllers/dialogs/save.js",
+      "app/assets/javascripts/angular/controllers/dialogs/settings.js",
+      "app/assets/javascripts/angular/controllers/dialogs/share.js",
+      "app/assets/javascripts/angular/controllers/dialogs/sorting.js",
 
 
       'app/assets/javascripts/date-en-US.js',
@@ -116,6 +125,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      'app/assets/javascripts/angular/**/*.js': ['coverage'],
       'public/templates/**/*.html': ['ng-html2js']
     },
 
@@ -123,7 +133,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress', 'junit'],
+    reporters: ['progress', 'coverage', 'junit'],
 
 
     // web server port
@@ -156,6 +166,13 @@ module.exports = function(config) {
 
     junitReporter: {
       outputFile: 'karma/reports/test-results.xml'
+    },
+
+    coverageReporter: {
+      reporters: [
+        { type: 'html', dir:'coverage/' },
+        { type: 'cobertura' }
+      ]
     },
 
     ngHtml2JsPreprocessor: {
