@@ -29,6 +29,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#7682` Status of work package not displayed when linking work package via ## or ###
+
 ## 3.0.4
 
 * `#8421` Make subdirectory configuration less of a hassle
