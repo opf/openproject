@@ -16,7 +16,6 @@ module WorkPackages
 
         params do
           optional :subject, desc: 'Subject'
-          optional :type, desc: 'Type'
           optional :description, desc: 'Description'
           optional :status, desc: 'Status'
           optional :priority, desc: 'Priority'
@@ -31,14 +30,25 @@ module WorkPackages
         end
         patch do
           authorize(:work_packages_api, :patch, @work_package.project)
-          declared_params = declared(params).reject{ |key, value| key.to_sym == :id || value.nil? }
 
-          @work_package_representer.from_json(declared_params.to_json)
+          users_params = request.POST
+          declared_params = declared(users_params)
+
+          allowed_params = { }
+          users_params.each do |key, value|
+            key = key.to_sym
+            unless declared_params.include?(key)
+              raise UnwritablePropertyError.new(key)
+            end
+            allowed_params[key] = value
+          end
+
+          @work_package_representer.from_json(allowed_params.to_json)
           if @work_package_representer.represented.valid?
             @work_package_representer.represented.save
             @work_package_representer.to_json
           else
-            @work_package_representer.represented.errors.to_json
+            raise ValidationError.new(@work_package_representer.represented)
           end
         end
 

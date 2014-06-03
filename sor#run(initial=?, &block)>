@@ -1,0 +1,81 @@
+
+[1mShowing all accessible frames in stack (78 in total):[0m
+--
+=> #0  <main> 
+   #1 [block]   block in run <PryByebug::Processor#run(initial=?, &block)>
+   #2 [method]  run <PryByebug::Processor#run(initial=?, &block)>
+   #3 [method]  start_with_pry_byebug <#<Class:Pry>#start_with_pry_byebug(target=?, options=?)>
+   #4 [method]  pry <Object#pry(object=?, hash=?)>
+   #5 [block]   block in <class:API> 
+   #6 [method]  exec_handler <Grape::Middleware::Error#exec_handler(e, &handler)>
+   #7 [rescue]  rescue in call! <Grape::Middleware::Error#call!(env)>
+   #8 [method]  call! <Grape::Middleware::Error#call!(env)>
+   #9 [method]  call <Grape::Middleware::Base#call(env)>
+   #10 [method]  call <Rack::Head#call(env)>
+   #11 [method]  call <Rack::Builder#call(env)>
+   #12 [method]  call! <Grape::Endpoint#call!(env)>
+   #13 [method]  call <Grape::Endpoint#call(env)>
+   #14 [block]   block in call <Rack::Mount::RouteSet#call(env)>
+   #15 [block]   block in recognize <#<Class:#<Rack::Mount::RouteSet:0x0000000b51ed10>>#recognize(obj)>
+   #16 [method]  optimized_each <#<Class:#<Array:0x0000000b7500c0>>#optimized_each(obj)>
+   #17 [method]  recognize <#<Class:#<Rack::Mount::RouteSet:0x0000000b51ed10>>#recognize(obj)>
+   #18 [method]  call <Rack::Mount::RouteSet#call(env)>
+   #19 [method]  call <Grape::API#call(env)>
+   #20 [method]  call! <#<Class:Grape::API>#call!(env)>
+   #21 [method]  call <#<Class:Grape::API>#call(env)>
+   #22 [block]   block in call <Journey::Router#call(env)>
+   #23 [method]  call <Journey::Router#call(env)>
+   #24 [method]  call <ActionDispatch::Routing::RouteSet#call(env)>
+   #25 [method]  call <RequestStore::Middleware#call(env)>
+   #26 [method]  call <I18n::JS::Middleware#call(env)>
+   #27 [method]  call <ActionDispatch::BestStandardsSupport#call(env)>
+   #28 [method]  call <Rack::ETag#call(env)>
+   #29 [method]  call <Rack::ConditionalGet#call(env)>
+   #30 [method]  call <ActionDispatch::Head#call(env)>
+   #31 [method]  call <ActionDispatch::ParamsParser#call(env)>
+   #32 [method]  call <ActionDispatch::Flash#call(env)>
+   #33 [method]  context <Rack::Session::Abstract::ID#context(env, app=?)>
+   #34 [method]  call <Rack::Session::Abstract::ID#call(env)>
+   #35 [method]  call <ActionDispatch::Cookies#call(env)>
+   #36 [method]  call <ActiveRecord::QueryCache#call(env)>
+   #37 [method]  call <ActiveRecord::ConnectionAdapters::ConnectionManagement#call(env)>
+   #38 [block]   block in call <ActionDispatch::Callbacks#call(env)>
+   #39 [method]  _run__424550816953902947__call__1572051798817011102__callbacks <ActionDispatch::Callbacks#_run__424550816953902947__call__1572051798817011102__callbacks()>
+   #40 [method]  __run_callback <ActiveSupport::Callbacks::ClassMethods#__run_callback(key, kind, object, &blk)>
+   #41 [method]  _run_call_callbacks <ActionDispatch::Callbacks#_run_call_callbacks(key=?, &blk)>
+   #42 [method]  run_callbacks <ActiveSupport::Callbacks#run_callbacks(kind, *args, &block)>
+   #43 [method]  call <ActionDispatch::Callbacks#call(env)>
+   #44 [method]  call <RailsDevTweaks::GranularAutoload::Middleware#call(env)>
+   #45 [method]  call <ActionDispatch::RemoteIp#call(env)>
+   #46 [method]  call <ActionDispatch::DebugExceptions#call(env)>
+   #47 [method]  call <ActionDispatch::ShowExceptions#call(env)>
+   #48 [method]  call_app <Rails::Rack::Logger#call_app(request, env)>
+   #49 [block]   block in call <Rails::Rack::Logger#call(env)>
+   #50 [method]  tagged <ActiveSupport::TaggedLogging#tagged(*tags)>
+   #51 [method]  call <Rails::Rack::Logger#call(env)>
+   #52 [method]  call <ActionDispatch::RequestId#call(env)>
+   #53 [method]  call <Rack::MethodOverride#call(env)>
+   #54 [method]  call <Rack::Runtime#call(env)>
+   #55 [method]  call <ActiveSupport::Cache::Strategy::LocalCache::Middleware#call(env)>
+   #56 [method]  call <Rack::Lock#call(env)>
+   #57 [method]  call <ActionDispatch::Static#call(env)>
+   #58 [method]  call <Rails::Engine#call(env)>
+   #59 [method]  call <Rails::Application#call(env)>
+   #60 [method]  method_missing <Rails::Railtie::Configurable::ClassMethods#method_missing(*args, &block)>
+   #61 [method]  call <Rack::Protection::FrameOptions#call(env)>
+   #62 [method]  call <Rack::Protection::JsonCsrf#call(env)>
+   #63 [method]  call <Rack::ContentLength#call(env)>
+   #64 [method]  call <Rails::Rack::LogTailer#call(env)>
+   #65 [block]   block in pre_process <Thin::Connection#pre_process()>
+   #66 [method]  pre_process <Thin::Connection#pre_process()>
+   #67 [method]  process <Thin::Connection#process()>
+   #68 [method]  receive_data <Thin::Connection#receive_data(data)>
+   #69 [method]  run <#<Class:EventMachine>#run(blk=?, tail=?, &block)>
+   #70 [method]  start <Thin::Backends::Base#start()>
+   #71 [method]  start <Thin::Server#start()>
+   #72 [method]  run <#<Class:Rack::Handler::Thin>#run(app, options=?)>
+   #73 [method]  start <Rack::Server#start(&blk)>
+   #74 [method]  start <Rails::Server#start()>
+   #75 [block]   block in <top (required)> 
+   #76 [top]     <top (required)> 
+   #77 [main]    <main> 
