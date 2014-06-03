@@ -1,0 +1,41 @@
+{
+  "name": "openproject-ui_components",
+
+  "description": "UI widgets and angular components",
+
+  "version": "0.0.1",
+
+  "contributors": [
+    {"name": "Martin Czuchra"},
+    {"name": "Richard Sylvester"},
+    {"name": "Till Breuer"}
+  ],
+
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:opf/openproject-ui_components.git"
+  },
+
+  "main": "app/assets/javascripts/openproject-ui_components.js",
+
+  "ignore": [
+    "/.gitignore",
+    "/Gemfile",
+    "/openproject-ui_components.gemspec",
+    "/README.rdoc",
+    "/lib",
+    "/doc",
+    "**/*.rb",
+    "**/*.txt"
+  ],
+
+  "dependencies": {
+     "angular": "~1.2.14"
+   },
+
+   "devDependencies": {
+     "mocha": "~1.14.0",
+     "angular-mocks": "~1.2.14",
+     "angular-scenario": "~1.2.14"
+   }
+}

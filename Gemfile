@@ -21,7 +21,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklistn Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
@@ -143,6 +143,8 @@ gem 'nokogiri', '>=1.5.11'
 
 
 group :test do
+  gem 'rack-test', '~> 0.6.2'
+  gem 'pry'
   gem 'shoulda'
   gem 'object-daddy', '~> 1.1.0'
   gem "launchy", "~> 2.3.0"
@@ -187,6 +189,14 @@ group :development do
   gem 'faker'
   gem 'quiet_assets'
 end
+
+gem 'pundit'
+
+# API gems
+gem 'grape', '~> 0.7.0'
+gem 'representable', :github => 'finnlabs/representable'
+gem 'roar',   '~> 0.12.6'
+gem 'reform'
 
 # Use the commented pure ruby gems, if you have not the needed prerequisites on
 # board to compile the native ones.  Note, that their use is discouraged, since

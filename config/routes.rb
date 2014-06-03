@@ -144,6 +144,8 @@ OpenProject::Application.routes.draw do
     end
   end
 
+  mount API => '/api/v3'
+
   match '/roles/workflow/:id/:role_id/:type_id' => 'roles#workflow'
   match '/help/:ctrl/:page' => 'help#index'
 

@@ -48,6 +48,7 @@ class ApplicationController < ActionController::Base
   class_attribute :_model_object
   class_attribute :_model_scope
   class_attribute :accept_key_auth_actions
+  rescue_from ValidationError, with: -> { binding.pry }
 
   protected
 
@@ -288,17 +289,16 @@ class ApplicationController < ActionController::Base
 
   # Authorize the user for the requested action
   def authorize(ctrl = params[:controller], action = params[:action], global = false)
-    allowed = User.current.allowed_to?({ controller: ctrl, action: action },
-                                       @project || @projects, :global => global)
-    if allowed
-      true
-    else
+    is_authorized = AuthorizationService.new(ctrl, action, @project, @projects, global).perform
+
+    unless is_authorized
       if @project && @project.archived?
         render_403 :message => :notice_not_authorized_archived_project
       else
         deny_access
       end
     end
+    is_authorized
   end
 
   # Authorize the user for the requested action outside a project
