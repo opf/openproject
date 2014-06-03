@@ -20,7 +20,7 @@ module WorkPackages
     property :fixed_version_id, on: :work_package, type: Integer
 
     def type
-      work_package.type.name
+      work_package.type.try(:name)
     end
 
     def type=(value)
@@ -29,7 +29,7 @@ module WorkPackages
     end
 
     def status
-      work_package.status.name
+      work_package.status.try(:name)
     end
 
     def status=(value)
@@ -38,7 +38,7 @@ module WorkPackages
     end
 
     def priority
-      work_package.priority.name
+      work_package.priority.try(:name)
     end
 
     def priority=(value)
@@ -66,5 +66,12 @@ module WorkPackages
     def percentage_done=(value)
       work_package.done_ratio = value
     end
+
+    validates_presence_of :subject, :project_id, :type, :author, :status
+    validates_length_of :subject, maximum: 255
+
+    validates :start_date, date: { allow_blank: true }
+    validates :due_date, date: { after_or_equal_to: :start_date, message: :greater_than_start_date, allow_blank: true }, unless: -> { |wp| wp.start_date.blank? }
+    validates :due_date, date: { allow_blank: true }
   end
 end
