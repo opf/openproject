@@ -41,6 +41,31 @@ When(/^I open the modal window for the story "(.*?)"$/) do |subject|
   end
 end
 
+When(/^I click on the link for the story "(.*?)"$/) do |subject|
+  story = Story.find_by_subject(subject)
+
+  within("#story_#{story.id}") do
+    click_link(story.id)
+  end
+end
+
+When(/^I ctrl-click on the link for the story "(.*?)"$/) do |subject|
+  story = Story.find_by_subject(subject)
+
+  within("#story_#{story.id}") do
+    link = find(:link, story.id)
+    ctrl_click(link)
+  end
+end
+
+Then(/^I should not see a modal window$/) do
+  steps 'Then I should not see a modal window with selector "#modalDiv"'
+end
+
+Then(/^I should not see a modal window with selector "(.*?)"$/) do |selector|
+  page.should_not have_selector(selector)
+end
+
 When(/^I switch the modal window into edit mode$/) do
   browser = page.driver.browser
   browser.switch_to.frame("modalIframe")
@@ -61,4 +86,3 @@ end
 def safeguard_backlogs_modal_in_edit_mode
   find_field("work_package[description]")
 end
-
