@@ -1,10 +1,9 @@
-require 'delegate'
 require 'open_project/plugins/auth_plugin'
 
 module OmniAuth
-  class FlexibleStrategyClass < SimpleDelegator
+  module FlexibleStrategyClass
     def new(app, *args, &block)
-      __getobj__.new(app, *args, &block).tap do |strategy|
+      super(app, *args, &block).tap do |strategy|
         strategy.extend FlexibleStrategy
       end
     end
