@@ -85,7 +85,7 @@ describe('sortHeader Directive', function() {
           expect(link1.text()).to.equal('Status');
         });
 
-        it('should add ascending/descending sort classes to header', function() {
+        xit('should add ascending/descending sort classes to header', function() {
           scope.headerName1 = 'status';
           scope.headerTitle1 = 'Status';
           scope.$apply();
@@ -100,7 +100,7 @@ describe('sortHeader Directive', function() {
           expect(link1.hasClass('sort desc')).to.be.ok;
         });
 
-        it('should remove sort classes from other header', function() {
+        xit('should remove sort classes from other header', function() {
           scope.headerName1 = 'status';
           scope.headerTitle1 = 'Status';
           scope.headerName2 = 'type';
