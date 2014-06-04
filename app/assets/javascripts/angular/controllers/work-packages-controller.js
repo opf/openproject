@@ -237,6 +237,7 @@ angular.module('openproject.workPackages.controllers')
 
   $rootScope.$on('queryResetRequired', function(event, message) {
     $scope.query_id = null;
+    QueryService.resetAll();
     initialSetup();
   });
 
