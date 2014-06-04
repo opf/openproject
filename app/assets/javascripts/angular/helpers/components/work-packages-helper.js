@@ -99,7 +99,7 @@ angular.module('openproject.workPackages.helpers')
         case 'datetime':
           return value ? dateFilter(WorkPackagesHelper.parseDateTime(value), 'medium') : '';
         case 'date':
-          return value ? dateFilter(value, 'mediumDate') : '';
+          return value ? dateFilter(WorkPackagesHelper.parseDateTime(value), 'mediumDate') : '';
         case 'currency':
           return currencyFilter(value, 'EUR ');
         default:

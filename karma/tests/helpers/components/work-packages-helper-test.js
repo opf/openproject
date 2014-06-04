@@ -127,6 +127,11 @@ describe('Work packages helper', function() {
       expect(formatValue(undefined, 'date')).to.equal("");
       expect(formatValue(null, 'date')).to.equal("");
     });
+
+    it('should display parsed dates and datetimes', function(){
+      expect(formatValue("01/01/2014", 'date')).to.equal("Jan 1, 2014");
+      expect(formatValue("01/01/2014 08:19 AM", 'datetime')).to.equal("Jan 1, 2014 12:00:00 AM");
+    })
   });
 
 });
