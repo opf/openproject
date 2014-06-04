@@ -7,6 +7,7 @@ module OpenProject::OpenIDConnect
     engine_name :openproject_openid_connect
 
     include OpenProject::Plugins::ActsAsOpEngine
+    extend OpenProject::Plugins::AuthPlugin
 
     register 'openproject-openid_connect',
              :author_url => 'http://finn.de',
@@ -19,7 +20,7 @@ module OpenProject::OpenIDConnect
       openid_connect/auth_provider-google.png
     )
 
-    def init_auth
+    register_auth_providers do
       # Loading OpenID providers manually since rails doesn't do it automatically,
       # possibly due to non trivially module-name-convertible paths.
       require 'omniauth/openid_connect/provider'
@@ -36,19 +37,11 @@ module OpenProject::OpenIDConnect
       end
 
       OmniAuth::OpenIDConnect::Provider.load_generic_providers
-    end
 
-    def omniauth_strategies
-      [:openid_connect]
-    end
-
-    def providers_for_strategy(strategy)
-      if strategy == :openid_connect
+      strategy :openid_connect do
         OmniAuth::OpenIDConnect::Provider.available.map(&:new)
       end
     end
-
-    include OpenProject::Plugins::AuthPlugin
 
     initializer 'openid_connect.register_hooks' do
       require 'open_project/openid_connect/hooks'
