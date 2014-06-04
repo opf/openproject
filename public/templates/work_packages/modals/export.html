@@ -4,9 +4,9 @@
 
     <h3>{{modal.name}}</h3>
     <div class="grid-items-lines">
-      <a ng-repeat="(key, value) in modal.formats" ng-href="{{value}}" class="grid-item">
+      <a ng-repeat="option in modal.exportOptions" ng-href="{{ option.url }}" class="grid-item">
         <img src="" alt="">
-        <h2>{{key}}</h2>
+        <h2>{{ option.label }}</h2>
       </a>
     </div>
   </div>
