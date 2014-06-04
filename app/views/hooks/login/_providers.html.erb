@@ -1,3 +1,15 @@
+<style type="text/css">
+  <% OpenProject::Plugins::AuthPlugin.providers.each do |pro| %>
+    <% if pro[:icon] %>
+      #content .login-auth-providers a.auth-provider.auth-provider-<%= pro[:name] %> {
+        background-image: url('<%= image_path(pro[:icon]) %>');
+      }
+      #top-menu #nav-login-content .login-auth-providers a.auth-provider.auth-provider-<%= pro[:name] %> {
+        background-image: url('<%= image_path(pro[:icon]) %>');
+      }
+    <% end %>
+  <% end %>
+</style>
 <% OpenProject::Plugins::AuthPlugin.providers.each do |pro| %>
   <%
     opts = {
