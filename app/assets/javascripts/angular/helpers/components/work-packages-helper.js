@@ -97,9 +97,9 @@ angular.module('openproject.workPackages.helpers')
     formatValue: function(value, dataType) {
       switch(dataType) {
         case 'datetime':
-          return value.length ? dateFilter(WorkPackagesHelper.parseDateTime(value), 'medium') : '';
+          return value ? dateFilter(WorkPackagesHelper.parseDateTime(value), 'medium') : '';
         case 'date':
-          return value.length ? dateFilter(value, 'mediumDate') : '';
+          return value ? dateFilter(value, 'mediumDate') : '';
         case 'currency':
           return currencyFilter(value, 'EUR ');
         default:
