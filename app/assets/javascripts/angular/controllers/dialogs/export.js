@@ -36,26 +36,11 @@ angular.module('openproject.workPackages.controllers')
   });
 }])
 
-.controller('ExportModalController', ['$scope', 'exportModal', 'QueryService',
-	function($scope, exportModal, QueryService) {
+.controller('ExportModalController', ['$scope', 'exportModal', 'QueryService', 'UrlParamsHelper',
+	function($scope, exportModal, QueryService, UrlParamsHelper) {
   this.name    = 'Export';
   var query = QueryService.getQuery();
   this.closeMe = exportModal.deactivate;
 
-  // Note: This is all rather hard-codey
-  // The alternative would be to pass back export URLs from the server with the meta data but given that columns
-  // can be added/removed without making a further work packages index call the meta data wouldn't be up to date.
-  // Therefor I think it makes sense to build up the URL from the javascript query object and let the server build
-  // up the exact query again.
-  var relativeUrl = "/work_packages";
-  if (query.project_id){
-    relativeUrl = "/projects/" + query.project_id + relativeUrl;
-  }
-
-  this.exportOptions = query.exportFormats.map(function(format){
-    return {
-      label: format,
-      url: relativeUrl + "." + format + "?" + "set_filter=1&" + query.getQueryString()
-    }
-  })
+  this.exportOptions = UrlParamsHelper.buildQueryExportUrl(query);
 }]);
