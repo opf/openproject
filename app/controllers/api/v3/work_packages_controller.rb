@@ -172,7 +172,7 @@ module Api
 
       def set_work_packages_meta_data(query, results, work_packages)
         @display_meta = true
-        export_formats = ["atom"] #Note RS: CSV exporting is buggy but should be included here
+        export_formats = ["atom", "pdf", "csv"]
         export_formats.push("xls") if Redmine::Plugin.all.sort.map{|f| f.id}.include?(:openproject_xls_export)
 
         @work_packages_meta_data = {
