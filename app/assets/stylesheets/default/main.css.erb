@@ -757,8 +757,7 @@ td.username img.gravatar {
   margin-right: 4px;
 }
 
-#activity dt,
-.journal {
+#activity dt {
   clear: left;
 }
 
@@ -1020,59 +1019,6 @@ table.files {
 #content table.files td a {
   position: relative;
 }
-#history {
-  margin-top: 1em;
-  margin-bottom: 0px;
-}
-#history h3 {
-  margin-bottom: 20px;
-}
-#history .journal {
-  position: relative;
-  margin: 0 0 15px;
-  margin-bottom: 20px;
-  min-height: 40px;
-  clear: left;
-  margin-left: 3px;
-}
-.journal .profile-wrap {
-  float: left;
-  position: relative;
-  left: 0;
-  top: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-.journal h4 {
-  padding-right: 5px;
-  font-size: 12px;
-  font-weight: normal;
-  position: relative;
-  z-index: 5;
-  border: 0;
-  margin-bottom: 0px;
-}
-.journal h4 .history-id {
-  float: right;
-  color: #999;
-}
-.journal .wiki {
-  padding: 0;
-  overflow: auto;
-  margin-left: 50px;
-}
-.journal .contextual {
-  float: right;
-}
-.journal .contextual a {
-  float: left;
-  display: block;
-  margin: 0 0 0 5px;
-  height: 16px;
-  width: 16px;
-  background-repeat: no-repeat;
-  background-position: center center;
-}
 .question-line {
   display: block;
 }
@@ -1107,18 +1053,6 @@ blockquote {
 }
 .file-thumbs a img.pdf {
   border: 0;
-}
-
-.journal-attributes {
-  color: #333333;
-  font-size: 11px;
-}
-ul.journal-attributes {
-  list-style-type: disc;
-  margin-bottom: 10px;
-}
-ul.journal-attributes li {
-  margin-left: 75px;
 }
 
 /*-------------------------------------------------------------------------------
@@ -1195,20 +1129,13 @@ ul.projects li div.root {
   display: none;
   z-index: 10;
 }
-.issue .profile-box ul, .journal .profile-box ul {
+.issue .profile-box ul {
   background: url(<%= asset_path 'profile-arrow-up.png' %>) no-repeat 175px top;
   position: relative;
   z-index: 11;
   top: -8px;
   padding-top: 8px;
   margin-bottom: -8px;
-}
-.journal .profile-box {
-  right: auto;
-  left: 0;
-}
-.journal .profile-box ul {
-  background-position: 13px top;
 }
 .profile-box ul li {
   border-top: 1px solid #fff;
@@ -1412,13 +1339,13 @@ div.issue hr {
 .wiki ol, .wiki ul {
   margin-bottom: 6px;
 }
-#content h3, #history h3 {
+#content h3 {
   margin: 12px 0 6px;
 }
 #content h2 + h3 {
   margin-top: 12px;
 }
-div.issue img.gravatar, #history img.gravatar {
+div.issue img.gravatar {
   float: none;
   margin: 0;
   padding: 0;
@@ -1480,10 +1407,6 @@ tr.time-entry {
 }
 
 /*===== Replacement Images =====*/
-
-.journal .contextual a[title=Edit] img {
-  display: none;
-}
 
 /* comments */
 .wiki ol li {
@@ -1660,10 +1583,6 @@ select#available_columns {
 #menu-sidebar.hidden {
   display: none;
 }
-div#history div.journal div.journal-notes {
-  overflow: visible;
-}
-
 
 div#watchers{
   margin-top: 25px;
@@ -1751,18 +1670,13 @@ content {
 
 #content #history {
   background: url(<%= asset_path 'dotted-separator.gif' %>) repeat-x scroll 0 bottom   transparent;
-  padding-bottom: 11px;
 }
 
-#history .journal, #content .wiki-content p, #content .wiki-content li {
+#content .wiki-content p, #content .wiki-content li {
   width: 700px;
 }
 
 .required {color: #008BD0;}
-
-/* Disable the css-override for the edit links in issue journals */
-.journal .contextual a[title=Edit] {background: none;}
-.journal .contextual a[title=Edit] img {display: inline;}
 
 /***** Ajax indicator ******/
 #ajax-indicator {
