@@ -21,7 +21,7 @@ module OpenProject::Plugins
         builder.instance_eval(&build_providers)
 
         app.config.middleware.use OmniAuth::FlexibleBuilder do
-          AuthPlugin.strategies.each do |strategy, providers|
+          builder.new_strategies.each do |strategy|
             provider strategy
           end
         end
@@ -61,7 +61,12 @@ module OpenProject::Plugins
         AuthPlugin.strategies[key] << providers
       else
         AuthPlugin.strategies[key] = [providers]
+        new_strategies << strategy
       end
+    end
+
+    def new_strategies
+      @new_strategies ||= []
     end
   end
 end
