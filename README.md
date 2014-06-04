@@ -17,7 +17,7 @@ Find your Engine class in `engine.rb`, let it extend `OpenProject::Plugin::AuthP
 
 Here's an example of that might look:
 
-    module OpenProject::OpenIDConnect
+    module OpenProject::SomeAuthPlugin
       class Engine < ::Rails::Engine
         engine_name :openproject_some_auth_plugin
 
