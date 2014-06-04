@@ -1,0 +1,14 @@
+<% OpenProject::Plugins::AuthPlugin.providers.each do |pro| %>
+  <%
+    opts = {
+      :controller => '/auth',
+      :action => pro[:name]
+    }
+    if params["back_url"]
+      opts[:origin] = params["back_url"]
+    end
+  %>
+  <a href="<%= url_for opts %>" class="auth-provider auth-provider-<%= pro[:name] %>">
+    <span class="auth-provider-name"><%= pro[:name] %></span>
+  </a>
+<% end %>

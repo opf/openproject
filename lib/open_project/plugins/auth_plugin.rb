@@ -21,21 +21,47 @@ module OpenProject::Plugins
         builder.instance_eval(&build_providers)
 
         app.config.middleware.use OmniAuth::FlexibleBuilder do
-          builder.strategies.each do |strategy, providers|
-            provider strategy, :providers => providers
+          AuthPlugin.strategies.each do |strategy, providers|
+            provider strategy
           end
         end
       end
     end
+
+    def self.strategies
+      @strategies ||= {}
+    end
+
+    def self.providers_for(strategy)
+      strategies[strategy_key(strategy)].map(&:call).flatten.map { |p| p.to_hash }
+    end
+
+    def self.providers
+      strategies.values.flatten.map(&:call).flatten.map { |p| p.to_hash }
+    end
+
+    def self.strategy_key(strategy)
+      return strategy if strategy.is_a? Symbol
+
+      name = strategy.name.demodulize
+      camelization = OmniAuth.config.camelizations.select do |k, v|
+        v == name
+      end.take(1).map do |k, v|
+        k
+      end.first
+
+      [camelization, name].compact.first.underscore.to_sym
+    end
   end
 
   class ProviderBuilder
-    def strategy(key, &providers)
-      strategies[key] = providers
-    end
-
-    def strategies
-      @strategies ||= {}
+    def strategy(strategy, &providers)
+      key = AuthPlugin.strategy_key(strategy)
+      if AuthPlugin.strategies.include? key
+        AuthPlugin.strategies[key] << providers
+      else
+        AuthPlugin.strategies[key] = [providers]
+      end
     end
   end
 end

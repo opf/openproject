@@ -1,29 +1,16 @@
 require 'delegate'
+require 'open_project/plugins/auth_plugin'
 
 module OmniAuth
   class FlexibleStrategyClass < SimpleDelegator
     def new(app, *args, &block)
-      if args.last.is_a?(Hash) && args.last.include?(:providers)
-        opts = args.pop
-        providers[__getobj__] << opts.delete(:providers)
-      end
-
       __getobj__.new(app, *args, &block).tap do |strategy|
         strategy.extend FlexibleStrategy
-        strategy.providers = providers[__getobj__].map(&:call).flatten
       end
-    end
-
-    def providers
-      @@providers ||= Hash.new([])
     end
   end
 
   module FlexibleStrategy
-    def providers=(providers)
-      @providers = providers
-    end
-
     def on_auth_path?
       (match_provider! || false) && super
     end
@@ -50,11 +37,15 @@ module OmniAuth
     end
 
     def providers
-      @providers
+      @providers ||= OpenProject::Plugins::AuthPlugin.providers_for(self.class)
     end
 
     def provider
       @provider
+    end
+
+    def providers=(providers)
+      @providers = providers
     end
 
     def dup
