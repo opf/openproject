@@ -26,7 +26,11 @@ Here's an example of that might look:
 
         register 'openproject-some_auth_plugin',
                  author_url: 'http://my.site',
-                 requires_openproject: '>= 3.1.0pre1',
+                 requires_openproject: '>= 3.1.0pre1'
+
+        assets %w(
+          some_auth_plugin/some_provider.png
+        )
 
         register_auth_providers do
           strategy :some_strategy do
@@ -36,6 +40,7 @@ Here's an example of that might look:
                 host: "foo.bar.baz",
                 port: 999,
                 #, ... more provider options
+                icon: 'some_auth_plugin/some_provider.png'
               },
               {
                 name: "another_provider",
@@ -54,3 +59,7 @@ Here's an example of that might look:
     end
 
 Register each OmniAuth strategy by calling `strategy` with the strategy's name and returning the options for the providers using that strategy in the passed block.
+
+As you can see in the first registered provider you can also give a new option called 'icon'.
+Using this option you can define which icon is to be rendered for the given provider.
+In the example our own plugin provides the icon. In the plugin's directory it has to be placed under `app/assets/images/some_auth_plugin/some_provider.png`.
