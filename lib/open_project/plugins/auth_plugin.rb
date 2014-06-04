@@ -15,33 +15,27 @@
 
 module OpenProject::Plugins
   module AuthPlugin
-    def self.included(base)
-      base.class_eval do
-        initializer "#{engine_name}.middleware" do |app|
-          init_auth
+    def register_auth_providers(&build_providers)
+      initializer "#{engine_name}.middleware" do |app|
+        builder = ProviderBuilder.new
+        builder.instance_eval(&build_providers)
 
-          strategies = omniauth_strategies
-          providers = lambda do |strategy|
-            lambda { providers_for_strategy(strategy) }
-          end
-
-          app.config.middleware.use OmniAuth::FlexibleBuilder do
-            strategies.each do |strategy|
-              provider strategy, :providers => providers.call(strategy)
-            end
+        app.config.middleware.use OmniAuth::FlexibleBuilder do
+          builder.strategies.each do |strategy, providers|
+            provider strategy, :providers => providers
           end
         end
       end
     end
+  end
 
-    def init_auth; end
-
-    def omniauth_strategies
-      raise "subclass responsiblity"
+  class ProviderBuilder
+    def strategy(key, &providers)
+      strategies[key] = providers
     end
 
-    def providers_for_strategy(strategy)
-      raise "subclass responsiblity"
+    def strategies
+      @strategies ||= {}
     end
   end
 end
