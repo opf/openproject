@@ -26,8 +26,8 @@
                       sortable="column.sortable"
                       query="query">
         <span has-context-menu
-              target="columnContextMenu"
-              process-event="adaptVerticalPosition"
+              target="ColumnContextMenu"
+              locals="columns, column"
               trigger-on-event="click">
           <icon-wrapper icon-name="pulldown-arrow1" title="{{I18n.t('js.label_open_menu')}}"></icon-wrapper>
         </span>
@@ -90,8 +90,8 @@
     <tr work-package-row
         id="work-package-{{ row.object.id }}"
         has-context-menu
-        target="workPackageContextMenu"
-        process-event="adaptVerticalPosition"
+        target="WorkPackageContextMenu"
+        locals="rows, row"
         ng-class="[
           'issue',
           'hascontextmenu',

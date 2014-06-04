@@ -101,6 +101,8 @@ module.exports = function(config) {
       "app/assets/javascripts/angular/controllers/dialogs/share.js",
       "app/assets/javascripts/angular/controllers/dialogs/sorting.js",
 
+      "app/assets/javascripts/angular/work_packages/**/*.js",
+
 
       'app/assets/javascripts/date-en-US.js',
 
