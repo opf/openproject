@@ -1,6 +1,5 @@
 {
   "name": "Caret.js",
-  "version": "0.0.8",
   "main": "src/jquery.caret.js",
   "ignore": [
     "**/.*",
@@ -12,19 +11,18 @@
     "index.html"
   ],
   "dependencies": {
-    "jquery": "~2.0.0"
+    "jquery": ">=1.7.0"
   },
   "devDependencies": {
     "jasmine-jquery": "~1.5.8"
   },
   "homepage": "https://github.com/ichord/Caret.js",
-  "_release": "0.0.8",
+  "_release": "72495fcb19",
   "_resolution": {
-    "type": "version",
-    "tag": "v0.0.8",
-    "commit": "e17a33993bfc70f83db5a896118d9674e5892577"
+    "type": "commit",
+    "commit": "72495fcb194a0beec14de25956a7c615ede630b2"
   },
   "_source": "git://github.com/ichord/Caret.js.git",
-  "_target": "0.0.8",
+  "_target": "72495fcb194a0beec14de25956a7c615ede630b2",
   "_originalSource": "ichord/Caret.js"
 }

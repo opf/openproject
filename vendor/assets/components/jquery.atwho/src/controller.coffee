@@ -88,6 +88,7 @@ class Controller
       query = {'text': query, 'head_pos': start, 'end_pos': end}
       this.trigger "matched", [@at, query.text]
     else
+      query = null
       @view.hide()
 
     @query = query

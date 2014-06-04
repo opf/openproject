@@ -65,7 +65,13 @@ class App
 
   dispatch: ->
     $.map @controllers, (c) =>
-      this.set_context_for c.at if c.look_up()
+      if delay = c.get_opt('delay')
+        clearTimeout @delayedCallback
+        @delayedCallback = setTimeout(=>
+          this.set_context_for c.at if c.look_up()
+        , delay)
+      else
+        this.set_context_for c.at if c.look_up()
 
   on_keyup: (e) ->
     switch e.keyCode

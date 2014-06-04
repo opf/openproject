@@ -1,4 +1,7 @@
-(function( jQuery ) {
+define([
+	"../core",
+	"../ajax"
+], function( jQuery ) {
 
 // Install script dataType
 jQuery.ajaxSetup({
@@ -6,7 +9,7 @@ jQuery.ajaxSetup({
 		script: "text/javascript, application/javascript, application/ecmascript, application/x-ecmascript"
 	},
 	contents: {
-		script: /javascript|ecmascript/
+		script: /(?:java|ecma)script/
 	},
 	converters: {
 		"text script": function( text ) {
@@ -34,15 +37,15 @@ jQuery.ajaxTransport( "script", function(s) {
 	if ( s.crossDomain ) {
 
 		var script,
-			head = document.head || document.getElementsByTagName( "head" )[0] || document.documentElement;
+			head = document.head || jQuery("head")[0] || document.documentElement;
 
 		return {
 
 			send: function( _, callback ) {
 
-				script = document.createElement( "script" );
+				script = document.createElement("script");
 
-				script.async = "async";
+				script.async = true;
 
 				if ( s.scriptCharset ) {
 					script.charset = s.scriptCharset;
@@ -59,12 +62,12 @@ jQuery.ajaxTransport( "script", function(s) {
 						script.onload = script.onreadystatechange = null;
 
 						// Remove the script
-						if ( head && script.parentNode ) {
-							head.removeChild( script );
+						if ( script.parentNode ) {
+							script.parentNode.removeChild( script );
 						}
 
 						// Dereference the script
-						script = undefined;
+						script = null;
 
 						// Callback if not abort
 						if ( !isAbort ) {
@@ -72,18 +75,19 @@ jQuery.ajaxTransport( "script", function(s) {
 						}
 					}
 				};
-				// Use insertBefore instead of appendChild  to circumvent an IE6 bug.
-				// This arises when a base node is used (#2709 and #4378).
+
+				// Circumvent IE6 bugs with base elements (#2709 and #4378) by prepending
+				// Use native DOM manipulation to avoid our domManip AJAX trickery
 				head.insertBefore( script, head.firstChild );
 			},
 
 			abort: function() {
 				if ( script ) {
-					script.onload( 0, 1 );
+					script.onload( undefined, true );
 				}
 			}
 		};
 	}
 });
 
-})( jQuery );
+});

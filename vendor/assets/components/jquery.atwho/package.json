@@ -6,7 +6,7 @@
   },
   "homepage": "http://ichord.github.com/At.js",
   "license": "MIT",
-  "version": "0.4.9",
+  "version": "0.4.11",
   "engines": {
     "node": ">= 0.6.0"
   },
@@ -26,6 +26,7 @@
     "grunt-json-replace": "~0.1.2",
     "grunt-notify": "~0.2.17",
     "grunt-contrib-copy": "~0.5.0",
-    "grunt-contrib-concat": "~0.3.0"
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-cssmin": "~0.9.0"
   }
 }

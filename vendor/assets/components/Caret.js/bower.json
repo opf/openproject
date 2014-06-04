@@ -1,6 +1,6 @@
 {
   "name": "Caret.js",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "main": "src/jquery.caret.js",
   "ignore": [
     "**/.*",
@@ -12,7 +12,7 @@
     "index.html"
   ],
   "dependencies": {
-    "jquery": "~2.0.0"
+    "jquery": ">=1.7.0"
   },
   "devDependencies": {
     "jasmine-jquery": "~1.5.8"

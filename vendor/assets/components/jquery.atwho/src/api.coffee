@@ -62,3 +62,4 @@ $.fn.atwho.default =
   limit: 5
   max_len: 20
   display_timeout: 300
+  delay: null

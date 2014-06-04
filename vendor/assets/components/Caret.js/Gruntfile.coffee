@@ -7,7 +7,7 @@ module.exports = (grunt) ->
       src: 'src/*.js'
       options:
         vendor: [
-          '<%= bower_path %>/jquery/jquery.min.js',
+          '<%= bower_path %>/jquery/dist/jquery.min.js',
           '<%= bower_path %>/jasmine-jquery/lib/jasmine-jquery.js'
           ]
         specs: 'spec/javascripts/*.js'

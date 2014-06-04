@@ -48,6 +48,7 @@
       data: emojis,
       tpl:"<li data-value=':${key}:'>${name} <img src='http://a248.e.akamai.net/assets.github.com/images/icons/emoji/${name}.png'  height='20' width='20' /></li>",
       insert_tpl: "<img src='http://a248.e.akamai.net/assets.github.com/images/icons/emoji/${name}.png'  height='20' width='20' />",
+      delay: 400
     }
     $inputor = $('#inputor').atwho(at_config).atwho(emoji_config);
     $inputor.caret('pos', 47);

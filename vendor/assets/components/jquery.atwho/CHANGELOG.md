@@ -1,3 +1,13 @@
+### v0.4.11
+
+* bf938db - add `delay` setting, support delay searching
+* a0b5a6f - fix bug: terminate if query out of max_len
+* 01d6d5b - add css min file
+
+### v0.4.10
+
+* update jquery dependence version
+
 ### v0.4.9
 
 * f317bd7 not lowercase query, add `highlight_first` option
