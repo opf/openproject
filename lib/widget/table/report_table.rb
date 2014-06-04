@@ -33,7 +33,7 @@ class Widget::Table::ReportTable < Widget::Table
     @walker.for_final_row do |row, cells|
       html = "<th scope='row' class='normal inner left'>#{show_row row}#{debug_fields(row)}</th>"
       html << cells.join
-      html << "<th class='normal inner right'>#{show_result(row)}#{debug_fields(row)}</th>"
+      html << "<td class='normal inner right'>#{show_result(row)}#{debug_fields(row)}</th>"
       html.html_safe
     end
 
