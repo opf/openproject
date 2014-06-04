@@ -221,7 +221,7 @@ input[type=checkbox]
     border: 3px solid #666666
     border-top: none
     border-right: none
-    transform: rotate(-50deg)
+    @include transform(rotate(-50deg))
 
 \:checked + .styled-checkbox:after
   opacity: 1
