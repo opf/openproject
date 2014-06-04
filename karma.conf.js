@@ -29,7 +29,7 @@ module.exports = function(config) {
       "vendor/assets/components/angular-truncate/dist/angular-truncate.js",
       "vendor/assets/components/angular-sanitize/angular-sanitize.js",
       "vendor/assets/components/momentjs/moment.js",
-      "vendor/assets/components/ng-context-menu/dist/ng-context-menu.js",
+      "vendor/assets/components/angular-context-menu/dist/angular-context-menu.js",
 
       "vendor/assets/components/openproject-ui_components/app/assets/javascripts/angular/ui-components-app.js",
       "app/assets/javascripts/angular/openproject-app.js",
