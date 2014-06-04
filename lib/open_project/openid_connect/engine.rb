@@ -19,7 +19,7 @@ module OpenProject::OpenIDConnect
       openid_connect/auth_provider-google.png
     )
 
-    initializer "openid_connect.middleware" do |app|
+    def init_auth
       # Loading OpenID providers manually since rails doesn't do it automatically,
       # possibly due to non trivially module-name-convertible paths.
       require 'omniauth/openid_connect/provider'
@@ -36,27 +36,19 @@ module OpenProject::OpenIDConnect
       end
 
       OmniAuth::OpenIDConnect::Provider.load_generic_providers
+    end
 
-      app.config.middleware.use OmniAuth::Builder do
-        OmniAuth::OpenIDConnect::Provider.all.each do |pro|
-          p = pro.new
-          settings_available = if pro.available?
-            "settings available"
-          else
-            "settings missing"
-          end
+    def omniauth_strategies
+      [:openid_connect]
+    end
 
-          Rails.logger.info "[OpenID Connect] Registering provider for #{p.name} (#{settings_available})"
-          provider :openid_connect, :name => p.name, :setup => lambda { |env|
-            Rails.logger.info "[OpenID Connect] Trying dynamic provider #{p.name}"
-            opt = env['omniauth.strategy'].options
-            p.to_hash.each do |key, value|
-              opt[key] = value
-            end
-          }
-        end
+    def providers_for_strategy(strategy)
+      if strategy == :openid_connect
+        OmniAuth::OpenIDConnect::Provider.available.map(&:new)
       end
     end
+
+    include OpenProject::Plugins::AuthPlugin
 
     initializer 'openid_connect.register_hooks' do
       require 'open_project/openid_connect/hooks'
