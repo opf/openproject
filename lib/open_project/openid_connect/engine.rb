@@ -12,11 +12,9 @@ module OpenProject::OpenIDConnect
     register 'openproject-openid_connect',
              :author_url => 'http://finn.de',
              :requires_openproject => '>= 3.1.0pre1',
-             :global_assets => { css: 'openid_connect/openid_connect.css' },
              :settings => { 'default' => { 'providers' => {} } }
 
     assets %w(
-      openid_connect/openid_connect.css
       openid_connect/auth_provider-google.png
     )
 
@@ -39,12 +37,10 @@ module OpenProject::OpenIDConnect
       OmniAuth::OpenIDConnect::Provider.load_generic_providers
 
       strategy :openid_connect do
-        OmniAuth::OpenIDConnect::Provider.available.map(&:new)
+        OmniAuth::OpenIDConnect::Provider.available.map do |p|
+          p.new.to_hash.merge({icon: 'openid_connect/auth_provider-google.png'})
+        end
       end
-    end
-
-    initializer 'openid_connect.register_hooks' do
-      require 'open_project/openid_connect/hooks'
     end
   end
 end
