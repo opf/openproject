@@ -14,3 +14,8 @@
 <input type="submit" class="button_highlight" value="Submit me"/>
 <input type="submit" class="button_highlight" value="Do not submit" disabled />
 ```
+
+```
+<input type="submit" class="button_active" value="Submit me"/>
+<input type="submit" class="button_active" value="Do not submit" disabled />
+```
