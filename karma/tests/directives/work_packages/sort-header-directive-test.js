@@ -57,8 +57,10 @@ describe('sortHeader Directive', function() {
       }));
 
       describe('rendering multiple headers', function(){
+        var query;
+
         beforeEach(function(){
-          var query = new Query({
+          query = new Query({
           });
           query.setSortation(new Sortation([]));
           scope.query = query;
@@ -85,7 +87,7 @@ describe('sortHeader Directive', function() {
           expect(link1.text()).to.equal('Status');
         });
 
-        xit('should add ascending/descending sort classes to header', function() {
+        it('should add ascending/descending sort classes to header', function() {
           scope.headerName1 = 'status';
           scope.headerTitle1 = 'Status';
           scope.$apply();
@@ -93,14 +95,16 @@ describe('sortHeader Directive', function() {
           var link1 = element1.find('span a').first();
           expect(link1.hasClass('sort asc')).to.not.be.ok;
 
-          link1.click();
+          query.sortation.addSortElement({ field: scope.headerName1, direction: 'asc' });
+          scope.$digest();
           expect(link1.hasClass('sort asc')).to.be.ok;
 
-          link1.click();
+          query.sortation.addSortElement({ field: scope.headerName1, direction: 'desc' });
+          scope.$digest();
           expect(link1.hasClass('sort desc')).to.be.ok;
         });
 
-        xit('should remove sort classes from other header', function() {
+        it('should remove sort classes from other header', function() {
           scope.headerName1 = 'status';
           scope.headerTitle1 = 'Status';
           scope.headerName2 = 'type';
@@ -108,11 +112,15 @@ describe('sortHeader Directive', function() {
           scope.$apply();
 
           var link1 = element1.find('span a').first();
-          link1.click();
+          query.sortation.addSortElement({ field: scope.headerName1, direction: 'asc' });
+          scope.$digest();
+
           expect(link1.hasClass('sort asc')).to.be.ok;
 
           var link2 = element2.find('span a').first();
-          link2.click();
+          query.sortation.addSortElement({ field: scope.headerName2, direction: 'asc' });
+          scope.$digest();
+
           expect(link2.hasClass('sort asc')).to.be.ok;
           expect(link1.hasClass('sort asc')).to.not.be.ok;
         });
