@@ -61,12 +61,14 @@ describe CopyProjectsController do
     it { expect(flash[:notice]).to eq(I18n.t('copy_project.started', source_project_name: source_project.name, target_project_name: target_project_name)) }
   end
 
+  def copy_project(project)
+    post 'copy',
+         :id => project.id,
+         :project => project.attributes.reject { |k,v| v.nil? }.merge({ :identifier => "copy", :name => "copy" })
+  end
+
   describe 'copy creates a new project' do
-    before do
-      post 'copy',
-           :id => project.id,
-           :project => project.attributes.reject { |k,v| v.nil? }.merge({ :identifier => "copy", :name => "copy" })
-    end
+    before { copy_project(project) }
 
     def expect_redirect_to
       true
