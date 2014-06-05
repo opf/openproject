@@ -19,12 +19,13 @@ Find your Engine class in `engine.rb`, let it extend `OpenProject::Plugin::AuthP
 
 Here's an example of that might look:
 
+    ```ruby
     module OpenProject::SomeAuthPlugin
       class Engine < ::Rails::Engine
         engine_name :openproject_some_auth_plugin
 
         include OpenProject::Plugins::ActsAsOpEngine
-        extend OpenProject::Plugins::AuthPlugin
+        extend OpenProject::Plugins::AuthPlugin # just add this ...
 
         register 'openproject-some_auth_plugin',
                  author_url: 'http://my.site',
@@ -34,6 +35,7 @@ Here's an example of that might look:
           some_auth_plugin/some_provider.png
         )
 
+        # to get #register_auth_providers:
         register_auth_providers do
           strategy :some_strategy do
             [
@@ -59,6 +61,7 @@ Here's an example of that might look:
         end
       end
     end
+    ```
 
 Register each OmniAuth strategy by calling `strategy` with the strategy's name and returning the options for the providers using that strategy in the passed block.
 
