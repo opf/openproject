@@ -30,12 +30,15 @@ require File.expand_path('../../spec_helper', __FILE__)
 
 describe CopyProjectsController do
   let(:current_user) { FactoryGirl.create(:admin) }
+  let(:redirect_path) { "source_project_settings" }
   let(:permission) { :copy_projects }
   let(:project) { FactoryGirl.create(:project, :is_public => false) }
 
 
   before do
     User.stub(:current).and_return current_user
+
+    request.env['HTTP_REFERER'] = redirect_path
   end
 
   describe "copy_from_settings uses correct project to copy from" do
@@ -66,7 +69,7 @@ describe CopyProjectsController do
     end
 
 
-    it { assigns(:project).should_not == project }
+    it { expect(response).to redirect_to(redirect_path) }
   end
 
   describe 'copy permissions' do
