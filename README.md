@@ -51,6 +51,7 @@ module OpenProject::SomeAuthPlugin
             host: 'foobar.biz',
             port: '692',
             #, ... more provider options
+            display_name: 'Provider 2'
           }
         ]
       end
@@ -65,6 +66,8 @@ end
 
 Register each OmniAuth strategy by calling `strategy` with the strategy's name and returning the options for the providers using that strategy in the passed block.
 
-As you can see in the first registered provider you can also give a new option called 'icon'.
+As you can see in the first registered provider you can also give a new option called `icon`.
 Using this option you can define which icon is to be rendered for the given provider.
 In the example our own plugin provides the icon. In the plugin's directory it has to be placed under `app/assets/images/some_auth_plugin/some_provider.png`.
+
+Another extra attribute shown is `display_name`. While `name` is used to identify the provider in URLs `display_name` is what is shown to the user.
