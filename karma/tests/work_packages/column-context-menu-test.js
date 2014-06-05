@@ -33,6 +33,7 @@ describe('columnContextMenu', function() {
 
   beforeEach(module('ng-context-menu',
                     'openproject.workPackages',
+                    'openproject.workPackages.controllers',
                     'openproject.models',
                     'templates'));
 
@@ -129,5 +130,26 @@ describe('columnContextMenu', function() {
         expect(query.columns).to.not.include(column);
       });
     });
+
+    describe('and "Insert columns" is clicked', function() {
+      var activateFn, columnsModal;
+
+      beforeEach(inject(function(_columnsModal_) {
+        columnsModal = _columnsModal_;
+        activateFn = sinon.stub(columnsModal, 'activate');
+      }));
+      afterEach(inject(function() {
+        columnsModal.activate.restore();
+      }));
+
+      beforeEach(function() {
+        scope.insertColumns();
+      });
+
+      it('opens the columns dialog', function() {
+        expect(activateFn).to.have.been.called;
+      });
+    });
+
   });
 });

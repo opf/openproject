@@ -46,7 +46,8 @@ angular.module('openproject.workPackages')
   'QueryService',
   'WorkPackagesTableHelper',
   'WorkPackagesTableService',
-  function($scope, ColumnContextMenu, I18n, QueryService, WorkPackagesTableHelper, WorkPackagesTableService) {
+  'columnsModal',
+  function($scope, ColumnContextMenu, I18n, QueryService, WorkPackagesTableHelper, WorkPackagesTableService, columnsModal) {
 
     $scope.I18n = I18n;
     $scope.isGroupable = WorkPackagesTableService.isGroupable($scope.column);
@@ -76,5 +77,9 @@ angular.module('openproject.workPackages')
     $scope.hideColumn = function(columnName) {
       ColumnContextMenu.close();
       QueryService.hideColumns(new Array(columnName));
+    };
+
+    $scope.insertColumns = function() {
+      columnsModal.activate();
     };
 }]);
