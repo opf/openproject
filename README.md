@@ -17,7 +17,7 @@ The first step is to [generate a new plugin](https://github.com/opf/openproject-
 Once you have done that it only takes a few additions to make it an authentication plugin.
 Find your Engine class in `engine.rb`, let it extend `OpenProject::Plugin::AuthPlugin` and register the providers you want to use.
 
-Here's an example of that might look:
+Here's an example of how that might look:
 
 ```ruby
 module OpenProject::SomeAuthPlugin
