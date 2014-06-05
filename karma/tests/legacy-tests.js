@@ -1,20 +1,4 @@
 /**
- * Custom assertions
- *
- * Somehow, the same approach, that may be seen in other QUnit plugins -
- * extending QUnit itself and not QUnit.assert, does not work as expected. Also,
- * the patch below does not expose `not` to the test method, instead the assert
- * parameter passed to the test function must be used.
- */
-
-// QUnit.extend(QUnit.assert, {
-//   stringEqual: function (actual, expected, message) {
-//     QUnit.push(actual.toString() == expected.toString(), actual, expected, message);
-//   }
-// });
-
-
-/**
  * OpenProject instance methods
  */
 describe("OpenProject instance `getFullUrl`", function() {
