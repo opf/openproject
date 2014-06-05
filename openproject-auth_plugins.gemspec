@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.description = "Integration of OmniAuth strategy providers for authentication in Openproject."
   s.license     = "GPLv3"
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + %w(CHANGELOG.md README.md)
+  s.files = Dir["{app,config,db,lib}/**/*"] + %w(doc/CHANGELOG.md README.md)
 
   s.add_dependency "rails", "~> 3.2.14"
   s.add_dependency "openproject-plugins", "~> 1.0"
