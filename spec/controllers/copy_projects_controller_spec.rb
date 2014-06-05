@@ -72,6 +72,8 @@ describe CopyProjectsController do
       true
     end
 
+    it { expect(Project.count).to eq(2) }
+
     it_behaves_like 'successful copy' do
       let(:source_project) { project }
       let(:target_project_name) { "copy" }
