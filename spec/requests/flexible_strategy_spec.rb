@@ -50,8 +50,6 @@ describe OmniAuth::FlexibleStrategy do
   let(:provider_b) { {name: 'provider_b', identifier: 'b'} }
 
   before do
-    key = OpenProject::Plugins::AuthPlugin.strategy_key(MockStrategy)
-
     allow(OpenProject::Plugins::AuthPlugin).to receive(:providers_for).with(MockStrategy) {
       [provider_a, provider_b]
     }
