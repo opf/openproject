@@ -109,7 +109,6 @@ module Api::V3
     # Note: Not dry - lifted straight from old queries controller
     def setup_query_for_create
       @query = Query.new params[:query] ? permitted_params.query : nil
-      @query.project = @project unless params[:query_is_for_all]
       prepare_query
       @query.user = User.current
     end
@@ -131,6 +130,7 @@ module Api::V3
       @query.column_names = nil if params[:default_columns]
       @query.name = params[:name] if params[:name]
       @query.is_public = params[:is_public] if params[:is_public]
+      @query.project = nil if params[:is_for_all]
     end
 
     def prepare_sort_criteria
