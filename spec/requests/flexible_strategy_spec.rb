@@ -44,7 +44,7 @@ describe OmniAuth::FlexibleStrategy do
     end
   end
 
-  let(:app) { ->(env) { [200, env, "app"] } }
+  let(:app)        { ->(env) { [200, env, "ok"] } }
   let(:middleware) { MockStrategy.new(app) }
   let(:provider_a) { {name: 'provider_a', identifier: 'a'} }
   let(:provider_b) { {name: 'provider_b', identifier: 'b'} }
@@ -60,7 +60,7 @@ describe OmniAuth::FlexibleStrategy do
   describe 'request call' do
     it 'should match the registered providers' do
       [provider_a, provider_b].each do |pro|
-        code, env = middleware.call env_for("http://help.example.com/auth/#{pro[:name]}")
+        code, env = middleware.call env_for("http://www.example.com/auth/#{pro[:name]}")
         strategy = env['omniauth.strategy']
 
         # check that the correct provider has been initialised
@@ -69,7 +69,7 @@ describe OmniAuth::FlexibleStrategy do
     end
 
     it 'should not match other paths' do
-      code, env = middleware.call env_for("http://help.example.com/auth/other_provider")
+      code, env = middleware.call env_for("http://www.example.com/auth/other_provider")
 
       expect(env).not_to include 'omniauth.strategy' # no hit
     end
@@ -82,14 +82,14 @@ describe OmniAuth::FlexibleStrategy do
 
     it 'should match the registered providers' do
       [provider_a, provider_b].each do |pro|
-        code, _ = middleware.call env_for("http://help.example.com/auth/#{pro[:name]}/callback")
+        code, _ = middleware.call env_for("http://www.example.com/auth/#{pro[:name]}/callback")
 
         expect(code).to eq 'hit'
       end
     end
 
     it 'should not match other paths' do
-      code, env = middleware.call env_for("http://help.example.com/auth/other_provider/callback")
+      code, env = middleware.call env_for("http://www.example.com/auth/other_provider/callback")
 
       expect(code).to eq 200
       expect(env).not_to include 'omniauth.strategy' # no hit
