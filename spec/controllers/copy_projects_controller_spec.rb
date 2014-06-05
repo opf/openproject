@@ -100,4 +100,27 @@ describe CopyProjectsController do
 
     it_should_behave_like "a controller action which needs project permissions"
   end
+
+  describe 'copy sends eMail' do
+    context 'on success' do
+      it 'user receives success mail' do
+        UserMailer.should_receive(:project_copy_succeeded)
+
+        copy_project(project)
+      end
+    end
+
+    context 'on error' do
+      before do
+        UserMailer.stub(:with_deliveries).and_raise(ActiveRecord::RecordNotFound)
+      end
+
+      it 'user receives success mail' do
+        UserMailer.should_receive(:project_copy_failed)
+
+        copy_project(project)
+      end
+
+    end
+  end
 end
