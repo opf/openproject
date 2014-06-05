@@ -72,7 +72,7 @@ As you can see in the first registered provider you can also give a new option c
 Using this option you can define which icon is to be rendered for the given provider.
 In the example our own plugin provides the icon. In the plugin's directory it has to be placed under `app/assets/images/some_auth_plugin/some_provider.png`.
 
-** Additional provider attribute `display_name`**
+**Additional provider attribute `display_name`**
 
 Another extra attribute shown is `display_name`. While `name` is used to identify the provider in URLs `display_name` is what is shown to the user.
 
