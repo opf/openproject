@@ -75,4 +75,3 @@ describe OpenProject::Acts::Watchable::Routes do
     end
   end
 end
-

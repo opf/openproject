@@ -45,4 +45,3 @@ describe "routes for old issue uris" do
     it { expect(response).to redirect_to("/work_packages/1234") }
   end
 end
-

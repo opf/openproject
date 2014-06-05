@@ -26,10 +26,11 @@ module.exports = function(config) {
       "vendor/assets/components/angular-ui-select2/src/select2.js",
       "vendor/assets/components/angular-ui-select2/src/select2sortable.js",
       "vendor/assets/components/angular-modal/modal.js",
-      "vendor/assets/components/angular-truncate/dist/angular-truncate.js",
+      "vendor/assets/components/angular-truncate/src/truncate.js",
       "vendor/assets/components/angular-sanitize/angular-sanitize.js",
       "vendor/assets/components/momentjs/moment.js",
       "vendor/assets/components/angular-context-menu/dist/angular-context-menu.js",
+      'vendor/assets/components/select2/select2.js',
 
       "vendor/assets/components/openproject-ui_components/app/assets/javascripts/angular/ui-components-app.js",
       "app/assets/javascripts/angular/openproject-app.js",
@@ -103,6 +104,10 @@ module.exports = function(config) {
 
       "app/assets/javascripts/angular/work_packages/**/*.js",
 
+      'app/assets/javascripts/autocompleter.js',
+      'app/assets/javascripts/members_select_boxes.js',
+      'app/assets/javascripts/openproject.js',
+      'app/assets/javascripts/timelines_select_boxes.js',
 
       'app/assets/javascripts/date-en-US.js',
 
@@ -111,8 +116,11 @@ module.exports = function(config) {
       'karma/tests/test-helper.js',
       'karma/factories/*factory.js',
 
+      'vendor/assets/components/jquery-mockjax/jquery.mockjax.js',
+
       'karma/tests/asset_functions.js',
       'karma/tests/**/*test.js',
+      'karma/tests/legacy-tests.js',
 
       'public/templates/**/*.html'
     ],
@@ -127,6 +135,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      'app/assets/javascripts/*.js': ['coverage'],
       'app/assets/javascripts/angular/**/*.js': ['coverage'],
       'public/templates/**/*.html': ['ng-html2js']
     },

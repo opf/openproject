@@ -42,4 +42,3 @@ Then /^I should see an image$/ do
   img.should be_present
   img.should be_visible
 end
-

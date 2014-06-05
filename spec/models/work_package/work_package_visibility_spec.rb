@@ -81,4 +81,3 @@ describe "WorkPackage-Visibility" do
   end
 
 end
-

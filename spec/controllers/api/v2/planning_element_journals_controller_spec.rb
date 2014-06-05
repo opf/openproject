@@ -45,4 +45,3 @@ describe Api::V2::PlanningElementJournalsController do
     it_should_behave_like "a controller action which needs project permissions"
   end
 end
-

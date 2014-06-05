@@ -60,8 +60,8 @@ describe OpenProject::JournalFormatter::Attachment do
       # calling a helper method (link_to_attachment in this case) doesn't work always here
       # with rspec-core 2.13.0 in combination with rspec-rails
       # see https://github.com/rspec/rspec-core/issues/817
-      # 
-      #let(:expected) { 
+      #
+      #let(:expected) {
       #  I18n.t(:text_journal_added,
       #                        :label => "<strong>#{I18n.t(:label_attachment)}</strong>",
       #                        :value => link_to_attachment(attachment)) }

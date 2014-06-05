@@ -46,4 +46,3 @@ class IssuePriorityTest < ActiveSupport::TestCase
     assert_equal :enumeration_work_package_priorities, IssuePriority.new.option_name
   end
 end
-

@@ -238,5 +238,10 @@
 <i class="icon-table-view"></i>
 <i class="icon-table-detail-view"></i>
 <i class="icon-timeline-view"></i>
-<i class="icon-toggler"></i>
+<i class="icon-toggle"></i>
+<i class="icon-sort-by"></i>
+<i class="icon-group-by"></i>
+<i class="icon-filter-big"></i>
+<i class="icon-group-by2"></i>
+<i class="icon-sort-by2"></i>
 ```
