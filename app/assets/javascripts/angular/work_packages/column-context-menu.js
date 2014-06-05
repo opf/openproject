@@ -59,11 +59,11 @@ angular.module('openproject.workPackages')
     };
 
     $scope.sortAscending = function(columnName) {
-      WorkPackagesTableService.sortBy(columnName, 'asc');
+      WorkPackagesTableService.sortBy(columnName || 'id', 'asc');
     };
 
     $scope.sortDescending = function(columnName) {
-      WorkPackagesTableService.sortBy(columnName, 'desc');
+      WorkPackagesTableService.sortBy(columnName || 'id', 'desc');
     };
 
     $scope.moveLeft = function(columnName) {

@@ -65,8 +65,6 @@ angular.module('openproject.workPackages.directives')
         if(scope.currentSortDirection) {
           var sortDirectionText = (scope.currentSortDirection == 'asc') ? I18n.t('js.label_ascending') : I18n.t('js.label_descending');
           scope.fullTitle = sortDirectionText + " " + I18n.t('js.label_sorted_by') + ' \"' + scope.headerTitle + '\"';
-        } else {
-          // scope.fullTitle = (I18n.t('js.label_sort_by') + ' \"' + scope.headerTitle + '\"');
         }
       }
     }
