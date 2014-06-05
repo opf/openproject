@@ -30,6 +30,9 @@ require File.expand_path('../../spec_helper', __FILE__)
 
 describe CopyProjectsController do
   let(:current_user) { FactoryGirl.create(:admin) }
+  let(:permission) { :copy_projects }
+  let(:project) { FactoryGirl.create(:project, :is_public => false) }
+
 
   before do
     User.stub(:current).and_return current_user
@@ -40,9 +43,6 @@ describe CopyProjectsController do
       get 'copy_project', :id => project.id, :coming_from => :settings
     end
 
-    let(:permission) { :copy_projects }
-    let(:project) { FactoryGirl.create(:project, :is_public => false) }
-
     it { assigns(:project).should == project }
   end
 
@@ -50,9 +50,6 @@ describe CopyProjectsController do
     def fetch
       get 'copy_project', :id => project.id, :coming_from => :settings
     end
-
-    let(:permission) { :copy_projects }
-    let(:project) { FactoryGirl.create(:project, :is_public => false) }
 
     it_should_behave_like "a controller action which needs project permissions"
   end
@@ -68,8 +65,6 @@ describe CopyProjectsController do
       true
     end
 
-    let(:permission) { :copy_projects }
-    let(:project) { FactoryGirl.create(:project, :is_public => false) }
 
     it { assigns(:project).should_not == project }
   end
