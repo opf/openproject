@@ -64,20 +64,28 @@ module OpenProject::SomeAuthPlugin
 end
 ```
 
-Register each OmniAuth strategy by calling `strategy` with the strategy's name and returning the options for the providers using that strategy in the passed block.
+Register each OmniAuth strategy by calling `strategy` with the strategy's name and returning the options for the providers using that strategy in the passed block. Provider options must at the very least contain a `name` that has to be unique among all strategies' providers. The rest depends on the used strategy.
+
+**Additional provider attribute `icon`**
 
 As you can see in the first registered provider you can also give a new option called `icon`.
 Using this option you can define which icon is to be rendered for the given provider.
 In the example our own plugin provides the icon. In the plugin's directory it has to be placed under `app/assets/images/some_auth_plugin/some_provider.png`.
+
+** Additional provider attribute `display_name`**
+
+Another extra attribute shown is `display_name`. While `name` is used to identify the provider in URLs `display_name` is what is shown to the user.
+
+## OpenProject Integration
 
 For each registered provider a button will be added to the OpenProject login screen as shown in the following example:
 
 ![OpenProject Login Screen](../screenshots/login_screen.png?raw=true "Login screen showing buttons for 6 providers.")
 
 In this example an icon has only been defined for 'Google'.
-All other providers will just show a default icon.
+All other providers just show a default icon.
 
-### Runtime Changes
+## Runtime Changes
 
 All used strategies have to be known at the start of the application.
 Providers, however, can change arbitrarily at runtime.
