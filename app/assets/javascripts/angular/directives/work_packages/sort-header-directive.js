@@ -28,12 +28,13 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('sortHeader', ['I18n', function(I18n){
+.directive('sortHeader', [
+  'I18n',
+  function(I18n){
 
   return {
     restrict: 'A',
     templateUrl: '/templates/work_packages/sort_header.html',
-    transclude: true,
     scope: {
       query: '=',
       headerName: '=',
