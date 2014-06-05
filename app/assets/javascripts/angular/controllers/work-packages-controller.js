@@ -177,8 +177,8 @@ angular.module('openproject.workPackages.controllers')
     $scope.availableOptions = QueryService.getAvailableOptions(); // maybe generalize this approach
     $scope.$watch('availableOptions.availableGroupedQueries', function(availableQueries) {
       if (availableQueries) {
-        $scope.groups = [{ name: 'CUSTOM QUERIES', models: availableQueries['user_queries']},
-                         { name: 'GLOBAL QUERIES', models: availableQueries['queries']}];
+        $scope.groups = [{ name: 'GLOBAL QUERIES', models: availableQueries['queries']},
+                         { name: 'CUSTOM QUERIES', models: availableQueries['user_queries']}];
       }
     });
   }
