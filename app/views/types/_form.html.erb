@@ -41,13 +41,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% if WorkPackageCustomField.all.any? %>
 <p>
-	<label><%= l(:label_custom_field_plural) %></label>
-	<% WorkPackageCustomField.all.each do |field| %>
-		<label class="block">
-			<%= check_box_tag 'type[custom_field_ids][]',field.id, @type.custom_fields.include?(field) %>
-			<%= field.name %>
-		</label>
-	<% end %>
+  <label><%= l(:label_custom_field_plural) %></label>
+  <% WorkPackageCustomField.all.each do |field| %>
+    <label class="block">
+      <%= check_box_tag 'type[custom_field_ids][]',field.id, @type.custom_fields.include?(field) %>
+      <%= field.name %>
+    </label>
+  <% end %>
 </p>
 <%= hidden_field_tag 'type[custom_field_ids][]', '' %>
 <% end %>

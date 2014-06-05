@@ -36,4 +36,3 @@ FactoryGirl.define do
     hours 1.0
   end
 end
-

@@ -46,7 +46,7 @@ See doc/COPYRIGHT.rdoc for more details.
 </p>
 
 <% if !replying && !@message.new_record? && User.current.allowed_to?(:edit_messages, @project) %>
-	<p><label><%= Board.name.humanize %></label><br />
+  <p><label><%= Board.name.humanize %></label><br />
   <%= f.select :board_id, @project.boards.collect {|b| [b.name, b.id]} %></p>
 <% end %>
 

@@ -53,7 +53,7 @@ jQuery(document).ready(function($) {
     formatItemSelection = function (item) {
       return item.name;
     };
-    
+
     $("#members_add_form select.select2-select").each(function (ix, elem){
       if ($(elem).hasClass("remote") || $(elem).attr("data-ajaxURL") !== undefined) {
         // remote loading
@@ -110,4 +110,3 @@ jQuery(document).ready(function($) {
     memberstab.click(init_members_cb);
   }
 });
-

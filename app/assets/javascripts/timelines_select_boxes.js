@@ -168,4 +168,3 @@ jQuery(document).ready(function($) {
     field.closest("fieldset").removeClass('collapsed').children("div").show();
   }
 });
-

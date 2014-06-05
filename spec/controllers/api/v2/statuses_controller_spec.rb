@@ -64,4 +64,3 @@ describe Api::V2::StatusesController do
   end
 
 end
-

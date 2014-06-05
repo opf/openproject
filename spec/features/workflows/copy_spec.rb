@@ -63,4 +63,3 @@ describe 'Workflow copy' do
     end
   end
 end
-

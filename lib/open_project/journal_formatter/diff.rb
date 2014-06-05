@@ -99,4 +99,3 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
     end
   end
 end
-
