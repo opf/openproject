@@ -239,4 +239,7 @@
 <i class="icon-table-detail-view"></i>
 <i class="icon-timeline-view"></i>
 <i class="icon-toggler"></i>
+<i class="icon-page-pdf"></i>
+<i class="icon-page-csv"></i>
+<i class="icon-filter-big"></i>
 ```
