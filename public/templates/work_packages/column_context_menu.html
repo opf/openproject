@@ -1,9 +1,9 @@
 <div id="column-context-menu" class="action-menu" ng-show="opened">
-  <ul class="menu">
+  <ul>
     <li ng-click="groupBy(column.name)"
-        ng-if="isGroupable"
-        class="has-no-icon">
+        ng-if="isGroupable">
       <a href="#">
+      <i class="icon-action-menu icon-group-by2"></i>
         <span ng-bind="I18n.t('js.work_packages.query.group')"/>
       </a>
     </li>
