@@ -31,11 +31,21 @@ openprojectApp.config([
   '$urlRouterProvider',
   function($stateProvider, $urlRouterProvider) {
 
-  $urlRouterProvider.otherwise("/wp");
+  // All unmatched routes should be handled by Rails
+  // (i.e. invoke a full-page load)
+  //
+  // a better behaviour here would be for Angular's HTML5-mode to provide an
+  // option to turn link hijacking off by default (and use a `target` attribute
+  // to turn it on for selected links).
+
+  $urlRouterProvider.otherwise(function($injector, $location) {
+    $window = $injector.get('$window');
+    $window.location.replace($location.path());
+  });
 
   $stateProvider
     .state('work-packages', {
-      url: "/wp?query_id",
+      url: "/projects/:projectIdentifier/work_packages?query_id",
       abstract: true,
       templateUrl: "/templates/work_packages.html",
       controller: 'WorkPackagesController'
@@ -45,7 +55,7 @@ openprojectApp.config([
       templateUrl: "/templates/work_packages.list.html"
     })
     .state('work-packages.list.details', {
-      url: "/:workPackageId",
+      url: "/{workPackageId:[0-9]+}",
       templateUrl: "/templates/work_packages.list.details.html",
       controller: 'WorkPackageDetailsController'
     });
