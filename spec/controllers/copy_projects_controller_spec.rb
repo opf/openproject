@@ -57,6 +57,10 @@ describe CopyProjectsController do
     it_should_behave_like "a controller action which needs project permissions"
   end
 
+  shared_examples_for 'successful copy' do
+    it { expect(flash[:notice]).to eq(I18n.t('copy_project.started', source_project_name: source_project.name, target_project_name: target_project_name)) }
+  end
+
   describe 'copy creates a new project' do
     before do
       post 'copy',
@@ -68,6 +72,10 @@ describe CopyProjectsController do
       true
     end
 
+    it_behaves_like 'successful copy' do
+      let(:source_project) { project }
+      let(:target_project_name) { "copy" }
+    end
 
     it { expect(response).to redirect_to(redirect_path) }
   end
