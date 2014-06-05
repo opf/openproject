@@ -3,11 +3,12 @@
     <div class="modal-header"><i class="icon-close" ng-click="modal.closeMe()"></i></div>
 
     <h3>{{modal.name}}</h3>
-    <div class="grid-items-lines">
-      <a ng-repeat="option in modal.exportOptions" ng-href="{{ option.url }}" class="grid-item">
-        <img src="" alt="">
-        <h2>{{ option.label }}</h2>
-      </a>
-    </div>
+    <ul>
+      <li ng-repeat="option in modal.exportOptions">
+        <a ng-href="{{ option.url }}">
+          <i class="icon-page-{{ option.label }} icon-big"></i>
+        </a>
+      </li>
+    </ul>
   </div>
 </div>
