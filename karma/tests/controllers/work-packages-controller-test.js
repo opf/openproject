@@ -29,7 +29,8 @@
 /*jshint expr: true*/
 
 describe('WorkPackagesController', function() {
-  var scope, ctrl, win, testProjectService, testWorkPackageService, testQueryService, testPaginationService;
+  var scope, ctrl, win, testParams,
+     testProjectService, testWorkPackageService, testQueryService, testPaginationService;
   var buildController;
 
   beforeEach(module('openproject.workPackages.controllers', 'openproject.workPackages.services', 'ng-context-menu', 'btford.modal'));
@@ -127,15 +128,18 @@ describe('WorkPackagesController', function() {
       }
     };
 
+    testParams = {}
+
     buildController = function() {
       ctrl = $controller("WorkPackagesController", {
         $scope:  scope,
         $window: win,
-        ProjectService:     testProjectService,
+        project:            {},
+        availableTypes:     {},
         QueryService:       testQueryService,
         PaginationService:  testPaginationService,
         WorkPackageService: testWorkPackageService,
-        $stateParams:       {}
+        $stateParams:       testParams
       });
 
       $timeout.flush();
@@ -153,14 +157,7 @@ describe('WorkPackagesController', function() {
 
   describe('setting projectIdentifier', function() {
     it('should set the projectIdentifier', function() {
-      win.location.pathname = '/projects/my-project/something-else';
-      buildController();
-      expect(scope.projectIdentifier).to.eq('my-project');
-    });
-
-    it('should set the projectIdentifier with a custom appBasePath', function() {
-      win.appBasePath = '/my-instanz';
-      win.location.pathname = '/my-instanz/projects/my-project/something-else';
+      testParams = { projectIdentifier: 'my-project' };
       buildController();
       expect(scope.projectIdentifier).to.eq('my-project');
     });

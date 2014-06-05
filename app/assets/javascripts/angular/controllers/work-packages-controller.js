@@ -32,11 +32,11 @@ angular.module('openproject.workPackages.controllers')
     '$scope',
     '$rootScope',
     '$q',
-    '$window',
     '$location',
     '$stateParams',
+    'project',
+    'availableTypes',
     'I18n',
-    'ProjectService',
     'WorkPackagesTableService',
     'WorkPackageService',
     'QueryService',
@@ -44,7 +44,8 @@ angular.module('openproject.workPackages.controllers')
     'WorkPackageLoadingHelper',
     'INITIALLY_SELECTED_COLUMNS',
     'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
-    function($scope, $rootScope, $q, $window, $location, $stateParams, I18n, ProjectService,
+    function($scope, $rootScope, $q, $location, $stateParams,
+      project, availableTypes, I18n,
       WorkPackagesTableService,
       WorkPackageService, QueryService, PaginationService,
       WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS,
@@ -52,11 +53,16 @@ angular.module('openproject.workPackages.controllers')
 
   // Setup
 
+  $scope.project  = project;
+  $scope.projects = [ project ];
+  $scope.availableTypes = availableTypes;
+
+  $scope.projectIdentifier = $stateParams.projectIdentifier;
+  $scope.query_id = $stateParams.query_id;
+
   function initialSetup() {
     $scope.query_id = null;
     QueryService.resetAll();
-    setupPageParamsFromUrl($window.location);
-    initProject();
 
     $scope.selectedTitle = I18n.t('js.toolbar.unselected_title');
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
@@ -76,36 +82,6 @@ angular.module('openproject.workPackages.controllers')
       .then(setupPage);
   }
 
-  function setupPageParamsFromUrl(location) {
-    var normalisedPath = location.pathname.replace($window.appBasePath, '');
-    $scope.projectIdentifier = normalisedPath.split('/')[2];
-
-    $scope.query_id = $stateParams.query_id;
-  }
-
-
-  function initProject() {
-    if ($scope.projectIdentifier) {
-      ProjectService.getProject($scope.projectIdentifier).then(function(project) {
-        $scope.project  = project;
-        $scope.projects = [ $scope.project ];
-        $scope.availableTypes = $scope.project.embedded.types;
-      });
-    } else {
-      ProjectService.getProjects().then(function(projects) {
-        var allTypes, availableTypes;
-
-        $scope.projects = projects;
-        allTypes = projects.map(function(project) {
-          return project.embedded.types;
-        }).reduce(function(a, b) {
-          return a.concat(b);
-        }, []);
-
-        $scope.availableTypes = allTypes; // TODO remove duplicates
-      });
-    }
-  }
 
   function setupPage(json) {
     initQuery(json.meta);
