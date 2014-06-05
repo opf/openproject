@@ -1,13 +1,5 @@
 <div id="column-context-menu" class="action-menu dropdown-relative dropdown-anchor-right">
   <ul class="menu">
-    <li ng-click="groupBy(column.name)"
-        ng-if="isGroupable"
-        class="has-no-icon">
-      <a href="#">
-        <span ng-bind="I18n.t('js.work_packages.query.group')"/>
-      </a>
-    </li>
-
     <li ng-click="sortAscending(column.name)">
       <a href="#">
         <i class="icon-action-menu icon-sort-ascending"></i>
@@ -19,6 +11,14 @@
       <i class="icon-action-menu icon-sort-descending"></i>
       <a href="#">
         <span ng-bind="I18n.t('js.work_packages.query.sort_descending')"/>
+      </a>
+    </li>
+
+    <li ng-click="groupBy(column.name)"
+        ng-if="isGroupable"
+        class="has-no-icon">
+      <a href="#">
+        <span ng-bind="I18n.t('js.work_packages.query.group')"/>
       </a>
     </li>
 
