@@ -72,7 +72,7 @@ In the example our own plugin provides the icon. In the plugin's directory it ha
 
 For each registered provider a button will be added to the OpenProject login screen as shown in the following example:
 
-![OpenProject Login Screen](https://raw.github.com/finnlabs/openproject-auth_plugins/screenshots/login_screen.png)
+![OpenProject Login Screen](../screenshots/login_screen.png?raw=true "Login screen showing buttons for 6 providers.")
 
 In this example an icon has only been defined for 'Google'.
 All other providers will just show a default icon.
