@@ -6,11 +6,11 @@ Adds support for easy integration of OmniAuth strategy providers as a means to a
 
 This plugin depends on the OpenProject Plugins plugin, so insert it into your `Gemfile.plugins` before the auth_plugins plugin itself:
 
-    gem "openproject-plugins", :git => "git@github.com:opf/openproject-plugins.git", :branch => "dev"
+    gem 'openproject-plugins', :git => 'git@github.com:opf/openproject-plugins.git', :branch => 'dev'
 
 ## Usage
 
-    gem "openproject-auth_plugins", :git => 'git@github.com:finnlabs/openproject-auth_plugins, :branch => "dev"
+    gem 'openproject-auth_plugins', :git => 'git@github.com:finnlabs/openproject-auth_plugins', :branch => 'dev'
 
 You can use this plugin to make an authentication plugin out of an ordinary OpenProject plugin.
 The first step is to [generate a new plugin](https://github.com/opf/openproject-plugins#generator) using the Plugins plugin.
@@ -40,23 +40,23 @@ module OpenProject::SomeAuthPlugin
       strategy :some_strategy do
         [
           {
-            name: "some_provider",
-            host: "foo.bar.baz",
+            name: 'some_provider',
+            host: 'foo.bar.baz',
             port: 999,
             #, ... more provider options
             icon: 'some_auth_plugin/some_provider.png'
           },
           {
-            name: "another_provider",
-            host: "foobar.biz",
-            port: "692",
+            name: 'another_provider',
+            host: 'foobar.biz',
+            port: '692',
             #, ... more provider options
           }
         ]
       end
 
       strategy :another_strategy do
-        [{name: "yet_another_provider"}]
+        [{name: 'yet_another_provider'}]
       end
     end
   end
