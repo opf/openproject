@@ -32,9 +32,22 @@ angular.module('openproject.uiComponents')
 
   return {
     restrict: 'A',
-    link: function(scope, element, attrs) {
+    require: 'hasDropdownMenu',
+    controller: [function() {
+      var dropDownMenuOpened = false;
+
+      this.open = function() {
+        dropDownMenuOpened = true;
+      };
+      this.close = function() {
+        dropDownMenuOpened = false;
+      };
+      this.opened = function() {
+        return dropDownMenuOpened;
+      };
+    }],
+    link: function(scope, element, attrs, ctrl) {
       var contextMenu = $injector.get(attrs.target),
-        opened = false,
         locals = {},
         win = angular.element($window),
         menuElement,
@@ -57,11 +70,11 @@ angular.module('openproject.uiComponents')
       }
 
       function active() {
-        return contextMenu.active() && opened;
+        return contextMenu.active() && ctrl.opened();
       }
 
       function open() {
-        opened = true;
+        ctrl.open();
 
         contextMenu.open(locals)
           .then(function(menuElement) {
@@ -70,7 +83,7 @@ angular.module('openproject.uiComponents')
       }
 
       function close() {
-        opened = false;
+        ctrl.close();
 
         contextMenu.close();
       }
@@ -88,7 +101,7 @@ angular.module('openproject.uiComponents')
 
       scope.$on('openproject.markDropdownsAsClosed', function(event, target) {
         if (element !== target) {
-          opened = false;
+          scope.$apply(ctrl.close);
         }
       });
 

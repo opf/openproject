@@ -42,7 +42,8 @@ angular.module('openproject.workPackages.directives')
       sortable: '=',
       locale: '='
     },
-    link: function(scope, element, attributes) {
+    require: 'hasDropdownMenu',
+    link: function(scope, element, attributes, dropdownMenuCtrl) {
       scope.$watch('query.sortation.sortElements', function(sortElements){
         var latestSortElement = sortElements[0];
 
@@ -55,10 +56,6 @@ angular.module('openproject.workPackages.directives')
         setFullTitle();
       }, true);
 
-      scope.$watch('currentSortDirection', function(sort) {
-        element.toggleClass('active-column', !!sort);
-      });
-
       function setFullTitle() {
         if(!scope.sortable) scope.fullTitle = '';
 
@@ -67,6 +64,18 @@ angular.module('openproject.workPackages.directives')
           scope.fullTitle = sortDirectionText + " " + I18n.t('js.label_sorted_by') + ' \"' + scope.headerTitle + '\"';
         }
       }
+
+      // active-column class setting
+
+      function setActiveColumnClass() {
+        element.toggleClass('active-column', !!scope.currentSortDirection || scope.dropDownMenuOpened);
+      }
+      scope.$watch(dropdownMenuCtrl.opened, function(opened) {
+        scope.dropDownMenuOpened = opened;
+        setActiveColumnClass();
+      });
+      scope.$watch('currentSortDirection', setActiveColumnClass);
+
     }
   };
 }]);
