@@ -93,7 +93,7 @@ module OmniAuth
           {}
         end
         # Settings override configuration.yml
-        Hash(OpenProject::Configuration["openid_connect"]).merge(from_settings)
+        Hash(OpenProject::Configuration["openid_connect"]).deep_merge(from_settings)
       end
 
       def to_hash
