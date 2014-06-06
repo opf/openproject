@@ -10,7 +10,7 @@ This plugin depends on the OpenProject Plugins plugin, so insert it into your `G
 
 ## Usage
 
-    gem 'openproject-auth_plugins', :git => 'git@github.com:finnlabs/openproject-auth_plugins', :branch => 'dev'
+    gem 'openproject-auth_plugins', :git => 'git@github.com:finnlabs/openproject-auth_plugins', :branch => 'stable'
 
 You can use this plugin to make an authentication plugin out of an ordinary OpenProject plugin.
 The first step is to [generate a new plugin](https://github.com/opf/openproject-plugins#generator) using the Plugins plugin.
