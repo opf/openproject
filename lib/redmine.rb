@@ -120,7 +120,6 @@ Redmine::AccessControl.map do |map|
     map.permission :edit_work_packages, { :issues => [:edit, :update, :update_form],
                                           :'work_packages/bulk' => [:edit, :update],
                                           :work_packages => [:edit, :update, :new_type, :preview, :quoted],
-                                          :work_packages_api => [:patch],
                                           :journals => :preview,
                                           :planning_elements => [:new, :create, :edit, :update],
                                           :planning_element_journals => [ [:create], {:require => :member} ] }

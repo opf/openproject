@@ -69,7 +69,6 @@ module Redmine::Acts::Journalized
       JournalManager.add_journal self, @journal_user, @journal_notes if add_journal
 
       journals.select { |j| j.new_record? }.each { |j| j.save! }
-      # journals.select { |j| j.new_record? }.each { |j| binding.pry }
 
       @journal_user = nil
       @journal_notes = nil
