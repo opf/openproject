@@ -15,22 +15,22 @@
       <th sort-header
           header-name="'id'"
           header-title="'#'"
+          has-dropdown-menu
+          target="ColumnContextMenu"
+          locals="columns, column"
           sortable="true"
           query="query"
           update-results="updateResults()"/>
 
       <th sort-header ng-repeat="column in columns"
+                      has-dropdown-menu
+                      target="ColumnContextMenu"
+                      locals="columns, column"
                       locale="column.custom_field && columns.custom_field.name_locale || I18n.locale"
                       header-name="column.name"
                       header-title="column.title"
                       sortable="column.sortable"
                       query="query">
-        <span has-context-menu
-              target="columnContextMenu"
-              process-event="adaptVerticalPosition"
-              trigger-on-event="click">
-          <icon-wrapper icon-name="pulldown-arrow1" title="{{I18n.t('js.label_open_menu')}}"></icon-wrapper>
-        </span>
       </th>
     </tr>
   </thead>
@@ -68,7 +68,11 @@
         </span>
 
         <span>
-          <span work-package-column work-package="row.object" column="groupByColumn" display-empty="-">
+          <span work-package-column
+                work-package="row.object"
+                column="groupByColumn"
+                display-type="{{ groupByColumn.name }}"
+                display-empty="-">
           </span>
 
           <span class="count">
@@ -90,8 +94,8 @@
     <tr work-package-row
         id="work-package-{{ row.object.id }}"
         has-context-menu
-        target="workPackageContextMenu"
-        process-event="adaptVerticalPosition"
+        target="WorkPackageContextMenu"
+        locals="rows, row"
         ng-class="[
           'issue',
           'hascontextmenu',

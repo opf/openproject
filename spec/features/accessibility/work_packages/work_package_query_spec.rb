@@ -35,6 +35,8 @@ describe 'Work package index accessibility' do
   let!(:work_package) { FactoryGirl.create(:work_package,
                                            project: project) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
+  let(:sort_ascending_selector) { '.icon-sort-ascending' }
+  let(:sort_decending_selector) { '.icon-sort-descending' }
 
   before do
     allow(User).to receive(:current).and_return(user)
@@ -73,131 +75,117 @@ describe 'Work package index accessibility' do
   end
 
   describe 'Sort link', js: true do
-    def sort_link
-      find(sort_link_selector)
+    def column_header_link
+      find(column_header_link_selector)
+    end
+
+    def sort_ascending_link
+      find(sort_ascending_selector)
+    end
+
+    def sort_decending_link
+      find(sort_decending_selector)
     end
 
     shared_examples_for 'sort column' do
-      def sort_header
-        find(sort_header_selector)
+      def column_header
+        find(column_header_selector)
       end
 
       it do
-        expect(sort_header).not_to be_nil
-        expect(sort_header.find("span.sort-header")[:title]).to eq(sort_text)
+        expect(column_header).not_to be_nil
+        expect(column_header.find("span.sort-header")[:title]).to eq(sort_text)
       end
     end
 
     shared_examples_for 'unsorted column' do
-      let(:sort_text) { I18n.t(:label_sort_by, value: "\"#{link_caption}\"") }
+      let(:sort_text) { I18n.t(:label_open_menu) }
 
-       it_behaves_like 'sort column'
+      it_behaves_like 'sort column'
     end
 
     shared_examples_for 'ascending sorted column' do
       let(:sort_text) { "#{I18n.t(:label_ascending)} #{I18n.t(:label_sorted_by, value: "\"#{link_caption}\"")}" }
 
-       it_behaves_like 'sort column'
+      it_behaves_like 'sort column'
     end
 
     shared_examples_for 'descending sorted column' do
       let(:sort_text) { "#{I18n.t(:label_descending)} #{I18n.t(:label_sorted_by, value: "\"#{link_caption}\"")}" }
 
-       it_behaves_like 'sort column'
-    end
-
-    shared_examples_for 'descending sortable first' do
-      describe 'one click' do
-        before { sort_link.click }
-
-        it_behaves_like 'descending sorted column'
-
-        describe 'two clicks' do
-          before { sort_link.click }
-
-          it_behaves_like 'ascending sorted column'
-        end
-      end
-    end
-
-    shared_examples_for 'ascending sortable first' do
-      describe 'one click' do
-        before { sort_link.click }
-
-        it_behaves_like 'ascending sorted column'
-
-        describe 'two clicks' do
-          before { sort_link.click }
-
-          it_behaves_like 'descending sorted column'
-        end
-      end
+      it_behaves_like 'sort column'
     end
 
     shared_examples_for 'sortable column' do
       describe 'Initial sort' do
         it_behaves_like 'unsorted column'
       end
+
+      describe 'descending' do
+        before do
+          column_header_link.click
+          sort_decending_link.click
+        end
+
+        it_behaves_like 'descending sorted column'
+      end
+
+      describe 'ascending' do
+        before do
+          column_header_link.click
+          sort_ascending_link.click
+        end
+
+        it_behaves_like 'ascending sorted column'
+      end
     end
 
     describe 'id column' do
       let(:link_caption) { '#' }
-      let(:sort_header_selector) { 'table.workpackages-table th.checkbox + th + th' }
-      let(:sort_link_selector) { sort_header_selector + ' a' }
+      let(:column_header_selector) { 'table.workpackages-table th.checkbox + th + th' }
+      let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
-
-      it_behaves_like 'ascending sortable first'
     end
 
     describe 'type column' do
       let(:link_caption) { 'Type' }
-      let(:sort_header_selector) { 'table.workpackages-table th.checkbox + th + th + th' }
-      let(:sort_link_selector) { sort_header_selector + ' a' }
+      let(:column_header_selector) { 'table.workpackages-table th.checkbox + th + th + th' }
+      let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
-
-      it_behaves_like 'ascending sortable first'
     end
 
     describe 'status column' do
       let(:link_caption) { 'Status' }
-      let(:sort_header_selector) { 'table.workpackages-table th.checkbox + th + th + th + th' }
-      let(:sort_link_selector) { sort_header_selector + ' a' }
+      let(:column_header_selector) { 'table.workpackages-table th.checkbox + th + th + th + th' }
+      let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
-
-      it_behaves_like 'ascending sortable first'
     end
 
     describe 'priority column' do
       let(:link_caption) { 'Priority' }
-      let(:sort_header_selector) { 'table.workpackages-table th.checkbox + th + th + th + th + th' }
-      let(:sort_link_selector) { sort_header_selector + ' a' }
+      let(:column_header_selector) { 'table.workpackages-table th.checkbox + th + th + th + th + th' }
+      let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
-
-      it_behaves_like 'ascending sortable first'
     end
 
     describe 'subject column' do
       let(:link_caption) { 'Subject' }
-      let(:sort_header_selector) { 'table.workpackages-table th.checkbox + th + th + th + th + th + th' }
-      let(:sort_link_selector) { sort_header_selector + ' a' }
+      let(:column_header_selector) { 'table.workpackages-table th.checkbox + th + th + th + th + th + th' }
+      let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
-
-      it_behaves_like 'ascending sortable first'
     end
 
     describe 'assigned to column' do
       let(:link_caption) { 'Assignee' }
-      let(:sort_header_selector) { 'table.workpackages-table th.checkbox + th + th + th + th + th + th + th' }
-      let(:sort_link_selector) { sort_header_selector + ' a' }
+      let(:column_header_selector) { 'table.workpackages-table th.checkbox + th + th + th + th + th + th + th' }
+      let(:column_header_link_selector) { column_header_selector + ' a' }
 
       it_behaves_like 'sortable column'
-
-      it_behaves_like 'ascending sortable first'
     end
   end
 end
