@@ -75,12 +75,6 @@ describe CopyProjectsController do
     post 'copy',
          :id => project.id,
          :project => project.attributes.reject { |k,v| v.nil? }.merge({ :identifier => "copy", :name => "copy" })
-
-    successes, failures = Delayed::Worker.new.work_off # execute the delayed inserted by the copy controller
-
-    # check that the delayed job run successfully
-    expect(successes).to eq(2)
-    expect(failures).to eq(0)
   end
 
   describe 'copy creates a new project' do
