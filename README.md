@@ -80,13 +80,26 @@ Another extra attribute shown is `display_name`. While `name` is used to identif
 
 For each registered provider a button will be added to the OpenProject login screen as shown in the following example:
 
-![OpenProject Login Screen](../screenshots/login_screen.png?raw=true "Login screen showing buttons for 6 providers.")
+![OpenProject Login Screen](../screenshots/login_screen_en.png?raw=true "Login screen showing buttons for 6 providers.")
 
 In this example an icon has only been defined for 'Google'.
 All other providers just show a default icon.
 
-## Runtime Changes
+### Runtime Changes
 
 All used strategies have to be known at the start of the application.
 Providers, however, can change arbitrarily at runtime.
 The block passed to `#strategy` is called each time an authentication request is made.
+
+## Repository
+
+This repository contains two main branches:
+
+* `dev`: The main development branch. We try to keep it stable in the sense of all tests are passing, but we don't recommend it for production systems.
+* `stable`: Contains the latest stable release that we recommend for production use. Use this if you always want the latest version of this plugin.
+
+## License
+
+Copyright (C) 2014 the OpenProject Foundation (OPF)
+
+This plugin is licensed under the GNU GPL v3. See [doc/COPYRIGHT.md](doc/COPYRIGHT.md) for details.
