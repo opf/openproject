@@ -33,8 +33,8 @@ See doc/COPYRIGHT.rdoc for more details.
       :controller => '/auth',
       :action => pro[:name]
     }
-    if params["back_url"]
-      opts[:origin] = params["back_url"]
+    if params['back_url']
+      opts[:origin] = params['back_url']
     end
   %>
   <a href="<%= url_for opts %>" class="auth-provider auth-provider-<%= pro[:name] %>">
