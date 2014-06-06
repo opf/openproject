@@ -48,7 +48,7 @@ openprojectApp.config([
       url: "/projects/:projectIdentifier/work_packages?query_id",
       abstract: true,
       templateUrl: "/templates/work_packages.html",
-      controller: 'WorkPackagesController',
+      controller: 'WorkPackagesListController',
       resolve: {
         project: function($stateParams, ProjectService) {
           return ProjectService.getProject($stateParams.projectIdentifier);

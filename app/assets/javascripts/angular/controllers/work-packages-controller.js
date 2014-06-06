@@ -28,7 +28,7 @@
 
 angular.module('openproject.workPackages.controllers')
 
-.controller('WorkPackagesController', [
+.controller('WorkPackagesListController', [
     '$scope',
     '$rootScope',
     '$q',

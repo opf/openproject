@@ -28,7 +28,7 @@
 
 /*jshint expr: true*/
 
-describe('WorkPackagesController', function() {
+describe('WorkPackagesListController', function() {
   var scope, ctrl, win, testParams,
      testProjectService, testWorkPackageService, testQueryService, testPaginationService;
   var buildController;
@@ -131,7 +131,7 @@ describe('WorkPackagesController', function() {
     testParams = {}
 
     buildController = function() {
-      ctrl = $controller("WorkPackagesController", {
+      ctrl = $controller("WorkPackagesListController", {
         $scope:  scope,
         $window: win,
         project:            {},
