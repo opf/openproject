@@ -44,14 +44,14 @@ describe 'rendering the login buttons for all providers' do
   end
 
   it 'should show the mock_auth button with the name as its label' do
-    expect(rendered).to match /mock_auth/
+    expect(rendered).to match /#{providers[0][:name]}/
   end
 
   it 'should show the test_auth button with the given display_name as its label' do
-    expect(rendered).to match /Test/
+    expect(rendered).to match /#{providers[1][:display_name]}/
   end
 
   it 'should render a custom icon if defined' do
-    expect(rendered).to match /foobar\.png/
+    expect(rendered).to match /#{providers[2][:icon]}/
   end
 end
