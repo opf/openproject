@@ -67,13 +67,13 @@ describe Group do
       end
     end
   end
-  
+
   describe :create do
     describe 'group with empty group name' do
       let(:group) { FactoryGirl.build(:group, lastname: '') }
 
       it { expect(group.valid?).to be_false }
-      
+
       describe 'error message' do
         before { group.valid? }
 

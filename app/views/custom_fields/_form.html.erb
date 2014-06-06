@@ -95,14 +95,14 @@ function toggle_custom_field_format() {
       if (p_searchable) Element.hide(p_searchable.parentNode);
       hide_and_disable(p_values);
       break;
-		case "user":
+    case "user":
     case "version":
       Element.hide(p_length.parentNode);
       Element.hide(p_regexp.parentNode);
       if (p_searchable) Element.hide(p_searchable.parentNode);
       hide_and_disable(p_values);
       Element.hide(p_default_value);
-		  break;
+      break;
     default:
       Element.show(p_length.parentNode);
       Element.show(p_regexp.parentNode);
@@ -206,7 +206,7 @@ jQuery(".locale_selector").each(function (index) {
           <%= check_box_tag "custom_field[type_ids][]", type.id, (@custom_field.types.include? type), :id => "custom_field_type_ids_#{type.id}" %>
           <%= content_tag :label, (type.is_standard) ? l(:label_custom_field_default_type) : h(type), :class => "no-css", :for => "custom_field_type_ids_#{type.id}" %>
         <% end %>
-		  <%= hidden_field_tag "custom_field[type_ids][]", '' %>
+      <%= hidden_field_tag "custom_field[type_ids][]", '' %>
     </fieldset>
     &nbsp;
     <p><%= f.check_box :is_required %></p>

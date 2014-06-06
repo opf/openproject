@@ -45,7 +45,7 @@ child @work_packages => :work_packages do
       when Version
         wp.send(column_name).as_json(only: [:id, :name])
       when WorkPackage
-        wp.send(column_name).as_json(only: [:id, :name])
+        wp.send(column_name).as_json(only: [:id, :subject])
       else
         wp.send(column_name)
       end

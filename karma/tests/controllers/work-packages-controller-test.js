@@ -112,6 +112,10 @@ describe('WorkPackagesController', function() {
 
       setTotalEntries: function() {
         return 10;
+      },
+
+      resetAll: function() {
+        return null;
       }
     };
     testPaginationService = {

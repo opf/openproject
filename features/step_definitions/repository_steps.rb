@@ -38,5 +38,3 @@ Given(/^the project "(.*?)" has a repository$/) do |project_name|
 
   repo.save!
 end
-
-

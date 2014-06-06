@@ -99,4 +99,3 @@ describe 'api/v2/reportings/show.api.rabl' do
   end
 
 end
-

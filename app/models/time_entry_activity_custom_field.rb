@@ -32,4 +32,3 @@ class TimeEntryActivityCustomField < CustomField
     :enumeration_activities
   end
 end
-

@@ -28,6 +28,11 @@
 @import global/all
 
 div.wiki
+  font-size: 14px
+  line-height: 1.6em
+  h1, h2
+    margin: 1em 0 1em 0
+
   table
     border: 1px solid #505050
     border-collapse: collapse
@@ -57,7 +62,6 @@ div.wiki
     margin-right: 12px
     margin-left: 0
     display: table
-    font-size: 0.8em
     &.right
       float: right
       margin-left: 12px
@@ -76,13 +80,22 @@ div.wiki
       padding-left: 16px
     li
       list-style-type: none
-  ul
-    margin: 0
-    padding: 0
+
+  ol, ul
+    padding: 0 0 0 2em
+    margin: 0.3em 0
+
   li
+    list-style-position: outside
     margin: 0
-  li li
-    margin-left: 1.5em
+
+  ol li
+    list-style-type: decimal
+
+  ul li
+    list-style-type: disc
+
+
   fieldset legend
     font-weight: bold
     font-size: 10px
@@ -103,6 +116,8 @@ h1:hover, h2:hover, h3:hover
     color: #ddd
 
 .wiki
+  p
+    margin-bottom: 1em
   p, span
     &.see-also, &.caution, &.important, &.info, &.tip, &.note
       display: block
@@ -161,6 +176,9 @@ h1:hover, h2:hover, h3:hover
     &.smallnote
       background: url(image-path('wiki_styles/note_small.png')) 5px 4px no-repeat #F5FFFA
       border: 1px solid #C7CFCA
+
+.wiki-content
+  width: 700px
 
 .controller-wiki
   #content

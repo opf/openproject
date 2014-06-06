@@ -8,13 +8,15 @@
       <input type="search" ng-model="filterBy" ng-change="filterModels(filterBy)" id="title-filter"><i id="magnifier" class="icon-search"></i>
     </div>
 
-    <div class="query-menu-container" ng-if="group.models" ng-repeat="group in filteredGroups">
-      <ul class="query-menu">
-        <div class="title-group-header">{{ group.name }}</div>
-        <li ng-repeat="model in group.models">
-          <a href="" ng-click="reload( model[1], model[0] )">{{ model[0] | characters:40 }}</a>
-        </li>
-      </ul>
+    <div class="dropdown-scrollable">
+      <div class="query-menu-container" ng-if="group.models" ng-repeat="group in filteredGroups">
+        <ul class="query-menu">
+          <div class="title-group-header">{{ group.name }}</div>
+          <li ng-repeat="model in group.models">
+            <a href="" ng-click="reload( model[1], model[0] )">{{ model[0] | characters:40 }}</a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 

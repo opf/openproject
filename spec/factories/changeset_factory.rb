@@ -33,4 +33,3 @@ FactoryGirl.define do
     commit_date Date.today
   end
 end
-

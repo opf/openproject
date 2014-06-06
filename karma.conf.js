@@ -29,6 +29,7 @@ module.exports = function(config) {
       "vendor/assets/components/angular-truncate/src/truncate.js",
       "vendor/assets/components/angular-sanitize/angular-sanitize.js",
       "vendor/assets/components/momentjs/moment.js",
+      'vendor/assets/components/select2/select2.js',
       "vendor/assets/components/ng-context-menu/dist/ng-context-menu.js",
 
       "vendor/assets/components/openproject-ui_components/app/assets/javascripts/angular/ui-components-app.js",
@@ -101,6 +102,10 @@ module.exports = function(config) {
       "app/assets/javascripts/angular/controllers/dialogs/share.js",
       "app/assets/javascripts/angular/controllers/dialogs/sorting.js",
 
+      'app/assets/javascripts/autocompleter.js',
+      'app/assets/javascripts/members_select_boxes.js',
+      'app/assets/javascripts/openproject.js',
+      'app/assets/javascripts/timelines_select_boxes.js',
 
       'app/assets/javascripts/date-en-US.js',
 
@@ -108,9 +113,12 @@ module.exports = function(config) {
       'karma/lib/rosie.js',
       'karma/tests/test-helper.js',
       'karma/factories/*factory.js',
+      
+      'vendor/assets/components/jquery-mockjax/jquery.mockjax.js',
 
       'karma/tests/asset_functions.js',
       'karma/tests/**/*test.js',
+      'karma/tests/legacy-tests.js',
 
       'public/templates/**/*.html'
     ],
@@ -125,6 +133,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      'app/assets/javascripts/*.js': ['coverage'],
       'app/assets/javascripts/angular/**/*.js': ['coverage'],
       'public/templates/**/*.html': ['ng-html2js']
     },

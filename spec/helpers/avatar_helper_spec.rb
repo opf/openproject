@@ -106,4 +106,3 @@ describe AvatarHelper do
     end
   end
 end
-
