@@ -378,6 +378,10 @@ de:
   button_configure_menu_entry: "Menüpunkt konfigurieren"
   button_delete_menu_entry: "Menüpunkt entfernen"
 
+  copy_project:
+    failed: "Das Projekt %{source_project_name} konnte nicht kopiert werden"
+    succeeded: "Das Projekt %{target_project_name} wurde erstellt"
+
   create_child_page: "Neue Unterseite anlegen"
   create_child_page_for: "Neue Unterseite anlegen: \"%{title}\""
   create_new_page: "Neue Seite anlegen"

@@ -376,6 +376,10 @@ en:
   button_configure_menu_entry: "Configure menu item"
   button_delete_menu_entry: "Delete menu item"
 
+  copy_project:
+    failed: "Cannot copy project %{source_project_name}"
+    succeeded: "Created project %{target_project_name}"
+
   create_child_page: "Create new child page"
   create_child_page_for: "Create new child page: \"%{title}\""
   create_new_page: "Create new page"
