@@ -38,7 +38,6 @@ angular.module('openproject.models')
 
     this.filters = [];
     this.groupBy = this.groupBy || '';
-    this.isForAll = !this.project_id;
 
     if(queryData) this.setFilters(queryData.filters);
   };
@@ -61,7 +60,7 @@ angular.module('openproject.models')
           'display_sums': this.displaySums,
           'name': this.name,
           'is_public': this.isPublic,
-          'is_for_all': this.isForAll
+          'shown_in_all_projects': this.shownInAllProjects
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {
           return filter.toParams();
         }))
@@ -79,7 +78,7 @@ angular.module('openproject.models')
           'display_sums': this.displaySums,
           'name': this.name,
           'is_public': this.isPublic,
-          'is_for_all': this.isForAll
+          'shown_in_all_projects': this.shownInAllProjects
         }].concat(this.getActiveConfiguredFilters().map(function(filter) {
           return filter.toParams();
         }))

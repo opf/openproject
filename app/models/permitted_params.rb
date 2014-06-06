@@ -442,7 +442,8 @@ class PermittedParams < Struct.new(:params, :current_user)
         :name,
         :display_sums,
         :is_public,
-        :group_by],
+        :group_by,
+        :shown_in_all_projects],
       :role => [
         :name,
         :assignable,

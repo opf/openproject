@@ -180,7 +180,6 @@ module Api
       def set_work_packages_meta_data(query, results, work_packages)
         @display_meta = true
 
-        # binding.pry
         @work_packages_meta_data = {
           query:                        query.as_json(except: :filters, include: :filters),
           columns:                      get_columns_for_json(query.columns),
