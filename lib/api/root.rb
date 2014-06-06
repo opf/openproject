@@ -39,15 +39,24 @@ module API
     cascade false
 
     helpers do
+      # Needs refactoring - Will have to find a way how to access sessions in all enviroments
       def current_user
-        user_id = env['action_dispatch.request.unsigned_session_cookie']['user_id']
+        return User.current if Rails.env.test?
+
+        if Rails.env.development?
+          user_id = env['action_dispatch.request.unsigned_session_cookie']['user_id']
+        elsif Rails.env.production?
+          user_id = env['rack.session']['user_id']
+        end
         return nil if user_id.nil?
         @current_user ||= User.find(user_id)
       end
 
+      # Split into two methods: one for authentication, one for authorization
       def authorize(api, endpoint, project = nil, projects = nil, global = false)
-        binding.pry
-        raise API::Errors::Unauthenticated.new if current_user.nil?
+        if current_user.nil? || current_user.anonymous?
+          raise API::Errors::Unauthenticated.new
+        end
         is_authorized = AuthorizationService.new(api, endpoint, project, projects, global, current_user).perform
         unless is_authorized
           raise API::Errors::Unauthorized.new(current_user)

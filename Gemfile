@@ -141,7 +141,6 @@ gem 'i18n', '>=0.6.8'
 gem 'nokogiri', '>=1.5.11'
 # see https://groups.google.com/forum/#!topic/ruby-security-ann/DeJpjTAg1FA
 
-
 group :test do
   gem 'rack-test', '~> 0.6.2'
   gem 'pry'

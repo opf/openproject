@@ -33,8 +33,6 @@ OpenProject::Application.routes.draw do
 
   rails_relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || ''
 
-  mount API::Root => '/'
-
   # Redirect deprecated issue links to new work packages uris
   match '/issues(/)'    => redirect("#{rails_relative_url_root}/work_packages/")
   # The URI.escape doesn't escape / unless you ask it to.
@@ -521,4 +519,6 @@ OpenProject::Application.routes.draw do
   match '/:controller(/:action(/:id))'
   match '/robots' => 'welcome#robots', :defaults => { :format => :txt }
   root :to => 'account#login'
+
+  mount API::Root => '/'
 end
