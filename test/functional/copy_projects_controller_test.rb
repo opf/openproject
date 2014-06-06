@@ -46,16 +46,6 @@ class CopyProjectsControllerTest < ActionController::TestCase
     Setting.default_language = 'en'
   end
 
-  def test_copy_with_project
-    @request.session[:user_id] = 1 # admin
-    get :copy_project, :id => 1, :coming_from => "settings"
-    assert_response :success
-    assert_template 'copy_from_settings'
-    assert assigns(:project)
-    assert_equal Project.find(1).description, assigns(:project).description
-    assert_nil assigns(:copy_project).id
-  end
-
   def test_copy_without_project
     @request.session[:user_id] = 1 # admin
     get :copy_project

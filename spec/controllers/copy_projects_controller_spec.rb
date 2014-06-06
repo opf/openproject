@@ -47,6 +47,10 @@ describe CopyProjectsController do
     end
 
     it { assigns(:project).should == project }
+
+    it { expect(assigns(:copy_project).id).to be_nil }
+
+    it { expect(response).to render_template('copy_from_settings') }
   end
 
   describe 'copy_from_settings permissions' do
