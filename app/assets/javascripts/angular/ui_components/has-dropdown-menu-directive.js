@@ -99,7 +99,7 @@ angular.module('openproject.uiComponents')
       });
 
       scope.$on('openproject.markDropdownsAsClosed', function(event, target) {
-        if (element !== target) {
+        if (element !== target && ctrl.opened()) {
           scope.$apply(ctrl.close);
         }
       });
