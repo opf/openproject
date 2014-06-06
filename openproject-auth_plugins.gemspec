@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.version     = OpenProject::AuthPlugins::VERSION
   s.authors     = "Finn GmbH"
   s.email       = "info@finn.de"
-  s.homepage    = "https://www.openproject.org/projects/auth_plugins"
+  s.homepage    = "https://www.openproject.org/projects/auth-plugins"
   s.summary     = 'OpenProject Auth Plugins'
   s.description = "Integration of OmniAuth strategy providers for authentication in Openproject."
   s.license     = "GPLv3"
