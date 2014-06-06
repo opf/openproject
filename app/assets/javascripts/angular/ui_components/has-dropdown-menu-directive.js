@@ -32,7 +32,6 @@ angular.module('openproject.uiComponents')
 
   return {
     restrict: 'A',
-    require: 'hasDropdownMenu',
     controller: [function() {
       var dropDownMenuOpened = false;
 
