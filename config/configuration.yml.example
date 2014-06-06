@@ -146,7 +146,7 @@ default:
 
   # defines where session data is stored
   # possible values are :cookie_store, :cache_store, :active_record_store
-  session_store: :cookie_store
+  session_store: :cache_store
 
   # Configuration of SCM executable command.
   # Absolute path (e.g. /usr/local/bin/hg) or command name (e.g. hg.exe, bzr.exe)
@@ -183,7 +183,3 @@ development:
 # Configuration for the test environment
 test:
   email_delivery_method: :test
-
-# specific configuration options for production environment
-production:
-  session_store: :cache_store
