@@ -37,6 +37,7 @@ module OpenProject::OpenIDConnect
       OmniAuth::OpenIDConnect::Provider.load_generic_providers
 
       strategy :openid_connect do
+        OmniAuth::OpenIDConnect::Provider.load_generic_providers # discover new providers
         OmniAuth::OpenIDConnect::Provider.available.map { |p| p.new.to_hash }
       end
     end
