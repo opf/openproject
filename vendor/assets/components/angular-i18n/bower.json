@@ -1,9 +1,0 @@
-{
-  "name": "angular-i18n",
-  "version": "1.3.0-build.2602+sha.b10a437",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "components"
-  ]
-}
