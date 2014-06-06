@@ -43,9 +43,19 @@ describe('sortHeader Directive', function() {
       rootScope = $rootScope;
       scope = $rootScope.$new();
 
+      // Mock hasDropdownManu controller
+      var dropdownMenuController = function() {
+        this.open = function() {
+          return true;
+        };
+      };
+
       compile = function() {
-        $compile(element1)(scope);
-        $compile(element2)(scope);
+        angular.forEach([element1, element2], function(element){
+          element.data('$hasDropdownMenuController', dropdownMenuController);
+          $compile(element)(scope);
+        });
+
         scope.$digest();
       };
     }));
