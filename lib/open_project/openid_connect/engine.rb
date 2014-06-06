@@ -37,9 +37,7 @@ module OpenProject::OpenIDConnect
       OmniAuth::OpenIDConnect::Provider.load_generic_providers
 
       strategy :openid_connect do
-        OmniAuth::OpenIDConnect::Provider.available.map do |p|
-          p.new.to_hash.merge({icon: 'openid_connect/auth_provider-google.png'})
-        end
+        OmniAuth::OpenIDConnect::Provider.available.map { |p| p.new.to_hash }
       end
     end
   end

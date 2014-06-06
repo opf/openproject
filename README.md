@@ -32,6 +32,15 @@ Example configuration:
   	    google:
           identifier: "9295222hfbiu2btgu3b4i.apps.googleusercontent.com"
           secret: "4z389thugh334t8h"
+          icon: "openid_connect/auth_provider-google.png"
+          display_name: "Google"
+
+The last two attributes are commonly available for all providers.
+They are used to change a provider's look.
+
+Note that `openid_connect/auth_provider-google.png` is the one custom provider icon this plugin has out of the box. Other icons you will have to add yourself.
+
+`display_name` changes a provider's label shown to the user.
 
 ### Settings
 
