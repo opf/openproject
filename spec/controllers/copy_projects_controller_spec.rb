@@ -53,6 +53,12 @@ describe CopyProjectsController do
     it { expect(response).to render_template('copy_from_settings') }
   end
 
+  describe "copy_from_settings without valid project" do
+    before { get 'copy_project' }
+
+    it { expect(response.code).to eq('404') }
+  end
+
   describe 'copy_from_settings permissions' do
     def fetch
       get 'copy_project', :id => project.id, :coming_from => :settings

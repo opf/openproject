@@ -46,12 +46,6 @@ class CopyProjectsControllerTest < ActionController::TestCase
     Setting.default_language = 'en'
   end
 
-  def test_copy_without_project
-    @request.session[:user_id] = 1 # admin
-    get :copy_project
-    assert_response 404
-  end
-
   context "POST :copy" do
     should "TODO: test the rest of the method"
 
