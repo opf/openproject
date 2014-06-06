@@ -62,9 +62,16 @@ describe CopyProjectsController do
   end
 
   def copy_project(project)
+    #Delayed::Worker.delay_jobs = false
     post 'copy',
          :id => project.id,
          :project => project.attributes.reject { |k,v| v.nil? }.merge({ :identifier => "copy", :name => "copy" })
+
+    successes, failures = Delayed::Worker.new.work_off # execute the delayed inserted by the copy controller
+
+    # check that the delayed job run successfully
+    expect(successes).to eq(2)
+    expect(failures).to eq(0)
   end
 
   describe 'copy creates a new project' do
@@ -104,7 +111,7 @@ describe CopyProjectsController do
   describe 'copy sends eMail' do
     context 'on success' do
       it 'user receives success mail' do
-        UserMailer.should_receive(:project_copy_succeeded)
+        UserMailer.should_receive(:copy_project_succeeded).and_return(double("mailer", deliver: true))
 
         copy_project(project)
       end
@@ -116,7 +123,7 @@ describe CopyProjectsController do
       end
 
       it 'user receives success mail' do
-        UserMailer.should_receive(:project_copy_failed)
+        UserMailer.should_receive(:copy_project_failed).and_return(double("mailer", deliver: true))
 
         copy_project(project)
       end
