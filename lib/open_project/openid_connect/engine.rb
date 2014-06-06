@@ -7,19 +7,18 @@ module OpenProject::OpenIDConnect
     engine_name :openproject_openid_connect
 
     include OpenProject::Plugins::ActsAsOpEngine
+    extend OpenProject::Plugins::AuthPlugin
 
     register 'openproject-openid_connect',
              :author_url => 'http://finn.de',
              :requires_openproject => '>= 3.1.0pre1',
-             :global_assets => { css: 'openid_connect/openid_connect.css' },
              :settings => { 'default' => { 'providers' => {} } }
 
     assets %w(
-      openid_connect/openid_connect.css
       openid_connect/auth_provider-google.png
     )
 
-    initializer "openid_connect.middleware" do |app|
+    register_auth_providers do
       # Loading OpenID providers manually since rails doesn't do it automatically,
       # possibly due to non trivially module-name-convertible paths.
       require 'omniauth/openid_connect/provider'
@@ -35,31 +34,10 @@ module OpenProject::OpenIDConnect
         config.ssl_config.set_default_paths
       end
 
-      OmniAuth::OpenIDConnect::Provider.load_generic_providers
-
-      app.config.middleware.use OmniAuth::Builder do
-        OmniAuth::OpenIDConnect::Provider.all.each do |pro|
-          p = pro.new
-          settings_available = if pro.available?
-            "settings available"
-          else
-            "settings missing"
-          end
-
-          Rails.logger.info "[OpenID Connect] Registering provider for #{p.name} (#{settings_available})"
-          provider :openid_connect, :name => p.name, :setup => lambda { |env|
-            Rails.logger.info "[OpenID Connect] Trying dynamic provider #{p.name}"
-            opt = env['omniauth.strategy'].options
-            p.to_hash.each do |key, value|
-              opt[key] = value
-            end
-          }
-        end
+      strategy :openid_connect do
+        OmniAuth::OpenIDConnect::Provider.load_generic_providers
+        OmniAuth::OpenIDConnect::Provider.available.map { |p| p.new.to_hash }
       end
-    end
-
-    initializer 'openid_connect.register_hooks' do
-      require 'open_project/openid_connect/hooks'
     end
   end
 end
