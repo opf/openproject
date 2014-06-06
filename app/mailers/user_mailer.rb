@@ -65,9 +65,9 @@ class UserMailer < ActionMailer::Base
   end
 
   def work_package_updated(user, journal, author=User.current)
-    # Delayed job do not preserve the closure of the job that is delayed. Thus,
-    # if the method is called within a delayed job, it does contain the default
-    # user (anonymous) and not the original user that called the method.
+    # Delayed job does not preserve the closure of the job that is delayed.
+    # Thus, if the method is called within a delayed job, it does contain the
+    # default user (anonymous) and not the original user that called the method.
     #
     # The mail interceptor 'RemoveSelfNotificationsInterceptor' assumes the
     # orginal user to be available. Otherwise, it cannot fulfill its duty.
