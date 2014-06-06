@@ -28,37 +28,36 @@
 
 /*jshint expr: true*/
 
-describe('columnContextMenu Directive', function() {
-  var compile, element, rootScope, scope;
+describe('columnContextMenu', function() {
+  var container, contextMenu, $rootScope, scope;
 
-  beforeEach(angular.mock.module('openproject.workPackages.directives'));
-  beforeEach(module('templates', 'openproject.models'));
+  beforeEach(module('ng-context-menu',
+                    'openproject.workPackages',
+                    'openproject.workPackages.controllers',
+                    'openproject.models',
+                    'templates'));
 
-  beforeEach(inject(function($rootScope, $compile, _ContextMenuService_) {
-    var html;
-    html = '<column-context-menu></column-context-menu>';
-
-    element = angular.element(html);
-    rootScope = $rootScope;
-    scope = $rootScope.$new();
-    ContextMenuService = _ContextMenuService_;
-
-    compile = function() {
-      $compile(element)(scope);
-      scope.$digest();
-    };
-  }));
-
-  describe('element', function() {
-    beforeEach(function() {
-      compile();
-    });
-
-    it('should render a surrounding div', function() {
-      expect(element.prop('tagName')).to.equal('DIV');
-    });
-
+  beforeEach(function() {
+    var html = '<div></div>';
+    container = angular.element(html);
   });
+
+  beforeEach(inject(function(_$rootScope_, _ngContextMenu_, $templateCache) {
+    $rootScope = _$rootScope_;
+    ngContextMenu = _ngContextMenu_;
+
+    var template = $templateCache.get('/templates/work_packages/column_context_menu.html');
+    $templateCache.put('column_context_menu.html', [200, template, {}]);
+
+    contextMenu = ngContextMenu({
+      controller: 'ColumnContextMenuController',
+      controllerAs: 'contextMenu',
+      container: container,
+      templateUrl: 'column_context_menu.html'
+    });
+
+    contextMenu.open({x: 0, y: 0});
+  }));
 
   describe('when the context menu handler of a column is clicked', function() {
     var I18n, QueryService;
@@ -77,22 +76,20 @@ describe('columnContextMenu Directive', function() {
     }));
 
     beforeEach(function() {
-      compile();
+      $rootScope.column = column;
+      $rootScope.columns = columns;
+      $rootScope.$digest();
 
-      ContextMenuService.setContext({ column: column, columns: columns });
-      ContextMenuService.open('columnContextMenu');
-      scope.$apply();
-
-      directiveScope = element.children().scope();
+      scope = container.children().scope();
     });
 
     it('fetches the column from the context handle context', function() {
-      expect(directiveScope.column).to.have.property('name').and.contain(column.name);
+      expect($rootScope.column).to.have.property('name').and.contain(column.name);
     });
 
     describe('and the group by option is clicked', function() {
       beforeEach(function() {
-        directiveScope.groupBy(column.name);
+        scope.groupBy(column.name);
       });
 
       it('changes the query group by', function() {
@@ -102,7 +99,7 @@ describe('columnContextMenu Directive', function() {
 
     describe('and "move column right" is clicked', function() {
       beforeEach(function() {
-        directiveScope.moveRight(column.name);
+        scope.moveRight(column.name);
       });
 
       it('moves the column right', function() {
@@ -116,7 +113,7 @@ describe('columnContextMenu Directive', function() {
       beforeEach(inject(function(_Sortation_) {
         Sortation = _Sortation_;
         query.sortation = new Sortation();
-        directiveScope.sortAscending(column.name);
+        scope.sortAscending(column.name);
       }));
 
       it('updates the query sortation', function() {
@@ -126,12 +123,33 @@ describe('columnContextMenu Directive', function() {
 
     describe('and "Hide column" is clicked', function() {
       beforeEach(function() {
-        directiveScope.hideColumn(column.name);
+        scope.hideColumn(column.name);
       });
 
       it('removes the column from the query columns', function() {
         expect(query.columns).to.not.include(column);
       });
     });
+
+    describe('and "Insert columns" is clicked', function() {
+      var activateFn, columnsModal;
+
+      beforeEach(inject(function(_columnsModal_) {
+        columnsModal = _columnsModal_;
+        activateFn = sinon.stub(columnsModal, 'activate');
+      }));
+      afterEach(inject(function() {
+        columnsModal.activate.restore();
+      }));
+
+      beforeEach(function() {
+        scope.insertColumns();
+      });
+
+      it('opens the columns dialog', function() {
+        expect(activateFn).to.have.been.called;
+      });
+    });
+
   });
 });

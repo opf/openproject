@@ -217,6 +217,7 @@ de:
         move_column_left: "Spalte nach links"
         move_column_right: "Spalte nach rechts"
         hide_column: "Spalte verbergen"
+        insert_columns: "Spalten hinzufügen ..."
         filters: "Filter"
         display_sums: "Summen anzeigen"
     toolbar:
