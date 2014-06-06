@@ -72,7 +72,6 @@ describe CopyProjectsController do
   end
 
   def copy_project(project)
-    #Delayed::Worker.delay_jobs = false
     post 'copy',
          :id => project.id,
          :project => project.attributes.reject { |k,v| v.nil? }.merge({ :identifier => "copy", :name => "copy" })
