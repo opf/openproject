@@ -33,7 +33,7 @@ namespace :code do
     Dir.chdir(File.join(File.dirname(__FILE__), "../..")) do
       files = Dir['**/**{.rb,.html.erb,.rhtml,.rjs,.plain.erb,.rxml,.yml,.rake,.eml}']
       files.reject!{ |f|
-        f.include?("vendor") ||
+        f.include?("lib/plugins") ||
         f.include?("lib/redcloth") ||
         f.include?("lib/diff")
       }
