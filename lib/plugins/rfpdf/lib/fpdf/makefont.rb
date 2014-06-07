@@ -1386,83 +1386,83 @@ def ReadAFM(file, map)
     a.each do |line|
 
         e = line.rstrip.split(' ')
-  next if e.size < 2
+	next if e.size < 2
 
-  code  = e[0]
-  param = e[1]
+	code  = e[0]
+	param = e[1]
 
-  if code == 'C' then
+	if code == 'C' then
 
-      # Character metrics
-      cc = e[1].to_i
-      w  = e[4]
-      gn = e[7]
+	    # Character metrics
+	    cc = e[1].to_i
+	    w  = e[4]
+	    gn = e[7]
 
-      gn = 'Euro' if gn[-4, 4] == '20AC'
+	    gn = 'Euro' if gn[-4, 4] == '20AC'
 
-      if fix[gn] then
+	    if fix[gn] then
 
-    # Fix incorrect glyph name
-    0.upto(map.size - 1) do |i|
-        if map[i] == fix[gn] then
-      map[i] = gn
-        end
-    end
-      end
+		# Fix incorrect glyph name
+		0.upto(map.size - 1) do |i|
+		    if map[i] == fix[gn] then
+			map[i] = gn
+		    end
+		end
+	    end
 
-      if map.size == 0 then
-    # Symbolic font: use built-in encoding
-    widths[cc] = w
-      else
-    widths[gn] = w
-    fm['CapXHeight'] = e[13].to_i if gn == 'X'
-      end
+	    if map.size == 0 then
+		# Symbolic font: use built-in encoding
+		widths[cc] = w
+	    else
+		widths[gn] = w
+		fm['CapXHeight'] = e[13].to_i if gn == 'X'
+	    end
 
-      fm['MissingWidth'] = w if gn == '.notdef'
+	    fm['MissingWidth'] = w if gn == '.notdef'
 
-  elsif code == 'FontName' then
-      fm['FontName'] = param
-  elsif code == 'Weight' then
-      fm['Weight'] = param
-  elsif code == 'ItalicAngle' then
-      fm['ItalicAngle'] = param.to_f
-  elsif code == 'Ascender' then
-      fm['Ascender'] = param.to_i
-  elsif code == 'Descender' then
-      fm['Descender'] = param.to_i
-  elsif code == 'UnderlineThickness' then
-      fm['UnderlineThickness'] = param.to_i
-  elsif code == 'UnderlinePosition' then
-      fm['UnderlinePosition'] = param.to_i
-  elsif code == 'IsFixedPitch' then
-      fm['IsFixedPitch'] = (param == 'true')
-  elsif code == 'FontBBox' then
-      fm['FontBBox'] = "[#{e[1]},#{e[2]},#{e[3]},#{e[4]}]"
-  elsif code == 'CapHeight' then
-      fm['CapHeight'] = param.to_i
-  elsif code == 'StdVW' then
-      fm['StdVW'] = param.to_i
-  end
+	elsif code == 'FontName' then
+	    fm['FontName'] = param
+	elsif code == 'Weight' then
+	    fm['Weight'] = param
+	elsif code == 'ItalicAngle' then
+	    fm['ItalicAngle'] = param.to_f
+	elsif code == 'Ascender' then
+	    fm['Ascender'] = param.to_i
+	elsif code == 'Descender' then
+	    fm['Descender'] = param.to_i
+	elsif code == 'UnderlineThickness' then
+	    fm['UnderlineThickness'] = param.to_i
+	elsif code == 'UnderlinePosition' then
+	    fm['UnderlinePosition'] = param.to_i
+	elsif code == 'IsFixedPitch' then
+	    fm['IsFixedPitch'] = (param == 'true')
+	elsif code == 'FontBBox' then
+	    fm['FontBBox'] = "[#{e[1]},#{e[2]},#{e[3]},#{e[4]}]"
+	elsif code == 'CapHeight' then
+	    fm['CapHeight'] = param.to_i
+	elsif code == 'StdVW' then
+	    fm['StdVW'] = param.to_i
+	end
     end
 
     raise 'FontName not found' unless fm['FontName']
 
     if map.size > 0 then
-  widths['.notdef'] = 600 unless widths['.notdef']
+	widths['.notdef'] = 600 unless widths['.notdef']
 
-  if (widths['Delta'] == nil) && widths['increment'] then
-      widths['Delta'] = widths['increment']
-  end
+	if (widths['Delta'] == nil) && widths['increment'] then
+	    widths['Delta'] = widths['increment']
+	end
 
-  # Order widths according to map
-  0.upto(255) do |i|
-      if widths[map[i]] == nil
-    puts "Warning: character #{map[i]} is missing"
-    widths[i] = widths['.notdef']
-      else
-    widths[i] = widths[map[i]]
-      end
-  end
+	# Order widths according to map
+	0.upto(255) do |i|
+	    if widths[map[i]] == nil
+		puts "Warning: character #{map[i]} is missing"
+		widths[i] = widths['.notdef']
+	    else
+		widths[i] = widths[map[i]]
+	    end
+	end
     end
 
     fm['Widths'] = widths
@@ -1567,13 +1567,13 @@ def MakeFontEncoding(map)
     s = ''
     last = 0
     32.upto(255) do |i|
-  if map[i] != ref[i] then
-      if i != last + 1 then
-    s += i.to_s + ' '
+	if map[i] != ref[i] then
+	    if i != last + 1 then
+		s += i.to_s + ' '
             end
-      last = i
-      s += '/' + map[i] + ' '
-  end
+	    last = i
+	    s += '/' + map[i] + ' '
+	end
     end
     return s.rstrip
 end
@@ -1599,11 +1599,11 @@ def CheckTTF(file)
 
         # Extract number of tables
         f.seek(4, IO::SEEK_CUR)
-  nb = ReadShort(f)
+	nb = ReadShort(f)
         f.seek(6, IO::SEEK_CUR)
 
         # Seek OS/2 table
-  found = false
+	found = false
         0.upto(nb - 1) do |i|
             if f.read(4) == 'OS/2' then
                 found = true
@@ -1613,7 +1613,7 @@ def CheckTTF(file)
            f.seek(12, IO::SEEK_CUR)
         end
 
-  if ! found then
+	if ! found then
             return
         end
 
@@ -1623,11 +1623,11 @@ def CheckTTF(file)
 
         # Extract fsType flags
         f.seek(8, IO::SEEK_CUR)
-  fsType = ReadShort(f)
+	fsType = ReadShort(f)
 
-  rl = (fsType & 0x02) != 0
-  pp = (fsType & 0x04) != 0
-  e  = (fsType & 0x08) != 0
+	rl = (fsType & 0x02) != 0
+	pp = (fsType & 0x04) != 0
+	e  = (fsType & 0x08) != 0
     end
 
     if rl && ( ! pp) && ( ! e) then
@@ -1645,10 +1645,10 @@ end
 def MakeFont(fontfile, afmfile, enc = 'cp1252', patch = {}, type = 'TrueType')
     # Generate a font definition file
     if (enc != nil) && (enc != '') then
-  map = Charencodings[enc]
-  patch.each { |cc, gn| map[cc] = gn }
+	map = Charencodings[enc]
+	patch.each { |cc, gn| map[cc] = gn }
     else
-  map = []
+	map = []
     end
 
     raise "Error: AFM file not found: #{afmfile}" unless File.exists?(afmfile)
@@ -1656,9 +1656,9 @@ def MakeFont(fontfile, afmfile, enc = 'cp1252', patch = {}, type = 'TrueType')
     fm = ReadAFM(afmfile, map)
 
     if (enc != nil) && (enc != '') then
-  diff = MakeFontEncoding(map)
+	diff = MakeFontEncoding(map)
     else
-  diff = ''
+	diff = ''
     end
 
     fd = MakeFontDescriptor(fm, (map.size == 0))
@@ -1675,7 +1675,7 @@ def MakeFont(fontfile, afmfile, enc = 'cp1252', patch = {}, type = 'TrueType')
             raise "Error: unrecognized font file extension: #{ext}"
         end
     else
-      raise "Error: incorrect font type: #{type}" if (type != 'TrueType') && (type != 'Type1')
+	    raise "Error: incorrect font type: #{type}" if (type != 'TrueType') && (type != 'Type1')
     end
     printf "type = #{type}\n"
     # Start generation
@@ -1714,7 +1714,7 @@ def MakeFont(fontfile, afmfile, enc = 'cp1252', patch = {}, type = 'TrueType')
             CheckTTF(fontfile)
         end
 
-  file = ''
+	file = ''
         File.open(fontfile, 'rb') do |f|
             file = f.read()
         end
