@@ -4,7 +4,7 @@ module RFPDF
 
     class CompileSupport
       # extend ActiveSupport::Memoizable
-
+      
       attr_reader :options
 
       def initialize(controller)
@@ -69,3 +69,6 @@ module RFPDF
 
   end
 end
+
+
+
