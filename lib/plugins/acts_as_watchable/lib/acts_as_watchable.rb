@@ -62,6 +62,9 @@ module Redmine
                 :conditions => ["#{Watcher.table_name}.user_id = ?", user_id] }
             }
             attr_protected :watcher_ids, :watcher_user_ids if accessible_attributes.nil?
+
+            class_attribute :acts_as_watchable_options
+            self.acts_as_watchable_options = options
           end
           send :include, Redmine::Acts::Watchable::InstanceMethods
           alias_method_chain :watcher_user_ids=, :uniq_ids
@@ -86,13 +89,12 @@ module Redmine
         end
 
         def possible_watcher_users
-          # TODO: There might be addable users which are not in the current
-          #       project. But its hard (performance wise) to find them
-          #       correctly. So we only search for users in the project scope.
-          #       Also, the watchable might not be allowed to be seen by all
-          #       users in the project.
-          #       This implementation is so wrong, it makes me sad.
-          project.users
+          permission = self.class.acts_as_watchable_options[:permission]
+
+          User.allowed(permission, self.project, admin_pass: false)
+              .not_builtin
+              .order_by_name
+              .select_only_name_attributes
         end
 
         # Returns an array of users that are proposed as watchers

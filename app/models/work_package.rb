@@ -110,7 +110,7 @@ class WorkPackage < ActiveRecord::Base
 
   after_initialize :set_default_values
 
-  acts_as_watchable
+  acts_as_watchable :permission => :view_work_packages
 
   before_save :store_former_parent_id
 
