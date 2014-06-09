@@ -137,7 +137,7 @@ var ModalHelper = (function() {
         body.find("#footnotes_debug").hide();
         body.css("min-width", "0px");
 
-        jQuery(body).on('keyup', 'input, textarea', function() {
+        jQuery(body).on('keyup', 'textarea', function() {
           modalDiv.data('changed', true);
         });
 
