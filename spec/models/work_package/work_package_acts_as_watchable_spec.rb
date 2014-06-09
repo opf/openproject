@@ -47,11 +47,7 @@ describe WorkPackage, :type => :model do
     let!(:anonymous_user){ FactoryGirl.create(:anonymous) }
 
     shared_context 'non member role has the permission to view work packages' do
-      let(:non_member_role) { Role.find_by_name('Non member') }
-
-      before do
-        non_member_role.add_permission! :view_work_packages
-      end
+      let(:non_member_role) { FactoryGirl.create(:non_member, permissions: [:view_work_packages]) }
     end
 
     shared_context 'anonymous role has the permission to view work packages' do
