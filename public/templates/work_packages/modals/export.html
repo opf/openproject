@@ -3,7 +3,7 @@
     <div class="modal-header"><i class="icon-close" ng-click="modal.closeMe()"></i></div>
 
     <h3>{{modal.name}}</h3>
-    <ul>
+    <ul class="export-options">
       <li ng-repeat="option in modal.exportOptions">
         <a ng-href="{{ option.url }}">
           <i class="icon-page-{{ option.label }} icon-big"></i>
