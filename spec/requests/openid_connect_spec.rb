@@ -140,7 +140,7 @@ describe "OpenID Connect" do
   context "provider configuration through the settings" do
     it "should make providers that are not configured unavailable" do
       get "/login"
-      expect(response.body).not_to include "Google"
+      expect(response.body).not_to match /Google/i
 
       expect{click_on_signin("google")}.to raise_error(ActionController::RoutingError)
     end
@@ -158,7 +158,7 @@ describe "OpenID Connect" do
       )
 
       get "/login"
-      expect(response.body).to include "Google"
+      expect(response.body).to match /Google/i
 
       expect{click_on_signin("google")}.not_to raise_error
       expect(response.status).to be 302
