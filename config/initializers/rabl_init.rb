@@ -28,7 +28,7 @@
 #++
 
 Rabl.configure do |config|
-  config.json_engine = ::Oj # Class with #dump class method (defaults JSON)
+  config.json_engine = ::Oj unless RUBY_ENGINE == 'jruby' # Class with #dump class method (defaults JSON)
   config.include_json_root = true
   config.include_xml_root  = false
   config.include_child_root = false

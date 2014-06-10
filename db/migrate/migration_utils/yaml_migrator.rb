@@ -28,7 +28,7 @@
 #++
 
 require_relative 'db_worker'
-require 'syck'
+require 'syck' unless RUBY_ENGINE == 'jruby'
 
 module Migration
   module YamlMigrator

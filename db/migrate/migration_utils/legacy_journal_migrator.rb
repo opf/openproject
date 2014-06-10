@@ -29,7 +29,7 @@
 
 require_relative 'db_worker'
 require_relative 'legacy_table_checker'
-require 'syck'
+require 'syck' unless RUBY_ENGINE == 'jruby'
 
 module Migration
   class IncompleteJournalsError < ::StandardError

@@ -29,23 +29,29 @@
 language: ruby
 rvm:
   - 2.1
+  - jruby-head
 branches:
   only:
     - dev
     - stable
     - release/3.0
     - dev-angular
+bundler_args: --without development rmagick
 env:
-  # Frontend
-  - "TEST_SUITE=karma"
-  # mysql2
-  - "TEST_SUITE=cucumber CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
-  - "TEST_SUITE=test     CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
-  - "TEST_SUITE=spec     CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
-  # postgres
-  - "TEST_SUITE=cucumber CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
-  - "TEST_SUITE=test     CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
-  - "TEST_SUITE=spec     CI=true RAILS_ENV=test DB=postgres BUNDLE_WITHOUT=rmagick:mysql:mysql2:sqlite:development"
+  global:
+    - CI=true
+    - RAILS_ENV=test
+  matrix:
+    # Frontend
+    - "TEST_SUITE=karma"
+    # mysql2 (MRI)
+    - "TEST_SUITE=cucumber DB=mysql2"
+    - "TEST_SUITE=test     DB=mysql2"
+    - "TEST_SUITE=spec     DB=mysql2"
+    # postgres
+    - "TEST_SUITE=cucumber DB=postgres"
+    - "TEST_SUITE=test     DB=postgres"
+    - "TEST_SUITE=spec     DB=postgres"
 script: "if [[ $TEST_SUITE == 'karma' ]]; then npm test; else bundle exec rake $TEST_SUITE; fi"
 before_install:
   - "export DISPLAY=:99.0"
@@ -56,6 +62,7 @@ before_install:
   - "if [[ $TEST_SUITE == 'karma' ]]; then travis_retry npm install; fi"
 before_script:
   - "if [[ $TEST_SUITE != 'karma' ]]; then RAILS_ENV=production bundle exec rake ci:travis:prepare; fi"
+  - "export JRUBY_OPTS=-J-Xmx1024m"
 notifications:
   email: false
 # Disabling coverage reporting until CodeClimate supports merging results from multiple partial tests
