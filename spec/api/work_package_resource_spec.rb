@@ -59,7 +59,6 @@ describe 'API v3 Work package resource' do
         member = FactoryGirl.build(:member, user: current_user, project: work_package.project)
         member.role_ids = [role.id]
         member.save!
-        p get_path
         get get_path
       end
 
