@@ -6,8 +6,10 @@
 
     <form name="modalSettingsForm">
       <div>
-        <label for="name">{{ I18n.t('js.modals.label_name') }}</label>
-        <input class="short" type="text" name="query_name" ng-model="query.name" required></input>
+        <label>
+          {{ I18n.t('js.modals.label_name') }}
+          <input class="short" type="text" name="query_name" ng-model="query.name" required></input>
+        </label>
       </div>
       <div>
         <button class="button_highlight"
