@@ -95,6 +95,18 @@ describe Api::V2::PlanningElementsController do
     end
   end
 
+  def work_packages_to_structs(work_packages)
+    work_packages.map do |model|
+      Struct::WorkPackage.new.tap do |s|
+        model.attributes.each do |attribute, value|
+          s.send(:"#{attribute}=", value)
+        end
+        s.child_ids = []
+        s.custom_values = []
+      end
+    end
+  end
+
   before do
     User.stub(:current).and_return current_user
 
@@ -318,16 +330,13 @@ describe Api::V2::PlanningElementsController do
 
           describe 'w/ 3 planning elements within the project' do
             before do
-              @created_planning_elements = [
+              created_planning_elements = [
                 FactoryGirl.create(:work_package, :project_id => project.id),
                 FactoryGirl.create(:work_package, :project_id => project.id),
                 FactoryGirl.create(:work_package, :project_id => project.id)
-              ].map do |model|
-                OpenStruct.new(model.attributes).tap do |s|
-                  s.child_ids = []
-                  s.custom_values = []
-                end
-              end
+              ]
+              @created_planning_elements = work_packages_to_structs(created_planning_elements)
+
               get 'index', :project_id => project.id, :format => 'xml'
             end
 
@@ -393,16 +402,14 @@ describe Api::V2::PlanningElementsController do
 
           describe 'w/ 1 planning element in project_a and 2 in project_b' do
             before do
-              @created_planning_elements = [
+              created_planning_elements = [
                 FactoryGirl.create(:work_package, :project_id => project_a.id),
                 FactoryGirl.create(:work_package, :project_id => project_b.id),
                 FactoryGirl.create(:work_package, :project_id => project_b.id)
-              ].map do |model|
-                OpenStruct.new(model.attributes).tap do |s|
-                  s.child_ids = []
-                  s.custom_values = []
-                end
-              end
+              ]
+
+              @created_planning_elements = work_packages_to_structs(created_planning_elements)
+
               # adding another planning element, just to make sure, that the
               # result set is properly filtered
               FactoryGirl.create(:work_package, :project_id => project_c.id)
