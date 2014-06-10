@@ -90,7 +90,7 @@ module OpenProject::Costs::Patches::UserPatch
 
     def save_rates
       (default_rates + rates).each do |rate|
-        rate.save(:validate => false)
+        return false if !rate.save
       end
     end
 
