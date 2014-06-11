@@ -30,7 +30,7 @@
 ################################################################################
 # This concern provides a general implementation of preview functionality      #
 # found in different controllers.                                              #
-#                                                                              # 
+#                                                                              #
 # Nevertheless, this concern expects the controller to implement the function  #
 # #parse_preview_data. #parse_preview_data must return a list of (wiki) texts, #
 # attachments required to render the texts, and the object. Attachments and    #

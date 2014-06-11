@@ -112,4 +112,3 @@ class WorkPackages::MovesController < ApplicationController
   end
 
 end
-

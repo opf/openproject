@@ -161,4 +161,3 @@ def member_for_login(principal_name)
   #the assumption here is, that there is only one project
   principal.members.first
 end
-

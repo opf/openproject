@@ -97,7 +97,7 @@
   font-size: 15px
   line-height: 5px
   vertical-align: -40%
-  
+
 @mixin icon-big-rules
   padding: 0 0 0 0
   font-size: 50px
@@ -154,7 +154,7 @@
 [data-icon-sub-menu]:before
   content: attr(data-icon-sub-menu)
   @include icon-sub-menu-rules
-  
+
 [data-icon-big]:before
   content: attr(data-icon-big)
   @include icon-big-rules
@@ -201,7 +201,7 @@
 // used for icons in workpackage table
 .icon-table:before
   @include icon-table-rules
-  
+
 // used for very big icons
 .icon-big:before
   @include icon-big-rules
@@ -925,21 +925,33 @@ dt > .icon-wiki-page:before,
 
 .icon-toggle:before
   content: "\e0e3"
-  
+
+.icon-sort-by:before
+  content: "\e0e4"
+
+.icon-group-by:before
+  content: "\e0e5"
+
+.icon-filter-big:before
+  content: "\e0e6"
+
 .icon-page-pdf:before
   content: "\e0e9"
 
 .icon-page-csv:before
   content: "\e0ea"
 
-.icon-filter-big:before
-  content: "\e0e6"
-
 .icon-page-xls:before
   content: "\e019"
 
 .icon-page-atom:before
   content: "\e0a5"
+
+.icon-group-by2:before
+  content: "\e0e7"
+
+.icon-sort-by2:before
+  content: "\e0e8"
 
 /* remove once all menu items have an icon */
 .no-icon

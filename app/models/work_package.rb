@@ -106,7 +106,7 @@ class WorkPackage < ActiveRecord::Base
   scope :with_author, lambda { |author|
     {:conditions => {:author_id => author.id}}
   }
-  
+
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   after_initialize :set_default_values

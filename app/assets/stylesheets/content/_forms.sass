@@ -172,23 +172,28 @@ fieldset
       margin-left: 0
       font-weight: normal
 
-input[type=checkbox]
-  border: 0
-  clip: rect(0 0 0 0)
-  height: 18px
-  margin: 0 -18px -18px 0
-  overflow: hidden
-  padding: 0
-  position: absolute
-  width: 18px
-  opacity: 0.001
-
 .checkbox-label
   position: relative
   display: inline-block
   vertical-align: top
   line-height: 18px
   user-select: none
+
+  input[type=checkbox]
+    border: 0
+    clip: rect(0 0 0 0)
+    height: 18px
+    margin: 0 -18px -18px 0
+    overflow: hidden
+    padding: 0
+    position: absolute
+    width: 18px
+    opacity: 0.001
+
+  \:checked + .styled-checkbox:after
+    opacity: 1
+
+  \:focus + .styled-checkbox:before
 
 .styled-checkbox
   display: inline-block
@@ -222,10 +227,3 @@ input[type=checkbox]
     border-top: none
     border-right: none
     @include transform(rotate(-50deg))
-
-\:checked + .styled-checkbox:after
-  opacity: 1
-
-\:focus + .styled-checkbox:before
-  
-  

@@ -90,6 +90,15 @@ angular.module('openproject.services')
       query = null;
     },
 
+    resetAll: function(){
+      QueryService.resetQuery();
+      availableOptions = {};
+      availableColumns = [],
+      availableUnusedColumns = [],
+      availableFilterValues = {},
+      availableFilters = {};
+    },
+
     getQuery: function() {
       return query;
     },

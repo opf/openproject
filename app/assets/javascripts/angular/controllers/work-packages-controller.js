@@ -52,6 +52,8 @@ angular.module('openproject.workPackages.controllers')
   // Setup
 
   function initialSetup() {
+    $scope.query_id = null;
+    QueryService.resetAll();
     setupPageParamsFromUrl($window.location);
     initProject();
 
@@ -176,8 +178,8 @@ angular.module('openproject.workPackages.controllers')
     $scope.availableOptions = QueryService.getAvailableOptions(); // maybe generalize this approach
     $scope.$watch('availableOptions.availableGroupedQueries', function(availableQueries) {
       if (availableQueries) {
-        $scope.groups = [{ name: 'CUSTOM QUERIES', models: availableQueries['user_queries']},
-                         { name: 'GLOBAL QUERIES', models: availableQueries['queries']}];
+        $scope.groups = [{ name: 'GLOBAL QUERIES', models: availableQueries['queries']},
+                         { name: 'CUSTOM QUERIES', models: availableQueries['user_queries']}];
       }
     });
   }
@@ -237,7 +239,6 @@ angular.module('openproject.workPackages.controllers')
   });
 
   $rootScope.$on('queryResetRequired', function(event, message) {
-    $scope.query_id = null;
     initialSetup();
   });
 

@@ -77,5 +77,3 @@ describe ProjectsController do
     it { expect(post("projects/123/copy")).to                      route_to(:controller => 'copy_projects', :action =>"copy",         :id =>"123")}
   end
 end
-
-

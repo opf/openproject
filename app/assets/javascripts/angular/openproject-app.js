@@ -67,7 +67,8 @@ angular.module('openproject.workPackages', [
   'openproject.workPackages.controllers',
   'openproject.workPackages.filters',
   'openproject.workPackages.directives',
-  'openproject.uiComponents'
+  'openproject.uiComponents',
+  'ng-context-menu'
 ]);
 angular.module('openproject.workPackages.services', []);
 angular.module('openproject.workPackages.helpers', [
@@ -88,8 +89,7 @@ angular.module('openproject.workPackages.controllers', [
 angular.module('openproject.workPackages.directives', [
   'openproject.uiComponents',
   'openproject.services',
-  'openproject.workPackages.services',
-  'ng-context-menu'
+  'openproject.workPackages.services'
 ]);
 
 // messages

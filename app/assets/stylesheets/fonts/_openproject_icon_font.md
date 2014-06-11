@@ -243,5 +243,9 @@
 <i class="icon-page-csv"></i>
 <i class="icon-page-xls"></i>
 <i class="icon-page-atom"></i>
+<i class="icon-sort-by"></i>
+<i class="icon-group-by"></i>
 <i class="icon-filter-big"></i>
+<i class="icon-group-by2"></i>
+<i class="icon-sort-by2"></i>
 ```

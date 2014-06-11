@@ -893,4 +893,3 @@ class AggregatedMigrations < ActiveRecord::Migration
   end
 
 end
-

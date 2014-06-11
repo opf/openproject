@@ -41,7 +41,7 @@ class FixIssueInNotifications < ActiveRecord::Migration
   def down
     Setting['notified_events'] = replace(Setting['notified_events'], REPLACED.invert)
   end
-  
+
   private
 
   def replace(value,mapping)

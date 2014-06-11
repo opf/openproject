@@ -58,6 +58,10 @@
   li
     float: none
 
+  .dropdown-scrollable
+    overflow-y: auto
+    max-height: 500px
+
 #querySelectDropdown
   min-width: 250px
   border: 1px solid #dddddd
@@ -69,11 +73,11 @@
     clear: both
     width: 100%
     display: block
-  ul.query-menu    
+  ul.query-menu
     width: 100%
     margin: 0 0 10px 0
     float: left
-    li 
+    li
       padding: 4px 25px
       display: block
       &:hover
@@ -85,7 +89,7 @@
         &:hover
           text-decoration: none
   .search-query-wrapper
-    padding: 15px  
+    padding: 15px
   input
     margin: 0 auto
     width: 100%

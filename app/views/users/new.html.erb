@@ -35,10 +35,10 @@ See doc/COPYRIGHT.rdoc for more details.
                               :url => { :action => "create" },
                               :html => { :class => nil, :autocomplete => 'off' },
                               :as => :user do |f| %>
-	<%= render :partial => 'form', :locals => { :f => f } %>
-	<p><label><%= check_box_tag 'send_information', 1, true %> <%= l(:label_send_information) %></label></p>
-	<p>
-		<%= submit_tag l(:button_create) %>
-		<%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
-	</p>
+  <%= render :partial => 'form', :locals => { :f => f } %>
+  <p><label><%= check_box_tag 'send_information', 1, true %> <%= l(:label_send_information) %></label></p>
+  <p>
+    <%= submit_tag l(:button_create) %>
+    <%= submit_tag l(:button_create_and_continue), :name => 'continue' %>
+  </p>
 <% end %>

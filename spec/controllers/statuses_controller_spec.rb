@@ -200,7 +200,7 @@ describe StatusesController do
     end
 
     context "with 'work_package_done_ratio' using 'field'" do
-      let(:message) { /not updated/ } 
+      let(:message) { /not updated/ }
 
       before do
         allow(Setting).to receive(:work_package_done_ratio).and_return 'field'
@@ -214,7 +214,7 @@ describe StatusesController do
     end
 
     context "with 'work_package_done_ratio' using 'status'" do
-      let(:message) { /Work package done ratios updated/ } 
+      let(:message) { /Work package done ratios updated/ }
 
       before do
         allow(Setting).to receive(:work_package_done_ratio).and_return 'status'

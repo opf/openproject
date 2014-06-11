@@ -464,7 +464,7 @@ describe User, 'deletion' do
       timeline.options["planning_element_assignee"] = [user.id.to_s]
       timeline.options["project_responsibles"] = [user.id.to_s]
       timeline.save!
-      
+
       user.destroy
       timeline.reload
     end

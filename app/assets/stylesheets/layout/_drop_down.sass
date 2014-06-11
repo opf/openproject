@@ -36,6 +36,9 @@
 #settingsDropdown, #tasksDropdown
   margin: 10px 0 0 0
 
+#column-context-menu
+  margin: 55px 0 0 0
+
 .dropdown
   position: absolute
   z-index: 9999999
@@ -43,16 +46,16 @@
 
 .dropdown .dropdown-menu,
 .dropdown .dropdown-panel
-  min-width: 160px
+  min-width: 200px
   max-width: 360px
   list-style: none
   background: #FFF
   border: solid 1px #DDD
   border: solid 1px rgba(0, 0, 0, .2)
   border-radius: 0px
-  box-shadow: 0 5px 10px rgba(0, 0, 0, .2)
+  box-shadow: 1px 1px 4px #cccccc
   overflow: visible
-  padding: 4px 0
+  padding: 3px 0
   margin: 0
 
 .dropdown .dropdown-panel
@@ -104,11 +107,11 @@
 .dropdown .dropdown-menu LI > A,
 .dropdown .dropdown-menu LABEL
   display: block
-  color: #555
+  color: $main_menu_font_color
   text-decoration: none
-  line-height: 18px
-  padding: 3px 32px
+  padding: 4px 13px 4px 10px
   white-space: nowrap
+  font-weight: normal
 
 .dropdown .dropdown-menu LI > A:hover,
 .dropdown .dropdown-menu LABEL:hover
@@ -120,9 +123,8 @@
 
 .dropdown LI > A.dropdown-menu-hasicons
   display: block
-  color: #555
+  color: $main_menu_font_color
   text-decoration: none
-  line-height: 18px
   padding: 3px 10px
   white-space: nowrap
 
@@ -131,7 +133,7 @@
   font-size: 1px
   border-top: solid 1px #E5E5E5
   padding: 0
-  margin: 4px 0
+  margin: 3px 0
 
 /* Icon Examples - icons courtesy of http://p.yusukekamiyamane.com/ */
 .dropdown.has-icons LI > A

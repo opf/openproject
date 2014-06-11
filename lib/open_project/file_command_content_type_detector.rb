@@ -90,4 +90,3 @@ module OpenProject
 
   end
 end
-

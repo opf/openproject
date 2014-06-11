@@ -28,11 +28,11 @@ module RFPDF
   def getimagesize(filename)
     out = Hash.new
     out[2] = ImageScience.image_type(filename)
-    
+
     image = ImageScience.with_image(filename) do |img|
       out[0] = image.width
       out[1] = image.height
-      
+
       # These are actually meant to return integer values But I couldn't seem to find anything saying what those values are.
       # So for now they return strings. The only place that uses this at the moment is the parsejpeg method, so I've changed that too.
       case out[2]
@@ -48,18 +48,18 @@ module RFPDF
         out['mime'] = "image/x-xpixmap"
       end
       out[3] = "height=\"#{image.height}\" width=\"#{image.width}\""
-      
+
       if image.colorspace == "CMYK" || image.colorspace == "RGBA"
           out['channels'] = 4
       elsif image.colorspace == "RGB"
         out['channels'] = 3
       end
-      
+
       out['bits'] = image.depth
       out['bits'] /= out['channels'] if out['channels']
     end
-    
+
     out
   end
-  
+
 end

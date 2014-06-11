@@ -22,13 +22,14 @@
     "jquery-migrate": "~1.2.1",
     "momentjs": "~2.6.0",
     "moment-timezone": "~0.0.6",
-    "ng-context-menu": "finnlabs/ng-context-menu#context-sharing-with-multiple-targets"
+    "angular-context-menu": "0.1.1"
   },
   "devDependencies": {
     "mocha": "~1.14.0",
     "angular-mocks": "~1.2.14",
     "angular-scenario": "~1.2.14",
-    "chai": "~1.9.0"
+    "chai": "~1.9.0",
+    "jquery-mockjax": "~1.5.3"
   },
   "resolutions": {
     "select2": "3.3.2"

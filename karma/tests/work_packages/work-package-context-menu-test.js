@@ -1,3 +1,4 @@
+
 //-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -28,37 +29,35 @@
 
 /*jshint expr: true*/
 
-describe('workPackageContextMenu Directive', function() {
-  var compile, element, rootScope, scope;
+describe('workPackageContextMenu', function() {
+  var container, contextMenu, $rootScope;
 
-  beforeEach(angular.mock.module('openproject.workPackages.directives'));
-  beforeEach(module('templates', 'openproject.models'));
+  beforeEach(module('ng-context-menu',
+                    'openproject.workPackages',
+                    'openproject.models',
+                    'templates'));
 
-  beforeEach(inject(function($rootScope, $compile, _ContextMenuService_) {
-    var html;
-    html = '<work-package-context-menu></work-package-context-menu>';
-
-    element = angular.element(html);
-    rootScope = $rootScope;
-    scope = $rootScope.$new();
-    ContextMenuService = _ContextMenuService_;
-
-    compile = function() {
-      $compile(element)(scope);
-      scope.$digest();
-    };
-  }));
-
-  describe('element', function() {
-    beforeEach(function() {
-      compile();
-    });
-
-    it('should render a surrounding div', function() {
-      expect(element.prop('tagName')).to.equal('DIV');
-    });
-
+  beforeEach(function() {
+    var html = '<div></div>';
+    container = angular.element(html);
   });
+
+  beforeEach(inject(function(_$rootScope_, _ngContextMenu_, $templateCache) {
+    $rootScope = _$rootScope_;
+    ngContextMenu = _ngContextMenu_;
+
+    var template = $templateCache.get('/templates/work_packages/work_package_context_menu.html');
+    $templateCache.put('work_package_context_menu.html', [200, template, {}]);
+
+    contextMenu = ngContextMenu({
+      controller: 'WorkPackageContextMenuController',
+      controllerAs: 'contextMenu',
+      container: container,
+      templateUrl: 'work_package_context_menu.html'
+    });
+
+    contextMenu.open({x: 0, y: 0});
+  }));
 
   describe('when the context menu context contains one work package', function() {
     var I18n;
@@ -73,16 +72,6 @@ describe('workPackageContextMenu Directive', function() {
         });
     var directListElements;
 
-    beforeEach(function() {
-      compile();
-
-      ContextMenuService.setContext({rows: [], row: {object: workPackage}});
-      ContextMenuService.open('workPackageContextMenu');
-      scope.$apply();
-
-      directListElements = element.find('.menu > li:not(.folder)');
-    });
-
     beforeEach(inject(function(_I18n_) {
       I18n = _I18n_;
       sinon.stub(I18n, 't').withArgs('js.button_' + actions[0]).returns('anything');
@@ -90,6 +79,15 @@ describe('workPackageContextMenu Directive', function() {
     afterEach(inject(function() {
       I18n.t.restore();
     }));
+
+    beforeEach(function() {
+      $rootScope.rows = [];
+      $rootScope.row = {object: workPackage};
+
+      $rootScope.$digest();
+
+      directListElements = container.find('.menu > li:not(.folder)');
+    });
 
     it('lists link tags for any permitted action', function(){
       expect(directListElements.length).to.equal(2);
@@ -99,17 +97,17 @@ describe('workPackageContextMenu Directive', function() {
       expect(directListElements[0].className).to.equal(actions[0]);
     });
 
-    it('adds an icon from the icon fonts to each list element', function() {
-      expect(element.find('.' + actions[0] +' a').attr('class')).to.include('icon-' + actions[0]);
+    it('adds an icon from the icon fonts to each list container', function() {
+      expect(container.find('.' + actions[0] +' a').attr('class')).to.include('icon-' + actions[0]);
     });
 
     xit('translates the action name', function() {
-      expect(element.find('.' + actions[0] +' a').contents()).to.equal('anything');
+      expect(container.find('.' + actions[0] +' a').contents()).to.equal('anything');
       // TODO find out how to stub I18n.t inside directive
     });
 
     it('sets the checked property of the row within the context to true', function() {
-      expect(ContextMenuService.getContextMenu().context.row.checked).to.be.true;
+      expect($rootScope.row.checked).to.be.true;
     });
 
     describe('when delete is permitted on a work package', function() {
@@ -123,10 +121,11 @@ describe('workPackageContextMenu Directive', function() {
           });
 
       beforeEach(function() {
-        ContextMenuService.setContext({rows: [], row: {object: workPackage}});
-        compile();
+        $rootScope.rows = [];
+        $rootScope.row = {object: workPackage};
+        $rootScope.$digest();
 
-        directListElements = element.find('.menu > li:not(.folder)');
+        directListElements = container.find('.menu > li:not(.folder)');
       });
 
       it('displays a link triggering deleteWorkPackages within the scope', function() {
