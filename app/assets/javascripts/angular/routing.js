@@ -48,18 +48,11 @@ openprojectApp.config([
       url: "/projects/:projectIdentifier/work_packages?query_id",
       abstract: true,
       templateUrl: "/templates/work_packages.html",
-      controller: 'WorkPackagesController',
-      resolve: {
-        project: function($stateParams, ProjectService) {
-          return ProjectService.getProject($stateParams.projectIdentifier);
-        },
-        availableTypes: function(project) {
-          return project.embedded.types;
-        }
-      }
+      controller: 'WorkPackagesController'
     })
     .state('work-packages.list', {
       url: "",
+      controller: 'WorkPackagesListController',
       templateUrl: "/templates/work_packages.list.html"
     })
     .state('work-packages.list.details', {

@@ -29,135 +29,37 @@
 /*jshint expr: true*/
 
 describe('WorkPackagesController', function() {
-  var scope, ctrl, win, testParams,
-     testProjectService, testWorkPackageService, testQueryService, testPaginationService;
-  var buildController;
+  var scope, win, testParams, buildController;
 
-  beforeEach(module('openproject.workPackages.controllers', 'openproject.workPackages.services', 'ng-context-menu', 'btford.modal'));
+  beforeEach(module('openproject.workPackages.controllers'));
   beforeEach(inject(function($rootScope, $controller, $timeout) {
+    scope = $rootScope.$new();
+  }));
+
+  beforeEach(inject(function($rootScope, $controller) {
     scope = $rootScope.$new();
     win   = {
      location: { pathname: "" }
     };
-
-    var workPackageData = {
-      meta: {
-      }
-    };
-    var columnData = {
-    };
-    var availableQueryiesData = {
-    };
-
-    var projectData  = { embedded: { types: [] } };
-    var projectsData = [ projectData ];
-
-    testProjectService = {
-      getProject: function(identifier) {
-        return $timeout(function() {
-          return projectData;
-        }, 10);
-      },
-      getProjects: function(identifier) {
-        return $timeout(function() {
-          return projectsData;
-        }, 10);
-      }
-    };
-
-    testWorkPackageService = {
-      getWorkPackages: function () {
-      },
-      getWorkPackagesByQueryId: function (params) {
-        return $timeout(function () {
-          return workPackageData;
-        }, 10);
-      },
-      getWorkPackagesFromUrlQueryParams: function () {
-        return $timeout(function () {
-          return workPackageData;
-        }, 10);
-      }
-    };
-    testQueryService = {
-      getQuery: function () {
-        return {
-          getQueryString: function () {
-          }
-        };
-      },
-      initQuery: function () {
-      },
-      getAvailableOptions: function() {
-        return {};
-      },
-      loadAvailableColumns: function () {
-        return $timeout(function () {
-          return columnData;
-        }, 10);
-      },
-      loadAvailableGroupedQueries: function () {
-        return $timeout(function () {
-          return availableQueryiesData;
-        }, 10);
-      },
-
-      loadAvailableUnusedColumns: function() {
-        return $timeout(function () {
-          return columnData;
-        }, 10);
-      },
-
-      getTotalEntries: function() {
-      },
-
-      setTotalEntries: function() {
-        return 10;
-      },
-
-      resetAll: function() {
-        return null;
-      }
-    };
-    testPaginationService = {
-      setPerPageOptions: function () {
-      },
-      setPerPage: function () {
-      },
-      setPage: function () {
-      }
-    };
-
-    testParams = {}
+    testParams = { projectIdentifier: 'anything' };
 
     buildController = function() {
       ctrl = $controller("WorkPackagesController", {
         $scope:  scope,
         $window: win,
-        project:            {},
-        availableTypes:     {},
-        QueryService:       testQueryService,
-        PaginationService:  testPaginationService,
-        WorkPackageService: testWorkPackageService,
-        $stateParams:       testParams
+        $stateParams: testParams,
+        project: {},
+        availableTypes: {}
       });
-
-      $timeout.flush();
     };
-
   }));
 
-  describe('initialisation', function() {
-    it('should initialise', function() {
-      buildController();
-      expect(scope.loading).to.be.false;
+  describe('setting projectIdentifier', function() {
+    beforeEach(function() {
+      testParams = { projectIdentifier: 'my-project' };
     });
 
-  });
-
-  describe('setting projectIdentifier', function() {
     it('should set the projectIdentifier', function() {
-      testParams = { projectIdentifier: 'my-project' };
       buildController();
       expect(scope.projectIdentifier).to.eq('my-project');
     });
