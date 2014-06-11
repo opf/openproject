@@ -28,14 +28,17 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('filterClear', ['$state', function($state){
+.directive('filterClear', [
+  '$state',
+  'QueryService',
+  function($state, QueryService){
   return {
     restrict: 'E',
     templateUrl: '/templates/work_packages/filter_clear.html',
     scope: true,
     link: function(scope, element, attributes) {
       scope.clearQuery = function(){
-        $state.go('work-packages.list', {}, { reload: true });
+        $state.go('work-packages.list', { query_id: null }, { reload: true });
       };
     }
   };

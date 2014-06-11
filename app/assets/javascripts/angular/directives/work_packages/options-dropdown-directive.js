@@ -70,7 +70,7 @@ angular.module('openproject.workPackages.directives')
             .then(function(data){
               settingsModal.deactivate();
               scope.$emit('flashMessage', data.status);
-              $state.go('work-packages.list', {}, { reload: true });
+              $state.go('work-packages.list', { query_id: null }, { reload: true });
             });
         }
       };
