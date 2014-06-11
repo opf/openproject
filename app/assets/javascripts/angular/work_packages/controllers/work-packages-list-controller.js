@@ -90,10 +90,16 @@ angular.module('openproject.workPackages.controllers')
   }
 
   function initQuery(metaData) {
-    var queryData = metaData.query,
-        columnData = metaData.columns;
+    var storedQuery = QueryService.getQuery();
 
-    $scope.query = QueryService.getQuery() || QueryService.initQuery($scope.query_id, queryData, columnData, afterQuerySetupCallback);
+    if (storedQuery && storedQuery.id === $scope.query_id) {
+      $scope.query = storedQuery;
+    } else {
+      var queryData = metaData.query,
+          columnData = metaData.columns;
+
+      $scope.query = QueryService.initQuery($scope.query_id, queryData, columnData, afterQuerySetupCallback);
+    }
   }
 
   function afterQuerySetupCallback(query) {
