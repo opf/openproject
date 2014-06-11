@@ -89,6 +89,22 @@ describe Api::V2::CustomFieldsController do
 
         it { expect(subject).not_to include(wp_custom_field_3) }
       end
+
+      context "as admin with project" do
+        let(:current_user) { FactoryGirl.create(:admin) }
+
+        before do
+          User.stub(:current).and_return current_user
+
+          get :index, format: :xml
+        end
+
+        it_behaves_like 'valid workflow index request'
+
+        subject { assigns(:custom_fields) }
+
+        it { expect(subject.count).to eq(4) }
+      end
     end
   end
 end
