@@ -39,9 +39,10 @@ module Api
 
       def index
         wp_fields = WorkPackageCustomField.visible_by_user(User.current)
-                                          .find :all,
+                                          .find(:all,
                                                 :include => [:translations, :projects, :types],
-                                                :order => :id
+                                                :order => :id)
+                                          .uniq
         other_fields = CustomField.find :all,
           :include => :translations,
           :conditions => "type != 'WorkPackageCustomField'",
