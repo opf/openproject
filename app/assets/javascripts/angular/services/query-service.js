@@ -50,11 +50,11 @@ angular.module('openproject.services')
 
   var query;
 
-  var availableOptions = {}; // used as a container object holding watchable object references
   var availableColumns = [],
       availableUnusedColumns = [],
       availableFilterValues = {},
-      availableFilters = {};
+      availableFilters = {},
+      availableGroupedQueries;
 
   var totalEntries;
 
@@ -88,14 +88,13 @@ angular.module('openproject.services')
     resetQuery: function() {
       query = null;
     },
-
     resetAll: function(){
       QueryService.resetQuery();
-      availableOptions = {};
-      availableColumns = [],
-      availableUnusedColumns = [],
-      availableFilterValues = {},
+      availableColumns = [];
+      availableUnusedColumns = [];
+      availableFilterValues = {};
       availableFilters = {};
+      availableGroupedQueries = null;
     },
 
     getQuery: function() {
@@ -122,15 +121,15 @@ angular.module('openproject.services')
       WorkPackagesTableHelper.moveColumns(columnNames, availableUnusedColumns, this.getSelectedColumns());
     },
 
-    getAvailableOptions: function() {
-      return availableOptions;
+    getAvailableGroupedQueries: function() {
+      return availableGroupedQueries;
     },
 
     // data loading
 
     loadAvailableGroupedQueries: function(projectIdentifier) {
-      if (availableOptions.availableGroupedQueries) {
-        return $q.when(availableOptions.availableGroupedQueries);
+      if (availableGroupedQueries) {
+        return $q.when(availableGroupedQueries);
       }
 
       return QueryService.fetchAvailableGroupedQueries(projectIdentifier);
@@ -141,8 +140,8 @@ angular.module('openproject.services')
 
       return QueryService.doQuery(url)
         .then(function(groupedQueriesResults) {
-          availableOptions.availableGroupedQueries = groupedQueriesResults;
-          return availableOptions.availableGroupedQueries;
+          availableGroupedQueries = groupedQueriesResults;
+          return availableGroupedQueries;
         });
     },
 

@@ -109,7 +109,7 @@ describe('QueryService', function() {
       it('stores the grouped queries', function() {
         loadAvailableGroupedQueries();
 
-        expect(QueryService.getAvailableOptions().availableGroupedQueries).to.deep.equal(groupedQueries);
+        expect(QueryService.getAvailableGroupedQueries()).to.deep.equal(groupedQueries);
       });
     });
 

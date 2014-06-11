@@ -34,63 +34,59 @@ angular.module('openproject.workPackages.controllers')
     '$q',
     '$location',
     '$stateParams',
-    'project',
-    'availableTypes',
     'I18n',
     'WorkPackagesTableService',
     'WorkPackageService',
+    'ProjectService',
     'QueryService',
     'PaginationService',
     'WorkPackageLoadingHelper',
     'INITIALLY_SELECTED_COLUMNS',
     'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
     function($scope, $rootScope, $q, $location, $stateParams,
-      project, availableTypes, I18n,
-      WorkPackagesTableService,
-      WorkPackageService, QueryService, PaginationService,
+      I18n, WorkPackagesTableService,
+      WorkPackageService, ProjectService, QueryService, PaginationService,
       WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS,
       OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
 
+
   // Setup
 
-  $scope.project  = project;
-  $scope.projects = [ project ];
-  $scope.availableTypes = availableTypes;
-
-  $scope.projectIdentifier = $stateParams.projectIdentifier;
-  $scope.query_id = $stateParams.query_id;
-
   function initialSetup() {
-    $scope.query_id = null;
-    QueryService.resetAll();
-
-    $scope.selectedTitle = I18n.t('js.toolbar.unselected_title');
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.loading = false;
     $scope.disableFilters = false;
 
     var getWorkPackages, params;
-    if($location.search()['c[]']){
-      getWorkPackages = WorkPackageService.getWorkPackagesFromUrlQueryParams;
-      params = [$scope.projectIdentifier, $location];
-    } else {
+    if($scope.query_id){
       getWorkPackages = WorkPackageService.getWorkPackagesByQueryId;
       params = [$scope.projectIdentifier, $scope.query_id];
+    } else {
+      getWorkPackages = WorkPackageService.getWorkPackagesFromUrlQueryParams;
+      params = [$scope.projectIdentifier, $location];
     }
 
     $scope.withLoading(getWorkPackages, params)
       .then(setupPage);
+    loadProjectTypesAndQueries();
   }
 
+  function loadProjectTypesAndQueries() {
+    ProjectService.getProject($scope.projectIdentifier)
+      .then(function(project) {
+        $scope.project = project;
+        $scope.projects = [ project ];
+        $scope.availableTypes = project.embedded.types;
+      });
+
+    QueryService.loadAvailableGroupedQueries($stateParams.projectIdentifier);
+  }
 
   function setupPage(json) {
     initQuery(json.meta);
     setupWorkPackagesTable(json);
 
-    return $q.all([
-      initAvailableColumns(),
-      initAvailableQueries()
-    ]);
+    initAvailableColumns();
   }
 
   function initQuery(metaData) {
@@ -146,28 +142,7 @@ angular.module('openproject.workPackages.controllers')
       });
   }
 
-  function initAvailableQueries() {
-    QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
-
-    $scope.availableOptions = QueryService.getAvailableOptions(); // maybe generalize this approach
-    $scope.$watch('availableOptions.availableGroupedQueries', function(availableQueries) {
-      if (availableQueries) {
-        $scope.groups = [{ name: 'GLOBAL QUERIES', models: availableQueries['queries']},
-                         { name: 'CUSTOM QUERIES', models: availableQueries['user_queries']}];
-      }
-    });
-  }
-
-
   // Updates
-
-  $scope.reloadQuery = function(queryId) {
-    QueryService.resetQuery();
-    $scope.query_id = queryId;
-
-    $scope.withLoading(WorkPackageService.getWorkPackagesByQueryId, [$scope.projectIdentifier, $scope.query_id])
-      .then(setupPage);
-  };
 
   $scope.updateBackUrl = function(){
     // Easier than trying to extract it from $location

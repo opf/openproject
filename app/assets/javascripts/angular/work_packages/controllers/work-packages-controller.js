@@ -26,34 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-openprojectApp.config([
-  '$stateProvider',
-  '$urlRouterProvider',
-  function($stateProvider, $urlRouterProvider) {
+angular.module('openproject.workPackages.controllers')
 
-  // All unmatched routes should be handled by Rails
-  // (i.e. invoke a full-page load)
-  //
-  // a better behaviour here would be for Angular's HTML5-mode to provide an
-  // option to turn link hijacking off by default (and use a `target` attribute
-  // to turn it on for selected links).
+.controller('WorkPackagesController', [
+    '$scope',
+    '$stateParams',
+    'QueryService',
+    'ProjectService',
+    function($scope, $stateParams, QueryService, ProjectService) {
 
+  // Setup
+  $scope.selectedTitle = I18n.t('js.toolbar.unselected_title');
 
-  $stateProvider
-    .state('work-packages', {
-      url: "/projects/:projectIdentifier/work_packages?query_id",
-      abstract: true,
-      templateUrl: "/templates/work_packages.html",
-      controller: 'WorkPackagesController'
-    })
-    .state('work-packages.list', {
-      url: "",
-      controller: 'WorkPackagesListController',
-      templateUrl: "/templates/work_packages.list.html"
-    })
-    .state('work-packages.list.details', {
-      url: "/{workPackageId:[0-9]+}",
-      templateUrl: "/templates/work_packages.list.details.html",
-      controller: 'WorkPackageDetailsController'
-    });
+  $scope.projectIdentifier = $stateParams.projectIdentifier;
+  $scope.query_id = $stateParams.query_id;
+
+  $scope.$watch(QueryService.getAvailableGroupedQueries, function(availableQueries) {
+    if (availableQueries) {
+      $scope.groups = [{ name: 'GLOBAL QUERIES', models: availableQueries['queries']},
+                       { name: 'CUSTOM QUERIES', models: availableQueries['user_queries']}];
+    }
+  });
+
 }]);

@@ -128,21 +128,19 @@ describe('WorkPackagesListController', function() {
       }
     };
 
-    testParams = {}
+    testParams = {};
 
     buildController = function() {
+      scope.projectIdentifier = 'test';
+
       ctrl = $controller("WorkPackagesListController", {
         $scope:  scope,
         $window: win,
-        project:            {},
-        availableTypes:     {},
         QueryService:       testQueryService,
         PaginationService:  testPaginationService,
         WorkPackageService: testWorkPackageService,
         $stateParams:       testParams
       });
-
-      $timeout.flush();
     };
 
   }));
@@ -152,15 +150,5 @@ describe('WorkPackagesListController', function() {
       buildController();
       expect(scope.loading).to.be.false;
     });
-
   });
-
-  describe('setting projectIdentifier', function() {
-    it('should set the projectIdentifier', function() {
-      testParams = { projectIdentifier: 'my-project' };
-      buildController();
-      expect(scope.projectIdentifier).to.eq('my-project');
-    });
-  });
-
 });

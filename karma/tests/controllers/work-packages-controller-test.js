@@ -26,34 +26,43 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-openprojectApp.config([
-  '$stateProvider',
-  '$urlRouterProvider',
-  function($stateProvider, $urlRouterProvider) {
+/*jshint expr: true*/
 
-  // All unmatched routes should be handled by Rails
-  // (i.e. invoke a full-page load)
-  //
-  // a better behaviour here would be for Angular's HTML5-mode to provide an
-  // option to turn link hijacking off by default (and use a `target` attribute
-  // to turn it on for selected links).
+describe('WorkPackagesController', function() {
+  var scope, win, testParams, buildController;
 
+  beforeEach(module('openproject.workPackages.controllers'));
+  beforeEach(inject(function($rootScope, $controller, $timeout) {
+    scope = $rootScope.$new();
+  }));
 
-  $stateProvider
-    .state('work-packages', {
-      url: "/projects/:projectIdentifier/work_packages?query_id",
-      abstract: true,
-      templateUrl: "/templates/work_packages.html",
-      controller: 'WorkPackagesController'
-    })
-    .state('work-packages.list', {
-      url: "",
-      controller: 'WorkPackagesListController',
-      templateUrl: "/templates/work_packages.list.html"
-    })
-    .state('work-packages.list.details', {
-      url: "/{workPackageId:[0-9]+}",
-      templateUrl: "/templates/work_packages.list.details.html",
-      controller: 'WorkPackageDetailsController'
+  beforeEach(inject(function($rootScope, $controller) {
+    scope = $rootScope.$new();
+    win   = {
+     location: { pathname: "" }
+    };
+    testParams = { projectIdentifier: 'anything' };
+
+    buildController = function() {
+      ctrl = $controller("WorkPackagesController", {
+        $scope:  scope,
+        $window: win,
+        $stateParams: testParams,
+        project: {},
+        availableTypes: {}
+      });
+    };
+  }));
+
+  describe('setting projectIdentifier', function() {
+    beforeEach(function() {
+      testParams = { projectIdentifier: 'my-project' };
     });
-}]);
+
+    it('should set the projectIdentifier', function() {
+      buildController();
+      expect(scope.projectIdentifier).to.eq('my-project');
+    });
+  });
+
+});
