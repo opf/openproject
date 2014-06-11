@@ -260,3 +260,5 @@ users_deletable_by_admins:
   default: 0
 users_deletable_by_self:
   default: 0
+work_package_count_on_copy:
+  default: 0

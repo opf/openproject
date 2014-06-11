@@ -58,7 +58,7 @@ See doc/COPYRIGHT.rdoc for more details.
                           :count => project.wiki.nil? ? 0 : project.wiki.pages.count } %>
   <%= render :partial => "copy_projects/copy_settings/block_checkbox",
              :locals => { :name => "work_packages", :checked => false, :label => l(:label_work_package_plural),
-                          :count => project.work_packages.count } %>
+                          :count => (@copy_work_packages ? project.work_packages.count : 0) } %>
   <%= render :partial => "copy_projects/copy_settings/block_checkbox",
              :locals => { :name => "categories", :checked => true,
                           :label => l(:label_work_package_category_plural),

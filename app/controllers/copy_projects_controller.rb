@@ -69,6 +69,8 @@ class CopyProjectsController < ApplicationController
                                   :order => 'name')
     @copy_project = Project.copy_attributes(@project)
     if @copy_project
+      @copy_work_packages = Setting.work_package_count_on_copy.to_i == 0 || @project.work_packages.count <= Setting.work_package_count_on_copy.to_i
+      flash.now[:warning] = l(:label_work_package_copy_count_exceeded) if from == 'settings' && !@copy_work_packages
       @copy_project.identifier = Project.next_identifier if Setting.sequential_project_identifiers?
       render :action => "copy_from_#{from}"
     else

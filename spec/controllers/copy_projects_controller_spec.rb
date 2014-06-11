@@ -35,15 +35,43 @@ describe CopyProjectsController do
     User.stub(:current).and_return current_user
   end
 
-  describe "copy_from_settings uses correct project to copy from" do
-    before do
-      get 'copy_project', :id => project.id, :coming_from => :settings
+  shared_context 'start copy project' do
+    before { get 'copy_project', id: project.id, coming_from: :settings }
+  end
+
+  describe 'copy_from_settings' do
+    let(:permission) { :copy_projects }
+    let(:project) { FactoryGirl.create(:project, is_public: false) }
+
+
+    describe 'uses correct project to copy from' do
+      include_context 'start copy project'
+
+      it { expect(assigns(:project)).to eq(project) }
     end
 
-    let(:permission) { :copy_projects }
-    let(:project) { FactoryGirl.create(:project, :is_public => false) }
+    describe 'work package limit' do
+      context 'is 0' do
+        include_context 'start copy project'
 
-    it { assigns(:project).should == project }
+        it { expect(assigns(:copy_work_packages)).to be_true }
+      end
+
+      context 'is 1' do
+        before do
+          FactoryGirl.create(:work_package, project: project)
+          FactoryGirl.create(:work_package, project: project)
+
+          Setting.stub(:work_package_count_on_copy).and_return('1')
+        end
+
+        include_context 'start copy project'
+
+        it { expect(assigns(:copy_work_packages)).to be_false }
+
+        it { expect(flash.now[:warning]).to include(I18n.t(:label_work_package_copy_count_exceeded)) }
+      end
+    end
   end
 
   describe 'copy_from_settings permissions' do
