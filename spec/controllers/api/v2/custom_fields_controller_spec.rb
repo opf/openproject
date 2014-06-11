@@ -30,10 +30,65 @@ require 'spec_helper'
 
 describe Api::V2::CustomFieldsController do
   describe '#index' do
+    let!(:custom_field) { FactoryGirl.create(:custom_field) }
+    let!(:wp_custom_field_1) { FactoryGirl.create(:work_package_custom_field) }
+    let!(:wp_custom_field_2) { FactoryGirl.create(:work_package_custom_field) }
+    let!(:wp_custom_field_3) { FactoryGirl.create(:work_package_custom_field) }
+    let(:wp_custom_fields) { [wp_custom_field_1, wp_custom_field_2] }
+    let(:project) { FactoryGirl.create(:project, work_package_custom_fields: wp_custom_fields) }
+
+    shared_examples_for 'valid workflow index request' do
+      it { expect(response).to render_template('api/v2/custom_fields/index', formats: ['api']) }
+    end
+
     describe 'unauthorized access' do
       before { get :index, project_id: project.id, format: :xml }
 
       it { expect(response.status).to eq(401) }
+    end
+
+    describe 'authorized access' do
+      context "w/o project" do
+        let(:current_user) { FactoryGirl.create(:user) }
+
+        before { User.stub(:current).and_return current_user }
+
+        describe 'w/o project' do
+          before { get :index, format: :xml }
+
+          it_behaves_like 'valid workflow index request'
+
+          subject { assigns(:custom_fields) }
+
+          it { expect(subject.count).to eq(1) }
+
+          it { expect(subject).to include(custom_field) }
+        end
+      end
+
+      context "with project" do
+        let(:current_user) { FactoryGirl.create(:user, member_in_project: project) }
+
+        before do
+          User.stub(:current).and_return current_user
+
+          get :index, format: :xml
+        end
+
+        it_behaves_like 'valid workflow index request'
+
+        subject { assigns(:custom_fields) }
+
+        it { expect(subject.count).to eq(3) }
+
+        it { expect(subject).to include(wp_custom_field_1) }
+
+        it { expect(subject).to include(wp_custom_field_2) }
+
+        it { expect(subject).to include(custom_field) }
+
+        it { expect(subject).not_to include(wp_custom_field_3) }
+      end
     end
   end
 end
