@@ -186,12 +186,8 @@ angular.module('openproject.workPackages.controllers')
 
   initialSetup();
 
-  // Note: I know we don't want watchers on the controller but I want all the toolbar directives to have restricted scopes. Thoughts welcome.
-  $scope.$watch('query.name', function(newValue, oldValue){
-    if(newValue !== oldValue && $scope.query.hasName()){
-      $scope.selectedTitle = newValue;
-    } else {
-      $scope.selectedTitle = I18n.t('js.toolbar.unselected_title');
-    }
+  $scope.$watch(QueryService.getQueryName, function(queryName){
+    $scope.selectedTitle = queryName || I18n.t('js.toolbar.unselected_title');
   });
+
 }]);

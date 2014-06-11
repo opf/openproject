@@ -101,6 +101,12 @@ angular.module('openproject.services')
       return query;
     },
 
+    getQueryName: function() {
+      if (query && query.hasName()) {
+        return query.name;
+      }
+    },
+
     setTotalEntries: function(numberOfEntries) {
       totalEntries = numberOfEntries;
     },

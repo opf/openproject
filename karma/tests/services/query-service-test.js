@@ -30,7 +30,7 @@
 
 describe('QueryService', function() {
 
-  var QueryService, query;
+  var QueryService, query, queryData;
 
   beforeEach(module('openproject.services', 'openproject.models'));
 
@@ -71,6 +71,40 @@ describe('QueryService', function() {
       it('should assign filters to the query');
     });
 
+  });
+
+  describe('getQueryName', function() {
+    var defaultTitle = 'Work Packages';
+
+    describe('when the query is undefined', function() {
+      it('returns undefined', function() {
+        expect(QueryService.getQueryName()).to.be.undefined;
+      });
+    });
+
+    describe('when the query name equals "_"', function() {
+      beforeEach(function() {
+        queryData = { name: '_' };
+        QueryService.initQuery(null, queryData);
+      });
+
+      it('returns undefined', function() {
+        expect(QueryService.getQueryName()).to.be.undefined;
+      });
+    });
+
+    describe('when the query has a name', function() {
+      var queryName = 'abc';
+
+      beforeEach(function() {
+        queryData = { name: queryName };
+        QueryService.initQuery(null, queryData);
+      });
+
+      it('returns undefined', function() {
+        expect(QueryService.getQueryName()).to.equal(queryName);
+      });
+    });
   });
 
   describe('loadAvailableGroupedQueries', function() {
