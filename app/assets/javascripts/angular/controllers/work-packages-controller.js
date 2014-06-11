@@ -120,9 +120,10 @@ angular.module('openproject.workPackages.controllers')
 
   function initQuery(metaData) {
     var queryData = metaData.query,
-        columnData = metaData.columns;
+        columnData = metaData.columns,
+        exportFormats = metaData.export_formats;
 
-    $scope.query = QueryService.getQuery() || QueryService.initQuery($scope.query_id, queryData, columnData, afterQuerySetupCallback);
+    $scope.query = QueryService.getQuery() || QueryService.initQuery($scope.query_id, queryData, columnData, exportFormats, afterQuerySetupCallback);
   }
 
   function afterQuerySetupCallback(query) {

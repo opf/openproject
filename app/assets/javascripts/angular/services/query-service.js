@@ -59,7 +59,7 @@ angular.module('openproject.services')
   var totalEntries;
 
   var QueryService = {
-    initQuery: function(queryId, queryData, selectedColumns, afterQuerySetupCallback) {
+    initQuery: function(queryId, queryData, selectedColumns, exportFormats, afterQuerySetupCallback) {
       query = new Query({
         id: queryId,
         name: queryData.name,
@@ -69,7 +69,8 @@ angular.module('openproject.services')
         sums: queryData.sums,
         columns: selectedColumns,
         groupBy: queryData.group_by,
-        isPublic: queryData.is_public
+        isPublic: queryData.is_public,
+        exportFormats: exportFormats
       });
       query.setSortation(new Sortation(queryData.sort_criteria));
 
