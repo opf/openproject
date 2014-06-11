@@ -37,6 +37,7 @@ describe Api::V2::CustomFieldsController do
     let!(:wp_custom_field_for_all) { FactoryGirl.create(:work_package_custom_field, is_for_all: true) }
     let(:wp_custom_fields) { [wp_custom_field_1, wp_custom_field_2] }
     let(:project) { FactoryGirl.create(:project, work_package_custom_fields: wp_custom_fields) }
+    let(:project_2) { FactoryGirl.create(:project, work_package_custom_fields: wp_custom_fields) }
 
     shared_examples_for 'valid workflow index request' do
       it { expect(response).to render_template('api/v2/custom_fields/index', formats: ['api']) }
@@ -70,7 +71,7 @@ describe Api::V2::CustomFieldsController do
       end
 
       context "with project" do
-        let(:current_user) { FactoryGirl.create(:user, member_in_project: project) }
+        let(:current_user) { FactoryGirl.create(:user, member_in_projects: [project, project_2]) }
 
         before do
           User.stub(:current).and_return current_user
