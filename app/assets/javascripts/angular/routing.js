@@ -26,34 +26,38 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-openprojectApp.config([
-  '$stateProvider',
-  '$urlRouterProvider',
-  function($stateProvider, $urlRouterProvider) {
+openprojectApp
+  .config([
+    '$stateProvider',
+    '$urlRouterProvider',
+    function($stateProvider, $urlRouterProvider) {
 
-  // All unmatched routes should be handled by Rails
-  // (i.e. invoke a full-page load)
-  //
-  // a better behaviour here would be for Angular's HTML5-mode to provide an
-  // option to turn link hijacking off by default (and use a `target` attribute
-  // to turn it on for selected links).
-
-
-  $stateProvider
-    .state('work-packages', {
-      url: "/projects/:projectIdentifier/work_packages?query_id",
-      abstract: true,
-      templateUrl: "/templates/work_packages.html",
-      controller: 'WorkPackagesController'
-    })
-    .state('work-packages.list', {
-      url: "",
-      controller: 'WorkPackagesListController',
-      templateUrl: "/templates/work_packages.list.html"
-    })
-    .state('work-packages.list.details', {
-      url: "/{workPackageId:[0-9]+}",
-      templateUrl: "/templates/work_packages.list.details.html",
-      controller: 'WorkPackageDetailsController'
-    });
-}]);
+      $stateProvider
+        .state('work-packages', {
+          url: "/projects/:projectIdentifier/work_packages?query_id",
+          abstract: true,
+          templateUrl: "/templates/work_packages.html",
+          controller: 'WorkPackagesController'
+        })
+        .state('work-packages.list', {
+          url: "",
+          controller: 'WorkPackagesListController',
+          templateUrl: "/templates/work_packages.list.html"
+        })
+        .state('work-packages.list.details', {
+          url: "/{workPackageId:[0-9]+}",
+          templateUrl: "/templates/work_packages.list.details.html",
+          controller: 'WorkPackageDetailsController'
+        });
+    }
+  ])
+  .run([
+    '$location',
+    '$rootElement',
+    function($location, $rootElement) {
+      // Our application is still a hybrid one, meaning most routes are still
+      // handled by Rails. As such, we disable the default link-hijacking that
+      // Angular's HTML5-mode turns on.
+      $rootElement.off('click');
+    }
+  ]);
