@@ -32,6 +32,10 @@ class WorkPackageCustomField < CustomField
   has_and_belongs_to_many :types, :join_table => "#{table_name_prefix}custom_fields_types#{table_name_suffix}", :foreign_key => "custom_field_id"
   has_many :work_packages, :through => :work_package_custom_values
 
+  scope :visible_by_user, lambda { |user|
+    joins(projects: :memberships).where("members.user_id = ?", user.id)
+  }
+
   def type_name
     # TODO
     # this needs to be renamed to label_work_package_plural
