@@ -8,45 +8,6 @@ GIT
       uber
 
 GIT
-  remote: git@github.com:finnlabs/omniauth-openid-connect.git
-  revision: 2b6d729c155e607d2d3ddbfa67a3f617d805ce74
-  branch: master
-  specs:
-    omniauth-openid-connect (0.2.0)
-      addressable (~> 2.3)
-      omniauth (~> 1.1)
-      openid_connect (~> 0.8.0)
-
-GIT
-  remote: git@github.com:finnlabs/openproject-auth_plugins
-  revision: b72bcc6ce36af09ea5ba8a124eed7a9dde54d920
-  branch: dev
-  specs:
-    openproject-auth_plugins (0.1.2)
-      omniauth (~> 1.0)
-      openproject-plugins (~> 1.0)
-      rails (~> 3.2.14)
-
-GIT
-  remote: git@github.com:finnlabs/openproject-openid_connect.git
-  revision: f40e00d1a85072c29a9855a613310c8087847818
-  branch: dev
-  specs:
-    openproject-openid_connect (0.1.0)
-      omniauth (~> 1.0)
-      openproject-auth_plugins (~> 0.1)
-      openproject-plugins (~> 1.0)
-      rails (~> 3.2.14)
-
-GIT
-  remote: git@github.com:opf/openproject-plugins.git
-  revision: cb6a16cf9fcf6fabd6141b8c651c197bd1e06896
-  branch: dev
-  specs:
-    openproject-plugins (1.0.8)
-      rails (~> 3.2.9)
-
-GIT
   remote: https://github.com/Compass/compass-rails
   revision: f97a4f41518204683aeec7037da3d9b8c57ef4cb
   specs:
@@ -208,7 +169,7 @@ GEM
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     diff-lcs (1.2.5)
-    disposable (0.0.3)
+    disposable (0.0.4)
       representable (~> 1.8.1)
       uber
     equalizer (0.0.9)
@@ -393,13 +354,13 @@ GEM
       json (~> 1.4)
     redcarpet (3.0.0)
     ref (1.0.5)
-    reform (1.0.0)
+    reform (1.0.1)
       activemodel
-      disposable (~> 0.0.3)
+      disposable (~> 0.0.4)
       representable (~> 1.8.1)
       uber (~> 0.0.4)
     request_store (1.0.5)
-    roar (0.12.6)
+    roar (0.12.7)
       representable (>= 1.6.0)
     rspec (2.14.1)
       rspec-core (~> 2.14.0)
@@ -476,7 +437,7 @@ GEM
       eventmachine (>= 0.12.6)
       rack (>= 1.0.0)
     thor (0.19.1)
-    thread_safe (0.3.3)
+    thread_safe (0.3.4)
     tilt (1.4.1)
     timecop (0.6.1)
     treetop (1.4.15)
