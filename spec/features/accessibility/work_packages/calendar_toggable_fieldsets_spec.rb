@@ -26,53 +26,28 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class WorkPackagesPage
-  include Rails.application.routes.url_helpers
-  include Capybara::DSL
+require 'spec_helper'
+require 'features/support/toggable_fieldsets'
+require 'features/work_packages/work_packages_page'
 
-  def initialize(project=nil)
-    @project = project
-  end
+describe 'Work package calendar index' do
+  describe 'Toggable fieldset', js: true do
+    include_context 'Toggable fieldset examples'
 
-  def visit_index
-    visit index_path
-  end
+    let(:project) { FactoryGirl.create(:project) }
+    let(:current_user) { FactoryGirl.create (:admin) }
+    let(:work_packages_page) { WorkPackagesPage.new(project) }
 
-  def visit_show(id)
-    visit work_package_path(id)
-  end
+    before do
+      allow(User).to receive(:current).and_return current_user
 
-  def visit_edit(id)
-    visit edit_work_package_path(id)
-  end
+      work_packages_page.visit_calendar
+    end
 
-  def visit_calendar
-    visit index_path + "/calendar"
-  end
-
-  def click_work_packages_menu_item
-    find('#main-menu .work-packages').click
-  end
-
-  def click_toolbar_button(button)
-    find('.toolbar-container').click_button button
-  end
-
-  def select_query(query)
-    visit query_path(query);
-  end
-
-  def selected_filter(filter_name)
-    find(".filter-fields #h_#{filter_name}", visible: false)
-  end
-
-  private
-
-  def index_path
-    @project ? project_work_packages_path(@project) : work_packages_path
-  end
-
-  def query_path(query)
-    "#{index_path}?query_id=#{query.id}"
+    describe 'Filter fieldset', js: true do
+      it_behaves_like 'toggable fieldset initially expanded' do
+        let(:fieldset_name) { 'Filters' }
+      end
+    end
   end
 end

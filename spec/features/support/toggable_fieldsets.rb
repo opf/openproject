@@ -31,7 +31,7 @@ require 'features/work_packages/work_packages_page'
 
 shared_context 'Toggable fieldset examples' do
   def toggable_title
-    find('legend a span', text: fieldset_name)
+    find('legend a', text: fieldset_name)
   end
 
   def toggable_content
@@ -90,7 +90,7 @@ shared_context 'Toggable fieldset examples' do
   shared_examples_for 'collapsed fieldset' do
     include_context 'collapsed CSS'
 
-    it { expect(toggable_title.find(:xpath, '../../..')[:class]).to include(collapsed_class_name) }
+    it { expect(toggable_title.find(:xpath, '../..')[:class]).to include(collapsed_class_name) }
   end
 
   shared_examples_for 'expanded fieldset' do
