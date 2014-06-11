@@ -36,7 +36,6 @@ module API
     prefix :api
     content_type 'hal+json', 'application/hal+json'
     format 'hal+json'
-    cascade false
 
     helpers do
       # Needs refactoring - Will have to find a way how to access sessions in all enviroments
