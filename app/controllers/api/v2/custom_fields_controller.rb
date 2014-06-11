@@ -35,7 +35,7 @@ module Api
 
       accept_key_auth :index, :show
 
-      before_filter :require_permissions
+      before_filter :require_authentication
 
       def index
         wp_fields = WorkPackageCustomField.find :all,
@@ -63,8 +63,8 @@ module Api
 
       protected
 
-      def require_permissions
-        deny_access unless User.current.allowed_to? :edit_project, nil, :global => true
+      def require_authentication
+        deny_access if User.current.anonymous?
       end
 
     end
