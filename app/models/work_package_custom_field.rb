@@ -33,7 +33,12 @@ class WorkPackageCustomField < CustomField
   has_many :work_packages, :through => :work_package_custom_values
 
   scope :visible_by_user, lambda { |user|
-    joins(projects: :memberships).where("members.user_id = ?", user.id) unless user.admin?
+    unless user.admin?
+      joins("LEFT OUTER JOIN custom_fields_projects AS cfp ON (custom_fields.id = cfp.custom_field_id) " \
+            "LEFT OUTER JOIN projects AS p ON (cfp.project_id = p.id) " \
+            "LEFT OUTER JOIN members AS m ON (p.id = m.project_id)")
+      .where("custom_fields.is_for_all = 1 OR m.user_id = ?", user.id)
+    end
   }
 
   def type_name
