@@ -194,7 +194,7 @@ gem 'pundit'
 gem 'grape', '~> 0.7.0'
 gem 'representable', :github => 'finnlabs/representable'
 gem 'roar',   '~> 0.12.6'
-gem 'reform'
+gem 'reform', require: false
 
 # Use the commented pure ruby gems, if you have not the needed prerequisites on
 # board to compile the native ones.  Note, that their use is discouraged, since

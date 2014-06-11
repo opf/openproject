@@ -27,6 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'reform'
 require 'reform/form/coercion'
 
 module API
