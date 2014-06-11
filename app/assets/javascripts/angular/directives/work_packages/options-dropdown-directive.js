@@ -79,7 +79,7 @@ angular.module('openproject.workPackages.directives')
 
       scope.showShareModal = function(event){
         showExistingQueryModal.call(shareModal, event);
-      };
+      }
 
       scope.showSettingsModal = function(event){
         showExistingQueryModal.call(settingsModal, event);

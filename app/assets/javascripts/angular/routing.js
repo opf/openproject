@@ -38,10 +38,6 @@ openprojectApp.config([
   // option to turn link hijacking off by default (and use a `target` attribute
   // to turn it on for selected links).
 
-  $urlRouterProvider.otherwise(function($injector, $location) {
-    $window = $injector.get('$window');
-    $window.location.replace($location.path());
-  });
 
   $stateProvider
     .state('work-packages', {
