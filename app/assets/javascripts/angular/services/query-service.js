@@ -85,18 +85,6 @@ angular.module('openproject.services')
       return query;
     },
 
-    resetQuery: function() {
-      query = null;
-    },
-    resetAll: function(){
-      QueryService.resetQuery();
-      availableColumns = [];
-      availableUnusedColumns = [];
-      availableFilterValues = {};
-      availableFilters = {};
-      availableGroupedQueries = null;
-    },
-
     getQuery: function() {
       return query;
     },
