@@ -59,7 +59,7 @@ angular.module('openproject.services')
   var totalEntries;
 
   var QueryService = {
-    initQuery: function(queryId, queryData, selectedColumns, afterQuerySetupCallback) {
+    initQuery: function(queryId, queryData, selectedColumns, exportFormats, afterQuerySetupCallback) {
       query = new Query({
         id: queryId,
         name: queryData.name,
@@ -69,7 +69,8 @@ angular.module('openproject.services')
         sums: queryData.sums,
         columns: selectedColumns,
         groupBy: queryData.group_by,
-        isPublic: queryData.is_public
+        isPublic: queryData.is_public,
+        exportFormats: exportFormats
       });
       query.setSortation(new Sortation(queryData.sort_criteria));
 
@@ -301,6 +302,8 @@ angular.module('openproject.services')
     saveQuery: function() {
       var url = PathHelper.apiProjectQueryPath(query.project_id, query.id);
       return QueryService.doQuery(url, query.toUpdateParams(), 'PUT', function(response){
+        QueryService.fetchAvailableGroupedQueries(query.project_id);
+
         return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_update') }} );
       });
     },
@@ -310,6 +313,8 @@ angular.module('openproject.services')
       var url = PathHelper.apiProjectQueriesPath(query.project_id);
       return QueryService.doQuery(url, query.toParams(), 'POST', function(response){
         query.save(response.data.query);
+        QueryService.fetchAvailableGroupedQueries(query.project_id);
+
         return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_create') }} );
       });
     },
@@ -317,7 +322,9 @@ angular.module('openproject.services')
     deleteQuery: function() {
       var url = PathHelper.apiProjectQueryPath(query.project_id, query.id);
       return QueryService.doQuery(url, query.toUpdateParams(), 'DELETE', function(response){
+        QueryService.fetchAvailableGroupedQueries(query.project_id);
         QueryService.resetQuery();
+
         return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_delete') }} );
       });
     },

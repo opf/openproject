@@ -76,10 +76,6 @@ describe ProjectType do
   end
 
   describe '- Validations ' do
-    before do
-      ApplicationHelper.set_language_if_valid 'en'
-    end
-
     let(:attributes) {
       {:name               => 'Project Type No. 1',
        :allows_association => true}
