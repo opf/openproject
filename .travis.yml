@@ -34,6 +34,7 @@ branches:
     - dev
     - stable
     - release/3.0
+    - release/3.0.4
 env:
   # mysql2
   - "TEST_SUITE=cucumber CI=true RAILS_ENV=test DB=mysql2   BUNDLE_WITHOUT=rmagick:mysql:postgres:sqlite:development"
