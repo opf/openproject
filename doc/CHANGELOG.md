@@ -31,6 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#6288` Editing relations in modal dialog leads to warning
 * `#7682` Status of work package not displayed when linking work package via ## or ###
+* `#4021` Separate focus for main menu expander
 
 ## 3.0.4
 
