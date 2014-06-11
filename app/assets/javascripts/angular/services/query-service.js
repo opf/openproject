@@ -76,7 +76,11 @@ angular.module('openproject.services')
       QueryService.getAvailableFilters(query.project_id)
         .then(function(availableFilters) {
           query.setAvailableWorkPackageFilters(availableFilters);
-          query.setFilters(queryData.filters);
+          if (query.isDefault()) {
+            query.setDefaultFilter();
+          } else {
+            query.setFilters(queryData.filters);
+          }
 
           return query;
         })
