@@ -30,7 +30,12 @@ describe('optionsDropdown Directive', function() {
     var compile, element, rootScope, scope;
 
     beforeEach(angular.mock.module('openproject.workPackages.directives'));
-    beforeEach(module('templates', 'openproject.models', 'openproject.workPackages.controllers'));
+    beforeEach(module('openproject.models', 'openproject.workPackages.controllers'));
+
+    beforeEach(module('templates', function($provide) {
+      var state = { go: function() { return false; } };
+      $provide.value('$state', state);
+    }));
 
     beforeEach(inject(function($rootScope, $compile) {
       var optionsDropdownHtml;
