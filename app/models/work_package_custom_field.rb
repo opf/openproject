@@ -33,7 +33,7 @@ class WorkPackageCustomField < CustomField
   has_many :work_packages, :through => :work_package_custom_values
 
   scope :visible_by_user, lambda { |user|
-    joins(projects: :memberships).where("members.user_id = ?", user.id)
+    joins(projects: :memberships).where("members.user_id = ?", user.id) unless user.admin?
   }
 
   def type_name
