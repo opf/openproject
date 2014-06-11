@@ -69,11 +69,10 @@ module Report::QueryUtils
   # @param [#flatten] *values Ruby collection
   # @return [String] SQL collection
   def collection(*values)
-    if values.empty?
-      ""
-    else
-      "(#{values.to_s.split(',').flatten.map { |x| "'#{quote_string(x)}'" }.join(", ")})"
-    end
+    return "" if values.empty?
+
+    v = (values.is_a? Array) ? values : values.to_s.split(',')
+    "(#{v.flatten.map { |x| "'#{quote_string(x)}'" }.join(", ")})"
   end
 
   ##
