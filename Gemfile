@@ -141,8 +141,8 @@ gem 'i18n', '>=0.6.8'
 gem 'nokogiri', '>=1.5.11'
 # see https://groups.google.com/forum/#!topic/ruby-security-ann/DeJpjTAg1FA
 
-
 group :test do
+  gem 'rack-test', '~> 0.6.2'
   gem 'shoulda'
   gem 'object-daddy', '~> 1.1.0'
   gem "launchy", "~> 2.3.0"
@@ -187,6 +187,14 @@ group :development do
   gem 'faker'
   gem 'quiet_assets'
 end
+
+gem 'pundit'
+
+# API gems
+gem 'grape', '~> 0.7.0'
+gem 'representable', :github => 'finnlabs/representable'
+gem 'roar',   '~> 0.12.6'
+gem 'reform'
 
 # Use the commented pure ruby gems, if you have not the needed prerequisites on
 # board to compile the native ones.  Note, that their use is discouraged, since

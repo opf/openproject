@@ -519,4 +519,6 @@ OpenProject::Application.routes.draw do
   match '/:controller(/:action(/:id))'
   match '/robots' => 'welcome#robots', :defaults => { :format => :txt }
   root :to => 'account#login'
+
+  mount API::Root => '/'
 end
