@@ -87,7 +87,7 @@ describe 'rb_burndown_charts/show' do
   end
 
   before :each do
-    Setting.stub(:plugin_openproject_backlogs).and_return({"story_types" => [type_feature.id], "task_type" => type_task.id})
+    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({"story_types" => [type_feature.id], "task_type" => type_task.id})
     view.extend BurndownChartsHelper
 
     # We directly force the creation of stories,statuses by calling the method

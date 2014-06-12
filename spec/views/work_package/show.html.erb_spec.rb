@@ -43,13 +43,13 @@ describe 'work_packages/show' do
                                   status: status,
                                   story_points: story_points) }
 
-  before  { User.stub(:current).and_return(user) }
+  before  { allow(User).to receive(:current).and_return(user) }
 
   describe 'work_packages/attributes' do
     before do
-      story.stub(:spent_hours).and_return(0)
-      story.stub(:backlogs_enabled?).and_return(true)
-      story.stub(:is_story?).and_return(true)
+      allow(story).to receive(:spent_hours).and_return(0)
+      allow(story).to receive(:backlogs_enabled?).and_return(true)
+      allow(story).to receive(:is_story?).and_return(true)
 
       assign(:project, project)
 

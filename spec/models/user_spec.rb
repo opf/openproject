@@ -42,9 +42,9 @@ describe User do
         u = FactoryGirl.create(:user)
         u.backlogs_preference(:task_color, '#FFCC33')
 
-        u.backlogs_preference(:task_color).should == '#FFCC33'
+        expect(u.backlogs_preference(:task_color)).to eq('#FFCC33')
         u.reload
-        u.backlogs_preference(:task_color).should == '#FFCC33'
+        expect(u.backlogs_preference(:task_color)).to eq('#FFCC33')
       end
 
       it 'computes a random color and persists it, when none is set' do
@@ -53,10 +53,10 @@ describe User do
         u.save!
 
         generated_task_color = u.backlogs_preference(:task_color)
-        generated_task_color.should =~ /^#[0-9A-F]{6}$/
+        expect(generated_task_color).to match(/^#[0-9A-F]{6}$/)
         u.save!
         u.reload
-        u.backlogs_preference(:task_color).should == generated_task_color
+        expect(u.backlogs_preference(:task_color)).to eq(generated_task_color)
       end
     end
   end

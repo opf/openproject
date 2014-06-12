@@ -58,7 +58,7 @@ describe Backlog do
           @version_settings = @version.version_settings.create(:display => VersionSetting::DISPLAY_RIGHT, :project => project)
         end
 
-        it { Backlog.owner_backlogs(@project)[0].should be_owner_backlog }
+        it { expect(Backlog.owner_backlogs(@project)[0]).to be_owner_backlog }
       end
     end
   end
