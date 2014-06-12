@@ -56,7 +56,7 @@ describe('WorkPackagesController', function() {
 
   describe('setting projectIdentifier', function() {
     beforeEach(function() {
-      testParams = { projectIdentifier: 'my-project' };
+      testParams = { projectPath: '/projects/my-project' };
     });
 
     it('should set the projectIdentifier', function() {

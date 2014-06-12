@@ -38,7 +38,10 @@ angular.module('openproject.workPackages.controllers')
   // Setup
   $scope.selectedTitle = I18n.t('js.toolbar.unselected_title');
 
-  $scope.projectIdentifier = $stateParams.projectIdentifier;
+  if ($stateParams.projectPath.indexOf('/projects') === 0) {
+    $scope.projectIdentifier = $stateParams.projectPath.replace('/projects/', '');
+  }
+
   $scope.query_id = $stateParams.query_id;
 
   $scope.$watch(QueryService.getAvailableGroupedQueries, function(availableQueries) {

@@ -68,18 +68,22 @@ angular.module('openproject.workPackages.controllers')
 
     $scope.withLoading(getWorkPackages, params)
       .then(setupPage);
+
     loadProjectTypesAndQueries();
   }
 
   function loadProjectTypesAndQueries() {
-    ProjectService.getProject($scope.projectIdentifier)
-      .then(function(project) {
-        $scope.project = project;
-        $scope.projects = [ project ];
-        $scope.availableTypes = project.embedded.types;
-      });
+    if ($scope.projectIdentifier) {
+      ProjectService.getProject($scope.projectIdentifier)
+        .then(function(project) {
+          $scope.project = project;
+          $scope.projects = [ project ];
+          $scope.availableTypes = project.embedded.types;
+        });
 
-    QueryService.loadAvailableGroupedQueries($stateParams.projectIdentifier);
+    }
+
+    QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
   }
 
   function setupPage(json) {

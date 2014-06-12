@@ -26,7 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-openprojectApp.config([
+angular.module('openproject')
+
+.config([
   '$stateProvider',
   '$urlRouterProvider',
   function($stateProvider, $urlRouterProvider) {
@@ -45,7 +47,7 @@ openprojectApp.config([
 
   $stateProvider
     .state('work-packages', {
-      url: "/projects/:projectIdentifier/work_packages?query_id",
+      url: '{projectPath:.*}/work_packages?query_id',
       abstract: true,
       templateUrl: "/templates/work_packages.html",
       controller: 'WorkPackagesController'
