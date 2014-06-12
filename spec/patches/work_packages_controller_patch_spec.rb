@@ -6,7 +6,7 @@ describe WorkPackagesController, "rendering to xls", :type => :controller do
                                                    :description => '!DESCRIPTION!') }
 
   before do
-    User.stub(:current).and_return current_user
+    allow(User).to receive(:current).and_return current_user
   end
 
   describe "should respond with the xls if requested in the index" do
@@ -15,23 +15,23 @@ describe WorkPackagesController, "rendering to xls", :type => :controller do
     end
 
     it 'should respond with 200 OK' do
-      response.response_code.should == 200
+      expect(response.response_code).to eq(200)
     end
 
     it 'should have a length > 100 bytes' do
-      response.body.length.should > 100
+      expect(response.body.length).to be > 100
     end
 
     it 'should not contain a description' do
-      response.body.should_not include('!DESCRIPTION!')
+      expect(response.body).not_to include('!DESCRIPTION!')
     end
 
     it 'should contain a subject' do
-      response.body.should include('!SUBJECT!')
+      expect(response.body).to include('!SUBJECT!')
     end
 
     context 'the mime type' do
-      it { response.header['Content-Type'].should == 'application/vnd.ms-excel' }
+      it { expect(response.header['Content-Type']).to eq('application/vnd.ms-excel') }
     end
   end
 
@@ -56,15 +56,15 @@ describe WorkPackagesController, "rendering to xls", :type => :controller do
     end
 
     before do
-      OpenProject::XlsExport::Formatters::TimeFormatter.stub(:apply?) do |column|
+      allow(OpenProject::XlsExport::Formatters::TimeFormatter).to receive(:apply?) do |column|
         column.caption =~ /time/i
       end
 
-      OpenProject::XlsExport::Formatters::CostFormatter.stub(:apply?) do |column|
+      allow(OpenProject::XlsExport::Formatters::CostFormatter).to receive(:apply?) do |column|
         column.caption =~ /cost/i
       end
 
-      Setting.stub(:plugin_openproject_costs).and_return({ 'costs_currency' => 'EUR','costs_currency_format' => '%n %u' })
+      allow(Setting).to receive(:plugin_openproject_costs).and_return({ 'costs_currency' => 'EUR','costs_currency_format' => '%n %u' })
 
       get 'index',
         :format => 'xls',
@@ -113,23 +113,23 @@ describe WorkPackagesController, "rendering to xls", :type => :controller do
     end
 
     it 'should respond with 200 OK' do
-      response.response_code.should == 200
+      expect(response.response_code).to eq(200)
     end
 
     it 'should have a length > 100 bytes' do
-      response.body.length.should > 100
+      expect(response.body.length).to be > 100
     end
 
     it 'should contain a description' do
-      response.body.should include('!DESCRIPTION!')
+      expect(response.body).to include('!DESCRIPTION!')
     end
 
     it 'should contain a subject' do
-      response.body.should include('!SUBJECT!')
+      expect(response.body).to include('!SUBJECT!')
     end
 
     context 'the mime type' do
-      it { response.header['Content-Type'].should == 'application/vnd.ms-excel' }
+      it { expect(response.header['Content-Type']).to eq('application/vnd.ms-excel') }
     end
   end
 
