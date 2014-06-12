@@ -63,6 +63,7 @@ angular.module('openproject')
     // Angular's HTML5-mode turns on.
     $rootElement.off('click');
     $rootElement.on('click', 'a[data-ui-route]', function(event) {
+      if (!jQuery('body').has('div[ui-view]').length) return;
       if (event.ctrlKey || event.metaKey || event.which == 2) return;
 
       // NOTE: making use of event delegation, thus jQuery-only.
