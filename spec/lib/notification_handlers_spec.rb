@@ -16,7 +16,7 @@ require File.expand_path('../../spec_helper', __FILE__)
 
 describe OpenProject::GithubIntegration do
   before do
-    Setting.stub(:host_name).and_return('example.net')
+    allow(Setting).to receive(:host_name).and_return('example.net')
   end
 
   describe '.extract_work_package_ids' do
@@ -58,26 +58,26 @@ describe OpenProject::GithubIntegration do
   describe '.find_visible_work_packages' do
     let(:user) do
       user = double('A User')
-      user.should_receive(:allowed_to?) do |permission, project|
+      expect(user).to receive(:allowed_to?) { |permission, project|
         expect(permission).to equal(:add_work_package_notes)
         project == :project_with_permissions
-      end.at_least(:once)
+      }.at_least(:once)
       user
     end
     let(:visible_wp) do
       wp = double('Visible Work Package')
-      wp.stub(:project).and_return(:project_with_permissions)
+      allow(wp).to receive(:project).and_return(:project_with_permissions)
       wp
     end
     let(:invisible_wp) do
       wp = double('Invisible Work Package')
-      wp.stub(:project).and_return(:project_without_permissions)
+      allow(wp).to receive(:project).and_return(:project_without_permissions)
       wp
     end
 
     before do
-      WorkPackage.stub(:includes).and_return(WorkPackage)
-      WorkPackage.stub(:find_by_id) {|id| wps[id]}
+      allow(WorkPackage).to receive(:includes).and_return(WorkPackage)
+      allow(WorkPackage).to receive(:find_by_id) {|id| wps[id]}
     end
 
     shared_examples_for 'GithubIntegration.find_visible_work_packages' do
@@ -127,7 +127,7 @@ describe OpenProject::GithubIntegration do
       end
 
       before do
-        OpenProject::GithubIntegration::NotificationHandlers.should_not_receive(
+        expect(OpenProject::GithubIntegration::NotificationHandlers).not_to receive(
           :comment_on_referenced_work_packages)
       end
 
@@ -142,7 +142,7 @@ describe OpenProject::GithubIntegration do
       let(:payload) { {'action' => 'synchronize'} }
 
       before do
-        OpenProject::GithubIntegration::NotificationHandlers.should_not_receive(
+        expect(OpenProject::GithubIntegration::NotificationHandlers).not_to receive(
           :comment_on_referenced_work_packages)
       end
 

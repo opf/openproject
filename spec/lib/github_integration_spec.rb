@@ -16,7 +16,7 @@ require File.expand_path('../../spec_helper', __FILE__)
 
 describe OpenProject::GithubIntegration do
   before do
-    Setting.stub(:host_name).and_return('example.net')
+    allow(Setting).to receive(:host_name).and_return('example.net')
   end
 
   describe 'with sane set-up' do

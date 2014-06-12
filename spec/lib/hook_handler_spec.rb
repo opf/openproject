@@ -37,7 +37,7 @@ describe OpenProject::GithubIntegration::HookHandler do
                           'HTTP_X_GITHUB_DELIVERY' => 'veryuniqueid' } }
     let(:user) do
       user = double(User)
-      user.stub(:id).and_return(12)
+      allow(user).to receive(:id).and_return(12)
       user
     end
 
@@ -62,11 +62,11 @@ describe OpenProject::GithubIntegration::HookHandler do
 
     context 'with a supported event and a user' do
       before do
-        OpenProject::Notifications.stub(:send)
+        allow(OpenProject::Notifications).to receive(:send)
       end
 
       it 'should send a notification with the correct contents' do
-        OpenProject::Notifications.should_receive(:send).with("github.pull_request", {
+        expect(OpenProject::Notifications).to receive(:send).with("github.pull_request", {
           'fake' => 'value',
           'user_id' => 12,
           'github_event' => 'pull_request',
