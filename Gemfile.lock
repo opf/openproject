@@ -277,8 +277,6 @@ GEM
     pry-stack_explorer (0.4.9.1)
       binding_of_caller (>= 0.7)
       pry (>= 0.9.11)
-    pundit (0.2.3)
-      activesupport (>= 3.0.0)
     quiet_assets (1.0.2)
       railties (>= 3.1, < 5.0)
     rabl (0.9.3)
@@ -479,7 +477,6 @@ DEPENDENCIES
   pry-rails
   pry-rescue
   pry-stack_explorer
-  pundit
   quiet_assets
   rabl (= 0.9.3)
   rack-protection!
