@@ -30,18 +30,18 @@ describe MyProjectsOverview do
 
   it 'sets default elements for new records if no elements are provided' do
     o = MyProjectsOverview.new
-    o.left.should =~ ["project_description", "project_details", "work_package_tracking"]
-    o.right.should =~ ["members", "news_latest"]
-    o.top.should =~ []
-    o.hidden.should =~ []
+    expect(o.left).to match_array(["project_description", "project_details", "work_package_tracking"])
+    expect(o.right).to match_array(["members", "news_latest"])
+    expect(o.top).to match_array([])
+    expect(o.hidden).to match_array([])
   end
 
   it 'does not set default elements if elements are provided' do
     o = MyProjectsOverview.new :left => ["members"]
-    o.left.should =~ ["members"]
-    o.right.should =~ ["members", "news_latest"]
-    o.top.should =~ []
-    o.hidden.should =~ []
+    expect(o.left).to match_array(["members"])
+    expect(o.right).to match_array(["members", "news_latest"])
+    expect(o.top).to match_array([])
+    expect(o.hidden).to match_array([])
   end
 
 
@@ -50,29 +50,29 @@ describe MyProjectsOverview do
     @overview.save!
 
     @overview.reload
-    @overview.right.should =~ []
+    expect(@overview.right).to match_array([])
   end
 
   it 'creates a new custom element' do
-    @overview.new_custom_element.should_not be_nil
+    expect(@overview.new_custom_element).not_to be_nil
   end
 
   it "creates a new custom element as [idx, title, text]" do
     ce = @overview.new_custom_element
-    ce[0].should == "a"
-    ce[1].should be_kind_of String
-    ce[2].should =~ /^h3\./
+    expect(ce[0]).to eq("a")
+    expect(ce[1]).to be_kind_of String
+    expect(ce[2]).to match(/^h3\./)
   end
 
   it "can save a custom element" do
     @overview.hidden << @overview.new_custom_element
     ce = @overview.custom_elements.last
-    @overview.save_custom_element(ce[0], "Title", "Content").should be true
-    ce[1].should == "Title"
-    ce[2].should == "Content"
+    expect(@overview.save_custom_element(ce[0], "Title", "Content")).to be true
+    expect(ce[1]).to eq("Title")
+    expect(ce[2]).to eq("Content")
   end
 
   it "should always show attachments" do
-    @overview.attachments_visible?(nil).should be true
+    expect(@overview.attachments_visible?(nil)).to be true
   end
 end
