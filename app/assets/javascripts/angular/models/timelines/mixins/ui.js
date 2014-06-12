@@ -819,7 +819,7 @@ angular.module('openproject.timelines.models')
         })
       ).attr({
         'stroke': 'red',
-        'stroke-dasharray': '- '
+        'stroke-dasharray': '3,3'
       });
 
       var setDateTime = 5 * 60 * 1000;
@@ -981,8 +981,12 @@ angular.module('openproject.timelines.models')
       e.click(function(e) {
         if (Timeline.USE_MODALS) {
           var payload = node.getData();
-          timeline.modalHelper.createModal(payload.getUrl());
-          e.stopPropagation();
+          if (e.which == 1 && !e.ctrlKey) {
+            timeline.modalHelper.createModal(payload.getUrl());
+            e.stopPropagation();
+          } else {
+            window.open(payload.getUrl(), '_blank');
+          }
         }
       });
       e.attr({'cursor': 'pointer'});

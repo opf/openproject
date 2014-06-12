@@ -80,7 +80,7 @@ describe('Work packages helper', function() {
       it('should return type string custom field', function() {
         var object = {
           custom_values: [ { custom_field_id: 1, value: 'custom field string'} ]
-        }
+        };
 
         expect(getRowObjectContent(object, 'cf_1')).to.equal('custom field string');
       });
@@ -88,7 +88,7 @@ describe('Work packages helper', function() {
       it('should return type object custom field', function() {
         var object = {
           custom_values: [ { custom_field_id: 1, value: { name: 'name1' }} ]
-        }
+        };
 
         expect(getRowObjectContent(object, 'cf_1')).to.equal('name1');
       });
@@ -96,7 +96,7 @@ describe('Work packages helper', function() {
       it('should handle missing data', function() {
         var object = {
           custom_values: [ { custom_field_id: 1, value: 'whatever'} ]
-        }
+        };
 
         expect(getRowObjectContent(object, 'cf_2')).to.equal('');
         expect(getRowObjectContent({}, 'cf_1')).to.equal('');
@@ -118,6 +118,20 @@ describe('Work packages helper', function() {
       expect(formatValue(20.99,  'currency')).to.equal("EUR 20.99");
       expect(formatValue("20",   'currency')).to.equal("EUR 20.00");
     });
+
+    it('should display empty strings for empty/undefined dates', function() {
+      expect(formatValue("", 'datetime')).to.equal("");
+      expect(formatValue(undefined, 'datetime')).to.equal("");
+      expect(formatValue(null, 'datetime')).to.equal("");
+      expect(formatValue("", 'date')).to.equal("");
+      expect(formatValue(undefined, 'date')).to.equal("");
+      expect(formatValue(null, 'date')).to.equal("");
+    });
+
+    it('should display parsed dates and datetimes', function(){
+      expect(formatValue("01/01/2014", 'date')).to.equal("Jan 1, 2014");
+      expect(formatValue("01/01/2014 08:19 AM", 'datetime')).to.equal("Jan 1, 2014 12:00:00 AM");
+    })
   });
 
 });

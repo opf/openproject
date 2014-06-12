@@ -320,7 +320,7 @@ describe ProjectsController do
 
         let(:missing_types) { types }
 
-        before { put :types, 
+        before { put :types,
                      id: project.id,
                      project: { 'type_ids' => [] } }
 
@@ -348,7 +348,7 @@ describe ProjectsController do
 
         describe "automatic selection of standard type" do
           let(:regex) { Regexp.new(I18n.t(:notice_automatic_set_of_standard_type)) }
-        
+
           subject { flash[:notice].all? {|n| regex.match(n).nil? } }
 
           it { is_expected.to be_falsey }

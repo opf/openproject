@@ -28,7 +28,12 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('workPackagesTable', ['I18n', function(I18n){
+.directive('workPackagesTable', [
+  'I18n',
+  'WorkPackagesTableService',
+  'flags',
+  function(I18n, WorkPackagesTableService, flags){
+
   return {
     restrict: 'E',
     replace: true,
@@ -50,10 +55,20 @@ angular.module('openproject.workPackages.directives')
     },
     link: function(scope, element, attributes) {
       scope.I18n = I18n;
+      scope.workPackagesTableData = WorkPackagesTableService.getWorkPackagesTableData();
+
+      var topMenuHeight = angular.element('#top-menu').prop('offsetHeight') || 0;
+      scope.adaptVerticalPosition = function(event) {
+        event.pageY -= topMenuHeight;
+      };
 
       // groupings
       scope.grouped = scope.groupByColumn !== undefined;
       scope.groupExpanded = {};
+
+      scope.$watch('workPackagesTableData.allRowsChecked', function(checked) {
+        scope.toggleRowsLabel = checked ? I18n.t('js.button_uncheck_all') : I18n.t('js.button_check_all');
+      });
 
       scope.setCheckedStateForAllRows = function(state) {
         angular.forEach(scope.rows, function(row) {
@@ -61,11 +76,21 @@ angular.module('openproject.workPackages.directives')
         });
       };
 
-      scope.$watch('query.sortation.sortElements', function(oldValue, newValue) {
-        if (newValue !== oldValue) {
-          scope.updateResults();
-          scope.updateBackUrl();
-        }
+      var groupableColumns = WorkPackagesTableService.getGroupableColumns();
+      scope.$watch('query.groupBy', function(groupBy) {
+        if (scope.columns) {
+          var groupByColumnIndex = groupableColumns.map(function(column){
+            return column.name;
+          }).indexOf(groupBy);
+
+          scope.groupByColumn = groupableColumns[groupByColumnIndex];
+       }
+      });
+
+      scope.$watch(function() {
+        return flags.isOn('detailsView');
+      }, function(detailsEnabled) {
+        scope.hideWorkPackageDetails = !detailsEnabled;
       });
     }
   };

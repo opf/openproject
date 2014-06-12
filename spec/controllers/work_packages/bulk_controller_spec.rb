@@ -244,7 +244,6 @@ describe WorkPackages::BulkController do
             work_package: { priority_id: priority.id,
                             assigned_to_id: group_id,
                             responsible_id: responsible_id,
-                            custom_field_values: { custom_field_1.id.to_s => '' },
                             send_notification: send_notification }
       end
     end

@@ -37,7 +37,7 @@ describe WikiMenuItemsController do
 
   let(:wiki_page) { FactoryGirl.create(:wiki_page, :wiki => wiki) } # first wiki page without child pages
   let!(:top_level_wiki_menu_item) { FactoryGirl.create(:wiki_menu_item, :with_menu_item_options, :wiki => wiki, :title => wiki_page.title) }
- 
+
   before :each do
     # log in user
     allow(User).to receive(:current).and_return current_user

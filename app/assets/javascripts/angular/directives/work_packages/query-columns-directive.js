@@ -28,23 +28,39 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('queryColumns', ['WorkPackagesTableHelper', 'WorkPackageService', function(WorkPackagesTableHelper, WorkPackageService) {
+.directive('queryColumns', [
+  'WorkPackagesTableHelper',
+  'WorkPackagesTableService',
+  'WorkPackageService',
+  'QueryService',
+  function(WorkPackagesTableHelper, WorkPackagesTableService, WorkPackageService, QueryService) {
 
   return {
     restrict: 'E',
     replace: true,
+    scope: {},
     templateUrl: '/templates/work_packages/query_columns.html',
     compile: function(tElement) {
       return {
         pre: function(scope) {
-          scope.moveColumns = function (columnNames, fromColumns, toColumns, requires_extension) {
-            angular.forEach(columnNames, function(columnName){
-              removeColumn(columnName, fromColumns, function(removedColumn){
-                toColumns.push(removedColumn);
-              });
-            });
+          scope.tableData = WorkPackagesTableService.getWorkPackagesTableData();
 
-            if (requires_extension) extendRowsWithColumnData(columnNames);
+          scope.$watch('tableData.columns', function(columns) {
+            scope.columns = columns;
+          });
+
+          QueryService.loadAvailableUnusedColumns().then(function(availableUnusedColumns) {
+            scope.availableUnusedColumns = availableUnusedColumns;
+          });
+
+          scope.showColumns = function(columnNames) {
+            QueryService.showColumns(columnNames);
+
+            extendRowsWithColumnData(columnNames); // TODO move to QueryService
+          };
+
+          scope.hideColumns = function(columnNames) {
+            QueryService.hideColumns(columnNames);
           };
 
           scope.moveSelectedColumnBy = function(by) {
@@ -52,22 +68,15 @@ angular.module('openproject.workPackages.directives')
             WorkPackagesTableHelper.moveColumnBy(scope.columns, nameOfColumnToBeMoved, by);
           };
 
+          // TODO move to WorkPackagesService
           function extendRowsWithColumnData(columnNames) {
-            var workPackages = scope.rows.map(function(row) {
-              return row.object;
-            });
+            var workPackages = WorkPackagesTableService.getRowsData(),
+                groupBy = WorkPackagesTableService.getGroupBy();
+
             var newColumns = WorkPackagesTableHelper.selectColumnsByName(scope.columns, columnNames);
 
-            // work package rows
-            var params = [workPackages, newColumns];
-            if( scope.groupByColumn) params.push(scope.groupByColumn.name);
-            scope.withLoading(WorkPackageService.augmentWorkPackagesWithColumnsData, params)
+            WorkPackageService.augmentWorkPackagesWithColumnsData(workPackages, newColumns, groupBy)
               .then(scope.updateBackUrl);
-          }
-
-          function removeColumn(columnName, columns, callback) {
-            var removed = columns.splice(WorkPackagesTableHelper.getColumnIndexByName(columns, columnName), 1).first();
-            return !(typeof(callback) === 'undefined') ? callback.call(this, removed) : null;
           }
         }
       };

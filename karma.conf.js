@@ -20,10 +20,17 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      "vendor/assets/components/jquery/jquery.js",
+      "vendor/assets/components/jquery/dist/jquery.js",
       "vendor/assets/components/angular/angular.js",
       "vendor/assets/components/angular-mocks/angular-mocks.js",
       "vendor/assets/components/angular-ui-select2/src/select2.js",
+      "vendor/assets/components/angular-ui-select2/src/select2sortable.js",
+      "vendor/assets/components/angular-modal/modal.js",
+      "vendor/assets/components/angular-truncate/src/truncate.js",
+      "vendor/assets/components/angular-sanitize/angular-sanitize.js",
+      "vendor/assets/components/momentjs/moment.js",
+      "vendor/assets/components/angular-context-menu/dist/angular-context-menu.js",
+      'vendor/assets/components/select2/select2.js',
 
       "vendor/assets/components/openproject-ui_components/app/assets/javascripts/angular/ui-components-app.js",
       "app/assets/javascripts/angular/openproject-app.js",
@@ -36,8 +43,11 @@ module.exports = function(config) {
       'app/assets/javascripts/angular/helpers/components/work-packages-helper.js',
       'app/assets/javascripts/angular/helpers/work-package-loading-helper.js',
       'app/assets/javascripts/angular/helpers/work-packages-table-helper.js',
+      'app/assets/javascripts/angular/helpers/work-package-context-menu-helper.js',
       'app/assets/javascripts/angular/helpers/timeline-table-helper.js',
       'app/assets/javascripts/angular/helpers/function-decorators.js',
+      'app/assets/javascripts/angular/helpers/url-params-helper.js',
+      'app/assets/javascripts/angular/helpers/queries-helper.js',
 
       'app/assets/javascripts/angular/filters/work-packages-filters.js',
 
@@ -63,25 +73,41 @@ module.exports = function(config) {
       "app/assets/javascripts/angular/models/timelines/user.js",
       "app/assets/javascripts/angular/directives/components/*.js",
 
-      'app/assets/javascripts/angular/services/status-service.js',
-      'app/assets/javascripts/angular/services/type-service.js',
-      'app/assets/javascripts/angular/services/priority-service.js',
-      'app/assets/javascripts/angular/services/user-service.js',
-      'app/assets/javascripts/angular/services/version-service.js',
-      'app/assets/javascripts/angular/services/role-service.js',
       'app/assets/javascripts/angular/services/group-service.js',
       'app/assets/javascripts/angular/services/pagination-service.js',
+      'app/assets/javascripts/angular/services/priority-service.js',
       'app/assets/javascripts/angular/services/project-service.js',
-      'app/assets/javascripts/angular/services/work-package-service.js',
       'app/assets/javascripts/angular/services/query-service.js',
-      'app/assets/javascripts/angular/services/pagination-service.js',
+      'app/assets/javascripts/angular/services/role-service.js',
+      'app/assets/javascripts/angular/services/sort-service.js',
+      'app/assets/javascripts/angular/services/status-service.js',
+      'app/assets/javascripts/angular/services/timezone-service.js',
+      'app/assets/javascripts/angular/services/type-service.js',
+      'app/assets/javascripts/angular/services/user-service.js',
+      'app/assets/javascripts/angular/services/version-service.js',
+      'app/assets/javascripts/angular/services/work-package-service.js',
+      'app/assets/javascripts/angular/services/work-packages-table-service.js',
 
       "app/assets/javascripts/angular/directives/work_packages/*.js",
       "app/assets/javascripts/angular/directives/timelines/*.js",
 
       "app/assets/javascripts/angular/controllers/timelines-controller.js",
       "app/assets/javascripts/angular/controllers/work-packages-controller.js",
+      "app/assets/javascripts/angular/controllers/work-package-details-controller.js",
+      "app/assets/javascripts/angular/controllers/dialogs/columns.js",
+      "app/assets/javascripts/angular/controllers/dialogs/export.js",
+      "app/assets/javascripts/angular/controllers/dialogs/group-by.js",
+      "app/assets/javascripts/angular/controllers/dialogs/save.js",
+      "app/assets/javascripts/angular/controllers/dialogs/settings.js",
+      "app/assets/javascripts/angular/controllers/dialogs/share.js",
+      "app/assets/javascripts/angular/controllers/dialogs/sorting.js",
 
+      "app/assets/javascripts/angular/work_packages/**/*.js",
+
+      'app/assets/javascripts/autocompleter.js',
+      'app/assets/javascripts/members_select_boxes.js',
+      'app/assets/javascripts/openproject.js',
+      'app/assets/javascripts/timelines_select_boxes.js',
 
       'app/assets/javascripts/date-en-US.js',
 
@@ -90,8 +116,11 @@ module.exports = function(config) {
       'karma/tests/test-helper.js',
       'karma/factories/*factory.js',
 
+      'vendor/assets/components/jquery-mockjax/jquery.mockjax.js',
+
       'karma/tests/asset_functions.js',
       'karma/tests/**/*test.js',
+      'karma/tests/legacy-tests.js',
 
       'public/templates/**/*.html'
     ],
@@ -106,6 +135,8 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      'app/assets/javascripts/*.js': ['coverage'],
+      'app/assets/javascripts/angular/**/*.js': ['coverage'],
       'public/templates/**/*.html': ['ng-html2js']
     },
 
@@ -113,7 +144,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress', 'junit'],
+    reporters: ['progress', 'coverage', 'junit'],
 
 
     // web server port
@@ -146,6 +177,13 @@ module.exports = function(config) {
 
     junitReporter: {
       outputFile: 'karma/reports/test-results.xml'
+    },
+
+    coverageReporter: {
+      reporters: [
+        { type: 'html', dir:'coverage/' },
+        { type: 'cobertura' }
+      ]
     },
 
     ngHtml2JsPreprocessor: {

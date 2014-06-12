@@ -61,4 +61,3 @@ describe 'api/v2/reportings/index.api.rabl' do
 
   end
 end
-

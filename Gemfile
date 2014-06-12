@@ -44,8 +44,7 @@ end
 
 source 'https://rubygems.org'
 
-gem "rails", "~> 3.2.17"
-gem "sprockets", "2.2.2.backport2"
+gem "rails", "~> 3.2.18"
 
 gem "coderay", "~> 1.0.5"
 gem "rubytree", "~> 0.8.3"
@@ -106,11 +105,17 @@ group :production do
   gem 'dalli'
 end
 
-group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
-  gem 'uglifier', '>= 1.0.3'
-end
+gem 'sprockets',        '2.2.2.backport2'
+gem 'sprockets-rails',  '2.0.0.backport1'
+gem 'non-stupid-digest-assets'
+gem 'sass-rails',        git: 'https://github.com/guilleiguaran/sass-rails.git', branch: 'backport'
+gem 'sass',             '~> 3.3.6'
+gem 'bourbon',          '~> 4.0'
+gem 'uglifier',         '>= 1.0.3', require: false
+gem 'compass',          '1.0.0.alpha.19', require: 'compass/core'
+gem 'compass-rails',    git: 'https://github.com/Compass/compass-rails'
+gem 'livingstyleguide'
+
 
 # You don't need therubyracer if you have nodejs installed on the machine precompiling assets.
 gem 'therubyracer', :group => :therubyracer
@@ -120,10 +125,7 @@ gem "prototype-rails"
 # replace those with :remote => true
 gem 'prototype_legacy_helper', '0.0.0', :git => 'https://github.com/rails/prototype_legacy_helper.git'
 
-# branch rewrite has commit 6bfdcd7e14df1efffc00b2bbdf4e14e614d00418 which adds
-# a "magic comment" in the translations.js.erb and somehow breaks i18n-js
-# using the commit before this comment
-gem "i18n-js", :git => "https://github.com/fnando/i18n-js.git", :ref => '8801f8d17ef96c48a7a0269e251fcf1648c8f441'
+gem 'i18n-js', git: "https://github.com/fnando/i18n-js.git", branch: 'rewrite'
 
 # small wrapper around the command line
 gem 'cocaine'
@@ -139,8 +141,8 @@ gem 'i18n', '>=0.6.8'
 gem 'nokogiri', '>=1.5.11'
 # see https://groups.google.com/forum/#!topic/ruby-security-ann/DeJpjTAg1FA
 
-
 group :test do
+  gem 'rack-test', '~> 0.6.2'
   gem 'shoulda'
   gem 'object-daddy', '~> 1.1.0'
   gem "launchy", "~> 2.3.0"
@@ -183,7 +185,14 @@ group :development do
   gem 'rails-dev-tweaks', '~> 0.6.1'
   gem 'thin'
   gem 'faker'
+  gem 'quiet_assets'
 end
+
+# API gems
+gem 'grape', '~> 0.7.0'
+gem 'representable', :github => 'finnlabs/representable'
+gem 'roar',   '~> 0.12.6'
+gem 'reform', require: false
 
 # Use the commented pure ruby gems, if you have not the needed prerequisites on
 # board to compile the native ones.  Note, that their use is discouraged, since

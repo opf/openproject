@@ -27,28 +27,98 @@
 //++
 
 // global
-angular.module('openproject.services', ['openproject.uiComponents', 'openproject.helpers', 'openproject.workPackages.config', 'openproject.workPackages.helpers']);
+angular.module('openproject.config', []);
+angular.module('openproject.services', [
+  'openproject.uiComponents',
+  'openproject.helpers',
+  'openproject.workPackages.config',
+  'openproject.workPackages.helpers'
+]);
 angular.module('openproject.helpers', ['openproject.services']);
-angular.module('openproject.models', ['openproject.workPackages.config', 'openproject.services']);
+angular.module('openproject.models', [
+  'openproject.workPackages.config',
+  'openproject.services'
+]);
 
 // timelines
-angular.module('openproject.timelines', ['openproject.timelines.controllers', 'openproject.timelines.directives', 'openproject.uiComponents']);
+angular.module('openproject.timelines', [
+  'openproject.timelines.controllers',
+  'openproject.timelines.directives',
+  'openproject.uiComponents'
+]);
 angular.module('openproject.timelines.models', ['openproject.helpers']);
 angular.module('openproject.timelines.helpers', []);
-angular.module('openproject.timelines.controllers', ['openproject.timelines.models']);
-angular.module('openproject.timelines.services', ['openproject.timelines.models', 'openproject.timelines.helpers']);
-angular.module('openproject.timelines.directives', ['openproject.timelines.models', 'openproject.timelines.services', 'openproject.uiComponents', 'openproject.helpers']);
+angular.module('openproject.timelines.controllers', [
+  'openproject.timelines.models'
+]);
+angular.module('openproject.timelines.services', [
+  'openproject.timelines.models',
+  'openproject.timelines.helpers'
+]);
+angular.module('openproject.timelines.directives', [
+  'openproject.timelines.models',
+  'openproject.timelines.services',
+  'openproject.uiComponents',
+  'openproject.helpers'
+]);
 
 // work packages
-angular.module('openproject.workPackages', ['openproject.workPackages.controllers', 'openproject.workPackages.filters', 'openproject.workPackages.directives', 'openproject.uiComponents']);
-angular.module('openproject.workPackages.helpers', ['openproject.helpers']);
-angular.module('openproject.workPackages.filters', ['openproject.workPackages.helpers']);
+angular.module('openproject.workPackages', [
+  'openproject.workPackages.controllers',
+  'openproject.workPackages.filters',
+  'openproject.workPackages.directives',
+  'openproject.uiComponents',
+  'ng-context-menu'
+]);
+angular.module('openproject.workPackages.services', []);
+angular.module('openproject.workPackages.helpers', [
+  'openproject.helpers',
+  'openproject.workPackages.services'
+]);
+angular.module('openproject.workPackages.filters', [
+  'openproject.workPackages.helpers'
+]);
 angular.module('openproject.workPackages.config', []);
-angular.module('openproject.workPackages.controllers', ['openproject.models', 'openproject.workPackages.helpers', 'openproject.services', 'openproject.workPackages.config']);
-angular.module('openproject.workPackages.directives', ['openproject.uiComponents', 'openproject.services']);
+angular.module('openproject.workPackages.controllers', [
+  'openproject.models',
+  'openproject.workPackages.helpers',
+  'openproject.services',
+  'openproject.workPackages.config',
+  'btford.modal'
+]);
+angular.module('openproject.workPackages.directives', [
+  'openproject.uiComponents',
+  'openproject.services',
+  'openproject.workPackages.services'
+]);
+
+// messages
+angular.module('openproject.messages', ['openproject.messages.controllers']);
+angular.module('openproject.messages.controllers', []);
+
+// time entries
+angular.module('openproject.timeEntries', [
+  'openproject.timeEntries.controllers'
+]);
+angular.module('openproject.timeEntries.controllers', []);
 
 // main app
-var openprojectApp = angular.module('openproject', ['ui.select2', 'ui.date', 'openproject.uiComponents', 'openproject.timelines', 'openproject.workPackages', 'ngAnimate']);
+var openprojectApp = angular.module('openproject', [
+  'ui.select2',
+  'ui.select2.sortable',
+  'ui.date',
+  'ui.router',
+  'openproject.config',
+  'openproject.uiComponents',
+  'openproject.timelines',
+  'openproject.workPackages',
+  'openproject.messages',
+  'openproject.timeEntries',
+  'ngAnimate',
+  'ngSanitize',
+  'truncate',
+  'feature-flags'
+]);
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
 
@@ -64,9 +134,17 @@ openprojectApp
           config.url = window.appBasePath + config.url;
           return config || $q.when(config);
         }
-      }
+      };
     });
   }])
-  .run(['$http', function($http){
+  .run([
+    '$http',
+    'ConfigurationService',
+    'flags',
+    function($http, ConfigurationService, flags) {
     $http.defaults.headers.common.Accept = 'application/json';
+
+    ConfigurationService.addConfiguration('accessibilityMode', OpenProject.Helpers.accessibilityModeEnabled());
+
+    flags.set($http.get('/javascripts/feature-flags.json'));
   }]);

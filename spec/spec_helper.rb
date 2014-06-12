@@ -46,6 +46,7 @@ require 'capybara/rails'
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+Dir[Rails.root.join("spec/features/support/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
   # ## Mock Framework
@@ -115,6 +116,9 @@ RSpec.configure do |config|
   config.mock_with :rspec do |c|
     c.yield_receiver_to_any_instance_implementation_blocks = true
   end
+
+  # include spec/api for API request specs
+  config.include RSpec::Rails::RequestExampleGroup, type: :request, example_group: { file_path: /spec\/api/ }
 end
 
 # load disable_specs.rbs from plugins

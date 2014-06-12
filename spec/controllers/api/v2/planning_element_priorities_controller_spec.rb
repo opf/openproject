@@ -66,4 +66,3 @@ describe Api::V2::PlanningElementPrioritiesController do
     end
   end
 end
-

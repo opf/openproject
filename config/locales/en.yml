@@ -51,6 +51,7 @@ en:
     error_self_registration_disabled: >
       User registration is disabled on this system. Please ask an administrator to create an
       account for you.
+    login_with_auth_provider: "or sign in with your existing account"
 
   actionview_instancetag_blank_option: "Please select"
 
@@ -358,7 +359,7 @@ en:
   button_list: "List"
   button_lock: "Lock"
   button_log_time: "Log time"
-  button_login: "Login"
+  button_login: "Sign in"
   button_move: "Move"
   button_move_and_follow: "Move and follow"
   button_quote: "Quote"
@@ -531,6 +532,7 @@ en:
   error_scm_command_failed: "An error occurred when trying to access the repository: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
   error_unable_delete_status: "Unable to delete work package status"
+  error_unable_delete_default_status: "Unable to delete default work package status. Please select another default work package status before deleting the current one."
   error_unable_to_connect: "Unable to connect (%{value})"
   error_workflow_copy_source: "Please select a source type or role"
   error_workflow_copy_target: "Please select target type(s) and role(s)"
@@ -796,6 +798,7 @@ en:
   label_not_contains: "doesn't contain"
   label_not_equals: "is not"
   label_notify_member_plural: "Email updates"
+  label_open_menu: "Open menu"
   label_open_work_packages: "open"
   label_open_work_packages_plural: "open"
   label_optional_description: "Description"
@@ -803,7 +806,7 @@ en:
   label_overall_activity: "Overall activity"
   label_overall_spent_time: "Overall spent time"
   label_overview: "Overview"
-  label_password_lost: "Lost password"
+  label_password_lost: "Forgot your password?"
   label_password_rule_lowercase: "Lowercase"
   label_password_rule_numeric: "Numeric Characters"
   label_password_rule_special: "Special Characters"
@@ -837,7 +840,7 @@ en:
   label_query_plural: "Custom queries"
   label_query_menu_item: "Query menu item"
   label_read: "Read..."
-  label_register: "Register"
+  label_register: "Create a new account"
   label_register_with_developer: "Register as developer"
   label_registered_on: "Registered on"
   label_registration_activation_by_email: "account activation by email"

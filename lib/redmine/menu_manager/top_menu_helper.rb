@@ -48,7 +48,7 @@ module Redmine::MenuManager::TopMenuHelper
   def render_projects_top_menu_node
     return "" if User.current.anonymous? and Setting.login_required?
 
-    return "" if User.current.number_of_known_projects.zero?
+    return "" if User.current.anonymous? and User.current.number_of_known_projects.zero?
 
     heading = link_to l(:label_project_plural),
                       { :controller => '/projects',

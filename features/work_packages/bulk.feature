@@ -71,14 +71,14 @@ Feature: Updating work packages
       | pe2     |         |         |               | manager     |
     And I am already logged in as "manager"
 
-  @javascript
+  @wip @javascript
   Scenario: Bulk updating the fixed version of several work packages
     When I go to the work package index page of the project called "ecookbook"
     And  I open the context menu on the work packages:
       | pe1 |
       | pe2 |
     And I hover over ".fixed_version .context_item"
-    And I follow "none" within "#context-menu"
+    And I follow "none" within "#work-package-context-menu"
     Then I should see "Successful update"
     And I follow "pe1"
     And I should see "deleted (version1)"
@@ -89,17 +89,17 @@ Feature: Updating work packages
       And  I open the context menu on the work packages:
         | pe1 |
         | pe2 |
-      And I follow "Edit" within "#context-menu"
+      And I follow "Edit" within "#work-package-context-menu"
       And I press "Submit"
-      Then I should see "Work packages" within "#content"
+      Then I should see "Work Packages" within ".title-container"
 
-  @javascript
+  @wip @javascript
   Scenario: Bulk updating the fixed version of several work packages
     When I go to the work package index page of the project called "ecookbook"
     And  I open the context menu on the work packages:
       | pe1 |
       | pe2 |
     And I hover over ".assigned_to .context_item"
-    And I follow "none" within "#context-menu"
+    And I follow "none" within "#work-package-context-menu"
     Then I should see "Successful update"
     Then the attribute "assigned_to" of work package "pe1" should be ""

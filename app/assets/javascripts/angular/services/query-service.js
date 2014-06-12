@@ -28,23 +28,49 @@
 
 angular.module('openproject.services')
 
-.service('QueryService', ['Query', 'Sortation', '$http', '$location', 'PathHelper', '$q', 'AVAILABLE_WORK_PACKAGE_FILTERS', 'StatusService', 'TypeService', 'PriorityService', 'UserService', 'VersionService', 'RoleService', 'GroupService', 'ProjectService',
-  function(Query, Sortation, $http, $location, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService) {
+.service('QueryService', [
+  'Query',
+  'Sortation',
+  '$http',
+  '$location',
+  'PathHelper',
+  '$q',
+  'AVAILABLE_WORK_PACKAGE_FILTERS',
+  'StatusService',
+  'TypeService',
+  'PriorityService',
+  'UserService',
+  'VersionService',
+  'RoleService',
+  'GroupService',
+  'ProjectService',
+  'WorkPackagesTableHelper',
+  'I18n',
+  function(Query, Sortation, $http, $location, PathHelper, $q, AVAILABLE_WORK_PACKAGE_FILTERS, StatusService, TypeService, PriorityService, UserService, VersionService, RoleService, GroupService, ProjectService, WorkPackagesTableHelper, I18n) {
 
   var query;
 
-  var availableColumns = [], availableFilterValues = {}, availableFilters = {};
+  var availableOptions = {}; // used as a container object holding watchable object references
+  var availableColumns = [],
+      availableUnusedColumns = [],
+      availableFilterValues = {},
+      availableFilters = {};
+
+  var totalEntries;
 
   var QueryService = {
-    initQuery: function(queryId, queryData, selectedColumns, afterQuerySetupCallback) {
+    initQuery: function(queryId, queryData, selectedColumns, exportFormats, afterQuerySetupCallback) {
       query = new Query({
         id: queryId,
+        name: queryData.name,
         project_id: queryData.project_id,
         displaySums: queryData.display_sums,
         groupSums: queryData.group_sums,
         sums: queryData.sums,
         columns: selectedColumns,
-        groupBy: queryData.group_by
+        groupBy: queryData.group_by,
+        isPublic: queryData.is_public,
+        exportFormats: exportFormats
       });
       query.setSortation(new Sortation(queryData.sort_criteria));
 
@@ -60,16 +86,118 @@ angular.module('openproject.services')
       return query;
     },
 
+    resetQuery: function() {
+      query = null;
+    },
+
+    resetAll: function(){
+      QueryService.resetQuery();
+      availableOptions = {};
+      availableColumns = [],
+      availableUnusedColumns = [],
+      availableFilterValues = {},
+      availableFilters = {};
+    },
+
     getQuery: function() {
       return query;
     },
 
+    setTotalEntries: function(numberOfEntries) {
+      totalEntries = numberOfEntries;
+    },
+
+    getTotalEntries: function() {
+      return totalEntries;
+    },
+
+    getAvailableUnusedColumns: function() {
+      return availableUnusedColumns;
+    },
+
+    hideColumns: function(columnNames) {
+      WorkPackagesTableHelper.moveColumns(columnNames, this.getSelectedColumns(), availableUnusedColumns);
+    },
+
+    showColumns: function(columnNames) {
+      WorkPackagesTableHelper.moveColumns(columnNames, availableUnusedColumns, this.getSelectedColumns());
+    },
+
+    getAvailableOptions: function() {
+      return availableOptions;
+    },
+
     // data loading
 
-    getAvailableColumns: function(projectIdentifier) {
+    loadAvailableGroupedQueries: function(projectIdentifier) {
+      if (availableOptions.availableGroupedQueries) {
+        return $q.when(availableOptions.availableGroupedQueries);
+      }
+
+      return QueryService.fetchAvailableGroupedQueries(projectIdentifier);
+    },
+
+    fetchAvailableGroupedQueries: function(projectIdentifier) {
+      var url = projectIdentifier ? PathHelper.apiProjectGroupedQueriesPath(projectIdentifier) : PathHelper.apiGroupedQueriesPath();
+
+      return QueryService.doQuery(url)
+        .then(function(groupedQueriesResults) {
+          availableOptions.availableGroupedQueries = groupedQueriesResults;
+          return availableOptions.availableGroupedQueries;
+        });
+    },
+
+    loadAvailableUnusedColumns: function(projectIdentifier) {
+      if(availableUnusedColumns.length) {
+        return $q.when(availableUnusedColumns);
+      }
+
+      return QueryService.loadAvailableColumns(projectIdentifier)
+        .then(function(available_columns) {
+          availableUnusedColumns = WorkPackagesTableHelper.getColumnDifference(available_columns, QueryService.getSelectedColumns());
+          return availableUnusedColumns;
+        });
+    },
+
+    loadAvailableColumns: function(projectIdentifier) {
+      // TODO: Once we have a single page app we need to differentiate between different project columns
+      if(availableColumns.length) {
+        return $q.when(availableColumns);
+      }
+
       var url = projectIdentifier ? PathHelper.apiProjectAvailableColumnsPath(projectIdentifier) : PathHelper.apiAvailableColumnsPath();
 
-      return QueryService.doQuery(url);
+      return QueryService.doGet(url, function(response){
+        availableColumns = response.data.available_columns;
+        return availableColumns;
+      });
+    },
+
+    getGroupBy: function() {
+      return query.groupBy;
+    },
+
+    setGroupBy: function(groupBy) {
+      query.setGroupBy(groupBy);
+    },
+
+    getSelectedColumns: function() {
+      return this.getQuery().getSelectedColumns();
+    },
+
+    setSelectedColumns: function(selectedColumnNames) {
+      var currentColumns = this.getSelectedColumns();
+
+      this.hideColumns(currentColumns.map(function(column) { return column.name; }));
+      this.showColumns(selectedColumnNames);
+    },
+
+    updateSortElements: function(sortation) {
+      return query.updateSortElements(sortation);
+    },
+
+    getSortation: function() {
+      return query.getSortation();
     },
 
     getAvailableFilters: function(projectIdentifier){
@@ -115,7 +243,7 @@ angular.module('openproject.services')
               } else {
                 return { id: value, name: value };
               }
-            })
+            });
             return $q.when(QueryService.storeAvailableFilterValues(modelName, values));
           }
 
@@ -172,15 +300,57 @@ angular.module('openproject.services')
       return availableFilters[projectIdentifier];
     },
 
-    doQuery: function(url, params) {
+    // synchronization
+
+    saveQuery: function() {
+      var url = PathHelper.apiProjectQueryPath(query.project_id, query.id);
+      return QueryService.doQuery(url, query.toUpdateParams(), 'PUT', function(response){
+        QueryService.fetchAvailableGroupedQueries(query.project_id);
+
+        return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_update') }} );
+      });
+    },
+
+    saveQueryAs: function(name) {
+      query.setName(name);
+      var url = PathHelper.apiProjectQueriesPath(query.project_id);
+      return QueryService.doQuery(url, query.toParams(), 'POST', function(response){
+        query.save(response.data.query);
+        QueryService.fetchAvailableGroupedQueries(query.project_id);
+
+        return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_create') }} );
+      });
+    },
+
+    deleteQuery: function() {
+      var url = PathHelper.apiProjectQueryPath(query.project_id, query.id);
+      return QueryService.doQuery(url, query.toUpdateParams(), 'DELETE', function(response){
+        QueryService.fetchAvailableGroupedQueries(query.project_id);
+        QueryService.resetQuery();
+
+        return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_delete') }} );
+      });
+    },
+
+    doGet: function(url, success, failure) {
+      return QueryService.doQuery(url, null, 'GET', success, failure);
+    },
+
+    doQuery: function(url, params, method, success, failure) {
+      method = method || 'GET';
+      success = success || function(response){
+        return response.data;
+      };
+      failure = failure || function(response){
+        return angular.extend(response.data, { status: { text: I18n.t('js.notice_bad_request'), isError: true }} );
+      };
+
       return $http({
-        method: 'GET',
+        method: method,
         url: url,
         params: params,
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-      }).then(function(response){
-        return response.data;
-      });
+      }).then(success, failure);
     }
   };
 

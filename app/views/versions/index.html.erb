@@ -68,7 +68,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <br />
 <label for="completed"><%= check_box_tag "completed", 1, params[:completed] %> <%= l(:label_show_completed_versions) %></label>
 <% if @project.descendants.active.any? %>
-	<%= hidden_field_tag 'with_subprojects', 0 %>
+  <%= hidden_field_tag 'with_subprojects', 0 %>
   <br /><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%></label>
 <% end %>
 <p><%= submit_tag l(:button_apply), :class => 'button-small', :name => nil %></p>
@@ -82,5 +82,3 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% html_title(l(:label_roadmap)) %>
-
-<%= context_menu work_packages_context_menu_path %>

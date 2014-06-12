@@ -35,10 +35,14 @@ angular.module('openproject.uiComponents')
       target: '='
     },
     link: function(scope, element, attributes) {
-      element.on('click', function(e){
+      element.on('click', function(e) {
         e.preventDefault();
 
-        modalHelperInstance.createModal(scope.target || attributes['href'], function (modalDiv) {});
+        if (e.which == 1 && !e.ctrlKey) {
+          modalHelperInstance.createModal(scope.target || attributes['href'], function (modalDiv) {});
+        } else {
+          window.open(scope.target || attributes['href'], '_blank');
+        }
       });
     }
   };

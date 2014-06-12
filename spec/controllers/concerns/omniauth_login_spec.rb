@@ -6,8 +6,8 @@
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2013 Jean-Philippe Lang
-# Copyright (C) 2010-2013 the ChiliProject Team
+# Copyright (C) 2006-2014 Jean-Philippe Lang
+# Copyright (C) 2010-2014 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -196,11 +196,22 @@ describe AccountController do
       end
 
       context 'with an active account' do
-        it 'should sign in the user after successful external authentication' do
+        before do
           user.save!
+        end
+
+        it 'should sign in the user after successful external authentication' do
           post :omniauth_login
 
           expect(response).to redirect_to my_page_path
+        end
+
+        it 'should log a successful login' do
+          post_at = Time.now.utc
+          post :omniauth_login
+
+          user.reload
+          expect(user.last_login_on.utc.to_i).to be >= post_at.utc.to_i
         end
       end
 

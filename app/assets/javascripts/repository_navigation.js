@@ -27,7 +27,7 @@
 //++
 
 Event.observe(window,'load',function() {
-  /* 
+  /*
   If we're viewing a tag or branch, don't display it in the
   revision box
   */
@@ -37,7 +37,7 @@ Event.observe(window,'load',function() {
     $('rev').setValue('');
   }
 
-  /* 
+  /*
   Copy the branch/tag value into the revision box, then disable
   the dropdowns before submitting the form
   */
@@ -60,4 +60,4 @@ Event.observe(window,'load',function() {
       $$('#branch,#tag').invoke('enable');
     }
   });
-})
+});

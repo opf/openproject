@@ -67,10 +67,10 @@ module TimelogHelper
   end
 
   def select_hours(data, criteria, value)
-  	if value.to_s.empty?
-  		data.select {|row| row[criteria].blank? }
+    if value.to_s.empty?
+      data.select {|row| row[criteria].blank? }
     else
-    	data.select {|row| row[criteria].to_s == value.to_s}
+      data.select {|row| row[criteria].to_s == value.to_s}
     end
   end
 

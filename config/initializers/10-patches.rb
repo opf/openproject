@@ -27,6 +27,27 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'sprockets/rails'
+
+module Sprockets
+  module Rails
+    # Workaround to ensure some asset helpers (like #image_path) use the
+    # correct asset prefix.
+    # Helps OpenProject::Themes::ViewHelpers# find theme assets.
+    # NOTE: repercussions of this hack are unknown.
+    module LegacyAssetUrlHelper
+      ASSET_PUBLIC_DIRECTORIES.replace({
+        :audio      => '/assets',
+        :font       => '/assets',
+        :image      => '/assets',
+        :javascript => '/assets',
+        :stylesheet => '/assets',
+        :video      => '/assets'
+      })
+    end
+  end
+end
+
 require 'active_record'
 
 module ActiveRecord
@@ -233,7 +254,6 @@ module ActiveRecord
   end
 end
 
-
 # Patches to fix Hash subclasses not preserving the class on reject and select
 # on Ruby 2.1.1. Apparently this will be standard behavior in Ruby 2.2, so
 # check please verify things work as expected before removing this.
@@ -266,7 +286,6 @@ module ActiveSupport
     end
   end
 end
-
 
 module CollectiveIdea
   module Acts

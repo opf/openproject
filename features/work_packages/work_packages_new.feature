@@ -67,6 +67,5 @@ Feature: Disabled done ratio on the work package index
   @javascript
   Scenario: Total sums dialog should be displayed when the display sums checkbox is checked
     When I go to the work packages index page of the project "project1"
-    And I click "Options"
-    And I check "display_sums"
-    Then I should see "Sum for all work packages" within "#work-packages-table"
+    And I choose "Display sums" from the toolbar "settings" dropdown
+    Then I should see "Sum for all work packages" within ".workpackages-table"

@@ -51,6 +51,7 @@ de:
     error_self_registration_disabled: >
       Auf diesem System ist die Nutzerregistierung deaktiviert. Bitte fragen Sie einen
       Administrator nach einem Nutzerkonto.
+    login_with_auth_provider: "oder melden Sie sich mit einem bestehenden Konto an"
 
   actionview_instancetag_blank_option: "Bitte auswählen"
 
@@ -534,6 +535,7 @@ de:
   error_scm_command_failed: "Beim Zugriff auf das Projektarchiv ist ein Fehler aufgetreten: %{value}"
   error_scm_not_found: "Eintrag und/oder Revision existiert nicht im Projektarchiv."
   error_unable_delete_status: "Der Ticket-Status konnte nicht gelöscht werden."
+  error_unable_delete_default_status: "Der Arbeitspaket-Status konnte nicht gelöscht werden, da dieser als Standard-Status markiert ist. Wählen Sie bitte zunächst einen anderen Arbeitspaket-Status als Standard-Status."
   error_unable_to_connect: "Fehler beim Verbinden (%{value})"
   error_workflow_copy_source: "Bitte wählen Sie einen Quell-Typ und eine Quell-Rolle."
   error_workflow_copy_target: "Bitte wählen Sie die Ziel-Typ und -Rollen."
@@ -799,6 +801,7 @@ de:
   label_not_contains: "enthält nicht"
   label_not_equals: "ist nicht"
   label_notify_member_plural: "Aktualisierungen per E-Mail verschicken"
+  label_open_menu: "Menü öffnen"
   label_open_work_packages: "offen"
   label_open_work_packages_plural: "offen"
   label_optional_description: "Beschreibung"
@@ -806,7 +809,7 @@ de:
   label_overall_activity: "Aktivität aller Projekte anzeigen"
   label_overall_spent_time: "Aufgewendete Zeit aller Projekte anzeigen"
   label_overview: "Übersicht"
-  label_password_lost: "Kennwort vergessen"
+  label_password_lost: "Kennwort vergessen?"
   label_password_rule_lowercase: "Kleinbuchstaben"
   label_password_rule_numeric: "Ziffern"
   label_password_rule_special: "Sonderzeichen"
@@ -840,7 +843,7 @@ de:
   label_query_plural: "Benutzerdefinierte Berichte"
   label_query_menu_item: "Filter-Menüpunkt"
   label_read: "Lesen ..."
-  label_register: "Registrieren"
+  label_register: "Neues Konto erstellen"
   label_register_with_developer: "Als Entwickler anmelden"
   label_registered_on: "Angemeldet am"
   label_registration_activation_by_email: "Kontoaktivierung durch E-Mail"

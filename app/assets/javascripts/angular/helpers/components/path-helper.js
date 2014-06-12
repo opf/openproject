@@ -34,11 +34,59 @@ angular.module('openproject.helpers')
     apiPrefixV2: '/api/v2',
     apiPrefixV3: '/api/v3',
 
-    projectsPath: function(){
+    activityPath: function(projectIdentifier, from) {
+      var link = '/activity';
+
+      if (projectIdentifier) {
+        link = PathHelper.projectPath(projectIdentifier) + link;
+      }
+
+      if (from) {
+        link += '?from=' + from;
+      }
+
+      return link;
+    },
+    assetPath: function(assetIdentifier) {
+      return '/assets/' + assetIdentifier;
+    },
+    boardsPath: function(projectIdentifier) {
+      return PathHelper.projectPath(projectIdentifier) + '/boards';
+    },
+    boardPath: function(projectIdentifier, boardIdentifier) {
+      return PathHelper.boardsPath(projectIdentifier) + '/' + boardIdentifier;
+    },
+    messagesPath: function(boardIdentifier) {
+      return PathHelper.boardsPath() + '/' + boardIdentifier + '/topics';
+    },
+    messagePath: function(messageIdentifier) {
+      return '/topics/' + messageIdentifier;
+    },
+    projectsPath: function() {
       return '/projects';
     },
     projectPath: function(projectIdentifier) {
       return PathHelper.projectsPath() + '/' + projectIdentifier;
+    },
+    queryPath: function(queryIdentifier) {
+      return '/queries/' + queryIdentifier;
+    },
+    timeEntriesPath: function(projectIdentifier, workPackageIdentifier) {
+      var path = '/time_entries/';
+
+      if (workPackageIdentifier) {
+        return PathHelper.workPackagePath(workPackageIdentifier) + path;
+      } else if (projectIdentifier) {
+        return PathHelper.projectPath(projectIdentifier) + path;
+      }
+
+      return path;
+    },
+    timeEntryPath: function(timeEntryIdentifier) {
+      return '/time_entries/' + timeEntryIdentifier;
+    },
+    timeEntryEditPath: function(timeEntryIdentifier) {
+      return PathHelper.timeEntryPath(timeEntryIdentifier) + '/edit';
     },
     workPackagesPath: function() {
       return '/work_packages';
@@ -62,6 +110,10 @@ angular.module('openproject.helpers')
       return '/sub_projects';
     },
 
+    workPackagesBulkDeletePath: function() {
+      return PathHelper.workPackagesPath() + '/bulk';
+    },
+
     apiV2ProjectPath: function(projectIdentifier) {
       return PathHelper.apiPrefixV2 + PathHelper.projectPath(projectIdentifier);
     },
@@ -80,6 +132,15 @@ angular.module('openproject.helpers')
     apiProjectSubProjectsPath: function(projectIdentifier) {
       return PathHelper.apiV3ProjectPath(projectIdentifier) + PathHelper.subProjectsPath();
     },
+    apiProjectQueriesPath: function(projectIdentifier) {
+      return PathHelper.apiV3ProjectPath(projectIdentifier) + '/queries';
+    },
+    apiProjectQueryPath: function(projectIdentifier, queryIdentifier) {
+      return PathHelper.apiV3ProjectPath(projectIdentifier) + PathHelper.queryPath(queryIdentifier);
+    },
+    apiGroupedQueriesPath: function() {
+      return PathHelper.apiPrefixV3 + '/queries/grouped';
+    },
     apiAvailableColumnsPath: function() {
       return PathHelper.apiPrefixV3 + '/queries/available_columns';
     },
@@ -91,6 +152,9 @@ angular.module('openproject.helpers')
     },
     apiProjectAvailableColumnsPath: function(projectIdentifier) {
       return PathHelper.apiV3ProjectPath(projectIdentifier) + '/queries/available_columns';
+    },
+    apiProjectGroupedQueriesPath: function(projectIdentifier) {
+      return PathHelper.apiV3ProjectPath(projectIdentifier) + '/queries/grouped';
     },
     apiWorkPackagesColumnDataPath: function() {
       return PathHelper.apiWorkPackagesPath() + '/column_data';

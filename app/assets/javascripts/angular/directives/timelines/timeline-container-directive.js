@@ -41,11 +41,11 @@ angular.module('openproject.timelines.directives')
   return {
     restrict: 'E',
     replace: true,
-    controller: function($scope) {
-      this.showError = function(errorMessage) {
-        $scope.errorMessage = errorMessage;
-      };
-    },
+    controller: ['$scope', function($scope) {
+        this.showError = function(errorMessage) {
+          $scope.errorMessage = errorMessage;
+        };
+      }],
     transclude: true,
     template: '<div>' +
               '<div ng-hide="!!errorMessage" ng-transclude id="{{timelineContainerElementId}}"/>' +

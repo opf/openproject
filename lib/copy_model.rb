@@ -45,7 +45,7 @@ module CopyModel
     end
 
     # Copies the instance's associations based on the +from_model+.
-    # The associations CAN be copied when the instance responds to 
+    # The associations CAN be copied when the instance responds to
     # something called 'copy_association_name'.
     #
     # For example: If we have a method called #copy_work_packages,

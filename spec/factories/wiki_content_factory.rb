@@ -34,4 +34,3 @@ FactoryGirl.define do
     text { |a| "h1. #{a.page.title}\n\nPage Content Version #{a.version}." }
   end
 end
-

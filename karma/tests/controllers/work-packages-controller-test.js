@@ -29,10 +29,10 @@
 /*jshint expr: true*/
 
 describe('WorkPackagesController', function() {
-  var scope, ctrl, win, testWorkPackageService, testQueryService, testPaginationService;
+  var scope, ctrl, win, testProjectService, testWorkPackageService, testQueryService, testPaginationService;
   var buildController;
 
-  beforeEach(module('openproject.workPackages.controllers'));
+  beforeEach(module('openproject.workPackages.controllers', 'openproject.workPackages.services', 'ng-context-menu', 'btford.modal'));
   beforeEach(inject(function($rootScope, $controller, $timeout) {
     scope = $rootScope.$new();
     win   = {
@@ -44,6 +44,24 @@ describe('WorkPackagesController', function() {
       }
     };
     var columnData = {
+    };
+    var availableQueryiesData = {
+    };
+
+    var projectData  = { embedded: { types: [] } };
+    var projectsData = [ projectData ];
+
+    testProjectService = {
+      getProject: function(identifier) {
+        return $timeout(function() {
+          return projectData;
+        }, 10);
+      },
+      getProjects: function(identifier) {
+        return $timeout(function() {
+          return projectsData;
+        }, 10);
+      }
     };
 
     testWorkPackageService = {
@@ -63,16 +81,41 @@ describe('WorkPackagesController', function() {
     testQueryService = {
       getQuery: function () {
         return {
-          serialiseForAngular: function () {
+          getQueryString: function () {
           }
-        }
+        };
       },
       initQuery: function () {
       },
-      getAvailableColumns: function () {
+      getAvailableOptions: function() {
+        return {};
+      },
+      loadAvailableColumns: function () {
         return $timeout(function () {
           return columnData;
         }, 10);
+      },
+      loadAvailableGroupedQueries: function () {
+        return $timeout(function () {
+          return availableQueryiesData;
+        }, 10);
+      },
+
+      loadAvailableUnusedColumns: function() {
+        return $timeout(function () {
+          return columnData;
+        }, 10);
+      },
+
+      getTotalEntries: function() {
+      },
+
+      setTotalEntries: function() {
+        return 10;
+      },
+
+      resetAll: function() {
+        return null;
       }
     };
     testPaginationService = {
@@ -88,6 +131,7 @@ describe('WorkPackagesController', function() {
       ctrl = $controller("WorkPackagesController", {
         $scope:  scope,
         $window: win,
+        ProjectService:     testProjectService,
         QueryService:       testQueryService,
         PaginationService:  testPaginationService,
         WorkPackageService: testWorkPackageService
@@ -103,6 +147,7 @@ describe('WorkPackagesController', function() {
       buildController();
       expect(scope.loading).to.be.false;
     });
+
   });
 
   describe('setting projectIdentifier', function() {

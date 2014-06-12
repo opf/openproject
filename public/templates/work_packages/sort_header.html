@@ -2,8 +2,8 @@
   <a href="javascript://"
      ng-if="sortable"
      ng-class="[currentSortDirection && 'sort', currentSortDirection]"
-     ng-click="performSort()"
      lang-attribute
      lang="{{locale}}">{{headerTitle}}</a>
   <span ng-if="!sortable">{{headerTitle}}</span>
+  <icon-wrapper icon-name="pulldown-arrow1" title="{{I18n.t('js.label_open_menu')}}"></icon-wrapper>
 </span>

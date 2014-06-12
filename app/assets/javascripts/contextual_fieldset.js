@@ -32,4 +32,3 @@ jQuery(document).ready(function($) {
     event.stopPropagation();
   });
 });
-

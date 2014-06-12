@@ -64,7 +64,8 @@ module Api
       private
 
       def find_project
-        @project = Project.find(params[:project_id])
+        @project = Project.where(identifier: params[:project_id]).first ||
+          Project.find(params[:id])
       end
 
     end

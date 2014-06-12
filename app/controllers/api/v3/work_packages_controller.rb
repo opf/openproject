@@ -51,7 +51,22 @@ module Api
 
       def index
         @custom_field_column_names = @query.columns.select{|c| c.name.to_s =~ /cf_(.*)/}.map(&:name)
-        @column_names = ['id'] | @query.columns.map(&:name) - @custom_field_column_names
+        @column_names = [:id] | @query.columns.map(&:name) - @custom_field_column_names
+        if !@query.group_by.blank?
+          if @query.group_by =~ /cf_(.*)/
+            @custom_field_column_names << @query.group_by
+          else
+            @column_names << @query.group_by.to_sym
+          end
+        end
+
+        # determine what actions may be performed
+        @allowed_statuses = @work_packages.map do |i|
+          i.new_statuses_allowed_to(User.current)
+        end.inject do |memo,s|
+          memo & s
+        end
+        setup_context_menu_actions
 
         # the data for the index is already produced in the assign_work_packages
         respond_to do |format|
@@ -82,6 +97,19 @@ module Api
       end
 
       private
+
+      def setup_context_menu_actions
+        @projects = @work_packages.collect(&:project).compact.uniq
+        @project = @projects.first if @projects.size == 1
+
+        @can = {:edit => User.current.allowed_to?(:edit_work_packages, @projects),
+                :log_time => (@project && User.current.allowed_to?(:log_time, @project)),
+                :update => (User.current.allowed_to?(:edit_work_packages, @projects) || (User.current.allowed_to?(:change_status, @projects) && !@allowed_statuses.blank?)),
+                :move => (@project && User.current.allowed_to?(:move_work_packages, @project)),
+                :copy => (@work_package && @project.types.include?(@work_package.type) && User.current.allowed_to?(:add_work_packages, @project)),
+                :delete => User.current.allowed_to?(:delete_work_packages, @projects)
+                }
+      end
 
       def columns_total_sums(column_names, work_packages)
         column_names.map do |column_name|
@@ -151,6 +179,8 @@ module Api
 
       def set_work_packages_meta_data(query, results, work_packages)
         @display_meta = true
+        export_formats = ["atom", "pdf", "csv"]
+        export_formats.push("xls") if Redmine::Plugin.all.sort.map{|f| f.id}.include?(:openproject_xls_export)
 
         @work_packages_meta_data = {
           query:                        query.as_json(except: :filters, include: :filters),
@@ -162,7 +192,8 @@ module Api
           page:                         page_param,
           per_page:                     per_page_param,
           per_page_options:             Setting.per_page_options_array,
-          total_entries:                work_packages.total_entries
+          total_entries:                work_packages.total_entries,
+          export_formats:               export_formats
         }
       end
 

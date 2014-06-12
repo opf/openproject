@@ -393,7 +393,7 @@ describe WorkPackages::MovesController do
           end
 
           before do
-            allow(User).to receive(:current).and_return(current_user) 
+            allow(User).to receive(:current).and_return(current_user)
 
             def self.copy_child_work_package
               post :create,

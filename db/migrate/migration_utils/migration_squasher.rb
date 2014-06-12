@@ -108,4 +108,3 @@ module Migration
     end
   end
 end
-

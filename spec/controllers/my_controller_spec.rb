@@ -126,4 +126,19 @@ describe MyController, :type => :controller do
       end
     end
   end
+
+  describe "index" do
+    render_views
+
+    before do
+      allow_any_instance_of(User).to receive(:reported_work_package_count).and_return(42)
+      get :index
+    end
+
+    it "should show the number of reported packages" do
+      label = Regexp.escape(I18n.t(:label_reported_work_packages))
+
+      expect(response.body).to have_selector("h3", :text => /#{label}.*42/)
+    end
+  end
 end

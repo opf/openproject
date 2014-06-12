@@ -45,13 +45,11 @@ Feature: Resetting filters on work packages
     And I am already admin
     And I am on the work package index page of the project called "project1"
 
+  @javascript
+  Scenario: Clearing filters via the filter buttons
     When I select "Type" from "Add filter"
     And I select "is" from "operators-type_id"
     And I select "Other" from "values-type_id"
-
     Then I should not see "Some issue"
-
-  @javascript
-  Scenario: Clearing filters via the filter buttons
     When I click "Clear"
     Then I should see "Some issue"

@@ -102,6 +102,11 @@ class WorkPackage < ActiveRecord::Base
       :conditions => ::Query.merge_conditions(query.statement)
     }
   }
+
+  scope :with_author, lambda { |author|
+    {:conditions => {:author_id => author.id}}
+  }
+
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   after_initialize :set_default_values

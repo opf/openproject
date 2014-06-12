@@ -121,7 +121,7 @@ tr.message td.last_message { white-space: nowrap; }
 tr.version td.closed, tr.version td.closed a { text-decoration: line-through; }
 tr.version td.name { padding-left: 20px; }
 tr.version.shared td.name { background: url(<%= asset_path 'link.png' %>) no-repeat 0% 70%; }
-tr.version td.date, tr.version td.status, tr.version td.sharing { text-align: center; white-space: nowrap; }
+tr.version td.date, tr.version td.status, tr.version td.sharing { text-align: left; white-space: nowrap; }
 
 tr.user td { width: 13%; }
 tr.user td.email { width: 18%; }
@@ -150,7 +150,7 @@ a.toggle-all:hover {text-decoration: none;}
 
 table.list tbody tr:hover, table.list tr.keyboard_hover { background-color: #ffff99 !important; }
 table.list tbody tr.group:hover, table.list tr.group.keyboard_hover { background-color: inherit !important; }
-table td {padding: 2px;}
+table td {padding: 3px 6px;}
 table p {margin: 0;}
 
 table.attributes { width: 100% }
@@ -211,54 +211,6 @@ div.issue div.subject>div>p { margin-top: 0.5em; }
 #issue_tree table.issues { border: 0; }
 #issue_tree td.checkbox, th.hidden {display: none;}
 
-#content fieldset#filters {
-  padding-bottom: 10px;
-}
-#content fieldset#options {
-  padding-bottom: 10px;
-}
-#content fieldset.collapsible.header_collapsible {
-  padding-top: 0px;
-  padding-bottom: 0px;
-  border: 0px;
-  margin: 0px;
-  margin-right: 10px;
-  margin-left: 1px;
-}
-fieldset.collapsible.header_collapsible > div {
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-fieldset.collapsible.header_collapsible > * {
-  border-left: 1px solid #E6E6E6;
-  border-right: 1px solid #E6E6E6;
-  border-bottom: 1px solid #E6E6E6;
-  width: 100%;
-  padding-left: 6px;
-}
-fieldset.collapsible.header_collapsible legend {
-  background: #E6E6E6 url(<%= asset_path 'projectnavi_arrow_up.png' %>) no-repeat 99% 50%; cursor: pointer;
-  width: 100%;
-  height: 23px;
-  line-height: 24px;
-}
-
-fieldset.collapsible.header_collapsible legend:hover {
-  background-color: #d8d8d8;
-}
-fieldset.collapsible.collapsed.header_collapsible legend {
-  background-image: url(<%= asset_path 'projectnavi_arrow_down.png' %>);
-}
-fieldset.collapsible { border-width: 1px 0 0 0; }
-fieldset.collapsible.borders { border-width: 1px; }
-fieldset.collapsible.collapsed.borders { border-width: 1px 0 0 0; }
-fieldset.collapsible legend { padding-left: 16px; cursor: pointer; }
-
-fieldset#date-range p { margin: 2px 0 2px 0; }
-fieldset#filters table { border-collapse: collapse; }
-fieldset#filters table td { padding: 0; vertical-align: middle; }
-fieldset#filters tr.filter { height: 2em; }
-fieldset#filters td.add-filter { text-align: right; vertical-align: top; }
 .buttons { margin-bottom: 1.4em; margin-top: 1em; }
 
 div#work_package-changesets {
@@ -858,10 +810,6 @@ h1.title {
   right: 155px;
 }
 
-fieldset#filters div.add-filter {
-  text-align: right;
-}
-
 .title-bar-extras {
   color: #333333;
 }
@@ -912,12 +860,8 @@ form#issue-list {
   vertical-align: top;
 }
 #content table th a {
-  color: #111;
-  text-decoration: none;
 }
 #content table th a:hover {
-  color: #6a0406;
-  text-decoration: underline;
 }
 #content table th.current-sort {
   background: #fff url(<%= asset_path 'gradient-up.png' %>) repeat-x;
@@ -1080,15 +1024,9 @@ table.files {
 #content blockquote, .wiki ol, .wiki ul {
   padding-left: 22px;
 }
-.wiki p {
-  margin-bottom: 5px;
-}
 blockquote {
   font-style: italic;
   background: url(<%= asset_path 'blockquote-bg.png' %>) no-repeat 5px 3px;
-}
-.wiki ul li {
-  list-style: disc inside none;
 }
 .file-thumbs {
   margin: 20px 0 0;
@@ -1486,11 +1424,6 @@ tr.time-entry {
   display: none;
 }
 
-/* comments */
-.wiki ol li {
-  list-style: decimal inside;
-}
-
 /* scm */
 #content table .changeset td.id a:hover {
   text-decoration: underline;
@@ -1755,7 +1688,7 @@ content {
   padding-bottom: 11px;
 }
 
-#history .journal, #content .wiki-content p, #content .wiki-content li {
+#history .journal {
   width: 700px;
 }
 
