@@ -38,12 +38,9 @@ module API
     format 'hal+json'
 
     helpers do
-      # Needs refactoring - Will have to find a way how to access sessions in all enviroments
       def current_user
         return User.current if Rails.env.test?
-
         user_id = env['rack.session']['user_id']
-
         User.current = user_id ? User.find(user_id) : User.anonymous
       end
 
