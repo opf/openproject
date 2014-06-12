@@ -115,7 +115,7 @@
 <i class="icon-locked"></i>
 <i class="icon-locked-folder"></i>
 <i class="icon-logout"></i>
-<i class="icon-logout2"></i>
+<i class="icon-export"></i>
 <i class="icon-mail"></i>
 <i class="icon-mail2"></i>
 <i class="icon-map"></i>
