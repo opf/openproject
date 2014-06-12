@@ -28,7 +28,7 @@
 
 angular.module('openproject.helpers')
 
-.service('UrlParamsHelper', [function() {
+.service('UrlParamsHelper', ['I18n', function(I18n) {
   var UrlParamsHelper = {
     // copied more or less from angular buildUrl
     buildQueryString: function(params) {
@@ -72,7 +72,7 @@ angular.module('openproject.helpers')
         url = url + query.getQueryString();
 
         return {
-          label: format.label,
+          label: I18n.t('js.' + format.label_locale),
           format: format.format,
           url: url
         }
