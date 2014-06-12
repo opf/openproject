@@ -36,11 +36,11 @@ describe 'export_card_configurations/new' do
   it 'shows new export card configuration empty inputs' do
     render
 
-    rendered.should have_css("input#export_card_configuration_name")
-    rendered.should have_css("input#export_card_configuration_per_page")
-    rendered.should have_css("input#export_card_configuration_page_size")
-    rendered.should have_css("select#export_card_configuration_orientation")
-    rendered.should have_css("textarea#export_card_configuration_rows")
+    expect(rendered).to have_css("input#export_card_configuration_name")
+    expect(rendered).to have_css("input#export_card_configuration_per_page")
+    expect(rendered).to have_css("input#export_card_configuration_page_size")
+    expect(rendered).to have_css("select#export_card_configuration_orientation")
+    expect(rendered).to have_css("textarea#export_card_configuration_rows")
   end
 
 end

@@ -39,8 +39,8 @@ describe 'export_card_configurations/index' do
   it 'shows export card configurations' do
     render
 
-    rendered.should have_selector("a", text: config1.name)
-    rendered.should have_selector("a", text: config2.name)
+    expect(rendered).to have_selector("a", text: config1.name)
+    expect(rendered).to have_selector("a", text: config2.name)
   end
 
 end

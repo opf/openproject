@@ -53,17 +53,17 @@ describe OpenProject::PdfExport::ExportCard::DocumentGenerator do
 
     it 'shows work package subject' do
       text_analysis = PDF::Inspector::Text.analyze(@generator.render)
-      text_analysis.strings.include?('Work package 1').should be_true
+      expect(text_analysis.strings.include?('Work package 1')).to be_truthy
     end
 
     it 'does not show non existent field label' do
       text_analysis = PDF::Inspector::Text.analyze(@generator.render)
-      text_analysis.strings.include?('Non existent:').should be_false
+      expect(text_analysis.strings.include?('Non existent:')).to be_falsey
     end
 
     it 'should be 1 page' do
       page_analysis = PDF::Inspector::Page.analyze(@generator.render)
-      page_analysis.pages.size.should == 1
+      expect(page_analysis.pages.size).to eq(1)
     end
   end
 
@@ -75,13 +75,13 @@ describe OpenProject::PdfExport::ExportCard::DocumentGenerator do
 
     it 'shows work package subject' do
       text = PDF::Inspector::Text.analyze(@generator.render)
-      text.strings.include?('Work package 1').should be_true
-      text.strings.include?('Work package 2').should be_true
+      expect(text.strings.include?('Work package 1')).to be_truthy
+      expect(text.strings.include?('Work package 2')).to be_truthy
     end
 
     it 'should be 2 pages' do
       page_analysis = PDF::Inspector::Page.analyze(@generator.render)
-      page_analysis.pages.size.should == 2
+      expect(page_analysis.pages.size).to eq(2)
     end
   end
 

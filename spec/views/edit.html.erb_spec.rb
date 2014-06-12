@@ -37,12 +37,12 @@ describe 'export_card_configurations/edit' do
   it 'shows edit export card configuration inputs' do
     render
 
-    rendered.should have_field("Name", with: config.name)
-    rendered.should have_field("Description", with: config.description)
-    rendered.should have_field("Per page", with: config.per_page.to_s)
-    rendered.should have_field("Page size", with: config.page_size)
-    rendered.should have_field("Orientation", with: config.orientation)
-    rendered.should have_field("Rows", with: config.rows)
+    expect(rendered).to have_field("Name", with: config.name)
+    expect(rendered).to have_field("Description", with: config.description)
+    expect(rendered).to have_field("Per page", with: config.per_page.to_s)
+    expect(rendered).to have_field("Page size", with: config.page_size)
+    expect(rendered).to have_field("Orientation", with: config.orientation)
+    expect(rendered).to have_field("Rows", with: config.rows)
   end
 
 end
