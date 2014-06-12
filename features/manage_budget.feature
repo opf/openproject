@@ -45,8 +45,8 @@ Feature: Managing Budgets
     When I go to the overview page of the project called "project1"
     And I create a budget with the following:
       | subject | budget1 |
-    Then I should be on the show page for the budget "budget1"
-    And I should see "Successful creation"
+    Then I should see "Successful creation"
+    And I should be on the show page for the budget "budget1"
     And I should see "budget1" within ".cost_object"
 
 @javascript
@@ -75,8 +75,8 @@ Feature: Managing Budgets
       | user     | Chuck Testa       |
     Then the planned labor costs in row 2 should be "185.00 EUR"
     When I create the budget
-    Then I should be on the show page for the budget "budget1"
-    And I should see "Successful creation"
+    Then I should see "Successful creation"
+    And I should be on the show page for the budget "budget1"
     And I should see "budget1" within ".cost_object"
     And the stored planned material costs in row 1 should be "400.00 EUR"
     And the stored planned labor costs in row 1 should be "296.00 EUR"
@@ -104,8 +104,8 @@ Feature: Managing Budgets
       | user     | Chuck Testa      |
     Then the planned labor costs in row 1 should be "296.00 EUR"
     When I click on "Submit"
-    Then I should be on the show page for the budget "budget1"
-    And I should see "Successful update"
+    Then I should see "Successful update"
+    And I should be on the show page for the budget "budget1"
     And the stored planned material costs in row 1 should be "400.00 EUR"
     And the stored planned labor costs in row 1 should be "296.00 EUR"
     And the stored total planned material costs should be "400.00 EUR"
@@ -138,8 +138,8 @@ Feature: Managing Budgets
       | user     | Chuck Testa              |
     Then the planned labor costs in row 1 should be "370.00 EUR"
     When I click on "Submit"
-    Then I should be on the show page for the budget "budget1"
-    And I should see "Successful update"
+    Then I should see "Successful update"
+    And I should be on the show page for the budget "budget1"
     And the stored planned material costs in row 1 should be "200.00 EUR"
     And the stored planned labor costs in row 1 should be "370.00 EUR"
 
