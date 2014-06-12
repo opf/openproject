@@ -27,7 +27,7 @@ describe WorkPackages::BulkController do
   let(:work_package) { FactoryGirl.create(:work_package, project: project) }
 
   before do
-    User.stub(:current).and_return user
+    allow(User).to receive(:current).and_return user
   end
 
   describe :update do
@@ -36,7 +36,7 @@ describe WorkPackages::BulkController do
 
       subject { work_package.reload.cost_object.try :id }
 
-      it { should == cost_object.id }
+      it { is_expected.to eq(cost_object.id) }
     end
   end
 
