@@ -28,12 +28,13 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('filterClear', [function(){
+.directive('filterClear', ['I18n', function(I18n){
   return {
     restrict: 'E',
     templateUrl: '/templates/work_packages/filter_clear.html',
     scope: true,
     link: function(scope, element, attributes) {
+      scope.I18n = I18n;
       scope.clearQuery = function(){
         scope.$emit('queryResetRequired');
       };

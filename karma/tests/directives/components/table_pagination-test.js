@@ -32,13 +32,14 @@ describe('tablePagination Directive', function () {
   beforeEach(angular.mock.module('openproject.uiComponents', 'openproject.services'));
   beforeEach(module('templates'));
 
-  beforeEach(inject(function ($rootScope, $compile) {
-    var html;
+  beforeEach(inject(function ($rootScope, $compile, _I18n_) {
+    var html, I18n, t;;
     html = '<table-pagination total-entries="tableEntries" icon-name="totalResults" update-results="showUserSomething()"></table-pagination>';
 
     element = angular.element(html);
     rootScope = $rootScope;
     scope = $rootScope.$new();
+    I18n = _I18n_;
 
     compile = function () {
       $compile(element)(scope);
@@ -47,7 +48,7 @@ describe('tablePagination Directive', function () {
   }));
 
   describe('page ranges and links', function () {
-    beforeEach(function() {
+    beforeEach(function() {    
       compile();
     });
 
@@ -87,8 +88,17 @@ describe('tablePagination Directive', function () {
   });
 
   describe('perPage options', function () {
-    it('should always render perPage options', function () {
+    beforeEach(function() {    
+      t = sinon.stub(I18n, 't');
+      t.withArgs('js.label_per_page').returns('Per page:');
       compile();
+    });
+
+    afterEach(inject(function() {
+      I18n.t.restore();
+    }));
+
+    it('should always render perPage options', function () {
       var perPageOptions = element.find('span.per_page_options');
 
       expect(perPageOptions.text()).to.include('Per page:');
