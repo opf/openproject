@@ -7,8 +7,8 @@
       <li ng-repeat="option in modal.exportOptions">
         <a ng-href="{{ option.url }}">
           <i class="icon-page-{{ option.format }} icon-big"></i>
+          <label>{{ option.label }}</label>
         </a>
-        <span>{{ option.label }}</span>
       </li>
     </ul>
   </div>

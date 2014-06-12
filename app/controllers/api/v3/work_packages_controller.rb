@@ -199,7 +199,10 @@ module Api
           { format: "pdf", label: "PDF"},
           { format: "pdf", label: "PDF with description", flags: ["show_descriptions"]},
           { format: "csv", label: "CSV"}]
-        export_formats.push({ format: "xls", label: "XLS"}) if Redmine::Plugin.all.sort.map{|f| f.id}.include?(:openproject_xls_export)
+        if Redmine::Plugin.all.sort.map{|f| f.id}.include?(:openproject_xls_export)
+          export_formats.push({ format: "xls", label: "XLS"})
+          export_formats.push({ format: "xls", label: "XLS", flags: ["show_descriptions"]})
+        end
         export_formats
       end
 
