@@ -29,7 +29,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
-* `#7682` Status of work package not displayed when linking work package via ## or ###
 
 ## 3.0.4
 
@@ -37,6 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#5652` Fixes: Custom fields with empty name can be created
 * `#7812` 404 when opening keyboard shortcuts in a OpenProject instance running in subfolder
 * `#7893` Notification message support for Internet explorer 9 missing
+* `#7682` Status of work package not displayed when linking work package via ## or ###
 * `#4031` Expand folder icon missing in front of repository folders
 * `#7234` Highlighting of differences in repository does not work
 * `#7493` Work packages with only start date or end date not displayed properly
