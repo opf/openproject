@@ -33,14 +33,6 @@ angular.module('openproject')
   '$urlRouterProvider',
   function($stateProvider, $urlRouterProvider) {
 
-  // All unmatched routes should be handled by Rails
-  // (i.e. invoke a full-page load)
-  //
-  // a better behaviour here would be for Angular's HTML5-mode to provide an
-  // option to turn link hijacking off by default (and use a `target` attribute
-  // to turn it on for selected links).
-
-
   $stateProvider
     .state('work-packages', {
       url: '{projectPath:.*}/work_packages?query_id',
@@ -63,10 +55,34 @@ angular.module('openproject')
 .run([
   '$location',
   '$rootElement',
-  function($location, $rootElement) {
+  '$browser',
+  '$rootScope',
+  function($location, $rootElement, $browser, $rootScope) {
     // Our application is still a hybrid one, meaning most routes are still
     // handled by Rails. As such, we disable the default link-hijacking that
     // Angular's HTML5-mode turns on.
     $rootElement.off('click');
+    $rootElement.on('click', 'a[data-ui-route]', function(event) {
+      if (event.ctrlKey || event.metaKey || event.which == 2) return;
+
+      // NOTE: making use of event delegation, thus jQuery-only.
+      var elm          = jQuery(event.target);
+      var absHref      = elm.prop('href');
+      var rewrittenUrl = $location.$$rewrite(absHref);
+
+      if (absHref && !elm.attr('target') &&
+        rewrittenUrl &&
+        !event.isDefaultPrevented()) {
+
+        event.preventDefault();
+        if (rewrittenUrl != $browser.url()) {
+          // update location manually
+          $location.$$parse(rewrittenUrl);
+          $rootScope.$apply();
+          // hack to work around FF6 bug 684208 when scenario runner clicks on links
+          window.angular['ff-684208-preventDefault'] = true;
+        }
+      }
+    });
   }
 ]);
