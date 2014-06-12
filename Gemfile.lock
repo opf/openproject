@@ -154,7 +154,7 @@ GEM
       cucumber-rails (>= 1.1.1)
     daemons (1.1.9)
     dalli (2.6.4)
-    database_cleaner (1.0.1)
+    database_cleaner (1.2.0)
     date_validator (0.7.0)
       activemodel (>= 3)
     debug_inspector (0.0.2)
@@ -445,7 +445,7 @@ DEPENDENCIES
   cucumber-rails-training-wheels
   daemons
   dalli
-  database_cleaner
+  database_cleaner (~> 1.2.0)
   date_validator
   delayed_job_active_record (= 0.3.3)
   factory_girl_rails (~> 4.0)
