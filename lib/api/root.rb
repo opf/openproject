@@ -42,13 +42,9 @@ module API
       def current_user
         return User.current if Rails.env.test?
 
-        if Rails.env.development?
-          user_id = env['action_dispatch.request.unsigned_session_cookie']['user_id']
-        elsif Rails.env.production?
-          user_id = env['rack.session']['user_id']
-        end
-        return nil if user_id.nil?
-        @current_user ||= User.find(user_id)
+        user_id = env['rack.session']['user_id']
+
+        User.current = user_id ? User.find(user_id) : User.anonymous
       end
 
       # Split into two methods: one for authentication, one for authorization
