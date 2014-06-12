@@ -24,12 +24,12 @@ describe MeetingMinutesController do
   let(:meeting) { FactoryGirl.create(:meeting) }
   let(:user) { FactoryGirl.create(:admin) }
 
-  before { User.stub(:current).and_return(user) }
+  before { allow(User).to receive(:current).and_return(user) }
 
   describe 'preview' do
     let(:text) { "Meeting minutes content" }
 
-    before { MeetingMinutes.any_instance.stub(:editable?).and_return(true) }
+    before { allow_any_instance_of(MeetingMinutes).to receive(:editable?).and_return(true) }
 
     it_behaves_like 'valid preview' do
       let(:preview_texts) { [text] }

@@ -33,7 +33,7 @@ module PluginSpecHelper
           journal.reload
         end
 
-        it { journal.changed_data[:text][1].should == text }
+        it { expect(journal.changed_data[:text][1]).to eq(text) }
       end
     end
   end

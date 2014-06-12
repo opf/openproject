@@ -24,7 +24,7 @@ describe MeetingAgendasController do
   let(:meeting) { FactoryGirl.create(:meeting) }
   let(:user) { FactoryGirl.create(:admin) }
 
-  before { User.stub(:current).and_return(user) }
+  before { allow(User).to receive(:current).and_return(user) }
 
   describe 'preview' do
     let(:text) { "Meeting agenda content" }
