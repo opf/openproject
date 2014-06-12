@@ -21,6 +21,10 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+## 3.0.2
+
+* Fix path of assets that should be precompiled
+
 ## 3.0.1
 
 * `#5357` Adapt released plugins to base on plugins functionality
