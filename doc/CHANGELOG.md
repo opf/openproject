@@ -21,6 +21,10 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+## 3.0.10
+
+* `#5061` Add label for meeting time selection
+
 ## 3.0.9
 
 * `#5357` Adapt released plugins to base on plugins functionality
