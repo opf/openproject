@@ -62,4 +62,15 @@ angular.module('openproject')
       templateUrl: "/templates/work_packages.list.details.html",
       controller: 'WorkPackageDetailsController'
     });
-}]);
+}])
+
+.run([
+  '$location',
+  '$rootElement',
+  function($location, $rootElement) {
+    // Our application is still a hybrid one, meaning most routes are still
+    // handled by Rails. As such, we disable the default link-hijacking that
+    // Angular's HTML5-mode turns on.
+    $rootElement.off('click');
+  }
+]);

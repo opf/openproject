@@ -49,9 +49,6 @@ angular.module('openproject.workPackages.directives')
         scope.$emit('hideAllDropdowns');
       });
 
-      // Modals
-      scope.showExportModal   = exportModal.activate;
-
       scope.saveQuery = function(){
         if(scope.query.isNew()){
           scope.$emit('hideAllDropdowns');
@@ -75,16 +72,21 @@ angular.module('openproject.workPackages.directives')
         }
       };
 
+      // Modals
       scope.showSaveAsModal = function(event){
         showExistingQueryModal.call(saveModal, event);
       };
 
       scope.showShareModal = function(event){
         showExistingQueryModal.call(shareModal, event);
-      };
+      }
 
       scope.showSettingsModal = function(event){
         showExistingQueryModal.call(settingsModal, event);
+      };
+
+      scope.showExportModal = function(){
+        showModal.call(exportModal);
       };
 
       scope.showColumnsModal = function(){
@@ -97,7 +99,7 @@ angular.module('openproject.workPackages.directives')
 
       scope.showSortingModal = function(){
         showModal.call(sortingModal);
-      }
+      };
 
       scope.toggleDisplaySums = function(){
         scope.$emit('hideAllDropdowns');

@@ -179,6 +179,8 @@ module Api
 
       def set_work_packages_meta_data(query, results, work_packages)
         @display_meta = true
+        export_formats = ["atom", "pdf", "csv"]
+        export_formats.push("xls") if Redmine::Plugin.all.sort.map{|f| f.id}.include?(:openproject_xls_export)
 
         @work_packages_meta_data = {
           query:                        query.as_json(except: :filters, include: :filters),
@@ -190,7 +192,8 @@ module Api
           page:                         page_param,
           per_page:                     per_page_param,
           per_page_options:             Setting.per_page_options_array,
-          total_entries:                work_packages.total_entries
+          total_entries:                work_packages.total_entries,
+          export_formats:               export_formats
         }
       end
 

@@ -47,7 +47,7 @@ angular.module('openproject.uiComponents')
       };
 
       scope.isSelected = function(value) {
-        return Array.isArray(scope.values) && (scope.values.indexOf(value) !== -1 || scope.values.indexOf(value.toString()) !== -1);
+        return (Array.isArray(scope.values) && ((scope.values.indexOf(value) !== -1) || scope.values.indexOf(value.toString()) !== -1));
       };
 
       scope.isMultiselect = (Array.isArray(scope.values) && scope.values.length > 1);

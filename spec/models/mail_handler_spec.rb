@@ -280,7 +280,7 @@ describe MailHandler do
 
   it "should add a work_package by create user on public project" do
     ActionMailer::Base.deliveries.clear
-    Setting.default_language = 'en'
+    allow(Setting).to receive(:default_language).and_return('en')
     Role.non_member.update_attribute :permissions, [:add_work_packages]
     project.update_attribute :is_public, true
     expect {

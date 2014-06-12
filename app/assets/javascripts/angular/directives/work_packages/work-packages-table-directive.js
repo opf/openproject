@@ -57,7 +57,7 @@ angular.module('openproject.workPackages.directives')
       scope.I18n = I18n;
       scope.workPackagesTableData = WorkPackagesTableService.getWorkPackagesTableData();
 
-      var topMenuHeight = document.getElementById('top-menu').getHeight() || 0;
+      var topMenuHeight = angular.element('#top-menu').prop('offsetHeight') || 0;
       scope.adaptVerticalPosition = function(event) {
         event.pageY -= topMenuHeight;
       };

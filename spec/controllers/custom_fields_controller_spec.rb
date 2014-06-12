@@ -30,6 +30,7 @@ require 'spec_helper'
 
 describe CustomFieldsController do
   let(:custom_field) { FactoryGirl.build(:custom_field) }
+  let(:available_languages) { ["de", "en"] }
 
   before do
     allow(@controller).to receive(:authorize)
@@ -39,7 +40,7 @@ describe CustomFieldsController do
 
   describe "POST edit" do
     before do
-      Setting.available_languages = ["de", "en"]
+      allow(Setting).to receive(:available_languages).and_return(available_languages)
       allow(CustomField).to receive(:find).and_return(custom_field)
     end
 
@@ -77,7 +78,7 @@ describe CustomFieldsController do
 
   describe "POST new" do
     before do
-      Setting.available_languages = ["de", "en"]
+      allow(Setting).to receive(:available_languages).and_return(available_languages)
     end
 
     describe "WITH empty name param" do
