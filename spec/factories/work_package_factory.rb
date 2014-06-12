@@ -39,7 +39,7 @@ FactoryGirl.define do
     description { |i| "Description for '#{i.subject}'" }
     author :factory => :user
 
-    after :build do |work_package, evaluator|
+    callback(:after_build) do |work_package, evaluator|
       work_package.type = work_package.project.types.first unless work_package.type
 
       custom_values = evaluator.custom_values || {}
