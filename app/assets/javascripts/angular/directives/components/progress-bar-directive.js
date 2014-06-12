@@ -29,7 +29,7 @@
 // TODO move to UI components
 angular.module('openproject.uiComponents')
 
-.directive('progressBar', [function() {
+.directive('progressBar', ['I18n', function(I18n) {
   return {
     restrict: 'EA',
     replace: true,
@@ -40,6 +40,8 @@ angular.module('openproject.uiComponents')
     },
     templateUrl: '/templates/components/progress_bar.html',
     link: function(scope) {
+      scope.I18n = I18n;
+
       // apply defaults
       scope.width = scope.width || '100px';
       scope.legend = scope.legend || '';
