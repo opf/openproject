@@ -34,15 +34,15 @@ describe Redmine::DefaultData::Loader do
     end
 
     #describes only the results of load in the db
-    it {Role.find_by_name(I18n.t(:default_role_manager)).attributes["type"].should eql "Role"}
+    it {expect(Role.find_by_name(I18n.t(:default_role_manager)).attributes["type"]).to eql "Role"}
 
     if Redmine::VERSION::MAJOR < 1
-      it {Role.find_by_name(I18n.t(:default_role_developper)).attributes["type"].should eql "Role"} #[sic]
+      it {expect(Role.find_by_name(I18n.t(:default_role_developper)).attributes["type"]).to eql "Role"} #[sic]
     else
-      it {Role.find_by_name(I18n.t(:default_role_developer)).attributes["type"].should eql "Role"} #[sic]
+      it {expect(Role.find_by_name(I18n.t(:default_role_developer)).attributes["type"]).to eql "Role"} #[sic]
     end
 
-    it {Role.find_by_name(I18n.t(:default_role_reporter)).attributes["type"].should eql "Role"}
+    it {expect(Role.find_by_name(I18n.t(:default_role_reporter)).attributes["type"]).to eql "Role"}
   end
 
 end

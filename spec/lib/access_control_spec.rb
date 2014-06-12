@@ -49,16 +49,16 @@ describe Redmine::AccessControl do
 
   describe "class methods" do
     describe :global_permissions do
-      it {Redmine::AccessControl.global_permissions.should have(3).items}
-      it {Redmine::AccessControl.global_permissions.collect(&:name).should include(:global0)}
-      it {Redmine::AccessControl.global_permissions.collect(&:name).should include(:global1)}
-      it {Redmine::AccessControl.global_permissions.collect(&:name).should include(:global2)}
+      it {expect(Redmine::AccessControl.global_permissions.size).to eq(3)}
+      it {expect(Redmine::AccessControl.global_permissions.collect(&:name)).to include(:global0)}
+      it {expect(Redmine::AccessControl.global_permissions.collect(&:name)).to include(:global1)}
+      it {expect(Redmine::AccessControl.global_permissions.collect(&:name)).to include(:global2)}
     end
 
     describe :available_project_modules do
-      it {Redmine::AccessControl.available_project_modules.include?(:global_module).should be_false }
-      it {Redmine::AccessControl.available_project_modules.include?(:global_module).should be_false }
-      it {Redmine::AccessControl.available_project_modules.include?(:mixed_module).should be_true }
+      it {expect(Redmine::AccessControl.available_project_modules.include?(:global_module)).to be_falsey }
+      it {expect(Redmine::AccessControl.available_project_modules.include?(:global_module)).to be_falsey }
+      it {expect(Redmine::AccessControl.available_project_modules.include?(:mixed_module)).to be_truthy }
     end
   end
 end

@@ -32,16 +32,16 @@ describe OpenProject::GlobalRoles::PrincipalAllowanceEvaluator::Global do
   let(:project) { FactoryGirl.build(:project) }
 
   describe :granted_for_project? do
-    it { filter.granted_for_project?(member, :action, project).should be_false }
+    it { expect(filter.granted_for_project?(member, :action, project)).to be_falsey }
   end
 
   describe :denied_for_project? do
-    it { filter.denied_for_project?(member, :action, project).should be_false }
+    it { expect(filter.denied_for_project?(member, :action, project)).to be_falsey }
   end
 
   describe :granted_for_global? do
     describe "WHEN checking a Member" do
-      it { filter.granted_for_global?(member, :action, {}).should be_false }
+      it { expect(filter.granted_for_global?(member, :action, {})).to be_falsey }
     end
 
     describe "WHEN checking a PrincipalRole
@@ -50,21 +50,21 @@ describe OpenProject::GlobalRoles::PrincipalAllowanceEvaluator::Global do
         role.permissions = [:action]
       end
 
-      it { filter.granted_for_global?(principal_role, :action, {}).should be_true }
+      it { expect(filter.granted_for_global?(principal_role, :action, {})).to be_truthy }
     end
 
     describe "WHEN checking a PrincipalRole
               WHEN the PrincipalRole has a Role that is not allowed the action" do
-      it { filter.granted_for_global?(principal_role, :action, {}).should be_false }
+      it { expect(filter.granted_for_global?(principal_role, :action, {})).to be_falsey }
     end
   end
 
   describe :denied_for_global? do
-    it { filter.denied_for_global?(principal_role, :action, {}).should be_false }
+    it { expect(filter.denied_for_global?(principal_role, :action, {})).to be_falsey }
   end
 
   describe :project_granting_candidates do
-    it { filter.project_granting_candidates(project).should =~ [] }
+    it { expect(filter.project_granting_candidates(project)).to match_array([]) }
   end
 
   describe :global_granting_candidates do

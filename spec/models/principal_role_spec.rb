@@ -26,8 +26,8 @@ describe PrincipalRole do
 
     end
 
-    it {should belong_to :principal}
-    it {should belong_to :role}
+    it {is_expected.to belong_to :principal}
+    it {is_expected.to belong_to :role}
   end
 
   describe :valid? do
@@ -37,20 +37,20 @@ describe PrincipalRole do
 
     describe "role not assignable to user" do
       before :each do
-        @principal_role.role.stub!(:assignable_to?).and_return(false)
+        allow(@principal_role.role).to receive(:assignable_to?).and_return(false)
       end
 
-      it { @principal_role.valid?.should be_false }
+      it { expect(@principal_role.valid?).to be_falsey }
       it { @principal_role.valid?
-           @principal_role.errors[:base].should include(I18n.t(:error_can_not_be_assigned))}
+           expect(@principal_role.errors[:base]).to include(I18n.t(:error_can_not_be_assigned))}
     end
 
     describe "role assignable to user" do
       before(:each) do
-        @principal_role.role.stub!(:assignable_to?).and_return(true)
+        allow(@principal_role.role).to receive(:assignable_to?).and_return(true)
       end
 
-      it { @principal_role.valid?.should be_true }
+      it { expect(@principal_role.valid?).to be_truthy }
     end
   end
 end

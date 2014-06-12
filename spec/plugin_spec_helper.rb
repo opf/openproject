@@ -38,28 +38,28 @@ module OpenProject
 
       def mocks_for_member_roles
         @role = mock_model Role
-        Role.stub!(:new).and_return(@role)
+        allow(Role).to receive(:new).and_return(@role)
 
         mock_permissions_on @role
 
         mock_role_find
 
         @non_mem = mock_model Role
-        @non_mem.stub!(:permissions).and_return(@non_mem_perm)
-        Role.stub!(:non_member).and_return(@non_mem)
+        allow(@non_mem).to receive(:permissions).and_return(@non_mem_perm)
+        allow(Role).to receive(:non_member).and_return(@non_mem)
         @non_mem_perm = [:nm_perm1, :nm_perm2]
       end
 
       def mocks_for_global_roles
         @role = mock_model GlobalRole
-        GlobalRole.stub!(:new).and_return(@role)
+        allow(GlobalRole).to receive(:new).and_return(@role)
         mock_permissions_on @role
       end
 
       def mock_permissions_on role
         permissions = [:perm1, :perm2, :perm3]
-        role.stub!(:setable_permissions).and_return(permissions)
-        role.stub!(:permissions).and_return(permissions << :perm4)
+        allow(role).to receive(:setable_permissions).and_return(permissions)
+        allow(role).to receive(:permissions).and_return(permissions << :perm4)
       end
 
       def mock_role_find
@@ -73,45 +73,45 @@ module OpenProject
         @global_role1 = mock_model GlobalRole
         @global_role2 = mock_model GlobalRole
         @roles = [@role1, @global_role2, @role2, @global_role1]
-        Role.stub!(:find).and_return(@roles)
-        Role.stub!(:all).and_return(@roles)
-        Role.stub!(:order).and_return(@roles)
-        @roles.stub!(:page).and_return(@roles)
-        @roles.stub!(:per_page).and_return(@roles)
+        allow(Role).to receive(:find).and_return(@roles)
+        allow(Role).to receive(:all).and_return(@roles)
+        allow(Role).to receive(:order).and_return(@roles)
+        allow(@roles).to receive(:page).and_return(@roles)
+        allow(@roles).to receive(:per_page).and_return(@roles)
       end
 
       def mock_global_role_find
         @global_role1 = mock_model GlobalRole
         @global_role2 = mock_model GlobalRole
         @global_roles = [@global_role1, @global_role2]
-        GlobalRole.stub!(:find).and_return(@global_roles)
-        GlobalRole.stub!(:all).and_return(@global_roles)
+        allow(GlobalRole).to receive(:find).and_return(@global_roles)
+        allow(GlobalRole).to receive(:all).and_return(@global_roles)
       end
 
       def mocks_for_creating role_class
         role = mock_model role_class
-        role_class.stub!(:new).and_return role
+        allow(role_class).to receive(:new).and_return role
         mock_permissions_on role
         role
       end
 
       def disable_flash_sweep
-       @controller.instance_eval{flash.stub!(:sweep)}
+       @controller.instance_eval{allow(flash).to receive(:sweep)}
       end
 
       def disable_log_requesting_user
-        @controller.stub!(:log_requesting_user)
+        allow(@controller).to receive(:log_requesting_user)
       end
 
       def response_should_render method, *params
         unless @page
-          @page ||= mock("page")
-          controller.should_receive(:render).with(:update).and_yield(@page)
+          @page ||= double("page")
+          expect(controller).to receive(:render).with(:update).and_yield(@page)
           #fix for implicit render without parameters being called in test
-          controller.should_receive(:render).with
+          expect(controller).to receive(:render).with
         end
 
-        @page.should_receive(method).with(*params)
+        expect(@page).to receive(method).with(*params)
       end
 
       def mock_permissions_for_setable_permissions
@@ -121,15 +121,15 @@ module OpenProject
         @global_perm = mock_permissions(false, true)
 
         @perms = [@public_perm, @perm1, @global_perm, @perm2]
-        Redmine::AccessControl.stub!(:permissions).and_return(@perms)
-        Redmine::AccessControl.stub!(:public_permissions).and_return([@public_perm])
-        Redmine::AccessControl.stub!(:global_permissions).and_return([@global_perm])
+        allow(Redmine::AccessControl).to receive(:permissions).and_return(@perms)
+        allow(Redmine::AccessControl).to receive(:public_permissions).and_return([@public_perm])
+        allow(Redmine::AccessControl).to receive(:global_permissions).and_return([@global_perm])
       end
 
       def mock_permissions(is_public, is_global)
         permission = Object.new
-        permission.stub!(:public?).and_return(is_public)
-        permission.stub!(:global?).and_return(is_global)
+        allow(permission).to receive(:public?).and_return(is_public)
+        allow(permission).to receive(:global?).and_return(is_global)
         permission
       end
 
