@@ -41,8 +41,8 @@ describe 'api/v3/roles/index.api.rabl' do
   describe 'with no roles available' do
     let(:roles) { [] }
 
-    it { should have_json_path('roles') }
-    it { should have_json_size(0).at_path('roles') }
+    it { is_expected.to have_json_path('roles') }
+    it { is_expected.to have_json_size(0).at_path('roles') }
   end
 
   describe 'with 2 roles available' do
@@ -50,10 +50,10 @@ describe 'api/v3/roles/index.api.rabl' do
       FactoryGirl.build(:role), FactoryGirl.build(:role)
     ] }
 
-    it { should have_json_path('roles') }
-    it { should have_json_size(2).at_path('roles') }
+    it { is_expected.to have_json_path('roles') }
+    it { is_expected.to have_json_size(2).at_path('roles') }
 
-    it { should have_json_type(Object).at_path('roles/1') }
-    it { should have_json_path('roles/1/name')            }
+    it { is_expected.to have_json_type(Object).at_path('roles/1') }
+    it { is_expected.to have_json_path('roles/1/name')            }
   end
 end

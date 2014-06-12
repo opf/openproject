@@ -69,14 +69,14 @@ describe OpenProject::FileCommandContentTypeDetector do
   end
 
   it 'returns a sensible default when the file command is missing' do
-    Cocaine::CommandLine.any_instance.stub(:run).and_raise(Cocaine::CommandLineError.new)
+    allow_any_instance_of(Cocaine::CommandLine).to receive(:run).and_raise(Cocaine::CommandLineError.new)
     @filename = "/path/to/something"
     assert_equal "application/binary",
       OpenProject::FileCommandContentTypeDetector.new(@filename).detect
   end
 
   it 'returns a sensible default on the odd chance that run returns nil' do
-    Cocaine::CommandLine.any_instance.stub(:run).and_return(nil)
+    allow_any_instance_of(Cocaine::CommandLine).to receive(:run).and_return(nil)
     assert_equal "application/binary",
       OpenProject::FileCommandContentTypeDetector.new("windows").detect
   end

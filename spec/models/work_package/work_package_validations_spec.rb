@@ -46,13 +46,13 @@ describe WorkPackage do
 
     it "validates, that start-date is before end-date" do
       wp = FactoryGirl.build(:work_package, start_date: 1.day.from_now, due_date: 1.day.ago)
-      expect(wp).to have(1).errors_on(:due_date)
+      expect(wp.errors_on(:due_date).size).to eq(1)
     end
 
     it "validates, that correct formats are properly parsed" do
       wp = FactoryGirl.build(:work_package, start_date: "01/01/13", due_date: "31/01/13")
-      expect(wp).to have(:no).errors_on(:start_date)
-      expect(wp).to have(:no).errors_on(:due_date)
+      expect(wp.errors_on(:start_date).size).to eq(:no)
+      expect(wp.errors_on(:due_date).size).to eq(:no)
     end
 
     describe "hierarchical work_package-validations" do
@@ -92,7 +92,7 @@ describe WorkPackage do
       successor.start_date = "01/01/13"
 
       expect(successor).not_to be_valid
-      expect(successor).to have(1).errors_on(:start_date)
+      expect(successor.errors_on(:start_date).size).to eq(1)
 
     end
 
@@ -116,7 +116,7 @@ describe WorkPackage do
       wp.fixed_version = non_assignable_version
 
       expect(wp).not_to be_valid
-      expect(wp).to have(1).errors_on(:fixed_version_id)
+      expect(wp.errors_on(:fixed_version_id).size).to eq(1)
     end
 
     it "validate, that closed or locked versions cannot be assigned" do
@@ -128,7 +128,7 @@ describe WorkPackage do
 
         wp.fixed_version = non_assignable_version
         expect(wp).not_to be_valid
-        expect(wp).to have(1).errors_on(:fixed_version_id)
+        expect(wp.errors_on(:fixed_version_id).size).to eq(1)
       end
     end
 
@@ -148,14 +148,14 @@ describe WorkPackage do
         work_package.type = new_type
 
         expect(work_package).not_to be_valid
-        expect(work_package).to have(1).errors_on(:type_id)
+        expect(work_package.errors_on(:type_id).size).to eq(1)
       end
 
       it "validate, that the selected type is enabled for the project the wp was moved into" do
         work_package.project = new_project
 
         expect(work_package).not_to be_valid
-        expect(work_package).to have(1).errors_on(:type_id)
+        expect(work_package.errors_on(:type_id).size).to eq(1)
       end
 
     end
@@ -186,7 +186,7 @@ describe WorkPackage do
       it "should not validate on an inactive priority" do
         wp.priority = inactive_priority
         expect(wp).not_to be_valid
-        expect(wp).to have(1).errors_on(:priority_id)
+        expect(wp.errors_on(:priority_id).size).to eq(1)
       end
     end
 

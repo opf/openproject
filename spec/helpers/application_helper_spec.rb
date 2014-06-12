@@ -171,7 +171,7 @@ describe ApplicationHelper do
     end
 
     after do
-      User.unstub(:current)
+      allow(User).to receive(:current).and_call_original
 
       Setting.enabled_scm.delete "Filesystem"
     end

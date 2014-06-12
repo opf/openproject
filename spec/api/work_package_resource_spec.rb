@@ -63,24 +63,24 @@ describe 'API v3 Work package resource' do
       end
 
       it 'should respond with 200' do
-        last_response.status.should eq(200)
+        expect(last_response.status).to eq(200)
       end
 
       it 'should respond with work package in HAL+JSON format' do
         parsed_response = JSON.parse(last_response.body)
-        parsed_response.should eq(expected_response)
+        expect(parsed_response).to eq(expected_response)
       end
 
       context 'requesting nonexistent work package' do
         let(:get_path) { "/api/v3/work_packages/909090" }
 
         it 'should respond with 404' do
-          last_response.status.should eq(404)
+          expect(last_response.status).to eq(404)
         end
 
         it 'should respond with explanatory error message' do
           parsed_errors = JSON.parse(last_response.body)['errors']
-          parsed_errors.should eq([{ 'key' => 'not_found', 'messages' => ['Couldn\'t find WorkPackage with id=909090']}])
+          expect(parsed_errors).to eq([{ 'key' => 'not_found', 'messages' => ['Couldn\'t find WorkPackage with id=909090']}])
         end
       end
     end
@@ -92,12 +92,12 @@ describe 'API v3 Work package resource' do
       end
 
       it 'should respond with 403' do
-        last_response.status.should eq(403)
+        expect(last_response.status).to eq(403)
       end
 
       it 'should respond with explanatory error message' do
         parsed_errors = JSON.parse(last_response.body)['errors']
-        parsed_errors.should eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
+        expect(parsed_errors).to eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
       end
     end
 
@@ -108,12 +108,12 @@ describe 'API v3 Work package resource' do
       end
 
       it 'should respond with 401' do
-        last_response.status.should eq(401)
+        expect(last_response.status).to eq(401)
       end
 
       it 'should respond with explanatory error message' do
         parsed_errors = JSON.parse(last_response.body)['errors']
-        parsed_errors.should eq([{ 'key' => 'not_authenticated', 'messages' => ['You need to be authenticated to access this resource']}])
+        expect(parsed_errors).to eq([{ 'key' => 'not_authenticated', 'messages' => ['You need to be authenticated to access this resource']}])
       end
     end
 

@@ -151,7 +151,7 @@ describe AccountController do
       end
 
       it 'should not login the user' do
-        expect(@controller.send(:current_user).anonymous?).to be_true
+        expect(@controller.send(:current_user).anonymous?).to be_truthy
       end
     end
   end

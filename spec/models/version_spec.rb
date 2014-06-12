@@ -39,7 +39,7 @@ describe Version do
     version.effective_date = '2012-01-01'
 
     expect(version).not_to be_valid
-    expect(version.errors).to have(1).error_on(:effective_date)
+    expect(version.errors.error_on(:effective_date).size).to eq(1)
   end
 
   context 'deprecated methods' do

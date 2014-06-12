@@ -834,12 +834,12 @@ describe WorkPackage do
     subject { WorkPackage.with_author(user).length }
 
     context "one work package in active projects" do
-      it { should eq(1) }
+      it { is_expected.to eq(1) }
 
       context "and one work package in archived projects" do
         before { work_package_in_archived_project }
 
-        it { should eq(2) }
+        it { is_expected.to eq(2) }
       end
     end
   end
@@ -1126,7 +1126,7 @@ describe WorkPackage do
                                                   "activity_id" => activity.id.to_s,
                                                   "comments" => "blubs" } } )
 
-      expect(instance).to have(1).time_entries
+      expect(instance.size).to eq(1)
 
       entry = instance.time_entries.first
 
@@ -1145,7 +1145,7 @@ describe WorkPackage do
                                                   "activity_id" => activity.id.to_s,
                                                   "comments" => "blubs" } } )
 
-      expect(instance).to have(1).time_entries
+      expect(instance.size).to eq(1)
 
       entry = instance.time_entries.first
 
@@ -1159,7 +1159,7 @@ describe WorkPackage do
 
       instance.update_by!(user, :time_entry => time_attributes)
 
-      expect(instance).to have(0).time_entries
+      expect(instance.size).to eq(0)
     end
   end
 
@@ -1261,7 +1261,7 @@ describe WorkPackage do
           end
 
           it "should have a validation error" do
-            expect(instance).to have(1).error_on(:due_date)
+            expect(instance.error_on(:due_date).size).to eq(1)
           end
         end
 

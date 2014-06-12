@@ -61,7 +61,7 @@ describe MembersController do
 
       [admin, user].each do |u|
         u.reload
-        expect(u.memberships).to have_at_least(1).item
+        expect(u.memberships.size).to be >= 1
 
         expect(u.memberships.find do |m|
           expect(m.roles).to include(role)

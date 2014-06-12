@@ -147,7 +147,7 @@ describe WorkPackagesController do
         query.stub_chain(:results, :work_package_count_by_group).and_return([])
         query.stub_chain(:results, :column_total_sums).and_return([])
         query.stub_chain(:results, :column_group_sums).and_return([])
-        query.stub(:as_json).and_return("")
+        allow(query).to receive(:as_json).and_return("")
       end
 
       describe 'html' do

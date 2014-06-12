@@ -212,7 +212,7 @@ describe 'Custom field accessibility' do
 
           include_context "index page with query"
 
-          pending # it_behaves_like "localized table header"
+          skip # it_behaves_like "localized table header"
         end
 
         context "de" do
@@ -220,7 +220,7 @@ describe 'Custom field accessibility' do
 
           include_context "index page with query"
 
-          pending # it_behaves_like "localized table header"
+          skip # it_behaves_like "localized table header"
         end
       end
 

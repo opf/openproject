@@ -100,7 +100,7 @@ describe Api::V3::WorkPackagesController do
         query.stub_chain(:results, :total_entries).and_return([])
 
         # FIXME: METADATA TOO TRICKY TO DEAL WITH
-        controller.stub(:set_work_packages_meta_data)
+        allow(controller).to receive(:set_work_packages_meta_data)
       end
 
       context 'with 2 work packages' do
@@ -112,12 +112,12 @@ describe Api::V3::WorkPackagesController do
           expect(assigns(:work_packages).size).to eq(2)
 
           expect(assigns(:can).size).to eq(6)
-          expect(assigns(:can)['edit']).to be_true
-          expect(assigns(:can)['log_time']).to be_true
-          expect(assigns(:can)['update']).to be_true
-          expect(assigns(:can)['move']).to be_true
-          expect(assigns(:can)['copy']).to be_false
-          expect(assigns(:can)['delete']).to be_true
+          expect(assigns(:can)['edit']).to be_truthy
+          expect(assigns(:can)['log_time']).to be_truthy
+          expect(assigns(:can)['update']).to be_truthy
+          expect(assigns(:can)['move']).to be_truthy
+          expect(assigns(:can)['copy']).to be_falsey
+          expect(assigns(:can)['delete']).to be_truthy
 
           expect(assigns(:projects)).to eq([project_1])
           expect(assigns(:project)).to eq(project_1)

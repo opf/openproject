@@ -61,7 +61,7 @@ describe 'Work package index accessibility' do
       it { expect(select_all_link[:alt]).to eq(I18n.t(:button_check_all)) }
 
       it do
-        pending("This test is failing because of what seems to be a bug in selenium. " \
+        skip("This test is failing because of what seems to be a bug in selenium. " \
                 "The hidden-for-sighted elements cannot be found using because they are styled with " \
                 "absolute positioning and have an x index off the side of the page. If you remove " \
                 "the x coord then it will find them but that doesn't seem like a satisfactory solution.")

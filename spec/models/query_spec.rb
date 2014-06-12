@@ -73,7 +73,7 @@ describe Query do
       let(:query) { FactoryGirl.build(:query).tap {|q| q.filters = []} }
 
       it 'is valid' do
-        expect(query.valid?).to be_true
+        expect(query.valid?).to be_truthy
       end
     end
 

@@ -48,13 +48,13 @@ describe 'api/v3/projects/show.api.rabl' do
 
   subject { response.body }
 
-  it { should have_json_path('project') }
-  it { should have_json_path('project/name') }
+  it { is_expected.to have_json_path('project') }
+  it { is_expected.to have_json_path('project/name') }
 
-  it { should have_json_path('project/embedded/possible_responsibles') }
-  it { should have_json_path('project/embedded/possible_assignees')    }
+  it { is_expected.to have_json_path('project/embedded/possible_responsibles') }
+  it { is_expected.to have_json_path('project/embedded/possible_assignees')    }
 
-  it { should have_json_size(3).at_path('project/embedded/possible_responsibles') }
-  it { should have_json_size(3).at_path('project/embedded/possible_assignees') }
-  it { should have_json_size(2).at_path('project/embedded/types') }
+  it { is_expected.to have_json_size(3).at_path('project/embedded/possible_responsibles') }
+  it { is_expected.to have_json_size(3).at_path('project/embedded/possible_assignees') }
+  it { is_expected.to have_json_size(2).at_path('project/embedded/types') }
 end

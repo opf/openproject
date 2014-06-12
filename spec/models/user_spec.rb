@@ -327,8 +327,8 @@ describe User do
       it 'creates a SystemUser' do
         expect {
           system_user = User.system
-          expect(system_user.new_record?).to be_false
-          expect(system_user.is_a?(SystemUser)).to be_true
+          expect(system_user.new_record?).to be_falsey
+          expect(system_user.is_a?(SystemUser)).to be_truthy
         }.to change(User, :count).by(1)
       end
     end

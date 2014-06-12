@@ -98,7 +98,7 @@ describe ApplicationController do
 
         @controller.send :handle_unverified_request
 
-        expect(@controller.send(:current_user).anonymous?).to be_true
+        expect(@controller.send(:current_user).anonymous?).to be_truthy
       end
     end
 
