@@ -58,14 +58,6 @@ When(/^I ctrl-click on the link for the story "(.*?)"$/) do |subject|
   end
 end
 
-Then(/^I should not see a modal window$/) do
-  steps 'Then I should not see a modal window with selector "#modalDiv"'
-end
-
-Then(/^I should not see a modal window with selector "(.*?)"$/) do |selector|
-  page.should_not have_selector(selector)
-end
-
 When(/^I switch the modal window into edit mode$/) do
   browser = page.driver.browser
   browser.switch_to.frame("modalIframe")
