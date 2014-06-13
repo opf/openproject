@@ -43,7 +43,7 @@ module API
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "http://localhost:3000/api/v3/work_packages/#{represented.id}", title: "#{represented.name}" }
+          { href: "http://localhost:3000/api/v3/queries/#{represented.query.id}", title: "#{represented.name}" }
         end
 
         property :id, getter: -> (*) { query.id }, render_nil: true
@@ -55,11 +55,11 @@ module API
         property :user_login, getter: -> (*) { query.user.try(:login) }, render_nil: true
         property :user_mail, getter: -> (*) { query.user.try(:mail) }, render_nil: true
         property :filters, render_nil: true
-        property :is_public, render_nil: true
+        property :is_public, getter: -> (*) { query.is_public.to_s }, render_nil: true
         property :column_names, render_nil: true
         property :sort_criteria, render_nil: true
         property :group_by, render_nil: true
-        property :display_sums, render_nil: true
+        property :display_sums, getter: -> (*) { query.display_sums.to_s }, render_nil: true
 
         def _type
           "Query"

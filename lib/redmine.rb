@@ -109,6 +109,7 @@ Redmine::AccessControl.map do |map|
                                          :queries => [:index, :create, :update, :available_columns, :custom_field_filters, :grouped],
                                          :work_packages => [:show, :index],
                                          :work_packages_api => [:get],
+                                         :queries_api => [:get],
                                          :'work_packages/reports' => [:report, :report_details],
                                          :planning_elements => [:index, :all, :show, :recycle_bin],
                                          :planning_element_journals => [:index]}
