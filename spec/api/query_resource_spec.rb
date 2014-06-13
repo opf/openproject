@@ -21,7 +21,9 @@ describe 'API v3 Query resource' do
 
     end
 
-    context 'user without permissions for the project'
+    context 'user without permissions for the project' do
+
+    end
   end
 
   describe '#unstar' do
