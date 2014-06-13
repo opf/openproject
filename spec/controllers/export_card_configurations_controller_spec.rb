@@ -25,6 +25,7 @@
 
 
 require 'spec_helper'
+require File.dirname(__FILE__) + '/../shared_examples'
 
 describe ExportCardConfigurationsController do
   before do
@@ -34,55 +35,55 @@ describe ExportCardConfigurationsController do
     @custom_config = FactoryGirl.create(:export_card_configuration)
     @active_config = FactoryGirl.create(:active_export_card_configuration)
     @inactive_config = FactoryGirl.create(:inactive_export_card_configuration)
-
     @params = {}
     @valid_rows_yaml = "group1:\n  has_border: false\n  rows:\n    row1:\n      height: 50\n      priority: 1\n      columns:\n        id:\n          has_label: false"
     @invalid_rows_yaml = "group1:\n  invalid_property: true"
+    @invalid_property_value_format = "group1:\n  has_border: false\n  rows:\n    row1:\n      height: 50\n      priority: 1\n      columns:\n        id:\n          font_size: sd\n"
   end
 
   describe 'Create' do
-    it 'should let you create a configuration with all the values set' do
-      @params[:export_card_configuration] = {
-        name: "Config 1",
-        description: "This is a description",
-        rows: @valid_rows_yaml,
-        per_page: 5,
-        page_size: "A4",
-        orientation: "landscape"
-      }
-      post 'create', @params
-
-      response.should redirect_to :action => 'index'
-      flash[:notice].should eql(I18n.t(:notice_successful_create))
+    context 'with all the values set' do
+      it_behaves_like "should let you create a configuration" do
+        let(:params) { { :export_card_configuration => { name: "Config 1",
+                                                      description: "This is a description",
+                                                      rows: @valid_rows_yaml,
+                                                      per_page: 5,
+                                                      page_size: "A4",
+                                                      orientation: "landscape" } } }
+      end
     end
 
-    it 'should not let you create a configuration with missing data' do
-      @params[:export_card_configuration] = {
-        name: "Config 1",
-      }
-      post 'create', @params
-
-      response.should render_template('new')
+    context 'with missing data' do
+      it_behaves_like "should not let you create a configuration" do
+        let(:params) { { :export_card_configuration => { name: "Config 1" } } }
+      end
     end
 
-    it 'should not let you create a configuration with invalid data' do
-      @params[:export_card_configuration] = {
-        name: "Config 1",
-        rows: @invalid_rows_yaml,
-        per_page: 0,
-        page_size: "invalid",
-        orientation: "invalid"
-      }
-      post 'create', @params
+    context 'with invalid data' do
+      it_behaves_like "should not let you create a configuration" do
+        let(:params) { { :export_card_configuration => { name: "Config 1",
+                                                     rows: @invalid_rows_yaml,
+                                                     per_page: 0,
+                                                     page_size: "invalid",
+                                                     orientation: "invalid" } } }
+      end
+    end
 
-      response.should render_template('new')
+    context 'with invalid data format' do
+      it_behaves_like "should not let you create a configuration" do
+        let(:params) { { :export_card_configuration => { name: "Config 1",
+                                                     rows: @invalid_property_value_format,
+                                                     per_page: 1,
+                                                     page_size: "A4",
+                                                     orientation: "landscape" } } }
+      end
     end
   end
 
   describe 'Update' do
     it 'should let you update a configuration' do
       @params[:id] = @custom_config.id
-      @params[:export_card_configuration] = { per_page: 4}
+      @params[:export_card_configuration] = { per_page: 4 }
       put 'update', @params
 
       response.should redirect_to :action => 'index'
