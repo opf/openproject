@@ -8,11 +8,11 @@
       <div id="modal-sorting" class="modal-content-container">
         <div ng-repeat="element in sortElements">
           <input type="hidden"
-                 ui-select2-sortable="sortByOptions"
+                 ui-select2-sortable
                  simple-query="getAvailableColumnsData"
                  ng-model="element[0]"></input>
           <input type="hidden"
-                 ui-select2-sortable="sortDirectionOptions"
+                 ui-select2-sortable
                  simple-query="getDirectionsData"
                  ng-model="element[1]"
                  ng-required="element[0]"
