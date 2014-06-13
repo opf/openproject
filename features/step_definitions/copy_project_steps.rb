@@ -27,7 +27,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Delayed::Worker.logger = Rails.logger
-
-# By default bypass worker queue and execute asynchronous tasks at once
-Delayed::Worker.delay_jobs = !Rails.env.test?
+Given /^Delayed Job is turned off$/  do
+  Delayed::Worker.delay_jobs = false
+end
