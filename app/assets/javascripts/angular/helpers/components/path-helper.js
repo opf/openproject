@@ -32,7 +32,7 @@ angular.module('openproject.helpers')
 .service('PathHelper', [function() {
   PathHelper = {
     apiPrefixV2: '/api/v2',
-    apiPrefixV3: '/api/v3',
+    apiPrefixV3: '/api/experimental',
 
     activityPath: function(projectIdentifier, from) {
       var link = '/activity';
