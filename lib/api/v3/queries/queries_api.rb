@@ -17,7 +17,7 @@ module API
             end
 
             patch :star do
-              # authorize(:queries_api, :patch, @query.project)
+              authorize(:queries_api, :star, @query.project)
               normalized_query_name = @query.name.parameterize.underscore
               query_menu_item = MenuItems::QueryMenuItem.find_or_initialize_by_name_and_navigatable_id normalized_query_name, @query.id, title: @query.name
 
@@ -30,6 +30,7 @@ module API
             end
 
             patch :unstar do
+              authorize(:queries_api, :unstar, @query.project)
               query_menu_item = @query.query_menu_item
               query_menu_item.destroy
               @representer.to_json
