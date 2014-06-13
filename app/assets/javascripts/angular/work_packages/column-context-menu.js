@@ -35,7 +35,8 @@ angular.module('openproject.workPackages')
   return ngContextMenu({
     controller: 'ColumnContextMenuController',
     controllerAs: 'contextMenu',
-    templateUrl: '/templates/work_packages/column_context_menu.html'
+    templateUrl: '/templates/work_packages/column_context_menu.html',
+    container: '.work-packages--list'
   });
 }])
 
