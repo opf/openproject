@@ -101,6 +101,8 @@ angular.module('openproject.workPackages.controllers')
 
   // setup
 
+  $scope.availableDirectionsData = [{ id: 'desc', label: I18n.t('js.label_descending')}, { id: 'asc', label: I18n.t('js.label_ascending')}];
+
   QueryService.loadAvailableColumns()
     .then(function(available_columns){
       $scope.availableColumns = available_columns;
@@ -110,5 +112,4 @@ angular.module('openproject.workPackages.controllers')
       $scope.initSortation();
     });
 
-  $scope.availableDirectionsData = [{ id: 'desc', label: I18n.t('js.label_descending')}, { id: 'asc', label: I18n.t('js.label_ascending')}];
 }]);
