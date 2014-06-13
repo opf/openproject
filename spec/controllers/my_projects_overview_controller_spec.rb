@@ -59,7 +59,7 @@ describe MyProjectsOverviewsController do
         get 'index', params
       end
 
-      it { response.should redirect_to({ :controller => "work_packages", :action => "index", :project_id => project, :set_filter => 1 }) }
+      it { response.should redirect_to project_work_packages_path(project) }
     end
   end
 end
