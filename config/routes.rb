@@ -113,7 +113,7 @@ OpenProject::Application.routes.draw do
 
     end
 
-    namespace :v3 do
+    namespace :experimental do
       resources :work_packages, only: [:index] do
         get :column_data, on: :collection
         get :column_sums, on: :collection
