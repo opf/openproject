@@ -68,6 +68,7 @@ module WorkPackagesHelper
   #   link_to_work_package(package, :project => true)           # => Foo - Defect #6
   #   link_to_work_package(package, :id_only => true)           # => #6
   #   link_to_work_package(package, :subject_only => true)      # => This is the subject (as link)
+  #   link_to_work_package(package, :status => true)            # => #6 New (if #id => true)
   def link_to_work_package(package, options = {})
 
     if options[:subject_only]
@@ -104,6 +105,8 @@ module WorkPackagesHelper
     parts[:link] << h(package.kind.to_s) if options[:type]
 
     parts[:link] << "##{h(package.id)}" if options[:id]
+
+    parts[:link] << "#{h(package.status)}" if options[:id] && options[:status] && package.status
 
     # Hidden link part
 
@@ -183,7 +186,7 @@ module WorkPackagesHelper
       end
     end
 
-    link = link_to_work_package(work_package)
+    link = link_to_work_package(work_package, :status => true)
     link += " #{work_package.start_date.nil? ? "[?]" : work_package.start_date.to_s}"
     link += changed_dates["start_date"]
     link += " – #{work_package.due_date.nil? ? "[?]" : work_package.due_date.to_s}"

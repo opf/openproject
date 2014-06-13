@@ -79,6 +79,10 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#7700` No flash message on status page
 * `#8228` Icons in select2 elements missing
 * `#8277` Fix arrow of column headers not restrained to one line
+* `#4019` Fix focus on project creation
+* `#4021` Separate focus for main menu expander
+* `#6288` Editing relations in modal dialog leads to warning
+* `#7898` Watchers are not sorted alphabetically in work package screen
 * Allowed sending of mails with only cc: or bcc: fields
 * Allow adding attachments to created work packages via planning elements controller
 * Remove unused rmagick dependency
@@ -98,6 +102,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#5652` Fixes: Custom fields with empty name can be created
 * `#7812` 404 when opening keyboard shortcuts in a OpenProject instance running in subfolder
 * `#7893` Notification message support for Internet explorer 9 missing
+* `#7682` Status of work package not displayed when linking work package via ## or ###
 * `#4031` Expand folder icon missing in front of repository folders
 * `#7234` Highlighting of differences in repository does not work
 * `#7493` Work packages with only start date or end date not displayed properly

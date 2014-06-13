@@ -60,18 +60,19 @@ module WatchersHelper
   # Returns HTML for a list of users watching the given object
   def watchers_list(object)
     remove_allowed = User.current.allowed_to?("delete_#{object.class.name.underscore}_watchers".to_sym, object.project)
-    lis = object.watchers(true).collect do |watch|
+    lis = object.watcher_users.sort.collect do |user|
+      watcher = object.watchers(true).find{|u| u.user_id == user.id }
       content_tag :li do
-        avatar(watch.user, :size => "16") +
-          link_to_user(watch.user, :class => 'user') +
+        avatar(user, :size => "16") +
+          link_to_user(user, :class => 'user') +
           if remove_allowed
             ' '.html_safe + link_to(icon_wrapper('icon-context icon-close delete-ctrl',
-                                                 l(:button_delete_watcher, name: watch.user.name)),
-                             watcher_path(watch),
+                                                 l(:button_delete_watcher, name: user.name)),
+                             watcher_path(watcher),
                              :method => :delete,
                              :remote => true,
                              :style => "vertical-align: middle",
-                             :title => l(:button_delete_watcher, name: watch.user.name),
+                             :title => l(:button_delete_watcher, name: user.name),
                              :class => "delete no-decoration-on-hover")
           else
             ''.html_safe

@@ -385,6 +385,15 @@ en:
   button_configure_menu_entry: "Configure menu item"
   button_delete_menu_entry: "Delete menu item"
 
+  copy_project:
+    started: "Started to copy project \"%{source_project_name}\" to \"%{target_project_name}\". You will be informed by Mail as soon as \"%{target_project_name}\" is available."
+    failed: "Cannot copy project %{source_project_name}"
+    succeeded: "Created project %{target_project_name}"
+    errors: "Error"
+    text:
+      failed: "Could not copy project \"%{source_project_name}\" to project \"%{target_project_name}\"."
+      succeeded: "Copied project \"%{source_project_name}\" to \"%{target_project_name}\"."
+
   create_child_page: "Create new child page"
   create_child_page_for: "Create new child page: \"%{title}\""
   create_new_page: "Create new page"

@@ -44,11 +44,6 @@ var ModalHelper = (function() {
 
         // close when body is clicked
         body.on("click", ".ui-widget-overlay", jQuery.proxy(modalHelper.close, modalHelper));
-        body.on("keyup", function (e) {
-          if (e.which == 27) {
-            modalHelper.close();
-          }
-        });
 
         ModalHelper._done = true;
       } else {
@@ -125,7 +120,7 @@ var ModalHelper = (function() {
         body.find("#footnotes_debug").hide();
         body.css("min-width", "0px");
 
-        body.find(":input").change(function () {
+        jQuery(body).on('keyup', 'textarea', function() {
           modalDiv.data('changed', true);
         });
 
@@ -185,6 +180,8 @@ var ModalHelper = (function() {
   };
 
   ModalHelper.prototype.close = function() {
+    jQuery('input:focus, textarea:focus').trigger('blur'); // unfocus inputs and textareas to get the 'onChange' event triggered
+
     var modalDiv = this.modalDiv;
     if (!this.loadingModal) {
       if (modalDiv && (modalDiv.data('changed') !== true || confirm(I18n.t('js.timelines.really_close_dialog')))) {

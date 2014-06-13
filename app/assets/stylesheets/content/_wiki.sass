@@ -28,7 +28,7 @@
 @import global/all
 
 div.wiki
-  font-size: 14px
+  font-size: $wiki_toc_ul_font_size
   line-height: 1.6em
   h1, h2
     margin: 1em 0 1em 0
@@ -95,10 +95,11 @@ div.wiki
   ul li
     list-style-type: disc
 
-
-  fieldset legend
+  li li
+    margin-left: 1.5em
+  fieldset.collapsible legend
     font-weight: bold
-    font-size: 10px
+    font-size: $wiki_toc_header_font_size
   img
     vertical-align: middle
 
