@@ -28,7 +28,7 @@
 
 angular.module('openproject.models')
 
-.factory('Sortation', ['DEFAULT_SORT_CRITERIA', function(DEFAULT_SORT_CRITERIA) {
+.factory('Sortation', ['DEFAULT_SORT_CRITERIA', 'MAX_SORT_ELEMENTS', function(DEFAULT_SORT_CRITERIA, MAX_SORT_ELEMENTS) {
   var defaultSortDirection = 'asc';
 
   var Sortation = function(sortation) {
@@ -81,6 +81,8 @@ angular.module('openproject.models')
     this.removeSortElement(sortElement.field);
 
     this.sortElements.unshift(sortElement);
+
+    this.capSortElements();
   };
 
   Sortation.prototype.setSortElements = function(sortElements) {
@@ -89,6 +91,14 @@ angular.module('openproject.models')
     angular.forEach(sortElements, function(element){
       elements.push(element);
     });
+
+    this.capSortElements();
+  };
+
+  Sortation.prototype.capSortElements = function() {
+    if(this.sortElements.length > MAX_SORT_ELEMENTS) {
+      this.sortElements.length = MAX_SORT_ELEMENTS;
+    }
   };
 
   Sortation.prototype.getTargetSortationOfHeader = function(headerName) {

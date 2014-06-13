@@ -67,6 +67,8 @@ angular.module('openproject.workPackages.config')
 
 .constant('DEFAULT_SORT_CRITERIA', 'parent:desc')
 
+.constant('MAX_SORT_ELEMENTS', 3)
+
 .constant('DEFAULT_PAGINATION_OPTIONS', {
   page: 1,
   perPage: 10,

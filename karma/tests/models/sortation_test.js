@@ -46,4 +46,16 @@ describe('Sortation', function() {
     expect(new Sortation()).to.be.an('object');
   });
 
+  it('should have a maximum of 3 sort criteria', function() {
+    var sortation = new Sortation();
+    angular.forEach([1, 2, 3, 4], function(c) {
+      sortation.addSortElement({
+        field: 'columnName' + c,
+        direction: 'direction2' + c
+      });
+    });
+
+    expect(sortation.sortElements.length).to.equal(3);
+  });
+
 });
