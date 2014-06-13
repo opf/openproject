@@ -62,7 +62,7 @@ angular.module('openproject.workPackages.directives')
 
       scope.$watch('filter', function(filter, oldFilter) {
         if (filter !== oldFilter) {
-          if (filter.isConfigured() || valueReset(filter, oldFilter)) {
+          if (filter.isConfigured() && (filterChanged(filter, oldFilter) || valueReset(filter, oldFilter))) {
             PaginationService.resetPage();
 
             applyFilters();
@@ -92,6 +92,12 @@ angular.module('openproject.workPackages.directives')
         }
 
         return options;
+      }
+
+      function filterChanged(filter, oldFilter) {
+        return filter.operator !== oldFilter.operator ||
+          !angular.equals(filter.getValuesAsArray(), oldFilter.getValuesAsArray()) ||
+          filter.deactivated !== oldFilter.deactivated;
       }
 
       function valueReset(filter, oldFilter) {

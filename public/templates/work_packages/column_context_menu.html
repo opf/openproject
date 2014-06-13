@@ -1,13 +1,13 @@
 <div id="column-context-menu" class="action-menu dropdown-relative dropdown-anchor-right">
   <ul class="menu">
-    <li ng-click="sortAscending(column.name)">
+    <li ng-if="!!column.sortable" ng-click="sortAscending(column.name)">
       <a href="#">
         <i class="icon-action-menu icon-sort-ascending"></i>
         <span ng-bind="I18n.t('js.work_packages.query.sort_ascending')"/>
       </a>
     </li>
 
-    <li ng-click="sortDescending(column.name)">
+    <li ng-if="!!column.sortable" ng-click="sortDescending(column.name)">
       <i class="icon-action-menu icon-sort-descending"></i>
       <a href="#">
         <span ng-bind="I18n.t('js.work_packages.query.sort_descending')"/>
@@ -23,7 +23,7 @@
     </li>
 
     <li ng-click="moveLeft(column.name)"
-        ng-if="column && columns.indexOf(column) !== 0">
+        ng-if="column.name !== 'id' && columns.indexOf(column) !== 0">
       <i class="icon-action-menu icon-column-left"></i>
       <a href="#">
         <span ng-bind="I18n.t('js.work_packages.query.move_column_left')"/>
@@ -31,7 +31,7 @@
     </li>
 
     <li ng-click="moveRight(column.name)"
-        ng-if="column && columns.indexOf(column) !== columns.length - 1">
+        ng-if="column.name !== 'id' && columns.indexOf(column) !== columns.length - 1">
       <i class="icon-action-menu icon-column-right"></i>
       <a href="#">
         <span ng-bind="I18n.t('js.work_packages.query.move_column_right')"/>

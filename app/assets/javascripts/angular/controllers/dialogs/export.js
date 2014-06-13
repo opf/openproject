@@ -42,5 +42,5 @@ angular.module('openproject.workPackages.controllers')
   var query = QueryService.getQuery();
   this.closeMe = exportModal.deactivate;
 
-  this.exportOptions = UrlParamsHelper.buildQueryExportUrl(query);
+  this.exportOptions = UrlParamsHelper.buildQueryExportOptions(query);
 }]);
