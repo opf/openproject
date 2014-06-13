@@ -45,7 +45,7 @@ describe('ProjectService', function() {
 
   describe('getProject', function() {
     beforeEach(function() {
-      $httpBackend.when('GET', '/api/v3/projects/superProject')
+      $httpBackend.when('GET', '/api/experimental/projects/superProject')
         .respond({
           "project": {
             "id": 99,
@@ -57,7 +57,7 @@ describe('ProjectService', function() {
     });
 
     it('sends a successful get request', function() {
-      $httpBackend.expectGET('/api/v3/projects/superProject');
+      $httpBackend.expectGET('/api/experimental/projects/superProject');
 
       var callback = sinon.spy(),
         project    = ProjectService.getProject('superProject').then(callback);
@@ -69,7 +69,7 @@ describe('ProjectService', function() {
     });
 
     it('sends a unsuccessful get request', function() {
-      $httpBackend.expectGET('/api/v3/projects/superProject').respond(401);
+      $httpBackend.expectGET('/api/experimental/projects/superProject').respond(401);
 
       var success = sinon.spy(),
         error    = sinon.spy(),
