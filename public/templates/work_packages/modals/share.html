@@ -4,11 +4,20 @@
 
     <h3>Share</h3>
 
-    <label class="checkbox-label">
-      <input type="checkbox" name="is_public" ng-model="query.isPublic"></input>
-      <div class="styled-checkbox"></div>
-      Page visible for others
-    </label>
+    <div>
+      <label class="checkbox-label">
+        <input type="checkbox" name="is_public" ng-model="query.isPublic"></input>
+        <div class="styled-checkbox"></div>
+        Page visible for others
+      </label>
+    </div>
+    <div>
+      <label class="checkbox-label">
+        <input type="checkbox" name="show_in_menu" ng-model="shareSettings.starred"></input>
+        <div class="styled-checkbox"></div>
+        Show page in menu
+      </label>
+    </div>
     <div>
       <button class="button_highlight" ng-click="saveQuery()">Save</button>
       <button class="button" ng-click="modal.closeMe()">Cancel</button>

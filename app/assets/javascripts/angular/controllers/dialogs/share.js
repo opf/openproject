@@ -45,8 +45,21 @@ angular.module('openproject.workPackages.controllers')
   this.name    = 'Share';
   this.closeMe = shareModal.deactivate;
   $scope.query = QueryService.getQuery();
+  $scope.shareSettings = {
+    starred: $scope.query.starred
+  }
 
   $scope.saveQuery = function() {
+    // Note: Using a separate endpoint from the new API V3 to star/unstar the query,
+    // which is why this is happening to 2 requests. Just now it will fail silently
+    // so of course need to think of a better way of dealing with errors.
+    if($scope.query.starred != $scope.shareSettings.starred){
+      QueryService.toggleQueryStarred()
+        .then(function(data){
+          // TODO RS: Handle errors.
+        });
+    }
+
     QueryService.saveQuery()
       .then(function(data){
         shareModal.deactivate();

@@ -123,6 +123,9 @@ angular.module('openproject.helpers')
     apiV3ProjectPath: function(projectIdentifier) {
       return PathHelper.apiPrefixV3 + PathHelper.projectPath(projectIdentifier);
     },
+    apiV3QueryPath: function(queryId) {
+      return PathHelper.apiPrefixV3 + PathHelper.queryPath(queryId);
+    },
     apiWorkPackagesPath: function() {
       return PathHelper.apiPrefixV3 + '/work_packages';
     },
@@ -155,6 +158,12 @@ angular.module('openproject.helpers')
     },
     apiProjectGroupedQueriesPath: function(projectIdentifier) {
       return PathHelper.apiV3ProjectPath(projectIdentifier) + '/queries/grouped';
+    },
+    apiQueryStarPath: function(queryId) {
+      return PathHelper.apiV3QueryPath(queryId) + '/star';
+    },
+    apiQueryUnstarPath: function(queryId) {
+      return PathHelper.apiV3QueryPath(queryId) + '/unstar';
     },
     apiWorkPackagesColumnDataPath: function() {
       return PathHelper.apiWorkPackagesPath() + '/column_data';

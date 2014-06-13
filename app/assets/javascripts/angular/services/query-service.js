@@ -70,7 +70,8 @@ angular.module('openproject.services')
         columns: selectedColumns,
         groupBy: queryData.group_by,
         isPublic: queryData.is_public,
-        exportFormats: exportFormats
+        exportFormats: exportFormats,
+        starred: queryData.starred
       });
       query.setSortation(new Sortation(queryData.sort_criteria));
 
@@ -325,8 +326,40 @@ angular.module('openproject.services')
       });
     },
 
+    toggleQueryStarred: function() {
+      if(query.starred) {
+        return QueryService.unstarQuery();
+      } else {
+        return QueryService.starQuery();
+      }
+    },
+
+    starQuery: function() {
+      var url = PathHelper.apiQueryStarPath(query.id);
+      var theQuery = query;
+
+      return QueryService.doPatch(url, function(response){
+        theQuery.star();
+        return response.data;
+      });
+    },
+
+    unstarQuery: function() {
+      var url = PathHelper.apiQueryUnstarPath(query.id);
+      var theQuery = query;
+
+      return QueryService.doPatch(url, function(response){
+        theQuery.unstar();
+        return response.data;
+      });
+    },
+
     doGet: function(url, success, failure) {
       return QueryService.doQuery(url, null, 'GET', success, failure);
+    },
+
+    doPatch: function(url, success, failure) {
+      return QueryService.doQuery(url, null, 'PATCH', success, failure);
     },
 
     doQuery: function(url, params, method, success, failure) {

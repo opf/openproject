@@ -440,6 +440,11 @@ class Query < ActiveRecord::Base
     raise ::Query::StatementInvalid.new(e.message)
   end
 
+  # Note: Convenience method to allow the angular front end to deal with query menu items in a non implementation-specific way
+  def starred
+    !!query_menu_item
+  end
+
   private
 
   def custom_field_id(filter)
