@@ -82,7 +82,7 @@ describe('selectableTitle Directive', function() {
       expect(jQuery(models[3]).text()).to.equal('perky2');
     });
 
-    it('should change the title when a model is clicked on', function() {
+    xit('should change the title when a model is clicked on', function() {
       var title = element.find('span').first();
       expect(title.text()).to.equal('Title1');
 

@@ -13,7 +13,7 @@
         <ul class="query-menu">
           <div class="title-group-header">{{ group.name }}</div>
           <li ng-repeat="model in group.models">
-            <a href="" ng-click="reload( model[1], model[0] )">{{ model[0] | characters:40 }}</a>
+            <a href ui-sref="work-packages.list({ query_id: model[1] })">{{ model[0] | characters:40 }}</a>
           </li>
         </ul>
       </div>

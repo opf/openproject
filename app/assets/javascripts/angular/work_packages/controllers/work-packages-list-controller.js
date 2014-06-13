@@ -28,102 +28,82 @@
 
 angular.module('openproject.workPackages.controllers')
 
-.controller('WorkPackagesController', [
+.controller('WorkPackagesListController', [
     '$scope',
     '$rootScope',
     '$q',
-    '$window',
     '$location',
+    '$stateParams',
     'I18n',
-    'ProjectService',
     'WorkPackagesTableService',
     'WorkPackageService',
+    'ProjectService',
     'QueryService',
     'PaginationService',
     'WorkPackageLoadingHelper',
     'INITIALLY_SELECTED_COLUMNS',
     'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
-    function($scope, $rootScope, $q, $window, $location, I18n, ProjectService,
-      WorkPackagesTableService,
-      WorkPackageService, QueryService, PaginationService,
+    function($scope, $rootScope, $q, $location, $stateParams,
+      I18n, WorkPackagesTableService,
+      WorkPackageService, ProjectService, QueryService, PaginationService,
       WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS,
       OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
+
 
   // Setup
 
   function initialSetup() {
-    $scope.query_id = null;
-    QueryService.resetAll();
-    setupPageParamsFromUrl($window.location);
-    initProject();
-
-    $scope.selectedTitle = I18n.t('js.toolbar.unselected_title');
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.loading = false;
     $scope.disableFilters = false;
 
     var getWorkPackages, params;
-    if($location.search()['c[]']){
-      getWorkPackages = WorkPackageService.getWorkPackagesFromUrlQueryParams;
-      params = [$scope.projectIdentifier, $location];
-    } else {
+    if($scope.query_id){
       getWorkPackages = WorkPackageService.getWorkPackagesByQueryId;
       params = [$scope.projectIdentifier, $scope.query_id];
+    } else {
+      getWorkPackages = WorkPackageService.getWorkPackagesFromUrlQueryParams;
+      params = [$scope.projectIdentifier, $location];
     }
 
     $scope.withLoading(getWorkPackages, params)
       .then(setupPage);
+
+    loadProjectTypesAndQueries();
   }
 
-  function setupPageParamsFromUrl(location) {
-    var normalisedPath = location.pathname.replace($window.appBasePath, '');
-    $scope.projectIdentifier = normalisedPath.split('/')[2];
-
-    var regexp = /query_id=(\d+)/g;
-    var match = regexp.exec(location.search);
-    if(match) $scope.query_id = match[1];
-  }
-
-
-  function initProject() {
+  function loadProjectTypesAndQueries() {
     if ($scope.projectIdentifier) {
-      ProjectService.getProject($scope.projectIdentifier).then(function(project) {
-        $scope.project  = project;
-        $scope.projects = [ $scope.project ];
-        $scope.availableTypes = $scope.project.embedded.types;
-      });
-    } else {
-      ProjectService.getProjects().then(function(projects) {
-        var allTypes, availableTypes;
+      ProjectService.getProject($scope.projectIdentifier)
+        .then(function(project) {
+          $scope.project = project;
+          $scope.projects = [ project ];
+          $scope.availableTypes = project.embedded.types;
+        });
 
-        $scope.projects = projects;
-        allTypes = projects.map(function(project) {
-          return project.embedded.types;
-        }).reduce(function(a, b) {
-          return a.concat(b);
-        }, []);
-
-        $scope.availableTypes = allTypes; // TODO remove duplicates
-      });
     }
+
+    QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
   }
 
   function setupPage(json) {
     initQuery(json.meta);
     setupWorkPackagesTable(json);
 
-    return $q.all([
-      initAvailableColumns(),
-      initAvailableQueries()
-    ]);
+    initAvailableColumns();
   }
 
   function initQuery(metaData) {
-    var queryData = metaData.query,
-        columnData = metaData.columns,
-        exportFormats = metaData.export_formats;
+    var storedQuery = QueryService.getQuery();
 
-    $scope.query = QueryService.getQuery() || QueryService.initQuery($scope.query_id, queryData, columnData, exportFormats, afterQuerySetupCallback);
+    if (storedQuery && storedQuery.id === $scope.query_id) {
+      $scope.query = storedQuery;
+    } else {
+      var queryData = metaData.query,
+          columnData = metaData.columns;
+
+      $scope.query = QueryService.initQuery($scope.query_id, queryData, columnData, metaData.exportFormats, afterQuerySetupCallback);
+    }
   }
 
   function afterQuerySetupCallback(query) {
@@ -172,28 +152,7 @@ angular.module('openproject.workPackages.controllers')
       });
   }
 
-  function initAvailableQueries() {
-    QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
-
-    $scope.availableOptions = QueryService.getAvailableOptions(); // maybe generalize this approach
-    $scope.$watch('availableOptions.availableGroupedQueries', function(availableQueries) {
-      if (availableQueries) {
-        $scope.groups = [{ name: 'GLOBAL QUERIES', models: availableQueries['queries']},
-                         { name: 'CUSTOM QUERIES', models: availableQueries['user_queries']}];
-      }
-    });
-  }
-
-
   // Updates
-
-  $scope.reloadQuery = function(queryId) {
-    QueryService.resetQuery();
-    $scope.query_id = queryId;
-
-    $scope.withLoading(WorkPackageService.getWorkPackagesByQueryId, [$scope.projectIdentifier, $scope.query_id])
-      .then(setupPage);
-  };
 
   $scope.updateBackUrl = function(){
     // Easier than trying to extract it from $location
@@ -231,15 +190,8 @@ angular.module('openproject.workPackages.controllers')
 
   initialSetup();
 
-  // Note: I know we don't want watchers on the controller but I want all the toolbar directives to have restricted scopes. Thoughts welcome.
-  $scope.$watch('query.name', function(newValue, oldValue){
-    if(newValue != oldValue && $scope.query.hasName()){
-      $scope.selectedTitle = newValue;
-    }
-  });
-
-  $rootScope.$on('queryResetRequired', function(event, message) {
-    initialSetup();
+  $scope.$watch(QueryService.getQueryName, function(queryName){
+    $scope.selectedTitle = queryName || I18n.t('js.toolbar.unselected_title');
   });
 
 }]);

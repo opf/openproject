@@ -123,11 +123,14 @@ var openprojectApp = angular.module('openproject', [
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
 
 openprojectApp
-  .config(['$locationProvider', '$httpProvider', function($locationProvider, $httpProvider) {
-    // Note: Not using this because we want to use $location to get the url params and html5Mode prevents all the links from working normally.
-    // $locationProvider.html5Mode(true);
+  .config([
+    '$locationProvider',
+    '$httpProvider',
+    function($locationProvider, $httpProvider) {
+    $locationProvider.html5Mode(true);
     $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = jQuery('meta[name=csrf-token]').attr('content'); // TODO find a more elegant way to keep the session alive
 
+    // prepend a given base path to requests performed via $http
     $httpProvider.interceptors.push(function ($q) {
       return {
         'request': function (config) {
