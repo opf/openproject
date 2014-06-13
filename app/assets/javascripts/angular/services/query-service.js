@@ -50,16 +50,16 @@ angular.module('openproject.services')
 
   var query;
 
-  var availableOptions = {}; // used as a container object holding watchable object references
   var availableColumns = [],
       availableUnusedColumns = [],
       availableFilterValues = {},
-      availableFilters = {};
+      availableFilters = {},
+      availableGroupedQueries;
 
   var totalEntries;
 
   var QueryService = {
-    initQuery: function(queryId, queryData, selectedColumns, afterQuerySetupCallback) {
+    initQuery: function(queryId, queryData, selectedColumns, exportFormats, afterQuerySetupCallback) {
       query = new Query({
         id: queryId,
         name: queryData.name,
@@ -70,14 +70,19 @@ angular.module('openproject.services')
         columns: selectedColumns,
         groupBy: queryData.group_by,
         isPublic: queryData.is_public,
-        shownInAllProjects: queryData.shown_in_all_projects
+        shownInAllProjects: queryData.shown_in_all_projects,
+        exportFormats: exportFormats
       });
       query.setSortation(new Sortation(queryData.sort_criteria));
 
       QueryService.getAvailableFilters(query.project_id)
         .then(function(availableFilters) {
           query.setAvailableWorkPackageFilters(availableFilters);
-          query.setFilters(queryData.filters);
+          if (query.isDefault()) {
+            query.setDefaultFilter();
+          } else {
+            query.setFilters(queryData.filters);
+          }
 
           return query;
         })
@@ -86,21 +91,14 @@ angular.module('openproject.services')
       return query;
     },
 
-    resetQuery: function() {
-      query = null;
-    },
-
-    resetAll: function(){
-      QueryService.resetQuery();
-      availableOptions = {};
-      availableColumns = [],
-      availableUnusedColumns = [],
-      availableFilterValues = {},
-      availableFilters = {};
-    },
-
     getQuery: function() {
       return query;
+    },
+
+    getQueryName: function() {
+      if (query && query.hasName()) {
+        return query.name;
+      }
     },
 
     setTotalEntries: function(numberOfEntries) {
@@ -123,15 +121,15 @@ angular.module('openproject.services')
       WorkPackagesTableHelper.moveColumns(columnNames, availableUnusedColumns, this.getSelectedColumns());
     },
 
-    getAvailableOptions: function() {
-      return availableOptions;
+    getAvailableGroupedQueries: function() {
+      return availableGroupedQueries;
     },
 
     // data loading
 
     loadAvailableGroupedQueries: function(projectIdentifier) {
-      if (availableOptions.availableGroupedQueries) {
-        return $q.when(availableOptions.availableGroupedQueries);
+      if (availableGroupedQueries) {
+        return $q.when(availableGroupedQueries);
       }
 
       return QueryService.fetchAvailableGroupedQueries(projectIdentifier);
@@ -142,8 +140,8 @@ angular.module('openproject.services')
 
       return QueryService.doQuery(url)
         .then(function(groupedQueriesResults) {
-          availableOptions.availableGroupedQueries = groupedQueriesResults;
-          return availableOptions.availableGroupedQueries;
+          availableGroupedQueries = groupedQueriesResults;
+          return availableGroupedQueries;
         });
     },
 
@@ -305,6 +303,8 @@ angular.module('openproject.services')
     saveQuery: function() {
       var url = PathHelper.apiProjectQueryPath(query.project_id, query.id);
       return QueryService.doQuery(url, query.toUpdateParams(), 'PUT', function(response){
+        QueryService.fetchAvailableGroupedQueries(query.project_id);
+
         return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_update') }} );
       });
     },
@@ -314,6 +314,8 @@ angular.module('openproject.services')
       var url = PathHelper.apiProjectQueriesPath(query.project_id);
       return QueryService.doQuery(url, query.toParams(), 'POST', function(response){
         query.save(response.data.query);
+        QueryService.fetchAvailableGroupedQueries(query.project_id);
+
         return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_create') }} );
       });
     },
@@ -321,7 +323,9 @@ angular.module('openproject.services')
     deleteQuery: function() {
       var url = PathHelper.apiProjectQueryPath(query.project_id, query.id);
       return QueryService.doQuery(url, query.toUpdateParams(), 'DELETE', function(response){
+        QueryService.fetchAvailableGroupedQueries(query.project_id);
         QueryService.resetQuery();
+
         return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_delete') }} );
       });
     },

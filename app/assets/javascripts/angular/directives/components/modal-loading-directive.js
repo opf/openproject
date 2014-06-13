@@ -33,6 +33,9 @@ angular.module('openproject.uiComponents')
   return {
     restrict: 'E',
     templateUrl: '/templates/components/modal_loading.html',
-    scope: true
+    scope: true,
+    link: function(scope, element, attributes) {
+      scope.I18n = I18n;
+    }
   };
 }]);

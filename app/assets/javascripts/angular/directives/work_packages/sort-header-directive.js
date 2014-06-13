@@ -28,12 +28,13 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('sortHeader', ['I18n', function(I18n){
+.directive('sortHeader', [
+  'I18n',
+  function(I18n){
 
   return {
     restrict: 'A',
     templateUrl: '/templates/work_packages/sort_header.html',
-    transclude: true,
     scope: {
       query: '=',
       headerName: '=',
@@ -41,7 +42,8 @@ angular.module('openproject.workPackages.directives')
       sortable: '=',
       locale: '='
     },
-    link: function(scope, element, attributes) {
+    require: 'hasDropdownMenu',
+    link: function(scope, element, attributes, dropdownMenuCtrl) {
       scope.$watch('query.sortation.sortElements', function(sortElements){
         var latestSortElement = sortElements[0];
 
@@ -54,17 +56,6 @@ angular.module('openproject.workPackages.directives')
         setFullTitle();
       }, true);
 
-      scope.$watch('currentSortDirection', function(sort) {
-        element.toggleClass('active-column', !!sort);
-      });
-
-      scope.performSort = function(){
-        var targetSortation = scope.query.sortation.getTargetSortationOfHeader(scope.headerName);
-
-        scope.query.setSortation(targetSortation);
-        scope.currentSortDirection = scope.query.sortation.getDisplayedSortDirectionOfHeader(scope.headerName);
-      };
-
       function setFullTitle() {
         if(!scope.sortable) scope.fullTitle = '';
 
@@ -72,9 +63,21 @@ angular.module('openproject.workPackages.directives')
           var sortDirectionText = (scope.currentSortDirection == 'asc') ? I18n.t('js.label_ascending') : I18n.t('js.label_descending');
           scope.fullTitle = sortDirectionText + " " + I18n.t('js.label_sorted_by') + ' \"' + scope.headerTitle + '\"';
         } else {
-          scope.fullTitle = (I18n.t('js.label_sort_by') + ' \"' + scope.headerTitle + '\"');
+          scope.fullTitle = I18n.t('js.label_open_menu');
         }
       }
+
+      // active-column class setting
+
+      function setActiveColumnClass() {
+        element.toggleClass('active-column', !!scope.currentSortDirection || scope.dropDownMenuOpened);
+      }
+      scope.$watch(dropdownMenuCtrl.opened, function(opened) {
+        scope.dropDownMenuOpened = opened;
+        setActiveColumnClass();
+      });
+      scope.$watch('currentSortDirection', setActiveColumnClass);
+
     }
   };
 }]);

@@ -60,6 +60,10 @@ $ng-modal-image-width:   $ng-modal-image-height
 
   label
     padding: 0 50px 0 0
+
+    & > input
+      margin-left: 50px
+
   input
     width: 230px
     height: 30px
@@ -86,3 +90,26 @@ $ng-modal-image-width:   $ng-modal-image-height
         width: 160px
       @media(max-width: 800px)
         width: 120px
+
+ul.export-options
+  margin: 0
+  padding: 20px 0
+  list-style-type: none
+  li
+    margin: 0 0 30px 0
+    text-align: center
+    display: inline-block
+    min-width: 32%
+    a
+      cursor: pointer
+      text-decoration: none
+      color: $global_font_color 
+      font-weight: normal
+      &:hover, &:active
+        text-decoration: none
+        color: $global_font_color 
+      span.export-label
+        display: block
+        padding: 10px 0 0 0
+      
+       

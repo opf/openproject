@@ -36,8 +36,11 @@ angular.module('openproject.workPackages.controllers')
   });
 }])
 
-.controller('ExportModalController', ['exportModal', function(exportModal) {
+.controller('ExportModalController', ['$scope', 'exportModal', 'QueryService', 'UrlParamsHelper',
+	function($scope, exportModal, QueryService, UrlParamsHelper) {
   this.name    = 'Export';
-  this.formats = { 'xls': 'XLS', 'atom': 'Atom' }; // TODO: populate properly
+  var query = QueryService.getQuery();
   this.closeMe = exportModal.deactivate;
+
+  this.exportOptions = UrlParamsHelper.buildQueryExportOptions(query);
 }]);

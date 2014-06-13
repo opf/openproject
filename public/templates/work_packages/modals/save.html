@@ -4,14 +4,21 @@
 
     <h3>Save as</h3>
 
-    <div>
-      <label for="name">Name</label>
-      <input class="short" type="text" name="query_name" ng-model="queryName"></input>
-    </div>
-    <div>
-      <button class="button_highlight" ng-click="saveQueryAs(queryName)">Save</button>
-      <button class="button" ng-click="modal.closeMe()">Cancel</button>
-    </div>
+    <form name="modalSaveForm">
+      <div>
+        <label>
+          Name:
+          <span class="required"> *</span>
+          <input class="short" type="text" name="query_name" ng-model="queryName" required></input>
+        </label>
+      </div>
+      <div>
+        <button class="button_highlight"
+          ng-click="saveQueryAs(queryName)"
+          ng-disabled="modalSaveForm.$invalid">Save</button>
+        <button class="button" ng-click="modal.closeMe()">Cancel</button>
+      </div>
+    </form>
 
   </div>
 </div>

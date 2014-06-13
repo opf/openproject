@@ -28,7 +28,7 @@
 
 angular.module('openproject.uiComponents')
 
-.directive('tablePagination', ['PaginationService', function(PaginationService) {
+.directive('tablePagination', ['I18n', 'PaginationService', function(I18n, PaginationService) {
   return {
     restrict: 'EA',
     templateUrl: '/templates/components/table_pagination.html',
@@ -37,6 +37,7 @@ angular.module('openproject.uiComponents')
       updateResults: '&'
     },
     link: function(scope, element, attributes) {
+      scope.I18n = I18n;
       scope.paginationOptions = PaginationService.getPaginationOptions();
 
       scope.selectPerPage = function(perPage){

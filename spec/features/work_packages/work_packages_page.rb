@@ -46,6 +46,10 @@ class WorkPackagesPage
     visit edit_work_package_path(id)
   end
 
+  def visit_calendar
+    visit index_path + "/calendar"
+  end
+
   def click_work_packages_menu_item
     find('#main-menu .work-packages').click
   end

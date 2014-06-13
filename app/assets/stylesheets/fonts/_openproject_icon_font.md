@@ -115,7 +115,7 @@
 <i class="icon-locked"></i>
 <i class="icon-locked-folder"></i>
 <i class="icon-logout"></i>
-<i class="icon-logout2"></i>
+<i class="icon-export"></i>
 <i class="icon-mail"></i>
 <i class="icon-mail2"></i>
 <i class="icon-map"></i>
@@ -239,6 +239,10 @@
 <i class="icon-table-detail-view"></i>
 <i class="icon-timeline-view"></i>
 <i class="icon-toggle"></i>
+<i class="icon-page-pdf"></i>
+<i class="icon-page-csv"></i>
+<i class="icon-page-xls"></i>
+<i class="icon-page-atom"></i>
 <i class="icon-sort-by"></i>
 <i class="icon-group-by"></i>
 <i class="icon-filter-big"></i>

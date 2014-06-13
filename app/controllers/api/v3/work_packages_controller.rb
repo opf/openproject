@@ -179,7 +179,6 @@ module Api
 
       def set_work_packages_meta_data(query, results, work_packages)
         @display_meta = true
-
         @work_packages_meta_data = {
           query:                        query.as_json(except: :filters, include: :filters),
           columns:                      get_columns_for_json(query.columns),
@@ -190,8 +189,21 @@ module Api
           page:                         page_param,
           per_page:                     per_page_param,
           per_page_options:             Setting.per_page_options_array,
-          total_entries:                work_packages.total_entries
+          total_entries:                work_packages.total_entries,
+          export_formats:               export_formats
         }
+      end
+
+      def export_formats
+        export_formats = [{ format: "atom", label_locale: "label_format_atom" },
+          { format: "pdf", label_locale: "label_format_pdf"},
+          { format: "pdf", label_locale: "label_format_pdf_with_descriptions", flags: ["show_descriptions"]},
+          { format: "csv", label_locale: "label_format_csv"}]
+        if Redmine::Plugin.all.sort.map{|f| f.id}.include?(:openproject_xls_export)
+          export_formats.push({ format: "xls", label_locale: "label_format_xls"})
+          export_formats.push({ format: "xls", label_locale: "label_format_xls_with_descriptions", flags: ["show_descriptions"]})
+        end
+        export_formats
       end
 
       # TODO RS: Taken from work_packages_controller, not dry - move to application controller.

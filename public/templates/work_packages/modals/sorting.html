@@ -4,23 +4,29 @@
 
     <h3>Sorting</h3>
 
-    <div id="modal-sorting" class="modal-content-container">
-      <div ng-repeat="element in sortElements">
-        <input type="hidden"
-               ui-select2-sortable="sortByOptions"
-               simple-query="getAvailableColumnsData"
-               ng-model="element[0]"></input>
-        <input type="hidden"
-               ui-select2-sortable="sortDirectionOptions"
-               simple-query="getDirectionsData"
-               ng-model="element[1]"></input>
+    <form name="modalSortingForm">
+      <div id="modal-sorting" class="modal-content-container">
+        <div ng-repeat="element in sortElements">
+          <input type="hidden"
+                 ui-select2-sortable="sortByOptions"
+                 simple-query="getAvailableColumnsData"
+                 ng-model="element[0]"></input>
+          <input type="hidden"
+                 ui-select2-sortable="sortDirectionOptions"
+                 simple-query="getDirectionsData"
+                 ng-model="element[1]"
+                 ng-required="element[0]"
+                 ng-disabled="!element[0]"></input>
+        </div>
       </div>
-    </div>
 
-    <div>
-      <button class="button_highlight" ng-click="updateSortation()">Apply</button>
-      <button class="button" ng-click="modal.closeMe()">Cancel</button>
-    </div>
+      <div>
+        <button class="button_highlight"
+                ng-disabled="modalSortingForm.$invalid"
+                ng-click="updateSortation()">Apply</button>
+        <button class="button" ng-click="modal.closeMe()">Cancel</button>
+      </div>
+    </form>
 
   </div>
 </div>

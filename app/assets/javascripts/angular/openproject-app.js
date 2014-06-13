@@ -67,7 +67,8 @@ angular.module('openproject.workPackages', [
   'openproject.workPackages.controllers',
   'openproject.workPackages.filters',
   'openproject.workPackages.directives',
-  'openproject.uiComponents'
+  'openproject.uiComponents',
+  'ng-context-menu'
 ]);
 angular.module('openproject.workPackages.services', []);
 angular.module('openproject.workPackages.helpers', [
@@ -88,8 +89,7 @@ angular.module('openproject.workPackages.controllers', [
 angular.module('openproject.workPackages.directives', [
   'openproject.uiComponents',
   'openproject.services',
-  'openproject.workPackages.services',
-  'ng-context-menu'
+  'openproject.workPackages.services'
 ]);
 
 // messages
@@ -123,11 +123,14 @@ var openprojectApp = angular.module('openproject', [
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
 
 openprojectApp
-  .config(['$locationProvider', '$httpProvider', function($locationProvider, $httpProvider) {
-    // Note: Not using this because we want to use $location to get the url params and html5Mode prevents all the links from working normally.
-    // $locationProvider.html5Mode(true);
+  .config([
+    '$locationProvider',
+    '$httpProvider',
+    function($locationProvider, $httpProvider) {
+    $locationProvider.html5Mode(true);
     $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = jQuery('meta[name=csrf-token]').attr('content'); // TODO find a more elegant way to keep the session alive
 
+    // prepend a given base path to requests performed via $http
     $httpProvider.interceptors.push(function ($q) {
       return {
         'request': function (config) {
