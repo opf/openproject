@@ -22,13 +22,13 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe MyProjectsOverviewsController do
   before :each do
-    @controller.stub!(:set_localization)
+    @controller.stub(:set_localization)
     @controller.should_receive(:authorize)
 
     @role = FactoryGirl.create(:non_member)
     @user = FactoryGirl.create(:admin)
 
-    User.stub!(:current).and_return @user
+    User.stub(:current).and_return @user
 
     @params = {}
   end
