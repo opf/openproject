@@ -295,10 +295,13 @@ Redmine::MenuManager.map :project_menu do |menu|
                       :if => Proc.new { |p| p.shared_versions.any? },
                       :html => {:class => "icon2 icon-process-arrow1"}
 
-  menu.push :work_packages, { controller: '/work_packages', action: 'index', set_filter: 1 },
+  menu.push :work_packages, { controller: '/work_packages', action: 'index' },
                             param: :project_id,
                             caption: :label_work_package_plural,
-                            html: {class: "icon2 icon-copy"}
+                            html: {
+                              class: "icon2 icon-copy",
+                              "data-ui-route" => ''
+                            }
 
   menu.push :new_work_package, { :controller => '/work_packages', :action => 'new'},
                                :param => :project_id,

@@ -13,37 +13,37 @@
       <li>
         <a>
           <i class="icon-page-atom icon-big"></i>
-          <label>ATOM</label>
+          <span class="export-label">ATOM</span>
         </a>
       </li>
        <li>
         <a>
           <i class="icon-page-xls icon-big"></i>
-          <label>XLS</label>
+          <span class="export-label">XLS</span>
         </a>
       </li>
        <li>
         <a>
           <i class="icon-page-xls icon-big"></i>
-          <label>XLS with description</label>
+          <span class="export-label">XLS with description</span>
         </a>
       </li>
        <li>
         <a>
           <i class="icon-page-pdf icon-big"></i>
-          <label>PDF</label>
+          <span class="export-label">PDF</span>
         </a>
       </li>
        <li>
         <a>
           <i class="icon-page-pdf icon-big"></i>
-          <label>PDF with description</label>
+         <span class="export-label">PDF with description</span>
         </a>
       </li>
        <li>
         <a>
           <i class="icon-page-csv icon-big"></i>
-          <label>CSV</label>
+          <span class="export-label">CSV</span>
         </a>
       </li>
     </ul>

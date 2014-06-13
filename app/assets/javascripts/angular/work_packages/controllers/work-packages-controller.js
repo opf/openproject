@@ -26,22 +26,29 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
+angular.module('openproject.workPackages.controllers')
 
-.directive('filterClear', [
-  '$state',
-  'I18n',
-  'QueryService',
-  function($state, I18n, QueryService){
-  return {
-    restrict: 'E',
-    templateUrl: '/templates/work_packages/filter_clear.html',
-    scope: true,
-    link: function(scope, element, attributes) {
-      scope.I18n = I18n;
-      scope.clearQuery = function(){
-        $state.go('work-packages.list', { query_id: null }, { reload: true });
-      };
+.controller('WorkPackagesController', [
+    '$scope',
+    '$stateParams',
+    'QueryService',
+    'ProjectService',
+    function($scope, $stateParams, QueryService, ProjectService) {
+
+  // Setup
+  $scope.selectedTitle = I18n.t('js.toolbar.unselected_title');
+
+  if ($stateParams.projectPath.indexOf('/projects') === 0) {
+    $scope.projectIdentifier = $stateParams.projectPath.replace('/projects/', '');
+  }
+
+  $scope.query_id = $stateParams.query_id;
+
+  $scope.$watch(QueryService.getAvailableGroupedQueries, function(availableQueries) {
+    if (availableQueries) {
+      $scope.groups = [{ name: 'GLOBAL QUERIES', models: availableQueries['queries']},
+                       { name: 'CUSTOM QUERIES', models: availableQueries['user_queries']}];
     }
-  };
+  });
+
 }]);

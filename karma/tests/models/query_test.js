@@ -92,4 +92,38 @@ describe('Query', function() {
       expect(query.hasName()).to.be.true;
     });
   });
+
+  describe('isDefault', function() {
+    it('returns true if the query name equals "_"', function() {
+      query.name = '_';
+      expect(query.isDefault()).to.be.true;
+    });
+
+    it('returns false if the query name is undefined', function() {
+      query.name = undefined;
+      expect(query.isDefault()).to.be.false;
+    });
+
+    it('returns false if the query name is any string', function() {
+      query.name = 'so random';
+      expect(query.isDefault()).to.be.false;
+    });
+  });
+
+  describe('setDefaultFilter', function() {
+    beforeEach(function() {
+      query.setDefaultFilter();
+    });
+
+    it('sets a single filter', function() {
+      expect(query.filters.length).to.equal(1);
+    });
+
+    it('filters for status: open', function() {
+      var filter = query.filters[0];
+
+      expect(filter.name).to.equal('status_id');
+      expect(filter.operator).to.equal('o');
+    });
+  });
 });

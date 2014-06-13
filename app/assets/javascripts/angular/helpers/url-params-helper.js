@@ -28,7 +28,7 @@
 
 angular.module('openproject.helpers')
 
-.service('UrlParamsHelper', [function() {
+.service('UrlParamsHelper', ['I18n', function(I18n) {
   var UrlParamsHelper = {
     // copied more or less from angular buildUrl
     buildQueryString: function(params) {
@@ -51,21 +51,30 @@ angular.module('openproject.helpers')
       return parts.join('&');
     },
 
-    buildQueryExportUrl: function(query){
+    buildQueryExportOptions: function(query){
       // Note: This is all rather hard-codey
       // The alternative would be to pass back export URLs from the server with the meta data but given that columns
       // can be added/removed without making a further work packages index call the meta data wouldn't be up to date.
       // Therefor I think it makes sense to build up the URL from the javascript query object and let the server build
-      // up the exact query again.
+      // up the exact query from the params.
       var relativeUrl = "/work_packages";
       if (query.project_id){
         relativeUrl = "/projects/" + query.project_id + relativeUrl;
       }
 
       return query.exportFormats.map(function(format){
+        var url = relativeUrl + "." + format.format + "?" + "set_filter=1&";
+        if(format.flags){
+          angular.forEach(format.flags, function(flag){
+            url = url + flag + "=" + "true";
+          });
+        }
+        url = url + query.getQueryString();
+
         return {
-          label: format,
-          url: relativeUrl + "." + format + "?" + "set_filter=1&" + query.getQueryString()
+          label: I18n.t('js.' + format.label_locale),
+          format: format.format,
+          url: url
         }
       })
     }
