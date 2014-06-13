@@ -109,7 +109,6 @@ module Api::V3
     # Note: Not dry - lifted straight from old queries controller
     def setup_query_for_create
       @query = Query.new params[:query] ? permitted_params.query : nil
-      @query.project = @project unless params[:query_is_for_all]
       prepare_query
       @query.user = User.current
     end
@@ -131,6 +130,8 @@ module Api::V3
       @query.column_names = nil if params[:default_columns]
       @query.name = params[:name] if params[:name]
       @query.is_public = params[:is_public] if params[:is_public]
+      @query.shown_in_all_projects = params[:shown_in_all_projects] if params[:shown_in_all_projects]
+      @query.project = nil if params[:is_for_all]
     end
 
     def prepare_sort_criteria
@@ -142,9 +143,9 @@ module Api::V3
     def visible_queries
       unless @visible_queries
         # User can see public queries and his own queries
-        visible = ARCondition.new(["is_public = ? OR user_id = ?", true, (User.current.logged? ? User.current.id : 0)])
+        visible = ARCondition.new(["is_public = ? OR shown_in_all_projects = ? OR user_id = ?", true, true, (User.current.logged? ? User.current.id : 0)])
         # Project specific queries and global queries
-        visible << (@project.nil? ? ["project_id IS NULL"] : ["project_id IS NULL OR project_id = ?", @project.id])
+        visible << (@project.nil? ? ["project_id IS NULL OR shown_in_all_projects = ?", true] : ["project_id IS NULL OR shown_in_all_projects = ? OR project_id = ?", true, @project.id])
         @visible_queries = Query.find(:all,
                                       :select => 'id, name, is_public',
                                       :order => "name ASC",

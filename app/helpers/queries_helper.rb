@@ -46,6 +46,7 @@ module QueriesHelper
   def retrieve_query
     if !params[:query_id].blank?
       cond = "project_id IS NULL"
+      cond << " OR shown_in_all_projects = true"
       cond << " OR project_id = #{@project.id}" if @project
       @query = Query.find(params[:query_id], :conditions => cond)
       @query.project = @project

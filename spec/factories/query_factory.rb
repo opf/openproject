@@ -28,7 +28,6 @@
 
 FactoryGirl.define do
   factory :query do
-    project
     user :factory => :user
     sequence(:name) { |n| "Query #{n}" }
 
@@ -40,6 +39,12 @@ FactoryGirl.define do
     factory :private_query do
       is_public false
       sequence(:name) { |n| "Private query #{n}" }
+    end
+
+    factory :shown_in_all_query do
+      is_public false
+      shown_in_all_projects true
+      sequence(:name) { |n| "Shown in all projects query #{n}" }
     end
 
     after(:build) { |query| query.add_default_filter }

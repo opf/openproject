@@ -70,6 +70,7 @@ angular.module('openproject.services')
         columns: selectedColumns,
         groupBy: queryData.group_by,
         isPublic: queryData.is_public,
+        shownInAllProjects: queryData.shown_in_all_projects,
         exportFormats: exportFormats
       });
       query.setSortation(new Sortation(queryData.sort_criteria));

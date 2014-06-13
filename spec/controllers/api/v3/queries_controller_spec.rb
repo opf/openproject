@@ -65,4 +65,33 @@ describe Api::V3::QueriesController do
     end
   end
 
+  describe '#grouped' do
+    let(:project) { FactoryGirl.create(:project, :identifier => 'test_project') }
+
+    context 'with public and private queries' do
+      before do
+        FactoryGirl.create :public_query
+        FactoryGirl.create :private_query, user: current_user
+        FactoryGirl.create :shown_in_all_query, project: project
+      end
+
+      it 'renders template' do
+        get :grouped, project_id: project.id, format: :xml
+        expect(response).to render_template('api/v3/queries/grouped', formats: %w(api))
+      end
+
+      it 'assigns user queries' do
+        get :grouped, project_id: project.id, format: :xml
+        expect(assigns(:user_queries)).not_to be_empty
+        expect(assigns(:user_queries).length).to eq(2)
+      end
+
+      it 'assigns public queries' do
+        get :grouped, format: :xml
+        expect(assigns(:queries)).not_to be_empty
+        expect(assigns(:queries).length).to eq(1)
+      end
+    end
+  end
+
 end
