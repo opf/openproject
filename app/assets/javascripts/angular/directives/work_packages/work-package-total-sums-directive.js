@@ -32,8 +32,6 @@ angular.module('openproject.workPackages.directives')
   'WorkPackageService',
   function(WorkPackageService) {
 
-  var latestQueryReference;
-
   return {
     restrict: 'A',
     scope: true,
