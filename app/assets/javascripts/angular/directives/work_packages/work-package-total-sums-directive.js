@@ -37,12 +37,14 @@ angular.module('openproject.workPackages.directives')
     scope: true,
     link: function(scope) {
       function fetchTotalSums() {
-        scope.withLoading(WorkPackageService.getWorkPackagesSums, [scope.projectIdentifier, scope.query, scope.columns])
+        scope.fetchTotalSums = WorkPackageService.getWorkPackagesSums(scope.projectIdentifier, scope.query, scope.columns)
           .then(function(data){
             angular.forEach(scope.columns, function(column, i){
               column.total_sum = data.column_sums[i];
             });
           });
+
+        return scope.fetchTotalSums;
       }
 
       function totalSumsFetched() {

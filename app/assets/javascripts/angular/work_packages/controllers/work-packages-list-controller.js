@@ -54,7 +54,6 @@ angular.module('openproject.workPackages.controllers')
 
   function initialSetup() {
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
-    $scope.loading = false;
     $scope.disableFilters = false;
 
     var getWorkPackages, params;
@@ -170,6 +169,8 @@ angular.module('openproject.workPackages.controllers')
 
     $scope.refreshWorkPackages = WorkPackageService.getWorkPackages($scope.projectIdentifier, $scope.query, PaginationService.getPaginationOptions())
       .then(setupWorkPackagesTable);
+
+    return $scope.refreshWorkPackages;
   };
 
   // More
