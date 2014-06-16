@@ -17,7 +17,10 @@ module API
             end
 
             patch :star do
-              authorize(:queries_api, :star, @query.project)
+              authorize(:queries, :star, @query.project)
+              if !@query.is_public? && @query.user_id != current_user.id
+                raise API::Errors::Unauthorized.new(current_user)
+              end
               normalized_query_name = @query.name.parameterize.underscore
               query_menu_item = MenuItems::QueryMenuItem.find_or_initialize_by_name_and_navigatable_id normalized_query_name, @query.id, title: @query.name
 
@@ -30,9 +33,14 @@ module API
             end
 
             patch :unstar do
-              authorize(:queries_api, :unstar, @query.project)
+              authorize(:queries, :unstar, @query.project)
+              if !@query.is_public? && @query.user_id != current_user.id
+                raise API::Errors::Unauthorized.new(current_user)
+              end
               query_menu_item = @query.query_menu_item
+              return @representer.to_json if @query.query_menu_item.nil?
               query_menu_item.destroy
+              @query.reload
               @representer.to_json
             end
           end

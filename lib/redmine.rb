@@ -109,7 +109,6 @@ Redmine::AccessControl.map do |map|
                                          :queries => [:index, :create, :update, :available_columns, :custom_field_filters, :grouped],
                                          :work_packages => [:show, :index],
                                          :work_packages_api => [:get],
-                                         :queries_api => [:star, :unstar],
                                          :'work_packages/reports' => [:report, :report_details],
                                          :planning_elements => [:index, :all, :show, :recycle_bin],
                                          :planning_element_journals => [:index]}
@@ -138,8 +137,8 @@ Redmine::AccessControl.map do |map|
     map.permission :manage_work_package_relations, {:work_package_relations => [:create, :destroy]}
     map.permission :manage_subtasks, {}
     # Queries
-    map.permission :manage_public_queries, {:queries => [:new, :edit, :destroy]}, :require => :member
-    map.permission :save_queries, {:queries => [:new, :edit, :destroy]}, :require => :loggedin
+    map.permission :manage_public_queries, {:queries => [:new, :edit, :star, :unstar, :destroy]}, :require => :member
+    map.permission :save_queries, {:queries => [:new, :edit, :star, :unstar, :destroy]}, :require => :loggedin
     # Watchers
     map.permission :view_work_package_watchers, {}
     map.permission :add_work_package_watchers, {:watchers => [:new, :create]}
