@@ -231,16 +231,17 @@ sub OpenProjectDSN {
   my ($self, $parms, $arg) = @_;
   $self->{OpenProjectDSN} = $arg;
   my $query = "SELECT 
-                 hashed_password, salt, auth_source_id, permissions
-              FROM members, projects, users, roles, member_roles
+                 user_passwords.hashed_password, user_passwords.salt, users.auth_source_id, roles.permissions
+              FROM members, projects, users, user_passwords, roles, member_roles
               WHERE 
                 projects.id=members.project_id
                 AND member_roles.member_id=members.id
                 AND users.id=members.user_id 
                 AND roles.id=member_roles.role_id
                 AND users.status=1 
-                AND login=? 
-                AND identifier=? ";
+				AND users.id=user_passwords.user_id
+                AND users.login=? 
+                AND projects.identifier=? ";
   $self->{OpenProjectQuery} = trim($query);
 }
 
