@@ -20,6 +20,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 # Changelog
 
+* `#8230` Missing Translation when deleting Cost Type
+* `#8233` Changing the default rate with invalid values
+
 ## 5.0.4
 
 * `#4024` Fix: Subpages have no unique page titles

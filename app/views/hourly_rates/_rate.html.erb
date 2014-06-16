@@ -26,13 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   id_prefix = "user_#{new_or_existing}_rate_attributes_#{id_or_index}"
   name_prefix = "user[#{new_or_existing}_rate_attributes][#{id_or_index}]"
   classes ||= ""
-
-  @rate = rate
-  error_messages = error_messages_for 'rate'
 -%>
 
-
-<% unless error_messages.blank? %><tr><td colspan="3"><%= error_messages %></td></tr><% end %>
 <%= fields_for prefix, rate do |rate_form| %>
   <tr class="<%= classes %>" id="<%= id_prefix %>">
     <td>

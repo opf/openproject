@@ -89,15 +89,13 @@ class HourlyRatesController < ApplicationController
     if @user.save
       flash[:notice] = l(:notice_successful_update)
       if @project.nil?
-        redirect_back_or_default(:action => 'show', :id => @user)
+        redirect_back_or_default(:controller => 'users', :action => 'edit', :id => @user)
       else
         redirect_back_or_default(:action => 'show', :id => @user, :project_id => @project)
       end
     else
       if @project.nil?
-        @rates = DefaultHourlyRate.all(
-          :conditions => {:user_id => @user},
-          :order => "#{DefaultHourlyRate.table_name}.valid_from desc")
+        @rates = @user.default_rates
         @rates << @user.default_rates.build({:valid_from => Date.today}) if @rates.empty?
       else
         @rates = @user.rates.select{|r| r.project_id == @project.id}.sort { |a,b| b.valid_from <=> a.valid_from }
