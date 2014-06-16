@@ -34,9 +34,9 @@ describe('sortingModal', function() {
   var QueryService, $httpBackend;
 
   var columns = [
-    { name: 'parent', title: 'Parent' },
-    { name: 'cheese', title: 'Cheesy column'},
-    { name: 'cake', title: 'Cake'}
+    { name: 'parent', title: 'Parent', sortable: true },
+    { name: 'cheese', title: 'Cheesy column', sortable: true },
+    { name: 'cake', title: 'Cake', sortable: true }
   ];
 
   beforeEach(module('openproject.workPackages.controllers',
@@ -88,6 +88,20 @@ describe('sortingModal', function() {
         {id: 'cheese', label: 'Cheesy column', other: 'Cheesy column'},
         {id: 'cake', label: 'Cake', other: 'Cake'}
       ]);
+    });
+  });
+
+  describe('when a column is not sortable', function() {
+    var unsortableColumn = { name: 'author', title: 'Author' };
+
+    beforeEach(function() {
+      columns.push(unsortableColumn);
+
+      buildController();
+    });
+
+    it('is not contained by the available columns data', function() {
+      expect(scope.availableColumnsData).to.not.contain({id: 'author', label: 'Author', other: 'Author'});
     });
   });
 
