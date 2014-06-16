@@ -129,4 +129,26 @@ describe('sortingModal', function() {
     });
   });
 
+  describe('when the blank option is selected', function() {
+    var parentColumnData = [
+      { id: 'parent', label: 'Parent', other: 'Parent' },
+      { id: 'desc', label: 'Descending' }
+    ];
+
+    beforeEach(function() {
+      buildController();
+
+      scope.sortElements = [
+        [{ id: null, label: ' ', other: null }, { id: null, label: null }],
+        parentColumnData
+      ];
+
+      scope.$digest();
+    });
+
+    it('removes blank data from the sort elements', function() {
+      expect(scope.sortElements[0]).to.deep.equal(parentColumnData);
+    });
+  });
+
 });

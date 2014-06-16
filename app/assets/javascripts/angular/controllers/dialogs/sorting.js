@@ -55,10 +55,14 @@ angular.module('openproject.workPackages.controllers')
       ];
     });
 
+    fillUpSortElements();
+  };
+
+  function fillUpSortElements() {
     while($scope.sortElements.length < 3) {
       $scope.sortElements.push([]);
     }
-  };
+  }
 
   // functions exposing available options to select2
 
@@ -119,5 +123,18 @@ angular.module('openproject.workPackages.controllers')
 
       $scope.initSortation();
     });
+
+  // prune unselected sorting criteria
+
+  function pruneBlankSortElements() {
+    angular.forEach($scope.sortElements, function(sortElement, index) {
+      if (sortElement.length && !sortElement[0].id) {
+        $scope.sortElements.splice(index, 1);
+      }
+    });
+    fillUpSortElements();
+  }
+
+  $scope.$watch('sortElements', pruneBlankSortElements, true);
 
 }]);
