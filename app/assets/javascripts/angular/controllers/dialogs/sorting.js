@@ -45,8 +45,6 @@ angular.module('openproject.workPackages.controllers')
   this.name    = 'Sorting';
   this.closeMe = sortingModal.deactivate;
 
-  $scope.sortByOptions = {};
-
   $scope.initSortation = function(){
     var currentSortation = QueryService.getSortation();
 
@@ -100,6 +98,7 @@ angular.module('openproject.workPackages.controllers')
 
     sortingModal.deactivate();
   };
+  // var blank = { name: null, title: null, sortable: true };
 
   // setup
 
@@ -107,14 +106,14 @@ angular.module('openproject.workPackages.controllers')
 
   QueryService.loadAvailableColumns()
     .then(function(available_columns){
-      $scope.availableColumns = available_columns;
+      // available_columns.unshift(blank)
       $scope.availableColumnsData = available_columns
         .filter(function(column){
           return !!column.sortable;
         })
         .map(function(column){
           return { id: column.name, label: column.title, other: column.title };
-        });
+        })
       $scope.initSortation();
     });
 
