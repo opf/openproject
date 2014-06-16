@@ -31,6 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 * `#4019` Fix focus on project creation
 * `#4021` Separate focus for main menu expander
+* `#4258` Text alignment consistency in tables
 * `#6288` Editing relations in modal dialog leads to warning
 * `#7898` Watchers are not sorted alphabetically in work package screen
 
