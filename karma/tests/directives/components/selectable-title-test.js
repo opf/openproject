@@ -75,8 +75,13 @@ describe('selectableTitle Directive', function() {
     });
 
     it('should show the title', function() {
-      var content = element.find('h2 span').first();
-      expect(content.text()).to.equal('Title1');
+      var content = element.find('h2').first();
+      expect(content.text().trim()).to.equal('Title1');
+    });
+
+    it('should show a title (tooltip) for the title', function() {
+      var content = element.find('h2').first();
+      expect(content.attr('title')).to.equal('Title1');
     });
 
     it('should show all group titles', function() {

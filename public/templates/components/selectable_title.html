@@ -1,6 +1,10 @@
 <div class="title-container">
     <div class="text">
-      <h2><span with-dropdown dropdown-id="querySelectDropdown">{{ selectedTitle | characters:50 }}<i class="icon-pulldown-arrow1 icon-button"></i></span></h2>
+      <h2 title="{{ selectedTitle }}">
+        <span with-dropdown dropdown-id="querySelectDropdown">
+          {{ selectedTitle | characters:50 }}<i class="icon-pulldown-arrow1 icon-button"></i>
+        </span>
+      </h2>
     </div>
 
   <div class="dropdown dropdown-relative" id="querySelectDropdown">
