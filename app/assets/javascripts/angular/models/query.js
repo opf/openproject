@@ -156,6 +156,32 @@ angular.module('openproject.models')
     },
 
     /**
+     * @name isDefault
+     * @function
+     *
+     * @description
+     * Returns true if the query is a default query
+     * @returns {boolean} default
+     */
+    isDefault: function() {
+      return this.name === '_';
+    },
+
+    /**
+     * @name setFilters
+     * @function
+     *
+     * @description
+     * (Re-)sets the query filters to a single filter for status: open
+
+     * @returns {undefined}
+     */
+    setDefaultFilter: function() {
+      var statusOpenFilterData = this.getExtendedFilterData({name: 'status_id', operator: 'o'});
+      this.filters = new Array(new Filter(statusOpenFilterData));
+    },
+
+    /**
      * @name getExtendedFilterData
      * @function
      *
@@ -264,7 +290,7 @@ angular.module('openproject.models')
     },
 
     hasName: function() {
-      return !!this.name && this.name !== '_';
+      return !!this.name && !this.isDefault();
     },
 
   };

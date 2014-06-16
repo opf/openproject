@@ -38,7 +38,8 @@ angular.module('openproject.workPackages.directives')
   'groupingModal',
   'QueryService',
   '$window',
-  function(I18n, columnsModal, exportModal, saveModal, settingsModal, shareModal, sortingModal, groupingModal, QueryService, $window){
+  '$state',
+  function(I18n, columnsModal, exportModal, saveModal, settingsModal, shareModal, sortingModal, groupingModal, QueryService, $window, $state){
 
   return {
     restrict: 'AE',
@@ -66,7 +67,7 @@ angular.module('openproject.workPackages.directives')
             .then(function(data){
               settingsModal.deactivate();
               scope.$emit('flashMessage', data.status);
-              scope.$emit('queryResetRequired');
+              $state.go('work-packages.list', { query_id: null }, { reload: true });
             });
         }
       };

@@ -26,27 +26,64 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-openprojectApp.config([
+angular.module('openproject')
+
+.config([
   '$stateProvider',
   '$urlRouterProvider',
   function($stateProvider, $urlRouterProvider) {
 
-  $urlRouterProvider.otherwise("/wp");
-
   $stateProvider
     .state('work-packages', {
-      url: "/wp",
+      url: '{projectPath:.*}/work_packages?query_id',
       abstract: true,
       templateUrl: "/templates/work_packages.html",
       controller: 'WorkPackagesController'
     })
     .state('work-packages.list', {
       url: "",
+      controller: 'WorkPackagesListController',
       templateUrl: "/templates/work_packages.list.html"
     })
     .state('work-packages.list.details', {
-      url: "/:workPackageId",
+      url: "/{workPackageId:[0-9]+}",
       templateUrl: "/templates/work_packages.list.details.html",
       controller: 'WorkPackageDetailsController'
     });
-}]);
+}])
+
+.run([
+  '$location',
+  '$rootElement',
+  '$browser',
+  '$rootScope',
+  function($location, $rootElement, $browser, $rootScope) {
+    // Our application is still a hybrid one, meaning most routes are still
+    // handled by Rails. As such, we disable the default link-hijacking that
+    // Angular's HTML5-mode turns on.
+    $rootElement.off('click');
+    $rootElement.on('click', 'a[data-ui-route]', function(event) {
+      if (!jQuery('body').has('div[ui-view]').length) return;
+      if (event.ctrlKey || event.metaKey || event.which == 2) return;
+
+      // NOTE: making use of event delegation, thus jQuery-only.
+      var elm          = jQuery(event.target);
+      var absHref      = elm.prop('href');
+      var rewrittenUrl = $location.$$rewrite(absHref);
+
+      if (absHref && !elm.attr('target') &&
+        rewrittenUrl &&
+        !event.isDefaultPrevented()) {
+
+        event.preventDefault();
+        if (rewrittenUrl != $browser.url()) {
+          // update location manually
+          $location.$$parse(rewrittenUrl);
+          $rootScope.$apply();
+          // hack to work around FF6 bug 684208 when scenario runner clicks on links
+          window.angular['ff-684208-preventDefault'] = true;
+        }
+      }
+    });
+  }
+]);

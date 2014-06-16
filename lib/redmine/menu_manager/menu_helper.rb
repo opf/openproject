@@ -98,7 +98,10 @@ module Redmine::MenuManager::MenuHelper
                   :param => :project_id,
                   :caption => query_menu_item.title,
                   :parent => :work_packages,
-                  :html    => {:class => 'icon2 icon-pin'}
+                  :html    => {
+                    :class => 'icon2 icon-pin',
+                    "data-ui-route" => ''
+                  }
       end
     end
   end

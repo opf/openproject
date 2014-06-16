@@ -43,11 +43,33 @@ angular.module('openproject.uiComponents')
       scope.I18n = I18n;
 
       scope.toggleMultiselect = function(){
-        scope.isMultiselect = !scope.isMultiselect;
+        scope.isMultiselect ? switchToSingleSelect() : switchToMultiSelect();
       };
 
+      function switchToMultiSelect() {
+        scope.isMultiselect = true;
+
+        if (!Array.isArray(scope.values)) {
+          scope.values = [scope.values];
+        }
+      }
+
+      function switchToSingleSelect() {
+        scope.isMultiselect = false;
+
+        if (Array.isArray(scope.values)) {
+          scope.values = scope.values[0];
+        }
+      }
+
       scope.isSelected = function(value) {
-        return (Array.isArray(scope.values) && ((scope.values.indexOf(value) !== -1) || scope.values.indexOf(value.toString()) !== -1));
+        if (!scope.values) {
+          return false;
+        } else if (scope.isMultiselect) {
+          return scope.values.indexOf(value) !== -1 || scope.values.indexOf(value.toString()) !== -1;
+        } else {
+          return scope.values.toString() === value.toString();
+        }
       };
 
       scope.isMultiselect = (Array.isArray(scope.values) && scope.values.length > 1);
