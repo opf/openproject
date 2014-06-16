@@ -83,11 +83,14 @@ describe('sortingModal', function() {
     });
 
     it('formats the columns for select2', function() {
-      expect(scope.availableColumnsData).to.deep.equal([
-        {id: 'parent', label: 'Parent', other: 'Parent'},
-        {id: 'cheese', label: 'Cheesy column', other: 'Cheesy column'},
-        {id: 'cake', label: 'Cake', other: 'Cake'}
-      ]);
+      var columnData = scope.availableColumnsData[1];
+
+      expect(columnData).to.have.property('id', 'parent');
+      expect(columnData).to.have.property('label', 'Parent');
+    });
+
+    it('includes a blank option as the first option', function() {
+      expect(scope.availableColumnsData[0]).to.deep.equal({ id: null, label: ' ', other: null });
     });
   });
 
@@ -121,8 +124,8 @@ describe('sortingModal', function() {
     });
 
     it('subtracts the sort elements from the selectable sort options', function() {
-      expect(selectableColumns).to.have.length(2);
-      expect(selectableColumns).to.not.contain(scope.availableColumnsData[0]);
+      expect(selectableColumns).to.have.length(3);
+      expect(selectableColumns).to.not.contain(scope.availableColumnsData[1]);
     });
   });
 

@@ -98,22 +98,25 @@ angular.module('openproject.workPackages.controllers')
 
     sortingModal.deactivate();
   };
-  // var blank = { name: null, title: null, sortable: true };
 
   // setup
 
   $scope.availableDirectionsData = [{ id: 'desc', label: I18n.t('js.label_descending')}, { id: 'asc', label: I18n.t('js.label_ascending')}];
 
+  var blankOption = { id: null, label: ' ', other: null };
+
   QueryService.loadAvailableColumns()
     .then(function(available_columns){
-      // available_columns.unshift(blank)
+
       $scope.availableColumnsData = available_columns
         .filter(function(column){
           return !!column.sortable;
         })
         .map(function(column){
           return { id: column.name, label: column.title, other: column.title };
-        })
+        });
+      $scope.availableColumnsData.unshift(blankOption);
+
       $scope.initSortation();
     });
 
