@@ -111,17 +111,11 @@ describe Api::Experimental::WorkPackagesController do
 
           expect(assigns(:work_packages).size).to eq(2)
 
-          expect(assigns(:can).size).to eq(6)
-          expect(assigns(:can)['edit']).to be_true
-          expect(assigns(:can)['log_time']).to be_true
-          expect(assigns(:can)['update']).to be_true
-          expect(assigns(:can)['move']).to be_true
-          expect(assigns(:can)['copy']).to be_false
-          expect(assigns(:can)['delete']).to be_true
-
-          expect(assigns(:projects)).to eq([project_1])
-          expect(assigns(:project)).to eq(project_1)
-          expect(assigns(:allowed_statuses)).to eq([])
+          expect(assigns(:can).allowed?(work_package_1, :edit)).to be_true
+          expect(assigns(:can).allowed?(work_package_1, :log_time)).to be_true
+          expect(assigns(:can).allowed?(work_package_1, :move)).to be_true
+          expect(assigns(:can).allowed?(work_package_1, :copy)).to be_true
+          expect(assigns(:can).allowed?(work_package_1, :delete)).to be_true
         end
       end
 
@@ -132,9 +126,7 @@ describe Api::Experimental::WorkPackagesController do
           get 'index', format: 'xml', query_id: 1
 
           expect(assigns(:work_packages).size).to eq(3)
-          expect(assigns(:projects)).to include(project_1, project_2)
           expect(assigns(:project)).to be_nil
-          expect(assigns(:allowed_statuses)).to eq([])
         end
       end
     end

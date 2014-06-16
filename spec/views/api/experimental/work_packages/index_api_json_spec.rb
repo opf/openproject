@@ -29,6 +29,29 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
 describe 'api/experimental/work_packages/index.api.rabl' do
+
+  def self.stub_can(permissions)
+    default_permissions = [:edit, :log_time, :move, :copy, :delete, :duplicate]
+
+    resulting_permissions = default_permissions.reduce({}) do |h, (k, _)|
+      h[k] = true if permissions[k]
+      h
+    end
+
+    let(:can) do
+      can = double('Api::Experimental::Concerns::Can')
+      allow(can).to receive(:actions) do
+        resulting_permissions.keys
+      end
+
+      allow(can).to receive(:allowed?) do |_, action|
+        resulting_permissions[action]
+      end
+
+      can
+    end
+  end
+
   before do
     params[:format] = 'json'
 
@@ -42,7 +65,7 @@ describe 'api/experimental/work_packages/index.api.rabl' do
 
   subject { response.body }
 
-  let(:can) { {} }
+  stub_can({})
 
   describe 'with no work packages available' do
     let(:work_packages) { [] }
@@ -110,15 +133,12 @@ describe 'api/experimental/work_packages/index.api.rabl' do
     end
 
     context 'with some actions' do
-      let(:can) {
-        {
-          edit:     false,
-          log_time: true,
-          update:   false,
-          move:     nil,
-          delete:   true
-        }
-      }
+      stub_can(
+        edit:     false,
+        log_time: true,
+        move:     nil,
+        delete:   true
+      )
 
       it { should have_json_path('work_packages/0/_actions') }
       it { should have_json_type(Array).at_path('work_packages/0/_actions') }
@@ -134,26 +154,25 @@ describe 'api/experimental/work_packages/index.api.rabl' do
     end
 
     context 'with all actions' do
-      let(:can) {
-        {
-          edit:     true,
-          log_time: true,
-          update:   true,
-          move:     true,
-          delete:   true
-        }
-      }
+      stub_can(
+        edit:      true,
+        log_time:  true,
+        move:      true,
+        copy:      true,
+        delete:    true,
+        duplicate: true
+      )
 
       it { should have_json_path('work_packages/0/_actions') }
       it { should have_json_type(Array).at_path('work_packages/0/_actions') }
-      it { should have_json_size(7).at_path('work_packages/0/_actions') }
+      it { should have_json_size(6).at_path('work_packages/0/_actions') }
       it { should have_json_path('work_packages/0/_actions/' ) }
 
       specify {
-        expect(parse_json(subject, 'work_packages/0/_actions/5')).to match(%r{copy})
+        expect(parse_json(subject, 'work_packages/0/_actions/3')).to match(%r{copy})
       }
       specify {
-        expect(parse_json(subject, 'work_packages/0/_actions/6')).to match(%r{duplicate})
+        expect(parse_json(subject, 'work_packages/0/_actions/5')).to match(%r{duplicate})
       }
 
       it { should have_json_path('work_packages/0/_links') }
