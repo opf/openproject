@@ -40,3 +40,14 @@ Feature: As an admin
     And I am already admin
     When I go to the edit page of the role called "global_role_x"
     Then I should not see "Issues can be assigned to this role"
+
+  @javascript
+  Scenario: Create empty Global Role
+    Given I am already admin
+    When I go to the new page of "Role"
+    And I check "global_role"
+    And I click on "Create"
+    Then I should see "Name can't be blank"
+    And I should see block with "#global_permissions"
+    When I uncheck "global_role"
+    Then I should not see block with "#global_permissions"

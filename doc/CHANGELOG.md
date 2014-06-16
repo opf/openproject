@@ -20,6 +20,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 # Changelog
 
+* `#8374` Global Roles associated permissions become invisible
+
 ## 1.0.2
 
 * `#5357` Adapt released plugins to base on plugins functionality
