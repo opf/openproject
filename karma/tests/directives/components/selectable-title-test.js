@@ -75,7 +75,7 @@ describe('selectableTitle Directive', function() {
     });
 
     it('should show the title', function() {
-      var content = element.find('span').first();
+      var content = element.find('h2 span').first();
       expect(content.text()).to.equal('Title1');
     });
 
