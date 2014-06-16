@@ -65,18 +65,20 @@ angular.module('openproject.workPackages.controllers')
   // functions exposing available options to select2
 
   $scope.getAvailableColumnsData = function(term, result) {
-    result($filter('filter')(getRemainingAvailableColumnsData(), { label: term }));
+    return result($filter('filter')(getRemainingAvailableColumnsData(), { label: term }));
   };
   $scope.getDirectionsData = function(term, result) {
-    result($filter('filter')($scope.availableDirectionsData, { label: term }));
+    return result($filter('filter')($scope.availableDirectionsData, { label: term }));
   };
 
   // reduction of column options to columns that haven't been selected
 
   function getIdsOfSelectedSortElements() {
-    return $scope.sortElements.map(function(sortElement) {
-      if (sortElement.length) return sortElement[0].id;
-    });
+    return $scope.sortElements
+      .map(function(sortElement) {
+        if (sortElement.length) return sortElement[0].id;
+      })
+      .filter(function(element) { return element; });
   }
   function getRemainingAvailableColumnsData() {
     return $scope.availableColumnsData.filter(function(availableColumn) {

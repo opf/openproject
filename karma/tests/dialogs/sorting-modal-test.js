@@ -91,4 +91,25 @@ describe('sortingModal', function() {
     });
   });
 
+  describe('when a sort element has been selected', function() {
+    var selectableColumns;
+
+    beforeEach(function() {
+      scope.sortElements = [
+        [
+          { id: 'parent', label: 'Parent', other: 'Parent' },
+          { id: 'desc', label: 'Descending' }
+        ]
+      ];
+      buildController();
+
+      selectableColumns = scope.getAvailableColumnsData(undefined, angular.identity);
+    });
+
+    it('subtracts the sort elements from the selectable sort options', function() {
+      expect(selectableColumns).to.have.length(2);
+      expect(selectableColumns).to.not.contain(scope.availableColumnsData[0]);
+    });
+  });
+
 });
