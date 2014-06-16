@@ -121,9 +121,9 @@ tr.message td.created_on { white-space: nowrap; }
 tr.message td.last_message { white-space: nowrap; }
 
 tr.version td.closed, tr.version td.closed a { text-decoration: line-through; }
-tr.version td.name { padding-left: 20px; }
-tr.version.shared td.name { background: url(<%= asset_path 'link.png' %>) no-repeat 0% 70%; }
-tr.version td.date, tr.version td.status, tr.version td.sharing { text-align: center; white-space: nowrap; }
+tr.version.shared td.name { background: url(<%= asset_path 'link.png' %>) no-repeat 0% 70%; padding-left: 20px; }
+tr.version td.date, tr.version td.status, tr.version td.sharing { white-space: nowrap; }
+tr.version td { padding: 3px 6px; text-align: left; }
 
 tr.user td { width: 13%; }
 tr.user td.email { width: 18%; }
