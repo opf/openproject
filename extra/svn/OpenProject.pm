@@ -1,15 +1,15 @@
-package Apache::Authn::Redmine;
+package Apache::Authn::OpenProject;
 
-=head1 Apache::Authn::Redmine
+=head1 Apache::Authn::OpenProject
 
-Redmine - a mod_perl module to authenticate webdav subversion users
-against redmine database
+OpenProject - a mod_perl module to authenticate webdav subversion users
+against OpenProject database
 
 =head1 SYNOPSIS
 
 This module allow anonymous users to browse public project and
 registred users to browse and commit their project. Authentication is
-done against the redmine database or the LDAP configured in redmine.
+done against the OpenProject database or the LDAP configured in OpenProject.
 
 This method is far simpler than the one with pam_* and works with all
 database without an hassle but you need to have apache/mod_perl on the
@@ -29,7 +29,7 @@ On debian/ubuntu you must do :
 
   aptitude install libapache-dbi-perl libapache2-mod-perl2 libdbd-mysql-perl
 
-If your Redmine users use LDAP authentication, you will also need
+If your OpenProject users use LDAP authentication, you will also need
 Authen::Simple::LDAP (and IO::Socket::SSL if LDAPS is used):
 
   aptitude install libauthen-simple-ldap-perl libio-socket-ssl-perl
@@ -37,34 +37,34 @@ Authen::Simple::LDAP (and IO::Socket::SSL if LDAPS is used):
 =head1 CONFIGURATION
 
    ## This module has to be in your perl path
-   ## eg:  /usr/lib/perl5/Apache/Authn/Redmine.pm
-   PerlLoadModule Apache::Authn::Redmine
+   ## eg:  /usr/lib/perl5/Apache/Authn/OpenProject.pm
+   PerlLoadModule Apache::Authn::OpenProject
    <Location /svn>
      DAV svn
      SVNParentPath "/var/svn"
 
      AuthType Basic
-     AuthName redmine
+     AuthName openproject
      Require valid-user
 
-     PerlAccessHandler Apache::Authn::Redmine::access_handler
-     PerlAuthenHandler Apache::Authn::Redmine::authen_handler
+     PerlAccessHandler Apache::Authn::OpenProject::access_handler
+     PerlAuthenHandler Apache::Authn::OpenProject::authen_handler
   
      ## for mysql
-     RedmineDSN "DBI:mysql:database=databasename;host=my.db.server"
+     OpenProjectDSN "DBI:mysql:database=databasename;host=my.db.server"
      ## for postgres
-     # RedmineDSN "DBI:Pg:dbname=databasename;host=my.db.server"
+     # OpenProjectDSN "DBI:Pg:dbname=databasename;host=my.db.server"
 
-     RedmineDbUser "redmine"
-     RedmineDbPass "password"
+     OpenProjectDbUser "openproject"
+     OpenProjectDbPass "password"
      ## Optional where clause (fulltext search would be slow and
      ## database dependant).
-     # RedmineDbWhereClause "and members.role_id IN (1,2)"
+     # OpenProjectDbWhereClause "and members.role_id IN (1,2)"
      ## Optional credentials cache size
-     # RedmineCacheCredsMax 50
+     # OpenProjectCacheCredsMax 50
   </Location>
 
-To be able to browse repository inside redmine, you must add something
+To be able to browse repository inside openproject, you must add something
 like that :
 
    <Location /svn-private>
@@ -74,13 +74,13 @@ like that :
      Deny from all
      # only allow reading orders
      <Limit GET PROPFIND OPTIONS REPORT>
-       Allow from redmine.server.ip
+       Allow from openproject.server.ip
      </Limit>
    </Location>
 
 and you will have to use this reposman.rb command line to create repository :
 
-  reposman.rb --redmine my.redmine.server --svn-dir /var/svn --owner www-data -u http://svn.server/svn-private/
+  reposman.rb --redmine my.openproject.server --svn-dir /var/svn --owner www-data -u http://svn.server/svn-private/
 
 =head1 MIGRATION FROM OLDER RELEASES
 
@@ -96,7 +96,7 @@ And you need to upgrade at least reposman.rb (after r860).
 =head1 GIT SMART HTTP SUPPORT
 
 Git's smart HTTP protocol (available since Git 1.7.0) will not work with the
-above settings. Redmine.pm normally does access control depending on the HTTP
+above settings. OpenProject.pm normally does access control depending on the HTTP
 method used: read-only methods are OK for everyone in public projects and
 members with read rights in private projects. The rest require membership with
 commit rights in the project.
@@ -109,7 +109,7 @@ git-receive-pack service is read-only.
 To activate this mode of operation, add this line inside your <Location /git>
 block:
 
-  RedmineGitSmartHttp yes
+  OpenProjectGitSmartHttp yes
 
 Here's a sample Apache configuration which integrates git-http-backend with
 a MySQL database and this new option:
@@ -125,13 +125,13 @@ a MySQL database and this new option:
        AuthName Git
        Require valid-user
 
-       PerlAccessHandler Apache::Authn::Redmine::access_handler
-       PerlAuthenHandler Apache::Authn::Redmine::authen_handler
+       PerlAccessHandler Apache::Authn::OpenProject::access_handler
+       PerlAuthenHandler Apache::Authn::OpenProject::authen_handler
        # for mysql
-       RedmineDSN "DBI:mysql:database=redmine;host=127.0.0.1"
-       RedmineDbUser "redmine"
-       RedmineDbPass "xxx"
-       RedmineGitSmartHttp yes
+       OpenProjectDSN "DBI:mysql:database=openproject;host=127.0.0.1"
+       OpenProjectDbUser "openproject"
+       OpenProjectDbPass "xxx"
+       OpenProjectGitSmartHttp yes
     </Location>
 
 Make sure that all the names of the repositories under /var/www/git/ match
@@ -139,13 +139,13 @@ exactly the identifier for some project: /var/www/git/myproject.git won't work,
 due to the way this module extracts the identifier from the URL.
 /var/www/git/myproject will work, though. You can put both bare and non-bare
 repositories in /var/www/git, though bare repositories are strongly
-recommended. You should create them with the rights of the user running Redmine,
+recommended. You should create them with the rights of the user running OpenProject,
 like this:
 
   cd /var/www/git
-  sudo -u user-running-redmine mkdir myproject
+  sudo -u user-running-openproject mkdir myproject
   cd myproject
-  sudo -u user-running-redmine git init --bare
+  sudo -u user-running-openproject git init --bare
 
 Once you have activated this option, you have three options when cloning a
 repository:
@@ -194,42 +194,42 @@ use APR::Table ();
 
 my @directives = (
   {
-    name => 'RedmineDSN',
+    name => 'OpenProjectDSN',
     req_override => OR_AUTHCFG,
     args_how => TAKE1,
     errmsg => 'Dsn in format used by Perl DBI. eg: "DBI:Pg:dbname=databasename;host=my.db.server"',
   },
   {
-    name => 'RedmineDbUser',
+    name => 'OpenProjectDbUser',
     req_override => OR_AUTHCFG,
     args_how => TAKE1,
   },
   {
-    name => 'RedmineDbPass',
+    name => 'OpenProjectDbPass',
     req_override => OR_AUTHCFG,
     args_how => TAKE1,
   },
   {
-    name => 'RedmineDbWhereClause',
+    name => 'OpenProjectDbWhereClause',
     req_override => OR_AUTHCFG,
     args_how => TAKE1,
   },
   {
-    name => 'RedmineCacheCredsMax',
+    name => 'OpenProjectCacheCredsMax',
     req_override => OR_AUTHCFG,
     args_how => TAKE1,
-    errmsg => 'RedmineCacheCredsMax must be decimal number',
+    errmsg => 'OpenProjectCacheCredsMax must be decimal number',
   },
   {
-    name => 'RedmineGitSmartHttp',
+    name => 'OpenProjectGitSmartHttp',
     req_override => OR_AUTHCFG,
     args_how => TAKE1,
   },
 );
 
-sub RedmineDSN { 
+sub OpenProjectDSN { 
   my ($self, $parms, $arg) = @_;
-  $self->{RedmineDSN} = $arg;
+  $self->{OpenProjectDSN} = $arg;
   my $query = "SELECT 
                  hashed_password, salt, auth_source_id, permissions
               FROM members, projects, users, roles, member_roles
@@ -241,34 +241,34 @@ sub RedmineDSN {
                 AND users.status=1 
                 AND login=? 
                 AND identifier=? ";
-  $self->{RedmineQuery} = trim($query);
+  $self->{OpenProjectQuery} = trim($query);
 }
 
-sub RedmineDbUser { set_val('RedmineDbUser', @_); }
-sub RedmineDbPass { set_val('RedmineDbPass', @_); }
-sub RedmineDbWhereClause { 
+sub OpenProjectDbUser { set_val('OpenProjectDbUser', @_); }
+sub OpenProjectDbPass { set_val('OpenProjectDbPass', @_); }
+sub OpenProjectDbWhereClause { 
   my ($self, $parms, $arg) = @_;
-  $self->{RedmineQuery} = trim($self->{RedmineQuery}.($arg ? $arg : "")." ");
+  $self->{OpenProjectQuery} = trim($self->{OpenProjectQuery}.($arg ? $arg : "")." ");
 }
 
-sub RedmineCacheCredsMax { 
+sub OpenProjectCacheCredsMax { 
   my ($self, $parms, $arg) = @_;
   if ($arg) {
-    $self->{RedmineCachePool} = APR::Pool->new;
-    $self->{RedmineCacheCreds} = APR::Table::make($self->{RedmineCachePool}, $arg);
-    $self->{RedmineCacheCredsCount} = 0;
-    $self->{RedmineCacheCredsMax} = $arg;
+    $self->{OpenProjectCachePool} = APR::Pool->new;
+    $self->{OpenProjectCacheCreds} = APR::Table::make($self->{OpenProjectCachePool}, $arg);
+    $self->{OpenProjectCacheCredsCount} = 0;
+    $self->{OpenProjectCacheCredsMax} = $arg;
   }
 }
 
-sub RedmineGitSmartHttp {
+sub OpenProjectGitSmartHttp {
   my ($self, $parms, $arg) = @_;
   $arg = lc $arg;
 
   if ($arg eq "yes" || $arg eq "true") {
-    $self->{RedmineGitSmartHttp} = 1;
+    $self->{OpenProjectGitSmartHttp} = 1;
   } else {
-    $self->{RedmineGitSmartHttp} = 0;
+    $self->{OpenProjectGitSmartHttp} = 0;
   }
 }
 
@@ -293,7 +293,7 @@ sub request_is_read_only {
   my $cfg = Apache2::Module::get_config(__PACKAGE__, $r->server, $r->per_dir_config);
 
   # Do we use Git's smart HTTP protocol, or not?
-  if (defined $cfg->{RedmineGitSmartHttp} and $cfg->{RedmineGitSmartHttp}) {
+  if (defined $cfg->{OpenProjectGitSmartHttp} and $cfg->{OpenProjectGitSmartHttp}) {
     my $uri = $r->unparsed_uri;
     my $location = $r->location;
     my $is_read_only = $uri !~ m{^$location/*[^/]+/+(info/refs\?service=)?git\-receive\-pack$}o;
@@ -326,10 +326,10 @@ sub access_handler {
 sub authen_handler {
   my $r = shift;
   
-  my ($res, $redmine_pass) =  $r->get_basic_auth_pw();
+  my ($res, $openproject_pass) =  $r->get_basic_auth_pw();
   return $res unless $res == OK;
   
-  if (is_member($r->user, $redmine_pass, $r)) {
+  if (is_member($r->user, $openproject_pass, $r)) {
       return OK;
   } else {
       $r->note_auth_failure();
@@ -429,24 +429,24 @@ sub anonymous_role_allows_browse_repository {
 # }
 
 sub is_member {
-  my $redmine_user = shift;
-  my $redmine_pass = shift;
+  my $openproject_user = shift;
+  my $openproject_pass = shift;
   my $r = shift;
 
   my $dbh         = connect_database($r);
   my $project_id  = get_project_identifier($r);
 
-  my $pass_digest = Digest::SHA1::sha1_hex($redmine_pass);
+  my $pass_digest = Digest::SHA1::sha1_hex($openproject_pass);
 
   my $cfg = Apache2::Module::get_config(__PACKAGE__, $r->server, $r->per_dir_config);
   my $usrprojpass;
-  if ($cfg->{RedmineCacheCredsMax}) {
-    $usrprojpass = $cfg->{RedmineCacheCreds}->get($redmine_user.":".$project_id);
+  if ($cfg->{OpenProjectCacheCredsMax}) {
+    $usrprojpass = $cfg->{OpenProjectCacheCreds}->get($openproject_user.":".$project_id);
     return 1 if (defined $usrprojpass and ($usrprojpass eq $pass_digest));
   }
-  my $query = $cfg->{RedmineQuery};
+  my $query = $cfg->{OpenProjectQuery};
   my $sth = $dbh->prepare($query);
-  $sth->execute($redmine_user, $project_id);
+  $sth->execute($openproject_user, $project_id);
 
   my $ret;
   while (my ($hashed_password, $salt, $auth_source_id, $permissions) = $sth->fetchrow_array) {
@@ -472,7 +472,7 @@ sub is_member {
                 bindpw  =>      $rowldap[4] ? $rowldap[4] : "",
                 filter  =>      "(".$rowldap[6]."=%s)"
             );
-            $ret = 1 if ($ldap->authenticate($redmine_user, $redmine_pass) && ((request_is_read_only($r) && $permissions =~ /:browse_repository/) || $permissions =~ /:commit_access/));
+            $ret = 1 if ($ldap->authenticate($openproject_user, $openproject_pass) && ((request_is_read_only($r) && $permissions =~ /:browse_repository/) || $permissions =~ /:commit_access/));
           }
           $sthldap->finish();
           undef $sthldap;
@@ -483,16 +483,16 @@ sub is_member {
   $dbh->disconnect();
   undef $dbh;
 
-  if ($cfg->{RedmineCacheCredsMax} and $ret) {
+  if ($cfg->{OpenProjectCacheCredsMax} and $ret) {
     if (defined $usrprojpass) {
-      $cfg->{RedmineCacheCreds}->set($redmine_user.":".$project_id, $pass_digest);
+      $cfg->{OpenProjectCacheCreds}->set($openproject_user.":".$project_id, $pass_digest);
     } else {
-      if ($cfg->{RedmineCacheCredsCount} < $cfg->{RedmineCacheCredsMax}) {
-        $cfg->{RedmineCacheCreds}->set($redmine_user.":".$project_id, $pass_digest);
-        $cfg->{RedmineCacheCredsCount}++;
+      if ($cfg->{OpenProjectCacheCredsCount} < $cfg->{OpenProjectCacheCredsMax}) {
+        $cfg->{OpenProjectCacheCreds}->set($openproject_user.":".$project_id, $pass_digest);
+        $cfg->{OpenProjectCacheCredsCount}++;
       } else {
-        $cfg->{RedmineCacheCreds}->clear();
-        $cfg->{RedmineCacheCredsCount} = 0;
+        $cfg->{OpenProjectCacheCreds}->clear();
+        $cfg->{OpenProjectCacheCredsCount} = 0;
       }
     }
   }
@@ -506,7 +506,7 @@ sub get_project_identifier {
     my $cfg = Apache2::Module::get_config(__PACKAGE__, $r->server, $r->per_dir_config);
     my $location = $r->location;
     my ($identifier) = $r->uri =~ m{$location/*([^/]+)};
-    $identifier =~ s/\.git$// if (defined $cfg->{RedmineGitSmartHttp} and $cfg->{RedmineGitSmartHttp});
+    $identifier =~ s/\.git$// if (defined $cfg->{OpenProjectGitSmartHttp} and $cfg->{OpenProjectGitSmartHttp});
     $identifier;
 }
 
@@ -514,7 +514,7 @@ sub connect_database {
     my $r = shift;
     
     my $cfg = Apache2::Module::get_config(__PACKAGE__, $r->server, $r->per_dir_config);
-    return DBI->connect($cfg->{RedmineDSN}, $cfg->{RedmineDbUser}, $cfg->{RedmineDbPass});
+    return DBI->connect($cfg->{OpenProjectDSN}, $cfg->{OpenProjectDbUser}, $cfg->{OpenProjectDbPass});
 }
 
 1;
