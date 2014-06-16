@@ -578,7 +578,7 @@ jQuery.extend(Timeline, {
     containers[currentContainer].append(
       jQuery(icon
         .replace(/%t/, timeline.i18n('timelines.zoom.out'))
-        .replace(/%c/, 'tl-icon-zoomout')
+        .replace(/%c/, 'icon icon-zoom-out')
       ).click(function() {
         slider.slider('value', slider.slider('value') - 1);
       }));
@@ -587,7 +587,7 @@ jQuery.extend(Timeline, {
     containers[currentContainer + 2].append(
       jQuery(icon
         .replace(/%t/, timeline.i18n('timelines.zoom.in'))
-        .replace(/%c/, 'tl-icon-zoomin')
+        .replace(/%c/, 'icon icon-zoom-in')
       ).click(function() {
         slider.slider('value', slider.slider('value') + 1);
       }));
@@ -633,7 +633,7 @@ jQuery.extend(Timeline, {
     containers[currentContainer].append(
       jQuery(icon
         .replace(/%t/, timeline.i18n('timelines.outline'))
-        .replace(/%c/, 'tl-icon-outline')
+        .replace(/%c/, 'icon icon-outline')
       ).click(function() {
         timeline.expandTo(outlines[0].selectedIndex);
       }));

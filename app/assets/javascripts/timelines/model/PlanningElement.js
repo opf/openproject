@@ -332,6 +332,7 @@ Timeline.PlanningElement = {
       // for planning element parents. if there is no planning element
       // type and there are no children, use a default color.
       var pet = this.getPlanningElementType();
+      var paper = this.timeline.getPaper();
       var color;
 
       if (pet && pet.color) {
@@ -344,9 +345,31 @@ Timeline.PlanningElement = {
 
       if (!this.hasBothDates()) {
         if (this.hasStartDate()) {
-          color = "180-#ffffff-" + color;
+          var noEndDateGradient = jQuery('#noEndDateGradient_' + pet.id);
+          if (noEndDateGradient.length == 0) {
+            noEndDateGradient = paper.gradient(
+                'noEndDateGradient_' + pet.id,
+                [
+                  {offset: '5%', 'stop-color': color, 'stop-opacity': '1'},
+                  {offset: '95%', 'stop-color': '#ffffff', 'stop-opacity': '0'}
+                ]
+            );
+          }
+
+          color = 'url(#noEndDateGradient_' + pet.id + ')';
         } else {
-          color = "180-" + color + "-#ffffff";
+          var noStartDateGradient = jQuery('#noStartDateGradient_' + pet.id);
+          if (noStartDateGradient.length == 0) {
+            noStartDateGradient = paper.gradient(
+                'noStartDateGradient_' + pet.id,
+                [
+                  {offset: '5%', 'stop-color': '#ffffff', 'stop-opacity': '0'},
+                  {offset:'95%', 'stop-color': color, 'stop-opacity': '1'}
+                ]
+            );
+          }
+
+          color = 'url(#noStartDateGradient_' + pet.id + ')';
         }
       }
 

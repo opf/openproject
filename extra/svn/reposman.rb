@@ -100,7 +100,7 @@ OptionParser.new do |opts|
                                         "to use the apache owner.") {|v| $svn_owner = v; $use_groupid = false}
   opts.on("-g", "--group GROUP",        "group of the repository (default: root)") {|v| $svn_group = v; $use_groupid = false}
   opts.on(      "--public-mode MODE",   "file mode for new public repositories (default: 0775)") {|v| $public_mode = v}
-  opts.on(      "--private-mode MODE",  "file mode for new private repositories (default: 0770)") {|v| $public_mode = v}
+  opts.on(      "--private-mode MODE",  "file mode for new private repositories (default: 0770)") {|v| $private_mode = v}
   opts.on(      "--scm SCM",            "the kind of SCM repository you want to create",
                                         "(and register) in Redmine (default: Subversion).",
                                         "reposman is able to create Git and Subversion",

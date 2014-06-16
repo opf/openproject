@@ -55,10 +55,11 @@ class CustomField < ActiveRecord::Base
 
   alias_method_chain :translations_attributes=, :globalized
 
-  validates_presence_of :name, :field_format
+  validates_presence_of :field_format
 
-  validate :uniquess_of_name_with_scope
-  def uniquess_of_name_with_scope
+  validate :uniqueness_of_name_with_scope
+
+  def uniqueness_of_name_with_scope
     taken_names = CustomField.where(:type => type)
     taken_names = taken_names.where('id != ?', id) if id
     taken_names = taken_names.map { |cf| cf.read_attribute(:name, :locale => I18n.locale) }
@@ -66,11 +67,13 @@ class CustomField < ActiveRecord::Base
     errors.add(:name, :taken) if name.in?(taken_names)
   end
 
-  validates_length_of :name, :maximum => 30
   validates_inclusion_of :field_format, :in => Redmine::CustomFieldFormat.available_formats
 
   validate :validate_presence_of_possible_values
+
   validate :validate_default_value_in_translations
+
+  validate :validate_name
 
   def initialize(attributes = nil, options = {})
     super
@@ -104,6 +107,26 @@ class CustomField < ActiveRecord::Base
       end
     end
     self.is_required = required_field
+  end
+
+  # check presence of name and check the length of name value
+  def validate_name
+    if self.translations.empty?
+      errors.add(:name, :blank) if self.name.nil?
+    else
+      fallback_name = self.translations.find{|el| el.name != nil}
+      self.translations.each do | translation |
+        if translation.name.nil? && fallback_name.nil?
+          errors.add(:name, :blank)
+        else
+          if ( translation.name.nil? && fallback_name.name.length > 30 ) || ( !translation.name.nil? && translation.name.length > 30 )
+            errors.add(:name, I18n.t('activerecord.errors.messages.wrong_length', :count => 30))
+          end
+
+          translation.name = fallback_name.name if translation.name.nil?
+        end
+      end
+    end
   end
 
   def possible_values_options(obj=nil)

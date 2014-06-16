@@ -57,7 +57,6 @@
     border: $header_search_field_border
     border-radius: 25px
     -webkit-border-radius: 25px
-    background: $header_search_field_bg_color url(image-path('magnifier.png')) no-repeat 94% center
     top: 6px
     width: 140px
     outline: 0px
@@ -68,6 +67,19 @@
     color: $header_search_field_font_color
   :-moz-placeholder
     color: $header_search_field_font_color
+  span#magnifier
+    @include icon-common
+    position: relative
+    top: 10px
+    right: 27px
+    &:after
+      display: inline-block
+      content: "\e0a1"
+      -webkit-transform: scaleX(-1)
+      -moz-transform: scaleX(-1)
+      -o-transform: scaleX(-1)
+      -ms-transform: scaleX(-1)
+      transform: scaleX(-1)
   ul
     margin: 0
     padding: 0
