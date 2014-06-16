@@ -71,12 +71,6 @@ describe('sortingModal', function() {
 
   }));
 
-  describe('initialisation', function() {
-    it('should initialise', function() {
-      buildController();
-    });
-  });
-
   describe('setup', function() {
     beforeEach(function() {
       buildController();
