@@ -22,7 +22,7 @@
     "jquery-migrate": "~1.2.1",
     "momentjs": "~2.6.0",
     "moment-timezone": "~0.0.6",
-    "angular-context-menu": "0.1.1"
+    "angular-context-menu": "0.1.2"
   },
   "devDependencies": {
     "mocha": "~1.14.0",
