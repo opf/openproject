@@ -33,6 +33,7 @@
     "jquery-mockjax": "~1.5.3"
   },
   "resolutions": {
-    "select2": "3.3.2"
+    "select2": "3.3.2",
+    "angular": "1.2.16"
   }
 }
