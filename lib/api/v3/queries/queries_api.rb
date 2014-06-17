@@ -27,14 +27,11 @@ module API
             patch :star do
               authorize(:queries, :star, project: @query.project, allow: allowed_to_manage_stars?)
               normalized_query_name = @query.name.parameterize.underscore
-              query_menu_item = MenuItems::QueryMenuItem.find_or_initialize_by_name_and_navigatable_id normalized_query_name, @query.id, title: @query.name
-
-              if query_menu_item.valid?
-                query_menu_item.save!
-                @representer.to_json
-              else
-                raise ValidationError.new(query_menu_item)
-              end
+              query_menu_item = MenuItems::QueryMenuItem.find_or_initialize_by_name_and_navigatable_id(
+                normalized_query_name, @query.id, title: @query.name
+              )
+              query_menu_item.save!
+              @representer.to_json
             end
 
             patch :unstar do
