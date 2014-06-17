@@ -180,10 +180,6 @@ angular.module('openproject.workPackages.controllers')
     $scope.isLoading = false;
   }
 
-  $scope.withLoading = function(callback, params){
-    return WorkPackageLoadingHelper.withLoading($scope, callback, params, serviceErrorHandler);
-  };
-
   // Go
 
   initialSetup();
