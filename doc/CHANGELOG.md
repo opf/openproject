@@ -26,6 +26,8 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+* `#8419` [PDF Export] Internal error when entering wrong YAML
+
 ## 1.0.0
 
 * * `#5357` Update readme and gemspec
