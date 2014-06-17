@@ -44,11 +44,13 @@ module API
         User.current = user_id ? User.find(user_id) : User.anonymous
       end
 
+      def authenticate
+        raise API::Errors::Unauthenticated.new if current_user.nil? || current_user.anonymous?
+      end
+
       # Split into two methods: one for authentication, one for authorization
       def authorize(api, endpoint, options)
-        if current_user.nil? || current_user.anonymous?
-          raise API::Errors::Unauthenticated.new
-        end
+        authenticate
 
         if !options[:allow].nil?
           raise API::Errors::Unauthorized.new(current_user) unless options[:allow]
