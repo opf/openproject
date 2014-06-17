@@ -38,6 +38,7 @@ class ExportCardConfiguration < ActiveRecord::Base
     VALID_COLUMN_KEYS = ["has_label", "min_font_size", "max_font_size",
       "font_size", "font_style", "text_align", "minimum_lines", "render_if_empty",
       "width", "indented", "custom_label", "has_count"]
+    NUMERIC_COLUMN_VALUE = ["min_font_size", "max_font_size", "font_size", "minimum_lines"]
 
     def raise_yaml_error
       raise ArgumentError, I18n.t('validation_error_yaml_is_badly_formed')
@@ -55,6 +56,10 @@ class ExportCardConfiguration < ActiveRecord::Base
 
       pending_keys = required_keys - hash.keys
       raise(ArgumentError, "#{I18n.t('validation_error_required_keys_not_present')} #{pending_keys.join(", ")}") unless pending_keys.empty?
+    end
+
+    def check_valid_value_type(value, type)
+      raise(ArgumentError, "#{I18n.t('validation_error_yaml_is_badly_formed')}") unless value.is_a?type
     end
 
     def validate(record)
@@ -78,6 +83,7 @@ class ExportCardConfiguration < ActiveRecord::Base
             raise_yaml_error if !rv["columns"].is_a?(Hash)
             rv["columns"].each do |ck, cv|
               assert_required_keys(cv, VALID_COLUMN_KEYS, REQUIRED_COLUMN_KEYS)
+              cv.map{|cname, cvalue | check_valid_value_type(cvalue, Numeric) if NUMERIC_COLUMN_VALUE.include?(cname)}
             end
           end
         end
