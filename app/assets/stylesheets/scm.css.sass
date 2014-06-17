@@ -417,9 +417,11 @@ tr.dir
   span
     &.dir-expander
       @include icon-common
-      margin-right: -15px
+      cursor: pointer
       &:before
         content: "\e089"
+        margin-left: 5px
+        padding: 0
   &.loading
     span.dir-expander:before
       content: "\e07a"
@@ -429,3 +431,11 @@ tr.dir
   &.open
     span.dir-expander:before
       content: "\e082"
+
+tr
+  &.entry
+    &.file
+      td
+        &.filename
+          a
+            margin-left: $repository_entry_filename_margin_left
