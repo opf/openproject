@@ -38,6 +38,7 @@ module.exports = function(config) {
       "app/assets/javascripts/angular/config/work-packages-config.js",
 
       "app/assets/javascripts/angular/controllers/**/*.js",
+      "app/assets/javascripts/angular/dialogs/**/*.js",
       "app/assets/javascripts/angular/helpers/**/*.js",
       'app/assets/javascripts/angular/filters/**/*.js',
       "app/assets/javascripts/angular/models/**/*.js",
