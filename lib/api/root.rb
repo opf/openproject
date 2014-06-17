@@ -49,10 +49,11 @@ module API
 
       # Split into two methods: one for authentication, one for authorization
       def authorize(api, endpoint, project = nil, projects = nil, global = false)
+        context = project || projects
         if current_user.nil? || current_user.anonymous?
           raise API::Errors::Unauthenticated.new
         end
-        is_authorized = AuthorizationService.new(api, endpoint, project, projects, global, current_user).perform
+        is_authorized = AuthorizationService.new(api, endpoint, context, global: global).call
         unless is_authorized
           raise API::Errors::Unauthorized.new(current_user)
         end
