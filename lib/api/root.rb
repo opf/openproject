@@ -59,14 +59,14 @@ module API
       end
     end
 
-    rescue_from API::Errors::Validation, API::Errors::UnwritableProperty, API::Errors::Unauthorized,
-      API::Errors::Unauthenticated do |e|
-      Rack::Response.new(e.to_json, e.code, e.headers).finish
-    end
-
-    rescue_from ActiveRecord::RecordNotFound do |e|
-      not_found = API::Errors::NotFound.new(e.message)
-      Rack::Response.new(not_found.to_json, not_found.code, not_found.headers).finish
+    rescue_from :all do |e|
+      case e.class.to_s
+      when 'API::Errors::Validation', 'API::Errors::UnwritableProperty', 'API::Errors::Unauthorized', 'API::Errors::Unauthenticated'
+        Rack::Response.new(e.to_json, e.code, e.headers).finish
+      when 'ActiveRecord::RecordNotFound'
+        not_found = API::Errors::NotFound.new(e.message)
+        Rack::Response.new(not_found.to_json, not_found.code, not_found.headers).finish
+      end
     end
 
     # run authentication before each request
