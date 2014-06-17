@@ -45,28 +45,50 @@ angular.module('openproject.workPackages.controllers')
   this.name    = 'Sorting';
   this.closeMe = sortingModal.deactivate;
 
-  $scope.sortByOptions = {};
-
   $scope.initSortation = function(){
     var currentSortation = QueryService.getSortation();
 
     $scope.sortElements = currentSortation.sortElements.map(function(element){
-      return [$scope.availableColumnsData.filter(function(column) { return column.id == element.field; })[0],
-              $scope.availableDirectionsData.filter(function(direction) { return direction.id == element.direction; })[0]];
+      return [
+        $scope.availableColumnsData.filter(function(column) { return column.id == element.field; })[0],
+        $scope.availableDirectionsData.filter(function(direction) { return direction.id == element.direction; })[0]
+      ];
     });
 
+    fillUpSortElements();
+  };
+
+  function fillUpSortElements() {
     while($scope.sortElements.length < 3) {
       $scope.sortElements.push([]);
     }
-  };
+  }
+
+  // functions exposing available options to select2
 
   $scope.getAvailableColumnsData = function(term, result) {
-    result($filter('filter')($scope.availableColumnsData, { label: term }));
+    return result($filter('filter')(getRemainingAvailableColumnsData(), { label: term }));
+  };
+  $scope.getDirectionsData = function(term, result) {
+    return result($filter('filter')($scope.availableDirectionsData, { label: term }));
   };
 
-  $scope.getDirectionsData = function(term, result) {
-    result($filter('filter')($scope.availableDirectionsData, { label: term }));
-  };
+  // reduction of column options to columns that haven't been selected
+
+  function getIdsOfSelectedSortElements() {
+    return $scope.sortElements
+      .map(function(sortElement) {
+        if (sortElement.length) return sortElement[0].id;
+      })
+      .filter(function(element) { return element; });
+  }
+  function getRemainingAvailableColumnsData() {
+    return $scope.availableColumnsData.filter(function(availableColumn) {
+      return getIdsOfSelectedSortElements().indexOf(availableColumn.id) === -1;
+    });
+  }
+
+  // updates
 
   $scope.updateSortation = function(){
     var sortElements = $scope.sortElements
@@ -81,14 +103,38 @@ angular.module('openproject.workPackages.controllers')
     sortingModal.deactivate();
   };
 
+  // setup
+
+  $scope.availableDirectionsData = [{ id: 'desc', label: I18n.t('js.label_descending')}, { id: 'asc', label: I18n.t('js.label_ascending')}];
+
+  var blankOption = { id: null, label: ' ', other: null };
+
   QueryService.loadAvailableColumns()
     .then(function(available_columns){
-      $scope.availableColumns = available_columns;
-      $scope.availableColumnsData = available_columns.map(function(column){
-        return { id: column.name, label: column.title, other: column.title };
-      });
+
+      $scope.availableColumnsData = available_columns
+        .filter(function(column){
+          return !!column.sortable;
+        })
+        .map(function(column){
+          return { id: column.name, label: column.title, other: column.title };
+        });
+      $scope.availableColumnsData.unshift(blankOption);
+
       $scope.initSortation();
     });
 
-  $scope.availableDirectionsData = [{ id: 'desc', label: I18n.t('js.label_descending')}, { id: 'asc', label: I18n.t('js.label_ascending')}];
+  // prune unselected sorting criteria
+
+  function pruneBlankSortElements() {
+    angular.forEach($scope.sortElements, function(sortElement, index) {
+      if (sortElement.length && !sortElement[0].id) {
+        $scope.sortElements.splice(index, 1);
+      }
+    });
+    fillUpSortElements();
+  }
+
+  $scope.$watch('sortElements', pruneBlankSortElements, true);
+
 }]);
