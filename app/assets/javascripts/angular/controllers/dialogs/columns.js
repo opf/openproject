@@ -95,7 +95,9 @@ angular.module('openproject.workPackages.controllers')
 
     if(groupBy.length === 0) groupBy = undefined; // don't pass an empty string as groupBy
 
-    if(addedColumns.length) WorkPackageService.augmentWorkPackagesWithColumnsData(currentWorkPackages, addedColumns, groupBy);
+    if(addedColumns.length) {
+      $scope.refreshWorkPackages = WorkPackageService.augmentWorkPackagesWithColumnsData(currentWorkPackages, addedColumns, groupBy);
+    }
 
     columnsModal.deactivate();
   };
