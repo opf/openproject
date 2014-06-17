@@ -138,7 +138,7 @@ Redmine::AccessControl.map do |map|
     map.permission :manage_subtasks, {}
     # Queries
     map.permission :manage_public_queries, {:queries => [:new, :edit, :star, :unstar, :destroy]}, :require => :member
-    map.permission :save_queries, {:queries => [:new, :edit, :star_private, :unstar_private, :destroy]}, :require => :loggedin
+    map.permission :save_queries, {:queries => [:new, :edit, :star, :unstar, :destroy]}, :require => :loggedin
     # Watchers
     map.permission :view_work_package_watchers, {}
     map.permission :add_work_package_watchers, {:watchers => [:new, :create]}

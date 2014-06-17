@@ -45,11 +45,19 @@ module API
       end
 
       # Split into two methods: one for authentication, one for authorization
-      def authorize(api, endpoint, project = nil, projects = nil, global = false)
+      def authorize(api, endpoint, options)
         if current_user.nil? || current_user.anonymous?
           raise API::Errors::Unauthenticated.new
         end
-        is_authorized = AuthorizationService.new(api, endpoint, project, projects, global, current_user).perform
+
+        if !options[:allow].nil?
+          raise API::Errors::Unauthorized.new(current_user) unless options[:allow]
+        end
+
+        global = options[:global] || false
+
+        is_authorized = AuthorizationService.new(api, endpoint, options[:project], options[:projects],
+          global, current_user).perform
         unless is_authorized
           raise API::Errors::Unauthorized.new(current_user)
         end

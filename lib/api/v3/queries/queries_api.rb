@@ -16,13 +16,15 @@ module API
               @representer =  QueryRepresenter.new(model)
             end
 
-            patch :star do
-              if !@query.is_public?
-                raise API::Errors::Unauthorized.new(current_user) unless @query.user_id == current_user.id
-                authorize(:queries, :star_private, @query.project)
-              else
-                authorize(:queries, :star, @query.project)
+            helpers do
+              def allowed_to_manage_stars?
+                (@query.is_public? && current_user.allowed_to?(:manage_public_queries, @query.project)) ||
+                  (!@query.is_public?  && current_user.allowed_to?(:save_queries, @query.project) && @query.user_id == current_user.id)
               end
+            end
+
+            patch :star do
+              authorize(:queries, :star, project: @query.project, allow: allowed_to_manage_stars?)
               normalized_query_name = @query.name.parameterize.underscore
               query_menu_item = MenuItems::QueryMenuItem.find_or_initialize_by_name_and_navigatable_id normalized_query_name, @query.id, title: @query.name
 
@@ -35,12 +37,7 @@ module API
             end
 
             patch :unstar do
-              if !@query.is_public?
-                raise API::Errors::Unauthorized.new(current_user) unless @query.user_id == current_user.id
-                authorize(:queries, :unstar_private, @query.project)
-              else
-                authorize(:queries, :unstar, @query.project)
-              end
+              authorize(:queries, :unstar, project: @query.project, allow: allowed_to_manage_stars?)
               query_menu_item = @query.query_menu_item
               return @representer.to_json if @query.query_menu_item.nil?
               query_menu_item.destroy
