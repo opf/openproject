@@ -72,36 +72,6 @@ module OpenProject::Backlogs::Hooks
   class LayoutHook < Redmine::Hook::ViewListener
     include RbCommonHelper
 
-    # This ought to be view_work_packages_sidebar_queries_bottom, but the entire
-    # queries toolbar is disabled if you don't have custom queries
-    def view_work_packages_sidebar_planning_bottom(context={ })
-      locals = {}
-      locals[:sprints] = context[:project] ? Sprint.open_sprints(context[:project]) : []
-      locals[:project] = context[:project]
-      locals[:sprint] = nil
-      locals[:webcal] = (context[:request].ssl? ? 'webcals' : 'webcal')
-
-      return '' unless locals[:project]
-      return '' if locals[:project].blank?
-      return '' unless locals[:project].module_enabled?('backlogs')
-
-      user = User.find_by_id(context[:request].session[:user_id])
-      locals[:key] = user ? user.api_key : nil
-
-      q = context[:request].session[:query]
-      if q && q[:filters]
-        sprint = q[:filters].detect{|f| f.field == :fixed_version_id}
-        if sprint && sprint.operator == '=' && sprint.values.size == 1
-          locals[:sprint] = Sprint.find_by_id(sprint.values[0])
-        end
-      end
-
-      context[:controller].send(:render_to_string, {
-          :partial => 'shared/view_work_packages_sidebar',
-          :locals => locals
-      })
-    end
-
     def view_work_packages_form_details_bottom(context = {})
       snippet = ''
       work_package = context[:issue]
