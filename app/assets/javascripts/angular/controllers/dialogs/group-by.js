@@ -59,13 +59,20 @@ angular.module('openproject.workPackages.controllers')
 
   $scope.workPackageTableData = WorkPackagesTableService.getWorkPackagesTableData();
 
+  function buildOptions() {
+    var blankOption = { id: null, label: ' ', other: null };
+
+    $scope.groupableColumnsData = $scope.groupableColumns.map(function(column){
+      return { id: column.name, label: column.title, other: column.title };
+    });
+    $scope.groupableColumnsData.unshift(blankOption);
+  }
+
   $scope.$watch('workPackageTableData.groupableColumns', function(groupableColumns){
     if (!groupableColumns) return;
 
     $scope.groupableColumns = groupableColumns;
-    $scope.groupableColumnsData = groupableColumns.map(function(column){
-      return { id: column.name, label: column.title, other: column.title };
-    });
+    buildOptions();
 
     var currentGroupBy = $scope.groupableColumnsData.filter(function(column){
       return column.id == QueryService.getGroupBy();
