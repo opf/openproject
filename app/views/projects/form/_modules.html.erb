@@ -30,7 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <fieldset class="box with-legend-control" id="project_modules">
   <legend><%= l(:label_module_plural) %></legend>
   <div class="legend-control">
-    <span>(<%= check_all_links 'project_modules' %>)<span>
+    <span>(<check-uncheck-links check-id="project_modules"></check-uncheck-links>)</span>
   </div>
   <% Redmine::AccessControl.available_project_modules.each do |m| %>
     <label class="floating">

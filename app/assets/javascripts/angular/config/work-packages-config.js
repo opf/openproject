@@ -75,4 +75,9 @@ angular.module('openproject.workPackages.config')
   perPageOptions: [100, 500, 1000],
   maxVisiblePageOptions: 9,
   optionsTruncationSize: 2,
+})
+
+.constant('DEFAULT_CHECKALL_OPTIONS', {
+  checkTitle: "button_check_all",
+  uncheckTitle: "button_uncheck_all"
 });
