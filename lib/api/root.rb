@@ -48,12 +48,9 @@ module API
         raise API::Errors::Unauthenticated.new if current_user.nil? || current_user.anonymous?
       end
 
-      def authorize(api, endpoint, context: nil, global: false, user: current_user)
-        unless options[:allow].nil?
-          raise API::Errors::Unauthorized.new(current_user) unless options[:allow]
-        end
+      def authorize(api, endpoint, context: nil, global: false, user: current_user, allow: true)
         is_authorized = AuthorizationService.new(api, endpoint, context: context, global: global, user: user).call
-        raise API::Errors::Unauthorized.new(current_user) unless is_authorized
+        raise API::Errors::Unauthorized.new(current_user) unless is_authorized && allow
         is_authorized
       end
     end
