@@ -1,4 +1,6 @@
-<div id="column-context-menu" class="action-menu dropdown-relative dropdown-anchor-right">
+<div id="column-context-menu"
+     class="action-menu dropdown-relative"
+     ng-class="{'dropdown-anchor-right': column && column.name !== 'id'}">
   <ul class="menu">
     <li ng-if="!!column.sortable" ng-click="sortAscending(column.name)">
       <a href="#">

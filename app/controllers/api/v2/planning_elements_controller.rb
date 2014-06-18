@@ -323,7 +323,7 @@ module Api
           # re-wire the parent of this pe to the first ancestor found in the filtered set
           # re-wiring is only needed, when there is actually a parent, and the parent has been filtered out
           if pe.parent_id && !filtered_ids.include?(pe.parent_id)
-            ancestors = @planning_elements.select{|candidate| candidate.lft < pe.lft && candidate.rgt > pe.rgt }
+            ancestors = @planning_elements.select{|candidate| candidate.lft < pe.lft && candidate.rgt > pe.rgt && candidate.root_id == pe.root_id }
             # the greatest lower boundary is the first ancestor not filtered
             pe.parent_id = ancestors.empty? ? nil : ancestors.sort_by{|ancestor| ancestor.lft }.last.id
           end
