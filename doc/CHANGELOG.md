@@ -36,6 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#10228` Font size in backlog and taskboard to small
 * `#7782` Long target version names destroy layout
 
 ## 3.0.7
