@@ -24,7 +24,7 @@
       </li>
        <li>
         <a>
-          <i class="icon-page-xls icon-big"></i>
+          <i class="icon-page-xls-descr icon-big"></i>
           <span class="export-label">XLS with description</span>
         </a>
       </li>
@@ -36,7 +36,7 @@
       </li>
        <li>
         <a>
-          <i class="icon-page-pdf icon-big"></i>
+          <i class="icon-page-pdf-descr icon-big"></i>
          <span class="export-label">PDF with description</span>
         </a>
       </li>

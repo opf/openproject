@@ -27,17 +27,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API v3
-# This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
 
-module API
-  module V3
-    class Root < Grape::API
-      version 'v3', using: :path
-
-      mount API::V3::WorkPackages::WorkPackagesAPI
-      mount API::V3::Queries::QueriesAPI
-    end
+class ChangeAttachmentJournalsDescriptionLength < ActiveRecord::Migration
+  def change
+    change_column :attachment_journals,
+                  :description,
+                  :text
   end
 end
+

@@ -1,4 +1,6 @@
-<div id="column-context-menu" class="action-menu dropdown-relative dropdown-anchor-right">
+<div id="column-context-menu"
+     class="action-menu dropdown-relative"
+     ng-class="{'dropdown-anchor-right': column && column.name !== 'id'}">
   <ul class="menu">
     <li ng-if="!!column.sortable" ng-click="sortAscending(column.name)">
       <a href="#">
@@ -38,7 +40,7 @@
       </a>
     </li>
 
-    <li ng-if="column"
+    <li ng-if="column.name !== 'id'"
         ng-click="hideColumn(column.name)">
     <i class="icon-action-menu icon-delete2"></i>
       <a href="#">

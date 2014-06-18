@@ -29,7 +29,7 @@
 <i class="icon-arrow-right6-3"></i>
 <i class="icon-arrow-right7"></i>
 <i class="icon-arrow-right8"></i>
-<i class="icon-atom"></i> <i class="icon-rss2"></i>
+<i class="icon-rss2"></i>
 <i class="icon-attachment"></i>
 <i class="icon-attention1"></i>
 <i class="icon-attention2"></i>
@@ -224,7 +224,6 @@
 <i class="icon-work_package-closed"></i>
 <i class="icon-work_package-edit"></i>
 <i class="icon-work_package-note"></i>
-<i class="icon-xls"></i> <i class="icon-excel"></i>
 <i class="icon-yes2"></i>
 <i class="icon-yes3"></i>
 <i class="icon-zoom-in"></i>
@@ -240,8 +239,10 @@
 <i class="icon-timeline-view"></i>
 <i class="icon-toggle"></i>
 <i class="icon-page-pdf"></i>
+<i class="icon-page-pdf-descr"></i>
 <i class="icon-page-csv"></i>
 <i class="icon-page-xls"></i>
+<i class="icon-page-xls-descr"></i>
 <i class="icon-page-atom"></i>
 <i class="icon-sort-by"></i>
 <i class="icon-group-by"></i>

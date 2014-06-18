@@ -1,13 +1,4 @@
 GIT
-  remote: git://github.com/finnlabs/representable.git
-  revision: 5f8fbcb1e61720699135c39be3f36a725ca870ad
-  specs:
-    representable (1.8.1)
-      multi_json
-      nokogiri
-      uber
-
-GIT
   remote: https://github.com/Compass/compass-rails
   revision: f97a4f41518204683aeec7037da3d9b8c57ef4cb
   specs:
@@ -21,6 +12,15 @@ GIT
   specs:
     rack-protection (1.5.2)
       rack
+
+GIT
+  remote: https://github.com/finnlabs/representable
+  revision: 5f8fbcb1e61720699135c39be3f36a725ca870ad
+  specs:
+    representable (1.8.1)
+      multi_json
+      nokogiri
+      uber
 
 GIT
   remote: https://github.com/finnlabs/rspec-example_disabler.git

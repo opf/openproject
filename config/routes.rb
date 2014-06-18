@@ -30,7 +30,7 @@
 
 OpenProject::Application.routes.draw do
   root :to => 'welcome#index', :as => 'home'
-
+  mount API::Root => '/'
   rails_relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || ''
 
   # Redirect deprecated issue links to new work packages uris
@@ -519,6 +519,4 @@ OpenProject::Application.routes.draw do
   match '/:controller(/:action(/:id))'
   match '/robots' => 'welcome#robots', :defaults => { :format => :txt }
   root :to => 'account#login'
-
-  mount API::Root => '/'
 end

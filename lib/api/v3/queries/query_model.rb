@@ -27,17 +27,28 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API v3
-# This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
+require 'reform'
+require 'reform/form/coercion'
 
 module API
   module V3
-    class Root < Grape::API
-      version 'v3', using: :path
+    module Queries
+      class QueryModel < Reform::Form
+        include Composition
+        include Coercion
 
-      mount API::V3::WorkPackages::WorkPackagesAPI
-      mount API::V3::Queries::QueriesAPI
+        model :query
+
+        property :name, on: :query, type: String
+        property :project_id, on: :query, type: Integer
+        property :user_id, on: :query, type: Integer
+        property :filters, on: :query, type: String
+        property :is_public, on: :query, type: String
+        property :column_names, on: :query, type: String
+        property :sort_criteria, on: :query, type: String
+        property :group_by, on: :query, type: String
+        property :display_sums, on: :query, type: String
+      end
     end
   end
 end

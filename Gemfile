@@ -194,7 +194,7 @@ end
 
 # API gems
 gem 'grape', '~> 0.7.0'
-gem 'representable', :github => 'finnlabs/representable'
+gem 'representable', git: 'https://github.com/finnlabs/representable'
 gem 'roar',   '~> 0.12.6'
 gem 'reform', require: false
 
