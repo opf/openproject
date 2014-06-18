@@ -21,14 +21,12 @@ class Widget::Controls::SaveAs < Widget::Controls
   def render
     if @subject.new_record?
       link_name = l(:button_save)
-      icon = "icon-save"
+      icon = "icon-save1"
     else
       link_name = l(:button_save_as)
-      icon = "icon-save-as"
+      icon = "icon-save1"
     end
-    button = link_to content_tag(:span, content_tag(:em, link_name, :class => "button-icon icon-save-as")), "#",
-        :class => "button secondary",
-        :id => 'query-icon-save-as', :title => link_name
+    button = link_to(link_name, '#', id: 'query-icon-save-as', :class => "button icon-context #{icon}")
     write(button + render_popup)
     maybe_with_help
   end
@@ -55,13 +53,16 @@ class Widget::Controls::SaveAs < Widget::Controls
 
   def render_popup_buttons
     content_tag(:p) do
-      save = link_to content_tag(:span, content_tag(:em, l(:button_save))), "#",
-        :id => "query-icon-save-button",
-        :class => "button reporting_button save",
-        :"data-target" => url_for(:action => 'create', :set_filter => '1')
-      cancel = link_to l(:button_cancel), "#",
-        :id => "query-icon-save-as-cancel",
-        :class => 'icon icon-cancel'
+      save = link_to(l(:button_save),
+                     '#',
+                     id: 'query-icon-save-button',
+                     :class => 'button_highlight icon-context icon-save1',
+                     :"data-target" => url_for(action: 'create', set_filter: '1'))
+
+      cancel = link_to(l(:button_cancel),
+                       '#',
+                       id: 'query-icon-save-as-cancel',
+                       :class => 'button icon-context icon-cancel')
       save + cancel
     end
   end
