@@ -110,6 +110,10 @@ angular.module('openproject.timeEntries', [
 ]);
 angular.module('openproject.timeEntries.controllers', []);
 
+// projects
+angular.module('openproject.projects', ['openproject.projects.directives']);
+angular.module('openproject.projects.directives', []);
+
 // main app
 var openprojectApp = angular.module('openproject', [
   'ui.select2',
@@ -120,6 +124,7 @@ var openprojectApp = angular.module('openproject', [
   'openproject.uiComponents',
   'openproject.timelines',
   'openproject.workPackages',
+  'openproject.projects',
   'openproject.messages',
   'openproject.timeEntries',
   'ngAnimate',

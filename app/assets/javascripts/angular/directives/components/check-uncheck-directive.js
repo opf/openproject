@@ -26,10 +26,18 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+// TODO move to UI components
 angular.module('openproject.uiComponents')
-  .filter("allChecked", [function () {
-    return function(rows) {
-      var checked = rows.filter(function (obj) { return obj.checked });
-      return (checked.length == rows.length);
-    }
-  }]);
+
+.directive('checkUncheck', ['I18n', 
+                            'allCheckedFilter',
+                            'DEFAULT_CHECKALL_OPTIONS', function(I18n, allCheckedFilter, DEFAULT_CHECKALL_OPTIONS) {
+  return {
+    restrict: 'E',
+    transclude: true,
+    scope: {},
+    templateUrl: '/templates/components/check_uncheck.html',
+    controller: 'CheckUncheckController'
+  };
+}]);
+

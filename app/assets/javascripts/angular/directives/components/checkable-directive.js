@@ -26,10 +26,40 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+// TODO move to UI components
 angular.module('openproject.uiComponents')
-  .filter("allChecked", [function () {
-    return function(rows) {
-      var checked = rows.filter(function (obj) { return obj.checked });
-      return (checked.length == rows.length);
+
+.directive('checkable', ['I18n', function(I18n) {
+  return {
+    restrict: 'EA',
+    require: '^checkUncheck',
+    scope: {
+      name: '@',
+      checkboxId: '@',
+      checkboxTitle: '@',
+      checkboxValue: '=',
+      model: '@',
+      checked: '='
+    },
+    templateUrl: '/templates/components/checkable.html',
+    link: function(scope, element, attrs, checkUncheck) {
+      checkUncheck.attach(scope.row_obj);
+      scope.$watch("row_obj.checked", function (state) {
+        checkUncheck.isAllChecked();
+      });
+    },
+    controller: function($scope) {
+      this.init = function () {
+        $scope.row_obj = {};
+        $scope.row_obj["checked"] = $scope.checked || false;
+        $scope.row_obj["model"] = $scope.model;
+      }
+      this.requestNotification = function(callback) {
+        $scope.$watch("row_obj.checked", function (state) {
+          callback(state);
+        });
+      };
+      this.init();
     }
-  }]);
+  }
+}]);

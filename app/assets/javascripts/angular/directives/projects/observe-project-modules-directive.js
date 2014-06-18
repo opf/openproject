@@ -26,41 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// TODO move to UI components
-angular.module('openproject.uiComponents')
+angular.module('openproject.projects.directives')
 
-.directive('checkUncheckLinks', ['I18n', 'CheckAllService', function(I18n, CheckAllService) {
+.directive('observeProjectModules', [function() {
   return {
-    restrict: 'E',
-    replace: true,
-    scope: {
-      checkId: '@'
-    },
-    templateUrl: '/templates/components/check_uncheck_links.html',
-    link: function(scope, element, attrs) {
-      scope.I18n = I18n;
-      CheckAllService.setRows(jQuery("#" + scope.checkId).find("input:checkbox"));
-      scope.checkAllData = CheckAllService.getCheckAllData();
-      scope.checkTitle = CheckAllService.getTitle();
+    restrict: 'EA',
+    require: '^checkable',
+    link: function(scope, element, attrs, checkableCtrl) {
 
-      var setCheckTitle = function () { scope.checkTitle = I18n.t('js.' + CheckAllService.getTitle())};
-
-      scope.$watch('checkAllData.allChecked', function() { setCheckTitle() });
-      angular.forEach(scope.checkAllData.rows, function(row) {
-          row.on("change", function () {
-            scope.$apply(function () { setCheckTitle() });
-          });
-        });
-
-      scope.checkAll = function(state) {
-        angular.forEach(scope.checkAllData.rows, function(row) {
-          if (CheckAllService.check(row, state)) {
-            // make the new check all stuff work with jquery listeners
-            jQuery(row).trigger("change");
+      // Hides types and issues custom fields on the new project form when
+      // work_package_tracking module is disabled.
+      if (attrs.checkboxId == "project_enabled_module_names_work_package_tracking") { 
+        var update = function(state) {
+          if (state) {
+            jQuery('#project_types, #project_issue_custom_fields').show();
+          } else {
+            jQuery('#project_types, #project_issue_custom_fields').hide();
           }
-        });
-      };
+        };
+        checkableCtrl.requestNotification(update);
+      }
     }
   };
 }]);
-
