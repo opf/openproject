@@ -79,10 +79,6 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#7700` No flash message on status page
 * `#8228` Icons in select2 elements missing
 * `#8277` Fix arrow of column headers not restrained to one line
-* `#4019` Fix focus on project creation
-* `#4021` Separate focus for main menu expander
-* `#6288` Editing relations in modal dialog leads to warning
-* `#7898` Watchers are not sorted alphabetically in work package screen
 * Allowed sending of mails with only cc: or bcc: fields
 * Allow adding attachments to created work packages via planning elements controller
 * Remove unused rmagick dependency
@@ -95,6 +91,14 @@ See doc/COPYRIGHT.rdoc for more details.
 * Fix: Back URL verification
 * Fix: Asset require for plug-ins
 * Fix: at.who styling
+
+
+* `#4019` Fix focus on project creation
+* `#4021` Separate focus for main menu expander
+* `#4258` Text alignment consistency in tables
+* `#6288` Editing relations in modal dialog leads to warning
+* `#7898` Watchers are not sorted alphabetically in work package screen
+* `#9931` APIv2 does not rewire parents correctly
 
 ## 3.0.4
 
