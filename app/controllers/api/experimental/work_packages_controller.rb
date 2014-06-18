@@ -60,12 +60,6 @@ module Api
           end
         end
 
-        # determine what actions may be performed
-        @allowed_statuses = @work_packages.map do |i|
-          i.new_statuses_allowed_to(User.current)
-        end.inject do |memo,s|
-          memo & s
-        end
         setup_context_menu_actions
 
         # the data for the index is already produced in the assign_work_packages
@@ -99,16 +93,7 @@ module Api
       private
 
       def setup_context_menu_actions
-        @projects = @work_packages.collect(&:project).compact.uniq
-        @project = @projects.first if @projects.size == 1
-
-        @can = {:edit => User.current.allowed_to?(:edit_work_packages, @projects),
-                :log_time => (@project && User.current.allowed_to?(:log_time, @project)),
-                :update => (User.current.allowed_to?(:edit_work_packages, @projects) || (User.current.allowed_to?(:change_status, @projects) && !@allowed_statuses.blank?)),
-                :move => (@project && User.current.allowed_to?(:move_work_packages, @project)),
-                :copy => (@work_package && @project.types.include?(@work_package.type) && User.current.allowed_to?(:add_work_packages, @project)),
-                :delete => User.current.allowed_to?(:delete_work_packages, @projects)
-                }
+        @can = Api::Experimental::Concerns::Can.new(User.current)
       end
 
       def columns_total_sums(column_names, work_packages)
