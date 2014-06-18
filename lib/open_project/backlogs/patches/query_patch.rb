@@ -50,15 +50,16 @@ module OpenProject::Backlogs::Patches::QueryPatch
                                            # Sort by position only, always show work_packages without a position at the end
                                            :sortable => "CASE WHEN #{WorkPackage.table_name}.position IS NULL THEN 1 ELSE 0 END ASC, #{WorkPackage.table_name}.position"
                                           ))
+      Queries::WorkPackages::Filter.add_filter_type_by_field('backlogs_work_package_type', 'list')
 
-      alias_method_chain :available_filters, :backlogs_work_package_type
+      alias_method_chain :available_work_package_filters, :backlogs_work_package_type
       alias_method_chain :sql_for_field, :backlogs_work_package_type
     end
   end
 
   module InstanceMethods
-    def available_filters_with_backlogs_work_package_type
-      available_filters_without_backlogs_work_package_type.tap do |filters|
+    def available_work_package_filters_with_backlogs_work_package_type
+      available_work_package_filters_without_backlogs_work_package_type.tap do |filters|
         if backlogs_configured? and backlogs_enabled?
           filters["backlogs_work_package_type"] = {
             :type => :list,
