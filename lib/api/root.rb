@@ -38,36 +38,43 @@ module API
     format 'hal+json'
 
     helpers do
-      # Needs refactoring - Will have to find a way how to access sessions in all enviroments
       def current_user
         return User.current if Rails.env.test?
-
         user_id = env['rack.session']['user_id']
-
         User.current = user_id ? User.find(user_id) : User.anonymous
       end
 
-      # Split into two methods: one for authentication, one for authorization
-      def authorize(api, endpoint, project = nil, projects = nil, global = false)
-        if current_user.nil? || current_user.anonymous?
-          raise API::Errors::Unauthenticated.new
+      def authenticate
+        raise API::Errors::Unauthenticated.new if current_user.nil? || current_user.anonymous?
+      end
+
+      def authorize(api, endpoint, options)
+        unless options[:allow].nil?
+          raise API::Errors::Unauthorized.new(current_user) unless options[:allow]
         end
-        is_authorized = AuthorizationService.new(api, endpoint, project, projects, global, current_user).perform
-        unless is_authorized
-          raise API::Errors::Unauthorized.new(current_user)
-        end
+        is_authorized = AuthorizationService.new(api, endpoint, options[:project], options[:projects],
+          !!options[:global], current_user).perform
+        raise API::Errors::Unauthorized.new(current_user) unless is_authorized
         is_authorized
       end
     end
 
-    rescue_from API::Errors::Validation, API::Errors::UnwritableProperty, API::Errors::Unauthorized,
-      API::Errors::Unauthenticated do |e|
-      Rack::Response.new(e.to_json, e.code, e.headers).finish
+    rescue_from :all do |e|
+      case e.class.to_s
+      when 'API::Errors::Validation', 'API::Errors::UnwritableProperty', 'API::Errors::Unauthorized', 'API::Errors::Unauthenticated'
+        Rack::Response.new(e.to_json, e.code, e.headers).finish
+      when 'ActiveRecord::RecordNotFound'
+        not_found = API::Errors::NotFound.new(e.message)
+        Rack::Response.new(not_found.to_json, not_found.code, not_found.headers).finish
+      when 'ActiveRecord::RecordInvalid'
+        error = API::Errors::Validation.new(e.record)
+        Rack::Response.new(error.to_json, error.code, error.headers).finish
+      end
     end
 
-    rescue_from ActiveRecord::RecordNotFound do |e|
-      not_found = API::Errors::NotFound.new(e.message)
-      Rack::Response.new(not_found.to_json, not_found.code, not_found.headers).finish
+    # run authentication before each request
+    before do
+      authenticate
     end
 
     mount API::V3::Root
