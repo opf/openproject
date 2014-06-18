@@ -53,7 +53,7 @@ module API
         if current_user.nil? || current_user.anonymous?
           raise API::Errors::Unauthenticated.new
         end
-        is_authorized = AuthorizationService.new(api, endpoint, context, global: global).call
+        is_authorized = AuthorizationService.new(api, endpoint, context: context, global: global).call
         unless is_authorized
           raise API::Errors::Unauthorized.new(current_user)
         end

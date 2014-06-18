@@ -30,19 +30,19 @@
 # project, projects, global, user = nil
 
 class AuthorizationService
-
   # @params
   #   ctrl - controller
   #   action - action
+  # @named params
   #   context - single project or array of projects - default nil
-  #   options[:global] - global - default false
-  #   options[:user] - user - default current user
-  def initialize(ctrl, action, context = nil, options = {})
+  #   global - global - default false
+  #   user - user - default current user
+  def initialize(ctrl, action, context: nil , global: false, user: User.current)
     @ctrl = ctrl
     @action = action
     @context = context
-    @global = !!options[:global]
-    @user = options[:user] || User.current
+    @global = global
+    @user = user
   end
 
   def call
