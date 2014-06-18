@@ -29,6 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#4752` Fix button contrast
 * `#4019` Fix focus on project creation
 * `#4021` Separate focus for main menu expander
 * `#4258` Text alignment consistency in tables
