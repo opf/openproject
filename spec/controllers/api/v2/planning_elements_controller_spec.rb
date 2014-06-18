@@ -245,19 +245,22 @@ describe Api::V2::PlanningElementsController do
 
         let!(:project1) { FactoryGirl.create(:project, :identifier => 'project-1') }
         let!(:project2) { FactoryGirl.create(:project, :identifier => 'project-2') }
-        let!(:ticket_a) { FactoryGirl.create(:work_package, :id => 1, :project_id => project1.id) }
-        let!(:ticket_b) { FactoryGirl.create(:work_package, :id => 2, :project_id => project1.id, :parent_id => ticket_a.id) }
-        let!(:ticket_c) { FactoryGirl.create(:work_package, :id => 3, :project_id => project1.id, :parent_id => ticket_b.id) }
-        let!(:ticket_d) { FactoryGirl.create(:work_package, :id => 4, :project_id => project1.id) }
-        let!(:ticket_e) { FactoryGirl.create(:work_package, :id => 5, :project_id => project2.id, :parent_id => ticket_d.id) }
-        let!(:ticket_f) { FactoryGirl.create(:work_package, :id => 6, :project_id => project1.id, :parent_id => ticket_e.id) }
+        let!(:ticket_a) { FactoryGirl.create(:work_package, :project_id => project1.id) }
+        let!(:ticket_b) { FactoryGirl.create(:work_package, :project_id => project1.id, :parent_id => ticket_a.id) }
+        let!(:ticket_c) { FactoryGirl.create(:work_package, :project_id => project1.id, :parent_id => ticket_b.id) }
+        let!(:ticket_d) { FactoryGirl.create(:work_package, :project_id => project1.id) }
+        let!(:ticket_e) { FactoryGirl.create(:work_package, :project_id => project2.id, :parent_id => ticket_d.id) }
+        let!(:ticket_f) { FactoryGirl.create(:work_package, :project_id => project1.id, :parent_id => ticket_e.id) }
 
         become_admin { [project1, project2] }
 
         it 'rewires ancestors correctly' do
           get 'index', project_id: project1.id, :format => 'xml'
 
-          expect(assigns(:planning_elements).last.parent_id).to eq(ticket_d.id)
+          # the controller returns structs. We therefore have to filter for those
+          ticket_f_struct = assigns(:planning_elements).detect { |pe| pe.id == ticket_f.id }
+
+          expect(ticket_f_struct.parent_id).to eq(ticket_d.id)
         end
       end
 
