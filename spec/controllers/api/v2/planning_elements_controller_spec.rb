@@ -238,6 +238,29 @@ describe Api::V2::PlanningElementsController do
         end
       end
 
+      describe 'w/ cross-project relations' do
+        before do
+          Setting.stub(:cross_project_work_package_relations?).and_return(true)
+        end
+
+        let!(:project1) { FactoryGirl.create(:project, :identifier => 'project-1') }
+        let!(:project2) { FactoryGirl.create(:project, :identifier => 'project-2') }
+        let!(:ticket_a) { FactoryGirl.create(:work_package, :id => 1, :project_id => project1.id) }
+        let!(:ticket_b) { FactoryGirl.create(:work_package, :id => 2, :project_id => project1.id, :parent_id => ticket_a.id) }
+        let!(:ticket_c) { FactoryGirl.create(:work_package, :id => 3, :project_id => project1.id, :parent_id => ticket_b.id) }
+        let!(:ticket_d) { FactoryGirl.create(:work_package, :id => 4, :project_id => project1.id) }
+        let!(:ticket_e) { FactoryGirl.create(:work_package, :id => 5, :project_id => project2.id, :parent_id => ticket_d.id) }
+        let!(:ticket_f) { FactoryGirl.create(:work_package, :id => 6, :project_id => project1.id, :parent_id => ticket_e.id) }
+
+        become_admin { [project1, project2] }
+
+        it 'rewires ancestors correctly' do
+          get 'index', project_id: project1.id, :format => 'xml'
+
+          expect(assigns(:planning_elements).last.parent_id).to eq(ticket_d.id)
+        end
+      end
+
       describe 'changed since' do
         let!(:work_package) do
           work_package = Timecop.travel(5.hours.ago) do
