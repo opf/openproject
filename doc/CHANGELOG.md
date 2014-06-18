@@ -47,13 +47,17 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#3531` Fix: Type 'None' cannot be configured via admin settings
 * `#3775` No success message when adding a user to a project
 * `#4007` Timeline page title does not contain name of timeline
+* `#4019` Fix focus on project creation
 * `#4020` Prevent timelog page reload on selection change
+* `#4021` Separate focus for main menu expander
 * `#4040` Fix: Referencing work packages with ### in news, forums and meetings does not work
 * `#4087` Ignore type list flash when activating flash messages
 * `#4088` No keyboard focus for erroneous fields
 * `#4097` Fix accesskeys
 * `#4118` Fix: Add missing labels
+* `#4258` Text alignment consistency in tables
 * `#4701` Fix: Wiki change notification mail contains invalid diff link
+* `#4752` Fix button contrast
 * `#4928` Fix: Journal note hits not shown
 * `#5002` Fix: Number of reported work packages in personal activity differs from number in My page
 * `#5057` Fix: Whitelisted more params for planning elements controller
@@ -62,6 +66,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#5553` Integrate OmniAuth
 * `#5632` Check whether cookies are not shared between sub-uris
 * `#5743` Potential data leak in "Invalid form authenticity token" error screen
+* `#6288` Editing relations in modal dialog leads to warning
 * `#6309` Remove API v1 & add level_list to API v2
 * `#6310` API v2 is now deprecated and will be removed in a future version of OpenProject
 * `#7050` Fix: Cannot change the login when login is already taken during creation of account
@@ -77,8 +82,10 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#7562` Regression: creating ticket via API fails with HTTP 422
 * `#7608` Make highlight buttons styleable
 * `#7700` No flash message on status page
+* `#7898` Watchers are not sorted alphabetically in work package screen
 * `#8228` Icons in select2 elements missing
 * `#8277` Fix arrow of column headers not restrained to one line
+* `#9931` APIv2 does not rewire parents correctly
 * Allowed sending of mails with only cc: or bcc: fields
 * Allow adding attachments to created work packages via planning elements controller
 * Remove unused rmagick dependency
@@ -91,14 +98,6 @@ See doc/COPYRIGHT.rdoc for more details.
 * Fix: Back URL verification
 * Fix: Asset require for plug-ins
 * Fix: at.who styling
-
-
-* `#4019` Fix focus on project creation
-* `#4021` Separate focus for main menu expander
-* `#4258` Text alignment consistency in tables
-* `#6288` Editing relations in modal dialog leads to warning
-* `#7898` Watchers are not sorted alphabetically in work package screen
-* `#9931` APIv2 does not rewire parents correctly
 
 ## 3.0.4
 
