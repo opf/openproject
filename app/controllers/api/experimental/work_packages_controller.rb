@@ -165,7 +165,7 @@ module Api
       def set_work_packages_meta_data(query, results, work_packages)
         @display_meta = true
         @work_packages_meta_data = {
-          query:                        query_as_json(query),
+          query:                        query_as_json(query, User.current),
           columns:                      get_columns_for_json(query.columns),
           groupable_columns:            get_columns_for_json(query.groupable_columns),
           work_package_count_by_group:  results.work_package_count_by_group,
@@ -179,42 +179,41 @@ module Api
         }
       end
 
-      def query_as_json(query)
+      def query_as_json(query, user)
         json_query = query.as_json(except: :filters, include: :filters, methods: [:starred])
 
         links = {}
-        links[:update]      = api_experimental_query_path(query) if query.persisted? && User.current.allowed_to?(:save_queries, @project)
-        links[:create]      = api_experimental_project_queries_path(@project) if query.new_record? && User.current.allowed_to?(:save_queries, @project)
-        links[:delete]      = api_experimental_query_path(query) if query.persisted? && User.current.allowed_to?(:save_queries, @project)
-        links[:publicize]   = api_experimental_query_path(query) if query.persisted? && User.current.allowed_to?(:manage_public_queries, @project)
-        links[:depublicize] = api_experimental_query_path(query) if query.persisted? && User.current.allowed_to?(:manage_public_queries, @project)
 
-        # this probably forces grape to be loaded.  at least it is necessary in
-        # development mode because the routes otherwise are not within the
-        # "api/:version" namespace.
-        API::Root
-        if query.persisted? && (query.user_id == User.current.id && User.current.allowed_to?(:save_queries, @project) || User.current.allowed_to?(:manage_public_queries, @project))
+        if query.new_record?
+          links[:create]      = api_experimental_queries_path if user.allowed_to?(:save_queries, @project, :global => @project.nil?)
+        else
+          links[:update]      = api_experimental_query_path(query) if user.allowed_to?(:save_queries, @project, :global => @project.nil?)
+          links[:delete]      = api_experimental_query_path(query) if user.allowed_to?(:save_queries, @project, :global => @project.nil?)
+          links[:publicize]   = api_experimental_query_path(query) if user.allowed_to?(:manage_public_queries, @project, :global => @project.nil?)
+          links[:depublicize] = api_experimental_query_path(query) if user.allowed_to?(:manage_public_queries, @project, :global => @project.nil?)
 
-          star_route = API::V3::Queries::QueriesAPI.routes.detect {|r| r.route_path.match(/\/star/)}
-          star_path = star_route.route_path.gsub(":version", star_route.route_version)
-                                           .gsub(":id", query.id.to_s)
-                                           .gsub(/\(\.:format\)/,'')
+          if ((query.user_id == user.id && user.allowed_to?(:save_queries, @project, :global => @project.nil?)) ||
+              user.allowed_to?(:manage_public_queries, @project, :global => @project.nil?))
 
-          links[:star]        = star_path
-        end
-
-        if query.persisted? && (query.user_id == User.current.id && User.current.allowed_to?(:save_queries, @project) || User.current.allowed_to?(:manage_public_queries, @project))
-
-          unstar_route = API::V3::Queries::QueriesAPI.routes.detect {|r| r.route_path.match(/\/unstar/)}
-          unstar_path = unstar_route.route_path.gsub(":version", unstar_route.route_version)
-                                               .gsub(":id", query.id.to_s)
-                                               .gsub(/\(\.:format\)/,'')
-
-          links[:unstar]      = unstar_path
+            links[:star]        = query_route_from_grape("star", query)
+            links[:unstar]      = query_route_from_grape("unstar", query)
+          end
         end
 
         json_query[:_links] = links
         json_query
+      end
+
+      def query_route_from_grape(route, query)
+        # this probably forces grape to be loaded.  at least it is necessary in
+        # development mode because the routes otherwise are not within the
+        # "api/:version" namespace.
+        API::Root
+        query_route = API::V3::Queries::QueriesAPI.routes.detect { |r| r.route_path.match(Regexp.new("\/#{route}")) }
+
+        query_route.route_path.gsub(":version", query_route.route_version)
+                              .gsub(":id", query.id.to_s)
+                              .gsub(/\(\.:format\)/,'')
       end
 
       def export_formats

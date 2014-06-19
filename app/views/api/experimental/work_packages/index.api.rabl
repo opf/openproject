@@ -98,7 +98,7 @@ end
 node(:_links) do
   links = {}
 
-  links[:create] = new_project_work_package_path(@project) if @project && User.current.allowed_to?(:add_work_packages, @project)
+  links[:create] = new_project_work_package_path(@project) if User.current.allowed_to?(:add_work_packages, @project)
 
   links
 end
