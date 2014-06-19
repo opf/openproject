@@ -9,12 +9,12 @@
         <label>
           {{ I18n.t('js.modals.label_name') }}
           <span class="required"> *</span>
-          <input class="short" type="text" name="query_name" ng-model="query.name" required></input>
+          <input class="short" type="text" name="query_name" ng-model="queryName" required></input>
         </label>
       </div>
       <div>
         <button class="button_highlight"
-          ng-click="updateQuery(deleteQuery)"
+          ng-click="updateQuery()"
           ng-disabled="modalSettingsForm.$invalid">{{ I18n.t('js.modals.button_submit') }}</button>
         <button class="button" ng-click="modal.closeMe()">{{ I18n.t('js.modals.button_cancel') }}</button>
       </div>
