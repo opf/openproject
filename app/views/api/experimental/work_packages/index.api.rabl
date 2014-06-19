@@ -94,3 +94,11 @@ node(:_bulk_links) do
     delete: work_packages_bulk_path(_method: :delete)
   }
 end
+
+node(:_links) do
+  links = {}
+
+  links[:create] = true if User.current.allowed_to?(:add_work_packages, @project)
+
+  links
+end

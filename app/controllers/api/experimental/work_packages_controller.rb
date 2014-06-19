@@ -165,7 +165,7 @@ module Api
       def set_work_packages_meta_data(query, results, work_packages)
         @display_meta = true
         @work_packages_meta_data = {
-          query:                        query.as_json(except: :filters, include: :filters, methods: [:starred]),
+          query:                        query_as_json(query),
           columns:                      get_columns_for_json(query.columns),
           groupable_columns:            get_columns_for_json(query.groupable_columns),
           work_package_count_by_group:  results.work_package_count_by_group,
@@ -177,6 +177,20 @@ module Api
           total_entries:                work_packages.total_entries,
           export_formats:               export_formats
         }
+      end
+
+      def query_as_json(query)
+        json_query = query.as_json(except: :filters, include: :filters, methods: [:starred])
+
+        links = {}
+        links[:update]      = true if User.current.allowed_to?(:save_queries, @project)
+        links[:publicize]   = true if User.current.allowed_to?(:manage_public_queries, @project)
+        links[:depublicize] = true if User.current.allowed_to?(:manage_public_queries, @project)
+        links[:star]        = true if (query.user_id == User.current.id && User.current.allowed_to?(:save_queries, @project) || User.current.allowed_to?(:manage_public_queries, @project))
+        links[:unstar]      = true if (query.user_id == User.current.id && User.current.allowed_to?(:save_queries, @project) || User.current.allowed_to?(:manage_public_queries, @project))
+
+        json_query[:_links] = links
+        json_query
       end
 
       def export_formats
