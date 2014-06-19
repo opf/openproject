@@ -129,6 +129,18 @@ describe Queries::WorkPackages::Filter do
           it { should be_valid }
         end
 
+        # this context tests the case when a new item is injected in
+        # the filter_types_by_field hash afterwards
+        # from within some plugins that patch Queries::WorkPackages::Filter
+        context 'and the field is whitelisted afterwards' do
+          before do
+            filter.field = :some_new_key
+            filter.class.add_filter_type_by_field('some_new_key', 'list')
+          end
+
+          it { should be_valid }
+        end
+
         context 'and the field is not whitelisted and no custom field key' do
           before { filter.field = :any_key }
 
