@@ -125,7 +125,6 @@ module Api::Experimental
       view_context.add_filter_from_params if params[:fields] || params[:f]
       @query.group_by = params[:group_by] if params[:group_by].present?
       @query.sort_criteria = prepare_sort_criteria if params[:sort]
-      @query.project = nil if params[:query_is_for_all]
       @query.display_sums = params[:display_sums] if params[:display_sums].present?
       @query.column_names = params[:c] if params[:c]
       @query.column_names = nil if params[:default_columns]

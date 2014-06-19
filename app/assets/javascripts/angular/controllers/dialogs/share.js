@@ -38,19 +38,40 @@ angular.module('openproject.workPackages.controllers')
 
 .controller('ShareModalController', [
   '$scope',
+  'I18n',
   'shareModal',
   'QueryService',
-  function($scope, shareModal, QueryService) {
+  function($scope, I18n, shareModal, QueryService) {
 
   this.name    = 'Share';
   this.closeMe = shareModal.deactivate;
   $scope.query = QueryService.getQuery();
+  $scope.shareSettings = {
+    starred: $scope.query.starred
+  };
+
+  closeAndReport = function(message) {
+    shareModal.deactivate();
+    $scope.$emit('flashMessage', message);
+  };
 
   $scope.saveQuery = function() {
+    var messageObject;
     QueryService.saveQuery()
       .then(function(data){
-        shareModal.deactivate();
-        $scope.$emit('flashMessage', data.status);
+
+        messageObject = data.status;
+      })
+      .then(function(data){
+        if($scope.query.starred != $scope.shareSettings.starred){
+          QueryService.toggleQueryStarred()
+            .then(function(data){
+              messageObject.text = messageObject.text + " " + I18n.t('js.work_packages.message_please_refresh');
+              closeAndReport(messageObject);
+            });
+        } else {
+          closeAndReport(messageObject);
+        }
       });
   };
 }]);

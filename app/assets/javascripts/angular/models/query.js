@@ -89,6 +89,14 @@ angular.module('openproject.models')
       return this;
     },
 
+    star: function() {
+      this.starred = true;
+    },
+
+    unstar: function() {
+      this.starred = false;
+    }, 
+
     getQueryString: function(){
       return UrlParamsHelper.buildQueryString(this.toParams());
     },
