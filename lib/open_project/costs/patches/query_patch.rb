@@ -54,7 +54,9 @@ module OpenProject::Costs::Patches::QueryPatch
       add_available_column(CurrencyQueryColumn.new(:labor_costs))
       add_available_column(CurrencyQueryColumn.new(:overall_costs))
 
-      alias_method_chain :available_filters, :costs
+      Queries::WorkPackages::Filter.add_filter_type_by_field('cost_object_id', 'list_optional')
+
+      alias_method_chain :available_work_package_filters, :costs
     end
   end
 
@@ -74,8 +76,8 @@ module OpenProject::Costs::Patches::QueryPatch
   module InstanceMethods
 
     # Wrapper around the +available_filters+ to add a new Cost Object filter
-    def available_filters_with_costs
-      @available_filters = available_filters_without_costs
+    def available_work_package_filters_with_costs
+      @available_filters = available_work_package_filters_without_costs
 
       if project && project.module_enabled?(:costs_module)
         openproject_costs_filters = {
