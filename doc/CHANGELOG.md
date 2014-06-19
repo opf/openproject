@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 * `#8230` Missing Translation when deleting Cost Type
 * `#8233` Changing the default rate with invalid values
+* `#10232` Work package filter introduced by plugins not displayed
 
 ## 5.0.4
 
