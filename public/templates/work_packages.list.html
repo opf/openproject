@@ -99,31 +99,31 @@
 <back-url></back-url>
 
 
-<div class="work-packages--split-view autoscroll">
+<div class="work-packages--split-view">
   <div class="work-packages--list" cg-busy="settingUpPage">
-    <work-packages-table ng-if="rows && columns"
-                         cg-busy="refreshWorkPackages"
-                         project-identifier="projectIdentifier"
-                         columns="columns"
-                         rows="rows"
-                         query="query"
-                         group-by="query.groupBy"
-                         group-by-column="groupByColumn"
-                         count-by-group="workPackageCountByGroup"
-                         display-sums="query.displaySums"
-                         total-sums="totalSums"
-                         group-sums="groupSums"
-                         update-results="updateResults()"
-                         update-back-url="updateBackUrl">
-    </work-packages-table>
+    <div class="work-packages--list-scroll-area">
+      <work-packages-table ng-if="rows && columns"
+                           cg-busy="refreshWorkPackages"
+                           project-identifier="projectIdentifier"
+                           columns="columns"
+                           rows="rows"
+                           query="query"
+                           group-by="query.groupBy"
+                           group-by-column="groupByColumn"
+                           count-by-group="workPackageCountByGroup"
+                           display-sums="query.displaySums"
+                           total-sums="totalSums"
+                           group-sums="groupSums"
+                           update-results="updateResults()"
+                           update-back-url="updateBackUrl">
+      </work-packages-table>
 
-    <table-pagination total-entries="totalEntries"
-                      update-results="updateResults()">
-    </table-pagination>
-
+      <table-pagination total-entries="totalEntries"
+                        update-results="updateResults()">
+      </table-pagination>
+    </div>
     <modal-loading>
     </modal-loading>
-
   </div>
   <div class="work-packages--details" ui-view
     feature-flag="detailsView"></div>
