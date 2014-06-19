@@ -37,7 +37,9 @@ class WorkPackageCustomField < CustomField
       joins("LEFT OUTER JOIN custom_fields_projects AS cfp ON (custom_fields.id = cfp.custom_field_id) " \
             "LEFT OUTER JOIN projects AS p ON (cfp.project_id = p.id) " \
             "LEFT OUTER JOIN members AS m ON (p.id = m.project_id)")
-      .where("custom_fields.is_for_all = #{ActiveRecord::Base.connection.quoted_true} OR m.user_id = ?", user.id)
+      .where("p.is_public = #{ActiveRecord::Base.connection.quoted_true} " \
+             "OR custom_fields.is_for_all = #{ActiveRecord::Base.connection.quoted_true} " \
+             "OR m.user_id = ?", user.id)
     end
   }
 
