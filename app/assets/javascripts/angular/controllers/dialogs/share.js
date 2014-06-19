@@ -41,11 +41,13 @@ angular.module('openproject.workPackages.controllers')
   'I18n',
   'shareModal',
   'QueryService',
-  function($scope, I18n, shareModal, QueryService) {
+  'AuthorisationServic',
+  function($scope, I18n, shareModal, QueryService, AuthorisationService) {
 
   this.name    = 'Share';
   this.closeMe = shareModal.deactivate;
   $scope.query = QueryService.getQuery();
+
   $scope.shareSettings = {
     starred: $scope.query.starred
   };
@@ -54,6 +56,8 @@ angular.module('openproject.workPackages.controllers')
     shareModal.deactivate();
     $scope.$emit('flashMessage', message);
   };
+
+  $scope.cannot = AuthorisationService.cannot;
 
   $scope.saveQuery = function() {
     var messageObject;

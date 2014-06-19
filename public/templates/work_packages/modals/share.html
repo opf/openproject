@@ -6,7 +6,10 @@
 
     <div>
       <label class="checkbox-label">
-        <input type="checkbox" name="is_public" ng-model="query.isPublic"></input>
+        <input type="checkbox"
+               name="is_public"
+               ng-model="query.isPublic"
+               ng-disabled="cannot(query, 'publicize')"></input>
         <div class="styled-checkbox"></div>
         Page visible for others
       </label>
