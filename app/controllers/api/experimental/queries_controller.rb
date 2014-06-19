@@ -102,10 +102,6 @@ module Api::Experimental
 
     private
 
-    def bool_param(param)
-      params[param] && (["true", "1"].include?(params[param]))
-    end
-
     def setup_query
       @query = retrieve_query
     end
@@ -134,7 +130,6 @@ module Api::Experimental
       @query.column_names = nil if params[:default_columns]
       @query.name = params[:name] if params[:name]
       @query.is_public = params[:is_public] if params[:is_public]
-      @query.shown_in_all_projects = bool_param(:shown_in_all_projects)
     end
 
     def prepare_sort_criteria
