@@ -19,8 +19,11 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
-<h2 class="page-layout-only"><%=l(:label_member_plural)%></h2>
 <h3><%=l(:label_member_plural)%></h3>
+
+<% if defined? block_name_id %>
+  <%= content_for block_name_id %>
+<% end %>
 
 <% if @project.members.count > 0 && users_by_role(50).any? %>
   <div class="members overview" id="users_per_role">

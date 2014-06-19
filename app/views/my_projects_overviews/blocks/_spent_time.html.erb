@@ -20,6 +20,11 @@ See doc/COPYRIGHT.md for more details.
 ++#%>
 
 <h3><%=l(:label_spent_time)%> (<%= l(:label_last_n_days, 7) %>)</h3>
+
+<% if defined? block_name_id %>
+  <%= content_for block_name_id %>
+<% end %>
+
 <%
    entries = TimeEntry.find(:all,
                             :conditions => ["#{TimeEntry.table_name}.user_id = ? AND #{TimeEntry.table_name}.spent_on BETWEEN ? AND ?", @user.id, Date.today - 6, Date.today],

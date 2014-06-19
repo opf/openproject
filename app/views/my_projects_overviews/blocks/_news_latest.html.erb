@@ -19,8 +19,12 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
-<h2 class="page-layout-only"><%=News.model_name.human%></h2>
 <h3><%=l(:label_news_latest)%></h3>
+
+<% if defined? block_name_id %>
+  <%= content_for block_name_id %>
+<% end %>
+
 <% if recent_news.any? && authorize_for('news', 'index') %>
   <div class="news overview">
     <%= render :partial => 'news/news', :collection => recent_news %>

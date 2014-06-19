@@ -19,13 +19,6 @@ See doc/COPYRIGHT.md for more details.
 
 ++*/
 
-h2.page-layout-only { display: none }
-.block-receiver h2.page-layout-only { display: block; color: #bbb }
-
-.controller-my_projects_overviews .block-receiver div.mypage-box div.box-actions {
-    margin-top: 10px;
-}
-
 div.overview {
   padding:6px;
   margin-bottom: 10px;
