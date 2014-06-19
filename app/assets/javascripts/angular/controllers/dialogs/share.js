@@ -38,9 +38,10 @@ angular.module('openproject.workPackages.controllers')
 
 .controller('ShareModalController', [
   '$scope',
+  'I18n',
   'shareModal',
   'QueryService',
-  function($scope, shareModal, QueryService) {
+  function($scope, I18n, shareModal, QueryService) {
 
   this.name    = 'Share';
   this.closeMe = shareModal.deactivate;
@@ -64,7 +65,7 @@ angular.module('openproject.workPackages.controllers')
         if($scope.query.starred != $scope.shareSettings.starred){
           QueryService.toggleQueryStarred()
             .then(function(data){
-              message = message + " Please refresh page to see changes to menu." // TODO RS: Locale
+              message = message + " " + I18n.t('js.work_packages.message_please_refresh');
               closeAndReport(message);
             });
         } else {
