@@ -8,7 +8,7 @@ angular.module('openproject.layout')
     scope: { queryId: '@' },
     link: function(scope, element, attrs) {
       scope.$on('$stateChangeSuccess', function() {
-        element.toggleClass('selected', scope.queryId === $stateParams.query_id);
+        element.toggleClass('selected', (scope.queryId || null) === $stateParams.query_id);
       });
     }
   };
