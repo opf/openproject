@@ -320,7 +320,6 @@ angular.module('openproject.services')
       var url = PathHelper.apiProjectQueryPath(query.project_id, query.id);
       return QueryService.doQuery(url, query.toUpdateParams(), 'DELETE', function(response){
         QueryService.fetchAvailableGroupedQueries(query.project_id);
-        QueryService.resetQuery();
 
         return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_delete') }} );
       });

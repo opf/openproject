@@ -92,7 +92,7 @@ angular.module('openproject.workPackages.controllers')
   function initQuery(metaData) {
     var storedQuery = QueryService.getQuery();
 
-    if (storedQuery && storedQuery.id === $scope.query_id) {
+    if (storedQuery && $stateParams.query_id !== null && storedQuery.id === $scope.query_id) {
       $scope.query = storedQuery;
     } else {
       var queryData = metaData.query,
