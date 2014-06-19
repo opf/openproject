@@ -300,7 +300,8 @@ Redmine::MenuManager.map :project_menu do |menu|
                             caption: :label_work_package_plural,
                             html: {
                               class: "icon2 icon-copy",
-                              "data-ui-route" => ''
+                              "data-ui-route" => '',
+                              query_menu_item: 'query_menu_item'
                             }
 
   menu.push :new_work_package, { :controller => '/work_packages', :action => 'new'},
