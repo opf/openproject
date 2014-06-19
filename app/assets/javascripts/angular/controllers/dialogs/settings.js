@@ -44,9 +44,8 @@ angular.module('openproject.workPackages.controllers')
   this.name    = 'Settings';
   this.closeMe = settingsModal.deactivate;
   $scope.queryName   = query.name;
-  $scope.deleteQuery = false;
 
-  $scope.updateQuery = function(deleteQuery) {
+  $scope.updateQuery = function() {
     query.name = $scope.queryName;
     QueryService.saveQuery()
       .then(function(data){
