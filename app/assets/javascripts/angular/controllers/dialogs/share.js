@@ -48,29 +48,30 @@ angular.module('openproject.workPackages.controllers')
   $scope.query = QueryService.getQuery();
   $scope.shareSettings = {
     starred: $scope.query.starred
-  }
+  };
 
   closeAndReport = function(message) {
     shareModal.deactivate();
-    $scope.$emit('flashMessage', { text: message });
-  }
+    $scope.$emit('flashMessage', message);
+  };
 
   $scope.saveQuery = function() {
-    var message;
+    var messageObject;
     QueryService.saveQuery()
       .then(function(data){
-        message = data.status.text;
+
+        messageObject = data.status;
       })
       .then(function(data){
         if($scope.query.starred != $scope.shareSettings.starred){
           QueryService.toggleQueryStarred()
             .then(function(data){
-              message = message + " " + I18n.t('js.work_packages.message_please_refresh');
-              closeAndReport(message);
+              messageObject.text = messageObject.text + " " + I18n.t('js.work_packages.message_please_refresh');
+              closeAndReport(messageObject);
             });
         } else {
-          closeAndReport(message);
+          closeAndReport(messageObject);
         }
-      })
+      });
   };
 }]);

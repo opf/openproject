@@ -368,7 +368,7 @@ angular.module('openproject.services')
         return response.data;
       };
       failure = failure || function(response){
-        return angular.extend(response.data, { status: { text: I18n.t('js.notice_bad_request'), isError: true }} );
+        return angular.extend(response, { status: { text: I18n.t('js.notice_bad_request'), isError: true }} );
       };
 
       return $http({
