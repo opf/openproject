@@ -45,6 +45,7 @@ module.exports = function(config) {
       "app/assets/javascripts/angular/directives/**/*.js",
       'app/assets/javascripts/angular/services/**/*.js',
 
+      "app/assets/javascripts/angular/layout/**/*.js",
       "app/assets/javascripts/angular/work_packages/**/*.js",
 
       'app/assets/javascripts/autocompleter.js',
