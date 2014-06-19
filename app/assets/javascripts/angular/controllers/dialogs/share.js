@@ -41,7 +41,7 @@ angular.module('openproject.workPackages.controllers')
   'I18n',
   'shareModal',
   'QueryService',
-  'AuthorisationServic',
+  'AuthorisationService',
   function($scope, I18n, shareModal, QueryService, AuthorisationService) {
 
   this.name    = 'Share';

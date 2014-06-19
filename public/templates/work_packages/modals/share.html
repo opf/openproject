@@ -16,7 +16,10 @@
     </div>
     <div>
       <label class="checkbox-label">
-        <input type="checkbox" name="show_in_menu" ng-model="shareSettings.starred"></input>
+        <input type="checkbox"
+               name="show_in_menu"
+               ng-model="shareSettings.starred"
+               ng-disabled="cannot(query, 'star')"></input>
         <div class="styled-checkbox"></div>
         Show page in menu
       </label>

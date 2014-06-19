@@ -184,6 +184,7 @@ module Api
 
         links = {}
         links[:update]      = true if User.current.allowed_to?(:save_queries, @project)
+        links[:delete]      = true if User.current.allowed_to?(:save_queries, @project)
         links[:publicize]   = true if User.current.allowed_to?(:manage_public_queries, @project)
         links[:depublicize] = true if User.current.allowed_to?(:manage_public_queries, @project)
         links[:star]        = true if (query.user_id == User.current.id && User.current.allowed_to?(:save_queries, @project) || User.current.allowed_to?(:manage_public_queries, @project))
