@@ -21,6 +21,8 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
+* `#4099` Fix tab order
+
 ## 3.0.2
 
 * Fix path of assets that should be precompiled
