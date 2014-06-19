@@ -19,8 +19,12 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
-<h2 class="page-layout-only"><%=l(:label_project_details)%></h2>
 <h3><%=l(:label_project_details)%></h3>
+
+<% if defined? block_name_id %>
+  <%= content_for block_name_id %>
+<% end %>
+
 <div class="overview project_details">
   <ul>
   <% unless project.homepage.blank? %><li><%=l(:label_project_homepage)%>: <%= auto_link(h(project.homepage)) %></li><% end %>

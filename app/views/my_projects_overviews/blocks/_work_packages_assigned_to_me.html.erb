@@ -21,6 +21,10 @@ See doc/COPYRIGHT.md for more details.
 
 <h3><%=l(:label_work_packages_assigned_to_me)%> (<%= WorkPackage.visible.open.count(:conditions => {:assigned_to_id => User.current.id, :project_id => @project.id})%>)</h3>
 
+<% if defined? block_name_id %>
+  <%= content_for block_name_id %>
+<% end %>
+
 <% assigned_work_packages = WorkPackage.visible.open.find(:all,
                                                           :conditions => {:assigned_to_id => User.current.id, :project_id => @project.id},
                                                           :limit => 10,

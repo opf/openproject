@@ -19,8 +19,12 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
-<h2 class="page-layout-only"><%=l(:label_subproject_plural)%></h2>
 <h3><%=l(:label_subproject_plural)%></h3>
+
+<% if defined? block_name_id %>
+  <%= content_for block_name_id %>
+<% end %>
+
 <% if childprojects.any? %>
   <div class="subprojects overview">
     <p>

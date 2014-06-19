@@ -19,8 +19,12 @@ See doc/COPYRIGHT.md for more details.
 
 ++#%>
 
-<h2 class="page-layout-only"><%=l(:label_work_package_tracking)%></h2>
 <h3><%=l(:label_work_package_tracking)%></h3>
+
+<% if defined? block_name_id %>
+  <%= content_for block_name_id %>
+<% end %>
+
 <% if User.current.allowed_to?(:view_work_packages, project) %>
   <div class="issues overview">
     <ul>
