@@ -183,12 +183,35 @@ module Api
         json_query = query.as_json(except: :filters, include: :filters, methods: [:starred])
 
         links = {}
-        links[:update]      = true if User.current.allowed_to?(:save_queries, @project)
-        links[:delete]      = true if User.current.allowed_to?(:save_queries, @project)
-        links[:publicize]   = true if User.current.allowed_to?(:manage_public_queries, @project)
-        links[:depublicize] = true if User.current.allowed_to?(:manage_public_queries, @project)
-        links[:star]        = true if (query.user_id == User.current.id && User.current.allowed_to?(:save_queries, @project) || User.current.allowed_to?(:manage_public_queries, @project))
-        links[:unstar]      = true if (query.user_id == User.current.id && User.current.allowed_to?(:save_queries, @project) || User.current.allowed_to?(:manage_public_queries, @project))
+        links[:update]      = api_experimental_query_path(query) if query.persisted? && User.current.allowed_to?(:save_queries, @project)
+        links[:create]      = api_experimental_project_queries_path(@project) if query.new_record? && User.current.allowed_to?(:save_queries, @project)
+        links[:delete]      = api_experimental_query_path(query) if query.persisted? && User.current.allowed_to?(:save_queries, @project)
+        links[:publicize]   = api_experimental_query_path(query) if query.persisted? && User.current.allowed_to?(:manage_public_queries, @project)
+        links[:depublicize] = api_experimental_query_path(query) if query.persisted? && User.current.allowed_to?(:manage_public_queries, @project)
+
+        # this probably forces grape to be loaded.  at least it is necessary in
+        # development mode because the routes otherwise are not within the
+        # "api/:version" namespace.
+        API::Root
+        if query.persisted? && (query.user_id == User.current.id && User.current.allowed_to?(:save_queries, @project) || User.current.allowed_to?(:manage_public_queries, @project))
+
+          star_route = API::V3::Queries::QueriesAPI.routes.detect {|r| r.route_path.match(/\/star/)}
+          star_path = star_route.route_path.gsub(":version", star_route.route_version)
+                                           .gsub(":id", query.id.to_s)
+                                           .gsub(/\(\.:format\)/,'')
+
+          links[:star]        = star_path
+        end
+
+        if query.persisted? && (query.user_id == User.current.id && User.current.allowed_to?(:save_queries, @project) || User.current.allowed_to?(:manage_public_queries, @project))
+
+          unstar_route = API::V3::Queries::QueriesAPI.routes.detect {|r| r.route_path.match(/\/unstar/)}
+          unstar_path = unstar_route.route_path.gsub(":version", unstar_route.route_version)
+                                               .gsub(":id", query.id.to_s)
+                                               .gsub(/\(\.:format\)/,'')
+
+          links[:unstar]      = unstar_path
+        end
 
         json_query[:_links] = links
         json_query
