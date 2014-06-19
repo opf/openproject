@@ -83,3 +83,11 @@ When /^I delete the assigned role (.+)$/ do |role|
     When I follow "Delete" within "#principal_role-#{g.principal_roles[0].id}"
   }
 end
+
+Then /^I should (not )?see block with "(.+)?"$/ do |negative , id |
+  unless negative
+    expect(page).to have_css("#{id}", :visible => true)
+  else
+    expect(page).to have_css("#{id}", :visible => false)
+  end
+end
