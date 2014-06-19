@@ -69,12 +69,12 @@ describe('workPackageTotalSums Directive', function() {
       });
 
       describe('setting total sums for the columns', function(){
-        beforeEach(inject(function($q) {
+        beforeEach(inject(function($q, WorkPackageService) {
           var sumsData = [1, 2];
 
           scope.updateBackUrl = function(){ return 0; };
-          scope.withLoading = function(callback, params) {
-            // Note: Seems easier to mock out the withLoading method instead of WorkPackageService.getWorkPackagesSums which can be seperately unit tested
+
+          WorkPackageService.getWorkPackagesSums = function() {
             deferred = $q.defer();
             deferred.resolve({ column_sums: sumsData } );
             return deferred.promise;

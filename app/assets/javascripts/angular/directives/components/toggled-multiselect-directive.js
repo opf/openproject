@@ -36,7 +36,8 @@ angular.module('openproject.uiComponents')
     scope: {
       name: '=',
       values: '=',
-      availableOptions: '='
+      availableOptions: '=',
+      disabled: '='
     },
     templateUrl: '/templates/components/toggled_multiselect.html',
     link: function(scope, element, attributes){
