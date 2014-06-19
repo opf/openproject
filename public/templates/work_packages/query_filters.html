@@ -135,7 +135,7 @@
                                            name="filter.name"
                                            values="filter.values"
                                            is-multiselect="false"
-                                           ng-disabled="isLoading"/>
+                                           disabled="isLoading"/>
 
                     </div>
                   </td>
@@ -144,7 +144,7 @@
                   <td>
                     <icon-wrapper icon-name="delete2"
                                   icon-title="{{I18n.t('js.button_delete')}}"
-                                  ng-click="query.deactivateFilter(filter, loading)"/>
+                                  ng-click="query.deactivateFilter(filter)"/>
                     <!-- TODO I18n -->
                   </td>
                 </tr>
