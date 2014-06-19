@@ -32,7 +32,8 @@ angular.module('openproject.helpers')
 .service('PathHelper', [function() {
   PathHelper = {
     apiPrefixV2: '/api/v2',
-    apiPrefixV3: '/api/experimental',
+    apiPrefixV3Experimental: '/api/experimental',
+    apiPrefixV3Real: '/api/v3',
 
     activityPath: function(projectIdentifier, from) {
       var link = '/activity';
@@ -118,16 +119,16 @@ angular.module('openproject.helpers')
       return PathHelper.apiPrefixV2 + PathHelper.projectPath(projectIdentifier);
     },
     apiV3ProjectsPath: function(){
-      return PathHelper.apiPrefixV3 + PathHelper.projectsPath();
+      return PathHelper.apiPrefixV3Experimental + PathHelper.projectsPath();
     },
     apiV3ProjectPath: function(projectIdentifier) {
-      return PathHelper.apiPrefixV3 + PathHelper.projectPath(projectIdentifier);
+      return PathHelper.apiPrefixV3Experimental + PathHelper.projectPath(projectIdentifier);
     },
     apiV3QueryPath: function(queryId) {
-      return PathHelper.apiPrefixV3 + PathHelper.queryPath(queryId);
+      return PathHelper.apiPrefixV3Real + PathHelper.queryPath(queryId);
     },
     apiWorkPackagesPath: function() {
-      return PathHelper.apiPrefixV3 + '/work_packages';
+      return PathHelper.apiPrefixV3Experimental + '/work_packages';
     },
     apiProjectWorkPackagesPath: function(projectIdentifier) {
       return PathHelper.apiV3ProjectPath(projectIdentifier) + PathHelper.workPackagesPath();
@@ -142,13 +143,13 @@ angular.module('openproject.helpers')
       return PathHelper.apiV3ProjectPath(projectIdentifier) + PathHelper.queryPath(queryIdentifier);
     },
     apiGroupedQueriesPath: function() {
-      return PathHelper.apiPrefixV3 + '/queries/grouped';
+      return PathHelper.apiPrefixV3Experimental + '/queries/grouped';
     },
     apiAvailableColumnsPath: function() {
-      return PathHelper.apiPrefixV3 + '/queries/available_columns';
+      return PathHelper.apiPrefixV3Experimental + '/queries/available_columns';
     },
     apiCustomFieldsPath: function() {
-      return PathHelper.apiPrefixV3 + '/queries/custom_field_filters';
+      return PathHelper.apiPrefixV3Experimental + '/queries/custom_field_filters';
     },
     apiProjectCustomFieldsPath: function(projectIdentifier) {
       return PathHelper.apiV3ProjectPath(projectIdentifier) + '/queries/custom_field_filters';
@@ -178,10 +179,10 @@ angular.module('openproject.helpers')
       return PathHelper.apiV2ProjectPath(projectIdentifier) + '/statuses';
     },
     apiGroupsPath: function() {
-      return PathHelper.apiPrefixV3 + '/groups';
+      return PathHelper.apiPrefixV3Experimental + '/groups';
     },
     apiRolesPath: function() {
-      return PathHelper.apiPrefixV3 + '/roles';
+      return PathHelper.apiPrefixV3Experimental + '/roles';
     },
     apiWorkPackageTypesPath: function() {
       return PathHelper.apiPrefixV2 + '/planning_element_types';
@@ -190,7 +191,7 @@ angular.module('openproject.helpers')
       return PathHelper.apiV2ProjectPath(projectIdentifier) + '/planning_element_types';
     },
     apiUsersPath: function() {
-      return PathHelper.apiPrefixV3 + PathHelper.usersPath();
+      return PathHelper.apiPrefixV3Experimental + PathHelper.usersPath();
     },
     apiProjectVersionsPath: function(projectIdentifier) {
       return PathHelper.apiV3ProjectPath(projectIdentifier) + PathHelper.versionsPath();

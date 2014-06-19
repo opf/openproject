@@ -49,21 +49,27 @@ angular.module('openproject.workPackages.controllers')
     starred: $scope.query.starred
   }
 
-  $scope.saveQuery = function() {
-    // Note: Using a separate endpoint from the new API V3 to star/unstar the query,
-    // which is why this is happening to 2 requests. Just now it will fail silently
-    // so of course need to think of a better way of dealing with errors.
-    if($scope.query.starred != $scope.shareSettings.starred){
-      QueryService.toggleQueryStarred()
-        .then(function(data){
-          // TODO RS: Handle errors.
-        });
-    }
+  closeAndReport = function(message) {
+    shareModal.deactivate();
+    $scope.$emit('flashMessage', { text: message });
+  }
 
+  $scope.saveQuery = function() {
+    var message;
     QueryService.saveQuery()
       .then(function(data){
-        shareModal.deactivate();
-        $scope.$emit('flashMessage', data.status);
-      });
+        message = data.status.text;
+      })
+      .then(function(data){
+        if($scope.query.starred != $scope.shareSettings.starred){
+          QueryService.toggleQueryStarred()
+            .then(function(data){
+              message = message + " Please refresh page to see changes to menu." // TODO RS: Locale
+              closeAndReport(message);
+            });
+        } else {
+          closeAndReport(message);
+        }
+      })
   };
 }]);
