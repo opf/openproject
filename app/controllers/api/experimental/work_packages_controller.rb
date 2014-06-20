@@ -165,7 +165,7 @@ module Api
       def set_work_packages_meta_data(query, results, work_packages)
         @display_meta = true
         @work_packages_meta_data = {
-          query:                        query.as_json(except: :filters, include: :filters, methods: [:starred]),
+          query:                        query_as_json(query, User.current),
           columns:                      get_columns_for_json(query.columns),
           groupable_columns:            get_columns_for_json(query.groupable_columns),
           work_package_count_by_group:  results.work_package_count_by_group,
@@ -175,8 +175,51 @@ module Api
           per_page:                     per_page_param,
           per_page_options:             Setting.per_page_options_array,
           total_entries:                work_packages.total_entries,
-          export_formats:               export_formats
+          export_formats:               export_formats,
+          _links:                       work_packages_links
         }
+      end
+
+      def work_packages_links
+        links = {}
+        links[:create] = api_experimental_query_path(@project) if User.current.allowed_to?(:add_work_packages, @project)
+        links
+      end
+
+      def query_as_json(query, user)
+        json_query = query.as_json(except: :filters, include: :filters, methods: [:starred])
+
+        links = {}
+        links[:create] = api_experimental_queries_path if user.allowed_to?(:save_queries, @project, :global => @project.nil?)
+
+        if !query.new_record?
+          links[:update]      = api_experimental_query_path(query) if user.allowed_to?(:save_queries, @project, :global => @project.nil?)
+          links[:delete]      = api_experimental_query_path(query) if user.allowed_to?(:save_queries, @project, :global => @project.nil?)
+          links[:publicize]   = api_experimental_query_path(query) if user.allowed_to?(:manage_public_queries, @project, :global => @project.nil?)
+          links[:depublicize] = api_experimental_query_path(query) if user.allowed_to?(:manage_public_queries, @project, :global => @project.nil?)
+
+          if ((query.user_id == user.id && user.allowed_to?(:save_queries, @project, :global => @project.nil?)) ||
+              user.allowed_to?(:manage_public_queries, @project, :global => @project.nil?))
+
+            links[:star]        = query_route_from_grape("star", query)
+            links[:unstar]      = query_route_from_grape("unstar", query)
+          end
+        end
+
+        json_query[:_links] = links
+        json_query
+      end
+
+      def query_route_from_grape(route, query)
+        # this probably forces grape to be loaded.  at least it is necessary in
+        # development mode because the routes otherwise are not within the
+        # "api/:version" namespace.
+        API::Root
+        query_route = API::V3::Queries::QueriesAPI.routes.detect { |r| r.route_path.match(Regexp.new("\/#{route}")) }
+
+        query_route.route_path.gsub(":version", query_route.route_version)
+                              .gsub(":id", query.id.to_s)
+                              .gsub(/\(\.:format\)/,'')
       end
 
       def export_formats

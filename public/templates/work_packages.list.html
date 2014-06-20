@@ -6,7 +6,10 @@
 
     <ul id="toolbar-items">
       <li class="toolbar-item">
-        <button class="button_highlight" with-dropdown dropdown-id="tasksDropdown">
+        <button class="button_highlight"
+                with-dropdown
+                dropdown-id="tasksDropdown"
+                ng-disabled="disableNewWorkPackage">
           <i class="icon-add icon4"></i>
           {{ I18n.t('js.toolbar.unselected_title') }}
           <i class="icon-pulldown-arrow1 icon-dropdown"></i>
@@ -60,11 +63,14 @@
     <li><a href ng-click="showGroupingModal()"><i class="icon-action-menu icon-group-by2"></i>{{ I18n.t('js.toolbar.settings.group_by') }}</a></li>
     <li><a href ng-click="toggleDisplaySums()"><i ng-if="query.displaySums" class="icon-action-menu icon-yes"></i><i ng-if="!query.displaySums" class="icon-action-menu no-icon"></i>{{ I18n.t('js.toolbar.settings.display_sums') }}</a></li>
     <li class="dropdown-divider"></li>
-    <li><a href ng-click="saveQuery()"><i class="icon-action-menu icon-save1"></i>{{ I18n.t('js.toolbar.settings.save') }}</a></li>
-    <li><a href ng-click="showSaveAsModal($event)" ng-class="{'inactive': query.isNew()}">
+    <li><a href ng-click="saveQuery($event)"
+           ng-class="{'inactive': (!query.isNew() && cannot(query, 'update')) || (query.isNew() && cannot(query, 'create'))}">
+        <i class="icon-action-menu icon-save1"></i>{{ I18n.t('js.toolbar.settings.save') }}</a>
+    </li>
+    <li><a href ng-click="showSaveAsModal($event)" ng-class="{'inactive': query.isNew() || cannot(query, 'create')}">
       <i class="icon-action-menu icon-save1"></i>{{ I18n.t('js.toolbar.settings.save_as') }}</a>
     </li>
-    <li><a href ng-click="deleteQuery($event)" ng-class="{'inactive': query.isNew()}">
+    <li><a href ng-click="deleteQuery($event)" ng-class="{'inactive': query.isNew() || cannot(query, 'delete')}">
       <i class="icon-action-menu icon-delete"></i>{{ I18n.t('js.toolbar.settings.delete') }}</a>
     </li>
     <li><a href ng-click="showExportModal()">
@@ -73,7 +79,7 @@
     <li><a href ng-click="showShareModal($event)" ng-class="{'inactive': query.isNew()}">
       <i class="icon-action-menu icon-publish"></i>{{ I18n.t('js.toolbar.settings.share') }}</a>
     </li>
-    <li><a href ng-click="showSettingsModal($event)" ng-class="{'inactive': query.isNew()}">
+    <li><a href ng-click="showSettingsModal($event)" ng-class="{'inactive': query.isNew() || cannot(query, 'update')}">
       <i class="icon-action-menu icon-settings"></i>{{ I18n.t('js.toolbar.settings.page_settings') }}</a>
     </li>
   </ul>
@@ -99,31 +105,31 @@
 <back-url></back-url>
 
 
-<div class="work-packages--split-view autoscroll">
+<div class="work-packages--split-view">
   <div class="work-packages--list" cg-busy="settingUpPage">
-    <work-packages-table ng-if="rows && columns"
-                         cg-busy="refreshWorkPackages"
-                         project-identifier="projectIdentifier"
-                         columns="columns"
-                         rows="rows"
-                         query="query"
-                         group-by="query.groupBy"
-                         group-by-column="groupByColumn"
-                         count-by-group="workPackageCountByGroup"
-                         display-sums="query.displaySums"
-                         total-sums="totalSums"
-                         group-sums="groupSums"
-                         update-results="updateResults()"
-                         update-back-url="updateBackUrl">
-    </work-packages-table>
+    <div class="work-packages--list-scroll-area">
+      <work-packages-table ng-if="rows && columns"
+                           cg-busy="refreshWorkPackages"
+                           project-identifier="projectIdentifier"
+                           columns="columns"
+                           rows="rows"
+                           query="query"
+                           group-by="query.groupBy"
+                           group-by-column="groupByColumn"
+                           count-by-group="workPackageCountByGroup"
+                           display-sums="query.displaySums"
+                           total-sums="totalSums"
+                           group-sums="groupSums"
+                           update-results="updateResults()"
+                           update-back-url="updateBackUrl">
+      </work-packages-table>
 
-    <table-pagination total-entries="totalEntries"
-                      update-results="updateResults()">
-    </table-pagination>
-
+      <table-pagination total-entries="totalEntries"
+                        update-results="updateResults()">
+      </table-pagination>
+    </div>
     <modal-loading>
     </modal-loading>
-
   </div>
   <div class="work-packages--details" ui-view
     feature-flag="detailsView"></div>
