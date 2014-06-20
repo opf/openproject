@@ -84,6 +84,7 @@ angular.module('openproject.workPackages.controllers', [
   'openproject.workPackages.helpers',
   'openproject.services',
   'openproject.workPackages.config',
+  'openproject.layout',
   'btford.modal'
 ]);
 angular.module('openproject.workPackages.directives', [
