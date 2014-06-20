@@ -35,8 +35,6 @@ module Api
 
       accept_key_auth :index, :show
 
-      before_filter :require_authentication
-
       def index
         wp_fields = WorkPackageCustomField.visible_by_user(User.current)
                                           .find(:all,
@@ -62,13 +60,6 @@ module Api
           format.api
         end
       end
-
-      protected
-
-      def require_authentication
-        deny_access if User.current.anonymous?
-      end
-
     end
   end
 end
