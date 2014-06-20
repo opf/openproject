@@ -34,6 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#4021` Separate focus for main menu expander
 * `#4258` Text alignment consistency in tables
 * `#6288` Editing relations in modal dialog leads to warning
+* `#7236` Filtering for asignee role returns wrong result
 * `#7898` Watchers are not sorted alphabetically in work package screen
 * `#9931` APIv2 does not rewire parents correctly
 * `#10232` Work package filter introduced by plugins not displayed
