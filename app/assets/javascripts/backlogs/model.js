@@ -286,7 +286,6 @@ RB.Model = (function ($) {
       newInput.blur(function () {
         self.$.data('focus', '');
       });
-      newInput.appendTo(editor);
       // Find the old status dropdown and replace it with the new one
       input.parent().find('.status_id').replaceWith(newInput);
     },
