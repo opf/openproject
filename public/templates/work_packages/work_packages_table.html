@@ -47,6 +47,7 @@
 
     <tr work-package-group-header
         ng-repeat-start="row in rows"
+        bindonce
         ng-if="!!groupByColumn &&
                ($first || row.groupName !== rows[$index-1].groupName)"
         ng-class="{
@@ -98,14 +99,15 @@
     <!-- Work package rows -->
 
     <tr work-package-row
-        id="work-package-{{ row.object.id }}"
+        bindonce
+        bo-id="work-package-{{ row.object.id }}"
         has-context-menu
         target="WorkPackageContextMenu"
         locals="rows, row"
-        ng-class="[
+        ng-class="{'context-menu-selection': row.checked}"
+        bo-class="[
           'issue',
           'hascontextmenu',
-          row.checked && 'context-menu-selection',
           !row.object['leaf?'] && 'parent' || '',
           row.level > 0 && 'child idnt' || '',
           row.level > 0 && ('idnt-' + row.level) || ''
@@ -125,12 +127,15 @@
       </td>
 
       <td class="id">
-        <span ng-if="workPackage.parent_id" class="hidden-for-sighted" ng-bind="parentWorkPackageHiddenText">
+        <span bo-if="workPackage.parent_id" class="hidden-for-sighted" bo-text="parentWorkPackageHiddenText">
         </span>
         <a ng-href="{{ workPackagePath(row.object.id) }}">{{row.object.id}}</a>
       </td>
 
-      <td ng-repeat="column in columns" class="{{column.name}}" lang="{{column.custom_field && column.custom_field.name_locale || I18n.locale}}">
+      <td ng-repeat="column in columns"
+          class="{{column.name}}"
+          bind-once
+          lang="{{column.custom_field && column.custom_field.name_locale || I18n.locale}}">
         <span work-package-column
               work-package="row.object"
               column="column"
