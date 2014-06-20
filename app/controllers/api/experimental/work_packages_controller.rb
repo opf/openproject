@@ -183,10 +183,9 @@ module Api
         json_query = query.as_json(except: :filters, include: :filters, methods: [:starred])
 
         links = {}
+        links[:create] = api_experimental_queries_path if user.allowed_to?(:save_queries, @project, :global => @project.nil?)
 
-        if query.new_record?
-          links[:create]      = api_experimental_queries_path if user.allowed_to?(:save_queries, @project, :global => @project.nil?)
-        else
+        if !query.new_record?
           links[:update]      = api_experimental_query_path(query) if user.allowed_to?(:save_queries, @project, :global => @project.nil?)
           links[:delete]      = api_experimental_query_path(query) if user.allowed_to?(:save_queries, @project, :global => @project.nil?)
           links[:publicize]   = api_experimental_query_path(query) if user.allowed_to?(:manage_public_queries, @project, :global => @project.nil?)
