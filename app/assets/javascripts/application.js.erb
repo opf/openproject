@@ -172,12 +172,6 @@ function setCheckboxesBySelector(checked, selector) {
   });
 }
 
-function showAndScrollTo(id, focus) {
-  Element.show(id);
-  if (focus !== null) { Form.Element.focus(focus); }
-  Element.scrollTo(id);
-}
-
 // TODO de-implement once table component has been used
 function setGroupRowStatus(el) {
   var collapseExpandButton = jQuery(el);
