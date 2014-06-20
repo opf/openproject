@@ -103,7 +103,6 @@ module OpenProject
     config.assets.paths << bower_assets_path.join(*%w(select2)).to_s
     config.assets.paths << bower_assets_path.join(*%w(jquery-ui themes base)).to_s
     config.assets.paths << bower_assets_path.join(*%w(jquery.atwho dist)).to_s
-    config.assets.paths << bower_assets_path.join(*%w(angular-busy dist)).to_s
 
     # Whitelist assets to be precompiled.
     #
@@ -120,7 +119,11 @@ module OpenProject
     config.assets.precompile.unshift -> (path) {
       (extension = File.extname(path)).present? and extension.in?(precompile_whitelist)
     }
-    config.assets.precompile += %w(jquery-ui/themes/base/jquery-ui.css select2/select2.css)
+    config.assets.precompile += %w(
+      jquery-ui/themes/base/jquery-ui.css
+      select2/select2.css
+      angular-busy/dist/angular-busy.css
+    )
 
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true
