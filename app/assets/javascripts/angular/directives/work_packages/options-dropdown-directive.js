@@ -37,9 +37,10 @@ angular.module('openproject.workPackages.directives')
   'sortingModal',
   'groupingModal',
   'QueryService',
+  'AuthorisationService',
   '$window',
   '$state',
-  function(I18n, columnsModal, exportModal, saveModal, settingsModal, shareModal, sortingModal, groupingModal, QueryService, $window, $state){
+  function(I18n, columnsModal, exportModal, saveModal, settingsModal, shareModal, sortingModal, groupingModal, QueryService, AuthorisationService, $window, $state){
 
   return {
     restrict: 'AE',
@@ -49,20 +50,24 @@ angular.module('openproject.workPackages.directives')
         scope.$emit('hideAllDropdowns');
       });
 
-      scope.saveQuery = function(){
+      scope.saveQuery = function(event){
         if(scope.query.isNew()){
-          scope.$emit('hideAllDropdowns');
-          saveModal.activate();
+          if( allowQueryAction(event, 'create') ){
+            scope.$emit('hideAllDropdowns');
+            saveModal.activate();
+          }
         } else {
-          QueryService.saveQuery()
-            .then(function(data){
-              scope.$emit('flashMessage', data.status);
-            });
+          if( allowQueryAction(event, 'update') ) {
+            QueryService.saveQuery()
+              .then(function(data){
+                scope.$emit('flashMessage', data.status);
+              });
+          }
         }
       };
 
       scope.deleteQuery = function(event){
-        if( preventDisabledAction(event) && deleteConfirmed() ){
+        if( allowQueryAction(event, 'delete') && preventNewQueryAction(event) && deleteConfirmed() ){
           QueryService.deleteQuery()
             .then(function(data){
               settingsModal.deactivate();
@@ -74,7 +79,9 @@ angular.module('openproject.workPackages.directives')
 
       // Modals
       scope.showSaveAsModal = function(event){
-        showExistingQueryModal.call(saveModal, event);
+        if( allowQueryAction(event, 'create') ) {
+          showExistingQueryModal.call(saveModal, event);
+        }
       };
 
       scope.showShareModal = function(event){
@@ -82,7 +89,9 @@ angular.module('openproject.workPackages.directives')
       }
 
       scope.showSettingsModal = function(event){
-        showExistingQueryModal.call(settingsModal, event);
+        if( allowQueryAction(event, 'update') ) {
+          showExistingQueryModal.call(settingsModal, event);
+        }
       };
 
       scope.showExportModal = function(){
@@ -106,7 +115,7 @@ angular.module('openproject.workPackages.directives')
         scope.query.displaySums = !scope.query.displaySums;
       };
 
-      function preventDisabledAction(event){
+      function preventNewQueryAction(event){
         if (event && scope.query.isNew()) {
           event.preventDefault();
           event.stopPropagation();
@@ -121,9 +130,19 @@ angular.module('openproject.workPackages.directives')
       }
 
       function showExistingQueryModal(event) {
-        if( preventDisabledAction(event) ){
+        if( preventNewQueryAction(event) ){
           scope.$emit('hideAllDropdowns');
           this.activate();
+        }
+      }
+
+      function allowQueryAction(event, action) {
+        if(AuthorisationService.can(scope.query, action)){
+          return true;
+        } else {
+          event.preventDefault();
+          event.stopPropagation();
+          return false; 
         }
       }
 

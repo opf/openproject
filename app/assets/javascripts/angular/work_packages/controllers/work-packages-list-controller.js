@@ -40,13 +40,14 @@ angular.module('openproject.workPackages.controllers')
     'ProjectService',
     'QueryService',
     'PaginationService',
+    'AuthorisationService',
     'WorkPackageLoadingHelper',
     'INITIALLY_SELECTED_COLUMNS',
     'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
     function($scope, $rootScope, $q, $location, $stateParams,
       I18n, WorkPackagesTableService,
       WorkPackageService, ProjectService, QueryService, PaginationService,
-      WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS,
+      AuthorisationService, WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS,
       OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
 
 
@@ -56,6 +57,7 @@ angular.module('openproject.workPackages.controllers')
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.loading = false;
     $scope.disableFilters = false;
+    $scope.disableNewWorkPackage = true;
 
     var getWorkPackages, params;
     if($scope.query_id){
@@ -143,6 +145,9 @@ angular.module('openproject.workPackages.controllers')
 
     // back url
     $scope.updateBackUrl();
+
+    // Authorisation
+    $scope.disableNewWorkPackage = AuthorisationService.cannot({ links: meta._links }, "create");
   }
 
   function initAvailableColumns() {
@@ -189,6 +194,9 @@ angular.module('openproject.workPackages.controllers')
   // Go
 
   initialSetup();
+
+  $scope.can = AuthorisationService.can;
+  $scope.cannot = AuthorisationService.cannot;
 
   $scope.$watch(QueryService.getQueryName, function(queryName){
     $scope.selectedTitle = queryName || I18n.t('js.toolbar.unselected_title');
