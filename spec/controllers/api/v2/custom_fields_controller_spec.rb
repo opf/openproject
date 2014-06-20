@@ -50,10 +50,26 @@ describe Api::V2::CustomFieldsController do
       it { expect(response).to render_template('api/v2/custom_fields/index', formats: ['api']) }
     end
 
+    shared_examples_for 'a user w/o a project' do
+      before { get :index, format: :xml }
+
+      it_behaves_like 'valid workflow index request'
+
+      subject { assigns(:custom_fields) }
+
+      it { expect(subject.count).to eq(3) }
+
+      it { expect(subject).to include(custom_field) }
+
+      it { expect(subject).to include(wp_custom_field_for_all) }
+
+      it { expect(subject).to include(wp_custom_field_public) }
+    end
+
     describe 'unauthorized access' do
       before { get :index, project_id: project.id, format: :xml }
 
-      it { expect(response.status).to eq(401) }
+      it_behaves_like 'a user w/o a project'
     end
 
     describe 'authorized access' do
@@ -62,21 +78,7 @@ describe Api::V2::CustomFieldsController do
 
         before { User.stub(:current).and_return current_user }
 
-        describe 'w/o project' do
-          before { get :index, format: :xml }
-
-          it_behaves_like 'valid workflow index request'
-
-          subject { assigns(:custom_fields) }
-
-          it { expect(subject.count).to eq(3) }
-
-          it { expect(subject).to include(custom_field) }
-
-          it { expect(subject).to include(wp_custom_field_for_all) }
-
-          it { expect(subject).to include(wp_custom_field_public) }
-        end
+        it_behaves_like 'a user w/o a project'
       end
 
       context "with project" do
