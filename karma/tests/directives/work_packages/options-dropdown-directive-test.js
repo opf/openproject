@@ -83,7 +83,8 @@ describe('optionsDropdown Directive', function() {
       describe('active options', function(){
         beforeEach(function(){
           var query = new Query({
-            id: 1
+            id: 1,
+            links: { create: "/queries" }
           });
           scope.query = query;
 
