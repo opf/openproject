@@ -120,7 +120,8 @@ var openprojectApp = angular.module('openproject', [
   'ngSanitize',
   'truncate',
   'feature-flags',
-  'openproject.layout'
+  'openproject.layout',
+  'cgBusy'
 ]);
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
