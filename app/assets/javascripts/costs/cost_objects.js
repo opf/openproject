@@ -31,3 +31,18 @@ function confirmChangeType(text, select, originalValue) {
   if (!ret) select.setValue(originalValue);
   return ret;
 }
+
+jQuery(function($) {
+  $(window).load(function () {
+    $('.action_menu_specific > .icon-edit').click(function () {
+      var scrollToId = "#update",
+          focusId = "#cost_object_description";
+      $(scrollToId).show();
+      $('html, body').animate({
+          scrollTop: $(scrollToId).offset().top
+      }, 500);
+      $(focusId).focus();
+      return false;
+    });
+  });
+});
