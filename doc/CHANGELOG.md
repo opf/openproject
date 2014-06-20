@@ -36,6 +36,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+* `#10848` Duplicated status select on type switch
+
 ## 3.0.6
 
 * `#5357` Adapt released plugins to base on plugins functionality
