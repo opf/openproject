@@ -56,6 +56,7 @@ angular.module('openproject.workPackages.controllers')
   function initialSetup() {
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.disableFilters = false;
+    $scope.disableNewWorkPackage = true;
 
     var getWorkPackages, params;
     if($scope.query_id){
