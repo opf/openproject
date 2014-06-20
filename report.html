@@ -2,3 +2,340 @@
 <h2 id="pass-get-work_packages-1">Pass: GET /work_packages/1</h2>
 <h2 id="pass-patch-work_packages-1">Pass: PATCH /work_packages/1</h2>
 <h2 id="pass-options-work_packages-1">Pass: OPTIONS /work_packages/1</h2>
+<h2 id="pass-get-work_packages-limit-250-offset-100">Pass: GET /work_packages?limit=250&amp;offset=100</h2>
+<h2 id="fail-patch-work_packages-limit-250-offset-100">Fail: PATCH /work_packages?limit=250&amp;offset=100</h2>
+<h3 id="message">Message</h3>
+<pre><code>headers: Value of the ‘content-type’ must be application/hal+json.
+body: No validator found for real data media type &#39;text/plain&#39; and expected data media type &#39;application/json&#39;.
+statusCode: Real and expected data does not match.
+</code></pre><h3 id="request">Request</h3>
+<pre><code>body: 
+{
+    &quot;workPackages&quot;: [
+        {
+            &quot;id&quot;: 1,
+            &quot;subject&quot;: &quot;Lorem ipsum&quot;,
+            &quot;description&quot;: &quot;Dolor sit amet.&quot;
+        }
+    ]
+}
+
+headers: 
+    Content-Type: application/hal+json
+    User-Agent: Dredd/0.3.1 (Linux 3.11.0-20-generic; x64)
+    Content-Length: 156
+
+uri: /work_packages?limit=250&amp;offset=100
+method: PATCH
+</code></pre><h3 id="expected">Expected</h3>
+<pre><code>headers: 
+    Content-Type: application/hal+json
+
+body: 
+{
+    &quot;_embedded&quot;: {
+        &quot;results&quot;: [
+            {
+                &quot;status&quot;: { &quot;code&quot;: 200, &quot;text&quot;: &quot;Ok&quot; },
+                &quot;workPackage&quot;: {
+                    &quot;_type&quot;: &quot;WorkPackage&quot;,
+                    &quot;_links&quot;: {
+                        &quot;self&quot;: {
+                            &quot;href&quot;: &quot;https://openproject.org/api/v3/work_packages/1&quot;,
+                            &quot;title&quot;: &quot;quis numquam qui voluptatum quia praesentium blanditiis nisi&quot;
+                        }
+                    },
+                    &quot;id&quot;: 1,
+                    &quot;subject&quot;: &quot;Lorem ipsum&quot;,
+                    &quot;type&quot;: &quot;Support&quot;,
+                    &quot;description&quot;: &quot;Dolor sit amet.&quot;,
+                    &quot;status&quot;: &quot;New&quot;,
+                    &quot;priority&quot;: &quot;Normal&quot;,
+                    &quot;startDate&quot;: &quot;2014-05-29&quot;,
+                    &quot;dueDate&quot;: &quot;2014-08-29&quot;,
+                    &quot;estimatedTime&quot;: {
+                        &quot;units&quot;: &quot;hours&quot;,
+                        &quot;value&quot;: 10
+                    },
+                    &quot;percentageDone&quot;: 0,
+                    &quot;targetVersionId&quot;: 1,
+                    &quot;targetVersionName&quot;: &quot;sprint-01&quot;,
+                    &quot;projectId&quot;: 1,
+                    &quot;projectName&quot;: &quot;Seeded Project&quot;,
+                    &quot;responsibleId&quot;: 1,
+                    &quot;responsibleName&quot;: &quot;OpenProject Admin&quot;,
+                    &quot;responsibleLogin&quot;: &quot;admin&quot;,
+                    &quot;responsibleMail&quot;: &quot;admin@example.net&quot;,
+                    &quot;assigneeId&quot;: 22,
+                    &quot;assigneeName&quot;: &quot;Vivienne Windler&quot;,
+                    &quot;assigneeLogin&quot;: &quot;Yoshiko8884&quot;,
+                    &quot;assigneeMail&quot;: &quot;gabriel.osinski@glover.name&quot;,
+                    &quot;authorName&quot;: &quot;Delia Schneider&quot;,
+                    &quot;authorLogin&quot;: &quot;Layla3137&quot;,
+                    &quot;authorMail&quot;: &quot;charlene.terry@stromanko.org&quot;,
+                    &quot;createdAt&quot;: &quot;2014-05-21T08:51:20Z&quot;,
+                    &quot;updatedAt&quot;: &quot;2014-05-22T09:41:29Z&quot;
+                }
+            }
+        ]
+    }
+}
+
+statusCode: 207
+</code></pre><h3 id="actual">Actual</h3>
+<pre><code>statusCode: 500
+headers: 
+    content-type: text/html; charset=utf-8
+    content-length: 14909
+    x-request-id: e6dc14b0c58f8ab82c1652383f9c0fd6
+    x-runtime: 2.718857
+    x-frame-options: SAMEORIGIN
+    connection: keep-alive
+    server: thin 1.5.1 codename Straight Razor
+
+body: 
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot; /&gt;
+  &lt;title&gt;Action Controller: Exception caught&lt;/title&gt;
+  &lt;style&gt;
+    body { background-color: #fff; color: #333; }
+
+    body, p, ol, ul, td {
+      font-family: helvetica, verdana, arial, sans-serif;
+      font-size:   13px;
+      line-height: 18px;
+    }
+
+    pre {
+      background-color: #eee;
+      padding: 10px;
+      font-size: 11px;
+      white-space: pre-wrap;
+    }
+
+    a { color: #000; }
+    a:visited { color: #666; }
+    a:hover { color: #fff; background-color:#000; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;h1&gt;
+  NoMethodError
+&lt;/h1&gt;
+&lt;pre&gt;undefined method `each&amp;#x27; for nil:NilClass&lt;/pre&gt;
+
+
+&lt;p&gt;&lt;code&gt;Rails.root: /home/mtakac/projects/openproject&lt;/code&gt;&lt;/p&gt;
+
+&lt;div id=&quot;traces&quot;&gt;
+    &lt;a href=&quot;#&quot; onclick=&quot;document.getElementById(&amp;#x27;Framework-Trace&amp;#x27;).style.display=&amp;#x27;none&amp;#x27;;document.getElementById(&amp;#x27;Full-Trace&amp;#x27;).style.display=&amp;#x27;none&amp;#x27;;document.getElementById(&amp;#x27;Application-Trace&amp;#x27;).style.display=&amp;#x27;block&amp;#x27;;; return false;&quot;&gt;Application Trace&lt;/a&gt; |
+    &lt;a href=&quot;#&quot; onclick=&quot;document.getElementById(&amp;#x27;Application-Trace&amp;#x27;).style.display=&amp;#x27;none&amp;#x27;;document.getElementById(&amp;#x27;Full-Trace&amp;#x27;).style.display=&amp;#x27;none&amp;#x27;;document.getElementById(&amp;#x27;Framework-Trace&amp;#x27;).style.display=&amp;#x27;block&amp;#x27;;; return false;&quot;&gt;Framework Trace&lt;/a&gt; |
+    &lt;a href=&quot;#&quot; onclick=&quot;document.getElementById(&amp;#x27;Application-Trace&amp;#x27;).style.display=&amp;#x27;none&amp;#x27;;document.getElementById(&amp;#x27;Framework-Trace&amp;#x27;).style.display=&amp;#x27;none&amp;#x27;;document.getElementById(&amp;#x27;Full-Trace&amp;#x27;).style.display=&amp;#x27;block&amp;#x27;;; return false;&quot;&gt;Full Trace&lt;/a&gt; 
+
+    &lt;div id=&quot;Application-Trace&quot; style=&quot;display: block;&quot;&gt;
+      &lt;pre&gt;&lt;code&gt;app/api/work_packages/work_packages.rb:29:in `block (2 levels) in &amp;lt;class:API&amp;gt;&amp;#x27;&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;Framework-Trace&quot; style=&quot;display: none;&quot;&gt;
+      &lt;pre&gt;&lt;code&gt;grape (0.7.0) lib/grape/endpoint.rb:31:in `call&amp;#x27;
+grape (0.7.0) lib/grape/endpoint.rb:31:in `block in generate_api_method&amp;#x27;
+grape (0.7.0) lib/grape/endpoint.rb:407:in `call&amp;#x27;
+grape (0.7.0) lib/grape/endpoint.rb:407:in `run&amp;#x27;
+grape (0.7.0) lib/grape/endpoint.rb:156:in `block in call!&amp;#x27;
+grape (0.7.0) lib/grape/middleware/base.rb:24:in `call&amp;#x27;
+grape (0.7.0) lib/grape/middleware/base.rb:24:in `call!&amp;#x27;
+grape (0.7.0) lib/grape/middleware/base.rb:18:in `call&amp;#x27;
+grape (0.7.0) lib/grape/middleware/error.rb:26:in `block in call!&amp;#x27;
+grape (0.7.0) lib/grape/middleware/error.rb:25:in `catch&amp;#x27;
+grape (0.7.0) lib/grape/middleware/error.rb:25:in `call!&amp;#x27;
+grape (0.7.0) lib/grape/middleware/base.rb:18:in `call&amp;#x27;
+rack (1.4.5) lib/rack/head.rb:9:in `call&amp;#x27;
+rack (1.4.5) lib/rack/builder.rb:134:in `call&amp;#x27;
+grape (0.7.0) lib/grape/endpoint.rb:157:in `call!&amp;#x27;
+grape (0.7.0) lib/grape/endpoint.rb:145:in `call&amp;#x27;
+rack-mount (0.8.3) lib/rack/mount/route_set.rb:152:in `block in call&amp;#x27;
+rack-mount (0.8.3) lib/rack/mount/code_generation.rb:96:in `block in recognize&amp;#x27;
+rack-mount (0.8.3) lib/rack/mount/code_generation.rb:68:in `optimized_each&amp;#x27;
+rack-mount (0.8.3) lib/rack/mount/code_generation.rb:95:in `recognize&amp;#x27;
+rack-mount (0.8.3) lib/rack/mount/route_set.rb:141:in `call&amp;#x27;
+grape (0.7.0) lib/grape/api.rb:537:in `call&amp;#x27;
+grape (0.7.0) lib/grape/api.rb:44:in `call!&amp;#x27;
+grape (0.7.0) lib/grape/api.rb:40:in `call&amp;#x27;
+journey (1.0.4) lib/journey/router.rb:68:in `block in call&amp;#x27;
+journey (1.0.4) lib/journey/router.rb:56:in `each&amp;#x27;
+journey (1.0.4) lib/journey/router.rb:56:in `call&amp;#x27;
+actionpack (3.2.17) lib/action_dispatch/routing/route_set.rb:608:in `call&amp;#x27;
+request_store (1.0.5) lib/request_store/middleware.rb:9:in `call&amp;#x27;
+/home/mtakac/.rvm/gems/ruby-2.1.1@openproject/bundler/gems/i18n-js-8801f8d17ef9/lib/i18n/js/middleware.rb:11:in `call&amp;#x27;
+actionpack (3.2.17) lib/action_dispatch/middleware/best_standards_support.rb:17:in `call&amp;#x27;
+rack (1.4.5) lib/rack/etag.rb:23:in `call&amp;#x27;
+rack (1.4.5) lib/rack/conditionalget.rb:35:in `call&amp;#x27;
+actionpack (3.2.17) lib/action_dispatch/middleware/head.rb:14:in `call&amp;#x27;
+actionpack (3.2.17) lib/action_dispatch/middleware/params_parser.rb:21:in `call&amp;#x27;
+actionpack (3.2.17) lib/action_dispatch/middleware/flash.rb:242:in `call&amp;#x27;
+rack (1.4.5) lib/rack/session/abstract/id.rb:210:in `context&amp;#x27;
+rack (1.4.5) lib/rack/session/abstract/id.rb:205:in `call&amp;#x27;
+actionpack (3.2.17) lib/action_dispatch/middleware/cookies.rb:341:in `call&amp;#x27;
+activerecord (3.2.17) lib/active_record/query_cache.rb:64:in `call&amp;#x27;
+activerecord (3.2.17) lib/active_record/connection_adapters/abstract/connection_pool.rb:479:in `call&amp;#x27;
+actionpack (3.2.17) lib/action_dispatch/middleware/callbacks.rb:28:in `block in call&amp;#x27;
+activesupport (3.2.17) lib/active_support/callbacks.rb:405:in `_run__3248213805400519181__call__2658999934659625053__callbacks&amp;#x27;
+activesupport (3.2.17) lib/active_support/callbacks.rb:405:in `__run_callback&amp;#x27;
+activesupport (3.2.17) lib/active_support/callbacks.rb:385:in `_run_call_callbacks&amp;#x27;
+activesupport (3.2.17) lib/active_support/callbacks.rb:81:in `run_callbacks&amp;#x27;
+actionpack (3.2.17) lib/action_dispatch/middleware/callbacks.rb:27:in `call&amp;#x27;
+rails-dev-tweaks (0.6.1) lib/rails_dev_tweaks/granular_autoload/middleware.rb:34:in `call&amp;#x27;
+actionpack (3.2.17) lib/action_dispatch/middleware/remote_ip.rb:31:in `call&amp;#x27;
+actionpack (3.2.17) lib/action_dispatch/middleware/debug_exceptions.rb:16:in `call&amp;#x27;
+actionpack (3.2.17) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call&amp;#x27;
+railties (3.2.17) lib/rails/rack/logger.rb:32:in `call_app&amp;#x27;
+railties (3.2.17) lib/rails/rack/logger.rb:16:in `block in call&amp;#x27;
+activesupport (3.2.17) lib/active_support/tagged_logging.rb:22:in `tagged&amp;#x27;
+railties (3.2.17) lib/rails/rack/logger.rb:16:in `call&amp;#x27;
+actionpack (3.2.17) lib/action_dispatch/middleware/request_id.rb:22:in `call&amp;#x27;
+rack (1.4.5) lib/rack/methodoverride.rb:21:in `call&amp;#x27;
+rack (1.4.5) lib/rack/runtime.rb:17:in `call&amp;#x27;
+activesupport (3.2.17) lib/active_support/cache/strategy/local_cache.rb:72:in `call&amp;#x27;
+rack (1.4.5) lib/rack/lock.rb:15:in `call&amp;#x27;
+actionpack (3.2.17) lib/action_dispatch/middleware/static.rb:63:in `call&amp;#x27;
+railties (3.2.17) lib/rails/engine.rb:484:in `call&amp;#x27;
+railties (3.2.17) lib/rails/application.rb:231:in `call&amp;#x27;
+railties (3.2.17) lib/rails/railtie/configurable.rb:30:in `method_missing&amp;#x27;
+/home/mtakac/.rvm/gems/ruby-2.1.1@openproject/bundler/gems/rack-protection-5a7d1bd2f05c/lib/rack/protection/frame_options.rb:31:in `call&amp;#x27;
+/home/mtakac/.rvm/gems/ruby-2.1.1@openproject/bundler/gems/rack-protection-5a7d1bd2f05c/lib/rack/protection/json_csrf.rb:18:in `call&amp;#x27;
+rack (1.4.5) lib/rack/content_length.rb:14:in `call&amp;#x27;
+railties (3.2.17) lib/rails/rack/log_tailer.rb:17:in `call&amp;#x27;
+thin (1.5.1) lib/thin/connection.rb:81:in `block in pre_process&amp;#x27;
+thin (1.5.1) lib/thin/connection.rb:79:in `catch&amp;#x27;
+thin (1.5.1) lib/thin/connection.rb:79:in `pre_process&amp;#x27;
+thin (1.5.1) lib/thin/connection.rb:54:in `process&amp;#x27;
+thin (1.5.1) lib/thin/connection.rb:39:in `receive_data&amp;#x27;
+eventmachine (1.0.3) lib/eventmachine.rb:187:in `run_machine&amp;#x27;
+eventmachine (1.0.3) lib/eventmachine.rb:187:in `run&amp;#x27;
+thin (1.5.1) lib/thin/backends/base.rb:63:in `start&amp;#x27;
+thin (1.5.1) lib/thin/server.rb:159:in `start&amp;#x27;
+rack (1.4.5) lib/rack/handler/thin.rb:13:in `run&amp;#x27;
+rack (1.4.5) lib/rack/server.rb:268:in `start&amp;#x27;
+railties (3.2.17) lib/rails/commands/server.rb:70:in `start&amp;#x27;
+railties (3.2.17) lib/rails/commands.rb:55:in `block in &amp;lt;top (required)&amp;gt;&amp;#x27;
+railties (3.2.17) lib/rails/commands.rb:50:in `tap&amp;#x27;
+railties (3.2.17) lib/rails/commands.rb:50:in `&amp;lt;top (required)&amp;gt;&amp;#x27;
+script/rails:6:in `require&amp;#x27;
+script/rails:6:in `&amp;lt;main&amp;gt;&amp;#x27;&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;Full-Trace&quot; style=&quot;display: none;&quot;&gt;
+      &lt;pre&gt;&lt;code&gt;app/api/work_packages/work_packages.rb:29:in `block (2 levels) in &amp;lt;class:API&amp;gt;&amp;#x27;
+grape (0.7.0) lib/grape/endpoint.rb:31:in `call&amp;#x27;
+grape (0.7.0) lib/grape/endpoint.rb:31:in `block in generate_api_method&amp;#x27;
+grape (0.7.0) lib/grape/endpoint.rb:407:in `call&amp;#x27;
+grape (0.7.0) lib/grape/endpoint.rb:407:in `run&amp;#x27;
+grape (0.7.0) lib/grape/endpoint.rb:156:in `block in call!&amp;#x27;
+grape (0.7.0) lib/grape/middleware/base.rb:24:in `call&amp;#x27;
+grape (0.7.0) lib/grape/middleware/base.rb:24:in `call!&amp;#x27;
+grape (0.7.0) lib/grape/middleware/base.rb:18:in `call&amp;#x27;
+grape (0.7.0) lib/grape/middleware/error.rb:26:in `block in call!&amp;#x27;
+grape (0.7.0) lib/grape/middleware/error.rb:25:in `catch&amp;#x27;
+grape (0.7.0) lib/grape/middleware/error.rb:25:in `call!&amp;#x27;
+grape (0.7.0) lib/grape/middleware/base.rb:18:in `call&amp;#x27;
+rack (1.4.5) lib/rack/head.rb:9:in `call&amp;#x27;
+rack (1.4.5) lib/rack/builder.rb:134:in `call&amp;#x27;
+grape (0.7.0) lib/grape/endpoint.rb:157:in `call!&amp;#x27;
+grape (0.7.0) lib/grape/endpoint.rb:145:in `call&amp;#x27;
+rack-mount (0.8.3) lib/rack/mount/route_set.rb:152:in `block in call&amp;#x27;
+rack-mount (0.8.3) lib/rack/mount/code_generation.rb:96:in `block in recognize&amp;#x27;
+rack-mount (0.8.3) lib/rack/mount/code_generation.rb:68:in `optimized_each&amp;#x27;
+rack-mount (0.8.3) lib/rack/mount/code_generation.rb:95:in `recognize&amp;#x27;
+rack-mount (0.8.3) lib/rack/mount/route_set.rb:141:in `call&amp;#x27;
+grape (0.7.0) lib/grape/api.rb:537:in `call&amp;#x27;
+grape (0.7.0) lib/grape/api.rb:44:in `call!&amp;#x27;
+grape (0.7.0) lib/grape/api.rb:40:in `call&amp;#x27;
+journey (1.0.4) lib/journey/router.rb:68:in `block in call&amp;#x27;
+journey (1.0.4) lib/journey/router.rb:56:in `each&amp;#x27;
+journey (1.0.4) lib/journey/router.rb:56:in `call&amp;#x27;
+actionpack (3.2.17) lib/action_dispatch/routing/route_set.rb:608:in `call&amp;#x27;
+request_store (1.0.5) lib/request_store/middleware.rb:9:in `call&amp;#x27;
+/home/mtakac/.rvm/gems/ruby-2.1.1@openproject/bundler/gems/i18n-js-8801f8d17ef9/lib/i18n/js/middleware.rb:11:in `call&amp;#x27;
+actionpack (3.2.17) lib/action_dispatch/middleware/best_standards_support.rb:17:in `call&amp;#x27;
+rack (1.4.5) lib/rack/etag.rb:23:in `call&amp;#x27;
+rack (1.4.5) lib/rack/conditionalget.rb:35:in `call&amp;#x27;
+actionpack (3.2.17) lib/action_dispatch/middleware/head.rb:14:in `call&amp;#x27;
+actionpack (3.2.17) lib/action_dispatch/middleware/params_parser.rb:21:in `call&amp;#x27;
+actionpack (3.2.17) lib/action_dispatch/middleware/flash.rb:242:in `call&amp;#x27;
+rack (1.4.5) lib/rack/session/abstract/id.rb:210:in `context&amp;#x27;
+rack (1.4.5) lib/rack/session/abstract/id.rb:205:in `call&amp;#x27;
+actionpack (3.2.17) lib/action_dispatch/middleware/cookies.rb:341:in `call&amp;#x27;
+activerecord (3.2.17) lib/active_record/query_cache.rb:64:in `call&amp;#x27;
+activerecord (3.2.17) lib/active_record/connection_adapters/abstract/connection_pool.rb:479:in `call&amp;#x27;
+actionpack (3.2.17) lib/action_dispatch/middleware/callbacks.rb:28:in `block in call&amp;#x27;
+activesupport (3.2.17) lib/active_support/callbacks.rb:405:in `_run__3248213805400519181__call__2658999934659625053__callbacks&amp;#x27;
+activesupport (3.2.17) lib/active_support/callbacks.rb:405:in `__run_callback&amp;#x27;
+activesupport (3.2.17) lib/active_support/callbacks.rb:385:in `_run_call_callbacks&amp;#x27;
+activesupport (3.2.17) lib/active_support/callbacks.rb:81:in `run_callbacks&amp;#x27;
+actionpack (3.2.17) lib/action_dispatch/middleware/callbacks.rb:27:in `call&amp;#x27;
+rails-dev-tweaks (0.6.1) lib/rails_dev_tweaks/granular_autoload/middleware.rb:34:in `call&amp;#x27;
+actionpack (3.2.17) lib/action_dispatch/middleware/remote_ip.rb:31:in `call&amp;#x27;
+actionpack (3.2.17) lib/action_dispatch/middleware/debug_exceptions.rb:16:in `call&amp;#x27;
+actionpack (3.2.17) lib/action_dispatch/middleware/show_exceptions.rb:56:in `call&amp;#x27;
+railties (3.2.17) lib/rails/rack/logger.rb:32:in `call_app&amp;#x27;
+railties (3.2.17) lib/rails/rack/logger.rb:16:in `block in call&amp;#x27;
+activesupport (3.2.17) lib/active_support/tagged_logging.rb:22:in `tagged&amp;#x27;
+railties (3.2.17) lib/rails/rack/logger.rb:16:in `call&amp;#x27;
+actionpack (3.2.17) lib/action_dispatch/middleware/request_id.rb:22:in `call&amp;#x27;
+rack (1.4.5) lib/rack/methodoverride.rb:21:in `call&amp;#x27;
+rack (1.4.5) lib/rack/runtime.rb:17:in `call&amp;#x27;
+activesupport (3.2.17) lib/active_support/cache/strategy/local_cache.rb:72:in `call&amp;#x27;
+rack (1.4.5) lib/rack/lock.rb:15:in `call&amp;#x27;
+actionpack (3.2.17) lib/action_dispatch/middleware/static.rb:63:in `call&amp;#x27;
+railties (3.2.17) lib/rails/engine.rb:484:in `call&amp;#x27;
+railties (3.2.17) lib/rails/application.rb:231:in `call&amp;#x27;
+railties (3.2.17) lib/rails/railtie/configurable.rb:30:in `method_missing&amp;#x27;
+/home/mtakac/.rvm/gems/ruby-2.1.1@openproject/bundler/gems/rack-protection-5a7d1bd2f05c/lib/rack/protection/frame_options.rb:31:in `call&amp;#x27;
+/home/mtakac/.rvm/gems/ruby-2.1.1@openproject/bundler/gems/rack-protection-5a7d1bd2f05c/lib/rack/protection/json_csrf.rb:18:in `call&amp;#x27;
+rack (1.4.5) lib/rack/content_length.rb:14:in `call&amp;#x27;
+railties (3.2.17) lib/rails/rack/log_tailer.rb:17:in `call&amp;#x27;
+thin (1.5.1) lib/thin/connection.rb:81:in `block in pre_process&amp;#x27;
+thin (1.5.1) lib/thin/connection.rb:79:in `catch&amp;#x27;
+thin (1.5.1) lib/thin/connection.rb:79:in `pre_process&amp;#x27;
+thin (1.5.1) lib/thin/connection.rb:54:in `process&amp;#x27;
+thin (1.5.1) lib/thin/connection.rb:39:in `receive_data&amp;#x27;
+eventmachine (1.0.3) lib/eventmachine.rb:187:in `run_machine&amp;#x27;
+eventmachine (1.0.3) lib/eventmachine.rb:187:in `run&amp;#x27;
+thin (1.5.1) lib/thin/backends/base.rb:63:in `start&amp;#x27;
+thin (1.5.1) lib/thin/server.rb:159:in `start&amp;#x27;
+rack (1.4.5) lib/rack/handler/thin.rb:13:in `run&amp;#x27;
+rack (1.4.5) lib/rack/server.rb:268:in `start&amp;#x27;
+railties (3.2.17) lib/rails/commands/server.rb:70:in `start&amp;#x27;
+railties (3.2.17) lib/rails/commands.rb:55:in `block in &amp;lt;top (required)&amp;gt;&amp;#x27;
+railties (3.2.17) lib/rails/commands.rb:50:in `tap&amp;#x27;
+railties (3.2.17) lib/rails/commands.rb:50:in `&amp;lt;top (required)&amp;gt;&amp;#x27;
+script/rails:6:in `require&amp;#x27;
+script/rails:6:in `&amp;lt;main&amp;gt;&amp;#x27;&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+
+
+&lt;h2 style=&quot;margin-top: 30px&quot;&gt;Request&lt;/h2&gt;
+&lt;p&gt;&lt;b&gt;Parameters&lt;/b&gt;: &lt;pre&gt;{&amp;quot;limit&amp;quot;=&amp;gt;&amp;quot;250&amp;quot;,
+ &amp;quot;offset&amp;quot;=&amp;gt;&amp;quot;100&amp;quot;}&lt;/pre&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;#&quot; onclick=&quot;document.getElementById(&#39;session_dump&#39;).style.display=&#39;block&#39;; return false;&quot;&gt;Show session dump&lt;/a&gt;&lt;/p&gt;
+&lt;div id=&quot;session_dump&quot; style=&quot;display:none&quot;&gt;&lt;pre&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&quot;#&quot; onclick=&quot;document.getElementById(&#39;env_dump&#39;).style.display=&#39;block&#39;; return false;&quot;&gt;Show env dump&lt;/a&gt;&lt;/p&gt;
+&lt;div id=&quot;env_dump&quot; style=&quot;display:none&quot;&gt;&lt;pre&gt;GATEWAY_INTERFACE: &amp;quot;CGI/1.2&amp;quot;
+REMOTE_ADDR: &amp;quot;127.0.0.1&amp;quot;
+SERVER_NAME: &amp;quot;localhost&amp;quot;
+SERVER_PROTOCOL: &amp;quot;HTTP/1.1&amp;quot;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2 style=&quot;margin-top: 30px&quot;&gt;Response&lt;/h2&gt;
+&lt;p&gt;&lt;b&gt;Headers&lt;/b&gt;: &lt;pre&gt;None&lt;/pre&gt;&lt;/p&gt;
+
+
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>

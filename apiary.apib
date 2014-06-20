@@ -127,9 +127,8 @@ be updated successfully while the update of other one will fail:
 This allows you to see exactly what went wrong and inform user.
 
 ### Error object
-In case your request contains some errors or something went wrong on the server you'll get back an error object:
 
-    { "error": { "opCode": 51, "message": "Something went wrong. Please try again latter." }}
+**TODO**
 
 
 # Group Allowed HTTP methods
@@ -164,51 +163,23 @@ In case your request contains some errors or something went wrong on the server 
 
 # OpenProject API error objects
 **TODO**
-In case something went wrong, you will get back an OpenProject API error object in the following form:
-
-    { "error": { "opCode": 41, "messages": [{ "key": "unauthenticated", "text": "You need to be login to access this resource" }]}}
-
-Attribute `opCode` is internal OpenProject API error code:
-
-**Client errors**
-
-- 41 -
-- 42 -
-
-**Server errors**
-
-- 51 -
-- 52 -
 
 # Group Work packages
-
-## Work package's embedded resources
-
-- `project` - Project
-- `author`  - User
-- `assignee` - User
-- `responsible` - User
-- `fixedVersion` - Version
-- `descendands` - WorkPackage [ ]
-- `children` - WorkPackage [ ]
-- `parent` - WorkPackage
-- `ancestors` - WorkPackage [ ]
-- `relations`  - Relation [ ]
 
 ## Attributes:
 | Attribute | Description | Type | Constraints | Example | Supported operations |
 |:---------:|-------------| ---- | ----------- | ------- | -------------------- |
 | id | Work package id | Integer | Must be a positive integer | 12 | READ |
-| subject | Work package subject | String | | Refactor projecs module | READ / WRITE |
-| type | | String | Must be one of the types that exist in the system | Feature | READ / WRITE |
-| description | Work package description | Text | | Projects module should be refactored ... | READ / WRITE |
-| status | | String | Must be one of the statuses allowed for the current work package type | New | READ / WRITE |
-| priority | | String | Must be one of the priorities that exist in the system | High | READ / WRITE |
-| startDate | | Timestamp | Must be in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | 2014-05-21T08:51:20Z | READ / WRITE |
-| dueDate | | Timestamp | Must be in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | READ / WRITE |
-| estimatedTime | | Object | Must be in form of a json object with "units" and "value" as keys | { "units": "hours", "value": 12 } | READ / WRITE |
+| subject | Work package subject | String | **REQUIRED** Must be a string of 255 or less characters | Refactor projecs module | READ / WRITE |
+| type | | String | **REQUIRED** Must be one of the types enabled for the current work package's project | Feature | READ / WRITE |
+| description | Work package description | String | | Projects module should be refactored ... | READ / WRITE |
+| status | | String | **REQUIRED** ... | New | READ / WRITE |
+| priority | | String | Must be one of the activated priorities | High | READ / WRITE |
+| startDate | | Date | Must be a date in format YYYY-MM-DD and must be equal or greater than the soonest possible start date | 2014-05-21T08:51:20Z | READ / WRITE |
+| dueDate | | Date | Must be a date in format YYYY-MM-DD and must be greater then start date | READ / WRITE |
+| estimatedTime | | Object | Must be in form of a json object with "units" and "value" as keys and value must be an integer or a decimal | { "units": "hours", "value": 12 } | READ / WRITE |
 | percentageDone | | Integer | Must be an integer between 0 and 100 | 50 | READ / WRITE |
-| projectId | | Integer | Must be an id of one of the existing projects | 1 | READ / WRITE |
+| projectId | | Integer | **REQUIRED** Must be an id of one of the existing projects | 1 | READ / WRITE |
 | projectName | | String | | My open project | READ |
 | responsibleId | | Integer | Must be an id of one of the allowed responsible users for the work package | 12 | READ / WRITE |
 | responsibleName | | String | | John Sheppard | READ |
@@ -278,184 +249,218 @@ Attribute `opCode` is internal OpenProject API error code:
 
     [WorkPackage][]
 
-## Update work package [PATCH]
-Send only the data you want to update
+# Group Queries
 
-+ Parameters
-    + id (required, integer, `1`) ... Work package id
+## Attributes:
+| Attribute | Description | Type | Constraints | Example | Supported operations |
+|:---------:|-------------| ---- | ----------- | ------- | -------------------- |
+| id | Query id | Integer | Must be a positive integer | 12 | READ |
+| name | Query name | String | | My work packages query | READ / WRITE |
+| projectId | | Integer | Must be an id of one of the existing projects | 1 | READ / WRITE |
+| projectName | | String | | My open project | READ |
+| userId | | Integer | | 1 | READ / WRITE |
+| userName | | String | | John Sheppard | READ |
+| userLogin | | String | | j.sheppard | READ |
+| userMail | | String | | j.sheppard@finn.de| READ |
+| filters | | String | | | READ / WRITE |
+| isPublic | | Boolean | | true | READ / WRITE |
+| columnNames | | String | | | READ / WRITE |
+| sortCriteria | | String | | | READ / WRITE |
+| groupBy | | String | | | READ / WRITE |
+| displaySums | | Boolean | | true | READ / WRITE |
+| isStarred | | Boolean | | true | READ / WRITE |
 
-+ Request (application/hal+JSON)
-    + Body
-
-                {
-                    "subject": "Lorem ipsum",
-                    "description": "Dolor sit amet."
-                }
-
-+ Response 200 (application/hal+json)
-
-    [WorkPackage][]
-
-## Get allowed HTTP methods [OPTIONS]
-
-+ Parameters
-    + id (required, integer, `1`) ... Work package id
-
-+ Response 204
-    + Headers
-
-            Allow: OPTIONS, GET, PATCH, HEAD
-            
-## WorkPackages [/work_packages{?limit,offset}]
+## Query [/queries/{id}]
 
 + Model
     + Body
-    
+
             {
+                "_type": "Query",
                 "_links": {
                     "self": {
-                        "href": "http://localhost:3000/api/v3/work_packages",
-                        "title": "Work packages"
-                    },
-                    "first": {
-                        "href": "http://localhost:3000/api/v3/work_packages?offset=0",
-                        "title": "Work packages"
-                    },
-                    "previous": {
-                        "href": "http://localhost:3000/api/v3/work_packages?offset=0",
-                        "title": "Work packages"
-                    },
-                    "next": {
-                        "href": "http://localhost:3000/api/v3/work_packages?offset=0",
-                        "title": "Work packages"
-                    },
-                    "last": {
-                        "href": "http://localhost:3000/api/v3/work_packages?offset=0",
-                        "title": "Work packages"
+                        "href": "http://openproject.org/api/v3/queries/2",
+                        "title": "My work packages"
                     }
                 },
-                "_count": 1,
-                "_total": 849,
-                "limit": 1,
-                "offset": 0,
-                "_embedded": {
-                    "work_packages": [
-                        {
-                            "_type": "WorkPackage",
-                            "_links": {
-                                "self": {
-                                    "href": "http://localhost:3000/api/v3/work_packages/629",
-                                    "title": "sint voluptas sed ut et maiores labore et"
-                                }
-                            },
-                            "id": 629,
-                            "subject": "sint voluptas sed ut et maiores labore et",
-                            "type": "Support",
-                            "description": "Sortitus campana ustulo cogito. Autem approbo adiuvo infit. Vinco corrigo tumultus caute solium. Veritatis thesis strenuus trado taceo truculenter coruscus. Quia cuius incidunt repudiandae adstringo aspernatur aptus. Tergiversatio abeo sono ascisco eaque. Arbitro centum avoco spectaculum degero carus animi terra.",
-                            "status": "Closed",
-                            "priority": "Normal",
-                            "startDate": "2014-05-02",
-                            "dueDate": "2014-05-04",
-                            "estimatedTime": {
-                                "units": "hours",
-                                "value": null
-                            },
-                            "percentageDone": 0,
-                            "targetVersionId": null,
-                            "targetVersionName": null,
-                            "projectId": 1,
-                            "projectName": "Seeded Project",
-                            "responsibleId": null,
-                            "responsibleName": null,
-                            "responsibleLogin": null,
-                            "responsibleMail": null,
-                            "assigneeId": null,
-                            "assigneeName": null,
-                            "assigneeLogin": null,
-                            "assigneeMail": null,
-                            "authorName": "Sienna Gottlieb",
-                            "authorLogin": "Trenton6220",
-                            "authorMail": "marisa.mckenzie@moore.com",
-                            "createdAt": "2014-05-21T08:54:10Z",
-                            "updatedAt": "2014-05-21T08:54:10Z"
+                "id": 2,
+                "name": "My work packages",
+                "projectId": 1,
+                "projectName": "Seeded Project",
+                "userId": 1,
+                "userName": "OpenProject Admin",
+                "userLogin": "admin",
+                "userMail": "admin@example.net",
+                "filters": [
+                    {
+                        "status_id": {
+                            "operator": "o",
+                            "values": null
                         }
+                    },
+                    {
+                        "assigned_to_id": {
+                            "operator": "=",
+                            "values": [
+                                "me"
+                            ]
+                        }
+                    }
+                ],
+                "isPublic": "false",
+                "columnNames": [
+                    "type",
+                    "status",
+                    "priority",
+                    "subject",
+                    "assigned_to"
+                ],
+                "sortCriteria": [
+                    [
+                        "parent",
+                        "desc"
                     ]
-                }
+                ],
+                "groupBy": null,
+                "displaySums": "false",
+                "isStarred": "true
             }
 
-## View list of work packages [GET]
+## View query [GET]
 
 + Parameters
-    + limit = `100` (optional, integer, `250`) ... Number of records to fetch
-    + offset = `0` (optional, integer, `100`) ... Offset
+    + id (required, integer, `1`) ... Query id
 
 + Response 200 (application/hal+json)
 
-    [WorkPackages][]
+    [Query][]
 
-## Batch update work packages [PATCH]
+## Star Query [/queries/{id}/star]
 
-+ Request (application/json)
++ Model
     + Body
-        
-            [
-                {
-                    "id": 1,
-                    "subject": "Lorem ipsum",
-                    "description": "Dolor sit amet."
-                }
-            ]
 
-+ Response 207 (application/hal+json)
-    + Body
-    
             {
-                "_embedded": {
-                    "results": [
-                        {
-                            "status": { "code": 200, "text": "Ok" },
-                            "workPackage": {
-                                "_type": "WorkPackage",
-                                "_links": {
-                                    "self": {
-                                        "href": "https://openproject.org/api/v3/work_packages/1",
-                                        "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
-                                    }
-                                },
-                                "id": 1,
-                                "subject": "Lorem ipsum",
-                                "type": "Support",
-                                "description": "Dolor sit amet.",
-                                "status": "New",
-                                "priority": "Normal",
-                                "startDate": "2014-05-29",
-                                "dueDate": "2014-08-29",
-                                "estimatedTime": {
-                                    "units": "hours",
-                                    "value": 10
-                                },
-                                "percentageDone": 0,
-                                "targetVersionId": 1,
-                                "targetVersionName": "sprint-01",
-                                "projectId": 1,
-                                "projectName": "Seeded Project",
-                                "responsibleId": 1,
-                                "responsibleName": "OpenProject Admin",
-                                "responsibleLogin": "admin",
-                                "responsibleMail": "admin@example.net",
-                                "assigneeId": 22,
-                                "assigneeName": "Vivienne Windler",
-                                "assigneeLogin": "Yoshiko8884",
-                                "assigneeMail": "gabriel.osinski@glover.name",
-                                "authorName": "Delia Schneider",
-                                "authorLogin": "Layla3137",
-                                "authorMail": "charlene.terry@stromanko.org",
-                                "createdAt": "2014-05-21T08:51:20Z",
-                                "updatedAt": "2014-05-22T09:41:29Z"
-                            }
+                "_type": "Query",
+                "_links": {
+                    "self": {
+                        "href": "http://openproject.org/api/v3/queries/2",
+                        "title": "My work packages"
+                    }
+                },
+                "id": 2,
+                "name": "My work packages",
+                "projectId": 1,
+                "projectName": "Seeded Project",
+                "userId": 1,
+                "userName": "OpenProject Admin",
+                "userLogin": "admin",
+                "userMail": "admin@example.net",
+                "filters": [
+                    {
+                        "status_id": {
+                            "operator": "o",
+                            "values": null
                         }
+                    },
+                    {
+                        "assigned_to_id": {
+                            "operator": "=",
+                            "values": [
+                                "me"
+                            ]
+                        }
+                    }
+                ],
+                "isPublic": "false",
+                "columnNames": [
+                    "type",
+                    "status",
+                    "priority",
+                    "subject",
+                    "assigned_to"
+                ],
+                "sortCriteria": [
+                    [
+                        "parent",
+                        "desc"
                     ]
-                }
+                ],
+                "groupBy": null,
+                "displaySums": "false",
+                "isStarred": "true
             }
-                
-            
+
+## Star query [PATCH]
+
++ Parameters
+    + id (required, integer, `1`) ... Query id
+
++ Response 200 (application/hal+json)
+
+    [Star Query][]
+
+## Unstar Query [/queries/{id}/unstar]
+
++ Model
+    + Body
+
+            {
+                "_type": "Query",
+                "_links": {
+                    "self": {
+                        "href": "http://openproject.org/api/v3/queries/2",
+                        "title": "My work packages"
+                    }
+                },
+                "id": 2,
+                "name": "My work packages",
+                "projectId": 1,
+                "projectName": "Seeded Project",
+                "userId": 1,
+                "userName": "OpenProject Admin",
+                "userLogin": "admin",
+                "userMail": "admin@example.net",
+                "filters": [
+                    {
+                        "status_id": {
+                            "operator": "o",
+                            "values": null
+                        }
+                    },
+                    {
+                        "assigned_to_id": {
+                            "operator": "=",
+                            "values": [
+                                "me"
+                            ]
+                        }
+                    }
+                ],
+                "isPublic": "false",
+                "columnNames": [
+                    "type",
+                    "status",
+                    "priority",
+                    "subject",
+                    "assigned_to"
+                ],
+                "sortCriteria": [
+                    [
+                        "parent",
+                        "desc"
+                    ]
+                ],
+                "groupBy": null,
+                "displaySums": "false",
+                "isStarred": "false
+            }
+
+## Unstar query [PATCH]
+
++ Parameters
+    + id (required, integer, `1`) ... Query id
+
++ Response 200 (application/hal+json)
+
+    [Unstar Query][]
