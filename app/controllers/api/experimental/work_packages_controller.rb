@@ -175,8 +175,14 @@ module Api
           per_page:                     per_page_param,
           per_page_options:             Setting.per_page_options_array,
           total_entries:                work_packages.total_entries,
-          export_formats:               export_formats
+          export_formats:               export_formats,
+          _links:                       work_packages_links
         }
+      end
+
+      def work_packages_links
+        links = {}
+        links[:create] = api_experimental_query_path(@project) if User.current.allowed_to?(:add_work_packages, @project)
       end
 
       def query_as_json(query, user)

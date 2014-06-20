@@ -6,7 +6,10 @@
 
     <ul id="toolbar-items">
       <li class="toolbar-item">
-        <button class="button_highlight" with-dropdown dropdown-id="tasksDropdown">
+        <button class="button_highlight"
+                with-dropdown
+                dropdown-id="tasksDropdown"
+                ng-disabled="disableNewWorkPackage">
           <i class="icon-add icon4"></i>
           {{ I18n.t('js.toolbar.unselected_title') }}
           <i class="icon-pulldown-arrow1 icon-dropdown"></i>

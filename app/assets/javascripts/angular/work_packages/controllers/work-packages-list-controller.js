@@ -140,6 +140,9 @@ angular.module('openproject.workPackages.controllers')
 
     // back url
     $scope.updateBackUrl();
+
+    // Authorisation
+    $scope.disableNewWorkPackage = AuthorisationService.cannot({ links: meta._links }, "create");
   }
 
   function initAvailableColumns() {
