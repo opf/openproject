@@ -54,16 +54,20 @@ angular.module('openproject.workPackages.controllers')
 
   function initialSetup() {
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
+    $scope.loading = false;
     $scope.disableFilters = false;
 
     var getWorkPackages, params;
     if($scope.query_id){
-      getWorkPackages = WorkPackageService.getWorkPackagesByQueryId($scope.projectIdentifier, $scope.query_id);
+      getWorkPackages = WorkPackageService.getWorkPackagesByQueryId;
+      params = [$scope.projectIdentifier, $scope.query_id];
     } else {
-      getWorkPackages = WorkPackageService.getWorkPackagesFromUrlQueryParams($scope.projectIdentifier, $location);
+      getWorkPackages = WorkPackageService.getWorkPackagesFromUrlQueryParams;
+      params = [$scope.projectIdentifier, $location];
     }
 
-    $scope.settingUpPage = getWorkPackages.then(setupPage);
+    $scope.withLoading(getWorkPackages, params)
+      .then(setupPage);
 
     loadProjectTypesAndQueries();
   }
@@ -167,10 +171,8 @@ angular.module('openproject.workPackages.controllers')
   $scope.updateResults = function() {
     $scope.$broadcast('openproject.workPackages.updateResults');
 
-    $scope.refreshWorkPackages = WorkPackageService.getWorkPackages($scope.projectIdentifier, $scope.query, PaginationService.getPaginationOptions())
+    return $scope.withLoading(WorkPackageService.getWorkPackages, [$scope.projectIdentifier, $scope.query, PaginationService.getPaginationOptions()])
       .then(setupWorkPackagesTable);
-
-    return $scope.refreshWorkPackages;
   };
 
   // More
@@ -179,6 +181,10 @@ angular.module('openproject.workPackages.controllers')
     // TODO RS: This is where we'd want to put an error message on the dom
     $scope.isLoading = false;
   }
+
+  $scope.withLoading = function(callback, params){
+    return WorkPackageLoadingHelper.withLoading($scope, callback, params, serviceErrorHandler);
+  };
 
   // Go
 

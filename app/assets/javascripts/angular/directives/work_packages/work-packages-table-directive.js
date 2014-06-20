@@ -50,6 +50,7 @@ angular.module('openproject.workPackages.directives')
       totalSums: '=',
       groupSums: '=',
       updateResults: '&',
+      withLoading: '=',
       updateBackUrl: '='
     },
     link: function(scope, element, attributes) {

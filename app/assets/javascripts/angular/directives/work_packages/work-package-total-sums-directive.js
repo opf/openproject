@@ -32,19 +32,19 @@ angular.module('openproject.workPackages.directives')
   'WorkPackageService',
   function(WorkPackageService) {
 
+  var latestQueryReference;
+
   return {
     restrict: 'A',
     scope: true,
     link: function(scope) {
       function fetchTotalSums() {
-        scope.fetchTotalSums = WorkPackageService.getWorkPackagesSums(scope.projectIdentifier, scope.query, scope.columns)
+        scope.withLoading(WorkPackageService.getWorkPackagesSums, [scope.projectIdentifier, scope.query, scope.columns])
           .then(function(data){
             angular.forEach(scope.columns, function(column, i){
               column.total_sum = data.column_sums[i];
             });
           });
-
-        return scope.fetchTotalSums;
       }
 
       function totalSumsFetched() {

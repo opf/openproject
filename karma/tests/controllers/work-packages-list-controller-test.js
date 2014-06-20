@@ -144,7 +144,7 @@ describe('WorkPackagesListController', function() {
   describe('initialisation', function() {
     it('should initialise', function() {
       buildController();
-      expect(scope.settingUpPage).to.be.defined;
+      expect(scope.loading).to.be.false;
     });
   });
 });

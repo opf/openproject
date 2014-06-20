@@ -103,7 +103,6 @@ module OpenProject
     config.assets.paths << bower_assets_path.join(*%w(select2)).to_s
     config.assets.paths << bower_assets_path.join(*%w(jquery-ui themes base)).to_s
     config.assets.paths << bower_assets_path.join(*%w(jquery.atwho dist)).to_s
-    config.assets.paths << bower_assets_path.join(*%w(angular-busy dist)).to_s
 
     # Whitelist assets to be precompiled.
     #

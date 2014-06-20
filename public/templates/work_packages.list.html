@@ -100,10 +100,9 @@
 
 
 <div class="work-packages--split-view">
-  <div class="work-packages--list" cg-busy="settingUpPage">
+  <div class="work-packages--list">
     <div class="work-packages--list-scroll-area">
       <work-packages-table ng-if="rows && columns"
-                           cg-busy="refreshWorkPackages"
                            project-identifier="projectIdentifier"
                            columns="columns"
                            rows="rows"
@@ -115,6 +114,7 @@
                            total-sums="totalSums"
                            group-sums="groupSums"
                            update-results="updateResults()"
+                           with-loading="withLoading"
                            update-back-url="updateBackUrl">
       </work-packages-table>
 
