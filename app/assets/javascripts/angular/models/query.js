@@ -252,8 +252,8 @@ angular.module('openproject.models')
       this.filters.splice(this.getFilterNames().indexOf(filterName), 1);
     },
 
-    deactivateFilter: function(filter, loading) {
-      if (!loading) filter.deactivated = true;
+    deactivateFilter: function(filter) {
+      filter.deactivated = true;
     },
 
     getFilterType: function(filterName) {
