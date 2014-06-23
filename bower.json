@@ -15,7 +15,7 @@
     "angular-ui-date": "latest",
     "angular-ui-router": "~0.2.10",
     "angular-i18n": "~1.3.0",
-    "angular-modal": "~0.3.0",
+    "angular-modal": "~0.4.0",
     "angular-sanitize": "~1.2.14",
     "angular-truncate": "sparkalow/angular-truncate",
     "angular-feature-flags": "mjt01/angular-feature-flags",
