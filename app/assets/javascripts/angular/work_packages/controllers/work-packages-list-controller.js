@@ -143,8 +143,8 @@ angular.module('openproject.workPackages.controllers')
     $scope.updateBackUrl();
 
     // Authorisation
-    AuthorisationService.initModelAuth(meta._links, "work_package");
-    AuthorisationService.initModelAuth(meta.query._links, "query");
+    AuthorisationService.initModelAuth("work_package", meta._links);
+    AuthorisationService.initModelAuth("query", meta.query._links);
   }
 
   function initAvailableColumns() {

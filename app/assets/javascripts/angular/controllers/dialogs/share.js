@@ -64,6 +64,9 @@ angular.module('openproject.workPackages.controllers')
     QueryService.saveQuery()
       .then(function(data){
         messageObject = data.status;
+        if(data.query) {
+          AuthorisationService.initModelAuth("query", data.query._links);
+        }
       })
       .then(function(data){
         if($scope.query.starred != $scope.shareSettings.starred){
@@ -75,9 +78,6 @@ angular.module('openproject.workPackages.controllers')
         } else {
           closeAndReport(messageObject);
         }
-      })
-      .then(function(data){
-        AuthorisationService.initModelAuth(data.query._links, "query");
       });
   };
 }]);

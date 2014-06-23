@@ -48,10 +48,12 @@ angular.module('openproject.workPackages.controllers')
   $scope.updateQuery = function() {
     query.name = $scope.queryName;
     QueryService.saveQuery()
-      .then(function(data){
+      .then(function(data) {
         settingsModal.deactivate();
         $scope.$emit('flashMessage', data.status);
-        AuthorisationService.initModelAuth(data.query._links, "query");
+        if(data.query) {
+          AuthorisationService.initModelAuth("query", data.query._links);
+        }
       });
     };
 }]);

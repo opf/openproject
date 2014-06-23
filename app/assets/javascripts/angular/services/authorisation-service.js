@@ -33,7 +33,7 @@ angular.module('openproject.services')
 
   var AuthorisationService = {
 
-    initModelAuth: function(modelLinks, modelName) {
+    initModelAuth: function(modelName, modelLinks) {
       links[modelName] = modelLinks;
     },
 

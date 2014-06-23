@@ -35,6 +35,7 @@ module Api
       DEFAULT_SORT_ORDER = ['parent', 'desc']
 
       include ApiController
+      include Concerns::GrapeRouting
       include Concerns::ColumnData
 
       include PaginationHelper
@@ -209,18 +210,6 @@ module Api
 
         json_query[:_links] = links
         json_query
-      end
-
-      def query_route_from_grape(route, query)
-        # this probably forces grape to be loaded.  at least it is necessary in
-        # development mode because the routes otherwise are not within the
-        # "api/:version" namespace.
-        API::Root
-        query_route = API::V3::Queries::QueriesAPI.routes.detect { |r| r.route_path.match(Regexp.new("\/#{route}")) }
-
-        query_route.route_path.gsub(":version", query_route.route_version)
-                              .gsub(":id", query.id.to_s)
-                              .gsub(/\(\.:format\)/,'')
       end
 
       def export_formats
