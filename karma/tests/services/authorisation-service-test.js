@@ -39,14 +39,18 @@ describe('AuthorisationService', function() {
   }));
 
   describe('model action authorisation', function () {
-    model = { links: { create: "/model" }};
+    beforeEach(function(){
+      AuthorisationService.initModelAuth('query', {
+        create: '/queries'
+      });
+    })
 
     it('should allow action', function() {
-      expect(AuthorisationService.can(model, 'create')).to.be.true
+      expect(AuthorisationService.can('query', 'create')).to.be.true
     });
 
     it('should not allow action', function() {
-      expect(AuthorisationService.can(model, 'delete')).to.be.false
+      expect(AuthorisationService.can('query', 'delete')).to.be.false
     });
 
   });

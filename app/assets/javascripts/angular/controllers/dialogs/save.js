@@ -40,8 +40,9 @@ angular.module('openproject.workPackages.controllers')
   '$scope',
   'saveModal',
   'QueryService',
+  'AuthorisationService',
   '$state',
-  function($scope, saveModal, QueryService, $state) {
+  function($scope, saveModal, QueryService, AuthorisationService, $state) {
 
   this.name    = 'Save';
   this.closeMe = saveModal.deactivate;
@@ -52,6 +53,7 @@ angular.module('openproject.workPackages.controllers')
         // push query id to URL without reinitializing work-packages-list-controller
         if (data.query) {
           $state.go('work-packages.list', { query_id: data.query.id }, { notify: false });
+          AuthorisationService.initModelAuth("query", data.query._links);
         }
 
         saveModal.deactivate();

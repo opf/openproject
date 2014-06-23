@@ -26,25 +26,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Api
-  module Experimental
+module Api::Experimental::Concerns::GrapeRouting
+  def query_route_from_grape(route, query)
+    # this probably forces grape to be loaded.  at least it is necessary in
+    # development mode because the routes otherwise are not within the
+    # "api/:version" namespace.
+    API::Root
+    query_route = API::V3::Queries::QueriesAPI.routes.detect { |r| r.route_path.match(Regexp.new("\/#{route}")) }
 
-    module ApiController
-
-      include ::Api::V2::ApiController
-      extend ::Api::V2::ApiController::ClassMethods
-
-      def api_version
-        /api\/experimental\//
-      end
-
-      permeate_permissions :authorize,
-                           :apply_at_timestamp,
-                           :determine_base,
-                           :find_all_projects_by_project_id,
-                           :find_project_by_project_id,
-                           :jump_to_project_menu_item,
-                           :find_optional_project_and_raise_error
-    end
+    query_route.route_path.gsub(":version", query_route.route_version)
+                          .gsub(":id", query.id.to_s)
+                          .gsub(/\(\.:format\)/,'')
   end
 end

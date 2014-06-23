@@ -51,6 +51,10 @@ describe('optionsDropdown Directive', function() {
       };
     }));
 
+    beforeEach(inject(function(_AuthorisationService_){
+      AuthorisationService = _AuthorisationService_;
+    }));
+
     describe('element', function() {
 
       it('should render a div', function() {
@@ -83,10 +87,12 @@ describe('optionsDropdown Directive', function() {
       describe('active options', function(){
         beforeEach(function(){
           var query = new Query({
-            id: 1,
-            links: { create: "/queries" }
+            id: 1
           });
           scope.query = query;
+          AuthorisationService.initModelAuth('query', {
+            create: '/queries'
+          })
 
           compile();
         })
