@@ -44,8 +44,30 @@ angular.module('openproject.workPackages.directives')
       scope.displayType = scope.displayType || 'text';
 
       // Set text to be displayed
-      scope.$watch('workPackage', setColumnData, true);
+      scope.$watch(dataAvailable, setColumnData);
 
+      // Check if the data is available on the work package
+
+      function dataAvailable() {
+        if (!scope.workPackage) return false;
+
+        if (scope.column.custom_field) {
+          return customValueAvailable();
+        } else {
+          return scope.workPackage.hasOwnProperty(scope.column.name);
+        }
+      }
+
+      function customValueAvailable() {
+        var customFieldId = scope.column.custom_field.id;
+
+        return scope.workPackage.custom_values &&
+          scope.workPackage.custom_values.filter(function(customValue){
+            return customValue && customValue.custom_field_id === customFieldId;
+          }).length;
+      }
+
+      // Write column data to the scope
 
       function setColumnData() {
         setDisplayText(getFormattedColumnValue());
