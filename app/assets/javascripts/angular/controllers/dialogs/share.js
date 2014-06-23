@@ -52,10 +52,10 @@ angular.module('openproject.workPackages.controllers')
     starred: $scope.query.starred
   };
 
-  closeAndReport = function(message) {
+  function closeAndReport(message) {
     shareModal.deactivate();
     $scope.$emit('flashMessage', message);
-  };
+  }
 
   $scope.cannot = AuthorisationService.cannot;
 
