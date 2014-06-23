@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "~> 3.2.9"
   s.add_dependency "acts_as_silent_list"
-  s.add_dependency "openproject-plugins", "~> 1.0.6"
+  s.add_dependency "openproject-plugins", "~> 3.0.8"
   s.add_dependency "openproject-pdf_export"
 
   s.add_development_dependency "factory_girl_rails", "~> 4.0"
