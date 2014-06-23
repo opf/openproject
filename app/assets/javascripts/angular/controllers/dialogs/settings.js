@@ -36,8 +36,8 @@ angular.module('openproject.workPackages.controllers')
   });
 }])
 
-.controller('SettingsModalController', ['$scope', 'settingsModal', 'QueryService',
-  function($scope, settingsModal, QueryService) {
+.controller('SettingsModalController', ['$scope', 'settingsModal', 'QueryService', 'AuthorisationService',
+  function($scope, settingsModal, QueryService, AuthorisationService) {
 
   var query = QueryService.getQuery();
 
@@ -51,6 +51,7 @@ angular.module('openproject.workPackages.controllers')
       .then(function(data){
         settingsModal.deactivate();
         $scope.$emit('flashMessage', data.status);
+        AuthorisationService.initModelAuth(data.query._links, "query");
       });
     };
 }]);

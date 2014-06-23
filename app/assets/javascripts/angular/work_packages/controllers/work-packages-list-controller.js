@@ -143,7 +143,8 @@ angular.module('openproject.workPackages.controllers')
     $scope.updateBackUrl();
 
     // Authorisation
-    $scope.disableNewWorkPackage = AuthorisationService.cannot({ links: meta._links }, "create");
+    AuthorisationService.initModelAuth(meta._links, "work_package");
+    AuthorisationService.initModelAuth(meta.query._links, "query");
   }
 
   function initAvailableColumns() {
@@ -189,6 +190,7 @@ angular.module('openproject.workPackages.controllers')
 
   initialSetup();
 
+  // Just to keep the templates a bit cleaner
   $scope.can = AuthorisationService.can;
   $scope.cannot = AuthorisationService.cannot;
 

@@ -63,7 +63,6 @@ angular.module('openproject.workPackages.controllers')
     var messageObject;
     QueryService.saveQuery()
       .then(function(data){
-
         messageObject = data.status;
       })
       .then(function(data){
@@ -76,6 +75,9 @@ angular.module('openproject.workPackages.controllers')
         } else {
           closeAndReport(messageObject);
         }
+      })
+      .then(function(data){
+        AuthorisationService.initModelAuth(data.query._links, "query");
       });
   };
 }]);

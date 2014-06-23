@@ -29,17 +29,22 @@
 angular.module('openproject.services')
 
 .service('AuthorisationService', function(){
+  var links = {};
 
   var AuthorisationService = {
-    can: function(model, action){
-      // Authorised if there is a link to that action
-      return !!(model && model.links && (action in model.links));
+
+    initModelAuth: function(modelLinks, modelName) {
+      links[modelName] = modelLinks;
     },
 
-    cannot: function(model, action) {
-      return !AuthorisationService.can(model, action);
+    can: function(modelName, action) {
+      return links[modelName] && (action in links[modelName]);
+    },
+
+    cannot: function(modelName, action) {
+      return !AuthorisationService.can(modelName, action);
     }
-  }
+  };
 
   return AuthorisationService;
 });
