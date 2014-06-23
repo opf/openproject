@@ -1,5 +1,6 @@
 # Changelog
 
+## 1.0.0
 ## 1.0.0.pre5
 
 * `#2561` [Work package tracking] Internal error when exporting work package list with cost columns to excel
