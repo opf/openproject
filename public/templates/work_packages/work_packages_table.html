@@ -133,9 +133,10 @@
       </td>
 
       <td ng-repeat="column in columns"
-          class="{{column.name}}"
+          bo-class="[column.name]"
           bind-once
-          lang="{{column.custom_field && column.custom_field.name_locale || I18n.locale}}">
+          bo-attr
+          bo-attr-lang="column.custom_field && column.custom_field.name_locale || I18n.locale">
         <span work-package-column
               work-package="row.object"
               column="column"
