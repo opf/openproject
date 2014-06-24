@@ -29,27 +29,141 @@
 // TODO move to UI components
 angular.module('openproject.uiComponents')
 
-.directive('selectableTitle', [function() {
+.constant('KEY_CODES', {
+  enter: 13,
+  up: 38,
+  down: 40
+})
+.directive('selectableTitle', ['KEY_CODES', function(KEY_CODES) {
   return {
     restrict: 'E',
     replace: true,
     scope: {
       selectedTitle: '=',
-      reloadMethod: '=',
-      groups: '='
+      groups: '=',
+      transitionMethod: '='
     },
     templateUrl: '/templates/components/selectable_title.html',
     link: function(scope) {
       scope.$watch('groups', refreshFilteredGroups);
+      scope.$watch('selectedId', selectTitle);
 
       function refreshFilteredGroups() {
+        if(scope.groups){
+          initFilteredModels();
+        }
+      }
+
+      function selectTitle() {
+        angular.forEach(scope.filteredGroups, function(group) {
+          if(group.models.length) {
+            angular.forEach(group.models, function(model){
+              model.highlighted = model.id == scope.selectedId;
+            });
+          }
+        });        
+      }
+
+      function initFilteredModels() {
         scope.filteredGroups = angular.copy(scope.groups);
+        angular.forEach(scope.filteredGroups, function(group) {
+          group.models = group.models.map(function(model){
+            return {
+              label: model[0],
+              labelHtml: model[0],
+              id: model[1],
+              highlighted: false
+            }
+          });
+        });
+      }
+
+      function labelHtml(label, filterBy){
+        filterBy = filterBy.toLowerCase();
+        return label.substr(0, label.toLowerCase().indexOf(filterBy))
+          + "<span class='filter-selection'>" + label.substr(label.toLowerCase().indexOf(filterBy), filterBy.length) + "</span>"
+          + label.substr(label.toLowerCase().indexOf(filterBy) + filterBy.length);
+      }
+
+      function performSelect() {
+        scope.transitionMethod(scope.selectedId);
+
+        event.preventDefault();
+        event.stopPropagation();
+      }
+
+      function selectNext() {
+        if(!scope.selectedId && scope.filteredGroups.length && scope.filteredGroups[0].models.length) {
+          scope.selectedId = scope.filteredGroups[0].models[0].id;
+        } else {
+          for(var i = 0; i < scope.filteredGroups.length; i++) {
+            var models = scope.filteredGroups[i].models;
+            var index = models.map(function(model){
+              return model.id;
+            }).indexOf(scope.selectedId)
+
+            if(index >= 0) {
+              if(index == models.length - 1 && i < scope.filteredGroups.length - 1){
+                scope.selectedId = scope.filteredGroups[i + 1].models[0].id;
+                break;
+              }
+              if(index < models.length - 1){
+                scope.selectedId = models[index + 1].id;
+                break;
+              }
+            }
+          }
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+      }
+
+      function selectPrevious() {
+        if(scope.selectedId) {
+          for(var i = 0; i < scope.filteredGroups.length; i++) {
+            var models = scope.filteredGroups[i].models;
+            var index = models.map(function(model){
+              return model.id;
+            }).indexOf(scope.selectedId)
+
+            if(index >= 0) {
+              if(index == 0 && i != 0){
+                scope.selectedId = scope.filteredGroups[i - 1].models[scope.filteredGroups[i - 1].models.length - 1].id;
+                break;
+              }
+              if(index > 0){
+                scope.selectedId = models[index - 1].id;
+                break;
+              }
+            }
+          }
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
       }
 
       angular.element('#title-filter').bind('click', function(event) {
         event.preventDefault();
         event.stopPropagation();
       });
+      
+      scope.handleSelection = function(event) {
+        switch(event.which) {
+          case KEY_CODES.enter:
+            performSelect();
+            break;
+          case KEY_CODES.down:
+            selectNext();
+            break;
+          case KEY_CODES.up:
+            selectPrevious();
+            break;
+          default:
+            break;
+        }
+      };
 
       scope.reload = function(modelId, newTitle) {
         scope.selectedTitle = newTitle;
@@ -58,12 +172,26 @@ angular.module('openproject.uiComponents')
       };
 
       scope.filterModels = function(filterBy) {
-        refreshFilteredGroups();
+        initFilteredModels();
 
+        scope.selectedId = 0;
         angular.forEach(scope.filteredGroups, function(group) {
-          group.models = group.models.filter(function(model){
-            return model[0].toLowerCase().indexOf(filterBy.toLowerCase()) >= 0;
-          });
+          if(filterBy.length) {
+            group.filterBy = filterBy;
+            group.models = group.models.filter(function(model){
+              return model.label.toLowerCase().indexOf(filterBy.toLowerCase()) >= 0;
+            });
+
+            if(group.models.length) {
+              angular.forEach(group.models, function(model){
+                model['labelHtml'] = labelHtml(model.label, filterBy);
+              });
+              if(!scope.selectedId) {
+                group.models[0].highlighted = true;
+                scope.selectedId = group.models[0].id;
+              }
+            }
+          }
         });
       };
     }

@@ -110,6 +110,7 @@ var openprojectApp = angular.module('openproject', [
   'ui.select2.sortable',
   'ui.date',
   'ui.router',
+  'ui.keypress',
   'openproject.config',
   'openproject.uiComponents',
   'openproject.timelines',
