@@ -299,6 +299,7 @@ Redmine::MenuManager.map :project_menu do |menu|
                             param: :project_id,
                             caption: :label_work_package_plural,
                             html: {
+                              id: 'main-menu-work-packages',
                               class: "icon2 icon-copy",
                               "data-ui-route" => '',
                               query_menu_item: 'query_menu_item'
