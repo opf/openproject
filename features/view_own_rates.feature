@@ -58,22 +58,25 @@ Feature: Permission View Own hourly and cost rates
       | user | manager |
       | cost type | Translation |
     And I am already logged in as "testuser"
-    And I am on the page for the issue "test_work_package"
-    Then I should see "1.00 hour"
+   When I am on the page for the issue "test_work_package"
+   Then I should see "1.00 hour"
     And I should see "2.0 Translations"
     And I should see "24.00 EUR"
     And I should not see "33.00 EUR" # labour costs only of Manager
     And I should not see "35.00 EUR" # material costs only of Manager
     And I should not see "43.00 EUR" # labour costs of me and Manager
     And I should not see "49.00 EUR" # material costs of me and Manager
-    And I am on the work_packages page for the project called "Standard Project"
+   When I am on the work_packages page for the project called "Standard Project"
+   # ensure the page is loaded before opening the columns dropdown. Otherwise
+   # there will be no columns to choose from.
+    And I should see "status" within ".workpackages-table"
     And I choose "Columns" from the toolbar "settings" dropdown
     And I select to see columns
         | Overall costs |
         | Labor costs   |
         | Unit costs    |
     And I click "Apply"
-    Then I should see "EUR 24.00"
+   Then I should see "EUR 24.00"
     And I should see "EUR 10.00"
     And I should see "EUR 14.00"
     And I should not see "EUR 33.00" # labour costs only of Manager
