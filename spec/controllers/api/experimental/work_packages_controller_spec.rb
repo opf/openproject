@@ -62,6 +62,8 @@ describe Api::Experimental::WorkPackagesController do
                                             type: type,
                                             status: status_1,
                                             project: project_2) }
+  let(:query_1) { FactoryGirl.create(:query,
+                                     project: project_1) }
 
 
   let(:current_user) { FactoryGirl.create(:admin) }
@@ -103,11 +105,11 @@ describe Api::Experimental::WorkPackagesController do
         controller.stub(:set_work_packages_meta_data)
       end
 
-      context 'with 2 work packages' do
-        let(:work_packages) { [ work_package_1, work_package_2 ] }
+      context 'with project_1 work packages' do
+        let(:work_packages) { [ work_package_1, work_package_2, work_package_3 ] }
 
         it 'assigns work packages array + actions' do
-          get 'index', format: 'xml', query_id: 1
+          get 'index', format: 'xml', query_id: query_1.id, project_id: project_1.id
 
           expect(assigns(:work_packages).size).to eq(2)
 
@@ -119,11 +121,11 @@ describe Api::Experimental::WorkPackagesController do
         end
       end
 
-      context 'with 3 work packages' do
+      context 'with default query' do
         let(:work_packages) { [ work_package_1, work_package_2, work_package_3 ] }
 
         it 'assigns work packages array + actions' do
-          get 'index', format: 'xml', query_id: 1
+          get 'index', format: 'xml'
 
           expect(assigns(:work_packages).size).to eq(3)
           expect(assigns(:project)).to be_nil
