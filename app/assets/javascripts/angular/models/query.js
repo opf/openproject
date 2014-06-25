@@ -70,6 +70,7 @@ angular.module('openproject.models')
       return angular.extend.apply(this, [
         {
           'id': this.id,
+          'query_id': this.id,
           'f[]': this.getFilterNames(this.getActiveConfiguredFilters()),
           'c[]': this.getParamColumns(),
           'group_by': this.groupBy,
