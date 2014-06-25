@@ -29,6 +29,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.8
+
+* new version scheme
 * `#4752` Fix button contrast
 * `#4019` Fix focus on project creation
 * `#4021` Separate focus for main menu expander
