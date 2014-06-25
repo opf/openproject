@@ -4,7 +4,7 @@ angular.module('openproject.services')
 
   var ProjectService = {
     getProject: function(projectIdentifier) {
-      var url = PathHelper.apiV3ProjectPath(projectIdentifier);
+      var url = PathHelper.apiProjectPath(projectIdentifier);
 
       return $http.get(url).then(function(response) {
         return response.data.project;
@@ -12,7 +12,7 @@ angular.module('openproject.services')
     },
 
     getProjects: function() {
-      var url = PathHelper.apiV3ProjectsPath();
+      var url = PathHelper.apiProjectsPath();
 
       return ProjectService.doQuery(url)
         .then(function(projects){
