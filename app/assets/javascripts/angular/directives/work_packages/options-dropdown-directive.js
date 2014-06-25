@@ -94,7 +94,7 @@ angular.module('openproject.workPackages.directives')
         }
       };
 
-      scope.showExportModal = function(){
+      scope.showExportModal = function(event){
         if( allowWorkPackageAction(event, 'export') ) {
           showModal.call(exportModal);
         }
@@ -152,7 +152,7 @@ angular.module('openproject.workPackages.directives')
         } else {
           event.preventDefault();
           event.stopPropagation();
-          return false; 
+          return false;
         }
       }
 
