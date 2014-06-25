@@ -71,7 +71,7 @@ module Report::QueryUtils
   def collection(*values)
     return "" if values.empty?
 
-    v = (values.is_a? Array) ? values.each_with_object([]) { |x, l| l << x.to_s.split(',') }
+    v = (values.is_a? Array) ? values.flatten.each_with_object([]) { |x, l| l << x.to_s.split(',') }
                              : values.to_s.split(',')
     "(#{v.flatten.map { |x| "'#{quote_string(x)}'" }.join(", ")})"
   end
