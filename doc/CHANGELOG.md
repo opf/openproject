@@ -86,6 +86,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#8228` Icons in select2 elements missing
 * `#8277` Fix arrow of column headers not restrained to one line
 * `#9931` APIv2 does not rewire parents correctly
+* `#11101` Not possible to save queries or to change their visibility in project-independent work package list
 * Allowed sending of mails with only cc: or bcc: fields
 * Allow adding attachments to created work packages via planning elements controller
 * Remove unused rmagick dependency
