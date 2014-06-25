@@ -99,6 +99,12 @@ angular.module('openproject.uiComponents')
         return text;
       }
 
+      function modelIndex(models) {
+        return models.map(function(model){
+          return model.id;
+        }).indexOf(scope.selectedId);
+      }
+
       function performSelect() {
         scope.transitionMethod(scope.selectedId);
 
@@ -112,15 +118,14 @@ angular.module('openproject.uiComponents')
         } else {
           for(var i = 0; i < scope.filteredGroups.length; i++) {
             var models = scope.filteredGroups[i].models;
-            var index = models.map(function(model){
-              return model.id;
-            }).indexOf(scope.selectedId)
+            var index = modelIndex(models);
 
             if(index >= 0) {
               if(index == models.length - 1 && i < scope.filteredGroups.length - 1){
                 while(i < scope.filteredGroups.length - 1) {
                   if(scope.filteredGroups[i + 1].models[0] ) {
                     scope.selectedId = scope.filteredGroups[i + 1].models[0].id;
+                    break;
                   }
                   i = i + 1;
                 }
@@ -142,9 +147,7 @@ angular.module('openproject.uiComponents')
         if(scope.selectedId) {
           for(var i = 0; i < scope.filteredGroups.length; i++) {
             var models = scope.filteredGroups[i].models;
-            var index = models.map(function(model){
-              return model.id;
-            }).indexOf(scope.selectedId)
+            var index = modelIndex(models);
 
             if(index >= 0) {
               // Bug: Needs to look through all the previous groups for one which has a model
@@ -152,6 +155,7 @@ angular.module('openproject.uiComponents')
                 while(i > 0) {
                   if(scope.filteredGroups[i - 1].models.length) {
                     scope.selectedId = scope.filteredGroups[i - 1].models[scope.filteredGroups[i - 1].models.length - 1].id;
+                    break;
                   }
                   i = i - 1;
                 }
