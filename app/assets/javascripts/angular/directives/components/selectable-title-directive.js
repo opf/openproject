@@ -29,12 +29,13 @@
 // TODO move to UI components
 angular.module('openproject.uiComponents')
 
+.constant('LABEL_MAX_CHARS', 40)
 .constant('KEY_CODES', {
   enter: 13,
   up: 38,
   down: 40
 })
-.directive('selectableTitle', ['KEY_CODES', function(KEY_CODES) {
+.directive('selectableTitle', ['$sce', 'LABEL_MAX_CHARS', 'KEY_CODES', function($sce, LABEL_MAX_CHARS, KEY_CODES) {
   return {
     restrict: 'E',
     replace: true,
@@ -70,7 +71,7 @@ angular.module('openproject.uiComponents')
           group.models = group.models.map(function(model){
             return {
               label: model[0],
-              labelHtml: model[0],
+              labelHtml: $sce.trustAsHtml(truncate(model[0], LABEL_MAX_CHARS)),
               id: model[1],
               highlighted: false
             }
@@ -78,11 +79,24 @@ angular.module('openproject.uiComponents')
         });
       }
 
-      function labelHtml(label, filterBy){
+      function labelHtml(label, filterBy) {
         filterBy = filterBy.toLowerCase();
-        return label.substr(0, label.toLowerCase().indexOf(filterBy))
-          + "<span class='filter-selection'>" + label.substr(label.toLowerCase().indexOf(filterBy), filterBy.length) + "</span>"
-          + label.substr(label.toLowerCase().indexOf(filterBy) + filterBy.length);
+        label = truncate(label, LABEL_MAX_CHARS);
+        if(label.toLowerCase().indexOf(filterBy) >= 0) {
+          var labelHtml = label.substr(0, label.toLowerCase().indexOf(filterBy))
+            + "<span class='filter-selection'>" + label.substr(label.toLowerCase().indexOf(filterBy), filterBy.length) + "</span>"
+            + label.substr(label.toLowerCase().indexOf(filterBy) + filterBy.length);
+        } else {
+          var labelHtml = label;
+        }
+        return $sce.trustAsHtml(labelHtml);
+      }
+
+      function truncate(text, chars) {
+        if (text.length > chars) {
+          return text.substr(0, chars) + "...";
+        }
+        return text;
       }
 
       function performSelect() {
@@ -104,7 +118,12 @@ angular.module('openproject.uiComponents')
 
             if(index >= 0) {
               if(index == models.length - 1 && i < scope.filteredGroups.length - 1){
-                scope.selectedId = scope.filteredGroups[i + 1].models[0].id;
+                while(i < scope.filteredGroups.length - 1) {
+                  if(scope.filteredGroups[i + 1].models[0] ) {
+                    scope.selectedId = scope.filteredGroups[i + 1].models[0].id;
+                  }
+                  i = i + 1;
+                }
                 break;
               }
               if(index < models.length - 1){
@@ -128,8 +147,14 @@ angular.module('openproject.uiComponents')
             }).indexOf(scope.selectedId)
 
             if(index >= 0) {
+              // Bug: Needs to look through all the previous groups for one which has a model
               if(index == 0 && i != 0){
-                scope.selectedId = scope.filteredGroups[i - 1].models[scope.filteredGroups[i - 1].models.length - 1].id;
+                while(i > 0) {
+                  if(scope.filteredGroups[i - 1].models.length) {
+                    scope.selectedId = scope.filteredGroups[i - 1].models[scope.filteredGroups[i - 1].models.length - 1].id;
+                  }
+                  i = i - 1;
+                }
                 break;
               }
               if(index > 0){

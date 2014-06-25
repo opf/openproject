@@ -103,7 +103,7 @@ describe('selectableTitle Directive', function() {
     it('should truncate long text for models', function() {
       var models = element.find('a');
       expect(jQuery(models[4]).text()).to.equal('Misunderstood anthropomorphic puppet pig');
-      expect(jQuery(models[5]).text()).to.equal('Badly misunderstood anthropomorphic...');
+      expect(jQuery(models[5]).text()).to.equal('Badly misunderstood anthropomorphic pupp...');
     });
 
     it('should show a title (tooltip) for models', function() {
