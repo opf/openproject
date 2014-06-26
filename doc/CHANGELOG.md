@@ -88,6 +88,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#9931` APIv2 does not rewire parents correctly
 * `#10773` Headlines in Wiki pages inconsistent
 * `#11101` Not possible to save queries or to change their visibility in project-independent work package list
+* `#11942` When saving work packages and making changes that update WP list changes cannot be saved
 * Allowed sending of mails with only cc: or bcc: fields
 * Allow adding attachments to created work packages via planning elements controller
 * Remove unused rmagick dependency
