@@ -37,6 +37,7 @@ module Api
       include ApiController
       include Concerns::GrapeRouting
       include Concerns::ColumnData
+      include Concerns::QueryLoading
 
       include PaginationHelper
       include QueriesHelper
@@ -121,7 +122,7 @@ module Api
       end
 
       def load_query
-        @query ||= retrieve_query
+        @query ||= init_query
       rescue ActiveRecord::RecordNotFound
         render_404
       end
