@@ -321,7 +321,7 @@ GEM
       ffi (>= 0.5.0)
     rb-kqueue (0.2.2)
       ffi (>= 0.5.0)
-    rb-readline (0.5.0)
+    rb-readline (0.5.1)
     rdoc (3.12.2)
       json (~> 1.4)
     redcarpet (3.0.0)
@@ -485,7 +485,7 @@ DEPENDENCIES
   rails (~> 3.2.18)
   rails-dev-tweaks (~> 0.6.1)
   rails_autolink
-  rb-readline
+  rb-readline (~> 0.5.1)
   rdoc (>= 2.4.2)
   reform
   representable!

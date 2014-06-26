@@ -164,7 +164,7 @@ group :test do
   gem 'selenium-webdriver'
   gem 'timecop', "~> 0.6.1"
 
-  gem 'rb-readline' # ruby on CI needs this
+  gem 'rb-readline', "~> 0.5.1" # ruby on CI needs this
   # why in Gemfile? see: https://github.com/guard/guard-test
   gem 'ruby-prof'
   gem 'simplecov', '0.8.0.pre'
