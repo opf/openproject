@@ -44,7 +44,9 @@ angular.module('openproject.workPackages.controllers')
   'AuthorisationService',
   '$rootScope',
   'QUERY_MENU_ITEM_TYPE',
-  function($scope, I18n, shareModal, QueryService, AuthorisationService, $rootScope, QUERY_MENU_ITEM_TYPE) {
+  'queryMenuItemFactory',
+  'PathHelper',
+  function($scope, I18n, shareModal, QueryService, AuthorisationService, $rootScope, QUERY_MENU_ITEM_TYPE, queryMenuItemFactory, PathHelper) {
 
   this.name    = 'Share';
   this.closeMe = shareModal.deactivate;
@@ -59,11 +61,19 @@ angular.module('openproject.workPackages.controllers')
     $scope.$emit('flashMessage', message);
   }
 
+  function getQueryPath(query) {
+    if (query.project_id) {
+      return PathHelper.projectPath(query.project_id) + PathHelper.workPackagesPath() + '?query_id=' + query.id;
+    } else {
+      return PathHelper.workPackagesPath() + '?query_id=' + query.id;
+    }
+  }
+
   function addOrRemoveMenuItem(query) {
     if (!query) return;
 
     if(query.starred) {
-      // TODO
+      queryMenuItemFactory.generateMenuItem(query.name, getQueryPath(query), query.id);
     } else {
       $rootScope.$broadcast('openproject.layout.removeMenuItem', {
         itemType: QUERY_MENU_ITEM_TYPE,
