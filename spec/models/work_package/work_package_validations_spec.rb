@@ -51,8 +51,8 @@ describe WorkPackage do
 
     it "validates, that correct formats are properly parsed" do
       wp = FactoryGirl.build(:work_package, start_date: "01/01/13", due_date: "31/01/13")
-      expect(wp.errors_on(:start_date).size).to eq(:no)
-      expect(wp.errors_on(:due_date).size).to eq(:no)
+      expect(wp.errors_on(:start_date).size).to eq(0)
+      expect(wp.errors_on(:due_date).size).to eq(0)
     end
 
     describe "hierarchical work_package-validations" do
