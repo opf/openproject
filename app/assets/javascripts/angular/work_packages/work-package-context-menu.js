@@ -41,13 +41,14 @@ angular.module('openproject.workPackages')
 
 .controller('WorkPackageContextMenuController', [
   '$scope',
+  '$rootScope',
   'WorkPackagesTableHelper',
   'WorkPackageContextMenuHelper',
   'WorkPackageService',
   'WorkPackagesTableService',
   'I18n',
   '$window',
-  function($scope, WorkPackagesTableHelper, WorkPackageContextMenuHelper, WorkPackageService, WorkPackagesTableService, I18n, $window) {
+  function($scope, $rootScope, WorkPackagesTableHelper, WorkPackageContextMenuHelper, WorkPackageService, WorkPackagesTableService, I18n, $window) {
 
   $scope.I18n = I18n;
 
@@ -75,7 +76,7 @@ angular.module('openproject.workPackages')
     WorkPackageService.performBulkDelete(getSelectedWorkPackages())
       .success(function(data, status) {
         // TODO wire up to API and processs API response
-        $scope.$emit('flashMessage', {
+        $rootScope.$emit('flashMessage', {
           isError: false,
           text: I18n.t('js.work_packages.message_successful_bulk_delete')
         });
@@ -84,7 +85,7 @@ angular.module('openproject.workPackages')
       })
       .error(function(data, status) {
         // TODO wire up to API and processs API response
-        $scope.$emit('flashMessage', {
+        $rootScope.$emit('flashMessage', {
           isError: true,
           text: I18n.t('js.work_packages.message_error_during_bulk_delete')
         });

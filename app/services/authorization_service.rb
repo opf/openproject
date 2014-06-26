@@ -27,22 +27,26 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+# project, projects, global, user = nil
+
 class AuthorizationService
-  def initialize(ctrl, action, project, projects, global, user = nil)
+  # @params
+  #   ctrl - controller
+  #   action - action
+  # @named params
+  #   context - single project or array of projects - default nil
+  #   global - global - default false
+  #   user - user - default current user
+  def initialize(ctrl, action, context: nil , global: false, user: User.current)
     @ctrl = ctrl
     @action = action
-    @project = project
-    @projects = projects
+    @context = context
     @global = global
-    @user = user || User.current
+    @user = user
   end
 
-  def perform
-    allowed = @user.allowed_to?({:controller => @ctrl, :action => @action}, @project || @projects, :global => @global)
-    if allowed
-      true
-    else
-      false
-    end
+  def call
+    @user.allowed_to?({:controller => @ctrl, :action => @action}, @context, :global => @global)
   end
 end
+

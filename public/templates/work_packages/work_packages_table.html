@@ -2,7 +2,7 @@
   <thead>
     <tr>
       <th class="checkbox hide-when-print">
-        <a href="#"
+        <a href
            alt="{{toggleRowsLabel}}"
            class="no-decoration-on-hover"
            ng-click="setCheckedStateForAllRows(!(rows | allRowsChecked))"
@@ -79,7 +79,7 @@
             ({{ countByGroup[row.groupName] }})
 
             <span aria-hidden="true" role="presentation" tabindex="-1">
-              <a class="toggle-all" ng-href="#" ng-click="toggleAllGroups()">
+              <a class="toggle-all" href ng-click="toggleAllGroups()">
                 {{ groupExpanded[currentGroup] && I18n.t('js.label_collapse_all') || I18n.t('js.label_expand_all') }}
               </a>
             </span>
@@ -141,7 +141,7 @@
                ($last || row.groupName !== rows[$index+1].groupName)"
         ng-show="!groupByColumn || groupExpanded[row.groupName]"
         ng-class="[
-          $even && 'odd' || 'even',
+          'group-sum',
           'sum',
           'grouped',
           'issue',
@@ -149,7 +149,10 @@
         ]">
         <td colspan="{{3  - (!!hideWorkPackageDetails * 1)}}">
           {{ I18n.t('js.label_sum_for') }}
-          <span work-package-column work-package="row.object" column="groupByColumn"/>
+          <span work-package-column
+                work-package="row.object"
+                column="groupByColumn"
+                display-empty="-"/>
         </td>
         <td ng-repeat="column in columns">
           {{ column.group_sums[row.groupName] }}
@@ -160,6 +163,7 @@
 
     <tr work-package-total-sums
         ng-if="displaySums"
+        cg-busy="fetchTotalSums"
         class="sum group all issue work_package">
       <td colspan="{{3  - (!!hideWorkPackageDetails * 1)}}">{{ I18n.t('js.label_sum_for') }} {{ I18n.t('js.label_all_work_packages') }}</td>
       <td ng-repeat="column in columns">

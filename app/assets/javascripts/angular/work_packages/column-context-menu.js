@@ -35,7 +35,8 @@ angular.module('openproject.workPackages')
   return ngContextMenu({
     controller: 'ColumnContextMenuController',
     controllerAs: 'contextMenu',
-    templateUrl: '/templates/work_packages/column_context_menu.html'
+    templateUrl: '/templates/work_packages/column_context_menu.html',
+    container: '.work-packages--list-scroll-area'
   });
 }])
 
@@ -50,7 +51,13 @@ angular.module('openproject.workPackages')
   function($scope, ColumnContextMenu, I18n, QueryService, WorkPackagesTableHelper, WorkPackagesTableService, columnsModal) {
 
     $scope.I18n = I18n;
-    $scope.isGroupable = WorkPackagesTableService.isGroupable($scope.column);
+
+    $scope.$watch('column', function() {
+      // fall back to 'id' column as the default
+      $scope.column = $scope.column || { name: 'id', sortable: true };
+      $scope.isGroupable = WorkPackagesTableService.isGroupable($scope.column);
+    });
+
 
     // context menu actions
 

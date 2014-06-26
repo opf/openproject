@@ -203,14 +203,33 @@ module Api
 
       end
 
-      def convert_object_to_struct(model)
-        OpenStruct.new(model.attributes)
+      Struct.new("WorkPackage", *[WorkPackage.column_names.map(&:to_sym), :custom_values, :child_ids].flatten)
+      Struct.new("CustomValue", *CustomValue.column_names.map(&:to_sym))
+
+      def convert_wp_to_struct(work_package)
+        struct = Struct::WorkPackage.new
+
+        fill_struct_with_attributes(struct, work_package)
+      end
+
+      def convert_custom_value_to_struct(custom_value)
+        struct = Struct::CustomValue.new
+
+        fill_struct_with_attributes(struct, custom_value)
+      end
+
+      def fill_struct_with_attributes(struct, model)
+        model.attributes.each do |attribute, value|
+          struct.send(:"#{attribute}=", value)
+        end
+
+        struct
       end
 
       def convert_wp_object_to_struct(model)
-        result = convert_object_to_struct(model)
+        result = convert_wp_to_struct(model)
         result.custom_values = model.custom_values.select{|cv| cv.value != ""}.map do |model|
-            convert_object_to_struct(model)
+          convert_custom_value_to_struct(model)
         end
         result
       end
@@ -304,7 +323,7 @@ module Api
           # re-wire the parent of this pe to the first ancestor found in the filtered set
           # re-wiring is only needed, when there is actually a parent, and the parent has been filtered out
           if pe.parent_id && !filtered_ids.include?(pe.parent_id)
-            ancestors = @planning_elements.select{|candidate| candidate.lft < pe.lft && candidate.rgt > pe.rgt }
+            ancestors = @planning_elements.select{|candidate| candidate.lft < pe.lft && candidate.rgt > pe.rgt && candidate.root_id == pe.root_id }
             # the greatest lower boundary is the first ancestor not filtered
             pe.parent_id = ancestors.empty? ? nil : ancestors.sort_by{|ancestor| ancestor.lft }.last.id
           end

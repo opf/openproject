@@ -79,7 +79,7 @@
   font-size: 14px
 
 @mixin icon-context-rules
-  padding: 0 4px 0 0
+  @include icon-context-padding
   color: $content_icon_color
 
 @mixin icon-table-rules
@@ -101,6 +101,9 @@
 @mixin icon-big-rules
   padding: 0 0 0 0
   font-size: 50px
+
+@mixin icon-context-padding
+  padding: 0 4px 0 0
 
 [data-icon]:before
   @include icon-common
@@ -211,6 +214,10 @@
   @include icon-rules
   float: left
 
+.button_highlight.icon-context:before
+  @include icon-context-padding
+  color: $button_highlight_font_color
+
 // used for icons in the content area, which appear in context (menus)
 .action-menu .icon:before,
 .icon-context:before
@@ -303,9 +310,6 @@ dt > .icon-news:before,
 .icon-group:before
   content: "\e018"
 
-.icon-xls:before, .icon-excel:before
-  content: "\e019"
-
 .icon-priority:before
   content: "\e01a"
 
@@ -346,7 +350,8 @@ dt > .icon-work_package-note:before,
   content: "\e024"
 
 dt > .icon-time-entry:before,
-.icon-time:before
+.icon-time:before,
+.icon-log_time:before
   content: "\e025"
 
 .icon-tracker:before
@@ -582,7 +587,7 @@ dt > .icon-reply:before,
 .icon-mail:before
   content: "\e073"
 
-.icon-logout2:before
+.icon-export:before
   content: "\e074"
 
 .icon-logout:before
@@ -728,9 +733,6 @@ dt > .icon-reply:before,
 
 .icon-rubber:before
   content: "\e0a4"
-
-.icon-atom:before, .icon-rss2:before
-  content: "\e0a5"
 
 .icon-rss:before
   content: "\e0a6"
@@ -935,23 +937,32 @@ dt > .icon-wiki-page:before,
 .icon-filter-big:before
   content: "\e0e6"
 
-.icon-page-pdf:before
-  content: "\e0e9"
-
-.icon-page-csv:before
-  content: "\e0ea"
-
-.icon-page-xls:before
-  content: "\e019"
-
-.icon-page-atom:before
-  content: "\e0a5"
-
 .icon-group-by2:before
   content: "\e0e7"
 
 .icon-sort-by2:before
   content: "\e0e8"
+
+.icon-page-pdf:before
+  content: "\e0e9"
+
+.icon-page-pdf-descr:before
+  content: "\e0eb"
+
+.icon-rss2:before
+  content: "\e0a5"
+
+.icon-page-atom:before
+  content: "\e0ec"
+
+.icon-page-csv:before
+  content: "\e0ed"
+
+.icon-page-xls:before
+  content: "\e0ee"
+
+.icon-page-xls-descr:before
+  content: "\e0ef"
 
 /* remove once all menu items have an icon */
 .no-icon

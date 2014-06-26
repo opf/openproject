@@ -28,10 +28,21 @@
 @import global/all
 
 div.wiki
-  font-size: 14px
+  font-size: $wiki_default_font_size
   line-height: 1.6em
-  h1, h2
+  h1
+    font-size: 18px
+  h2
+    font-size: 16px
+  h3
+    font-size: 13px
+    border-bottom: 1px dotted #bbbbbb
+  h1, h2, h3
     margin: 1em 0 1em 0
+    font-weight: bold
+    color: #555555
+    text-transform: none
+    border-bottom: 1px solid #bbbbbb
 
   table
     border: 1px solid #505050
@@ -62,6 +73,7 @@ div.wiki
     margin-right: 12px
     margin-left: 0
     display: table
+    font-size: $wiki_toc_ul_font_size
     &.right
       float: right
       margin-left: 12px
@@ -95,10 +107,11 @@ div.wiki
   ul li
     list-style-type: disc
 
-
-  fieldset legend
+  li li
+    margin-left: 1.5em
+  fieldset.collapsible legend
     font-weight: bold
-    font-size: 10px
+    font-size: $wiki_toc_header_font_size
   img
     vertical-align: middle
 

@@ -76,8 +76,8 @@ angular.module('openproject.uiComponents')
         ctrl.open();
 
         contextMenu.open(locals)
-          .then(function(menuElement) {
-            menuElement.css(getCssPositionProperties(menuElement, element));
+          .then(function(element) {
+            menuElement = element;
           });
       }
 
@@ -87,6 +87,10 @@ angular.module('openproject.uiComponents')
         contextMenu.close();
       }
 
+      function positionDropdown() {
+        menuElement.css(getCssPositionProperties(menuElement, element));
+      }
+
       element.bind(triggerOnEvent, function(event) {
         event.preventDefault();
         event.stopPropagation();
@@ -94,6 +98,9 @@ angular.module('openproject.uiComponents')
         scope.$apply(function() {
           toggle();
         });
+
+        // set css position parameters after the digest has been completed
+        if (contextMenu.active()) positionDropdown();
 
         scope.$root.$broadcast('openproject.markDropdownsAsClosed', element);
       });

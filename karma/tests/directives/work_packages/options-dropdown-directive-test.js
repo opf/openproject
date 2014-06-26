@@ -30,7 +30,12 @@ describe('optionsDropdown Directive', function() {
     var compile, element, rootScope, scope;
 
     beforeEach(angular.mock.module('openproject.workPackages.directives'));
-    beforeEach(module('templates', 'openproject.models', 'openproject.workPackages.controllers'));
+    beforeEach(module('openproject.models', 'openproject.workPackages.controllers'));
+
+    beforeEach(module('templates', function($provide) {
+      var state = { go: function() { return false; } };
+      $provide.value('$state', state);
+    }));
 
     beforeEach(inject(function($rootScope, $compile) {
       var optionsDropdownHtml;
@@ -44,6 +49,10 @@ describe('optionsDropdown Directive', function() {
         $compile(element)(scope);
         scope.$digest();
       };
+    }));
+
+    beforeEach(inject(function(_AuthorisationService_){
+      AuthorisationService = _AuthorisationService_;
     }));
 
     describe('element', function() {
@@ -81,6 +90,9 @@ describe('optionsDropdown Directive', function() {
             id: 1
           });
           scope.query = query;
+          AuthorisationService.initModelAuth('query', {
+            create: '/queries'
+          })
 
           compile();
         })

@@ -183,6 +183,15 @@ describe WorkPackagesHelper do
         expect(helper.link_to_work_package(stub_work_package, :subject_only => true)).to have_selector("a[href='#{work_package_path(stub_work_package)}']", :text => link_text)
       end
     end
+
+    describe "with the status displayed" do
+      it 'should return a link with the status name contained in the text' do
+        stub_work_package.type = stub_type
+
+        link_text = Regexp.new("^#{stub_type.name} ##{stub_work_package.id} #{stub_work_package.status}$")
+        expect(helper.link_to_work_package(stub_work_package, :status => true)).to have_selector("a[href='#{work_package_path(stub_work_package)}']", :text => link_text)
+      end
+    end
   end
 
   describe :work_package_index_link do

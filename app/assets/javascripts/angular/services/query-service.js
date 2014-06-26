@@ -50,11 +50,11 @@ angular.module('openproject.services')
 
   var query;
 
-  var availableOptions = {}; // used as a container object holding watchable object references
   var availableColumns = [],
       availableUnusedColumns = [],
       availableFilterValues = {},
-      availableFilters = {};
+      availableFilters = {},
+      availableGroupedQueries;
 
   var totalEntries;
 
@@ -70,14 +70,20 @@ angular.module('openproject.services')
         columns: selectedColumns,
         groupBy: queryData.group_by,
         isPublic: queryData.is_public,
-        exportFormats: exportFormats
+        exportFormats: exportFormats,
+        starred: queryData.starred,
+        links: queryData._links
       });
       query.setSortation(new Sortation(queryData.sort_criteria));
 
       QueryService.getAvailableFilters(query.project_id)
         .then(function(availableFilters) {
           query.setAvailableWorkPackageFilters(availableFilters);
-          query.setFilters(queryData.filters);
+          if (query.isDefault()) {
+            query.setDefaultFilter();
+          } else {
+            query.setFilters(queryData.filters);
+          }
 
           return query;
         })
@@ -86,21 +92,14 @@ angular.module('openproject.services')
       return query;
     },
 
-    resetQuery: function() {
-      query = null;
-    },
-
-    resetAll: function(){
-      QueryService.resetQuery();
-      availableOptions = {};
-      availableColumns = [],
-      availableUnusedColumns = [],
-      availableFilterValues = {},
-      availableFilters = {};
-    },
-
     getQuery: function() {
       return query;
+    },
+
+    getQueryName: function() {
+      if (query && query.hasName()) {
+        return query.name;
+      }
     },
 
     setTotalEntries: function(numberOfEntries) {
@@ -123,15 +122,15 @@ angular.module('openproject.services')
       WorkPackagesTableHelper.moveColumns(columnNames, availableUnusedColumns, this.getSelectedColumns());
     },
 
-    getAvailableOptions: function() {
-      return availableOptions;
+    getAvailableGroupedQueries: function() {
+      return availableGroupedQueries;
     },
 
     // data loading
 
     loadAvailableGroupedQueries: function(projectIdentifier) {
-      if (availableOptions.availableGroupedQueries) {
-        return $q.when(availableOptions.availableGroupedQueries);
+      if (availableGroupedQueries) {
+        return $q.when(availableGroupedQueries);
       }
 
       return QueryService.fetchAvailableGroupedQueries(projectIdentifier);
@@ -142,16 +141,12 @@ angular.module('openproject.services')
 
       return QueryService.doQuery(url)
         .then(function(groupedQueriesResults) {
-          availableOptions.availableGroupedQueries = groupedQueriesResults;
-          return availableOptions.availableGroupedQueries;
+          availableGroupedQueries = groupedQueriesResults;
+          return availableGroupedQueries;
         });
     },
 
     loadAvailableUnusedColumns: function(projectIdentifier) {
-      if(availableUnusedColumns.length) {
-        return $q.when(availableUnusedColumns);
-      }
-
       return QueryService.loadAvailableColumns(projectIdentifier)
         .then(function(available_columns) {
           availableUnusedColumns = WorkPackagesTableHelper.getColumnDifference(available_columns, QueryService.getSelectedColumns());
@@ -303,7 +298,8 @@ angular.module('openproject.services')
     // synchronization
 
     saveQuery: function() {
-      var url = PathHelper.apiProjectQueryPath(query.project_id, query.id);
+      var url = query.project_id ? PathHelper.apiProjectQueryPath(query.project_id, query.id) : PathHelper.apiQueryPath(query.id);
+
       return QueryService.doQuery(url, query.toUpdateParams(), 'PUT', function(response){
         QueryService.fetchAvailableGroupedQueries(query.project_id);
 
@@ -313,7 +309,8 @@ angular.module('openproject.services')
 
     saveQueryAs: function(name) {
       query.setName(name);
-      var url = PathHelper.apiProjectQueriesPath(query.project_id);
+      var url = query.project_id ? PathHelper.apiProjectQueriesPath(query.project_id) : PathHelper.apiQueriesPath();
+
       return QueryService.doQuery(url, query.toParams(), 'POST', function(response){
         query.save(response.data.query);
         QueryService.fetchAvailableGroupedQueries(query.project_id);
@@ -326,14 +323,45 @@ angular.module('openproject.services')
       var url = PathHelper.apiProjectQueryPath(query.project_id, query.id);
       return QueryService.doQuery(url, query.toUpdateParams(), 'DELETE', function(response){
         QueryService.fetchAvailableGroupedQueries(query.project_id);
-        QueryService.resetQuery();
 
         return angular.extend(response.data, { status: { text: I18n.t('js.notice_successful_delete') }} );
       });
     },
 
+    toggleQueryStarred: function() {
+      if(query.starred) {
+        return QueryService.unstarQuery();
+      } else {
+        return QueryService.starQuery();
+      }
+    },
+
+    starQuery: function() {
+      var url = PathHelper.apiQueryStarPath(query.id);
+      var theQuery = query;
+
+      return QueryService.doPatch(url, function(response){
+        theQuery.star();
+        return response.data;
+      });
+    },
+
+    unstarQuery: function() {
+      var url = PathHelper.apiQueryUnstarPath(query.id);
+      var theQuery = query;
+
+      return QueryService.doPatch(url, function(response){
+        theQuery.unstar();
+        return response.data;
+      });
+    },
+
     doGet: function(url, success, failure) {
       return QueryService.doQuery(url, null, 'GET', success, failure);
+    },
+
+    doPatch: function(url, success, failure) {
+      return QueryService.doQuery(url, null, 'PATCH', success, failure);
     },
 
     doQuery: function(url, params, method, success, failure) {
@@ -342,7 +370,7 @@ angular.module('openproject.services')
         return response.data;
       };
       failure = failure || function(response){
-        return angular.extend(response.data, { status: { text: I18n.t('js.notice_bad_request'), isError: true }} );
+        return angular.extend(response, { status: { text: I18n.t('js.notice_bad_request'), isError: true }} );
       };
 
       return $http({

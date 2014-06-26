@@ -37,6 +37,7 @@ module API
       version 'v3', using: :path
 
       mount API::V3::WorkPackages::WorkPackagesAPI
+      mount API::V3::Queries::QueriesAPI
     end
   end
 end

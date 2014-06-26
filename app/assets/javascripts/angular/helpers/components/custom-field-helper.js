@@ -40,11 +40,7 @@ angular.module('openproject.helpers')
     },
     booleanCustomFieldValue: function(value) {
       if (value) {
-        if (value === '1') {
-          return I18n.t('js.general_text_Yes');
-        } else if (value === '0') {
-          return I18n.t('js.general_text_No');
-        }
+        return value === '0' ? I18n.t('js.general_text_No') : I18n.t('js.general_text_Yes');
       }
     },
     parseNumeric: function(value, parseMethod){

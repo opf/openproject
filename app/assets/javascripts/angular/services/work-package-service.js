@@ -137,7 +137,7 @@ angular.module('openproject.services')
           return wp.id;
         })
       };
-      return $http.delete(PathHelper.workPackagesBulkDeletePath(), { params: params });
+      return $http['delete'](PathHelper.workPackagesBulkDeletePath(), { params: params });
     }
   };
 

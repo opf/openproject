@@ -29,7 +29,7 @@
 <i class="icon-arrow-right6-3"></i>
 <i class="icon-arrow-right7"></i>
 <i class="icon-arrow-right8"></i>
-<i class="icon-atom"></i> <i class="icon-rss2"></i>
+<i class="icon-rss2"></i>
 <i class="icon-attachment"></i>
 <i class="icon-attention1"></i>
 <i class="icon-attention2"></i>
@@ -60,6 +60,9 @@
 <i class="icon-code-tag"></i>
 <i class="icon-color-text"></i>
 <i class="icon-color-underline"></i>
+<i class="icon-columns"></i>
+<i class="icon-column-left"></i>
+<i class="icon-column-right"></i>
 <i class="icon-console"></i>
 <i class="icon-contacts"></i>
 <i class="icon-copy"></i>
@@ -77,6 +80,8 @@
 <i class="icon-duplicate"></i>
 <i class="icon-edit"></i>
 <i class="icon-error"></i>
+<i class="icon-filter"></i>
+<i class="icon-filter-big"></i>
 <i class="icon-fire"></i>
 <i class="icon-flag"></i>
 <i class="icon-folder"></i>
@@ -84,6 +89,8 @@
 <i class="icon-grid-view1"></i>
 <i class="icon-grid-view2"></i>
 <i class="icon-group"></i>
+<i class="icon-group-by"></i>
+<i class="icon-group-by2"></i>
 <i class="icon-headline1"></i>
 <i class="icon-headline2"></i>
 <i class="icon-headline3"></i>
@@ -115,7 +122,8 @@
 <i class="icon-locked"></i>
 <i class="icon-locked-folder"></i>
 <i class="icon-logout"></i>
-<i class="icon-logout2"></i>
+<i class="icon-log_time"></i>
+<i class="icon-export"></i>
 <i class="icon-mail"></i>
 <i class="icon-mail2"></i>
 <i class="icon-map"></i>
@@ -136,6 +144,12 @@
 <i class="icon-notice"></i> <i class="icon-yes"></i>
 <i class="icon-open-folder"></i>
 <i class="icon-outline"></i>
+<i class="icon-page-atom"></i>
+<i class="icon-page-csv"></i>
+<i class="icon-page-pdf"></i>
+<i class="icon-page-pdf-descr"></i>
+<i class="icon-page-xls"></i>
+<i class="icon-page-xls-descr"></i>
 <i class="icon-paint"></i>
 <i class="icon-paragraph"></i>
 <i class="icon-paragraph-left"></i>
@@ -177,6 +191,10 @@
 <i class="icon-settings2"></i>
 <i class="icon-settings3"></i>
 <i class="icon-settings4"></i>
+<i class="icon-sort-ascending"></i>
+<i class="icon-sort-descending"></i>
+<i class="icon-sort-by"></i>
+<i class="icon-sort-by2"></i>
 <i class="icon-square"></i>
 <i class="icon-star1"></i>
 <i class="icon-star2"></i>
@@ -186,6 +204,10 @@
 <i class="icon-stats3"></i>
 <i class="icon-stats4"></i>
 <i class="icon-status"></i>
+<i class="icon-table-view"></i>
+<i class="icon-table-detail-view"></i>
+<i class="icon-timeline-view"></i>
+<i class="icon-toggle"></i>
 <i class="icon-text"></i>
 <i class="icon-thumb-down"></i>
 <i class="icon-thumb-up"></i>
@@ -224,28 +246,8 @@
 <i class="icon-work_package-closed"></i>
 <i class="icon-work_package-edit"></i>
 <i class="icon-work_package-note"></i>
-<i class="icon-xls"></i> <i class="icon-excel"></i>
 <i class="icon-yes2"></i>
 <i class="icon-yes3"></i>
 <i class="icon-zoom-in"></i>
 <i class="icon-zoom-out"></i>
-<i class="icon-columns"></i>
-<i class="icon-column-left"></i>
-<i class="icon-column-right"></i>
-<i class="icon-sort-ascending"></i>
-<i class="icon-sort-descending"></i>
-<i class="icon-filter"></i>
-<i class="icon-table-view"></i>
-<i class="icon-table-detail-view"></i>
-<i class="icon-timeline-view"></i>
-<i class="icon-toggle"></i>
-<i class="icon-page-pdf"></i>
-<i class="icon-page-csv"></i>
-<i class="icon-page-xls"></i>
-<i class="icon-page-atom"></i>
-<i class="icon-sort-by"></i>
-<i class="icon-group-by"></i>
-<i class="icon-filter-big"></i>
-<i class="icon-group-by2"></i>
-<i class="icon-sort-by2"></i>
 ```

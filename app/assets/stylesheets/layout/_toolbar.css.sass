@@ -21,7 +21,7 @@
   li
     float: left
     &.toolbar-item
-      margin: 5px //$drop-nav-spacing // spacing between nav items
+      margin: 0 5px //$drop-nav-spacing // spacing between nav items
 
   button
     margin-right: 0
@@ -39,9 +39,12 @@
   $sub-max-width: 300px
   $drop-item-back-color: #a91e2f
 
+  h2
+    border: 0
+    padding: 12px 0 0 0
+
   span
     color: $content_link_color
-    font-size: 1.5em
 
     &:hover
       text-decoration: underline
@@ -116,5 +119,6 @@
   i
     float: right
     color: #333333
+    padding-left: 5px
   &:hover
     text-decoration: none

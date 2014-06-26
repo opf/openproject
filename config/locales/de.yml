@@ -387,6 +387,15 @@ de:
   button_configure_menu_entry: "Menüpunkt konfigurieren"
   button_delete_menu_entry: "Menüpunkt entfernen"
 
+  copy_project:
+    started: "Das Kopieren des Projekts \"%{source_project_name}\" nach \"%{target_project_name}\" wurde gestartet. Sie werden per Mail benachrichtigt, sobald \"%{target_project_name}\" zur Verfügung steht."
+    failed: "Das Projekt %{source_project_name} konnte nicht kopiert werden"
+    succeeded: "Das Projekt %{target_project_name} wurde erstellt"
+    errors: "Fehler"
+    text:
+      failed: "Das Projekt \"%{source_project_name}\" konnte nicht nach \"%{target_project_name}\" kopiert werden."
+      succeeded: "Das Projekt \"%{source_project_name}\" wurde nach \"%{target_project_name}\" kopiert."
+
   create_child_page: "Neue Unterseite anlegen"
   create_child_page_for: "Neue Unterseite anlegen: \"%{title}\""
   create_new_page: "Neue Seite anlegen"

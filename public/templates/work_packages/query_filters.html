@@ -1,6 +1,6 @@
 <fieldset id="filters" class="work-packages-filters--container">
   <legend>
-    <a href="#">
+    <a href>
       <span ng-bind="I18n.t('js.work_packages.label_filter_add')"/>
     </a>
   </legend>
@@ -88,8 +88,8 @@
                              class="select-small"
                              id="values-{{filter.name}}"
                              name="v[{{filter.name}}]"
-                             size="3"
-                             type="text"
+                             min="0"
+                             type="number"
                              value=""
                              ng-disabled="isLoading"
                              execute-on-enter="updateResults()"/>
@@ -135,7 +135,7 @@
                                            name="filter.name"
                                            values="filter.values"
                                            is-multiselect="false"
-                                           ng-disabled="isLoading"/>
+                                           isDisabled="isLoading"/>
 
                     </div>
                   </td>
@@ -144,7 +144,7 @@
                   <td>
                     <icon-wrapper icon-name="delete2"
                                   icon-title="{{I18n.t('js.button_delete')}}"
-                                  ng-click="query.deactivateFilter(filter, loading)"/>
+                                  ng-click="query.deactivateFilter(filter)"/>
                     <!-- TODO I18n -->
                   </td>
                 </tr>

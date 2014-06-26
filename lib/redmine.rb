@@ -137,8 +137,8 @@ Redmine::AccessControl.map do |map|
     map.permission :manage_work_package_relations, {:work_package_relations => [:create, :destroy]}
     map.permission :manage_subtasks, {}
     # Queries
-    map.permission :manage_public_queries, {:queries => [:new, :edit, :destroy]}, :require => :member
-    map.permission :save_queries, {:queries => [:new, :edit, :destroy]}, :require => :loggedin
+    map.permission :manage_public_queries, {:queries => [:new, :edit, :star, :unstar, :destroy]}, :require => :member
+    map.permission :save_queries, {:queries => [:new, :edit, :star, :unstar, :destroy]}, :require => :loggedin
     # Watchers
     map.permission :view_work_package_watchers, {}
     map.permission :add_work_package_watchers, {:watchers => [:new, :create]}
@@ -295,10 +295,14 @@ Redmine::MenuManager.map :project_menu do |menu|
                       :if => Proc.new { |p| p.shared_versions.any? },
                       :html => {:class => "icon2 icon-process-arrow1"}
 
-  menu.push :work_packages, { controller: '/work_packages', action: 'index', set_filter: 1 },
+  menu.push :work_packages, { controller: '/work_packages', action: 'index' },
                             param: :project_id,
                             caption: :label_work_package_plural,
-                            html: {class: "icon2 icon-copy"}
+                            html: {
+                              class: "icon2 icon-copy",
+                              "data-ui-route" => '',
+                              query_menu_item: 'query_menu_item'
+                            }
 
   menu.push :new_work_package, { :controller => '/work_packages', :action => 'new'},
                                :param => :project_id,

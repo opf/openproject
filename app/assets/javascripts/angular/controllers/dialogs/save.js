@@ -36,13 +36,26 @@ angular.module('openproject.workPackages.controllers')
   });
 }])
 
-.controller('SaveModalController', ['$scope', 'saveModal', 'QueryService', function($scope, saveModal, QueryService) {
+.controller('SaveModalController', [
+  '$scope',
+  'saveModal',
+  'QueryService',
+  'AuthorisationService',
+  '$state',
+  function($scope, saveModal, QueryService, AuthorisationService, $state) {
+
   this.name    = 'Save';
   this.closeMe = saveModal.deactivate;
 
   $scope.saveQueryAs = function(name) {
     QueryService.saveQueryAs(name)
       .then(function(data){
+        // push query id to URL without reinitializing work-packages-list-controller
+        if (data.query) {
+          $state.go('work-packages.list', { query_id: data.query.id }, { notify: false });
+          AuthorisationService.initModelAuth("query", data.query._links);
+        }
+
         saveModal.deactivate();
         $scope.$emit('flashMessage', data.status);
       });

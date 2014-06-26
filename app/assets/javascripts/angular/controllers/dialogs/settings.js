@@ -36,18 +36,24 @@ angular.module('openproject.workPackages.controllers')
   });
 }])
 
-.controller('SettingsModalController', ['$scope', 'settingsModal', 'QueryService',
-  function($scope, settingsModal, QueryService) {
+.controller('SettingsModalController', ['$scope', 'settingsModal', 'QueryService', 'AuthorisationService',
+  function($scope, settingsModal, QueryService, AuthorisationService) {
+
+  var query = QueryService.getQuery();
+
   this.name    = 'Settings';
   this.closeMe = settingsModal.deactivate;
-  $scope.query = QueryService.getQuery();
-  $scope.deleteQuery = false;
+  $scope.queryName   = query.name;
 
-  $scope.updateQuery = function(deleteQuery) {
+  $scope.updateQuery = function() {
+    query.name = $scope.queryName;
     QueryService.saveQuery()
-      .then(function(data){
+      .then(function(data) {
         settingsModal.deactivate();
         $scope.$emit('flashMessage', data.status);
+        if(data.query) {
+          AuthorisationService.initModelAuth("query", data.query._links);
+        }
       });
     };
 }]);
