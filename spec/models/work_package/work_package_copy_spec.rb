@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage do
+describe WorkPackage, :type => :model do
   describe :copy do
     let(:user) { FactoryGirl.create(:user) }
     let(:custom_field) { FactoryGirl.create(:work_package_custom_field) }

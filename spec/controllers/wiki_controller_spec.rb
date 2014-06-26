@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WikiController do
+describe WikiController, :type => :controller do
   before do
     Role.delete_all # removing me makes us faster
     User.delete_all # removing me makes us faster

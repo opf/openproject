@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackagesHelper do
+describe WorkPackagesHelper, :type => :helper do
   let(:stub_work_package) { FactoryGirl.build_stubbed(:work_package) }
   let(:stub_project) { FactoryGirl.build_stubbed(:project) }
   let(:stub_type) { FactoryGirl.build_stubbed(:type) }

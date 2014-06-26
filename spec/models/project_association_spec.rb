@@ -28,7 +28,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe ProjectAssociation do
+describe ProjectAssociation, :type => :model do
   describe '- Relations ' do
     describe '#project_a' do
       it 'can read the first project w/ the help of the belongs_to association' do

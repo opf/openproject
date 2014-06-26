@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe SystemUser do
+describe SystemUser, :type => :model do
   let(:system_user) { User.system }
 
   describe '#grant_privileges' do

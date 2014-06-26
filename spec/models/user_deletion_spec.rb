@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe User, 'deletion' do
+describe User, :type => :model, 'deletion' do
   let(:project) { FactoryGirl.create(:project_with_types) }
   let(:user) { FactoryGirl.build(:user, :member_in_project => project) }
   let(:user2) { FactoryGirl.build(:user) }

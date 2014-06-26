@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe MessagesController do
+describe MessagesController, :type => :controller do
 
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project) }

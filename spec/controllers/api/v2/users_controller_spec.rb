@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Api::V2::UsersController do
+describe Api::V2::UsersController, :type => :controller do
 
   shared_context "As an admin" do
     let(:current_user) { FactoryGirl.create(:admin) }

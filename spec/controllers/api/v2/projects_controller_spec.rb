@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Api::V2::ProjectsController do
+describe Api::V2::ProjectsController, :type => :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
 
   before do

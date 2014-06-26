@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'search/index' do
+describe 'search/index', :type => :helper do
   let(:project) { FactoryGirl.create(:project) }
   let(:scope) { "foobar" }
 

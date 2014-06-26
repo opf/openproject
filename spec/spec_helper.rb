@@ -74,7 +74,7 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with :truncation
   end
 
-  config.before(:each) do
+  config.before(:each) do |example|
     DatabaseCleaner.strategy = if example.metadata[:js]
                                  # JS => doesn't share connections => can't use transactions
                                  # truncations seem to fail more often + they are slower

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe "Planning Comparison" do
+describe "Planning Comparison", :type => :model do
 
   let (:project){FactoryGirl.create(:project)}
   let (:admin)  {FactoryGirl.create(:admin)}

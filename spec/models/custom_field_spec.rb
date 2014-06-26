@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CustomField do
+describe CustomField, :type => :model do
   before { CustomField.destroy_all }
 
   let(:field)  { FactoryGirl.build :custom_field }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe UsersHelper do
+describe UsersHelper, :type => :helper do
   include UsersHelper
 
   def build_user(status, blocked)

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe SettingsController do
+describe SettingsController, :type => :controller do
   before :each do
     allow(@controller).to receive(:set_localization)
     @params = {}

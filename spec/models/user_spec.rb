@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe User do
+describe User, :type => :model do
   let(:user) { FactoryGirl.build(:user) }
   let(:project) { FactoryGirl.create(:project_with_types) }
   let(:role) { FactoryGirl.create(:role, :permissions => [:view_work_packages]) }

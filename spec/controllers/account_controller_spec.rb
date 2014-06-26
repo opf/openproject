@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe AccountController do
+describe AccountController, :type => :controller do
   render_views
 
   after do

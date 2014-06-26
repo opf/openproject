@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ActivitiesController do
+describe ActivitiesController, :type => :controller do
   before :each do
     allow(@controller).to receive(:set_localization)
 

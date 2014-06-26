@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WikiController do
+describe WikiController, :type => :routing do
   describe "routing" do
     it 'should connect GET /projects/:project_id/wiki/new to wiki/new' do
       expect(get('/projects/abc/wiki/new')).to route_to(:controller => 'wiki',

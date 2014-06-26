@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::V2::StatusesController do
+describe Api::V2::StatusesController, :type => :controller do
 
   let(:valid_user) { FactoryGirl.create(:user) }
   let(:status)     {FactoryGirl.create(:status)}

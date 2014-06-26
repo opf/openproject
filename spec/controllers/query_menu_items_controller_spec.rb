@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe QueryMenuItemsController do
+describe QueryMenuItemsController, :type => :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
 
   let(:project) { FactoryGirl.create :project }

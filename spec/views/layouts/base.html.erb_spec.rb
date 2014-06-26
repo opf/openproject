@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "layouts/base" do
+describe "layouts/base", :type => :view do
   include Redmine::MenuManager::MenuHelper
   helper Redmine::MenuManager::MenuHelper
   let!(:user) { FactoryGirl.create :user }

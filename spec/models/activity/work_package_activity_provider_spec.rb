@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Activity::WorkPackageActivityProvider do
+describe Activity::WorkPackageActivityProvider, :type => :model do
   let(:event_scope)               { 'work_packages' }
   let(:work_package_edit_event)   { 'work_package-edit' }
   let(:work_package_closed_event) { 'work_package-closed' }

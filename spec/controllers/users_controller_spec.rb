@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'work_package'
 
-describe UsersController do
+describe UsersController, :type => :controller do
   before do
     User.delete_all
   end

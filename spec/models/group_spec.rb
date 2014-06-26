@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative '../support/shared/become_member'
 
-describe Group do
+describe Group, :type => :model do
   include BecomeMember
 
   let(:group) { FactoryGirl.build(:group) }

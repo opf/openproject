@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::V2::ReportedProjectStatusesController do
+describe Api::V2::ReportedProjectStatusesController, :type => :controller do
 
   let(:valid_user) { FactoryGirl.create(:user) }
   let(:available_reported_project_status) do

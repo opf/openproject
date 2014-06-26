@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::BulkController do
+describe WorkPackages::BulkController, :type => :routing do
 
   it "should connect GET /work_packages/bulk/edit to work_package_bulk/edit" do
     expect(get("/work_packages/bulk/edit")).to route_to(controller: 'work_packages/bulk',

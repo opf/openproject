@@ -28,7 +28,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe AuthenticationController do
+describe AuthenticationController, :type => :controller do
   describe 'index.html' do
     def fetch
       get 'index'

@@ -29,7 +29,7 @@
 
 require 'spec_helper'
 
-describe UserMailer do
+describe UserMailer, :type => :mailer do
   let(:type_standard) { FactoryGirl.build_stubbed(:type_standard) }
   let(:user) { FactoryGirl.build_stubbed(:user) }
   let(:journal) { FactoryGirl.build_stubbed(:work_package_journal) }

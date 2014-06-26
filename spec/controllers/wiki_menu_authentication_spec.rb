@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WikiMenuItemsController do
+describe WikiMenuItemsController, :type => :controller do
   before do
     User.delete_all
     Role.delete_all

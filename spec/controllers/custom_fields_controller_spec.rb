@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CustomFieldsController do
+describe CustomFieldsController, :type => :controller do
   let(:custom_field) { FactoryGirl.build(:custom_field) }
   let(:available_languages) { ["de", "en"] }
 

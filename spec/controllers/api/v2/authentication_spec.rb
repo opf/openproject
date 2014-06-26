@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::V2::AuthenticationController do
+describe Api::V2::AuthenticationController, :type => :controller do
   before { allow(Setting).to receive(:rest_api_enabled?).and_return true }
 
   describe 'index.xml' do

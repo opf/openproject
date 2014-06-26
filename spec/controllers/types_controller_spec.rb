@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe TypesController do
+describe TypesController, :type => :controller do
 
   let(:project) { FactoryGirl.create(:project,
                                      work_package_custom_fields: [custom_field_2]) }

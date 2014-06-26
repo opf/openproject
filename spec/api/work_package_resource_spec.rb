@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Work package resource' do
+describe 'API v3 Work package resource', :type => :request do
   include Rack::Test::Methods
 
   let(:work_package) { FactoryGirl.create(:work_package, :project_id => project.id) }

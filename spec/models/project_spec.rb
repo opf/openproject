@@ -29,7 +29,7 @@
 require 'spec_helper'
 require File.expand_path('../../support/shared/become_member', __FILE__)
 
-describe Project do
+describe Project, :type => :model do
   include BecomeMember
 
   let(:project) { FactoryGirl.create(:project, is_public: false) }

@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 # Concern is included into AccountController and depends on methods available there
-describe AccountController do
+describe AccountController, :type => :controller do
   after do
     User.current = nil
   end

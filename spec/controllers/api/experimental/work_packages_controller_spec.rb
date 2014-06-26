@@ -28,7 +28,7 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::Experimental::WorkPackagesController do
+describe Api::Experimental::WorkPackagesController, :type => :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:type) { FactoryGirl.create(:type_standard) }
   let(:project_1) { FactoryGirl.create(:project,
@@ -111,11 +111,11 @@ describe Api::Experimental::WorkPackagesController do
 
           expect(assigns(:work_packages).size).to eq(2)
 
-          expect(assigns(:can).allowed?(work_package_1, :edit)).to be_true
-          expect(assigns(:can).allowed?(work_package_1, :log_time)).to be_true
-          expect(assigns(:can).allowed?(work_package_1, :move)).to be_true
-          expect(assigns(:can).allowed?(work_package_1, :copy)).to be_true
-          expect(assigns(:can).allowed?(work_package_1, :delete)).to be_true
+          expect(assigns(:can).allowed?(work_package_1, :edit)).to be_truthy
+          expect(assigns(:can).allowed?(work_package_1, :log_time)).to be_truthy
+          expect(assigns(:can).allowed?(work_package_1, :move)).to be_truthy
+          expect(assigns(:can).allowed?(work_package_1, :copy)).to be_truthy
+          expect(assigns(:can).allowed?(work_package_1, :delete)).to be_truthy
         end
       end
 

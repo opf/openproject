@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Workflow do
+describe Workflow, :type => :model do
   let(:status_0) { FactoryGirl.create(:status) }
   let(:status_1) { FactoryGirl.create(:status) }
   let(:role) { FactoryGirl.create(:role) }

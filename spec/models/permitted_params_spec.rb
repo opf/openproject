@@ -28,7 +28,7 @@
 
 require File.expand_path('../../spec_helper', __FILE__)
 
-describe PermittedParams do
+describe PermittedParams, :type => :model do
   let(:user) { FactoryGirl.build(:user) }
   let(:admin) { FactoryGirl.build(:admin) }
 

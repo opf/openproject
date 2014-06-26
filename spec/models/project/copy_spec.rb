@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Project::Copy do
+describe Project::Copy, :type => :model do
   describe :copy do
     let(:project) { FactoryGirl.create(:project_with_types) }
     let(:copy) { Project.new }

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe MembersController do
+describe MembersController, :type => :controller do
   let(:admin) {FactoryGirl.create(:admin)}
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project) }

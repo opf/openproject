@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Principal do
+describe Principal, :type => :model do
   let(:user) { FactoryGirl.build(:user) }
   let(:group) { FactoryGirl.build(:group) }
 

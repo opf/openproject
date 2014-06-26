@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe StatusesController do
+describe StatusesController, :type => :routing do
 
   describe "index" do
     it { expect(get("/statuses")).to      route_to( :controller => 'statuses', :action => 'index')}

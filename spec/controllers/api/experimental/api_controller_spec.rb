@@ -28,6 +28,6 @@
 
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe Api::Experimental::ApiController do
+describe Api::Experimental::ApiController, :type => :controller do
 
 end

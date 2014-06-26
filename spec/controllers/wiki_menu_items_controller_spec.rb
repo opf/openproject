@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WikiMenuItemsController do
+describe WikiMenuItemsController, :type => :controller do
   let(:current_user) { FactoryGirl.create(:admin) }
 
   # create project with wiki

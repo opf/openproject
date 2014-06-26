@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Api::V2::WorkflowsController do
+describe Api::V2::WorkflowsController, :type => :controller do
   describe '#index' do
     describe 'unauthorized access' do
       let(:project) { FactoryGirl.create(:project) }
