@@ -159,9 +159,9 @@ group :test do
   # also add to development group, so "spec" rake task gets loaded
   gem "rspec-rails", "~> 2.14", :group => :development
   gem 'rspec-example_disabler', git: "https://github.com/finnlabs/rspec-example_disabler.git"
-  gem 'capybara'
+  gem 'capybara', '~> 2.3.0'
   gem 'capybara-screenshot'
-  gem 'selenium-webdriver'
+  gem 'selenium-webdriver', '~> 2.42.0'
   gem 'timecop', "~> 0.6.1"
 
   gem 'rb-readline', "~> 0.5.1" # ruby on CI needs this
