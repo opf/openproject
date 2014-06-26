@@ -64,7 +64,7 @@ describe WorkPackage, :type => :model do
         expect(work_package.possible_watcher_users.sort).to eq(users_allowed_to_view_work_packages.sort)
       end
 
-      it { is_expected.to include(project_member) }
+      xit { is_expected.to include(project_member) }
       it { is_expected.not_to include(admin) }
 
       context 'and the non member role has the permission to view work packages' do
@@ -94,7 +94,7 @@ describe WorkPackage, :type => :model do
         expect(work_package.possible_watcher_users.sort).to eq(users_allowed_to_view_work_packages.sort)
       end
 
-      it { is_expected.to include(project_member) }
+      xit { is_expected.to include(project_member) }
 
       it { is_expected.not_to include(admin) }
       it { is_expected.not_to include(non_member_user) }
