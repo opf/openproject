@@ -32,10 +32,8 @@
 module Api::Experimental::Concerns::QueryLoading
   def init_query
     if !params[:query_id].blank?
-      cond = "project_id IS NULL"
-      cond << " OR project_id = #{@project.id}" if @project
-      @query = Query.find(params[:query_id], :conditions => cond)
-      @query.project = @project
+      @query = Query.find(params[:query_id])
+      @query.project = @project if @query.project.nil?
     else
       @query = Query.new({name: "_", :project => @project})
     end
