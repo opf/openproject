@@ -295,7 +295,8 @@ describe Project::Copy do
 
       subject { copy.wiki }
 
-      it { is_expected.not_to eq(nil) && is_expected.to.be_valid }
+      it { is_expected.not_to eq(nil) }
+      it { is_expected.to be_valid }
 
       describe :copy_wiki_pages do
         describe :dont_copy_wiki_page_without_content do
