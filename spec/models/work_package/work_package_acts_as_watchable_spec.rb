@@ -140,6 +140,8 @@ describe WorkPackage do
 
     it 'sends one delayed mail notification for each watcher recipient' do
       UserMailer.stub_chain :work_package_updated, :deliver
+      # Ensure notification setting to be set in a way that will trigger e-mails.
+      Setting.stub(:notified_events).and_return(%w(work_package_updated))
       UserMailer.should_receive(:work_package_updated).exactly(number_of_recipients).times
       work_package.update_attributes :description => 'Any new description'
     end
