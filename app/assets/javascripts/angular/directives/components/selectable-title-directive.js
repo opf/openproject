@@ -107,70 +107,74 @@ angular.module('openproject.uiComponents')
 
       function performSelect() {
         scope.transitionMethod(scope.selectedId);
+      }
 
-        event.preventDefault();
-        event.stopPropagation();
+      function nextNonEmptyGroup(groups, currentGroupIndex) {
+        currentGroupIndex = (currentGroupIndex == undefined) ? -1 : currentGroupIndex;
+        while(currentGroupIndex < groups.length - 1) {
+          if(groups[currentGroupIndex + 1].models.length) {
+            return groups[currentGroupIndex + 1];
+          }
+          currentGroupIndex = currentGroupIndex + 1;
+        }
+        return null;
+      }
+
+      function previousNonEmptyGroup(groups, currentGroupIndex) {
+        while(currentGroupIndex > 0) {
+          if(groups[currentGroupIndex - 1].models.length) {
+            return groups[currentGroupIndex - 1];
+          }
+          currentGroupIndex = currentGroupIndex - 1;
+        }
+        return null;
       }
 
       function selectNext() {
-        if(!scope.selectedId && scope.filteredGroups.length && scope.filteredGroups[0].models.length) {
-          scope.selectedId = scope.filteredGroups[0].models[0].id;
+        var groups = scope.filteredGroups;
+        if(!scope.selectedId) {
+          var nextGroup = nextNonEmptyGroup(groups);
+          scope.selectedId = nextGroup ? nextGroup.models[0].id : 0;
         } else {
-          for(var i = 0; i < scope.filteredGroups.length; i++) {
-            var models = scope.filteredGroups[i].models;
+          for(var i = 0; i < groups.length; i++) {
+            var models = groups[i].models;
             var index = modelIndex(models);
 
-            if(index >= 0) {
-              if(index == models.length - 1 && i < scope.filteredGroups.length - 1){
-                while(i < scope.filteredGroups.length - 1) {
-                  if(scope.filteredGroups[i + 1].models[0] ) {
-                    scope.selectedId = scope.filteredGroups[i + 1].models[0].id;
-                    break;
-                  }
-                  i = i + 1;
+            if(index >= 0) { // It is in this group
+              if(index == models.length - 1){ // It is the last in the group
+                var nextGroup = nextNonEmptyGroup(groups, i);
+                if(nextGroup) {
+                  scope.selectedId = nextGroup.models[0].id;
                 }
                 break;
               }
-              if(index < models.length - 1){
-                scope.selectedId = models[index + 1].id;
-                break;
-              }
+              scope.selectedId = models[index + 1].id;
+              break;
             }
           }
         }
-
-        event.preventDefault();
-        event.stopPropagation();
       }
 
       function selectPrevious() {
+        var groups = scope.filteredGroups;
         if(scope.selectedId) {
-          for(var i = 0; i < scope.filteredGroups.length; i++) {
-            var models = scope.filteredGroups[i].models;
+          for(var i = 0; i < groups.length; i++) {
+            var models = groups[i].models;
             var index = modelIndex(models);
 
-            if(index >= 0) {
-              // Bug: Needs to look through all the previous groups for one which has a model
-              if(index == 0 && i != 0){
-                while(i > 0) {
-                  if(scope.filteredGroups[i - 1].models.length) {
-                    scope.selectedId = scope.filteredGroups[i - 1].models[scope.filteredGroups[i - 1].models.length - 1].id;
-                    break;
-                  }
-                  i = i - 1;
+            if(index >= 0) { // It is in this group
+              if(index == 0){ // It is the first in the group
+                var previousGroup = previousNonEmptyGroup(groups, i);
+                if(previousGroup) {
+                  scope.selectedId = previousGroup.models[previousGroup.models.length - 1].id;
                 }
                 break;
               }
-              if(index > 0){
-                scope.selectedId = models[index - 1].id;
-                break;
-              }
+              scope.selectedId = models[index - 1].id;
+              break;
             }
           }
         }
-
-        event.preventDefault();
-        event.stopPropagation();
       }
 
       angular.element('#title-filter').bind('click', function(event) {
@@ -192,6 +196,8 @@ angular.module('openproject.uiComponents')
           default:
             break;
         }
+        event.preventDefault();
+        event.stopPropagation();
       };
 
       scope.reload = function(modelId, newTitle) {
