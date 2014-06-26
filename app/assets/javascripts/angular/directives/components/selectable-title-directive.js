@@ -130,27 +130,37 @@ angular.module('openproject.uiComponents')
         return null;
       }
 
+      function getModelPosition(groups, selectedId) {
+        for(var group_index = 0; group_index < groups.length; group_index++) {
+          var models = groups[group_index].models;
+          var model_index = modelIndex(models);
+          if(model_index >= 0) {
+            return {
+              group: group_index,
+              model: model_index
+            };
+          }
+        }
+        return false;
+      }
+
       function selectNext() {
         var groups = scope.filteredGroups;
         if(!scope.selectedId) {
           var nextGroup = nextNonEmptyGroup(groups);
           scope.selectedId = nextGroup ? nextGroup.models[0].id : 0;
         } else {
-          for(var i = 0; i < groups.length; i++) {
-            var models = groups[i].models;
-            var index = modelIndex(models);
+          var position = getModelPosition(groups, scope.selectedId);
+          if (!position) return;
+          var models = groups[position.group].models;
 
-            if(index >= 0) { // It is in this group
-              if(index == models.length - 1){ // It is the last in the group
-                var nextGroup = nextNonEmptyGroup(groups, i);
-                if(nextGroup) {
-                  scope.selectedId = nextGroup.models[0].id;
-                }
-                break;
-              }
-              scope.selectedId = models[index + 1].id;
-              break;
+          if(position.model == models.length - 1){ // It is the last in the group
+            var nextGroup = nextNonEmptyGroup(groups, position.group);
+            if(nextGroup) {
+              scope.selectedId = nextGroup.models[0].id;
             }
+          } else {
+            scope.selectedId = models[position.model + 1].id;
           }
         }
       }
@@ -158,21 +168,17 @@ angular.module('openproject.uiComponents')
       function selectPrevious() {
         var groups = scope.filteredGroups;
         if(scope.selectedId) {
-          for(var i = 0; i < groups.length; i++) {
-            var models = groups[i].models;
-            var index = modelIndex(models);
+          var position = getModelPosition(groups, scope.selectedId);
+          if (!position) return;
+          var models = groups[position.group].models;
 
-            if(index >= 0) { // It is in this group
-              if(index == 0){ // It is the first in the group
-                var previousGroup = previousNonEmptyGroup(groups, i);
-                if(previousGroup) {
-                  scope.selectedId = previousGroup.models[previousGroup.models.length - 1].id;
-                }
-                break;
-              }
-              scope.selectedId = models[index - 1].id;
-              break;
+          if(position.model == 0){ // It is the last in the group
+            var previousGroup = previousNonEmptyGroup(groups, position.group);
+            if(previousGroup) {
+              scope.selectedId = previousGroup.models[previousGroup.models.length - 1].id;
             }
+          } else {
+            scope.selectedId = models[position.model - 1].id;
           }
         }
       }
