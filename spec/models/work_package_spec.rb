@@ -1126,7 +1126,7 @@ describe WorkPackage do
                                                   "activity_id" => activity.id.to_s,
                                                   "comments" => "blubs" } } )
 
-      expect(instance.size).to eq(1)
+      expect(instance.time_entries.size).to eq(1)
 
       entry = instance.time_entries.first
 
@@ -1145,7 +1145,7 @@ describe WorkPackage do
                                                   "activity_id" => activity.id.to_s,
                                                   "comments" => "blubs" } } )
 
-      expect(instance.size).to eq(1)
+      expect(instance.time_entries.size).to eq(1)
 
       entry = instance.time_entries.first
 
@@ -1159,7 +1159,7 @@ describe WorkPackage do
 
       instance.update_by!(user, :time_entry => time_attributes)
 
-      expect(instance.size).to eq(0)
+      expect(instance.time_entries.size).to eq(0)
     end
   end
 
