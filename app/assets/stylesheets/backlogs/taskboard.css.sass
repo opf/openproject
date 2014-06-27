@@ -1,0 +1,100 @@
+/*-- copyright
+ * OpenProject is a project management system.
+ * Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 3.
+ *
+ * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+ * Copyright (C) 2006-2013 Jean-Philippe Lang
+ * Copyright (C) 2010-2013 the ChiliProject Team
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * See doc/COPYRIGHT.rdoc for more details.  ++
+ */
+
+@import backlogs/taskboard_legacy
+@import global/all
+
+@mixin story_header
+  background-color: #FFFFFF
+  font-size: $global_font_size - 5
+  opacity: 0.8
+  filter: alpha(opacity = 80)
+  overflow: hidden
+  padding-bottom: 1px
+  padding-right: 3px
+
+@mixin story_footer
+  float: left
+  font-size: $global_font_size - 5
+  width: 85%
+  margin-top: 4px
+  padding: 2px
+  padding-top: 0
+
+@mixin ellipsis
+  overflow: hidden
+  white-space: nowrap
+  text-overflow: ellipsis
+
+.story
+  .story-bar
+    @include story_header
+    text-align: right
+    width: 187px
+    clear: both
+    .id
+      float: right
+    .status
+      float: left
+
+.story,
+.label_sprint_impediments
+  font-size: $global_font_size - 3
+
+.work_package
+  .id
+    @include story_header
+    text-align: right
+    width: 82px
+    a
+      opacity: 1.0
+      filter: alpha(opacity = 100)
+  .editable:hover
+    background-color: transparent
+  .subject.editable
+    font-size: $global_font_size - 3
+    height: 52px
+    line-height: 13px
+    margin-top: 0
+    overflow: hidden
+    padding: 2px
+    width: 81px
+
+.story
+  .story-footer
+    .assigned_to_id
+      @include story_footer
+      @include ellipsis
+    .story-points
+      margin-top: 2px
+      float: right
+.work_package
+  .assigned_to_id.editable
+    @include story_footer
+    .t
+      @include ellipsis
