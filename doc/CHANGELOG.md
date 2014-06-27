@@ -26,7 +26,7 @@ See doc/COPYRIGHT.md for more details.
 
 # Changelog
 
-## 1.0.0
+## 3.0.8
 
 * * `#5357` Update readme and gemspec
 
