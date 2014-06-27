@@ -85,6 +85,7 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#7898` Watchers are not sorted alphabetically in work package screen
 * `#8228` Icons in select2 elements missing
 * `#8277` Fix arrow of column headers not restrained to one line
+* `#8692` Focus not set on modal when opening modal
 * `#9931` APIv2 does not rewire parents correctly
 * `#10773` Headlines in Wiki pages inconsistent
 * `#11101` Not possible to save queries or to change their visibility in project-independent work package list
