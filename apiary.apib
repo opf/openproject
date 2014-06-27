@@ -23,7 +23,7 @@ Read more: http://stateless.co/hal_specification.html
     - `_total` - number of available records
 
 # Group API response structure
-Depending on performed request, the OpenProject API will return a response in one of the following possible structures:
+Depending on the performed request, the OpenProject API will return a response in one of the following possible structures:
 
 - As a **simple HAL+JSON object** (E.g.: GET /projects/:id)
 - As a **collection of HAL+JSON objects** (E.g.: GET /projects)
@@ -95,7 +95,7 @@ The main HTTP status code of the response will be `207 Multi-Status` and the res
 codes based on the results of each individual operation.
 
 For example if you perform a batch update request on multiple projects (`PATCH /projects`) it is possible that one project will
-be updated successfully while the update of other one will fail:
+be updated successfully while the update of the other project will fail:
 
     {
         "_collection": [{
@@ -124,7 +124,7 @@ be updated successfully while the update of other one will fail:
         }
     }
 
-This allows you to see exactly what went wrong and inform user.
+This allows you to see exactly what went wrong and inform the user.
 
 ### Error object
 
