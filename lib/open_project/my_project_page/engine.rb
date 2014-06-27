@@ -33,7 +33,7 @@ module OpenProject::MyProjectPage
 
     register 'openproject-my_project_page',
              :author_url => 'http://finn.de',
-             :requires_openproject => '>= 3.0.4' do
+             :requires_openproject => '>= 4.0.0' do
 
       project_module :my_project_page do
         Redmine::AccessControl.permission(:view_project).actions << "my_projects_overviews/index" <<
