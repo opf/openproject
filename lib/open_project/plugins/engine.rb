@@ -35,7 +35,7 @@ module OpenProject::Plugins
         description spec.description
         version spec.version
 
-        requires_openproject ">= 3.0.0pre8"
+        requires_openproject ">= 4.0.0"
       end
     end
   end
