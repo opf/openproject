@@ -183,27 +183,32 @@ angular.module('openproject.uiComponents')
         }
       }
 
-      angular.element('#title-filter').bind('click', function(event) {
+      function preventDefault(event) {
         event.preventDefault();
         event.stopPropagation();
+      }
+
+      angular.element('#title-filter').bind('click', function(event) {
+        preventDefault(event);
       });
       
       scope.handleSelection = function(event) {
         switch(event.which) {
           case KEY_CODES.enter:
             performSelect();
+            preventDefault(event);
             break;
           case KEY_CODES.down:
             selectNext();
+            preventDefault(event);
             break;
           case KEY_CODES.up:
             selectPrevious();
+            preventDefault(event);
             break;
           default:
             break;
         }
-        event.preventDefault();
-        event.stopPropagation();
       };
 
       scope.reload = function(modelId, newTitle) {
