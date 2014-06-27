@@ -13,7 +13,7 @@ TODO: Description and why only JSON
 HAL is a simple format that gives a consistent and easy way to hyperlink between resources in your API.
 Read more: http://stateless.co/hal_specification.html
 
-**OpenProject API implementation of HAL+JSON format** enriches JSON and introduces few meta attributes:
+**OpenProject API implementation of HAL+JSON format** enriches JSON and introduces a few meta attributes:
 
     - `_type` - specifies the type of the resource (E.g.: WorkPackage, Project)
     - `_links` - contains all links available for the resource
@@ -31,7 +31,7 @@ Depending on performed request, the OpenProject API will return a response in on
 - As an **OpenProject API error object**
 
 ### Simple HAL+JSON object
-Contains it's own data attributes and some meta attributes:
+Contains its own data attributes and some meta attributes:
 
         {
             "id": 1,
@@ -50,7 +50,7 @@ Contains it's own data attributes and some meta attributes:
         }
 
 ### Collection of HAL+JSON objects
-Contains collection of simple HAL+JSON objects in it's `_collection` attribute. Also contains some collection
+Contains collection of simple HAL+JSON objects in its `_collection` attribute. Also contains some collection
 specific meta data:
 
     {
