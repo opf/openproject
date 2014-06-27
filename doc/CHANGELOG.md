@@ -36,6 +36,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.7
+
+* new version scheme
 * `#7782` Long target version names destroy layout
 * `#10228` Font size in backlog and taskboard to small
 * `#10232` Work package filter introduced by plugins not displayed
