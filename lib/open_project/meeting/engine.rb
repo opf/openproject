@@ -30,7 +30,7 @@ module OpenProject::Meeting
 
     register 'openproject-meeting',
              :author_url => 'http://finn.de',
-             :requires_openproject => '>= 3.0.4' do
+             :requires_openproject => '>= 4.0.0' do
 
       project_module :meetings do
         permission :create_meetings, {:meetings => [:new, :create, :copy]}, :require => :member
