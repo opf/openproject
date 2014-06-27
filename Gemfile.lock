@@ -338,6 +338,10 @@ GEM
       rspec-core (~> 2.99.0)
       rspec-expectations (~> 2.99.0)
       rspec-mocks (~> 2.99.0)
+    rspec-activemodel-mocks (1.0.1)
+      activemodel (>= 3.0)
+      activesupport (>= 3.0)
+      rspec-mocks (>= 2.99, < 4.0)
     rspec-collection_matchers (1.0.0)
       rspec-expectations (>= 2.99.0.beta1)
     rspec-core (2.99.0)
@@ -495,6 +499,7 @@ DEPENDENCIES
   request_store
   roar (~> 0.12.6)
   rspec (~> 2.99.0)
+  rspec-activemodel-mocks
   rspec-example_disabler!
   rspec-rails (~> 2.99.0)
   ruby-prof
