@@ -44,6 +44,10 @@ class Activity::DocumentActivityProvider < Activity::BaseActivityProvider
     "#{Document.model_name.human}: #{event['document_title']}"
   end
 
+  def event_type(event, activity)
+    'document'
+  end
+
   def event_path(event, activity)
     url_helpers.project_document_path(url_helper_parameter(event))
   end
