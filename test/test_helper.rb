@@ -98,14 +98,12 @@ class ActiveSupport::TestCase
   end
 
   def teardown
-    begin
-      super
-      # verifies method invocations
-      RSpec::Mocks.verify
-    ensure
-      # removes all mockings
-      RSpec::Mocks.teardown
-    end
+    super
+    # verifies method invocations
+    RSpec::Mocks.verify
+  ensure
+    # removes all mockings
+    RSpec::Mocks.teardown
   end
 
   def log_user(login, password)
