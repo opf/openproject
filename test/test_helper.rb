@@ -94,7 +94,7 @@ class ActiveSupport::TestCase
     end
 
     # initializes the mocking features
-    RSpec::Mocks.setup(self)
+    RSpec::Mocks.setup
   end
 
   def teardown
