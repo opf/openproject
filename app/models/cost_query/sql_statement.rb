@@ -117,4 +117,3 @@ class CostQuery::SqlStatement < Report::SqlStatement
     sql
   end
 end
-

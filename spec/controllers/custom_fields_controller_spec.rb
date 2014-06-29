@@ -130,7 +130,7 @@ describe CustomFieldsController do
                     }
                   }
       before { session[engine_name] = query }
-      
+
       describe 'does not contain custom field reference' do
         include_context 'remove custom field'
 

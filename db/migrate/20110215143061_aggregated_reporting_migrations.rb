@@ -54,4 +54,3 @@ class AggregatedReportingMigrations < ActiveRecord::Migration
     remove_timestamps :custom_fields
   end
 end
-

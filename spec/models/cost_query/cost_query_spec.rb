@@ -104,4 +104,3 @@ describe User, "#destroy" do
     it_should_behave_like "public query"
   end
 end
-

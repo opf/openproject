@@ -50,4 +50,3 @@ module CostQuery::QueryUtils
 
   propagate!
 end
-

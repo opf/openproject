@@ -46,4 +46,3 @@ class CostQuery::Filter < Report::Filter
     ]
   end
 end
-
