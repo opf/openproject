@@ -89,4 +89,3 @@ describe OpenProject::GlobalRoles::PrincipalAllowanceEvaluator::Global do
     end
   end
 end
-

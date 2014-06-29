@@ -49,5 +49,3 @@ module OpenProject::GlobalRoles
     end
   end
 end
-
-
