@@ -35,7 +35,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe WorkPackage do
+describe WorkPackage, :type => :model do
   describe 'Story positions' do
     def build_work_package(options)
       FactoryGirl.build(:work_package, options.reverse_merge(:fixed_version_id => sprint_1.id,

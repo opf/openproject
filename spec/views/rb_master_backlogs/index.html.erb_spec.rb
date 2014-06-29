@@ -36,7 +36,7 @@
 
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe 'rb_master_backlogs/index' do
+describe 'rb_master_backlogs/index', :type => :view do
   let(:user) { FactoryGirl.create(:user) }
   let(:role_allowed) { FactoryGirl.create(:role,
     :permissions => [:view_master_backlog, :view_taskboards])

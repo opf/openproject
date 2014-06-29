@@ -35,7 +35,7 @@
 
 require 'spec_helper'
 
-describe RbMasterBacklogsController do
+describe RbMasterBacklogsController, :type => :routing do
   describe "routing" do
     it { expect(get('/projects/project_42/backlogs')).to route_to(:controller => 'rb_master_backlogs',
                                                               :action => 'index',

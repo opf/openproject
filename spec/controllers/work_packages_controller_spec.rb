@@ -35,7 +35,7 @@
 
 require 'spec_helper'
 
-describe WorkPackagesController do
+describe WorkPackagesController, :type => :controller do
   before do
     allow(User).to receive(:current).and_return current_user
     # disables sending mails

@@ -35,7 +35,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Impediment do
+describe Impediment, :type => :model do
   let(:user) { @user ||= FactoryGirl.create(:user) }
   let(:role) { @role ||= FactoryGirl.create(:role) }
   let(:type_feature) { @type_feature ||= FactoryGirl.create(:type_feature) }

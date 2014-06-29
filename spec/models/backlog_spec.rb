@@ -35,7 +35,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Backlog do
+describe Backlog, :type => :model do
   let(:project) { FactoryGirl.build(:project) }
 
   before(:each) do

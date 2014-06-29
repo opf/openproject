@@ -35,7 +35,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Version do
+describe Version, :type => :model do
   it { is_expected.to have_many :version_settings }
 
   describe 'rebuild positions' do

@@ -35,7 +35,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe WorkPackage do
+describe WorkPackage, :type => :model do
   describe 'behavior for #3200' do
     let(:empty_work_package) { WorkPackage.new }
 

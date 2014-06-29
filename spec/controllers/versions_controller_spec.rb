@@ -35,7 +35,7 @@
 
 require 'spec_helper'
 
-describe VersionsController do
+describe VersionsController, :type => :controller do
   before do
     allow(@controller).to receive(:authorize)
 

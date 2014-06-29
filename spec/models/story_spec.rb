@@ -35,7 +35,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Story do
+describe Story, :type => :model do
   let(:user) { @user ||= FactoryGirl.create(:user) }
   let(:role) { @role ||= FactoryGirl.create(:role) }
   let(:status1) { @status1 ||= FactoryGirl.create(:status, :name => "status 1", :is_default => true) }

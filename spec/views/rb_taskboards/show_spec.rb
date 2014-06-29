@@ -35,7 +35,7 @@
 
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe 'rb_taskboards/show' do
+describe 'rb_taskboards/show', :type => :view do
   let(:user1) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user) }
   let(:role_allowed) { FactoryGirl.create(:role,

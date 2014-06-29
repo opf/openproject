@@ -35,7 +35,7 @@
 
 require 'spec_helper'
 
-describe RbSprintsController do
+describe RbSprintsController, :type => :routing do
   describe "routing" do
     it { expect(put('/projects/project_42/sprints/21')).to route_to(:controller => 'rb_sprints',
                                                                 :action => 'update',

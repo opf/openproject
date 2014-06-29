@@ -35,7 +35,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe WorkPackage, "fixed version restricted by an work_package parents (if it's a task)" do
+describe WorkPackage, :type => :model, "fixed version restricted by an work_package parents (if it's a task)" do
   let(:type_feature) { FactoryGirl.build(:type_feature) }
   let(:type_task) { FactoryGirl.build(:type_task) }
   let(:type_bug) { FactoryGirl.build(:type_bug) }

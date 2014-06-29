@@ -35,7 +35,7 @@
 
 require 'spec_helper'
 
-describe RbImpedimentsController do
+describe RbImpedimentsController, :type => :routing do
   describe "routing" do
     it { expect(post('/projects/project_42/sprints/21/impediments')).to route_to(:controller => 'rb_impediments',
                                                                              :action => 'create',
