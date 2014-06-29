@@ -26,7 +26,7 @@
 
 require 'spec_helper'
 
-describe 'export_card_configurations/new' do
+describe 'export_card_configurations/new', :type => :view do
   let(:config) { FactoryGirl.build(:export_card_configuration) }
 
   before do

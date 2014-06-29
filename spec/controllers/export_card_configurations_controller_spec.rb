@@ -27,7 +27,7 @@
 require 'spec_helper'
 require File.dirname(__FILE__) + '/../shared_examples'
 
-describe ExportCardConfigurationsController do
+describe ExportCardConfigurationsController, :type => :controller do
   before do
     allow(@controller).to receive(:require_admin) { true }
 
