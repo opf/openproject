@@ -15,7 +15,7 @@
 require File.expand_path('../../spec_helper', __FILE__)
 
 
-describe WebhooksController do
+describe WebhooksController, :type => :controller do
   let(:hook) { double(OpenProject::Webhooks::Hook) }
   let(:user) { double(User).as_null_object }
 
