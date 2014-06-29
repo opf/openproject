@@ -20,7 +20,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe MyProjectsOverview do
+describe MyProjectsOverview, :type => :model do
   before do
     @enabled_module_names = %w[activity work_package_tracking news wiki]
     FactoryGirl.create(:project, :enabled_module_names => @enabled_module_names)

@@ -20,7 +20,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe MyProjectsOverviewsController do
+describe MyProjectsOverviewsController, :type => :controller do
   before :each do
     allow(@controller).to receive(:set_localization)
     expect(@controller).to receive(:authorize)

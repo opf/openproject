@@ -20,7 +20,7 @@
 
 require 'spec_helper'
 
-describe MyProjectsOverviewsController do
+describe MyProjectsOverviewsController, :type => :routing do
   describe "routing" do
     describe "overview-page" do
       it { expect(get('/projects/test-project')).to route_to(:controller => 'my_projects_overviews',
