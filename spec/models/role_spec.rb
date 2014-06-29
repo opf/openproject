@@ -19,7 +19,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 
-describe Role do
+describe Role, :type => :model do
   describe "class methods" do
     describe :givable do
       before (:each) do

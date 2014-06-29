@@ -19,7 +19,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 
-describe RolesController do
+describe RolesController, :type => :controller do
   before (:each) do
     allow(@controller).to receive(:check_if_login_required)
     expect(@controller).to receive(:require_admin)

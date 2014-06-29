@@ -19,7 +19,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe UsersController do
+describe UsersController, :type => :controller do
   before(:each) do
     allow(@controller).to receive(:require_admin).and_return(true)
     allow(@controller).to receive(:check_if_login_required)

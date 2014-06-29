@@ -19,7 +19,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe Principal do
+describe Principal, :type => :model do
   describe "ATTRIBUTES" do
     before :each do
 

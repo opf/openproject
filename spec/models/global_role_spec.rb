@@ -19,7 +19,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 
-describe GlobalRole do
+describe GlobalRole, :type => :model do
   before {GlobalRole.create :name => "globalrole", :permissions => ["permissions"]} # for validate_uniqueness_of
 
   it {is_expected.to have_many :principals}
