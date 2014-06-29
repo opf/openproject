@@ -45,5 +45,5 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <% html_title WorkPackage.human_attribute_name(:spent_costs), l(:label_details) %>
 
 <% content_for :header_tags do %>
-	<%= auto_discovery_link_tag(:atom, {:work_package_id => @work_package, :format => 'atom', :key => User.current.rss_key}, :title => WorkPackage.human_attribute_name(:spent_costs)) %>
+  <%= auto_discovery_link_tag(:atom, {:work_package_id => @work_package, :format => 'atom', :key => User.current.rss_key}, :title => WorkPackage.human_attribute_name(:spent_costs)) %>
 <% end %>

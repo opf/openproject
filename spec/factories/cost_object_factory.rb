@@ -27,5 +27,3 @@ FactoryGirl.define do
     updated_on 3.days.ago
   end
 end
-
-

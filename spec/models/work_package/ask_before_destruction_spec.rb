@@ -273,4 +273,3 @@ describe WorkPackage do
     end
   end
 end
-

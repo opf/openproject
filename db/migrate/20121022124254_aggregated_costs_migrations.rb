@@ -160,4 +160,3 @@ class AggregatedCostsMigrations < ActiveRecord::Migration
     TimeEntry.reset_column_information
   end
 end
-

@@ -88,6 +88,3 @@ Then(/^the cost type "(.*?)" should be listed as deleted on the index page$/) do
     should have_text(name)
   end
 end
-
-
-

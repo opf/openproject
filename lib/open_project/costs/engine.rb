@@ -137,5 +137,3 @@ module OpenProject::Costs
     end
   end
 end
-
-
