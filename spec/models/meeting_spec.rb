@@ -20,7 +20,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe Meeting do
+describe Meeting, :type => :model do
   it {is_expected.to belong_to :project}
   it {is_expected.to belong_to :author}
   it {is_expected.to validate_presence_of :title}

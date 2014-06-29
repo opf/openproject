@@ -20,7 +20,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe "MeetingAgenda" do
+describe "MeetingAgenda", :type => :model do
   before(:each) do
     @a = FactoryGirl.build :meeting_agenda, :text => "Some content...\n\nMore content!\n\nExtraordinary content!!"
   end

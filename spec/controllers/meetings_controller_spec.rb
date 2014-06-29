@@ -20,7 +20,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe MeetingsController do
+describe MeetingsController, :type => :controller do
   before(:each) do
     @p = mock_model(Project)
     allow(@controller).to receive(:authorize)
