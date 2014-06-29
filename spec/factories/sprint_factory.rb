@@ -41,4 +41,3 @@ FactoryGirl.define do
     status "open"
   end
 end
-

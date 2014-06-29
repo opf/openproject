@@ -38,6 +38,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="box">
 <% if @project.enabled_modules.collect(&:name).include?("backlogs") %>
-	<%= version_settings_fields @version, @project %>
+  <%= version_settings_fields @version, @project %>
 <% end %>
 </div>
