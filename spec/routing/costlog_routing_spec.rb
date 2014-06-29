@@ -19,7 +19,7 @@
 
 require 'spec_helper'
 
-describe CostlogController do
+describe CostlogController, :type => :routing do
   describe "routing" do
     it { expect(get('/work_packages/5/cost_entries')).to route_to(:controller => 'costlog',
                                                               :action => 'index',

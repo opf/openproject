@@ -19,7 +19,7 @@
 
 require 'spec_helper'
 
-describe CostTypesController do
+describe CostTypesController, :type => :routing do
   describe "routing" do
     it { expect(get('/cost_types')).to route_to(:controller => 'cost_types',
                                             :action => 'index') }

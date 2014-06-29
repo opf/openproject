@@ -19,7 +19,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe CostObjectsHelper do
+describe CostObjectsHelper, :type => :helper do
   let(:project) { FactoryGirl.build(:project) }
   let(:cost_object) { FactoryGirl.build(:cost_object, :project => project) }
 

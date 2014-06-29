@@ -19,7 +19,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe HourlyRate do
+describe HourlyRate, :type => :model do
   let(:project) { FactoryGirl.create(:project) }
   let(:user) { FactoryGirl.create(:user) }
   let(:rate) { FactoryGirl.build(:hourly_rate, :project => project,

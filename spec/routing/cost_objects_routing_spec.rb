@@ -19,7 +19,7 @@
 
 require 'spec_helper'
 
-describe CostObjectsController do
+describe CostObjectsController, :type => :routing do
   describe "routing" do
     it { expect(get('/projects/blubs/cost_objects/new')).to route_to(:controller => 'cost_objects',
                                                                  :action => 'new',

@@ -19,7 +19,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe WorkPackage do
+describe WorkPackage, :type => :model do
   let(:user) { FactoryGirl.create(:admin) }
   let(:role) { FactoryGirl.create(:role) }
   let(:project) do

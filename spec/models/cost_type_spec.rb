@@ -19,7 +19,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + "/../spec_helper.rb")
 
-describe CostType do
+describe CostType, :type => :model do
   let(:klass) { CostType }
   let(:cost_type) { klass.new :name => "ct1",
                               :unit => "singular",

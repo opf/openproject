@@ -19,7 +19,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe LaborBudgetItem do
+describe LaborBudgetItem, :type => :model do
   include Cost::PluginSpecHelper
   let(:item) { FactoryGirl.build(:labor_budget_item, :cost_object => cost_object) }
   let(:cost_object) { FactoryGirl.build(:variable_cost_object, :project => project) }

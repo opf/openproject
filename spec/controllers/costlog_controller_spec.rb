@@ -19,7 +19,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + "/../spec_helper.rb")
 
-describe CostlogController do
+describe CostlogController, :type => :controller do
   include Cost::PluginSpecHelper
   let (:project) { FactoryGirl.create(:project_with_types) }
   let (:work_package) { FactoryGirl.create(:work_package, :project => project,

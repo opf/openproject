@@ -19,7 +19,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe TimeEntry do
+describe TimeEntry, :type => :model do
   include Cost::PluginSpecHelper
   let(:project) { FactoryGirl.create(:project_with_types, is_public: false) }
   let(:project2) { FactoryGirl.create(:project_with_types, is_public: false) }

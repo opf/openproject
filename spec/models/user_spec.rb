@@ -19,7 +19,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe User do
+describe User, :type => :model do
   include Cost::PluginSpecHelper
   let(:klass) { User }
   let(:user) { FactoryGirl.build(:user) }

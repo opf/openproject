@@ -19,7 +19,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::BulkController do
+describe WorkPackages::BulkController, :type => :controller do
   let(:project) { FactoryGirl.create(:project_with_types) }
   let(:controller_role) { FactoryGirl.build(:role, :permissions => [:view_work_packages, :edit_work_packages]) }
   let(:user) { FactoryGirl.create :user, member_in_project: project, member_through_role: controller_role }

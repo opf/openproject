@@ -19,7 +19,7 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe VariableCostObject do
+describe VariableCostObject, :type => :model do
   let(:cost_object) { FactoryGirl.build(:variable_cost_object) }
   let(:type) { FactoryGirl.create(:type_feature) }
   let(:project) { FactoryGirl.create(:project_with_types) }
