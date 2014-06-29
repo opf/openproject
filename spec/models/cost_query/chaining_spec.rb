@@ -19,7 +19,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe CostQuery, :reporting_query_helper => true do
+describe CostQuery, :type => :model, :reporting_query_helper => true do
   let(:project) { FactoryGirl.create(:project) }
 
   minimal_query
