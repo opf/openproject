@@ -23,4 +23,3 @@ module OpenProject
     require "open_project/my_project_page/engine"
   end
 end
-

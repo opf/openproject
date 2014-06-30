@@ -79,4 +79,3 @@ Then /^I should be able to delete a teaser element$/ do
   driver.find_element(:link, "Back").click
   (driver.find_elements(:css, "#list-right > .mypage-box > p").size).should == 0
 end
-

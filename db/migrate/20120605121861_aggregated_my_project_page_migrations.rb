@@ -57,4 +57,3 @@ class AggregatedMyProjectPageMigrations < ActiveRecord::Migration
     drop_table :my_projects_overviews
   end
 end
-
