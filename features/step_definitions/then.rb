@@ -22,4 +22,3 @@
 #
 # See doc/COPYRIGHT.md for more details.
 #++
-
