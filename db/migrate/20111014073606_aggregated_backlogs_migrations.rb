@@ -118,6 +118,3 @@ class AggregatedBacklogsMigrations < ActiveRecord::Migration
     ActiveRecord::Base.connection.quote(s)
   end
 end
-
-
-

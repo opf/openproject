@@ -50,12 +50,12 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% end %>
 <% if @project.enabled_modules.collect(&:name).include?("backlogs") %>
-	<%= version_settings_fields @version, @project %>
+  <%= version_settings_fields @version, @project %>
 <% end %>
 
 <% if @version.project == @project %>
 <% @version.custom_field_values.each do |value| %>
-	<p><%= custom_field_tag_with_label :version, value %></p>
+  <p><%= custom_field_tag_with_label :version, value %></p>
 <% end %>
 <% end %>
 

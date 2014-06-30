@@ -45,4 +45,3 @@ Then(/^the editable attributes of the version should be the following:$/) do |ta
     end
   end
 end
-
