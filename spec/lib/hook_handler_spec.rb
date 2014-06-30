@@ -82,4 +82,3 @@ describe OpenProject::GithubIntegration::HookHandler do
     end
   end
 end
-
