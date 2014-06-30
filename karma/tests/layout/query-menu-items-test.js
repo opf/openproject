@@ -62,13 +62,16 @@ describe('queryMenuItemFactory', function() {
         title = 'Query',
         objectId = 1;
 
-    beforeEach(function() {
+    var generateMenuItem = function() {
       queryMenuItemFactory.generateMenuItem(title, path, objectId);
       $rootScope.$apply();
 
       menuItem = menuContainer.children('li');
       itemLink = menuItem.children('a');
-    });
+      scope = itemLink.scope();
+    };
+
+    beforeEach(generateMenuItem);
 
     it ('adds a query menu item', function() {
       expect(menuItem).to.have.length(1);
@@ -76,6 +79,29 @@ describe('queryMenuItemFactory', function() {
 
     it('assigns the item type as class', function() {
       expect(itemLink.hasClass('query-menu-item')).to.be.true;
+    });
+
+    it('applies the query menu item link function', function() {
+      expect(scope.objectId).to.equal(objectId);
+    });
+
+    describe('when the query id matches the query id of the state params', function() {
+      beforeEach(inject(function($timeout) {
+        stateParams.query_id = objectId;
+        $timeout.flush();
+      }));
+
+
+      it('marks the new item as selected', function() {
+        expect(itemLink.hasClass('selected')).to.be.true;
+      });
+
+      it('toggles the selected state on state change', function() {
+        stateParams.query_id = null;
+        $rootScope.$broadcast('$stateChangeSuccess');
+
+        expect(itemLink.hasClass('selected')).to.be.false;
+      });
     });
   });
 });
