@@ -53,8 +53,9 @@ angular.module('openproject.layout')
   'menuItemFactory',
   '$stateParams',
   '$animate',
+  '$timeout',
   'QUERY_MENU_ITEM_TYPE',
-  function(menuItemFactory, $stateParams, $animate, QUERY_MENU_ITEM_TYPE) {
+  function(menuItemFactory, $stateParams, $animate, $timeout, QUERY_MENU_ITEM_TYPE) {
   return menuItemFactory({
     itemType: 'query-menu-item',
     container: '#main-menu-work-packages-wrapper ~ .menu-children',
@@ -64,8 +65,7 @@ angular.module('openproject.layout')
       function setActiveState() {
         element.toggleClass('selected', (scope.queryId || null) === $stateParams.query_id);
       }
-
-      setActiveState();
+      $timeout(setActiveState);
       scope.$on('$stateChangeSuccess', setActiveState);
 
       function removeItem() {
