@@ -83,7 +83,7 @@ de:
         from: "Arbeitspaket"
         to: "Zugehöriges Arbeitspaket"
       status:
-        is_closed: "Ticket geschlossen"
+        is_closed: "Arbeitspaket geschlossen"
       journal:
         notes: "Kommentare"
       member:
