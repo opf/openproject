@@ -94,7 +94,6 @@ angular.module('openproject.workPackages.controllers')
         if($scope.query.starred != $scope.shareSettings.starred){
           QueryService.toggleQueryStarred()
             .then(function(data){
-              messageObject.text = messageObject.text + " " + I18n.t('js.work_packages.message_please_refresh');
               closeAndReport(messageObject);
 
               return $scope.query;
