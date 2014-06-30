@@ -46,6 +46,7 @@ angular.module('openproject.services')
         workPackage = wp;
         return workPackage;
       }).fail(function(error){
+        var err = error;
         // Do something sensible
       });
     },
