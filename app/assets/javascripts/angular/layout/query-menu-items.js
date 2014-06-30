@@ -44,7 +44,8 @@ angular.module('openproject.layout')
   '$animate',
   '$timeout',
   'QUERY_MENU_ITEM_TYPE',
-  function(menuItemFactory, $stateParams, $animate, $timeout, QUERY_MENU_ITEM_TYPE) {
+  'QueryService',
+  function(menuItemFactory, $stateParams, $animate, $timeout, QUERY_MENU_ITEM_TYPE, QueryService) {
   return menuItemFactory({
     type: QUERY_MENU_ITEM_TYPE,
     container: '#main-menu-work-packages-wrapper ~ .menu-children',
@@ -66,6 +67,15 @@ angular.module('openproject.layout')
       scope.$on('openproject.layout.removeMenuItem', function(event, itemData) {
         if (itemData.itemType === QUERY_MENU_ITEM_TYPE && itemData.objectId === scope.queryId) {
           removeItem();
+        }
+      });
+
+      scope.$on('openproject.layout.renameQueryMenuItem', function(event, itemData) {
+        if (itemData.itemType === QUERY_MENU_ITEM_TYPE && itemData.queryId === scope.queryId) {
+          QueryService.updateHighlightName()
+          .then(function() {
+            element.html(itemData.queryName);
+          });
         }
       });
     }

@@ -5,8 +5,21 @@ describe('queryMenuItem Directive', function() {
     beforeEach(angular.mock.module('openproject.layout'));
     beforeEach(module('templates', 'openproject.services', 'openproject.models'));
 
+
     beforeEach(module('templates', function($provide) {
       $provide.value('$stateParams', stateParams);
+
+      var QueryServiceMock = {
+        queryName: 'Default',
+        updateHighlightName: function() {
+          return {
+            then: function(callback) {
+              return callback(QueryServiceMock.queryName[1]);
+            }
+          };
+        }
+      };
+      $provide.value('QueryService', QueryServiceMock);
     }));
 
     beforeEach(inject(function($rootScope, $compile) {
@@ -76,6 +89,22 @@ describe('queryMenuItem Directive', function() {
         it('does not add the css-class "selected" to the element', function() {
           expect(element.hasClass('selected')).to.be.false;
         });
+      });
+    });
+
+    describe('when the renameQueryItem event is received', function() {
+      var queryName = 'A query to find them all';
+
+      beforeEach(function() {
+        rootScope.$broadcast('openproject.layout.renameQueryMenuItem', {
+          itemType: 'query-menu-item',
+          queryid: queryId,
+          queryName: queryName
+        });
+      });
+
+      it('resets the menu item title', function() {
+        expect(element.text()).to.equal(queryName);
       });
     });
 });

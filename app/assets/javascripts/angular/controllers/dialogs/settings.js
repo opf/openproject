@@ -36,8 +36,13 @@ angular.module('openproject.workPackages.controllers')
   });
 }])
 
-.controller('SettingsModalController', ['$scope', 'settingsModal', 'QueryService',
-  function($scope, settingsModal, QueryService) {
+.controller('SettingsModalController', [
+  '$scope',
+  'settingsModal',
+  'QueryService',
+  '$rootScope',
+  'QUERY_MENU_ITEM_TYPE',
+  function($scope, settingsModal, QueryService, $rootScope, QUERY_MENU_ITEM_TYPE) {
 
   var query = QueryService.getQuery();
 
@@ -51,6 +56,12 @@ angular.module('openproject.workPackages.controllers')
       .then(function(data){
         settingsModal.deactivate();
         $scope.$emit('flashMessage', data.status);
+
+        $rootScope.$broadcast('openproject.layout.renameQueryMenuItem', {
+          itemType: QUERY_MENU_ITEM_TYPE,
+          queryId: query.id,
+          queryName: query.name
+        });
       });
     };
 }]);
