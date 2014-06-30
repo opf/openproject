@@ -699,4 +699,3 @@ describe CostlogController do
 
   end
 end
-

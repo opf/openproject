@@ -24,4 +24,3 @@ FactoryGirl.define do
     unit_plural "plural_unit"
   end
 end
-
