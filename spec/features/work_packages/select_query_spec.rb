@@ -36,6 +36,7 @@ describe 'Query selection' do
                                                  member_through_role: role }
 
   let(:filter_name) { 'done_ratio' }
+  let(:i18n_filter_name) { WorkPackage.human_attribute_name(filter_name).to_sym }
   let!(:query) do
     query = FactoryGirl.build(:query, project: project, is_public: true)
     query.filters = [Queries::WorkPackages::Filter.new(filter_name, operator: ">=", values: [10]) ]
@@ -58,7 +59,7 @@ describe 'Query selection' do
       before { work_packages_page.click_work_packages_menu_item }
 
       it 'clears selected queries' do
-        work_packages_page.should_not have_selected_filter(filter_name)
+        expect(work_packages_page.selected_filter(filter_name)).to have_content(i18n_filter_name)
       end
     end
   end
