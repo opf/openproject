@@ -33,7 +33,7 @@ angular.module('openproject.uiComponents')
   return {
     restrict: 'EA',
     replace: true,
-    scope: { iconName: '@', title: '@iconTitle' },
+    scope: { iconName: '@', title: '@iconTitle', cssClass: '@' },
     templateUrl: '/templates/components/icon_wrapper.html'
   };
 }]);

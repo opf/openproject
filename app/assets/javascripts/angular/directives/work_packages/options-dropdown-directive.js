@@ -94,8 +94,10 @@ angular.module('openproject.workPackages.directives')
         }
       };
 
-      scope.showExportModal = function(){
-        showModal.call(exportModal);
+      scope.showExportModal = function(event){
+        if( allowWorkPackageAction(event, 'export') ) {
+          showModal.call(exportModal);
+        }
       };
 
       scope.showColumnsModal = function(){
@@ -137,12 +139,20 @@ angular.module('openproject.workPackages.directives')
       }
 
       function allowQueryAction(event, action) {
-        if(AuthorisationService.can(scope.query, action)){
+        return allowAction(event, 'query', action);
+      }
+
+      function allowWorkPackageAction(event, action) {
+        return allowAction(event, 'work_package', action);
+      }
+
+      function allowAction(event, modelName, action) {
+        if(AuthorisationService.can(modelName, action)){
           return true;
         } else {
           event.preventDefault();
           event.stopPropagation();
-          return false; 
+          return false;
         }
       }
 

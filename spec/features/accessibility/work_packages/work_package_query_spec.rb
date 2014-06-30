@@ -49,10 +49,6 @@ describe 'Work package index accessibility' do
       find('table.workpackages-table th.checkbox a')
     end
 
-    def description_for_blind
-      select_all_link.find(:xpath, 'span/span[@class="hidden-for-sighted"]')
-    end
-
     describe 'Initial state', js: true do
       it { expect(select_all_link).not_to be_nil }
 
@@ -61,11 +57,9 @@ describe 'Work package index accessibility' do
       it { expect(select_all_link[:alt]).to eq(I18n.t(:button_check_all)) }
 
       it do
-        pending("This test is failing because of what seems to be a bug in selenium. " \
-                "The hidden-for-sighted elements cannot be found using because they are styled with " \
-                "absolute positioning and have an x index off the side of the page. If you remove " \
-                "the x coord then it will find them but that doesn't seem like a satisfactory solution.")
-        expect(description_for_blind.text).to eq(I18n.t(:button_check_all))
+        expect(select_all_link).to have_selector('.hidden-for-sighted',
+                                                 :visible => false,
+                                                 :text => I18n.t(:button_check_all))
       end
     end
 

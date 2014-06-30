@@ -33,7 +33,9 @@ module Api::Experimental
     unloadable
 
     include ApiController
+    include Concerns::GrapeRouting
     include Concerns::ColumnData
+    include Concerns::QueryLoading
 
     include QueriesHelper
     include ExtendedHTTP
@@ -75,6 +77,7 @@ module Api::Experimental
 
     def create
       if @query.save
+        setup_query_links
         respond_to do |format|
           format.api
         end
@@ -85,6 +88,7 @@ module Api::Experimental
 
     def update
       if @query.save
+        setup_query_links
         respond_to do |format|
           format.api
         end
@@ -102,11 +106,32 @@ module Api::Experimental
 
     private
 
-    def setup_query
-      @query = retrieve_query
+    def setup_query_links
+      user = User.current
+      @query_links = {}
+      @query_links[:create] = api_experimental_queries_path if user.allowed_to?(:save_queries, @project, :global => @project.nil?)
+
+      if !@query.new_record?
+        @query_links[:update]      = api_experimental_query_path(@query) if user.allowed_to?(:save_queries, @project, :global => @project.nil?)
+        @query_links[:delete]      = api_experimental_query_path(@query) if user.allowed_to?(:save_queries, @project, :global => @project.nil?)
+        @query_links[:publicize]   = api_experimental_query_path(@query) if user.allowed_to?(:manage_public_queries, @project, :global => @project.nil?)
+        @query_links[:depublicize] = api_experimental_query_path(@query) if user.allowed_to?(:manage_public_queries, @project, :global => @project.nil?)
+
+        if ((@query.user_id == user.id && user.allowed_to?(:save_queries, @project, :global => @project.nil?)) ||
+            user.allowed_to?(:manage_public_queries, @project, :global => @project.nil?))
+
+          @query_links[:star]        = query_route_from_grape("star", @query)
+          @query_links[:unstar]      = query_route_from_grape("unstar", @query)
+        end
+      end
     end
 
-    # Note: Not dry - lifted straight from old queries controller
+    def setup_query
+      @query ||= init_query
+    rescue ActiveRecord::RecordNotFound
+      render_404
+    end
+
     def setup_query_for_create
       @query = Query.new params[:query] ? permitted_params.query : nil
       @query.project = @project unless params[:query_is_for_all]
@@ -117,25 +142,6 @@ module Api::Experimental
     def setup_existing_query
       @query = Query.find(params[:id])
       prepare_query
-    end
-
-    # Note: Not dry - lifted straight from old queries controller
-    def prepare_query
-      @query.is_public = false unless User.current.allowed_to?(:manage_public_queries, @project) || User.current.admin?
-      view_context.add_filter_from_params if params[:fields] || params[:f]
-      @query.group_by = params[:group_by] if params[:group_by].present?
-      @query.sort_criteria = prepare_sort_criteria if params[:sort]
-      @query.display_sums = params[:display_sums] if params[:display_sums].present?
-      @query.column_names = params[:c] if params[:c]
-      @query.column_names = nil if params[:default_columns]
-      @query.name = params[:name] if params[:name]
-      @query.is_public = params[:is_public] if params[:is_public]
-    end
-
-    def prepare_sort_criteria
-      # Note: There was a convention to have sortation strings in the form "type:desc,status:asc".
-      # For the sake of not breaking from convention we encoding/decoding the sortation.
-      params[:sort].split(',').collect{|p| [p.split(':')[0], p.split(':')[1] || 'asc']}
     end
 
     def visible_queries

@@ -298,7 +298,8 @@ angular.module('openproject.services')
     // synchronization
 
     saveQuery: function() {
-      var url = PathHelper.apiProjectQueryPath(query.project_id, query.id);
+      var url = query.project_id ? PathHelper.apiProjectQueryPath(query.project_id, query.id) : PathHelper.apiQueryPath(query.id);
+
       return QueryService.doQuery(url, query.toUpdateParams(), 'PUT', function(response){
         QueryService.fetchAvailableGroupedQueries(query.project_id);
 
@@ -308,7 +309,8 @@ angular.module('openproject.services')
 
     saveQueryAs: function(name) {
       query.setName(name);
-      var url = PathHelper.apiProjectQueriesPath(query.project_id);
+      var url = query.project_id ? PathHelper.apiProjectQueriesPath(query.project_id) : PathHelper.apiQueriesPath();
+
       return QueryService.doQuery(url, query.toParams(), 'POST', function(response){
         query.save(response.data.query);
         QueryService.fetchAvailableGroupedQueries(query.project_id);

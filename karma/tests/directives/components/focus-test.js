@@ -26,33 +26,35 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+describe('focus Directive', function() {
+  var doc, compile, element, rootScope, scope;
 
-describe('AuthorisationService', function() {
+  beforeEach(angular.mock.module('openproject.uiComponents'));
+  beforeEach(module('templates'));
 
-  var AuthorisationService, query, queryData;
+  beforeEach(inject(function($compile, $rootScope, $document) {
+    var html = '<input type="text" name="testInput" focus></input>';
 
-  beforeEach(module('openproject.services', 'openproject.models'));
+    doc = $document[0];
+    rootScope = $rootScope;
+    scope = $rootScope.$new();
 
-  beforeEach(inject(function(_AuthorisationService_){
-    AuthorisationService = _AuthorisationService_;
+    compile = function() {
+      element = angular.element(html);
+      var body = angular.element(doc.body);
+      body.append(element);
+
+      $compile(element)(scope);
+      scope.$digest();
+    };
   }));
 
-  describe('model action authorisation', function () {
-    beforeEach(function(){
-      AuthorisationService.initModelAuth('query', {
-        create: '/queries'
-      });
-    })
+  describe('element', function() {
+    it('should focus the element', function() {
+      compile();
 
-    it('should allow action', function() {
-      expect(AuthorisationService.can('query', 'create')).to.be.true
+      // NOTE: $(element).is(':focus') is broken in PhantomJS
+      expect(doc.activeElement).to.equal(element[0]);
     });
-
-    it('should not allow action', function() {
-      expect(AuthorisationService.can('query', 'delete')).to.be.false
-    });
-
   });
-
 });

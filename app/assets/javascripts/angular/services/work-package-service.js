@@ -56,7 +56,7 @@ angular.module('openproject.services')
 
     getWorkPackages: function(projectIdentifier, query, paginationOptions) {
       var url = projectIdentifier ? PathHelper.apiProjectWorkPackagesPath(projectIdentifier) : PathHelper.apiWorkPackagesPath();
-      var params = angular.extend(query.toParams(), {
+      var params = angular.extend(query.toUpdateParams(), {
         page: paginationOptions.page,
         per_page: paginationOptions.perPage
       });
@@ -137,7 +137,7 @@ angular.module('openproject.services')
           return wp.id;
         })
       };
-      return $http.delete(PathHelper.workPackagesBulkDeletePath(), { params: params });
+      return $http['delete'](PathHelper.workPackagesBulkDeletePath(), { params: params });
     }
   };
 

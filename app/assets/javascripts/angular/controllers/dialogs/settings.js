@@ -40,9 +40,10 @@ angular.module('openproject.workPackages.controllers')
   '$scope',
   'settingsModal',
   'QueryService',
+  'AuthorisationService',
   '$rootScope',
   'QUERY_MENU_ITEM_TYPE',
-  function($scope, settingsModal, QueryService, $rootScope, QUERY_MENU_ITEM_TYPE) {
+  function($scope, settingsModal, QueryService, AuthorisationService, $rootScope, QUERY_MENU_ITEM_TYPE) {
 
   var query = QueryService.getQuery();
 
@@ -53,7 +54,7 @@ angular.module('openproject.workPackages.controllers')
   $scope.updateQuery = function() {
     query.name = $scope.queryName;
     QueryService.saveQuery()
-      .then(function(data){
+      .then(function(data) {
         settingsModal.deactivate();
         $scope.$emit('flashMessage', data.status);
 
@@ -62,6 +63,10 @@ angular.module('openproject.workPackages.controllers')
           queryId: query.id,
           queryName: query.name
         });
+
+        if(data.query) {
+          AuthorisationService.initModelAuth("query", data.query._links);
+        }
       });
     };
 }]);

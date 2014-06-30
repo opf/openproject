@@ -85,7 +85,11 @@ See doc/COPYRIGHT.rdoc for more details.
 * `#7898` Watchers are not sorted alphabetically in work package screen
 * `#8228` Icons in select2 elements missing
 * `#8277` Fix arrow of column headers not restrained to one line
+* `#8692` Focus not set on modal when opening modal
 * `#9931` APIv2 does not rewire parents correctly
+* `#10773` Headlines in Wiki pages inconsistent
+* `#11101` Not possible to save queries or to change their visibility in project-independent work package list
+* `#11942` When saving work packages and making changes that update WP list changes cannot be saved
 * Allowed sending of mails with only cc: or bcc: fields
 * Allow adding attachments to created work packages via planning elements controller
 * Remove unused rmagick dependency
@@ -98,6 +102,19 @@ See doc/COPYRIGHT.rdoc for more details.
 * Fix: Back URL verification
 * Fix: Asset require for plug-ins
 * Fix: at.who styling
+
+## 3.0.8
+
+* new version scheme
+* `#4752` Fix button contrast
+* `#4019` Fix focus on project creation
+* `#4021` Separate focus for main menu expander
+* `#4258` Text alignment consistency in tables
+* `#6288` Editing relations in modal dialog leads to warning
+* `#7236` Filtering for asignee role returns wrong result
+* `#7898` Watchers are not sorted alphabetically in work package screen
+* `#9931` APIv2 does not rewire parents correctly
+* `#10232` Work package filter introduced by plugins not displayed
 
 ## 3.0.4
 

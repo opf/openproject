@@ -26,33 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/*jshint expr: true*/
+// TODO move to UI components
+angular.module('openproject.uiComponents')
 
-describe('AuthorisationService', function() {
-
-  var AuthorisationService, query, queryData;
-
-  beforeEach(module('openproject.services', 'openproject.models'));
-
-  beforeEach(inject(function(_AuthorisationService_){
-    AuthorisationService = _AuthorisationService_;
-  }));
-
-  describe('model action authorisation', function () {
-    beforeEach(function(){
-      AuthorisationService.initModelAuth('query', {
-        create: '/queries'
-      });
-    })
-
-    it('should allow action', function() {
-      expect(AuthorisationService.can('query', 'create')).to.be.true
-    });
-
-    it('should not allow action', function() {
-      expect(AuthorisationService.can('query', 'delete')).to.be.false
-    });
-
-  });
-
+.directive('focus', function() {
+  return {
+    link: function(scope, element, attrs) {
+      element[0].focus();
+    }
+  };
 });

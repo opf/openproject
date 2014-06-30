@@ -27,20 +27,19 @@
 //++
 
 describe('iconWrapper Directive', function() {
-    var compile, element, rootScope, scope;
+    var compile, element, rootScope, scope, html;
 
     beforeEach(angular.mock.module('openproject.uiComponents'));
     beforeEach(module('templates'));
 
     beforeEach(inject(function($rootScope, $compile) {
-      var html;
       html = '<icon-wrapper icon-name="cool-icon.png" title="Nice icon"></icon-wrapper>';
 
-      element = angular.element(html);
       rootScope = $rootScope;
       scope = $rootScope.$new();
 
       compile = function() {
+        element = angular.element(html);
         $compile(element)(scope);
         scope.$digest();
       };
@@ -66,6 +65,21 @@ describe('iconWrapper Directive', function() {
 
       it('should should have an inner span', function() {
         expect(element.first().prop('tagName')).to.equal('SPAN');
+      });
+    });
+
+    describe('when a custom css class has been defined', function() {
+      var cssClass;
+
+      beforeEach(function() {
+        cssClass = 'custom';
+        html = '<icon-wrapper icon-name="cool-icon.png" title="Nice icon" css-class="' + cssClass + '"></icon-wrapper>';
+
+        compile();
+      });
+
+      it('forwards the class to the icon wrapper container', function() {
+        expect(element.hasClass(cssClass)).to.be.true;
       });
     });
 });

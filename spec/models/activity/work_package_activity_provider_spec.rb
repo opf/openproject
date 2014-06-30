@@ -45,23 +45,32 @@ describe Activity::WorkPackageActivityProvider do
 
   describe '#event_type' do
     describe 'latest event' do
-      let(:subject) { Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.today, Date.tomorrow, {}).last.try :event_type }
 
       context 'when a work package has been created' do
+        let(:subject) { Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.today, Date.tomorrow, {}).last.try :event_type }
         before { work_package.save! }
 
         it { should == work_package_edit_event }
+      end
 
-        context 'and has been closed' do
-          before do
-            allow(User).to receive(:current).and_return(user)
+      context 'when a work package has been created and then closed' do
+        # the find_events method currently does not provide define an order
+        # unless the limit parameter is provided.  It is therefore possible for
+        # the first event to be the last in the array of events returned from
+        # this. Therefore we define a limit.
+        # That there is no order defined on the events is a BUG.
+        let(:subject) { Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.today, Date.tomorrow, { :limit => 10 }).last.try :event_type }
 
-            work_package.status = status_closed
-            work_package.save!
-          end
+        before do
+          allow(User).to receive(:current).and_return(user)
 
-          it { should == work_package_closed_event }
+          work_package.save!
+
+          work_package.status = status_closed
+          work_package.save!
         end
+
+        it { should == work_package_closed_event }
       end
     end
   end

@@ -2,7 +2,7 @@
   <thead>
     <tr>
       <th class="checkbox hide-when-print">
-        <a href="#"
+        <a href
            alt="{{toggleRowsLabel}}"
            class="no-decoration-on-hover"
            ng-click="setCheckedStateForAllRows(!(rows | allRowsChecked))"
@@ -79,7 +79,7 @@
             ({{ countByGroup[row.groupName] }})
 
             <span aria-hidden="true" role="presentation" tabindex="-1">
-              <a class="toggle-all" ng-href="#" ng-click="toggleAllGroups()">
+              <a class="toggle-all" href ng-click="toggleAllGroups()">
                 {{ groupExpanded[currentGroup] && I18n.t('js.label_collapse_all') || I18n.t('js.label_expand_all') }}
               </a>
             </span>

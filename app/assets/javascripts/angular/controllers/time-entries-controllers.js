@@ -58,7 +58,7 @@ angular.module('openproject.timeEntries.controllers')
 
   $scope.deleteTimeEntry = function(id) {
     if (window.confirm(I18n.t('js.text_are_you_sure'))) {
-      $http.delete(PathHelper.timeEntryPath(id))
+      $http['delete'](PathHelper.timeEntryPath(id))
            .success(function(data, status, headers, config) {
              var index = 0;
 
