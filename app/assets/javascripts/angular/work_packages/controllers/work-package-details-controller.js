@@ -35,8 +35,12 @@ angular.module('openproject.workPackages.controllers')
   function($scope, $stateParams, WorkPackageService) {
 
     $scope.workPackageId = $stateParams.workPackageId;
-    WorkPackageService.getWorkPackage($scope.workPackageId).then(function(workPackage) {
-      $scope.workPackage = workPackage;
+    $scope.$watch('rows', function(rows) {
+      if (rows && rows.length > 0) {
+        WorkPackageService.getWorkPackage($scope.workPackageId).then(function(workPackage) {
+          $scope.workPackage = workPackage;
+        });
+      }
     });
   }
 ]);
