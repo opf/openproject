@@ -154,4 +154,7 @@ openprojectApp
     ConfigurationService.addConfiguration('accessibilityMode', OpenProject.Helpers.accessibilityModeEnabled());
 
     flags.set($http.get('/javascripts/feature-flags.json'));
-  }]);
+  }])
+  .value('cgBusyDefaults', {
+    templateUrl: '/assets/angular-busy/angular-busy.html'
+  });
