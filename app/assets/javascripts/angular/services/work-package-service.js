@@ -45,9 +45,6 @@ angular.module('openproject.services')
       return resource.fetch().then(function (wp) {
         workPackage = wp;
         return workPackage;
-      }).fail(function(error){
-        var err = error;
-        // Do something sensible
       });
     },
 
