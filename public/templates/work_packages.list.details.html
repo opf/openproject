@@ -1,3 +1,119 @@
+<div id="tabs">
+		
+ 			<ul class="tabrow">
+	 			<li class="selected"><a href="#">Overview</a></li>
+	 			<li><a href="#">Activity</a></li>
+	 			<li><a href="#">Relations</a></li>
+	 			<li><a href="#">Watchers</a></li>
+	 			<li><a href="#">Attachments</a></li>
+	 		</ul>
+
+		</div>
+ 		
+ 		<div class="detail-panel-content">
+ 			
+ 			<div class="select-type">User Story:&nbsp;</div>
+ 			
+ 				<h2>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. 
+ 				Aenean commodo ligula eget dolor. Aenean massa.</h2>
+ 				<span class="subtitle"><i class="star icon-star1"></i><a href="#">#3800</a>&nbsp;added by <a href="#">Christoph Zierz</a>. Last updated on 06/05/2014</span>
+ 				
+ 		 			<div class="detail-panel-description">
+	 			 				
+	 		 			<h3>Description</h3>
+	 		 			<div class="detail-panel-description-content">
+		 		 			Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+		 		 			Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+		 		 			Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. 
+		 		 			Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, 
+		 		 			rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. 
+		 		 			Integer tincidunt. Cras dapibus. ivamus elementum semper nisi. Aenean vulputate eleifend tellus...
+		 		 		</div>
+		 		 	</div>
+ 			
+ 			<div class="panel-toggler">
+ 				<fieldset>
+	 				<legend align="center"><span><i class="icon-arrow-right5-2"></i>Show full description</span></legend>
+	 			</fieldset>
+ 			</div>
+ 			
+ 			<div class="detail-panel-attributes">
+ 			
+ 				<ul>
+ 				
+ 					<li><label>Status</label>New</li>
+ 					<li><label>Priortiy</label>Normal</li>
+ 					<li><label>Date</label>06/05/2014 - 31/05/2014</li>
+ 					<li><label>Responsible</label><img class="avatar" src="images/avatar_logout.png" /><span class="user"><a href="#">Christoph Zierz</a></span>
+ 					<span class="role">(Administrator)</span>
+ 					</li>
+ 					<li><label>Assignee</label><img class="avatar" src="images/avatar_logout.png" /><span class="user"><a href="#">Niels Lindenthal</a></span>
+					<span class="role">(Administrator)</span>
+ 					</li>
+ 					<li><label>% Done</label>70 %</li>
+ 					 						 				
+ 				</ul>
+ 				
+ 			</div>
+
+ 			<div class="panel-toggler">
+ 				<fieldset>
+	 				<legend align="center"><span><i class="icon-arrow-right5-2"></i>Show all attributes</span></legend>
+	 			</fieldset>
+ 			</div>
+ 			
+ 			<div class="detail-panel-latest-activity">
+ 				<h3>Latest activity</h3>	
+ 					<ul>
+	 					<li>
+	 					<div class="comments-number"><a href="#1">#1</a>
+	 						<div class="comments-icons"><i class="icon-quote"></i><i class="icon-edit"></i></div>
+	 					</div>
+		 					<img class="avatar" src="images/avatar_logout.png" />
+		 					<span class="user"><a href="#">Christoph Zierz</a></span>
+		 					<span class="date">commented on 06/05/2014 16:42 Uhr</span>
+		 					<span class="comment">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+		 					Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis ...
+		 					</span>
+	 					</li>
+	 					<li>
+	 					<div class="comments-number"><a href="#1">#2</a>
+	 						<div class="comments-icons"><i class="icon-quote"></i><i class="icon-edit"></i></div>
+	 					</div>
+	 						<img class="avatar" src="images/avatar_logout.png" />
+		 					<span class="user"><a href="#">Niels Lindenthal</a></span>
+		 					<span class="date">commented on 08/05/2014 16:42 Uhr</span>
+		 					<span class="comment">
+		 						<ul>
+		 							<li>Status changed from scheduled to closed</li>
+		 							<li>Assignee deleted (Michael Frister)</li>
+		 							<li>% done changed from 0 to 100</li>
+		 						</ul>
+		 					</span>
+	 					</li>
+ 					</ul>
+
+ 			</div>	
+ 		
+ 		<div class="comments-form">
+ 		<h3>Add your comments here</h3>
+ 		<form>
+ 		<textarea placeholder="Add comments here" rows="4"></textarea>
+ 		</form>
+ 		<button class="button">Add comment</button>
+ 		</div>
+ 		
+ 			
+ 		</div>
+
+ 	<div class="bottom-toolbar">
+ 		
+ 		<button class="button"><i class="icon-left icon-edit"></i>Edit</button>
+ 		<button class="button">More<i class="icon-right icon-pulldown-arrow1"></i></button>
+
+ 	</div>
+
+
 <div ng-if="workPackage.subject">
   <h2>
     <span>{{ workPackage.type.name }}</span>
