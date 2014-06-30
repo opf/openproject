@@ -51,4 +51,3 @@ class MeetingParticipant < ActiveRecord::Base
     self.attributes.reject { |k,v| ['id','meeting_id','attended','created_at', 'updated_at'].include?(k)}
   end
 end
-

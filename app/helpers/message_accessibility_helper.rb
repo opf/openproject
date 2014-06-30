@@ -31,7 +31,7 @@ module MessageAccessibilityHelper
   def accessible_time_select(object_name, method, options = {}, html_options = {})
     labels = ''
     select = time_select(object_name, method, options, html_options)
-    
+
     select_ids = select.scan(/<select id="(?<select_id>\w+)"/)
     ids_with_label = select_ids.zip([:label_meeting_hour, :label_meeting_minute])
 
