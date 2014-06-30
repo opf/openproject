@@ -26,6 +26,60 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+
+describe('queryMenuItemFactory', function() {
+  var menuContainer, document, menuItemPath = '/templates/layout/menu_item.html',
+      $rootScope, scope,
+      queryMenuItemFactory, stateParams = {};
+
+  beforeEach(angular.mock.module('openproject.layout'));
+  beforeEach(module('templates'));
+
+  beforeEach(module('templates', function($provide) {
+    $provide.value('$stateParams', stateParams);
+  }));
+
+  beforeEach(inject(function(_$rootScope_, $document, $templateCache) {
+    $rootScope = _$rootScope_;
+
+    // set up html body
+    var template = '<div id="main-menu-work-packages-wrapper"></div>' +
+                   '<ul class="menu-children"></ul>';
+    menuContainer = angular.element(template);
+    document = $document[0];
+    var body = angular.element(document.body);
+    body.append(menuContainer);
+  }));
+
+  beforeEach(inject(function(_queryMenuItemFactory_) {
+    queryMenuItemFactory = _queryMenuItemFactory_;
+  }));
+
+
+  describe('#generateMenuItem', function() {
+    var menuItem, itemLink;
+    var path = '/work_packages?query_id=1',
+        title = 'Query',
+        objectId = 1;
+
+    beforeEach(function() {
+      queryMenuItemFactory.generateMenuItem(title, path, objectId);
+      $rootScope.$apply();
+
+      menuItem = menuContainer.children('li');
+      itemLink = menuItem.children('a');
+    });
+
+    it ('adds a query menu item', function() {
+      expect(menuItem).to.have.length(1);
+    });
+
+    it('assigns the item type as class', function() {
+      expect(itemLink.hasClass('query-menu-item')).to.be.true;
+    });
+  });
+});
+
 describe('queryMenuItem Directive', function() {
     var compile, element, rootScope, scope, html;
     var queryId = '25', stateParams = {};

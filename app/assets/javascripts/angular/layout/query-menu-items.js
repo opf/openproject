@@ -46,7 +46,7 @@ angular.module('openproject.layout')
   'QUERY_MENU_ITEM_TYPE',
   function(menuItemFactory, $stateParams, $animate, $timeout, QUERY_MENU_ITEM_TYPE) {
   return menuItemFactory({
-    itemType: QUERY_MENU_ITEM_TYPE,
+    type: QUERY_MENU_ITEM_TYPE,
     container: '#main-menu-work-packages-wrapper ~ .menu-children',
     linkFn: function(scope, element, attrs) {
       scope.queryId = scope.objectId || attrs.objectId;
