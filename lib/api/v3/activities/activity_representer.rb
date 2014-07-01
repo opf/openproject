@@ -56,9 +56,9 @@ module API
 
         property :id, getter: -> (*) { journal.id }, render_nil: true
         property :user_id, render_nil: true
-        property :user_name, getter: -> (*) { journal.user.name }, render_nil: true
-        property :user_login, getter: -> (*) { journal.user.login }, render_nil: true
-        property :user_mail, getter: -> (*) { journal.user.mail }, render_nil: true
+        property :user_name, getter: -> (*) { journal.user.try(:name) }, render_nil: true
+        property :user_login, getter: -> (*) { journal.user.try(:login) }, render_nil: true
+        property :user_mail, getter: -> (*) { journal.user.try(:mail) }, render_nil: true
         property :messages, exec_context: :decorator, render_nil: true
         property :version, getter: -> (*) { journal.version }, render_nil: true
         property :created_at, getter: -> (*) { journal.created_at.utc.iso8601 }, render_nil: true
