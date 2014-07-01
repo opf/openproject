@@ -57,6 +57,8 @@ angular.module('openproject.layout')
         scope;
 
     function generateMenuItem(title, path, objectId) {
+      if(!container) return;
+
       var menuItem;
 
       scope = $rootScope.$new(true);
