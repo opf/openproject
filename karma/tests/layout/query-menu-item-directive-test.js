@@ -31,7 +31,7 @@ describe('queryMenuItem Directive', function() {
     var queryId = '25', stateParams = {};
 
     beforeEach(angular.mock.module('openproject.layout'));
-    beforeEach(module('templates', 'openproject.services', 'openproject.models'));
+    beforeEach(module('openproject.services', 'openproject.models'));
 
 
     beforeEach(module('templates', function($provide) {
