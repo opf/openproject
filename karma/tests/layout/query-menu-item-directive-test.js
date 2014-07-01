@@ -42,10 +42,11 @@ describe('queryMenuItem Directive', function() {
         updateHighlightName: function() {
           return {
             then: function(callback) {
-              return callback(QueryServiceMock.queryName[1]);
+              return callback();
             }
           };
-        }
+        },
+        unstarQuery: angular.noop
       };
       $provide.value('QueryService', QueryServiceMock);
     }));
@@ -120,7 +121,7 @@ describe('queryMenuItem Directive', function() {
       });
     });
 
-    describe('when the renameQueryItem event is received', function() {
+    describe('when the renameQueryMenuItem event is received', function() {
       var queryName = 'A query to find them all';
 
       beforeEach(function() {
@@ -133,6 +134,37 @@ describe('queryMenuItem Directive', function() {
 
       it('resets the menu item title', function() {
         expect(element.text()).to.equal(queryName);
+      });
+    });
+
+    describe('when the removeMenuItem event is received', function() {
+      var unstar;
+
+      var container = angular.element('<div/>'),
+          parent    = angular.element('<li/>');
+
+      beforeEach(inject(function(QueryService) {
+        unstar = sinon.stub(QueryService, 'unstarQuery');
+      }));
+
+      beforeEach(function() {
+        compile();
+
+        container.append(parent);
+        parent.append(element);
+
+        rootScope.$broadcast('openproject.layout.removeMenuItem', {
+          itemType: 'query-menu-item',
+          objectId: queryId,
+        });
+      });
+
+      it('destroys the menu item', function() {
+        expect(container.children()).to.have.length(0);
+      });
+
+      it('destroys the menu item scope', function() {
+        expect(element.scope()).to.be.undefined;
       });
     });
 });
