@@ -48,7 +48,7 @@ module API
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "http://localhost:3000/api/v3/work_packages/#{represented.work_package.id}", title: "#{represented.subject}" }
+          { href: "#{root_url}/api/v3/work_packages/#{represented.work_package.id}", title: "#{represented.subject}" }
         end
 
         property :id, getter: -> (*) { work_package.id }, render_nil: true
