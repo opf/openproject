@@ -43,6 +43,7 @@ module.exports = function(config) {
       'app/assets/javascripts/angular/filters/**/*.js',
       "app/assets/javascripts/angular/models/**/*.js",
       "app/assets/javascripts/angular/directives/**/*.js",
+      'app/assets/javascripts/angular/api/**/*.js',
       'app/assets/javascripts/angular/services/**/*.js',
 
       "app/assets/javascripts/angular/layout/**/*.js",

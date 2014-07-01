@@ -31,7 +31,7 @@
 describe('WorkPackageService', function() {
 
   var WorkPackageService;
-  beforeEach(module('openproject.services', 'openproject.models'));
+  beforeEach(module('openproject.api', 'openproject.services', 'openproject.models'));
 
   beforeEach(inject(function(_WorkPackageService_){
     WorkPackageService = _WorkPackageService_;
