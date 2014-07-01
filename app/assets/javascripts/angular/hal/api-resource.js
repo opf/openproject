@@ -12,7 +12,7 @@ angular.module('openproject.hal')
     setup: function(uri) {
       HALAPIResource.configure();
       return new Hyperagent.Resource({
-        url: 'http://opapi.apiary-mock.com/' + uri,
+        url: '/api/v3/' + uri,
       }); 
     }
   }
