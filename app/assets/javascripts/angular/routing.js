@@ -48,7 +48,21 @@ angular.module('openproject')
     .state('work-packages.list.details', {
       url: "/{workPackageId:[0-9]+}",
       templateUrl: "/templates/work_packages.list.details.html",
-      controller: 'WorkPackageDetailsController'
+      controller: 'WorkPackageDetailsController',
+      resolve: {
+        workPackage: function(WorkPackageService, $stateParams) {
+          // TODO fetch work package from service here
+          return {};
+        }
+      }
+    })
+    .state('work-packages.list.details.overview', {
+      url: "/overview",
+      templateUrl: "/templates/tabs/overview.html",
+    })
+    .state('work-packages.list.details.activity', {
+      url: "/activity",
+      templateUrl: "/templates/tabs/activity.html",
     });
 }])
 

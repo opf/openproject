@@ -1,93 +1,25 @@
 <div id="tabs">
   <ul class="tabrow">
-    <li class="selected"><a href="#">Overview</a></li>
-    <li><a href="#">Activity</a></li>
+    <li ng-class="{ selected: tab === 'overview'}">
+      <a href ui-sref="work-packages.list.details.overview({})">Overview</a>
+    </li>
+    <li ng-class="{ selected: tab === 'activity'}">
+      <a href ui-sref="work-packages.list.details.activity({})">Activity</a>
+    </li>
     <li><a href="#">Relations</a></li>
     <li><a href="#">Watchers</a></li>
     <li><a href="#">Attachments</a></li>
   </ul>
 </div>
-    
+
 <div class="detail-panel-content">
   <div class="select-type">{{ workPackage.type.name }}:&nbsp;</div>
 
   <h2>{{ workPackage.subject }}</h2>
   <span class="subtitle"><i class="star icon-star1"></i><a href="#">#{{ workPackage.id }}</a>&nbsp;added by <a href="#">{{ workPackage.author.name }}</a>. Last updated on {{ workPackage.lastUpdated }}</span>
 
-  <div class="detail-panel-description">
+  <div class="work-package-details-tab" ui-view></div>
 
-    <h3>Description</h3>
-    <div class="detail-panel-description-content">
-      {{ workPackage.description }}
-    </div>
-  </div>
-
-  <div class="panel-toggler">
-    <fieldset>
-      <legend align="center"><span><i class="icon-arrow-right5-2"></i>Show full description</span></legend>
-    </fieldset>
-  </div>
-
-  <div class="detail-panel-attributes">
-    <ul>
-      <li><label>Status</label>{{ workPackage.status.name }}</li>
-      <li><label>Priortiy</label>{{ workPackage.priority.name }}</li>
-      <li><label>Date</label>{{ workPackage.start }} - {{ workPackage.end }}</li>
-      <li><label>Responsible</label><img class="avatar" src="images/avatar_logout.png" /><span class="user"><a href="#">{{ workPackage.responsible.name }}</a></span>
-      <span class="role">{{ workPackage.responsible.role }}</span>
-      </li>
-      <li><label>Assignee</label><img class="avatar" src="images/avatar_logout.png" /><span class="user"><a href="#">{{ workPackage.assignedTo.name }}</a></span>
-        <span class="role">{{ workPackage.assignedTo.role }}</span>
-      </li>
-      <li><label>% Done</label>{{ workPackage.doneRatio }} %</li>
-    </ul>
-  </div>
-
-  <div class="panel-toggler">
-    <fieldset>
-      <legend align="center"><span><i class="icon-arrow-right5-2"></i>Show all attributes</span></legend>
-    </fieldset>
-  </div>
-        
-  <div class="detail-panel-latest-activity">
-    <h3>Latest activity</h3>  
-    <ul>
-      <li>
-        <div class="comments-number"><a href="#1">#1</a>
-          <div class="comments-icons"><i class="icon-quote"></i><i class="icon-edit"></i></div>
-        </div>
-        <img class="avatar" src="images/avatar_logout.png" />
-        <span class="user"><a href="#">Christoph Zierz</a></span>
-        <span class="date">commented on 06/05/2014 16:42 Uhr</span>
-        <span class="comment">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-        Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis ...
-        </span>
-      </li>
-      <li>
-        <div class="comments-number"><a href="#1">#2</a>
-          <div class="comments-icons"><i class="icon-quote"></i><i class="icon-edit"></i></div>
-        </div>
-        <img class="avatar" src="images/avatar_logout.png" />
-        <span class="user"><a href="#">Niels Lindenthal</a></span>
-        <span class="date">commented on 08/05/2014 16:42 Uhr</span>
-        <span class="comment">
-        <ul>
-          <li>Status changed from scheduled to closed</li>
-          <li>Assignee deleted (Michael Frister)</li>
-          <li>% done changed from 0 to 100</li>
-        </ul>
-        </span>
-      </li>
-    </ul>
-  </div>
-      
-  <div class="comments-form">
-    <h3>Add your comments here</h3>
-    <form>
-      <textarea placeholder="Add comments here" rows="4"></textarea>
-    </form>
-    <button class="button">Add comment</button>
-  </div>
 </div>
 
 <div class="bottom-toolbar">
