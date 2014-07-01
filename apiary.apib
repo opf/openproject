@@ -213,7 +213,7 @@ This is [an example][id] reference-style link.
                 "_embedded": {
                     "activities": [
                         {
-                            "_type": "Activity",
+                            "_type": "Activity::Comment",
                             "_links": {
                                 "self": {
                                     "href": "https://openproject.org/api/v3/activity/1",
@@ -233,9 +233,9 @@ This is [an example][id] reference-style link.
                             "userName": "OpenProject Admin",
                             "userLogin": "admin",
                             "userMail": "admin@example.net",
-                            "notes": "Lorem ipsum dolor sit amet",
-                            "details": [
-                                "Priority changed from High to Low"
+                            "userMail": null,
+                            "messages": [
+                                "Lorem ipsum dolor sit amet."
                             ],
                             "createdAt": "2014-05-21T08:51:20Z",
                             "version": 31
