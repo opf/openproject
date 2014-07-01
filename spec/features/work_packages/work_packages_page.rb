@@ -55,7 +55,7 @@ class WorkPackagesPage
   end
 
   def has_selected_filter?(filter_name)
-    find(".filter-fields #cb_#{filter_name}", visible: false).checked?
+    find(".filter-fields #tr_#{filter_name}")
   end
 
   private
