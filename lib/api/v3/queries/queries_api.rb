@@ -12,8 +12,8 @@ module API
 
             before do
               @query = Query.find(params[:id])
-              model = QueryModel.new(query: @query)
-              @representer =  QueryRepresenter.new(model)
+              model = ::API::V3::Queries::QueryModel.new(query: @query)
+              @representer =  ::API::V3::Queries::QueryRepresenter.new(model)
             end
 
             helpers do
