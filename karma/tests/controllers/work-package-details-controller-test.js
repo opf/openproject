@@ -32,7 +32,7 @@ describe('WorkPackageDetailsController', function() {
   var scope;
   var buildController;
 
-  beforeEach(module('openproject.workPackages.controllers'));
+  beforeEach(module('openproject.api', 'openproject.services', 'openproject.workPackages.controllers'));
   beforeEach(inject(function($rootScope, $controller, $timeout) {
     scope = $rootScope.$new();
 

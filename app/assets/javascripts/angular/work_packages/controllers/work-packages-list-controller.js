@@ -42,17 +42,17 @@ angular.module('openproject.workPackages.controllers')
     'PaginationService',
     'AuthorisationService',
     'WorkPackageLoadingHelper',
+    'HALAPIResource',
     'INITIALLY_SELECTED_COLUMNS',
     'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
     function($scope, $rootScope, $q, $location, $stateParams,
       I18n, WorkPackagesTableService,
       WorkPackageService, ProjectService, QueryService, PaginationService,
-      AuthorisationService, WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS,
+      AuthorisationService, WorkPackageLoadingHelper, HALAPIResource, INITIALLY_SELECTED_COLUMNS,
       OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
 
 
   // Setup
-
   function initialSetup() {
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.disableFilters = false;

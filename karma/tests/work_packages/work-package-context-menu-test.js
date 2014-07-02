@@ -33,6 +33,7 @@ describe('workPackageContextMenu', function() {
   var container, contextMenu, $rootScope;
 
   beforeEach(module('ng-context-menu',
+                    'openproject.api',
                     'openproject.workPackages',
                     'openproject.models',
                     'templates'));

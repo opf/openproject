@@ -28,45 +28,17 @@
 
 /*jshint expr: true*/
 
-describe('WorkPackageService', function() {
+describe('HALAPIResource', function() {
 
-  var WorkPackageService;
-  beforeEach(module('openproject.api', 'openproject.services', 'openproject.models'));
+  var HALAPIResource;
+  beforeEach(module('openproject.api', 'openproject.helpers'));
 
-  beforeEach(inject(function(_WorkPackageService_, _HALAPIResource_){
-    WorkPackageService = _WorkPackageService_;
+  beforeEach(inject(function(_HALAPIResource_){
+    HALAPIResource = _HALAPIResource_;
   }));
 
-  describe('performBulkDelete', function() {
-    var deleteFunction;
-
-    var workPackages = [
-      Factory.build('PlanningElement', {id: 1}),
-      Factory.build('PlanningElement', {id: 2})
-    ];
-
-    beforeEach(inject(function($http) {
-      deleteFunction = sinon.stub($http, 'delete');
-    }));
-
-    beforeEach(inject(function($http) {
-      WorkPackageService.performBulkDelete(workPackages);
-    }));
-
-    it('sends a delete request', function() {
-      expect(deleteFunction).to.have.been.called;
-    });
-
-    it('sends the work package ids to the bulk delete action', function() {
-      expect(deleteFunction).to.have.been.calledWith('/work_packages/bulk', { params: { 'ids[]': [1, 2] } });
-    });
-  });
-
-  describe('getWorkPackage', function() {
-    var setupFunction;
-    var workPackageId = 5;
-    var apiResource;
-    var apiFetchResource;
+  describe('setup', function() {
+    var workPackageUri = 'work_packages/1';
 
     beforeEach(inject(function($q) {
       apiResource = {
@@ -76,24 +48,18 @@ describe('WorkPackageService', function() {
           return deferred.promise;
         }
       }
-    }));
+    }))
 
     beforeEach(inject(function(HALAPIResource) {
-      setupFunction = sinon.stub(HALAPIResource, 'setup').returns(apiResource);
+      resourceFunction = sinon.stub(Hyperagent, 'Resource').returns(apiResource);
     }));
 
     beforeEach(inject(function() {
-      apiFetchResource = WorkPackageService.getWorkPackage(workPackageId);
-    }));
+      HALAPIResource.setup(workPackageUri);
+    }))
 
     it('makes an api setup call', function() {
-      expect(setupFunction).to.have.been.calledWith("work_packages/" + workPackageId);
-    });
-
-    it('returns work package', function() {
-      apiFetchResource.then(function(wp){
-        expect(wp.id).to.equal(workPackageId);
-      });
-    });
+      expect(resourceFunction).to.have.been.calledWith({ url: "/api/v3/" + workPackageUri });
+    })
   });
 });

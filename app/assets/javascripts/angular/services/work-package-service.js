@@ -34,10 +34,20 @@ angular.module('openproject.services')
   '$http',
   'PathHelper',
   'WorkPackagesHelper',
+  'HALAPIResource',
   'DEFAULT_FILTER_PARAMS',
-  function($http, PathHelper, WorkPackagesHelper, DEFAULT_FILTER_PARAMS) {
+  function($http, PathHelper, WorkPackagesHelper, HALAPIResource, DEFAULT_FILTER_PARAMS) {
+  var workPackage;
 
   var WorkPackageService = {
+    getWorkPackage: function(id) {
+      var resource = HALAPIResource.setup("work_packages/" + id);
+      return resource.fetch().then(function (wp) {
+        workPackage = wp;
+        return workPackage;
+      });
+    },
+
     getWorkPackagesByQueryId: function(projectIdentifier, queryId) {
       var url = projectIdentifier ? PathHelper.apiProjectWorkPackagesPath(projectIdentifier) : PathHelper.apiWorkPackagesPath();
 

@@ -1,26 +1,26 @@
-<div ng-if="workPackage.subject">
+<div>
   <h2>
-    <span>{{ workPackage.type.name }}</span>
-    {{ workPackage.subject }}
+    <span>{{ workPackage.props.type }}</span>
+    {{ workPackage.props.subject }}
   </h2>
-  #{{ workPackage.id }}
+  #{{ workPackage.props.id }}
 
   <h3>Description</h3>
-  <p>TODO: Add description</p>
+  <p>{{ workPackage.props.description }}</p>
 
   <dl>
     <dt>Status</dt>
-    <dd>{{ workPackage.status.name }}</dd>
+    <dd>{{ workPackage.props.status }}</dd>
     <dt>Priority</dt>
-    <dd>{{ workPackage.priority.name }}</dd>
+    <dd>{{ workPackage.props.priority }}</dd>
     <dt>Date</dt>
     <dd></dd>
     <dt>Responsible</dt>
-    <dd>{{ workPackage.assigned_to }}</dd>
+    <dd>{{ workPackage.props.responsibleName }}</dd>
     <dt>Assignee</dt>
-    <dd>–</dd>
+    <dd>{{ workPackage.props.assigneeName }}</dd>
     <dt>% Done</dt>
-    <dd>–</dd>
+    <dd>{{ percentageDone }}</dd>
   </dl>
 
   <button class="button" ui-sref="work-packages.list">Close details</button>
@@ -37,6 +37,6 @@
   </div>
 </div>
 
-<div ng-if="!workPackage.subject">
+<div ng-if="!workPackage.props.subject">
   <p>Select a work package for more information.</p>
 </div>

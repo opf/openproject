@@ -104,6 +104,8 @@ angular.module('openproject.timeEntries.controllers', []);
 
 angular.module('openproject.layout', []);
 
+angular.module('openproject.api', []);
+
 // main app
 var openprojectApp = angular.module('openproject', [
   'ui.select2',
@@ -121,7 +123,8 @@ var openprojectApp = angular.module('openproject', [
   'truncate',
   'feature-flags',
   'openproject.layout',
-  'cgBusy'
+  'cgBusy',
+  'openproject.api'
 ]);
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';

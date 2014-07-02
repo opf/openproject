@@ -31,16 +31,15 @@ angular.module('openproject.workPackages.controllers')
 .controller('WorkPackageDetailsController', [
   '$scope',
   '$stateParams',
-  function($scope, $stateParams) {
+  'WorkPackageService',
+  function($scope, $stateParams, WorkPackageService) {
 
     $scope.workPackageId = $stateParams.workPackageId;
-
     $scope.$watch('rows', function(rows) {
       if (rows && rows.length > 0) {
-        var row = $scope.rows.find(function(row) {
-          return row.object.id == $scope.workPackageId;
+        WorkPackageService.getWorkPackage($scope.workPackageId).then(function(workPackage) {
+          $scope.workPackage = workPackage;
         });
-        $scope.workPackage = row ? row.object : {};
       }
     });
   }

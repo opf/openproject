@@ -31,6 +31,7 @@ module.exports = function(config) {
       "vendor/assets/components/momentjs/moment.js",
       "vendor/assets/components/angular-context-menu/dist/angular-context-menu.js",
       'vendor/assets/components/select2/select2.js',
+      'vendor/assets/components/hyperagent/dist/hyperagent.js',
 
       "vendor/assets/components/openproject-ui_components/app/assets/javascripts/angular/ui-components-app.js",
 
@@ -43,6 +44,7 @@ module.exports = function(config) {
       'app/assets/javascripts/angular/filters/**/*.js',
       "app/assets/javascripts/angular/models/**/*.js",
       "app/assets/javascripts/angular/directives/**/*.js",
+      'app/assets/javascripts/angular/api/**/*.js',
       'app/assets/javascripts/angular/services/**/*.js',
 
       "app/assets/javascripts/angular/layout/**/*.js",
