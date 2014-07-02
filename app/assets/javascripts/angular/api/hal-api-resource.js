@@ -1,4 +1,4 @@
- 
+
 angular.module('openproject.api')
 
 .factory('HALAPIResource', ['$q', 'PathHelper', function HALAPIResource($q, PathHelper) {
@@ -13,7 +13,7 @@ angular.module('openproject.api')
       HALAPIResource.configure();
       return new Hyperagent.Resource({
         url: PathHelper.apiPrefixV3 + '/' + uri,
-      }); 
+      });
     }
   }
 

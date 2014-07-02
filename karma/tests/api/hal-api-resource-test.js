@@ -42,11 +42,7 @@ describe('HALAPIResource', function() {
 
     beforeEach(inject(function($q) {
       apiResource = {
-        fetch: function() {
-          deferred = $q.defer();
-          deferred.resolve({ id: workPackageId } );
-          return deferred.promise;
-        }
+        fetch: $q.when(function() { return { id: workPackageId }; })
       }
     }))
 
