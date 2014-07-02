@@ -36,11 +36,17 @@ describe('WorkPackageDetailsController', function() {
   beforeEach(inject(function($rootScope, $controller, $timeout) {
     scope = $rootScope.$new();
 
+    var workPackageId = 99;
+
     buildController = function() {
       ctrl = $controller("WorkPackageDetailsController", {
         $scope:  scope,
-        $stateParams: { workPackageId: 99 },
-        workPackage: {}
+        $stateParams: { workPackageId: workPackageId },
+        workPackage: {
+          props: {
+            id: workPackageId
+          }
+        }
       });
 
       // $timeout.flush();
