@@ -13,7 +13,7 @@
         <span class="date">commented on <span ng-bind="activity.props.createdAt"/></span>
         <span class="comment">
           <ul class="work-package-details-activity-messages">
-            <li ng-repeat="message in activity.props.messages">
+            <li ng-repeat="message in activity.props.messages track by $index">
               <span class="message" ng-bind="message"/>
             </li>
           </ul>
