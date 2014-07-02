@@ -36,7 +36,7 @@ module API
       class UserModel < Reform::Form
         include Coercion
 
-        property :login, type: Integer
+        property :login, type: String
         property :firstname, type: String
         property :lastname, type: String
         property :mail, type: String
