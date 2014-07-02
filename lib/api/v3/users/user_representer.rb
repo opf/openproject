@@ -43,18 +43,18 @@ module API
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "#{root_url}/api/v3/users/#{represented.user.id}", title: "#{represented.user.name} - #{represented.user.login}" }
+          { href: "#{root_url}/api/v3/users/#{represented.model.id}", title: "#{represented.model.name} - #{represented.model.login}" }
         end
 
         # will need array of links for work packages the user is watching
 
-        property :id, getter: -> (*) { user.id }, render_nil: true
+        property :id, getter: -> (*) { model.id }, render_nil: true
         property :login, render_nil: true
         property :firstname, render_nil: true
         property :lastname, render_nil: true
         property :mail, render_nil: true
-        property :created_at, getter: -> (*) { user.created_at.utc.iso8601 }, render_nil: true
-        property :updated_at, getter: -> (*) { user.updated_at.utc.iso8601 }, render_nil: true
+        property :created_at, getter: -> (*) { model.created_on.utc.iso8601 }, render_nil: true
+        property :updated_at, getter: -> (*) { model.updated_on.utc.iso8601 }, render_nil: true
 
         def _type
           'User'

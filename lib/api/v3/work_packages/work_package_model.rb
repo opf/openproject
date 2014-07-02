@@ -104,7 +104,11 @@ module API
         end
 
         def activities
-          work_package.journals.map{ |journal| Activities::ActivityModel.new(journal: journal) }
+          work_package.journals.map{ |journal| ::API::V3::Activities::ActivityModel.new(journal: journal) }
+        end
+
+        def users
+          work_package.watcher_users.map{ |u| ::API::V3::Users::UserModel.new(u) }
         end
 
         validates_presence_of :subject, :project_id, :type, :author, :status
