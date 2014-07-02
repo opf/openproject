@@ -6,13 +6,22 @@
   </div>
 </div>
 
-<div class="panel-toggler">
+<div class="panel-toggler" ng-click="hideFullDescription = !hideFullDescription">
   <fieldset>
-    <legend align="center"><span><i class="icon-arrow-right5-2"></i>Show full description</ span></legend>
+    <legend align="center">
+      <span ng-if="!hideFullDescription">
+        <i class="icon-arrow-right5-2"></i>
+        Hide full description
+      </span>
+      <span ng-if="hideFullDescription">
+        <i class="icon-arrow-right5-3"></i>
+        Show full description
+      </span>
+    </legend>
   </fieldset>
 </div>
 
-<div class="detail-panel-attributes">
+<div class="detail-panel-attributes" slide-toggle collapsed="hideFullDescription">
   <ul>
     <li><label>Status</label>{{ workPackage.status.name }}</li>
     <li><label>Priortiy</label>{{ workPackage.priority.name }}</li>
@@ -27,13 +36,22 @@
   </ul>
 </div>
 
-<div class="panel-toggler">
+<div class="panel-toggler" ng-click="hideAllAttributes = !hideAllAttributes">
   <fieldset>
-    <legend align="center"><span><i class="icon-arrow-right5-2"></i>Show all attributes</span>  </legend>
+    <legend align="center">
+      <span ng-if="!hideAllAttributes">
+        <i class="icon-arrow-right5-2"></i>
+        Hide all attributes
+      </span>
+      <span ng-if="hideAllAttributes">
+        <i class="icon-arrow-right5-3"></i>
+        Show all attributes
+      </span>
+    </legend>
   </fieldset>
 </div>
 
-<div class="detail-panel-latest-activity">
+<div class="detail-panel-latest-activity" slide-toggle collapsed="hideAllAttributes">
   <h3>Latest activity</h3>
   <ul>
     <li>
