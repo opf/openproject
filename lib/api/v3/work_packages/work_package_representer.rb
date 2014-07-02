@@ -36,7 +36,7 @@ module API
       class WorkPackageRepresenter < Roar::Decorator
         include Roar::Representer::JSON::HAL
         include Roar::Representer::Feature::Hypermedia
-        include Rails.application.routes.url_helpers
+        include ::Rails.application.routes.url_helpers
 
         self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
