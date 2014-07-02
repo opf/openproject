@@ -43,10 +43,5 @@ angular.module('openproject.workPackages.controllers')
         $scope.workPackage = row ? row.object : {};
       }
     });
-
-    $scope.$on('$stateChangeSuccess',
-    function(event, toState, toParams, fromState, fromParams){
-      $scope.tab = toState.name.replace(/.*\./, '');
-    });
   }
 ]);

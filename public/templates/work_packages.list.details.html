@@ -1,9 +1,9 @@
 <div id="tabs">
   <ul class="tabrow">
-    <li ng-class="{ selected: tab === 'overview'}">
+    <li ui-sref-active="selected">
       <a href ui-sref="work-packages.list.details.overview({})">Overview</a>
     </li>
-    <li ng-class="{ selected: tab === 'activity'}">
+    <li ui-sref-active="selected">
       <a href ui-sref="work-packages.list.details.activity({})">Activity</a>
     </li>
     <li><a href="#">Relations</a></li>
