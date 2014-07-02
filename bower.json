@@ -24,7 +24,8 @@
     "momentjs": "~2.6.0",
     "moment-timezone": "~0.0.6",
     "angular-context-menu": "0.1.2",
-    "angular-busy": "~4.0.4"
+    "angular-busy": "~4.0.4",
+    "hyperagent": "manwithtwowatches/hyperagent#v0.4.1"
   },
   "devDependencies": {
     "mocha": "~1.14.0",
@@ -34,6 +35,7 @@
     "jquery-mockjax": "~1.5.3"
   },
   "resolutions": {
-    "select2": "3.3.2"
+    "select2": "3.3.2",
+    "jquery": "1.11.0"
   }
 }

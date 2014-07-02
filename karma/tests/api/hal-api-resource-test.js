@@ -26,21 +26,36 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.controllers')
+/*jshint expr: true*/
 
-.controller('WorkPackageDetailsController', [
-  '$scope',
-  '$stateParams',
-  'WorkPackageService',
-  function($scope, $stateParams, WorkPackageService) {
+describe('HALAPIResource', function() {
 
-    $scope.workPackageId = $stateParams.workPackageId;
-    $scope.$watch('rows', function(rows) {
-      if (rows && rows.length > 0) {
-        WorkPackageService.getWorkPackage($scope.workPackageId).then(function(workPackage) {
-          $scope.workPackage = workPackage;
-        });
+  var HALAPIResource;
+  beforeEach(module('openproject.api', 'openproject.helpers'));
+
+  beforeEach(inject(function(_HALAPIResource_){
+    HALAPIResource = _HALAPIResource_;
+  }));
+
+  describe('setup', function() {
+    var workPackageUri = 'work_packages/1';
+
+    beforeEach(inject(function($q) {
+      apiResource = {
+        fetch: $q.when(function() { return { id: workPackageId }; })
       }
-    });
-  }
-]);
+    }))
+
+    beforeEach(inject(function(HALAPIResource) {
+      resourceFunction = sinon.stub(Hyperagent, 'Resource').returns(apiResource);
+    }));
+
+    beforeEach(inject(function() {
+      HALAPIResource.setup(workPackageUri);
+    }))
+
+    it('makes an api setup call', function() {
+      expect(resourceFunction).to.have.been.calledWith({ url: "/api/v3/" + workPackageUri });
+    })
+  });
+});
