@@ -1,6 +1,22 @@
-<div class="detail-panel-description">
+<div class="detail-panel-content" >
   <h3>Activity</h3>
-  <div class="detail-panel-description-content">
-    ...
+  <div class="detail-activity">
+    <ul class="work-package-details-activities">
+      <li ng-repeat="activity in activities">
+        <div class="comments-number"><a ng-href="#{{$index+1}}" ng-bind="$index+1"></a>
+          <div class="comments-icons"><i class="icon-quote"></i><i class="icon-edit"></i></div>
+        </div>
+        <img class="avatar" src="images/avatar_logout.png" />
+        <span class="user"><a href ng-bind="activity.props.userName"></a></span>
+        <span class="date">commented on <span ng-bind="activity.props.createdAt"/></span>
+        <span class="comment">
+          <ul class="work-package-details-activity-messages">
+            <li ng-repeat="message in activity.props.messages">
+              <span class="message" ng-bind="message"/>
+            </li>
+          </ul>
+        </span>
+      </li>
+    </ul>
   </div>
 </div>
