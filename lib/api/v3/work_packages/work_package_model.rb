@@ -107,7 +107,7 @@ module API
           work_package.journals.map{ |journal| ::API::V3::Activities::ActivityModel.new(journal: journal) }
         end
 
-        def users
+        def watchers
           work_package.watcher_users.map{ |u| ::API::V3::Users::UserModel.new(u) }
         end
 

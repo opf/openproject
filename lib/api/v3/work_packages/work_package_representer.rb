@@ -80,7 +80,7 @@ module API
         property :updated_at, getter: -> (*) { work_package.updated_at.utc.iso8601}, render_nil: true
 
         collection :activities, embedded: true, class: ::API::V3::Activities::ActivityModel, decorator: ::API::V3::Activities::ActivityRepresenter
-        collection :users, as: :watchers, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter
+        collection :watchers, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter
 
         def _type
           'WorkPackage'
