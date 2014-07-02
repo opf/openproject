@@ -39,7 +39,8 @@ describe('WorkPackageDetailsController', function() {
     buildController = function() {
       ctrl = $controller("WorkPackageDetailsController", {
         $scope:  scope,
-        $stateParams: { workPackageId: 99 }
+        $stateParams: { workPackageId: 99 },
+        workPackage: {}
       });
 
       // $timeout.flush();

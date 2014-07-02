@@ -52,7 +52,7 @@ angular.module('openproject')
       resolve: {
         workPackage: function(WorkPackageService, $stateParams) {
           // TODO fetch work package from service here
-          return {};
+          return WorkPackageService.getWorkPackage($stateParams.workPackageId);
         }
       }
     })
