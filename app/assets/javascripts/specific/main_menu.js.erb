@@ -76,7 +76,24 @@ jQuery(document).ready(function($) {
       return false;
     });
 
-  $('#main-menu li > a').not('ul ul a').wrap('<div class="main-item-wrapper"/>');
+  // wrap main items
+  var mainItems = $('#main-menu li > a').not('ul ul a');
+
+  function getMainItemWrapper(index) {
+    var item = mainItems[index];
+    var elementId = item.id;
+
+    var wrapperElement = $('<div class="main-item-wrapper"/>')
+
+    // inherit element id
+    if(elementId) {
+      wrapperElement.attr('id', elementId + '-wrapper')
+    }
+
+    return wrapperElement;
+  }
+
+  mainItems.wrap(getMainItemWrapper)
 
   $('#main-menu li:has(ul) .main-item-wrapper > a').not('ul ul a')
     // 1. unbind the current click functions
