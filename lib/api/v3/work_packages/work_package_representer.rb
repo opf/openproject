@@ -41,8 +41,8 @@ module API
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
         def initialize(options = {}, *expand)
-            @expand = expand
-            super(options)
+          @expand = expand
+          super(options)
         end
 
         property :_type, exec_context: :decorator
