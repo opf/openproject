@@ -13,7 +13,7 @@ module API
             before do
               @work_package = WorkPackage.find(params[:id])
               model = WorkPackageModel.new(work_package: @work_package)
-              @representer =  WorkPackageRepresenter.new(model)
+              @representer =  WorkPackageRepresenter.new(model, :activities, :users)
             end
 
             get do
