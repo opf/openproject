@@ -69,5 +69,4 @@ OpenProject::Application.configure do
 
   # we use per process memory for caching in the test environment
   config.cache_store = :memory_store
-  config.action_controller.default_url_options = { host: 'localhost', port: 3000 }
 end

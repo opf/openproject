@@ -12,8 +12,8 @@ module API
 
             before do
               @work_package = WorkPackage.find(params[:id])
-              model = ::API::V3::WorkPackages::WorkPackageModel.new(work_package: @work_package)
-              @representer =  ::API::V3::WorkPackages::WorkPackageRepresenter.new(model, :activities, :users)
+              model = WorkPackageModel.new(work_package: @work_package)
+              @representer =  WorkPackageRepresenter.new(model)
             end
 
             get do

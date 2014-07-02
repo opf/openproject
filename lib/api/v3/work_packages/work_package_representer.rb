@@ -40,15 +40,10 @@ module API
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
-        def initialize(options = {}, *expand)
-            @expand = expand
-            super(options)
-        end
-
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "#{root_url}/api/v3/work_packages/#{represented.work_package.id}", title: "#{represented.subject}" }
+          { href: "http://localhost:3000/api/v3/work_packages/#{represented.work_package.id}", title: "#{represented.subject}" }
         end
 
         property :id, getter: -> (*) { work_package.id }, render_nil: true
@@ -79,17 +74,9 @@ module API
         property :created_at, getter: -> (*) { work_package.created_at.utc.iso8601}, render_nil: true
         property :updated_at, getter: -> (*) { work_package.updated_at.utc.iso8601}, render_nil: true
 
-        collection :activities, embedded: true, class: Activities::ActivityModel, decorator: Activities::ActivityRepresenter
-
         def _type
-          'WorkPackage'
+          "WorkPackage"
         end
-
-        private
-
-          def default_url_options
-            ActionController::Base.default_url_options
-          end
       end
     end
   end
