@@ -19,10 +19,10 @@
 </div>
 
 <div class="detail-panel-content">
-  <div class="select-type">{{ workPackage.type.name }}:&nbsp;</div>
+  <div class="select-type">{{ workPackage.props.type }}:&nbsp;</div>
 
-  <h2>{{ workPackage.subject }}</h2>
-  <span class="subtitle"><i class="star icon-star1"></i><a href="#">#{{ workPackage.id }}</a>&nbsp;added by <a href="#">{{ workPackage.author.name }}</a>. Last updated on {{ workPackage.lastUpdated }}</span>
+  <h2>{{ workPackage.props.subject }}</h2>
+  <span class="subtitle"><i class="star icon-star1"></i><a href="#">#{{ workPackage.props.id }}</a>&nbsp;added by <a href="#">{{ workPackage.props.author.name }}</a>. Last updated on {{ workPackage.props.lastUpdated }}</span>
 
   <div class="work-package-details-tab" ui-view></div>
 
@@ -31,4 +31,4 @@
 <div class="bottom-toolbar">
   <button class="button"><i class="icon-left icon-edit"></i>Edit</button>
   <button class="button">More<i class="icon-right icon-pulldown-arrow1"></i></button>
-</div>
+<div>
