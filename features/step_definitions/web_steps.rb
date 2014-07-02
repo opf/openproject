@@ -435,6 +435,11 @@ When /^(?:|I )click on the first button matching "([^"]*)"$/ do |button|
   first(:button, button).click
 end
 
+
+When /^(?:|I )click on the first anchor matching "([^"]*)"$/ do |anchor|
+  find(:xpath, "(//a[text()='#{anchor}'])[1]").click
+end
+
 def find_lowest_containing_element text, selector
   elements = []
 
@@ -472,4 +477,13 @@ end
 
 Then(/^I should see a confirm dialog$/) do
   page.should have_selector("#confirm_dialog")
+end
+
+Then /^I confirm the JS confirm dialog$/ do
+  page.driver.browser.switch_to.alert.accept rescue Selenium::WebDriver::Error::NoAlertOpenError
+end
+
+Then /^I should see a JS confirm dialog$/ do
+  page.driver.browser.switch_to.alert.text.should_not be_nil
+  page.driver.browser.switch_to.alert.accept
 end

@@ -88,3 +88,39 @@ Feature: Timeline View Tests
      When I ctrl-click on "#2" in the modal
      Then I should see "February" in the new window
      Then I should see "Avocado Rincon" in the new window
+
+  @javascript
+  Scenario: closing the modal window with changes should display a warning message
+    When the role "manager" may have the following rights:
+      | view_timelines     |
+      | edit_timelines     |
+      | view_work_packages |
+      | edit_work_packages |
+    And there is a timeline "Testline" for project "ecookbook"
+    And I go to the page of the timeline "Testline" of the project called "ecookbook"
+    And I wait for timeline to load table
+    And I click on the Planning Element with name "January"
+    And I click on the first anchor matching "Update" in the modal
+    And I fill in "work_package_notes" with "A new comment" in the modal
+    And I click on the div "ui-dialog-closer"
+    Then I confirm the JS confirm dialog
+    And I should not see a modal window
+
+  @javascript
+  Scenario: closing the modal window after adding a related work package should not display a warning message
+    When the role "manager" may have the following rights:
+      | view_timelines     |
+      | edit_timelines     |
+      | view_work_packages |
+      | edit_work_packages |
+      | manage_work_package_relations |
+    And there is a timeline "Testline" for project "ecookbook"
+    And I go to the page of the timeline "Testline" of the project called "ecookbook"
+    And I wait for timeline to load table
+    And I click on the Planning Element with name "January"
+    And I click on "Add related work package" in the modal
+    And I fill in "relation_to_id" with "3" in the modal
+    And I press "Add" in the modal
+    And I wait for the AJAX requests to finish
+    And I click on the div "ui-dialog-closer"
+    Then I should not see a modal window

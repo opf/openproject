@@ -27,20 +27,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<p>
-  <%= form.text_field :identifier, :required => true, :size => 60, :disabled => project.identifier_frozen? %>
-  <% unless project.identifier_frozen? %>
-    <script type="text/javascript" charset="utf-8">
-      projectIdentifierMaxLength = <%= Project::IDENTIFIER_MAX_LENGTH %>;
-      projectIdentifierDefault = '<%= project.identifier %>';
-      projectIdentifierLocked = <%= !project.identifier.blank? && params[:action] != "create" %>;
-      observeProjectIdentifier();
-      observeProjectName();
-    </script>
-    <br />
-    <em>
-      <%= l(:text_length_between, :min => 1, :max => Project::IDENTIFIER_MAX_LENGTH) %>
-      <%= l(:text_project_identifier_info).html_safe %>
-    </em>
-  <% end %>
-</p>
+<h1><%= link_to @target_project.name, project_url(@target_project) %></h1>
+
+<%= t('copy_project.text.succeeded', source_project_name: @source_project.name, target_project_name: @target_project.name) %>
+
+<% unless @errors.empty? %>
+  <hr />
+  <%= render partial: 'errors', locals: { errors: @errors } %>
+<% end %>
+
+

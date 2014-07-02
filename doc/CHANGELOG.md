@@ -29,6 +29,19 @@ See doc/COPYRIGHT.rdoc for more details.
 
 # Changelog
 
+## 3.0.8
+
+* new version scheme
+* `#4752` Fix button contrast
+* `#4019` Fix focus on project creation
+* `#4021` Separate focus for main menu expander
+* `#4258` Text alignment consistency in tables
+* `#6288` Editing relations in modal dialog leads to warning
+* `#7236` Filtering for asignee role returns wrong result
+* `#7898` Watchers are not sorted alphabetically in work package screen
+* `#9931` APIv2 does not rewire parents correctly
+* `#10232` Work package filter introduced by plugins not displayed
+
 ## 3.0.4
 
 * `#8421` Make subdirectory configuration less of a hassle
