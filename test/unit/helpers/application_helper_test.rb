@@ -522,7 +522,7 @@ RAW
                  link_to_project(@project, :action => 'settings')
     assert_equal %(<a href="/projects/#{p_id}/settings/members">#{p_name}</a>),
                  link_to_project(@project, :action => 'settings', :tab => 'members')
-    assert_equal %(<a href="http://test.host/projects/#{p_id}?jump=blah">#{p_name}</a>),
+    assert_equal %(<a href="#{root_url}projects/#{p_id}?jump=blah">#{p_name}</a>),
                  link_to_project(@project, {:only_path => false, :jump => 'blah'})
     assert_equal %(<a href="/projects/#{p_id}/settings" class="project">#{p_name}</a>),
                  link_to_project(@project, {:action => 'settings'}, :class => "project")

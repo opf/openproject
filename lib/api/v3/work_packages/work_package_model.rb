@@ -99,6 +99,10 @@ module API
           work_package.done_ratio = value
         end
 
+        def activities
+          work_package.journals.map{ |journal| Activities::ActivityModel.new(journal: journal) }
+        end
+
         validates_presence_of :subject, :project_id, :type, :author, :status
         validates_length_of :subject, maximum: 255
       end
