@@ -51,6 +51,10 @@ module API
         property :assigned_to_id, on: :work_package, type: Integer
         property :fixed_version_id, on: :work_package, type: Integer
 
+        def work_package
+          model[:work_package]
+        end
+
         def type
           work_package.type.try(:name)
         end

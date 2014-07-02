@@ -48,6 +48,10 @@ module API
         property :sort_criteria, on: :query, type: String
         property :group_by, on: :query, type: String
         property :display_sums, on: :query, type: String
+
+        def query
+          model[:query]
+        end
       end
     end
   end
