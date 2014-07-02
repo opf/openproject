@@ -33,6 +33,8 @@ angular.module('openproject.workPackages.controllers')
   'workPackage',
   function($scope, workPackage) {
     $scope.workPackage = workPackage;
+    $scope.activities = workPackage.embedded.activities;
+
     $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
   }
 ]);
