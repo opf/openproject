@@ -34,6 +34,7 @@ angular.module('openproject.workPackages.controllers')
   function($scope, workPackage) {
     $scope.workPackage = workPackage;
     $scope.activities = workPackage.embedded.activities;
+    $scope.watchers = workPackage.embedded.watchers;
 
     $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
   }
