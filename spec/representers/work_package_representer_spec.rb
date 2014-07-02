@@ -106,6 +106,32 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         it { should have_json_type(Array).at_path('_embedded/activities') }
         it { should have_json_size(0).at_path('_embedded/activities') }
       end
+
+      describe 'relations' do
+        it { should have_json_type(Array).at_path('_embedded/relations') }
+
+        context 'with no relations' do
+          before do
+            expect(work_package).to receive(:relations) {
+              []
+            }
+          end
+
+          it { should have_json_size(0).at_path('_embedded/relations') }
+        end
+
+        context 'with relations' do
+          before do
+            expect(work_package).to receive(:relations) {
+              FactoryGirl.build_list(:relation, 3)
+            }
+          end
+
+          it { should have_json_size(3).at_path('_embedded/relations') }
+          it { should have_json_path('_embedded/relations/2/type') }
+          it { should have_json_path('_embedded/relations/2/_links/relatedWorkPackage/href') }
+        end
+      end
     end
   end
 end

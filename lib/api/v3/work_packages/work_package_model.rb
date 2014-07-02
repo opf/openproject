@@ -112,6 +112,10 @@ module API
           work_package.watcher_users.map{ |u| ::API::V3::Users::UserModel.new(u) }
         end
 
+        def relations
+          work_package.relations.map{ |relation| RelationModel.new(relation) }
+        end
+
         validates_presence_of :subject, :project_id, :type, :author, :status
         validates_length_of :subject, maximum: 255
       end
