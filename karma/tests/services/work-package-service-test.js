@@ -66,6 +66,7 @@ describe('WorkPackageService', function() {
     var setupFunction;
     var workPackageId = 5;
     var apiResource;
+    var apiFetchResource;
 
     beforeEach(inject(function($q) {
       apiResource = {
@@ -75,18 +76,24 @@ describe('WorkPackageService', function() {
           return deferred.promise;
         }
       }
-    }))
+    }));
 
     beforeEach(inject(function(HALAPIResource) {
       setupFunction = sinon.stub(HALAPIResource, 'setup').returns(apiResource);
     }));
 
     beforeEach(inject(function() {
-      WorkPackageService.getWorkPackage(workPackageId);
-    }))
+      apiFetchResource = WorkPackageService.getWorkPackage(workPackageId);
+    }));
 
     it('makes an api setup call', function() {
       expect(setupFunction).to.have.been.calledWith("work_packages/" + workPackageId);
-    })
+    });
+
+    it('returns work package', function() {
+      apiFetchResource.then(function(wp){
+        expect(wp.id).to.equal(workPackageId);
+      });
+    });
   });
 });
