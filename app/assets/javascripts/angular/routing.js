@@ -63,6 +63,18 @@ angular.module('openproject')
     .state('work-packages.list.details.activity', {
       url: "/activity",
       templateUrl: "/templates/tabs/activity.html",
+    })
+    .state('work-packages.list.details.relations', {
+      url: "/relations",
+      templateUrl: "/templates/tabs/relations.html",
+    })
+    .state('work-packages.list.details.watchers', {
+      url: "/watchers",
+      templateUrl: "/templates/tabs/watchers.html",
+    })
+    .state('work-packages.list.details.attachments', {
+      url: "/attachments",
+      templateUrl: "/templates/tabs/attachments.html",
     });
 }])
 
