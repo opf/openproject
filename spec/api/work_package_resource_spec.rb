@@ -68,7 +68,7 @@ describe 'API v3 Work package resource' do
 
       it 'should respond with work package in HAL+JSON format' do
         parsed_response = JSON.parse(last_response.body)
-        parsed_response['id'].should eq(work_package.id)
+        parsed_response.should eq(expected_response)
       end
 
       context 'requesting nonexistent work package' do
