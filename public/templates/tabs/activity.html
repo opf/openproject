@@ -1,8 +1,10 @@
 <div class="detail-panel-content" >
-  <h3>Activity</h3>
   <div class="detail-activity">
     <ul class="work-package-details-activities">
-      <li ng-repeat="activity in activities">
+      <li ng-repeat="activity in activities" ng-init="currentDate = (activity.props.createdAt|date:'longDate')">
+        <h3 class="activity-date"
+            ng-if="currentDate !== (activities[$index-1].props.createdAt | date:'longDate')"
+            ng-bind="currentDate"/>
         <div class="comments-number"><a ng-href="#{{$index+1}}" ng-bind="$index+1"></a>
           <div class="comments-icons"><i class="icon-quote"></i><i class="icon-edit"></i></div>
         </div>
