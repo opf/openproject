@@ -30,10 +30,8 @@ angular.module('openproject.workPackages.controllers')
 
 .controller('WorkPackageDetailsController', [
   '$scope',
-  '$stateParams',
-  'WorkPackageService',
   'workPackage',
-  function($scope, $stateParams, WorkPackageService, workPackage) {
+  function($scope, workPackage) {
     $scope.workPackage = workPackage;
   }
 ]);

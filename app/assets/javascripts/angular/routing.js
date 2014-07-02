@@ -51,7 +51,6 @@ angular.module('openproject')
       controller: 'WorkPackageDetailsController',
       resolve: {
         workPackage: function(WorkPackageService, $stateParams) {
-          // TODO fetch work package from service here
           return WorkPackageService.getWorkPackage($stateParams.workPackageId);
         }
       }
