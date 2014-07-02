@@ -214,7 +214,6 @@ en:
       label_options: "Options"
       message_error_during_bulk_delete: An error occurred while trying to delete work packages.
       message_successful_bulk_delete: Successfully deleted work packages.
-      message_please_refresh: Please refresh page to see changes to menu.
       description_filter: "Filter"
       description_enter_text: "Enter text"
       description_options_hide: "Hide options"
