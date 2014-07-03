@@ -30,17 +30,14 @@ angular.module('openproject.workPackages.controllers')
 
 .controller('WorkPackageDetailsController', [
   '$scope',
-  '$stateParams',
-  'WorkPackageService',
-  function($scope, $stateParams, WorkPackageService) {
+  'workPackage',
+  function($scope, workPackage) {
+    $scope.workPackage = workPackage;
+    $scope.activities = workPackage.embedded.activities;
+    $scope.watchers = workPackage.embedded.watchers;
 
-    $scope.workPackageId = $stateParams.workPackageId;
-    $scope.$watch('rows', function(rows) {
-      if (rows && rows.length > 0) {
-        WorkPackageService.getWorkPackage($scope.workPackageId).then(function(workPackage) {
-          $scope.workPackage = workPackage;
-        });
-      }
-    });
+    $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
+
+    $scope.toggleStates = {};
   }
 ]);

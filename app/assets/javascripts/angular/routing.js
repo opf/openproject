@@ -48,7 +48,32 @@ angular.module('openproject')
     .state('work-packages.list.details', {
       url: "/{workPackageId:[0-9]+}",
       templateUrl: "/templates/work_packages.list.details.html",
-      controller: 'WorkPackageDetailsController'
+      controller: 'WorkPackageDetailsController',
+      resolve: {
+        workPackage: function(WorkPackageService, $stateParams) {
+          return WorkPackageService.getWorkPackage($stateParams.workPackageId);
+        }
+      }
+    })
+    .state('work-packages.list.details.overview', {
+      url: "/overview",
+      templateUrl: "/templates/tabs/overview.html",
+    })
+    .state('work-packages.list.details.activity', {
+      url: "/activity",
+      templateUrl: "/templates/tabs/activity.html",
+    })
+    .state('work-packages.list.details.relations', {
+      url: "/relations",
+      templateUrl: "/templates/tabs/relations.html",
+    })
+    .state('work-packages.list.details.watchers', {
+      url: "/watchers",
+      templateUrl: "/templates/tabs/watchers.html",
+    })
+    .state('work-packages.list.details.attachments', {
+      url: "/attachments",
+      templateUrl: "/templates/tabs/attachments.html",
     });
 }])
 

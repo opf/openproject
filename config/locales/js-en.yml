@@ -38,6 +38,7 @@ en:
     button_edit: "Edit"
     button_log_time: "Log time"
     button_move: "Move"
+    button_quote: "Quote"
     button_uncheck_all: "Uncheck all"
     button_update: "Update"
     description_available_columns: "Available Columns"

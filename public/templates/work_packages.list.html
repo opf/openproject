@@ -33,7 +33,7 @@
           </li>
           <li feature-flag="detailsView">
             <button class="button"
-                    ui-sref="work-packages.list.details({})"
+                    ui-sref="work-packages.list.details.overview({workPackageId: preselectedWorkPackageId})"
                     ui-sref-active="active">
               <i class="icon-table-detail-view icon-buttons"></i>
             </button>
@@ -131,6 +131,6 @@
     <modal-loading>
     </modal-loading>
   </div>
-  <div class="work-packages--details" ui-view
+  <div class="work-packages--details" ui-view ng-show="workPackage"
     feature-flag="detailsView"></div>
 </div>
