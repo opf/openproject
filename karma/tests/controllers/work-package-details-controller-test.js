@@ -45,6 +45,9 @@ describe('WorkPackageDetailsController', function() {
         workPackage: {
           props: {
             id: workPackageId
+          },
+          embedded: {
+            activities: []
           }
         }
       });
