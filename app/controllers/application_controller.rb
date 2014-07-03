@@ -427,8 +427,15 @@ class ApplicationController < ActionController::Base
     if !back_url.blank?
       begin
         uri = URI.parse(back_url)
-        # do not redirect user to another host or to the login or register page
-        if (uri.relative? || (uri.host == request.host)) && !uri.path.match(%r{/(login|account/register)})
+
+        # do not redirect user to another host (even protocol relative urls have the host set)
+        # whenever a host is set it must match the request's host
+        uri_local_to_host = uri.host.nil? || uri.host == request.host
+
+        # do not redirect user to the login or register page
+        uri_path_allowed  = !uri.path.match(%r{/(login|account/register)})
+
+        if uri_local_to_host && uri_path_allowed
           redirect_to(back_url)
           return
         end
