@@ -4,22 +4,12 @@
   <div class="detail-panel-description-content">
     {{ workPackage.props.description }}
   </div>
+  <panel-expander collapsed="toggleStates.hideFullDescription"
+                  expand-text="Show full description"
+                  collapse-text="Hide full description">
+  </panel-expander>
 </div>
 
-<div class="panel-toggler" ng-click="toggleStates.hideFullDescription = !toggleStates.hideFullDescription">
-  <fieldset>
-    <legend align="center">
-      <span ng-if="!toggleStates.hideFullDescription">
-        <i class="icon-arrow-right5-3"></i>
-        Hide full description
-      </span>
-      <span ng-if="toggleStates.hideFullDescription">
-        <i class="icon-arrow-right5-2"></i>
-        Show full description
-      </span>
-    </legend>
-  </fieldset>
-</div>
 
 <div class="detail-panel-attributes">
   <!-- present attributes -->
@@ -51,23 +41,11 @@
         <span> - </span>
       </li>
   </ul>
-  <div class="panel-toggler"
-       ng-if="emptyWorkPackageProperties.length"
-       ng-click="toggleStates.hideAllAttributes = !toggleStates.hideAllAttributes">
-    <fieldset>
-      <legend align="center">
-        <span ng-if="!toggleStates.hideAllAttributes">
-          <i class="icon-arrow-right5-3"></i>
-          Hide empty attributes
-        </span>
-        <span ng-if="toggleStates.hideAllAttributes">
-          <i class="icon-arrow-right5-2"></i>
-          Show all attributes
-        </span>
-      </legend>
-    </fieldset>
-  </div>
-
+  <panel-expander ng-if="emptyWorkPackageProperties.length"
+                  collapsed="toggleStates.hideAllAttributes"
+                  expand-text="Show all attributes"
+                  collapse-text="Hide empty attributes">
+  </panel-expander>
 </div>
 
 
