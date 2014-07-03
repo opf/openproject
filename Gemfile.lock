@@ -212,6 +212,7 @@ GEM
       rack-accept
       rack-mount
       virtus (>= 1.0.0)
+    gravatar_image_tag (1.2.0)
     hashie (2.1.1)
     hike (1.2.3)
     hooks (0.3.3)
@@ -461,6 +462,7 @@ DEPENDENCIES
   globalize
   gon (~> 4.0)
   grape (~> 0.7.0)
+  gravatar_image_tag
   htmldiff
   i18n (>= 0.6.8)
   i18n-js!
