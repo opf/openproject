@@ -72,30 +72,6 @@ module API
             } unless represented.work_package.assigned_to.nil?
         end
 
-        link :author do
-            {
-                href: "#{root_url}/api/v3/users/#{represented.work_package.author.id}",
-                title: "#{represented.work_package.author.name} - #{represented.work_package.author.login}"
-            }
-            unless represented.work_package.author.nil?
-        end
-
-        link :responsible do
-            {
-                href: "#{root_url}/api/v3/users/#{represented.work_package.responsible.id}",
-                title: "#{represented.work_package.responsible.name} - #{represented.work_package.responsible.login}"
-            }
-            unless represented.work_package.responsible.nil?
-        end
-
-        link :assignee do
-            {
-                href: "#{root_url}/api/v3/users/#{represented.work_package.assigned_to.id}",
-                title: "#{represented.work_package.assigned_to.name} - #{represented.work_package.assigned_to.login}"
-            }
-            unless represented.work_package.assigned_to.nil?
-        end
-
         property :id, getter: -> (*) { work_package.id }, render_nil: true
         property :subject, render_nil: true
         property :type, render_nil: true
