@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -27,20 +26,32 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'reform'
-require 'reform/form/coercion'
+require 'spec_helper'
 
-module API
-  module V3
-    module Users
-      class UserModel < Reform::Form
-        include Coercion
-        include GravatarImageTag
+describe ::API::V3::Users::UserRepresenter do
+  let(:user)             { FactoryGirl.create(:user) }
+  let(:model)          { ::API::V3::Users::UserModel.new(user) }
+  let(:representer) { described_class.new(model) }
 
-        property :login, type: String
-        property :firstname, type: String
-        property :lastname, type: String
-        property :mail, type: String
+  context 'generation' do
+    subject(:generated) { representer.to_json }
+
+    it { should include_json('User'.to_json).at_path('_type') }
+
+    describe 'user' do
+      it { should have_json_path('id')   }
+      it { should have_json_path('login') }
+      it { should have_json_path('firstName') }
+      it { should have_json_path('lastName') }
+      it { should have_json_path('mail') }
+      it { should have_json_path('avatar') }
+      it { should have_json_path('createdAt') }
+      it { should have_json_path('updatedAt') }
+    end
+
+    describe '_links' do
+      it 'should link to self' do
+        expect(subject).to have_json_path('_links/self/href')
       end
     end
   end
