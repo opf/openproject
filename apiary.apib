@@ -13,7 +13,7 @@ TODO: Description and why only JSON
 HAL is a simple format that gives a consistent and easy way to hyperlink between resources in your API.
 Read more: http://stateless.co/hal_specification.html
 
-**OpenProject API implementation of HAL+JSON format** enriches JSON and introduces a few meta attributes:
+**OpenProject API implementation of HAL+JSON format** enriches JSON and introduces a few meta properties:
 
     - `_type` - specifies the type of the resource (E.g.: WorkPackage, Project)
     - `_links` - contains all links available for the resource
@@ -31,7 +31,7 @@ Depending on the performed request, the OpenProject API will return a response i
 - As an **OpenProject API error object**
 
 ### Simple HAL+JSON object
-Contains its own data attributes and some meta attributes:
+Contains its own data properties and some meta properties:
 
         {
             "id": 1,
@@ -50,7 +50,7 @@ Contains its own data attributes and some meta attributes:
         }
 
 ### Collection of HAL+JSON objects
-Contains collection of simple HAL+JSON objects in its `_collection` attribute. Also contains some collection
+Contains collection of simple HAL+JSON objects in its `_collection` property. Also contains some collection
 specific meta data:
 
     {
@@ -166,8 +166,8 @@ This allows you to see exactly what went wrong and inform the user.
 
 # Group Work packages
 
-## Attributes:
-| Attribute | Description | Type | Constraints | Example | Supported operations |
+## Properties:
+| Property | Description | Type | Constraints | Example | Supported operations |
 |:---------:|-------------| ---- | ----------- | ------- | -------------------- |
 | id | Work package id | Integer | Must be a positive integer | 12 | READ |
 | subject | Work package subject | String | **REQUIRED** Must be a string of 255 or less characters | Refactor projecs module | READ / WRITE |
@@ -260,21 +260,17 @@ This is [an example][id] reference-style link.
                             "_links": {
                                 "self": {
                                     "href": "https://openproject.org/api/v3/users/1",
-                                    "title": "John Sheppard - admin"
-                                },
-                                "workPackage": {
-                                    "href": "https://openproject.org/api/v3/work_packages/1",
-                                    "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
+                                    "title": "John Sheppard - j.sheppard"
                                 }
                             },
                             "id": 1,
-                            "login": "admin",
-                            "firstname": "John",
-                            "lastname": "Sheppard",
-                            "mail": "admin@example.net",
-                            "avatar": "http://gravatar/avatar",
+                            "login": "j.sheppard",
+                            "firstName": "John",
+                            "lastName": "Sheppard",
+                            "mail": "shep@mail.com",
+                            "avatar": "https://gravatar/avatar",
                             "createdAt": "2014-05-21T08:51:20Z",
-                            "updatedAt": "2014-05-22T09:41:29Z"
+                            "updatedAt": "2014-05-21T08:51:20Z"
                         }
                     ],
                     "relations": [
@@ -385,8 +381,8 @@ This is [an example][id] reference-style link.
 
 # Group Queries
 
-## Attributes:
-| Attribute | Description | Type | Constraints | Example | Supported operations |
+## Properties:
+| Property | Description | Type | Constraints | Example | Supported operations |
 |:---------:|-------------| ---- | ----------- | ------- | -------------------- |
 | id | Query id | Integer | Must be a positive integer | 12 | READ |
 | name | Query name | String | | My work packages query | READ / WRITE |
@@ -601,8 +597,8 @@ This is [an example][id] reference-style link.
 
 # Group Activities
 
-## Attributes:
-| Attribute | Description | Type | Constraints | Example | Supported operations |
+## Properties:
+| Property | Description | Type | Constraints | Example | Supported operations |
 |:---------:|-------------| ---- | ----------- | ------- | -------------------- |
 | id | Activity id | Integer | Must be a positive integer | 12 | READ |
 | version | Activity version | Integer | Must be a positive integer | 31 | READ |
@@ -653,3 +649,50 @@ This is [an example][id] reference-style link.
 + Response 200 (application/hal+json)
 
     [Activity][]
+    
+# Group Users
+
+## Properties:
+| Property | Description | Type | Constraints | Example | Supported operations |
+|:---------:|-------------| ---- | ----------- | ------- | -------------------- |
+| id | User's id | Integer | Must be a positive integer | 12 | READ |
+| login | User's login name | String | | j.sheppard | READ / WRITE |
+| firstName | User's first name | String | | John | READ / WRITE |
+| lastName | User's last name | String | | Sheppard | READ / WRITE |
+| mail | User's email | String | | shep@mail.com | READ / WRITE |
+| avatar | URL to user's avatar | String | | https://gravatar/avatar | READ |
+| createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
+| updatedAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
+
+
+## User [/users/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "User",
+                "_links": {
+                    "self": {
+                        "href": "https://openproject.org/api/v3/users/1",
+                        "title": "John Sheppard - j.sheppard"
+                    }
+                },
+                "id": 1,
+                "login": "j.sheppard",
+                "firstName": "John",
+                "lastName": "Sheppard",
+                "mail": "shep@mail.com",
+                "avatar": "https://gravatar/avatar",
+                "createdAt": "2014-05-21T08:51:20Z",
+                "updatedAt": "2014-05-21T08:51:20Z"
+            }
+
+## View user [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... User id
+
++ Response 200 (application/hal+json)
+
+    [User][]
