@@ -34,10 +34,16 @@ angular.module('openproject.workPackages.controllers')
   function($scope, workPackage) {
     $scope.workPackage = workPackage;
     $scope.activities = workPackage.embedded.activities;
+    $scope.latestActitivies = $scope.activities.reverse().slice(0, 3);
     $scope.watchers = workPackage.embedded.watchers;
 
     $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
 
     $scope.toggleStates = {};
+
+    $scope.editWorkPackage = function() {
+      // TODO: Temporarily going to the old edit dialog until we get in-place editing done
+      window.location = "/work_packages/" + $scope.workPackage.props.id;
+    }
   }
 ]);
