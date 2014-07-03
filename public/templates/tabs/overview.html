@@ -6,14 +6,14 @@
   </div>
 </div>
 
-<div class="panel-toggler" ng-click="hideFullDescription = !hideFullDescription">
+<div class="panel-toggler" ng-click="toggleStates.hideFullDescription = !toggleStates.hideFullDescription">
   <fieldset>
     <legend align="center">
-      <span ng-if="!hideFullDescription">
+      <span ng-if="!toggleStates.hideFullDescription">
         <i class="icon-arrow-right5-2"></i>
         Hide full description
       </span>
-      <span ng-if="hideFullDescription">
+      <span ng-if="toggleStates.hideFullDescription">
         <i class="icon-arrow-right5-3"></i>
         Show full description
       </span>
@@ -21,7 +21,7 @@
   </fieldset>
 </div>
 
-<div class="detail-panel-attributes" slide-toggle collapsed="hideFullDescription">
+<div class="detail-panel-attributes" slide-toggle collapsed="toggleStates.hideFullDescription">
   <ul>
     <li><label>Status</label>{{ workPackage.props.status }}</li>
     <li><label>Priortiy</label>{{ workPackage.props.priority }}</li>
@@ -36,14 +36,14 @@
   </ul>
 </div>
 
-<div class="panel-toggler" ng-click="hideAllAttributes = !hideAllAttributes">
+<div class="panel-toggler" ng-click="toggleStates.hideAllAttributes = !toggleStates.hideAllAttributes">
   <fieldset>
     <legend align="center">
-      <span ng-if="!hideAllAttributes">
+      <span ng-if="!toggleStates.hideAllAttributes">
         <i class="icon-arrow-right5-2"></i>
         Hide all attributes
       </span>
-      <span ng-if="hideAllAttributes">
+      <span ng-if="toggleStates.hideAllAttributes">
         <i class="icon-arrow-right5-3"></i>
         Show all attributes
       </span>
@@ -51,7 +51,7 @@
   </fieldset>
 </div>
 
-<div class="detail-panel-latest-activity" slide-toggle collapsed="hideAllAttributes">
+<div class="detail-panel-latest-activity" slide-toggle collapsed="toggleStates.hideAllAttributes">
   <h3>Latest activity</h3>
   <ul>
     <li>

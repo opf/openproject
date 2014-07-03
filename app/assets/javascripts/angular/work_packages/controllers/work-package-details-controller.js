@@ -37,5 +37,7 @@ angular.module('openproject.workPackages.controllers')
     $scope.watchers = workPackage.embedded.watchers;
 
     $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
+
+    $scope.toggleStates = {};
   }
 ]);
