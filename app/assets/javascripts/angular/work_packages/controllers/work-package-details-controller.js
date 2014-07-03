@@ -31,13 +31,34 @@ angular.module('openproject.workPackages.controllers')
 .controller('WorkPackageDetailsController', [
   '$scope',
   'workPackage',
-  function($scope, workPackage) {
+  'I18n',
+  function($scope, workPackage, I18n) {
+    // initialization
     $scope.workPackage = workPackage;
+    $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
+
+    // resources for tabs
     $scope.activities = workPackage.embedded.activities;
     $scope.watchers = workPackage.embedded.watchers;
 
-    $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
+    // work package properties
+    $scope.presentWorkPackageProperties = [];
+    $scope.emptyWorkPackageProperties = [];
 
-    $scope.toggleStates = {};
+    angular.forEach(workPackage.props, function(value, property) {
+      if (value) {
+        var label = property; //I18n.t('js.filter_labels.' + property);
+        $scope.presentWorkPackageProperties.push(label);
+      } else {
+        var label = property; //I18n.t('js.filter_labels.' + property);
+        $scope.emptyWorkPackageProperties.push(label);
+      }
+    });
+
+    // toggles
+    $scope.toggleStates = {
+      hideFullDescription: true,
+      hideAllAttributes: true
+    };
   }
 ]);
