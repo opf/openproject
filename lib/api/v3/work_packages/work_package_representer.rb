@@ -51,6 +51,27 @@ module API
           { href: "#{root_url}/api/v3/work_packages/#{represented.work_package.id}", title: "#{represented.subject}" }
         end
 
+        link :author do
+            {
+                href: "#{root_url}/api/v3/users/#{represented.work_package.author.id}",
+                title: "#{represented.work_package.author.name} - #{represented.work_package.author.login}"
+            } unless represented.work_package.author.nil?
+        end
+
+        link :responsible do
+            {
+                href: "#{root_url}/api/v3/users/#{represented.work_package.responsible.id}",
+                title: "#{represented.work_package.responsible.name} - #{represented.work_package.responsible.login}"
+            } unless represented.work_package.responsible.nil?
+        end
+
+        link :assignee do
+            {
+                href: "#{root_url}/api/v3/users/#{represented.work_package.assigned_to.id}",
+                title: "#{represented.work_package.assigned_to.name} - #{represented.work_package.assigned_to.login}"
+            } unless represented.work_package.assigned_to.nil?
+        end
+
         property :id, getter: -> (*) { work_package.id }, render_nil: true
         property :subject, render_nil: true
         property :type, render_nil: true
@@ -82,8 +103,12 @@ module API
         property :created_at, getter: -> (*) { work_package.created_at.utc.iso8601}, render_nil: true
         property :updated_at, getter: -> (*) { work_package.updated_at.utc.iso8601}, render_nil: true
 
-        collection :activities, embedded: true, class: ::API::V3::Activities::ActivityModel, decorator: ::API::V3::Activities::ActivityRepresenter
-        collection :watchers, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter
+        property :author, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, render_nil: true
+        property :responsible, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, render_nil: true
+        property :assignee, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, render_nil: true
+
+        collection :activities, embedded: true, class: ::API::V3::Activities::ActivityModel, decorator: ::API::V3::Activities::ActivityRepresenter, render_nil: true
+        collection :watchers, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, render_nil: true
 
         def _type
           'WorkPackage'
