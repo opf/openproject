@@ -39,6 +39,7 @@ module API
       mount API::V3::WorkPackages::WorkPackagesAPI
       mount API::V3::Queries::QueriesAPI
       mount API::V3::Attachments::AttachmentsAPI
+      mount ::API::V3::Users::UsersAPI
     end
   end
 end
