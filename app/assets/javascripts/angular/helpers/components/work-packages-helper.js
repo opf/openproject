@@ -106,6 +106,22 @@ angular.module('openproject.workPackages.helpers')
           return value;
       }
     },
+    formatWorkPackageProperty: function(value, propertyName) {
+      switch(propertyName) {
+        case 'dueDate':
+          return this.formatValue(value, 'date');
+        case 'startDate':
+          return this.formatValue(value, 'date');
+        case 'createdAt':
+          return this.formatValue(value, 'datetime');
+        case 'updatedAt':
+          return this.formatValue(value, 'datetime');
+        case 'estimatedTime':
+          return value && value.value ? value.value + ' ' + value.units : null;
+        default:
+          return value;
+      }
+    },
 
     parseDateTime: function(value) {
       return new Date(Date.parse(value.replace(/(A|P)M$/, '')));

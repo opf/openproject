@@ -18,21 +18,6 @@
       <label ng-bind="property"/>
       <span ng-bind="value"/>
     </li>
-
-    <!-- custom formattings -->
-    <li ng-if="workPackage.props.startDate && workPackage.props.dueDate">
-      <label>Date</label>{{ workPackage.props.startDate }} - {{ workPackage.props.dueDate }}
-    </li>
-    <li ng-if="workPackage.props.responsibleName">
-      <label>Responsible</label>
-      <img class="avatar" src="images/avatar_logout.png" /><span  class="user"><a href="#">{{ workPackage.props.responsibleName }}</a></span>
-    <span class="role">{{ workPackage.props.responsibleRole }}</span>
-    </li>
-    <li ng-if="workPackage.props.assigneeName">
-      <label>Assignee</label><img class="avatar" src="images/avatar_logout.png" /><span   class="user"><a href="#">{{ workPackage.props.assigneeName }}</a></span>
-      <span class="role">{{ workPackage.props.assigneeRole }}</span>
-    </li>
-  </ul>
   <!-- empty attributes -->
   <ul class="work-package-details-overview-tab-empty-attributes"
       slide-toggle collapsed="toggleStates.hideAllAttributes">
