@@ -4,7 +4,7 @@
                 width="80px">
   </progress-bar>
 
-  <a ng-switch-when="link" href="{{ url }}">{{ displayText }}</a>
+  <a ng-switch-when="link" href="{{ url }}" title="{{ displayText }}">{{ displayText | characters:50 }}</a>
 
-  <span ng-switch-default>{{ displayText }}</span>
+  <span ng-switch-default>{{ displayText | characters:50 }}</span>
 </span>
