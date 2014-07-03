@@ -46,12 +46,14 @@ angular.module('openproject.workPackages.controllers')
     $scope.emptyWorkPackageProperties = [];
 
     angular.forEach(workPackage.props, function(value, property) {
-      if (value) {
-        var label = property; //I18n.t('js.filter_labels.' + property);
-        $scope.presentWorkPackageProperties.push(label);
-      } else {
-        var label = property; //I18n.t('js.filter_labels.' + property);
-        $scope.emptyWorkPackageProperties.push(label);
+      if (property[0] !== '_') {
+        if (value) {
+          var label = property; //I18n.t('js.filter_labels.' + property);
+          $scope.presentWorkPackageProperties.push(label);
+        } else {
+          var label = property; //I18n.t('js.filter_labels.' + property);
+          $scope.emptyWorkPackageProperties.push(label);
+        }
       }
     });
 
