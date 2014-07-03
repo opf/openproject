@@ -28,11 +28,20 @@
 
 angular.module('openproject.workPackages.controllers')
 
+.constant('DEFAULT_WORK_PACKAGE_PROPERTIES', [
+  'status', 'assigneeName', 'responsibleName',
+  'date', 'percentageDone', 'priority',
+  'authorName', 'createdAt', 'dueDate',
+  'estimatedTime', 'startDate', 'updatedAt',
+  'versionName'
+])
+
 .controller('WorkPackageDetailsController', [
   '$scope',
   'workPackage',
   'I18n',
-  function($scope, workPackage, I18n) {
+  'DEFAULT_WORK_PACKAGE_PROPERTIES',
+  function($scope, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES) {
     // initialization
     $scope.workPackage = workPackage;
     $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
@@ -42,18 +51,19 @@ angular.module('openproject.workPackages.controllers')
     $scope.watchers = workPackage.embedded.watchers;
 
     // work package properties
-    $scope.presentWorkPackageProperties = [];
+    $scope.presentWorkPackageProperties = {};
     $scope.emptyWorkPackageProperties = [];
 
-    angular.forEach(workPackage.props, function(value, property) {
-      if (property[0] !== '_') {
-        if (value) {
-          var label = property; //I18n.t('js.filter_labels.' + property);
-          $scope.presentWorkPackageProperties.push(label);
-        } else {
-          var label = property; //I18n.t('js.filter_labels.' + property);
-          $scope.emptyWorkPackageProperties.push(label);
-        }
+    var workPackageProperties = DEFAULT_WORK_PACKAGE_PROPERTIES;
+
+    angular.forEach(workPackageProperties, function(property) {
+      var value = workPackage.props[property];
+      if (value) {
+        var label = property; //I18n.t('js.filter_labels.' + property);
+        $scope.presentWorkPackageProperties[label] = value;
+      } else {
+        var label = property; //I18n.t('js.filter_labels.' + property);
+        $scope.emptyWorkPackageProperties.push(label);
       }
     });
 

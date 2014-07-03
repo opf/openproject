@@ -14,9 +14,9 @@
 <div class="detail-panel-attributes">
   <!-- present attributes -->
   <ul>
-    <li ng-repeat="property in presentWorkPackageProperties">
+    <li ng-repeat="(property, value) in presentWorkPackageProperties">
       <label ng-bind="property"/>
-      <span ng-bind="workPackage.props[property]"/>
+      <span ng-bind="value"/>
     </li>
 
     <!-- custom formattings -->
