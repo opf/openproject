@@ -70,16 +70,16 @@ module API
     end
 
     rescue_from ActiveRecord::RecordInvalid do |e|
-      error = API::Errors::Validation.new(e.record)
+      error = ::API::Errors::Validation.new(e.record)
       Rack::Response.new(error.to_json, error.code, error.headers).finish
     end
 
     rescue_from ActiveRecord::RecordNotFound do |e|
-      error = API::Errors::NotFound.new(e.message)
+      error = ::API::Errors::NotFound.new(e.message)
       Rack::Response.new(error.to_json, error.code, error.headers).finish
     end
 
-    rescue_from API::Errors::Unauthorized, API::Errors::Unauthenticated, API::Errors::Validation do |e|
+    rescue_from ::API::Errors::Unauthorized, ::API::Errors::Unauthenticated, ::API::Errors::Validation do |e|
       Rack::Response.new(e.to_json, e.code, e.headers).finish
     end
 
