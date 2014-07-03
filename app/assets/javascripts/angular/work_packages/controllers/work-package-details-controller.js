@@ -57,12 +57,11 @@ angular.module('openproject.workPackages.controllers')
     var workPackageProperties = DEFAULT_WORK_PACKAGE_PROPERTIES;
 
     angular.forEach(workPackageProperties, function(property) {
+      var label = I18n.t('js.work_packages.properties.' + property);
       var value = workPackage.props[property];
       if (value) {
-        var label = property; //I18n.t('js.filter_labels.' + property);
         $scope.presentWorkPackageProperties[label] = value;
       } else {
-        var label = property; //I18n.t('js.filter_labels.' + property);
         $scope.emptyWorkPackageProperties.push(label);
       }
     });
