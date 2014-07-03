@@ -29,7 +29,7 @@
 angular.module('openproject.helpers')
 
 .constant('CUSTOM_FIELD_PREFIX', 'cf_')
-.service('CustomFieldHelper', ['CUSTOM_FIELD_PREFIX', 'I18n', function(CUSTOM_FIELD_PREFIX, I18n) {
+.service('CustomFieldHelper', ['$filter', 'CUSTOM_FIELD_PREFIX', 'I18n', function($filter, CUSTOM_FIELD_PREFIX, I18n) {
 
   CustomFieldHelper = {
     isCustomFieldKey: function(key) {
@@ -68,7 +68,7 @@ angular.module('openproject.helpers')
         case 'float':
           return CustomFieldHelper.parseNumeric(value, parseFloat);
         default:
-          return value;
+          return $filter('characters')(value, 20);
       }
     }
   };
