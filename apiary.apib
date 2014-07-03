@@ -223,6 +223,57 @@ This is [an example][id] reference-style link.
                     },
                 },
                 "_embedded": {
+                    "author": {
+                        "_type": "User",
+                        "_links": {
+                            "self": {
+                                "href": "https://openproject.org/api/v3/users/1",
+                                "title": "John Sheppard - j.sheppard"
+                            }
+                        },
+                        "id": 1,
+                        "login": "j.sheppard",
+                        "firstName": "John",
+                        "lastName": "Sheppard",
+                        "mail": "shep@mail.com",
+                        "avatar": "https://gravatar/avatar",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
+                    },
+                    "responsible": {
+                        "_type": "User",
+                        "_links": {
+                            "self": {
+                                "href": "https://openproject.org/api/v3/users/1",
+                                "title": "John Sheppard - j.sheppard"
+                            }
+                        },
+                        "id": 1,
+                        "login": "j.sheppard",
+                        "firstName": "John",
+                        "lastName": "Sheppard",
+                        "mail": "shep@mail.com",
+                        "avatar": "https://gravatar/avatar",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
+                    },
+                    "assignee": {
+                        "_type": "User",
+                        "_links": {
+                            "self": {
+                                "href": "https://openproject.org/api/v3/users/1",
+                                "title": "John Sheppard - j.sheppard"
+                            }
+                        },
+                        "id": 1,
+                        "login": "j.sheppard",
+                        "firstName": "John",
+                        "lastName": "Sheppard",
+                        "mail": "shep@mail.com",
+                        "avatar": "https://gravatar/avatar",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
+                    },
                     "activities": [
                         {
                             "_type": "Activity::Comment",
@@ -340,20 +391,6 @@ This is [an example][id] reference-style link.
                 "targetVersionName": "sprint-01",
                 "projectId": 1,
                 "projectName": "Seeded Project",
-                "responsibleId": 1,
-                "responsibleName": "OpenProject Admin",
-                "responsibleLogin": "admin",
-                "responsibleMail": "admin@example.net",
-                "responsibleAvatar": "http://gravatar/avatar",
-                "assigneeId": 22,
-                "assigneeName": "Vivienne Windler",
-                "assigneeLogin": "Yoshiko8884",
-                "assigneeMail": "gabriel.osinski@glover.name",
-                "assigneeAvatar": "http://gravatar/avatar",
-                "authorName": "Delia Schneider",
-                "authorLogin": "Layla3137",
-                "authorMail": "charlene.terry@stromanko.org",
-                "authorAvatar": "http://gravatar/avatar",
                 "createdAt": "2014-05-21T08:51:20Z",
                 "updatedAt": "2014-05-22T09:41:29Z",
                 "customProperties": [
