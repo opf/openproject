@@ -36,7 +36,7 @@ module API
       class UserRepresenter < Roar::Decorator
         include Roar::Representer::JSON::HAL
         include Roar::Representer::Feature::Hypermedia
-        include Rails.application.routes.url_helpers
+        include OpenProject::StaticRouting::UrlHelpers
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
@@ -59,12 +59,6 @@ module API
         def _type
           'User'
         end
-
-        private
-
-          def default_url_options
-            ActionController::Base.default_url_options
-          end
       end
     end
   end
