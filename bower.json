@@ -19,7 +19,7 @@
     "angular-modal": "~0.4.0",
     "angular-sanitize": "~1.2.14",
     "angular-truncate": "sparkalow/angular-truncate",
-    "angular-feature-flags": "mjt01/angular-feature-flags",
+    "angular-feature-flags": "mjt01/angular-feature-flags#ca40201e2279777dc3820c783f60f845cefff731",
     "jquery-migrate": "~1.2.1",
     "momentjs": "~2.6.0",
     "moment-timezone": "~0.0.6",
