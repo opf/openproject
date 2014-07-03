@@ -36,8 +36,9 @@ module API
     class Root < Grape::API
       version 'v3', using: :path
 
-      mount API::V3::WorkPackages::WorkPackagesAPI
-      mount API::V3::Queries::QueriesAPI
+      mount ::API::V3::WorkPackages::WorkPackagesAPI
+      mount ::API::V3::Queries::QueriesAPI
+      mount ::API::V3::Users::UsersAPI
     end
   end
 end
