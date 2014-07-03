@@ -43,7 +43,7 @@ module API
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "#{root_url}/api/v3/users/#{represented.model.id}", title: "#{represented.model.name} - #{represented.model.login}" }
+          { href: "#{root_url}api/v3/users/#{represented.model.id}", title: "#{represented.model.name} - #{represented.model.login}" }
         end
 
         # will need array of links for work packages the user is watching

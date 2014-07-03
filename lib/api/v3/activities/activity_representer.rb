@@ -43,15 +43,15 @@ module API
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "#{root_url}/api/v3/activities/#{represented.journal.id}", title: "#{represented.journal.id}" }
+          { href: "#{root_url}api/v3/activities/#{represented.journal.id}", title: "#{represented.journal.id}" }
         end
 
         link :work_package do
-          { href: "#{root_url}/api/v3/work_packages/#{represented.journal.journable.id}", title: "#{represented.journal.journable.subject}" }
+          { href: "#{root_url}api/v3/work_packages/#{represented.journal.journable.id}", title: "#{represented.journal.journable.subject}" }
         end
 
         link :user do
-          { href: "#{root_url}/api/v3/users/#{represented.journal.user.id}", title: "#{represented.journal.user.name} - #{represented.journal.user.login}" }
+          { href: "#{root_url}api/v3/users/#{represented.journal.user.id}", title: "#{represented.journal.user.name} - #{represented.journal.user.login}" }
         end
 
         property :id, getter: -> (*) { journal.id }, render_nil: true
@@ -80,12 +80,6 @@ module API
             [journal.notes]
           end
         end
-
-        private
-
-          def default_url_options
-            ActionController::Base.default_url_options
-          end
       end
     end
   end
