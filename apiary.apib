@@ -195,6 +195,8 @@ This allows you to see exactly what went wrong and inform the user.
 | createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 | updatedAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 
+This is [an example][id] reference-style link.
+
 ## WorkPackage [/work_packages/{id}]
 
 + Model
@@ -206,7 +208,19 @@ This allows you to see exactly what went wrong and inform the user.
                     "self": {
                         "href": "https://openproject.org/api/v3/work_packages/1",
                         "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
-                    }
+                    },
+                    "author": {
+                        "href": "https://openproject.org/api/v3/users/1",
+                        "title": "John Sheppard - j.sheppard"
+                    },
+                    "responsible": {
+                        "href": "https://openproject.org/api/v3/users/1",
+                        "title": "John Sheppard - j.sheppard"
+                    },
+                    "assignee": {
+                        "href": "https://openproject.org/api/v3/users/1",
+                        "title": "John Sheppard - j.sheppard"
+                    },
                 },
                 "_embedded": {
                     "activities": [
