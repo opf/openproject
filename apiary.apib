@@ -195,6 +195,8 @@ This allows you to see exactly what went wrong and inform the user.
 | createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 | updatedAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 
+This is [an example][id] reference-style link.
+
 ## WorkPackage [/work_packages/{id}]
 
 + Model
@@ -239,15 +241,10 @@ This allows you to see exactly what went wrong and inform the user.
                                 }
                             },
                             "id": 1,
-                            "userId": 1,
-                            "userName": "OpenProject Admin",
-                            "userLogin": "admin",
-                            "userMail": "admin@example.net",
-                            "userMail": null,
-                            "userAvatar": "http://gravatar/avatar",
-                            "messages": [
+                            "details": [
                                 "Lorem ipsum dolor sit amet."
                             ],
+                            "comment": "Lorem ipsum dolor sit amet.",
                             "createdAt": "2014-05-21T08:51:20Z",
                             "version": 31
                         }
@@ -615,7 +612,7 @@ This allows you to see exactly what went wrong and inform the user.
     + Body
 
             {
-                "_type": "Activity",
+                "_type": "Activity::Comment",
                 "_links": {
                     "self": {
                         "href": "https://openproject.org/api/v3/activity/1",
@@ -624,19 +621,19 @@ This allows you to see exactly what went wrong and inform the user.
                     "workPackage": {
                         "href": "https://openproject.org/api/v3/work_packages/1",
                         "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
+                    },
+                    "user": {
+                        "href": "https://openproject.org/api/v3/users/1",
+                        "title": "John Sheppard - admin"
                     }
                 },
                 "id": 1,
-                "version": 31,
-                "userId": 1,
-                "userName": "OpenProject Admin",
-                "userLogin": "admin",
-                "userMail": "admin@example.net",
-                "notes": "Lorem ipsum dolor sit amet.",
                 "details": [
-                    "Priority changed from High to Low"
+                    "Lorem ipsum dolor sit amet."
                 ],
-                "createdAt": "2014-05-21T08:51:20Z"
+                "comment": "Lorem ipsum dolor sit amet.",
+                "createdAt": "2014-05-21T08:51:20Z",
+                "version": 31
             }
 
 ## View activity [GET]
