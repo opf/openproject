@@ -40,16 +40,18 @@ Feature: Adding the document widget to personalisable pages
   Scenario: Adding a "Documents" widget to the my project page
     Given the plugin "openproject_my_project_page" is loaded
     And I am on the project "project1" overview personalization page
+    # Safeguard to ensure the page is loaded
+    And I should see "Add" within "#block-select"
     When I select "Documents" from the available widgets drop down
-    And I wait for the AJAX requests to finish
     Then the "Documents" widget should be in the hidden block
     And "Documents" should be disabled in the my project page available widgets drop down
 
   @javascript
   Scenario: Adding a "Documents" widget to the my page
-    And I am on the My page personalization page
+    Given I am on the My page personalization page
+    # Safeguard to ensure the page is loaded
+    And I should see "My page block"
     When I select "Documents" from the available widgets drop down
     And I click on "Add"
-    And I wait for the AJAX requests to finish
     Then the "Documents" widget should be in the top block
     And "Documents" should be disabled in the my page available widgets drop down
