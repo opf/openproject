@@ -41,6 +41,7 @@ module API
         model :journal
 
         property :user_id, on: :journal, type: Integer
+        property :notes, on: :journal, type: String
       end
     end
   end
