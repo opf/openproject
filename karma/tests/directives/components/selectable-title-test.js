@@ -103,7 +103,7 @@ describe('selectableTitle Directive', function() {
     it('should truncate long text for models', function() {
       var models = element.find('a');
       expect(jQuery(models[4]).text()).to.equal('Misunderstood anthropomorphic puppet pig');
-      expect(jQuery(models[5]).text()).to.equal('Badly misunderstood anthropomorphic...');
+      expect(jQuery(models[5]).text()).to.equal('Badly misunderstood anthropomorphic pupp...');
     });
 
     it('should show a title (tooltip) for models', function() {
@@ -126,6 +126,60 @@ describe('selectableTitle Directive', function() {
       expect(title.text()).to.equal('Title1');
 
       element.find('a').first().click();
+      expect(title.text()).to.equal('pinky1');
+    });
+
+    it('highlight the first element on key down pressed', function() {
+      var title = element.find('span').first();
+      expect(title.text().replace(/(\n|\s)/gm,"")).to.equal('Title1');
+
+      element.find('h2 span').first().click();
+      var listElements = element.find('li');
+
+      expect(jQuery(listElements[0]).hasClass('first')).to.be.false;
+
+      var e = jQuery.Event('keydown');
+      e.which = 40;
+      element.find('#title-filter').first().trigger(e);
+
+      expect(jQuery(listElements[0]).hasClass('first')).to.be.true;
+    });
+
+    it('highlight the second element on key down/up pressing group transitioning bonanza', function() {
+      var title = element.find('span').first();
+      expect(title.text().replace(/(\n|\s)/gm,"")).to.equal('Title1');
+
+      element.find('h2 span').first().click();
+      var listElements = element.find('li');
+
+      expect(jQuery(listElements[1]).hasClass('first')).to.be.false;
+
+      for(i = 0; i < 3; i++){
+        var e = jQuery.Event('keydown');
+        e.which = 40;
+        element.find('#title-filter').first().trigger(e);
+      }
+      var e = jQuery.Event('keydown');
+      e.which = 38;
+      element.find('#title-filter').first().trigger(e);
+
+      expect(jQuery(listElements[1]).hasClass('first')).to.be.true;
+    });
+
+    xit('should change the title when a model is selected with enter key', function() {
+      var title = element.find('span').first();
+      expect(title.text()).to.equal('Title1');
+
+      element.find('h2 span').first().click();
+      var listElements = element.find('li');
+      var e = jQuery.Event('keydown');
+      e.which = 40;
+      element.find('#title-filter').first().trigger(e);
+
+      var e = jQuery.Event('keydown');
+      e.which = 13;
+      element.find('#title-filter').first().trigger(e);
+
       expect(title.text()).to.equal('pinky1');
     });
   });
