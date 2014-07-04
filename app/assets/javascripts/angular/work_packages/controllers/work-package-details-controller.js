@@ -54,7 +54,7 @@ angular.module('openproject.workPackages.controllers')
     $scope.watchers = workPackage.embedded.watchers;
 
     // work package properties
-    $scope.presentWorkPackageProperties = {};
+    $scope.presentWorkPackageProperties = [];
     $scope.emptyWorkPackageProperties = [];
 
     var workPackageProperties = DEFAULT_WORK_PACKAGE_PROPERTIES;
@@ -72,15 +72,22 @@ angular.module('openproject.workPackages.controllers')
       }
     }
 
-    angular.forEach(workPackageProperties, function(property) {
+    function addFormattedValueToPresentProperties(property, label, value) {
+      $scope.presentWorkPackageProperties.push({
+        property: property,
+        label: label,
+        value: value || '-'
+      });
+    }
+
+    var minimumNumberOfDisplayedProperties = 3;
+
+    angular.forEach(workPackageProperties, function(property, index) {
       var label = I18n.t('js.work_packages.properties.' + property),
           value = getFormattedPropertyValue(property);
 
-      if (value) {
-        $scope.presentWorkPackageProperties[property] = {
-          label: label,
-          value: value
-        };
+      if (!!value || index < minimumNumberOfDisplayedProperties) {
+        addFormattedValueToPresentProperties(property, label, value);
       } else {
         $scope.emptyWorkPackageProperties.push(label);
       }
