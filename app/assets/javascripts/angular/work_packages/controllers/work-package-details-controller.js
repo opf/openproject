@@ -80,13 +80,24 @@ angular.module('openproject.workPackages.controllers')
       });
     }
 
-    var minimumNumberOfDisplayedProperties = 3;
+    function secondRowToBeDisplayed() {
+      return !!workPackageProperties
+        .slice(3, 6)
+        .map(function(property) {
+          return workPackage.props[property];
+        })
+        .reduce(function(a, b) {
+          return a || b;
+        });
+    }
 
     angular.forEach(workPackageProperties, function(property, index) {
       var label = I18n.t('js.work_packages.properties.' + property),
           value = getFormattedPropertyValue(property);
 
-      if (!!value || index < minimumNumberOfDisplayedProperties) {
+      if (!!value ||
+          index < 3 ||
+          index < 6 && secondRowToBeDisplayed()) {
         addFormattedValueToPresentProperties(property, label, value);
       } else {
         $scope.emptyWorkPackageProperties.push(label);
