@@ -57,20 +57,22 @@ angular.module('openproject.workPackages.controllers')
 
     var workPackageProperties = DEFAULT_WORK_PACKAGE_PROPERTIES;
 
-    angular.forEach(workPackageProperties, function(property) {
-      var label = I18n.t('js.work_packages.properties.' + property),
-          value;
-
+    function getFormattedPropertyValue(property) {
       if (property === 'date') {
         if (workPackage.props.startDate && workPackage.props.dueDate) {
-          value = WorkPackagesHelper.formatWorkPackageProperty(workPackage.props['startDate'], 'startDate') +
-                ' - ' +
-                WorkPackagesHelper.formatWorkPackageProperty(workPackage.props['dueDate'], 'dueDate');
+          return WorkPackagesHelper.formatWorkPackageProperty(workPackage.props['startDate'], 'startDate') +
+                 ' - ' +
+                 WorkPackagesHelper.formatWorkPackageProperty(workPackage.props['dueDate'], 'dueDate');
 
         }
       } else {
-        value =  WorkPackagesHelper.formatWorkPackageProperty(workPackage.props[property], property);
+        return WorkPackagesHelper.formatWorkPackageProperty(workPackage.props[property], property);
       }
+    }
+
+    angular.forEach(workPackageProperties, function(property) {
+      var label = I18n.t('js.work_packages.properties.' + property),
+          value = getFormattedPropertyValue(property);
 
       if (value) {
         $scope.presentWorkPackageProperties[label] = value;
