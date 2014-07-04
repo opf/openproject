@@ -107,19 +107,17 @@ angular.module('openproject.workPackages.helpers')
       }
     },
     formatWorkPackageProperty: function(value, propertyName) {
-      switch(propertyName) {
-        case 'dueDate':
-          return this.formatValue(value, 'date');
-        case 'startDate':
-          return this.formatValue(value, 'date');
-        case 'createdAt':
-          return this.formatValue(value, 'datetime');
-        case 'updatedAt':
-          return this.formatValue(value, 'datetime');
-        case 'estimatedTime':
-          return value && value.value ? value.value + ' ' + value.units : null;
-        default:
-          return value;
+      var mappings = {
+        dueDate: 'date',
+        startDate: 'date',
+        createdAt: 'datetime',
+        updatedAt: 'datetime'
+      };
+
+      if (propertyName === 'estimatedTime') {
+        return value && value.value ? value.value + ' ' + value.units : null;
+      } else {
+        return this.formatValue(value, mappings[propertyName]);
       }
     },
 
