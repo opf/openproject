@@ -31,10 +31,7 @@ require 'spec_helper'
 describe ::API::V3::WorkPackages::WorkPackageModel do
   include Capybara::RSpecMatchers
 
-  subject(:model) { ::API::V3::WorkPackages::WorkPackageModel.new(
-      work_package: work_package
-    )
-  }
+  subject(:model) { ::API::V3::WorkPackages::WorkPackageModel.new(work_package) }
   let(:work_package) { FactoryGirl.build(:work_package, attributes) }
 
   context 'with a formatted description' do
