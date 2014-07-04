@@ -77,7 +77,10 @@ angular.module('openproject.workPackages.controllers')
           value = getFormattedPropertyValue(property);
 
       if (value) {
-        $scope.presentWorkPackageProperties[label] = value;
+        $scope.presentWorkPackageProperties[property] = {
+          label: label,
+          value: value
+        };
       } else {
         $scope.emptyWorkPackageProperties.push(label);
       }

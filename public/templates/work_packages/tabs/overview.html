@@ -20,10 +20,27 @@
 <div class="detail-panel-attributes">
   <!-- present attributes -->
   <ul>
-    <li ng-repeat="(property, value) in presentWorkPackageProperties">
-      <label ng-bind="property"/>
-      <span ng-bind="value"/>
+    <li ng-repeat="(property, data) in presentWorkPackageProperties">
+      <label ng-bind="data.label"/>
+      <span ng-switch="property">
+        <p ng-switch-when="assigneeName">
+          <img class="avatar" ng-src="{{ workPackage.props.assigneeAvatar }}" />
+          <span class="user"><a href ng-bind="data.value"/></span>
+          <span class="role" ng-bind="workPackage.props.assigneeRole"/>
+        </p>
+        <p ng-switch-when="authorName">
+          <img class="avatar" ng-src="{{ workPackage.props.authorAvatar }}" />
+          <span class="user"><a href ng-bind="data.value"/></span>
+        </p>
+        <p ng-switch-when="responsibleName">
+          <img class="avatar" ng-src="{{ workPackage.props.responsibleAvatar }}" />
+          <span class="user"><a href ng-bind="data.value"/></span>
+          <span class="role" ng-bind="workPackage.props.responsibleRole"/>
+        </p>
+        <span ng-switch-default ng-bind="data.value"/>
+      </span>
     </li>
+  </ul>
   <!-- empty attributes -->
   <ul class="work-package-details-overview-tab-empty-attributes"
       slide-toggle collapsed="toggleStates.hideAllAttributes">
