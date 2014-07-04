@@ -36,8 +36,7 @@ module API
       class WorkPackageModel < Reform::Form
         include Composition
         include Coercion
-        include ActionView::Helpers::SanitizeHelper
-        include ApplicationHelper
+        include OpenProject::TextFormatting
         include GravatarImageTag
 
         model :work_package
