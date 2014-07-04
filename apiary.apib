@@ -179,23 +179,8 @@ This allows you to see exactly what went wrong and inform the user.
 | dueDate | | Date | Must be a date in format YYYY-MM-DD and must be greater then start date | READ / WRITE |
 | estimatedTime | | Object | Must be in form of a json object with "units" and "value" as keys and value must be an integer or a decimal | { "units": "hours", "value": 12 } | READ / WRITE |
 | percentageDone | | Integer | Must be an integer between 0 and 100 | 50 | READ / WRITE |
-| projectId | | Integer | **REQUIRED** Must be an id of one of the existing projects | 1 | READ / WRITE |
-| projectName | | String | | My open project | READ |
-| responsibleId | | Integer | Must be an id of one of the allowed responsible users for the work package | 12 | READ / WRITE |
-| responsibleName | | String | | John Sheppard | READ |
-| responsibleLogin | | String | | j.sheppard | READ |
-| responsibleMail | | String | | j.sheppard@finn.de| READ |
-| assigneeId | | Integer | Must be an id of one of the allowed assignees for the work package | 12 | READ / WRITE |
-| assigneeName | | String | | John Sheppard | READ |
-| assigneeLogin | | String | | j.sheppard | READ |
-| assigneeMail | | String | | j.sheppard@finn.de| READ |
-| authorName | | String | | John Sheppard | READ |
-| authorLogin | | String | | j.sheppard | READ |
-| authorMail | | String | | j.sheppard@finn.de| READ |
 | createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 | updatedAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
-
-This is [an example][id] reference-style link.
 
 ## WorkPackage [/work_packages/{id}]
 
@@ -221,6 +206,26 @@ This is [an example][id] reference-style link.
                         "href": "https://openproject.org/api/v3/users/1",
                         "title": "John Sheppard - j.sheppard"
                     },
+                    "project": {
+                        "href": "https://openproject.org/api/v3/projects/1",
+                        "title": "Lorem"
+                    },
+                    "activities": [{
+                        "href": "https://openproject.org/api/v3/activities/1",
+                        "title": "Priority changed from High to Low"
+                    }],
+                    "watchers": [{
+                        "href": "https://openproject.org/api/v3/users/1",
+                        "title": "John Sheppard - j.sheppard"
+                    }],
+                    "relations": [{
+                        "href": "https://openproject.org/api/v3/relationships/1",
+                        "title": "Work package A duplicated by Work package B"
+                    }],
+                    "attachments": [{
+                        "href": "https://openproject.org/api/v3/attachments/1",
+                        "title": "Attachment filename"
+                    }]
                 },
                 "_embedded": {
                     "author": {
@@ -274,12 +279,39 @@ This is [an example][id] reference-style link.
                         "createdAt": "2014-05-21T08:51:20Z",
                         "updatedAt": "2014-05-21T08:51:20Z"
                     },
+                    "project": {
+                        "_type": "Project",
+                        "_links": {
+                            "self": {
+                                "href": "https://openproject.org/api/v3/projects/1",
+                                "title": "Lorem"
+                            },
+                            "workPackages": [{
+                                "href": "https://openproject.org/api/v3/work_packages/1",
+                                "title": "Lorem ipsum"
+                            }]
+                        },
+                        "id": 1,
+                        "name": "Lorem",
+                        "description": "Lorem ipsum dolor sit amet",
+                        "homepage": "http://web.com",
+                        "identifier": "lorem",
+                        "type": "",
+                        "summary": "Lorem ipsum dolor sit amet",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z",
+                        "customProperties": [{
+                            "name": "My custom field 1",
+                            "format": "text",
+                            "value": "Lorem ipsum"
+                        }]
+                    },
                     "activities": [
                         {
                             "_type": "Activity::Comment",
                             "_links": {
                                 "self": {
-                                    "href": "https://openproject.org/api/v3/activity/1",
+                                    "href": "https://openproject.org/api/v3/activities/1",
                                     "title": "Priority changed from High to Low"
                                 },
                                 "workPackage": {
@@ -389,17 +421,13 @@ This is [an example][id] reference-style link.
                 "percentageDone": 0,
                 "targetVersionId": 1,
                 "targetVersionName": "sprint-01",
-                "projectId": 1,
-                "projectName": "Seeded Project",
                 "createdAt": "2014-05-21T08:51:20Z",
                 "updatedAt": "2014-05-22T09:41:29Z",
-                "customProperties": [
-                    {
-                        "name": "My custom field 1",
-                        "format": "text",
-                        "value": "Lorem ipsum"
-                    }
-                ]
+                "customProperties": [{
+                    "name": "My custom field 1",
+                    "format": "text",
+                    "value": "Lorem ipsum"
+                }]
             }
 
 ## View work package [GET]
@@ -784,3 +812,60 @@ This is [an example][id] reference-style link.
 + Response 200 (application/hal+json)
 
     [Attachment][]
+
+# Group Projects
+
+## Properties:
+| Property | Description | Type | Constraints | Example | Supported operations |
+|:---------:|-------------| ---- | ----------- | ------- | -------------------- |
+| id | Attachment's id | Integer | Must be a positive integer | 12 | READ |
+| fileName | | String | | dolor_sit_amet | READ / WRITE |
+| diskFileName | | String | | dolor_sit_amet | READ / WRITE |
+| description | | String | | Lorem ipsum dolor ... | READ / WRITE |
+| contentType | | String | | application/binary | READ / WRITE |
+| digest | | String | | | READ / WRITE |
+| downloads | | Integer | | | READ |
+| createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
+
+
+## Project [/projects/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "Project",
+                "_links": {
+                    "self": {
+                        "href": "https://openproject.org/api/v3/projects/1",
+                        "title": "Lorem"
+                    },
+                    "workPackages": [{
+                        "href": "https://openproject.org/api/v3/work_packages/1",
+                        "title": "Lorem ipsum"
+                    }]
+                },
+                "id": 1,
+                "name": "Lorem",
+                "description": "Lorem ipsum dolor sit amet",
+                "homepage": "http://web.com",
+                "identifier": "lorem",
+                "type": "",
+                "summary": "Lorem ipsum dolor sit amet",
+                "createdAt": "2014-05-21T08:51:20Z",
+                "updatedAt": "2014-05-21T08:51:20Z",
+                "customProperties": [{
+                    "name": "My custom field 1",
+                    "format": "text",
+                    "value": "Lorem ipsum"
+                }]
+            }
+
+## View project [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... Project id
+
++ Response 200 (application/hal+json)
+
+    [Project][]
