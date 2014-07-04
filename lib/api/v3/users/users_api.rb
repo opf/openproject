@@ -17,10 +17,6 @@ module API
             end
 
             get do
-<<<<<<< HEAD
-=======
-              # authorize(:work_packages_api, :get, context: @work_package.project)
->>>>>>> Added API show user endpoint
               @representer.to_json
             end
 
