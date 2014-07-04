@@ -46,6 +46,7 @@ angular.module('openproject.workPackages.controllers')
     // initialization
     $scope.workPackage = workPackage;
     $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
+    $scope.maxDescriptionLength = 800;
 
     // resources for tabs
     $scope.activities = workPackage.embedded.activities;

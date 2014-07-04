@@ -2,9 +2,15 @@
 
   <h3>Description</h3>
   <div class="detail-panel-description-content">
-    {{ workPackage.props.description }}
+    <p>
+      <span ng-bind="workPackage.props.description | characters: maxDescriptionLength"
+            ng-show="toggleStates.hideFullDescription"/>
+      <span ng-bind="workPackage.props.description"
+            ng-hide="toggleStates.hideFullDescription"/>
+    </p>
   </div>
-  <panel-expander collapsed="toggleStates.hideFullDescription"
+  <panel-expander ng-if="workPackage.props.description.length > maxDescriptionLength"
+                  collapsed="toggleStates.hideFullDescription"
                   expand-text="Show full description"
                   collapse-text="Hide full description">
   </panel-expander>
