@@ -29,7 +29,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-en:
+sv-SE:
   activerecord:
     models:
       document: "Dokument"
