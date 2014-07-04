@@ -36,12 +36,13 @@ module API
       class WorkPackageModel < Reform::Form
         include Composition
         include Coercion
+        include ActionView::Helpers::SanitizeHelper
+        include ApplicationHelper
         include GravatarImageTag
 
         model :work_package
 
         property :subject, on: :work_package, type: String
-        property :description, on: :work_package, type: String
         property :start_date, on: :work_package, type: Date
         property :due_date, on: :work_package, type: Date
         property :created_at, on: :work_package, type: DateTime
@@ -54,6 +55,18 @@ module API
 
         def work_package
           model[:work_package]
+        end
+
+        def description
+          textilizable(work_package.description)
+        end
+
+        def raw_description
+          work_package.description
+        end
+
+        def raw_description=(value)
+          work_package.description = value
         end
 
         def type
