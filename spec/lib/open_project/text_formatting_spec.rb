@@ -29,8 +29,6 @@
 require 'spec_helper'
 
 describe OpenProject::TextFormatting do
-  include Rails.application.routes.url_helpers
-  include ActionView::Helpers::UrlHelper
   include OpenProject::TextFormatting
   include WorkPackagesHelper # soft-dependency
   include ActionView::Context
