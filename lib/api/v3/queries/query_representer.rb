@@ -36,14 +36,14 @@ module API
       class QueryRepresenter < Roar::Decorator
         include Roar::Representer::JSON::HAL
         include Roar::Representer::Feature::Hypermedia
-        include Rails.application.routes.url_helpers
+        include OpenProject::StaticRouting::UrlHelpers
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "http://localhost:3000/api/v3/queries/#{represented.query.id}", title: "#{represented.name}" }
+          { href: "#{root_url}api/v3/queries/#{represented.query.id}", title: "#{represented.name}" }
         end
 
         property :id, getter: -> (*) { query.id }, render_nil: true

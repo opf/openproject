@@ -43,39 +43,23 @@
 <div class="detail-panel-latest-activity">
   <h3>Latest activity</h3>
   <ul>
-    <li>
-      <div class="comments-number"><a href="#1">#1</a>
-        <div class="comments-icons"><i class="icon-quote"></i><i class="icon-edit"></i></div>
+    <li ng-repeat="activity in latestActitivies"
+        class="work-package-details-activities-activity"
+        ng-init="currentNote = 'note-' + ($index+1)">
+      <div class="work-package-details-activities-activity-contents">
+        <div class="comments-number"><a ng-href="#{{currentNote}}" ng-bind="'#' + ($index+1)"></a>
+        </div>
+        <img class="avatar" ng-src="{{ activity.props.userAvatar }}" />
+        <span class="user"><a href name="{{currentNote}}" ng-bind="activity.props.userName"></a></span>
+        <span class="date">commented on <span ng-bind="activity.props.createdAt | date:'short'"/></span>
+        <span class="comment">
+          <ul class="work-package-details-activities-messages">
+            <li ng-repeat="message in activity.props.messages track by $index">
+              <span class="message" ng-bind="message"/>
+            </li>
+          </ul>
+        </span>
       </div>
-      <img class="avatar" src="images/avatar_logout.png" />
-      <span class="user"><a href="#">Christoph Zierz</a></span>
-      <span class="date">commented on 06/05/2014 16:42 Uhr</span>
-      <span class="comment">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-      Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis .  ..
-      </span>
-    </li>
-    <li>
-      <div class="comments-number"><a href="#1">#2</a>
-        <div class="comments-icons"><i class="icon-quote"></i><i class="icon-edit"></i></div>
-      </div>
-      <img class="avatar" src="images/avatar_logout.png" />
-      <span class="user"><a href="#">Niels Lindenthal</a></span>
-      <span class="date">commented on 08/05/2014 16:42 Uhr</span>
-      <span class="comment">
-        <ul>
-          <li>Status changed from scheduled to closed</li>
-          <li>Assignee deleted (Michael Frister)</li>
-          <li>% done changed from 0 to 100</li>
-        </ul>
-      </span>
     </li>
   </ul>
-</div>
-
-<div class="comments-form">
-  <h3>Add your comments here</h3>
-  <form>
-    <textarea placeholder="Add comments here" rows="4"></textarea>
-  </form>
-  <button class="button">Add comment</button>
 </div>
