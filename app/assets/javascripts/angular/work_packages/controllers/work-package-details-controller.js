@@ -31,8 +31,13 @@ angular.module('openproject.workPackages.controllers')
 .controller('WorkPackageDetailsController', [
   '$scope',
   'workPackage',
-  function($scope, workPackage) {
+  'PathHelper',
+  function($scope, workPackage, PathHelper) {
+    $scope.userPath = PathHelper.userPath;
     $scope.workPackage = workPackage;
+    $scope.author = workPackage.embedded.author;
+    $scope.responsible = workPackage.embedded.responsible;
+    $scope.assignee = workPackage.embedded.assignee;
     $scope.activities = workPackage.embedded.activities;
     $scope.watchers = workPackage.embedded.watchers;
 

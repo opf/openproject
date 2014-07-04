@@ -26,11 +26,28 @@
     <li><label>Status</label>{{ workPackage.props.status }}</li>
     <li><label>Priortiy</label>{{ workPackage.props.priority }}</li>
     <li><label>Date</label>{{ workPackage.props.startDate }} - {{ workPackage.props.dueDate }}</li>
-    <li><label>Responsible</label><img class="avatar" src="images/avatar_logout.png" /><span  class="user"><a href="#">{{ workPackage.props.responsibleName }}</a></span>
-    <span class="role">{{ workPackage.props.responsibleRole }}</span>
+    <li>
+      <label>Responsible</label>
+      <img class="avatar" ng-src="{{ responsible.props.avatar }}" ng-show="{{ !!responsible }}" />
+      <span  class="user" ng-show="{{ !!responsible }}">
+        <a ng-href="{{ userPath(responsible.props.id) }}">
+          {{ responsible.props.firstName }} {{ responsible.props.lastName }}
+          aaa
+        </a>
+      </span>
+      <span class="user" ng-hide="{{ !!responsible }}"> - </span>
+      <!-- <span class="role">{{ responsible.props.role }}</span> -->
     </li>
-    <li><label>Assignee</label><img class="avatar" src="images/avatar_logout.png" /><span   class="user"><a href="#">{{ workPackage.props.assigneeName }}</a></span>
-      <span class="role">{{ workPackage.props.assigneeRole }}</span>
+    <li>
+      <label>Assignee</label>
+      <img class="avatar" ng-src="{{ assignee.props.avatar }}" ng-show="{{ !!assignee }}" />
+      <span   class="user" ng-show="{{ !!assignee }}">
+        <a ng-href="{{ userPath(assignee.props.id) }}">
+          {{ assignee.props.firstName }} {{ assignee.props.lastName }}
+        </a>
+      </span>
+      <span class="user" ng-hide="{{ !!assignee }}"> - </span>
+      <!-- <span class="role">{{ assignee.props.roles }}</span> -->
     </li>
     <li><label>% Done</label>{{ workPackage.props.percentageDone }} %</li>
   </ul>
