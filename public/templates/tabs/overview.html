@@ -26,28 +26,11 @@
     <li><label>Status</label>{{ workPackage.props.status }}</li>
     <li><label>Priortiy</label>{{ workPackage.props.priority }}</li>
     <li><label>Date</label>{{ workPackage.props.startDate }} - {{ workPackage.props.dueDate }}</li>
-    <li>
-      <label>Responsible</label>
-      <img class="avatar" ng-src="{{ responsible.props.avatar }}" ng-show="{{ !!responsible }}" />
-      <span  class="user" ng-show="{{ !!responsible }}">
-        <a ng-href="{{ userPath(responsible.props.id) }}">
-          {{ responsible.props.firstName }} {{ responsible.props.lastName }}
-          aaa
-        </a>
-      </span>
-      <span class="user" ng-hide="{{ !!responsible }}"> - </span>
-      <!-- <span class="role">{{ responsible.props.role }}</span> -->
+    <li><label>Responsible</label><img class="avatar" ng-src="{{ workPackage.props.responsibleAvatar }}" /><span  class="user"><a href="#">{{ workPackage.props.responsibleName }}</a></span>
+    <span class="role">{{ workPackage.props.responsibleRole }}</span>
     </li>
-    <li>
-      <label>Assignee</label>
-      <img class="avatar" ng-src="{{ assignee.props.avatar }}" ng-show="{{ !!assignee }}" />
-      <span   class="user" ng-show="{{ !!assignee }}">
-        <a ng-href="{{ userPath(assignee.props.id) }}">
-          {{ assignee.props.firstName }} {{ assignee.props.lastName }}
-        </a>
-      </span>
-      <span class="user" ng-hide="{{ !!assignee }}"> - </span>
-      <!-- <span class="role">{{ assignee.props.roles }}</span> -->
+    <li><label>Assignee</label><img class="avatar" ng-src="{{ workPackage.props.assigneeAvatar }}" /><span   class="user"><a href="#">{{ workPackage.props.assigneeName }}</a></span>
+      <span class="role">{{ workPackage.props.assigneeRole }}</span>
     </li>
     <li><label>% Done</label>{{ workPackage.props.percentageDone }} %</li>
   </ul>
@@ -71,39 +54,23 @@
 <div class="detail-panel-latest-activity" slide-toggle collapsed="toggleStates.hideAllAttributes">
   <h3>Latest activity</h3>
   <ul>
-    <li>
-      <div class="comments-number"><a href="#1">#1</a>
-        <div class="comments-icons"><i class="icon-quote"></i><i class="icon-edit"></i></div>
+    <li ng-repeat="activity in latestActitivies"
+        class="work-package-details-activities-activity"
+        ng-init="currentNote = 'note-' + ($index+1)">
+      <div class="work-package-details-activities-activity-contents">
+        <div class="comments-number"><a ng-href="#{{currentNote}}" ng-bind="'#' + ($index+1)"></a>
+        </div>
+        <img class="avatar" ng-src="{{ activity.props.userAvatar }}" />
+        <span class="user"><a href name="{{currentNote}}" ng-bind="activity.props.userName"></a></span>
+        <span class="date">commented on <span ng-bind="activity.props.createdAt | date:'short'"/></span>
+        <span class="comment">
+          <ul class="work-package-details-activities-messages">
+            <li ng-repeat="message in activity.props.messages track by $index">
+              <span class="message" ng-bind="message"/>
+            </li>
+          </ul>
+        </span>
       </div>
-      <img class="avatar" src="images/avatar_logout.png" />
-      <span class="user"><a href="#">Christoph Zierz</a></span>
-      <span class="date">commented on 06/05/2014 16:42 Uhr</span>
-      <span class="comment">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-      Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis .  ..
-      </span>
-    </li>
-    <li>
-      <div class="comments-number"><a href="#1">#2</a>
-        <div class="comments-icons"><i class="icon-quote"></i><i class="icon-edit"></i></div>
-      </div>
-      <img class="avatar" src="images/avatar_logout.png" />
-      <span class="user"><a href="#">Niels Lindenthal</a></span>
-      <span class="date">commented on 08/05/2014 16:42 Uhr</span>
-      <span class="comment">
-        <ul>
-          <li>Status changed from scheduled to closed</li>
-          <li>Assignee deleted (Michael Frister)</li>
-          <li>% done changed from 0 to 100</li>
-        </ul>
-      </span>
     </li>
   </ul>
-</div>
-
-<div class="comments-form">
-  <h3>Add your comments here</h3>
-  <form>
-    <textarea placeholder="Add comments here" rows="4"></textarea>
-  </form>
-  <button class="button">Add comment</button>
 </div>
