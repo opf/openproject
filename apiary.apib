@@ -728,3 +728,59 @@ This is [an example][id] reference-style link.
 + Response 200 (application/hal+json)
 
     [User][]
+
+# Group Attachments
+
+## Properties:
+| Property | Description | Type | Constraints | Example | Supported operations |
+|:---------:|-------------| ---- | ----------- | ------- | -------------------- |
+| id | User's id | Integer | Must be a positive integer | 12 | READ |
+| login | User's login name | String | | j.sheppard | READ / WRITE |
+| firstName | User's first name | String | | John | READ / WRITE |
+| lastName | User's last name | String | | Sheppard | READ / WRITE |
+| mail | User's email | String | | shep@mail.com | READ / WRITE |
+| avatar | URL to user's avatar | String | | https://gravatar/avatar | READ |
+| createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
+| updatedAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
+
+
+## Attachment [/attachments/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "Attachment",
+                "_links": {
+                    "self": {
+                        "href": "https://openproject.org/api/v3/attachments/1",
+                        "title": "dolor_sit_amet"
+                    },
+                    "workPackage" {
+                        "href": "https://openproject.org/api/v3/work_packages/1",
+                        "title": "Lorem ipsum"
+                    },
+                    "author": {
+                        "href": "https://openproject.org/api/v3/users/1",
+                        "title": "John Sheppard - admin"
+                    }
+                },
+                "id": 1,
+                "fileName": "dolor_sit_amet",
+                "diskFileName": "dolor_sit_amet",
+                "description": "Lorem ipsum dolor sit amet consecetur elis.",
+                "filesize": 24,
+                "contentType": "application/binary",
+                "digest": "",
+                "downloads": 0,
+                "createdAt": "2014-05-21T08:51:20Z"
+            }
+
+## View attachment [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... Attachment id
+
++ Response 200 (application/hal+json)
+
+    [Attachment][]
