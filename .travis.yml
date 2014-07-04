@@ -29,6 +29,7 @@
 language: ruby
 rvm:
   - 2.1
+sudo: false
 branches:
   only:
     - dev
