@@ -40,11 +40,8 @@ describe Backlog do
 
   before(:each) do
     @feature = FactoryGirl.create(:type_feature)
-    Setting.plugin_openproject_backlogs  = { "points_burn_direction" => "down",
-                                             "wiki_template"         => "",
-                                             "card_spec"             => "Sattleford VM-5040",
-                                             "story_types"           => [@feature.id.to_s],
-                                             "task_type"             => "0" }
+    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ "story_types"           => [@feature.id.to_s],
+                                                                         "task_type"             => "0" })
     @status = FactoryGirl.create(:status)
   end
 
