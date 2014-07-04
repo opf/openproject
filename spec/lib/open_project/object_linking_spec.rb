@@ -29,6 +29,6 @@
 
 require 'spec_helper'
 
-describe ObjectLinking do
+describe OpenProject::ObjectLinking do
 
 end
