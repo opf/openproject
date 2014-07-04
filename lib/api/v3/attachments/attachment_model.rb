@@ -27,18 +27,21 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API v3
-# This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
+require 'reform'
+require 'reform/form/coercion'
 
 module API
   module V3
-    class Root < Grape::API
-      version 'v3', using: :path
+    module Attachments
+      class AttachmentModel < Reform::Form
+        include Coercion
 
-      mount API::V3::WorkPackages::WorkPackagesAPI
-      mount API::V3::Queries::QueriesAPI
-      mount API::V3::Attachments::AttachmentsAPI
+        property :filename, type: String
+        property :disk_filename, type: String
+        property :description, type: String
+        property :content_type, type: String
+        property :digest, type: String
+      end
     end
   end
 end
