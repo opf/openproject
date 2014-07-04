@@ -734,14 +734,14 @@ This is [an example][id] reference-style link.
 ## Properties:
 | Property | Description | Type | Constraints | Example | Supported operations |
 |:---------:|-------------| ---- | ----------- | ------- | -------------------- |
-| id | User's id | Integer | Must be a positive integer | 12 | READ |
-| login | User's login name | String | | j.sheppard | READ / WRITE |
-| firstName | User's first name | String | | John | READ / WRITE |
-| lastName | User's last name | String | | Sheppard | READ / WRITE |
-| mail | User's email | String | | shep@mail.com | READ / WRITE |
-| avatar | URL to user's avatar | String | | https://gravatar/avatar | READ |
+| id | Attachment's id | Integer | Must be a positive integer | 12 | READ |
+| fileName | | String | | dolor_sit_amet | READ / WRITE |
+| diskFileName | | String | | dolor_sit_amet | READ / WRITE |
+| description | | String | | Lorem ipsum dolor ... | READ / WRITE |
+| contentType | | String | | application/binary | READ / WRITE |
+| digest | | String | | | READ / WRITE |
+| downloads | | Integer | | | READ |
 | createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
-| updatedAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 
 
 ## Attachment [/attachments/{id}]
