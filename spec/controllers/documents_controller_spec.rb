@@ -92,7 +92,7 @@ LOREM
 
     before :each do
       ActionMailer::Base.deliveries.clear
-      Setting.notified_events = Setting.notified_events.dup << 'document_added'
+      allow(Setting).to receive(:notified_events).and_return(Setting.notified_events.dup << 'document_added')
     end
 
     it "should create a new document with valid arguments" do
