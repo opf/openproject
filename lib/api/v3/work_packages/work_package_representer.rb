@@ -105,6 +105,10 @@ module API
 
         collection :custom_properties, exec_context: :decorator, render_nil: true
 
+        property :author, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, render_nil: true, if: -> (*) { !author.nil? }
+        property :responsible, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, render_nil: true, if: -> (*) { !responsible.nil? }
+        property :assignee, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, render_nil: true, if: -> (*) { !assignee.nil? }
+
         collection :activities, embedded: true, class: ::API::V3::Activities::ActivityModel, decorator: ::API::V3::Activities::ActivityRepresenter
         collection :watchers, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter
 
