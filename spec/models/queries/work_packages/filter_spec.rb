@@ -138,7 +138,7 @@ describe Queries::WorkPackages::Filter, :type => :model do
             filter.class.add_filter_type_by_field('some_new_key', 'list')
           end
 
-          it { should be_valid }
+          it { is_expected.to be_valid }
         end
 
         context 'and the field is not whitelisted and no custom field key' do

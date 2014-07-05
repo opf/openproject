@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Api::V2::CustomFieldsController do
+describe Api::V2::CustomFieldsController, :type => :controller do
   describe '#index' do
     let!(:custom_field) { FactoryGirl.create(:custom_field) }
     let!(:wp_custom_field_1) { FactoryGirl.create(:work_package_custom_field) }
@@ -76,7 +76,7 @@ describe Api::V2::CustomFieldsController do
       context "w/o project" do
         let(:current_user) { FactoryGirl.create(:user) }
 
-        before { User.stub(:current).and_return current_user }
+        before { allow(User).to receive(:current).and_return current_user }
 
         it_behaves_like 'a user w/o a project'
       end
@@ -85,7 +85,7 @@ describe Api::V2::CustomFieldsController do
         let(:current_user) { FactoryGirl.create(:user, member_in_projects: [project, project_2]) }
 
         before do
-          User.stub(:current).and_return current_user
+          allow(User).to receive(:current).and_return current_user
 
           get :index, format: :xml
         end
@@ -113,7 +113,7 @@ describe Api::V2::CustomFieldsController do
         let(:current_user) { FactoryGirl.create(:admin) }
 
         before do
-          User.stub(:current).and_return current_user
+          allow(User).to receive(:current).and_return current_user
 
           get :index, format: :xml
         end

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Attachments::AttachmentRepresenter do
+describe ::API::V3::Attachments::AttachmentRepresenter, :type => :request do
   let(:attachment) { FactoryGirl.create(:attachment) }
   let(:model) { ::API::V3::Attachments::AttachmentModel.new(attachment) }
   let(:representer) { ::API::V3::Attachments::AttachmentRepresenter.new(model) }
@@ -36,22 +36,22 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
   context 'generation' do
     subject(:generated) { representer.to_json }
 
-    it { should include_json('Attachment'.to_json).at_path('_type') }
+    it { is_expected.to include_json('Attachment'.to_json).at_path('_type') }
 
     describe 'attachment' do
-      it { should have_json_path('id') }
-      it { should have_json_path('fileName')  }
-      it { should have_json_path('diskFileName') }
-      it { should have_json_path('description') }
-      it { should have_json_path('fileSize') }
-      it { should have_json_path('contentType') }
-      it { should have_json_path('digest') }
-      it { should have_json_path('downloads') }
-      it { should have_json_path('createdAt') }
+      it { is_expected.to have_json_path('id') }
+      it { is_expected.to have_json_path('fileName')  }
+      it { is_expected.to have_json_path('diskFileName') }
+      it { is_expected.to have_json_path('description') }
+      it { is_expected.to have_json_path('fileSize') }
+      it { is_expected.to have_json_path('contentType') }
+      it { is_expected.to have_json_path('digest') }
+      it { is_expected.to have_json_path('downloads') }
+      it { is_expected.to have_json_path('createdAt') }
     end
 
     describe '_links' do
-      it { should have_json_type(Object).at_path('_links') }
+      it { is_expected.to have_json_type(Object).at_path('_links') }
 
       it 'should link to self' do
         expect(subject).to have_json_path('_links/self/href')

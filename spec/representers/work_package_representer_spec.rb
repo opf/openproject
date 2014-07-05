@@ -43,55 +43,55 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   context 'generation' do
     subject(:generated) { representer.to_json }
 
-    it { should include_json('WorkPackage'.to_json).at_path('_type') }
+    it { is_expected.to include_json('WorkPackage'.to_json).at_path('_type') }
 
     describe 'work_package' do
-      it { should have_json_path('id') }
+      it { is_expected.to have_json_path('id') }
 
-      it { should have_json_path('assigneeId')  }
-      it { should have_json_path('assigneeLogin') }
-      it { should have_json_path('assigneeMail') }
-      it { should have_json_path('assigneeName') }
+      it { is_expected.to have_json_path('assigneeId')  }
+      it { is_expected.to have_json_path('assigneeLogin') }
+      it { is_expected.to have_json_path('assigneeMail') }
+      it { is_expected.to have_json_path('assigneeName') }
 
-      it { should have_json_path('authorLogin') }
-      it { should have_json_path('authorMail') }
-      it { should have_json_path('authorName') }
+      it { is_expected.to have_json_path('authorLogin') }
+      it { is_expected.to have_json_path('authorMail') }
+      it { is_expected.to have_json_path('authorName') }
 
-      it { should have_json_path('description') }
-      it { should have_json_path('dueDate') }
+      it { is_expected.to have_json_path('description') }
+      it { is_expected.to have_json_path('dueDate') }
 
-      it { should have_json_path('percentageDone') }
-      it { should have_json_path('priority') }
+      it { is_expected.to have_json_path('percentageDone') }
+      it { is_expected.to have_json_path('priority') }
 
-      it { should have_json_path('projectId') }
-      it { should have_json_path('projectName') }
+      it { is_expected.to have_json_path('projectId') }
+      it { is_expected.to have_json_path('projectName') }
 
-      it { should have_json_path('responsibleId') }
-      it { should have_json_path('responsibleLogin') }
-      it { should have_json_path('responsibleMail') }
-      it { should have_json_path('responsibleName') }
+      it { is_expected.to have_json_path('responsibleId') }
+      it { is_expected.to have_json_path('responsibleLogin') }
+      it { is_expected.to have_json_path('responsibleMail') }
+      it { is_expected.to have_json_path('responsibleName') }
 
-      it { should have_json_path('startDate') }
-      it { should have_json_path('status') }
-      it { should have_json_path('subject') }
-      it { should have_json_path('type') }
+      it { is_expected.to have_json_path('startDate') }
+      it { is_expected.to have_json_path('status') }
+      it { is_expected.to have_json_path('subject') }
+      it { is_expected.to have_json_path('type') }
 
-      it { should have_json_path('versionId') }
-      it { should have_json_path('versionName') }
+      it { is_expected.to have_json_path('versionId') }
+      it { is_expected.to have_json_path('versionName') }
 
-      it { should have_json_path('createdAt') }
-      it { should have_json_path('updatedAt') }
+      it { is_expected.to have_json_path('createdAt') }
+      it { is_expected.to have_json_path('updatedAt') }
     end
 
     describe 'estimatedTime' do
-      it { should have_json_type(Object).at_path('estimatedTime') }
+      it { is_expected.to have_json_type(Object).at_path('estimatedTime') }
 
-      it { should have_json_path('estimatedTime/units') }
-      it { should have_json_path('estimatedTime/value') }
+      it { is_expected.to have_json_path('estimatedTime/units') }
+      it { is_expected.to have_json_path('estimatedTime/value') }
     end
 
     describe '_links' do
-      it { should have_json_type(Object).at_path('_links') }
+      it { is_expected.to have_json_type(Object).at_path('_links') }
 
       it 'should link to self' do
         expect(subject).to have_json_path('_links/self/href')
@@ -100,11 +100,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     end
 
     describe '_embedded' do
-      it { should have_json_type(Object).at_path('_embedded') }
+      it { is_expected.to have_json_type(Object).at_path('_embedded') }
 
       describe 'activities' do
-        it { should have_json_type(Array).at_path('_embedded/activities') }
-        it { should have_json_size(0).at_path('_embedded/activities') }
+        it { is_expected.to have_json_type(Array).at_path('_embedded/activities') }
+        it { is_expected.to have_json_size(0).at_path('_embedded/activities') }
       end
     end
   end
