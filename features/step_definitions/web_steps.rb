@@ -183,7 +183,7 @@ end
 Then /^(?:|I )should see \/([^\/]*)\/$/ do |regexp|
   regexp = Regexp.new(regexp)
 
-  page.should have_xpath('//*', :text => regexp)
+  should have_content(regexp)
 end
 
 Then /^(?:|I )should not see "([^"]*)"$/ do |text|
@@ -194,7 +194,7 @@ end
 Then /^(?:|I )should not see \/([^\/]*)\/$/ do |regexp|
   regexp = Regexp.new(regexp)
 
-  page.should have_no_xpath('//*', :text => regexp)
+  should have_no_content(regexp)
 end
 
 Then /^the "([^"]*)" field(?: within (.*))? should contain "([^"]*)"$/ do |field, parent, value|

@@ -34,6 +34,7 @@ angular.module('openproject.workPackages.controllers')
     '$q',
     '$location',
     '$stateParams',
+    '$state',
     'I18n',
     'WorkPackagesTableService',
     'WorkPackageService',
@@ -42,17 +43,17 @@ angular.module('openproject.workPackages.controllers')
     'PaginationService',
     'AuthorisationService',
     'WorkPackageLoadingHelper',
+    'HALAPIResource',
     'INITIALLY_SELECTED_COLUMNS',
     'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
-    function($scope, $rootScope, $q, $location, $stateParams,
+    function($scope, $rootScope, $q, $location, $stateParams, $state,
       I18n, WorkPackagesTableService,
       WorkPackageService, ProjectService, QueryService, PaginationService,
-      AuthorisationService, WorkPackageLoadingHelper, INITIALLY_SELECTED_COLUMNS,
+      AuthorisationService, WorkPackageLoadingHelper, HALAPIResource, INITIALLY_SELECTED_COLUMNS,
       OPERATORS_AND_LABELS_BY_FILTER_TYPE) {
 
 
   // Setup
-
   function initialSetup() {
     $scope.operatorsAndLabelsByFilterType = OPERATORS_AND_LABELS_BY_FILTER_TYPE;
     $scope.disableFilters = false;
@@ -89,6 +90,10 @@ angular.module('openproject.workPackages.controllers')
     setupWorkPackagesTable(json);
 
     initAvailableColumns();
+
+    if (json.work_packages.length) {
+      $scope.preselectedWorkPackageId = json.work_packages[0].id;
+    }
   }
 
   function initQuery(metaData) {
@@ -179,6 +184,10 @@ angular.module('openproject.workPackages.controllers')
     return $scope.refreshWorkPackages;
   };
 
+  $scope.setQueryState = function(query_id) {
+    $state.go('work-packages.list', { query_id: query_id });
+  }
+
   // More
 
   function serviceErrorHandler(data) {
@@ -197,5 +206,4 @@ angular.module('openproject.workPackages.controllers')
   $scope.$watch(QueryService.getQueryName, function(queryName){
     $scope.selectedTitle = queryName || I18n.t('js.toolbar.unselected_title');
   });
-
 }]);

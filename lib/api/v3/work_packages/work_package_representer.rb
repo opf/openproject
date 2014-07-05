@@ -36,14 +36,19 @@ module API
       class WorkPackageRepresenter < Roar::Decorator
         include Roar::Representer::JSON::HAL
         include Roar::Representer::Feature::Hypermedia
-        include Rails.application.routes.url_helpers
+        include OpenProject::StaticRouting::UrlHelpers
 
-        self.as_strategy = API::Utilities::CamelCasingStrategy.new
+        self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
+
+        def initialize(options = {}, *expand)
+          @expand = expand
+          super(options)
+        end
 
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "http://localhost:3000/api/v3/work_packages/#{represented.work_package.id}", title: "#{represented.subject}" }
+          { href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}", title: "#{represented.subject}" }
         end
 
         property :id, getter: -> (*) { work_package.id }, render_nil: true
@@ -64,19 +69,33 @@ module API
         property :responsible_name, getter: -> (*) { work_package.responsible.try(:name) }, render_nil: true
         property :responsible_login, getter: -> (*) { work_package.responsible.try(:login) }, render_nil: true
         property :responsible_mail, getter: -> (*) { work_package.responsible.try(:mail) }, render_nil: true
+        property :responsible_avatar, getter: -> (*) {  gravatar_image_url(work_package.responsible.try(:mail)) }, render_nil: true
         property :assigned_to_id, as: :assigneeId, getter: -> (*) { work_package.assigned_to.try(:id) }, render_nil: true
         property :assignee_name, getter: -> (*) { work_package.assigned_to.try(:name) }, render_nil: true
         property :assignee_login, getter: -> (*) { work_package.assigned_to.try(:login) }, render_nil: true
         property :assignee_mail, getter: -> (*) { work_package.assigned_to.try(:mail) }, render_nil: true
+        property :assignee_avatar, getter: -> (*) {  gravatar_image_url(work_package.assigned_to.try(:mail)) }, render_nil: true
         property :author_name, getter: -> (*) { work_package.author.name }, render_nil: true
         property :author_login, getter: -> (*) { work_package.author.login }, render_nil: true
         property :author_mail, getter: -> (*) { work_package.author.mail }, render_nil: true
+        property :author_avatar, getter: -> (*) {  gravatar_image_url(work_package.author.try(:mail)) }, render_nil: true
         property :created_at, getter: -> (*) { work_package.created_at.utc.iso8601}, render_nil: true
         property :updated_at, getter: -> (*) { work_package.updated_at.utc.iso8601}, render_nil: true
 
+        collection :custom_properties, exec_context: :decorator, render_nil: true
+
+        collection :activities, embedded: true, class: ::API::V3::Activities::ActivityModel, decorator: ::API::V3::Activities::ActivityRepresenter
+        collection :watchers, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter
+
         def _type
-          "WorkPackage"
+          'WorkPackage'
         end
+
+        def custom_properties
+            values = represented.work_package.custom_field_values
+            values.map { |v| { name: v.custom_field.name, format: v.custom_field.field_format, value: v.value }}
+        end
+
       end
     end
   end

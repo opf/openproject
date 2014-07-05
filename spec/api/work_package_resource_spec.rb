@@ -68,7 +68,7 @@ describe 'API v3 Work package resource', :type => :request do
 
       it 'should respond with work package in HAL+JSON format' do
         parsed_response = JSON.parse(last_response.body)
-        expect(parsed_response).to eq(expected_response)
+        expect(parsed_response['id']).to eq(work_package.id)
       end
 
       context 'requesting nonexistent work package' do

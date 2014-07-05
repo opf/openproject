@@ -36,6 +36,7 @@ module API
       class WorkPackageModel < Reform::Form
         include Composition
         include Coercion
+        include GravatarImageTag
 
         model :work_package
 
@@ -50,6 +51,10 @@ module API
         property :responsible_id, on: :work_package, type: Integer
         property :assigned_to_id, on: :work_package, type: Integer
         property :fixed_version_id, on: :work_package, type: Integer
+
+        def work_package
+          model[:work_package]
+        end
 
         def type
           work_package.type.try(:name)
@@ -97,6 +102,14 @@ module API
 
         def percentage_done=(value)
           work_package.done_ratio = value
+        end
+
+        def activities
+          work_package.journals.map{ |journal| ::API::V3::Activities::ActivityModel.new(journal: journal) }
+        end
+
+        def watchers
+          work_package.watcher_users.map{ |u| ::API::V3::Users::UserModel.new(u) }
         end
 
         validates_presence_of :subject, :project_id, :type, :author, :status
