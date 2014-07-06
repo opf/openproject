@@ -270,6 +270,222 @@ Activity can be either _type Activity or _type Activity::Comment.
 + Response 200 (application/hal+json)
 
     [Attachment][]
+    
+# Group Queries
+
+## Properties:
+| Property | Description | Type | Constraints | Example | Supported operations |
+|:---------:|-------------| ---- | ----------- | ------- | -------------------- |
+| id | Query id | Integer | Must be a positive integer | 12 | READ |
+| name | Query name | String | | My work packages query | READ / WRITE |
+| projectId | | Integer | Must be an id of one of the existing projects | 1 | READ / WRITE |
+| projectName | | String | | My open project | READ |
+| userId | | Integer | | 1 | READ / WRITE |
+| userName | | String | | John Sheppard | READ |
+| userLogin | | String | | j.sheppard | READ |
+| userMail | | String | | j.sheppard@finn.de| READ |
+| filters | | String | | | READ / WRITE |
+| isPublic | | Boolean | | true | READ / WRITE |
+| columnNames | | String | | | READ / WRITE |
+| sortCriteria | | String | | | READ / WRITE |
+| groupBy | | String | | | READ / WRITE |
+| displaySums | | Boolean | | true | READ / WRITE |
+| isStarred | | Boolean | | true | READ / WRITE |
+
+## Query [/queries/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "Query",
+                "_links": {
+                    "self": {
+                        "href": "http://openproject.org/api/v3/queries/2",
+                        "title": "My work packages"
+                    }
+                },
+                "id": 2,
+                "name": "My work packages",
+                "projectId": 1,
+                "projectName": "Seeded Project",
+                "userId": 1,
+                "userName": "OpenProject Admin",
+                "userLogin": "admin",
+                "userMail": "admin@example.net",
+                "filters": [
+                    {
+                        "status_id": {
+                            "operator": "o",
+                            "values": null
+                        }
+                    },
+                    {
+                        "assigned_to_id": {
+                            "operator": "=",
+                            "values": [
+                                "me"
+                            ]
+                        }
+                    }
+                ],
+                "isPublic": "false",
+                "columnNames": [
+                    "type",
+                    "status",
+                    "priority",
+                    "subject",
+                    "assigned_to"
+                ],
+                "sortCriteria": [
+                    [
+                        "parent",
+                        "desc"
+                    ]
+                ],
+                "groupBy": null,
+                "displaySums": "false",
+                "isStarred": true
+            }
+
+## View query [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... Query id
+
++ Response 200 (application/hal+json)
+
+    [Query][]
+
+## Star Query [/queries/{id}/star]
+
++ Model
+    + Body
+
+            {
+                "_type": "Query",
+                "_links": {
+                    "self": {
+                        "href": "http://openproject.org/api/v3/queries/2",
+                        "title": "My work packages"
+                    }
+                },
+                "id": 2,
+                "name": "My work packages",
+                "projectId": 1,
+                "projectName": "Seeded Project",
+                "userId": 1,
+                "userName": "OpenProject Admin",
+                "userLogin": "admin",
+                "userMail": "admin@example.net",
+                "filters": [
+                    {
+                        "status_id": {
+                            "operator": "o",
+                            "values": null
+                        }
+                    },
+                    {
+                        "assigned_to_id": {
+                            "operator": "=",
+                            "values": [
+                                "me"
+                            ]
+                        }
+                    }
+                ],
+                "isPublic": "false",
+                "columnNames": [
+                    "type",
+                    "status",
+                    "priority",
+                    "subject",
+                    "assigned_to"
+                ],
+                "sortCriteria": [
+                    [
+                        "parent",
+                        "desc"
+                    ]
+                ],
+                "groupBy": null,
+                "displaySums": "false",
+                "isStarred": true
+            }
+
+## Star query [PATCH]
+
++ Parameters
+    + id (required, integer, `1`) ... Query id
+
++ Response 200 (application/hal+json)
+
+    [Star Query][]
+
+## Unstar Query [/queries/{id}/unstar]
+
++ Model
+    + Body
+
+            {
+                "_type": "Query",
+                "_links": {
+                    "self": {
+                        "href": "http://openproject.org/api/v3/queries/2",
+                        "title": "My work packages"
+                    }
+                },
+                "id": 2,
+                "name": "My work packages",
+                "projectId": 1,
+                "projectName": "Seeded Project",
+                "userId": 1,
+                "userName": "OpenProject Admin",
+                "userLogin": "admin",
+                "userMail": "admin@example.net",
+                "filters": [
+                    {
+                        "status_id": {
+                            "operator": "o",
+                            "values": null
+                        }
+                    },
+                    {
+                        "assigned_to_id": {
+                            "operator": "=",
+                            "values": [
+                                "me"
+                            ]
+                        }
+                    }
+                ],
+                "isPublic": "false",
+                "columnNames": [
+                    "type",
+                    "status",
+                    "priority",
+                    "subject",
+                    "assigned_to"
+                ],
+                "sortCriteria": [
+                    [
+                        "parent",
+                        "desc"
+                    ]
+                ],
+                "groupBy": null,
+                "displaySums": "false",
+                "isStarred": false
+            }
+
+## Unstar query [PATCH]
+
++ Parameters
+    + id (required, integer, `1`) ... Query id
+
++ Response 200 (application/hal+json)
+
+    [Unstar Query][]
 
 # Group Work packages
 
@@ -545,222 +761,6 @@ Activity can be either _type Activity or _type Activity::Comment.
 + Response 200 (application/hal+json)
 
     [WorkPackage][]
-
-# Group Queries
-
-## Properties:
-| Property | Description | Type | Constraints | Example | Supported operations |
-|:---------:|-------------| ---- | ----------- | ------- | -------------------- |
-| id | Query id | Integer | Must be a positive integer | 12 | READ |
-| name | Query name | String | | My work packages query | READ / WRITE |
-| projectId | | Integer | Must be an id of one of the existing projects | 1 | READ / WRITE |
-| projectName | | String | | My open project | READ |
-| userId | | Integer | | 1 | READ / WRITE |
-| userName | | String | | John Sheppard | READ |
-| userLogin | | String | | j.sheppard | READ |
-| userMail | | String | | j.sheppard@finn.de| READ |
-| filters | | String | | | READ / WRITE |
-| isPublic | | Boolean | | true | READ / WRITE |
-| columnNames | | String | | | READ / WRITE |
-| sortCriteria | | String | | | READ / WRITE |
-| groupBy | | String | | | READ / WRITE |
-| displaySums | | Boolean | | true | READ / WRITE |
-| isStarred | | Boolean | | true | READ / WRITE |
-
-## Query [/queries/{id}]
-
-+ Model
-    + Body
-
-            {
-                "_type": "Query",
-                "_links": {
-                    "self": {
-                        "href": "http://openproject.org/api/v3/queries/2",
-                        "title": "My work packages"
-                    }
-                },
-                "id": 2,
-                "name": "My work packages",
-                "projectId": 1,
-                "projectName": "Seeded Project",
-                "userId": 1,
-                "userName": "OpenProject Admin",
-                "userLogin": "admin",
-                "userMail": "admin@example.net",
-                "filters": [
-                    {
-                        "status_id": {
-                            "operator": "o",
-                            "values": null
-                        }
-                    },
-                    {
-                        "assigned_to_id": {
-                            "operator": "=",
-                            "values": [
-                                "me"
-                            ]
-                        }
-                    }
-                ],
-                "isPublic": "false",
-                "columnNames": [
-                    "type",
-                    "status",
-                    "priority",
-                    "subject",
-                    "assigned_to"
-                ],
-                "sortCriteria": [
-                    [
-                        "parent",
-                        "desc"
-                    ]
-                ],
-                "groupBy": null,
-                "displaySums": "false",
-                "isStarred": true
-            }
-
-## View query [GET]
-
-+ Parameters
-    + id (required, integer, `1`) ... Query id
-
-+ Response 200 (application/hal+json)
-
-    [Query][]
-
-## Star Query [/queries/{id}/star]
-
-+ Model
-    + Body
-
-            {
-                "_type": "Query",
-                "_links": {
-                    "self": {
-                        "href": "http://openproject.org/api/v3/queries/2",
-                        "title": "My work packages"
-                    }
-                },
-                "id": 2,
-                "name": "My work packages",
-                "projectId": 1,
-                "projectName": "Seeded Project",
-                "userId": 1,
-                "userName": "OpenProject Admin",
-                "userLogin": "admin",
-                "userMail": "admin@example.net",
-                "filters": [
-                    {
-                        "status_id": {
-                            "operator": "o",
-                            "values": null
-                        }
-                    },
-                    {
-                        "assigned_to_id": {
-                            "operator": "=",
-                            "values": [
-                                "me"
-                            ]
-                        }
-                    }
-                ],
-                "isPublic": "false",
-                "columnNames": [
-                    "type",
-                    "status",
-                    "priority",
-                    "subject",
-                    "assigned_to"
-                ],
-                "sortCriteria": [
-                    [
-                        "parent",
-                        "desc"
-                    ]
-                ],
-                "groupBy": null,
-                "displaySums": "false",
-                "isStarred": true
-            }
-
-## Star query [PATCH]
-
-+ Parameters
-    + id (required, integer, `1`) ... Query id
-
-+ Response 200 (application/hal+json)
-
-    [Star Query][]
-
-## Unstar Query [/queries/{id}/unstar]
-
-+ Model
-    + Body
-
-            {
-                "_type": "Query",
-                "_links": {
-                    "self": {
-                        "href": "http://openproject.org/api/v3/queries/2",
-                        "title": "My work packages"
-                    }
-                },
-                "id": 2,
-                "name": "My work packages",
-                "projectId": 1,
-                "projectName": "Seeded Project",
-                "userId": 1,
-                "userName": "OpenProject Admin",
-                "userLogin": "admin",
-                "userMail": "admin@example.net",
-                "filters": [
-                    {
-                        "status_id": {
-                            "operator": "o",
-                            "values": null
-                        }
-                    },
-                    {
-                        "assigned_to_id": {
-                            "operator": "=",
-                            "values": [
-                                "me"
-                            ]
-                        }
-                    }
-                ],
-                "isPublic": "false",
-                "columnNames": [
-                    "type",
-                    "status",
-                    "priority",
-                    "subject",
-                    "assigned_to"
-                ],
-                "sortCriteria": [
-                    [
-                        "parent",
-                        "desc"
-                    ]
-                ],
-                "groupBy": null,
-                "displaySums": "false",
-                "isStarred": false
-            }
-
-## Unstar query [PATCH]
-
-+ Parameters
-    + id (required, integer, `1`) ... Query id
-
-+ Response 200 (application/hal+json)
-
-    [Unstar Query][]
     
 # Group Users
 
