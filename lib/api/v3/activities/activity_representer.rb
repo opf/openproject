@@ -46,7 +46,7 @@ module API
           { href: "#{root_url}api/v3/activities/#{represented.journal.id}", title: "#{represented.journal.id}" }
         end
 
-        link :work_package do
+        link :workPackage do
           { href: "#{root_url}api/v3/work_packages/#{represented.journal.journable.id}", title: "#{represented.journal.journable.subject}" }
         end
 
