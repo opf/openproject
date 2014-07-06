@@ -278,12 +278,6 @@ Activity can be either _type Activity or _type Activity::Comment.
 |:---------:|-------------| ---- | ----------- | ------- | -------------------- |
 | id | Query id | Integer | Must be a positive integer | 12 | READ |
 | name | Query name | String | | My work packages query | READ / WRITE |
-| projectId | | Integer | Must be an id of one of the existing projects | 1 | READ / WRITE |
-| projectName | | String | | My open project | READ |
-| userId | | Integer | | 1 | READ / WRITE |
-| userName | | String | | John Sheppard | READ |
-| userLogin | | String | | j.sheppard | READ |
-| userMail | | String | | j.sheppard@finn.de| READ |
 | filters | | String | | | READ / WRITE |
 | isPublic | | Boolean | | true | READ / WRITE |
 | columnNames | | String | | | READ / WRITE |
@@ -301,18 +295,20 @@ Activity can be either _type Activity or _type Activity::Comment.
                 "_type": "Query",
                 "_links": {
                     "self": {
-                        "href": "http://openproject.org/api/v3/queries/2",
+                        "href": "https://openproject.org/api/v3/queries/2",
                         "title": "My work packages"
+                    },
+                    "project": {
+                        "href": "https://openproject.org/api/v3/projects/1",
+                        "title": "Lorem ipsum"
+                    },
+                    "user": {
+                        "href": "https://openproject.org/api/v3/users/1",
+                        "title": "John Sheppard - admin"
                     }
                 },
                 "id": 2,
                 "name": "My work packages",
-                "projectId": 1,
-                "projectName": "Seeded Project",
-                "userId": 1,
-                "userName": "OpenProject Admin",
-                "userLogin": "admin",
-                "userMail": "admin@example.net",
                 "filters": [
                     {
                         "status_id": {
@@ -366,18 +362,20 @@ Activity can be either _type Activity or _type Activity::Comment.
                 "_type": "Query",
                 "_links": {
                     "self": {
-                        "href": "http://openproject.org/api/v3/queries/2",
+                        "href": "https://openproject.org/api/v3/queries/2",
                         "title": "My work packages"
+                    },
+                    "project": {
+                        "href": "https://openproject.org/api/v3/projects/1",
+                        "title": "Lorem ipsum"
+                    },
+                    "user": {
+                        "href": "https://openproject.org/api/v3/users/1",
+                        "title": "John Sheppard - admin"
                     }
                 },
                 "id": 2,
                 "name": "My work packages",
-                "projectId": 1,
-                "projectName": "Seeded Project",
-                "userId": 1,
-                "userName": "OpenProject Admin",
-                "userLogin": "admin",
-                "userMail": "admin@example.net",
                 "filters": [
                     {
                         "status_id": {
@@ -431,18 +429,20 @@ Activity can be either _type Activity or _type Activity::Comment.
                 "_type": "Query",
                 "_links": {
                     "self": {
-                        "href": "http://openproject.org/api/v3/queries/2",
+                        "href": "https://openproject.org/api/v3/queries/2",
                         "title": "My work packages"
+                    },
+                    "project": {
+                        "href": "https://openproject.org/api/v3/projects/1",
+                        "title": "Lorem ipsum"
+                    },
+                    "user": {
+                        "href": "https://openproject.org/api/v3/users/1",
+                        "title": "John Sheppard - admin"
                     }
                 },
                 "id": 2,
                 "name": "My work packages",
-                "projectId": 1,
-                "projectName": "Seeded Project",
-                "userId": 1,
-                "userName": "OpenProject Admin",
-                "userLogin": "admin",
-                "userMail": "admin@example.net",
                 "filters": [
                     {
                         "status_id": {
@@ -475,7 +475,7 @@ Activity can be either _type Activity or _type Activity::Comment.
                 ],
                 "groupBy": null,
                 "displaySums": "false",
-                "isStarred": false
+                "isStarred": "false"
             }
 
 ## Unstar query [PATCH]
