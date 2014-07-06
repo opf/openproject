@@ -215,6 +215,61 @@ Activity can be either _type Activity or _type Activity::Comment.
 + Response 200 (application/hal+json)
 
     [Activity][]
+    
+# Group Attachments
+
+## Properties:
+| Property | Description | Type | Constraints | Example | Supported operations |
+|:---------:|-------------| ---- | ----------- | ------- | -------------------- |
+| id | Attachment's id | Integer | Must be a positive integer | 12 | READ |
+| fileName | | String | | dolor_sit_amet | READ / WRITE |
+| diskFileName | | String | | dolor_sit_amet | READ / WRITE |
+| description | | String | | Lorem ipsum dolor ... | READ / WRITE |
+| contentType | | String | | application/binary | READ / WRITE |
+| digest | | String | | | READ / WRITE |
+| downloads | | Integer | | | READ |
+| createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
+
+## Attachment [/attachments/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "Attachment",
+                "_links": {
+                    "self": {
+                        "href": "https://openproject.org/api/v3/attachments/1",
+                        "title": "dolor_sit_amet"
+                    },
+                    "workPackage" {
+                        "href": "https://openproject.org/api/v3/work_packages/1",
+                        "title": "Lorem ipsum"
+                    },
+                    "author": {
+                        "href": "https://openproject.org/api/v3/users/1",
+                        "title": "John Sheppard - admin"
+                    }
+                },
+                "id": 1,
+                "fileName": "dolor_sit_amet",
+                "diskFileName": "dolor_sit_amet",
+                "description": "Lorem ipsum dolor sit amet consecetur elis.",
+                "filesize": 24,
+                "contentType": "application/binary",
+                "digest": "",
+                "downloads": 0,
+                "createdAt": "2014-05-21T08:51:20Z"
+            }
+
+## View attachment [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... Attachment id
+
++ Response 200 (application/hal+json)
+
+    [Attachment][]
 
 # Group Work packages
 
@@ -753,62 +808,6 @@ Activity can be either _type Activity or _type Activity::Comment.
 + Response 200 (application/hal+json)
 
     [User][]
-
-# Group Attachments
-
-## Properties:
-| Property | Description | Type | Constraints | Example | Supported operations |
-|:---------:|-------------| ---- | ----------- | ------- | -------------------- |
-| id | Attachment's id | Integer | Must be a positive integer | 12 | READ |
-| fileName | | String | | dolor_sit_amet | READ / WRITE |
-| diskFileName | | String | | dolor_sit_amet | READ / WRITE |
-| description | | String | | Lorem ipsum dolor ... | READ / WRITE |
-| contentType | | String | | application/binary | READ / WRITE |
-| digest | | String | | | READ / WRITE |
-| downloads | | Integer | | | READ |
-| createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
-
-
-## Attachment [/attachments/{id}]
-
-+ Model
-    + Body
-
-            {
-                "_type": "Attachment",
-                "_links": {
-                    "self": {
-                        "href": "https://openproject.org/api/v3/attachments/1",
-                        "title": "dolor_sit_amet"
-                    },
-                    "workPackage" {
-                        "href": "https://openproject.org/api/v3/work_packages/1",
-                        "title": "Lorem ipsum"
-                    },
-                    "author": {
-                        "href": "https://openproject.org/api/v3/users/1",
-                        "title": "John Sheppard - admin"
-                    }
-                },
-                "id": 1,
-                "fileName": "dolor_sit_amet",
-                "diskFileName": "dolor_sit_amet",
-                "description": "Lorem ipsum dolor sit amet consecetur elis.",
-                "filesize": 24,
-                "contentType": "application/binary",
-                "digest": "",
-                "downloads": 0,
-                "createdAt": "2014-05-21T08:51:20Z"
-            }
-
-## View attachment [GET]
-
-+ Parameters
-    + id (required, integer, `1`) ... Attachment id
-
-+ Response 200 (application/hal+json)
-
-    [Attachment][]
 
 # Group Projects
 
