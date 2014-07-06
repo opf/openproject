@@ -164,6 +164,58 @@ This allows you to see exactly what went wrong and inform the user.
 # OpenProject API error objects
 **TODO**
 
+# Group Activities
+
+## Properties:
+| Property | Description | Type | Constraints | Example | Supported operations |
+|:---------:|-------------| ---- | ----------- | ------- | -------------------- |
+| id | Activity id | Integer | Must be a positive integer | 12 | READ |
+| version | Activity version | Integer | Must be a positive integer | 31 | READ |
+| comment | | String | | Lorem ipsum. | READ / WRITE |
+| details | | Array | | ["Priority changed from High to Low"] | READ |
+| createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
+
+Activity can be either _type Activity or _type Activity::Comment.
+
+## Activity [/activities/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "Activity::Comment",
+                "_links": {
+                    "self": {
+                        "href": "https://openproject.org/api/v3/activity/1",
+                        "title": "Priority changed from High to Low"
+                    },
+                    "workPackage": {
+                        "href": "https://openproject.org/api/v3/work_packages/1",
+                        "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
+                    },
+                    "user": {
+                        "href": "https://openproject.org/api/v3/users/1",
+                        "title": "John Sheppard - admin"
+                    }
+                },
+                "id": 1,
+                "details": [
+                    "Lorem ipsum dolor sit amet."
+                ],
+                "comment": "Lorem ipsum dolor sit amet.",
+                "createdAt": "2014-05-21T08:51:20Z",
+                "version": 31
+            }
+
+## View activity [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... Activity id
+
++ Response 200 (application/hal+json)
+
+    [Activity][]
+
 # Group Work packages
 
 ## Properties:
@@ -654,61 +706,6 @@ This allows you to see exactly what went wrong and inform the user.
 + Response 200 (application/hal+json)
 
     [Unstar Query][]
-
-# Group Activities
-
-## Properties:
-| Property | Description | Type | Constraints | Example | Supported operations |
-|:---------:|-------------| ---- | ----------- | ------- | -------------------- |
-| id | Activity id | Integer | Must be a positive integer | 12 | READ |
-| version | Activity version | Integer | Must be a positive integer | 31 | READ |
-| userId | User id | Integer | Must be a positive integer | 12 | READ |
-| userName | User name | String | | John Sheppard | READ |
-| userLogin | User login | String | | admin | READ |
-| userMail | User mail | String | | admin@example.net | READ |
-| notes | | String | | Lorem ipsum dolor sit amet. | READ |
-| details | | Array | | ["Priority changed from High to Low"] | READ |
-| createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
-
-
-## Activity [/activities/{id}]
-
-+ Model
-    + Body
-
-            {
-                "_type": "Activity::Comment",
-                "_links": {
-                    "self": {
-                        "href": "https://openproject.org/api/v3/activity/1",
-                        "title": "Priority changed from High to Low"
-                    },
-                    "workPackage": {
-                        "href": "https://openproject.org/api/v3/work_packages/1",
-                        "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
-                    },
-                    "user": {
-                        "href": "https://openproject.org/api/v3/users/1",
-                        "title": "John Sheppard - admin"
-                    }
-                },
-                "id": 1,
-                "details": [
-                    "Lorem ipsum dolor sit amet."
-                ],
-                "comment": "Lorem ipsum dolor sit amet.",
-                "createdAt": "2014-05-21T08:51:20Z",
-                "version": 31
-            }
-
-## View activity [GET]
-
-+ Parameters
-    + id (required, integer, `1`) ... Activity id
-
-+ Response 200 (application/hal+json)
-
-    [Activity][]
     
 # Group Users
 
