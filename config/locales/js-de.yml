@@ -217,8 +217,8 @@ de:
       message_error_during_bulk_delete: Fehler beim Löschen der Arbeitspakete.
       message_successful_bulk_delete: Arbeitspakete erfolgreich gelöscht.
       properties:
-        assigneeName: "Zugewiesen an"
-        authorName: "Autor"
+        assignee: "Zugewiesen an"
+        author: "Autor"
         createdAt: "Angelegt"
         description: "Beschreibung"
         date: "Datum"
@@ -227,7 +227,7 @@ de:
         percentageDone: "% erledigt"
         priority: "Priorität"
         projectName: "Projekt"
-        responsibleName: "Verantwortlicher"
+        responsible: "Verantwortlicher"
         startDate: "Startdatum"
         status: "Status"
         subject: "Thema"

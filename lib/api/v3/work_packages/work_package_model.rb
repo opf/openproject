@@ -104,6 +104,18 @@ module API
           work_package.done_ratio = value
         end
 
+        def author
+          ::API::V3::Users::UserModel.new(work_package.author)  unless work_package.author.nil?
+        end
+
+        def responsible
+          ::API::V3::Users::UserModel.new(work_package.responsible) unless work_package.responsible.nil?
+        end
+
+        def assignee
+          ::API::V3::Users::UserModel.new(work_package.assigned_to) unless work_package.assigned_to.nil?
+        end
+
         def activities
           work_package.journals.map{ |journal| ::API::V3::Activities::ActivityModel.new(journal: journal) }
         end
