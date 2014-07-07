@@ -52,6 +52,7 @@ en:
     general_text_No: "No"
     general_text_Yes: "Yes"
     label_add_columns: "Add selected columns"
+    label_added_by: "added by"
     label_added_time_by: "Added by %{author} %{age}"
     label_ago: "days ago"
     label_all: "all"
@@ -80,6 +81,7 @@ en:
     label_in: "in"
     label_in_less_than: "in less than"
     label_in_more_than: "in more than"
+    label_last_updated_on: "Last updated on"
     label_less_or_equal: "<="
     label_less_than_ago: "less than days ago"
     label_loading: "Loading..."
@@ -209,6 +211,7 @@ en:
       message: "The browser you are using is no longer supported by OpenProject. Please update your browser."
       learn_more: "Learn more"
     work_packages:
+      button_clear: "Clear"
       description_filter: "Filter"
       description_enter_text: "Enter text"
       description_options_hide: "Hide options"
@@ -238,10 +241,6 @@ en:
         type: "Type"
         updatedAt: "Updated on"
         versionName: "Version"
-      time_relative:
-        days: "days"
-        weeks: "weeks"
-        months: "months"
       query:
         column_names: "Columns"
         group_by: "Group results by"
@@ -254,7 +253,16 @@ en:
         insert_columns: "Insert columns ..."
         filters: "Filters"
         display_sums: "Display Sums"
-      button_clear: "Clear"
+      tabs:
+        overview: Overview
+        activity: Activity
+        relations: Relations
+        watchers: Watchers
+        attachments: Attachments
+      time_relative:
+        days: "days"
+        weeks: "weeks"
+        months: "months"
     toolbar:
       settings:
         columns: "Columns ..."

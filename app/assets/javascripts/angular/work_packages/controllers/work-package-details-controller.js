@@ -46,6 +46,7 @@ angular.module('openproject.workPackages.controllers')
   'WorkPackagesHelper',
   function($scope, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, WorkPackagesHelper) {
     // initialization
+    $scope.I18n = I18n;
     $scope.workPackage = workPackage;
     $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
     $scope.maxDescriptionLength = 800;

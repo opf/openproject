@@ -52,6 +52,7 @@ de:
     general_text_No: "Nein"
     general_text_Yes: "Ja"
     label_add_columns: "Ausgewählte Spalten hinzufügen"
+    label_added_by: "hinzugefügt von"
     label_added_time_by: "Von %{author} %{age} hinzugefügt"
     label_ago: "vor"
     label_all: "alle"
@@ -80,6 +81,7 @@ de:
     label_in: "an"
     label_in_less_than: "in weniger als"
     label_in_more_than: "in mehr als"
+    label_last_updated_on: "Zuletzt aktualisiert am"
     label_less_or_equal: "<="
     label_less_than_ago: "vor weniger als"
     label_loading: "Lade..."
@@ -207,6 +209,7 @@ de:
       message: "Sie verwenden einen veralteten Browser. OpenProject unterstützt diesen Browser nicht länger. Bitte aktualisieren Sie Ihren Browser."
       learn_more: "Mehr erfahren"
     work_packages:
+      button_clear: "Zurücksetzen"
       description_filter: "Filter"
       description_enter_text: "Text eingeben"
       description_options_hide: "Optionen ausblenden"
@@ -235,10 +238,6 @@ de:
         type: "Typ"
         updatedAt: "Aktualisiert"
         versionName: "Version"
-      time_relative:
-        days: "Tagen"
-        weeks: "Wochen"
-        months: "Monaten"
       query:
         column_names: "Spalten"
         group_by: "Gruppiere Ergebnisse nach"
@@ -251,7 +250,16 @@ de:
         insert_columns: "Spalten hinzufügen ..."
         filters: "Filter"
         display_sums: "Summen anzeigen"
-      button_clear: "Zurücksetzen"
+      tabs:
+        overview: "Übersicht"
+        activity: "Aktivität"
+        relations: "Beziehungen"
+        watchers: "Beobachter"
+        attachments: "Anhänge"
+      time_relative:
+        days: "Tagen"
+        weeks: "Wochen"
+        months: "Monaten"
     toolbar:
       settings:
         columns: "Spalten ..."
