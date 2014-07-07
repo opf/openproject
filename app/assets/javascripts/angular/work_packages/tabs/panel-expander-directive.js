@@ -32,7 +32,7 @@ angular.module('openproject.workPackages.tabs')
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: '/templates/work_packages/tabs/panel_expander.html',
+    templateUrl: '/templates/work_packages/tabs/_panel_expander.html',
     scope: {
       collapsed: '=',
       expandText: '@',
