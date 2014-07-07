@@ -1,0 +1,7 @@
+<p>
+  <img class="avatar"
+       ng-if="userName && avatarLink"
+       ng-src="{{ avatarLink }}" />
+  <span class="user"><a ng-href="{{userLink}}" ng-bind="userName"/></span>
+  <span class="role" ng-if="userRole" ng-bind="userRole"/>
+</p>
