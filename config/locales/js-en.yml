@@ -220,8 +220,8 @@ en:
       message_error_during_bulk_delete: An error occurred while trying to delete work packages.
       message_successful_bulk_delete: Successfully deleted work packages.
       properties:
-        assigneeName: "Assignee"
-        authorName: "Author"
+        assignee: "Assignee"
+        author: "Author"
         createdAt: "Created on"
         description: "Description"
         date: "Datum"
@@ -230,7 +230,7 @@ en:
         percentageDone: "Percentage done"
         priority: "Priority"
         projectName: "Project"
-        responsibleName: "Responsible"
+        responsible: "Responsible"
         startDate: "Start date"
         status: "Status"
         subject: "Subject"

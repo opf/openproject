@@ -22,21 +22,8 @@
   <ul>
     <li ng-repeat="propertyData in presentWorkPackageProperties">
       <label ng-bind="propertyData.label"/>
-      <span ng-switch="propertyData.property">
-        <user-field ng-switch-when="assigneeName"
-                    user-name="propertyData.value"
-                    avatar-link="workPackage.props.assigneeAvatar"
-                    user-role="workPackage.props.assigneeRole">
-        </user-field>
-        <user-field ng-switch-when="authorName"
-                    user-name="propertyData.value"
-                    avatar-link="workPackage.props.authorAvatar">
-        </user-field>
-        <user-field ng-switch-when="responsibleName"
-                    user-name="propertyData.value"
-                    avatar-link="workPackage.props.responsibleAvatar"
-                    user-role="workPackage.props.responsibleRole">
-        </user-field>
+      <span ng-switch="propertyData.format">
+        <user-field ng-switch-when="user" user="propertyData.value"></user-field>
         <span ng-switch-default ng-bind="propertyData.value"/>
       </span>
     </li>

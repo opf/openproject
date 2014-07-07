@@ -33,11 +33,11 @@ angular.module('openproject.workPackages.tabs')
     restrict: 'E',
     replace: true,
     templateUrl: '/templates/work_packages/tabs/_user_field.html',
-    scope: {
-      userName: '=',
-      userLink: '=',
-      avatarLink: '=',
-      userRole: '='
+    scope: { user: '=' },
+    link: function(scope) {
+      if (scope.user.props && (scope.user.props.firstName || scope.user.props.lastName)) {
+        scope.userName = scope.user.props.firstName + ' ' + scope.user.props.lastName;
+      }
     }
   };
 }]);
