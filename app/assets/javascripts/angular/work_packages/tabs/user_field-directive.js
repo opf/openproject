@@ -28,15 +28,16 @@
 
 angular.module('openproject.workPackages.tabs')
 
-.directive('panelExpander', [function() {
+.directive('userField', [function() {
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: '/templates/work_packages/tabs/_panel_expander.html',
+    templateUrl: '/templates/work_packages/tabs/_user_field.html',
     scope: {
-      collapsed: '=',
-      expandText: '@',
-      collapseText: '@'
+      userName: '=',
+      userLink: '=',
+      avatarLink: '=',
+      userRole: '='
     }
   };
 }]);

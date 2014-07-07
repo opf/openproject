@@ -20,29 +20,26 @@
 <div class="detail-panel-attributes">
   <!-- present attributes -->
   <ul>
-    <li ng-repeat="propertyData in presentWorkPackageProperties">
+    <li ng-repeat="propertyData in presentWorkPackageProperties"
+        ng-if="!propertyData.format || propertyData.format !== 'user'">
+      <!-- TODO: Render user custom fields -->
       <label ng-bind="propertyData.label"/>
+
       <span ng-switch="propertyData.property">
-        <p ng-switch-when="assigneeName">
-          <img class="avatar"
-               ng-if="workPackage.props.assigneeName && workPackage.props.assigneeAvatar"
-               ng-src="{{ workPackage.props.assigneeAvatar }}" />
-          <span class="user"><a href ng-bind="propertyData.value"/></span>
-          <span class="role" ng-bind="workPackage.props.assigneeRole"/>
-        </p>
-        <p ng-switch-when="authorName">
-          <img class="avatar"
-               ng-if="workPackage.props.authorName && workPackage.props.authorAvatar"
-               ng-src="{{ workPackage.props.authorAvatar }}" />
-          <span class="user"><a href ng-bind="propertyData.value"/></span>
-        </p>
-        <p ng-switch-when="responsibleName">
-          <img class="avatar"
-               ng-if="workPackage.props.responsibleName && workPackage.props.responsibleAvatar"
-               ng-src="{{ workPackage.props.responsibleAvatar }}" />
-          <span class="user"><a href ng-bind="propertyData.value"/></span>
-          <span class="role" ng-bind="workPackage.props.responsibleRole"/>
-        </p>
+        <user-field ng-switch-when="assigneeName"
+                    user-name="propertyData.value"
+                    avatar-link="workPackage.props.assigneeAvatar"
+                    user-role="workPackage.props.assigneeRole">
+        </user-field>
+        <user-field ng-switch-when="authorName"
+                    user-name="propertyData.value"
+                    avatar-link="workPackage.props.authorAvatar">
+        </user-field>
+        <user-field ng-switch-when="responsibleName"
+                    user-name="propertyData.value"
+                    avatar-link="workPackage.props.responsibleAvatar"
+                    user-role="workPackage.props.responsibleRole">
+        </user-field>
         <span ng-switch-default ng-bind="propertyData.value"/>
       </span>
     </li>
