@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -27,35 +26,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'reform'
-require 'reform/form/coercion'
+require 'spec_helper'
 
-module API
-  module V3
-    module WorkPackages
-      class RelationModel < Reform::Form
-        include Coercion
+describe ::API::V3::WorkPackages::RelationModel do
+  subject(:model) { ::API::V3::WorkPackages::RelationModel.new(relation) }
+  let(:relation)  { FactoryGirl.build(:relation, attributes) }
 
-        def related
-          model.to # not model.from?
-        end
+  let(:attributes) {
+    {
+      delay: 365
+    }
+  }
 
-        # NOTE: to avoid a naming collision with DelayedJob, we define an
-        # explicit method here rather than relying on the #property macro.
-        #
-        # @see Relation#delay
-        def delay
-          model.delay
-        end
+  its(:delay) { should eq 365 }
 
-        def delay=(value)
-          model.delay = value
-        end
-
-        def type
-          model.relation_type
-        end
-      end
-    end
+  it 'should allow a delay to be set' do
+    model.delay = 1
+    expect(relation.delay).to eq 1
   end
 end

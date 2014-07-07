@@ -36,25 +36,12 @@ describe ::API::V3::WorkPackages::RelationRepresenter do
   context 'generation' do
     subject(:generated) { representer.to_json }
 
-    it { should include_json('Relationship'.to_json).at_path('_type') }
-
-    describe 'relation' do
-      it { should have_json_path('id')   }
-      it { should have_json_path('type') }
-
-      it { should have_json_path('relatedWorkPackageId') }
-      it { should have_json_path('relatedWorkPackageSubject') }
-      it { should have_json_path('relatedWorkPackageType') }
-      it { should have_json_path('relatedWorkPackageStartDate') }
-      it { should have_json_path('relatedWorkPackageDueDate') }
-    end
+    it { should include_json('RelatesRelation'.to_json).at_path('_type') }
 
     describe '_links' do
-      xit 'should link to self'
-
-      it 'should link to relatedWorkPackage' do
-        expect(subject).to have_json_path('_links/relatedWorkPackage/href')
-        expect(subject).to have_json_path('_links/relatedWorkPackage/title')
+      it 'should link to workPackage' do
+        expect(subject).to have_json_path('_links/workPackage/href')
+        expect(subject).to have_json_path('_links/workPackage/title')
       end
     end
   end

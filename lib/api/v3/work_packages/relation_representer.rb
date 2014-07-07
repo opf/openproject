@@ -41,30 +41,14 @@ module API
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
         property :_type, exec_context: :decorator
+        property :delay
 
-        # link :self do
-        #  { href: "#{root_url}/api/v3/relationships/#{represented.id}", title: "#{represented.type}" }
-        # end
-
-        # link :workPackage do
-        #  { href: "#{root_url}/api/v3/work_packages/#{represented.related.id}", title: "#{represented.related.subject}" }
-        # end
-
-        link :relatedWorkPackage do
+        link :workPackage do
           { href: "#{root_url}/api/v3/work_packages/#{represented.related.id}", title: "#{represented.related.subject}" }
         end
 
-        property :id,   render_nil: true
-        property :type, render_nil: true
-
-        property :related_work_package_id,         getter: -> (*) { related.id }, render_nil: true
-        property :related_work_package_subject,    getter: -> (*) { related.subject }, render_nil: true
-        property :related_work_package_type,       getter: -> (*) { related.type.try(:name) }, render_nil: true
-        property :related_work_package_start_date, getter: -> (*) { related.start_date }, render_nil: true
-        property :related_work_package_due_date,   getter: -> (*) { related.due_date }, render_nil: true
-
         def _type
-          'Relationship'
+          "#{ActiveSupport::Inflector.camelize(represented.type)}Relation"
         end
 
         private

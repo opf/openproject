@@ -128,8 +128,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           it { should have_json_size(3).at_path('_embedded/relations') }
-          it { should have_json_path('_embedded/relations/2/type') }
-          it { should have_json_path('_embedded/relations/2/_links/relatedWorkPackage/href') }
+          it { should have_json_path('_embedded/relations/2/_type') }
+          it { should have_json_path('_embedded/relations/2/_links/workPackage/href') }
         end
       end
     end
