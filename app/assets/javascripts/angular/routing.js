@@ -57,23 +57,23 @@ angular.module('openproject')
     })
     .state('work-packages.list.details.overview', {
       url: "/overview",
-      templateUrl: "/templates/tabs/overview.html",
+      templateUrl: "/templates/work_packages/tabs/overview.html",
     })
     .state('work-packages.list.details.activity', {
       url: "/activity",
-      templateUrl: "/templates/tabs/activity.html",
+      templateUrl: "/templates/work_packages/tabs/activity.html",
     })
     .state('work-packages.list.details.relations', {
       url: "/relations",
-      templateUrl: "/templates/tabs/relations.html",
+      templateUrl: "/templates/work_packages/tabs/relations.html",
     })
     .state('work-packages.list.details.watchers', {
       url: "/watchers",
-      templateUrl: "/templates/tabs/watchers.html",
+      templateUrl: "/templates/work_packages/tabs/watchers.html",
     })
     .state('work-packages.list.details.attachments', {
       url: "/attachments",
-      templateUrl: "/templates/tabs/attachments.html",
+      templateUrl: "/templates/work_packages/tabs/attachments.html",
     });
 }])
 
