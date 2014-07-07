@@ -46,7 +46,7 @@ module API
           { href: "#{root_url}api/v3/activities/#{represented.journal.id}", title: "#{represented.journal.id}" }
         end
 
-        link :work_package do
+        link :workPackage do
           { href: "#{root_url}api/v3/work_packages/#{represented.journal.journable.id}", title: "#{represented.journal.journable.subject}" }
         end
 
@@ -60,7 +60,8 @@ module API
         property :user_login, getter: -> (*) { journal.user.try(:login) }, render_nil: true
         property :user_mail, getter: -> (*) { journal.user.try(:mail) }, render_nil: true
         property :user_avatar, getter: -> (*) {  gravatar_image_url(journal.user.try(:mail)) }, render_nil: true
-        property :messages, exec_context: :decorator, render_nil: true
+        property :notes, as: :comment, render_nil: true
+        property :details, exec_context: :decorator, render_nil: true
         property :version, getter: -> (*) { journal.version }, render_nil: true
         property :created_at, getter: -> (*) { journal.created_at.utc.iso8601 }, render_nil: true
 
@@ -72,12 +73,10 @@ module API
           end
         end
 
-        def messages
+        def details
           journal = represented.journal
           if journal.notes.blank?
             journal.details.map{ |d| journal.render_detail(d, no_html: true) }
-          else
-            [journal.notes]
           end
         end
       end
