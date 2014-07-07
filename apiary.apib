@@ -271,6 +271,63 @@ Activity can be either _type Activity or _type Activity::Comment.
 
     [Attachment][]
     
+# Group Projects
+
+## Properties:
+| Property | Description | Type | Constraints | Example | Supported operations |
+|:---------:|-------------| ---- | ----------- | ------- | -------------------- |
+| id | Attachment's id | Integer | Must be a positive integer | 12 | READ |
+| fileName | | String | | dolor_sit_amet | READ / WRITE |
+| diskFileName | | String | | dolor_sit_amet | READ / WRITE |
+| description | | String | | Lorem ipsum dolor ... | READ / WRITE |
+| contentType | | String | | application/binary | READ / WRITE |
+| digest | | String | | | READ / WRITE |
+| downloads | | Integer | | | READ |
+| createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
+
+
+## Project [/projects/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "Project",
+                "_links": {
+                    "self": {
+                        "href": "https://openproject.org/api/v3/projects/1",
+                        "title": "Lorem"
+                    },
+                    "workPackages": [{
+                        "href": "https://openproject.org/api/v3/work_packages/1",
+                        "title": "Lorem ipsum"
+                    }]
+                },
+                "id": 1,
+                "name": "Lorem",
+                "description": "Lorem ipsum dolor sit amet",
+                "homepage": "http://web.com",
+                "identifier": "lorem",
+                "type": "",
+                "summary": "Lorem ipsum dolor sit amet",
+                "createdAt": "2014-05-21T08:51:20Z",
+                "updatedAt": "2014-05-21T08:51:20Z",
+                "customProperties": [{
+                    "name": "My custom field 1",
+                    "format": "text",
+                    "value": "Lorem ipsum"
+                }]
+            }
+
+## View project [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... Project id
+
++ Response 200 (application/hal+json)
+
+    [Project][]
+    
 # Group Queries
 
 ## Properties:
@@ -486,6 +543,53 @@ Activity can be either _type Activity or _type Activity::Comment.
 + Response 200 (application/hal+json)
 
     [Unstar Query][]
+    
+# Group Users
+
+## Properties:
+| Property | Description | Type | Constraints | Example | Supported operations |
+|:---------:|-------------| ---- | ----------- | ------- | -------------------- |
+| id | User's id | Integer | Must be a positive integer | 12 | READ |
+| login | User's login name | String | | j.sheppard | READ / WRITE |
+| firstName | User's first name | String | | John | READ / WRITE |
+| lastName | User's last name | String | | Sheppard | READ / WRITE |
+| mail | User's email | String | | shep@mail.com | READ / WRITE |
+| avatar | URL to user's avatar | String | | https://gravatar/avatar | READ |
+| createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
+| updatedAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
+
+
+## User [/users/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "User",
+                "_links": {
+                    "self": {
+                        "href": "https://openproject.org/api/v3/users/1",
+                        "title": "John Sheppard - j.sheppard"
+                    }
+                },
+                "id": 1,
+                "login": "j.sheppard",
+                "firstName": "John",
+                "lastName": "Sheppard",
+                "mail": "shep@mail.com",
+                "avatar": "https://gravatar/avatar",
+                "createdAt": "2014-05-21T08:51:20Z",
+                "updatedAt": "2014-05-21T08:51:20Z"
+            }
+
+## View user [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... User id
+
++ Response 200 (application/hal+json)
+
+    [User][]
 
 # Group Work packages
 
@@ -761,107 +865,3 @@ Activity can be either _type Activity or _type Activity::Comment.
 + Response 200 (application/hal+json)
 
     [WorkPackage][]
-    
-# Group Users
-
-## Properties:
-| Property | Description | Type | Constraints | Example | Supported operations |
-|:---------:|-------------| ---- | ----------- | ------- | -------------------- |
-| id | User's id | Integer | Must be a positive integer | 12 | READ |
-| login | User's login name | String | | j.sheppard | READ / WRITE |
-| firstName | User's first name | String | | John | READ / WRITE |
-| lastName | User's last name | String | | Sheppard | READ / WRITE |
-| mail | User's email | String | | shep@mail.com | READ / WRITE |
-| avatar | URL to user's avatar | String | | https://gravatar/avatar | READ |
-| createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
-| updatedAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
-
-
-## User [/users/{id}]
-
-+ Model
-    + Body
-
-            {
-                "_type": "User",
-                "_links": {
-                    "self": {
-                        "href": "https://openproject.org/api/v3/users/1",
-                        "title": "John Sheppard - j.sheppard"
-                    }
-                },
-                "id": 1,
-                "login": "j.sheppard",
-                "firstName": "John",
-                "lastName": "Sheppard",
-                "mail": "shep@mail.com",
-                "avatar": "https://gravatar/avatar",
-                "createdAt": "2014-05-21T08:51:20Z",
-                "updatedAt": "2014-05-21T08:51:20Z"
-            }
-
-## View user [GET]
-
-+ Parameters
-    + id (required, integer, `1`) ... User id
-
-+ Response 200 (application/hal+json)
-
-    [User][]
-
-# Group Projects
-
-## Properties:
-| Property | Description | Type | Constraints | Example | Supported operations |
-|:---------:|-------------| ---- | ----------- | ------- | -------------------- |
-| id | Attachment's id | Integer | Must be a positive integer | 12 | READ |
-| fileName | | String | | dolor_sit_amet | READ / WRITE |
-| diskFileName | | String | | dolor_sit_amet | READ / WRITE |
-| description | | String | | Lorem ipsum dolor ... | READ / WRITE |
-| contentType | | String | | application/binary | READ / WRITE |
-| digest | | String | | | READ / WRITE |
-| downloads | | Integer | | | READ |
-| createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
-
-
-## Project [/projects/{id}]
-
-+ Model
-    + Body
-
-            {
-                "_type": "Project",
-                "_links": {
-                    "self": {
-                        "href": "https://openproject.org/api/v3/projects/1",
-                        "title": "Lorem"
-                    },
-                    "workPackages": [{
-                        "href": "https://openproject.org/api/v3/work_packages/1",
-                        "title": "Lorem ipsum"
-                    }]
-                },
-                "id": 1,
-                "name": "Lorem",
-                "description": "Lorem ipsum dolor sit amet",
-                "homepage": "http://web.com",
-                "identifier": "lorem",
-                "type": "",
-                "summary": "Lorem ipsum dolor sit amet",
-                "createdAt": "2014-05-21T08:51:20Z",
-                "updatedAt": "2014-05-21T08:51:20Z",
-                "customProperties": [{
-                    "name": "My custom field 1",
-                    "format": "text",
-                    "value": "Lorem ipsum"
-                }]
-            }
-
-## View project [GET]
-
-+ Parameters
-    + id (required, integer, `1`) ... Project id
-
-+ Response 200 (application/hal+json)
-
-    [Project][]
