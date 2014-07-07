@@ -62,6 +62,7 @@ module API
         property :user_avatar, getter: -> (*) {  gravatar_image_url(journal.user.try(:mail)) }, render_nil: true
         property :notes, as: :comment, render_nil: true
         property :details, exec_context: :decorator, render_nil: true
+        property :html_details, exec_context: :decorator, render_nil: true
         property :version, getter: -> (*) { journal.version }, render_nil: true
         property :created_at, getter: -> (*) { journal.created_at.utc.iso8601 }, render_nil: true
 
@@ -74,11 +75,21 @@ module API
         end
 
         def details
-          journal = represented.journal
-          if journal.notes.blank?
-            journal.details.map{ |d| journal.render_detail(d, no_html: true) }
-          end
+          render_details(represented.journal, no_html: true)
         end
+
+        def html_details
+          render_details(represented.journal)
+        end
+
+        private
+
+          def render_details(journal, no_html: false)
+            if journal.notes.blank?
+              journal.details.map{ |d| journal.render_detail(d, no_html: no_html) }
+            end
+          end
+
       end
     end
   end
