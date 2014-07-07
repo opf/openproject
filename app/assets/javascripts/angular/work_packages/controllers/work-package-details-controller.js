@@ -72,11 +72,12 @@ angular.module('openproject.workPackages.controllers')
       }
     }
 
-    function addFormattedValueToPresentProperties(property, label, value) {
+    function addFormattedValueToPresentProperties(property, label, value, format) {
       $scope.presentWorkPackageProperties.push({
         property: property,
         label: label,
-        value: value || '-'
+        value: value || '-',
+        format: format
       });
     }
 
@@ -91,18 +92,39 @@ angular.module('openproject.workPackages.controllers')
         });
     }
 
-    angular.forEach(workPackageProperties, function(property, index) {
-      var label = I18n.t('js.work_packages.properties.' + property),
-          value = getFormattedPropertyValue(property);
+    function setupWorkPackageProperties() {
+      angular.forEach(workPackageProperties, function(property, index) {
+        var label = I18n.t('js.work_packages.properties.' + property),
+            value = getFormattedPropertyValue(property);
 
-      if (!!value ||
-          index < 3 ||
-          index < 6 && secondRowToBeDisplayed()) {
-        addFormattedValueToPresentProperties(property, label, value);
-      } else {
-        $scope.emptyWorkPackageProperties.push(label);
-      }
-    });
+        if (!!value ||
+            index < 3 ||
+            index < 6 && secondRowToBeDisplayed()) {
+          addFormattedValueToPresentProperties(property, label, value);
+        } else {
+          $scope.emptyWorkPackageProperties.push(label);
+        }
+      });
+    }
+
+    function setupCustomProperties() {
+      angular.forEach(workPackage.props.customProperties, function(customProperty) {
+        var property = customProperty.name,
+            label = customProperty.name,
+            value = customProperty.value,
+            format = customProperty.format;
+
+        if (customProperty.value) {
+          addFormattedValueToPresentProperties(property, label, value, format);
+          // TODO User custom fields are to be treated differently
+        } else {
+         $scope.emptyWorkPackageProperties.push(label);
+        }
+      });
+    }
+
+    setupWorkPackageProperties();
+    setupCustomProperties();
 
     // toggles
     $scope.toggleStates = {
