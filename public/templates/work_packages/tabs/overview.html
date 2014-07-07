@@ -20,8 +20,11 @@
 <div class="detail-panel-attributes">
   <!-- present attributes -->
   <ul>
-    <li ng-repeat="propertyData in presentWorkPackageProperties">
+    <li ng-repeat="propertyData in presentWorkPackageProperties"
+        ng-if="!propertyData.format || propertyData.format !== 'user'">
+      <!-- TODO: Render user custom fields -->
       <label ng-bind="propertyData.label"/>
+
       <span ng-switch="propertyData.property">
         <user-field ng-switch-when="assigneeName"
                     user-name="propertyData.value"
