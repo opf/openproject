@@ -227,7 +227,7 @@ describe ApplicationHelper, :type => :helper do
     end
 
     context "Version link" do
-      let(:version) { FactoryGirl.create :version,
+      let!(:version) { FactoryGirl.create :version,
                                          :name => '1.0',
                                          :project => project }
       let(:version_link) { link_to('1.0',
@@ -242,13 +242,13 @@ describe ApplicationHelper, :type => :helper do
 
       context "Link with version" do
         subject { textilizable("version:1.0") }
-        xit { is_expected.to eq("<p>#{version_link}</p>") }
+        it { is_expected.to eq("<p>#{version_link}</p>") }
       end
 
       context "Link with quoted version" do
         subject { textilizable('version:"1.0"') }
 
-        xit { is_expected.to eq("<p>#{version_link}</p>") }
+        it { is_expected.to eq("<p>#{version_link}</p>") }
       end
 
       context "Escaping link with version id" do
