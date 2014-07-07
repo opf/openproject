@@ -209,6 +209,7 @@ en:
       message: "The browser you are using is no longer supported by OpenProject. Please update your browser."
       learn_more: "Learn more"
     work_packages:
+      button_clear: "Clear"
       description_filter: "Filter"
       description_enter_text: "Enter text"
       description_options_hide: "Hide options"
@@ -238,10 +239,6 @@ en:
         type: "Type"
         updatedAt: "Updated on"
         versionName: "Version"
-      time_relative:
-        days: "days"
-        weeks: "weeks"
-        months: "months"
       query:
         column_names: "Columns"
         group_by: "Group results by"
@@ -254,7 +251,16 @@ en:
         insert_columns: "Insert columns ..."
         filters: "Filters"
         display_sums: "Display Sums"
-      button_clear: "Clear"
+      tabs:
+        overview: Overview
+        activity: Activity
+        relations: Relations
+        watchers: Watchers
+        attachments: Attachments
+      time_relative:
+        days: "days"
+        weeks: "weeks"
+        months: "months"
     toolbar:
       settings:
         columns: "Columns ..."

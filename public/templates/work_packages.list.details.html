@@ -1,19 +1,29 @@
 <div id="tabs">
   <ul class="tabrow">
     <li ui-sref-active="selected">
-      <a href ui-sref="work-packages.list.details.overview({})">Overview</a>
+      <a href
+         ui-sref="work-packages.list.details.overview({})"
+         ng-bind="I18n.t('js.work_packages.tabs.overview')"/>
     </li>
     <li ui-sref-active="selected">
-      <a href ui-sref="work-packages.list.details.activity({})">Activity</a>
+      <a href
+         ui-sref="work-packages.list.details.activity({})"
+         ng-bind="I18n.t('js.work_packages.tabs.activity')"/>
     </li>
     <li ui-sref-active="selected">
-      <a href ui-sref="work-packages.list.details.relations({})">Relations</a>
+      <a href
+         ui-sref="work-packages.list.details.relations({})"
+         ng-bind="I18n.t('js.work_packages.tabs.relations')"/>
     </li>
     <li ui-sref-active="selected">
-      <a href ui-sref="work-packages.list.details.watchers({})">Watchers</a>
+      <a href
+         ui-sref="work-packages.list.details.watchers({})"
+         ng-bind="I18n.t('js.work_packages.tabs.watchers')"/>
     </li>
     <li ui-sref-active="selected">
-      <a href ui-sref="work-packages.list.details.attachments({})">Attachments</a>
+      <a href
+         ui-sref="work-packages.list.details.attachments({})"
+         ng-bind="I18n.t('js.work_packages.tabs.attachments')"/>
     </li>
   </ul>
 </div>
