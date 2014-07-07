@@ -31,7 +31,9 @@ require 'spec_helper'
 describe OpenProject::TextFormatting do
   include OpenProject::TextFormatting
   include WorkPackagesHelper # soft-dependency
+  include ActionView::Helpers::UrlHelper # soft-dependency
   include ActionView::Context
+  include OpenProject::StaticRouting::UrlHelpers
 
   def controller
     # no-op

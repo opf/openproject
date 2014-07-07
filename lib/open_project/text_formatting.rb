@@ -34,9 +34,7 @@ module OpenProject
     include Redmine::WikiFormatting::Macros::Definitions
     include ActionView::Helpers::SanitizeHelper
     include ERB::Util # for h()
-    include OpenProject::StaticRouting::UrlHelpers
     include ActionView::Helpers::TextHelper
-    include ActionView::Helpers::UrlHelper
     include OpenProject::ObjectLinking
 
     # Truncates and returns the string as a single line
