@@ -44,7 +44,7 @@ describe ::API::V3::Activities::ActivityRepresenter do
       expect(subject).to have_json_path('_links/self/href')
     end
 
-    describe 'acitivity' do
+    describe 'activity' do
       it { should have_json_path('id') }
       it { should have_json_path('version') }
       it { should have_json_path('comment') }
