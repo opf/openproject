@@ -149,6 +149,7 @@ GEM
       sass (>= 3.3.0, < 3.5)
     compass-import-once (1.0.4)
       sass (>= 3.2, < 3.5)
+    coolline (0.4.4)
     cucumber (1.3.8)
       builder (>= 2.1.2)
       diff-lcs (>= 1.1.3)
@@ -279,6 +280,8 @@ GEM
     pry-byebug (1.3.2)
       byebug (~> 2.7)
       pry (~> 0.9.12)
+    pry-coolline (0.2.4)
+      coolline (~> 0.3)
     pry-doc (0.4.6)
       pry (>= 0.9)
       yard (>= 0.8)
@@ -437,7 +440,6 @@ PLATFORMS
 DEPENDENCIES
   activerecord-jdbcmysql-adapter
   activerecord-jdbcpostgresql-adapter
-  activerecord-jdbcsqlite3-adapter
   activerecord-tableless (~> 1.0)
   acts_as_list (~> 0.2.0)
   awesome_nested_set
@@ -483,6 +485,7 @@ DEPENDENCIES
   prototype-rails
   prototype_legacy_helper (= 0.0.0)!
   pry-byebug
+  pry-coolline
   pry-doc
   pry-rails
   pry-rescue
