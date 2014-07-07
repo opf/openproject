@@ -49,6 +49,7 @@ describe ::API::V3::Activities::ActivityRepresenter do
       it { should have_json_path('version') }
       it { should have_json_path('comment') }
       it { should have_json_path('details') }
+      it { should have_json_path('htmlDetails') }
       it { should have_json_path('createdAt') }
 
       it 'should link to work package' do
