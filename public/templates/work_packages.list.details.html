@@ -26,8 +26,15 @@
 <div class="detail-panel-content">
   <div class="select-type">{{ workPackage.props.type }}:&nbsp;</div>
 
-  <h2>{{ workPackage.props.subject }}</h2>
-  <span class="subtitle"><i class="star icon-star1"></i><a href="#">#{{ workPackage.props.id }}</a>&nbsp;added by <a href="#">{{ workPackage.props.author.name }}</a>. Last updated on {{ workPackage.props.lastUpdated }}</span>
+  <h2 ng-bind="workPackage.props.subject"></h2>
+  <span class="subtitle">
+    <i class="star icon-star1"/>
+    <a href>#{{ workPackage.props.id }}</a>
+    <span ng-bind="I18n.t('js.label_added_by')"/>
+    <a href ng-bind="workPackage.props.authorName"/>.
+    <span ng-bind="I18n.t('js.label_last_updated_on')"/>
+    <span ng-bind="workPackage.props.updatedAt|date:'longDate'"/>.
+  </span>
 
   <div class="work-package-details-tab" ui-view></div>
 
