@@ -36,8 +36,14 @@ module API
       class WorkPackageModel < Reform::Form
         include Composition
         include Coercion
+        include ActionView::Helpers::UrlHelper
         include OpenProject::TextFormatting
+        include OpenProject::StaticRouting::UrlHelpers
+        include WorkPackagesHelper
         include GravatarImageTag
+
+        # N.B. required by ActionView::Helpers::UrlHelper
+        def controller; nil; end
 
         model :work_package
 
