@@ -18,7 +18,7 @@
           -->
           </div>
           <img class="avatar" ng-src="{{ activity.props.userAvatar }}" />
-          <span class="user"><a href name="{{currentNote}}" ng-bind="activity.props.userName"></a></span>
+          <span class="user"><a ng-href="/users/{{ activity.props.userId }}" name="{{currentNote}}" ng-bind="activity.props.userName"></a></span>
           <span class="date">commented on <span ng-bind="activity.props.createdAt | date:'short'"/></span>
           <span class="comment">
             <span class="message" ng-show="activity.props._type == 'Activity::Comment'">{{activity.props.comment}}</span>
