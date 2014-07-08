@@ -43,7 +43,9 @@ angular.module('openproject.workPackages.controllers')
   'DEFAULT_WORK_PACKAGE_PROPERTIES',
   'USER_TYPE',
   'WorkPackagesHelper',
-  function($scope, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, WorkPackagesHelper) {
+  'UserService',
+  '$q',
+  function($scope, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, WorkPackagesHelper, UserService, $q) {
     // initialization
     $scope.I18n = I18n;
     $scope.workPackage = workPackage;
@@ -83,12 +85,16 @@ angular.module('openproject.workPackages.controllers')
     }
 
     function addFormattedValueToPresentProperties(property, label, value, format) {
-      $scope.presentWorkPackageProperties.push({
+      var propertyData = {
         property: property,
         label: label,
-        value: value || '-',
-        format: format
+        format: format,
+        value: null
+      };
+      $q.when(value).then(function(value) {
+        propertyData.value = value;
       });
+      $scope.presentWorkPackageProperties.push(propertyData);
     }
 
     function secondRowToBeDisplayed() {
@@ -116,6 +122,29 @@ angular.module('openproject.workPackages.controllers')
           addFormattedValueToPresentProperties(property, label, value, format);
         } else {
           $scope.emptyWorkPackageProperties.push(label);
+        }
+      });
+    })();
+
+    function getCustomPropertyValue(customProperty) {
+      if (!!customProperty.value && customProperty.format === USER_TYPE) {
+        return UserService.getUser(customProperty.value);
+      } else {
+        return customProperty.value;
+      }
+    }
+
+    (function setupCustomProperties() {
+      angular.forEach(workPackage.props.customProperties, function(customProperty) {
+        var property = customProperty.name,
+            label = customProperty.name,
+            value = getCustomPropertyValue(customProperty),
+            format = customProperty.format;
+
+        if (customProperty.value) {
+          addFormattedValueToPresentProperties(property, label, value, format);
+        } else {
+         $scope.emptyWorkPackageProperties.push(label);
         }
       });
     })();

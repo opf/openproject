@@ -35,9 +35,12 @@ angular.module('openproject.workPackages.tabs')
     templateUrl: '/templates/work_packages/tabs/_user_field.html',
     scope: { user: '=' },
     link: function(scope) {
-      if (scope.user.props && (scope.user.props.firstName || scope.user.props.lastName)) {
-        scope.userName = scope.user.props.firstName + ' ' + scope.user.props.lastName;
-      }
+      scope.$watch('user', function() {
+        if (scope.user && scope.user.props &&
+            (scope.user.props.firstName || scope.user.props.lastName)) {
+          scope.userName = scope.user.props.firstName + ' ' + scope.user.props.lastName;
+        }
+      });
     }
   };
 }]);

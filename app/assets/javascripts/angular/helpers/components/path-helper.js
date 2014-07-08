@@ -115,26 +115,30 @@ angular.module('openproject.helpers')
       return PathHelper.workPackagesPath() + '/bulk';
     },
 
-    apiV2ProjectPath: function(projectIdentifier) {
-      return PathHelper.apiPrefixV2 + PathHelper.projectPath(projectIdentifier);
+    // Experimental API
+    apiAvailableColumnsPath: function() {
+      return PathHelper.apiQueriesPath() + '/available_columns';
     },
-    apiProjectsPath: function(){
-      return PathHelper.apiPrefixExperimental + PathHelper.projectsPath();
+    apiCustomFieldsPath: function() {
+      return PathHelper.apiQueriesPath() + '/custom_field_filters';
+    },
+    apiGroupedQueriesPath: function() {
+      return PathHelper.apiQueriesPath() + '/grouped';
+    },
+    apiGroupsPath: function() {
+      return PathHelper.apiPrefixExperimental + '/groups';
+    },
+    apiProjectAvailableColumnsPath: function(projectIdentifier) {
+      return PathHelper.apiProjectPath(projectIdentifier) + '/queries/available_columns';
+    },
+    apiProjectCustomFieldsPath: function(projectIdentifier) {
+      return PathHelper.apiProjectPath(projectIdentifier) + '/queries/custom_field_filters';
+    },
+    apiProjectGroupedQueriesPath: function(projectIdentifier) {
+      return PathHelper.apiProjectPath(projectIdentifier) + '/queries/grouped';
     },
     apiProjectPath: function(projectIdentifier) {
       return PathHelper.apiPrefixExperimental + PathHelper.projectPath(projectIdentifier);
-    },
-    apiV3QueryPath: function(queryId) {
-      return PathHelper.apiPrefixV3 + PathHelper.queryPath(queryId);
-    },
-    apiWorkPackagesPath: function() {
-      return PathHelper.apiPrefixExperimental + '/work_packages';
-    },
-    apiProjectWorkPackagesPath: function(projectIdentifier) {
-      return PathHelper.apiProjectPath(projectIdentifier) + PathHelper.workPackagesPath();
-    },
-    apiProjectSubProjectsPath: function(projectIdentifier) {
-      return PathHelper.apiProjectPath(projectIdentifier) + PathHelper.subProjectsPath();
     },
     apiProjectQueriesPath: function(projectIdentifier) {
       return PathHelper.apiProjectPath(projectIdentifier) + '/queries';
@@ -142,75 +146,77 @@ angular.module('openproject.helpers')
     apiProjectQueryPath: function(projectIdentifier, queryIdentifier) {
       return PathHelper.apiProjectPath(projectIdentifier) + PathHelper.queryPath(queryIdentifier);
     },
+    apiProjectsPath: function(){
+      return PathHelper.apiPrefixExperimental + PathHelper.projectsPath();
+    },
+    apiProjectSubProjectsPath: function(projectIdentifier) {
+      return PathHelper.apiProjectPath(projectIdentifier) + PathHelper.subProjectsPath();
+    },
+    apiProjectUsersPath: function(projectIdentifier) {
+      return PathHelper.apiProjectPath(projectIdentifier) + PathHelper.usersPath();
+    },
+    apiProjectVersionsPath: function(projectIdentifier) {
+      return PathHelper.apiProjectPath(projectIdentifier) + PathHelper.versionsPath();
+    },
+    apiProjectWorkPackagesPath: function(projectIdentifier) {
+      return PathHelper.apiProjectPath(projectIdentifier) + PathHelper.workPackagesPath();
+    },
+    apiProjectWorkPackagesSumsPath: function(projectIdentifier) {
+      return PathHelper.apiProjectPath(projectIdentifier) + PathHelper.workPackagesPath() + '/column_sums';
+    },
     apiQueriesPath: function() {
       return PathHelper.apiPrefixExperimental + '/queries';
     },
     apiQueryPath: function(query_id) {
       return PathHelper.apiQueriesPath() + '/' + query_id;
     },
-    apiGroupedQueriesPath: function() {
-      return PathHelper.apiQueriesPath() + '/grouped';
+    apiRolesPath: function() {
+      return PathHelper.apiPrefixExperimental + '/roles';
     },
-    apiAvailableColumnsPath: function() {
-      return PathHelper.apiQueriesPath() + '/available_columns';
+    apiUsersPath: function() {
+      // experimantal, TODO: Migrate to V3
+      return PathHelper.apiPrefixExperimental + PathHelper.usersPath();
     },
-    apiCustomFieldsPath: function() {
-      return PathHelper.apiQueriesPath() + '/custom_field_filters';
+    apiWorkPackagesColumnDataPath: function() {
+      return PathHelper.apiWorkPackagesPath() + '/column_data';
     },
-    apiProjectCustomFieldsPath: function(projectIdentifier) {
-      return PathHelper.apiProjectPath(projectIdentifier) + '/queries/custom_field_filters';
+    apiWorkPackagesPath: function() {
+      return PathHelper.apiPrefixExperimental + '/work_packages';
     },
-    apiProjectAvailableColumnsPath: function(projectIdentifier) {
-      return PathHelper.apiProjectPath(projectIdentifier) + '/queries/available_columns';
+    apiWorkPackagesSumsPath: function() {
+      return PathHelper.apiWorkPackagesPath() + '/column_sums';
     },
-    apiProjectGroupedQueriesPath: function(projectIdentifier) {
-      return PathHelper.apiProjectPath(projectIdentifier) + '/queries/grouped';
+
+    // API V2
+    apiPrioritiesPath: function() {
+      return PathHelper.apiPrefixV2 + '/planning_element_priorities';
     },
+    apiProjectStatusesPath: function(projectIdentifier) {
+      return PathHelper.apiV2ProjectPath(projectIdentifier) + '/statuses';
+    },
+    apiProjectWorkPackageTypesPath: function(projectIdentifier) {
+      return PathHelper.apiV2ProjectPath(projectIdentifier) + '/planning_element_types';
+    },
+    apiStatusesPath: function() {
+      return PathHelper.apiPrefixV2 + '/statuses';
+    },
+    apiV2ProjectPath: function(projectIdentifier) {
+      return PathHelper.apiPrefixV2 + PathHelper.projectPath(projectIdentifier);
+    },
+    apiWorkPackageTypesPath: function() {
+      return PathHelper.apiPrefixV2 + '/planning_element_types';
+    },
+
+    // API V3
     apiQueryStarPath: function(queryId) {
       return PathHelper.apiV3QueryPath(queryId) + '/star';
     },
     apiQueryUnstarPath: function(queryId) {
       return PathHelper.apiV3QueryPath(queryId) + '/unstar';
     },
-    apiWorkPackagesColumnDataPath: function() {
-      return PathHelper.apiWorkPackagesPath() + '/column_data';
+    apiV3QueryPath: function(queryId) {
+      return PathHelper.apiPrefixV3 + PathHelper.queryPath(queryId);
     },
-    apiPrioritiesPath: function() {
-      return PathHelper.apiPrefixV2 + '/planning_element_priorities';
-    },
-    apiStatusesPath: function() {
-      return PathHelper.apiPrefixV2 + '/statuses';
-    },
-    apiProjectStatusesPath: function(projectIdentifier) {
-      return PathHelper.apiV2ProjectPath(projectIdentifier) + '/statuses';
-    },
-    apiGroupsPath: function() {
-      return PathHelper.apiPrefixExperimental + '/groups';
-    },
-    apiRolesPath: function() {
-      return PathHelper.apiPrefixExperimental + '/roles';
-    },
-    apiWorkPackageTypesPath: function() {
-      return PathHelper.apiPrefixV2 + '/planning_element_types';
-    },
-    apiProjectWorkPackageTypesPath: function(projectIdentifier) {
-      return PathHelper.apiV2ProjectPath(projectIdentifier) + '/planning_element_types';
-    },
-    apiUsersPath: function() {
-      return PathHelper.apiPrefixExperimental + PathHelper.usersPath();
-    },
-    apiProjectVersionsPath: function(projectIdentifier) {
-      return PathHelper.apiProjectPath(projectIdentifier) + PathHelper.versionsPath();
-    },
-    apiProjectUsersPath: function(projectIdentifier) {
-      return PathHelper.apiProjectPath(projectIdentifier) + PathHelper.usersPath();
-    },  
-    apiProjectWorkPackagesSumsPath: function(projectIdentifier) {
-      return PathHelper.apiProjectPath(projectIdentifier) + PathHelper.workPackagesPath() + '/column_sums';
-    },
-    apiWorkPackagesSumsPath: function() {
-      return PathHelper.apiWorkPackagesPath() + '/column_sums';
-    }
   };
 
   return PathHelper;
