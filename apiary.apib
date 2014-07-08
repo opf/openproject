@@ -173,6 +173,7 @@ This allows you to see exactly what went wrong and inform the user.
 | version | Activity version | Integer | Must be a positive integer | 31 | READ |
 | comment | | String | | Lorem ipsum. | READ / WRITE |
 | details | | Array | | ["Priority changed from High to Low"] | READ |
+| htmlDetails | | Array | | ["<strong>Priority changed from High to Low</strong>"] | READ |
 | createdAt | | Timestamp | Returned in ISO 8601 format - YYYY-MM-DDTHH:MM:SSZ | | READ |
 
 Activity can be either _type Activity or _type Activity::Comment.
@@ -201,6 +202,9 @@ Activity can be either _type Activity or _type Activity::Comment.
                 "id": 1,
                 "details": [
                     "Lorem ipsum dolor sit amet."
+                ],
+                "htmlDetails": [
+                    "<strong>Lorem ipsum dolor sit amet.</strong>"
                 ],
                 "comment": "Lorem ipsum dolor sit amet.",
                 "createdAt": "2014-05-21T08:51:20Z",
