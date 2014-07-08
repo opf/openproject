@@ -34,14 +34,11 @@ module API
   module V3
     module Activities
       class ActivityModel < Reform::Form
-        include Composition
         include Coercion
         include GravatarImageTag
 
-        model :journal
-
-        property :user_id, on: :journal, type: Integer
-        property :notes, on: :journal, type: String
+        property :user_id, type: Integer
+        property :notes, type: String
       end
     end
   end
