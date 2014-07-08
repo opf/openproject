@@ -519,4 +519,8 @@ OpenProject::Application.routes.draw do
   match '/:controller(/:action(/:id))'
   match '/robots' => 'welcome#robots', :defaults => { :format => :txt }
   root :to => 'account#login'
+
+  # states managed by client-side routing on work_package#index
+  get '/work_packages/:id/*state' => 'work_packages#index'
+  get 'projects/:project_id/work_packages/:id/*state' => 'work_packages#index'
 end
