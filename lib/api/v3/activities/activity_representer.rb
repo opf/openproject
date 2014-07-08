@@ -55,11 +55,6 @@ module API
         end
 
         property :id, getter: -> (*) { model.id }, render_nil: true
-        property :user_id, render_nil: true
-        property :user_name, getter: -> (*) { model.user.try(:name) }, render_nil: true
-        property :user_login, getter: -> (*) { model.user.try(:login) }, render_nil: true
-        property :user_mail, getter: -> (*) { model.user.try(:mail) }, render_nil: true
-        property :user_avatar, getter: -> (*) {  gravatar_image_url(model.user.try(:mail)) }, render_nil: true
         property :notes, as: :comment, render_nil: true
         property :details, exec_context: :decorator, render_nil: true
         property :html_details, exec_context: :decorator, render_nil: true
