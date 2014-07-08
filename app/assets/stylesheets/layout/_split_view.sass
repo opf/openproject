@@ -19,11 +19,12 @@
 
 // Split View
 .split-view
-  margin: 1em 0
+  margin: 0.2em 0
   width: 100%
   clear: both
   display: table
   table-layout: fixed
+  border-top: 3px solid #EEEEEE
 
 .split-view %panel
   display: table-cell
@@ -72,8 +73,6 @@ div
     float: left
     margin: 10px 0 0 0
     line-height: 18px
-  &.detail-panel-description-content:hover, &.detail-panel-description-content-edit
-    background: #fff598
   &.panel-toggler
     float: left
     width: 100%
@@ -84,7 +83,7 @@ div
       border-right: 0px
       border-bottom: 0px
       cursor: pointer
-      width: 720px
+      width: 100%
     legend
       padding: 0 20px
     span
@@ -100,7 +99,6 @@ div
     float: left
     margin: 15px 0 0 0
     width: 100%
-    height: 172px
     ul
       margin: 10px 0 0 0
       padding: 0

@@ -29,21 +29,25 @@
 angular.module('openproject.workPackages.controllers')
 
 .constant('DEFAULT_WORK_PACKAGE_PROPERTIES', [
-  'status', 'assigneeName', 'responsibleName',
+  'status', 'assignee', 'responsible',
   'date', 'percentageDone', 'priority',
-  'authorName', 'createdAt', 'dueDate',
-  'estimatedTime', 'startDate', 'updatedAt',
-  'versionName'
+  'author', 'dueDate', 'estimatedTime',
+  'startDate', 'versionName'
 ])
+.constant('USER_TYPE', 'user')
 
 .controller('WorkPackageDetailsController', [
   '$scope',
   'workPackage',
   'I18n',
   'DEFAULT_WORK_PACKAGE_PROPERTIES',
+  'USER_TYPE',
   'WorkPackagesHelper',
-  function($scope, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, WorkPackagesHelper) {
+  'UserService',
+  '$q',
+  function($scope, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, WorkPackagesHelper, UserService, $q) {
     // initialization
+    $scope.I18n = I18n;
     $scope.workPackage = workPackage;
     $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
     $scope.maxDescriptionLength = 800;
@@ -59,6 +63,14 @@ angular.module('openproject.workPackages.controllers')
 
     var workPackageProperties = DEFAULT_WORK_PACKAGE_PROPERTIES;
 
+    function getPropertyValue(property, format) {
+      if (format === USER_TYPE) {
+        return workPackage.embedded[property];
+      } else {
+        return getFormattedPropertyValue(property);
+      }
+    }
+
     function getFormattedPropertyValue(property) {
       if (property === 'date') {
         if (workPackage.props.startDate && workPackage.props.dueDate) {
@@ -72,12 +84,17 @@ angular.module('openproject.workPackages.controllers')
       }
     }
 
-    function addFormattedValueToPresentProperties(property, label, value) {
-      $scope.presentWorkPackageProperties.push({
+    function addFormattedValueToPresentProperties(property, label, value, format) {
+      var propertyData = {
         property: property,
         label: label,
-        value: value || '-'
+        format: format,
+        value: null
+      };
+      $q.when(value).then(function(value) {
+        propertyData.value = value;
       });
+      $scope.presentWorkPackageProperties.push(propertyData);
     }
 
     function secondRowToBeDisplayed() {
@@ -91,18 +108,46 @@ angular.module('openproject.workPackages.controllers')
         });
     }
 
-    angular.forEach(workPackageProperties, function(property, index) {
-      var label = I18n.t('js.work_packages.properties.' + property),
-          value = getFormattedPropertyValue(property);
+    var userFields = ['assignee', 'author', 'responsible'];
 
-      if (!!value ||
-          index < 3 ||
-          index < 6 && secondRowToBeDisplayed()) {
-        addFormattedValueToPresentProperties(property, label, value);
+    (function setupWorkPackageProperties() {
+      angular.forEach(workPackageProperties, function(property, index) {
+        var label  = I18n.t('js.work_packages.properties.' + property),
+            format = userFields.indexOf(property) === -1 ? 'text' : USER_TYPE,
+            value  = getPropertyValue(property, format);
+
+        if (!!value ||
+            index < 3 ||
+            index < 6 && secondRowToBeDisplayed()) {
+          addFormattedValueToPresentProperties(property, label, value, format);
+        } else {
+          $scope.emptyWorkPackageProperties.push(label);
+        }
+      });
+    })();
+
+    function getCustomPropertyValue(customProperty) {
+      if (!!customProperty.value && customProperty.format === USER_TYPE) {
+        return UserService.getUser(customProperty.value);
       } else {
-        $scope.emptyWorkPackageProperties.push(label);
+        return customProperty.value;
       }
-    });
+    }
+
+    (function setupCustomProperties() {
+      angular.forEach(workPackage.props.customProperties, function(customProperty) {
+        var property = customProperty.name,
+            label = customProperty.name,
+            value = getCustomPropertyValue(customProperty),
+            format = customProperty.format;
+
+        if (customProperty.value) {
+          addFormattedValueToPresentProperties(property, label, value, format);
+        } else {
+         $scope.emptyWorkPackageProperties.push(label);
+        }
+      });
+    })();
 
     // toggles
     $scope.toggleStates = {

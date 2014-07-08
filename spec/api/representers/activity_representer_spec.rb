@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -27,18 +26,38 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'reform'
-require 'reform/form/coercion'
+require 'spec_helper'
 
-module API
-  module V3
-    module Activities
-      class ActivityModel < Reform::Form
-        include Coercion
-        include GravatarImageTag
+describe ::API::V3::Activities::ActivityRepresenter do
+  let(:work_package) { FactoryGirl.build(:work_package) }
+  let(:journal) { FactoryGirl.build(:work_package_journal, journable: work_package) }
+  let(:model) { ::API::V3::Activities::ActivityModel.new(journal) }
+  let(:representer) { described_class.new(model) }
 
-        property :user_id, type: Integer
-        property :notes, type: String
+  context 'generation' do
+    subject(:generated) { representer.to_json }
+
+    it { should include_json('Activity'.to_json).at_path('_type') }
+
+    it { should have_json_type(Object).at_path('_links') }
+    it 'should link to self' do
+      expect(subject).to have_json_path('_links/self/href')
+    end
+
+    describe 'activity' do
+      it { should have_json_path('id') }
+      it { should have_json_path('version') }
+      it { should have_json_path('comment') }
+      it { should have_json_path('details') }
+      it { should have_json_path('htmlDetails') }
+      it { should have_json_path('createdAt') }
+
+      it 'should link to work package' do
+        expect(subject).to have_json_path('_links/workPackage/href')
+      end
+
+      it 'should link to user' do
+        expect(subject).to have_json_path('_links/user/href')
       end
     end
   end

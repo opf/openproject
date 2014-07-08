@@ -28,15 +28,19 @@
 
 angular.module('openproject.workPackages.tabs')
 
-.directive('panelExpander', [function() {
+.directive('userField', [function() {
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: '/templates/work_packages/tabs/_panel_expander.html',
-    scope: {
-      collapsed: '=',
-      expandText: '@',
-      collapseText: '@'
+    templateUrl: '/templates/work_packages/tabs/_user_field.html',
+    scope: { user: '=' },
+    link: function(scope) {
+      scope.$watch('user', function() {
+        if (scope.user && scope.user.props &&
+            (scope.user.props.firstName || scope.user.props.lastName)) {
+          scope.userName = scope.user.props.firstName + ' ' + scope.user.props.lastName;
+        }
+      });
     }
   };
 }]);

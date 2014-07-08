@@ -43,43 +43,46 @@ module API
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "#{root_url}api/v3/activities/#{represented.journal.id}", title: "#{represented.journal.id}" }
+          { href: "#{root_url}api/v3/activities/#{represented.model.id}", title: "#{represented.model.id}" }
         end
 
-        link :work_package do
-          { href: "#{root_url}api/v3/work_packages/#{represented.journal.journable.id}", title: "#{represented.journal.journable.subject}" }
+        link :workPackage do
+          { href: "#{root_url}api/v3/work_packages/#{represented.model.journable.id}", title: "#{represented.model.journable.subject}" }
         end
 
         link :user do
-          { href: "#{root_url}api/v3/users/#{represented.journal.user.id}", title: "#{represented.journal.user.name} - #{represented.journal.user.login}" }
+          { href: "#{root_url}api/v3/users/#{represented.model.user.id}", title: "#{represented.model.user.name} - #{represented.model.user.login}" }
         end
 
-        property :id, getter: -> (*) { journal.id }, render_nil: true
-        property :user_id, render_nil: true
-        property :user_name, getter: -> (*) { journal.user.try(:name) }, render_nil: true
-        property :user_login, getter: -> (*) { journal.user.try(:login) }, render_nil: true
-        property :user_mail, getter: -> (*) { journal.user.try(:mail) }, render_nil: true
-        property :user_avatar, getter: -> (*) {  gravatar_image_url(journal.user.try(:mail)) }, render_nil: true
-        property :messages, exec_context: :decorator, render_nil: true
-        property :version, getter: -> (*) { journal.version }, render_nil: true
-        property :created_at, getter: -> (*) { journal.created_at.utc.iso8601 }, render_nil: true
+        property :id, getter: -> (*) { model.id }, render_nil: true
+        property :notes, as: :comment, render_nil: true
+        property :details, exec_context: :decorator, render_nil: true
+        property :html_details, exec_context: :decorator, render_nil: true
+        property :version, getter: -> (*) { model.version }, render_nil: true
+        property :created_at, getter: -> (*) { model.created_at.utc.iso8601 }, render_nil: true
 
         def _type
-          if represented.journal.notes.blank?
+          if represented.model.notes.blank?
             'Activity'
           else
             'Activity::Comment'
           end
         end
 
-        def messages
-          journal = represented.journal
-          if journal.notes.blank?
-            journal.details.map{ |d| journal.render_detail(d, no_html: true) }
-          else
-            [journal.notes]
-          end
+        def details
+          render_details(represented.model, no_html: true)
         end
+
+        def html_details
+          render_details(represented.model)
+        end
+
+        private
+
+          def render_details(journal, no_html: false)
+            journal.details.map{ |d| journal.render_detail(d, no_html: no_html) }
+          end
+
       end
     end
   end
