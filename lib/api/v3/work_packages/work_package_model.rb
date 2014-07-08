@@ -117,7 +117,7 @@ module API
         end
 
         def activities
-          work_package.journals.map{ |journal| ::API::V3::Activities::ActivityModel.new(journal: journal) }
+          work_package.journals.map{ |journal| ::API::V3::Activities::ActivityModel.new(journal) }
         end
 
         def watchers
