@@ -34,6 +34,7 @@ module OpenProject
     include Redmine::WikiFormatting::Macros::Definitions
     include ActionView::Helpers::SanitizeHelper
     include ERB::Util # for h()
+    include Redmine::I18n
     include ActionView::Helpers::TextHelper
     include OpenProject::ObjectLinking
 
