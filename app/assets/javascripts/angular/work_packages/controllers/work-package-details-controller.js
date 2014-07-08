@@ -56,6 +56,7 @@ angular.module('openproject.workPackages.controllers')
     $scope.activities = workPackage.embedded.activities;
     $scope.latestActitivies = $scope.activities.reverse().slice(0, 3);
     $scope.watchers = workPackage.embedded.watchers;
+    $scope.author = workPackage.embedded.author;
 
     // work package properties
     $scope.presentWorkPackageProperties = [];
