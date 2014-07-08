@@ -129,7 +129,6 @@ angular.module('openproject.workPackages.controllers')
 
     function getCustomPropertyValue(customProperty) {
       if (!!customProperty.value && customProperty.format === USER_TYPE) {
-        // TODO fetch user
         return UserService.getUser(customProperty.value);
       } else {
         return customProperty.value;
@@ -145,7 +144,6 @@ angular.module('openproject.workPackages.controllers')
 
         if (customProperty.value) {
           addFormattedValueToPresentProperties(property, label, value, format);
-          // TODO User custom fields are to be treated differently
         } else {
          $scope.emptyWorkPackageProperties.push(label);
         }
