@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -27,37 +26,33 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'reform'
-require 'reform/form/coercion'
+require 'spec_helper'
 
-module API
-  module V3
-    module Activities
-      class ActivityModel < Reform::Form
-        include Coercion
-        include ActionView::Helpers::UrlHelper
-        include OpenProject::TextFormatting
-        include OpenProject::StaticRouting::UrlHelpers
-        include WorkPackagesHelper
-        include GravatarImageTag
+describe ::API::V3::Activities::ActivityModel do
+  include Capybara::RSpecMatchers
 
-        # N.B. required by ActionView::Helpers::UrlHelper
-        def controller; nil; end
+  subject(:model) { ::API::V3::Activities::ActivityModel.new(journal) }
+  let(:journal) { FactoryGirl.build(:work_package_journal, attributes) }
 
-        property :user_id, type: Integer
+  context 'with a formatted description' do
+    let(:attributes) {
+      {
+       notes: <<-DESC
+h3. Plan update
 
-        def notes
-          textilizable(raw_notes)
-        end
+# More done
+# More quickly
+       DESC
+      }
+    }
 
-        def raw_notes
-          model.notes
-        end
+    its(:notes)     { should have_selector 'h3' }
+    its(:notes)     { should have_selector 'ol > li' }
+    its(:raw_notes) { should eq attributes[:notes] }
 
-        def raw_notes=(value)
-          model.notes = value
-        end
-      end
+    it 'should allow raw_notes to be set' do
+      model.raw_notes = 'h4. Plan revision'
+      expect(model.notes).to have_selector 'h4'
     end
   end
 end
