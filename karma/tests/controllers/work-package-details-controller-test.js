@@ -41,6 +41,7 @@ describe('WorkPackageDetailsController', function() {
     buildController = function() {
       ctrl = $controller("WorkPackageDetailsController", {
         $scope:  scope,
+        $state: {},
         $stateParams: { workPackageId: workPackageId },
         workPackage: {
           props: {
