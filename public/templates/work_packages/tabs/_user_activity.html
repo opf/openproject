@@ -5,7 +5,9 @@
   <span class="user"><a ng-href="{{ userPath(activity.props.userId) }}" name="{{ currentAnchor }}" ng-bind="activity.props.userName"></a></span>
   <span class="date">commented on <span ng-bind="activity.props.createdAt | date:'short'"/></span>
   <span class="comment">
-    <span class="message" ng-show="activity.props._type == 'Activity::Comment'">{{ activity.props.comment }}</span>
+    <span class="message"
+      ng-show="activity.props._type == 'Activity::Comment'"
+      ng-bind-html="activity.props.comment"/>
     <ul class="work-package-details-activities-messages">
       <li ng-repeat="detail in activity.props.htmlDetails track by $index">
         <span class="message" ng-bind-html="detail"/>
