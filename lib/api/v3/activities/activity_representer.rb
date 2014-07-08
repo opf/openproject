@@ -85,9 +85,7 @@ module API
         private
 
           def render_details(journal, no_html: false)
-            if journal.notes.blank?
-              journal.details.map{ |d| journal.render_detail(d, no_html: no_html) }
-            end
+            journal.details.map{ |d| journal.render_detail(d, no_html: no_html) }
           end
 
       end
