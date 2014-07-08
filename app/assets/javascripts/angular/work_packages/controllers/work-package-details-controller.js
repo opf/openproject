@@ -44,7 +44,9 @@ angular.module('openproject.workPackages.controllers')
   'DEFAULT_WORK_PACKAGE_PROPERTIES',
   'USER_TYPE',
   'WorkPackagesHelper',
-  function($scope, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, WorkPackagesHelper) {
+  'UserService',
+  '$q',
+  function($scope, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, WorkPackagesHelper, UserService, $q) {
     // initialization
     $scope.I18n = I18n;
     $scope.workPackage = workPackage;
@@ -126,9 +128,9 @@ angular.module('openproject.workPackages.controllers')
     })();
 
     function getCustomPropertyValue(customProperty) {
-      if (customProperty.format === USER_TYPE) {
+      if (!!customProperty.value && customProperty.format === USER_TYPE) {
         // TODO fetch user
-        return customProperty.value;
+        return UserService.getUser(customProperty.value);
       } else {
         return customProperty.value;
       }
