@@ -84,12 +84,16 @@ angular.module('openproject.workPackages.controllers')
     }
 
     function addFormattedValueToPresentProperties(property, label, value, format) {
-      $scope.presentWorkPackageProperties.push({
+      var propertyData = {
         property: property,
         label: label,
-        value: value || '-',
-        format: format
+        format: format,
+        value: null
+      };
+      $q.when(value).then(function(value) {
+        propertyData.value = value;
       });
+      $scope.presentWorkPackageProperties.push(propertyData);
     }
 
     function secondRowToBeDisplayed() {
