@@ -54,7 +54,11 @@ angular.module('openproject.workPackages.controllers')
 
     // resources for tabs
     $scope.activities = workPackage.embedded.activities;
+    $scope.activities.splice(0, 1); // remove first activity (assumes activities are sorted chronologically)
+
     $scope.latestActitivies = $scope.activities.reverse().slice(0, 3);
+    $scope.activities.reverse(); // restore former order (TODO check the configuration before)
+
     $scope.watchers = workPackage.embedded.watchers;
 
     // work package properties
