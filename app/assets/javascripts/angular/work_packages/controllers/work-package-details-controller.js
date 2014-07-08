@@ -121,6 +121,31 @@ angular.module('openproject.workPackages.controllers')
       });
     })();
 
+    function getCustomPropertyValue(customProperty) {
+      if (customProperty.format === USER_TYPE) {
+        // TODO fetch user
+        return customProperty.value;
+      } else {
+        return customProperty.value;
+      }
+    }
+
+    (function setupCustomProperties() {
+      angular.forEach(workPackage.props.customProperties, function(customProperty) {
+        var property = customProperty.name,
+            label = customProperty.name,
+            value = getCustomPropertyValue(customProperty),
+            format = customProperty.format;
+
+        if (customProperty.value) {
+          addFormattedValueToPresentProperties(property, label, value, format);
+          // TODO User custom fields are to be treated differently
+        } else {
+         $scope.emptyWorkPackageProperties.push(label);
+        }
+      });
+    })();
+
     // toggles
     $scope.toggleStates = {
       hideFullDescription: true,
