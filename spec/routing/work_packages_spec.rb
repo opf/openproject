@@ -41,6 +41,23 @@ describe WorkPackagesController do
                                                           :action => 'index')
   end
 
+  it "should connect GET /work_packages/:id/overview to work_packages#index" do
+    expect(get("/work_packages/1/overview"))
+      .to route_to( controller: 'work_packages',
+                    action: 'index',
+                    id: '1',
+                    state: 'overview')
+  end
+
+  it "should connect GET /projects/:project_id/work_packages/:id/overview to work_packages#index" do
+    expect(get("/projects/1/work_packages/2/overview"))
+      .to route_to( controller: 'work_packages',
+                    action: 'index',
+                    project_id: '1',
+                    id: '2',
+                    state: 'overview')
+  end
+
   it "should connect GET /work_packages/:id to work_packages#show" do
     expect(get("/work_packages/1")).to route_to( :controller => 'work_packages',
                                              :action => 'show',
