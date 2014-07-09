@@ -28,15 +28,21 @@
 
 angular.module('openproject.config')
 
-.service('ConfigurationService', [function() {
-  var configuration = {};
+.service('ConfigurationService', [
+  '$log',
+  function($log) {
 
   return {
-    addConfiguration: function(key, value) {
-      configuration[key] = value;
+    settingsPresent: function() {
+      return gon && gon.settings;
     },
     accessibilityModeEnabled: function() {
-      return !!configuration.accessibilityMode;
+      if (!(this.settingsPresent() && gon.settings.user_preferences)) {
+        $log.error('User preferences are not available.');
+        return false;
+      } else {
+        return gon.settings.user_preferences.impaired;
+      }
     }
   };
 }]);
