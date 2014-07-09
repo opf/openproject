@@ -35,7 +35,7 @@ angular.module('openproject.workPackages.tabs')
     templateUrl: '/templates/work_packages/tabs/_user_activity.html',
     scope: {
       activity: '=',
-      currentNode: '='
+      currentAnchor: '='
     },
     link: function(scope) {
       scope.userPath = PathHelper.staticUserPath;

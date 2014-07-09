@@ -4,12 +4,12 @@
       <li ng-repeat="activity in activities"
           class="work-package-details-activities-activity"
           ng-init="currentDate = (activity.props.createdAt|date:'longDate');
-                   currentNode = 'note-' + ($index+1)">
+                   currentAnchor = 'note-' + ($index+1)">
         <h3 class="activity-date"
             ng-if="currentDate !== (activities[$index-1].props.createdAt | date:'longDate')"
             ng-bind="currentDate"/>
         <user-activity activity="activity"
-                       currentNode="currentNode">
+                       currentAnchor="currentAnchor">
         </user-activity>
       </li>
     </ul>
