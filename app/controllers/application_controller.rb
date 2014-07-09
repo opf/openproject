@@ -128,6 +128,15 @@ class ApplicationController < ActionController::Base
     { :layout => params['layout'] }
   end
 
+  # append request data to payload
+  # for logging in lograge.custom_options
+  def append_info_to_payload(payload)
+    super
+    payload[:uuid] = request.uuid
+    payload[:host] = request.host
+    payload[:params] = request.params
+  end
+
   # set http headers so that the browser does not store any
   # data (caches) of this site
   # see:
