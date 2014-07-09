@@ -226,6 +226,12 @@ GEM
       sass
       thor
       tilt
+    logglier (0.2.11)
+    lograge (0.3.0)
+      actionpack (>= 3)
+      activesupport (>= 3)
+      railties (>= 3)
+    logstash-event (1.2.02)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -456,6 +462,9 @@ DEPENDENCIES
   launchy (~> 2.3.0)
   letter_opener (~> 1.0.0)
   livingstyleguide (~> 1.2.0)
+  logglier
+  lograge
+  logstash-event
   multi_json
   mysql2 (~> 0.3.11)
   net-ldap (~> 0.8.0)
