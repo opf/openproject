@@ -45,7 +45,7 @@ module API
       end
 
       def authenticate
-        raise API::Errors::Unauthenticated.new if current_user.nil? || current_user.anonymous?
+        raise API::Errors::Unauthenticated.new if current_user.nil? || current_user.anonymous? if Setting.login_required?
       end
 
       def authorize(api, endpoint, context: nil, global: false, user: current_user, allow: true)
