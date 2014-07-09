@@ -2,8 +2,7 @@
   <div class="detail-panel-watchers">
     <ul>
       <li ng-repeat="user in watchers">
-        <img class="avatar" ng-src="{{ user.props.userAvatar }}" />
-        <span  class="user"><a ng-href="/users/{{ user.props.id }}" ng-bind="user.props.firstname + user.props.lastname"></a></span>
+        <user-field user="user"></user-field>
       </li>
     </ul>
   </div>
