@@ -39,8 +39,7 @@ module Api
 
       before_filter :find_project_by_project_id,
                     :authorize, :except => [:index]
-      before_filter :parse_changed_since,
-                    :parse_work_package_ids, only: [:index]
+      before_filter :parse_changed_since, only: [:index]
       before_filter :assign_planning_elements, :except => [:index, :update, :create]
 
       # Attention: find_all_projects_by_project_id needs to mimic all of the above
@@ -262,7 +261,8 @@ module Api
                                    .changed_since(@since)
                                    .includes(:status, :project, :type, :custom_values)
 
-        work_packages = work_packages.where(id: @wp_ids) if @wp_ids
+        wp_ids = parse_work_package_ids
+        work_packages = work_packages.where(id: wp_ids) if wp_ids
 
         if params[:f]
           #we need a project to make project-specific custom fields work
@@ -348,7 +348,7 @@ module Api
       end
 
       def parse_work_package_ids
-        @wp_ids = params[:ids] ? params[:ids].split(',') : nil
+        params[:ids] ? params[:ids].split(',') : nil
       end
     end
   end
