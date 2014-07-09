@@ -283,7 +283,7 @@ OpenProject::Application.routes.draw do
       end
 
       # states managed by client-side routing on work_package#index
-      get '/*state' => 'work_packages#index', on: :member
+      get '/*state' => 'work_packages#index', on: :member, id: /\d+/
     end
 
     resources :activity, :activities, :only => :index, :controller => 'activities'
@@ -399,7 +399,7 @@ OpenProject::Application.routes.draw do
 
     get '/edit' => 'work_packages#edit', on: :member # made explicit to avoid conflict with catch-all route
     # states managed by client-side routing on work_package#index
-    get '/*state' => 'work_packages#index', on: :member
+    get '/*state' => 'work_packages#index', on: :member, id: /\d+/
   end
 
   resources :versions, :only => [:show, :edit, :update, :destroy] do

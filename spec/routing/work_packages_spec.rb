@@ -58,6 +58,15 @@ describe WorkPackagesController do
                     state: 'overview')
   end
 
+  context 'when "/work_packages/:param1/:param2" is called with param1 being something other than an id' do
+    it 'falls back to the default action' do
+      expect(get("/work_packages/quoted/1"))
+        .to route_to( controller: 'work_packages',
+                      action: 'quoted',
+                      id: '1')
+    end
+  end
+
   it "should connect GET /work_packages/:id to work_packages#show" do
     expect(get("/work_packages/1")).to route_to( :controller => 'work_packages',
                                              :action => 'show',
