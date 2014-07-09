@@ -36,12 +36,23 @@ angular.module('openproject.config')
     settingsPresent: function() {
       return gon && gon.settings;
     },
+    userPreferencesPresent: function() {
+      return this.settingsPresent() && gon.settings.hasOwnProperty('user_preferences');
+    },
     accessibilityModeEnabled: function() {
-      if (!(this.settingsPresent() && gon.settings.user_preferences)) {
+      if (!this.userPreferencesPresent()) {
         $log.error('User preferences are not available.');
         return false;
       } else {
         return gon.settings.user_preferences.impaired;
+      }
+    },
+    commentsSortedInDescendingOrder: function() {
+      if (!this.userPreferencesPresent()) {
+        $log.error('User preferences are not available.');
+        return false;
+      } else {
+        return gon.settings.user_preferences.others.comments_sorting === 'desc';
       }
     }
   };

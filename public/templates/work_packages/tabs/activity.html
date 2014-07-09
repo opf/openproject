@@ -3,13 +3,14 @@
     <ul class="work-package-details-activities-list">
       <li ng-repeat="activity in activities"
           class="work-package-details-activities-activity"
-          ng-init="currentDate = (activity.props.createdAt|date:'longDate');
-                   currentNote = 'note-' + ($index+1)">
+          ng-init="activityNo = activitiesSortedInDescendingOrder && activities.length - $index || $index + 1;
+                   currentDate = (activity.props.createdAt|date:'longDate');
+                   currentNote = 'note-' + activityNo">
         <h3 class="activity-date"
             ng-if="currentDate !== (activities[$index-1].props.createdAt | date:'longDate')"
             ng-bind="currentDate"/>
         <div class="work-package-details-activities-activity-contents">
-          <div class="comments-number"><a ng-href="#{{currentNote}}" ng-bind="'#' + ($index+1)"></a>
+          <div class="comments-number"><a ng-href="#{{currentNote}}" ng-bind="'#' + activityNo"></a>
           <!-- Temporarily deactivated comment / edit actions
           <div class="comments-icons">
             <icon-wrapper icon-name="quote" icon-title="{{I18n.t('js.button_quote')}}"></icon-wrapper>
