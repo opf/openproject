@@ -108,12 +108,12 @@ describe 'API v3 Work package resource' do
       end
 
       it 'should respond with 401' do
-        last_response.status.should eq(401)
+        last_response.status.should eq(403)
       end
 
       it 'should respond with explanatory error message' do
         parsed_errors = JSON.parse(last_response.body)['errors']
-        parsed_errors.should eq([{ 'key' => 'not_authenticated', 'messages' => ['You need to be authenticated to access this resource']}])
+        parsed_errors.should eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
       end
     end
 
