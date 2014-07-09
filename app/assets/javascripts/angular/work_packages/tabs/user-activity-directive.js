@@ -39,6 +39,10 @@ angular.module('openproject.workPackages.tabs')
     },
     link: function(scope) {
       scope.userPath = PathHelper.staticUserPath;
+
+      scope.activity.links.user.fetch().then(function(user) {
+        scope.userAvatar = user.props.avatar;
+      });
     }
   };
 }]);
