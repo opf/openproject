@@ -34,7 +34,9 @@ angular.module('openproject.helpers')
     apiV2: '/api/v2',
     apiExperimental: '/api/experimental',
     apiV3: '/api/v3',
-    staticBase: window.appBasePath,
+    staticBase: function() {
+      return window.appBasePath ? window.appBasePath : '';
+    },
 
     activityPath: function(projectIdentifier, from) {
       var link = '/activity';
@@ -221,16 +223,16 @@ angular.module('openproject.helpers')
 
     // Static
     staticUserPath: function(userId) {
-      return PathHelper.staticBase + PathHelper.userPath(userId);
+      return PathHelper.staticBase() + PathHelper.userPath(userId);
     },
     staticWorkPackagePath: function(workPackageId) {
-      return PathHelper.staticBase + PathHelper.workPackagePath(workPackageId);
+      return PathHelper.staticBase() + PathHelper.workPackagePath(workPackageId);
     },
     staticProjectPath: function(projectId) {
-      return PathHelper.staticBase + PathHelper.projectPath(projectId);
+      return PathHelper.staticBase() + PathHelper.projectPath(projectId);
     },
     staticVersionPath: function(versionId) {
-      return PathHelper.staticBase + PathHelper.versionPath(versionId);
+      return PathHelper.staticBase() + PathHelper.versionPath(versionId);
     }
   };
 
