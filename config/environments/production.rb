@@ -117,4 +117,26 @@ OpenProject::Application.configure do
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
+
+  # enable lograge
+  config.lograge.enabled = true
+
+  # use lograge with logstash format, requires logstash-event gem
+  config.lograge.formatter = Lograge::Formatters::Logstash.new
+
+  # add useful request data
+  config.lograge.custom_options = ->(event) do
+    {
+      appName: 'Subscribem',
+      tenant: Apartment::Database.current_tenant,
+      uuid: event.payload[:uuid],
+      host: event.payload[:host],
+      params: event.payload[:params]
+    }
+  end
+
+  # send logs to loggly
+  if loggly_endpoint = ENV['LOGGLY_ENDPOINT']
+    config.logger = Logglier.new(loggly_endpoint, threaded: true, format: :json)
+  end
 end
