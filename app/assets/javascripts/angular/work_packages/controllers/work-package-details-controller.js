@@ -43,9 +43,10 @@ angular.module('openproject.workPackages.controllers')
   'DEFAULT_WORK_PACKAGE_PROPERTIES',
   'USER_TYPE',
   'WorkPackagesHelper',
+  'PathHelper',
   'UserService',
   '$q',
-  function($scope, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, WorkPackagesHelper, UserService, $q) {
+  function($scope, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, WorkPackagesHelper, PathHelper, UserService, $q) {
     // initialization
     $scope.I18n = I18n;
     $scope.workPackage = workPackage;
@@ -60,6 +61,7 @@ angular.module('openproject.workPackages.controllers')
     // work package properties
     $scope.presentWorkPackageProperties = [];
     $scope.emptyWorkPackageProperties = [];
+    $scope.userPath = PathHelper.staticUserPath;
 
     var workPackageProperties = DEFAULT_WORK_PACKAGE_PROPERTIES;
 
