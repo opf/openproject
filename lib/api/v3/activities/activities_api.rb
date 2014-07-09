@@ -12,11 +12,12 @@ module API
 
             before do
               @activity = Journal.find(params[:id])
-              model = ::API::V3::Activities::ActivityModel.new(journal: @activity)
+              model = ::API::V3::Activities::ActivityModel.new(@activity)
               @representer =  ::API::V3::Activities::ActivityRepresenter.new(model)
             end
 
             get do
+              authorize(:work_packages, :show, context: @activity.Journalable.project)
               @representer.to_json
             end
 
