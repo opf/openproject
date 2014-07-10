@@ -31,7 +31,10 @@
 describe('WorkPackageDetailsController', function() {
   var scope;
   var buildController;
-  var I18n = { t: angular.noop },
+  var I18n = { t: angular.identity },
+      WorkPackagesHelper = {
+        formatWorkPackageProperty: angular.identity
+      },
       workPackage = {
         props: {
           status: 'open',
@@ -49,7 +52,6 @@ describe('WorkPackageDetailsController', function() {
 
   beforeEach(module('openproject.api', 'openproject.services', 'openproject.workPackages.controllers'));
   beforeEach(inject(function($rootScope, $controller, $timeout) {
-
     var workPackageId = 99;
 
     buildController = function() {
@@ -67,7 +69,7 @@ describe('WorkPackageDetailsController', function() {
         workPackage: buildWorkPackageWithId(workPackageId),
       });
 
-      // $timeout.flush();
+      $timeout.flush();
     };
 
   }));
@@ -84,8 +86,6 @@ describe('WorkPackageDetailsController', function() {
         return propertyData.property === propertyName;
       });
     }
-
-
 
     describe('when the property has a value', function() {
       var propertyName = 'status';
@@ -167,6 +167,68 @@ describe('WorkPackageDetailsController', function() {
 
       it('adds properties that without values to empty properties', function() {
         expect(scope.emptyWorkPackageProperties.indexOf(label)).to.be.greaterThan(-1);
+      });
+    });
+
+    describe('date property', function() {
+      var startDate = '2014-07-09',
+          dueDate   = '2014-07-10',
+          placeholder = 'placeholder';
+
+
+      describe('when only the due date is present', function() {
+        beforeEach(function() {
+          sinon.stub(I18n, 't')
+               .withArgs('js.label_no_start_date')
+               .returns(placeholder);
+
+          workPackage.props.startDate = null;
+          workPackage.props.dueDate = dueDate;
+
+          buildController();
+        });
+
+        afterEach(function() {
+          I18n.t.restore();
+        });
+
+        it('renders the due date and a placeholder for the start date as date property', function() {
+          expect(fetchPresentPropertiesWithName('date')[0].value).to.equal(placeholder + ' - Jul 10, 2014');
+        });
+      });
+
+      describe('when only the start date is present', function() {
+        beforeEach(function() {
+          sinon.stub(I18n, 't')
+               .withArgs('js.label_no_due_date')
+               .returns(placeholder);
+
+          workPackage.props.startDate = startDate;
+          workPackage.props.dueDate = null;
+
+          buildController();
+        });
+
+        afterEach(function() {
+          I18n.t.restore();
+        });
+
+        it('renders the start date and a placeholder for the due date as date property', function() {
+          expect(fetchPresentPropertiesWithName('date')[0].value).to.equal('Jul 9, 2014 - ' + placeholder);
+        });
+      });
+
+      describe('when both - start and due date are present', function() {
+        beforeEach(function() {
+          workPackage.props.startDate = startDate;
+          workPackage.props.dueDate = dueDate;
+
+          buildController();
+        });
+
+        it('combines them and renders them as date property', function() {
+          expect(fetchPresentPropertiesWithName('date')[0].value).to.equal('Jul 9, 2014 - Jul 10, 2014');
+        });
       });
     });
   });
