@@ -47,16 +47,12 @@ table.workpackages-table
   width: 100%
   margin: 0
 
-  col
-    border: 1px solid transparent
-
+  col    
     &:hover,
     &.hover
       background:   #f8f8f8
-      border-color: #dddddd
-
+      
   thead th
-    border-bottom: 2px solid #dddddd
     text-transform: uppercase
     font-size: 14px
     text-align: left
@@ -73,6 +69,7 @@ table.workpackages-table
         text-decoration: none
         color: $global_font_color
   thead tr
+    border-bottom: 1px solid #dddddd
     &:hover
       background: none
 
@@ -112,12 +109,3 @@ table.workpackages-table
     & > .dropdown-indicator
       width: 1em
       text-align: right
-
-div.active-column
-  position: absolute
-  top: 10px
-  left: 142px
-  border: 1px solid #dddddd
-  height: 139px
-  width: 105px
-  background: none
