@@ -94,14 +94,18 @@ angular.module('openproject.workPackages.controllers')
 
     function getFormattedPropertyValue(property) {
       if (property === 'date') {
-        if (workPackage.props.startDate && workPackage.props.dueDate) {
-          return WorkPackagesHelper.formatWorkPackageProperty(workPackage.props['startDate'], 'startDate') +
-                 ' - ' +
-                 WorkPackagesHelper.formatWorkPackageProperty(workPackage.props['dueDate'], 'dueDate');
-
-        }
+        return getDateProperty();
       } else {
         return WorkPackagesHelper.formatWorkPackageProperty(workPackage.props[property], property);
+      }
+    }
+
+    function getDateProperty() {
+      if (workPackage.props.startDate || workPackage.props.dueDate) {
+        var displayedStartDate = WorkPackagesHelper.formatWorkPackageProperty(workPackage.props.startDate, 'startDate') || I18n.t('js.label_no_start_date'),
+            displayedEndDate   = WorkPackagesHelper.formatWorkPackageProperty(workPackage.props.dueDate, 'dueDate') || I18n.t('js.label_no_due_date');
+
+        return  displayedStartDate + ' - ' + displayedEndDate;
       }
     }
 
