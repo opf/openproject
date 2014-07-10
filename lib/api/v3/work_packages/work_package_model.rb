@@ -63,7 +63,7 @@ module API
         end
 
         def description
-          format_text(work_package.description)
+          format_text(work_package, :description)
         end
 
         def raw_description

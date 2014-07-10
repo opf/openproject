@@ -47,7 +47,7 @@ module API
         property :user_id, type: Integer
 
         def notes
-          format_text(raw_notes)
+          format_text(model.notes, :object => model.journable)
         end
 
         def raw_notes
