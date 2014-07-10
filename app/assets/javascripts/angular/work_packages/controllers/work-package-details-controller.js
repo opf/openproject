@@ -31,8 +31,7 @@ angular.module('openproject.workPackages.controllers')
 .constant('DEFAULT_WORK_PACKAGE_PROPERTIES', [
   'status', 'assignee', 'responsible',
   'date', 'percentageDone', 'priority',
-  'author', 'dueDate', 'estimatedTime',
-  'startDate', 'versionName'
+  'estimatedTime', 'versionName'
 ])
 .constant('USER_TYPE', 'user')
 
