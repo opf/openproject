@@ -62,7 +62,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
         xml.email(author.mail) if author.is_a?(User) && !author.mail.blank? && !author.pref.hide_mail
       end if author
       xml.content "type" => "html" do
-        xml.text! textilizable(item_event, :event_description, :only_path => false)
+        xml.text! format_text(item_event, :event_description, :only_path => false)
       end
     end
   end

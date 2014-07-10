@@ -26,28 +26,36 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject
-  module WikiFormatting
-    module Macros
-      class TimelinesWikiMacro
-        unloadable
+require 'spec_helper'
 
-        def apply(content, args, options={})
-          timeline = Timeline.find_by_id(args[0])
+describe ::API::V3::WorkPackages::WorkPackageModel do
+  include Capybara::RSpecMatchers
 
-          raise I18n.t('timelines.no_timeline_for_id', :id => args[0].to_s) if timeline.nil?
-          raise I18n.t('timelines.no_right_to_view_timeline') unless User.current.allowed_to?(:view_timelines, timeline.project)
+  subject(:model) { ::API::V3::WorkPackages::WorkPackageModel.new(
+      work_package: work_package
+    )
+  }
+  let(:work_package) { FactoryGirl.build(:work_package, attributes) }
 
-          view = options[:view]
+  context 'with a formatted description' do
+    let(:attributes) {
+      {
+       description: <<-DESC
+h2. Plan for this month
 
-          if view.respond_to?(:render)
-            view.render :partial => '/timelines/timeline',
-                        :locals => {:timeline => timeline}
-          else
-            raise NotImplementedError, 'Timeline rendering is not supported'
-          end
-        end
-      end
+# Important bug fixes
+# Aesthetic improvements
+       DESC
+      }
+    }
+
+    its(:description)     { should have_selector 'h2' }
+    its(:description)     { should have_selector 'ol > li' }
+    its(:raw_description) { should eq attributes[:description] }
+
+    it 'should allow a raw_description to be set' do
+      model.raw_description = 'h4. More details'
+      expect(model.description).to have_selector 'h4'
     end
   end
 end

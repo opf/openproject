@@ -281,6 +281,9 @@ OpenProject::Application.routes.draw do
         match '/report/:detail' => 'work_packages/reports#report_details', :via => :get
         match '/report' => 'work_packages/reports#report', :via => :get
       end
+
+      # states managed by client-side routing on work_package#index
+      get '/*state' => 'work_packages#index', on: :member, id: /\d+/
     end
 
     resources :activity, :activities, :only => :index, :controller => 'activities'
@@ -393,6 +396,10 @@ OpenProject::Application.routes.draw do
 
     post :preview, on: :collection
     post :preview, on: :member
+
+    get '/edit' => 'work_packages#edit', on: :member # made explicit to avoid conflict with catch-all route
+    # states managed by client-side routing on work_package#index
+    get '/*state' => 'work_packages#index', on: :member, id: /\d+/
   end
 
   resources :versions, :only => [:show, :edit, :update, :destroy] do

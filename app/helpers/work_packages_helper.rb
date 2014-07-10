@@ -209,7 +209,7 @@ module WorkPackagesHelper
     description = if work_package.description.blank?
                     empty_element_tag
                   else
-                    textilizable(description_lines.join(""))
+                    format_text(description_lines.join(""))
                   end
 
     link = work_package_quick_info(work_package)

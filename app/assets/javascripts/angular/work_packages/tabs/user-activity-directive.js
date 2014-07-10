@@ -28,21 +28,24 @@
 
 angular.module('openproject.workPackages.tabs')
 
-.directive('userField', ['PathHelper', function(PathHelper) {
+.directive('userActivity', ['PathHelper', function(PathHelper) {
   return {
     restrict: 'E',
     replace: true,
-    templateUrl: '/templates/work_packages/tabs/_user_field.html',
-    scope: { user: '=' },
+    templateUrl: '/templates/work_packages/tabs/_user_activity.html',
+    scope: {
+      activity: '=',
+      currentAnchor: '=',
+      activityNo: '='
+    },
     link: function(scope) {
-      scope.$watch('user', function() {
-        if (scope.user && scope.user.props &&
-            (scope.user.props.firstName || scope.user.props.lastName)) {
-          scope.userName = scope.user.props.firstName + ' ' + scope.user.props.lastName;
-        }
-      });
-
       scope.userPath = PathHelper.staticUserPath;
+
+      scope.activity.links.user.fetch().then(function(user) {
+        scope.userId = user.props.id;
+        scope.userName = user.props.firstName + ' ' + user.props.lastName;
+        scope.userAvatar = user.props.avatar;
+      });
     }
   };
 }]);

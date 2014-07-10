@@ -36,12 +36,18 @@ module API
       class WorkPackageModel < Reform::Form
         include Composition
         include Coercion
+        include ActionView::Helpers::UrlHelper
+        include OpenProject::TextFormatting
+        include OpenProject::StaticRouting::UrlHelpers
+        include WorkPackagesHelper
         include GravatarImageTag
+
+        # N.B. required by ActionView::Helpers::UrlHelper
+        def controller; nil; end
 
         model :work_package
 
         property :subject, on: :work_package, type: String
-        property :description, on: :work_package, type: String
         property :start_date, on: :work_package, type: Date
         property :due_date, on: :work_package, type: Date
         property :created_at, on: :work_package, type: DateTime
@@ -54,6 +60,18 @@ module API
 
         def work_package
           model[:work_package]
+        end
+
+        def description
+          format_text(work_package.description)
+        end
+
+        def raw_description
+          work_package.description
+        end
+
+        def raw_description=(value)
+          work_package.description = value
         end
 
         def type
@@ -121,7 +139,9 @@ module API
         end
 
         def watchers
-          work_package.watcher_users.map{ |u| ::API::V3::Users::UserModel.new(u) }
+          work_package.watcher_users
+            .order(User::USER_FORMATS_STRUCTURE[Setting.user_format])
+            .map{ |u| ::API::V3::Users::UserModel.new(u) }
         end
 
         validates_presence_of :subject, :project_id, :type, :author, :status

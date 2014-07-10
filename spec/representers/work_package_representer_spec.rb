@@ -49,6 +49,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       it { should have_json_path('id') }
 
       it { should have_json_path('description') }
+      it { should have_json_path('rawDescription') }
+
       it { should have_json_path('dueDate') }
 
       it { should have_json_path('percentageDone') }

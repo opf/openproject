@@ -33,7 +33,7 @@
     <i class="star icon-star1"/>
     <a href>#{{ workPackage.props.id }}</a>
     <span ng-bind="I18n.t('js.label_added_by')"/>
-    <a ng-href="/users/{{ author.props.id }}" ng-bind="author.props.name"/>.
+    <a ng-href="{{ userPath(workPackage.embedded.author.props.id) }}" ng-bind="workPackage.embedded.author.props.firstName + ' ' + workPackage.embedded.author.props.lastName"/>.
     <span ng-bind="I18n.t('js.label_last_updated_on')"/>
     <span ng-bind="workPackage.props.updatedAt|date:'longDate'"/>.
   </span>

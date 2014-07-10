@@ -52,7 +52,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
           xml.text!(content_tag(:li, change_content)) if change_content.present?
         end
         xml.text! '</ul>'
-        xml.text! textilizable(change, :notes, :only_path => false) unless change.notes.blank?
+        xml.text! format_text(change, :notes, :only_path => false) unless change.notes.blank?
       end
     end
   end
