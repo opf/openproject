@@ -869,3 +869,552 @@ Activity can be either _type Activity or _type Activity::Comment.
 + Response 200 (application/hal+json)
 
     [WorkPackage][]
+    
+## Watch WorkPackage [/work_packages/{id}/watch{?watcher_id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "WorkPackage",
+                "_links": {
+                    "self": {
+                        "href": "https://openproject.org/api/v3/work_packages/1",
+                        "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
+                    },
+                    "author": {
+                        "href": "https://openproject.org/api/v3/users/1",
+                        "title": "John Sheppard - j.sheppard"
+                    },
+                    "responsible": {
+                        "href": "https://openproject.org/api/v3/users/1",
+                        "title": "John Sheppard - j.sheppard"
+                    },
+                    "assignee": {
+                        "href": "https://openproject.org/api/v3/users/1",
+                        "title": "John Sheppard - j.sheppard"
+                    },
+                    "project": {
+                        "href": "https://openproject.org/api/v3/projects/1",
+                        "title": "Lorem"
+                    },
+                    "activities": [{
+                        "href": "https://openproject.org/api/v3/activities/1",
+                        "title": "Priority changed from High to Low"
+                    }],
+                    "watchers": [{
+                        "href": "https://openproject.org/api/v3/users/1",
+                        "title": "John Sheppard - j.sheppard"
+                    }],
+                    "watch": {
+                        "href": "https://openproject.org/api/v3/work_packages/1/watch",
+                        "title": "John Sheppard"
+                    },
+                    "unwatch": {
+                        "href": "https://openproject.org/api/v3/work_packages/1/unwatch",
+                        "title": "John Sheppard"
+                    },
+                    "addWatcher": [{
+                        "href": "https://openproject.org/api/v3/work_packages/1/watch?watcher_id=2",
+                        "title": "John Sheppard"
+                    }],
+                    "removeWatcher": [{
+                        "href": "https://openproject.org/api/v3/work_packages/1/watch?watcher_id=1",
+                        "title": "John Sheppard"
+                    }],
+                    "relations": [{
+                        "href": "https://openproject.org/api/v3/relationships/1",
+                        "title": "Work package A duplicated by Work package B"
+                    }],
+                    "attachments": [{
+                        "href": "https://openproject.org/api/v3/attachments/1",
+                        "title": "Attachment filename"
+                    }]
+                },
+                "_embedded": {
+                    "author": {
+                        "_type": "User",
+                        "_links": {
+                            "self": {
+                                "href": "https://openproject.org/api/v3/users/1",
+                                "title": "John Sheppard - j.sheppard"
+                            }
+                        },
+                        "id": 1,
+                        "login": "j.sheppard",
+                        "firstName": "John",
+                        "lastName": "Sheppard",
+                        "mail": "shep@mail.com",
+                        "avatar": "https://gravatar/avatar",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
+                    },
+                    "responsible": {
+                        "_type": "User",
+                        "_links": {
+                            "self": {
+                                "href": "https://openproject.org/api/v3/users/1",
+                                "title": "John Sheppard - j.sheppard"
+                            }
+                        },
+                        "id": 1,
+                        "login": "j.sheppard",
+                        "firstName": "John",
+                        "lastName": "Sheppard",
+                        "mail": "shep@mail.com",
+                        "avatar": "https://gravatar/avatar",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
+                    },
+                    "assignee": {
+                        "_type": "User",
+                        "_links": {
+                            "self": {
+                                "href": "https://openproject.org/api/v3/users/1",
+                                "title": "John Sheppard - j.sheppard"
+                            }
+                        },
+                        "id": 1,
+                        "login": "j.sheppard",
+                        "firstName": "John",
+                        "lastName": "Sheppard",
+                        "mail": "shep@mail.com",
+                        "avatar": "https://gravatar/avatar",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
+                    },
+                    "project": {
+                        "_type": "Project",
+                        "_links": {
+                            "self": {
+                                "href": "https://openproject.org/api/v3/projects/1",
+                                "title": "Lorem"
+                            },
+                            "workPackages": [{
+                                "href": "https://openproject.org/api/v3/work_packages/1",
+                                "title": "Lorem ipsum"
+                            }]
+                        },
+                        "id": 1,
+                        "name": "Lorem",
+                        "description": "Lorem ipsum dolor sit amet",
+                        "homepage": "http://web.com",
+                        "identifier": "lorem",
+                        "type": "",
+                        "summary": "Lorem ipsum dolor sit amet",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z",
+                        "customProperties": [{
+                            "name": "My custom field 1",
+                            "format": "text",
+                            "value": "Lorem ipsum"
+                        }]
+                    },
+                    "activities": [
+                        {
+                            "_type": "Activity::Comment",
+                            "_links": {
+                                "self": {
+                                    "href": "https://openproject.org/api/v3/activities/1",
+                                    "title": "Priority changed from High to Low"
+                                },
+                                "workPackage": {
+                                    "href": "https://openproject.org/api/v3/work_packages/1",
+                                    "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
+                                },
+                                "user": {
+                                    "href": "https://openproject.org/api/v3/users/1",
+                                    "title": "John Sheppard - admin"
+                                }
+                            },
+                            "id": 1,
+                            "details": [
+                                "Lorem ipsum dolor sit amet."
+                            ],
+                            "comment": "Lorem ipsum dolor sit amet.",
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "version": 31
+                        }
+                    ],
+                    "watchers": [
+                        {
+                            "_type": "User",
+                            "_links": {
+                                "self": {
+                                    "href": "https://openproject.org/api/v3/users/1",
+                                    "title": "John Sheppard - j.sheppard"
+                                }
+                            },
+                            "id": 1,
+                            "login": "j.sheppard",
+                            "firstName": "John",
+                            "lastName": "Sheppard",
+                            "mail": "shep@mail.com",
+                            "avatar": "https://gravatar/avatar",
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T08:51:20Z"
+                        }
+                    ],
+                    "relations": [
+                        {
+                            "_type": "Relationship",
+                            "_links": {
+                                "self": {
+                                    "href": "https://openproject.org/api/v3/relationships/1",
+                                    "title": "Work package A duplicated by Work package B"
+                                },
+                                "workPackage": {
+                                    "href": "https://openproject.org/api/v3/work_packages/1",
+                                    "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
+                                },
+                                "relatedWorkPackage": {
+                                    "href": "https://openproject.org/api/v3/work_packages/2",
+                                    "title": "Lorem ipsum"
+                                }
+                            },
+                            "id": 1,
+                            "type": "duplicates",
+                            "relatedWorkPackageId": 2,
+                            "relatedWorkPackageSubject": "Lorem ipsum",
+                            "relatedWorkPackageType": "Bug",
+                            "relatedWorkPackageStartDate": "2014-05-29",
+                            "relatedWorkPackageDueDate": "2014-08-29"
+                        }
+                    ],
+                    "attachments": [
+                        {
+                            "_type": "Attachment",
+                            "_links": {
+                                "self": {
+                                    "href": "https://openproject.org/api/v3/attachments/1",
+                                    "title": "Attachment filename"
+                                },
+                                "workPackage": {
+                                    "href": "https://openproject.org/api/v3/work_packages/1",
+                                    "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
+                                },
+                                "author": {
+                                    "href": "https://openproject.org/api/v3/users/1",
+                                    "title": "Users login"
+                                }
+                            },
+                            "id": 1,
+                            "filename": "Attachment filename",
+                            "filesize": 30,
+                            "contentType": "txt",
+                            "description": "Lorem ipsum dolor sit amet.",
+                            "authorName": "John Sheppard",
+                            "authorLogin": "admin",
+                            "authorMail": "admin@example.net",
+                            "createdAt": "2014-05-21T08:51:20Z"
+                        }
+                    ]
+                },
+                "id": 1,
+                "subject": "quis numquam qui voluptatum quia praesentium blanditiis nisi",
+                "type": "Support",
+                "description": "Crux vel eos dolores admoveo summa veritatis acerbitas. Deleo venustas cubo curtus balbus sumo ambitus valens. Tener cotidie angelus illo. Cito verto comburo. Tergeo vinculum succedo ullus suppono.",
+                "status": "New",
+                "priority": "Normal",
+                "startDate": "2014-05-29",
+                "dueDate": "2014-08-29",
+                "estimatedTime": {
+                    "units": "hours",
+                    "value": 10
+                },
+                "percentageDone": 0,
+                "targetVersionId": 1,
+                "targetVersionName": "sprint-01",
+                "createdAt": "2014-05-21T08:51:20Z",
+                "updatedAt": "2014-05-22T09:41:29Z",
+                "customProperties": [{
+                    "name": "My custom field 1",
+                    "format": "text",
+                    "value": "Lorem ipsum"
+                }]
+            }
+
+## Watch work package [PATCH]
+
++ Parameters
+    + id (required, integer, `1`) ... Work package id
+    + watcher_id (optional, integer, `1`) ... Id of the user to be added as a watcher (If the id is not provided, current user will be added as a watcher)
+
++ Response 200 (application/hal+json)
+
+    [Watch WorkPackage][]    
+    
+## Unwatch WorkPackage [/work_packages/{id}/unwatch{?watcher_id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "WorkPackage",
+                "_links": {
+                    "self": {
+                        "href": "https://openproject.org/api/v3/work_packages/1",
+                        "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
+                    },
+                    "author": {
+                        "href": "https://openproject.org/api/v3/users/1",
+                        "title": "John Sheppard - j.sheppard"
+                    },
+                    "responsible": {
+                        "href": "https://openproject.org/api/v3/users/1",
+                        "title": "John Sheppard - j.sheppard"
+                    },
+                    "assignee": {
+                        "href": "https://openproject.org/api/v3/users/1",
+                        "title": "John Sheppard - j.sheppard"
+                    },
+                    "project": {
+                        "href": "https://openproject.org/api/v3/projects/1",
+                        "title": "Lorem"
+                    },
+                    "activities": [{
+                        "href": "https://openproject.org/api/v3/activities/1",
+                        "title": "Priority changed from High to Low"
+                    }],
+                    "watchers": [{
+                        "href": "https://openproject.org/api/v3/users/1",
+                        "title": "John Sheppard - j.sheppard"
+                    }],
+                    "watch": {
+                        "href": "https://openproject.org/api/v3/work_packages/1/watch",
+                        "title": "John Sheppard"
+                    },
+                    "unwatch": {
+                        "href": "https://openproject.org/api/v3/work_packages/1/unwatch",
+                        "title": "John Sheppard"
+                    },
+                    "addWatcher": [{
+                        "href": "https://openproject.org/api/v3/work_packages/1/watch?watcher_id=2",
+                        "title": "John Sheppard"
+                    }],
+                    "removeWatcher": [{
+                        "href": "https://openproject.org/api/v3/work_packages/1/watch?watcher_id=1",
+                        "title": "John Sheppard"
+                    }],
+                    "relations": [{
+                        "href": "https://openproject.org/api/v3/relationships/1",
+                        "title": "Work package A duplicated by Work package B"
+                    }],
+                    "attachments": [{
+                        "href": "https://openproject.org/api/v3/attachments/1",
+                        "title": "Attachment filename"
+                    }]
+                },
+                "_embedded": {
+                    "author": {
+                        "_type": "User",
+                        "_links": {
+                            "self": {
+                                "href": "https://openproject.org/api/v3/users/1",
+                                "title": "John Sheppard - j.sheppard"
+                            }
+                        },
+                        "id": 1,
+                        "login": "j.sheppard",
+                        "firstName": "John",
+                        "lastName": "Sheppard",
+                        "mail": "shep@mail.com",
+                        "avatar": "https://gravatar/avatar",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
+                    },
+                    "responsible": {
+                        "_type": "User",
+                        "_links": {
+                            "self": {
+                                "href": "https://openproject.org/api/v3/users/1",
+                                "title": "John Sheppard - j.sheppard"
+                            }
+                        },
+                        "id": 1,
+                        "login": "j.sheppard",
+                        "firstName": "John",
+                        "lastName": "Sheppard",
+                        "mail": "shep@mail.com",
+                        "avatar": "https://gravatar/avatar",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
+                    },
+                    "assignee": {
+                        "_type": "User",
+                        "_links": {
+                            "self": {
+                                "href": "https://openproject.org/api/v3/users/1",
+                                "title": "John Sheppard - j.sheppard"
+                            }
+                        },
+                        "id": 1,
+                        "login": "j.sheppard",
+                        "firstName": "John",
+                        "lastName": "Sheppard",
+                        "mail": "shep@mail.com",
+                        "avatar": "https://gravatar/avatar",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
+                    },
+                    "project": {
+                        "_type": "Project",
+                        "_links": {
+                            "self": {
+                                "href": "https://openproject.org/api/v3/projects/1",
+                                "title": "Lorem"
+                            },
+                            "workPackages": [{
+                                "href": "https://openproject.org/api/v3/work_packages/1",
+                                "title": "Lorem ipsum"
+                            }]
+                        },
+                        "id": 1,
+                        "name": "Lorem",
+                        "description": "Lorem ipsum dolor sit amet",
+                        "homepage": "http://web.com",
+                        "identifier": "lorem",
+                        "type": "",
+                        "summary": "Lorem ipsum dolor sit amet",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z",
+                        "customProperties": [{
+                            "name": "My custom field 1",
+                            "format": "text",
+                            "value": "Lorem ipsum"
+                        }]
+                    },
+                    "activities": [
+                        {
+                            "_type": "Activity::Comment",
+                            "_links": {
+                                "self": {
+                                    "href": "https://openproject.org/api/v3/activities/1",
+                                    "title": "Priority changed from High to Low"
+                                },
+                                "workPackage": {
+                                    "href": "https://openproject.org/api/v3/work_packages/1",
+                                    "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
+                                },
+                                "user": {
+                                    "href": "https://openproject.org/api/v3/users/1",
+                                    "title": "John Sheppard - admin"
+                                }
+                            },
+                            "id": 1,
+                            "details": [
+                                "Lorem ipsum dolor sit amet."
+                            ],
+                            "comment": "Lorem ipsum dolor sit amet.",
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "version": 31
+                        }
+                    ],
+                    "watchers": [
+                        {
+                            "_type": "User",
+                            "_links": {
+                                "self": {
+                                    "href": "https://openproject.org/api/v3/users/1",
+                                    "title": "John Sheppard - j.sheppard"
+                                }
+                            },
+                            "id": 1,
+                            "login": "j.sheppard",
+                            "firstName": "John",
+                            "lastName": "Sheppard",
+                            "mail": "shep@mail.com",
+                            "avatar": "https://gravatar/avatar",
+                            "createdAt": "2014-05-21T08:51:20Z",
+                            "updatedAt": "2014-05-21T08:51:20Z"
+                        }
+                    ],
+                    "relations": [
+                        {
+                            "_type": "Relationship",
+                            "_links": {
+                                "self": {
+                                    "href": "https://openproject.org/api/v3/relationships/1",
+                                    "title": "Work package A duplicated by Work package B"
+                                },
+                                "workPackage": {
+                                    "href": "https://openproject.org/api/v3/work_packages/1",
+                                    "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
+                                },
+                                "relatedWorkPackage": {
+                                    "href": "https://openproject.org/api/v3/work_packages/2",
+                                    "title": "Lorem ipsum"
+                                }
+                            },
+                            "id": 1,
+                            "type": "duplicates",
+                            "relatedWorkPackageId": 2,
+                            "relatedWorkPackageSubject": "Lorem ipsum",
+                            "relatedWorkPackageType": "Bug",
+                            "relatedWorkPackageStartDate": "2014-05-29",
+                            "relatedWorkPackageDueDate": "2014-08-29"
+                        }
+                    ],
+                    "attachments": [
+                        {
+                            "_type": "Attachment",
+                            "_links": {
+                                "self": {
+                                    "href": "https://openproject.org/api/v3/attachments/1",
+                                    "title": "Attachment filename"
+                                },
+                                "workPackage": {
+                                    "href": "https://openproject.org/api/v3/work_packages/1",
+                                    "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
+                                },
+                                "author": {
+                                    "href": "https://openproject.org/api/v3/users/1",
+                                    "title": "Users login"
+                                }
+                            },
+                            "id": 1,
+                            "filename": "Attachment filename",
+                            "filesize": 30,
+                            "contentType": "txt",
+                            "description": "Lorem ipsum dolor sit amet.",
+                            "authorName": "John Sheppard",
+                            "authorLogin": "admin",
+                            "authorMail": "admin@example.net",
+                            "createdAt": "2014-05-21T08:51:20Z"
+                        }
+                    ]
+                },
+                "id": 1,
+                "subject": "quis numquam qui voluptatum quia praesentium blanditiis nisi",
+                "type": "Support",
+                "description": "Crux vel eos dolores admoveo summa veritatis acerbitas. Deleo venustas cubo curtus balbus sumo ambitus valens. Tener cotidie angelus illo. Cito verto comburo. Tergeo vinculum succedo ullus suppono.",
+                "status": "New",
+                "priority": "Normal",
+                "startDate": "2014-05-29",
+                "dueDate": "2014-08-29",
+                "estimatedTime": {
+                    "units": "hours",
+                    "value": 10
+                },
+                "percentageDone": 0,
+                "targetVersionId": 1,
+                "targetVersionName": "sprint-01",
+                "createdAt": "2014-05-21T08:51:20Z",
+                "updatedAt": "2014-05-22T09:41:29Z",
+                "customProperties": [{
+                    "name": "My custom field 1",
+                    "format": "text",
+                    "value": "Lorem ipsum"
+                }]
+            }
+
+## Unwatch work package [PATCH]
+
++ Parameters
+    + id (required, integer, `1`) ... Work package id
+    + watcher_id (optional, integer, `1`) ... Id of the user to be removed from list of watchers (If the id is not provided, current user will be removed)
+
++ Response 200 (application/hal+json)
+
+    [Unwatch WorkPackage][]    
+    
