@@ -30,6 +30,7 @@
 module OpenProject
   module TextFormatting
     extend ActiveSupport::Concern
+    extend DeprecatedAlias
 
     include Redmine::WikiFormatting::Macros::Definitions
     include ActionView::Helpers::SanitizeHelper
@@ -55,9 +56,9 @@ module OpenProject
 
     # Formats text according to system settings.
     # 2 ways to call this method:
-    # * with a String: textilizable(text, options)
-    # * with an object and one of its attribute: textilizable(issue, :description, options)
-    def textilizable(*args)
+    # * with a String: format_text(text, options)
+    # * with an object and one of its attribute: format_text(issue, :description, options)
+    def format_text(*args)
       options = args.last.is_a?(Hash) ? args.pop : {}
       case args.size
       when 1
@@ -68,7 +69,7 @@ module OpenProject
         attr = args.shift
         text = obj.send(attr).to_s
       else
-        raise ArgumentError, 'invalid arguments to textilizable'
+        raise ArgumentError, 'invalid arguments to format_text'
       end
       return '' if text.blank?
 
@@ -94,7 +95,8 @@ module OpenProject
 
       text.html_safe
     end
-    alias_method :textilize, :textilizable
+    deprecated_alias :textilizable, :format_text
+    deprecated_alias :textilize,    :format_text
 
 
     def parse_non_pre_blocks(text)

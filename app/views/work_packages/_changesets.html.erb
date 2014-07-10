@@ -33,7 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
                             :text => "#{l(:label_revision)} #{changeset.format_identifier}") %><br />
         <span class="author"><%= authoring(changeset.committed_on, changeset.author) %></span></p>
     <div class="wiki">
-        <%= textilizable(changeset, :comments) %>
+        <%= format_text(changeset, :comments) %>
     </div>
     </div>
 <% end %>

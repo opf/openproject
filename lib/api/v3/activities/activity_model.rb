@@ -47,7 +47,7 @@ module API
         property :user_id, type: Integer
 
         def notes
-          textilizable(raw_notes)
+          format_text(raw_notes)
         end
 
         def raw_notes

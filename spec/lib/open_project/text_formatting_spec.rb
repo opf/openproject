@@ -39,7 +39,7 @@ describe OpenProject::TextFormatting do
     # no-op
   end
 
-  describe ".textilizable" do
+  describe ".format_text" do
     let(:project) { FactoryGirl.create :valid_project }
     let(:identifier) { project.identifier }
     let(:project_member) { FactoryGirl.create :user,
@@ -86,31 +86,31 @@ describe OpenProject::TextFormatting do
       end
 
       context "Single link" do
-        subject { textilizable("r#{changeset1.revision}") }
+        subject { format_text("r#{changeset1.revision}") }
 
         it { should eq("<p>#{changeset_link}</p>") }
       end
 
       context "Single link with dot" do
-        subject { textilizable("r#{changeset1.revision}.") }
+        subject { format_text("r#{changeset1.revision}.") }
 
         it { should eq("<p>#{changeset_link}.</p>") }
       end
 
       context "Two links comma separated" do
-        subject { textilizable("r#{changeset1.revision}, r#{changeset2.revision}") }
+        subject { format_text("r#{changeset1.revision}, r#{changeset2.revision}") }
 
         it { should eq("<p>#{changeset_link}, #{changeset_link2}</p>") }
       end
 
       context "Single link comma separated without a space" do
-        subject { textilizable("r#{changeset1.revision},r#{changeset2.revision}") }
+        subject { format_text("r#{changeset1.revision},r#{changeset2.revision}") }
 
         it { should eq("<p>#{changeset_link},#{changeset_link2}</p>") }
       end
 
       context "Escaping" do
-        subject { textilizable("!r#{changeset1.id}") }
+        subject { format_text("!r#{changeset1.id}") }
 
         it { should eq("<p>r#{changeset1.id}</p>") }
       end
@@ -125,36 +125,36 @@ describe OpenProject::TextFormatting do
                                    :class => 'version') }
 
       context "Link with version id" do
-        subject { textilizable("version##{version.id}") }
+        subject { format_text("version##{version.id}") }
 
         it { should eq("<p>#{version_link}</p>") }
       end
 
       context "Link with version" do
-        subject { textilizable("version:1.0") }
+        subject { format_text("version:1.0") }
         it { should eq("<p>#{version_link}</p>") }
       end
 
       context "Link with quoted version" do
-        subject { textilizable('version:"1.0"') }
+        subject { format_text('version:"1.0"') }
 
         it { should eq("<p>#{version_link}</p>") }
       end
 
       context "Escaping link with version id" do
-        subject { textilizable("!version##{version.id}") }
+        subject { format_text("!version##{version.id}") }
 
         it { should eq("<p>version##{version.id}</p>") }
       end
 
       context "Escaping link with version" do
-        subject { textilizable("!version:1.0") }
+        subject { format_text("!version:1.0") }
 
         it { should eq("<p>version:1.0</p>") }
       end
 
       context "Escaping link with quoted version" do
-        subject { textilizable('!version:"1.0"') }
+        subject { format_text('!version:"1.0"') }
 
         it { should eq('<p>version:"1.0"</p>') }
       end
@@ -172,13 +172,13 @@ describe OpenProject::TextFormatting do
       end
 
       context "Plain message" do
-        subject { textilizable("message##{message1.id}") }
+        subject { format_text("message##{message1.id}") }
 
         it { should eq("<p>#{link_to(message1.subject, topic_path(message1), :class => 'message')}</p>") }
       end
 
       context "Message with parent" do
-        subject { textilizable("message##{message2.id}") }
+        subject { format_text("message##{message2.id}") }
 
         it { should eq("<p>#{link_to(message2.subject, topic_path(message1, :anchor => "message-#{message2.id}", :r => message2.id), :class => 'message')}</p>") }
       end
@@ -190,19 +190,19 @@ describe OpenProject::TextFormatting do
                          :class => 'issue work_package status-3 priority-1 created-by-me', :title => "#{issue.subject} (#{issue.status})") }
 
       context "Plain issue link" do
-        subject { textilizable("##{issue.id}, [##{issue.id}], (##{issue.id}) and ##{issue.id}.") }
+        subject { format_text("##{issue.id}, [##{issue.id}], (##{issue.id}) and ##{issue.id}.") }
 
         it { should eq("<p>#{issue_link}, [#{issue_link}], (#{issue_link}) and #{issue_link}.</p>") }
       end
 
       context "Plain issue link to non-existing element" do
-        subject { textilizable('#0123456789') }
+        subject { format_text('#0123456789') }
 
         it { should eq('<p>#0123456789</p>') }
       end
 
       context "Escaping issue link" do
-        subject { textilizable("!##{issue.id}.") }
+        subject { format_text("!##{issue.id}.") }
 
         it { should eq("<p>##{issue.id}.</p>") }
       end
@@ -220,7 +220,7 @@ describe OpenProject::TextFormatting do
           issue.save!
         end
 
-        subject { textilizable issue, :description }
+        subject { format_text issue, :description }
 
         it "doesn't replace description links with a cycle" do
           expect(subject).to match("###{issue.id}")
@@ -228,7 +228,7 @@ describe OpenProject::TextFormatting do
       end
 
       context "Description links" do
-        subject { textilizable issue, :description }
+        subject { format_text issue, :description }
 
         it "replaces the macro with the issue description" do
           expect(subject).to eq("<p>#{issue.description}</p>")
@@ -241,26 +241,26 @@ describe OpenProject::TextFormatting do
       let(:project_url) { {:controller => 'projects', :action => 'show', :id => subproject.identifier} }
 
       context "Plain project link" do
-        subject { textilizable("project##{subproject.id}") }
+        subject { format_text("project##{subproject.id}") }
 
         it { should eq("<p>#{link_to(subproject.name, project_url, :class => 'project')}</p>") }
       end
 
       context "Plain project link via identifier" do
-        subject { textilizable("project:#{subproject.identifier}") }
+        subject { format_text("project:#{subproject.identifier}") }
 
         it { should eq("<p>#{link_to(subproject.name, project_url, :class => 'project')}</p>") }
       end
 
       context "Plain project link via name" do
-        subject { textilizable("project:\"#{subproject.name}\"") }
+        subject { format_text("project:\"#{subproject.name}\"") }
 
         it { should eq("<p>#{link_to(subproject.name, project_url, :class => 'project')}</p>") }
       end
     end
 
     context "Url links" do
-      subject { textilizable("http://foo.bar/FAQ#3") }
+      subject { format_text("http://foo.bar/FAQ#3") }
 
       it { should eq('<p><a class="external" href="http://foo.bar/FAQ#3">http://foo.bar/FAQ#3</a></p>') }
     end
@@ -296,97 +296,97 @@ describe OpenProject::TextFormatting do
       end
 
       context "Plain wiki link" do
-        subject { textilizable('[[CookBook documentation]]') }
+        subject { format_text('[[CookBook documentation]]') }
 
         it { should eq("<p><a href=\"/projects/#{project.identifier}/wiki/CookBook_documentation\" class=\"wiki-page\">CookBook documentation</a></p>") }
       end
 
       context "Plain wiki page link" do
-        subject { textilizable('[[Another page|Page]]') }
+        subject { format_text('[[Another page|Page]]') }
 
         it { should eq("<p><a href=\"/projects/#{project.identifier}/wiki/Another_page\" class=\"wiki-page\">Page</a></p>") }
       end
 
       context "Wiki link with anchor" do
-        subject { textilizable('[[CookBook documentation#One-section]]') }
+        subject { format_text('[[CookBook documentation#One-section]]') }
 
         it { should eq("<p><a href=\"/projects/#{project.identifier}/wiki/CookBook_documentation#One-section\" class=\"wiki-page\">CookBook documentation</a></p>") }
       end
 
       context "Wiki page link with anchor" do
-        subject { textilizable('[[Another page#anchor|Page]]') }
+        subject { format_text('[[Another page#anchor|Page]]') }
 
         it { should eq("<p><a href=\"/projects/#{project.identifier}/wiki/Another_page#anchor\" class=\"wiki-page\">Page</a></p>") }
       end
 
       context "Wiki link to an unknown page" do
-        subject { textilizable('[[Unknown page]]') }
+        subject { format_text('[[Unknown page]]') }
 
         it { should eq("<p><a href=\"/projects/#{project.identifier}/wiki/Unknown_page\" class=\"wiki-page new\">Unknown page</a></p>") }
       end
 
       context "Wiki page link to an unknown page" do
-        subject { textilizable('[[Unknown page|404]]') }
+        subject { format_text('[[Unknown page|404]]') }
 
         it { should eq("<p><a href=\"/projects/#{project.identifier}/wiki/Unknown_page\" class=\"wiki-page new\">404</a></p>") }
       end
 
       context "Link to another project's wiki" do
-        subject { textilizable('[[onlinestore:]]') }
+        subject { format_text('[[onlinestore:]]') }
 
         it { should eq("<p><a href=\"/projects/onlinestore/wiki\" class=\"wiki-page\">onlinestore</a></p>") }
       end
 
       context "Link to another project's wiki with label" do
-        subject { textilizable('[[onlinestore:|Wiki]]') }
+        subject { format_text('[[onlinestore:|Wiki]]') }
 
         it { should eq("<p><a href=\"/projects/onlinestore/wiki\" class=\"wiki-page\">Wiki</a></p>") }
       end
 
       context "Link to another project's wiki page" do
-        subject { textilizable('[[onlinestore:Start page]]') }
+        subject { format_text('[[onlinestore:Start page]]') }
 
         it { should eq("<p><a href=\"/projects/onlinestore/wiki/Start_page\" class=\"wiki-page\">Start page</a></p>") }
       end
 
       context "Link to another project's wiki page with label" do
-        subject { textilizable('[[onlinestore:Start page|Text]]') }
+        subject { format_text('[[onlinestore:Start page|Text]]') }
 
         it { should eq("<p><a href=\"/projects/onlinestore/wiki/Start_page\" class=\"wiki-page\">Text</a></p>") }
       end
 
       context "Link to an unknown wiki page in another project" do
-        subject { textilizable('[[onlinestore:Unknown page]]') }
+        subject { format_text('[[onlinestore:Unknown page]]') }
 
         it { should eq("<p><a href=\"/projects/onlinestore/wiki/Unknown_page\" class=\"wiki-page new\">Unknown page</a></p>") }
       end
 
       context "Struck through link to wiki page" do
-        subject { textilizable('-[[Another page|Page]]-') }
+        subject { format_text('-[[Another page|Page]]-') }
 
         it { should eql("<p><del><a href=\"/projects/#{project.identifier}/wiki/Another_page\" class=\"wiki-page\">Page</a></del></p>") }
       end
 
       context "Named struck through link to wiki page" do
-        subject { textilizable('-[[Another page|Page]] link-') }
+        subject { format_text('-[[Another page|Page]] link-') }
 
         it { should eql("<p><del><a href=\"/projects/#{project.identifier}/wiki/Another_page\" class=\"wiki-page\">Page</a> link</del></p>") }
       end
 
       context "Escaped link to wiki page" do
-        subject { textilizable('![[Another page|Page]]') }
+        subject { format_text('![[Another page|Page]]') }
 
         it { should eql('<p>[[Another page|Page]]</p>') }
       end
 
       context "Link to wiki of non-existing project" do
-        subject { textilizable('[[unknowproject:Start]]') }
+        subject { format_text('[[unknowproject:Start]]') }
 
         it { should eql('<p>[[unknowproject:Start]]</p>') }
       end
 
       context "Link to wiki page of non-existing project" do
-        subject { textilizable('[[unknowproject:Start|Page title]]') }
+        subject { format_text('[[unknowproject:Start|Page title]]') }
 
         it { should eql('<p>[[unknowproject:Start|Page title]]</p>') }
       end
@@ -423,7 +423,7 @@ describe OpenProject::TextFormatting do
 
       it "" do
         @to_test.each do |text, result|
-          expect(textilizable(text)).to eql("<p>#{result}</p>")
+          expect(format_text(text)).to eql("<p>#{result}</p>")
         end
       end
     end
@@ -464,10 +464,16 @@ EXPECTED
         wiki.pages << wiki_page
       end
 
-      subject { textilizable(raw).gsub(%r{[\r\n\t]}, '')}
+      subject { format_text(raw).gsub(%r{[\r\n\t]}, '')}
 
       it { should eql(expected.gsub(%r{[\r\n\t]}, ''))}
     end
   end
 
+  context 'deprecated methods' do
+    subject { self }
+
+    it { should respond_to :textilizable }
+    it { should respond_to :textilize    }
+  end
 end

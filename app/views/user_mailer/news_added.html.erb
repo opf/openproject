@@ -30,4 +30,4 @@ See doc/COPYRIGHT.rdoc for more details.
 <h1><%= link_to @news.title, news_url(@news) %></h1>
 <em><%= @news.author.name if @news.author %></em>
 
-<%= textilizable @news.description %>
+<%= format_text @news.description %>

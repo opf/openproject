@@ -46,6 +46,6 @@ h1:hover a.wiki-anchor, h2:hover a.wiki-anchor, h3:hover a.wiki-anchor { display
 </style>
 </head>
 <body>
-<%= textilizable @content, :text, :wiki_links => :local, :only_path => false %>
+<%= format_text @content, :text, :wiki_links => :local, :only_path => false %>
 </body>
 </html>
