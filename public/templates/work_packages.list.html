@@ -35,7 +35,7 @@
           <li feature-flag="detailsView">
             <button class="button"
                     ng-class="{ active: $state.includes('work-packages.list.details') }"
-                    ui-sref="work-packages.list.details.overview({workPackageId: preselectedWorkPackageId})">
+                    ng-click="openLatestTab()">
               <i class="icon-table-detail-view icon-buttons"></i>
             </button>
           </li>

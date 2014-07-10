@@ -38,7 +38,21 @@ angular.module('openproject')
       url: '{projectPath:.*}/work_packages?query_id',
       abstract: true,
       templateUrl: "/templates/work_packages.html",
-      controller: 'WorkPackagesController'
+      controller: 'WorkPackagesController',
+      resolve: {
+        latestTab: function($state) {
+          var stateName = 'work-packages.list.details.overview'; // the default tab
+
+          return {
+            getStateName: function() {
+              return stateName;
+            },
+            registerState: function() {
+              stateName = $state.current.name;
+            }
+          };
+        }
+      }
     })
     .state('work-packages.list', {
       url: "",

@@ -37,6 +37,7 @@ angular.module('openproject.workPackages.controllers')
 
 .controller('WorkPackageDetailsController', [
   '$scope',
+  'latestTab',
   'workPackage',
   'I18n',
   'DEFAULT_WORK_PACKAGE_PROPERTIES',
@@ -46,7 +47,11 @@ angular.module('openproject.workPackages.controllers')
   'UserService',
   '$q',
   'ConfigurationService',
-  function($scope, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, WorkPackagesHelper, PathHelper, UserService, $q, ConfigurationService) {
+  function($scope, latestTab, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, WorkPackagesHelper, PathHelper, UserService, $q, ConfigurationService) {
+
+    $scope.$on('$stateChangeSuccess', function(event, toState){
+      latestTab.registerState(toState.name);
+    });
 
     // initialization
     $scope.I18n = I18n;
