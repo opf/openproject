@@ -385,6 +385,13 @@ OpenProject::Application.routes.draw do
     match 'plugin/:id', action: 'plugin', via: [:get, :post]
   end
 
+  # We should fix this crappy routing (split up and rename controller methods)
+  get '/workflows' => 'workflows#index'
+  scope 'workflows', controller: 'workflows' do
+    match 'edit', action: 'edit', via: [:get, :post]
+    match 'copy', action: 'copy', via: [:get, :post]
+  end
+
   namespace :work_packages do
     match 'auto_complete' => 'auto_completes#index', :via => [:get, :post]
     resources :calendar, :controller => 'calendars', :only => [:index]
