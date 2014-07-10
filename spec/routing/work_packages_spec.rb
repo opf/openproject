@@ -125,6 +125,12 @@ describe WorkPackagesController do
                                                             :action => 'create' )
   end
 
+  it do
+    expect(get('/work_packages/quoted/1')).to route_to(controller: 'work_packages',
+                                                       action: 'quoted',
+                                                       id: '1')
+  end
+
   it "should connect PUT /work_packages/1 to work_packages#update" do
     expect(put("/work_packages/1")).to route_to( :controller => 'work_packages',
                                              :action => 'update',

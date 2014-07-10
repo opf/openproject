@@ -413,6 +413,8 @@ OpenProject::Application.routes.draw do
     post :preview, on: :collection
     post :preview, on: :member
 
+    get 'quoted/:id', action: 'quoted', on: :collection
+
     get '/edit' => 'work_packages#edit', on: :member # made explicit to avoid conflict with catch-all route
     # states managed by client-side routing on work_package#index
     get '/*state' => 'work_packages#index', on: :member, id: /\d+/
