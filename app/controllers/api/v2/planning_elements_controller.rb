@@ -261,6 +261,9 @@ module Api
                                    .changed_since(@since)
                                    .includes(:status, :project, :type, :custom_values)
 
+        wp_ids = parse_work_package_ids
+        work_packages = work_packages.where(id: wp_ids) if wp_ids
+
         if params[:f]
           #we need a project to make project-specific custom fields work
           project = timeline_to_project(params[:timeline])
@@ -342,6 +345,10 @@ module Api
 
       def parse_changed_since
         @since = Time.at(Float(params[:changed_since] || 0).to_i) rescue render_400
+      end
+
+      def parse_work_package_ids
+        params[:ids] ? params[:ids].split(',') : nil
       end
     end
   end

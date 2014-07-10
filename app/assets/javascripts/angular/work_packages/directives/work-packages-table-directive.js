@@ -32,7 +32,8 @@ angular.module('openproject.workPackages.directives')
   'I18n',
   'WorkPackagesTableService',
   'flags',
-  function(I18n, WorkPackagesTableService, flags){
+  'PathHelper',
+  function(I18n, WorkPackagesTableService, flags, PathHelper){
 
   return {
     restrict: 'E',
@@ -55,6 +56,7 @@ angular.module('openproject.workPackages.directives')
     link: function(scope, element, attributes) {
       scope.I18n = I18n;
       scope.workPackagesTableData = WorkPackagesTableService.getWorkPackagesTableData();
+      scope.workPackagePath = PathHelper.staticWorkPackagePath;
 
       var topMenuHeight = angular.element('#top-menu').prop('offsetHeight') || 0;
       scope.adaptVerticalPosition = function(event) {
