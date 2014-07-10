@@ -1,5 +1,5 @@
 <div class="work-package-details-activities-activity-contents">
-  <div class="comments-number"><a ng-href="#{{ currentAnchor }}" ng-bind="'#' + ($index+1)"></a>
+  <div class="comments-number"><a ng-href="#{{ currentAnchor }}" ng-bind="'#' + activityNo"></a>
   </div>
   <img class="avatar" ng-src="{{ activity.props.userAvatar }}" />
   <span class="user"><a ng-href="{{ userPath(activity.props.userId) }}" name="{{ currentAnchor }}" ng-bind="activity.props.userName"></a></span>

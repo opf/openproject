@@ -49,8 +49,10 @@
   <ul>
     <li ng-repeat="activity in latestActitivies"
         class="work-package-details-activities-activity"
-        ng-init="currentAnchor = 'note-' + ($index+1)">
+        ng-init="currentAnchor = 'note-' + ($index+1);
+                 activityNo = activities.length - $index;">
       <user-activity activity="activity"
+                     activity-no="activityNo"
                      currentAnchor="currentAnchor">
     </li>
   </ul>
