@@ -96,7 +96,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <% end %>
           </td>
           <td class="timelines-pa-description">
-            <%= textilizable association, :description %>
+            <%= format_text association, :description %>
           </td>
           <td class="timelines-pa-actions">
             <%= link_to_if_authorized({:controller => '/project_associations',

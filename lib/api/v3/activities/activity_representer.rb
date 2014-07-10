@@ -56,6 +56,7 @@ module API
 
         property :id, getter: -> (*) { model.id }, render_nil: true
         property :notes, as: :comment, render_nil: true
+        property :raw_notes, as: :rawComment, render_nil: true
         property :details, exec_context: :decorator, render_nil: true
         property :html_details, exec_context: :decorator, render_nil: true
         property :version, getter: -> (*) { model.version }, render_nil: true

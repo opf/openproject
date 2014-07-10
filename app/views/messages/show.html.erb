@@ -57,7 +57,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="message">
 <p><span class="author"><%= authoring @topic.created_on, @topic.author %></span></p>
 <div class="wiki">
-<%= textilizable(@topic.content, :object => @topic, :attachments => @topic.attachments) %>
+<%= format_text(@topic.content, :object => @topic, :attachments => @topic.attachments) %>
 </div>
 <%= link_to_attachments @topic, :author => false %>
 </div>
@@ -97,7 +97,7 @@ See doc/COPYRIGHT.rdoc for more details.
                   :alt => l(:button_delete)) if message.destroyable_by?(User.current) %>
     </div>
     <div class="wiki">
-      <%= textilizable message, :content, :attachments => message.attachments %>
+      <%= format_text message, :content, :attachments => message.attachments %>
     </div>
     <%= link_to_attachments message, :author => false %>
   </div>

@@ -1022,6 +1022,9 @@ en:
   label_keyboard_shortcut_focus_previous_item: "Focus previous list element (on some lists only)"
   label_keyboard_shortcut_focus_next_item: "Focus next list element (on some lists only)"
 
+  macro_execution_error: "Error executing the macro %{macro_name}"
+  macro_unavailable: "Macro %{macro_name} cannot be displayed."
+
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
   mail_body_account_information: "Your account information"
   mail_body_account_information_external: "You can use your %{value} account to log in."

@@ -26,28 +26,33 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject
-  module WikiFormatting
-    module Macros
-      class TimelinesWikiMacro
-        unloadable
+require 'spec_helper'
 
-        def apply(content, args, options={})
-          timeline = Timeline.find_by_id(args[0])
+describe ::API::V3::Activities::ActivityModel do
+  include Capybara::RSpecMatchers
 
-          raise I18n.t('timelines.no_timeline_for_id', :id => args[0].to_s) if timeline.nil?
-          raise I18n.t('timelines.no_right_to_view_timeline') unless User.current.allowed_to?(:view_timelines, timeline.project)
+  subject(:model) { ::API::V3::Activities::ActivityModel.new(journal) }
+  let(:journal) { FactoryGirl.build(:work_package_journal, attributes) }
 
-          view = options[:view]
+  context 'with a formatted description' do
+    let(:attributes) {
+      {
+       notes: <<-DESC
+h3. Plan update
 
-          if view.respond_to?(:render)
-            view.render :partial => '/timelines/timeline',
-                        :locals => {:timeline => timeline}
-          else
-            raise NotImplementedError, 'Timeline rendering is not supported'
-          end
-        end
-      end
+# More done
+# More quickly
+       DESC
+      }
+    }
+
+    its(:notes)     { should have_selector 'h3' }
+    its(:notes)     { should have_selector 'ol > li' }
+    its(:raw_notes) { should eq attributes[:notes] }
+
+    it 'should allow raw_notes to be set' do
+      model.raw_notes = 'h4. Plan revision'
+      expect(model.notes).to have_selector 'h4'
     end
   end
 end
