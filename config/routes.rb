@@ -235,6 +235,9 @@ OpenProject::Application.routes.draw do
     # this could probably be rewritten with a resource :as => 'roadmap'
     match '/roadmap' => 'versions#index', :via => :get
 
+    # :id is the project id, complete route is /projects/types/:id
+    post '/types/:id' => 'projects#types', on: :collection
+
     resources :news, :only => [:index, :new, :create]
 
     namespace :time_entries do
