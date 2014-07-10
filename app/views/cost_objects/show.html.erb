@@ -55,7 +55,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
   <p><strong><%= CostObject.human_attribute_name(:description) %></strong></p>
   <div class="wiki">
-    <%= textilizable @cost_object, :description, :attachments => @cost_object.attachments %>
+    <%= format_text @cost_object, :description, :attachments => @cost_object.attachments %>
   </div>
 
   <%= link_to_attachments @cost_object %>
