@@ -47,6 +47,7 @@ OpenProject::Application.routes.draw do
     get '/account/force_password_change', :action => 'force_password_change'
     post '/account/change_password', :action => 'change_password'
     match '/account/lost_password', action: 'lost_password', via: [:get, :post]
+    match '/account/register', action: 'register', via: [:get, :post]
 
     # omniauth routes
     match '/auth/:provider/callback', :action => 'omniauth_login',
