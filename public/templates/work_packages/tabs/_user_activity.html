@@ -2,7 +2,7 @@
   <div class="comments-number"><a ng-href="#{{ currentAnchor }}" ng-bind="'#' + activityNo"></a>
   </div>
   <img class="avatar" ng-src="{{ userAvatar }}" />
-  <span class="user"><a ng-href="{{ userPath(activity.props.userId) }}" name="{{ currentAnchor }}" ng-bind="activity.props.userName"></a></span>
+  <span class="user"><a ng-href="{{ userPath(userId) }}" name="{{ currentAnchor }}" ng-bind="userName"></a></span>
   <span class="date">commented on <span ng-bind="activity.props.createdAt | date:'short'"/></span>
   <span class="comment">
     <span class="message" ng-show="activity.props._type == 'Activity::Comment'">{{ activity.props.comment }}</span>

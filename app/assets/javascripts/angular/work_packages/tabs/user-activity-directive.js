@@ -42,6 +42,8 @@ angular.module('openproject.workPackages.tabs')
       scope.userPath = PathHelper.staticUserPath;
 
       scope.activity.links.user.fetch().then(function(user) {
+        scope.userId = user.props.id;
+        scope.userName = user.props.firstName + ' ' + user.props.lastName;
         scope.userAvatar = user.props.avatar;
       });
     }
