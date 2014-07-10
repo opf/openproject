@@ -46,19 +46,38 @@ angular.module('openproject.workPackages.controllers')
   'PathHelper',
   'UserService',
   '$q',
-  function($scope, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, WorkPackagesHelper, PathHelper, UserService, $q) {
+  'ConfigurationService',
+  function($scope, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, WorkPackagesHelper, PathHelper, UserService, $q, ConfigurationService) {
+
     // initialization
     $scope.I18n = I18n;
     $scope.workPackage = workPackage;
     $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
     $scope.maxDescriptionLength = 800;
 
+
     // resources for tabs
+
+    // activities and latest activities
+
     $scope.activities = workPackage.embedded.activities;
-    $scope.latestActitivies = $scope.activities.reverse().slice(0, 3);
+    $scope.activities.splice(0, 1); // remove first activity (assumes activities are sorted chronologically)
+
+    $scope.latestActitivies = $scope.activities.reverse().slice(0, 3); // this leaves the activities in reverse order
+
+    $scope.activitiesSortedInDescendingOrder = ConfigurationService.commentsSortedInDescendingOrder();
+
+    // restore former order of actvities unless comments are to be sorted in descending order
+    if (!$scope.activitiesSortedInDescendingOrder) {
+      $scope.activities.reverse();
+    }
+
+    // watchers
+
     $scope.watchers = workPackage.embedded.watchers;
 
     // work package properties
+
     $scope.presentWorkPackageProperties = [];
     $scope.emptyWorkPackageProperties = [];
     $scope.userPath = PathHelper.staticUserPath;
@@ -152,6 +171,7 @@ angular.module('openproject.workPackages.controllers')
     })();
 
     // toggles
+
     $scope.toggleStates = {
       hideFullDescription: true,
       hideAllAttributes: true

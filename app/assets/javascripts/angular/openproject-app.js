@@ -152,12 +152,9 @@ openprojectApp
   }])
   .run([
     '$http',
-    'ConfigurationService',
     'flags',
-    function($http, ConfigurationService, flags) {
+    function($http, flags) {
     $http.defaults.headers.common.Accept = 'application/json';
-
-    ConfigurationService.addConfiguration('accessibilityMode', OpenProject.Helpers.accessibilityModeEnabled());
 
     flags.set($http.get('/javascripts/feature-flags.json'));
   }])
