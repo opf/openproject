@@ -103,9 +103,9 @@ module Redmine
             begin
               macros_runner.call(macro, args)
             rescue => e
-              "<div class=\"flash error\">Error executing the <strong>#{macro}</strong> macro (#{e})</div>"
+              "<div class=\"flash error\">#{::I18n.t(:macro_execution_error, macro_name: macro)} (#{e})</div>"
             rescue NotImplementedError
-              "<div class=\"macro-unavailable\">Macro <strong>#{macro}</strong> cannot be displayed.</div>"
+              "<div class=\"macro-unavailable\">#{::I18n.t(:macro_unavailable, macro_name: macro)}</div>"
             end || all
           else
             all
