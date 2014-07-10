@@ -31,29 +31,46 @@
 describe('WorkPackageDetailsController', function() {
   var scope;
   var buildController;
+  var I18n = { t: angular.identity },
+      WorkPackagesHelper = {
+        formatWorkPackageProperty: angular.identity
+      },
+      workPackage = {
+        props: {
+          status: 'open',
+          versionName: null
+        },
+        embedded: {
+          activities: []
+        },
+      };
+
+  function buildWorkPackageWithId(id) {
+    angular.extend(workPackage.props, {id: id});
+    return workPackage;
+  }
 
   beforeEach(module('openproject.api', 'openproject.services', 'openproject.workPackages.controllers'));
   beforeEach(inject(function($rootScope, $controller, $timeout) {
-    scope = $rootScope.$new();
-
     var workPackageId = 99;
 
     buildController = function() {
+      scope = $rootScope.$new();
+
       ctrl = $controller("WorkPackageDetailsController", {
         $scope:  scope,
         $state: {},
         $stateParams: { workPackageId: workPackageId },
-        workPackage: {
-          props: {
-            id: workPackageId
-          },
-          embedded: {
-            activities: []
+        I18n: I18n,
+        ConfigurationService: {
+          commentsSortedInDescendingOrder: function() {
+            return false;
           }
-        }
+        },
+        workPackage: buildWorkPackageWithId(workPackageId),
       });
 
-      // $timeout.flush();
+      $timeout.flush();
     };
 
   }));
@@ -61,6 +78,159 @@ describe('WorkPackageDetailsController', function() {
   describe('initialisation', function() {
     it('should initialise', function() {
       buildController();
+    });
+  });
+
+  describe('work package properties', function() {
+    function fetchPresentPropertiesWithName(propertyName) {
+      return scope.presentWorkPackageProperties.filter(function(propertyData) {
+        return propertyData.property === propertyName;
+      });
+    }
+
+    describe('when the property has a value', function() {
+      var propertyName = 'status';
+
+      beforeEach(function() {
+        buildController();
+      });
+
+      it('adds properties to present properties', function() {
+        expect(fetchPresentPropertiesWithName(propertyName)).to.have.length(1);
+      });
+    });
+
+    describe('when the property is among the first 3 properties', function() {
+      var propertyName = 'responsible';
+
+      beforeEach(function() {
+        buildController();
+      });
+
+      it('is added to present properties even if it is empty', function() {
+        expect(fetchPresentPropertiesWithName(propertyName)).to.have.length(1);
+      });
+    });
+
+    describe('when the property is among the second group of 3 properties', function() {
+      var propertyName = 'priority',
+          label        = 'Priority';
+
+      beforeEach(function() {
+        sinon.stub(I18n, 't')
+             .withArgs('js.work_packages.properties.' + propertyName)
+             .returns(label);
+
+        buildController();
+      });
+
+      afterEach(function() {
+        I18n.t.restore();
+      });
+
+      describe('and none of these 3 properties is present', function() {
+        beforeEach(function() {
+          buildController();
+        });
+
+        it('is added to the empty properties', function() {
+          expect(scope.emptyWorkPackageProperties.indexOf(label)).to.be.greaterThan(-1);
+        });
+      });
+
+      describe('and at least one of these 3 properties is present', function() {
+        beforeEach(function() {
+          workPackage.props.percentageDone = '20';
+          buildController();
+        });
+
+        it('is added to the present properties', function() {
+          expect(fetchPresentPropertiesWithName(propertyName)).to.have.length(1);
+        });
+      });
+    });
+
+    describe('when the property is not among the first 6 properties', function() {
+      var propertyName = 'versionName',
+          label        = 'Version';
+
+      beforeEach(function() {
+        sinon.stub(I18n, 't')
+             .withArgs('js.work_packages.properties.' + propertyName)
+             .returns(label);
+
+        buildController();
+      });
+
+      afterEach(function() {
+        I18n.t.restore();
+      });
+
+      it('adds properties that without values to empty properties', function() {
+        expect(scope.emptyWorkPackageProperties.indexOf(label)).to.be.greaterThan(-1);
+      });
+    });
+
+    describe('date property', function() {
+      var startDate = '2014-07-09',
+          dueDate   = '2014-07-10',
+          placeholder = 'placeholder';
+
+
+      describe('when only the due date is present', function() {
+        beforeEach(function() {
+          sinon.stub(I18n, 't')
+               .withArgs('js.label_no_start_date')
+               .returns(placeholder);
+
+          workPackage.props.startDate = null;
+          workPackage.props.dueDate = dueDate;
+
+          buildController();
+        });
+
+        afterEach(function() {
+          I18n.t.restore();
+        });
+
+        it('renders the due date and a placeholder for the start date as date property', function() {
+          expect(fetchPresentPropertiesWithName('date')[0].value).to.equal(placeholder + ' - Jul 10, 2014');
+        });
+      });
+
+      describe('when only the start date is present', function() {
+        beforeEach(function() {
+          sinon.stub(I18n, 't')
+               .withArgs('js.label_no_due_date')
+               .returns(placeholder);
+
+          workPackage.props.startDate = startDate;
+          workPackage.props.dueDate = null;
+
+          buildController();
+        });
+
+        afterEach(function() {
+          I18n.t.restore();
+        });
+
+        it('renders the start date and a placeholder for the due date as date property', function() {
+          expect(fetchPresentPropertiesWithName('date')[0].value).to.equal('Jul 9, 2014 - ' + placeholder);
+        });
+      });
+
+      describe('when both - start and due date are present', function() {
+        beforeEach(function() {
+          workPackage.props.startDate = startDate;
+          workPackage.props.dueDate = dueDate;
+
+          buildController();
+        });
+
+        it('combines them and renders them as date property', function() {
+          expect(fetchPresentPropertiesWithName('date')[0].value).to.equal('Jul 9, 2014 - Jul 10, 2014');
+        });
+      });
     });
   });
 

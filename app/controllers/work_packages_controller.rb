@@ -204,6 +204,10 @@ class WorkPackagesController < ApplicationController
 
     respond_to do |format|
       format.html do
+        gon.settings = {
+          user_preferences: current_user.pref
+        }
+
         render :index, :locals => { :query => @query,
                                     :project => @project },
                        :layout => 'angular' # !request.xhr?

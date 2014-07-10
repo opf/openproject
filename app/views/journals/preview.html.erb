@@ -32,5 +32,5 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= Journal.human_attribute_name(:notes) %>
   </legend>
 
-  <%= textilizable journal.notes, object: journal %>
+  <%= format_text journal.notes, object: journal %>
 </fieldset>

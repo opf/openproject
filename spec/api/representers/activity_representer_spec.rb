@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::V3::Activities::ActivityRepresenter do
   let(:work_package) { FactoryGirl.build(:work_package) }
   let(:journal) { FactoryGirl.build(:work_package_journal, journable: work_package) }
-  let(:model) { ::API::V3::Activities::ActivityModel.new(journal: journal) }
+  let(:model) { ::API::V3::Activities::ActivityModel.new(journal) }
   let(:representer) { described_class.new(model) }
 
   context 'generation' do
@@ -48,6 +48,7 @@ describe ::API::V3::Activities::ActivityRepresenter do
       it { should have_json_path('id') }
       it { should have_json_path('version') }
       it { should have_json_path('comment') }
+      it { should have_json_path('rawComment') }
       it { should have_json_path('details') }
       it { should have_json_path('htmlDetails') }
       it { should have_json_path('createdAt') }

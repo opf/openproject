@@ -76,6 +76,7 @@ module API
         property :subject, render_nil: true
         property :type, render_nil: true
         property :description, render_nil: true
+        property :raw_description, render_nil: true
         property :status, render_nil: true
         property :priority, render_nil: true
         property :start_date, getter: -> (*) { work_package.start_date }, render_nil: true

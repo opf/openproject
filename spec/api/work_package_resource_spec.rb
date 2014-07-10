@@ -3,11 +3,38 @@ require 'rack/test'
 
 describe 'API v3 Work package resource' do
   include Rack::Test::Methods
+  include Capybara::RSpecMatchers
 
-  let(:work_package) { FactoryGirl.create(:work_package, :project_id => project.id) }
+  let!(:timeline)    { FactoryGirl.create(:timeline,     project_id: project.id) }
+  let!(:other_wp)    { FactoryGirl.create(:work_package, project_id: project.id) }
+  let(:work_package) { FactoryGirl.create(:work_package, project_id: project.id,
+    description: description
+  )}
+  let(:description) {%{
+{{>toc}}
+
+h1. OpenProject Masterplan for 2015
+
+h2. three point plan
+
+# One ###{other_wp.id}
+# Two
+# Three
+
+h3. random thoughts
+
+h4. things we like
+
+* Pointed
+* Relaxed
+* Debonaire
+
+{{timeline(#{timeline.id})}}
+  }}
+
   let(:project) { FactoryGirl.create(:project, :identifier => 'test_project', :is_public => false) }
   let(:current_user) { FactoryGirl.create(:user) }
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
+  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages, :view_timelines]) }
   let(:unauthorize_user) { FactoryGirl.create(:user) }
   let(:type) { FactoryGirl.create(:type) }
 
@@ -66,9 +93,27 @@ describe 'API v3 Work package resource' do
         last_response.status.should eq(200)
       end
 
-      it 'should respond with work package in HAL+JSON format' do
-        parsed_response = JSON.parse(last_response.body)
-        parsed_response['id'].should eq(work_package.id)
+      describe 'response body' do
+        subject(:parsed_response) { JSON.parse(last_response.body) }
+
+        it 'should respond with work package in HAL+JSON format' do
+          expect(parsed_response['id']).to eq(work_package.id)
+        end
+
+        its(['description']) { should have_selector('h1') }
+        its(['description']) { should have_selector('h2') }
+
+        it 'should resolve links' do
+          expect(parsed_response['description']).to have_selector("a[href='/work_packages/#{other_wp.id}']")
+        end
+
+        it 'should resolve simple macros' do
+          expect(parsed_response['description']).to have_text('Table of Contents')
+        end
+
+        it 'should not resolve/show complex macros' do
+          expect(parsed_response['description']).to have_text('Macro timeline cannot be displayed.')
+        end
       end
 
       context 'requesting nonexistent work package' do
@@ -108,12 +153,12 @@ describe 'API v3 Work package resource' do
       end
 
       it 'should respond with 401' do
-        last_response.status.should eq(401)
+        last_response.status.should eq(403)
       end
 
       it 'should respond with explanatory error message' do
         parsed_errors = JSON.parse(last_response.body)['errors']
-        parsed_errors.should eq([{ 'key' => 'not_authenticated', 'messages' => ['You need to be authenticated to access this resource']}])
+        parsed_errors.should eq([{ 'key' => 'not_authorized', 'messages' => ['You are not authorize to access this resource']}])
       end
     end
 

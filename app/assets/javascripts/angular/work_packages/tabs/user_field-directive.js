@@ -28,7 +28,7 @@
 
 angular.module('openproject.workPackages.tabs')
 
-.directive('userField', [function() {
+.directive('userField', ['PathHelper', function(PathHelper) {
   return {
     restrict: 'E',
     replace: true,
@@ -41,6 +41,8 @@ angular.module('openproject.workPackages.tabs')
           scope.userName = scope.user.props.firstName + ' ' + scope.user.props.lastName;
         }
       });
+
+      scope.userPath = PathHelper.staticUserPath;
     }
   };
 }]);

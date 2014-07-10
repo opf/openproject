@@ -28,7 +28,7 @@
 #++
 
 class UserMailer < ActionMailer::Base
-  helper :application,  # for textilizable
+  helper :application,  # for format_text
          :work_packages, # for css classes
          :custom_fields # for show_value
 
