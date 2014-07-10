@@ -40,8 +40,12 @@ module OpenProject
 
           view = options[:view]
 
-          view.render :partial => '/timelines/timeline',
-                      :locals => {:timeline => timeline}
+          if view.respond_to?(:render)
+            view.render :partial => '/timelines/timeline',
+                        :locals => {:timeline => timeline}
+          else
+            raise NotImplementedError, 'Timeline rendering is not supported'
+          end
         end
       end
     end

@@ -48,16 +48,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     describe 'work_package' do
       it { is_expected.to have_json_path('id') }
 
-      it { is_expected.to have_json_path('assigneeId')  }
-      it { is_expected.to have_json_path('assigneeLogin') }
-      it { is_expected.to have_json_path('assigneeMail') }
-      it { is_expected.to have_json_path('assigneeName') }
-
-      it { is_expected.to have_json_path('authorLogin') }
-      it { is_expected.to have_json_path('authorMail') }
-      it { is_expected.to have_json_path('authorName') }
-
       it { is_expected.to have_json_path('description') }
+      it { is_expected.to have_json_path('rawDescription') }
+
       it { is_expected.to have_json_path('dueDate') }
 
       it { is_expected.to have_json_path('percentageDone') }
@@ -65,11 +58,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       it { is_expected.to have_json_path('projectId') }
       it { is_expected.to have_json_path('projectName') }
-
-      it { is_expected.to have_json_path('responsibleId') }
-      it { is_expected.to have_json_path('responsibleLogin') }
-      it { is_expected.to have_json_path('responsibleMail') }
-      it { is_expected.to have_json_path('responsibleName') }
 
       it { is_expected.to have_json_path('startDate') }
       it { is_expected.to have_json_path('status') }

@@ -52,6 +52,7 @@ en:
     general_text_No: "No"
     general_text_Yes: "Yes"
     label_add_columns: "Add selected columns"
+    label_added_by: "added by"
     label_added_time_by: "Added by %{author} %{age}"
     label_ago: "days ago"
     label_all: "all"
@@ -80,6 +81,7 @@ en:
     label_in: "in"
     label_in_less_than: "in less than"
     label_in_more_than: "in more than"
+    label_last_updated_on: "Last updated on"
     label_less_or_equal: "<="
     label_less_than_ago: "less than days ago"
     label_loading: "Loading..."
@@ -91,6 +93,8 @@ en:
     label_move_column_right: "Move column right"
     label_next: "Next"
     label_no_data: "No data to display"
+    label_no_due_date: "no end date"
+    label_no_start_date: "no start date"
     label_none: "none"
     label_not_contains: "doesn't contain"
     label_not_equals: "is not"
@@ -209,6 +213,7 @@ en:
       message: "The browser you are using is no longer supported by OpenProject. Please update your browser."
       learn_more: "Learn more"
     work_packages:
+      button_clear: "Clear"
       description_filter: "Filter"
       description_enter_text: "Enter text"
       description_options_hide: "Hide options"
@@ -220,8 +225,8 @@ en:
       message_error_during_bulk_delete: An error occurred while trying to delete work packages.
       message_successful_bulk_delete: Successfully deleted work packages.
       properties:
-        assigneeName: "Assignee"
-        authorName: "Author"
+        assignee: "Assignee"
+        author: "Author"
         createdAt: "Created on"
         description: "Description"
         date: "Datum"
@@ -230,7 +235,7 @@ en:
         percentageDone: "Percentage done"
         priority: "Priority"
         projectName: "Project"
-        responsibleName: "Responsible"
+        responsible: "Responsible"
         startDate: "Start date"
         status: "Status"
         subject: "Subject"
@@ -238,10 +243,6 @@ en:
         type: "Type"
         updatedAt: "Updated on"
         versionName: "Version"
-      time_relative:
-        days: "days"
-        weeks: "weeks"
-        months: "months"
       query:
         column_names: "Columns"
         group_by: "Group results by"
@@ -254,7 +255,16 @@ en:
         insert_columns: "Insert columns ..."
         filters: "Filters"
         display_sums: "Display Sums"
-      button_clear: "Clear"
+      tabs:
+        overview: Overview
+        activity: Activity
+        relations: Relations
+        watchers: Watchers
+        attachments: Attachments
+      time_relative:
+        days: "days"
+        weeks: "weeks"
+        months: "months"
     toolbar:
       settings:
         columns: "Columns ..."

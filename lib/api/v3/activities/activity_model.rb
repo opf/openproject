@@ -34,13 +34,29 @@ module API
   module V3
     module Activities
       class ActivityModel < Reform::Form
-        include Composition
         include Coercion
+        include ActionView::Helpers::UrlHelper
+        include OpenProject::TextFormatting
+        include OpenProject::StaticRouting::UrlHelpers
+        include WorkPackagesHelper
         include GravatarImageTag
 
-        model :journal
+        # N.B. required by ActionView::Helpers::UrlHelper
+        def controller; nil; end
 
-        property :user_id, on: :journal, type: Integer
+        property :user_id, type: Integer
+
+        def notes
+          format_text(raw_notes)
+        end
+
+        def raw_notes
+          model.notes
+        end
+
+        def raw_notes=(value)
+          model.notes = value
+        end
       end
     end
   end

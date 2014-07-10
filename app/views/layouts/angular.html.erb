@@ -43,6 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= stylesheet_link_tag 'accessibility' %>
 <% end %>
 
+<%= include_gon %>
 <%= javascript_include_tag 'application' %>
 <%= javascript_include_tag 'angular-i18n/angular-locale_de-de' if I18n.locale == :de %>
 <!-- user specific tags -->

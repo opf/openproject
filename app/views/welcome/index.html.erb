@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% breadcrumb_paths(nil) %>
 <div class="splitcontentleft">
-  <div class="wiki"><%= textilizable Setting.welcome_text %></div>
+  <div class="wiki"><%= format_text Setting.welcome_text %></div>
   <% if @news.any? %>
     <div class="news mypage-box">
       <h3 class="icon-context icon-news"><%=l(:label_news_latest)%></h3>
@@ -51,7 +51,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <% @project = project %>
         <li>
         <%= link_to_project project %> (<%= format_time(project.created_on) %>)
-        <%= textilizable project.short_description, :project => project %>
+        <%= format_text project.short_description, :project => project %>
         </li>
       <% end %>
       <% @project = nil %>
