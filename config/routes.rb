@@ -336,6 +336,8 @@ OpenProject::Application.routes.draw do
     end
   end
 
+  get "/admin" => 'admin#index'
+
   #TODO: evaluate whether this can be turned into a namespace
   scope "admin" do
     match "/projects" => 'admin#projects', :via => :get
