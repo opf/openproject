@@ -148,7 +148,10 @@ OpenProject::Application.routes.draw do
   match '/roles/workflow/:id/:role_id/:type_id' => 'roles#workflow'
   match '/help/:ctrl/:page' => 'help#index'
 
-  resources :types
+  resources :types do
+    post 'move/:id', action: 'move', on: :collection
+  end
+
   resources :statuses, :except => :show do
     collection do
       post 'update_work_package_done_ratio'
