@@ -15,7 +15,7 @@
       <label ng-bind="propertyData.label"/>
       <span ng-switch="propertyData.format">
         <user-field ng-switch-when="user" user="propertyData.value"></user-field>
-        <span ng-switch-default ng-bind="propertyData.value"/>
+        <span ng-switch-default ng-bind="propertyData.value || '-'"/>
       </span>
     </li>
   </ul>
