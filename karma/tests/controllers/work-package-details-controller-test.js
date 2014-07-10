@@ -31,30 +31,40 @@
 describe('WorkPackageDetailsController', function() {
   var scope;
   var buildController;
+  var I18n = { t: angular.noop },
+      workPackage = {
+        props: {
+          status: 'open',
+          versionName: null
+        },
+        embedded: {
+          activities: []
+        },
+      };
+
+  function buildWorkPackageWithId(id) {
+    angular.extend(workPackage.props, {id: id});
+    return workPackage;
+  }
 
   beforeEach(module('openproject.api', 'openproject.services', 'openproject.workPackages.controllers'));
   beforeEach(inject(function($rootScope, $controller, $timeout) {
-    scope = $rootScope.$new();
 
     var workPackageId = 99;
 
     buildController = function() {
+      scope = $rootScope.$new();
+
       ctrl = $controller("WorkPackageDetailsController", {
         $scope:  scope,
         $stateParams: { workPackageId: workPackageId },
+        I18n: I18n,
         ConfigurationService: {
           commentsSortedInDescendingOrder: function() {
             return false;
           }
         },
-        workPackage: {
-          props: {
-            id: workPackageId
-          },
-          embedded: {
-            activities: []
-          }
-        }
+        workPackage: buildWorkPackageWithId(workPackageId),
       });
 
       // $timeout.flush();
@@ -65,6 +75,99 @@ describe('WorkPackageDetailsController', function() {
   describe('initialisation', function() {
     it('should initialise', function() {
       buildController();
+    });
+  });
+
+  describe('work package properties', function() {
+    function fetchPresentPropertiesWithName(propertyName) {
+      return scope.presentWorkPackageProperties.filter(function(propertyData) {
+        return propertyData.property === propertyName;
+      });
+    }
+
+
+
+    describe('when the property has a value', function() {
+      var propertyName = 'status';
+
+      beforeEach(function() {
+        buildController();
+      });
+
+      it('adds properties to present properties', function() {
+        expect(fetchPresentPropertiesWithName(propertyName)).to.have.length(1);
+      });
+    });
+
+    describe('when the property is among the first 3 properties', function() {
+      var propertyName = 'responsible';
+
+      beforeEach(function() {
+        buildController();
+      });
+
+      it('is added to present properties even if it is empty', function() {
+        expect(fetchPresentPropertiesWithName(propertyName)).to.have.length(1);
+      });
+    });
+
+    describe('when the property is among the second group of 3 properties', function() {
+      var propertyName = 'priority',
+          label        = 'Priority';
+
+      beforeEach(function() {
+        sinon.stub(I18n, 't')
+             .withArgs('js.work_packages.properties.' + propertyName)
+             .returns(label);
+
+        buildController();
+      });
+
+      afterEach(function() {
+        I18n.t.restore();
+      });
+
+      describe('and none of these 3 properties is present', function() {
+        beforeEach(function() {
+          buildController();
+        });
+
+        it('is added to the empty properties', function() {
+          expect(scope.emptyWorkPackageProperties.indexOf(label)).to.be.greaterThan(-1);
+        });
+      });
+
+      describe('and at least one of these 3 properties is present', function() {
+        beforeEach(function() {
+          workPackage.props.percentageDone = '20';
+          buildController();
+        });
+
+        it('is added to the present properties', function() {
+          expect(fetchPresentPropertiesWithName(propertyName)).to.have.length(1);
+        });
+      });
+    });
+
+    describe('when the property is not among the first 6 properties', function() {
+      var propertyName = 'versionName',
+          label        = 'Version';
+
+      beforeEach(function() {
+        sinon.stub(I18n, 't')
+             .withArgs('js.work_packages.properties.' + propertyName)
+             .returns(label);
+
+        buildController();
+      });
+
+      afterEach(function() {
+        I18n.t.restore();
+      });
+
+      it('adds properties that without values to empty properties', function() {
+        expect(scope.emptyWorkPackageProperties.indexOf(label)).to.be.greaterThan(-1);
+      });
     });
   });
 
