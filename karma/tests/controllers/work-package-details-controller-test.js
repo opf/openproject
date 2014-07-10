@@ -59,6 +59,7 @@ describe('WorkPackageDetailsController', function() {
 
       ctrl = $controller("WorkPackageDetailsController", {
         $scope:  scope,
+        $state: {},
         $stateParams: { workPackageId: workPackageId },
         I18n: I18n,
         ConfigurationService: {

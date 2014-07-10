@@ -34,8 +34,8 @@
           </li>
           <li feature-flag="detailsView">
             <button class="button"
-                    ui-sref="work-packages.list.details.overview({workPackageId: preselectedWorkPackageId})"
-                    ui-sref-active="active">
+                    ng-class="{active: rememberState.currentState.indexOf('work-packages.list.details') === 0}"
+                    ui-sref="work-packages.list.details({workPackageId: preselectedWorkPackageId})">
               <i class="icon-table-detail-view icon-buttons"></i>
             </button>
           </li>

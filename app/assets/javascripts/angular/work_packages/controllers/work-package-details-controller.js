@@ -37,6 +37,8 @@ angular.module('openproject.workPackages.controllers')
 
 .controller('WorkPackageDetailsController', [
   '$scope',
+  '$state',
+  '$stateParams',
   'workPackage',
   'I18n',
   'DEFAULT_WORK_PACKAGE_PROPERTIES',
@@ -46,7 +48,7 @@ angular.module('openproject.workPackages.controllers')
   'UserService',
   '$q',
   'ConfigurationService',
-  function($scope, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, WorkPackagesHelper, PathHelper, UserService, $q, ConfigurationService) {
+  function($scope, $state, $stateParams, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, WorkPackagesHelper, PathHelper, UserService, $q, ConfigurationService) {
 
     // initialization
     $scope.I18n = I18n;
@@ -74,6 +76,16 @@ angular.module('openproject.workPackages.controllers')
     // watchers
 
     $scope.watchers = workPackage.embedded.watchers;
+
+    $scope.$on('$stateChangeSuccess', function(event, toState){
+      // forward state to latest / default tab
+      if (toState.name === 'work-packages.list.details') {
+        $state.go($scope.rememberState.latestWorkPackageDetailsState, $stateParams);
+      }
+
+      // remember latest tab
+      $scope.rememberState.latestWorkPackageDetailsState = toState.name;
+    });
 
     // work package properties
 

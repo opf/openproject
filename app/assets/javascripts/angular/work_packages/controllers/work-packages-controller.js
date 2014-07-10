@@ -51,4 +51,9 @@ angular.module('openproject.workPackages.controllers')
     }
   });
 
+  // initialize default work package details state / the tab to start on
+  $scope.rememberState = { latestWorkPackageDetailsState: 'work-packages.list.details.overview' };
+  $scope.$on('$stateChangeSuccess', function(event, toState){
+    $scope.rememberState.currentState = toState.name;
+  });
 }]);
