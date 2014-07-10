@@ -483,6 +483,9 @@ OpenProject::Application.routes.draw do
   end
 
   scope :controller => 'my' do
+    post '/my/add_block', action: 'add_block'
+    post '/my/remove_block', action: 'remove_block'
+    get '/my/page_layout', action: 'page_layout'
     get '/my/password', :action => 'password'
     post '/my/change_password', :action => 'change_password'
     match '/my/first_login', :action => 'first_login', :via => [:get, :put]
