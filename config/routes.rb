@@ -531,6 +531,12 @@ OpenProject::Application.routes.draw do
 
   resources :reported_project_statuses, :controller => 'reported_project_statuses'
 
+  # This route should probably be removed, but it's used at least by one cuke and we don't
+  # want to break it.
+  # This route intentionally occurs after the admin/roles/new route, so that one takes
+  # precedence when creating routes (possibly via helpers).
+  get 'roles/new' => 'roles#new', as: 'deprecated_roles_new'
+
   # Install the default route as the lowest priority.
   match '/:controller(/:action(/:id))'
   match '/robots' => 'welcome#robots', :defaults => { :format => :txt }
