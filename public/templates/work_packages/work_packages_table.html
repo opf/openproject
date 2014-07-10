@@ -1,4 +1,10 @@
 <table class="workpackages-table">
+  <colgroup>
+    <col />
+    <col ng-hide="hideWorkPackageDetails" />
+    <col />
+    <col ng-repeat="column in columns" />
+  </colgroup>
   <thead>
     <tr>
       <th class="checkbox hide-when-print">

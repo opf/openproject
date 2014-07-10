@@ -71,6 +71,10 @@ angular.module('openproject.workPackages.directives')
         scope.toggleRowsLabel = checked ? I18n.t('js.button_uncheck_all') : I18n.t('js.button_check_all');
       });
 
+      element.on('hover', 'th', function() {
+        element.find('col:eq('+ jQuery(this).index() +')').toggleClass('hover');
+      });
+
       scope.setCheckedStateForAllRows = function(state) {
         angular.forEach(scope.rows, function(row) {
           row.checked = state;
