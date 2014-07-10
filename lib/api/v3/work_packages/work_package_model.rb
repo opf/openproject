@@ -121,7 +121,9 @@ module API
         end
 
         def watchers
-          work_package.watcher_users.map{ |u| ::API::V3::Users::UserModel.new(u) }
+          work_package.watcher_users
+            .order(User::USER_FORMATS_STRUCTURE[Setting.user_format])
+            .map{ |u| ::API::V3::Users::UserModel.new(u) }
         end
 
         validates_presence_of :subject, :project_id, :type, :author, :status

@@ -126,11 +126,11 @@ angular.module('openproject.workPackages.directives')
         } else if (scope.workPackage[scope.column.name]) {
           switch (link_meta.model_type) {
             case 'user':
-              return PathHelper.userPath(scope.workPackage[scope.column.name].id);
+              return PathHelper.staticUserPath(scope.workPackage[scope.column.name].id);
             case 'version':
-              return PathHelper.versionPath(scope.workPackage[scope.column.name].id);
+              return PathHelper.staticVersionPath(scope.workPackage[scope.column.name].id);
             case 'project':
-              return PathHelper.projectPath(scope.workPackage.project.identifier);
+              return PathHelper.staticProjectPath(scope.workPackage.project.identifier);
             default:
               return '';
           }

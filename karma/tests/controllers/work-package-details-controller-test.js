@@ -42,6 +42,11 @@ describe('WorkPackageDetailsController', function() {
       ctrl = $controller("WorkPackageDetailsController", {
         $scope:  scope,
         $stateParams: { workPackageId: workPackageId },
+        ConfigurationService: {
+          commentsSortedInDescendingOrder: function() {
+            return false;
+          }
+        },
         workPackage: {
           props: {
             id: workPackageId

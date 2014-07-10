@@ -28,15 +28,32 @@
 
 angular.module('openproject.config')
 
-.service('ConfigurationService', [function() {
-  var configuration = {};
+.service('ConfigurationService', [
+  '$log',
+  function($log) {
 
   return {
-    addConfiguration: function(key, value) {
-      configuration[key] = value;
+    settingsPresent: function() {
+      return gon && gon.settings;
+    },
+    userPreferencesPresent: function() {
+      return this.settingsPresent() && gon.settings.hasOwnProperty('user_preferences');
     },
     accessibilityModeEnabled: function() {
-      return !!configuration.accessibilityMode;
+      if (!this.userPreferencesPresent()) {
+        $log.error('User preferences are not available.');
+        return false;
+      } else {
+        return gon.settings.user_preferences.impaired;
+      }
+    },
+    commentsSortedInDescendingOrder: function() {
+      if (!this.userPreferencesPresent()) {
+        $log.error('User preferences are not available.');
+        return false;
+      } else {
+        return gon.settings.user_preferences.others.comments_sorting === 'desc';
+      }
     }
   };
 }]);

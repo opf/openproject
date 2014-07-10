@@ -49,22 +49,11 @@
   <ul>
     <li ng-repeat="activity in latestActitivies"
         class="work-package-details-activities-activity"
-        ng-init="currentNote = 'note-' + ($index+1)">
-      <div class="work-package-details-activities-activity-contents">
-        <div class="comments-number"><a ng-href="#{{currentNote}}" ng-bind="'#' + ($index+1)"></a>
-        </div>
-        <img class="avatar" ng-src="{{ activity.props.userAvatar }}" />
-        <span class="user"><a href name="{{currentNote}}" ng-bind="activity.props.userName"></a></span>
-        <span class="date">commented on <span ng-bind="activity.props.createdAt | date:'short'"/></span>
-        <span class="comment">
-          <span class="message" ng-show="activity.props._type == 'Activity::Comment'">{{activity.props.comment}}</span>
-          <ul class="work-package-details-activities-messages">
-            <li ng-repeat="detail in activity.props.htmlDetails track by $index">
-              <span class="message" ng-bind-html="detail"/>
-            </li>
-          </ul>
-        </span>
-      </div>
+        ng-init="currentAnchor = 'note-' + ($index+1);
+                 activityNo = activities.length - $index;">
+      <user-activity activity="activity"
+                     activity-no="activityNo"
+                     currentAnchor="currentAnchor">
     </li>
   </ul>
 </div>
