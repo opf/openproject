@@ -43,6 +43,7 @@ describe ::API::V3::Users::UserRepresenter do
       it { should have_json_path('login') }
       it { should have_json_path('firstName') }
       it { should have_json_path('lastName') }
+      it { should have_json_path('name') }
       it { should have_json_path('mail') }
       it { should have_json_path('avatar') }
       it { should have_json_path('createdAt') }

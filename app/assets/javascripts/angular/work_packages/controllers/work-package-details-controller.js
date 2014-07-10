@@ -74,6 +74,7 @@ angular.module('openproject.workPackages.controllers')
     // watchers
 
     $scope.watchers = workPackage.embedded.watchers;
+    $scope.author = workPackage.embedded.author;
 
     // work package properties
 
