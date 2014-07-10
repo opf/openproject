@@ -96,6 +96,7 @@ de:
     label_none: "kein"
     label_not_contains: "enthält nicht"
     label_not_equals: "ist nicht"
+    label_on: "am"
     label_open_menu: "Menü öffnen"
     label_open_work_packages: "offen"
     label_previous: "Zurück"
