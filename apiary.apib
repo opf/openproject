@@ -870,7 +870,7 @@ Activity can be either _type Activity or _type Activity::Comment.
 
     [WorkPackage][]
     
-## Watch WorkPackage [/work_packages/{id}/watch{?watcher_id}]
+## Watch WorkPackage [/work_packages/{id}/watch]
 
 + Model
     + Body
@@ -1138,13 +1138,12 @@ Activity can be either _type Activity or _type Activity::Comment.
 
 + Parameters
     + id (required, integer, `1`) ... Work package id
-    + watcher_id (optional, integer, `1`) ... Id of the user to be added as a watcher (If the id is not provided, current user will be added as a watcher)
 
 + Response 200 (application/hal+json)
 
     [Watch WorkPackage][]    
     
-## Unwatch WorkPackage [/work_packages/{id}/unwatch{?watcher_id}]
+## Unwatch WorkPackage [/work_packages/{id}/unwatch]
 
 + Model
     + Body
@@ -1188,14 +1187,6 @@ Activity can be either _type Activity or _type Activity::Comment.
                         "href": "https://openproject.org/api/v3/work_packages/1/unwatch",
                         "title": "John Sheppard"
                     },
-                    "addWatcher": [{
-                        "href": "https://openproject.org/api/v3/work_packages/1/watch?watcher_id=2",
-                        "title": "John Sheppard"
-                    }],
-                    "removeWatcher": [{
-                        "href": "https://openproject.org/api/v3/work_packages/1/watch?watcher_id=1",
-                        "title": "John Sheppard"
-                    }],
                     "relations": [{
                         "href": "https://openproject.org/api/v3/relationships/1",
                         "title": "Work package A duplicated by Work package B"
@@ -1412,7 +1403,6 @@ Activity can be either _type Activity or _type Activity::Comment.
 
 + Parameters
     + id (required, integer, `1`) ... Work package id
-    + watcher_id (optional, integer, `1`) ... Id of the user to be removed from list of watchers (If the id is not provided, current user will be removed)
 
 + Response 200 (application/hal+json)
 
