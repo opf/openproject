@@ -17,7 +17,7 @@ module API
             end
 
             get do
-              authorize(:work_packages_api, :get, context: @work_package.project)
+              authorize({ controller: :work_packages_api, action: :get }, context: @work_package.project)
               @representer.to_json
             end
 

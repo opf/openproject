@@ -4,15 +4,15 @@ require 'rack/test'
 RSpec.shared_examples 'API show endpoint' do |resource, authorized_user, path|
   include Rack::Test::Methods
 
-  before { get(path) }
-  subject(:response) { last_response }
+  # before { get(path) }
+  # subject(:response) { last_response }
 
   context 'logged in user' do
     before { allow(User).to receive(:current).and_return authorized_user }
 
     context 'with permission' do
       it 'should respond with 200' do
-        binding.pry
+        get path
         expect(subject.status).to eq(200)
       end
     end
@@ -33,8 +33,7 @@ RSpec.shared_examples 'API show endpoint' do |resource, authorized_user, path|
   end
 end
 
-describe 'API v3 Activity resource' do
-  binding.pry
+describe 'API v3 Attachment resource' do
   user = FactoryGirl.create(:user)
   project = FactoryGirl.create(:project, is_public: true)
   work_package = FactoryGirl.create(:work_package, author: user, project: project)
