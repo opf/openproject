@@ -375,6 +375,13 @@ OpenProject::Application.routes.draw do
     end
   end
 
+  # We should fix this crappy routing (split up and rename controller methods)
+  get '/settings' => 'settings#index'
+  scope 'settings', controller: 'settings' do
+    match 'edit', action: 'edit', via: [:get, :post]
+    match 'plugin/:id', action: 'plugin', via: [:get, :post]
+  end
+
   namespace :work_packages do
     match 'auto_complete' => 'auto_completes#index', :via => [:get, :post]
     resources :calendar, :controller => 'calendars', :only => [:index]
