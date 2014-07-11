@@ -37,7 +37,7 @@ See doc/COPYRIGHT.md for more details.
 
   <% if saved_meeting_content_text_present?(content) -%>
     <div id="<%= content_type %>-text" class="wiki show-<%= content_type %>">
-      <%= textilizable(content.text, :object => @meeting) %>
+      <%= format_text(content.text, :object => @meeting) %>
     </div>
   <% else -%>
     <p id="<%= content_type %>-text" class="nodata show-<%= content_type %>"><%= l(:label_no_data) %></p>
