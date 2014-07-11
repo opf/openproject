@@ -38,7 +38,7 @@ module WorkPackagesHelper
 
   def work_package_breadcrumb
     full_path = if !@project.nil?
-                  link_to(t(:label_work_package_plural), project_path(@project, {:jump => current_menu_item}))
+                  link_to(I18n.t(:label_work_package_plural), project_path(@project, {:jump => current_menu_item}))
                 else
                   ancestors_links.unshift(work_package_index_link)
                 end
@@ -54,7 +54,7 @@ module WorkPackagesHelper
 
   def work_package_index_link
     # TODO: will need to change to work_package index
-    link_to(t(:label_work_package_plural), {controller: :work_packages, action: :index})
+    link_to(I18n.t(:label_work_package_plural), {controller: :work_packages, action: :index})
   end
 
   # Displays a link to +work_package+ with its subject.
@@ -112,7 +112,7 @@ module WorkPackagesHelper
 
     if package.closed?
       parts[:hidden_link] << content_tag(:span,
-                                         t(:label_closed_work_packages),
+                                         I18n.t(:label_closed_work_packages),
                                          :class => "hidden-for-sighted")
 
       parts[:css_class] << 'closed'
@@ -503,12 +503,12 @@ module WorkPackagesHelper
       field = form.select(:category_id,
                           (locals[:project].categories.collect {|c| [c.name, c.id]}),
                           :include_blank => true)
-      field += prompt_to_remote(icon_wrapper('icon icon-add',t(:label_work_package_category_new)),
-                                         t(:label_work_package_category_new),
+      field += prompt_to_remote(icon_wrapper('icon icon-add', I18n.t(:label_work_package_category_new)),
+                                         I18n.t(:label_work_package_category_new),
                                          'category[name]',
                                          project_categories_path(locals[:project]),
                                          :class => 'no-decoration-on-hover',
-                                         :title => t(:label_work_package_category_new)) if authorize_for('categories', 'new')
+                                         :title => I18n.t(:label_work_package_category_new)) if authorize_for('categories', 'new')
 
       WorkPackageAttribute.new(:category, field)
     end
@@ -519,7 +519,7 @@ module WorkPackagesHelper
       field = form.select(:fixed_version_id,
                           version_options_for_select(work_package.assignable_versions, work_package.fixed_version),
                           :include_blank => true)
-      field += prompt_to_remote(icon_wrapper('icon icon-add',t(:label_version_new)),
+      field += prompt_to_remote(icon_wrapper('icon icon-add', I18n.t(:label_version_new)),
                              l(:label_version_new),
                              'version[name]',
                              project_versions_path(locals[:project]),
