@@ -52,6 +52,7 @@ body
 
   background-size: $main_menu_width 100%
   min-height: 100%
+  height: auto
   position: relative
   &.nosidebar, &.nomenus
     background: none
@@ -76,8 +77,8 @@ h4, .wiki h3
 #main
   position: relative
   z-index: 20
-  padding-bottom: 155px
   overflow: auto
+  padding-bottom: $footer_height
 
 #content
   @include default-transition
