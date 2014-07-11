@@ -5,8 +5,11 @@ describe 'API v3 Work package resource' do
   include Rack::Test::Methods
   include Capybara::RSpecMatchers
 
+  let(:closed_status) { FactoryGirl.create(:closed_status) }
+
   let!(:timeline)    { FactoryGirl.create(:timeline,     project_id: project.id) }
-  let!(:other_wp)    { FactoryGirl.create(:work_package, project_id: project.id) }
+  let!(:other_wp)    { FactoryGirl.create(:work_package, project_id: project.id,
+    status: closed_status) }
   let(:work_package) { FactoryGirl.create(:work_package, project_id: project.id,
     description: description
   )}
