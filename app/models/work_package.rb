@@ -406,6 +406,10 @@ class WorkPackage < ActiveRecord::Base
     "#{(kind.is_standard) ? "" : "#{kind.name}"} ##{id}: #{subject}"
   end
 
+  def to_display_s
+    to_s.length >= 100 ? to_s[0..100] + "..." : to_s
+  end
+
   # Return true if the work_package is closed, otherwise false
   def closed?
     self.status.nil? || self.status.is_closed?
