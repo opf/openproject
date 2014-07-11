@@ -7,7 +7,7 @@
   <span class="comment wiki">
     <span class="message"
       ng-show="activity.props._type == 'Activity::Comment'"
-      ng-bind-html="activity.props.comment"/>
+      ng-bind-html="activity.props.commentHtml"/>
     <ul class="work-package-details-activities-messages">
       <li ng-repeat="detail in activity.props.htmlDetails track by $index">
         <span class="message" ng-bind-html="detail"/>

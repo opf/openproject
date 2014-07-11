@@ -37,6 +37,7 @@ angular.module('openproject.workPackages.controllers')
 
 .controller('WorkPackageDetailsController', [
   '$scope',
+  '$sce',
   'latestTab',
   'workPackage',
   'I18n',
@@ -48,7 +49,7 @@ angular.module('openproject.workPackages.controllers')
   'UserService',
   '$q',
   'ConfigurationService',
-  function($scope, latestTab, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, CustomFieldHelper, WorkPackagesHelper, PathHelper, UserService, $q, ConfigurationService) {
+  function($scope, $sce, latestTab, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, CustomFieldHelper, WorkPackagesHelper, PathHelper, UserService, $q, ConfigurationService) {
 
     $scope.$on('$stateChangeSuccess', function(event, toState){
       latestTab.registerState(toState.name);
@@ -64,8 +65,10 @@ angular.module('openproject.workPackages.controllers')
     // resources for tabs
 
     // activities and latest activities
-
-    $scope.activities = workPackage.embedded.activities;
+    $scope.activities = workPackage.embedded.activities.map(function(activity) {
+      activity.props.commentHtml = $sce.trustAsHtml(activity.props.comment);
+      return activity;
+    });;
     $scope.activities.splice(0, 1); // remove first activity (assumes activities are sorted chronologically)
 
     $scope.latestActitivies = $scope.activities.reverse().slice(0, 3); // this leaves the activities in reverse order
@@ -87,6 +90,7 @@ angular.module('openproject.workPackages.controllers')
     $scope.presentWorkPackageProperties = [];
     $scope.emptyWorkPackageProperties = [];
     $scope.userPath = PathHelper.staticUserPath;
+    $scope.descriptionHtml = $sce.trustAsHtml(workPackage.props.description);
 
     var workPackageProperties = DEFAULT_WORK_PACKAGE_PROPERTIES;
 
