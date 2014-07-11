@@ -43,7 +43,7 @@ angular.module('openproject.workPackages.tabs')
 
       scope.activity.links.user.fetch().then(function(user) {
         scope.userId = user.props.id;
-        scope.userName = user.props.firstName + ' ' + user.props.lastName;
+        scope.userName = user.props.name;
         scope.userAvatar = user.props.avatar;
       });
     }
