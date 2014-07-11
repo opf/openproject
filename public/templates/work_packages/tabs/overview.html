@@ -1,6 +1,6 @@
 <div class="detail-panel-description">
 
-  <h3>Description</h3>
+  <h3>{{ I18n.t('js.label_description') }}</h3>
 
   <div class="detail-panel-description-content wiki">
     <span ng-bind-html="workPackage.props.description"/>
@@ -29,14 +29,14 @@
   </ul>
   <panel-expander ng-if="emptyWorkPackageProperties.length"
                   collapsed="toggleStates.hideAllAttributes"
-                  expand-text="Show all attributes"
-                  collapse-text="Hide empty attributes">
+                  expand-text="{{ I18n.t('js.label_show_attributes') }}"
+                  collapse-text="{{ I18n.t('js.label_hide_attributes') }}">
   </panel-expander>
 </div>
 
 
 <div class="detail-panel-latest-activity">
-  <h3>Latest activity</h3>
+  <h3>{{ I18n.t('js.label_latest_activity') }}</h3>
   <ul>
     <li ng-repeat="activity in latestActitivies"
         class="work-package-details-activities-activity"

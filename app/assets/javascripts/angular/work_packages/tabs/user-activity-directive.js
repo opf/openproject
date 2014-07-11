@@ -28,7 +28,7 @@
 
 angular.module('openproject.workPackages.tabs')
 
-.directive('userActivity', ['PathHelper', function(PathHelper) {
+.directive('userActivity', ['I18n', 'PathHelper', function(I18n, PathHelper) {
   return {
     restrict: 'E',
     replace: true,
@@ -39,6 +39,7 @@ angular.module('openproject.workPackages.tabs')
       activityNo: '='
     },
     link: function(scope) {
+      scope.I18n = I18n;
       scope.userPath = PathHelper.staticUserPath;
 
       scope.activity.links.user.fetch().then(function(user) {
