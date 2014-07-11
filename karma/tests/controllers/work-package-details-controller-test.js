@@ -35,10 +35,19 @@ describe('WorkPackageDetailsController', function() {
       WorkPackagesHelper = {
         formatWorkPackageProperty: angular.identity
       },
+      UserService = {
+        getUser: angular.identity
+      },
+      CustomFieldHelper = {
+        formatCustomFieldValue: angular.identity
+      },
       workPackage = {
         props: {
           status: 'open',
-          versionName: null
+          versionName: null,
+          customProperties: [
+            { format: 'text', name: 'color', value: 'red' },
+          ]
         },
         embedded: {
           activities: []
@@ -67,6 +76,8 @@ describe('WorkPackageDetailsController', function() {
             return false;
           }
         },
+        UserService: UserService,
+        CustomFieldHelper: CustomFieldHelper,
         workPackage: buildWorkPackageWithId(workPackageId),
       });
 
@@ -232,6 +243,58 @@ describe('WorkPackageDetailsController', function() {
         });
       });
     });
+
+    describe('custom field properties', function() {
+      var customPropertyName = 'color';
+
+      describe('when the property has a value', function() {
+        beforeEach(function() {
+          formatCustomFieldValueSpy = sinon.spy(CustomFieldHelper, 'formatCustomFieldValue');
+
+          buildController();
+        });
+
+        afterEach(function() {
+          CustomFieldHelper.formatCustomFieldValue.restore();
+        });
+
+        it('adds properties to present properties', function() {
+          expect(fetchPresentPropertiesWithName(customPropertyName)).to.have.length(1);
+        });
+
+        it('formats values using the custom field helper', function() {
+          expect(CustomFieldHelper.formatCustomFieldValue.calledWith('red', 'text')).to.be.true;
+        });
+      });
+
+      describe('when the property does not have a value', function() {
+        beforeEach(function() {
+          workPackage.props.customProperties[0].value = null;
+          buildController();
+        });
+
+        it('adds the custom property to empty properties', function() {
+          expect(scope.emptyWorkPackageProperties.indexOf(customPropertyName)).to.be.greaterThan(-1);
+        });
+      });
+
+      describe('user custom property', function() {
+        var userId = '1';
+
+        beforeEach(function() {
+          workPackage.props.customProperties[0].value = userId;
+          workPackage.props.customProperties[0].format = 'user';
+
+          getUserSpy = sinon.spy(UserService, 'getUser');
+          buildController();
+        });
+
+        it('fetches the user using the user service', function() {
+          expect(UserService.getUser.calledWith(userId)).to.be.true;
+        });
+      });
+    });
   });
+
 
 });
