@@ -60,6 +60,7 @@ describe('WorkPackageDetailsController', function() {
       ctrl = $controller("WorkPackageDetailsController", {
         $scope:  scope,
         $stateParams: { workPackageId: workPackageId },
+        latestTab: {},
         I18n: I18n,
         ConfigurationService: {
           commentsSortedInDescendingOrder: function() {
