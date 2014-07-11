@@ -63,13 +63,9 @@ describe 'API v3 Activity resource' do
     context 'anonymous user' do
       let(:get_path) { "/api/v3/activities/#{activity.id}" }
       let(:project) { FactoryGirl.create(:project, is_public: true) }
-      after { Setting.delete_all }
 
       context 'when access for anonymous user is allowed' do
-        before do
-          Setting.login_required = 0
-          get get_path
-        end
+        before { get get_path }
 
         it 'should respond with 200' do
           expect(subject.status).to eq(200)
@@ -85,6 +81,7 @@ describe 'API v3 Activity resource' do
           Setting.login_required = 1
           get get_path
         end
+        after { Setting.login_required = 0 }
 
         it 'should respond with 401' do
           expect(subject.status).to eq(401)
