@@ -36,6 +36,7 @@ module API
       class ActivityModel < Reform::Form
         include Coercion
         include ActionView::Helpers::UrlHelper
+        include ActionView::Helpers::TranslationHelper
         include OpenProject::TextFormatting
         include OpenProject::StaticRouting::UrlHelpers
         include WorkPackagesHelper
