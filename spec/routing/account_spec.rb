@@ -28,34 +28,20 @@
 
 require 'spec_helper'
 
-describe StatusesController do
-
-  describe "index" do
-    it { expect(get("/statuses")).to      route_to( :controller => 'statuses', :action => 'index')}
+describe 'account routes' do
+  it '/account/lost_password GET routes to account#lost_password' do
+    expect(get('/account/lost_password')).to route_to('account#lost_password')
   end
 
-  describe "new" do
-    it { expect(get("/statuses/new")).to route_to(:controller => 'statuses', :action => 'new' )}
-
+  it '/account/lost_password POST routes to account#lost_password' do
+    expect(post('/account/lost_password')).to route_to('account#lost_password')
   end
 
-  describe "create" do
-    it { expect(post("/statuses")).to     route_to( :controller => 'statuses', :action => 'create')}
+  it '/accounts/register GET routes to account#register' do
+    expect(get('/account/register')).to route_to('account#register')
   end
 
-  describe "update" do
-    it { expect(put("/statuses/123")).to      route_to(:controller => 'statuses', :action => "update", :id => "123")}
-  end
-
-  describe "delete" do
-    it{ expect(delete("/statuses/123")).to     route_to(:controller => 'statuses', :action => "destroy", :id => "123")}
-  end
-
-  describe "update_work_package_done_ratio" do
-    it do
-      expect(post('/statuses/update_work_package_done_ratio')).to route_to(
-        controller: 'statuses',
-        action: 'update_work_package_done_ratio')
-    end
+  it '/accounts/register POST routes to account#register' do
+    expect(post('/account/register')).to route_to('account#register')
   end
 end

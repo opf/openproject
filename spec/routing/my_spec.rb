@@ -28,34 +28,16 @@
 
 require 'spec_helper'
 
-describe StatusesController do
-
-  describe "index" do
-    it { expect(get("/statuses")).to      route_to( :controller => 'statuses', :action => 'index')}
+describe 'my routes' do
+  it '/my/add_block POST routes to my#add_block' do
+    expect(post('/my/add_block')).to route_to('my#add_block')
   end
 
-  describe "new" do
-    it { expect(get("/statuses/new")).to route_to(:controller => 'statuses', :action => 'new' )}
-
+  it '/my/page_layout GET routes to my#page_layout' do
+    expect(get('/my/page_layout')).to route_to('my#page_layout')
   end
 
-  describe "create" do
-    it { expect(post("/statuses")).to     route_to( :controller => 'statuses', :action => 'create')}
-  end
-
-  describe "update" do
-    it { expect(put("/statuses/123")).to      route_to(:controller => 'statuses', :action => "update", :id => "123")}
-  end
-
-  describe "delete" do
-    it{ expect(delete("/statuses/123")).to     route_to(:controller => 'statuses', :action => "destroy", :id => "123")}
-  end
-
-  describe "update_work_package_done_ratio" do
-    it do
-      expect(post('/statuses/update_work_package_done_ratio')).to route_to(
-        controller: 'statuses',
-        action: 'update_work_package_done_ratio')
-    end
+  it '/my/remove_block POST routes to my#remove_block' do
+    expect(post('/my/remove_block')).to route_to('my#remove_block')
   end
 end
