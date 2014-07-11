@@ -41,6 +41,7 @@ describe 'API v3 User resource' do
 
     context 'anonymous user' do
       let(:get_path) { "/api/v3/users/#{user.id}" }
+      after { Setting.delete_all }
 
       context 'when access for anonymous user is allowed' do
         before do

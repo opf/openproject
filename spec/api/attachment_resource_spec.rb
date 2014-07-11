@@ -63,6 +63,7 @@ describe 'API v3 Attachment resource' do
     context 'anonymous user' do
       let(:get_path) { "/api/v3/attachments/#{attachment.id}" }
       let(:project) { FactoryGirl.create(:project, is_public: true) }
+      after { Setting.delete_all }
 
       context 'when access for anonymous user is allowed' do
         before do
