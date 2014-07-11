@@ -47,6 +47,7 @@ describe('WorkPackagesController', function() {
       ctrl = $controller("WorkPackagesController", {
         $scope:  scope,
         $window: win,
+        $state: {},
         $stateParams: testParams,
         project: {},
         availableTypes: {}

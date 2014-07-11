@@ -137,7 +137,8 @@ describe('WorkPackagesListController', function() {
         PaginationService:  testPaginationService,
         WorkPackageService: testWorkPackageService,
         $stateParams:       testParams,
-        $state:             testState
+        $state:             testState,
+        latestTab: {}
       });
     };
 

@@ -31,23 +31,28 @@ angular.module('openproject.workPackages.controllers')
 .constant('DEFAULT_WORK_PACKAGE_PROPERTIES', [
   'status', 'assignee', 'responsible',
   'date', 'percentageDone', 'priority',
-  'author', 'dueDate', 'estimatedTime',
-  'startDate', 'versionName'
+  'estimatedTime', 'versionName'
 ])
 .constant('USER_TYPE', 'user')
 
 .controller('WorkPackageDetailsController', [
   '$scope',
+  'latestTab',
   'workPackage',
   'I18n',
   'DEFAULT_WORK_PACKAGE_PROPERTIES',
   'USER_TYPE',
+  'CustomFieldHelper',
   'WorkPackagesHelper',
   'PathHelper',
   'UserService',
   '$q',
   'ConfigurationService',
-  function($scope, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, WorkPackagesHelper, PathHelper, UserService, $q, ConfigurationService) {
+  function($scope, latestTab, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, CustomFieldHelper, WorkPackagesHelper, PathHelper, UserService, $q, ConfigurationService) {
+
+    $scope.$on('$stateChangeSuccess', function(event, toState){
+      latestTab.registerState(toState.name);
+    });
 
     // initialization
     $scope.I18n = I18n;
@@ -75,6 +80,7 @@ angular.module('openproject.workPackages.controllers')
     // watchers
 
     $scope.watchers = workPackage.embedded.watchers;
+    $scope.author = workPackage.embedded.author;
 
     // work package properties
 
@@ -94,14 +100,18 @@ angular.module('openproject.workPackages.controllers')
 
     function getFormattedPropertyValue(property) {
       if (property === 'date') {
-        if (workPackage.props.startDate && workPackage.props.dueDate) {
-          return WorkPackagesHelper.formatWorkPackageProperty(workPackage.props['startDate'], 'startDate') +
-                 ' - ' +
-                 WorkPackagesHelper.formatWorkPackageProperty(workPackage.props['dueDate'], 'dueDate');
-
-        }
+        return getDateProperty();
       } else {
         return WorkPackagesHelper.formatWorkPackageProperty(workPackage.props[property], property);
+      }
+    }
+
+    function getDateProperty() {
+      if (workPackage.props.startDate || workPackage.props.dueDate) {
+        var displayedStartDate = WorkPackagesHelper.formatWorkPackageProperty(workPackage.props.startDate, 'startDate') || I18n.t('js.label_no_start_date'),
+            displayedEndDate   = WorkPackagesHelper.formatWorkPackageProperty(workPackage.props.dueDate, 'dueDate') || I18n.t('js.label_no_due_date');
+
+        return  displayedStartDate + ' - ' + displayedEndDate;
       }
     }
 
@@ -151,7 +161,7 @@ angular.module('openproject.workPackages.controllers')
       if (!!customProperty.value && customProperty.format === USER_TYPE) {
         return UserService.getUser(customProperty.value);
       } else {
-        return customProperty.value;
+        return CustomFieldHelper.formatCustomFieldValue(customProperty.value, customProperty.format);
       }
     }
 

@@ -28,32 +28,34 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Users::UserRepresenter do
-  let(:user)             { FactoryGirl.create(:user) }
-  let(:model)          { ::API::V3::Users::UserModel.new(user) }
-  let(:representer) { described_class.new(model) }
+describe ::API::V3::WorkPackages::WorkPackageModel do
+  include Capybara::RSpecMatchers
 
-  context 'generation' do
-    subject(:generated) { representer.to_json }
+  subject(:model) { ::API::V3::WorkPackages::WorkPackageModel.new(
+      work_package: work_package
+    )
+  }
+  let(:work_package) { FactoryGirl.build(:work_package, attributes) }
 
-    it { should include_json('User'.to_json).at_path('_type') }
+  context 'with a formatted description' do
+    let(:attributes) {
+      {
+       description: <<-DESC
+h2. Plan for this month
 
-    describe 'user' do
-      it { should have_json_path('id')   }
-      it { should have_json_path('login') }
-      it { should have_json_path('firstName') }
-      it { should have_json_path('lastName') }
-      it { should have_json_path('name') }
-      it { should have_json_path('mail') }
-      it { should have_json_path('avatar') }
-      it { should have_json_path('createdAt') }
-      it { should have_json_path('updatedAt') }
-    end
+# Important bug fixes
+# Aesthetic improvements
+       DESC
+      }
+    }
 
-    describe '_links' do
-      it 'should link to self' do
-        expect(subject).to have_json_path('_links/self/href')
-      end
+    its(:description)     { should have_selector 'h2' }
+    its(:description)     { should have_selector 'ol > li' }
+    its(:raw_description) { should eq attributes[:description] }
+
+    it 'should allow a raw_description to be set' do
+      model.raw_description = 'h4. More details'
+      expect(model.description).to have_selector 'h4'
     end
   end
 end

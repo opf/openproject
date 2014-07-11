@@ -110,7 +110,7 @@ module JournalsHelper
     content << content_tag('div', links.join(' '),{ :class => 'contextual' }, false) unless links.empty?
     attachments = model.try(:attachments) || []
     content << content_tag('div',
-                           textilizable(journal, :notes, :attachments => attachments),
+                           format_text(journal, :notes, :attachments => attachments),
                            :class => 'wikicontent',
                            "data-user" => journal.journable.author)
 
