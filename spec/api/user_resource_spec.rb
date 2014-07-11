@@ -24,7 +24,7 @@ describe 'API v3 User resource' do
       end
 
       it 'should respond with correct attachment' do
-        expect(subject.body).to be_json_eql(representer.to_json)
+        expect(subject.body).to be_json_eql(user.name.to_json).at_path('name')
       end
 
       context 'requesting nonexistent user' do
@@ -50,7 +50,7 @@ describe 'API v3 User resource' do
         end
 
         it 'should respond with correct activity' do
-          expect(subject.body).to be_json_eql(representer.to_json)
+          expect(subject.body).to be_json_eql(user.name.to_json).at_path('name')
         end
       end
 

@@ -9,8 +9,6 @@ describe 'API v3 Attachment resource' do
   let(:work_package) { FactoryGirl.create(:work_package, author: current_user, project: project) }
   let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
   let(:attachment) { FactoryGirl.create(:attachment, container: work_package) }
-  let(:model) { ::API::V3::Attachments::AttachmentModel.new(attachment) }
-  let(:representer) { ::API::V3::Attachments::AttachmentRepresenter.new(model) }
 
   describe '#get' do
     subject(:response) { last_response }
@@ -30,7 +28,7 @@ describe 'API v3 Attachment resource' do
       end
 
       it 'should respond with correct attachment' do
-        expect(subject.body).to be_json_eql(representer.to_json)
+        expect(subject.body).to be_json_eql(attachment.filename.to_json).at_path('fileName')
       end
 
       context 'requesting nonexistent attachment' do
@@ -72,7 +70,7 @@ describe 'API v3 Attachment resource' do
         end
 
         it 'should respond with correct activity' do
-          expect(subject.body).to be_json_eql(representer.to_json)
+          expect(subject.body).to be_json_eql(attachment.filename.to_json).at_path('fileName')
         end
       end
 

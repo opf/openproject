@@ -9,8 +9,6 @@ describe 'API v3 Activity resource' do
   let(:work_package) { FactoryGirl.create(:work_package, author: current_user, project: project) }
   let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
   let(:activity) { FactoryGirl.create(:work_package_journal, journable: work_package) }
-  let(:model) { ::API::V3::Activities::ActivityModel.new(activity) }
-  let(:representer) { ::API::V3::Activities::ActivityRepresenter.new(model) }
 
   describe '#get' do
     subject(:response) { last_response }
@@ -29,8 +27,9 @@ describe 'API v3 Activity resource' do
         expect(subject.status).to eq(200)
       end
 
-      xit 'should respond with correct activity' do
-        expect(subject.body).to be_json_eql(representer.to_json)
+      it 'should respond with correct activity' do
+        expect(subject.body).to include_json('Activity'.to_json).at_path('_type')
+        expect(subject.body).to be_json_eql(activity.id.to_json).at_path('id')
       end
 
       context 'requesting nonexistent activity' do
@@ -71,8 +70,9 @@ describe 'API v3 Activity resource' do
           expect(subject.status).to eq(200)
         end
 
-        xit 'should respond with correct activity' do
-          expect(subject.body).to be_json_eql(representer.to_json)
+        it 'should respond with correct activity' do
+          expect(subject.body).to include_json('Activity'.to_json).at_path('_type')
+          expect(subject.body).to be_json_eql(activity.id.to_json).at_path('id')
         end
       end
 
