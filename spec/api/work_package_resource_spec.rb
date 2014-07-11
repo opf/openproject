@@ -153,7 +153,7 @@ h4. things we like
       end
 
       it 'should respond with 401' do
-        expect(last_response.status).to eq(401)
+        expect(last_response.status).to eq(403)
       end
 
       it 'should respond with explanatory error message' do
