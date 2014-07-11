@@ -42,12 +42,13 @@ angular.module('openproject.workPackages.controllers')
   'I18n',
   'DEFAULT_WORK_PACKAGE_PROPERTIES',
   'USER_TYPE',
+  'CustomFieldHelper',
   'WorkPackagesHelper',
   'PathHelper',
   'UserService',
   '$q',
   'ConfigurationService',
-  function($scope, latestTab, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, WorkPackagesHelper, PathHelper, UserService, $q, ConfigurationService) {
+  function($scope, latestTab, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, CustomFieldHelper, WorkPackagesHelper, PathHelper, UserService, $q, ConfigurationService) {
 
     $scope.$on('$stateChangeSuccess', function(event, toState){
       latestTab.registerState(toState.name);
@@ -160,7 +161,7 @@ angular.module('openproject.workPackages.controllers')
       if (!!customProperty.value && customProperty.format === USER_TYPE) {
         return UserService.getUser(customProperty.value);
       } else {
-        return customProperty.value;
+        return CustomFieldHelper.formatCustomFieldValue(customProperty.value, customProperty.format);
       }
     }
 

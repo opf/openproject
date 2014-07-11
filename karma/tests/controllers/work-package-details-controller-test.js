@@ -38,6 +38,9 @@ describe('WorkPackageDetailsController', function() {
       UserService = {
         getUser: angular.identity
       },
+      CustomFieldHelper = {
+        formatCustomFieldValue: angular.identity
+      },
       workPackage = {
         props: {
           status: 'open',
@@ -74,6 +77,7 @@ describe('WorkPackageDetailsController', function() {
           }
         },
         UserService: UserService,
+        CustomFieldHelper: CustomFieldHelper,
         workPackage: buildWorkPackageWithId(workPackageId),
       });
 
@@ -245,11 +249,21 @@ describe('WorkPackageDetailsController', function() {
 
       describe('when the property has a value', function() {
         beforeEach(function() {
+          formatCustomFieldValueSpy = sinon.spy(CustomFieldHelper, 'formatCustomFieldValue');
+
           buildController();
+        });
+
+        afterEach(function() {
+          CustomFieldHelper.formatCustomFieldValue.restore();
         });
 
         it('adds properties to present properties', function() {
           expect(fetchPresentPropertiesWithName(customPropertyName)).to.have.length(1);
+        });
+
+        it('formats values using the custom field helper', function() {
+          expect(CustomFieldHelper.formatCustomFieldValue.calledWith('red', 'text')).to.be.true;
         });
       });
 
@@ -279,7 +293,6 @@ describe('WorkPackageDetailsController', function() {
           expect(UserService.getUser.calledWith(userId)).to.be.true;
         });
       });
-
     });
   });
 
