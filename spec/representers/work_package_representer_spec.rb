@@ -94,6 +94,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         it { should have_json_type(Array).at_path('_embedded/activities') }
         it { should have_json_size(0).at_path('_embedded/activities') }
       end
+
+      describe 'attachments' do
+        it { should have_json_type(Array).at_path('_embedded/attachments') }
+        it { should have_json_size(0).at_path('_embedded/attachments') }
+      end
     end
   end
 end

@@ -138,6 +138,11 @@ module API
           work_package.journals.map{ |journal| ::API::V3::Activities::ActivityModel.new(journal) }
         end
 
+        def attachments
+          work_package.attachments
+            .map{ |attachment| ::API::V3::Attachments::AttachmentModel.new(attachment) }
+        end
+
         def watchers
           work_package.watcher_users
             .order(User::USER_FORMATS_STRUCTURE[Setting.user_format])
