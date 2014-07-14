@@ -77,9 +77,14 @@ angular.module('openproject.workPackages.controllers')
       $scope.activities.reverse();
     }
 
-    // watchers
-
+    // Watchers
     $scope.watchers = workPackage.embedded.watchers;
+
+    // Attachments
+    $scope.attachments = workPackage.embedded.attachments;
+    $scope.attachmentsTitle = "Attachments(" + $scope.attachments.length + ")";
+
+    // Author
     $scope.author = workPackage.embedded.author;
 
     // work package properties

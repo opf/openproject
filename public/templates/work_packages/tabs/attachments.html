@@ -1,6 +1,13 @@
 <div class="detail-panel-description">
-  <h3>Attachments</h3>
+  <h3>{{ attachmentsTitle }}</h3>
   <div class="detail-panel-description-content">
-    ...
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr attachment-display
+            ng-repeat="attachment in attachments"
+            attachment="attachment">
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

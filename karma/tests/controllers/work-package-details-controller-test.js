@@ -50,7 +50,8 @@ describe('WorkPackageDetailsController', function() {
           ]
         },
         embedded: {
-          activities: []
+          activities: [],
+          attachments: []
         },
       };
 
