@@ -1,8 +1,8 @@
-package Apache::Authn::Redmine;
+package Apache::Authn::OpenProject;
 
-=head1 Apache::Authn::Redmine
+=head1 Apache::Authn::OpenProject
 
-Redmine - a mod_perl module to authenticate webdav subversion users
+OpenProject - a mod_perl module to authenticate webdav subversion users
 against an OpenProject web service
 
 =head1 SYNOPSIS
@@ -13,9 +13,7 @@ done against an OpenProject web service.
 
 =head1 INSTALLATION
 
-For this to automagically work, you need to have a recent reposman.rb
-(after r860) and if you already use reposman, read the last section to
-migrate.
+For this to automagically work, you need to have a recent reposman.rb.
 
 Sorry ruby users but you need some perl modules, at least mod_perl2.
 
@@ -36,14 +34,14 @@ On debian/ubuntu you must do :
      AuthName OpenProject
      Require valid-user
 
-     PerlAccessHandler Apache::Authn::Redmine::access_handler
-     PerlAuthenHandler Apache::Authn::Redmine::authen_handler
+     PerlAccessHandler Apache::Authn::OpenProject::access_handler
+     PerlAuthenHandler Apache::Authn::OpenProject::authen_handler
 
-    RedmineUrl "http://example.com/openproject/"
-    RedmineApiKey "<API key>"
+    OpenProjectUrl "http://example.com/openproject/"
+    OpenProjectApiKey "<API key>"
   </Location>
 
-To be able to browse repository inside redmine, you must add something
+To be able to browse repository inside openproject, you must add something
 like that :
 
    <Location /svn-private>
@@ -53,24 +51,13 @@ like that :
      Deny from all
      # only allow reading orders
      <Limit GET PROPFIND OPTIONS REPORT>
-       Allow from redmine.server.ip
+       Allow from openproject.server.ip
      </Limit>
    </Location>
 
 and you will have to use this reposman.rb command line to create repository :
 
-  reposman.rb --redmine my.redmine.server --svn-dir /var/svn --owner www-data -u http://svn.server/svn-private/
-
-=head1 MIGRATION FROM OLDER RELEASES
-
-If you use an older reposman.rb (r860 or before), you need to change
-rights on repositories to allow the apache user to read and write
-S<them :>
-
-  sudo chown -R www-data /var/svn/*
-  sudo chmod -R u+w /var/svn/*
-
-And you need to upgrade at least reposman.rb (after r860).
+  reposman.rb --openproject my.openproject.server --svn-dir /var/svn --owner www-data -u http://svn.server/svn-private/
 
 =cut
 
@@ -95,20 +82,20 @@ use LWP::UserAgent;
 
 my @directives = (
   {
-    name => 'RedmineUrl',
+    name => 'OpenProjectUrl',
     req_override => OR_AUTHCFG,
     args_how => TAKE1,
     errmsg => 'URL of your (local) OpenProject. (e.g. http://localhost/ or http://www.example.com/openproject/)',
   },
   {
-    name => 'RedmineApiKey',
+    name => 'OpenProjectApiKey',
     req_override => OR_AUTHCFG,
     args_how => TAKE1,
   },
 );
 
-sub RedmineUrl { set_val('RedmineUrl', @_); }
-sub RedmineApiKey { set_val('RedmineApiKey', @_); }
+sub OpenProjectUrl { set_val('OpenProjectUrl', @_); }
+sub OpenProjectApiKey { set_val('OpenProjectApiKey', @_); }
 
 sub trim {
   my $string = shift;
@@ -153,9 +140,9 @@ sub authen_handler {
   }
 }
 
-# we send a request to the redmine sys api
+# we send a request to the openproject sys api
 # and use the user's given login and password for basic auth
-# for accessing the redmine sys api an api key is needed
+# for accessing the openproject sys api an api key is needed
 sub is_access_allowed {
   my $login = shift;
   my $password = shift;
@@ -165,14 +152,14 @@ sub is_access_allowed {
 
   my $cfg = Apache2::Module::get_config( __PACKAGE__, $r->server, $r->per_dir_config );
 
-  my $key = $cfg->{RedmineApiKey};
-  my $redmine_url = $cfg->{RedmineUrl} . '/sys/repo_auth';
+  my $key = $cfg->{OpenProjectApiKey};
+  my $openproject_url = $cfg->{OpenProjectUrl} . '/sys/repo_auth';
 
-  my $redmine_req = POST $redmine_url , [ repository => $identifier, key => $key, method => $method ];
-  $redmine_req->authorization_basic( $login, $password );
+  my $openproject_req = POST $openproject_url , [ repository => $identifier, key => $key, method => $method ];
+  $openproject_req->authorization_basic( $login, $password );
 
   my $ua = LWP::UserAgent->new;
-  my $response = $ua->request($redmine_req);
+  my $response = $ua->request($openproject_req);
 
   return $response->is_success();
 }
