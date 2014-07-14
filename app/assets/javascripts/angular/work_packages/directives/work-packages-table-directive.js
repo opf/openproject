@@ -31,9 +31,8 @@ angular.module('openproject.workPackages.directives')
 .directive('workPackagesTable', [
   'I18n',
   'WorkPackagesTableService',
-  'flags',
   'PathHelper',
-  function(I18n, WorkPackagesTableService, flags, PathHelper){
+  function(I18n, WorkPackagesTableService, PathHelper){
 
   return {
     restrict: 'E',
@@ -90,12 +89,6 @@ angular.module('openproject.workPackages.directives')
 
           scope.groupByColumn = groupableColumns[groupByColumnIndex];
        }
-      });
-
-      scope.$watch(function() {
-        return flags.isOn('detailsView');
-      }, function(detailsEnabled) {
-        scope.hideWorkPackageDetails = !detailsEnabled;
       });
     }
   };

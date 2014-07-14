@@ -1,7 +1,7 @@
 <table class="workpackages-table">
   <colgroup>
     <col />
-    <col ng-hide="hideWorkPackageDetails" />
+    <col />
     <col />
     <col ng-repeat="column in columns" />
   </colgroup>
@@ -17,7 +17,7 @@
                         icon-name="yes"></icon-wrapper>
         </a>
       </th>
-      <th class="icon-table" ng-hide="hideWorkPackageDetails"><i class="icon-info"></i></th>
+      <th class="icon-table"><i class="icon-info"></i></th>
       <th sort-header
           header-name="'id'"
           header-title="'#'"
@@ -56,7 +56,7 @@
           keyboard_hover: true
         }"
         id="group-header-{{ row.groupName }}">
-      <td colspan="{{ columns.length + 3 - (!!hideWorkPackageDetails * 1) }}">
+      <td colspan="{{ columns.length + 3 }}">
         <span ng-class="[
                 'expander',
                 'icon-context',
@@ -120,7 +120,7 @@
                              model="row.checked"/>
       </td>
 
-      <td class="icon-table info" ng-hide="hideWorkPackageDetails">
+      <td class="icon-table info">
         <p><a href ui-sref="work-packages.list.details.overview({workPackageId: row.object.id})"><i class="icon-info"></i></a></p>
       </td>
 
@@ -153,7 +153,7 @@
           'issue',
           'work_package'
         ]">
-        <td colspan="{{3  - (!!hideWorkPackageDetails * 1)}}">
+        <td colspan="3">
           {{ I18n.t('js.label_sum_for') }}
           <span work-package-column
                 work-package="row.object"
@@ -171,7 +171,7 @@
         ng-if="displaySums"
         cg-busy="fetchTotalSums"
         class="sum group all issue work_package">
-      <td colspan="{{3  - (!!hideWorkPackageDetails * 1)}}">{{ I18n.t('js.label_sum_for') }} {{ I18n.t('js.label_all_work_packages') }}</td>
+      <td colspan="3">{{ I18n.t('js.label_sum_for') }} {{ I18n.t('js.label_all_work_packages') }}</td>
       <td ng-repeat="column in columns">
         {{ column.total_sum }}
       </td>

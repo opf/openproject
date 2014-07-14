@@ -23,7 +23,7 @@
           <i class="icon-filter-big icon-buttons"></i>{{ I18n.t('js.toolbar.filter') }}
         </button>
       </li>
-      <li class="toolbar-item" feature-flag="detailsView">
+      <li class="toolbar-item">
         <ul id="work-packages-view-mode-selection" class="toolbar-button-group">
           <li>
             <button class="button"
@@ -32,7 +32,7 @@
               <i class="icon-table-view icon-buttons"></i>
             </button>
           </li>
-          <li feature-flag="detailsView">
+          <li>
             <button class="button"
                     ng-class="{ active: $state.includes('work-packages.list.details') }"
                     ng-click="openLatestTab()">
@@ -132,6 +132,5 @@
     <modal-loading>
     </modal-loading>
   </div>
-  <div class="work-packages--details" ui-view ng-show="workPackage"
-    feature-flag="detailsView"></div>
+  <div class="work-packages--details" ui-view ng-show="workPackage"></div>
 </div>
