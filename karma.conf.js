@@ -37,6 +37,7 @@ module.exports = function(config) {
 
       "app/assets/javascripts/angular/openproject-app.js",
       "app/assets/javascripts/angular/config/work-packages-config.js",
+      "app/assets/javascripts/angular/config/configuration-service.js",
 
       "app/assets/javascripts/angular/controllers/**/*.js",
       "app/assets/javascripts/angular/dialogs/**/*.js",
