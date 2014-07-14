@@ -25,7 +25,7 @@ module API
             end
 
             patch :star do
-              authorize(:queries, :star, context: @query.project, allow: allowed_to_manage_stars?)
+              authorize({ controller: :queries, action: :star }, context: @query.project, allow: allowed_to_manage_stars?)
               normalized_query_name = @query.name.parameterize.underscore
               query_menu_item = MenuItems::QueryMenuItem.find_or_initialize_by_name_and_navigatable_id(
                 normalized_query_name, @query.id, title: @query.name
@@ -35,7 +35,7 @@ module API
             end
 
             patch :unstar do
-              authorize(:queries, :unstar, context: @query.project, allow: allowed_to_manage_stars?)
+              authorize({ controller: :queries, action: :unstar }, context: @query.project, allow: allowed_to_manage_stars?)
               query_menu_item = @query.query_menu_item
               return @representer.to_json if @query.query_menu_item.nil?
               query_menu_item.destroy

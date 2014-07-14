@@ -17,7 +17,7 @@ module API
             end
 
             get do
-              authorize(:work_packages, :show, context: @attachment.container.project)
+              authorize(:view_project, context: @attachment.container.project)
               @representer.to_json
             end
 
