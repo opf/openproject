@@ -54,6 +54,12 @@ angular.module('openproject.config')
       } else {
         return gon.settings.user_preferences.others.comments_sorting === 'desc';
       }
+    },
+    isTimezoneSet: function() {
+      return this.userPreferencesPresent() && gon.settings.user_preferences.time_zone != '';
+    },
+    timezone: function() {
+      return (isTimezoneSet()) ? gon.settings.user_preferences.time_zone : '';
     }
   };
 }]);
