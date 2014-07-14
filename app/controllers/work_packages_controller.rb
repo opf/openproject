@@ -49,6 +49,7 @@ class WorkPackagesController < ApplicationController
   include PaginationHelper
   include SortHelper
   include OpenProject::Concerns::Preview
+  include OpenProject::ClientPreferenceExtractor
 
   accept_key_auth :index, :show, :create, :update
 
@@ -204,9 +205,7 @@ class WorkPackagesController < ApplicationController
 
     respond_to do |format|
       format.html do
-        gon.settings = {
-          user_preferences: current_user.pref
-        }
+        gon.settings = client_preferences
 
         render :index, :locals => { :query => @query,
                                     :project => @project },

@@ -39,6 +39,7 @@ class BoardsController < ApplicationController
   include SortHelper
   include WatchersHelper
   include PaginationHelper
+  include OpenProject::ClientPreferenceExtractor
 
   def index
     @boards = @project.boards
@@ -67,9 +68,7 @@ class BoardsController < ApplicationController
         gon.sort_column = 'updated_on'
         gon.sort_direction = 'desc'
         gon.total_count = @board.topics.count
-        gon.settings = {
-          user_preferences: current_user.pref
-        }
+        gon.settings = client_preferences
 
         @message = Message.new
         render :action => 'show', :layout => !request.xhr?
