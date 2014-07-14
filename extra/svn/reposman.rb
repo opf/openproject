@@ -2,7 +2,7 @@
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,8 +31,11 @@
 require 'optparse'
 require 'find'
 require 'etc'
+require 'json'
+require 'net/http'
+require 'uri'
 
-Version = "1.3"
+Version = "1.4"
 SUPPORTED_SCM = %w( Subversion Git Filesystem )
 
 $verbose      = 0
@@ -161,28 +164,22 @@ unless File.directory?($repos_base)
   log("directory '#{$repos_base}' doesn't exists", :exit => true)
 end
 
-begin
-  require 'active_resource'
-rescue LoadError
-  log("This script requires activeresource.\nRun 'gem install activeresource' to install it.", :exit => true)
-end
-
-class Project < ActiveResource::Base
-  self.headers["User-agent"] = "Redmine repository manager/#{Version}"
-end
-
 log("querying Redmine for projects...", :level => 1);
 
 $redmine_host.gsub!(/^/, "http://") unless $redmine_host.match("^https?://")
 $redmine_host.gsub!(/\/$/, '')
 
-Project.site = "#{$redmine_host}/sys";
+api_uri = URI.parse("#{$redmine_host}/sys")
+http = Net::HTTP.new(api_uri.host, api_uri.port)
+http.use_ssl = (api_uri.scheme == 'https')
+http_headers = {'User-Agent' => "OpenProject-Repository-Manager/#{Version}"}
 
 begin
   # Get all active projects that have the Repository module enabled
-  projects = Project.find(:all, :params => {:key => $api_key})
+  response = http.get("#{api_uri.path}/projects.json?key=#{$api_key}", http_headers)
+  projects = JSON.parse(response.body)
 rescue => e
-  log("Unable to connect to #{Project.site}: #{e}", :exit => true)
+  log("Unable to connect to #{$redmine_host}: #{e}", :exit => true)
 end
 
 if projects.nil?
@@ -195,8 +192,8 @@ def set_owner_and_rights(project, repos_path, &block)
   if mswin?
     yield if block_given?
   else
-    uid, gid = Etc.getpwnam($svn_owner).uid, ($use_groupid ? Etc.getgrnam(project.identifier).gid : Etc.getgrnam($svn_group).gid)
-    right = project.is_public ? $public_mode : $private_mode
+    uid, gid = Etc.getpwnam($svn_owner).uid, ($use_groupid ? Etc.getgrnam(project['identifier']).gid : Etc.getgrnam($svn_group).gid)
+    right = project['is_public'] ? $public_mode : $private_mode
     right = right.to_i(8) & 007777
     yield if block_given?
     Find.find(repos_path) do |f|
@@ -221,17 +218,17 @@ def mswin?
 end
 
 projects.each do |project|
-  log("treating project #{project.name}", :level => 1)
+  log("treating project #{project['name']}", :level => 1)
 
-  if project.identifier.empty?
-    log("\tno identifier for project #{project.name}")
+  if project['identifier'].empty?
+    log("\tno identifier for project #{project['name']}")
     next
-  elsif not project.identifier.match(/^[a-z0-9\-_]+$/)
-    log("\tinvalid identifier for project #{project.name} : #{project.identifier}");
+  elsif not project['identifier'].match(/^[a-z0-9\-_]+$/)
+    log("\tinvalid identifier for project #{project['name']} : #{project['identifier']}");
     next;
   end
 
-  repos_path = File.join($repos_base, project.identifier).gsub(File::SEPARATOR, File::ALT_SEPARATOR || File::SEPARATOR)
+  repos_path = File.join($repos_base, project['identifier']).gsub(File::SEPARATOR, File::ALT_SEPARATOR || File::SEPARATOR)
 
   if File.directory?(repos_path)
 
@@ -239,7 +236,7 @@ projects.each do |project|
     # rights before leaving
     other_read = other_read_right?(repos_path)
     owner      = owner_name(repos_path)
-    next if project.is_public == other_read and owner == $svn_owner
+    next if project['is_public'] == other_read and owner == $svn_owner
 
     if $test
       log("\tchange mode on #{repos_path}")
@@ -258,16 +255,16 @@ projects.each do |project|
   else
     # if repository is already declared in redmine, we don't create
     # unless user use -f with reposman
-    if $force == false and project.respond_to?(:repository)
-      log("\trepository for project #{project.identifier} already exists in Redmine", :level => 1)
+    if $force == false and project.has_key?('repository')
+      log("\trepository for project #{project['identifier']} already exists in Redmine", :level => 1)
       next
     end
 
-    project.is_public ? File.umask(0002) : File.umask(0007)
+    project['is_public'] ? File.umask(0002) : File.umask(0007)
 
     if $test
       log("\tcreate repository #{repos_path}")
-      log("\trepository #{repos_path} registered in Redmine with url #{$svn_url}#{project.identifier}") if $svn_url;
+      log("\trepository #{repos_path} registered in Redmine with url #{$svn_url}#{project['identifier']}") if $svn_url;
       next
     end
 
@@ -286,8 +283,11 @@ projects.each do |project|
 
     if $svn_url
       begin
-        project.post(:repository, :vendor => $scm, :repository => {:url => "#{$svn_url}#{project.identifier}"}, :key => $api_key)
-        log("\trepository #{repos_path} registered in Redmine with url #{$svn_url}#{project.identifier}");
+        http.post("#{api_uri.path}/projects/#{project['identifier']}/repository.json?" +
+                  "vendor=#{$scm}&repository[url]=#{$svn_url}#{project['identifier']}&key=#{$api_key}",
+                  "",  # empty data
+                  http_headers)
+        log("\trepository #{repos_path} registered in Redmine with url #{$svn_url}#{project['identifier']}");
       rescue => e
         log("\trepository #{repos_path} not registered in Redmine: #{e.message}");
       end
