@@ -26,33 +26,29 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Projects
-      class ProjectsAPI < Grape::API
+require 'spec_helper'
 
-        resources :projects do
-          params do
-            requires :id, desc: 'Project id'
-          end
+describe ::API::V3::Versions::VersionCollectionRepresenter do
+  let(:versions) { FactoryGirl.build_list(:version, 3) }
+  let(:models)   { versions.map { |version|
+    ::API::V3::Versions::VersionModel.new(version)
+  } }
+  let(:representer) { described_class.new(models) }
 
-          namespace ':id' do
-            before do
-              @project = Project.find(params[:id])
-              model = ::API::V3::Projects::ProjectModel.new(@project)
-              @representer =  ::API::V3::Projects::ProjectRepresenter.new(model)
-            end
+  context 'generation' do
+    subject(:generated) { representer.to_json }
 
-            get do
-              authorize(:view_project, context: @project)
-              @representer.to_json
-            end
+    it { should include_json('Versions'.to_json).at_path('_type') }
 
-            mount API::V3::Versions::VersionsAPI
-          end
+    it { should have_json_type(Object).at_path('_links') }
+    it 'should link to self' do
+      expect(subject).to have_json_path('_links/self/href')
+    end
 
-        end
-      end
+    describe 'versions' do
+      it { should have_json_path('_embedded/versions') }
+      it { should have_json_size(3).at_path('_embedded/versions') }
+      it { should have_json_path('_embedded/versions/2/name') }
     end
   end
 end

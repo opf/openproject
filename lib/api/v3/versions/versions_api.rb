@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -28,30 +29,21 @@
 
 module API
   module V3
-    module Projects
-      class ProjectsAPI < Grape::API
+    module Versions
+      class VersionsAPI < Grape::API
 
-        resources :projects do
-          params do
-            requires :id, desc: 'Project id'
+        resources :versions do
+          before do
+            @versions = @project.shared_versions.all
+            models = @versions.map { |version| ::API::V3::Versions::VersionModel.new(version) }
+            @represented = ::API::V3::Versions::VersionCollectionRepresenter.new(models)
           end
 
-          namespace ':id' do
-            before do
-              @project = Project.find(params[:id])
-              model = ::API::V3::Projects::ProjectModel.new(@project)
-              @representer =  ::API::V3::Projects::ProjectRepresenter.new(model)
-            end
-
-            get do
-              authorize(:view_project, context: @project)
-              @representer.to_json
-            end
-
-            mount API::V3::Versions::VersionsAPI
+          get do
+            @represented.to_json
           end
-
         end
+
       end
     end
   end
