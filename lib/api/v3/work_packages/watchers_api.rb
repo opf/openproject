@@ -6,7 +6,7 @@ module API
 
         resources :watchers do
           params do
-            requires :user_id, desc: 'Id of the user watching the work package'
+            requires :user_id, desc: 'The watcher\'s user id'
           end
 
           post do
@@ -30,9 +30,6 @@ module API
             @representer = ::API::V3::Users::UserRepresenter.new(model).to_json
           end
 
-          params do
-            requires :user_id, desc: 'Id of the user watching the work package'
-          end
           namespace ':user_id' do
             delete do
               authorize(:delete_work_package_watchers, context: @work_package.project)
