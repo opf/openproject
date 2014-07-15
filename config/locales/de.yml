@@ -1307,6 +1307,7 @@ de:
   setting_plain_text_mail: "Nur reinen Text (kein HTML) senden"
   setting_protocol: "Protokoll"
   setting_repositories_encodings: "Kodierungen der Projektarchive"
+  setting_repository_authentication_caching_enabled: "Aktiviere Cache für Authentifizierungsversuche von Versionskontrollsoftware"
   setting_repository_log_display_limit: "Maximale Anzahl anzuzeigender Revisionen in der Historie einer Datei"
   setting_rest_api_enabled: "REST-Schnittstelle aktivieren"
   setting_self_registration: "Anmeldung ermöglicht"
