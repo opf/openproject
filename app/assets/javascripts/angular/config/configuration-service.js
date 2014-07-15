@@ -39,6 +39,14 @@ angular.module('openproject.config')
     userPreferencesPresent: function() {
       return this.settingsPresent() && gon.settings.hasOwnProperty('user_preferences');
     },
+    displaySettingsPresent: function() {
+      return this.settingsPresent() && gon.settings.hasOwnProperty('display');
+    },
+    displaySettingPresent: function(setting) {
+      return this.displaySettingsPresent()
+        && gon.settings.display.hasOwnProperty(setting)
+        && gon.settings.display[setting] != false;
+    },
     accessibilityModeEnabled: function() {
       if (!this.userPreferencesPresent()) {
         $log.error('User preferences are not available.');
@@ -59,7 +67,19 @@ angular.module('openproject.config')
       return this.userPreferencesPresent() && gon.settings.user_preferences.time_zone != '';
     },
     timezone: function() {
-      return (isTimezoneSet()) ? gon.settings.user_preferences.time_zone : '';
+      return (this.isTimezoneSet()) ? gon.settings.user_preferences.time_zone : '';
+    },
+    dateFormatPresent: function() {
+      return this.displaySettingPresent('date_format');
+    },
+    dateFormat: function() {
+      return gon.settings.display.date_format;
+    },
+    timeFormatPresent: function() {
+      return this.displaySettingPresent('time_format');
+    },
+    timeFormat: function() {
+      return gon.settings.display.time_format;
     }
   };
 }]);

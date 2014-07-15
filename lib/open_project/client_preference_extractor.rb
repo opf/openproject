@@ -33,10 +33,54 @@ module OpenProject
       gon.settings = {
         user_preferences: current_user.pref,
         display: {
-          date_format: Setting.date_format,
-          time_format: Setting.time_format
+          date_format: momentjstify_date_format(Setting.date_format),
+          time_format: momentjstify_time_format(Setting.time_format)
         }
       }
+    end
+
+    def momentjstify_date_format(date_format)
+      date_format.gsub(/%\w/) do |directive|
+        case directive
+        when '%Y'
+          'YYYY'
+        when '%y'
+          'YY'
+        when '%m'
+          'MM'
+        when '%B'
+          'MMMM'
+        when '%b', '%h'
+          'MMM'
+        when '%d'
+          'DD'
+        when '%e'
+          'D'
+        when '%j'
+          'DDDD'
+        end
+      end
+    end
+
+    def momentjstify_time_format(time_format)
+      time_format.gsub(/%\w/) do |directive|
+        case directive
+        when '%H'
+          'HH'
+        when '%k'
+          'H'
+        when '%I'
+          'hh'
+        when '%l'
+          'h'
+        when '%P'
+          'A'
+        when '%p'
+          'a'
+        when '%M'
+          'mm'
+        end
+      end
     end
   end
 end
