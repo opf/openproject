@@ -10,7 +10,7 @@ describe 'API v3 Watcher resource' do
   let(:view_work_packages_role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
   let(:unauthorized_user) { FactoryGirl.create(:user) }
   let(:work_package) { FactoryGirl.create(:work_package, project_id: project.id) }
-  let(:available_watcher) { FactoryGirl.create(:user) }
+  let(:available_watcher) { FactoryGirl.create(:user, member_in_project: project, member_through_role: view_work_packages_role) }
   let(:watcher) { FactoryGirl.create :user,  member_in_project: project, member_through_role: view_work_packages_role }
 
   before do
