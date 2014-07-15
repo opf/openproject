@@ -93,6 +93,7 @@ OptionParser.new do |opts|
                                            " -r openproject.example.net",
                                            " -r http://openproject.example.net",
                                            " -r https://openproject.example.net") {|v| $openproject_host = v}
+  opts.on('',  "--redmine-host HOST",      "DEPRECATED: please use --openproject-host instead") {|v| $openproject_host = v}
   opts.on("-k", "--key KEY",               "use KEY as the OpenProject API key") {|v| $api_key = v}
   opts.separator("")
   opts.separator("Options:")
