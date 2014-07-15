@@ -10,7 +10,11 @@ module API
           end
 
           post do
-            authorize(:add_work_package_watchers, context: @work_package.project)
+            if current_user.id == params[:user_id].to_i
+              authorize(:view_work_packages, context: @work_package.project)
+            else
+              authorize(:add_work_package_watchers, context: @work_package.project)
+            end
 
             user = User.find params[:user_id]
 
@@ -32,7 +36,11 @@ module API
 
           namespace ':user_id' do
             delete do
-              authorize(:delete_work_package_watchers, context: @work_package.project)
+              if current_user.id == params[:user_id]
+                authorize(:view_work_packages, context: @work_package.project)
+              else
+                authorize(:delete_work_package_watchers, context: @work_package.project)
+              end
 
               user = User.find_by_id params[:user_id]
 
