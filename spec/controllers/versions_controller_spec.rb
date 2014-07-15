@@ -173,7 +173,7 @@ describe VersionsController do
         post :create, :project_id => project.id, :version => {:name => harmful}, :format => :js
         version = Version.last
 
-        response.body.include?("lt;script&gt;alert(&#x27;pwned&#x27;);&lt;/script&gt;").should be_true
+        response.body.include?("<script>alert('pwned');</script>").should be_false
       end
     end
   end
