@@ -40,9 +40,11 @@ module API
 
         self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
-        def initialize(options = {}, *expand)
+        def initialize(model, options = {}, *expand)
+          @current_user = options[:current_user]
           @expand = expand
-          super(options)
+
+          super(model)
         end
 
         property :_type, exec_context: :decorator
@@ -68,8 +70,25 @@ module API
         link :assignee do
           {
               href: "#{root_url}/api/v3/users/#{represented.work_package.assigned_to.id}",
-              title: "#{represented.work_package.assigned_to.name} - #{represented.work_package.assigned_to.login}"
+              title: "#{represented.work_package.assigned_to.name} - #{represented.work_package.assigned_to.login}",
           } unless represented.work_package.assigned_to.nil?
+        end
+
+        link :watch do
+          {
+              href: "#{root_url}/api/v3/work_packages/#{represented.work_package.id}/watchers",
+              method: :post,
+              params: { user_id: @current_user.id },
+              title: 'Watch work package'
+          } if @current_user.allowed_to?(:view_work_packages, represented.work_package.project) && !represented.work_package.watcher_users.include?(@current_user)
+        end
+
+        link :unwatch do
+          {
+              href: "#{root_url}/api/v3/work_packages/#{represented.work_package.id}/watchers/#{@current_user.id}",
+              method: :delete,
+              title: 'Unwatch work package'
+          } if @current_user.allowed_to?(:view_work_packages, represented.work_package.project) && represented.work_package.watcher_users.include?(@current_user)
         end
 
         property :id, getter: -> (*) { work_package.id }, render_nil: true
