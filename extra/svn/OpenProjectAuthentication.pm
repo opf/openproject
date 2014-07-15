@@ -15,11 +15,11 @@ done against an OpenProject web service.
 
 For this to automagically work, you need to have a recent reposman.rb.
 
-Sorry ruby users but you need some perl modules, at least mod_perl2.
+Sorry ruby users but you need some perl modules, at least mod_perl2 and apache2-svn.
 
 On debian/ubuntu you must do :
 
-  aptitude install libapache2-mod-perl2
+  aptitude install libapache2-mod-perl2 libapache2-svn
 
 =head1 CONFIGURATION
 
@@ -37,9 +37,9 @@ On debian/ubuntu you must do :
      PerlAccessHandler Apache::Authn::OpenProject::access_handler
      PerlAuthenHandler Apache::Authn::OpenProject::authen_handler
 
-    OpenProjectUrl "http://example.com/openproject/"
-    OpenProjectApiKey "<API key>"
-  </Location>
+     OpenProjectUrl "http://example.com/openproject/"
+     OpenProjectApiKey "<API key>"
+   </Location>
 
 To be able to browse repository inside openproject, you must add something
 like that :
@@ -64,7 +64,7 @@ and you will have to use this reposman.rb command line to create repository :
 use strict;
 use warnings FATAL => 'all', NONFATAL => 'redefine';
 
-use Digest::SHA1;
+use Digest::SHA;
 
 use Apache2::Module;
 use Apache2::Access;
