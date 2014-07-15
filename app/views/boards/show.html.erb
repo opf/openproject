@@ -76,7 +76,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <a ng-href="{{PathHelper.messagePath(message.id)}}">{{message.subject}}</a>
           </td>
           <td class="author"><a ng-href="{{PathHelper.userPath(message.author.id)}}">{{message.author.name}}</a></td>
-          <td class="created_on" formatted-date="message.created_on"></td>
+          <td class="created_on" date-time date-time-value="message.created_on"></td>
           <td class="replies">{{message.replies_count}}</td>
           <td class="last_message">
             <span ng-if="message.last_reply !== undefined">
