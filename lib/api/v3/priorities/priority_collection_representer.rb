@@ -27,23 +27,31 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API v3
-# This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
+require 'roar/decorator'
+require 'representable/json/collection'
+require 'roar/representer/json/hal'
 
 module API
   module V3
-    class Root < Grape::API
-      version 'v3', using: :path
+    module Priorities
+      class PriorityCollectionRepresenter < Roar::Decorator
+        include Roar::Representer::JSON::HAL
+        include OpenProject::StaticRouting::UrlHelpers
 
-      mount ::API::V3::Activities::ActivitiesAPI
-      mount ::API::V3::Attachments::AttachmentsAPI
-      mount ::API::V3::Priorities::PrioritiesAPI
-      mount ::API::V3::Projects::ProjectsAPI
-      mount ::API::V3::Queries::QueriesAPI
-      mount ::API::V3::Statuses::StatusesAPI
-      mount ::API::V3::Users::UsersAPI
-      mount ::API::V3::WorkPackages::WorkPackagesAPI
+        self.as_strategy = API::Utilities::CamelCasingStrategy.new
+
+        link :self do
+          "#{root_url}api/v3/priorities"
+        end
+
+        property :_type, exec_context: :decorator
+
+        collection :priorities, embedded: true, extend: PriorityRepresenter, getter: ->(_) { self }
+
+        def _type
+          'Priorities'
+        end
+      end
     end
   end
 end
