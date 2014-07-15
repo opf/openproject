@@ -75,7 +75,7 @@ class RoutingTest < ActionDispatch::IntegrationTest
                                                                    :action => 'download',
                                                                    :id => '1',
                                                                    :filename => 'filename.ext' )
-    should "redirect /atttachments/download/1 to /attachments/1/download" do
+    should "redirect /attachments/download/1 to /attachments/1/download" do
       get '/attachments/download/1'
       assert_redirected_to '/attachments/1/download'
     end
