@@ -17,7 +17,7 @@ module API
             end
 
             get do
-              authorize(:work_packages, :show, context: @activity.Journalable.project)
+              authorize(:view_project, context: @activity.journable.project)
               @representer.to_json
             end
 

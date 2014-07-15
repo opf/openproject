@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -27,25 +26,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# project, projects, global, user = nil
+require 'spec_helper'
 
-class AuthorizationService
-  # @params
-  #   ctrl - controller
-  #   action - action
-  # @named params
-  #   context - single project or array of projects - default nil
-  #   global - global - default false
-  #   user - user - default current user
-  def initialize(permission, context: nil , global: false, user: User.current)
-    @permission = permission
-    @context = context
-    @global = global
-    @user = user
+describe 'account routes' do
+  it '/account/lost_password GET routes to account#lost_password' do
+    expect(get('/account/lost_password')).to route_to('account#lost_password')
   end
 
-  def call
-    @user.allowed_to?(@permission, @context, :global => @global)
+  it '/account/lost_password POST routes to account#lost_password' do
+    expect(post('/account/lost_password')).to route_to('account#lost_password')
+  end
+
+  it '/accounts/register GET routes to account#register' do
+    expect(get('/account/register')).to route_to('account#register')
+  end
+
+  it '/accounts/register POST routes to account#register' do
+    expect(post('/account/register')).to route_to('account#register')
   end
 end
-

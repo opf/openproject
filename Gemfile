@@ -182,15 +182,18 @@ end
 
 group :development do
   gem 'letter_opener', '~> 1.0.0'
+  gem 'rails-dev-tweaks', '~> 0.6.1'
+  gem 'thin'
+  gem 'faker'
+  gem 'quiet_assets'
+end
+
+group :development, :test do
   gem 'pry-rails'
   gem 'pry-stack_explorer'
   gem 'pry-rescue'
   gem 'pry-byebug', :platforms => [:mri_20,:mri_21]
   gem 'pry-doc'
-  gem 'rails-dev-tweaks', '~> 0.6.1'
-  gem 'thin'
-  gem 'faker'
-  gem 'quiet_assets'
 end
 
 # API gems
