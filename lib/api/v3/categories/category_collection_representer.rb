@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -26,31 +27,36 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'roar/decorator'
+require 'representable/json/collection'
+require 'roar/representer/json/hal'
+
 module API
   module V3
-    module Projects
-      class ProjectsAPI < Grape::API
+    module Categories
+      class CategoryCollectionRepresenter < Roar::Decorator
+        include Roar::Representer::JSON::HAL
+        include OpenProject::StaticRouting::UrlHelpers
 
-        resources :projects do
-          params do
-            requires :id, desc: 'Project id'
-          end
+        self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
-          namespace ':id' do
-            before do
-              @project = Project.find(params[:id])
-              @model   = ProjectModel.new(@project)
-            end
+        attr_reader :project
 
-            get do
-              authorize(:view_project, context: @project)
-              ProjectRepresenter.new(@model)
-            end
+        def initialize(model, options = {})
+          @project = options.fetch(:project)
+          super(model)
+        end
 
-            mount API::V3::Categories::CategoriesAPI
-            mount API::V3::Versions::VersionsAPI
-          end
+        link :self do
+          "#{root_path}api/v3/projects/#{project.id}/categories"
+        end
 
+        property :_type, exec_context: :decorator
+
+        collection :categories, embedded: true, extend: CategoryRepresenter, getter: ->(_) { self }
+
+        def _type
+          'Categories'
         end
       end
     end

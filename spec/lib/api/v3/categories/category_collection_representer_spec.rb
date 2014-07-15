@@ -26,33 +26,39 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Projects
-      class ProjectsAPI < Grape::API
+require 'spec_helper'
 
-        resources :projects do
-          params do
-            requires :id, desc: 'Project id'
-          end
+describe ::API::V3::Categories::CategoryCollectionRepresenter do
+  let(:project)    { FactoryGirl.build(:project, id: 888) }
+  let(:categories) { FactoryGirl.build_list(:category, 3) }
+  let(:models)     { categories.map { |category|
+    ::API::V3::Categories::CategoryModel.new(category)
+  } }
+  let(:representer) { described_class.new(models, project: project) }
 
-          namespace ':id' do
-            before do
-              @project = Project.find(params[:id])
-              @model   = ProjectModel.new(@project)
-            end
-
-            get do
-              authorize(:view_project, context: @project)
-              ProjectRepresenter.new(@model)
-            end
-
-            mount API::V3::Categories::CategoriesAPI
-            mount API::V3::Versions::VersionsAPI
-          end
-
-        end
+  describe '#initialize' do
+    context 'with incorrect parameters' do
+      it 'should raise without a project' do
+        expect { described_class.new(models) }.to raise_error
       end
+    end
+  end
+
+  context 'generation' do
+    subject(:generated) { representer.to_json }
+
+    it { should include_json('Categories'.to_json).at_path('_type') }
+
+    it { should have_json_type(Object).at_path('_links') }
+    it 'should link to self' do
+      expect(generated).to have_json_path('_links/self/href')
+      expect(parse_json(generated, '_links/self/href')).to match %r{/api/v3/projects/888/categories$}
+    end
+
+    describe 'categories' do
+      it { should have_json_path('_embedded/categories') }
+      it { should have_json_size(3).at_path('_embedded/categories') }
+      it { should have_json_path('_embedded/categories/2/name') }
     end
   end
 end

@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -26,32 +27,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'reform'
+require 'reform/form/coercion'
+
 module API
   module V3
-    module Projects
-      class ProjectsAPI < Grape::API
+    module Categories
+      class CategoryModel < Reform::Form
+        include Coercion
 
-        resources :projects do
-          params do
-            requires :id, desc: 'Project id'
-          end
-
-          namespace ':id' do
-            before do
-              @project = Project.find(params[:id])
-              @model   = ProjectModel.new(@project)
-            end
-
-            get do
-              authorize(:view_project, context: @project)
-              ProjectRepresenter.new(@model)
-            end
-
-            mount API::V3::Categories::CategoriesAPI
-            mount API::V3::Versions::VersionsAPI
-          end
-
-        end
+        property :name, type: String
       end
     end
   end
