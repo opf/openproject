@@ -29,30 +29,38 @@
 // TODO move to UI components
 var uiComponents = angular.module('openproject.uiComponents')
 
-uiComponents.directive('date', ['I18n', 'TimezoneService', function(I18n, TimezoneService) {
+uiComponents.directive('date', ['I18n', 'TimezoneService', 'ConfigurationService', function(I18n, TimezoneService, ConfigurationService) {
   return {
     restrict: 'EA',
     replace: false,
-    scope: { date: '=' },
+    scope: { dateValue: '=' },
     template: '<span>{{date}}</span>',
     link: function(scope, element, attrs) {
-      moment.lang(I18n.locale);
+      if (ConfigurationService.dateFormatPresent()) {
+        scope.date = TimezoneService.parseDate(scope.dateValue).format(ConfigurationService.dateFormat());
+      } else {
+        moment.lang(I18n.locale);
 
-      scope.time = TimezoneService.parseDate(scope.formattedDate).format('LL');
+        scope.date = TimezoneService.parseDate(scope.dateValue).format('L');
+      }
     }
   };
 }]);
 
-uiComponents.directive('time', ['I18n', 'TimezoneService', function(I18n, TimezoneService) {
+uiComponents.directive('time', ['I18n', 'TimezoneService', 'ConfigurationService', function(I18n, TimezoneService, ConfigurationService) {
   return {
     restrict: 'EA',
     replace: false,
-    scope: { time: '=' },
+    scope: { timeValue: '=' },
     template: '<span>{{time}}</span>',
     link: function(scope, element, attrs) {
-      moment.lang(I18n.locale);
+      if (ConfigurationService.timeFormatPresent()) {
+        scope.time = TimezoneService.parseDate(scope.timeValue).format(ConfigurationService.timeFormat());
+      } else {
+        moment.lang(I18n.locale);
 
-      scope.time = TimezoneService.parseDate(scope.time).format('LT');
+        scope.time = TimezoneService.parseDate(scope.timeValue).format('LT');
+      }
     }
   };
 }]);
