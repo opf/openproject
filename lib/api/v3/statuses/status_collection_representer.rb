@@ -4,7 +4,7 @@
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License version 3.
+# modify it under the terms of the GNU General Public License status 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
 # Copyright (C) 2006-2013 Jean-Philippe Lang
@@ -12,8 +12,8 @@
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
+# as published by the Free Software Foundation; either status 2
+# of the License, or (at your option) any later status.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -27,22 +27,31 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API v3
-# This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
+require 'roar/decorator'
+require 'representable/json/collection'
+require 'roar/representer/json/hal'
 
 module API
   module V3
-    class Root < Grape::API
-      version 'v3', using: :path
+    module Statuses
+      class StatusCollectionRepresenter < Roar::Decorator
+        include Roar::Representer::JSON::HAL
+        include OpenProject::StaticRouting::UrlHelpers
 
-      mount ::API::V3::Activities::ActivitiesAPI
-      mount ::API::V3::Attachments::AttachmentsAPI
-      mount ::API::V3::Projects::ProjectsAPI
-      mount ::API::V3::Queries::QueriesAPI
-      mount ::API::V3::Statuses::StatusesAPI
-      mount ::API::V3::Users::UsersAPI
-      mount ::API::V3::WorkPackages::WorkPackagesAPI
+        self.as_strategy = API::Utilities::CamelCasingStrategy.new
+
+        link :self do
+          "#{root_url}api/v3/statuses"
+        end
+
+        property :_type, exec_context: :decorator
+
+        collection :statuses, embedded: true, extend: StatusRepresenter, getter: ->(_) { self }
+
+        def _type
+          'Statuses'
+        end
+      end
     end
   end
 end
