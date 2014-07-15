@@ -28,7 +28,7 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('attachmentDisplay', [function(){
+.directive('attachmentDisplay', ['PathHelper', function(PathHelper){
   return {
     restrict: 'A',
     templateUrl: '/templates/work_packages/attachment_display.html',
@@ -37,9 +37,13 @@ angular.module('openproject.workPackages.directives')
     },
     link: function(scope, element, attributes){
       scope.displayTitle = scope.attachment.props.fileName + "(" + scope.attachment.props.fileSize + ")";
+      scope.userPath = PathHelper.staticUserPath;
+      scope.attachmentPath = PathHelper.staticAttachmentPath;
+
       scope.attachment.links.author.fetch()
         .then(function(author){
           scope.authorName = author.props.name;
+          scope.authorId = author.props.id;
         });
     }
   };
