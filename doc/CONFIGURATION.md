@@ -62,12 +62,28 @@ In case you want to use environment variables, but you have no easy way to set t
 * `scm_git_command` (default: 'git')
 * `scm_subversion_command` (default: 'git')
 * `session_store`: `active_record_store`, `cache_store`, or `cookie_store` (default: cache_store)
+* [`omniauth_direct_login_provider`](#omniauth-direct-login-provider) (default: nil)
 
-Email configuration
+### omniauth direct login provider
+
+*default: nil*
+
+Example:
+
+    omniauth_direct_login_provider: google
+
+Per default the user may choose the usual password login as well as several omniauth providers on the login page and in the login drop down menu. With his configuration option you can set a specific omniauth provider to be used for direct login. Meaning that the login provider selection is skipped and the configured provider is used directly instead.
+
+If this option is active /login will lead directly to the configured omniauth provider and so will a click on 'Sign in' (as opposed to opening the drop down menu).
+
+Note that this does not stop a user from manually navigating to any other
+omniauth provider if additional ones are configured.
+
+## Email configuration
 
 * `email_delivery_method`: The way emails should be delivered. Possible values: `smtp` or `sendmail`
 
-SMTP Options:
+### SMTP Options:
 
 * `smtp_address`: SMTP server hostname, e.g. `smtp.example.net`
 * `smtp_port`: SMTP server port. Common options are `25` and `587`.
@@ -78,7 +94,7 @@ SMTP Options:
 * `smtp_enable_starttls_auto`: You can disable STARTTLS here in case it doesn't work. Make sure you don't login to a SMTP server over a public network when using this. This setting can't currently be used via environment variables, since setting options to `false` is only possible via a YAML file. (default: true, optional)
 * `smtp_openssl_verify_mode`: Define how the SMTP server certificate is validated. Make sure you don't just disable verification here unless both, OpenProject and SMTP servers are on a private network. Possible values: `none`, `peer`, `client_once` or `fail_if_no_peer_cert`
 
-Cache Options:
+## Cache Options:
 
 * `rails_cache_store`: `memcache` for [memcached](http://www.memcached.org/) or `memory_store` (default: `file_store`)
 * `cache_memcache_server`: The memcache server host and IP (default: `127.0.0.1:11211`)
