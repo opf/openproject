@@ -21,6 +21,7 @@ module API
               @representer.to_json
             end
 
+            mount ::API::V3::WorkPackages::WatchersAPI
           end
 
         end
