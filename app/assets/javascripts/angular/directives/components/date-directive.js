@@ -64,3 +64,15 @@ uiComponents.directive('time', ['I18n', 'TimezoneService', 'ConfigurationService
     }
   };
 }]);
+
+uiComponents.directive('dateTime', function($compile) {
+  return {
+    restrict: 'EA',
+    replace: false,
+    scope: { dateTimeValue: '=' },
+    template: '<date date-value="dateTimeValue"></date> <time time-value="dateTimeValue"></time>',
+    link: function(scope, element, attrs) {
+      $compile(element.contents())(scope);
+    }
+  };
+});
