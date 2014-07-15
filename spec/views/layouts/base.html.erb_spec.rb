@@ -35,9 +35,34 @@ describe "layouts/base" do
       it "the projects menu should be displayed" do
         expect(response).to have_text("Projects")
       end
+    end
+  end
 
-      it 'the sign-in menu should be displayed' do
-        expect(response).to have_text('Sign in')
+  describe 'Sign in button' do
+    before do
+      User.stub(:current).and_return anonymous
+      view.stub(:current_user).and_return anonymous
+    end
+
+    context 'with omni_auth_direct_login disabled' do
+      before do
+        render
+      end
+
+      it 'shows the login drop down menu' do
+        expect(response).to have_selector "div[id='nav-login-content']"
+      end
+    end
+
+    context 'with omni_auth_direct_login enabled' do
+      before do
+        expect(OmniauthLogin).to receive(:direct_login_provider).and_return('some_provider')
+        render
+      end
+
+      it 'shows just a sign-in link, no menu' do
+        expect(response).to have_selector "a[href='/login']"
+        expect(response).not_to have_selector "div[id='nav-login-content']"
       end
     end
   end
