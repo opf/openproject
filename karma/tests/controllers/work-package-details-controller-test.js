@@ -79,6 +79,9 @@ describe('WorkPackageDetailsController', function() {
         },
         UserService: UserService,
         CustomFieldHelper: CustomFieldHelper,
+        WorkPackagesDetailsHelper: {
+          attachmentsTitle: function() { return ''; }
+        },
         workPackage: buildWorkPackageWithId(workPackageId),
       });
 

@@ -54,5 +54,21 @@ describe('Work packages details helper', function() {
 
       expect(attachmentDisplayName(attachment)).to.equal('prawns.txt (0kB)');
     });
-  })
+  });
+
+  describe('attachmentsTitle', function() {
+    var attachmentsTitle;
+    beforeEach(function() {
+      attachmentsTitle = WorkPackagesDetailsHelper.attachmentsTitle;
+    });
+
+    it('should show count in title', function() {
+      var attachments = [
+        {props: { fileName: 'smell.txt' }},
+        {props: { fileName: 'my.txt' }},
+        {props: { fileName: 'cheese.txt' }}];
+
+      expect(attachmentsTitle(attachments)).to.equal('Attachments (3)');
+    });
+  });
 });

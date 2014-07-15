@@ -34,6 +34,10 @@ angular.module('openproject.workPackages.helpers')
       return attachment.props.fileName + " (" + WorkPackagesDetailsHelper.formattedFilesize(attachment.props.fileSize) + ")";
     },
 
+    attachmentsTitle: function(attachments) {
+      return "Attachments (" + attachments.length + ")";
+    },
+
     formattedFilesize: function(fileSize) {
       var size = parseFloat(fileSize);
       return isNaN(size) ? "0kB" : (size / 1000).toFixed(2) + "kB";
