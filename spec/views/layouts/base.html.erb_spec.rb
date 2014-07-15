@@ -35,6 +35,10 @@ describe "layouts/base" do
       it "the projects menu should be displayed" do
         expect(response).to have_text("Projects")
       end
+
+      it 'the sign-in menu should be displayed' do
+        expect(response).to have_text('Sign in')
+      end
     end
   end
 end
