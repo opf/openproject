@@ -6,11 +6,11 @@ module API
 
         resources :watchers do
           params do
-            requires :user_id, desc: 'The watcher\'s user id'
+            requires :user_id, desc: 'The watcher\'s user id', type: Integer
           end
 
           post do
-            if current_user.id == params[:user_id].to_i
+            if current_user.id == params[:user_id]
               authorize(:view_work_packages, context: @work_package.project)
             else
               authorize(:add_work_package_watchers, context: @work_package.project)
@@ -28,8 +28,12 @@ module API
           end
 
           namespace ':user_id' do
+            params do
+              requires :user_id, desc: 'The watcher\'s user id', type: Integer
+            end
+
             delete do
-              if current_user.id == params[:user_id].to_i
+              if current_user.id == params[:user_id]
                 authorize(:view_work_packages, context: @work_package.project)
               else
                 authorize(:delete_work_package_watchers, context: @work_package.project)
