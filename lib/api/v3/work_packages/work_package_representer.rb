@@ -70,7 +70,7 @@ module API
         link :assignee do
           {
               href: "#{root_url}/api/v3/users/#{represented.work_package.assigned_to.id}",
-              title: "#{represented.work_package.assigned_to.name} - #{represented.work_package.assigned_to.login}",
+              title: "#{represented.work_package.assigned_to.name} - #{represented.work_package.assigned_to.login}"
           } unless represented.work_package.assigned_to.nil?
         end
 
