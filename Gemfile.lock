@@ -339,7 +339,7 @@ GEM
       json (~> 1.4)
     redcarpet (3.0.0)
     ref (1.0.5)
-    reform (1.0.1)
+    reform (1.0.4)
       activemodel
       disposable (~> 0.0.4)
       representable (~> 1.8.1)
@@ -497,7 +497,7 @@ DEPENDENCIES
   rails_autolink
   rb-readline (~> 0.5.1)
   rdoc (>= 2.4.2)
-  reform
+  reform (~> 1.0.4)
   representable!
   request_store
   roar (~> 0.12.6)
