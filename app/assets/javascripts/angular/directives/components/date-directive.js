@@ -27,9 +27,9 @@
 //++
 
 // TODO move to UI components
-angular.module('openproject.uiComponents')
+var uiComponents = angular.module('openproject.uiComponents')
 
-.directive('date', ['I18n', 'TimezoneService', function(I18n, TimezoneService) {
+uiComponents.directive('date', ['I18n', 'TimezoneService', function(I18n, TimezoneService) {
   return {
     restrict: 'EA',
     replace: false,
@@ -39,6 +39,20 @@ angular.module('openproject.uiComponents')
       moment.lang(I18n.locale);
 
       scope.time = TimezoneService.parseDate(scope.formattedDate).format('LL');
+    }
+  };
+}]);
+
+uiComponents.directive('time', ['I18n', 'TimezoneService', function(I18n, TimezoneService) {
+  return {
+    restrict: 'EA',
+    replace: false,
+    scope: { time: '=' },
+    template: '<span>{{time}}</span>',
+    link: function(scope, element, attrs) {
+      moment.lang(I18n.locale);
+
+      scope.time = TimezoneService.parseDate(scope.time).format('LT');
     }
   };
 }]);
