@@ -26,25 +26,19 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
+angular.module('openproject.workPackages.helpers')
 
-.directive('attachmentDisplay', ['PathHelper', 'WorkPackagesDetailsHelper', function(PathHelper, WorkPackagesDetailsHelper){
-  return {
-    restrict: 'A',
-    templateUrl: '/templates/work_packages/attachment_display.html',
-    scope: {
-      attachment: '='
+.factory('WorkPackagesDetailsHelper', [function(){
+  var WorkPackagesDetailsHelper = {
+    attachmentDisplayName: function(attachment) {
+      return attachment.props.fileName + " (" + WorkPackagesDetailsHelper.formattedFilesize(attachment.props.fileSize) + ")";
     },
-    link: function(scope, element, attributes){
-      scope.displayTitle = WorkPackagesDetailsHelper.attachmentDisplayName(scope.attachment);
-      scope.userPath = PathHelper.staticUserPath;
-      scope.attachmentPath = PathHelper.staticAttachmentPath;
 
-      scope.attachment.links.author.fetch()
-        .then(function(author){
-          scope.authorName = author.props.name;
-          scope.authorId = author.props.id;
-        });
+    formattedFilesize: function(fileSize) {
+      var size = parseFloat(fileSize);
+      return isNaN(size) ? "0kB" : (size / 1000).toFixed(2) + "kB";
     }
-  };
-}]);
+  }
+
+  return WorkPackagesDetailsHelper;
+}])

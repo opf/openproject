@@ -26,25 +26,33 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.workPackages.directives')
+describe('Work packages details helper', function() {
+  var WorkPackagesDetailsHelper;
+  beforeEach(module('openproject.helpers'));
+  beforeEach(inject(function(_WorkPackagesDetailsHelper_) {
+    WorkPackagesDetailsHelper = _WorkPackagesDetailsHelper_;
+  }));
 
-.directive('attachmentDisplay', ['PathHelper', 'WorkPackagesDetailsHelper', function(PathHelper, WorkPackagesDetailsHelper){
-  return {
-    restrict: 'A',
-    templateUrl: '/templates/work_packages/attachment_display.html',
-    scope: {
-      attachment: '='
-    },
-    link: function(scope, element, attributes){
-      scope.displayTitle = WorkPackagesDetailsHelper.attachmentDisplayName(scope.attachment);
-      scope.userPath = PathHelper.staticUserPath;
-      scope.attachmentPath = PathHelper.staticAttachmentPath;
+  describe('attachmentDisplayName', function() {
+    var attachmentDisplayName;
+    beforeEach(function() {
+      attachmentDisplayName = WorkPackagesDetailsHelper.attachmentDisplayName;
+    });
 
-      scope.attachment.links.author.fetch()
-        .then(function(author){
-          scope.authorName = author.props.name;
-          scope.authorId = author.props.id;
-        });
-    }
-  };
-}]);
+    it('should format the file size in kB', function() {
+      var attachment = {
+        props: { fileSize: '1234', fileName: 'massive.txt' }
+      };
+
+      expect(attachmentDisplayName(attachment)).to.equal('massive.txt (1.23kB)');
+    });
+
+    it('should show zero file size', function() {
+      var attachment = {
+        props: { fileName: 'prawns.txt' }
+      };
+
+      expect(attachmentDisplayName(attachment)).to.equal('prawns.txt (0kB)');
+    });
+  })
+});
