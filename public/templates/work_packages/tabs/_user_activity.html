@@ -3,7 +3,7 @@
   </div>
   <img class="avatar" ng-src="{{ userAvatar }}" />
   <span class="user"><a ng-href="{{ userPath(userId) }}" name="{{ currentAnchor }}" ng-bind="userName"></a></span>
-  <span class="date">{{ I18n.t('js.label_commented_on') }} <span ng-bind="activity.props.createdAt | date:'short'"/></span>
+  <span class="date">{{ I18n.t('js.label_commented_on') }} <date-time date-time-value="activity.props.createdAt"/></date-time>
   <span class="comment wiki">
     <span class="message"
       ng-show="activity.props._type == 'Activity::Comment'"
