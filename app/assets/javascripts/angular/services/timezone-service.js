@@ -31,7 +31,7 @@ angular.module('openproject.services')
 .service('TimezoneService', ['ConfigurationService', function(ConfigurationService) {
   TimezoneService = {
     parseDate: function(date) {
-      var d = moment.utc(date, "MM/DD/YYYY/ HH:mm A");
+      var d = moment.utc(date);
 
       if (ConfigurationService.isTimezoneSet()) {
         d.tz(ConfigurationService.timezone());
