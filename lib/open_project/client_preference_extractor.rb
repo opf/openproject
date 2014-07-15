@@ -31,12 +31,26 @@ module OpenProject
   module ClientPreferenceExtractor
     def client_preferences
       gon.settings = {
-        user_preferences: current_user.pref,
+        user_preferences: user_preferences,
         display: {
           date_format: momentjstify_date_format(Setting.date_format),
           time_format: momentjstify_time_format(Setting.time_format)
         }
       }
+    end
+
+    def user_preferences(user=User.current)
+      pref = user.pref.clone
+
+      map_timezone_to_tz!(pref)
+    end
+
+    def map_timezone_to_tz!(pref)
+      unless pref.time_zone.blank?
+        pref.time_zone = ActiveSupport::TimeZone::MAPPING[pref.time_zone]
+      end
+
+      pref
     end
 
     def momentjstify_date_format(date_format)
