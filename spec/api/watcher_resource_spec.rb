@@ -67,14 +67,25 @@ describe 'API v3 Watcher resource' do
     end
 
     context 'unauthorized user' do
-      let(:current_user) { unauthorized_user }
+      context 'when the current user is trying to assign another user as watcher' do
+        let(:current_user) { unauthorized_user }
 
-      it 'should respond with 403' do
-        expect(subject.status).to eq(403)
+        it 'should respond with 403' do
+          expect(subject.status).to eq(403)
+        end
+
+        it 'should respond with explanatory error message' do
+          expect(subject.body).to include_json('not_authorized'.to_json).at_path('title')
+        end
       end
 
-      it 'should respond with explanatory error message' do
-        expect(subject.body).to include_json('not_authorized'.to_json).at_path('title')
+      context 'when the current user tries to watch the work package her- or himself' do
+        let(:current_user) { available_watcher }
+        let(:new_watcher) { available_watcher }
+
+        it 'should respond with 201' do
+          expect(subject.status).to eq(201)
+        end
       end
     end
   end
@@ -116,14 +127,25 @@ describe 'API v3 Watcher resource' do
     end
 
     context 'unauthorized user' do
-      let(:current_user) { unauthorized_user }
+      context 'when the current user tries to deassign another user from the work package watchers' do
+        let(:current_user) { unauthorized_user }
 
-      it 'should respond with 403' do
-        expect(subject.status).to eq(403)
+        it 'should respond with 403' do
+          expect(subject.status).to eq(403)
+        end
+
+        it 'should respond with explanatory error message' do
+          expect(subject.body).to include_json('not_authorized'.to_json).at_path('title')
+        end
       end
 
-      it 'should respond with explanatory error message' do
-        expect(subject.body).to include_json('not_authorized'.to_json).at_path('title')
+      context 'when the current user tries to watch the work package her- or himself' do
+        let(:current_user) { watcher }
+        let(:new_watcher) { watcher }
+
+        it 'should respond with 204' do
+          expect(subject.status).to eq(204)
+        end
       end
     end
 
