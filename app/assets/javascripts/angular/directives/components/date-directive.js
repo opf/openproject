@@ -27,9 +27,9 @@
 //++
 
 // TODO move to UI components
-var uiComponents = angular.module('openproject.uiComponents')
+angular.module('openproject.uiComponents')
 
-uiComponents.directive('date', ['I18n', 'TimezoneService', 'ConfigurationService', function(I18n, TimezoneService, ConfigurationService) {
+.directive('date', ['I18n', 'TimezoneService', 'ConfigurationService', function(I18n, TimezoneService, ConfigurationService) {
   return {
     restrict: 'EA',
     replace: false,
@@ -45,9 +45,9 @@ uiComponents.directive('date', ['I18n', 'TimezoneService', 'ConfigurationService
       }
     }
   };
-}]);
+}])
 
-uiComponents.directive('time', ['I18n', 'TimezoneService', 'ConfigurationService', function(I18n, TimezoneService, ConfigurationService) {
+.directive('time', ['I18n', 'TimezoneService', 'ConfigurationService', function(I18n, TimezoneService, ConfigurationService) {
   return {
     restrict: 'EA',
     replace: false,
@@ -63,9 +63,9 @@ uiComponents.directive('time', ['I18n', 'TimezoneService', 'ConfigurationService
       }
     }
   };
-}]);
+}])
 
-uiComponents.directive('dateTime', function($compile) {
+.directive('dateTime', function($compile) {
   return {
     restrict: 'EA',
     replace: false,
