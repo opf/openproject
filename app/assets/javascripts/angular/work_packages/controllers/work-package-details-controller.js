@@ -59,7 +59,16 @@ angular.module('openproject.workPackages.controllers')
     $scope.workPackage = workPackage;
     $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
     $scope.maxDescriptionLength = 800;
+    $scope.isWatched = !!workPackage.links.unwatch;
+    $scope.watchLink = (workPackage.links.watch === undefined) ?
+      workPackage.links.unwatch : workPackage.links.watch;
 
+    $scope.toggleWatch = function(link) {
+      console.log(link);
+      link.fetch().then(function() {
+        $scope.isWatched = !$scope.isWatched;
+      });
+    }
 
     // resources for tabs
 
