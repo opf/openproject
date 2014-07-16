@@ -26,34 +26,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+shared_examples_for "safeguarded API" do
+  it { expect(response.response_code).to eq(403) }
+end
 
-describe API::V3::WorkPackages::WorkPackagesAPI do
-  describe "activities" do
-    let(:admin) { FactoryGirl.create(:admin) }
-    let(:work_package) { FactoryGirl.create(:work_package) }
-    let(:comment) { "This is a test comment!" }
+shared_examples_for "valid activity request" do
+  before { allow(User).to receive(:current).and_return(admin) }
 
-    describe "POST /api/v3/work_packages/:id/activities" do
-      shared_context "create activity" do
-        before { post "/api/v3/work_packages/#{work_package.id}/activities",
-                      comment: comment }
-      end
+  subject { JSON.parse(response.body) }
 
-      it_behaves_like "safeguarded API" do
-        include_context "create activity"
-      end
+  it { expect(subject['_type']).to eq("Activity::Comment") }
 
-      it_behaves_like "valid activity request" do
-        include_context "create activity"
-      end
+  it { expect(subject['rawComment']).to eq(comment) }
+end
 
-      it_behaves_like "invalid activity request" do
-        before { allow_any_instance_of(WorkPackage).to receive(:save).and_return(false) }
+shared_examples_for "invalid activity request" do
+  before { allow(User).to receive(:current).and_return(admin) }
 
-        include_context "create activity"
-      end
-    end
-  end
+  it { expect(response.response_code).to eq(422) }
 end
