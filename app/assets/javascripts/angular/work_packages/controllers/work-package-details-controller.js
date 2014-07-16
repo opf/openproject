@@ -60,22 +60,20 @@ angular.module('openproject.workPackages.controllers')
     $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
     $scope.maxDescriptionLength = 800;
 
-
     // resources for tabs
 
     // activities and latest activities
+    $scope.activitiesSortedInDescendingOrder = ConfigurationService.commentsSortedInDescendingOrder();
 
     $scope.activities = workPackage.embedded.activities;
     $scope.activities.splice(0, 1); // remove first activity (assumes activities are sorted chronologically)
-
-    $scope.latestActitivies = $scope.activities.reverse().slice(0, 3); // this leaves the activities in reverse order
-
-    $scope.activitiesSortedInDescendingOrder = ConfigurationService.commentsSortedInDescendingOrder();
-
-    // restore former order of actvities unless comments are to be sorted in descending order
-    if (!$scope.activitiesSortedInDescendingOrder) {
+    if ($scope.activitiesSortedInDescendingOrder) {
       $scope.activities.reverse();
     }
+
+    $scope.$watch('activities', function(newVal, oldVal){
+      $scope.latestActitivies = $scope.activitiesSortedInDescendingOrder ? $scope.activities.slice(0, 3) : $scope.activities.slice(-3).reverse();
+    }, true);
 
     // watchers
 

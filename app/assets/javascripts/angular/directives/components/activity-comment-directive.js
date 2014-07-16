@@ -29,15 +29,28 @@
 // TODO move to UI components
 angular.module('openproject.uiComponents')
 
-.directive('activityComment', ['I18n', function(I18n) {
+.directive('activityComment', ['I18n', 'ActivityService', function(I18n, ActivityService) {
   return {
     restrict: 'E',
     replace: true,
-    scope: { },
+    scope: {
+      workPackage: '=',
+      activities: '=',
+      descending: '='
+    },
     templateUrl: '/templates/components/activity_comment.html',
     link: function(scope, element, attrs) {
       scope.title = I18n.t('js.label_add_comment_title');
       scope.buttonTitle = I18n.t('js.label_add_comment');
+
+      scope.createComment = function(){
+        var comment = angular.element('#add-comment-text').val();
+        ActivityService.createComment(scope.workPackage.props.id, scope.activities, scope.descending, comment)
+          .then(function(response){
+            angular.element('#add-comment-text').val('');
+            return response;
+          });
+      }
     }
   };
 }]);
