@@ -121,20 +121,6 @@ h4. things we like
         it 'should not resolve/show complex macros' do
           expect(parsed_response['description']).to have_text('Macro timeline cannot be displayed.')
         end
-
-        context 'when the user is already watching the work package' do
-          let(:current_user) { watcher }
-
-          xit 'is rendering a link to unwatch the work package' do
-            expect(parsed_response['_links']).to include 'unwatch'
-          end
-        end
-
-        context 'when the user is not watching the work package' do
-          it 'is rendering a link to watch the work package' do
-            expect(parsed_response['_links']).to include 'watch'
-          end
-        end
       end
 
       context 'requesting nonexistent work package' do
