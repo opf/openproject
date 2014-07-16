@@ -46,7 +46,7 @@ describe CopyProjectJob do
       allow(UserMailer).to receive(:copy_project_failed).and_return(double("mailer", deliver: true))
     end
 
-    it 'calls #with_locale_for' do
+    it 'sets locale correctly' do
       expect(copy_job).to receive(:create_project_copy) do |*args|
         expect(I18n.locale).to eq(:de)
         [nil, nil]
