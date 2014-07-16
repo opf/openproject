@@ -26,6 +26,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'concerns/omniauth_login'
+
 module Redmine::MenuManager::TopMenuHelper
 
   def render_top_menu_left
