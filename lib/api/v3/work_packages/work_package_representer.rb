@@ -80,7 +80,7 @@ module API
               method: :post,
               params: { user_id: @current_user.id },
               title: 'Watch work package'
-          } if @current_user.allowed_to?(:view_work_packages, represented.work_package.project) && !represented.work_package.watcher_users.include?(@current_user)
+          } if current_user_allowed_to_watch(represented.work_package) && !represented.work_package.watcher_users.include?(@current_user)
         end
 
         link :unwatch do
@@ -88,7 +88,7 @@ module API
               href: "#{root_url}/api/v3/work_packages/#{represented.work_package.id}/watchers/#{@current_user.id}",
               method: :delete,
               title: 'Unwatch work package'
-          } if @current_user.allowed_to?(:view_work_packages, represented.work_package.project) && represented.work_package.watcher_users.include?(@current_user)
+          } if current_user_allowed_to_watch(represented.work_package) && represented.work_package.watcher_users.include?(@current_user)
         end
 
         property :id, getter: -> (*) { work_package.id }, render_nil: true
@@ -125,6 +125,10 @@ module API
         def custom_properties
             values = represented.work_package.custom_field_values
             values.map { |v| { name: v.custom_field.name, format: v.custom_field.field_format, value: v.value }}
+        end
+
+        def current_user_allowed_to_watch(work_package)
+          @current_user && @current_user.allowed_to?(:view_work_packages, work_package.project)
         end
 
       end
