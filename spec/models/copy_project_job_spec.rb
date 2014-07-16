@@ -43,7 +43,11 @@ describe CopyProjectJob do
 
   describe 'copy localizes error message' do
     before do
-      allow(UserMailer).to receive(:copy_project_failed).and_return(double("mailer", deliver: true))
+      # 'Delayed Job' uses a work around to get Rails 3 mailers working with it
+      # (see https://github.com/collectiveidea/delayed_job#rails-3-mailers).
+      # Thus, we need to return a message object here, otherwise 'Delayed Job'
+      # will complain about an object without a method #deliver.
+      allow(UserMailer).to receive(:copy_project_failed).and_return(double("Mail::Message", deliver: true))
     end
 
     it 'sets locale correctly' do
