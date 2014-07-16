@@ -52,6 +52,8 @@ en:
     general_text_No: "No"
     general_text_Yes: "Yes"
     label_add_columns: "Add selected columns"
+    label_add_comment: "Add comment"
+    label_add_comment_title: "Add your comments here"
     label_added_by: "added by"
     label_added_time_by: "Added by %{author} %{age}"
     label_ago: "days ago"

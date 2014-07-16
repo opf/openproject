@@ -52,6 +52,8 @@ de:
     general_text_No: "Nein"
     general_text_Yes: "Ja"
     label_add_columns: "Ausgewählte Spalten hinzufügen"
+    label_add_comment: "Kommentar hinzufügen"
+    label_add_comment_title: "Fügen Sie Ihre Kommentare hier zu"
     label_added_by: "hinzugefügt von"
     label_added_time_by: "Von %{author} %{age} hinzugefügt"
     label_ago: "vor"
