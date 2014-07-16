@@ -21,6 +21,7 @@ module OpenProjectRepositoryAuthenticationSpecs
                                             :project => random_project)
       Setting.stub(:sys_api_key).and_return("12345678")
       Setting.stub(:sys_api_enabled?).and_return(true)
+      Setting.stub(:repository_authentication_caching_enabled?).and_return(true)
     end
 
     describe :repo_auth, "for valid login, but no access to repo_auth" do
@@ -204,7 +205,7 @@ module OpenProjectRepositoryAuthenticationSpecs
 
       describe "with caching disabled" do
         before do
-          Setting.stub(:repository_authentication_caching_enabled?).and_return false
+          Setting.stub(:repository_authentication_caching_enabled?).and_return(false)
         end
 
         it 'should not use a cache' do
