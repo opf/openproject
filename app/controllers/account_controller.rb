@@ -59,7 +59,8 @@ class AccountController < ApplicationController
 
   # Enable user to choose a new password
   def lost_password
-    redirect_to(home_url) && return unless Setting.lost_password?
+    return redirect_to(home_url) unless allow_lost_password_recovery?
+
     if params[:token]
       @token = Token.find_by_action_and_value("recovery", params[:token].to_s)
       redirect_to(home_url) && return unless @token and !@token.expired?
@@ -104,9 +105,7 @@ class AccountController < ApplicationController
 
   # User self-registration
   def register
-    unless Setting.self_registration? || pending_auth_source_registration?
-      return self_registration_disabled
-    end
+    return self_registration_disabled unless allow_registration?
 
     if request.get?
       session[:auth_source_registration] = nil
@@ -132,9 +131,18 @@ class AccountController < ApplicationController
     end
   end
 
+  def allow_registration?
+    pwd_login = !OmniauthLogin.disable_password_login?
+    pwd_login && (Setting.self_registration? || pending_auth_source_registration?)
+  end
+
+  def allow_lost_password_recovery?
+    Setting.lost_password? && !OmniauthLogin.disable_password_login?
+  end
+
   # Token based account activation
   def activate
-    redirect_to(home_url) && return unless Setting.self_registration? && params[:token]
+    return redirect_to(home_url) unless Setting.self_registration? && params[:token]
     token = Token.find_by_action_and_value('register', params[:token].to_s)
     redirect_to(home_url) && return unless token and !token.expired?
     user = token.user
@@ -151,6 +159,8 @@ class AccountController < ApplicationController
   # to change the password.
   # When making changes here, also check MyController.change_password
   def change_password
+    return render_404 if OmniauthLogin.disable_password_login?
+
     @user = User.find_by_login(params[:username])
     @username = @user.login
 
@@ -187,7 +197,11 @@ class AccountController < ApplicationController
   end
 
   def authenticate_user
-    password_authentication(params[:username], params[:password])
+    if OmniauthLogin.disable_password_login?
+      render_404
+    else
+      password_authentication(params[:username], params[:password])
+    end
   end
 
   def password_authentication(username, password)
