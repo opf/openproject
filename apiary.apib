@@ -970,6 +970,17 @@ Activity can be either _type Activity or _type Activity::Comment.
                         "title": "John Sheppard",
                         "templated": true
                     }],
+                    "watch": {
+                        "href": "https://openproject.org/api/v3/work_packages/1/watchers",
+                        "method": "post",
+                        "data": "{ "user_id": 1 }",
+                        "title": "Watch work package"
+                    },
+                    "unwatch": {
+                        "href": "https://openproject.org/api/v3/work_packages/1/watchers/1",
+                        "method": "delete",
+                        "title": "Unwatch work package"
+                    },
                     "relations": [{
                         "href": "https://openproject.org/api/v3/relationships/1",
                         "title": "Work package A duplicated by Work package B"
