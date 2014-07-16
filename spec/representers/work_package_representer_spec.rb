@@ -44,7 +44,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     )
   }
   let(:project) { work_package.project }
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages, :view_timelines]) }
+  let(:permissions) { %i(view_work_packages add_work_package_watchers delete_work_package_watchers) }
+  let(:role) { FactoryGirl.create :role, permissions: permissions }
 
   before(:each) do
     allow(User).to receive(:current).and_return current_user
@@ -131,6 +132,44 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         it 'should not have a link to watch' do
           expect(subject).to_not have_json_path('_links/watch/href')
+        end
+      end
+
+      context 'when the user has the permission to add and remove watchers' do
+        it 'should have a link to add watcher' do
+          expect(subject).to have_json_path('_links/add_watcher/href')
+        end
+
+        it 'should have a link to delete watcher' do
+          expect(subject).to have_json_path('_links/delete_watcher/href')
+        end
+      end
+
+      context 'when the user does not have the permission to add watchers' do
+        before do
+          role.permissions.delete(:add_work_package_watchers) and role.save
+        end
+
+        it 'should not have a link to add watcher' do
+          expect(subject).to_not have_json_path('_links/add_watcher/href')
+        end
+
+        it 'should have a link to delete watcher' do
+          expect(subject).to have_json_path('_links/delete_watcher/href')
+        end
+      end
+
+      context 'when the user does not have the permission to add watchers' do
+        before do
+          role.permissions.delete(:delete_work_package_watchers) and role.save
+        end
+
+        it 'should have a link to add watcher' do
+          expect(subject).to have_json_path('_links/add_watcher/href')
+        end
+
+        it 'should not have a link to delete watcher' do
+          expect(subject).to_not have_json_path('_links/delete_watcher/href')
         end
       end
     end
