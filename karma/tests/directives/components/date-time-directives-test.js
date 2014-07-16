@@ -30,7 +30,7 @@ describe('date time Directives', function() {
   var I18n, compile, element, scope, timezoneService, configurationService;
 
   var formattedDate = function() {
-    var formattedDateElement = element.children()[0];
+    var formattedDateElement = element[0];
 
     return formattedDateElement.innerText || formattedDateElement.textContent;
   };
