@@ -55,22 +55,40 @@ angular.module('openproject.workPackages.controllers')
     });
 
     // initialization
-    $scope.I18n = I18n;
     $scope.workPackage = workPackage;
+    $scope.I18n = I18n;
     $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
     $scope.maxDescriptionLength = 800;
-    $scope.isWatched = !!workPackage.links.unwatch;
-    $scope.watchLink = (workPackage.links.watch === undefined) ?
-      workPackage.links.unwatch : workPackage.links.watch;
 
-    $scope.toggleWatch = function(link) {
-      console.log(link);
-      link.fetch().then(function() {
-        $scope.isWatched = !$scope.isWatched;
-      });
-    }
+    $scope.$watch('workPackage', function(workPackage) {
+      $scope.isWatched = !!workPackage.links.unwatch;
+      $scope.toggleWatchLink = workPackage.links.watch === undefined ? workPackage.links.unwatch : workPackage.links.watch;
+    });
+
+    $scope.toggleWatch = function() {
+      // Work around: The hyperagent fails to parse the response if it's empty
+      $scope.toggleWatchLink
+        .fetch({ ajax: $scope.toggleWatchLink.props })
+        .then(function() {
+          $scope.isWatched = !$scope.isWatched;
+          $scope.$emit('flashMessage', {
+            text: 'Success.'
+          });
+          return workPackage.links.self.fetch();
+        }, function(error) {
+          $scope.$emit('flashMessage', {
+            isError: true,
+            text: error.message
+          });
+        })
+        .then(function(refreshedWorkPackage) {
+          $scope.workPackage = refreshedWorkPackage;
+        });
+    };
 
     // resources for tabs
+
+    $scope.author = workPackage.embedded.author;
 
     // activities and latest activities
 
@@ -89,7 +107,6 @@ angular.module('openproject.workPackages.controllers')
     // watchers
 
     $scope.watchers = workPackage.embedded.watchers;
-    $scope.author = workPackage.embedded.author;
 
     // work package properties
 

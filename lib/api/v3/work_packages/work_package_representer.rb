@@ -78,7 +78,7 @@ module API
           {
               href: "#{root_url}/api/v3/work_packages/#{represented.work_package.id}/watchers",
               method: :post,
-              params: { user_id: @current_user.id },
+              data: { user_id: @current_user.id },
               title: 'Watch work package'
           } if current_user_allowed_to(:view_work_packages, represented.work_package) && !represented.work_package.watcher_users.include?(@current_user)
         end
