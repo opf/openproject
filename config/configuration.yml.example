@@ -186,6 +186,8 @@ default:
   # Note that this does not stop a user from manually navigating to any other
   # omniauth provider if additional ones are configured.
   # omniauth_direct_login_provider: developer
+  #
+  # disable_password_login: true
 
 # specific configuration options for production environment
 # that overrides the default ones

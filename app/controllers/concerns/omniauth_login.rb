@@ -46,6 +46,12 @@ module Concerns::OmniauthLogin
     "/auth/#{direct_login_provider}" if direct_login?
   end
 
+  ##
+  # Activating this leaves omniauth as the only way to authenticate.
+  def self.disable_password_login?
+    OpenProject::Configuration['disable_password_login'] == true
+  end
+
   private
 
   # a user may login via omniauth and (if that user does not exist
