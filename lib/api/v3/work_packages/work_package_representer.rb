@@ -99,15 +99,6 @@ module API
           } if current_user_allowed_to(:add_work_package_watchers, represented.work_package)
         end
 
-        link :delete_watcher do
-          {
-              href: "#{root_url}/api/v3/work_packages/#{represented.work_package.id}/watchers",
-              method: :delete,
-              title: 'Delete watcher'
-          } if current_user_allowed_to(:delete_work_package_watchers, represented.work_package)
-          # FIXME user id required in the link url
-        end
-
         property :id, getter: -> (*) { work_package.id }, render_nil: true
         property :subject, render_nil: true
         property :type, render_nil: true

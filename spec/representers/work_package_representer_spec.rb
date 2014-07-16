@@ -139,10 +139,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         it 'should have a link to add watcher' do
           expect(subject).to have_json_path('_links/add_watcher/href')
         end
-
-        it 'should have a link to delete watcher' do
-          expect(subject).to have_json_path('_links/delete_watcher/href')
-        end
       end
 
       context 'when the user does not have the permission to add watchers' do
@@ -152,24 +148,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
         it 'should not have a link to add watcher' do
           expect(subject).to_not have_json_path('_links/add_watcher/href')
-        end
-
-        it 'should have a link to delete watcher' do
-          expect(subject).to have_json_path('_links/delete_watcher/href')
-        end
-      end
-
-      context 'when the user does not have the permission to add watchers' do
-        before do
-          role.permissions.delete(:delete_work_package_watchers) and role.save
-        end
-
-        it 'should have a link to add watcher' do
-          expect(subject).to have_json_path('_links/add_watcher/href')
-        end
-
-        it 'should not have a link to delete watcher' do
-          expect(subject).to_not have_json_path('_links/delete_watcher/href')
         end
       end
     end
