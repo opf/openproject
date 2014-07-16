@@ -32,7 +32,7 @@ module API
                     representer.to_json
                   else
                     errors = work_package.errors.full_messages.join(", ")
-                    Errors::Validation.new(work_package, description: errors)
+                    fail Errors::Validation.new(work_package, description: errors)
                   end
                 end
 
@@ -44,7 +44,7 @@ module API
                     representer.to_json
                   else
                     errors = activity.errors.full_messages.join(", ")
-                    Errors::Validation.new(activity, description: errors)
+                    fail Errors::Validation.new(activity, description: errors)
                   end
                 end
               end
