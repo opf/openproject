@@ -35,18 +35,6 @@ module API
                     fail Errors::Validation.new(work_package, description: errors)
                   end
                 end
-
-                def save_activity(activity)
-                  if activity.save
-                    model = ::API::V3::Activities::ActivityModel.new(activity)
-                    representer = ::API::V3::Activities::ActivityRepresenter.new(model)
-
-                    representer.to_json
-                  else
-                    errors = activity.errors.full_messages.join(", ")
-                    fail Errors::Validation.new(activity, description: errors)
-                  end
-                end
               end
 
               params do
@@ -58,27 +46,6 @@ module API
                 @work_package.journal_notes = params[:comment]
 
                 save_work_package(@work_package)
-              end
-
-              params do
-                requires :activity_id, desc: 'Work package activity id'
-              end
-              namespace ':activity_id' do
-
-                before do
-                  @activity = Journal.find(params[:activity_id])
-                end
-
-                params do
-                  requires :comment, type: String
-                end
-                put do
-                  authorize({ controller: :journals, action: :edit }, context: @work_package.project)
-
-                  @activity.notes = params[:comment]
-
-                  save_activity(@activity)
-                end
               end
 
             end
