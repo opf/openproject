@@ -31,9 +31,11 @@ en:
     ajax:
       hide: "Hide"
       loading: "Loading ..."
+    button_add_watcher: "Add watcher"
     button_check_all: "Check all"
     button_copy: "Copy"
     button_delete: "Delete"
+    button_delete_watcher: "Delete watcher %{name}"
     button_duplicate: "Duplicate"
     button_edit: "Edit"
     button_log_time: "Log time"

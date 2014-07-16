@@ -3,6 +3,9 @@
     <ul>
       <li ng-repeat="user in watchers">
         <user-field user="user"></user-field>
+        <icon-wrapper icon-name="close"
+                      icon-title="{{I18n.t('js.button_delete_watcher')}}"
+                      class="detail-panel-watchers-delete-watcher-icon"></icon-wrapper>
       </li>
     </ul>
   </div>

@@ -31,9 +31,11 @@ de:
     ajax:
       hide: "Verbergen"
       loading: "Lädt ..."
+    button_add_watcher: "Beobachter hinzufügen"
     button_check_all: "Alles auswählen"
     button_copy: "Kopieren"
     button_delete: "Löschen"
+    button_delete_watcher: "Lösche Beobachter %{name}"
     button_duplicate: "Duplizieren"
     button_edit: "Bearbeiten"
     button_log_time: "Aufwand buchen"
