@@ -32,7 +32,7 @@ angular.module('openproject.uiComponents')
 .directive('date', ['I18n', 'TimezoneService', 'ConfigurationService', function(I18n, TimezoneService, ConfigurationService) {
   return {
     restrict: 'EA',
-    replace: false,
+    replace: true,
     scope: { dateValue: '=' },
     template: '<span>{{date}}</span>',
     link: function(scope, element, attrs) {
@@ -50,7 +50,7 @@ angular.module('openproject.uiComponents')
 .directive('time', ['I18n', 'TimezoneService', 'ConfigurationService', function(I18n, TimezoneService, ConfigurationService) {
   return {
     restrict: 'EA',
-    replace: false,
+    replace: true,
     scope: { timeValue: '=' },
     template: '<span>{{time}}</span>',
     link: function(scope, element, attrs) {
@@ -68,9 +68,9 @@ angular.module('openproject.uiComponents')
 .directive('dateTime', function($compile) {
   return {
     restrict: 'EA',
-    replace: false,
+    replace: true,
     scope: { dateTimeValue: '=' },
-    template: '<date date-value="dateTimeValue"></date> <time time-value="dateTimeValue"></time>',
+    template: '<span><date date-value="dateTimeValue"></date> <time time-value="dateTimeValue"></time></span>',
     link: function(scope, element, attrs) {
       $compile(element.contents())(scope);
     }
