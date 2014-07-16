@@ -21,6 +21,44 @@ module API
               @representer.to_json
             end
 
+            resource :activities do
+
+              params do
+                requires :comment, type: String
+              end
+              post do
+                authorize({ controller: :journals, action: :new }, context: @work_package.project)
+
+                @work_package.journal_notes = params[:comment]
+                @work_package.save!
+
+                EmptyResponse
+              end
+
+              params do
+                requires :activity_id, desc: 'Work package activity id'
+              end
+              namespace ':activity_id' do
+
+                before do
+                  @activity = Journal.find(params[:activity_id])
+                end
+
+                params do
+                  requires :comment, type: String
+                end
+                put do
+                  authorize({ controller: :journals, action: :edit }, context: @work_package.project)
+
+                  @activity.notes = params[:comment]
+                  @activity.save!
+
+                  EmptyResponse
+                end
+              end
+
+            end
+
           end
 
         end
