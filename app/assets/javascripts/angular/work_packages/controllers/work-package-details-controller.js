@@ -44,12 +44,11 @@ angular.module('openproject.workPackages.controllers')
   'USER_TYPE',
   'CustomFieldHelper',
   'WorkPackagesHelper',
-  'WorkPackagesDetailsHelper',
   'PathHelper',
   'UserService',
   '$q',
   'ConfigurationService',
-  function($scope, latestTab, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, CustomFieldHelper, WorkPackagesHelper, WorkPackagesDetailsHelper, PathHelper, UserService, $q, ConfigurationService) {
+  function($scope, latestTab, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, CustomFieldHelper, WorkPackagesHelper, PathHelper, UserService, $q, ConfigurationService) {
 
     $scope.$on('$stateChangeSuccess', function(event, toState){
       latestTab.registerState(toState.name);
@@ -83,7 +82,6 @@ angular.module('openproject.workPackages.controllers')
 
     // Attachments
     $scope.attachments = workPackage.embedded.attachments;
-    $scope.attachmentsTitle = WorkPackagesDetailsHelper.attachmentsTitle($scope.attachments);
 
     // Author
     $scope.author = workPackage.embedded.author;
