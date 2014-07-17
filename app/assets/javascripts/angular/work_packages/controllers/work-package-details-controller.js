@@ -73,17 +73,17 @@ angular.module('openproject.workPackages.controllers')
       $scope.watchers = workPackage.embedded.watchers;
     }
 
+    function outputError(error) {
+      $scope.$emit('flashMessage', {
+        isError: true,
+        text: error.message
+      });
+    }
+
     $scope.toggleWatch = function() {
       $scope.toggleWatchLink
         .fetch({ ajax: $scope.toggleWatchLink.props })
-        .then(refreshWorkPackage,
-          function(error) {
-          $scope.$emit('flashMessage', {
-            isError: true,
-            text: error.message
-          });
-          return $scope.workPackage;
-        });
+        .then(refreshWorkPackage, outputError);
     };
 
     // resources for tabs
@@ -107,14 +107,7 @@ angular.module('openproject.workPackages.controllers')
     $scope.deleteWatcher = function(watcher) {
       watcher.links.removeWatcher
         .fetch({ ajax: watcher.links.removeWatcher.props })
-        .then(refreshWorkPackage,
-          function(error) {
-          $scope.$emit('flashMessage', {
-            isError: true,
-            text: 'Error.'
-          });
-          return $scope.workPackage;
-        });
+        .then(refreshWorkPackage, outputError);
     };
 
     // work package properties
