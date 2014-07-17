@@ -40,6 +40,14 @@ module API
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
+        def initialize(model, options = {}, *expand)
+          @current_user = options[:current_user]
+          @work_package = options[:work_package]
+          @expand = expand
+
+          super(model)
+        end
+
         property :_type, exec_context: :decorator
 
         link :self do
@@ -50,10 +58,10 @@ module API
           { href: "#{root_url}/api/v3/work_packages/#{related_work_package.id}" }
         end
 
-        property :delay, getter: -> (*) { model.delay }, render_nil: true, if: -> (*) { model.relation_type == 'follows' || model.relation_type == 'precedes' }
+        property :delay, getter: -> (*) { model.delay }, render_nil: true, if: -> (*) { model.relation_type == 'precedes' }
 
         def _type
-          "Relation::#{represented.model.relation_type.camelize}"
+          "Relation::#{relation_type}"
         end
 
         private
@@ -63,14 +71,17 @@ module API
           end
 
           def related_work_package
-            binding.pry
+            if  represented.model.from == @work_package
+              represented.model.to
+            else
+              represented.model.from
+            end
           end
 
           def relation_type
-            type = represented.model.relation_type
-            case type
-            when 'relates'
+            represented.model.relation_type_for(@work_package).camelize
           end
+
       end
     end
   end
