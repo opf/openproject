@@ -44,6 +44,8 @@ class AccountController < ApplicationController
   def login
     if User.current.logged?
       redirect_to home_url
+    elsif OmniauthLogin.direct_login?
+      redirect_to OmniauthLogin.direct_login_provider_url
     elsif request.post?
       authenticate_user
     end

@@ -42,6 +42,7 @@ class TimelogController < ApplicationController
   include TimelogHelper
   include CustomFieldsHelper
   include PaginationHelper
+  include OpenProject::ClientPreferenceExtractor
 
   def index
     sort_init 'spent_on', 'desc'
@@ -76,6 +77,7 @@ class TimelogController < ApplicationController
         gon.sort_column = 'spent_on'
         gon.sort_direction = 'desc'
         gon.total_count = total_entry_count(cond)
+        gon.settings = client_preferences
 
         render :layout => !request.xhr?
       }

@@ -33,13 +33,16 @@ class CopyProjectJob < Struct.new(:user,
                                   :enabled_modules,
                                   :associations_to_copy,
                                   :send_mails)
+  include OpenProject::LocaleHelper
 
   def perform
-    target_project, errors = create_project_copy(source_project,
-                                                 target_project_params,
-                                                 enabled_modules,
-                                                 associations_to_copy,
-                                                 send_mails)
+    target_project, errors = with_locale_for(user) do
+      create_project_copy(source_project,
+                          target_project_params,
+                          enabled_modules,
+                          associations_to_copy,
+                          send_mails)
+    end
 
     if target_project
       UserMailer.delay.copy_project_succeeded(user, source_project, target_project, errors)

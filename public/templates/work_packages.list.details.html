@@ -36,9 +36,9 @@
       ng-if="toggleWatchLink" />
     <a href="#">#{{ workPackage.props.id }}</a>
     <span ng-bind="I18n.t('js.label_added_by')"/>
-    <a ng-href="{{ userPath(author.props.id) }}" ng-bind="author.props.name"/> <span ng-bind="I18n.t('js.label_on')"/> <span ng-bind="workPackage.props.createdAt|date:'longDate'"/>.
+      <a ng-href="{{ userPath(author.props.id) }}" ng-bind="author.props.name"/> <span ng-bind="I18n.t('js.label_on')"/> <date dateValue="workPackage.props.createdAt"></date>.
     <span ng-bind="I18n.t('js.label_last_updated_on')"/>
-    <span ng-bind="workPackage.props.updatedAt|date:'longDate'"/>.
+      <date dateValue="workPackage.props.updatedAt"></date>.
   </span>
 
   <div class="work-package-details-tab" ui-view></div>

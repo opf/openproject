@@ -1,6 +1,7 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,28 +27,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-object @message
-attributes :id,
-           :subject,
-           :replies_count,
-           :sticked_on
-
-node :created_on do |m|
-  m.created_on.iso8601
-end
-
-node :author do |m|
-  partial('users/show', object: m.author)
-end
-
-node :last_reply, if: lambda { |m| m.last_reply } do |m|
-  partial('messages/show', object: m.last_reply)
-end
-
-node :isSticky do |m|
-  m.sticky?
-end
-
-node :isLocked do |m|
-  m.locked?
+module OpenProject
+  module LocaleHelper
+    def with_locale_for(user, &block)
+      locale = user.language.presence || Setting.default_language.presence || I18n.default_locale
+      I18n.with_locale(locale, &block)
+    end
+  end
 end
