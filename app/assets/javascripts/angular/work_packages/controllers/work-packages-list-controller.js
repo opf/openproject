@@ -34,6 +34,8 @@ angular.module('openproject.workPackages.controllers')
     '$q',
     '$location',
     '$stateParams',
+    '$state',
+    'latestTab',
     'I18n',
     'WorkPackagesTableService',
     'WorkPackageService',
@@ -45,7 +47,7 @@ angular.module('openproject.workPackages.controllers')
     'HALAPIResource',
     'INITIALLY_SELECTED_COLUMNS',
     'OPERATORS_AND_LABELS_BY_FILTER_TYPE',
-    function($scope, $rootScope, $q, $location, $stateParams,
+    function($scope, $rootScope, $q, $location, $stateParams, $state, latestTab,
       I18n, WorkPackagesTableService,
       WorkPackageService, ProjectService, QueryService, PaginationService,
       AuthorisationService, WorkPackageLoadingHelper, HALAPIResource, INITIALLY_SELECTED_COLUMNS,
@@ -183,6 +185,10 @@ angular.module('openproject.workPackages.controllers')
     return $scope.refreshWorkPackages;
   };
 
+  $scope.setQueryState = function(query_id) {
+    $state.go('work-packages.list', { query_id: query_id });
+  }
+
   // More
 
   function serviceErrorHandler(data) {
@@ -201,4 +207,9 @@ angular.module('openproject.workPackages.controllers')
   $scope.$watch(QueryService.getQueryName, function(queryName){
     $scope.selectedTitle = queryName || I18n.t('js.toolbar.unselected_title');
   });
+
+  $scope.openLatestTab = function() {
+    $state.go(latestTab.getStateName(), { workPackageId: $scope.preselectedWorkPackageId });
+  };
+
 }]);

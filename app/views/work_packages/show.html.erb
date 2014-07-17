@@ -59,7 +59,7 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
       <p><strong><%= WorkPackage.human_attribute_name(:description)%></strong></p>
       <div class="wiki wikicontent" data-user="<%= work_package.author %>">
-        <%= textilizable work_package, :description, :attachments => work_package.attachments %>
+        <%= format_text work_package, :description, :attachments => work_package.attachments %>
       </div>
     </div>
   <% end %>

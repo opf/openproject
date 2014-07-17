@@ -32,7 +32,7 @@ describe('QueryService', function() {
 
   var QueryService, query, queryData;
 
-  beforeEach(module('openproject.services', 'openproject.models'));
+  beforeEach(module('openproject.services', 'openproject.models', 'openproject.api'));
 
   beforeEach(inject(function(_QueryService_){
     QueryService = _QueryService_;

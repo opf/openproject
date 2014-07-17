@@ -28,34 +28,31 @@
 
 require 'spec_helper'
 
-describe ::API::V3::WorkPackages::RelationRepresenter do
-  let(:representer)  { described_class.new(model) }
-  let(:model)        { ::API::V3::WorkPackages::RelationModel.new(relation) }
-  let(:relation)     { FactoryGirl.build(:relation) }
+describe ::API::V3::Activities::ActivityModel do
+  include Capybara::RSpecMatchers
 
-  context 'generation' do
-    subject(:generated) { representer.to_json }
+  subject(:model) { ::API::V3::Activities::ActivityModel.new(journal) }
+  let(:journal) { FactoryGirl.build(:work_package_journal, attributes) }
 
-    it { should include_json('Relationship'.to_json).at_path('_type') }
+  context 'with a formatted description' do
+    let(:attributes) {
+      {
+       notes: <<-DESC
+h3. Plan update
 
-    describe 'relation' do
-      it { should have_json_path('id')   }
-      it { should have_json_path('type') }
+# More done
+# More quickly
+       DESC
+      }
+    }
 
-      it { should have_json_path('relatedWorkPackageId') }
-      it { should have_json_path('relatedWorkPackageSubject') }
-      it { should have_json_path('relatedWorkPackageType') }
-      it { should have_json_path('relatedWorkPackageStartDate') }
-      it { should have_json_path('relatedWorkPackageDueDate') }
-    end
+    its(:notes)     { should have_selector 'h3' }
+    its(:notes)     { should have_selector 'ol > li' }
+    its(:raw_notes) { should eq attributes[:notes] }
 
-    describe '_links' do
-      xit 'should link to self'
-
-      it 'should link to relatedWorkPackage' do
-        expect(subject).to have_json_path('_links/relatedWorkPackage/href')
-        expect(subject).to have_json_path('_links/relatedWorkPackage/title')
-      end
+    it 'should allow raw_notes to be set' do
+      model.raw_notes = 'h4. Plan revision'
+      expect(model.notes).to have_selector 'h4'
     end
   end
 end

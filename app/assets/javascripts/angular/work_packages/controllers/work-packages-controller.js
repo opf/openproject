@@ -30,12 +30,14 @@ angular.module('openproject.workPackages.controllers')
 
 .controller('WorkPackagesController', [
     '$scope',
+    '$state',
     '$stateParams',
     'QueryService',
     'ProjectService',
-    function($scope, $stateParams, QueryService, ProjectService) {
+    function($scope, $state, $stateParams, QueryService, ProjectService) {
 
   // Setup
+  $scope.$state = $state;
   $scope.selectedTitle = I18n.t('js.toolbar.unselected_title');
 
   if ($stateParams.projectPath.indexOf('/projects') === 0) {

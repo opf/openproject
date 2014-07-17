@@ -57,7 +57,11 @@ Feature: Watch issues
     Then I should see "Watch" within "#content > .action_menu_specific"
     When I click on "Watch" within "#content > .action_menu_specific"
     Then I should see "Unwatch" within "#content > .action_menu_specific"
-    Then the issue "issue1" should have 1 watchers
+    # The space before and after 'Watch' is important as 'Unwatch' includes the
+    # string 'watch' if matched case insenstivive.
+    And  I should not see " Watch " within "#content > .action_menu_specific"
+     And I should see "Bob Bobbit" within "#watchers > ul"
+     And the issue "issue1" should have 1 watchers
 
   @javascript
   Scenario: Unwatch an issue
@@ -66,8 +70,12 @@ Feature: Watch issues
     When I go to the page of the issue "issue1"
     Then I should see "Unwatch" within "#content > .action_menu_specific"
     When I click on "Unwatch" within "#content > .action_menu_specific"
-    Then I should see "Watch" within "#content > .action_menu_specific"
-    Then the issue "issue1" should have 0 watchers
+    # The space before and after 'Watch' is important as 'Unwatch' includes the
+    # string 'watch' if matched case insenstivive.
+    Then I should see " Watch " within "#content >.action_menu_specific"
+     And I should not see "Unwatch" within "#content >.action_menu_specific"
+     And I should not see "Bob Bobbit" within "#watchers"
+     And the issue "issue1" should have 0 watchers
 
   @javascript
   Scenario: Add a watcher to an issue
@@ -77,7 +85,7 @@ Feature: Watch issues
     And I select "Bob Bobbit" from "watcher_user_id" within "#watchers"
     And I press "Add" within "#watchers"
     Then I should see "Bob Bobbit" within "#watchers > ul"
-    Then the issue "issue1" should have 1 watchers
+     And the issue "issue1" should have 1 watchers
 
   @javascript
   Scenario: Remove a watcher from an issue
@@ -87,4 +95,4 @@ Feature: Watch issues
     Then I should see "Bob Bobbit" within "#watchers > ul"
     When I click on "Delete" within "#watchers > ul"
     Then I should not see "Bob Bobbit" within "#watchers"
-    Then the issue "issue1" should have 0 watchers
+     And the issue "issue1" should have 0 watchers

@@ -28,15 +28,13 @@
 
 angular.module('openproject.messages.controllers')
 
-.controller('MessagesController', ['$scope', '$http', 'PathHelper', 'TimezoneService', 'SortService', 'PaginationService', function ($scope, $http, PathHelper, TimezoneService, SortService, PaginationService) {
+.controller('MessagesController', ['$scope', '$http', 'PathHelper', 'SortService', 'PaginationService', function ($scope, $http, PathHelper, SortService, PaginationService) {
   $scope.PathHelper = PathHelper;
   $scope.messages = gon.messages;
   $scope.totalMessageCount = gon.total_count;
   $scope.isLoading = false;
   $scope.projectId = gon.project_id;
   $scope.activityModuleEnabled = gon.activity_modul_enabled;
-
-  TimezoneService.setTimezone(gon.timezone);
 
   SortService.setColumn(gon.sort_column);
   SortService.setDirection(gon.sort_direction);

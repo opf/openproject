@@ -45,11 +45,11 @@ module API
       end
 
       def authenticate
-        raise API::Errors::Unauthenticated.new if current_user.nil? || current_user.anonymous?
+        raise API::Errors::Unauthenticated.new if current_user.nil? || current_user.anonymous? if Setting.login_required?
       end
 
-      def authorize(api, endpoint, context: nil, global: false, user: current_user, allow: true)
-        is_authorized = AuthorizationService.new(api, endpoint, context: context, global: global, user: user).call
+      def authorize(permission, context: nil, global: false, user: current_user, allow: true)
+        is_authorized = AuthorizationService.new(permission, context: context, global: global, user: user).call
         raise API::Errors::Unauthorized.new(current_user) unless is_authorized && allow
         is_authorized
       end

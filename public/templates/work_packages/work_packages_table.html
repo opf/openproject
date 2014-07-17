@@ -1,4 +1,10 @@
 <table class="workpackages-table">
+  <colgroup>
+    <col />
+    <col ng-hide="hideWorkPackageDetails" />
+    <col />
+    <col ng-repeat="column in columns" />
+  </colgroup>
   <thead>
     <tr>
       <th class="checkbox hide-when-print">
@@ -121,7 +127,7 @@
       <td class="id">
         <span ng-if="workPackage.parent_id" class="hidden-for-sighted" ng-bind="parentWorkPackageHiddenText">
         </span>
-        <a ng-href="/work_packages/{{row.object.id}}">{{row.object.id}}</a>
+        <a ng-href="{{ workPackagePath(row.object.id) }}">{{row.object.id}}</a>
       </td>
 
       <td ng-repeat="column in columns" class="{{column.name}}" lang="{{column.custom_field && column.custom_field.name_locale || I18n.locale}}">

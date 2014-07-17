@@ -48,16 +48,9 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     describe 'work_package' do
       it { should have_json_path('id') }
 
-      it { should have_json_path('assigneeId')  }
-      it { should have_json_path('assigneeLogin') }
-      it { should have_json_path('assigneeMail') }
-      it { should have_json_path('assigneeName') }
-
-      it { should have_json_path('authorLogin') }
-      it { should have_json_path('authorMail') }
-      it { should have_json_path('authorName') }
-
       it { should have_json_path('description') }
+      it { should have_json_path('rawDescription') }
+
       it { should have_json_path('dueDate') }
 
       it { should have_json_path('percentageDone') }
@@ -65,11 +58,6 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       it { should have_json_path('projectId') }
       it { should have_json_path('projectName') }
-
-      it { should have_json_path('responsibleId') }
-      it { should have_json_path('responsibleLogin') }
-      it { should have_json_path('responsibleMail') }
-      it { should have_json_path('responsibleName') }
 
       it { should have_json_path('startDate') }
       it { should have_json_path('status') }
@@ -128,8 +116,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           it { should have_json_size(3).at_path('_embedded/relations') }
-          it { should have_json_path('_embedded/relations/2/type') }
-          it { should have_json_path('_embedded/relations/2/_links/relatedWorkPackage/href') }
+          it { should have_json_path('_embedded/relations/2/_type') }
+          it { should have_json_path('_embedded/relations/2/_links/workPackage/href') }
         end
       end
     end

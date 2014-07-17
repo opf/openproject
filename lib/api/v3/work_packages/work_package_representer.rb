@@ -51,10 +51,32 @@ module API
           { href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}", title: "#{represented.subject}" }
         end
 
+        link :author do
+          {
+              href: "#{root_url}/api/v3/users/#{represented.work_package.author.id}",
+              title: "#{represented.work_package.author.name} - #{represented.work_package.author.login}"
+          } unless represented.work_package.author.nil?
+        end
+
+        link :responsible do
+          {
+              href: "#{root_url}/api/v3/users/#{represented.work_package.responsible.id}",
+              title: "#{represented.work_package.responsible.name} - #{represented.work_package.responsible.login}"
+          } unless represented.work_package.responsible.nil?
+        end
+
+        link :assignee do
+          {
+              href: "#{root_url}/api/v3/users/#{represented.work_package.assigned_to.id}",
+              title: "#{represented.work_package.assigned_to.name} - #{represented.work_package.assigned_to.login}"
+          } unless represented.work_package.assigned_to.nil?
+        end
+
         property :id, getter: -> (*) { work_package.id }, render_nil: true
         property :subject, render_nil: true
         property :type, render_nil: true
         property :description, render_nil: true
+        property :raw_description, render_nil: true
         property :status, render_nil: true
         property :priority, render_nil: true
         property :start_date, getter: -> (*) { work_package.start_date }, render_nil: true
@@ -65,22 +87,14 @@ module API
         property :version_name,  getter: -> (*) { work_package.fixed_version.try(:name) }, render_nil: true
         property :project_id, getter: -> (*) { work_package.project.id }
         property :project_name, getter: -> (*) { work_package.project.try(:name) }
-        property :responsible_id, getter: -> (*) { work_package.responsible.try(:id) }, render_nil: true
-        property :responsible_name, getter: -> (*) { work_package.responsible.try(:name) }, render_nil: true
-        property :responsible_login, getter: -> (*) { work_package.responsible.try(:login) }, render_nil: true
-        property :responsible_mail, getter: -> (*) { work_package.responsible.try(:mail) }, render_nil: true
-        property :responsible_avatar, getter: -> (*) {  gravatar_image_url(work_package.responsible.try(:mail)) }, render_nil: true
-        property :assigned_to_id, as: :assigneeId, getter: -> (*) { work_package.assigned_to.try(:id) }, render_nil: true
-        property :assignee_name, getter: -> (*) { work_package.assigned_to.try(:name) }, render_nil: true
-        property :assignee_login, getter: -> (*) { work_package.assigned_to.try(:login) }, render_nil: true
-        property :assignee_mail, getter: -> (*) { work_package.assigned_to.try(:mail) }, render_nil: true
-        property :assignee_avatar, getter: -> (*) {  gravatar_image_url(work_package.assigned_to.try(:mail)) }, render_nil: true
-        property :author_name, getter: -> (*) { work_package.author.name }, render_nil: true
-        property :author_login, getter: -> (*) { work_package.author.login }, render_nil: true
-        property :author_mail, getter: -> (*) { work_package.author.mail }, render_nil: true
-        property :author_avatar, getter: -> (*) {  gravatar_image_url(work_package.author.try(:mail)) }, render_nil: true
         property :created_at, getter: -> (*) { work_package.created_at.utc.iso8601}, render_nil: true
         property :updated_at, getter: -> (*) { work_package.updated_at.utc.iso8601}, render_nil: true
+
+        collection :custom_properties, exec_context: :decorator, render_nil: true
+
+        property :author, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !author.nil? }
+        property :responsible, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !responsible.nil? }
+        property :assignee, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !assignee.nil? }
 
         collection :activities, embedded: true, class: ::API::V3::Activities::ActivityModel, decorator: ::API::V3::Activities::ActivityRepresenter
         collection :watchers, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter
@@ -92,6 +106,11 @@ module API
 
         def _type
           'WorkPackage'
+        end
+
+        def custom_properties
+            values = represented.work_package.custom_field_values
+            values.map { |v| { name: v.custom_field.name, format: v.custom_field.field_format, value: v.value }}
         end
 
       end

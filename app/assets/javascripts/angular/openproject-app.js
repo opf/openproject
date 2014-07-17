@@ -67,6 +67,7 @@ angular.module('openproject.workPackages', [
   'openproject.workPackages.controllers',
   'openproject.workPackages.filters',
   'openproject.workPackages.directives',
+  'openproject.workPackages.tabs',
   'openproject.uiComponents',
   'ng-context-menu'
 ]);
@@ -92,6 +93,7 @@ angular.module('openproject.workPackages.directives', [
   'openproject.services',
   'openproject.workPackages.services'
 ]);
+angular.module('openproject.workPackages.tabs', []);
 
 // messages
 angular.module('openproject.messages', ['openproject.messages.controllers']);
@@ -150,12 +152,9 @@ openprojectApp
   }])
   .run([
     '$http',
-    'ConfigurationService',
     'flags',
-    function($http, ConfigurationService, flags) {
+    function($http, flags) {
     $http.defaults.headers.common.Accept = 'application/json';
-
-    ConfigurationService.addConfiguration('accessibilityMode', OpenProject.Helpers.accessibilityModeEnabled());
 
     flags.set($http.get('/javascripts/feature-flags.json'));
   }])

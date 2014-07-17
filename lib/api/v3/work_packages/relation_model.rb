@@ -36,6 +36,21 @@ module API
       class RelationModel < Reform::Form
         include Coercion
 
+        # NOTE: to avoid a naming collision with DelayedJob, we define an
+        # explicit method here rather than relying on the #property macro.
+        #
+        # @see Relation#delay
+        def delay
+          model.delay
+        end
+
+        def delay=(value)
+          model.delay = value
+        end
+
+        # def type
+        #   model.relation_type
+        # end
       end
     end
   end

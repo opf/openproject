@@ -1,34 +1,47 @@
 <div id="tabs">
   <ul class="tabrow">
-    <li ui-sref-active="selected">
-      <a href ui-sref="work-packages.list.details.overview({})">Overview</a>
+    <li ui-sref="work-packages.list.details.overview({})"
+        ui-sref-active="selected">
+      <a href ng-bind="I18n.t('js.work_packages.tabs.overview')"/>
     </li>
-    <li ui-sref-active="selected">
-      <a href ui-sref="work-packages.list.details.activity({})">Activity</a>
+    <li ui-sref="work-packages.list.details.activity({})"
+        ui-sref-active="selected">
+      <a href ng-bind="I18n.t('js.work_packages.tabs.activity')"/>
     </li>
-    <li ui-sref-active="selected">
-      <a href ui-sref="work-packages.list.details.relations({})">Relations</a>
+    <!--
+    <li ui-sref="work-packages.list.details.relations({})"
+        ui-sref-active="selected">
+      <a href ng-bind="I18n.t('js.work_packages.tabs.relations')"/>
+    </li> -->
+    <li ui-sref="work-packages.list.details.watchers({})"
+        ui-sref-active="selected">
+      <a href ng-bind="I18n.t('js.work_packages.tabs.watchers')"/>
     </li>
-    <li ui-sref-active="selected">
-      <a href ui-sref="work-packages.list.details.watchers({})">Watchers</a>
-    </li>
-    <li ui-sref-active="selected">
-      <a href ui-sref="work-packages.list.details.attachments({})">Attachments</a>
-    </li>
+    <!--
+    <li ui-sref="work-packages.list.details.attachments({})"
+        ui-sref-active="selected">
+      <a href ng-bind="I18n.t('js.work_packages.tabs.attachments')"/>
+    </li> -->
   </ul>
 </div>
 
 <div class="detail-panel-content">
   <div class="select-type">{{ workPackage.props.type }}:&nbsp;</div>
 
-  <h2>{{ workPackage.props.subject }}</h2>
-  <span class="subtitle"><i class="star icon-star1"></i><a href="#">#{{ workPackage.props.id }}</a>&nbsp;added by <a href="#">{{ workPackage.props.author.name }}</a>. Last updated on {{ workPackage.props.lastUpdated }}</span>
+  <h2 ng-bind="workPackage.props.subject"></h2>
+  <span class="subtitle">
+    <i class="star icon-star1"/>
+    <a href>#{{ workPackage.props.id }}</a>
+    <span ng-bind="I18n.t('js.label_added_by')"/>
+      <a ng-href="{{ userPath(author.props.id) }}" ng-bind="author.props.name"/> <span ng-bind="I18n.t('js.label_on')"/> <date dateValue="workPackage.props.createdAt"></date>.
+    <span ng-bind="I18n.t('js.label_last_updated_on')"/>
+      <date dateValue="workPackage.props.updatedAt"></date>.
+  </span>
 
   <div class="work-package-details-tab" ui-view></div>
 
 </div>
 
 <div class="bottom-toolbar">
-  <button class="button"><i class="icon-left icon-edit"></i>Edit</button>
-  <button class="button">More<i class="icon-right icon-pulldown-arrow1"></i></button>
+  <button class="button" ng-click="editWorkPackage()"><i class="icon-left icon-edit"></i>{{ I18n.t('js.button_edit') }}</button>
 <div>

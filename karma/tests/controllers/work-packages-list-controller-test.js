@@ -125,6 +125,7 @@ describe('WorkPackagesListController', function() {
     };
 
     testParams = {};
+    testState = {};
 
     buildController = function() {
       scope.projectIdentifier = 'test';
@@ -135,7 +136,9 @@ describe('WorkPackagesListController', function() {
         QueryService:       testQueryService,
         PaginationService:  testPaginationService,
         WorkPackageService: testWorkPackageService,
-        $stateParams:       testParams
+        $stateParams:       testParams,
+        $state:             testState,
+        latestTab: {}
       });
     };
 
