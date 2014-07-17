@@ -209,6 +209,19 @@ describe AccountController do
     end
   end
 
+  describe 'POST #change_password' do
+    context 'with disabled password login' do
+      before do
+        OmniauthLogin.stub(:disable_password_login?).and_return(true)
+        post :change_password
+      end
+
+      it 'is not found' do
+        expect(response.status).to eq 404
+      end
+    end
+  end
+
   context 'GET #register' do
     context 'with self registration on' do
       before do
