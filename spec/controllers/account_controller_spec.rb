@@ -154,6 +154,18 @@ describe AccountController do
         expect(@controller.send(:current_user).anonymous?).to be_true
       end
     end
+
+    context 'with disabled password login' do
+      before do
+        OmniauthLogin.stub(:disable_password_login?).and_return(true)
+
+        post :login
+      end
+
+      it 'is not found' do
+        expect(response.status).to eq 404
+      end
+    end
   end
 
   describe '#login with omniauth_direct_login enabled' do
