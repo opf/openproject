@@ -60,17 +60,21 @@ angular.module('openproject.workPackages.controllers')
     $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
     $scope.maxDescriptionLength = 800;
 
-    $scope.$watch('workPackage', function(workPackage) {
+    function refreshWorkPackage(workPackage) {
+      $scope.workPackage = workPackage;
       $scope.isWatched = !!workPackage.links.unwatch;
       $scope.toggleWatchLink = workPackage.links.watch === undefined ? workPackage.links.unwatch : workPackage.links.watch;
-    });
+      $scope.watchers = workPackage.embedded.watchers;
+
+    }
+    $scope.$watch('workPackage', refreshWorkPackage);
 
     $scope.toggleWatch = function() {
       $scope.toggleWatchLink
         .fetch({ ajax: $scope.toggleWatchLink.props })
         .then(function() {
           $scope.isWatched = !$scope.isWatched;
-          return workPackage.links.self.fetch();
+          return workPackage.links.self.fetch({force: true});
         }, function(error) {
           $scope.$emit('flashMessage', {
             isError: true,
@@ -78,9 +82,7 @@ angular.module('openproject.workPackages.controllers')
           });
           return $scope.workPackage;
         })
-        .then(function(refreshedWorkPackage) {
-          $scope.workPackage = refreshedWorkPackage;
-        });
+        .then(refreshWorkPackage);
     };
 
     // resources for tabs
@@ -100,10 +102,6 @@ angular.module('openproject.workPackages.controllers')
     if (!$scope.activitiesSortedInDescendingOrder) {
       $scope.activities.reverse();
     }
-
-    // watchers
-
-    $scope.watchers = workPackage.embedded.watchers;
 
     function removeUserFromWatchers(user) {
       var index = $scope.watchers.map(function(watcher) {
