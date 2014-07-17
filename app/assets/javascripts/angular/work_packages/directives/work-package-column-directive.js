@@ -40,104 +40,129 @@ angular.module('openproject.workPackages.directives')
       displayEmpty: '@'
     },
     templateUrl: '/templates/work_packages/work_package_column.html',
-    link: function(scope, element, attributes) {
-      scope.displayType = scope.displayType || 'text';
+    compile: function() {
+      return {
+        pre: function(scope, element, attributes) {
+          var displayText;
+          scope.displayType = scope.displayType || 'text';
 
-      // Set text to be displayed
-      scope.$watch(dataAvailable, setColumnData);
+          // initially render placeholder content
+          var placeholder = angular.element('<span>' + scope.displayEmpty + '</span>');
+          element.append(placeholder);
 
-      // Check if the data is available on the work package
+          // Set text to be displayed
+          scope.$watch(dataAvailable, function(dataAvailable) {
+            if(dataAvailable) {
+              setColumnData(getFormattedColumnValue());
+              placeholder.remove();
+            }
+          });
 
-      function dataAvailable() {
-        if (!scope.workPackage) return false;
+          // Check if the data is available on the work package
 
-        if (scope.column.custom_field) {
-          return customValueAvailable();
-        } else {
-          return scope.workPackage.hasOwnProperty(scope.column.name);
-        }
-      }
+          function dataAvailable() {
+            if (!scope.workPackage) return false;
 
-      function customValueAvailable() {
-        var customFieldId = scope.column.custom_field.id;
+            if (scope.column.custom_field) {
+              return customValueAvailable();
+            } else {
+              return scope.workPackage.hasOwnProperty(scope.column.name);
+            }
+          }
 
-        return scope.workPackage.custom_values &&
-          scope.workPackage.custom_values.filter(function(customValue){
-            return customValue && customValue.custom_field_id === customFieldId;
-          }).length;
-      }
+          function customValuesLoaded() {
+            return scope.workPackage.custom_values !== undefined;
+          }
 
-      // Write column data to the scope
+          function customValueAvailable() {
+            var customFieldId = scope.column.custom_field.id;
 
-      function setColumnData() {
-        setDisplayText(getFormattedColumnValue());
+            return customValuesLoaded() &&
+              scope.workPackage.custom_values.filter(function(customValue){
+                return customValue && customValue.custom_field_id === customFieldId;
+              }).length;
+          }
 
-        if (scope.column.meta_data.link.display) {
-          displayDataAsLink();
-        } else {
-          setCustomDisplayType();
-        }
-      }
+          // Write column data to the scope
 
-      function getFormattedColumnValue() {
-        // retrieve column value from work package
-        if (scope.column.custom_field) {
-          var custom_field = scope.column.custom_field;
-          return WorkPackagesHelper.getFormattedCustomValue(scope.workPackage, custom_field);
-        } else {
-          return WorkPackagesHelper.getFormattedColumnData(scope.workPackage, scope.column);
-        }
-      }
+          function setColumnData(formattedValue) {
+            setDisplayText(formattedValue);
 
-      /**
-       * @name setDisplayText
-       * @function
-       *
-       * @description
-       * Sets scope.displayText to the passed value or applies a default
-       *
-       * @param {String|Number} value The value for scope.displayText
-       *
-       * @returns null
-       */
-      function setDisplayText(value) {
-        if (typeof value == 'number' || value){
-          scope.displayText = value;
-        } else {
-          scope.displayText = scope.displayEmpty || '';
-        }
-      }
+            if (scope.column.meta_data.link.display) {
+              displayDataAsLink();
+            } else {
+              setCustomDisplayType();
+            }
 
-      function setCustomDisplayType() {
-        if (scope.column.name === 'done_ratio') scope.displayType = 'progress_bar';
-        // ...
-      }
+            scope.columnData = {
+              displayText: displayText
+            };
+          }
 
-      function displayDataAsLink() {
-        // Example of how we can look to the provided meta data to format the column
-        // This relies on the meta being sent from the server
-        scope.displayType = 'link';
-        scope.url = getLinkFor(scope.column.meta_data.link);
-      }
+          function getFormattedColumnValue() {
+            // retrieve column value from work package
+            if (scope.column.custom_field) {
+              var custom_field = scope.column.custom_field;
+              return WorkPackagesHelper.getFormattedCustomValue(scope.workPackage, custom_field);
+            } else {
+              return WorkPackagesHelper.getFormattedColumnData(scope.workPackage, scope.column);
+            }
+          }
 
-      function getLinkFor(link_meta){
-        if (link_meta.model_type === 'work_package') {
-          return PathHelper.workPackagePath(scope.workPackage.id);
-        } else if (scope.workPackage[scope.column.name]) {
-          switch (link_meta.model_type) {
-            case 'user':
-              return PathHelper.staticUserPath(scope.workPackage[scope.column.name].id);
-            case 'version':
-              return PathHelper.staticVersionPath(scope.workPackage[scope.column.name].id);
-            case 'project':
-              return PathHelper.staticProjectPath(scope.workPackage.project.identifier);
-            default:
-              return '';
+          /**
+           * @name setDisplayText
+           * @function
+           *
+           * @description
+           * Sets displayText to the passed value or applies a default
+           *
+           * @param {String|Number} value The value for displayText
+           *
+           * @returns null
+           */
+          function setDisplayText(value) {
+            if (typeof value == 'number' || value){
+              displayText = value;
+            } else {
+              displayText = scope.displayEmpty || '';
+            }
+          }
+
+          function setCustomDisplayType() {
+            if (scope.column.name === 'done_ratio') scope.displayType = 'progress_bar';
+            // ...
+          }
+
+          function displayDataAsLink() {
+            // Example of how we can look to the provided meta data to format the column
+            // This relies on the meta being sent from the server
+            scope.displayType = 'link';
+            scope.url = getLinkFor(scope.column.meta_data.link);
+          }
+
+          function getLinkFor(link_meta){
+            if (link_meta.model_type === 'work_package') {
+              return PathHelper.workPackagePath(scope.workPackage.id);
+            } else if (scope.workPackage[scope.column.name]) {
+              switch (link_meta.model_type) {
+                case 'user':
+                  return PathHelper.staticUserPath(scope.workPackage[scope.column.name].id);
+                case 'version':
+                  return PathHelper.staticVersionPath(scope.workPackage[scope.column.name].id);
+                case 'project':
+                  return PathHelper.staticProjectPath(scope.workPackage.project.identifier);
+                default:
+                  return '';
+              }
+
+            }
           }
 
         }
-      }
+      };
+    },
+    // link: function(scope, element, attributes) {
 
-    }
+    // }
   };
 }]);

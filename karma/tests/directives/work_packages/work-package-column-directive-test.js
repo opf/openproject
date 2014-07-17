@@ -30,11 +30,11 @@ describe('workPackageColumn Directive', function() {
     var compile, element, rootScope, scope;
 
     beforeEach(angular.mock.module('openproject.workPackages.directives'));
-    beforeEach(module('templates', 'openproject.api'));
+    beforeEach(module('templates', 'openproject.api', 'pasvaz.bindonce'));
 
     beforeEach(inject(function($rootScope, $compile) {
       var html;
-      html = '<span work-package-column work-package="workPackage" column="column" display-type="displayType" display-empty="-"></span>';
+      html = '<span work-package-column work-package="workPackage" column="column" bo-attr bo-attr-display-type="displayType" display-empty="-"><span>-</span></span>';
 
       element = angular.element(html);
       rootScope = $rootScope;
@@ -42,6 +42,7 @@ describe('workPackageColumn Directive', function() {
 
       compile = function() {
         $compile(element)(scope);
+        $compile(element.contents())(scope);
         scope.$digest();
       };
     }));
