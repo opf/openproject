@@ -98,6 +98,11 @@ module API
 
         collection :activities, embedded: true, class: ::API::V3::Activities::ActivityModel, decorator: ::API::V3::Activities::ActivityRepresenter
         collection :watchers, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter
+        property :relations, embedded: true, exec_context: :decorator
+
+        def relations
+            represented.relations.map{ |relation| RelationRepresenter.new(relation, work_package: represented.work_package) }
+        end
 
         def _type
           'WorkPackage'
