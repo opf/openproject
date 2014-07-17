@@ -50,9 +50,11 @@ module API
 
         property :id, getter: -> (*) { model.id }, render_nil: true
         property :login, render_nil: true
-        property :firstname, render_nil: true
-        property :lastname, render_nil: true
+        property :firstname, as: :firstName, render_nil: true
+        property :lastname, as: :lastName, render_nil: true
+        property :name, getter: -> (*) { model.try(:name) }, render_nil: true
         property :mail, render_nil: true
+        property :avatar, getter: ->(*) { gravatar_image_url(mail) }, render_nil: true
         property :created_at, getter: -> (*) { model.created_on.utc.iso8601 }, render_nil: true
         property :updated_at, getter: -> (*) { model.updated_on.utc.iso8601 }, render_nil: true
 

@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
                      model: object_name)
 %>
 
-<% content_for :error_details do %>
+<% single_content_for :error_details do %>
   <p><%= l("errors.header_invalid_fields") %></p>
   <ul>
     <% error_messages.each do |message| %>

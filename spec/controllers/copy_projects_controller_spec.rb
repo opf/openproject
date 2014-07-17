@@ -130,7 +130,6 @@ describe CopyProjectsController do
 
         copy_project(project)
       end
-
     end
   end
 end

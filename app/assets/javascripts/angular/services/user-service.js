@@ -28,10 +28,21 @@
 
 angular.module('openproject.services')
 
-.service('UserService', ['$http', 'PathHelper', function($http, PathHelper) {
+.service('UserService', [
+  'HALAPIResource',
+  '$http',
+  'PathHelper',
+  function(HALAPIResource, $http, PathHelper) {
+
   var registeredUserIds = [], cachedUsers = {};
 
   var UserService = {
+    getUser: function(id) {
+      // TODO authorization
+      var resource = HALAPIResource.setup("users/" + id);
+      return resource.fetch();
+    },
+
     getUsers: function(projectIdentifier) {
       var url, params;
 

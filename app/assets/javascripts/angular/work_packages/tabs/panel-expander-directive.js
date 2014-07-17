@@ -26,19 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// TODO move to UI components
-angular.module('openproject.uiComponents')
+angular.module('openproject.workPackages.tabs')
 
-.directive('formattedDate', ['I18n', 'TimezoneService', function(I18n, TimezoneService) {
+.directive('panelExpander', [function() {
   return {
-    restrict: 'EA',
-    replace: false,
-    scope: { formattedDate: '=' },
-    template: '<span>{{time}}</span>',
-    link: function(scope, element, attrs) {
-      moment.lang(I18n.locale);
-
-      scope.time = TimezoneService.parseDate(scope.formattedDate).format('LLL');
+    restrict: 'E',
+    replace: true,
+    templateUrl: '/templates/work_packages/tabs/_panel_expander.html',
+    scope: {
+      collapsed: '=',
+      expandText: '@',
+      collapseText: '@'
     }
   };
 }]);

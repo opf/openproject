@@ -29,9 +29,12 @@
 object @message
 attributes :id,
            :subject,
-           :created_on,
            :replies_count,
            :sticked_on
+
+node :created_on do |m|
+  m.created_on.iso8601
+end
 
 node :author do |m|
   partial('users/show', object: m.author)

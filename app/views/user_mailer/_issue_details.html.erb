@@ -43,4 +43,4 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 </ul>
 
-<%= textilizable(issue.description, :only_path => false, :object => issue, :project => issue.project) %>
+<%= format_text(issue.description, :only_path => false, :object => issue, :project => issue.project) %>

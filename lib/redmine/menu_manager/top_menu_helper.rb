@@ -81,22 +81,44 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_user_top_menu_node(items = menu_items_for(:account_menu))
-    unless User.current.logged?
-      render_drop_down_menu_node(link_to(l(:label_login),
-                                         { :controller => '/account',
-                                           :action => 'login' },
-                                           :class => 'login',
-                                           :title => l(:label_login)),
-                                 :class => "drop-down last-child") do
-        content_tag :ul do
-          render :partial => 'account/login'
-        end
-      end
+    if User.current.logged?
+      render_user_drop_down items
     else
-      render_drop_down_menu_node link_to_user(User.current, :title => User.current.to_s),
-                                 items,
-                                 :class => "drop-down last-child"
+      if OmniauthLogin.direct_login?
+        render_direct_login
+      else
+        render_login_drop_down
+      end
     end
+  end
+
+  def render_login_drop_down
+    url = { controller: '/account', action: 'login' }
+    link = link_to l(:label_login),
+                   url,
+                   :class => 'login',
+                   :title => l(:label_login)
+
+    render_drop_down_menu_node(link, :class => 'drop-down last-child') do
+      content_tag :ul do
+        render :partial => 'account/login'
+      end
+    end
+  end
+
+  def render_direct_login
+    login = Redmine::MenuManager::MenuItem.new :login,
+                                               '/login',
+                                               caption: I18n.t(:label_login),
+                                               html: { :class => 'login' }
+
+    render_menu_node login
+  end
+
+  def render_user_drop_down(items)
+    render_drop_down_menu_node link_to_user(User.current, :title => User.current.to_s),
+                               items,
+                               :class => 'drop-down last-child'
   end
 
   def render_module_top_menu_node(items = more_top_menu_items)

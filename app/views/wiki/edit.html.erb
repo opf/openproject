@@ -34,7 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= error_messages_for 'content' %>
 
 <p><%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit),
-                   :value => textilizable(@content, :text, :attachments => @content.page.attachments, :edit => true),
+                   :value => format_text(@content, :text, :attachments => @content.page.attachments, :edit => true),
                    :'data-wp_autocomplete_url' => work_packages_auto_complete_path(:project_id => @project, :format => :json) %></p>
 <p><label><%= Version.human_attribute_name(:comments) %></label><br /><%= f.text_field :comments, :size => 120 %></p>
 <p><label><%=l(:label_attachment_plural)%></label><br /><%= render :partial => 'attachments/form' %></p>
