@@ -31,13 +31,19 @@ shared_examples_for "safeguarded API" do
 end
 
 shared_examples_for "valid activity request" do
+  let(:status_code) { 200 }
+
   before { allow(User).to receive(:current).and_return(admin) }
 
-  subject { JSON.parse(response.body) }
+  it { expect(response.response_code).to eq(status_code) }
 
-  it { expect(subject['_type']).to eq("Activity::Comment") }
+  describe 'response body' do
+    subject { JSON.parse(response.body) }
 
-  it { expect(subject['rawComment']).to eq(comment) }
+    it { expect(subject['_type']).to eq("Activity::Comment") }
+
+    it { expect(subject['rawComment']).to eq(comment) }
+  end
 end
 
 shared_examples_for "invalid activity request" do
