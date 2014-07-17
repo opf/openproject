@@ -36,14 +36,14 @@ module API
       class UserRepresenter < Roar::Decorator
         include Roar::Representer::JSON::HAL
         include Roar::Representer::Feature::Hypermedia
-        include Rails.application.routes.url_helpers
+        include OpenProject::StaticRouting::UrlHelpers
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "#{root_url}/api/v3/users/#{represented.model.id}", title: "#{represented.model.name} - #{represented.model.login}" }
+          { href: "#{root_url}api/v3/users/#{represented.model.id}", title: "#{represented.model.name} - #{represented.model.login}" }
         end
 
         # will need array of links for work packages the user is watching
@@ -59,12 +59,6 @@ module API
         def _type
           'User'
         end
-
-        private
-
-          def default_url_options
-            ActionController::Base.default_url_options
-          end
       end
     end
   end

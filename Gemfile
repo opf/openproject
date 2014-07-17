@@ -52,6 +52,7 @@ gem "rdoc", ">= 2.4.2"
 gem 'globalize'
 gem 'omniauth'
 gem 'request_store'
+gem 'gravatar_image_tag'
 
 # TODO: adds #auto_link which was deprecated in rails 3.1
 gem 'rails_autolink'

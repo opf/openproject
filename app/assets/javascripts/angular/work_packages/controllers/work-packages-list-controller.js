@@ -89,6 +89,10 @@ angular.module('openproject.workPackages.controllers')
     setupWorkPackagesTable(json);
 
     initAvailableColumns();
+
+    if (json.work_packages.length) {
+      $scope.preselectedWorkPackageId = json.work_packages[0].id;
+    }
   }
 
   function initQuery(metaData) {
@@ -197,5 +201,4 @@ angular.module('openproject.workPackages.controllers')
   $scope.$watch(QueryService.getQueryName, function(queryName){
     $scope.selectedTitle = queryName || I18n.t('js.toolbar.unselected_title');
   });
-
 }]);

@@ -36,22 +36,22 @@ module API
       class ActivityRepresenter < Roar::Decorator
         include Roar::Representer::JSON::HAL
         include Roar::Representer::Feature::Hypermedia
-        include Rails.application.routes.url_helpers
+        include OpenProject::StaticRouting::UrlHelpers
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
         property :_type, exec_context: :decorator
 
         link :self do
-          { href: "#{root_url}/api/v3/activities/#{represented.journal.id}", title: "#{represented.journal.id}" }
+          { href: "#{root_url}api/v3/activities/#{represented.journal.id}", title: "#{represented.journal.id}" }
         end
 
         link :work_package do
-          { href: "#{root_url}/api/v3/work_packages/#{represented.journal.journable.id}", title: "#{represented.journal.journable.subject}" }
+          { href: "#{root_url}api/v3/work_packages/#{represented.journal.journable.id}", title: "#{represented.journal.journable.subject}" }
         end
 
         link :user do
-          { href: "#{root_url}/api/v3/users/#{represented.journal.user.id}", title: "#{represented.journal.user.name} - #{represented.journal.user.login}" }
+          { href: "#{root_url}api/v3/users/#{represented.journal.user.id}", title: "#{represented.journal.user.name} - #{represented.journal.user.login}" }
         end
 
         property :id, getter: -> (*) { journal.id }, render_nil: true
@@ -59,6 +59,7 @@ module API
         property :user_name, getter: -> (*) { journal.user.try(:name) }, render_nil: true
         property :user_login, getter: -> (*) { journal.user.try(:login) }, render_nil: true
         property :user_mail, getter: -> (*) { journal.user.try(:mail) }, render_nil: true
+        property :user_avatar, getter: -> (*) {  gravatar_image_url(journal.user.try(:mail)) }, render_nil: true
         property :messages, exec_context: :decorator, render_nil: true
         property :version, getter: -> (*) { journal.version }, render_nil: true
         property :created_at, getter: -> (*) { journal.created_at.utc.iso8601 }, render_nil: true
@@ -79,12 +80,6 @@ module API
             [journal.notes]
           end
         end
-
-        private
-
-          def default_url_options
-            ActionController::Base.default_url_options
-          end
       end
     end
   end

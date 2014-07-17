@@ -36,6 +36,7 @@ module API
       class WorkPackageModel < Reform::Form
         include Composition
         include Coercion
+        include GravatarImageTag
 
         model :work_package
 

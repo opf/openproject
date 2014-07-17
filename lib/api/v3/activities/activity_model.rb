@@ -36,6 +36,7 @@ module API
       class ActivityModel < Reform::Form
         include Composition
         include Coercion
+        include GravatarImageTag
 
         model :journal
 

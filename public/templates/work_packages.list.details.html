@@ -1,42 +1,34 @@
+<div id="tabs">
+  <ul class="tabrow">
+    <li ui-sref-active="selected">
+      <a href ui-sref="work-packages.list.details.overview({})">Overview</a>
+    </li>
+    <li ui-sref-active="selected">
+      <a href ui-sref="work-packages.list.details.activity({})">Activity</a>
+    </li>
+    <li ui-sref-active="selected">
+      <a href ui-sref="work-packages.list.details.relations({})">Relations</a>
+    </li>
+    <li ui-sref-active="selected">
+      <a href ui-sref="work-packages.list.details.watchers({})">Watchers</a>
+    </li>
+    <li ui-sref-active="selected">
+      <a href ui-sref="work-packages.list.details.attachments({})">Attachments</a>
+    </li>
+  </ul>
+</div>
+
+<div class="detail-panel-content">
+  <div class="select-type">{{ workPackage.props.type }}:&nbsp;</div>
+
+  <h2>{{ workPackage.props.subject }}</h2>
+  <span class="subtitle"><i class="star icon-star1"></i><a href="#">#{{ workPackage.props.id }}</a>&nbsp;added by <a href="#">{{ workPackage.props.author.name }}</a>. Last updated on {{ workPackage.props.lastUpdated }}</span>
+
+  <div class="work-package-details-tab" ui-view></div>
+
+</div>
+
+<div class="bottom-toolbar">
+  <button class="button"><i class="icon-left icon-edit"></i>Edit</button>
+  <button class="button">More<i class="icon-right icon-pulldown-arrow1"></i></button>
 <div>
-  <h2>
-    <span>{{ workPackage.props.type }}</span>
-    {{ workPackage.props.subject }}
-  </h2>
-  #{{ workPackage.props.id }}
-
-  <h3>Description</h3>
-  <p>{{ workPackage.props.description }}</p>
-
-  <dl>
-    <dt>Status</dt>
-    <dd>{{ workPackage.props.status }}</dd>
-    <dt>Priority</dt>
-    <dd>{{ workPackage.props.priority }}</dd>
-    <dt>Date</dt>
-    <dd></dd>
-    <dt>Responsible</dt>
-    <dd>{{ workPackage.props.responsibleName }}</dd>
-    <dt>Assignee</dt>
-    <dd>{{ workPackage.props.assigneeName }}</dd>
-    <dt>% Done</dt>
-    <dd>{{ percentageDone }}</dd>
-  </dl>
-
-  <button class="button" ui-sref="work-packages.list">Close details</button>
-
-  <small>
-    <input id="toggleDebugInfo" type="checkbox" ng-model="debugInfo">
-    <label for="toggleDebugInfo">Debug information</label>
-  </small>
-  <div ng-show="debugInfo">
-    <h3>Debug</h3>
-    <pre>
-      {{ workPackage | json }}
-    </pre>
-  </div>
-</div>
-
-<div ng-if="!workPackage.props.subject">
-  <p>Select a work package for more information.</p>
-</div>
