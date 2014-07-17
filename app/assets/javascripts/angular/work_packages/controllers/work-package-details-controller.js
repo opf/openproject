@@ -55,34 +55,35 @@ angular.module('openproject.workPackages.controllers')
     });
 
     // initialization
-    $scope.workPackage = workPackage;
+    setWorkPackage(workPackage);
     $scope.I18n = I18n;
     $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
     $scope.maxDescriptionLength = 800;
 
-    function refreshWorkPackage(workPackage) {
+    function refreshWorkPackage() {
+      workPackage.links.self
+        .fetch({force: true})
+        .then(setWorkPackage);
+    }
+
+    function setWorkPackage(workPackage) {
       $scope.workPackage = workPackage;
       $scope.isWatched = !!workPackage.links.unwatch;
       $scope.toggleWatchLink = workPackage.links.watch === undefined ? workPackage.links.unwatch : workPackage.links.watch;
       $scope.watchers = workPackage.embedded.watchers;
-
     }
-    $scope.$watch('workPackage', refreshWorkPackage);
 
     $scope.toggleWatch = function() {
       $scope.toggleWatchLink
         .fetch({ ajax: $scope.toggleWatchLink.props })
-        .then(function() {
-          $scope.isWatched = !$scope.isWatched;
-          return workPackage.links.self.fetch({force: true});
-        }, function(error) {
+        .then(refreshWorkPackage,
+          function(error) {
           $scope.$emit('flashMessage', {
             isError: true,
             text: error.message
           });
           return $scope.workPackage;
-        })
-        .then(refreshWorkPackage);
+        });
     };
 
     // resources for tabs
@@ -106,16 +107,14 @@ angular.module('openproject.workPackages.controllers')
     $scope.deleteWatcher = function(watcher) {
       watcher.links.removeWatcher
         .fetch({ ajax: watcher.links.removeWatcher.props })
-        .then(function() {
-          return workPackage.links.self.fetch({force: true});
-        }, function(error) {
+        .then(refreshWorkPackage,
+          function(error) {
           $scope.$emit('flashMessage', {
             isError: true,
             text: 'Error.'
           });
           return $scope.workPackage;
-        })
-        .then(refreshWorkPackage);
+        });
     };
 
     // work package properties
