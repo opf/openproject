@@ -230,7 +230,12 @@ A user must have the permission to **edit journals** to update an activity. A
 
 + Parameters
     + id (required, integer, `1`) ... Activity id
-    + comment (required, string, `The updated comment`) ... The new comment
+
++ Request (application/json)
+
+        {
+          "comment": "The updated comment"
+        }
 
 + Response 200 (application/hal+json)
 
@@ -1230,7 +1235,12 @@ A user must have the permission to **create journals** to update an activity. A
 
 + Parameters
     + id (required, integer, `1`) ... Work package id
-    + comment (required, string, `I think this is awesome!`) ... Activity comment
+
++ Request (application/json)
+
+        {
+          "comment": "I think this is awesome!"
+        }
 
 + Response 201 (application/hal+json)
 
