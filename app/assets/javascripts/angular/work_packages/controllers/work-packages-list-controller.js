@@ -67,11 +67,13 @@ angular.module('openproject.workPackages.controllers')
       fetchWorkPackages = WorkPackageService.getWorkPackagesFromUrlQueryParams($scope.projectIdentifier, $location);
     }
 
-    $scope.settingUpPage = fetchWorkPackages.then(setupPage); // put promise in scope for cg-busy
-
-    fetchAvailableColumns();
-    fetchProjectTypesAndQueries();
-    QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
+    $scope.settingUpPage = fetchWorkPackages // put promise in scope for cg-busy
+      .then(setupPage)
+      .then(function() {
+        fetchAvailableColumns();
+        fetchProjectTypesAndQueries();
+        QueryService.loadAvailableGroupedQueries($scope.projectIdentifier);
+      });
   }
 
   function fetchProjectTypesAndQueries() {
