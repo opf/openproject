@@ -219,7 +219,7 @@ Activity can be either _type Activity or _type Activity::Comment.
 + Response 200 (application/hal+json)
 
     [Activity][]
-    
+
 # Group Attachments
 
 ## Properties:
@@ -274,7 +274,7 @@ Activity can be either _type Activity or _type Activity::Comment.
 + Response 200 (application/hal+json)
 
     [Attachment][]
-    
+
 # Group Projects
 
 ## Properties:
@@ -331,7 +331,7 @@ Activity can be either _type Activity or _type Activity::Comment.
 + Response 200 (application/hal+json)
 
     [Project][]
-    
+
 # Group Queries
 
 ## Properties:
@@ -547,7 +547,7 @@ Activity can be either _type Activity or _type Activity::Comment.
 + Response 200 (application/hal+json)
 
     [Unstar Query][]
-    
+
 # Group Users
 
 ## Properties:
@@ -594,7 +594,7 @@ Activity can be either _type Activity or _type Activity::Comment.
 + Response 200 (application/hal+json)
 
     [User][]
-    
+
 # Group Watchers
 
 ## Add Watcher [/work_packages/{work_package_id}/watchers]
@@ -624,7 +624,7 @@ Activity can be either _type Activity or _type Activity::Comment.
 
 + Parameters
     + work_package_id (required, integer, `1`) ... Work package id
-    
+
 + Request (application/json)
 
             {
@@ -634,7 +634,7 @@ Activity can be either _type Activity or _type Activity::Comment.
 + Response 200 (application/hal+json)
 
     [Add Watcher][]
-    
+
 ## Remove Watcher [/work_packages/{work_package_id}/watchers/{id}]
 
 ## Remove watcher [DELETE]
@@ -820,6 +820,11 @@ Activity can be either _type Activity or _type Activity::Comment.
                                 "self": {
                                     "href": "https://openproject.org/api/v3/users/1",
                                     "title": "John Sheppard - j.sheppard"
+                                },
+                                "unwatch": {
+                                    "href": "https://openproject.org/api/v3/work_packages/1/watchers/1",
+                                    "method": "delete",
+                                    "title": "Unwatch work package"
                                 }
                             },
                             "id": 1,
@@ -919,7 +924,7 @@ Activity can be either _type Activity or _type Activity::Comment.
 + Response 200 (application/hal+json)
 
     [WorkPackage][]
-    
+
 ## Watch WorkPackage [/work_packages/{id}/watchers]
 
 + Model
@@ -965,6 +970,17 @@ Activity can be either _type Activity or _type Activity::Comment.
                         "title": "John Sheppard",
                         "templated": true
                     }],
+                    "watch": {
+                        "href": "https://openproject.org/api/v3/work_packages/1/watchers",
+                        "method": "post",
+                        "data": "{ "user_id": 1 }",
+                        "title": "Watch work package"
+                    },
+                    "unwatch": {
+                        "href": "https://openproject.org/api/v3/work_packages/1/watchers/1",
+                        "method": "delete",
+                        "title": "Unwatch work package"
+                    },
                     "relations": [{
                         "href": "https://openproject.org/api/v3/relationships/1",
                         "title": "Work package A duplicated by Work package B"
@@ -1184,4 +1200,4 @@ Activity can be either _type Activity or _type Activity::Comment.
 
 + Response 200 (application/hal+json)
 
-    [Watch WorkPackage][]    
+    [Watch WorkPackage][]
