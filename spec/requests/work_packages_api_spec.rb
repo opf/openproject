@@ -46,6 +46,8 @@ describe API::V3::WorkPackages::WorkPackagesAPI do
       end
 
       it_behaves_like "valid activity request" do
+        let(:status_code) { 201 }
+
         include_context "create activity"
       end
 
