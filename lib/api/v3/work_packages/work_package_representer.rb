@@ -80,7 +80,9 @@ module API
               method: :post,
               data: { user_id: @current_user.id },
               title: 'Watch work package'
-          } if current_user_allowed_to(:view_work_packages, represented.work_package) && !represented.work_package.watcher_users.include?(@current_user)
+          } if !@current_user.anonymous? &&
+             current_user_allowed_to(:view_work_packages, represented.work_package) &&
+            !represented.work_package.watcher_users.include?(@current_user)
         end
 
         link :unwatch do

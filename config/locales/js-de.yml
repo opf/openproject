@@ -121,6 +121,8 @@ de:
     label_today: "heute"
     label_work_package: "Arbeitspaket"
     label_total_progress: "Gesamtfortschritt"
+    label_watch_work_package: "Arbeitspaket beobachten"
+    label_unwatch_work_package: "Arbeitspaket nicht beobachten"
 
     text_are_you_sure: "Sind Sie sicher?"
 
