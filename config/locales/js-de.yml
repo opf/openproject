@@ -35,7 +35,7 @@ de:
     button_check_all: "Alles auswählen"
     button_copy: "Kopieren"
     button_delete: "Löschen"
-    button_delete_watcher: "Lösche Beobachter %{name}"
+    button_delete_watcher: "Lösche Beobachter"
     button_duplicate: "Duplizieren"
     button_edit: "Bearbeiten"
     button_log_time: "Aufwand buchen"
