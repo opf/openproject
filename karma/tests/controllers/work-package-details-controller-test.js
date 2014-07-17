@@ -50,8 +50,11 @@ describe('WorkPackageDetailsController', function() {
           ]
         },
         embedded: {
-          activities: []
+          activities: [],
+          watchers: []
         },
+        links: [
+        ]
       };
 
   function buildWorkPackageWithId(id) {
