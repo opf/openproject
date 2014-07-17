@@ -66,20 +66,17 @@ angular.module('openproject.workPackages.controllers')
     });
 
     $scope.toggleWatch = function() {
-      // Work around: The hyperagent fails to parse the response if it's empty
       $scope.toggleWatchLink
         .fetch({ ajax: $scope.toggleWatchLink.props })
         .then(function() {
           $scope.isWatched = !$scope.isWatched;
-          $scope.$emit('flashMessage', {
-            text: 'Success.'
-          });
           return workPackage.links.self.fetch();
         }, function(error) {
           $scope.$emit('flashMessage', {
             isError: true,
             text: error.message
           });
+          return $scope.workPackage;
         })
         .then(function(refreshedWorkPackage) {
           $scope.workPackage = refreshedWorkPackage;
