@@ -103,26 +103,19 @@ angular.module('openproject.workPackages.controllers')
       $scope.activities.reverse();
     }
 
-    function removeUserFromWatchers(user) {
-      var index = $scope.watchers.map(function(watcher) {
-        return watcher.links.self.href;
-      }).indexOf(user.links.self.href);
-
-      $scope.watchers.splice(index, 1);
-    }
-
-
     $scope.deleteWatcher = function(watcher) {
       watcher.links.removeWatcher
         .fetch({ ajax: watcher.links.removeWatcher.props })
         .then(function() {
-          removeUserFromWatchers(watcher);
+          return workPackage.links.self.fetch({force: true});
         }, function(error) {
           $scope.$emit('flashMessage', {
             isError: true,
             text: 'Error.'
           });
-        });
+          return $scope.workPackage;
+        })
+        .then(refreshWorkPackage);
     };
 
     // work package properties
