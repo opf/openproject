@@ -220,6 +220,21 @@ Activity can be either _type Activity or _type Activity::Comment.
 + Response 200 (application/hal+json)
 
     [Activity][]
+    
+## Update activity [PUT]
+
+Updates an activity's comment and, on success, returns the updated activity.
+
+A user must have the permission to **edit journals** to update an activity. A
+``403`` is returned otherwise.
+
++ Parameters
+    + id (required, integer, `1`) ... Activity id
+    + comment (required, string, `The updated comment`) ... The new comment
+
++ Response 200 (application/hal+json)
+
+    [Activity][]
 
 # Group Attachments
 
@@ -1202,3 +1217,21 @@ Activity can be either _type Activity or _type Activity::Comment.
 + Response 200 (application/hal+json)
 
     [Watch WorkPackage][]
+
+## Comment  WorkPackage [/work_packages/{id}/activities]
+
+## Comment  work package [POST]
+
+Creates an activity for the selected work package and, on success, returns the
+updated activity.
+
+A user must have the permission to **create journals** to update an activity. A
+``403`` is returned otherwise.
+
++ Parameters
+    + id (required, integer, `1`) ... Work package id
+    + comment (required, string, `I think this is awesome!`) ... Activity comment
+
++ Response 201 (application/hal+json)
+
+    [Activity][]
