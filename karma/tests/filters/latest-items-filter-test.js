@@ -26,35 +26,30 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.services')
+/*jshint expr: true*/
 
-.service('ActivityService', ['HALAPIResource',
-  '$http',
-  'PathHelper', function(HALAPIResource, $http, PathHelper){
+describe('Latest items filter', function() {
 
-  var ActivityService = {
-    createComment: function(workPackageId, activities, descending, comment) {
-      var resource = HALAPIResource.setup("work_packages/" + workPackageId + "/activities");
-      var options = {
-        ajax: {
-          method: "POST",
-          data: { comment: comment }
-        }
-      };
+  beforeEach(module('openproject.workPackages.filters'));
 
-      return resource.fetch(options).then(function(activity){
-        // We are unable to add to the work package's embedded activities directly
-        if(activity) {
-          if(descending){
-            activities.unshift(activity);
-          } else {
-            activities.push(activity);
-          }
-          return activity;
-        }
-      });
-    }
-  }
+  describe('latestItems', function() {
+    var items;
 
-  return ActivityService;
-}]);
+    beforeEach(function(){
+      items = [1,2,3,4,5,6,7,8,9];
+    });
+
+    it('should be defined', inject(function($filter) {
+      expect($filter('latestItems')).not.to.equal(null);
+    }));
+
+    it('should return the first 3 items', inject(function($filter) {
+      expect($filter('latestItems')(items, false, 3)).to.eql([9,8,7]);
+    }));
+
+    it('should return the last 3 items reversed', inject(function($filter) {
+      expect($filter('latestItems')(items, true, 3)).to.eql([1,2,3]);
+    }));
+
+  });
+});

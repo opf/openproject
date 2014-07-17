@@ -50,8 +50,7 @@ angular.module('openproject.workPackages.controllers')
   'UserService',
   '$q',
   'ConfigurationService',
-  'latestItemsFilter',
-  function($scope, latestTab, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, VISIBLE_LATEST, CustomFieldHelper, WorkPackagesHelper, PathHelper, UserService, $q, ConfigurationService, latestItemsFilter) {
+  function($scope, latestTab, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, VISIBLE_LATEST, CustomFieldHelper, WorkPackagesHelper, PathHelper, UserService, $q, ConfigurationService) {
 
     $scope.$on('$stateChangeSuccess', function(event, toState){
       latestTab.registerState(toState.name);
@@ -67,12 +66,7 @@ angular.module('openproject.workPackages.controllers')
 
     // activities and latest activities
     $scope.activitiesSortedInDescendingOrder = ConfigurationService.commentsSortedInDescendingOrder();
-
-    $scope.activities = workPackage.embedded.activities;
-    $scope.activities.splice(0, 1); // remove first activity (assumes activities are sorted chronologically)
-    if ($scope.activitiesSortedInDescendingOrder) {
-      $scope.activities.reverse();
-    }
+    $scope.activities = displayedActivities($scope.workPackage);
 
     // watchers
 
@@ -86,6 +80,15 @@ angular.module('openproject.workPackages.controllers')
     $scope.userPath = PathHelper.staticUserPath;
 
     var workPackageProperties = DEFAULT_WORK_PACKAGE_PROPERTIES;
+
+    function displayedActivities(workPackage) {
+      var activities = workPackage.embedded.activities;
+      activities.splice(0, 1); // remove first activity (assumes activities are sorted chronologically)
+      if ($scope.activitiesSortedInDescendingOrder) {
+        activities.reverse();
+      }
+      return activities;
+    }
 
     function getPropertyValue(property, format) {
       if (format === USER_TYPE) {
