@@ -1,0 +1,33 @@
+<div class="relation">
+  <h3 ng-click="expand=!expand">
+    <i class="icon-pull-content" ng-class="collapseStateIcon(!expand)"></i> {{ title }}
+    <span ng-if="relationsExist() && !isSingleRelation()">({{ relations.length }})</span>
+  </h3>
+  <div class="content" ng-show="expand">
+    <div class="workpackages">
+      <div ng-if="relationsExist()">
+        <table>
+          <thead>
+            <tr>
+              <td>{{ I18n.t('js.work_packages.properties.subject') }}</td>
+              <td>{{ I18n.t('js.work_packages.properties.status') }}</td>
+              <td>{{ I18n.t('js.work_packages.properties.assignee') }}</td>
+            </tr>
+          </thead>
+          <tbody ng-repeat="relation in getRelations()">
+            <tr>
+              <td>{{ relation.subject }}</td>
+              <td>{{ relation.status }}</td>
+              <td>{{ relation.assignee }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div ng-if="!relations || relations.length === 0">
+        No relation exists
+      </div>
+    </div>
+    <button class="button" title="{{ btnTitle }}" ng-bind-html="btnIcon + ' ' + btnTitle">
+    </button>
+  </div>
+</div>
