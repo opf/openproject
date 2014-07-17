@@ -34,7 +34,7 @@ angular.module('openproject.services')
 
   var ActivityService = {
     createComment: function(workPackageId, activities, descending, comment) {
-      var resource = HALAPIResource.setup("work_packages/" + workPackageId + "/activities");
+      var resource = HALAPIResource.setup(PathHelper.activitiesPath(workPackageId));
       var options = {
         ajax: {
           method: "POST",
@@ -51,6 +51,23 @@ angular.module('openproject.services')
             activities.push(activity);
           }
           return activity;
+        }
+      });
+    },
+
+    updateComment: function(activityId, comment) {
+      var resource = HALAPIResource.setup(PathHelper.activityPath(activityId));
+      var options = {
+        ajax: {
+          method: "PUT",
+          data: { comment: comment }
+        }
+      };
+
+      return resource.fetch(options).then(function(activity){
+        // We are unable to add to the work package's embedded activities directly
+        if(activity) {
+          // Might have to just reload the work package here ala Till
         }
       });
     }

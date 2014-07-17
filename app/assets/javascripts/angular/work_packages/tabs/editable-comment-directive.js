@@ -26,30 +26,18 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// TODO move to UI components
-angular.module('openproject.uiComponents')
+angular.module('openproject.workPackages.directives')
 
-.directive('authoring', ['I18n', 'PathHelper', 'TimezoneService', function(I18n, PathHelper, TimezoneService) {
+.directive('editableComment', [function(){
   return {
-    restrict: 'E',
-    replace: true,
-    scope: { createdOn: '=', author: '=', project: '=', activity: '=' },
-    templateUrl: '/templates/components/authoring.html',
-    link: function(scope, element, attrs) {
-      moment.lang(I18n.locale);
+    restrict: 'A',
+    scope: {
+      activity: '=',
+      commentInEdit: '='
+    },
+    templateUrl: '/templates/work_packages/tabs/_editable_comment.html',
+    link: function(scope){
 
-      var createdOn = TimezoneService.parseDate(scope.createdOn);
-      var timeago = createdOn.fromNow();
-      var time = createdOn.format('LLL');
-
-      scope.I18n = I18n;
-      scope.authorLink = '<a href="'+ PathHelper.userPath(scope.author.id) + '">' + scope.author.name + '</a>';
-
-      if (scope.activity) {
-        scope.timestamp = '<a title="' + time + '" href="' + PathHelper.activityFromPath(scope.project, createdOn.format('YYYY-MM-DD')) + '">' + timeago + '</a>';
-      } else {
-        scope.timestamp = '<span class="timestamp" title="' + time + '">' + timeago + '</span>';
-      }
     }
   };
 }]);

@@ -28,7 +28,7 @@
 
 angular.module('openproject.workPackages.tabs')
 
-.directive('userActivity', ['I18n', 'PathHelper', function(I18n, PathHelper) {
+.directive('userActivity', ['I18n', 'PathHelper', 'ActivityService', function(I18n, PathHelper, ActivityService) {
   return {
     restrict: 'E',
     replace: true,
@@ -36,17 +36,45 @@ angular.module('openproject.workPackages.tabs')
     scope: {
       activity: '=',
       currentAnchor: '=',
-      activityNo: '='
+      activityNo: '=',
+      inputElementId: '='
     },
-    link: function(scope) {
+    link: function(scope, element) {
       scope.I18n = I18n;
       scope.userPath = PathHelper.staticUserPath;
+      scope.inEdit = false;
 
       scope.activity.links.user.fetch().then(function(user) {
         scope.userId = user.props.id;
         scope.userName = user.props.name;
         scope.userAvatar = user.props.avatar;
       });
+
+      scope.editComment = function() {
+        scope.inEdit = true;
+      };
+
+      scope.cancelEdit = function() {
+        scope.inEdit = false;
+      };
+
+      scope.quoteComment = function() {
+        angular.element('#' + scope.inputElementId).val(quotedText(scope.activity.props.rawComment));
+      };
+
+      scope.updateComment = function(comment) {
+        ActivityService.updateComment(scope.activity.props.id, comment).then(function(activity){
+
+        });
+      };
+
+      // TODO RS: Move this into WorkPackageDetailsHepler once it has been merge in from attachments branch
+      function quotedText(rawComment) {
+        quoted = rawComment.split("\n")
+          .map(function(line){ return "\n> " + line; })
+          .join('');
+        return scope.userName + " wrote:" + quoted;
+      }
     }
   };
 }]);
