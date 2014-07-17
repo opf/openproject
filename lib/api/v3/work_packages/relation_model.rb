@@ -36,15 +36,6 @@ module API
       class RelationModel < Reform::Form
         include Coercion
 
-        property :id
-
-        def related
-          model.to # not model.from?
-        end
-
-        def type
-          model.relation_type
-        end
       end
     end
   end
