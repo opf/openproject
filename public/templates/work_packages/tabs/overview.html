@@ -38,7 +38,7 @@
 <div class="detail-panel-latest-activity">
   <h3>{{ I18n.t('js.label_latest_activity') }}</h3>
   <ul>
-    <li ng-repeat="activity in latestActitivies"
+    <li ng-repeat="activity in activities | latestItems:activitiesSortedInDescendingOrder:3"
         class="work-package-details-activities-activity"
         ng-init="currentAnchor = 'note-' + ($index+1);
                  activityNo = activities.length - $index;">
@@ -49,6 +49,6 @@
   </ul>
   <activity-comment work-package="workPackage"
                     activities="activities"
-                    descending="true">
+                    descending="activitiesSortedInDescendingOrder">
   </activity-comment>
 </div>

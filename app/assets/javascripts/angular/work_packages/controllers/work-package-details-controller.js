@@ -34,6 +34,7 @@ angular.module('openproject.workPackages.controllers')
   'estimatedTime', 'versionName'
 ])
 .constant('USER_TYPE', 'user')
+.constant('VISIBLE_LATEST')
 
 .controller('WorkPackageDetailsController', [
   '$scope',
@@ -42,13 +43,15 @@ angular.module('openproject.workPackages.controllers')
   'I18n',
   'DEFAULT_WORK_PACKAGE_PROPERTIES',
   'USER_TYPE',
+  'VISIBLE_LATEST',
   'CustomFieldHelper',
   'WorkPackagesHelper',
   'PathHelper',
   'UserService',
   '$q',
   'ConfigurationService',
-  function($scope, latestTab, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, CustomFieldHelper, WorkPackagesHelper, PathHelper, UserService, $q, ConfigurationService) {
+  'latestItemsFilter',
+  function($scope, latestTab, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, VISIBLE_LATEST, CustomFieldHelper, WorkPackagesHelper, PathHelper, UserService, $q, ConfigurationService, latestItemsFilter) {
 
     $scope.$on('$stateChangeSuccess', function(event, toState){
       latestTab.registerState(toState.name);
@@ -70,10 +73,6 @@ angular.module('openproject.workPackages.controllers')
     if ($scope.activitiesSortedInDescendingOrder) {
       $scope.activities.reverse();
     }
-
-    $scope.$watch('activities', function(newVal, oldVal){
-      $scope.latestActitivies = $scope.activitiesSortedInDescendingOrder ? $scope.activities.slice(0, 3) : $scope.activities.slice(-3).reverse();
-    }, true);
 
     // watchers
 
