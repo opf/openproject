@@ -105,6 +105,28 @@ angular.module('openproject.workPackages.controllers')
 
     $scope.watchers = workPackage.embedded.watchers;
 
+    function removeUserFromWatchers(user) {
+      var index = $scope.watchers.map(function(watcher) {
+        return watcher.links.self.href;
+      }).indexOf(user.links.self.href);
+
+      $scope.watchers.splice(index, 1);
+    }
+
+
+    $scope.deleteWatcher = function(watcher) {
+      watcher.links.removeWatcher
+        .fetch({ ajax: watcher.links.removeWatcher.props })
+        .then(function() {
+          removeUserFromWatchers(watcher);
+        }, function(error) {
+          $scope.$emit('flashMessage', {
+            isError: true,
+            text: 'Error.'
+          });
+        });
+    };
+
     // work package properties
 
     $scope.presentWorkPackageProperties = [];
