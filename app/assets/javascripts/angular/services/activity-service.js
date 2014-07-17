@@ -65,10 +65,7 @@ angular.module('openproject.services')
       };
 
       return resource.fetch(options).then(function(activity){
-        // We are unable to add to the work package's embedded activities directly
-        if(activity) {
-          // Might have to just reload the work package here ala Till
-        }
+        return activity;
       });
     }
   }
