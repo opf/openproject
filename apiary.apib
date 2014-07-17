@@ -1203,4 +1203,26 @@ A user must have the permission to **edit journals** to update an activity. A
 
 + Response 200 (application/hal+json)
 
-    [Watch WorkPackage][]    
+    [Watch WorkPackage][]
+
+## Comment  WorkPackage [/work_packages/{id}/activities]
+
+## Comment  work package [POST]
+
+Creates an activity for the selected work package and, on success, returns the
+updated activity.
+
+A user must have the permission to **create journals** to update an activity. A
+``403`` is returned otherwise.
+
++ Parameters
+    + id (required, integer, `1`) ... Work package id
+    + comment (required, string, `I think this is awesome!`) ... Activity comment
+
++ Response 201 (application/hal+json)
+
+    [Activity][]
+
++ Response 403 (application/hal+json)
+
++ Response 422 (application/hal+json)
