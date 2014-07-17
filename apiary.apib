@@ -15,7 +15,7 @@ Read more: http://stateless.co/hal_specification.html
 
 **OpenProject API implementation of HAL+JSON format** enriches JSON and introduces a few meta properties:
 
-    - `_type` - specifies the type of the resource (E.g.: WorkPackage, Project)
+    - `_type` - specifies the type of the resource (e.g.: WorkPackage, Project)
     - `_links` - contains all links available for the resource
     - `_embedded` - contains all embedded objects
     - `_collection` - contains the collection of objects
@@ -25,9 +25,9 @@ Read more: http://stateless.co/hal_specification.html
 # Group API response structure
 Depending on the performed request, the OpenProject API will return a response in one of the following possible structures:
 
-- As a **simple HAL+JSON object** (E.g.: GET /projects/:id)
-- As a **collection of HAL+JSON objects** (E.g.: GET /projects)
-- As a **collection of HTTP statuses and HAL+JSON objects** (E.g.: PATCH /projects?id[]=1&id[]=2)
+- As a **simple HAL+JSON object** (e.g.: GET /projects/:id)
+- As a **collection of HAL+JSON objects** (e.g.: GET /projects)
+- As a **collection of HTTP statuses and HAL+JSON objects** (e.g.: PATCH /projects?id[]=1&id[]=2)
 - As an **OpenProject API error object**
 
 ### Simple HAL+JSON object
