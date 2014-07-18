@@ -13,7 +13,7 @@
       <td attachment-title-cell attachment="attachment"></td>
       <td attachment-user-cell attachment="attachment"></td>
       <td>{{ attachment.props.description }}</td>
-      <td>{{ attachment.props.createdAt | date:'short' }}</td>
+      <td><date-time date-value="attachment.props.createdAt"></date></td>
     </tr>
   </tbody>
 </table>
