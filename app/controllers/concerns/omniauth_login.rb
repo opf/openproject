@@ -54,7 +54,9 @@ module Concerns::OmniauthLogin
   ##
   # Activating this leaves omniauth as the only way to authenticate.
   def self.disable_password_login?
-    OpenProject::Configuration['disable_password_login'] == true
+    value = OpenProject::Configuration['disable_password_login']
+
+    ['true', true].include? value
   end
 
   private
