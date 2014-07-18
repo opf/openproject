@@ -56,22 +56,18 @@ angular.module('openproject.workPackages.controllers')
       latestTab.registerState(toState.name);
     });
 
+    $scope.$on('workPackageRefreshRequired', function(event, toState){
+      refreshWorkPackage();
+    });
+
     // initialization
+    setWorkPackageScopeProperties(workPackage);
+
     $scope.I18n = I18n;
-    $scope.workPackage = workPackage;
     $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
     $scope.maxDescriptionLength = 800;
 
     // resources for tabs
-
-    // activities and latest activities
-    $scope.activitiesSortedInDescendingOrder = ConfigurationService.commentsSortedInDescendingOrder();
-    $scope.activities = displayedActivities($scope.workPackage);
-
-    // watchers
-
-    $scope.watchers = workPackage.embedded.watchers;
-    $scope.author = workPackage.embedded.author;
 
     // work package properties
 
@@ -80,6 +76,26 @@ angular.module('openproject.workPackages.controllers')
     $scope.userPath = PathHelper.staticUserPath;
 
     var workPackageProperties = DEFAULT_WORK_PACKAGE_PROPERTIES;
+
+    function refreshWorkPackage() {
+      workPackage.links.self.fetch({force: true})
+        .then(function(workPackage){
+          setWorkPackageScopeProperties(workPackage);
+        });
+    }
+
+    function setWorkPackageScopeProperties(workPackage){
+      $scope.workPackage = workPackage;
+
+      // activities and latest activities
+      $scope.activitiesSortedInDescendingOrder = ConfigurationService.commentsSortedInDescendingOrder();
+      $scope.activities = displayedActivities($scope.workPackage);
+
+      // watchers
+
+      $scope.watchers = workPackage.embedded.watchers;
+      $scope.author = workPackage.embedded.author;
+    }
 
     function displayedActivities(workPackage) {
       var activities = workPackage.embedded.activities;

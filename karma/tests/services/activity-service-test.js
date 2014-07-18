@@ -67,7 +67,7 @@ describe('ActivityService', function() {
     }));
 
     it('makes an api setup call', function() {
-      expect(setupFunction).to.have.been.calledWith("work_packages/" + workPackageId + "/activities");
+      expect(setupFunction).to.have.been.calledWith("/work_packages/" + workPackageId + "/activities");
     });
 
     it('returns an activity', function() {

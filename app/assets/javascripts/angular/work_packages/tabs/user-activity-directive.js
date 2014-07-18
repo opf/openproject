@@ -65,7 +65,7 @@ angular.module('openproject.workPackages.tabs')
       scope.updateComment = function(comment) {
         var comment = angular.element('#edit-comment-text').val();
         ActivityService.updateComment(scope.activity.props.id, comment).then(function(activity){
-          // TODO: Will probably need to reaload work package:(
+          scope.$emit('workPackageRefreshRequired', '');
           scope.inEdit = false;
         });
       };
