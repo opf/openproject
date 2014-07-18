@@ -5,10 +5,17 @@ module API
 
 
         resources :watchers do
+
+          get do
+            available_watchers = @work_package.possible_watcher_users
+            models = available_watchers.map { |watcher| ::API::V3::Users::UserModel.new(watcher) }
+            r = ::API::V3::Watchers::WatchersRepresenter.new(models, as: :available_watchers)
+            r.to_json
+          end
+
           params do
             requires :user_id, desc: 'The watcher\'s user id', type: Integer
           end
-
           post do
             if current_user.id == params[:user_id]
               authorize(:view_work_packages, context: @work_package.project)

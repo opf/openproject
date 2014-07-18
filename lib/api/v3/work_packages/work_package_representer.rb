@@ -95,9 +95,10 @@ module API
 
         link :add_watcher do
           {
-              href: "#{root_url}/api/v3/work_packages/#{represented.work_package.id}/watchers",
+              href: "#{root_url}/api/v3/work_packages/#{represented.work_package.id}/watchers{?user_id}",
               method: :post,
-              title: 'Add watcher'
+              title: 'Add watcher',
+              templated: true
           } if current_user_allowed_to(:add_work_package_watchers, represented.work_package)
         end
 
