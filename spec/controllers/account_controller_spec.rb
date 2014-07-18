@@ -158,7 +158,7 @@ describe AccountController do
 
   describe '#login with omniauth_direct_login enabled' do
     before do
-      OmniauthLogin.stub(:direct_login_provider).and_return('some_provider')
+      Concerns::OmniauthLogin.stub(:direct_login_provider).and_return('some_provider')
     end
 
     describe 'GET' do

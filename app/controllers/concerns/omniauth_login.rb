@@ -1,6 +1,6 @@
 ##
 # Intended to be used by the AccountController to handle omniauth logins
-module OmniauthLogin
+module Concerns::OmniauthLogin
   def omniauth_login
     auth_hash = request.env['omniauth.auth']
 
