@@ -200,7 +200,7 @@ end
 gem 'grape', '~> 0.7.0'
 gem 'representable', git: 'https://github.com/finnlabs/representable'
 gem 'roar',   '~> 0.12.6'
-gem 'reform', require: false
+gem 'reform', '~> 1.0.4', require: false
 
 # Use the commented pure ruby gems, if you have not the needed prerequisites on
 # board to compile the native ones.  Note, that their use is discouraged, since

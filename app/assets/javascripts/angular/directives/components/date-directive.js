@@ -29,18 +29,50 @@
 // TODO move to UI components
 angular.module('openproject.uiComponents')
 
-.directive('date', ['I18n', function(I18n) {
+.directive('date', ['I18n', 'TimezoneService', 'ConfigurationService', function(I18n, TimezoneService, ConfigurationService) {
   return {
     restrict: 'EA',
-    replace: false,
-    scope: { date: '=' },
+    replace: true,
+    scope: { dateValue: '=' },
     template: '<span>{{date}}</span>',
     link: function(scope, element, attrs) {
-      moment.lang(I18n.locale);
+      if (ConfigurationService.dateFormatPresent()) {
+        scope.date = TimezoneService.parseDate(scope.dateValue).format(ConfigurationService.dateFormat());
+      } else {
+        moment.lang(I18n.locale);
 
-      // TODO: The timezone of scope.time is UTC. Thus, we need to adapt the
-      // time to the local timezone or user setting.
-      scope.time = moment(scope.dateTime).utc().format('LL');
+        scope.date = TimezoneService.parseDate(scope.dateValue).format('L');
+      }
     }
   };
-}]);
+}])
+
+.directive('time', ['I18n', 'TimezoneService', 'ConfigurationService', function(I18n, TimezoneService, ConfigurationService) {
+  return {
+    restrict: 'EA',
+    replace: true,
+    scope: { timeValue: '=' },
+    template: '<span>{{time}}</span>',
+    link: function(scope, element, attrs) {
+      if (ConfigurationService.timeFormatPresent()) {
+        scope.time = TimezoneService.parseDate(scope.timeValue).format(ConfigurationService.timeFormat());
+      } else {
+        moment.lang(I18n.locale);
+
+        scope.time = TimezoneService.parseDate(scope.timeValue).format('LT');
+      }
+    }
+  };
+}])
+
+.directive('dateTime', function($compile) {
+  return {
+    restrict: 'EA',
+    replace: true,
+    scope: { dateTimeValue: '=' },
+    template: '<span><date date-value="dateTimeValue"></date> <time time-value="dateTimeValue"></time></span>',
+    link: function(scope, element, attrs) {
+      $compile(element.contents())(scope);
+    }
+  };
+});
