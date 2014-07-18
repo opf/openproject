@@ -116,7 +116,7 @@ class AccountController < ApplicationController
       @user.register
       if session[:auth_source_registration]
         # on-the-fly registration via omniauth or via auth source
-        if session[:auth_source_registration][:omniauth]
+        if pending_omniauth_registration?
           register_via_omniauth(@user, session, permitted_params)
         else
           register_and_login_via_authsource(@user, session, permitted_params)
@@ -124,16 +124,21 @@ class AccountController < ApplicationController
       else
         @user.attributes = permitted_params.user
         @user.login = params[:user][:login]
-        @user.password, @user.password_confirmation = params[:user][:password], params[:user][:password_confirmation]
+        @user.password = params[:user][:password]
+        @user.password_confirmation = params[:user][:password_confirmation]
 
-        register_user_according_to_setting(@user)
+        register_user_according_to_setting @user
       end
     end
   end
 
   def allow_registration?
-    pwd_login = !OmniauthLogin.disable_password_login?
-    pwd_login && (Setting.self_registration? || pending_auth_source_registration?)
+    allow = Setting.self_registration? && !OmniauthLogin.disable_password_login?
+
+    get = request.get? && allow
+    post = request.post? && (session[:auth_source_registration] || allow)
+
+    get || post
   end
 
   def allow_lost_password_recovery?
@@ -270,7 +275,11 @@ class AccountController < ApplicationController
   end
 
   def pending_auth_source_registration?
-    session[:auth_source_registration] && !session[:auth_source_registration][:omniauth]
+    session[:auth_source_registration] && !pending_omniauth_registration?
+  end
+
+  def pending_omniauth_registration?
+    Hash(session[:auth_source_registration])[:omniauth]
   end
 
   def register_and_login_via_authsource(user, session, permitted_params)
