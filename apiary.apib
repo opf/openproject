@@ -220,7 +220,7 @@ Activity can be either _type Activity or _type Activity::Comment.
 + Response 200 (application/hal+json)
 
     [Activity][]
-    
+
 ## Update activity [PUT]
 
 Updates an activity's comment and, on success, returns the updated activity.
@@ -1245,3 +1245,50 @@ A user must have the permission to **create journals** to update an activity. A
 + Response 201 (application/hal+json)
 
     [Activity][]
+
+## AvailableWatchers [/work_packages/{work_package_id}/available_watchers{?offset,limit,query}]
+
++ Model
+    + Body
+            {
+                "_total": 1674,
+                "_count": 1,
+                "_embedded": {
+                    "availableWatchers": [{
+                        "_type": "User",
+                        "_links": {
+                            "self": {
+                                "href": "/api/v3/users/1",
+                                "title": "John Sheppard - j.sheppard"
+                            },
+                            "addWatcher": {
+                                "href": "/api/v3/work_packages/1/watchers",
+                                "method": "post"
+                            }
+                        },
+                        "id": 1,
+                        "login": "j.sheppard",
+                        "firstName": "John",
+                        "lastName": "Sheppard",
+                        "mail": "shep@mail.com",
+                        "avatar": "https://gravatar/avatar",
+                        "createdAt": "2014-05-21T08:51:20Z",
+                        "updatedAt": "2014-05-21T08:51:20Z"
+                    }]
+                }
+            }
+
+## Available watchers [GET]
+
+Gets a list of users that can watch the work package.
+
++ Parameters
+    + work_package_id (required, integer, `1`) ... Work package id
+    + offset = `0` (optional, integer, `100`) ... Offset
+    + limit = `100` (optional, integer, `50`) ... Limit (Max 100)
+    + query (optional, string, `John`) ... Name, login or email of a user
+
++ Response 200 (application/hal+json)
+
+    [AvailableWatchers][]
+
