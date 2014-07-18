@@ -36,12 +36,11 @@ angular.module('openproject.workPackages.directives')
       attachment: '='
     },
     link: function(scope, element, attributes) {
-      scope.userPath = PathHelper.staticUserPath;
-
       scope.attachment.links.author.fetch()
         .then(function(author){
           scope.authorName = author.props.name;
           scope.authorId = author.props.id;
+          scope.userPath = PathHelper.staticUserPath(author.props.id);
         });
     }
   };

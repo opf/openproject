@@ -34,8 +34,6 @@ angular.module('openproject.workPackages.directives')
     templateUrl: '/templates/work_packages/tabs/_attachments_table.html',
     scope: {
       attachments: '='
-    },
-    link: function(scope, element, attributes) {
     }
   };
 }]);
