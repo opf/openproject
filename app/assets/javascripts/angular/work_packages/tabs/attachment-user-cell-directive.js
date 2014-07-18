@@ -28,23 +28,21 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('attachmentTitleCell', ['PathHelper', function(PathHelper){
+.directive('attachmentUserCell', ['PathHelper', function(PathHelper){
   return {
     restrict: 'A',
-    replace: false,
-    templateUrl: '/templates/work_packages/tabs/attachment_title_cell.html',
+    templateUrl: '/templates/work_packages/tabs/_attachment_user_cell.html',
     scope: {
       attachment: '='
     },
     link: function(scope, element, attributes) {
-      scope.attachmentPath = PathHelper.staticAttachmentPath(scope.attachment.props.id, scope.attachment.props.fileName);
-      scope.displayTitle = scope.attachment.props.fileName + " (" + formattedFilesize(scope.attachment.props.fileSize) + ")";
+      scope.userPath = PathHelper.staticUserPath;
 
-      function formattedFilesize(fileSize) {
-        var size = parseFloat(fileSize);
-        return isNaN(size) ? "0kB" : (size / 1000).toFixed(2) + "kB";
-      };
-
+      scope.attachment.links.author.fetch()
+        .then(function(author){
+          scope.authorName = author.props.name;
+          scope.authorId = author.props.id;
+        });
     }
   };
 }]);

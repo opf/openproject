@@ -28,15 +28,14 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('attachmentTitle', ['PathHelper', function(PathHelper){
+.directive('attachmentsTable', ['PathHelper', function(PathHelper){
   return {
-    restrict: 'A',
-    templateUrl: '/templates/work_packages/tabs/attachment_title.html',
+    restrict: 'E',
+    templateUrl: '/templates/work_packages/tabs/_attachments_table.html',
     scope: {
-      attachment: '='
+      attachments: '='
     },
     link: function(scope, element, attributes) {
-      scope.attachmentsTitle = "Attachments (" + scope.attachments.length + ")";
     }
   };
 }]);
