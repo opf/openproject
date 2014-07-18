@@ -68,9 +68,8 @@ class WorkPackage < ActiveRecord::Base
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   scope :recently_updated, :order => "#{WorkPackage.table_name}.updated_at DESC"
-  scope :visible, lambda {|*args| { :include => :project,
-                                    :conditions => WorkPackage.visible_condition(args.first ||
-                                                                                 User.current) } }
+
+  needs_authorization view: :view_work_packages
 
   scope :in_status, lambda {|*args| where(:status_id => (args.first.respond_to?(:id) ? args.first.id : args.first))}
 
@@ -261,11 +260,6 @@ class WorkPackage < ActiveRecord::Base
 
   def self.use_field_for_done_ratio?
     Setting.work_package_done_ratio == 'field'
-  end
-
-  # Returns true if usr or current user is allowed to view the work_package
-  def visible?(usr=nil)
-    (usr || User.current).allowed_to?(:view_work_packages, self.project)
   end
 
   def copy_from(arg, options = {})

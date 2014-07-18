@@ -73,6 +73,9 @@ class WikiPage < ActiveRecord::Base
     { conditions: {wiki_id: wiki_id, parent_id: nil} }
   }
 
+  needs_authorization view: :view_wiki_pages,
+                      project_association: { :wiki => :project }
+
   # Wiki pages that are protected by default
   DEFAULT_PROTECTED_PAGES = %w(sidebar)
 
@@ -88,10 +91,6 @@ class WikiPage < ActiveRecord::Base
     self.menu_item.destroy if self.menu_item
     # ensure there is a menu item for the wiki
     wiki.create_menu_item_for_start_page if MenuItems::WikiMenuItem.main_items(wiki).empty?
-  end
-
-  def visible?(user=User.current)
-    !user.nil? && user.allowed_to?(:view_wiki_pages, project)
   end
 
   def title=(value)

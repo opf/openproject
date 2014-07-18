@@ -70,18 +70,22 @@ class Message < ActiveRecord::Base
   after_update :update_ancestors
   after_destroy :reset_counters
 
-  scope :visible, lambda {|*args| { :include => {:board => :project},
-                                    :conditions => Project.allowed_to_condition(args.first || User.current, :view_messages) } }
+  needs_authorization view: :view_messages,
+                      edit: :edit_messages,
+                      edit_own: :edit_own_messages,
+                      delete: :delete_messages,
+                      delete_own: :delete_own_messages,
+                      project_association: { :board => :project },
+                      own_association: :author_id
+
+  alias editable_by? editable?
+  alias destroyable_by? deletable?
 
   safe_attributes 'subject', 'content', 'board_id'
   safe_attributes 'locked', 'sticky',
     :if => lambda {|message, user|
       user.allowed_to?(:edit_messages, message.project)
     }
-
-  def visible?(user=User.current)
-    !user.nil? && user.allowed_to?(:view_messages, project)
-  end
 
   validate :validate_unlocked_root, :on => :create
 
@@ -129,14 +133,6 @@ class Message < ActiveRecord::Base
 
   def project
     board.project
-  end
-
-  def editable_by?(usr)
-    usr && usr.logged? && (usr.allowed_to?(:edit_messages, project) || (self.author == usr && usr.allowed_to?(:edit_own_messages, project)))
-  end
-
-  def destroyable_by?(usr)
-    usr && usr.logged? && (usr.allowed_to?(:delete_messages, project) || (self.author == usr && usr.allowed_to?(:delete_own_messages, project)))
   end
 
   private

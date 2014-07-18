@@ -48,6 +48,11 @@ class TimeEntry < ActiveRecord::Base
                 author: :user,
                 description: :comments
 
+  needs_authorization view: :view_time_entries,
+                      edit: :edit_time_entries,
+                      edit_own: :edit_own_time_entries
+  alias :editable_by? :editable?
+
   validates_presence_of :user_id, :activity_id, :project_id, :hours, :spent_on
   validates_numericality_of :hours, :allow_nil => true, :message => :invalid
   validates_length_of :comments, :maximum => 255, :allow_nil => true
@@ -55,11 +60,6 @@ class TimeEntry < ActiveRecord::Base
   validate :validate_hours_are_in_range
   validate :validate_project_is_set
   validate :validate_consistency_of_work_package_id
-
-  scope :visible, lambda {|*args| {
-    :include => :project,
-    :conditions => Project.allowed_to_condition(args.first || User.current, :view_time_entries)
-  }}
 
   scope :on_work_packages, ->(work_packages) { where(work_package_id: work_packages) }
 
@@ -95,19 +95,6 @@ class TimeEntry < ActiveRecord::Base
     self.tyear = spent_on ? spent_on.year : nil
     self.tmonth = spent_on ? spent_on.month : nil
     self.tweek = spent_on ? Date.civil(spent_on.year, spent_on.month, spent_on.day).cweek : nil
-  end
-
-  # Returns true if the time entry can be edited by usr, otherwise false
-  def editable_by?(usr)
-    (usr == user && usr.allowed_to?(:edit_own_time_entries, project)) || usr.allowed_to?(:edit_time_entries, project)
-  end
-
-  # TODO: remove this method in 1.3.0
-  def self.visible_by(usr)
-    ActiveSupport::Deprecation.warn "TimeEntry.visible_by is deprecated and will be removed in Redmine 1.3.0. Use the visible scope instead."
-    with_scope(:find => { :conditions => Project.allowed_to_condition(usr, :view_time_entries) }) do
-      yield
-    end
   end
 
   def self.earliest_date_for_project(project=nil)

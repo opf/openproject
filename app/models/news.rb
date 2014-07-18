@@ -50,34 +50,29 @@ class News < ActiveRecord::Base
 
   after_create :add_author_as_watcher
 
-  scope :visible, lambda {|*args| {
-    :include => :project,
-    :conditions => Project.allowed_to_condition(args.first || User.current, :view_news)
-  }}
+  needs_authorization view: :view_news
 
   safe_attributes 'title', 'summary', 'description'
 
-  def visible?(user=User.current)
-    !user.nil? && user.allowed_to?(:view_news, project)
-  end
-
   # returns latest news for projects visible by user
   def self.latest(user = User.current, count = 5)
-    find(:all, :limit => count, :conditions => Project.allowed_to_condition(user, :view_news), :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
+    visible(user).limit(count)
+                 .includes(:author, :project)
+                 .newest_first
   end
 
   def self.latest_for(user, options = {})
+    # TODO: probably #latest and latest_for can be consolidated
     limit = options.fetch(:count) { 5 }
 
-    conditions = Project.allowed_to_condition(user, :view_news)
-
-    # TODO: remove the includes from here, it's required by Project.allowed_to_condition
-    # News has nothing to do with it
-    where(conditions).limit(limit).newest_first.includes(:author, :project)
+    latest(user, limit)
   end
 
   # table_name shouldn't be needed :(
   def self.newest_first
+    # should be able to use
+    # order(created_on: :desc)
+    # when on rails 4
     order "#{table_name}.created_on DESC"
   end
 
