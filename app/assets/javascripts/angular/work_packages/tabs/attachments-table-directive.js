@@ -28,12 +28,15 @@
 
 angular.module('openproject.workPackages.directives')
 
-.directive('attachmentsTable', ['PathHelper', function(PathHelper){
+.directive('attachmentsTable', ['PathHelper', 'I18n', function(PathHelper, I18n){
   return {
     restrict: 'E',
     templateUrl: '/templates/work_packages/tabs/_attachments_table.html',
     scope: {
       attachments: '='
+    },
+    link: function(scope) {
+      scope.I18n = I18n;
     }
   };
 }]);
