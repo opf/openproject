@@ -123,7 +123,7 @@ module Redmine::MenuManager::TopMenuHelper
 
   def render_login_partial
     partial =
-      if OmniauthLogin.disable_password_login?
+      if Concerns::OmniauthLogin.disable_password_login?
         'account/omniauth_login'
       else
         'account/login'

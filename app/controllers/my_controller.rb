@@ -91,7 +91,7 @@ class MyController < ApplicationController
 
   # When making changes here, also check AccountController.change_password
   def change_password
-    return render_404 if OmniauthLogin.disable_password_login?
+    return render_404 if Concerns::OmniauthLogin.disable_password_login?
 
     @user = User.current  # required by "my" layout
     @username = @user.login

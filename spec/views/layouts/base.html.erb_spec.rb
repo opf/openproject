@@ -86,7 +86,7 @@ describe "layouts/base" do
 
     context 'with password login disabled' do
       before do
-        OmniauthLogin.stub(:disable_password_login?).and_return(true)
+        Concerns::OmniauthLogin.stub(:disable_password_login?).and_return(true)
         render
       end
 
