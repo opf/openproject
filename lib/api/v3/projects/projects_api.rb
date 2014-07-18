@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -27,21 +26,31 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API v3
-# This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
-
 module API
   module V3
-    class Root < Grape::API
-      version 'v3', using: :path
+    module Projects
+      class ProjectsAPI < Grape::API
 
-      mount ::API::V3::Activities::ActivitiesAPI
-      mount ::API::V3::Attachments::AttachmentsAPI
-      mount ::API::V3::Projects::ProjectsAPI
-      mount ::API::V3::Queries::QueriesAPI
-      mount ::API::V3::Users::UsersAPI
-      mount ::API::V3::WorkPackages::WorkPackagesAPI
+        resources :projects do
+          params do
+            requires :id, desc: 'Project id'
+          end
+
+          namespace ':id' do
+            before do
+              @project = Project.find(params[:id])
+              model = ::API::V3::Projects::ProjectModel.new(@project)
+              @representer =  ::API::V3::Projects::ProjectRepresenter.new(model)
+            end
+
+            get do
+              authorize(:view_project, context: @project)
+              @representer.to_json
+            end
+          end
+
+        end
+      end
     end
   end
 end

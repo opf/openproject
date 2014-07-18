@@ -27,21 +27,44 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API v3
-# This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
+require 'roar/decorator'
+require 'roar/representer/json/hal'
 
 module API
   module V3
-    class Root < Grape::API
-      version 'v3', using: :path
+    module Projects
+      class ProjectRepresenter < Roar::Decorator
+        include Roar::Representer::JSON::HAL
+        include Roar::Representer::Feature::Hypermedia
+        include OpenProject::StaticRouting::UrlHelpers
 
-      mount ::API::V3::Activities::ActivitiesAPI
-      mount ::API::V3::Attachments::AttachmentsAPI
-      mount ::API::V3::Projects::ProjectsAPI
-      mount ::API::V3::Queries::QueriesAPI
-      mount ::API::V3::Users::UsersAPI
-      mount ::API::V3::WorkPackages::WorkPackagesAPI
+        self.as_strategy = API::Utilities::CamelCasingStrategy.new
+
+        property :_type, exec_context: :decorator
+
+        link :self do
+          {
+            href: "#{root_url}api/v3/projects/#{represented.model.id}",
+            title: "#{represented.name}"
+          }
+        end
+
+        property :id, getter: -> (*) { model.id }, render_nil: true
+        property :identifier,   render_nil: true
+
+        property :name,         render_nil: true
+        property :description,  render_nil: true
+        property :homepage
+
+        property :created_on,   render_nil: true
+        property :updated_on,   render_nil: true
+
+        property :type,         render_nil: true
+
+        def _type
+          'Project'
+        end
+      end
     end
   end
 end
