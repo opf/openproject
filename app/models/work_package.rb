@@ -248,7 +248,7 @@ class WorkPackage < ActiveRecord::Base
 
   # Returns a SQL conditions string used to find all work units visible by the specified user
   def self.visible_condition(user, options={})
-    Project.allowed_to_condition(user, :view_work_packages, options)
+    Project.allowed_to_condition(user, :view_work_packages)
   end
 
   def self.done_ratio_disabled?
