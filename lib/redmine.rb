@@ -255,7 +255,7 @@ Redmine::MenuManager.map :my_menu do |menu|
             },
             :caption => :button_change_password,
             :if => (proc do
-              User.current.change_password_allowed? && !OmniauthLogin.disable_password_login?
+              User.current.change_password_allowed? && !Concerns::OmniauthLogin.disable_password_login?
             end),
             :html => { :class => 'icon2 icon-locked' }
 
