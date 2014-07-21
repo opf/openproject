@@ -47,6 +47,7 @@
 
     <tr work-package-group-header
         ng-repeat-start="row in rows"
+        bindonce
         ng-if="!!groupByColumn &&
                ($first || row.groupName !== rows[$index-1].groupName)"
         ng-class="{
@@ -78,8 +79,7 @@
                 work-package="row.object"
                 column="groupByColumn"
                 display-type="{{ groupByColumn.name }}"
-                display-empty="-">
-          </span>
+                display-empty="-"></span>
 
           <span class="count">
             ({{ countByGroup[row.groupName] }})
@@ -98,14 +98,15 @@
     <!-- Work package rows -->
 
     <tr work-package-row
-        id="work-package-{{ row.object.id }}"
+        bindonce
+        bo-id="'work-package-' + row.object.id"
         has-context-menu
         target="WorkPackageContextMenu"
         locals="rows, row"
-        ng-class="[
+        ng-class="{'context-menu-selection': row.checked}"
+        bo-class="[
           'issue',
           'hascontextmenu',
-          row.checked && 'context-menu-selection',
           !row.object['leaf?'] && 'parent' || '',
           row.level > 0 && 'child idnt' || '',
           row.level > 0 && ('idnt-' + row.level) || ''
@@ -121,20 +122,28 @@
       </td>
 
       <td class="icon-table info" ng-hide="hideWorkPackageDetails">
-        <p><a href ui-sref="work-packages.list.details.overview({workPackageId: row.object.id})"><i class="icon-info"></i></a></p>
+        <p>
+          <a href ui-sref="work-packages.list.details.overview({workPackageId: row.object.id})"><i class="icon-info"></i></a>
+        </p>
       </td>
 
       <td class="id">
-        <span ng-if="workPackage.parent_id" class="hidden-for-sighted" ng-bind="parentWorkPackageHiddenText">
+        <span bo-if="workPackage.parent_id" class="hidden-for-sighted" bo-text="parentWorkPackageHiddenText">
         </span>
-        <a ng-href="{{ workPackagePath(row.object.id) }}">{{row.object.id}}</a>
+        <a bo-href="workPackagePath(row.object.id)"
+           bo-text="row.object.id"/>
       </td>
 
-      <td ng-repeat="column in columns" class="{{column.name}}" lang="{{column.custom_field && column.custom_field.name_locale || I18n.locale}}">
+      <td ng-repeat="column in columns"
+          bo-class="[column.name]"
+          bind-once
+          bo-attr
+          bo-attr-lang="column.custom_field && column.custom_field.name_locale || I18n.locale">
         <span work-package-column
               work-package="row.object"
               column="column"
-              display-type="{{column.meta_data.data_type}}"/>
+              bo-attr
+              bo-attr-display-type="column.meta_data.data_type"/>
       </td>
     </tr>
 
@@ -146,23 +155,17 @@
         ng-if="displaySums && !!groupByColumn &&
                ($last || row.groupName !== rows[$index+1].groupName)"
         ng-show="!groupByColumn || groupExpanded[row.groupName]"
-        ng-class="[
-          'group-sum',
-          'sum',
-          'grouped',
-          'issue',
-          'work_package'
-        ]">
-        <td colspan="{{3  - (!!hideWorkPackageDetails * 1)}}">
-          {{ I18n.t('js.label_sum_for') }}
+        class="group-sum sum grouped issue work_package">
+        <td colspan="{{3  - (!!hideWorkPackageDetails * 1)}}"
+            bindonce>
+          <span bo-text="I18n.t('js.label_sum_for')"/>
           <span work-package-column
                 work-package="row.object"
                 column="groupByColumn"
                 display-empty="-"/>
         </td>
-        <td ng-repeat="column in columns">
-          {{ column.group_sums[row.groupName] }}
-        </td>
+        <td ng-repeat="column in columns"
+            ng-bind="column.group_sums[row.groupName]"/>
     </tr>
 
     <!-- Total sums -->
@@ -170,10 +173,12 @@
     <tr work-package-total-sums
         ng-if="displaySums"
         cg-busy="fetchTotalSums"
+        bindonce
         class="sum group all issue work_package">
-      <td colspan="{{3  - (!!hideWorkPackageDetails * 1)}}">{{ I18n.t('js.label_sum_for') }} {{ I18n.t('js.label_all_work_packages') }}</td>
-      <td ng-repeat="column in columns">
-        {{ column.total_sum }}
+      <td colspan="{{3  - (!!hideWorkPackageDetails * 1)}}"
+          bo-text="I18n.t('js.label_sum_for') + ' ' + I18n.t('js.label_all_work_packages')"/>
+      <td ng-repeat="column in columns"
+          ng-bind="column.total_sum">
       </td>
     </tr>
 

@@ -30,7 +30,7 @@ describe('accessibleCheckbox Directive', function() {
     var compile, element, rootScope, scope;
 
     beforeEach(angular.mock.module('openproject.uiComponents'));
-    beforeEach(module('templates'));
+    beforeEach(module('templates', 'pasvaz.bindonce'));
 
     beforeEach(inject(function($rootScope, $compile) {
       var html;
@@ -44,9 +44,11 @@ describe('accessibleCheckbox Directive', function() {
       scope.carModel = {
         nice: 'people'
       };
+      scope.title = 'New Label';
 
       compile = function() {
         $compile(element)(scope);
+        $compile(element.contents())(scope);
         scope.$digest();
       };
     }));
@@ -62,12 +64,6 @@ describe('accessibleCheckbox Directive', function() {
 
       it('should render a label', function() {
         var label = element.find('label');
-
-        expect(label.length).to.equal(1);
-        expect(label.text()).to.equal('');
-
-        scope.title = 'New Label';
-        scope.$apply();
         expect(label.text()).to.equal('New Label');
       });
 

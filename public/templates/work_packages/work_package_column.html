@@ -1,10 +1,10 @@
-<span ng-switch="displayType">
-  <progress-bar ng-switch-when="progress_bar"
-                progress="displayText"
+<span bo-switch="displayType" bindonce="columnData">
+  <progress-bar bo-switch-when="progress_bar"
+                progress="columnData.displayText"
                 width="80px">
   </progress-bar>
 
-  <a ng-switch-when="link" href="{{ url }}">{{ displayText }}</a>
+  <a bo-switch-when="link" bo-href="url" bo-text="columnData.displayText"></a>
 
-  <span ng-switch-default>{{ displayText }}</span>
+  <span bo-switch-default bo-text="columnData.displayText"></span>
 </span>

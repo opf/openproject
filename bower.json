@@ -25,7 +25,8 @@
     "moment-timezone": "~0.0.6",
     "angular-context-menu": "0.1.2",
     "angular-busy": "~4.0.4",
-    "hyperagent": "manwithtwowatches/hyperagent#v0.4.1"
+    "hyperagent": "manwithtwowatches/hyperagent#v0.4.1",
+    "angular-bindonce": "~0.3.1"
   },
   "devDependencies": {
     "mocha": "~1.14.0",

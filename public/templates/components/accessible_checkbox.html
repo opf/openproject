@@ -1,8 +1,9 @@
-<span class="accessible-checkbox">
-  <label for="{{ checkboxId }}" class="hidden-for-sighted">{{ checkboxTitle }}</label>
+<span class="accessible-checkbox" bindonce>
+  <label bo-attr bo-attr-for="checkboxId" class="hidden-for-sighted" bo-text="checkboxTitle"></label>
   <input type="checkbox"
          ng-model="model"
-         name="{{ name }}"
-         value="{{ checkboxValue }}"
-         id="{{ checkboxId }}"/>
+         bo-attr
+         bo-attr-name="name"
+         bo-attr-value="checkboxValue"
+         bo-attr-id="checkboxId"/>
 </span>

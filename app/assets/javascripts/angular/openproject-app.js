@@ -127,7 +127,8 @@ var openprojectApp = angular.module('openproject', [
   'feature-flags',
   'openproject.layout',
   'cgBusy',
-  'openproject.api'
+  'openproject.api',
+  'pasvaz.bindonce'
 ]);
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
