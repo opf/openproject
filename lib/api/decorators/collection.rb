@@ -27,20 +27,31 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API v3
-# This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
+require 'roar/decorator'
+require 'roar/representer/json/hal'
 
 module API
-  module V3
-    class Root < Grape::API
-      version 'v3', using: :path
+  module Decorators
+    class Collection < Roar::Decorator
+      include Roar::Representer::JSON::HAL
+      include Roar::Representer::Feature::Hypermedia
+      include OpenProject::StaticRouting::UrlHelpers
 
-      mount ::API::V3::Activities::ActivitiesAPI
-      mount ::API::V3::Attachments::AttachmentsAPI
-      mount ::API::V3::Queries::QueriesAPI
-      mount ::API::V3::Users::UsersAPI
-      mount ::API::V3::WorkPackages::WorkPackagesAPI
+      attr_reader :current_user, :as
+
+      def initialize(models, current_user: nil, as: nil)
+        @current_user = current_user
+        @as = as.to_s.camelize(:lower)
+        super(models)
+      end
+
+      as_strategy = API::Utilities::CamelCasingStrategy.new
+
+      property :total, as: :_total, exec_context: :decorator
+
+      def total
+        represented.first.model.class.count
+      end
     end
   end
 end

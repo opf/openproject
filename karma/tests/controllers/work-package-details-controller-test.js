@@ -51,7 +51,18 @@ describe('WorkPackageDetailsController', function() {
         },
         embedded: {
           activities: [],
+          watchers: [],
           attachments: []
+        },
+        links: {
+          availableWatchers: {
+            fetch: function() { return {then: angular.noop}; }
+          }
+        },
+        link: {
+          addWatcher: {
+            fetch: function() { return {then: angular.noop}; }
+          }
         },
       };
 

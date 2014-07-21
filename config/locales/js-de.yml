@@ -31,9 +31,11 @@ de:
     ajax:
       hide: "Verbergen"
       loading: "Lädt ..."
+    button_add_watcher: "Beobachter hinzufügen"
     button_check_all: "Alles auswählen"
     button_copy: "Kopieren"
     button_delete: "Löschen"
+    button_delete_watcher: "Lösche Beobachter"
     button_duplicate: "Duplizieren"
     button_edit: "Bearbeiten"
     button_log_time: "Aufwand buchen"
@@ -122,6 +124,8 @@ de:
     label_today: "heute"
     label_work_package: "Arbeitspaket"
     label_total_progress: "Gesamtfortschritt"
+    label_watch_work_package: "Arbeitspaket beobachten"
+    label_unwatch_work_package: "Arbeitspaket nicht beobachten"
 
     text_are_you_sure: "Sind Sie sicher?"
 

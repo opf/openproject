@@ -13,7 +13,7 @@ module API
             before do
               @work_package = WorkPackage.find(params[:id])
               model = ::API::V3::WorkPackages::WorkPackageModel.new(work_package: @work_package)
-              @representer =  ::API::V3::WorkPackages::WorkPackageRepresenter.new(model, :activities, :users)
+              @representer =  ::API::V3::WorkPackages::WorkPackageRepresenter.new(model, current_user: current_user)
             end
 
             get do
@@ -21,6 +21,7 @@ module API
               @representer.to_json
             end
 
+            mount ::API::V3::WorkPackages::WatchersAPI
           end
 
         end
