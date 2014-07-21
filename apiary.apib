@@ -860,28 +860,33 @@ A user must have the permission to **edit journals** to update an activity. A
                     ],
                     "relations": [
                         {
-                            "_type": "Relationship",
+                            "_type": "Relation::Relates",
                             "_links": {
                                 "self": {
-                                    "href": "/api/v3/relationships/1",
-                                    "title": "Work package A duplicated by Work package B"
+                                    "href": "http://localhost:3000//api/v3/relationships/1"
                                 },
-                                "workPackage": {
-                                    "href": "/api/v3/work_packages/1",
-                                    "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
+                                "relatedFrom": {
+                                    "href": "http://localhost:3000//api/v3/work_packages/1514"
                                 },
-                                "relatedWorkPackage": {
-                                    "href": "/api/v3/work_packages/2",
-                                    "title": "Lorem ipsum"
+                                "relatedTo": {
+                                    "href": "http://localhost:3000//api/v3/work_packages/1"
+                                }
+                            }
+                        },
+                        {
+                            "_type": "Relation::Precedes",
+                            "_links": {
+                                "self": {
+                                    "href": "http://localhost:3000//api/v3/relationships/4"
+                                },
+                                "relatedFrom": {
+                                    "href": "http://localhost:3000//api/v3/work_packages/1"
+                                },
+                                "relatedTo": {
+                                    "href": "http://localhost:3000//api/v3/work_packages/1513"
                                 }
                             },
-                            "id": 1,
-                            "type": "duplicates",
-                            "relatedWorkPackageId": 2,
-                            "relatedWorkPackageSubject": "Lorem ipsum",
-                            "relatedWorkPackageType": "Bug",
-                            "relatedWorkPackageStartDate": "2014-05-29",
-                            "relatedWorkPackageDueDate": "2014-08-29"
+                            "delay": 12
                         }
                     ],
                     "attachments": [
@@ -1137,28 +1142,33 @@ A user must have the permission to **edit journals** to update an activity. A
                     ],
                     "relations": [
                         {
-                            "_type": "Relationship",
+                            "_type": "Relation::Relates",
                             "_links": {
                                 "self": {
-                                    "href": "/api/v3/relationships/1",
-                                    "title": "Work package A duplicated by Work package B"
+                                    "href": "http://localhost:3000//api/v3/relationships/1"
                                 },
-                                "workPackage": {
-                                    "href": "/api/v3/work_packages/1",
-                                    "title": "quis numquam qui voluptatum quia praesentium blanditiis nisi"
+                                "relatedFrom": {
+                                    "href": "http://localhost:3000//api/v3/work_packages/1514"
                                 },
-                                "relatedWorkPackage": {
-                                    "href": "/api/v3/work_packages/2",
-                                    "title": "Lorem ipsum"
+                                "relatedTo": {
+                                    "href": "http://localhost:3000//api/v3/work_packages/1"
+                                }
+                            }
+                        },
+                        {
+                            "_type": "Relation::Precedes",
+                            "_links": {
+                                "self": {
+                                    "href": "http://localhost:3000//api/v3/relationships/4"
+                                },
+                                "relatedFrom": {
+                                    "href": "http://localhost:3000//api/v3/work_packages/1"
+                                },
+                                "relatedTo": {
+                                    "href": "http://localhost:3000//api/v3/work_packages/1513"
                                 }
                             },
-                            "id": 1,
-                            "type": "duplicates",
-                            "relatedWorkPackageId": 2,
-                            "relatedWorkPackageSubject": "Lorem ipsum",
-                            "relatedWorkPackageType": "Bug",
-                            "relatedWorkPackageStartDate": "2014-05-29",
-                            "relatedWorkPackageDueDate": "2014-08-29"
+                            "delay": 12
                         }
                     ],
                     "attachments": [
@@ -1250,6 +1260,7 @@ A user must have the permission to **create journals** to update an activity. A
 
 + Model
     + Body
+    
             {
                 "_total": 1674,
                 "_count": 1,
