@@ -50,7 +50,8 @@ describe('WorkPackageDetailsController', function() {
           ]
         },
         embedded: {
-          activities: []
+          activities: [],
+          attachments: []
         },
       };
 
@@ -78,6 +79,9 @@ describe('WorkPackageDetailsController', function() {
         },
         UserService: UserService,
         CustomFieldHelper: CustomFieldHelper,
+        WorkPackagesDetailsHelper: {
+          attachmentsTitle: function() { return ''; }
+        },
         workPackage: buildWorkPackageWithId(workPackageId),
       });
 
