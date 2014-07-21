@@ -26,7 +26,25 @@
  * See doc/COPYRIGHT.rdoc for more details.  ++
  */
 
+.detail-panel-description 
+  width: 100%
 .detail-panel-description-content
   .relation
     h3
       cursor: pointer
+    .content
+      .workpackages
+        table
+          width: 100%
+          thead
+            font-weight: bold
+            text-transform: uppercase
+            line-height: 32px
+          tbody
+            tr
+              td:first-of-type
+                text-overflow: ellipsis
+                white-space: nowrap
+                overflow: hidden
+                width: 350px
+                display: block
