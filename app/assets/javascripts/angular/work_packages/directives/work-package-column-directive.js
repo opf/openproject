@@ -45,6 +45,7 @@ angular.module('openproject.workPackages.directives')
         pre: function(scope, element, attributes) {
           var displayText;
           scope.displayType = scope.displayType || 'text';
+          scope.displayEmpty = scope.displayEmpty || '';
 
           // initially render placeholder content
           var placeholder = angular.element('<span>' + scope.displayEmpty + '</span>');
