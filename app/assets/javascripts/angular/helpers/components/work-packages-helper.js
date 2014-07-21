@@ -123,8 +123,29 @@ angular.module('openproject.workPackages.helpers')
 
     parseDateTime: function(value) {
       return new Date(Date.parse(value.replace(/(A|P)M$/, '')));
-    }
+    },
 
+    getRelatedTos: function(workPackage) {
+      var self = workPackage.links.self.href;
+      var relations = workPackage.embedded.relations;
+      var result = [];
+
+      if (relations) {
+        for (var x = 0; x < relations.length; x++) {
+          var relation = relations[x];
+
+          if (relation.props._type == "Relation::Relates") {
+            if (relation.links.relatedTo.href == self) {
+              result.push(relation.links.relatedFrom.fetch());
+            } else {
+              result.push(relation.links.relatedTo.fetch());
+            }
+          }
+        }
+      }
+
+      return result;
+    }
   };
 
   return WorkPackagesHelper;

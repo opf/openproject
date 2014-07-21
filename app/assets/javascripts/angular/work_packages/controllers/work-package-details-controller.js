@@ -165,6 +165,9 @@ angular.module('openproject.workPackages.controllers')
       // Attachments
       $scope.attachments = workPackage.embedded.attachments;
 
+      // relations
+      $scope.relatedTo = WorkPackagesHelper.getRelatedTos(workPackage);
+
       // Author
       $scope.author = workPackage.embedded.author;
     }
