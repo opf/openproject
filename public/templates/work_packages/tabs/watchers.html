@@ -10,5 +10,12 @@
                       ng-click="deleteWatcher(watcher)"></icon-wrapper>
       </li>
     </ul>
+
+    <ul>
+    <li ng-repeat="watcher in availableWatchers">
+      {{watcher.props.login}}
+      <a href ng-click="addWatcher(watcher.props.id)">Add</a>
+    </li>
+    </ul>
   </div>
 </div>

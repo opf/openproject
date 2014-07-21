@@ -90,6 +90,17 @@ angular.module('openproject.workPackages.controllers')
 
     $scope.author = workPackage.embedded.author;
 
+    // available watchers
+
+    workPackage.links.availableWatchers.fetch().then(function(data) {
+      $scope.availableWatchers = data.embedded.availableWatchers;
+    });
+
+    $scope.addWatcher = function(id) {
+      workPackage.link('addWatcher', {user_id: id}).fetch({ajax: {method: 'POST'}}).then(refreshWorkPackage, outputError)
+    }
+
+
     // activities and latest activities
 
     $scope.activities = workPackage.embedded.activities;

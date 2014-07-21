@@ -74,6 +74,13 @@ module API
           } unless represented.work_package.assigned_to.nil?
         end
 
+        link :availableWatchers do
+            {
+                href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}/available_watchers",
+                 title: "Available Watchers"
+            }
+        end
+
         link :watch do
           {
               href: "#{root_url}/api/v3/work_packages/#{represented.work_package.id}/watchers",
@@ -93,7 +100,7 @@ module API
           } if current_user_allowed_to(:view_work_packages, represented.work_package) && represented.work_package.watcher_users.include?(@current_user)
         end
 
-        link :add_watcher do
+        link :addWatcher do
           {
               href: "#{root_url}/api/v3/work_packages/#{represented.work_package.id}/watchers{?user_id}",
               method: :post,
