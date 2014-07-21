@@ -28,7 +28,7 @@
 
 angular.module('openproject.workPackages.tabs')
 
-.directive('userActivity', ['I18n', 'PathHelper', 'ActivityService', function(I18n, PathHelper, ActivityService) {
+.directive('userActivity', ['$uiViewScroll', 'I18n', 'PathHelper', 'ActivityService', function($uiViewScroll, I18n, PathHelper, ActivityService) {
   return {
     restrict: 'E',
     replace: true,
@@ -43,6 +43,7 @@ angular.module('openproject.workPackages.tabs')
       scope.I18n = I18n;
       scope.userPath = PathHelper.staticUserPath;
       scope.inEdit = false;
+      scope.inFocus = false;
 
       scope.activity.links.user.fetch().then(function(user) {
         scope.userId = user.props.id;
@@ -59,7 +60,9 @@ angular.module('openproject.workPackages.tabs')
       };
 
       scope.quoteComment = function() {
-        angular.element('#' + scope.inputElementId).val(quotedText(scope.activity.props.rawComment));
+        var elem = angular.element('#' + scope.inputElementId);
+        elem.val(quotedText(scope.activity.props.rawComment));
+        $uiViewScroll(elem);
       };
 
       scope.updateComment = function(comment) {
@@ -68,6 +71,14 @@ angular.module('openproject.workPackages.tabs')
           scope.$emit('workPackageRefreshRequired', '');
           scope.inEdit = false;
         });
+      };
+
+      scope.showActions = function() {
+        scope.inFocus = true;
+      };
+
+      scope.hideActions = function() {
+        scope.inFocus = false;
       };
 
       // TODO RS: Move this into WorkPackageDetailsHepler once it has been merge in from attachments branch

@@ -1,6 +1,12 @@
-<div class="work-package-details-activities-activity-contents">
+<div class="work-package-details-activities-activity-contents"
+     ng-mouseover="showActions()"
+     ng-mouseout="hideActions()">
   <div class="comments-number"><a ng-href="#{{ currentAnchor }}" ng-bind="'#' + activityNo"></a>
-    <div class="comments-icons"><i class="icon-quote" ng-click="quoteComment()"></i><i class="icon-edit" ng-click="editComment()"></i></div>
+    <div class="comments-icons"
+         ng-show="activity.props._type == 'Activity::Comment' && inFocus">
+      <i class="icon-quote action-icon" ng-click="quoteComment()"></i>
+      <i class="icon-edit action-icon" ng-click="editComment()"></i>
+    </div>
   </div>
   <img class="avatar" ng-src="{{ userAvatar }}" />
   <span class="user"><a ng-href="{{ userPath(userId) }}" name="{{ currentAnchor }}" ng-bind="userName"></a></span>
