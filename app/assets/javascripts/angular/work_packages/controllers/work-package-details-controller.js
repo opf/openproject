@@ -94,10 +94,49 @@ angular.module('openproject.workPackages.controllers')
 
     $scope.$watch('watchers.length', fetchAvailableWatchers)
 
-    function fetchAvailableWatchers() {
-      workPackage.links.availableWatchers.fetch().then(function(data) {
-        $scope.availableWatchers = data.embedded.availableWatchers;
+    /**
+     * @name getResourceIdentifier
+     * @function
+     *
+     * @description
+     * Returns the resource identifier of an API resource retrieved via hyperagent
+     *
+     * @param {Object} resource The resource object
+     *
+     * @returns {String} identifier
+     */
+    function getResourceIdentifier(resource) {
+      // TODO move to helper
+      return resource.links.self.href;
+    }
+
+    /**
+     * @name getFilteredCollection
+     * @function
+     *
+     * @description
+     * Filters collection of HAL resources by entries listed in resourcesToBeFilteredOut
+     *
+     * @param {Array} collection Array of resources retrieved via hyperagend
+     * @param {Array} resourcesToBeFilteredOut Entries to be filtered out
+     *
+     * @returns {Array} filtered collection
+     */
+    function getFilteredCollection(collection, resourcesToBeFilteredOut) {
+      return collection.filter(function(resource) {
+        return resourcesToBeFilteredOut.map(getResourceIdentifier).indexOf(getResourceIdentifier(resource)) === -1
       });
+    }
+
+    function fetchAvailableWatchers() {
+      workPackage.links.availableWatchers
+        .fetch()
+        .then(function(data) {
+          // Temporarily filter out watchers already assigned to the work package on the client-side
+          $scope.availableWatchers = getFilteredCollection(data.embedded.availableWatchers, $scope.watchers);
+          // TODO do filtering on the API side and replace the update of the available watchers with the code provided in the following line
+          // $scope.availableWatchers = data.embedded.availableWatchers;
+        });
     }
 
     $scope.addWatcher = function(id) {
