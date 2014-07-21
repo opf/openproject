@@ -34,6 +34,7 @@ angular.module('openproject.services')
       var d = moment.utc(date);
 
       if (ConfigurationService.isTimezoneSet()) {
+        d.local();
         d.tz(ConfigurationService.timezone());
       }
 
