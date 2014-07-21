@@ -52,9 +52,25 @@ describe('WorkPackageDetailsController', function() {
         embedded: {
           activities: [],
           watchers: [],
-          attachments: []
+          attachments: [],
+          relations: [
+            {
+              props: {
+                _type: "Relation::Relates"
+              },
+              links: {
+                relatedFrom: {
+                  fetch: sinon.spy()
+                },
+                relatedTo: {
+                  fetch: sinon.spy()
+                }
+              }
+            }
+          ]
         },
         links: {
+          self: "it's a me, it's... you know...",
           availableWatchers: {
             fetch: function() { return {then: angular.noop}; }
           }
@@ -306,6 +322,16 @@ describe('WorkPackageDetailsController', function() {
 
         it('fetches the user using the user service', function() {
           expect(UserService.getUser.calledWith(userId)).to.be.true;
+        });
+      });
+
+      describe('relations', function() {
+        beforeEach(function() {
+          buildController();
+        });
+
+        it('Relation::Relates', function() {
+          expect(scope.relatedTo.length).to.eq(1);
         });
       });
     });
