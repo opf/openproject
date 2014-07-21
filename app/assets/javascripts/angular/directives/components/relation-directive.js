@@ -29,7 +29,11 @@
 // TODO move to UI components
 angular.module('openproject.uiComponents')
 
-.directive('workPackageRelation', ['I18n', 'PathHelper', function(I18n, PathHelper) {
+.directive('workPackageRelation', [
+    'I18n',
+    'PathHelper',
+    'WorkPackagesHelper',
+    function(I18n, PathHelper, WorkPackagesHelper) {
   return {
     restrict: 'E',
     replace: true,
@@ -38,6 +42,7 @@ angular.module('openproject.uiComponents')
     link: function(scope, element, attrs) {
       scope.I18n = I18n;
       scope.PathHelper = PathHelper;
+      scope.WorkPackagesHelper = WorkPackagesHelper;
 
       scope.relatedWorkPackages = [];
 

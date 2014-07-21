@@ -125,6 +125,18 @@ angular.module('openproject.workPackages.helpers')
       return new Date(Date.parse(value.replace(/(A|P)M$/, '')));
     },
 
+    getFullIdentifier: function(workPackage) {
+      var id = '#' + workPackage.props.id;
+
+      if (workPackage.props.type) {
+        id += ' ' + workPackage.props.type + ':';
+      }
+
+      id += ' ' + workPackage.props.subject;
+
+      return id;
+    },
+
     getRelatedTos: function(workPackage) {
       var self = workPackage.links.self.href;
       var relations = workPackage.embedded.relations;

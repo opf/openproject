@@ -18,7 +18,7 @@
             <tr>
               <td>
                 <a href="{{ PathHelper.workPackagePath(workPackage.props.id) }}">
-                  {{ workPackage.props.subject }}
+                  {{ WorkPackagesHelper.getFullIdentifier(workPackage) }}
                 </a>
               </td>
               <td>{{ workPackage.props.status }}</td>
