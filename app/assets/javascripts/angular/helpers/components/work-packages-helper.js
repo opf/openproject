@@ -137,6 +137,27 @@ angular.module('openproject.workPackages.helpers')
       return id;
     },
 
+    getParent: function(workPackage) {
+      var wpParent = workPackage.links.parent;
+
+      return (wpParent) ? [wpParent.fetch()] : [];
+    },
+
+    getChildren: function(workPackage) {
+      var children = workPackage.links.children;
+      var result = [];
+
+      if (children) {
+        for (var x = 0; x < children.length; x++) {
+          var child = children[x];
+
+          result.push(child.fetch());
+        }
+      }
+
+      return result;
+    },
+
     getRelationsOfType: function(workPackage, type) {
       var self = workPackage.links.self.href;
       var relations = workPackage.embedded.relations;

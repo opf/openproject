@@ -166,6 +166,8 @@ angular.module('openproject.workPackages.controllers')
       $scope.attachments = workPackage.embedded.attachments;
 
       // relations
+      $scope.wpParent = WorkPackagesHelper.getParent(workPackage);
+      $scope.wpChildren = WorkPackagesHelper.getChildren(workPackage);
       $scope.relatedTo = WorkPackagesHelper.getRelationsOfType(workPackage, "Relation::Relates");
       $scope.duplicates = WorkPackagesHelper.getRelationsOfType(workPackage, "Relation::Duplicates");
       $scope.duplicated = WorkPackagesHelper.getRelationsOfType(workPackage, "Relation::Duplicated");
