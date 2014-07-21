@@ -137,7 +137,7 @@ angular.module('openproject.workPackages.helpers')
       return id;
     },
 
-    getRelationOfType: function(workPackage, type) {
+    getRelationsOfType: function(workPackage, type) {
       var self = workPackage.links.self.href;
       var relations = workPackage.embedded.relations;
       var result = [];

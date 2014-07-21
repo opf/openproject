@@ -166,13 +166,14 @@ angular.module('openproject.workPackages.controllers')
       $scope.attachments = workPackage.embedded.attachments;
 
       // relations
-      $scope.relatedTo = WorkPackagesHelper.getRelationOfType(workPackage, "Relation::Relates");
-      $scope.duplicates = WorkPackagesHelper.getRelationOfType(workPackage, "Relation::Duplicates");
-      $scope.duplicated = WorkPackagesHelper.getRelationOfType(workPackage, "Relation::Duplicated");
-      $scope.blocks = WorkPackagesHelper.getRelationOfType(workPackage, "Relation::Blocks");
-      $scope.blocked = WorkPackagesHelper.getRelationOfType(workPackage, "Relation::Blocked");
-      $scope.precedes = WorkPackagesHelper.getRelationOfType(workPackage, "Relation::Precedes");
-      $scope.follows = WorkPackagesHelper.getRelationOfType(workPackage, "Relation::Follows");
+      $scope.relatedTo = WorkPackagesHelper.getRelationsOfType(workPackage, "Relation::Relates");
+      $scope.duplicates = WorkPackagesHelper.getRelationsOfType(workPackage, "Relation::Duplicates");
+      $scope.duplicated = WorkPackagesHelper.getRelationsOfType(workPackage, "Relation::Duplicated");
+      $scope.blocks = WorkPackagesHelper.getRelationsOfType(workPackage, "Relation::Blocks");
+      $scope.blocked = WorkPackagesHelper.getRelationsOfType(workPackage, "Relation::Blocked");
+      $scope.precedes = WorkPackagesHelper.getRelationsOfType(workPackage, "Relation::Precedes");
+      $scope.follows = WorkPackagesHelper.getRelationsOfType(workPackage, "Relation::Follows");
+
 
       // Author
       $scope.author = workPackage.embedded.author;
