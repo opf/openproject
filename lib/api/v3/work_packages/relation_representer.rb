@@ -36,7 +36,7 @@ module API
       class RelationRepresenter < Roar::Decorator
         include Roar::Representer::JSON::HAL
         include Roar::Representer::Feature::Hypermedia
-        include ::Rails.application.routes.url_helpers
+        include OpenProject::StaticRouting::UrlHelpers
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
@@ -70,21 +70,17 @@ module API
 
         private
 
-          def default_url_options
-            ActionController::Base.default_url_options
+        def related_work_package
+          if  represented.model.from == @work_package
+            represented.model.to
+          else
+            represented.model.from
           end
+        end
 
-          def related_work_package
-            if  represented.model.from == @work_package
-              represented.model.to
-            else
-              represented.model.from
-            end
-          end
-
-          def relation_type
-            represented.model.relation_type_for(@work_package).camelize
-          end
+        def relation_type
+          represented.model.relation_type_for(@work_package).camelize
+        end
 
       end
     end
