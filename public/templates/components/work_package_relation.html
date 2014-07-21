@@ -1,11 +1,11 @@
 <div class="relation">
   <h3 ng-click="expand=!expand">
     <i class="icon-pull-content" ng-class="collapseStateIcon(!expand)"></i> {{ title }}
-    <span ng-if="relationsExist() && !isSingleRelation()">({{ relations.length }})</span>
+    <span ng-if="!isSingletonRelation">({{ relatedWorkPackages.length }})</span>
   </h3>
   <div class="content" ng-show="expand">
     <div class="workpackages">
-      <div ng-if="relationsExist()">
+      <div ng-if="relatedWorkPackages">
         <table>
           <thead>
             <tr>
@@ -14,16 +14,24 @@
               <td>{{ I18n.t('js.work_packages.properties.assignee') }}</td>
             </tr>
           </thead>
-          <tbody ng-repeat="relation in getRelations()">
+          <tbody ng-repeat="workPackage in relatedWorkPackages">
             <tr>
-              <td>{{ relation.subject }}</td>
-              <td>{{ relation.status }}</td>
-              <td>{{ relation.assignee }}</td>
+              <td>
+                <a href="{{ PathHelper.workPackagePath(workPackage.props.id) }}">
+                  {{ workPackage.props.subject }}
+                </a>
+              </td>
+              <td>{{ workPackage.props.status }}</td>
+              <td>
+                <a href="{{ PathHelper.userPath(workPackage.embedded.assignee.props.id) }}">
+                  {{ workPackage.embedded.assignee.props.firstName + ' ' + workPackage.embedded.assignee.props.lastName }}
+                </a>
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div ng-if="!relations || relations.length === 0">
+      <div ng-if="!relatedWorkPackages || relatedWorkPackages.length === 0">
         No relation exists
       </div>
     </div>

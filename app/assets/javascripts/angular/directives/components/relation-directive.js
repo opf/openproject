@@ -29,14 +29,25 @@
 // TODO move to UI components
 angular.module('openproject.uiComponents')
 
-.directive('workPackageRelation', ['I18n', function(I18n) {
+.directive('workPackageRelation', ['I18n', 'PathHelper', function(I18n, PathHelper) {
   return {
     restrict: 'E',
     replace: true,
-    scope: { title: '@', relations: '=', btnTitle: '@buttonTitle', btnIcon: '@buttonIcon' },
+    scope: { title: '@', relations: '=', btnTitle: '@buttonTitle', btnIcon: '@buttonIcon', isSingletonRelation: '@singletonRelation' },
     templateUrl: '/templates/components/work_package_relation.html',
     link: function(scope, element, attrs) {
       scope.I18n = I18n;
+      scope.PathHelper = PathHelper;
+
+      scope.relatedWorkPackages = [];
+
+      if (scope.relations) {
+        for (var x = 0; x < scope.relations.length; x++) {
+          scope.relations[x].then(function(workPackage) {
+            scope.relatedWorkPackages.push(workPackage);
+          });
+        }
+      }
 
       scope.collapseStateIcon = function(collapsed) {
         var iconClass = 'icon-arrow-right5-';
@@ -50,25 +61,7 @@ angular.module('openproject.uiComponents')
         return iconClass;
       }
 
-      scope.getRelations = function() {
-        if (Array.isArray(scope.relations)) {
-          return scope.relations;
-        } else {
-          return [scope.relations];
-        }
-      }
-
-      scope.relationsExist = function() {
-        return scope.relations
-               && ((Array.isArray(scope.relations) && scope.relations.length > 0)
-                   || !Array.isArray(scope.relations));
-      }
-
-      scope.isSingleRelation = function() {
-        return scope.relations && !Array.isArray(scope.relations)
-      }
-
-      scope.expand = scope.relationsExist() && (scope.isSingleRelation() || scope.relations.length > 0);
+      scope.expand = scope.relations && scope.relations.length > 0;
     }
   };
 }]);
