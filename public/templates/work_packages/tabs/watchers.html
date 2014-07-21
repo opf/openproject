@@ -1,6 +1,6 @@
 <div class="detail-panel-content">
-  <div class="detail-panel-watchers">
-    <ul>
+  <div id="detail-panel-watchers">
+    <ul ng-if="watchers.length">
       <li ng-repeat="watcher in watchers">
         <user-field user="watcher"></user-field>
         <icon-wrapper icon-name="close"
@@ -11,11 +11,16 @@
       </li>
     </ul>
 
-    <ul>
-    <li ng-repeat="watcher in availableWatchers">
-      {{watcher.props.login}}
-      <a href ng-click="addWatcher(watcher.props.id)">Add</a>
-    </li>
-    </ul>
+    <div id="detail-panel-watchers-add-watcher" ng-if="availableWatchers.length">
+      <h3 ng-bind="I18n.t('js.button_add_watcher')"/>
+      <fieldset>
+        <legend ng-bind="I18n.t('js.button_add_watcher')" class="hidden-for-sighted"/>
+        <select id="detail-panel-watchers-add-watcher-select"
+                ng-model="newWatcherId"
+                ng-options="watcher.props.id as watcher.props.login for watcher in availableWatchers"
+                ng-change="addWatcher(newWatcherId); newWatcherId=null"/>
+      </fieldset>
+    </div>
+
   </div>
 </div>

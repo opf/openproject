@@ -92,13 +92,20 @@ angular.module('openproject.workPackages.controllers')
 
     // available watchers
 
-    workPackage.links.availableWatchers.fetch().then(function(data) {
-      $scope.availableWatchers = data.embedded.availableWatchers;
-    });
+    $scope.$watch('watchers.length', fetchAvailableWatchers)
+
+    function fetchAvailableWatchers() {
+      workPackage.links.availableWatchers.fetch().then(function(data) {
+        $scope.availableWatchers = data.embedded.availableWatchers;
+      });
+    }
 
     $scope.addWatcher = function(id) {
-      workPackage.link('addWatcher', {user_id: id}).fetch({ajax: {method: 'POST'}}).then(refreshWorkPackage, outputError);
+      workPackage.link('addWatcher', {user_id: id})
+        .fetch({ajax: {method: 'POST'}})
+        .then(refreshWorkPackage, outputError)
     };
+
 
     // activities and latest activities
 
