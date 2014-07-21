@@ -21,8 +21,8 @@
     "angular-truncate": "sparkalow/angular-truncate#fdf60fda265042d12e9414b5354b2cc52f1419de",
     "angular-feature-flags": "mjt01/angular-feature-flags#ca40201e2279777dc3820c783f60f845cefff731",
     "jquery-migrate": "~1.2.1",
-    "momentjs": "~2.6.0",
-    "moment-timezone": "~0.0.6",
+    "momentjs": "~2.7.0",
+    "moment-timezone": "~0.2.0",
     "angular-context-menu": "0.1.2",
     "angular-busy": "~4.0.4",
     "hyperagent": "manwithtwowatches/hyperagent#v0.4.1"
