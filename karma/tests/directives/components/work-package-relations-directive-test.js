@@ -27,13 +27,13 @@
 //++
 
 describe('Work Package Relation Directive', function() {
-  var I18n, compile, element, scope;
+  var I18n, PathHelper, compile, element, scope;
 
-  beforeEach(angular.mock.module('openproject.uiComponents', 'ngSanitize'));
+  beforeEach(angular.mock.module('openproject.uiComponents', 'openproject.helpers', 'ngSanitize'));
   beforeEach(module('templates', function($provide) {
   }));
 
-  beforeEach(inject(function($rootScope, $compile, _I18n_) {
+  beforeEach(inject(function($rootScope, $compile, _I18n_, _PathHelper_) {
     scope = $rootScope.$new();
 
     compile = function(html) {
@@ -42,6 +42,7 @@ describe('Work Package Relation Directive', function() {
     };
 
     I18n = _I18n_;
+    PathHelper = _PathHelper_;
 
     var stub = sinon.stub(I18n, 't');
 
@@ -54,19 +55,55 @@ describe('Work Package Relation Directive', function() {
     I18n.t.restore();
   });
 
-  var html = "<work-package-relation title='MyRelation' relations='relations' button-title='Add Relation' button-icon='%MyIcon%'></work-package-relation>"
+  var multiElementHtml = "<work-package-relation title='MyRelation' relations='relations' button-title='Add Relation' button-icon='%MyIcon%'></work-package-relation>"
+  var singleElementHtml = "<work-package-relation title='MyRelation' relations='relations' button-title='Add Relation' button-icon='%MyIcon%' singleton-relation='true'></work-package-relation>"
 
-  var workPackage1 = new Object();
-  var workPackage2 = new Object();
+
+  var workPackage1;
+  var workPackage2;
+  var promis1;
+  var promis2;
 
   beforeEach(function() {
-    workPackage1.subject = "Subject 1";
-    workPackage1.status = "Status 1";
-    workPackage1.assignee = "Assignee 1";
+    workPackage1 = {
+      props: {
+        id: "1",
+        subject: "Subject 1",
+        status: "Status 1"
+      },
+      embedded: {
+        assignee: {
+          props: {
+            firstName: "Assignee",
+            lastName: "1"
+          }
+        }
+      }
+    };
+    workPackage2 = {
+      props: {
+        id: "2",
+        subject: "Subject 2",
+        status: "Status 2"
+      },
+      embedded: {
+        assignee: {
+          props: {
+            firstName: "Assignee",
+            lastName: "2"
+          }
+        }
+      }
+    };
 
-    workPackage2.subject = "Subject 2";
-    workPackage2.status = "Status 2";
-    workPackage2.assignee = "Assignee 2";
+    promis1 = new Object();
+    promis2 = new Object();
+
+    promis1.then = sinon.stub();
+    promis2.then = sinon.stub();
+
+    promis1.then.yields(workPackage1);
+    promis2.then.yields(workPackage2);
   });
 
   var shouldBehaveLikeRelationDirective = function() {
@@ -104,9 +141,9 @@ describe('Work Package Relation Directive', function() {
         var column1 = angular.element(element.find('.workpackages table tbody:nth-of-type(' + x + ') tr td:nth-child(2)'));
         var column2 = angular.element(element.find('.workpackages table tbody:nth-of-type(' + x + ') tr td:nth-child(3)'));
 
-        expect(angular.element(column0).text()).to.eq('Subject ' + x);
-        expect(angular.element(column1).text()).to.eq('Status ' + x);
-        expect(angular.element(column2).text()).to.eq('Assignee ' + x);
+        expect(angular.element(column0).text()).to.include('Subject ' + x);
+        expect(angular.element(column1).text()).to.include('Status ' + x);
+        expect(angular.element(column2).text()).to.include('Assignee ' + x);
       }
     });
   };
@@ -150,7 +187,7 @@ describe('Work Package Relation Directive', function() {
 
   describe('no element markup', function() {
     beforeEach(function() {
-      compile(html);
+      compile(singleElementHtml);
     });
 
     shouldBehaveLikeSingleRelationDirective();
@@ -160,9 +197,9 @@ describe('Work Package Relation Directive', function() {
 
   describe('single element markup', function() {
     beforeEach(function() {
-      scope.relations = workPackage1;
+      scope.relations = [promis1];
 
-      compile(html);
+      compile(singleElementHtml);
     });
 
     shouldBehaveLikeRelationDirective();
@@ -178,9 +215,9 @@ describe('Work Package Relation Directive', function() {
 
   describe('multi element markup', function() {
     beforeEach(function() {
-      scope.relations = [workPackage1, workPackage2];
+      scope.relations = [promis1, promis2];
 
-      compile(html);
+      compile(multiElementHtml);
     });
 
     shouldBehaveLikeRelationDirective();
