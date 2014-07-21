@@ -31,10 +31,26 @@ my @directives = (
     req_override => OR_AUTHCFG,
     args_how => TAKE1,
   },
+  {
+    name => 'OpenProjectGitSmartHttp',
+    req_override => OR_AUTHCFG,
+    args_how => TAKE1,
+  },
 );
 
 sub OpenProjectUrl { set_val('OpenProjectUrl', @_); }
 sub OpenProjectApiKey { set_val('OpenProjectApiKey', @_); }
+
+sub OpenProjectGitSmartHttp {
+  my ($self, $params, $arg) = @_;
+  $arg = lc $arg;
+
+  if ($arg eq "yes" || $arg eq "true") {
+    $self->{OpenProjectGitSmartHttp} = 1;
+  } else {
+    $self->{OpenProjectGitSmartHttp} = 0;
+  }
+}
 
 sub trim {
   my $string = shift;
@@ -93,8 +109,20 @@ sub is_access_allowed {
 
   my $key = $cfg->{OpenProjectApiKey};
   my $openproject_url = $cfg->{OpenProjectUrl} . '/sys/repo_auth';
+  my $openproject_unparsed_uri = $r->unparsed_uri;
+  my $openproject_location = $r->location;
+  my $openproject_git_smart_http = 0;
+  if (defined $cfg->{OpenProjectGitSmartHttp} and $cfg->{OpenProjectGitSmartHttp}) {
+    $openproject_git_smart_http = 1;
+  }
 
-  my $openproject_req = POST $openproject_url , [ repository => $identifier, key => $key, method => $method ];
+  my $openproject_req = POST $openproject_url , [
+      repository => $identifier,
+      key => $key,
+      method => $method,
+      location => $openproject_location,
+      uri => $openproject_unparsed_uri,
+      git_smart_http => $openproject_git_smart_http ];
   $openproject_req->authorization_basic( $login, $password );
 
   my $ua = LWP::UserAgent->new;
@@ -106,8 +134,10 @@ sub is_access_allowed {
 sub get_project_identifier {
     my $r = shift;
 
+    my $cfg = Apache2::Module::get_config(__PACKAGE__, $r->server, $r->per_dir_config);
     my $location = $r->location;
-    my ($identifier) = $r->uri =~ m{$location/*([^/]+)};
+    $location =~ s/\.git$// if (defined $cfg->{OpenProjectGitSmartHttp} and $cfg->{OpenProjectGitSmartHttp});
+    my ($identifier) = $r->uri =~ m{$location/*([^/.]+)};
     $identifier;
 }
 

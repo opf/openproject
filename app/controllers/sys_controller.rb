@@ -73,18 +73,28 @@ class SysController < ActionController::Base
 
   def repo_auth
     @project = Project.find_by_identifier(params[:repository])
-
-    if ( %w(GET PROPFIND REPORT OPTIONS).include?(params[:method]) &&
-        @authenticated_user.allowed_to?(:browse_repository, @project) ) ||
-        @authenticated_user.allowed_to?(:commit_access, @project)
+    git = params[:git_smart_http] == '1'
+    if (git && authenticate_git_user(@project, @authenticated_user, params[:uri], params[:location])) ||
+       (!git && authenticate_svn_user(@project, @authenticated_user, params[:method]))
       render :text => "Access granted"
-      return
+    else
+      render :text => "Not allowed", :status => 403 # default to deny
     end
-
-    render :text => "Not allowed", :status => 403 # default to deny
   end
 
-  protected
+  private
+
+  def authenticate_git_user(project, user, uri, location)
+    read_only = !%r{^#{location}/*[^/]+/+(info/refs\?service=)?git\-receive\-pack$}o.match(uri)
+    return (read_only && user.allowed_to?(:browse_repository, project)) ||
+	   user.allowed_to?(:commit_access, project)
+  end
+
+  def authenticate_svn_user(project, user, method)
+    read_only = %w(GET PROPFIND REPORT OPTIONS).include?(params[:method])
+    return (read_only && user.allowed_to?(:browse_repository, project)) ||
+           user.allowed_to?(:commit_access, project)
+  end
 
   def check_enabled
     User.current = nil
@@ -93,8 +103,6 @@ class SysController < ActionController::Base
       return false
     end
   end
-
-  private
 
   def require_basic_auth
     authenticate_with_http_basic do |username, password|
