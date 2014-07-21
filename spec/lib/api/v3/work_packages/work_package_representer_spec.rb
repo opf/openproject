@@ -137,7 +137,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       context 'when the user has the permission to add and remove watchers' do
         it 'should have a link to add watcher' do
-          expect(subject).to have_json_path('_links/add_watcher/href')
+          expect(subject).to have_json_path('_links/addWatcher/href')
         end
       end
 
