@@ -54,8 +54,12 @@ module API
          { href: "#{root_url}/api/v3/relationships/#{represented.model.id}" }
         end
 
-        link :relatedWorkPackage do
-          { href: "#{root_url}/api/v3/work_packages/#{related_work_package.id}" }
+        link :relatedFrom do
+          { href: "#{root_url}/api/v3/work_packages/#{represented.model.from_id}" }
+        end
+
+        link :relatedTo do
+          { href: "#{root_url}/api/v3/work_packages/#{represented.model.to_id}" }
         end
 
         property :delay, getter: -> (*) { model.delay }, render_nil: true, if: -> (*) { model.relation_type == 'precedes' }
