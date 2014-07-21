@@ -1295,6 +1295,7 @@ en:
   setting_plain_text_mail: "Plain text mail (no HTML)"
   setting_protocol: "Protocol"
   setting_repositories_encodings: "Repositories encodings"
+  setting_repository_authentication_caching_enabled: "Enable caching for authentication request of version control software"
   setting_repository_log_display_limit: "Maximum number of revisions displayed on file log"
   setting_rest_api_enabled: "Enable REST web service"
   setting_self_registration: "Self-registration"
