@@ -4,5 +4,5 @@ Subscribem.configure do |c|
   c.settings_class       = 'Setting'
   c.host                 = ENV.fetch('HOST_NAME') { 'openproject-demo.org' }
   c.excluded_domains     = ENV.fetch('SUBSCRIBEM_EXCLUDED_DOMAINS',
-                                     'localhost openproject.dev').split(' ')
+                                     '127.0.0.1 localhost openproject.dev').split(' ')
 end if defined? Subscribem
