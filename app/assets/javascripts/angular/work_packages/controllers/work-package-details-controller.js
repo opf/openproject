@@ -166,7 +166,13 @@ angular.module('openproject.workPackages.controllers')
       $scope.attachments = workPackage.embedded.attachments;
 
       // relations
-      $scope.relatedTo = WorkPackagesHelper.getRelatedTos(workPackage);
+      $scope.relatedTo = WorkPackagesHelper.getRelationOfType(workPackage, "Relation::Relates");
+      $scope.duplicates = WorkPackagesHelper.getRelationOfType(workPackage, "Relation::Duplicates");
+      $scope.duplicated = WorkPackagesHelper.getRelationOfType(workPackage, "Relation::Duplicated");
+      $scope.blocks = WorkPackagesHelper.getRelationOfType(workPackage, "Relation::Blocks");
+      $scope.blocked = WorkPackagesHelper.getRelationOfType(workPackage, "Relation::Blocked");
+      $scope.precedes = WorkPackagesHelper.getRelationOfType(workPackage, "Relation::Precedes");
+      $scope.follows = WorkPackagesHelper.getRelationOfType(workPackage, "Relation::Follows");
 
       // Author
       $scope.author = workPackage.embedded.author;

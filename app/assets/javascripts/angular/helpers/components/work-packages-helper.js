@@ -137,7 +137,7 @@ angular.module('openproject.workPackages.helpers')
       return id;
     },
 
-    getRelatedTos: function(workPackage) {
+    getRelationOfType: function(workPackage, type) {
       var self = workPackage.links.self.href;
       var relations = workPackage.embedded.relations;
       var result = [];
@@ -146,7 +146,7 @@ angular.module('openproject.workPackages.helpers')
         for (var x = 0; x < relations.length; x++) {
           var relation = relations[x];
 
-          if (relation.props._type == "Relation::Relates") {
+          if (relation.props._type == type) {
             if (relation.links.relatedTo.href == self) {
               result.push(relation.links.relatedFrom.fetch());
             } else {
