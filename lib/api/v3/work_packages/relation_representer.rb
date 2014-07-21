@@ -51,15 +51,15 @@ module API
         property :_type, exec_context: :decorator
 
         link :self do
-         { href: "#{root_url}/api/v3/relationships/#{represented.model.id}" }
+         { href: "#{root_url}api/v3/relationships/#{represented.model.id}" }
         end
 
         link :relatedFrom do
-          { href: "#{root_url}/api/v3/work_packages/#{represented.model.from_id}" }
+          { href: "#{root_url}api/v3/work_packages/#{represented.model.from_id}" }
         end
 
         link :relatedTo do
-          { href: "#{root_url}/api/v3/work_packages/#{represented.model.to_id}" }
+          { href: "#{root_url}api/v3/work_packages/#{represented.model.to_id}" }
         end
 
         property :delay, getter: -> (*) { model.delay }, render_nil: true, if: -> (*) { model.relation_type == 'precedes' }
