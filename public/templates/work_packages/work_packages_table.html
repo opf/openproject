@@ -152,13 +152,7 @@
         ng-if="displaySums && !!groupByColumn &&
                ($last || row.groupName !== rows[$index+1].groupName)"
         ng-show="!groupByColumn || groupExpanded[row.groupName]"
-        ng-class="[
-          'group-sum',
-          'sum',
-          'grouped',
-          'issue',
-          'work_package'
-        ]">
+        class="group-sum sum grouped issue work_package">
         <td colspan="{{3  - (!!hideWorkPackageDetails * 1)}}">
           {{ I18n.t('js.label_sum_for') }}
           <span work-package-column
