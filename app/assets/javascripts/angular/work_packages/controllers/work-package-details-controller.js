@@ -127,6 +127,12 @@ angular.module('openproject.workPackages.controllers')
         .then(refreshWorkPackage, outputError);
     };
 
+    // Attachments
+    $scope.attachments = workPackage.embedded.attachments;
+
+    // Author
+    $scope.author = workPackage.embedded.author;
+
     // work package properties
 
     $scope.presentWorkPackageProperties = [];

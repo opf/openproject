@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -27,13 +27,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-
-# modify to suit your repository base
-my $repos_base = '/var/svn';
-
-my $path = '/usr/bin/';
-my %kwown_commands = map { $_ => 1 } qw/svnserve/;
-
-umask 0002;
-
-exec ('/usr/bin/svnserve', '-r', $repos_base, '-t');
+module OpenProject
+  module RepositoryAuthentication
+    CACHE_PREFIX = "openproject/repository_authentication/login_"
+    CACHE_EXPIRES_AFTER = 10.minutes
+  end
+end

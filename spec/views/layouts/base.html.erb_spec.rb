@@ -56,7 +56,7 @@ describe "layouts/base" do
 
     context 'with omni_auth_direct_login enabled' do
       before do
-        expect(OmniauthLogin).to receive(:direct_login_provider).and_return('some_provider')
+        expect(Concerns::OmniauthLogin).to receive(:direct_login_provider).and_return('some_provider')
         render
       end
 

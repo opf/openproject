@@ -96,7 +96,7 @@ angular.module('openproject.models')
 
     unstar: function() {
       this.starred = false;
-    }, 
+    },
 
     getQueryString: function(){
       return UrlParamsHelper.buildQueryString(this.toParams());
@@ -187,7 +187,7 @@ angular.module('openproject.models')
      */
     setDefaultFilter: function() {
       var statusOpenFilterData = this.getExtendedFilterData({name: 'status_id', operator: 'o'});
-      this.filters = new Array(new Filter(statusOpenFilterData));
+      this.filters = [new Filter(statusOpenFilterData)];
     },
 
     /**

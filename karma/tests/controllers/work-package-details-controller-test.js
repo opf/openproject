@@ -51,7 +51,8 @@ describe('WorkPackageDetailsController', function() {
         },
         embedded: {
           activities: [],
-          watchers: []
+          watchers: [],
+          attachments: []
         },
         links: {
           availableWatchers: {
@@ -89,6 +90,9 @@ describe('WorkPackageDetailsController', function() {
         },
         UserService: UserService,
         CustomFieldHelper: CustomFieldHelper,
+        WorkPackagesDetailsHelper: {
+          attachmentsTitle: function() { return ''; }
+        },
         workPackage: buildWorkPackageWithId(workPackageId),
       });
 

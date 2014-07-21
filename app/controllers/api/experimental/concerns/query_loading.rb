@@ -35,7 +35,7 @@ module Api::Experimental::Concerns::QueryLoading
       @query = Query.find(params[:query_id])
       @query.project = @project if @query.project.nil?
     else
-      @query = Query.new({name: "_", :project => @project})
+      @query = Query.new({ name: "_", :project => @project }, :initialize_with_default_filter => true)
     end
     prepare_query
     @query
