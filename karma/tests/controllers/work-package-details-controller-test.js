@@ -53,8 +53,16 @@ describe('WorkPackageDetailsController', function() {
           activities: [],
           watchers: []
         },
-        links: [
-        ]
+        links: {
+          availableWatchers: {
+            fetch: function() { return {then: angular.noop}; }
+          }
+        },
+        link: {
+          addWatcher: {
+            fetch: function() { return {then: angular.noop}; }
+          }
+        },
       };
 
   function buildWorkPackageWithId(id) {

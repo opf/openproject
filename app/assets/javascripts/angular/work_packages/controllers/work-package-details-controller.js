@@ -97,9 +97,8 @@ angular.module('openproject.workPackages.controllers')
     });
 
     $scope.addWatcher = function(id) {
-      workPackage.link('addWatcher', {user_id: id}).fetch({ajax: {method: 'POST'}}).then(refreshWorkPackage, outputError)
-    }
-
+      workPackage.link('addWatcher', {user_id: id}).fetch({ajax: {method: 'POST'}}).then(refreshWorkPackage, outputError);
+    };
 
     // activities and latest activities
 
