@@ -26,30 +26,30 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// TODO move to UI components
-angular.module('openproject.uiComponents')
+/*jshint expr: true*/
 
-.directive('authoring', ['I18n', 'PathHelper', 'TimezoneService', function(I18n, PathHelper, TimezoneService) {
-  return {
-    restrict: 'E',
-    replace: true,
-    scope: { createdOn: '=', author: '=', project: '=', activity: '=' },
-    templateUrl: '/templates/components/authoring.html',
-    link: function(scope, element, attrs) {
-      moment.lang(I18n.locale);
+describe('Latest items filter', function() {
 
-      var createdOn = TimezoneService.parseDate(scope.createdOn);
-      var timeago = createdOn.fromNow();
-      var time = createdOn.format('LLL');
+  beforeEach(module('openproject.workPackages.filters'));
 
-      scope.I18n = I18n;
-      scope.authorLink = '<a href="'+ PathHelper.userPath(scope.author.id) + '">' + scope.author.name + '</a>';
+  describe('latestItems', function() {
+    var items;
 
-      if (scope.activity) {
-        scope.timestamp = '<a title="' + time + '" href="' + PathHelper.activityFromPath(scope.project, createdOn.format('YYYY-MM-DD')) + '">' + timeago + '</a>';
-      } else {
-        scope.timestamp = '<span class="timestamp" title="' + time + '">' + timeago + '</span>';
-      }
-    }
-  };
-}]);
+    beforeEach(function(){
+      items = [1,2,3,4,5,6,7,8,9];
+    });
+
+    it('should be defined', inject(function($filter) {
+      expect($filter('latestItems')).not.to.equal(null);
+    }));
+
+    it('should return the first 3 items', inject(function($filter) {
+      expect($filter('latestItems')(items, false, 3)).to.eql([9,8,7]);
+    }));
+
+    it('should return the last 3 items reversed', inject(function($filter) {
+      expect($filter('latestItems')(items, true, 3)).to.eql([1,2,3]);
+    }));
+
+  });
+});

@@ -26,30 +26,49 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// TODO move to UI components
-angular.module('openproject.uiComponents')
+angular.module('openproject.services')
 
-.directive('authoring', ['I18n', 'PathHelper', 'TimezoneService', function(I18n, PathHelper, TimezoneService) {
-  return {
-    restrict: 'E',
-    replace: true,
-    scope: { createdOn: '=', author: '=', project: '=', activity: '=' },
-    templateUrl: '/templates/components/authoring.html',
-    link: function(scope, element, attrs) {
-      moment.lang(I18n.locale);
+.service('ActivityService', ['HALAPIResource',
+  '$http',
+  'PathHelper', function(HALAPIResource, $http, PathHelper){
 
-      var createdOn = TimezoneService.parseDate(scope.createdOn);
-      var timeago = createdOn.fromNow();
-      var time = createdOn.format('LLL');
+  var ActivityService = {
+    createComment: function(workPackageId, activities, descending, comment) {
+      var resource = HALAPIResource.setup(PathHelper.activitiesPath(workPackageId));
+      var options = {
+        ajax: {
+          method: "POST",
+          data: { comment: comment }
+        }
+      };
 
-      scope.I18n = I18n;
-      scope.authorLink = '<a href="'+ PathHelper.userPath(scope.author.id) + '">' + scope.author.name + '</a>';
+      return resource.fetch(options).then(function(activity){
+        // We are unable to add to the work package's embedded activities directly
+        if(activity) {
+          if(descending){
+            activities.unshift(activity);
+          } else {
+            activities.push(activity);
+          }
+          return activity;
+        }
+      });
+    },
 
-      if (scope.activity) {
-        scope.timestamp = '<a title="' + time + '" href="' + PathHelper.activityFromPath(scope.project, createdOn.format('YYYY-MM-DD')) + '">' + timeago + '</a>';
-      } else {
-        scope.timestamp = '<span class="timestamp" title="' + time + '">' + timeago + '</span>';
-      }
+    updateComment: function(activityId, comment) {
+      var resource = HALAPIResource.setup(PathHelper.activityPath(activityId));
+      var options = {
+        ajax: {
+          method: "PUT",
+          data: { comment: comment }
+        }
+      };
+
+      return resource.fetch(options).then(function(activity){
+        return activity;
+      });
     }
-  };
+  }
+
+  return ActivityService;
 }]);

@@ -34,6 +34,7 @@ angular.module('openproject.workPackages.controllers')
   'estimatedTime', 'versionName'
 ])
 .constant('USER_TYPE', 'user')
+.constant('VISIBLE_LATEST')
 
 .controller('WorkPackageDetailsController', [
   '$scope',
@@ -42,20 +43,26 @@ angular.module('openproject.workPackages.controllers')
   'I18n',
   'DEFAULT_WORK_PACKAGE_PROPERTIES',
   'USER_TYPE',
+  'VISIBLE_LATEST',
   'CustomFieldHelper',
   'WorkPackagesHelper',
   'PathHelper',
   'UserService',
   '$q',
   'ConfigurationService',
-  function($scope, latestTab, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, CustomFieldHelper, WorkPackagesHelper, PathHelper, UserService, $q, ConfigurationService) {
+  function($scope, latestTab, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, VISIBLE_LATEST, CustomFieldHelper, WorkPackagesHelper, PathHelper, UserService, $q, ConfigurationService) {
 
     $scope.$on('$stateChangeSuccess', function(event, toState){
       latestTab.registerState(toState.name);
     });
 
+    $scope.$on('workPackageRefreshRequired', function(event, toState){
+      refreshWorkPackage();
+    });
+
     // initialization
-    setWorkPackage(workPackage);
+    setWorkPackageScopeProperties(workPackage);
+
     $scope.I18n = I18n;
     $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
     $scope.maxDescriptionLength = 800;
@@ -63,14 +70,7 @@ angular.module('openproject.workPackages.controllers')
     function refreshWorkPackage() {
       workPackage.links.self
         .fetch({force: true})
-        .then(setWorkPackage);
-    }
-
-    function setWorkPackage(workPackage) {
-      $scope.workPackage = workPackage;
-      $scope.isWatched = !!workPackage.links.unwatch;
-      $scope.toggleWatchLink = workPackage.links.watch === undefined ? workPackage.links.unwatch : workPackage.links.watch;
-      $scope.watchers = workPackage.embedded.watchers;
+        .then(setWorkPackageScopeProperties);
     }
 
     function outputError(error) {
@@ -85,10 +85,6 @@ angular.module('openproject.workPackages.controllers')
         .fetch({ ajax: $scope.toggleWatchLink.props })
         .then(refreshWorkPackage, outputError);
     };
-
-    // resources for tabs
-
-    $scope.author = workPackage.embedded.author;
 
     // available watchers
 
@@ -145,19 +141,32 @@ angular.module('openproject.workPackages.controllers')
         .then(refreshWorkPackage, outputError)
     };
 
+    $scope.presentWorkPackageProperties = [];
+    $scope.emptyWorkPackageProperties = [];
+    $scope.userPath = PathHelper.staticUserPath;
 
-    // activities and latest activities
+    var workPackageProperties = DEFAULT_WORK_PACKAGE_PROPERTIES;
 
-    $scope.activities = workPackage.embedded.activities;
-    $scope.activities.splice(0, 1); // remove first activity (assumes activities are sorted chronologically)
+    function setWorkPackageScopeProperties(workPackage){
+      $scope.workPackage = workPackage;
 
-    $scope.latestActitivies = $scope.activities.reverse().slice(0, 3); // this leaves the activities in reverse order
+      $scope.isWatched = !!workPackage.links.unwatch;
+      $scope.toggleWatchLink = workPackage.links.watch === undefined ? workPackage.links.unwatch : workPackage.links.watch;
+      $scope.watchers = workPackage.embedded.watchers;
 
-    $scope.activitiesSortedInDescendingOrder = ConfigurationService.commentsSortedInDescendingOrder();
+      // activities and latest activities
+      $scope.activitiesSortedInDescendingOrder = ConfigurationService.commentsSortedInDescendingOrder();
+      $scope.activities = displayedActivities($scope.workPackage);
+      // watchers
 
-    // restore former order of actvities unless comments are to be sorted in descending order
-    if (!$scope.activitiesSortedInDescendingOrder) {
-      $scope.activities.reverse();
+      $scope.watchers = workPackage.embedded.watchers;
+      $scope.author = workPackage.embedded.author;
+
+      // Attachments
+      $scope.attachments = workPackage.embedded.attachments;
+
+      // Author
+      $scope.author = workPackage.embedded.author;
     }
 
     $scope.deleteWatcher = function(watcher) {
@@ -166,19 +175,14 @@ angular.module('openproject.workPackages.controllers')
         .then(refreshWorkPackage, outputError);
     };
 
-    // Attachments
-    $scope.attachments = workPackage.embedded.attachments;
-
-    // Author
-    $scope.author = workPackage.embedded.author;
-
-    // work package properties
-
-    $scope.presentWorkPackageProperties = [];
-    $scope.emptyWorkPackageProperties = [];
-    $scope.userPath = PathHelper.staticUserPath;
-
-    var workPackageProperties = DEFAULT_WORK_PACKAGE_PROPERTIES;
+    function displayedActivities(workPackage) {
+      var activities = workPackage.embedded.activities;
+      activities.splice(0, 1); // remove first activity (assumes activities are sorted chronologically)
+      if ($scope.activitiesSortedInDescendingOrder) {
+        activities.reverse();
+      }
+      return activities;
+    }
 
     function getPropertyValue(property, format) {
       if (format === USER_TYPE) {

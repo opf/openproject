@@ -29,26 +29,27 @@
 // TODO move to UI components
 angular.module('openproject.uiComponents')
 
-.directive('authoring', ['I18n', 'PathHelper', 'TimezoneService', function(I18n, PathHelper, TimezoneService) {
+.directive('activityComment', ['I18n', 'ActivityService', 'ConfigurationService', function(I18n, ActivityService, ConfigurationService) {
   return {
     restrict: 'E',
     replace: true,
-    scope: { createdOn: '=', author: '=', project: '=', activity: '=' },
-    templateUrl: '/templates/components/authoring.html',
+    scope: {
+      workPackage: '=',
+      activities: '='
+    },
+    templateUrl: '/templates/components/activity_comment.html',
     link: function(scope, element, attrs) {
-      moment.lang(I18n.locale);
+      scope.title = I18n.t('js.label_add_comment_title');
+      scope.buttonTitle = I18n.t('js.label_add_comment');
 
-      var createdOn = TimezoneService.parseDate(scope.createdOn);
-      var timeago = createdOn.fromNow();
-      var time = createdOn.format('LLL');
-
-      scope.I18n = I18n;
-      scope.authorLink = '<a href="'+ PathHelper.userPath(scope.author.id) + '">' + scope.author.name + '</a>';
-
-      if (scope.activity) {
-        scope.timestamp = '<a title="' + time + '" href="' + PathHelper.activityFromPath(scope.project, createdOn.format('YYYY-MM-DD')) + '">' + timeago + '</a>';
-      } else {
-        scope.timestamp = '<span class="timestamp" title="' + time + '">' + timeago + '</span>';
+      scope.createComment = function() {
+        var comment = angular.element('#add-comment-text').val();
+        var descending = ConfigurationService.commentsSortedInDescendingOrder();
+        ActivityService.createComment(scope.workPackage.props.id, scope.activities, descending, comment)
+          .then(function(response){
+            angular.element('#add-comment-text').val('');
+            return response;
+          });
       }
     }
   };
