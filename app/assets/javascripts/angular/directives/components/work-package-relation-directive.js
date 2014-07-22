@@ -33,26 +33,25 @@ angular.module('openproject.uiComponents')
     'I18n',
     'PathHelper',
     'WorkPackagesHelper',
-    function(I18n, PathHelper, WorkPackagesHelper) {
+    '$timeout',
+    function(I18n, PathHelper, WorkPackagesHelper, $timeout) {
   return {
     restrict: 'E',
     replace: true,
-    scope: { title: '@', relations: '=', btnTitle: '@buttonTitle', btnIcon: '@buttonIcon', isSingletonRelation: '@singletonRelation' },
+    scope: { title: '@', relatedWorkPackages: '=', btnTitle: '@buttonTitle', btnIcon: '@buttonIcon', isSingletonRelation: '@singletonRelation' },
     templateUrl: '/templates/components/work_package_relation.html',
     link: function(scope, element, attrs) {
       scope.I18n = I18n;
       scope.PathHelper = PathHelper;
       scope.WorkPackagesHelper = WorkPackagesHelper;
 
-      scope.relatedWorkPackages = [];
+      var setExpandState = function() {
+        scope.expand = scope.relatedWorkPackages && scope.relatedWorkPackages.length > 0;
+      };
 
-      if (scope.relations) {
-        for (var x = 0; x < scope.relations.length; x++) {
-          scope.relations[x].then(function(workPackage) {
-            scope.relatedWorkPackages.push(workPackage);
-          });
-        }
-      }
+      scope.$watch('relatedWorkPackages', function() {
+        setExpandState();
+      });
 
       scope.collapseStateIcon = function(collapsed) {
         var iconClass = 'icon-arrow-right5-';
@@ -65,8 +64,6 @@ angular.module('openproject.uiComponents')
 
         return iconClass;
       }
-
-      scope.expand = scope.relations && scope.relations.length > 0;
     }
   };
 }]);
