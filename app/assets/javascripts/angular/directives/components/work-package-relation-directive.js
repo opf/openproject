@@ -33,8 +33,7 @@ angular.module('openproject.uiComponents')
     'I18n',
     'PathHelper',
     'WorkPackagesHelper',
-    '$timeout',
-    function(I18n, PathHelper, WorkPackagesHelper, $timeout) {
+    function(I18n, PathHelper, WorkPackagesHelper) {
   return {
     restrict: 'E',
     replace: true,
