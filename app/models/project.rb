@@ -905,8 +905,8 @@ class Project < ActiveRecord::Base
 
   def members_with_assignable_roles
     Authorization.principals(project: self)
-                 .where(roles: { assignable: true })
-                 .where(members: { project_id: self.id })
+                 .where(roles: { assignable: true },
+                        members: { project_id: self.id })
                  .order_by_name
   end
 end
