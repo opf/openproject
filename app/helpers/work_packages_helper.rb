@@ -488,13 +488,17 @@ module WorkPackagesHelper
   end
 
   def work_package_form_assignee_attribute(form, work_package, locals = {})
+    options = work_package.assignable_assignees.select_only_name_attributes.map {|m| [m.name, m.id]}
+
     WorkPackageAttribute.new(:assignee,
-                             form.select(:assigned_to_id, (work_package.assignable_assignees.map {|m| [m.name, m.id]}), :include_blank => true))
+                             form.select(:assigned_to_id, options, :include_blank => true))
   end
 
   def work_package_form_responsible_attribute(form, work_package, locals = {})
+    options = work_package.assignable_responsibles.select_only_name_attributes.map {|m| [m.name, m.id]}
+
     WorkPackageAttribute.new(:responsible,
-                             form.select(:responsible_id, work_package.assignable_responsibles.map {|m| [m.name, m.id]}, :include_blank => true))
+                             form.select(:responsible_id, options, :include_blank => true))
   end
 
   def work_package_form_category_attribute(form, work_package, locals = {})
