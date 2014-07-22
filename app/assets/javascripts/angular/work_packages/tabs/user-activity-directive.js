@@ -32,14 +32,16 @@ angular.module('openproject.workPackages.tabs')
   return {
     restrict: 'E',
     replace: true,
+    require: '^?exclusiveEdit',
     templateUrl: '/templates/work_packages/tabs/_user_activity.html',
     scope: {
       activity: '=',
-      currentAnchor: '=',
       activityNo: '=',
       inputElementId: '='
     },
-    link: function(scope, element) {
+    link: function(scope, element, attrs, exclusiveEditController) {
+      exclusiveEditController.addEditable(scope);
+
       scope.I18n = I18n;
       scope.userPath = PathHelper.staticUserPath;
       scope.inEdit = false;
@@ -53,6 +55,7 @@ angular.module('openproject.workPackages.tabs')
 
       scope.editComment = function() {
         scope.inEdit = true;
+        exclusiveEditController.gotEditable(scope);
       };
 
       scope.cancelEdit = function() {
@@ -81,7 +84,6 @@ angular.module('openproject.workPackages.tabs')
         scope.inFocus = false;
       };
 
-      // TODO RS: Move this into WorkPackageDetailsHepler once it has been merge in from attachments branch
       function quotedText(rawComment) {
         quoted = rawComment.split("\n")
           .map(function(line){ return "\n> " + line; })

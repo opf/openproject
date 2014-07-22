@@ -66,6 +66,7 @@ angular.module('openproject.workPackages.controllers')
     $scope.I18n = I18n;
     $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
     $scope.maxDescriptionLength = 800;
+    $scope.commentInEditId = 0;
 
     function refreshWorkPackage() {
       workPackage.links.self
