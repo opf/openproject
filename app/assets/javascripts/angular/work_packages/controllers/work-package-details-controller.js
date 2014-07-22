@@ -166,16 +166,32 @@ angular.module('openproject.workPackages.controllers')
       $scope.attachments = workPackage.embedded.attachments;
 
       // relations
-      $scope.wpParent = WorkPackagesHelper.getParent(workPackage);
-      $scope.wpChildren = WorkPackagesHelper.getChildren(workPackage);
-      $scope.relatedTo = WorkPackagesHelper.getRelationsOfType(workPackage, "Relation::Relates");
-      $scope.duplicates = WorkPackagesHelper.getRelationsOfType(workPackage, "Relation::Duplicates");
-      $scope.duplicated = WorkPackagesHelper.getRelationsOfType(workPackage, "Relation::Duplicated");
-      $scope.blocks = WorkPackagesHelper.getRelationsOfType(workPackage, "Relation::Blocks");
-      $scope.blocked = WorkPackagesHelper.getRelationsOfType(workPackage, "Relation::Blocked");
-      $scope.precedes = WorkPackagesHelper.getRelationsOfType(workPackage, "Relation::Precedes");
-      $scope.follows = WorkPackagesHelper.getRelationsOfType(workPackage, "Relation::Follows");
+      var relationTypes = {
+        relatedTo: "Relation::Relates",
+        duplicates: "Relation::Duplicates",
+        duplicated: "Relation::Duplicated",
+        blocks: "Relation::Blocks",
+        blocked: "Relation::Blocked",
+        precedes: "Relation::Precedes",
+        follows: "Relation::Follows"
+      };
 
+      $q.all(WorkPackagesHelper.getParent(workPackage)).then(function(parent) {
+        $scope.wpParent = parent;
+      });
+      $q.all(WorkPackagesHelper.getChildren(workPackage)).then(function(children) {
+        $scope.wpChildren = children;
+      });
+
+      for (var key in relationTypes) {
+        if (relationTypes.hasOwnProperty(key)) {
+          (function(key) {
+            $q.all(WorkPackagesHelper.getRelationsOfType(workPackage, relationTypes[key])).then(function(relations) {
+              $scope[key] = relations;
+            });
+          })(key);
+        }
+      }
 
       // Author
       $scope.author = workPackage.embedded.author;
