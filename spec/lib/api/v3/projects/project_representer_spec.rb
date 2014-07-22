@@ -38,11 +38,6 @@ describe ::API::V3::Projects::ProjectRepresenter do
 
     it { should include_json('Project'.to_json).at_path('_type') }
 
-    it { should have_json_type(Object).at_path('_links') }
-    it 'should link to self' do
-      expect(subject).to have_json_path('_links/self/href')
-    end
-
     describe 'project' do
       it { should have_json_path('id') }
       it { should have_json_path('identifier') }
@@ -51,6 +46,18 @@ describe ::API::V3::Projects::ProjectRepresenter do
       it { should have_json_path('createdOn') }
       it { should have_json_path('updatedOn') }
       it { should have_json_path('type') }
+    end
+
+    describe '_links' do
+      it { should have_json_type(Object).at_path('_links') }
+      it 'should link to self' do
+        expect(subject).to have_json_path('_links/self/href')
+      end
+
+      describe 'versions' do
+        it { should have_json_path('_links/versions')      }
+        it { should have_json_path('_links/versions/href') }
+      end
     end
   end
 end

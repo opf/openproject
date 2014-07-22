@@ -49,6 +49,10 @@ module API
           }
         end
 
+        link 'versions' do
+          "#{root_url}api/v3/projects/#{represented.model.id}/versions"
+        end
+
         property :id, getter: -> (*) { model.id }, render_nil: true
         property :identifier,   render_nil: true
 
