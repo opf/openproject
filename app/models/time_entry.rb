@@ -98,22 +98,27 @@ class TimeEntry < ActiveRecord::Base
   end
 
   def self.earliest_date_for_project(project=nil)
-    finder_conditions = ARCondition.new(Project.allowed_to_condition(User.current, :view_time_entries))
-    if project
-      finder_conditions << ["project_id IN (?)", project.hierarchy.collect(&:id)]
-    end
-    TimeEntry.minimum(:spent_on, :include => :project, :conditions => finder_conditions.conditions)
+    scope = users_entries(User.current, project)
+
+    scope.minimum(:spent_on)
   end
 
   def self.latest_date_for_project(project=nil)
-    finder_conditions = ARCondition.new(Project.allowed_to_condition(User.current, :view_time_entries))
-    if project
-      finder_conditions << ["project_id IN (?)", project.hierarchy.collect(&:id)]
-    end
-    TimeEntry.maximum(:spent_on, :include => :project, :conditions => finder_conditions.conditions)
+    scope = users_entries(User.current, project)
+
+    scope.maximum(:spent_on)
   end
 
 private
+
+  def self.users_entries(user, project = nil)
+    scope = TimeEntry.joins(:project).merge(Authorization.projects(permission: :view_time_entries, user: user))
+    if project
+      scope = scope.where(["#{self.table_name}.project_id IN (?)", project.hierarchy.collect(&:id)])
+    end
+
+    scope
+  end
 
   def validate_hours_are_in_range
     errors.add :hours, :invalid if hours && (hours < 0 || hours >= 1000)
