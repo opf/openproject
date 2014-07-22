@@ -8,20 +8,34 @@ module Concerns::OmniauthLogin
 
     # Set back url to page the omniauth login link was clicked on
     params[:back_url] = request.env['omniauth.origin']
+    user = User.find_or_initialize_by_identity_url identity_url_from_omniauth(auth_hash)
 
-    user = User.find_or_initialize_by_identity_url(identity_url_from_omniauth(auth_hash))
+    dec = OpenProject::OmniAuth::Authorization.authorized? user_with_info(user, auth_hash),
+                                                           auth_hash
+    if dec.approve?
+      authorization_successful user, auth_hash
+    else
+      authorization_failed user, dec.message
+    end
+  end
+
+  def authorization_successful(user, auth_hash)
     if user.new_record?
-      create_user_from_omniauth(user, auth_hash)
+      create_user_from_omniauth user, auth_hash
     else
       user.log_successful_login if user.active?
       login_user_if_active(user)
     end
   end
 
+  def authorization_failed(user, error)
+    logger.warn "Authorization for User #{user.id} failed: #{error}"
+    show_error error
+  end
+
   def omniauth_failure
     logger.warn(params[:message]) if params[:message]
-    flash[:error] = I18n.t(:error_external_authentication_failed)
-    redirect_to :action => 'login'
+    show_error I18n.t(:error_external_authentication_failed)
   end
 
   def self.direct_login?
@@ -48,15 +62,20 @@ module Concerns::OmniauthLogin
 
   private
 
+  def show_error(error)
+    flash[:error] = error
+    redirect_to :action => 'login'
+  end
+
   # a user may login via omniauth and (if that user does not exist
   # in our database) will be created using this method.
   def create_user_from_omniauth(user, auth_hash)
     # Self-registration off
     return self_registration_disabled unless Setting.self_registration?
 
-    # Create on the fly
-    fill_user_fields_from_omniauth(user, auth_hash)
+    fill_user_fields_from_omniauth user, auth_hash
 
+    # Create on the fly
     register_user_according_to_setting(user) do
       # Allow registration form to show provider-specific title
       @omniauth_strategy = auth_hash[:provider]
@@ -79,14 +98,26 @@ module Concerns::OmniauthLogin
   end
 
   def fill_user_fields_from_omniauth(user, auth)
-    info = auth[:info]
-    user.update_attributes login:        info[:email],
-                           mail:         info[:email],
-                           firstname:    info[:first_name] || info[:name],
-                           lastname:     info[:last_name],
-                           identity_url: identity_url_from_omniauth(auth)
+    user.update_attributes omniauth_hash_to_user_attributes(auth)
     user.register
     user
+  end
+
+  def user_with_info(user, auth_hash)
+    user.dup.tap do |u|
+      u.assign_attributes omniauth_hash_to_user_attributes(auth_hash)
+    end
+  end
+
+  def omniauth_hash_to_user_attributes(auth)
+    info = auth[:info]
+    {
+      login:        info[:email],
+      mail:         info[:email],
+      firstname:    info[:first_name] || info[:name],
+      lastname:     info[:last_name],
+      identity_url: identity_url_from_omniauth(auth)
+    }
   end
 
   def identity_url_from_omniauth(auth)

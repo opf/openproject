@@ -181,6 +181,7 @@ describe AccountController do
           provider: 'google',
           uid: '123545',
           info: { name: 'foo',
+                  last_name: 'bar',
                   email: 'foo@bar.com'
           }
         )
@@ -212,6 +213,114 @@ describe AccountController do
 
           user.reload
           expect(user.last_login_on.utc.to_i).to be >= post_at.utc.to_i
+        end
+
+        describe 'authorization' do
+          let(:config) do
+            Struct.new(:google_name, :global_email).new 'foo', 'foo@bar.com'
+          end
+
+          before do
+            OpenProject::OmniAuth::Authorization.callbacks.clear
+
+            # Let's set up a couple of authorization callbacks to see if the mechanism
+            # works as intended.
+
+            OpenProject::OmniAuth::Authorization.authorize_user provider: :google do |dec, _, auth|
+              if auth.info.name == config.google_name
+                dec.approve
+              else
+                dec.reject "#{auth.info.name} can fuck right off"
+              end
+            end
+
+            OpenProject::OmniAuth::Authorization.authorize_user do |dec, user, _|
+              if user.mail == config.global_email
+                dec.approve
+              else
+                dec.reject "I only want to see #{config[:global_email]} here."
+              end
+            end
+
+            # ineffective callback
+            OpenProject::OmniAuth::Authorization.authorize_user provider: :foobar do |dec, _, _|
+              dec.reject 'Though shalt not pass!'
+            end
+
+            # free for all callback
+            OpenProject::OmniAuth::Authorization.authorize_user do |dec, _, _|
+              dec.approve
+            end
+          end
+
+          after do
+            OpenProject::OmniAuth::Authorization.callbacks.clear
+          end
+
+          it 'works' do
+            post :omniauth_login
+
+            expect(response).to redirect_to my_page_path
+          end
+
+          context 'with wrong email address' do
+            before do
+              config.global_email = 'other@mail.com'
+            end
+
+            it 'is rejected against google' do
+              post :omniauth_login
+
+              expect(response).to redirect_to signin_path
+              expect(flash[:error]).to eq 'I only want to see other@mail.com here.'
+            end
+
+            it 'is rejected against any other provider too' do
+              omniauth_hash.provider = 'any other'
+              post :omniauth_login
+
+              expect(response).to redirect_to signin_path
+              expect(flash[:error]).to eq 'I only want to see other@mail.com here.'
+            end
+          end
+
+          context 'with the wrong name' do
+            render_views
+
+            before do
+              config.google_name = 'hans'
+            end
+
+            it 'is rejected against google' do
+              post :omniauth_login
+
+              expect(response).to redirect_to signin_path
+              expect(flash[:error]).to eq 'foo can fuck right off'
+            end
+
+            it 'is approved against any other provider' do
+              omniauth_hash.provider = 'some other'
+
+              post :omniauth_login
+
+              expect(response).to redirect_to my_first_login_path
+              # authorization is successful which results in the registration
+              # of a new user in this case because we changed the provider
+              # and there already is a user with the same email having google
+              # as their provider ...
+            end
+
+            # ... and to confirm that, here's what happens when the authorization fails
+            it 'is rejected against any other provider with the wrong email' do
+              omniauth_hash.provider = 'yet another'
+              config.global_email = 'yarrrr@joro.es'
+
+              post :omniauth_login
+
+              expect(response).to redirect_to signin_path
+              expect(flash[:error]).to eq 'I only want to see yarrrr@joro.es here.'
+            end
+          end
         end
       end
 
