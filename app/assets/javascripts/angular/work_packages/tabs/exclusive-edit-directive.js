@@ -40,7 +40,7 @@ angular.module('openproject.workPackages.tabs')
         angular.forEach(editors, function(editor) {
           if (selectedEditor != editor) {
             editor.inEdit = false; }
-          }                                                 );
+          });
       };
       this.addEditable = function(editor) {
         editors.push(editor);
