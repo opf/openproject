@@ -28,6 +28,17 @@ module API
               raise ::API::Errors::Validation.new(relation)
             end
           end
+
+          namespace ':id' do
+            delete do
+              # authorize
+              relation = Relation.find(params[:id])
+              model = ::API::V3::WorkPackages::RelationModel.new(relation)
+              representer = ::API::V3::WorkPackages::RelationRepresenter.new(model)
+              relation.delete
+              representer.to_json
+            end
+          end
         end
 
       end
