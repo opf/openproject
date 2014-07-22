@@ -17,7 +17,7 @@
         <legend ng-bind="I18n.t('js.button_add_watcher')" class="hidden-for-sighted"/>
         <select id="detail-panel-watchers-add-watcher-select"
                 ng-model="newWatcherId"
-                ng-options="watcher.props.id as watcher.props.login for watcher in availableWatchers"
+                ng-options="watcher.props.id as watcher.props.name for watcher in availableWatchers"
                 ng-change="addWatcher(newWatcherId); newWatcherId=null">
           <option value="" ng-bind="'-- ' + I18n.t('js.button_add_watcher') + ' --'"></option>
         </select>
