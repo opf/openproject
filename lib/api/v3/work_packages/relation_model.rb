@@ -47,10 +47,6 @@ module API
         def delay=(value)
           model.delay = value
         end
-
-        # def type
-        #   model.relation_type
-        # end
       end
     end
   end

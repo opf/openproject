@@ -70,18 +70,9 @@ module API
 
         private
 
-        def related_work_package
-          if  represented.model.from == @work_package
-            represented.model.to
-          else
-            represented.model.from
-          end
-        end
-
         def relation_type
           represented.model.relation_type_for(@work_package).camelize
         end
-
       end
     end
   end
