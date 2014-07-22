@@ -40,8 +40,15 @@ module API
 
         self.as_strategy = API::Utilities::CamelCasingStrategy.new
 
+        attr_reader :project
+
+        def initialize(model, options = {})
+          @project = options.fetch(:project)
+          super(model)
+        end
+
         link :self do
-          "#{root_url}api/v3/versions"
+          "#{root_url}api/v3/projects/#{project.id}/versions"
         end
 
         property :_type, exec_context: :decorator

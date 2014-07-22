@@ -36,7 +36,7 @@ module API
           before do
             @versions = @project.shared_versions.all
             models = @versions.map { |version| ::API::V3::Versions::VersionModel.new(version) }
-            @represented = ::API::V3::Versions::VersionCollectionRepresenter.new(models)
+            @represented = ::API::V3::Versions::VersionCollectionRepresenter.new(models, project: @project)
           end
 
           get do

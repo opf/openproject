@@ -29,11 +29,20 @@
 require 'spec_helper'
 
 describe ::API::V3::Versions::VersionCollectionRepresenter do
+  let(:project)  { FactoryGirl.build(:project, id: 666) }
   let(:versions) { FactoryGirl.build_list(:version, 3) }
   let(:models)   { versions.map { |version|
     ::API::V3::Versions::VersionModel.new(version)
   } }
-  let(:representer) { described_class.new(models) }
+  let(:representer) { described_class.new(models, project: project) }
+
+  describe '#initialize' do
+    context 'with incorrect parameters' do
+      it 'should raise without a project' do
+        expect { described_class.new(models) }.to raise_error
+      end
+    end
+  end
 
   context 'generation' do
     subject(:generated) { representer.to_json }
@@ -42,7 +51,8 @@ describe ::API::V3::Versions::VersionCollectionRepresenter do
 
     it { should have_json_type(Object).at_path('_links') }
     it 'should link to self' do
-      expect(subject).to have_json_path('_links/self/href')
+      expect(generated).to have_json_path('_links/self/href')
+      expect(parse_json(generated, '_links/self/href')).to match %r{/api/v3/projects/666/versions$}
     end
 
     describe 'versions' do
