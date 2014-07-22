@@ -8,7 +8,7 @@
 # * https://www.openproject.org/work_packages/7192
 # * http://stackoverflow.com/questions/13112430/find-loaded-providers-for-omniauth
 auth_provider_html = call_hook :view_account_login_auth_provider
-no_pwd = Concerns::OmniauthLogin.disable_password_login?
+no_pwd = OpenProject::Configuration.disable_password_login?
 pclass = no_pwd ? 'no-pwd' : ''
 %>
 <% if auth_provider_html.strip != '' %>

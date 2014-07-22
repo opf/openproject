@@ -35,7 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <h1><%= I18n.t(:label_login) %></h1>
 
   <hr class="form_separator">
-  <% unless Concerns::OmniauthLogin.disable_password_login? %>
+  <% unless OpenProject::Configuration.disable_password_login? %>
     <%= render partial: 'password_login_form' %>
   <% end %>
   <%= render partial: 'auth_providers' %>

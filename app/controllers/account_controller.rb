@@ -131,7 +131,7 @@ class AccountController < ApplicationController
   end
 
   def allow_registration?
-    allow = Setting.self_registration? && !Concerns::OmniauthLogin.disable_password_login?
+    allow = Setting.self_registration? && !OpenProject::Configuration.disable_password_login?
 
     get = request.get? && allow
     post = request.post? && (session[:auth_source_registration] || allow)
@@ -140,7 +140,7 @@ class AccountController < ApplicationController
   end
 
   def allow_lost_password_recovery?
-    Setting.lost_password? && !Concerns::OmniauthLogin.disable_password_login?
+    Setting.lost_password? && !OpenProject::Configuration.disable_password_login?
   end
 
   # Token based account activation
@@ -162,7 +162,7 @@ class AccountController < ApplicationController
   # to change the password.
   # When making changes here, also check MyController.change_password
   def change_password
-    return render_404 if Concerns::OmniauthLogin.disable_password_login?
+    return render_404 if OpenProject::Configuration.disable_password_login?
 
     @user = User.find_by_login(params[:username])
     @username = @user.login
@@ -200,7 +200,7 @@ class AccountController < ApplicationController
   end
 
   def authenticate_user
-    if Concerns::OmniauthLogin.disable_password_login?
+    if OpenProject::Configuration.disable_password_login?
       render_404
     else
       password_authentication(params[:username], params[:password])

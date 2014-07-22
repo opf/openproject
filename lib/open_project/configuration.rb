@@ -27,8 +27,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require_relative 'configuration/helpers'
+
 module OpenProject
   module Configuration
+    extend Helpers
 
     # Configuration default values
     @defaults = {
