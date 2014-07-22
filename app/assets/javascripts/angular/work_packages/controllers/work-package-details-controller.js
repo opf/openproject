@@ -35,6 +35,15 @@ angular.module('openproject.workPackages.controllers')
 ])
 .constant('USER_TYPE', 'user')
 .constant('VISIBLE_LATEST')
+.constant('RELATION_TYPES', {
+  relatedTo: "Relation::Relates",
+  duplicates: "Relation::Duplicates",
+  duplicated: "Relation::Duplicated",
+  blocks: "Relation::Blocks",
+  blocked: "Relation::Blocked",
+  precedes: "Relation::Precedes",
+  follows: "Relation::Follows"
+})
 
 .controller('WorkPackageDetailsController', [
   '$scope',
@@ -44,13 +53,14 @@ angular.module('openproject.workPackages.controllers')
   'DEFAULT_WORK_PACKAGE_PROPERTIES',
   'USER_TYPE',
   'VISIBLE_LATEST',
+  'RELATION_TYPES',
   'CustomFieldHelper',
   'WorkPackagesHelper',
   'PathHelper',
   'UserService',
   '$q',
   'ConfigurationService',
-  function($scope, latestTab, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, VISIBLE_LATEST, CustomFieldHelper, WorkPackagesHelper, PathHelper, UserService, $q, ConfigurationService) {
+  function($scope, latestTab, workPackage, I18n, DEFAULT_WORK_PACKAGE_PROPERTIES, USER_TYPE, VISIBLE_LATEST, RELATION_TYPES, CustomFieldHelper, WorkPackagesHelper, PathHelper, UserService, $q, ConfigurationService) {
 
     $scope.$on('$stateChangeSuccess', function(event, toState){
       latestTab.registerState(toState.name);
@@ -183,10 +193,10 @@ angular.module('openproject.workPackages.controllers')
         $scope.wpChildren = children;
       });
 
-      for (var key in relationTypes) {
-        if (relationTypes.hasOwnProperty(key)) {
+      for (var key in RELATION_TYPES) {
+        if (RELATION_TYPES.hasOwnProperty(key)) {
           (function(key) {
-            $q.all(WorkPackagesHelper.getRelationsOfType(workPackage, relationTypes[key])).then(function(relations) {
+            $q.all(WorkPackagesHelper.getRelationsOfType(workPackage, RELATION_TYPES[key])).then(function(relations) {
               $scope[key] = relations;
             });
           })(key);
