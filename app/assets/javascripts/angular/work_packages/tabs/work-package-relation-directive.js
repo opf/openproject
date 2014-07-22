@@ -41,8 +41,9 @@ angular.module('openproject.uiComponents')
     templateUrl: '/templates/work_packages/tabs/_work_package_relation.html',
     link: function(scope, element, attrs) {
       scope.I18n = I18n;
-      scope.PathHelper = PathHelper;
       scope.WorkPackagesHelper = WorkPackagesHelper;
+      scope.workPackagePath = PathHelper.staticWorkPackagePath;
+      scope.userPath = PathHelper.staticUserPath;
 
       var setExpandState = function() {
         scope.expand = scope.relatedWorkPackages && scope.relatedWorkPackages.length > 0;
@@ -63,6 +64,18 @@ angular.module('openproject.uiComponents')
 
         return iconClass;
       }
+
+      scope.getFullIdentifier = function(workPackage) {
+        var id = '#' + workPackage.props.id;
+
+        if (workPackage.props.type) {
+          id += ' ' + workPackage.props.type + ':';
+        }
+
+        id += ' ' + workPackage.props.subject;
+
+        return id;
+      };
     }
   };
 }]);

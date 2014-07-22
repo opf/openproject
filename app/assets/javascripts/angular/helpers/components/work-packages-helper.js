@@ -125,18 +125,6 @@ angular.module('openproject.workPackages.helpers')
       return new Date(Date.parse(value.replace(/(A|P)M$/, '')));
     },
 
-    getFullIdentifier: function(workPackage) {
-      var id = '#' + workPackage.props.id;
-
-      if (workPackage.props.type) {
-        id += ' ' + workPackage.props.type + ':';
-      }
-
-      id += ' ' + workPackage.props.subject;
-
-      return id;
-    },
-
     getParent: function(workPackage) {
       var wpParent = workPackage.links.parent;
 
