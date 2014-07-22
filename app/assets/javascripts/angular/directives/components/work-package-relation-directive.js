@@ -39,7 +39,7 @@ angular.module('openproject.uiComponents')
     restrict: 'E',
     replace: true,
     scope: { title: '@', relatedWorkPackages: '=', btnTitle: '@buttonTitle', btnIcon: '@buttonIcon', isSingletonRelation: '@singletonRelation' },
-    templateUrl: '/templates/components/work_package_relation.html',
+    templateUrl: '/templates/work_packages/tabs/_work_package_relation.html',
     link: function(scope, element, attrs) {
       scope.I18n = I18n;
       scope.PathHelper = PathHelper;
