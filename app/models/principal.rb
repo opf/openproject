@@ -98,6 +98,14 @@ class Principal < ActiveRecord::Base
     order(User::USER_FORMATS_STRUCTURE[Setting.user_format].map(&:to_s))
   end
 
+  def self.select_only_name_attributes
+    fixed_fields = ["#{self.table_name}.id", "#{self.table_name}.type"]
+    dynamic_fields = User::USER_FORMATS_STRUCTURE.values.flatten.uniq.map(&:to_s)
+    selected_fields = fixed_fields + dynamic_fields
+
+    select(selected_fields.join(', '))
+  end
+
   def status_name
     # Only Users should have another status than active.
     # User defines the status values and other classes like Principal
