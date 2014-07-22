@@ -55,14 +55,12 @@ describe('Work Package Relation Directive', function() {
     I18n.t.restore();
   });
 
-  var multiElementHtml = "<work-package-relation title='MyRelation' relations='relations' button-title='Add Relation' button-icon='%MyIcon%'></work-package-relation>"
-  var singleElementHtml = "<work-package-relation title='MyRelation' relations='relations' button-title='Add Relation' button-icon='%MyIcon%' singleton-relation='true'></work-package-relation>"
+  var multiElementHtml = "<work-package-relation title='MyRelation' related-work-packages='relations' button-title='Add Relation' button-icon='%MyIcon%'></work-package-relation>"
+  var singleElementHtml = "<work-package-relation title='MyRelation' related-work-packages='relations' button-title='Add Relation' button-icon='%MyIcon%' singleton-relation='true'></work-package-relation>"
 
 
   var workPackage1;
   var workPackage2;
-  var promis1;
-  var promis2;
 
   beforeEach(function() {
     workPackage1 = {
@@ -95,15 +93,6 @@ describe('Work Package Relation Directive', function() {
         }
       }
     };
-
-    promis1 = new Object();
-    promis2 = new Object();
-
-    promis1.then = sinon.stub();
-    promis2.then = sinon.stub();
-
-    promis1.then.yields(workPackage1);
-    promis2.then.yields(workPackage2);
   });
 
   var shouldBehaveLikeRelationDirective = function() {
@@ -197,7 +186,7 @@ describe('Work Package Relation Directive', function() {
 
   describe('single element markup', function() {
     beforeEach(function() {
-      scope.relations = [promis1];
+      scope.relations = [workPackage1];
 
       compile(singleElementHtml);
     });
@@ -215,7 +204,7 @@ describe('Work Package Relation Directive', function() {
 
   describe('multi element markup', function() {
     beforeEach(function() {
-      scope.relations = [promis1, promis2];
+      scope.relations = [workPackage1, workPackage2];
 
       compile(multiElementHtml);
     });
