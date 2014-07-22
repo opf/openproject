@@ -30,11 +30,11 @@
 
 describe('TimezoneService', function() {
 
-  var TIME = '05/19/2014 11:49 AM';
+  var TIME = '2013-02-08T09:30:26';
   var TimezoneService;
   var ConfigurationService;
   var isTimezoneSetStub;
-  var timezone;
+  var timezoneStub;
 
   beforeEach(module('openproject.services', 'openproject.config'));
 
@@ -48,33 +48,24 @@ describe('TimezoneService', function() {
 
   describe('#parseDate', function() {
     it('is UTC', function() {
-      expect(TimezoneService.parseDate(TIME).zone()).to.equal(0);
+      var time = TimezoneService.parseDate(TIME);
+      expect(time.zone()).to.equal(0);
+      expect(time.format("HH:mm")).to.eq("09:30");
     });
 
     describe('Non-UTC timezone', function() {
-      var timezone = 'Europe/Berlin';
-      var momentStub;
-      var dateStub;
+      var timezone = 'America/Vancouver';
+      var date;
 
       beforeEach(function() {
         isTimezoneSetStub.returns(true);
         timezoneStub.returns(timezone);
 
-        momentStub = sinon.stub(moment, "utc");
-        dateStub = sinon.stub();
-
-        momentStub.returns(dateStub);
-        dateStub.tz = sinon.spy();
-
-        TimezoneService.parseDate(TIME);
+        date = TimezoneService.parseDate(TIME);
       });
 
-      afterEach(function() {
-        momentStub.restore();
-      });
-
-      it('is Europe/Berlin', function() {
-        expect(dateStub.tz.calledWithExactly(timezone)).to.be.true;
+      it('is ' + timezone, function() {
+        expect(date.format("HH:mm")).to.eq("01:30");
       });
     });
   });

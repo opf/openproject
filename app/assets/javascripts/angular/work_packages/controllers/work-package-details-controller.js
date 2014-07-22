@@ -28,20 +28,28 @@
 
 angular.module('openproject.workPackages.controllers')
 
+.constant('VISIBLE_LATEST')
+
 .controller('WorkPackageDetailsController', [
   '$scope',
   'latestTab',
   'workPackage',
   'I18n',
+  'VISIBLE_LATEST',
   '$q',
   'ConfigurationService',
-  function($scope, latestTab, workPackage, I18n,$q, ConfigurationService) {
+  function($scope, latestTab, workPackage, I18n, VISIBLE_LATEST, $q, ConfigurationService) {
     $scope.$on('$stateChangeSuccess', function(event, toState){
       latestTab.registerState(toState.name);
     });
 
+    $scope.$on('workPackageRefreshRequired', function(event, toState){
+      refreshWorkPackage();
+    });
+
     // initialization
-    setWorkPackage(workPackage);
+    setWorkPackageScopeProperties(workPackage);
+
     $scope.I18n = I18n;
     $scope.$parent.preselectedWorkPackageId = $scope.workPackage.props.id;
     $scope.maxDescriptionLength = 800;
@@ -49,16 +57,9 @@ angular.module('openproject.workPackages.controllers')
     function refreshWorkPackage() {
       workPackage.links.self
         .fetch({force: true})
-        .then(setWorkPackage);
+        .then(setWorkPackageScopeProperties);
     }
     $scope.refreshWorkPackage = refreshWorkPackage; // expose to child controllers
-
-    function setWorkPackage(workPackage) {
-      $scope.workPackage = workPackage;
-      $scope.isWatched = !!workPackage.links.unwatch;
-      $scope.toggleWatchLink = workPackage.links.watch === undefined ? workPackage.links.unwatch : workPackage.links.watch;
-      $scope.watchers = workPackage.embedded.watchers;
-    }
 
     function outputError(error) {
       $scope.$emit('flashMessage', {
@@ -68,38 +69,49 @@ angular.module('openproject.workPackages.controllers')
     }
     $scope.outputError = outputError; // expose to child controllers
 
+    function setWorkPackageScopeProperties(workPackage){
+      $scope.workPackage = workPackage;
+
+      $scope.isWatched = !!workPackage.links.unwatch;
+      $scope.toggleWatchLink = workPackage.links.watch === undefined ? workPackage.links.unwatch : workPackage.links.watch;
+      $scope.watchers = workPackage.embedded.watchers;
+
+      // activities and latest activities
+      $scope.activitiesSortedInDescendingOrder = ConfigurationService.commentsSortedInDescendingOrder();
+      $scope.activities = displayedActivities($scope.workPackage);
+      // watchers
+
+      $scope.watchers = workPackage.embedded.watchers;
+      $scope.author = workPackage.embedded.author;
+
+      // Attachments
+      $scope.attachments = workPackage.embedded.attachments;
+
+      // Author
+      $scope.author = workPackage.embedded.author;
+    }
+
     $scope.toggleWatch = function() {
       $scope.toggleWatchLink
         .fetch({ ajax: $scope.toggleWatchLink.props })
         .then(refreshWorkPackage, outputError);
     };
 
-    // resources for tabs
-
-    $scope.author = workPackage.embedded.author;
-
-    // activities and latest activities
-
-    $scope.activities = workPackage.embedded.activities;
-    $scope.activities.splice(0, 1); // remove first activity (assumes activities are sorted chronologically)
-
-    $scope.latestActitivies = $scope.activities.reverse().slice(0, 3); // this leaves the activities in reverse order
-
-    $scope.activitiesSortedInDescendingOrder = ConfigurationService.commentsSortedInDescendingOrder();
-
-    // restore former order of actvities unless comments are to be sorted in descending order
-    if (!$scope.activitiesSortedInDescendingOrder) {
-      $scope.activities.reverse();
+    function displayedActivities(workPackage) {
+      var activities = workPackage.embedded.activities;
+      activities.splice(0, 1); // remove first activity (assumes activities are sorted chronologically)
+      if ($scope.activitiesSortedInDescendingOrder) {
+        activities.reverse();
+      }
+      return activities;
     }
 
-    $scope.deleteWatcher = function(watcher) {
-      watcher.links.removeWatcher
-        .fetch({ ajax: watcher.links.removeWatcher.props })
-        .then(refreshWorkPackage, outputError);
-    };
+    // toggles
 
-    // Attachments
-    $scope.attachments = workPackage.embedded.attachments;
+    $scope.toggleStates = {
+      hideFullDescription: true,
+      hideAllAttributes: true
+    };
 
     $scope.editWorkPackage = function() {
       // TODO: Temporarily going to the old edit dialog until we get in-place editing done

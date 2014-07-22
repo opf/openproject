@@ -26,21 +26,18 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.services')
+angular.module('openproject.workPackages.directives')
 
-.service('TimezoneService', ['ConfigurationService', function(ConfigurationService) {
-  TimezoneService = {
-    parseDate: function(date) {
-      var d = moment.utc(date);
-
-      if (ConfigurationService.isTimezoneSet()) {
-        d.local();
-        d.tz(ConfigurationService.timezone());
-      }
-
-      return d;
+.directive('editableComment', [function(){
+  return {
+    restrict: 'A',
+    scope: {
+      activity: '=',
+      commentInEdit: '='
     },
-  };
+    templateUrl: '/templates/work_packages/tabs/_editable_comment.html',
+    link: function(scope){
 
-  return TimezoneService;
+    }
+  };
 }]);

@@ -26,21 +26,30 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.services')
+/*jshint expr: true*/
 
-.service('TimezoneService', ['ConfigurationService', function(ConfigurationService) {
-  TimezoneService = {
-    parseDate: function(date) {
-      var d = moment.utc(date);
+describe('Latest items filter', function() {
 
-      if (ConfigurationService.isTimezoneSet()) {
-        d.local();
-        d.tz(ConfigurationService.timezone());
-      }
+  beforeEach(module('openproject.workPackages.filters'));
 
-      return d;
-    },
-  };
+  describe('latestItems', function() {
+    var items;
 
-  return TimezoneService;
-}]);
+    beforeEach(function(){
+      items = [1,2,3,4,5,6,7,8,9];
+    });
+
+    it('should be defined', inject(function($filter) {
+      expect($filter('latestItems')).not.to.equal(null);
+    }));
+
+    it('should return the first 3 items', inject(function($filter) {
+      expect($filter('latestItems')(items, false, 3)).to.eql([9,8,7]);
+    }));
+
+    it('should return the last 3 items reversed', inject(function($filter) {
+      expect($filter('latestItems')(items, true, 3)).to.eql([1,2,3]);
+    }));
+
+  });
+});

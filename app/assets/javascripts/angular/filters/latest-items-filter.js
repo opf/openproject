@@ -26,21 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.services')
+angular.module('openproject.uiComponents')
 
-.service('TimezoneService', ['ConfigurationService', function(ConfigurationService) {
-  TimezoneService = {
-    parseDate: function(date) {
-      var d = moment.utc(date);
-
-      if (ConfigurationService.isTimezoneSet()) {
-        d.local();
-        d.tz(ConfigurationService.timezone());
-      }
-
-      return d;
-    },
-  };
-
-  return TimezoneService;
-}]);
+.filter('latestItems', function(){
+  return function(items, isDescending, visible){
+    return isDescending ? items.slice(0, visible) : items.slice(-visible).reverse();
+  }
+});

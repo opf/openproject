@@ -28,19 +28,47 @@
 
 angular.module('openproject.services')
 
-.service('TimezoneService', ['ConfigurationService', function(ConfigurationService) {
-  TimezoneService = {
-    parseDate: function(date) {
-      var d = moment.utc(date);
+.service('ActivityService', ['HALAPIResource',
+  '$http',
+  'PathHelper', function(HALAPIResource, $http, PathHelper){
 
-      if (ConfigurationService.isTimezoneSet()) {
-        d.local();
-        d.tz(ConfigurationService.timezone());
-      }
+  var ActivityService = {
+    createComment: function(workPackageId, activities, descending, comment) {
+      var resource = HALAPIResource.setup(PathHelper.activitiesPath(workPackageId));
+      var options = {
+        ajax: {
+          method: "POST",
+          data: { comment: comment }
+        }
+      };
 
-      return d;
+      return resource.fetch(options).then(function(activity){
+        // We are unable to add to the work package's embedded activities directly
+        if(activity) {
+          if(descending){
+            activities.unshift(activity);
+          } else {
+            activities.push(activity);
+          }
+          return activity;
+        }
+      });
     },
-  };
 
-  return TimezoneService;
+    updateComment: function(activityId, comment) {
+      var resource = HALAPIResource.setup(PathHelper.activityPath(activityId));
+      var options = {
+        ajax: {
+          method: "PUT",
+          data: { comment: comment }
+        }
+      };
+
+      return resource.fetch(options).then(function(activity){
+        return activity;
+      });
+    }
+  }
+
+  return ActivityService;
 }]);

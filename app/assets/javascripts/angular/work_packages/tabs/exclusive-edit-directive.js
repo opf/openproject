@@ -26,21 +26,25 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.services')
+angular.module('openproject.workPackages.tabs')
 
-.service('TimezoneService', ['ConfigurationService', function(ConfigurationService) {
-  TimezoneService = {
-    parseDate: function(date) {
-      var d = moment.utc(date);
-
-      if (ConfigurationService.isTimezoneSet()) {
-        d.local();
-        d.tz(ConfigurationService.timezone());
-      }
-
-      return d;
-    },
+.directive('exclusiveEdit', function() {
+  return {
+    restrict: 'EA',
+    replace: true,
+    transclude: true,
+    template: '<div class="exclusive-edit" ng-transclude></div>',
+    controller: function() {
+      var editors = [];
+      this.gotEditable = function(selectedEditor) {
+        angular.forEach(editors, function(editor) {
+          if (selectedEditor != editor) {
+            editor.inEdit = false; }
+          });
+      };
+      this.addEditable = function(editor) {
+        editors.push(editor);
+      };
+    }
   };
-
-  return TimezoneService;
-}]);
+})

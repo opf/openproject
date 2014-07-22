@@ -46,7 +46,7 @@ angular.module('openproject.uiComponents')
       scope.authorLink = '<a href="'+ PathHelper.userPath(scope.author.id) + '">' + scope.author.name + '</a>';
 
       if (scope.activity) {
-        scope.timestamp = '<a title="' + time + '" href="' + PathHelper.activityPath(scope.project, createdOn.format('YYYY-MM-DD')) + '">' + timeago + '</a>';
+        scope.timestamp = '<a title="' + time + '" href="' + PathHelper.activityFromPath(scope.project, createdOn.format('YYYY-MM-DD')) + '">' + timeago + '</a>';
       } else {
         scope.timestamp = '<span class="timestamp" title="' + time + '">' + timeago + '</span>';
       }

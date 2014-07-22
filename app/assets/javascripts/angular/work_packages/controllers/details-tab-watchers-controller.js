@@ -83,4 +83,10 @@ angular.module('openproject.workPackages.controllers')
       .fetch({ajax: {method: 'POST'}})
       .then($scope.refreshWorkPackage, $scope.outputError);
   };
+
+  $scope.deleteWatcher = function(watcher) {
+    watcher.links.removeWatcher
+      .fetch({ ajax: watcher.links.removeWatcher.props })
+      .then($scope.refreshWorkPackage, $scope.outputError);
+  };
 }]);

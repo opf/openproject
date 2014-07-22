@@ -26,21 +26,31 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-angular.module('openproject.services')
+// TODO move to UI components
+angular.module('openproject.uiComponents')
 
-.service('TimezoneService', ['ConfigurationService', function(ConfigurationService) {
-  TimezoneService = {
-    parseDate: function(date) {
-      var d = moment.utc(date);
-
-      if (ConfigurationService.isTimezoneSet()) {
-        d.local();
-        d.tz(ConfigurationService.timezone());
-      }
-
-      return d;
+.directive('activityComment', ['I18n', 'ActivityService', 'ConfigurationService', function(I18n, ActivityService, ConfigurationService) {
+  return {
+    restrict: 'E',
+    replace: true,
+    scope: {
+      workPackage: '=',
+      activities: '='
     },
-  };
+    templateUrl: '/templates/components/activity_comment.html',
+    link: function(scope, element, attrs) {
+      scope.title = I18n.t('js.label_add_comment_title');
+      scope.buttonTitle = I18n.t('js.label_add_comment');
 
-  return TimezoneService;
+      scope.createComment = function() {
+        var comment = angular.element('#add-comment-text').val();
+        var descending = ConfigurationService.commentsSortedInDescendingOrder();
+        ActivityService.createComment(scope.workPackage.props.id, scope.activities, descending, comment)
+          .then(function(response){
+            angular.element('#add-comment-text').val('');
+            return response;
+          });
+      }
+    }
+  };
 }]);
