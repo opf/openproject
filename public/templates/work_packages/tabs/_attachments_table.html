@@ -4,16 +4,17 @@
     <tr>
       <th>{{ I18n.t('js.label_filename')}}</th>
       <th>{{ I18n.t('js.label_filesize')}}</th>
+      <th>Uploaded by</th>
       <th>{{ I18n.t('js.label_description')}}</th>
       <th>{{ I18n.t('js.label_date')}}</th>
-      <th></th>
     </tr>
     <tr ng-repeat="attachment in attachments"
         attachment="attachment">
       <td attachment-title-cell attachment="attachment"></td>
+      <td attachment-file-size attachment="attachment"></td>
       <td attachment-user-cell attachment="attachment"></td>
       <td>{{ attachment.props.description }}</td>
-      <td><date-time date-value="attachment.props.createdAt"></date></td>
+      <td><date-time date-time-value="attachment.props.createdAt"></date></td>
     </tr>
   </tbody>
 </table>

@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-describe('attachmentTitleCell Directive', function() {
+describe('attachmentFileSize Directive', function() {
     var compile, element, rootScope, scope;
 
     beforeEach(angular.mock.module('openproject.workPackages.directives'));
@@ -34,7 +34,7 @@ describe('attachmentTitleCell Directive', function() {
 
     beforeEach(inject(function($rootScope, $compile) {
       var html;
-      html = '<td attachment-title-cell attachment="attachment"></td>';
+      html = '<td attachment-file-size attachment="attachment"></td>';
 
       element = angular.element(html);
       rootScope = $rootScope;
@@ -47,26 +47,44 @@ describe('attachmentTitleCell Directive', function() {
     }));
 
     describe('element', function() {
-      beforeEach(function() {
-        scope.attachment = {
-          props: {
-            id: 1,
-            fileName: 'hearmi.now',
-            fileSize: '12340'
-          }
-        };
+      describe('with file size present on attachment', function(){
+        beforeEach(function() {
+          scope.attachment = {
+            props: {
+              id: 1,
+              fileSize: '12340'
+            }
+          };
 
-        compile();
+          compile();
+        });
+
+        it('should render element', function() {
+          expect(element.prop('tagName')).to.equal('TD');
+        });
+
+        it('should render file size in kB', function() {
+          var el = element.find('span');
+          expect(el.text()).to.equal('(12.34kB)');
+        });
       });
 
-      it('should render element', function() {
-        expect(element.prop('tagName')).to.equal('TD');
+      describe('with missing file size', function(){
+        beforeEach(function() {
+          scope.attachment = {
+            props: {
+              id: 1
+            }
+          };
+
+          compile();
+        });
+
+        it('should render 0kB', function() {
+          var el = element.find('span');
+          expect(el.text()).to.equal('(0kB)');
+        });
       });
 
-      it('should render link to attachment', function() {
-        var link = element.find('a');
-        expect(link.text()).to.equal('hearmi.now');
-        expect(link.attr('href')).to.equal('/attachments/1/hearmi.now');
-      });
     });
 });

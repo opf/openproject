@@ -26,47 +26,23 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-describe('attachmentTitleCell Directive', function() {
-    var compile, element, rootScope, scope;
+angular.module('openproject.workPackages.directives')
 
-    beforeEach(angular.mock.module('openproject.workPackages.directives'));
-    beforeEach(module('templates'));
+.directive('attachmentFileSize', [function(){
+  return {
+    restrict: 'A',
+    replace: false,
+    templateUrl: '/templates/work_packages/tabs/_attachment_file_size.html',
+    scope: {
+      attachment: '='
+    },
+    link: function(scope, element, attributes) {
+      scope.displayFileSize = "(" + formattedFileSize(scope.attachment.props.fileSize) + ")";
 
-    beforeEach(inject(function($rootScope, $compile) {
-      var html;
-      html = '<td attachment-title-cell attachment="attachment"></td>';
-
-      element = angular.element(html);
-      rootScope = $rootScope;
-      scope = $rootScope.$new();
-
-      compile = function() {
-        $compile(element)(scope);
-        scope.$digest();
+      function formattedFileSize(fileSize) {
+        var size = parseFloat(fileSize);
+        return isNaN(size) ? "0kB" : (size / 1000).toFixed(2) + "kB";
       };
-    }));
-
-    describe('element', function() {
-      beforeEach(function() {
-        scope.attachment = {
-          props: {
-            id: 1,
-            fileName: 'hearmi.now',
-            fileSize: '12340'
-          }
-        };
-
-        compile();
-      });
-
-      it('should render element', function() {
-        expect(element.prop('tagName')).to.equal('TD');
-      });
-
-      it('should render link to attachment', function() {
-        var link = element.find('a');
-        expect(link.text()).to.equal('hearmi.now');
-        expect(link.attr('href')).to.equal('/attachments/1/hearmi.now');
-      });
-    });
-});
+    }
+  };
+}]);
