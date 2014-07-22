@@ -17,10 +17,15 @@
           ng-show="activity.props._type == 'Activity::Comment'"
           ng-bind-html="activity.props.comment"/>
     <div ng-if="inEdit">
-      <textarea id="edit-comment-text"
-                ng-bind-html="activity.props.rawComment"></textarea>
-      <button class="button" ng-click="updateComment()">{{ I18n.t('js.button_update') }}</button>
-      <span><a href="" ng-click="cancelEdit()">cancel</span>
+      <div>
+        <textarea id="edit-comment-text"
+                  ng-bind-html="activity.props.rawComment"
+                  rows="5"></textarea>
+      </div>
+      <div>
+        <button class="button" ng-click="updateComment()">{{ I18n.t('js.button_update') }}</button>
+        <span><a href="" ng-click="cancelEdit()">cancel</span>
+      </div>
     </div>
     <ul class="work-package-details-activities-messages">
       <li ng-repeat="detail in activity.props.htmlDetails track by $index">

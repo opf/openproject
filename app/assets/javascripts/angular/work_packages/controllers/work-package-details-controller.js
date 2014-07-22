@@ -86,10 +86,6 @@ angular.module('openproject.workPackages.controllers')
         .then(refreshWorkPackage, outputError);
     };
 
-    // resources for tabs
-
-    $scope.author = workPackage.embedded.author;
-
     // available watchers
 
     $scope.$watch('watchers.length', fetchAvailableWatchers)
