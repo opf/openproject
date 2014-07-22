@@ -31,16 +31,16 @@ module API
                 normalized_query_name, @query.id, title: @query.name
               )
               query_menu_item.save!
-              @representer.to_json
+              @representer
             end
 
             patch :unstar do
               authorize({ controller: :queries, action: :unstar }, context: @query.project, allow: allowed_to_manage_stars?)
               query_menu_item = @query.query_menu_item
-              return @representer.to_json if @query.query_menu_item.nil?
+              return @representer if @query.query_menu_item.nil?
               query_menu_item.destroy
               @query.reload
-              @representer.to_json
+              @representer
             end
           end
 

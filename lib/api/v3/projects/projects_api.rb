@@ -45,7 +45,7 @@ module API
 
             get do
               authorize(:view_project, context: @project)
-              @representer.to_json
+              @representer
             end
 
             mount API::V3::Versions::VersionsAPI

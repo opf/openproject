@@ -17,7 +17,7 @@ module API
             end
 
             get do
-              @representer.to_json
+              @representer
             end
 
           end

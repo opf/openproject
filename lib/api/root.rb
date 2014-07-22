@@ -34,8 +34,16 @@
 module API
   class Root < Grape::API
     prefix :api
+
+    class Formatter
+      def call(object, env)
+        object.respond_to?(:to_json) ? object.to_json : MultiJson.dump(object)
+      end
+    end
+
     content_type 'hal+json', 'application/hal+json'
     format 'hal+json'
+    formatter 'hal+json', Formatter.new
 
     helpers do
       def current_user
@@ -56,7 +64,7 @@ module API
 
       def build_representer(obj, model_klass, representer_klass, options = {})
         model = (obj.kind_of?(Array)) ? obj.map{ |o| model_klass.new(o) } : model_klass.new(obj)
-        representer_klass.new(model, options).to_json
+        representer_klass.new(model, options)
       end
     end
 

@@ -40,7 +40,7 @@ module API
           end
 
           get do
-            @represented.to_json
+            @represented
           end
         end
 

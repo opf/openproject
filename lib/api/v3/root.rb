@@ -46,7 +46,7 @@ module API
       mount ::API::V3::WorkPackages::WorkPackagesAPI
 
       get '/' do
-        RootRepresenter.new({}).to_json
+        RootRepresenter.new({})
       end
     end
   end

@@ -18,7 +18,7 @@ module API
 
             get do
               authorize({ controller: :work_packages_api, action: :get }, context: @work_package.project)
-              @representer.to_json
+              @representer
             end
 
             resource :activities do
@@ -29,7 +29,7 @@ module API
                     model = ::API::V3::Activities::ActivityModel.new(work_package.journals.last)
                     representer = ::API::V3::Activities::ActivityRepresenter.new(model)
 
-                    representer.to_json
+                    representer
                   else
                     errors = work_package.errors.full_messages.join(", ")
                     fail Errors::Validation.new(work_package, description: errors)
