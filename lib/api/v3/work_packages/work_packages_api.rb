@@ -51,6 +51,7 @@ module API
             end
 
             mount ::API::V3::WorkPackages::WatchersAPI
+            mount ::API::V3::Relations::RelationsAPI
           end
 
         end

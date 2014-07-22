@@ -36,6 +36,9 @@ module API
       class RelationModel < Reform::Form
         include Coercion
 
+        property :from_id
+        property :to_id
+
         # NOTE: to avoid a naming collision with DelayedJob, we define an
         # explicit method here rather than relying on the #property macro.
         #
