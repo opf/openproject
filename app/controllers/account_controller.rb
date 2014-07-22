@@ -31,7 +31,7 @@ require 'concerns/omniauth_login'
 
 class AccountController < ApplicationController
   include CustomFieldsHelper
-  include OmniauthLogin
+  include Concerns::OmniauthLogin
 
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_filter :check_if_login_required
@@ -44,6 +44,8 @@ class AccountController < ApplicationController
   def login
     if User.current.logged?
       redirect_to home_url
+    elsif Concerns::OmniauthLogin.direct_login?
+      redirect_to Concerns::OmniauthLogin.direct_login_provider_url
     elsif request.post?
       authenticate_user
     end

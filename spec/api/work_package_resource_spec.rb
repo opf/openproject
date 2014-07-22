@@ -36,8 +36,15 @@ h4. things we like
   }}
 
   let(:project) { FactoryGirl.create(:project, :identifier => 'test_project', :is_public => false) }
-  let(:current_user) { FactoryGirl.create(:user) }
   let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages, :view_timelines]) }
+  let(:current_user) { FactoryGirl.create(:user,  member_in_project: project, member_through_role: role) }
+  let(:watcher) do
+    FactoryGirl
+      .create(:user,  member_in_project: project, member_through_role: role)
+      .tap do |user|
+        work_package.add_watcher(user)
+      end
+  end
   let(:unauthorize_user) { FactoryGirl.create(:user) }
   let(:type) { FactoryGirl.create(:type) }
 
@@ -86,9 +93,6 @@ h4. things we like
 
       before(:each) do
         allow(User).to receive(:current).and_return current_user
-        member = FactoryGirl.build(:member, user: current_user, project: work_package.project)
-        member.role_ids = [role.id]
-        member.save!
         get get_path
       end
 

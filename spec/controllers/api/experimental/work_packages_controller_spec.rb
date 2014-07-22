@@ -86,6 +86,16 @@ describe Api::Experimental::WorkPackagesController do
         get 'index', format: 'xml'
         expect(response).to render_template('api/experimental/work_packages/index', formats: %w(api))
       end
+
+      it 'assigns a query which has the default filter arguments set' do
+        expected_query = Query.new
+        expect(Query).to receive(:new).with(anything, initialize_with_default_filter: true)
+                                      .and_return(expected_query)
+
+        get 'index', format: 'xml'
+
+        expect(assigns(:query)).to eql expected_query
+      end
     end
 
     context 'with work packages' do

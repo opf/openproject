@@ -64,6 +64,9 @@ angular.module('openproject.helpers')
     assetPath: function(assetIdentifier) {
       return '/assets/' + assetIdentifier;
     },
+    attachmentPath: function(attachmentId, fileName) {
+      return '/attachments/' + attachmentId + '/' + fileName;
+    },
     boardsPath: function(projectIdentifier) {
       return PathHelper.projectPath(projectIdentifier) + '/boards';
     },
@@ -232,6 +235,9 @@ angular.module('openproject.helpers')
     },
 
     // Static
+    staticAttachmentPath: function(attachmentId, fileName) {
+      return PathHelper.staticBase + PathHelper.attachmentPath(attachmentId, fileName);
+    },
     staticUserPath: function(userId) {
       return PathHelper.staticBase + PathHelper.userPath(userId);
     },

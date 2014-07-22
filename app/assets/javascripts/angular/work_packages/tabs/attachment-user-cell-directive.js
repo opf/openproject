@@ -26,19 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// TODO move to UI components
-angular.module('openproject.uiComponents')
+angular.module('openproject.workPackages.directives')
 
-.directive('formattedDate', ['I18n', 'TimezoneService', function(I18n, TimezoneService) {
+.directive('attachmentUserCell', ['PathHelper', function(PathHelper){
   return {
-    restrict: 'EA',
-    replace: false,
-    scope: { formattedDate: '=' },
-    template: '<span>{{time}}</span>',
-    link: function(scope, element, attrs) {
-      moment.lang(I18n.locale);
-
-      scope.time = TimezoneService.parseDate(scope.formattedDate).format('LLL');
+    restrict: 'A',
+    templateUrl: '/templates/work_packages/tabs/_attachment_user_cell.html',
+    scope: {
+      attachment: '='
+    },
+    link: function(scope, element, attributes) {
+      scope.attachment.links.author.fetch()
+        .then(function(author){
+          scope.authorName = author.props.name;
+          scope.authorId = author.props.id;
+          scope.userPath = PathHelper.staticUserPath(author.props.id);
+        });
     }
   };
 }]);

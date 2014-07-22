@@ -32,11 +32,18 @@ describe('TimezoneService', function() {
 
   var TIME = '05/19/2014 11:49 AM';
   var TimezoneService;
+  var ConfigurationService;
+  var isTimezoneSetStub;
+  var timezone;
 
-  beforeEach(module('openproject.services'));
+  beforeEach(module('openproject.services', 'openproject.config'));
 
-  beforeEach(inject(function(_TimezoneService_){
+  beforeEach(inject(function(_TimezoneService_, _ConfigurationService_){
     TimezoneService = _TimezoneService_;
+    ConfigurationService = _ConfigurationService_;
+
+    isTimezoneSetStub = sinon.stub(ConfigurationService, "isTimezoneSet");
+    timezoneStub = sinon.stub(ConfigurationService, "timezone");
   }));
 
   describe('#parseDate', function() {
@@ -50,7 +57,8 @@ describe('TimezoneService', function() {
       var dateStub;
 
       beforeEach(function() {
-        TimezoneService.setTimezone(timezone);
+        isTimezoneSetStub.returns(true);
+        timezoneStub.returns(timezone);
 
         momentStub = sinon.stub(moment, "utc");
         dateStub = sinon.stub();

@@ -156,6 +156,27 @@ describe AccountController do
     end
   end
 
+  describe '#login with omniauth_direct_login enabled' do
+    before do
+      Concerns::OmniauthLogin.stub(:direct_login_provider).and_return('some_provider')
+    end
+
+    describe 'GET' do
+      it 'redirects to some_provider' do
+        get :login
+
+        expect(response).to redirect_to '/auth/some_provider'
+      end
+    end
+
+    describe 'POST' do
+      it 'redirects to some_provider' do
+        post :login, username: 'foo', password: 'bar'
+
+        expect(response).to redirect_to '/auth/some_provider'
+      end
+    end
+  end
 
   describe 'Login for user with forced password change' do
     let(:admin) { FactoryGirl.create(:admin, :force_password_change => true) }

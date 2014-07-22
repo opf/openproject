@@ -31,9 +31,11 @@ en:
     ajax:
       hide: "Hide"
       loading: "Loading ..."
+    button_add_watcher: "Add watcher"
     button_check_all: "Check all"
     button_copy: "Copy"
     button_delete: "Delete"
+    button_delete_watcher: "Delete watcher"
     button_duplicate: "Duplicate"
     button_edit: "Edit"
     button_log_time: "Log time"
@@ -62,6 +64,7 @@ en:
     label_ascending: "Ascending"
     label_board_locked: "Locked"
     label_board_sticky: "Sticky"
+    label_date: "Date"
     label_descending: "Descending"
     label_description: "Description"
     label_closed_work_packages: "closed"
@@ -74,6 +77,8 @@ en:
     label_expand: "Expand"
     label_expanded: "expanded"
     label_expand_all: "Expand all"
+    label_filename: "File"
+    label_filesize: "Size"
     label_format_atom: "Atom"
     label_format_csv: "CSV"
     label_format_pdf: "PDF"
@@ -120,6 +125,8 @@ en:
     label_this_week: "this week"
     label_work_package: "Work package"
     label_total_progress: "Total progress"
+    label_watch_work_package: "Watch work package"
+    label_unwatch_work_package: "Unwatch work package"
 
     text_are_you_sure: "Are you sure?"
 

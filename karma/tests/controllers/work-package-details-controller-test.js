@@ -50,7 +50,19 @@ describe('WorkPackageDetailsController', function() {
           ]
         },
         embedded: {
-          activities: []
+          activities: [],
+          watchers: [],
+          attachments: []
+        },
+        links: {
+          availableWatchers: {
+            fetch: function() { return {then: angular.noop}; }
+          }
+        },
+        link: {
+          addWatcher: {
+            fetch: function() { return {then: angular.noop}; }
+          }
         },
       };
 
@@ -78,6 +90,9 @@ describe('WorkPackageDetailsController', function() {
         },
         UserService: UserService,
         CustomFieldHelper: CustomFieldHelper,
+        WorkPackagesDetailsHelper: {
+          attachmentsTitle: function() { return ''; }
+        },
         workPackage: buildWorkPackageWithId(workPackageId),
       });
 

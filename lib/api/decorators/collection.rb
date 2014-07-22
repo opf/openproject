@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -27,13 +27,31 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'roar/decorator'
+require 'roar/representer/json/hal'
 
-# modify to suit your repository base
-my $repos_base = '/var/svn';
+module API
+  module Decorators
+    class Collection < Roar::Decorator
+      include Roar::Representer::JSON::HAL
+      include Roar::Representer::Feature::Hypermedia
+      include OpenProject::StaticRouting::UrlHelpers
 
-my $path = '/usr/bin/';
-my %kwown_commands = map { $_ => 1 } qw/svnserve/;
+      attr_reader :current_user, :as
 
-umask 0002;
+      def initialize(models, current_user: nil, as: nil)
+        @current_user = current_user
+        @as = as.to_s.camelize(:lower)
+        super(models)
+      end
 
-exec ('/usr/bin/svnserve', '-r', $repos_base, '-t');
+      as_strategy = API::Utilities::CamelCasingStrategy.new
+
+      property :total, as: :_total, exec_context: :decorator
+
+      def total
+        represented.first.model.class.count
+      end
+    end
+  end
+end
