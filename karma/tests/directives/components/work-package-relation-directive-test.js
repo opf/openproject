@@ -173,13 +173,27 @@ describe('Work Package Relation Directive', function() {
   };
 
   describe('no element markup', function() {
-    beforeEach(function() {
-      compile(singleElementHtml);
+    describe('single element behavior', function() {
+      beforeEach(function() {
+        compile(singleElementHtml);
+      });
+
+      shouldBehaveLikeSingleRelationDirective();
+
+      shouldBehaveLikeCollapsedRelationsDirective();
     });
 
-    shouldBehaveLikeSingleRelationDirective();
+    describe('multi element behavior', function() {
+      beforeEach(function() {
+        scope.relations = [];
 
-    shouldBehaveLikeCollapsedRelationsDirective();
+        compile(multiElementHtml);
+      });
+
+      shouldBehaveLikeMultiRelationDirective();
+
+      shouldBehaveLikeCollapsedRelationsDirective();
+    });
   });
 
   describe('single element markup', function() {

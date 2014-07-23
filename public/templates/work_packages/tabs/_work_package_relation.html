@@ -1,7 +1,7 @@
 <div class="relation">
   <h3 ng-click="expand=!expand">
     <i class="icon-pull-content" ng-class="collapseStateIcon(!expand)"></i> {{ title }}
-    <span ng-if="!isSingletonRelation">({{ relatedWorkPackages.length }})</span>
+    <span ng-if="!isSingletonRelation">({{ relatedWorkPackages.length || 0 }})</span>
   </h3>
   <div class="content" ng-show="expand">
     <div class="workpackages">
