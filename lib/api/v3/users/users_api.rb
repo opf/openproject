@@ -11,13 +11,12 @@ module API
           namespace ':id' do
 
             before do
-              @user = User.find(params[:id])
-              model = ::API::V3::Users::UserModel.new(@user)
-              @representer =  ::API::V3::Users::UserRepresenter.new(model)
+              @user  = User.find(params[:id])
+              @model = UserModel.new(@user)
             end
 
             get do
-              @representer
+              UserRepresenter.new(@model)
             end
 
           end
