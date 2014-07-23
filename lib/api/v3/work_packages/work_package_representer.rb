@@ -109,6 +109,14 @@ module API
           } if current_user_allowed_to(:add_work_package_watchers, represented.work_package)
         end
 
+        link :addComment do
+          {
+              href: "#{root_url}api/v3/work_packages/#{represented.work_package.id}/activities",
+              method: :post,
+              title: 'Add comment'
+          } if current_user_allowed_to(:add_work_package_notes, represented.work_package)
+        end
+
         property :id, getter: -> (*) { work_package.id }, render_nil: true
         property :subject, render_nil: true
         property :type, render_nil: true
