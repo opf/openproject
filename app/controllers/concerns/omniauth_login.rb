@@ -51,7 +51,10 @@ module Concerns::OmniauthLogin
     if user.new_record?
       create_user_from_omniauth user, auth_hash
     else
-      user.log_successful_login if user.active?
+      if user.active?
+        user.log_successful_login
+        OpenProject::OmniAuth::Authorization.authorized! user
+      end
       login_user_if_active(user)
     end
   end
@@ -74,8 +77,10 @@ module Concerns::OmniauthLogin
 
     fill_user_fields_from_omniauth user, auth_hash
 
+    opts = { on_success: ->(u) { OpenProject::OmniAuth::Authorization.authorized! u } }
+
     # Create on the fly
-    register_user_according_to_setting(user) do
+    register_user_according_to_setting(user, opts) do
       # Allow registration form to show provider-specific title
       @omniauth_strategy = auth_hash[:provider]
 
@@ -91,21 +96,15 @@ module Concerns::OmniauthLogin
     auth = session[:auth_source_registration]
     return if handle_omniauth_registration_expired(auth)
 
-    fill_user_fields_from_omniauth(@user, auth)
-    @user.update_attributes(permitted_params.user_register_via_omniauth)
-    register_user_according_to_setting(@user)
+    fill_user_fields_from_omniauth(user, auth)
+    user.update_attributes(permitted_params.user_register_via_omniauth)
+    register_user_according_to_setting(user)
   end
 
   def fill_user_fields_from_omniauth(user, auth)
     user.update_attributes omniauth_hash_to_user_attributes(auth)
     user.register
     user
-  end
-
-  def user_with_info(user, auth_hash)
-    user.dup.tap do |u|
-      u.assign_attributes omniauth_hash_to_user_attributes(auth_hash)
-    end
   end
 
   def omniauth_hash_to_user_attributes(auth)

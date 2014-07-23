@@ -258,6 +258,8 @@ describe AccountController do
           end
 
           it 'works' do
+            expect(OpenProject::OmniAuth::Authorization).to receive(:authorized!).with(user)
+
             post :omniauth_login
 
             expect(response).to redirect_to my_page_path
@@ -269,6 +271,8 @@ describe AccountController do
             end
 
             it 'is rejected against google' do
+              expect(OpenProject::OmniAuth::Authorization).not_to receive(:authorized!).with(user)
+
               post :omniauth_login
 
               expect(response).to redirect_to signin_path
@@ -276,6 +280,8 @@ describe AccountController do
             end
 
             it 'is rejected against any other provider too' do
+              expect(OpenProject::OmniAuth::Authorization).not_to receive(:authorized!).with(user)
+
               omniauth_hash.provider = 'any other'
               post :omniauth_login
 
@@ -292,6 +298,8 @@ describe AccountController do
             end
 
             it 'is rejected against google' do
+              expect(OpenProject::OmniAuth::Authorization).not_to receive(:authorized!).with(user)
+
               post :omniauth_login
 
               expect(response).to redirect_to signin_path
@@ -299,6 +307,12 @@ describe AccountController do
             end
 
             it 'is approved against any other provider' do
+              expect(OpenProject::OmniAuth::Authorization).to receive(:authorized!) do |u|
+                new_user = User.find_by_identity_url 'some other:123545'
+
+                expect(u).to eq new_user
+              end
+
               omniauth_hash.provider = 'some other'
 
               post :omniauth_login
@@ -312,6 +326,8 @@ describe AccountController do
 
             # ... and to confirm that, here's what happens when the authorization fails
             it 'is rejected against any other provider with the wrong email' do
+              expect(OpenProject::OmniAuth::Authorization).not_to receive(:authorized!).with(user)
+
               omniauth_hash.provider = 'yet another'
               config.global_email = 'yarrrr@joro.es'
 

@@ -299,23 +299,25 @@ class AccountController < ApplicationController
   end
 
   # Register a user depending on Setting.self_registration
-  def register_user_according_to_setting(user, &block)
+  def register_user_according_to_setting(user, opts = {}, &block)
     case Setting.self_registration
     when '1'
-      register_by_email_activation(user, &block)
+      register_by_email_activation(user, opts, &block)
     when '3'
-      register_automatically(user, &block)
+      register_automatically(user, opts, &block)
     else
-      register_manually_by_administrator(user, &block)
+      register_manually_by_administrator(user, opts, &block)
     end
   end
 
   # Register a user for email activation.
   #
   # Pass a block for behavior when a user fails to save
-  def register_by_email_activation(user, &block)
+  def register_by_email_activation(user, opts = {})
     token = Token.new(:user => user, :action => "register")
     if user.save and token.save
+      opts[:on_success].call user if opts[:on_success]
+
       UserMailer.user_signed_up(token).deliver
       flash[:notice] = l(:notice_account_register_done)
       redirect_to :action => 'login'
@@ -327,12 +329,14 @@ class AccountController < ApplicationController
   # Automatically register a user
   #
   # Pass a block for behavior when a user fails to save
-  def register_automatically(user, &block)
+  def register_automatically(user, opts = {})
     # Automatic activation
     user.activate
     user.last_login_on = Time.now
 
     if user.save
+      opts[:on_success].call user if opts[:on_success]
+
       self.logged_user = user
       flash[:notice] = l(:notice_account_registered_and_logged_in)
       redirect_after_login(user)
@@ -344,8 +348,10 @@ class AccountController < ApplicationController
   # Manual activation by the administrator
   #
   # Pass a block for behavior when a user fails to save
-  def register_manually_by_administrator(user, &block)
+  def register_manually_by_administrator(user, opts = {})
     if user.save
+      opts[:on_success].call user if opts[:on_success]
+
       # Sends an email to the administrators
       admins = User.admin.active
       admins.each do |admin|

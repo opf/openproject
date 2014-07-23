@@ -21,6 +21,16 @@ module OpenProject
       end
 
       ##
+      # Signals that the given user has been successfully authorized.
+      #
+      # Note: Only call if you know what you are doing.
+      def self.authorized!(user)
+        authorized_callbacks.each do |callback|
+          callback.authorized user
+        end
+      end
+
+      ##
       # Adds a callback to be executed before a user is logged in.
       # The given callback may reject the user to prevent authorization by
       # calling dec#reject(error) or approve by calling dec#approve.
@@ -40,12 +50,12 @@ module OpenProject
         if opts[:provider]
           authorize_user_for_provider opts[:provider], &block
         else
-          add_authorize_user_callback BlockCallback.new(&block)
+          add_authorize_user_callback AuthorizationBlockCallback.new(&block)
         end
       end
 
       def self.authorize_user_for_provider(provider, &block)
-        callback = BlockCallback.new do |dec, auth_hash|
+        callback = AuthorizationBlockCallback.new do |dec, auth_hash|
           if auth_hash.provider.to_sym == provider.to_sym
             block.call dec, auth_hash
           else
@@ -56,6 +66,19 @@ module OpenProject
         add_authorize_user_callback callback
       end
 
+      ##
+      # Registers a callback on the event of a successful user authorization.
+      #
+      # @yield [user] Callback called with the successfully authorized user.
+      # @yieldparam user [User] User who has been authorized.
+      def self.on_success(&block)
+        add_authorized_callback AuthorizedBlockCallback.new(&block)
+      end
+
+      ##
+      # Registers a new callback to decide whether or not a user is to be authorized.
+      #
+      # @param [AuthorizationCallback] Callback to be called upon user authorization.
       def self.add_authorize_user_callback(callback)
         callbacks << callback
       end
@@ -65,8 +88,20 @@ module OpenProject
       end
 
       ##
+      # Registers a new callback to successful user authorization.
+      #
+      # @param [AuthorizedCallback] Callback to be called upon successful authorization.
+      def self.add_authorized_callback(callback)
+        authorized_callbacks << callback
+      end
+
+      def self.authorized_callbacks
+        @authorized_callbacks ||= []
+      end
+
+      ##
       # Performs user authorization.
-      class Callback
+      class AuthorizationCallback
         ##
         # Given an OmniAuth auth hash this decides if a user is authorized or not.
         #
@@ -81,7 +116,7 @@ module OpenProject
 
       ##
       # A callback triggering a given block.
-      class BlockCallback < Callback
+      class AuthorizationBlockCallback < AuthorizationCallback
         attr_reader :block
 
         def initialize(&block)
@@ -93,6 +128,32 @@ module OpenProject
           block.call store, auth_hash
           # failure to make a decision results in a rejection
           store.decision || Rejection.new(I18n.t('user.authorization_rejected'))
+        end
+      end
+
+      ##
+      # A callback for reacting to a user being authorized.
+      class AuthorizedCallback
+        ##
+        # Is called after a user has been authorized successfully.
+        #
+        # @param [User] User who has been authorized.
+        def authorized(user)
+          fail "subclass responsibility: authorized(#{user})"
+        end
+      end
+
+      ##
+      # A authorized callback triggering a given block.
+      class AuthorizedBlockCallback < AuthorizedCallback
+        attr_reader :block
+
+        def initialize(&block)
+          @block = block
+        end
+
+        def authorized(user)
+          block.call user
         end
       end
 
