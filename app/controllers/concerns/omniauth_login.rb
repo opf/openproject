@@ -18,20 +18,6 @@ module Concerns::OmniauthLogin
     end
   end
 
-  def authorization_successful(user, auth_hash)
-    if user.new_record?
-      create_user_from_omniauth user, auth_hash
-    else
-      user.log_successful_login if user.active?
-      login_user_if_active(user)
-    end
-  end
-
-  def authorization_failed(user, error)
-    logger.warn "Authorization for User #{user.id} failed: #{error}"
-    show_error error
-  end
-
   def omniauth_failure
     logger.warn(params[:message]) if params[:message]
     show_error I18n.t(:error_external_authentication_failed)
@@ -60,6 +46,20 @@ module Concerns::OmniauthLogin
   end
 
   private
+
+  def authorization_successful(user, auth_hash)
+    if user.new_record?
+      create_user_from_omniauth user, auth_hash
+    else
+      user.log_successful_login if user.active?
+      login_user_if_active(user)
+    end
+  end
+
+  def authorization_failed(user, error)
+    logger.warn "Authorization for User #{user.id} failed: #{error}"
+    show_error error
+  end
 
   def show_error(error)
     flash[:error] = error
