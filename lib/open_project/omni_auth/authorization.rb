@@ -23,7 +23,7 @@ module OpenProject
       ##
       # Adds a callback to be executed before a user is logged in.
       # The given callback may reject the user to prevent authorization by
-      # calling Decision#reject(error) or approve by calling Decision#approve.
+      # calling dec#reject(error) or approve by calling dec#approve.
       #
       # If not approved a user is implicitly rejected.
       #
@@ -31,7 +31,7 @@ module OpenProject
       # @option opts [Symbol] :provider Only call for given provider
       #
       # @yield [decision, user, auth_hash] Callback to be executed before the user is logged in.
-      # @yieldparam [DecisionStore] object providing #approve and #reject
+      # @yieldparam [DecisionStore] dec object providing #approve and #reject
       # @yieldparam [User] user The OpenProject user to be logged in.
       # @yieldparam [AuthHash] OmniAuth authentication information including user info
       #                        and credentials.
