@@ -147,12 +147,16 @@ module API
         property :assignee, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, if: -> (*) { !assignee.nil? }
 
         collection :activities, embedded: true, class: ::API::V3::Activities::ActivityModel, decorator: ::API::V3::Activities::ActivityRepresenter
-        collection :watchers, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter
+        property :watchers, embedded: true, exec_context: :decorator
         collection :attachments, embedded: true, class: ::API::V3::Attachments::AttachmentModel, decorator: ::API::V3::Attachments::AttachmentRepresenter
         property :relations, embedded: true, exec_context: :decorator
 
         def _type
           'WorkPackage'
+        end
+
+        def watchers
+          represented.watchers.map{ |watcher| ::API::V3::Users::UserRepresenter.new(watcher, work_package: represented.work_package, current_user: @current_user) }
         end
 
         def relations
