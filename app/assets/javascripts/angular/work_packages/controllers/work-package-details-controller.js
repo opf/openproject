@@ -167,6 +167,7 @@ angular.module('openproject.workPackages.controllers')
       // activities and latest activities
       $scope.activitiesSortedInDescendingOrder = ConfigurationService.commentsSortedInDescendingOrder();
       $scope.activities = displayedActivities($scope.workPackage);
+
       // watchers
 
       $scope.watchers = workPackage.embedded.watchers;
@@ -176,16 +177,6 @@ angular.module('openproject.workPackages.controllers')
       $scope.attachments = workPackage.embedded.attachments;
 
       // relations
-      var relationTypes = {
-        relatedTo: "Relation::Relates",
-        duplicates: "Relation::Duplicates",
-        duplicated: "Relation::Duplicated",
-        blocks: "Relation::Blocks",
-        blocked: "Relation::Blocked",
-        precedes: "Relation::Precedes",
-        follows: "Relation::Follows"
-      };
-
       $q.all(WorkPackagesHelper.getParent(workPackage)).then(function(parent) {
         $scope.wpParent = parent;
       });
