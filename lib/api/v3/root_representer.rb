@@ -40,18 +40,18 @@ module API
       self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
       link 'priorities' do
-        "#{root_url}v3/api/priorities"
+        "#{root_url}api/v3/priorities"
       end
 
       link 'project' do
         {
-          href: "#{root_url}v3/api/project/{project_id}",
+          href: "#{root_url}api/v3/project/{project_id}",
           templated: true
         }
       end
 
       link 'statuses' do
-        "#{root_url}v3/api/statuses"
+        "#{root_url}api/v3/statuses"
       end
     end
   end
