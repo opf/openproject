@@ -29,14 +29,18 @@
 require 'spec_helper'
 require 'lib/api/v3/statuses/shared/status_collection_representer'
 
-describe ::API::V3::Statuses::StatusCollectionRepresenter do
+describe ::API::V3::WorkPackages::AvailableStatusCollectionRepresenter do
   include_examples 'status collection representer'
 
   context 'generation' do
-    subject(:generated) { representer.to_json }
+    subject(:generated) { representer.to_json(work_package_id: 1) }
 
     it 'should have link to self' do
-      expect(parse_json(subject)['_links']['self']['href']).to match(%r{api/v3/statuses$})
+      expect(parse_json(subject, '_links/self/href')).to end_with('api/v3/work_packages/1/available_statuses')
+    end
+
+    it 'should have link to work_package' do
+      expect(parse_json(subject, '_links/work_package/href')).to end_with('api/v3/work_packages/1')
     end
   end
 end

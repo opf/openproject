@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -26,17 +27,24 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require 'lib/api/v3/statuses/shared/status_collection_representer'
+module API
+  module V3
+    module WorkPackages
+      class AvailableStatusCollectionRepresenter < ::API::V3::Statuses::StatusCollectionRepresenter
+        link :self do |opts|
+          "#{work_package_url(opts[:work_package_id])}/available_statuses"
+        end
 
-describe ::API::V3::Statuses::StatusCollectionRepresenter do
-  include_examples 'status collection representer'
+        link :work_package do |opts|
+          work_package_url(opts[:work_package_id])
+        end
 
-  context 'generation' do
-    subject(:generated) { representer.to_json }
+        private
 
-    it 'should have link to self' do
-      expect(parse_json(subject)['_links']['self']['href']).to match(%r{api/v3/statuses$})
+        def work_package_url(work_package_id)
+          "#{root_url}api/v3/work_packages/#{work_package_id}"
+        end
+      end
     end
   end
 end

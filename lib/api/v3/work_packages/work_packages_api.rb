@@ -10,6 +10,10 @@ module API
           end
           namespace ':id' do
 
+            helpers do
+              attr_reader :work_package
+            end
+
             before do
               @work_package = WorkPackage.find(params[:id])
               model = ::API::V3::WorkPackages::WorkPackageModel.new(work_package: @work_package)
@@ -51,6 +55,7 @@ module API
             end
 
             mount ::API::V3::WorkPackages::WatchersAPI
+            mount ::API::V3::WorkPackages::StatusesAPI
           end
 
         end
