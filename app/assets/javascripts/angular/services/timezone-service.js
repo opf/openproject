@@ -28,7 +28,7 @@
 
 angular.module('openproject.services')
 
-.service('TimezoneService', ['ConfigurationService', function(ConfigurationService) {
+.service('TimezoneService', ['ConfigurationService', 'I18n', function(ConfigurationService, I18n) {
   TimezoneService = {
     parseDate: function(date) {
       var d = moment.utc(date);
@@ -39,6 +39,34 @@ angular.module('openproject.services')
       }
 
       return d;
+    },
+
+    formattedDate: function(date) {
+      var date;
+
+      if (ConfigurationService.dateFormatPresent()) {
+        date = TimezoneService.parseDate(date).format(ConfigurationService.dateFormat());
+      } else {
+        moment.lang(I18n.locale);
+
+        date = TimezoneService.parseDate(date).format('L');
+      }
+
+      return date;
+    },
+
+    formattedTime: function(date) {
+      var time;
+
+      if (ConfigurationService.timeFormatPresent()) {
+        time = TimezoneService.parseDate(date).format(ConfigurationService.timeFormat());
+      } else {
+        moment.lang(I18n.locale);
+
+        time = TimezoneService.parseDate(date).format('LT');
+      }
+
+      return time;
     },
   };
 

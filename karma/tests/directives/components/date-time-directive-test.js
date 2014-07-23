@@ -61,6 +61,12 @@ describe('date time Directives', function() {
     I18n.locale = 'en';
   }));
 
+  var shouldBehaveLikeHashTitle = function(title) {
+    it('has title', function() {
+      expect(angular.element(element)[0].title).to.eq(title);
+    });
+  };
+
   describe('date directive', function() {
     var html = '<date date-value="testDateTime"></date>';
 
@@ -74,6 +80,8 @@ describe('date time Directives', function() {
       it('should use default formatting', function() {
         expect(formattedDate()).to.contain('02/08/2013');
       });
+
+      shouldBehaveLikeHashTitle('02/08/2013');
     });
 
     describe('with configuration', function() {
@@ -87,6 +95,8 @@ describe('date time Directives', function() {
       it('should use user specified formatting', function() {
         expect(formattedDate()).to.contain('08-02-2013');
       });
+
+      shouldBehaveLikeHashTitle('08-02-2013');
     });
   });
 
@@ -103,6 +113,8 @@ describe('date time Directives', function() {
       it('should use default formatting', function() {
         expect(formattedDate()).to.contain('9:30 AM');
       });
+
+      shouldBehaveLikeHashTitle('9:30 AM');
     });
 
     describe('with configuration', function() {
@@ -116,6 +128,8 @@ describe('date time Directives', function() {
       it('should use user specified formatting', function() {
         expect(formattedDate()).to.contain('09:30 am');
       });
+
+      shouldBehaveLikeHashTitle('09:30 am');
     });
   });
 
@@ -147,6 +161,8 @@ describe('date time Directives', function() {
         expect(formattedDateTime()).to.contain('02/08/2013');
         expect(formattedDateTime()).to.contain('9:30 AM');
       });
+
+      shouldBehaveLikeHashTitle('02/08/2013 9:30 AM');
     });
 
     describe('with configuration', function() {
@@ -163,6 +179,8 @@ describe('date time Directives', function() {
         expect(formattedDateTime()).to.contain('08-02-2013');
         expect(formattedDateTime()).to.contain('09:30 am');
       });
+
+      shouldBehaveLikeHashTitle('08-02-2013 09:30 am');
     });
   });
 });
