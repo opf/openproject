@@ -226,7 +226,7 @@ describe AccountController do
             # Let's set up a couple of authorization callbacks to see if the mechanism
             # works as intended.
 
-            OpenProject::OmniAuth::Authorization.authorize_user provider: :google do |dec, _, auth|
+            OpenProject::OmniAuth::Authorization.authorize_user provider: :google do |dec, auth|
               if auth.info.name == config.google_name
                 dec.approve
               else
@@ -234,8 +234,8 @@ describe AccountController do
               end
             end
 
-            OpenProject::OmniAuth::Authorization.authorize_user do |dec, user, _|
-              if user.mail == config.global_email
+            OpenProject::OmniAuth::Authorization.authorize_user do |dec, auth|
+              if auth.info.email == config.global_email
                 dec.approve
               else
                 dec.reject "I only want to see #{config[:global_email]} here."
@@ -243,12 +243,12 @@ describe AccountController do
             end
 
             # ineffective callback
-            OpenProject::OmniAuth::Authorization.authorize_user provider: :foobar do |dec, _, _|
+            OpenProject::OmniAuth::Authorization.authorize_user provider: :foobar do |dec, _|
               dec.reject 'Though shalt not pass!'
             end
 
             # free for all callback
-            OpenProject::OmniAuth::Authorization.authorize_user do |dec, _, _|
+            OpenProject::OmniAuth::Authorization.authorize_user do |dec, _|
               dec.approve
             end
           end

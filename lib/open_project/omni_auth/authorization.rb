@@ -6,11 +6,11 @@ module OpenProject
       ##
       # Checks whether the given user is authorized to login by calling
       # all registered callbacks. If all callbacks approve the user is authorized and may log in.
-      def self.authorized?(user, auth_hash)
+      def self.authorized?(auth_hash)
         rejection = nil
 
         callbacks.each do |callback|
-          d = callback.authorize user, auth_hash
+          d = callback.authorize auth_hash
 
           if d.is_a? Decision
             if d.reject?
@@ -51,9 +51,9 @@ module OpenProject
       end
 
       def self.authorize_user_for_provider(provider, &block)
-        callback = BlockCallback.new do |dec, user, auth_hash|
+        callback = BlockCallback.new do |dec, auth_hash|
           if auth_hash.provider.to_sym == provider.to_sym
-            block.call dec, user, auth_hash
+            block.call dec, auth_hash
           else
             Decision.approve
           end
@@ -74,15 +74,14 @@ module OpenProject
       # Performs user authorization.
       class Callback
         ##
-        # Given a user and an OmniAuth auth hash this decides if a user is authorized or not.
+        # Given an OmniAuth auth hash this decides if a user is authorized or not.
         #
-        # @param [User] user The OpenProject user to be logged in.
-        # @param [AuthHash] OmniAuth authentication information including user info
+        # @param [AuthHash] auth_hash OmniAuth authentication information including user info
         #                   and credentials.
         #
         # @return [Decision] A decision indicating whether the user is authorized or not.
-        def authorize(user, auth_hash)
-          fail "subclass responsibility: authorize(#{user}, #{auth_hash})"
+        def authorize(auth_hash)
+          fail "subclass responsibility: authorize(#{auth_hash})"
         end
       end
 
@@ -95,8 +94,8 @@ module OpenProject
           @block = block
         end
 
-        def authorize(user, auth_hash)
-          block.call Decision, user, auth_hash
+        def authorize(auth_hash)
+          block.call Decision, auth_hash
         end
       end
 

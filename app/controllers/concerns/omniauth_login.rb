@@ -10,8 +10,7 @@ module Concerns::OmniauthLogin
     params[:back_url] = request.env['omniauth.origin']
     user = User.find_or_initialize_by_identity_url identity_url_from_omniauth(auth_hash)
 
-    dec = OpenProject::OmniAuth::Authorization.authorized? user_with_info(user, auth_hash),
-                                                           auth_hash
+    dec = OpenProject::OmniAuth::Authorization.authorized? auth_hash
     if dec.approve?
       authorization_successful user, auth_hash
     else
